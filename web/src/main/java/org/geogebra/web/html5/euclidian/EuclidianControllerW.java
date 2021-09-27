@@ -26,15 +26,15 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
+
+import elemental2.dom.WheelEvent;
 
 /**
  * Web version of Euclidian controller
  *
  */
 public class EuclidianControllerW extends EuclidianController implements
-		MouseWheelHandler, IsEuclidianController, DropHandler {
+		IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
 
@@ -91,8 +91,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.handleLongTouch(x, y);
 	}
 
-	@Override
-	public void onMouseWheel(MouseWheelEvent event) {
+	public void onMouseWheel(WheelEvent event) {
 		mtg.onMouseWheel(event);
 	}
 

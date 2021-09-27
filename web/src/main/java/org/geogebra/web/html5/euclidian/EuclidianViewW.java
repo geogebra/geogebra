@@ -69,7 +69,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -81,6 +80,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.FrameRequestCallback;
 import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLImageElement;
+import elemental2.dom.WheelEvent;
 import jsinterop.base.Js;
 
 /**
@@ -703,7 +703,8 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
-		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		Dom.addEventListener(absPanel.getElement(), "wheel",
+				(event) -> euclidiancontroller.onMouseWheel((WheelEvent) event));
 
 		pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 				euclidiancontroller.getOffsets());

@@ -20,11 +20,9 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.user.client.Window;
 
 import elemental2.dom.WheelEvent;
-import jsinterop.base.Js;
 
 public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		implements HasOffsets {
@@ -91,36 +89,31 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @param event
 	 *            mouse wheel event
 	 */
-	public void onMouseWheel(MouseWheelEvent event) {
+	public void onMouseWheel(WheelEvent event) {
 		// don't want to roll the scrollbar
-		double delta = event.getDeltaY();
+		double delta = event.deltaY;
 		// we are on device where many small scrolls come, we want to merge them
-		int x = event.getClientX();
-		int y = event.getClientY();
-		boolean shiftOrMeta = event.isShiftKeyDown() || event.isMetaKeyDown();
+		int x = (int) Math.round(event.offsetX);
+		int y = (int) Math.round(event.offsetY);
+		boolean shiftOrMeta = event.shiftKey || event.metaKey;
 		if (delta == 0) {
-			deltaSum += getNativeDelta(event);
+			deltaSum += delta;
 			if (Math.abs(deltaSum) > 40) {
 				double ds = deltaSum;
 				deltaSum = 0;
 				ec.wrapMouseWheelMoved(x, y, ds,
-						shiftOrMeta,
-				        event.isAltKeyDown());
+						shiftOrMeta, event.altKey);
 			}
 			// normal scrolling
 		} else {
 			deltaSum = 0;
 			ec.wrapMouseWheelMoved(x, y, delta,
 					shiftOrMeta,
-			        event.isAltKeyDown());
+			        event.altKey);
 		}
 		if (ec.allowMouseWheel(shiftOrMeta)) {
 			event.preventDefault();
 		}
-	}
-
-	public static double getNativeDelta(MouseWheelEvent evt) {
-		return Js.<WheelEvent>uncheckedCast(evt.getNativeEvent()).deltaY;
 	}
 
 	/**

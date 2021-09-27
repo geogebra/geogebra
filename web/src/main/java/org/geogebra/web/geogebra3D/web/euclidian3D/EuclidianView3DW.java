@@ -38,6 +38,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -46,13 +47,13 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.WheelEvent;
 import jsinterop.base.Js;
 
 /**
@@ -134,7 +135,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public void setEuclidianViewNo(int evNo) {
 		this.evNo = evNo;
-		// this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN3D);
 	}
 
 	private void registerKeyHandlers(Canvas canvas) {
@@ -149,7 +149,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController3DW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
-		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		Dom.addEventListener(absPanel.getElement(), "wheel",
+				(event) -> euclidiancontroller.onMouseWheel((WheelEvent) event));
 
 		PointerEventHandler pointerHandler = new PointerEventHandler(
 				(IsEuclidianController) euclidianController,
