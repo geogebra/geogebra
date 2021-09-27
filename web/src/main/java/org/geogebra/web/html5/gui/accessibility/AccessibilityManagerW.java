@@ -138,9 +138,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public boolean focusInput(boolean force) {
+	public boolean focusInput(boolean force, boolean forceFade) {
 		if (menuContainer != null) {
-			return menuContainer.focusInput(force);
+			return menuContainer.focusInput(force, forceFade);
 		}
 		return false;
 	}

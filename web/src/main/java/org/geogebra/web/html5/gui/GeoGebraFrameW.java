@@ -442,9 +442,15 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			app = createApplication(geoGebraElement, appletParameters, this.laf);
 			app.setCustomToolBar();
 
-			Event.sinkEvents(geoGebraElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
-			Event.setEventListener(geoGebraElement.getElement(),
-					app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+			Element parent = geoGebraElement.getParentElement();
+			if (parent != null) {
+				Element grandparent = parent.getParentElement();
+				if (grandparent != null) {
+					Event.sinkEvents(parent, Event.ONKEYPRESS | Event.ONKEYDOWN);
+					Event.setEventListener(parent,
+							app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+				}
+			}
 
 			if (app.isPerspectivesPopupVisible()) {
 				app.showPerspectivesPopupIfNeeded();
