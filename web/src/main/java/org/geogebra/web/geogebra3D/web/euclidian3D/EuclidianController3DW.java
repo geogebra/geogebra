@@ -18,16 +18,16 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.DOM;
+
+import elemental2.dom.WheelEvent;
 
 /**
  * 3D euclidian controller
  *
  */
 public class EuclidianController3DW extends EuclidianController3D implements
-		MouseWheelHandler, IsEuclidianController {
+		IsEuclidianController {
 
 	private MouseTouchGestureControllerW mtg;
 	/**
@@ -88,8 +88,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onPointerEventStart(event);
 	}
 
-	@Override
-	public void onMouseWheel(MouseWheelEvent event) {
+	public void onMouseWheel(WheelEvent event) {
 		mtg.onMouseWheel(event);
 	}
 
@@ -190,7 +189,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		if (!shouldCancelDrag()) {
 
 			if (event instanceof PointerEvent) {
-				Event.setCapture(((PointerEvent) event).getRelativeElement());
+				DOM.setCapture(((PointerEvent) event).getRelativeElement());
 			}
 
 			super.wrapMouseDragged(event, startCapture);
