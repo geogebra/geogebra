@@ -534,8 +534,16 @@ public class GeoNumeric extends GeoElement
 	 *            number value
 	 */
 	@Override
-	final public void setValue(double x) {
+	public final void setValue(double x) {
+		if (isSlider() && isOutOfRange(x)) {
+			return;
+		}
+
 		setValue(x, true);
+	}
+
+	private boolean isOutOfRange(double x) {
+		return x < getIntervalMin() || x > getIntervalMax();
 	}
 
 	/**
