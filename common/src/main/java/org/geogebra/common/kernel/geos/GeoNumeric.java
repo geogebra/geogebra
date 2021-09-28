@@ -535,15 +535,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final void setValue(double x) {
-		if (isSlider() && isOutOfRange(x)) {
-			return;
-		}
-
 		setValue(x, true);
-	}
-
-	private boolean isOutOfRange(double x) {
-		return x < getIntervalMin() || x > getIntervalMax();
 	}
 
 	/**
