@@ -3,11 +3,14 @@ package org.geogebra.web.full.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.shared.ggtapi.StaticFileUrls;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * For offline browser
@@ -26,19 +29,20 @@ public class BundleLookAndFeel extends GLookAndFeel {
 				loc.getMenu("Cancel"));
 	}
 
-	private native void addNativeHandler(String message, String save,
-			String noSave, String cancel) /*-{
-		if ($wnd.setUnsavedMessage) {
-			$wnd.setUnsavedMessage(message, save, noSave, cancel);
+	private void addNativeHandler(String message, String save,
+			String noSave, String cancel) {
+		if (GeoGebraGlobal.getSetUnsavedMessage() != null) {
+			GeoGebraGlobal.getSetUnsavedMessage().call(DomGlobal.window,
+					message, save, noSave, cancel);
 		}
-	}-*/;
+	}
 
 	@Override
-	public native void removeWindowClosingHandler() /*-{
-		if ($wnd.setUnsavedMessage) {
-			$wnd.setUnsavedMessage(null);
+	public void removeWindowClosingHandler() {
+		if (GeoGebraGlobal.getSetUnsavedMessage() != null) {
+			GeoGebraGlobal.getSetUnsavedMessage().call(DomGlobal.window, null);
 		}
-	}-*/;
+	}
 
 	@Override
 	public void storeLanguage(String s) {
@@ -78,6 +82,6 @@ public class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public boolean isExternalLoginAllowed() {
-		return !Browser.isMacOS();
+		return !NavigatorUtil.isMacOS();
 	}
 }

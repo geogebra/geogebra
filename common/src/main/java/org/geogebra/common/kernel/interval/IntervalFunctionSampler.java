@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import java.util.List;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
@@ -16,7 +14,8 @@ public class IntervalFunctionSampler {
 	private final IntervalFunction function;
 	private EuclidianView view;
 	private int numberOfSamples;
-	private final LinearSpace space;
+	private final DiscreteSpace space;
+	private boolean addEmpty;
 
 	/**
 	 * @param geoFunction function to get sampled
@@ -44,7 +43,7 @@ public class IntervalFunctionSampler {
 
 	private IntervalFunctionSampler(GeoFunction geoFunction) {
 		this.function = new IntervalFunction(geoFunction);
-		space = new LinearSpace();
+		space = new DiscreteSpaceImp();
 	}
 
 	/**
@@ -61,26 +60,37 @@ public class IntervalFunctionSampler {
 		return new IntervalTupleList();
 	}
 
-	private IntervalTupleList evaluateOnSpace(LinearSpace space) throws Exception {
-		List<Double> xCoords = space.values();
+	/**
+	 * Evaluate on interval [high, low] with the same step that used before
+	 * @param low  lower bound
+	 * @param high higher bound
+	 * @return tuples evaluated on [low, high].
+	 */
+	public IntervalTupleList evaluateOn(double low, double high) {
+		DiscreteSpaceImp diffSpace = new DiscreteSpaceImp(low, high, space.getStep());
+		return evaluateOnSpace(diffSpace);
+	}
+
+	private IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
 		IntervalTupleList samples = new IntervalTupleList();
-		boolean addEmpty = true;
-		int pointIndex = 0;
-		for (int i = 0; i < xCoords.size() - 1; i += 1) {
-			Interval x = new Interval(xCoords.get(i), xCoords.get(i + 1));
-			Interval y = function.evaluate(x);
-			if (!y.isEmpty() || addEmpty) {
-				IntervalTuple tuple = new IntervalTuple(x, y);
-				tuple.setIndex(pointIndex);
-				samples.add(tuple);
-				pointIndex++;
-			}
+		addEmpty = true;
+		space.values().forEach(x -> {
+					try {
+						Interval y = function.evaluate(x);
+						if (!y.isEmpty() || addEmpty) {
+							IntervalTuple tuple = new IntervalTuple(x, y);
+							samples.add(tuple);
+						}
 
-			addEmpty = !y.isEmpty();
-		}
+						addEmpty = !y.isEmpty();
 
-		IntervalAsymptotes asymtotes = new IntervalAsymptotes(samples);
-		asymtotes.process();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				});
+
+		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
+		asymptotes.process();
 		return samples;
 	}
 
@@ -97,28 +107,23 @@ public class IntervalFunctionSampler {
 		return numberOfSamples > 0 ? numberOfSamples : view.getWidth();
 	}
 
-	public IntervalTupleList extendMax(double max) {
-		return evaluateAtDomain(space.extendMax(max));
+	/**
+	 * Extend and evaluate on interval [min, max]
+	 * @param min lower bound
+	 * @param max higher bound
+	 * @return tuples evaluated on [min, max].
+	 */
+	public IntervalTupleList extendDomain(double min, double max) {
+		setInterval(min, max);
+		return evaluateOnSpace(space);
 	}
 
-	private IntervalTupleList evaluateAtDomain(LinearSpace domain) {
-		try {
-			return evaluateOnSpace(domain);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new IntervalTupleList();
-	}
-
-	public IntervalTupleList extendMin(double min) {
-		return evaluateAtDomain(space.extendMin(min));
-	}
-
-	public int shrinkMax(double max) {
-		return space.shrinkMax(max);
-	}
-
-	public int shrinkMin(double min) {
-		return space.shrinkMin(min);
+	/**
+	 * Sets plot interval without evaluation
+	 * @param low bound.
+	 * @param high bound.
+	 */
+	public void setInterval(double low, double high) {
+		space.setInterval(low, high);
 	}
 }

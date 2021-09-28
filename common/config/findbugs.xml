@@ -44,6 +44,8 @@
         <Bug pattern="SF_SWITCH_NO_DEFAULT" />
         <Bug pattern="UCF_USELESS_CONTROL_FLOW" />    
         <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+        <Bug pattern="UC_USELESS_VOID_METHOD"/>
+        <Bug pattern="URF_UNREAD_FIELD"/>
       </Or>
     </Match>
     <Match>

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.textbox;
 
 import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -37,15 +38,18 @@ public class GTextBox extends TextBox
 	}
 
 	public GTextBox() {
-		this(false);
+		this(false, null);
 	}
 
 	/**
 	 * @param autocomplete
 	 *            allow browser autocomplete ?
 	 */
-	public GTextBox(boolean autocomplete) {
-		Event.addNativePreviewHandler(this);
+	public GTextBox(boolean autocomplete, GlobalHandlerRegistry globalHandlers) {
+		HandlerRegistration handler = Event.addNativePreviewHandler(this);
+		if (globalHandlers != null) {
+			globalHandlers.add(handler);
+		}
 
 		if (!autocomplete) {
 			// suggestion from here to disable autocomplete

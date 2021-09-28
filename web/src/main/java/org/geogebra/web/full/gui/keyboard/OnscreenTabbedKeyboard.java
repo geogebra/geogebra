@@ -13,7 +13,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.CSSEvents;
 
 /**
  * Web implementation of onscreen keyboard
@@ -33,7 +33,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 */
 	public OnscreenTabbedKeyboard(HasKeyboard app, boolean hasMoreButton) {
 		super(app, hasMoreButton);
-		buildGUI(app.getInputBoxType());
 		ClickStartHandler.initDefaults(this, true, true);
 	}
 	
@@ -76,7 +75,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	@Override
 	public void afterShown(final Runnable runnable) {
-		CSSAnimation.runOnAnimation(runnable, getElement(), "animating");
+		CSSEvents.runOnAnimation(runnable, getElement(), "animating");
 	}
 
 	@Override
@@ -97,7 +96,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	public void remove(final Runnable runnable) {
 		hasKeyboard.updateViewSizes();
 		this.addStyleName("animatingOut");
-		CSSAnimation.runOnAnimation(() -> {
+		CSSEvents.runOnAnimation(() -> {
 			setVisible(false);
 			runnable.run();
 		}, getElement(), "animatingOut");

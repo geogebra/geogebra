@@ -1195,6 +1195,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNoToggleButtonForSymbolicUndefined() {
+		GeoSymbolic solve = add("Solve(0.05>=(1-x)^50)");
+		assertThat(AlgebraItem.isSymbolicDiffers(solve), is(false));
+	}
+
+	@Test
 	public void testToggleSymbolicNumeric() {
 		GeoSymbolic solveX = add("Solve(2x=5)");
 		GeoSymbolic solveA = add("NSolve(a*a=5)");
@@ -1533,6 +1539,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testIsNotCachingRandomValues() {
+		GeoSymbolic symbolic1 = add("RandomBetween(0, 9999999999)");
+		GeoSymbolic symbolic2 = add("RandomBetween(0, 9999999999)");
+		assertNotEquals(symbolic1.toValueString(StringTemplate.defaultTemplate),
+				symbolic2.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
 	public void testUndoRedoWithSolve() {
 		app.setUndoActive(true);
 
@@ -1595,5 +1609,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getFunctionVariables().length, is(2));
 		assertThat(symbolic.getFunctionVariables()[0].getSetVarString(), is("x"));
 		assertThat(symbolic.getFunctionVariables()[1].getSetVarString(), is("a"));
+	}
+
+	@Test
+	public void numericAlternativeCommand() {
+		add("f(x) = -x^2 * e^(-x)");
+		add("g(x) = 1 + (f'(x))^2");
+		t("Integral(sqrt(g),0,20)", "20.12144888423");
 	}
 }

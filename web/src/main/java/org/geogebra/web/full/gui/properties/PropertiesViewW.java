@@ -20,7 +20,7 @@ import org.geogebra.web.full.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.full.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
@@ -506,7 +506,7 @@ public class PropertiesViewW extends PropertiesView
 		((AppWFull) app).centerAndResizeViews();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
-		CSSAnimation.runOnAnimation(new Runnable() {
+		CSSEvents.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
 				style.setOverflow(Overflow.VISIBLE);
@@ -525,13 +525,12 @@ public class PropertiesViewW extends PropertiesView
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
 		((AppW) app).getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
+		CSSEvents.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
 				onFloatingSettingsClose();
 			}
-		}, wrappedPanel.getElement(),
-				"animateOut");
+		}, wrappedPanel.getElement(), "animateOut");
 	}
 
 	/**

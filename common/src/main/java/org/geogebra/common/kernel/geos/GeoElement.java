@@ -495,8 +495,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private void resetLabelSetting() {
 		App app = getKernel().getApplication();
 		if (app != null) {
-			app.getSettingsUpdater().getLabelSettingsUpdater()
-					.resetLabelVisibilityForMenu();
+			app.getSettings().getLabelSettings().resetDefaultForMenu();
 		}
 	}
 
@@ -6987,6 +6986,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
+		if (hasDynamicCaption()) {
+			sb.append(dynamicCaption.getTextString());
+			return true;
+		}
 		if (!StringUtil.empty(getCaptionSimple())) {
 			if (CanvasDrawable.isLatexString(caption)) {
 				String myCaption = getCaption(StringTemplate.latexTemplate);

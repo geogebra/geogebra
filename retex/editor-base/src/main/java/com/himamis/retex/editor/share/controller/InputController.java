@@ -597,6 +597,10 @@ public class InputController {
 		return false;
 	}
 
+	public String convert(String exp) {
+		return formatConverter.convert(exp);
+	}
+
 	/**
 	 * Insert field.
 	 *
@@ -881,7 +885,8 @@ public class InputController {
 
 	private boolean isEqFunctionWithPlaceholders(MathFunction function) {
 		return function.getName() == Tag.DEF_INT || function.getName() == Tag.SUM_EQ
-				|| function.getName() == Tag.PROD_EQ || function.getName() == Tag.LIM_EQ;
+				|| function.getName() == Tag.PROD_EQ || function.getName() == Tag.LIM_EQ
+				|| function.getName() == Tag.ATOMIC_POST || function.getName() == Tag.ATOMIC_PRE;
 	}
 
 	private void deleteSingleArg(EditorState editorState) {

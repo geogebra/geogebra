@@ -12,6 +12,8 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -31,14 +33,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 
+import jsinterop.base.Js;
+
 /**
  * TODO: Consider creating SpreadsheetHeaderW class, with all the common method
  * from the row and column header
  * 
  *
  */
-public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
-	private static final long serialVersionUID = 1L;
+public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandler {
 	private AppW app;
 	private MyTableW table;
 	private Grid grid;
@@ -117,7 +120,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 		focusPanel = new AdvancedFocusPanel();
 		// focusPanel.addKeyDownHandler(this);
 		focusPanel.addBitlessDomHandler(this, KeyDownEvent.getType());
-		addPasteHandlerTo(focusPanel.getTextarea());
+		addPasteHandlerTo(focusPanel.getTextarea(), this);
 
 		Style s = focusPanel.getElement().getStyle();
 		// s.setDisplay(Style.Display.NONE);
@@ -673,48 +676,27 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 		}
 	}
 
-	public native void addPasteHandlerTo(Element elem) /*-{
-		var self = this;
-		elem.onpaste = function(event) {
-			var text, cbd;
-			if ($wnd.clipboardData) {
-				// Windows Internet Explorer
-				cbd = $wnd.clipboardData;
-				if (cbd.getData) {
-					text = cbd.getData('Text');
+	/**
+	 * @param elem element
+	 * @param handler copy/cut/paste handler
+	 */
+	public static void addPasteHandlerTo(Element elem, CopyPasteHandler handler) {
+		Dom.addEventListener(elem, "paste", (event) -> {
+					CopyPasteW.ClipboardData data = Js.uncheckedCast(
+							Js.asPropertyMap(event).get("clipboardData"));
+				if (Js.isTruthy(data)) {
+					String text = data.getData("text/plain");
+					handler.onPaste(text);
 				}
-			}
-			if (text === undefined) {
-				// all the other browsers
-				if (event.clipboardData) {
-					cbd = event.clipboardData;
-					if (cbd.getData) {
-						text = cbd.getData('text/plain');
-					}
-				}
-			}
-			if (text !== undefined) {
-				self.@org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetRowHeaderW::onPaste(Ljava/lang/String;)(text);
-			}
-		}
-		elem.oncopy = function(even2) {
-			self.@org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetRowHeaderW::onCopy(Z)(even2.altKey);
-			// do not prevent default!!!
-			// it will take care of the copy...
-		}
-		elem.oncut = function(even3) {
-			self.@org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetRowHeaderW::onCut()();
+		});
+		Dom.addEventListener(elem, "copy",
+				evt -> handler.onCopy(Js.isTruthy(Js.asPropertyMap(evt).get("altKey"))));
+		Dom.addEventListener(elem, "cut", evt -> handler.onCut());
 			// do not prevent default!!!
 			// it will take care of the cut...
-		}
-	}-*/;
+	}
 
-	/**
-	 * Paste text.
-	 * 
-	 * @param text
-	 *            clipboard content
-	 */
+	@Override
 	public void onPaste(String text) {
 		if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
 			boolean storeUndo = ((CopyPasteCutW) table.getCopyPasteCut()).paste(
@@ -727,12 +709,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 		}
 	}
 
-	/**
-	 * Handle copy
-	 * 
-	 * @param altDown
-	 *            is alt down?
-	 */
+	@Override
 	public void onCopy(final boolean altDown) {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does
@@ -757,9 +734,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader {
 		});
 	}
 
-	/**
-	 * Handle cut
-	 */
+	@Override
 	public void onCut() {
 		// the default action of the browser just modifies
 		// the textarea of the AdvancedFocusPanel, does

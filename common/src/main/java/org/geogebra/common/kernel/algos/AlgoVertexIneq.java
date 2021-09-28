@@ -243,21 +243,21 @@ public class AlgoVertexIneq extends AlgoElement {
 						a.getFunBorder(), helperLine, new GeoPoint(cons)));
 			}
 		}
-		GeoPoint[] bz = b.getZeros();
-		for (GeoPoint bp : bz) {
-			helperLine.setCoords(0, 1, -bp.getX());
+		double[] bz = b.getZeros();
+		for (double bRoot : bz) {
+			helperLine.setCoords(0, 1, -bRoot);
 			helpers[i][j].compute();
 			addVertices(helpers[i][j], transpose, true);
 		}
 	}
 
 	private void intParamYX(Inequality a, Inequality b) {
-		GeoPoint[] bz = b.getZeros();
+		double[] bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
-		for (GeoPoint bp : bz) {
+		for (double bRoot : bz) {
 			ensurePoint();
-			vertices.get(validVertices).setCoords(bp.getX(),
-					af.value(bp.getX()), 1);
+			vertices.get(validVertices).setCoords(bRoot,
+					af.value(bRoot), 1);
 			validVertices++;
 		}
 
@@ -305,12 +305,12 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamXY(Inequality a, Inequality b) {
-		GeoPoint[] bz = b.getZeros();
+		double[] bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
-		for (GeoPoint bp : bz) {
+		for (double bRoot : bz) {
 			ensurePoint();
-			vertices.get(validVertices).setCoords(af.value(bp.getX()),
-					bp.getX(), 1);
+			vertices.get(validVertices).setCoords(af.value(bRoot),
+					bRoot, 1);
 			validVertices++;
 		}
 
@@ -415,54 +415,52 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intXY(Inequality a, Inequality b) {
-		GeoPoint[] az = a.getZeros();
-		GeoPoint[] bz = b.getZeros();
-		for (GeoPoint ap : az) {
-			for (GeoPoint bp : bz) {
+		double[] az = a.getZeros();
+		double[] bz = b.getZeros();
+		for (double aRoot : az) {
+			for (double bRoot : bz) {
 				ensurePoint();
-				vertices.get(validVertices).setCoords(ap.getX(), bp.getX(), 1);
+				vertices.get(validVertices).setCoords(aRoot, bRoot, 1);
 				validVertices++;
-				Log.debug(ap + "," + bp);
+				Log.debug(aRoot + "," + bRoot);
 			}
 		}
 
 	}
 
 	private void intConicY(Inequality a, Inequality b) {
-		GeoPoint[] bz = b.getZeros();
+		double[] bz = b.getZeros();
 		double[] coef = a.getConicBorder().getMatrix();
-		for (GeoPoint bp : bz) {
+		for (double bRoot : bz) {
 			co[2] = coef[0];
-			co[1] = 2 * coef[3] * bp.getX() + 2 * coef[4];
-			co[0] = coef[1] * bp.getX() * bp.getX() + 2 * coef[5] * bp.getX()
+			co[1] = 2 * coef[3] * bRoot + 2 * coef[4];
+			co[0] = coef[1] * bRoot * bRoot + 2 * coef[5] * bRoot
 					+ coef[2];
-			Log.debug(co[0] + "," + co[1] + "," + co[2]);
 			kernel.getEquationSolver();
 			int n = EquationSolver.solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
 				ensurePoint();
-				vertices.get(validVertices).setCoords(co[k], bp.getX(), 1);
+				vertices.get(validVertices).setCoords(co[k], bRoot, 1);
 				validVertices++;
 			}
 		}
 	}
 
 	private void intConicX(Inequality a, Inequality b) {
-		GeoPoint[] bz = b.getZeros();
+		double[] bz = b.getZeros();
 		double[] coef = a.getConicBorder().getMatrix();
-		for (GeoPoint bp : bz) {
+		for (double bRoot : bz) {
 			co[2] = coef[1];
-			co[1] = 2 * coef[3] * bp.getX() + 2 * coef[5];
-			co[0] = coef[0] * bp.getX() * bp.getX() + 2 * coef[4] * bp.getX()
+			co[1] = 2 * coef[3] * bRoot + 2 * coef[5];
+			co[0] = coef[0] * bRoot * bRoot + 2 * coef[4] * bRoot
 					+ coef[2];
-			Log.debug(co[0] + "," + co[1] + "," + co[2]);
 			kernel.getEquationSolver();
 			int n = EquationSolver.solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
 				ensurePoint();
-				vertices.get(validVertices).setCoords(bp.getX(), co[k], 1);
+				vertices.get(validVertices).setCoords(bRoot, co[k], 1);
 				validVertices++;
 			}
 		}
@@ -482,15 +480,15 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intLinearY(Inequality a, Inequality b) {
-		GeoPoint[] bz = b.getZeros();
+		double[] bz = b.getZeros();
 		GeoLine af = a.getLineBorder();
 		if (DoubleUtil.isZero(af.getX())) {
 			return;
 		}
-		for (GeoPoint bp : bz) {
+		for (double bRoot : bz) {
 			ensurePoint();
 			vertices.get(validVertices).setCoords(
-					(-af.getY() * bp.getX() - af.getZ()) / af.getX(), bp.getX(),
+					(-af.getY() * bRoot - af.getZ()) / af.getX(), bRoot,
 					1);
 			validVertices++;
 		}
@@ -498,15 +496,15 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intLinearX(Inequality a, Inequality b) {
-		GeoPoint[] bz = b.getZeros();
+		double[] bz = b.getZeros();
 		GeoLine af = a.getLineBorder();
 		if (DoubleUtil.isZero(af.getY())) {
 			return;
 		}
-		for (GeoPoint bp : bz) {
+		for (double bRoot : bz) {
 			ensurePoint();
-			vertices.get(validVertices).setCoords(bp.getX(),
-					(-af.getX() * bp.getX() - af.getZ()) / af.getY(), 1);
+			vertices.get(validVertices).setCoords(bRoot,
+					(-af.getX() * bRoot - af.getZ()) / af.getY(), 1);
 			validVertices++;
 		}
 

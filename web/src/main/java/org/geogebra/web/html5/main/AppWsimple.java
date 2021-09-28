@@ -14,7 +14,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,8 +45,7 @@ public class AppWsimple extends AppW {
 		this.useFullGui = false;
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-		        + GeoGebraConstants.BUILD_DATE + " "
-		        + Window.Navigator.getUserAgent());
+		        + GeoGebraConstants.BUILD_DATE);
 		initCommonObjects();
 		initing = true;
 

@@ -83,7 +83,7 @@ public class CASTableCellW extends VerticalPanel {
 				commentLabel.setText(casCell.getCommandAndComment() + " ");
 			}
 			commentLabel.getElement().getStyle()
-					.setFontSize(app.getFontSizeWeb(), Unit.PX);
+					.setFontSize(app.getFontSize(), Unit.PX);
 			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
@@ -259,12 +259,12 @@ public class CASTableCellW extends VerticalPanel {
 						.getStyle()
 						.setFontSize(
 								casCell.getKernel().getApplication()
-										.getFontSizeWeb(), Unit.PX);
+										.getFontSize(), Unit.PX);
 					this.outputPanel.add(this.commentLabel);
 				}
 				this.outputPanel.add(DrawEquationW.paintOnCanvasOutput(casCell,
 						eqstring, null, casCell.getKernel().getApplication()
-								.getFontSizeWeb() + 1));
+								.getFontSize() + 1));
 			}
 		}
 		this.inputPanel.setPixelRatio(ratio);

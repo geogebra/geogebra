@@ -24,7 +24,6 @@ public class SettingsUpdater {
 	private Settings settings;
 	private AppConfig appConfig;
 	private FontSettingsUpdater fontSettingsUpdater;
-	private LabelSettingsUpdater labelSettingsUpdater;
 
 	/**
 	 * Resets the settings which should be reset on app start and after Clear All.
@@ -36,8 +35,9 @@ public class SettingsUpdater {
 
 	protected void resetSettingsOnlyOnAppStart() {
 		kernel.setPrintDecimals(appConfig.getDefaultPrintDecimals());
-		labelSettingsUpdater.setLabelVisibility(LabelVisibility.PointsOnly);
+		settings.getLabelSettings().setLabelVisibility(LabelVisibility.PointsOnly);
 		settings.getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
+		fontSettingsUpdater.resetFonts();
 	}
 
 	/**
@@ -89,13 +89,5 @@ public class SettingsUpdater {
 
 	public FontSettingsUpdater getFontSettingsUpdater() {
 		return fontSettingsUpdater;
-	}
-
-	void setLabelSettingsUpdater(LabelSettingsUpdater labelSettingsUpdater) {
-		this.labelSettingsUpdater = labelSettingsUpdater;
-	}
-
-	public LabelSettingsUpdater getLabelSettingsUpdater() {
-		return labelSettingsUpdater;
 	}
 }

@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.gwtutil.NativePointerEvent;
 import org.geogebra.web.html5.event.HasOffsets;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 
 import com.google.gwt.dom.client.Element;
@@ -45,8 +44,8 @@ public class PointerEventHandler {
 
 		public PointerState(NativePointerEvent e) {
 			id = e.getPointerId();
-			x = e.getClientX();
-			y = e.getClientY();
+			x = e.getOffsetX();
+			y = e.getOffsetY();
 		}
 	}
 
@@ -64,21 +63,11 @@ public class PointerEventHandler {
 	private void twoPointersDown(PointerState pointer1, PointerState pointer2) {
 		tc.getLongTouchManager().cancelTimer();
 		tc.setExternalHandling(true);
-		tc.twoTouchStart(touchEventX(pointer1), touchEventY(pointer1),
-				touchEventX(pointer2), touchEventY(pointer2));
+		tc.twoTouchStart(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
 	}
 
 	private void twoPointersMove(PointerState pointer1, PointerState pointer2) {
-		this.tc.twoTouchMove(touchEventX(pointer1),	touchEventY(pointer1),
-				touchEventX(pointer2), touchEventY(pointer2));
-	}
-
-	private int touchEventX(PointerState touch) {
-		return off.touchEventX((int) touch.x);
-	}
-
-	private int touchEventY(PointerState touch) {
-		return off.touchEventY((int) touch.y);
+		this.tc.twoTouchMove(pointer1.x, pointer1.y, pointer2.x, pointer2.y);
 	}
 
 	private void singleDown(PointerEvent e) {
@@ -113,8 +102,8 @@ public class PointerEventHandler {
 
 	private void startLongTouch(PointerState touchState) {
 		if (tc.getMode() == EuclidianConstants.MODE_MOVE) {
-			tc.getLongTouchManager().scheduleTimer(tc, touchEventX(touchState),
-					touchEventY(touchState));
+			tc.getLongTouchManager().scheduleTimer(tc, (int) touchState.x,
+					(int) touchState.y);
 		}
 	}
 
@@ -136,12 +125,12 @@ public class PointerEventHandler {
 	private void onPointerMove(NativePointerEvent e) {
 		if (first != null && second != null) {
 			if (second.id == e.getPointerId()) {
-				second.x = e.getClientX();
-				second.y = e.getClientY();
+				second.x = e.getOffsetX();
+				second.y = e.getOffsetY();
 				twoPointersMove(first, second);
 			} else if (first.id == e.getPointerId()) {
-				first.x = e.getClientX();
-				first.y = e.getClientY();
+				first.x = e.getOffsetX();
+				first.y = e.getOffsetY();
 			}
 		} else if (match(first, e) || match(second, e)
 				|| "mouse".equals(e.getPointerType())) {
@@ -187,8 +176,8 @@ public class PointerEventHandler {
 	}
 
 	private PointerEvent convertEvent(NativePointerEvent e) {
-		PointerEvent ex = new PointerEvent(e.getClientX(), e.getClientY(),
-				types(e.getPointerType()), off, false);
+		PointerEvent ex = new PointerEvent(e.getOffsetX(), e.getOffsetY(),
+				types(e.getPointerType()), off);
 		adjust(ex, e);
 		return ex;
 	}
@@ -231,16 +220,17 @@ public class PointerEventHandler {
 	 */
 	public void attachTo(Element element, GlobalHandlerRegistry globalHandlers) {
 		reset();
-		Dom.addEventListener(element, "pointermove",
+		// treat as global to avoid memory leak
+		globalHandlers.addEventListener(element, "pointermove",
 				evt -> onPointerMove(Js.uncheckedCast(evt)));
 
-		Dom.addEventListener(element, "pointerdown",
+		globalHandlers.addEventListener(element, "pointerdown",
 				evt -> onPointerDown(Js.uncheckedCast(evt), element));
 
-		Dom.addEventListener(element, "pointerout",
+		globalHandlers.addEventListener(element, "pointerout",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
-		Dom.addEventListener(element, "pointercanel",
+		globalHandlers.addEventListener(element, "pointercanel",
 				evt -> onPointerOut(Js.uncheckedCast(evt)));
 
 		EventListener clickOutsideHandler = evt -> onPointerUp(Js.uncheckedCast(evt), element);

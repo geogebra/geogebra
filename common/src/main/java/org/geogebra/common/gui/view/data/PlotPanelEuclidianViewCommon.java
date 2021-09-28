@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
- * @author gabor Common things used by plotPanelEuclidianViewsW/D
- *
+ * Common code used by plotPanelEuclidianViewsW/D
+ * @author gabor
  */
 public class PlotPanelEuclidianViewCommon {
 	/**

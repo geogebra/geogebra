@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -106,6 +107,26 @@ public class GgbApiTest {
 		api.evalLaTeX("x\\" + latex + "=42", 0);
 		assertEquals(latex + " not parsed as " + unicode, "42",
 				api.getLaTeXString("x" + unicode));
+	}
+
+	@Test
+	public void testEvalXML() {
+		// eval xml will mark the object as needing update
+		api.evalXML("<expression label=\"stroke1\" "
+						+ "exp=\"PolyLine[(-3.5800,2.7200), (NaN,NaN), true]\" />"
+				+ "<element type=\"penstroke\" label=\"stroke1\">"
+				+ "<show object=\"true\" label=\"false\" ev=\"8\"/>"
+				+ "<lineStyle thickness=\"144\" type=\"0\" typeHidden=\"1\"/>"
+				+ "</element>");
+
+		// will actually update the geo
+		app.getActiveEuclidianView().repaintView();
+
+		// check if the stroke width matches (line width is half of line thickness, a delta of 0
+		// is intentional, no rounding errors should happen)
+		GeoElement stroke = lookup("stroke1");
+		DrawLocus strokeDrawable = (DrawLocus) app.getActiveEuclidianView().getDrawableFor(stroke);
+		assertEquals(72, strokeDrawable.getDecoStroke().getLineWidth(), 0);
 	}
 
 	@Test

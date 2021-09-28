@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -39,12 +38,12 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.LayeredGGraphicsW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.export.Canvas2Pdf;
 import org.geogebra.web.html5.export.Canvas2Svg;
 import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -61,25 +60,15 @@ import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.CanvasPixelArray;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.GestureChangeEvent;
-import com.google.gwt.event.dom.client.GestureEndEvent;
-import com.google.gwt.event.dom.client.GestureStartEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -89,7 +78,9 @@ import com.google.gwt.user.client.ui.Widget;
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.FrameRequestCallback;
+import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLImageElement;
+import elemental2.dom.WheelEvent;
 import jsinterop.base.Js;
 
 /**
@@ -379,25 +370,22 @@ public class EuclidianViewW extends EuclidianView implements
 		return ret;
 	}
 
-	private native void convertToGreyScale(Context2d ctx, int width,
-			int height) /*-{
-		var imageData = ctx.getImageData(0, 0, width, height);
+	private void convertToGreyScale(Context2d ctx, int width, int height) {
+		ImageData imageData = ctx.getImageData(0, 0, width, height);
+		CanvasPixelArray content = imageData.getData();
 
-		for (y = 0; y < height; y++) {
-			for (x = 0; x < width; x++) {
-				var index = (y * 4) + (x * 4) * width;
-				var r = imageData.data[index];
-				var g = imageData.data[index + 1];
-				var b = imageData.data[index + 2];
-				var grey = Math.round((r + g + b) / 3);
-				imageData.data[index] = grey;
-				imageData.data[index + 1] = grey;
-				imageData.data[index + 2] = grey;
-			}
+		for (int index = 0; index < width * height; index++) {
+			int r = content.get(4 * index);
+			int g = content.get(4 * index + 1);
+			int b = content.get(4 * index + 2);
+			int grey = (int) Math.round((r + g + b) / 3.0);
+			content.set(4 * index, grey);
+			content.set(4 * index + 1, grey);
+			content.set(4 * index + 2, grey);
 		}
 
 		ctx.putImageData(imageData, 0, 0);
-	}-*/;
+	}
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency,
@@ -470,7 +458,7 @@ public class EuclidianViewW extends EuclidianView implements
 					Math.floor(view2.getExportHeight() * scale));
 		}
 
-		CanvasRenderingContext2D ctx = PDFEncoderW.getContext(width, height);
+		Canvas2Pdf.PdfContext ctx = PDFEncoderW.getContext(width, height);
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
@@ -485,13 +473,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// include view 2 as 2nd page
 		if (page2) {
-			PDFEncoderW.addPagePDF(ctx);
+			ctx.addPage();
 			view2.exportPaintPre(g4copy, scale, false);
 			view2.drawObjects(g4copy);
 		}
 
 		this.appW.setExporting(ExportType.NONE, 1);
-		return PDFEncoderW.getPDF(ctx);
+		return ctx.getPDFbase64();
 	}
 
 	@Override
@@ -715,37 +703,14 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
-		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if (Browser.supportsPointerEvents()) {
-			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
-					euclidiancontroller.getOffsets());
-			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
-			CancelEventTimer.killTouch(absPanel);
-		} else {
-			absPanel.addDomHandler(euclidiancontroller,
-					MouseMoveEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller,
-					MouseOverEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-			if (appW.getLAF() == null || !appW.getLAF().isSmart()) {
-				absPanel.addDomHandler(euclidiancontroller,
-						MouseDownEvent.getType());
-			}
-			if (appW.getLAF() != null) {
-				if (appW.getLAF().registerHandlers(absPanel, euclidiancontroller)) {
-					return;
-				}
-			}
+		Dom.addEventListener(absPanel.getElement(), "wheel",
+				(event) -> euclidiancontroller.onMouseWheel((WheelEvent) event));
 
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
-		}
+		pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
+				euclidiancontroller.getOffsets());
+		pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
+		CancelEventTimer.killTouch(absPanel);
+		absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 	}
 
 	private static void registerDragDropHandlers(
@@ -998,10 +963,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void add(Widget box, GPoint position) {
+	public void add(Widget box) {
 		if (evPanel != null) {
-			evPanel.getAbsolutePanel().add(box,
-					position.getX(), position.getY());
+			evPanel.getAbsolutePanel().add(box);
 		}
 	}
 
@@ -1187,10 +1151,10 @@ public class EuclidianViewW extends EuclidianView implements
 			Window.print();
 
 			// PrintPreviewW.removePrintPanelFromDOM();
-			NodeList<Element> pp = Dom
+			HTMLCollection<elemental2.dom.Element> pp = Dom
 					.getElementsByClassName("printPanel");
 			if (pp.getLength() != 0) {
-				pp.getItem(0).removeFromParent();
+				pp.getAt(0).remove();
 			}
 		});
 	}

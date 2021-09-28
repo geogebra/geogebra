@@ -1,7 +1,7 @@
-@import 'colors';
-@import 'dimens';
-@import 'shared';
-@import 'z-index';
+@use 'colors';
+@use 'dimens';
+@use 'shared';
+@use 'z-index';
 
 .GeoGebraFrame {
 	.algebraView {
@@ -29,14 +29,14 @@
 			right: 12px;
 			width: 22px;
 			height: 22px;
-			background-color: $purple-default;
+			background-color: colors.$purple-default;
 			border-radius: 2px;
 			border: none;
-			box-shadow: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+			box-shadow: 0px 3px 1px -2px colors.$black-20, 0px 2px 2px 0px colors.$black-14, 0px 1px 5px 0px colors.$black-12;
 			transition: background-color 150ms ease 0ms;
 
 			&:hover {
-				background-color: $purple-dark;
+				background-color: colors.$purple-dark;
 			}
 			img {
 				opacity: 1;
@@ -56,35 +56,35 @@
 
 	.customScrollbarSafari {
 		&::-webkit-scrollbar-thumb {
-			background-color: $transparent-white;
+			background-color: colors.$transparent-white;
 		}
 		&:hover::-webkit-scrollbar-thumb {
-			background-color: $black-38;
+			background-color: colors.$black-38;
 		}
 	}
 
 	.customScrollbar {
 		scrollbar-width: thin;
-		scrollbar-color: $white $white;
-		color: $transparent-white;
+		scrollbar-color: colors.$white colors.$white;
+		color: colors.$transparent-white;
 		transition: color .25s;
 
 		&::-webkit-scrollbar-track {
-			background: $white;
+			background: colors.$white;
 		}
 		&::-webkit-scrollbar-thumb {
 			box-shadow: inset 0 0 0 10px;
 		}
 
 		&:hover {
-			scrollbar-color: $black-38 $white;
-			color: $black-38;
+			scrollbar-color: colors.$black-38 colors.$white;
+			color: colors.$black-38;
 		}
 
 		&>div {
 			// we are overriding color for the whole container (to be used for scrollbar),
 			// so we have to override back for child elements
-			color: $black-87;
+			color: colors.$black-87;
 		}
 	}
 
@@ -97,11 +97,11 @@
 	}
 
 	.avItem.avSelectedRow .marblePanel {
-		background-color: $tool-border;
+		background-color: colors.$tool-border;
 	}
 
 	.marblePanel {
-		border-right: 1px solid $tool-border;
+		border-right: 1px solid colors.$tool-border;
 		position: absolute;
 		min-width: 58px;
 		box-sizing: border-box;
@@ -146,8 +146,8 @@
 	.marble {
 		height: 18px;
 		width: 18px;
-		background-color: $purple-default;
-		border: 1px solid $black;
+		background-color: colors.$purple-default;
+		border: 1px solid colors.$black;
 		border-radius: 24px;
 	}
 
@@ -182,9 +182,9 @@
 
 			.elem .elemText, .scrollableTextBox {
 				padding-left: 0;
-				margin-left: $scientificHeaderWidth;
-				border-bottom: 1px $tool-border solid;
-				width: calc(100% - #{$scientificHeaderWidth});
+				margin-left: dimens.$scientificHeaderWidth;
+				border-bottom: 1px colors.$tool-border solid;
+				width: calc(100% - #{dimens.$scientificHeaderWidth});
 				box-sizing: border-box;
 				min-height: 48px;
 			}
@@ -192,7 +192,7 @@
 	}
 
 	.avItem {
-		border-top: 1px solid $tool-border;
+		border-top: 1px solid colors.$tool-border;
 	}
 
 	.avItem .elemText.noPadding {
@@ -250,7 +250,7 @@
 		right: 12px;
 		opacity: 1;
 		transition: 0.3s ease;
-		z-index: $z-algebra-speed-panel;
+		z-index: z-index.$z-algebra-speed-panel;
 		cursor: default;
 
 		.flatButton {
@@ -290,7 +290,7 @@
 		@extend .speedPanel;
 		opacity: 0;
 		transition: 0.2s ease;
-		z-index: $z-hidden;
+		z-index: z-index.$z-hidden;
 	}
 
 	.speedPanel-hidden >* {
@@ -302,7 +302,7 @@
 	}
 
 	.more {
-		background: $white;
+		background: colors.$white;
 		margin-top: 12px;
 		opacity: 0.54 !important;
 		transition: 0.3s ease;
@@ -335,13 +335,13 @@
 	.newRadioButtonTreeItemParent {
 		/* to override GWT nonsense */
 		display: block !important;
-		background-color: $white;
-		border-top: $tool-border solid 1px;
-		border-bottom: $tool-border solid 1px;
+		background-color: colors.$white;
+		border-top: colors.$tool-border solid 1px;
+		border-bottom: colors.$tool-border solid 1px;
 
 		&.focused {
-			border-top: $purple-default solid 1px;
-			border-bottom: $purple-default solid 1px;
+			border-top: colors.$purple-default solid 1px;
+			border-bottom: colors.$purple-default solid 1px;
 		}
 	}
 
@@ -399,14 +399,14 @@
 					padding: 0 0 0 8px;
 					margin-bottom: 2px;
 					border: none;
-					border-bottom: 1px solid $tool-border;
+					border-bottom: 1px solid colors.$tool-border;
 					background: transparent;
 					box-shadow: none;
 					border-radius: 0px !important;
 
 					&:focus {
 						border: none;
-						border-bottom: 1px solid $tool-border;
+						border-bottom: 1px solid colors.$tool-border;
 					}
 				}
 			}
@@ -443,7 +443,7 @@
 
 	.avDummyLabel {
 		display: inline-block;
-		color: $black-42;
+		color: colors.$black-42;
 		line-height: 2;
 	}
 }

@@ -41,7 +41,9 @@ public class StyleInjector {
 	 * @param name name of the css file, without extension
 	 */
 	public static void inject(String baseUrl, String name) {
-		if (DOM.getElementById(name) == null) {
+		// to avoid conflicts with other elements on the page with this id
+		String prefixedName = "ggbstyle_" + name;
+		if (DOM.getElementById(prefixedName) == null) {
 			HTMLLinkElement element
 					= (HTMLLinkElement) DomGlobal.document.createElement("link");
 
@@ -52,7 +54,7 @@ public class StyleInjector {
 			};
 
 			element.className = CLASSNAME;
-			element.id = name;
+			element.id = prefixedName;
 			element.rel = "stylesheet";
 			element.type = "text/css";
 			element.href = GWT.getModuleBaseURL() + "../" + baseUrl + "/" + name + ".css";

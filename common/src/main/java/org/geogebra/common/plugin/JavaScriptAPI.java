@@ -234,6 +234,18 @@ public interface JavaScriptAPI {
 	 */
 	void setFixed(String objName, boolean fixed, boolean selectionAllowed);
 
+	/**
+	 * @param objName object name
+	 * @return whether it's fixed
+	 */
+	boolean isFixed(String objName);
+
+	/**
+	 * @param objName object name
+	 * @return whether selection is allowed
+	 */
+	boolean isSelectionAllowed(String objName);
+
 	void setAuxiliary(String objName, boolean flag);
 
 	/**
@@ -1012,19 +1024,13 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Cast undo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
 	 */
-	void undo(boolean repaint);
+	void undo();
 
 	/**
 	 * Cast redo
-	 * 
-	 * @param repaint
-	 *            true to repaint the views afterwards
 	 */
-	void redo(boolean repaint);
+	void redo();
 
 	String getViewProperties(int viewID);
 
