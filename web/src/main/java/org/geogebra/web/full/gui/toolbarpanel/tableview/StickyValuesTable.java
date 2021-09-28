@@ -101,16 +101,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return false;
 		});
 		addBodyPointerDownHandler((row, column, evt) -> {
-			if (row < tableModel.getRowCount()
-					&& column < tableModel.getColumnCount()) {
-				if (isColumnEditable(column)) {
+			if (row <= tableModel.getRowCount()
+					&& column <= tableModel.getColumnCount()) {
+				if (column == tableModel.getColumnCount() || isColumnEditable(column)) {
 					editor.startEditing(row, column, evt);
 					return true;
 				}
-			} else if (column == tableModel.getColumnCount()) {
-				// do nothing now, start editing empty column in follow up ticket
-			} else if (row == tableModel.getRowCount()) {
-				editor.startEditing(row, column, evt);
 			}
 			return false;
 		});
