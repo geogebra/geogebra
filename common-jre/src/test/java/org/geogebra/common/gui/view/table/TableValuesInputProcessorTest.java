@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,14 +17,17 @@ import org.junit.Test;
 
 public class TableValuesInputProcessorTest extends BaseUnitTest {
 
+	private TableValues view;
+	private TableValuesModel model;
 	private TableValuesInputProcessor processor;
 	private GeoList list;
 
 	@Before
 	public void setUp() {
-		TableValues view = new TableValuesView(getKernel());
+		view = new TableValuesView(getKernel());
+		model = view.getTableValuesModel();
 		getKernel().attach(view);
-		processor = new TableValuesInputProcessor(getConstruction());
+		processor = new TableValuesInputProcessor(getConstruction(), view);
 		list = new GeoList(getConstruction());
 	}
 
@@ -82,5 +86,120 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	public void testInvalidInputWithLetters() {
 		processor.processInput("a", list, 0);
 		assertEmptyInput("a");
+	}
+
+	@Test
+	public void testProcessorWithEmptyList() {
+		processor.processInput("1", null, 2);
+		assertEquals("1", model.getCellAt(2, 1).getInput());
+		assertEquals("", model.getCellAt(0, 1).getInput());
+		assertEquals("", model.getCellAt(1, 1).getInput());
+		assertEquals("", model.getCellAt(0, 0).getInput());
+		assertEquals("", model.getCellAt(1, 0).getInput());
+		assertEquals("", model.getCellAt(2, 0).getInput());
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+	}
+
+	@Test
+	public void testEmptyInputAtTheEnd() {
+		processor.processInput("", view.getValues(), 0);
+		assertEquals(0, model.getRowCount());
+		processor.processInput("", null, 0);
+		assertEquals(1, model.getColumnCount());
+	}
+
+	@Test
+	public void testClearValuesFromColumn() {
+		processor.processInput("0", null, 0);
+		GeoList column = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1", column, 1);
+		processor.processInput("2", column, 2);
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+
+		processor.processInput("", column, 0);
+		// emptying any row above the last row shouldn't reduce the row count
+		assertEquals(3, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+
+		processor.processInput("", column, 2);
+		// emptying last row should reduce the row count
+		assertEquals(2, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+
+		processor.processInput("", column, 1);
+		// emptying last row should remove all the empty rows on the bottom fo the table
+		assertEquals(0, model.getRowCount());
+		assertEquals(1, model.getColumnCount());
+	}
+
+	@Test
+	public void testClearRowsAndColumns() {
+		processor.processInput("1", null, 0);
+		processor.processInput("2", null, 1);
+		processor.processInput("3", null, 2);
+		assertEquals(4, model.getColumnCount());
+		assertEquals(3, model.getRowCount());
+
+		processor.processInput("", (GeoList) view.getEvaluatable(3), 2);
+		assertEquals(3, model.getColumnCount());
+		assertEquals(2, model.getRowCount());
+
+		processor.processInput("", (GeoList) view.getEvaluatable(1), 0);
+		assertEquals(2, model.getColumnCount());
+		assertEquals(2, model.getRowCount());
+
+		processor.processInput("", (GeoList) view.getEvaluatable(1), 1);
+		assertEquals(1, model.getColumnCount());
+		assertEquals(0, model.getRowCount());
+	}
+
+	@Test
+	public void testClearLastRow() {
+		processor.processInput("1", null, 0);
+		GeoList c1 = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1", c1, 1);
+
+		processor.processInput("2", null, 0);
+		GeoList c2 = (GeoList) view.getEvaluatable(2);
+		processor.processInput("2", c2, 1);
+
+		processor.processInput("3", null, 0);
+		processor.processInput("0", view.getValues(), 1);
+		// x    c1    c2    c3
+		//       1     2     3
+		// 1     1     2
+		assertEquals(2, model.getRowCount());
+		assertEquals(4, model.getColumnCount());
+
+		processor.processInput("", c1, 1);
+		// x    c1    c2    c3
+		//       1     2     3
+		// 1           2
+		assertEquals(2, model.getRowCount());
+		assertEquals(4, model.getColumnCount());
+
+		processor.processInput("", c2, 1);
+		// x    c1    c2    c3
+		//       1     2     3
+		// 1
+		assertEquals(2, model.getRowCount());
+		assertEquals(4, model.getColumnCount());
+
+		processor.processInput("", view.getValues(), 1);
+		// x    c1    c2    c3
+		//       1     2     3
+		assertEquals(1, model.getRowCount());
+		assertEquals(4, model.getColumnCount());
+	}
+
+	@Test
+	public void testEnterXValue() {
+		processor.processInput("1", null, 0);
+		processor.processInput("2", null, 1);
+		processor.processInput("0", view.getValues(), 0);
+
+		assertThat(model.getCellAt(1, 2).getInput(), equalTo("2"));
 	}
 }

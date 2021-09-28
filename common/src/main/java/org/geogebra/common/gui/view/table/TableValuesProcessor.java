@@ -15,5 +15,5 @@ public interface TableValuesProcessor {
 	 * @param list the list that should contain the value
 	 * @param index the index of the value
 	 */
-	public void processInput(@Nonnull String input, @Nonnull GeoList list, int index);
+	public void processInput(@Nonnull String input, GeoList list, int index);
 }

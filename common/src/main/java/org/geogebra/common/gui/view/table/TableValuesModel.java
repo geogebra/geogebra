@@ -43,4 +43,14 @@ public interface TableValuesModel {
 	 * @return the header string
 	 */
 	String getHeaderAt(int column);
+
+	/**
+	 * Starts batch update. This batch update call cannot be nested.
+	 */
+	void startBatchUpdate();
+
+	/**
+	 * Ends the batch update. Calls TableValuesListener.notifyDatasetChanged(TableValuesModel).
+	 */
+	void endBatchUpdate();
 }
