@@ -218,7 +218,7 @@ $deleteTime: 120ms;
 		padding-right: 8px;
 		vertical-align: middle;
 		border-radius: 2px;
-		background: #616161;
+		background: colors.$tableview-toast;
 		color: white;
 		opacity: 0.9;
 		z-index: z-index.$z-snackbar;
