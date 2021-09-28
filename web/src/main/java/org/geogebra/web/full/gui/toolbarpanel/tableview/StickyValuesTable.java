@@ -55,7 +55,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return editor.getKeyboardListener();
 	}
 
-	private class HeaderCell {
+	private static class HeaderCell {
 		private final String value;
 
 		/**
@@ -159,7 +159,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addEmptyColumn() {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
-		TableCell cell = new TableCell("", false, app);
+		TableCell cell = new TableCell("", false);
 		getTable().addColumn(col, new SafeHtmlHeader(cell.getHTML()));
 	}
 
@@ -338,8 +338,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		@Override
 		public SafeHtml getValue(TVRowData object) {
 			String valStr = col < 0 ? "" : object.getValue(col);
-			boolean hasError = col < 0 ? false : object.isCellErroneous(col);
-			TableCell cell = new TableCell(valStr, hasError, app);
+			boolean hasError = col >= 0 && object.isCellErroneous(col);
+			TableCell cell = new TableCell(valStr, hasError);
 			return cell.getHTML();
 		}
 
