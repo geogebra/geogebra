@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MaskWidgetList;
@@ -860,6 +861,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 								getGgbApi().setBase64(material.getBase64());
 							}
 							setActiveMaterial(material);
+							ensureSupportedModeActive();
 						} else {
 							onError.callback(Errors.LoadFileFailed.getKey());
 						}
@@ -872,6 +874,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 								: Errors.LoadFileFailed.getKey());
 					}
 				});
+	}
+
+	private void ensureSupportedModeActive() {
+		if (getMode() == EuclidianConstants.MODE_MOVE && isWhiteboardActive()) {
+			GGWToolBar.set1rstMode(this);
+		}
 	}
 
 	/**
@@ -1251,11 +1259,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return whether it was closed
 	 */
 	public boolean closePageControlPanel() {
-		if (!isWhiteboardActive()) {
-			return false;
-		}
-
-		return frame.getPageControlPanel().close();
+		return frame.getPageControlPanel() != null && frame.getPageControlPanel().close();
 	}
 
 	/**

@@ -39,6 +39,7 @@ public class NotesLayout implements SetLabels {
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
 		this.toolbar = new ToolbarMow(appW, this);
+		toolbar.setMode(appW.getMode());
 		createUndoRedoButtons();
 		createPageControlButton();
 		setLabels();
