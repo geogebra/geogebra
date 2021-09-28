@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 
 public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
@@ -31,9 +32,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log2(Interval interval) {
 		if (!interval.isEmpty()) {
-			Interval interval2 = new Interval(2, 2);
-			Interval logExp2 = interval2.getEvaluate().log();
-			interval.getEvaluate().log().getEvaluate().divide(logExp2);
+			Interval logExp2 = IntervalOperands.log(new Interval(2, 2));
+			divide(log(interval), logExp2);
 		}
 
 		return interval;
@@ -42,9 +42,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log10(Interval interval) {
 		if (!interval.isEmpty()) {
-			Interval interval10 = new Interval(10, 10);
-			Interval logExp10 = interval10.getEvaluate().log();
-			interval.getEvaluate().log().getEvaluate().divide(logExp10);
+			Interval logExp10 = IntervalOperands.log(new Interval(10, 10));
+			divide(log(interval), logExp10);
 		}
 
 		return interval;

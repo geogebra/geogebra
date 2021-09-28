@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalOperands.*;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -80,51 +82,51 @@ import org.geogebra.common.util.debug.Log;
 			case MINUS:
 				return left.subtract(right);
 			case MULTIPLY:
-				return left.getEvaluate().multiply(right);
+				return multiply(left, right);
 			case DIVIDE:
 				return divide(left, right);
 			case POWER:
-				return left.getEvaluate().pow(right);
+				return pow(left, right);
 			case NROOT:
-				return left.getEvaluate().nthRoot(right);
+				return nthRoot(left, right);
 			case DIFF:
-				return left.getEvaluate().difference(right);
+				return difference(left, right);
 			case SIN:
-				return left.getEvaluate().sin();
+				return sin(left);
 			case SEC:
-				return left.getEvaluate().sec();
+				return sec(left);
 			case COS:
-				return left.getEvaluate().cos();
+				return cos(left);
 			case CSC:
-				return left.getEvaluate().csc();
+				return csc(left);
 			case COT:
-				return left.getEvaluate().cot();
+				return cot(left);
 			case SQRT:
-				return left.getEvaluate().sqrt();
+				return sqrt(left);
 			case TAN:
-				return left.getEvaluate().tan();
+				return tan(left);
 			case EXP:
-				return left.getEvaluate().exp();
+				return exp(left);
 			case LOG:
-				return left.getEvaluate().log();
+				return log(left);
 			case ARCCOS:
-				return left.getEvaluate().acos();
+				return acos(left);
 			case ARCSIN:
-				return left.getEvaluate().asin();
+				return asin(left);
 			case ARCTAN:
-				return left.getEvaluate().atan();
+				return atan(left);
 			case ABS:
-				return left.getEvaluate().abs();
+				return abs(left);
 			case COSH:
-				return left.getEvaluate().cosh();
+				return cosh(left);
 			case SINH:
-				return left.getEvaluate().sinh();
+				return sinh(left);
 			case TANH:
-				return left.getEvaluate().tanh();
+				return tanh(left);
 			case LOG10:
-				return left.getEvaluate().log10();
+				return log10(left);
 			case LOG2:
-				return left.getEvaluate().log2();
+				return log2(left);
 
 			default:
 				Log.warn("No interval operation for " + operation);
@@ -134,9 +136,9 @@ import org.geogebra.common.util.debug.Log;
 
 	private static Interval divide(Interval left, Interval right) {
 		if (left.isSingleton()) {
-			return right.multiplicativeInverse().getEvaluate().multiply(left);
+			return multiply(right.multiplicativeInverse(), left);
 		}
-		return left.getEvaluate().divide(right);
+		return IntervalOperands.divide(left, right);
 	}
 
 	/**

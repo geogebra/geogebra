@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
+import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
 
 public class IntervalTrigonometric {
 
@@ -28,14 +29,14 @@ public class IntervalTrigonometric {
 
 		Interval pi = IntervalConstants.pi();
 		Interval pi2 = IntervalConstants.piTwice();
-		cache.getEvaluate().fmod(pi2);
+		fmod(cache, pi2);
 		if (cache.getWidth() >= PI_TWICE_LOW) {
 			interval.set(-1, 1);
 			return interval;
 		}
 
 		if (cache.getLow() >= PI_HIGH) {
-			cache.subtract(pi).getEvaluate().cos();
+			IntervalOperands.cos(cache.subtract(pi));
 			cache.negative();
 			interval.set(cache);
 			return interval;
@@ -88,7 +89,7 @@ public class IntervalTrigonometric {
 		} else if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 		} else {
-			interval.subtract(IntervalConstants.piHalf()).getEvaluate().cos();
+			IntervalOperands.cos(interval.subtract(IntervalConstants.piHalf()));
 		}
 		return interval;
 	}
@@ -99,7 +100,7 @@ public class IntervalTrigonometric {
 	 */
 	public Interval sec(Interval interval) {
 		Interval interval2 = new Interval(interval);
-		return interval2.getEvaluate().cos().multiplicativeInverse();
+		return IntervalOperands.cos(interval2).multiplicativeInverse();
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class IntervalTrigonometric {
 	 */
 	public Interval cot(Interval interval) {
 		Interval interval2 = new Interval(interval);
-		return interval2.getEvaluate().tan().multiplicativeInverse();
+		return IntervalOperands.tan(interval2).multiplicativeInverse();
 	}
 
 	/**
@@ -132,7 +133,7 @@ public class IntervalTrigonometric {
 
 		Interval cache = new Interval(interval);
 		handleNegative(cache);
-		cache.getEvaluate().fmod(IntervalConstants.pi());
+		fmod(cache, IntervalConstants.pi());
 
 		if (cache.getLow() >= PI_HALF_LOW) {
 			cache.subtract(IntervalConstants.pi());
@@ -242,6 +243,6 @@ public class IntervalTrigonometric {
 	 */
 	public Interval csc(Interval interval) {
 		Interval interval2 = new Interval(interval);
-		return interval2.getEvaluate().sin().multiplicativeInverse();
+		return IntervalOperands.sin(interval2).multiplicativeInverse();
 	}
 }

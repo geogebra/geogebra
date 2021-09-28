@@ -3067,14 +3067,18 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public void remove() {
+		removeZoomerAnimationListenerIfNeeded();
 		super.remove();
 	}
 
 	@Override
 	public void removeZoomerAnimationListenerIfNeeded() {
-		EuclidianView ev = app.getActiveEuclidianView();
+		EuclidianView ev = app.getEuclidianView1();
 		if (ev != null) {
 			ev.getEuclidianController().removeZoomerAnimationListener(this);
+		}
+		if (app.hasEuclidianView2(1)) {
+			app.getEuclidianView2(1).getEuclidianController().removeZoomerAnimationListener(this);
 		}
 	}
 }

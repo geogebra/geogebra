@@ -568,8 +568,4 @@ public class Interval {
 	public boolean isSingletonInteger() {
 		return isSingleton() && DoubleUtil.isEqual(low, Math.round(low));
 	}
-
-	public IntervalEvaluate getEvaluate() {
-		return evaluate;
-	}
 }

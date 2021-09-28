@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalOperands.exp;
+import static org.geogebra.common.kernel.interval.IntervalOperands.log;
+import static org.geogebra.common.kernel.interval.IntervalOperands.multiply;
 import static org.geogebra.common.kernel.interval.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.RMath.powLow;
 
@@ -40,7 +43,7 @@ public class IntervalAlgebra {
 
 		Interval multiplicand = new Interval(other);
 		// x mod y = x - n * y
-		interval.subtract(multiplicand.getEvaluate().multiply(new Interval(n)));
+		interval.subtract(multiply(multiplicand, new Interval(n)));
 		return interval;
 	}
 
@@ -56,7 +59,7 @@ public class IntervalAlgebra {
 		if (power == 0) {
 			return powerOfZero(interval);
 		} else if (power < 0) {
-			interval.set(interval.multiplicativeInverse().getEvaluate().pow(-power));
+			interval.set(pow(interval.multiplicativeInverse(), -power));
 			return interval;
 		}
 
@@ -68,8 +71,8 @@ public class IntervalAlgebra {
 	}
 
 	private Interval powerOfDouble(Interval interval, double power) {
-		Interval lnPower = interval.getEvaluate().log().getEvaluate().multiply(new Interval(power));
-		return lnPower.getEvaluate().exp();
+		Interval lnPower = multiply(log(interval), new Interval(power));
+		return exp(lnPower);
 	}
 
 	private Interval powOfInteger(Interval interval, int power) {

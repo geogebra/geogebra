@@ -2,6 +2,12 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
+import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
+import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
+import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,22 +18,22 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testFmod() {
-		Interval n = interval(5.3, 5.3).getEvaluate().fmod(interval(2, 2));
+		Interval n = fmod(interval(5.3, 5.3), interval(2, 2));
 		assertTrue(n.almostEqual(interval(1.3, 1.3)));
 
-		n = interval(5, 7).getEvaluate().fmod(interval(2, 3));
+		n = fmod(interval(5, 7), interval(2, 3));
 		assertTrue(n.almostEqual(interval(2, 5)));
 
-		n = interval(18.5, 18.5).getEvaluate().fmod(interval(4.2, 4.2));
+		n = fmod(interval(18.5, 18.5), interval(4.2, 4.2));
 		assertTrue(n.almostEqual(interval(1.7, 1.7)));
 
-		n = interval(-10, -10).getEvaluate().fmod(interval(3, 3));
+		n = fmod(interval(-10, -10), interval(3, 3));
 		assertTrue(n.almostEqual(interval(-1, -1)));
 
-		n = new Interval().getEvaluate().fmod(IntervalConstants.empty());
+		n = fmod(new Interval(), IntervalConstants.empty());
 		assertTrue(n.isEmpty());
 
-		n = interval(2, 2).getEvaluate().fmod(interval(2, 2));
+		n = fmod(interval(2, 2), interval(2, 2));
 		assertTrue(n.almostEqual(zero()));
 	}
 
@@ -70,114 +76,114 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testPowOne() {
-		Interval interval = interval(Math.exp(-1), Math.exp(1)).getEvaluate().pow(1);
+		Interval interval = pow(interval(Math.exp(-1), Math.exp(1)), 1);
 		assertTrue(interval.almostEqual(interval(0.36787944117, 2.71828182846)));
 	}
 
 	@Test
 	public void testPowThree() {
-		Interval interval = interval(Math.exp(-1), Math.exp(1)).getEvaluate().pow(3);
+		Interval interval = pow(interval(Math.exp(-1), Math.exp(1)), 3);
 		assertTrue(interval.almostEqual(interval(0.04978706836, 20.0855369232)));
 	}
 
 	@Test
 	public void testZeroPowerOfZero() {
-		assertTrue(zero().getEvaluate().pow(0).isEmpty());
+		assertTrue(pow(zero(), 0).isEmpty());
 	}
 
 	@Test
 	public void testPowerOfZero() {
-		assertTrue(interval(1, 1).almostEqual(interval(-321, 123).getEvaluate().pow(0)));
+		assertTrue(interval(1, 1).almostEqual(pow(interval(-321, 123), 0)));
 	}
 
 	@Test
 	public void testNegativePowerOfEven() {
-		assertTrue(interval(4, 4).almostEqual(interval(-2, -2).getEvaluate().pow(2)));
+		assertTrue(interval(4, 4).almostEqual(pow(interval(-2, -2), 2)));
 	}
 
 	@Test
 	public void testNegativePowerOfOdd() {
-		assertTrue(interval(-8, -8).almostEqual(interval(-2, -2).getEvaluate().pow(3)));
+		assertTrue(interval(-8, -8).almostEqual(pow(interval(-2, -2), 3)));
 	}
 
 	@Test
 	public void testMixedPowerOfEven() {
-		assertTrue(interval(0, 4).almostEqual(interval(-2, 2).getEvaluate().pow(2)));
+		assertTrue(interval(0, 4).almostEqual(pow(interval(-2, 2), 2)));
 	}
 
 	@Test
 	public void testMixedPowerOfOdd() {
-		assertTrue(interval(-2, 2).almostEqual(interval(-2, 2).getEvaluate().pow(1)));
+		assertTrue(interval(-2, 2).almostEqual(pow(interval(-2, 2), 1)));
 	}
 
 	@Test
 	public void testPositivePowerOfs() {
-		assertTrue(interval(1, 1).almostEqual(interval(1, 1).getEvaluate().pow(1)));
-		assertTrue(interval(1, 1).almostEqual(interval(1, 1).getEvaluate().pow(5)));
-		assertTrue(interval(1, 25).almostEqual(interval(1, 5).getEvaluate().pow(2)));
-		assertTrue(interval(4, 25).almostEqual(interval(2, 5).getEvaluate().pow(2)));
+		assertTrue(interval(1, 1).almostEqual(pow(interval(1, 1), 1)));
+		assertTrue(interval(1, 1).almostEqual(pow(interval(1, 1), 5)));
+		assertTrue(interval(1, 25).almostEqual(pow(interval(1, 5), 2)));
+		assertTrue(interval(4, 25).almostEqual(pow(interval(2, 5), 2)));
 	}
 
 	@Test
 	public void testEmptyPowerOf() {
-		assertTrue(new Interval().getEvaluate().pow(4).isEmpty());
+		assertTrue(pow(new Interval(), 4).isEmpty());
 	}
 
 	@Test
 	public void testPowerOfIntervals() {
-		assertTrue(interval(4, 25).almostEqual(interval(2, 5).getEvaluate().pow(interval(2, 2))));
+		assertTrue(interval(4, 25).almostEqual(pow(interval(2, 5), interval(2, 2))));
 	}
 
 	@Test
 	public void testPowerOfNotSingletonInterval() {
-		assertTrue(interval(2, 5).getEvaluate().pow(interval(1, 5)).isEmpty());
+		assertTrue(pow(interval(2, 5), interval(1, 5)).isEmpty());
 	}
 
 	@Test
 	public void testPowerOfNegatives() {
 		assertTrue(interval(1 / 4.0, 1 / 4.0).almostEqual(
-				interval(2, 2).getEvaluate().pow(-2)));
+				pow(interval(2, 2), -2)));
 
 		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(
-				interval(2, 3).getEvaluate().pow(-2)));
+				pow(interval(2, 3), -2)));
 
 		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(
-				interval(-3, -2).getEvaluate().pow(-2)));
+				pow(interval(-3, -2), -2)));
 
 		assertTrue(interval(1 / 27.0, 1 / 8.0).almostEqual(
-				interval(2, 3).getEvaluate().pow(-3)));
+				pow(interval(2, 3), -3)));
 
 		assertTrue(interval(-1 / 8.0, -1 / 27.0).almostEqual(
-				interval(-3, -2).getEvaluate().pow(-3)));
+				pow(interval(-3, -2), -3)));
 	}
 
 	@Test
 	public void testPositiveAndZeroPowerOfNegatives() {
 		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(0, 2).getEvaluate().pow(-2)));
+				pow(interval(0, 2), -2)));
 
 		assertTrue(interval(1 / 8.0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(0, 2).getEvaluate().pow(-3)));
+				pow(interval(0, 2), -3)));
 
 		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				interval(-2, 0).getEvaluate().pow(-2)));
+				pow(interval(-2, 0), -2)));
 
 		assertTrue(interval(Double.NEGATIVE_INFINITY, -1 / 8.0).almostEqual(
-				interval(-2, 0).getEvaluate().pow(-3)));
+				pow(interval(-2, 0), -3)));
 	}
 
 	@Test
 	public void testNegativeAndPositivePowerOfNegatives() {
-		assertEquals(undefined(), interval(-2, 3).getEvaluate().pow(-3));
+		assertEquals(undefined(), pow(interval(-2, 3), -3));
 	}
 
 	@Test
 	public void testSpecialPowerOfCases() {
-		Interval interval = interval(0, 1).getEvaluate().pow(-2);
+		Interval interval = pow(interval(0, 1), -2);
 		assertTrue(interval.getLow() < 1);
 		assertTrue(Math.abs(interval.getLow() - 1) < 1E-7);
 
-		Interval halfOpen = interval(0, 1).halfOpenLeft().getEvaluate().pow(-2);
+		Interval halfOpen = pow(interval(0, 1).halfOpenLeft(), -2);
 		assertTrue(halfOpen.getLow() < 1);
 		assertTrue(Math.abs(halfOpen.getLow() - 1) < 1E-7);
 		assertEquals(Double.POSITIVE_INFINITY, halfOpen.getHigh(), 0);
@@ -186,44 +192,44 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testSqrt() {
-		assertTrue(interval(2, 3).almostEqual(interval(4, 9).getEvaluate().sqrt()));
-		assertTrue(interval(0, 3).almostEqual(interval(-4, 9).getEvaluate().sqrt()));
-		assertTrue(interval(-9, -4).getEvaluate().sqrt().isEmpty());
+		assertTrue(interval(2, 3).almostEqual(sqrt(interval(4, 9))));
+		assertTrue(interval(0, 3).almostEqual(sqrt(interval(-4, 9))));
+		assertTrue(sqrt(interval(-9, -4)).isEmpty());
 	}
 
 	@Test
 	public void testNthRoot() {
-		assertTrue(interval(-27, -8).getEvaluate().nthRoot(-3).isEmpty());
-		assertTrue(interval(-27, -8).getEvaluate().nthRoot(2).isEmpty());
-		assertTrue(interval(-3, -2).almostEqual(interval(-27, -8).getEvaluate().nthRoot(3)));
-		assertTrue(interval(-2, -2).almostEqual(interval(-8, -8).getEvaluate().nthRoot(3)));
-		assertTrue(interval(0, 3).almostEqual(interval(-4, 9).getEvaluate().nthRoot(2)));
-		assertTrue(interval(-3, 2).almostEqual(interval(-27, 8).getEvaluate().nthRoot(3)));
-		assertTrue(interval(2, 3).almostEqual(interval(4, 9).getEvaluate().nthRoot(2)));
-		assertTrue(interval(2, 3).almostEqual(interval(8, 27).getEvaluate().nthRoot(3)));
-		assertTrue(interval(2, 2).almostEqual(interval(8, 8).getEvaluate().nthRoot(3)));
+		assertTrue(nthRoot(interval(-27, -8), -3).isEmpty());
+		assertTrue(nthRoot(interval(-27, -8), 2).isEmpty());
+		assertTrue(interval(-3, -2).almostEqual(nthRoot(interval(-27, -8), 3)));
+		assertTrue(interval(-2, -2).almostEqual(nthRoot(interval(-8, -8), 3)));
+		assertTrue(interval(0, 3).almostEqual(nthRoot(interval(-4, 9), 2)));
+		assertTrue(interval(-3, 2).almostEqual(nthRoot(interval(-27, 8), 3)));
+		assertTrue(interval(2, 3).almostEqual(nthRoot(interval(4, 9), 2)));
+		assertTrue(interval(2, 3).almostEqual(nthRoot(interval(8, 27), 3)));
+		assertTrue(interval(2, 2).almostEqual(nthRoot(interval(8, 8), 3)));
 	}
 
 	@Test
 	public void testNthRootWithInterval() {
 		assertTrue(interval(-3, -2)
-				.almostEqual(interval(-27, -8).getEvaluate().nthRoot(interval(3, 3))));
-		assertTrue(interval(-27, -8).getEvaluate().nthRoot(interval(4, 3)).isEmpty());
+				.almostEqual(nthRoot(interval(-27, -8), interval(3, 3))));
+		assertTrue(nthRoot(interval(-27, -8), interval(4, 3)).isEmpty());
 
 	}
 
 	@Test
 	public void testSqrtSinUndef() {
-		assertTrue(interval(4, 5).getEvaluate().sin().getEvaluate().sqrt().isEmpty());
+		assertTrue(sqrt(sin(interval(4, 5))).isEmpty());
 	}
 
 	@Test
 	public void testNegativeDividedZero() {
-		assertEquals(undefined(), interval(-7, -3).getEvaluate().divide(zero()));
+		assertEquals(undefined(), divide(interval(-7, -3), zero()));
 	}
 
 	@Test
 	public void testPowerOnPositiveFraction() {
-		assertEquals(interval(1, 2).getEvaluate().sqrt(), interval(1, 2).getEvaluate().pow(0.5));
+		assertEquals(sqrt(interval(1, 2)), pow(interval(1, 2), 0.5));
 	}
 }
