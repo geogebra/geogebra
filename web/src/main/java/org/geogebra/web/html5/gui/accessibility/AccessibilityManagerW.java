@@ -46,7 +46,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public AccessibilityManagerW(App app) {
 		this.app = app;
 		selection = app.getSelectionManager();
-		this.geoTabber =  new GeoTabber(app);
+		this.geoTabber = new GeoTabber(app);
 		altGeoTabber = new AltGeoTabber(app.getActiveEuclidianView());
 		components.add(altGeoTabber);
 		components.add(geoTabber);
@@ -138,9 +138,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public boolean focusInput(boolean force) {
+	public boolean focusInput(boolean force, boolean forceFade) {
 		if (menuContainer != null) {
-			return menuContainer.focusInput(force);
+			return menuContainer.focusInput(force, forceFade);
 		}
 		return false;
 	}

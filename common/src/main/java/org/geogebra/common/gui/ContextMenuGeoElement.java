@@ -448,8 +448,7 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			geo1.setLabelVisible(!show);
-			geo1.updateRepaint();
-
+			geo1.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
 		}
 		app.storeUndoInfo();
 	}

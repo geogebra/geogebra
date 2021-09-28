@@ -7,6 +7,7 @@ import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.util.Util;
 
 public class OptionsMenuController {
@@ -143,8 +144,9 @@ public class OptionsMenuController {
 			return;
 		}
 
-		int pos = app.getLabelingStyleForMenu();
-		menuLabeling.setSelected(pos);
+		LabelVisibility labelVisibility =
+				app.getSettings().getLabelSettings().getLabelVisibilityForMenu();
+		menuLabeling.setSelected(labelVisibility.getValue());
 	}
 
 	public void addFontSizeMenu(MenuInterface menu) {

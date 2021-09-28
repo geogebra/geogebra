@@ -20,7 +20,10 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 		return new PropertiesArray(name,
 				new AngleUnitProperty(kernel, localization),
 				new RoundingProperty(app, localization),
-				new FontSizeProperty(app, localization),
+				new FontSizeProperty(
+						localization,
+						app.getSettings().getFontSettings(),
+						app.getSettingsUpdater().getFontSettingsUpdater()),
 				new LanguageProperty(app, localization, onLanguageSetCallback));
 	}
 

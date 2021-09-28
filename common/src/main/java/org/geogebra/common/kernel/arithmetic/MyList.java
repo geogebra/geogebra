@@ -774,7 +774,8 @@ public class MyList extends ValidExpression
 	 */
 	public String toString(StringTemplate tpl, boolean valueMode,
 			boolean printBrackets) {
-		if (tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX && isMatrix()) {
+		if (tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX
+				&& isMatrix() && printBrackets) {
 			return toMatrixString(tpl);
 		} else {
 			return toFlatString(tpl, valueMode, printBrackets);
@@ -811,7 +812,7 @@ public class MyList extends ValidExpression
 
 	private String toMatrixString(StringTemplate tpl) {
 		ExpressionValue e0 = listElements.get(0).unwrap();
-		final int cols = e0 instanceof MyList ? ((MyList) e0).size() : 1;
+		final int cols = e0 instanceof ListValue ? ((ListValue) e0).size() : 1;
 
 		final StringBuilder sb = new StringBuilder();
 
@@ -822,10 +823,11 @@ public class MyList extends ValidExpression
 		}
 		sb.append("}");
 		for (int i = 0; i < size(); i++) {
-			final MyList geo = (MyList) listElements.get(i).unwrap();
-			for (int j = 0; j < geo.size(); j++) {
-				sb.append(geo.getListElement(j).unwrap().toLaTeXString(true, tpl));
-				if (j < (geo.size() - 1)) {
+			// we can assume elements are ListValues because of isMatrix check
+			final ListValue row = (ListValue) listElements.get(i).unwrap();
+			for (int j = 0; j < row.size(); j++) {
+				sb.append(row.getListElement(j).unwrap().toLaTeXString(true, tpl));
+				if (j < (row.size() - 1)) {
 					sb.append("&");
 				}
 			}

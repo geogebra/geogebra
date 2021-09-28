@@ -1,5 +1,5 @@
-@import 'colors';
-@import 'z-index';
+@use 'colors';
+@use 'z-index';
 
 $tab-anim: 200ms ease;
 $tab-transition: opacity $tab-anim;
@@ -12,7 +12,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 	.gwt-ToggleButton.flatButton.menu {
 		margin-left: 18px;
 		&:focus {
-			outline: $focus-black 5px auto;
+			outline: colors.$focus-black 5px auto;
 		}
 	}
 	&.small .gwt-ToggleButton.flatButton.menu.landscapeMenuBtn {
@@ -36,13 +36,13 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 	.toolbar {
 		overflow: hidden;
 		z-index: 2;
-		background: $white;
+		background: colors.$white;
 
 		.header {
 			z-index: 5; /* above AV input (4) */
-			background-color: $white;
+			background-color: colors.$white;
 			.flatButton:focus {
-				outline: $focus-black 5px auto;
+				outline: colors.$focus-black 5px auto;
 			}
 
 			.center {
@@ -58,15 +58,15 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 			}
 
 			&.examOk {
-				background-color: $teal-default;
+				background-color: colors.$teal-default;
 			}
 
 			&.examCheat {
-				background-color: $exam-red;
+				background-color: colors.$exam-red;
 			}
 
 			&.examLock {
-				background-color: $exam-lock;
+				background-color: colors.$exam-lock;
 			}
 		}
 
@@ -95,7 +95,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 
 		.examOk, .examCheat, .examLock {
 			.gwt-Label {
-				color: $white;
+				color: colors.$white;
 			}
 		}
 
@@ -165,7 +165,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 			    line-height: 24px;
 			    font-size: 100%;
                 margin: 8px 0px;
-                color: $text-primary;
+                color: colors.$text-primary;
 			}
 
 			.categoryPanel {
@@ -177,8 +177,8 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				position: relative;
 				display: inline-block;
 				border-radius: 5px;
-				border: 1px solid $tool-border;
-				background-color: $white;
+				border: 1px solid colors.$tool-border;
+				background-color: colors.$white;
 				padding: 3px;
 				margin: 3px;
 				width: 32px;
@@ -191,14 +191,14 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 
 			.button[selected=true] {
 				padding: 2px;
-				border: 2px solid $purple-default;
+				border: 2px solid colors.$purple-default;
 			}
 
 			.button[selected=false] {
-				border: 1px solid $tool-border;
+				border: 1px solid colors.$tool-border;
 
 				&:hover, &:focus {
-					border: 1px solid $purple-default;
+					border: 1px solid colors.$purple-default;
 				}
 			}
 
@@ -212,7 +212,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
                 }
 
 				&[selected=true] .gwt-Label {
-                    color: $purple-dark;
+                    color: colors.$purple-dark;
                     font-weight: 600;
 				}
 			}
@@ -221,7 +221,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				border-radius: 2px;
 				font-size: 90%;
 				min-width: 64px;
-				color: $teal-default;
+				color: colors.$teal-default;
 				text-transform: uppercase;
 				text-align: center;
 				float: left;
@@ -242,8 +242,8 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				}
 
 				&:hover {
-					background-color: $black-10;
-					color: $teal-dark;
+					background-color: colors.$black-10;
+					color: colors.$teal-dark;
 				}
 			}
 		}
@@ -258,7 +258,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				border-radius: 50%;
 				width: 48px;
 				height: 48px;
-				background: $purple-default;
+				background: colors.$purple-default;
 				box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
 				transition: background-color 150ms ease 0ms;
 
@@ -268,7 +268,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				}
 
 				&:hover, &:focus {
-					background: $purple-dark;
+					background: colors.$purple-dark;
 				}
 			}
 
@@ -305,7 +305,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 				}
 
 				&:hover, &:focus {
-					background-color: $selected-menuitem-background;
+					background-color: colors.$selected-menuitem-background;
 
 					img {
 						opacity: 0;
@@ -352,7 +352,7 @@ $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 		}
 		.algebra {
 			position: absolute;
-			background-color: $white;
+			background-color: colors.$white;
 		}
 
 		.tools {

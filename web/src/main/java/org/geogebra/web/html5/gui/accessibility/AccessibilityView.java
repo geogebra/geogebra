@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -320,5 +321,17 @@ public class AccessibilityView implements View {
 				((AccessibleDropDown) widget).close();
 			}
 		}
+	}
+
+	/**
+	 * @param geo element
+	 * @return caption or name in screen readable format
+	 */
+	public String getCaption(GeoElement geo) {
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(app.getLocalization());
+		if (!geo.addAuralCaption(sb)) {
+			geo.addAuralLabel(sb);
+		}
+		return sb.toString();
 	}
 }

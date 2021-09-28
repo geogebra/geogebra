@@ -8,12 +8,12 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
-import org.gwtproject.timer.client.Timer;
 
 import elemental2.core.ArrayBuffer;
 import elemental2.core.Global;
 import elemental2.core.JsArray;
 import elemental2.core.Uint8Array;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.XMLHttpRequest;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -72,13 +72,15 @@ public class ViewW {
 	}
 
 	/**
+	 * Load base64 asynchronously: if images are present, asynchronous behavior is triggered by
+	 * image loading, otherwise by setTimeout.
 	 * @param base64String
 	 *            base64 encoded, zipped GGB file
 	 */
 	public void processBase64String(String base64String) {
 		String suffix = base64String.substring(base64String.indexOf(',') + 1).trim();
 		Uint8Array binaryData = Base64.base64ToBytes(suffix);
-		populateArchiveContent(binaryData);
+		DomGlobal.setTimeout(ignore -> populateArchiveContent(binaryData), 0);
 	}
 
 	/**
@@ -196,14 +198,11 @@ public class ViewW {
 	 *            JS object representing the ZIP file, see getFileJSON in GgbAPI
 	 */
 	public void processJSON(Object zip) {
-		new Timer() {
-			@Override
-			public  void run() {
+		DomGlobal.setTimeout(ignore -> {
 				GgbFile archiveContent = new GgbFile();
 				setFileFromJson(Js.uncheckedCast(zip), archiveContent);
 				maybeLoadFile(archiveContent);
-			}
-		}.schedule(0);
+		}, 0);
 	}
 
 }

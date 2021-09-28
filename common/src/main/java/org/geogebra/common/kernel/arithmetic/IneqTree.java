@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.arithmetic;
 import java.util.Set;
 
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -153,9 +152,9 @@ public class IneqTree {
 	 */
 	public void getZeros(Set<Double> zeros) {
 		if (ineq != null) {
-			GeoPoint[] zeroPoints = ineq.getZeros();
+			double[] zeroPoints = ineq.getZeros();
 			for (int i = 0; i < zeroPoints.length; i++) {
-				zeros.add(zeroPoints[i].getX());
+				zeros.add(zeroPoints[i]);
 			}
 		}
 		if (left != null) {

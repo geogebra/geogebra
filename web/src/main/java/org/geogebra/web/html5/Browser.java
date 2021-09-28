@@ -54,8 +54,9 @@ public class Browser {
 	 * @return whether external CAS is set up and working
 	 */
 	public static boolean externalCAS() {
-		return "function".equals(Js.typeof(GeoGebraGlobal.evalGeoGebraCASExternal))
-				&& "2".equals(GeoGebraGlobal.evalGeoGebraCASExternal.apply("1+1"));
+		Function evalFn = GeoGebraGlobal.evalGeoGebraCASExternal;
+		return "function".equals(Js.typeof(evalFn))
+				&& "2".equals(evalFn.call(DomGlobal.window, "1+1"));
 	}
 
 	/**
@@ -74,8 +75,8 @@ public class Browser {
 		return base != null && Js.isTruthy(Js.asPropertyMap(base).get(propertyName));
 	}
 
-	public static boolean supportsPointerEvents() {
-		return hasGlobal("PointerEvent");
+	public static boolean hasDeclaredProperty(Object base, String propertyName) {
+		return base != null && Js.asPropertyMap(base).has(propertyName);
 	}
 
 	/**
@@ -498,39 +499,10 @@ public class Browser {
 	}
 
 	/**
-	 * Register handler for fullscreen event.
-	 * @param callback callback for fullscreen event
-	 */
-	public static native void addFullscreenListener(
-			AsyncOperation<String> callback) /*-{
-		function listen(pfx, eventName) {
-			$doc
-					.addEventListener(
-							eventName,
-							function(e) {
-								var fsElement = $doc[pfx + "FullscreenElement"];
-								// mozFullScreen still needed for FF60 ESR
-								var fsState = (fsElement
-										|| $doc.fullscreenElement || $doc.mozFullScreen) ? "true"
-										: "false";
-								callback.@org.geogebra.common.util.AsyncOperation::callback(*)(fsState);
-							});
-		}
-
-		if (typeof document.onfullscreenchange === "undefined") {
-			listen("webkit", "webkitfullscreenchange");
-			listen("ms", "MSFullscreenChange");
-			listen("moz", "mozfullscreenchange");
-		} else {
-			listen("", "fullscreenchange");
-		}
-	}-*/;
-
-	/**
 	 * @return event name for fullscreen event.
 	 */
 	public static String getFullscreenEventName() {
-		if (!hasProperty(DomGlobal.document, "onfullscreenchange")) {
+		if (!hasDeclaredProperty(DomGlobal.document, "onfullscreenchange")) {
 			return "webkitfullscreenchange";
 		}
 		return "fullscreenchange";

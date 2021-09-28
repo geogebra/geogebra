@@ -167,6 +167,9 @@ public class MoveGeos {
 	private static boolean moveMoveableGeo(GeoElement geo1, final Coords rwTransVec,
 			final Coords endPosition,
 			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
+		if (geo1.isLockedPosition()) {
+			return false;
+		}
 		boolean movedGeo = false;
 		GeoElement geo = geo1;
 		// point

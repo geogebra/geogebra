@@ -555,7 +555,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			// AND-547, initial buffer size
 			try {
 				strokedShape = objStroke.createStrokedShape(gp, 800);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				Log.error(
 						"problem creating Curve shape: " + e.getMessage());
 				return false;

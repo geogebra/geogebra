@@ -14,7 +14,7 @@ import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -140,8 +140,7 @@ public class PageListPanel
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
-		CSSAnimation.runOnAnimation(() -> showPlusButton(true),
-				getElement(), "animateIn");
+		CSSEvents.runOnAnimation(() -> showPlusButton(true), getElement(), "animateIn");
 	}
 
 	/**
@@ -155,8 +154,7 @@ public class PageListPanel
 		}
 		showPlusButton(false);
 		addStyleName("animateOut");
-		CSSAnimation.runOnAnimation(this::onClose,
-				getElement(), "animateOut");
+		CSSEvents.runOnAnimation(this::onClose, getElement(), "animateOut");
 		return true;
 	}
 

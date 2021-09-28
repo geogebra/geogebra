@@ -76,6 +76,7 @@ import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -146,7 +147,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
@@ -386,7 +386,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Remove the external GeoGebraHeader element
 	 */
 	public void removeHeader() {
-		Element header = Dom.querySelector("GeoGebraHeader");
+		Element header = Dom.querySelector(".GeoGebraHeader");
 		if (header != null) {
 			header.removeFromParent();
 			getAppletParameters().setAttribute("marginTop", "0");
@@ -428,7 +428,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void resetUniqueId() {
-		uniqueId = UUIDW.randomUUID().toString();
+		uniqueId = UUIDW.generateUUIDString();
 	}
 
 	/**
@@ -1479,11 +1479,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 *            this method is called by scriptmanager after ggbOnInit
 	 */
-	public static native void appletOnLoad(String articleid) /*-{
-		if (typeof $wnd.ggbAppletOnLoad === "function") {
-			$wnd.ggbAppletOnLoad(articleid);
+	public static void appletOnLoad(String articleid) {
+		if (GeoGebraGlobal.getGgbAppletOnLoad() != null) {
+			GeoGebraGlobal.getGgbAppletOnLoad().accept(articleid);
 		}
-	}-*/;
+	}
 
 	/**
 	 * Get a pane for showing messages
@@ -1944,7 +1944,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	protected void translateHeader() {
-		Element header = Dom.querySelector("GeoGebraHeader");
+		Element header = Dom.querySelector(".GeoGebraHeader");
 		if (header != null) {
 			UserPreferredLanguage.translate(this, header);
 		}
@@ -2630,13 +2630,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * hide the on-screen keyboard (if it is visible)
-	 */
-	public void hideKeyboard() {
-		// Overwritten in subclass - nothing to do here
-	}
-
-	/**
 	 * @return whether app is offline
 	 */
 	public boolean isOffline() {
@@ -3097,23 +3090,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 		});
 	}
-
-	public static native TextAreaElement getHiddenTextArea() /*-{
-		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteTextArea');
-		if (!hiddenTextArea) {
-			hiddenTextArea = $doc.createElement("textarea");
-			hiddenTextArea.id = 'hiddenCopyPasteTextArea';
-			hiddenTextArea.style.position = 'absolute';
-			hiddenTextArea.style.width = '10px';
-			hiddenTextArea.style.height = '10px';
-			hiddenTextArea.style.zIndex = '100';
-			hiddenTextArea.style.left = '-1000px';
-			hiddenTextArea.style.top = '0px';
-			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
-		}
-		//hiddenTextArea.value = '';
-		return hiddenTextArea;
-	}-*/;
 
 	/**
 	 * Toggle menu visibility
