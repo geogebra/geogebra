@@ -31,6 +31,8 @@ pipeline {
     stages {
         stage('build') {
             steps {
+            	milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID) - 1
+                milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID)
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
                 sh label: 'build web', script: './gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
