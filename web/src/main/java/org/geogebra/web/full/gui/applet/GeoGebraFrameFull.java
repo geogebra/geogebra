@@ -269,7 +269,7 @@ public class GeoGebraFrameFull
 				getGuiManager().getLayout().getDockManager()
 						.adjustViews(true);
 			}
-		} else {
+		} else if (keyboardShowing) {
 			showZoomPanel(true);
 			keyboardState = KeyboardState.ANIMATING_OUT;
 			app.persistWidthAndHeight();

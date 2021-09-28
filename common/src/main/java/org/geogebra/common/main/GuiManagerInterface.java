@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -44,7 +45,7 @@ import org.geogebra.common.util.AsyncOperation;
  *
  */
 
-public interface GuiManagerInterface {
+public interface GuiManagerInterface extends SettingListener {
 
 	enum Help {
 		COMMAND, TOOL, GENERIC

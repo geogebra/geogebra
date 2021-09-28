@@ -144,6 +144,14 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
+	public boolean isFixed(String objName) {
+		return	ggbAPI.isFixed(objName + "");
+	}
+
+	public boolean isSelectionAllowed(String objName) {
+		return	ggbAPI.isSelectionAllowed(objName + "");
+	}
+
 	public void setOnTheFlyPointCreationActive(Object flag) {
 		ggbAPI.setOnTheFlyPointCreationActive(Js.isTruthy(flag));
 	}
@@ -574,12 +582,12 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.openMaterial(material + "");
 	}
 
-	public void undo(Object repaint) {
-		ggbAPI.undo(Js.isTruthy(repaint));
+	public void undo() {
+		ggbAPI.undo();
 	}
 
-	public void redo(Object repaint) {
-		ggbAPI.redo(Js.isTruthy(repaint));
+	public void redo() {
+		ggbAPI.redo();
 	}
 
 	public void newConstruction() {

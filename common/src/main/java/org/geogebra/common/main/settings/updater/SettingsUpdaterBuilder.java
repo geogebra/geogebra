@@ -32,17 +32,12 @@ public class SettingsUpdaterBuilder {
 		prototype.setAppConfig(app.getConfig());
 		prototype.setKernel(app.getKernel());
 		prototype.setFontSettingsUpdater(getFontSettingsUpdater());
-		prototype.setLabelSettingsUpdater(newLabelSettingsUpdater());
 		return prototype;
 	}
 
 	private FontSettingsUpdater getFontSettingsUpdater() {
 		return fontSettingsUpdater == null ? new FontSettingsUpdater(app)
 				: fontSettingsUpdater;
-	}
-
-	private LabelSettingsUpdater newLabelSettingsUpdater() {
-		return new LabelSettingsUpdater(app);
 	}
 
 	/**

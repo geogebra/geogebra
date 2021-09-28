@@ -26,7 +26,7 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public boolean focusInput(boolean force) {
+	public boolean focusInput(boolean force, boolean forceFade) {
 		return false;
 	}
 

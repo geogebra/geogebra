@@ -557,7 +557,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void updateFont(Widget w) {
-		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
+		w.getElement().getStyle().setFontSize(app.getFontSize(), Unit.PX);
 	}
 
 	protected void styleContentPanel() {
@@ -701,7 +701,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *         than app.getFontSize(), but +3 looked a bit too big
 	 */
 	protected int getFontSize() {
-		return app.getFontSizeWeb() + 1;
+		return app.getFontSize() + 1;
 	}
 
 	protected void updateColor(Widget w) {

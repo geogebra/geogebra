@@ -1186,9 +1186,9 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	@Override
-	public boolean focusInput(boolean force) {
+	public boolean focusInput(boolean force, boolean forceFade) {
 		if (force) {
-			openAlgebra(true);
+			openAlgebra(forceFade);
 		}
 		return isOpen() && isAlgebraViewActive()
 				&& tabAlgebra.focusInput();
@@ -1401,6 +1401,10 @@ public class ToolbarPanel extends FlowPanel
 		 * Called when tab is activated.
 		 */
 		protected abstract void onActive();
+
+		public boolean isActive() {
+			return getElement().hasClassName("tab");
+		}
 	}
 
 	public void setAVIconNonSelect(boolean exam) {
