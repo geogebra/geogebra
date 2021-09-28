@@ -51,7 +51,7 @@ public class IntervalRootTest {
 
 	@Test
 	public void testNthRootWithInterval() {
-		assertEquals(empty(), interval(-27, -8).nRoot(interval(3, 3)));
+		assertEquals(interval(-3, -2), interval(-27, -8).nRoot(interval(3, 3)));
 		assertEquals(empty(), interval(-27, -8).nRoot(interval(4, 3)));
 
 	}

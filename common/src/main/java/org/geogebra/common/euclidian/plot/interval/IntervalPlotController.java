@@ -54,4 +54,5 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 	 */
 	public void detach() {
 		euclidianController.removeZoomerAnimationListener(this);
-	}}
+	}
+}

@@ -52,9 +52,16 @@ public class IntervalRoot {
 		if (interval.isEmpty()) {
 			return interval;
 		}
-
 		double power = 1 / n;
+		if (isPositiveOdd(n)) {
+			return new Interval(oddFractionPower(interval.getLow(), power),
+					oddFractionPower(interval.getHigh(), power));
+		}
 		return interval.pow(power);
+	}
+
+	private double oddFractionPower(double x, double power) {
+		return Math.signum(x) * Math.pow(Math.abs(x), power);
 	}
 
 	private boolean isPositiveOdd(double n) {
