@@ -6,15 +6,14 @@ import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.javax.swing.Positioner;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 import elemental2.dom.DomGlobal;
 
 public class ViewTextFieldW extends ViewTextField {
 
-	private Positioner positioner;
 	private SimplePanel box;
 	private AutoCompleteTextFieldW textField;
 	private final EuclidianViewWInterface euclidianView;
@@ -34,7 +33,6 @@ public class ViewTextFieldW extends ViewTextField {
 		if (box == null) {
 			box = new SimplePanel();
 			box.addStyleName("gbox");
-			positioner = new Positioner(euclidianView.getEuclidianController(), box);
 			box.setWidget(textField);
 		}
 	}
@@ -55,7 +53,8 @@ public class ViewTextFieldW extends ViewTextField {
 	@Override
 	public void setBoxBounds(GRectangle bounds) {
 		ensureBoxExists();
-		positioner.setPosition(bounds.getMinX(), bounds.getMinY());
+		((AbsolutePanel) box.getParent()).setWidgetPosition(box,
+				(int) bounds.getMinX(), (int) bounds.getMinY());
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class ViewTextFieldW extends ViewTextField {
 			textField.setAutoComplete(false);
 			ensureBoxExists();
 			box.setWidget(textField);
-			euclidianView.add(box, positioner.getPosition());
+			euclidianView.add(box);
 		} else {
 			textField.setDrawTextField(drawInputBox);
 		}
@@ -82,7 +81,6 @@ public class ViewTextFieldW extends ViewTextField {
 	@Override
 	public void remove() {
 		textField = null;
-		positioner = null;
 		box = null;
 	}
 }

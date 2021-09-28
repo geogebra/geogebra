@@ -1518,33 +1518,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
-	public void undo(boolean repaint) {
-		app.getKernel().undo();
-		if (repaint) {
-			app.doRepaintViews();
-		}
-	}
-
-	/**
-	 * Undo without forced repaint
-	 */
 	public void undo() {
-		undo(false);
-	}
-
-	/**
-	 * Redo without forced repaint
-	 */
-	public void redo() {
-		redo(false);
+		app.getKernel().undo();
 	}
 
 	@Override
-	public void redo(boolean repaint) {
+	public void redo() {
 		app.getKernel().redo();
-		if (repaint) {
-			app.doRepaintViews();
-		}
 	}
 
 	/**
@@ -2412,5 +2392,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo != null) {
 			((GeoInline) geo).setLockedForMultiuser(false);
 		}
+	}
+
+	@Override
+	public boolean isFixed(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		return geo != null && geo.isLocked();
+	}
+
+	@Override
+	public boolean isSelectionAllowed(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		return geo != null && geo.isSelectionAllowed(app.getActiveEuclidianView());
 	}
 }

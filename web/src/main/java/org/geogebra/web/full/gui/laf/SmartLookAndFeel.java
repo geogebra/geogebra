@@ -3,21 +3,12 @@ package org.geogebra.web.full.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.full.euclidian.SmartTouchHandler;
 import org.geogebra.web.full.gui.browser.EmbeddedMaterialElement;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.browser.SmartSignInController;
-import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
-
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author geogebra
@@ -81,17 +72,7 @@ public class SmartLookAndFeel extends GLookAndFeel {
     public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
 	    return new EmbeddedMaterialElement(m, app, isLocal);
     }
-	
-	@Override
-    public boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller) {
-		SmartTouchHandler sh = new SmartTouchHandler(euclidiancontroller);
-		evPanel.addBitlessDomHandler(sh, TouchStartEvent.getType());
-		evPanel.addBitlessDomHandler(sh, TouchEndEvent.getType());
-		evPanel.addBitlessDomHandler(sh, TouchMoveEvent.getType());
-		evPanel.addBitlessDomHandler(CancelEvents.INSTANCE, TouchCancelEvent.getType());
-		return true;
-	}
-	
+
 	@Override
     public boolean autosaveSupported() {
 	    return false;

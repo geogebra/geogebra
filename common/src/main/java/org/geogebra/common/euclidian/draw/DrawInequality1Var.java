@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -250,15 +249,15 @@ public class DrawInequality1Var extends SetDrawable {
 	public void update() {
 		// get x-coords of the lines
 		if (varIsY) {
-			GeoPoint[] roots = ineq.getZeros();
+			double[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = view.getHeight() + 10;
 			int numOfX = 1;
 			for (int i = 0; i < roots.length; i++) {
-				if (roots[i].x < view.toRealWorldCoordY(-10)
-						&& roots[i].x > view
+				if (roots[i] < view.toRealWorldCoordY(-10)
+						&& roots[i] > view
 								.toRealWorldCoordY(view.getHeight() + 10)) {
-					x[numOfX++] = view.toScreenCoordY(roots[i].x);
+					x[numOfX++] = view.toScreenCoordY(roots[i]);
 				}
 			}
 			x[numOfX++] = -10;
@@ -292,15 +291,15 @@ public class DrawInequality1Var extends SetDrawable {
 			}
 			setShape(a);
 		} else {
-			GeoPoint[] roots = ineq.getZeros();
+			double[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = -10;
 			int numOfX = 1;
 			for (int i = 0; i < roots.length; i++) {
-				if (roots[i].x > view.toRealWorldCoordX(-10)
-						&& roots[i].x < view
+				if (roots[i] > view.toRealWorldCoordX(-10)
+						&& roots[i] < view
 								.toRealWorldCoordX(view.getWidth() + 10)) {
-					x[numOfX++] = view.toScreenCoordX(roots[i].x);
+					x[numOfX++] = view.toScreenCoordX(roots[i]);
 				}
 			}
 			x[numOfX++] = view.getWidth() + 10;

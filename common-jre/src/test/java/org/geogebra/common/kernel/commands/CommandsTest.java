@@ -3545,6 +3545,8 @@ public class CommandsTest {
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
+		t("Sequence(Angle((0,1,0),(0,0,0),(1,0,0),Vector((0,0,1))),k,1,2)",
+				"{270*" + DEGREE_STRING + ", 270*" + DEGREE_STRING + "}");
 	}
 
 	@Test

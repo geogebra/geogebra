@@ -152,7 +152,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
 		if (evaluatable == values) {
 			for (TableValuesColumn column : columns) {
-				column.invalidateValues(values.size());
+				GeoEvaluatable e = column.getEvaluatable();
+				int columnSize = e instanceof GeoList ? ((GeoList) e).size() : 0;
+				column.invalidateValues(Math.max(columnSize, values.size()));
 			}
 			notifyDatasetChanged();
 		} else {
@@ -250,19 +252,13 @@ class SimpleTableValuesModel implements TableValuesModel {
 		initializeModel();
 	}
 
-	/**
-	 * Starts batch update.
-	 * This batch update call cannot be nested.
-	 */
-	void startBatchUpdate() {
+	@Override
+	public void startBatchUpdate() {
 		batchUpdate = true;
 	}
 
-	/**
-	 * Ends the batch update.
-	 * Calls {@link TableValuesListener#notifyDatasetChanged(TableValuesModel)}.
-	 */
-	void endBatchUpdate() {
+	@Override
+	public void endBatchUpdate() {
 		batchUpdate = false;
 		notifyDatasetChanged();
 	}

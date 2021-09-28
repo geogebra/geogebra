@@ -1195,13 +1195,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
 			for (int i = 0; i < ineqCount; i++) {
-				for (GeoPoint point : ineqs.get(i).getZeros()) {
-					if (Math.abs(point.getX() - px) < bestDist) {
-						bestDist = Math.abs(point.getX() - px);
+				for (double point : ineqs.get(i).getZeros()) {
+					if (Math.abs(point - px) < bestDist) {
+						bestDist = Math.abs(point - px);
 						if (yfun) {
-							P.setY(point.getX());
+							P.setY(point);
 						} else {
-							P.setX(point.getX());
+							P.setX(point);
 						}
 					}
 				}

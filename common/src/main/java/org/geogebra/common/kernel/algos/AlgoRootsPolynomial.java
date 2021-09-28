@@ -135,37 +135,17 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	/**
+	 * Helper constructor for inequality zeros: does not create points or add algo to construction
 	 * @param f
 	 *            function
 	 */
 	public AlgoRootsPolynomial(GeoFunction f) {
-		super(f.cons);
+		super(f.cons, false);
 		this.f = f;
-
 		tempPoint = new GeoPoint(cons);
-
 		// set mode
 		mode = MULTIPLE_ROOTS;
-
 		eqnSolver = cons.getKernel().getEquationSolver();
-
-		// make sure root points is not null
-		int number = labels == null ? 1 : Math.max(1, labels.length);
-		rootPoints = new GeoPoint[0];
-		initRootPoints(number);
-		initLabels = true;
-
-		setInputOutput(); // for AlgoElement
-		compute();
-
-		// show at least one root point in algebra view
-		// this is enforced here:
-		if (!rootPoints[0].isDefined()) {
-			rootPoints[0].setCoords(0, 0, 1);
-			rootPoints[0].update();
-			rootPoints[0].setUndefined();
-			rootPoints[0].update();
-		}
 	}
 
 	/**
@@ -613,10 +593,16 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-30
-		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("RootOfA", "Root of %0",
 				f.getLabel(tpl));
 	}
 
+	/**
+	 * @return all polynomial roots
+	 */
+	public double[] getRealRoots() {
+		double[] ret = new double[solution.curRealRoots];
+		System.arraycopy(solution.curRoots, 0, ret, 0, solution.curRealRoots);
+		return ret;
+	}
 }

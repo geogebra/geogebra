@@ -1,7 +1,8 @@
 package org.geogebra.common.properties.impl.general;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.FontSettings;
+import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 import org.geogebra.common.util.Util;
 
@@ -10,17 +11,20 @@ import org.geogebra.common.util.Util;
  */
 public class FontSizeProperty extends AbstractEnumerableProperty {
 
-    private App app;
+    private FontSettings fontSettings;
+    private FontSettingsUpdater fontSettingsUpdater;
 
     /**
-     * Constructs a font size property.
-     *
-     * @param app          app
      * @param localization localization
+     * @param fontSettings font settings
+     * @param fontSettingsUpdater font settings updater
      */
-    public FontSizeProperty(App app, Localization localization) {
+    public FontSizeProperty(
+            Localization localization,
+            FontSettings fontSettings, FontSettingsUpdater fontSettingsUpdater) {
         super(localization, "FontSize");
-        this.app = app;
+        this.fontSettings = fontSettings;
+        this.fontSettingsUpdater = fontSettingsUpdater;
 
         setupValues(localization);
     }
@@ -37,12 +41,12 @@ public class FontSizeProperty extends AbstractEnumerableProperty {
     @Override
     protected void setValueSafe(String value, int index) {
         int fontSize = Util.menuFontSizes(index);
-        app.setFontSize(fontSize, true);
+        fontSettingsUpdater.setAppFontSizeAndUpdateViews(fontSize);
     }
 
     @Override
     public int getIndex() {
-        int fontSize = app.getFontSize();
+        int fontSize = fontSettings.getAppFontSize();
         for (int i = 0; i < Util.menuFontSizesLength(); i++) {
             if (Util.menuFontSizes(i) == fontSize) {
                 return i;

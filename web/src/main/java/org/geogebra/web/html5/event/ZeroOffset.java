@@ -21,28 +21,8 @@ public class ZeroOffset implements HasOffsets {
 	}
 
 	@Override
-	public int mouseEventX(int clientX) {
-		return clientX;
-	}
-
-	@Override
-	public int mouseEventY(int clientY) {
-		return clientY;
-	}
-
-	@Override
 	public int getEvID() {
 		return 0;
-	}
-
-	@Override
-	public int touchEventX(int clientX) {
-		return clientX;
-	}
-
-	@Override
-	public int touchEventY(int clientY) {
-		return clientY;
 	}
 
 	@Override

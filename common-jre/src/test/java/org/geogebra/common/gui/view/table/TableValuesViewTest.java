@@ -269,8 +269,10 @@ public class TableValuesViewTest extends BaseUnitTest {
 	@Test
 	public void testListeners() {
 		model.registerListener(listener);
+		int datasetChangedCount = 0;
+
 		setValuesSafe(0, 2, 1);
-		verify(listener).notifyDatasetChanged(model);
+		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
 		GeoLine[] lines = createLines(2);
 		showColumn(lines[0]);
 		verify(listener).notifyColumnAdded(model, lines[0], 1);
@@ -284,13 +286,10 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener).notifyColumnChanged(model, lines[0], 1);
 
 		view.clearView();
-		verify(listener, times(2)).notifyDatasetChanged(model);
+		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
 
-		view.getProcessor().processInput("10", view.getValues(), 1);
-		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 1);
-
-		view.getProcessor().processInput("10", view.getValues(), 2);
-		verify(listener).notifyCellChanged(view.getTableValuesModel(), view.getValues(), 0, 2);
+		view.getProcessor().processInput("10", view.getValues(), 0);
+		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
 	}
 
 	@Test
