@@ -15,6 +15,9 @@ public class AnalyticsW extends Analytics {
 
 	private FirebaseAnalytics analytics;
 
+	/**
+	 * Creates an Analytics instance for the web platform.
+	 */
 	public AnalyticsW() {
 		try {
 			Firebase firebase = Firebase.get();
