@@ -154,7 +154,7 @@ public class CASgiacW extends CASgiac {
 	}
 
 	private void setUpInitCAS() {
-		if (Js.isFalsy(GeoGebraGlobal.__ggb__giac)) {
+		if (!"object".equals(Js.typeof(GeoGebraGlobal.__ggb__giac))) {
 			GeoGebraGlobal.__ggb__giac = new GiacNative();
 		}
 
