@@ -63,10 +63,7 @@ public class TableEditor {
 		}
 		// edited an empty column
 		if (evaluatable == null && !mathTextField.getText().isEmpty() && editRow >= 0) {
-			GeoList list = new GeoList(app.getKernel().getConstruction());
-			list.setTableColumn(editColumn);
-			table.view.add(list);
-			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+			table.view.getProcessor().processInput(mathTextField.getText(), null, editRow);
 		}
 		editRow = -1;
 		editColumn = -1;
