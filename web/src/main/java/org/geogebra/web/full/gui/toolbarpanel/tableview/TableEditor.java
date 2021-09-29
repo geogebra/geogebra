@@ -62,11 +62,15 @@ public class TableEditor {
 			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		}
 		// edited an empty column
-		if (evaluatable == null && !mathTextField.getText().isEmpty() && editRow >= 0) {
+		if (isNewColumnEdited(evaluatable)) {
 			table.view.getProcessor().processInput(mathTextField.getText(), null, editRow);
 		}
 		editRow = -1;
 		editColumn = -1;
+	}
+
+	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
+		return evaluatable == null && !mathTextField.getText().isEmpty() && editRow >= 0;
 	}
 
 	private void ensureMathTextFieldExists() {
