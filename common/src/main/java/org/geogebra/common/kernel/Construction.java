@@ -2725,6 +2725,17 @@ public class Construction {
 			pref = "a";
 		}
 
+		return buildIndexedLabel(pref, includeDummies);
+	}
+
+	/**
+	 * Please note that we do not check here for valid label
+	 * (see {@link #getIndexLabel(String, boolean)})
+	 * @param pref - prefix
+	 * @param includeDummies - to include cas dummy variables
+	 * @return indexed label, e.g. "y_{2}"
+	 */
+	public String buildIndexedLabel(String pref, boolean includeDummies) {
 		String longIndexLabel;
 		boolean freeLabelFound;
 		int n = 0;

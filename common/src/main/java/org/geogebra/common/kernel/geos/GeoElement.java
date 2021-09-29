@@ -2872,7 +2872,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 			String prefix = list.isMatrix() ? "m" : "l";
 			return list.getTableColumn() == -1 ? defaultNumberedLabel(prefix)
-					: getIndexLabel("y");
+					: cons.buildIndexedLabel("y", false);
 		} else {
 			chars = LabelType.lowerCaseLabels;
 		}
