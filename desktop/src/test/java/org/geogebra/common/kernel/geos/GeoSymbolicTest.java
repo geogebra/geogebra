@@ -1195,6 +1195,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNoToggleButtonForSymbolicUndefined() {
+		GeoSymbolic solve = add("Solve(0.05>=(1-x)^50)");
+		assertThat(AlgebraItem.isSymbolicDiffers(solve), is(false));
+	}
+
+	@Test
 	public void testToggleSymbolicNumeric() {
 		GeoSymbolic solveX = add("Solve(2x=5)");
 		GeoSymbolic solveA = add("NSolve(a*a=5)");
@@ -1603,5 +1609,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getFunctionVariables().length, is(2));
 		assertThat(symbolic.getFunctionVariables()[0].getSetVarString(), is("x"));
 		assertThat(symbolic.getFunctionVariables()[1].getSetVarString(), is("a"));
+	}
+
+	@Test
+	public void numericAlternativeCommand() {
+		add("f(x) = -x^2 * e^(-x)");
+		add("g(x) = 1 + (f'(x))^2");
+		t("Integral(sqrt(g),0,20)", "20.12144888423");
 	}
 }

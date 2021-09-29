@@ -107,7 +107,6 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
-import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.main.undo.UndoManager;
@@ -1946,53 +1945,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
     }
 
 	/**
-	 * @deprecated LabelSettings.getLabelVisibility should be used instead.
-	 *
 	 * Returns labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 *
 	 * @return labeling style for new objects
 	 */
-	@Deprecated
 	public int getLabelingStyle() {
 		return getSettings().getLabelSettings().getLabelVisibility().getValue();
 	}
 
 	/**
-	 * @deprecated LabelSettingsUpdater.setLabelVisibility should be used instead.
-	 *
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
 	 * LABEL_VISIBLE_AUTOMATIC)
 	 *
-	 * @param labelingStyle
+	 * @param labelVisibility
 	 *            labeling style for new objects
 	 */
-	@Deprecated
-	public void setLabelingStyle(int labelingStyle) {
-		LabelSettingsUpdater labelSettingsUpdater = getSettingsUpdater().getLabelSettingsUpdater();
-		LabelVisibility labelVisibility = LabelVisibility.get(labelingStyle);
-		labelSettingsUpdater.setLabelVisibility(labelVisibility);
-	}
-
-	/**
-	 * @deprecated LabelSettings.getLabelVisibilityForMenu should be used instead.
-	 *
-	 * @return labeling style for new objects for menu
-	 */
-	@Deprecated
-	public int getLabelingStyleForMenu() {
-		return getSettings().getLabelSettings().getLabelVisibilityForMenu().getValue();
-	}
-
-	/**
-	 * @deprecated LabelSettingsUpdater.resetLabelVisibilityForMenu should be used instead.
-	 *
-	 * set the labeling style not selected, i.e. at least one default geo has
-	 * specific labeling style
-	 */
-	@Deprecated
-	public void setLabelingStyleIsNotSelected() {
-		getSettingsUpdater().getLabelSettingsUpdater().resetLabelVisibilityForMenu();
+	public void setLabelingStyle(int labelVisibility) {
+		getSettings().getLabelSettings().setLabelVisibility(LabelVisibility.get(labelVisibility));
 	}
 
 	/**
@@ -2514,27 +2484,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @deprecated FontSettings.getAppFontSize should be used instead.
-	 *
 	 * @return general font size (used for EV and GUI)
 	 */
-	@Deprecated
 	public int getFontSize() {
 		return settings.getFontSettings().getAppFontSize();
 	}
 
 	/**
-	 * @deprecated #FontSettings.getAlgebraFontSize should be used instead.
-	 * @return the font size for the Algebra View.
-	 */
-	@Deprecated
-	public int getAlgebraFontSize() {
-		return getSettings().getFontSettings().getAlgebraFontSize();
-	}
-
-	/**
-	 * @deprecated FontSettingsUpdater.setAppFontSizeAndUpdateViews or
-	 *          FontSettingsUpdater.setAppFontSize should be used instead.
 	 * Changes font size and possibly resets fonts
 	 *
 	 * @param points
@@ -2542,7 +2498,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param update
 	 *            whether fonts should be reset
 	 */
-	@Deprecated
 	public void setFontSize(int points, boolean update) {
 		FontSettingsUpdater fontSettingsUpdater = getSettingsUpdater().getFontSettingsUpdater();
 		if (update) {
@@ -2553,33 +2508,17 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @deprecated FontSettingsUpdater.resetFonts should be used instead.
-	 *
-	 * Update font sizes of all components to match current GUI font size
-	 */
-	@Deprecated
-	final public void resetFonts() {
-		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-	}
-
-	/**
-	 * @deprecated FontSettings.getGuiFontSizeSafe should be used instead.
-	 *
 	 * @return font size for GUI; if not specified, general font size is
 	 *         returned
 	 */
-	@Deprecated
 	public int getGUIFontSize() {
 		return getSettings().getFontSettings().getGuiFontSizeSafe();
 	}
 
 	/**
-	 * @deprecated FontSettingsUpdater.setGUIFontSizeAndUpdate should be used instead.
-	 *
 	 * @param size
 	 *            GUI font size
 	 */
-	@Deprecated
 	public void setGUIFontSize(int size) {
 		getSettingsUpdater().getFontSettingsUpdater().setGUIFontSizeAndUpdate(size);
 	}
@@ -2592,8 +2531,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public abstract FontManager getFontManager();
 
 	/**
-	 * @deprecated FontCreator.newSansSerifFont should e used instead.
-	 *
 	 * Returns a font that can display testString in plain sans-serif font and
 	 * current font size.
 	 *
@@ -2601,32 +2538,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            test string
 	 * @return font
 	 */
-	@Deprecated
 	public GFont getFontCanDisplay(String testString) {
 		return getFontCreator().newSansSerifFont(testString);
 	}
 
 	/**
-	 * * @deprecated FontCreator.newSansSerifFont should be used instead.
-	 *
-	 * Returns a font that can display testString in given font style,
-	 * sans-serif and current font size.
-	 *
-	 * @param testString
-	 *            test string
-	 * @param fontStyle
-	 *            font style
-	 * @return font
-	 */
-	@Deprecated
-	public GFont getFontCanDisplay(String testString, int fontStyle) {
-		int fontSize = settings.getFontSettings().getAppFontSize();
-		return getFontCreator().newSansSerifFont(testString, fontStyle, fontSize);
-	}
-
-	/**
-	 * @deprecated FontCreator.newSerifFont or FontCreator.newSansSerifFont should be used instead.
-	 *
 	 * Returns a font that can display testString and given font size.
 	 *
 	 * @param testString
@@ -2639,7 +2555,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            font size
 	 * @return font
 	 */
-	@Deprecated
 	public GFont getFontCanDisplay(String testString, boolean serif,
 	                               int fontStyle, int fontSize) {
 		FontCreator fontCreator = getFontCreator();
@@ -4116,15 +4031,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	final public void removeFromViewsForPlane(GeoElement geo) {
 		companion.removeFromViewsForPlane(geo);
-	}
-
-	/**
-	 * @deprecated FontSettings.getAppFontSize should be used instead.
-	 * @return font size on web
-	 */
-	@Deprecated
-	public int getFontSizeWeb() {
-		return getSettings().getFontSettings().getAppFontSize();
 	}
 
 	/**

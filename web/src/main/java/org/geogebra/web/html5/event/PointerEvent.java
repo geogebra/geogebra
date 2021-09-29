@@ -26,7 +26,7 @@ public class PointerEvent extends AbstractEvent {
 
 	private Element relativeElement;
 
-	private GPoint point = new GPoint(0, 0);
+	private GPoint point;
 	private PointerEventType type;
 	private HasOffsets off;
 	private boolean shift;
@@ -38,29 +38,6 @@ public class PointerEvent extends AbstractEvent {
 	private int clickCount = 1;
 	private int evID;
 	private HumanInputEvent<?> nativeEvent;
-
-	private final boolean relative;
-
-	/**
-	 * @param x
-	 *            client x
-	 * @param y
-	 *            client y
-	 * @param type
-	 *            pointer type
-	 * @param off
-	 *            coordinate system
-	 * @param isRelative
-	 *            whether to use relative position
-	 */
-	public PointerEvent(double x, double y, PointerEventType type,
-			HasOffsets off, boolean isRelative) {
-		this.off = off;
-		this.point = new GPoint((int) Math.round(x), (int) Math.round(y));
-		this.type = type;
-		this.evID = off.getEvID();
-		this.relative = isRelative;
-	}
 
 	/**
 	 * @param x
@@ -74,7 +51,10 @@ public class PointerEvent extends AbstractEvent {
 	 */
 	public PointerEvent(double x, double y, PointerEventType type,
 			HasOffsets off) {
-		this(x, y, type, off, type == PointerEventType.MOUSE);
+		this.off = off;
+		this.point = new GPoint((int) Math.round(x), (int) Math.round(y));
+		this.type = type;
+		this.evID = off.getEvID();
 	}
 
 	@Override
@@ -89,18 +69,12 @@ public class PointerEvent extends AbstractEvent {
 
 	@Override
 	public int getX() {
-		if (relative) {
-			return off.mouseEventX(this.point.x);
-		}
-		return off.touchEventX(this.point.x);
+		return this.point.x;
 	}
 
 	@Override
 	public int getY() {
-		if (relative) {
-			return off.mouseEventY(this.point.y);
-		}
-		return off.touchEventY(this.point.y);
+		return this.point.y;
 	}
 
 	@Override

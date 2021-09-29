@@ -49,7 +49,7 @@ public class FixObjectInMultiSelectionTest {
 
 	private static GeoElement createDummyGeo(Construction construction, int number) {
 		GeoElement geo = new GeoPolygon(construction);
-		geo.setLabel(number + "");
+		geo.setLabel("fix" + number);
 		return geo;
 	}
 

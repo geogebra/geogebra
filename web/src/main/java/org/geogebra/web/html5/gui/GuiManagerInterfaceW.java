@@ -207,4 +207,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param show - true if point should be shown, false otherwise
 	 */
 	void showPointsTV(int column, boolean show);
+
+	boolean isAlgebraViewActive();
 }
