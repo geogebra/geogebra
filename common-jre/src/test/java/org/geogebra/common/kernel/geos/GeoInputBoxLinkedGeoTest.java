@@ -487,11 +487,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(A)");
 		add("B=(1,3)");
 		inputBox.updateLinkedGeo("B2");
-		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
-				"(2, 6)");
+		assertThat(lookup("A"), hasValue("(2, 6)"));
 		inputBox.updateLinkedGeo("O");
-		assertEquals(lookup("A").toValueString(StringTemplate.testTemplate),
-				"(?, ?)");
+		assertThat(lookup("A"), hasValue("(?, ?)"));
 	}
 
 	@Test
@@ -519,8 +517,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoElement point = add("A=Point(y=2)");
 		GeoInputBox inputBox = add("InputBox(A)");
 		inputBox.updateLinkedGeo("(3,7)");
-		assertEquals(point.toValueString(StringTemplate.editTemplate),
-				"(3, 2)");
+		assertThat(point, hasValue("(3, 2)"));
 	}
 
 	@Test
@@ -528,8 +525,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoElement point = add("A=PointIn(xx+yy=2)");
 		GeoInputBox inputBox = add("InputBox(A)");
 		inputBox.updateLinkedGeo("(5,-5)");
-		assertEquals(point.toValueString(StringTemplate.editTemplate),
-				"(1, -1)");
+		assertThat(point, hasValue("(1, -1)"));
 	}
 
 	@Test
