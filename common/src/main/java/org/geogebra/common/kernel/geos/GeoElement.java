@@ -2871,7 +2871,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final GeoList list = (GeoList) this;
 
 			String prefix = list.isMatrix() ? "m" : "l";
-			return defaultNumberedLabel(prefix);
+			return list.getTableColumn() == -1 ? defaultNumberedLabel(prefix)
+					: getIndexLabel("y");
 		} else {
 			chars = LabelType.lowerCaseLabels;
 		}
