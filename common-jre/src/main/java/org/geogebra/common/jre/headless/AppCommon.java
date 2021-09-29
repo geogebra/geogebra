@@ -684,11 +684,6 @@ public class AppCommon extends App {
     }
 
 	@Override
-	public MyImage getInternalImageAdapter(String filename, int width, int height) {
-		return null;
-	}
-
-	@Override
     public ScriptManager newScriptManager() {
 		return new ScriptManager(this) {
 
