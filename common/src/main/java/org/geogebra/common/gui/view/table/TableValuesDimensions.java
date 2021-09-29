@@ -19,7 +19,6 @@ public interface TableValuesDimensions {
 	/** Right margin of the cell */
 	int CELL_RIGHT_MARGIN = 28;
 
-
 	/**
 	 * Returns the column width.
 	 * @param column column
