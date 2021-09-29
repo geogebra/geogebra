@@ -1,5 +1,8 @@
 package org.geogebra.common.main.error;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
@@ -8,6 +11,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.debug.Analytics;
 
 /**
  * Helper methods for converting throwables into human readable messages
@@ -91,6 +95,7 @@ public class ErrorHelper {
 	 */
 	public static void handleError(MyError e, String cmd, Localization loc,
 			ErrorHandler handler) {
+		logAnalyticsEvent(e, cmd);
 		if (handler instanceof ErrorLogger) {
 			((ErrorLogger) handler).log(e);
 		} else {
@@ -104,6 +109,17 @@ public class ErrorHelper {
 		} else {
 			handler.showError(e.getLocalizedMessage());
 		}
+	}
+
+	private static void logAnalyticsEvent(MyError error, String input) {
+		if (error.getErrorType() == null) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<>();
+		params.put(Analytics.Param.COMMAND, error.getcommandName());
+		params.put(Analytics.Param.AV_INPUT, input);
+		params.put(Analytics.Param.ERROR_TYPE, error.getErrorType().name());
+		Analytics.logEvent(Analytics.Event.COMMAND_ERROR, params);
 	}
 
 	/**

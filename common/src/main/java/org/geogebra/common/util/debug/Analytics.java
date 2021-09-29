@@ -40,4 +40,20 @@ public abstract class Analytics {
 	 * @param params event parameters
 	 */
 	protected abstract void recordEvent(String name, @Nullable Map<String, Object> params);
+
+	public static class Event {
+		public static final String COMMAND_ERROR = "command_error";
+
+		protected Event() {
+		}
+	}
+
+	public static class Param {
+		public static final String COMMAND = "command";
+		public static final String AV_INPUT = "av_input";
+		public static final String ERROR_TYPE = "error_type";
+
+		protected Param() {
+		}
+	}
 }
