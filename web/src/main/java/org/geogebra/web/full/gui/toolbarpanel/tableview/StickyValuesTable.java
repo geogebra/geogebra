@@ -116,7 +116,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		addMouseOverHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
 			if (el != null && el.hasClassName("errorStyle")) {
-				Label toast = new Label("Use only numbers");
+				Label toast = new Label(app.getLocalization().getMenu("UseNumbersOnly"));
 				toast.addStyleName("errorToast");
 				toast.getElement().setId("errorToastID");
 				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Style.Unit.PX);
