@@ -21,10 +21,12 @@ import org.geogebra.web.html5.util.TestHarness;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -77,7 +79,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 */
 		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			return new SafeHtmlHeader(makeCell(stringHtmlContent));
+			TableCell headerCell = new TableCell(stringHtmlContent);
+			return new SafeHtmlHeader(headerCell.getHTML());
 		}
 	}
 
@@ -110,6 +113,25 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			}
 			return false;
 		});
+		addMouseOverHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
+			if (el != null && el.hasClassName("errorStyle")) {
+				Label toast = new Label(app.getLocalization().getMenu("UseNumbersOnly"));
+				toast.addStyleName("errorToast");
+				toast.getElement().setId("errorToastID");
+				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Style.Unit.PX);
+				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Style.Unit.PX);
+				app.getAppletFrame().add(toast);
+			}
+			return false;
+		});
+		addMouseOutHandler((row, column, evt) -> {
+			Element toast = DOM.getElementById("errorToastID");
+			if (toast != null) {
+				toast.removeFromParent();
+			}
+			return false;
+		});
 	}
 
 	private boolean isColumnEditable(int column) {
@@ -133,8 +155,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private void addEmptyColumn() {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
-
-		getTable().addColumn(col, new SafeHtmlHeader(makeCell("")));
+		TableCell cell = new TableCell("", false);
+		getTable().addColumn(col, new SafeHtmlHeader(cell.getHTML()));
 	}
 
 	@Override
@@ -163,17 +185,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
-	}
-
-	/**
-	 * Makes a cell as SafeHtml.
-	 *
-	 * @param content
-	 *            of the cell.
-	 * @return SafeHtml of the cell.
-	 */
-	static SafeHtml makeCell(String content) {
-		return () -> "<div class=\"content\">" + content + "</div>";
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
@@ -323,13 +334,16 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		@Override
 		public SafeHtml getValue(TVRowData object) {
 			String valStr = col < 0 ? "" : object.getValue(col);
-			return makeCell(valStr);
+			boolean hasError = col >= 0 && object.isCellErroneous(col);
+			TableCell cell = new TableCell(valStr, hasError);
+			return cell.getHTML();
 		}
 
 		@Override
 		public String getCellStyleNames(Cell.Context context, TVRowData object) {
 			return super.getCellStyleNames(context, object)
-					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "");
+					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "")
+					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "");
 		}
 	}
 }
