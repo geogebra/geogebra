@@ -193,16 +193,16 @@ public class BaseUnitTest {
 
 	protected TypeSafeMatcher<GeoElementND> hasValue(String val) {
 		return new TypeSafeMatcher<GeoElementND>() {
-				@Override
-				protected boolean matchesSafely(GeoElementND item) {
-					return val.equals(item.toValueString(StringTemplate.defaultTemplate));
-				}
+			@Override
+			protected boolean matchesSafely(GeoElementND item) {
+				return val.equals(item.toValueString(StringTemplate.defaultTemplate));
+			}
 
-				@Override
-				public void describeTo(Description description) {
-					description.appendText("value " + val);
-				}
-			};
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("value " + val);
+			}
+		};
 	}
 
 	protected void reload() {

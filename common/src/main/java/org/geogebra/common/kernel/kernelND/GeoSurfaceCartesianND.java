@@ -107,7 +107,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	@Override
 	public void setDerivatives() {
-
 		if (fun1 != null || fun == null) {
 			return;
 		}
@@ -137,7 +136,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * set first and second derivatives (if not already done)
 	 */
 	public void setSecondDerivatives() {
-
 		if (fun2 != null) {
 			return;
 		}
@@ -920,9 +918,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
 		}
 		resetDerivatives();
-
-		fun1 = null;
-		fun2 = null;
 
 		startParam = Cloner.clone(geoSurface.startParam);
 		endParam = Cloner.clone(geoSurface.endParam);
