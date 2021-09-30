@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zeroWithNegativeSign;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
@@ -29,6 +31,26 @@ public class IntervalMultiplicativeInverseTest {
 	public void testInverseWithBoundsZeroAndPositive() {
 		assertEquals(interval(RMath.divLow(1, 4), Double.POSITIVE_INFINITY),
 				interval(0, 4).multiplicativeInverse());
+	}
+
+	@Test
+	public void inverseOfInfinityShouldBeZero() {
+		assertEquals(zero(), interval(Double.POSITIVE_INFINITY).multiplicativeInverse());
+		assertEquals(zeroWithNegativeSign(),
+				interval(Double.NEGATIVE_INFINITY).multiplicativeInverse());
+	}
+
+	@Test
+	public void inverseOfInverseOfInfinityShouldBeInfinity() {
+		assertEquals(interval(Double.POSITIVE_INFINITY),
+				interval(Double.POSITIVE_INFINITY).multiplicativeInverse().multiplicativeInverse());
+	}
+
+	@Test
+	public void inverseOfInverseOfNegativeInfinityShouldBeNegativeInfinity() {
+		assertEquals(interval(Double.NEGATIVE_INFINITY),
+ 				interval(Double.NEGATIVE_INFINITY).multiplicativeInverse()
+						.multiplicativeInverse());
 	}
 
 	@Test

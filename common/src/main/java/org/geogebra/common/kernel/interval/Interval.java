@@ -331,6 +331,14 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	}
 
 	/**
+	 * Sets interval as singleton
+	 * @param value to set.
+	 */
+	public void set(double value) {
+		set(value, value);
+	}
+
+	/**
 	 * Sets the closed interval bounds.
 	 *
 	 * @param low lower bound.
@@ -461,7 +469,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 *
 	 * @return true if infinite.
 	 */
-	public boolean isOnlyInfinity() {
+	public boolean isInfiniteSingleton() {
 		return (isLowInfinite() || isHighInfinite()) && DoubleUtil.isEqual(high, low);
 	}
 
@@ -793,6 +801,13 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public boolean isSemiInfinite() {
 		return (isLowInfinite() && !isHighInfinite())
 				|| (!isLowInfinite() && isHighInfinite());
+	}
+
+	public boolean isPositiveInfinity() {
+		return low == Double.POSITIVE_INFINITY && high == low;
+	}
+	public boolean isNegativeInfinity() {
+		return low == Double.NEGATIVE_INFINITY && high == low;
 	}
 
 	/**

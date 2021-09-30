@@ -63,7 +63,7 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 			return y;
 		}
 
-		if (y.isOnlyInfinity()) {
+		if (y.isInfiniteSingleton()) {
 			return IntervalConstants.zero();
 		}
 		double screenYLow = y.getHigh() == Double.POSITIVE_INFINITY

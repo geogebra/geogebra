@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import org.geogebra.common.util.DoubleUtil;
+
 /**
  * Computes 1 / interval.
  *
@@ -35,6 +37,16 @@ public class IntervalMultiplicativeInverse {
 			return interval;
 		}
 
+		if (interval.isPositiveInfinity()) {
+			interval.setZero();
+			return interval;
+		}
+
+		if (interval.isNegativeInfinity()) {
+			interval.set(IntervalConstants.zeroWithNegativeSign());
+			return interval;
+		}
+
 		return inverseWithPositiveBounds();
 	}
 
@@ -55,7 +67,7 @@ public class IntervalMultiplicativeInverse {
 	}
 
 	private void handleWithZero() {
-		if (interval.getLow() != 0) {
+		if (!DoubleUtil.isEqual(interval.getLow(), 0, 1E-6)) {
 			handleLowNotZero();
 		} else {
 			handleLowIsZero();
@@ -63,7 +75,7 @@ public class IntervalMultiplicativeInverse {
 	}
 
 	private void handleLowIsZero() {
-		if (interval.getHigh() != 0) {
+		if (!DoubleUtil.isEqual(interval.getHigh(), 0, 1E-6)) {
 			inverseWithBoundsZeroAndPositive();
 		} else {
 			inverseOfZero();
@@ -75,8 +87,9 @@ public class IntervalMultiplicativeInverse {
 			invertBounds();
 			interval.uninvert();
 		} else {
-			interval.setWhole();
-			interval.setInverted();
+			interval.set(interval.getLow() < 0
+					? Double.NEGATIVE_INFINITY
+					: Double.POSITIVE_INFINITY);
 		}
 	}
 

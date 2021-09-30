@@ -100,4 +100,13 @@ public class IntervalConstants {
 		return new Interval(IntervalConstants.NEGATIVE_INFINITY,
 				IntervalConstants.NEGATIVE_INFINITY);
 	}
+
+
+	/**
+	 *
+	 * @return a "-0" interval for 1/-inf compatibility.
+	 */
+	public static Interval zeroWithNegativeSign() {
+		return new Interval(-1E-7, 1E-7);
+	}
 }

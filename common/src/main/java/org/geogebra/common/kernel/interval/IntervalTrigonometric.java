@@ -21,7 +21,7 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isEmpty() || interval.isOnlyInfinity()) {
+		if (interval.isEmpty() || interval.isInfiniteSingleton()) {
 			interval.setEmpty();
 			return interval;
 		}
@@ -95,7 +95,7 @@ class IntervalTrigonometric {
 
 		if (interval.isInverted()) {
 			setDefaultInterval();
-		} else if (interval.isEmpty() || interval.isOnlyInfinity()) {
+		} else if (interval.isEmpty() || interval.isInfiniteSingleton()) {
 			interval.setEmpty();
 		} else {
 			interval.subtract(IntervalConstants.piHalf()).cos();
@@ -140,7 +140,7 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isWhole() || interval.isOnlyInfinity()) {
+		if (interval.isWhole() || interval.isInfiniteSingleton()) {
 			interval.setEmpty();
 			return interval;
 		}
@@ -266,7 +266,7 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isOnlyInfinity()) {
+		if (interval.isInfiniteSingleton()) {
 			interval.setEmpty();
 			return interval;
 		}
