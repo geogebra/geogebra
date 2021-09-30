@@ -83,7 +83,7 @@ public class MyError extends Error {
 	public static MyError forCommand(Localization loc0, String errorName,
 			String commandName,
 			Throwable cause) {
-		return forCommand(loc0, errorName, commandName, null);
+		return forCommand(loc0, errorName, commandName, cause, null);
 	}
 
 	/**
