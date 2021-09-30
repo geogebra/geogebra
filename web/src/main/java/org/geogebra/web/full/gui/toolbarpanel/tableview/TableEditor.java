@@ -61,7 +61,6 @@ public class TableEditor {
 			GeoList list = (GeoList) evaluatable;
 			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		}
-		// edited an empty column
 		if (isNewColumnEdited(evaluatable)) {
 			table.view.getProcessor().processInput(mathTextField.getText(), null, editRow);
 		}
