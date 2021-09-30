@@ -31,7 +31,7 @@ pipeline {
     stages {
     	stage('cancel prev builds') {
     		when {
-    			expression { return env.BRANCH_NAME != 'apps-2628' }
+    			expression { return env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'dev' }
     		}
     		steps {
     			milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID) - 1
