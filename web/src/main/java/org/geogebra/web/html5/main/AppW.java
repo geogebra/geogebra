@@ -71,6 +71,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
@@ -285,7 +286,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getAppletParameters().getParamScaleContainerClass()),
 					obj -> checkScaleContainer());
 		}
-		AnalyticsW.setInstance(new AnalyticsW());
+		initializeAnalytics();
 	}
 
 	/**
@@ -3494,5 +3495,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public GlobalHandlerRegistry getGlobalHandlers() {
 		return dropHandlers;
+	}
+
+	private void initializeAnalytics() {
+		try {
+			Analytics.setInstance(new AnalyticsW());
+		} catch (Throwable e) {
+			Log.debug("Could not initialize analytics object.");
+		}
 	}
 }

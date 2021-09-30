@@ -13,29 +13,19 @@ import jsinterop.base.JsPropertyMap;
 
 public class AnalyticsW extends Analytics {
 
-	private FirebaseAnalytics analytics;
+	private final FirebaseAnalytics analytics;
 
 	/**
 	 * Creates an Analytics instance for the web platform.
 	 */
 	public AnalyticsW() {
-		try {
-			Firebase firebase = Firebase.get();
-			analytics = firebase.analytics();
-		} catch (Throwable exception) {
-			Log.debug("Firebase Analytics is not available.");
-		}
+		analytics = Firebase.get().analytics();
 	}
 
 	@Override
 	protected void recordEvent(String name, @Nullable Map<String, Object> params) {
-		if (analytics != null) {
-			JsPropertyMap<Object> map = params != null ? convertToJsPropertyMap(params) : null;
-			analytics.logEvent(name, map);
-		} else {
-			Log.debug("Firebase Analytics is not available, event with name '" + name
-					+ "' is ignored.");
-		}
+		JsPropertyMap<Object> map = params != null ? convertToJsPropertyMap(params) : null;
+		analytics.logEvent(name, map);
 	}
 
 	private JsPropertyMap<Object> convertToJsPropertyMap(Map<String, Object> map) {
