@@ -174,7 +174,19 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
 		String content = tableModel.getHeaderAt(columnIndex);
-		return headerCell.getHtmlHeader(content);
+		return headerCell.getHtmlHeader(getHeaderNameHTML(content));
+	}
+
+	private String getHeaderNameHTML(String content) {
+		if (content.contains("_")) {
+			String[] labelParts = content.split("_");
+			if (labelParts.length == 2) {
+				String index = labelParts[1].replaceAll("\\{", "")
+							.replaceAll("\\}", "") ;
+				return labelParts[0] + "<sub>" + index + "</sub>";
+ 			}
+		}
+		return content;
 	}
 
 	@Override
