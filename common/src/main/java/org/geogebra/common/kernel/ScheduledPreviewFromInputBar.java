@@ -68,7 +68,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				validInput = input;
 			}
 		} catch (MyError t) {
-			ErrorHelper.handleError(t, input, kernel.getLocalization(),
+			ErrorHelper.handleError(t, null, kernel.getLocalization(),
 					validation);
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, kernel.getApplication(), validation);
