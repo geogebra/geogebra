@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.util.debug.Analytics;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.debug.firebase.Firebase;
 import org.geogebra.web.html5.util.debug.firebase.FirebaseAnalytics;
 
