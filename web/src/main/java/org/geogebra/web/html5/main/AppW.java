@@ -2924,13 +2924,20 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public String getCurrentURL(String sharingKey, boolean absolute) {
 		String shareLinkPrefix = appletParameters.getParamShareLinkPrefix();
-		String apiURL = this.getLoginOperation().getGeoGebraTubeAPI().getUrl();
-		String host = apiURL.substring(0, apiURL.indexOf("/", 12));
+		String host = getHost();
 		if (StringUtil.empty(shareLinkPrefix)) {
 			shareLinkPrefix = "classic";
 		}
 		String path = "/" + shareLinkPrefix + "/" + sharingKey;
 		return absolute ? host + path : path;
+	}
+
+	/**
+	 * @return host
+	 */
+	public String getHost() {
+		String apiURL = this.getLoginOperation().getGeoGebraTubeAPI().getUrl();
+		return apiURL.substring(0, apiURL.indexOf("/", 12));
 	}
 
 	/**
