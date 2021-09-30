@@ -75,7 +75,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.awt.GFontW;
@@ -754,6 +753,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
+			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -804,10 +804,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			getGuiManager().updateToolbar();
 			return;
-		}
-
-		if (isWhiteboardActive()) {
-			((GeoGebraFrameFull) getAppletFrame()).setNotesMode(getMode());
 		}
 
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
