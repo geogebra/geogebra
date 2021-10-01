@@ -545,7 +545,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					&.focusState, &.focusState:hover {
 						@extend .emptyState;
 						.inputLabel {
-							color: colors.$mow_dark_87;
+							opacity: 0.87;
+							color: colors.$mow_dark;
 						}
 
 						.AutoCompleteTextFieldW {
@@ -650,7 +651,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			&.focusState, &.focusState:hover {
 				@extend .emptyState;
 				.inputLabel {
-					color: colors.$mow_dark_87;
+					opacity: 0.87;
+					color: colors.$mow_dark;
 				}
 
 				.AutoCompleteTextFieldW {
@@ -846,7 +848,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						box-shadow: none;
 						border: none;
 						border-radius: 0px;
-						border-bottom: 1px solid colors.$black-42;
 					}
 
 					&.default {
@@ -858,7 +859,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					}
 
 					&.focus, &.focus:hover {
-						border-bottom: 2px solid colors.$mow_dark_87;
+						border-bottom: 2px solid colors.$mow_dark;
 					}
 				}
 
@@ -875,15 +876,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				color: colors.$mow_dark;
 				&:hover {
 					color: colors.$mow_dark;
-				}
-			}
-
-			.insertBtn.button-up-disabled {
-				opacity: 1;
-				color: colors.$mow_dark_26;
-
-				&:hover {
-					background: none !important;
 				}
 			}
 		}
@@ -1227,21 +1219,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent {
+		button.CustomColorButton:hover {
+			border: 2px solid colors.$mow_dark;
+		}
+	}
+
 	.MaterialDialogBox.mow {
-			.previewLbl {
-				color: colors.$mow_dark !important;
-			}
-			.CustomColorButton:hover {
-				background-color: colors.$mow_light !important;
-			}
-			.DialogButtonPanel {
-				.gwt-Button {
+		.DialogButtonPanel {
+			.gwt-Button {
+				color: colors.$mow_dark;
+				&:hover {
 					color: colors.$mow_dark;
-					&:hover {
-						color: colors.$mow_dark;
-					}
 				}
 			}
+		}
 		.AutoCompleteTextFieldW {
 			border-bottom: 1px solid colors.$mow_dark;
 		}
