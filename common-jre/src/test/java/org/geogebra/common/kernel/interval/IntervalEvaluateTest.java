@@ -157,6 +157,14 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testSqrtTanXInverse() {
+		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
+				IntervalConstants.PI_HALF_HIGH).tan();
+		Interval sqrt = tan.sqrt();
+		Interval result = sqrt.multiplicativeInverse();
+		assertEquals(IntervalConstants.zero(), result);
+	}
+	@Test
 	public void testSecXInverseInverse() {
 		Interval inverse1 = interval(0 - 1E-4, 0 + 1E-4).multiplicativeInverse();
 		Interval inverse2 = inverse1.multiplicativeInverse();

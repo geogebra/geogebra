@@ -25,6 +25,10 @@ public class IntervalRoot {
 			return interval;
 		}
 
+		if (interval.isWhole()) {
+			return IntervalConstants.wholeDouble();
+		}
+
 		return nRoot(2);
 	}
 

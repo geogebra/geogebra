@@ -60,7 +60,7 @@ public class IntervalAsymtotesTest extends SamplerTest {
 	public void sinXInverseShouldBeInvertedOn4Pi() {
 		IntervalTupleList result = functionValues("1/sin(x)",
 				-2 * PI, 2 * PI, -10, 10);
-		assertTrue(result.get(0).y().isInverted());
+		assertTrue(result.get(0).y().isPositiveInfinity());
 		assertTrue(result.get(24).y().isInverted());
 		assertTrue(result.get(74).y().isInverted());
 		assertTrue(result.get(99).y().isInverted());
@@ -89,7 +89,7 @@ public class IntervalAsymtotesTest extends SamplerTest {
 	@Test
 	public void squareRootOfTanInverse() {
 		GeoFunction function = add("1/sqrt(tan(x))");
-		IntervalTuple range = PlotterUtils.newRange(0, 5, -8, 8);
+		IntervalTuple range = PlotterUtils.newRange(0, PI, -8, 8);
 		IntervalFunctionSampler sampler =
 				new IntervalFunctionSampler(function, range, 100);
 		IntervalTupleList result = sampler.result();

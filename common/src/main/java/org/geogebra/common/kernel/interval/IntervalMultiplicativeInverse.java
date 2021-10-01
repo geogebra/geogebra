@@ -39,11 +39,14 @@ public class IntervalMultiplicativeInverse {
 
 		if (interval.isPositiveInfinity()) {
 			interval.setZero();
+			interval.invert();
 			return interval;
 		}
 
 		if (interval.isNegativeInfinity()) {
 			interval.set(IntervalConstants.zeroWithNegativeSign());
+			interval.invert();
+			
 			return interval;
 		}
 
