@@ -4291,7 +4291,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public Font getFontCanDisplayAwt(String value, int plain) {
-		return GFontD.getAwtFont(getFontCanDisplay(value, plain));
+		int fontSize = settings.getFontSettings().getAppFontSize();
+		GFont font = getFontCreator().newSansSerifFont(value, plain, fontSize);
+		return GFontD.getAwtFont(font);
 	}
 
 	@Override

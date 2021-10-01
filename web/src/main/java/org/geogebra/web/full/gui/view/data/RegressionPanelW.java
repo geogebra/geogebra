@@ -282,7 +282,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		}
 
 		DrawEquationW.paintOnCanvas(sample, eqn, latexCanvas,
-				app.getFontSizeWeb());
+				app.getFontSize());
 		
 		updateGUI();
 	}

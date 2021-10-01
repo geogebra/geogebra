@@ -17,8 +17,13 @@ import org.geogebra.web.touch.FileManagerT;
 
 import com.google.gwt.core.client.Callback;
 
+import jsinterop.annotations.JsIgnore;
+import jsinterop.annotations.JsType;
+
+@JsType
 public class TabletFileManager extends FileManagerT {
 
+	private static TabletFileManager INSTANCE;
 	private final static int NO_CALLBACK = 0;
 	private TreeMap<Integer, MyCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
@@ -42,14 +47,23 @@ public class TabletFileManager extends FileManagerT {
 	/**
 	 * @param tabletApp application
 	 */
+	@JsIgnore
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
 		init();
+		setInstance();
 	}
 
 	protected void init() {
 		callbacks = new TreeMap<>();
-		exportJavascriptMethods();
+	}
+
+	public static TabletFileManager getInstance() {
+		return INSTANCE;
+	}
+
+	private void setInstance() {
+		INSTANCE = this;
 	}
 
 	protected int addNewCallback(MyCallback callback) {
@@ -153,6 +167,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, false, null);
 	}
 
+	@JsIgnore
 	@Override
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
@@ -184,6 +199,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, true, data);
 	}
 
+	@JsIgnore
 	@Override
 	public void saveFile(final String base64, final long modified,
 			final SaveCallback cb) {
@@ -227,6 +243,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	@JsIgnore
 	@Override
 	public void upload(final Material mat) {
 		int callback = addNewCallback(new MyCallback() {
@@ -285,11 +302,13 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	@JsIgnore
 	@Override
 	public void open(String url, String features) {
 		openUrlInBrowser(url);
 	}
 
+	@JsIgnore
 	@Override
 	public void open(String url) {
 		openUrlInBrowser(url);
@@ -301,6 +320,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
+	@JsIgnore
 	@Override
 	public void rename(final String newTitle, final Material mat,
 			final Runnable callback) {
@@ -342,6 +362,7 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, true, null);
 	}
 
+	@JsIgnore
 	@Override
 	public void delete(final Material mat, boolean permanent,
 			final Runnable onSuccess) {
@@ -394,44 +415,12 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, result != null && !"0".equals(result), result);
 	}
 
+	@JsIgnore
 	@Override
 	public void setTubeID(String localID, Material mat) {
 		mat.setBase64("");
 		overwriteMetaDataNative(localID, mat.toJson().toString(), NO_CALLBACK);
 	}
-
-	private native void exportJavascriptMethods() /*-{
-		var that = this;
-		$wnd.tabletFileManager_catchListLocalFiles = $entry(function(length,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchListLocalFiles(II)(length, callback);
-		});
-		$wnd.tabletFileManager_catchMetaData = $entry(function(name, data,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaData(Ljava/lang/String;Ljava/lang/String;I)(name, data, callback);
-		});
-		$wnd.tabletFileManager_catchMetaDataError = $entry(function(callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchMetaDataError(I)(callback);
-		});
-		$wnd.tabletFileManager_catchBase64 = $entry(function(data, callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchBase64(Ljava/lang/String;I)(data, callback);
-		});
-		$wnd.tabletFileManager_catchSaveFileResult = $entry(function(result,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchSaveFileResult(II)(result, callback);
-		});
-		$wnd.tabletFileManager_catchDeleteResult = $entry(function(data,
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchDeleteResult(Ljava/lang/String;I)(data, callback);
-		});
-		$wnd.tabletFileManager_catchRename = $entry(function(callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchRename(I)(callback);
-		});
-		$wnd.tabletFileManager_catchOverwriteMetaData = $entry(function(
-				callback) {
-			that.@org.geogebra.web.tablet.TabletFileManager::catchOverwriteMetaData(I)(callback);
-		});
-	}-*/;
 
 	protected void debug(String s) {
 		Log.debug(s);

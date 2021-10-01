@@ -12,4 +12,8 @@
         <Class name="org.geogebra.web.html5.GeoGebraGlobal"/>
         <Bug pattern="MS_CANNOT_BE_FINAL" />
     </Match>
+    <Match>
+        <!-- https://github.com/spotbugs/spotbugs/issues/1539 -->
+        <Bug pattern="DMI_RANDOM_USED_ONLY_ONCE" />
+    </Match>
 </FindBugsFilter>

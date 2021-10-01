@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -1987,6 +1988,8 @@ public class ConsElementXMLHandler {
 		if (geo.isGeoImage() && ((GeoImage) geo).isCentered()) {
 			((GeoImage) geo).setCentered(true);
 		}
+
+		xmlHandler.kernel.notifyUpdateVisualStyle(geo, GProperty.COMBINED);
 	}
 
 	private boolean handleShow(LinkedHashMap<String, String> attrs) {

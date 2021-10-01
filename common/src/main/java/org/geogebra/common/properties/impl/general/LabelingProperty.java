@@ -1,8 +1,9 @@
 package org.geogebra.common.properties.impl.general;
 
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.LabelSettings;
+import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 /**
@@ -10,23 +11,21 @@ import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
  */
 public class LabelingProperty extends AbstractEnumerableProperty {
 
-        private int[] labelingStyles = {
-                ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON,
-                ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF,
-                ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
-        };
+    private int[] labelVisibility = {
+            ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON,
+            ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF,
+            ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
+    };
 
-    private App app;
+    private LabelSettings labelSettings;
 
     /**
-     * Constructs a labeling property.
-     *
-     * @param app          app
      * @param localization localization
+     * @param labelSettings labelSettings
      */
-    public LabelingProperty(App app, Localization localization) {
+    public LabelingProperty(Localization localization, LabelSettings labelSettings) {
         super(localization, "Labeling");
-        this.app = app;
+        this.labelSettings = labelSettings;
         setValuesAndLocalize(new String[]{
                 "Labeling.on",
                 "Labeling.off",
@@ -36,14 +35,14 @@ public class LabelingProperty extends AbstractEnumerableProperty {
 
     @Override
     protected void setValueSafe(String value, int index) {
-        app.setLabelingStyle(labelingStyles[index]);
+        labelSettings.setLabelVisibility(LabelVisibility.get(labelVisibility[index]));
     }
 
     @Override
     public int getIndex() {
-        int labelingStyle = app.getLabelingStyle();
-        for (int i = 0; i < labelingStyles.length; i++) {
-            if (labelingStyle == labelingStyles[i]) {
+        int labelingStyle = labelSettings.getLabelVisibility().getValue();
+        for (int i = 0; i < labelVisibility.length; i++) {
+            if (labelingStyle == labelVisibility[i]) {
                 return i;
             }
         }

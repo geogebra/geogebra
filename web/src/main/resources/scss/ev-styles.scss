@@ -680,6 +680,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		position: absolute;
 	}
 
+	input[type="text"].accessibleInput {
+		max-width: 5px;
+		padding: 0;
+	}
+
 	.invisible {
 		visibility: hidden;
 	}

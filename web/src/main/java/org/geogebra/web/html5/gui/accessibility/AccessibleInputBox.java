@@ -9,6 +9,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -35,6 +36,10 @@ public class AccessibleInputBox implements AccessibleWidget {
 				geo.updateLinkedGeo(inputBox.getText());
 			}
 		});
+		Dom.addEventListener(inputBox.getElement(), "touchstart", e -> {
+			e.preventDefault();
+			app.getSelectionManager().addSelectedGeoForEV(geo);
+		});
 		update();
 	}
 
@@ -47,7 +52,7 @@ public class AccessibleInputBox implements AccessibleWidget {
 	public void update() {
 		// TODO if the box remains hidden, it can't be reached with screenreader
 		// if it's shown, it blocks touch events
-		// AccessibleDropDown.updatePosition(geo, inputBox, app);
+		AccessibleDropDown.updatePosition(geo, inputBox, app);
 		formLabel.setText(geo.getAuralText() + getErrorText());
 		inputBox.setText(geo.getTextForEditor());
 	}

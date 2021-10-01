@@ -105,7 +105,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	boolean isAttached();
 
-	void add(Widget box, GPoint gPoint);
+	void add(Widget box);
 
 	Object getExportCanvas();
 }
