@@ -753,6 +753,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
+			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -803,7 +804,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			getGuiManager().updateToolbar();
 			return;
-
 		}
 
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
