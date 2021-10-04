@@ -204,23 +204,23 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(model.getCellAt(1, 2).getInput(), equalTo("2"));
 	}
 
-//	@Test
-//	public void testUndoRedo() {
-//		getApp().setUndoActive(true);
-//		UndoManager undoManager = getApp().getUndoManager();
-//
-//		processor.processInput("1", null, 0);
-//		assertThat(model.getRowCount(), is(1));
-//		assertThat(model.getColumnCount(), is(2));
-//		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
-//
-//		undoManager.undo();
-//		assertThat(model.getRowCount(), is(0));
-//		assertThat(model.getColumnCount(), is(1));
-//
-//		undoManager.redo();
-//		assertThat(model.getRowCount(), is(1));
-//		assertThat(model.getColumnCount(), is(2));
-//		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
-//	}
+	@Test
+	public void testUndoRedo() {
+		getApp().setUndoActive(true);
+		UndoManager undoManager = getApp().getUndoManager();
+
+		processor.processInput("1", null, 0);
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(2));
+		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
+
+		undoManager.undo();
+		assertThat(model.getRowCount(), is(0));
+		assertThat(model.getColumnCount(), is(1));
+
+		undoManager.redo();
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(2));
+		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
+	}
 }
