@@ -46,7 +46,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			removeEmptyColumnAndRows(column, index);
 		}
 		model.endBatchUpdate();
-		cons.storeUndoInfo();
+		cons.getUndoManager().storeUndoInfo();
 	}
 
 	private boolean isEmptyValue(GeoElement element) {
