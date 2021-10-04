@@ -535,6 +535,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			updateItemColor();
 			rebuildPlaintextContent();
 		}
+		AlgebraOutputPanel.removeSymbolicButton(controls);
 	}
 
 	private void rebuildPlaintextContent() {
