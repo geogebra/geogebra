@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
+import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
@@ -107,7 +108,7 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	private Interval uninvertedInterval(double low, double high) {
-		Interval interval = new Interval(low, high);
+		Interval interval = new Interval(low, high).invert();
 		interval.uninvert();
 		return interval;
 	}
@@ -136,13 +137,12 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 		Interval result =
 				interval(0).sqrt().sqrt();
 		Interval inverse = result.multiplicativeInverse();
-		assertEquals(IntervalConstants.whole().invert(), inverse);
+		assertEquals(interval(POSITIVE_INFINITY), inverse);
 	}
 
 	@Test
 	public void testSqrtSecCotX() {
-		Interval cot = interval(IntervalConstants.PI_HALF_LOW,
-				IntervalConstants.PI_HALF_HIGH).cot();
+		Interval cot = piHalf().cot();
 		Interval sec = cot.sec();
 		Interval result = sec.sqrt();
 		assertEquals(IntervalConstants.one(), result);
@@ -150,20 +150,26 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 
 	@Test
 	public void testMinTanX() {
-		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
-				IntervalConstants.PI_HALF_HIGH).tan();
+		Interval tan = piHalf().tan();
 		Interval result = tan.multiply(interval(-1));
  		assertEquals(IntervalConstants.whole().invert(), result);
 	}
 
 	@Test
 	public void testSqrtTanXInverse() {
-		Interval tan = interval(IntervalConstants.PI_HALF_LOW,
-				IntervalConstants.PI_HALF_HIGH).tan();
+		Interval tan = piHalf().tan();
 		Interval sqrt = tan.sqrt();
 		Interval result = sqrt.multiplicativeInverse();
 		assertEquals(IntervalConstants.zero(), result);
 	}
+
+	@Test
+	public void testSqrtTanX() {
+		Interval tan = piHalf().tan();
+		Interval result = tan.sqrt();
+		assertEquals(IntervalConstants.zero(), result);
+	}
+
 	@Test
 	public void testSecXInverseInverse() {
 		Interval inverse1 = interval(0 - 1E-4, 0 + 1E-4).multiplicativeInverse();
@@ -189,10 +195,19 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testInverseOfCscTanX() {
+		Interval tan = piHalf().tan();
+		Interval csc = tan.csc();
+		Interval result = csc.multiplicativeInverse();
+		assertEquals(uninvertedInterval(-1, 1), result);
+	}
+
+	@Test
 	public void testMinusSqrtInverseOfX() {
 		Interval inverse = interval(-0.08, 0.04).multiplicativeInverse();
 		Interval sqrt = inverse.sqrt();
 		Interval result = sqrt.multiply(new Interval(-1));
 		assertEquals(invertedInterval(-5, 0), result);
 	}
+
 }

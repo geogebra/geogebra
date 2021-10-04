@@ -49,21 +49,15 @@ public class IntervalAsymtotesTest extends SamplerTest {
 	}
 
 	@Test
-	public void sinXInverseShouldBeInverted() {
-		IntervalTupleList result = functionValues("1/sin(x)",
-				-PI, PI, -10, 10);
-		assertTrue(result.get(0).y().isInverted());
-		assertTrue(result.get(99).y().isInverted());
-	}
-
-	@Test
-	public void sinXInverseShouldBeInvertedOn4Pi() {
+	public void sinXInverseShouldBeInfiniteOnPi4() {
 		IntervalTupleList result = functionValues("1/sin(x)",
 				-2 * PI, 2 * PI, -10, 10);
-		assertTrue(result.get(0).y().isPositiveInfinity());
-		assertTrue(result.get(24).y().isInverted());
-		assertTrue(result.get(74).y().isInverted());
-		assertTrue(result.get(99).y().isInverted());
+		assertEquals(interval(7.978729755559, Double.POSITIVE_INFINITY),
+				result.valueAt(0));
+		assertEquals(interval(7.978729755559, Double.POSITIVE_INFINITY),
+				result.valueAt(24));
+		assertEquals(interval(7.978729755559, Double.POSITIVE_INFINITY),
+				result.valueAt(74));
 	}
 
 	@Test

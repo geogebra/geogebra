@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.wholeDouble;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+
 import org.geogebra.common.util.DoubleUtil;
 
 import com.google.j2objc.annotations.Weak;
@@ -26,7 +29,7 @@ public class IntervalRoot {
 		}
 
 		if (interval.isWhole()) {
-			return IntervalConstants.wholeDouble();
+			return interval.isInverted() ? zero() : wholeDouble();
 		}
 
 		return nRoot(2);

@@ -116,8 +116,8 @@ class IntervalTrigonometric {
 		if (interval.isWhole()) {
 			return IntervalConstants.one();
 		}
-		Interval interval = new Interval(this.interval);
-		return interval.cos().multiplicativeInverse();
+		Interval intervalCopy = new Interval(this.interval);
+		return intervalCopy.cos().multiplicativeInverse();
 	}
 
 	/**
@@ -125,8 +125,11 @@ class IntervalTrigonometric {
 	 * @return cotangent of the interval
 	 */
 	public Interval cot() {
-		Interval interval = new Interval(this.interval);
-		return interval.tan().multiplicativeInverse();
+		Interval intervalCopy = new Interval(this.interval);
+		Interval tan = intervalCopy.tan();
+		return tan.isWhole() && !tan.isInverted()
+				? IntervalConstants.undefined()
+				: tan.multiplicativeInverse();
 	}
 
 	/**
@@ -261,16 +264,6 @@ class IntervalTrigonometric {
 	 * @return 1 / sin(x)
 	 */
 	public Interval csc() {
-		if (interval.isInverted() && interval.isWhole()) {
-			interval.setZero();
-			return interval;
-		}
-
-		if (interval.isInfiniteSingleton()) {
-			interval.setEmpty();
-			return interval;
-		}
-
 		Interval result = new Interval(this.interval);
 		return result.sin().multiplicativeInverse();
 	}
