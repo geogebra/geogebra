@@ -112,7 +112,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
 		if (evaluatable.isGeoList()) {
-			return new TableValuesListColumn((GeoList) evaluatable, values.size());
+			GeoList list = (GeoList) evaluatable;
+			return new TableValuesListColumn(list, list.size());
 		}
 		return new TableValuesFunctionColumn(evaluatable, values, values.size());
 	}

@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
-	private final TableValues tableValues;
+	private final TableValuesView tableValues;
 	private final TableValuesModel model;
 
 	/**
@@ -23,7 +23,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	 * @param cons construction
 	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
+	public TableValuesInputProcessor(Construction cons, TableValuesView tableValues) {
 		this.cons = cons;
 		this.tableValues = tableValues;
 		this.model = tableValues.getTableValuesModel();
@@ -46,6 +46,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			removeEmptyColumnAndRows(column, index);
 		}
 		model.endBatchUpdate();
+		cons.storeUndoInfo();
 	}
 
 	private boolean isEmptyValue(GeoElement element) {
@@ -56,7 +57,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (list == null) {
 			GeoList column = new GeoList(cons);
 			column.notifyAdd();
-			tableValues.showColumn(column);
+			tableValues.doShowColumn(column);
 			return column;
 		}
 		return list;

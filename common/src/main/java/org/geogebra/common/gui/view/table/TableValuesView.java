@@ -84,7 +84,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		app.storeUndoInfo();
 	}
 
-	private void doShowColumn(GeoEvaluatable evaluatable) {
+	void doShowColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable) && evaluatable.hasTableOfValues()) {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());

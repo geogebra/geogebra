@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.undo.UndoManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		view = new TableValuesView(getKernel());
 		model = view.getTableValuesModel();
 		getKernel().attach(view);
-		processor = new TableValuesInputProcessor(getConstruction(), view);
+		processor = new TableValuesInputProcessor(getConstruction(), (TableValuesView) view);
 		list = new GeoList(getConstruction());
 	}
 
@@ -201,5 +202,25 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		processor.processInput("0", view.getValues(), 0);
 
 		assertThat(model.getCellAt(1, 2).getInput(), equalTo("2"));
+	}
+
+	@Test
+	public void testUndoRedo() {
+		getApp().setUndoActive(true);
+		UndoManager undoManager = getApp().getUndoManager();
+
+		processor.processInput("1", null, 0);
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(2));
+		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
+
+		undoManager.undo();
+		assertThat(model.getRowCount(), is(0));
+		assertThat(model.getColumnCount(), is(1));
+
+		undoManager.redo();
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(2));
+		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
 	}
 }
