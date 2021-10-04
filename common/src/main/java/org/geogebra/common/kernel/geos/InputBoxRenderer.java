@@ -74,17 +74,15 @@ class InputBoxRenderer {
 	}
 
 	private String getTextForNumeric(GeoNumeric numeric) {
-		if (inputBox.symbolicMode && !numeric.isSimple()) {
-			return toLaTex();
-		} else if (numeric.isDefined() && numeric.isIndependent() && !numeric.isAngle()) {
-			if (inputBox.symbolicMode) {
-				return numeric.toValueString(stringTemplateForLaTeX);
-			} else {
-				return numeric.toValueString(inputBox.tpl);
-			}
+		if (inputBox.symbolicMode) {
+			return numeric.getRedefineString(true, true, stringTemplateForLaTeX);
 		}
 
-		return numeric.getRedefineString(true, true);
+		if (numeric.isDefined() && numeric.isIndependent() && !numeric.isAngle()) {
+			return numeric.toValueString(inputBox.tpl);
+		}
+
+		return numeric.getRedefineString(true, true, inputBox.tpl);
 	}
 
 	private String toLaTex() {
