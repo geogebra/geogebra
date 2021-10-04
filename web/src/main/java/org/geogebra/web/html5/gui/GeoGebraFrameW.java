@@ -443,8 +443,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			app.setCustomToolBar();
 
 			if (app.isApplet()) {
-				Event.sinkEvents(geoGebraElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
-				Event.setEventListener(geoGebraElement.getElement(),
+				Event.sinkEvents(geoGebraElement, Event.ONKEYPRESS | Event.ONKEYDOWN);
+				Event.setEventListener(geoGebraElement,
 						app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 			} else {
 				Element parent = geoGebraElement.getParentElement();
