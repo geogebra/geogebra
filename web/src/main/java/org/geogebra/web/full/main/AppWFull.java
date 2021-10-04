@@ -37,6 +37,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -883,7 +884,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void ensureSupportedModeActive() {
 		if (getMode() == EuclidianConstants.MODE_MOVE && isWhiteboardActive()) {
-			GGWToolBar.set1rstMode(this);
+			int mode = showToolBar ? EuclidianConstants.MODE_PEN :
+					EuclidianConstants.MODE_SELECT_MOW;
+			setMode(mode, ModeSetter.DOCK_PANEL);
 		}
 	}
 
