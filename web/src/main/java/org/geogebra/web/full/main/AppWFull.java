@@ -74,7 +74,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.cas.giac.CASFactoryW;
-import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
@@ -113,6 +112,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
+import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -1080,7 +1080,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void closePopups() {
 		super.closePopups();
-		EuclidianStyleBarW.setCurrentPopup(null);
+		PopupMenuButtonW.resetCurrentPopup();
 		if (getToolbar() != null && getToolbar().isMobileToolbar()) {
 			((GGWToolBar) getToolbar()).getToolBar().closeAllSubmenu();
 		}
@@ -1376,6 +1376,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		attachSplitLayoutPanel();
+
+		if (isWhiteboardActive()) {
+			frame.attachNotesUI(this);
+		}
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'

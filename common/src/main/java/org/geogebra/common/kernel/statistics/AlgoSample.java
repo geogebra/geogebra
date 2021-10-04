@@ -183,7 +183,7 @@ public class AlgoSample extends AlgoElement implements SetRandomValue {
 			} else {
 				ArrayList<GeoElement> copy = copyInput();
 				for (int i = 0; i < otherList.size(); i++) {
-					if (!AlgoShuffle.removeFromList(otherList.get(i), copy)) {
+					if (AlgoShuffle.removeFromList(otherList.get(i), copy) == null) {
 						return false;
 					}
 				}
