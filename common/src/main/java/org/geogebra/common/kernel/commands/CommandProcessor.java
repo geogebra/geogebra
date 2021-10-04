@@ -702,7 +702,7 @@ public abstract class CommandProcessor {
 	 */
 	protected final MyError argErr(String cmd, ExpressionValue arg) {
 		String message = commandErrorMessageBuilder.buildArgumentError(cmd, arg);
-		return MyError.forCommand(loc, message, cmd, null);
+		return MyError.forCommand(loc, message, cmd, null, Errors.IllegalArgument);
 	}
 
 	/**
@@ -718,7 +718,7 @@ public abstract class CommandProcessor {
 		String commandName = cmd.getName();
 		String message = commandErrorMessageBuilder.buildArgumentNumberError(
 				commandName, argNumber);
-		return MyError.forCommand(loc, message, commandName, null);
+		return MyError.forCommand(loc, message, commandName, null, Errors.IllegalArgumentNumber);
 	}
 
 	/**

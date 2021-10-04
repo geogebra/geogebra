@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.main.error.AnalyticsErrorLogger;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -7,7 +8,7 @@ import org.geogebra.common.util.AsyncOperation;
  * Error handler for AV input
  *
  */
-public final class AVErrorHandler implements ErrorHandler {
+public final class AVErrorHandler implements ErrorHandler, AnalyticsErrorLogger {
 	/**
 	 *
 	 */
