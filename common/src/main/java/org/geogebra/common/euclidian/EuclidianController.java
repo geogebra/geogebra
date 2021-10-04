@@ -9979,6 +9979,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
 				child.setLabel(null);
 				selectAndShowSelectionUI(child);
+				lastMowHit = child;
 				view.resetHitHandler();
 				app.storeUndoInfo();
 				return;
