@@ -1266,7 +1266,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return whether it was closed
 	 */
 	public boolean closePageControlPanel() {
-		if (!isWhiteboardActive()) {
+		if (!isWhiteboardActive() || frame.getPageControlPanel() == null) {
 			return false;
 		}
 
@@ -1372,6 +1372,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		attachSplitLayoutPanel();
+
+		if (isWhiteboardActive()) {
+			frame.attachNotesUI(this);
+		}
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
