@@ -2,10 +2,12 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
+import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -34,14 +36,14 @@ public class SqrtTest {
 
 	@Test
 	public void sqrtOfXInverseShouldBePositiveInfinityAtZero() {
-		// 1/sqrt([0]) == ∞
-		assertEquals(whole(), zero().multiplicativeInverse());
+		// sqrt(1/[0]) == ∞
+		assertEquals(positiveInfinity(), zero().multiplicativeInverse().sqrt());
 	}
 
 	@Test
 	public void sqrtOfXInverseShouldBePositiveInfinityAroundZero() {
 		// 1/sqrt([0]) == ∞
-		assertEquals(whole().invert(), aroundZero().multiplicativeInverse());
+		assertEquals(invertedInterval(0, 1E-6), aroundZero().multiplicativeInverse().sqrt());
 	}
 
 	@Test
