@@ -233,5 +233,16 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		undoManager.redo();
 		cellContent = model.getCellAt(0, 1).getInput();
 		assertThat(cellContent, equalTo("2"));
+
+		processor.processInput("invalid", (GeoList) view.getEvaluatable(1), 0);
+		undoManager.undo();
+		TableValuesCell cell = model.getCellAt(0, 1);
+		assertThat(cell.getInput(), equalTo("2"));
+		assertThat(cell.isErroneous(), is(false));
+
+		undoManager.redo();
+		cell = model.getCellAt(0, 1);
+		assertThat(cell.getInput(), equalTo("invalid"));
+		assertThat(cell.isErroneous(), is(true));
 	}
 }
