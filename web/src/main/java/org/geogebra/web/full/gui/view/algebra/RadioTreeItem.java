@@ -75,8 +75,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -536,6 +535,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			updateItemColor();
 			rebuildPlaintextContent();
 		}
+		AlgebraOutputPanel.removeSymbolicButton(controls);
 	}
 
 	private void rebuildPlaintextContent() {
@@ -974,11 +974,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	boolean showCurrentError() {
 		if (commandError != null) {
-			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					errorMessage, null, app.getLocalization().getMenu("Help"),
-					app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
-			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			Element snackbar = DOM.getElementById("snackbarID");
+			if (snackbar == null) {
+				ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+						errorMessage, null, app.getLocalization().getMenu("Help"),
+						app.getGuiManager().getHelpURL(Help.COMMAND, commandError), app);
+				ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			}
 			return true;
 		}
 
@@ -1019,14 +1022,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				helpPopup = new InputBarHelpPopup(this.app, this,
 						"helpPopupAV");
 				helpPopup.addAutoHidePartner(this.getElement());
-				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-					@Override
-					public void onClose(CloseEvent<GPopupPanel> event) {
-						focusAfterHelpClosed();
-					}
-
-				});
+				helpPopup.addCloseHandler(event -> focusAfterHelpClosed());
 			} else if (helpPopup.getWidget() == null) {
 				helpPanel = app.getGuiManager()
 						.getInputHelpPanel();

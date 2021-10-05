@@ -150,13 +150,13 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	 * @return true if another SliderTreeItem's min/max panel is showing.
 	 */
 	boolean isAnotherMinMaxOpen() {
-		return (MinMaxPanel.getOpenedPanel() != null
-				&& MinMaxPanel.getOpenedPanel() != slider.getMinMax());
+		return !MinMaxPanel.isOpenedPanel(null)
+				&& !MinMaxPanel.isOpenedPanel(slider.getMinMax());
 	}
 
 	private boolean isClickedOutMinMax(int x, int y) {
-		return (MinMaxPanel.getOpenedPanel() == slider.getMinMax()
-				&& !isWidgetHit(slider.getMinMax(), x, y));
+		return MinMaxPanel.isOpenedPanel(slider.getMinMax())
+				&& !isWidgetHit(slider.getMinMax(), x, y);
 	}
 
 	@Override
