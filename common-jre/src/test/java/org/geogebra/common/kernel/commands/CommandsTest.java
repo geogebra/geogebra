@@ -2144,6 +2144,18 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsFactoredUpdate() {
+		t("redef1(x) = x (2x-2)", "(x * ((2 * x) - 2))");
+		t("redef2(x) = x^50 (x-1)", "(x^(50) * (x - 1))");
+		t("check1 = IsFactored(redef1)", "false");
+		t("check2 = IsFactored(redef2)", "?");
+		t("redef1(x) = x (x-1)", "(x * (x - 1))");
+		t("redef2(x) = x (x-1)", "(x * (x - 1))");
+		t("check1", "true");
+		t("check2", "true");
+	}
+
+	@Test
 	public void cmdIsInteger() {
 		t("IsInteger[ 42 ]", "true");
 	}
