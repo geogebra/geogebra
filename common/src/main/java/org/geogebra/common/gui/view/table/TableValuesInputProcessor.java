@@ -41,6 +41,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		GeoList column = ensureList(list);
 		ensureCapacity(column, index);
 		column.setListElement(index, element);
+		column.setDefinition(null);
 		element.notifyUpdate();
 		if (isEmptyValue(element)) {
 			removeEmptyColumnAndRows(column, index);

@@ -212,7 +212,8 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		processor.processInput("1", null, 0);
 		assertThat(model.getRowCount(), is(1));
 		assertThat(model.getColumnCount(), is(2));
-		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
+		String cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("1"));
 
 		undoManager.undo();
 		assertThat(model.getRowCount(), is(0));
@@ -221,6 +222,16 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		undoManager.redo();
 		assertThat(model.getRowCount(), is(1));
 		assertThat(model.getColumnCount(), is(2));
-		assertThat("1", equalTo(model.getCellAt(0, 1).getInput()));
+		cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		processor.processInput("2", (GeoList) view.getEvaluatable(1), 0);
+		undoManager.undo();
+		cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.redo();
+		cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("2"));
 	}
 }
