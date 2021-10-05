@@ -7,8 +7,8 @@ public class IntervalConstants {
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
-	public static final double NEGATIVE_INFINITY = -1E4;
-	public static final double POSITIVE_INFINITY = 1E4;
+	public static final double NEGATIVE_INFINITY = Double.NEGATIVE_INFINITY;
+	public static final double POSITIVE_INFINITY = Double.POSITIVE_INFINITY;
 
 	/**
 	 *
@@ -46,7 +46,7 @@ public class IntervalConstants {
 	 *
 	 * @return a newly created whole interval with Double infinity.
 	 */
-	public static Interval wholeDouble() {
+	public static Interval wholeR() {
 		// TODO sync Double and 1E infinity.
 		return new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 	}

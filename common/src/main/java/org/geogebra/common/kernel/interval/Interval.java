@@ -875,7 +875,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * Note: zero interval cannot be inverted.
 	 */
 	public void setInverted() {
-		if (!isZero()) {
+		if (true || !isZero()) {
 			inverted = Inversion.INVERTED;
 		}
 	}

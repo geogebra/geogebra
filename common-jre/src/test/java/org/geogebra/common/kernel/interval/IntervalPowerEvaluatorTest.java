@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -84,7 +85,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 	private void shouldBeInvertedAtZero(IntervalFunction function) throws Exception {
 		assertTrue("function should be inverted at zero",
-				function.evaluate(IntervalConstants.zero()).isInverted());
+				function.evaluate(zero()).isInverted());
 	}
 
 	@Test
@@ -114,6 +115,17 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 		GeoFunction geo = add("x^(-1/3)");
 		IntervalFunction function = new IntervalFunction(geo);
 		shouldBeXPowerOnMinusThird(function);
+	}
+
+	@Test
+	public void testPowOfNegativeDoubleAtZero() {
+		assertTrue("should be inverted", zero().pow(1.0 / 3.0).isInverted());
+		assertTrue("should be inverted", interval(-0.1, 0.1)
+				.pow(1.0 / 3.0).isInverted());
+		assertTrue("should be inverted", interval(0, 0.1)
+				.pow(1.0 / 3.0).isInverted());
+		assertTrue("should be inverted", interval(-0.1, 0)
+				.pow(1.0 / 3.0).isInverted());
 	}
 
 	private void shouldBeXPowerOnMinusThird(IntervalFunction function) throws Exception {

@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.wholeDouble;
-import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.wholeR;
 
 import org.geogebra.common.util.DoubleUtil;
 
@@ -19,17 +19,17 @@ public class IntervalRoot {
 	 * @return square root of the interval.
 	 */
 	Interval sqrt() {
-		if (interval.isEmpty() || interval.isNegative()) {
+		if (interval.isEmpty() || interval.isNegative() || interval.isUndefined()) {
 			interval.setEmpty();
 			return interval;
 		}
 
-		if (interval.isZero()) {
-			return interval;
+		if (interval.hasZero()) {
+			return IntervalConstants.zero();
 		}
 
 		if (interval.isWhole()) {
-			return interval.isInverted() ? zero() : wholeDouble();
+			return interval.isInverted() ? undefined() : wholeR();
 		}
 
 		return nRoot(2);

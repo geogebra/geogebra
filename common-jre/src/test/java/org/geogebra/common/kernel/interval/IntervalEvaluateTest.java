@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
@@ -125,28 +127,6 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 
 	}
 
-	@Test
-	public void testSqrtSqrtOfX() {
-		Interval result =
-				interval(0).sqrt().sqrt();
-		assertEquals(IntervalConstants.zero(), result);
-	}
-
-	@Test
-	public void testSqrtSqrtOfXInverse() {
-		Interval result =
-				interval(0).sqrt().sqrt();
-		Interval inverse = result.multiplicativeInverse();
-		assertEquals(interval(POSITIVE_INFINITY), inverse);
-	}
-
-	@Test
-	public void testSqrtSecCotX() {
-		Interval cot = piHalf().cot();
-		Interval sec = cot.sec();
-		Interval result = sec.sqrt();
-		assertEquals(IntervalConstants.one(), result);
-	}
 
 	@Test
 	public void testMinTanX() {
@@ -164,11 +144,10 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSqrtTanX() {
-		Interval tan = piHalf().tan();
-		Interval result = tan.sqrt();
-		assertEquals(IntervalConstants.zero(), result);
+	public void testTanPiHalf() {
+		assertEquals(whole().invert(), piHalf().tan());
 	}
+
 
 	@Test
 	public void testSecXInverseInverse() {

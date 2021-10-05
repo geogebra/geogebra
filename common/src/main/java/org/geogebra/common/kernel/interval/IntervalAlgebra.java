@@ -69,7 +69,11 @@ class IntervalAlgebra {
 		}
 
 		if (!DoubleUtil.isInteger(power)) {
-			return powerOfDouble(power);
+			Interval result = powerOfDouble(power);
+			if (interval.hasZero()) {
+				result.setInverted();
+			}
+			return result;
 		}
 
 		return powOfInteger((int) power);
