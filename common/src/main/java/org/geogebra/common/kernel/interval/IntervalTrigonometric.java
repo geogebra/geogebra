@@ -137,11 +137,11 @@ class IntervalTrigonometric {
 	 * @return tangent of the interval.
 	 */
 	public Interval tan() {
-
-		if (interval.isInverted() && interval.isWhole()) {
-			interval.setZero();
-			return interval;
-		}
+//
+//		if (interval.isInverted() && interval.isWhole()) {
+//			interval.setZero();
+//			return interval;
+//		}
 
 		if (interval.isWhole() || interval.isInfiniteSingleton()) {
 			interval.setEmpty();

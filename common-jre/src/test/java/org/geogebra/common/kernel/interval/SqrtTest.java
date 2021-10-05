@@ -3,8 +3,6 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
@@ -76,14 +74,5 @@ public class SqrtTest {
 				interval(0).sqrt().sqrt();
 		Interval inverse = result.multiplicativeInverse();
 		assertEquals(interval(POSITIVE_INFINITY), inverse);
-	}
-	@Test
-	public void testSqrtInveredWhole() {
-		assertEquals(undefined(), whole().invert().sqrt());
-	}
-
-	@Test
-	public void testSqrtTanX() {
-		assertEquals(undefined(), piHalf().tan().sqrt());
 	}
 }
