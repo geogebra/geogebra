@@ -884,8 +884,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void ensureSupportedModeActive() {
 		if (getMode() == EuclidianConstants.MODE_MOVE && isWhiteboardActive()) {
-			int mode = showToolBar ? EuclidianConstants.MODE_PEN :
-					EuclidianConstants.MODE_SELECT_MOW;
+			int mode = showToolBar ? EuclidianConstants.MODE_PEN
+					: EuclidianConstants.MODE_SELECT_MOW;
 			setMode(mode, ModeSetter.DOCK_PANEL);
 		}
 	}
