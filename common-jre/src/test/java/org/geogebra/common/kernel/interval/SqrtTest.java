@@ -55,6 +55,22 @@ public class SqrtTest {
 	}
 
 	@Test
+	public void SqrtOfInverseOfXInverseShouldBeZeroAtZero() {
+		Interval result =
+				interval(0).multiplicativeInverse().multiplicativeInverse();
+		Interval root = result.sqrt();
+		assertEquals(zero(), root);
+	}
+
+	@Test
+	public void SqrtOfInverseOfXInverseShouldBeZeroAroundZero() {
+		Interval result =
+				aroundZero().multiplicativeInverse().multiplicativeInverse();
+		Interval root = result.sqrt();
+		assertEquals(interval(0, 0.001), root);
+	}
+
+	@Test
 	public void testSqrtSqrtOfXInverse() {
 		Interval result =
 				interval(0).sqrt().sqrt();
@@ -70,5 +86,4 @@ public class SqrtTest {
 	public void testSqrtTanX() {
 		assertEquals(undefined(), piHalf().tan().sqrt());
 	}
-
 }

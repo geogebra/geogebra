@@ -885,7 +885,10 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return this
 	 */
 	public Interval invert() {
-		setInverted();
+		inverted = isInverted()
+				? Inversion.NONE
+				: Inversion.INVERTED;
+
 		return this;
 	}
 

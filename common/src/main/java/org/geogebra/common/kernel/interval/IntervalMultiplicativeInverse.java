@@ -59,7 +59,7 @@ public class IntervalMultiplicativeInverse {
 	}
 
 	private void handleInverted() {
-		interval.uninvert();
+		interval.invert();
 		if (!interval.isWhole()) {
 			invertBounds();
 		}
@@ -114,6 +114,6 @@ public class IntervalMultiplicativeInverse {
 
 	private void inverseWithZeroWithinBounds() {
 		invertBounds();
-		interval.setInverted();
+		interval.invert();
 	}
 }

@@ -27,7 +27,6 @@ public class IntervalRoot {
 		if (interval.hasZero()) {
 			if (interval.getLow() < 0) {
 				interval.set(0, oddFractionPower(interval.getHigh(), 0.5));
-				interval.invert();
 				return interval;
 			}
 			return IntervalConstants.zero();
