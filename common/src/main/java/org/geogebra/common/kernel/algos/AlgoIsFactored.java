@@ -73,8 +73,6 @@ public class AlgoIsFactored extends AlgoElement {
 			outputBoolean.setUndefinedProverOnly();
 			return;
 		}
-		outputBoolean.setDefined();
-		multiplyCoeffs.clear();
 		PolyFunction polyFun =
 				function.expandToPolyFunction(function.getExpression(), false, false);
 		int degree = polyFun.getDegree();
@@ -82,13 +80,12 @@ public class AlgoIsFactored extends AlgoElement {
 			outputBoolean.setUndefinedProverOnly();
 			return;
 		}
+		outputBoolean.setDefined();
+		multiplyCoeffs.clear();
 		fv = function.getFunctionVariable();
 		ExpressionNode node = function.getGeoFunction().getFunctionExpression();
 		if (node != null) {
-			boolean isFactored = isFactored(node);
-			if (isFactored && multiplyCoeffs.size() > 1) {
-				isFactored = false;
-			}
+			boolean isFactored = isFactored(node) && multiplyCoeffs.size() <= 1;
 			outputBoolean.setValue(isFactored);
 		}
 	}
