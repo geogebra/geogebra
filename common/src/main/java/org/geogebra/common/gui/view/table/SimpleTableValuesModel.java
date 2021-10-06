@@ -165,7 +165,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 				if (evaluatable instanceof GeoList) {
 					size = ((GeoList) evaluatable).size();
 				}
-				updateCell(evaluatable, index, size);
+				columns.get(index).invalidateValues(size);
+				notifyColumnChanged(evaluatable, index);
 			}
 		}
 	}
