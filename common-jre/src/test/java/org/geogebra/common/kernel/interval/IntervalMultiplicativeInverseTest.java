@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.wholeR;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zeroWithNegativeSign;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -34,6 +35,11 @@ public class IntervalMultiplicativeInverseTest {
 	}
 
 	@Test
+	public void inverseOfWholeShouldBeZero() {
+		assertEquals(zero(), wholeR().multiplicativeInverse());
+	}
+
+		@Test
 	public void inverseOfInfinityShouldBeZero() {
 		assertEquals(zero(), interval(Double.POSITIVE_INFINITY).multiplicativeInverse());
 		assertEquals(zeroWithNegativeSign(),

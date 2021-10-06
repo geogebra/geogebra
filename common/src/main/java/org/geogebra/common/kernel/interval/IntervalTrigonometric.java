@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.*;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
@@ -26,16 +27,16 @@ class IntervalTrigonometric {
 			return interval;
 		}
 
-		if (interval.isRealWhole() || interval.isInverted()) {
-			setDefaultInterval();
-			return interval;
-		}
+//		if (interval.isRealWhole() /*|| interval.isInverted()*/) {
+//			setDefaultInterval();
+//			return interval;
+//		}
 
 		Interval cache = new Interval(interval);
 		handleNegative(cache);
 
-		Interval pi = IntervalConstants.pi();
-		Interval pi2 = IntervalConstants.piTwice();
+		Interval pi = pi();
+		Interval pi2 = piTwice();
 		cache.fmod(pi2);
 		if (cache.getWidth() >= PI_TWICE_LOW) {
 			interval.set(-1, 1);
@@ -98,7 +99,7 @@ class IntervalTrigonometric {
 		} else if (interval.isEmpty() || interval.isInfiniteSingleton()) {
 			interval.setEmpty();
 		} else {
-			interval.subtract(IntervalConstants.piHalf()).cos();
+			interval.subtract(piHalf()).cos();
 		}
 		return interval;
 	}
@@ -114,7 +115,7 @@ class IntervalTrigonometric {
 	 */
 	public Interval sec() {
 		if (interval.isWhole()) {
-			return IntervalConstants.one();
+			return one();
 		}
 		Interval intervalCopy = new Interval(this.interval);
 		return intervalCopy.cos().multiplicativeInverse();
@@ -125,11 +126,8 @@ class IntervalTrigonometric {
 	 * @return cotangent of the interval
 	 */
 	public Interval cot() {
-		Interval intervalCopy = new Interval(this.interval);
-		Interval tan = intervalCopy.tan();
-		return tan.isWhole() && !tan.isInverted()
-				? IntervalConstants.undefined()
-				: tan.multiplicativeInverse();
+		Interval tan = interval.tan();
+		return tan.multiplicativeInverse();
 	}
 
 	/**
@@ -154,10 +152,10 @@ class IntervalTrigonometric {
 
 		Interval cache = new Interval(interval);
 		handleNegative(cache);
-		cache.fmod(IntervalConstants.pi());
+		cache.fmod(pi());
 
 		if (cache.getLow() >= PI_HALF_LOW) {
-			cache.subtract(IntervalConstants.pi());
+			cache.subtract(pi());
 		}
 
 		if (cache.getLow() <= -PI_HALF_LOW || cache.getHigh() >= PI_HALF_LOW) {

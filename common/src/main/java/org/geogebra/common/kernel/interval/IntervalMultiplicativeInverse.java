@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -21,6 +23,10 @@ public class IntervalMultiplicativeInverse {
 	public Interval getResult() {
 		if (interval.isEmpty()) {
 			return interval;
+		}
+
+		if (interval.isRealWhole()) {
+			return zero();
 		}
 
 		if (interval.isUndefined()) {
