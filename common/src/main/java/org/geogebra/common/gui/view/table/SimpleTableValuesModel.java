@@ -165,8 +165,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 				if (evaluatable instanceof GeoList) {
 					size = ((GeoList) evaluatable).size();
 				}
-				columns.get(index).invalidateValues(size);
-				notifyColumnChanged(evaluatable, index);
+				updateCell(evaluatable, index, size);
 			}
 		}
 	}
@@ -176,22 +175,25 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param element element that might be part of a list
 	 */
 	void maybeUpdateListElement(GeoElement element) {
-		int xCellIndex = -1;
+		int updatedXRow = -1;
 		for (int i = 0; i < columns.size(); i++) {
 			GeoEvaluatable evaluatable = columns.get(i).getEvaluatable();
 			if (evaluatable instanceof GeoList) {
 				GeoList list = (GeoList) evaluatable;
 				int index = list.find(element);
 				if (index > -1) {
-					columns.get(i).invalidateValue(index);
-					notifyCellChanged(evaluatable, i, index);
-					xCellIndex = i == 0 ? index : -1;
+					updateCell(evaluatable, i, index);
+					updatedXRow = i == 0 ? index : -1;
 				}
-			} else if (evaluatable instanceof GeoFunction && xCellIndex > -1) {
-				columns.get(i).invalidateValue(xCellIndex);
-				notifyCellChanged(evaluatable, i, xCellIndex);
+			} else if (evaluatable instanceof GeoFunction && updatedXRow > -1) {
+				updateCell(evaluatable, i, updatedXRow);
 			}
 		}
+	}
+
+	private void updateCell(GeoEvaluatable evaluatable, int col, int row) {
+		columns.get(col).invalidateValue(row);
+		notifyCellChanged(evaluatable, col, row);
 	}
 
 	/**
