@@ -126,8 +126,9 @@ class IntervalTrigonometric {
 	 * @return cotangent of the interval
 	 */
 	public Interval cot() {
-		Interval tan = interval.tan();
-		return tan.multiplicativeInverse();
+		Interval result = this.interval.tan().multiplicativeInverse();
+		result.clearInverted();
+		return result;
 	}
 
 	/**
@@ -160,7 +161,7 @@ class IntervalTrigonometric {
 
 		if (cache.getLow() <= -PI_HALF_LOW || cache.getHigh() >= PI_HALF_LOW) {
 			interval.setWhole();
-			interval.setInverted();
+			interval.markAsInverted();
 		} else {
 			interval.set(RMath.tanLow(cache.getLow()), RMath.tanHigh(cache.getHigh()));
 		}

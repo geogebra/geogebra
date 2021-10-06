@@ -779,7 +779,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return low == 1 && high == 1;
+		return DoubleUtil.isEqual(low, 1, IntervalConstants.Delta)
+				&& DoubleUtil.isEqual(high, 1, IntervalConstants.Delta);
 	}
 
 	/**
@@ -787,7 +788,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the interval is the negative unit one.
 	 */
 	public boolean isMinusOne() {
-		return low == -1 && high == -1;
+		return DoubleUtil.isEqual(low, -1, IntervalConstants.Delta)
+				&& DoubleUtil.isEqual(high, -1, IntervalConstants.Delta);
 	}
 
 	public boolean isFinite() {
@@ -874,11 +876,14 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * [-∞, low] union [high, ∞]
 	 * Note: zero interval cannot be inverted.
 	 */
-	public void setInverted() {
-		if (true || !isZero()) {
-			inverted = Inversion.INVERTED;
-		}
+	public void markAsInverted() {
+		inverted = Inversion.INVERTED;
 	}
+
+	public void clearInverted() {
+		inverted = Inversion.NONE;
+	}
+
 
 	/**
 	 * Inverts interval

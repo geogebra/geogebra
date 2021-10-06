@@ -61,7 +61,7 @@ public class IntervalMultiply {
 		}
 
 		if (other.isInverted()) {
-			interval.setInverted();
+			interval.markAsInverted();
 		}
 		if (other.isUninverted()) {
 			interval.uninvert();

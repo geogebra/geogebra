@@ -138,7 +138,7 @@ public class IntervalDivide {
 
 		Interval result = new Interval(interval.getLow() / other.getLow(),
 				interval.getHigh() / other.getHigh());
-		result.setInverted();
+		result.markAsInverted();
 		return result;
 	}
 }

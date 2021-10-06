@@ -96,9 +96,7 @@ public class IntervalMultiplicativeInverse {
 			invertBounds();
 			interval.uninvert();
 		} else {
-			interval.set(interval.getLow() < 0
-					? Double.NEGATIVE_INFINITY
-					: Double.POSITIVE_INFINITY);
+			interval.set(IntervalConstants.wholeR());
 		}
 	}
 

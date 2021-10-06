@@ -37,7 +37,7 @@ public class IntervalTest {
 
 	static Interval invertedInterval(double low, double high) {
 		Interval interval = interval(low, high);
-		interval.setInverted();
+		interval.markAsInverted();
 		return interval;
 	}
 

@@ -9,7 +9,7 @@ public class IntervalConstants {
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
 	public static final double NEGATIVE_INFINITY = Double.NEGATIVE_INFINITY;
 	public static final double POSITIVE_INFINITY = Double.POSITIVE_INFINITY;
-
+	public static final double Delta = 1E-6;
 	/**
 	 *
 	 * @return a newly created empty interval.
@@ -109,4 +109,5 @@ public class IntervalConstants {
 	public static Interval zeroWithNegativeSign() {
 		return new Interval(-1E-7, 1E-7);
 	}
+
 }

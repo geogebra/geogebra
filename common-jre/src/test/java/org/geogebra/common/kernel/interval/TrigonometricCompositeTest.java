@@ -20,16 +20,6 @@ public class TrigonometricCompositeTest {
 
 	}
 
-	@Test
-	public void CosCotXShouldBeOneAroundKTimesPiHalf() {
-		// cos(cot(pi/2))
-		assertEquals(one(), withPiPeriodAround(Math.PI / 2,0).cot().cos());
-		assertEquals(one(), withPiPeriodAround(Math.PI / 2,1).cot().cos());
-		assertEquals(one(), withPiPeriodAround(Math.PI / 2,2).cot().cos());
-		assertEquals(one(), withPiPeriodAround(Math.PI / 2,12010).cot().cos());
-
-	}
-
 	private Interval withPiPeriod(double value, int k) {
 		double period = Math.PI * k;
 		return interval(period + value);
@@ -39,5 +29,39 @@ public class TrigonometricCompositeTest {
 		double period = Math.PI * k;
 		double x = period + value;
 		return interval(x - 1E-6, x + 1E-6);
+	}
+
+	@Test
+	public void CosCotXShouldBeOneAroundKTimesPiHalf() {
+		// cos(cot(k * pi + pi/2))
+		assertEquals(one(), withPiPeriodAround(Math.PI / 2,0).cot().cos());
+		assertEquals(one(), withPiPeriodAround(Math.PI / 2,1).cot().cos());
+		assertEquals(one(), withPiPeriodAround(Math.PI / 2,2).cot().cos());
+		assertEquals(one(), withPiPeriodAround(Math.PI / 2,12010).cot().cos());
+
+	}
+
+	@Test
+	public void CosCotXShouldBeStandardAtKTimesPi() {
+		// cos(cot(k * pi))
+		assertEquals(standardInterval(), withPiPeriod(Math.PI, -2).cot().cos());
+		assertEquals(standardInterval(), withPiPeriod(Math.PI, -1).cot().cos());
+		assertEquals(standardInterval(), withPiPeriod(Math.PI, 0).cot().cos());
+		assertEquals(standardInterval(), withPiPeriod(Math.PI, 1).cot().cos());
+		assertEquals(standardInterval(), withPiPeriod(Math.PI, 2).cot().cos());
+	}
+
+	@Test
+	public void CosCotXShouldBeStandardAroundKTimesPi() {
+		// cos(cot(k * pi))
+		assertEquals(standardInterval(), withPiPeriodAround(Math.PI, -2).cot().cos());
+		assertEquals(standardInterval(), withPiPeriodAround(Math.PI, -1).cot().cos());
+		assertEquals(standardInterval(), withPiPeriodAround(Math.PI, 0).cot().cos());
+		assertEquals(standardInterval(), withPiPeriodAround(Math.PI, 1).cot().cos());
+		assertEquals(standardInterval(), withPiPeriodAround(Math.PI, 2).cot().cos());
+	}
+
+	private Interval standardInterval() {
+		return interval(-1, 1);
 	}
 }
