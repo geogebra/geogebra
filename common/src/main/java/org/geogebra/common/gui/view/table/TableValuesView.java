@@ -400,7 +400,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	/**
 	 * returns html string of indexed label
-	 * @param columnIndex
+	 * @param columnIndex index of column
 	 * @return html string of indexed label
 	 */
 	public String getHeaderNameHTML(int columnIndex) {
