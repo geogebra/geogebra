@@ -221,7 +221,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction function = factory.createFunction("f(x) = sqrt(x)");
 		showColumn(function);
 
-		assertEquals("?", model.getCellAt(0, 1).getInput());
+		assertEquals("", model.getCellAt(0, 1).getInput());
 	}
 
 	@Test

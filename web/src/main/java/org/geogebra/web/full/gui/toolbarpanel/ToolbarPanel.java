@@ -897,9 +897,10 @@ public class ToolbarPanel extends FlowPanel
 		}
 
 		switchTab(TabIds.TABLE, fade);
-		if (tabTable != null) {
-			tabTable.scrollTo(geo);
-		}
+		// remove the scrolling for now
+		//if (tabTable != null) {
+			//tabTable.scrollTo(geo);
+		//}
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
 	}
 

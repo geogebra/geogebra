@@ -137,12 +137,14 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	protected int getParentIndex(Node currHeaderCell) {
 		Element parent = currHeaderCell.getParentElement();
-		NodeList<Node> headerNodes = parent.getChildNodes();
-		for (int i = 0; i < headerNodes.getLength(); i++) {
-			Node node = headerNodes.getItem(i);
-			// check if header cell is the one it was clicked on
-			if (node.equals(currHeaderCell)) {
-				return i;
+		if (parent != null) {
+			NodeList<Node> headerNodes = parent.getChildNodes();
+			for (int i = 0; i < headerNodes.getLength(); i++) {
+				Node node = headerNodes.getItem(i);
+				// check if header cell is the one it was clicked on
+				if (node.equals(currHeaderCell)) {
+					return i;
+				}
 			}
 		}
 		return -1;

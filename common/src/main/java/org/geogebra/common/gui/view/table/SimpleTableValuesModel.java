@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -175,17 +176,25 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param element element that might be part of a list
 	 */
 	void maybeUpdateListElement(GeoElement element) {
+		int updatedXRow = -1;
 		for (int i = 0; i < columns.size(); i++) {
 			GeoEvaluatable evaluatable = columns.get(i).getEvaluatable();
 			if (evaluatable instanceof GeoList) {
 				GeoList list = (GeoList) evaluatable;
 				int index = list.find(element);
 				if (index > -1) {
-					columns.get(i).invalidateValue(index);
-					notifyCellChanged(evaluatable, i, index);
+					updateCell(evaluatable, i, index);
+					updatedXRow = i == 0 ? index : -1;
 				}
+			} else if (evaluatable instanceof GeoFunction && updatedXRow > -1) {
+				updateCell(evaluatable, i, updatedXRow);
 			}
 		}
+	}
+
+	private void updateCell(GeoEvaluatable evaluatable, int col, int row) {
+		columns.get(col).invalidateValue(row);
+		notifyCellChanged(evaluatable, col, row);
 	}
 
 	/**
