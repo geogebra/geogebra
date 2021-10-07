@@ -93,8 +93,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// don't want to roll the scrollbar
 		double delta = event.deltaY;
 		// we are on device where many small scrolls come, we want to merge them
-		int x = (int) Math.round(event.offsetX);
-		int y = (int) Math.round(event.offsetY);
+		int x = (int) Math.round(event.offsetX / getZoomLevel());
+		int y = (int) Math.round(event.offsetY / getZoomLevel());
 		boolean shiftOrMeta = event.shiftKey || event.metaKey;
 		if (delta == 0) {
 			deltaSum += delta;
@@ -266,6 +266,17 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	@Override
 	public PointerEventType getDefaultEventType() {
 		return ec.getDefaultEventType();
+	}
+
+	@Override
+	public double getZoomLevel() {
+		String zoom = ((AppW) app).getGeoGebraElement().getParentElement()
+				.getStyle().getProperty("zoom");
+		try {
+			return Double.parseDouble(zoom);
+		} catch (NumberFormatException e) {
+			return 1;
+		}
 	}
 
 	public LongTouchManager getLongTouchManager() {
