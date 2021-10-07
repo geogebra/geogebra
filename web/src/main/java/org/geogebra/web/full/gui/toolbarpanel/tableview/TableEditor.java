@@ -77,7 +77,7 @@ public class TableEditor {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		needsFocusColumn = editColumn;
 		needsFocusRow = editRow + 1;
-		if (mathTextField.getText() != "") {
+		if (!"".equals(mathTextField.getText())) {
 			app.invokeLater(() -> {
 				startEditing(needsFocusRow, needsFocusColumn, null);
 			});
