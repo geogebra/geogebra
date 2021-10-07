@@ -556,6 +556,8 @@ public class DrawLabel3D {
         }
 
 		renderer.getRendererImpl().setLabelOrigin(labelOrigin);
+		renderer.getRendererImpl().setLabelLocation(
+				new float[]{(float) drawX, (float) drawY, (float) drawZ});
 
 		if (forPicking) {
 			// renderer.getGeometryManager().rectangle(drawX + pickingX, drawY +
