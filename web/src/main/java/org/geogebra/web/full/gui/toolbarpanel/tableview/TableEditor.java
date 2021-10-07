@@ -19,6 +19,8 @@ public class TableEditor {
 	private MathTextFieldW mathTextField;
 	private int editRow = -1;
 	private int editColumn = -1;
+	private int needsFocusRow = -1;
+	private int needsFocusColumn = -1;
 
 	/**
 	 * @param table table
@@ -48,7 +50,9 @@ public class TableEditor {
 			cell.appendChild(mathTextField.asWidget().getElement()); // then move in DOM
 
 			mathTextField.editorClicked();
-			mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
+			if (event != null) {
+				mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
+			}
 			editRow = row;
 			editColumn = column;
 		});
@@ -59,13 +63,25 @@ public class TableEditor {
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+			processInputAndFocusNextCell(list);
 		}
 		if (isNewColumnEdited(evaluatable)) {
-			table.view.getProcessor().processInput(mathTextField.getText(), null, editRow);
+			processInputAndFocusNextCell(null);
 		}
+
 		editRow = -1;
 		editColumn = -1;
+	}
+
+	private void processInputAndFocusNextCell(GeoList list) {
+		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+		needsFocusColumn = editColumn;
+		needsFocusRow = editRow + 1;
+		if (mathTextField.getText() != "") {
+			app.invokeLater(() -> {
+				startEditing(needsFocusRow, needsFocusColumn, null);
+			});
+		}
 	}
 
 	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
