@@ -30,4 +30,9 @@ public class ZeroOffset implements HasOffsets {
 		return PointerEventType.MOUSE;
 	}
 
+	@Override
+	public double getZoomLevel() {
+		return 1;
+	}
+
 }
