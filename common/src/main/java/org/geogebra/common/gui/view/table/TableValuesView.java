@@ -401,7 +401,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	/**
 	 * returns html string of indexed label
 	 * @param columnIndex
-	 * @return
+	 * @return html string of indexed label
 	 */
 	public String getHeaderNameHTML(int columnIndex) {
 		String content = getTableValuesModel().getHeaderAt(columnIndex);
