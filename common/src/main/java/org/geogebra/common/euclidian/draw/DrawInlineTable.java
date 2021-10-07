@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
@@ -160,5 +161,12 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	 */
 	public void setTextController(InlineTableController tableController) {
 		this.tableController = tableController;
+	}
+
+	public void setHitCellFromMouse(GPoint mouseLoc) {
+		if (tableController != null) {
+			GPoint2D p = rectangle.getInversePoint(mouseLoc.x, mouseLoc.y);
+			tableController.setHitCell(p.x, p.y);
+		}
 	}
 }

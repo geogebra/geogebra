@@ -463,6 +463,11 @@ public class InlineTableControllerW implements InlineTableController {
 		tableImpl.setExternalScale(sx);
 	}
 
+	@Override
+	public void setHitCell(double x, double y) {
+		tableImpl.setHitCell(x, y);
+	}
+
 	private void updateAndStoreUndoPoint() {
 		updateSizes();
 		view.getApplication().storeUndoInfo();

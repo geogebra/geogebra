@@ -12,7 +12,7 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def murokVersion = "1.0.202110110716"
+def murokVersion = "1.0.202110181347"
 
 dependencies {
     compile 'com.google.elemental2:elemental2-core:1.1.0',

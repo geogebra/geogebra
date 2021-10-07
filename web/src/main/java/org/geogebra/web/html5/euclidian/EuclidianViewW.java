@@ -713,7 +713,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 		pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 				euclidiancontroller.getOffsets());
-		pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
+		pointerHandler.attachTo(absPanel.getElement().getParentElement(),
+				((AppW) app).getGlobalHandlers());
 		CancelEventTimer.killTouch(absPanel);
 		absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 	}

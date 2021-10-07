@@ -89,4 +89,10 @@ public interface InlineTableController extends HasTextFormat {
 	int getSelectedColumn();
 
 	void setTransform(double angle, double sx, double sy);
+
+	/**
+	 * @param x pixel x-coordinate of the hit
+	 * @param y pixel y-coordinate of the hit
+	 */
+	void setHitCell(double x, double y);
 }
