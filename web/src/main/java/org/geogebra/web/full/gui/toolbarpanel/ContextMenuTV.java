@@ -76,15 +76,20 @@ public class ContextMenuTV {
 
 	private void buildGui() {
 		wrappedPopup = new GPopupMenuW(app);
+		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		if (getColumnIdx() > 0) {
+			addDelete();
+			addShowHidePoints();
+			wrappedPopup.addVerticalSeparator();
 			// column index > 0 -> edit function
-			if (view.getEvaluatable(getColumnIdx()) instanceof GeoList) {
-				addStats("Statistics", view::getStatistics1Var);
-				addStats("Statistics2", view::getStatistics2Var);
+			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
+			if (column instanceof GeoList) {
+				String headerHTMLName = view.getHeaderNameHTML(columnIdx);
+				addStats(headerHTMLName + " Statistics", view::getStatistics1Var);
+				addStats("x, " + headerHTMLName + " Statistics", view::getStatistics2Var);
 				addCommand(this::showRegression, "Regression",
 						"regression");
 			} else {
-				addShowHide();
 				addEdit(() -> {
 					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
 					if (guiManager != null) {
@@ -92,7 +97,6 @@ public class ContextMenuTV {
 					}
 				});
 			}
-			addDelete();
 		} else {
 			// column index = 0 -> edit x-column
 			addEdit(() -> {
@@ -120,7 +124,7 @@ public class ContextMenuTV {
 		dialog.updateContent(statFunction);
 	}
 
-	private void addShowHide() {
+	private void addShowHidePoints() {
 		final TableValuesPoints tvPoints = getApp().getGuiManager()
 				.getTableValuesPoints();
 		final int column = getColumnIdx();

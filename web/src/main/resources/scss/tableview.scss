@@ -224,4 +224,10 @@ $deleteTime: 120ms;
 		z-index: z-index.$z-snackbar;
 		font-size: 80%;
 	}
+
+	.tvContextMenu {
+		.menuSeparator {
+			width: 100%;
+		}
+	}
 }

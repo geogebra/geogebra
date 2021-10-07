@@ -397,4 +397,22 @@ public class TableValuesView implements TableValues, SettingListener {
 	public TableValuesProcessor getProcessor() {
 		return processor;
 	}
+
+	/**
+	 * returns html string of indexed label
+	 * @param columnIndex
+	 * @return
+	 */
+	public String getHeaderNameHTML(int columnIndex) {
+		String content = getTableValuesModel().getHeaderAt(columnIndex);
+		if (content.contains("_")) {
+			String[] labelParts = content.split("_");
+			if (labelParts.length == 2) {
+				String index = labelParts[1].replaceAll("\\{", "")
+						.replaceAll("\\}", "") ;
+				return labelParts[0] + "<sub>" + index + "</sub>";
+			}
+		}
+		return content;
+	}
 }
