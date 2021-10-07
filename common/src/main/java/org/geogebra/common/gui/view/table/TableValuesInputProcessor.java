@@ -11,22 +11,26 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.settings.TableSettings;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
 	private final TableValuesView tableValues;
 	private final TableValuesModel model;
+	private final TableSettings settings;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
 	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons, TableValuesView tableValues) {
+	public TableValuesInputProcessor(
+			Construction cons, TableValuesView tableValues, TableSettings settings) {
 		this.cons = cons;
 		this.tableValues = tableValues;
-		this.model = tableValues.getTableValuesModel();
+		this.settings = settings;
+		model = tableValues.getTableValuesModel();
 	}
 
 	@Override
@@ -45,6 +49,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		element.notifyUpdate();
 		if (isEmptyValue(element)) {
 			removeEmptyColumnAndRows(column, index);
+		}
+		if (list == tableValues.getValues()) {
+			settings.setValueList(list);
 		}
 		model.endBatchUpdate();
 		cons.getUndoManager().storeUndoInfo();

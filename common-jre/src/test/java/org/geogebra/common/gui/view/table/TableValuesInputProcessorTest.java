@@ -28,7 +28,11 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		view = new TableValuesView(getKernel());
 		model = view.getTableValuesModel();
 		getKernel().attach(view);
-		processor = new TableValuesInputProcessor(getConstruction(), (TableValuesView) view);
+		processor =
+				new TableValuesInputProcessor(
+						getConstruction(),
+						(TableValuesView) view,
+						getApp().getSettings().getTable());
 		list = new GeoList(getConstruction());
 	}
 
@@ -206,6 +210,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testUndoRedoOnXColumn() {
+		getApp().fileNew();
 		getApp().setUndoActive(true);
 		UndoManager undoManager = getApp().getUndoManager();
 
@@ -248,6 +253,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	@Test
 	public void testUndoRedoOnYColumn() {
+		getApp().fileNew();
 		getApp().setUndoActive(true);
 		UndoManager undoManager = getApp().getUndoManager();
 

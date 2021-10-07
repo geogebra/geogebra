@@ -65,10 +65,11 @@ public class TableValuesView implements TableValues, SettingListener {
 		app = kernel.getApplication();
 		Settings set = app.getSettings();
 		settings = set.getTable();
-		settings.setValueList(values);
+		settings.updateValueList(values);
 		elements = new HashSet<>();
 		labelController = new LabelController();
-		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
+		processor =
+				new TableValuesInputProcessor(kernel.getConstruction(), this, settings);
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -168,7 +169,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		if (settingsValues != null) {
 			refillValues(settingsValues);
 			model.updateEvaluatable(values);
-			settings.setValueList(values);
+			settings.updateValueList(values);
 		} else {
 			double[] range = createRangeOrDefault();
 			model.setValues(range);

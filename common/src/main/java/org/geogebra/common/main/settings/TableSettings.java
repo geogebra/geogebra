@@ -81,11 +81,15 @@ public class TableSettings extends AbstractSettings {
 		return valueList;
 	}
 
+	public void setValueList(GeoList valueList) {
+		this.valueList = valueList;
+	}
+
 	/**
 	 * Sets the valueList and notifies the listeners.
 	 * @param valueList x values list
 	 */
-	public void setValueList(GeoList valueList) {
+	public void updateValueList(GeoList valueList) {
 		this.valueList = valueList;
 		settingChanged();
 	}

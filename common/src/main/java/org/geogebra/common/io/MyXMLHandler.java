@@ -687,7 +687,7 @@ public class MyXMLHandler implements DocHandler {
 		TableSettings ts = app.getSettings().getTable();
 		String valuesString = attrs.get("xValues");
 		if (valuesString != null) {
-			ts.setValueList(getAlgProcessor().evaluateToList(valuesString));
+			ts.updateValueList(getAlgProcessor().evaluateToList(valuesString));
 		} else {
 			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
 			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
