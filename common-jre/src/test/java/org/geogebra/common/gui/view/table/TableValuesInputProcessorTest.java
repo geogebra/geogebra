@@ -205,7 +205,49 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testUndoRedo() {
+	public void testUndoRedoOnXColumn() {
+		getApp().setUndoActive(true);
+		UndoManager undoManager = getApp().getUndoManager();
+
+		processor.processInput("1", view.getValues(), 0);
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(1));
+		String cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.undo();
+		assertThat(model.getRowCount(), is(0));
+		assertThat(model.getColumnCount(), is(1));
+
+		undoManager.redo();
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(1));
+		cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		processor.processInput("2", view.getValues(), 0);
+		undoManager.undo();
+		cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.redo();
+		cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("2"));
+
+		processor.processInput("invalid", view.getValues(), 0);
+		undoManager.undo();
+		TableValuesCell cell = model.getCellAt(0, 0);
+		assertThat(cell.getInput(), equalTo("2"));
+		assertThat(cell.isErroneous(), is(false));
+
+		undoManager.redo();
+		cell = model.getCellAt(0, 0);
+		assertThat(cell.getInput(), equalTo("invalid"));
+		assertThat(cell.isErroneous(), is(true));
+	}
+
+	@Test
+	public void testUndoRedoOnYColumn() {
 		getApp().setUndoActive(true);
 		UndoManager undoManager = getApp().getUndoManager();
 
