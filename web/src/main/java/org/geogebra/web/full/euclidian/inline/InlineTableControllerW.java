@@ -21,6 +21,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
@@ -397,6 +398,7 @@ public class InlineTableControllerW implements InlineTableController {
 	private void initTable(Element parent) {
 		tableElement = DOM.createDiv();
 		tableElement.addClassName("mowWidget");
+		EventUtil.stopPointerEvents(tableElement, evt  -> evt.getButton() <= 0);
 		parent.appendChild(tableElement);
 
 		style = tableElement.getStyle();

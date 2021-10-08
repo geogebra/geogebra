@@ -198,7 +198,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				addCutCopyPaste();
 			}
 			textItems.addTableItemsIfNeeded();
-			if (textItems.isEditModeTable()) {
+			if (textItems.isEditModeTable() || textItems.isSingleTableCellSelection()) {
 				return;
 			}
 			boolean layerAdded = addLayerItem(getGeos());

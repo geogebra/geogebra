@@ -163,6 +163,10 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 		this.tableController = tableController;
 	}
 
+	/**
+	 * Set hit cell in the Carota editor
+	 * @param mouseLoc mouse location
+	 */
 	public void setHitCellFromMouse(GPoint mouseLoc) {
 		if (tableController != null) {
 			GPoint2D p = rectangle.getInversePoint(mouseLoc.x, mouseLoc.y);

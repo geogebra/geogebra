@@ -22,6 +22,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.CarotaEditor;
@@ -136,6 +137,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor = new CarotaEditor(DrawInlineText.PADDING);
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
+		EventUtil.stopPointerEvents(widget.getElement(), evt  -> evt.getButton() <= 0);
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
 		parent.appendChild(editor.getWidget().getElement());

@@ -1,8 +1,13 @@
 package org.geogebra.web.html5.util;
 
+import org.apache.commons.collections15.Predicate;
+import org.geogebra.gwtutil.NativePointerEvent;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.DomEvent;
+
+import jsinterop.base.Js;
 
 /**
  * Simple static methods helping event handling.
@@ -78,12 +83,25 @@ public final class EventUtil {
 	}
 
 	/**
-	 * @param element
-	 *            element
+	 * Stop propagating all pointer events
+	 * @param element target element
 	 */
 	public static void stopPointer(Element element) {
+		stopPointerEvents(element, evt -> true);
+	}
+
+	/**
+	 * Stops propagating pointer events that match a predicate.
+	 * @param element target element
+	 */
+	public static void stopPointerEvents(Element element, Predicate<NativePointerEvent> check) {
 		for (String evtName : new String[]{"pointerup", "pointerdown"}) {
-			Dom.addEventListener(element, evtName, e -> e.stopPropagation());
+			Dom.addEventListener(element, evtName, e -> {
+				NativePointerEvent ptrEvent = Js.uncheckedCast(e);
+				if (check.evaluate(ptrEvent)) {
+					e.stopPropagation();
+				}
+			});
 		}
 	}
 }
