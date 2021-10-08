@@ -313,6 +313,22 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
+	void notifyRowAdded(int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyRowAdded(row);
+			}
+		}
+	}
+
+	void notifyRowRemoved(int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyRowRemoved(row);
+			}
+		}
+	}
+
 	private void notifyDatasetChanged() {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
@@ -376,8 +392,17 @@ class SimpleTableValuesModel implements TableValuesModel {
 				}
 			}
 		}
+		notifyRowRemoved(lastRowIndex);
 		for (GeoList column : columnsToRemove) {
 			column.remove();
+		}
+	}
+
+	void onInput(GeoElement element, GeoList column, int rowIndex) {
+		if (isEmptyValue(element)) {
+			removeEmptyColumnAndRows(column, rowIndex);
+		} else if (isOnlyValueInRow(column, rowIndex)) {
+			notifyRowAdded(rowIndex + 1);
 		}
 	}
 }

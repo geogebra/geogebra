@@ -47,6 +47,10 @@ public interface TableValuesListener {
 	 */
 	void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column, int row);
 
+	void notifyRowAdded(int row);
+
+	void notifyRowRemoved(int row);
+
 	/**
 	 * Notified when the whole dataset changed.
 	 * @param model the model

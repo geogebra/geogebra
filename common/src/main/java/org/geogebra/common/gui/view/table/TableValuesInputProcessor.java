@@ -37,15 +37,11 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		model.startBatchUpdate();
 		GeoList column = ensureList(list);
 		ensureCapacity(column, index);
 		column.setListElement(index, element);
 		element.notifyUpdate();
-		if (model.isEmptyValue(element)) {
-			model.removeEmptyColumnAndRows(column, index);
-		}
-		model.endBatchUpdate();
+		model.onInput(element, column, index);
 	}
 
 	private GeoList ensureList(GeoList list) {
