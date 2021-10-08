@@ -442,8 +442,8 @@ public class XMLBuilder {
 		sb.append("\" height=\"");
 		sb.append(height);
 		if (inline instanceof GeoInlineText) {
-			sb.append("\" inpixels=\"");
-			sb.append("false");
+			sb.append("\" unscaled=\"");
+			sb.append("true");
 		}
 		sb.append("\" angle=\"");
 		sb.append(inline.getAngle());

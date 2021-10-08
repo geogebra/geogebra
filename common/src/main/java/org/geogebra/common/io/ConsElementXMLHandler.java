@@ -246,7 +246,7 @@ public class ConsElementXMLHandler {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
 		String angle = attrs.get("angle");
-		String inPixels = attrs.get("inpixels");
+		String unscaled = attrs.get("unscaled");
 		if (width != null && height != null) {
 
 			double widthD = -1;
@@ -276,23 +276,13 @@ public class ConsElementXMLHandler {
 					((RectangleTransformable) geo).setAngle(angleD);
 					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
 							|| geo instanceof GeoInlineTable) {
-						if (geo instanceof GeoInlineText) {
-							if (inPixels == null) {
-								// we have an old geoInlineText for which width and height
-								// are stored in pixels
-								((GeoInline) geo).setWidth(widthD);
-								((GeoInline) geo).setHeight(heightD);
-							} else {
-								((GeoInline) geo).setWidth(widthD * geo.getKernel().getApplication()
-										.getActiveEuclidianView().getSettings().getXscale());
-								((GeoInline) geo)
-										.setHeight(heightD * geo.getKernel().getApplication()
-												.getActiveEuclidianView().getSettings()
-												.getYscale());
-							}
+						if (unscaled != null) {
+							((GeoInline) geo).setSizeOnly(widthD * geo.getKernel().getApplication()
+											.getActiveEuclidianView().getSettings().getXscale(),
+									heightD * geo.getKernel().getApplication()
+											.getActiveEuclidianView().getSettings().getYscale());
 						} else {
-							((GeoInline) geo).setWidth(widthD);
-							((GeoInline) geo).setHeight(heightD);
+							((GeoInline) geo).setSizeOnly(widthD, heightD);
 						}
 						if (((GeoInline) geo).isZoomingEnabled()) {
 							((GeoInline) geo).setContentWidth(widthD);
