@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 import com.google.j2objc.annotations.Weak;
@@ -317,6 +318,66 @@ class SimpleTableValuesModel implements TableValuesModel {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyDatasetChanged(this);
 			}
+		}
+	}
+
+	void removeEmptyColumnAndRows(GeoList column, int index) {
+		removeColumnIfEmpty(column);
+		if (index == column.size() - 1) {
+			removeEmptyRowsFromBottom();
+		}
+	}
+
+	private void removeColumnIfEmpty(GeoList column) {
+		if (column == values) {
+			return;
+		}
+		for (int i = 0; i < column.size(); i++) {
+			GeoElement element = column.get(i);
+			if (!isEmptyValue(element)) {
+				return;
+			}
+		}
+		column.remove();
+	}
+
+	boolean isEmptyValue(GeoElement element) {
+		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
+	}
+
+	private void removeEmptyRowsFromBottom() {
+		while (getRowCount() > 0 && isLastRowEmpty()) {
+			removeLastRow();
+		}
+	}
+
+	private boolean isLastRowEmpty() {
+		int lastRowIndex = getRowCount() - 1;
+		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
+			if (!"".equals(getCellAt(lastRowIndex, columnIndex).getInput())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void removeLastRow() {
+		int lastRowIndex = getRowCount() - 1;
+		List<GeoList> columnsToRemove = new ArrayList<>();
+		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
+			GeoEvaluatable evaluatable = columns.get(columnIndex).getEvaluatable();
+			if (evaluatable instanceof GeoList) {
+				GeoList column = (GeoList) evaluatable;
+				if (lastRowIndex < column.size()) {
+					column.remove(lastRowIndex);
+				}
+				if (columnIndex != 0 && column.size() == 0) {
+					columnsToRemove.add(column);
+				}
+			}
+		}
+		for (GeoList column : columnsToRemove) {
+			column.remove();
 		}
 	}
 }
