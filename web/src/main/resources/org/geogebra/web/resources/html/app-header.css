@@ -165,7 +165,11 @@ img.profileImage {
     height: 48px;
     margin: 8px 0px;
     float: left;
-    cursor: pointer;
+    cursor: $logo_cursor;
+}
+
+.GeoGebraFrame .headerLogo .a {
+    cursor: $logo_cursor;
 }
 
 .GeoGebraFrame.GeoGebraHeader.suiteHeader {
