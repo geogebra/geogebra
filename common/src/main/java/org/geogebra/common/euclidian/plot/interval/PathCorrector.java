@@ -40,7 +40,7 @@ public class PathCorrector {
 		IntervalTuple tuple = model.pointAt(idx);
 		if (this.lastY.isEmpty()) {
 			this.lastY.setEmpty();
-		} else if (tuple.y().isRealWhole()) {
+		} else if (tuple.y().isWhole()) {
 			this.lastY.setEmpty();
 		} else if (isInvertedAround(idx)) {
 			handleFill(tuple);

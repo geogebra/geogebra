@@ -222,6 +222,13 @@ public class SqrtSamplerTest extends SamplerTest {
 	}
 
 	@Test
+	public void minusSqrtOfMinusXInverse() {
+		IntervalTupleList tuples = functionValuesWithSampleCount("-sqrt(1/-x)",
+				-1, 12, -12, 12, 100);
+		assertEquals(empty(), tuples.valueAt(0));
+	}
+
+	@Test
 	public void sqrtSticks() {
 		IntervalTupleList tuples = functionValuesWithSampleCount("sqrt(1/sin(1/x))",
 				-10, 10, -12, 12, 100);

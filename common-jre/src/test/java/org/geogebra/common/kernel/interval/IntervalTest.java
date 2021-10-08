@@ -61,7 +61,7 @@ public class IntervalTest {
 	@Test
 	public void isWhole() {
 		Interval interval = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-		assertTrue(interval.isRealWhole());
+		assertTrue(interval.isWhole());
 	}
 
 	@Test

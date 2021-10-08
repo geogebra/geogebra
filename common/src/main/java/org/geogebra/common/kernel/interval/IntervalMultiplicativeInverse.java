@@ -25,8 +25,12 @@ public class IntervalMultiplicativeInverse {
 			return interval;
 		}
 
-		if (interval.isRealWhole()) {
+		if (interval.isWhole()) {
 			return zero();
+		}
+
+		if (interval.isZero()) {
+			return IntervalConstants.positiveInfinity();
 		}
 
 		if (interval.isUndefined()) {

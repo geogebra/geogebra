@@ -154,7 +154,7 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public String toString() {
 		if (isWhole()) {
 			return "Interval [-Infinity, Infinity] 1E" + inverted.getPostfix();
-		} else if (isRealWhole()) {
+		} else if (isWhole()) {
 			return "Interval [-Infinity, Infinity] R"  + inverted.getPostfix();
 		}
 
@@ -209,19 +209,9 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 *
 	 * @return if interval represents all the real numbers R.
 	 */
-	public boolean isRealWhole() {
+	public boolean isWhole() {
 		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
 				&& DoubleUtil.isEqual(high, Double.POSITIVE_INFINITY);
-	}
-
-	/**
-	 *
-	 * @return if interval represents all the real numbers R with limits
-	 * defined in {@link IntervalConstants}.
-	 */
-	public boolean isWhole() {
-		return DoubleUtil.isEqual(low, IntervalConstants.NEGATIVE_INFINITY)
-				&& DoubleUtil.isEqual(high, IntervalConstants.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -779,8 +769,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return DoubleUtil.isEqual(low, 1, IntervalConstants.Delta)
-				&& DoubleUtil.isEqual(high, 1, IntervalConstants.Delta);
+		return DoubleUtil.isEqual(low, 1, IntervalConstants.PRECISION)
+				&& DoubleUtil.isEqual(high, 1, IntervalConstants.PRECISION);
 	}
 
 	/**
@@ -788,8 +778,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the interval is the negative unit one.
 	 */
 	public boolean isMinusOne() {
-		return DoubleUtil.isEqual(low, -1, IntervalConstants.Delta)
-				&& DoubleUtil.isEqual(high, -1, IntervalConstants.Delta);
+		return DoubleUtil.isEqual(low, -1, IntervalConstants.PRECISION)
+				&& DoubleUtil.isEqual(high, -1, IntervalConstants.PRECISION);
 	}
 
 	public boolean isFinite() {

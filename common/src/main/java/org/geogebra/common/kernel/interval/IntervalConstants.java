@@ -7,15 +7,14 @@ public class IntervalConstants {
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
-	public static final double NEGATIVE_INFINITY = Double.NEGATIVE_INFINITY;
-	public static final double POSITIVE_INFINITY = Double.POSITIVE_INFINITY;
-	public static final double Delta = 1E-6;
+	public static final double PRECISION = 1E-6;
+
 	/**
 	 *
 	 * @return a newly created empty interval.
 	 */
 	public static Interval empty() {
-		return new Interval(POSITIVE_INFINITY, NEGATIVE_INFINITY);
+		return new Interval(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
 	}
 
 	/**
@@ -39,7 +38,7 @@ public class IntervalConstants {
 	 * @return a newly created whole interval.
 	 */
 	public static Interval whole() {
-		return new Interval(NEGATIVE_INFINITY, POSITIVE_INFINITY);
+		return new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -88,8 +87,8 @@ public class IntervalConstants {
 	 * @return a newly created positive infinity singleton interval.
 	 */
 	public static Interval positiveInfinity() {
-		return new Interval(IntervalConstants.POSITIVE_INFINITY,
-				IntervalConstants.POSITIVE_INFINITY);
+		return new Interval(Double.POSITIVE_INFINITY,
+				Double.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -97,8 +96,8 @@ public class IntervalConstants {
 	 * @return a newly created negative infinity singleton interval.
 	 */
 	public static Interval negativeInfinity() {
-		return new Interval(IntervalConstants.NEGATIVE_INFINITY,
-				IntervalConstants.NEGATIVE_INFINITY);
+		return new Interval(Double.NEGATIVE_INFINITY,
+				Double.NEGATIVE_INFINITY);
 	}
 
 
