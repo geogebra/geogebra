@@ -133,9 +133,4 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 			scrollElement = DomGlobal.document.body;
 		}
 	}
-
-	private static boolean hasParentWindow() {
-		return DomGlobal.window.parent != DomGlobal.window;
-	}
-
 }
