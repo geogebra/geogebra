@@ -47,7 +47,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Weak
 	private TableSettings settings;
 
-	private GeoList values;
+	private final GeoList values;
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private LabelController labelController;
@@ -59,15 +59,17 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * @param kernel {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
-		this.values = new GeoList(kernel.getConstruction());
-		this.model = new SimpleTableValuesModel(kernel, values);
-		this.app = kernel.getApplication();
-		Settings set = app.getSettings();
-		this.settings = set.getTable();
-		this.elements = new HashSet<>();
 		this.kernel = kernel;
-		this.labelController = new LabelController();
-		this.processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
+		values = new GeoList(kernel.getConstruction());
+		model = new SimpleTableValuesModel(kernel, values);
+		app = kernel.getApplication();
+		Settings set = app.getSettings();
+		settings = set.getTable();
+		settings.updateValueList(values);
+		elements = new HashSet<>();
+		labelController = new LabelController();
+		processor =
+				new TableValuesInputProcessor(kernel.getConstruction(), this, settings);
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -84,7 +86,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		app.storeUndoInfo();
 	}
 
-	private void doShowColumn(GeoEvaluatable evaluatable) {
+	void doShowColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable) && evaluatable.hasTableOfValues()) {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());
@@ -162,9 +164,23 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
-	private void updateModelValues() {
-		double[] range = createRangeOrDefault();
-		model.setValues(range);
+	private void updateValues() {
+		GeoList settingsValues = settings.getValueList();
+		if (settingsValues != null) {
+			refillValues(settingsValues);
+			model.updateEvaluatable(values);
+			settings.updateValueList(values);
+		} else {
+			double[] range = createRangeOrDefault();
+			model.setValues(range);
+		}
+	}
+
+	private void refillValues(GeoList newValues) {
+		values.clear();
+		for (int i = 0; i < newValues.size(); i++) {
+			values.add(newValues.get(i));
+		}
 	}
 
 	private double[] createRangeOrDefault() {
@@ -343,7 +359,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		updateModelValues();
+		updateValues();
 	}
 
 	/**

@@ -685,9 +685,14 @@ public class MyXMLHandler implements DocHandler {
 
 	private void setTableParameters(LinkedHashMap<String, String> attrs) {
 		TableSettings ts = app.getSettings().getTable();
-		ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
-		ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
-		ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+		String valuesString = attrs.get("xValues");
+		if (valuesString != null) {
+			ts.updateValueList(getAlgProcessor().evaluateToList(valuesString));
+		} else {
+			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
+			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
+			ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+		}
 	}
 
 	protected GeoNumberValue getNumber(String string) {
