@@ -19,8 +19,6 @@ public class TableEditor {
 	private MathTextFieldW mathTextField;
 	private int editRow = -1;
 	private int editColumn = -1;
-	private int needsFocusRow = -1;
-	private int needsFocusColumn = -1;
 
 	/**
 	 * @param table table
@@ -71,10 +69,6 @@ public class TableEditor {
 		if ("".equals(mathTextField.getText()) && isEnter) {
 			app.hideKeyboard();
 		}
-		if (!isEnter) {
-			needsFocusColumn = -1;
-			needsFocusRow = -1;
-		}
 
 		editRow = -1;
 		editColumn = -1;
@@ -82,8 +76,8 @@ public class TableEditor {
 
 	private void processInputAndFocusNextCell(GeoList list, boolean isEnter) {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
-		needsFocusColumn = editColumn;
-		needsFocusRow = editRow + 1;
+		int needsFocusColumn = editColumn;
+		int needsFocusRow = editRow + 1;
 		if (!"".equals(mathTextField.getText()) && isEnter) {
 			app.invokeLater(() -> {
 				startEditing(needsFocusRow, needsFocusColumn, null);
