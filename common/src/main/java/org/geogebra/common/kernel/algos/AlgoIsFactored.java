@@ -32,7 +32,6 @@ public class AlgoIsFactored extends AlgoElement {
 	protected EquationSolverInterface eqnSolver;
 	private final Solution solution = new Solution();
 
-	private int numberValues = 0;
 	private ArrayList<MySpecialDouble> multiplyCoeffs = new ArrayList<>();
 
 	/**
@@ -81,13 +80,12 @@ public class AlgoIsFactored extends AlgoElement {
 			outputBoolean.setUndefinedProverOnly();
 			return;
 		}
+		outputBoolean.setDefined();
+		multiplyCoeffs.clear();
 		fv = function.getFunctionVariable();
 		ExpressionNode node = function.getGeoFunction().getFunctionExpression();
 		if (node != null) {
-			boolean isFactored = isFactored(node);
-			if (isFactored && numberValues > 1) {
-				isFactored = false;
-			}
+			boolean isFactored = isFactored(node) && multiplyCoeffs.size() <= 1;
 			outputBoolean.setValue(isFactored);
 		}
 	}
@@ -95,10 +93,8 @@ public class AlgoIsFactored extends AlgoElement {
 	private boolean isFactored(ExpressionNode node) {
 		if (node.isOperation(Operation.MULTIPLY)) {
 			if (node.getLeft() instanceof MySpecialDouble) {
-				numberValues += 1;
 				multiplyCoeffs.add((MySpecialDouble) node.getLeft());
 				if (node.getRight() instanceof MySpecialDouble) {
-					numberValues += 1;
 					multiplyCoeffs.add((MySpecialDouble) node.getRight());
 				}
 			}
@@ -107,7 +103,6 @@ public class AlgoIsFactored extends AlgoElement {
 					return isFactored(node.getLeft().wrap()) && isFactored(
 							node.getRight().wrap());
 				} else if (node.getRight() instanceof MySpecialDouble) {
-					numberValues += 1;
 					multiplyCoeffs.add((MySpecialDouble) node.getRight());
 				}
 				return isFactored(node.getLeft().wrap());
