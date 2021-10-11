@@ -112,6 +112,13 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void symbolicShouldShowPercentageForPercentage() {
+		setupInput("l", "3%");
+		assertEquals("3\\%", inputBox.getText());
+		assertEquals("3%", inputBox.getTextForEditor());
+	}
+
+	@Test
 	public void shouldShowValueForSimpleNumeric() {
 		setupInput("l", "5");
 		inputBox.setSymbolicMode(true, false);
