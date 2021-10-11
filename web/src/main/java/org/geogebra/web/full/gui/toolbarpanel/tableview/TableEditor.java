@@ -58,26 +58,29 @@ public class TableEditor {
 		});
 	}
 
-	private void stopEditing() {
+	private void stopEditing(boolean isEnter) {
 		mathTextField.asWidget().removeFromParent();
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			processInputAndFocusNextCell(list);
+			processInputAndFocusNextCell(list, isEnter);
 		}
 		if (isNewColumnEdited(evaluatable)) {
-			processInputAndFocusNextCell(null);
+			processInputAndFocusNextCell(null, isEnter);
 		}
-
+		if ("".equals(mathTextField.getText()) && isEnter) {
+			app.hideKeyboard();
+		}
+		
 		editRow = -1;
 		editColumn = -1;
 	}
 
-	private void processInputAndFocusNextCell(GeoList list) {
+	private void processInputAndFocusNextCell(GeoList list, boolean isEnter) {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		needsFocusColumn = editColumn;
 		needsFocusRow = editRow + 1;
-		if (!"".equals(mathTextField.getText())) {
+		if (!"".equals(mathTextField.getText()) && isEnter) {
 			app.invokeLater(() -> {
 				startEditing(needsFocusRow, needsFocusColumn, null);
 			});
@@ -92,8 +95,8 @@ public class TableEditor {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
-			mathTextField.addChangeHandler(this::stopEditing);
-			mathTextField.addBlurHandler(event -> stopEditing());
+			mathTextField.addChangeHandler(() -> stopEditing(true));
+			mathTextField.addBlurHandler(event -> stopEditing(false));
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
@@ -103,7 +106,7 @@ public class TableEditor {
 				}
 			});
 		} else if (editRow >= 0) {
-			stopEditing();
+			stopEditing(false);
 			table.flush();
 		}
 	}
