@@ -67,7 +67,7 @@ public class IntervalAlgebra {
 			return powerOfDouble(interval, power);
 		}
 
-		return powOfInteger(interval, (int) power);
+		return powOfInteger(interval, Math.round(power));
 	}
 
 	private Interval powerOfDouble(Interval interval, double power) {
@@ -75,7 +75,7 @@ public class IntervalAlgebra {
 		return exp(lnPower);
 	}
 
-	private Interval powOfInteger(Interval interval, int power) {
+	private Interval powOfInteger(Interval interval, long power) {
 		if (interval.getHigh() < 0) {
 			// [negative, negative]
 			double yl = powLow(-interval.getHigh(), power);

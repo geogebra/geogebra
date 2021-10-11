@@ -332,25 +332,21 @@ public class GeoGebraFrameFull
 		}
 		CancelEventTimer.keyboardSetVisible();
 		getApp().getKeyboardManager().addKeyboard(this);
-		Runnable callback = new Runnable() {
-
-			@Override
-			public void run() {
-				// this is async, maybe we canceled the keyboard
-				if (!isKeyboardShowing()) {
-					remove(keyboard);
-					return;
-				}
-				final boolean showPerspectivesPopup = getApp()
-						.isPerspectivesPopupVisible();
-				onKeyboardAdded(keyboard);
-				if (showPerspectivesPopup) {
-					getApp().showPerspectivesPopupIfNeeded();
-				}
-				if (!getApp().isWhiteboardActive()) {
-					if (textField != null) {
-						textField.setFocus(true);
-					}
+		Runnable callback = () -> {
+			// this is async, maybe we canceled the keyboard
+			if (!isKeyboardShowing()) {
+				remove(keyboard);
+				return;
+			}
+			final boolean showPerspectivesPopup = getApp()
+					.isPerspectivesPopupVisible();
+			onKeyboardAdded(keyboard);
+			if (showPerspectivesPopup) {
+				getApp().showPerspectivesPopupIfNeeded();
+			}
+			if (!getApp().isWhiteboardActive()) {
+				if (textField != null) {
+					textField.setFocus(true);
 				}
 			}
 		};
@@ -426,7 +422,6 @@ public class GeoGebraFrameFull
 		} else {
 			dp.hideZoomPanel();
 		}
-
 	}
 
 	@Override
@@ -694,23 +689,7 @@ public class GeoGebraFrameFull
 	 *            application
 	 */
 	public void attachToolbar(AppW app1) {
-		if (app1.isWhiteboardActive()) {
-			attachNotesUI(app1);
-
-			if (GlobalHeader.isInDOM()
-					&& !app1.isApplet()) {
-				app1.getGuiManager().menuToGlobalHeader();
-			} else if (!app1.isApplet()
-						|| app1.getAppletParameters().getDataParamShowMenuBar(false)) {
-				notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
-				attachMowMainMenu(app1);
-			}
-			app1.getGuiManager().initShareActionInGlobalHeader();
-			initPageControlPanel(app1);
-			return;
-		}
-
-		if (app1.isUnbundled()) {
+		if (app1.isUnbundled() || app1.isWhiteboardActive()) {
 			// do not attach old toolbar
 			return;
 		}
@@ -755,12 +734,24 @@ public class GeoGebraFrameFull
 	 */
 	public void attachNotesUI(AppW app) {
 		initNotesLayoutIfNull(app);
-		add(notesLayout.getToolbar());
+		if (notesLayout.getToolbar() != null) {
+			add(notesLayout.getToolbar());
+		}
 		if (app.getAppletParameters().getDataParamEnableUndoRedo()) {
 			add(notesLayout.getUndoRedoButtons());
 		}
 		setPageControlButtonVisible(app.isMultipleSlidesOpen()
 				|| app.getAppletParameters().getParamShowSlides());
+
+		if (GlobalHeader.isInDOM() && !app.isApplet()) {
+			app.getGuiManager().menuToGlobalHeader();
+		} else if (!app.isApplet()
+				|| app.getAppletParameters().getDataParamShowMenuBar(false)) {
+			notesLayout.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
+			attachMowMainMenu(app);
+		}
+		app.getGuiManager().initShareActionInGlobalHeader();
+		initPageControlPanel(app);
 	}
 
 	/**
@@ -768,7 +759,9 @@ public class GeoGebraFrameFull
 	 */
 	public void detachNotesToolbarAndUndo(AppW app) {
 		initNotesLayoutIfNull(app);
-		remove(notesLayout.getToolbar());
+		if (notesLayout.getToolbar() != null) {
+			remove(notesLayout.getToolbar());
+		}
 		remove(notesLayout.getUndoRedoButtons());
 	}
 
@@ -941,6 +934,7 @@ public class GeoGebraFrameFull
 	 * @param mode
 	 *            new mode for MOW toolbar
 	 */
+	@Override
 	public void setNotesMode(int mode) {
 		if (notesLayout == null) {
 			return;

@@ -442,13 +442,19 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			app = createApplication(geoGebraElement, appletParameters, this.laf);
 			app.setCustomToolBar();
 
-			Element parent = geoGebraElement.getParentElement();
-			if (parent != null) {
-				Element grandparent = parent.getParentElement();
-				if (grandparent != null) {
-					Event.sinkEvents(parent, Event.ONKEYPRESS | Event.ONKEYDOWN);
-					Event.setEventListener(parent,
-							app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+			if (app.isApplet()) {
+				Event.sinkEvents(geoGebraElement, Event.ONKEYPRESS | Event.ONKEYDOWN);
+				Event.setEventListener(geoGebraElement,
+						app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+			} else {
+				Element parent = geoGebraElement.getParentElement();
+				if (parent != null) {
+					Element grandparent = parent.getParentElement();
+					if (grandparent != null) {
+						Event.sinkEvents(parent, Event.ONKEYPRESS | Event.ONKEYDOWN);
+						Event.setEventListener(parent,
+								app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
+					}
 				}
 			}
 
@@ -696,5 +702,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		String imageDataUrl = app.getEuclidianView1()
 				.getExportImageDataUrl(scale, false, false);
 		callback.consume(StringUtil.removePngMarker(imageDataUrl));
+	}
+
+	public void setNotesMode(int mode) {
+		// nothing to do here
 	}
 }

@@ -991,6 +991,10 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.updateOrdering(labels);
 	}
 
+	public String getOrdering() {
+		return ggbAPI.getOrdering();
+	}
+
 	public void previewRefresh() {
 		ggbAPI.previewRefresh();
 	}
