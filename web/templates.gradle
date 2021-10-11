@@ -35,8 +35,8 @@ def replaceVendor = { htmlContent, vendor ->
             .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
 }
 
-def getCss = { mebis ->
-    return css("bundles", "simple-bundle") + css("", "keyboard-styles") + (mebis ? css("bundles", "mebis-bundle") : css("bundles", "bundle"))
+def getCss = { ->
+    return css("bundles", "simple-bundle") + css("", "keyboard-styles") + css("bundles", "bundle")
 }
 
 ext.english = { raw, appName ->
@@ -56,7 +56,7 @@ ext.handlebars = { raw ->
 
 ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
     def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
-    def inlinedCss = inlineCss ? getCss(false) : ""
+    def inlinedCss = inlineCss ? getCss() : ""
     return replaceVendor(html, "GeoGebra")
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
@@ -80,7 +80,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
     header = header.replace("<!--PICKER-->", offline ? "" : template("partials/picker.html"))
     header = partials(header, app.partials)
-    def inlinedCss = inlineCss ? getCss(app.vendor == "Mebis") : ""
+    def inlinedCss = inlineCss ? getCss() : ""
     def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
     def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
     def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
