@@ -30,7 +30,8 @@ public class IntervalMultiplicativeInverse {
 		}
 
 		if (interval.isZero()) {
-			return IntervalConstants.positiveInfinity();
+			return isLowNegativeWithoutPrecision() ? IntervalConstants.negativeInfinity()
+				: IntervalConstants.positiveInfinity();
 		}
 
 		if (interval.isUndefined()) {
@@ -61,6 +62,10 @@ public class IntervalMultiplicativeInverse {
 		}
 
 		return inverseWithPositiveBounds();
+	}
+
+	private boolean isLowNegativeWithoutPrecision() {
+		return interval.getLow() < 0;
 	}
 
 	private Interval inverseWithPositiveBounds() {

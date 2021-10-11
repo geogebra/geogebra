@@ -6,6 +6,7 @@ import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.kernel.interval.Interval;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class SqrtTest {
 		assertEquals(zero(), interval(0).sqrt());
 	}
 
-	@Ignore
+	@Ignore("fix this")
 	@Test
 	public void sqrtAroundZeroShouldBeZero() {
 		assertEquals(zero(), around(0).sqrt());
@@ -40,4 +41,10 @@ public class SqrtTest {
 		assertEquals(interval(Double.POSITIVE_INFINITY), zero().multiplicativeInverse().sqrt());
 	}
 
+	@Test
+	public void shouldBeMinusInfinity() {
+		Interval x = interval(-3.224503997145689E-14, 0.019999999999967755);
+		assertEquals(interval(Double.NEGATIVE_INFINITY),
+				x.negative().sqrt().negative().multiplicativeInverse());
+	}
 }
