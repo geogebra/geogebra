@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -77,6 +78,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
+
+	//ruler or protractor
+	private boolean isMeasurementTool = false;
 
 	/**
 	 * Creates new image
@@ -248,18 +252,36 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            height
 	 */
 	public void setImageFileName(String fileName, int width, int height) {
-
 		if (fileName == null) {
 			return;
 		}
 		if (fileName.equals(this.getGraphicsAdapter().getImageFileName())) {
 			return;
 		}
+		MyImage myImage = kernel.getApplication().getExternalImageAdapter(fileName, width, height);
+		setImageFileName(fileName, myImage);
+	}
 
+	/**
+	 * @param fileName filename
+	 * @param width width
+	 * @param height height
+	 */
+	public void setInternalImageFileName(String fileName, int width, int height) {
+		if (fileName == null) {
+			return;
+		}
+		if (fileName.equals(this.getGraphicsAdapter().getImageFileName())) {
+			return;
+		}
+		MyImage myImage = kernel.getApplication().getInternalImageAdapter(fileName, width, height);
+		setImageFileName(fileName, myImage);
+	}
+
+	private void setImageFileName(String fileName, MyImage myImage) {
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
-		this.getGraphicsAdapter().setImageOnly(kernel.getApplication()
-				.getExternalImageAdapter(fileName, width, height));
+		this.getGraphicsAdapter().setImageOnly(myImage);
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
@@ -1296,11 +1318,17 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public double getMinWidth() {
+		if (isMeasurementTool) {
+			return 1;
+		}
 		return IMG_SIZE_THRESHOLD;
 	}
 
 	@Override
 	public double getMinHeight() {
+		if (isMeasurementTool) {
+			return 1;
+		}
 		return IMG_SIZE_THRESHOLD;
 	}
 
@@ -1421,6 +1449,30 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (cropBox == null) {
 			cropBox = AwtFactory.getPrototype().newRectangle2D();
 			cropBox.setFrame(0, 0, pixelWidth, pixelHeight);
+		}
+	}
+
+	@Override
+	public boolean isMeasurementTool() {
+		return isMeasurementTool;
+	}
+
+	public void setMeasurementTool(boolean measurementTool) {
+		isMeasurementTool = measurementTool;
+	}
+
+	/**
+	 * set properties of image if it's a ruler or protractor
+	 */
+	public void setImagePropertiesIfNecessary() {
+		if (isMeasurementTool) {
+			if (getImageFileName().contains("Ruler.svg")) {
+				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
+			}
+			if (getImageFileName().contains("Protractor.svg")) {
+				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
+				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
+			}
 		}
 	}
 }

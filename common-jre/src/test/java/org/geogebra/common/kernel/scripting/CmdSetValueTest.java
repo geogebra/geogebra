@@ -4,10 +4,8 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class CmdSetValueTest extends BaseUnitTest {
@@ -16,10 +14,10 @@ public class CmdSetValueTest extends BaseUnitTest {
 	public void setValueShouldMakeImplicitCurvesUndefined() {
 		GeoImplicitCurve curve = add("eq1:x^2=y^3");
 		add("SetValue(eq1,?)");
-		Assert.assertEquals("?", curve.toValueString(StringTemplate.defaultTemplate));
+		assertThat(curve, hasValue("?"));
 		getApp().setXML(getApp().getXML(), true);
 		GeoElement curveReloaded = lookup("eq1");
-		Assert.assertEquals("?", curveReloaded.toValueString(StringTemplate.defaultTemplate));
+		assertThat(curveReloaded, hasValue("?"));
 	}
 
 	@Test

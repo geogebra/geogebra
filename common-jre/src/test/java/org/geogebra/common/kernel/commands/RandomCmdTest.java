@@ -1,10 +1,13 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,6 +63,22 @@ public class RandomCmdTest extends BaseUnitTest {
 	public void sequenceRandomShouldBeStable() {
 		shouldBeStable("Sequence(RandomBetween(1,100),k,1,5)");
 		shouldBeStable("Sequence(RandomBetween(1,k),k,1,5)");
+	}
+
+	@Test
+	public void latexListElementsShouldStayLatex() {
+		addLatex("f", "\\log x");
+		addLatex("g", "\\log y");
+		add("l1={f,g}");
+		GeoList l2 = add("l2=Shuffle(l1)");
+		add("SetValue(l2,{\"\\log x\", \"\\log y\"})");
+		GeoText firstElement = (GeoText) l2.get(0);
+		assertTrue("List element should be LaTeX", firstElement.isLaTeX());
+	}
+
+	private void addLatex(String label, String latex) {
+		GeoText text = add(label + "=\"" + latex + "\"");
+		text.setLaTeX(true, false);
 	}
 
 	private void shouldBeStable(String cmd) {

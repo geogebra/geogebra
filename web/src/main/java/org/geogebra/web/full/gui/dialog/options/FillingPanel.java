@@ -472,6 +472,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	@Override
 	public void setFillTypeVisible(boolean isVisible) {
+		fillTypeTitle.setVisible(isVisible);
 		lbFillType.setVisible(isVisible);
 	}
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
   <inherits name='org.geogebra.GwtUtil'/>
-  <inherits name='com.materializecss.Materialize'/>
   <source path='web/html5' />
   <source path='web/resources' />
   <source path='common/util/lang' />

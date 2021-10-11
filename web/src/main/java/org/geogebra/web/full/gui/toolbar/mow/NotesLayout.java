@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
@@ -23,7 +25,7 @@ public class NotesLayout implements SetLabels {
 	private final static int FLOATING_BTNS_WIDTH = 48;
 	private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
 	private final AppW appW;
-	private final ToolbarMow toolbar;
+	private final @CheckForNull ToolbarMow toolbar;
 	private StandardButton pageControlButton;
 	private PageListPanel pageControlPanel;
 	/** panel containing undo and redo */
@@ -38,7 +40,7 @@ public class NotesLayout implements SetLabels {
 	 */
 	public NotesLayout(AppW appW) {
 		this.appW = appW;
-		this.toolbar = new ToolbarMow(appW, this);
+		this.toolbar = appW.showToolBar() ? new ToolbarMow(appW, this) : null;
 		createUndoRedoButtons();
 		createPageControlButton();
 		setLabels();
@@ -75,7 +77,7 @@ public class NotesLayout implements SetLabels {
 		Dom.toggleClass(
 				pageControlButton,
 				"showMowSubmenu", "hideMowSubmenu",
-				toolbar.isOpen());
+				isNotesToolbarOpen());
 		pageControlButton.addStyleName("narrowscreen");
 	}
 
@@ -86,7 +88,7 @@ public class NotesLayout implements SetLabels {
 	private void moveZoomPanelAboveToolbar() {
 		EuclidianDockPanelW dockPanel = getDockPanel();
 		dockPanel.moveZoomPanelAboveToolbar();
-		dockPanel.moveZoomPanelUpOrDown(toolbar.isOpen());
+		dockPanel.moveZoomPanelUpOrDown(isNotesToolbarOpen());
 	}
 
 	private EuclidianDockPanelW getDockPanel() {
@@ -159,7 +161,9 @@ public class NotesLayout implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		toolbar.setLabels();
+		if (toolbar != null) {
+			toolbar.setLabels();
+		}
 		pageControlButton
 				.setTitle(appW.getLocalization().getMenu("PageControl"));
 		btnUndo.setTitle(appW.getLocalization().getMenu("Undo"));
@@ -217,8 +221,14 @@ public class NotesLayout implements SetLabels {
 		return undoRedoPanel;
 	}
 
+	/**
+	 * Select the correct icon in the toolbar
+	 * @param mode selected tool
+	 */
 	public void setMode(int mode) {
-		toolbar.setMode(mode);
+		if (toolbar != null) {
+			toolbar.setMode(mode);
+		}
 	}
 
 	public Widget getToolbar() {
@@ -229,13 +239,15 @@ public class NotesLayout implements SetLabels {
 	 * @return true if toolbar open, false otherwise
 	 */
 	public boolean isNotesToolbarOpen() {
-		return toolbar.isOpen();
+		return toolbar != null && toolbar.isOpen();
 	}
 
 	/**
 	 * @param open true if should open notes toolbar
 	 */
 	public void setToolbarOpen(boolean open) {
-		toolbar.openCloseNotesToolbar(open);
+		if (toolbar != null) {
+			toolbar.openCloseNotesToolbar(open);
+		}
 	}
 }
