@@ -1,8 +1,5 @@
 package org.geogebra.common.gui.view.table;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
@@ -10,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
@@ -41,7 +37,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		ensureCapacity(column, index);
 		column.setListElement(index, element);
 		element.notifyUpdate();
-		model.onInput(element, column, index);
+		model.updateRowAndColumnCount(element, column, index);
 	}
 
 	private GeoList ensureList(GeoList list) {

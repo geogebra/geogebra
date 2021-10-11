@@ -305,6 +305,21 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
+	public void notifyRowRemoved(int row) {
+
+	}
+
+	@Override
+	public void notifyRowChanged(int row) {
+
+	}
+
+	@Override
+	public void notifyRowAdded(int row) {
+
+	}
+
+	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		onColumnAdded();
 	}
