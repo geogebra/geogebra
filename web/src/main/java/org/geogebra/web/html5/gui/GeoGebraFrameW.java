@@ -703,4 +703,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				.getExportImageDataUrl(scale, false, false);
 		callback.consume(StringUtil.removePngMarker(imageDataUrl));
 	}
+
+	public void setNotesMode(int mode) {
+		// nothing to do here
+	}
 }

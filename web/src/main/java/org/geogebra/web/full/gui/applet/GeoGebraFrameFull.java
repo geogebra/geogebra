@@ -332,25 +332,21 @@ public class GeoGebraFrameFull
 		}
 		CancelEventTimer.keyboardSetVisible();
 		getApp().getKeyboardManager().addKeyboard(this);
-		Runnable callback = new Runnable() {
-
-			@Override
-			public void run() {
-				// this is async, maybe we canceled the keyboard
-				if (!isKeyboardShowing()) {
-					remove(keyboard);
-					return;
-				}
-				final boolean showPerspectivesPopup = getApp()
-						.isPerspectivesPopupVisible();
-				onKeyboardAdded(keyboard);
-				if (showPerspectivesPopup) {
-					getApp().showPerspectivesPopupIfNeeded();
-				}
-				if (!getApp().isWhiteboardActive()) {
-					if (textField != null) {
-						textField.setFocus(true);
-					}
+		Runnable callback = () -> {
+			// this is async, maybe we canceled the keyboard
+			if (!isKeyboardShowing()) {
+				remove(keyboard);
+				return;
+			}
+			final boolean showPerspectivesPopup = getApp()
+					.isPerspectivesPopupVisible();
+			onKeyboardAdded(keyboard);
+			if (showPerspectivesPopup) {
+				getApp().showPerspectivesPopupIfNeeded();
+			}
+			if (!getApp().isWhiteboardActive()) {
+				if (textField != null) {
+					textField.setFocus(true);
 				}
 			}
 		};
@@ -426,7 +422,6 @@ public class GeoGebraFrameFull
 		} else {
 			dp.hideZoomPanel();
 		}
-
 	}
 
 	@Override
@@ -939,6 +934,7 @@ public class GeoGebraFrameFull
 	 * @param mode
 	 *            new mode for MOW toolbar
 	 */
+	@Override
 	public void setNotesMode(int mode) {
 		if (notesLayout == null) {
 			return;

@@ -756,6 +756,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (archiveContent.containsKey(GgbFile.STRUCTURE_JSON)) {
 			getAppletParameters().setAttribute("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
+			getKernel().getConstruction().setProtractor(null);
+			getKernel().getConstruction().setRuler(null);
+			getAppletFrame().setNotesMode(getMode());
 			if (getPageController() != null) {
 				getPageController().loadSlides(archiveContent);
 				return;
@@ -806,7 +809,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			getGuiManager().updateToolbar();
 			return;
-
 		}
 
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
@@ -960,6 +962,17 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			int height) {
 		HTMLImageElement im = getImageManager().getExternalImage(fileName, this,
 				true);
+		return getImageAdapter(im, fileName, width, height);
+	}
+
+	@Override
+	public final MyImage getInternalImageAdapter(String fileName, int width,
+			int height) {
+		HTMLImageElement im = getImageManager().getInternalImage(fileName);
+		return getImageAdapter(im, fileName, width, height);
+	}
+
+	private MyImage getImageAdapter(HTMLImageElement im, String fileName, int width, int height) {
 		if (im == null) {
 			return null;
 		}
