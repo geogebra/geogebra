@@ -98,8 +98,8 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testNegativePowerOfEven() {
-		assertEquals(interval(4), interval(-2).pow(2));
-		assertEquals(interval(4), interval(-2).pow(1 + 1. / 3 + 1. / 3 + 1. / 3));
+		assertEquals(interval(4), pow(interval(-2), 2));
+		assertEquals(interval(4), pow(interval(-2), 1 + 1. / 3 + 1. / 3 + 1. / 3));
 	}
 
 	@Test
