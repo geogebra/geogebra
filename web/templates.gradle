@@ -78,6 +78,7 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def appID = app.id.split("-")[0]
     def appTransKey = app.transKey
     def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
+            .replace("<!--LOGO-LINK-->", offline ? "#" : "https://www.geogebra.org")
     header = header.replace("<!--PICKER-->", offline ? "" : template("partials/picker.html"))
     header = partials(header, app.partials)
     def inlinedCss = inlineCss ? getCss() : ""
@@ -90,7 +91,8 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def measurementId = app.measurementId ?: ""
     return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
-            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px'))
+            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px')
+                    .replace('$logo_cursor', offline ? 'default' : 'pointer'))
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
