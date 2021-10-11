@@ -71,6 +71,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
@@ -135,6 +136,7 @@ import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
+import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.gwtproject.regexp.client.NativeRegExpFactory;
@@ -284,6 +286,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getAppletParameters().getParamScaleContainerClass()),
 					obj -> checkScaleContainer());
 		}
+		initializeAnalytics();
 	}
 
 	/**
@@ -3492,5 +3495,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public GlobalHandlerRegistry getGlobalHandlers() {
 		return dropHandlers;
+	}
+
+	private void initializeAnalytics() {
+		try {
+			Analytics.setInstance(new AnalyticsW());
+		} catch (Throwable e) {
+			Log.debug("Could not initialize analytics object.");
+		}
 	}
 }
