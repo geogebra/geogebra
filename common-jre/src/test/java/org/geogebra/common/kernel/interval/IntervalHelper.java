@@ -20,6 +20,7 @@ public class IntervalHelper {
 	}
 
 	public static Interval around(double value, double precision) {
-		return interval(value - precision, value + precision);
+		double epsilon = RMath.prev(precision);
+		return interval(value - epsilon, value + epsilon);
 	}
 }

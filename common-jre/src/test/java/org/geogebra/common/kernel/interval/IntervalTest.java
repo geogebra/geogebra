@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.junit.Assert.assertEquals;
@@ -73,6 +74,14 @@ public class IntervalTest {
 	@Test
 	public void testWholeIsNotSingleton() {
 		assertFalse(IntervalConstants.whole().isSingleton());
+	}
+
+	@Test
+	public void testIsZero() {
+		assertTrue(interval(0, 0). isZero());
+		assertTrue(interval(0, PRECISION). isZero());
+		assertTrue(interval(PRECISION, 0). isZero());
+		assertTrue(interval(PRECISION). isZero());
 	}
 
 	@Test

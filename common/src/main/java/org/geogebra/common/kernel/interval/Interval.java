@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 
 import java.util.Objects;
@@ -593,8 +594,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if interval is [0].
 	 */
 	public boolean isZero() {
-		return DoubleUtil.isEqual(low, 0, 1E-6)
-				&& DoubleUtil.isEqual(high, 0, 1E-6);
+		return DoubleUtil.isEqual(low, 0, PRECISION)
+				&& DoubleUtil.isEqual(high, 0, PRECISION);
 	}
 
 	@Override
@@ -769,8 +770,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return DoubleUtil.isEqual(low, 1, IntervalConstants.PRECISION)
-				&& DoubleUtil.isEqual(high, 1, IntervalConstants.PRECISION);
+		return DoubleUtil.isEqual(low, 1, PRECISION)
+				&& DoubleUtil.isEqual(high, 1, PRECISION);
 	}
 
 	/**
@@ -778,8 +779,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	 * @return if the interval is the negative unit one.
 	 */
 	public boolean isMinusOne() {
-		return DoubleUtil.isEqual(low, -1, IntervalConstants.PRECISION)
-				&& DoubleUtil.isEqual(high, -1, IntervalConstants.PRECISION);
+		return DoubleUtil.isEqual(low, -1, PRECISION)
+				&& DoubleUtil.isEqual(high, -1, PRECISION);
 	}
 
 	public boolean isFinite() {

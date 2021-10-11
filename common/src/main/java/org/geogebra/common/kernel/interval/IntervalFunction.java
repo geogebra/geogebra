@@ -25,7 +25,7 @@ import org.geogebra.common.util.debug.Log;
 	 *
 	 * @param function to evaluate.
 	 */
-	IntervalFunction(GeoFunction function) {
+	public IntervalFunction(GeoFunction function) {
 		this.function = function;
 	}
 

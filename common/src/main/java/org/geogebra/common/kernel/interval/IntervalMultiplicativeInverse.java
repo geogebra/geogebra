@@ -65,7 +65,9 @@ public class IntervalMultiplicativeInverse {
 	}
 
 	private boolean isLowNegativeWithoutPrecision() {
-		return interval.getLow() < 0;
+		double low = interval.getLow();
+		return low < 0
+				|| low == 0 && (Double.doubleToLongBits(low) & 0x80000000) < 0;
 	}
 
 	private Interval inverseWithPositiveBounds() {

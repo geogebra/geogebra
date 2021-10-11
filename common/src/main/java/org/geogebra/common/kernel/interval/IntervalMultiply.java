@@ -26,8 +26,12 @@ public class IntervalMultiply {
 	 * @return interval * other.
 	 */
 	public Interval multiply(Interval other) {
-		if (interval.isZero() || other.isZero()) {
-			return IntervalConstants.zero();
+		if (interval.isZero()) {
+			return interval;
+		}
+
+		if (other.isZero()) {
+			return other;
 		}
 
 		if (interval.isWhole() || other.isOne()) {
