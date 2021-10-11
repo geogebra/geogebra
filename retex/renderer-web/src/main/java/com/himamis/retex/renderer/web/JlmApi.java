@@ -39,7 +39,7 @@ public class JlmApi {
 				!"string".equals(Js.typeof(opts.get("ascii")))) {
 			throw new IllegalArgumentException("drawLatex(opts): opts.latex or opts.ascii must be of type string.");
 		}
-		CanvasRenderingContext2D ctx = (CanvasRenderingContext2D) opts.get("context");
+		CanvasRenderingContext2D ctx = Js.uncheckedCast(opts.get("context"));
 		TeXFormula formula = opts.get("ascii") == null ? new TeXFormula((String) opts.get("latex"))
 				: library.fromAsciiMath((String) opts.get("ascii"));
 		int size = getInt(opts, "size", 12);
