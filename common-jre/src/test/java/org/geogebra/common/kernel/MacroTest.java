@@ -1,56 +1,74 @@
 package org.geogebra.common.kernel;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import java.util.Arrays;
+
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
-import org.geogebra.common.gui.dialog.ToolInputOutputListener;
 import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.Before;
 import org.junit.Test;
 
-public class MacroTest {
-	private AppCommon3D app;
-	private AlgebraProcessor ap;
-	private String syntax;
+public class MacroTest extends BaseUnitTest {
 
-	@Before
-	public void setupApp() {
-		app = new AppCommon3D(new LocalizationCommon(3),
+	@Override
+	public AppCommon3D createAppCommon() {
+		return new AppCommon3D(new LocalizationCommon(3),
 				new AwtFactoryCommon());
-		ap = app.getKernel().getAlgebraProcessor();
-	}
-
-	private void t(String input, String expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
-				StringTemplate.xmlTemplate);
 	}
 
 	@Test
 	public void lineMacro() {
-		t("A=(1,1)", "(1, 1)");
-		t("B=(2,2)", "(2, 2)");
-		t("f=Line(A,B)", "-x + y = 0");
-		ToolCreationDialogModel macroBuilder = new ToolCreationDialogModel(app,
-				new ToolInputOutputListener() {
-
-					@Override
-					public void updateLists() {
-						// no UI to update
-					}
-				});
-		macroBuilder.addToInput(get("A"));
-		macroBuilder.addToInput(get("B"));
-		macroBuilder.addToOutput(get("f"));
-		macroBuilder.createTool();
-		macroBuilder.finish(app, "TestLine", "TestLine", "two points", false,
-				null);
-		t("g=TestLine((1,3),(2,3))", "y = 3");
+		GeoElement a = add("A=(1,1)");
+		GeoElement b = add("B=(2,2)");
+		GeoElement f = add("f=Line(A,B)");
+		createMacro("TestLine", f, a, b);
+		GeoElement g = add("g=TestLine((1,3),(2,3))");
+		assertThat(g, hasValue("y = 3"));
 	}
 
-	private GeoElement get(String string) {
-		return app.getKernel().lookupLabel(string);
+	@Test
+	public void surfacesShouldWorkInMacros() {
+		GeoElement a = add("A=(0,1,0)");
+		add("f(u,v)=x(A)*u+y(A)*v");
+		GeoElement s = add("s=Surface(2*f(u,v),3*f(u,v),4*f(u,v),u,0,1,v,0,1)");
+		createMacro("TestSurface", s, a);
+		add("B=(2,3,4)");
+		add("C=(5,6,7)");
+		GeoElement sb = add("TestSurface(B)");
+		GeoElement sc = add("TestSurface(C)");
+		assertThat(sb, hasValue("(2 (2 u + 3 v), 3 (2 u + 3 v), 4 (2 u + 3 v))"));
+		assertThat(sc, hasValue("(2 (5 u + 6 v), 3 (5 u + 6 v), 4 (5 u + 6 v))"));
+		getKernel().updateConstruction();
+		assertThat(sb, hasValue("(2 (2 u + 3 v), 3 (2 u + 3 v), 4 (2 u + 3 v))"));
+	}
+
+	@Test
+	public void curvesShouldWorkInMacros() {
+		GeoElement a = add("A=(0,1,0)");
+		add("f(u)=x(A)*u+y(A)");
+		GeoElement s = add("s=Curve(2*f(u),3*f(u),4*f(u),u,0,1)");
+		createMacro("TestCurve", s, a);
+		add("B=(2,3,4)");
+		add("C=(5,6,7)");
+		GeoElement sb = add("TestCurve(B)");
+		GeoElement sc = add("TestCurve(C)");
+		assertThat(sb, hasValue("(2 (2 u + 3), 3 (2 u + 3), 4 (2 u + 3))"));
+		assertThat(sc, hasValue("(2 (5 u + 6), 3 (5 u + 6), 4 (5 u + 6))"));
+		getKernel().updateConstruction();
+		assertThat(sb, hasValue("(2 (2 u + 3), 3 (2 u + 3), 4 (2 u + 3))"));
+	}
+
+	private void createMacro(String name, GeoElement output, GeoElement... input) {
+		ToolCreationDialogModel macroBuilder = new ToolCreationDialogModel(getApp(),
+				() -> {/* no UI to update */});
+		Arrays.stream(input).forEach(macroBuilder::addToInput);
+		macroBuilder.addToOutput(output);
+		macroBuilder.createTool();
+		macroBuilder.finish(getApp(), name, name, input.length + " inputs expected",
+				false, null);
 	}
 }
