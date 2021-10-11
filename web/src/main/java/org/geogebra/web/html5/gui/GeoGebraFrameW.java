@@ -101,7 +101,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this.appletParameters = appletParameters;
 
 		if (!appletParameters.getDataParamApp()) {
-			addFocusHandlers(this.geoGebraElement.getElement());
+			addFocusHandlers(geoGebraElement);
 		}
 	}
 
@@ -664,9 +664,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		removeFromParent();
 		clear();
 		GeoGebraFrameW.instances.remove(this);
-		geoGebraElement.getElement().removeFromParent();
-		Event.setEventListener(geoGebraElement.getElement(),
-				null);
+		geoGebraElement.removeFromParent();
+		Event.setEventListener(geoGebraElement, null);
 		geoGebraElement = null;
 		app.getGlobalHandlers().removeAllListeners();
 		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();

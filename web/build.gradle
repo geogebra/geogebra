@@ -251,7 +251,7 @@ task copyHandlebars(dependsOn: 'compileSass') {
         }
         String solver = solverHtml()
         def solverPath = "${handlebarsDir}/solver-template.handlebars"
-        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"))
+        file(solverPath).text = handlebars(solver)
     }
 }
 
@@ -261,13 +261,7 @@ task createSolverHtml {
         // for localhost and autotest
         file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")
-            .replace("<!--APP TYPE-->", "solver")
             .replace("<!--SIGN IN-->", "Sign In")
-            .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
-        file("war/exercise.html").text = solver
-            .replace("<!--APP NAME-->", "Exercise app")
-            .replace("<!--SIGN IN-->", "Sign In")
-            .replace("<!--APP TYPE-->", "practice")
             .replace("<!--LANGUAGE LINKS-->", "<script>codebase=\"./\"</script>")
     }
 }
