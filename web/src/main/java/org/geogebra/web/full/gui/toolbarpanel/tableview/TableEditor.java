@@ -71,7 +71,11 @@ public class TableEditor {
 		if ("".equals(mathTextField.getText()) && isEnter) {
 			app.hideKeyboard();
 		}
-		
+		if (!isEnter) {
+			needsFocusColumn = -1;
+			needsFocusRow = -1;
+		}
+
 		editRow = -1;
 		editColumn = -1;
 	}
