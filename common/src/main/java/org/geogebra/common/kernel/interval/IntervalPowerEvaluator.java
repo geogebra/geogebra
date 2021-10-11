@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -45,7 +46,7 @@ public class IntervalPowerEvaluator {
 
 	private Interval handle(Interval base, Interval exponent, ExpressionValue right) {
 		if (MyDouble.exactEqual(base.getLow(), Math.E)) {
-			return exponent.exp();
+			return IntervalOperands.exp(exponent);
 		}
 
 		if (base.isNegative() && right.isExpressionNode()) {
@@ -59,7 +60,7 @@ public class IntervalPowerEvaluator {
 			}
 		}
 
-		return base.pow(exponent);
+		return pow(base, exponent);
 	}
 
 	private Interval calculateNegPower(ExpressionNode node, Interval base) throws Exception {
@@ -109,14 +110,14 @@ public class IntervalPowerEvaluator {
 		Interval interval = new Interval(x);
 		Interval base = nominator == 1
 				? interval
-				: interval.pow(nominator);
+				: pow(interval, nominator);
 
 		if (base.isPositive()) {
-			return base.pow(1d / denominator);
+			return pow(base, 1d / denominator);
 		}
 
 		if (isOdd(denominator)) {
-			return base.negative().pow(1d / denominator).negative();
+			return pow(base.negative(), 1d / denominator).negative();
 		}
 
 		return undefined();

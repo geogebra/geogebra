@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
 import org.geogebra.common.kernel.interval.IntervalTuple;
@@ -152,5 +153,9 @@ public class IntervalPlotModel {
 	 */
 	public int pointCount() {
 		return points.count();
+	}
+
+	public GeoFunction getGeoFunction() {
+		return sampler.getGeoFunction();
 	}
 }
