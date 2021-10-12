@@ -173,8 +173,15 @@ public class DrawLabel3D {
 			return;
 		}
 
-		this.color = new Coords((double) fgColor.getRed() / 255,
-				(double) fgColor.getGreen() / 255, (double) fgColor.getBlue() / 255,
+		GColor convertColor = fgColor;
+		if (view.isAdditiveDisplay()
+				&& convertColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
+			convertColor = Drawable3D.DARKEST_ADDITIVE_COLOR
+					.deriveWithAlpha(convertColor.getAlpha());
+		}
+
+		this.color = new Coords((double) convertColor.getRed() / 255,
+				(double) convertColor.getGreen() / 255, (double) convertColor.getBlue() / 255,
 				1);
 
 		if (bgColor != null) {
