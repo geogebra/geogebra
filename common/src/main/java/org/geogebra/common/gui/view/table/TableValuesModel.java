@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.view.table;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+
 /**
  * Class to hold values of table view and handle listeners.
  */
@@ -16,6 +19,8 @@ public interface TableValuesModel {
 	 * @param listener listener
 	 */
 	void unregisterListener(TableValuesListener listener);
+
+	void insert(GeoElement element, GeoList column, int rowIndex);
 
 	/**
 	 * Get the number of rows in the table.
@@ -53,4 +58,8 @@ public interface TableValuesModel {
 	 * Ends the batch update. Calls TableValuesListener.notifyDatasetChanged(TableValuesModel).
 	 */
 	void endBatchUpdate();
+
+	GeoElement createEmptyInput();
+
+	boolean isEmptyValue(GeoElement element);
 }

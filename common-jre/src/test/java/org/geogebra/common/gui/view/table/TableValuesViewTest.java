@@ -290,12 +290,16 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		view.getProcessor().processInput("10", view.getValues(), 0);
 		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+		verify(listener).notifyRowChanged(0);
 
 		view.getProcessor().processInput("11", null, 0);
 		GeoList c1 = (GeoList) view.getEvaluatable(1);
-		// notifyDatasetChanged should not have been called this time
+		// notifyDatasetChanged should be called this time
 		// (that's why the datasetChangedCount is not increased here)
 		verify(listener, times(datasetChangedCount)).notifyDatasetChanged(model);
+		// notifyRowChanged should not be called this time
+		// (that's why it still should have been called only once)
+		verify(listener, times(1)).notifyRowChanged(0);
 		verify(listener).notifyColumnAdded(model, c1, 1);
 
 		view.getProcessor().processInput("12", c1, 1);

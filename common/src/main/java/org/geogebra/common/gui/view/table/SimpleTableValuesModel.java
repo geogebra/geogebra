@@ -313,7 +313,15 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
-	void notifyRowAdded(int row) {
+	private void notifyRowRemoved(int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyRowRemoved(row);
+			}
+		}
+	}
+
+	private void notifyRowAdded(int row) {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyRowAdded(row);
@@ -321,10 +329,10 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
-	void notifyRowRemoved(int row) {
+	private void notifyRowChanged(int row) {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
-				listener.notifyRowRemoved(row);
+				listener.notifyRowChanged(row);
 			}
 		}
 	}
@@ -337,7 +345,34 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
-	void updateRowAndColumnCount(GeoElement element, GeoList column, int rowIndex) {
+	@Override
+	public void insert(GeoElement element, GeoList column, int rowIndex) {
+		ensureCapacity(column, rowIndex);
+		column.setListElement(rowIndex, element);
+		if (column == values) {
+			notifyRowChanged(rowIndex);
+		}
+		element.notifyUpdate();
+		updateRowAndColumnCount(element, column, rowIndex);
+	}
+
+	private void ensureCapacity(GeoList list, int index) {
+		boolean listWillChange = list.size() < index + 1;
+		list.ensureCapacity(index + 1);
+		for (int i = list.size(); i < index + 1; i++) {
+			list.add(createEmptyInput());
+		}
+		if (listWillChange) {
+			list.notifyUpdate();
+		}
+	}
+
+	@Override
+	public GeoElement createEmptyInput() {
+		return new GeoText(kernel.getConstruction(), "");
+	}
+
+	private void updateRowAndColumnCount(GeoElement element, GeoList column, int rowIndex) {
 		if (isEmptyValue(element)) {
 			removeEmptyColumnAndRows(column, rowIndex);
 		} else if (needsNewRow(column, rowIndex)) {
@@ -345,11 +380,12 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
-	boolean isEmptyValue(GeoElement element) {
+	@Override
+	public boolean isEmptyValue(GeoElement element) {
 		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
 	}
 
-	void removeEmptyColumnAndRows(GeoList column, int index) {
+	private void removeEmptyColumnAndRows(GeoList column, int index) {
 		if (index == column.size() - 1) {
 			removeEmptyRowsFromBottom();
 		}

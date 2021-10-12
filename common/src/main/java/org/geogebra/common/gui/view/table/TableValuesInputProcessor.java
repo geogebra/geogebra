@@ -12,7 +12,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
 	private final TableValues tableValues;
-	private final SimpleTableValuesModel model;
+	private final TableValuesModel model;
 
 	/**
 	 * Creates a TableValuesInputProcessor
@@ -22,7 +22,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
 		this.cons = cons;
 		this.tableValues = tableValues;
-		this.model = (SimpleTableValuesModel) tableValues.getTableValuesModel();
+		this.model = tableValues.getTableValuesModel();
 	}
 
 	@Override
@@ -33,11 +33,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		GeoList column = ensureList(list);
-		ensureCapacity(column, index);
-		column.setListElement(index, element);
-		element.notifyUpdate();
-		model.updateRowAndColumnCount(element, column, index);
+		model.insert(element, ensureList(list), index);
 	}
 
 	private GeoList ensureList(GeoList list) {
@@ -50,21 +46,10 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		return list;
 	}
 
-	private void ensureCapacity(GeoList list, int index) {
-		boolean listWillChange = list.size() < index + 1;
-		list.ensureCapacity(index + 1);
-		for (int i = list.size(); i < index + 1; i++) {
-			list.add(createEmptyInput());
-		}
-		if (listWillChange) {
-			list.notifyUpdate();
-		}
-	}
-
 	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return createEmptyInput();
+			return model.createEmptyInput();
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);
@@ -72,9 +57,5 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		} catch (NumberFormatException e) {
 			return new GeoText(cons, input);
 		}
-	}
-
-	private GeoElement createEmptyInput() {
-		return new GeoText(cons, "");
 	}
 }
