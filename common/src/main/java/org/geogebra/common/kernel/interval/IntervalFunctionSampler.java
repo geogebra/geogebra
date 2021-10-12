@@ -74,8 +74,8 @@ public class IntervalFunctionSampler {
 	private IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
 		IntervalTupleList samples = new IntervalTupleList();
 		evaluateOnEach(space, samples);
-//		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
-//		asymptotes.process();
+		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
+		asymptotes.process();
 		return samples;
 	}
 

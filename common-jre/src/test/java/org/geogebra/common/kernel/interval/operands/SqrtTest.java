@@ -7,6 +7,7 @@ import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.junit.Test;
 
 public class SqrtTest {
@@ -51,5 +52,17 @@ public class SqrtTest {
 		Interval x = interval(-0.0, 0.019999999999967755);
 		assertEquals(interval(Double.NEGATIVE_INFINITY),
 				x.negative().sqrt().negative().multiplicativeInverse());
+	}
+
+	@Test
+	public void sqrtCotCosPiHalf() {
+		Interval x = IntervalConstants.piHalf();
+		assertEquals(IntervalConstants.positiveInfinity(), x.cos().cot().sqrt());
+	}
+
+	@Test
+	public void sqrtCotCosAroudPiHalf() {
+		Interval x = around(Math.PI/2);
+		assertEquals(IntervalConstants.positiveInfinity(), x.cos().cot().sqrt());
 	}
 }

@@ -1,11 +1,13 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.*;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_HIGH;
-import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
+import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
+import static org.geogebra.common.kernel.interval.IntervalConstants.piTwice;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -136,36 +138,8 @@ class IntervalTrigonometric {
 	 * @return tangent of the interval.
 	 */
 	public Interval tan() {
-//
-//		if (interval.isInverted() && interval.isWhole()) {
-//			interval.setZero();
-//			return interval;
-//		}
-
-		if (interval.isWhole() || interval.isInfiniteSingleton()) {
-			interval.setEmpty();
-			return interval;
-		}
-
-		if (interval.isUndefined()) {
-			return interval;
-		}
-
-		Interval cache = new Interval(interval);
-		handleNegative(cache);
-		cache.fmod(pi());
-
-		if (cache.getLow() >= PI_HALF_LOW) {
-			cache.subtract(pi());
-		}
-
-		if (cache.getLow() <= -PI_HALF_LOW || cache.getHigh() >= PI_HALF_LOW) {
-			interval.setWhole();
-			interval.markAsInverted();
-		} else {
-			interval.set(RMath.tanLow(cache.getLow()), RMath.tanHigh(cache.getHigh()));
-		}
-		return interval;
+		Interval x2 = new Interval(this.interval);
+		return interval.sin().divide(x2.cos());
 	}
 
 	/**
