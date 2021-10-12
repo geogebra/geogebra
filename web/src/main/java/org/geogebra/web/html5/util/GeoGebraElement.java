@@ -96,6 +96,15 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 
 	/**
 	 *
+	 * @param element ui element
+	 * @return primary color
+	 */
+	public String getPrimaryColor(Element element) {
+		return getComputedStyle(element).getPropertyValue("--ggb-primary-color");
+	}
+
+	/**
+	 *
 	 * @return that the article element has (inherited) direction attribute
 	 */
 	public boolean isRTL() {
