@@ -316,7 +316,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private void notifyRowRemoved(int row) {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
-				listener.notifyRowRemoved(row);
+				listener.notifyRowRemoved(this, row);
 			}
 		}
 	}
@@ -324,7 +324,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private void notifyRowAdded(int row) {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
-				listener.notifyRowAdded(row);
+				listener.notifyRowAdded(this, row);
 			}
 		}
 	}
@@ -332,7 +332,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private void notifyRowChanged(int row) {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
-				listener.notifyRowChanged(row);
+				listener.notifyRowChanged(this, row);
 			}
 		}
 	}

@@ -288,10 +288,15 @@ public class TableValuesViewTest extends BaseUnitTest {
 		view.clearView();
 		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
 
+		// The input below will result in:
+		// x
+		// 10
 		view.getProcessor().processInput("10", view.getValues(), 0);
 		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
-		verify(listener).notifyRowChanged(0);
+		verify(listener).notifyRowChanged(model, 0);
 
+		// x    c1
+		// 10	11
 		view.getProcessor().processInput("11", null, 0);
 		GeoList c1 = (GeoList) view.getEvaluatable(1);
 		// notifyDatasetChanged should be called this time
@@ -299,25 +304,35 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, times(datasetChangedCount)).notifyDatasetChanged(model);
 		// notifyRowChanged should not be called this time
 		// (that's why it still should have been called only once)
-		verify(listener, times(1)).notifyRowChanged(0);
+		verify(listener, times(1)).notifyRowChanged(model, 0);
 		verify(listener).notifyColumnAdded(model, c1, 1);
 
+		// x    c1
+		// 10	11
+		//		12
 		view.getProcessor().processInput("12", c1, 1);
 		// notifyColumnAdded should not have been called this time
 		verify(listener, times(1)).notifyColumnAdded(model, c1, 1);
-		verify(listener).notifyRowAdded(1);
+		verify(listener).notifyRowAdded(model, 1);
 
+		// x    c1
+		// 10
+		//		12
 		view.getProcessor().processInput("", c1, 0);
-		// notifyRowRemoved(0) should not have been called
-		verify(listener, times(0)).notifyRowRemoved(0);
+		// notifyRowRemoved should not have been called
+		verify(listener, times(0)).notifyRowRemoved(model, 0);
 
+		// x    c1
+		//
+		//		12
 		view.getProcessor().processInput("", view.getValues(), 0);
-		// notifyRowRemoved(0) should not have been called
-		verify(listener, times(0)).notifyRowRemoved(0);
+		// notifyRowRemoved should not have been called
+		verify(listener, times(0)).notifyRowRemoved(model, 0);
 
+		// The input below will empty the model
 		view.getProcessor().processInput("", c1, 1);
-		verify(listener).notifyRowRemoved(1);
-		verify(listener).notifyRowRemoved(0);
+		verify(listener).notifyRowRemoved(model, 1);
+		verify(listener).notifyRowRemoved(model, 0);
 		verify(listener).notifyColumnRemoved(model, c1, 1);
 	}
 

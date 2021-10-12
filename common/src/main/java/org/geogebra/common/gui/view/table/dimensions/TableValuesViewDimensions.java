@@ -87,17 +87,17 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
 	@Override
-	public void notifyRowRemoved(int row) {
+	public void notifyRowRemoved(TableValuesModel model, int row) {
 
 	}
 
 	@Override
-	public void notifyRowChanged(int row) {
+	public void notifyRowChanged(TableValuesModel model, int row) {
 
 	}
 
 	@Override
-	public void notifyRowAdded(int row) {
+	public void notifyRowAdded(TableValuesModel model, int row) {
 
 	}
 

@@ -20,6 +20,12 @@ public interface TableValuesModel {
 	 */
 	void unregisterListener(TableValuesListener listener);
 
+	/**
+	 * Inserts an element.
+	 * @param element element
+	 * @param column column
+	 * @param rowIndex row index
+	 */
 	void insert(GeoElement element, GeoList column, int rowIndex);
 
 	/**
@@ -59,7 +65,14 @@ public interface TableValuesModel {
 	 */
 	void endBatchUpdate();
 
+	/**
+	 * @return empty input
+	 */
 	GeoElement createEmptyInput();
 
+	/**
+	 * @param element element
+	 * @return whether the element contains only an empty string
+	 */
 	boolean isEmptyValue(GeoElement element);
 }
