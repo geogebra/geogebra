@@ -302,6 +302,12 @@ public class InputBarHelpPanel {
 		return true;
 	}
 
+	/**
+	 * Logs the command help usage Analytics event
+	 *
+	 * @param commandName name of the command
+	 * @param useReverse whether the command name should be translated to internal name or not
+	 */
 	public void logHelpIconEvent(String commandName, boolean useReverse) {
 		Map<String, Object> params = new HashMap<>();
 		String command = commandName.contains("(") || !useReverse ? commandName :
