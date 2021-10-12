@@ -302,10 +302,11 @@ public class InputBarHelpPanel {
 		return true;
 	}
 
-	public void logHelpIconEvent(String commandName) {
+	public void logHelpIconEvent(String commandName, boolean useReverse) {
 		Map<String, Object> params = new HashMap<>();
-		String command = commandName.contains("(") ? commandName : mApp.getReverseCommand(commandName);
-		params.put(Analytics.Param.COMMAND,  command);
+		String command = commandName.contains("(") || !useReverse ? commandName :
+				mApp.getReverseCommand(commandName);
+		params.put(Analytics.Param.COMMAND, command);
 		Analytics.logEvent(Analytics.Event.COMMAND_HELP_ICON, params);
 	}
 }
