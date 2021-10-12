@@ -290,28 +290,37 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 		// The input below will result in:
 		// x
+		// 1
+		view.getProcessor().processInput("1", view.getValues(), 0);
+		// notifyDatasetChanged should not be called this time
+		// (that's why the datasetChangedCount is not increased here)
+		verify(listener, times(datasetChangedCount)).notifyDatasetChanged(model);
+		verify(listener).notifyRowAdded(model, 0);
+
+		// The input below will result in:
+		// x
 		// 10
 		view.getProcessor().processInput("10", view.getValues(), 0);
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+		// notifyDatasetChanged should not be called this time
+		verify(listener, times(datasetChangedCount)).notifyDatasetChanged(model);
+		// notifyRowAdded should not be called this time
+		// (so we verify that it's still called only once in this test)
+		verify(listener, times(1)).notifyRowAdded(model, 0);
 		verify(listener).notifyRowChanged(model, 0);
 
 		// x    c1
 		// 10	11
 		view.getProcessor().processInput("11", null, 0);
 		GeoList c1 = (GeoList) view.getEvaluatable(1);
-		// notifyDatasetChanged should be called this time
-		// (that's why the datasetChangedCount is not increased here)
+		// notifyDatasetChanged should not be called this time
 		verify(listener, times(datasetChangedCount)).notifyDatasetChanged(model);
-		// notifyRowChanged should not be called this time
-		// (that's why it still should have been called only once)
-		verify(listener, times(1)).notifyRowChanged(model, 0);
 		verify(listener).notifyColumnAdded(model, c1, 1);
 
 		// x    c1
 		// 10	11
 		//		12
 		view.getProcessor().processInput("12", c1, 1);
-		// notifyColumnAdded should not have been called this time
+		// notifyColumnAdded should not be called this time
 		verify(listener, times(1)).notifyColumnAdded(model, c1, 1);
 		verify(listener).notifyRowAdded(model, 1);
 
@@ -319,18 +328,20 @@ public class TableValuesViewTest extends BaseUnitTest {
 		// 10
 		//		12
 		view.getProcessor().processInput("", c1, 0);
-		// notifyRowRemoved should not have been called
+		// notifyRowRemoved should not be called
 		verify(listener, times(0)).notifyRowRemoved(model, 0);
 
 		// x    c1
 		//
 		//		12
 		view.getProcessor().processInput("", view.getValues(), 0);
-		// notifyRowRemoved should not have been called
+		// notifyRowRemoved should not be called
 		verify(listener, times(0)).notifyRowRemoved(model, 0);
 
 		// The input below will empty the model
 		view.getProcessor().processInput("", c1, 1);
+		// notifyDatasetChanged should not be called this time
+		verify(listener, times(datasetChangedCount)).notifyDatasetChanged(model);
 		verify(listener).notifyRowRemoved(model, 1);
 		verify(listener).notifyRowRemoved(model, 0);
 		verify(listener).notifyColumnRemoved(model, c1, 1);

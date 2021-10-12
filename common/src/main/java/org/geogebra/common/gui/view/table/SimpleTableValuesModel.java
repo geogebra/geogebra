@@ -152,23 +152,24 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param evaluatable object to update in table
 	 */
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
+		int index = getEvaluatableIndex(evaluatable);
 		if (evaluatable == values) {
 			for (TableValuesColumn column : columns) {
 				GeoEvaluatable e = column.getEvaluatable();
 				int columnSize = e instanceof GeoList ? ((GeoList) e).size() : 0;
 				column.invalidateValues(Math.max(columnSize, values.size()));
 			}
-			notifyDatasetChanged();
 		} else {
-			int index = getEvaluatableIndex(evaluatable);
 			if (index > -1) {
 				int size = values.size();
 				if (evaluatable instanceof GeoList) {
 					size = ((GeoList) evaluatable).size();
 				}
 				columns.get(index).invalidateValues(size);
-				notifyColumnChanged(evaluatable, index);
 			}
+		}
+		if (index > -1) {
+			notifyColumnChanged(evaluatable, index);
 		}
 	}
 
@@ -248,6 +249,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			values.add(new GeoNumeric(kernel.getConstruction(), value));
 		}
 		updateEvaluatable(values);
+		notifyDatasetChanged();
 	}
 
 	private void initializeModel() {
@@ -347,13 +349,17 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public void insert(GeoElement element, GeoList column, int rowIndex) {
+		int oldRowCount = getRowCount();
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
-		if (column == values) {
+		element.notifyUpdate();
+		if (isEmptyValue(element)) {
+			removeEmptyColumnAndRows(column, rowIndex);
+		} else if (rowIndex == oldRowCount && isOnlyValueInRow(column, rowIndex)) {
+			notifyRowAdded(rowIndex);
+		} else if (column == values) {
 			notifyRowChanged(rowIndex);
 		}
-		element.notifyUpdate();
-		updateRowAndColumnCount(element, column, rowIndex);
 	}
 
 	private void ensureCapacity(GeoList list, int index) {
@@ -370,14 +376,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public GeoElement createEmptyInput() {
 		return new GeoText(kernel.getConstruction(), "");
-	}
-
-	private void updateRowAndColumnCount(GeoElement element, GeoList column, int rowIndex) {
-		if (isEmptyValue(element)) {
-			removeEmptyColumnAndRows(column, rowIndex);
-		} else if (needsNewRow(column, rowIndex)) {
-			notifyRowAdded(rowIndex);
-		}
 	}
 
 	@Override
@@ -440,10 +438,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		for (GeoList column : columnsToRemove) {
 			column.remove();
 		}
-	}
-
-	private boolean needsNewRow(GeoList column, int rowIndex) {
-		return rowIndex == getRowCount() - 1 && isOnlyValueInRow(column, rowIndex);
 	}
 
 	private boolean isOnlyValueInRow(GeoList column, int rowIndex) {
