@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 
@@ -53,8 +54,8 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	@Test
 	public void testMultipleAdd() throws Exception {
 		assertEquals(interval(2, 3), interval(0, 0)
-			.evaluate(Operation.PLUS, interval(0, 1))
-			.evaluate(Operation.PLUS, interval(2, 2))
+				.evaluate(Operation.PLUS, interval(0, 1))
+				.evaluate(Operation.PLUS, interval(2, 2))
 		);
 
 	}
@@ -63,13 +64,12 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 	public void testAddAndSinSeparate() {
 		Interval result = interval(0, PI / 2).add(interval(PI, PI));
 		assertEquals(interval(PI, 3 * PI / 2), result);
-		assertEquals(interval(-1, 0), result.sin());
+		assertEquals(interval(-1, 0), sin(result));
 	}
 
 	@Test
 	public void testAddAndSinChained() {
-		Interval result = interval(PI, PI).add(interval(0, PI / 2))
-				.sin();
+		Interval result = sin(interval(PI, PI).add(interval(0, PI / 2)));
 		assertEquals(interval(-1, 0), result);
 	}
 
@@ -80,8 +80,8 @@ public class IntervalEvaluateTest extends BaseUnitTest {
 
 		assertEquals(interval(1, 3),
 				interval(PI, PI).evaluate(Operation.PLUS, interval(0, PI / 2))
-					.evaluate(Operation.SIN)
-					.evaluate(Operation.PLUS, interval(2, 3)));
+						.evaluate(Operation.SIN)
+						.evaluate(Operation.PLUS, interval(2, 3)));
 
 	}
 }

@@ -1,32 +1,42 @@
 package org.geogebra.web.html5.util;
 
+import org.gwtproject.regexp.shared.RegExp;
+
 import com.google.gwt.dom.client.Element;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
+import elemental2.dom.EventListener;
+import jsinterop.base.Js;
 
 /**
  * Utility class for CSS events
  */
 public class CSSEvents {
 
-	private static native void runOnEvent(Runnable runnable, String eventName, Element root,
-			String classname) /*-{
-		var reClass = RegExp(classname);
-		var callback = function() {
-			root.removeEventListener(eventName, callback);
-			if (root.className.match(reClass)) {
-				root.className = root.className.replace(reClass, "");
-				if (runnable) {
-					runnable.@java.lang.Runnable::run()();
+	private static void runOnEvent(Runnable runnable, String eventName, elemental2.dom.Element root,
+			String classname) {
+		RegExp reClass = RegExp.compile(classname);
+		EventListener callback = new EventListener() {
+			@Override
+			public void handleEvent(Event event) {
+				root.removeEventListener(eventName, this);
+				if (reClass.exec(root.className.toString()) != null) {
+					root.className = root.className.toString().replace(classname, "");
+					if (runnable != null) {
+						runnable.run();
+					}
 				}
 			}
 		};
-		if ((root.style.animation || root.style.animation === "")
-				&& root.className.match(reClass)) {
 
+		if (reClass.exec(root.className.toString()) != null) {
 			root.addEventListener(eventName, callback);
 			return;
 		}
-		$wnd.setTimeout(callback, 0);
-	}-*/;
+
+		DomGlobal.setTimeout((_0) -> callback.handleEvent(null), 0);
+	}
 
 	/**
 	 * @param runnable
@@ -38,6 +48,6 @@ public class CSSEvents {
 	 */
 	public static void runOnAnimation(Runnable runnable, Element root,
 			String classname) {
-		runOnEvent(runnable, "animationend", root, classname);
+		runOnEvent(runnable, "animationend", Js.uncheckedCast(root), classname);
 	}
 }

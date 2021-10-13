@@ -48,24 +48,41 @@ public class TableEditor {
 			cell.appendChild(mathTextField.asWidget().getElement()); // then move in DOM
 
 			mathTextField.editorClicked();
-			mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
+			if (event != null) {
+				mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
+			}
 			editRow = row;
 			editColumn = column;
 		});
 	}
 
-	private void stopEditing() {
+	private void stopEditing(boolean isEnter) {
 		mathTextField.asWidget().removeFromParent();
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+			processInputAndFocusNextCell(list, isEnter);
 		}
 		if (isNewColumnEdited(evaluatable)) {
-			table.view.getProcessor().processInput(mathTextField.getText(), null, editRow);
+			processInputAndFocusNextCell(null, isEnter);
 		}
+		if ("".equals(mathTextField.getText()) && isEnter) {
+			app.hideKeyboard();
+		}
+
 		editRow = -1;
 		editColumn = -1;
+	}
+
+	private void processInputAndFocusNextCell(GeoList list, boolean isEnter) {
+		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+		int needsFocusColumn = editColumn;
+		int needsFocusRow = editRow + 1;
+		if (!"".equals(mathTextField.getText()) && isEnter) {
+			app.invokeLater(() -> {
+				startEditing(needsFocusRow, needsFocusColumn, null);
+			});
+		}
 	}
 
 	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
@@ -76,8 +93,8 @@ public class TableEditor {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
-			mathTextField.addChangeHandler(this::stopEditing);
-			mathTextField.addBlurHandler(event -> stopEditing());
+			mathTextField.addChangeHandler(() -> stopEditing(true));
+			mathTextField.addBlurHandler(event -> stopEditing(false));
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
@@ -87,7 +104,7 @@ public class TableEditor {
 				}
 			});
 		} else if (editRow >= 0) {
-			stopEditing();
+			stopEditing(false);
 			table.flush();
 		}
 	}

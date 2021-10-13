@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.Construction;
@@ -7,22 +10,26 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
-	private final TableValues tableValues;
+	private final TableValuesView tableValues;
 	private final TableValuesModel model;
+	private final TableSettings settings;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
 	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(Construction cons, TableValues tableValues) {
+	public TableValuesInputProcessor(
+			Construction cons, TableValuesView tableValues, TableSettings settings) {
 		this.cons = cons;
 		this.tableValues = tableValues;
-		this.model = tableValues.getTableValuesModel();
+		this.settings = settings;
+		model = tableValues.getTableValuesModel();
 	}
 
 	@Override
@@ -34,13 +41,17 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			return;
 		}
 		model.insert(element, ensureList(list), index);
+		if (list == tableValues.getValues()) {
+			settings.setValueList(list);
+		}
+		cons.getUndoManager().storeUndoInfo();
 	}
 
 	private GeoList ensureList(GeoList list) {
 		if (list == null) {
 			GeoList column = new GeoList(cons);
 			column.notifyAdd();
-			tableValues.showColumn(column);
+			tableValues.doShowColumn(column);
 			return column;
 		}
 		return list;

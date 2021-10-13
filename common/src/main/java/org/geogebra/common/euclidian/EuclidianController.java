@@ -412,7 +412,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected double newScale;
 	private boolean objectMenuActive;
 	private List<CoordSystemListener> zoomerListeners = new LinkedList<>();
-	private List<CoordSystemAnimationListener> zoomerAnimationListeners = new LinkedList<>();
+	private final HashMap<GeoElement, CoordSystemAnimationListener> zoomerAnimationListeners =
+			new HashMap<>();
 	private MyModeChangedListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionPressResult = SelectionToolPressResult.DEFAULT;
@@ -732,48 +733,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (ms == ModeSetter.TOOLBAR) {
-			EmbedManager embedManager = app.getEmbedManager();
 			if (app.getGuiManager() != null) {
-				switch (newMode) {
-				case EuclidianConstants.MODE_CAMERA:
-					app.getGuiManager().loadWebcam();
-					return;
-
-				case EuclidianConstants.MODE_AUDIO:
-					getDialogManager().showAudioInputDialog();
-					break;
-
-				case EuclidianConstants.MODE_VIDEO:
-					getDialogManager().showVideoInputDialog();
-					break;
-
-				case EuclidianConstants.MODE_PDF:
-					getDialogManager().showPDFInputDialog();
-					break;
-
-				case EuclidianConstants.MODE_GRASPABLE_MATH:
-					if (embedManager != null) {
-						embedManager.openGraspableMTool();
-					}
-					break;
-
-				case EuclidianConstants.MODE_EXTENSION:
-					getDialogManager().showEmbedDialog();
-					break;
-
-				case EuclidianConstants.MODE_H5P:
-					getDialogManager().showH5PDialog();
-					break;
-
-				default:
-					break;
-				}	
-			}
-
-			if (embedManager != null
-					&& (newMode == EuclidianConstants.MODE_GRAPHING
-					|| newMode == EuclidianConstants.MODE_CAS)) {
-					setUpEmbedManager(embedManager, newMode);
+				new ModeSwitcher(app).switchMode(newMode);
 			}
 
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
@@ -781,6 +742,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						false);
 				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
 						ModeSetter.DOCK_PANEL);
+				return;
+			}
+			if (newMode == EuclidianConstants.MODE_RULER
+					|| newMode == EuclidianConstants.MODE_PROTRACTOR) {
+				app.setMode(mode, ModeSetter.DOCK_PANEL);
 				return;
 			}
 
@@ -813,24 +779,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		kernel.notifyRepaint();
-	}
-
-	private void setUpEmbedManager(EmbedManager embedManager, int mode) {
-		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
-		if (mode == EuclidianConstants.MODE_CAS) {
-			ge.setAppName("cas");
-		}
-		ge.initDefaultPosition(view);
-		embedManager.initAppEmbed(ge);
-		ge.setLabel(null);
-		app.storeUndoInfo();
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				selectAndShowSelectionUI(ge);
-			}
-		});
 	}
 
 	/**
@@ -9979,6 +9927,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
 				child.setLabel(null);
 				selectAndShowSelectionUI(child);
+				lastMowHit = child;
 				view.resetHitHandler();
 				app.storeUndoInfo();
 				return;
@@ -10008,7 +9957,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			selectAndShowSelectionUI(geo);
-			showDynamicStylebar();
 			app.getUndoManager().storeAddGeo(geo);
 			return;
 		}
@@ -12189,19 +12137,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param listener
 	 *            coord system animation listener
 	 */
-	public void addZoomerAnimationListener(CoordSystemAnimationListener listener) {
+	public void addZoomerAnimationListener(CoordSystemAnimationListener listener, GeoElement geo) {
 		synchronized (zoomerAnimationListeners) {
-			zoomerAnimationListeners.add(listener);
+			zoomerAnimationListeners.put(geo, listener);
 		}
 	}
 
 	/**
-	 * @param listener
-	 *            coord system listener
+	 * @param geo
+	 *            GeoElement linked to coord system listener
 	 */
-	public void removeZoomerAnimationListener(CoordSystemAnimationListener listener) {
+	public void removeZoomerAnimationListener(GeoElement geo) {
 		synchronized (zoomerAnimationListeners) {
-			zoomerAnimationListeners.remove(listener);
+			zoomerAnimationListeners.remove(geo);
 		}
 	}
 
@@ -12219,7 +12167,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		synchronized (zoomerAnimationListeners) {
-			for (CoordSystemAnimationListener listener : zoomerAnimationListeners) {
+			for (CoordSystemAnimationListener listener : zoomerAnimationListeners.values()) {
 				listener.onZoomStop(info);
 			}
 		}
@@ -12236,7 +12184,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		synchronized (zoomerAnimationListeners) {
-			for (CoordSystemAnimationListener listener : zoomerAnimationListeners) {
+			for (CoordSystemAnimationListener listener : zoomerAnimationListeners.values()) {
 				listener.onMove(info);
 			}
 		}
@@ -12248,7 +12196,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void notifyCoordSystemMoveStop() {
 		synchronized (zoomerAnimationListeners) {
-			for (CoordSystemAnimationListener listener : zoomerAnimationListeners) {
+			for (CoordSystemAnimationListener listener : zoomerAnimationListeners.values()) {
 				listener.onMoveStop();
 			}
 		}

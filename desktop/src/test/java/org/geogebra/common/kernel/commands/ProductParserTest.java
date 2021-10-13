@@ -44,6 +44,18 @@ public class ProductParserTest extends TokenizerBaseTest {
 	}
 
 	@Test
+	public void testNFunctionalUbiV() {
+		shouldReparseAs("f(ubi, v) = ubiv", "ubi v");
+		shouldReparseAs("f(ubi, v) = vubi", "v ubi");
+	}
+
+	@Test
+	public void testNFunctionalGreek() {
+		withGeos("f(" + Unicode.Delta + "y, y)");
+		shouldReparseAs(Unicode.Delta + "y(1 + y)", Unicode.Delta + "y (1 + y)");
+	}
+
+	@Test
 	public void testPir() {
 		withGeos("r");
 		shouldReparseAs("pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);

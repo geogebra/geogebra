@@ -1,5 +1,9 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.util.StringUtil;
+
 /**
  * Settings for function table
  * 
@@ -20,6 +24,8 @@ public class TableSettings extends AbstractSettings {
 	private double valuesMax = DEFAULT_MAX;
 	private double valuesStep = DEFAULT_STEP;
 
+	private GeoList valueList;
+
 	/**
 	 * @return min x-value for function table
 	 */
@@ -33,6 +39,7 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void setValuesMin(double valuesMin) {
 		this.valuesMin = valuesMin;
+		valueList = null;
 		settingChanged();
 	}
 
@@ -49,6 +56,7 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void setValuesMax(double valuesMax) {
 		this.valuesMax = valuesMax;
+		valueList = null;
 		settingChanged();
 	}
 
@@ -65,6 +73,24 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void setValuesStep(double valuesStep) {
 		this.valuesStep = valuesStep;
+		valueList = null;
+		settingChanged();
+	}
+
+	public GeoList getValueList() {
+		return valueList;
+	}
+
+	public void setValueList(GeoList valueList) {
+		this.valueList = valueList;
+	}
+
+	/**
+	 * Sets the valueList and notifies the listeners.
+	 * @param valueList x values list
+	 */
+	public void updateValueList(GeoList valueList) {
+		this.valueList = valueList;
 		settingChanged();
 	}
 
@@ -75,13 +101,21 @@ public class TableSettings extends AbstractSettings {
 	 *            XML builder
 	 */
 	public void getXML(StringBuilder sb) {
-		sb.append("<tableview min=\"");
-		sb.append(valuesMin);
-		sb.append("\" max=\"");
-		sb.append(valuesMax);
-		sb.append("\" step=\"");
-		sb.append(valuesStep);
-		sb.append("\"/>\n");
+		sb.append("<tableview");
+		if (valueList != null) {
+			sb.append(" xValues=\"");
+			sb.append(StringUtil.encodeXML(valueList.toValueString(StringTemplate.xmlTemplate)));
+			sb.append("\"");
+		} else {
+			sb.append(" min=\"");
+			sb.append(valuesMin);
+			sb.append("\" max=\"");
+			sb.append(valuesMax);
+			sb.append("\" step=\"");
+			sb.append(valuesStep);
+			sb.append("\"");
+		}
+		sb.append("/>\n");
 	}
 
 }

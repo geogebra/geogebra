@@ -7,7 +7,11 @@
      </Match>
     <Match>
        <Bug pattern="MS_EXPOSE_REP" />
-     </Match>
+    </Match>
+    <Match>
+         <!-- https://github.com/spotbugs/spotbugs/issues/1539 -->
+         <Bug pattern="DMI_RANDOM_USED_ONLY_ONCE" />
+    </Match>
        <Match>
        <Bug pattern="SE_BAD_FIELD" />
      </Match>

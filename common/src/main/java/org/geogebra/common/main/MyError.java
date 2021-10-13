@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.main;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
@@ -31,22 +33,40 @@ public class MyError extends Error {
 	private static final long serialVersionUID = 1L;
 	/** application */
 	protected Localization loc;
+	protected String commandName = null;
 	private String[] strs;
-	private String commandName = null;
+	// Used for localization
 	private Errors message;
+	// Used for identification
+	private Errors errorType;
 
 	/**
 	 * Creates new MyError
-	 * 
+	 *
+	 * @param loc0
+	 *            localization
+	 * @param errorName
+	 *            error name (should be a key in error.properties)
+	 * @param errorType
+	 *            type of the error
+	 */
+	public MyError(Localization loc0, String errorName, Errors errorType) {
+		// set localized message
+		super(errorName);
+		this.loc = loc0;
+		this.errorType = errorType;
+	}
+
+	/**
+	 * Creates new MyError
+	 *
 	 * @param loc0
 	 *            localization
 	 * @param errorName
 	 *            error name (should be a key in error.properties)
 	 */
 	public MyError(Localization loc0, String errorName) {
-		// set localized message
-		super(errorName);
-		this.loc = loc0;
+		this(loc0, errorName, (Errors) null);
 	}
 
 	/**
@@ -63,10 +83,31 @@ public class MyError extends Error {
 	public static MyError forCommand(Localization loc0, String errorName,
 			String commandName,
 			Throwable cause) {
+		return forCommand(loc0, errorName, commandName, cause, null);
+	}
+
+	/**
+	 * @param loc0
+	 *            localization
+	 * @param errorName
+	 *            error name (should be a key in error.properties)
+	 * @param commandName
+	 *            associated command name
+	 * @param cause
+	 *            cause
+	 * @param errorType
+	 *            type of the error
+	 * @return command error
+	 */
+	public static MyError forCommand(Localization loc0, String errorName,
+			String commandName,
+			Throwable cause,
+			@Nullable Errors errorType) {
 		// set localized message
 		MyError ret = new MyError(errorName, cause);
 		ret.loc = loc0;
 		ret.commandName = commandName;
+		ret.errorType = errorType;
 		return ret;
 	}
 
@@ -150,6 +191,14 @@ public class MyError extends Error {
 	 */
 	public String getcommandName() {
 		return commandName;
+	}
+
+	/**
+	 * Returns the type of the error
+	 * @return error type
+	 */
+	public Errors getErrorType() {
+		return errorType;
 	}
 
 	@Override
@@ -290,6 +339,8 @@ public class MyError extends Error {
 
 		InvalidFunction("InvalidFunction",
 				"Invalid function:\nPlease enter an explicit function in x"),
+
+		UnknownCommand("UnknownCommand", "Unknown command"),
 
 		// IllegalArgumentAinCustomToolB("IllegalArgumentAinCustomToolB", "Illegal
 		// Argument %0 in Custom Tool %1"),

@@ -126,7 +126,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 			((GeoFunction) inGeo)
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
-			outGeo.set(inGeo);
+			setOutGeo();
 		}
 		if (!outGeo.isDefined()) {
 			return;

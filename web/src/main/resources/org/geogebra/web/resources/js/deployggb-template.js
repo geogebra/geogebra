@@ -338,7 +338,7 @@ var GGBApplet = function() {
                      + parameters.material_id + '?scope=basic';
         var onError = function() {
             parameters.onError && parameters.onError();
-            log('Error: Fetching material (id ' + parameters.material_id + ') failed.');
+            log('Error: Fetching material (id ' + parameters.material_id + ') failed.', parameters);
         };
         sendCorsRequest(url, onSuccess, onError);
     };
