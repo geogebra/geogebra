@@ -307,6 +307,14 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testNotifyColumnChangedCalledFromProcessor() {
+		model.registerListener(listener);
+		processor.processInput("1", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnChanged(model, view.getValues(), 0);
+	}
+
+	@Test
 	public void testClearViewCallsNotifyDatasetChanged() {
 		model.registerListener(listener);
 		GeoLine[] lines = createLines(1);
@@ -370,6 +378,17 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener).notifyRowRemoved(model, 0);
 		verify(listener).notifyColumnRemoved(model, list, 1);
 	}
+
+	@Test
+	public void testNotifyRowRemovedCalled() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("10", view.getValues(), 1);
+		model.registerListener(listener);
+		processor.processInput("", view.getValues(), 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyRowRemoved(model, 1);
+	}
+
 
 	@Test
 	public void testUpdate() {
