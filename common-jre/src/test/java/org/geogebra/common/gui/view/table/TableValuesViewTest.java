@@ -53,8 +53,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 	 */
 	@Before
 	public void setupTest() {
-		getKernel().clearConstruction(true);
-		getKernel().detach(view);
 		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
 		model = view.getTableValuesModel();
