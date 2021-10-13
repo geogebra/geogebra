@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalOperands.*;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -80,51 +82,51 @@ import org.geogebra.common.util.debug.Log;
 			case MINUS:
 				return left.subtract(right);
 			case MULTIPLY:
-				return left.multiply(right);
+				return multiply(left, right);
 			case DIVIDE:
 				return divide(left, right);
 			case POWER:
-				return left.pow(right);
+				return pow(left, right);
 			case NROOT:
-				return left.nthRoot(right);
+				return nthRoot(left, right);
 			case DIFF:
-				return left.difference(right);
+				return difference(left, right);
 			case SIN:
-				return left.sin();
+				return sin(left);
 			case SEC:
-				return left.sec();
+				return sec(left);
 			case COS:
-				return left.cos();
+				return cos(left);
 			case CSC:
-				return left.csc();
+				return csc(left);
 			case COT:
-				return left.cot();
+				return cot(left);
 			case SQRT:
-				return left.sqrt();
+				return sqrt(left);
 			case TAN:
-				return left.tan();
+				return tan(left);
 			case EXP:
-				return left.exp();
+				return exp(left);
 			case LOG:
-				return left.log();
+				return log(left);
 			case ARCCOS:
-				return left.acos();
+				return acos(left);
 			case ARCSIN:
-				return left.asin();
+				return asin(left);
 			case ARCTAN:
-				return left.atan();
+				return atan(left);
 			case ABS:
-				return left.abs();
+				return abs(left);
 			case COSH:
-				return left.cosh();
+				return cosh(left);
 			case SINH:
-				return left.sinh();
+				return sinh(left);
 			case TANH:
-				return left.tanh();
+				return tanh(left);
 			case LOG10:
-				return left.log10();
+				return log10(left);
 			case LOG2:
-				return left.log2();
+				return log2(left);
 
 			default:
 				Log.warn("No interval operation for " + operation);
@@ -134,9 +136,9 @@ import org.geogebra.common.util.debug.Log;
 
 	private static Interval divide(Interval left, Interval right) {
 		if (left.isSingleton()) {
-			return right.multiplicativeInverse().multiply(left);
+			return multiply(right.multiplicativeInverse(), left);
 		}
-		return left.divide(right);
+		return IntervalOperands.divide(left, right);
 	}
 
 	/**
@@ -169,5 +171,9 @@ import org.geogebra.common.util.debug.Log;
 			return false;
 		}
 		return expression.inspect(new MultipleVariableChecker());
+	}
+
+	public GeoFunction getFunction() {
+		return function;
 	}
 }

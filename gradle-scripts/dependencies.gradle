@@ -15,7 +15,6 @@
 allprojects {
     buildscript {
         repositories {
-            maven { url 'https://jitpack.io' }
             mavenCentral()
             maven { url 'https://plugins.gradle.org/m2/' }
             google()
@@ -48,6 +47,6 @@ ext.gwtGradlePluginVersion = '1.1.15'
 ext.gradleVersionGGB = "6.7.1"
 ext.joglVersion = '2.2.0'
 ext.junitVersion = '4.13.2'
-ext.mockitoVersion = '3.12.4'
+ext.mockitoVersion = '4.0.0'
 ext.hamcrestVersion = '2.2'
-ext.javaGiacVersion = '69880'
+ext.javaGiacVersion = '69901'

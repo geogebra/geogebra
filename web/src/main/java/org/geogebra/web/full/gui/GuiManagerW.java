@@ -1658,11 +1658,9 @@ public class GuiManagerW extends GuiManager
 		}
 		if (currentlyVisible != show) {
 			getApp().setShowToolBar(show);
-			getApp().getAppletParameters()
-			.removeAttribute("data-param-showToolBar");
+			getApp().getAppletParameters().removeAttribute("showToolBar");
 			getApp().persistWidthAndHeight();
-			getApp()
-			.addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
+			getApp().addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
 					: GLookAndFeel.TOOLBAR_HEIGHT);
 			getApp().updateCenterPanelAndViews();
 			getApp().getAppletFrame().refreshKeyboard();

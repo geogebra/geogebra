@@ -5,18 +5,11 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
+import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
 
-import com.google.j2objc.annotations.Weak;
+public class IntervalTrigonometric {
 
-class IntervalTrigonometric {
-	@Weak
-	private Interval interval;
-
-	IntervalTrigonometric(Interval interval) {
-		this.interval = interval;
-	}
-
-	Interval cos() {
+	Interval cos(Interval interval) {
 		if (interval.isUndefined()) {
 			return interval;
 		}
@@ -36,14 +29,14 @@ class IntervalTrigonometric {
 
 		Interval pi = IntervalConstants.pi();
 		Interval pi2 = IntervalConstants.piTwice();
-		cache.fmod(pi2);
+		fmod(cache, pi2);
 		if (cache.getWidth() >= PI_TWICE_LOW) {
 			interval.set(-1, 1);
 			return interval;
 		}
 
 		if (cache.getLow() >= PI_HIGH) {
-			cache.subtract(pi).cos();
+			IntervalOperands.cos(cache.subtract(pi));
 			cache.negative();
 			interval.set(cache);
 			return interval;
@@ -88,7 +81,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return sine of the interval
 	 */
-	public Interval sin() {
+	public Interval sin(Interval interval) {
 		if (interval.isUndefined()) {
 			return interval;
 		} if (interval.isWhole()) {
@@ -96,7 +89,7 @@ class IntervalTrigonometric {
 		} else if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 		} else {
-			interval.subtract(IntervalConstants.piHalf()).cos();
+			IntervalOperands.cos(interval.subtract(IntervalConstants.piHalf()));
 		}
 		return interval;
 	}
@@ -105,25 +98,25 @@ class IntervalTrigonometric {
 	 *
 	 * @return secant of the interval
 	 */
-	public Interval sec() {
-		Interval interval = new Interval(this.interval);
-		return interval.cos().multiplicativeInverse();
+	public Interval sec(Interval interval) {
+		Interval interval2 = new Interval(interval);
+		return IntervalOperands.cos(interval2).multiplicativeInverse();
 	}
 
 	/**
 	 *
 	 * @return cotangent of the interval
 	 */
-	public Interval cot() {
-		Interval interval = new Interval(this.interval);
-		return interval.tan().multiplicativeInverse();
+	public Interval cot(Interval interval) {
+		Interval interval2 = new Interval(interval);
+		return IntervalOperands.tan(interval2).multiplicativeInverse();
 	}
 
 	/**
 	 *
 	 * @return tangent of the interval.
 	 */
-	public Interval tan() {
+	public Interval tan(Interval interval) {
 		if (interval.isEmpty() || interval.isOnlyInfinity()) {
 			interval.setEmpty();
 			return interval;
@@ -140,7 +133,7 @@ class IntervalTrigonometric {
 
 		Interval cache = new Interval(interval);
 		handleNegative(cache);
-		cache.fmod(IntervalConstants.pi());
+		fmod(cache, IntervalConstants.pi());
 
 		if (cache.getLow() >= PI_HALF_LOW) {
 			cache.subtract(IntervalConstants.pi());
@@ -158,7 +151,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return arc sine of the interval
 	 */
-	public Interval asin() {
+	public Interval asin(Interval interval) {
 		if (interval.isEmpty() || interval.getHigh() < -1 || interval.getLow() > 1) {
 			interval.setEmpty();
 		} else {
@@ -176,7 +169,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return arc cosine of the interval
 	 */
-	public Interval acos() {
+	public Interval acos(Interval interval) {
 		if (interval.isEmpty() || interval.getHigh() < -1 || interval.getLow() > 1) {
 			interval.setEmpty();
 		} else {
@@ -191,7 +184,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return arc tangent of the interval
 	 */
-	public Interval atan() {
+	public Interval atan(Interval interval) {
 		if (!interval.isEmpty()) {
 			interval.set(RMath.atanLow(interval.getLow()), RMath.atanHigh(interval.getHigh()));
 		}
@@ -202,7 +195,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return hyperbolic sine of the interval
 	 */
-	public Interval sinh() {
+	public Interval sinh(Interval interval) {
 		if (!interval.isEmpty()) {
   			interval.set(RMath.sinhLow(interval.getLow()), RMath.sinhHigh(interval.getHigh()));
 		}
@@ -213,7 +206,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return hyperbolic cosine of the interval
 	 */
-	public Interval cosh() {
+	public Interval cosh(Interval interval) {
 		if (interval.isUndefined()) {
 			return interval;
 		}
@@ -237,7 +230,7 @@ class IntervalTrigonometric {
 	 *
 	 * @return hyperbolic tangent of the interval
 	 */
-	public Interval tanh() {
+	public Interval tanh(Interval interval) {
 		if (!interval.isEmpty()) {
 			interval.set(RMath.tanhLow(interval.getLow()), RMath.tanhHigh(interval.getHigh()));
 		}
@@ -248,8 +241,8 @@ class IntervalTrigonometric {
 	 *
 	 * @return 1 / sin(x)
 	 */
-	public Interval csc() {
-		Interval interval = new Interval(this.interval);
-		return interval.sin().multiplicativeInverse();
+	public Interval csc(Interval interval) {
+		Interval interval2 = new Interval(interval);
+		return IntervalOperands.sin(interval2).multiplicativeInverse();
 	}
 }

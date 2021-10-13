@@ -47,7 +47,7 @@ public class PDFInputDialog extends ComponentDialog
 	private StandardButton rightBtn;
 	private NoDragImage previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
-	private FileUpload pdfChooser = getPDFChooser();
+	private final FileUpload pdfChooser = getPDFChooser();
 	/**
 	 * pdf.js wrapper
 	 */
@@ -136,11 +136,11 @@ public class PDFInputDialog extends ComponentDialog
 		previewImg = new NoDragImage("");
 		previewImg.addStyleName("previewImage");
 		leftBtn = createImgButton(pdfPreviewPanel,
-				KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), 24,
+				KeyboardResources.INSTANCE.keyboard_arrowLeft_black(),
 				"leftBtn");
 		pdfPreviewPanel.add(previewImg);
 		rightBtn = createImgButton(pdfPreviewPanel,
-				KeyboardResources.INSTANCE.keyboard_arrowRight_black(), 24,
+				KeyboardResources.INSTANCE.keyboard_arrowRight_black(),
 				"rightBtn");
 		// text info about pages at bottom
 		pdfPageTextPanel = new FlowPanel();
@@ -245,8 +245,8 @@ public class PDFInputDialog extends ComponentDialog
 	}
 
 	private StandardButton createImgButton(FlowPanel root,
-			ImageResource imgSource, int size, String styleName) {
-		StandardButton btn = new StandardButton(imgSource, null, size, size);
+			ImageResource imgSource, String styleName) {
+		StandardButton btn = new StandardButton(imgSource, null, 24, 24);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
 		root.add(btn);
@@ -381,7 +381,7 @@ public class PDFInputDialog extends ComponentDialog
 		if (pdf.getNumberOfPages() == 1) {
 			leftBtn.addStyleName("hidden");
 			rightBtn.addStyleName("hidden");
-			pdfPageTextPanel.addStyleName("hidden");
+			pdfPageTextPanel.setVisible(false);
 		} else {
 			displayCurrentPageNumber();
 		}

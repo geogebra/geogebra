@@ -313,7 +313,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	public synchronized void setValue(double val,
 			boolean changeAnimationValue) {
 		double angVal = calcAngleValue(val);
-		super.setValue(angVal, changeAnimationValue);
+		super.setValue(angVal,
+				changeAnimationValue);
+		if (angleStyle == AngleStyle.UNBOUNDED) {
+			rawValue = value;
+		}
 	}
 
 	/**

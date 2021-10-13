@@ -1,11 +1,12 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalOperands.exp;
+import static org.geogebra.common.kernel.interval.IntervalOperands.log;
+import static org.geogebra.common.kernel.interval.IntervalOperands.multiply;
 import static org.geogebra.common.kernel.interval.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.RMath.powLow;
 
 import org.geogebra.common.util.DoubleUtil;
-
-import com.google.j2objc.annotations.Weak;
 
 /**
  * Implements algebra functions in interval
@@ -14,20 +15,14 @@ import com.google.j2objc.annotations.Weak;
  *
  * @author laszlo
  */
-class IntervalAlgebra {
-	@Weak
-	private final Interval interval;
-
-	IntervalAlgebra(Interval interval) {
-		this.interval = interval;
-	}
+public class IntervalAlgebra {
 
 	/**
 	 * Computes x mod y (x - k * y)
 	 * @param other argument.
 	 * @return this as result
 	 */
-	Interval fmod(Interval other) {
+	Interval fmod(Interval interval, Interval other) {
 		if (interval.isEmpty() || other.isEmpty()) {
 			interval.setEmpty();
 			return interval;
@@ -48,39 +43,39 @@ class IntervalAlgebra {
 
 		Interval multiplicand = new Interval(other);
 		// x mod y = x - n * y
-		this.interval.subtract(multiplicand.multiply(new Interval(n)));
-		return this.interval;
+		interval.subtract(multiply(multiplicand, new Interval(n)));
+		return interval;
 	}
 
 	/**
 	 * @param power of the interval
 	 * @return power of the interval
 	 */
-	Interval pow(double power) {
+	Interval pow(Interval interval, double power) {
 		if (interval.isEmpty()) {
 			return interval;
 		}
 
 		if (power == 0) {
-			return powerOfZero();
+			return powerOfZero(interval);
 		} else if (power < 0) {
-			interval.set(interval.multiplicativeInverse().pow(-power));
+			interval.set(pow(interval.multiplicativeInverse(), -power));
 			return interval;
 		}
 
 		if (!DoubleUtil.isInteger(power)) {
-			return powerOfDouble(power);
+			return powerOfDouble(interval, power);
 		}
 
-		return powOfInteger(Math.round(power));
+		return powOfInteger(interval, Math.round(power));
 	}
 
-	private Interval powerOfDouble(double power) {
-		Interval lnPower = interval.log().multiply(new Interval(power));
-		return lnPower.exp();
+	private Interval powerOfDouble(Interval interval, double power) {
+		Interval lnPower = multiply(log(interval), new Interval(power));
+		return exp(lnPower);
 	}
 
-	private Interval powOfInteger(long power) {
+	private Interval powOfInteger(Interval interval, long power) {
 		if (interval.getHigh() < 0) {
 			// [negative, negative]
 			double yl = powLow(-interval.getHigh(), power);
@@ -111,16 +106,15 @@ class IntervalAlgebra {
 		return interval;
 	}
 
-	private Interval powerOfZero() {
+	private Interval powerOfZero(Interval interval) {
 		if (interval.getLow() == 0 && interval.getHigh() == 0) {
 			// 0^0
 			interval.setEmpty();
-			return interval;
 		} else {
 			// x^0
 			interval.set(1, 1);
-			return interval;
 		}
+		return interval;
 	}
 
 	/**
@@ -129,7 +123,7 @@ class IntervalAlgebra {
 	 * @param other interval power.
 	 * @return this as result.
 	 */
-	Interval pow(Interval other) {
+	Interval pow(Interval interval, Interval other) {
 		if (other.isZero()) {
 			interval.set(IntervalConstants.one());
 			return interval;
@@ -140,19 +134,19 @@ class IntervalAlgebra {
 			return interval;
 		}
 
-		return pow(other.getLow());
+		return pow(interval, other.getLow());
 	}
 
 	/**
 	 * @return square root of the interval.
 	 */
-	Interval sqrt() {
+	Interval sqrt(Interval interval) {
 		if (interval.isEmpty()) {
 			interval.setEmpty();
 			return interval;
 		}
 
-		return nthRoot(2);
+		return nthRoot(interval, 2);
 	}
 
 	/**
@@ -161,13 +155,13 @@ class IntervalAlgebra {
 	 * @param other interval
 	 * @return nth root of the interval.
 	 */
-	Interval nthRoot(Interval other) {
+	Interval nthRoot(Interval interval, Interval other) {
 		if (!other.isSingleton()) {
 			interval.setEmpty();
 			return interval;
 		}
 
-		return nthRoot(other.getLow());
+		return nthRoot(interval, other.getLow());
 	}
 
 	/**
@@ -175,7 +169,7 @@ class IntervalAlgebra {
 	 * @param n the root
 	 * @return nth root of the interval.
 	 */
-	Interval nthRoot(double n) {
+	Interval nthRoot(Interval interval, double n) {
 		if (interval.isEmpty() || n < 1) {
 			interval.setEmpty();
 			return interval;

@@ -6,6 +6,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.FileDropHandlerW;
+import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
@@ -90,6 +91,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Boolean.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelector", Void.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
+        StubGenerator.replaceMethodWithMock(CSSEvents.class, "runOnAnimation", Void.class);
     }
 
     @Override
