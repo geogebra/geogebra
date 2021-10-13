@@ -353,6 +353,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		int oldRowCount = getRowCount();
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
+		column.setDefinition(null);
 		element.notifyUpdate();
 		if (isEmptyValue(element)) {
 			removeEmptyColumnAndRows(column, rowIndex);
