@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '4.7.6'
+    id 'com.github.spotbugs' version '4.7.7'
     id 'ca.coglinc.javacc' version '2.4.0'
 }
 
@@ -16,7 +16,7 @@ dependencies {
     compile project(':editor-base')
     compile project(':renderer-base')
     compile 'com.google.j2objc:annotations:2.8'
-    compile 'com.github.spotbugs:spotbugs-annotations:4.4.1'
+    compile 'com.github.spotbugs:spotbugs-annotations:4.4.2'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
 }
 

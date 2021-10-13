@@ -3,7 +3,9 @@ package org.geogebra.common.gui.inputbar;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -13,6 +15,7 @@ import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.LowerCaseDictionary;
+import org.geogebra.common.util.debug.Analytics;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -297,5 +300,19 @@ public class InputBarHelpPanel {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Logs the command help usage Analytics event
+	 *
+	 * @param commandName name of the command
+	 * @param useReverse whether the command name should be translated to internal name or not
+	 */
+	public void logHelpIconEvent(String commandName, boolean useReverse) {
+		Map<String, Object> params = new HashMap<>();
+		String command = commandName.contains("(") || !useReverse ? commandName
+				: mApp.getReverseCommand(commandName);
+		params.put(Analytics.Param.COMMAND, command);
+		Analytics.logEvent(Analytics.Event.COMMAND_HELP_ICON, params);
 	}
 }
