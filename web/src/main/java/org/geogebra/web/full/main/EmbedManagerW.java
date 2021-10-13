@@ -196,6 +196,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			}
 		} else if ("suite".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			appEmbedded.getDialogManager().showCalcChooser(false);
+			appEmbedded.hideKeyboard();
 		}
 		return element;
 	}
