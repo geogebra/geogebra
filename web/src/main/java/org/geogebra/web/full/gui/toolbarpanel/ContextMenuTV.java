@@ -78,35 +78,47 @@ public class ContextMenuTV {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		if (getColumnIdx() > 0) {
-			addDelete();
-			addShowHidePoints();
-			wrappedPopup.addVerticalSeparator();
-			// column index > 0 -> edit function
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 			if (column instanceof GeoList) {
-				String headerHTMLName = view.getHeaderNameHTML(columnIdx);
-				addStats(headerHTMLName + " Statistics", view::getStatistics1Var);
-				addStats("x, " + headerHTMLName + " Statistics", view::getStatistics2Var);
-				addCommand(this::showRegression, "Regression",
-						"regression");
+				buildYColumnMenu();
 			} else {
-				addEdit(() -> {
-					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
-					if (guiManager != null) {
-						guiManager.startEditing(geo);
-					}
-				});
+				buildFunctionColumnMenu();
 			}
 		} else {
-			// column index = 0 -> edit x-column
-			addEdit(() -> {
-				DialogManager dialogManager = getApp().getDialogManager();
-				if (dialogManager != null) {
-					dialogManager.openTableViewDialog(null);
-				}
-			});
-			addClear();
+			buildXColumnMenu();
 		}
+	}
+
+	private void buildXColumnMenu() {
+		addEdit(() -> {
+			DialogManager dialogManager = getApp().getDialogManager();
+			if (dialogManager != null) {
+				dialogManager.openTableViewDialog(null);
+			}
+		});
+		addClear();
+	}
+
+	private void buildYColumnMenu() {
+		addDelete();
+		addShowHidePoints();
+		wrappedPopup.addVerticalSeparator();
+		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
+		addStats(headerHTMLName + " Statistics", view::getStatistics1Var);
+		addStats("x, " + headerHTMLName + " Statistics", view::getStatistics2Var);
+		addCommand(this::showRegression, "Regression",
+				"regression");
+	}
+
+	private void buildFunctionColumnMenu() {
+		addShowHidePoints();
+		addEdit(() -> {
+			GuiManagerInterfaceW guiManager = getApp().getGuiManager();
+			if (guiManager != null) {
+				guiManager.startEditing(geo);
+			}
+		});
+		addDelete();
 	}
 
 	private void addStats(String transKey, Function<Integer, List<StatisticGroup>> statFunction) {
