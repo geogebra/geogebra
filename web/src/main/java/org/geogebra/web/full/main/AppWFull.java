@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MaskWidgetList;
@@ -36,6 +37,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -73,7 +75,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.cas.giac.CASFactoryW;
-import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
 import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
@@ -112,6 +113,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
+import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -578,16 +580,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		resetToolbarPanel();
 
-		if (getGuiManager() != null) {
-			getGuiManager().updateGlobalOptions();
-		}
+		getGuiManager().updateGlobalOptions();
 
-		if (isUnbundled() && getGuiManager() != null
-				&& getGuiManager()
+		if (isUnbundled() && getGuiManager()
 				.getUnbundledToolbar() != null) {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
 		}
+		getAppletFrame().setNotesMode(getMode());
 
 		updateToolbarClosedState(getConfig().getSubAppCode());
 	}
@@ -865,6 +865,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 								getGgbApi().setBase64(material.getBase64());
 							}
 							setActiveMaterial(material);
+							ensureSupportedModeActive();
 						} else {
 							onError.callback(Errors.LoadFileFailed.getKey());
 						}
@@ -877,6 +878,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 								: Errors.LoadFileFailed.getKey());
 					}
 				});
+	}
+
+	private void ensureSupportedModeActive() {
+		if (getMode() == EuclidianConstants.MODE_MOVE && isWhiteboardActive()) {
+			int mode = showToolBar ? EuclidianConstants.MODE_PEN
+					: EuclidianConstants.MODE_SELECT_MOW;
+			setMode(mode, ModeSetter.DOCK_PANEL);
+		}
 	}
 
 	/**
@@ -1072,7 +1081,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void closePopups() {
 		super.closePopups();
-		EuclidianStyleBarW.setCurrentPopup(null);
+		PopupMenuButtonW.resetCurrentPopup();
 		if (getToolbar() != null && getToolbar().isMobileToolbar()) {
 			((GGWToolBar) getToolbar()).getToolBar().closeAllSubmenu();
 		}
@@ -1266,11 +1275,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @return whether it was closed
 	 */
 	public boolean closePageControlPanel() {
-		if (!isWhiteboardActive()) {
-			return false;
-		}
-
-		return frame.getPageControlPanel().close();
+		return frame.getPageControlPanel() != null && frame.getPageControlPanel().close();
 	}
 
 	/**
@@ -1372,6 +1377,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		attachSplitLayoutPanel();
+
+		if (isWhiteboardActive()) {
+			frame.attachNotesUI(this);
+		}
 
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'

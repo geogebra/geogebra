@@ -212,6 +212,7 @@
 	.avOutput {
 		display: flex;
 		align-items: center;
+		min-height: 36px;
 	}
 
 	.avItem .elemText {
@@ -439,6 +440,7 @@
 
 	.avDefinition, .avDefinitionPlain {
 		display: inline-block; // needed for view expanding
+		min-height: 28px;
 	}
 
 	.avDummyLabel {

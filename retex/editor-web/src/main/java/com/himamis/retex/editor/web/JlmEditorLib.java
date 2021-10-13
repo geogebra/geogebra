@@ -4,6 +4,13 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.TeXBuilder;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.JlmLib;
 
 public class JlmEditorLib extends JlmLib {
@@ -60,6 +67,19 @@ public class JlmEditorLib extends JlmLib {
 					}
 				});
 		fld.requestViewFocus();
+	}
+
+	@Override
+	protected TeXFormula fromAsciiMath(String ascii) {
+		TeXFormula texFormula = new TeXFormula();
+		try {
+			MathFormula formula = new Parser(new MetaModel()).parse(ascii);
+			texFormula.root = new TeXBuilder().build(formula.getRootComponent(),
+					null, false);
+		} catch (ParseException e) {
+			FactoryProvider.debugS("Invalid input " + ascii);
+		}
+		return texFormula;
 	}
 
 }

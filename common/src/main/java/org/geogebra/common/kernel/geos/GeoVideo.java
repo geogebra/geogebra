@@ -27,8 +27,8 @@ public class GeoVideo extends GeoMedia {
 	 * Test video URL.
 	 */
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
-	private static final String YOUTUBE_PREVIEW = "https://beta.geogebra.org/apps/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
-	private static final String MEBIS_PREVIEW = "https://beta.geogebra.org/apps/crossorigin/?url=https://sodis.de/mediathek/thumbsCache_16_9/%ID%___.jpg";
+	private static final String YOUTUBE_PREVIEW = "/apps/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
+	private static final String MEBIS_PREVIEW = "/apps/crossorigin/?url=https://sodis.de/mediathek/thumbsCache_16_9/%ID%___.jpg";
 
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";

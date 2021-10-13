@@ -104,6 +104,10 @@ public class ErrorHelper {
 		} else {
 			handler.showError(e.getLocalizedMessage());
 		}
+		if (handler instanceof AnalyticsErrorLogger) {
+			AnalyticsErrorLogger analyticsLogger = (AnalyticsErrorLogger) handler;
+			analyticsLogger.logAnalytics(e, cmd);
+		}
 	}
 
 	/**

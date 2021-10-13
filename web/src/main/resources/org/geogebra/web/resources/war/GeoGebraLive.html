@@ -20,10 +20,20 @@
             <a href="?app=cas" class="btn btn-secondary">CAS</a>
         </div>
     </div>
-<div id="ggbApplet1"></div>
-<button onclick="window.open(location.href)" class="btn btn-primary mt-4">Local test</button>
-
-<script>
+    <div id="ggbApplet1"></div>
+    <div class="row align-items-center gx-3 mt-4">
+        <button onclick="window.open(location.href)" class="btn btn-primary">Local test</button>
+        <div class="col-auto">
+            <div class="form-check">
+                <input type="checkbox" id="ignore" class="form-check-input"/>
+                <label for="ignore" class="form-check-label">Ignore incoming events</label>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-danger d-none mt-4" id="warning">
+        Something went wrong!
+    </div>
+    <script>
         var userDatabase = [
             {id:"7", name:'Hypatia', color: '#2E7D3280'},
             {id:"13", name:'Ada', color: '#1565C080'},
@@ -51,7 +61,8 @@
             return null;
         }
         window.addEventListener('storage', function(e) {
-            if (api1) {
+            const ignoreEvents = document.getElementById("ignore").checked;
+            if (api1 && !ignoreEvents) {
                 var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
                 for (var index = dispatchNext; index < events.length; index++) {
                     var last = events[index];
@@ -108,6 +119,7 @@
                 live.addUser(user);
             });
             live.addEventListener("construction", storageEventBus);
+            live.addEventListener("error", e => document.getElementById("warning").classList.remove("d-none"));
         }
 
         var applet1 = new GGBApplet(parameters1, '5.0');
