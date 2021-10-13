@@ -308,7 +308,7 @@ public class ToolBar {
 		if (includeH5P) {
 			tools.add(EuclidianConstants.MODE_H5P);
 		}
-		return tools
+		return tools;
 	}
 
 	/**
