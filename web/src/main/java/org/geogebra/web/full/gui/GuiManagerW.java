@@ -2,9 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -51,7 +49,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.web.KeyboardListener;
@@ -1248,10 +1245,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
-
-			Map<String, Object> params = new HashMap<>();
-			params.put(Analytics.Param.COMMAND, page);
-			Analytics.logEvent(Analytics.Event.COMMAND_HELP_ICON, params);
+			inputHelpPanel.getInputHelpPanel().logHelpIconEvent(page, false);
 		} catch (final MyError e) {
 			getApp().showError(e);
 		} catch (final Exception e) {
