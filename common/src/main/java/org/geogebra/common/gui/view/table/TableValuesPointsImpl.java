@@ -67,17 +67,17 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowRemoved(TableValuesModel model, int row) {
-
+		// TODO
 	}
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
-
+		// TODO
 	}
 
 	@Override
 	public void notifyRowAdded(TableValuesModel model, int row) {
-
+		// TODO
 	}
 
 	@Override

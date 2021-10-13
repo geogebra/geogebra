@@ -294,17 +294,17 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyRowRemoved(TableValuesModel model, int row) {
-
+		// TODO
 	}
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
-
+		// TODO
 	}
 
 	@Override
 	public void notifyRowAdded(TableValuesModel model, int row) {
-
+		// TODO
 	}
 
 	@Override
