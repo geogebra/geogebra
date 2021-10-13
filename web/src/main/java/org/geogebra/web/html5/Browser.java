@@ -78,10 +78,6 @@ public class Browser {
 		return base != null && Js.asPropertyMap(base).has(propertyName);
 	}
 
-	public static boolean supportsPointerEvents() {
-		return hasGlobal("PointerEvent");
-	}
-
 	/**
 	 * @param thumb
 	 *            original URL
@@ -210,8 +206,7 @@ public class Browser {
 			return;
 		}
 		style.setProperty("transform", "none");
-		int zoomPercent = (int) Math.round(externalScale * 100);
-		style.setProperty("zoom", zoomPercent + "%");
+		style.setProperty("zoom", externalScale + "");
 	}
 
 	/**

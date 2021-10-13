@@ -3468,20 +3468,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Dispatch all remaining move events
-	 */
-	public final void notifyControllersMoveIfWaiting() {
-		if (notifyRepaint && notifyViewsActive) {
-			for (View view : views) {
-				if (view instanceof EuclidianView) {
-					((EuclidianView) view).getEuclidianController()
-							.moveIfWaiting();
-				}
-			}
-		}
-	}
-
-	/**
 	 * @return whether at least one view needed repaint
 	 */
 	public final boolean notifySuggestRepaint() {

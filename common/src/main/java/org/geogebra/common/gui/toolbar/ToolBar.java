@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.toolbar;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -281,122 +284,58 @@ public class ToolBar {
 	}
 
 	/**
-	 * @return toolBar definition string for white board
-	 */
-	public static String getWBToolBarDefString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_MOVE);
-		sb.append(" | ");
-		// write tools + erasers
-		sb.append(EuclidianConstants.MODE_PEN);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_DELETE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ERASER);
-		sb.append(" | ");
-		// geometry objects
-		sb.append(EuclidianConstants.MODE_JOIN);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_POLYGON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
-		sb.append(" | ");
-		// shapes
-		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_TEXT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_IMAGE);
-		return sb.toString();
-	}
-
-	/**
 	 * @param includeGraspableMath whether to include GraspableMath
 	 * @param includeH5P whether to include H5P
 	 * @return definition for MOW media toolbar
 	 */
-	public static String getMOWMediaToolBarDefString(boolean includeGraspableMath,
+	public static List<Integer> getNotesMediaToolBar(boolean includeGraspableMath,
 			boolean includeH5P) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(EuclidianConstants.MODE_MEDIA_TEXT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_TABLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_EQUATION);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CALCULATOR);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_EXTENSION);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MIND_MAP);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_IMAGE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CAMERA);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_VIDEO);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_AUDIO);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_PDF);
+		List<Integer>tools = new ArrayList<>();
+		tools.add(EuclidianConstants.MODE_MEDIA_TEXT);
+		tools.add(EuclidianConstants.MODE_TABLE);
+		tools.add(EuclidianConstants.MODE_EQUATION);
+		tools.add(EuclidianConstants.MODE_CALCULATOR);
+		tools.add(EuclidianConstants.MODE_EXTENSION);
+		tools.add(EuclidianConstants.MODE_MIND_MAP);
+		tools.add(EuclidianConstants.MODE_IMAGE);
+		tools.add(EuclidianConstants.MODE_CAMERA);
+		tools.add(EuclidianConstants.MODE_VIDEO);
+		tools.add(EuclidianConstants.MODE_AUDIO);
+		tools.add(EuclidianConstants.MODE_PDF);
 		if (includeGraspableMath) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
+			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
 		}
 		if (includeH5P) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_H5P);
+			tools.add(EuclidianConstants.MODE_H5P);
 		}
-		return sb.toString();
+		return tools
+	}
+
+	/**
+	 * @return definition for MOW pen toolbar
+	 */
+	public static List<Integer> getNotesPenToolBar() {
+		return Arrays.asList(EuclidianConstants.MODE_SELECT_MOW,
+				EuclidianConstants.MODE_PEN,
+				EuclidianConstants.MODE_RULER,
+				EuclidianConstants.MODE_ERASER,
+				EuclidianConstants.MODE_HIGHLIGHTER,
+				EuclidianConstants.MODE_PROTRACTOR);
 	}
 
 	/**
 	 * @return definition for MOW math toolbar
 	 */
-	public static String getMOWToolsDefString() {
-		StringBuilder sb = new StringBuilder();
-		// Shapes
-		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MASK);
-
-		return sb.toString();
+	public static List<Integer> getNotesShapesToolBar() {
+		return Arrays.asList(EuclidianConstants.MODE_SHAPE_RECTANGLE,
+				EuclidianConstants.MODE_SHAPE_SQUARE,
+				EuclidianConstants.MODE_SHAPE_CIRCLE,
+				EuclidianConstants.MODE_SHAPE_ELLIPSE,
+				EuclidianConstants.MODE_SHAPE_PENTAGON,
+				EuclidianConstants.MODE_SHAPE_FREEFORM,
+				EuclidianConstants.MODE_SHAPE_TRIANGLE,
+				EuclidianConstants.MODE_SHAPE_LINE,
+				EuclidianConstants.MODE_MASK);
 	}
 
 	/**

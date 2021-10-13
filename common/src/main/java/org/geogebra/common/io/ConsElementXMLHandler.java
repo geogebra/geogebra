@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -136,6 +137,7 @@ public class ConsElementXMLHandler {
 	@Weak
 	private MyXMLHandler xmlHandler;
 	private boolean needsConstructionDefaults;
+	private String pendingLabel;
 
 	private static class GeoExpPair {
 		private GeoElement geoElement;
@@ -1987,6 +1989,12 @@ public class ConsElementXMLHandler {
 		if (geo.isGeoImage() && ((GeoImage) geo).isCentered()) {
 			((GeoImage) geo).setCentered(true);
 		}
+		if (pendingLabel != null) {
+			geo.setLoadedLabel(pendingLabel);
+			pendingLabel = null;
+		} else {
+			xmlHandler.kernel.notifyUpdateVisualStyle(geo, GProperty.COMBINED);
+		}
 	}
 
 	private boolean handleShow(LinkedHashMap<String, String> attrs) {
@@ -2692,7 +2700,7 @@ public class ConsElementXMLHandler {
 				// if none, create new geo
 				geo1 = xmlHandler.kernel.createGeoElement(xmlHandler.cons,
 						type);
-				geo1.setLoadedLabel(label);
+				pendingLabel = label;
 
 				// Application.debug(label+", "+geo.isLabelSet());
 

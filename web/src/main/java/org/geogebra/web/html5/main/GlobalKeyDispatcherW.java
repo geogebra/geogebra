@@ -135,7 +135,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					.hideDynamicStylebar();
 		}
 		app.getSelectionManager().clearSelectedGeos();
-		app.getAccessibilityManager().focusInput(true);
+		boolean force = !((GuiManagerInterfaceW) app.getGuiManager()).isAlgebraViewActive();
+		app.getAccessibilityManager().focusInput(true, force);
 	}
 
 	public EventListener getGlobalShortcutHandler() {

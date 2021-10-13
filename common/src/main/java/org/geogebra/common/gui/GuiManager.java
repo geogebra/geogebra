@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.util.debug.Log;
@@ -87,12 +88,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 	/**
 	 * Abstract constructor
 	 * 
-	 * @param app2
+	 * @param app
 	 *            application
 	 */
-	public GuiManager(App app2) {
-		this.app = app2;
-		this.kernel = app2.getKernel();
+	public GuiManager(App app) {
+		this.app = app;
+		this.kernel = app.getKernel();
+		app.getSettings().getLabelSettings().addListener(this);
 	}
 
 	@Override
@@ -851,5 +853,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public void closeFullscreenView() {
 		// only needed in web
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		updateMenubar();
 	}
 }

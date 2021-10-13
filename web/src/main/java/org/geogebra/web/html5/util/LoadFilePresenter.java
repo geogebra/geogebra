@@ -43,7 +43,7 @@ public class LoadFilePresenter {
 			processJSON(filename, vv);
 		} else if (!""
 				.equals(base64String = view.getDataParamBase64String())) {
-			process(base64String, vv);
+			vv.processBase64String(base64String);
 		} else if (!"".equals(filename = view.getDataParamFileName())) {
 			vv.processFileName(filename);
 		} else if (!"".equals(view.getDataParamTubeID())) {
@@ -251,7 +251,9 @@ public class LoadFilePresenter {
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
 		app.setActivePerspective(p);
-		app.getAppletFrame().updateHeaderSize();
+		if (app.getAppletParameters().getDataParamApp()) {
+			app.getAppletFrame().updateHeaderSize();
+		}
 		app.setPreferredSize(
 				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
 		app.ensureStandardView();
@@ -294,10 +296,6 @@ public class LoadFilePresenter {
 				app.getParserFunctions();
 			}
 		});
-	}
-
-	private static void process(String dataParamBase64String, ViewW view) {
-		view.processBase64String(dataParamBase64String);
 	}
 
 	/**

@@ -277,7 +277,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 			Canvas c = Canvas.createIfSupported();
 			previewPanel.setWidget(c);
 			DrawEquationW.paintOnCanvas(coModel.getGeo(), latexStr, c,
-					app.getFontSizeWeb());
+					app.getFontSize());
 		} else {
 			previewPanel.setWidget(lblPreview);
 			lblPreview.getElement().removeAllChildren();

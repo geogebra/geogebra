@@ -70,6 +70,8 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			case EuclidianConstants.MODE_MASK:
 			case EuclidianConstants.MODE_MIND_MAP:
+			case EuclidianConstants.MODE_RULER:
+			case EuclidianConstants.MODE_PROTRACTOR:
 				continue;
 			default:
 				ImageResourceD res = man.getToolImageResource(modeText);

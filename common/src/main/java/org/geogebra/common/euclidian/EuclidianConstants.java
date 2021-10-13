@@ -440,6 +440,10 @@ public final class EuclidianConstants {
 	public static final int MODE_H5P = 125;
 
 	public static final int MODE_MIND_MAP = 126;
+	/** Ruler */
+	public static final int MODE_RULER = 127;
+	/** Protractor */
+	public static final int MODE_PROTRACTOR = 128;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -903,7 +907,6 @@ public final class EuclidianConstants {
 			return "Eraser";
 		case EuclidianConstants.MODE_HIGHLIGHTER:
 			return "Highlighter";
-
 		case EuclidianConstants.MODE_PEN_PANEL:
 			return "PenPanel";
 		case EuclidianConstants.MODE_TOOLS_PANEL:
@@ -936,13 +939,16 @@ public final class EuclidianConstants {
 			return "Equation";
 		case EuclidianConstants.MODE_MIND_MAP:
 			return "Mindmap";
-
+		case EuclidianConstants.MODE_RULER:
+			return "Ruler";
+		case EuclidianConstants.MODE_PROTRACTOR:
+			return "Protractor";
 		default:
 			Log.error("Unknown mode " + mode);
 			return "";
 		}
 	}
-	
+
 	/**
 	 * @param mode
 	 *            mode number
@@ -951,18 +957,6 @@ public final class EuclidianConstants {
 	static public boolean isMoveOrSelectionMode(int mode) {
 		return mode == MODE_MOVE || mode == MODE_SELECT
 				|| mode == MODE_SELECT_MOW;
-	}
-
-	/**
-	 * @param mode
-	 *            tool id
-	 * @return true if tool id is shape
-	 */
-	static public boolean isShapeMode(int mode) {
-		return mode == MODE_SHAPE_FREEFORM || mode == MODE_SHAPE_SQUARE
-				|| mode == MODE_SHAPE_CIRCLE || mode == MODE_SHAPE_ELLIPSE
-				|| mode == MODE_SHAPE_PENTAGON || mode == MODE_SHAPE_RECTANGLE
-				|| mode == MODE_SHAPE_TRIANGLE || mode == MODE_SHAPE_LINE;
 	}
 
 	/**

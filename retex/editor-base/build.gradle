@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
     id 'pmd'
     id 'checkstyle'
-    id "com.github.spotbugs" version "4.6.0"
+    id "com.github.spotbugs" version "4.7.3"
     id 'ca.coglinc.javacc' version '2.4.0'
 }
 

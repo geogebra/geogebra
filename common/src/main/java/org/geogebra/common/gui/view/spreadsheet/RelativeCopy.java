@@ -549,28 +549,6 @@ public class RelativeCopy {
 
 		text = exp.toString(highPrecision);
 
-		// condition to show object
-		GeoBoolean bool = value.getShowObjectCondition();
-		String boolText = null, oldBoolText = null;
-		if (bool != null) {
-			if (bool.isChangeable()) {
-				oldBoolText = bool.toValueString(highPrecision);
-			} else {
-				oldBoolText = bool.getDefinition(highPrecision);
-			}
-		}
-
-		// dynamic color function
-		GeoList dynamicColorList = value.getColorFunction();
-		String colorText = null, oldColorText = null;
-		if (dynamicColorList != null) {
-			if (dynamicColorList.isChangeable()) {
-				oldColorText = dynamicColorList.toValueString(highPrecision);
-			} else {
-				oldColorText = dynamicColorList.getDefinition(highPrecision);
-			}
-		}
-
 		// allow pasting blank strings
 		if ("".equals(text)) {
 			text = "\"\"";
@@ -648,17 +626,11 @@ public class RelativeCopy {
 					}
 				}
 			}
-
 		}
 
-		if (oldBoolText != null) {
-			exp = kernel.getParser().parseGeoGebraExpression(oldBoolText);
-			updateCellReferences(exp, dx, dy);
-			boolText = exp.toString(StringTemplate.maxPrecision);
-		}
-
+		String boolText = getUpdatedReference(value.getShowObjectCondition(), dx, dy);
 		// attempt to set updated condition to show object (if it's changed)
-		if ((boolText != null)) {
+		if (boolText != null) {
 			// removed as doesn't work for eg "random()<0.5" #388
 			// && !boolText.equals(oldBoolText)) {
 
@@ -671,20 +643,13 @@ public class RelativeCopy {
 			} else {
 				return null;
 			}
-
 		}
 
-		if (oldColorText != null) {
-			exp = kernel.getParser().parseGeoGebraExpression(oldColorText);
-			updateCellReferences(exp, dx, dy);
-			colorText = exp.toString(StringTemplate.maxPrecision);
-		}
-
-		// copy the scripts from the old GeoElement
-		value2.setScripting(value);
+		// dynamic color function
+		String colorText = getUpdatedReference(value.getColorFunction(), dx, dy);
 
 		// attempt to set updated dynamic color function (if it's changed)
-		if ((colorText != null)) {
+		if (colorText != null) {
 			// removed as doesn't work for eg "random()" #388
 			// && !colorText.equals(oldColorText)) {
 			try {
@@ -699,6 +664,9 @@ public class RelativeCopy {
 			}
 		}
 
+		// copy the scripts from the old GeoElement
+		value2.setScripting(value);
+
 		if (startPoints != null) {
 			for (int i = 0; i < startPoints.length; i++) {
 				((Locateable) value2).setStartPoint(kernel.getAlgebraProcessor()
@@ -711,6 +679,17 @@ public class RelativeCopy {
 		}
 
 		return value2;
+	}
+
+	private static String getUpdatedReference(GeoElement object, int dx, int dy) throws Exception {
+		String oldBoolText = object != null ? object.getLabel(StringTemplate.maxPrecision) : null;
+		if (oldBoolText != null) {
+			ValidExpression exp = object.getKernel().getParser()
+					.parseGeoGebraExpression(oldBoolText);
+			updateCellReferences(exp, dx, dy);
+			return exp.toString(StringTemplate.maxPrecision);
+		}
+		return null;
 	}
 
 	/**

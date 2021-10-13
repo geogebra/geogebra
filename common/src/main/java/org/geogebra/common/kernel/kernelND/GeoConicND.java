@@ -3578,21 +3578,22 @@ public abstract class GeoConicND extends GeoQuadricND
 		// line thickness and type
 		getLineStyleXML(sb);
 
-		sb.append("\t<eigenvectors ");
-		sb.append(" x0=\"" + eigenvec[0].getX() + "\"");
-		sb.append(" y0=\"" + eigenvec[0].getY() + "\"");
-		sb.append(" z0=\"1.0\"");
-		sb.append(" x1=\"" + eigenvec[1].getX() + "\"");
-		sb.append(" y1=\"" + eigenvec[1].getY() + "\"");
-		sb.append(" z1=\"1.0\"");
-		sb.append("/>\n");
+		sb.append("\t<eigenvectors x0=\"");
+		sb.append(eigenvec[0].getX());
+		sb.append("\" y0=\"");
+		sb.append(eigenvec[0].getY());
+		sb.append("\" z0=\"1.0\" x1=\"");
+		sb.append(eigenvec[1].getX());
+		sb.append("\" y1=\"");
+		sb.append(eigenvec[1].getY());
+		sb.append("\" z1=\"1.0\"/>\n");
 
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
 		sb.append("\t<matrix");
 		for (int i = 0; i < 6; i++) {
-			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
+			sb.append(" A").append(i).append("=\"").append(matrix[i]).append("\"");
 		}
 		sb.append("/>\n");
 		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), parameter);
