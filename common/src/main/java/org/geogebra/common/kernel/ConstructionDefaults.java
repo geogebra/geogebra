@@ -46,7 +46,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -57,7 +58,7 @@ import com.google.j2objc.annotations.Weak;
  * 
  * @author Markus Hohenwarter
  */
-public class ConstructionDefaults {
+public class ConstructionDefaults implements SettingListener {
 	/** default alpha for polygons */
 	public static final float DEFAULT_POLYGON_ALPHA = 0.1f;
 
@@ -1175,18 +1176,18 @@ public class ConstructionDefaults {
 	}
 
 	/**
-	 * @deprecated LabelSettingsUpdater.resetLabelModeToDefaultForGeos should be used instead.
-	 *
 	 * reset label mode to default for all default geos (and label visibility to
 	 * true)
 	 */
-	@Deprecated
-	public void resetLabelModeDefaultGeos() {
-		getLabelSettingsUpdater().resetLabelModeToDefaultForGeos();
-	}
-
-	private LabelSettingsUpdater getLabelSettingsUpdater() {
-		return cons.getApplication().getSettingsUpdater().getLabelSettingsUpdater();
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		for (GeoElement geo : defaultGeoElements.values()) {
+			if (!cons.getApplication().isUnbundledOrWhiteboard()
+					|| !(geo instanceof GeoAngle)) {
+				geo.labelMode = GeoElementND.LABEL_DEFAULT;
+			}
+			geo.setLabelVisible(true);
+		}
 	}
 
 	/**

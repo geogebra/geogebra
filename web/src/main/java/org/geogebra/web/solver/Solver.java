@@ -118,7 +118,7 @@ public class Solver {
 				app.getLocalization().setLanguage(lang);
 
 				keyboard.setProcessing(new MathFieldProcessing(mathField));
-				keyboard.buildGUI();
+				keyboard.clearAndUpdate();
 
 				String parameter = Window.Location.getParameter("i");
 				if (parameter != null && !"".equals(parameter)) {

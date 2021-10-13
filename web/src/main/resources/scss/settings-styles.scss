@@ -381,11 +381,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 		}
 
-		.CustomColorButton:hover {
-			border: 2px solid colors.$teal-default !important;
-			background-color: colors.$white !important;
-		}
-
 		.gwt-ToggleButton {
 			cursor: pointer;
 			padding: 4px;

@@ -37,4 +37,10 @@ public interface ToolbarSvgResourcesSync extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_h5p.svg")
 	SVGResource mode_h5p();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
+	SVGResource mode_ruler();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_protractor.svg")
+	SVGResource mode_protractor();
 }

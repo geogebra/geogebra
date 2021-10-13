@@ -31,4 +31,35 @@
         insertScript();
     }
 
+    function toggleFullscreen() {
+        try {
+            // the CSS class is defined in https://git.geogebra.org/mow/mow-front/blob/master/app.php
+            window.parent.$(window.parent.document.body).toggleClass(
+                "fullscreen-app");
+        } catch (ex) {
+            // possibly the Mebis iframe is embedded in some non-standard page
+            window.console.log(ex);
+        }
+    }
+
+    function nativeLogin() {
+        try {
+            if (window.parent && window.parent.login) {
+                window.parent.login();
+                return true;
+            }
+            return false;
+        } catch (ex) {
+            //running in CORS iframe
+        }
+        return false;
+    }
 </script>
+<style>
+body {
+  --ggb-primary-color: #00a8d5;
+  --ggb-primary-variant-color: #0079a3;
+  --ggb-dark-color: #0079a3;
+  --ggb-light-color: #b7e4f1;
+}
+</style>

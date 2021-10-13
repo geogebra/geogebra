@@ -219,9 +219,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			int labeling = app.getLabelingStyle();
 			if (app.isUnbundledGraphing()) {
 				switch (labeling) {
-				case 1:
-					labelingList.setSelectedIndex(0);
-					break;
 				case 2:
 					labelingList.setSelectedIndex(1);
 					break;

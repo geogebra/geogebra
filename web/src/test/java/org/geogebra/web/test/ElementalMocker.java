@@ -5,12 +5,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import elemental2.core.Global;
+import elemental2.core.JSONType;
 import elemental2.dom.Console;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLBodyElement;
 import elemental2.dom.HTMLDocument;
 import elemental2.dom.HTMLHtmlElement;
 import elemental2.dom.Navigator;
 import elemental2.webstorage.WebStorageWindow;
+import jsinterop.base.JsPropertyMap;
 
 public class ElementalMocker {
 
@@ -23,7 +27,14 @@ public class ElementalMocker {
 			newValue.platform = "SunOS";
 			newValue.userAgent = "Chrome";
 			setFinalStatic(DomGlobal.class.getField("navigator"), newValue);
+			Global.JSON = new JSONType() {
+				@Override
+				public Object parse(String s){
+					return JsPropertyMap.of();
+				}
+			};
 			DomGlobal.document.documentElement = new HTMLHtmlElement();
+			DomGlobal.document.body = new HTMLBodyElement();
 		} catch (Exception e) {
 			System.err.println("Failed to set up elemental2 mocks");
 			e.printStackTrace();

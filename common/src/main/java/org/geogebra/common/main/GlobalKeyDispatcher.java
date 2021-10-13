@@ -1281,33 +1281,8 @@ public abstract class GlobalKeyDispatcher {
 			return false;
 		}
 
-		Iterator<GeoElement> it;
-
 		// FUNCTION and DELETE keys
 		switch (key) {
-
-		case PAGEUP:
-			// 3D handled later (move object up/down)
-			if (!app.getActiveEuclidianView().isEuclidianView3D()) {
-				it = geos.iterator();
-				while (it.hasNext()) {
-					GeoElement geo = it.next();
-					geo.setLayer(geo.getLayer() + 1);
-				}
-			}
-			break;
-
-		case PAGEDOWN:
-			// 3D handled later (move object up/down)
-			if (!app.getActiveEuclidianView().isEuclidianView3D()) {
-				it = geos.iterator();
-				while (it.hasNext()) {
-					GeoElement geo = it.next();
-					geo.setLayer(geo.getLayer() - 1);
-				}
-			}
-			break;
-
 		case F3:
 			// F3 key: copy definition to input field
 			if (geos.size() == 1) {

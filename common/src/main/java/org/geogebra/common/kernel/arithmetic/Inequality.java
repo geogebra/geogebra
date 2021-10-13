@@ -265,7 +265,7 @@ public class Inequality {
 		// funBorder for inequality f(x)>g(x) is function f(x)-g(x)
 		funBorder = new GeoFunction(cons, false);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));
-		zeros = rootMultiple(funBorder);
+		zeros = null;
 
 		// for (int i = 0; i < zeros.length; i++) {
 		// Log.debug(i + ":" + zeros[i]);
@@ -284,7 +284,7 @@ public class Inequality {
 	final private double[] rootMultiple(GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) {
-			return null;
+			return new double[0];
 		}
 		Function fun = f.getFunctionForRoot();
 		// get polynomial factors anc calc roots
@@ -394,6 +394,9 @@ public class Inequality {
 	 * @return zero points for 1var ineqs
 	 */
 	public double[] getZeros() {
+		if (zeros == null && funBorder != null) {
+			zeros = rootMultiple(funBorder);
+		}
 		return zeros;
 	}
 

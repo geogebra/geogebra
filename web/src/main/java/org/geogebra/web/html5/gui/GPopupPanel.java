@@ -1445,7 +1445,7 @@ public class GPopupPanel extends SimplePanel implements
 			if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
 					&& nativeEvent.getCtrlKey() && nativeEvent.getAltKey()) {
 				hide(true, false);
-				app.getAccessibilityManager().focusInput(true);
+				app.getAccessibilityManager().focusInput(true, true);
 				event.getNativeEvent().preventDefault();
 			}
 			return;

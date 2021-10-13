@@ -8,11 +8,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianPen;
@@ -28,6 +29,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -39,7 +41,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.LayeredGGraphicsW;
@@ -55,9 +56,11 @@ import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -70,19 +73,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.GestureChangeEvent;
-import com.google.gwt.event.dom.client.GestureEndEvent;
-import com.google.gwt.event.dom.client.GestureStartEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.TouchCancelEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -94,6 +85,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.FrameRequestCallback;
 import elemental2.dom.HTMLCollection;
 import elemental2.dom.HTMLImageElement;
+import elemental2.dom.WheelEvent;
 import jsinterop.base.Js;
 
 /**
@@ -716,38 +708,14 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
-		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if (Browser.supportsPointerEvents()) {
-			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
-					euclidiancontroller.getOffsets());
-			pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
-			CancelEventTimer.killTouch(absPanel);
-			absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
-		} else {
-			absPanel.addDomHandler(euclidiancontroller,
-					MouseMoveEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller,
-					MouseOverEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-			if (appW.getLAF() == null || !appW.getLAF().isSmart()) {
-				absPanel.addDomHandler(euclidiancontroller,
-						MouseDownEvent.getType());
-			}
-			if (appW.getLAF() != null) {
-				if (appW.getLAF().registerHandlers(absPanel, euclidiancontroller)) {
-					return;
-				}
-			}
+		Dom.addEventListener(absPanel.getElement(), "wheel",
+				(event) -> euclidiancontroller.onMouseWheel((WheelEvent) event));
 
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-			absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
-			absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
-		}
+		pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
+				euclidiancontroller.getOffsets());
+		pointerHandler.attachTo(absPanel.getElement(), ((AppW) app).getGlobalHandlers());
+		CancelEventTimer.killTouch(absPanel);
+		absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 	}
 
 	private static void registerDragDropHandlers(
@@ -1000,10 +968,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void add(Widget box, GPoint position) {
+	public void add(Widget box) {
 		if (evPanel != null) {
-			evPanel.getAbsolutePanel().add(box,
-					position.getX(), position.getY());
+			evPanel.getAbsolutePanel().add(box);
 		}
 	}
 
@@ -1502,5 +1469,29 @@ public class EuclidianViewW extends EuclidianView implements
 		if (getBoundingBox() != null) {
 			getBoundingBox().draw(overlayGraphics);
 		}
+	}
+
+	@Override
+	public GeoImage addMeasurementTool(int mode, String fileName) {
+		GeoImage tool = new GeoImage(getKernel().getConstruction());
+		SVGResource toolSVG =
+				mode == EuclidianConstants.MODE_RULER ? GuiResourcesSimple.INSTANCE.ruler()
+						: GuiResourcesSimple.INSTANCE.protractor();
+		tool.setMeasurementTool(true);
+		SafeGeoImageFactory factory = new SafeGeoImageFactory(appW, tool);
+		String path = ImageManagerW.getMD5FileName(fileName, toolSVG.getSafeUri().asString());
+		tool = factory.createInternalFile(path, toolSVG.getSafeUri().asString());
+		return tool;
+	}
+
+	@Override
+	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
+		kernel.getConstruction().removeFromConstructionList(tool);
+		tool.setSize(width, height);
+		GPoint2D loc =
+				new GPoint2D(toRealWorldCoordX(posLeftCorner),
+						toRealWorldCoordY(getHeight() / 2. - height / 2.));
+		tool.setLocation(loc);
+		tool.update();
 	}
 }
