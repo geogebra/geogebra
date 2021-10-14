@@ -96,7 +96,7 @@ public class ContextMenuTV {
 				dialogManager.openTableViewDialog(null);
 			}
 		});
-		addClear();
+		addCommand(() -> view.clearXColumn(), "ClearColumn", "clear");
 	}
 
 	private void buildYColumnMenu() {
@@ -184,13 +184,6 @@ public class ContextMenuTV {
 
 	private void addEdit(Command cmd) {
 		addCommand(cmd, "Edit", "edit");
-	}
-
-	private void addClear() {
-		Command add = () -> {
-			// APPS-3122
-		};
-		addCommand(add, "ClearColumn", "clear");
 	}
 
 	/**
