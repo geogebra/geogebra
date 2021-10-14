@@ -20,10 +20,21 @@ import org.geogebra.common.util.debug.Log;
  * @author Zbynek Konecny
  */
 public class FunctionExpander implements Traversing {
-	private static FunctionExpander collector = new FunctionExpander();
 	// store function variables if needed
 	private FunctionVariable[] variables = null;
-	private int constructionIndex = Integer.MAX_VALUE;
+	private int constructionIndex;
+
+	public FunctionExpander() {
+		this(Integer.MAX_VALUE);
+	}
+
+	public FunctionExpander(int constructionIndex) {
+		this.constructionIndex = constructionIndex;
+	}
+
+	private FunctionExpander(GeoElement element) {
+		this(element == null ? Integer.MAX_VALUE : element.getConstructionIndex());
+	}
 
 	private ExpressionValue expand(GeoElement geo) {
 		if (geo instanceof FunctionalNVar) {
@@ -99,9 +110,10 @@ public class FunctionExpander implements Traversing {
 					fv = ((FunctionalNVar) geo).getFunction()
 							.getFunctionVariables();
 				} else if (geo instanceof GeoSymbolic) {
-					en2 = (ExpressionNode) ((GeoSymbolic) geo).getValue().wrap()
-							.getCopy(((GeoSymbolic) geo).getKernel())
-							.traverse(this);
+					GeoSymbolic symbolic = (GeoSymbolic)geo;
+					FunctionExpander expander = newFunctionExpander(symbolic);
+					en2 = (ExpressionNode) symbolic.getValue().wrap()
+							.getCopy((symbolic).getKernel()).traverse(expander);
 					fv = ((GeoSymbolic) geo).getFunctionVariables();
 				}
 				if (geo instanceof GeoCasCell) {
@@ -296,27 +308,24 @@ public class FunctionExpander implements Traversing {
 	}
 
 	private boolean hasLowerConstructionIndex(GeoElement element) {
-		return element.getConstructionIndex() < constructionIndex;
+		int elementConstructionIndex = element.getConstructionIndex();
+		return elementConstructionIndex > -1 && elementConstructionIndex < constructionIndex;
 	}
 
 	/**
-	 * Resets and returns the collector
-	 *
+	 * Creates a new Function Expander.
 	 * @return function expander
 	 */
-	public static FunctionExpander getCollector() {
-		return getCollector(null);
+	public static FunctionExpander newFunctionExpander() {
+		return new FunctionExpander();
 	}
 
 	/**
-	 * Resets and returns the collector
-	 * @param element geo element to use collector for
+	 * Creates a new function expander
+	 * @param element geo element to expand
 	 * @return function expander
 	 */
-	public static FunctionExpander getCollector(GeoElement element) {
-		collector.constructionIndex = element == null
-				? Integer.MAX_VALUE : element.getConstructionIndex();
-		collector.variables = null;
-		return collector;
+	public static FunctionExpander newFunctionExpander(GeoElement element) {
+		return new FunctionExpander(element);
 	}
 }

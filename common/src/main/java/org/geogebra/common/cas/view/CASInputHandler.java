@@ -413,7 +413,7 @@ public class CASInputHandler {
 			try {
 				expandValidExp = (kernel.getGeoGebraCAS()).getCASparser()
 						.parseGeoGebraCASInput(evalText, null)
-						.traverse(FunctionExpander.getCollector());
+						.traverse(FunctionExpander.newFunctionExpander());
 			} catch (Exception e) {
 				return null;
 			}

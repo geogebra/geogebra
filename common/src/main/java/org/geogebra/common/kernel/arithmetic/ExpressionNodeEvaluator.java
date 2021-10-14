@@ -1087,7 +1087,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// so that the cas result will be converted
 				ExpressionNode node = new ExpressionNode(kernel, lt,
 						Operation.FUNCTION, rt);
-				FunctionExpander fex = FunctionExpander.getCollector();
+				FunctionExpander fex = FunctionExpander.newFunctionExpander();
 				node = (ExpressionNode) node.wrap().getCopy(kernel)
 						.traverse(fex);
 				String result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(

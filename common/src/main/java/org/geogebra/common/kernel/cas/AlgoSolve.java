@@ -224,7 +224,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		if (equations2.getDefinition() != null) {
 			definitionObject = equations2.getDefinition()
 					.deepCopy(equations2.getKernel())
-					.traverse(FunctionExpander.getCollector());
+					.traverse(FunctionExpander.newFunctionExpander());
 
 			definition = definitionObject
 					.toValueString(StringTemplate.prefixedDefaultSF);

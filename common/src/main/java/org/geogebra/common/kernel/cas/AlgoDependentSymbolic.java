@@ -37,8 +37,9 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 			Construction c,
 			ExpressionNode def,
 			ArrayList<GeoElement> vars,
-			MyArbitraryConstant constant) {
-		super(c, false);
+			MyArbitraryConstant constant,
+			boolean addToConstructionList) {
+		super(c, addToConstructionList);
 		this.symbolic = new GeoSymbolic(cons);
 		symbolic.setArbitraryConstant(constant);
 		symbolic.setDefinition(def);
