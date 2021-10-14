@@ -131,7 +131,8 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	private static void maybeSetPointColor(GeoPoint point,
 			GeoEvaluatable evaluatable) {
-		GColor color = evaluatable.getObjectColor();
+		GColor color = evaluatable.isGeoFunction() ? evaluatable.getObjectColor()
+				: GColor.MIND_MAP_PARENT_BORDER_COLOR;
 		point.setObjColor(color);
 	}
 
