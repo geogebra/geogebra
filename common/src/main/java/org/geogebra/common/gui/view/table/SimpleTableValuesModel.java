@@ -350,17 +350,24 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public void insert(GeoElement element, GeoList column, int rowIndex) {
+		int columnIndex = getEvaluatableIndex(column);
+		if (columnIndex == -1) {
+			return;
+		}
 		int oldRowCount = getRowCount();
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);
-		element.notifyUpdate();
+		columns.get(columnIndex).invalidateValue(rowIndex);
 		if (isEmptyValue(element)) {
 			removeEmptyColumnAndRows(column, rowIndex);
 		} else if (rowIndex == oldRowCount && isOnlyValueInRow(column, rowIndex)) {
 			notifyRowAdded(rowIndex);
 		} else if (column == values) {
 			notifyRowChanged(rowIndex);
+		}
+		if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
+			element.notifyUpdate();
 		}
 	}
 

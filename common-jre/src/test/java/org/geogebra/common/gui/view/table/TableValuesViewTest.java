@@ -295,6 +295,19 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testNotifyColumnRemovedCalledFromProcessor() {
+		processor.processInput("0", view.getValues(), 0);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		GeoList columnToRemove = (GeoList) view.getEvaluatable(1);
+		processor.processInput("", columnToRemove, 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnChanged(model, columnToRemove, 1);
+		verify(listener, never()).notifyCellChanged(model, columnToRemove, 1, 0);
+		verify(listener).notifyColumnRemoved(model, columnToRemove, 1);
+	}
+
+	@Test
 	public void testNotifyColumnChangedCalled() {
 		model.registerListener(listener);
 		GeoLine[] lines = createLines(1);
@@ -384,6 +397,8 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		processor.processInput("", view.getValues(), 1);
 		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowChanged(model, 1);
+		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 1);
 		verify(listener).notifyRowRemoved(model, 1);
 	}
 
