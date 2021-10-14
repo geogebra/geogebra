@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockManager;
@@ -555,8 +554,7 @@ public class GeoGebraFrameFull
 					app.invokeLater(() -> {
 						if (getApp().isWhiteboardActive()
 								|| (app.getAppletParameters().preventFocus()
-								&& app.getConfig().getAppCode()
-								.equals(GeoGebraConstants.SUITE_APPCODE))) {
+								&& app.isUnbundled())) {
 							return;
 						}
 						getApp().persistWidthAndHeight();
