@@ -37,7 +37,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		model.insert(element, ensureList(list), index);
+		model.set(element, ensureList(list), index);
 		if (list == tableValues.getValues()) {
 			settings.setValueList(list);
 		}
@@ -57,7 +57,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return model.createEmptyInput();
+			return model.createEmptyValue();
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);

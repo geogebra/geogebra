@@ -21,12 +21,12 @@ public interface TableValuesModel {
 	void unregisterListener(TableValuesListener listener);
 
 	/**
-	 * Inserts an element.
+	 * Sets an element.
 	 * @param element element
 	 * @param column column
 	 * @param rowIndex row index
 	 */
-	void insert(GeoElement element, GeoList column, int rowIndex);
+	void set(GeoElement element, GeoList column, int rowIndex);
 
 	/**
 	 * Get the number of rows in the table.
@@ -66,9 +66,9 @@ public interface TableValuesModel {
 	void endBatchUpdate();
 
 	/**
-	 * @return empty input
+	 * @return empty value
 	 */
-	GeoElement createEmptyInput();
+	GeoElement createEmptyValue();
 
 	/**
 	 * @param element element

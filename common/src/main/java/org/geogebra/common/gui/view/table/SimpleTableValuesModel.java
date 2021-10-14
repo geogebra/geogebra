@@ -349,7 +349,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	@Override
-	public void insert(GeoElement element, GeoList column, int rowIndex) {
+	public void set(GeoElement element, GeoList column, int rowIndex) {
 		int columnIndex = getEvaluatableIndex(column);
 		if (columnIndex == -1) {
 			return;
@@ -375,7 +375,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
 		for (int i = list.size(); i < index + 1; i++) {
-			list.add(createEmptyInput());
+			list.add(createEmptyValue());
 		}
 		if (listWillChange) {
 			list.notifyUpdate();
@@ -383,7 +383,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	@Override
-	public GeoElement createEmptyInput() {
+	public GeoElement createEmptyValue() {
 		return new GeoText(kernel.getConstruction(), "");
 	}
 
