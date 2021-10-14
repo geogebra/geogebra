@@ -110,7 +110,7 @@ public class FunctionExpander implements Traversing {
 					fv = ((FunctionalNVar) geo).getFunction()
 							.getFunctionVariables();
 				} else if (geo instanceof GeoSymbolic) {
-					GeoSymbolic symbolic = (GeoSymbolic)geo;
+					GeoSymbolic symbolic = (GeoSymbolic) geo;
 					FunctionExpander expander = newFunctionExpander(symbolic);
 					en2 = (ExpressionNode) symbolic.getValue().wrap()
 							.getCopy((symbolic).getKernel()).traverse(expander);
