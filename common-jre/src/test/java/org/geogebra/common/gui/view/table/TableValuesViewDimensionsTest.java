@@ -82,7 +82,9 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 
 		mockRowCount(1);
 		dimensions.notifyRowRemoved(model, 1);
-		assertEquals(getClampedWidthWithMargins(TableValuesViewDimensions.MIN_COLUMN_WIDTH), dimensions.getColumnWidth(0));
+		assertEquals(
+				getClampedWidthWithMargins(TableValuesViewDimensions.MIN_COLUMN_WIDTH),
+				dimensions.getColumnWidth(0));
 	}
 
 	@Test
@@ -107,9 +109,11 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 	}
 
 	private int getClampedWidthWithMargins(int width) {
-		return Math.min(Math.max(width + TableValuesViewDimensions.CELL_LEFT_MARGIN
-								+ TableValuesViewDimensions.CELL_RIGHT_MARGIN,
-						TableValuesViewDimensions.MIN_COLUMN_WIDTH),
+		int widthWithMargins = width
+				+ TableValuesViewDimensions.CELL_LEFT_MARGIN
+				+ TableValuesViewDimensions.CELL_RIGHT_MARGIN;
+		return Math.min(
+				Math.max(widthWithMargins, TableValuesViewDimensions.MIN_COLUMN_WIDTH),
 				TableValuesViewDimensions.MAX_COLUMN_WIDTH);
 	}
 
