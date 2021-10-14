@@ -139,7 +139,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return view.getEvaluatable(column) instanceof GeoList;
 	}
 
-	private boolean columnNotEditable(int column) {
+	public boolean columnNotEditable(int column) {
 		return view.getEvaluatable(column) instanceof GeoFunction;
 	}
 
