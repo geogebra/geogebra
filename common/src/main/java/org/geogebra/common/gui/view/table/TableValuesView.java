@@ -65,6 +65,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	/**
 	 * Create a new Table Value View.
 	 * @param kernel {@link Kernel}
+	 * @param xValues x values
 	 */
 	TableValuesView(Kernel kernel, GeoList xValues) {
 		this.kernel = kernel;

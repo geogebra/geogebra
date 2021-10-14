@@ -355,7 +355,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	@Test
 	public void testNotifyRowAddedCalledForSecondRow() {
 		processor.processInput("10", view.getValues(), 0);
-		processor.processInput("11", null,0);
+		processor.processInput("11", null, 0);
 		GeoList list = (GeoList) view.getEvaluatable(1);
 		model.registerListener(listener);
 		processor.processInput("11", list, 1);
@@ -367,7 +367,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	@Test
 	public void testNotifyCellChangedCalled() {
 		processor.processInput("10", view.getValues(), 0);
-		processor.processInput("11", view.getValues(),1);
+		processor.processInput("11", view.getValues(), 1);
 
 		model.registerListener(listener);
 		processor.processInput("", view.getValues(), 0);
@@ -401,7 +401,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 1);
 		verify(listener).notifyRowRemoved(model, 1);
 	}
-
 
 	@Test
 	public void testUpdate() {

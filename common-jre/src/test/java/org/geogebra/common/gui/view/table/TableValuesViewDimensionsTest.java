@@ -73,7 +73,7 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 		mockRowCount(2);
 		mockColumnCount(1);
 		mockModelValue(0, 0, "10");
-		mockModelValue(1, 0,"11");
+		mockModelValue(1, 0, "11");
 
 		// Dimensions initial state
 		dimensions.notifyColumnAdded(model, null, 0);
@@ -95,7 +95,7 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 		mockRowCount(1);
 		mockColumnCount(1);
 		mockModelValue(0, 0, "10");
-		mockModelValue(1, 0,"11");
+		mockModelValue(1, 0, "11");
 
 		// Dimensions initial state
 		dimensions.notifyColumnAdded(model, null, 0);
