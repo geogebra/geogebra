@@ -881,4 +881,8 @@ public class MathFieldInternal
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
 	}
+
+	public boolean isEnterPressed() {
+		return enterPressed;
+	}
 }

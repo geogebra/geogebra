@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -56,33 +57,45 @@ public class TableEditor {
 		});
 	}
 
-	private void stopEditing(boolean isEnter) {
+	public void stopEditing() {
 		mathTextField.asWidget().removeFromParent();
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			processInputAndFocusNextCell(list, isEnter);
+			processInputAndFocusNextCell(list);
 		}
 		if (isNewColumnEdited(evaluatable)) {
-			processInputAndFocusNextCell(null, isEnter);
+			processInputAndFocusNextCell(null);
 		}
-		if ("".equals(mathTextField.getText()) && isEnter) {
+		Log.debug("-----------------");
+		if (isLastInputRowEmpty() && wasEnterPressed()) {
 			app.hideKeyboard();
 		}
-
+		Log.debug("*****************");
 		editRow = -1;
 		editColumn = -1;
 	}
 
-	private void processInputAndFocusNextCell(GeoList list, boolean isEnter) {
+	private void processInputAndFocusNextCell(GeoList list) {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		int needsFocusColumn = editColumn;
 		int needsFocusRow = editRow + 1;
-		if (!"".equals(mathTextField.getText()) && isEnter) {
-			app.invokeLater(() -> {
-				startEditing(needsFocusRow, needsFocusColumn, null);
-			});
+		if (wasEnterPressed()) {
+			if (!(mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount())) {
+				app.invokeLater(() -> startEditing(needsFocusRow, needsFocusColumn, null));
+			}
 		}
+	}
+
+	private boolean wasEnterPressed() {
+		Log.debug("WAS ENTER: "+ mathTextField.getMathField().getInternal().isEnterPressed());
+		return mathTextField.getMathField().getInternal().isEnterPressed();
+	}
+
+	private boolean isLastInputRowEmpty() {
+		Log.debug("EMPTY INPUT: "+mathTextField.getText().isEmpty());
+		Log.debug("LAST ROW: "+ (editRow == table.tableModel.getRowCount()));
+		return mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount();
 	}
 
 	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
@@ -93,8 +106,8 @@ public class TableEditor {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
-			mathTextField.addChangeHandler(() -> stopEditing(true));
-			mathTextField.addBlurHandler(event -> stopEditing(false));
+			mathTextField.addChangeHandler(() -> stopEditing());
+			mathTextField.addBlurHandler(event -> stopEditing());
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
@@ -104,7 +117,7 @@ public class TableEditor {
 				}
 			});
 		} else if (editRow >= 0) {
-			stopEditing(false);
+			stopEditing();
 			table.flush();
 		}
 	}
