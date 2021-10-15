@@ -306,6 +306,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Mixed Reality and Augmented Reality
 	private boolean mIsXRDrawing;
 	private boolean mIsXREnabled;
+	protected boolean mIsUnity;
 	private Target target;
 
 	// AR Ratio
@@ -892,6 +893,19 @@ public abstract class EuclidianView3D extends EuclidianView
         }
 
 		rotationMatrix.setMul3x3(tmpMatrix1, tmpMatrix2);
+		if (mIsUnity) {
+			applyTranslationToModelMatrix();
+		}
+	}
+
+	private void applyTranslationToModelMatrix() {
+		// rotationMatrix is also ModelMatrix
+		Coords translation = new Coords(
+				getXTranslationUnity(),
+				getYTranslationUnity(),
+				getZTranslationUnity(),
+				1);
+		rotationMatrix.setOrigin(translation);
 	}
 
 	// TODO specific scaling for each direction
@@ -903,15 +917,15 @@ public abstract class EuclidianView3D extends EuclidianView
 		scaleMatrix.set(3, 3, getZscale());
 	}
 
-	public double getXTranslationUnity() {
+	protected double getXTranslationUnity() {
 		return 0;
 	}
 
-	public double getYTranslationUnity() {
+	protected double getYTranslationUnity() {
 		return 0;
 	}
 
-	public double getZTranslationUnity() {
+	protected double getZTranslationUnity() {
 		return 0;
 	}
 
@@ -923,10 +937,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * Update translation matrices (do and undo).
 	 */
 	public void updateTranslationMatrices() {
-
-        double translationZzero = getZZero() + translationZzeroForAR + getZTranslationUnity();
-        double translationXzero = getXZero() + getXTranslationUnity();
-        double translationYzero = getYZero() + getYTranslationUnity();
+		double translationZzero = getZZero() + translationZzeroForAR;
+		double translationXzero = getXZero();
+		double translationYzero = getYZero();
 
 		// scene to screen translation matrices
 		translationMatrixWithScale.set(1, 4, translationXzero * getXscale());
