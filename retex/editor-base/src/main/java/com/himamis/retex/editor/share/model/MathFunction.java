@@ -28,6 +28,9 @@
 
 package com.himamis.retex.editor.share.model;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import com.himamis.retex.editor.share.meta.MetaFunction;
 import com.himamis.retex.editor.share.meta.Tag;
 
@@ -129,11 +132,8 @@ public class MathFunction extends MathContainer {
     @Override
 	public MathFunction copy() {
         MathFunction function = new MathFunction(meta);
-        for (int i = 0; i < arguments.size(); i++) {
-            MathContainer component = getArgument(i);
-            component = component.copy();
-            function.setArgument(i, component);
-        }
+		function.arguments = arguments.stream().map(MathComponent::copy)
+				.collect(Collectors.toCollection(ArrayList::new));
         return function;
     }
 

@@ -1426,36 +1426,6 @@ public class InputController {
 		}
 	}
 
-	/**
-	 * @param editorState
-	 *            current state
-	 * @return selection as text
-	 */
-	public static MathSequence getSelectionText(EditorState editorState) {
-		if (editorState.getSelectionStart() != null) {
-			MathContainer parent = editorState.getSelectionStart().getParent();
-			int end, start;
-			if (parent == null) {
-				// all the formula is selected
-				return editorState.getRootComponent();
-
-			}
-			MathSequence seq = new MathSequence();
-			end = parent.indexOf(editorState.getSelectionEnd());
-			start = parent.indexOf(editorState.getSelectionStart());
-			if (end >= 0 && start >= 0) {
-				for (int i = start; i <= end; i++) {
-					seq.addArgument(parent.getArgument(i).copy());
-				}
-
-				// editorState.setCurrentOffset(start);
-			}
-			return seq;
-		}
-		// editorState.resetSelection();
-		return null;
-	}
-
 	private static class FunctionPower {
 		/** subscript or superscript*/
 		public MathFunction script;
