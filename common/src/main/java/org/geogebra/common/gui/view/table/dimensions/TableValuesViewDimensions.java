@@ -87,21 +87,6 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 	}
 
 	@Override
-	public void notifyRowRemoved(TableValuesModel model, int row) {
-		resetCache();
-	}
-
-	@Override
-	public void notifyRowChanged(TableValuesModel model, int row) {
-		resetCache();
-	}
-
-	@Override
-	public void notifyRowAdded(TableValuesModel model, int row) {
-		resetCache();
-	}
-
-	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		resetCache();
 	}

@@ -25,8 +25,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() {
-		list = new GeoList(getConstruction());
-		view = new TableValuesView(getKernel(), list);
+		view = new TableValuesView(getKernel());
 		model = view.getTableValuesModel();
 		getKernel().attach(view);
 		processor =
@@ -34,6 +33,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 						getConstruction(),
 						(TableValuesView) view,
 						getApp().getSettings().getTable());
+		list = new GeoList(getConstruction());
 	}
 
 	@Test
