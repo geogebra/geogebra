@@ -56,7 +56,7 @@ public class TableEditor {
 		});
 	}
 
-	public void stopEditing() {
+	private void stopEditing() {
 		mathTextField.asWidget().removeFromParent();
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
@@ -102,7 +102,6 @@ public class TableEditor {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
 			mathTextField.addChangeHandler(() -> stopEditing());
-			mathTextField.addBlurHandler(event -> stopEditing());
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
