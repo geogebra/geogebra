@@ -209,6 +209,8 @@ public class InputBoxProcessor {
 				GeoClass.POINT3D, GeoClass.POINT);
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		return RedefinitionRules.anyRule(same, point, vector);
+		RedefinitionRule numericAngle = RedefinitionRules.oneWayRule(
+				GeoClass.NUMERIC, GeoClass.ANGLE);
+		return RedefinitionRules.anyRule(same, point, vector, numericAngle);
 	}
 }

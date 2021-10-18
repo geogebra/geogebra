@@ -339,25 +339,24 @@ public class ImageManagerW extends ImageManager {
 	private static void addImageToArchive(String filePath, String fileName,
 			ArchiveEntry data, FileExtensions ext, MyImageW img,
 			GgbFile archive) {
-		if (ext.equals(FileExtensions.SVG)) {
-			addSvgToArchive(fileName, img, archive);
-			return;
-		}
 		if (data == null) {
 			return;
 		}
+
 		String url = data.string;
 		ArchiveEntry dataURL;
 		if ((url == null || url.startsWith("http"))
 				&& data.data == null && (img != null && img.getImage() != null)) {
 			dataURL = new ArchiveEntry(convertImgToPng(img));
+		} else if (url != null && ext == FileExtensions.SVG) {
+			dataURL = new ArchiveEntry(convertSvgDataUrl(url));
 		} else {
 			dataURL = data;
 		}
+
 		if (!dataURL.isEmpty()) {
 			if (ext.isAllowedImage()) {
 				// png, jpg, jpeg
-				// NOT SVG (filtered earlier)
 				archive.put(filePath + fileName, dataURL);
 			} else {
 				// not supported, so saved as PNG
@@ -382,26 +381,12 @@ public class ImageManagerW extends ImageManager {
 		return url;
 	}
 
-	private static void addSvgToArchive(String fileName, MyImageW img,
-			GgbFile archive) {
-		HTMLImageElement svg = img.getImage();
-
-		// TODO
-		// String svgAsXML =
-		// "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\"
-		// r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\"
-		// /></svg>";
-		String svgAsXML = svg.getAttribute("src");
-
+	private static String convertSvgDataUrl(String dataUrl) {
 		// remove eg data:image/svg+xml;base64,
-		int index = svgAsXML.indexOf(',');
-		svgAsXML = svgAsXML.substring(index + 1);
-
+		int index = dataUrl.indexOf(',');
+		String svgAsXML = dataUrl.substring(index + 1);
 		svgAsXML = Browser.decodeBase64(svgAsXML);
-
-		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
-
-		archive.put(fileName, new ArchiveEntry(svgAsXML));
+		return svgAsXML;
 	}
 
 	/**
