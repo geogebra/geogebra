@@ -19,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 
@@ -85,8 +84,7 @@ public class ImageManagerW extends ImageManager {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
-	protected void checkIfAllLoaded(AppW app1, Runnable run,
-			Map<String, ArchiveEntry> toLoad) {
+	protected void checkIfAllLoaded(Runnable run, Map<String, ArchiveEntry> toLoad) {
 		imagesLoaded++;
 		if (imagesLoaded == toLoad.size()) {
 			run.run();
@@ -99,15 +97,12 @@ public class ImageManagerW extends ImageManager {
 	 * 
 	 * @param fileName
 	 *            filename
-	 * @param app1
-	 *            application
 	 * @param md5fallback
 	 *            whether to accept partial match where md5 is OK and rest of
 	 *            filename is not
 	 * @return image element corresponding to filename
 	 */
-	public HTMLImageElement getExternalImage(String fileName, AppW app1,
-			boolean md5fallback) {
+	public HTMLImageElement getExternalImage(String fileName, boolean md5fallback) {
 		HTMLImageElement match = getMatch(fileName);
 		if (match == null) {
 			match = getMatch(StringUtil.changeFileExtension(fileName,
@@ -118,13 +113,12 @@ public class ImageManagerW extends ImageManager {
 		// Only do this for lookup, not on file load: the file may have two
 		// different images with same prefix
 		if (match == null && md5fallback
-				&& fileName.length() > app1.getMD5folderLength(fileName)) {
-			int md5length = app1.getMD5folderLength(fileName);
-			String md5 = fileName.substring(0, md5length);
+				&& fileName.length() > GeoImage.MD5_FOLDER_LENGTH) {
+			String md5 = fileName.substring(0, GeoImage.MD5_FOLDER_LENGTH);
 			for (Entry<String, HTMLImageElement> entry : externalImageTable
 					.entrySet()) {
 				String s = entry.getKey();
-				if (md5.equals(s.substring(0, md5length))) {
+				if (md5.equals(s.substring(0, GeoImage.MD5_FOLDER_LENGTH))) {
 					return entry.getValue();
 				}
 			}
@@ -160,8 +154,7 @@ public class ImageManagerW extends ImageManager {
 	 *            image for construction
 	 */
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
-		HTMLImageElement img = getExternalImage(imageFileName, (AppW) geoi
-				.getKernel().getApplication(), true);
+		HTMLImageElement img = getExternalImage(imageFileName, true);
 		img.addEventListener("load", (event) -> geoi.updateRepaint());
 		EventListener errorCallback = (event) -> onError(geoi);
 		img.addEventListener("error", errorCallback);
@@ -172,19 +165,16 @@ public class ImageManagerW extends ImageManager {
 	/**
 	 * Load all images and tun callback after all are loaded.
 	 * 
-	 * @param app
-	 *            app
 	 * @param run
 	 *            image load callback
 	 * @param toLoad
 	 *            map of images to be loaded
 	 */
-	public void triggerImageLoading(final AppW app,
-			final Runnable run, final Map<String, ArchiveEntry> toLoad) {
+	public void triggerImageLoading(final Runnable run, final Map<String, ArchiveEntry> toLoad) {
 		this.imagesLoaded = 0;
 		for (Entry<String, ArchiveEntry> imgSrc : toLoad.entrySet()) {
-			HTMLImageElement el = getExternalImage(imgSrc.getKey(), app, true);
-			el.addEventListener("load", (event) -> checkIfAllLoaded(app, run, toLoad));
+			HTMLImageElement el = getExternalImage(imgSrc.getKey(), true);
+			el.addEventListener("load", (event) -> checkIfAllLoaded(run, toLoad));
 			el.addEventListener("error", (event) -> el.src = getErrorURL());
 			el.src = imgSrc.getValue().createUrl();
 		}

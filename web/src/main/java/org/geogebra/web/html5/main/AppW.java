@@ -960,8 +960,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final MyImage getExternalImageAdapter(String fileName, int width,
 			int height) {
-		HTMLImageElement im = getImageManager().getExternalImage(fileName, this,
-				true);
+		HTMLImageElement im = getImageManager().getExternalImage(fileName, true);
 		return getImageAdapter(im, fileName, width, height);
 	}
 
