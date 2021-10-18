@@ -29,18 +29,19 @@ def s3uploadDefault = { dir, pattern, encoding ->
 pipeline {
     options {
         gitLabConnection('git.geogebra.org')
+        buildDiscarder(logRotator(numToKeepStr: '30'))
     }
     agent {label nodeLabel}
     stages {
-    	stage('cancel prev builds') {
-    		when {
-    			expression { return env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'dev' }
-    		}
-    		steps {
-    			milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID) - 1
+        stage('cancel prev builds') {
+            when {
+                expression { return env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'dev' }
+            }
+            steps {
+                milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID) - 1
                 milestone label: '', ordinal:  Integer.parseInt(env.BUILD_ID)
-    		}
-    	}
+            }
+        }
         stage('build') {
             steps {
                 updateGitlabCommitStatus name: 'build', state: 'pending'

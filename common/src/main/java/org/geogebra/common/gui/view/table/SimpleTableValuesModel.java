@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
 import com.google.j2objc.annotations.Weak;
@@ -152,23 +153,24 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param evaluatable object to update in table
 	 */
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
+		int index = getEvaluatableIndex(evaluatable);
 		if (evaluatable == values) {
 			for (TableValuesColumn column : columns) {
 				GeoEvaluatable e = column.getEvaluatable();
 				int columnSize = e instanceof GeoList ? ((GeoList) e).size() : 0;
 				column.invalidateValues(Math.max(columnSize, values.size()));
 			}
-			notifyDatasetChanged();
 		} else {
-			int index = getEvaluatableIndex(evaluatable);
 			if (index > -1) {
 				int size = values.size();
 				if (evaluatable instanceof GeoList) {
 					size = ((GeoList) evaluatable).size();
 				}
 				columns.get(index).invalidateValues(size);
-				notifyColumnChanged(evaluatable, index);
 			}
+		}
+		if (index > -1) {
+			notifyColumnChanged(evaluatable, index);
 		}
 	}
 
@@ -248,6 +250,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			values.add(new GeoNumeric(kernel.getConstruction(), value));
 		}
 		updateEvaluatable(values);
+		notifyDatasetChanged();
 	}
 
 	private void initializeModel() {
@@ -313,11 +316,157 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 	}
 
+	private void notifyRowRemoved(int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyRowRemoved(this, row);
+			}
+		}
+	}
+
+	private void notifyRowAdded(int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyRowAdded(this, row);
+			}
+		}
+	}
+
+	private void notifyRowChanged(int row) {
+		if (!batchUpdate) {
+			for (TableValuesListener listener : listeners) {
+				listener.notifyRowChanged(this, row);
+			}
+		}
+	}
+
 	private void notifyDatasetChanged() {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyDatasetChanged(this);
 			}
+		}
+	}
+
+	@Override
+	public void set(GeoElement element, GeoList column, int rowIndex) {
+		int columnIndex = getEvaluatableIndex(column);
+		if (columnIndex == -1) {
+			return;
+		}
+		int oldRowCount = getRowCount();
+		ensureCapacity(column, rowIndex);
+		column.setListElement(rowIndex, element);
+		column.setDefinition(null);
+		columns.get(columnIndex).invalidateValue(rowIndex);
+		if (isEmptyValue(element)) {
+			removeEmptyColumnAndRows(column, rowIndex);
+		} else if (rowIndex == oldRowCount && isOnlyValueInRow(column, rowIndex)) {
+			notifyRowAdded(rowIndex);
+		} else if (column == values) {
+			notifyRowChanged(rowIndex);
+		}
+		if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
+			element.notifyUpdate();
+		}
+	}
+
+	private void ensureCapacity(GeoList list, int index) {
+		boolean listWillChange = list.size() < index + 1;
+		list.ensureCapacity(index + 1);
+		for (int i = list.size(); i < index + 1; i++) {
+			list.add(createEmptyValue());
+		}
+		if (listWillChange) {
+			list.notifyUpdate();
+		}
+	}
+
+	@Override
+	public GeoElement createEmptyValue() {
+		return new GeoText(kernel.getConstruction(), "");
+	}
+
+	@Override
+	public boolean isEmptyValue(GeoElement element) {
+		return element instanceof GeoText && "".equals(((GeoText) element).getTextString());
+	}
+
+	private void removeEmptyColumnAndRows(GeoList column, int index) {
+		if (index == column.size() - 1) {
+			removeEmptyRowsFromBottom();
+		}
+		removeColumnIfEmpty(column);
+	}
+
+	private void removeColumnIfEmpty(GeoList column) {
+		if (column == values) {
+			return;
+		}
+		for (int i = 0; i < column.size(); i++) {
+			GeoElement element = column.get(i);
+			if (!isEmptyValue(element)) {
+				return;
+			}
+		}
+		column.remove();
+	}
+
+	private void removeEmptyRowsFromBottom() {
+		while (getRowCount() > 0 && isLastRowEmpty()) {
+			removeLastRow();
+		}
+	}
+
+	private boolean isLastRowEmpty() {
+		int lastRowIndex = getRowCount() - 1;
+		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
+			if (!"".equals(getCellAt(lastRowIndex, columnIndex).getInput())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void removeLastRow() {
+		int lastRowIndex = getRowCount() - 1;
+		List<GeoList> columnsToRemove = new ArrayList<>();
+		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
+			GeoEvaluatable evaluatable = columns.get(columnIndex).getEvaluatable();
+			if (evaluatable instanceof GeoList) {
+				GeoList column = (GeoList) evaluatable;
+				if (lastRowIndex < column.size()) {
+					column.remove(lastRowIndex);
+				}
+				if (columnIndex != 0 && column.size() == 0) {
+					columnsToRemove.add(column);
+				}
+			}
+		}
+		notifyRowRemoved(lastRowIndex);
+		for (GeoList column : columnsToRemove) {
+			column.remove();
+		}
+	}
+
+	private boolean isOnlyValueInRow(GeoList column, int rowIndex) {
+		for (TableValuesColumn c : columns) {
+			if (c.getEvaluatable() != column && !c.getCellValue(rowIndex).getInput().equals("")) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * clears the first (x) column
+	 */
+	public void clearXColumn() {
+		GeoEvaluatable evaluatable = getEvaluatable(0);
+		if (evaluatable instanceof GeoList) {
+			((GeoList) evaluatable).setZero();
+			((GeoList) evaluatable).notifyUpdate();
+			kernel.getApplication().storeUndoInfo();
 		}
 	}
 }

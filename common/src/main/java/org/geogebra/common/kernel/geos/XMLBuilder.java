@@ -425,10 +425,26 @@ public class XMLBuilder {
 			sb.append(location.getY());
 			sb.append("\"/>\n");
 		}
+		double width;
+		double height;
+		if (inline instanceof GeoInlineText) {
+			width = inline.getWidth() / inline.getKernel().getApplication()
+					.getActiveEuclidianView().getXscale();
+			height = inline.getHeight() / inline.getKernel().getApplication()
+					.getActiveEuclidianView().getYscale();
+
+		} else {
+			width = inline.getWidth();
+			height = inline.getHeight();
+		}
 		sb.append("\t<dimensions width=\"");
-		sb.append(inline.getWidth());
+		sb.append(width);
 		sb.append("\" height=\"");
-		sb.append(inline.getHeight());
+		sb.append(height);
+		if (inline instanceof GeoInlineText) {
+			sb.append("\" unscaled=\"");
+			sb.append("true");
+		}
 		sb.append("\" angle=\"");
 		sb.append(inline.getAngle());
 		sb.append("\"/>\n");

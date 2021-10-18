@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.view.table;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.gui.view.table.dimensions.TextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -14,7 +15,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class TableValuesViewDimensionsTest extends BaseUnitTest {
 
-	private SimpleTableValuesModel model;
+	private TableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private TextSizeMeasurer measurer;
 
@@ -25,37 +26,110 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 	public void setupTest() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
 		measurer = Mockito.mock(TextSizeMeasurer.class);
-		model = new SimpleTableValuesModel(getKernel(), new GeoList(getConstruction()));
+		model = Mockito.mock(TableValuesModel.class);
 		dimensions = new TableValuesViewDimensions(model, measurer);
-		model.registerListener(dimensions);
+	}
+
+	private void mockModelWithSingleValue() {
+		mockRowCount(1);
+		mockColumnCount(1);
+		mockModelValue(0, 0, "1");
+		dimensions.notifyColumnAdded(model, null, 0);
 	}
 
 	@Test
 	public void testMinWidth() {
-		model.setValues(new double[]{1.0});
-		Mockito.when(measurer.getWidth(Mockito.anyString()))
+		mockModelWithSingleValue();
+		when(measurer.getWidth(Mockito.anyString()))
 				.thenReturn(TableValuesViewDimensions.MIN_COLUMN_WIDTH / 10);
 		int width = dimensions.getColumnWidth(0);
-		Assert.assertEquals(TableValuesViewDimensions.MIN_COLUMN_WIDTH, width);
+		assertEquals(TableValuesViewDimensions.MIN_COLUMN_WIDTH, width);
 	}
 
 	@Test
 	public void testMaxWidth() {
-		model.setValues(new double[]{1.0});
-		Mockito.when(measurer.getWidth(Mockito.anyString()))
+		mockModelWithSingleValue();
+		when(measurer.getWidth(Mockito.anyString()))
 				.thenReturn(TableValuesViewDimensions.MAX_COLUMN_WIDTH * 10);
 		int width = dimensions.getColumnWidth(0);
-		Assert.assertEquals(TableValuesViewDimensions.MAX_COLUMN_WIDTH, width);
+		assertEquals(TableValuesViewDimensions.MAX_COLUMN_WIDTH, width);
 	}
 
 	@Test
 	public void testWidthBetweenMinAndMax() {
-		model.setValues(new double[]{1.0});
+		mockModelWithSingleValue();
 		int contentWidth = TableValuesViewDimensions.MIN_COLUMN_WIDTH;
-		Mockito.when(measurer.getWidth(Mockito.anyString()))
+		when(measurer.getWidth(Mockito.anyString()))
 				.thenReturn(contentWidth);
 		int width = dimensions.getColumnWidth(0);
-		Assert.assertEquals(contentWidth + TableValuesViewDimensions.CELL_RIGHT_MARGIN
-				+ TableValuesViewDimensions.CELL_LEFT_MARGIN, width);
+		assertEquals(getClampedWidthWithMargins(contentWidth), width);
+	}
+
+	@Test
+	public void testCacheRecalculatesWidthWhenRowRemoved() {
+		int longContentWidth = TableValuesViewDimensions.MIN_COLUMN_WIDTH + 20;
+		mockMeasureWidth("10", TableValuesViewDimensions.MIN_COLUMN_WIDTH);
+		mockMeasureWidth("11", longContentWidth);
+		mockRowCount(2);
+		mockColumnCount(1);
+		mockModelValue(0, 0, "10");
+		mockModelValue(1, 0, "11");
+
+		// Dimensions initial state
+		dimensions.notifyColumnAdded(model, null, 0);
+		// Warm up the cache
+		dimensions.getColumnWidth(0);
+
+		mockRowCount(1);
+		dimensions.notifyRowRemoved(model, 1);
+		assertEquals(
+				getClampedWidthWithMargins(TableValuesViewDimensions.MIN_COLUMN_WIDTH),
+				dimensions.getColumnWidth(0));
+	}
+
+	@Test
+	public void testCacheRecalculatesWidthWhenRowAdded() {
+		int longContentWidth = TableValuesViewDimensions.MIN_COLUMN_WIDTH + 20;
+		mockMeasureWidth("10", TableValuesViewDimensions.MIN_COLUMN_WIDTH);
+		mockMeasureWidth("11", longContentWidth);
+		mockRowCount(1);
+		mockColumnCount(1);
+		mockModelValue(0, 0, "10");
+		mockModelValue(1, 0, "11");
+
+		// Dimensions initial state
+		dimensions.notifyColumnAdded(model, null, 0);
+		// Warm up the cache
+		dimensions.getColumnWidth(0);
+
+		mockRowCount(2);
+		dimensions.notifyRowAdded(model, 1);
+
+		assertEquals(getClampedWidthWithMargins(longContentWidth), dimensions.getColumnWidth(0));
+	}
+
+	private int getClampedWidthWithMargins(int width) {
+		int widthWithMargins = width
+				+ TableValuesViewDimensions.CELL_LEFT_MARGIN
+				+ TableValuesViewDimensions.CELL_RIGHT_MARGIN;
+		return Math.min(
+				Math.max(widthWithMargins, TableValuesViewDimensions.MIN_COLUMN_WIDTH),
+				TableValuesViewDimensions.MAX_COLUMN_WIDTH);
+	}
+
+	private void mockModelValue(int row, int column, String value) {
+		when(model.getCellAt(row, column)).thenReturn(new TableValuesCell(value, false));
+	}
+
+	private void mockRowCount(int row) {
+		when(model.getRowCount()).thenReturn(row);
+	}
+
+	private void mockColumnCount(int column) {
+		when(model.getColumnCount()).thenReturn(column);
+	}
+
+	private void mockMeasureWidth(String content, int width) {
+		when(measurer.getWidth(content)).thenReturn(width);
 	}
 }

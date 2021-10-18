@@ -249,6 +249,9 @@ public abstract class CoordSystemAnimation {
 			break;
 		case MOVE:
 			view.setCoordSystem(px, py, view.getXscale(), view.getYscale());
+			if (view.isStandardView()) {
+				controller.notifyZoomerStopped();
+			}
 			break;
 		}
 		if (setStandard) {
