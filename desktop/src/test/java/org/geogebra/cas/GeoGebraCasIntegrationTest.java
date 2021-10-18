@@ -1776,9 +1776,13 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	/* SolveODE */
 
 	@Test
-	public void substitute_5() {
-		// Substitute with Keep Input should substitute without evaluation.
+	public void substituteWithKeepInputShouldNotSimplify() {
 		tk("Substitute[1 + 2 + x + 3, {x=7}]", "1 + 2 + 7 + 3");
+	}
+
+	@Test
+	public void substituteWithKeepInputShouldKeepBrackets() {
+		tk("Substitute[1/c, {c=7E23}]", "1 / (7 * 10^(23))");
 	}
 	/* Tangent */
 
