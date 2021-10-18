@@ -38,6 +38,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		this.view = view;
 		this.texSerializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
 		asciiSerializer.forceRoundBrackets();
+		asciiSerializer.setComma(app.getLocalization().isUsingDecimalComma() ? "." : "");
 	}
 
 	protected void applyChanges() {

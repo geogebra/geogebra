@@ -53,7 +53,7 @@ public class MetaModelArrays {
 				createArrayComponent(Unicode.LCEIL, "\\left\\lceil "));
 		ceil.setClose(
 				createArrayComponent(Unicode.RCEIL, "\\right\\rceil "));
-		ceil.setField(createArrayComponent(','));
+		ceil.setField(createArrayComponent('\0'));
 		ceil.setRow(createArrayComponent(';'));
 		components.add(ceil);
 
