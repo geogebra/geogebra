@@ -1980,8 +1980,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.beginBatch();
-		evs.setAxesUnitLabels(new String[] { xLabel, yLabel, zLabel });
-
+		String[] labels = {xLabel, yLabel, zLabel};
+		for (int i = 0; i < 3; i++) {
+			evs.setAxisUnitLabel(i, labels[i]);
+		}
 		evs.endBatch();
 		kernel.notifyRepaint();
 	}
@@ -2409,4 +2411,59 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(label);
 		return geo != null && geo.isSelectionAllowed(app.getActiveEuclidianView());
 	}
+
+	@Override
+	public void setGlobalOptions(Object options) {
+		JsObjectWrapper opts = getWrapper(options);
+		opts.ifKeyNotNull("labelingStyle", app::setLabelingStyle);
+		opts.ifKeyNotNull("fontSize",
+				(Consumer<Integer>) val -> app.setFontSize(val, true));
+	}
+
+	protected JsObjectWrapper getWrapper(Object options) {
+		return null;
+	}
+
+	@Override
+	public void setGraphicsOptions(Object options) {
+		setGraphicsOptions(1, options);
+	}
+
+	@Override
+	public void setGraphicsOptions(int viewId, Object options) {
+		JsObjectWrapper opts = getWrapper(options);
+		EuclidianSettings es = app.getSettings().getEuclidian(viewId);
+		opts.ifKeyNotNull("rightAngleStyle", app::setRightAngleStyle);
+		es.beginBatch();
+		opts.ifKeyNotNull("pointCapturing", es::setPointCapturing);
+		opts.ifKeyNotNull("grid", es::showGrid);
+		opts.ifKeyNotNull("gridIsBold", es::setGridIsBold);
+		opts.ifKeyNotNull("gridType", es::setGridType);
+		opts.ifKeyNotNull("bgColor",
+				(Consumer<String>) val3 -> es.setBackground(GColor.parseHexColor(val3)));
+		opts.ifKeyNotNull("gridColor",
+				(Consumer<String>) val2 -> es.setBackground(GColor.parseHexColor(val2)));
+		opts.getObjectOptionValue("axes", axes -> {
+			for (char axis = 'x'; axis <= 'z'; axis++) {
+				final int axisNo = axis - 'x';
+				axes.getObjectOptionValue(String.valueOf(axis),
+						axisOptions -> setAxisOptions(axisNo, axisOptions, es));
+			}
+		});
+		es.endBatch();
+	}
+
+	protected void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {
+		axisOptions.ifKeyNotNull("positiveAxis",
+				(Consumer<Boolean>) val -> es.setPositiveAxis(axisNo, val));
+		axisOptions.ifKeyNotNull("showNumbers",
+				(Consumer<Boolean>) val -> es.setShowAxisNumbers(axisNo, val));
+		axisOptions.ifKeyNotNull("tickStyle",
+				(Consumer<Integer>) val -> es.setAxisTickStyle(axisNo, val));
+		axisOptions.ifKeyNotNull("label",
+				(Consumer<String>) val -> es.setAxisLabel(axisNo, val));
+		axisOptions.ifKeyNotNull("unitLabel",
+				(Consumer<String>) val -> es.setAxisUnitLabel(axisNo, val));
+	}
+
 }
