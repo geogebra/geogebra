@@ -104,10 +104,15 @@ public class ContextMenuTV {
 		addShowHidePoints();
 		wrappedPopup.addVerticalSeparator();
 		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
-		addStats(headerHTMLName + " Statistics", view::getStatistics1Var);
-		addStats("x, " + headerHTMLName + " Statistics", view::getStatistics2Var);
+		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var);
+		addStats(getStatisticsTransKey("x, " + headerHTMLName), view::getStatistics2Var);
 		addCommand(this::showRegression, "Regression",
 				"regression");
+	}
+
+	private String getStatisticsTransKey(String argument) {
+		return app.getLocalization().getPlainDefault("AStatistics",
+				"%0 Statistics", argument);
 	}
 
 	private void buildFunctionColumnMenu() {
