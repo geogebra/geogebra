@@ -1,10 +1,12 @@
 package org.geogebra.common.kernel.interval.operands;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.junit.Test;
 
 public class TanTest {
@@ -24,7 +26,13 @@ public class TanTest {
 	@Test
 	public void testTanAtPiHalf() {
 		assertEquals(positiveInfinity(), halfOfPiTimes(1).tan());
-		assertEquals(positiveInfinity(), halfOfPiTimes(-1).tan());
+		assertEquals(positiveInfinity(), halfOfPiTimes(3).tan());
+		assertEquals(positiveInfinity(), halfOfPiTimes(5).tan());
+	}
+
+	@Test
+	public void testTanAtAroundPiHalf() {
+		assertEquals(whole(), IntervalConstants.piHalf().tan());
 	}
 
 	private Interval halfOfPiTimes(int times) {

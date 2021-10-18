@@ -109,4 +109,11 @@ public class IntervalConstants {
 		return new Interval(-1E-7, 1E-7);
 	}
 
+	/**
+	 *
+	 * @return interval that is considered to be zero.
+	 */
+	public static Interval zeroWithinPrecision() {
+		return new Interval(RMath.next(-PRECISION), RMath.prev(PRECISION));
+	}
 }

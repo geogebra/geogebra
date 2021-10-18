@@ -2,7 +2,9 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
@@ -48,6 +50,12 @@ public class IntervalDivideTest {
 	public void testDivisionMixedWithZero() {
 		assertTrue(interval(-2, 3).divide(interval(-1, 1)).isInverted());
 	}
+	
+	@Test
+	public void testDivisionOneByZero() {
+		assertEquals(whole().invert(), one().divide(IntervalConstants.zeroWithinPrecision()));
+	}
+
 
 	@Test
 	public void testDivisionZeroWithZero() {

@@ -13,7 +13,7 @@ import com.google.j2objc.annotations.Weak;
 
 class IntervalTrigonometric {
 	@Weak
-	private Interval interval;
+	private final Interval interval;
 
 	IntervalTrigonometric(Interval interval) {
 		this.interval = interval;
@@ -139,7 +139,8 @@ class IntervalTrigonometric {
 	 */
 	public Interval tan() {
 		Interval x2 = new Interval(this.interval);
-		return interval.sin().divide(x2.cos());
+		Interval cos = x2.cos();
+		return interval.sin().divide(cos);
 	}
 
 	/**

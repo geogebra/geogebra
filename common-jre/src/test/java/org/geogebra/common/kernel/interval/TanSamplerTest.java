@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.geogebra.common.kernel.interval.IntervalTest.uninvertedInterval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,7 +16,8 @@ public class TanSamplerTest extends SamplerTest {
 	@Test
 	public void tanX() {
 		IntervalTupleList tuples = functionValuesWithSampleCount("tan(x)",
-				0, PI, -8, 8, 100);
+				-2*PI, 2*PI, -8, 8, 100);
+		assertTrue(tuples.isEmpty());
 	}
 
 	@Test
