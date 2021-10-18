@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
@@ -41,6 +41,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	private TableValues view;
 	private TableValuesModel model;
+	private TableValuesProcessor processor;
 
 	@Mock
 	private TableValuesListener listener;
@@ -52,12 +53,11 @@ public class TableValuesViewTest extends BaseUnitTest {
 	 */
 	@Before
 	public void setupTest() {
-		getKernel().clearConstruction(true);
-		getKernel().detach(view);
 		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
 		model = view.getTableValuesModel();
 		view.clearView();
+		processor = view.getProcessor();
 	}
 
 	@Test
@@ -267,29 +267,139 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testListeners() {
+	public void testNotifyDatasetChangedCalled() {
 		model.registerListener(listener);
-		int datasetChangedCount = 0;
-
 		setValuesSafe(0, 2, 1);
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+		verify(listener).notifyDatasetChanged(model);
+	}
+
+	@Test
+	public void testNotifyColumnAddedCalled() {
+		model.registerListener(listener);
 		GeoLine[] lines = createLines(2);
 		showColumn(lines[0]);
-		verify(listener).notifyColumnAdded(model, lines[0], 1);
 		showColumn(lines[1]);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnAdded(model, lines[0], 1);
 		verify(listener).notifyColumnAdded(model, lines[1], 2);
+	}
 
-		hideColumn(lines[1]);
-		verify(listener).notifyColumnRemoved(model, lines[1], 2);
+	@Test
+	public void testNotifyColumnRemovedCalled() {
+		model.registerListener(listener);
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
+		hideColumn(lines[0]);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnRemoved(model, lines[0], 1);
+	}
 
+	@Test
+	public void testNotifyColumnRemovedCalledFromProcessor() {
+		processor.processInput("0", view.getValues(), 0);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		GeoList columnToRemove = (GeoList) view.getEvaluatable(1);
+		processor.processInput("", columnToRemove, 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnChanged(model, columnToRemove, 1);
+		verify(listener, never()).notifyCellChanged(model, columnToRemove, 1, 0);
+		verify(listener).notifyColumnRemoved(model, columnToRemove, 1);
+	}
+
+	@Test
+	public void testNotifyColumnChangedCalled() {
+		model.registerListener(listener);
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
 		view.update(lines[0]);
+		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener).notifyColumnChanged(model, lines[0], 1);
+	}
 
+	@Test
+	public void testNotifyColumnChangedCalledFromProcessor() {
+		model.registerListener(listener);
+		processor.processInput("1", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnChanged(model, view.getValues(), 0);
+	}
+
+	@Test
+	public void testClearViewCallsNotifyDatasetChanged() {
+		model.registerListener(listener);
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
 		view.clearView();
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+		verify(listener).notifyDatasetChanged(model);
+	}
 
-		view.getProcessor().processInput("10", view.getValues(), 0);
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+	@Test
+	public void testNotifyRowAddedCalled() {
+		model.registerListener(listener);
+		processor.processInput("1", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyRowAdded(model, 0);
+	}
+
+	@Test
+	public void testNotifyRowChangedCalled() {
+		processor.processInput("1", view.getValues(), 0);
+		model.registerListener(listener);
+		processor.processInput("10", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowAdded(model, 0);
+		verify(listener).notifyRowChanged(model, 0);
+	}
+
+	@Test
+	public void testNotifyRowAddedCalledForSecondRow() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("11", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		model.registerListener(listener);
+		processor.processInput("11", list, 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnAdded(model, list, 1);
+		verify(listener).notifyRowAdded(model, 1);
+	}
+
+	@Test
+	public void testNotifyCellChangedCalled() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("11", view.getValues(), 1);
+
+		model.registerListener(listener);
+		processor.processInput("", view.getValues(), 0);
+		verify(listener, never()).notifyColumnAdded(model, view.getValues(), 0);
+		verify(listener, never()).notifyRowRemoved(model, 0);
+		verify(listener).notifyCellChanged(model, view.getValues(), 0, 0);
+	}
+
+	@Test
+	public void testRowAndColumnRemoved() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("11", null, 1);
+		processor.processInput("", view.getValues(), 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		model.registerListener(listener);
+		processor.processInput("", list, 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyRowRemoved(model, 1);
+		verify(listener).notifyRowRemoved(model, 0);
+		verify(listener).notifyColumnRemoved(model, list, 1);
+	}
+
+	@Test
+	public void testNotifyRowRemovedCalled() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("10", view.getValues(), 1);
+		model.registerListener(listener);
+		processor.processInput("", view.getValues(), 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowChanged(model, 1);
+		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 1);
+		verify(listener).notifyRowRemoved(model, 1);
 	}
 
 	@Test

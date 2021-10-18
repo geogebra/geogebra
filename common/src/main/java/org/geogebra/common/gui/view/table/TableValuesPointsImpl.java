@@ -66,6 +66,21 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	@Override
+	public void notifyRowRemoved(TableValuesModel model, int row) {
+		// TODO
+	}
+
+	@Override
+	public void notifyRowChanged(TableValuesModel model, int row) {
+		// TODO
+	}
+
+	@Override
+	public void notifyRowAdded(TableValuesModel model, int row) {
+		// TODO
+	}
+
+	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);
