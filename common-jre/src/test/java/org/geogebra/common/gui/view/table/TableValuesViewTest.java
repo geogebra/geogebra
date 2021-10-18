@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.OrderingComparison;
@@ -187,9 +186,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals(1, model.getColumnCount());
 		assertEquals(0, model.getRowCount());
 		assertEquals("x", model.getHeaderAt(0));
-		assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
-		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
-		assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
+		assertEquals(0.0, view.getValuesMin(), .1);
+		assertEquals(0.0, view.getValuesMax(), .1);
+		assertEquals(0.0, view.getValuesStep(), .1);
 	}
 
 	@Test
@@ -371,7 +370,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		setValuesSafe(10, 20, 2);
 		getKernel().clearConstruction(true);
 		assertEquals(-1, view.getColumn(fn));
-		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
+		assertEquals(0.0, view.getValuesMax(), .1);
 		getApp().setXML(xml, true);
 		GeoEvaluatable fnReload = lookupFunction("f");
 		assertEquals(10, view.getValuesMax(), .1);
