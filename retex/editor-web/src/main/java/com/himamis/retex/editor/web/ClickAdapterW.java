@@ -38,6 +38,7 @@ public class ClickAdapterW
 			return;
 		}
 
+		event.preventDefault();
 		SelectionBox.touchSelection = "touch".equals(event.getPointerType());
 		handler.onPointerDown((int) event.getOffsetX(), (int) event.getOffsetY());
 		Event.setCapture(widget.getElement());
