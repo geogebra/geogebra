@@ -66,7 +66,7 @@ public class TableEditor {
 		if (isNewColumnEdited(evaluatable)) {
 			processInputAndFocusNextCell(null);
 		}
-		if (isLastInputRowEmpty() && wasEnterPressed()) {
+		if (isLastInputRowEmpty()) {
 			app.hideKeyboard();
 		}
 		editRow = -1;
