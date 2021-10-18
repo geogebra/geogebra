@@ -8,7 +8,7 @@ import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -189,7 +189,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 					updateCell(evaluatable, i, index);
 					updatedXRow = i == 0 ? index : -1;
 				}
-			} else if (evaluatable instanceof GeoFunction && updatedXRow > -1) {
+			} else if (evaluatable instanceof GeoFunctionable && updatedXRow > -1) {
 				updateCell(evaluatable, i, updatedXRow);
 			}
 		}
