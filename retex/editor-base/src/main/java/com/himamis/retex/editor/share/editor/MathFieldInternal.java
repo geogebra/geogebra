@@ -885,4 +885,8 @@ public class MathFieldInternal
 	public boolean isEnterPressed() {
 		return enterPressed;
 	}
+
+	public void setEnterPressed(boolean enterPressed) {
+		this.enterPressed = enterPressed;
+	}
 }

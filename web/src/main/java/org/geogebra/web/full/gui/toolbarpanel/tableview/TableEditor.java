@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.probcalculator.MathTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -67,11 +66,9 @@ public class TableEditor {
 		if (isNewColumnEdited(evaluatable)) {
 			processInputAndFocusNextCell(null);
 		}
-		Log.debug("-----------------");
 		if (isLastInputRowEmpty() && wasEnterPressed()) {
 			app.hideKeyboard();
 		}
-		Log.debug("*****************");
 		editRow = -1;
 		editColumn = -1;
 	}
@@ -81,20 +78,18 @@ public class TableEditor {
 		int needsFocusColumn = editColumn;
 		int needsFocusRow = editRow + 1;
 		if (wasEnterPressed()) {
-			if (!(mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount())) {
+			mathTextField.getMathField().getInternal().setEnterPressed(false);
+			if (!isLastInputRowEmpty()) {
 				app.invokeLater(() -> startEditing(needsFocusRow, needsFocusColumn, null));
 			}
 		}
 	}
 
 	private boolean wasEnterPressed() {
-		Log.debug("WAS ENTER: "+ mathTextField.getMathField().getInternal().isEnterPressed());
 		return mathTextField.getMathField().getInternal().isEnterPressed();
 	}
 
 	private boolean isLastInputRowEmpty() {
-		Log.debug("EMPTY INPUT: "+mathTextField.getText().isEmpty());
-		Log.debug("LAST ROW: "+ (editRow == table.tableModel.getRowCount()));
 		return mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount();
 	}
 
