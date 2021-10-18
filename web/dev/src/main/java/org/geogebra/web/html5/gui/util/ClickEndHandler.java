@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.gwtutil.CancelEventTimer;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseUpEvent;

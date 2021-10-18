@@ -26,7 +26,7 @@ import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificLettersKeyboardFactory;
 import org.geogebra.keyboard.web.factory.KeyboardInputBox;
 import org.geogebra.keyboard.web.factory.KeyboardMow;
-import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.geogebra.gwtutil.BrowserStorage;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;

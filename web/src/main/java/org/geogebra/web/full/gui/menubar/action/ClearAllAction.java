@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.gwtutil.BrowserStorage;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 /**

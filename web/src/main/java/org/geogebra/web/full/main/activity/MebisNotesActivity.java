@@ -1,9 +1,9 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.MaterialVisibility;
+import org.geogebra.gwtutil.BrowserStorage;
 import org.geogebra.web.full.css.MebisResources;
 import org.geogebra.web.full.css.ResourceIconProvider;
-import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 public class MebisNotesActivity extends NotesActivity {
 

@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
+import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;

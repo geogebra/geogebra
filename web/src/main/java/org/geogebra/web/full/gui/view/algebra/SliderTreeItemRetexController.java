@@ -2,9 +2,9 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;

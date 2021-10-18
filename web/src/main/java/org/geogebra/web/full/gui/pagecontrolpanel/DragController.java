@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 

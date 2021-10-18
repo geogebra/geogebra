@@ -3,10 +3,10 @@ package org.geogebra.web.full.gui.view.algebra;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;

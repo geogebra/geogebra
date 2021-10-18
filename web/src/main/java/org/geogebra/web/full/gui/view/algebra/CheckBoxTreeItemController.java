@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
