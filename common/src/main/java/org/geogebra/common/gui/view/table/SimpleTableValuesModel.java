@@ -457,4 +457,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 		}
 		return true;
 	}
+
+	/**
+	 * clears the first (x) column
+	 */
+	public void clearXColumn() {
+		GeoEvaluatable evaluatable = getEvaluatable(0);
+		if (evaluatable instanceof GeoList) {
+			((GeoList) evaluatable).setZero();
+			((GeoList) evaluatable).notifyUpdate();
+			kernel.getApplication().storeUndoInfo();
+		}
+	}
 }

@@ -440,4 +440,11 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 		return content;
 	}
+
+	/**
+	 * empty the first (x) column
+	 */
+	public void clearXColumn() {
+		model.clearXColumn();
+	}
 }
