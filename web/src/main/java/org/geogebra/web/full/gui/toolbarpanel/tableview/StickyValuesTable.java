@@ -5,7 +5,7 @@ import java.util.List;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -140,7 +140,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private boolean columnNotEditable(int column) {
-		return view.getEvaluatable(column) instanceof GeoFunction;
+		return view.getEvaluatable(column) instanceof GeoFunctionable;
 	}
 
 	private void onHeaderClick(Element source, int column) {
