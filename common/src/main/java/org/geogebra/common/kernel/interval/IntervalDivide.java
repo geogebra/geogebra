@@ -1,8 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.POSITIVE_INFINITY;
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.negativeInfinity;
+import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -39,106 +38,60 @@ public class IntervalDivide {
 	}
 
 	private Interval divideByNonTrivial(Interval other) {
-		if (other.hasZero()) {
-			return divideByHasZero(other);
+		if (other.isZero() || other.hasZero()) {
+			return divideByZero(other);
 		} else {
 			return divideByNonZero(other);
 		}
 	}
 
-	private Interval divideByHasZero(Interval other) {
-		if (other.getLow() != 0) {
-			if (other.getHigh() != 0) {
-				return divideByMixed(other);
+	private Interval divideByZero(Interval other) {
+		if (isNominatorNegative()) {
+			if (other.isZero()) {
+				 return negativeInfinity();
 			} else {
-				return divideByNegativeAndZero(other.getLow());
+				divideNegativeBy(other);
+				interval.markAsInverted();
 			}
 		} else {
-			if (other.getHigh() != 0) {
-				return divideByPositive(other.getHigh());
+			if (other.isZero()) {
+				return positiveInfinity();
 			} else {
-				interval.setUndefined();
-				return interval;
+				dividePositiveBy(other);
+				interval.markAsInverted();
 			}
 		}
+		return interval;
+	}
+
+	private boolean isNominatorNegative() {
+		return interval.getLow() < 0  && interval.getHigh() <= 0;
 	}
 
 	private Interval divideByNonZero(Interval other) {
-		if (interval.getHigh() < 0) {
-			if (other.getHigh() < 0) {
-				divideNegativeByNegative(other);
-			} else {
-				divideNegativeByPositive(other);
-			}
-		} else if (interval.getLow() < 0) {
-			if (other.getHigh() < 0) {
-				interval.set(RMath.divLow(interval.getHigh(), other.getHigh()), RMath.divHigh(
-						interval.getLow(),
-						other.getHigh()));
-			} else {
-				interval.set(RMath.divLow(interval.getLow(), other.getLow()),
-						RMath.divHigh(interval.getHigh(), other.getLow()));
-			}
+		if (isNominatorNegative()) {
+			divideNegativeBy(other);
+
 		} else {
-			if (other.getHigh() < 0) {
-				interval.set(RMath.divLow(interval.getHigh(), other.getHigh()), RMath.divHigh(
-						interval.getLow(),
-						other.getLow()));
-			} else {
-				interval.set(RMath.divLow(interval.getLow(), other.getHigh()),
-						RMath.divHigh(interval.getHigh(), other.getLow()));
-			}
+			dividePositiveBy(other);
 		}
 		return interval;
 	}
 
-	private void divideNegativeByPositive(Interval other) {
+	private void dividePositiveBy(Interval other) {
 		interval.set(RMath.divLow(interval.getLow(), other.getLow()),
-				RMath.divHigh(interval.getHigh(), other.getHigh()));
-	}
-
-	private void divideNegativeByNegative(Interval other) {
-		interval.set(RMath.divLow(interval.getHigh(), other.getLow()),
 				RMath.divHigh(interval.getLow(), other.getHigh()));
 	}
 
-	private Interval divideByPositive(double x) {
-		if (interval.hasZero()) {
-			return undefined();
-		}
-
-		if (interval.getHigh() < 0) {
-			interval.set(NEGATIVE_INFINITY, RMath.divHigh(interval.getHigh(), x));
+	private void divideNegativeBy(Interval other) {
+		if (other.isPositive()) {
+			interval.set(
+					RMath.divHigh(interval.getLow(), other.getHigh()),
+					RMath.divLow(interval.getHigh(), other.getLow())
+			);
 		} else {
-			interval.set(RMath.divLow(interval.getLow(), x), POSITIVE_INFINITY);
+			interval.set(RMath.divLow(interval.getHigh(), other.getLow()),
+					RMath.divHigh(interval.getLow(), other.getHigh()));
 		}
-		return interval;
-	}
-
-	private Interval divideByNegativeAndZero(double x) {
-		if (interval.hasZero()) {
-			interval.setUndefined();
-			return interval;
-		}
-
-		if (interval.getHigh() < 0) {
-			interval.set(RMath.divLow(interval.getHigh(), x), POSITIVE_INFINITY);
-		} else {
-			interval.set(NEGATIVE_INFINITY, RMath.divHigh(interval.getLow(), x));
-		}
-
-		return interval;
-	}
-
-	private Interval divideByMixed(Interval other) {
-		if (interval.isInverted()) {
-			interval.setUndefined();
-			return interval;
-		}
-
-		Interval result = new Interval(interval.getLow() / other.getLow(),
-				interval.getHigh() / other.getHigh());
-		result.markAsInverted();
-		return result;
 	}
 }

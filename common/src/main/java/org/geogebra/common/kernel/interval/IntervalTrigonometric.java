@@ -140,7 +140,11 @@ class IntervalTrigonometric {
 	public Interval tan() {
 		Interval x2 = new Interval(this.interval);
 		Interval cos = x2.cos();
-		return interval.sin().divide(cos);
+		if (cos.isZero()) {
+			return IntervalConstants.whole().invert();
+		}
+		Interval sin = interval.sin();
+		return sin.divide(cos);
 	}
 
 	/**
