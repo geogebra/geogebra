@@ -56,33 +56,43 @@ public class TableEditor {
 		});
 	}
 
-	private void stopEditing(boolean isEnter) {
+	private void stopEditing() {
 		mathTextField.asWidget().removeFromParent();
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			processInputAndFocusNextCell(list, isEnter);
+			processInputAndFocusNextCell(list);
 		}
 		if (isNewColumnEdited(evaluatable)) {
-			processInputAndFocusNextCell(null, isEnter);
+			processInputAndFocusNextCell(null);
 		}
-		if ("".equals(mathTextField.getText()) && isEnter) {
-			app.hideKeyboard();
+		if (wasEnterPressed()) {
+			mathTextField.getMathField().getInternal().setEnterPressed(false);
+			if (isLastInputRowEmpty()) {
+				app.hideKeyboard();
+			}
 		}
-
 		editRow = -1;
 		editColumn = -1;
 	}
 
-	private void processInputAndFocusNextCell(GeoList list, boolean isEnter) {
+	private void processInputAndFocusNextCell(GeoList list) {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		int needsFocusColumn = editColumn;
 		int needsFocusRow = editRow + 1;
-		if (!"".equals(mathTextField.getText()) && isEnter) {
-			app.invokeLater(() -> {
-				startEditing(needsFocusRow, needsFocusColumn, null);
-			});
+		if (wasEnterPressed()) {
+			if (!isLastInputRowEmpty()) {
+				app.invokeLater(() -> startEditing(needsFocusRow, needsFocusColumn, null));
+			}
 		}
+	}
+
+	private boolean wasEnterPressed() {
+		return mathTextField.getMathField().getInternal().isEnterPressed();
+	}
+
+	private boolean isLastInputRowEmpty() {
+		return mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount();
 	}
 
 	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
@@ -93,8 +103,7 @@ public class TableEditor {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
-			mathTextField.addChangeHandler(() -> stopEditing(true));
-			mathTextField.addBlurHandler(event -> stopEditing(false));
+			mathTextField.addChangeHandler(() -> stopEditing());
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
@@ -104,7 +113,7 @@ public class TableEditor {
 				}
 			});
 		} else if (editRow >= 0) {
-			stopEditing(false);
+			stopEditing();
 			table.flush();
 		}
 	}
