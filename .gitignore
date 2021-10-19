@@ -21,3 +21,5 @@ web/war
 /web/gradle.properties
 /uitests/cypress/snapshots
 /uitests/cypress/videos
+/retex/editor-web/dist
+/retex/renderer-web/dist

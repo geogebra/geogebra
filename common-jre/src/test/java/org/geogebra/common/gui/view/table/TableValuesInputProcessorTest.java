@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.undo.UndoManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,11 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		view = new TableValuesView(getKernel());
 		model = view.getTableValuesModel();
 		getKernel().attach(view);
-		processor = new TableValuesInputProcessor(getConstruction(), view);
+		processor =
+				new TableValuesInputProcessor(
+						getConstruction(),
+						(TableValuesView) view,
+						getApp().getSettings().getTable());
 		list = new GeoList(getConstruction());
 	}
 
@@ -201,5 +206,91 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		processor.processInput("0", view.getValues(), 0);
 
 		assertThat(model.getCellAt(1, 2).getInput(), equalTo("2"));
+	}
+
+	@Test
+	public void testUndoRedoOnXColumn() {
+		getApp().fileNew();
+		getApp().setUndoActive(true);
+		UndoManager undoManager = getApp().getUndoManager();
+
+		processor.processInput("1", view.getValues(), 0);
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(1));
+		String cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.undo();
+		assertThat(model.getRowCount(), is(0));
+		assertThat(model.getColumnCount(), is(1));
+
+		undoManager.redo();
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(1));
+		cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		processor.processInput("2", view.getValues(), 0);
+		undoManager.undo();
+		cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.redo();
+		cellContent = model.getCellAt(0, 0).getInput();
+		assertThat(cellContent, equalTo("2"));
+
+		processor.processInput("invalid", view.getValues(), 0);
+		undoManager.undo();
+		TableValuesCell cell = model.getCellAt(0, 0);
+		assertThat(cell.getInput(), equalTo("2"));
+		assertThat(cell.isErroneous(), is(false));
+
+		undoManager.redo();
+		cell = model.getCellAt(0, 0);
+		assertThat(cell.getInput(), equalTo("invalid"));
+		assertThat(cell.isErroneous(), is(true));
+	}
+
+	@Test
+	public void testUndoRedoOnYColumn() {
+		getApp().fileNew();
+		getApp().setUndoActive(true);
+		UndoManager undoManager = getApp().getUndoManager();
+
+		processor.processInput("1", null, 0);
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(2));
+		String cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.undo();
+		assertThat(model.getRowCount(), is(0));
+		assertThat(model.getColumnCount(), is(1));
+
+		undoManager.redo();
+		assertThat(model.getRowCount(), is(1));
+		assertThat(model.getColumnCount(), is(2));
+		cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		processor.processInput("2", (GeoList) view.getEvaluatable(1), 0);
+		undoManager.undo();
+		cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("1"));
+
+		undoManager.redo();
+		cellContent = model.getCellAt(0, 1).getInput();
+		assertThat(cellContent, equalTo("2"));
+
+		processor.processInput("invalid", (GeoList) view.getEvaluatable(1), 0);
+		undoManager.undo();
+		TableValuesCell cell = model.getCellAt(0, 1);
+		assertThat(cell.getInput(), equalTo("2"));
+		assertThat(cell.isErroneous(), is(false));
+
+		undoManager.redo();
+		cell = model.getCellAt(0, 1);
+		assertThat(cell.getInput(), equalTo("invalid"));
+		assertThat(cell.isErroneous(), is(true));
 	}
 }

@@ -13,45 +13,16 @@
 
 <script>
     const userDatabase = [
-        {id:"1", name:'A', color: '#2E7D3280'},
-        {id:"2", name:'B', color: '#1565C080'},
-        {id:"3", name:'C', color: '#D32F2F80'},
+        {id:"0", name:'A', color: '#2E7D3280'},
+        {id:"1", name:'B', color: '#1565C080'},
+        {id:"2", name:'C', color: '#D32F2F80'},
     ]
 
     window.onload = function() {
         window.liveApis = [];
         window.apis = [];
 
-        const test = () => {
-            apis[0].evalXML(`
-                <expression label="stroke1" exp="PolyLine[(-0.90000,2.3000), (-0.98000,2.3000), (-1.0600,2.2200), (-1.1200,2.1400), (-1.1600,2.0800), (-1.1600,1.9600), (-1.1600,1.8400), (-1.1400,1.7800), (-1.0800,1.7200), (-1.0000,1.6600), (-0.90000,1.6400), (-0.80000,1.6400), (-0.72000,1.6400), (-0.64000,1.6800), (-0.58000,1.7800), (-0.54000,1.8600), (-0.52000,1.9200), (-0.52000,2.0000), (-0.52000,2.1000), (-0.60000,2.1600), (-0.68000,2.2000), (-0.74000,2.2200), (-0.82000,2.2400), (-0.88000,2.2200), (-0.94000,2.2000), (-0.98000,2.1400), (NaN,NaN), true]" />
-                <element type="penstroke" label="stroke1">
-                    <show object="true" label="false" ev="8"/>
-                    <objColor r="0" g="0" b="0" alpha="0"/>
-                    <layer val="0"/>
-                    <ordering val="0"/>
-                    <labelMode val="0"/>
-                    <tooltipMode val="2"/>
-                    <auxiliary val="false"/>
-                    <lineStyle thickness="10" type="0" typeHidden="1"/>
-                </element>   
-            `);
-            apis[0].updateConstruction();
-            apis[1].evalXML(`
-                <expression label="stroke1" exp="PolyLine[(-0.20000,2.2800), (-0.18000,2.2000), (-0.18000,2.1200), (-0.18000,2.0400), (-0.16000,1.9800), (-0.14000,1.9000), (-0.14000,1.8200), (-0.14000,1.7400), (NaN,NaN), (-0.12000,1.9400), (-0.060000,1.9600), (0.020000,1.9800), (0.080000,2.0000), (0.14000,2.0400), (0.24000,2.0400), (0.30000,2.0800), (0.36000,2.1000), (0.42000,2.1200), (NaN,NaN), (-0.10000,1.8800), (-0.040000,1.8600), (0.020000,1.8200), (0.080000,1.8000), (0.16000,1.7600), (0.24000,1.7000), (0.34000,1.6400), (NaN,NaN), true]" />
-                <element type="penstroke" label="stroke1">
-                    <show object="true" label="false" ev="8"/>
-                    <objColor r="0" g="0" b="0" alpha="0"/>
-                    <layer val="0"/>
-                    <ordering val="1"/>
-                    <labelMode val="0"/>
-                    <tooltipMode val="2"/>
-                    <auxiliary val="false"/>
-                    <lineStyle thickness="10" type="0" typeHidden="1"/>
-                </element>
-            `);
-            apis[1].updateConstruction();
-        };
+        let loaded = 0;
 
         [0, 1, 2].forEach((n) => {
             let eventBus = function(event) {
@@ -85,6 +56,7 @@
                 "appName": "notes",
                 "language": "en",
                 "multiuserApplet": true,
+                "showLogging": true,
             };
 
             parameters.appletOnLoad = function(api) {
@@ -96,8 +68,9 @@
                 });
                 liveApis[n].addEventListener("construction", eventBus);
 
-                if (n === 1) {
-                    setTimeout(test, 1000);
+                loaded++;
+                if (loaded == 3 && typeof onAppletsLoaded == "function") {
+                    onAppletsLoaded();
                 }
             }
 

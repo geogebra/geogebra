@@ -124,6 +124,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	}
 
+	static void removeSymbolicButton(FlowPanel parent) {
+		for (int i = 0; i < parent.getWidgetCount(); i++) {
+			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
+				parent.getWidget(i).removeFromParent();
+			}
+		}
+	}
+
 	/**
 	 * @param geo1
 	 *            geoelement

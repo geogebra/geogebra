@@ -204,12 +204,13 @@ public class AppletParameters {
 	}
 
 	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return the data-param-showToolBar (default: false)
+	 * @param def fallback if parameter is not set
+	 * @return true in full apps, or non-notes applets with show menu set.
+	 *  data-param-showToolBar otherwise, with fallback def
 	 */
 	public boolean getDataParamShowToolBar(boolean def) {
-		if (getDataParamShowMenuBar(false) || getDataParamApp()) {
+		if (getDataParamShowMenuBar(false) && !"notes".equals(getDataParamAppName())
+				|| getDataParamApp()) {
 			return true;
 		}
 		return getBoolDataParam("showToolBar", def);

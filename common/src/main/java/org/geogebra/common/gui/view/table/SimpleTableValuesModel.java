@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -112,7 +113,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
 		if (evaluatable.isGeoList()) {
-			return new TableValuesListColumn((GeoList) evaluatable, values.size());
+			GeoList list = (GeoList) evaluatable;
+			return new TableValuesListColumn(list, list.size());
 		}
 		return new TableValuesFunctionColumn(evaluatable, values, values.size());
 	}
@@ -175,17 +177,25 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param element element that might be part of a list
 	 */
 	void maybeUpdateListElement(GeoElement element) {
+		int updatedXRow = -1;
 		for (int i = 0; i < columns.size(); i++) {
 			GeoEvaluatable evaluatable = columns.get(i).getEvaluatable();
 			if (evaluatable instanceof GeoList) {
 				GeoList list = (GeoList) evaluatable;
 				int index = list.find(element);
 				if (index > -1) {
-					columns.get(i).invalidateValue(index);
-					notifyCellChanged(evaluatable, i, index);
+					updateCell(evaluatable, i, index);
+					updatedXRow = i == 0 ? index : -1;
 				}
+			} else if (evaluatable instanceof GeoFunctionable && updatedXRow > -1) {
+				updateCell(evaluatable, i, updatedXRow);
 			}
 		}
+	}
+
+	private void updateCell(GeoEvaluatable evaluatable, int col, int row) {
+		columns.get(col).invalidateValue(row);
+		notifyCellChanged(evaluatable, col, row);
 	}
 
 	/**
@@ -308,6 +318,18 @@ class SimpleTableValuesModel implements TableValuesModel {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyDatasetChanged(this);
 			}
+		}
+	}
+
+	/**
+	 * clears the first (x) column
+	 */
+	public void clearXColumn() {
+		GeoEvaluatable evaluatable = getEvaluatable(0);
+		if (evaluatable instanceof GeoList) {
+			((GeoList) evaluatable).setZero();
+			((GeoList) evaluatable).notifyUpdate();
+			kernel.getApplication().storeUndoInfo();
 		}
 	}
 }

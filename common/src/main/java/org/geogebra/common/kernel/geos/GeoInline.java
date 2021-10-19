@@ -284,4 +284,14 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	public void unlockForMultiuser() {
 		getApp().getEventDispatcher().unlockTextElement(this);
 	}
+
+	/**
+	 * sets width and height of element without changing contentSize
+	 * @param width width
+	 * @param height height
+	 */
+	public void setSizeOnly(double width, double height) {
+		this.width = width;
+		this.height = height;
+	}
 }

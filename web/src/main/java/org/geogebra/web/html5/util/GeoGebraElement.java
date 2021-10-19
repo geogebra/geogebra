@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
+import org.gwtproject.regexp.shared.MatchResult;
+import org.gwtproject.regexp.shared.RegExp;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCollection;
+import elemental2.dom.ViewCSS;
 import jsinterop.base.Js;
 
 public final class GeoGebraElement extends Element implements AttributeProvider {
@@ -83,57 +89,57 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 		this.setInnerHTML("");
 	}
 
+	private CSSStyleDeclaration getComputedStyle(Element element) {
+		ViewCSS view = Js.cast(DomGlobal.window);
+		return view.getComputedStyle(Js.uncheckedCast(element));
+	}
+
 	/**
 	 *
 	 * @return that the article element has (inherited) direction attribute
 	 */
-	public native boolean isRTL() /*-{
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
-        if (!$wnd.getComputedStyle) {
-            return false;
-        }
+	public boolean isRTL() {
+		return "rtl".equals(getComputedStyle(this).direction);
+    }
 
-        var style = $wnd.getComputedStyle(this);
-        return style && style.direction === "rtl";
-    }-*/;
+	private double envScale(Element element, String type,
+			boolean deep) {
+        double sx = 1;
+        double sy = 1;
 
-	private native double envScale(JavaScriptObject current, String type,
-			boolean deep) /*-{
-        var sx = 1;
-        var sy = 1;
-
+        Element current = element;
         do {
-            var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/;
-            var style;
-            // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
-            if ($wnd.getComputedStyle && current) {
-                style = $wnd.getComputedStyle(current);
-            }
-            if (style) {
-                var transform = style.transform || style.webkitTransform
-                    || style.MozTransform || style.msTransform
-                    || style.oTransform || "";
-                var matches = transform.match(matrixRegex);
-                if (matches && matches.length) {
+            RegExp matrixRegex = RegExp.compile("matrix\\((-?\\d*\\.?\\d+),\\s*(-?\\d*\\.?\\d+),"
+					+ "\\s*(-?\\d*\\.?\\d+),\\s*(-?\\d*\\.?\\d+),"
+					+ "\\s*(-?\\d*\\.?\\d+),\\s*(-?\\d*\\.?\\d+)\\)");
 
-                    sx *= $wnd.parseFloat(matches[1]);
-                    sy *= $wnd.parseFloat(matches[4]);
-                } else if (transform.indexOf("scale") === 0) {
-                    var mul = $wnd.parseFloat(transform.substr(transform
-                        .indexOf("(") + 1));
-                    sx *= mul;
-                    sy *= mul;
-                }
-                if (style.zoom && current != $doc.body.parentElement) {
-                    sx *= style.zoom;
-                    sy *= style.zoom;
-                }
-            }
+            CSSStyleDeclaration style = getComputedStyle(current);
 
-            current = current.parentElement;
-        } while (deep && current);
-        return type === "x" ? sx : sy;
-    }-*/;
+			String transform = style.transform;
+			MatchResult matches = matrixRegex.exec(transform);
+
+			if (matches != null) {
+				sx *= Double.parseDouble(matches.getGroup(1));
+				sy *= Double.parseDouble(matches.getGroup(4));
+			} else if (transform.indexOf("scale") == 0) {
+				double mul = Double.parseDouble(transform.substring(transform
+					.indexOf("(") + 1, transform.indexOf(")")));
+				sx *= mul;
+				sy *= mul;
+			}
+
+			if (!StringUtil.empty((String) Js.asPropertyMap(style).get("zoom"))
+					&& current != Document.get().getBody().getParentElement()) {
+				double zoom = Double.parseDouble((String) Js.asPropertyMap(style).get("zoom"));
+				sx *= zoom;
+				sy *= zoom;
+			}
+
+            current = current.getParentElement();
+        } while (deep && current != null);
+
+        return "x".equals(type) ? sx : sy;
+    }
 
 	private double envScale(String type) {
 		return envScale(this, type, true);
@@ -188,16 +194,9 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 
 	/**
 	 * Remove cached scale values
-	 *
-	 * @param parentScale
-	 *            new scale of scaler element
 	 */
-	public void resetScale(double parentScale) {
+	public void resetScale() {
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
-	}
-
-	public GeoGebraElement getElement() {
-		return this;
 	}
 }

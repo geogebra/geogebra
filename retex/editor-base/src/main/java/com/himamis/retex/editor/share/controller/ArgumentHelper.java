@@ -130,11 +130,11 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(offset - 1);
-			if (character.isSymbol() || character.isWordBreak()) {
+			if (character.isWordBreak()) {
 				break;
 			}
 			offset--;
-			stringBuilder.insert(0, character.getName());
+			stringBuilder.insert(0, character.getUnicode());
 		}
 		return stringBuilder.toString();
 	}

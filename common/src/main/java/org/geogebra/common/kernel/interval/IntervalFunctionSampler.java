@@ -126,4 +126,8 @@ public class IntervalFunctionSampler {
 	public void setInterval(double low, double high) {
 		space.setInterval(low, high);
 	}
+
+	public GeoFunction getGeoFunction() {
+		return function.getFunction();
+	}
 }

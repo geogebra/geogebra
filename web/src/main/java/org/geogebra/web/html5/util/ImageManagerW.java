@@ -36,6 +36,7 @@ public class ImageManagerW extends ImageManager {
 
 	private HashMap<String, HTMLImageElement> externalImageTable = new HashMap<>();
 	private HashMap<String, ArchiveEntry> externalImageSrcs = new HashMap<>();
+	private HashMap<String, HTMLImageElement> internalImageTable = new HashMap<>();
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 
@@ -135,6 +136,14 @@ public class ImageManagerW extends ImageManager {
 		return externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
+	/**
+	 * @param fileName filename
+	 * @return corresponding image element
+	 */
+	public HTMLImageElement getInternalImage(String fileName) {
+		return internalImageTable.get(StringUtil.removeLeadingSlash(fileName));
+	}
+
 	static void onError(GeoImage gi) {
 		gi.getCorner(0).remove();
 		gi.getCorner(1).remove();
@@ -197,6 +206,19 @@ public class ImageManagerW extends ImageManager {
 	public static HTMLImageElement getInternalImage(ResourcePrototype resource) {
 		HTMLImageElement img = Dom.createImage();
 		img.src = NoDragImage.safeURI(resource);
+		return img;
+	}
+
+	/**
+	 * @param fileName of the image
+	 * @param content of the image
+	 * @return img element corresponding to the resource
+	 */
+	public HTMLImageElement addInternalImage(String fileName, String content) {
+		String fn = StringUtil.removeLeadingSlash(fileName);
+		HTMLImageElement img = Dom.createImage();
+		internalImageTable.put(fn, img);
+		img.src = content;
 		return img;
 	}
 
@@ -317,25 +339,24 @@ public class ImageManagerW extends ImageManager {
 	private static void addImageToArchive(String filePath, String fileName,
 			ArchiveEntry data, FileExtensions ext, MyImageW img,
 			GgbFile archive) {
-		if (ext.equals(FileExtensions.SVG)) {
-			addSvgToArchive(fileName, img, archive);
-			return;
-		}
 		if (data == null) {
 			return;
 		}
+
 		String url = data.string;
 		ArchiveEntry dataURL;
 		if ((url == null || url.startsWith("http"))
 				&& data.data == null && (img != null && img.getImage() != null)) {
 			dataURL = new ArchiveEntry(convertImgToPng(img));
+		} else if (url != null && ext == FileExtensions.SVG) {
+			dataURL = new ArchiveEntry(convertSvgDataUrl(url));
 		} else {
 			dataURL = data;
 		}
+
 		if (!dataURL.isEmpty()) {
 			if (ext.isAllowedImage()) {
 				// png, jpg, jpeg
-				// NOT SVG (filtered earlier)
 				archive.put(filePath + fileName, dataURL);
 			} else {
 				// not supported, so saved as PNG
@@ -360,26 +381,12 @@ public class ImageManagerW extends ImageManager {
 		return url;
 	}
 
-	private static void addSvgToArchive(String fileName, MyImageW img,
-			GgbFile archive) {
-		HTMLImageElement svg = img.getImage();
-
-		// TODO
-		// String svgAsXML =
-		// "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\"
-		// r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\"
-		// /></svg>";
-		String svgAsXML = svg.getAttribute("src");
-
+	private static String convertSvgDataUrl(String dataUrl) {
 		// remove eg data:image/svg+xml;base64,
-		int index = svgAsXML.indexOf(',');
-		svgAsXML = svgAsXML.substring(index + 1);
-
+		int index = dataUrl.indexOf(',');
+		String svgAsXML = dataUrl.substring(index + 1);
 		svgAsXML = Browser.decodeBase64(svgAsXML);
-
-		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
-
-		archive.put(fileName, new ArchiveEntry(svgAsXML));
+		return svgAsXML;
 	}
 
 	/**

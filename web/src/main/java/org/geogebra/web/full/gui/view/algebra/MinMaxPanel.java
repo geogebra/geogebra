@@ -52,10 +52,10 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private App app;
 
 	/**
-	 * @return current panel
+	 * @return whether the given panel is the currently open one
 	 */
-	public static MinMaxPanel getOpenedPanel() {
-		return openedMinMaxPanel;
+	public static boolean isOpenedPanel(MinMaxPanel panel) {
+		return openedMinMaxPanel == panel;
 	}
 
 	/**
@@ -82,13 +82,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		openedMinMaxPanel = null;
 	}
 
-	/**
-	 * Sets the currently open min/max panel of AV.
-	 * 
-	 * @param panel
-	 *            current panel
-	 */
-	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
+	private static void setOpenedPanel(MinMaxPanel panel) {
 		openedMinMaxPanel = panel;
 	}
 
@@ -235,7 +229,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		this.sliderTreeItem.setSliderVisible(false);
 		setVisible(true);
 		setKeepOpen(true);
-		setOpenedMinMaxPanel(this);
+		setOpenedPanel(this);
 		this.sliderTreeItem.setAnimPanelVisible(false);
 	}
 

@@ -59,7 +59,7 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 			input = getInputValue(row);
 			if (input == null) {
 				// the double value cannot be calculated for this x-value
-				input = "?";
+				input = "";
 			} else {
 				// the input is erroneous or empty
 				isErroneus = !StringUtil.isTrimmedEmpty(input);

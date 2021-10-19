@@ -9,11 +9,13 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
+import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 import elemental2.dom.Event;
 import elemental2.dom.MouseEvent;
 
-public class TableEditor {
+public class TableEditor implements UnhandledArrowListener {
 	private final StickyValuesTable table;
 	private final AppW app;
 	private MathTextFieldW mathTextField;
@@ -48,7 +50,9 @@ public class TableEditor {
 			cell.appendChild(mathTextField.asWidget().getElement()); // then move in DOM
 
 			mathTextField.editorClicked();
-			mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
+			if (event != null) {
+				mathTextField.adjustCaret(((MouseEvent) event).x, ((MouseEvent) event).y);
+			}
 			editRow = row;
 			editColumn = column;
 		});
@@ -59,13 +63,40 @@ public class TableEditor {
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;
-			table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+			processInputAndFocusNextCell(list);
 		}
 		if (isNewColumnEdited(evaluatable)) {
-			table.view.getProcessor().processInput(mathTextField.getText(), null, editRow);
+			processInputAndFocusNextCell(null);
+		}
+		if (wasEnterPressed()) {
+			mathTextField.getMathField().getInternal().setEnterPressed(false);
+			if (isLastInputRowEmpty()) {
+				app.hideKeyboard();
+			}
 		}
 		editRow = -1;
 		editColumn = -1;
+	}
+
+	private void processInputAndFocusNextCell(GeoList list) {
+		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
+		if (wasEnterPressed() && !isLastInputRowEmpty()) {
+			moveFocus(editRow + 1, editColumn);
+		}
+	}
+
+	private void moveFocus(final int focusRow, final int focusCol) {
+		app.invokeLater(() -> {
+			startEditing(focusRow, focusCol, null);
+		});
+	}
+
+	private boolean wasEnterPressed() {
+		return mathTextField.getMathField().getInternal().isEnterPressed();
+	}
+
+	private boolean isLastInputRowEmpty() {
+		return mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount();
 	}
 
 	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
@@ -76,10 +107,10 @@ public class TableEditor {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
-			mathTextField.addChangeHandler(this::stopEditing);
-			mathTextField.addBlurHandler(event -> stopEditing());
+			mathTextField.addChangeHandler(() -> stopEditing());
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
+			mathTextField.setUnhandledArrowListener(this);
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
@@ -94,5 +125,38 @@ public class TableEditor {
 
 	public MathKeyboardListener getKeyboardListener() {
 		return mathTextField == null ? null : mathTextField.getKeyboardListener();
+	}
+
+	@Override
+	public void onArrow(int keyCode) {
+		int dx = 0;
+		int dy = 0;
+		switch (keyCode) {
+		case JavaKeyCodes.VK_LEFT:
+			dx = -1;
+			break;
+		case JavaKeyCodes.VK_RIGHT:
+			dx = 1;
+			break;
+		case JavaKeyCodes.VK_UP:
+			dy = -1;
+			break;
+		case JavaKeyCodes.VK_DOWN:
+			dy = 1;
+			break;
+		default:
+			return; // to make SpotBugs happy
+		}
+		int focusColumn = editColumn;
+		int focusRow = editRow;
+		do {
+			focusColumn = focusColumn + dx;
+			focusRow = focusRow + dy;
+		} while (table.hasCell(focusColumn, focusRow)
+				&& table.columnNotEditable(focusColumn));
+		if (table.hasCell(focusColumn, focusRow)) {
+			stopEditing();
+			moveFocus(focusRow, focusColumn);
+		}
 	}
 }

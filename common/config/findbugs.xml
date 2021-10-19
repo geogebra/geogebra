@@ -1,14 +1,14 @@
 <FindBugsFilter>
-     <Match>
+    <Match>
        <Bug pattern="EI_EXPOSE_REP" />
-     </Match>
+    </Match>
     <Match>
        <Bug pattern="EI_EXPOSE_REP2" />
      </Match>
     <Match>
        <Bug pattern="MS_EXPOSE_REP" />
-     </Match>
-       <Match>
+    </Match>
+    <Match>
        <Bug pattern="SE_BAD_FIELD" />
      </Match>
      <Match>

@@ -646,6 +646,9 @@ public class GeoList extends GeoElement
 	 * Clear the list
 	 */
 	public final void clear() {
+		for (GeoElement el : elements) {
+			el.removeZoomerAnimationListenerIfNeeded();
+		}
 		elements.clear();
 	}
 

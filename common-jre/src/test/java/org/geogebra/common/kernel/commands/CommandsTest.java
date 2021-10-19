@@ -2144,6 +2144,18 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIsFactoredUpdate() {
+		t("redef1(x) = x (2x-2)", "(x * ((2 * x) - 2))");
+		t("redef2(x) = x^50 (x-1)", "(x^(50) * (x - 1))");
+		t("check1 = IsFactored(redef1)", "false");
+		t("check2 = IsFactored(redef2)", "?");
+		t("redef1(x) = x (x-1)", "(x * (x - 1))");
+		t("redef2(x) = x (x-1)", "(x * (x - 1))");
+		t("check1", "true");
+		t("check2", "true");
+	}
+
+	@Test
 	public void cmdIsInteger() {
 		t("IsInteger[ 42 ]", "true");
 	}
@@ -3544,6 +3556,7 @@ public class CommandsTest {
 		t("Sequence[ t^2, t, 1, 4 ]", "{1, 4, 9, 16}");
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
+		t("Sequence[ i, i, 3, 5 ]", "{3, 4, 5}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
 		t("Sequence(Angle((0,1,0),(0,0,0),(1,0,0),Vector((0,0,1))),k,1,2)",
 				"{270*" + DEGREE_STRING + ", 270*" + DEGREE_STRING + "}");
@@ -4208,6 +4221,9 @@ public class CommandsTest {
 	@Test
 	public void cmdZip() {
 		t("Zip[ t^2, t, {1,2,3,4,5}]", "{1, 4, 9, 16, 25}");
+		t("Zip[ i, i, {1, 2} ]", "{1, 2}");
+		t("Zip[ i + j, i, {1, 2}, j, {3, 4} ]", "{4, 6}");
+		t("Zip[ i + j, j, {1, 2}, i, {3, 4} ]", "{4, 6}");
 	}
 
 	@Test

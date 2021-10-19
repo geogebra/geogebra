@@ -94,6 +94,10 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				}
 			}
 
+			&.notEditable {
+				cursor: default;
+			}
+
 			&.addColumnAut {
 				min-width: 120px;
 				animation-duration: $deleteTime;
@@ -248,6 +252,10 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 					margin-left: 16px;
 					margin-right: 32px;
 				}
+
+				&.notEditable .content {
+					color: colors.$black-54;
+				}
 			}
 		}
 
@@ -349,5 +357,11 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		opacity: 0.9;
 		z-index: z-index.$z-snackbar;
 		font-size: 80%;
+	}
+
+	.tvContextMenu {
+		.menuSeparator {
+			width: 100%;
+		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -141,6 +142,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return view.getEvaluatable(column) instanceof GeoList;
 	}
 
+	public boolean columnNotEditable(int column) {
+		return view.getEvaluatable(column) instanceof GeoFunctionable;
+	}
+
 	private void onHeaderClick(Element source, int column) {
 		this.contextMenu = new ContextMenuTV(app, view, view.getGeoAt(column), column);
 		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
@@ -191,18 +196,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		SafeHtmlHeader header = headerCell.getHtmlHeader(getHeaderNameHTML(content));
 		header.setHeaderStyleNames("tableHeader");
 		return header;
-	}
 
-	private String getHeaderNameHTML(String content) {
-		if (content.contains("_")) {
-			String[] labelParts = content.split("_");
-			if (labelParts.length == 2) {
-				String index = labelParts[1].replaceAll("\\{", "")
-							.replaceAll("\\}", "") ;
-				return labelParts[0] + "<sub>" + index + "</sub>";
- 			}
-		}
-		return content;
+		String headerHTMLName = view.getHeaderNameHTML(columnIndex);
+		return headerCell.getHtmlHeader(headerHTMLName);
 	}
 
 	@Override
@@ -395,6 +391,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return super.getCellStyleNames(context, object)
 					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "")
 					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "")
+					+ (col >= 0 && columnNotEditable(col) ? " notEditable" : "")
 					+ (col < 0 ? " emptyColumn" : "")
 					+ (rowsChange > 0 ? " addRowAuto" : "");
 		}

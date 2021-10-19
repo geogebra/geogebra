@@ -137,12 +137,14 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	protected int getParentIndex(Node currHeaderCell) {
 		Element parent = currHeaderCell.getParentElement();
-		NodeList<Node> headerNodes = parent.getChildNodes();
-		for (int i = 0; i < headerNodes.getLength(); i++) {
-			Node node = headerNodes.getItem(i);
-			// check if header cell is the one it was clicked on
-			if (node.equals(currHeaderCell)) {
-				return i;
+		if (parent != null) {
+			NodeList<Node> headerNodes = parent.getChildNodes();
+			for (int i = 0; i < headerNodes.getLength(); i++) {
+				Node node = headerNodes.getItem(i);
+				// check if header cell is the one it was clicked on
+				if (node.equals(currHeaderCell)) {
+					return i;
+				}
 			}
 		}
 		return -1;
@@ -246,6 +248,16 @@ public abstract class StickyTable<T> extends FlowPanel {
 
 	public void flush() {
 		cellTable.flush();
+	}
+
+	/**
+	 * @param col column
+	 * @param row row
+	 * @return whether a cell at given coordinates exists and is not hidden by shadow
+	 */
+	public boolean hasCell(int col, int row) {
+		return col >= 0 && col < cellTable.getColumnCount() - 1
+				&& row >= 0 && row < cellTable.getRowCount() - 1;
 	}
 
 	private class CellTableWithBody extends CellTable<T> {

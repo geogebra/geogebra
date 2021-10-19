@@ -107,7 +107,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	@Override
 	public void setDerivatives() {
-
 		if (fun1 != null || fun == null) {
 			return;
 		}
@@ -137,7 +136,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * set first and second derivatives (if not already done)
 	 */
 	public void setSecondDerivatives() {
-
 		if (fun2 != null) {
 			return;
 		}
@@ -919,24 +917,24 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		for (int i = 0; i < dim; i++) {
 			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
 		}
-
-		fun1 = null;
-		fun2 = null;
+		resetDerivatives();
 
 		startParam = Cloner.clone(geoSurface.startParam);
 		endParam = Cloner.clone(geoSurface.endParam);
 		isDefined = geoSurface.isDefined;
 
 		// macro OUTPUT
-		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
-			if (!geo.isIndependent()) {
-				// this object is an output object of AlgoMacro
-				// we need to check the references to all geos in its function's
-				// expression
-				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
-				for (int i = 0; i < dim; i++) {
-					algoMacro.initFunction(fun[i]);
-				}
+		if (geo.getConstruction() != cons && isAlgoMacroOutput() && !geo.isIndependent()) {
+			// this object is an output object of AlgoMacro
+			// we need to check the references to all geos in its function's
+			// expression
+			if (functionExpander == null) {
+				functionExpander = new FunctionExpander();
+			}
+			AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+			for (int i = 0; i < dim; i++) {
+				fun[i] = (FunctionNVar) fun[i].traverse(functionExpander);
+				algoMacro.initFunction(fun[i]);
 			}
 		}
 		if (geoSurface.point != point) {

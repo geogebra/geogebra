@@ -287,5 +287,12 @@ public interface AppInterface {
 	 */
 	public abstract MyImage getExternalImageAdapter(String filename, int width, int height);
 
+	/**
+	 * @param filename
+	 *            filename
+	 * @return image wrapped in GBufferedImage
+	 */
+	public abstract MyImage getInternalImageAdapter(String filename, int width, int height);
+
 	abstract ScriptManager newScriptManager();
 }

@@ -104,13 +104,17 @@ $slider-track: rgba(0, 0, 0, 0.4);
 $slider-track-focus: rgba(0, 0, 0, 0.6);
 
 // Customizable MOW colors
-$mow_primary: $purple-default !default;
-$mow_primary_variant: $purple-light !default;
-$mow_dark: $purple-dark !default;
-$mow_light: $purple-light !default;
+:root {
+ --ggb-primary-color: #{$purple-default};
+ --ggb-primary-variant-color: #{$purple-light};
+ --ggb-dark-color: #{$purple-dark};
+ --ggb-light-color: #{$purple-light};
+}
 
-$mow_dark_26: rgba($mow_dark, 0.26);
-$mow_dark_87: rgba($mow_dark, 0.87);
+$mow_primary: var(--ggb-primary-color);
+$mow_primary_variant:  var(--ggb-primary-variant-color);
+$mow_dark: var(--ggb-dark-color);
+$mow_light: var(--ggb-light-color);
 
 $mow_grey_button: #f5f5f5;
 $mow_card_background: #fafafa;
