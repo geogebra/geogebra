@@ -250,6 +250,16 @@ public abstract class StickyTable<T> extends FlowPanel {
 		cellTable.flush();
 	}
 
+	/**
+	 * @param col column
+	 * @param row row
+	 * @return whether a cell at given coordinates exists and is not hidden by shadow
+	 */
+	public boolean hasCell(int col, int row) {
+		return col >= 0 && col < cellTable.getColumnCount() - 1
+				&& row >= 0 && row < cellTable.getRowCount() - 1;
+	}
+
 	private class CellTableWithBody extends CellTable<T> {
 
 		@Override

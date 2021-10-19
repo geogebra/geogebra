@@ -9,11 +9,13 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
+import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 import elemental2.dom.Event;
 import elemental2.dom.MouseEvent;
 
-public class TableEditor {
+public class TableEditor implements UnhandledArrowListener {
 	private final StickyValuesTable table;
 	private final AppW app;
 	private MathTextFieldW mathTextField;
@@ -78,13 +80,16 @@ public class TableEditor {
 
 	private void processInputAndFocusNextCell(GeoList list) {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
-		int needsFocusColumn = editColumn;
-		int needsFocusRow = editRow + 1;
-		if (wasEnterPressed()) {
-			if (!isLastInputRowEmpty()) {
-				app.invokeLater(() -> startEditing(needsFocusRow, needsFocusColumn, null));
+		if (wasEnterPressed() && !isLastInputRowEmpty()) {
+				moveFocus(editRow + 1, editColumn);
 			}
 		}
+	}
+
+	private void moveFocus(final int focusRow, final int focusCol) {
+		app.invokeLater(() -> {
+			startEditing(focusRow, focusCol, null);
+		});
 	}
 
 	private boolean wasEnterPressed() {
@@ -106,6 +111,7 @@ public class TableEditor {
 			mathTextField.addChangeHandler(() -> stopEditing());
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
+			mathTextField.setUnhandledArrowListener(this);
 			ClickStartHandler.init(mathTextField.asWidget(), new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
@@ -120,5 +126,38 @@ public class TableEditor {
 
 	public MathKeyboardListener getKeyboardListener() {
 		return mathTextField == null ? null : mathTextField.getKeyboardListener();
+	}
+
+	@Override
+	public void onArrow(int keyCode) {
+		int dx = 0;
+		int dy = 0;
+		switch (keyCode) {
+		case JavaKeyCodes.VK_LEFT:
+			dx = -1;
+			break;
+		case JavaKeyCodes.VK_RIGHT:
+			dx = 1;
+			break;
+		case JavaKeyCodes.VK_UP:
+			dy = -1;
+			break;
+		case JavaKeyCodes.VK_DOWN:
+			dy = 1;
+			break;
+		default:
+			return; // to make SpotBugs happy
+		}
+		int focusColumn = editColumn;
+		int focusRow = editRow;
+		do {
+			focusColumn = focusColumn + dx;
+			focusRow = focusRow + dy;
+		} while (table.hasCell(focusColumn, focusRow)
+				&& table.columnNotEditable(focusColumn));
+		if (table.hasCell(focusColumn, focusRow)) {
+			stopEditing(false);
+			moveFocus(focusRow, focusColumn);
+		}
 	}
 }
