@@ -66,8 +66,11 @@ public class TableEditor {
 		if (isNewColumnEdited(evaluatable)) {
 			processInputAndFocusNextCell(null);
 		}
-		if (isLastInputRowEmpty()) {
-			app.hideKeyboard();
+		if (wasEnterPressed()) {
+			mathTextField.getMathField().getInternal().setEnterPressed(false);
+			if (isLastInputRowEmpty()) {
+				app.hideKeyboard();
+			}
 		}
 		editRow = -1;
 		editColumn = -1;
@@ -78,7 +81,6 @@ public class TableEditor {
 		int needsFocusColumn = editColumn;
 		int needsFocusRow = editRow + 1;
 		if (wasEnterPressed()) {
-			mathTextField.getMathField().getInternal().setEnterPressed(false);
 			if (!isLastInputRowEmpty()) {
 				app.invokeLater(() -> startEditing(needsFocusRow, needsFocusColumn, null));
 			}
