@@ -78,6 +78,6 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 	}
 
 	public MathKeyboardListener getKeyboardListener() {
-		return table.getKeybaordListener();
+		return table.getKeyboardListener();
 	}
 }

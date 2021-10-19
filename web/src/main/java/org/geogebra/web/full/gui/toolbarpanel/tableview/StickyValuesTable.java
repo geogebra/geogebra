@@ -51,7 +51,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private ContextMenuTV contextMenu;
 	private final TableEditor editor;
 
-	public MathKeyboardListener getKeybaordListener() {
+	private int rowsChange = 0;
+	private int columnsChange = 0;
+
+	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
 	}
 
@@ -149,14 +152,25 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
-		addEmptyColumn();
-		addEmptyColumn();
+		addEmptyColumn(0);
+		addEmptyColumn(1);
+		if (columnsChange < 0) {
+			addEmptyColumn(2);
+		}
 	}
 
-	private void addEmptyColumn() {
+	private void addEmptyColumn(int position) {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
 		TableCell cell = new TableCell("", false);
-		getTable().addColumn(col, new SafeHtmlHeader(cell.getHTML()));
+		SafeHtmlHeader header = new SafeHtmlHeader(cell.getHTML());
+		if (columnsChange > 0 && position == 1) {
+			header.setHeaderStyleNames("addColumnAut");
+		} else if (position == 2) {
+			header.setHeaderStyleNames("deleteColumnAut");
+		} else {
+			header.setHeaderStyleNames("tableHeader");
+		}
+		getTable().addColumn(col, header);
 	}
 
 	@Override
@@ -174,7 +188,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
 		String content = tableModel.getHeaderAt(columnIndex);
-		return headerCell.getHtmlHeader(getHeaderNameHTML(content));
+		SafeHtmlHeader header = headerCell.getHtmlHeader(getHeaderNameHTML(content));
+		header.setHeaderStyleNames("tableHeader");
+		return header;
 	}
 
 	private String getHeaderNameHTML(String content) {
@@ -197,6 +213,18 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		if (rowsChange < 0) {
+			for (int i = 0; i < Math.abs(rowsChange); i++) {
+				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+			}
+			rowsChange = 0;
+			getTable().setRowStyles((row, rowIndex) -> {
+				if (rowIndex >= tableModel.getRowCount() + 2) {
+					return "deleteRowAut";
+				}
+				return null;
+			});
+		}
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
@@ -317,7 +345,18 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
+		storeTableSizeBeforeReset();
 		reset();
+	}
+
+	private void storeTableSizeBeforeReset() {
+		int oldRowNumber = getTable().getRowCount() - 2;
+		int oldColumnNumber = getTable().getColumnCount() - 2;
+		int newRowNumber = tableModel.getRowCount();
+		int newColumnNumber = tableModel.getColumnCount();
+
+		rowsChange = newRowNumber - oldRowNumber;
+		columnsChange = newColumnNumber - oldColumnNumber;
 	}
 
 	/**
@@ -355,7 +394,9 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		public String getCellStyleNames(Cell.Context context, TVRowData object) {
 			return super.getCellStyleNames(context, object)
 					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "")
-					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "");
+					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "")
+					+ (col < 0 ? " emptyColumn" : "")
+					+ (rowsChange > 0 ? " addRowAuto" : "");
 		}
 	}
 }

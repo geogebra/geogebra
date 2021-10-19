@@ -1,7 +1,8 @@
 @use 'colors';
 @use 'z-index';
 $emptyHeight: 212px;
-$deleteTime: 120ms;
+$deleteTime: 250ms;
+$deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 
 .GeoGebraFrame {
 	.tableViewParent {
@@ -61,12 +62,16 @@ $deleteTime: 120ms;
 			border-color: colors.$black-12;
 			border-style: solid;
 			box-sizing: border-box;
-			min-width: 120px;
+			/*min-width: 120px;*/
 			max-width: 180px;
-			transition: min-width $deleteTime;
+			transition: min-width $deleteTime $deleteAddTransition;
 			.content {
-				transition: width $deleteTime, opacity $deleteTime, margin $deleteTime ease-in;
+				transition: width $deleteTime, opacity $deleteTime, margin $deleteTime $deleteAddTransition;
 			}
+			&.tableHeader {
+				min-width: 120px;
+			}
+
 			&.deleteCol {
 				min-width: 0;
 
@@ -88,6 +93,70 @@ $deleteTime: 120ms;
 					height: 50px;
 				}
 			}
+
+			&.addColumnAut {
+				min-width: 120px;
+				animation-duration: $deleteTime;
+				animation-name: addColumn;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					overflow: hidden !important;
+					width: 0px !important;
+					margin-left: -81px !important;
+					text-align: right;
+					opacity: 0;
+				}
+			}
+
+			&.deleteColumnAut {
+				min-width: 0px;
+				animation-duration: $deleteTime;
+				animation-name: removeColumn;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					overflow: hidden !important;
+					width: 0px !important;
+					margin-left: -81px !important;
+					text-align: right;
+					opacity: 0;
+				}
+			}
+
+			&.emptyColumn .content {
+				margin-left: -81px;
+			}
+		}
+
+		@-webkit-keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@-moz-keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@-webkit-keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		@-moz-keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		@keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
 		}
 
 		.values {
@@ -191,11 +260,11 @@ $deleteTime: 120ms;
 			overflow-y: auto !important;
 		}
 	
-		.outerScrollPanel{
+		.outerScrollPanel {
 			overflow: hidden !important;
 		}
 	
-		.outerScrollPanel > div{
+		.outerScrollPanel > div {
 			height: 100%;
 		}
 	
@@ -204,10 +273,67 @@ $deleteTime: 120ms;
 			height: 100%;
 		}
 		
-		.headerScroller{
+		.headerScroller {
 			width: 100%;
 			overflow: hidden !important;
-		}		
+		}
+
+		tr:last-child {
+			td.addRowAuto {
+				height: 52px;
+				animation-duration: $deleteTime;
+				animation-name: addRow;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					margin-top: -81px;
+				}
+			}
+		}
+
+		.deleteRowAut {
+			td {
+				border-width: 0 1px 0 0;
+				height: 0px;
+				animation-duration: $deleteTime;
+				animation-name: deleteRow;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					margin-top: -81px;
+				}
+			}
+		}
+
+		@-webkit-keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@-moz-keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@-webkit-keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+
+		@-moz-keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+
+		@keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
 	}
 
 	.errorToast {
