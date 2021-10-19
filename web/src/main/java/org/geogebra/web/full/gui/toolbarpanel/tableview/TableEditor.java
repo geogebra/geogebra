@@ -81,8 +81,7 @@ public class TableEditor implements UnhandledArrowListener {
 	private void processInputAndFocusNextCell(GeoList list) {
 		table.view.getProcessor().processInput(mathTextField.getText(), list, editRow);
 		if (wasEnterPressed() && !isLastInputRowEmpty()) {
-				moveFocus(editRow + 1, editColumn);
-			}
+			moveFocus(editRow + 1, editColumn);
 		}
 	}
 
@@ -156,7 +155,7 @@ public class TableEditor implements UnhandledArrowListener {
 		} while (table.hasCell(focusColumn, focusRow)
 				&& table.columnNotEditable(focusColumn));
 		if (table.hasCell(focusColumn, focusRow)) {
-			stopEditing(false);
+			stopEditing();
 			moveFocus(focusRow, focusColumn);
 		}
 	}
