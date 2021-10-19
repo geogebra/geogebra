@@ -135,6 +135,7 @@ public abstract class Drawable3D extends DrawableND {
 	protected final static double COLOR_SHIFT_CURVES = 0.75; // 0.2
 	protected final static double COLOR_SHIFT_POINTS = 0.86; // mostly sqrt(3)/2
 	protected final static double COLOR_SHIFT_NONE = 0;
+	public final static GColor DARKEST_ADDITIVE_COLOR = GColor.newColor(50, 50, 50);
 
 	/** view3D */
 	private EuclidianView3D m_view3D;
@@ -1310,6 +1311,9 @@ public abstract class Drawable3D extends DrawableND {
 
 		if (getView3D().isGrayScaled()) {
 			color[0] = c.createGrayScale();
+		} else if (getView3D().isAdditiveDisplay()
+				&& c.isDarkerThan(DARKEST_ADDITIVE_COLOR)) {
+			color[0] = DARKEST_ADDITIVE_COLOR.deriveWithAlpha(c.getAlpha());
 		} else {
 			color[0] = c;
 		}
