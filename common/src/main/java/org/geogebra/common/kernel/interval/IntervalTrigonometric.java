@@ -8,6 +8,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piTwice;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -140,8 +141,8 @@ class IntervalTrigonometric {
 	public Interval tan() {
 		Interval x2 = new Interval(this.interval);
 		Interval cos = x2.cos();
-		if (cos.isZero()) {
-			return IntervalConstants.whole().invert();
+		if (cos.hasZero()) {
+			return zero().invert();
 		}
 		Interval sin = interval.sin();
 		return sin.divide(cos);

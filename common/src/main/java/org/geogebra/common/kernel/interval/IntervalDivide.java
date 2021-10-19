@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.negativeInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
+import static org.geogebra.common.kernel.interval.RMath.divHigh;
+import static org.geogebra.common.kernel.interval.RMath.divLow;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -79,19 +81,30 @@ public class IntervalDivide {
 	}
 
 	private void dividePositiveBy(Interval other) {
-		interval.set(RMath.divLow(interval.getLow(), other.getLow()),
-				RMath.divHigh(interval.getLow(), other.getHigh()));
+		if (other.isNegative()) {
+			interval.set(divLow(interval.getHigh(), other.getHigh()),
+					divHigh(interval.getLow(), other.getHigh()));
+		} else {
+			interval.set(divLow(interval.getLow(), other.getHigh()),
+					divHigh(interval.getHigh(), other.getLow()));
+		}
 	}
 
 	private void divideNegativeBy(Interval other) {
 		if (other.isPositive()) {
-			interval.set(
-					RMath.divHigh(interval.getLow(), other.getHigh()),
-					RMath.divLow(interval.getHigh(), other.getLow())
-			);
+			double low = divLow(interval.getHigh(), other.getLow());
+			double high = divHigh(interval.getLow(), other.getHigh());
+			if (high < low) {
+				low = divLow(interval.getHigh(), other.getHigh());
+				high = divHigh(interval.getHigh(), other.getLow());
+			}
+			interval.set(low, high);
+
 		} else {
-			interval.set(RMath.divLow(interval.getHigh(), other.getLow()),
-					RMath.divHigh(interval.getLow(), other.getHigh()));
+			double low = divLow(interval.getHigh(), other.getLow());
+			double high = divHigh(interval.getHigh(), other.getHigh());
+			interval.set(low, high);
+
 		}
 	}
 }

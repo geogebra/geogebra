@@ -35,6 +35,11 @@ public class IntervalDivideTest {
 	}
 
 	@Test
+	public void divideNegativeIntervalByPositiveIntervalLessThanOne() {
+		assertEquals(interval(1), interval(-4, -2).divide(interval(2, 4)));
+	}
+
+	@Test
 	public void testDivisionZeroWithZero() {
 		assertEquals(zero(), zero().divide(interval(-1, 1)));
 		assertEquals(zero(), zero().divide(interval(-1, 0)));

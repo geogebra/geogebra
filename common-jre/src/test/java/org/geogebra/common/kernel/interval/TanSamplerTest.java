@@ -12,7 +12,6 @@ import org.junit.Test;
 
 public class TanSamplerTest extends SamplerTest {
 
-	@Ignore
 	@Test
 	public void tanX() {
 		IntervalTupleList tuples = functionValuesWithSampleCount("tan(x)",
