@@ -34,6 +34,8 @@ import elemental2.core.JsArray;
 import elemental2.dom.Blob;
 import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.CSSProperties;
+import elemental2.dom.ClipboardEvent;
+import elemental2.dom.DataTransfer;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
@@ -41,7 +43,6 @@ import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.HTMLTextAreaElement;
 import elemental2.promise.Promise;
-import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -345,12 +346,11 @@ public class CopyPasteW extends CopyPaste {
 	 */
 	public static void installCutCopyPaste(AppW app, Element element) {
 		EventTarget target = Js.uncheckedCast(element);
-		app.getGlobalHandlers().addEventListener(target, "paste", (a) -> {
-			if (incorrectTarget(a.target)) {
+		app.getGlobalHandlers().addEventListener(target, "paste", (event) -> {
+			if (incorrectTarget(event.target)) {
 				return;
 			}
-			ClipboardData clipboardData = Js.uncheckedCast(Js.asPropertyMap(a)
-					.get("clipboardData"));
+			DataTransfer clipboardData = Js.<ClipboardEvent>uncheckedCast(event).clipboardData;
 			if (clipboardData.files.length > 0) {
 				FileReader reader = new FileReader();
 				reader.addEventListener("load",
@@ -468,12 +468,5 @@ public class CopyPasteW extends CopyPaste {
 
 	private static boolean navigatorSupports(String s) {
 		return Js.isTruthy(Js.asPropertyMap(DomGlobal.navigator).nestedGet(s));
-	}
-
-	@JsType(isNative = true)
-	public static class ClipboardData {
-		public JsArray<Blob> files;
-
-		public native String getData(String s);
 	}
 }
