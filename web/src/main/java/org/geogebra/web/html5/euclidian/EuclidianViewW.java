@@ -708,13 +708,16 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
-		Dom.addEventListener(absPanel.getElement(), "wheel",
+		Element absPanelElement = absPanel.getElement();
+		Dom.addEventListener(absPanelElement, "wheel",
 				(event) -> euclidiancontroller.onMouseWheel((WheelEvent) event));
 
 		pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 				euclidiancontroller.getOffsets());
-		pointerHandler.attachTo(absPanel.getElement().getParentElement(),
-				((AppW) app).getGlobalHandlers());
+		// absolute panel has no parent in WebSimple
+		Element pointerTarget = absPanelElement.getParentElement() == null
+				? absPanelElement : absPanelElement.getParentElement();
+		pointerHandler.attachTo(pointerTarget, ((AppW) app).getGlobalHandlers());
 		CancelEventTimer.killTouch(absPanel);
 		absPanel.addBitlessDomHandler(DomEvent::stopPropagation, MouseDownEvent.getType());
 	}
