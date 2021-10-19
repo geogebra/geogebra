@@ -13,7 +13,7 @@ public interface TableValuesProcessor {
 	 * Process the input and set the list value
 	 * @param input string input
 	 * @param list the list that should contain the value
-	 * @param index the index of the value
+	 * @param rowIndex the rowIndex of the value
 	 */
-	public void processInput(@Nonnull String input, GeoList list, int index);
+	void processInput(@Nonnull String input, GeoList list, int rowIndex);
 }
