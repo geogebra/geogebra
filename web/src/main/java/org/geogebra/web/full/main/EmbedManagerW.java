@@ -194,6 +194,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
 			}
+		} else if ("suite".equals(drawEmbed.getGeoEmbed().getAppName())) {
+			appEmbedded.getDialogManager().showCalcChooser(false);
+			appEmbedded.getAppletParameters().setAttribute("preventFocus", true + "");
 		}
 		return element;
 	}

@@ -784,7 +784,7 @@ public class ControllerTest extends BaseControllerTest {
 
 	@Test
 	public void geoGebraTool() {
-		setMode(EuclidianConstants.MODE_GRAPHING); // TODO 117
+		setMode(EuclidianConstants.MODE_CALCULATOR); // TODO 117
 	}
 
 	@Test
