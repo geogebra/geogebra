@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
@@ -37,6 +38,7 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -1195,6 +1197,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testNoToggleButtonForSymbolicUndefined() {
+		GeoSymbolic solve = add("Solve(0.05>=(1-x)^50)");
+		assertThat(AlgebraItem.isSymbolicDiffers(solve), is(false));
+	}
+
+	@Test
 	public void testToggleSymbolicNumeric() {
 		GeoSymbolic solveX = add("Solve(2x=5)");
 		GeoSymbolic solveA = add("NSolve(a*a=5)");
@@ -1603,5 +1611,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getFunctionVariables().length, is(2));
 		assertThat(symbolic.getFunctionVariables()[0].getSetVarString(), is("x"));
 		assertThat(symbolic.getFunctionVariables()[1].getSetVarString(), is("a"));
+	}
+
+	@Test
+	public void numericAlternativeCommand() {
+		Assume.assumeTrue(!AppD.WINDOWS);
+		add("f(x) = -x^2 * e^(-x)");
+		add("g(x) = 1 + (f'(x))^2");
+		t("Integral(sqrt(g),0,20)", "20.12144888423");
 	}
 }

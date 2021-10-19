@@ -5,8 +5,7 @@ apply plugin: 'java'
 dependencies {
     compile "com.google.gwt:gwt-dev:$gwtCompilerVersion",
             "com.google.gwt:gwt-user:$gwtCompilerVersion",
-            project(':common'),
-            'io.bit3:jsass:5.10.4+darwin_arm64'
+            project(':common')
 
     compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'
     compile group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.1.0'

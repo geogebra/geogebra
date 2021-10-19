@@ -330,6 +330,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		} else {
 			tpl = StringTemplate.get(StringType.GEOGEBRA);
 		}
+		inputBoxRenderer.updateLatexTemplate();
 	}
 
 	@Override

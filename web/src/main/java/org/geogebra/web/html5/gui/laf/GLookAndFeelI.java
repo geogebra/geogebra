@@ -2,10 +2,7 @@ package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.ui.Widget;
 
 public interface GLookAndFeelI {
 	int COMMAND_LINE_HEIGHT = 43;
@@ -28,9 +25,6 @@ public interface GLookAndFeelI {
 	boolean copyToClipboardSupported();
 
 	Object getLoginListener();
-
-	boolean registerHandlers(Widget evPanel,
-	        EuclidianControllerW euclidiancontroller);
 
 	boolean autosaveSupported();
 

@@ -9,15 +9,9 @@ public interface HasOffsets {
 
 	LinkedList<PointerEvent> getTouchEventPool();
 
-	int mouseEventX(int clientX);
-
-	int mouseEventY(int clientY);
-
-	int touchEventX(int clientX);
-
-	int touchEventY(int clientY);
-
 	int getEvID();
 
 	PointerEventType getDefaultEventType();
+
+	double getZoomLevel();
 }

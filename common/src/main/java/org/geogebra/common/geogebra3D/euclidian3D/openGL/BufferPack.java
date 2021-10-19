@@ -140,7 +140,9 @@ class BufferPack extends BufferPackAbstract {
 		} else {
 			textureBuffer.set(manager.textureArray, offset * 2, length * 2);
 		}
-		setColorAndLayer(manager.color, manager.layer, offset, length);
+		if (manager.color != null) {
+			setColorAndLayer(manager.color, manager.layer, offset, length);
+		}
 	}
 
 	/**
@@ -157,7 +159,10 @@ class BufferPack extends BufferPackAbstract {
 		vertexBuffer.set(manager.vertexArray, arrayOffset * 3, 0, length * 3);
 		normalBuffer.set(manager.normalArray, arrayOffset * 3, 0, length * 3);
 		textureBuffer.set(manager.textureArray, arrayOffset * 2, 0, length * 2);
-		setColorAndLayer(manager.color, manager.layer, 0, length);
+
+		if (manager.color != null) {
+			setColorAndLayer(manager.color, manager.layer, 0, length);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -174,7 +179,10 @@ class BufferPack extends BufferPackAbstract {
 			normalBuffer.set(manager.normalArray, offset * 3, length * 3);
 			textureBuffer.set(0, offset * 2, length * 2, 1);
 		}
-		setColorAndLayer(manager.color, manager.layer, offset, length);
+
+		if (manager.color != null) {
+			setColorAndLayer(manager.color, manager.layer, offset, length);
+		}
 	}
 
 	/* (non-Javadoc)

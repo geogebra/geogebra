@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -1194,13 +1195,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
 			for (int i = 0; i < ineqCount; i++) {
-				for (GeoPoint point : ineqs.get(i).getZeros()) {
-					if (Math.abs(point.getX() - px) < bestDist) {
-						bestDist = Math.abs(point.getX() - px);
+				for (double point : ineqs.get(i).getZeros()) {
+					if (Math.abs(point - px) < bestDist) {
+						bestDist = Math.abs(point - px);
 						if (yfun) {
-							P.setY(point.getX());
+							P.setY(point);
 						} else {
-							P.setX(point.getX());
+							P.setX(point);
 						}
 					}
 				}
@@ -3062,5 +3063,22 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		double[] minmax = new double[2];
 		GeoIntervalUtil.updateBoundaries(fun.getExpression(), minmax);
 		return minmax[1];
+	}
+
+	@Override
+	public void remove() {
+		removeZoomerAnimationListenerIfNeeded();
+		super.remove();
+	}
+
+	@Override
+	public void removeZoomerAnimationListenerIfNeeded() {
+		EuclidianView ev = app.getEuclidianView1();
+		if (ev != null) {
+			ev.getEuclidianController().removeZoomerAnimationListener(this);
+		}
+		if (app.hasEuclidianView2(1)) {
+			app.getEuclidianView2(1).getEuclidianController().removeZoomerAnimationListener(this);
+		}
 	}
 }

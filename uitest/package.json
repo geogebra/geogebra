@@ -7,10 +7,10 @@
     "*.js"
   ],
   "devDependencies": {
-    "@geogebra/web-test-harness": "0.1.10",
+    "@geogebra/web-test-harness": "0.1.11",
     "cypress": "^7.0.0",
     "cypress-image-snapshot": "^4.0.1",
-    "http-server": "^13.0.0",
+    "http-server": "^13.0.2",
     "jest-image-snapshot": "^4.5.1",
     "wait-on": "^6.0.0"
   },

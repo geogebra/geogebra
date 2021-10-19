@@ -63,7 +63,7 @@ public class VideoManagerW implements VideoManager {
 	public void createPreview(final GeoVideo geo) {
 		HTMLImageElement img = Dom.createImage();
 		img.setAttribute("crossorigin", "anonymous");
-		img.src = geo.getPreviewUrl();
+		img.src = app.getHost() + geo.getPreviewUrl();
 		img.addEventListener("load", (event) -> {
 				final MyImage prev = new MyImageW(img, false);
 				geo.setPreview(prev);
