@@ -192,13 +192,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
-		String content = tableModel.getHeaderAt(columnIndex);
-		SafeHtmlHeader header = headerCell.getHtmlHeader(getHeaderNameHTML(content));
+		String headerHTMLName = view.getHeaderNameHTML(columnIndex);
+		SafeHtmlHeader header = headerCell.getHtmlHeader(headerHTMLName);
 		header.setHeaderStyleNames("tableHeader");
 		return header;
-
-		String headerHTMLName = view.getHeaderNameHTML(columnIndex);
-		return headerCell.getHtmlHeader(headerHTMLName);
 	}
 
 	@Override
