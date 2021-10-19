@@ -5,6 +5,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -26,6 +27,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		super(autoHide, app.getPanel(), app);
 		setGlassEnabled(true);
 		addStyleName("calcChooser");
+		Dom.toggleClass(this, "smallScreen", app.getWidth() < 840);
+		app.registerPopup(this);
 		buildGUI();
 		Window.addResizeHandler(this);
 	}
@@ -73,6 +76,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	@Override
 	public void onResize(ResizeEvent event) {
 		if (isShowing()) {
+			Dom.toggleClass(this, "smallScreen", app.getWidth() < 840);
 			super.center();
 		}
 	}
