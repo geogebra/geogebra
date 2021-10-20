@@ -349,6 +349,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 	}
+
 	private int countZeros(double[] array) {
 		int count = 0;
 		for (double value : array) {
@@ -363,15 +364,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		double[] tmp;
 		if (countZeros(array) == 1) {
 			if (DoubleUtil.isZero(array[0])) {
-				swapEigens(0,2, array);
+				swapEigens(0, 2, array);
 			} else if (DoubleUtil.isZero(array[1])) {
-				swapEigens(1,2, array);
+				swapEigens(1, 2, array);
 			}
 		} else if (countZeros(array) == 2) {
 			if (!DoubleUtil.isZero(array[2])) {
-				swapEigens(2,0, array);
+				swapEigens(2, 0, array);
 			} else if (!DoubleUtil.isZero(array[1])) {
-				swapEigens(1,0, array);
+				swapEigens(1, 0, array);
 			}
 		}
 	}
@@ -479,7 +480,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		decomp = new EigenDecomposition(apacheMatrix);
 		eigenval = decomp.getRealEigenvalues();
 
-		for (int i=0; i<3; i++) {
+		for (int i = 0; i < 3; i++) {
 			eigenvectors[i] = decomp.getEigenvector(i).toArray();
 		}
 		arrangeEigens(eigenval);
