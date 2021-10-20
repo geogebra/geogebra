@@ -79,6 +79,7 @@ public class ContextMenuTV {
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		if (getColumnIdx() > 0) {
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
+			addShowHidePoints();
 			if (column instanceof GeoList) {
 				buildYColumnMenu();
 			} else {
@@ -96,22 +97,25 @@ public class ContextMenuTV {
 				dialogManager.openTableViewDialog(null);
 			}
 		});
-		addClear();
+		addCommand(() -> view.clearXColumn(), "ClearColumn", "clear");
 	}
 
 	private void buildYColumnMenu() {
 		addDelete();
-		addShowHidePoints();
 		wrappedPopup.addVerticalSeparator();
 		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
-		addStats(headerHTMLName + " Statistics", view::getStatistics1Var);
-		addStats("x, " + headerHTMLName + " Statistics", view::getStatistics2Var);
+		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var);
+		addStats(getStatisticsTransKey("x " + headerHTMLName), view::getStatistics2Var);
 		addCommand(this::showRegression, "Regression",
 				"regression");
 	}
 
+	private String getStatisticsTransKey(String argument) {
+		return app.getLocalization().getPlainDefault("AStatistics",
+				"%0 Statistics", argument);
+	}
+
 	private void buildFunctionColumnMenu() {
-		addShowHidePoints();
 		addEdit(() -> {
 			GuiManagerInterfaceW guiManager = getApp().getGuiManager();
 			if (guiManager != null) {
@@ -184,13 +188,6 @@ public class ContextMenuTV {
 
 	private void addEdit(Command cmd) {
 		addCommand(cmd, "Edit", "edit");
-	}
-
-	private void addClear() {
-		Command add = () -> {
-			// APPS-3122
-		};
-		addCommand(add, "ClearColumn", "clear");
 	}
 
 	/**

@@ -680,4 +680,23 @@ public class TableValuesViewTest extends BaseUnitTest {
 		view.getProcessor().processInput("2", view.getValues(), 0);
 		assertEquals("2", model.getCellAt(0, 0).getInput());
 	}
+
+	@Test
+	public void testFunctionAtUndefinedValues() {
+		setValuesSafe(-2, 2, 1);
+		assertEquals("-2", model.getCellAt(0, 0).getInput());
+		assertEquals("0", model.getCellAt(2, 0).getInput());
+		assertEquals("2", model.getCellAt(4, 0).getInput());
+
+		GeoElementFactory factory = getElementFactory();
+		GeoFunction function = factory.createFunction("g(x) = sqrt(x)");
+		showColumn(function);
+		assertEquals("", model.getCellAt(0, 1).getInput());
+		assertEquals("0", model.getCellAt(2, 1).getInput());
+		assertEquals("1.41", model.getCellAt(4, 1).getInput());
+
+		view.getProcessor().processInput("", view.getValues(), 4);
+		assertEquals("", model.getCellAt(4, 0).getInput());
+		assertEquals("", model.getCellAt(4, 1).getInput());
+	}
 }

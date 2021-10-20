@@ -1,5 +1,8 @@
 pipeline {
-    options { overrideIndexTriggers(false) }
+    options {
+        overrideIndexTriggers(false)
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
     agent {label 'Ubuntu'}
     triggers { 
         cron('H 10,19 * * 1-5') 

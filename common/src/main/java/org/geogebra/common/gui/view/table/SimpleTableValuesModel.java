@@ -8,7 +8,7 @@ import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -187,7 +187,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 					updateCell(evaluatable, i, index);
 					updatedXRow = i == 0 ? index : -1;
 				}
-			} else if (evaluatable instanceof GeoFunction && updatedXRow > -1) {
+			} else if (evaluatable instanceof GeoFunctionable && updatedXRow > -1) {
 				updateCell(evaluatable, i, updatedXRow);
 			}
 		}
@@ -318,6 +318,18 @@ class SimpleTableValuesModel implements TableValuesModel {
 			for (TableValuesListener listener : listeners) {
 				listener.notifyDatasetChanged(this);
 			}
+		}
+	}
+
+	/**
+	 * clears the first (x) column
+	 */
+	public void clearXColumn() {
+		GeoEvaluatable evaluatable = getEvaluatable(0);
+		if (evaluatable instanceof GeoList) {
+			((GeoList) evaluatable).setZero();
+			((GeoList) evaluatable).notifyUpdate();
+			kernel.getApplication().storeUndoInfo();
 		}
 	}
 }
