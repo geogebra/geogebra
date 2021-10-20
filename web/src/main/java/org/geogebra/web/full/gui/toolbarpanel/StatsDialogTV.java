@@ -32,7 +32,8 @@ public class StatsDialogTV extends ComponentDialog {
 	 * @param column column
 	 */
 	public StatsDialogTV(AppW app, TableValuesView view, int column) {
-		super(app, new DialogData("Statistics", "OK", null), false, true);
+		super(app, new DialogData("Statistics", "Close", null), true, true);
+		addStyleName("statistics");
 		this.column = column;
 		this.view = view;
 		
@@ -63,7 +64,7 @@ public class StatsDialogTV extends ComponentDialog {
 				if (row.isLaTeX()) {
 					Canvas canvas = DrawEquationW.paintOnCanvas((AppW) app,
 							value, null, 16,
-							GColor.newColor(102, 102, 102), false);
+							GColor.newColor(0, 0, 0, 0.87), false);
 					statPanel.add(canvas);
 				} else {
 					statPanel.add(new Label(value));
