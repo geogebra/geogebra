@@ -88,13 +88,17 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
 			createAndAddPoints(simpleModel, column);
 		} else {
-			setPoints(null, column);
+			setPoints(null, column, true);
 		}
 	}
 
-	private void setPoints(List<GeoPoint> list, int column) {
+	private void setPoints(List<GeoPoint> list, int column, boolean addColumn) {
 		initPoints(column);
-		points.add(column, list);
+		if (addColumn) {
+			points.add(column, list);
+		} else {
+			points.set(column, list);
+		}
 	}
 
 	private void initPoints(int column) {
@@ -105,7 +109,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	private void createAndAddPoints(SimpleTableValuesModel model, int column) {
 		List<GeoPoint> list = createPoints(model, column);
-		setPoints(list, column);
+		setPoints(list, column, false);
 	}
 
 	private List<GeoPoint> createPoints(SimpleTableValuesModel model, int column) {
