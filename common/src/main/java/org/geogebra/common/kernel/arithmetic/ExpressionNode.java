@@ -3740,7 +3740,6 @@ public class ExpressionNode extends ValidExpression
 		return forceList;
 	}
 
-
 	/**
 	 * Copy all attributes except for those set in constructor and the leaf flag
 	 *
