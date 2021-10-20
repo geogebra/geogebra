@@ -22,7 +22,7 @@ public class CommandsTest2D {
 	}
 
 	private void t(String input, String expect) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expect }, ap,
+		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expect }, ap,
 				StringTemplate.testTemplate);
 	}
 

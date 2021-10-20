@@ -56,12 +56,12 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	private static void t(String input, String expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	private static void t(String input, String expected, StringTemplate tpl) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
 				tpl);
 	}
 

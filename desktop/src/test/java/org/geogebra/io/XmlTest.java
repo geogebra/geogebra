@@ -27,7 +27,7 @@ public class XmlTest {
 
 	@Test
 	public void emptyAppTest() {
-		XmlTestUtil.testCurrentXML(app);
+		XmlTestUtil.checkCurrentXML(app);
 	}
 
 	@Test

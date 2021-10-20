@@ -100,7 +100,7 @@ public class DrawablesTest {
 					expectDrawableFor(geo), draw != null);
 			types.add(geo.getGeoClassType());
 		}
-		XmlTestUtil.testCurrentXML(app);
+		XmlTestUtil.checkCurrentXML(app);
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "", types.contains(type)
 					|| (GeoClass.IMPLICIT_SURFACE_3D == type

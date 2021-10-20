@@ -50,7 +50,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 		savedInlineText.setLineThickness(3);
 
 		String appXML = getApp().getXML();
-		XmlTestUtil.testCurrentXML(getApp());
+		XmlTestUtil.checkCurrentXML(getApp());
 		getApp().setXML(appXML, true);
 
 		GeoInlineText loadedInlineText = (GeoInlineText) lookup("testText");

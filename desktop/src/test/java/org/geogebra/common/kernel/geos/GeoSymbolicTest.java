@@ -47,13 +47,13 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	private void testValidResultCombinations(String input, String... validResults) {
-		AlgebraTestHelper.testValidResultCombinations(
+		AlgebraTestHelper.checkValidResultCombinations(
 				input, validResults,
 				ap, StringTemplate.testTemplate);
 	}
 
 	public void t(String input, Matcher<String> expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, Collections.singletonList(expected), ap,
+		AlgebraTestHelper.checkSyntaxSingle(input, Collections.singletonList(expected), ap,
 				StringTemplate.testTemplate);
 	}
 
