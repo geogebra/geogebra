@@ -349,39 +349,39 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 	}
-	private int countZeros(double[] arr) {
-		int cnt = 0;
-		for (double v : arr) {
-			if (DoubleUtil.isZero(v)) {
-				cnt++;
+	private int countZeros(double[] array) {
+		int count = 0;
+		for (double value : array) {
+			if (DoubleUtil.isZero(value)) {
+				count++;
 			}
 		}
-		return cnt;
+		return count;
 	}
 
-	private void arrangeEigens(double[] arr) {
+	private void arrangeEigens(double[] array) {
 		double[] tmp;
-		if (countZeros(arr) == 1) {
-			if (DoubleUtil.isZero(arr[0])) {
-				swapEigens(0,2, arr);
-			} else if (DoubleUtil.isZero(arr[1])) {
-				swapEigens(1,2, arr);
+		if (countZeros(array) == 1) {
+			if (DoubleUtil.isZero(array[0])) {
+				swapEigens(0,2, array);
+			} else if (DoubleUtil.isZero(array[1])) {
+				swapEigens(1,2, array);
 			}
-		} else if (countZeros(arr) == 2) {
-			if (!DoubleUtil.isZero(arr[2])) {
-				swapEigens(2,0, arr);
-			} else if (!DoubleUtil.isZero(arr[1])) {
-				swapEigens(1,0, arr);
+		} else if (countZeros(array) == 2) {
+			if (!DoubleUtil.isZero(array[2])) {
+				swapEigens(2,0, array);
+			} else if (!DoubleUtil.isZero(array[1])) {
+				swapEigens(1,0, array);
 			}
 		}
 	}
 
-	private void swapEigens(int i, int j, double[] arr) {
+	private void swapEigens(int i, int j, double[] array) {
 		double tmpVal;
 		double[] tmpVec;
-		tmpVal = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmpVal;
+		tmpVal = array[i];
+		array[i] = array[j];
+		array[j] = tmpVal;
 
 		tmpVec = eigenvectors[i];
 		eigenvectors[i] = eigenvectors[j];
@@ -475,8 +475,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		mat2d[1][2] = matrix[6];
 		mat2d[2][1] = matrix[6];
 
-		RealMatrix mm = MatrixUtils.createRealMatrix(mat2d);
-		decomp = new EigenDecomposition(mm);
+		RealMatrix apacheMatrix = MatrixUtils.createRealMatrix(mat2d);
+		decomp = new EigenDecomposition(apacheMatrix);
 		eigenval = decomp.getRealEigenvalues();
 
 		for (int i=0; i<3; i++) {
