@@ -1605,7 +1605,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void setAuxiliaryObject(final boolean flag) {
 		if (auxiliaryObject.isOn() != flag) {
-			auxiliaryObject = auxiliaryObject.toggle();
+			if (getMetasLength() > 0) {
+				// save e.g. segments created by polygon algo correctly in xml
+				// when set / not set auxiliary
+				if (auxiliaryObject.isOn()) {
+					setAuxiliaryObject(Auxiliary.NO_SAVE);
+				} else {
+					setAuxiliaryObject(Auxiliary.YES_SAVE);
+				}
+			} else {
+				auxiliaryObject = auxiliaryObject.toggle();
+			}
 			if (isLabelSet()) {
 				notifyUpdateAuxiliaryObject();
 			}
