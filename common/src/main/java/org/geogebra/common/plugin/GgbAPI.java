@@ -2432,12 +2432,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void setGraphicsOptions(int viewId, Object options) {
 		JsObjectWrapper opts = getWrapper(options);
 		EuclidianSettings es = app.getSettings().getEuclidian(viewId);
-		opts.ifPropertySet("rightAngleStyle", app::setRightAngleStyle);
+		opts.ifIntPropertySet("rightAngleStyle", app::setRightAngleStyle);
 		es.beginBatch();
-		opts.ifPropertySet("pointCapturing", es::setPointCapturing);
+		opts.ifIntPropertySet("pointCapturing", es::setPointCapturing);
 		opts.ifPropertySet("grid", es::showGrid);
 		opts.ifPropertySet("gridIsBold", es::setGridIsBold);
-		opts.ifPropertySet("gridType", es::setGridType);
+		opts.ifIntPropertySet("gridType", es::setGridType);
 		opts.ifPropertySet("bgColor",
 				(Consumer<String>) val3 -> es.setBackground(GColor.parseHexColor(val3)));
 		opts.ifPropertySet("gridColor",
