@@ -1976,7 +1976,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
-			if (w instanceof DialogBoxW	|| w instanceof ComponentDialog) {
+			if (w instanceof DialogBoxW || w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
 			}
