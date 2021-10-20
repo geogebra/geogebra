@@ -72,6 +72,7 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceInequality = false;
 	private boolean forceSurface = false;
 	private boolean forceAngle = false;
+	private boolean forceList = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -3730,6 +3731,15 @@ public class ExpressionNode extends ValidExpression
 	public boolean isForceAngle() {
 		return forceAngle;
 	}
+
+	public void setForceList() {
+		this.forceList = true;
+	}
+
+	public boolean isForceList() {
+		return forceList;
+	}
+
 
 	/**
 	 * Copy all attributes except for those set in constructor and the leaf flag

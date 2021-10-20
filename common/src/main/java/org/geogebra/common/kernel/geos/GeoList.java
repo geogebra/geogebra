@@ -948,6 +948,10 @@ public class GeoList extends GeoElement
 				StringUtil.encodeXML(sb,
 						toValueString(StringTemplate.xmlTemplate));
 			}
+			if (getTableColumn() != -1) {
+				sb.append("\" type=\"");
+				sb.append("list");
+			}
 			sb.append("\"/>\n");
 		}
 
