@@ -57,6 +57,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			return list;
 		}
 	}
+
 	private void ensureCapacity(GeoList list, int index) {
 		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
