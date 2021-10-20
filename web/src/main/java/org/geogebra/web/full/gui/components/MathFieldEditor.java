@@ -25,6 +25,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -366,5 +367,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 	public void adjustCaret(double x, double y) {
 		mathField.adjustCaret((int) x, (int) y);
+	}
+
+	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
+		mathField.getInternal().setUnhandledArrowListener(listener);
 	}
 }

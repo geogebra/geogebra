@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -63,21 +64,6 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
 		notifyColumnChanged(model, evaluatable, column);
-	}
-
-	@Override
-	public void notifyRowRemoved(TableValuesModel model, int row) {
-		// TODO
-	}
-
-	@Override
-	public void notifyRowChanged(TableValuesModel model, int row) {
-		// TODO
-	}
-
-	@Override
-	public void notifyRowAdded(TableValuesModel model, int row) {
-		// TODO
 	}
 
 	@Override
@@ -146,7 +132,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	private static void maybeSetPointColor(GeoPoint point,
 			GeoEvaluatable evaluatable) {
-		GColor color = evaluatable.isGeoFunction() ? evaluatable.getObjectColor()
+		GColor color = evaluatable instanceof GeoFunctionable ? evaluatable.getObjectColor()
 				: GColor.MIND_MAP_PARENT_BORDER_COLOR;
 		point.setObjColor(color);
 	}

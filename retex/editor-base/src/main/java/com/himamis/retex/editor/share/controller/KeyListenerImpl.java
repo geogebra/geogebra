@@ -84,30 +84,28 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_LEFT:
-			cursorController.prevCharacter(editorState);
+			boolean ret = cursorController.prevCharacter(editorState);
 			if (shiftPressed) {
 				editorState.extendSelection(true);
 			} else {
 				editorState.resetSelection();
 			}
-			return true;
+			return ret;
 		case JavaKeyCodes.VK_RIGHT:
 			if (InputController.trySelectNext(editorState)) {
 				return true;
 			}
-			CursorController.nextCharacter(editorState);
+			ret = CursorController.nextCharacter(editorState);
 			if (shiftPressed) {
 				editorState.extendSelection(false);
 			} else {
 				editorState.resetSelection();
 			}
-			return true;
+			return ret;
 		case JavaKeyCodes.VK_UP:
-			cursorController.upField(editorState);
-			return true;
+			return cursorController.upField(editorState);
 		case JavaKeyCodes.VK_DOWN:
-			cursorController.downField(editorState);
-			return true;
+			return cursorController.downField(editorState);
 		case JavaKeyCodes.VK_DELETE:
 			if (!InputController.deleteSelection(editorState)) {
 				inputController.delCharacter(editorState);
