@@ -49,6 +49,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (list == null) {
 			GeoList column = new GeoList(cons);
 			ensureCapacity(column, rowIndex);
+			column.setAuxiliaryObject(true);
 			column.notifyAdd();
 			tableValues.doShowColumn(column);
 			return column;
