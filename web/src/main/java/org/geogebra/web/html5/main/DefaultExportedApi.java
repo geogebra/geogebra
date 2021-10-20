@@ -1049,7 +1049,7 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void setGraphicsOptions(Object arg1, Object arg2) {
 		if (Js.isTruthy(arg2)) {
-			ggbAPI.setGraphicsOptions((int) Js.coerceToDouble(arg1), arg2);
+			ggbAPI.setGraphicsOptions(Js.coerceToInt(arg1), arg2);
 		} else {
 			ggbAPI.setGraphicsOptions(arg1);
 		}
