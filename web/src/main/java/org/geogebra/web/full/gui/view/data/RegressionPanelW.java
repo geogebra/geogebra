@@ -61,7 +61,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	 *            invoking instance of DataAnalysisView
 	 */
 	public RegressionPanelW(AppW app, DataAnalysisViewW statDialog) {
-
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.statDialog = statDialog;
@@ -136,7 +135,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	 * Creates a panel to evaluate the regression model for a given x value
 	 */
 	private void createPredictionPanel() {
-
 		lblEvaluate = new Label();
 		fldInputX = new AutoCompleteTextFieldW(6, app);
 		
@@ -162,15 +160,13 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	 * Updates the regression equation label and the prediction panel
 	 */
 	public void updateRegressionPanel() {
-
 		if (statDialog.getController().isValidData()) {
 			setRegressionEquationLabel();
-				doTextFieldActionPerformed(fldInputX);
+			doTextFieldActionPerformed(fldInputX);
 		} else {
 			setRegressionEquationLabelEmpty();
 		}
 		updateGUI();
-
 	}
 
 	/**
@@ -182,12 +178,9 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	}
 
 	private void setRegressionLabels(Localization loc) {
-
 		for (Regression r : Regression.values()) {
-
 			regressionLabels[r.ordinal()] = loc.getMenu(r.getLabel());
 		}
-
 	}
 
 	/**
@@ -214,18 +207,14 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		lblEqn.setText(loc.getMenu("Equation") + ":");
 
 		lblEvaluate.setText(loc.getMenu("Evaluate") + ": ");
-
 	}
 
 	/**
 	 * Draws the regression equation into the regression equation JLabel icon
 	 */
 	public void setRegressionEquationLabel() {
-
 		// get the LaTeX string for the regression equation
-
 		String eqn;
-		// GeoElement geoRegression = statDialog.getRegressionModel();
 
 		try {
 			// prepare number format
@@ -242,9 +231,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 			if (daModel.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
 				eqn = "";
-			}
-
-			else {
+			} else {
 				eqn = "y = "
 						+ statDialog.getRegressionModel().getFormulaString(
 								highPrecision, true);
@@ -319,7 +306,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	@Override
 	public void updatePanel() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public int getRegressionIdx() {
