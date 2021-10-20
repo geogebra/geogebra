@@ -1925,8 +1925,23 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public Function getFunction() {
+		Function definitionFn = definitionAsFunction(getDefinition());
+		if (definitionFn != null) {
+			return definitionFn;
+		}
 		// f(x_var) = -x/y x_var - z/y
 		return createLinearFunction(-x / y, -z / y);
+	}
+
+	/**
+	 * @param definition definition
+	 * @return definition converted to function
+	 */
+	public static Function definitionAsFunction(ExpressionNode definition) {
+		if (definition != null && definition.unwrap() instanceof Equation) {
+			return ((Equation) definition.unwrap()).asFunction();
+		}
+		return null;
 	}
 
 	private Function createLinearFunction(double slope, double constant) {

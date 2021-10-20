@@ -909,4 +909,17 @@ public class Equation extends ValidExpression implements EquationValue {
 				&& !getRHS().containsFreeFunctionVariable(varName);
 	}
 
+	/**
+	 * Converts equation ofthe form y=f(x) to a function
+	 * @return this as function of x or null if not possible
+	 */
+	public Function asFunction() {
+		if ("y".equals(lhs.toString(StringTemplate.defaultTemplate))
+				&& !rhs.containsFreeFunctionVariable("y")) {
+			FunctionVariable x = new FunctionVariable(kernel);
+			rhs.replaceVariables("x", x);
+			return new Function(rhs, x);
+		}
+		return null;
+	}
 }

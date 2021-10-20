@@ -652,6 +652,10 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	@Override
 	public Function getFunction() {
+		Function definitionFn = GeoLine.definitionAsFunction(getDefinition());
+		if (definitionFn != null) {
+			return definitionFn;
+		}
 		FunctionVariable x = new FunctionVariable(kernel);
 		ExpressionNode expr;
 		if (isRealValuedFunction()) {
