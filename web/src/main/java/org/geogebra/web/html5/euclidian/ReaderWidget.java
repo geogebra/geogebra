@@ -102,7 +102,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 */
 	@Override
 	public void readText(String text) {
-		if (!hasParentWindow() && !Browser.needsAccessibilityView()) {
+		if (!Browser.needsAccessibilityView()) {
 			readTextImmediate(text);
 		}
 	}
@@ -133,9 +133,4 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 			scrollElement = DomGlobal.document.body;
 		}
 	}
-
-	private static boolean hasParentWindow() {
-		return DomGlobal.window.parent != DomGlobal.window;
-	}
-
 }
