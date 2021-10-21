@@ -430,6 +430,10 @@ public abstract class RendererImpl {
 
 	public abstract void setLabelOrigin(float[] origin);
 
+	public void setLabelLocation(float[] location) {
+		// Used for rotation in some shaders
+	}
+
 	public abstract void enableLighting();
 
 	public abstract void disableLighting();

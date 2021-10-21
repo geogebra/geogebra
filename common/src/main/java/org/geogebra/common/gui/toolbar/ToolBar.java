@@ -308,6 +308,7 @@ public class ToolBar {
 		tools.add(EuclidianConstants.MODE_VIDEO);
 		tools.add(EuclidianConstants.MODE_AUDIO);
 		tools.add(EuclidianConstants.MODE_PDF);
+		tools.add(EuclidianConstants.MODE_MIND_MAP);
 		return tools;
 	}
 
