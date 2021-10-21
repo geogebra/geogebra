@@ -137,7 +137,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor = new CarotaEditor(DrawInlineText.PADDING);
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
-		EventUtil.stopPointerEvents(widget.getElement(), evt  -> evt.getButton() <= 0);
+		EventUtil.stopPointerEvents(widget.getElement(), btn -> btn <= 0);
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
 		parent.appendChild(editor.getWidget().getElement());

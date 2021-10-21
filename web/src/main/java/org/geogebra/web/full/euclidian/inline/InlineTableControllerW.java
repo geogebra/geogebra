@@ -398,7 +398,7 @@ public class InlineTableControllerW implements InlineTableController {
 	private void initTable(Element parent) {
 		tableElement = DOM.createDiv();
 		tableElement.addClassName("mowWidget");
-		EventUtil.stopPointerEvents(tableElement, evt  -> evt.getButton() <= 0);
+		EventUtil.stopPointerEvents(tableElement, btn  -> btn <= 0);
 		parent.appendChild(tableElement);
 
 		style = tableElement.getStyle();

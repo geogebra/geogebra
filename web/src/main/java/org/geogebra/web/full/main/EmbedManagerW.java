@@ -45,6 +45,7 @@ import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
@@ -228,6 +229,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
 				.getPanel(App.VIEW_EUCLIDIAN);
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
+		EventUtil.stopPointer(container.getElement());
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {

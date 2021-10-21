@@ -91,14 +91,16 @@ public final class EventUtil {
 	}
 
 	/**
-	 * Stops propagating pointer events that match a predicate.
+	 * Stops propagating pointer events such that the button matches a predicate.
+	 * (we're checking the button instead od the whole event because of ClassCast
+	 * for native types in lambdas...)
 	 * @param element target element
 	 */
-	public static void stopPointerEvents(Element element, Predicate<NativePointerEvent> check) {
+	public static void stopPointerEvents(Element element, Predicate<Integer> check) {
 		for (String evtName : new String[]{"pointerup", "pointerdown"}) {
 			Dom.addEventListener(element, evtName, e -> {
 				NativePointerEvent ptrEvent = Js.uncheckedCast(e);
-				if (check.evaluate(ptrEvent)) {
+				if (check.evaluate(ptrEvent.getButton())) {
 					e.stopPropagation();
 				}
 			});
