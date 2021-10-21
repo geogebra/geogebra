@@ -79,6 +79,7 @@ public class ContextMenuTV {
 		wrappedPopup.getPopupPanel().addStyleName("tvContextMenu");
 		if (getColumnIdx() > 0) {
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
+			addShowHidePoints();
 			if (column instanceof GeoList) {
 				buildYColumnMenu();
 			} else {
@@ -101,11 +102,10 @@ public class ContextMenuTV {
 
 	private void buildYColumnMenu() {
 		addDelete();
-		addShowHidePoints();
 		wrappedPopup.addVerticalSeparator();
 		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
 		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var);
-		addStats(getStatisticsTransKey("x, " + headerHTMLName), view::getStatistics2Var);
+		addStats(getStatisticsTransKey("x " + headerHTMLName), view::getStatistics2Var);
 		addCommand(this::showRegression, "Regression",
 				"regression");
 	}
@@ -116,7 +116,6 @@ public class ContextMenuTV {
 	}
 
 	private void buildFunctionColumnMenu() {
-		addShowHidePoints();
 		addEdit(() -> {
 			GuiManagerInterfaceW guiManager = getApp().getGuiManager();
 			if (guiManager != null) {
