@@ -10,7 +10,7 @@ public class GeoFunctionNVarTest extends BaseUnitTest {
 
 	@Test
 	public void testNVarInequalityPreserved() {
-		GeoFunctionNVar func = addAvInput("a: x < y");
+		addAvInput("a: x < y");
 		addAvInput("SetValue(a, ?)");
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("a: ?", lookup("a").toString(StringTemplate.defaultTemplate));

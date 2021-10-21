@@ -129,17 +129,15 @@ public class MathFieldCommon implements MathField {
 
 	@Override
 	public void parse(String str) {
-
+		// stub
 	}
 
 	@Override
 	public void setPlainText(String str) {
-
+		// stub
 	}
 
-	/**
-	 * @return common implementation
-	 */
+	@Override
 	public MathFieldInternal getInternal() {
 		return internal;
 	}

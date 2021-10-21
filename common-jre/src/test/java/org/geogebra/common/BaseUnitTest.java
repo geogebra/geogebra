@@ -146,7 +146,7 @@ public class BaseUnitTest {
 	}
 
 	protected void t(String input, String... expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, expected,
+		AlgebraTestHelper.checkSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),
 				StringTemplate.xmlTemplate);
 	}

@@ -25,6 +25,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.CASTestLogger;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,15 +41,15 @@ public abstract class CasTestJsonCommon {
 	protected static String missing = null;
 
 	static class CasTest {
+		protected String input;
+		protected String output;
+		protected String rounding;
+
 		public CasTest(String input, String output, String rounding) {
 			this.input = input;
 			this.output = output;
 			this.rounding = rounding;
 		}
-
-		protected String input;
-		protected String output;
-		protected String rounding;
 	}
 
 	protected static String skipComments(List<String> lines) {
@@ -72,7 +73,7 @@ public abstract class CasTestJsonCommon {
 
 			i++;
 			if (!(testVal instanceof JSONObject)) {
-				System.err.println("Invalid JSON:" + testVal);
+				Log.error("Invalid JSON:" + testVal);
 				continue;
 			}
 			JSONObject test = (JSONObject) testVal;
@@ -80,7 +81,7 @@ public abstract class CasTestJsonCommon {
 			if (test.has("cat")) {
 				cat = test.getString("cat");
 			} else {
-				Assert.fail("Missing category:" + testVal.toString());
+				Assert.fail("Missing category:" + testVal);
 			}
 			if (!testcases.containsKey(cat)) {
 				testcases.put(cat, new ArrayList<>());
@@ -115,7 +116,7 @@ public abstract class CasTestJsonCommon {
 
 	protected static void checkMissingCategories() {
 		for (String key : Ggb2giac.getMap(app).keySet()) {
-			if (testcases.get(key) == null
+			if (testcases != null && testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
 					&& forCAS(key) && !"ApproximateSolution.3".equals(key)
 					&& !"AssumeInteger.2".equals(key)
@@ -158,7 +159,7 @@ public abstract class CasTestJsonCommon {
 		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
 				new StringBuilder() };
 		for (CasTest cmd : cases) {
-			System.out.println(cmd.input);
+			Log.debug(cmd.input);
 			if (!StringUtil.empty(cmd.rounding)) {
 				app.setRounding(cmd.rounding);
 			} else {

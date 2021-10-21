@@ -84,4 +84,9 @@ public class PathPlotterMock implements PathPlotter {
 		}
 		return super.equals(obj);
 	}
+
+	@Override
+	public int hashCode() {
+		return result().hashCode();
+	}
 }

@@ -34,6 +34,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.hamcrest.Matcher;
@@ -51,6 +52,7 @@ public class CommandsTest {
 	static AppCommon3D app;
 	static AlgebraProcessor ap;
 	static List<Integer> signature;
+	private static int syntaxes = -1000;
 
 	private static void tRound(String s, String... expected) {
 		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
@@ -96,14 +98,11 @@ public class CommandsTest {
 				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
 						app1);
 			}
-			System.out.println();
-			System.out.print(cmdName);
+			Log.debug(cmdName);
 		}
 		syntaxes--;
-		AlgebraTestHelper.testSyntaxSingle(s, expected, proc, tpl);
+		AlgebraTestHelper.checkSyntaxSingle(s, expected, proc, tpl);
 	}
-
-	private static int syntaxes = -1000;
 
 	@Before
 	public void resetSyntaxes() {
@@ -603,7 +602,6 @@ public class CommandsTest {
 		Assert.assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
 		t("SetValue(f, x^2)");
 		Assert.assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
-		System.out.println(app.getXML());
 		Assert.assertEquals(GeoClass.FUNCTION, get("f").getGeoClassType());
 	}
 

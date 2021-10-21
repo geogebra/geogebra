@@ -88,7 +88,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testImaginary() {
 		allowMultipleUnassigned();
-		shouldReplaceAs("isqrt3", String.valueOf(Unicode.IMAGINARY) + " * sqrt(3)");
+		shouldReplaceAs("isqrt3", Unicode.IMAGINARY + " * sqrt(3)");
 	}
 
 	@Test
