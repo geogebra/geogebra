@@ -25,8 +25,9 @@ public interface TableValuesModel {
 	 * @param element element
 	 * @param column column
 	 * @param rowIndex row index
+	 * @param oldRowCount row count before setting the new element
 	 */
-	void set(GeoElement element, GeoList column, int rowIndex);
+	void set(GeoElement element, GeoList column, int rowIndex, int oldRowCount);
 
 	/**
 	 * Get the number of rows in the table.
@@ -64,11 +65,6 @@ public interface TableValuesModel {
 	 * Ends the batch update. Calls TableValuesListener.notifyDatasetChanged(TableValuesModel).
 	 */
 	void endBatchUpdate();
-
-	/**
-	 * @return empty value
-	 */
-	GeoElement createEmptyValue();
 
 	/**
 	 * @param element element

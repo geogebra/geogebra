@@ -30,35 +30,54 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	@Override
-	public void processInput(@Nonnull String input, GeoList list, int index) {
+	public void processInput(@Nonnull String input, GeoList list, int rowIndex) {
 		GeoElement element = parseInput(input);
-		if (model.isEmptyValue(element) && (list == null || index >= list.size())) {
+		if (model.isEmptyValue(element) && (list == null || rowIndex >= list.size())) {
 			// Do not process empty input at the end of the table
 			// And do not add empty element to an already empty list
 			return;
 		}
-		model.set(element, ensureList(list), index);
+		int oldRowCount = model.getRowCount();
+		model.set(element, ensureList(list, rowIndex), rowIndex, oldRowCount);
 		if (list == tableValues.getValues()) {
 			settings.setValueList(list);
 		}
 		cons.getUndoManager().storeUndoInfo();
 	}
 
-	private GeoList ensureList(GeoList list) {
+	private GeoList ensureList(GeoList list, int rowIndex) {
 		if (list == null) {
 			GeoList column = new GeoList(cons);
+			ensureCapacity(column, rowIndex);
 			column.setAuxiliaryObject(true);
 			column.notifyAdd();
 			tableValues.doShowColumn(column);
 			return column;
+		} else {
+			ensureCapacity(list, rowIndex);
+			return list;
 		}
-		return list;
+	}
+
+	private void ensureCapacity(GeoList list, int index) {
+		boolean listWillChange = list.size() < index + 1;
+		list.ensureCapacity(index + 1);
+		for (int i = list.size(); i < index + 1; i++) {
+			list.add(createEmptyValue());
+		}
+		if (listWillChange) {
+			list.notifyUpdate();
+		}
+	}
+
+	private GeoElement createEmptyValue() {
+		return new GeoText(cons, "");
 	}
 
 	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return model.createEmptyValue();
+			return createEmptyValue();
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);
