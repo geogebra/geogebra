@@ -12,13 +12,13 @@ import org.geogebra.common.util.StringUtil;
 public class TableSettings extends AbstractSettings {
 
 	/** The default value for valuesMin */
-	public static final double DEFAULT_MIN = 0;
+	public static final double DEFAULT_MIN = -2;
 
 	/** The default value for valuesMax */
-	public static final double DEFAULT_MAX = 0;
+	public static final double DEFAULT_MAX = 2;
 
 	/** The default value for valuesStep */
-	public static final double DEFAULT_STEP = 0;
+	public static final double DEFAULT_STEP = 1;
 
 	private double valuesMin = DEFAULT_MIN;
 	private double valuesMax = DEFAULT_MAX;
