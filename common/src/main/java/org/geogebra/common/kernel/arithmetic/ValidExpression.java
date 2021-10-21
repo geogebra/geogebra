@@ -251,7 +251,7 @@ public abstract class ValidExpression
 	 */
 	public final String toAssignmentLaTeXString(StringTemplate tpl,
 			AssignmentType assignmentType) {
-		if (labels != null) {
+		if (labelCount() == 0) {
 			return toLaTeXString(true, tpl);
 		}
 
