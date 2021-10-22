@@ -2,6 +2,7 @@ package org.geogebra.web.full.cas.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
@@ -90,6 +91,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		// autocommitting empty text produces $1
 		if (!isSuggesting()) {
 			onEnter(false);
+			controller.stopEditing();
 		}
 	}
 
@@ -190,7 +192,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 			return;
 		}
 		// got here by blur: do not use previous cell ref
-		if (!keepFocus && StringUtil.empty(getText())) {
+		if (!keepFocus && (StringUtil.empty(getText())
+				|| Objects.equals(controller.getTextBeforeEdit(), getText()))) {
 			this.setFocus(false);
 			return;
 		}
