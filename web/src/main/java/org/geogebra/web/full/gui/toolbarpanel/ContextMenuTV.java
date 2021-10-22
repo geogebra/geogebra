@@ -104,14 +104,16 @@ public class ContextMenuTV {
 		addDelete();
 		addShowHidePoints();
 		wrappedPopup.addVerticalSeparator();
+
 		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
 		DialogData oneVarStat = new DialogData("1VariableStatistics",
-				getColumnTransKey(headerHTMLName),
-				"Close", null);
+				getColumnTransKey(headerHTMLName), "Close", null);
 		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var, oneVarStat);
+
 		DialogData twoVarStat = new DialogData("2VariableStatistics",
 				getColumnTransKey("x " + headerHTMLName), "Close", null);
 		addStats(getStatisticsTransKey("x, " + headerHTMLName), view::getStatistics2Var, twoVarStat);
+
 		addCommand(this::showRegression, "Regression",
 				"regression");
 	}

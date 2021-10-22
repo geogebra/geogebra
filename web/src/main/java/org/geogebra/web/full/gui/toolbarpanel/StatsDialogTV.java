@@ -28,6 +28,7 @@ public class StatsDialogTV extends ComponentDialog {
 	 * @param app application
 	 * @param view table view
 	 * @param column column
+	 * @param data dialog data
 	 */
 	public StatsDialogTV(AppW app, TableValuesView view, int column, DialogData data) {
 		super(app, data, true, true);
