@@ -336,6 +336,18 @@ public final class GColor implements GPaint {
 	}
 
 	/**
+	 * Returns true if this color is darker than the color in the parameter.
+	 * Darkerk means that all RGB components have a lower value.
+	 * @param color color
+	 * @return true if this color is darker
+	 */
+	public boolean isDarkerThan(GColor color) {
+		return getRed() < color.getRed()
+				&& getBlue() < color.getBlue()
+				&& getGreen() < color.getGreen();
+	}
+
+	/**
 	 * This method could return Long, but it returns Integer for
 	 * backwards-compatibility, even if it's negative
 	 * 

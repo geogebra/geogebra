@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
-import org.geogebra.common.util.debug.Log;
 import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {

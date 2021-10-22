@@ -8,7 +8,7 @@ import org.junit.Assert;
 /**
  * Error handler that fails a JUnit test when error is found
  */
-public class TestErrorHandler implements ErrorLogger {
+public final class TestErrorHandler implements ErrorLogger {
 
 	/**
 	 * Singleton instance

@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "com.github.spotbugs" version "4.7.8"
+    id "com.github.spotbugs" version "4.7.9"
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')

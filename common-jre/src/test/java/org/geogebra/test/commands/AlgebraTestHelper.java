@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.matcher.MultipleResultsMatcher;
 import org.hamcrest.Matcher;
@@ -106,7 +107,7 @@ public class AlgebraTestHelper {
 	 * @param tpl
 	 *            template
 	 */
-	public static void testSyntaxSingle(String s,
+	public static void checkSyntaxSingle(String s,
 			List<Matcher<String>> expected, AlgebraProcessor proc,
 			StringTemplate tpl) {
 		Throwable t = null;
@@ -118,24 +119,20 @@ public class AlgebraTestHelper {
 		}
 
 		if (t != null) {
-			t.printStackTrace();
+			Log.debug(t);
 		}
 		if (t instanceof AssertionError) {
 			throw (AssertionError) t;
 		}
 		assertNull(t);
 		Assert.assertNotNull(s, result);
-		// for (int i = 0; i < result.length; i++) {
-		// String actual = result[i].toValueString(tpl);
-		// System.out.println("\"" + actual + "\",");
-		// }
 		Assert.assertEquals(s + " count:", expected.size(), result.length);
 
 		for (int i = 0; i < expected.size(); i++) {
 			String actual = result[i].toValueString(tpl);
 			MatcherAssert.assertThat(s + ":" + actual, actual, expected.get(i));
 		}
-		System.out.print("+");
+		Log.debug("+");
 	}
 
 	private static GeoElementND[] getResult(String input, AlgebraProcessor algebraProcessor) {
@@ -158,7 +155,7 @@ public class AlgebraTestHelper {
 	 * @param algebraProcessor algebra processor
 	 * @param template string template
 	 */
-	public static void testValidResultCombinations(
+	public static void checkValidResultCombinations(
 			String input,
 			String[] validResultCombinations,
 			AlgebraProcessor algebraProcessor,
@@ -193,7 +190,7 @@ public class AlgebraTestHelper {
 	 * @param algebraProcessor algebra processor
 	 * @param template string template
 	 */
-	public static void testMultipleResults(String input,
+	public static void checkMultipleResults(String input,
 										   String[][] validResults,
 										   AlgebraProcessor algebraProcessor,
 										   StringTemplate template) {
@@ -222,9 +219,9 @@ public class AlgebraTestHelper {
 	 * @param tpl
 	 *            template
 	 */
-	public static void testSyntaxSingle(String input, String[] expected,
+	public static void checkSyntaxSingle(String input, String[] expected,
 			AlgebraProcessor proc, StringTemplate tpl) {
-		testSyntaxSingle(input, getMatchers(expected), proc, tpl);
+		checkSyntaxSingle(input, getMatchers(expected), proc, tpl);
 	}
 
 	/**

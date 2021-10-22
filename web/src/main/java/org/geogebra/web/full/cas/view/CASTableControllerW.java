@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -43,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CASTableControllerW extends CASTableCellController implements
         MouseDownHandler, MouseUpHandler, MouseMoveHandler, KeyHandler,
-        BlurHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler,
+        TouchStartHandler, TouchEndHandler, TouchMoveHandler,
         LongTouchHandler {
 
 	private CASViewW view;
@@ -423,16 +421,13 @@ public class CASTableControllerW extends CASTableCellController implements
 			return true;
 		}
 		return false;
-
 	}
 
-	@Override
-	public void onBlur(BlurEvent event) {
-		CASTableCellEditor editor = view.getConsoleTable().getEditor();
-		if (!((CASEditorW) editor).isSuggesting()) {
-			view.getConsoleTable().stopEditing();
-			view.getConsoleTable().setFirstRowFront(false);
-		}
+	public String getTextBeforeEdit() {
+		return view.getConsoleTable().getTextBeforeEdit();
 	}
 
+	public void stopEditing() {
+		view.getConsoleTable().stopEditing();
+	}
 }
