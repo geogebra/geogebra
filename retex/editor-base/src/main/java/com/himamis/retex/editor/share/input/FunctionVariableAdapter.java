@@ -11,7 +11,9 @@ public class FunctionVariableAdapter
 	public void commit(MathFieldInternal mfi, String input) {
 		String raw = input.replaceAll(VARIABLE_TAG, "");
 		KeyboardInputAdapter.type(mfi, raw);
-		CursorController.nextCharacter(mfi.getEditorState());
+		if (raw.contains("_")) {
+			CursorController.nextCharacter(mfi.getEditorState());
+		}
 	}
 
 	@Override
