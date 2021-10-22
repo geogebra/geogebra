@@ -32,7 +32,7 @@ public class StatsDialogTV extends ComponentDialog {
 	 */
 	public StatsDialogTV(AppW app, TableValuesView view, int column, DialogData data) {
 		super(app, data, true, true);
-		addStyleName("statistics hasBorder");
+		addStyleName("statistics");
 		this.column = column;
 		this.view = view;
 	}

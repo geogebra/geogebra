@@ -1826,7 +1826,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.dialogContent {
 			max-height: 426px;
-			height: calc(100% - 122px);
+			height: calc(100% - 114px);
+			box-sizing: border-box;
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
 
 			.group {
 				height: 64px;
