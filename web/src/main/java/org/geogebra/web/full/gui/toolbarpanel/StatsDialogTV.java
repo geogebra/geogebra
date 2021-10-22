@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.statistics.Regression;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -15,7 +14,6 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -31,12 +29,11 @@ public class StatsDialogTV extends ComponentDialog {
 	 * @param view table view
 	 * @param column column
 	 */
-	public StatsDialogTV(AppW app, TableValuesView view, int column) {
-		super(app, new DialogData("Statistics", "Close", null), true, true);
-		addStyleName("statistics");
+	public StatsDialogTV(AppW app, TableValuesView view, int column, DialogData data) {
+		super(app, data, true, true);
+		addStyleName("statistics hasBorder");
 		this.column = column;
 		this.view = view;
-		
 	}
 
 	/**
@@ -55,21 +52,27 @@ public class StatsDialogTV extends ComponentDialog {
 		}
 		this.statPanel = new FlowPanel();
 		for (StatisticGroup row: statistics) {
+			FlowPanel group = new FlowPanel();
+			group.addStyleName("group");
+
 			Label heading = new Label(row.getHeading());
-			heading.getElement().getStyle().setColor(StringUtil.toHtmlColor(GColor.LIGHT_GRAY));
-			heading.getElement().getStyle().setFontSize(.7, Style.Unit.EM);
-			heading.getElement().getStyle().setMarginTop(.5, Style.Unit.EM);
-			statPanel.add(heading);
+			heading.addStyleName("heading");
+			group.add(heading);
+
 			for (String value: row.getValues()) {
 				if (row.isLaTeX()) {
 					Canvas canvas = DrawEquationW.paintOnCanvas((AppW) app,
 							value, null, 16,
 							GColor.newColor(0, 0, 0, 0.87), false);
-					statPanel.add(canvas);
+					canvas.addStyleName("value");
+					group.add(canvas);
 				} else {
-					statPanel.add(new Label(value));
+					Label valueLbl = new Label(value);
+					valueLbl.addStyleName("value");
+					group.add(valueLbl);
 				}
 			}
+			statPanel.add(group);
 		}
 		addDialogContent(statPanel);
 	}
