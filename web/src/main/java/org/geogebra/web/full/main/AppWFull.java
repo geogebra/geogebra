@@ -922,7 +922,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
-		afterLocalizationLoaded(() -> getPerspectivesPopup().showPerspectivesPopup());
+		afterLocalizationLoaded(() -> getPerspectivesPopup().show());
 	}
 
 	private boolean isAppletWithoutAppsPicker() {
@@ -1396,6 +1396,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		frame.attachGlass();
+		showPerspectivesPopupIfNeeded();
 	}
 
 	private void refreshSplitLayoutPanel() {

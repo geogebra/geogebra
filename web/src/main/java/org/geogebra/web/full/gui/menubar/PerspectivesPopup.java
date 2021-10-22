@@ -5,193 +5,142 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.dom.client.AnchorElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
-/**
- * Apps Picker Dialog for new Start screen (GGB-992)
- */
-public class PerspectivesPopup {
-	/** dialog */
-	private DialogBoxW box;
-	/** application */
+public class PerspectivesPopup implements HasKeyboardPopup {
+	protected GPopupMenuW wrappedPopup;
 	final AppWFull app;
-	private FlowPanel contentPanel;
 
 	/**
-	 * @param app
-	 *            application
+	 * constructor
+	 * @param app see {@link AppWFull}
 	 */
 	public PerspectivesPopup(final AppWFull app) {
 		this.app = app;
-		box = new DialogBoxW(true, false, null, app.getPanel(), app) {
-			@Override
-			public void setPopupPosition(int left, int top) {
-				super.setPopupPosition(left,
-						Math.max(0, (int) (app.getHeight() / 2 - 250)));
-			}
-		};
-
-		box.setGlassEnabled(false);
-
-		this.contentPanel = new FlowPanel();
-		contentPanel.removeStyleName("dialogContent");
-		contentPanel.addStyleName("perspectivesMainPanel");
-
-		box.setWidget(contentPanel);
-		box.addStyleName("perspectivesBox");
-
-		box.getCaption().asWidget().addStyleName("perspectivesCaption");
+		wrappedPopup = new GPopupMenuW(app);
+		wrappedPopup.getPopupPanel().addStyleName("perspectivePopup");
+		buildGUI();
+		addResizeHandler();
 	}
 
-	/**
-	 * Show the popup!
-	 */
-	public void showPerspectivesPopup() {
-		setLabels();
-		box.show();
+	private void addResizeHandler() {
+		Window.addResizeHandler(event ->
+				wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
+						(int) ((app.getHeight() - 426) / 2)));
 	}
 
-	private void setLabels() {
+	private void buildGUI() {
+		wrappedPopup.clearItems();
+		addHeader();
+		wrappedPopup.addVerticalSeparator();
+
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
-		contentPanel.clear();
-		addPerspective(0, pr.menu_icon_algebra_transparent());
-		addPerspective(1, pr.menu_icon_geometry_transparent());
+		addPerspectiveItem(pr.menu_icon_algebra_transparent(), 0);
+		addPerspectiveItem(pr.menu_icon_geometry_transparent(), 1);
+
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
-			addPerspective(4, pr.menu_icon_graphics3D_transparent());
+			addPerspectiveItem(pr.menu_icon_graphics3D_transparent(), 4);
 		}
+
 		if (app.supportsView(App.VIEW_CAS)) {
-			addPerspective(3, pr.menu_icon_cas_transparent());
+			addPerspectiveItem(pr.menu_icon_cas_transparent(), 3);
 		}
 
-		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
-		addPerspective(5, pr.menu_icon_probability_transparent());
+		addPerspectiveItem(pr.menu_icon_spreadsheet_transparent(), 2);
+		addPerspectiveItem(pr.menu_icon_probability_transparent(), 5);
 
-		// add exam mode
 		if (app.getLAF().examSupported()) {
-			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam_transparent(),
-					"exam_menu_entry", null);
-			contentPanel.add(examRow);
+			addPerspectiveItem(pr.menu_icon_exam_transparent(), -1);
 		}
 
-		if (!app.getLAF().isTablet()) {
-
-			// separator
-			SimplePanel separator = new SimplePanel();
-			separator.addStyleName("separatorDiv");
-
-			// creating play store icon
-			SVGResource res = GuiResources.INSTANCE.get_app();
-			
-			NoDragImage ndg = new NoDragImage(res.getSafeUri().asString(), 24);
-			ndg.addStyleName("downloadimg");
-			Anchor link = new Anchor("",
-					"https://www.geogebra.org/download");
-			link.addStyleName("linkDownload");
-			link.setTarget("_blank");
-			link.getElement().appendChild(ndg.getElement());
-			InlineLabel linktext = new InlineLabel(
-					app.getLocalization().getMenu("Download"));
-			linktext.addStyleName("downloadlink");
-			link.getElement().appendChild(
-					linktext
-							.getElement());
-
-			// holder panel
-			FlowPanel holderPanel = new FlowPanel();
-			holderPanel.addStyleName("storeIconHolder");
-			holderPanel.add(separator); // separator
-			holderPanel.add(link);
-			contentPanel.add(holderPanel);
-
+		if (!app.isOffline()) {
+			wrappedPopup.addVerticalSeparator();
+			addDownloadItem();
 		}
-
-		box.getCaption()
-				.setText(app.getLocalization().getMenu("CreateYourOwn"));
-		AnchorElement helpLink = DOM.createAnchor().cast();
-		helpLink.setHref(app.getLocalization()
-				.getTutorialURL(app.getConfig()));
-		helpLink.setTarget("_blank");
-		NoDragImage helpBtn = new NoDragImage(GuiResources.INSTANCE.icon_help(),
-				24);
-		helpBtn.addStyleName("perspectivesHelp");
-		helpLink.appendChild(helpBtn.getElement());
-		box.getCaption().asWidget().getElement()
-				.appendChild(helpLink);
 	}
 
-	private void addPerspective(int i, ResourcePrototype icon) {
-		Perspective perspective = Layout.getDefaultPerspectives(i);
-		if (perspective == null) {
-			return;
-		}
-		HorizontalPanel rowPanel = addPerspectiveRow(icon,
-				perspective.getId(), perspective);
-		if (perspective.equals(app.getActivePerspective())) {
-			rowPanel.addStyleName("perspectiveHighlighted");
-		} else {
-			rowPanel.removeStyleName("perspectiveHighlighted");
-		}
-		contentPanel.add(rowPanel);
+	private void addHeader() {
+		AriaMenuItem headerMenuItem = new AriaMenuItem();
+		headerMenuItem.addStyleName("headerItem");
+
+		FlowPanel headerPanel = new FlowPanel();
+		headerPanel.addStyleName("headerPanel");
+
+		Label geogebraText = new Label(app.getLocalization().getMenu("CreateYourOwn"));
+		headerPanel.add(geogebraText);
+
+		StandardButton helpButton = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
+				null, 24, 24);
+		helpButton.addStyleName("helpBtn");
+		helpButton.addFastClickHandler(source -> {
+			Browser.openWindow(app.getLocalization()
+					.getTutorialURL(app.getConfig()));
+			wrappedPopup.hide();
+		});
+		headerPanel.add(helpButton);
+
+		headerMenuItem.setWidget(headerPanel);
+		wrappedPopup.addItem(headerMenuItem);
 	}
 
-	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
-			String menuID, final Perspective perspective) {
-		HorizontalPanel rowPanel = new HorizontalPanel();
-		// HorizontalPanel perspective = new HorizontalPanel();
+	private void addDownloadItem() {
+		AriaMenuItem downloadMenuItem = new AriaMenuItem();
+		FlowPanel download = new FlowPanel();
+		download.addStyleName("downloadItem");
 
-		// icon
-		rowPanel.add(new NoDragImage(icon, 24, 24));
-		// perspective label
-		Label label = new Label(app.getLocalization().getMenu(menuID));
-		label.addStyleName("perspectivesLabel");
-		rowPanel.add(label);
-		rowPanel.setStyleName("perspectivesRow");
+		download.add(new NoDragImage(GuiResources.INSTANCE.get_app(), 24));
+		download.add(new Label(app.getLocalization().getMenu("Download")));
 
-		// help button
+		downloadMenuItem.setWidget(download);
+		downloadMenuItem.setScheduledCommand(
+				() -> Browser.openWindow("https://www.geogebra.org/download"));
+		wrappedPopup.addItem(downloadMenuItem);
+	}
 
-		rowPanel.addDomHandler(event -> {
-			if (perspective != null) {
-				PerspectivesMenuW.setPerspective(app, perspective);
-				if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-					app.showStartTooltip(perspective);
-				}
-			} else {
-				app.getLAF().toggleFullscreen(true);
-				app.setNewExam();
-				app.examWelcome();
-			}
-			closePerspectivesPopup();
-		}, ClickEvent.getType());
-
-		return rowPanel;
+	private void addPerspectiveItem(SVGResource img, int perspectiveID) {
+		Perspective perspective = Layout.getDefaultPerspectives(perspectiveID);
+		String text = perspective != null ? perspective.getId() : "exam_menu_entry";
+		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
+						app.getLocalization().getMenu(text)),
+				true,
+				() -> {
+					if (perspective != null) {
+						PerspectivesMenuW.setPerspective(app, perspective);
+						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+							app.showStartTooltip(perspective);
+						}
+					} else {
+						app.getLAF().toggleFullscreen(true);
+						app.setNewExam();
+						app.examWelcome();
+					}
+					wrappedPopup.hide();
+				});
+		wrappedPopup.addItem(mi);
 	}
 
 	/**
-	 * Close the popup
+	 * show popup
 	 */
-	public void closePerspectivesPopup() {
-		box.hide();
+	public void show() {
+		wrappedPopup.setMenuShown(true);
+		wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
+				(int) ((app.getHeight() - 426) / 2));
 	}
 
-	/**
-	 * @return whether popup is showing
-	 */
 	public boolean isShowing() {
-		return box.isShowing();
+		return wrappedPopup.isMenuShown();
 	}
-
 }
