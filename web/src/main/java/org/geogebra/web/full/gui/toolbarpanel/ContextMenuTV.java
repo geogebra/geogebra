@@ -112,7 +112,8 @@ public class ContextMenuTV {
 
 		DialogData twoVarStat = new DialogData("2VariableStatistics",
 				getColumnTransKey("x " + headerHTMLName), "Close", null);
-		addStats(getStatisticsTransKey("x, " + headerHTMLName), view::getStatistics2Var, twoVarStat);
+		addStats(getStatisticsTransKey("x, " + headerHTMLName),
+				view::getStatistics2Var, twoVarStat);
 
 		addCommand(this::showRegression, "Regression",
 				"regression");
@@ -145,7 +146,7 @@ public class ContextMenuTV {
 	}
 
 	private void showRegression() {
-		DialogData data = new DialogData("Regression", "Column y1","Close", null);
+		DialogData data = new DialogData("Regression", "Column y1", "Close", null);
 		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
 		dialog.addRegressionChooserAndShow();
 		dialog.show();
