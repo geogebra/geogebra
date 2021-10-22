@@ -91,7 +91,7 @@ public class ExamUtil {
 	public static void toggleFullscreen(boolean full) {
 		if (GeoGebraGlobal.getGgbExamMode() != null && (full == !examModeRunning)) {
 			examModeRunning = full;
-			GeoGebraGlobal.getGgbExamMode().accept(false);
+			GeoGebraGlobal.getGgbExamMode().accept(full);
 		}
 	}
 
