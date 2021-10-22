@@ -210,7 +210,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			for (int i = 0; i < Math.abs(rowsChange); i++) {
 				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 			}
-			rowsChange = 0;
 			getTable().setRowStyles((row, rowIndex) -> {
 				if (rowIndex >= tableModel.getRowCount() + 2) {
 					return "deleteRowAut";
@@ -309,8 +308,14 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
-			GeoEvaluatable evaluatable, int column) {
-		deleteColumn(column);
+			GeoEvaluatable evaluatable, int column, boolean removedByUser) {
+		columnsChange = -1;
+		if (removedByUser || column != tableModel.getColumnCount()) {
+			deleteColumn(column);
+		} else {
+			reset();
+		}
+		resetAnimationFlags();
 	}
 
 	@Override
@@ -323,26 +328,29 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
 		reset();
+		resetAnimationFlags();
 	}
 
 	@Override
 	public void notifyRowRemoved(TableValuesModel model, int row) {
-		// TODO
+		rowsChange -= 1;
+		reset();
+		resetAnimationFlags();
 	}
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
-		// TODO
+		reset();
 	}
 
 	@Override
 	public void notifyRowAdded(TableValuesModel model, int row) {
-		// TODO
+		rowsChange = 1;
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
-		onColumnAdded();
+		columnsChange = 1;
 	}
 
 	@Override
@@ -353,18 +361,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		storeTableSizeBeforeReset();
+		resetAnimationFlags();
 		reset();
-	}
-
-	private void storeTableSizeBeforeReset() {
-		int oldRowNumber = getTable().getRowCount() - 2;
-		int oldColumnNumber = getTable().getColumnCount() - 2;
-		int newRowNumber = tableModel.getRowCount();
-		int newColumnNumber = tableModel.getColumnCount();
-
-		rowsChange = newRowNumber - oldRowNumber;
-		columnsChange = newColumnNumber - oldColumnNumber;
 	}
 
 	/**
@@ -407,5 +405,20 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 					+ (col < 0 ? " emptyColumn" : "")
 					+ (rowsChange > 0 ? " addRowAuto" : "");
 		}
+	}
+
+	private void resetAnimationFlags() {
+		app.invokeLater(() -> {
+			columnsChange = 0;
+			rowsChange = 0;
+		});
+	}
+
+	public int getRowsChange() {
+		return rowsChange;
+	}
+
+	public int getColumnsChange() {
+		return columnsChange;
 	}
 }

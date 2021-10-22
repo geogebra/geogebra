@@ -134,7 +134,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * Remove an evaluatable from the model.
 	 * @param evaluatable evaluatable
 	 */
-	void removeEvaluatable(GeoEvaluatable evaluatable) {
+	void removeEvaluatable(GeoEvaluatable evaluatable, boolean removedByUser) {
 		int index = getEvaluatableIndex(evaluatable);
 		if (index > -1) {
 			if (!kernel.getConstruction().isRemovingGeoToReplaceIt()) {
@@ -144,7 +144,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			for (int i = 0; i < columns.size(); i++) {
 				columns.get(i).getEvaluatable().setTableColumn(i);
 			}
-			notifyColumnRemoved(evaluatable, index);
+			notifyColumnRemoved(evaluatable, index, removedByUser);
 		}
 	}
 
@@ -276,10 +276,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 		notifyDatasetChanged();
 	}
 
-	private void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
+	private void notifyColumnRemoved(GeoEvaluatable evaluatable, int column,
+			boolean removedByUser) {
 		if (!batchUpdate) {
 			for (TableValuesListener listener : listeners) {
-				listener.notifyColumnRemoved(this, evaluatable, column);
+				listener.notifyColumnRemoved(this, evaluatable, column, removedByUser);
 			}
 		}
 	}
