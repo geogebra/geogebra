@@ -91,6 +91,13 @@ pipeline {
                         junit '**/build/test-results/test/*.xml'
                     }
                 }
+                stage('windows') {
+                    agent {label 'winbuild'}
+                    steps {
+                        bat label: 'test', script: ".\\gradlew.bat :desktop:test"
+                        junit '**/build/test-results/test/*.xml'
+                    }
+                }
             }
         }
         stage('archive') {
