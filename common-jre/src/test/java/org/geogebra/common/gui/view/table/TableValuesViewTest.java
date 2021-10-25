@@ -802,6 +802,16 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testCachedValuesAreOverwrittenOnUpdate() {
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
+		view.getProcessor().processInput("2", view.getValues(), 0);
+		assertEquals("4", model.getCellAt(0, 1).getInput());
+		view.getProcessor().processInput("3", view.getValues(), 0);
+		assertEquals("9", model.getCellAt(0, 1).getInput());
+	}
+
+	@Test
 	public void testFunctionAtUndefinedValues() {
 		setValuesSafe(-2, 2, 1);
 		assertEquals("-2", model.getCellAt(0, 0).getInput());

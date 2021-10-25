@@ -370,6 +370,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		} else if (rowIndex == oldRowCount) {
 			notifyRowAdded(rowIndex);
 		} else if (column == values) {
+			invalidateRow(rowIndex);
 			notifyRowChanged(rowIndex);
 		}
 		if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
@@ -457,11 +458,17 @@ class SimpleTableValuesModel implements TableValuesModel {
 					columnsToRemove.add(column);
 				}
 			}
-			tableValuesColumn.invalidateValue(lastRowIndex);
 		}
+		invalidateRow(lastRowIndex);
 		notifyRowRemoved(lastRowIndex);
 		for (GeoList column : columnsToRemove) {
 			column.remove();
+		}
+	}
+
+	private void invalidateRow(int row) {
+		for (TableValuesColumn column : columns) {
+			column.invalidateValue(row);
 		}
 	}
 }
