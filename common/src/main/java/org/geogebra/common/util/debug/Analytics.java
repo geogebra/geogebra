@@ -46,6 +46,7 @@ public abstract class Analytics {
 	 */
 	public static class Event {
 		public static final String COMMAND_ERROR = "command_error";
+		public static final String COMMAND_VALIDATED = "command_validated";
 
 		protected Event() {
 		}
@@ -58,6 +59,8 @@ public abstract class Analytics {
 		public static final String COMMAND = "command";
 		public static final String AV_INPUT = "av_input";
 		public static final String ERROR_TYPE = "error_type";
+		public static final String STATUS = "status";
+		public static final String OBJECT_CREATION = "object_creation";
 
 		protected Param() {
 		}

@@ -32,6 +32,7 @@ public class EvalInfo {
 	private GPredicate<String> labelFilter;
 	private RedefinitionRule redefinitionRule;
 	private MyArbitraryConstant constant;
+	private boolean redefined = false;
 
 	/**
 	 * Creates a default evaluation info
@@ -477,5 +478,13 @@ public class EvalInfo {
 	 */
 	public boolean getKeepDefinition() {
 		return keepDefinition;
+	}
+
+	public void setRedefined(boolean geoRedefined) {
+		redefined = geoRedefined;
+	}
+
+	public boolean isRedefined() {
+		return redefined;
 	}
 }

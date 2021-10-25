@@ -1965,6 +1965,7 @@ public class AlgebraProcessor {
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
+			evalInfo.setRedefined(true);
             cons.setSuppressLabelCreation(true);
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);

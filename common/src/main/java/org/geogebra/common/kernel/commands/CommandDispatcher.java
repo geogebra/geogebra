@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.CheckForNull;
 
@@ -31,6 +32,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -227,6 +229,9 @@ public abstract class CommandDispatcher {
 			cons.setSuppressLabelCreation(true);
 		}
 
+		String errorStatus = "ok";
+		String cmdName = c.getName();
+
 		try {
 			// disable preview for commands using CAS
 			// if CAS not loaded but enabled
@@ -238,8 +243,10 @@ public abstract class CommandDispatcher {
 			if (cmdProc == null) {
 				throw new CommandNotFoundError(app.getLocalization(), c);
 			}
-			return cmdProc.process(c, info);
-		} catch (Exception e) {
+			GeoElement[] result = cmdProc.process(c, info);
+			return result;
+		} catch (Throwable e) {
+			errorStatus = ((MyError) e).getErrorType().getKey();
 			cons.setSuppressLabelCreation(oldMacroMode);
 			Log.debug(e);
 			throw MyError.forCommand(app.getLocalization(),
@@ -247,6 +254,16 @@ public abstract class CommandDispatcher {
 					c.getName(), e);
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
+			String objectCreation = info.isRedefined() ? "redefined" : "new";
+
+			Map<String, Object> params = new HashMap<>();
+			params.put(Analytics.Param.COMMAND, cmdName);
+			params.put(Analytics.Param.STATUS, errorStatus);
+			params.put(Analytics.Param.OBJECT_CREATION, objectCreation);
+			Analytics.logEvent(Analytics.Event.COMMAND_VALIDATED, params);
+
+			//Log.debug("\n\n Log to analytics: " + cmdName + " " + errorStatus + " " + objectCreation);
+
 		}
 	}
 
