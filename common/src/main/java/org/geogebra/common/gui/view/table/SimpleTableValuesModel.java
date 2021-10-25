@@ -402,8 +402,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (index == column.size() - 1) {
 			removeEmptyRowsFromBottom();
 		} else {
-			notifyRowChanged(index);
 			invalidateRow(index);
+			notifyRowChanged(index);
 		}
 		removeColumnIfEmpty(column);
 	}
