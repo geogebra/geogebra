@@ -342,6 +342,16 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testNotifyRowAddedCalledWithExistingColumn() {
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
+		model.registerListener(listener);
+		processor.processInput("1", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyRowAdded(model, 0);
+	}
+
+	@Test
 	public void testNotifyRowChangedCalled() {
 		processor.processInput("1", view.getValues(), 0);
 		model.registerListener(listener);

@@ -25,9 +25,8 @@ public interface TableValuesModel {
 	 * @param element element
 	 * @param column column
 	 * @param rowIndex row index
-	 * @param oldRowCount row count before setting the new element
 	 */
-	void set(GeoElement element, GeoList column, int rowIndex, int oldRowCount);
+	void set(GeoElement element, GeoList column, int rowIndex);
 
 	/**
 	 * Get the number of rows in the table.
@@ -71,4 +70,10 @@ public interface TableValuesModel {
 	 * @return whether the element contains only an empty string
 	 */
 	boolean isEmptyValue(GeoElement element);
+
+	/**
+	 * Creates an empty value to be used in lists.
+	 * @return empty value
+	 */
+	GeoElement createEmptyValue();
 }

@@ -37,8 +37,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		int oldRowCount = model.getRowCount();
-		model.set(element, ensureList(list, rowIndex), rowIndex, oldRowCount);
+		model.set(element, ensureList(list, rowIndex), rowIndex);
 		if (list == tableValues.getValues()) {
 			settings.setValueList(list);
 		}
@@ -46,38 +45,20 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 	}
 
 	private GeoList ensureList(GeoList list, int rowIndex) {
-		if (list == null) {
-			GeoList column = new GeoList(cons);
-			ensureCapacity(column, rowIndex);
-			column.setAuxiliaryObject(true);
-			column.notifyAdd();
-			tableValues.doShowColumn(column);
-			return column;
-		} else {
-			ensureCapacity(list, rowIndex);
+		if (list != null) {
 			return list;
 		}
-	}
-
-	private void ensureCapacity(GeoList list, int index) {
-		boolean listWillChange = list.size() < index + 1;
-		list.ensureCapacity(index + 1);
-		for (int i = list.size(); i < index + 1; i++) {
-			list.add(createEmptyValue());
-		}
-		if (listWillChange) {
-			list.notifyUpdate();
-		}
-	}
-
-	private GeoElement createEmptyValue() {
-		return new GeoText(cons, "");
+		GeoList column = new GeoList(cons);
+		column.setAuxiliaryObject(true);
+		column.notifyAdd();
+		tableValues.doShowColumn(column);
+		return column;
 	}
 
 	private GeoElement parseInput(String input) {
 		String trimmedInput = input.trim();
 		if (trimmedInput.equals("")) {
-			return createEmptyValue();
+			return model.createEmptyValue();
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);
