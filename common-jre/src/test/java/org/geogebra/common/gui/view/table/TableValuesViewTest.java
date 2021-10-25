@@ -567,7 +567,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	private TableValuesPoints setupPointListener() {
-		tablePoints = new TableValuesPointsImpl(getConstruction(),
+		tablePoints = new TableValuesPointsImpl(getConstruction(), view,
 				model);
 		model.registerListener(tablePoints);
 		return tablePoints;

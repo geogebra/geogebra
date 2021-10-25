@@ -76,12 +76,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return columns.get(column).getCellValue(row);
 	}
 
-	/**
-	 * @param row row index
-	 * @param column column index
-	 * @return function value
-	 */
-	double getValueAt(int row, int column) {
+	@Override
+	public double getValueAt(int row, int column) {
 		return columns.get(column).getDoubleValue(row);
 	}
 

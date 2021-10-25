@@ -56,6 +56,14 @@ public interface TableValuesModel {
 	String getHeaderAt(int column);
 
 	/**
+	 * Returns the numeric value at the specified location.
+	 * @param row row of the entry
+	 * @param column column of the entry
+	 * @return numeric value or NaN.
+	 */
+	double getValueAt(int row, int column);
+
+	/**
 	 * Starts batch update. This batch update call cannot be nested.
 	 */
 	void startBatchUpdate();
