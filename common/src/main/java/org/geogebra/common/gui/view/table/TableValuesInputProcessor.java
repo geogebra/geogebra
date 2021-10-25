@@ -37,14 +37,14 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		model.set(element, ensureList(list, rowIndex), rowIndex);
+		model.set(element, ensureList(list), rowIndex);
 		if (list == tableValues.getValues()) {
 			settings.setValueList(list);
 		}
 		cons.getUndoManager().storeUndoInfo();
 	}
 
-	private GeoList ensureList(GeoList list, int rowIndex) {
+	private GeoList ensureList(GeoList list) {
 		if (list != null) {
 			return list;
 		}
