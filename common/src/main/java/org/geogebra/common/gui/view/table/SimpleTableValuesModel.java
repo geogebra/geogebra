@@ -8,7 +8,6 @@ import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesListColumn;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -366,7 +365,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		column.setDefinition(null);
 		columns.get(columnIndex).invalidateValue(rowIndex);
 		if (isEmptyValue(element)) {
-			removeEmptyColumnAndRows(column, rowIndex);
+			handleEmptyValue(column, rowIndex);
 		} else if (rowIndex == oldRowCount) {
 			notifyRowAdded(rowIndex);
 		} else if (column == values) {
@@ -399,9 +398,12 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return new GeoText(kernel.getConstruction(), "");
 	}
 
-	private void removeEmptyColumnAndRows(GeoList column, int index) {
+	private void handleEmptyValue(GeoList column, int index) {
 		if (index == column.size() - 1) {
 			removeEmptyRowsFromBottom();
+		} else {
+			notifyRowChanged(index);
+			invalidateRow(index);
 		}
 		removeColumnIfEmpty(column);
 	}

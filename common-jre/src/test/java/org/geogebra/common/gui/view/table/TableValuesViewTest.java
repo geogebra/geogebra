@@ -806,9 +806,12 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoFunction function = getElementFactory().createFunction("x^2");
 		showColumn(function);
 		view.getProcessor().processInput("2", view.getValues(), 0);
+		view.getProcessor().processInput("1", view.getValues(), 1);
 		assertEquals("4", model.getCellAt(0, 1).getInput());
 		view.getProcessor().processInput("3", view.getValues(), 0);
 		assertEquals("9", model.getCellAt(0, 1).getInput());
+		view.getProcessor().processInput("", view.getValues(), 0);
+		assertEquals("", model.getCellAt(0, 1).getInput());
 	}
 
 	@Test
