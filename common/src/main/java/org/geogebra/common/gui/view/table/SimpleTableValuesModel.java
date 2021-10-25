@@ -179,25 +179,19 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * @param element element that might be part of a list
 	 */
 	void maybeUpdateListElement(GeoElement element) {
-		int updatedXRow = -1;
-		for (int i = 0; i < columns.size(); i++) {
-			GeoEvaluatable evaluatable = columns.get(i).getEvaluatable();
-			if (evaluatable instanceof GeoList) {
-				GeoList list = (GeoList) evaluatable;
-				int index = list.find(element);
-				if (index > -1) {
-					updateCell(evaluatable, i, index);
-					updatedXRow = i == 0 ? index : -1;
-				}
-			} else if (evaluatable instanceof GeoFunctionable && updatedXRow > -1) {
-				updateCell(evaluatable, i, updatedXRow);
+		for (int column = 0; column < columns.size(); column++) {
+			GeoEvaluatable evaluatable = columns.get(column).getEvaluatable();
+			if (!(evaluatable instanceof GeoList)) {
+				continue;
 			}
+			GeoList list = (GeoList) evaluatable;
+			int row = list.find(element);
+			if (row <= -1) {
+				continue;
+			}
+			columns.get(column).invalidateValue(row);
+			notifyCellChanged(evaluatable, column, row);
 		}
-	}
-
-	private void updateCell(GeoEvaluatable evaluatable, int col, int row) {
-		columns.get(col).invalidateValue(row);
-		notifyCellChanged(evaluatable, col, row);
 	}
 
 	/**
@@ -432,8 +426,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private boolean isLastRowEmpty() {
 		int lastRowIndex = getRowCount() - 1;
-		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
-			if (!"".equals(getCellAt(lastRowIndex, columnIndex).getInput())) {
+		for (TableValuesColumn column : columns) {
+			GeoEvaluatable element = column.getEvaluatable();
+			if (!(element instanceof GeoList)) {
+				continue;
+			}
+			GeoList list = (GeoList) element;
+			if (list.size() <= lastRowIndex) {
+				continue;
+			}
+			if (!isEmptyValue(list.get(lastRowIndex))) {
 				return false;
 			}
 		}
@@ -444,7 +446,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 		int lastRowIndex = getRowCount() - 1;
 		List<GeoList> columnsToRemove = new ArrayList<>();
 		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
-			GeoEvaluatable evaluatable = columns.get(columnIndex).getEvaluatable();
+			TableValuesColumn tableValuesColumn = columns.get(columnIndex);
+			GeoEvaluatable evaluatable = tableValuesColumn.getEvaluatable();
 			if (evaluatable instanceof GeoList) {
 				GeoList column = (GeoList) evaluatable;
 				if (lastRowIndex < column.size()) {
@@ -454,6 +457,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 					columnsToRemove.add(column);
 				}
 			}
+			tableValuesColumn.invalidateValue(lastRowIndex);
 		}
 		notifyRowRemoved(lastRowIndex);
 		for (GeoList column : columnsToRemove) {

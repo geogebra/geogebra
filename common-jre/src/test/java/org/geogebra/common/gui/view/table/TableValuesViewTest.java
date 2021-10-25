@@ -816,7 +816,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals("1.41", model.getCellAt(4, 1).getInput());
 
 		view.getProcessor().processInput("", view.getValues(), 4);
-		assertEquals("", model.getCellAt(4, 0).getInput());
-		assertEquals("", model.getCellAt(4, 1).getInput());
+		assertEquals(model.getRowCount(), 4);
 	}
 }

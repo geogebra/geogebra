@@ -103,6 +103,9 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 
 	@Override
 	public void invalidateValue(int row) {
+		if (doubleValues.length <= row) {
+			return;
+		}
 		doubleValues[row] = null;
 		cells[row] = null;
 	}
