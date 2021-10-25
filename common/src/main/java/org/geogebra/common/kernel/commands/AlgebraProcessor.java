@@ -1473,6 +1473,7 @@ public class AlgebraProcessor {
 			handler.showError(loc.getInvalidInputError());
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
+			cons.registerFunctionVariable(null);
 		}
 
 		return bool;
