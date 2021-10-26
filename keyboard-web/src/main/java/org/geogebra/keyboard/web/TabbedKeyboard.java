@@ -17,7 +17,6 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
@@ -299,13 +298,7 @@ public class TabbedKeyboard extends FlowPanel
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
 		updatePanel(keyboard, layout, bh);
-		layout.registerKeyboardObserver(new KeyboardObserver() {
-
-			@Override
-			public void keyboardModelChanged(Keyboard l2) {
-				updatePanel(keyboard, l2, bh);
-			}
-		});
+		layout.registerKeyboardObserver(l2 -> updatePanel(keyboard, l2, bh));
 		return keyboard;
 	}
 
@@ -802,6 +795,7 @@ public class TabbedKeyboard extends FlowPanel
 	 *            keyboard type
 	 */
 	public void selectTab(KeyboardType keyboardType) {
+		clearAndUpdate();
 		switcher.select(keyboardType);
 	}
 
@@ -932,7 +926,7 @@ public class TabbedKeyboard extends FlowPanel
 			processField.setFocus(true);
 		}
 		if (Action.SWITCH_TO_123.name().equals(btn.getSecondaryAction())) {
-			selectTab(KeyboardType.NUMBERS);
+			switcher.select(KeyboardType.NUMBERS);
 		}
 	}
 
@@ -956,13 +950,13 @@ public class TabbedKeyboard extends FlowPanel
 			}
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
-			selectTab(KeyboardType.SPECIAL);
+			switcher.select(KeyboardType.SPECIAL);
 			break;
 		case SWITCH_TO_GREEK_CHARACTERS:
-			selectTab(KeyboardType.GREEK);
+			switcher.select(KeyboardType.GREEK);
 			break;
 		case SWITCH_TO_ABC:
-			selectTab(getSwitchToAbcSource());
+			switcher.select(getSwitchToAbcSource());
 			break;
 		case ANS:
 			processField.ansPressed();

@@ -92,7 +92,7 @@ public interface InputPanel extends IsWidget, HasText {
 				return;
 			}
 			DrawEquationW.paintOnCanvas(new GeoNumeric(app.getKernel()
-					.getConstruction()), laTeX, c, app.getFontSizeWeb());
+					.getConstruction()), laTeX, c, app.getFontSize());
 		}
 
 		@Override

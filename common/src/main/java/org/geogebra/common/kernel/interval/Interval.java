@@ -13,12 +13,7 @@ import org.geogebra.common.util.DoubleUtil;
  * Class to implement interval arithmetic
  *
  */
-public class Interval implements IntervalArithmetic, IntervalMiscOperands {
-	private final IntervalAlgebra algebra = new IntervalAlgebra(this);
-	private final IntervalMultiply multiply = new IntervalMultiply(this);
-	private final IntervalDivide divide = new IntervalDivide(this);
-	private final IntervalTrigonometric trigonometric = new IntervalTrigonometric(this);
-	private final IntervalMiscOperandsImpl misc = new IntervalMiscOperandsImpl(this);
+public class Interval {
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
 	private final IntervalMultiplicativeInverse multiplicativeInverse
 			= new IntervalMultiplicativeInverse(this);
@@ -188,16 +183,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return this;
 	}
 
-	@Override
-	public Interval multiply(Interval other) {
-		return multiply.multiply(other);
-	}
-
-	@Override
-	public Interval divide(Interval other) {
-		return divide.divide(other);
-	}
-
 	/**
 	 *
 	 * @return if interval has zero in it.
@@ -266,17 +251,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	}
 
 	/**
-	 * Computes x mod y (x - k * y)
-	 *
-	 * @param other argument.
-	 * @return this as result
-	 */
-	public Interval fmod(Interval other) {
-		algebra.fmod(other);
-		return this;
-	}
-
-	/**
 	 *
 	 * @param other to compare
 	 * @return if the other interval is equal with a precision
@@ -301,15 +275,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 
 	void setWhole() {
 		set(IntervalConstants.whole());
-	}
-
-	/**
-	 *
-	 * @param power of the interval
-	 * @return power of the interval
-	 */
-	public Interval pow(double power) {
-		return algebra.pow(power);
 	}
 
 	/**
@@ -338,17 +303,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	public void set(double low, double high) {
 		this.low = low;
 		this.high = high;
-	}
-
-	/**
-	 * Power of an interval where power is also an interval
-	 * that must be a singleton, ie [n, n]
-	 *
-	 * @param other interval power.
-	 * @return this as result.
-	 */
-	public Interval pow(Interval other) {
-		return algebra.pow(other);
 	}
 
 	/**
@@ -394,67 +348,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 	}
 
 	/**
-	 *
-	 * @return square root of the interval.
-	 */
-	public Interval sqrt() {
-		return root.sqrt();
-	}
-
-	/**
-	 * Computes the nth root of the interval
-	 * if other (=n) is a singleton
-	 *
-	 * @param other interval
-	 * @return nth root of the interval.
-	 */
-	public Interval nRoot(Interval other) {
-		return root.nRoot(other);
-	}
-
-	/**
-	 * Computes x^(1/n)
-	 *
-	 * @param n the root
-	 * @return nth root of the interval.
-	 */
-	public Interval nRoot(double n) {
-		return root.nRoot(n);
-	}
-
-	/**
-	 *
-	 * @return cosine of the interval.
-	 */
-	public Interval cos() {
-		return trigonometric.cos();
-	}
-
-	/**
-	 *
-	 * @return secant of the interval
-	 */
-	public Interval sec() {
-		return trigonometric.sec();
-	}
-
-	/**
-	 *
-	 * @return 1 / sin(x)
-	 */
-	public Interval csc() {
-		return trigonometric.csc();
-	}
-
-	/**
-	 *
-	 * @return cotangent of the interval
-	 */
-	public Interval cot() {
-		return trigonometric.cot();
-	}
-
-	/**
 	 * Checks if the interval is
 	 * either [-∞, -∞] or [∞, ∞].
 	 *
@@ -492,98 +385,6 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 		return new double[] {low, high};
 	}
 
-	/**
-	 *
-	 * @return sine of the interval.
-	 */
-	public Interval sin() {
-		return trigonometric.sin();
-	}
-
-	/**
-	 *
-	 * @return tangent of the interval.
-	 */
-	public Interval tan() {
-		return trigonometric.tan();
-	}
-
-	/**
-	 *
-	 * @return arc sine of the interval
-	 */
-	public Interval asin() {
-		return trigonometric.asin();
-	}
-
-	/**
-	 *
-	 * @return arc cosine of the interval
-	 */
-	public Interval acos() {
-		return trigonometric.acos();
-	}
-
-	/**
-	 *
-	 * @return arc tangent of the interval
-	 */
-	public Interval atan() {
-		return trigonometric.atan();
-	}
-
-	/**
-	 *
-	 * @return hyperbolic sine of the interval
-	 */
-	public Interval sinh() {
-		return trigonometric.sinh();
-	}
-
-	/**
-	 *
-	 * @return hyperbolic cosine of the interval
-	 */
-	public Interval cosh() {
-		return trigonometric.cosh();
-	}
-
-	/**
-	 *
-	 * @return hyperbolic tangent of the interval
-	 */
-	public Interval tanh() {
-		return trigonometric.tanh();
-	}
-
-	@Override
-	public Interval exp() {
-		return misc.exp();
-	}
-
-	@Override
-	public Interval log() {
-		return misc.log();
-	}
-
-	@Override
-	public Interval log10() {
-		return misc.log10();
-	}
-
-	@Override
-	public Interval log2() {
-		return misc.log2();
-	}
-
-	@Override
-	public Interval hull(Interval other) {
-		return misc.hull(other);
-	}
-
-	/**
-	 * Sets interval to [0].
-	 */
 	public void setZero() {
 		set(IntervalConstants.zero());
 		inverted = Inversion.NONE;
@@ -598,51 +399,8 @@ public class Interval implements IntervalArithmetic, IntervalMiscOperands {
 				&& DoubleUtil.isEqual(high, 0, PRECISION);
 	}
 
-	@Override
-	public Interval intersect(Interval interval) {
-		return misc.intersect(interval);
-	}
-
-	@Override
-	public Interval union(Interval other) throws IntervalsNotOverlapException {
-		return misc.union(other);
-	}
-
-	@Override
-	public Interval difference(Interval other) throws IntervalsDifferenceException {
-		return misc.difference(other);
-	}
-
-	@Override
-	public Interval abs() {
-		return misc.abs();
-	}
-
-	/**
-	 *
-	 * @param other to check
-	 * @return if this interval contains the other.
-	 */
-	public boolean contains(Interval other) {
-		return other.low > low && other.high < high;
-	}
-
-	/**
-	 *
-	 * @param value to check
-	 * @return if value os in this interval.
-	 */
-	public boolean contains(double value) {
-		return low <= value && value <= high;
-	}
-
-	/**
-	 *
-	 * @param value to check
-	 * @return if value os in this interval but not bounds.
-	 */
-	public boolean containsExclusive(double value) {
-		return low < value && value < high;
+	public boolean contains(Interval interval) {
+		return interval.low > low && interval.high < high;
 	}
 
 	/**

@@ -1,54 +1,42 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PenPreview;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Pen/Eraser/Color submenu for MOWToolbar.
- * 
- * @author Laszlo Gal
- *
  */
 public class PenSubMenu extends SubMenuPanel {
 	private static final int MAX_ERASER_SIZE = 200;
 	private static final int MIN_ERASER_SIZE = 10;
 	private static final int ERASER_STEP = 10;
-	private ToolButton pen;
-	private ToolButton eraser;
-	private ToolButton highlighter;
-	private ToolButton select;
-	private FlowPanel penPanel;
-	private FlowPanel colorPanel;
-	private FlowPanel sizePanel;
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
 	private PenPreview preview;
@@ -56,7 +44,7 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal, blue, purple, magenta, red, carrot,
 	// yellow
-	private HashMap<MOWToolbarColor, Label> colorMap;
+	private Map<MOWToolbarColor, Label> colorMap;
 
 	@Override
 	public void setAriaHidden(boolean hidden) {
@@ -68,49 +56,26 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	/**
-	 * 
 	 * @param app
 	 *            ggb app.
 	 */
 	public PenSubMenu(AppW app) {
-		super(app/* , false */);
+		super(app);
 		addStyleName("penSubMenu");
 		// needed for slider mouse events
 		ClickStartHandler.initDefaults(this, false, true);
 	}
 
-	private void createPenPanel() {
-		penPanel = new FlowPanel();
-		penPanel.addStyleName("penPanel");
-		pen = new ToolButton(EuclidianConstants.MODE_PEN, app, this);
-		eraser = new ToolButton(EuclidianConstants.MODE_ERASER, app, this);
-		highlighter = new ToolButton(EuclidianConstants.MODE_HIGHLIGHTER,
-				app, this);
-		select = new ToolButton(EuclidianConstants.MODE_SELECT_MOW, app,
-				this);
-		penPanel.add(LayoutUtilW.panelRow(select, pen, eraser, highlighter));
-		toolButtons.add(select);
-		toolButtons.add(pen);
-		toolButtons.add(eraser);
-		toolButtons.add(highlighter);
-		makeButtonsAccessible(AccessibilityGroup.NOTES_TOOL_SELECT);
-	}
-
 	/**
 	 * Create color buttons for selecting pen color
-	 * 
-	 * @param aColor
-	 *            color
-	 * @param ariaLabelTransKey
-	 * 			  ggbtrans key for the aria-label
-	 *
+	 * @param colorData translation key and hex code for the color
 	 * @return button
 	 */
-	private Label createColorButton(final GColor aColor, String ariaLabelTransKey) {
+	private Label createColorButton(MOWToolbarColor colorData) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
-				aColor);
+				colorData.getGColor());
 		Label label = new Label();
-		AriaHelper.setLabel(label, app.getLocalization().getColor(ariaLabelTransKey));
+		AriaHelper.setLabel(label, app.getLocalization().getColor(colorData.getGgbTransKey()));
 		label.getElement().setAttribute("role", "button");
 		label.getElement().setTabIndex(0);
 		color.applyToLabel(label);
@@ -122,30 +87,17 @@ public class PenSubMenu extends SubMenuPanel {
 				if (!colorsEnabled) {
 					return;
 				}
-				setSelectedColor(aColor);
+				setSelectedColor(colorData.getGColor());
 			}
 		});
 		return label;
 	}
 
 	private void fillColorButtonMap() {
-		colorMap = new HashMap<>();
-		addToColorMap(MOWToolbarColor.BLACK);
-		addToColorMap(MOWToolbarColor.GREEN);
-		addToColorMap(MOWToolbarColor.TEAL);
-		addToColorMap(MOWToolbarColor.BLUE);
-		addToColorMap(MOWToolbarColor.PURPLE);
-		addToColorMap(MOWToolbarColor.PINK);
-		addToColorMap(MOWToolbarColor.RED);
-		addToColorMap(MOWToolbarColor.ORANGE);
-		addToColorMap(MOWToolbarColor.YELLOW);
+		colorMap = Arrays.stream(MOWToolbarColor.values())
+				.collect(Collectors.toMap(Function.identity(), this::createColorButton));
 		new FocusableWidget(AccessibilityGroup.NOTES_COLOR_PANEL, null,
 				colorMap.values().toArray(new Widget[0])).attachTo(app);
-	}
-
-	private void addToColorMap(MOWToolbarColor color) {
-		colorMap.put(color, createColorButton(color.getGColor(),
-				color.getGgbTransKey()));
 	}
 
 	private void createMoreColorButton() {
@@ -153,54 +105,43 @@ public class PenSubMenu extends SubMenuPanel {
 				MaterialDesignResources.INSTANCE.add_black(), null, 24);
 		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
 				+ ".MoreColors"));
-		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
-		btnCustomColor.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				openColorDialog();
-			}
-		});
+		btnCustomColor.addFastClickHandler(source -> openColorDialog());
 		new FocusableWidget(
 				AccessibilityGroup.NOTES_COLOR_CUSTOM, null, btnCustomColor).attachTo(app);
 	}
 
 	private void createColorPanel() {
-		colorPanel = new FlowPanel();
+		FlowPanel colorPanel = new FlowPanel();
 		colorPanel.addStyleName("colorPanel");
 
 		fillColorButtonMap();
 		createMoreColorButton();
 
-		panelRow = new FlowPanel();
-		panelRow.setStyleName("panelRow");
 		for (Label btn : colorMap.values()) {
-			panelRow.add(btn);
+			colorPanel.add(btn);
 		}
-		panelRow.add(btnCustomColor);
-		colorPanel.add(panelRow);
+		colorPanel.add(btnCustomColor);
+		createSizePanel(colorPanel);
+		addToContentPanel(colorPanel);
 	}
 
 	/**
 	 * Create panel with slider for pen and eraser size
 	 */
-	private void createSizePanel() {
-		sizePanel = new FlowPanel();
+	private void createSizePanel(FlowPanel colorPanel) {
+		FlowPanel sizePanel = new FlowPanel();
 		sizePanel.addStyleName("sizePanel");
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
 		slider.addStyleName("mowOptionsSlider");
 		setSliderRange(true);
-		slider.setWidth(300);
+		slider.setWidth(150);
 		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
 		slider.add(preview);
 		sizePanel.add(slider);
-		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Double> event) {
-				sliderValueChanged(event.getValue());
-			}
-		});
+		colorPanel.add(sizePanel);
+		slider.addValueChangeHandler(event -> sliderValueChanged(event.getValue()));
 		new FocusableWidget(AccessibilityGroup.NOTES_PEN_THICKNESS_SLIDER,
 				null, slider.getSlider()).attachTo(app);
 	}
@@ -241,46 +182,24 @@ public class PenSubMenu extends SubMenuPanel {
 	@Override
 	protected void createContentPanel() {
 		super.createContentPanel();
-		createPenPanel();
+		super.createPanelRow(ToolBar.getNotesPenToolBar());
 		createColorPanel();
-		createSizePanel();
-		contentPanel.add(
-				LayoutUtilW.panelRow(penPanel, colorPanel, sizePanel));
 	}
 
-	private void doSelectPen() {
-		pen.getElement().setAttribute("selected", "true");
-		pen.setSelected(true);
+	private void updatePenStyleAndUI(GColor lastColor, int lastThickness,
+			int opacity) {
 		setColorsEnabled(true);
-		selectColor(getSettings().getLastSelectedPenColor());
+		selectColor(lastColor);
 		setSliderRange(true);
-		slider.setValue((double) getSettings().getLastPenThickness());
-		getPenGeo().setLineThickness(getSettings().getLastPenThickness());
-		getPenGeo().setLineOpacity(255);
+		slider.setValue((double) lastThickness);
+		getPenGeo().setLineThickness(lastThickness);
+		getPenGeo().setLineOpacity(opacity);
 		disableSlider(false);
 		preview.setVisible(true);
 		updatePreview();
 	}
 
-	private void doSelectHighlighter() {
-		highlighter.getElement().setAttribute("selected", "true");
-		highlighter.setSelected(true);
-		setColorsEnabled(true);
-		selectColor(getSettings().getLastSelectedHighlighterColor());
-		setSliderRange(true);
-		slider.setValue((double) getSettings().getLastHighlighterThinckness());
-		getPenGeo().setLineThickness(getSettings().getLastHighlighterThinckness());
-		getPenGeo()
-				.setLineOpacity(EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
-		disableSlider(false);
- 		preview.setVisible(true);
-		updatePreview();
-	}
-
 	private void doSelectEraser() {
-		reset();
-		eraser.getElement().setAttribute("selected", "true");
-		eraser.setSelected(true);
 		setColorsEnabled(false);
 		setSliderRange(false);
 		int delSize = app.getActiveEuclidianView().getSettings()
@@ -290,28 +209,10 @@ public class PenSubMenu extends SubMenuPanel {
 		preview.setVisible(false);
 	}
 
-	private void doSelectSelect() {
-		reset();
-		select.getElement().setAttribute("selected", "true");
-		select.setSelected(true);
-		disableSlider(true);
-	}
-
 	private void disableSlider(boolean disable) {
 		slider.getElement().setAttribute("disabled", String.valueOf(disable));
 		AriaHelper.setHidden(slider.getSlider(), disable);
 		slider.disableSlider(disable);
-	}
-
-	/**
-	 * Unselect all buttons and disable colors
-	 */
-	public void reset() {
-		for (ToolButton btn : toolButtons) {
-			btn.getElement().setAttribute("selected", "false");
-			btn.setSelected(false);
-		}
-		setColorsEnabled(false);
 	}
 
 	/**
@@ -389,16 +290,22 @@ public class PenSubMenu extends SubMenuPanel {
 
 	@Override
 	public void setMode(int mode) {
-		reset();
+		setColorsEnabled(false);
+		super.setMode(mode);
 		if (mode == EuclidianConstants.MODE_SELECT
 				|| mode == EuclidianConstants.MODE_SELECT_MOW) {
-			doSelectSelect();
+			disableSlider(true);
 		} else if (mode == EuclidianConstants.MODE_ERASER) {
 			doSelectEraser();
-		} else if (mode == EuclidianConstants.MODE_PEN) {
-			doSelectPen();
-		} else if (mode == EuclidianConstants.MODE_HIGHLIGHTER) {
-			doSelectHighlighter();
+		} else if (mode == EuclidianConstants.MODE_PEN
+			|| mode == EuclidianConstants.MODE_HIGHLIGHTER) {
+			boolean isPen = mode == EuclidianConstants.MODE_PEN;
+			GColor lastColor = isPen ? getSettings().getLastSelectedPenColor()
+					: getSettings().getLastSelectedHighlighterColor();
+			int lastThickness = isPen ? getSettings().getLastPenThickness()
+					: getSettings().getLastHighlighterThinckness();
+			int opacity = isPen ? 255 : EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY;
+			updatePenStyleAndUI(lastColor, lastThickness, opacity);
 		}
 	}
 
@@ -435,7 +342,6 @@ public class PenSubMenu extends SubMenuPanel {
 				@Override
 				public void onColorChange(GColor color) {
 					penGeo.setObjColor(color);
-					// setPenIconColor(color.toString());
 					getSettings().setLastSelectedHighlighterColor(color);
 					penGeo.setLineOpacity(
 							app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER
@@ -480,19 +386,8 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	@Override
-	public boolean isValidMode(int mode) {
-		return mode == EuclidianConstants.MODE_SELECT_MOW
-				|| mode == EuclidianConstants.MODE_PEN
-				|| mode == EuclidianConstants.MODE_ERASER
-				|| mode == EuclidianConstants.MODE_HIGHLIGHTER;
-	}
-
-	@Override
 	public void setLabels() {
-		pen.setLabel();
-		select.setLabel();
-		eraser.setLabel();
-		highlighter.setLabel();
+		super.setLabels();
 		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
 			AriaHelper.setLabel(colorBtnPair.getValue(),
 					app.getLocalization().getColor(colorBtnPair.getKey().getGgbTransKey()));

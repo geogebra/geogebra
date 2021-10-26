@@ -14,6 +14,7 @@ import com.google.j2objc.annotations.Weak;
  *
  */
 public class ConstructionCompanion {
+
 	/** construction */
 	@Weak
 	protected Construction cons;
@@ -68,7 +69,12 @@ public class ConstructionCompanion {
 	 * @return the ConstructionDefaults consDefaults
 	 */
 	public ConstructionDefaults newConstructionDefaults() {
-		return new ConstructionDefaults(cons);
+		ConstructionDefaults constructionDefaults = new ConstructionDefaults(cons);
+		cons.getApplication()
+				.getSettings()
+				.getLabelSettings()
+				.addListener(constructionDefaults);
+		return constructionDefaults;
 	}
 
 	/**

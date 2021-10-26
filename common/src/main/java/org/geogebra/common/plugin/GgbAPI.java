@@ -2373,6 +2373,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.getActiveEuclidianView().invalidateDrawableList();
 	}
 
+	public String getOrdering() {
+		return construction.getLayerManager().getOrder();
+	}
+
 	@Override
 	public boolean hasUnlabeledPredecessors(String label) {
 		return kernel.getConstruction().hasUnlabeledPredecessors(label);
@@ -2392,5 +2396,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo != null) {
 			((GeoInline) geo).setLockedForMultiuser(false);
 		}
+	}
+
+	@Override
+	public boolean isFixed(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		return geo != null && geo.isLocked();
+	}
+
+	@Override
+	public boolean isSelectionAllowed(String label) {
+		GeoElement geo = kernel.lookupLabel(label);
+		return geo != null && geo.isSelectionAllowed(app.getActiveEuclidianView());
 	}
 }

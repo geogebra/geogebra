@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.view.CASCellProcessor;
-import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -1776,9 +1775,13 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	/* SolveODE */
 
 	@Test
-	public void substitute_5() {
-		// Substitute with Keep Input should substitute without evaluation.
+	public void substituteWithKeepInputShouldNotSimplify() {
 		tk("Substitute[1 + 2 + x + 3, {x=7}]", "1 + 2 + 7 + 3");
+	}
+
+	@Test
+	public void substituteWithKeepInputShouldKeepBrackets() {
+		tk("Substitute[1/c, {c=7E23}]", "1 / (7 * 10^(23))");
 	}
 	/* Tangent */
 
@@ -1828,7 +1831,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
 				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 		t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
-				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)");
+				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)", "(0, (-13 * sqrt(224 * sqrt(10) + 687) * sqrt(10) * sqrt(31) + 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
 		// this is always numeric, the 13th digit changed multiple times with new Giac
 		t("Numeric(Last[Tangent[P, c]],12)",	"{y = 5.55821394864 * x - 0.026806742873}",
@@ -2727,15 +2730,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
 		t("Intersect(Plane(x+0z=1),Plane(y+z=2))",
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
-	}
-
-	@Test
-	public void checkNsolveExpansion() {
-		CASInputHandler cih = new CASInputHandler(
-				new CASViewNoGui(getApp(), "Sum(T/2^n,n,3,10)=1500000"));
-		cih.processCurrentRow("NSolve", false);
-		t("$1", "{T = 1204705882353 / 200000}");
-		// .getOutput(StringTemplate.defaultTemplate), "");
 	}
 
 	/** See APPS-801 */

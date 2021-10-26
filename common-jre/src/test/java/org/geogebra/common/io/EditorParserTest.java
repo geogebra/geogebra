@@ -74,6 +74,16 @@ public class EditorParserTest {
 	}
 
 	@Test
+	public void absoluteValuesUsingVerticalBarsTest() {
+		parsesAs("|x|", "abs(x)");
+		parsesAs("|1|+|2|", "abs(1)+abs(2)");
+		parsesAs("|x-|3||", "abs(x-abs(3))");
+		parsesAs("||x-3| - 4|", "abs(abs(x-3) - 4)");
+		parsesAs("|1-|2-|3|||", "abs(1-abs(2-abs(3)))");
+		parsesAs("|||1| - 2| - 3|", "abs(abs(abs(1) - 2) - 3)");
+	}
+
+	@Test
 	public void symbolLaTeXShouldParse() {
 		AppCommon appCommon = AppCommonFactory.create();
 		Kernel kernel = appCommon.getKernel();

@@ -1245,6 +1245,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
+			inputHelpPanel.getInputHelpPanel().logHelpIconEvent(page, false);
 		} catch (final MyError e) {
 			getApp().showError(e);
 		} catch (final Exception e) {
@@ -1658,11 +1659,9 @@ public class GuiManagerW extends GuiManager
 		}
 		if (currentlyVisible != show) {
 			getApp().setShowToolBar(show);
-			getApp().getAppletParameters()
-			.removeAttribute("data-param-showToolBar");
+			getApp().getAppletParameters().removeAttribute("showToolBar");
 			getApp().persistWidthAndHeight();
-			getApp()
-			.addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
+			getApp().addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
 					: GLookAndFeel.TOOLBAR_HEIGHT);
 			getApp().updateCenterPanelAndViews();
 			getApp().getAppletFrame().refreshKeyboard();
@@ -2306,5 +2305,10 @@ public class GuiManagerW extends GuiManager
 			getUnbundledToolbar().resizeTabs();
 			getUnbundledToolbar().closeAnimation();
 		}
+	}
+
+	@Override
+	public boolean isAlgebraViewActive() {
+		return getUnbundledToolbar().getAlgebraTab().isActive();
 	}
 }

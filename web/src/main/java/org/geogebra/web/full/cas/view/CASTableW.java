@@ -202,6 +202,9 @@ public class CASTableW extends Grid implements CASTable {
 		if (n == 0) {
 			setFirstRowFront(true);
 		}
+		if (n >= getRowCount()) {
+			return;
+		}
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 
 		if (w == editing && newText == null) {
@@ -461,6 +464,10 @@ public class CASTableW extends Grid implements CASTable {
 			return null;
 		}
 		return (CASTableCellW) widget;
+	}
+
+	public String getTextBeforeEdit() {
+		return editing == null ? null : editing.getTextBeforeEdit();
 	}
 
 	/**

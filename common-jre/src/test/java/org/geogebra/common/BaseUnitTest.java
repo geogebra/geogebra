@@ -146,7 +146,7 @@ public class BaseUnitTest {
 	}
 
 	protected void t(String input, String... expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, expected,
+		AlgebraTestHelper.checkSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),
 				StringTemplate.xmlTemplate);
 	}
@@ -189,6 +189,20 @@ public class BaseUnitTest {
 			};
 		}
 		return isDefined;
+	}
+
+	protected TypeSafeMatcher<GeoElementND> hasValue(String val) {
+		return new TypeSafeMatcher<GeoElementND>() {
+			@Override
+			protected boolean matchesSafely(GeoElementND item) {
+				return val.equals(item.toValueString(StringTemplate.defaultTemplate));
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("value " + val);
+			}
+		};
 	}
 
 	protected void reload() {

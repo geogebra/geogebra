@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -42,15 +43,16 @@ import org.geogebra.common.util.StringUtil;
 public class GeoImage extends GeoElement implements Locateable,
 		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
 		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
+
 	/** Index of the center in corners array */
 	public static final int CENTER_INDEX = 3;
-	/**
-	 * the image should have at least 50px width
-	 */
+	/** the image should have at least 50px width */
 	public final static int IMG_SIZE_THRESHOLD = 50;
-	// private String imageFileName = ""; // image file
+	/** name of the folder containing the image == md5 hash of the image */
+	public static final int MD5_FOLDER_LENGTH = 32;
+
 	private GeoPoint[] corners; // corners of the image
-	// private BufferedImage image;
+
 	/** width in pixels */
 	protected int pixelWidth;
 	/** height in pixels */
@@ -77,6 +79,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
+
+	//ruler or protractor
+	private boolean isMeasurementTool = false;
 
 	/**
 	 * Creates new image
@@ -248,18 +253,36 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            height
 	 */
 	public void setImageFileName(String fileName, int width, int height) {
-
 		if (fileName == null) {
 			return;
 		}
 		if (fileName.equals(this.getGraphicsAdapter().getImageFileName())) {
 			return;
 		}
+		MyImage myImage = kernel.getApplication().getExternalImageAdapter(fileName, width, height);
+		setImageFileName(fileName, myImage);
+	}
 
+	/**
+	 * @param fileName filename
+	 * @param width width
+	 * @param height height
+	 */
+	public void setInternalImageFileName(String fileName, int width, int height) {
+		if (fileName == null) {
+			return;
+		}
+		if (fileName.equals(this.getGraphicsAdapter().getImageFileName())) {
+			return;
+		}
+		MyImage myImage = kernel.getApplication().getInternalImageAdapter(fileName, width, height);
+		setImageFileName(fileName, myImage);
+	}
+
+	private void setImageFileName(String fileName, MyImage myImage) {
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
-		this.getGraphicsAdapter().setImageOnly(kernel.getApplication()
-				.getExternalImageAdapter(fileName, width, height));
+		this.getGraphicsAdapter().setImageOnly(myImage);
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
@@ -1054,12 +1077,10 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		String imageFileName = this.getGraphicsAdapter().getImageFileName();
-		String md5A = imageFileName.substring(0,
-				kernel.getApplication().getMD5folderLength(imageFileName));
+		String md5A = imageFileName.substring(0, MD5_FOLDER_LENGTH);
 		String imageFileName2 = ((GeoImage) geo).getGraphicsAdapter()
 				.getImageFileName();
-		String md5B = imageFileName2.substring(0,
-				kernel.getApplication().getMD5folderLength(imageFileName));
+		String md5B = imageFileName2.substring(0, MD5_FOLDER_LENGTH);
 		// MD5 checksums equal, so images almost certainly identical
 		return md5A.equals(md5B);
 	}
@@ -1296,11 +1317,17 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public double getMinWidth() {
+		if (isMeasurementTool) {
+			return 1;
+		}
 		return IMG_SIZE_THRESHOLD;
 	}
 
 	@Override
 	public double getMinHeight() {
+		if (isMeasurementTool) {
+			return 1;
+		}
 		return IMG_SIZE_THRESHOLD;
 	}
 
@@ -1421,6 +1448,30 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (cropBox == null) {
 			cropBox = AwtFactory.getPrototype().newRectangle2D();
 			cropBox.setFrame(0, 0, pixelWidth, pixelHeight);
+		}
+	}
+
+	@Override
+	public boolean isMeasurementTool() {
+		return isMeasurementTool;
+	}
+
+	public void setMeasurementTool(boolean measurementTool) {
+		isMeasurementTool = measurementTool;
+	}
+
+	/**
+	 * set properties of image if it's a ruler or protractor
+	 */
+	public void setImagePropertiesIfNecessary() {
+		if (isMeasurementTool) {
+			if (getImageFileName().contains("Ruler.svg")) {
+				app.getActiveEuclidianView().setMeasurementTool(this, 1472, 72, 72);
+			}
+			if (getImageFileName().contains("Protractor.svg")) {
+				int middle = (app.getActiveEuclidianView().getWidth() - 558) / 2;
+				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
+			}
 		}
 	}
 }

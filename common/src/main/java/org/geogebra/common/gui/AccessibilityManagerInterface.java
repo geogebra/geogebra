@@ -29,10 +29,11 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 * @param force
 	 *            force to open AV tab if not active
-	 * 
+	 * @param forceFade
+	 *            force fade during animation
 	 * @return algebra input focused
 	 */
-	boolean focusInput(boolean force);
+	boolean focusInput(boolean force, boolean forceFade);
 
 	/**
 	 * Focus the geo specified.

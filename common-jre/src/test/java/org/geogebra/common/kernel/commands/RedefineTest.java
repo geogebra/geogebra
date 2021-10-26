@@ -6,11 +6,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -51,12 +56,12 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	private static void t(String input, String expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	private static void t(String input, String expected, StringTemplate tpl) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
+		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
 				tpl);
 	}
 
@@ -412,10 +417,10 @@ public class RedefineTest extends BaseUnitTest {
 		add("SetValue(b,?)");
 		add("c=a(3)");
 		add("d=b(3)");
-		assertEquals(lookup("d").toValueString(StringTemplate.defaultTemplate), "false");
-		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
+		assertThat(lookup("d"), hasValue("false"));
+		assertThat(lookup("c"), hasValue("false"));
 		reload();
-		assertEquals(lookup("c").toValueString(StringTemplate.defaultTemplate), "false");
+		assertThat(lookup("c"), hasValue("false"));
 	}
 
 	@Test
@@ -429,6 +434,20 @@ public class RedefineTest extends BaseUnitTest {
 		add("qrow:{numA3 + \"\"}");
 		assertEquals("{numA3 + \"\"}",
 				lookup("qrow").getRedefineString(false, false));
+	}
+
+	@Test
+	public void reloadShouldNotLabelIntersectionPaths() {
+		add("a = Cube((-1, 1, 0), (1, 1, 0), Vector((0, 0, 1)))");
+		add("l1 = {3x + y + z = 1, x - 3y - z = -7}");
+		add("l2 = Zip(IntersectPath(P, a), P, l1)");
+		reload();
+		List<String> labels = getKernel().getConstruction().getGeoSetConstructionOrder()
+				.stream().filter(a -> !a.isAuxiliaryObject()).map(GeoElement::getLabelSimple)
+				.collect(Collectors.toList());
+		assertEquals(Arrays.asList("a", "l1", "l2"), labels);
+		assertEquals("Zip(IntersectPath(P, a), P, l1)",
+				lookup("l2").getDefinition(StringTemplate.defaultTemplate));
 	}
 
 	/**

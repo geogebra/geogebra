@@ -47,6 +47,7 @@ import com.himamis.retex.renderer.share.Colors;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
@@ -69,7 +70,8 @@ public class JlmLib {
 		initString.append(string);
 	}
 
-	public JsPropertyMap<Object> drawLatex(final CanvasRenderingContext2D ctx, final String latex,
+	public JsPropertyMap<Object> drawLatex(final CanvasRenderingContext2D ctx,
+			final TeXFormula formula,
 			final double size, final int type, final int x, final int y,
 			final int topInset, final int leftInset, final int bottomInset,
 			final int rightInset, final String fgColorString,
@@ -81,7 +83,7 @@ public class JlmLib {
 			initString.setLength(0);
 		}
 		// create icon and graphics objects
-		TeXIcon icon = createIcon(latex, size, type,
+		TeXIcon icon = createIcon(formula, size, type,
 				new Insets(topInset, leftInset, bottomInset, rightInset));
 		return draw(icon, ctx, x, y, fgColorString, bgColorString, callback);
 	}
@@ -135,9 +137,8 @@ public class JlmLib {
 		return createReturnValue(icon, ratio);
 	}
 
-	public static TeXIcon createIcon(final String latex, final double size,
+	public static TeXIcon createIcon(final TeXFormula formula, final double size,
 			final int type, Insets insets) {
-		TeXFormula formula = new TeXFormula(latex);
 		TeXIcon icon = formula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setType(type)
 				.setSize(size).build();
@@ -153,5 +154,14 @@ public class JlmLib {
 		object.set("baseline", icon.getBaseLine());
 		object.set("pixelRatio", ratio);
 		return object;
+	}
+
+	/**
+	 * @param ascii AsciiMath formula
+	 * @return renderable formula
+	 */
+	protected TeXFormula fromAsciiMath(String ascii) {
+		FactoryProvider.debugS("ASCII math input not supported, falling back to LaTeX");
+		return new TeXFormula(ascii);
 	}
 }

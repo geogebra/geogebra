@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui.toolbar;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.toolbar.mow.SubMenuPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -26,26 +26,13 @@ public class ToolButton extends StandardButton {
 	 *            tool mode
 	 * @param app
 	 *            see {@link AppW}
-	 * @param panel
-	 *            which contains the button
-	 */
-	public ToolButton(int mode, AppW app, SubMenuPanel panel) {
-		this(mode, app);
-		this.addFastClickHandler(panel);
-	}
-	
-	/**
-	 * @param mode
-	 *            tool mode
-	 * @param app
-	 *            see {@link AppW}
 	 */
 	public ToolButton(int mode, AppW app) {
 		super(AppResources.INSTANCE.empty(), app.getLocalization()
 				.getMenu(EuclidianConstants.getModeText(mode)), 24);
 		this.mode = mode;
 		this.appW = app;
-		this.selectedColor = app.getVendorSettings().getPrimaryColor().toString();
+		this.selectedColor = app.getGeoGebraElement().getPrimaryColor(app.getFrameElement());
 		setStyleName("toolButton");
 		setAccessible();
 		setSelected(false); // update icon
@@ -95,5 +82,28 @@ public class ToolButton extends StandardButton {
 		setAltText(appW.getLocalization().getMenu(
 				EuclidianConstants.getModeText(mode))
 				+ ". " + appW.getToolHelp(mode));
+	}
+
+	/**
+	 * @return associated mode
+	 */
+	public int getMode() {
+		return mode;
+	}
+
+	/**
+	 * @param appMode current mode of the app
+	 */
+	public void updateSelected(int appMode) {
+		boolean selected = (mode == appMode) ||	isAdditionalToolSelected();
+		getElement().setAttribute("selected",
+				String.valueOf(selected));
+		setSelected(selected);
+	}
+
+	private boolean isAdditionalToolSelected() {
+		Construction cons = appW.getKernel().getConstruction();
+		return (mode == EuclidianConstants.MODE_RULER && cons.getRuler() != null)
+				|| (mode == EuclidianConstants.MODE_PROTRACTOR && cons.getProtractor() != null);
 	}
 }

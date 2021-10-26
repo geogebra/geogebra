@@ -132,6 +132,14 @@ public class MySpecialDouble extends MyDouble {
 				return tpl.convertScientificNotationGiac(originalString);
 			}
 
+			if (isPercentage()) {
+				if (tpl.isLatex()) {
+					return strToString.replace("%", "\\%");
+				}
+
+				return strToString;
+			}
+
 			// if we are printing result of numeric and user didn't force us to
 			// use significant digits
 			// print the original string
@@ -144,9 +152,6 @@ public class MySpecialDouble extends MyDouble {
 					return tpl.convertScientificNotation(strToString);
 				}
 
-				if (isPercentage() && tpl.isLatex()) {
-					return strToString.replace("%", "\\%");
-				}
 				// keep original string
 				return strToString;
 			}

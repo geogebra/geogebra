@@ -550,6 +550,21 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void shouldRecognizeDelta() {
+		checker.type("Δy(1+y)").checkGGBMath("Δy(1 + y)");
+	}
+
+	@Test
+	public void shouldRecognizeDeltaAtEnd() {
+		checker.type("yΔ(1+y)").checkGGBMath("yΔ(1 + y)");
+	}
+
+	@Test
+	public void gammaShouldBeRecognizedAsFunction() {
+		checker.type(Unicode.Gamma + "(1+y)").checkGGBMath(Unicode.Gamma + "(1 + y)");
+	}
+
+	@Test
 	public void testTypingPiWithComplex() {
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();

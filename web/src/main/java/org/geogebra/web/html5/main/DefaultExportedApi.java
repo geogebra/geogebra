@@ -144,6 +144,14 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
+	public boolean isFixed(String objName) {
+		return	ggbAPI.isFixed(objName + "");
+	}
+
+	public boolean isSelectionAllowed(String objName) {
+		return	ggbAPI.isSelectionAllowed(objName + "");
+	}
+
 	public void setOnTheFlyPointCreationActive(Object flag) {
 		ggbAPI.setOnTheFlyPointCreationActive(Js.isTruthy(flag));
 	}
@@ -981,6 +989,10 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public void updateOrdering(String labels) {
 		ggbAPI.updateOrdering(labels);
+	}
+
+	public String getOrdering() {
+		return ggbAPI.getOrdering();
 	}
 
 	public void previewRefresh() {

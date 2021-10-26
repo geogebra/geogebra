@@ -1211,7 +1211,7 @@ public class Function extends FunctionNVar
 			boolean symbolic) {
 		return isConstantFunction() || (symbolic
 				? getSymbolicPolynomialFactors(forRootFinding, false)
-				: getPolynomialFactors(forRootFinding, false)) != null;
+				: getNumericPolynomialFactors(forRootFinding, false)) != null;
 	}
 
 	/**

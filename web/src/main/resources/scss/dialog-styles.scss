@@ -94,7 +94,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;
-		max-height: 438px;
 
 		.gwt-ListBox {
 			margin-right: 16px;
@@ -117,7 +116,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* button tool dialog*/
 	.dialogComponent.buttonDialog {
 		max-width: 448px;
-		max-height: 444px;
 
 		.scriptArea {
 			margin-right: 16px;
@@ -137,7 +135,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.inputboxDialog {
 		max-width: 430px;
-		max-height: 250px;
 
 		.AutoCompleteTextFieldW {
 			max-width: 382px;
@@ -545,7 +542,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					&.focusState, &.focusState:hover {
 						@extend .emptyState;
 						.inputLabel {
-							color: colors.$mow_dark_87;
+							opacity: 0.87;
+							color: colors.$mow_dark;
 						}
 
 						.AutoCompleteTextFieldW {
@@ -650,7 +648,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			&.focusState, &.focusState:hover {
 				@extend .emptyState;
 				.inputLabel {
-					color: colors.$mow_dark_87;
+					opacity: 0.87;
+					color: colors.$mow_dark;
 				}
 
 				.AutoCompleteTextFieldW {
@@ -711,11 +710,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border: none;
 		}
 
-		.dialogContent {
-			height: calc(100% - 116px);
-			margin-bottom: 24px;
-		}
-
 		 .pdfDialogContent {
 			height: 100%;
 			display: flex;
@@ -732,6 +726,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 			&.withPdf {
 				border-color: transparent;
+				display: flex;
+				flex-direction: column;
 			}
 		}
 
@@ -774,11 +770,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.pdfPreview {
-			 display: inline-flex;
-			 display: -webkit-inline-flex;
-			 width: 80%;
-			 height: 100%;
-			 position: relative;
+			display: inline-flex;
+			display: -webkit-inline-flex;
+			width: 80%;
+			flex-grow: 1;
+			position: relative;
 
 			.leftBtn,.rightBtn {
 				width: 24px;
@@ -821,11 +817,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				-webkit-flex-direction: row;
 				width: fit-content;
 				height: fit-content;
-				position: relative;
-				margin-left: auto;
-				margin-right: auto;
-				margin-top: 20px;
-				bottom: 10%;
+				margin: 20px auto;
 
 				.gwt-Label {
 					margin: 0px;
@@ -846,11 +838,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						box-shadow: none;
 						border: none;
 						border-radius: 0px;
-						border-bottom: 1px solid colors.$black-42;
 					}
 
 					&.default {
 						border-bottom: 1px solid colors.$black-42;
+						margin-bottom: 1px;
 					}
 
 					&.hover {
@@ -858,7 +850,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					}
 
 					&.focus, &.focus:hover {
-						border-bottom: 2px solid colors.$mow_dark_87;
+						border-bottom: 2px solid colors.$mow_dark;
 					}
 				}
 
@@ -875,15 +867,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				color: colors.$mow_dark;
 				&:hover {
 					color: colors.$mow_dark;
-				}
-			}
-
-			.insertBtn.button-up-disabled {
-				opacity: 1;
-				color: colors.$mow_dark_26;
-
-				&:hover {
-					background: none !important;
 				}
 			}
 		}
@@ -906,7 +889,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.shareLink {
 		padding-bottom: 24px;
 		max-width: 510px;
-		max-height: 164px;
 
 		>div>table {
 			padding-right: 0px;
@@ -1196,7 +1178,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 *****************************************************/
 	.mowPermissionDialog{
 		max-width: 500px;
-		max-height: 177px;
 		.dialogContent .gwt-Label {
 			color: colors.$text-secondary;
 			font-size: 80%;
@@ -1210,7 +1191,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.camera {
 		max-width: 530px;
-		max-height: 488px;
 
 		.mowCameraSimplePanel {
 			margin-left: 16px;
@@ -1227,21 +1207,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent {
+		button.CustomColorButton:hover {
+			border: 2px solid colors.$mow_dark;
+		}
+	}
+
 	.MaterialDialogBox.mow {
-			.previewLbl {
-				color: colors.$mow_dark !important;
-			}
-			.CustomColorButton:hover {
-				background-color: colors.$mow_light !important;
-			}
-			.DialogButtonPanel {
-				.gwt-Button {
+		.DialogButtonPanel {
+			.gwt-Button {
+				color: colors.$mow_dark;
+				&:hover {
 					color: colors.$mow_dark;
-					&:hover {
-						color: colors.$mow_dark;
-					}
 				}
 			}
+		}
 		.AutoCompleteTextFieldW {
 			border-bottom: 1px solid colors.$mow_dark;
 		}
@@ -1541,7 +1521,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.whatsNewDialog {
 		max-width: 592px;
-		max-height: 424px;
 		height: auto;
 
 		.messagePanel {
@@ -1647,7 +1626,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.sessionExpireNotifyDialog {
 		max-width: 448px;
-		max-height: 210px;
 		height: unset;
 
 		.sessionExpireTxt {
@@ -1659,7 +1637,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.sliderDialog {
 		max-width: 504px;
-		max-height: 450px;
 
 		.gwt-RadioButton [type="radio"]+label {
 			padding-left: 35px;

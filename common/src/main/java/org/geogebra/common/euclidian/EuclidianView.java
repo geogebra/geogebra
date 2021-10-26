@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
@@ -2081,6 +2082,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
 				|| geo instanceof GeoMindMapNode
+				|| geo.isMeasurementTool()
 				|| geo.isSpotlight();
 	}
 
@@ -3643,6 +3645,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		adjustObjects();
 		drawMasks(g2);
+		drawMeasurementTools(g2);
 	}
 
 	/**
@@ -4268,6 +4271,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private void drawMasks(GGraphics2D g2) {
 		for (Drawable d : allDrawableList) {
 			if (d.geo.isMask()) {
+				d.updateIfNeeded();
+				d.draw(g2);
+			}
+		}
+	}
+
+	private void drawMeasurementTools(GGraphics2D g2) {
+		for (Drawable d : allDrawableList) {
+			if (d.geo.isMeasurementTool()) {
 				d.updateIfNeeded();
 				d.draw(g2);
 			}
@@ -6716,5 +6728,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			coordSystemInfo.setXAxisZoom(false);
 			euclidianController.notifyZoomerStopped();
 		}
+	}
+
+	/**
+	 * adds ruler or protractor image to canvas
+	 * @return geoImage containing ruler or protractor
+	 */
+	public GeoImage addMeasurementTool(int mode, String fileName) {
+		return null;
+	}
+
+	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
+		// do nothing
 	}
 }

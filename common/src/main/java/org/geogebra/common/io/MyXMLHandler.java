@@ -94,7 +94,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * @author Markus Hohenwarter
  */
-// public class MyXMLHandler extends DefaultHandler {
 public class MyXMLHandler implements DocHandler {
 
 	private static final double FORMAT = StringUtil
@@ -108,7 +107,6 @@ public class MyXMLHandler implements DocHandler {
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
 	private static final int MODE_SPREADSHEET_VIEW = 150;
 	private static final int MODE_ALGEBRA_VIEW = 151;
-	// private static final int MODE_CAS_VIEW = 160;
 	private static final int MODE_CONST_CAS_CELL = 161;
 	private static final int MODE_CAS_CELL_PAIR = 162;
 	private static final int MODE_CAS_INPUT_CELL = 163;
@@ -2218,25 +2216,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		try {
 			int guiSize = Integer.parseInt(attrs.get("size"));
-
-			// old versions do just have a single font size and derive the font
-			// size for
-			// the axes / euclidian view from this single size
-			// if(ggbFileFormat < 3.3) {
-			// app.setFontSize(guiSize, false);
-			// app.setAxesFontSize(guiSize - 2, false); // always 2 points
-			// smaller than the default size
-			// } else {
-			// int axesSize = Integer.parseInt((String) attrs.get("axesSize"));
-			// app.setAxesFontSize(axesSize, false);
-			//
-			// int euclidianSize = Integer.parseInt((String)
-			// attrs.get("euclidianSize"));
-			// app.setEuclidianFontSize(euclidianSize, false);
-			// }
-
-			app.setFontSize(guiSize, true); // set gui font size and update all
-											// fonts
+			app.setFontSize(guiSize, true); // set gui font size and update all fonts
 			return true;
 		} catch (RuntimeException e) {
 			return false;
