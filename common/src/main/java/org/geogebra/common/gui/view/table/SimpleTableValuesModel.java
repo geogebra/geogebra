@@ -234,10 +234,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		column.notifyDatasetChanged(this);
 	}
 
-	private void addColumn(TableValuesColumn column) {
-
-	}
-
 	/**
 	 * Clears and initializes the model.
 	 */
