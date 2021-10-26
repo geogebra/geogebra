@@ -318,10 +318,14 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
 	public void testNotifyColumnChangedCalledFromProcessor() {
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
 		model.registerListener(listener);
-		processor.processInput("1", view.getValues(), 0);
+		GeoFunction anotherFunction = getElementFactory().createFunction("x^3");
+		function.set(anotherFunction);
+		function.notifyUpdate();
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener).notifyColumnChanged(model, view.getValues(), 0);
+		verify(listener).notifyColumnChanged(model, function, 1);
 	}
 
 	@Test
@@ -338,6 +342,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		processor.processInput("1", view.getValues(), 0);
 		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnChanged(model, view.getValues(), 0);
 		verify(listener).notifyRowAdded(model, 0);
 	}
 
@@ -694,9 +699,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoLine[] lines = createLines(3);
 		setValuesSafe(-5, 5, 2);
 		setupPointListener();
-		showColumn(lines[1]);
-		showColumn(lines[0]);
-		showColumn(lines[2]);
+		showColumn(lines[1]); // column 1
+		showColumn(lines[0]); // column 2
+		showColumn(lines[2]); // column 3
 		lines[1].setPointsVisible(false);
 		reload();
 		assertFalse(tablePoints.arePointsVisible(1));

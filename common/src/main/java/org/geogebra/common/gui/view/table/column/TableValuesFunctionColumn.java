@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.table.column;
 
+import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
@@ -12,10 +13,9 @@ public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 	 * Creates a function column
 	 * @param evaluatable function
 	 * @param values values to evaluate function at
-	 * @param initialSize size of the cache
 	 */
-	public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values, int initialSize) {
-		super(evaluatable, initialSize);
+	public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
+		super(evaluatable);
 		this.evaluatable = evaluatable;
 		this.values = values;
 	}

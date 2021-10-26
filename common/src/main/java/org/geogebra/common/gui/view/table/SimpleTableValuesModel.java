@@ -2,6 +2,8 @@ package org.geogebra.common.gui.view.table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import org.geogebra.common.gui.view.table.column.TableValuesColumn;
 import org.geogebra.common.gui.view.table.column.TableValuesFunctionColumn;
@@ -102,6 +104,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			}
 			TableValuesColumn column = createColumn(evaluatable);
 			columns.add(idx, column);
+			column.notifyDatasetChanged(this);
 			ensureIncreasingIndices(idx);
 			notifyColumnAdded(evaluatable, idx);
 		}
@@ -110,9 +113,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private TableValuesColumn createColumn(GeoEvaluatable evaluatable) {
 		if (evaluatable.isGeoList()) {
 			GeoList list = (GeoList) evaluatable;
-			return new TableValuesListColumn(list, list.size());
+			return new TableValuesListColumn(list);
 		}
-		return new TableValuesFunctionColumn(evaluatable, values, values.size());
+		return new TableValuesFunctionColumn(evaluatable, values);
 	}
 
 	private void ensureIncreasingIndices(int idx) {
@@ -149,21 +152,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 */
 	void updateEvaluatable(GeoEvaluatable evaluatable) {
 		int index = getEvaluatableIndex(evaluatable);
-		if (evaluatable == values) {
-			for (TableValuesColumn column : columns) {
-				GeoEvaluatable e = column.getEvaluatable();
-				int columnSize = e instanceof GeoList ? ((GeoList) e).size() : 0;
-				column.invalidateValues(Math.max(columnSize, values.size()));
-			}
-		} else {
-			if (index > -1) {
-				int size = values.size();
-				if (evaluatable instanceof GeoList) {
-					size = ((GeoList) evaluatable).size();
-				}
-				columns.get(index).invalidateValues(size);
-			}
-		}
 		if (index > -1) {
 			notifyColumnChanged(evaluatable, index);
 		}
@@ -184,7 +172,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 			if (row <= -1) {
 				continue;
 			}
-			columns.get(column).invalidateValue(row);
 			notifyCellChanged(evaluatable, column, row);
 		}
 	}
@@ -224,7 +211,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void updateEvaluatableName(GeoEvaluatable evaluatable) {
 		int index = getEvaluatableIndex(evaluatable);
 		if (index > -1) {
-			columns.get(index).invalidateHeader();
 			notifyColumnHeaderChanged(evaluatable, index);
 		}
 	}
@@ -243,7 +229,13 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void initializeModel() {
-		columns.add(new TableValuesListColumn(values, values.size()));
+		TableValuesColumn column = new TableValuesListColumn(values);
+		columns.add(column);
+		column.notifyDatasetChanged(this);
+	}
+
+	private void addColumn(TableValuesColumn column) {
+
 	}
 
 	/**
@@ -266,75 +258,74 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyColumnRemoved(this, evaluatable, column);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyColumnRemoved(this, evaluatable, column));
 	}
 
 	private void notifyColumnAdded(GeoEvaluatable evaluatable, int column) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyColumnAdded(this, evaluatable, column);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyColumnAdded(this, evaluatable, column));
 	}
 
 	private void notifyColumnChanged(GeoEvaluatable evaluatable, int column) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyColumnChanged(this, evaluatable, column);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyColumnChanged(this, evaluatable, column));
 	}
 
 	private void notifyColumnHeaderChanged(GeoEvaluatable evaluatable, int column) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyColumnHeaderChanged(this, evaluatable, column);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyColumnHeaderChanged(this, evaluatable, column));
 	}
 
 	private void notifyCellChanged(GeoEvaluatable evaluatable, int column, int row) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyCellChanged(this, evaluatable, column, row);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyCellChanged(this, evaluatable, column, row));
 	}
 
 	private void notifyRowRemoved(int row) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyRowRemoved(this, row);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyRowRemoved(this, row));
 	}
 
 	private void notifyRowAdded(int row) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyRowAdded(this, row);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyRowAdded(this, row));
 	}
 
 	private void notifyRowChanged(int row) {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyRowChanged(this, row);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyRowChanged(this, row));
 	}
 
 	private void notifyDatasetChanged() {
-		if (!batchUpdate) {
-			for (TableValuesListener listener : listeners) {
-				listener.notifyDatasetChanged(this);
-			}
+		if (batchUpdate) {
+			return;
 		}
+		forEachListener(listener -> listener.notifyDatasetChanged(this));
+	}
+
+	private Stream<TableValuesListener> listenerStream() {
+		return Stream.concat(columns.stream(), listeners.stream());
+	}
+
+	private void forEachListener(Consumer<? super TableValuesListener> action) {
+		listenerStream().forEachOrdered(action);
 	}
 
 	/**
@@ -359,13 +350,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);
-		columns.get(columnIndex).invalidateValue(rowIndex);
 		if (isEmptyValue(element)) {
 			handleEmptyValue(column, rowIndex);
-		} else if (rowIndex == oldRowCount) {
-			notifyRowAdded(rowIndex);
+		} else if (rowIndex >= oldRowCount) {
+			int notifyRow = oldRowCount;
+			while (notifyRow <= rowIndex) {
+				notifyRowAdded(notifyRow++);
+			}
 		} else if (column == values) {
-			invalidateRow(rowIndex);
 			notifyRowChanged(rowIndex);
 		}
 		if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
@@ -374,13 +366,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void ensureCapacity(GeoList list, int index) {
-		boolean listWillChange = list.size() < index + 1;
 		list.ensureCapacity(index + 1);
 		for (int i = list.size(); i < index + 1; i++) {
 			list.add(createEmptyValue());
-		}
-		if (listWillChange) {
-			list.notifyUpdate();
 		}
 	}
 
@@ -398,7 +386,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (index == column.size() - 1) {
 			removeEmptyRowsFromBottom();
 		} else {
-			invalidateRow(index);
 			notifyRowChanged(index);
 		}
 		removeColumnIfEmpty(column);
@@ -457,16 +444,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 				}
 			}
 		}
-		invalidateRow(lastRowIndex);
 		notifyRowRemoved(lastRowIndex);
 		for (GeoList column : columnsToRemove) {
 			column.remove();
-		}
-	}
-
-	private void invalidateRow(int row) {
-		for (TableValuesColumn column : columns) {
-			column.invalidateValue(row);
 		}
 	}
 }

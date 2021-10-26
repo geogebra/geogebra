@@ -44,14 +44,18 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		if (points.size() > column && points.get(column) != null) {
-			removePoints(column);
-			addPointsToList(evaluatable, column);
+		if (column == 0 || points.size() <= column || points.get(column) == null) {
+			return;
 		}
+		removePoints(column);
+		addPointsToList(evaluatable, column);
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		if (column == 0) {
+			return;
+		}
 		initPoints(column);
 		addPointsToList(evaluatable, column);
 	}
@@ -65,16 +69,16 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
-		if (column >= points.size()) {
+		if (column == 0 || column >= points.size()) {
 			return;
 		}
 		List<GeoPoint> columnPoints = points.get(column);
-		if (row >= columnPoints.size()) {
+		if (columnPoints == null || columnPoints.size() <= row) {
 			return;
 		}
 		GeoPoint point = columnPoints.get(row);
 		setupPoint(point, evaluatable, row, column);
-		point.notifyUpdate();
+		point.updateRepaint();
 	}
 
 	@Override
@@ -90,20 +94,20 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
-		for (int column = 0; column < points.size(); column++) {
+		for (int column = 1; column < points.size(); column++) {
 			List<GeoPoint> geoPoints = points.get(column);
 			if (geoPoints == null || geoPoints.size() <= row) {
 				continue;
 			}
 			GeoPoint point = geoPoints.get(row);
 			setupPoint(point, view.getEvaluatable(column), row, column);
-			point.notifyUpdate();
+			point.updateRepaint();
 		}
 	}
 
 	@Override
 	public void notifyRowAdded(TableValuesModel model, int row) {
-		for (int column = 0; column < points.size(); column++) {
+		for (int column = 1; column < points.size(); column++) {
 			List<GeoPoint> geoPoints = points.get(column);
 			if (geoPoints == null) {
 				continue;
@@ -120,7 +124,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);
 		}
-		for (int column = 0; column < model.getColumnCount(); column++) {
+		for (int column = 1; column < model.getColumnCount(); column++) {
 			GeoEvaluatable evaluatable = view.getEvaluatable(column);
 			addPointsToList(evaluatable, column);
 		}
@@ -170,6 +174,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		point.setX(x);
 		point.setY(y);
 		point.setZ(1.0);
+		point.updateCoords();
 		point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
 		point.setAlgebraVisible(false);
 		point.setEuclidianVisible(true);
