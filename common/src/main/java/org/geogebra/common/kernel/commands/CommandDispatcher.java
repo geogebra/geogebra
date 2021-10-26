@@ -243,15 +243,17 @@ public abstract class CommandDispatcher {
 			if (cmdProc == null) {
 				throw new CommandNotFoundError(app.getLocalization(), c);
 			}
-			GeoElement[] result = cmdProc.process(c, info);
-			return result;
-		} catch (Throwable e) {
-			errorStatus = ((MyError) e).getErrorType().getKey();
+			return cmdProc.process(c, info);
+		} catch (Exception e) {
+			errorStatus = e.getMessage();
 			cons.setSuppressLabelCreation(oldMacroMode);
 			Log.debug(e);
 			throw MyError.forCommand(app.getLocalization(),
 					Errors.CASGeneralErrorMessage.getKey(),
 					c.getName(), e);
+		} catch (MyError e) {
+			errorStatus = e.getErrorType().getKey();
+			throw e;
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			String objectCreation = info.isRedefined() ? "redefined" : "new";
@@ -261,9 +263,6 @@ public abstract class CommandDispatcher {
 			params.put(Analytics.Param.STATUS, errorStatus);
 			params.put(Analytics.Param.OBJECT_CREATION, objectCreation);
 			Analytics.logEvent(Analytics.Event.COMMAND_VALIDATED, params);
-
-			//Log.debug("\n\n Log to analytics: " + cmdName + " " + errorStatus + " " + objectCreation);
-
 		}
 	}
 
