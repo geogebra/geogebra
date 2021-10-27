@@ -11,10 +11,9 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 	/**
 	 * Creates a list column.
 	 * @param list list
-	 * @param initialSize size of the cache
 	 */
-	public TableValuesListColumn(GeoList list, int initialSize) {
-		super(list, initialSize);
+	public TableValuesListColumn(GeoList list) {
+		super(list);
 		this.list = list;
 	}
 

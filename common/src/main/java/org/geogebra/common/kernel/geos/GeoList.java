@@ -135,7 +135,7 @@ public class GeoList extends GeoElement
 
 	private boolean wasDefinedWithCurlyBrackets = true;
 	private int tableColumn = -1;
-	private boolean pointsVisible;
+	private boolean pointsVisible = true;
 
 	/**
 	 * Creates new GeoList, size defaults to 20

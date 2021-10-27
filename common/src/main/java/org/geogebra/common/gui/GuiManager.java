@@ -833,7 +833,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			tableValues = createTableValuesView();
 			kernel.attach(tableValues);
 			TableValuesModel model = tableValues.getTableValuesModel();
-			tableValuesPoints = new TableValuesPointsImpl(kernel.getConstruction(), model);
+			tableValuesPoints =
+					new TableValuesPointsImpl(kernel.getConstruction(), tableValues, model);
 			model.registerListener(tableValuesPoints);
 
 			kernel.notifyAddAll(tableValues);

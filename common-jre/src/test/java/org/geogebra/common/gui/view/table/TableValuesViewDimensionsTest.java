@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.table;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.gui.view.table.dimensions.TextSizeMeasurer;
 import org.geogebra.common.io.FactoryProviderCommon;
@@ -13,15 +12,11 @@ import org.mockito.Mockito;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-public class TableValuesViewDimensionsTest extends BaseUnitTest {
+public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 
-	private TableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private TextSizeMeasurer measurer;
 
-	/**
-	 * Sets up the test suite.
-	 */
 	@Before
 	public void setupTest() {
 		FactoryProvider.setInstance(new FactoryProviderCommon());
@@ -33,7 +28,7 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 	private void mockModelWithSingleValue() {
 		mockRowCount(1);
 		mockColumnCount(1);
-		mockModelValue(0, 0, "1");
+		mockModelCell(0, 0, "1");
 		dimensions.notifyColumnAdded(model, null, 0);
 	}
 
@@ -72,8 +67,8 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 		mockMeasureWidth("11", longContentWidth);
 		mockRowCount(2);
 		mockColumnCount(1);
-		mockModelValue(0, 0, "10");
-		mockModelValue(1, 0, "11");
+		mockModelCell(0, 0, "10");
+		mockModelCell(1, 0, "11");
 
 		// Dimensions initial state
 		dimensions.notifyColumnAdded(model, null, 0);
@@ -94,8 +89,8 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 		mockMeasureWidth("11", longContentWidth);
 		mockRowCount(1);
 		mockColumnCount(1);
-		mockModelValue(0, 0, "10");
-		mockModelValue(1, 0, "11");
+		mockModelCell(0, 0, "10");
+		mockModelCell(1, 0, "11");
 
 		// Dimensions initial state
 		dimensions.notifyColumnAdded(model, null, 0);
@@ -115,18 +110,6 @@ public class TableValuesViewDimensionsTest extends BaseUnitTest {
 		return Math.min(
 				Math.max(widthWithMargins, TableValuesViewDimensions.MIN_COLUMN_WIDTH),
 				TableValuesViewDimensions.MAX_COLUMN_WIDTH);
-	}
-
-	private void mockModelValue(int row, int column, String value) {
-		when(model.getCellAt(row, column)).thenReturn(new TableValuesCell(value, false));
-	}
-
-	private void mockRowCount(int row) {
-		when(model.getRowCount()).thenReturn(row);
-	}
-
-	private void mockColumnCount(int column) {
-		when(model.getColumnCount()).thenReturn(column);
 	}
 
 	private void mockMeasureWidth(String content, int width) {
