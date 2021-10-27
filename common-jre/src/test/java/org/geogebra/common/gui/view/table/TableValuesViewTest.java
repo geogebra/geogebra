@@ -848,4 +848,18 @@ public class TableValuesViewTest extends BaseUnitTest {
 		view.getProcessor().processInput("", view.getValues(), 4);
 		assertEquals(model.getRowCount(), 4);
 	}
+
+	@Test
+	public void testUndefinedXValueDoesNotThrowException() {
+		setValuesSafe(-2, 2, 1);
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
+		processor.processInput("5", null, 5);
+		// Get the value for function for an undefined x value
+		try {
+			model.getCellAt(5, 1);
+		} catch (Throwable t) {
+			Assert.fail("Should not throw exception for a function in undefined x");
+		}
+	}
 }
