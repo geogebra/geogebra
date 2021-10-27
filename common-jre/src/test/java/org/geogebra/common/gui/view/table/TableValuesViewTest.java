@@ -390,6 +390,23 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testNotifyRowChangedCalledForLastRow() {
+		setValuesSafe(-2, 2, 1);
+		GeoFunction function = getElementFactory().createFunction("x");
+		showColumn(function);
+		// Add extra column with element in the last row to keep the row in view
+		processor.processInput("3", null, 4);
+		model.registerListener(listener);
+		// Delete last element in x column
+		processor.processInput("", view.getValues(), 4);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowRemoved(model, 4);
+		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 4);
+		verify(listener, never()).notifyColumnChanged(model, view.getValues(), 0);
+		verify(listener).notifyRowChanged(model, 4);
+	}
+
+	@Test
 	public void testNotifyRowAddedCalledForSecondRow() {
 		processor.processInput("10", view.getValues(), 0);
 		processor.processInput("11", null, 0);
@@ -405,12 +422,16 @@ public class TableValuesViewTest extends BaseUnitTest {
 	public void testNotifyCellChangedCalled() {
 		processor.processInput("10", view.getValues(), 0);
 		processor.processInput("11", view.getValues(), 1);
+		processor.processInput("12", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		processor.processInput("13", list, 1);
 
 		model.registerListener(listener);
-		processor.processInput("", view.getValues(), 0);
+		processor.processInput("", list, 0);
 		verify(listener, never()).notifyColumnAdded(model, view.getValues(), 0);
 		verify(listener, never()).notifyRowRemoved(model, 0);
-		verify(listener).notifyCellChanged(model, view.getValues(), 0, 0);
+		verify(listener, never()).notifyRowChanged(model, 0);
+		verify(listener).notifyCellChanged(model, list, 1, 0);
 	}
 
 	@Test
