@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.table.column;
 
-import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -12,7 +11,6 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 	/**
 	 * Creates a list column.
 	 * @param list list
-	 * @param initialSize size of the cache
 	 */
 	public TableValuesListColumn(GeoList list) {
 		super(list);

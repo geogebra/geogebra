@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.table.column;
 
-import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 

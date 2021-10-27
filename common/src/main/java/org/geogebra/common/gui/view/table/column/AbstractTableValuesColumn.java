@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.geogebra.common.gui.view.table.TableValuesCell;
-import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
