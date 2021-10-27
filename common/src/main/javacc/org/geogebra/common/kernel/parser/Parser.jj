@@ -127,7 +127,7 @@ public class Parser implements ParserInterface {
 		}
 		boolean decimalComma = !inputBox || loc.isUsingDecimalComma();
 		String input = StringUtil.preprocessWithInfo(parseString, new ParserInfo(inputBox, decimalComma));
-		ReInit(new StringProvider(input));
+		ReInit(new StringProvider(input.trim()));
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
 		giacParsing = false;
@@ -1748,7 +1748,7 @@ ExpressionNode numberFunction():
 {
     ValidExpression en;
     MyList myList;
-    Token c;
+    Token c, closing;
 }
 {
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
@@ -1806,23 +1806,23 @@ ExpressionNode numberFunction():
         return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
     }
 |
-  (
     c = <FUNCTION_LABEL> en = expressionOrEquation()
     {
         myList = new MyList(kernel, true);
         myList.addListElement(en);
     }
-       ( <COMMA> en = expressionOrEquation()
+    (
+    	<COMMA> en = expressionOrEquation()
         {
             myList.addListElement(en);
         }
-        )*
-    )
-  (")"|"]")
-  // note: the last character of FUNCTION_LABEL is a "("
+    )*
+    (closing = ")" | closing = "]")
     {
-        // remove the opening parenthesis
-        return functionParser.makeFunctionNode(c.image,myList, undecided, giacParsing, geoGebraCASParsing);
+		// note: the last character of FUNCTION_LABEL is a "("
+        return functionParser.makeFunctionNode(c.image, myList, undecided, giacParsing,
+        	geoGebraCASParsing, c.beginColumn == 1
+        		&& (closing.next == null || closing.next.kind == EOF || closing.next.kind == POLAR_SEPARATOR));
     }
 }
 
