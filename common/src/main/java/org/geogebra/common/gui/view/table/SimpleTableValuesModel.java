@@ -347,7 +347,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);
 		if (isEmptyValue(element)) {
-			handleEmptyValue(column, rowIndex);
+			handleEmptyValue(column, columnIndex, rowIndex);
 		} else if (rowIndex >= oldRowCount) {
 			int notifyRow = oldRowCount;
 			while (notifyRow <= rowIndex) {
@@ -378,13 +378,26 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return new GeoText(kernel.getConstruction(), "");
 	}
 
-	private void handleEmptyValue(GeoList column, int index) {
-		if (index == column.size() - 1) {
+	private void handleEmptyValue(GeoList column, int columnIndex, int rowIndex) {
+		if (rowIndex == column.size() - 1) {
 			removeEmptyRowsFromBottom();
+		} else if (column == values) {
+			notifyRowChanged(rowIndex);
+		} else if (isColumnEmpty(column)) {
+			column.remove();
 		} else {
-			notifyRowChanged(index);
+			notifyCellChanged(column, columnIndex, rowIndex);
 		}
-		removeColumnIfEmpty(column);
+	}
+
+	private boolean isColumnEmpty(GeoList column) {
+		for (int i = 0; i < column.size(); i++) {
+			GeoElement element = column.get(i);
+			if (!isEmptyValue(element)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void removeColumnIfEmpty(GeoList column) {

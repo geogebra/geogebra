@@ -329,6 +329,29 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testOnlyNotifyColumnRemovedCalled() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("2", view.getValues(), 1);
+
+		processor.processInput("3", null, 0);
+		GeoList y = (GeoList) view.getEvaluatable(1);
+		processor.processInput("4", y, 1);
+
+		GeoFunction function = getElementFactory().createFunction("x");
+		showColumn(function);
+
+		processor.processInput("", y, 1);
+		model.registerListener(listener);
+		processor.processInput("", y, 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyCellChanged(model, y, 1, 0);
+		verify(listener, never()).notifyRowChanged(model, 0);
+		verify(listener, never()).notifyRowRemoved(model, 0);
+		verify(listener, never()).notifyColumnChanged(model, y, 1);
+		verify(listener).notifyColumnRemoved(model, y, 1);
+	}
+
+	@Test
 	public void testClearViewCallsNotifyDatasetChanged() {
 		model.registerListener(listener);
 		GeoLine[] lines = createLines(1);
