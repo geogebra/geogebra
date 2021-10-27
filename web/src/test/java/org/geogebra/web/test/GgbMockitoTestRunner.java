@@ -40,8 +40,8 @@ import jsinterop.base.JsPropertyMap;
 public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
 
     /**
-     * Creates a test runner which allows final GWT classes to be mocked. Works by reloading the test
-     * class using a custom classloader and substituting the reference.
+     * Creates a test runner which allows final GWT classes to be mocked.
+     * Works by reloading the test class using a custom classloader and substituting the reference.
      *
      * @param unitTestClass test class
      */
