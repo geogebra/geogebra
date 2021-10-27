@@ -14,6 +14,10 @@ public class EventThrottle {
 		this.editor = editor;
 	}
 
+	/**
+	 * Pass content events with a slight debounce delay and selection events immediately
+	 * @param listener content and selection listener
+	 */
 	public void setListener(EditorChangeListener listener) {
 		updateTimer = new Timer() {
 			@Override

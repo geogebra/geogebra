@@ -23,8 +23,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
-
-
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({JLMContext2d.class, RootPanel.class})
 public class GroupSaveTest {
@@ -48,8 +46,8 @@ public class GroupSaveTest {
         geos.add(A);
         geos.add(line.getOutput(0));
         cons.createGroup(geos);
-        String pathString = "src/test/java/org/geogebra/common/main/saveLoad/group" +
-                "/consWithGroupXML.txt";
+        String pathString = "src/test/java/org/geogebra/common/main/saveLoad/group"
+                + "/consWithGroupXML.txt";
         String fileContent = FileIO.load(pathString);
         StringBuilder consXMLStrBuilder = new StringBuilder();
         app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
@@ -58,8 +56,8 @@ public class GroupSaveTest {
 
     @Test
     public void testLoadGroup() {
-        String pathString = "src/test/java/org/geogebra/common/main/saveLoad/group" +
-                "/consWithGroupXML.txt";
+        String pathString = "src/test/java/org/geogebra/common/main/saveLoad/group"
+                + "/consWithGroupXML.txt";
         String fileContent = FileIO.load(pathString);
         app.getGgbApi().evalXML(fileContent);
         ArrayList<GeoElement> groupedGeos = cons.getGroups().get(0).getGroupedGeos();

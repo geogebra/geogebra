@@ -18,6 +18,9 @@ import jsinterop.base.JsPropertyMap;
 
 public class ElementalMocker {
 
+	/**
+	 * Initiate some global variables (window, document, ...)
+	 */
 	public static void setupElemental() {
 		try {
 			DomGlobal.console = new Console();
@@ -29,7 +32,7 @@ public class ElementalMocker {
 			setFinalStatic(DomGlobal.class.getField("navigator"), newValue);
 			Global.JSON = new JSONType() {
 				@Override
-				public Object parse(String s){
+				public Object parse(String s) {
 					return JsPropertyMap.of();
 				}
 			};
@@ -48,7 +51,8 @@ public class ElementalMocker {
 			modifiersField = Field.class.getDeclaredField("modifiers");
 		} catch (NoSuchFieldException e) {
 			try {
-				Method getDeclaredFields0 = Class.class.getDeclaredMethod("getDeclaredFields0", boolean.class);
+				Method getDeclaredFields0 = Class.class.getDeclaredMethod(
+						"getDeclaredFields0", boolean.class);
 				boolean accessibleBeforeSet = getDeclaredFields0.isAccessible();
 				getDeclaredFields0.setAccessible(true);
 				Field[] fields = (Field[]) getDeclaredFields0.invoke(Field.class, false);

@@ -1,25 +1,25 @@
 package org.geogebra.web.html5.util;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.TreeSet;
 
 import org.geogebra.web.full.css.ToolbarSvgResources;
-
+import org.junit.Test;
 
 public class SVGTest {
-	/**
-	 * 
-	 */
-	// @Test
+
+	@Test
 	public void rmExtraSVGS() {
 		File svgs = new File(
 				"src/main/java/org/geogebra/web/full/gui/toolbar/svgimages/");
 		TreeSet<String> disk = new TreeSet<>();
 		try {
 			for (File icon : svgs.listFiles()) {
-				String path =icon.getAbsolutePath();
+				String path = icon.getAbsolutePath();
 				path = path.substring(path.indexOf("org")).replace('\\', '/');
 				disk.add(path);
 			}
@@ -34,8 +34,6 @@ public class SVGTest {
 				disk.remove(src);
 			}
 		}
-		for (String s : disk) {
-			System.out.println("svn rm " + s);
-		}
+		assertTrue(disk.isEmpty());
 	}
 }

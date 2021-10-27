@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
-
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({JLMContext2d.class, RootPanel.class})
 public class TemplateSaveTest {
@@ -29,9 +28,9 @@ public class TemplateSaveTest {
 		app.getSaveController().setSaveType(Material.MaterialType.ggsTemplate);
 		EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
 		settings.setLastPenThickness(30);
-		settings.setLastSelectedPenColor(GColor.newColor(204,0,153));
+		settings.setLastSelectedPenColor(GColor.newColor(204, 0, 153));
 		settings.setLastHighlighterThinckness(1);
-		settings.setLastSelectedHighlighterColor(GColor.newColor(219,97,20));
+		settings.setLastSelectedHighlighterColor(GColor.newColor(219, 97, 20));
 		settings.setDeleteToolSize(61);
 		String pathString = "src/test/java/org/geogebra/web/html5/main/templateXML.txt";
 		String fileContent = FileIO.load(pathString);

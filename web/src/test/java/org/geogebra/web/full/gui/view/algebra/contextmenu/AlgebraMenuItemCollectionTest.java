@@ -35,7 +35,7 @@ public class AlgebraMenuItemCollectionTest {
 		GeoNumeric num1 = new GeoNumeric(construction, 1);
 		GeoNumeric num2 = new GeoNumeric(construction, 2);
 		GeoNumeric num3 = new GeoNumeric(construction, 3);
-		GeoList emptyList = new GeoList(construction);
+		final GeoList emptyList = new GeoList(construction);
 		GeoList numberList = new GeoList(construction);
 		GeoList notNumberList = new GeoList(construction);
 

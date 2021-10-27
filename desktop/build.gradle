@@ -165,6 +165,8 @@ checkstyle {
     configFile file("config/checkstyle/checkstyle.xml")
 }
 
+tasks['checkstyleMain'].setSource(files([]))
+
 task e2eTest(type: Test) {
     description 'Run end-to-end tests'
     testClassesDirs = sourceSets.e2eTest.output.classesDirs

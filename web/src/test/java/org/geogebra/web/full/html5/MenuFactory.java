@@ -31,7 +31,8 @@ public class MenuFactory extends ContextMenuFactory {
 	}
 
 	@Override
-	public AriaMenuItem newAriaMenuItem(String text, boolean asHTML, Scheduler.ScheduledCommand cmd) {
+	public AriaMenuItem newAriaMenuItem(String text, boolean asHTML,
+			Scheduler.ScheduledCommand cmd) {
 		return new AriaMenuItemMock(text, asHTML, cmd);
 	}
 
