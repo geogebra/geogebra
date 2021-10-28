@@ -1,7 +1,5 @@
 package org.geogebra.web.full.html5;
 
-import java.util.List;
-
 import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -13,6 +11,9 @@ import com.google.gwt.core.client.Scheduler;
 public class GPopupMenuWMock extends GPopupMenuW {
 	private GMenuBarMock menuBarMock;
 
+	/**
+	 * @param app application
+	 */
 	public GPopupMenuWMock(AppW app) {
 		super(app);
 		menuBarMock = new GMenuBarMock("menuMock", app);
@@ -53,7 +54,4 @@ public class GPopupMenuWMock extends GPopupMenuW {
 		menuBarMock.clearItems();
 	}
 
-	private List<String> getItems() {
-		return menuBarMock.getTitles();
-	}
 }

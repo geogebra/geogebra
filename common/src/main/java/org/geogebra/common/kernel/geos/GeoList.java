@@ -135,7 +135,7 @@ public class GeoList extends GeoElement
 
 	private boolean wasDefinedWithCurlyBrackets = true;
 	private int tableColumn = -1;
-	private boolean pointsVisible;
+	private boolean pointsVisible = true;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -947,6 +947,10 @@ public class GeoList extends GeoElement
 			} else {
 				StringUtil.encodeXML(sb,
 						toValueString(StringTemplate.xmlTemplate));
+			}
+			if (getTableColumn() != -1) {
+				sb.append("\" type=\"");
+				sb.append("list");
 			}
 			sb.append("\"/>\n");
 		}

@@ -1,6 +1,10 @@
-project.setDescription('Developer tools required to compile web platforms')
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'pmd'
+}
 
-apply plugin: 'java'
+project.setDescription('Developer tools required to compile web platforms')
 
 dependencies {
     compile "com.google.gwt:gwt-dev:$gwtCompilerVersion",

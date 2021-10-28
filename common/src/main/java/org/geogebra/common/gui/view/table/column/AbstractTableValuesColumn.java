@@ -1,6 +1,10 @@
 package org.geogebra.common.gui.view.table.column;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.geogebra.common.gui.view.table.TableValuesCell;
+import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -10,43 +14,41 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 
 	private final GeoEvaluatable element;
 	private final Kernel kernel;
-	private TableValuesCell[] cells;
-	private Double[] doubleValues;
+	private ArrayList<TableValuesCell> cells;
+	private ArrayList<Double> doubleValues;
 	private String header;
 
 	/**
 	 * Creates an AbstractTableValuesColumn
 	 * @param element evaluatable
-	 * @param initialSize size of the cache
 	 */
-	public AbstractTableValuesColumn(GeoEvaluatable element, int initialSize) {
+	public AbstractTableValuesColumn(GeoEvaluatable element) {
 		this.element = element;
 		this.kernel = element.getKernel();
-		invalidateValues(initialSize);
 	}
 
 	@Override
 	public double getDoubleValue(int row) {
-		if (doubleValues == null || doubleValues.length <= row) {
+		if (doubleValues == null || doubleValues.size() <= row) {
 			return Double.NaN;
 		}
-		Double value = doubleValues[row];
+		Double value = doubleValues.get(row);
 		if (value == null) {
 			value = calculateValue(row);
-			doubleValues[row] = value;
+			doubleValues.set(row, value);
 		}
 		return value;
 	}
 
 	@Override
 	public TableValuesCell getCellValue(int row) {
-		if (cells == null || cells.length <= row) {
+		if (cells == null || cells.size() <= row) {
 			return new TableValuesCell("", false);
 		}
-		TableValuesCell cell = cells[row];
+		TableValuesCell cell = cells.get(row);
 		if (cell == null) {
 			cell = createTableValuesCell(row);
-			cells[row] = cell;
+			cells.set(row, cell);
 		}
 		return cell;
 	}
@@ -96,15 +98,73 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	}
 
 	@Override
-	public void invalidateValues(int size) {
-		doubleValues = new Double[size];
-		cells = new TableValuesCell[size];
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
+		// Ignore
 	}
 
 	@Override
-	public void invalidateValue(int row) {
-		doubleValues[row] = null;
-		cells[row] = null;
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
+		if (evaluatable == element) {
+			invalidateValues(model.getRowCount());
+		}
+	}
+
+	@Override
+	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		// Ignore
+	}
+
+	@Override
+	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
+			int column) {
+		if (evaluatable == element) {
+			invalidateHeader();
+		}
+	}
+
+	@Override
+	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
+			int row) {
+		if (evaluatable == element) {
+			invalidateValue(row);
+		}
+	}
+
+	@Override
+	public void notifyRowRemoved(TableValuesModel model, int row) {
+		doubleValues.remove(row);
+		cells.remove(row);
+	}
+
+	@Override
+	public void notifyRowChanged(TableValuesModel model, int row) {
+		invalidateValue(row);
+	}
+
+	@Override
+	public void notifyRowAdded(TableValuesModel model, int row) {
+		doubleValues.add(row, null);
+		cells.add(row, null);
+	}
+
+	@Override
+	public void notifyDatasetChanged(TableValuesModel model) {
+		invalidateValues(model.getRowCount());
+	}
+
+	private void invalidateValues(int size) {
+		doubleValues = new ArrayList<>(Collections.nCopies(size, null));
+		cells = new ArrayList<>(Collections.nCopies(size, null));
+	}
+
+	private void invalidateValue(int row) {
+		if (doubleValues.size() <= row) {
+			return;
+		}
+		doubleValues.set(row, null);
+		cells.set(row, null);
 	}
 
 	/**

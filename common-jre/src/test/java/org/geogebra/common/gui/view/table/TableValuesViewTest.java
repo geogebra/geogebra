@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.OrderingComparison;
@@ -41,6 +40,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	private TableValues view;
 	private TableValuesModel model;
+	private TableValuesProcessor processor;
 
 	@Mock
 	private TableValuesListener listener;
@@ -52,12 +52,11 @@ public class TableValuesViewTest extends BaseUnitTest {
 	 */
 	@Before
 	public void setupTest() {
-		getKernel().clearConstruction(true);
-		getKernel().detach(view);
 		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
 		model = view.getTableValuesModel();
 		view.clearView();
+		processor = view.getProcessor();
 	}
 
 	@Test
@@ -187,9 +186,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals(1, model.getColumnCount());
 		assertEquals(0, model.getRowCount());
 		assertEquals("x", model.getHeaderAt(0));
-		assertEquals(TableSettings.DEFAULT_MIN, view.getValuesMin(), .1);
-		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
-		assertEquals(TableSettings.DEFAULT_STEP, view.getValuesStep(), .1);
+		assertEquals(0.0, view.getValuesMin(), .1);
+		assertEquals(0.0, view.getValuesMax(), .1);
+		assertEquals(0.0, view.getValuesStep(), .1);
 	}
 
 	@Test
@@ -267,29 +266,198 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testListeners() {
+	public void testNotifyDatasetChangedCalled() {
 		model.registerListener(listener);
-		int datasetChangedCount = 0;
-
 		setValuesSafe(0, 2, 1);
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+		verify(listener).notifyDatasetChanged(model);
+	}
+
+	@Test
+	public void testNotifyColumnAddedCalled() {
+		model.registerListener(listener);
 		GeoLine[] lines = createLines(2);
 		showColumn(lines[0]);
-		verify(listener).notifyColumnAdded(model, lines[0], 1);
 		showColumn(lines[1]);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnAdded(model, lines[0], 1);
 		verify(listener).notifyColumnAdded(model, lines[1], 2);
+	}
 
-		hideColumn(lines[1]);
-		verify(listener).notifyColumnRemoved(model, lines[1], 2);
+	@Test
+	public void testNotifyColumnRemovedCalled() {
+		model.registerListener(listener);
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
+		hideColumn(lines[0]);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnRemoved(model, lines[0], 1);
+	}
 
+	@Test
+	public void testNotifyColumnRemovedCalledFromProcessor() {
+		processor.processInput("0", view.getValues(), 0);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		GeoList columnToRemove = (GeoList) view.getEvaluatable(1);
+		processor.processInput("", columnToRemove, 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnChanged(model, columnToRemove, 1);
+		verify(listener, never()).notifyCellChanged(model, columnToRemove, 1, 0);
+		verify(listener).notifyColumnRemoved(model, columnToRemove, 1);
+	}
+
+	@Test
+	public void testNotifyColumnChangedCalled() {
+		model.registerListener(listener);
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
 		view.update(lines[0]);
+		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener).notifyColumnChanged(model, lines[0], 1);
+	}
 
+	@Test
+	public void testNotifyColumnChangedCalledFromProcessor() {
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
+		model.registerListener(listener);
+		GeoFunction anotherFunction = getElementFactory().createFunction("x^3");
+		function.set(anotherFunction);
+		function.notifyUpdate();
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyColumnChanged(model, function, 1);
+	}
+
+	@Test
+	public void testOnlyNotifyColumnRemovedCalled() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("2", view.getValues(), 1);
+
+		processor.processInput("3", null, 0);
+		GeoList y = (GeoList) view.getEvaluatable(1);
+		processor.processInput("4", y, 1);
+
+		GeoFunction function = getElementFactory().createFunction("x");
+		showColumn(function);
+
+		processor.processInput("", y, 1);
+		model.registerListener(listener);
+		processor.processInput("", y, 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyCellChanged(model, y, 1, 0);
+		verify(listener, never()).notifyRowChanged(model, 0);
+		verify(listener, never()).notifyRowRemoved(model, 0);
+		verify(listener, never()).notifyColumnChanged(model, y, 1);
+		verify(listener).notifyColumnRemoved(model, y, 1);
+	}
+
+	@Test
+	public void testClearViewCallsNotifyDatasetChanged() {
+		model.registerListener(listener);
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
 		view.clearView();
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+		verify(listener).notifyDatasetChanged(model);
+	}
 
-		view.getProcessor().processInput("10", view.getValues(), 0);
-		verify(listener, times(++datasetChangedCount)).notifyDatasetChanged(model);
+	@Test
+	public void testNotifyRowAddedCalled() {
+		model.registerListener(listener);
+		processor.processInput("1", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnChanged(model, view.getValues(), 0);
+		verify(listener).notifyRowAdded(model, 0);
+	}
+
+	@Test
+	public void testNotifyRowAddedCalledWithExistingColumn() {
+		GeoLine[] lines = createLines(1);
+		showColumn(lines[0]);
+		model.registerListener(listener);
+		processor.processInput("1", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyRowAdded(model, 0);
+	}
+
+	@Test
+	public void testNotifyRowChangedCalled() {
+		processor.processInput("1", view.getValues(), 0);
+		model.registerListener(listener);
+		processor.processInput("10", view.getValues(), 0);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowAdded(model, 0);
+		verify(listener).notifyRowChanged(model, 0);
+	}
+
+	@Test
+	public void testNotifyRowChangedCalledForLastRow() {
+		setValuesSafe(-2, 2, 1);
+		GeoFunction function = getElementFactory().createFunction("x");
+		showColumn(function);
+		// Add extra column with element in the last row to keep the row in view
+		processor.processInput("3", null, 4);
+		model.registerListener(listener);
+		// Delete last element in x column
+		processor.processInput("", view.getValues(), 4);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowRemoved(model, 4);
+		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 4);
+		verify(listener, never()).notifyColumnChanged(model, view.getValues(), 0);
+		verify(listener).notifyRowChanged(model, 4);
+	}
+
+	@Test
+	public void testNotifyRowAddedCalledForSecondRow() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("11", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		model.registerListener(listener);
+		processor.processInput("11", list, 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyColumnAdded(model, list, 1);
+		verify(listener).notifyRowAdded(model, 1);
+	}
+
+	@Test
+	public void testNotifyCellChangedCalled() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("11", view.getValues(), 1);
+		processor.processInput("12", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		processor.processInput("13", list, 1);
+
+		model.registerListener(listener);
+		processor.processInput("", list, 0);
+		verify(listener, never()).notifyColumnAdded(model, view.getValues(), 0);
+		verify(listener, never()).notifyRowRemoved(model, 0);
+		verify(listener, never()).notifyRowChanged(model, 0);
+		verify(listener).notifyCellChanged(model, list, 1, 0);
+	}
+
+	@Test
+	public void testRowAndColumnRemoved() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("11", null, 1);
+		processor.processInput("", view.getValues(), 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		model.registerListener(listener);
+		processor.processInput("", list, 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener).notifyRowRemoved(model, 1);
+		verify(listener).notifyRowRemoved(model, 0);
+		verify(listener).notifyColumnRemoved(model, list, 1);
+	}
+
+	@Test
+	public void testNotifyRowRemovedCalled() {
+		processor.processInput("10", view.getValues(), 0);
+		processor.processInput("10", view.getValues(), 1);
+		model.registerListener(listener);
+		processor.processInput("", view.getValues(), 1);
+		verify(listener, never()).notifyDatasetChanged(model);
+		verify(listener, never()).notifyRowChanged(model, 1);
+		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 1);
+		verify(listener).notifyRowRemoved(model, 1);
 	}
 
 	@Test
@@ -371,7 +539,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		setValuesSafe(10, 20, 2);
 		getKernel().clearConstruction(true);
 		assertEquals(-1, view.getColumn(fn));
-		assertEquals(TableSettings.DEFAULT_MAX, view.getValuesMax(), .1);
+		assertEquals(0.0, view.getValuesMax(), .1);
 		getApp().setXML(xml, true);
 		GeoEvaluatable fnReload = lookupFunction("f");
 		assertEquals(10, view.getValuesMax(), .1);
@@ -448,7 +616,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	private TableValuesPoints setupPointListener() {
-		tablePoints = new TableValuesPointsImpl(getConstruction(),
+		tablePoints = new TableValuesPointsImpl(getConstruction(), view,
 				model);
 		model.registerListener(tablePoints);
 		return tablePoints;
@@ -575,9 +743,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 		GeoLine[] lines = createLines(3);
 		setValuesSafe(-5, 5, 2);
 		setupPointListener();
-		showColumn(lines[1]);
-		showColumn(lines[0]);
-		showColumn(lines[2]);
+		showColumn(lines[1]); // column 1
+		showColumn(lines[0]); // column 2
+		showColumn(lines[2]); // column 3
 		lines[1].setPointsVisible(false);
 		reload();
 		assertFalse(tablePoints.arePointsVisible(1));
@@ -683,6 +851,31 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testCachedValuesAreOverwrittenOnUpdate() {
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
+		view.getProcessor().processInput("2", view.getValues(), 0);
+		view.getProcessor().processInput("1", view.getValues(), 1);
+		assertEquals("4", model.getCellAt(0, 1).getInput());
+		view.getProcessor().processInput("3", view.getValues(), 0);
+		assertEquals("9", model.getCellAt(0, 1).getInput());
+		view.getProcessor().processInput("", view.getValues(), 0);
+		assertEquals("", model.getCellAt(0, 1).getInput());
+	}
+
+	@Test
+	public void testCachedValuesAreOverwrittenOnUpdateWithTwoColumns() {
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
+		GeoFunction function2 = getElementFactory().createFunction("x^3");
+		showColumn(function2);
+		view.getProcessor().processInput("2", view.getValues(), 0);
+		view.getProcessor().processInput("1", view.getValues(), 1);
+		view.getProcessor().processInput("", view.getValues(), 0);
+		assertEquals("", model.getCellAt(0, 1).getInput());
+	}
+
+	@Test
 	public void testFunctionAtUndefinedValues() {
 		setValuesSafe(-2, 2, 1);
 		assertEquals("-2", model.getCellAt(0, 0).getInput());
@@ -697,7 +890,20 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals("1.41", model.getCellAt(4, 1).getInput());
 
 		view.getProcessor().processInput("", view.getValues(), 4);
-		assertEquals("", model.getCellAt(4, 0).getInput());
-		assertEquals("", model.getCellAt(4, 1).getInput());
+		assertEquals(model.getRowCount(), 4);
+	}
+
+	@Test
+	public void testUndefinedXValueDoesNotThrowException() {
+		setValuesSafe(-2, 2, 1);
+		GeoFunction function = getElementFactory().createFunction("x^2");
+		showColumn(function);
+		processor.processInput("5", null, 5);
+		// Get the value for function for an undefined x value
+		try {
+			model.getCellAt(5, 1);
+		} catch (Throwable t) {
+			Assert.fail("Should not throw exception for a function in undefined x");
+		}
 	}
 }

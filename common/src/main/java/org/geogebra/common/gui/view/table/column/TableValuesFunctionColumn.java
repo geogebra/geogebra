@@ -12,16 +12,18 @@ public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 	 * Creates a function column
 	 * @param evaluatable function
 	 * @param values values to evaluate function at
-	 * @param initialSize size of the cache
 	 */
-	public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values, int initialSize) {
-		super(evaluatable, initialSize);
+	public TableValuesFunctionColumn(GeoEvaluatable evaluatable, GeoList values) {
+		super(evaluatable);
 		this.evaluatable = evaluatable;
 		this.values = values;
 	}
 
 	@Override
 	protected double calculateValue(int row) {
+		if (values.size() <= row) {
+			return Double.NaN;
+		}
 		double xValue = values.get(row).evaluateDouble();
 		return evaluatable.value(xValue);
 	}

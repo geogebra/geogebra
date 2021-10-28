@@ -59,8 +59,17 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * @param kernel {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
+		this(kernel, new GeoList(kernel.getConstruction()));
+	}
+
+	/**
+	 * Create a new Table Value View.
+	 * @param kernel {@link Kernel}
+	 * @param xValues x values
+	 */
+	TableValuesView(Kernel kernel, GeoList xValues) {
 		this.kernel = kernel;
-		values = new GeoList(kernel.getConstruction());
+		values = xValues;
 		model = new SimpleTableValuesModel(kernel, values);
 		app = kernel.getApplication();
 		Settings set = app.getSettings();
@@ -339,12 +348,12 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void startBatchUpdate() {
-		model.startBatchUpdate();
+		// Ignore
 	}
 
 	@Override
 	public void endBatchUpdate() {
-		model.endBatchUpdate();
+		// Ignore
 	}
 
 	@Override

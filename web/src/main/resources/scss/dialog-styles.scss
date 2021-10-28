@@ -94,7 +94,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;
-		max-height: 438px;
 
 		.gwt-ListBox {
 			margin-right: 16px;
@@ -117,7 +116,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* button tool dialog*/
 	.dialogComponent.buttonDialog {
 		max-width: 448px;
-		max-height: 444px;
 
 		.scriptArea {
 			margin-right: 16px;
@@ -137,7 +135,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.inputboxDialog {
 		max-width: 430px;
-		max-height: 250px;
 
 		.AutoCompleteTextFieldW {
 			max-width: 382px;
@@ -892,7 +889,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.shareLink {
 		padding-bottom: 24px;
 		max-width: 510px;
-		max-height: 164px;
 
 		>div>table {
 			padding-right: 0px;
@@ -1182,7 +1178,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 *****************************************************/
 	.mowPermissionDialog{
 		max-width: 500px;
-		max-height: 177px;
 		.dialogContent .gwt-Label {
 			color: colors.$text-secondary;
 			font-size: 80%;
@@ -1196,7 +1191,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.camera {
 		max-width: 530px;
-		max-height: 488px;
 
 		.mowCameraSimplePanel {
 			margin-left: 16px;
@@ -1527,7 +1521,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.whatsNewDialog {
 		max-width: 592px;
-		max-height: 424px;
 		height: auto;
 
 		.messagePanel {
@@ -1633,7 +1626,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.sessionExpireNotifyDialog {
 		max-width: 448px;
-		max-height: 210px;
 		height: unset;
 
 		.sessionExpireTxt {
@@ -1645,7 +1637,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.sliderDialog {
 		max-width: 504px;
-		max-height: 450px;
 
 		.gwt-RadioButton [type="radio"]+label {
 			padding-left: 35px;

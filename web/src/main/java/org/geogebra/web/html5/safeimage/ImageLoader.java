@@ -59,7 +59,7 @@ public class ImageLoader {
 	}
 
 	private boolean hasImage(String key) {
-		return imageManager.getExternalImage(key, app, false) != null;
+		return imageManager.getExternalImage(key, false) != null;
 	}
 
 	private	 void addImage(ImageFile imageFile) {
@@ -83,7 +83,7 @@ public class ImageLoader {
 			afterImages.run();
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
-			imageManager.triggerImageLoading(app, afterImages, images);
+			imageManager.triggerImageLoading(afterImages, images);
 		}
 
 		app.setCurrentFile(originalArchive);
