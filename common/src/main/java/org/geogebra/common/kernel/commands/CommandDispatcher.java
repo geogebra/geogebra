@@ -257,12 +257,13 @@ public abstract class CommandDispatcher {
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			String objectCreation = info.isRedefined() ? "redefined" : "new";
-
-			Map<String, Object> params = new HashMap<>();
-			params.put(Analytics.Param.COMMAND, cmdName);
-			params.put(Analytics.Param.STATUS, errorStatus);
-			params.put(Analytics.Param.OBJECT_CREATION, objectCreation);
-			Analytics.logEvent(Analytics.Event.COMMAND_VALIDATED, params);
+			if (!kernel.isSilentMode()) {
+				Map<String, Object> params = new HashMap<>();
+				params.put(Analytics.Param.COMMAND, cmdName);
+				params.put(Analytics.Param.STATUS, errorStatus);
+				params.put(Analytics.Param.OBJECT_CREATION, objectCreation);
+				Analytics.logEvent(Analytics.Event.COMMAND_VALIDATED, params);
+			}
 		}
 	}
 
