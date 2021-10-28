@@ -14,8 +14,13 @@ public class GMenuBarMock extends GMenuBar {
 	public static final String SEPARATOR = "SEPARATOR";
 	private ArrayList<String> items;
 	private Map<String, GCheckmarkMenuItem> checkMarks = new HashMap<>();
-	public GMenuBarMock(String tittle, AppW app) {
-		super(tittle, app);
+
+	/**
+	 * @param title title
+	 * @param app app
+	 */
+	public GMenuBarMock(String title, AppW app) {
+		super(title, app);
 		this.items = new ArrayList<>();
 	}
 
@@ -38,12 +43,11 @@ public class GMenuBarMock extends GMenuBar {
 	}
 
 	@Override
-	public AriaMenuItem addItem(String itemtext, boolean textishtml, AriaMenuBar submenupopup, boolean subleft) {
+	public AriaMenuItem addItem(String itemtext, boolean textishtml,
+			AriaMenuBar submenupopup, boolean subleft) {
 		add(itemtext);
 		return super.addItem(itemtext, textishtml, submenupopup, subleft);
 	}
-
-
 
 	@Override
 	public void clearItems() {
@@ -51,15 +55,22 @@ public class GMenuBarMock extends GMenuBar {
 		super.clearItems();
 	}
 
+	/**
+	 * @param item new item
+	 */
 	public void addItem(GCheckmarkMenuItem item) {
 		add(item.getText());
 		checkMarks.put(strip(item.getText()), item);
 	}
 
+	/**
+	 * @param title item title
+	 * @return whether given item is checked
+	 */
 	public boolean isChecked(String title) {
 		GCheckmarkMenuItem item = checkMarks.get(title);
 		if (item instanceof GCheckmarkMenuItemMock) {
-			return ((GCheckmarkMenuItemMock) item).isChecked();
+			return item.isChecked();
 		}
 		return false;
 	}

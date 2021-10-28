@@ -46,6 +46,7 @@ public abstract class Analytics {
 	 */
 	public static class Event {
 		public static final String COMMAND_ERROR = "command_error";
+		public static final String COMMAND_HELP_ICON = "command_help_icon";
 
 		protected Event() {
 		}

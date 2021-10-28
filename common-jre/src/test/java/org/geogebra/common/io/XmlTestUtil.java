@@ -14,6 +14,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -25,8 +26,8 @@ public class XmlTestUtil {
 	 * @param application
 	 *            app
 	 */
-	public static void testCurrentXML(AppCommon application) {
-		testCurrentXMLWithURL(application, "https://www.geogebra.org/apps/xsd/ggb.xsd");
+	public static void checkCurrentXML(AppCommon application) {
+		checkCurrentXMLWithURL(application, "https://www.geogebra.org/apps/xsd/ggb.xsd");
 	}
 
 	/**
@@ -37,10 +38,9 @@ public class XmlTestUtil {
 	 * @param xsdUrl
 	 * 			url to the XML schema
 	 */
-	public static void testCurrentXMLWithURL(AppCommon application, String xsdUrl) {
+	public static void checkCurrentXMLWithURL(AppCommon application, String xsdUrl) {
 		String xml = application.getXML();
 		try {
-
 			xml = application.getXML();
 			Source xmlFile = new StreamSource(new StringReader(xml));
 			String url = System.getProperty("xsdUrl", xsdUrl);
@@ -49,11 +49,11 @@ public class XmlTestUtil {
 			int l = se.getLineNumber();
 			String[] rows = xml.split("\\n");
 			for (int i = l - 2; i < l + 3 && i > 0 && i < rows.length; i++) {
-				System.out.println(rows[i]);
+				Log.debug(rows[i]);
 			}
 			fail(se.getLocalizedMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			fail(e.getLocalizedMessage());
 		}
 	}

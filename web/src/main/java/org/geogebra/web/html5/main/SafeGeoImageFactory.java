@@ -116,7 +116,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 				imageFile.getContent());
 		imageManager.triggerSingleImageLoading(imageFile.getFileName(),
 				geoImage);
-		imageElement = imageManager.getExternalImage(imageFile.getFileName(), app, true);
+		imageElement = imageManager.getExternalImage(imageFile.getFileName(), true);
 
 		imageElement.addEventListener("load", (event) -> onLoad(false));
 		imageElement.addEventListener("error",

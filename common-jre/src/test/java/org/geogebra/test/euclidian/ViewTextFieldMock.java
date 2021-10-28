@@ -15,12 +15,12 @@ public class ViewTextFieldMock extends ViewTextField {
 
 	@Override
 	public void setBoxVisible(boolean isVisible) {
-
+		// stub
 	}
 
 	@Override
 	public void setBoxBounds(GRectangle labelRectangle) {
-
+		// stub
 	}
 
 	@Override

@@ -54,11 +54,20 @@ public class AppMocker {
 		return mockApp("notes", testClass);
 	}
 
+	/**
+	 * @param appName app name
+	 * @param testClass class
+	 * @return mock app
+	 */
 	private static AppWFull mockApp(String appName, Class<?> testClass) {
 		testClass.getClassLoader().setDefaultAssertionStatus(false);
 		return mockApplet(new AppletParameters(appName));
 	}
 
+	/**
+	 * @param ae applet parameters
+	 * @return mock applet
+	 */
 	public static AppWFull mockApplet(AppletParameters ae) {
 		useCommonFakeProviders();
 		AppletFactory factory = new AppletFactory3D() {
@@ -87,6 +96,10 @@ public class AppMocker {
 		app.getKernel().getConstruction().initUndoInfo();
 	}
 
+	/**
+	 * @param ae applet parameters
+	 * @return mock applet
+	 */
 	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
 		useProviderForSchedulerImpl();
@@ -112,6 +125,9 @@ public class AppMocker {
 		setTestLogger();
 	}
 
+	/**
+	 * Use immediate executor for scheduled tasks
+	 */
 	public static void useProviderForSchedulerImpl() {
 		GwtMockito.useProviderForType(SchedulerImpl.class,
 				type -> new QueueScheduler());
