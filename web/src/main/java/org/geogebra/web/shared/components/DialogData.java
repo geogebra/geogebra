@@ -30,7 +30,7 @@ public class DialogData {
 	 * @param positiveBtnTransKey - positive button trans key
 	 */
 	public DialogData(String titleTransKey, String subTitleTransKey,
-			String negativeBtnTransKey,	String positiveBtnTransKey) {
+			String negativeBtnTransKey, String positiveBtnTransKey) {
 		this(titleTransKey, negativeBtnTransKey, positiveBtnTransKey);
 		setSubTitleTransKey(subTitleTransKey);
 	}
