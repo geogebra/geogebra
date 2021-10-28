@@ -56,7 +56,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.printPreview {
-	    max-width: 370px;
+		max-width: 370px;
 	}
 
 	.dialogComponent.customColor {
@@ -1792,6 +1792,50 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				border: solid 1px colors.$black-12;
 				color: colors.$mebis-text-btn-col;
 				padding: 0px 16px;
+			}
+		}
+	}
+
+	.dialogComponent.statistics {
+		.dialogTitle {
+			margin-bottom: 0px;
+			height: 24px;
+			font-size: 125%;
+			padding-bottom: 8px;
+			color: colors.$text-primary;
+			line-height: 1.2;
+		}
+
+		.dialogSubTitle {
+			margin-bottom: 16px;
+			margin-left: 24px;
+			height: 14px;
+			font-size: 75%;
+			color: colors.$text-secondary;
+			line-height: 1.2;
+		}
+
+		.dialogContent {
+			max-height: 426px;
+			height: calc(100% - 114px);
+			box-sizing: border-box;
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
+
+			.group {
+				height: 64px;
+
+				.heading {
+					margin-top: 8px;
+					margin-bottom: 4px;
+					height: 14px;
+					color: colors.$text-secondary;
+					font-size: 12px;
+				}
+
+				.value {
+					 margin-bottom: 4px;
+				 }
 			}
 		}
 	}
