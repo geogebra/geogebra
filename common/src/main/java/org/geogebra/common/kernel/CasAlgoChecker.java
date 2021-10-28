@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.cas.UsesCAS;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.plugin.Operation;
 
@@ -31,7 +32,13 @@ public class CasAlgoChecker implements Inspecting {
 	public boolean isAlgoUsingCas(AlgoElement algo) {
 		return algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface
 				|| (algo instanceof DependentAlgo
-					&& hasExpressionWithCasOperations((DependentAlgo) algo));
+					&& hasExpressionWithCasOperations((DependentAlgo) algo))
+				|| isFunctionEqualityCheck(algo);
+	}
+
+	private boolean isFunctionEqualityCheck(AlgoElement algo) {
+		return algo.getClassName() == Commands.AreEqual
+				&& algo.getInput(0) instanceof CasEvaluableFunction;
 	}
 
 	private boolean hasExpressionWithCasOperations(DependentAlgo algo) {
