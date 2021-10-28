@@ -102,11 +102,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 					.getEvaluatable().getTableColumn() < evaluatable.getTableColumn()) {
 				idx++;
 			}
+			int oldRowCount = getRowCount();
 			TableValuesColumn column = createColumn(evaluatable);
 			columns.add(idx, column);
 			column.notifyDatasetChanged(this);
 			ensureIncreasingIndices(idx);
 			notifyColumnAdded(evaluatable, idx);
+			int newRowCount = getRowCount();
+			if (newRowCount > oldRowCount) {
+				notifyRowsAdded(oldRowCount, newRowCount - 1);
+			}
 		}
 	}
 
@@ -349,14 +354,18 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (isEmptyValue(element)) {
 			handleEmptyValue(column, columnIndex, rowIndex);
 		} else if (rowIndex >= oldRowCount) {
-			int notifyRow = oldRowCount;
-			while (notifyRow <= rowIndex) {
-				notifyRowAdded(notifyRow++);
-			}
+			notifyRowsAdded(oldRowCount, rowIndex);
 		} else if (column == values) {
 			notifyRowChanged(rowIndex);
 		} else if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
 			element.notifyUpdate();
+		}
+	}
+
+	private void notifyRowsAdded(int startRow, int endRow) {
+		int rowIndex = startRow;
+		while (rowIndex <= endRow) {
+			notifyRowAdded(rowIndex++);
 		}
 	}
 
