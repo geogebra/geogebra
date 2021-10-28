@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.Stopwatch;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -726,6 +727,39 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertFalse(points.arePointsVisible(1));
 		getKernel().redo();
 		assertTrue(points.arePointsVisible(1));
+	}
+
+	@Test
+	public void testUndoAddRow() {
+		setupUndo();
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("2", null, 1);
+		processor.processInput("3", null, 2);
+		getKernel().undo();
+		try {
+			processor.processInput("2", (GeoList) view.getEvaluatable(1), 2);
+		} catch (Throwable e) {
+			Assert.fail("Should not throw exception");
+		}
+	}
+
+	@Test
+	public void testNotifyRowsAddedCalled() {
+		// The following case can happen in undo redo calls
+		// This cannot be reproduced from the UI
+		processor.processInput("1", view.getValues(), 0);
+		model.registerListener(listener);
+		Construction cons = getConstruction();
+		GeoList list = new GeoList(cons);
+		list.add(new GeoNumeric(cons, 1));
+		list.add(new GeoNumeric(cons, 1));
+		list.add(new GeoNumeric(cons, 1));
+		list.add(new GeoNumeric(cons, 1));
+		showColumn(list);
+		verify(listener).notifyRowAdded(model, 1);
+		verify(listener).notifyRowAdded(model, 2);
+		verify(listener).notifyRowAdded(model, 3);
+		verify(listener).notifyColumnAdded(model, list, 1);
 	}
 
 	private void hideColumn(GeoEvaluatable geoLine) {

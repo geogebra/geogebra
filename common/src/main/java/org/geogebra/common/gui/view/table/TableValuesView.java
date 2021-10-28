@@ -190,6 +190,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		for (int i = 0; i < newValues.size(); i++) {
 			values.add(newValues.get(i));
 		}
+		values.notifyUpdate();
 	}
 
 	private double[] createRangeOrDefault() {
