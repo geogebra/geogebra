@@ -252,7 +252,12 @@ public abstract class CommandDispatcher {
 					Errors.CASGeneralErrorMessage.getKey(),
 					c.getName(), e);
 		} catch (MyError e) {
-			errorStatus = e.getErrorType().getKey();
+			Errors err = e.getErrorType();
+			if (err == null) {
+				errorStatus = e.getMessage();
+			} else {
+				errorStatus = err.getKey();
+			}
 			throw e;
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
