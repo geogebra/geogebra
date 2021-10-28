@@ -2,7 +2,6 @@ package org.geogebra.web.html5;
 
 import java.util.Locale;
 
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -536,16 +535,16 @@ public class Browser {
 	 * @param asyncOperation
 	 *            callback
 	 */
-	public static void addMutationObserver(Element el, AsyncOperation<String> asyncOperation) {
+	public static void addMutationObserver(Element el, Runnable asyncOperation) {
 		try {
 			elemental2.dom.Element current = Js.uncheckedCast(el);
 			while (current != null) {
 				MutationObserver observer = new MutationObserver((mutations, _0) -> {
-						mutations.forEach((mutation, _1, _2) -> {
-								asyncOperation.callback(mutation.type);
-								return null;
-						});
-						return null;
+					JsArray<?> actualMutations = Js.uncheckedCast(mutations);
+					if (actualMutations.length > 0) {
+						asyncOperation.run();
+					}
+					return null;
 				});
 
 				MutationObserverInit init = MutationObserverInit.create();

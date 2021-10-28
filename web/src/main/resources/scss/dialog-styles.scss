@@ -56,7 +56,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.printPreview {
-	    max-width: 370px;
+		max-width: 370px;
 	}
 
 	.dialogComponent.customColor {
@@ -1706,12 +1706,14 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.calcChooser {
-			 max-width: 760px;
+			 max-width: 832px;
 			 min-height: 232px;
-			 width: calc(100% - 72px);
+			 width: calc(100% - 80px);
+			 left: 0px;
 			 padding: 48px 36px;
 			 border-radius: 2px;
 			 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+			 box-sizing: border-box;
 
 			.title {
 				height: 48px;
@@ -1762,6 +1764,18 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 			}
 		}
+
+	.calcChooser.smallScreen {
+		max-width: 480px;
+		padding: 24px 12px;
+
+		.title {
+			height: 36px;
+			font-size: 140%;
+			line-height: 36px;
+			margin-bottom: 24px;
+		}
+	}
 
 	.dialogComponent.mediaDialog.H5P {
 
