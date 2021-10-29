@@ -535,7 +535,7 @@ ValidExpression buildValidExpression() :
     )
     ( <POLAR_SEPARATOR> | <EOF> )
     {
-        if (ve.labelCount() == 0 && l.image != null)
+        if (ve.labelCount() == 0)
         {
           ve.addLabel(l.image);  // standard case
         }
