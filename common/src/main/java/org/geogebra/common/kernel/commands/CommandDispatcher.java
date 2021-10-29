@@ -261,7 +261,7 @@ public abstract class CommandDispatcher {
 			throw e;
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
-			String objectCreation = info.isRedefined() ? "redefined" : "new";
+			String objectCreation = (info != null && info.isRedefined()) ? "redefined" : "new";
 			if (!kernel.isSilentMode()) {
 				Map<String, Object> params = new HashMap<>();
 				params.put(Analytics.Param.COMMAND, cmdName);
