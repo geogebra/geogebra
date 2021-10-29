@@ -57,7 +57,6 @@ import javax.swing.Timer;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.DownloadManager;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -506,22 +505,6 @@ public class GeoGebraFrame extends JFrame
 			// init file chooser
 			((DialogManagerD) this.app.getDialogManager())
 					.initFileChooser();
-
-			// init singularWS
-			// No, we cannot do it here at the moment since it will break file
-			// loading containing Singular,
-			// so we do it AppD.java --- see [22746] which is reverted at the
-			// moment.
-			// app.initializeSingularWSD();
-
-			// init JLaTeXMath
-			// Graphics2D g2d =
-			// this.app.getEuclidianView1().getTempGraphics2D();
-			// app.getDrawEquation().drawEquation(this.app, null,
-			// new GGraphics2DD(g2d), 0, 0, "x^{2}",
-			// new GFontD(g2d.getFont()), false,
-			// GColor.BLACK, GColor.WHITE, false, false, null);
-
 			// check if newer version is available
 			// must be done last as internet may not be available
 			checkVersion();
@@ -600,8 +583,8 @@ public class GeoGebraFrame extends JFrame
 			String lastVersionCheck = GeoGebraPreferencesD.getPref()
 					.loadPreference(GeoGebraPreferencesD.VERSION_LAST_CHECK,
 							"");
-			Long nowL = new Date().getTime();
-			String nowLS = nowL.toString();
+			long nowL = new Date().getTime();
+			String nowLS = Long.toString(nowL);
 
 			boolean checkNeeded = false;
 
@@ -611,7 +594,7 @@ public class GeoGebraFrame extends JFrame
 			}
 
 			else {
-				Long lastVersionCheckL = Long.valueOf(lastVersionCheck);
+				long lastVersionCheckL = Long.parseLong(lastVersionCheck);
 				if (lastVersionCheckL
 						+ 1000L * 60 * 60 * 24 * VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
@@ -624,8 +607,7 @@ public class GeoGebraFrame extends JFrame
 			}
 
 			String myVersion = GeoGebraConstants.VERSION_STRING;
-			HttpRequestD httpr = (HttpRequestD) UtilFactory.getPrototype()
-					.newHttpRequest();
+			HttpRequestD httpr = new HttpRequestD();
 			String newestVersion = null;
 			StringBuilder sb = new StringBuilder();
 			Long newestVersionL;
@@ -665,24 +647,11 @@ public class GeoGebraFrame extends JFrame
 					Log.debug("current=" + currentVersionL + " newest="
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
-						Localization loc = app.getLocalization();
-						String q = loc.getMenu("NewerVersionA").replaceAll("%0",
-								newestVersion);
-						String dl = loc.getMenu("GoToDownloadPage");
-						Object[] options = { loc.getMenu("Cancel"), dl };
-						Component comp = app.getMainComponent();
-						int returnVal = JOptionPane.showOptionDialog(comp, q,
-								dl, JOptionPane.DEFAULT_OPTION,
-								JOptionPane.WARNING_MESSAGE, null, options,
-								options[0]);
 						// store date of current check only when notification
 						// has been shown:
 						GeoGebraPreferencesD.getPref().savePreference(
 								GeoGebraPreferencesD.VERSION_LAST_CHECK, nowLS);
-						if (returnVal == 1) {
-							app.getGuiManager().showURLinBrowser(
-									GeoGebraConstants.INSTALLERS_URL);
-						}
+						showDownloadDialog(newestVersion);
 					}
 				} // checkneeded
 
@@ -720,11 +689,35 @@ public class GeoGebraFrame extends JFrame
 				if (AppD.WINDOWS && currentVersionL < newestVersionL) {
 					downloadGeoGebraJars();
 				}
+				if (AppD.MAC_OS) {
+					if (currentVersionL < newestVersionL &&
+							GeoGebraPreferencesD.getLastShownNotificationVersion() < newestVersionL) {
+						showDownloadDialog(newestVersion);
+					}
+					GeoGebraPreferencesD.setLastVersionNotification(newestVersionL);
+				}
 
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 
+		}
+
+		private void showDownloadDialog(String newestVersion) {
+			Localization loc = app.getLocalization();
+			String q = loc.getMenu("NewerVersionA").replaceAll("%0",
+					newestVersion);
+			String dl = loc.getMenu("GoToDownloadPage");
+			Object[] options = { loc.getMenu("Cancel"), dl };
+			Component comp = app.getMainComponent();
+			int returnVal = JOptionPane.showOptionDialog(comp, q,
+					dl, JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE, null, options,
+					options[0]);
+			if (returnVal == 1) {
+				app.getGuiManager().showURLinBrowser(
+						GeoGebraConstants.INSTALLERS_URL);
+			}
 		}
 	}
 
