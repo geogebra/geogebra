@@ -120,10 +120,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		SVGResource play = GuiResourcesSimple.INSTANCE.play_circle();
 		SVGResource pause = GuiResourcesSimple.INSTANCE.pause_circle();
 
-		btnPlay = new MyToggleButtonW(
-				new Image(play.getSafeUri(), 0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE),
-				new Image(pause.getSafeUri(), 0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE)
-		);
+		btnPlay = new MyToggleButtonW(play, pause);
 
 		btnPlay.getUpHoveringFace().setImage(new Image(play.withFill(hoverColor).getSafeUri(),
 				0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
