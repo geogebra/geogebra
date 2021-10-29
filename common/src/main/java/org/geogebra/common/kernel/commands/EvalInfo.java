@@ -32,7 +32,7 @@ public class EvalInfo {
 	private GPredicate<String> labelFilter;
 	private RedefinitionRule redefinitionRule;
 	private MyArbitraryConstant constant;
-	private boolean redefined = false;
+	private boolean isRedefinition = false;
 
 	/**
 	 * Creates a default evaluation info
@@ -162,6 +162,7 @@ public class EvalInfo {
 		ret.keepDefinition = this.keepDefinition;
 		ret.multipleUnassignedAllowed = this.multipleUnassignedAllowed;
 		ret.allowMultiLetterVariables = this.allowMultiLetterVariables;
+		ret.isRedefinition = this.isRedefinition;
 		return ret;
 	}
 
@@ -480,11 +481,22 @@ public class EvalInfo {
 		return keepDefinition;
 	}
 
-	public void setRedefined(boolean geoRedefined) {
-		redefined = geoRedefined;
+	/**
+	 * Copy eval info, and set redefinition flag.
+	 * @param redefinition whether a redefinition is happening.
+	 * @return eval info
+	 */
+	public EvalInfo withRedefinition(boolean redefinition) {
+		EvalInfo info = copy();
+		info.isRedefinition = redefinition;
+		return info;
 	}
 
-	public boolean isRedefined() {
-		return redefined;
+	/**
+	 * True if a redefinition is possibly happening.
+	 * @return true if redefinition is happening, false otherwise
+	 */
+	public boolean isRedefinition() {
+		return isRedefinition;
 	}
 }

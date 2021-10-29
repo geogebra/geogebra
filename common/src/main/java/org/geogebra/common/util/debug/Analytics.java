@@ -61,6 +61,10 @@ public abstract class Analytics {
 		public static final String ERROR_TYPE = "error_type";
 		public static final String STATUS = "status";
 		public static final String OBJECT_CREATION = "object_creation";
+		public static final String REDEFINED = "redefined";
+		public static final String NEW = "new";
+		public static final String OK = "ok";
+		public static final String ERROR = "error";
 
 		protected Param() {
 		}
