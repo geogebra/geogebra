@@ -9,12 +9,18 @@ describe('Ruler and protractor tool test', () => {
     afterEach(cy.setSaved);
 
     it("Ruler and protractor tool should change graphics view", () => {
-        cy.window().then((win) => {
-               before = win.ggbApplet.getPNGBase64(1);
-               selectors.rulerButton.click();
-               selectors.protractorButton.click();
-               cy.wait(3000);
-               expect(before).to.equal(win.ggbApplet.getPNGBase64(1));
-        });
+    	let before;
+    	cy.document().then((doc) => {
+    		before = doc.querySelector("[data-test=euclidianView]").toDataURL();
+    		selectors.rulerButton.click();
+            selectors.protractorButton.click();
+    	});
+
+        cy.wait(3000);
+
+        cy.document().then((doc) => {
+            after =  doc.querySelector("[data-test=euclidianView]").toDataURL();
+            expect(before).not.to.equal(after);
+    	});
    	});
 });
