@@ -197,8 +197,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_graspablemath_32();
 
-	ResourcePrototype mode_cas_32();
-
 	// 3D
 
 	ResourcePrototype mode_circleaxispoint_32();
@@ -271,11 +269,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_eraser_32();
 
-	ResourcePrototype help_32();
-
-	ResourcePrototype mode_graphing_32();
-
-	ResourcePrototype mode_photo_32();
+	ResourcePrototype mode_calculator();
 
 	ResourcePrototype mode_video_32();
 

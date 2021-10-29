@@ -11,6 +11,7 @@ import org.junit.Test;
 public class URLValidatorTest {
 	private static URLValidator validator;
 
+	/** Class setup */
 	@BeforeClass
 	public static void setup() {
 		RegExpFactory.setPrototypeIfNull(new JavaRegExpFactory());

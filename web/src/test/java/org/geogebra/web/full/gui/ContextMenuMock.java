@@ -12,12 +12,18 @@ public class ContextMenuMock {
 	private final AppW app;
 	private final ContextMenuFactory factory;
 
-
+	/**
+	 * @param app application
+	 */
 	public ContextMenuMock(AppW app) {
 		this.app = app;
 		this.factory = new MenuFactory(app);
 	}
 
+	/**
+	 * @param geos elements
+	 * @return menu entries
+	 */
 	public List<String> getEntriesFor(ArrayList<GeoElement> geos) {
 		GMenuBarMock menu = getMenu(geos);
 		return menu.getTitles();
@@ -30,6 +36,11 @@ public class ContextMenuMock {
 		return (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 	}
 
+	/**
+	 * @param geos selected geos
+	 * @param title menu title
+	 * @return whether menu item is checked for given geos
+	 */
 	public boolean isMenuChecked(ArrayList<GeoElement> geos, String title) {
 		GMenuBarMock menu = getMenu(geos);
 		return menu.isChecked(title);

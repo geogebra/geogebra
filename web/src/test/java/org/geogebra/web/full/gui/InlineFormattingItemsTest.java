@@ -228,7 +228,8 @@ public class InlineFormattingItemsTest {
 		return poly;
 	}
 
-	private GeoInlineText createTextInline(String label, InlineTextControllerMock inlineTextControllerMock) {
+	private GeoInlineText createTextInline(String label,
+			InlineTextControllerMock inlineTextControllerMock) {
 		GeoInlineText text = new GeoInlineText(construction, point);
 		text.setLabel(label);
 		DrawInlineText drawInlineText = (DrawInlineText) app.getActiveEuclidianView()

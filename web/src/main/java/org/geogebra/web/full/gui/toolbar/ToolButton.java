@@ -32,7 +32,7 @@ public class ToolButton extends StandardButton {
 				.getMenu(EuclidianConstants.getModeText(mode)), 24);
 		this.mode = mode;
 		this.appW = app;
-		this.selectedColor = app.getVendorSettings().getPrimaryColor().toString();
+		this.selectedColor = app.getGeoGebraElement().getPrimaryColor(app.getFrameElement());
 		setStyleName("toolButton");
 		setAccessible();
 		setSelected(false); // update icon

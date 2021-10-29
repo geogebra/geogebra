@@ -4200,11 +4200,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		((ScriptManagerD) getScriptManager()).evalJavaScript(app, script, arg);
 	}
 
-	@Override
-	public int getMD5folderLength(String fullPath) {
-		return fullPath.indexOf(File.separator);
-	}
-
 	// TODO: should be moved to ApplicationSettings
 	@Override
 	public void setTooltipTimeout(int ttt) {

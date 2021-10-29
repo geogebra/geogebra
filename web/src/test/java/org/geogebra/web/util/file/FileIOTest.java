@@ -1,4 +1,5 @@
 package org.geogebra.web.util.file;
+
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import org.hamcrest.MatcherAssert;

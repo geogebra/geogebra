@@ -246,6 +246,7 @@ public class ConsElementXMLHandler {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
 		String angle = attrs.get("angle");
+		String unscaled = attrs.get("unscaled");
 		if (width != null && height != null) {
 
 			double widthD = -1;
@@ -275,8 +276,14 @@ public class ConsElementXMLHandler {
 					((RectangleTransformable) geo).setAngle(angleD);
 					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
 							|| geo instanceof GeoInlineTable) {
-						((GeoInline) geo).setWidth(widthD);
-						((GeoInline) geo).setHeight(heightD);
+						if (unscaled != null) {
+							((GeoInline) geo).setSizeOnly(widthD * geo.getKernel().getApplication()
+											.getActiveEuclidianView().getSettings().getXscale(),
+									heightD * geo.getKernel().getApplication()
+											.getActiveEuclidianView().getSettings().getYscale());
+						} else {
+							((GeoInline) geo).setSizeOnly(widthD, heightD);
+						}
 						if (((GeoInline) geo).isZoomingEnabled()) {
 							((GeoInline) geo).setContentWidth(widthD);
 							((GeoInline) geo).setContentHeight(heightD);

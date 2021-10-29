@@ -1042,11 +1042,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 		// build Polyline of parametric hyperbola
 		// hyp(t) = 1/(1-t^2) {a(1+t^2), 2bt}, 0 <= t < 1
-		// this represents the first quadrant's wing of a hypberola
-		/*
-		 * hypRight.addPoint(points - 1, a, 0); hypLeft.addPoint(points - 1, -a,
-		 * 0);
-		 */
 		updateHyperbolaAddPoint(points - 1, a, 0);
 
 		double t = step;
@@ -1064,13 +1059,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			updateHyperbolaAddPoint(index0, x, y);
 			// third and fourth quadrants
 			updateHyperbolaAddPoint(index1, x, -y);
-
-			/*
-			 * // first quadrant hypRight.addPoint(index0, x, y); // second
-			 * quadrant hypLeft.addPoint(index0, -x, y); // third quadrant
-			 * hypLeft.addPoint(index1, -x, -y); // fourth quadrant
-			 * hypRight.addPoint(index1, x, -y);
-			 */
 
 			index0++;
 			index1--;
@@ -1090,7 +1078,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
-
 		updateHyperbolaSetShape();
 	}
 
@@ -1171,15 +1158,17 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 * set shape for hyperbola
 	 */
 	protected void updateHyperbolaSetShape() {
-		try {
-			setShape(AwtFactory.getPrototype().newArea(hypLeft));
-			// geogebra.awt.Area.getAWTArea(super.getShape()).add(new
-			// Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
-			super.getShape().add(AwtFactory.getPrototype().newArea(hypRight));
-		} catch (Exception e) {
-			setShape(null);
-			Log.error("problem in updateHyperbolaSetShape: " + e.getMessage());
+		GArea hyperbolicArcs = null;
+		// both arcs have the same number of points, sufficient to check left is non-empty
+		if (!hypLeft.getPathIterator(null).isDone()) {
+			try {
+				hyperbolicArcs = AwtFactory.getPrototype().newArea(hypLeft);
+				hyperbolicArcs.add(AwtFactory.getPrototype().newArea(hypRight));
+			} catch (Exception e) {
+				Log.error("problem in updateHyperbolaSetShape: " + e.getMessage());
+			}
 		}
+		setShape(hyperbolicArcs);
 	}
 
 	/**

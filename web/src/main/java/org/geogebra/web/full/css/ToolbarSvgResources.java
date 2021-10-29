@@ -5,7 +5,6 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
 
 /**
  * SVG icons for toolbar
@@ -401,10 +400,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_graspablemath_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_cas.svg")
-	@Override
-	SVGResource mode_cas_32();
-
 	// 3D
 
 	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_circleaxispoint.svg")
@@ -553,16 +548,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_image_mow_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
-	ImageResource help_32();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_photo.png")
-	ImageResource mode_photo_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_graphing_black.svg")
-	SVGResource mode_graphing_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra_black.svg")
+	SVGResource mode_calculator();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_black.svg")
