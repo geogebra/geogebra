@@ -521,7 +521,7 @@ void mathCharacter(MathContainer currentField) :
 }
 {
 	(t = <ELSE> | t = <OPERATOR> | t = <SPACE>) {
-		currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+		currentField.append(createMetaCharacter(t.image, metaModel));
 	}
 }
 
@@ -531,6 +531,6 @@ void mathAtomCharacter(MathContainer currentField) :
 }
 {
 	(t = <ELSE>) {
-		currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+		currentField.append(createMetaCharacter(t.image, metaModel));
 	}
 }

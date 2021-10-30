@@ -54,7 +54,7 @@ public class GeoGebraSerializer implements Serializer {
 
 	private static void serialize(MathCharacter mathCharacter,
 			StringBuilder stringBuilder) {
-		stringBuilder.append(mathCharacter.getUnicode());
+		stringBuilder.append(mathCharacter.getUnicodeString());
 	}
 
 	private void serialize(MathFunction mathFunction,

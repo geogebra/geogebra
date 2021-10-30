@@ -62,6 +62,10 @@ class EditorChecker {
 		Assert.assertEquals(output, rootComponent + "");
 	}
 
+	public void checkLength(int length) {
+		Assert.assertEquals(length, getRootComponent().size());
+	}
+
 	private MathSequence getRootComponent() {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		EditorState editorState = mathFieldInternal.getEditorState();
