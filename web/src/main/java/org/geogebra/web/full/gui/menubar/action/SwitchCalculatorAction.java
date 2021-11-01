@@ -7,6 +7,6 @@ public class SwitchCalculatorAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		app.getDialogManager().showCalcChooser();
+		app.getDialogManager().showCalcChooser(true);
 	}
 }

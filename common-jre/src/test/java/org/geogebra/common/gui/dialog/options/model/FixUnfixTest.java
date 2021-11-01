@@ -156,7 +156,7 @@ public class FixUnfixTest extends BaseUnitTest {
 		return new FixObjectModel(new BooleanOptionModel.IBooleanOptionListener() {
 			@Override
 			public void updateCheckbox(boolean isEqual) {
-
+				// stub
 			}
 
 			@Override

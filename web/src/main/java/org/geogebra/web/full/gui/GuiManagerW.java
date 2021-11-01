@@ -1245,6 +1245,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
+			inputHelpPanel.getInputHelpPanel().logHelpIconEvent(page, false);
 		} catch (final MyError e) {
 			getApp().showError(e);
 		} catch (final Exception e) {

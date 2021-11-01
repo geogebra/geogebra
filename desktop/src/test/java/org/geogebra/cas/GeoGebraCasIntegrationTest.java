@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.view.CASCellProcessor;
-import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -2731,15 +2730,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
 		t("Intersect(Plane(x+0z=1),Plane(y+z=2))",
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
-	}
-
-	@Test
-	public void checkNsolveExpansion() {
-		CASInputHandler cih = new CASInputHandler(
-				new CASViewNoGui(getApp(), "Sum(T/2^n,n,3,10)=1500000"));
-		cih.processCurrentRow("NSolve", false);
-		t("$1", "{T = 1204705882353 / 200000}");
-		// .getOutput(StringTemplate.defaultTemplate), "");
 	}
 
 	/** See APPS-801 */

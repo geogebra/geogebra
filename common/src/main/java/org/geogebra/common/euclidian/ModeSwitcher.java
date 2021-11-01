@@ -85,9 +85,8 @@ public class ModeSwitcher {
 			break;
 		}
 		if (embedManager != null
-				&& (newMode == EuclidianConstants.MODE_GRAPHING
-				|| newMode == EuclidianConstants.MODE_CAS)) {
-			setUpEmbedManager(embedManager, newMode);
+				&& newMode == EuclidianConstants.MODE_CALCULATOR) {
+			setUpEmbedManager(embedManager);
 		}
 
 	}
@@ -96,16 +95,18 @@ public class ModeSwitcher {
 		return app.getDialogManager();
 	}
 
-	private void setUpEmbedManager(EmbedManager embedManager, int mode) {
+	private void setUpEmbedManager(EmbedManager embedManager) {
 		final GeoEmbed ge = new GeoEmbed(cons);
-		if (mode == EuclidianConstants.MODE_CAS) {
-			ge.setAppName("cas");
-		}
+		ge.setAppName("suite");
 		EuclidianView view = app.getActiveEuclidianView();
 		ge.initDefaultPosition(view);
 		embedManager.initAppEmbed(ge);
 		ge.setLabel(null);
 		app.storeUndoInfo();
-		app.invokeLater(() -> view.getEuclidianController().selectAndShowSelectionUI(ge));
+		app.invokeLater(() -> {
+			view.getEuclidianController().selectAndShowSelectionUI(ge);
+			ge.setBackground(false);
+			view.update(ge); // force painting in the foreground
+		});
 	}
 }

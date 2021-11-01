@@ -314,7 +314,7 @@ public class CopyPasteW extends CopyPaste {
 		if (InternalClipboard.imagePrefix.equals(prefix)) {
 			ImageManagerW imageManager = ((AppW) app).getImageManager();
 			imageManager.addExternalImage(name, content);
-			HTMLImageElement img = imageManager.getExternalImage(name, (AppW) app, true);
+			HTMLImageElement img = imageManager.getExternalImage(name, true);
 			img.src = content;
 		} else {
 			EmbedManager embedManager = app.getEmbedManager();

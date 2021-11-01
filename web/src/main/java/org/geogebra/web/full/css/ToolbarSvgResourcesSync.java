@@ -26,17 +26,11 @@ public interface ToolbarSvgResourcesSync extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_slider.svg")
 	SVGResource mode_slider_32();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_black.svg")
-	SVGResource mode_pen_black_32();
-
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showhidelabel.svg")
 	SVGResource mode_showhidelabel_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
 	SVGResource mode_extension();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_h5p.svg")
-	SVGResource mode_h5p();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
 	SVGResource mode_ruler();

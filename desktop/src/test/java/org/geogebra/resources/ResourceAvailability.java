@@ -58,7 +58,7 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_MEDIA_PANEL:
 			case EuclidianConstants.MODE_VIDEO:
 			case EuclidianConstants.MODE_AUDIO:
-			case EuclidianConstants.MODE_GRAPHING:
+			case EuclidianConstants.MODE_CALCULATOR:
 			case EuclidianConstants.MODE_EXTENSION:
 			case EuclidianConstants.MODE_H5P:
 			case EuclidianConstants.MODE_TABLE:
@@ -66,7 +66,6 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_CAMERA:
 			case EuclidianConstants.MODE_PDF:
 			case EuclidianConstants.MODE_GRASPABLE_MATH:
-			case EuclidianConstants.MODE_CAS:
 			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
 			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			case EuclidianConstants.MODE_MASK:

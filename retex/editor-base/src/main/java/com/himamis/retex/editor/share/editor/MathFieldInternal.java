@@ -699,17 +699,23 @@ public class MathFieldInternal
 		boolean allSelected = editorState.getSelectionStart() == rootBefore;
 		boolean rootProtected = rootBefore.isProtected();
 		InputController.deleteSelection(editorState);
-		try {
-			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
-					.getRootComponent();
 
-			if (allSelected	&& isMatrixWithSameDimension(rootBefore, root)) {
-				replaceRoot(rootBefore, root);
-			} else {
-				addToMathField(root);
-			}
-		} catch (ParseException parseException) {
+		if (editorState.isInsideQuotes() || inputController.getPlainTextMode()) {
 			KeyboardInputAdapter.type(this, text);
+		} else {
+			try {
+				MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
+						.getRootComponent();
+
+				if (allSelected && isMatrixWithSameDimension(rootBefore, root)) {
+					replaceRoot(rootBefore, root);
+				} else {
+					addToMathField(root);
+				}
+			} catch (ParseException parseException) {
+				KeyboardInputAdapter.type(this, text);
+			}
+
 		}
 		onInsertString();
 

@@ -51,13 +51,6 @@ wrapper {
 	gradleVersion = gradleVersionGGB
 }
 
-task checkAllStyles(dependsOn: [':common:checkstyleMain', ':common-jre:checkstyleMain', ':web:checkstyleMain',
-        ':editor-base:checkstyleMain', ':editor-web:checkstyleMain',
-        ':keyboard-web:checkstyleMain', ':keyboard-base:checkstyleMain', ':keyboard-scientific:checkstyleMain',
-        ':desktop:checkstyleTest', ':common-jre:checkstyleTest']){
-        description "run checkstyle for all subprojects with checkstyle conf"
-}
-
 // eclipse related tasks
 project(':editor-base') {
 	

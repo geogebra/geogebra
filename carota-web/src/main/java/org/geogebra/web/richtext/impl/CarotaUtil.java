@@ -24,12 +24,18 @@ public class CarotaUtil {
 		setDefaultFontSize(fontSize);
 	}
 
+	/**
+	 * @param fontSize default font size shared by all editors
+	 */
 	public static void setDefaultFontSize(double fontSize) {
 		if (Carota.get() != null) {
 			Carota.get().getRuns().getDefaultFormatting().setSize(fontSize);
 		}
 	}
 
+	/**
+	 * @param selectionColor preferred selection color (for all editors)
+	 */
 	public static void setSelectionColor(String selectionColor) {
 		if (Carota.get() != null) {
 			Carota.get().getText().setSelectionColor(selectionColor);

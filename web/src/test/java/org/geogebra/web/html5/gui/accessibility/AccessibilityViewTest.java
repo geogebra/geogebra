@@ -48,7 +48,6 @@ public class AccessibilityViewTest {
 		baseWidgetFactory = getBaseWidgetFactory();
 	}
 
-
 	private void initAccessibilityViewFull() {
 		app = AppMocker.mockGraphing(AccessibilityViewTest.class);
 		aView = new AccessibilityView(app, baseWidgetFactory);
@@ -95,7 +94,6 @@ public class AccessibilityViewTest {
 		assertDescription(0, "x coordinate of point a");
 		assertDescription(1, "y coordinate of point a");
 	}
-
 
 	@Test
 	public void buttonsShouldReadCaptionAppSimple() {
