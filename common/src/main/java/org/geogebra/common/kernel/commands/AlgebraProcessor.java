@@ -3796,8 +3796,7 @@ public class AlgebraProcessor {
 		String commandName = command.getName();
 		String validatedParam = validated ? Analytics.Param.OK : Analytics.Param.ERROR;
 		boolean isRedefinition = info != null && info.isRedefinition();
-		String objectCreation = isRedefinition ? Analytics.Param.REDEFINED :
-				Analytics.Param.NEW;
+		String objectCreation = isRedefinition ? Analytics.Param.REDEFINED : Analytics.Param.NEW;
 
 		Map<String, Object> params = new HashMap<>();
 		params.put(Analytics.Param.COMMAND, commandName);
