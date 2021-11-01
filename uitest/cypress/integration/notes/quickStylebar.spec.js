@@ -51,6 +51,7 @@ describe('Quick stylebar test', () => {
 
         selectors.dynamicStyleBar.get().should('not.exist');
         selectors.insertGraphingCalculatorButton.click();
-        selectors.dynamicStyleBar.get().should('be.visible');
+        // cypress view too small to se the whole stylebar here
+        cy.get(".matDynStyleContextButton").should('be.visible');
     });
 });

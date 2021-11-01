@@ -582,6 +582,7 @@ public class GPopupPanel extends SimplePanel implements
 		childElement.getStyle().clearHeight();
 
 		center(keyboardHeight);
+		glassResizer.onResize(null);
 
 		int maxHeight = (int) Math.min(getRootPanel().getOffsetHeight() - keyboardHeight
 				- VERTICAL_PADDING, getMaxHeight());

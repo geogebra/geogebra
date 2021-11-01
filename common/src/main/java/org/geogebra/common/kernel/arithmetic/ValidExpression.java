@@ -52,9 +52,7 @@ public abstract class ValidExpression
 	public void addLabel(String label) {
 		initLabels();
 		// App.printStacktrace(label+":"+(label==null));
-		if (label != null) {
-			labels.add(label);
-		}
+		labels.add(label);
 	}
 
 	private void initLabels() {
@@ -102,12 +100,7 @@ public abstract class ValidExpression
 		if (size == 0) {
 			return null;
 		}
-
-		String[] ret = new String[size];
-		for (int i = 0; i < size; i++) {
-			ret[i] = labels.get(i);
-		}
-		return ret;
+		return labels.toArray(new String[labels.size()]);
 	}
 
 	/**
@@ -124,9 +117,7 @@ public abstract class ValidExpression
 	public void setLabel(String label) {
 		initLabels();
 		labels.clear();
-		if (label != null) {
-			labels.add(label);
-		}
+		labels.add(label);
 	}
 
 	/**
@@ -217,7 +208,7 @@ public abstract class ValidExpression
 	 */
 	public String toAssignmentString(String rhs,
 			AssignmentType assignmentType) {
-		if (labelCount() == 0) {
+		if (labels == null || getLabel() == null) {
 			return rhs;
 		}
 
@@ -251,7 +242,7 @@ public abstract class ValidExpression
 	 */
 	public final String toAssignmentLaTeXString(StringTemplate tpl,
 			AssignmentType assignmentType) {
-		if (labels != null) {
+		if (labels == null || getLabel() == null) {
 			return toLaTeXString(true, tpl);
 		}
 

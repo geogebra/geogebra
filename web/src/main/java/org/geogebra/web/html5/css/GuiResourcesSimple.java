@@ -57,12 +57,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/question-mark.png")
 	ImageResource questionMark();
 
-	@Source("org/geogebra/common/icons/png/web/mode_toggle_numeric.png")
-	ImageResource modeToggleNumeric();
-
-	@Source("org/geogebra/common/icons/png/web/mode_toggle_symbolic.png")
-	ImageResource modeToggleSymbolic();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/video_player_black_opacity54_360px.png")
 	ImageResource mow_video_player();
 
