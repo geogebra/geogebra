@@ -373,7 +373,7 @@ test {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/findbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 

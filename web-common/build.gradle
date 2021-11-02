@@ -35,6 +35,18 @@ evaluationDependsOn(':ggbjdk')
 evaluationDependsOn(':editor-web')
 evaluationDependsOn(':keyboard-web')
 
+spotbugs {
+    ignoreFailures = true
+    excludeFilter = file("../config/findbugs.xml")
+    jvmArgs = ['-Dfindbugs.sf.comment=true']
+}
+
+pmd {
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = files("../config/pmd.xml")
+}
+
 gwt {
     gwtVersion = gwtCompilerVersion
 
