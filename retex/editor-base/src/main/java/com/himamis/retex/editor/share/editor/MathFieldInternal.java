@@ -682,8 +682,26 @@ public class MathFieldInternal
 	 * @return serialized selection
 	 */
 	public String copy() {
-		return GeoGebraSerializer.serialize(
-					InputController.getSelectionText(getEditorState()));
+		if (editorState.getSelectionStart() != null) {
+			MathContainer parent = editorState.getSelectionStart().getParent();
+			if (parent == null) {
+				// all the formula is selected
+				return GeoGebraSerializer.serialize(editorState.getRootComponent());
+			}
+
+			int start = parent.indexOf(editorState.getSelectionStart());
+			int end = parent.indexOf(editorState.getSelectionEnd());
+
+			if (end >= 0 && start >= 0) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = start; i <= end; i++) {
+					sb.append(GeoGebraSerializer.serialize(parent.getArgument(i)));
+				}
+				return sb.toString();
+			}
+		}
+
+		return "";
 	}
 
 	public void convertAndInsert(String text) {
