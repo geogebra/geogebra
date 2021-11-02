@@ -74,5 +74,4 @@ public class ComponentCheckbox extends FlowPanel {
         Dom.toggleClass(checkbox, "selected", isSelected());
     }
 
-
 }
