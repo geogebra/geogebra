@@ -1482,6 +1482,14 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	void addAuralLabel(ScreenReaderBuilder sb);
 
 	/**
+	 * add geo value label for reader if no caption are specified.
+	 *
+	 * @param sb
+	 *            StringBuilder to add to.
+	 */
+	void addAuralValue(ScreenReaderBuilder sb);
+
+	/**
 	 * add Caption for reader if defined, type and label otherwise.
 	 * 
 	 * @param sb
@@ -1642,4 +1650,11 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * Removes dynamic capiton completely.
 	 */
 	void removeDynamicCaption();
+
+	/**
+	 *
+	 * @return if value should read as singular
+	 * (ie for numbers. 1, 0) or plural.
+	 */
+	boolean isSingularValue();
 }
