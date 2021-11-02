@@ -597,7 +597,6 @@ public class GeoGebraPreferencesD {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return;
 		}
 		try {
 			ggbPrefs.clear();
