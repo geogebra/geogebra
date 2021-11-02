@@ -424,28 +424,10 @@ public class TableValuesView implements TableValues, SettingListener {
 		return processor;
 	}
 
-	/**
-	 * returns html string of indexed label
-	 * @param columnIndex index of column
-	 * @return html string of indexed label
-	 */
-	public String getHeaderNameHTML(int columnIndex) {
-		String content = getTableValuesModel().getHeaderAt(columnIndex);
-		if (content.contains("_")) {
-			String[] labelParts = content.split("_");
-			if (labelParts.length == 2) {
-				String index = labelParts[1].replaceAll("\\{", "")
-						.replaceAll("\\}", "") ;
-				return labelParts[0] + "<sub>" + index + "</sub>";
-			}
-		}
-		return content;
-	}
-
-	/**
-	 * empty the first (x) column
-	 */
-	public void clearXColumn() {
-		model.clearXColumn();
+	@Override
+	public void clearValues() {
+		values.setZero();
+		values.notifyUpdate();
+		kernel.getApplication().storeUndoInfo();
 	}
 }

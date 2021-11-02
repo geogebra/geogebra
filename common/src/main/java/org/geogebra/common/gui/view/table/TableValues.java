@@ -81,6 +81,11 @@ public interface TableValues extends View {
 	GeoList getValues();
 
 	/**
+	 * Clears the values (x) column.
+	 */
+	void clearValues();
+
+	/**
 	 * Test if the table values view is empty.
 	 * @return true if no table values yet
 	 */
