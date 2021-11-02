@@ -4,10 +4,12 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 
@@ -15,20 +17,15 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
  * icon for the tool. It also allows user to add/remove the tool from toolbar.
  */
-public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
+public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
         KeyUpHandler {
 
 	/** With of tool icon in pixels **/
@@ -36,11 +33,10 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	/** Height of tool icon in pixels **/
 	public static final int ICON_HEIGHT = 32;
 
-	private TextBox tfCmdName;
-	private TextBox tfToolHelp;
-	private TextBox tfToolName;
-	private CheckBox showTool;
-	private VerticalPanel mainWidget;
+	private ComponentInputField tfCmdName;
+	private ComponentInputField tfToolHelp;
+	private ComponentInputField tfToolName;
+	private ComponentCheckbox showTool;
 	private Image icon;
 	private String iconFileName;
 
@@ -71,56 +67,44 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	 *            application
 	 */
 	public ToolNameIconPanelW(final App app) {
-		super();
-
 		this.app = (AppW) app;
 
 		listener = null;
 		macro = null;
 
-		mainWidget = new VerticalPanel();
 		Localization loc = app.getLocalization();
-		Label labelCmdName = new Label(loc.getMenu("CommandName"));
 		int n = app.getKernel().getMacroNumber() + 1;
 
-		Label labelToolName = new Label(loc.getMenu("ToolName"));
-		tfToolName = new GTextBox();
-		tfToolName.setText(loc.getMenu("Tool") + n);
-		FlowPanel pToolName = new FlowPanel();
-		pToolName.add(labelToolName);
-		pToolName.add(tfToolName);
+		tfToolName = new ComponentInputField((AppW) app,
+				null, loc.getMenu("ToolName"), null, "", 28, 1,
+				false);
+		tfToolName.setInputText(loc.getMenu("Tool") + n);
+		add(tfToolName);
+		tfToolName.getTextField().getTextComponent().addBlurHandler(this);
+		tfToolName.getTextField().getTextComponent().addKeyUpHandler(this);
 
-		tfCmdName = new GTextBox();
-		tfCmdName.setText(tfToolName.getText());
-		FlowPanel pCmdName = new FlowPanel();
-		pCmdName.add(labelCmdName);
-		pCmdName.add(tfCmdName);
+		tfCmdName = new ComponentInputField((AppW) app,
+				null, loc.getMenu("CommandName"), null, "", 28, 1,
+				false);
+		tfCmdName.setInputText(tfToolName.getText());
+		tfCmdName.getTextField().getTextComponent().addBlurHandler(this);
+		tfCmdName.getTextField().getTextComponent().addKeyUpHandler(this);
+		add(tfCmdName);
 
-		Label labelToolHelp = new Label(loc.getMenu("ToolHelp"));
-		tfToolHelp = new GTextBox();
-		FlowPanel pToolHelp = new FlowPanel();
-		pToolHelp.add(labelToolHelp);
-		pToolHelp.add(tfToolHelp);
+		tfToolHelp =  new ComponentInputField((AppW) app,
+				null, loc.getMenu("ToolHelp"), null, "", 28, 1,
+				false);
+		tfToolHelp.getTextField().getTextComponent().addBlurHandler(this);
+		tfToolHelp.getTextField().getTextComponent().addKeyUpHandler(this);
+		add(tfToolHelp);
 
-		tfCmdName.addBlurHandler(this);
-		tfCmdName.addKeyUpHandler(this);
-
-		tfToolName.addBlurHandler(this);
-		tfToolName.addKeyUpHandler(this);
-
-		tfToolHelp.addBlurHandler(this);
-		tfToolHelp.addKeyUpHandler(this);
-
-		mainWidget.add(pToolName);
-		mainWidget.add(pCmdName);
-		mainWidget.add(pToolHelp);
-
-		VerticalPanel iconPanel = new VerticalPanel();
+		FlowPanel iconPanel = new FlowPanel();
+		iconPanel.addStyleName("iconPanel");
 		icon = new NoDragImage(ImgResourceHelper
 				.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
 				32);
-		Button labelIcon = new Button(loc.getMenu("Icon") + " ...");
-		labelIcon.addClickHandler(event -> {
+		StandardButton labelIcon = new StandardButton(loc.getMenu("Icon") + " ...");
+		labelIcon.addFastClickHandler(event -> {
 			UploadImageDialog imageDialog = new UploadImageDialog((AppW) app,
 					ICON_WIDTH, ICON_HEIGHT);
 			imageDialog.center();
@@ -133,19 +117,18 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		iconPanel.add(icon);
 		iconPanel.add(labelIcon);
 
-		showTool = new CheckBox(loc.getMenu("ShowInToolBar"));
-		showTool.setValue(true);
-		showTool.addValueChangeHandler(event -> showToolChanged());
+		Label checkboxLabel = new Label(loc.getMenu("ShowInToolBar"));
+		showTool = new ComponentCheckbox(false, checkboxLabel, this::showToolChanged);
+		showTool.setSelected(true);
 
-		HorizontalPanel iconSelectShowPanel = new HorizontalPanel();
+		FlowPanel iconSelectShowPanel = new FlowPanel();
+		iconSelectShowPanel.addStyleName("iconSelectShowPanel");
 		if (!app.isExam()) {
 			iconSelectShowPanel.add(iconPanel);
 		}
 		iconSelectShowPanel.add(showTool);
 
-		mainWidget.add(iconSelectShowPanel);
-
-		add(mainWidget);
+		add(iconSelectShowPanel);
 	}
 
 	/**
@@ -206,7 +189,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		if (macro == null) {
 			return;
 		}
-		//
+
 		macro.setToolName(getToolName());
 		macro.setToolHelp(getToolHelp());
 		macro.setShowInToolBar(getShowTool());
@@ -221,14 +204,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 			        cmdName);
 			if (!cmdNameChanged) {
 				// name used by macro: undo textfield change
-				tfCmdName.setText(macro.getCommandName());
+				tfCmdName.setInputText(macro.getCommandName());
 			}
 		}
-
-		// TODO
-		// if (managerDialog != null)
-		// managerDialog.repaint();
-
 	}
 
 	/**
@@ -256,7 +234,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	 * @return whether tool is shown in toolbar
 	 */
 	public boolean getShowTool() {
-		return showTool.getValue();
+		return showTool.isSelected();
 	}
 
 	/**
@@ -274,10 +252,10 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	 */
 	public void setMacro(Macro m) {
 		this.macro = m;
-		tfCmdName.setText(m == null ? "" : m.getCommandName());
-		tfToolName.setText(m == null ? "" : m.getToolName());
-		tfToolHelp.setText(m == null ? "" : m.getToolHelp());
-		showTool.setValue(m != null && m.isShowInToolBar());
+		tfCmdName.setInputText(m == null ? "" : m.getCommandName());
+		tfToolName.setInputText(m == null ? "" : m.getToolName());
+		tfToolHelp.setInputText(m == null ? "" : m.getToolHelp());
+		showTool.setSelected(m != null && m.isShowInToolBar());
 		setIconFileName(m == null ? null : m.getIconFileName());
 	}
 
@@ -319,12 +297,12 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 			String parsed = app.getKernel().getAlgebraProcessor()
 					.parseLabel(cmdName);
 			if (!parsed.equals(tfCmdName.getText())) {
-				tfCmdName.setText(parsed);
+				tfCmdName.setInputText(parsed);
 			}
 		} catch (Error err) {
-			tfCmdName.setText(defaultToolName());
+			tfCmdName.setInputText(defaultToolName());
 		} catch (Exception ex) {
-			tfCmdName.setText(defaultToolName());
+			tfCmdName.setInputText(defaultToolName());
 		}
 		updateMacro();
 	}
@@ -346,7 +324,6 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	 */
 	void showToolChanged() {
 		Macro m = getMacro();
-		m.setShowInToolBar(showTool.getValue());
 		if (listener != null) {
 			listener.onShowToolChange(m);
 		}
