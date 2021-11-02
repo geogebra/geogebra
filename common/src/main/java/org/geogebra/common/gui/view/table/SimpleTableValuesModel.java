@@ -374,6 +374,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return new GeoText(kernel.getConstruction(), "");
 	}
 
+	@Override
+	public GeoNumeric createValue(double value) {
+		return new GeoNumeric(kernel.getConstruction(), value);
+	}
+
 	private void handleEmptyValue(GeoList column, int columnIndex, int rowIndex) {
 		if (rowIndex == column.size() - 1 && isLastRowEmpty()) {
 			removeEmptyRowsFromBottom();

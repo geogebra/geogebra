@@ -6,7 +6,7 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Settings for function table
- * 
+ *
  * @author Zbynek
  */
 public class TableSettings extends AbstractSettings {
@@ -39,7 +39,6 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void setValuesMin(double valuesMin) {
 		this.valuesMin = valuesMin;
-		valueList = null;
 		settingChanged();
 	}
 
@@ -56,7 +55,6 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void setValuesMax(double valuesMax) {
 		this.valuesMax = valuesMax;
-		valueList = null;
 		settingChanged();
 	}
 
@@ -73,7 +71,6 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void setValuesStep(double valuesStep) {
 		this.valuesStep = valuesStep;
-		valueList = null;
 		settingChanged();
 	}
 
@@ -96,7 +93,7 @@ public class TableSettings extends AbstractSettings {
 
 	/**
 	 * Serialize the settings.
-	 * 
+	 *
 	 * @param sb
 	 *            XML builder
 	 */

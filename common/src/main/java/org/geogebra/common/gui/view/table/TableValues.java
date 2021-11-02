@@ -86,6 +86,14 @@ public interface TableValues extends View {
 	void clearValues();
 
 	/**
+	 * Sets an element.
+	 * @param element element
+	 * @param column column
+	 * @param rowIndex row index
+	 */
+	void set(GeoElement element, GeoList column, int rowIndex);
+
+	/**
 	 * Test if the table values view is empty.
 	 * @return true if no table values yet
 	 */

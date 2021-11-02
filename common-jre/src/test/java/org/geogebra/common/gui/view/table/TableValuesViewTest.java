@@ -940,4 +940,28 @@ public class TableValuesViewTest extends BaseUnitTest {
 			Assert.fail("Should not throw exception for a function in undefined x");
 		}
 	}
+
+	@Test
+	public void testChangingValuesCallsNotifyRowsRemoved() {
+		setValuesSafe(-2, 2, 1);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		view.clearValues();
+		verify(listener).notifyRowRemoved(model, 4);
+		verify(listener).notifyRowRemoved(model, 3);
+		verify(listener).notifyRowRemoved(model, 2);
+		verify(listener).notifyRowRemoved(model, 1);
+	}
+
+	@Test
+	public void testChangingValuesCallsNotifyRowsAdded() {
+		setValuesSafe(-2, 2, 1);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		view.clearValues();
+		verify(listener).notifyRowRemoved(model, 4);
+		verify(listener).notifyRowRemoved(model, 3);
+		verify(listener).notifyRowRemoved(model, 2);
+		verify(listener).notifyRowRemoved(model, 1);
+	}
 }

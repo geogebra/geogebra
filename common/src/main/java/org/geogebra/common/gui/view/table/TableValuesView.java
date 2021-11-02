@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -77,8 +79,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		settings.updateValueList(values);
 		elements = new HashSet<>();
 		labelController = new LabelController();
-		processor =
-				new TableValuesInputProcessor(kernel.getConstruction(), this, settings);
+		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -138,11 +139,14 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void setSettingsValues(double valuesMin, double valuesMax, double valuesStep) {
+		model.startBatchUpdate();
 		settings.beginBatch();
 		settings.setValuesMin(valuesMin);
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
+		settings.setValueList(null);
 		settings.endBatch();
+		model.endBatchUpdate();
 	}
 
 	@Override
@@ -180,8 +184,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			model.updateEvaluatable(values);
 			settings.updateValueList(values);
 		} else {
-			double[] range = createRangeOrDefault();
-			model.setValues(range);
+			updateValuesFromRange();
 		}
 	}
 
@@ -193,30 +196,53 @@ public class TableValuesView implements TableValues, SettingListener {
 		values.notifyUpdate();
 	}
 
-	private double[] createRangeOrDefault() {
-		try {
-			double min = getValuesMin();
-			double max = getValuesMax();
-			double step = getValuesStep();
-			return min == 0 && max == 0 && step == 0
-					? DEFAULT_RANGE
-					: DoubleUtil.range(min, max, step);
-		} catch (OutOfMemoryError error) {
-			return DEFAULT_RANGE;
+	private void updateValuesFromRange() {
+		double min = getValuesMin();
+		double max = getValuesMax();
+		double step = getValuesStep();
+		boolean emptyModel = min == 0 && max == 0 && step == 0;
+		boolean invalidValues = min > max || step <= 0;
+		if (emptyModel) {
+			clearValuesInternal();
+		} else {
+			int row = 0;
+			double value = min;
+			if (invalidValues) {
+				setValuesRow(value, row++);
+			} else {
+				while (value <= max) {
+					setValuesRow(value, row++);
+					value += step;
+				}
+				if (value - step < max - Kernel.STANDARD_PRECISION) {
+					setValuesRow(max, row++);
+				}
+			}
+			for (int index = values.size() - 1; index >= row; index--) {
+				clearValuesRow(index);
+			}
+		}
+	}
+
+	private void clearValuesRow(int row) {
+		model.set(model.createEmptyValue(), values, row);
+	}
+
+	private void setValuesRow(double value, int row) {
+		model.set(model.createValue(value), values, row);
+	}
+
+	@Override
+	public void set(GeoElement element, GeoList column, int rowIndex) {
+		model.set(element, column, rowIndex);
+		if (column == values) {
+			settings.setValueList(values);
 		}
 	}
 
 	@Override
 	public TableValuesModel getTableValuesModel() {
 		return model;
-	}
-
-	/**
-	 * @param column index of column
-	 * @return geo at the given column
-	 */
-	public GeoElement getGeoAt(int column) {
-		return this.model.getEvaluatable(column).toGeoElement();
 	}
 
 	@Override
@@ -426,8 +452,13 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void clearValues() {
-		values.setZero();
-		values.notifyUpdate();
+		clearValuesInternal();
 		kernel.getApplication().storeUndoInfo();
+	}
+
+	private void clearValuesInternal() {
+		for (int row = values.size() - 1; row >= 0; row--) {
+			clearValuesRow(row);
+		}
 	}
 }
