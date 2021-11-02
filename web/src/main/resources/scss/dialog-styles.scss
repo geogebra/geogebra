@@ -1809,4 +1809,29 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 	}
+
+	.manageTools {
+		.gwt-ListBox {
+			max-width: 400px;
+			margin-right: 16px;
+		}
+
+		.manageToolsList {
+			position: relative;
+		}
+
+		.toolListButtons {
+			position: absolute;
+            top: 8px;
+            display: inline-block;
+
+			.MyCanvasButton {
+				margin-bottom: 8px;
+			}
+		}
+
+		.containedButton {
+			margin-right: 8px;
+		}
+	}
 }
