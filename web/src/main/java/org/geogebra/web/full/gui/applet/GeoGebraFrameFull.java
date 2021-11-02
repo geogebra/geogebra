@@ -545,20 +545,20 @@ public class GeoGebraFrameFull
 					}
 					setKeyboardShowing(true);
 					app.invokeLater(() -> {
-						if (getApp().isWhiteboardActive()) {
+						if (getApp().isWhiteboardActive()
+								|| (app.getAppletParameters().preventFocus()
+								&& app.isUnbundled())) {
 							return;
 						}
 						getApp().persistWidthAndHeight();
 						addKeyboard(null, false);
 						ensureKeyboardDeferred();
-
 					});
 				} else {
 					showKeyboardButton(null);
 					getOnScreenKeyboard(null).showOnFocus();
 					app.adjustScreen(true);
 				}
-
 			} else if (app != null && app.isKeyboardNeeded()) {
 				if (!isKeyboardWantedFromStorage()) {
 					showKeyboardButton(null);

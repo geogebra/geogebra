@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
@@ -17,19 +18,21 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	private List<List<GeoPoint>> points;
 	private Construction construction;
-	private SimpleTableValuesModel tableModel;
+	private TableValues view;
+	private TableValuesModel model;
 
 	/**
 	 * Construct a new object of Table Values Points.
-	 *
 	 * @param construction the construction to add points to
 	 * @param model model
 	 */
-	public TableValuesPointsImpl(Construction construction, TableValuesModel model) {
+	public TableValuesPointsImpl(Construction construction, TableValues view,
+			TableValuesModel model) {
 		this.points = new ArrayList<>(2);
 		initPoints(0);
 		this.construction = construction;
-		this.tableModel = (SimpleTableValuesModel) model;
+		this.view = view;
+		this.model = model;
 	}
 
 	@Override
@@ -41,17 +44,20 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		if (points.size() > column && points.get(column) != null) {
-			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
-			removePoints(column);
-			addPointsToList(simpleModel, column);
+		if (column == 0 || points.size() <= column || points.get(column) == null) {
+			return;
 		}
+		removePoints(column);
+		addPointsToList(evaluatable, column);
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		if (column == 0) {
+			return;
+		}
 		initPoints(column);
-		addPointsToList(model, column);
+		addPointsToList(evaluatable, column);
 	}
 
 	@Override
@@ -63,22 +69,54 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
-		notifyColumnChanged(model, evaluatable, column);
+		if (column == 0 || column >= points.size()) {
+			return;
+		}
+		List<GeoPoint> columnPoints = points.get(column);
+		if (columnPoints == null || columnPoints.size() <= row) {
+			return;
+		}
+		GeoPoint point = columnPoints.get(row);
+		setupPoint(point, evaluatable, row, column);
+		point.updateRepaint();
 	}
 
 	@Override
 	public void notifyRowRemoved(TableValuesModel model, int row) {
-		// TODO
+		for (List<GeoPoint> geoPoints : points) {
+			if (geoPoints == null || geoPoints.size() <= row) {
+				continue;
+			}
+			GeoPoint point = geoPoints.remove(row);
+			point.remove();
+		}
 	}
 
 	@Override
 	public void notifyRowChanged(TableValuesModel model, int row) {
-		// TODO
+		for (int column = 1; column < points.size(); column++) {
+			List<GeoPoint> geoPoints = points.get(column);
+			if (geoPoints == null || geoPoints.size() <= row) {
+				continue;
+			}
+			GeoPoint point = geoPoints.get(row);
+			setupPoint(point, view.getEvaluatable(column), row, column);
+			point.updateRepaint();
+		}
 	}
 
 	@Override
 	public void notifyRowAdded(TableValuesModel model, int row) {
-		// TODO
+		for (int column = 1; column < points.size(); column++) {
+			List<GeoPoint> geoPoints = points.get(column);
+			if (geoPoints == null) {
+				continue;
+			}
+			GeoPoint point = createNewPoint();
+			setupPoint(point, view.getEvaluatable(column), row, column);
+			geoPoints.add(row, point);
+			point.notifyAdd();
+		}
 	}
 
 	@Override
@@ -86,69 +124,76 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		for (int i = points.size() - 1; i >= 0; i--) {
 			removePointsFromList(i);
 		}
-		for (int i = 0; i < model.getColumnCount(); i++) {
-			addPointsToList(model, i);
+		for (int column = 1; column < model.getColumnCount(); column++) {
+			GeoEvaluatable evaluatable = view.getEvaluatable(column);
+			addPointsToList(evaluatable, column);
 		}
 	}
 
-	private static GeoEvaluatable getEvaluatable(TableValuesModel model,
-			int column) {
-		SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
-		return simpleModel.getEvaluatable(column);
-	}
-
-	private void addPointsToList(TableValuesModel model, int column) {
-		GeoEvaluatable evaluatable = getEvaluatable(model, column);
+	private void addPointsToList(GeoEvaluatable evaluatable, int column) {
 		if (evaluatable != null && evaluatable.isPointsVisible()) {
-			SimpleTableValuesModel simpleModel = (SimpleTableValuesModel) model;
-			createAndAddPoints(simpleModel, column);
+			createAndAddPoints(evaluatable, column);
 		} else {
-			setPoints(null, column);
+			setPoints(null, column, true);
 		}
 	}
 
-	private void setPoints(List<GeoPoint> list, int column) {
+	private void setPoints(List<GeoPoint> list, int column, boolean addColumn) {
 		initPoints(column);
-		points.add(column, list);
+		if (addColumn) {
+			points.add(column, list);
+		} else {
+			points.set(column, list);
+		}
 	}
 
 	private void initPoints(int column) {
-		for (int i = points.size(); i <= column; i++) {
-			points.add(i, null);
-		}
+		int size = Math.max(column - points.size() + 1, 0);
+		points.addAll(Collections.nCopies(size, null));
 	}
 
-	private void createAndAddPoints(SimpleTableValuesModel model, int column) {
-		List<GeoPoint> list = createPoints(model, column);
-		setPoints(list, column);
+	private void createAndAddPoints(GeoEvaluatable evaluatable, int column) {
+		List<GeoPoint> list = createPoints(evaluatable, column);
+		setPoints(list, column, false);
 	}
 
-	private List<GeoPoint> createPoints(SimpleTableValuesModel model, int column) {
-		GeoEvaluatable evaluatable = getEvaluatable(model, column);
-		ArrayList<GeoPoint> list = new ArrayList<>();
+	private List<GeoPoint> createPoints(GeoEvaluatable evaluatable, int column) {
+		ArrayList<GeoPoint> list = new ArrayList<>(model.getRowCount());
 		for (int row = 0; row < model.getRowCount(); row++) {
-			double value = model.getValueAt(row, column);
-			GeoPoint point = new GeoPoint(construction,
-					model.getValueAt(row, 0), value, 1.0);
-			point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
-			point.setAlgebraVisible(false);
-			point.setEuclidianVisible(true);
-			point.setLabelVisible(false);
-			point.setHasPreviewPopup(true);
-			point.setFixed(true);
-			point.setLabelSimple("TableValuesPoints");
-			point.setLabelSet(true);
-			maybeSetPointColor(point, evaluatable);
+			GeoPoint point = createNewPoint();
+			setupPoint(point, evaluatable, row, column);
 			point.notifyAdd();
 			list.add(point);
 		}
 		return list;
 	}
 
+	private void setupPoint(GeoPoint point, GeoEvaluatable evaluatable, int row, int column) {
+		double x = model.getValueAt(row, 0);
+		double y = model.getValueAt(row, column);
+		point.setX(x);
+		point.setY(y);
+		point.setZ(1.0);
+		point.updateCoords();
+		point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
+		point.setAlgebraVisible(false);
+		point.setEuclidianVisible(true);
+		point.setLabelVisible(false);
+		point.setHasPreviewPopup(true);
+		point.setFixed(true);
+		point.setLabelSimple("TableValuesPoints");
+		point.setLabelSet(true);
+		maybeSetPointColor(point, evaluatable);
+	}
+
+	private GeoPoint createNewPoint() {
+		return new GeoPoint(construction, 0.0, 0.0, 1.0);
+	}
+
 	private static void maybeSetPointColor(GeoPoint point,
 			GeoEvaluatable evaluatable) {
 		GColor color = evaluatable instanceof GeoFunctionable ? evaluatable.getObjectColor()
-				: GColor.MIND_MAP_PARENT_BORDER_COLOR;
+				: GColor.Y_POINT_COLOR;
 		point.setObjColor(color);
 	}
 
@@ -178,10 +223,10 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void setPointsVisible(int column, boolean visible) {
-		GeoEvaluatable geoEvaluatable = tableModel.getEvaluatable(column);
+		GeoEvaluatable geoEvaluatable = view.getEvaluatable(column);
 		geoEvaluatable.setPointsVisible(visible);
 		if (visible && points.get(column) == null) {
-			createAndAddPoints(tableModel, column);
+			createAndAddPoints(geoEvaluatable, column);
 		} else if (!visible && points.get(column) != null) {
 			removePoints(column);
 		}

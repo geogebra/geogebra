@@ -2,6 +2,8 @@ package org.geogebra.test;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * Used for logging all test results of the GeoGebraCasIntegrationTest
  * which are not the expected but valid results
@@ -42,11 +44,11 @@ public class CASTestLogger {
 	 */
 	public void handleLogs() {
 		int nrOfWarnings = logs.size();
-		System.out.println("\nTests finished with " + nrOfWarnings
+		Log.debug("\nTests finished with " + nrOfWarnings
 				+ " warnings" + (nrOfWarnings > 0 ? ":" : "."));
 		if (nrOfWarnings > 0) {
 			for (String log : logs) {
-				System.out.println(log);
+				Log.debug(log);
 			}
 		}
 	}

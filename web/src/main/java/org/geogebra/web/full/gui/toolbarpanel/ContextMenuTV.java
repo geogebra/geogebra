@@ -22,6 +22,7 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.Command;
 
@@ -103,9 +104,17 @@ public class ContextMenuTV {
 	private void buildYColumnMenu() {
 		addDelete();
 		wrappedPopup.addVerticalSeparator();
+
 		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
-		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var);
-		addStats(getStatisticsTransKey("x " + headerHTMLName), view::getStatistics2Var);
+		DialogData oneVarStat = new DialogData("1VariableStatistics",
+				getColumnTransKey(headerHTMLName), "Close", null);
+		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var, oneVarStat);
+
+		DialogData twoVarStat = new DialogData("2VariableStatistics",
+				getColumnTransKey("x " + headerHTMLName), "Close", null);
+		addStats(getStatisticsTransKey("x " + headerHTMLName),
+				view::getStatistics2Var, twoVarStat);
+
 		addCommand(this::showRegression, "Regression",
 				"regression");
 	}
@@ -113,6 +122,11 @@ public class ContextMenuTV {
 	private String getStatisticsTransKey(String argument) {
 		return app.getLocalization().getPlainDefault("AStatistics",
 				"%0 Statistics", argument);
+	}
+
+	private String getColumnTransKey(String argument) {
+		return app.getLocalization().getPlainDefault("ColumnA",
+				"Column %0", argument);
 	}
 
 	private void buildFunctionColumnMenu() {
@@ -125,18 +139,21 @@ public class ContextMenuTV {
 		addDelete();
 	}
 
-	private void addStats(String transKey, Function<Integer, List<StatisticGroup>> statFunction) {
-		addCommand(() -> showStats(statFunction), transKey,	transKey.toLowerCase(Locale.US));
+	private void addStats(String transKey, Function<Integer, List<StatisticGroup>> statFunction,
+			DialogData data) {
+		addCommand(() -> showStats(statFunction, data), transKey, transKey.toLowerCase(Locale.US));
 	}
 
 	private void showRegression() {
-		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx());
+		DialogData data = new DialogData("Regression", "Column y1", "Close", null);
+		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
 		dialog.addRegressionChooserAndShow();
 		dialog.show();
 	}
 
-	private void showStats(Function<Integer, List<StatisticGroup>> statFunction) {
-		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx());
+	private void showStats(Function<Integer, List<StatisticGroup>> statFunction,
+			DialogData data) {
+		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
 		dialog.updateContent(statFunction);
 	}
 

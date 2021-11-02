@@ -16,12 +16,12 @@ public class TextFieldCommonJre extends ViewTextField {
 
 	@Override
 	public void setBoxVisible(boolean isVisible) {
-
+		// stub
 	}
 
 	@Override
 	public void setBoxBounds(GRectangle labelRectangle) {
-
+		// stub
 	}
 
 	@Override
@@ -35,6 +35,6 @@ public class TextFieldCommonJre extends ViewTextField {
 
 	@Override
 	public void remove() {
-
+		// stub
 	}
 }

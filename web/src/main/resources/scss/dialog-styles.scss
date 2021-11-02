@@ -56,7 +56,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.dialogComponent.printPreview {
-	    max-width: 370px;
+		max-width: 370px;
 	}
 
 	.dialogComponent.customColor {
@@ -94,7 +94,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;
-		max-height: 438px;
 
 		.gwt-ListBox {
 			margin-right: 16px;
@@ -117,7 +116,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* button tool dialog*/
 	.dialogComponent.buttonDialog {
 		max-width: 448px;
-		max-height: 444px;
 
 		.scriptArea {
 			margin-right: 16px;
@@ -137,7 +135,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.inputboxDialog {
 		max-width: 430px;
-		max-height: 250px;
 
 		.AutoCompleteTextFieldW {
 			max-width: 382px;
@@ -892,7 +889,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.shareLink {
 		padding-bottom: 24px;
 		max-width: 510px;
-		max-height: 164px;
 
 		>div>table {
 			padding-right: 0px;
@@ -1182,7 +1178,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 *****************************************************/
 	.mowPermissionDialog{
 		max-width: 500px;
-		max-height: 177px;
 		.dialogContent .gwt-Label {
 			color: colors.$text-secondary;
 			font-size: 80%;
@@ -1196,7 +1191,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.camera {
 		max-width: 530px;
-		max-height: 488px;
 
 		.mowCameraSimplePanel {
 			margin-left: 16px;
@@ -1527,7 +1521,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.whatsNewDialog {
 		max-width: 592px;
-		max-height: 424px;
 		height: auto;
 
 		.messagePanel {
@@ -1633,7 +1626,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.sessionExpireNotifyDialog {
 		max-width: 448px;
-		max-height: 210px;
 		height: unset;
 
 		.sessionExpireTxt {
@@ -1645,7 +1637,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.sliderDialog {
 		max-width: 504px;
-		max-height: 450px;
 
 		.gwt-RadioButton [type="radio"]+label {
 			padding-left: 35px;
@@ -1715,12 +1706,14 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.calcChooser {
-			 max-width: 760px;
+			 max-width: 832px;
 			 min-height: 232px;
-			 width: calc(100% - 72px);
+			 width: calc(100% - 80px);
+			 left: 0px;
 			 padding: 48px 36px;
 			 border-radius: 2px;
 			 box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+			 box-sizing: border-box;
 
 			.title {
 				height: 48px;
@@ -1772,6 +1765,18 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
+	.calcChooser.smallScreen {
+		max-width: 480px;
+		padding: 24px 12px;
+
+		.title {
+			height: 36px;
+			font-size: 140%;
+			line-height: 36px;
+			margin-bottom: 24px;
+		}
+	}
+
 	.dialogComponent.mediaDialog.H5P {
 
 		.dialogMainPanel .dialogTitle {
@@ -1801,6 +1806,50 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				border: solid 1px colors.$black-12;
 				color: colors.$mebis-text-btn-col;
 				padding: 0px 16px;
+			}
+		}
+	}
+
+	.dialogComponent.statistics {
+		.dialogTitle {
+			margin-bottom: 0px;
+			height: 24px;
+			font-size: 125%;
+			padding-bottom: 8px;
+			color: colors.$text-primary;
+			line-height: 1.2;
+		}
+
+		.dialogSubTitle {
+			margin-bottom: 16px;
+			margin-left: 24px;
+			height: 14px;
+			font-size: 75%;
+			color: colors.$text-secondary;
+			line-height: 1.2;
+		}
+
+		.dialogContent {
+			max-height: 426px;
+			height: calc(100% - 114px);
+			box-sizing: border-box;
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
+
+			.group {
+				height: 64px;
+
+				.heading {
+					margin-top: 8px;
+					margin-bottom: 4px;
+					height: 14px;
+					color: colors.$text-secondary;
+					font-size: 12px;
+				}
+
+				.value {
+					 margin-bottom: 4px;
+				 }
 			}
 		}
 	}

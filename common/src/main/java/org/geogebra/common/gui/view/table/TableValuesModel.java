@@ -25,9 +25,8 @@ public interface TableValuesModel {
 	 * @param element element
 	 * @param column column
 	 * @param rowIndex row index
-	 * @param oldRowCount row count before setting the new element
 	 */
-	void set(GeoElement element, GeoList column, int rowIndex, int oldRowCount);
+	void set(GeoElement element, GeoList column, int rowIndex);
 
 	/**
 	 * Get the number of rows in the table.
@@ -57,6 +56,14 @@ public interface TableValuesModel {
 	String getHeaderAt(int column);
 
 	/**
+	 * Returns the numeric value at the specified location.
+	 * @param row row of the entry
+	 * @param column column of the entry
+	 * @return numeric value or NaN.
+	 */
+	double getValueAt(int row, int column);
+
+	/**
 	 * Starts batch update. This batch update call cannot be nested.
 	 */
 	void startBatchUpdate();
@@ -71,4 +78,10 @@ public interface TableValuesModel {
 	 * @return whether the element contains only an empty string
 	 */
 	boolean isEmptyValue(GeoElement element);
+
+	/**
+	 * Creates an empty value to be used in lists.
+	 * @return empty value
+	 */
+	GeoElement createEmptyValue();
 }

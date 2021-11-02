@@ -2256,11 +2256,11 @@ public class GeoCasCell extends GeoElement
 				// make work NSolve with cell input
 				if (expandedEvalVE.isTopLevelCommand("NSolve")
 						&& ((Command) expandedEvalVE.unwrap()).getArgument(0)
-										.getLeft() instanceof GeoCasCell) {
+										.unwrap() instanceof GeoCasCell) {
 					GeoCasCell cellArg = ((GeoCasCell) ((Command) expandedEvalVE
-							.unwrap()).getArgument(0).getLeft());
+							.unwrap()).getArgument(0).unwrap());
 					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) cellArg
-							.getInputVE();
+							.getEvalVE();
 					((Command) expandedEvalVE.unwrap()).setArgument(0,
 							inputVEofGeoCasCell);
 				}

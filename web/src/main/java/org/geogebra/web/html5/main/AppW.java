@@ -284,7 +284,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
 					getAppletParameters().getParamScaleContainerClass()),
-					obj -> checkScaleContainer());
+					this::checkScaleContainer);
 		}
 		initializeAnalytics();
 	}
@@ -960,8 +960,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final MyImage getExternalImageAdapter(String fileName, int width,
 			int height) {
-		HTMLImageElement im = getImageManager().getExternalImage(fileName, this,
-				true);
+		HTMLImageElement im = getImageManager().getExternalImage(fileName, true);
 		return getImageAdapter(im, fileName, width, height);
 	}
 

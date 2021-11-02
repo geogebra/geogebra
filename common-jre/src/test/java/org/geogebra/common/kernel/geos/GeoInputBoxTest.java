@@ -145,7 +145,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void inputBoxCorrectlySavedAndLoaded() {
 		GeoText text = add("FormulaText(\"\\sqrt{n}\")");
-		GeoNumeric numeric = add("a = 1");
+		add("a = 1");
 		GeoInputBox savedInputBox = add("inputbox1=InputBox(a)");
 		savedInputBox.setSymbolicMode(true);
 		savedInputBox.setAuxiliaryObject(true);
@@ -154,7 +154,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		savedInputBox.setTempUserInput("?", "abcde");
 		savedInputBox.setDynamicCaption(text);
 		String appXML = getApp().getXML();
-		XmlTestUtil.testCurrentXML(getApp());
+		XmlTestUtil.checkCurrentXML(getApp());
 		getApp().setXML(appXML, true);
 		GeoInputBox loadedInputBox = (GeoInputBox) lookup("inputbox1");
 

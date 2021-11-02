@@ -294,21 +294,20 @@ public class ToolBar {
 		tools.add(EuclidianConstants.MODE_MEDIA_TEXT);
 		tools.add(EuclidianConstants.MODE_TABLE);
 		tools.add(EuclidianConstants.MODE_EQUATION);
-		tools.add(EuclidianConstants.MODE_GRAPHING);
-		tools.add(EuclidianConstants.MODE_CAS);
-		if (includeGraspableMath) {
-			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
-		}
+		tools.add(EuclidianConstants.MODE_CALCULATOR);
 		tools.add(EuclidianConstants.MODE_EXTENSION);
-		if (includeH5P) {
-			tools.add(EuclidianConstants.MODE_H5P);
-		}
+		tools.add(EuclidianConstants.MODE_MIND_MAP);
 		tools.add(EuclidianConstants.MODE_IMAGE);
 		tools.add(EuclidianConstants.MODE_CAMERA);
 		tools.add(EuclidianConstants.MODE_VIDEO);
 		tools.add(EuclidianConstants.MODE_AUDIO);
 		tools.add(EuclidianConstants.MODE_PDF);
-		tools.add(EuclidianConstants.MODE_MIND_MAP);
+		if (includeGraspableMath) {
+			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
+		}
+		if (includeH5P) {
+			tools.add(EuclidianConstants.MODE_H5P);
+		}
 		return tools;
 	}
 

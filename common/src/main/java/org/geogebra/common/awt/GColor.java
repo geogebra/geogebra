@@ -69,6 +69,8 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
 	/** ERROR RED */
 	public static final GColor ERROR_RED = newColor(176, 0, 32);
+	/** Table values points color for y values */
+	public static final GColor Y_POINT_COLOR = newColor(76, 66, 161);
 
 	/** MOW RULER */
 	public static final GColor MOW_RULER = LIGHT_GRAY;

@@ -1,9 +1,10 @@
 package org.geogebra.common.gui.view.table.column;
 
 import org.geogebra.common.gui.view.table.TableValuesCell;
+import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
-public interface TableValuesColumn {
+public interface TableValuesColumn extends TableValuesListener {
 
 	/**
 	 * Get the double value for the row.
@@ -29,18 +30,6 @@ public interface TableValuesColumn {
 	 * Invalidates the header name, forcing the column to recompute.
 	 */
 	void invalidateHeader();
-
-	/**
-	 * Resets the cache values of the column.
-	 * @param size size
-	 */
-	void invalidateValues(int size);
-
-	/**
-	 * Invalidates the value at the row.
-	 * @param row row
-	 */
-	void invalidateValue(int row);
 
 	/**
 	 * Get the evaluatable.

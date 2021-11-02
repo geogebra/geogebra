@@ -277,4 +277,8 @@ public class CASTableCellW extends VerticalPanel {
 		outputPanel.clear();
 		outputPanel.add(renderPlain());
 	}
+
+	public String getTextBeforeEdit() {
+		return textBeforeEdit;
+	}
 }
