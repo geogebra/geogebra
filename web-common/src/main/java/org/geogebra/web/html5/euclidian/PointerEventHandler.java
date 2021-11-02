@@ -136,7 +136,7 @@ public class PointerEventHandler {
 				|| "mouse".equals(e.getPointerType())) {
 			this.tc.onPointerEventMove(convertEvent(e));
 		}
-		if (!"INPUT".equals(e.getTarget().getTagName())) {
+		if (!"INPUT".equals(e.getTarget().tagName)) {
 			e.preventDefault();
 		}
 		checkMoveLongTouch();

@@ -3,10 +3,10 @@ package org.geogebra.web.full.gui.toolbar;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;

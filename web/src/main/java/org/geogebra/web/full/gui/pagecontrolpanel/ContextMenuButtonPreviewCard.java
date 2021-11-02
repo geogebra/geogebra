@@ -6,11 +6,11 @@ import java.util.Map;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.gwtutil.BrowserStorage;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.PreviewCardRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.DialogData;
 

@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 

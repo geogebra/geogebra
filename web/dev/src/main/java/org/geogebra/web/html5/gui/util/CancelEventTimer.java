@@ -1,4 +1,4 @@
-package org.geogebra.gwtutil;
+package org.geogebra.web.html5.gui.util;
 
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;

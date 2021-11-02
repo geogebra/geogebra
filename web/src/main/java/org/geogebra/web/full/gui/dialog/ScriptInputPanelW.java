@@ -17,10 +17,10 @@ import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 

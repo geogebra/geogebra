@@ -4,7 +4,7 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
-import org.geogebra.gwtutil.BrowserStorage;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 import elemental2.dom.DomGlobal;

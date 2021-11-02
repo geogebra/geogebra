@@ -4,7 +4,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
-import org.geogebra.gwtutil.BrowserStorage;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 /**
  * Preferences in Web (Local Storage)

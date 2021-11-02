@@ -8,9 +8,9 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;

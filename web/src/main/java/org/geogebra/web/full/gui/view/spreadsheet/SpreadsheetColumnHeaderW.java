@@ -6,11 +6,11 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.gwtutil.CancelEventTimer;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 

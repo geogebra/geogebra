@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.menubar.action;
 
-import org.geogebra.gwtutil.BrowserStorage;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.gui.menubar.FileChooser;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 
 public class OpenOfflineFileAction extends DefaultMenuAction<Void>  {
 

@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import org.geogebra.gwtutil.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
