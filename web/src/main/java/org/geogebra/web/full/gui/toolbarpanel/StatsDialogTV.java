@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.common.kernel.statistics.Regression;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -81,7 +80,7 @@ public class StatsDialogTV extends ComponentDialog {
 	/**
 	 * Add regression UI and show
 	 */
-	public void addRegressionChooserAndShow() {
+	public void addRegressionChooser() {
 		ListBox regressionChooser = new ListBox();
 		for (Regression regression: Regression.values()) {
 			if (regression == Regression.NONE) {
@@ -95,13 +94,11 @@ public class StatsDialogTV extends ComponentDialog {
 			setRows(view.getRegression(column, regression, 3));
 		});
 		addDialogContent(regressionChooser);
-		StandardButton plot = new StandardButton("Plot");
-		plot.addFastClickHandler((ignore) -> {
+
+		setOnPositiveAction(() -> {
 			Regression regression = Regression.valueOf(regressionChooser.getSelectedValue());
 			view.plotRegression(column, regression, 3);
 		});
-		addDialogContent(plot);
-		plot.addStyleName("dialogContainedButton");
 		updateContent(c -> view.getRegression(c, Regression.LINEAR, 1));
 	}
 }
