@@ -25,13 +25,13 @@ public abstract class CanvasDrawable extends Drawable {
 
 	// private boolean drawingOnCanvas;
 	private GFont labelFont;
-	GPoint labelSize = new GPoint(0, 0);
+	protected GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
 	private final GRectangle hitRect = AwtFactory.getPrototype().newRectangle();
-	int boxLeft;
-	int boxTop;
-	int boxWidth;
-	int boxHeight;
+	protected int boxLeft;
+	protected int boxTop;
+	protected int boxWidth;
+	protected int boxHeight;
 
 	/**
 	 * @param text
@@ -75,7 +75,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            screen y-coord
 	 * @return size
 	 */
-	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
+	public GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y) {
 		return drawLatex(g2, geo0, font, text, x, y, false);
 	}
@@ -262,7 +262,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            font
 	 * @return layout of text for given font
 	 */
-	protected GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
+	public static GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
 		// make sure layout won't be null ("" makes it null).
 		return getTextLayout("".equals(text) ? "A" : text, font, g2);
 	}

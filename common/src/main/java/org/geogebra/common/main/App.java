@@ -29,7 +29,7 @@ import org.geogebra.common.euclidian.EuclidianHost;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.MaskWidgetList;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
@@ -605,11 +605,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return true;
 		}
 
-		if (id == App.VIEW_EUCLIDIAN3D_2) {
-			return true;
-		}
-
-		return false;
+		return id == App.VIEW_EUCLIDIAN3D_2;
 
 	}
 
@@ -1634,8 +1630,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		String allXml = getXML();
 		String header = allXml.substring(0, allXml.indexOf("<construction"));
-		String footer = allXml.substring(allXml.indexOf("</construction>"),
-				allXml.length());
+		String footer = allXml.substring(allXml.indexOf("</construction>")
+		);
 		StringBuilder sb = new StringBuilder();
 		editMacro.getXML(sb);
 		String macroXml = sb.toString();
@@ -4219,7 +4215,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public interface ViewCallback {
-		public void run(int viewID, String viewName);
+		void run(int viewID, String viewName);
 	}
 
 	final public boolean loadXML(byte[] zipFile) {
