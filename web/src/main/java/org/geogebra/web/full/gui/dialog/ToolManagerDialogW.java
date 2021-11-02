@@ -36,6 +36,7 @@ import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
@@ -171,11 +172,9 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 
 	private void deleteTools() {
 		List<Integer> selIndexesTemp = ListBoxApi.getSelectionIndexes(toolList);
-
 		if (selIndexesTemp.isEmpty()) {
 			return;
 		}
-		// List<Macro> macros = toolList.getSelectedMacros();
 		StringBuilder macroNamesNoDel = new StringBuilder();
 		StringBuilder macroNamesDel = new StringBuilder();
 
@@ -200,6 +199,7 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 			if (macroNamesNoDel.length() != 0) {
 				message += Errors.ToolDeleteUsed.getError(loc);
 			}
+
 			DialogData data = new DialogData(null, "Cancel", "Delete");
 			ComponentDialog dialog = new ComponentDialog(appw, data, false, false);
 			FlowPanel content = new FlowPanel();
@@ -237,76 +237,61 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 	}
 
 	private FlowPanel createListUpDownRemovePanel() {
-		btUp = new StandardButton(MaterialDesignResources.INSTANCE.arrow_drop_up(), null, 24);
-		btUp.addFastClickHandler(this);
-		btUp.addStyleName("MyCanvasButton");
-
-		btDown = new StandardButton(MaterialDesignResources.INSTANCE.arrow_drop_down(), null, 24);
-		btDown.addFastClickHandler(this);
-		btDown.addStyleName("MyCanvasButton");
-
-		btDelete = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(), null, 24);
-		btDelete.addFastClickHandler(this);
-		btDelete.addStyleName("MyCanvasButton");
-
 		FlowPanel panel = new FlowPanel();
 		panel.addStyleName("toolListButtons");
-		panel.add(btUp);
-		panel.add(btDown);
-		panel.add(btDelete);
+
+		btUp = addStyledButton(MaterialDesignResources.INSTANCE.arrow_drop_up(), panel,
+				"MyCanvasButton", null);
+		btDown = addStyledButton(MaterialDesignResources.INSTANCE.arrow_drop_down(), panel,
+				"MyCanvasButton", null);
+		btDelete = addStyledButton(MaterialDesignResources.INSTANCE.delete_black(), panel,
+				"MyCanvasButton", null);
 
 		return panel;
+	}
+
+	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,
+			String styleName, String label) {
+		StandardButton btn = new StandardButton(img, label, 24);
+		btn.addFastClickHandler(this);
+		btn.addStyleName(styleName);
+		rootPanel.add(btn);
+		return btn;
 	}
 
 	private void initGUI() {
 		FlowPanel panel = new FlowPanel();
 
-		FlowPanel toolListPanel = new FlowPanel();
 		Label lblTitle = new Label(loc.getMenu("Tools"));
 		panel.add(lblTitle);
-		panel.add(toolListPanel);
 
 		toolList = new MacroListBox();
 		toolList.setMultipleSelect(true);
-
 		toolList.setVisibleItemCount(6);
 
 		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList,
 				createListUpDownRemovePanel());
 		centerPanel.setStyleName("manageToolsList");
-		toolListPanel.add(centerPanel);
+		panel.add(centerPanel);
 
 		FlowPanel toolButtonPanel = new FlowPanel();
 		toolButtonPanel.addStyleName("toolButtons");
-		toolListPanel.add(toolButtonPanel);
+		panel.add(toolButtonPanel);
 
 		if (appw.has(Feature.TOOL_EDITOR)) {
-			btOpen = new StandardButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
-					loc.getMenu("Open"), 18);
-			btOpen.addStyleName("containedButton");
-			toolButtonPanel.add(btOpen);
-			btOpen.addFastClickHandler(this);
+			btOpen = addStyledButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+					toolButtonPanel, "containedButton", loc.getMenu("Open"));
 		}
 
-		btSave = new StandardButton(MaterialDesignResources.INSTANCE.save_black(),
-				loc.getMenu("Save"), 18);
-		btSave.addStyleName("containedButton");
-		toolButtonPanel.add(btSave);
-
-		btShare = new StandardButton(MaterialDesignResources.INSTANCE.share_black(),
-				loc.getMenu("Share"), 18);
-		btShare.addStyleName("containedButton");
-		toolButtonPanel.add(btShare);
+		btSave = addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
+				"containedButton", loc.getMenu("Save"));
+		btShare = addStyledButton(MaterialDesignResources.INSTANCE.share_black(), toolButtonPanel,
+				"containedButton", loc.getMenu("Share"));
 
 		// name & icon
 		macroPanel = new ToolNameIconPanelW(appw);
-		macroPanel.setTitle(loc.getMenu("NameIcon"));
 		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);
-
-		btShare.addFastClickHandler(this);
-		btSave.addFastClickHandler(this);
-		btDelete.addFastClickHandler(this);
 
 		insertTools();
 
@@ -372,11 +357,6 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 
 	@Override
 	public void onClick(Widget src) {
-		/*if (src == btClose) {
-			applyChanges();
-			hide();
-		}*/
-
 		int idx = toolList.getSelectedIndex();
 		if (idx == -1) {
 			return;

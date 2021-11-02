@@ -37,7 +37,6 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 	private ComponentInputField tfToolHelp;
 	private ComponentInputField tfToolName;
 	private ComponentCheckbox showTool;
-	private FlowPanel mainWidget;
 	private Image icon;
 	private String iconFileName;
 
@@ -73,7 +72,6 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 		listener = null;
 		macro = null;
 
-		mainWidget = new FlowPanel();
 		Localization loc = app.getLocalization();
 		int n = app.getKernel().getMacroNumber() + 1;
 
@@ -81,7 +79,7 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 				null, loc.getMenu("ToolName"), null, "", 28, 1,
 				false);
 		tfToolName.setInputText(loc.getMenu("Tool") + n);
-		mainWidget.add(tfToolName);
+		add(tfToolName);
 		tfToolName.getTextField().getTextComponent().addBlurHandler(this);
 		tfToolName.getTextField().getTextComponent().addKeyUpHandler(this);
 
@@ -91,14 +89,14 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 		tfCmdName.setInputText(tfToolName.getText());
 		tfCmdName.getTextField().getTextComponent().addBlurHandler(this);
 		tfCmdName.getTextField().getTextComponent().addKeyUpHandler(this);
-		mainWidget.add(tfCmdName);
+		add(tfCmdName);
 
 		tfToolHelp =  new ComponentInputField((AppW) app,
 				null, loc.getMenu("ToolHelp"), null, "", 28, 1,
 				false);
 		tfToolHelp.getTextField().getTextComponent().addBlurHandler(this);
 		tfToolHelp.getTextField().getTextComponent().addKeyUpHandler(this);
-		mainWidget.add(tfToolHelp);
+		add(tfToolHelp);
 
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
@@ -130,9 +128,7 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 		}
 		iconSelectShowPanel.add(showTool);
 
-		mainWidget.add(iconSelectShowPanel);
-
-		add(mainWidget);
+		add(iconSelectShowPanel);
 	}
 
 	/**
