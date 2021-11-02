@@ -161,7 +161,8 @@ public class FunctionParser {
 			}
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
-				if (topLevelExpression && !forceCommand && funcName.length() == 1) {
+				if (topLevelExpression && !isCommand(funcName)
+						&& !forceCommand && funcName.length() == 1) {
 					if (myList.size() == 2) {
 						ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
 								myList.getListElement(0), myList.getListElement(1)));
@@ -291,7 +292,8 @@ public class FunctionParser {
 	}
 
 	private boolean isCommand(String funcName) {
-		if (kernel.getApplication().getInternalCommand(funcName) != null) {
+		if (kernel.getApplication().getInternalCommand(funcName) != null
+				|| app.getKernel().getMacro(funcName) != null) {
 			return true;
 		}
 		try {
