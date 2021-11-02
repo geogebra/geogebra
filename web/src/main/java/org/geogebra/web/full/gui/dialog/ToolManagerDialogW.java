@@ -138,8 +138,8 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 	}
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app - application
+	 * @param data - dialog data
 	 */
 	public ToolManagerDialogW(AppW app, DialogData data) {
 		super(app, data, true, true);
@@ -200,15 +200,19 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 				message += Errors.ToolDeleteUsed.getError(loc);
 			}
 
-			DialogData data = new DialogData(null, "Cancel", "Delete");
-			ComponentDialog dialog = new ComponentDialog(appw, data, false, false);
-			FlowPanel content = new FlowPanel();
-			content.add(new Label(message));
-			content.add(new Label(macroNamesNoDel.toString()));
-			dialog.addDialogContent(content);
-			dialog.setOnPositiveAction(() -> onToolDelete());
-			dialog.show();
+			showDeleteToolDialog(message, macroNamesNoDel.toString());
 		}
+	}
+
+	private void showDeleteToolDialog(String message, String macroNamesNoDelStr) {
+		DialogData data = new DialogData(null, "Cancel", "Delete");
+		ComponentDialog dialog = new ComponentDialog(appw, data, false, false);
+		FlowPanel content = new FlowPanel();
+		content.add(new Label(message));
+		content.add(new Label(macroNamesNoDelStr));
+		dialog.addDialogContent(content);
+		dialog.setOnPositiveAction(() -> onToolDelete());
+		dialog.show();
 	}
 
 	private void onToolDelete() {
