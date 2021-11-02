@@ -10,6 +10,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
@@ -23,6 +24,7 @@ import org.junit.Test;
 public class NoExceptionsTest {
 	static AppCommon app;
 	static AlgebraProcessor ap;
+	private static int syntaxes;
 
 	/**
 	 * Create app + basic test objects
@@ -39,8 +41,6 @@ public class NoExceptionsTest {
 		// make sure x=y is a line, not plane
 		app.getGgbApi().setPerspective("1");
 	}
-
-	public static int syntaxes;
 
 	@Before
 	public void resetSyntaxes() {
@@ -69,23 +69,21 @@ public class NoExceptionsTest {
 						app);
 			}
 
-			System.out.println();
-			System.out.print(cmdName + " ");
+			Log.debug(cmdName + " ");
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,
 					false, TestErrorHandler.INSTANCE, false, null));
 			syntaxes--;
-			System.out.print("+");
+			Log.debug("+");
 		} catch (final Throwable e) {
-			System.out.println("error occured:" + e.getClass().getName());
+			Log.error("error occured:" + e.getClass().getName());
 			Throwable t = e;
 			while (t.getCause() != null) {
 				t = t.getCause();
 			}
 
 			syntaxes--;
-			System.out.print("-");
 			Assert.assertNull(e.getMessage() + "," + e.getClass(), e);
 		}
 	}
@@ -106,8 +104,8 @@ public class NoExceptionsTest {
 	 * Check that all objects can be saved and reloaded.
 	 */
 	@AfterClass
-	public static void testSaving() {
-		XmlTestUtil.testCurrentXML(app);
+	public static void checkSaving() {
+		XmlTestUtil.checkCurrentXML(app);
 
 		app.getKernel().getConstruction().initUndoInfo();
 		app.getKernel().getConstruction().undo();

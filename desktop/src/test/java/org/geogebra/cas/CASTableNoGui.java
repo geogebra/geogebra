@@ -9,6 +9,7 @@ public class CASTableNoGui implements CASTable {
 
 	private String[] inputs;
 	private GeoCasCell[] cells;
+	private int selectedRow = 0;
 
 	public CASTableNoGui(String[] inputs, App app) {
 		this.inputs = inputs;
@@ -53,14 +54,12 @@ public class CASTableNoGui implements CASTable {
 
 	@Override
 	public int[] getSelectedRows() {
-		// mock implementation
-		return new int[] { 0 };
+		return new int[] { selectedRow };
 	}
 
 	@Override
 	public int getSelectedRow() {
-		// mock implementation
-		return 0;
+		return selectedRow;
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class CASTableNoGui implements CASTable {
 
 	@Override
 	public CASTableCellEditor getEditor() {
-		return new CASEditorNoGui(inputs[0]);
+		return new CASEditorNoGui(inputs[selectedRow]);
 	}
 
 	@Override
@@ -111,4 +110,7 @@ public class CASTableNoGui implements CASTable {
 		return false;
 	}
 
+	public void setSelected(int row) {
+		this.selectedRow = row;
+	}
 }

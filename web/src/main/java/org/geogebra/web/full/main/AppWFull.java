@@ -164,6 +164,7 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -1975,12 +1976,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
-			if (w instanceof HasKeyboardPopup) {
-				if (w instanceof DialogBoxW
-						|| w instanceof ComponentDialog) {
+			if (w instanceof DialogBoxW || w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
-							this.getAppletFrame().getKeyboardHeight());
-				}
+						this.getAppletFrame().getKeyboardHeight());
+			}
+			if (w instanceof ResizeHandler) {
+				((ResizeHandler) w).onResize(null);
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 package org.geogebra.cas;
 
-import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -8,7 +7,7 @@ import org.geogebra.desktop.headless.AppDNoGui;
 public class CASViewNoGui extends CASView {
 
 	private AppDNoGui app;
-	private CASTable casTable;
+	private CASTableNoGui casTable;
 
 	public CASViewNoGui(AppDNoGui app, String... inputs) {
 		super(app.getKernel());
@@ -45,7 +44,7 @@ public class CASViewNoGui extends CASView {
 	}
 
 	@Override
-	public CASTable getConsoleTable() {
+	public CASTableNoGui getConsoleTable() {
 		return casTable;
 	}
 

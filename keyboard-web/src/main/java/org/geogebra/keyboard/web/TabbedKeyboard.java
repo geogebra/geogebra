@@ -17,7 +17,6 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
@@ -299,13 +298,7 @@ public class TabbedKeyboard extends FlowPanel
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
 		updatePanel(keyboard, layout, bh);
-		layout.registerKeyboardObserver(new KeyboardObserver() {
-
-			@Override
-			public void keyboardModelChanged(Keyboard l2) {
-				updatePanel(keyboard, l2, bh);
-			}
-		});
+		layout.registerKeyboardObserver(l2 -> updatePanel(keyboard, l2, bh));
 		return keyboard;
 	}
 

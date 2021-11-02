@@ -517,4 +517,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			}
 		}
 	}
+
+	public InputBarHelpPanel getInputHelpPanel() {
+		return hp;
+	}
 }

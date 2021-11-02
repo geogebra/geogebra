@@ -12,7 +12,6 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
@@ -33,6 +32,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.ClipboardEvent;
+import elemental2.dom.DataTransfer;
 import jsinterop.base.Js;
 
 /**
@@ -682,8 +683,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	 */
 	public static void addPasteHandlerTo(Element elem, CopyPasteHandler handler) {
 		Dom.addEventListener(elem, "paste", (event) -> {
-					CopyPasteW.ClipboardData data = Js.uncheckedCast(
-							Js.asPropertyMap(event).get("clipboardData"));
+				DataTransfer data = Js.<ClipboardEvent>uncheckedCast(event).clipboardData;
 				if (Js.isTruthy(data)) {
 					String text = data.getData("text/plain");
 					handler.onPaste(text);

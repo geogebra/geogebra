@@ -11,7 +11,6 @@ import java.util.Map;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.google.gwt.dom.client.Style;
@@ -21,60 +20,50 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class DomMocker {
 
+	/**
+	 * @return element with mocked style
+	 */
 	public static GeoGebraElement getGeoGebraElement() {
 		GeoGebraElement mock = mock(GeoGebraElement.class);
 
-		when(mock.getStyle()).thenAnswer(new Answer<Style>() {
-			@Override
-			public Style answer(InvocationOnMock invocation) throws Throwable {
-				return mock(Style.class);
-			}
-		});
+		when(mock.getStyle()).thenAnswer((Answer<Style>) invocation -> mock(Style.class));
 
 		return mock;
 	}
 
+	/**
+	 * @return element with consistent set/get behavior for attributes
+	 */
 	public static Element getElement() {
-		Element elementWithTitle = mock(Element.class);
-		final Map<String, String> title = new HashMap<>();
-		Mockito.doAnswer(new Answer<Void>() {
+		Element element = mock(Element.class);
+		final Map<String, String> attributes = new HashMap<>();
+		Mockito.doAnswer((Answer<Void>) invocation -> {
+			attributes.put(invocation.getArgumentAt(0, String.class),
+					invocation.getArgumentAt(1, String.class));
+			return null;
+		}).when(element).setAttribute(Matchers.anyString(), Matchers.anyString());
 
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				title.put(invocation.getArgumentAt(0, String.class),
-						invocation.getArgumentAt(1, String.class));
-				return null;
-			}
-		}).when(elementWithTitle).setAttribute(Matchers.anyString(), Matchers.anyString());
-		Mockito.doAnswer(new Answer<Void>() {
+		Mockito.doAnswer((Answer<Void>) invocation -> {
+			attributes.put("innerText", invocation.getArgumentAt(0, String.class));
+			return null;
+		}).when(element).setInnerText(Matchers.anyString());
 
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				title.put("innerText", invocation.getArgumentAt(0, String.class));
-				return null;
-			}
-		}).when(elementWithTitle).setInnerText(Matchers.anyString());
-		Mockito.when(elementWithTitle.getAttribute(Matchers.anyString()))
-				.thenAnswer(new Answer<String>() {
-
-					@Override
-					public String answer(InvocationOnMock invocation) throws Throwable {
-						return title.get(invocation.getArgumentAt(0, String.class));
-					}
-				});
-		when(elementWithTitle.getInnerText())
-				.thenAnswer(new Answer<String>() {
-
-					@Override
-					public String answer(InvocationOnMock invocation) throws Throwable {
-						return String.valueOf(title.get("innerText"));
-					}
-				});
+		when(element.getAttribute(Matchers.anyString()))
+				.thenAnswer((Answer<String>) invocation ->
+								attributes.get(invocation.getArgumentAt(0, String.class)));
+		when(element.getInnerText())
+				.thenAnswer((Answer<String>) invocation ->
+						String.valueOf(attributes.get("innerText")));
 		Style mockStyle = mock(Style.class);
-		when(elementWithTitle.getStyle()).thenReturn(mockStyle);
-		return elementWithTitle;
+		when(element.getStyle()).thenReturn(mockStyle);
+		return element;
 	}
 
+	/**
+	 * @param button widget
+	 * @param <T> widget type
+	 * @return widget with consistent backing element
+	 */
 	public static <T extends Widget> T withElement(T button) {
 		T mock = spy(button);
 		Element element = DomMocker.getElement();
@@ -82,6 +71,9 @@ public class DomMocker {
 		return mock;
 	}
 
+	/**
+	 * @return label with consistent backing element
+	 */
 	public static Label newLabel() {
 		Label lbl = withElement(new Label());
 		bypassSetTextMethod(lbl);
@@ -89,13 +81,9 @@ public class DomMocker {
 	}
 
 	private static void bypassSetTextMethod(final Label lbl) {
-		doAnswer(new Answer<Void>() {
-
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				lbl.getElement().setInnerText(invocation.getArgumentAt(0, String.class));
-				return null;
-			}
+		doAnswer((Answer<Void>) invocation -> {
+			lbl.getElement().setInnerText(invocation.getArgumentAt(0, String.class));
+			return null;
 		}).when(lbl).setText(Matchers.anyString());
 	}
 }

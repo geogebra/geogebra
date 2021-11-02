@@ -45,6 +45,7 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 		setOnNegativeAction(() -> app.getImageManager().setPreventAuxImage(false));
 		setOnPositiveAction(this::positiveAction);
 		setInstance();
+		initActions();
 	}
 
 	public static ImageInputDialogT getInstance() {

@@ -1,9 +1,9 @@
 package org.geogebra.test.commands;
 
-import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.util.AsyncOperation;
 
-public class ErrorAccumulator implements ErrorHandler {
+public class ErrorAccumulator implements ErrorLogger {
 	String errors = "";
 
 	@Override
@@ -41,4 +41,8 @@ public class ErrorAccumulator implements ErrorHandler {
 		return errors;
 	}
 
+	@Override
+	public void log(Throwable e) {
+		// errors expected, don't print
+	}
 }

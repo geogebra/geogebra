@@ -6,16 +6,16 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
+public final class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 
 	/**
 	 * the expected test result
 	 */
-	protected final String expected;
+	private final String expected;
 	/**
 	 * not the expected but also valid result(s)
 	 */
-	protected final String[] valid;
+	private final String[] valid;
 
 	private final CASTestLogger logger;
 	private final String input;

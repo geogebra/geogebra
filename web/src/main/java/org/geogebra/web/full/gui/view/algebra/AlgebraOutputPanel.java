@@ -9,7 +9,6 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -79,12 +78,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 *            parent panel
 	 * @param geo
 	 *            geoelement
-	 * @param swap
-	 *            whether symbolic mode of geo should show numeric icon
 	 * @param activity activity for the spceific app
 	 */
 	public static void createSymbolicButton(FlowPanel parent,
-			final GeoElement geo, boolean swap, GeoGebraActivity activity) {
+			final GeoElement geo, GeoGebraActivity activity) {
 		MyToggleButtonW btnSymbolic = null;
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
 			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
@@ -92,17 +89,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 			}
 		}
 		if (btnSymbolic == null) {
-			if (swap) {
-				btnSymbolic = new MyToggleButtonW(
-						new NoDragImage(activity.getNumericIcon(), 24, 24),
-						new NoDragImage(MaterialDesignResources.INSTANCE
-								.modeToggleSymbolic(),
-								24, 24));
-			} else {
-				btnSymbolic = new MyToggleButtonW(
-						GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
-						GuiResourcesSimple.INSTANCE.modeToggleNumeric());
-			}
+			btnSymbolic = new MyToggleButtonW(activity.getNumericIcon(),
+					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
 			final MyToggleButtonW btn = btnSymbolic;
 			ClickEndHandler.init(btnSymbolic, new ClickEndHandler() {
 				@Override
@@ -114,9 +102,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 		btnSymbolic.addStyleName("symbolicButton");
 		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
 				.equals(AlgebraItem.getOutputPrefix(geo))) {
-			btnSymbolic.setSelected(!swap);
+			btnSymbolic.setSelected(false);
 		} else {
-			btnSymbolic.setSelected(swap);
+			btnSymbolic.setSelected(true);
 			btnSymbolic.addStyleName("btn-prefix");
 		}
 

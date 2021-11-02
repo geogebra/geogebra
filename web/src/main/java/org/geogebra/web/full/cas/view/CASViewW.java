@@ -72,12 +72,11 @@ public class CASViewW extends CASView implements PrintableW {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!StringUtil
-						.empty(((CASEditorW) getConsoleTable().getEditor())
-								.getText())) {
-					((CASEditorW) getConsoleTable().getEditor()).onEnter(true);
+				CASEditorW editor = (CASEditorW) getConsoleTable().getEditor();
+				if (!StringUtil.empty(editor.getText())
+						&& getConsoleTable().isEditing()) {
+					editor.onEnter(true);
 				}
-
 			}
 
 		});
