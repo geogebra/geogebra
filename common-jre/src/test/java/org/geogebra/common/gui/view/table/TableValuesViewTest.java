@@ -291,7 +291,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(lines[0]);
 		hideColumn(lines[0]);
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener).notifyColumnRemoved(model, lines[0], 1);
+		verify(listener).notifyColumnRemoved(model, lines[0], 1, true);
 	}
 
 	@Test
@@ -304,7 +304,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener, never()).notifyColumnChanged(model, columnToRemove, 1);
 		verify(listener, never()).notifyCellChanged(model, columnToRemove, 1, 0);
-		verify(listener).notifyColumnRemoved(model, columnToRemove, 1);
+		verify(listener).notifyColumnRemoved(model, columnToRemove, 1, false);
 	}
 
 	@Test
@@ -349,7 +349,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyRowChanged(model, 0);
 		verify(listener, never()).notifyRowRemoved(model, 0);
 		verify(listener, never()).notifyColumnChanged(model, y, 1);
-		verify(listener).notifyColumnRemoved(model, y, 1);
+		verify(listener).notifyColumnRemoved(model, y, 1, false);
 	}
 
 	@Test
@@ -446,7 +446,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener).notifyRowRemoved(model, 1);
 		verify(listener).notifyRowRemoved(model, 0);
-		verify(listener).notifyColumnRemoved(model, list, 1);
+		verify(listener).notifyColumnRemoved(model, list, 1, false);
 	}
 
 	@Test

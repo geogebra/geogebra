@@ -311,7 +311,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			GeoEvaluatable evaluatable, int column, boolean removedByUser) {
 		columnsChange = -1;
 		if (removedByUser || column != tableModel.getColumnCount()) {
-			reset();
+			deleteColumn(column);
 		} else {
 			reset();
 		}
@@ -346,6 +346,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyRowAdded(TableValuesModel model, int row) {
 		rowsChange = 1;
+		reset();
+		resetAnimationFlags();
 	}
 
 	@Override

@@ -100,7 +100,7 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+			int column, boolean removedByUser) {
 		// Ignore
 	}
 
