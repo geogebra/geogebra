@@ -149,7 +149,7 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		this.appw = app;
 		this.loc = app.getLocalization();
 		initGUI();
-		center();
+		setOnNegativeAction(() -> applyChanges());
 	}
 
 	@Override
@@ -238,17 +238,14 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 
 	private FlowPanel createListUpDownRemovePanel() {
 		btUp = new StandardButton(MaterialDesignResources.INSTANCE.arrow_drop_up(), null, 24);
-		//btUp.setTitle(loc.getMenu("Up"));
 		btUp.addFastClickHandler(this);
 		btUp.addStyleName("MyCanvasButton");
 
 		btDown = new StandardButton(MaterialDesignResources.INSTANCE.arrow_drop_down(), null, 24);
-		//btDown.setTitle(loc.getMenu("Down"));
 		btDown.addFastClickHandler(this);
 		btDown.addStyleName("MyCanvasButton");
 
 		btDelete = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(), null, 24);
-		//btDelete.setTitle(loc.getMenu("Delete"));
 		btDelete.addFastClickHandler(this);
 		btDelete.addStyleName("MyCanvasButton");
 
@@ -280,20 +277,24 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		toolListPanel.add(centerPanel);
 
 		FlowPanel toolButtonPanel = new FlowPanel();
+		toolButtonPanel.addStyleName("toolButtons");
 		toolListPanel.add(toolButtonPanel);
 
 		if (appw.has(Feature.TOOL_EDITOR)) {
-			btOpen = new StandardButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), loc.getMenu("Open"), 18);
+			btOpen = new StandardButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+					loc.getMenu("Open"), 18);
 			btOpen.addStyleName("containedButton");
 			toolButtonPanel.add(btOpen);
 			btOpen.addFastClickHandler(this);
 		}
 
-		btSave = new StandardButton(MaterialDesignResources.INSTANCE.save_black(), loc.getMenu("Save"), 18);
+		btSave = new StandardButton(MaterialDesignResources.INSTANCE.save_black(),
+				loc.getMenu("Save"), 18);
 		btSave.addStyleName("containedButton");
 		toolButtonPanel.add(btSave);
 
-		btShare = new StandardButton(MaterialDesignResources.INSTANCE.share_black(), loc.getMenu("Share"), 18);
+		btShare = new StandardButton(MaterialDesignResources.INSTANCE.share_black(),
+				loc.getMenu("Share"), 18);
 		btShare.addStyleName("containedButton");
 		toolButtonPanel.add(btShare);
 
@@ -320,7 +321,6 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 
 	private void openTools() {
 		appw.setWaitCursor();
-		// for (Macro macro : toolList.getSelectedMacros()) {
 		appw.storeMacro(toolList.getSelectedMacro(), false);
 		appw.getFileManager().open(Window.Location.getHref(), "");
 
