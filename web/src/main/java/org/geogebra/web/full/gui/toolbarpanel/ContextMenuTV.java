@@ -115,7 +115,8 @@ public class ContextMenuTV {
 		addStats(getStatisticsTransKey("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat);
 
-		DialogData regressionData = new DialogData("Regression", getColumnTransKey(headerHTMLName), "Close", "Plot");
+		DialogData regressionData = new DialogData("Regression",
+				getColumnTransKey(headerHTMLName), "Close", "Plot");
 		addCommand(() -> showRegression(regressionData), "Regression",
 				"regression");
 	}
