@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
@@ -53,10 +52,13 @@ public class ContextMenuTV {
 	 *            see {@link AppW}
 	 * @param geo
 	 *            label of geo
+	 * @param stickyValuesTable
+	 *            sticky values table
 	 * @param column
 	 *            index of column
 	 */
-	public ContextMenuTV(AppW app, StickyValuesTable stickyValuesTable, TableValuesView view, GeoElement geo, int column) {
+	public ContextMenuTV(AppW app, StickyValuesTable stickyValuesTable, TableValuesView view,
+			GeoElement geo, int column) {
 		this.app = app;
 		this.stickyValuesTable = stickyValuesTable;
 		this.view = view;

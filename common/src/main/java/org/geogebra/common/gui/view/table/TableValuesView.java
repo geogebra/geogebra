@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.view.table;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -29,7 +27,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -39,7 +36,6 @@ import com.google.j2objc.annotations.Weak;
  */
 public class TableValuesView implements TableValues, SettingListener {
 
-	private static final double[] DEFAULT_RANGE = new double[]{};
 	private static final int MAX_ROWS = 200;
 
 	@Weak

@@ -5,9 +5,7 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.settings.TableSettings;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
