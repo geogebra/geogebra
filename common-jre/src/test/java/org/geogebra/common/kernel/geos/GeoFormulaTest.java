@@ -40,7 +40,7 @@ public class GeoFormulaTest extends BaseUnitTest {
 		savedFormula.setLabel("testFormula");
 
 		String appXML = getApp().getXML();
-		XmlTestUtil.testCurrentXML(getApp());
+		XmlTestUtil.checkCurrentXML(getApp());
 		getApp().setXML(appXML, true);
 
 		GeoFormula loadedFormula = (GeoFormula) lookup("testFormula");

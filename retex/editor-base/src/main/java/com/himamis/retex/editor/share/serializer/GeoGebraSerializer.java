@@ -17,6 +17,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoGebraSerializer implements Serializer {
 
+	private static final GeoGebraSerializer defaultSerializer = new GeoGebraSerializer();
+
 	private String leftBracket = "[";
 	private String rightBracket = "]";
 
@@ -48,7 +50,7 @@ public class GeoGebraSerializer implements Serializer {
 	 */
 	public static String serialize(MathComponent c) {
 		StringBuilder sb = new StringBuilder();
-		new GeoGebraSerializer().serialize(c, sb);
+		defaultSerializer.serialize(c, sb);
 		return sb.toString();
 	}
 

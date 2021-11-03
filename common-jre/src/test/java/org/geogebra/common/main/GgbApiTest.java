@@ -329,7 +329,7 @@ public class GgbApiTest {
 
 		@Override
 		protected void evalJavaScript(String jsFunction) {
-
+			// stub
 		}
 	}
 }

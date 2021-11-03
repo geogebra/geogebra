@@ -176,7 +176,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	 *            Path to new icon file.
 	 */
 	public void setIconFileName(String fileName) {
-		if (fileName == null) {
+		if (fileName == null || "".equals(fileName)) {
 			return;
 		}
 

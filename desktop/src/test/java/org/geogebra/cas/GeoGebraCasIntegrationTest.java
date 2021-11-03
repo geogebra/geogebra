@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.view.CASCellProcessor;
-import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -1776,9 +1775,13 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	/* SolveODE */
 
 	@Test
-	public void substitute_5() {
-		// Substitute with Keep Input should substitute without evaluation.
+	public void substituteWithKeepInputShouldNotSimplify() {
 		tk("Substitute[1 + 2 + x + 3, {x=7}]", "1 + 2 + 7 + 3");
+	}
+
+	@Test
+	public void substituteWithKeepInputShouldKeepBrackets() {
+		tk("Substitute[1/c, {c=7E23}]", "1 / (7 * 10^(23))");
 	}
 	/* Tangent */
 
@@ -2632,10 +2635,11 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				+ Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x)");
 		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "Wenn(0 < x "
 				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x)");
-		t("Integral(h(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
-		t("Integral(h2(x),1,3)", "-ln(2) + ln(3) + 7 / 3");
-		t("Integral(h3(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
-		t("Integral(h4(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
+		String[] alternatives = {"(ln(27 / 8) + 7) / 3", "2.738798441441"};
+		t("Integral(h(x),1,3)", "-ln(2) + ln(3) + 7 / 3", alternatives);
+		t("Integral(h2(x),1,3)", "-ln(2) + ln(3) + 7 / 3", alternatives);
+		t("Integral(h3(x),1,3)", "-ln(2) + ln(3) + 7 / 3", alternatives);
+		t("Integral(h4(x),1,3)", "-ln(2) + ln(3) + 7 / 3", alternatives);
 	}
 
 	@Test
@@ -2727,15 +2731,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
 		t("Intersect(Plane(x+0z=1),Plane(y+z=2))",
 				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
-	}
-
-	@Test
-	public void checkNsolveExpansion() {
-		CASInputHandler cih = new CASInputHandler(
-				new CASViewNoGui(getApp(), "Sum(T/2^n,n,3,10)=1500000"));
-		cih.processCurrentRow("NSolve", false);
-		t("$1", "{T = 1204705882353 / 200000}");
-		// .getOutput(StringTemplate.defaultTemplate), "");
 	}
 
 	/** See APPS-801 */

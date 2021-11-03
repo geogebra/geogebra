@@ -81,6 +81,7 @@ public class DrawSymbolic extends Drawable {
 		if (twinDrawable instanceof Drawable) {
 			((Drawable) twinDrawable).updateIfNeeded();
 		}
+		super.updateIfNeeded();
 	}
 
 	@Override

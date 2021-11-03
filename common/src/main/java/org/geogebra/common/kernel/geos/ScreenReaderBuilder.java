@@ -1,7 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
@@ -11,6 +14,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * @author Zbynek
  */
 public class ScreenReaderBuilder {
+	public static final int MANY_PRIMES = 4;
 	private final Localization loc;
 	private StringBuilder sb = new StringBuilder();
 	private boolean isMobile = false;
@@ -100,5 +104,83 @@ public class ScreenReaderBuilder {
 
 	public void appendMenuDefault(String key, String fallback) {
 		sb.append(loc.getMenuDefault(key, fallback));
+	}
+
+	/**
+	 * Appends the label in readable form.
+	 * @param label to append.
+	 */
+	public void appendLabel(String label) {
+		if (label == null) {
+			return;
+		}
+
+		if (label.endsWith("'")) {
+			convertPrimes(label, loc, sb);
+		} else {
+			sb.append(ScreenReader.convertToReadable(label, loc));
+		}
+	}
+
+	private static void convertPrimes(String label, Localization loc, StringBuilder sb) {
+		int apostropheIdx = label.length() - 1;
+		int count = 0;
+		while (apostropheIdx > 0 && label.charAt(apostropheIdx) == '\'') {
+			count++;
+			apostropheIdx--;
+		}
+		sb.append(label, 0, label.length() - count);
+
+		if (count < MANY_PRIMES) {
+			appendNamedPrime(sb, count, loc);
+		} else {
+			appendManyPrimes(sb, count, loc);
+		}
+	}
+
+	private static void appendNamedPrime(StringBuilder sb, int count, Localization loc) {
+		sb.append(" ");
+		if (count == 2) {
+			sb.append(loc.getMenu("double"));
+			sb.append(" ");
+		} else if (count == 3) {
+			sb.append(loc.getMenu("triple"));
+			sb.append(" ");
+		}
+		sb.append(getPrime(loc));
+	}
+
+	private static void appendManyPrimes(StringBuilder sb, int count, Localization loc) {
+		for (int i = 0; i < count; i++) {
+			sb.append(" ");
+			sb.append(getPrime(loc));
+		}
+	}
+
+	private static String getPrime(Localization loc) {
+		return loc.getMenu("prime");
+	}
+
+	protected void appendDegreeIfNeeded(GeoElementND geo, String valueString) {
+		append(degreeReplaced(geo, valueString, " "));
+	}
+
+	protected void appendLatexDegreeIfNeeded(GeoElement geo, String valueString) {
+		appendLaTeX(degreeReplaced(geo, valueString, "\\ "));
+		appendSpace();
+	}
+
+	private String degreeReplaced(GeoElementND geo, String valueString, String space) {
+		String degreeReadable =
+				geo.isSingularValue() ? ScreenReader.getDegree(loc) : ScreenReader.getDegrees(loc);
+
+		return containsDegree(valueString)
+				? valueString.replace(Unicode.DEGREE_STRING, space + degreeReadable)
+				: valueString;
+	}
+
+	private boolean containsDegree(String valueString) {
+		return valueString.contains(Unicode.DEGREE_STRING)
+				|| valueString.contains(Unicode.DEGREE_STRING + "$");
 	}
 }

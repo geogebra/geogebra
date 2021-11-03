@@ -8,9 +8,15 @@ import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	private final Localization loc;
+	private final SymbolReader symbols;
 
+	/**
+	 *
+	 * @param loc {@link Localization}
+	 */
 	public ScreenReaderSerializationAdapter(Localization loc) {
 		this.loc = loc;
+		symbols = new SymbolReader(loc);
 	}
 
 	@Override
@@ -19,11 +25,21 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		if (sub != null) {
 			ret.append(" start subscript ").append(sub).append(" end subscript ");
 		}
+
 		if (sup != null) {
 			ret.append(' ');
-			ScreenReader.appendPower(ret, sup, loc);
+			if (isDegrees(sup)) {
+				ret.append(sup);
+			} else {
+				ScreenReader.appendPower(ret, sup, loc);
+			}
 		}
 		return ret.toString();
+	}
+
+	private boolean isDegrees(String sup) {
+		return ScreenReader.getDegrees(loc).equals(sup)
+				|| ScreenReader.getDegree(loc).equals(sup);
 	}
 
 	@Override
@@ -45,26 +61,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String convertCharacter(char character) {
-		switch (character) {
-		case '+': return " plus ";
-		case '-': return " minus ";
-		case '=': return " equals ";
-		case ',':
-			return ScreenReader.getComma();
-		case '(':
-			return ScreenReader.getOpenParenthesis();
-		case ')':
-			return ScreenReader.getCloseParenthesis();
-		case '{':
-			return " open brace ";
-		case '}':
-			return " close brace ";
-		case '[':
-			return " open bracket ";
-		case ']':
-			return " close bracket ";
-		}
-		return character + "";
+		return symbols.get(character);
 	}
 
 	@Override

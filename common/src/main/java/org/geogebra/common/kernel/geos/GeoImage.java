@@ -43,15 +43,16 @@ import org.geogebra.common.util.StringUtil;
 public class GeoImage extends GeoElement implements Locateable,
 		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
 		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
+
 	/** Index of the center in corners array */
 	public static final int CENTER_INDEX = 3;
-	/**
-	 * the image should have at least 50px width
-	 */
+	/** the image should have at least 50px width */
 	public final static int IMG_SIZE_THRESHOLD = 50;
-	// private String imageFileName = ""; // image file
+	/** name of the folder containing the image == md5 hash of the image */
+	public static final int MD5_FOLDER_LENGTH = 32;
+
 	private GeoPoint[] corners; // corners of the image
-	// private BufferedImage image;
+
 	/** width in pixels */
 	protected int pixelWidth;
 	/** height in pixels */
@@ -1076,12 +1077,10 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		String imageFileName = this.getGraphicsAdapter().getImageFileName();
-		String md5A = imageFileName.substring(0,
-				kernel.getApplication().getMD5folderLength(imageFileName));
+		String md5A = imageFileName.substring(0, MD5_FOLDER_LENGTH);
 		String imageFileName2 = ((GeoImage) geo).getGraphicsAdapter()
 				.getImageFileName();
-		String md5B = imageFileName2.substring(0,
-				kernel.getApplication().getMD5folderLength(imageFileName));
+		String md5B = imageFileName2.substring(0, MD5_FOLDER_LENGTH);
 		// MD5 checksums equal, so images almost certainly identical
 		return md5A.equals(md5B);
 	}

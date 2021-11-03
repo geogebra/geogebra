@@ -1495,8 +1495,29 @@ public class GeoText extends GeoElement
 
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
-		sb.append(getAuralText());
+		sb.appendDegreeIfNeeded(this, getAuralText());
 		sb.endSentence();
+	}
+
+	@Override
+	public boolean isSingularValue() {
+		String valueString = toValueString(StringTemplate.defaultTemplate);
+		if (!valueString.contains(Unicode.DEGREE_STRING)) {
+			return false;
+		}
+		int idx = valueString.indexOf(Unicode.DEGREE_STRING) - 1;
+		StringBuilder sb = new StringBuilder();
+		while (idx > 0 && StringUtil.isDigitOrDot(valueString.charAt(idx))) {
+			sb.append(valueString.charAt(idx));
+			idx--;
+		}
+
+		if (sb.length() == 0) {
+			return true;
+		}
+
+		int maxi = Character.digit(sb.reverse().toString().charAt(0), 10);
+		return maxi == 1;
 	}
 
 	/**

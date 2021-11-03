@@ -165,6 +165,7 @@ public class NotesUndoTest {
 		app.getGgbApi().redo();
 		objectsPerSlideShouldBe(2, 2, 2);
 	}
+
 	/**
 	 * Undo and redo removing the last page.
 	 */
@@ -205,8 +206,8 @@ public class NotesUndoTest {
 
 	private void addPenStroke() {
 		app.setMode(EuclidianConstants.MODE_PEN);
-		app.getEuclidianView1().getEuclidianController().wrapMousePressed(evt(50,50));
-		app.getEuclidianView1().getEuclidianController().wrapMouseReleased(evt(150,150));
+		app.getEuclidianView1().getEuclidianController().wrapMousePressed(evt(50, 50));
+		app.getEuclidianView1().getEuclidianController().wrapMouseReleased(evt(150, 150));
 	}
 
 	@Test
@@ -234,7 +235,7 @@ public class NotesUndoTest {
 	}
 
 	private AbstractEvent evt(int x, int y) {
-		return new PointerEvent(x,y, PointerEventType.MOUSE, new ZeroOffset());
+		return new PointerEvent(x, y, PointerEventType.MOUSE, new ZeroOffset());
 	}
 
 	/**

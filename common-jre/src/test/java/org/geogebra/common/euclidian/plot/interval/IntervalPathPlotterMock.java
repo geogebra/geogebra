@@ -42,5 +42,10 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 		}
 		return super.equals(obj);
 	}
+
+	@Override
+	public int hashCode() {
+		return getLog().hashCode();
+	}
 }
 

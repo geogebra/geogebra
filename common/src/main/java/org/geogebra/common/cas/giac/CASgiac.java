@@ -689,7 +689,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (item instanceof Equation) {
 			ExpressionValue lhs = ((Equation) item).getLHS().unwrap();
 			if (lhs instanceof GeoDummyVariable || lhs instanceof Variable) {
-				ExpressionValue rhs = ((Equation) item).getRHS();
+				ExpressionValue rhs = ((Equation) item).getRHS().unwrap();
 				ExpressionValue copy = substArg.deepCopy(kernel);
 				copy.traverse(VariableReplacer.getReplacer(
 						lhs.toString(StringTemplate.defaultTemplate), rhs,

@@ -4051,6 +4051,13 @@ public abstract class EuclidianView3D extends EuclidianView
 				&& isGlassesGrayScaled();
 	}
 
+	/**
+	 * @return true if the display is additive (e.g. holographic display).
+	 */
+	public boolean isAdditiveDisplay() {
+		return false;
+	}
+
 	public boolean isGlassesShutDownGreen() {
 		return isGlassesShutDownGreen;
 	}

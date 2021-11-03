@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -1971,13 +1972,20 @@ public class GeoNumeric extends GeoElement
 		sb.appendSpace();
 
 		if (!addAuralCaption(sb)) {
-			sb.append(getLabelSimple());
+			sb.append(ScreenReader.convertToReadable(getLabelSimple(), getLoc()));
 		}
 
 		if (!getRawCaption().contains("%v")) {
 			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
-			sb.append(toValueString(StringTemplate.defaultTemplate));
+			String valueString = toValueString(StringTemplate.defaultTemplate);
+			sb.appendDegreeIfNeeded(this, valueString);
 		}
+	}
+
+	@Override
+	public boolean isSingularValue() {
+		return DoubleUtil.isEqual(Math.toRadians(1), value)
+				|| DoubleUtil.isEqual(Math.toRadians(0), value);
 	}
 
 	@Override

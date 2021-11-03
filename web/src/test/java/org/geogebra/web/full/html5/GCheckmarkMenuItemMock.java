@@ -7,6 +7,10 @@ public class GCheckmarkMenuItemMock extends GCheckmarkMenuItem {
 	private final String originalTitle;
 	private AriaMenuCheckMock menuCheck;
 
+	/**
+	 * @param title title
+	 * @param checked whether it's checked initially
+	 */
 	public GCheckmarkMenuItemMock(String title, boolean checked) {
 		super(title, checked);
 		originalTitle = title;

@@ -682,8 +682,26 @@ public class MathFieldInternal
 	 * @return serialized selection
 	 */
 	public String copy() {
-		return GeoGebraSerializer.serialize(
-					InputController.getSelectionText(getEditorState()));
+		if (editorState.getSelectionStart() != null) {
+			MathContainer parent = editorState.getSelectionStart().getParent();
+			if (parent == null) {
+				// all the formula is selected
+				return GeoGebraSerializer.serialize(editorState.getRootComponent());
+			}
+
+			int start = parent.indexOf(editorState.getSelectionStart());
+			int end = parent.indexOf(editorState.getSelectionEnd());
+
+			if (end >= 0 && start >= 0) {
+				StringBuilder sb = new StringBuilder();
+				for (int i = start; i <= end; i++) {
+					sb.append(GeoGebraSerializer.serialize(parent.getArgument(i)));
+				}
+				return sb.toString();
+			}
+		}
+
+		return "";
 	}
 
 	public void convertAndInsert(String text) {
@@ -699,17 +717,23 @@ public class MathFieldInternal
 		boolean allSelected = editorState.getSelectionStart() == rootBefore;
 		boolean rootProtected = rootBefore.isProtected();
 		InputController.deleteSelection(editorState);
-		try {
-			MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
-					.getRootComponent();
 
-			if (allSelected	&& isMatrixWithSameDimension(rootBefore, root)) {
-				replaceRoot(rootBefore, root);
-			} else {
-				addToMathField(root);
-			}
-		} catch (ParseException parseException) {
+		if (editorState.isInsideQuotes() || inputController.getPlainTextMode()) {
 			KeyboardInputAdapter.type(this, text);
+		} else {
+			try {
+				MathSequence root = new Parser(mathField.getMetaModel()).parse(text)
+						.getRootComponent();
+
+				if (allSelected && isMatrixWithSameDimension(rootBefore, root)) {
+					replaceRoot(rootBefore, root);
+				} else {
+					addToMathField(root);
+				}
+			} catch (ParseException parseException) {
+				KeyboardInputAdapter.type(this, text);
+			}
+
 		}
 		onInsertString();
 

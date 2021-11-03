@@ -41,17 +41,17 @@ public class BaseSymbolicTest {
     }
 
     public void t(String input, String... expected) {
-        AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
+        AlgebraTestHelper.checkSyntaxSingle(input, expected, ap,
                 StringTemplate.testTemplate);
     }
 
     public void t(String input, Matcher<String> matcher) {
-        AlgebraTestHelper.testSyntaxSingle(input, Collections.singletonList(matcher), ap,
+        AlgebraTestHelper.checkSyntaxSingle(input, Collections.singletonList(matcher), ap,
                 StringTemplate.testTemplate);
     }
 
     public void tn(String input, String... expected) {
-        AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
+        AlgebraTestHelper.checkSyntaxSingle(input, expected, ap,
                 StringTemplate.testNumeric);
     }
 
