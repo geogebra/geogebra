@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libgwtsvg.  If not, see http://www.gnu.org/licenses/
  **********************************************/
+
 package org.geogebra.web.generator;
 
 import java.net.URL;
@@ -52,9 +53,9 @@ public class SVGResourceGenerator extends AbstractResourceGenerator {
 
 		String toWrite = Util.readURLAsString(resource);
 		SourceWriter sw = new StringSourceWriter();
-		sw.println("new " + DefaultSVGResource.class.getName() +
-				"(\"" + Generator.escape(toWrite)+ "\", " +
-				"\"" + method.getName() + "\") {");
+		sw.println("new " + DefaultSVGResource.class.getName()
+				+ "(\"" + Generator.escape(toWrite) + "\", "
+				+ "\"" + method.getName() + "\") {");
 		sw.indent();
 
 		// Convenience when examining the generated code.

@@ -189,7 +189,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private int localID = -1;
 	private long syncStamp;
-	protected GoogleDriveOperation googleDriveOperation;
 
 	protected FontManagerW fontManager;
 	private SpreadsheetTableModelSimple tableModel;
@@ -197,8 +196,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private AsyncManager asyncManager;
 
 	private CopyPasteW copyPaste;
-
-	protected MaterialsManagerI fm;
 
 	protected final GeoGebraElement geoGebraElement;
 	protected final AppletParameters appletParameters;
@@ -1173,7 +1170,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return GoogleDriveOperation
 	 */
 	public GoogleDriveOperation getGoogleDriveOperation() {
-		return googleDriveOperation;
+		return null;
 	}
 
 	/**
@@ -1547,7 +1544,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Load Google Drive APIs
 	 */
 	protected void initGoogleDriveEventFlow() {
-		// overriden in AppW
+		// overriden in AppWFull
 	}
 
 	/**

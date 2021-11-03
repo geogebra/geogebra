@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.geogebra.web.resources;
 
 import java.util.ArrayList;
@@ -24,7 +25,6 @@ import com.google.gwt.user.client.DOM;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLLinkElement;
 import elemental2.dom.HTMLStyleElement;
-
 
 /**
  * Injects stylesheets to the parent document
@@ -71,6 +71,10 @@ public class StyleInjector {
 		}
 	}
 
+	/**
+	 * @param style stylesheet content
+	 * @return HTML style element
+	 */
 	public static HTMLStyleElement injectStyleSheet(String style) {
 		HTMLStyleElement element
 				= (HTMLStyleElement) DomGlobal.document.createElement("style");
@@ -79,6 +83,9 @@ public class StyleInjector {
 		return element;
 	}
 
+	/**
+	 * @param runnable callback to run after all styles are loaded
+	 */
 	public static void onStylesLoaded(Runnable runnable) {
 		onStylesReady.add(runnable);
 		checkIfAllStylesLoaded();

@@ -13,7 +13,7 @@ import elemental2.dom.DomGlobal;
  * restrictions, you will only be able to access cookies associated with the
  * current page's domain.
  */
-public class Cookies {
+public final class Cookies {
 
 	/**
 	 * Cached copy of cookies.
@@ -102,12 +102,15 @@ public class Cookies {
 		String cookie = Global.encodeURIComponent(name)
 				+ '='
 				+ Global.encodeURIComponent(value);
-		if (expires != null)
+		if (expires != null) {
 			cookie += ";expires=" + expires.toGMTString();
-		if (domain != null)
+		}
+		if (domain != null) {
 			cookie += ";domain=" + domain;
-		if (path != null)
+		}
+		if (path != null) {
 			cookie += ";path=" + path;
+		}
 
 		cookie += ";secure;samesite=Strict";
 

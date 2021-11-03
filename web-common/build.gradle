@@ -26,7 +26,7 @@ dependencies {
             files(project(':editor-web').sourceSets.main.allSource.srcDirs),
             files(project(':web:dev').sourceSets.main.allSource.srcDirs),
             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
-             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
+            "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
             "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 }
 

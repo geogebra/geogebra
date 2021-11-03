@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.gwtproject.regexp.client;
 
 import static java.util.Objects.isNull;
@@ -36,7 +37,7 @@ import jsinterop.base.Js;
  * Also, the Javascript-specific constructs $` and $' in the replacement expression work only in the
  * GWT implementation, not the pure Java implementation, which rejects them.
  */
-public class NativeRegExp implements RegExp {
+public final class NativeRegExp implements RegExp {
 
 	private JsRegExp jsRegExp;
 
@@ -82,9 +83,10 @@ public class NativeRegExp implements RegExp {
 	/**
 	 * Returns a literal pattern <code>String</code> for the specified <code>String</code>.
 	 *
-	 * <p>This method produces a <code>String</code> that can be used to create a <code>RegExp</code>
-	 * that would match the string <code>s</code> as if it were a literal pattern. Metacharacters or
-	 * escape sequences in the input sequence will be given no special meaning.
+	 * <p>This method produces a <code>String</code> that can be used to create
+	 * a <code>RegExp</code> that would match the string <code>s</code> as if it were
+	 * a literal pattern. Metacharacters or escape sequences in the input sequence
+	 * will be given no special meaning.
 	 *
 	 * @param input The string to be literalized
 	 * @return A literal string replacement

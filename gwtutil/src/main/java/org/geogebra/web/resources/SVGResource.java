@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libgwtsvg.  If not, see http://www.gnu.org/licenses/
  **********************************************/
+
 package org.geogebra.web.resources;
 
 import org.geogebra.web.generator.SVGResourceGenerator;
@@ -26,24 +27,23 @@ import com.google.gwt.safehtml.shared.SafeUri;
 
 /**
  * A resource that contains SVG that should be incorporated into the compiled output. 
- * Note that by default SVG resources are validated against the SVG 1.1 XSD schema.
- * You can opt out of validation by setting the <code>validated="false"</code>
- * attribute on the annotation.
- * @author laaglu
+ * Based on https://github.com/laaglu/lib-gwt-svg but provides a small subset of functionality.
  */
-@DefaultExtensions(value = {".svg"})
+@DefaultExtensions({".svg"})
 @ResourceGeneratorType(SVGResourceGenerator.class)
 public interface SVGResource extends DataResource {
-	//this is a hacked version of SVGResource, alll fancy stuff is gone
+
 	/**
 	 * Override this explicitly for dev mode to work properly
 	 */
+	@Override
 	SafeUri getSafeUri();
 
 	/**
 	 * Copies this resource and sets the fill color.
 	 *
 	 * @param color color
+	 * @return transformed SVG
 	 */
 	SVGResource withFill(String color);
 }

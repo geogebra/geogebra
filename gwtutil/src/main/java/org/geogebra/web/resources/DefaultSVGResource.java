@@ -25,15 +25,14 @@ public class DefaultSVGResource implements SVGResource {
 		serializer = new XMLSerializer();
 	}
 
-
 	private String svg;
 	private String name;
 
 	/**
 	 * Creates a new SVG Resource.
 	 *
-	 * @param svg
-	 * @param name
+	 * @param svg content
+	 * @param name name
 	 */
 	public DefaultSVGResource(String svg, String name) {
 		this.svg = svg;

@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libgwtsvg.  If not, see http://www.gnu.org/licenses/
  **********************************************/
+
 package org.geogebra.web.generator;
 
 import java.net.URL;
@@ -29,7 +30,6 @@ import com.google.gwt.resources.ext.ResourceContext;
 import com.google.gwt.resources.ext.ResourceGeneratorUtil;
 import com.google.gwt.user.rebind.SourceWriter;
 import com.google.gwt.user.rebind.StringSourceWriter;
-
 
 /**
  * Provides implementations of SVGResource.
@@ -52,8 +52,6 @@ public abstract class AsciiResourceGenerator extends AbstractResourceGenerator {
 		URL resource = resources[0];
 
 		String css = Util.readURLAsString(resource);
-
-
 		try {
 			css = process(css, resource);
 		} catch (Exception e) {
@@ -72,7 +70,6 @@ public abstract class AsciiResourceGenerator extends AbstractResourceGenerator {
 
 		logger.log(Type.INFO,
 				method.getName() + ": " + css.length() + " bytes", null);
-
 
 		SourceWriter sw = new StringSourceWriter();
 		sw.println("new " + getClassName() + "() {");
