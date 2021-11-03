@@ -64,11 +64,9 @@ public class StatsDialogTV extends ComponentDialog {
 					Canvas canvas = DrawEquationW.paintOnCanvas((AppW) app,
 							value, null, 16,
 							GColor.newColor(0, 0, 0, 0.87), false);
-					canvas.addStyleName("value");
 					group.add(canvas);
 				} else {
 					Label valueLbl = new Label(value);
-					valueLbl.addStyleName("value");
 					group.add(valueLbl);
 				}
 			}
