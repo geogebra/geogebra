@@ -123,6 +123,9 @@ public class GPopupPanel extends SimplePanel implements
 	private final ResizeHandler glassResizer = new ResizeHandler() {
 		@Override
 		public void onResize(ResizeEvent event) {
+			if (glass == null) {
+				return;
+			}
 			Style style = glass.getStyle();
 
 			int winWidth = getRootPanel().getOffsetWidth();

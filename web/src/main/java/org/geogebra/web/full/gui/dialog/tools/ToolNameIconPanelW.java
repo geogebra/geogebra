@@ -1,9 +1,10 @@
-package org.geogebra.web.full.gui;
+package org.geogebra.web.full.gui.dialog.tools;
 
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.geogebra.web.full.gui.ImageResizer;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
@@ -120,6 +121,7 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 		Label checkboxLabel = new Label(loc.getMenu("ShowInToolBar"));
 		showTool = new ComponentCheckbox(false, checkboxLabel, this::showToolChanged);
 		showTool.setSelected(true);
+		showTool.addStyleName("accented");
 
 		FlowPanel iconSelectShowPanel = new FlowPanel();
 		iconSelectShowPanel.addStyleName("iconSelectShowPanel");
@@ -299,9 +301,7 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 			if (!parsed.equals(tfCmdName.getText())) {
 				tfCmdName.setInputText(parsed);
 			}
-		} catch (Error err) {
-			tfCmdName.setInputText(defaultToolName());
-		} catch (Exception ex) {
+		} catch (Error | Exception err) {
 			tfCmdName.setInputText(defaultToolName());
 		}
 		updateMacro();

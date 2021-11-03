@@ -10,7 +10,7 @@
 //
 // */
 
-package org.geogebra.web.full.gui.dialog;
+package org.geogebra.web.full.gui.dialog.tools;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +26,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.ToolNameIconPanelW;
-import org.geogebra.web.full.gui.ToolNameIconPanelW.MacroChangeListener;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.GeoGebraTubeExportW;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -44,24 +43,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
-public class ToolManagerDialogW extends ComponentDialog implements FastClickHandler,
-		ToolManagerDialogListener, MacroChangeListener {
+public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
+		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPannel.ButtonsListener {
 
 	AppW appw;
 	final LocalizationW loc;
 	private ToolManagerDialogModel model;
 
-	private StandardButton btUp;
-	private StandardButton btDown;
-	private StandardButton btDelete;
-
 	MacroListBox toolList;
 
-	private StandardButton btOpen;
-	private StandardButton btSave;
-	private StandardButton btShare;
 	private ToolNameIconPanelW macroPanel;
 
 	private static class MacroListBox extends ListBox {
@@ -150,7 +141,7 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		this.appw = app;
 		this.loc = app.getLocalization();
 		initGUI();
-		setOnNegativeAction(() -> applyChanges());
+		setOnNegativeAction(this::applyChanges);
 	}
 
 	@Override
@@ -170,7 +161,8 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		appw.updateToolBar();
 	}
 
-	private void deleteTools() {
+	@Override
+	public void deleteSelection() {
 		List<Integer> selIndexesTemp = ListBoxApi.getSelectionIndexes(toolList);
 		if (selIndexesTemp.isEmpty()) {
 			return;
@@ -211,7 +203,7 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		content.add(new Label(message));
 		content.add(new Label(macroNamesNoDelStr));
 		dialog.addDialogContent(content);
-		dialog.setOnPositiveAction(() -> onToolDelete());
+		dialog.setOnPositiveAction(this::onToolDelete);
 		dialog.show();
 	}
 
@@ -241,26 +233,15 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 	}
 
 	private FlowPanel createListUpDownRemovePanel() {
-		FlowPanel panel = new FlowPanel();
-		panel.addStyleName("toolListButtons");
-
-		btUp = addStyledButton(MaterialDesignResources.INSTANCE.arrow_drop_up(), panel,
-				"MyCanvasButton", null);
-		btDown = addStyledButton(MaterialDesignResources.INSTANCE.arrow_drop_down(), panel,
-				"MyCanvasButton", null);
-		btDelete = addStyledButton(MaterialDesignResources.INSTANCE.delete_black(), panel,
-				"MyCanvasButton", null);
-
-		return panel;
+		return new MultiSelectButtonsPannel(this);
 	}
 
-	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,
-			String styleName, String label) {
-		StandardButton btn = new StandardButton(img, label, 24);
-		btn.addFastClickHandler(this);
-		btn.addStyleName(styleName);
+	private void addStyledButton(SVGResource img, FlowPanel rootPanel,
+			String label, FastClickHandler clickHandler) {
+		StandardButton btn = new StandardButton(img, label, 18);
+		btn.addFastClickHandler(clickHandler);
+		btn.addStyleName("containedButton");
 		rootPanel.add(btn);
-		return btn;
 	}
 
 	private void initGUI() {
@@ -275,7 +256,7 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 
 		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList,
 				createListUpDownRemovePanel());
-		centerPanel.setStyleName("manageToolsList");
+		centerPanel.setStyleName("multiSelectList");
 		panel.add(centerPanel);
 
 		FlowPanel toolButtonPanel = new FlowPanel();
@@ -283,14 +264,16 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		panel.add(toolButtonPanel);
 
 		if (appw.has(Feature.TOOL_EDITOR)) {
-			btOpen = addStyledButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
-					toolButtonPanel, "containedButton", loc.getMenu("Open"));
+			addStyledButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+					toolButtonPanel, loc.getMenu("Open"),
+					w -> this.openTools());
 		}
 
-		btSave = addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
-				"containedButton", loc.getMenu("Save"));
-		btShare = addStyledButton(MaterialDesignResources.INSTANCE.share_black(), toolButtonPanel,
-				"containedButton", loc.getMenu("Share"));
+		addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
+				loc.getMenu("Save"), w -> this.saveTools());
+		addStyledButton(MaterialDesignResources.INSTANCE.share_black(), toolButtonPanel,
+				loc.getMenu("Share"),
+				w -> model.uploadToGeoGebraTube(toolList.getSelectedMacros().toArray()));
 
 		// name & icon
 		macroPanel = new ToolNameIconPanelW(appw);
@@ -360,7 +343,7 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 	}
 
 	@Override
-	public void onClick(Widget src) {
+	public void moveSelection(boolean up) {
 		int idx = toolList.getSelectedIndex();
 		if (idx == -1) {
 			return;
@@ -369,24 +352,16 @@ public class ToolManagerDialogW extends ComponentDialog implements FastClickHand
 		List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
 		int selSize = sel.size();
 
-		if (src == btUp) {
+		if (up) {
 			if (idx > 0) {
 				toolList.insertMacro(toolList.getMacro(idx - 1), idx + selSize);
 				toolList.removeItem(idx - 1);
 			}
-		} else if (src == btDown) {
+		} else {
 			if (idx + selSize < toolList.getItemCount()) {
 				toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
 				toolList.removeItem(idx + selSize + 1);
 			}
-		} else if (src == btDelete) {
-			deleteTools();
-		} else if (src == btOpen) {
-			openTools();
-		} else if (src == btSave) {
-			saveTools();
-		} else if (src == btShare) {
-			model.uploadToGeoGebraTube(toolList.getSelectedMacros().toArray());
 		}
 	}
 

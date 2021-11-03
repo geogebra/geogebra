@@ -479,6 +479,11 @@
 		display: none;
 	}
 
+	.gwt-TabPanelBottom {
+		clear: both;
+		box-sizing: border-box;
+	}
+
 	.gwt-TabPanelBottom,
 	.gwt-TabLayoutPanelContent {
 		padding: 8px;
@@ -1038,7 +1043,8 @@
 	}
 
 	.dialogContent .sliderWidthPanel .gwt-Label {
-		padding-top: 7px;
+		padding-top: 8px;
+		display: block;
 	}
 
 	.dialogContent .sliderPanelWidget {
@@ -1078,12 +1084,6 @@
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
-	}
-
-	/* ----------- TOOLCREATION DIALOG -------------*/
-
-	.toolCreationDialog .dialogContent {
-		min-width: 400px;
 	}
 
 	/*========= End Dialogs ===========*/

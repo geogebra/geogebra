@@ -15,17 +15,20 @@ public class MultiRowsTabPanel extends Composite
 	MultiRowsTabBar tabBar;
 	DeckPanel deck = new DeckPanel();
 
+	public MultiRowsTabPanel() {
+		this("propertiesPanel propView_deckPanel");
+	}
+
 	/**
 	 * Create new tab panel.
 	 */
-	public MultiRowsTabPanel() {
+	public MultiRowsTabPanel(String styleName) {
 		tabBar = new MultiRowsTabBar(this);
 		tabBar.addStyleName("gwt-TabBar");
 		tabBar.addStyleName("ggb-MultiRowsTabPanel");
 		FlowPanel panel = new FlowPanel();
-		panel.addStyleName("propertiesPanel");
+		panel.addStyleName(styleName);
 		panel.add(tabBar);
-		deck.addStyleName("propView_deckPanel");
 		panel.add(deck);
 		// panel.setCellHeight(deck, "100%");
 		// tabBar.setWidth("100%");

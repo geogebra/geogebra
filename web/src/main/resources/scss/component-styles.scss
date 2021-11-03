@@ -5,6 +5,13 @@
 .GeoGebraFrame {
 
 	/* CHECKBOX COMPONENT */
+	@mixin checkboxBg($color) {
+		.background {
+			border-color: $color;
+			background-color: $color;
+		}
+	}
+
 	.checkbox {
 		width: 18px;
 		height: 18px;
@@ -30,11 +37,12 @@
 		 }
 
 		&.selected {
-			.background {
-				border-color: colors.$mow_primary;
-				background-color: colors.$mow_primary;
-			}
+			@include checkboxBg(colors.$mow_primary);
 		}
+	}
+
+	.accented .checkbox.selected {
+		@include checkboxBg(colors.$teal-default);
 	}
 	
 	/* SWITCHER COMPONENT */
@@ -392,7 +400,7 @@
 	.materialOutlinedButton {
 		@extend .materialTextButton;
 
-		border: 1px solid colors.$mow_primary;
+		border: 1px solid colors.$black-12;
 	}
 
 	/** Material TEXT BUTTON used for dialogs negative action **/
