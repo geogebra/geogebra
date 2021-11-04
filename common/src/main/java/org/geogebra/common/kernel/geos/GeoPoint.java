@@ -1590,14 +1590,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		sb.append('(');
 		sb.append(kernel.format(x, tpl));
-		String separator = buildValueStringSeparator(kernel, tpl);
+		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
-		sb.append(separator);
-		tpl.appendOptionalSpace(sb);
+		sb.append(separatorWithSpace);
 		sb.append(kernel.format(y, tpl));
 
-		sb.append(separator);
-		tpl.appendOptionalSpace(sb);
+		sb.append(separatorWithSpace);
 		sb.append(kernel.format(z, tpl));
 
 		sb.append(')');
@@ -1610,16 +1608,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            output template
 	 * @return separator for cartesian coords
 	 */
-	public static final String buildValueStringSeparator(Kernel kernel,
+	public static final String getValueSeparatorWithSpace(Kernel kernel,
 			StringTemplate tpl) {
 		if (tpl.hasCASType()) {
 			return ",";
 		}
-		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
-			return " |";
-		}
 		StringBuilder sb = new StringBuilder();
-		tpl.getComma(sb, kernel.getLocalization());
+		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+			sb.append(" |");
+			tpl.appendOptionalSpace(sb);
+		} else {
+			tpl.getCommaOptionalSpace(sb, kernel.getLocalization());
+		}
 		return sb.toString();
 	}
 
@@ -1702,8 +1702,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				break;
 
 			default:
-				tpl.getComma(sbBuildValueString, kernel.getLocalization());
-				tpl.appendOptionalSpace(sbBuildValueString);
+				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(tpl.rightBracket());

@@ -7062,19 +7062,23 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		addAuralStatus(loc, sb);
 		sb.appendSpace();
 		addAuralContent(loc, sb);
-		sb.appendSpace();
+		sb.endSentence();
+		addAuralAction(loc, sb);
 		addAuralOperations(loc, sb);
 		sb.endSentence();
 		return sb.toString();
 	}
 
-	@Override
-	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
+	protected void addAuralAction(Localization loc, ScreenReaderBuilder sb) {
 		if (getScript(EventType.CLICK) != null
 				&& getScript(EventType.CLICK).getText().length() > 0 && !sb.isMobile()) {
 			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
+			sb.endSentence();
 		}
+	}
 
+	@Override
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		if (isEuclidianShowable()) {
 			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()
 					&& !isGeoInputBox()) {
