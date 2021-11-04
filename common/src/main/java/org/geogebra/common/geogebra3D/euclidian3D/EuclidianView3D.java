@@ -306,6 +306,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Mixed Reality and Augmented Reality
 	private boolean mIsXRDrawing;
 	private boolean mIsXREnabled;
+	protected boolean mIsUnity = false;
 	private Target target;
 
 	// AR Ratio
@@ -3558,7 +3559,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
-			double[][] minMax = isXREnabled()
+			double[][] minMax = (isXREnabled() || isUnity())
 					? clippingCubeDrawable.updateMinMaxLarge()
 					: updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
@@ -5119,6 +5120,14 @@ public abstract class EuclidianView3D extends EuclidianView
 		return mIsXREnabled;
 	}
 
+	/**
+	 *
+	 * @return true if view is in Unity
+	 */
+	public boolean isUnity() {
+		return mIsUnity;
+	}
+
 	@Override
 	public boolean checkHitForStylebar() {
 		return true;
@@ -5173,7 +5182,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            point
 	 */
     public void enlargeClippingForPoint(GeoPointND point) {
-        if (isXREnabled()) {
+        if (isXREnabled() || isUnity()) {
             if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
                 setViewChangedByZoom();
                 setWaitForUpdate();
