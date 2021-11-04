@@ -30,7 +30,6 @@ package com.himamis.retex.editor.share.model;
 
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.Tag;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Sequence of math expressions
