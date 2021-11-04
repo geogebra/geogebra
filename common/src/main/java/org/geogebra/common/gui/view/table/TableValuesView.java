@@ -89,7 +89,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		doShowColumn(evaluatable);
-		app.storeUndoInfo();
+		storeUndoInfo();
 	}
 
 	void doShowColumn(GeoEvaluatable evaluatable) {
@@ -110,7 +110,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		evaluatable.setTableColumn(-1);
 		model.removeEvaluatable(evaluatable);
-		app.storeUndoInfo();
+		storeUndoInfo();
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		setSettingsValues(valuesMin, valuesMax, valuesStep);
 		// empty view: next undo point will be created when geo is added
 		if (!isEmpty()) {
-			app.storeUndoInfo();
+			storeUndoInfo();
 		}
 	}
 
@@ -234,6 +234,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		if (column == values) {
 			settings.setValueList(values);
 		}
+		storeUndoInfo();
 	}
 
 	@Override
@@ -449,12 +450,16 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void clearValues() {
 		clearValuesInternal();
-		kernel.getApplication().storeUndoInfo();
+		storeUndoInfo();
 	}
 
 	private void clearValuesInternal() {
 		for (int row = values.size() - 1; row >= 0; row--) {
 			clearValuesRow(row);
 		}
+	}
+
+	private void storeUndoInfo() {
+		app.storeUndoInfo();
 	}
 }
