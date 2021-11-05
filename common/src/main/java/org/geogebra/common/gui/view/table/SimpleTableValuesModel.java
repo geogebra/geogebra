@@ -143,11 +143,13 @@ class SimpleTableValuesModel implements TableValuesModel {
 			if (!kernel.getConstruction().isRemovingGeoToReplaceIt()) {
 				evaluatable.setTableColumn(-1);
 			}
+			int oldRowCount = getRowCount();
 			columns.remove(index);
 			for (int i = 0; i < columns.size(); i++) {
 				columns.get(i).getEvaluatable().setTableColumn(i);
 			}
 			notifyColumnRemoved(evaluatable, index);
+			notifyRowsRemoved(oldRowCount, getRowCount());
 		}
 	}
 
@@ -354,6 +356,13 @@ class SimpleTableValuesModel implements TableValuesModel {
 		int rowIndex = startRow;
 		while (rowIndex <= endRow) {
 			notifyRowAdded(rowIndex++);
+		}
+	}
+
+	private void notifyRowsRemoved(int startRowCount, int endRowCount) {
+		int rowIndex = startRowCount - 1;
+		while (rowIndex >= endRowCount) {
+			notifyRowRemoved(rowIndex--);
 		}
 	}
 

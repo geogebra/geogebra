@@ -299,6 +299,20 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testRemovingColumnWithMoreRowsCallsNotifyRowRemoved() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("1", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1", list, 1);
+		processor.processInput("1", list, 2);
+		model.registerListener(listener);
+		hideColumn(list);
+		verify(listener).notifyColumnRemoved(model, list, 1);
+		verify(listener).notifyRowRemoved(model, 2);
+		verify(listener).notifyRowRemoved(model, 1);
+	}
+
+	@Test
 	public void testNotifyColumnRemovedCalledFromProcessor() {
 		processor.processInput("0", view.getValues(), 0);
 		processor.processInput("1", null, 0);
