@@ -20,9 +20,9 @@ public class TableSettings extends AbstractSettings {
 	/** The default value for valuesStep */
 	public static final double DEFAULT_STEP = 1;
 
-	private double valuesMin = DEFAULT_MIN;
-	private double valuesMax = DEFAULT_MAX;
-	private double valuesStep = DEFAULT_STEP;
+	private double valuesMin = 0;
+	private double valuesMax = 0;
+	private double valuesStep = 0;
 
 	private GeoList valueList;
 
