@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.groups.Group;
@@ -21,8 +20,7 @@ public class GroupLayersTest {
 
 	@Before
 	public void setup() {
-		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
-		AppCommon app = new AppCommon(new LocalizationCommon(2), factoryCommon);
+		AppCommon app = AppCommonFactory.create();
 		construction = app.getKernel().getConstruction();
 		layerManager = new LayerManager();
 		withGeos(5);

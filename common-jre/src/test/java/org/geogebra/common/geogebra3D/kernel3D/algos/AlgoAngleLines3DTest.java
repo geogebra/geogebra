@@ -3,14 +3,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.main.AppCommon3D;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -20,8 +18,7 @@ public class AlgoAngleLines3DTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		return AppCommonFactory.create3D();
 	}
 
 	@Test

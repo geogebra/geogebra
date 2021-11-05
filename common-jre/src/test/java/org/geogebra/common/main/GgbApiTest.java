@@ -12,12 +12,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLocus;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.plugin.ScriptManagerJre;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -44,7 +43,7 @@ public class GgbApiTest {
 	 */
 	@Before
 	public void setupApp() {
-		app = new AppCommon3D(new LocalizationCommon(3), new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 		api = app.getGgbApi();
 	}
 
