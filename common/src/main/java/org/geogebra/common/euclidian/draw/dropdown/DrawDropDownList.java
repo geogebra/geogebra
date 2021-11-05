@@ -104,7 +104,9 @@ public final class DrawDropDownList extends CanvasDrawable
 		int fontSize = (int) (view.getFontSize()
 				* geoList.getFontSizeMultiplier());
 		setLabelFontSize(fontSize);
-
+		if (geo.isLocked() || !geo.isSelectionAllowed(view)) {
+			setOptionsVisible(false);
+		}
 		if (!isVisible) {
 			return;
 		}
