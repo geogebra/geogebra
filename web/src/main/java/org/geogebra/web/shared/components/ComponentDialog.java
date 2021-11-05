@@ -155,7 +155,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * runs the negative action and hides the dialog
 	 */
 	private void onNegativeAction() {
-		if (negButton.getStyleName().contains("disabled")) {
+		if (negButton != null
+			&& negButton.getStyleName().contains("disabled")) {
 			return;
 		}
 		if (negativeAction != null) {
@@ -168,7 +169,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * runs the positive action and hides the dialog
 	 */
 	public void onPositiveAction() {
-		if (posButton.getStyleName().contains("disabled")) {
+		if (posButton != null
+			&& posButton.getStyleName().contains("disabled")) {
 			return;
 		}
 		if (positiveAction != null) {
