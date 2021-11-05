@@ -70,7 +70,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private MenuActionRouter menuActionRouter;
 
 	private DrawerMenuFactory defaultDrawerMenuFactory;
-	private DrawerMenuFactory examDrawerMenuFactory;
+	private ExamDrawerMenuFactory examDrawerMenuFactory;
 
 	private MenuActionHandlerFactory defaultActionHandlerFactory;
 	private MenuActionHandlerFactory examActionHandlerFactory;
@@ -132,6 +132,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version, app.isSuite());
+		examDrawerMenuFactory.setCreatesExitExam(!app.getAppletParameters().getParamLockExam());
 	}
 
 	/**

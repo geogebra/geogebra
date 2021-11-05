@@ -1507,6 +1507,10 @@ public class EuclidianSettings extends AbstractSettings {
 		return enabledEB != ExtendedBoolean.FALSE;
 	}
 
+	public boolean isEnabledSet() {
+		return enabledEB != ExtendedBoolean.UNKNOWN;
+	}
+
 	/**
 	 * @return the dimensionality of the settings arrays
 	 */

@@ -1,7 +1,7 @@
 package org.geogebra.web.html5;
 
 import org.geogebra.common.util.InjectJsInterop;
-import org.geogebra.web.html5.util.JsConsumer;
+import org.geogebra.gwtutil.JsConsumer;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
