@@ -7,9 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -24,8 +23,7 @@ public class GroupTest {
 
 	@Before
 	public void setUp() {
-		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
-		app = new AppCommon(new LocalizationCommon(2), factoryCommon);
+		app = AppCommonFactory.create();
 		app.setConfig(new AppConfigNotes());
 		construction = app.getKernel().getConstruction();
 	}

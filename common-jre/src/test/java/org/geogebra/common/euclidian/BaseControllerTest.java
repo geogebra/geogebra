@@ -3,9 +3,8 @@ package org.geogebra.common.euclidian;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
@@ -28,8 +27,7 @@ public class BaseControllerTest {
 	 */
 	@BeforeClass
 	public static void setup() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 		ec = app.getActiveEuclidianView().getEuclidianController();
 	}
 

@@ -10,17 +10,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -51,8 +49,7 @@ public class RedefineTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		return AppCommonFactory.create3D();
 	}
 
 	private static void t(String input, String expected) {

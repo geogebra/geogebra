@@ -4,30 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
-import org.geogebra.common.jre.main.LocalizationJre;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class CommandSignatures {
-
-	private static LocalizationJre loc = new LocalizationCommon(3);
-
-	static {
-		loc.setApp(new AppCommon(loc, new AwtFactoryCommon()));
-	}
 
 	/**
 	 * @param cmdName
 	 *            command name
 	 * @return numbers of arguments per syntax
 	 */
-	public static List<Integer> getSigneture(String cmdName) {
+	public static List<Integer> getSigneture(String cmdName, App app) {
 		if ("ExportImage".equals(cmdName)) {
 			return Arrays.asList(0, 2, 4, 6);
 		}
-		String syntax = loc.getCommand(cmdName + Localization.syntaxStr);
+		String syntax = app.getLocalization().getCommand(cmdName + Localization.syntaxStr);
 		if (!syntax.contains(Localization.syntaxStr)) {
 			ArrayList<Integer> signature = new ArrayList<>();
 			for (String line : syntax.split("\n")) {

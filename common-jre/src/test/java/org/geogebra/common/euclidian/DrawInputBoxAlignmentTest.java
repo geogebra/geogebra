@@ -4,11 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.eq;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
@@ -26,8 +25,7 @@ public class DrawInputBoxAlignmentTest {
 
 	@Before
 	public void setup() {
-		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
-		app = new AppCommon(new LocalizationCommon(2), factoryCommon);
+		app = AppCommonFactory.create();
 		EuclidianView ev = app.getActiveEuclidianView();
 		ev.setViewTextField(new TextFieldCommonJre());
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("ZoomIn(-1,-1, 1,1) ", false);

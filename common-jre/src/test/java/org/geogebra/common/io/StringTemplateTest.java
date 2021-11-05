@@ -4,9 +4,8 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.cas.giac.CASgiac;
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -33,8 +32,7 @@ public class StringTemplateTest {
 
 	@Before
 	public void initialize() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 	}
 
 	@Test
