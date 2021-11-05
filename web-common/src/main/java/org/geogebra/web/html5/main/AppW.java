@@ -1635,6 +1635,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getSettings().getEuclidian(-1)
 					.setEnabled(getAppletParameters().getDataParamEnable3D(true));
 		}
+
+		String disableCAS = Window.Location.getParameter("disableCAS");
+		if ("".equals(disableCAS) || "true".equals(disableCAS)) {
+			getSettings().getCasSettings().setEnabled(false);
+		}
+		String disable3D = Window.Location.getParameter("disable3D");
+		if ("".equals(disable3D) || "true".equals(disable3D)) {
+			getSettings().getEuclidian(-1).setEnabled(false);
+		}
 	}
 
 	/**
