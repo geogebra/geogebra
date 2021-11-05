@@ -329,18 +329,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		listenerStream().forEachOrdered(action);
 	}
 
-	/**
-	 * clears the first (x) column
-	 */
-	public void clearXColumn() {
-		GeoEvaluatable evaluatable = getEvaluatable(0);
-		if (evaluatable instanceof GeoList) {
-			((GeoList) evaluatable).setZero();
-			((GeoList) evaluatable).notifyUpdate();
-			kernel.getApplication().storeUndoInfo();
-		}
-	}
-
 	@Override
 	public void set(GeoElement element, GeoList column, int rowIndex) {
 		int columnIndex = getEvaluatableIndex(column);
@@ -384,6 +372,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public GeoElement createEmptyValue() {
 		return new GeoText(kernel.getConstruction(), "");
+	}
+
+	@Override
+	public GeoNumeric createValue(double value) {
+		return new GeoNumeric(kernel.getConstruction(), value);
 	}
 
 	private void handleEmptyValue(GeoList column, int columnIndex, int rowIndex) {

@@ -5,27 +5,22 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.settings.TableSettings;
 
 public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private final Construction cons;
 	private final TableValuesView tableValues;
 	private final TableValuesModel model;
-	private final TableSettings settings;
 
 	/**
 	 * Creates a TableValuesInputProcessor
 	 * @param cons construction
 	 * @param tableValues Table Values view
 	 */
-	public TableValuesInputProcessor(
-			Construction cons, TableValuesView tableValues, TableSettings settings) {
+	public TableValuesInputProcessor(Construction cons, TableValuesView tableValues) {
 		this.cons = cons;
 		this.tableValues = tableValues;
-		this.settings = settings;
 		model = tableValues.getTableValuesModel();
 	}
 
@@ -37,11 +32,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			// And do not add empty element to an already empty list
 			return;
 		}
-		model.set(element, ensureList(list), rowIndex);
-		if (list == tableValues.getValues()) {
-			settings.setValueList(list);
-		}
-		cons.getUndoManager().storeUndoInfo();
+		tableValues.set(element, ensureList(list), rowIndex);
 	}
 
 	private GeoList ensureList(GeoList list) {
@@ -62,7 +53,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		}
 		try {
 			double parsedInput = Double.parseDouble(trimmedInput);
-			return new GeoNumeric(cons, parsedInput);
+			return model.createValue(parsedInput);
 		} catch (NumberFormatException e) {
 			return new GeoText(cons, input);
 		}

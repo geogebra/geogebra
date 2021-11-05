@@ -39,9 +39,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TableValuesViewTest extends BaseUnitTest {
 
-	private TableValues view;
-	private TableValuesModel model;
-	private TableValuesProcessor processor;
+	protected TableValues view;
+	protected TableValuesModel model;
+	protected TableValuesProcessor processor;
 
 	@Mock
 	private TableValuesListener listener;
@@ -58,6 +58,24 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model = view.getTableValuesModel();
 		view.clearView();
 		processor = view.getProcessor();
+	}
+
+	protected void showColumn(GeoElement element) {
+		assertTrue(element instanceof GeoEvaluatable);
+		view.add(element);
+		view.showColumn((GeoEvaluatable) element);
+	}
+
+	protected void hideColumn(GeoEvaluatable geoLine) {
+		view.hideColumn(geoLine);
+	}
+
+	protected void setValuesSafe(double valuesMin, double valuesMax, double valuesStep) {
+		try {
+			view.setValues(valuesMin, valuesMax, valuesStep);
+		} catch (InvalidValuesException exception) {
+			// ignore
+		}
 	}
 
 	@Test
@@ -97,14 +115,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertTrue(DoubleUtil.isEqual(view.getValuesStep(), 0.7));
 	}
 
-	private void setValuesSafe(double valuesMin, double valuesMax, double valuesStep) {
-		try {
-			view.setValues(valuesMin, valuesMax, valuesStep);
-		} catch (InvalidValuesException exception) {
-			// ignore
-		}
-	}
-
 	@Test
 	public void testShowColumn() {
 		GeoElementFactory factory = getElementFactory();
@@ -115,12 +125,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(factory.createGeoLine());
 
 		assertEquals(3, model.getColumnCount());
-	}
-
-	private void showColumn(GeoElement element) {
-		assertTrue(element instanceof GeoEvaluatable);
-		view.add(element);
-		view.showColumn((GeoEvaluatable) element);
 	}
 
 	@Test
@@ -169,7 +173,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertEquals("h(x)", model.getHeaderAt(1));
 	}
 
-	private GeoLine[] createLines(int number) {
+	protected GeoLine[] createLines(int number) {
 		GeoElementFactory factory = getElementFactory();
 		GeoLine[] lines = new GeoLine[number];
 		for (int i = 0; i < number; i++) {
@@ -616,131 +620,11 @@ public class TableValuesViewTest extends BaseUnitTest {
 		assertFalse(points.arePointsVisible(1));
 	}
 
-	private TableValuesPoints setupPointListener() {
+	protected TableValuesPoints setupPointListener() {
 		tablePoints = new TableValuesPointsImpl(getConstruction(), view,
 				model);
 		model.registerListener(tablePoints);
 		return tablePoints;
-	}
-
-	@Test
-	public void testUndoAddFirst() {
-		setupUndo();
-		GeoLine[] lines = createLines(2);
-		getApp().storeUndoInfo();
-		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		getKernel().undo();
-		assertTrue(view.isEmpty());
-		getKernel().redo();
-		shouldHaveUndoPointsAndColumns(2, 2);
-	}
-
-	private void setupUndo() {
-		getApp().setUndoRedoEnabled(true);
-		getApp().setUndoActive(true);
-		getKernel().getConstruction().initUndoInfo();
-	}
-
-	@Test
-	public void testUndoAddSecond() {
-		setupUndo();
-		GeoLine[] lines = createLines(2);
-		getApp().storeUndoInfo();
-		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		showColumn(lines[1]);
-		shouldHaveUndoPointsAndColumns(3, 3);
-		getKernel().undo();
-		assertEquals(2, 2);
-		getKernel().redo();
-		shouldHaveUndoPointsAndColumns(3, 3);
-	}
-
-	@Test
-	public void testUndoDeleteFirst() {
-		setupUndo();
-		GeoLine[] lines = createLines(2);
-		getApp().storeUndoInfo();
-		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		hideColumn(lines[0]);
-		assertTrue(view.isEmpty());
-		getKernel().undo();
-		assertFalse(view.isEmpty());
-		getKernel().redo();
-		assertTrue(view.isEmpty());
-		shouldHaveUndoPointsAndColumns(3, 1);
-	}
-
-	@Test
-	public void testUndoDeleteSecond() {
-		setupUndo();
-		GeoLine[] lines = createLines(2);
-		getApp().storeUndoInfo();
-		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		showColumn(lines[1]);
-		hideColumn(lines[1]);
-		shouldHaveUndoPointsAndColumns(4, 2);
-		getKernel().undo();
-		shouldHaveUndoPointsAndColumns(3, 3);
-		getKernel().redo();
-		shouldHaveUndoPointsAndColumns(4, 2);
-	}
-
-	@Test
-	public void testUndoRange() {
-		setupUndo();
-		GeoLine[] lines = createLines(2);
-		getApp().storeUndoInfo();
-		shouldHaveUndoPointsAndColumns(1, 1);
-		setValuesSafe(0, 10, 2);
-		showColumn(lines[0]);
-		setValuesSafe(5, 20, 3);
-		shouldHaveUndoPointsAndColumns(3, 2);
-		assertEquals(5, view.getValuesMin(), .1);
-		getKernel().undo();
-		assertEquals(0, view.getValuesMin(), .1);
-		getKernel().redo();
-		assertEquals(5, view.getValuesMin(), .1);
-		shouldHaveUndoPointsAndColumns(3, 2);
-	}
-
-	@Test
-	public void testUndoShowPoints() {
-		setupUndo();
-		TableValuesPoints points = setupPointListener();
-		GeoLine[] lines = createLines(2);
-		getApp().storeUndoInfo();
-		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		points.setPointsVisible(1, false);
-		points.setPointsVisible(1, true);
-		shouldHaveUndoPointsAndColumns(4, 2);
-		assertTrue(points.arePointsVisible(1));
-		getKernel().undo();
-		assertFalse(points.arePointsVisible(1));
-		getKernel().undo();
-		assertTrue(points.arePointsVisible(1));
-		getKernel().redo();
-		assertFalse(points.arePointsVisible(1));
-		getKernel().redo();
-		assertTrue(points.arePointsVisible(1));
-	}
-
-	@Test
-	public void testUndoAddRow() {
-		setupUndo();
-		processor.processInput("1", view.getValues(), 0);
-		processor.processInput("2", null, 1);
-		processor.processInput("3", null, 2);
-		getKernel().undo();
-		try {
-			processor.processInput("2", (GeoList) view.getEvaluatable(1), 2);
-		} catch (Throwable e) {
-			Assert.fail("Should not throw exception");
-		}
 	}
 
 	@Test
@@ -760,16 +644,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener).notifyRowAdded(model, 2);
 		verify(listener).notifyRowAdded(model, 3);
 		verify(listener).notifyColumnAdded(model, list, 1);
-	}
-
-	private void hideColumn(GeoEvaluatable geoLine) {
-		view.hideColumn(geoLine);
-	}
-
-	private void shouldHaveUndoPointsAndColumns(int expected, int expectCols) {
-		assertEquals(expected, getKernel().getConstruction()
-				.getUndoManager().getHistorySize());
-		assertEquals(expectCols, model.getColumnCount());
 	}
 
 	@Test
@@ -939,5 +813,29 @@ public class TableValuesViewTest extends BaseUnitTest {
 		} catch (Throwable t) {
 			Assert.fail("Should not throw exception for a function in undefined x");
 		}
+	}
+
+	@Test
+	public void testChangingValuesCallsNotifyRowsRemoved() {
+		setValuesSafe(-2, 2, 1);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		view.clearValues();
+		verify(listener).notifyRowRemoved(model, 4);
+		verify(listener).notifyRowRemoved(model, 3);
+		verify(listener).notifyRowRemoved(model, 2);
+		verify(listener).notifyRowRemoved(model, 1);
+	}
+
+	@Test
+	public void testChangingValuesCallsNotifyRowsAdded() {
+		setValuesSafe(-2, 2, 1);
+		processor.processInput("1", null, 0);
+		model.registerListener(listener);
+		view.clearValues();
+		verify(listener).notifyRowRemoved(model, 4);
+		verify(listener).notifyRowRemoved(model, 3);
+		verify(listener).notifyRowRemoved(model, 2);
+		verify(listener).notifyRowRemoved(model, 1);
 	}
 }

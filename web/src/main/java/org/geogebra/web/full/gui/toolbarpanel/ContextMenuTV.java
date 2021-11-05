@@ -16,6 +16,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.Command;
  */
 public class ContextMenuTV {
 	private final TableValuesView view;
+	private final StickyValuesTable stickyValuesTable;
 	/**
 	 * popup for the context menu
 	 */
@@ -50,11 +52,15 @@ public class ContextMenuTV {
 	 *            see {@link AppW}
 	 * @param geo
 	 *            label of geo
+	 * @param stickyValuesTable
+	 *            sticky values table
 	 * @param column
 	 *            index of column
 	 */
-	public ContextMenuTV(AppW app, TableValuesView view, GeoElement geo, int column) {
+	public ContextMenuTV(AppW app, StickyValuesTable stickyValuesTable, TableValuesView view,
+			GeoElement geo, int column) {
 		this.app = app;
+		this.stickyValuesTable = stickyValuesTable;
 		this.view = view;
 		this.columnIdx = column;
 		this.geo = geo;
@@ -98,14 +104,14 @@ public class ContextMenuTV {
 				dialogManager.openTableViewDialog(null);
 			}
 		});
-		addCommand(() -> view.clearXColumn(), "ClearColumn", "clear");
+		addCommand(view::clearValues, "ClearColumn", "clear");
 	}
 
 	private void buildYColumnMenu() {
 		addDelete();
 		wrappedPopup.addVerticalSeparator();
 
-		String headerHTMLName = view.getHeaderNameHTML(getColumnIdx());
+		String headerHTMLName = stickyValuesTable.getHeaderNameHTML(getColumnIdx());
 		DialogData oneVarStat = new DialogData("1VariableStatistics",
 				getColumnTransKey(headerHTMLName), "Close", null);
 		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var, oneVarStat);

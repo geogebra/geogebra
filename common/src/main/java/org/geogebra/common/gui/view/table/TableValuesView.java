@@ -27,7 +27,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -37,7 +36,6 @@ import com.google.j2objc.annotations.Weak;
  */
 public class TableValuesView implements TableValues, SettingListener {
 
-	private static final double[] DEFAULT_RANGE = new double[]{};
 	private static final int MAX_ROWS = 200;
 
 	@Weak
@@ -77,8 +75,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		settings.updateValueList(values);
 		elements = new HashSet<>();
 		labelController = new LabelController();
-		processor =
-				new TableValuesInputProcessor(kernel.getConstruction(), this, settings);
+		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
 		createTableDimensions();
 		settings.addListener(this);
 	}
@@ -92,7 +89,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		doShowColumn(evaluatable);
-		app.storeUndoInfo();
+		storeUndoInfo();
 	}
 
 	void doShowColumn(GeoEvaluatable evaluatable) {
@@ -113,7 +110,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		evaluatable.setTableColumn(-1);
 		model.removeEvaluatable(evaluatable);
-		app.storeUndoInfo();
+		storeUndoInfo();
 	}
 
 	@Override
@@ -133,16 +130,19 @@ public class TableValuesView implements TableValues, SettingListener {
 		setSettingsValues(valuesMin, valuesMax, valuesStep);
 		// empty view: next undo point will be created when geo is added
 		if (!isEmpty()) {
-			app.storeUndoInfo();
+			storeUndoInfo();
 		}
 	}
 
 	private void setSettingsValues(double valuesMin, double valuesMax, double valuesStep) {
+		model.startBatchUpdate();
 		settings.beginBatch();
 		settings.setValuesMin(valuesMin);
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
+		settings.setValueList(null);
 		settings.endBatch();
+		model.endBatchUpdate();
 	}
 
 	@Override
@@ -180,8 +180,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			model.updateEvaluatable(values);
 			settings.updateValueList(values);
 		} else {
-			double[] range = createRangeOrDefault();
-			model.setValues(range);
+			updateValuesFromRange();
 		}
 	}
 
@@ -193,30 +192,54 @@ public class TableValuesView implements TableValues, SettingListener {
 		values.notifyUpdate();
 	}
 
-	private double[] createRangeOrDefault() {
-		try {
-			double min = getValuesMin();
-			double max = getValuesMax();
-			double step = getValuesStep();
-			return min == 0 && max == 0 && step == 0
-					? DEFAULT_RANGE
-					: DoubleUtil.range(min, max, step);
-		} catch (OutOfMemoryError error) {
-			return DEFAULT_RANGE;
+	private void updateValuesFromRange() {
+		double min = getValuesMin();
+		double max = getValuesMax();
+		double step = getValuesStep();
+		boolean emptyModel = min == 0 && max == 0 && step == 0;
+		boolean invalidValues = min > max || step <= 0;
+		if (emptyModel) {
+			clearValuesInternal();
+		} else {
+			int row = 0;
+			double value = min;
+			if (invalidValues) {
+				setValuesRow(value, row++);
+			} else {
+				while (value <= max) {
+					setValuesRow(value, row++);
+					value += step;
+				}
+				if (value - step < max - Kernel.STANDARD_PRECISION) {
+					setValuesRow(max, row++);
+				}
+			}
+			for (int index = values.size() - 1; index >= row; index--) {
+				clearValuesRow(index);
+			}
 		}
+	}
+
+	private void clearValuesRow(int row) {
+		model.set(model.createEmptyValue(), values, row);
+	}
+
+	private void setValuesRow(double value, int row) {
+		model.set(model.createValue(value), values, row);
+	}
+
+	@Override
+	public void set(GeoElement element, GeoList column, int rowIndex) {
+		model.set(element, column, rowIndex);
+		if (column == values) {
+			settings.setValueList(values);
+		}
+		storeUndoInfo();
 	}
 
 	@Override
 	public TableValuesModel getTableValuesModel() {
 		return model;
-	}
-
-	/**
-	 * @param column index of column
-	 * @return geo at the given column
-	 */
-	public GeoElement getGeoAt(int column) {
-		return this.model.getEvaluatable(column).toGeoElement();
 	}
 
 	@Override
@@ -424,28 +447,19 @@ public class TableValuesView implements TableValues, SettingListener {
 		return processor;
 	}
 
-	/**
-	 * returns html string of indexed label
-	 * @param columnIndex index of column
-	 * @return html string of indexed label
-	 */
-	public String getHeaderNameHTML(int columnIndex) {
-		String content = getTableValuesModel().getHeaderAt(columnIndex);
-		if (content.contains("_")) {
-			String[] labelParts = content.split("_");
-			if (labelParts.length == 2) {
-				String index = labelParts[1].replaceAll("\\{", "")
-						.replaceAll("\\}", "") ;
-				return labelParts[0] + "<sub>" + index + "</sub>";
-			}
-		}
-		return content;
+	@Override
+	public void clearValues() {
+		clearValuesInternal();
+		storeUndoInfo();
 	}
 
-	/**
-	 * empty the first (x) column
-	 */
-	public void clearXColumn() {
-		model.clearXColumn();
+	private void clearValuesInternal() {
+		for (int row = values.size() - 1; row >= 0; row--) {
+			clearValuesRow(row);
+		}
+	}
+
+	private void storeUndoInfo() {
+		app.storeUndoInfo();
 	}
 }

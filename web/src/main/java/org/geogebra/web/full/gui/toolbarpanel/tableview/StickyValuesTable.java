@@ -144,7 +144,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		this.contextMenu = new ContextMenuTV(app, view, view.getGeoAt(column), column);
+		contextMenu = new ContextMenuTV(app, this, view,
+				view.getEvaluatable(column).toGeoElement(), column);
 		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
 						+ source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
@@ -178,8 +179,26 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
-		String headerHTMLName = view.getHeaderNameHTML(columnIndex);
+		String headerHTMLName = getHeaderNameHTML(columnIndex);
 		return headerCell.getHtmlHeader(headerHTMLName);
+	}
+
+	/**
+	 * returns html string of indexed label
+	 * @param columnIndex index of column
+	 * @return html string of indexed label
+	 */
+	public String getHeaderNameHTML(int columnIndex) {
+		String content = tableModel.getHeaderAt(columnIndex);
+		if (content.contains("_")) {
+			String[] labelParts = content.split("_");
+			if (labelParts.length == 2) {
+				String index = labelParts[1].replaceAll("\\{", "")
+						.replaceAll("\\}", "");
+				return labelParts[0] + "<sub>" + index + "</sub>";
+			}
+		}
+		return content;
 	}
 
 	@Override
