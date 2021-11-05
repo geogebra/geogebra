@@ -4,10 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Arrays;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
 import org.junit.Test;
@@ -16,8 +15,7 @@ public class MacroTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon3D createAppCommon() {
-		return new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		return AppCommonFactory.create3D();
 	}
 
 	@Test

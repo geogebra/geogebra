@@ -8,12 +8,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.AppCommon3D;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +20,7 @@ public class FileLoadTest {
 
 	@Before
 	public void setup() {
-		app = new AppCommon3D(new LocalizationCommon(3), new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 	}
 
 	@Test

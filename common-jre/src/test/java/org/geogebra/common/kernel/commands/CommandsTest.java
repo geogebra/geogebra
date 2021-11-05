@@ -13,10 +13,9 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.headless.ScreenReaderAccumulator;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
@@ -92,7 +91,7 @@ public class CommandsTest {
 				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
 			}
 
-			signature = CommandSignatures.getSigneture(cmdName);
+			signature = CommandSignatures.getSigneture(cmdName, app1);
 			if (signature != null) {
 				syntaxes = signature.size();
 				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
@@ -133,8 +132,7 @@ public class CommandsTest {
 	 */
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setRandomSeed(42);
 	}

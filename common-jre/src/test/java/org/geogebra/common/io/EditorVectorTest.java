@@ -1,11 +1,9 @@
 package org.geogebra.common.io;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.AppCommon3D;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,8 +11,7 @@ public class EditorVectorTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		return AppCommonFactory.create3D();
 	}
 
 	@Test
