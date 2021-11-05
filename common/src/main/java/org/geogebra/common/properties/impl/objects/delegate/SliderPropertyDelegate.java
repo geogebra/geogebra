@@ -15,9 +15,6 @@ public class SliderPropertyDelegate extends AbstractGeoElementDelegate {
 		if (isTextOrInput(element)) {
 			return false;
 		}
-		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
-		}
 		return hasSliderProperties(element);
 	}
 
