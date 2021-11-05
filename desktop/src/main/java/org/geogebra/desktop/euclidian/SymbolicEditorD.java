@@ -28,7 +28,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	private final Box box;
 	private final MathFieldD mathField;
-	private double baseline;
 
 	protected SymbolicEditorD(App app, EuclidianView view) {
 		super(app, view);
@@ -111,7 +110,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		mathField.getInternal().setSize(geoInputBox.getFontSizeMultiplier()
 				* (app.getSettings().getFontSettings().getAppFontSize() + 3));
 
-		baseline = bounds.getY() + bounds.getHeight() / 2;
+		setBaseline(bounds.getY() + bounds.getHeight() / 2);
 
 		box.setBounds(GRectangleD.getAWTRectangle(bounds));
 		((EuclidianViewD) view).add(box);
@@ -127,7 +126,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
-		int boxY = (int) (baseline - (double) (box.getHeight()) / 2);
+		int boxY = (int) computeTop(box.getHeight());
 		int boxX = box.getX();
 		view.getTextField().drawBounds(g, bgColor, boxX, boxY, box.getWidth(), box.getHeight());
 
