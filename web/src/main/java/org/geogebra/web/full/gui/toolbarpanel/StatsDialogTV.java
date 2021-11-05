@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
-import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -78,25 +78,25 @@ public class StatsDialogTV extends ComponentDialog {
 	/**
 	 * Add regression UI and show
 	 */
-	public void addRegressionChooser() {
+	public void addRegressionChooser(int rows) {
 		ListBox regressionChooser = new ListBox();
-		for (Regression regression: Regression.values()) {
-			if (regression == Regression.NONE) {
-				continue;
-			}
-			regressionChooser.addItem(app.getLocalization().getMenu(regression.getLabel()),
-					regression.name());
-		}
+		List<RegressionSpecification> available = RegressionSpecification.getForListSize(rows);
+		available.forEach(spec ->
+			regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
+					spec.getLabel())
+		);
 		regressionChooser.addChangeHandler((change) -> {
-			Regression regression = Regression.valueOf(regressionChooser.getSelectedValue());
-			setRows(view.getRegression(column, regression, 3));
+			RegressionSpecification regression = available
+					.get(regressionChooser.getSelectedIndex());
+			setRows(view.getRegression(column, regression));
 		});
 		addDialogContent(regressionChooser);
 
 		setOnPositiveAction(() -> {
-			Regression regression = Regression.valueOf(regressionChooser.getSelectedValue());
-			view.plotRegression(column, regression, 3);
+			RegressionSpecification regression = available
+					.get(regressionChooser.getSelectedIndex());
+			view.plotRegression(column, regression);
 		});
-		updateContent(c -> view.getRegression(c, Regression.LINEAR, 1));
+		updateContent(c -> view.getRegression(c, available.get(0)));
 	}
 }
