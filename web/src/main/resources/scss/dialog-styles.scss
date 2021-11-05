@@ -18,11 +18,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		iframe.objectPropertiesTextEditor:focus,
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
-		select:focus:not([readonly]),
 		textarea:focus:not([readonly]),
 		.gwt-TextArea:focus:not([readonly]),
 		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
 			border: 1px colors.$teal-default solid;
+		}
+		select:focus:not([readonly]) {
+			border-bottom: 1px colors.$teal-default solid;
 		}
 	}
 
@@ -389,13 +391,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.gwt-TabPanelBottom {
-			padding: 0px;
-			select:focus {
-				border: 1px colors.$teal-default solid;
-			}
+			padding: 0px 16px;
 
 			.optionsPanel {
-				margin-top: 10px;
+				margin-top: 8px;
 				margin-bottom: 0px;
 				.gwt-ListBox {
 					border-radius: 2px;
@@ -1650,10 +1649,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			// ignore this for now, we need new design
 			border-bottom: 1px solid colors.$teal-default !important;
 		}
-
-		.gwt-TabPanelBottom {
-			padding: 0px 15px;
-		}
 	}
 
 	.inputDialogComponent {
@@ -1803,7 +1798,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin: 24px 0px;
 
 			.uploadFileBtn {
-				border: solid 1px colors.$black-12;
 				color: colors.$mebis-text-btn-col;
 				padding: 0px 16px;
 			}
@@ -1811,18 +1805,30 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.manageTools {
-		.gwt-ListBox {
-			max-width: calc(100% - 52px);
-			margin-right: 16px;
-		}
-
 		select:focus:not([readonly]) {
 			border: none;
 			border-bottom: 1px colors.$teal-default solid;
 		}
 
-		.manageToolsList {
-			position: relative;
+		.toolButtons {
+			display: inline-block;
+			margin-bottom: 16px;
+		}
+
+		.containedButton {
+			margin-right: 8px;
+		}
+	}
+
+	.multiSelectList {
+		position: relative;
+
+		option {
+			height:20px;
+		}
+		.gwt-ListBox {
+			max-width: calc(100% - 52px);
+			margin-right: 16px;
 		}
 
 		.toolListButtons {
@@ -1834,43 +1840,63 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				margin-bottom: 8px;
 			}
 		}
+	}
 
-		.toolButtons {
-			display: inline-block;
-			margin-bottom: 16px;
+	.iconSelectShowPanel {
+		display: flex;
+
+		.iconPanel {
+			display: inline-flex;
+			margin-right: 66px;
+
+			img {
+				border-radius: 5px;
+				border: colors.$tool-border solid 1px;
+				margin-right: 12px;
+			}
 		}
 
-		.containedButton {
-			margin-right: 8px;
-		}
-
-		.iconSelectShowPanel {
+		.templatePanel {
 			display: flex;
+			padding-top: 4px;
+			padding-bottom: 4px;
 
-			.iconPanel {
-				display: inline-flex;
-				margin-right: 66px;
-
-				img {
-					border-radius: 5px;
-					border: colors.$tool-border solid 1px;
-					margin-right: 12px;
-				}
+			.checkbox {
+				margin-right: 12px;
 			}
 
-			.templatePanel {
-				display: flex;
-				padding-top: 4px;
-				padding-bottom: 4px;
-
-				.checkbox {
-					margin-right: 12px;
-				}
-
-				.templateTxt {
-					line-height: 26px;
-				}
+			.templateTxt {
+				line-height: 26px;
 			}
 		}
 	}
+
+	.toolCreationDialog {
+		max-width: 528px;
+		.toolSelectObjectLabel {
+			margin-top: 8px;
+		}
+		.iconSelectShowPanel {
+			margin-bottom: 8px;
+		}
+		.dialogNavigation {
+			margin-top: 16px;
+			text-align: center;
+
+			.materialOutlinedButton:disabled {
+				color: colors.$black-38;
+				opacity: 1;
+
+				&:hover {
+					background: white;
+				}
+
+			}
+		}
+	}
+
+	.dialogThreeTabs .gwt-TabBarItem {
+		min-width: 30%;
+	}
+
 }
