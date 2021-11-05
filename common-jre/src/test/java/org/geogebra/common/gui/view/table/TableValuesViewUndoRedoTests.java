@@ -92,13 +92,13 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 		setValuesSafe(0, 10, 2);
 		showColumn(lines[0]);
 		setValuesSafe(5, 20, 3);
-		shouldHaveUndoPointsAndColumns(3, 2);
+		shouldHaveUndoPointsAndColumns(4, 2);
 		assertEquals(5, view.getValuesMin(), .1);
 		getKernel().undo();
 		assertEquals(0, view.getValuesMin(), .1);
 		getKernel().redo();
 		assertEquals(5, view.getValuesMin(), .1);
-		shouldHaveUndoPointsAndColumns(3, 2);
+		shouldHaveUndoPointsAndColumns(4, 2);
 	}
 
 	@Test

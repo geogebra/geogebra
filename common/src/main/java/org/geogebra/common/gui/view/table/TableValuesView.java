@@ -128,10 +128,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
 		setSettingsValues(valuesMin, valuesMax, valuesStep);
-		// empty view: next undo point will be created when geo is added
-		if (!isEmpty()) {
-			storeUndoInfo();
-		}
+		storeUndoInfo();
 	}
 
 	private void setSettingsValues(double valuesMin, double valuesMax, double valuesStep) {
