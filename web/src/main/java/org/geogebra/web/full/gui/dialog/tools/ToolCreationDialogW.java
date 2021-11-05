@@ -98,7 +98,6 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 	private void createGUI() {
 		addStyleName("toolCreationDialog");
-		addStyleName("GeoGebraPopup");
 
 		addDialogContent(tabPanel = new MultiRowsTabPanel("dialogThreeTabs"));
 
@@ -135,7 +134,6 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 		// Create button navigation
 		createNavigation();
-
 	}
 
 	/**
