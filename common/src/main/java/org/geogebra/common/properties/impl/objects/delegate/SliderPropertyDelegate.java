@@ -1,7 +1,6 @@
 package org.geogebra.common.properties.impl.objects.delegate;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class SliderPropertyDelegate extends AbstractGeoElementDelegate {
