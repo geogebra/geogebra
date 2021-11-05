@@ -104,8 +104,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 			}
 			int oldRowCount = getRowCount();
 			TableValuesColumn column = createColumn(evaluatable);
-			columns.add(idx, column);
 			column.notifyDatasetChanged(this);
+			columns.add(idx, column);
 			ensureIncreasingIndices(idx);
 			notifyColumnAdded(evaluatable, idx);
 			int newRowCount = getRowCount();
