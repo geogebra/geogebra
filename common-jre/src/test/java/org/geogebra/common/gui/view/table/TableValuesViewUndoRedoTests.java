@@ -3,7 +3,10 @@ package org.geogebra.common.gui.view.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.junit.Assert;
@@ -140,6 +143,21 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 		assertEquals(1, model.getRowCount());
 		assertEquals(1, model.getColumnCount());
 		assertEquals("1", model.getCellAt(0, 0).getInput());
+	}
+
+	@Test
+	public void testUndoRegression() {
+		setupPointListener();
+		processor.processInput("1", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1", list, 1);
+		getKernel().undo();
+		assertEquals(1, model.getRowCount());
+		assertEquals(2, model.getColumnCount());
+		assertEquals(1, model.getValueAt(0, 1), Kernel.STANDARD_PRECISION);
+		assertEquals(Double.NaN, model.getValueAt(1, 1), Kernel.STANDARD_PRECISION);
+		assertEquals("1", model.getCellAt(0, 1).getInput());
+		assertEquals("", model.getCellAt(1, 1).getInput());
 	}
 
 	private void shouldHaveUndoPointsAndColumns(int expected, int expectCols) {
