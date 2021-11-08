@@ -317,7 +317,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
-	public void notifyRowRemoved(TableValuesModel model, int row) {
+	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
 		reset();
 	}
 
@@ -327,7 +327,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	@Override
-	public void notifyRowAdded(TableValuesModel model, int row) {
+	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
 		reset();
 	}
 
