@@ -70,9 +70,11 @@ public interface TableValuesModel {
 	void startBatchUpdate();
 
 	/**
-	 * Ends the batch update. Calls TableValuesListener.notifyDatasetChanged(TableValuesModel).
+	 * Ends the batch update. If {@code notifyDatasetChanged} is true calls
+	 * TableValuesListener.notifyDatasetChanged(TableValuesModel).
+	 * @param notifyDatasetChanged wether to call notifyDatasetChanged
 	 */
-	void endBatchUpdate();
+	void endBatchUpdate(boolean notifyDatasetChanged);
 
 	/**
 	 * @param element element

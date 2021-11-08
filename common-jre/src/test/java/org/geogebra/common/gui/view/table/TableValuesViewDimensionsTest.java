@@ -76,7 +76,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 		dimensions.getColumnWidth(0);
 
 		mockRowCount(1);
-		dimensions.notifyRowRemoved(model, 1);
+		dimensions.notifyRowsRemoved(model, 1, 1);
 		assertEquals(
 				getClampedWidthWithMargins(TableValuesViewDimensions.MIN_COLUMN_WIDTH),
 				dimensions.getColumnWidth(0));
@@ -98,7 +98,7 @@ public class TableValuesViewDimensionsTest extends MockedTableValuesUnitTest {
 		dimensions.getColumnWidth(0);
 
 		mockRowCount(2);
-		dimensions.notifyRowAdded(model, 1);
+		dimensions.notifyRowsAdded(model, 1, 1);
 
 		assertEquals(getClampedWidthWithMargins(longContentWidth), dimensions.getColumnWidth(0));
 	}
