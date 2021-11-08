@@ -70,6 +70,8 @@ public class ScriptManagerD extends ScriptManagerJre {
 	protected Object toNativeArray(ArrayList<String> args) {
 		ensureGlobalScript(app);
 		Scriptable scriptable = globalScopeMap.get(app.getKernel().getConstruction());
-		return Context.enter().newArray(scriptable, args.toArray(new Object[0]));
+		Context cx = Context.enter();
+		cx.getWrapFactory().setJavaPrimitiveWrap(false);
+		return cx.newArray(scriptable, args.toArray(new Object[0]));
 	}
 }

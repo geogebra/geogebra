@@ -24,6 +24,7 @@ public class CallJavaScript {
 
 		// create new scope
 		Context cx = Context.enter();
+		cx.getWrapFactory().setJavaPrimitiveWrap(false);
 
 		Scriptable scope = cx.initStandardObjects();
 
@@ -58,6 +59,7 @@ public class CallJavaScript {
 	 */
 	public static void evalScript(App app, String script, String arg) {
 		Context cx = Context.enter();
+		cx.getWrapFactory().setJavaPrimitiveWrap(false);
 		cx.initStandardObjects();
 		Scriptable newScope = getScope(app, cx);
 
@@ -73,6 +75,7 @@ public class CallJavaScript {
 
 	public static void evalFunction(NativeFunction nativeRunnable, Object[] args, App app) {
 		Context cx = Context.enter();
+		cx.getWrapFactory().setJavaPrimitiveWrap(false);
 		cx.initStandardObjects();
 		Scriptable newScope = getScope(app, cx);
 		// Evaluate the script.
