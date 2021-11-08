@@ -73,14 +73,14 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 			FunctionVariable vx = f1.getFunctionVariables()[0];
 			FunctionVariable vy = f1.getFunctionVariables()[1];
 
-			// build expression Fx*(x-x0)+Fy*(y-y0)
+			// build expression Fx(x0, y0)*(x-x0)+Fy(x0, y0)*(y-y0)
 			ExpressionNode x1 = new ExpressionNode(kernel, vx, Operation.MINUS,
 					new MyDouble(kernel, x));
 			ExpressionNode y1 = new ExpressionNode(kernel, vy, Operation.MINUS,
 					new MyDouble(kernel, y));
 
-			x1 = x1.multiply(inputCurve.getDerivativeX().getExpression());
-			y1 = y1.multiply(inputCurve.getDerivativeY().getExpression());
+			x1 = x1.multiply(inputCurve.getDerivativeX().evaluate(x, y));
+			y1 = y1.multiply(inputCurve.getDerivativeY().evaluate(x, y));
 
 			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1),
 					new MyDouble(kernel, 0)), null);
@@ -105,8 +105,6 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 				if (j + 1 < coeff[i].length) {
 					newCoeff[i][j] += y * (j + 1) * coeff[i][j + 1];
 				}
-				// helper = helper.plus(vx.wrap().power(i)
-				// .multiply(vy.wrap().power(j)).multiply(newCoeff[i][j]));
 			}
 		}
 
