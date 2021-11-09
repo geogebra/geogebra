@@ -14,10 +14,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -26,8 +22,7 @@ import com.google.gwt.user.client.ui.Label;
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
  * icon for the tool. It also allows user to add/remove the tool from toolbar.
  */
-public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
-        KeyUpHandler {
+public class ToolNameIconPanelW extends FlowPanel {
 
 	/** With of tool icon in pixels **/
 	public static final int ICON_WIDTH = 32;
@@ -80,24 +75,18 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 				null, loc.getMenu("ToolName"), null, "", 28, 1,
 				false);
 		tfToolName.setInputText(loc.getMenu("Tool") + n);
-		add(tfToolName);
-		tfToolName.getTextField().getTextComponent().addBlurHandler(this);
-		tfToolName.getTextField().getTextComponent().addKeyUpHandler(this);
+		addHandlers(tfToolName);
 
 		tfCmdName = new ComponentInputField((AppW) app,
 				null, loc.getMenu("CommandName"), null, "", 28, 1,
 				false);
 		tfCmdName.setInputText(tfToolName.getText());
-		tfCmdName.getTextField().getTextComponent().addBlurHandler(this);
-		tfCmdName.getTextField().getTextComponent().addKeyUpHandler(this);
-		add(tfCmdName);
+		addHandlers(tfCmdName);
 
 		tfToolHelp =  new ComponentInputField((AppW) app,
 				null, loc.getMenu("ToolHelp"), null, "", 28, 1,
 				false);
-		tfToolHelp.getTextField().getTextComponent().addBlurHandler(this);
-		tfToolHelp.getTextField().getTextComponent().addKeyUpHandler(this);
-		add(tfToolHelp);
+		addHandlers(tfToolHelp);
 
 		FlowPanel iconPanel = new FlowPanel();
 		iconPanel.addStyleName("iconPanel");
@@ -109,10 +98,10 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 			UploadImageDialog imageDialog = new UploadImageDialog((AppW) app,
 					ICON_WIDTH, ICON_HEIGHT);
 			imageDialog.center();
-			imageDialog.setOnPositiveAction(() -> {
+			imageDialog.setOnPositiveAction(() ->
 				setIconFile(imageDialog.getUploadImgPanel().getFileName(),
-						imageDialog.getUploadImgPanel().getImageDataURL());
-			});
+						imageDialog.getUploadImgPanel().getImageDataURL())
+			);
 		});
 
 		iconPanel.add(icon);
@@ -131,6 +120,12 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 		iconSelectShowPanel.add(showTool);
 
 		add(iconSelectShowPanel);
+	}
+
+	private void addHandlers(ComponentInputField tf) {
+		add(tf);
+		tf.getTextField().getTextComponent().addBlurHandler(e -> updateCmdName(tf));
+		tf.getTextField().getTextComponent().addKeyUpHandler(e -> onKeyUp(tf));
 	}
 
 	/**
@@ -278,14 +273,8 @@ public class ToolNameIconPanelW extends FlowPanel implements BlurHandler,
 		this.listener = listener;
 	}
 
-	@Override
-	public void onBlur(BlurEvent event) {
-		updateCmdName(event.getSource());
-	}
-
-	@Override
-	public void onKeyUp(KeyUpEvent event) {
-		updateCmdName(event.getSource());
+	private void onKeyUp(ComponentInputField source) {
+		updateCmdName(source);
 		showToolChanged();
 	}
 

@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -24,7 +22,7 @@ public class ErrorHandlerW implements ErrorHandler {
 		if (!app.isErrorDialogsActive()) {
 			return;
 		}
-		app.showErrorInfoDialog(msg);
+		app.showErrorDialog("Error", null, "OK", msg, null);
 	}
 
 	@Override
@@ -43,18 +41,8 @@ public class ErrorHandlerW implements ErrorHandler {
 		if (!app.isErrorDialogsActive()) {
 			return;
 		}
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-				+ app.getLocalization().getError("Error");
-
-		String[] optionNames = { app.getLocalization().getMenu("OK"),
-				app.getLocalization().getMenu("ShowOnlineHelp") };
-		app.getOptionPane().showOptionDialog(message, title, 0,
-				GOptionPane.ERROR_MESSAGE, null, optionNames,
-				dialogResult -> {
-					if ("1".equals(dialogResult[0])) {
-						openCommandHelp(command);
-					}
-				});
+		app.showErrorDialog(app.getLocalization().getError("Error"), "Close",
+				"ShowOnlineHelp", message, () -> openCommandHelp(command));
 	}
 
 	/**

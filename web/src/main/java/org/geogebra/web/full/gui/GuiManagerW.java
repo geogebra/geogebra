@@ -27,7 +27,6 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
@@ -56,7 +55,6 @@ import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.cas.view.RowHeaderPopupMenuW;
-import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.euclidian.DynamicStyleBar;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.SymbolicEditorW;
@@ -64,6 +62,7 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
@@ -120,16 +119,16 @@ import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.HasResource;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -138,7 +137,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.dom.DomGlobal;
@@ -177,8 +176,6 @@ public class GuiManagerW extends GuiManager
 	private boolean listeningToLogin = false;
 	private ToolBarW toolbarForUpdate = null;
 	private GeoGebraFrameFull frame;
-
-	private GOptionPaneW optionPane;
 
 	private ColorPanel colorPanel;
 
@@ -1245,7 +1242,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
-			inputHelpPanel.getInputHelpPanel().logHelpIconEvent(page, false);
+			getInputHelpPanel().getInputHelpPanel().logHelpIconEvent(page, false);
 		} catch (final MyError e) {
 			getApp().showError(e);
 		} catch (final Exception e) {
@@ -1576,32 +1573,15 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean checkAutoCreateSliders(final String s,
 			final AsyncOperation<String[]> callback) {
-		final String[] options = { loc.getMenu("Cancel"),
-				loc.getMenu("CreateSliders") };
-
-		final Image icon = new NoDragImage(
-				ImgResourceHelper.safeURI(
-						ToolbarSvgResourcesSync.INSTANCE.mode_slider_32()),
-				32);
-		icon.addStyleName("dialogToolIcon");
-		// icon.getElement().getStyle()
-		// .setProperty("border", "3px solid steelblue");
-
-		getOptionPane().showOptionDialog(
-				loc.getPlain("CreateSlidersForA", s),
-				loc.getMenu("CreateSliders"),
-				Integer.parseInt(AlgebraProcessor.CREATE_SLIDER),
-				GOptionPane.INFORMATION_MESSAGE, icon, options, callback);
-
+		DialogData data = new DialogData("CreateSliders", "Cancel",
+				"CreateSliders");
+		ComponentDialog createSlider = new ComponentDialog((AppW) app, data, false, true);
+		Label message = new Label(loc.getPlain("CreateSlidersForA", s));
+		createSlider.addDialogContent(message);
+		createSlider.setOnPositiveAction(() ->
+				callback.callback(new String[] { AlgebraProcessor.CREATE_SLIDER }));
+		createSlider.show();
 		return false;
-	}
-
-	@Override
-	public GOptionPaneW getOptionPane() {
-		if (optionPane == null) {
-			optionPane = new GOptionPaneW(getApp().getPanel(), getApp());
-		}
-		return optionPane;
 	}
 
 	@Override
@@ -1809,7 +1789,6 @@ public class GuiManagerW extends GuiManager
 	public void updateCheckBoxesForShowConstructinProtocolNavigation(int id) {
 		getLayout().getDockManager().getPanel(id)
 		.updateNavigationBar();
-		// ((AppW) app).getEuclidianViewpanel().updateNavigationBar();
 	}
 
 	public DockSplitPaneW getRootComponent() {
@@ -1867,26 +1846,25 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void exportGGB(boolean showDialog) {
 		final String extension = ((AppW) app).getFileExtension();
-
 		if (showDialog) {
-			getOptionPane().showSaveDialog(loc.getMenu("Save"),
-					getApp().getExportTitle() + extension, null,
-					obj -> {
-						if (Integer.parseInt(obj[0]) == 0) {
+			DialogData data = new DialogData("Save", "Cancel", "Save");
+			ComponentDialog dialog = new ComponentDialog((AppW) app, data, false, true);
+			ComponentInputField inputTextField = new ComponentInputField((AppW) app,
+					"", "", "", getApp().getExportTitle() + extension, -1, 1,
+					false, "");
+			dialog.addDialogContent(inputTextField);
+			dialog.setOnPositiveAction(() -> {
+				String filename = inputTextField.getText();
+				if (filename == null || filename.trim().isEmpty()) {
+					filename = getApp().getExportTitle();
+				}
 
-							String filename = obj[1];
-
-							if (filename == null || filename.trim().isEmpty()) {
-								filename = getApp().getExportTitle();
-							}
-
-							// in case user removes extension
-							if (!filename.endsWith(extension)) {
-								filename += extension;
-							}
-							exportGgb(filename, extension);
-						}
-					}, loc.getMenu("Save"));
+				if (!filename.endsWith(extension)) {
+					filename += extension;
+				}
+				exportGgb(filename, extension);
+			});
+			dialog.show();
 		} else {
 			exportGGBDirectly();
 		}
