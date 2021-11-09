@@ -46,6 +46,6 @@ android {
 
     defaultConfig {
         targetSdkVersion rootProject.targetSdkVersion
-        multiDexEnabled true
+        minSdkVersion rootProject.minSdkVersion
     }
 }
