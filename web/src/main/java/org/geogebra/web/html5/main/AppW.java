@@ -116,7 +116,6 @@ import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
-import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
@@ -1487,16 +1486,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (GeoGebraGlobal.getGgbAppletOnLoad() != null) {
 			GeoGebraGlobal.getGgbAppletOnLoad().accept(articleid);
 		}
-	}
-
-	/**
-	 * Get a pane for showing messages
-	 *
-	 * @return option pane
-	 */
-	public GOptionPaneW getOptionPane() {
-		return getGuiManager() != null ? getGuiManager().getOptionPane()
-				: new GOptionPaneW(getPanel(), this);
 	}
 
 	@Override

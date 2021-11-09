@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.ToolCreationDialogModel;
 import org.geogebra.common.gui.dialog.ToolInputOutputListener;
-import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -299,21 +297,13 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 		final String commandName = toolNameIconPanel.getCommandName();
 		if (appToSave.getKernel().getMacro(commandName) != null) {
-			String[] options = { loc.getMenu("Tool.Replace"),
-					loc.getMenu("Tool.DontReplace") };
-			appw.getGuiManager()
-					.getOptionPane()
-					.showOptionDialog(
-							appw.getLocalization().getPlain(
-									"Tool.ReplaceQuestion", commandName),
-							loc.getMenu("Question"),
- 0,
-							GOptionPane.QUESTION_MESSAGE, null, options,
-							dialogResult -> {
-								if ("0".equals(dialogResult[0])) {
-									saveMacro(appToSave);
-								}
-							});
+			DialogData data = new DialogData("Question", "Cancel", "Tool.Replace");
+			ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
+			Label message = new Label(appw.getLocalization().getPlain(
+					"Tool.ReplaceQuestion", commandName));
+			dialog.addDialogContent(message);
+			dialog.setOnPositiveAction(() -> saveMacro(appToSave));
+			dialog.show();
 		} else {
 			saveMacro(appToSave);
 		}
@@ -341,8 +331,10 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		} else {
 			DialogData data = new DialogData(appw.getLocalization().getError("Error"),
 					null, "OK");
-			new ErrorInfoDialog((AppW) app, data,
-					loc.getMenu("Tool.NotCompatible"), true).show();
+			ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
+			Label label = new Label(loc.getMenu("Tool.NotCompatible"));
+			dialog.addDialogContent(label);
+			dialog.show();
 		}
 
 		if (appw.isToolLoadedFromStorage()) {

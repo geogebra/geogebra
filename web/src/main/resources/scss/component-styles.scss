@@ -100,6 +100,7 @@
 
 	/* INPUT TEXT FIELD COMPONENT */
 	.inputTextField {
+		width: 100%;
 		margin-top: 8px;
 		margin-bottom: 8px;
 		display: inline-block;
@@ -308,13 +309,13 @@
 			height: calc(100% - 20px);
 			overflow: hidden;
 
-			.dialogTitle {
-				height: 20px;
-				font-size: 125%;
-				margin-bottom: 20px;
-				margin-left: 24px;
-				color: colors.$text-primary;
-			}
+            .dialogTitle {
+                min-height: 20px;
+                font-size: 125%;
+                margin-bottom: 20px;
+                margin-left: 24px;
+                color: colors.$text-primary;
+            }
 
 			.dialogContent {
 				// 112px = 20px title + 20px margin + 52px button panel
