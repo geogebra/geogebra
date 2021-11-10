@@ -26,10 +26,7 @@ import elemental2.dom.KeyboardEvent;
  */
 public class ExamClassicStartDialog extends ComponentDialog {
 	private static boolean examStyle;
-	/** Application */
 	protected AppW app;
-	/** Wrapped box */
-	private ComponentCheckbox cas;
 
 	/**
 	 * @param app
@@ -61,7 +58,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
 			Label casCheckBoxLbl = new Label(loc.getMenu("Perspective.CAS"));
-			cas = new ComponentCheckbox(true, casCheckBoxLbl);
+			ComponentCheckbox cas = new ComponentCheckbox(true, casCheckBoxLbl);
 			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
 
 			startPanel.add(cas);
@@ -69,7 +66,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					onCasChecked();
+					app.getExam().setCasEnabled(cas.isSelected(), app.getSettings().getCasSettings());
+					app.getGuiManager().updateToolbarActions();
 				}
 			});
 		}
@@ -173,11 +171,6 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		}
 		StyleInjector.inject("css", "exam");
 		examStyle = true;
-	}
-
-	private void onCasChecked() {
-		app.getExam().setCasEnabled(cas.isSelected(), app.getSettings().getCasSettings());
-		app.getGuiManager().updateToolbarActions();
 	}
 
 	@Override
