@@ -101,7 +101,7 @@ class ArcIterator implements GPathIterator {
      */
     @Override
 	public boolean isDone() {
-        return index > arcSegs + lineSegs;
+        return index > arcSegs + lineSegs || (arcSegs == 0 && lineSegs == 0);
     }
 
     /**

@@ -3,8 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
@@ -19,8 +18,7 @@ public class AuralTextTest {
 
 	@Before
 	public void startApp() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 	}
 
 	private static void aural(String in, String... out) {
