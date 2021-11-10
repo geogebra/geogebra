@@ -92,7 +92,8 @@ public class AlgoFitPoly extends AlgoElement implements FitAlgo {
 			return;
 		}
 		if (par == size - 1) {
-			AlgoPolynomialFromCoordinates.setFromPoints(geofunction, geolist);
+			coeff = new double[size];
+			AlgoPolynomialFromCoordinates.setFromPoints(geofunction, geolist, coeff);
 			return;
 		}
 		// if error in parameters :

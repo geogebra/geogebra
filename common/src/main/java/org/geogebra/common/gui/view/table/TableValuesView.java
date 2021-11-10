@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
-import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -413,30 +412,30 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	/**
 	 * @param column column
-	 * @param regression regression type
-	 * @param degree regression polynomial degree
+	 * @param regression regression type + degree
 	 * @return regression parameters for first and given column
 	 */
-	public List<StatisticGroup> getRegression(int column, Regression regression, int degree) {
+	public List<StatisticGroup> getRegression(int column, RegressionSpecification regression) {
 		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
-				.getRegression(regression, degree);
+				.getRegression(regression);
 	}
 
 	/**
-	 * @param regression regression type
-	 * @param degree regression polynomial degree
+	 * @param regression regression type + degree
 	 * @param column column
+	 * @return plot element
 	 */
-	public void plotRegression(int column, Regression regression, int degree) {
+	public GeoElement plotRegression(int column, RegressionSpecification regression) {
 		GeoEvaluatable xVal = model.getEvaluatable(0);
 		GeoEvaluatable yVal = model.getEvaluatable(column);
 		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
-		Command cmd = regression.buildCommand(kernel, degree, points);
+		Command cmd = regression.buildCommand(kernel, points);
 		try {
-			kernel.getAlgebraProcessor().processValidExpression(cmd);
+			return kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
 		} catch (Exception e) {
 			Log.error(e);
 		}
+		return null;
 	}
 
 	@Override
@@ -459,4 +458,5 @@ public class TableValuesView implements TableValues, SettingListener {
 	private void storeUndoInfo() {
 		app.storeUndoInfo();
 	}
+
 }

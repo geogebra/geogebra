@@ -91,7 +91,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			return;
 		}
 
-		setFromPoints(g, inputList);
+		setFromPoints(g, inputList, null);
 
 	}
 
@@ -101,7 +101,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 	 * @param inputList
 	 *            pointlist
 	 */
-	public static void setFromPoints(GeoFunction g, GeoList inputList) {
+	public static void setFromPoints(GeoFunction g, GeoList inputList, double[] keepCoeff) {
 		int n = inputList.size();
 
 		if (n < 2) { // can't draw a unique polynomial through 0 or 1 points!
@@ -166,12 +166,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		// calculate the coefficients
 		double[] cof = new double[n];
 		try {
-			// if (n < 15)
-			// polcoe(x, y, n, cof);
-			// // Michael Borcherds 2008-03-09 added polcoeBig
-			// else
-
-			// now always use polcoeBig as it's much more accurate even for eg
+			// always use polcoeBig as it's much more accurate even for eg
 			// eg Polynomial[ (4.18, 5.2365368), (4.178999999999999,
 			// 5.238777266100002), (4.181, 5.234293825899999) ]
 			// note: PolynomialFunctionLagrangeForm is only slightly better than
@@ -180,6 +175,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		} catch (Exception e) {
 			g.setUndefined();
 			return;
+		}
+		if (keepCoeff != null) {
+			System.arraycopy(cof, 0, keepCoeff, 0, n);
 		}
 		// build polynomial
 		Function polyFun = buildPolyFunctionExpression(g.getKernel(), cof);

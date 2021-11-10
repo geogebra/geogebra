@@ -88,7 +88,7 @@ public class ContextMenuTV {
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 			addShowHidePoints();
 			if (column instanceof GeoList) {
-				buildYColumnMenu();
+				buildYColumnMenu(((GeoList) column).size());
 			} else {
 				buildFunctionColumnMenu();
 			}
@@ -107,7 +107,7 @@ public class ContextMenuTV {
 		addCommand(view::clearValues, "ClearColumn", "clear");
 	}
 
-	private void buildYColumnMenu() {
+	private void buildYColumnMenu(int rows) {
 		addDelete();
 		wrappedPopup.addVerticalSeparator();
 
@@ -123,7 +123,7 @@ public class ContextMenuTV {
 
 		DialogData regressionData = new DialogData("Regression",
 				getColumnTransKey(headerHTMLName), "Close", "Plot");
-		addCommand(() -> showRegression(regressionData), "Regression",
+		addCommand(() -> showRegression(regressionData, rows), "Regression",
 				"regression");
 	}
 
@@ -152,9 +152,9 @@ public class ContextMenuTV {
 		addCommand(() -> showStats(statFunction, data), transKey, transKey.toLowerCase(Locale.US));
 	}
 
-	private void showRegression(DialogData data) {
+	private void showRegression(DialogData data, int rows) {
 		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-		dialog.addRegressionChooser();
+		dialog.addRegressionChooser(rows);
 		dialog.show();
 	}
 
