@@ -1665,18 +1665,17 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void update(GeoElement geo) {
 		if (geo.hasDrawable3D()) {
 			Drawable3D d = drawable3DMap.get(geo);
-			// ((GeoElement3DInterface) geo).getDrawable3D();
-			// Application.debug(d);
 			if (d != null) {
 				update(d);
-				// update(((GeoElement3DInterface) geo).getDrawable3D());
 			}
+		}
+		if (geo instanceof GeoPoint3D) {
+			enlargeClippingForPoint((GeoPointND) geo);
 		}
 	}
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		// Application.debug(geo);
 		if (geo.hasDrawable3D()) {
 			Drawable3D d = drawable3DMap.get(geo);
 			if (d != null) {
@@ -3571,7 +3570,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
-			double[][] minMax = isXREnabled()
+			double[][] minMax = (isXREnabled() || isUnity())
 					? clippingCubeDrawable.updateMinMaxLarge()
 					: updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
@@ -5132,6 +5131,14 @@ public abstract class EuclidianView3D extends EuclidianView
 		return mIsXREnabled;
 	}
 
+	/**
+	 *
+	 * @return true if view is in Unity
+	 */
+	public boolean isUnity() {
+		return mIsUnity;
+	}
+
 	@Override
 	public boolean checkHitForStylebar() {
 		return true;
@@ -5186,7 +5193,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            point
 	 */
     public void enlargeClippingForPoint(GeoPointND point) {
-        if (isXREnabled()) {
+    	if (isXREnabled() || isUnity()) {
             if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
                 setViewChangedByZoom();
                 setWaitForUpdate();
