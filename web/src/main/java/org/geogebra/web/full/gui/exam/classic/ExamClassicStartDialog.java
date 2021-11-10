@@ -66,7 +66,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					app.getExam().setCasEnabled(cas.isSelected(), app.getSettings().getCasSettings());
+					app.getExam().setCasEnabled(cas.isSelected(),
+							app.getSettings().getCasSettings());
 					app.getGuiManager().updateToolbarActions();
 				}
 			});
