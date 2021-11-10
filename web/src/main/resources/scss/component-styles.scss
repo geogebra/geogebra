@@ -4,6 +4,12 @@
 .GeoGebraFrame {
 
     /* CHECKBOX COMPONENT */
+    .checkboxPanel {
+    	display: flex;
+    	width: fit-content;
+    	cursor: pointer;
+    }
+
     .checkbox {
         width: 18px;
         height: 18px;

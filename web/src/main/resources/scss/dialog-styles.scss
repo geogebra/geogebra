@@ -166,10 +166,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-radius: 0px;
 		}
 
-		.templatePanel {
-			display: flex;
-			width: fit-content;
-			cursor: pointer;
+		.checkboxPanel {
 			margin-bottom: 28px;
 
 			.checkbox {
@@ -969,6 +966,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent.classicExamStartDialog {
+		.description {
+			margin-bottom: 10px;
+		}
+
+		.checkboxPanel {
+			margin-left: 20px;
+			min-height: 32px;
+		}
+
+		.templateTxt {
+			line-height: 24px;
+			margin-left: 8px;
+		}
+	}
+
 	.dialogComponent.examStartDialog {
 		max-width: 427px;
 
@@ -1146,11 +1159,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 		}
 
-		.templatePanel {
-			display: flex;
+		.checkboxPanel {
 			margin-bottom: 20px;
-			cursor: pointer;
-			width: fit-content;
 
 			.checkbox {
 				margin: 2px 16px 0px 0px;
