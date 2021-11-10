@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.layout;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.Layout;
@@ -210,14 +209,8 @@ public class LayoutW extends Layout {
 			// Sort the dock panels as the entries with the smallest amount of
 			// definition should
 			// be read first by the loading algorithm.
-			Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
-				@Override
-				public int compare(DockPanelData o1, DockPanelData o2) {
-					int diff = o2.getEmbeddedDef().length()
-							- o1.getEmbeddedDef().length();
-					return diff;
-				}
-			});
+			Arrays.sort(dockPanelInfo, (o1, o2) -> o2.getEmbeddedDef().length()
+					- o1.getEmbeddedDef().length());
 
 			perspective.setDockPanelData(dockPanelInfo);
 		} else {
