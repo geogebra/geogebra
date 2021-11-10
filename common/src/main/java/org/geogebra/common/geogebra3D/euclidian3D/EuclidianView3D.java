@@ -306,11 +306,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	//Mixed Reality and Augmented Reality
 	private boolean mIsXRDrawing;
 	private boolean mIsXREnabled;
-<<<<<<< HEAD
-	protected boolean mIsUnity = false;
-=======
 	protected boolean mIsUnity;
->>>>>>> master
 	private Target target;
 
 	// AR Ratio
