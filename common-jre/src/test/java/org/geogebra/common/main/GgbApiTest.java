@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -33,6 +35,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Greek;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class GgbApiTest {
 	private AppCommon app;
@@ -53,6 +56,25 @@ public class GgbApiTest {
 		api.evalCommand("SetCaption[b,\"%n rocks\"]");
 		assertThat(api.getCaption("b", false), is("%n rocks"));
 		assertThat(api.getCaption("b", true), is("b rocks"));
+	}
+
+	@Test
+	public void evalCommandShouldFireAddEventOncePerCall() {
+		ArrayList<String> evts = new ArrayList<>();
+		app.getEventDispatcher().addEventListener(new EventListener() {
+			@Override
+			public void sendEvent(Event evt) {
+				evts.add(evt.type + " " + evt.argument);
+			}
+
+			@Override
+			public void reset() {
+				// not needed
+			}
+		});
+		api.evalCommand("a: r=cos(3" + Unicode.theta + ")");
+		api.evalCommand("a: r=cos(2" + Unicode.theta + ")");
+		assertEquals(Arrays.asList("ADD a", "REMOVE a", "ADD a"), evts);
 	}
 
 	@Test
