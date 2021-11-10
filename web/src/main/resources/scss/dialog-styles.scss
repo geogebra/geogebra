@@ -1011,10 +1011,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.examExitDialog {
 		padding: 0px;
-
-		.dialogContent {
-			width: 316px;
-		}
+		max-width: 316px;
 
 		.titlePanel {
 			background-color: colors.$teal-default;
@@ -1068,9 +1065,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-		.DialogButtonPanel {
-			padding-right: 8px;
-			padding-top: 8px;
+		.dialogPanel {
+			padding: 8px;
+			float: right;
 
 			&.withDivider {
 				border-top: 1px solid colors.$black-12;
@@ -1078,7 +1075,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.dialogComponent.examClassicLogDialog,
 	.dialogComponent.errorDialog {
 		max-width: 320px;
 
@@ -1095,6 +1091,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.examLogDialog {
 		@extend .examExitDialog;
+
+		max-width: 316px;
 
 		.contentPanel {
 			min-height: 0;

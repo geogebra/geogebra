@@ -92,7 +92,6 @@ import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.exam.classic.ExamClassicLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -168,7 +167,6 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -649,20 +647,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				new ExamClassicStartDialog(this, data).show();
 			}
 		}
-	}
-
-	/**
-	 * @param content content
-	 * @param buttonText button text
-	 * @param handler button click handler
-	 */
-	public void showClassicExamLogExitDialog(final HTML content, String buttonText,
-			Runnable handler) {
-		DialogData data = new DialogData(getLocalization().getMenu("exam_log_header") + " "
-				+ getVersionString(), null, buttonText);
-		ExamClassicLogAndExitDialog dialog =
-				new ExamClassicLogAndExitDialog(this, data, content, handler);
-		dialog.show();
 	}
 
 	/**

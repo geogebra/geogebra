@@ -1,14 +1,13 @@
 package org.geogebra.web.full.gui.exam;
 
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -16,32 +15,13 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author csilla
- * 
- *         exam exit dialog with the whole information
- *
+ * Exam exit dialog with the whole information
  */
-public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
+public class ExamLogAndExitDialog extends GPopupPanel {
 	private final Runnable returnHandler;
-	// components of title panel
-	private FlowPanel titlePanel;
-	private Label calcType;
-	private Label examTitle;
 	private FlowPanel contentPanel;
-	private final Label teacherText = new Label("");
-	private final Label durationLbl = new Label("");
-	private final Label duration = new Label("");
-	private final Label dateLbl = new Label("");
-	private final Label date = new Label("");
-	private final Label startTimeLbl = new Label("");
-	private final Label startTime = new Label("");
-	private final Label endTimeLbl = new Label("");
-	private final Label endTime = new Label("");
-	private final Label activityLbl = new Label("");
 	private FlowPanel activityPanel;
-	private StandardButton positiveBtn;
 	private final Widget anchor;
-	private final String positiveKey;
 
 	public ExamLogAndExitDialog(AppW app, boolean isLogDialog,
 			Widget anchor) {
@@ -63,54 +43,62 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 		super(app.getPanel(), app);
 		this.returnHandler = returnHandler;
 		this.anchor = anchor;
-		this.positiveKey = positiveKey;
+		this.setStyleName("dialogComponent");
 		this.addStyleName(isLogDialog ? "examLogDialog" : "examExitDialog");
-		setGlassEnabled(false);
-		buildGUI(isLogDialog);
+		buildGUI(isLogDialog, positiveKey);
 	}
 
-	private void buildGUI(boolean isLogDialog) {
-		// build title panel
-		buildTitlePanel();
-		// build content panel
-		// components of content panel
+	private void buildGUI(boolean isLogDialog, String positiveKey) {
+		FlowPanel titlePanel = buildTitlePanel();
+
 		ScrollPanel scrollPanel = new ScrollPanel();
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName(app.getExam().isCheating() && isLogDialog
 				? "contentPanel cheating" : "contentPanel");
 		buildContent(isLogDialog);
 		scrollPanel.add(contentPanel);
-		// build button panel
-		// components of button panel
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		if ((app.getExam().isCheating() && !isLogDialog)
-				|| (isLogDialog && activityPanel != null
-						&& activityPanel.getWidgetCount() > 7)) {
-			buttonPanel.addStyleName("withDivider");
-		}
-		positiveBtn = new StandardButton("");
-		if (isLogDialog) {
-			positiveBtn.addFastClickHandler(ignored -> hide());
-		} else {
-			positiveBtn.addFastClickHandler(ignored -> hideAndExit());
-		}
-		buttonPanel.add(positiveBtn);
-		// build whole dialog
+
+		FlowPanel buttonPanel = buildButtonPanel(isLogDialog, positiveKey);
+
 		FlowPanel dialog = new FlowPanel();
 		dialog.add(titlePanel);
 		dialog.add(scrollPanel);
 		dialog.add(buttonPanel);
 		this.add(dialog);
-		setLabels();
 	}
 
-	private void buildTitlePanel() {
-		titlePanel = new FlowPanel();
+	private FlowPanel buildButtonPanel(boolean isLogDialog, String positiveKey) {
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.setStyleName("dialogPanel");
+
+		if ((app.getExam().isCheating() && !isLogDialog)
+				|| (isLogDialog && activityPanel != null
+				&& activityPanel.getWidgetCount() > 7)) {
+			buttonPanel.addStyleName("withDivider");
+		}
+		StandardButton positiveBtn = new StandardButton(app.getLocalization()
+				.getMenu(positiveKey));
+		positiveBtn.addStyleName("dialogTextButton");
+		positiveBtn.addFastClickHandler(ignored -> {
+			if (isLogDialog) {
+				hide();
+			} else {
+				hideAndExit();
+			}
+		});
+		buttonPanel.add(positiveBtn);
+
+		return buttonPanel;
+	}
+
+	private FlowPanel buildTitlePanel() {
+		FlowPanel titlePanel = new FlowPanel();
 		titlePanel.setStyleName("titlePanel");
-		calcType = new Label("");
+		String calcStr = app.isUnbundled() ? app.getConfig().getAppTransKey()
+				: "CreateYourOwn";
+		Label calcType = new Label(app.getLocalization().getMenu(calcStr));
 		calcType.setStyleName("calcType");
-		examTitle = new Label("");
+		Label examTitle = new Label(ExamUtil.status((AppW) app));
 		examTitle.setStyleName("examTitle");
 		titlePanel.add(calcType);
 		if (app.getExam().isCheating()) {
@@ -124,21 +112,33 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 			}
 			titlePanel.add(examTitle);
 		}
+		return titlePanel;
 	}
 
 	private void buildContent(boolean isLogDialog) {
+		Label teacherText = new Label(app.getLocalization()
+				.getMenu("exam_log_show_screen_to_teacher"));
 		teacherText.setStyleName("textStyle");
 		if (!isLogDialog) {
 			contentPanel.add(teacherText);
+			Label durationLbl = new Label(app.getLocalization().getMenu("Duration"));
+			Label duration = new Label(app.getExam().getElapsedTimeLocalized());
 			contentPanel.add(buildBlock(durationLbl, duration));
 		}
+		Label dateLbl = new Label(app.getLocalization().getMenu("exam_start_date"));
+		Label date = new Label(app.getExam().getDate());
 		contentPanel.add(buildBlock(dateLbl, date));
+		Label startTimeLbl = new Label(app.getLocalization().getMenu("exam_start_time"));
+		Label startTime = new Label(app.getExam().getStartTime());
 		contentPanel.add(buildBlock(startTimeLbl, startTime));
 		if (!isLogDialog) {
+			Label endTimeLbl = new Label(app.getLocalization().getMenu("exam_end_time"));
+			Label endTime = new Label(app.getExam().getEndTime());
 			contentPanel.add(buildBlock(endTimeLbl, endTime));
 		}
 		if (app.getExam().isCheating()) {
 			activityPanel = buildActivityPanel(isLogDialog);
+			Label activityLbl = new Label(app.getLocalization().getMenu("exam_activity"));
 			contentPanel.add(buildBlock(activityLbl, activityPanel));
 		}
 	}
@@ -174,41 +174,11 @@ public class ExamLogAndExitDialog extends DialogBoxW implements SetLabels {
 	}
 
 	@Override
-	public void setLabels() {
-		// title panel
-		calcType.setText(app.getLocalization().getMenu(app.getConfig().getAppTransKey()));
-		examTitle.setText(ExamUtil.status((AppW) app));
-		// content panel
-		teacherText.setText(app.getLocalization()
-				.getMenu("exam_log_show_screen_to_teacher"));
-		durationLbl.setText(app.getLocalization().getMenu("Duration"));
-		duration.setText(app.getExam().getElapsedTimeLocalized());
-		dateLbl.setText(app.getLocalization().getMenu("exam_start_date"));
-		date.setText(app.getExam().getDate());
-		startTimeLbl.setText(app.getLocalization().getMenu("exam_start_time"));
-		startTime.setText(app.getExam().getStartTime());
-		endTimeLbl.setText(app.getLocalization().getMenu("exam_end_time"));
-		endTime.setText(app.getExam().getEndTime());
-		activityLbl.setText(app.getLocalization().getMenu("exam_activity"));
-		// button panel
-		positiveBtn.setText(app.getLocalization().getMenu(positiveKey));
-	}
-
-	@Override
 	public void show() {
 		super.show();
 		super.center();
 		if (anchor != null) {
 			anchor.addStyleName("selected");
-		}
-	}
-
-	@Override
-	public void onCancel() {
-		if (returnHandler == null) {
-			hide(); // just a log: hide
-		} else if (!((AppW) app).getAppletParameters().getParamLockExam()) {
-			hideAndExit();
 		}
 	}
 
