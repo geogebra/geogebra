@@ -1805,6 +1805,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.manageTools {
+		max-width: 560px;
+
 		select:focus:not([readonly]) {
 			border: none;
 			border-bottom: 1px colors.$teal-default solid;
@@ -1872,7 +1874,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.toolCreationDialog {
-		max-width: 528px;
+		max-width: 560px;
 		.toolSelectObjectLabel {
 			margin-top: 8px;
 		}
@@ -1882,6 +1884,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.dialogNavigation {
 			margin-top: 16px;
 			text-align: center;
+
+			.materialOutlinedButton {
+				min-width: 112px;
+			}
 
 			.materialOutlinedButton:disabled {
 				color: colors.$black-38;
