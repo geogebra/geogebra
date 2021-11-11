@@ -1,6 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
@@ -81,6 +82,15 @@ public class EditorState {
 		if (currentField.addArgument(currentOffset, mathComponent)) {
 			incCurrentOffset();
 		}
+	}
+
+	/**
+	 * Add character, consider unicode surrogates
+	 * @param mathComponent
+	 *            new argument
+	 */
+	public void addArgument(MetaCharacter mathComponent) {
+		currentOffset = currentOffset + currentField.addArgument(currentOffset, mathComponent);
 	}
 
 	public MetaModel getMetaModel() {

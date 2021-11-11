@@ -227,6 +227,14 @@ abstract public class MathContainer extends MathComponent {
 	}
 
 	/**
+	 * Like addArgument, but with unicode magic
+	 * @param mathChar added character
+	 */
+	public void append(MetaCharacter mathChar) {
+		addArgument(new MathCharacter(mathChar));
+	}
+
+	/**
 	 * Add argument to the end.
 	 * 
 	 * @param index

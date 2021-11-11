@@ -20,6 +20,7 @@ import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.EnvArray;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.ResizeAtom;
@@ -194,7 +195,9 @@ public class TeXBuilder {
 		if ("\\cdot{}".equals(character.getTexName())) {
 			return SymbolAtom.get("cdot").duplicate();
 		}
-
+		if (character.getUnicodeString().length() > 1) {
+			return new JavaFontRenderingAtom(character.getUnicodeString());
+		}
 		return newCharAtom(character.getUnicode());
 	}
 

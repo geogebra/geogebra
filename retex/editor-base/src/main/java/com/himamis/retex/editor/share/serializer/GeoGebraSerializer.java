@@ -62,7 +62,7 @@ public class GeoGebraSerializer implements Serializer {
 		if (unicode == ',' && !isCommaNeeded(mathCharacter)) {
 			stringBuilder.append(comma);
 		} else {
-			stringBuilder.append(unicode);
+			stringBuilder.append(mathCharacter.getUnicodeString());
 		}
 	}
 

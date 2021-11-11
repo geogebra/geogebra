@@ -134,7 +134,7 @@ public class ArgumentHelper {
 				break;
 			}
 			offset--;
-			stringBuilder.insert(0, character.getUnicode());
+			stringBuilder.insert(0, character.getUnicodeString());
 		}
 		return stringBuilder.toString();
 	}

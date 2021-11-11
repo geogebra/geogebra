@@ -28,6 +28,7 @@
 
 package com.himamis.retex.editor.share.model;
 
+import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.Tag;
 
 /**
@@ -54,12 +55,57 @@ public class MathSequence extends MathContainer {
 	}
 
 	@Override
+	public void append(MetaCharacter mathChar) {
+		if (arguments.isEmpty()) {
+			super.append(mathChar);
+			return;
+		}
+		MathComponent last = arguments.get(arguments.size() - 1);
+		if (last instanceof MathCharacter
+				&& ((MathCharacter) last).mergeUnicode(mathChar.getUnicodeString())) {
+			checkModifier(arguments.size() - 1);
+			return;
+		}
+		super.append(mathChar);
+	}
+
+	private boolean checkModifier(int i) {
+		if (i > 0) {
+			MathCharacter last = (MathCharacter) arguments.get(i);
+			MathComponent prev = arguments.get(i - 1);
+			if (prev instanceof MathCharacter
+					&& ((MathCharacter) prev).mergeUnicode(last.getUnicodeString())) {
+				removeArgument(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Add argument, consider unicode surogates
+	 * @param i index
+	 * @param argument argument
+	 * @return sequence size change (may be negative after unicode merge)
+	 */
+	public int addArgument(int i, MetaCharacter argument) {
+		if (i > 0 && i <= arguments.size()) {
+			MathComponent prev = arguments.get(i - 1);
+			if (prev instanceof MathCharacter
+					&& ((MathCharacter) prev).mergeUnicode(argument.getUnicodeString())) {
+				return checkModifier(i - 1) ? -1 : 0;
+			}
+		}
+		return addArgument(i, new MathCharacter(argument)) ? 1 : 0;
+	}
+
+	@Override
 	public boolean addArgument(int i, MathComponent argument) {
+		// Korean merging separated from unicode merging, bc we want
+		// characters merged on paste, but not merge them in parser
 		if (checkKorean(i, argument)) {
 			return false;
 		}
-		// argument = checkKorean(i, argument);
-
 		if (i <= arguments.size()) {
 			if (argument != null) {
 				argument.setParent(this);
