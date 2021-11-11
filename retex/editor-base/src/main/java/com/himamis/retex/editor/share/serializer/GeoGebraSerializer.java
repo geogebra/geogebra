@@ -6,6 +6,7 @@ import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -21,6 +22,7 @@ public class GeoGebraSerializer implements Serializer {
 
 	private String leftBracket = "[";
 	private String rightBracket = "]";
+	private String comma = ",";
 
 	@Override
 	public String serialize(MathFormula formula) {
@@ -54,9 +56,31 @@ public class GeoGebraSerializer implements Serializer {
 		return sb.toString();
 	}
 
-	private static void serialize(MathCharacter mathCharacter,
+	private void serialize(MathCharacter mathCharacter,
 			StringBuilder stringBuilder) {
-		stringBuilder.append(mathCharacter.getUnicode());
+		char unicode = mathCharacter.getUnicode();
+		if (unicode == ',' && !isCommaNeeded(mathCharacter)) {
+			stringBuilder.append(comma);
+		} else {
+			stringBuilder.append(unicode);
+		}
+	}
+
+	private boolean isCommaNeeded(MathCharacter token) {
+		MathContainer parent = token.getParent();
+		int index = token.getParentIndex();
+		while (parent != null) {
+			if (parent instanceof MathArray) {
+				return ((MathArray) parent).getOpen().getKey() == '(';
+			}
+			if (parent instanceof MathFunction) {
+				return (((MathFunction) parent).getName() == Tag.APPLY
+						|| ((MathFunction) parent).getName() == Tag.APPLY_SQUARE) && index == 1;
+			}
+			index = parent.getParentIndex();
+			parent = parent.getParent();
+		}
+		return false;
 	}
 
 	private void serialize(MathFunction mathFunction,
@@ -177,7 +201,7 @@ public class GeoGebraSerializer implements Serializer {
 		char openKey = mathArray.getOpenKey();
 		String open;
 		String close;
-		String field = mathArray.getField().getKey() + "";
+		String field = mathArray.getFieldKey() + "";
 		String row = mathArray.getRow().getKey() + "";
 		if (Unicode.LFLOOR == openKey) {
 			open = "floor(";
@@ -244,6 +268,10 @@ public class GeoGebraSerializer implements Serializer {
 	public void forceRoundBrackets() {
 		this.leftBracket = "(";
 		this.rightBracket = ")";
+	}
+
+	public void setComma(String comma) {
+		this.comma = comma;
 	}
 
 	/**
