@@ -1484,6 +1484,7 @@ public class AlgebraProcessor {
 			handler.showError(loc.getInvalidInputError());
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
+			cons.registerFunctionVariable(null);
 		}
 
 		return bool;
@@ -1527,9 +1528,11 @@ public class AlgebraProcessor {
 			throw e;
 		} catch (Throwable t) {
 			t.printStackTrace();
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return list;
 	}
 
@@ -1596,9 +1599,11 @@ public class AlgebraProcessor {
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return func;
 	}
 
@@ -1721,9 +1726,11 @@ public class AlgebraProcessor {
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return func;
 	}
 
@@ -1785,6 +1792,7 @@ public class AlgebraProcessor {
 			e.printStackTrace();
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		} finally {
+			cons.registerFunctionVariable(null);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
@@ -1836,6 +1844,7 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		} finally {
+			cons.registerFunctionVariable(null);
 			if (suppressLabels) {
 				cons.setSuppressLabelCreation(oldMacroMode);
 			}
@@ -1879,9 +1888,11 @@ public class AlgebraProcessor {
 				t.printStackTrace();
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return text;
 	}
 
@@ -1914,9 +1925,11 @@ public class AlgebraProcessor {
 			if (showErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return geo;
 	}
 
