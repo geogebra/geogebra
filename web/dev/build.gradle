@@ -1,4 +1,4 @@
-project.setDescription('Developer tools required to compile web platforms')
+description 'Developer tools required to compile web platforms'
 
 apply plugin: 'java'
 

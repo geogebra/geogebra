@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -23,8 +22,7 @@ public class ArithmeticTest extends Assert {
 
 	@Before
 	public void setup() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 

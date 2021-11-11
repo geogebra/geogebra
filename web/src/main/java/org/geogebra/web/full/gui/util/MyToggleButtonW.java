@@ -61,36 +61,12 @@ public class MyToggleButtonW extends GToggleButton
 
 	/**
 	 * @param upIcon
-	 *            an {@link ImageResource} to use as an up Image
-	 * @param handler
-	 *            {@link ClickHandler}
-	 */
-	public MyToggleButtonW(ImageResource upIcon, ClickHandler handler) {
-		super(new Image(upIcon.getSafeUri()), handler);
-		initButton();
-	}
-
-	/**
-	 * @param upIcon
 	 *            an {@link SVGResource} to use as an up Image
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
 	public MyToggleButtonW(SVGResource upIcon, ClickHandler handler) {
 		super(new Image(upIcon.getSafeUri()), handler);
-		initButton();
-	}
-
-	/**
-	 * @param upImage
-	 *            an {@link Image} to use as an up Image
-	 * @param downImage
-	 *            an {@link Image} to use as an down Image
-	 * @param handler
-	 *            {@link ClickHandler}
-	 */
-	public MyToggleButtonW(Image upImage, Image downImage, ClickHandler handler) {
-		super(upImage, downImage, handler);
 		initButton();
 	}
 
@@ -110,32 +86,8 @@ public class MyToggleButtonW extends GToggleButton
 	 *            an {@link ImageResource} to use as an up Image
 	 * @param downIcon
 	 *            an {@link ImageResource} to use an down Image
-	 * @param handler
-	 *            {@link ClickHandler}
-	 */
-	public MyToggleButtonW(ImageResource upIcon, ImageResource downIcon,
-	        ClickHandler handler) {
-		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
-		        handler);
-	}
-
-	/**
-	 * @param upIcon
-	 *            an {@link ImageResource} to use as an up Image
-	 * @param downIcon
-	 *            an {@link ImageResource} to use an down Image
 	 */
 	public MyToggleButtonW(SVGResource upIcon, SVGResource downIcon) {
-		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
-	}
-
-	/**
-	 * @param upIcon
-	 *            an {@link ImageResource} to use as an up Image
-	 * @param downIcon
-	 *            an {@link ImageResource} to use an down Image
-	 */
-	public MyToggleButtonW(ImageResource upIcon, ImageResource downIcon) {
 		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
 	}
 

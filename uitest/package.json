@@ -7,7 +7,7 @@
     "*.js"
   ],
   "devDependencies": {
-    "@geogebra/web-test-harness": "0.1.11",
+    "@geogebra/web-test-harness": "0.1.14",
     "cypress": "^7.0.0",
     "cypress-image-snapshot": "^4.0.1",
     "http-server": "^13.0.2",

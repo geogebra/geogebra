@@ -30,19 +30,25 @@ public class ScreenReader {
 	// we need)
 	final private static String TRANSLATION_PREFIX = "ScreenReader.";
 
+	private static GeoElement getSelectedGeo(App app) {
+		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
+			return app.getSelectionManager().getSelectedGeos().get(0);
+		}
+
+		return null;
+	}
+
 	/**
 	 * @param app
 	 *            application
 	 */
 	public static void updateSelection(App app) {
-		if (0 < app.getSelectionManager().getSelectedGeos().size()) {
-			GeoElement geo0 = app.getSelectionManager().getSelectedGeos().get(0);
-			// do not steal focus from input box
-			if (geo0.isGeoInputBox()
-					|| app.getMode() == EuclidianConstants.MODE_PEN) {
-				return;
-			}
-			readText(geo0);
+		GeoElement selectedGeo = getSelectedGeo(app);
+
+		// do not steal focus from input box, do not read while drawing
+		if (selectedGeo != null && !selectedGeo.isGeoInputBox()
+				&& app.getMode() != EuclidianConstants.MODE_PEN) {
+			readText(selectedGeo);
 		}
 	}
 
@@ -56,16 +62,24 @@ public class ScreenReader {
 	}
 
 	private static void readText(String text, App app) {
-		// MOW-137 if selection originated in AV we don't want to move
-		// focus to EV
-		if (text != null && (app.getGuiManager() == null || app.getGuiManager()
-				.getLayout().getDockManager().getFocusedViewId() == app
-						.getActiveEuclidianView().getViewID())) {
-
-			// dot on end to help screen readers
-			app.getActiveEuclidianView().getScreenReader()
-					.readText(text.trim());
+		if (text == null) {
+			return;
 		}
+
+		// MOW-137: if selection originated in AV we don't want to move focus to EV
+		if (app.getGuiManager() != null && app.getGuiManager()
+				.getLayout().getDockManager().getFocusedViewId() != app
+						.getActiveEuclidianView().getViewID()) {
+			return;
+		}
+
+		// WLY-298: do not steal focus from input box
+		GeoElement selectedGeo = getSelectedGeo(app);
+		if (selectedGeo != null && selectedGeo.isGeoInputBox()) {
+			return;
+		}
+
+		app.getActiveEuclidianView().getScreenReader().readText(text.trim());
 	}
 
 	// Handling DropDowns
@@ -201,6 +215,14 @@ public class ScreenReader {
 
 	public static String getCubed(Localization loc) {
 		return localize(loc, "cubed", "cubed");
+	}
+
+	public static String getDegree(Localization loc) {
+		return localize(loc, "degree", "degree");
+	}
+
+	public static String getDegrees(Localization loc) {
+		return localize(loc, "degrees", "degrees");
 	}
 
 	public static String getStartPower(Localization loc) {
@@ -340,7 +362,11 @@ public class ScreenReader {
 		StringBuilder sb = new StringBuilder();
 		sb.append(leftStr);
 		sb.append(" ");
-		appendPower(sb, rightStr, loc);
+		if ("\u2218".equals(rightStr)) {
+			sb.append(rightStr);
+		} else {
+			appendPower(sb, rightStr, loc);
+		}
 		return sb.toString();
 	}
 
@@ -359,6 +385,20 @@ public class ScreenReader {
 			sb.append(ScreenReader.getStartPower(loc));
 			sb.append(exponent);
 			sb.append(ScreenReader.getEndPower(loc));
+		}
+	}
+
+	/**
+	 * Appends degree(s) to the StringBuilder
+	 * @param sb builder
+	 * @param value degree value
+	 * @param loc localization
+	 */
+	public static void appendDegrees(StringBuilder sb, String value, Localization loc) {
+		if ("1".equals(value) || "-1".equals(value)) {
+			sb.append(getDegree(loc));
+		} else {
+			sb.append(getDegrees(loc));
 		}
 	}
 
@@ -498,9 +538,13 @@ public class ScreenReader {
 			if (character == '_') {
 				sb.append(" subscript ");
 			} else {
-				sb.append(adapter.convertCharacter(character));
+				String str = adapter.convertCharacter(character);
+				if (!"".equals(str)) {
+					sb.append(str);
+				}
 			}
 		}
+
 		return sb.toString();
 	}
 

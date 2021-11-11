@@ -2,12 +2,10 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.Arrays;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.AppCommon3D;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
@@ -18,7 +16,7 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return new AppCommon3D(new LocalizationCommon(3), new AwtFactoryCommon());
+		return AppCommonFactory.create3D();
 	}
 
 	@Test

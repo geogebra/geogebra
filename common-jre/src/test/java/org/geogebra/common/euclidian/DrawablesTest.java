@@ -12,7 +12,6 @@ import org.geogebra.common.awt.GGraphicsCommon;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class DrawablesTest {
 	@Before
 	public void setupApp() {
 		graphics = spy(new GGraphicsCommon());
-		app = new AppCommon3D(new LocalizationCommon(3),
+		app = new AppCommon3D(new LocalizationCommonUTF(3),
 				new AwtFactoryCommon()) {
 			@Override
 			protected GGraphics2D createGraphics() {

@@ -9,7 +9,7 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 /**
  * Preferences in Web (Local Storage)
  */
-public class GeoGebraPreferencesW extends GeoGebraPreferences {
+public class GeoGebraPreferencesW {
 
 	private static GeoGebraPreferencesW singleton;
 

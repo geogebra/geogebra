@@ -1,8 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -11,12 +9,11 @@ import org.junit.Test;
 
 public class CommandsTest2D {
 
-	private App app;
 	private AlgebraProcessor ap;
 
 	@Before
 	public void setup() {
-		app = new AppCommon(new LocalizationCommon(2), new AwtFactoryCommon());
+		App app = AppCommonFactory.create();
 		app.setLanguage("en");
 		ap = app.getKernel().getAlgebraProcessor();
 	}

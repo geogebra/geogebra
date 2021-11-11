@@ -149,6 +149,7 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
+import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -221,6 +222,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private SaveController saveController = null;
 
 	private ShareControllerW shareController;
+	private MaterialsManagerI fm;
+	private GoogleDriveOperation googleDriveOperation;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
 	private KeyboardManager keyboardManager;
@@ -773,6 +776,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			search = new OpenSearch(this);
 		}
 		search.openInExamMode();
+	}
+
+	@Override
+	public GoogleDriveOperation getGoogleDriveOperation() {
+		return googleDriveOperation;
 	}
 
 	@Override
@@ -1513,7 +1521,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		frame.updateHeaderSize();
+		if (getAppletParameters().getDataParamApp()) {
+			getAppletFrame().updateHeaderSize();
+		}
 		String perspective = getAppletParameters().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()

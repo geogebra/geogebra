@@ -4,9 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactoryCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -25,8 +24,7 @@ public class EuclidianStyleTest {
 
 	@Before
 	public void setupApp() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		app = AppCommonFactory.create3D();
 		construction = app.getKernel().getConstruction();
 		cd = construction.getConstructionDefaults();
 	}

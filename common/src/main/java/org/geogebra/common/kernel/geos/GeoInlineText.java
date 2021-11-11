@@ -19,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
  * Inline Geo Text element.
  */
 public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormatter,
-		HasVericalAlignment {
+		HasVerticalAlignment {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
