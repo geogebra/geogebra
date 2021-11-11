@@ -45,7 +45,8 @@ public class RegressionBuilder {
 			GeoElementND geo = algebraProcessor.processValidExpressionSilent(cmd)[0];
 			FitAlgo fitAlgo = (FitAlgo) geo.getParentAlgorithm();
 			double[] coeffs = fitAlgo.getCoeffs();
-			stats.add(StatisticGroup.withLaTeX("Formula", regression.getFormula()));
+			stats.add(StatisticGroup.withLaTeX(kernel.getLocalization().getMenu("Stats.Formula"),
+					regression.getFormula()));
 			String[] parameters = new String[coeffs.length];
 			for (int i = 0; i < coeffs.length; i++) {
 				char coeffName = (char) ('a' + i);
@@ -61,8 +62,8 @@ public class RegressionBuilder {
 			String lhs = Stat.RSQUARE.getLHS(kernel.getLocalization(), "");
 			String rSquareRow = kernel.format(residual.evaluateDouble(),
 					StringTemplate.defaultTemplate);
-			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"), lhs + " = "
-					+ rSquareRow));
+			stats.add(new StatisticGroup(loc.getMenu("CoefficientOfDetermination"),
+					lhs + " = " + rSquareRow));
 		} catch (Exception e) {
 			Log.error(e);
 		}
