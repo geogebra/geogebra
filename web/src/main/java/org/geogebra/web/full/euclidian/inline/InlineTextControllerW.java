@@ -11,7 +11,7 @@ import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInline;
-import org.geogebra.common.kernel.geos.HasVericalAlignment;
+import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -309,12 +309,12 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public VerticalAlignment getVerticalAlignment() {
-		return ((HasVericalAlignment) geo).getVerticalAlignment();
+		return ((HasVerticalAlignment) geo).getVerticalAlignment();
 	}
 
 	@Override
 	public void setVerticalAlignment(VerticalAlignment alignment) {
-		((HasVericalAlignment) geo).setVerticalAlignment(alignment);
+		((HasVerticalAlignment) geo).setVerticalAlignment(alignment);
 		updateVerticalAlign();
 		geo.getKernel().notifyRepaint();
 	}
