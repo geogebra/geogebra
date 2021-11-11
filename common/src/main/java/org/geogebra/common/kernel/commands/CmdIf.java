@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -153,12 +154,6 @@ public class CmdIf extends CommandProcessor {
 	private int checkAdd(Command c, ArrayList<FunctionalNVar> functions,
 			GeoElement fn, int vars) {
 		if (fn.isRealValuedFunction() && !(fn instanceof GeoLine)) {
-			/*
-			 * if(vars > 1){ GeoFunctionNVar cast = new
-			 * GeoFunctionNVar(kernelA.getConstruction()); cast.set(fn);
-			 * functions.add(cast); }else { functions.add(((GeoFunctionable)
-			 * fn).getGeoFunction()); }
-			 */
 			functions.add(((GeoFunctionable) fn).getGeoFunction());
 			if ("y".equals(((GeoFunctionable) fn).getGeoFunction()
 					.getVarString(StringTemplate.defaultTemplate))) {
@@ -237,7 +232,8 @@ public class CmdIf extends CommandProcessor {
 			ArrayList<FunctionalNVar> functions, int vars) {
 		FunctionVariable[] fv;
 		if (vars == conditions.get(0).getFunctionVariables().length) {
-			fv = conditions.get(0).getFunctionVariables();
+			fv = Arrays.stream(conditions.get(0).getFunctionVariables())
+					.map(v -> v.deepCopy(kernel)).toArray(FunctionVariable[]::new);
 		} else if (cons.getRegisteredFunctionVariable() != null) {
 			int regVars = cons.getRegisteredFunctionVariables().length;
 			fv = new FunctionVariable[regVars];
