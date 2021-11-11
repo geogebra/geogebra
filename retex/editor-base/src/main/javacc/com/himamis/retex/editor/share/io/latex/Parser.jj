@@ -162,6 +162,15 @@ PARSER_END(Parser)
 void mathContainer(MathContainer currentField) : {}
 {
 	(
+		atomicWrapper(currentField)
+	|
+		mathCharacter(currentField)
+	)*
+}
+
+void atomicWrapper(MathContainer currentField) : {}
+{
+	(
 		power(currentField)
 	|
 		superscript(currentField)
@@ -190,10 +199,18 @@ void mathContainer(MathContainer currentField) : {}
 		arrayCurly(currentField)
 	|
 		quotes(currentField)
+	)
+}
+
+void mathContainerWithCommas(MathContainer currentField) : {}
+{
+	(
+		atomicWrapper(currentField)
 	|
-		mathCharacter(currentField)
+		mathCharacterOrComma(currentField)
 	)*
 }
+
 /**
 * Adds an atomic expression to the current field. Atomic expression does not have operator on top level,
 * i.e. must be wrapped in brackets (1+1) or be a simple number 12 or special function eg. -sqrt(5)
@@ -212,30 +229,7 @@ void mathAtomOrPower(MathContainer currentField) : {
 		}
 	}
 	(
-		power(currentField)
-	|
-		superscript(currentField)
-	|
-		subscript(currentField)
-	|
-		fraction(currentField)
-	|
-		nroot(currentField)
-	|
-		log(currentField)
-	|
-		absVecLimeq(currentField)
-	|
-		LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
-		absVerticalBar(currentField)
-	|
-		arrayParantheses(currentField)
-	|
-		arrayFloorCeil(currentField)
-	|
-		arrayCurly(currentField)
-	|
-		quotes(currentField)
+		atomicWrapper(currentField)
 	|
 		(
 		  (mathAtomCharacter(currentField))+
@@ -376,7 +370,7 @@ void absVecLimeq(MathContainer currentField) : {
 		String image = symbol.image.substring(0, symbol.image.length() - 1);
 		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));
 		MathSequence param1 = new MathSequence();
-		mathContainer(param1);
+		mathContainerWithCommas(param1);
 		vec.setArgument(0, param1);
 		currentField.addArgument(vec);
 	} <PARANTHESES_CLOSE>
@@ -417,17 +411,7 @@ void arrayParantheses(MathContainer currentField) :
 		mathSequence = editorState.getCurrentField();
 		mathArrayOrFunction = mathSequence.getParent();
 	}
-	mathContainer(mathSequence)
-	{
-		//mathSequence is already in tree; just create a new one
-		mathSequence = new MathSequence();
-	}
-	(LOOKAHEAD(2147483647) <COMMA> mathContainer(mathSequence)
-		{
-			mathArrayOrFunction.addArgument(mathSequence);
-			mathSequence = new MathSequence();
-		}
-	)*
+	mathContainerWithCommas(mathSequence)
 
 	(<PARANTHESES_CLOSE> | <SQUARE_BRACKETS_CLOSE>)
 }
@@ -521,6 +505,16 @@ void mathCharacter(MathContainer currentField) :
 }
 {
 	(t = <ELSE> | t = <OPERATOR> | t = <SPACE>) {
+		currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+	}
+}
+
+void mathCharacterOrComma(MathContainer currentField) :
+{
+	Token t = null;
+}
+{
+	(t = <ELSE> | t = <OPERATOR> | t = <SPACE> | t = <COMMA>) {
 		currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
 	}
 }

@@ -478,4 +478,22 @@ abstract public class MathContainer extends MathComponent {
 	public boolean isProtected() {
 		return isProtected;
 	}
+
+	/**
+	 * Inside of protected array all commas are considered protected
+	 * @param i index
+	 * @return whether argument with given index is a protected comma
+	 */
+	public boolean isArgumentProtected(int i) {
+		if (i < 0 || i >= arguments.size()) {
+			return false;
+		}
+		boolean isComma = arguments.get(i) instanceof MathCharacter
+				&& ((MathCharacter) arguments.get(i)).getUnicode() == ',';
+		if (getParent() != null && getParent().getParent() != null
+				&& getParent().getParent().isProtected && isComma) {
+			return true;
+		}
+		return false;
+	}
 }

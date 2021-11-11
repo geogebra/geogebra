@@ -6,9 +6,8 @@ import org.geogebra.common.util.StringUtil;
 import com.google.gwt.dom.client.Style;
 import com.himamis.retex.editor.web.MathFieldW;
 
-public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDecorator {
+public abstract class MathFieldEditorDecoratorBase {
 	protected static final int PADDING_LEFT = 2;
-	private final MathFieldEditor editor;
 	private final MathFieldW mathField;
 	private final Style style;
 
@@ -17,7 +16,6 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 	 * @param editor the mathfield editor to be decorated.
 	 */
 	public MathFieldEditorDecoratorBase(MathFieldEditor editor) {
-		this.editor = editor;
 		this.mathField = editor.getMathField();
 		this.style = editor.getStyle();
 	}
@@ -68,7 +66,7 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 	 *
 	 * @param value to set.
 	 */
-	protected void setTop(double value) {
+	public void setTop(double value) {
 		style.setTop(value, Style.Unit.PX);
 	}
 
@@ -90,10 +88,4 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 		style.setHeight(value, Style.Unit.PX);
 	}
 
-	/**
-	 * @return the height of the editor.
-	 */
-	protected int getHeight() {
-		return editor.asWidget().getOffsetHeight();
-	}
 }

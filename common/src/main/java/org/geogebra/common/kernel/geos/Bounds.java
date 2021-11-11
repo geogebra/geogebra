@@ -185,8 +185,10 @@ public class Bounds {
 		if (e.getOperation() == Operation.FUNCTION
 				&& e.getLeft() instanceof GeoFunction) {
 			GeoFunction fn = ((GeoFunction) e.getLeft());
+			ExpressionValue substitution = e.getRightTree().deepCopy(kernel)
+					.replace(fn.getFunctionVariables()[0], fv);
 			return fn.getFunctionExpression().deepCopy(kernel)
-					.replace(fn.getFunctionVariables()[0], fv).wrap();
+					.replace(fn.getFunctionVariables()[0], substitution).wrap();
 		}
 		return e;
 	}
