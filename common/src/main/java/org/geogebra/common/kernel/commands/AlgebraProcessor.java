@@ -2728,7 +2728,7 @@ public class AlgebraProcessor {
 		if ("r".equals(singleLeftVariable)) {
 			try {
 				equ.getRHS().setLabel(equ.getLabel());
-				return processValidExpression(equ.getRHS());
+				return doProcessValidExpression(equ.getRHS(), info);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
