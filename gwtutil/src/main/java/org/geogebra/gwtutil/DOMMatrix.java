@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.awt;
+package org.geogebra.gwtutil;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
