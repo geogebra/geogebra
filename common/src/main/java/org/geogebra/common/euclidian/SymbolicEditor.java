@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -32,6 +33,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	private GeoInputBox geoInputBox;
 	private DrawInputBox drawInputBox;
 	private final GeoGebraSerializer asciiSerializer = new GeoGebraSerializer();
+	private double baseline;
 
 	protected SymbolicEditor(App app, EuclidianView view) {
 		this.app = app;
@@ -162,5 +164,13 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	public void removeListeners() {
 		// web only
+	}
+
+	protected double computeTop(int height) {
+		return MyMath.clamp(baseline - height / 2d, 0,	view.getHeight() - height);
+	}
+
+	protected void setBaseline(double baseline) {
+		this.baseline = baseline;
 	}
 }

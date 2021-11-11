@@ -102,6 +102,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		getDrawInputBox().setEditing(true);
 
 		decorator.update(bounds, getGeoInputBox());
+		setBaseline(bounds.getY() + bounds.getHeight() / 2d);
 		editor.setVisible(true);
 
 		String text = getGeoInputBox().getTextForEditor();
@@ -155,7 +156,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public void onKeyTyped(String key) {
-		decorator.update();
+		updateTop();
 		addDegree(key, editor.getMathField().getInternal());
 		getGeoInputBox().update();
 		editor.scrollHorizontally();
@@ -199,7 +200,13 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		decorator.update();
+		updateTop();
+	}
+
+	private void updateTop() {
+		if (editor.asWidget().getOffsetHeight() > 0) {
+			decorator.setTop(computeTop(editor.asWidget().getOffsetHeight()));
+		}
 	}
 
 	@Override
