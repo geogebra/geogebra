@@ -1011,5 +1011,4 @@ public abstract class CommandDispatcher {
 	public boolean isCASAllowed() {
 		return isAllowedByNameFilter(Commands.Solve);
 	}
-
 }
