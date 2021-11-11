@@ -1521,7 +1521,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		frame.updateHeaderSize();
+		if (getAppletParameters().getDataParamApp()) {
+			getAppletFrame().updateHeaderSize();
+		}
 		String perspective = getAppletParameters().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()
