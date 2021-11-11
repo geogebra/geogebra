@@ -8,6 +8,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -78,11 +79,11 @@ public class MultiRowsTabBar extends FlowPanel implements
 		if (item != null) {
 			if (selected) {
 				item.addStyleName("gwt-TabBarItem-selected");
-				setStyleName(DOM.getParent(item.getElement()),
+				UIObject.setStyleName(DOM.getParent(item.getElement()),
 						"gwt-TabBarItem-wrapper-selected", true);
 			} else {
 				item.removeStyleName("gwt-TabBarItem-selected");
-				setStyleName(DOM.getParent(item.getElement()),
+				UIObject.setStyleName(DOM.getParent(item.getElement()),
 						"gwt-TabBarItem-wrapper-selected", false);
 			}
 		}
@@ -145,9 +146,9 @@ public class MultiRowsTabBar extends FlowPanel implements
 	 */
 	public void setTabEnabled(int index, boolean enabled) {
 		assert (index >= 0) && (index < getTabCount()) : "Tab index out of bounds";
-		setStyleName(getWidget(index).getElement(), "gwt-TabBarItem-disabled",
+		UIObject.setStyleName(getWidget(index).getElement(), "gwt-TabBarItem-disabled",
 				!enabled);
-		setStyleName(getWidget(index).getElement().getParentElement(),
+		UIObject.setStyleName(getWidget(index).getElement().getParentElement(),
 				"gwt-TabBarItem-wrapper-disabled", !enabled);
 	}
 

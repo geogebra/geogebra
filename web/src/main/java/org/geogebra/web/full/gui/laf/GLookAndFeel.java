@@ -7,12 +7,12 @@ import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
-import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 
