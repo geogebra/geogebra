@@ -1046,6 +1046,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
+		.withDivider {
+			border-bottom: 1px solid colors.$black-12;
+		}
+
 		.contentPanel {
 			height: 252px;
 			padding: 20px 24px 24px 24px;
@@ -1068,10 +1072,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.dialogPanel {
 			padding: 8px;
 			float: right;
-
-			&.withDivider {
-				border-top: 1px solid colors.$black-12;
-			}
 		}
 	}
 

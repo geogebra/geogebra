@@ -62,6 +62,11 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 
 		FlowPanel dialog = new FlowPanel();
 		dialog.add(titlePanel);
+		if ((app.getExam().isCheating() && !isLogDialog)
+				|| (isLogDialog && activityPanel != null
+				&& activityPanel.getWidgetCount() > 7)) {
+			scrollPanel.addStyleName("withDivider");
+		}
 		dialog.add(scrollPanel);
 		dialog.add(buttonPanel);
 		this.add(dialog);
@@ -71,11 +76,6 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("dialogPanel");
 
-		if ((app.getExam().isCheating() && !isLogDialog)
-				|| (isLogDialog && activityPanel != null
-				&& activityPanel.getWidgetCount() > 7)) {
-			buttonPanel.addStyleName("withDivider");
-		}
 		StandardButton positiveBtn = new StandardButton(app.getLocalization()
 				.getMenu(positiveKey));
 		positiveBtn.addStyleName("dialogTextButton");
@@ -121,26 +121,24 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 		teacherText.setStyleName("textStyle");
 		if (!isLogDialog) {
 			contentPanel.add(teacherText);
-			Label durationLbl = new Label(app.getLocalization().getMenu("Duration"));
-			Label duration = new Label(app.getExam().getElapsedTimeLocalized());
-			contentPanel.add(buildBlock(durationLbl, duration));
+			addBlock("Duration", app.getExam().getElapsedTimeLocalized());
 		}
-		Label dateLbl = new Label(app.getLocalization().getMenu("exam_start_date"));
-		Label date = new Label(app.getExam().getDate());
-		contentPanel.add(buildBlock(dateLbl, date));
-		Label startTimeLbl = new Label(app.getLocalization().getMenu("exam_start_time"));
-		Label startTime = new Label(app.getExam().getStartTime());
-		contentPanel.add(buildBlock(startTimeLbl, startTime));
+		addBlock("exam_start_date", app.getExam().getDate());
+		addBlock("exam_start_time", app.getExam().getStartTime());
 		if (!isLogDialog) {
-			Label endTimeLbl = new Label(app.getLocalization().getMenu("exam_end_time"));
-			Label endTime = new Label(app.getExam().getEndTime());
-			contentPanel.add(buildBlock(endTimeLbl, endTime));
+			addBlock("exam_end_time", app.getExam().getEndTime());
 		}
 		if (app.getExam().isCheating()) {
 			activityPanel = buildActivityPanel(isLogDialog);
 			Label activityLbl = new Label(app.getLocalization().getMenu("exam_activity"));
 			contentPanel.add(buildBlock(activityLbl, activityPanel));
 		}
+	}
+
+	private void addBlock(String labelStr, String timeStr) {
+		Label label = new Label(app.getLocalization().getMenu(labelStr));
+		Label time = new Label(timeStr);
+		contentPanel.add(buildBlock(label, time));
 	}
 
 	private FlowPanel buildActivityPanel(boolean isLogDialog) {
