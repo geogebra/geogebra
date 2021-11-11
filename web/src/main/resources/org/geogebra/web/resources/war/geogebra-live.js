@@ -1,9 +1,7 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel, users, delay) {
+    function LiveApp(session, embedLabel) {
         this.api = null;
-        this.users = users || [];
-      	this.delay = delay || 200;
-        this.clientId = parentClientId;
+        this.session = session;
         this.currentAnimations = [];
         this.embeds = {};
         this.createEvent = function(type, content, label) {
@@ -11,7 +9,7 @@
                 "type": type,
                 "content": content,
                 "embedLabel": embedLabel,
-                "clientId": this.clientId
+                "clientId": session.clientId
             }
             if (label) {
                 event.label = label;
@@ -25,7 +23,8 @@
         };
         this.sendEvent = function(type, content, label) {
             var event = this.createEvent(type, content, label);
-            event.fire(this.eventCallbacks['construction']);
+            event.time = this.session.time++;
+            event.fire(this.session.eventCallbacks['construction']);
         }
         this.evalCommand = function(command) {
             this.unregisterListeners();
@@ -57,9 +56,8 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc && calc.registerClientListener) {
-                var calcLive = new LiveApp(this.clientId, label, this.users, this.delay);
+                var calcLive = new LiveApp(this.session, label);
                 calcLive.api = calc;
-                calcLive.eventCallbacks = this.eventCallbacks;
                 calcLive.registerListeners();
                 this.embeds[label] = calcLive;
             }
@@ -102,7 +100,7 @@
                     }
 
                     updateCallback = null;
-                }, that.delay);
+                }, that.session.delay);
             }
         }).bind(this);
 
@@ -158,7 +156,7 @@
 
         // *** CLIENT LISTENERS ***
         var clientListener = (function(event) {
-            var editorEventBus = this.eventCallbacks["editor"];
+            var editorEventBus = this.session.eventCallbacks["editor"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -285,6 +283,19 @@
 
         const conflictedObjects = [];
 
+        this.hasConflict = function(event, oldEvents) {
+            for (let i = 0; i < oldEvents.length; i++) {
+                const oldEvent = oldEvents[oldEvents.length - 1 - i];
+                if (oldEvent.time < event.time) {
+                    return false;
+                }
+                if (oldEvent.label && oldEvent.label == event.label) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         this.dispatch = function(last) {
             // reject events coming from conflicted objects
             if (conflictedObjects.includes(last.label)
@@ -292,10 +303,16 @@
                 return;
             }
 
+            if (last.time < this.session.time) {
+                 if (this.hasConflict(last, session.receivedEvents) || this.hasConflict(last, session.sentEvents)) {
+                     this.sendErrorEvent();
+                 }
+            }
+
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
             if (last.type == "addObject") {
                 if (target.api.exists(last.label)) {
-                    if (this.clientId == Math.min(...this.users.filter(Boolean).map(u => u.id))) {
+                    if (this.session.clientId == Math.min(...this.session.users.filter(Boolean).map(u => u.id))) {
                         let counter = 1;
                         let newLabel;
                         do {
@@ -322,7 +339,7 @@
                     target.evalXML(last.content);
                     target.api.previewRefresh();
                 }
-                let user = this.users[last.clientId];
+                let user = this.session.users[last.clientId];
                 if (user && last.content) {
                     target.api.removeMultiuserSelections(user.name);
                     // user name, user color, label of geo selected, 'true' if the geo was just added
@@ -391,13 +408,13 @@
             } else if (last.type == "stopAnimation") {
                 target.api.setAnimating(last.label, false);
             } else if (last.type == "select") {
-                let user = this.users[last.clientId];
+                let user = this.session.users[last.clientId];
                 if (user && last.content) {
                     // user name, user color, label of geo selected, 'true' if the geo was just added
                     target.api.addMultiuserSelection(user.name, user.color, last.content, false);
                 }
             } else if (last.type == "deselect") {
-                let user = this.users[last.clientId];
+                let user = this.session.users[last.clientId];
                 if (user) {
                     target.api.removeMultiuserSelections(user.name);
                 }
@@ -431,7 +448,7 @@
         };
 
         this.sendErrorEvent = function(label) {
-            this.createEvent("error", label).fire(this.eventCallbacks['error']);
+            this.createEvent("error", label).fire(this.session.eventCallbacks['error']);
         };
 
         this.checkInline = function(label) {
@@ -445,7 +462,7 @@
 
         this.checkExists = function(label) {
             if (label && !this.api.exists(label)) {
-                 this.createEvent("error", label).fire(this.eventCallbacks['error']);
+                 this.sendErrorEvent(label);
                  return false;
             }
             return true;
@@ -453,19 +470,24 @@
    }
 
     window.GeoGebraLive = function(api, id, delay) {
-        var mainSession = new LiveApp(id);
-        mainSession.api = api;
-        mainSession.eventCallbacks = {"construction": [], "error": []}
-        mainSession.registerListeners();
-        mainSession.delay = delay;
-
-        let sentEvents = [];
-        let receivedEvents = [];
+        var session = {
+            clientId: id,
+            delay: delay || 200,
+            time: 0,
+            users: [],
+            sentEvents: [],
+            receivedEvents: []
+        };
+        var mainApp = new LiveApp(session);
+        mainApp.api = api;
+        session.eventCallbacks = {"construction": [], "error": []}
+        mainApp.registerListeners();
 
         this.dispatch = function(event) {
             if (event && event.clientId !== id) {
-                mainSession.dispatch(event);
-                receivedEvents.push({
+                mainApp.dispatch(event);
+                session.time = Math.max(session.time, event.time) + 1;
+                session.receivedEvents.push({
                     ...event,
                     timestamp: new Date().getTime()
                 });
@@ -473,27 +495,27 @@
         }
 
         this.addUser = function(user) {
-            mainSession.users[user.id] = user;
+            session.users[user.id] = user;
         }
 
         this.addEventListener = function(eventCategory, callback) {
             let eventCategories = typeof eventCategory == "string" ? [eventCategory] : eventCategory;
             eventCategories.forEach(function(category) {
-                mainSession.eventCallbacks[category] = mainSession.eventCallbacks[category] || [];
-                mainSession.eventCallbacks[category].push(callback);
+                session.eventCallbacks[category] = session.eventCallbacks[category] || [];
+                session.eventCallbacks[category].push(callback);
             });
         }
 
         this.addEventListener(["construction", "editor"], (event) => {
-            sentEvents.push({
+            session.sentEvents.push({
                 ...event,
                 timestamp: new Date().getTime()
             });
-        })
+        });
 
         this.startLogging = () => {
-            sentEvents = [];
-            receivedEvents = [];
+            session.sentEvents = [];
+            session.receivedEvents = [];
         }
 
         function download(object, fileName) {
@@ -505,11 +527,11 @@
         }
 
         this.getSent = () => {
-            download(sentEvents, "events-sent.json");
+            download(session.sentEvents, "events-sent.json");
         }
 
         this.getReceived = () => {
-            download(receivedEvents, "events-received.json");
+            download(session.receivedEvents, "events-received.json");
         }
     }
 })();

@@ -30,7 +30,6 @@ public class HatchingHandler {
 	private GBufferedImage bufferedImage = null;
 	private GBufferedImage subImage = null;
 	private GGeneralPath path;
-	private GRectangle rect;
 	private String svgPath = "";
 
 	/**
@@ -38,7 +37,6 @@ public class HatchingHandler {
 	 */
 	public HatchingHandler() {
 		path = AwtFactory.getPrototype().newGeneralPath();
-		rect = AwtFactory.getPrototype().newRectangle(0, 0, 1, 1);
 	}
 
 	/**
@@ -177,6 +175,7 @@ public class HatchingHandler {
 			exportScale = (int) Math.ceil(app.getExportScale());
 			xInt *= exportScale;
 			yInt *= exportScale;
+			dist *= exportScale;
 
 			objStroke = AwtFactory.getPrototype()
 					.newBasicStroke(objStroke.getLineWidth() * exportScale);
@@ -233,7 +232,7 @@ public class HatchingHandler {
 			drawBricks(angle, xInt, yInt, g2d);
 			break;
 		case DOTTED:
-			drawDotted(dist, g2d);
+			drawDotted(dist, g2d, 2 * exportScale);
 			break;
 		case SYMBOLS:
 			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
@@ -244,7 +243,7 @@ public class HatchingHandler {
 					(int) (Math.round(t.getAscent() + t.getDescent()) / 3),
 					(int) (Math.round(t.getAscent() + t.getDescent()) / 3));
 			g2d.setFont(
-					app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24));
+					app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24 * exportScale));
 			g2d.drawString(symbol, 0, Math.round(t.getAscent()));
 			startY = 0;
 			startX = 0;
@@ -393,18 +392,12 @@ public class HatchingHandler {
 			path.lineTo(4 * dist, 5 * dist + 1);
 			g2d.fill(path);
 		} else { // 0 degrees
-			rect.setRect(dist, dist, 3 * dist, dist);
-			g2d.draw(rect);
-			rect.setRect(2 * dist, 2 * dist, dist, 3 * dist);
-			g2d.draw(rect);
-			rect.setRect(3 * dist, 3 * dist, 3 * dist, dist);
-			g2d.draw(rect);
-			rect.setRect(4 * dist, 0, dist, 3 * dist);
-			g2d.draw(rect);
-			rect.setRect(-1 * dist, 3 * dist, 3 * dist, dist);
-			g2d.draw(rect);
-			rect.setRect(4 * dist, 4 * dist, dist, 3 * dist);
-			g2d.draw(rect);
+			g2d.drawRect(dist, dist, 3 * dist, dist);
+			g2d.drawRect(2 * dist, 2 * dist, dist, 3 * dist);
+			g2d.drawRect(3 * dist, 3 * dist, 3 * dist, dist);
+			g2d.drawRect(4 * dist, 0, dist, 3 * dist);
+			g2d.drawRect(-1 * dist, 3 * dist, 3 * dist, dist);
+			g2d.drawRect(4 * dist, 4 * dist, dist, 3 * dist);
 			g2d.drawLine(4 * dist, 3 * dist, 5 * dist, 3 * dist);
 			g2d.drawLine(4 * dist, 4 * dist, 5 * dist, 4 * dist);
 			g2d.fillRect(dist, 2 * dist, dist, dist);
@@ -416,14 +409,12 @@ public class HatchingHandler {
 
 	private void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
 		if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)) {
-			rect.setRect(xInt / 2.0, yInt, 2 * xInt, yInt);
-			g2d.draw(rect);
+			g2d.drawRect(xInt / 2, yInt, 2 * xInt, yInt);
 			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2, yInt);
 			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2,
 					yInt * 2 + yInt / 2);
 		} else if (DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
-			rect.setRect(xInt, yInt / 2.0, xInt, 2 * yInt);
-			g2d.draw(rect);
+			g2d.drawRect(xInt, yInt / 2, xInt, 2 * yInt);
 			g2d.drawLine(xInt / 2, yInt + yInt / 2, xInt, yInt + yInt / 2);
 			g2d.drawLine(xInt * 2, yInt + yInt / 2, 2 * xInt + xInt / 2,
 					yInt + yInt / 2);
@@ -483,8 +474,7 @@ public class HatchingHandler {
 		return getSvgPath();
 	}
 
-	private static void drawDotted(double dist, GGraphics2D g2d) {
-		final double size = 2;
+	private static void drawDotted(double dist, GGraphics2D g2d, double size) {
 		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(dist, dist,
 				size, size));
 		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * dist, dist,
@@ -506,6 +496,7 @@ public class HatchingHandler {
 			GGraphics2D g2d) {
 		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			double dist = (hatchDist * Math.sin(angle));
+			path.reset();
 			path.moveTo(dist / 2, dist / 2 - 1);
 			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
 			path.lineTo(dist + dist / 2, dist + dist / 2);
@@ -551,6 +542,7 @@ public class HatchingHandler {
 
 	private void drawHoneycomb(double dist, GGraphics2D g2d) {
 		double centerX = (dist * Math.sqrt(3) / 2);
+		path.reset();
 		path.moveTo(centerX, dist);
 		path.lineTo(centerX, 2 * dist);
 		path.lineTo(0, 2 * dist + dist / 2);

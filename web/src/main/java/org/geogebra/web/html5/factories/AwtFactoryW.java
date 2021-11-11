@@ -88,13 +88,13 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 
 	@Override
 	public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-		return new GTexturePaintW((GBufferedImageW) subimage);
+		return new GTexturePaintW((GBufferedImageW) subimage, rect);
 	}
 
 	@Override
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
 		return new GTexturePaintW(
-				new GBufferedImageW(((MyImageW) subimage).getImage()));
+				new GBufferedImageW(((MyImageW) subimage).getImage()), rect);
 	}
 
 	@Override
