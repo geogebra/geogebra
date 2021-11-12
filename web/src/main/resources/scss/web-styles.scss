@@ -91,7 +91,7 @@
 	}
 
 	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-	.DialogButtonPanel .gwt-Button, .inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
+	.inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
 		border-radius: 5px;
 		border: 1px solid #6161FF;
 		color: #6161FF;
@@ -549,7 +549,7 @@
 	/*           GeoGebraWeb styles from here                    */
 	/*============ App common styles ============*/
 
-	&, .GeoGebraPopup, .DialogBox, .gwt-PopupPanel, .gwt-SuggestBoxPopup, .ToolTip {
+	&, .GeoGebraPopup, .gwt-PopupPanel, .gwt-SuggestBoxPopup, .ToolTip {
 		font: 100%/120% geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
 		-webkit-user-select: none;
 		-moz-user-select: none;
@@ -557,7 +557,7 @@
 		user-select: none;
 	}
 
-	*:focus, .GeoGebraPopup *:focus, .DialogBox *:focus {
+	*:focus, .GeoGebraPopup *:focus {
 		outline: none; /* Fixing Chrome's default outline on focus */
 	}
 
