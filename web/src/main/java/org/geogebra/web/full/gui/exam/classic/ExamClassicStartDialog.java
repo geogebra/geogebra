@@ -1,23 +1,22 @@
 package org.geogebra.web.full.gui.exam.classic;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.KeyboardEvent;
@@ -25,12 +24,9 @@ import elemental2.dom.KeyboardEvent;
 /**
  * Exam start dialog
  */
-public class ExamClassicStartDialog extends ComponentDialog implements ClickHandler {
+public class ExamClassicStartDialog extends ComponentDialog {
 	private static boolean examStyle;
-	/** Application */
 	protected AppW app;
-	/** Wrapped box */
-	private CheckBox cas;
 
 	/**
 	 * @param app
@@ -39,6 +35,7 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 	public ExamClassicStartDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
 		this.app = app;
+		addStyleName("classicExamStartDialog");
 		buildGUI();
 		setOnPositiveAction(() -> startExam(app));
 		setOnNegativeAction(() -> {
@@ -53,47 +50,47 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		Localization loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 
-		VerticalPanel mainWidget = new VerticalPanel();
-		FlowPanel cbxPanel = new FlowPanel();
 		// start dialog content with checkboxes
 		FlowPanel startPanel = new FlowPanel();
+		Label description = new Label(loc.getMenu("exam_custom_description"));
+		description.addStyleName("description");
+		startPanel.add(description);
 
-		int checkboxes = 0;
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
-			checkboxes++;
-			cas = new CheckBox(loc.getMenu("Perspective.CAS"));
-			cas.addStyleName("examCheckbox");
-			cas.setValue(true);
-
+			Label casCheckBoxLbl = new Label(loc.getMenu("Perspective.CAS"));
+			ComponentCheckbox cas = new ComponentCheckbox(true, casCheckBoxLbl);
 			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
-			cbxPanel.add(cas);
-			cas.addClickHandler(this); 
-		}
-		
-		if (!app.getAppletParameters().hasDataParamEnable3D()) {
-			checkboxes++;
-			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
-			allow3D.addStyleName("examCheckbox");
-			allow3D.setValue(true);
 
+			startPanel.add(cas);
+			ClickStartHandler.init(cas, new ClickStartHandler(true, true) {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					app.getExam().setCasEnabled(cas.isSelected(),
+							app.getSettings().getCasSettings());
+					app.getGuiManager().updateToolbarActions();
+				}
+			});
+		}
+
+		if (!app.getAppletParameters().hasDataParamEnable3D()) {
+			Label allow3DLbl = new Label(loc.getMenu("Perspective.3DGraphics"));
+			final ComponentCheckbox allow3D = new ComponentCheckbox(true, allow3DLbl);
 			app.getSettings().getEuclidian(-1).setEnabled(true);
 
-			cbxPanel.add(allow3D);
-			allow3D.addClickHandler(event -> {
-				app.getSettings().getEuclidian(-1).setEnabled(allow3D.getValue());
-				guiManager.updateToolbarActions();
+			startPanel.add(allow3D);
+			ClickStartHandler.init(allow3D, new ClickStartHandler(true, true) {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					app.getSettings().getEuclidian(-1).setEnabled(allow3D.isSelected());
+					guiManager.updateToolbarActions();
+				}
 			});
 		}
 		guiManager.updateToolbarActions();
-		if (checkboxes > 0) {
-			Label description = new Label(loc.getMenu("exam_custom_description"));
-			startPanel.add(description);
-			startPanel.add(cbxPanel);
-			mainWidget.add(startPanel);
-			cbxPanel.addStyleName("ExamCheckboxPanel");
-		}
 
-		setDialogContent(mainWidget);
+		setDialogContent(startPanel);
 	}
 
 	/**
@@ -175,19 +172,6 @@ public class ExamClassicStartDialog extends ComponentDialog implements ClickHand
 		}
 		StyleInjector.inject("css", "exam");
 		examStyle = true;
-	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource(); 
-		if (source == cas) {
-			onCasChecked();
-		}
-	}
-
-	private void onCasChecked() {
-		app.getExam().setCasEnabled(cas.getValue(), app.getSettings().getCasSettings());
-		app.getGuiManager().updateToolbarActions();
 	}
 
 	@Override

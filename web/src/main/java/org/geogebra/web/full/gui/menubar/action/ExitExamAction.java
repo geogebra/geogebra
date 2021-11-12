@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -72,13 +71,9 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		}
 		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
 		exit.setOnPositiveAction(() -> {
-			if (app.getConfig().hasExam()) {
-				app.getExam().exit();
-				GlobalHeader.INSTANCE.resetAfterExam();
-				new ExamLogAndExitDialog(app, false, returnHandler, null, buttonText).show();
-			} else { // classic
-				showClassicExamLogExitDialog(buttonText, returnHandler);
-			}
+			app.getExam().exit();
+			GlobalHeader.INSTANCE.resetAfterExam();
+			new ExamLogAndExitDialog(app, false, returnHandler, null, buttonText).show();
 		});
 		exit.show();
 	}
@@ -93,13 +88,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
 				+ " " + app.getVersionString());
 		app.endExam();
-	}
-
-	private void showClassicExamLogExitDialog(String buttonText, Runnable handler) {
-		app.fileNew();
-		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
-		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
-		app.showClassicExamLogExitDialog(htmlBuilder.getHTML(), buttonText, handler);
 	}
 
 	private void saveScreenshot(String menu) {

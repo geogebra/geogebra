@@ -168,10 +168,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-radius: 0px;
 		}
 
-		.templatePanel {
-			display: flex;
-			width: fit-content;
-			cursor: pointer;
+		.checkboxPanel {
 			margin-bottom: 28px;
 
 			.checkbox {
@@ -968,6 +965,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent.classicExamStartDialog {
+		.description {
+			margin-bottom: 10px;
+		}
+
+		.checkboxPanel {
+			margin-left: 20px;
+			min-height: 32px;
+		}
+
+		.templateTxt {
+			line-height: 24px;
+			margin-left: 8px;
+		}
+	}
+
 	.dialogComponent.examStartDialog {
 		max-width: 427px;
 
@@ -997,10 +1010,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.examExitDialog {
 		padding: 0px;
-
-		.dialogContent {
-			width: 316px;
-		}
+		max-width: 316px;
 
 		.titlePanel {
 			background-color: colors.$teal-default;
@@ -1035,6 +1045,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
+		.withDivider {
+			border-bottom: 1px solid colors.$black-12;
+		}
+
 		.contentPanel {
 			height: 252px;
 			padding: 20px 24px 24px 24px;
@@ -1054,17 +1068,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-		.DialogButtonPanel {
-			padding-right: 8px;
-			padding-top: 8px;
-
-			&.withDivider {
-				border-top: 1px solid colors.$black-12;
-			}
+		.dialogPanel {
+			padding: 8px;
+			float: right;
 		}
 	}
 
-	.dialogComponent.examClassicLogDialog,
 	.dialogComponent.errorDialog {
 		max-width: 320px;
 
@@ -1081,6 +1090,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.examLogDialog {
 		@extend .examExitDialog;
+
+		max-width: 316px;
 
 		.contentPanel {
 			min-height: 0;
@@ -1145,11 +1156,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 		}
 
-		.templatePanel {
-			display: flex;
+		.checkboxPanel {
 			margin-bottom: 20px;
-			cursor: pointer;
-			width: fit-content;
 
 			.checkbox {
 				margin: 2px 16px 0px 0px;

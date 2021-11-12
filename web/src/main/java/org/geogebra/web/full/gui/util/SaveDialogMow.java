@@ -47,7 +47,7 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	@Override
 	public void show() {
 		super.show();
-		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		Material activeMaterial = app.getActiveMaterial();
 		templateCheckbox.setSelected(activeMaterial != null && Material.MaterialType.ggsTemplate
 				.equals(activeMaterial.getType()));
 	}

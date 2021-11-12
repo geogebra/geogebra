@@ -8,9 +8,7 @@ import org.geogebra.web.shared.components.DialogData;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * @author csilla
- *
- * dialog to enter in graphing or cas calc exam mode
+ * Dialog to enter in graphing or cas calc exam mode
  */
 public class ExamStartDialog extends ComponentDialog {
 

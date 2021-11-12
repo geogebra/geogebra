@@ -23,7 +23,7 @@ public class ComponentCheckbox extends FlowPanel {
      */
     public ComponentCheckbox(boolean setSelected, Label templateTxt, Runnable callback) {
         this.selected = setSelected;
-        this.addStyleName("templatePanel");
+        this.addStyleName("checkboxPanel");
         checkbox = new FlowPanel();
         checkbox.addStyleName("checkbox");
         if (selected) {

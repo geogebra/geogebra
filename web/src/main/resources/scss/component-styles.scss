@@ -4,20 +4,26 @@
 
 .GeoGebraFrame {
 
-	/* CHECKBOX COMPONENT */
-	@mixin checkboxBg($color) {
-		.background {
-			border-color: $color;
-			background-color: $color;
-		}
-	}
+    /* CHECKBOX COMPONENT */
+    @mixin checkboxBg($color) {
+    	.background {
+    		border-color: $color;
+    		background-color: $color;
+    	}
+    }
 
-	.checkbox {
-		width: 18px;
-		height: 18px;
-		padding: 3px;
-		position: relative;
-		cursor: pointer;
+    .checkboxPanel {
+    	display: flex;
+    	width: fit-content;
+    	cursor: pointer;
+    }
+
+    .checkbox {
+        width: 18px;
+        height: 18px;
+        padding: 3px;
+        position: relative;
+        cursor: pointer;
 
 		.background {
 			width: 18px;
