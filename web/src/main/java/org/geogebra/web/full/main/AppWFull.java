@@ -88,7 +88,6 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
@@ -169,8 +168,10 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -668,15 +669,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		dialog.show();
 	}
 
-	/**
-	 * @param msg error/info message
-	 */
 	@Override
-	public void showErrorInfoDialog(String msg) {
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-				+ getLocalization().getError("Error");
-		DialogData data = new DialogData(title, null, "OK");
-		new ErrorInfoDialog(this, data, msg, true).show();
+	public void showErrorDialog(String title, String negBtn, String posBtn,
+			String message, Runnable posBtnAction) {
+		DialogData data = new DialogData(title, negBtn, posBtn);
+		ComponentDialog dialog = new ComponentDialog(this, data, false, true);
+		FlowPanel messagePanel = new FlowPanel();
+		String[] lines = message.split("\n");
+		for (String item : lines) {
+			messagePanel.add(new Label(item));
+		}
+		dialog.addDialogContent(messagePanel);
+		if (posBtnAction != null) {
+			dialog.setOnPositiveAction(posBtnAction::run);
+		}
+		dialog.show();
 	}
 
 	@Override

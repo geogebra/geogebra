@@ -29,8 +29,6 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.client.HasSafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -196,32 +194,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * widget has been added using {@link #add(Widget)}.
 	 */
 	public GDialogBox(Panel root, App app) {
-		this(false, root, app);
-	}
-
-	/**
-	 * Creates an empty dialog box specifying its "auto-hide" property. It
-	 * should not be shown until its child widget has been added using
-	 * {@link #add(Widget)}.
-	 *
-	 * @param autoHide
-	 *            <code>true</code> if the dialog should be automatically hidden
-	 *            when the user clicks outside of it
-	 */
-	public GDialogBox(boolean autoHide, Panel root, App app) {
-		this(autoHide, true, root, app);
-	}
-
-	/**
-	 * Creates an empty dialog box specifying its {@link Caption}. It should not
-	 * be shown until its child widget has been added using {@link #add(Widget)}
-	 * .
-	 *
-	 * @param captionWidget
-	 *            the widget that is the DialogBox's header.
-	 */
-	public GDialogBox(Caption captionWidget, Panel root, App app) {
-		this(false, true, captionWidget, root, app);
+		this(false, true, root, app);
 	}
 
 	/**
@@ -380,12 +353,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 	public void show() {
 		if (resizeHandlerRegistration == null) {
 			resizeHandlerRegistration = Window
-					.addResizeHandler(new ResizeHandler() {
-						@Override
-						public void onResize(ResizeEvent event) {
-							windowWidth = event.getWidth();
-						}
-					});
+					.addResizeHandler(event -> windowWidth = event.getWidth());
 		}
 		super.show();
 	}
