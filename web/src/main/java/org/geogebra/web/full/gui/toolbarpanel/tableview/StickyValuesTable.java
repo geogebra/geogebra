@@ -172,8 +172,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			header.setHeaderStyleNames("addColumnAut");
 		} else if (position == 2) {
 			header.setHeaderStyleNames("deleteColumnAut");
-		} else {
-			header.setHeaderStyleNames("tableHeader");
 		}
 		getTable().addColumn(col, header);
 	}
@@ -193,9 +191,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
 		String headerHTMLName = view.getHeaderNameHTML(columnIndex);
-		SafeHtmlHeader header = headerCell.getHtmlHeader(headerHTMLName);
-		header.setHeaderStyleNames("tableHeader");
-		return header;
+		return headerCell.getHtmlHeader(headerHTMLName);
 	}
 
 	@Override

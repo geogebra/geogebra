@@ -57,6 +57,10 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 			-webkit-user-select: $type;
 		}
 
+		th {
+			min-width: 120px;
+		}
+
 		td, th {
 			border-width: 0 1px 1px 0;
 			border-color: colors.$black-12;
@@ -67,9 +71,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 			.content {
 				transition: width $deleteAddTime, opacity $deleteAddTime, margin $deleteAddTime $deleteAddTransition;
 			}
-			&.tableHeader {
-				min-width: 120px;
-			}
 
 			&.deleteCol {
 				min-width: 0;
@@ -77,7 +78,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				.content {
 					overflow: hidden !important;
 					width: 0px !important;
-					margin-left: -81px !important;
+					margin-left: -350px !important;
 					text-align: right;
 					opacity: 0;
 				}
@@ -102,14 +103,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				animation-duration: $deleteAddTime;
 				animation-name: addColumn;
 				animation-timing-function: $deleteAddTransition;
-
-				.content {
-					overflow: hidden !important;
-					width: 0px !important;
-					margin-left: -81px !important;
-					text-align: right;
-					opacity: 0;
-				}
 			}
 
 			&.deleteColumnAut {
@@ -117,18 +110,6 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				animation-duration: $deleteAddTime;
 				animation-name: removeColumn;
 				animation-timing-function: $deleteAddTransition;
-
-				.content {
-					overflow: hidden !important;
-					width: 0px !important;
-					margin-left: -81px !important;
-					text-align: right;
-					opacity: 0;
-				}
-			}
-
-			&.emptyColumn .content {
-				margin-left: -81px;
 			}
 		}
 
@@ -220,9 +201,20 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 							}
 						}
 					}
+
+					&.deleteColumnAut {
+						.content {
+							padding-left: 0px;
+						}
+					}
+
+					&.emptyColumn {
+						.content {
+        					padding-left: 0px;
+        					padding-right: 0px;
+        				}
+        			}
 				}
-
-
 			}
 
 			td {
@@ -294,7 +286,8 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				animation-timing-function: $deleteAddTransition;
 
 				.content {
-					margin-top: -81px;
+					padding-top: 0px;
+					padding-bottom: 0px;
 				}
 			}
 		}
@@ -308,7 +301,8 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				animation-timing-function: $deleteAddTransition;
 
 				.content {
-					margin-top: -81px;
+					padding-top: 0px;
+					padding-bottom: 0px;
 				}
 			}
 		}
