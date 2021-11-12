@@ -4,8 +4,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
-import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.shared.ggtapi.StaticFileUrls;
 import org.gwtproject.timer.client.Timer;
 

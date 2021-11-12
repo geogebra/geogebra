@@ -355,13 +355,14 @@ public class ToolCreationDialogModel {
 	 *            indices in output list
 	 */
 	public void removeFromList(ArrayList<Integer> selIndices, boolean output) {
+		if (selIndices.isEmpty()) {
+			return;
+		}
 		ToolInputOutputList list = output ? outputList : inputList;
 		ToolInputOutputList addList = output ? outputAddList : inputAddList;
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
-			addList.add(list.remove(selectedIndex)); // TODO insert
-			// sorted
-
+			addList.add(list.remove(selectedIndex)); // TODO insert sorted
 		}
 		listener.updateLists();
 	}
@@ -375,6 +376,9 @@ public class ToolCreationDialogModel {
 	 *            whether to use output list (false for input list)
 	 */
 	public void moveDown(ArrayList<Integer> selIndices, boolean output) {
+		if (selIndices.isEmpty()) {
+			return;
+		}
 		ToolInputOutputList list = output ? outputList : inputList;
 		for (int i = selIndices.size() - 1; i >= 0; i--) {
 			int selectedIndex = selIndices.get(i);
@@ -396,6 +400,9 @@ public class ToolCreationDialogModel {
 	 *            whether to use output list (false for input list)
 	 */
 	public void moveUp(ArrayList<Integer> selIndices, boolean output) {
+		if (selIndices.isEmpty()) {
+			return;
+		}
 		ToolInputOutputList list = output ? outputList : inputList;
 		for (int i = 0; i < selIndices.size(); i++) {
 			int selectedIndex = selIndices.get(i);

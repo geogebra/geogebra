@@ -56,7 +56,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.kernel.geos.HasVericalAlignment;
+import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
@@ -1276,8 +1276,8 @@ public class ConsElementXMLHandler {
 	private void handleVerticalAlign(LinkedHashMap<String, String> attrs) {
 		VerticalAlignment align = VerticalAlignment.fromString(attrs.get("val"));
 
-		if (align != null && geo instanceof HasVericalAlignment) {
-			((HasVericalAlignment) geo).setVerticalAlignment(align);
+		if (align != null && geo instanceof HasVerticalAlignment) {
+			((HasVerticalAlignment) geo).setVerticalAlignment(align);
 		} else {
 			Log.error("Vertical alignment not supported for " + geo.getGeoClassType());
 		}

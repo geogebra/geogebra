@@ -2,10 +2,11 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.ToolCreationDialogW;
-import org.geogebra.web.full.gui.dialog.ToolManagerDialogW;
+import org.geogebra.web.full.gui.dialog.tools.ToolCreationDialogW;
+import org.geogebra.web.full.gui.dialog.tools.ToolManagerDialogW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Web implementation of ToolsMenu
@@ -65,9 +66,10 @@ public class ToolsMenuW extends Submenu {
 
 						@Override
 						public void doExecute() {
+							DialogData data = new DialogData("Tool.Manage", "Close", null);
 							ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
-									getApp());
-							toolManageDialog.center();
+									getApp(), data);
+							toolManageDialog.show();
 						}
 					});
 		}

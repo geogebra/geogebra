@@ -42,6 +42,7 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  */
 public class MathCharacter extends MathComponent {
 
+	public static final String ZERO_WIDTH_JOINER = "\u200d";
 	private static final long serialVersionUID = 1L;
 	private MetaCharacter meta;
 
@@ -83,11 +84,12 @@ public class MathCharacter extends MathComponent {
     }
 
 	/**
+	 * For single character return unicode codepoint, for combined returns low surrogate
 	 * @return unicode
 	 */
-    public char getUnicode() {
-        return meta.getUnicode();
-    }
+	public char getUnicode() {
+		return meta.getUnicode();
+	}
 
     /**
 	 * @return whether this Is Character.
@@ -147,5 +149,37 @@ public class MathCharacter extends MathComponent {
 	@SuppressWarnings("deprecation")
 	public boolean isWordBreak() {
 		return isOperator() || isSeparator() || Character.isSpace(meta.getUnicode());
+	}
+
+	public String getUnicodeString() {
+		return meta.getUnicodeString();
+	}
+
+	/**
+	 * Try to merge unicode characters
+	 * @param s string to append
+	 * @return whether result is a single unicode character
+	 */
+	public boolean mergeUnicode(String s) {
+		if (ZERO_WIDTH_JOINER.equals(s) // zero width joiner
+				|| (s.charAt(0) >> 10 == 0x37) // high surrogate
+				|| isModifier(s) // modifier
+				|| meta.getUnicodeString().endsWith(ZERO_WIDTH_JOINER)) {
+			meta = meta.merge(s);
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean isModifier(String s) {
+		return s.length() == 2 && s.charAt(0) == '\uD83C' && s.charAt(1) >> 4 == 0xDFF;
+	}
+
+	public boolean isUnicode(char c) {
+		return meta.getUnicode() == c;
+	}
+
+	public boolean isLetter() {
+		return com.himamis.retex.editor.share.input.Character.isLetter(meta.getUnicode());
 	}
 }

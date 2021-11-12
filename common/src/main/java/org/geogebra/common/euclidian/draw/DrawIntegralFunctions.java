@@ -102,7 +102,8 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 
-		if (n.isAlgoMacroOutput() || isCasObject) {
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
+				|| isCasObject) {
 			init();
 		}
 

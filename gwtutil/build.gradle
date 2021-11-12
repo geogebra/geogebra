@@ -20,5 +20,11 @@ dependencies {
     compile 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
 }
 
+pmd {
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = files("../config/pmd.xml")
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

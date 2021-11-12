@@ -4,7 +4,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -13,11 +12,14 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.StringConsumer;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -313,24 +315,19 @@ public class FileManagerW extends FileManager {
 	@Override
 	public void showExportAsPictureDialog(final String url, String filename,
 			String extension, String titleKey, final App app1) {
-
 		final String extension2 = extension;
-
-		Localization loc = getApp().getLocalization();
-		((AppW) app1).getGuiManager()
-				.getOptionPane()
-				.showSaveDialog(loc.getMenu(titleKey),
-						filename + "." + extension, null,
-						obj -> {
-							if (Integer.parseInt(obj[0]) != 0) {
-								return;
-							}
-
-							exportImage(url, obj[1], extension2);
-							getApp().dispatchEvent(new Event(
-									EventType.EXPORT, null,
-									"[\"" + extension2 + "\"]"));
-						}, loc.getMenu("Export"));
+		DialogData data = new DialogData(titleKey, "Cancel", "Export");
+		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
+		ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
+				filename + "." + extension, -1, 1, false, "");
+		dialog.addDialogContent(inputTextField);
+		dialog.setOnPositiveAction(() -> {
+			exportImage(url, inputTextField.getText(), extension2);
+			getApp().dispatchEvent(new Event(
+					EventType.EXPORT, null,
+					"[\"" + extension2 + "\"]"));
+		});
+		dialog.show();
 		dialogEvent(app, "exportPNG");
 	}
 

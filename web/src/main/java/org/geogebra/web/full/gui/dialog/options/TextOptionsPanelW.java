@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.full.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
@@ -27,6 +27,8 @@ import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
@@ -100,17 +102,14 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 								.getFontSizeMultiplier() * 100)
 						+ "%";
 
-				AsyncOperation<String[]> customSizeHandler =
-						dialogResult -> model.applyFontSizeFromString(dialogResult[1]);
-				appw.getGuiManager()
-						.getOptionPane()
-						.showInputDialog(
-								appw
-										.getLocalization()
-										.getMenu("EnterPercentage"),
-								currentSize, null,
-								customSizeHandler);
-
+				DialogData data = new DialogData("EnterPercentage", "Cancel", "OK");
+				ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
+				ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
+						currentSize, -1, 1, false, "");
+				dialog.addDialogContent(inputTextField);
+				dialog.setOnPositiveAction(() ->
+						model.applyFontSizeFromString(inputTextField.getText()));
+				dialog.show();
 			} else {
 				model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
 				double size = GeoText

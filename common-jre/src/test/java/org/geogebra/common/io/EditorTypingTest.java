@@ -61,6 +61,14 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void unicodeShouldMerge() {
+		checker.type("\uD835\uDC65"
+				+ "\uD83D\uDD96\uD83C\uDFFD"
+				+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
+				.checkLength(3);
+	}
+
+	@Test
 	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
 		checker.type("3|x").checkAsciiMath("3 abs(x)");

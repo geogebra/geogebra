@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -18,8 +16,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -74,23 +70,15 @@ class NamePanel extends OptionPanel
 		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, true);
 		tfName = inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
-		tfName.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (model.noLabelUpdateNeeded(tfName.getText())) {
-					return;
-				}
-				applyName();
+		tfName.addBlurHandler(event -> {
+			if (model.noLabelUpdateNeeded(tfName.getText())) {
+				return;
 			}
+			applyName();
 		});
-		tfName.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					applyName();
-				}
+		tfName.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
+				applyName();
 			}
 		});
 
@@ -101,16 +89,11 @@ class NamePanel extends OptionPanel
 
 		tfDefinition.addFocusListener(this);
 
-		tfDefinition.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					model.applyDefinitionChange(tfDefinition.getText(),
-							NamePanel.this);
-				}
-
+		tfDefinition.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
+				model.applyDefinitionChange(tfDefinition.getText(), this);
 			}
+
 		});
 
 		// caption field: non auto complete input panel
@@ -118,20 +101,10 @@ class NamePanel extends OptionPanel
 		tfCaption = inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 
-		tfCaption.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		tfCaption.addBlurHandler(event -> doCaptionChanged());
+		tfCaption.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				doCaptionChanged();
-			}
-		});
-		tfCaption.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doCaptionChanged();
-				}
 			}
 		});
 
