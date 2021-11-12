@@ -2441,7 +2441,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		opts.ifPropertySet("bgColor",
 				(Consumer<String>) val3 -> es.setBackground(GColor.parseHexColor(val3)));
 		opts.ifPropertySet("gridColor",
-				(Consumer<String>) val2 -> es.setBackground(GColor.parseHexColor(val2)));
+				(Consumer<String>) val2 -> es.setGridColor(GColor.parseHexColor(val2)));
 		opts.ifObjectPropertySet("axes", axes -> {
 			for (char axis = 'x'; axis <= 'z'; axis++) {
 				final int axisNo = axis - 'x';
