@@ -1,5 +1,7 @@
-apply plugin: 'java'
-apply plugin: 'application'
+plugins {
+	id 'java'
+	id 'application'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

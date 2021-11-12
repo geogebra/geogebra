@@ -8,7 +8,6 @@ plugins {
 
 description 'Common parts of GeoGebra that depends on JRE support.'
 
-
 compileJava {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
