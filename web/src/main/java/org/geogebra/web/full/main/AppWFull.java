@@ -152,7 +152,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -1353,7 +1352,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					|| (menuViewController != null
 					&& frame.getWidget(i) == menuViewController.getView())
 					|| frame.getWidget(i) instanceof Persistable
-					|| frame.getWidget(i) instanceof DialogBoxW)) {
+					|| frame.getWidget(i).getStyleName().contains("perspectivePopup"))) {
 				frame.remove(i);
 			}
 		}
@@ -1395,7 +1394,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		frame.attachGlass();
-		showPerspectivesPopupIfNeeded();
 	}
 
 	private void refreshSplitLayoutPanel() {
@@ -1978,7 +1976,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
-			if (w instanceof DialogBoxW || w instanceof ComponentDialog) {
+			if (w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
 			}

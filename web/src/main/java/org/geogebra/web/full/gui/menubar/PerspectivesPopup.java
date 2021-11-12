@@ -8,7 +8,6 @@ import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class PerspectivesPopup implements HasKeyboardPopup {
+public class PerspectivesPopup {
 	protected GPopupMenuW wrappedPopup;
 	final AppWFull app;
 
@@ -36,9 +35,11 @@ public class PerspectivesPopup implements HasKeyboardPopup {
 	}
 
 	private void addResizeHandler() {
-		Window.addResizeHandler(event ->
-				wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
-						(int) ((app.getHeight() - 426) / 2)));
+		if (wrappedPopup.isMenuShown()) {
+			Window.addResizeHandler(event ->
+					wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
+							(int) ((app.getHeight() - 426) / 2)));
+		}
 	}
 
 	private void buildGUI() {
@@ -135,7 +136,6 @@ public class PerspectivesPopup implements HasKeyboardPopup {
 	 * show popup
 	 */
 	public void show() {
-		wrappedPopup.setMenuShown(true);
 		wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
 				(int) ((app.getHeight() - 426) / 2));
 	}
