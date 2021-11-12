@@ -1,16 +1,18 @@
-apply plugin: 'java'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
+plugins {
+     id 'java'
+     id 'pmd'
+     id 'checkstyle'
+}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 dependencies {
-     compile project(':keyboard-base')
+    compile project(':keyboard-base')
 }
 
 pmd {
-     ignoreFailures = true
-     ruleSets = []
-     ruleSetFiles = files("../config/pmd.xml")
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = files("../config/pmd.xml")
 }

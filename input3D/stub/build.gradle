@@ -1,4 +1,6 @@
-apply plugin: 'java'
+plugins {
+	id 'java'
+}
 
 project.setDescription('Parts of GeoGebra related to input devices (standard)')
 

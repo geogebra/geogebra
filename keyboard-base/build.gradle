@@ -1,9 +1,12 @@
-apply plugin: 'java'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
+plugins {
+     id 'java'
+     id 'pmd'
+     id 'checkstyle'
+}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
 pmd {
      ignoreFailures = true
      ruleSets = []
