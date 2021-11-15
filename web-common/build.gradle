@@ -11,6 +11,11 @@ description 'Web platform code which does not use the GWT Widgets library'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+evaluationDependsOn(':common')
+evaluationDependsOn(':ggbjdk')
+evaluationDependsOn(':editor-web')
+evaluationDependsOn(':keyboard-web')
+
 dependencies {
     compile project(':common'),
             project(':gwtutil'),
@@ -29,11 +34,6 @@ dependencies {
             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
             "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 }
-
-evaluationDependsOn(':common')
-evaluationDependsOn(':ggbjdk')
-evaluationDependsOn(':editor-web')
-evaluationDependsOn(':keyboard-web')
 
 spotbugs {
     ignoreFailures = true
