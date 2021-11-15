@@ -231,6 +231,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
 				.getPanel(App.VIEW_EUCLIDIAN);
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
+		// do NOT block pointerup here, it is registered on window because of capturing
+		Dom.addEventListener(container.getElement(), "pointerdown",
+				elemental2.dom.Event::stopPropagation);
 	}
 
 	private void addExtension(DrawEmbed drawEmbed) {

@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.draw.DrawMindMap;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
@@ -10573,6 +10574,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		} else {
+			for (GeoElement hit: hits) {
+				DrawableND draw = view.getDrawableFor(hit);
+				if (draw instanceof DrawInlineTable) {
+					((DrawInlineTable) draw).setHitCellFromMouse(mouseLoc);
+				}
+			}
 			// there are hits
 			if (selection.selectedGeosSize() > 0 && moveMode(mode)) {
 				// only for move mode

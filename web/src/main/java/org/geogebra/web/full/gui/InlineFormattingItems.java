@@ -273,7 +273,7 @@ public class InlineFormattingItems {
 	}
 
 	void addTableItemsIfNeeded() {
-		if (isEditModeTable() && isSingleTableCellSelection()) {
+		if (isSingleTableCellSelection()) {
 			addTableItems();
 		}
 	}
@@ -345,7 +345,6 @@ public class InlineFormattingItems {
 	boolean isSingleTableCellSelection() {
 		return !inlines.isEmpty()
 				&& inlines.get(0) instanceof InlineTableController
-				&& ((InlineTableController) inlines.get(0)).isInEditMode()
 				&& ((InlineTableController) inlines.get(0)).isSingleCellSelection();
 	}
 

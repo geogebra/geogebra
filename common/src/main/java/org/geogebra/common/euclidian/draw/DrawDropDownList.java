@@ -770,7 +770,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		 *         items at the end.
 		 */
 		private boolean getTableScale() {
-			int maxItems = geoList.size();
+			final int maxItems = geoList.size();
 			int maxRows = ((viewOpt.getHeight() - 2 * MARGIN)
 					/ dimItem.getHeight()) + 1;
 			int maxCols = viewOpt.getWidth() / dimItem.getWidth();
