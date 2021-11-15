@@ -2245,7 +2245,7 @@ public class GeoCasCell extends GeoElement
 
 				if (!expandedEvalVE.isTopLevelCommand("Delete")
 						&& !this.getNSolveCmdNeeded()) {
-					FunctionExpander fex = FunctionExpander.getCollector();
+					FunctionExpander fex = FunctionExpander.newFunctionExpander();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap()
 							.getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
