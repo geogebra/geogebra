@@ -18,8 +18,7 @@ plugins {
 
 description 'Parts of GeoGebra related to web platforms'
 
-evaluationDependsOn(':common')
-evaluationDependsOn(':ggbjdk')
+evaluationDependsOn(':web-common')
 evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
@@ -50,22 +49,14 @@ if(hasProperty("eclipse")){
 dependencies {
     compile project(path: ':carota-web'),
         project(':web:dev'),
-        project(':common'),
-        project(':renderer-base'),
-        project(':editor-base'),
-        project(':renderer-web'),
+        project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
-        project(':ggbjdk'),
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
-        files(project(':common').sourceSets.main.allSource.srcDirs),
-        files(project(':ggbjdk').sourceSets.main.java.srcDirs),
+        files(project(':web-common').sourceSets.main.allSource.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
-        "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
-        "com.google.gwt:gwt-dev:$gwtCompilerVersion"
+        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs)
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
@@ -382,7 +373,7 @@ test {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/findbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 

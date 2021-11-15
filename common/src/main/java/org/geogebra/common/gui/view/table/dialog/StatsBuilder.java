@@ -71,7 +71,7 @@ public class StatsBuilder {
 			try {
 				AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 				GeoElementND result = algebraProcessor.processValidExpressionSilent(exec)[0];
-				String heading = cmd.getLocalizedName(kernel.getLocalization());
+				String heading = kernel.getLocalization().getMenu("Stats." + cmd.getCommandName());
 				String lhs = cmd.getLHS(kernel.getLocalization(), varName);
 				stats.add(StatisticGroup.withLaTeX(heading,
 						lhs + " = " + result.toValueString(StringTemplate.defaultTemplate)));

@@ -1,7 +1,6 @@
 package org.geogebra.gwtutil;
 
-import com.google.gwt.dom.client.Element;
-
+import elemental2.dom.Element;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 

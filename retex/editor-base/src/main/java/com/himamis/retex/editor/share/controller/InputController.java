@@ -801,8 +801,9 @@ public class InputController {
 	}
 
 	private static int endToken(MathSequence currentField) {
-		for (int i = 0; i < currentField.size() - 2; i++) {
-			if (match(currentField, i, ", <")) {
+		for (int i = 0; i < currentField.size(); i++) {
+			if ((i < currentField.size() - 2 && match(currentField, i, ", <"))
+					|| currentField.isArgumentProtected(i)) {
 				return i - 1;
 			}
 		}
@@ -893,8 +894,10 @@ public class InputController {
 
 	private void deleteSingleArg(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
-		editorState.getCurrentField().delArgument(currentOffset - 1);
-		editorState.decCurrentOffset();
+		if (!editorState.getCurrentField().isArgumentProtected(currentOffset - 1)) {
+			editorState.getCurrentField().delArgument(currentOffset - 1);
+			editorState.decCurrentOffset();
+		}
 	}
 
 	private static void extendBrackets(MathArray array, EditorState state) {
@@ -906,7 +909,8 @@ public class InputController {
 		int currentOffset = lastToKeep.getParentIndex() + 1;
 		MathContainer currentField = lastToKeep.getParent();
 		int oldSize = target.size();
-		while (currentField.size() > currentOffset) {
+		while (currentField.size() > currentOffset
+				&& !currentField.isArgumentProtected(currentOffset)) {
 			MathComponent component = currentField.getArgument(currentOffset);
 			currentField.delArgument(currentOffset);
 			target.addArgument(target.size(), component);

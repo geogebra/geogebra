@@ -13,7 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.geogebra.common.io.MathMLParser;
@@ -127,6 +129,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
 import org.gwtproject.regexp.shared.MatchResult;
 import org.gwtproject.regexp.shared.RegExp;
@@ -252,7 +255,15 @@ public class AlgebraProcessor {
 	 */
 	final public GeoElement[] processCommand(Command c, EvalInfo info)
 			throws MyError {
-		return cmdDispatcher.processCommand(c, info);
+		boolean validated = true;
+		try {
+			return cmdDispatcher.processCommand(c, info);
+		} catch (MyError error) {
+			validated = false;
+			throw error;
+		} finally {
+			maybeLogCommandValidatedEvent(c, info, validated);
+		}
 	}
 
 	/**
@@ -1473,6 +1484,7 @@ public class AlgebraProcessor {
 			handler.showError(loc.getInvalidInputError());
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
+			cons.registerFunctionVariable(null);
 		}
 
 		return bool;
@@ -1516,9 +1528,11 @@ public class AlgebraProcessor {
 			throw e;
 		} catch (Throwable t) {
 			t.printStackTrace();
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return list;
 	}
 
@@ -1585,9 +1599,11 @@ public class AlgebraProcessor {
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return func;
 	}
 
@@ -1710,9 +1726,11 @@ public class AlgebraProcessor {
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return func;
 	}
 
@@ -1774,6 +1792,7 @@ public class AlgebraProcessor {
 			e.printStackTrace();
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		} finally {
+			cons.registerFunctionVariable(null);
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
@@ -1825,6 +1844,7 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		} finally {
+			cons.registerFunctionVariable(null);
 			if (suppressLabels) {
 				cons.setSuppressLabelCreation(oldMacroMode);
 			}
@@ -1868,9 +1888,11 @@ public class AlgebraProcessor {
 				t.printStackTrace();
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return text;
 	}
 
@@ -1903,9 +1925,11 @@ public class AlgebraProcessor {
 			if (showErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
+		} finally {
+			cons.registerFunctionVariable(null);
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return geo;
 	}
 
@@ -1965,6 +1989,7 @@ public class AlgebraProcessor {
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
+			evalInfo = evalInfo.withRedefinition(true);
             cons.setSuppressLabelCreation(true);
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
@@ -2721,7 +2746,7 @@ public class AlgebraProcessor {
 		if ("r".equals(singleLeftVariable)) {
 			try {
 				equ.getRHS().setLabel(equ.getLabel());
-				return processValidExpression(equ.getRHS());
+				return doProcessValidExpression(equ.getRHS(), info);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -3080,7 +3105,7 @@ public class AlgebraProcessor {
 			if (leaf instanceof Command) {
 				Command c = (Command) leaf;
 				c.setLabels(n.getLabels());
-				return cmdDispatcher.processCommand(c, info);
+				return processCommand(c, info);
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());
@@ -3793,5 +3818,21 @@ public class AlgebraProcessor {
 	 */
 	public CommandDispatcher getCommandDispatcher() {
 		return cmdDispatcher;
+	}
+
+	private void maybeLogCommandValidatedEvent(Command command, EvalInfo info, boolean validated) {
+		if (kernel.isSilentMode()) {
+			return;
+		}
+		String commandName = command.getName();
+		String validatedParam = validated ? Analytics.Param.OK : Analytics.Param.ERROR;
+		boolean isRedefinition = info != null && info.isRedefinition();
+		String objectCreation = isRedefinition ? Analytics.Param.REDEFINED : Analytics.Param.NEW;
+
+		Map<String, Object> params = new HashMap<>();
+		params.put(Analytics.Param.COMMAND, commandName);
+		params.put(Analytics.Param.STATUS, validatedParam);
+		params.put(Analytics.Param.OBJECT_CREATION, objectCreation);
+		Analytics.logEvent(Analytics.Event.COMMAND_VALIDATED, params);
 	}
 }

@@ -68,21 +68,26 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (formula.isEuclidianVisible()
-				&& (formulaController == null || !formulaController.isInForeground())
 			&& rectangle.getDirectTransform() != null) {
 			double contentWidth = formula.getContentWidth();
 			double contentHeight = formula.getContentHeight();
-			g2.setPaint(geo.getObjectColor());
 			g2.setStroke(objStroke); // needed eg for \sqrt
 			g2.saveTransform();
 			g2.transform(rectangle.getDirectTransform());
+			if (geo.getBackgroundColor() != null) {
+				g2.setPaint(geo.getBackgroundColor());
+				g2.fillRect(0, 0, (int) formula.getWidth(),
+					(int) formula.getHeight());
+			}
 			rectangle.scaleForZoom(contentWidth, contentHeight);
 			g2.scale(rectangle.realWidth() / contentWidth, rectangle.realHeight() / contentHeight);
 			g2.translate(PADDING, PADDING);
 			GFont font = view.getApplication().getFontCommon(false,
 					GFont.PLAIN, view.getFontSize());
-			drawMultilineLaTeX(g2, font,
-					geo.getObjectColor(), view.getBackgroundCommon());
+			if (formulaController == null || !formulaController.isInForeground()) {
+				drawMultilineLaTeX(g2, font,
+						geo.getObjectColor(), view.getBackgroundCommon());
+			}
 			g2.restoreTransform();
 		}
 	}
