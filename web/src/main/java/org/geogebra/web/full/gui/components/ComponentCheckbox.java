@@ -21,9 +21,9 @@ public class ComponentCheckbox extends FlowPanel {
      *
      * @param setSelected true if the checkmark is shown
      */
-    public ComponentCheckbox(boolean setSelected, Label templateTxt) {
+    public ComponentCheckbox(boolean setSelected, Label templateTxt, Runnable callback) {
         this.selected = setSelected;
-        this.addStyleName("templatePanel");
+        this.addStyleName("checkboxPanel");
         checkbox = new FlowPanel();
         checkbox.addStyleName("checkbox");
         if (selected) {
@@ -44,6 +44,9 @@ public class ComponentCheckbox extends FlowPanel {
             @Override
             public void onClickStart(int x, int y, PointerEventType type) {
                 setSelected(!isSelected());
+                if (callback != null) {
+                    callback.run();
+                }
             }
         });
     }
@@ -70,4 +73,5 @@ public class ComponentCheckbox extends FlowPanel {
     public void updateCheckboxStyle() {
         Dom.toggleClass(checkbox, "selected", isSelected());
     }
+
 }

@@ -91,20 +91,6 @@ public interface BackendAPI {
 	void setUserLanguage(String lang, String token);
 
 	/**
-	 * Share material with particular user and send an email about it.
-	 *
-	 * @param material
-	 *            material
-	 * @param to
-	 *            recipient
-	 * @param message
-	 *            email message
-	 * @param cb
-	 *            callback
-	 */
-	void shareMaterial(Material material, String to, String message, MaterialCallbackI cb);
-
-	/**
 	 * @param id
 	 *            material id
 	 * @param favorite

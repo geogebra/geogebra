@@ -255,36 +255,31 @@ public class AlgebraInputW extends FlowPanel
 
 		try {
 			final int oldStep = app.getKernel().getConstructionStep();
-			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
+			AsyncOperation<GeoElementND[]> callback = geos -> {
 
-				@Override
-				public void callback(GeoElementND[] geos) {
-
-					if (geos == null) {
-						inputField.getTextBox().setFocus(true);
-						return;
-					}
-
-					// need label if we type just eg
-					// lnx
-					if (geos.length == 1 && !geos[0].isLabelSet()) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
-
-					InputHelper.updateProperties(geos,
-							app.getActiveEuclidianView(), oldStep);
-
-					app.setScrollToShow(false);
-
-					inputField.addToHistory(input);
-					if (!getTextField().getText().equals(input)) {
-						inputField.addToHistory(getTextField().getText());
-					}
-					inputField.setText(null);
-
-					inputField.setIsSuggestionJustHappened(false);
+				if (geos == null) {
+					inputField.getTextBox().setFocus(true);
+					return;
 				}
 
+				// need label if we type just eg
+				// lnx
+				if (geos.length == 1 && !geos[0].isLabelSet()) {
+					geos[0].setLabel(geos[0].getDefaultLabel());
+				}
+
+				InputHelper.updateProperties(geos,
+						app.getActiveEuclidianView(), oldStep);
+
+				app.setScrollToShow(false);
+
+				inputField.addToHistory(input);
+				if (!getTextField().getText().equals(input)) {
+					inputField.addToHistory(getTextField().getText());
+				}
+				inputField.setText(null);
+
+				inputField.setIsSuggestionJustHappened(false);
 			};
 			EvalInfo info = new EvalInfo(true, true).withSliders(true)
 					.addDegree(app.getKernel().getAngleUnitUsesDegrees())
@@ -294,19 +289,9 @@ public class AlgebraInputW extends FlowPanel
 							getErrorHandler(valid, explicit), info, callback);
 
 		} catch (Exception ee) {
-			storeError();
 			app.showGenericError(ee);
 		} catch (MyError ee) {
-			storeError();
 			inputField.showError(ee);
-		}
-	}
-
-	private void storeError() {
-		inputField.addToHistory(getTextField().getText());
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().getOptionPane()
-					.setCaller(inputField.getTextBox());
 		}
 	}
 

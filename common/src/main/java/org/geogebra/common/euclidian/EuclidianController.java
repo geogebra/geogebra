@@ -35,6 +35,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.draw.DrawMindMap;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
@@ -132,6 +133,7 @@ import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -5225,14 +5227,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			changedKernel = createInlineObject(selectionPreview,
-					(cons, location) -> new GeoInlineText(cons, location));
+			changedKernel = createInlineObject(selectionPreview, GeoInlineText::new);
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
 			// no undo: actual undo point created later (InlineTableControllerW::onEditorChanged)
-			createInlineObject(selectionPreview,
-					(cons, location) -> new GeoInlineTable(cons, location));
+			createInlineObject(selectionPreview, GeoInlineTable::new);
 			break;
 
 		case EuclidianConstants.MODE_MIND_MAP:
@@ -5241,6 +5241,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					GeoMindMapNode mindMap = new GeoMindMapNode(cons, location);
 					mindMap.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.ROOT_HEIGHT);
+					mindMap.setVerticalAlignment(VerticalAlignment.MIDDLE);
 
 					if (app.isMebis()) {
 						mindMap.setBackgroundColor(GColor.MOW_MIND_MAP_PARENT_BG_COLOR);
@@ -9925,7 +9926,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
 			if (d instanceof DrawMindMap) {
 				GeoMindMapNode child = ((DrawMindMap) d).addChildNode(view.getHitHandler());
-				child.setLabel(null);
 				selectAndShowSelectionUI(child);
 				lastMowHit = child;
 				view.resetHitHandler();
@@ -10574,6 +10574,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		} else {
+			for (GeoElement hit: hits) {
+				DrawableND draw = view.getDrawableFor(hit);
+				if (draw instanceof DrawInlineTable) {
+					((DrawInlineTable) draw).setHitCellFromMouse(mouseLoc);
+				}
+			}
 			// there are hits
 			if (selection.selectedGeosSize() > 0 && moveMode(mode)) {
 				// only for move mode

@@ -6,14 +6,12 @@ buildscript {
 
 plugins {
     id "com.github.spotbugs" version "4.7.9"
+    id 'application'
+    id 'eclipse'
+    id 'checkstyle'
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')
-
-apply plugin: 'application'
-apply plugin: 'eclipse'
-apply plugin: 'checkstyle'
-
 
 if (JavaVersion.current() == JavaVersion.VERSION_11) {
     apply plugin: 'org.openjfx.javafxplugin'

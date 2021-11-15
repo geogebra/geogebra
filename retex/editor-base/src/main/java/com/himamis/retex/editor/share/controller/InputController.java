@@ -1,7 +1,5 @@
 package com.himamis.retex.editor.share.controller;
 
-import static com.himamis.retex.editor.share.input.Character.isLetter;
-
 import java.util.ArrayList;
 
 import com.google.j2objc.annotations.Weak;
@@ -70,24 +68,18 @@ public class InputController {
 		this.useSimpleScripts = useSimpleScripts;
 	}
 
-	final static private char getLetter(MathComponent component)
+	final static private String getLetter(MathComponent component)
 			throws Exception {
 		if (!(component instanceof MathCharacter)) {
 			throw new Exception("Math component is not a character");
 		}
 
 		MathCharacter mathCharacter = (MathCharacter) component;
-		if (!mathCharacter.isCharacter()) {
+		if (!mathCharacter.isCharacter() || !mathCharacter.isLetter()) {
 			throw new Exception("Math component is not a character");
 		}
 
-		char c = mathCharacter.getUnicode();
-
-		if (!Character.isLetter(c)) {
-			throw new Exception("Math component is not a character");
-		}
-
-		return c;
+		return mathCharacter.getUnicodeString();
 	}
 
 	/**
@@ -405,8 +397,8 @@ public class InputController {
 		MetaFunction meta = metaModel.getFunction(name, square);
 		MathSequence nameS = new MathSequence();
 		for (int i = 0; i < name.length(); i++) {
-			nameS.addArgument(new MathCharacter(
-					metaModel.getCharacter(name.charAt(i) + "")));
+			nameS.append(
+					metaModel.getCharacter(name.charAt(i) + ""));
 		}
 		if (exponent != null) {
 			nameS.addArgument(exponent);
@@ -552,7 +544,7 @@ public class InputController {
 				editorState.getCurrentField().delArgument(currentOffset);
 			}
 			editorState.setCurrentOffset(currentOffset);
-			editorState.addArgument(new MathCharacter(merge));
+			editorState.addArgument(merge);
 			return;
 		}
 		if (formatConverter != null) {
@@ -573,7 +565,7 @@ public class InputController {
 			}
 		}
 
-		editorState.addArgument(new MathCharacter(meta));
+		editorState.addArgument(meta);
 	}
 
 	private boolean shouldAddBrackets(FunctionPower function, char unicode) {
@@ -801,8 +793,9 @@ public class InputController {
 	}
 
 	private static int endToken(MathSequence currentField) {
-		for (int i = 0; i < currentField.size() - 2; i++) {
-			if (match(currentField, i, ", <")) {
+		for (int i = 0; i < currentField.size(); i++) {
+			if ((i < currentField.size() - 2 && match(currentField, i, ", <"))
+					|| currentField.isArgumentProtected(i)) {
 				return i - 1;
 			}
 		}
@@ -893,8 +886,10 @@ public class InputController {
 
 	private void deleteSingleArg(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
-		editorState.getCurrentField().delArgument(currentOffset - 1);
-		editorState.decCurrentOffset();
+		if (!editorState.getCurrentField().isArgumentProtected(currentOffset - 1)) {
+			editorState.getCurrentField().delArgument(currentOffset - 1);
+			editorState.decCurrentOffset();
+		}
 	}
 
 	private static void extendBrackets(MathArray array, EditorState state) {
@@ -906,7 +901,8 @@ public class InputController {
 		int currentOffset = lastToKeep.getParentIndex() + 1;
 		MathContainer currentField = lastToKeep.getParent();
 		int oldSize = target.size();
-		while (currentField.size() > currentOffset) {
+		while (currentField.size() > currentOffset
+				&& !currentField.isArgumentProtected(currentOffset)) {
 			MathComponent component = currentField.getArgument(currentOffset);
 			currentField.delArgument(currentOffset);
 			target.addArgument(target.size(), component);
@@ -950,7 +946,7 @@ public class InputController {
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
 			if (character.isOperator() || (character.isSymbol()
-					&& !isLetter(character.getUnicode()))) {
+					&& !character.isLetter())) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);
@@ -1207,18 +1203,18 @@ public class InputController {
 		}
 
 		MetaCharacter meta = metaModel.getCharacter("" + toInsert);
-		editorState.addArgument(new MathCharacter(meta));
+		editorState.addArgument(meta);
 	}
 
 	private char getNextQuote(MathSequence currentField, int currentOffset) {
 		for (int i = currentOffset - 1; i >= 0; i--) {
 			MathComponent argument = currentField.getArgument(i);
 			if (argument instanceof MathCharacter) {
-				char ch = ((MathCharacter) argument).getUnicode();
+				MathCharacter ch = (MathCharacter) argument;
 
-				if (ch == '\u201c') {
+				if (ch.isUnicode('\u201c')) {
 					return '\u201d';
-				} else if (ch == '\u201d') {
+				} else if (ch.isUnicode('\u201d')) {
 					return '\u201c';
 				}
 			}
@@ -1376,7 +1372,7 @@ public class InputController {
 		for (int i = offset + 1; i < args.size(); i++) {
 			if (args.getArgument(i) instanceof MathCharacter
 					&& ((MathCharacter) args.getArgument(i))
-					.getUnicode() == '>') {
+					.isUnicode('>')) {
 				endchar = i;
 				if (i < args.size() - 1
 						&& args.getArgument(i + 1) instanceof MathCharacter

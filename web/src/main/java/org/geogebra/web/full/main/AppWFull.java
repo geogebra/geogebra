@@ -88,11 +88,9 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.exam.classic.ExamClassicLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -149,6 +147,7 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
+import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -168,8 +167,9 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -221,6 +221,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private SaveController saveController = null;
 
 	private ShareControllerW shareController;
+	private MaterialsManagerI fm;
+	private GoogleDriveOperation googleDriveOperation;
 	private ZoomPanelMow mowZoomPanel;
 	private GeoGebraActivity activity;
 	private KeyboardManager keyboardManager;
@@ -651,29 +653,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * @param content content
-	 * @param buttonText button text
-	 * @param handler button click handler
-	 */
-	public void showClassicExamLogExitDialog(final HTML content, String buttonText,
-			Runnable handler) {
-		DialogData data = new DialogData(getLocalization().getMenu("exam_log_header") + " "
-				+ getVersionString(), null, buttonText);
-		ExamClassicLogAndExitDialog dialog =
-				new ExamClassicLogAndExitDialog(this, data, content, handler);
-		dialog.show();
-	}
-
-	/**
-	 * @param msg error/info message
-	 */
 	@Override
-	public void showErrorInfoDialog(String msg) {
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-				+ getLocalization().getError("Error");
-		DialogData data = new DialogData(title, null, "OK");
-		new ErrorInfoDialog(this, data, msg, true).show();
+	public void showErrorDialog(String title, String negBtn, String posBtn,
+			String message, Runnable posBtnAction) {
+		DialogData data = new DialogData(title, negBtn, posBtn);
+		ComponentDialog dialog = new ComponentDialog(this, data, false, true);
+		FlowPanel messagePanel = new FlowPanel();
+		String[] lines = message.split("\n");
+		for (String item : lines) {
+			messagePanel.add(new Label(item));
+		}
+		dialog.addDialogContent(messagePanel);
+		if (posBtnAction != null) {
+			dialog.setOnPositiveAction(posBtnAction::run);
+		}
+		dialog.show();
 	}
 
 	@Override
@@ -773,6 +767,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			search = new OpenSearch(this);
 		}
 		search.openInExamMode();
+	}
+
+	@Override
+	public GoogleDriveOperation getGoogleDriveOperation() {
+		return googleDriveOperation;
 	}
 
 	@Override
@@ -1513,7 +1512,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		frame.updateHeaderSize();
+		if (getAppletParameters().getDataParamApp()) {
+			getAppletFrame().updateHeaderSize();
+		}
 		String perspective = getAppletParameters().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()

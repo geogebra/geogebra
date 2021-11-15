@@ -22,6 +22,7 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -31,7 +32,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TabPanel;
 
 /**
  * panel for numeric slider
@@ -502,7 +502,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		// put together interval, slider options, animation panels
 		if (useTabbedPane) {
-			TabPanel tabPanel = new TabPanel();
+			MultiRowsTabPanel tabPanel = new MultiRowsTabPanel("dialogThreeTabs");
 			tabPanel.add(intervalPanel, loc.getMenu("Interval"));
 			tabPanel.add(sliderPanel, loc.getMenu("Slider"));
 			tabPanel.add(animationPanel, loc.getMenu("Animation"));

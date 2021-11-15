@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
 public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextFormatter,
-		HasVericalAlignment {
+		HasVerticalAlignment {
 
 	public static final double MIN_WIDTH = 200;
 
@@ -67,6 +67,7 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 		setLineThickness(1);
 		setContentWidth(MIN_WIDTH);
 		setContentHeight(ROOT_HEIGHT);
+		setContent("[{\"text\":\"\\n\",\"align\":\"center\"}]");
 	}
 
 	@Override

@@ -4363,7 +4363,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overridden in platforms supporting exam
 	}
 
-	public void showErrorInfoDialog(String msg) {
+	public void showErrorDialog(String title, String negBtn, String posBtn,
+			String message, Runnable posBtnAction) {
 		// overridden in web
 	}
 
