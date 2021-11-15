@@ -121,10 +121,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		} else {
 			editor.setErrorText(null);
 		}
-		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
-			getMathFieldInternal().getFormula().getRootComponent().setProtected();
-			getMathFieldInternal().setLockedCaretPath();
-		}
+		setProtection();
 
 		Scheduler.get().scheduleDeferred(editor::requestFocus);
 	}

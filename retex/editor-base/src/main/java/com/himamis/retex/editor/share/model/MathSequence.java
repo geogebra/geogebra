@@ -37,6 +37,7 @@ import com.himamis.retex.editor.share.meta.Tag;
 public class MathSequence extends MathContainer {
 
 	private static final long serialVersionUID = 1L;
+	private boolean keepCommas;
 
 	/**
 	 * Use MathFormula.newSequence(...)
@@ -182,5 +183,13 @@ public class MathSequence extends MathContainer {
 
 	public int getArgumentCount() {
 		return arguments.size();
+	}
+
+	public boolean isKeepCommas() {
+		return keepCommas;
+	}
+
+	public void setKeepCommas() {
+		this.keepCommas = true;
 	}
 }

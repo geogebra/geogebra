@@ -422,7 +422,7 @@ public class CommandsTest {
 
 	@Test
 	public void complexArithmetic() {
-		ti("(0i)^2", "0 + 0i");
+		ti("(0i)^2", "0i");
 		ti("(0i)^0", "?");
 		ti("(0i)^-1", "?");
 		ti("(2+0i)^0", "1 + 0i");
@@ -445,7 +445,7 @@ public class CommandsTest {
 		t("pi1", "3.141592653589793");
 		t("pi1a", "12.566370614359172");
 		t("pie", "8.539734222673566");
-		t("pii", "0 + 3.141592653589793ί");
+		t("pii", "3.141592653589793ί");
 		t("pix", "(" + PI_STRING + " * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
@@ -997,7 +997,7 @@ public class CommandsTest {
 		tRound("Sort({ComplexRoot(x^6 + 7x^3 - 8)})",
 				complex("{-2 + 0i, -0.5 - 0.86603i,"
 						+ " -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
-		t("ComplexRoot( x^2 )", complex("0 + 0i"));
+		t("ComplexRoot( x^2 )", complex("0i"));
 	}
 
 	@Test

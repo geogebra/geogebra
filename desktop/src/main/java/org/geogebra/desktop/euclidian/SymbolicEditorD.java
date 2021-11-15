@@ -67,10 +67,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 			mathField.parse(text);
 		}
 
-		if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
-			getMathFieldInternal().getFormula().getRootComponent().setProtected();
-			getMathFieldInternal().setLockedCaretPath();
-		}
+		setProtection();
 	}
 
 	@Override
