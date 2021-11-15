@@ -250,7 +250,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	void clearModel() {
 		columns.clear();
 		initializeModel();
-		collector = new ModelEventCollector();
+		collector.notifyDatasetChanged(this);
 	}
 
 	@Override

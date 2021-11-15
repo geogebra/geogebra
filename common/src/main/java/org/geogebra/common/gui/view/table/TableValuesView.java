@@ -368,12 +368,12 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void startBatchUpdate() {
-		// Ignore
+		model.startBatchUpdate();
 	}
 
 	@Override
 	public void endBatchUpdate() {
-		// Ignore
+		model.endBatchUpdate(true);
 	}
 
 	@Override
