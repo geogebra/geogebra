@@ -123,8 +123,7 @@ public final class CommandFilterFactory {
 				// Transformation Commands
 				Commands.Rotate, Commands.Shear, Commands.Translate,
 				// Statistics Commands
-				Commands.Fit, Commands.SigmaXX, Commands.SigmaXY,
-				Commands.SigmaYY, Commands.Spearman, Commands.SumSquaredErrors,
+				Commands.Fit, Commands.Spearman, Commands.SumSquaredErrors,
 				// Probability commands
 				Commands.Bernoulli,
 				// Conic Commands
