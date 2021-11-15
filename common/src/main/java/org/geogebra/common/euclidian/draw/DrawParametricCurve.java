@@ -59,13 +59,13 @@ import org.geogebra.common.util.debug.Log;
 public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 	private IntervalPlotter intervalPlotter;
-	private CurveEvaluable curve;
+	private final CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible;
 	private boolean labelVisible;
 	private boolean fillCurve;
 
-	private StringBuilder labelSB = new StringBuilder();
+	private final StringBuilder labelSB = new StringBuilder();
 	private int nPoints = 0;
 	private ArrayList<GPoint2D> points;
 	private GLine2D diag1;
@@ -554,7 +554,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
-				strokedShape = objStroke.createStrokedShape(gp, 800);
+				strokedShape = createStrokedShape();
 			} catch (Throwable e) {
 				Log.error(
 						"problem creating Curve shape: " + e.getMessage());
@@ -610,7 +610,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			if (strokedShape == null) {
 				// AND-547, initial buffer size
 				try {
-					strokedShape = objStroke.createStrokedShape(gp, 800);
+					this.strokedShape = createStrokedShape();
 				} catch (Exception e) {
 					Log.error(
 							"problem creating Curve shape: " + e.getMessage());
@@ -625,6 +625,10 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 		}
 		return false;
+	}
+
+	private GShape createStrokedShape() {
+		return decoStroke.createStrokedShape(gp, 800);
 	}
 
 	@Override
