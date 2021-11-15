@@ -136,11 +136,11 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
 		for (int row = firstRow; row <= lastRow; row++) {
-			notifyRowRemoved(model, row);
+			notifyRowRemoved(row);
 		}
 	}
 
-	private void notifyRowRemoved(TableValuesModel model, int row) {
+	private void notifyRowRemoved(int row) {
 		if (row >= doubleValues.size()) {
 			return;
 		}

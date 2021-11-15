@@ -317,7 +317,6 @@ class SimpleTableValuesModel implements TableValuesModel {
 		if (columnIndex == -1) {
 			return;
 		}
-		int oldRowCount = getRowCount();
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);

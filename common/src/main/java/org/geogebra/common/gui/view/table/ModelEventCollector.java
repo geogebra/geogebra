@@ -5,40 +5,13 @@ import java.util.List;
 
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 
+/**
+ * Collects events published by the table values, then calls the listeners at the end of an update.
+ * Handles nested {@link TableValuesView#startBatchUpdate()} and
+ * {@link TableValuesView#endBatchUpdate()} calls. Discards all events when receives a
+ * {@link TableValuesListener#notifyDatasetChanged(TableValuesModel)} call.
+ */
 public class ModelEventCollector implements TableValuesListener {
-
-	private static class ModelEvent {
-		private final List<ColumnEvent> columnsRemoved = new ArrayList<>();
-		private final List<ColumnEvent> columnsChanged = new ArrayList<>();
-		private final List<ColumnEvent> columnsAdded = new ArrayList<>();
-		private final List<CellEvent> cellsChanged = new ArrayList<>();
-		private final List<Integer> rowsChanged = new ArrayList<>();
-		private int initialRowCount;
-		private boolean datasetChanged = false;
-		private int counter = 0;
-	}
-
-	private static class ColumnEvent {
-		final int columnIndex;
-		final GeoEvaluatable evaluatable;
-
-		ColumnEvent(int columnIndex, GeoEvaluatable evaluatable) {
-			this.columnIndex = columnIndex;
-			this.evaluatable = evaluatable;
-		}
-	}
-
-	private static class CellEvent {
-		final int columnIndex;
-		final int rowIndex;
-		final GeoEvaluatable evaluatable;
-
-		CellEvent(int columnIndex, int rowIndex, GeoEvaluatable evaluatable) {
-			this.columnIndex = columnIndex;
-			this.rowIndex = rowIndex;
-			this.evaluatable = evaluatable;
-		}
-	}
 
 	private ModelEvent event = new ModelEvent();
 
@@ -153,5 +126,38 @@ public class ModelEventCollector implements TableValuesListener {
 
 	private void clearModificationEvents() {
 		event = new ModelEvent();
+	}
+
+	private static class ModelEvent {
+		private final List<ColumnEvent> columnsRemoved = new ArrayList<>();
+		private final List<ColumnEvent> columnsChanged = new ArrayList<>();
+		private final List<ColumnEvent> columnsAdded = new ArrayList<>();
+		private final List<CellEvent> cellsChanged = new ArrayList<>();
+		private final List<Integer> rowsChanged = new ArrayList<>();
+		private int initialRowCount;
+		private boolean datasetChanged = false;
+		private int counter = 0;
+	}
+
+	private static class ColumnEvent {
+		final int columnIndex;
+		final GeoEvaluatable evaluatable;
+
+		ColumnEvent(int columnIndex, GeoEvaluatable evaluatable) {
+			this.columnIndex = columnIndex;
+			this.evaluatable = evaluatable;
+		}
+	}
+
+	private static class CellEvent {
+		final int columnIndex;
+		final int rowIndex;
+		final GeoEvaluatable evaluatable;
+
+		CellEvent(int columnIndex, int rowIndex, GeoEvaluatable evaluatable) {
+			this.columnIndex = columnIndex;
+			this.rowIndex = rowIndex;
+			this.evaluatable = evaluatable;
+		}
 	}
 }

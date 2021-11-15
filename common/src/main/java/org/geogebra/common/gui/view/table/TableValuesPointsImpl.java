@@ -84,11 +84,11 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
 		for (int row = firstRow; row <= lastRow; row++) {
-			notifyRowRemoved(model, row);
+			notifyRowRemoved(row);
 		}
 	}
 
-	private void notifyRowRemoved(TableValuesModel model, int row) {
+	private void notifyRowRemoved(int row) {
 		for (List<GeoPoint> geoPoints : points) {
 			if (geoPoints == null || geoPoints.size() <= row) {
 				continue;
@@ -114,11 +114,11 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	@Override
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
 		for (int row = firstRow; row <= lastRow; row++) {
-			notifyRowAdded(model, row);
+			notifyRowAdded(row);
 		}
 	}
 
-	private void notifyRowAdded(TableValuesModel model, int row) {
+	private void notifyRowAdded(int row) {
 		for (int column = 1; column < points.size(); column++) {
 			List<GeoPoint> geoPoints = points.get(column);
 			if (geoPoints == null) {
