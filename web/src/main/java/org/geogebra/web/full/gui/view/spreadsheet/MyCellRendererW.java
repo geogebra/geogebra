@@ -511,7 +511,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 			button.addClickHandler(ce -> {
 				gb.runClickScripts(null);
-				gb.getKernel().updateConstruction(true); // TODO: why ???
 			});
 
 			grid.setWidget(row, column, button);
