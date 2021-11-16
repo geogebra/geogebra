@@ -3509,4 +3509,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Log.debug("Could not initialize analytics object.");
 		}
 	}
+
+	public void switchToSubapp(String appCode) {
+		// only with UI
+	}
 }

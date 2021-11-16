@@ -1046,4 +1046,8 @@ public class DefaultExportedApi implements ExportedApi {
 	public void unlockTextElement(String label) {
 		ggbAPI.unlockTextElement(label);
 	}
+
+	public void switchCalculator(String appCode) {
+		ggbAPI.switchCalculator(appCode);
+	}
 }

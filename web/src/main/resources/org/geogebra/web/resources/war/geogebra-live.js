@@ -26,17 +26,10 @@
             event.time = this.session.time++;
             event.fire(this.session.eventCallbacks['construction']);
         }
-        this.evalCommand = function(command) {
-            this.unregisterListeners();
-            this.api.evalCommand(command);
-            this.registerListeners();
-        };
 
         this.evalXML = function(xml) {
-            this.unregisterListeners();
             this.api.evalXML(xml);
             this.api.updateConstruction();
-            this.registerListeners();
             var that = this;
             setTimeout(function() {
                 that.api.getAllObjectNames("embed").forEach(that.initEmbed.bind(that));
@@ -44,10 +37,8 @@
         };
 
         this.setXML = function(xml) {
-            this.unregisterListeners();
             this.api.setXML(xml);
             this.api.updateConstruction();
-            this.registerListeners();
         };
 
         this.initEmbed = function(label) {
@@ -208,6 +199,7 @@
                 case "selectSlide":
                 case "clearSlide":
                 case "orderingChange":
+                case "switchCalculator":
                     this.sendEvent(event[0], event[2]);
                     break;
 
@@ -310,6 +302,7 @@
             }
 
             const target = last.embedLabel ? this.embeds[last.embedLabel] : this;
+            target.unregisterListeners();
             if (last.type == "addObject") {
                 if (target.api.exists(last.label)) {
                     if (this.session.clientId == Math.min(...this.session.users.filter(Boolean).map(u => u.id))) {
@@ -320,9 +313,7 @@
                             counter++;
                         } while (target.api.exists(newLabel));
 
-                        this.unregisterListeners();
                         target.api.renameObject(last.label, newLabel);
-                        this.registerListeners();
 
                         target.evalXML(last.content);
                         target.api.previewRefresh();
@@ -347,9 +338,7 @@
                 }
             } else if (last.type == "conflictResolution") {
                 conflictedObjects.splice(conflictedObjects.indexOf(last.label), 1);
-                this.unregisterListeners();
                 target.api.deleteObject(last.label);
-                this.registerListeners();
                 target.evalXML(last.content);
                 target.api.previewRefresh();
             } else if (last.type == "evalXML") {
@@ -361,20 +350,16 @@
                 target.setXML(last.content);
             } else if (last.type == "evalCommand") {
                 if (target.checkExists(last.label)) {
-                    target.evalCommand(last.content);
+                    target.api.evalCommand(last.content);
                     target.api.previewRefresh();
                 }
             } else if (last.type == "deleteObject") {
-                target.unregisterListeners();
                 if (target === this) {
                     delete(this.embeds[last.content]);
                 }
                 target.api.deleteObject(last.content);
-                target.registerListeners();
             } else if (last.type == "setEditorState") {
-                target.unregisterListeners();
                 target.api.setEditorState(last.content, last.label);
-                target.registerListeners();
             } else if (last.type == "addImage") {
                 var file = JSON.parse(last.content);
                 target.api.addImage(file.fileName, file.fileContent);
@@ -388,13 +373,9 @@
                     this.sendErrorEvent();
                 }
             } else if (last.type == "selectSlide") {
-                target.unregisterListeners();
                 target.api.selectSlide(last.content);
-                target.registerListeners();
             } else if (last.type == "renameObject") {
-                target.unregisterListeners();
                 target.api.renameObject(last.content, last.label);
-                target.registerListeners();
             } else if (last.type == "pasteSlide") {
                 target.api.handleSlideAction(last.type, last.content, last.label);
             } else if (last.type == "evalGMContent") {
@@ -444,7 +425,10 @@
                 if (target.checkInline(last.content)) {
                     target.api.unlockTextElement(last.content);
                 }
+            } else if (last.type == "switchCalculator") {
+                 target.api.switchCalculator(last.content);
             }
+            target.registerListeners();
         };
 
         this.sendErrorEvent = function(label) {

@@ -1251,4 +1251,8 @@ public class GgbAPIW extends GgbAPI {
 		});
 
 	}
+
+	public void switchCalculator(String appCode) {
+		((AppW) app).switchToSubapp(appCode);
+	}
 }
