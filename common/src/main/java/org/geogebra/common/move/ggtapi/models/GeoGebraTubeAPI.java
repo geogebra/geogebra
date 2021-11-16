@@ -12,7 +12,6 @@ import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.ggtapi.requests.ShareRequest;
 import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.HttpRequest;
@@ -333,13 +332,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 			performRequest(
 					DeleteRequest.getRequestElement(material).toJSONString(client), cb);
 		}
-	}
-
-	@Override
-	public void shareMaterial(Material material, String to, String message,
-			final MaterialCallbackI cb) {
-		performRequest(ShareRequest.getRequestElement(material, to, message)
-				.toJSONString(client), cb);
 	}
 
 	@Override

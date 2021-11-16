@@ -89,7 +89,7 @@ public class TableValuesPointsImplTest extends MockedTableValuesUnitTest {
 	public void testNotifyRowRemoved() {
 		initTable(3, 3);
 		mockRowCount(2);
-		points.notifyRowRemoved(model, 0);
+		points.notifyRowsRemoved(model, 0, 0);
 
 		verify(mockedView, times(2)).remove(captor.capture());
 		List<GeoPoint> capturedPoints = captor.getAllValues();

@@ -29,11 +29,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		view = new TableValuesView(getKernel(), list);
 		model = view.getTableValuesModel();
 		getKernel().attach(view);
-		processor =
-				new TableValuesInputProcessor(
-						getConstruction(),
-						(TableValuesView) view,
-						getApp().getSettings().getTable());
+		processor = (TableValuesInputProcessor) view.getProcessor();
 	}
 
 	@Test
@@ -215,6 +211,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		UndoManager undoManager = getApp().getUndoManager();
 
 		processor.processInput("1", view.getValues(), 0);
+		undoManager.storeUndoInfo();
 		assertThat(model.getRowCount(), is(1));
 		assertThat(model.getColumnCount(), is(1));
 		String cellContent = model.getCellAt(0, 0).getInput();
@@ -231,6 +228,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(cellContent, equalTo("1"));
 
 		processor.processInput("2", view.getValues(), 0);
+		undoManager.storeUndoInfo();
 		undoManager.undo();
 		cellContent = model.getCellAt(0, 0).getInput();
 		assertThat(cellContent, equalTo("1"));
@@ -240,6 +238,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(cellContent, equalTo("2"));
 
 		processor.processInput("invalid", view.getValues(), 0);
+		undoManager.storeUndoInfo();
 		undoManager.undo();
 		TableValuesCell cell = model.getCellAt(0, 0);
 		assertThat(cell.getInput(), equalTo("2"));
@@ -258,6 +257,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		UndoManager undoManager = getApp().getUndoManager();
 
 		processor.processInput("1", null, 0);
+		undoManager.storeUndoInfo();
 		assertThat(model.getRowCount(), is(1));
 		assertThat(model.getColumnCount(), is(2));
 		String cellContent = model.getCellAt(0, 1).getInput();
@@ -274,6 +274,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(cellContent, equalTo("1"));
 
 		processor.processInput("2", (GeoList) view.getEvaluatable(1), 0);
+		undoManager.storeUndoInfo();
 		undoManager.undo();
 		cellContent = model.getCellAt(0, 1).getInput();
 		assertThat(cellContent, equalTo("1"));
@@ -283,6 +284,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertThat(cellContent, equalTo("2"));
 
 		processor.processInput("invalid", (GeoList) view.getEvaluatable(1), 0);
+		undoManager.storeUndoInfo();
 		undoManager.undo();
 		TableValuesCell cell = model.getCellAt(0, 1);
 		assertThat(cell.getInput(), equalTo("2"));

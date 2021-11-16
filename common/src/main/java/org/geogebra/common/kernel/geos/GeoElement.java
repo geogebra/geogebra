@@ -1605,7 +1605,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void setAuxiliaryObject(final boolean flag) {
 		if (auxiliaryObject.isOn() != flag) {
-			auxiliaryObject = auxiliaryObject.toggle();
+			if (getMetasLength() > 0) {
+				// save e.g. segments created by polygon algo correctly in xml
+				// when set / not set auxiliary
+				if (auxiliaryObject.isOn()) {
+					setAuxiliaryObject(Auxiliary.NO_SAVE);
+				} else {
+					setAuxiliaryObject(Auxiliary.YES_SAVE);
+				}
+			} else {
+				auxiliaryObject = auxiliaryObject.toggle();
+			}
 			if (isLabelSet()) {
 				notifyUpdateAuxiliaryObject();
 			}
@@ -6339,6 +6349,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return isLocked();
 	}
 
+	@Override
+	public boolean isSingularValue() {
+		return false;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -6995,10 +7010,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!StringUtil.empty(getCaptionSimple())) {
 			if (CanvasDrawable.isLatexString(caption)) {
 				String myCaption = getCaption(StringTemplate.latexTemplate);
-				sb.appendLaTeX(myCaption);
+				sb.appendLatexDegreeIfNeeded(this, myCaption);
 			} else {
 				String myCaption = getCaption(StringTemplate.screenReader);
-				sb.append(ScreenReader.convertToReadable(myCaption, getLoc()));
+				String convertedCaption = ScreenReader.convertToReadable(myCaption, getLoc());
+				sb.appendDegreeIfNeeded(this, convertedCaption);
 			}
 			sb.endSentence();
 			return true;
@@ -7014,7 +7030,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralLabel(ScreenReaderBuilder sb) {
-		sb.append(getLabelSimple());
+		sb.appendLabel(getLabelSimple());
 		sb.endSentence();
 	}
 
@@ -7023,7 +7039,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		addAuralType(sb);
 		if (!addAuralCaption(sb)) {
 			addAuralLabel(sb);
+			addAuralValue(sb);
 		}
+	}
+
+	@Override
+	public void addAuralValue(ScreenReaderBuilder sb) {
+		// implement this to make geo value read without the caption.
 	}
 
 	@Override

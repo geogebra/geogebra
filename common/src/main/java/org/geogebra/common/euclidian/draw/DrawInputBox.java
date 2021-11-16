@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -395,7 +396,14 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
-		return textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
+		GRectangle ret = textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
+		int viewHeight = view.getHeight();
+		double labelTop = getLabelTop();
+		if (labelTop > 0 && labelTop < viewHeight) { // window resized -> keep box offscreen
+			ret.setLocation((int) ret.getX(),
+					(int) MyMath.clamp(ret.getMinY(), 0, viewHeight - ret.getHeight()));
+		}
+		return ret;
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
@@ -590,7 +598,8 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void attachMathField() {
 		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds());
+		view.attachSymbolicEditor(geoInputBox, textRenderer.measureBounds(
+				view.getGraphicsForPen(), geoInputBox,  textFont, labelDesc));
 		geoInputBox.update();
 		view.repaintView();
 	}

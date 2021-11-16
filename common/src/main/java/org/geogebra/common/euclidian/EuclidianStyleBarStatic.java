@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -525,7 +526,7 @@ public class EuclidianStyleBarStatic {
 
 		for (GeoElement geo : geos) {
 			// if text geo, then apply background color
-			if (geo instanceof TextStyle) {
+			if (geo instanceof TextStyle || geo instanceof GeoFormula) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
 					geo.setBackgroundColor(color);

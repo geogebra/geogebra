@@ -518,7 +518,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().isXREnabled()) {
+		if (getView3D().isXREnabled() || getView3D().isUnity()) {
 			setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
 		} else if (getView3D().useClippingCube()
 				|| !getView3D().getSettings().hasSameScales()) {

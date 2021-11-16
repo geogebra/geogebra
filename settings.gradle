@@ -10,6 +10,7 @@ include 'giac-jni'
 include 'input3D:stub'
 include 'input3D:impl'
 
+include 'web-common'
 include 'web'
 include 'web:dev'
 

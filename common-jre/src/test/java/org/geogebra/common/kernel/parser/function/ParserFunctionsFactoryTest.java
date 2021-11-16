@@ -8,11 +8,12 @@ import java.util.Locale;
 
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ParserFunctionsFactoryTest {
-	private final LocalizationCommon loc = new LocalizationCommon(3);
+	private final LocalizationCommon loc = new LocalizationCommonUTF(3);
 
 	@Test
 	public void testGraphingParserFunctions() {
@@ -36,7 +37,7 @@ public class ParserFunctionsFactoryTest {
 	public void suggestionsShouldBeUnique() {
 		ParserFunctions functions = ParserFunctionsFactory
 				.createParserFunctionsFactory().createParserFunctions();
-		functions.updateLocale(new LocalizationCommon(3));
+		functions.updateLocale(new LocalizationCommonUTF(3));
 		List<String> suggestions = functions.getCompletions("nroot");
 		assertEquals(1, suggestions.size());
 		suggestions = functions.getCompletions("tan");

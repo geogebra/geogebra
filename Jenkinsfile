@@ -55,7 +55,7 @@ pipeline {
             }
             steps {
                 sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test"
-                sh label: 'static analysis', script: './gradlew pmdMain :editor-base:spotbugsMain :web:spotbugsMain :desktop:spotbugsMain :ggbjdk:spotbugsMain :common-jre:spotbugsMain --max-workers=1'
+                sh label: 'static analysis', script: './gradlew pmdMain spotbugsMain -x common:spotbugsMain  -x renderer-base:spotbugsMain --max-workers=1'
                 sh label: 'spotbugs common', script: './gradlew :common:spotbugsMain'
                 sh label: 'code style', script: './gradlew :web:cpdCheck checkStyleMain checkStyleTest'
                 junit '**/build/test-results/test/*.xml'

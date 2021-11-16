@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -1126,7 +1127,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				super.setVisible(checkTextNoInputBox(geos));
+				super.setVisible(checkGeos(geos,
+						geo -> (geo instanceof TextStyle && !geo.isGeoInputBox())
+								|| geo instanceof GeoFormula));
 			}
 
 			@Override

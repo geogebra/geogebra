@@ -24,9 +24,10 @@
     <div class="row align-items-center gx-3 mt-4">
         <button onclick="window.open(location.href)" class="btn btn-primary">Local test</button>
         <div class="col-auto">
-            <div class="form-check">
-                <input type="checkbox" id="ignore" class="form-check-input"/>
-                <label for="ignore" class="form-check-label">Ignore incoming events</label>
+            <div>
+                <label for="delay">Delay for incoming events</label>
+                <input type="text" id="delay" class="form-control"/>
+
             </div>
         </div>
     </div>
@@ -61,18 +62,20 @@
             return null;
         }
         window.addEventListener('storage', function(e) {
-            const ignoreEvents = document.getElementById("ignore").checked;
-            if (api1 && !ignoreEvents) {
-                var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
-                for (var index = dispatchNext; index < events.length; index++) {
-                    var last = events[index];
-                    live.dispatch(last);
+            const delay = parseInt(document.getElementById("delay").value);
+            setTimeout(() => {
+                if (api1) {
+                    var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
+                    for (var index = dispatchNext; index < events.length; index++) {
+                        var last = events[index];
+                        live.dispatch(last);
+                    }
+                    if (events.length > 0) {
+                        api1.setUndoPoint();
+                    }
+                    dispatchNext = events.length;
                 }
-                if (events.length > 0) {
-                    api1.setUndoPoint();
-                }
-                dispatchNext = events.length;
-            }
+            }, delay);
         });
 
         var storageEventBus = function(event) {

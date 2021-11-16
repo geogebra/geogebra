@@ -2,6 +2,9 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
@@ -98,6 +101,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private boolean showUndefinedInAlgebraView = false;
 	private Coords tmpCoords6;
+	private EigenDecomposition decomp;
+	private double[][] eigenvectors = new double[3][3];
 
 	/**
 	 * @param c
@@ -213,20 +218,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// no midpoint, detS == 0
 
 		// set eigenvalues
-		eigenval[0] = -matrix[0] * matrix[1] - matrix[1] * matrix[2]
-				- matrix[2] * matrix[0] + matrix[4] * matrix[4]
-				+ matrix[5] * matrix[5] + matrix[6] * matrix[6];
-		eigenval[1] = matrix[0] + matrix[1] + matrix[2];
-		eigenval[2] = -1;
-
-		int nRoots = EquationSolver.solveQuadraticS(eigenval, eigenval,
-				Kernel.STANDARD_PRECISION);
-
-		if (nRoots == 1) {
-			eigenval[1] = eigenval[0];
-		}
-
-		eigenval[2] = 0;
+		eigenval = findEigenvaluesApache(matrix);
 
 		// Log.debug("eigenvals = " + eigenval[0] + "," + eigenval[1] + ","
 		// + eigenval[2]);
@@ -263,13 +255,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 				// find from eigenvalue = 0, since both others are equal
-				findEigenvector(eigenval[2], eigenvecND[2]);
+				findEigenvectorApache(2, eigenvecND[2]);
 				eigenvecND[2].normalize();
 				eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
 			} else {
-				findEigenvector(eigenval[0], eigenvecND[0]);
+				findEigenvectorApache(0, eigenvecND[0]);
 				eigenvecND[0].normalize();
-				findEigenvector(eigenval[1], eigenvecND[1]);
+				findEigenvectorApache(1, eigenvecND[1]);
 				eigenvecND[1].normalize();
 				eigenvecND[2].setCrossProduct4(eigenvecND[0], eigenvecND[1]);
 			}
@@ -358,6 +350,45 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
+	private int countZeros(double[] array) {
+		int count = 0;
+		for (double value : array) {
+			if (DoubleUtil.isZero(value)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	private void arrangeEigens(double[] array) {
+		double[] tmp;
+		if (countZeros(array) == 1) {
+			if (DoubleUtil.isZero(array[0])) {
+				swapEigens(0, 2, array);
+			} else if (DoubleUtil.isZero(array[1])) {
+				swapEigens(1, 2, array);
+			}
+		} else if (countZeros(array) == 2) {
+			if (!DoubleUtil.isZero(array[2])) {
+				swapEigens(2, 0, array);
+			} else if (!DoubleUtil.isZero(array[1])) {
+				swapEigens(1, 0, array);
+			}
+		}
+	}
+
+	private void swapEigens(int i, int j, double[] array) {
+		double tmpVal;
+		double[] tmpVec;
+		tmpVal = array[i];
+		array[i] = array[j];
+		array[j] = tmpVal;
+
+		tmpVec = eigenvectors[i];
+		eigenvectors[i] = eigenvectors[j];
+		eigenvectors[j] = tmpVec;
+	}
+
 	private void paraboloid(double x, double y, double z, double m) {
 
 		// set midpoint
@@ -428,6 +459,40 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// Log.debug("\nvalue = " + value + "\nmatrix = \n" + tmpMatrix3x3
 		// + "\nsol = \n" + ret);
+	}
+
+	private double[] findEigenvaluesApache(double[] matrix) {
+		double[][] mat2d = new double[3][3];
+		mat2d[0][0] = matrix[0];
+		mat2d[1][1] = matrix[1];
+		mat2d[2][2] = matrix[2];
+
+		mat2d[0][1] = matrix[4];
+		mat2d[1][0] = matrix[4];
+
+		mat2d[0][2] = matrix[5];
+		mat2d[2][0] = matrix[5];
+
+		mat2d[1][2] = matrix[6];
+		mat2d[2][1] = matrix[6];
+
+		RealMatrix apacheMatrix = MatrixUtils.createRealMatrix(mat2d);
+		decomp = new EigenDecomposition(apacheMatrix);
+		eigenval = decomp.getRealEigenvalues();
+
+		for (int i = 0; i < 3; i++) {
+			eigenvectors[i] = decomp.getEigenvector(i).toArray();
+		}
+		arrangeEigens(eigenval);
+
+		return eigenval;
+	}
+
+	private void findEigenvectorApache(int i, Coords ret) {
+		if (decomp == null) {
+			findEigenvaluesApache(matrix);
+		}
+		ret.set(new Coords(eigenvectors[i]));
 	}
 
 	/**

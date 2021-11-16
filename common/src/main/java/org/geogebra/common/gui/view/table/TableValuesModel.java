@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Class to hold values of table view and handle listeners.
@@ -69,9 +70,11 @@ public interface TableValuesModel {
 	void startBatchUpdate();
 
 	/**
-	 * Ends the batch update. Calls TableValuesListener.notifyDatasetChanged(TableValuesModel).
+	 * Ends the batch update. If {@code notifyDatasetChanged} is true calls
+	 * TableValuesListener.notifyDatasetChanged(TableValuesModel).
+	 * @param notifyDatasetChanged wether to call notifyDatasetChanged
 	 */
-	void endBatchUpdate();
+	void endBatchUpdate(boolean notifyDatasetChanged);
 
 	/**
 	 * @param element element
@@ -84,4 +87,11 @@ public interface TableValuesModel {
 	 * @return empty value
 	 */
 	GeoElement createEmptyValue();
+
+	/**
+	 * Creates a numeric value to be used in lists.
+	 * @param value value
+	 * @return geo element
+	 */
+	GeoNumeric createValue(double value);
 }

@@ -7,14 +7,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,8 +25,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
+		return AppCommonFactory.create3D();
 	}
 
 	@Test

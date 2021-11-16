@@ -6,11 +6,10 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.components.MathFieldEditorDecoratorBase;
 
 public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
-	private int baseline;
+
 	private double fontSize;
 
 	/**
-	 *
 	 * @param editor to decorate.
 	 * @param fontSize to use.
 	 */
@@ -18,17 +17,6 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 		super(editor);
 		this.fontSize = fontSize;
 		editor.addStyleName("evInputEditor");
-	}
-
-	@Override
-	public void update() {
-		updateSize();
-	}
-
-	private void updateSize() {
-		if (getHeight() > 0) {
-			setTop(baseline - getHeight() / 2d);
-		}
 	}
 
 	/**
@@ -43,7 +31,6 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 		setForegroundColor(geoInputBox.getObjectColor());
 		setBackgroundColor(geoInputBox.getBackgroundColor());
 		setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
-
 	}
 
 	private void updateBounds(GRectangle bounds) {
@@ -52,7 +39,5 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 		setTop(bounds.getY());
 		setWidth(fieldWidth);
 		setHeight(bounds.getHeight());
-
-		baseline = (int) (bounds.getY() + bounds.getHeight() / 2);
 	}
 }

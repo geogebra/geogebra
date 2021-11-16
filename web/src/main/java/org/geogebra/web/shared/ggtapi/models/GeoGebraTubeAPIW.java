@@ -5,7 +5,7 @@ import static elemental2.core.Global.JSON;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.web.html5.gui.util.Cookies;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.AppletParameters;
 

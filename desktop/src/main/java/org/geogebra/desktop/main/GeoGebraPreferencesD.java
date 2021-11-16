@@ -41,7 +41,7 @@ import org.geogebra.desktop.util.UtilD;
  * before getPref() is called first time.)
  */
 
-public class GeoGebraPreferencesD extends GeoGebraPreferences {
+public class GeoGebraPreferencesD {
 
 	// Windows -> APPDATA, space in "GeoGebra 5.0"
 	// Mac / Linux -> user.home, hidden folder, no space in ".GeoGebra5.0"
@@ -64,48 +64,25 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 * Allow checking of availability of a newer version
 	 */
 	public static final String VERSION_CHECK_ALLOW = "version_check_allow";
+	/** Last version shown in download notification */
+	private static final String VERSION_LAST_NOTIFICATION_SHOWN = "version_notification_shown";
 
 	/**
 	 * save what kind of 3D input we use (if one)
 	 */
 	public static final String INPUT_3D = "input_3d";
 
-	// worksheet export dialog
-	public static final String EXPORT_WS_RIGHT_CLICK = "export_ws_right_click";
-	public static final String EXPORT_WS_LABEL_DRAGS = "export_ws_label_drags";
-	public static final String EXPORT_WS_RESET_ICON = "export_ws_reset_icon";
-	// public static final String EXPORT_WS_FRAME_POSSIBLE =
-	// "export_ws_frame_possible";
-	public static final String EXPORT_WS_SHOW_MENUBAR = "export_ws_show_menubar";
-	public static final String EXPORT_WS_SHOW_TOOLBAR = "export_ws_show_toolbar";
-	public static final String EXPORT_WS_SHOW_TOOLBAR_HELP = "export_ws_show_toolbar_help";
-	public static final String EXPORT_WS_SHOW_INPUT_FIELD = "export_ws_show_input_field";
-	public static final String EXPORT_WS_OFFLINE_ARCHIVE = "export_ws_offline_archive";
-	// public static final String EXPORT_WS_GGB_FILE = "export_ws_ggb_file";
-	public static final String EXPORT_WS_SAVE_PRINT = "export_ws_save_print";
-	public static final String EXPORT_WS_USE_BROWSER_FOR_JAVASCRIPT = "export_ws_browser_for_js";
-	public static final String EXPORT_WS_INCLUDE_HTML5 = "export_ws_include_html5";
-	public static final String EXPORT_WS_ALLOW_RESCALING = "export_ws_allow_rescaling";
-	public static final String EXPORT_WS_REMOVE_LINEBREAKS = "export_ws_remove_linebreaks";
-	// public static final String EXPORT_WS_BUTTON_TO_OPEN =
-	// "export_ws_button_to_open";
-
 	// picture export dialog
 	public static final String EXPORT_PIC_FORMAT = "export_pic_format";
 	public static final String EXPORT_PIC_DPI = "export_pic_dpi";
-	// public final String EXPORT_PIC_SCALE = "export_pic_scale";
 
 	// print preview dialog
 	public static final String PRINT_ORIENTATION = "print_orientation";
 	public static final String PRINT_SHOW_SCALE = "print_show_scale";
 	public static final String PRINT_SHOW_SCALE2 = "print_show_scale_2";
 
-	// misc
-	public static final String MISC_REVERSE_MOUSE_WHEEL = "misc_reverse_mouse_wheel";
-
 	// user data
 	public static final String USER_LOGIN_TOKEN = "user_login_token";
-	public static final String USER_LOGINNAME = "user_login_name";
 	public static final String USER_LOGIN_SKIP = "user_login_skip";
 
 	// preferences node name for GeoGebra
@@ -128,20 +105,12 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 					.nodeExists(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)) {
 				ggbPrefsSystem = Preferences.systemRoot()
 						.node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
-				// System.out.println("system preference
-				// "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+
-				// " exists");
 			} else {
 				ggbPrefsSystem = null;
-				// System.out.println("system preference
-				// "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+
-				// " does not exist");
 			}
 		} catch (Exception e) {
 			// thrown when running unsigned JAR
 			ggbPrefsSystem = null;
-			// System.out.println("Error : system preference
-			// "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
 		}
 
 	}
@@ -166,29 +135,33 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	public static void setPropertyFileName(String pfname) {
 		PROPERTY_FILEPATH = pfname;
 		Log.debug("Prferences in: " + PROPERTY_FILEPATH);
-	}// setPropertyFileName(String)
+	}
 
 	public synchronized static GeoGebraPreferencesD getPref() {
-		/*
-		 * --- New code 06.03.10 - Ulven Singleton getInstance() method Checks
-		 * if PROPERTY_FILENAME is given (by commandline) and returns subclass
-		 * GeoGebraPortablePrefrences if it is, otherwise as original
-		 * 
-		 * @author H-P Ulven
-		 * 
-		 * @version 2010-03-07
-		 */
 		if (singleton == null) {
-			if (PROPERTY_FILEPATH != null) { // Application.debug(PROPERTY_FILENAME);
+			if (PROPERTY_FILEPATH != null) {
 				singleton = GeoGebraPortablePreferences.getPref();
-			} // if (else leave it to original)
-		} // if
-			// --- New code end
+			}
+		}
 		if (singleton == null) {
 			singleton = new GeoGebraPreferencesD();
 		}
 		return singleton;
-	}// getPref();
+	}
+
+	public static void setLastVersionNotification(long newestVersion) {
+		getPref().savePreference(VERSION_LAST_NOTIFICATION_SHOWN, String.valueOf(newestVersion));
+	}
+
+	public static long getLastShownNotificationVersion() {
+		try {
+			String lastVersion = getPref().loadPreference(VERSION_LAST_NOTIFICATION_SHOWN, "0");
+			return Long.parseLong(lastVersion);
+		} catch (NumberFormatException e) {
+			Log.debug(e);
+		}
+		return 0;
+	}
 
 	public String loadPreference(String key, String defaultValue) {
 		return ggbPrefs.get(key, defaultValue);
@@ -214,12 +187,12 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			systemAllows = true;
 			Log.info("No system preferences");
 		} else {
-			systemAllows = Boolean.valueOf(ggbPrefsSystem.get(
+			systemAllows = Boolean.parseBoolean(ggbPrefsSystem.get(
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		}
 		// then check if user allows
 		if (systemAllows && ggbPrefs != null) {
-			return Boolean.valueOf(getPref().loadPreference(
+			return Boolean.parseBoolean(getPref().loadPreference(
 					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		}
 		// else don't allow
@@ -414,10 +387,10 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
 		}
 
-		ggbPrefs.put(XML_USER_PREFERENCES, userPrefsXML);
+		ggbPrefs.put(GeoGebraPreferences.XML_USER_PREFERENCES, userPrefsXML);
 
 		try {
-			getPref().savePreference(XML_DEFAULT_OBJECT_PREFERENCES,
+			getPref().savePreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES,
 					objectPrefsXML);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -537,7 +510,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	}
 
 	public String getXMLPreferences() {
-		return getPref().loadPreference(XML_USER_PREFERENCES,
+		return getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES,
 				factoryDefaultXml);
 	}
 
@@ -591,32 +564,18 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			app.loadMacroFileFromByteArray(ggtFile, true);
 
 			// load preferences xml
-			String xml = getPref().loadPreference(XML_USER_PREFERENCES,
+			String xml = getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES,
 					factoryDefaultXml);
 			app.setXML(xml, false);
 
-			// if (!(app instanceof Application3D)) // TODO: implement it in
-			// Application3D!
-			{
-				String xmlDef = getPref().loadPreference(
-						XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
-				if (!xmlDef.equals(factoryDefaultXml)) {
-					boolean eda = app.getKernel().getElementDefaultAllowed();
-					app.getKernel().setElementDefaultAllowed(true);
-					app.setXML(xmlDef, false);
-					app.getKernel().setElementDefaultAllowed(eda);
-				}
+			String xmlDef = getPref().loadPreference(
+					GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+			if (!xmlDef.equals(factoryDefaultXml)) {
+				boolean eda = app.getKernel().getElementDefaultAllowed();
+				app.getKernel().setElementDefaultAllowed(true);
+				app.setXML(xmlDef, false);
+				app.getKernel().setElementDefaultAllowed(eda);
 			}
-
-			// String xml = getPref().loadPreference(XML_USER_PREFERENCES, "");
-			// if("".equals(xml)) {
-			// initDefaultXML(app);
-			// xml = XML_GGB_FACTORY_DEFAULT;
-			// }
-			// app.setXML(xml, true);
-			// app.setUndoActive(app.isUndoActive());
-
-			// eg. 3D macros may cause MyError
 			app.updateToolBar();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -638,7 +597,6 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return;
 		}
 		try {
 			ggbPrefs.clear();

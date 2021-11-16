@@ -171,11 +171,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public void shareMaterial(Material material, String to, String message, MaterialCallbackI cb) {
-		// not supported
-	}
-
-	@Override
 	public void favorite(int id, boolean favorite) {
 		// not supported
 	}

@@ -134,7 +134,13 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	}
 
 	@Override
-	public void notifyRowRemoved(TableValuesModel model, int row) {
+	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
+		for (int row = firstRow; row <= lastRow; row++) {
+			notifyRowRemoved(row);
+		}
+	}
+
+	private void notifyRowRemoved(int row) {
 		if (row >= doubleValues.size()) {
 			return;
 		}
@@ -148,14 +154,15 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	}
 
 	@Override
-	public void notifyRowAdded(TableValuesModel model, int row) {
-		if (row > doubleValues.size()) {
-			Collection nullValues = Collections.nCopies(row - doubleValues.size(), null);
+	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
+		if (lastRow > doubleValues.size()) {
+			Collection nullValues = Collections.nCopies(lastRow - doubleValues.size() + 1, null);
 			doubleValues.addAll(nullValues);
 			cells.addAll(nullValues);
+		} else {
+			doubleValues.add(lastRow, null);
+			cells.add(lastRow, null);
 		}
-		doubleValues.add(row, null);
-		cells.add(row, null);
 	}
 
 	@Override

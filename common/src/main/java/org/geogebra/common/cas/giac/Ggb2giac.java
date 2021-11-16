@@ -295,7 +295,7 @@ public class Ggb2giac {
 
 		// Extrema / Turning Points (UK)
 		p("Extremum.1",
-				"[[[ggbextremumfun:=%0],[ggbextans:=extrema(%0)],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
+				"[[[ggbextremumfun:=when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0)],[ggbextans:=extrema(when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0))],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
 
 		// InflectionPoint (internal name in XML wrong for historical reasons)
 		p("TurningPoint.1",
@@ -411,8 +411,8 @@ public class Ggb2giac {
 		p("ImplicitDerivative.3", "normal(regroup(-diff(%0,%2)/diff(%0,%1)))");
 		p("ImplicitDerivative.1", "normal(regroup(-diff(%0,x)/diff(%0,y)))");
 
-		p("Integral.1", "regroup(integrate(%0))");
-		p("Integral.2", "regroup(integrate(%0,%1))");
+		p("Integral.1", "regroup(integrate(when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0)))");
+		p("Integral.2", "regroup(integrate(when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0),%1))");
 
 		// The symbolic value of the integral is checked against a numeric
 		// evaluation of the integral

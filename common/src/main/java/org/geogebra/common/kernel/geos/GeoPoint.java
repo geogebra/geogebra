@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -2864,6 +2865,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
+	public void addAuralValue(ScreenReaderBuilder sb) {
+		String valueString = toValueString(StringTemplate.screenReader);
+		String converted = ScreenReader.convertToReadable("=" + valueString, getLoc());
+		sb.appendDegreeIfNeeded(this, converted);
+	}
+
+	@Override
 	public String getAuralTextForMove() {
 		return pointMovedAural(kernel.getLocalization(), this);
 	}
@@ -2877,9 +2885,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	public static String pointMovedAural(Localization loc,
 			GeoPointND geoPoint) {
+
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
+		if (!geoPoint.addAuralCaption(sb)) {
+			geoPoint.addAuralLabel(sb);
+		}
+
+		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
+		sbWithValue.appendDegreeIfNeeded(geoPoint,
+				ScreenReader.convertToReadable(geoPoint.getValueForInputBar(), loc));
 		return loc.getPlain("PointAMovedToB",
-				geoPoint.getCaption(StringTemplate.defaultTemplate),
-				geoPoint.getValueForInputBar());
+				sb.toString(),
+				sbWithValue.toString());
 
 	}
 

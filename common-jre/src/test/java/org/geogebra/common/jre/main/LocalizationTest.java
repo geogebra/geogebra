@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Locale;
 
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ public class LocalizationTest {
 
 	@Before
 	public void init() {
-		this.loc = new LocalizationCommon(3);
+		this.loc = new LocalizationCommonUTF(3);
 	}
 
 	@Test
@@ -33,6 +34,12 @@ public class LocalizationTest {
 	public void shouldLoadNynorskProperties() {
 		loc.setLocale(new Locale("nn"));
 		assertEquals("Farge", loc.getMenu("Color"));
+	}
+
+	@Test
+	public void shouldReadPropertiesAsUTF8() {
+		loc.setLocale(Locale.UK);
+		assertEquals("R\u00b2", loc.getMenu("RSquare.Short"));
 	}
 
 }
