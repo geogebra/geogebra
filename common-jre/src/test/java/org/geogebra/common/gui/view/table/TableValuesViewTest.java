@@ -299,6 +299,19 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testRemovingColumnWithMoreRowsCallsNotifyRowRemoved() {
+		processor.processInput("1", view.getValues(), 0);
+		processor.processInput("1", null, 0);
+		GeoList list = (GeoList) view.getEvaluatable(1);
+		processor.processInput("1", list, 1);
+		processor.processInput("1", list, 2);
+		model.registerListener(listener);
+		hideColumn(list);
+		verify(listener).notifyColumnRemoved(model, list, 1);
+		verify(listener).notifyRowsRemoved(model, 1, 2);
+	}
+
+	@Test
 	public void testNotifyColumnRemovedCalledFromProcessor() {
 		processor.processInput("0", view.getValues(), 0);
 		processor.processInput("1", null, 0);
@@ -351,7 +364,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener, never()).notifyCellChanged(model, y, 1, 0);
 		verify(listener, never()).notifyRowChanged(model, 0);
-		verify(listener, never()).notifyRowRemoved(model, 0);
+		verify(listener, never()).notifyRowsRemoved(model, 0, 0);
 		verify(listener, never()).notifyColumnChanged(model, y, 1);
 		verify(listener).notifyColumnRemoved(model, y, 1);
 	}
@@ -371,7 +384,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		processor.processInput("1", view.getValues(), 0);
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener, never()).notifyColumnChanged(model, view.getValues(), 0);
-		verify(listener).notifyRowAdded(model, 0);
+		verify(listener).notifyRowsAdded(model, 0, 0);
 	}
 
 	@Test
@@ -381,7 +394,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		processor.processInput("1", view.getValues(), 0);
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener).notifyRowAdded(model, 0);
+		verify(listener).notifyRowsAdded(model, 0, 0);
 	}
 
 	@Test
@@ -390,7 +403,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		processor.processInput("10", view.getValues(), 0);
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener, never()).notifyRowAdded(model, 0);
+		verify(listener, never()).notifyRowsAdded(model, 0, 0);
 		verify(listener).notifyRowChanged(model, 0);
 	}
 
@@ -405,7 +418,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		// Delete last element in x column
 		processor.processInput("", view.getValues(), 4);
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener, never()).notifyRowRemoved(model, 4);
+		verify(listener, never()).notifyRowsRemoved(model, 4, 4);
 		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 4);
 		verify(listener, never()).notifyColumnChanged(model, view.getValues(), 0);
 		verify(listener).notifyRowChanged(model, 4);
@@ -420,7 +433,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		processor.processInput("11", list, 1);
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener, never()).notifyColumnAdded(model, list, 1);
-		verify(listener).notifyRowAdded(model, 1);
+		verify(listener).notifyRowsAdded(model, 1, 1);
 	}
 
 	@Test
@@ -434,7 +447,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		processor.processInput("", list, 0);
 		verify(listener, never()).notifyColumnAdded(model, view.getValues(), 0);
-		verify(listener, never()).notifyRowRemoved(model, 0);
+		verify(listener, never()).notifyRowsRemoved(model, 0, 0);
 		verify(listener, never()).notifyRowChanged(model, 0);
 		verify(listener).notifyCellChanged(model, list, 1, 0);
 	}
@@ -448,8 +461,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		processor.processInput("", list, 1);
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener).notifyRowRemoved(model, 1);
-		verify(listener).notifyRowRemoved(model, 0);
+		verify(listener).notifyRowsRemoved(model, 0, 1);
 		verify(listener).notifyColumnRemoved(model, list, 1);
 	}
 
@@ -462,7 +474,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener, never()).notifyRowChanged(model, 1);
 		verify(listener, never()).notifyCellChanged(model, view.getValues(), 0, 1);
-		verify(listener).notifyRowRemoved(model, 1);
+		verify(listener).notifyRowsRemoved(model, 1, 1);
 	}
 
 	@Test
@@ -640,9 +652,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		list.add(new GeoNumeric(cons, 1));
 		list.add(new GeoNumeric(cons, 1));
 		showColumn(list);
-		verify(listener).notifyRowAdded(model, 1);
-		verify(listener).notifyRowAdded(model, 2);
-		verify(listener).notifyRowAdded(model, 3);
+		verify(listener).notifyRowsAdded(model, 1, 3);
 		verify(listener).notifyColumnAdded(model, list, 1);
 	}
 
@@ -821,10 +831,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		processor.processInput("1", null, 0);
 		model.registerListener(listener);
 		view.clearValues();
-		verify(listener).notifyRowRemoved(model, 4);
-		verify(listener).notifyRowRemoved(model, 3);
-		verify(listener).notifyRowRemoved(model, 2);
-		verify(listener).notifyRowRemoved(model, 1);
+		verify(listener).notifyRowsRemoved(model, 1, 4);
 	}
 
 	@Test
@@ -833,9 +840,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 		processor.processInput("1", null, 0);
 		model.registerListener(listener);
 		view.clearValues();
-		verify(listener).notifyRowRemoved(model, 4);
-		verify(listener).notifyRowRemoved(model, 3);
-		verify(listener).notifyRowRemoved(model, 2);
-		verify(listener).notifyRowRemoved(model, 1);
+		verify(listener).notifyRowsRemoved(model, 1, 4);
 	}
 }

@@ -138,7 +138,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		settings.setValuesStep(valuesStep);
 		settings.setValueList(null);
 		settings.endBatch();
-		model.endBatchUpdate();
+		model.endBatchUpdate(true);
 	}
 
 	@Override
@@ -368,12 +368,12 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void startBatchUpdate() {
-		// Ignore
+		model.startBatchUpdate();
 	}
 
 	@Override
 	public void endBatchUpdate() {
-		// Ignore
+		model.endBatchUpdate(true);
 	}
 
 	@Override
@@ -450,9 +450,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void clearValuesInternal() {
+		model.startBatchUpdate();
 		for (int row = values.size() - 1; row >= 0; row--) {
 			clearValuesRow(row);
 		}
+		model.endBatchUpdate(false);
 	}
 
 	private void storeUndoInfo() {
