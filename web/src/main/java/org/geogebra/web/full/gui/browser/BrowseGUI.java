@@ -137,9 +137,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			locationDrive = new StandardButton(
 					BrowseResources.INSTANCE.location_drive());
 			locationDrive.addFastClickHandler(source -> {
-				if (BrowseGUI.this.app.getGoogleDriveOperation() != null) {
+				if (app.getGoogleDriveOperation() != null) {
 					app.getFileManager().setFileProvider(Provider.GOOGLE);
-					BrowseGUI.this.app.getGoogleDriveOperation()
+					app.getGoogleDriveOperation()
 							.requestPicker();
 				}
 			});

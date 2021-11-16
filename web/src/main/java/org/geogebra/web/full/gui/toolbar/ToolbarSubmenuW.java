@@ -82,10 +82,10 @@ public class ToolbarSubmenuW extends FlowPanel {
 		if (visible) {
 			app.invokeLater(() -> {
 				if (itemList.getOffsetWidth()
-						+ ToolbarSubmenuW.this.order * 45 > app
+						+ order * 45 > app
 								.getWidth()) {
 					itemList.getElement().getStyle().setLeft(
-							app.getWidth() - 45 * ToolbarSubmenuW.this.order
+							app.getWidth() - 45 * order
 									- itemList.getOffsetWidth() - 10,
 							Unit.PX);
 				}

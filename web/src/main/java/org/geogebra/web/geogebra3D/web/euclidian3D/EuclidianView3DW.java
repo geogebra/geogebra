@@ -41,7 +41,6 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -403,8 +402,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// used only when no webGL
 	}
 
-	private AnimationCallback repaintCallback = ts -> doRepaint2();
-
 	/**
 	 * This doRepaint method should be used instead of repaintView in cases when
 	 * the repaint should be done immediately
@@ -455,7 +452,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * schedule a repaint
 	 */
 	public void doRepaint() {
-		repaintScheduler.requestAnimationFrame(repaintCallback);
+		repaintScheduler.requestAnimationFrame(ts -> doRepaint2());
 	}
 
 	/**

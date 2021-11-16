@@ -709,10 +709,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void settingsChanged(AbstractSettings settings0) {
-		Scheduler.get().scheduleDeferred(deferredSettingsChanged);
+		Scheduler.get().scheduleDeferred(this::settingsChangedCommand);
 	}
-
-	Scheduler.ScheduledCommand deferredSettingsChanged = this::settingsChangedCommand;
 
 	/**
 	 * Update view settings
@@ -847,14 +845,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void scheduleRepaint() {
 		if (!repaintScheduled) {
 			repaintScheduled = true;
-			Scheduler.get().scheduleDeferred(scheduleRepaintCommand);
+			Scheduler.get().scheduleDeferred(() -> {
+				repaintScheduled = false;
+				repaintView();
+			});
 		}
 	}
-
-	Scheduler.ScheduledCommand scheduleRepaintCommand = () -> {
-		repaintScheduled = false;
-		repaintView();
-	};
 
 	public Widget getFocusPanel() {
 		return spreadsheetWrapper.asWidget();

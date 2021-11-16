@@ -30,7 +30,7 @@ public class MaterialCardController implements OpenFileListener {
 	/** callback for deleting materials */
 	Runnable deleteCallback = () -> {
 		Log.debug("DELETE finished");
-		MaterialCardController.this.app.getGuiManager().getBrowseView()
+		app.getGuiManager().getBrowseView()
 				.setMaterialsDefaultStyle();
 	};
 

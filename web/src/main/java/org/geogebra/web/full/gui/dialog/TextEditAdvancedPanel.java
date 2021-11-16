@@ -94,7 +94,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	public void insert(final Widget child, Widget tab, int beforeIndex) {
 		super.insert(child, tab, beforeIndex);
 		tab.addDomHandler(event -> {
-			TextEditAdvancedPanel.this.selectTab(child);
+			selectTab(child);
 			event.preventDefault();
 		}, MouseDownEvent.getType());
 	}
