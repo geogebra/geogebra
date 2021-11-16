@@ -13,7 +13,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.himamis.retex.editor.share.model.Korean;
 
 public class MathFieldInputSuggestions extends InputSuggestions
@@ -45,21 +44,11 @@ public class MathFieldInputSuggestions extends InputSuggestions
 		sug = new ScrollableSuggestionDisplay(this, app.getPanel(), app);
 	}
 
-	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
-		@Override
-		public void onSuggestionsReady(SuggestOracle.Request req,
-				SuggestOracle.Response res) {
-			updateSuggestions(res);
+	protected SuggestOracle.Callback popupCallback = (req, res) -> updateSuggestions(res);
 
-		}
-	};
-
-	protected GSuggestBox.SuggestionCallback sugCallback = new GSuggestBox.SuggestionCallback() {
-		@Override
-		public void onSuggestionSelected(Suggestion s) {
-			String sugg = s.getReplacementString();
-			autocompleteAndHide(sugg);
-		}
+	protected GSuggestBox.SuggestionCallback sugCallback = s -> {
+		String sugg = s.getReplacementString();
+		autocompleteAndHide(sugg);
 	};
 
 	/**

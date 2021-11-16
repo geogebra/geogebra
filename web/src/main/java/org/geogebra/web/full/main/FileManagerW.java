@@ -189,18 +189,15 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null || counter % 30 != 0) {
 			return;
 		}
-		final StringConsumer base64saver = new StringConsumer() {
-			@Override
-			public void consume(final String s) {
-				final Material mat = createMaterial(s,
-				        System.currentTimeMillis() / 1000);
-				try {
-					mat.setAppName(app.getConfig().getAppCode());
-					stockStore.setItem(getAutosaveKey(),
-							mat.toJson().toString());
-				} catch (Exception e) {
-					Log.warn("Autosave failed");
-				}
+		final StringConsumer base64saver = s -> {
+			final Material mat = createMaterial(s,
+					System.currentTimeMillis() / 1000);
+			try {
+				mat.setAppName(app.getConfig().getAppCode());
+				stockStore.setItem(getAutosaveKey(),
+						mat.toJson().toString());
+			} catch (Exception e) {
+				Log.warn("Autosave failed");
 			}
 		};
 

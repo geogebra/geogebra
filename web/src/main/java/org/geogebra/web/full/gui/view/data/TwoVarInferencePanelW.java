@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.view.data;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -10,12 +8,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -87,45 +79,21 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		// components
 		lbTitle1 = new ListBox();
 		lbTitle2 = new ListBox();
-		lbTitle1.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				actionPerformed(lbTitle1);
-			}
-		});
+		lbTitle1.addChangeHandler(event -> actionPerformed(lbTitle1));
 		
-		lbTitle2.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				actionPerformed(lbTitle2);
-			}
-		});
+		lbTitle2.addChangeHandler(event -> actionPerformed(lbTitle2));
 		lblTitle1 = new Label();
 		lblTitle2 = new Label();
 
 		ckPooled = new CheckBox();
 		ckPooled.addStyleName("ckPooled");
 		ckPooled.setValue(false);
-		ckPooled.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				model.setPooled(ckPooled.getValue());
-			}
-		});
+		ckPooled.addValueChangeHandler(event -> model.setPooled(ckPooled.getValue()));
 		ckEqualVariances = new CheckBox();
 
 		lbAltHyp = new ListBox();
 
-		lbAltHyp.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				actionPerformed(lbAltHyp);
-			}
-		});
+		lbAltHyp.addChangeHandler(event -> actionPerformed(lbAltHyp));
 
 		lblNull = new Label();
 		lblHypParameter = new Label();
@@ -133,44 +101,24 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 		fldNullHyp = new AutoCompleteTextFieldW(4, app);
 		fldNullHyp.setText("" + 0);
-		fldNullHyp.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldNullHyp);
-				}
-			}
-		});
-
-		fldNullHyp.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldNullHyp.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				doTextFieldActionPerformed(fldNullHyp);
 			}
 		});
 
+		fldNullHyp.addBlurHandler(event -> doTextFieldActionPerformed(fldNullHyp));
+
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(4, app);
 		fldConfLevel.setWidthInEm(4);
-		fldConfLevel.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldConfLevel);
-				}
-			}
-		});
-		
-		fldConfLevel.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldConfLevel.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				doTextFieldActionPerformed(fldConfLevel);
 			}
 		});
+		
+		fldConfLevel.addBlurHandler(event -> doTextFieldActionPerformed(fldConfLevel));
 
 		lblResultHeader = new Label();
 

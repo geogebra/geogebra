@@ -16,11 +16,8 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ClosingEvent;
 
 /**
  * Represents different designs/platforms of GeoGebra deployment
@@ -69,26 +66,15 @@ public class GLookAndFeel implements GLookAndFeelI {
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
 			this.windowClosingHandler = Window
-					.addWindowClosingHandler(new Window.ClosingHandler() {
-						@Override
-						public void onWindowClosing(ClosingEvent event) {
-							event.setMessage(app.getLocalization().getMenu(
-									"CloseApplicationLoseUnsavedData"));
-						}
-					});
+					.addWindowClosingHandler(event -> event.setMessage(
+							app.getLocalization().getMenu("CloseApplicationLoseUnsavedData")));
 		}
 
 		if (this.windowCloseHandler == null) {
 			// onClose is called, if user leaves the page correct
 			// not called if browser crashes
 			this.windowCloseHandler = Window
-					.addCloseHandler(new CloseHandler<Window>() {
-
-						@Override
-						public void onClose(CloseEvent<Window> event) {
-							app.getFileManager().deleteAutoSavedFile();
-						}
-					});
+					.addCloseHandler(event -> app.getFileManager().deleteAutoSavedFile());
 		}
 	}
 

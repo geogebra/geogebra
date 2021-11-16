@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -69,8 +68,6 @@ import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.util.PointStylePopup;
-import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -81,10 +78,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -689,13 +683,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(slider.getValue());
-				}
-			});
+			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
 		}
 
 		@Override
@@ -792,13 +780,8 @@ public class OptionsTab extends FlowPanel {
 			// slider.setSnapToTicks(true);
 			lineThicknessPanel.add(thicknessSlider);
 
-			thicknessSlider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyThickness(thicknessSlider.getValue());
-				}
-			});
+			thicknessSlider.addChangeHandler(
+					event -> model.applyThickness(thicknessSlider.getValue()));
 			opacitySliderLabel = new Label();
 
 			FlowPanel lineOpacityPanel = new FlowPanel();
@@ -811,13 +794,9 @@ public class OptionsTab extends FlowPanel {
 			// opacitySlider.setSnapToTicks(true);
 			lineOpacityPanel.add(opacitySlider);
 
-			opacitySlider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
-					model.applyOpacity(value);
-				}
+			opacitySlider.addChangeHandler(event -> {
+				int value = (int) ((opacitySlider.getValue() / 100.0) * 255);
+				model.applyOpacity(value);
 			});
 
 			stylePanel = new FlowPanel();
@@ -826,15 +805,8 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.add(popupLabel);
 			btnLineStyle = LineStylePopup.create(app, false);
 			// slider.setSnapToTicks(true);
-			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
-
-				@Override
-				public void fireActionPerformed(PopupMenuButtonW actionButton) {
-					model.applyLineTypeFromIndex(btnLineStyle
-							.getSelectedIndex());
-
-				}
-			});
+			btnLineStyle.addPopupHandler(actionButton -> model.applyLineTypeFromIndex(btnLineStyle
+					.getSelectedIndex()));
 			btnLineStyle.setKeepVisible(false);
 			mainPanel.add(btnLineStyle);
 
@@ -847,15 +819,8 @@ public class OptionsTab extends FlowPanel {
 			styleHiddenPanel.add(styleHiddenLabel);
 			styleHiddenList = new ListBox();
 			styleHiddenList.setMultipleSelect(false);
-			styleHiddenList.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyLineStyleHidden(styleHiddenList
-							.getSelectedIndex());
-				}
-
-			});
+			styleHiddenList.addChangeHandler(event -> model.applyLineStyleHidden(styleHiddenList
+					.getSelectedIndex()));
 			styleHiddenPanel.add(styleHiddenList);
 			mainPanel.add(styleHiddenPanel);
 
@@ -938,13 +903,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(slider.getValue());
-				}
-			});
+			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
 		}
 
 		@Override
@@ -979,13 +938,7 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(slider);
 
 			setWidget(mainPanel);
-			slider.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(slider.getValue());
-				}
-			});
+			slider.addChangeHandler(event -> model.applyChanges(slider.getValue()));
 		}
 
 		@Override
@@ -1038,20 +991,10 @@ public class OptionsTab extends FlowPanel {
 			inputPanel = new InputPanelW(null, app, 1, -1, false);
 			tfSize = inputPanel.getTextComponent();
 			tfSize.setAutoComplete(false);
-			tfSize.addBlurHandler(new BlurHandler() {
-				@Override
-				public void onBlur(BlurEvent event) {
+			tfSize.addBlurHandler(event -> model.applyChanges(tfSize.getText()));
+			tfSize.addKeyHandler(e -> {
+				if (e.isEnterKey()) {
 					model.applyChanges(tfSize.getText());
-
-				}
-			});
-			tfSize.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						model.applyChanges(tfSize.getText());
-					}
 				}
 			});
 			mainPanel.add(LayoutUtilW.panelRow(lbSize, inputPanel));
@@ -1114,31 +1057,21 @@ public class OptionsTab extends FlowPanel {
 			tfButtonHeight = ipButtonHeight.getTextComponent();
 			tfButtonHeight.setAutoComplete(false);
 
-			BlurHandler focusListener = new BlurHandler() {
-				@Override
-				public void onBlur(BlurEvent event) {
-					getModel().setSizesFromString(getTfButtonWidth().getText(),
-							getTfButtonHeight().getText(),
-							getCbUseFixedSize().getValue());
-
-				}
-			};
+			BlurHandler focusListener = event -> getModel().setSizesFromString(
+					getTfButtonWidth().getText(),
+					getTfButtonHeight().getText(),
+					getCbUseFixedSize().getValue());
 
 			tfButtonWidth.addBlurHandler(focusListener);
 			tfButtonHeight.addBlurHandler(focusListener);
 
-			KeyHandler keyHandler = new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						getModel().setSizesFromString(
-								getTfButtonWidth().getText(),
-								getTfButtonHeight().getText(),
-								getCbUseFixedSize().getValue());
-					}
+			KeyHandler keyHandler = e -> {
+				if (e.isEnterKey()) {
+					getModel().setSizesFromString(
+							getTfButtonWidth().getText(),
+							getTfButtonHeight().getText(),
+							getCbUseFixedSize().getValue());
 				}
-
 			};
 
 			tfButtonWidth.addKeyHandler(keyHandler);
@@ -1235,13 +1168,7 @@ public class OptionsTab extends FlowPanel {
 			label = new Label();
 			mainWidget.add(label);
 			combo = new ListBox();
-			combo.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					getModel().applyChanges(getCombo().getSelectedIndex());
-				}
-			});
+			combo.addChangeHandler(event -> getModel().applyChanges(getCombo().getSelectedIndex()));
 			mainWidget.add(combo);
 			setWidget(mainWidget);
 		}

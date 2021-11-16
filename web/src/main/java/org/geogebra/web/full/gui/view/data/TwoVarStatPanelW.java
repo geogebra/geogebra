@@ -7,8 +7,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -82,13 +80,9 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	    	listBox.addItem(item);
 	    }
 	    
-	    listBox.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				int idx = listBox.getSelectedIndex();
-				listboxChange(row, idx);
-			}
+	    listBox.addChangeHandler(event -> {
+			int idx = listBox.getSelectedIndex();
+			listboxChange(row, idx);
 		});
 	    
 	    listBox.setSelectedIndex(selectedIdx);

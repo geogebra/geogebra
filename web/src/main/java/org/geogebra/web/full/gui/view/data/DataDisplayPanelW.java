@@ -3,8 +3,6 @@ package org.geogebra.web.full.gui.view.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel.IDataDisplayListener;
@@ -34,13 +32,6 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -177,13 +168,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		btnOptions = new MyToggleButtonW(new NoDragImage(GuiResources.INSTANCE
 				.menu_icon_options().getSafeUri().asString(), 18));
 		ClickStartHandler.initDefaults(btnOptions, true, false);
-		btnOptions.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				actionPerformed(btnOptions);
-			}
-		});
+		btnOptions.addValueChangeHandler(event -> actionPerformed(btnOptions));
 
 		// create export button
 		btnExport = new GPopupMenuW(app, true) {
@@ -301,13 +286,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createDisplayTypeComboBox() {
 		if (lbDisplayType == null) {
 			lbDisplayType = new ListBox();
-			lbDisplayType.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					actionPerformed(lbDisplayType);
-				}
-			});
+			lbDisplayType.addChangeHandler(event -> actionPerformed(lbDisplayType));
 			plotTypes = new ArrayList<>();
 
 		} else {
@@ -344,16 +323,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		sliderNumClasses.setTickSpacing(1);
 
-		sliderNumClasses.addChangeHandler(new ChangeHandler() {
+		sliderNumClasses.addChangeHandler(event -> {
+			getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
+			fldNumClasses.setText(("" + getModel().getSettings()
+					.getNumClasses()));
+			getModel().updatePlot(true);
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
-				fldNumClasses.setText(("" + getModel().getSettings()
-						.getNumClasses()));
-				getModel().updatePlot(true);
-
-			}
 		});
 
 		numClassesPanel = new FlowPanel();
@@ -401,39 +376,19 @@ public class DataDisplayPanelW extends FlowPanel implements
 		manualClassesPanel = new FlowPanel();
 		manualClassesPanel.add(LayoutUtilW.panelRow(lblStart, fldStart,
 				lblWidth, fldWidth));
-		fldStart.addBlurHandler(new BlurHandler() {
+		fldStart.addBlurHandler(event -> actionPerformed(fldStart));
 
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldStart.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				actionPerformed(fldStart);
 			}
 		});
 
-		fldStart.addKeyHandler(new KeyHandler() {
+		fldWidth.addBlurHandler(event -> actionPerformed(fldWidth));
 
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					actionPerformed(fldStart);
-				}
-			}
-		});
-
-		fldWidth.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldWidth.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				actionPerformed(fldWidth);
-			}
-		});
-
-		fldWidth.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					actionPerformed(fldWidth);
-				}
 			}
 		});
 
@@ -441,14 +396,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		field.enableGGBKeyboard();
-		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
-			@Override
-			public void onInsert(String text) {
-				int cursorPos = field.removeDummyCursor();
-				actionPerformed(field);
-				if (Browser.isTabletBrowser()) {
-					field.addDummyCursor(cursorPos);
-				}
+		field.addInsertHandler(text -> {
+			int cursorPos = field.removeDummyCursor();
+			actionPerformed(field);
+			if (Browser.isTabletBrowser()) {
+				field.addDummyCursor(cursorPos);
 			}
 		});
 	}
@@ -457,28 +409,20 @@ public class DataDisplayPanelW extends FlowPanel implements
 		AriaMenuBar menu = new AriaMenuBar();
 		AriaMenuItem miToGraphich = new AriaMenuItem(
 				loc.getMenu("CopyToGraphics"), false,
-		        new Command() {
-
-			        @Override
-					public void execute() {
-				        exportToEV();
-						btnExport.removeSubPopup();
-			        }
-		});
+				() -> {
+					exportToEV();
+					btnExport.removeSubPopup();
+				});
 
 		menu.addItem(miToGraphich);
 
 		if (app.getLAF().copyToClipboardSupported()) {
 			AriaMenuItem miAsPicture = new AriaMenuItem(
 					loc.getMenu("ExportAsPicture"), false,
-			        new Command() {
-
-				        @Override
-						public void execute() {
-				        	exportAsPicture();
-							btnExport.removeSubPopup();
-				        }
-			});
+					() -> {
+						exportAsPicture();
+						btnExport.removeSubPopup();
+					});
 			menu.addItem(miAsPicture);
 		}
 		String image = "<img src=\""

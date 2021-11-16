@@ -16,8 +16,6 @@ import org.geogebra.web.html5.main.LocalizationW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -148,13 +146,7 @@ public class OneVarInferencePanelW extends FlowPanel
 		btnTwo.setValue(true);
 
 		lbAltHyp = new ListBox();
-		lbAltHyp.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				actionPerformed(lbAltHyp);
-			}
-		});
+		lbAltHyp.addChangeHandler(event -> actionPerformed(lbAltHyp));
 
 		lblNull = new Label();
 		lblNull.setStyleName("panelTitle");

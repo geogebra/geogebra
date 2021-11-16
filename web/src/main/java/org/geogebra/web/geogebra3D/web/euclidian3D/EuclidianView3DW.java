@@ -403,12 +403,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// used only when no webGL
 	}
 
-	private AnimationCallback repaintCallback = new AnimationCallback() {
-		@Override
-		public void execute(double ts) {
-			doRepaint2();
-		}
-	};
+	private AnimationCallback repaintCallback = ts -> doRepaint2();
 
 	/**
 	 * This doRepaint method should be used instead of repaintView in cases when

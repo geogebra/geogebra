@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
@@ -15,8 +13,6 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -168,23 +164,13 @@ public class AxisPanel extends FlowPanel
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();
 
-		tfCross.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					model.applyCrossing(tfCross.getText());
-				}
-			}
-		});
-
-		tfCross.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		tfCross.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				model.applyCrossing(tfCross.getText());
 			}
 		});
+
+		tfCross.addBlurHandler(event -> model.applyCrossing(tfCross.getText()));
 
 		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
 		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));

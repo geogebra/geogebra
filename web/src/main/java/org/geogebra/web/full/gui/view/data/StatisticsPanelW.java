@@ -5,8 +5,6 @@ import org.geogebra.common.gui.view.data.StatisticsModel;
 import org.geogebra.common.gui.view.data.StatisticsModel.IStatisticsModelListener;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -173,13 +171,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private void createInferenceTypeComboBox() {
 		if (lbInferenceMode == null) {
 			lbInferenceMode = new ListBox();
-			lbInferenceMode.addChangeHandler(new ChangeHandler() {
-				
-				@Override
-				public void onChange(ChangeEvent event) {
-					actionPerformed(lbInferenceMode);
-				}
-			});
+			lbInferenceMode.addChangeHandler(event -> actionPerformed(lbInferenceMode));
 		} else {
 			lbInferenceMode.clear();
 		}

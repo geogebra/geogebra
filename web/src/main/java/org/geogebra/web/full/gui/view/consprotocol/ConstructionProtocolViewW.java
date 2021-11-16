@@ -24,7 +24,6 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.cell.client.TextInputCell;
 import com.google.gwt.core.client.Scheduler;
@@ -35,11 +34,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEndEvent;
-import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
-import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -131,19 +126,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		outerScrollPanel.add(cpPanel);
 		table.addStyleName("hiddenheader");
 
-		scrollPane.addScrollHandler(new ScrollHandler() {
-			@Override
-			public void onScroll(ScrollEvent event) {
-				int scrollPosition = scrollPane.getHorizontalScrollPosition();
-				if (innerHolderPanel
-						.getOffsetWidth() < scrollPane.getOffsetWidth()
-								+ scrollPosition) {
-					innerHolderPanel.setWidth(
-							(scrollPane.getOffsetWidth() + scrollPosition)
-									+ "px");
-				}
-				holderPanel.setHorizontalScrollPosition(scrollPosition);
+		scrollPane.addScrollHandler(event -> {
+			int scrollPosition = scrollPane.getHorizontalScrollPosition();
+			if (innerHolderPanel
+					.getOffsetWidth() < scrollPane.getOffsetWidth()
+							+ scrollPosition) {
+				innerHolderPanel.setWidth(
+						(scrollPane.getOffsetWidth() + scrollPosition)
+								+ "px");
 			}
+			holderPanel.setHorizontalScrollPosition(scrollPosition);
 		});
 
 	}
@@ -169,31 +161,26 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	protected void setHeaderSizes() {
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				// TODO Auto-generated method stub
-				NodeList<Element> tableRows = table.getElement()
-						.getElementsByTagName("tbody").getItem(0)
-						.getElementsByTagName("tr");
-				if (tableRows.getLength() == 0) {
-					return;
-				}
-
-				NodeList<Element> firstRow = tableRows.getItem(0)
-						.getElementsByTagName("td");
-
-				for (int i = 0; i < table.getColumnCount(); i++) {
-					int w = firstRow.getItem(i).getOffsetWidth();
-					headerTable.setColumnWidth(i, w + "px");
-				}
-
-				int tableWidth = table.getOffsetWidth();
-				headerTable.getElement().getStyle().setWidth(tableWidth,
-						Unit.PX);
-
+		Scheduler.get().scheduleDeferred(() -> {
+			// TODO Auto-generated method stub
+			NodeList<Element> tableRows = table.getElement()
+					.getElementsByTagName("tbody").getItem(0)
+					.getElementsByTagName("tr");
+			if (tableRows.getLength() == 0) {
+				return;
 			}
+
+			NodeList<Element> firstRow = tableRows.getItem(0)
+					.getElementsByTagName("td");
+
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				int w = firstRow.getItem(i).getOffsetWidth();
+				headerTable.setColumnWidth(i, w + "px");
+			}
+
+			int tableWidth = table.getOffsetWidth();
+			headerTable.getElement().getStyle().setWidth(tableWidth,
+					Unit.PX);
 
 		});
 
@@ -211,29 +198,21 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * adds handlers for dragging rows. Overridden for touch.
 	 */
 	protected void addDragDropHandlers() {
-		table.addDomHandler(new DragStartHandler() {
+		table.addDomHandler(event -> handleDrag(event.getNativeEvent().getClientY()),
+				DragStartEvent.getType());
 
-			@Override
-			public void onDragStart(DragStartEvent event) {
-				handleDrag(event.getNativeEvent().getClientY());
+		table.addDomHandler(event -> {
+			if (draggedRow != null) {
+				draggedRow.removeClassName("isDragging");
 			}
-		}, DragStartEvent.getType());
 
-		table.addDomHandler(new DragEndHandler() {
-			@Override
-			public void onDragEnd(DragEndEvent event) {
-				if (draggedRow != null) {
-					draggedRow.removeClassName("isDragging");
-				}
-
-				if (event.getNativeEvent().getClientX() > table.getElement()
-						.getAbsoluteRight()
-						|| event.getNativeEvent().getClientX() < table
-								.getElement().getAbsoluteLeft()) {
-					return;
-				}
-				handleDrop(event.getNativeEvent().getClientY());
+			if (event.getNativeEvent().getClientX() > table.getElement()
+					.getAbsoluteRight()
+					|| event.getNativeEvent().getClientX() < table
+							.getElement().getAbsoluteLeft()) {
+				return;
 			}
+			handleDrop(event.getNativeEvent().getClientY());
 		}, DragEndEvent.getType());
 	}
 
@@ -567,15 +546,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		};
 
-		col.setFieldUpdater(new FieldUpdater<RowData, String>() {
-
-			@Override
-			public void update(int index, RowData object, String value) {
-				object.getGeo().setCaption(value);
-				data.initView();
-				object.getGeo().updateVisualStyleRepaint(GProperty.CAPTION);
-			}
-
+		col.setFieldUpdater((index, object, value) -> {
+			object.getGeo().setCaption(value);
+			data.initView();
+			object.getGeo().updateVisualStyleRepaint(GProperty.CAPTION);
 		});
 
 		return col;
@@ -596,15 +570,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		};
 
-		col.setFieldUpdater(new FieldUpdater<RowData, Boolean>() {
-
-			@Override
-			public void update(int index, RowData object, Boolean value) {
-				object.getGeo().setConsProtocolBreakpoint(value);
-				data.initView();
-				tableInit();
-			}
-
+		col.setFieldUpdater((index, object, value) -> {
+			object.getGeo().setConsProtocolBreakpoint(value);
+			data.initView();
+			tableInit();
 		});
 
 		return col;
@@ -661,14 +630,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				}
 			}
 			final int row2 = row;
-			app.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					markRowsActive(row2);
-
-				}
-			});
+			app.invokeLater(() -> markRowsActive(row2));
 		}
 	}
 
@@ -731,12 +693,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 
 	void rowCountChanged() {
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				makeTableRowsDragable();
-			}
-		});
+		app.invokeLater(this::makeTableRowsDragable);
 		scrollToConstructionStep();
 	}
 
@@ -900,16 +857,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		previewTable.setRowData(0, data.getrowList());
 		previewTable.setWidth(w + "px");
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				Log.debug("width: " + previewTable.getOffsetWidth());
-				Log.debug(
-						"zoom: " + scaledWidth / previewTable.getOffsetWidth());
-				previewTable.getElement().getStyle().setProperty("zoom",
-						(scaledWidth / previewTable.getOffsetWidth()) + "");
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			Log.debug("width: " + previewTable.getOffsetWidth());
+			Log.debug(
+					"zoom: " + scaledWidth / previewTable.getOffsetWidth());
+			previewTable.getElement().getStyle().setProperty("zoom",
+					(scaledWidth / previewTable.getOffsetWidth()) + "");
 		});
 	}
 
