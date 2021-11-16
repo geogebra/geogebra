@@ -34,7 +34,7 @@ public class OptionsAlgebraW
 		implements OptionPanelW, SetLabels, SettingListener {
 
 	private AppW app;
-	private AlgebraTab algebraTab;
+	private final AlgebraTab algebraTab;
 	/**
 	 * tabs (for now only algebra)
 	 */
@@ -55,7 +55,7 @@ public class OptionsAlgebraW
 		private ListBox coordStyle;
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
-		private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
+		private final List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
 			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 		@Nullable
@@ -63,6 +63,9 @@ public class OptionsAlgebraW
 
 		@Nullable
 		private FormLabel lblAngleUnit;
+
+		@Nullable
+		private FlowPanel angleUnitRow;
 
 		/**
 		 * algebra tab in algebra settings panel
@@ -93,11 +96,7 @@ public class OptionsAlgebraW
 					getApp().getLocalization().getMenu("Coordinates") + ":")
 							.setFor(coordStyle);
 
-			if (app.getConfig().isAngleUnitSettingEnabled()) {
-				angleUnit = new ListBox();
-				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
-				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
-			}
+			rebuildAngleUnit();
 
 			optionsPanel.add(lblShow);
 			optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
@@ -108,8 +107,8 @@ public class OptionsAlgebraW
 
 			optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
 			coordStyle.addChangeHandler(this);
-			if (angleUnit != null) {
-				optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
+			if (angleUnitRow != null && angleUnit != null) {
+				optionsPanel.add(angleUnitRow);
 				angleUnit.addChangeHandler(this);
 			}
 			sortMode.addChangeHandler(this);
@@ -118,13 +117,27 @@ public class OptionsAlgebraW
 			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = getDescription().getSelectedIndex();
-				getApp().getKernel()
-						.setAlgebraStyle(
+				getApp().getSettings().getAlgebra().setStyle(
 							AlgebraSettings.getStyleModeAt(idx));
 					getApp().getKernel().updateConstruction(false);
 				}
 			});
 			setLabels();
+		}
+
+		private void rebuildAngleUnit() {
+			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
+				angleUnit = new ListBox();
+				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
+				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
+				angleUnitRow = LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit);
+				optionsPanel.add(angleUnitRow);
+			} else if (!app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow != null) {
+				angleUnitRow.removeFromParent();
+				angleUnitRow = null;
+				angleUnit = null;
+				lblAngleUnit = null;
+			}
 		}
 
 		/**
@@ -223,6 +236,7 @@ public class OptionsAlgebraW
 		 * update content GUI
 		 */
 		public void updateGUI() {
+			rebuildAngleUnit();
 			showAuxiliaryObjects.setValue(getApp().showAuxiliaryObjects);
 			updateSortMode();
 			description.update();
@@ -311,9 +325,7 @@ public class OptionsAlgebraW
 		tabPanel = new MultiRowsTabPanel();
 		algebraTab = new AlgebraTab();
 		tabPanel.add(algebraTab, app.getLocalization().getMenu("Algebra"));
-		updateGUI();
 		tabPanel.selectTab(0);
-		app.setDefaultCursor();
 		app.getSettings().getAlgebra().addListener(this);
 	}
 
