@@ -22,7 +22,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.Button;

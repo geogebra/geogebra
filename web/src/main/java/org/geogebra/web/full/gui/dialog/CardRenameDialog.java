@@ -5,8 +5,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;

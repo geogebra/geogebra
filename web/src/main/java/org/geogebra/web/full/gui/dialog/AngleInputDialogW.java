@@ -18,7 +18,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;

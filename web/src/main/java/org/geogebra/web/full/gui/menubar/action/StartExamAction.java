@@ -5,7 +5,7 @@ import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
  * Starts exam.

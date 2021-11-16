@@ -479,4 +479,41 @@
 			color: colors.$text-secondary;
 		}
 	}
+
+	/** TAB COMPONENT */
+	.componentTab {
+		width: 100%;
+		.indicator {
+			height: 2px;
+			width: 90px;
+		}
+
+		.header {
+			border-bottom: 1px solid rgba(0,0,0,.12);
+			.tabBtn {
+				min-width: 90px;
+				height: 48px;
+				border-radius: 2px;
+				.gwt-Label {
+					height: 20px;
+					line-height: 20px;
+					margin: 14px 16px;
+					text-align: center;
+				}
+
+				&:hover {
+					background-color: rgba(0,0,0,.08);
+				}
+
+				&.selected {
+					.gwt-Label {
+						color: #6557d2;
+					}
+					&:hover {
+						background-color: white;
+					}
+				}
+			}
+		}
+	}
 }

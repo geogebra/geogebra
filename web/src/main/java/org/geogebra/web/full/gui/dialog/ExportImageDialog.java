@@ -6,8 +6,8 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.Style;

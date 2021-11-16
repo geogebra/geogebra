@@ -58,7 +58,7 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;

@@ -5,8 +5,8 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 public class ColorChooserDialog extends ComponentDialog {
 	private ColorChooserW colorChooserW;
