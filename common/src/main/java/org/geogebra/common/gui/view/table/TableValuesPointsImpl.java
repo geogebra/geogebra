@@ -37,7 +37,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column, boolean removedByUser) {
+			int column) {
 		removePointsFromList(column);
 	}
 

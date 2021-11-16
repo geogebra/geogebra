@@ -18,6 +18,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -5211,6 +5212,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	@Override
 	public int getLastStepNumber() {
 		return cons.steps();
+	}
+
+	/**
+	 * starts or ends batch updates for tableView
+	 * @param start true if batch update should start, false if it should end
+	 */
+	public void notifyTableViewAboutBatchUpdate(boolean start) {
+		for (View view: views) {
+			if (view instanceof TableValuesView) {
+				if (start) {
+					view.startBatchUpdate();
+				} else {
+					view.endBatchUpdate();
+				}
+			}
+		}
 	}
 
 }

@@ -13,8 +13,7 @@ public interface TableValuesListener {
 	 * @param evaluatable evaluatable
 	 * @param column the index of the column
 	 */
-	void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column,
-			boolean removedByUser);
+	void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column);
 
 	/**
 	 * Notified when the column has changed.

@@ -59,7 +59,7 @@ public class TableValuesViewDimensions implements TableValuesDimensions, TableVa
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column, boolean removedByUser) {
+			int column) {
 		columnCache.removeColumn(column);
 	}
 

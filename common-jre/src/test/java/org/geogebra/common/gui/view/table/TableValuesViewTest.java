@@ -295,7 +295,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		showColumn(lines[0]);
 		hideColumn(lines[0]);
 		verify(listener, never()).notifyDatasetChanged(model);
-		verify(listener).notifyColumnRemoved(model, lines[0], 1, true);
+		verify(listener).notifyColumnRemoved(model, lines[0], 1);
 	}
 
 	@Test
@@ -321,7 +321,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener, never()).notifyColumnChanged(model, columnToRemove, 1);
 		verify(listener, never()).notifyCellChanged(model, columnToRemove, 1, 0);
-		verify(listener).notifyColumnRemoved(model, columnToRemove, 1, false);
+		verify(listener).notifyColumnRemoved(model, columnToRemove, 1);
 	}
 
 	@Test
@@ -366,7 +366,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		verify(listener, never()).notifyRowChanged(model, 0);
 		verify(listener, never()).notifyRowsRemoved(model, 0, 0);
 		verify(listener, never()).notifyColumnChanged(model, y, 1);
-		verify(listener).notifyColumnRemoved(model, y, 1, false);
+		verify(listener).notifyColumnRemoved(model, y, 1);
 	}
 
 	@Test
@@ -462,7 +462,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 		processor.processInput("", list, 1);
 		verify(listener, never()).notifyDatasetChanged(model);
 		verify(listener).notifyRowsRemoved(model, 0, 1);
-		verify(listener).notifyColumnRemoved(model, list, 1, false);
+		verify(listener).notifyColumnRemoved(model, list, 1);
 	}
 
 	@Test
@@ -637,23 +637,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 				model);
 		model.registerListener(tablePoints);
 		return tablePoints;
-	}
-
-	@Test
-	public void testNotifyRowsAddedCalled() {
-		// The following case can happen in undo redo calls
-		// This cannot be reproduced from the UI
-		processor.processInput("1", view.getValues(), 0);
-		model.registerListener(listener);
-		Construction cons = getConstruction();
-		GeoList list = new GeoList(cons);
-		list.add(new GeoNumeric(cons, 1));
-		list.add(new GeoNumeric(cons, 1));
-		list.add(new GeoNumeric(cons, 1));
-		list.add(new GeoNumeric(cons, 1));
-		showColumn(list);
-		verify(listener).notifyRowsAdded(model, 1, 3);
-		verify(listener).notifyColumnAdded(model, list, 1);
 	}
 
 	@Test

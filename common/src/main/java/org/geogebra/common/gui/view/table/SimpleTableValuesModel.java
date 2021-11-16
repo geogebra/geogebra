@@ -145,7 +145,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			for (int i = 0; i < columns.size(); i++) {
 				columns.get(i).getEvaluatable().setTableColumn(i);
 			}
-			collector.notifyColumnRemoved(this, evaluatable, index, removedByUser);
+			collector.notifyColumnRemoved(this, evaluatable, index);
 			collector.endCollection(this);
 		}
 	}
@@ -266,10 +266,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.endCollection(this);
 	}
 
-	void notifyColumnRemoved(GeoEvaluatable evaluatable, int column,
-			boolean removedByUser) {
-		forEachListener(listener -> listener.notifyColumnRemoved(this, evaluatable, column,
-				removedByUser));
+	void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
+		forEachListener(listener -> listener.notifyColumnRemoved(this, evaluatable, column));
 	}
 
 	void notifyColumnAdded(GeoEvaluatable evaluatable, int column) {
