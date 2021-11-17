@@ -100,7 +100,6 @@ import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 /**
  * View containing graphic representation of construction elements
