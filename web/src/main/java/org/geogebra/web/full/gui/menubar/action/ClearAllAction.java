@@ -34,8 +34,8 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 		DialogData data = new DialogData("TAB Title", "Cancel", "OK");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		TabData tab1 = new TabData("Tab 1 Title", new FlowPanel());
-		TabData tab2 = new TabData("Tab 2 Title", new FlowPanel());
-		TabData tab3 = new TabData("Tab 3 Title", new FlowPanel());
+		TabData tab2 = new TabData("Tab 2", new FlowPanel());
+		TabData tab3 = new TabData("Tab 3 loooooong", new FlowPanel());
 		ComponentTab componentTab = new ComponentTab(
 				new ArrayList<>(Arrays.asList(tab1, tab2, tab3)),
 				app.getLocalization());
