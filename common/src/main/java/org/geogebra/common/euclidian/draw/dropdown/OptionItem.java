@@ -76,7 +76,8 @@ class OptionItem {
 
 	private void calculateDimensionsForLatex() {
 		dimension = CanvasDrawable.measureLatex(list.getApp(), list,
-				font, text);
+				font, text, CanvasDrawable.shouldBeSerif(text, list.get(index),
+						false));
 	}
 
 	public int getWidth() {

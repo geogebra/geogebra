@@ -95,7 +95,14 @@ public abstract class CanvasDrawable extends Drawable {
 		return ret;
 	}
 
-	protected boolean shouldBeSerif(String text, GeoElement geo0, boolean isContentOfInputBox) {
+	/**
+	 *
+	 * @param text to check
+	 * @param geo0 where text is came from
+	 * @param isContentOfInputBox if it is from input box
+	 * @return if text font should be serif or not
+	 */
+	public static boolean shouldBeSerif(String text, GeoElement geo0, boolean isContentOfInputBox) {
 		boolean serif = StringUtil.startsWithFormattingCommand(text);
 
 		if (!serif && geo0 instanceof TextProperties) {
