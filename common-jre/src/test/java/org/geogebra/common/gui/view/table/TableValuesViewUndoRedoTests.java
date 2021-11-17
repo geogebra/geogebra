@@ -3,8 +3,6 @@ package org.geogebra.common.gui.view.table;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -35,7 +33,7 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 		shouldHaveUndoPointsAndColumns(1, 1);
 		showColumn(lines[0]);
 		getKernel().undo();
-		assertTrue(view.isEmpty());
+		assertTrue(view.getTableValuesModel().getColumnCount() == 1);
 		getKernel().redo();
 		shouldHaveUndoPointsAndColumns(2, 2);
 	}
@@ -61,11 +59,11 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 		shouldHaveUndoPointsAndColumns(1, 1);
 		showColumn(lines[0]);
 		hideColumn(lines[0]);
-		assertTrue(view.isEmpty());
+		assertTrue(view.getTableValuesModel().getColumnCount() == 1);
 		getKernel().undo();
 		assertFalse(view.isEmpty());
 		getKernel().redo();
-		assertTrue(view.isEmpty());
+		assertTrue(view.getTableValuesModel().getColumnCount() == 1);
 		shouldHaveUndoPointsAndColumns(3, 1);
 	}
 
