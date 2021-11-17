@@ -132,7 +132,7 @@ public class AlgoIteration extends AlgoElement {
 
 		expressionParentAlgo = expression.getParentAlgorithm();
 
-		result = expression.copy();
+		result = expression.copyInternal(cons);
 		setInputOutput(); // for AlgoElement
 
 		compute();
