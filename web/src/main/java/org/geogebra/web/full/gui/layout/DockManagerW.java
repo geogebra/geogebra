@@ -34,7 +34,6 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -717,24 +716,18 @@ public class DockManagerW extends DockManager {
 	private void setDividerLocation(DockSplitPaneW splitPane,
 			final double dividerLocation) {
 		final DockSplitPaneW sp = splitPane;
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				sp.setDividerLocation(dividerLocation);
-				rootPane.deferredOnResize();
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			sp.setDividerLocation(dividerLocation);
+			rootPane.deferredOnResize();
 		});
 	}
 
 	private void setDividerLocationAbs(DockSplitPaneW splitPane,
 			final int dividerLocation) {
 		final DockSplitPaneW sp = splitPane;
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				sp.setDividerLocation(dividerLocation);
-				rootPane.deferredOnResize();
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			sp.setDividerLocation(dividerLocation);
+			rootPane.deferredOnResize();
 		});
 	}
 
@@ -1574,13 +1567,7 @@ public class DockManagerW extends DockManager {
 			final double landscape = PerspectiveDecoder.landscapeRatio(app,
 					app.getWidth());
 
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-					adjustViews(landscape, orientationChanged);
-				}
-			});
+			Scheduler.get().scheduleDeferred(() -> adjustViews(landscape, orientationChanged));
 		}
 	}
 

@@ -88,14 +88,11 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 				
 			} else {
 				final int j = i;
-				addItem(texts[i], new Command() {
-					@Override
-					public void execute() {
-						setSelected(j);
-						listener.actionPerformed(commands[j]);
-						if (itemSideEffect != null) {
-							itemSideEffect.execute();
-						}
+				addItem(texts[i], () -> {
+					setSelected(j);
+					listener.actionPerformed(commands[j]);
+					if (itemSideEffect != null) {
+						itemSideEffect.execute();
 					}
 				}, i == selectedPos);
 			}

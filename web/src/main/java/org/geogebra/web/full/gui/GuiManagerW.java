@@ -118,7 +118,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -135,7 +134,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -2027,19 +2025,15 @@ public class GuiManagerW extends GuiManager
 	public void getToolImageURL(final int mode, final GeoImage geoImage,
 			final AsyncOperation<String> s) {
 
-		GGWToolBar.getImageResource(mode, getApp(), new HasResource() {
-
-			@Override
-			public void setResource(ResourcePrototype mode_tool_32) {
-				String url = NoDragImage.safeURI(mode_tool_32);
-				String fn = "geogebra_tool_" + mode;
-				String zipDirectory = getApp().md5Encrypt(fn);
-				fn = zipDirectory + "/" + fn;
-				getApp().getImageManager().addExternalImage(fn, url);
-				getApp().getImageManager().triggerSingleImageLoading(fn,
-						geoImage);
-				s.callback(fn);
-			}
+		GGWToolBar.getImageResource(mode, getApp(), mode_tool_32 -> {
+			String url = NoDragImage.safeURI(mode_tool_32);
+			String fn = "geogebra_tool_" + mode;
+			String zipDirectory = getApp().md5Encrypt(fn);
+			fn = zipDirectory + "/" + fn;
+			getApp().getImageManager().addExternalImage(fn, url);
+			getApp().getImageManager().triggerSingleImageLoading(fn,
+					geoImage);
+			s.callback(fn);
 		});
 
 	}
@@ -2245,13 +2239,9 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void initShareActionInGlobalHeader() {
-		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
-
-			@Override
-			public void callback(Widget share) {
-				getApp().hideMenu();
-				FileMenuW.share(getApp(), share);
-			}
+		GlobalHeader.INSTANCE.initShareButton(share -> {
+			getApp().hideMenu();
+			FileMenuW.share(getApp(), share);
 		});
 	}
 

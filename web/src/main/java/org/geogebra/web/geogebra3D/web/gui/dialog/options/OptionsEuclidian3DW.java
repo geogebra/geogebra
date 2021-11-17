@@ -2,8 +2,6 @@ package org.geogebra.web.geogebra3D.web.gui.dialog.options;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
@@ -20,8 +18,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -384,23 +380,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			perspPanel = new FlowPanel();
 			tfPersp = getTextField();
 			tfPerspLabel = new FormLabel().setFor(tfPersp);
-			tfPersp.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						processPerspText();
-					}
-				}
-			});
-
-			tfPersp.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
+			tfPersp.addKeyHandler(e -> {
+				if (e.isEnterKey()) {
 					processPerspText();
 				}
 			});
+
+			tfPersp.addBlurHandler(event -> processPerspText());
 			FlowPanel tfPerspPanel = new FlowPanel();
 			tfPerspPanel.setStyleName("panelRowCell");
 			tfPerspPanel.add(tfPerspLabel);
@@ -420,22 +406,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			tfGlassesEyeSep = getTextField();
 			tfGlassesLabel = new FormLabel().setFor(tfGlassesEyeSep);
-			tfGlassesEyeSep.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						processGlassesEyeSepText();
-					}
-				}
-			});
-			tfGlassesEyeSep.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
+			tfGlassesEyeSep.addKeyHandler(e -> {
+				if (e.isEnterKey()) {
 					processGlassesEyeSepText();
 				}
 			});
+			tfGlassesEyeSep.addBlurHandler(event -> processGlassesEyeSepText());
 			cbGlassesGray = new CheckBox(loc.getMenu("GrayScale"));
 			cbGlassesGray.addClickHandler(event -> {
 				get3dview().setGlassesGrayScaled(cbGlassesGray.getValue());

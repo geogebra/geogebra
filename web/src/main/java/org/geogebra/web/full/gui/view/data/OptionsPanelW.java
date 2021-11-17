@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -425,42 +423,22 @@ public class OptionsPanelW extends FlowPanel
 		fldXMin = InputPanelW.newTextComponent(app);
 		fldXMin.setEditable(true);
 		fldXMin.enableGGBKeyboard();
-		fldXMin.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					actionPerformed(fldXMin);
-				}
-			}
-		});
-		fldXMin.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldXMin.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				actionPerformed(fldXMin);
 			}
 		});
+		fldXMin.addBlurHandler(event -> actionPerformed(fldXMin));
 
 		lblXMax = new Label();
 		fldXMax = InputPanelW.newTextComponent(app);
 		fldXMax.enableGGBKeyboard();
-		fldXMax.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					actionPerformed(fldXMax);
-				}
-			}
-		});
-		fldXMax.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		fldXMax.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				actionPerformed(fldXMax);
 			}
 		});
+		fldXMax.addBlurHandler(event -> actionPerformed(fldXMax));
 
 		lblYMin = new Label();
 		fldYMin = InputPanelW.newTextComponent(app);
@@ -514,14 +492,7 @@ public class OptionsPanelW extends FlowPanel
 			cbLogAxes.addItem("Logarithmic To Standard");
 			cbLogAxes.addItem("Standard To Logarithmic");
 			cbLogAxes.addItem("Logarithmic To Logarithmic");
-			cbLogAxes.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					onComboBoxChange();
-
-				}
-			});
+			cbLogAxes.addChangeHandler(event -> onComboBoxChange());
 			FlowPanel modePanel = new FlowPanel();
 			modePanel.add(cbLogAxes);
 			graphPanel.add(modePanel);

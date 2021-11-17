@@ -9,7 +9,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
@@ -31,7 +30,6 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -76,18 +74,14 @@ public class AppWsolver extends AppW implements HasKeyboard {
     }
 
 	private void addShareButton() {
-		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
-
-			@Override
-			public void callback(Widget share) {
-				String url = Location.getHref().replaceAll("\\?.*", "")
-						+ getRelativeURLforEqn(getMathField().getText());
-				DialogData data = new DialogData("Share", null, null);
-				ShareLinkDialog sd = new ShareLinkDialog(AppWsolver.this, data, url,
-						share);
-				sd.setVisible(true);
-				sd.center();
-			}
+		GlobalHeader.INSTANCE.initShareButton(share -> {
+			String url = Location.getHref().replaceAll("\\?.*", "")
+					+ getRelativeURLforEqn(getMathField().getText());
+			DialogData data = new DialogData("Share", null, null);
+			ShareLinkDialog sd = new ShareLinkDialog(this, data, url,
+					share);
+			sd.setVisible(true);
+			sd.center();
 		});
 	}
 

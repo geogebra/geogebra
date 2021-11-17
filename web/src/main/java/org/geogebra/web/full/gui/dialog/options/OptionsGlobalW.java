@@ -6,15 +6,12 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -102,21 +99,17 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 							.setFor(roundingList);
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblRounding, roundingList));
-			roundingList.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					try {
-						// TODO copypasted from RoundingProperty
-						int index = roundingList.getSelectedIndex();
-						boolean figures = index >= app.getLocalization()
-								.getDecimalPlaces().length;
-						optionsMenu.setRounding(app,
-								figures ? index + 1 : index, figures);
-						app.setUnsaved();
-					} catch (Exception e) {
-						app.showGenericError(e);
-					}
+			roundingList.addChangeHandler(event -> {
+				try {
+					// TODO copypasted from RoundingProperty
+					int index = roundingList.getSelectedIndex();
+					boolean figures = index >= app.getLocalization()
+							.getDecimalPlaces().length;
+					optionsMenu.setRounding(app,
+							figures ? index + 1 : index, figures);
+					app.setUnsaved();
+				} catch (Exception e) {
+					app.showGenericError(e);
 				}
 			});
 		}
@@ -129,17 +122,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblLabeling, labelingList));
-			labelingList.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					int index = labelingList.getSelectedIndex();
-					if (app.isUnbundledGraphing()) {
-						index++;
-					}
-					app.setLabelingStyle(index);
-					app.setUnsaved();
+			labelingList.addChangeHandler(event -> {
+				int index = labelingList.getSelectedIndex();
+				if (app.isUnbundledGraphing()) {
+					index++;
 				}
+				app.setLabelingStyle(index);
+				app.setUnsaved();
 			});
 		}
 
@@ -150,20 +139,16 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 							.setFor(fontSizeList);
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblFontSize, fontSizeList));
-			fontSizeList.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					String fontStr = fontSizeList
-							.getValue(fontSizeList.getSelectedIndex());
-					try {
-						app.setFontSize(
-								Integer.parseInt(fontStr.substring(0, 2)),
-								true);
-						app.setUnsaved();
-					} catch (Exception e) {
-						app.showGenericError(e);
-					}
+			fontSizeList.addChangeHandler(event -> {
+				String fontStr = fontSizeList
+						.getValue(fontSizeList.getSelectedIndex());
+				try {
+					app.setFontSize(
+							Integer.parseInt(fontStr.substring(0, 2)),
+							true);
+					app.setUnsaved();
+				} catch (Exception e) {
+					app.showGenericError(e);
 				}
 			});
 		}
@@ -188,14 +173,10 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 							.setFor(languageList);
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblLanguage, languageList));
-			languageList.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					String localeStr = languageList
-							.getValue(languageList.getSelectedIndex());
-					switchLanguage(localeStr, app);
-				}
+			languageList.addChangeHandler(event -> {
+				String localeStr = languageList
+						.getValue(languageList.getSelectedIndex());
+				switchLanguage(localeStr, app);
 			});
 		}
 
@@ -246,15 +227,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization().getMenu("RestoreSettings"));
 			restoreSettingsBtn.setStyleName("MyCanvasButton");
 			restoreSettingsBtn.addStyleName("settingsBtn");
-			restoreSettingsBtn.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					resetDefault();
-					setFontSizeInComboBox();
-					setLabelingInComboBox();
-					setRoundingInComboBox();
-				}
+			restoreSettingsBtn.addFastClickHandler(source -> {
+				resetDefault();
+				setFontSizeInComboBox();
+				setLabelingInComboBox();
+				setRoundingInComboBox();
 			});
 			saveRestoreRow = LayoutUtilW
 					.panelRow(saveSettingsBtn, restoreSettingsBtn);
@@ -267,13 +244,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					app.getLocalization().getMenu("Settings.Save"));
 			saveSettingsBtn.setStyleName("MyCanvasButton");
 			saveSettingsBtn.addStyleName("settingsBtn");
-			saveSettingsBtn.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					GeoGebraPreferencesW.getPref().saveXMLPreferences(app);
-				}
-			});
+			saveSettingsBtn.addFastClickHandler(
+					source -> GeoGebraPreferencesW.getPref().saveXMLPreferences(app));
 			optionsPanel.add(saveSettingsBtn);
 		}
 

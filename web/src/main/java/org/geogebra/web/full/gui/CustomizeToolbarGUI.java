@@ -270,44 +270,33 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			// tool.addStyleName("insertBeforeBorder");
 			// tool.addStyleName("insertAfterBorder");
 
-			tool.addDropHandler(new DropHandler() {
-				@Override
-				public void onDrop(DropEvent event) {
-					event.preventDefault();
-					event.stopPropagation();
-					if (draggingTool == tool) {
-						Log.debug("Dropping tool to itself");
-						return;
-					}
-					int idx = indexOf(item);
-					Log.debug("[CUSTOMIZE] drop on item " + idx);
-					insertTool(idx, draggingTool);
-					tool.removeStyleName("insertAfterBranch");
-					tool.removeStyleName("insertBeforeBranch");
+			tool.addDropHandler(event -> {
+				event.preventDefault();
+				event.stopPropagation();
+				if (draggingTool == tool) {
+					Log.debug("Dropping tool to itself");
+					return;
 				}
-
+				int idx = indexOf(item);
+				Log.debug("[CUSTOMIZE] drop on item " + idx);
+				insertTool(idx, draggingTool);
+				tool.removeStyleName("insertAfterBranch");
+				tool.removeStyleName("insertBeforeBranch");
 			});
 
-			tool.addDragEnterHandler(new DragEnterHandler() {
-				@Override
-				public void onDragEnter(DragEnterEvent event) {
-					event.preventDefault();
-					event.stopPropagation();
-					Log.debug("dragEnter");
-					tool.addStyleName("insertBeforeBranch");
-				}
+			tool.addDragEnterHandler(event -> {
+				event.preventDefault();
+				event.stopPropagation();
+				Log.debug("dragEnter");
+				tool.addStyleName("insertBeforeBranch");
 			});
 
-			tool.addDragLeaveHandler(new DragLeaveHandler() {
-				@Override
-				public void onDragLeave(DragLeaveEvent event) {
-					event.preventDefault();
-					event.stopPropagation();
-					Log.debug("dragLeave");
-					tool.removeStyleName("insertAfterBranch");
-					tool.removeStyleName("insertBeforeBranch");
-				}
-
+			tool.addDragLeaveHandler(event -> {
+				event.preventDefault();
+				event.stopPropagation();
+				Log.debug("dragLeave");
+				tool.removeStyleName("insertAfterBranch");
+				tool.removeStyleName("insertBeforeBranch");
 			});
 			toolbarChanged(toolTree.getToolbarString());
 			return item;
@@ -442,50 +431,35 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			tool.removeDragNDrop();
 
-			tool.addDropHandler(new DropHandler() {
-
-				@Override
-				public void onDrop(DropEvent event) {
-					if (draggingTool == tool
-					        || draggingTool.treeItem == treeItem) {
-						Log.debug("Dropping tool to itself");
-						tool.removeHighligts();
-						return;
-					}
-
-					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
-						Log.debug("Adding as last leaf!");
-						addTool(draggingTool);
-					} else {
-						int idx = treeItem.getChildIndex(tool.treeItem);
-						insertTool(idx, draggingTool);
-					}
-
+			tool.addDropHandler(event -> {
+				if (draggingTool == tool
+						|| draggingTool.treeItem == treeItem) {
+					Log.debug("Dropping tool to itself");
 					tool.removeHighligts();
+					return;
+				}
+
+				if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
+					Log.debug("Adding as last leaf!");
+					addTool(draggingTool);
+				} else {
+					int idx = treeItem.getChildIndex(tool.treeItem);
+					insertTool(idx, draggingTool);
+				}
+
+				tool.removeHighligts();
+			});
+
+			tool.addDragOverHandler(event -> {
+				if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
+					tool.addStyleName("insertAfterLeaf");
+				} else {
+					tool.addStyleName("insertBeforeLeaf");
+
 				}
 			});
 
-			tool.addDragOverHandler(new DragOverHandler() {
-
-				@Override
-				public void onDragOver(DragOverEvent event) {
-					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
-						tool.addStyleName("insertAfterLeaf");
-					} else {
-						tool.addStyleName("insertBeforeLeaf");
-
-					}
-				}
-			});
-
-			tool.addDragLeaveHandler(new DragLeaveHandler() {
-
-				@Override
-				public void onDragLeave(DragLeaveEvent event) {
-					tool.removeHighligts();
-
-				}
-			});
+			tool.addDragLeaveHandler(event -> tool.removeHighligts());
 			return leaf;
 		}
 
@@ -647,60 +621,51 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		spAllTools.addStyleName("allToolsScrollPanel");
 		allToolsPanelContent = new FlowPanel();
 		allToolsPanelContent.addStyleName("allToolsPanelContent");
-		allToolsPanelContent.addDomHandler(new DropHandler() {
-			@Override
-			public void onDrop(DropEvent event) {
-				event.preventDefault();
-				if (draggingTool != null) {
+		allToolsPanelContent.addDomHandler(event -> {
+			event.preventDefault();
+			if (draggingTool != null) {
 
-					if (draggingTool.getParent() == allToolsPanelContent) {
-						return;
-					}
-
-					Log.debug("Drop " + draggingTool.getTitle());
-					if (draggingTool.isLeaf()) {
-						Log.debug("[DROP] leaf");
-						usedToolToAll(draggingTool.getMode());
-						draggingTool.removeFromTree();
-
-					} else {
-						Log.debug("[DROP] branch");
-						if (draggingTool.treeItem == null) {
-							Log.debug("[DROP] dragging.treeItem == null");
-
-						}
-						for (int i = 0; i < draggingTool.treeItem
-						        .getChildCount(); i++) {
-							DraggableTool tool = (DraggableTool) (draggingTool.treeItem
-							        .getChild(i).getUserObject());
-							Log.debug("Dropping branch");
-							usedToolToAll(tool.getMode());
-						}
-
-						draggingTool.treeItem.remove();
-
-					}
-					draggingTool = null;
-					allToolsPanelContent.removeStyleName("toolBarDropping");
-					spAllTools.scrollToBottom();
-					toolTree.toolbarChanged(toolTree.getToolbarString());
+				if (draggingTool.getParent() == allToolsPanelContent) {
+					return;
 				}
+
+				Log.debug("Drop " + draggingTool.getTitle());
+				if (draggingTool.isLeaf()) {
+					Log.debug("[DROP] leaf");
+					usedToolToAll(draggingTool.getMode());
+					draggingTool.removeFromTree();
+
+				} else {
+					Log.debug("[DROP] branch");
+					if (draggingTool.treeItem == null) {
+						Log.debug("[DROP] dragging.treeItem == null");
+
+					}
+					for (int i = 0; i < draggingTool.treeItem
+							.getChildCount(); i++) {
+						DraggableTool tool = (DraggableTool) (draggingTool.treeItem
+								.getChild(i).getUserObject());
+						Log.debug("Dropping branch");
+						usedToolToAll(tool.getMode());
+					}
+
+					draggingTool.treeItem.remove();
+
+				}
+				draggingTool = null;
+				allToolsPanelContent.removeStyleName("toolBarDropping");
+				spAllTools.scrollToBottom();
+				toolTree.toolbarChanged(toolTree.getToolbarString());
 			}
 		}, DropEvent.getType());
 
-		allToolsPanelContent.addDomHandler(new DragOverHandler() {
-			@Override
-			public void onDragOver(DragOverEvent event) {
-				allToolsPanelContent.addStyleName("toolBarDropping");
-			}
-		}, DragOverEvent.getType());
+		allToolsPanelContent.addDomHandler(
+				event -> allToolsPanelContent.addStyleName("toolBarDropping"),
+				DragOverEvent.getType());
 
-		allToolsPanelContent.addDomHandler(new DragLeaveHandler() {
-			@Override
-			public void onDragLeave(DragLeaveEvent event) {
-				allToolsPanelContent.removeStyleName("toolBarDropping");
-			}
-		}, DragLeaveEvent.getType());
+		allToolsPanelContent.addDomHandler(
+				event -> allToolsPanelContent.removeStyleName("toolBarDropping"),
+				DragLeaveEvent.getType());
 
 		spAllTools.add(allToolsPanelContent);
 
@@ -732,40 +697,30 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		left.add(usedToolsPanelContent);
 
 		// dragging the item under the tree adds it to the end.
-		usedToolsPanelContent.addDomHandler(new DropHandler() {
-			@Override
-			public void onDrop(DropEvent event) {
-				event.preventDefault();
-				boolean emptyTree = toolTree.getItemCount() == 0;
-				if (emptyTree
-				        || toolTree.hitLastItem(event.getNativeEvent()
-				                .getClientY())) {
-					toolTree.addTool(draggingTool, true);
+		usedToolsPanelContent.addDomHandler(event -> {
+			event.preventDefault();
+			boolean emptyTree = toolTree.getItemCount() == 0;
+			if (emptyTree
+					|| toolTree.hitLastItem(event.getNativeEvent()
+							.getClientY())) {
+				toolTree.addTool(draggingTool, true);
 
-					if (!emptyTree) {
-						toolTree.getLastTool().removeStyleName(
-						        "insertAfterBranch");
-					}
+				if (!emptyTree) {
+					toolTree.getLastTool().removeStyleName(
+							"insertAfterBranch");
 				}
 			}
-
 		}, DropEvent.getType());
 
-		usedToolsPanelContent.addDomHandler(new DragOverHandler() {
-			@Override
-			public void onDragOver(DragOverEvent event) {
-				if (toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
-					toolTree.getLastTool().addStyleName("insertAfterBranch");
-				}
+		usedToolsPanelContent.addDomHandler(event -> {
+			if (toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
+				toolTree.getLastTool().addStyleName("insertAfterBranch");
 			}
 		}, DragOverEvent.getType());
 
-		usedToolsPanelContent.addDomHandler(new DragLeaveHandler() {
-			@Override
-			public void onDragLeave(DragLeaveEvent event) {
-				toolTree.getLastTool().removeStyleName("insertAfterBranch");
-			}
-		}, DragLeaveEvent.getType());
+		usedToolsPanelContent.addDomHandler(
+				event -> toolTree.getLastTool().removeStyleName("insertAfterBranch"),
+				DragLeaveEvent.getType());
 
 		return left;
 	}

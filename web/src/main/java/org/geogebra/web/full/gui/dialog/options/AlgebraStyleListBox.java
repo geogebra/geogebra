@@ -4,8 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class AlgebraStyleListBox extends ListBox {
@@ -21,24 +19,19 @@ public class AlgebraStyleListBox extends ListBox {
 	public AlgebraStyleListBox(AppW appW, boolean spreadsheet0) {
 		this.app = appW;
 		this.spreadsheet = spreadsheet0;
-		addChangeHandler(new ChangeHandler() {
+		addChangeHandler(event -> {
+			int idx = getSelectedIndex();
+			Kernel kernel = app.getKernel();
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				int idx = getSelectedIndex();
-				Kernel kernel = app.getKernel();
-
-				if (spreadsheet) {
-					kernel.setAlgebraStyleSpreadsheet(
-							AlgebraSettings.getStyleModeAt(idx));
-				} else {
-					kernel.setAlgebraStyle(
-							AlgebraSettings.getStyleModeAt(idx));
-				}
-
-				kernel.updateConstruction(false);
+			if (spreadsheet) {
+				kernel.setAlgebraStyleSpreadsheet(
+						AlgebraSettings.getStyleModeAt(idx));
+			} else {
+				kernel.setAlgebraStyle(
+						AlgebraSettings.getStyleModeAt(idx));
 			}
 
+			kernel.updateConstruction(false);
 		});
 
 	}

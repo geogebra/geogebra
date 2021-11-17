@@ -9,7 +9,6 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
-import org.geogebra.web.full.gui.components.ComponentDropDown.DropDownSelectionCallback;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -101,12 +100,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			selector.setTitleText(enumerableProperty.getName());
 			selector.setElements(Arrays.asList(enumerableProperty.getValues()));
 			selector.setSelected(enumerableProperty.getIndex());
-			selector.setDropDownSelectionCallback(new DropDownSelectionCallback() {
-				@Override
-				public void onSelectionChanged(int index) {
-					enumerableProperty.setIndex(index);
-				}
-			});
+			selector.setDropDownSelectionCallback(enumerableProperty::setIndex);
 			return selector;
 
 		}
@@ -118,12 +112,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	public void onClick(Widget source) {
 		if (source == headerView.getBackButton()) {
 			updateAnimateOutStyle();
-			CSSEvents.runOnAnimation(new Runnable() {
-				@Override
-				public void run() {
-					close();
-				}
-			}, getElement(), getAnimateOutStyle());
+			CSSEvents.runOnAnimation(this::close, getElement(), getAnimateOutStyle());
 		}
 	}
 

@@ -153,12 +153,7 @@ public class WebStepGuiBuilder {
 
         detailsButton.setStyleName("stepTreeButton");
 
-        FastClickHandler clickHandler = new FastClickHandler() {
-            @Override
-            public void onClick(Widget w) {
-                alternative.swapStates();
-            }
-        };
+        FastClickHandler clickHandler = w -> alternative.swapStates();
 
         detailsButton.addFastClickHandler(clickHandler);
 

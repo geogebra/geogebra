@@ -19,18 +19,14 @@ import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.HasLanguage;
 import org.geogebra.web.solver.keyboard.SolverKeyboard;
 import org.geogebra.web.solver.keyboard.SolverKeyboardButton;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -38,7 +34,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class Solver {
@@ -100,48 +95,30 @@ public class Solver {
 
 		StandardButton solveButton = new StandardButton("Compute");
 		solveButton.setStyleName("solverButton");
-		solveButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				hideKeyboardAndCompute();
-			}
-		});
+		solveButton.addFastClickHandler(source -> hideKeyboardAndCompute());
 		editorPanel.add(solveButton);
 
 		solverPanel.add(editorPanel);
 		solverPanel.add(keyboard);
 		solverPanel.add(new SolverKeyboardButton(keyboard));
 
-		app.getLocalization().loadScript("en", new HasLanguage() {
-			@Override
-			public void doSetLanguage(String lang, boolean asyncCall) {
-				app.getLocalization().setLanguage(lang);
+		app.getLocalization().loadScript("en", (lang, asyncCall) -> {
+			app.getLocalization().setLanguage(lang);
 
-				keyboard.setProcessing(new MathFieldProcessing(mathField));
-				keyboard.clearAndUpdate();
+			keyboard.setProcessing(new MathFieldProcessing(mathField));
+			keyboard.clearAndUpdate();
 
-				String parameter = Window.Location.getParameter("i");
-				if (parameter != null && !"".equals(parameter)) {
-					compute(parameter);
-				} else {
-					keyboard.show();
-				}
+			String parameter = Window.Location.getParameter("i");
+			if (parameter != null && !"".equals(parameter)) {
+				compute(parameter);
+			} else {
+				keyboard.show();
 			}
 		});
 
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				resize();
-			}
-		});
+		Window.addResizeHandler(event -> resize());
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				resize();
-			}
-		});
+		Scheduler.get().scheduleDeferred(this::resize);
 	}
 
 	private void resize() {

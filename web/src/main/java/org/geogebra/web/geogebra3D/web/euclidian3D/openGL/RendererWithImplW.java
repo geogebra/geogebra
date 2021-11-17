@@ -14,8 +14,6 @@ import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 
 import elemental2.dom.HTMLCanvasElement;
@@ -56,12 +54,7 @@ public class RendererWithImplW extends Renderer implements
 		createGLContext(false);
 
 		// when window is unload, dispose openGL stuff
-		Window.addCloseHandler(new CloseHandler<Window>() {
-			@Override
-			public void onClose(CloseEvent<Window> event) {
-				dispose();
-			}
-		});
+		Window.addCloseHandler(event -> dispose());
 
 	}
 

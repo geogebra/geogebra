@@ -9,8 +9,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -131,14 +129,10 @@ public class MarblePanel extends FlowPanel
 			btnWarning.getDownHoveringFace().setImage(warnIcon);
 			// when clicked, this steals focus
 			// => we need to push focus to parent item
-			btnWarning.addFocusHandler(new FocusHandler() {
-
-				@Override
-				public void onFocus(FocusEvent event) {
-					item.setFocus(true);
-					event.preventDefault();
-					event.stopPropagation();
-				}
+			btnWarning.addFocusHandler(event -> {
+				item.setFocus(true);
+				event.preventDefault();
+				event.stopPropagation();
 			});
 		}
 	}
@@ -208,15 +202,11 @@ public class MarblePanel extends FlowPanel
 	 *            item to show the help in
 	 */
 	public static void showDeferred(final RadioTreeItem item) {
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				item.setFocus(true);
-				item.setShowInputHelpPanel(true);
-				item.app.getGuiManager().getInputHelpPanel()
-						.focusCommand(item.getCommand());
-			}
-
+		Scheduler.get().scheduleDeferred(() -> {
+			item.setFocus(true);
+			item.setShowInputHelpPanel(true);
+			item.app.getGuiManager().getInputHelpPanel()
+					.focusCommand(item.getCommand());
 		});
 	}
 

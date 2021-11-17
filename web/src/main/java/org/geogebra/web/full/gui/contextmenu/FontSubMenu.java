@@ -37,12 +37,9 @@ public class FontSubMenu extends AriaMenuBar {
 
 	private void createItems() {
 		for (final FontFamily font : fonts) {
-			ScheduledCommand command = new ScheduledCommand() {
-				@Override
-				public void execute() {
-					setFontName(font.cssName());
-					app.storeUndoInfo();
-				}
+			ScheduledCommand command = () -> {
+				setFontName(font.cssName());
+				app.storeUndoInfo();
 			};
 
 			AriaMenuItem item = new AriaMenuItem(font.displayName(), false, command);

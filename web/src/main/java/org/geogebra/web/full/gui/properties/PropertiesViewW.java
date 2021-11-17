@@ -186,13 +186,7 @@ public class PropertiesViewW extends PropertiesView
 		case OBJECTS:
 			if (getObjectPanel() == null) {
 				setObjectPanel(new OptionsObjectW((AppW) app, false,
-						new Runnable() {
-
-							@Override
-							public void run() {
-								updatePropertiesView();
-							}
-						}));
+						this::updatePropertiesView));
 			}
 			getObjectPanel().selectTab(subType);
 			return getObjectPanel();
@@ -506,12 +500,8 @@ public class PropertiesViewW extends PropertiesView
 		((AppWFull) app).centerAndResizeViews();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
-		CSSEvents.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				style.setOverflow(Overflow.VISIBLE);
-			}
-		}, wrappedPanel.getElement(), "animateIn");
+		CSSEvents.runOnAnimation(() -> style.setOverflow(Overflow.VISIBLE),
+				wrappedPanel.getElement(), "animateIn");
 	}
 
 	/**
@@ -525,12 +515,8 @@ public class PropertiesViewW extends PropertiesView
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
 		((AppW) app).getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSEvents.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				onFloatingSettingsClose();
-			}
-		}, wrappedPanel.getElement(), "animateOut");
+		CSSEvents.runOnAnimation(this::onFloatingSettingsClose,
+				wrappedPanel.getElement(), "animateOut");
 	}
 
 	/**

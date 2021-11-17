@@ -52,12 +52,9 @@ public final class FontLoader {
 			injected.put(familyName, FontState.LOADING);
 		}
 		if (injected.get(familyName) != FontState.ACTIVE) {
-			loadWebFont(familyName, new FontLoadCallback() {
-				@Override
-				public void fontLoadeded(String activeFontName, String variation) {
-					injected.put(activeFontName, FontState.ACTIVE);
-					callback.run();
-				}
+			loadWebFont(familyName, (activeFontName, variation) -> {
+				injected.put(activeFontName, FontState.ACTIVE);
+				callback.run();
 			});
 		}
 	}

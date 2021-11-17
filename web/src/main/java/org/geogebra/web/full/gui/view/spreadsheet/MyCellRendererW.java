@@ -17,8 +17,6 @@ import org.geogebra.web.html5.main.MyImageW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -541,12 +539,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			lb.addMouseDownHandler(this);
 			lb.addMouseUpHandler(this);
 
-			lb.addChangeHandler(new ChangeHandler() {
-				@Override
-				public void onChange(ChangeEvent ce) {
-					if (view.allowSpecialEditor()) {
-						list.setSelectedIndex(lb.getSelectedIndex(), true);
-					}
+			lb.addChangeHandler(ce -> {
+				if (view.allowSpecialEditor()) {
+					list.setSelectedIndex(lb.getSelectedIndex(), true);
 				}
 			});
 
