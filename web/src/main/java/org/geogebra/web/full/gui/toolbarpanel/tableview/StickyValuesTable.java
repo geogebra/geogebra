@@ -348,16 +348,31 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	/**
-	 * Scroll so that cell at given offset is visible
-	 * @param pos offset top of the cell
+	 * Scroll the least amount so that the given cell is fully visible. Won't scroll
+	 * the view if it is not necessary.
+	 * @param cell cell to scroll into view
 	 */
-	public void scrollIntoView(final int pos) {
-		if (pos - getScroller().getVerticalScrollPosition() < LINE_HEIGHT) {
-			getScroller().setVerticalScrollPosition(pos - LINE_HEIGHT);
-		} else if (pos - getScroller().getVerticalScrollPosition()
-				> getScroller().getOffsetHeight() - LINE_HEIGHT) {
-			getScroller().setVerticalScrollPosition(pos
-					- getScroller().getOffsetHeight() + LINE_HEIGHT);
+	public void scrollIntoView(Element cell) {
+		int top = cell.getOffsetTop();
+		int headerHeight = LINE_HEIGHT;
+		int verticalScrollPosition = getScroller().getVerticalScrollPosition();
+
+		if (top - headerHeight < verticalScrollPosition) {
+			getScroller().setVerticalScrollPosition(top - headerHeight);
+		} else if (top - verticalScrollPosition > getScroller().getOffsetHeight() - headerHeight) {
+			getScroller().setVerticalScrollPosition(
+					top - getScroller().getOffsetHeight() + headerHeight);
+		}
+
+		int left = cell.getOffsetLeft();
+		int cellWidth = cell.getOffsetWidth();
+		int horizontalScrollPosition = getScroller().getHorizontalScrollPosition();
+		int scrollerContentWidth = getScroller().getWidget().getOffsetWidth();
+
+		if (left < horizontalScrollPosition) {
+			getScroller().setHorizontalScrollPosition(left);
+		} else if (left + cellWidth > horizontalScrollPosition + scrollerContentWidth) {
+			getScroller().setHorizontalScrollPosition(left +  cellWidth - scrollerContentWidth);
 		}
 	}
 
