@@ -908,13 +908,10 @@ public class GeoList extends GeoElement
 	 * @return sb
 	 */
 	public StringBuilder appendElements(StringBuilder sb, StringTemplate tpl) {
-		boolean first = true;
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
-			if (!first) {
+			if (i != 0) {
 				tpl.getCommaOptionalSpace(sb, getLoc());
-			} else {
-				first = false;
 			}
 			sb.append(geo.toOutputValueString(tpl));
 		}
