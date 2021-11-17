@@ -943,20 +943,16 @@ public class DockManagerW extends DockManager {
 				opposite = currentPane.getRightComponent();
 			}
 
-			// in root pane, the opposite may be null
+			// the secondLastPos may point to non-existing component
 			if (opposite == null) {
 				opposite = currentPane.getOpposite(null);
-				oppositeDim[0] = opposite.getOffsetWidth();
-				oppositeDim[1] = opposite.getOffsetHeight();
-				rootPane = newSplitPane;
-			} else if (opposite.getParent() == rootPane
+			}
+			oppositeDim[0] = opposite.getOffsetWidth();
+			oppositeDim[1] = opposite.getOffsetHeight();
+			if (opposite.getParent() == rootPane
 					&& rootPane.getOpposite(opposite) == null) {
-				oppositeDim[0] = opposite.getOffsetWidth();
-				oppositeDim[1] = opposite.getOffsetHeight();
 				rootPane = newSplitPane;
 			} else {
-				oppositeDim[0] = opposite.getOffsetWidth();
-				oppositeDim[1] = opposite.getOffsetHeight();
 				currentPane.replaceComponent(opposite, newSplitPane);
 			}
 		}
