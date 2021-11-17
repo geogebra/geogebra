@@ -383,7 +383,8 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public boolean isEmpty() {
-		return model == null || model.getColumnCount() == 1;
+		return model == null
+				|| (model.getColumnCount() == 1 && model.isEvaluatableEmptyList(0));
 	}
 
 	@Override

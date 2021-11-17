@@ -419,4 +419,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 			column.remove();
 		}
 	}
+
+	public boolean isEvaluatableEmptyList(int column) {
+		return  getEvaluatable(column).isGeoList()
+				&& ((GeoList) getEvaluatable(column)).isEmptyList();
+	}
 }
