@@ -1241,7 +1241,7 @@ public class InputController {
 
 	private boolean preventDimensionChange(EditorState editorState) {
 		MathContainer parent = editorState.getCurrentField().getParent();
-		if (MathArray.isLocked(parent)) {
+		if (MathArray.isLocked(parent) && ((MathArray) parent).getOpenKey() == '(') {
 			return true;
 		}
 		return false;
@@ -1249,10 +1249,8 @@ public class InputController {
 
 	private boolean shouldMoveCursor(EditorState editorState) {
 		int offset = editorState.getCurrentOffset();
-		int sequenceSize = editorState.getCurrentField().size();
-		MathContainer parent = editorState.getCurrentField().getParent();
-		if (parent instanceof MathArray && ((MathArray) parent).separatorIsComma()
-				&& offset == sequenceSize) {
+		MathComponent next = editorState.getCurrentField().getArgument(offset);
+		if (next != null && ",".equals(next.toString())) {
 			return true;
 		}
 		return false;

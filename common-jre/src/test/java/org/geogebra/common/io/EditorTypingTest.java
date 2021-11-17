@@ -619,4 +619,12 @@ public class EditorTypingTest {
 				.left(2)
 				.setModifiers(0).type("(").checkAsciiMath("x^(2)(+1)");
 	}
+
+	@Test
+	public void testCommaInPointEditor() {
+		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
+				.type("3").right(1) // cursor in front of comma
+				.type(",4")
+				.checkAsciiMath("(32,41)");
+	}
 }
