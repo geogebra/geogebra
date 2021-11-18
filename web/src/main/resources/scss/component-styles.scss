@@ -482,7 +482,9 @@
 
 	/** TAB COMPONENT */
 	.componentTab {
-		width: 100%;
+		//width: 100%;
+		width: 346px;
+        overflow: hidden;
 		.indicator {
 			height: 2px;
 			width: 90px;
@@ -510,7 +512,7 @@
 				}
 
 				&:hover {
-					background-color: rgba(0,0,0,.08);
+					background-color: rgba(153, 132, 255,.15);
 				}
 
 				&.selected {
@@ -521,36 +523,19 @@
 						background-color: white;
 					}
 				}
+
+				&.ripple:after {
+            		background-image: radial-gradient(circle, #6557D2 10%, transparent 10.01%);
+           		}
 			}
-
-			&.ripple {
-            		position: relative;
-            		overflow: hidden;
-            		transform: translate3d(0, 0, 0);
-            	}
-
-            	&.ripple:after {
-            		content: "";
-            		display: block;
-            		position: absolute;
-            		width: 100%;
-            		height: 100%;
-            		top: 0;
-            		left: 0;
-            		pointer-events: none;
-            		background-image: radial-gradient(circle, #aaa 10%, transparent 10.01%);
-            		background-repeat: no-repeat;
-            		background-position: 50%;
-            		transform: scale(10, 10);
-            		opacity: 0;
-            		transition: transform .1s, opacity 1s;
-            	}
-
-            	&.ripple:active:after {
-            		transform: scale(0, 0);
-            		opacity: .3;
-            		transition: 0s;
-            	}
 		}
+
+			.panelContainer {
+				opacity: 0.5;
+				position: relative;
+				display: inline-flex;
+				right: 0px;
+				transition: right .25s cubic-bezier(0.4, 0, 0.2, 1);
+			}
 	}
 }

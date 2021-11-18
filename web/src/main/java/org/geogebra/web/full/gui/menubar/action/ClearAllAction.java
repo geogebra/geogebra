@@ -12,6 +12,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -33,9 +34,22 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 	public void execute(Void item, AppWFull app) {
 		DialogData data = new DialogData("TAB Title", "Cancel", "OK");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
-		TabData tab1 = new TabData("Tab 1 Title", new FlowPanel());
-		TabData tab2 = new TabData("Tab 2", new FlowPanel());
-		TabData tab3 = new TabData("Tab 3 loooooong", new FlowPanel());
+		FlowPanel panel1 = new FlowPanel();
+		panel1.getElement().getStyle().setWidth(346, Style.Unit.PX);
+		panel1.getElement().getStyle().setHeight(150, Style.Unit.PX);
+		panel1.getElement().getStyle().setBackgroundColor("blue");
+		FlowPanel panel2 = new FlowPanel();
+		panel2.getElement().getStyle().setWidth(346, Style.Unit.PX);
+		panel2.getElement().getStyle().setHeight(150, Style.Unit.PX);
+		panel2.getElement().getStyle().setBackgroundColor("teal");
+		FlowPanel panel3 = new FlowPanel();
+		panel3.getElement().getStyle().setWidth(346, Style.Unit.PX);
+		panel3.getElement().getStyle().setHeight(150, Style.Unit.PX);
+		panel3.getElement().getStyle().setBackgroundColor("green");
+
+		TabData tab1 = new TabData("Tab 1 Title", panel1);
+		TabData tab2 = new TabData("Tab 2", panel2);
+		TabData tab3 = new TabData("Tab 3 loooooong",panel3);
 		ComponentTab componentTab = new ComponentTab(
 				new ArrayList<>(Arrays.asList(tab1, tab2, tab3)),
 				app.getLocalization());

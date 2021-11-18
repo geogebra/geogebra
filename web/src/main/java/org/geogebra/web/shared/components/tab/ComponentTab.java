@@ -13,10 +13,15 @@ public class ComponentTab extends FlowPanel {
 	private Localization loc;
 	private ArrayList<TabData> tabData;
 	private SimplePanel indicator;
+	private FlowPanel panelContainer;
 	private StandardButton selectedBtn;
 	private ArrayList<StandardButton> tabBtns = new ArrayList<>();
 
-
+	/**
+	 * tab component constructor
+	 * @param tabData - data of tab including title and panel widget
+	 * @param loc - localization
+	 */
 	public ComponentTab(ArrayList<TabData> tabData, Localization loc) {
 		this.loc = loc;
 		this.tabData = tabData;
@@ -33,7 +38,7 @@ public class ComponentTab extends FlowPanel {
 		header.addStyleName("header");
 		add(header);
 
-		FlowPanel panelContainer = new FlowPanel();
+		panelContainer = new FlowPanel();
 		panelContainer.addStyleName("panelContainer");
 		add(panelContainer);
 
@@ -44,11 +49,6 @@ public class ComponentTab extends FlowPanel {
 			tabBtn.addStyleName("ripple");
 			int tabIdx = i;
 			tabBtn.addFastClickHandler(source -> {
-				if (selectedBtn != null) {
-					selectedBtn.removeStyleName("selected");
-				}
-				tabBtn.addStyleName("selected");
-				selectedBtn = tabBtn;
 				switchToTab(tabIdx);
 			});
 			tabBtns.add(tabBtn);
@@ -68,8 +68,16 @@ public class ComponentTab extends FlowPanel {
 	}
 
 	private void switchToTab(int tabIdx) {
+		if (selectedBtn != null) {
+			selectedBtn.removeStyleName("selected");
+		}
+		tabBtns.get(tabIdx).addStyleName("selected");
+		selectedBtn = tabBtns.get(tabIdx);
+
 		Style indicatorStyle = indicator.getElement().getStyle();
 		indicatorStyle.setLeft(calculateLeft(tabIdx), Style.Unit.PX);
 		indicatorStyle.setWidth(selectedBtn.getOffsetWidth(), Style.Unit.PX);
+
+		panelContainer.getElement().getStyle().setRight(tabIdx * getOffsetWidth(), Style.Unit.PX);
 	}
 }

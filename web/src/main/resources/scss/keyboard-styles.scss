@@ -157,6 +157,10 @@ $purple-default: #6557D2;
 		div {
 			text-align: center;
 		}
+
+		&.ripple:after {
+			background-image: radial-gradient(circle, #aaa 10%, transparent 10.01%);
+		}
 	}
 
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton {
@@ -483,7 +487,6 @@ $purple-default: #6557D2;
 		top: 0;
 		left: 0;
 		pointer-events: none;
-		background-image: radial-gradient(circle, #aaa 10%, transparent 10.01%);
 		background-repeat: no-repeat;
 		background-position: 50%;
 		transform: scale(10, 10);
