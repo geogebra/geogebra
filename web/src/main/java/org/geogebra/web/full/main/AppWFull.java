@@ -2280,11 +2280,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * Switch suite to the given subapp, clearing all construction, and resetting almost
-	 * all the settings
-	 * @param subAppCode "graphing", "3d", "cas", "geometry" or "probability"
-	 */
+	@Override
 	public void switchToSubapp(String subAppCode) {
 		getDialogManager().hideCalcChooser();
 		storeCurrentUndoHistory();
