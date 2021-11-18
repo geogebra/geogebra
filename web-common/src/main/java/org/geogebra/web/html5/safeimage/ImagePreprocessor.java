@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.safeimage;
 
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.web.html5.util.ArchiveEntry;
 
 /**
  * Interface to pre-process image to
@@ -20,5 +21,5 @@ public interface ImagePreprocessor {
 	 * @param imageFile the original image content.
 	 * @param safeImageProvider to give back the safe content
 	 */
-	void process(ImageFile imageFile, SafeImageProvider safeImageProvider);
+	void process(ArchiveEntry imageFile, SafeImageProvider safeImageProvider);
 }

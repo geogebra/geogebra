@@ -1,45 +1,59 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 
 import elemental2.core.JsArray;
 import elemental2.core.Uint8Array;
 import elemental2.dom.Blob;
+import elemental2.dom.BlobPropertyBag;
 import elemental2.dom.URL;
 
 public class ArchiveEntry {
 	public final String string;
 	public final Uint8Array data;
+	private final FileExtensions extension;
+	private String fileName;
 
-	private ArchiveEntry(String string, Uint8Array blob) {
+	private ArchiveEntry(String fileName, String string, Uint8Array blob) {
 		this.string = string;
 		this.data = blob;
+		this.fileName = fileName;
+		extension = StringUtil.getFileExtension(fileName);
 	}
 
 	/**
 	 * @param blob binary content
 	 */
-	public ArchiveEntry(Uint8Array blob) {
-		this(null, blob);
+	public ArchiveEntry(String fileName, Uint8Array blob) {
+		this(fileName, null, blob);
 	}
 
 	/**
 	 * @param string text content
 	 */
-	public ArchiveEntry(String string) {
-		this(string, null);
+	public ArchiveEntry(String fileName, String string) {
+		this(fileName, string, null);
 	}
 
 	public ArchiveEntry duplicate() {
-		return new ArchiveEntry(string, data);
+		return new ArchiveEntry(fileName, string, data);
 	}
 
 	/**
 	 * @return URL for temporary use
 	 */
 	public String createUrl() {
-		return string == null ? URL.createObjectURL(new Blob(
-				new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data)))) : string;
+		if (string != null) {
+			return string;
+		}
+		String ext = StringUtil.getFileExtensionStr(fileName);
+		BlobPropertyBag options = BlobPropertyBag.create();
+		options.setType("image/" + ext);
+		return URL.createObjectURL(new Blob(
+				new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data)),
+				options));
 	}
 
 	public boolean isEmpty() {
@@ -47,11 +61,22 @@ public class ArchiveEntry {
 	}
 
 	/**
-	 * @param fileName filename
 	 * @return data URL
 	 */
-	public String export(String fileName) {
+	public String export() {
 		String ext = StringUtil.getFileExtensionStr(fileName);
 		return "data:image/" + ext + ";base64," + Base64.bytesToBase64(data);
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public FileExtensions getExtension() {
+		return extension;
+	}
+
+	public boolean isThumbnail() {
+		return MyXMLio.XML_FILE_THUMBNAIL.equalsIgnoreCase(fileName);
 	}
 }

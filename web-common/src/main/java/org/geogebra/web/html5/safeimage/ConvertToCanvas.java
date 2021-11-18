@@ -27,7 +27,7 @@ public class ConvertToCanvas implements ImagePreprocessor {
 	}
 
 	@Override
-	public void process(final ImageFile imageFile, final SafeImageProvider provider) {
+	public void process(final ArchiveEntry imageFile, final SafeImageProvider provider) {
 		HTMLImageElement image = Dom.createImage();
 
 		image.addEventListener("load", (event) -> {
@@ -35,10 +35,10 @@ public class ConvertToCanvas implements ImagePreprocessor {
 			String fileName = StringUtil.changeFileExtension(imageFile.getFileName(),
 					FileExtensions.PNG);
 
-			provider.onReady(new ImageFile(fileName, new ArchiveEntry(canvas.toDataURL())));
+			provider.onReady(new ArchiveEntry(fileName, canvas.toDataURL()));
 		});
 
-		image.src = imageFile.getContent().createUrl();
+		image.src = imageFile.createUrl();
 	}
 
 	private void drawImageToCanvas(HTMLImageElement image)  {

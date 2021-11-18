@@ -57,7 +57,7 @@ public class ImageManagerW extends ImageManager {
 	@Override
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
-			addExternalImage(fileName, new ArchiveEntry(src));
+			addExternalImage(fileName, new ArchiveEntry(fileName, src));
 		}
 	}
 
@@ -335,24 +335,26 @@ public class ImageManagerW extends ImageManager {
 
 		String url = data.string;
 		ArchiveEntry dataURL;
+		String fullPath;
+		if (ext.isAllowedImage()) {
+			// png, jpg, jpeg
+			fullPath = filePath + fileName;
+		} else {
+			// not supported, so saved as PNG
+			fullPath = filePath + StringUtil
+					.changeFileExtension(fileName, FileExtensions.PNG);
+		}
 		if ((url == null || url.startsWith("http"))
 				&& data.data == null && (img != null && img.getImage() != null)) {
-			dataURL = new ArchiveEntry(convertImgToPng(img));
+			dataURL = new ArchiveEntry(fullPath, convertImgToPng(img));
 		} else if (url != null && ext == FileExtensions.SVG) {
-			dataURL = new ArchiveEntry(convertSvgDataUrl(url));
+			dataURL = new ArchiveEntry(fullPath, convertSvgDataUrl(url));
 		} else {
 			dataURL = data;
 		}
 
 		if (!dataURL.isEmpty()) {
-			if (ext.isAllowedImage()) {
-				// png, jpg, jpeg
-				archive.put(filePath + fileName, dataURL);
-			} else {
-				// not supported, so saved as PNG
-				archive.put(filePath + StringUtil
-								.changeFileExtension(fileName, FileExtensions.PNG), dataURL);
-			}
+			archive.put(fullPath, dataURL);
 		}
 	}
 
