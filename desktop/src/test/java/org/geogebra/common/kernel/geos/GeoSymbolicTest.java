@@ -1642,4 +1642,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		AlgebraItem.toggleSymbolic(binomialDist);
 		assertEquals(binomialDist.toValueString(StringTemplate.defaultTemplate), "0.0132819219");
 	}
+
+	@Test
+	public void testApproxResultForLargePowers() {
+		t("0.99999874^16500", "0.9794246092973");
+	}
 }
