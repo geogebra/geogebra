@@ -35,15 +35,15 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 		DialogData data = new DialogData("TAB Title", "Cancel", "OK");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		FlowPanel panel1 = new FlowPanel();
-		panel1.getElement().getStyle().setWidth(346, Style.Unit.PX);
+		panel1.getElement().getStyle().setWidth(452, Style.Unit.PX);
 		panel1.getElement().getStyle().setHeight(150, Style.Unit.PX);
 		panel1.getElement().getStyle().setBackgroundColor("blue");
 		FlowPanel panel2 = new FlowPanel();
-		panel2.getElement().getStyle().setWidth(346, Style.Unit.PX);
+		panel2.getElement().getStyle().setWidth(452, Style.Unit.PX);
 		panel2.getElement().getStyle().setHeight(150, Style.Unit.PX);
 		panel2.getElement().getStyle().setBackgroundColor("teal");
 		FlowPanel panel3 = new FlowPanel();
-		panel3.getElement().getStyle().setWidth(346, Style.Unit.PX);
+		panel3.getElement().getStyle().setWidth(452, Style.Unit.PX);
 		panel3.getElement().getStyle().setHeight(150, Style.Unit.PX);
 		panel3.getElement().getStyle().setBackgroundColor("green");
 

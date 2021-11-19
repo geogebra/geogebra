@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class ComponentTab extends FlowPanel {
 	private Localization loc;
-	private ArrayList<TabData> tabData;
 	private SimplePanel indicator;
 	private FlowPanel panelContainer;
 	private StandardButton selectedBtn;
@@ -24,12 +23,12 @@ public class ComponentTab extends FlowPanel {
 	 */
 	public ComponentTab(ArrayList<TabData> tabData, Localization loc) {
 		this.loc = loc;
-		this.tabData = tabData;
 		addStyleName("componentTab");
-		buildGUI();
+		buildGUI(tabData);
+		switchToTab(0);
 	}
 
-	private void buildGUI() {
+	private void buildGUI(ArrayList<TabData> tabData) {
 		indicator = new SimplePanel();
 		indicator.addStyleName("indicator");
 		add(indicator);
@@ -48,15 +47,12 @@ public class ComponentTab extends FlowPanel {
 			tabBtn.addStyleName("tabBtn");
 			tabBtn.addStyleName("ripple");
 			int tabIdx = i;
-			tabBtn.addFastClickHandler(source -> {
-				switchToTab(tabIdx);
-			});
+			tabBtn.addFastClickHandler(source -> switchToTab(tabIdx));
 			tabBtns.add(tabBtn);
 
 			header.add(tabBtn);
 			panelContainer.add(tabData.get(i).getTabPanel());
 		}
-
 	}
 
 	private double calculateLeft(int index) {
