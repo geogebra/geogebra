@@ -133,7 +133,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			@Override
 			public void onClick(Widget source) {
 				app.getFileManager().setFileProvider(Provider.TUBE);
-				loadAllMaterials();
+				loadAllMaterials(0);
 			}
 		});
 
@@ -177,7 +177,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	@Override
-	public void loadAllMaterials() {
+	public void loadAllMaterials(int offset) {
 		if (header != null) {
 			this.header.clearSearchPanel();
 		}

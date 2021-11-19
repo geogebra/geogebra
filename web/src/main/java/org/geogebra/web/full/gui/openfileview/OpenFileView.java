@@ -24,7 +24,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,21 +47,22 @@ public class OpenFileView extends HeaderFileView
 	private FlowPanel buttonPanel;
 	private StandardButton newFileBtn;
 	private final FileOpenButton openFileBtn;
+	private FlowPanel loadMoreFilesPanel;
+	private StandardButton loadMoreFilesButton;
 
 	private ListBox sortDropDown;
 
 	private MaterialCallbackI ggtMaterialsCB;
-	private MaterialCallbackI userMaterialsCB;
-	private MaterialCallbackI sharedMaterialsCB;
+	private MaterialCallbackI allMaterialsCB;
 	private LoadSpinner spinner;
 
-	private final boolean[] materialListEmpty = { true, true };
-	private static final int TYPE_USER = 0;
-	private static final int TYPE_SHARED = 1;
+	private boolean materialListEmpty = true;
 
 	private Order order = Order.timestamp;
 	private static final Order[] map = new Order[] { Order.title, Order.created,
 			Order.timestamp };
+
+	private int materialCount = 0;
 
 	/**
 	 * @param app
@@ -80,8 +83,7 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void initGUI() {
-		this.userMaterialsCB = getUserMaterialsCB(TYPE_USER);
-		this.sharedMaterialsCB = getUserMaterialsCB(TYPE_SHARED);
+		this.allMaterialsCB = getUserMaterialsCB();
 		this.ggtMaterialsCB = getGgtMaterialsCB();
 		initSpinner();
 		initButtonPanel();
@@ -98,7 +100,7 @@ public class OpenFileView extends HeaderFileView
 	 */
 	protected void addContent() {
 		common.clearContents();
-		if (materialListEmpty[TYPE_USER] && materialListEmpty[TYPE_SHARED]) {
+		if (materialListEmpty) {
 			common.showEmptyListNotification();
 			setExtendedButtonStyle();
 			common.addToInfo(buttonPanel);
@@ -156,7 +158,7 @@ public class OpenFileView extends HeaderFileView
 	protected void updateOrder() {
 
 		order = map[sortDropDown.getSelectedIndex() - 1];
-		loadAllMaterials();
+		loadAllMaterials(0);
 	}
 
 	private String localize(String id) {
@@ -170,13 +172,13 @@ public class OpenFileView extends HeaderFileView
 		AsyncOperation<Boolean> newConstruction = active -> app.tryLoadTemplatesOnFileNew();
 		app.getAppletParameters().setAttribute("perspective", "");
 		app.getSaveController().showDialogIfNeeded(newConstruction, false);
-		close();
+		closeAndResetFileAmount();
 	}
 
 	@Override
 	public void openFile(final File fileToHandle) {
 		app.openFile(fileToHandle);
-		close();
+		closeAndResetFileAmount();
 	}
 
 	private void setExtendedButtonStyle() {
@@ -209,16 +211,16 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	@Override
-	public void loadAllMaterials() {
+	public void loadAllMaterials(int offset) {
 		spinner.show();
-		clearMaterials();
+		if (offset == 0) {
+			clearMaterials();
+		}
 		LogInOperation loginOperation = app.getLoginOperation();
 		if (loginOperation.isLoggedIn()) {
 			loginOperation.getGeoGebraTubeAPI()
-					.getUsersOwnMaterials(this.userMaterialsCB,
-							order);
-			loginOperation.getGeoGebraTubeAPI()
-					.getSharedMaterials(this.sharedMaterialsCB, order);
+					.getUsersAndSharedMaterials(this.allMaterialsCB,
+							order, offset);
 		} else if (!loginOperation.getModel().isLoginStarted()) {
 			loginOperation.getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
@@ -235,7 +237,7 @@ public class OpenFileView extends HeaderFileView
 	 */
 	public void updateMaterials() {
 		common.clearPanels();
-		loadAllMaterials();
+		loadAllMaterials(0);
 	}
 
 	@Override
@@ -307,14 +309,16 @@ public class OpenFileView extends HeaderFileView
 		}
 	}
 
-	private MaterialCallback getUserMaterialsCB(final int type) {
+	private MaterialCallback getUserMaterialsCB() {
 		return new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
 					ArrayList<Chapter> meta) {
-				addUsersMaterials(parseResponse, type);
+				clearLoadingMoreFilesButton();
+				addUsersMaterials(parseResponse);
 				addContent();
+				initLoadingMoreFilesButton(meta);
 			}
 		};
 	}
@@ -324,11 +328,9 @@ public class OpenFileView extends HeaderFileView
 	 * 
 	 * @param matList
 	 *            List of materials
-	 * @param type
-	 *            TYPE_USER or TYPE_SHARED
 	 */
-	protected void addUsersMaterials(final List<Material> matList, int type) {
-		materialListEmpty[type] = matList.isEmpty();
+	protected void addUsersMaterials(final List<Material> matList) {
+		materialListEmpty = matList.isEmpty();
 		for (Material material : matList) {
 			addMaterial(material);
 		}
@@ -364,7 +366,7 @@ public class OpenFileView extends HeaderFileView
 	 */
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
-		materialListEmpty[TYPE_USER] = matList.isEmpty();
+		materialListEmpty = matList.isEmpty();
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
 				addMaterial(mat);
@@ -374,7 +376,7 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void closeAndSave(AsyncOperation<Boolean> callback) {
-		close();
+		closeAndResetFileAmount();
 		app.checkSaved(callback);
 	}
 
@@ -383,8 +385,51 @@ public class OpenFileView extends HeaderFileView
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			updateMaterials();
 			if (event instanceof LogOutEvent) {
-				close();
+				closeAndResetFileAmount();
 			}
+		}
+	}
+
+	private void initLoadingMoreFilesButton(ArrayList<Chapter> meta) {
+		int[] counts = meta.get(0).getMaterials();
+		materialCount = counts[1];
+		if (counts[1] < counts[2]) {
+			loadMoreFilesPanel = new FlowPanel();
+			Label loadMoreFilesText = new Label();
+			loadMoreFilesText.setStyleName("loadMoreFilesLabel");
+			loadMoreFilesText.setText(app.getLocalization()
+					.getPlainDefault("ShowXofYfiles.Mebis", "Showing %0 of %1 files",
+							String.valueOf(counts[1]), String.valueOf(counts[2])));
+			loadMoreFilesPanel.add(loadMoreFilesText);
+			loadMoreFilesButton = new StandardButton(localize("loadMore.Mebis"));
+			loadMoreFilesButton.addFastClickHandler(source -> loadAdditionalFiles());
+			loadMoreFilesButton.setStyleName("dialogContainedButton");
+			loadMoreFilesPanel.add(loadMoreFilesButton);
+			loadMoreFilesPanel.setStyleName("loadMoreFilesPanel");
+			common.addMaterial(loadMoreFilesPanel);
+		}
+	}
+
+	private void loadAdditionalFiles() {
+		showSpinner();
+		loadAllMaterials(materialCount);
+	}
+
+	private void showSpinner() {
+		loadMoreFilesButton.setText(null);
+		FlowPanel spinner = new FlowPanel();
+		spinner.addStyleName("spinner-border");
+		DOM.appendChild(loadMoreFilesButton.getElement(), spinner.getElement());
+	}
+
+	private void closeAndResetFileAmount() {
+		materialCount = 0;
+		close();
+	}
+
+	private void clearLoadingMoreFilesButton() {
+		if (loadMoreFilesPanel != null) {
+			loadMoreFilesPanel.removeFromParent();
 		}
 	}
 }

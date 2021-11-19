@@ -43,7 +43,7 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	}
 
 	@Override
-	public void loadAllMaterials() {
+	public void loadAllMaterials(int offset) {
 		clearMaterials();
 		if (tempStorage.isEmpty()) {
 			common.showEmptyListNotification();
