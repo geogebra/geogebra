@@ -1436,8 +1436,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
-		double calcXscale = getVisibleWidth() / (xmax2 - xmin2);
-		double calcYscale = getVisibleHeight() / (ymax2 - ymin2);
+		setRealWorldCoordSystemVisible(xmin2, xmax2, ymin2, ymax2, false);
+	}
+
+	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
+											  double ymin2, double ymax2, boolean visible) {
+		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
+		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
 		double calcXzero = calcXscale * -xmin2 + visibleFromX;
@@ -4965,9 +4970,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void setViewShowAllObjects(Rectangle allObjectsRect, boolean storeUndo, int steps) {
 		// check if animation is needed
 		if (steps == 0) {
-			setRealWorldCoordSystem(
+			setRealWorldCoordSystemVisible(
 					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
-					allObjectsRect.getMinY(), allObjectsRect.getMaxY());
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY(), true);
 			if (storeUndo) {
 				getApplication().storeUndoInfo();
 			}
