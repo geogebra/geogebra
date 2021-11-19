@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -244,11 +245,10 @@ public abstract class GlobalKeyDispatcher {
 	 * keyboard.
 	 * @param geos moved geos
 	 * @param diff translation in x, y and z directions
-	 * @param increment multiplier for x,y,z
 	 * @return whether any object was moved
 	 */
 	public boolean handleArrowKeyMovement(List<GeoElement> geos,
-			double[] diff, double increment) {
+			double[] diff) {
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
@@ -270,8 +270,14 @@ public abstract class GlobalKeyDispatcher {
 			tempVec = new Coords(4); // 4 coords for 3D
 		}
 
+		if (app.getActiveEuclidianView().getPointCapturingMode()
+				== EuclidianStyleConstants.POINT_CAPTURING_ON_GRID) {
+			for (int i = 0; i < 2; i++) {
+				diff[i] = Math.signum(diff[i]) * MyMath.nextMultiple(Math.abs(diff[i]),
+						app.getActiveEuclidianView().getGridDistances(i));
+			}
+		}
 		tempVec.set(diff);
-		tempVec.mulInside(increment);
 
 		// move objects
 		boolean moved = MoveGeos.moveObjects(geos, tempVec, null, null,
@@ -1420,8 +1426,10 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-			double[] diff = new double[] { changeValX, changeValY, changeValZ };
-			moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
+			double increment = getIncrement(geos);
+			double[] diff = new double[] { changeValX * increment,
+					changeValY * increment, changeValZ * increment};
+			moved = handleArrowKeyMovement(geos, diff);
 			hasUnsavedGeoChanges = true;
 		}
 
