@@ -482,8 +482,7 @@
 
 	/** TAB COMPONENT */
 	.componentTab {
-		//width: 100%;
-		width: 346px;
+		width: 100%;
         overflow: hidden;
 		.indicator {
 			height: 2px;
@@ -531,7 +530,6 @@
 		}
 
 			.panelContainer {
-				opacity: 0.5;
 				position: relative;
 				display: inline-flex;
 				right: 0px;
