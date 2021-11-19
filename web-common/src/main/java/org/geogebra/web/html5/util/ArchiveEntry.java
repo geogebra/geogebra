@@ -48,9 +48,8 @@ public class ArchiveEntry {
 		if (string != null) {
 			return string;
 		}
-		String ext = StringUtil.getFileExtensionStr(fileName);
 		BlobPropertyBag options = BlobPropertyBag.create();
-		options.setType("image/" + ext);
+		options.setType(extension.getMime());
 		return URL.createObjectURL(new Blob(
 				new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data)),
 				options));
@@ -64,8 +63,7 @@ public class ArchiveEntry {
 	 * @return data URL
 	 */
 	public String export() {
-		String ext = StringUtil.getFileExtensionStr(fileName);
-		return "data:image/" + ext + ";base64," + Base64.bytesToBase64(data);
+		return "data:" + extension.getMime() + ";base64," + Base64.bytesToBase64(data);
 	}
 
 	public String getFileName() {

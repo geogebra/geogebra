@@ -3,8 +3,6 @@ package org.geogebra.web.html5.euclidian;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
-import org.geogebra.common.util.debug.Log;
-
 import elemental2.core.JsIIterableResult;
 import elemental2.core.JsIteratorIterable;
 import elemental2.core.JsString;
@@ -40,7 +38,7 @@ public class BlobResolver {
 					replaceBlobUrl(blobUrl, callback);
 				}
 			}
-		} while(!next.isDone());
+		} while (!next.isDone());
 		if (pending.isEmpty()) {
 			callback.accept(serializedSvg);
 		}
