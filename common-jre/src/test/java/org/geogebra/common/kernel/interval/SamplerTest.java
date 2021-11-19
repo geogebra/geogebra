@@ -17,7 +17,8 @@ public class SamplerTest extends BaseUnitTest {
 				tuples.stream().filter(
 						entry -> (entry.y().getLow() < low - 1E-6
 								|| entry.y().getHigh() > high + 1E-6)
-								&& !entry.isInvertedWhole()).collect(Collectors.toList());
+								&& !(entry.y().isInverted() && entry.y().isWhole()))
+						.collect(Collectors.toList());
 		assertEquals(Collections.emptyList(), result);
 	}
 
@@ -49,15 +50,13 @@ public class SamplerTest extends BaseUnitTest {
 	}
 
 	private String makeInterval(IntervalTuple tuple) {
-		if (tuple.y().isEmpty()) {
+		if (tuple.y().isUndefined()) {
 			return "empty()";
 		}
 
 		StringBuilder sb = new StringBuilder();
 		if (tuple.isInverted()) {
 			sb.append("invertedInterval");
-		} else if (tuple.y().isUninverted()) {
-			sb.append("uninvertedInterval");
 		} else {
 			sb.append("interval");
 		}

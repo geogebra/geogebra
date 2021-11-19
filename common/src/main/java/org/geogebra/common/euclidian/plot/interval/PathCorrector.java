@@ -38,16 +38,16 @@ public class PathCorrector {
 			Interval y) {
 		lastY = y;
 		IntervalTuple tuple = model.pointAt(idx);
-		if (this.lastY.isEmpty()) {
-			this.lastY.setEmpty();
+		if (this.lastY.isUndefined()) {
+			this.lastY.setUndefined();
 		} else if (tuple.y().isWhole()) {
-			this.lastY.setEmpty();
+			this.lastY.setUndefined();
 		} else if (isInvertedAround(idx)) {
 			handleFill(tuple);
 		} else if (bounds.isOnView(tuple.y())) {
 			completePathAt(idx);
 		} else {
-			this.lastY.setEmpty();
+			this.lastY.setUndefined();
 		}
 		return this.lastY;
 	}
@@ -78,7 +78,7 @@ public class PathCorrector {
 			Interval other = completePathFromRight(tuple, model.isAscendingBefore(idx));
 			lastY.set(other);
 		} else {
-			lastY.setEmpty();
+			lastY.setUndefined();
 		}
 	}
 
@@ -128,7 +128,7 @@ public class PathCorrector {
 			gp.lineTo(x.getHigh(), yLow);
 			return new Interval(yLow);
 		}
-		return IntervalConstants.empty();
+		return IntervalConstants.undefined();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class PathCorrector {
 	 */
 	public Interval beginFromInfinity(int index, Interval x, Interval y) {
 		if (index + 1 >= model.pointCount()) {
-			return IntervalConstants.empty();
+			return IntervalConstants.undefined();
 		}
 
 		Interval nextY = toScreenY(model.pointAt(index + 1));

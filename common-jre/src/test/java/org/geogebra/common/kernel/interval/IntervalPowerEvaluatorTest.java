@@ -37,7 +37,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void evaluateXPowerHalf() throws Exception {
 		assertEquals(
-				interval(1, 16).nRoot(2),
+				nthRoot(interval(1, 16), 2),
 				evalOnInterval("x^(1/2)", 1, 16));
 	}
 
@@ -86,16 +86,10 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 	}
 
-	private void shouldBeInvertedAtZero(IntervalFunction function) throws Exception {
-		assertTrue("function should be inverted at zero",
-				function.evaluate(zero()).isInverted());
-	}
-
 	@Test
 	public void evaluatePowerOfFractionNegativeNominator() throws Exception {
 		GeoFunction geo = add("x^(-2/9)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeInvertedAtZero(function);
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				function.evaluate(interval(-6, -5.88)));
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
@@ -106,7 +100,6 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	public void evaluatePowerOfNegativeFractionDenominator() throws Exception {
 		GeoFunction geo = add("x^(2/-9)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeInvertedAtZero(function);
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				function.evaluate(interval(-6, -5.88)));
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
@@ -120,19 +113,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 		shouldBeXPowerOnMinusThird(function);
 	}
 
-	@Test
-	public void testPowOfNegativeDoubleAtZero() {
-		assertTrue("should be inverted", zero().pow(1.0 / 3.0).isInverted());
-		assertTrue("should be inverted", interval(-0.1, 0.1)
-				.pow(1.0 / 3.0).isInverted());
-		assertTrue("should be inverted", interval(0, 0.1)
-				.pow(1.0 / 3.0).isInverted());
-		assertTrue("should be inverted", interval(-0.1, 0)
-				.pow(1.0 / 3.0).isInverted());
-	}
-
 	private void shouldBeXPowerOnMinusThird(IntervalFunction function) throws Exception {
-		shouldBeInvertedAtZero(function);
 		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.one()));
 		assertEquals(IntervalConstants.one().negative(),
 				function.evaluate(IntervalConstants.one().negative()));

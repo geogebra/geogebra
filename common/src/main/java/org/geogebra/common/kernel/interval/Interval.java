@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
-import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import java.util.Objects;
 
@@ -15,26 +15,9 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class Interval {
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
-	private final IntervalMultiplicativeInverse multiplicativeInverse
-			= new IntervalMultiplicativeInverse(this);
-	private final IntervalRoot root = new IntervalRoot(this);
 	private double low;
 	private double high;
-
-	private enum Inversion { NONE(""), INVERTED("I"), UNINVERTED("U");
-
-		private final String postfix;
-
-		Inversion(String postfix) {
-			this.postfix = postfix;
-		}
-
-		public String getPostfix() {
-			return "".equals(postfix) ?  "" : " (" + postfix + ")";
-		}
-	}
-
-	private Inversion inverted = Inversion.NONE;
+	private boolean inverted = false;
 
 	/**
 	 * Creates a singleton interval [value, value]
@@ -53,17 +36,17 @@ public class Interval {
 	 */
 	public Interval(double low, double high) {
 		if (high < low) {
-			setEmpty();
+			setUndefined();
 		} else {
 			set(low, high);
 		}
 	}
 
 	/**
-	 * Creates an empty interval.
+	 * Creates an undefined interval.
 	 */
 	public Interval() {
-		setEmpty();
+		setUndefined();
 	}
 
 	/**
@@ -83,11 +66,11 @@ public class Interval {
 	 * @return the max of interval and other.
 	 */
 	public static Interval max(Interval interval, Interval other) {
-		if (interval.isEmpty() && other.isEmpty()) {
-			return empty();
-		} else if (interval.isEmpty()) {
+		if (interval.isUndefined() && other.isUndefined()) {
+			return undefined();
+		} else if (interval.isUndefined()) {
 			return other;
-		} else if (other.isEmpty()) {
+		} else if (other.isUndefined()) {
 			return interval;
 		}
 
@@ -102,11 +85,11 @@ public class Interval {
 	 * @return the min of interval and other.
 	 */
 	public static Interval min(Interval interval, Interval other) {
-		if (interval.isEmpty() && other.isEmpty()) {
-			return empty();
-		} else if (interval.isEmpty()) {
+		if (interval.isUndefined() && other.isUndefined()) {
+			return undefined();
+		} else if (interval.isUndefined()) {
 			return other;
-		} else if (other.isEmpty()) {
+		} else if (other.isUndefined()) {
 			return interval;
 		}
 
@@ -114,10 +97,12 @@ public class Interval {
 				Math.min(interval.high, other.high));
 	}
 
-	/** Empty interval is represented by [∞, -∞]
-	 * as in the original lib. */
-	public void setEmpty() {
+	/**
+	 * Makes interval undefined, which is represented by [∞, -∞]
+	 */
+	public void setUndefined() {
 		set(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		inverted = false;
 	}
 
 	/**
@@ -127,10 +112,23 @@ public class Interval {
 	 * @return this as result
 	 */
 	public Interval add(Interval other) {
+		if (isUndefined() || other.isUndefined()) {
+			setUndefined();
+			return this;
+		}
+
 		low += other.low;
 		high += other.high;
-		inverted = other.inverted;
+		updateInversion(other.inverted);
 		return this;
+	}
+
+	private void updateInversion(boolean otherInverted) {
+		if (inverted && otherInverted) {
+			setUndefined();
+		} else {
+			inverted = inverted || otherInverted;
+		}
 	}
 
 	@Override
@@ -149,21 +147,23 @@ public class Interval {
 	@Override
 	public String toString() {
 		if (isWhole()) {
-			return "Interval [-Infinity, Infinity] 1E" + inverted.getPostfix();
-		} else if (isWhole()) {
-			return "Interval [-Infinity, Infinity] R"  + inverted.getPostfix();
+			return "Interval [-Infinity, Infinity] " + invertedPostfix();
 		}
 
 		String result = "Interval [";
-		if (!isEmpty()) {
+		if (!isUndefined()) {
 			result += low;
 			if (!isSingleton()) {
 				result += ", " + high;
 			}
 		}
 
-		result += "]" + inverted.getPostfix();
+		result += "] " + invertedPostfix();
 		return result;
+	}
+
+	private String invertedPostfix() {
+		return inverted ? "Inverted" : "";
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class Interval {
 		} else {
 			low -= other.high;
 			high -= other.low;
-			inverted = other.inverted;
+			updateInversion(other.inverted);
 		}
 		return this;
 	}
@@ -215,9 +215,9 @@ public class Interval {
 
 	/**
 	 *
-	 * @return if interval is empty.
+	 * @return if interval is undefined.
 	 */
-	public boolean isEmpty() {
+	public boolean isUndefined() {
 		return  low > high;
 	}
 
@@ -243,7 +243,7 @@ public class Interval {
 	 * @return if intervals are overlapping
 	 */
 	public boolean isOverlap(Interval other) {
-		if (isEmpty() || other.isEmpty()) {
+		if (isUndefined() || other.isUndefined()) {
 			return false;
 		}
 		return (low <= other.low && other.low <= high)
@@ -270,7 +270,7 @@ public class Interval {
 	 * @return this as result.
 	 */
 	public Interval multiplicativeInverse() {
-		return multiplicativeInverse.getResult();
+		return IntervalOperands.divide(IntervalConstants.one(), this);
 	}
 
 	void setWhole() {
@@ -362,7 +362,7 @@ public class Interval {
 	 * @return width of the interval.
 	 */
 	public double getWidth() {
-		if (isEmpty()) {
+		if (isUndefined()) {
 			return 0;
 		}
 		return RMath.subHigh(high, low);
@@ -387,7 +387,6 @@ public class Interval {
 
 	public void setZero() {
 		set(IntervalConstants.zero());
-		inverted = Inversion.NONE;
 	}
 
 	/**
@@ -397,6 +396,14 @@ public class Interval {
 	public boolean isZero() {
 		return DoubleUtil.isEqual(low, 0, PRECISION)
 				&& DoubleUtil.isEqual(high, 0, PRECISION);
+	}
+
+	public boolean contains(double value) {
+		return value >= low && value <= high;
+	}
+
+	public boolean containsExclusive(int value) {
+		return value > low && value < high;
 	}
 
 	public boolean contains(Interval interval) {
@@ -409,7 +416,7 @@ public class Interval {
 	 * @return if this interval is greater than the other.
 	 */
 	public boolean isGreaterThan(Interval other) {
-		if (isEmpty() || other == null || other.isEmpty()) {
+		if (isUndefined() || other == null || other.isUndefined()) {
 			return false;
 		}
 
@@ -422,15 +429,13 @@ public class Interval {
 	 * @param operation to execute.
 	 * @param other parameter for the operation
 	 * @return the result of the operation.
-	 * @throws Exception in case of division by zero
 	 *
 	 */
-	public Interval evaluate(Operation operation,
-			Interval other) throws Exception {
+	public Interval evaluate(Operation operation, Interval other) {
 		return evaluate.evaluate(operation, other);
 	}
 
-	public Interval evaluate(Operation operation) throws Exception {
+	public Interval evaluate(Operation operation) {
 		return evaluate.evaluate(operation);
 	}
 
@@ -450,7 +455,7 @@ public class Interval {
 	 */
 	public String toShortString() {
 		String result = "[";
-		if (!isEmpty()) {
+		if (!isUndefined()) {
 			result += low;
 			if (!isSingleton()) {
 				result += ", " + high;
@@ -458,8 +463,8 @@ public class Interval {
 		}
 
 		result += "]";
-		if (inverted != Inversion.NONE) {
-			result += inverted == Inversion.INVERTED ? " I" : " U";
+		if (inverted) {
+			result += " Inverted";
 		}
 		return result;
 	}
@@ -469,7 +474,7 @@ public class Interval {
 	 * @return the length of the interval
 	 */
 	public double getLength() {
-		if (isEmpty()) {
+		if (isUndefined()) {
 			return 0;
 		}
 		return Math.abs(high - low);
@@ -504,7 +509,7 @@ public class Interval {
 	 * @return true if interval one or both border is infinite.
 	 */
 	public boolean hasInfinity() {
-		return !isEmpty() && isLowInfinite() || isHighInfinite();
+		return !isUndefined() && isLowInfinite() || isHighInfinite();
 	}
 
 	/**
@@ -554,27 +559,22 @@ public class Interval {
 				|| (!isLowInfinite() && isHighInfinite());
 	}
 
+	/**
+	 *
+	 * @return if interval is a positive infinite singleton.
+	 */
 	public boolean isPositiveInfinity() {
-		return low == Double.POSITIVE_INFINITY && high == low;
-	}
-	public boolean isNegativeInfinity() {
-		return low == Double.NEGATIVE_INFINITY && high == low;
+		return DoubleUtil.isEqual(low, Double.POSITIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, low);
 	}
 
 	/**
 	 *
-	 * @return true if interval is undefined (division by zero).
+	 * @return if interval is a negative infinite singleton.
 	 */
-	public boolean isUndefined() {
-		return Double.isNaN(low) && Double.isNaN(high);
-	}
-
-	/**
-	 * Sets interval undefined (result of division by zero).
-	 */
-	public void setUndefined() {
-		set(Double.NaN, Double.NaN);
-		inverted = Inversion.NONE;
+	public boolean isNegativeInfinity() {
+		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, low);
 	}
 
 	/**
@@ -593,7 +593,15 @@ public class Interval {
 	 * @return if both bounds are positive.
 	 */
 	public boolean isPositive() {
-		return !isEmpty() && low > 0;
+		return low > 0;
+	}
+
+	/**
+	 *
+	 * @return if low and high is positive or low == 0 and high is positivr
+	 */
+	public boolean isPositiveWithZero() {
+		return low >= 0;
 	}
 
 	/**
@@ -601,7 +609,7 @@ public class Interval {
 	 * @return if both bounds are >= 0.
 	 */
 	public boolean isNatural() {
-		return !isEmpty() && low > 0;
+		return !isUndefined() && low > 0;
 	}
 
 	/**
@@ -609,7 +617,15 @@ public class Interval {
 	 * @return if both bounds are negative.
 	 */
 	public boolean isNegative() {
-		return !isEmpty() && high < 0;
+		return high < 0;
+	}
+
+	/**
+	 *
+	 * @return if low and high is negative, or low < 0 and high is 0.
+	 */
+	public boolean isNegativeWithZero() {
+		return high <= 0;
 	}
 
 	/**
@@ -621,28 +637,11 @@ public class Interval {
 	}
 
 	/**
-	 * Sets interval [low, high] inverted. This really means:
-	 * [-∞, low] union [high, ∞]
-	 * Note: zero interval cannot be inverted.
-	 */
-	public void markAsInverted() {
-		inverted = Inversion.INVERTED;
-	}
-
-	public void clearInverted() {
-		inverted = Inversion.NONE;
-	}
-
-
-	/**
 	 * Inverts interval
 	 * @return this
 	 */
 	public Interval invert() {
-		inverted = isInverted()
-				? Inversion.NONE
-				: Inversion.INVERTED;
-
+		setInverted(true);
 		return this;
 	}
 
@@ -651,9 +650,7 @@ public class Interval {
 	 * @return this
 	 */
 	public Interval uninvert() {
-		if (isInverted()) {
-			inverted = Inversion.UNINVERTED;
-		}
+		setInverted(false);
 		return this;
 	}
 
@@ -663,21 +660,65 @@ public class Interval {
 	 * ie equals [-∞, low] union [high, ∞].
 	 */
 	public boolean isInverted() {
-		return inverted == Inversion.INVERTED;
+		return inverted;
 	}
 
 	/**
 	 *
-	 * @return if interval was uninverted at some point,
+	 * @param low to check
+	 * @return whether low bound is equal to a specific value.
 	 */
-	public boolean isUninverted() {
-		return inverted == Inversion.UNINVERTED;
+	public boolean lowEquals(double low) {
+		return DoubleUtil.isEqual(this.low, low, PRECISION);
 	}
 
 	/**
-	 * Resets inversion as it never was touched.
+	 *
+	 * @param high to check
+	 * @return whether high bound is equal to a specific value.
 	 */
-	public void resetInversion() {
-		inverted = Inversion.NONE;
+	public boolean highEquals(double high) {
+		return DoubleUtil.isEqual(this.high, high, PRECISION);
 	}
+
+	/**
+	 *
+	 * @return round to zero within the given precision
+	 */
+	public Interval round() {
+		if (Math.abs(low) < PRECISION) {
+			low = 0;
+		}
+
+		if (Math.abs(high) < PRECISION) {
+			high = 0;
+		}
+		return this;
+	}
+
+	/**
+	 * Sets interval [low, high] inverted. This really means:
+	 * [-∞, low] union [high, ∞]
+	 * @param inverted the flag to set.
+	 */
+	public void setInverted(boolean inverted) {
+		this.inverted = inverted;
+	}
+
+	/**
+	 *
+	 * @return [-∞, a] for inverted intervals, undefined() otherwise
+	 */
+	public Interval extractLow() {
+		return isInverted() ? new Interval(Double.NEGATIVE_INFINITY, low) : undefined();
+	}
+
+	/**
+	 *
+	 * @return [high, ∞] for inverted intervals, undefined otherwise
+	 */
+	public Interval extractHigh() {
+		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();
+	}
+
 }

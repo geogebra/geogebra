@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
-public class IntervalConstants {
+public final class IntervalConstants {
 	public static final double PI_LOW = Math.PI - 1E-16;
 	public static final double PI_HIGH = Math.PI + 1E-16;
 	public static final double PI_HALF_LOW = PI_LOW / 2.0;
@@ -13,7 +13,7 @@ public class IntervalConstants {
 	 *
 	 * @return a newly created empty interval.
 	 */
-	public static Interval empty() {
+	public static Interval undefined() {
 		return new Interval(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
 	}
 
@@ -39,23 +39,6 @@ public class IntervalConstants {
 	 */
 	public static Interval whole() {
 		return new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-	}
-
-	/**
-	 *
-	 * @return a newly created whole interval with Double infinity.
-	 */
-	public static Interval wholeR() {
-		// TODO sync Double and 1E infinity.
-		return new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-	}
-
-	/**
-	 *
-	 * @return a newly created undefined interval.
-	 */
-	public static Interval undefined() {
-		return new Interval(Double.NaN);
 	}
 
 	/**
@@ -100,7 +83,6 @@ public class IntervalConstants {
 				Double.NEGATIVE_INFINITY);
 	}
 
-
 	/**
 	 *
 	 * @return a "-0" interval for 1/-inf compatibility.
@@ -115,5 +97,17 @@ public class IntervalConstants {
 	 */
 	public static Interval zeroWithinPrecision() {
 		return new Interval(RMath.next(-PRECISION), RMath.prev(PRECISION));
+	}
+
+	/**
+	 *
+	 * @return a small interval that contains 0.
+	 */
+	public static Interval aroundZero() {
+		return new Interval(-1E-4, 1E-4);
+	}
+
+	private IntervalConstants() {
+		throw new IllegalStateException("Constants class");
 	}
 }

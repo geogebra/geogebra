@@ -1,43 +1,12 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalConstants.wholeR;
+import static org.geogebra.common.kernel.interval.IntervalOperands.computeInverted;
+import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
 
 import org.geogebra.common.util.DoubleUtil;
 
-import com.google.j2objc.annotations.Weak;
-
 public class IntervalRoot {
-	@Weak
-	private final Interval interval;
-
-	public IntervalRoot(Interval interval) {
-		this.interval = interval;
-	}
-
-	/**
-	 * @return square root of the interval.
-	 */
-	Interval sqrt() {
-		if (interval.isEmpty() || interval.isNegative() || interval.isUndefined()) {
-			interval.setEmpty();
-			return interval;
-		}
-
-		if (interval.hasZero()) {
-			if (interval.getLow() < 0) {
-				interval.set(-0.0, oddFractionPower(interval.getHigh(), 0.5));
-				return interval;
-			}
-			return IntervalConstants.zero();
-		}
-
-		if (interval.isWhole()) {
-			return interval.isInverted() ? undefined() : wholeR();
-		}
-
-		return nRoot(2);
-	}
 
 	/**
 	 * Computes the nth root of the interval
@@ -45,13 +14,14 @@ public class IntervalRoot {
 	 * @param other interval
 	 * @return nth root of the interval.
 	 */
-	Interval nRoot(Interval other) {
+	Interval compute(Interval interval, Interval other) {
 		if (!other.isSingleton()) {
-			interval.setEmpty();
+			interval.setUndefined();
 			return interval;
 		}
 
-		return nRoot(other.getLow());
+		double power = other.getLow();
+		return compute(interval, power);
 	}
 
 	/**
@@ -59,20 +29,28 @@ public class IntervalRoot {
 	 * @param n the root
 	 * @return nth root of the interval.
 	 */
-	Interval nRoot(double n) {
-		if (interval.isEmpty()) {
-			return interval;
+	Interval compute(Interval interval, double n) {
+		if (interval.isUndefined()) {
+			return undefined();
 		}
+
+		if (interval.isInverted()) {
+			Interval result1 = compute(interval.extractLow(), n);
+			Interval result2 = compute(interval.extractHigh(), n);
+			return computeInverted(result1, result2);
+		}
+
 		double power = 1 / n;
 		if (isPositiveOdd(n)) {
 			return new Interval(oddFractionPower(interval.getLow(), power),
 					oddFractionPower(interval.getHigh(), power));
 		}
-		return interval.pow(power);
+		return pow(interval, power).round();
 	}
 
 	private double oddFractionPower(double x, double power) {
-		return Math.signum(x) * Math.pow(Math.abs(x), power);
+		return Math.max(IntervalConstants.PRECISION,
+				Math.signum(x) * Math.pow(Math.abs(x), power));
 	}
 
 	private boolean isPositiveOdd(double n) {

@@ -155,15 +155,12 @@ public class IntervalPlotModel {
 	 * @return if the tuple of a given index is empty or not.
 	 */
 	public boolean isEmptyAt(int index) {
-		return index >= points.count() || pointAt(index).isEmpty();
+		return index >= points.count()
+				|| pointAt(index).isEmpty();
 	}
 
 	public boolean isInvertedAt(int index) {
 		return index >= points.count() || pointAt(index).isInverted();
-	}
-
-	public boolean isUndefinedAt(int index) {
-		return index >= points.count() || pointAt(index).isUndefined();
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 import static org.geogebra.common.kernel.interval.IntervalOperands.exp;
 import static org.geogebra.common.kernel.interval.IntervalOperands.log;
 import static org.geogebra.common.kernel.interval.IntervalOperands.multiply;
@@ -23,8 +25,8 @@ public class IntervalAlgebra {
 	 * @return this as result
 	 */
 	Interval fmod(Interval interval, Interval other) {
-		if (interval.isEmpty() || other.isEmpty()) {
-			interval.setEmpty();
+		if (interval.isUndefined() || other.isUndefined()) {
+			interval.setUndefined();
 			return interval;
 		}
 
@@ -48,18 +50,19 @@ public class IntervalAlgebra {
 	}
 
 	/**
+	 * @param interval to power.
 	 * @param power of the interval
 	 * @return power of the interval
 	 */
 	Interval pow(Interval interval, double power) {
-		if (interval.isEmpty()) {
+		if (interval.isUndefined()) {
 			return interval;
 		}
 
 		if (power == 0) {
 			return powerOfZero(interval);
 		} else if (power < 0) {
-			interval.set(pow(interval.multiplicativeInverse(), -power));
+			interval.set(pow(divide(one(), interval), -power));
 			return interval;
 		}
 
@@ -67,19 +70,24 @@ public class IntervalAlgebra {
 			if (interval.isOne()) {
 				return interval;
 			}
-			interval = powerOfDouble(interval, power);
-			if (interval.hasZero()) {
-				result.markAsInverted();
-			}
-			return result;
+			return powerOfDouble(interval, power);
 		}
 
 		return powOfInteger(interval, Math.round(power));
 	}
 
 	private Interval powerOfDouble(Interval interval, double power) {
-		Interval lnPower = multiply(log(interval), new Interval(power));
-		return exp(lnPower);
+		Interval other = new Interval(power);
+		if (interval.isInverted()) {
+			Interval lnPower2 = lnPower(interval.extractHigh(), other);
+			return exp(new Interval(lnPower2));
+		} else {
+			return exp(lnPower(interval, other));
+		}
+	}
+
+	private Interval lnPower(Interval interval, Interval other) {
+		return multiply(log(interval), other);
 	}
 
 	private Interval powOfInteger(Interval interval, long power) {
@@ -116,7 +124,7 @@ public class IntervalAlgebra {
 	private Interval powerOfZero(Interval interval) {
 		if (interval.getLow() == 0 && interval.getHigh() == 0) {
 			// 0^0
-			interval.setEmpty();
+			interval.setUndefined();
 		} else {
 			// x^0
 			interval.set(1, 1);
@@ -132,52 +140,15 @@ public class IntervalAlgebra {
 	 */
 	Interval pow(Interval interval, Interval other) {
 		if (other.isZero()) {
-			interval.set(IntervalConstants.one());
+			interval.set(one());
 			return interval;
 		}
 
 		if (!other.isSingleton()) {
-			interval.setEmpty();
+			interval.setUndefined();
 			return interval;
 		}
 
 		return pow(interval, other.getLow());
 	}
-
-	/**
-	 * @return square root of the interval.
-	 */
-	Interval sqrt(Interval interval) {
-		if (interval.isEmpty()) {
-			interval.setEmpty();
-			return interval;
-		}
-
-		return nthRoot(interval, 2);
-	}
-
-	/**
-	 * Computes the nth root of the interval
-	 * if other (=n) is a singleton
-	 * @param other interval
-	 * @return nth root of the interval.
-	 */
-	Interval nthRoot(Interval interval, Interval other) {
-		if (!other.isSingleton()) {
-			interval.setEmpty();
-			return interval;
-		}
-
-		return nthRoot(interval, other.getLow());
-	}
-
-	/**
-	 * Computes x^(1/n)
-	 * @param n the root
-	 * @return nth root of the interval.
-	 */
-	Interval nthRoot(Interval interval, double n) {
-		if (interval.isEmpty() || n < 1) {
-			interval.setEmpty();
-			return interval;
-		}
+}

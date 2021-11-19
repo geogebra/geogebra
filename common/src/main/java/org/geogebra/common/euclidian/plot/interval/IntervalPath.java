@@ -48,7 +48,7 @@ public class IntervalPath {
 			boolean shouldSkip = shouldSkip(tuple);
 			if (shouldSkip) {
 				skip();
-			} else if (lastY.isEmpty()) {
+			} else if (lastY.isUndefined()) {
 				moveToFirst(i, tuple);
 			} else {
 				drawTuple(i, tuple);
@@ -61,22 +61,31 @@ public class IntervalPath {
 	private void drawTuple(int i, IntervalTuple tuple) {
 		if (tuple.isInverted()) {
 			lastY = corrector.handleInvertedInterval(i, lastY);
+		} else if (tuple.y().isWhole()) {
+			drawWhole(tuple);
 		} else {
 			plotInterval(lastY, tuple);
 			storeY(tuple);
 		}
 	}
 
+	private void drawWhole(IntervalTuple tuple) {
+		Interval x = bounds.toScreenIntervalX(tuple.x());
+		gp.moveTo(x.getLow(), 0);
+		gp.lineTo(x.getLow(), bounds.getHeight());
+		skip();
+	}
+
 	private void moveToFirst(int i, IntervalTuple point) {
 		Interval x = bounds.toScreenIntervalX(point.x());
 		Interval y = bounds.toScreenIntervalY(point.y());
 
-		if (y.isEmpty()) {
-			lastY.setEmpty();
+		if (y.isUndefined()) {
+			lastY.setUndefined();
 			return;
 		}
 
-		if (point.y().isInverted() && !model.isInvertedAt(point.index() + 1)) {
+		if (point.y().isInverted() && !model.isInvertedAt(i + 1)) {
 			lastY.set(corrector.beginFromInfinity(i, x, y));
 		} else {
 			line(x, y);
@@ -88,12 +97,11 @@ public class IntervalPath {
 	}
 
 	private void skip() {
-		lastY.setEmpty();
+		lastY.setUndefined();
 	}
 
 	private boolean shouldSkip(IntervalTuple tuple) {
-		return tuple.isEmpty()
-				|| tuple.isUndefined();
+		return tuple.isEmpty() || tuple.y().isPositiveInfinity();
 	}
 
 	private void line(Interval x, Interval y) {
@@ -108,7 +116,7 @@ public class IntervalPath {
 	void reset() {
 		gp.reset();
 		labelPoint = null;
-		lastY.setEmpty();
+		lastY.setUndefined();
 	}
 
 	private void plotInterval(Interval lastY, IntervalTuple tuple) {

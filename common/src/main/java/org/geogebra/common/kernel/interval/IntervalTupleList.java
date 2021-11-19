@@ -81,7 +81,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	}
 
 	private boolean hasTupleValue(IntervalTuple tuple) {
-		return tuple != null && tuple.y() != null && !tuple.y().isEmpty();
+		return tuple != null && tuple.y() != null && !tuple.y().isUndefined();
 	}
 
 	/**

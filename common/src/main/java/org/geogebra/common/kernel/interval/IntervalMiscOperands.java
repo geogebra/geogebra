@@ -51,7 +51,7 @@ public interface IntervalMiscOperands {
 	 * @param other to union with.
 	 * @return this as result.
 	 */
-	Interval union(Interval interval, Interval other) throws IntervalsNotOverlapException;
+	Interval union(Interval interval, Interval other);
 
 	/**
 	 * Computes the difference between two intervals,
@@ -60,7 +60,7 @@ public interface IntervalMiscOperands {
 	 * @param other to difference with.
 	 * @return this as result.
 	 */
-	Interval difference(Interval interval, Interval other) throws IntervalsDifferenceException;
+	Interval difference(Interval interval, Interval other);
 
 	/**
 	 * Absolute value of the interval.

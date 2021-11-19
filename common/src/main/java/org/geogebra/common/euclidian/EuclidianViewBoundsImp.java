@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
 public class EuclidianViewBoundsImp implements EuclidianViewBounds {
-	private EuclidianView view;
+	private final EuclidianView view;
 
 	public EuclidianViewBoundsImp(EuclidianView view) {
 		this.view = view;
@@ -63,9 +63,14 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 			return y;
 		}
 
-		if (y.isInfiniteSingleton()) {
+		if (y.isNegativeInfinity()) {
+			return new Interval(toScreenCoordYd(view.getYmin()));
+		}
+
+		if (y.isPositiveInfinity()) {
 			return IntervalConstants.zero();
 		}
+
 		double screenYLow = y.getHigh() == Double.POSITIVE_INFINITY
 				? 0
 				: toScreenCoordYd(y.getHigh());
