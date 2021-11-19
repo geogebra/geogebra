@@ -131,6 +131,15 @@ class EditorChecker {
 		return this;
 	}
 
+	/**
+	 * Protect top level sequence
+	 * @return this
+	 */
+	public EditorChecker protect() {
+		mathField.getInternal().getFormula().getRootComponent().setProtected();
+		return this;
+	}
+
 	public EditorChecker checkPath(Integer... indexes) {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		mathField.requestViewFocus();
