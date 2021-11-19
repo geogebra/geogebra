@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -370,6 +371,30 @@ public class ParserTest {
 	@Test
 	public void shouldParseNegativeLogPowerAsReciprocal() {
 		shouldReparseAs("ln^(-1)(x)^2", unicode("((ln(x))^-1)^2"));
+	}
+
+	@Test
+	public void testPoints() throws ParseException {
+		checkPointParsedAs("A(1|2)", "A", "(1, 2)");
+		checkPointParsedAs("B(1|2|3)", "B", "(1, 2, 3)");
+		checkPointParsedAs("C(1;2)", "C", "(1; 2)");
+		checkPointParsedAs("D(1;2;3)", "D", "(1; 2; 3)");
+		checkPointParsedAs("E(1,2)", "E", "(1, 2)");
+		checkPointParsedAs("F(1,2,3)", "F", "(1, 2, 3)");
+
+		// parsed as a command when it's not alone
+		assertTrue(parseExpression("(4, 3) + G(1, 2)").inspect(t -> t instanceof Command));
+		assertTrue(parseExpression("G(1, 2) + (3, 4)").inspect(t -> t instanceof Command));
+	}
+
+	private void checkPointParsedAs(String input, String label, String value) {
+		try {
+			ValidExpression ex = parseExpression(input);
+			assertEquals(label, ex.getLabel());
+			assertEquals(value, ex.toString(StringTemplate.editTemplate));
+		} catch (ParseException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	private void assertValidLabel(String s) {
