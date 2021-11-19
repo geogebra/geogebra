@@ -589,20 +589,15 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * Change units.
-	 * 
-	 * @param axesUnitLabels
-	 *            unit labels
+	 * @param axis axis index
+	 * @param axisUnitLabel unit label
 	 */
-	public void setAxesUnitLabels(String[] axesUnitLabels) {
-		this.axesUnitLabels = axesUnitLabels;
+	public void setAxisUnitLabel(int axis, String axisUnitLabel) {
+		this.axesUnitLabels[axis] = axisUnitLabel;
 
 		// check if pi is an axis unit
-		for (int i = 0; i < 2; i++) {
-			piAxisUnit[i] = (axesUnitLabels[i] != null)
-					&& axesUnitLabels[i].equals(Unicode.PI_STRING);
-		}
-		// setAxesIntervals(xscale, 0);
-		// setAxesIntervals(yscale, 1);
+		piAxisUnit[axis] = (axesUnitLabels[axis] != null)
+					&& axesUnitLabels[axis].equals(Unicode.PI_STRING);
 
 		settingChanged();
 	}

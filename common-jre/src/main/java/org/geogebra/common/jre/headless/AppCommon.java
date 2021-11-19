@@ -21,7 +21,6 @@ import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.io.MyXMLioCommon;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
 import org.geogebra.common.jre.main.LocalizationJre;
-import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -370,72 +369,7 @@ public class AppCommon extends App {
 
     @Override
     public GgbAPI getGgbApi() {
-		return new GgbAPIJre(this) {
-
-			@Override
-			public byte[] getGGBfile() {
-				// stub
-				return null;
-			}
-
-			@Override
-			public void setErrorDialogsActive(boolean flag) {
-				// stub
-			}
-
-			@Override
-			public void refreshViews() {
-				// stub
-			}
-
-			@Override
-			public void openFile(String strURL) {
-				// stub
-			}
-
-			@Override
-			public boolean writePNGtoFile(String filename, double exportScale,
-					boolean transparent, double DPI, boolean greyscale) {
-				// stub
-				return false;
-			}
-
-			@Override
-			public void handleSlideAction(String eventType, String pageIdx, String appStat) {
-				// stub
-			}
-
-			@Override
-			public void selectSlide(String pageIdx) {
-				// stub
-			}
-
-			@Override
-			public void previewRefresh() {
-				// stub
-			}
-
-			@Override
-			protected void exportPNGClipboard(boolean transparent, int DPI,
-					double exportScale, EuclidianView ev) {
-				// stub
-
-			}
-
-			@Override
-			protected void exportPNGClipboardDPIisNaN(boolean transparent,
-					double exportScale, EuclidianView ev) {
-				// stub
-
-			}
-
-			@Override
-			protected String base64encodePNG(boolean transparent, double DPI,
-					double exportScale, EuclidianView ev) {
-				// stub
-				return "";
-			}
-		};
+		return new GgbAPIHeadless(this);
     }
 
     @Override
@@ -774,4 +708,5 @@ public class AppCommon extends App {
 	public boolean isWhiteboardActive() {
 		return getConfig() instanceof AppConfigNotes;
 	}
+
 }

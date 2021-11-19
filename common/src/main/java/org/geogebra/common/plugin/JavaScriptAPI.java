@@ -1181,4 +1181,23 @@ public interface JavaScriptAPI {
 	 * @param label - label of element
 	 */
 	void unlockTextElement(String label);
+
+	/**
+	 * Sets global options
+	 * @param options maps option names to values
+	 */
+	void setGlobalOptions(Object options);
+
+	/**
+	 * Sets options of the default graphics view
+	 * @param options maps option names to values
+	 */
+	void setGraphicsOptions(Object options);
+
+	/**
+	 * Sets options of a single graphics view
+	 * @param options maps option names to values
+	 * @param viewId 1 for graphhics, 2 for graphics 2, 3 for 3D
+	 */
+	void setGraphicsOptions(int viewId, Object options);
 }
