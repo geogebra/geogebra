@@ -97,19 +97,4 @@ public class IntervalAddTest {
 		assertEquals(interval(135.75, Double.POSITIVE_INFINITY), actual.extractHigh());
 	}
 
-	@Test
-	public void testHalfInfinityAddToInverted() {
-		Interval actual = invertedInterval(-3.45, 78.97)
-				.add(interval(Double.NEGATIVE_INFINITY, 56.78));
-		assertEquals(interval(Double.NEGATIVE_INFINITY), actual.extractLow());
-		assertEquals(interval(135.75, Double.POSITIVE_INFINITY), actual.extractHigh());
-	}
-
-	@Test
-	public void testAddInvertedToHalfInfinity() {
-		Interval actual = interval(Double.NEGATIVE_INFINITY, 56.78)
-				.add(invertedInterval(-3.45, 78.97));
-		assertEquals(interval(Double.NEGATIVE_INFINITY), actual.extractLow());
-		assertEquals(interval(135.75, Double.POSITIVE_INFINITY), actual.extractHigh());
-	}
 }
