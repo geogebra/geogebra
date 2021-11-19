@@ -121,7 +121,6 @@ public class GeoGebraFrameFull
 	@Override
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
-		parameters.setAttribute("lockExam", "true");
 		if (SecureBrowser.get() != null) {
 			parameters.setAttribute("lockExam", "true");
 			SecureBrowser.get().security.lockDown(true,
