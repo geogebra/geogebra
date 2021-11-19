@@ -165,6 +165,14 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdSolveODEUpdate() {
+		t("t=SolveODE(2x)", "x^(2)");
+		t("v=t(2)", "4");
+		t("SetValue(c_1,1)");
+		t("v", "5");
+	}
+
+	@Test
 	public void cmdDerivative() {
 		t("Derivative[ Curve[sin(t),cos(t),t,0,1] ]",
 				"(cos(t), (sin(t) * (-1)))");

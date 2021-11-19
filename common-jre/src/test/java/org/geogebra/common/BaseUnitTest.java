@@ -191,7 +191,11 @@ public class BaseUnitTest {
 		return isDefined;
 	}
 
-	protected TypeSafeMatcher<GeoElementND> hasValue(String val) {
+	/**
+	 * @param val expected value (for default template)
+	 * @return construction element matcher
+	 */
+	public static TypeSafeMatcher<GeoElementND> hasValue(String val) {
 		return new TypeSafeMatcher<GeoElementND>() {
 			@Override
 			protected boolean matchesSafely(GeoElementND item) {

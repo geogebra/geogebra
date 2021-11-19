@@ -242,6 +242,25 @@ public class GeoSymbolic extends GeoElement
 			casResult = tryNumericCommand(casInput, casResult);
 		}
 
+		if (casInput.getName().equals(Commands.SolveODE.name())) {
+			return normalizeSolveODE(casResult, casInput);
+		}
+		return casResult;
+	}
+
+	private String normalizeSolveODE(String casResult, Command casInput) {
+		try {
+			ExpressionValue parsed = kernel.getParser()
+					.parseGeoGebraExpression(casResult).unwrap();
+			if (parsed instanceof Equation) {
+				Function fn = ((Equation) parsed).asFunction();
+				if (fn != null) {
+					return fn.toString(getStringTemplate(casInput));
+				}
+			}
+		} catch (Throwable t) {
+			Log.debug(t);
+		}
 		return casResult;
 	}
 
