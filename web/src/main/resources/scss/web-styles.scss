@@ -507,6 +507,10 @@
 		.gwt-SplitLayoutPanel-HDragger, .gwt-SplitLayoutPanel-VDragger {
 			cursor: default;
 		}
+
+		.splitPaneDragger:after {
+			display: none;
+		}
 	}
 
 	.gwt-SplitLayoutPanel-VDragger {
