@@ -197,16 +197,14 @@ public class ContextMenuTV {
 
 	private void addDelete() {
 		Command deleteCommand = () -> {
-					GuiManagerInterfaceW guiManager = getApp().getGuiManager();
-					if (guiManager != null && guiManager.getTableValuesView() != null) {
-						TableValuesView tableValuesView = (TableValuesView) guiManager
-								.getTableValuesView();
-						GeoEvaluatable column = tableValuesView
-								.getEvaluatable(getColumnIdx());
-						tableValuesView.hideColumn(column);
-						app.dispatchEvent(new Event(EventType.REMOVE_TV, (GeoElement) column));
-					}
-				};
+			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
+			view.hideColumn(column);
+			if (column instanceof GeoList) {
+				column.remove();
+			} else {
+				app.dispatchEvent(new Event(EventType.REMOVE_TV, (GeoElement) column));
+			}
+		};
 		addCommand(deleteCommand, "RemoveColumn", "delete");
 	}
 
