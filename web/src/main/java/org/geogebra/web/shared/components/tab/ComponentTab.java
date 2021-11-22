@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class ComponentTab extends FlowPanel {
 	private Localization loc;
-	private ArrayList<TabData> tabData;
 	private SimplePanel indicator;
 	private FlowPanel panelContainer;
 	private StandardButton selectedBtn;
@@ -24,12 +23,12 @@ public class ComponentTab extends FlowPanel {
 	 */
 	public ComponentTab(ArrayList<TabData> tabData, Localization loc) {
 		this.loc = loc;
-		this.tabData = tabData;
 		addStyleName("componentTab");
-		buildGUI();
+		buildGUI(tabData);
+		switchToTab(0);
 	}
 
-	private void buildGUI() {
+	private void buildGUI(ArrayList<TabData> tabData) {
 		indicator = new SimplePanel();
 		indicator.addStyleName("indicator");
 		add(indicator);
@@ -43,20 +42,20 @@ public class ComponentTab extends FlowPanel {
 		add(panelContainer);
 
 		for (int i = 0; i < tabData.size(); i++) {
-			StandardButton tabBtn = new StandardButton(
-					loc.getMenu(tabData.get(i).getTabTitle()));
-			tabBtn.addStyleName("tabBtn");
-			tabBtn.addStyleName("ripple");
-			int tabIdx = i;
-			tabBtn.addFastClickHandler(source -> {
-				switchToTab(tabIdx);
-			});
+			StandardButton tabBtn = getTabBtn(i, tabData.get(i).getTabTitle());
 			tabBtns.add(tabBtn);
-
 			header.add(tabBtn);
 			panelContainer.add(tabData.get(i).getTabPanel());
 		}
+	}
 
+	private StandardButton getTabBtn(int i, String title) {
+		StandardButton tabBtn = new StandardButton(loc.getMenu(title));
+		tabBtn.addStyleName("tabBtn");
+		tabBtn.addStyleName("ripple");
+		int tabIdx = i;
+		tabBtn.addFastClickHandler(source -> switchToTab(tabIdx));
+		return tabBtn;
 	}
 
 	private double calculateLeft(int index) {

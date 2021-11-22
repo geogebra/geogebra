@@ -4,26 +4,26 @@
 
 .GeoGebraFrame {
 
-    /* CHECKBOX COMPONENT */
-    @mixin checkboxBg($color) {
-    	.background {
-    		border-color: $color;
-    		background-color: $color;
-    	}
-    }
+	/* CHECKBOX COMPONENT */
+	@mixin checkboxBg($color) {
+		.background {
+			border-color: $color;
+			background-color: $color;
+		}
+	}
 
-    .checkboxPanel {
-    	display: flex;
-    	width: fit-content;
-    	cursor: pointer;
-    }
+	.checkboxPanel {
+		display: flex;
+		width: fit-content;
+		cursor: pointer;
+	}
 
-    .checkbox {
-        width: 18px;
-        height: 18px;
-        padding: 3px;
-        position: relative;
-        cursor: pointer;
+	.checkbox {
+		width: 18px;
+		height: 18px;
+		padding: 3px;
+		position: relative;
+		cursor: pointer;
 
 		.background {
 			width: 18px;
@@ -314,13 +314,13 @@
 			height: calc(100% - 20px);
 			overflow: hidden;
 
-            .dialogTitle {
-                min-height: 20px;
-                font-size: 125%;
-                margin-bottom: 20px;
-                margin-left: 24px;
-                color: colors.$text-primary;
-            }
+			.dialogTitle {
+				min-height: 20px;
+				font-size: 125%;
+				margin-bottom: 20px;
+				margin-left: 24px;
+				color: colors.$text-primary;
+			}
 
 			.dialogContent {
 				// 112px = 20px title + 20px margin + 52px button panel
@@ -483,21 +483,21 @@
 	/** TAB COMPONENT */
 	.componentTab {
 		width: 100%;
-        overflow: hidden;
+		overflow: hidden;
 		.indicator {
 			height: 2px;
 			width: 90px;
-			background-color: #6557d2;
-            top: 49px;
-            position: relative;
-            border-radius: 2px 2px 0 0;
-            left: 0px;
-            z-index: 1;
-            transition: left .25s cubic-bezier(0.4, 0, 0.2, 1), width 0.2s linear;
+			background-color: colors.$purple-default;
+			top: 49px;
+			position: relative;
+			border-radius: 2px 2px 0 0;
+			left: 0px;
+			z-index: 1;
+			transition: all .25s cubic-bezier(.35,0,.25,1);
 		}
 
 		.header {
-			border-bottom: 1px solid rgba(0,0,0,.12);
+			border-bottom: 1px solid colors.$black-12;
 			.tabBtn {
 				min-width: 90px;
 				height: 48px;
@@ -511,21 +511,21 @@
 				}
 
 				&:hover {
-					background-color: rgba(153, 132, 255,.15);
+					background-color: colors.$purple-default-12;
 				}
 
 				&.selected {
 					.gwt-Label {
-						color: #6557d2;
+						color: colors.$purple-default;
 					}
 					&:hover {
-						background-color: white;
+						background-color: colors.$white;
 					}
 				}
 
 				&.ripple:after {
-            		background-image: radial-gradient(circle, #6557D2 10%, transparent 10.01%);
-           		}
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
 			}
 		}
 
@@ -533,7 +533,7 @@
 				position: relative;
 				display: inline-flex;
 				right: 0px;
-				transition: right .25s cubic-bezier(0.4, 0, 0.2, 1);
+				transition: right 0.25s cubic-bezier(.35,0,.25,1);
 			}
 	}
 }
