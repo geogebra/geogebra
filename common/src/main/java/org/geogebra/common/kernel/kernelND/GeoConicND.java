@@ -4469,7 +4469,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		Coords ev1 = getEigenvec3D(0);
 		Coords ev2 = getEigenvec3D(1);
 
-		String separator = GeoPoint.buildValueStringSeparator(kernel, tpl);
+		String separator = GeoPoint.getValueSeparatorWithSpace(kernel, tpl);
 
 		sbBuildValueString.append(" + (");
 
@@ -4477,13 +4477,11 @@ public abstract class GeoConicND extends GeoQuadricND
 				s2, tpl, sbBuildValueString);
 
 		sbBuildValueString.append(separator);
-		sbBuildValueString.append(" ");
 
 		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getY(), r2 * ev2.getY(), s1,
 				s2, tpl, sbBuildValueString);
 		if (dim > 2) {
 			sbBuildValueString.append(separator);
-			sbBuildValueString.append(" ");
 
 			kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getZ(), r2 * ev2.getZ(),
 					s1, s2, tpl, sbBuildValueString);

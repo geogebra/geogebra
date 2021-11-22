@@ -44,12 +44,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 			toggleCheckbox();
 		}
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				item.adjustStyleBar();
-			}
-		});
+		Scheduler.get().scheduleDeferred(item::adjustStyleBar);
 	}
 
 	@Override
@@ -64,12 +59,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 		handleAVItem(event);
 		toggleCheckbox();
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				item.adjustStyleBar();
-			}
-		});
+		Scheduler.get().scheduleDeferred(item::adjustStyleBar);
 	}
 
 	private void toggleCheckbox() {

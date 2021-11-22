@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -36,6 +37,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -170,6 +172,16 @@ public class Variable extends ValidExpression {
 			if (kernel.getConstruction().isRegisteredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
 			}
+
+			List<String> variants = StringUtil.labelVariants(name);
+			if (variants != null) {
+				for (String variant : variants) {
+					if (kernel.getConstruction().isRegisteredFunctionVariable(variant)) {
+						return new FunctionVariable(kernel, variant);
+					}
+				}
+			}
+
 			ExpressionValue replacement = replacement(name);
 			if (!(replacement instanceof Variable)) {
 				return replacement;

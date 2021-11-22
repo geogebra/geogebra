@@ -29,6 +29,7 @@ import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -407,6 +408,11 @@ public class GgbAPID extends GgbAPIJre {
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}
+	}
+
+	@Override
+	public JsObjectWrapper getWrapper(Object obj) {
+		return new JsObjectWrapperD(obj);
 	}
 
 }

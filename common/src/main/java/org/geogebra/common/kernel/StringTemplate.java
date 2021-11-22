@@ -3619,11 +3619,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param sb builder
 	 * @param localization localization
 	 */
-	public void getComma(StringBuilder sb, Localization localization) {
+	public void getCommaOptionalSpace(StringBuilder sb, Localization localization) {
 		if (hasType(StringType.SCREEN_READER)) {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());
+			appendOptionalSpace(sb);
 		}
 	}
 }

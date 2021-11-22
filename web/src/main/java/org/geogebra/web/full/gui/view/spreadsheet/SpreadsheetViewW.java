@@ -30,9 +30,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -102,34 +100,28 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		settingsChanged(settings());
 
-		this.spreadsheet.addBitlessDomHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				if (event.getTouches().length() > 1) {
-					Touch t0 = event.getTouches().get(0);
-					Touch t1 = event.getTouches().get(1);
-					scrollPos.setLocation(
-							getHorizontalScrollPosition()
-									+ (t0.getScreenX() + t1.getScreenX()) / 2,
-							getVerticalScrollPosition()
-									+ (t0.getScreenY() + t1.getScreenY()) / 2);
-				}
+		this.spreadsheet.addBitlessDomHandler(event -> {
+			if (event.getTouches().length() > 1) {
+				Touch t0 = event.getTouches().get(0);
+				Touch t1 = event.getTouches().get(1);
+				scrollPos.setLocation(
+						getHorizontalScrollPosition()
+								+ (t0.getScreenX() + t1.getScreenX()) / 2,
+						getVerticalScrollPosition()
+								+ (t0.getScreenY() + t1.getScreenY()) / 2);
 			}
 		}, TouchStartEvent.getType());
 
-		this.spreadsheet.addBitlessDomHandler(new TouchMoveHandler() {
-			@Override
-			public void onTouchMove(TouchMoveEvent event) {
-				if (event.getTouches().length() > 1) {
-					Touch t0 = event.getTouches().get(0);
-					Touch t1 = event.getTouches().get(1);
+		this.spreadsheet.addBitlessDomHandler(event -> {
+			if (event.getTouches().length() > 1) {
+				Touch t0 = event.getTouches().get(0);
+				Touch t1 = event.getTouches().get(1);
 
-					int x = (t0.getScreenX() + t1.getScreenX()) / 2;
-					int y = (t0.getScreenY() + t1.getScreenY()) / 2;
+				int x = (t0.getScreenX() + t1.getScreenX()) / 2;
+				int y = (t0.getScreenY() + t1.getScreenY()) / 2;
 
-					table.setHorizontalScrollPosition(scrollPos.x - x);
-					table.setVerticalScrollPosition(scrollPos.y - y);
-				}
+				table.setHorizontalScrollPosition(scrollPos.x - x);
+				table.setVerticalScrollPosition(scrollPos.y - y);
 			}
 		}, TouchMoveEvent.getType());
 	}
@@ -717,15 +709,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	@Override
 	public void settingsChanged(AbstractSettings settings0) {
-		Scheduler.get().scheduleDeferred(deferredSettingsChanged);
+		Scheduler.get().scheduleDeferred(this::settingsChangedCommand);
 	}
-
-	Scheduler.ScheduledCommand deferredSettingsChanged = new Scheduler.ScheduledCommand() {
-		@Override
-		public void execute() {
-			settingsChangedCommand();
-		}
-	};
 
 	/**
 	 * Update view settings
@@ -860,17 +845,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void scheduleRepaint() {
 		if (!repaintScheduled) {
 			repaintScheduled = true;
-			Scheduler.get().scheduleDeferred(scheduleRepaintCommand);
+			Scheduler.get().scheduleDeferred(() -> {
+				repaintScheduled = false;
+				repaintView();
+			});
 		}
 	}
-
-	Scheduler.ScheduledCommand scheduleRepaintCommand = new Scheduler.ScheduledCommand() {
-		@Override
-		public void execute() {
-			repaintScheduled = false;
-			repaintView();
-		}
-	};
 
 	public Widget getFocusPanel() {
 		return spreadsheetWrapper.asWidget();

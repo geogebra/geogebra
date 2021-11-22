@@ -14,19 +14,25 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.GgbAPIHeadless;
 import org.geogebra.common.jre.plugin.ScriptManagerJre;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
@@ -47,7 +53,13 @@ public class GgbApiTest {
 	@Before
 	public void setupApp() {
 		app = AppCommonFactory.create3D();
-		api = app.getGgbApi();
+		api = new GgbAPIHeadless(app) {
+
+			@Override
+			public JsObjectWrapper getWrapper(Object options) {
+				return new JsObjectWrapperCommon(options);
+			}
+		};
 	}
 
 	@Test
@@ -343,6 +355,15 @@ public class GgbApiTest {
 		assertThat(api.getValueString("f", false), is("f(x) = If[x > 3, x, 3]"));
 	}
 
+	@Test
+	public void testSetGraphicsOptions() throws JSONException {
+		String json = "{gridColor:\"#FF0000\", bgColor: \"#0000ff\"}";
+		JSONObject jso = new JSONObject(new JSONTokener(json));
+		api.setGraphicsOptions(1, jso);
+		assertEquals(app.getActiveEuclidianView().getGridColor(), GColor.RED);
+		assertEquals(app.getActiveEuclidianView().getBackgroundCommon(), GColor.BLUE);
+	}
+
 	private class MockScriptManager extends ScriptManagerJre {
 		public MockScriptManager() {
 			super(GgbApiTest.this.app);
@@ -351,6 +372,24 @@ public class GgbApiTest {
 		@Override
 		protected void evalJavaScript(String jsFunction) {
 			// stub
+		}
+	}
+
+	private static class JsObjectWrapperCommon extends JsObjectWrapper {
+		private final Object nativeObject;
+
+		JsObjectWrapperCommon(Object nativeObject) {
+			this.nativeObject = nativeObject;
+		}
+
+		@Override
+		protected Object getValue(String key) {
+			return ((JSONObject) nativeObject).opt(key);
+		}
+
+		@Override
+		protected JsObjectWrapper wrap(Object nativeObject) {
+			return new JsObjectWrapperCommon(nativeObject);
 		}
 	}
 }

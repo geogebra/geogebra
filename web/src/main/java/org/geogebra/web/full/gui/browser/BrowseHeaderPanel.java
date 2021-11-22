@@ -180,12 +180,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		if (this.searchPanel != null) {
 			this.searchPanel.setLabels();
 		}
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				resize();
-			}
-		});
+		app.invokeLater(this::resize);
 	}
 
 	/**

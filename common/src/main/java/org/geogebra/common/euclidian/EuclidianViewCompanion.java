@@ -341,6 +341,7 @@ public class EuclidianViewCompanion {
 		// let's do this after other updates because this might override e.g.
 		// xmin
 		view.setLockedAxesRatio(evs.getLockedAxesRatio());
+		view.repaintView();
 	}
 
 	private static boolean isNaN(GeoNumberValue axisNumberingDistance) {

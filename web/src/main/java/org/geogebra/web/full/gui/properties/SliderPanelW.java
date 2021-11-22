@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.properties;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.SliderModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListener;
@@ -24,10 +22,6 @@ import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -260,34 +254,19 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		sliderTransparency = new SliderPanel(0, 100);
 		sliderTransparency.setTickSpacing(5);
 		sliderTransparency.setValue(40);
-		sliderTransparency.addChangeHandler(new ChangeHandler() {
-			@Override
-			public void onChange(ChangeEvent event) {
-				applyTransparency();
-			}
-		});
+		sliderTransparency.addChangeHandler(event -> applyTransparency());
 	}
 
 	private void createLineThicknessTextField(AppW app) {
 		tfLineThickness = new AutoCompleteTextFieldW(8, app);
 		tfLineThickness.removeSymbolTable();
-		tfLineThickness.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					applyLineThickness();
-				}
-			}
-		});
-		tfLineThickness.enableGGBKeyboard();
-		tfLineThickness.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		tfLineThickness.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				applyLineThickness();
 			}
 		});
+		tfLineThickness.enableGGBKeyboard();
+		tfLineThickness.addBlurHandler(event -> applyLineThickness());
 	}
 
 	private void createBlobColorChooserBtn(final AppW app) {
@@ -413,23 +392,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private void createBlobSizeTextField(AppW app) {
 		tfBlobSize = new AutoCompleteTextFieldW(8, app);
 		tfBlobSize.removeSymbolTable();
-		tfBlobSize.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					applyBlobSize();
-				}
-			}
-		});
-		tfBlobSize.enableGGBKeyboard();
-		tfBlobSize.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
+		tfBlobSize.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
 				applyBlobSize();
 			}
 		});
+		tfBlobSize.enableGGBKeyboard();
+		tfBlobSize.addBlurHandler(event -> applyBlobSize());
 	}
 
 	@Override

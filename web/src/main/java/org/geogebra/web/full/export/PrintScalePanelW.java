@@ -9,7 +9,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -66,19 +65,9 @@ public class PrintScalePanelW extends FlowPanel {
 
 		this.addStyleName("printScalePanel");
 
-		Runnable updateCm = new Runnable() {
-			@Override
-			public void run() {
-				fireTextFieldUpdate();
-			}
-		};
+		Runnable updateCm = this::fireTextFieldUpdate;
 
-		Runnable updateFixedSize = new Runnable() {
-			@Override
-			public void run() {
-				fireFixedSizeTextFieldUpdate();
-			}
-		};
+		Runnable updateFixedSize = this::fireFixedSizeTextFieldUpdate;
 		
 		tfScale1 = getNumberField(updateCm);
 		tfScale2 = getNumberField(updateCm);
@@ -93,14 +82,7 @@ public class PrintScalePanelW extends FlowPanel {
 		exportMode.addItem(jcbItemFixedSize);
 
 		add(exportMode);
-		exportMode.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				switchMode();
-			}
-
-		});
+		exportMode.addChangeHandler(event -> switchMode());
 
 		fixedSizeModePanel = new FlowPanel();
 		Label aPixelsOnScreen = new Label(" "
@@ -227,17 +209,12 @@ public class PrintScalePanelW extends FlowPanel {
 		// ret.setColumns(maxFracDigits);
 		// ret.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		ret.addDomHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				if (handlers.get(ret)) {
-					handlers.put(ret, false);
-					return;
-				}
-				run.run();
+		ret.addDomHandler(event -> {
+			if (handlers.get(ret)) {
+				handlers.put(ret, false);
+				return;
 			}
-
+			run.run();
 		}, ChangeEvent.getType());
 
 		handlers.put(ret, false);

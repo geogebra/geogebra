@@ -20,7 +20,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -356,13 +355,9 @@ public class ItemControls extends FlowPanel
 	 */
 	public void reposition() {
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				int right = getItemRightOffset();
-				getElement().getStyle().setRight(right, Unit.PX);
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			int right = getItemRightOffset();
+			getElement().getStyle().setRight(right, Unit.PX);
 		});
 	}
 

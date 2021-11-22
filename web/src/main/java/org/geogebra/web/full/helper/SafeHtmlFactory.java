@@ -17,15 +17,9 @@ public class SafeHtmlFactory {
 	 */
 	@SuppressWarnings("serial")
 	public static SafeHtml getImageHtml(final ImageResource imgres) {
-		return new SafeHtml() {
-
-			@Override
-			public String asString() {
-				return "<img width=\"" + imgres.getWidth() + "\" height=\""
-				        + imgres.getHeight() + "\" src=\""
-				        + imgres.getSafeUri().asString() + "\" />";
-			}
-		};
+		return () -> "<img width=\"" + imgres.getWidth() + "\" height=\""
+				+ imgres.getHeight() + "\" src=\""
+				+ imgres.getSafeUri().asString() + "\" />";
 	}
 
 }

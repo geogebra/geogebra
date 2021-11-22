@@ -244,23 +244,26 @@ public class DefaultBasicStroke implements GBasicStroke {
 			case GPathIterator.SEG_MOVETO:
 				if (!isClosed) {
 					closeSolidShape();
+					isClosed = true;
 				}
 				rp.clean();
 				mx = cx = coords[0];
 				my = cy = coords[1];
 				isMove = true;
-				isClosed = false;
 				break;
 			case GPathIterator.SEG_LINETO:
 				addLine(cx, cy, cx = coords[0], cy = coords[1], true);
+				isClosed = false;
 				break;
 			case GPathIterator.SEG_QUADTO:
 				addQuad(cx, cy, coords[0], coords[1], cx = coords[2],
 						cy = coords[3]);
+				isClosed = false;
 				break;
 			case GPathIterator.SEG_CUBICTO:
 				addCubic(cx, cy, coords[0], coords[1], coords[2], coords[3],
 						cx = coords[4], cy = coords[5]);
+				isClosed = false;
 				break;
 			case GPathIterator.SEG_CLOSE:
 				addLine(cx, cy, mx, my, false);

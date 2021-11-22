@@ -568,26 +568,23 @@ public class SpreadsheetKeyListenerW
 
 		// make sure that this code runs after the editor has actually been
 		// created
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				// if the user enters something meaningful, spare an additional
-				// entering
-				String str = "";
-				if (charcode > 0) {
-					str = new String(Character.toChars(charcode));
-				}
+		Scheduler.get().scheduleDeferred(() -> {
+			// if the user enters something meaningful, spare an additional
+			// entering
+			String str = "";
+			if (charcode > 0) {
+				str = new String(Character.toChars(charcode));
+			}
 
-				Object ce = table.getCellEditor();
-				GeoClass ceType = table.getCellEditorType(
-				        table.getSelectedRow(), table.getSelectedColumn());
-				if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT
-						&& !"".equals(str)) {
-					((MyCellEditorW) ce).setText(str);
-					((MyCellEditorW) ce).getTextfield()
-					        .setCaretPosition(((MyCellEditorW) ce)
-					                .getEditingValue().length());
-				}
+			Object ce = table.getCellEditor();
+			GeoClass ceType = table.getCellEditorType(
+					table.getSelectedRow(), table.getSelectedColumn());
+			if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT
+					&& !"".equals(str)) {
+				((MyCellEditorW) ce).setText(str);
+				((MyCellEditorW) ce).getTextfield()
+						.setCaretPosition(((MyCellEditorW) ce)
+								.getEditingValue().length());
 			}
 		});
 	}

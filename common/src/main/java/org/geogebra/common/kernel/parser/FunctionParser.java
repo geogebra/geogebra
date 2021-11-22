@@ -81,7 +81,8 @@ public class FunctionParser {
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
-			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing) {
+			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
+			boolean topLevelExpression) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (giacParsing) {
@@ -160,6 +161,22 @@ public class FunctionParser {
 			}
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
+				if (topLevelExpression && !isCommand(funcName)
+						&& !forceCommand && funcName.length() == 1) {
+					if (myList.size() == 2) {
+						ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
+								myList.getListElement(0), myList.getListElement(1)));
+						ret.setLabel(funcName);
+						return ret;
+					} else if (myList.size() == 3) {
+						ExpressionNode ret = new ExpressionNode(kernel, new MyVec3DNode(kernel,
+								myList.getListElement(0), myList.getListElement(1),
+								myList.getListElement(2)));
+						ret.setLabel(funcName);
+						return ret;
+					}
+				}
+
 				// function name does not exist: return command
 				Command cmd = new Command(kernel, funcName, true, !giacParsing);
 				for (int i = 0; i < myList.size(); i++) {
@@ -275,7 +292,8 @@ public class FunctionParser {
 	}
 
 	private boolean isCommand(String funcName) {
-		if (kernel.getApplication().getInternalCommand(funcName) != null) {
+		if (kernel.getApplication().getInternalCommand(funcName) != null
+				|| app.getKernel().getMacro(funcName) != null) {
 			return true;
 		}
 		try {

@@ -4,7 +4,6 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -71,12 +70,7 @@ public class GGWMenuBar extends Composite {
 	 * Focus menu in the deferred way.
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				focus();
-			}
-		});
+		Scheduler.get().scheduleDeferred(this::focus);
 	}
 
 	@Override

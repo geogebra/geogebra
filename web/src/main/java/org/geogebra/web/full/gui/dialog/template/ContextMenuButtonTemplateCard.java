@@ -4,8 +4,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Command;
-
 public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
     private  TemplatePreviewCard templateCard;
 
@@ -26,12 +24,7 @@ public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
 
     private void addDeleteItem() {
         addItem(MaterialDesignResources.INSTANCE.delete_black(),
-                loc.getMenu("Delete"), new Command() {
-                    @Override
-                    public void execute() {
-                        onDelete();
-                    }
-                });
+                loc.getMenu("Delete"), this::onDelete);
     }
 
     private void onDelete() {

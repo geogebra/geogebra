@@ -720,16 +720,13 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		// not sure one ScheduleDeferred is enough...
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				if (table.minSelectionRow != -1
-						&& table.maxSelectionRow != -1) {
-					((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
-							table.minSelectionRow,
-							table.getModel().getColumnCount() - 1,
-							table.maxSelectionRow, altDown, true);
-				}
+		Scheduler.get().scheduleDeferred(() -> {
+			if (table.minSelectionRow != -1
+					&& table.maxSelectionRow != -1) {
+				((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
+						table.minSelectionRow,
+						table.getModel().getColumnCount() - 1,
+						table.maxSelectionRow, altDown, true);
 			}
 		});
 	}
@@ -744,23 +741,20 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		// not sure one ScheduleDeferred is enough...
 		// but in theory, it should be as code continues from
 		// here towards the default action, as we are in the event
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				if (table.minSelectionRow != -1
-						&& table.maxSelectionRow != -1) {
-					((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
-							table.minSelectionRow,
-							table.getModel().getColumnCount() - 1,
-							table.maxSelectionRow, false, true);
-				}
-				boolean storeUndo = table.getCopyPasteCut().delete(0,
+		Scheduler.get().scheduleDeferred(() -> {
+			if (table.minSelectionRow != -1
+					&& table.maxSelectionRow != -1) {
+				((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
 						table.minSelectionRow,
 						table.getModel().getColumnCount() - 1,
-						table.maxSelectionRow);
-				if (storeUndo) {
-					app.storeUndoInfo();
-				}
+						table.maxSelectionRow, false, true);
+			}
+			boolean storeUndo = table.getCopyPasteCut().delete(0,
+					table.minSelectionRow,
+					table.getModel().getColumnCount() - 1,
+					table.maxSelectionRow);
+			if (storeUndo) {
+				app.storeUndoInfo();
 			}
 		});
 	}

@@ -41,7 +41,6 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Display;
@@ -1673,12 +1672,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						app.showKeyboard(textField, true);
 					}
 					final GRectangle rect = getCellRect(row, col, true);
-					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-						@Override
-						public void execute() {
-							scrollRectToVisible(rect);
-						}
-					});
+					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(rect));
 
 					if (Browser.isTabletBrowser()) {
 						textField.setEnabled(false);
@@ -1871,26 +1865,23 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void setColumnWidth(final int width) {
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
+		Scheduler.get().scheduleDeferred(() -> {
 
-				minimumRowHeight = dummyTable.getCellFormatter()
-				        .getElement(0, 0).getOffsetHeight();
+			minimumRowHeight = dummyTable.getCellFormatter()
+					.getElement(0, 0).getOffsetHeight();
 
-				int width2 = Math.max(width, minimumRowHeight);
+			int width2 = Math.max(width, minimumRowHeight);
 
-				for (int col = 0; col < getColumnCount(); col++) {
-					ssGrid.getColumnFormatter().getElement(col).getStyle()
-					        .setWidth(width2, Style.Unit.PX);
-					if (showColumnHeader) {
-						columnHeader.setColumnWidth(col, width2);
-					}
+			for (int col = 0; col < getColumnCount(); col++) {
+				ssGrid.getColumnFormatter().getElement(col).getStyle()
+						.setWidth(width2, Unit.PX);
+				if (showColumnHeader) {
+					columnHeader.setColumnWidth(col, width2);
 				}
+			}
 
-				if (view != null) {
-					// view.updatePreferredRowHeight(rowHeight2);
-				}
+			if (view != null) {
+				// view.updatePreferredRowHeight(rowHeight2);
 			}
 		});
 	}
@@ -1902,16 +1893,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected void setRowHeight(final int row, final int rowHeight,
 			final boolean updateSettings) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				minimumRowHeight = dummyTable.getCellFormatter()
-						.getElement(0, 0).getOffsetHeight();
-				int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
-				setRowHeightCallback(row, rowHeight);
-				if (updateSettings) {
-					view.settings().getHeightMap().put(row, rowHeight2);
-				}
+		Scheduler.get().scheduleDeferred(() -> {
+			minimumRowHeight = dummyTable.getCellFormatter()
+					.getElement(0, 0).getOffsetHeight();
+			int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
+			setRowHeightCallback(row, rowHeight);
+			if (updateSettings) {
+				view.settings().getHeightMap().put(row, rowHeight2);
 			}
 		});
 	}
@@ -1940,13 +1928,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void syncRowHeaderHeight(final int row) {
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				int rowHeight = ssGrid.getRowFormatter().getElement(row)
-				        .getOffsetHeight();
-				rowHeader.setRowHeight(row, rowHeight);
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			int rowHeight = ssGrid.getRowFormatter().getElement(row)
+					.getOffsetHeight();
+			rowHeader.setRowHeight(row, rowHeight);
 		});
 	}
 	
@@ -1968,28 +1953,25 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public void setRowHeight(final int rowHeight,
 			final boolean updateSettings) {
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
+		Scheduler.get().scheduleDeferred(() -> {
 
-				minimumRowHeight = dummyTable.getCellFormatter()
-				        .getElement(0, 0).getOffsetHeight();
+			minimumRowHeight = dummyTable.getCellFormatter()
+					.getElement(0, 0).getOffsetHeight();
 
-				int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
+			int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
 
-				for (int row = 0; row < getRowCount(); row++) {
-					ssGrid.getRowFormatter().getElement(row).getStyle()
-					        .setHeight(rowHeight2, Style.Unit.PX);
-					if (showRowHeader) {
-						rowHeader.setRowHeight(row, rowHeight2);
-					}
+			for (int row = 0; row < getRowCount(); row++) {
+				ssGrid.getRowFormatter().getElement(row).getStyle()
+						.setHeight(rowHeight2, Unit.PX);
+				if (showRowHeader) {
+					rowHeader.setRowHeight(row, rowHeight2);
 				}
-
-				if (view != null && updateSettings) {
-					view.updatePreferredRowHeight(rowHeight2);
-				}
-
 			}
+
+			if (view != null && updateSettings) {
+				view.updatePreferredRowHeight(rowHeight2);
+			}
+
 		});
 	}
 
@@ -2526,12 +2508,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public void renderSelectionDeferred() {
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				renderSelection();
-			}
-		});
+		Scheduler.get().scheduleDeferred(this::renderSelection);
 	}
 
 	void renderSelection() {

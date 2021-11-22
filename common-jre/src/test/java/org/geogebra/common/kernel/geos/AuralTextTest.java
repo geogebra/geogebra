@@ -2,11 +2,14 @@ package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,8 +44,8 @@ public class AuralTextTest {
 
 	@Test
 	public void pointAural() {
-		aural("(1,1)", "Point", "arrow", "edit");
-		aural("Point(xAxis)", "Point", "plus and minus", "edit");
+		aural("(1,1)", "Point", "1 comma 1", "arrow", "edit");
+		aural("Point(xAxis)", "Point", "0 comma 0", "plus and minus", "edit");
 	}
 
 	@Test
@@ -78,6 +81,31 @@ public class AuralTextTest {
 	public void checkboxAural() {
 		aural("checkbox()", "Checkbox", "uncheck", "edit");
 		aural("false", "Checkbox", " check", "edit");
+	}
+
+	@Test
+	public void dropdownAural() {
+		GeoElementND[] geos = add("mylist={x,-x}");
+		GeoList dropdown = (GeoList) geos[0];
+		dropdown.setDrawAsComboBox(true);
+		dropdown.setEuclidianVisible(true);
+		dropdown.updateRepaint();
+		aural("mylist", "dropdown mylist", "Element x selected", "Press space to open",
+				"edit");
+		assertEquals("x 1 of 2 Press up arrow and down arrow to go to different options."
+				+ " Press enter to select.", dropdown.getAuralTextAsOpened());
+		assertEquals("Element x selected Dropdown closed ",
+				dropdown.getAuralTextForSpace());
+	}
+
+	@Test
+	public void plainListAural() {
+		GeoElementND[] geos = add("plain={1,2,3}");
+		aural("plain", "List plain", "edit");
+		GeoList plainList = (GeoList) geos[0];
+		plainList.setScript(new GgbScript(app, "42"), EventType.CLICK);
+		aural("plain", "List plain", "run script", "edit");
+		assertNull(plainList.getAuralTextForSpace());
 	}
 
 	@Test
@@ -135,7 +163,7 @@ public class AuralTextTest {
 	@Test
 	public void readComma() {
 		GeoElementND[] pointA = add("A = (1,2)");
-		assertEquals("open parenthesis 1 comma  2 close parenthesis",
+		assertEquals("open parenthesis 1 comma 2 close parenthesis",
 				pointA[0].toValueString(StringTemplate.screenReader).trim());
 	}
 

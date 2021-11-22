@@ -59,13 +59,13 @@ import org.geogebra.common.util.debug.Log;
 public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 	private IntervalPlotter intervalPlotter;
-	private CurveEvaluable curve;
+	private final CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible;
 	private boolean labelVisible;
 	private boolean fillCurve;
 
-	private StringBuilder labelSB = new StringBuilder();
+	private final StringBuilder labelSB = new StringBuilder();
 	private int nPoints = 0;
 	private ArrayList<GPoint2D> points;
 	private GLine2D diag1;
@@ -551,16 +551,6 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		}
 		GShape t = geo.isInverseFill() ? getShape() : gp;
 
-		if (strokedShape == null) {
-			// AND-547, initial buffer size
-			try {
-				strokedShape = objStroke.createStrokedShape(gp, 800);
-			} catch (Throwable e) {
-				Log.error(
-						"problem creating Curve shape: " + e.getMessage());
-				return false;
-			}
-		}
 		if (geo.isFilled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
@@ -592,10 +582,15 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 					&& !MyDouble.isFinite(middle))) {
 				return false;
 			}
+
 			return gp.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold)
 					&& !gp.contains(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
+		}
+
+		if (!ensureStrokedShape()) {
+			return false;
 		}
 
 		// not GeoFunction, eg parametric
@@ -603,22 +598,33 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 				2 * hitThreshold, 2 * hitThreshold);
 	}
 
+	private boolean ensureStrokedShape() {
+		if (strokedShape != null) {
+			return true;
+		}
+
+		// AND-547, initial buffer size
+		try {
+			strokedShape = decoStroke.createStrokedShape(gp, 800);
+		} catch (Throwable e) {
+			Log.error(
+					"problem creating Curve shape: " + e.getMessage());
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (isVisible) {
 			GShape t = geo.isInverseFill() ? getShape() : gp;
-			if (strokedShape == null) {
-				// AND-547, initial buffer size
-				try {
-					strokedShape = objStroke.createStrokedShape(gp, 800);
-				} catch (Exception e) {
-					Log.error(
-							"problem creating Curve shape: " + e.getMessage());
-					return false;
-				}
-			}
+
 			if (geo.isFilled()) {
 				return t.intersects(rect);
+			}
+
+			if (!ensureStrokedShape()) {
+				return false;
 			}
 
 			return strokedShape.intersects(rect);

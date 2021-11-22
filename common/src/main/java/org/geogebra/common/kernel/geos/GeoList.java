@@ -901,8 +901,7 @@ public class GeoList extends GeoElement
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = elements.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				tpl.getComma(sbBuildValueString, getLoc());
-				tpl.appendOptionalSpace(sbBuildValueString);
+				tpl.getCommaOptionalSpace(sbBuildValueString, getLoc());
 			}
 
 			// last element
@@ -3245,13 +3244,17 @@ public class GeoList extends GeoElement
 
 	@Override
 	public void addAuralType(ScreenReaderBuilder sb) {
-		sb.appendMenuDefault("Dropdown", "dropdown");
-		sb.appendSpace();
+		if (drawAsComboBox) {
+			sb.appendMenuDefault("Dropdown", "dropdown");
+			sb.appendSpace();
+		} else {
+			super.addAuralType(sb);
+		}
 	}
 
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
-		if (size() > 0) {
+		if (drawAsComboBox && size() > 0) {
 			String item = getSelectedItemDisplayString(StringTemplate.screenReader);
 			sb.append(loc.getPlainDefault("ElementASelected",
 					"element %0 selected", item));
@@ -3259,10 +3262,13 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
-		sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
-		sb.appendSpace();
-		super.addAuralOperations(loc, sb);
+	protected void addAuralAction(Localization loc, ScreenReaderBuilder sb) {
+		if (drawAsComboBox) {
+			sb.append(loc.getMenuDefault("PressSpaceToOpen", "Press space to open"));
+			sb.endSentence();
+		} else {
+			super.addAuralAction(loc, sb);
+		}
 	}
 
 	@Override

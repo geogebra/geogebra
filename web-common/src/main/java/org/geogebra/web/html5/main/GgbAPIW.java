@@ -32,6 +32,7 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1250,5 +1251,10 @@ public class GgbAPIW extends GgbAPI {
 			}
 		});
 
+	}
+
+	@Override
+	public JsObjectWrapper getWrapper(Object options) {
+		return new JsObjectWrapperW(options);
 	}
 }

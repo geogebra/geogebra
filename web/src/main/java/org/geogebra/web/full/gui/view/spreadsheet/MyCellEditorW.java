@@ -10,7 +10,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -75,16 +74,13 @@ public class MyCellEditorW implements BaseCellEditor {
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
 		        (AppW) kernel.getApplication(), false, keyListener, false, false);
-		autoCompleteTextField.addInsertHandler(new InsertHandler() {
-			@Override
-			public void onInsert(String text) {
-				if (!editing) {
-				((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
-						.letterOrDigitTyped();
-					autoCompleteTextField.setText(text);
-				}
-
+		autoCompleteTextField.addInsertHandler(text -> {
+			if (!editing) {
+			((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
+					.letterOrDigitTyped();
+				autoCompleteTextField.setText(text);
 			}
+
 		});
 		autoCompleteTextField.setAutoComplete(
 				app.getSettings().getSpreadsheet().isEnableAutoComplete());
@@ -420,14 +416,10 @@ public class MyCellEditorW implements BaseCellEditor {
 			}
 			final String charcode = e.getCharCode() + "";
 			if (MyCellEditorW.this.allowAutoEdit) {
-				app.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						String text = autoCompleteTextField.getText();
-						if (text == null || text.length() == 0) {
-							autoCompleteTextField.setText(charcode);
-						}
+				app.invokeLater(() -> {
+					String text = autoCompleteTextField.getText();
+					if (text == null || text.length() == 0) {
+						autoCompleteTextField.setText(charcode);
 					}
 				});
 				MyCellEditorW.this.allowAutoEdit = false;

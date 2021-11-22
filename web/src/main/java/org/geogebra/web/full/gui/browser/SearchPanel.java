@@ -7,22 +7,14 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel for Search in GeoGebraTube
@@ -64,54 +56,29 @@ public class SearchPanel extends FlowPanel
 		this.query = new GTextBox();
 
 		this.query.addStyleName("searchTextBox");
-		this.query.addKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(final KeyDownEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
-					event.preventDefault();
-					return;
-				} else if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					doSearch();
-				}
+		this.query.addKeyDownHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_TAB) {
+				event.preventDefault();
+				return;
+			} else if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				doSearch();
 			}
 		});
 
-		this.query.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(final FocusEvent event) {
-				onFocusQuery();
-			}
-		});
+		this.query.addFocusHandler(event -> onFocusQuery());
 
-		this.query.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(final BlurEvent event) {
-				onBlurQuery();
-			}
-		});
+		this.query.addBlurHandler(event -> onBlurQuery());
 
 		StandardButton searchButton = new StandardButton(
 				BrowseResources.INSTANCE.search());
 		searchButton.addStyleName("searchButton");
-		searchButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				doSearch();
-			}
-		});
+		searchButton.addFastClickHandler(source -> doSearch());
 
 		this.cancelButton = new StandardButton(
 				SharedResources.INSTANCE.dialog_cancel());
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
-		this.cancelButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onCancel();
-			}
-		});
+		this.cancelButton.addFastClickHandler(source -> onCancel());
 
 		this.add(searchButton);
 		this.add(this.query);
