@@ -1430,8 +1430,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Sets real world coord system using min and max values for both axes in
-	 * real world values.
+	 * Sets real world coord system to the whole EV using
+	 * min and max values for both axes in real world values.
 	 */
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
@@ -1439,6 +1439,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setRealWorldCoordSystemVisible(xmin2, xmax2, ymin2, ymax2, false);
 	}
 
+	/**
+	 * Sets real world coord system to the visible part or the whole EV
+	 * using min and max values for both axes in real world values.
+	 */
 	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
 											  double ymin2, double ymax2, boolean visible) {
 		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
