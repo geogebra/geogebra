@@ -27,7 +27,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected static final int LINE_HEIGHT = 24;
 	private static final double PADDING = 24;
-	private static final GColor EXAM_LOCK_COLOR = GColor.newColorRGB(0x007AFF);
 	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 
 	private AppWFull app;
