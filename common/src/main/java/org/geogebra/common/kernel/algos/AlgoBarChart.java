@@ -789,7 +789,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		// case 1: step graphs
 		if (type == TYPE_STEPGRAPH) {
-			if ((hasJoin != null && hasJoin.getBoolean())) {
+			if (hasJoin != null && hasJoin.getBoolean()) {
 				return DrawType.STEP_GRAPH_CONTINUOUS;
 			}
 			return DrawType.STEP_GRAPH_JUMP;
@@ -814,8 +814,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * @return true if points are drawn with the graph
 	 */
 	public boolean hasPoints() {
-
-		return (type == TYPE_STICKGRAPH || type == TYPE_STEPGRAPH);
+		return type == TYPE_STICKGRAPH || type == TYPE_STEPGRAPH;
 	}
 
 	/**

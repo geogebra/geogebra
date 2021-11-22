@@ -812,7 +812,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
-		double temp = (r - 1);
+		double temp = r - 1;
 		z = temp * (x * S.getX() + y * S.getY()) + r * z;
 
 		x *= r;

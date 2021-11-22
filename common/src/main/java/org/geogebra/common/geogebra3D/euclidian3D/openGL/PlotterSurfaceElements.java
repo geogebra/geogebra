@@ -472,7 +472,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				return 0;
 			}
 			longitudeJumps /= 2;
-			int ret = ((int) (nextJump - jump * latitudeLength));
+			int ret = (int) (nextJump - jump * latitudeLength);
 			if (ret < 0) {
 				return 0;
 			}

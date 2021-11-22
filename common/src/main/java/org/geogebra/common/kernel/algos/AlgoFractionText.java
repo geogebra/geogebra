@@ -183,8 +183,8 @@ public class AlgoFractionText extends AlgoElement {
 					+ 0.5); // Rounding
 																					// Function
 		} while (Math
-				.abs((decimalAbs - (fractionNumerator
-						/ fractionDenominator))) > accuracyFactor
+				.abs(decimalAbs - (fractionNumerator
+						/ fractionDenominator)) > accuracyFactor
 				&& !MyDouble.exactEqual(z, Math.floor(z)));
 		fractionNumerator = decimalSign * fractionNumerator;
 

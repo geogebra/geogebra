@@ -171,9 +171,8 @@ public class DrawLocus extends Drawable {
 			}
 
 			if (geo.isFillable() && geo.isFilled()) {
-
 				// fill using default/hatching/image as appropriate
-				fill(g2, (geo.isInverseFill() ? getShape() : gp));
+				fill(g2, geo.isInverseFill() ? getShape() : gp);
 			}
 		}
 	}

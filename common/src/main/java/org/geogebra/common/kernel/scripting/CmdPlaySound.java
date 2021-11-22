@@ -55,7 +55,7 @@ public class CmdPlaySound extends CmdScripting {
 				sm.play((GeoAudio) arg[0]);
 				return arg;
 			} else if (arg[0].isGeoBoolean()) { // pause/resume current sound
-				sm.pauseResumeSound((((GeoBoolean) arg[0]).getBoolean()));
+				sm.pauseResumeSound(((GeoBoolean) arg[0]).getBoolean());
 				return arg;
 			} else {
 				throw argErr(c, arg[0]);
@@ -94,8 +94,8 @@ public class CmdPlaySound extends CmdScripting {
 				// PlaySound[ <Note Sequence>, <Instrument> ]
 				// only works in desktop
 				sm.playSequenceFromString(
-						(((GeoText) arg[0])
-								.toValueString(StringTemplate.defaultTemplate)),
+						((GeoText) arg[0])
+								.toValueString(StringTemplate.defaultTemplate),
 						(int) ((GeoNumeric) arg[1]).getDouble());
 				return arg;
 			}

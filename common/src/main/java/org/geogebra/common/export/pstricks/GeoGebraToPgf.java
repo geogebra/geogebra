@@ -273,7 +273,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawBoxPlot(GeoNumeric geo) {
-		AlgoBoxPlot algo = ((AlgoBoxPlot) geo.getParentAlgorithm());
+		AlgoBoxPlot algo = (AlgoBoxPlot) geo.getParentAlgorithm();
 		double y = algo.getA().getDouble();
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();

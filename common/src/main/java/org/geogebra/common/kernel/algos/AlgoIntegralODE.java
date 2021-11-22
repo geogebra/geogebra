@@ -135,9 +135,8 @@ public class AlgoIntegralODE extends AlgoElement {
 
 			if (view.isVisibleInThisView(locus)) {
 				xmax = Math.max(xmax,
-						view.toRealWorldCoordX((view.getWidth())));
+						view.toRealWorldCoordX(view.getWidth()));
 				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
-
 			}
 
 			if (kernel.getApplication().hasEuclidianView2(1)) {
@@ -145,9 +144,8 @@ public class AlgoIntegralODE extends AlgoElement {
 						.getEuclidianView2(1);
 				if (view2.isVisibleInThisView(locus)) {
 					xmax = Math.max(xmax,
-							view2.toRealWorldCoordX((view.getWidth())));
+							view2.toRealWorldCoordX(view.getWidth()));
 					xmin = Math.min(xmin, view2.toRealWorldCoordX(0));
-
 				}
 			}
 
@@ -223,34 +221,21 @@ public class AlgoIntegralODE extends AlgoElement {
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
 
 	private StepHandler stepHandler = new StepHandler() {
-		// @Override
-		// public void reset() {
-		// //
-		// }
-		//
-		// @Override
-		// public boolean requiresDenseOutput() {
-		// return false;
-		// }
 
 		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
 			double[] y = interpolator.getInterpolatedState();
-			// System.out.println(t + " " + y[0]);
 
 			addMyPoint(t, y);
-
 		}
 
 		@Override
 		public void init(double t0, double[] y0, double t) {
 			Log.error("unimplemented");
-
 		}
 	};
 

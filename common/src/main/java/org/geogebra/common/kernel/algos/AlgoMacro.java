@@ -631,12 +631,11 @@ public class AlgoMacro extends AlgoElement
 		macro.getMacroConstruction().updateAllAlgorithms();
 
 		// set algo geos to macro geos state
-		//
 		for (Entry<GeoElementND, GeoElement> entry : macroToAlgoMap
 				.entrySet()) {
 			GeoElementND me = entry.getKey();
 			if (entry.getValue() == geoPoint) {
-				GeoPoint mp = ((GeoPoint) me);
+				GeoPoint mp = (GeoPoint) me;
 				mp.setCoords(x, y, z);
 				mp.updateCascade();
 				geoPoint.setCoords2D(mp.getX(), mp.getY(), mp.getZ());

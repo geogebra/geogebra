@@ -519,8 +519,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		if (linkSegNumber != -1) {
 			int linkSegIndex;
 			// -1 until the link segment is found
-			for (linkSegIndex = 0; (currentPolygonSegList
-					.get(linkSegIndex) != linkSegNumber); linkSegIndex++) {
+			for (linkSegIndex = 0; currentPolygonSegList
+					.get(linkSegIndex) != linkSegNumber; linkSegIndex++) {
 				if (currentPolygonSegList.get(linkSegIndex) != linkSegNumber) {
 					segmentInfoList.get(currentPolygonSegList
 							.get(linkSegIndex)).pointIndex1 = -1;
@@ -585,11 +585,11 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 					// notice it is the second point of the precedent segment
 					if (segNumber > 0) {
 						segmentInfoList.get(currentPolygonSegList.get(
-								(segNumber - 1))).pointIndex2 = pointsCounter;
+								segNumber - 1)).pointIndex2 = pointsCounter;
 					} else {
 						segmentInfoList.get(currentPolygonSegList
-								.get((currentPolygonSegList.size()
-										- 1))).pointIndex2 = pointsCounter;
+								.get(currentPolygonSegList.size()
+										- 1)).pointIndex2 = pointsCounter;
 					}
 					pointsCounter++;
 				}

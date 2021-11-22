@@ -66,13 +66,11 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 		for (int i = 0; i < lastFarAway.length; i++) {
 			lastFarAway[i] = isFarAway(lastX, lastY, i);
 		}
-
 	}
 
 	protected boolean isFarAway(double x, double y, int i) {
-		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
-				|| y < farYmin[i]);
-		return farAway;
+		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
+				|| y < farYmin[i];
 	}
 
 	@Override

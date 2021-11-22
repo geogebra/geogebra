@@ -1218,7 +1218,7 @@ public class MathMLParser {
 				}
 			} while ((subBlocks > 0) || (!(tagBuf.toString().equals(endTag))));
 
-			return (pos2 - endTag.length());
+			return pos2 - endTag.length();
 		}
 
 		return pos - startTag0.length();

@@ -288,9 +288,9 @@ public class AlgoFunctionInvert extends AlgoElement {
 					root = right;
 				} else if (!right.contains(oldFV)) {
 					if (right instanceof NumberValue) {
-						double index = (((NumberValue) (right
-								.evaluate(StringTemplate.maxPrecision)))
-										.getDouble());
+						double index = ((NumberValue) right
+								.evaluate(StringTemplate.maxPrecision))
+										.getDouble();
 						if (DoubleUtil.isEqual(index, 3)) {
 							// inverse of x^3 is cbrt(x)
 							newRoot = new ExpressionNode(kernel, newRoot,

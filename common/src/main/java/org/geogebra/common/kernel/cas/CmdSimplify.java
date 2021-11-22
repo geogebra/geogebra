@@ -35,8 +35,7 @@ public class CmdSimplify extends CommandProcessor implements UsesCAS {
 		AlgoElement algo;
 		switch (n) {
 		case 1:
-			if ((arg[0] instanceof CasEvaluableFunction)) {
-
+			if (arg[0] instanceof CasEvaluableFunction) {
 				algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
 						(CasEvaluableFunction) arg[0], Commands.Simplify, info);
 

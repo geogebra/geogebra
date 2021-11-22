@@ -6203,8 +6203,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return whether size was decreased after file was loaded
 	 */
 	public boolean shrinkedSinceLoad() {
-		return (getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
-				.getFileWidth() || getHeight() < getSettings().getFileHeight()));
+		return getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
+				.getFileWidth() || getHeight() < getSettings().getFileHeight());
 	}
 
 	@Override

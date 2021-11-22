@@ -1275,8 +1275,8 @@ public abstract class EuclidianView3D extends EuclidianView
 			getSettings().updateOriginFromView(x, y, z);
 			updateTranslationMatrices();
 			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
-			CoordMatrix matrix = ((mRS.inverse())
-					.mul(translationMatrixWithoutScale).mul(mRS));
+			CoordMatrix matrix = mRS.inverse()
+					.mul(translationMatrixWithoutScale).mul(mRS);
 			Coords origin = matrix.getOrigin();
 			setXZero(origin.getX());
 			setYZero(origin.getY());
@@ -3249,10 +3249,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @return if this geo is owned by the view (xOy plane, ...)
 	 */
 	public boolean owns(GeoElement geo) {
-		boolean ret = (geo == xOyPlane);
+		boolean ret = geo == xOyPlane;
 
-		for (int i = 0; (!ret) && (i < 3); i++) {
-			ret = (geo == axis[i]);
+		for (int i = 0; !ret && (i < 3); i++) {
+			ret = geo == axis[i];
 		}
 
 		return ret;

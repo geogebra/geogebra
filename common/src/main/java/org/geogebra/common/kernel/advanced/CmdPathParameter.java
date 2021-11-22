@@ -31,14 +31,12 @@ public class CmdPathParameter extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0].isGeoPoint())) {
-
+			if (arg[0].isGeoPoint()) {
 				AlgoPathParameter algo = new AlgoPathParameter(cons,
 						(GeoPointND) arg[0]);
 				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-
 			}
 			throw argErr(c, arg[0]);
 

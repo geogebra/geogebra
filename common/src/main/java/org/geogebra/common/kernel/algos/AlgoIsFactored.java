@@ -237,9 +237,9 @@ public class AlgoIsFactored extends AlgoElement {
 				if (DoubleUtil.isEqual(realRoots[i], realRoots[j], 1E-6)) {
 					if (DoubleUtil.isEqual(curComplexRoots[i], -curComplexRoots[j], 1E-6)) {
 						double lc = PolynomialUtils.getLeadingCoeff(polyFun.getCoeffs());
-						double f1 = (realRoots[i] * realRoots[i]
-								+ curComplexRoots[i] * curComplexRoots[i]);
-						double f2 = (2 * realRoots[i]);
+						double f1 = realRoots[i] * realRoots[i]
+								+ curComplexRoots[i] * curComplexRoots[i];
+						double f2 = 2 * realRoots[i];
 						if (isIntegerNumber(f1 * lc) && isIntegerNumber(f2 * lc)) {
 							return true;
 						}

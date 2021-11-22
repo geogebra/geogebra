@@ -57,18 +57,10 @@ public class AlgoLogNormal extends AlgoDistribution {
 						+ 0.5);
 			} else {
 				double prod = x * Math.sqrt(Kernel.PI_2) * Math.abs(s);
-				double en = (Math.log(x) - mean);
+				double en = Math.log(x) - mean;
 				en = Math.exp(-(en * en) / (s * s * 2)) / prod;
 				num.setValue(en);
 			}
-
-			// old hack
-			// processAlgebraCommand(
-			// "1/2
-			// erf((ln(If["+x+"<0,0,"+x+"])-("+mean+"))/(sqrt(2)*abs("+sd+"))) +
-			// 1/2",
-			// true );
-
 		} else {
 			num.setUndefined();
 		}

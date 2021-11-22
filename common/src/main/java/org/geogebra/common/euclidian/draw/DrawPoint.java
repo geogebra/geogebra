@@ -197,8 +197,8 @@ public final class DrawPoint extends SetDrawable {
 			updateDiameter();
 		}
 
-		double xUL = (coords[0] - pointSize);
-		double yUL = (coords[1] - pointSize);
+		double xUL = coords[0] - pointSize;
+		double yUL = coords[1] - pointSize;
 
 		int pointStyle = P.getPointStyle();
 
@@ -235,12 +235,12 @@ public final class DrawPoint extends SetDrawable {
 				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo(coords[0], (coords[1] + direction * pointSize));
-			gp.lineTo((coords[0] + pointSize * root3over2),
-					(coords[1] - direction * pointSize / 2));
-			gp.lineTo((coords[0] - pointSize * root3over2),
-					(coords[1] - direction * pointSize / 2));
-			gp.lineTo(coords[0], (coords[1] + direction * pointSize));
+			gp.moveTo(coords[0], coords[1] + direction * pointSize);
+			gp.lineTo(coords[0] + pointSize * root3over2,
+					coords[1] - direction * pointSize / 2);
+			gp.lineTo(coords[0] - pointSize * root3over2,
+					coords[1] - direction * pointSize / 2);
+			gp.lineTo(coords[0], coords[1] + direction * pointSize);
 			gp.closePath();
 			break;
 
@@ -256,12 +256,12 @@ public final class DrawPoint extends SetDrawable {
 				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo((coords[0] + direction * pointSize), coords[1]);
-			gp.lineTo((coords[0] - direction * pointSize / 2),
-					(coords[1] + pointSize * root3over2));
-			gp.lineTo((coords[0] - direction * pointSize / 2),
-					(coords[1] - pointSize * root3over2));
-			gp.lineTo((coords[0] + direction * pointSize), coords[1]);
+			gp.moveTo(coords[0] + direction * pointSize, coords[1]);
+			gp.lineTo(coords[0] - direction * pointSize / 2,
+					coords[1] + pointSize * root3over2);
+			gp.lineTo(coords[0] - direction * pointSize / 2,
+					coords[1] - pointSize * root3over2);
+			gp.lineTo(coords[0] + direction * pointSize, coords[1]);
 			gp.closePath();
 			break;
 

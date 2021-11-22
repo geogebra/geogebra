@@ -75,7 +75,7 @@ public abstract class GeoVec3D extends GeoElement
 
 	@Override
 	public boolean isDefined() {
-		return (!(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z)));
+		return !(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z));
 	}
 
 	@Override

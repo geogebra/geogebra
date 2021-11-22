@@ -28,7 +28,7 @@ public class CmdCountIf extends CmdKeepIf {
 	protected GeoElement[] getResult2(ValidExpression c, GeoFunction booleanFun,
 			GeoElement[] args) {
 		AlgoCountIf algo = new AlgoCountIf(cons, c.getLabel(), booleanFun,
-				((GeoList) args[1]));
+				(GeoList) args[1]);
 		GeoElement[] ret = { algo.getResult() };
 
 		return ret;

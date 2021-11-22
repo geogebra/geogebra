@@ -1047,7 +1047,7 @@ public class ExpressionNode extends ValidExpression
 
 	private Polynomial makePolynomialTreeFromFunctionNVar(FunctionNVar func,
 			Equation equ, boolean keepFraction) {
-		MyList list = ((MyList) right);
+		MyList list = (MyList) right;
 		ExpressionNode expr = func.getExpression().getCopy(kernel);
 		if (func.getFunctionVariables().length == list.size()) {
 			for (int i = 0; i < list.size(); i++) {
@@ -1242,7 +1242,7 @@ public class ExpressionNode extends ValidExpression
 			}
 		}
 
-		return (right != null);
+		return right != null;
 	}
 
 	/**
@@ -1424,14 +1424,14 @@ public class ExpressionNode extends ValidExpression
 			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]"
 		}
 		// format expressions
-		return ((operation.equals(Operation.EQUAL_BOOLEAN)
+		return (operation.equals(Operation.EQUAL_BOOLEAN)
 				|| operation.equals(Operation.DIVIDE)
 				|| operation.equals(Operation.MULTIPLY)
 				|| operation.equals(Operation.MINUS)
 				|| operation.equals(Operation.PLUS)
 				|| operation.equals(Operation.POWER))
 				&& (ev instanceof GeoSegment || ev instanceof GeoPolygon
-						|| ev instanceof GeoNumeric));
+						|| ev instanceof GeoNumeric);
 	}
 
 	/**
@@ -1439,7 +1439,6 @@ public class ExpressionNode extends ValidExpression
 	 */
 	@Override
 	final public String toString(StringTemplate tpl) {
-
 		if (isSecret()) {
 			return secretMaskingAlgo.getDefinition(tpl);
 		}
@@ -1686,7 +1685,7 @@ public class ExpressionNode extends ValidExpression
 					.getBoolean() == ((BooleanValue) ev2).getMyBoolean()
 							.getBoolean();
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
-			return ((GeoElement) ev1).isEqual(((GeoElement) ev2));
+			return ((GeoElement) ev1).isEqual((GeoElement) ev2);
 		} else if (ev1 instanceof Functional && ev2 instanceof Functional) {
 			return ((Functional) ev1).getGeoFunction()
 					.isEqual(((Functional) ev2).getGeoFunction());
@@ -1803,7 +1802,7 @@ public class ExpressionNode extends ValidExpression
 			break;
 		}
 
-		if ((left.contains(fv) || right.contains(fv))) {
+		if (left.contains(fv) || right.contains(fv)) {
 			return null;
 		}
 

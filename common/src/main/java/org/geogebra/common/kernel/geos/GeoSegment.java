@@ -276,10 +276,10 @@ final public class GeoSegment extends GeoLine
 			return false;
 		}
 		GeoSegmentND s = (GeoSegmentND) geo;
-		return ((startPoint.isEqualPointND(s.getStartPoint())
+		return (startPoint.isEqualPointND(s.getStartPoint())
 				&& endPoint.isEqualPointND(s.getEndPoint()))
 				|| (startPoint.isEqualPointND(s.getEndPoint())
-						&& endPoint.isEqualPointND(s.getStartPoint())));
+						&& endPoint.isEqualPointND(s.getStartPoint()));
 	}
 
 	@Override

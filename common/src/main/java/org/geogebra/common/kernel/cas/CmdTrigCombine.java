@@ -36,7 +36,7 @@ public class CmdTrigCombine extends CommandProcessor implements UsesCAS {
 
 		switch (n) {
 		case 1:
-			if ((arg[0].isCasEvaluableObject())) {
+			if (arg[0].isCasEvaluableObject()) {
 				AlgoTrigCombine algo = new AlgoTrigCombine(
 						kernel.getConstruction(), c.getLabel(),
 						(CasEvaluableFunction) arg[0], null, info);

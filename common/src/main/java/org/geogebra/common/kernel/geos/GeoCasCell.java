@@ -356,8 +356,8 @@ public class GeoCasCell extends GeoElement
 							getLaTeXTemplate(),
 							getAssignmentType()));
 				} else {
-					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
-							.getLeft());
+					GeoElement geo = (GeoElement) ((ExpressionNode) outputVE)
+							.getLeft();
 					appendLaTeXOutputGeo(sb, geo);
 
 				}
@@ -2257,8 +2257,8 @@ public class GeoCasCell extends GeoElement
 				if (expandedEvalVE.isTopLevelCommand("NSolve")
 						&& ((Command) expandedEvalVE.unwrap()).getArgument(0)
 										.unwrap() instanceof GeoCasCell) {
-					GeoCasCell cellArg = ((GeoCasCell) ((Command) expandedEvalVE
-							.unwrap()).getArgument(0).unwrap());
+					GeoCasCell cellArg = (GeoCasCell) ((Command) expandedEvalVE
+							.unwrap()).getArgument(0).unwrap();
 					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) cellArg
 							.getEvalVE();
 					((Command) expandedEvalVE.unwrap()).setArgument(0,
@@ -2466,8 +2466,8 @@ public class GeoCasCell extends GeoElement
 						&& ((MyList) arg1.getLeft()).getListDepth() == 1
 						&& ((MyList) arg1.getLeft())
 								.getListElement(0) instanceof Equation) {
-					expandEquation(cmd, ((Equation) ((MyList) arg1.getLeft())
-							.getListElement(0)));
+					expandEquation(cmd, (Equation) ((MyList) arg1.getLeft())
+							.getListElement(0));
 				} else if (arg1.unwrap() instanceof Equation) {
 					expandEquation(cmd, (Equation) arg1.unwrap());
 				}
@@ -2585,7 +2585,7 @@ public class GeoCasCell extends GeoElement
 	}
 
 	private ValidExpression processSolveCommand(ValidExpression ve) {
-		if ((!(ve.unwrap() instanceof Command))) {
+		if (!(ve.unwrap() instanceof Command)) {
 			return ve;
 		}
 		if (((Command) ve.unwrap()).getName().equals("Numeric")) {

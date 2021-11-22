@@ -122,7 +122,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		boolean isgoingup = true; // Max or Min...
 		double l = left.getDouble();
 		double r = right.getDouble();
-		double epsilon = Math.abs((r - l)) / 1.0E15; // About 15 digits accuracy
+		double epsilon = Math.abs(r - l) / 1.0E15; // About 15 digits accuracy
 		double diff = epsilon * 2.0; // To start iteration...
 
 		boolean didslice = false;

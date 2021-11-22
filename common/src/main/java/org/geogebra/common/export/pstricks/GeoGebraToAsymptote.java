@@ -74,10 +74,6 @@ import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
-/*
- import org.mozilla.javascript.Context;
- import org.mozilla.javascript.Scriptable;
- import org.mozilla.javascript.ScriptableObject; */
 /**
  * @author Andy Zhu
  */
@@ -351,7 +347,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	@Override
 	protected void drawBoxPlot(GeoNumeric geo) {
-		AlgoBoxPlot algo = ((AlgoBoxPlot) geo.getParentAlgorithm());
+		AlgoBoxPlot algo = (AlgoBoxPlot) geo.getParentAlgorithm();
 		double y = algo.getA().getDouble();
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();

@@ -1788,7 +1788,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
-		double temp = (1 - r);
+		double temp = 1 - r;
 
 		double w = getW();
 

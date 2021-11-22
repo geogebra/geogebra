@@ -139,11 +139,11 @@ public class DrawAudio extends DrawWidget {
 		coords[0] = rwX;
 		coords[1] = rwY;
 
-		double xUL = (coords[0] - BLOB_RADIUS);
-		double yUL = (coords[1] - BLOB_RADIUS);
+		double xUL = coords[0] - BLOB_RADIUS;
+		double yUL = coords[1] - BLOB_RADIUS;
 
-		double ixUL = (coords[0] - INNER_BLOB_RADIUS);
-		double iyUL = (coords[1] - INNER_BLOB_RADIUS);
+		double ixUL = coords[0] - INNER_BLOB_RADIUS;
+		double iyUL = coords[1] - INNER_BLOB_RADIUS;
 
 		diameter = 2 * BLOB_RADIUS + 1;
 		int innerDiameter = 2 * INNER_BLOB_RADIUS + 1;

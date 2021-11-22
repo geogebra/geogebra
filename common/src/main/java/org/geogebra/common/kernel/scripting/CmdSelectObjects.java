@@ -33,7 +33,7 @@ public class CmdSelectObjects extends CmdScripting {
 		if (n > 0) {
 			GeoElement[] arg = resArgs(c);
 			for (int i = 0; i < n; i++) {
-				if ((arg[i].isGeoElement())) {
+				if (arg[i].isGeoElement()) {
 					final GeoElement geo = arg[i];
 					if (geo instanceof GeoInputBox) {
 						deferredFocus((GeoInputBox) geo, 5);

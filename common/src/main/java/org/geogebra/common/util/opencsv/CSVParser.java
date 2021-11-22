@@ -338,7 +338,7 @@ public class CSVParser {
 			}
 		}
 		// line is done - check status
-		if ((inQuotes && !ignoreQuotations)) {
+		if (inQuotes && !ignoreQuotations) {
 			if (multi) {
 				// continuing a quoted section, re-append newline
 				sb.append("\n");

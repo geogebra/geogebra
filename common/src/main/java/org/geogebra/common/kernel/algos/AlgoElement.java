@@ -1872,8 +1872,8 @@ public abstract class AlgoElement extends ConstructionElement
 		if (classDiff != 0) {
 			return classDiff < 0;
 		}
-		return (geo1.isLabelSet() && geo2.isLabelSet()
-				&& geo1.getLabelSimple().compareTo(geo2.getLabelSimple()) >= 0);
+		return geo1.isLabelSet() && geo2.isLabelSet()
+				&& geo1.getLabelSimple().compareTo(geo2.getLabelSimple()) >= 0;
 	}
 
 	/**

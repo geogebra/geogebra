@@ -199,7 +199,7 @@ public class EuclidianStatic {
 		int depth = 0;
 
 		// use latex by default just if there is just a single element
-		boolean isLaTeX = (elements.length == 1);
+		boolean isLaTeX = elements.length == 1;
 
 		// calculate the required space of every element
 		for (int i = 0, currentLine = 0; i < elements.length; ++i) {

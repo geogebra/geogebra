@@ -111,7 +111,7 @@ public class AlgoLineBisector extends AlgoElement
 		// comput line
 		g.x = ax - bx;
 		g.y = ay - by;
-		midPoint.setCoords((ax + bx), (ay + by), 2.0);
+		midPoint.setCoords(ax + bx, ay + by, 2.0);
 		g.z = -(midPoint.x * g.x + midPoint.y * g.y) / 2.0;
 	}
 

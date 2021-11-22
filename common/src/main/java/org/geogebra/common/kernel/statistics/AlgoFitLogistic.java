@@ -410,7 +410,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// df/dc=1/(1+ae^(-bx))
 	private static double df_c(double x, double a1, double b1) {
-		return (1.0d / (1.0d + a1 * Math.exp(-b1 * x)));
+		return 1.0d / (1.0d + a1 * Math.exp(-b1 * x));
 	}
 
 	// df/da

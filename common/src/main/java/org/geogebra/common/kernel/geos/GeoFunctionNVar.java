@@ -1056,7 +1056,7 @@ public class GeoFunctionNVar extends GeoElement
 	 * @return true if this function consists of valid inequalities
 	 */
 	public boolean isInequality() {
-		return (isInequality != null && isInequality);
+		return isInequality != null && isInequality;
 	}
 
 	@Override

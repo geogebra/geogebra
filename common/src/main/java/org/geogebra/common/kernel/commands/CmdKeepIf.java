@@ -114,7 +114,7 @@ public class CmdKeepIf extends CommandProcessor {
 	protected GeoElement[] getResult2(ValidExpression c, GeoFunction booleanFun,
 			GeoElement[] args) {
 		AlgoKeepIf algo = new AlgoKeepIf(cons, c.getLabel(), booleanFun,
-				((GeoList) args[1]));
+				(GeoList) args[1]);
 		GeoElement[] ret = { algo.getResult() };
 
 		return ret;

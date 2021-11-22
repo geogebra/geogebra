@@ -1052,8 +1052,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 			double tsq = t * t;
 			double denom = 1.0 - tsq;
 			// calc coords of first quadrant
-			double x = (a * (1.0 + tsq) / denom);
-			y = (2.0 * b * t / denom);
+			double x = a * (1.0 + tsq) / denom;
+			y = 2.0 * b * t / denom;
 
 			// first and second quadrants
 			updateHyperbolaAddPoint(index0, x, y);

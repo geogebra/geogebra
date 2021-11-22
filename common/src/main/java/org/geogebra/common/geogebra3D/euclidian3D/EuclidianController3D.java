@@ -776,8 +776,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			while (hitsForSingleIntersectionPoint.size() >= 2) {
 				if (hitsForSingleIntersectionPoint.get(1).isGeoPlane() && AlgoIntersectCS1D2D
 								.getConfigLinePlane((GeoLineND) a,
-										((GeoCoordSys2D) hitsForSingleIntersectionPoint
-												.get(1))) == ConfigLinePlane.CONTAINED) {
+										(GeoCoordSys2D) hitsForSingleIntersectionPoint
+												.get(1)) == ConfigLinePlane.CONTAINED) {
 					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
@@ -786,9 +786,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		} else if (a.isGeoConic()) { // remove planes containing conic a
 			while (hitsForSingleIntersectionPoint.size() >= 2) {
 				if (hitsForSingleIntersectionPoint.get(1).isGeoPlane() && AlgoIntersectPlanes
-						.isIntersectionContained((((GeoConicND) a).getCoordSys()),
-								(((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
-										.getCoordSys()))) {
+						.isIntersectionContained(((GeoConicND) a).getCoordSys(),
+								((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
+										.getCoordSys())) {
 					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
@@ -799,9 +799,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 				if (hitsForSingleIntersectionPoint
 						.get(1) instanceof GeoCoordSys2D
 						&& AlgoIntersectPlanes.isIntersectionContained(
-								(((GeoPolygon) a).getCoordSys()),
-								(((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
-										.getCoordSys()))) {
+								((GeoPolygon) a).getCoordSys(),
+								((GeoCoordSys2D) hitsForSingleIntersectionPoint.get(1))
+										.getCoordSys())) {
 					hitsForSingleIntersectionPoint.remove(1);
 				} else {
 					break;
@@ -1183,7 +1183,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
+		boolean hitPoint = addSelectedPoint(hits, 1, false, selPreview) != 0;
 		if (!hitPoint) {
 			if (selLines() == 0) {
 				addSelectedVector(hits, 1, false, selPreview);
@@ -1433,7 +1433,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
+		boolean hitPoint = addSelectedPoint(hits, 1, false, selPreview) != 0;
 		if (!hitPoint) {
 			addSelectedCS2D(hits, 1, false, selPreview);
 		}
@@ -2468,8 +2468,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				while (goodHits.size() >= 1) {
 					if (goodHits.get(0).isGeoPlane() && AlgoIntersectCS1D2D
 							.getConfigLinePlane((GeoLineND) selected,
-									((GeoCoordSys2D) goodHits.get(
-											0))) == ConfigLinePlane.CONTAINED) {
+									(GeoCoordSys2D) goodHits.get(
+											0)) == ConfigLinePlane.CONTAINED) {
 						goodHits.remove(0);
 					} else {
 						break;
@@ -2479,9 +2479,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 				while (goodHits.size() >= 1) {
 					if (goodHits.get(0).isGeoPlane()
 							&& AlgoIntersectPlanes.isIntersectionContained(
-									(((GeoConicND) selected).getCoordSys()),
-									(((GeoCoordSys2D) goodHits.get(0))
-											.getCoordSys()))) {
+									((GeoConicND) selected).getCoordSys(),
+									((GeoCoordSys2D) goodHits.get(0))
+											.getCoordSys())) {
 						goodHits.remove(0);
 					} else {
 						break;
@@ -2491,9 +2491,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 				while (goodHits.size() >= 1) {
 					if (goodHits.get(0) instanceof GeoCoordSys2D
 							&& AlgoIntersectPlanes.isIntersectionContained(
-									(((GeoPolygon) selected).getCoordSys()),
-									(((GeoCoordSys2D) goodHits.get(0))
-											.getCoordSys()))) {
+									((GeoPolygon) selected).getCoordSys(),
+									((GeoCoordSys2D) goodHits.get(0))
+											.getCoordSys())) {
 						goodHits.remove(0);
 					} else {
 						break;
@@ -3793,7 +3793,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
+		boolean hitPoint = addSelectedPoint(hits, 1, false, selPreview) != 0;
 
 		if (!hitPoint) {
 			if (selCS2D() == 0) {

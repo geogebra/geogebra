@@ -1657,4 +1657,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * (ie for numbers. 1, 0) or plural.
 	 */
 	boolean isSingularValue();
+
+	/** @return true if this is fixed (moving forbidden, deleting OK) */
+	boolean isLocked();
 }

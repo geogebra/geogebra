@@ -272,7 +272,7 @@ public class PolyFunction
 			return new Function(en, fv);
 		}
 
-		ExpressionNode en = fvEn.power((degree))
+		ExpressionNode en = fvEn.power(degree)
 				.multiply(getCoeff(degree, fraction, kernel));
 
 		if (degree > 2) {

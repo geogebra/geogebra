@@ -332,7 +332,7 @@ public class AlgoDependentFunction extends AlgoElement
 							node.getRight(), 1);
 					if (res instanceof Functional
 							&& constants >= list.size() - 1) {
-						return substituteFunction(((Functional) res),
+						return substituteFunction((Functional) res,
 								list.getListElement(list.size() - 1), fast,
 								node.getKernel());
 					}
@@ -401,7 +401,7 @@ public class AlgoDependentFunction extends AlgoElement
 							getListElement(rightList, i + offset), fast))
 					.wrap();
 		}
-		return (funNExpression);
+		return funNExpression;
 	}
 
 	// needed for eg f(x,y) = a(A) a(x, y)
@@ -535,7 +535,7 @@ public class AlgoDependentFunction extends AlgoElement
 
 					if (geo.isLabelSet()) {
 
-						ExpressionValue evR = (enLL.getRight());
+						ExpressionValue evR = enLL.getRight();
 
 						if (evR instanceof NumberValue) {
 							NumberValue num = (NumberValue) evR;

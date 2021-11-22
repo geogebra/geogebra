@@ -336,7 +336,7 @@ public class Inequality {
 	 * @return true if strict
 	 */
 	public boolean isStrict() {
-		return (op.equals(Operation.GREATER) || op.equals(Operation.LESS));
+		return op.equals(Operation.GREATER) || op.equals(Operation.LESS);
 	}
 
 	/**

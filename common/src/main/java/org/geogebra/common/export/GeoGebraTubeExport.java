@@ -125,7 +125,7 @@ public abstract class GeoGebraTubeExport {
 	protected StringBuilder getPostData() throws IOException {
 		Construction cons = app.getKernel().getConstruction();
 
-		boolean isConstruction = (getMacros() == null);
+		boolean isConstruction = getMacros() == null;
 
 		// build post query
 		StringBuilder sb = new StringBuilder();

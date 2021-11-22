@@ -123,7 +123,7 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		double fyyEval = fyy.evaluateDouble();
 		double fxyEval = fxy.evaluateDouble();
 
-		double top = (fxxEval * fyyEval - fxyEval * fxyEval);
+		double top = fxxEval * fyyEval - fxyEval * fxyEval;
 		double bottomSqrt = 1 + fxEval * fxEval + fyEval * fyEval;
 
 		double k = top / (bottomSqrt * bottomSqrt);
