@@ -5131,7 +5131,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected void updateExam(@Nonnull ExamEnvironment examEnvironment) {
-		examEnvironment.setIncludingSettingsInLog(!isUnbundled());
 		examEnvironment.setCopyPaste(getCopyPaste());
 	}
 
