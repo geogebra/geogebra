@@ -42,17 +42,20 @@ public class ComponentTab extends FlowPanel {
 		add(panelContainer);
 
 		for (int i = 0; i < tabData.size(); i++) {
-			StandardButton tabBtn = new StandardButton(
-					loc.getMenu(tabData.get(i).getTabTitle()));
-			tabBtn.addStyleName("tabBtn");
-			tabBtn.addStyleName("ripple");
-			int tabIdx = i;
-			tabBtn.addFastClickHandler(source -> switchToTab(tabIdx));
+			StandardButton tabBtn = getTabBtn(i, tabData.get(i).getTabTitle());
 			tabBtns.add(tabBtn);
-
 			header.add(tabBtn);
 			panelContainer.add(tabData.get(i).getTabPanel());
 		}
+	}
+
+	private StandardButton getTabBtn(int i, String title) {
+		StandardButton tabBtn = new StandardButton(loc.getMenu(title));
+		tabBtn.addStyleName("tabBtn");
+		tabBtn.addStyleName("ripple");
+		int tabIdx = i;
+		tabBtn.addFastClickHandler(source -> switchToTab(tabIdx));
+		return tabBtn;
 	}
 
 	private double calculateLeft(int index) {
