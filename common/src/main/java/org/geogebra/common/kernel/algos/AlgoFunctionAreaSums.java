@@ -994,8 +994,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			leftBorder = new double[3];
 			yval = new double[3];
 
-			boolean cumulative = (isCumulative != null
-					&& ((GeoBoolean) isCumulative).getBoolean());
+			boolean cumulative = isCumulative != null
+					&& ((GeoBoolean) isCumulative).getBoolean();
 			yval[0] = 1 - p;
 			yval[1] = cumulative ? 1 : p;
 			leftBorder[0] = -0.5;

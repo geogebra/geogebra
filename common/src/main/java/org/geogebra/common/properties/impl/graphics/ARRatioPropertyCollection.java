@@ -16,7 +16,7 @@ public class ARRatioPropertyCollection extends AbstractPropertyCollection {
 	public ARRatioPropertyCollection(App app, Localization localization) {
 		super(localization, "Settings.ArRatio");
 
-		EuclidianView3D view3D = ((EuclidianView3D) app.getActiveEuclidianView());
+		EuclidianView3D view3D = (EuclidianView3D) app.getActiveEuclidianView();
 		Property arRatio = new ARRatioProperty(localization, view3D);
 		Property ratioUnit = new RatioUnitProperty(localization, view3D);
 		setProperties(new Property[]{arRatio, ratioUnit});

@@ -180,9 +180,8 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 	}
 
 	private boolean isFarAway(double x, double y, double z, int i) {
-		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
-				|| y < farYmin[i] || z > farZmax[i] || z < farZmin[i]);
-		return farAway;
+		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
+				|| y < farYmin[i] || z > farZmax[i] || z < farZmin[i];
 	}
 
 	@Override

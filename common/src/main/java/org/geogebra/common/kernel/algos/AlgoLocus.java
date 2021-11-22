@@ -136,9 +136,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	}
 
 	private boolean isFarAway(double x, double y, int i) {
-		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
-				|| y < farYmin[i]);
-		return farAway;
+		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
+				|| y < farYmin[i];
 	}
 
 	@Override

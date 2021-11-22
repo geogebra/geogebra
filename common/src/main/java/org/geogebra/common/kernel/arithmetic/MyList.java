@@ -335,7 +335,7 @@ public class MyList extends ValidExpression
 				LHlist = this.deepCopy(kernel);
 			}
 
-			boolean isMatrix = (LHlist.isMatrix() && RHlist.isMatrix());
+			boolean isMatrix = LHlist.isMatrix() && RHlist.isMatrix();
 
 			if (isMatrix) {
 				matrixMultiply(LHlist, RHlist);
@@ -1045,7 +1045,7 @@ public class MyList extends ValidExpression
 
 		// the empty set is a strict subset of everything except itself
 		if (list2.size() == 0) {
-			return (list1.size() != 0);
+			return list1.size() != 0;
 		}
 
 		for (int i = 0; i < list2.size(); i++) {

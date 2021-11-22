@@ -144,7 +144,7 @@ public abstract class ConstructionElement
 		// GeoAxis in order to make the axes available
 		// in empty constructions too (for step == -1)
 		int pos = getConstructionIndex();
-		return (pos >= 0 && pos <= step);
+		return pos >= 0 && pos <= step;
 	}
 
 	/**

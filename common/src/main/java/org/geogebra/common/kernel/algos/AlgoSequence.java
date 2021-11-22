@@ -213,8 +213,8 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 		// changed:
 		// in this case it is much more efficient not to create all objects
 		// for the list again, but just to set their new values
-		boolean setValuesOnly = (from == last_from && to == last_to
-				&& step == last_step);
+		boolean setValuesOnly = from == last_from && to == last_to
+				&& step == last_step;
 
 		// setValues does not work for functions
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;

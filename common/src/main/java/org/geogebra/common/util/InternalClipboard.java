@@ -102,7 +102,7 @@ public class InternalClipboard {
 				if (ce instanceof GeoImage) {
 					GeoImage image = (GeoImage) ce;
 					String name = image.getImageFileName();
-					ImageManager imageManager = ((ImageManager) app.getImageManager());
+					ImageManager imageManager = (ImageManager) app.getImageManager();
 					copiedImages.put(name, imageManager.getExternalImageSrc(name));
 				}
 				if (ce instanceof GeoEmbed && embedManager != null) {

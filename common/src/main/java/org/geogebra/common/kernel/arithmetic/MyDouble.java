@@ -130,7 +130,7 @@ public class MyDouble extends ValidExpression
 		}
 
 		// String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
-		String ret = kernel.format((val), tpl);
+		String ret = kernel.format(val, tpl);
 
 		if (tpl.isNumeric()) {
 			return ret;

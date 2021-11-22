@@ -76,7 +76,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public boolean isValidCoord(double x) {
-		return (x >= 0);
+		return x >= 0;
 	}
 
 	@Override

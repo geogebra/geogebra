@@ -980,8 +980,8 @@ public abstract class Localization {
 	 */
 	public static boolean rightToLeftReadingOrder(String language) {
 		String lang = language.substring(0, 2);
-		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang)
-				|| "ji".equals(lang) || "he".equals(lang) || "ug".equals(lang));
+		return "iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang)
+				|| "ji".equals(lang) || "he".equals(lang) || "ug".equals(lang);
 	}
 
 	/**

@@ -89,7 +89,7 @@ public class DrawVector3D extends DrawJoinPoints {
 
 	@Override
 	protected Coords[] calcPoints() {
-		GeoVectorND geo = ((GeoVectorND) getGeoElement());
+		GeoVectorND geo = (GeoVectorND) getGeoElement();
 
 		geo.updateStartPointPosition();
 

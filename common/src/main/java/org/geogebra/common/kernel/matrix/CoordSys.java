@@ -453,7 +453,7 @@ public class CoordSys {
 	 * @return if the coord sys is made
 	 */
 	public boolean isMadeCoordSys() {
-		return (getMadeCoordSys() == dimension);
+		return getMadeCoordSys() == dimension;
 	}
 
 	/**

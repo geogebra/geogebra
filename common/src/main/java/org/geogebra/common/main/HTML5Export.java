@@ -122,9 +122,9 @@ public class HTML5Export {
 			sb.append(gui.hasSpreadsheetView()
 					&& gui.getSpreadsheetView().isShowing() ? "1" : "0");
 			sb.append(",'CV': ");
-			sb.append((gui.hasCasView() ? "1" : "0"));
+			sb.append(gui.hasCasView() ? "1" : "0");
 			sb.append(",'EV2': ");
-			sb.append((app.hasEuclidianView2(1) ? "1" : "0"));
+			sb.append(app.hasEuclidianView2(1) ? "1" : "0");
 			sb.append(",'CP': ");
 			sb.append(gui.isUsingConstructionProtocol() ? "1" : "0");
 			sb.append(",'PC': ");

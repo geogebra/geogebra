@@ -240,14 +240,14 @@ public class JSONParserGGT {
 				if (responseObject.has("responses")) {
 					JSONObject materialsObject = (JSONObject) ((JSONObject) responseObject
 							.get("responses")).get("response");
-					if (materialsObject.has(("meta"))) {
+					if (materialsObject.has("meta")) {
 						String content = ((JSONObject) materialsObject
 								.get("meta")).get("-content").toString();
 						meta = parseMeta(content);
 
 					}
 
-					if (materialsObject.has(("item"))) {
+					if (materialsObject.has("item")) {
 						materialsArray = materialsObject.get("item");
 					} else {
 						// List is empty
@@ -314,7 +314,7 @@ public class JSONParserGGT {
 		if (!(obj instanceof JSONObject)) {
 			return;
 		}
-		result.add(toMaterial(((JSONObject) obj)));
+		result.add(toMaterial((JSONObject) obj));
 	}
 
 	/**

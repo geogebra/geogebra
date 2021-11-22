@@ -184,7 +184,7 @@ public class Bounds {
 	private ExpressionNode unfunction(ExpressionNode e) {
 		if (e.getOperation() == Operation.FUNCTION
 				&& e.getLeft() instanceof GeoFunction) {
-			GeoFunction fn = ((GeoFunction) e.getLeft());
+			GeoFunction fn = (GeoFunction) e.getLeft();
 			ExpressionValue substitution = e.getRightTree().deepCopy(kernel)
 					.replace(fn.getFunctionVariables()[0], fv);
 			return fn.getFunctionExpression().deepCopy(kernel)

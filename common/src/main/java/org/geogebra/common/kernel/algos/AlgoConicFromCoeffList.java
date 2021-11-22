@@ -82,9 +82,9 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 	public final void compute() {
 		if (L.size() == 3) {
 			conic.setCoeffs(getCoeff(0, 0),
-					(getCoeff(0, 1) + getCoeff(1, 0)), getCoeff(1, 1),
-					(getCoeff(0, 2) + getCoeff(2, 0)),
-					(getCoeff(1, 2) + getCoeff(2, 1)), getCoeff(2, 2));
+					getCoeff(0, 1) + getCoeff(1, 0), getCoeff(1, 1),
+					getCoeff(0, 2) + getCoeff(2, 0),
+					getCoeff(1, 2) + getCoeff(2, 1), getCoeff(2, 2));
 		} else if (L.size() == 6) {
 			conic.setCoeffs(getCoeff(0), getCoeff(3), getCoeff(1), getCoeff(4),
 					getCoeff(5), getCoeff(2));

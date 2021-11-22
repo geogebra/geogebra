@@ -190,10 +190,10 @@ public class GeneralPathClipped implements GShape {
 		} else if (lineTo == SegmentType.ARC_TO && p != null) {
 			try {
 
-				double dx1 = (auxX - p.getX());
-				double dy1 = (auxY - p.getY());
-				double dx2 = (auxX - q.getX());
-				double dy2 = (auxY - q.getY());
+				double dx1 = auxX - p.getX();
+				double dy1 = auxY - p.getY();
+				double dx2 = auxX - q.getX();
+				double dy2 = auxY - q.getY();
 				double angle = MyMath.angle(dx1, dy1, dx2, dy2);
 				double cv = btan(Math.PI - angle) * Math.tan(angle / 2);
 				gp.curveTo(p.getX() + dx1 * cv, p.getY() + dy1 * cv,

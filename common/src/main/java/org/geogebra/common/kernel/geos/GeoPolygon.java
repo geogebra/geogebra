@@ -2136,9 +2136,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *         used in 2D)
 	 */
 	public boolean isConvexInverseDirection() {
-		// Log.debug(""+convexOrientation);
-
-		return (convexOrientation > 0);
+		return convexOrientation > 0;
 	}
 
 	@Override

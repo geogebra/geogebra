@@ -82,7 +82,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		for (int i = 0; i < data.length; i++) {
 
 			buf.append(Character.forDigit((data[i] >> 4) & 0xF, 16));
-			buf.append(Character.forDigit((data[i] & 0xF), 16));
+			buf.append(Character.forDigit(data[i] & 0xF, 16));
 		}
 
 		return buf.toString();
@@ -210,7 +210,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			int code = c;
 
 			// standard characters have code 32 to 126
-			if ((code >= 32 && code <= 126)) {
+			if (code >= 32 && code <= 126) {
 
 				if (!encodeLTGT) {
 					sb.append(c);
@@ -1337,7 +1337,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			int code = c;
 
 			// standard characters have code 32 to 126
-			if ((code >= 32 && code <= 126)) {
+			if (code >= 32 && code <= 126) {
 				switch (code) {
 				case '"':
 					// replace " with \"
@@ -1469,7 +1469,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			}
 		}
 
-		return (inputText + Unicode.DEGREE_STRING);
+		return inputText + Unicode.DEGREE_STRING;
 	}
 
 	/**

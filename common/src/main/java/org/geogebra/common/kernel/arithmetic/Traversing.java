@@ -1196,7 +1196,7 @@ public interface Traversing {
 			if (ev instanceof ExpressionNode) {
 				ExpressionNode en = (ExpressionNode) ev;
 				if (en.getRight() instanceof GeoDummyVariable) {
-					add(((GeoDummyVariable) en.getRight()));
+					add((GeoDummyVariable) en.getRight());
 				}
 				if (en.getOperation() == Operation.FUNCTION
 						|| en.getOperation() == Operation.FUNCTION_NVAR
@@ -1204,7 +1204,7 @@ public interface Traversing {
 					return en;
 				}
 				if (en.getLeft() instanceof GeoDummyVariable) {
-					add(((GeoDummyVariable) en.getLeft()));
+					add((GeoDummyVariable) en.getLeft());
 				}
 			}
 			return ev;

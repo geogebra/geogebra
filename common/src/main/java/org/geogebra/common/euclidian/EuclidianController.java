@@ -2220,7 +2220,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					.intersectLineCurve(new String[] { null }, line, curve);
 		}
 		// curve-curve
-		else if ((selCurves() >= 2)) {
+		else if (selCurves() >= 2) {
 			GeoCurveCartesian[] curves = getSelectedCurves();
 			GeoElement[] ret;
 
@@ -2392,7 +2392,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
+		boolean hitPoint = addSelectedPoint(hits, 1, false, selPreview) != 0;
 		if (!hitPoint) {
 			if (selLines() == 0) {
 				addSelectedVector(hits, 1, false, selPreview);
@@ -2452,7 +2452,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
+		boolean hitPoint = addSelectedPoint(hits, 1, false, selPreview) != 0;
 		if (!hitPoint) {
 			addSelectedLine(hits, 1, false, selPreview);
 		}
@@ -2889,7 +2889,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (hits.isEmpty()) {
 			return null;
 		}
-		boolean hitConic = (addSelectedConic(hits, 1, false, selPreview) != 0);
+		boolean hitConic = addSelectedConic(hits, 1, false, selPreview) != 0;
 
 		if (!hitConic) {
 			if (selVectors() == 0) {
@@ -4590,7 +4590,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// don't have radius yet: need two points or segment
-		boolean hitPoint = (addSelectedPoint(hits, 2, false, selPreview) != 0);
+		boolean hitPoint = addSelectedPoint(hits, 2, false, selPreview) != 0;
 		if (!hitPoint && (selPoints() != 2)) {
 			addSelectedSegment(hits, 1, false, selPreview);
 			addSelectedConic(hits, 1, false, selPreview);
@@ -4688,7 +4688,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @return the current movedGeoPoint
 	 */
 	public GeoElement getMovedGeoPoint() {
-		return ((GeoElement) movedGeoPoint);
+		return (GeoElement) movedGeoPoint;
 	}
 
 	/**
@@ -4941,8 +4941,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean createNewPointInRegionPossible(GeoConicND conic) {
-		return ((mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
-				&& (conic.getLastHitType() == HitType.ON_FILLING));
+		return (mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+				&& (conic.getLastHitType() == HitType.ON_FILLING);
 	}
 
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible,
@@ -6868,7 +6868,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			moveMode = MOVE_DEPENDENT;
 
 			if (translateableGeos.get(0).isGeoPoint()) {
-				GeoPointND point = ((GeoPointND) translateableGeos.get(0));
+				GeoPointND point = (GeoPointND) translateableGeos.get(0);
 				if (point.getParentAlgorithm() != null) {
 					// make sure snap-to-grid works for dragging
 					// (a + x(A), b + x(B))
@@ -7262,8 +7262,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& oldMode == EuclidianConstants.MODE_BUTTON_ACTION;
 			boolean moveSelected = oldMode == EuclidianConstants.MODE_MOVE;
 
-			if ((temporaryMode || textFieldSelected || buttonSelected
-					|| (moveSelected && app.isRightClickEnabled()))) {
+			if (temporaryMode || textFieldSelected || buttonSelected
+					|| (moveSelected && app.isRightClickEnabled())) {
 
 				if (textField && !isMoveTextFieldExpected(movedGeoElement)) {
 					return;
@@ -7393,25 +7393,23 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveCheckboxExpected() {
-		return (tempRightClick() || !movedGeoBoolean.isLockedPosition()
-				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+		return tempRightClick() || !movedGeoBoolean.isLockedPosition()
+				|| app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX;
 	}
 
 	protected boolean isMoveButtonExpected(GeoElementND geo) {
-		if (!geo.isGeoButton()) {
+		if (!geo.isGeoButton() || geo.isGeoInputBox()) {
 			return false;
 		}
-		GeoButton button = (GeoButton) geo;
-		return (!button.isGeoInputBox() && ((tempRightClick() || !button.isLocked()
-				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
+		return tempRightClick() || !geo.isLocked()
+				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION;
 	}
 
 	private boolean isMoveTextFieldExpected(GeoElementND geo) {
 		if (!geo.isGeoInputBox()) {
 			return false;
 		}
-		GeoInputBox textField = (GeoInputBox) geo;
-		return tempRightClick() || !textField.isLocked()
+		return tempRightClick() || !geo.isLocked()
 				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION;
 	}
 
@@ -8295,8 +8293,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean shouldSetToFreehandMode() {
-		return (isDraggingBeyondThreshold() && pen != null && !penMode(mode)
-				&& freehandModePrepared);
+		return isDraggingBeyondThreshold() && pen != null && !penMode(mode)
+				&& freehandModePrepared;
 	}
 
 	/**
@@ -8668,7 +8666,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement topHit = hits.get(0);
 
 		if (topHit.isGeoVector()) {
-			if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
+			if (topHit.getParentAlgorithm() instanceof AlgoVector) { // Vector[A,B]
 				AlgoVector algo = (AlgoVector) topHit.getParentAlgorithm();
 				GeoPointND p = algo.getP();
 				GeoPointND q = algo.getQ();
@@ -9911,9 +9909,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& !withinPointSelectionDistance(startPosition, event)) {
 				double x = view.toRealWorldCoordX(event.getX());
 				double y = view.toRealWorldCoordY(event.getY());
-				double distance = Math.sqrt(
-						Math.pow((firstSelectedPoint.getInhomX() - x), 2) + Math
-								.pow((firstSelectedPoint.getInhomY() - y), 2));
+				double distance = Math.hypot(firstSelectedPoint.getInhomX() - x,
+						firstSelectedPoint.getInhomY() - y);
 				kernel.getAlgoDispatcher().circle(null, firstSelectedPoint,
 						new GeoNumeric(kernel.getConstruction(), distance));
 				firstSelectedPoint = null;
@@ -10170,7 +10167,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// make sure we start the timer also for single point
 		if (penMode(mode)) {
 			getPen().handleMouseReleasedForPenMode(right, x, y,
-					(numOfTargets > 0));
+					numOfTargets > 0);
 			view.invalidateCache();
 			draggingOccured = false;
 			return;
@@ -12282,7 +12279,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				maxY = Double.NEGATIVE_INFINITY;
 		// calc min/max from geos
 		for (GeoElement geo : geos) {
-			Drawable dr = ((Drawable) view.getDrawableFor(geo));
+			Drawable dr = (Drawable) view.getDrawableFor(geo);
 			if (dr != null) {
 				GRectangle2D bounds = dr.getBoundsClipped();
 				if (bounds != null) {

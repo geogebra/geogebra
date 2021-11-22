@@ -35,14 +35,9 @@ public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 		GeoElement[] arg;
 		arg = resArgs(c);
 
-		if (!info.isUsingCAS()) {
-			// GeoElement[] ret = { null };
-			// return ret;
-		}
-
 		switch (n) {
 		case 1:
-			if ((arg[0] instanceof CasEvaluableFunction)) {
+			if (arg[0] instanceof CasEvaluableFunction) {
 
 				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
 						(CasEvaluableFunction) arg[0], info);

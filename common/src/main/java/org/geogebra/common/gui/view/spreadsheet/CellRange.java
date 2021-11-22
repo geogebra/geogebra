@@ -177,15 +177,15 @@ final public class CellRange {
 	}
 
 	public boolean isSingleCell() {
-		return ((maxColumn - minColumn == 0) && (maxRow - minRow == 0));
+		return (maxColumn == minColumn) && (maxRow == minRow);
 	}
 
 	public boolean isColumn() {
-		return (anchorRow == -1);
+		return anchorRow == -1;
 	}
 
 	public boolean isRow() {
-		return (anchorColumn == -1);
+		return anchorColumn == -1;
 	}
 
 	/**
@@ -219,7 +219,7 @@ final public class CellRange {
 	 * @return true if cell range is 1xn, nx1, a row or a column
 	 */
 	public boolean is1D() {
-		return ((maxColumn - minColumn == 0) || (maxRow - minRow == 0));
+		return (maxColumn - minColumn == 0) || (maxRow - minRow == 0);
 	}
 
 	/**
@@ -243,8 +243,8 @@ final public class CellRange {
 
 	/** @return true if this range contains no cells */
 	public boolean isEmptyRange() {
-		return (minColumn == -1 && maxColumn == -1 && minRow == -1
-				&& maxRow == -1);
+		return minColumn == -1 && maxColumn == -1 && minRow == -1
+				&& maxRow == -1;
 	}
 
 	/**
@@ -597,13 +597,12 @@ final public class CellRange {
 
 	@Override
 	public boolean equals(Object obj) {
-		CellRange cr;
 		if (obj instanceof CellRange) {
-			cr = (CellRange) obj;
-			return (cr.minColumn == minColumn && cr.minRow == minRow
+			CellRange cr = (CellRange) obj;
+			return cr.minColumn == minColumn && cr.minRow == minRow
 					&& cr.maxColumn == maxColumn && cr.maxRow == maxRow
 					&& cr.anchorColumn == anchorColumn
-					&& cr.anchorRow == anchorRow);
+					&& cr.anchorRow == anchorRow;
 		}
 		return false;
 	}
@@ -635,8 +634,8 @@ final public class CellRange {
 				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP) {
 			setActualRange();
-			return (location.y >= minRow && location.y <= maxRow
-					&& location.x >= minColumn && location.x <= maxColumn);
+			return location.y >= minRow && location.y <= maxRow
+					&& location.x >= minColumn && location.x <= maxColumn;
 		}
 		return false;
 	}

@@ -2943,9 +2943,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append('^');
 
 				// add brackets for eg a^b^c -> a^(b^c)
-				boolean addParentheses = (right.isExpressionNode()
-						&& ((ExpressionNode) right).getOperation()
-								.equals(Operation.POWER));
+				boolean addParentheses = right.isOperation(Operation.POWER);
 
 				sb.append('{');
 				if (addParentheses) {

@@ -36,7 +36,7 @@ public class CmdStemPlot extends CommandProcessor {
 		switch (n) {
 
 		case 1:
-			if (((arg[0].isGeoList()))) {
+			if (arg[0].isGeoList()) {
 				GeoList list = (GeoList) arg[0];
 
 				GeoElement[] ret = { stemPlot(c.getLabel(), list, null) };

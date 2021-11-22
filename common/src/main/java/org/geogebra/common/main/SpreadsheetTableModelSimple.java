@@ -170,7 +170,7 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 			}
 		}
 
-		if ((value != null || defaultTableModel.get(row * colNum + column) != null)) {
+		if (value != null || defaultTableModel.get(row * colNum + column) != null) {
 			defaultTableModel.set(row * colNum + column, value);
 			if (table != null) {
 

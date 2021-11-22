@@ -726,7 +726,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		}
 
 		private static int pixels(double c1, double c2, double scale) {
-			return (int) Math.ceil((Math.abs(c1 - c2) * scale));
+			return (int) Math.ceil(Math.abs(c1 - c2) * scale);
 		}
 
 		@Override

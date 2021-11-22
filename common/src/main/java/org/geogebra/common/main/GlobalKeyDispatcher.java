@@ -900,7 +900,7 @@ public abstract class GlobalKeyDispatcher {
 						geo.setSelectionAllowed(true);
 
 						// fix/unfix sliders
-						if ((geo.isGeoNumeric() && geo.isIndependent())) {
+						if (geo.isGeoNumeric() && geo.isIndependent()) {
 							((GeoNumeric) geo)
 									.setSliderFixed(!selectionAllowed);
 						}

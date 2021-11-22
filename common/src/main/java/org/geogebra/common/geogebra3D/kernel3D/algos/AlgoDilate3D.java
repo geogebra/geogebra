@@ -42,11 +42,8 @@ public class AlgoDilate3D extends AlgoDilate {
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if ((geo instanceof GeoFunction
-				|| geo instanceof GeoCurveCartesian) /*
-														 * && mirror .
-														 * isGeoElement3D ( )
-														 */) {
+		if (geo instanceof GeoFunction
+				|| geo instanceof GeoCurveCartesian) {
 			return new GeoCurveCartesian3D(cons);
 		}
 

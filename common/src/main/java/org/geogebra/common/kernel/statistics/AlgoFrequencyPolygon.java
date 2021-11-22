@@ -187,8 +187,8 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		int oldPointsLength = points == null ? 0 : points.length;
 
 		// create a new point array
-		boolean doCumulative = (isCumulative != null
-				&& isCumulative.getBoolean());
+		boolean doCumulative = isCumulative != null
+				&& isCumulative.getBoolean();
 		int size = doCumulative ? yValue.length : yValue.length + 1;
 		points = new GeoPoint[size];
 

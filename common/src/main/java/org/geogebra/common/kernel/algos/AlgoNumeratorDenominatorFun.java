@@ -107,7 +107,6 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 		if (ev.isExpressionNode()) {
 
 			if (g instanceof GeoFunction) {
-
 				Function fun = new Function((ExpressionNode) ev,
 						f.getFunction().getFunctionVariables()[0]);
 				((GeoFunction) g).setFunction(fun);
@@ -134,10 +133,8 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 				ExpressionNode en = new ExpressionNode(kernel, ev);
 				FunctionNVar newFun = new FunctionNVar(en, vars);
 				((GeoFunctionNVar) g).setFunction(newFun);
-
 			}
 		} else if (ev instanceof NumberValue) {
-
 			if (f instanceof GeoFunction) {
 				// construct function f(x) = 1
 				FunctionVariable fv = new FunctionVariable(kernel);
@@ -150,15 +147,13 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 				// GeoFunctionNVar
 
 				// construct eg f(a,b)=3
-				GeoFunctionNVar ff = ((GeoFunctionNVar) f);
+				GeoFunctionNVar ff = (GeoFunctionNVar) f;
 				FunctionVariable[] vars = ff.getFunctionVariables();
 				ExpressionNode en = new ExpressionNode(kernel, ev);
 				FunctionNVar newFun = new FunctionNVar(en, vars);
 				((GeoFunctionNVar) g).setFunction(newFun);
-
 			}
 		} else {
-			// Application.debug(ev.getClass()+"");
 			g.setUndefined();
 			return;
 		}

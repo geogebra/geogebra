@@ -191,7 +191,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				for (int i = 0; i < n; i++) {
 					GeoElement geo = list.get(i);
 					if (geo.isGeoList()) {
-						GeoList geoList = ((GeoList) geo);
+						GeoList geoList = (GeoList) geo;
 						if (geoList.size() < 2) {
 							x[i] = Double.NaN;
 							y[i] = Double.NaN;
@@ -210,7 +210,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				for (int i = 0; i < n; i++) {
 					GeoElement geo = list.get(i);
 					if (geo.isGeoList()) {
-						GeoList geoList = ((GeoList) geo);
+						GeoList geoList = (GeoList) geo;
 						if (geoList.size() < 3) {
 							x[i] = Double.NaN;
 							y[i] = Double.NaN;

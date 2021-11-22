@@ -67,7 +67,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		tangentPoly.setDefined();
 		if (poly instanceof GeoImplicitCurve
 				&& poly.getCoeff() == null) {
-			GeoImplicitCurve inputCurve = ((GeoImplicitCurve) poly);
+			GeoImplicitCurve inputCurve = (GeoImplicitCurve) poly;
 			FunctionNVar f1 = inputCurve.getExpression();
 
 			FunctionVariable vx = f1.getFunctionVariables()[0];

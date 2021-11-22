@@ -22,9 +22,8 @@ public class LengthCurve implements UnivariateFunction {
 
 	@Override
 	public double value(double t) {
-
 		c1.evaluateCurve(t, f1eval);
-		return (Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]
-				+ f1eval[2] * f1eval[2]));
+		return Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]
+				+ f1eval[2] * f1eval[2]);
 	}
 }

@@ -196,7 +196,7 @@ public class Relation {
 						conds.append(liStyle);
 						conds.append(">");
 						conds.append(ndgResult[j]);
-						if ((j < ndgs - 1)) {
+						if (j < ndgs - 1) {
 							conds.append(" ");
 							conds.append(and);
 						}

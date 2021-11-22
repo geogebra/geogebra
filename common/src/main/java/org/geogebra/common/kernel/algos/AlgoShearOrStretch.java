@@ -229,7 +229,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 	@Override
 	public boolean swapOrientation(GeoConicPartND arc) {
 		if (shear || num == null) {
-			return (arc == null || arc.positiveOrientation());
+			return arc == null || arc.positiveOrientation();
 		}
 		return (arc == null || arc.positiveOrientation())
 				^ (num.getDouble() < 0);

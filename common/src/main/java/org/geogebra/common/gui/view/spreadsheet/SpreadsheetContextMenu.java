@@ -355,7 +355,7 @@ public class SpreadsheetContextMenu {
 	private boolean allProtected() {
 		boolean allFixed = true;
 		if (geos != null && geos.size() > 0) {
-			for (int i = 0; (i < geos.size() && allFixed); i++) {
+			for (int i = 0; i < geos.size() && allFixed; i++) {
 				GeoElement geo = geos.get(i);
 				if (!geo.isProtected(EventType.REMOVE)) {
 					allFixed = false;
@@ -369,7 +369,7 @@ public class SpreadsheetContextMenu {
 	 * @return true if no GeoElements selected
 	 */
 	public boolean isEmptySelection() {
-		return (app.getSelectionManager().getSelectedGeos().isEmpty());
+		return app.getSelectionManager().getSelectedGeos().isEmpty();
 	}
 
 	private String getDeleteRowString() {

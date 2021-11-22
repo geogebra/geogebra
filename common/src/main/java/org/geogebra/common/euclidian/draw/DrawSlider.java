@@ -321,8 +321,8 @@ public class DrawSlider extends Drawable {
 		// convert to screen
 		view.toScreenCoords(coords);
 
-		double xUL = (coords[0] - number.getSliderBlobSize());
-		double yUL = (coords[1] - number.getSliderBlobSize());
+		double xUL = coords[0] - number.getSliderBlobSize();
+		double yUL = coords[1] - number.getSliderBlobSize();
 
 		diameter = 2 * (int) number.getSliderBlobSize() + 1;
 		int HIGHLIGHT_OFFSET = (int) number.getSliderBlobSize() / 2 + 1;

@@ -736,7 +736,7 @@ public class CASInputHandler {
 				if (!inTheSelectedRow) {
 					references[i] = "$" + (selectedIndices[i] + 1);
 				} else {
-					assert (false) : "this should not be possible";
+					assert false : "this should not be possible";
 					references[counter] = cellText;
 				}
 			}
@@ -770,7 +770,7 @@ public class CASInputHandler {
 		}
 
 		// FIX common INPUT ERRORS in evalText
-		if (("Evaluate".equals(ggbcmd) || "KeepInput".equals(ggbcmd))) {
+		if ("Evaluate".equals(ggbcmd) || "KeepInput".equals(ggbcmd)) {
 			String fixedInput = casCellProcessor
 					.fixInputErrors(cellText.toString());
 			if (!fixedInput.equals(cellText.toString())) {

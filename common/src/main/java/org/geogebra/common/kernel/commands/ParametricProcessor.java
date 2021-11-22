@@ -90,8 +90,8 @@ public class ParametricProcessor {
 		if (undefinedVariables.isEmpty()) {
 			return null;
 		}
-		boolean parametricExpression = ("X".equals(ve0.getLabel())
-				|| undefinedVariables.contains("t"));
+		boolean parametricExpression = "X".equals(ve0.getLabel())
+				|| undefinedVariables.contains("t");
 		boolean parametricEquation = ve0.unwrap() instanceof Equation
 				&& "X".equals(((Equation) ve0.unwrap()).getLHS()
 						.toString(StringTemplate.defaultTemplate));

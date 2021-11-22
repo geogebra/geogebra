@@ -274,21 +274,21 @@ public class DrawAngle extends Drawable implements Previewable {
 				}
 				double length = arcSize * 0.7071067811865;
 				square.moveTo(coords[0], coords[1]);
-				square.lineTo((coords[0] + length * Math.cos(angSt)),
-						(coords[1] - length * Math.sin(angSt)
-								* view.getScaleRatio()));
+				square.lineTo(coords[0] + length * Math.cos(angSt),
+						coords[1] - length * Math.sin(angSt)
+								* view.getScaleRatio());
 				square.lineTo(
-						(coords[0] + arcSize
-								* Math.cos(angSt + Kernel.PI_HALF / 2)),
-						(coords[1]
+						coords[0] + arcSize
+								* Math.cos(angSt + Kernel.PI_HALF / 2),
+						coords[1]
 								- arcSize * Math.sin(angSt + Kernel.PI_HALF / 2)
-										* view.getScaleRatio()));
+										* view.getScaleRatio());
 				square.lineTo(
-						(coords[0]
-								+ length * Math.cos(angSt + Kernel.PI_HALF)),
-						(coords[1]
+						coords[0]
+								+ length * Math.cos(angSt + Kernel.PI_HALF),
+						coords[1]
 								- length * Math.sin(angSt + Kernel.PI_HALF)
-										* view.getScaleRatio()));
+										* view.getScaleRatio());
 				square.lineTo(coords[0], coords[1]);
 				shape = square;
 				break;
@@ -303,29 +303,29 @@ public class DrawAngle extends Drawable implements Previewable {
 				length = arcSize * 0.7071067811865;
 				double offset = length * 0.4;
 				square.moveTo(
-						(coords[0] + length * Math.cos(angSt)
+						coords[0] + length * Math.cos(angSt)
 								+ offset * Math.cos(angSt)
-								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
-						(coords[1]
+								+ offset * Math.cos(angSt + Kernel.PI_HALF),
+						coords[1]
 								- length * Math.sin(angSt)
 										* view.getScaleRatio()
 								- offset * Math.sin(angSt)
-								- offset * Math.sin(angSt + Kernel.PI_HALF)));
+								- offset * Math.sin(angSt + Kernel.PI_HALF));
 				square.lineTo(
-						(coords[0] + offset * Math.cos(angSt)
-								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
-						(coords[1] - offset * Math.sin(angSt)
-								- offset * Math.sin(angSt + Kernel.PI_HALF)));
+						coords[0] + offset * Math.cos(angSt)
+								+ offset * Math.cos(angSt + Kernel.PI_HALF),
+						coords[1] - offset * Math.sin(angSt)
+								- offset * Math.sin(angSt + Kernel.PI_HALF));
 				square.lineTo(
-						(coords[0]
+						coords[0]
 								+ length * Math.cos(angSt + Kernel.PI_HALF)
 								+ offset * Math.cos(angSt)
-								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
-						(coords[1]
+								+ offset * Math.cos(angSt + Kernel.PI_HALF),
+						coords[1]
 								- length * Math.sin(angSt + Kernel.PI_HALF)
 										* view.getScaleRatio()
 								- offset * Math.sin(angSt)
-								- offset * Math.sin(angSt + Kernel.PI_HALF)));
+								- offset * Math.sin(angSt + Kernel.PI_HALF));
 				shape = square; // FIXME
 
 				break;

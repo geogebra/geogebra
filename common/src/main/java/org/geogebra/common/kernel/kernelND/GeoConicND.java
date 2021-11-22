@@ -1380,7 +1380,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true iff this conic is circle
 	 */
 	public final boolean isCircle() {
-		return (type == CONIC_CIRCLE);
+		return type == CONIC_CIRCLE;
 	}
 
 	/**
@@ -1389,7 +1389,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true iff this conic is parabola
 	 */
 	public boolean isParabola() {
-		return (type == CONIC_PARABOLA);
+		return type == CONIC_PARABOLA;
 	}
 
 	/**
@@ -1398,7 +1398,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true iff this conic is ellipse
 	 */
 	public boolean isEllipse() {
-		return (type == CONIC_ELLIPSE);
+		return type == CONIC_ELLIPSE;
 	}
 
 	/**
@@ -1407,7 +1407,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true iff this conic is hyperbola
 	 */
 	public boolean isHyperbola() {
-		return (type == CONIC_HYPERBOLA);
+		return type == CONIC_HYPERBOLA;
 	}
 
 	/**
@@ -1416,7 +1416,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true iff this conic is double line
 	 */
 	public boolean isDoubleLine() {
-		return (type == CONIC_DOUBLE_LINE);
+		return type == CONIC_DOUBLE_LINE;
 	}
 
 	/** Changes equation mode to Implicit */
@@ -1469,7 +1469,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		case CONIC_ELLIPSE:
 		case CONIC_HYPERBOLA:
 			// xy vanished
-			return (DoubleUtil.isZero(matrix[3]));
+			return DoubleUtil.isZero(matrix[3]);
 
 		case CONIC_PARABOLA:
 			// x\u00b2 or y\u00b2 vanished
@@ -4221,15 +4221,15 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND conic = (GeoConicND) geo;
 		// Circles are congruent if their radius are of equal length:
 		if (this.isCircle() && conic.isCircle()) {
-			return ExtendedBoolean.newExtendedBoolean((DoubleUtil
-					.isEqual(this.getCircleRadius(), conic.getCircleRadius())));
+			return ExtendedBoolean.newExtendedBoolean(DoubleUtil
+					.isEqual(this.getCircleRadius(), conic.getCircleRadius()));
 		}
 
 		// Two parabolas are congruent if they have the same distance between
 		// the focus and directrix:
 		if (this.isParabola() && conic.isParabola()) {
-			GeoElement[] ge1 = (this.getParentAlgorithm().input);
-			GeoElement[] ge2 = (conic.getParentAlgorithm().input);
+			GeoElement[] ge1 = this.getParentAlgorithm().input;
+			GeoElement[] ge2 = conic.getParentAlgorithm().input;
 			if (ge1.length == 2 && ge2.length == 2) {
 				// Easy case: definition by focus and directrix:
 				GeoPoint F = (GeoPoint) ge1[0];
@@ -4251,8 +4251,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		// the two foci,
 		// and also the sum of generatrixes are equal:
 		if (this.isEllipse() && conic.isEllipse()) {
-			GeoElement[] ge1 = (this.getParentAlgorithm().input);
-			GeoElement[] ge2 = (conic.getParentAlgorithm().input);
+			GeoElement[] ge1 = this.getParentAlgorithm().input;
+			GeoElement[] ge2 = conic.getParentAlgorithm().input;
 			if (ge1.length == 3 && ge2.length == 3) {
 				// Easy case: definition with 2 foci and one point on the
 				// ellipse:
@@ -4280,8 +4280,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		// equal:
 		if ((this.isHyperbola() && conic.isHyperbola())
 				|| (this.isDoubleLine() && conic.isDoubleLine())) {
-			GeoElement[] ge1 = (this.getParentAlgorithm().input);
-			GeoElement[] ge2 = (conic.getParentAlgorithm().input);
+			GeoElement[] ge1 = this.getParentAlgorithm().input;
+			GeoElement[] ge2 = conic.getParentAlgorithm().input;
 			if (ge1.length == 3 && ge2.length == 3) {
 				// Easy case: definition with 2 foci and one point on the
 				// hyperbola:

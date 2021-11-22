@@ -138,8 +138,8 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public boolean isDefined() {
-		return (!(Double.isNaN(getX()) || Double.isNaN(getY())
-				|| Double.isNaN(getZ()) || Double.isNaN(getW())));
+		return !(Double.isNaN(getX()) || Double.isNaN(getY())
+				|| Double.isNaN(getZ()) || Double.isNaN(getW()));
 	}
 
 	@Override

@@ -279,12 +279,12 @@ public final class MyMath {
 			double a22) {
 
 		return new double[][] {
-				new double[] { (a11 * a22 - a21 * a12),
-						-(a10 * a22 - a20 * a12), (a10 * a21 - a20 * a11) },
+				new double[] { a11 * a22 - a21 * a12,
+						-(a10 * a22 - a20 * a12), a10 * a21 - a20 * a11 },
 				new double[] { -(a01 * a22 - a02 * a21),
-						(a00 * a22 - a20 * a02), -(a00 * a21 - a01 * a20) },
-				new double[] { (a01 * a12 - a02 * a11),
-						-(a00 * a12 - a02 * a10), (a00 * a11 - a10 * a01) } };
+						a00 * a22 - a20 * a02, -(a00 * a21 - a01 * a20) },
+				new double[] { a01 * a12 - a02 * a11,
+						-(a00 * a12 - a02 * a10), a00 * a11 - a10 * a01 } };
 	}
 
 	/**

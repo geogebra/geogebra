@@ -661,9 +661,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				double error = findBivariateNormalZero(x0, y0, z0, uv);
 				if (!Double.isNaN(error)) {
 					// check if the hit point is the closest
-					double dx = (xyz[0] - x0);
-					double dy = (xyz[1] - y0);
-					double dz = (xyz[2] - z0);
+					double dx = xyz[0] - x0;
+					double dy = xyz[1] - y0;
+					double dz = xyz[2] - z0;
 					double d = dx * dx + dy * dy + dz * dz;
 
 					if (d < dist) {

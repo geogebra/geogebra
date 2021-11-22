@@ -221,7 +221,7 @@ public class ClipLine {
 				}
 			}
 		}
-		if (!Double.isNaN(p1x) && DoubleUtil.isEqual(p1y, (ymin + yhack))) {
+		if (!Double.isNaN(p1x) && DoubleUtil.isEqual(p1y, ymin + yhack)) {
 			// use different sequence if a lower corner of clipping rectangle is
 			// hit
 
@@ -315,7 +315,7 @@ public class ClipLine {
 		double dy1 = y12 - y11;
 		double dx2 = x22 - x21;
 		double dy2 = y22 - y21;
-		double det = (dx2 * dy1 - dy2 * dx1);
+		double det = dx2 * dy1 - dy2 * dx1;
 		// line vertical: no 0.5 hack
 		double xhack = 0;
 		// line horizontal: no hack

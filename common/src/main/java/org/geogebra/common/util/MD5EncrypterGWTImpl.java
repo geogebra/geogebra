@@ -199,21 +199,21 @@ public class MD5EncrypterGWTImpl {
 
 	private static int addUnsigned(int lX, int lY) {
 		int lX4, lY4, lX8, lY8, lResult;
-		lX8 = (lX & 0x80000000);
-		lY8 = (lY & 0x80000000);
-		lX4 = (lX & 0x40000000);
-		lY4 = (lY & 0x40000000);
+		lX8 = lX & 0x80000000;
+		lY8 = lY & 0x80000000;
+		lX4 = lX & 0x40000000;
+		lY4 = lY & 0x40000000;
 		lResult = (lX & 0x3FFFFFFF) + (lY & 0x3FFFFFFF);
 		if ((lX4 & lY4) != 0) {
-			return (lResult ^ 0x80000000 ^ lX8 ^ lY8);
+			return lResult ^ 0x80000000 ^ lX8 ^ lY8;
 		}
 		if ((lX4 | lY4) != 0) {
 			if ((lResult & 0x40000000) != 0) {
-				return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
+				return lResult ^ 0xC0000000 ^ lX8 ^ lY8;
 			}
-			return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
+			return lResult ^ 0x40000000 ^ lX8 ^ lY8;
 		}
-		return (lResult ^ lX8 ^ lY8);
+		return lResult ^ lX8 ^ lY8;
 	}
 
 	private static int rf(int x, int y, int z) {
@@ -225,11 +225,11 @@ public class MD5EncrypterGWTImpl {
 	}
 
 	private static int rh(int x, int y, int z) {
-		return (x ^ y ^ z);
+		return x ^ y ^ z;
 	}
 
 	private static int ri(int x, int y, int z) {
-		return (y ^ (x | (~z)));
+		return y ^ (x | (~z));
 	}
 
 	private static int ff(int a, int b, int c, int d, int x, int s, int ac) {

@@ -541,7 +541,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			return;
 		}
-		AbsoluteScreenLocateable loc = ((AbsoluteScreenLocateable) geo);
+		AbsoluteScreenLocateable loc = (AbsoluteScreenLocateable) geo;
 		if (loc.isAbsoluteScreenLocActive()) {
 			loc.setAbsoluteScreenLoc((int) Math.round(x), (int) Math.round(y));
 		} else if (geo instanceof Locateable) {
@@ -980,8 +980,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized boolean exists(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo != null);
+		return kernel.lookupLabel(objName) != null;
 	}
 
 	/**

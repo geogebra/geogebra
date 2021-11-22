@@ -258,13 +258,12 @@ public class DrawVector extends Drawable implements Previewable {
 				coordsV[1] /= 4.0;
 
 				gp.moveTo(coordsB[0], coordsB[1]); // end point
-				gp.lineTo((coordsF[0] - coordsV[1]), (coordsF[1] + coordsV[0]));
-				gp.lineTo((coordsF[0] + coordsV[1]), (coordsF[1] - coordsV[0]));
+				gp.lineTo(coordsF[0] - coordsV[1], coordsF[1] + coordsV[0]);
+				gp.lineTo(coordsF[0] + coordsV[1], coordsF[1] - coordsV[0]);
 				gp.closePath();
 			}
 
 			arrowheadVisible = onscreenB || view.intersects(gp);
-
 		}
 	}
 
