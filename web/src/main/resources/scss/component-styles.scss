@@ -1,9 +1,23 @@
 @use 'colors';
 @use 'z-index';
+@use 'header';
 
 .GeoGebraFrame {
 
     /* CHECKBOX COMPONENT */
+    @mixin checkboxBg($color) {
+    	.background {
+    		border-color: $color;
+    		background-color: $color;
+    	}
+    }
+
+    .checkboxPanel {
+    	display: flex;
+    	width: fit-content;
+    	cursor: pointer;
+    }
+
     .checkbox {
         width: 18px;
         height: 18px;
@@ -11,30 +25,31 @@
         position: relative;
         cursor: pointer;
 
-        .background {
-            width: 18px;
-            height: 18px;
-            box-sizing: border-box;
-            border: 2px solid;
-            border-radius: 2px;
-            border-color: colors.$black-54;
-            background-color: transparent;
-            transition: border-color 90ms cubic-bezier(0,0,.2,1) 0ms,background-color 90ms cubic-bezier(0,0,.2,1) 0ms;
-         }
+		.background {
+			width: 18px;
+			height: 18px;
+			box-sizing: border-box;
+			border: 2px solid;
+			border-radius: 2px;
+			border-color: colors.$black-54;
+			background-color: transparent;
+			transition: border-color 90ms cubic-bezier(0,0,.2,1) 0ms,background-color 90ms cubic-bezier(0,0,.2,1) 0ms;
+		 }
 
-         .checkmark {
-             position: absolute;
-             left: 5px;
-             top: 5px;
-         }
+		 .checkmark {
+			 position: absolute;
+			 left: 5px;
+			 top: 5px;
+		 }
 
-        &.selected {
-            .background {
-                border-color: colors.$mow_primary;
-                background-color: colors.$mow_primary;
-            }
-        }
-    }
+		&.selected {
+			@include checkboxBg(colors.$mow_primary);
+		}
+	}
+
+	.accented .checkbox.selected {
+		@include checkboxBg(colors.$teal-default);
+	}
 	
 	/* SWITCHER COMPONENT */
 	.switch {
@@ -91,6 +106,7 @@
 
 	/* INPUT TEXT FIELD COMPONENT */
 	.inputTextField {
+		width: 100%;
 		margin-top: 8px;
 		margin-bottom: 8px;
 		display: inline-block;
@@ -100,8 +116,8 @@
 			font-size: 75%;
 			color: colors.$text-secondary;
 			height: 12px;
-    		line-height: 100%;
-    		display: block;
+			line-height: 100%;
+			display: block;
 		}
 
 		&.error {
@@ -119,7 +135,6 @@
 		}
 	
 		.AutoCompleteTextFieldW {
-			margin-right: 16px;
 			margin-bottom: 7px; // 8 - border
 			border-radius: 0px;
 			border: none;
@@ -177,241 +192,241 @@
 		}
 	}
 
-    .buttonActive {
-        position: relative;
+	.buttonActive {
+		position: relative;
 
-        img {
-            opacity: 0.54;
-        }
+		img {
+			opacity: 0.54;
+		}
 
-        &:hover {
-            img {
-                opacity: 0.84;
-            }
-        }
-    }
+		&:hover {
+			img {
+				opacity: 0.84;
+			}
+		}
+	}
 
-    .buttonInactive {
-        position: relative;
-        cursor: default;
-        img {
-            opacity: 0.26;
-        }
+	.buttonInactive {
+		position: relative;
+		cursor: default;
+		img {
+			opacity: 0.26;
+		}
 
-        &:hover {
-            background-color: transparent;
-        }
-    }
+		&:hover {
+			background-color: transparent;
+		}
+	}
 
-    /* DROPDOWN COMPONENT */
-    .dropDownSelectorContainer {
-        max-width: 200px;
+	/* DROPDOWN COMPONENT */
+	.dropDownSelectorContainer {
+		max-width: 200px;
    }
 
-    .dropDownSelector {
-        position: relative;
-        height: 64px;
+	.dropDownSelector {
+		position: relative;
+		height: 64px;
 
-        .titleLabel {
-            font-size: 100%;
-            width: 100%;
-            height: 24px;
-            padding-top: 10px;
-            white-space: nowrap;
-        }
+		.titleLabel {
+			font-size: 100%;
+			width: 100%;
+			height: 24px;
+			padding-top: 10px;
+			white-space: nowrap;
+		}
 
-        .selectedOptionLabel {
-            font-size: 87.5%;
-            height: 20px;
-            padding-bottom: 10px;
-            color: colors.$black-60;
-        }
-    }
+		.selectedOptionLabel {
+			font-size: 87.5%;
+			height: 20px;
+			padding-bottom: 10px;
+			color: colors.$black-60;
+		}
+	}
 
-    .dropDownPopup {
-        overflow-y: auto;
+	.dropDownPopup {
+		overflow-y: auto;
 
-        .dropDownElement {
-            padding-left: 24px;
-            padding-right: 24px;
-            line-height: 32px;
-        }
+		.dropDownElement {
+			padding-left: 24px;
+			padding-right: 24px;
+			line-height: 32px;
+		}
 
-        .dropDownElement:hover {
-            cursor: pointer;
-            background: colors.$black-04;
-        }
+		.dropDownElement:hover {
+			cursor: pointer;
+			background: colors.$black-04;
+		}
 
-        .selectedDropDownElement, .selectedDropDownElement:hover {
-            background: colors.$black-12;
-        }
-    }
+		.selectedDropDownElement, .selectedDropDownElement:hover {
+			background: colors.$black-12;
+		}
+	}
 
-    .messagePanel {
-        img {
-            padding: 20px;
-            margin-left: calc(50% - 76px); // (112+2*20)/2=76
-            margin-bottom: 48px;
-            margin-top: 88px;
-            opacity: 0.54;
-            background-color: colors.$mow_white_hover;
-            border-radius: 50%;
-        }
-        .caption {
-            margin-bottom: 12px;
-            color: colors.$text-primary;
-            font-size: 125%;
-            line-height: 1;
-            letter-spacing: 0.25px;
-            vertical-align: top;
-            text-align: center;
-        }
-        .info {
-            color: colors.$text-secondary;
-            vertical-align: top;
-            text-align: center;
-            line-height: 1;
-            letter-spacing: 0.2px;
-            margin-bottom: 48px;
-        }
-    }
+	.messagePanel {
+		img {
+			padding: 20px;
+			margin-left: calc(50% - 76px); // (112+2*20)/2=76
+			margin-bottom: 48px;
+			margin-top: 88px;
+			opacity: 0.54;
+			background-color: colors.$mow_white_hover;
+			border-radius: 50%;
+		}
+		.caption {
+			margin-bottom: 12px;
+			color: colors.$text-primary;
+			font-size: 125%;
+			line-height: 1;
+			letter-spacing: 0.25px;
+			vertical-align: top;
+			text-align: center;
+		}
+		.info {
+			color: colors.$text-secondary;
+			vertical-align: top;
+			text-align: center;
+			line-height: 1;
+			letter-spacing: 0.2px;
+			margin-bottom: 48px;
+		}
+	}
 
-    .dialogComponent.hasBorder .dialogContent {
-    	box-sizing: border-box;
-        border-top: 1px solid colors.$black-12;
-        border-bottom: 1px solid colors.$black-12;
-    }
+	.dialogComponent.hasBorder .dialogContent {
+		box-sizing: border-box;
+		border-top: 1px solid colors.$black-12;
+		border-bottom: 1px solid colors.$black-12;
+	}
 
-    .dialogComponent {
-        z-index: z-index.$z-dialog;
-        background-color: white;
-        border-radius: 4px;
-        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0,0,0,.12);
-        max-width: 500px;
-        width: 90%;
+	.dialogComponent {
+		z-index: z-index.$z-dialog;
+		background-color: white;
+		border-radius: 4px;
+		box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0,0,0,.12);
+		max-width: 500px;
+		width: 90%;
 
-        .popupContent {
-            height: 100%;
-        }
+		.popupContent {
+			height: 100%;
+		}
 
-        .dialogMainPanel {
-            padding-top: 20px;
-            height: calc(100% - 20px);
-            overflow: hidden;
+		.dialogMainPanel {
+			padding-top: 20px;
+			height: calc(100% - 20px);
+			overflow: hidden;
 
             .dialogTitle {
-                height: 20px;
+                min-height: 20px;
                 font-size: 125%;
                 margin-bottom: 20px;
                 margin-left: 24px;
                 color: colors.$text-primary;
             }
 
-            .dialogContent {
-                // 112px = 20px title + 20px margin + 52px button panel
-                // NOTE: this needs to be adjusted according what is added to the dialog
-                // (e.g. if no buttons do not add button panel height)
-                height: calc(100% - 92px);
-                padding: 0px 24px;
-                overflow-y: auto;
-            }
+			.dialogContent {
+				// 112px = 20px title + 20px margin + 52px button panel
+				// NOTE: this needs to be adjusted according what is added to the dialog
+				// (e.g. if no buttons do not add button panel height)
+				height: calc(100% - 92px);
+				padding: 0px 24px;
+				overflow-y: auto;
+			}
 
-            .dialogBtnPanel {
-                display: inline-flex;
-                padding: 8px 8px 8px 24px;
-                position: relative;
-                float: right;
-            }
-        }
-    }
+			.dialogBtnPanel {
+				display: inline-flex;
+				padding: 8px 8px 8px 24px;
+				position: relative;
+				float: right;
+			}
+		}
+	}
 
-    /** Material Design TEXT BUTTON **/
-    .materialTextButton {
-        display: inline-block;
-        min-width: 64px;
-        height: 36px;
-        background: transparent;
-        color: colors.$mow_primary;
-        font-size: 90%;
-        letter-spacing: .04em;
-        line-height: 36px;
-        text-transform: uppercase;
-        border-radius: 4px;
-        padding: 0px 8px;
-        margin-left: 8px;
-        cursor: pointer;
-        transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
+	/** Material Design TEXT BUTTON **/
+	.materialTextButton {
+		display: inline-block;
+		min-width: 64px;
+		height: 36px;
+		background: transparent;
+		color: colors.$mow_primary;
+		font-size: 90%;
+		letter-spacing: .04em;
+		line-height: 36px;
+		text-transform: uppercase;
+		border-radius: 4px;
+		padding: 0px 8px;
+		margin-left: 8px;
+		cursor: pointer;
+		transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
-        &:hover {
-            background: colors.$mow_card_background_hover;
-        }
+		&:hover {
+			background: colors.$mow_card_background_hover;
+		}
 
-        .gwt-Label {
-            text-align: center;
-        }
+		.gwt-Label {
+			text-align: center;
+		}
 
-        &.disabled {
-            color: colors.$disabled-text-btn-col;
+		&.disabled {
+			color: colors.$disabled-text-btn-col;
 
-            &:hover {
-                background: transparent;
-                cursor: default;
-            }
-        }
-    }
+			&:hover {
+				background: transparent;
+				cursor: default;
+			}
+		}
+	}
 
-    /** Material Design CONTAINED BUTTON **/
-    .materialContainedButton {
-        @extend .materialTextButton;
+	/** Material Design CONTAINED BUTTON **/
+	.materialContainedButton {
+		@extend .materialTextButton;
 
-        padding: 0px 16px;
-        background-color: colors.$mow_primary;
-        color: white;
-        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
-        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+		padding: 0px 16px;
+		background-color: colors.$mow_primary;
+		color: white;
+		box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+		transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
-        &:hover {
-            background: colors.$mow_primary;
-            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
-        }
+		&:hover {
+			background: colors.$mow_primary;
+			box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
+		}
 
-        &.disabled {
-            background-color: colors.$disabled-contained-btn-bg;
-            color: colors.$disabled-contained-btn-col;
+		&.disabled {
+			background-color: colors.$disabled-contained-btn-bg;
+			color: colors.$disabled-contained-btn-col;
 
-            &:hover {
-                cursor: default;
-                background: colors.$disabled-contained-btn-bg;
-                box-shadow: none;
-            }
-        }
-    }
+			&:hover {
+				cursor: default;
+				background: colors.$disabled-contained-btn-bg;
+				box-shadow: none;
+			}
+		}
+	}
 
 	/** Material Design OUTLINED BUTTON **/
-    .materialOutlinedButton {
-    	@extend .materialTextButton;
+	.materialOutlinedButton {
+		@extend .materialTextButton;
 
-    	border: 1px solid colors.$mow_primary;
-    }
+		border: 1px solid colors.$black-12;
+	}
 
-    /** Material TEXT BUTTON used for dialogs negative action **/
-    .dialogTextButton {
-        @extend .materialTextButton;
+	/** Material TEXT BUTTON used for dialogs negative action **/
+	.dialogTextButton {
+		@extend .materialTextButton;
 
-        color: colors.$black-54;
+		color: colors.$black-54;
 
-        &:hover {
-            color: colors.$dialog-text-btn-hover;
-            background-color: colors.$selected-menuitem-background;
-        }
-    }
+		&:hover {
+			color: colors.$dialog-text-btn-hover;
+			background-color: colors.$selected-menuitem-background;
+		}
+	}
 
-    /** Material CONTAINED BUTTON used for dialogs positive action **/
-    .dialogContainedButton {
-        @extend .materialContainedButton;
+	/** Material CONTAINED BUTTON used for dialogs positive action **/
+	.dialogContainedButton {
+		@extend .materialContainedButton;
 
-        box-shadow: none;
-    }
+		box-shadow: none;
+	}
 
    .orDividerComponent {
 		display: flex;
@@ -432,6 +447,36 @@
 			flex-basis: auto;
 			color: colors.$text-disabled;
 			text-transform: uppercase;
+		}
+	}
+
+	.containedButton {
+		cursor: pointer;
+		float: left;
+		min-width: 64px;
+		height: header.$button_height;
+		border-radius: 2px;
+		background-color: colors.$mow_grey_button;
+		transition: header.$button_hover_transition;
+		&:hover {
+			background-color: colors.$mow_card_background_hover;
+		}
+
+		img {
+			float: left;
+			width: 18px;
+			height: 18px;
+			padding: 9px 8px 9px 12px;
+			opacity: 0.54;
+		}
+
+		.gwt-Label {
+			float: left;
+			padding: 11px 16px 11px 0px;
+			text-transform: uppercase;
+			font-size: 87.5%; // (=14px)
+			line-height: 1;
+			color: colors.$text-secondary;
 		}
 	}
 }

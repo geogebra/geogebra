@@ -154,13 +154,12 @@ public class AxisModel {
 	}
 
 	public void applyUnitLabel(String text) {
-		String[] labels = view.getAxesUnitLabels();
-		labels[axis] = text;
-
 		EuclidianSettings settings = getSettings();
 		if (settings != null) {
-			settings.setAxesUnitLabels(labels);
+			settings.setAxisUnitLabel(axis, text);
 		} else {
+			String[] labels = view.getAxesUnitLabels();
+			labels[axis] = text;
 			view.setAxesUnitLabels(labels);
 		}
 

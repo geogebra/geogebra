@@ -118,7 +118,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		} else {
 			DrawableND drawable = view.getDrawableFor(input);
 			if (drawable instanceof DrawInputBox) {
-				showRedefinedBox(((DrawInputBox) drawable));
+				showRedefinedBox((DrawInputBox) drawable);
 			}
 		}
 	}

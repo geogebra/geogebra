@@ -39,7 +39,7 @@ public class CmdTableText extends CommandProcessor {
 			throw argNumErr(c);
 
 		case 1:
-			if ((arg[0].isGeoList())) {
+			if (arg[0].isGeoList()) {
 				GeoList list = (GeoList) arg[0];
 
 				if (list.size() == 0 || list.get(0).isGeoList()) { // list of

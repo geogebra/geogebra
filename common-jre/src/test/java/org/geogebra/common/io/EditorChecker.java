@@ -62,6 +62,10 @@ class EditorChecker {
 		Assert.assertEquals(output, rootComponent + "");
 	}
 
+	public void checkLength(int length) {
+		Assert.assertEquals(length, getRootComponent().size());
+	}
+
 	private MathSequence getRootComponent() {
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
 		EditorState editorState = mathFieldInternal.getEditorState();
@@ -124,6 +128,15 @@ class EditorChecker {
 		} catch (Exception e) {
 			Assert.fail("Problem parsing: " + input);
 		}
+		return this;
+	}
+
+	/**
+	 * Protect top level sequence
+	 * @return this
+	 */
+	public EditorChecker protect() {
+		mathField.getInternal().getFormula().getRootComponent().setProtected();
 		return this;
 	}
 

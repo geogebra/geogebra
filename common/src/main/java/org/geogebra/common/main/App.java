@@ -4363,7 +4363,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// overridden in platforms supporting exam
 	}
 
-	public void showErrorInfoDialog(String msg) {
+	public void showErrorDialog(String title, String negBtn, String posBtn,
+			String message, Runnable posBtnAction) {
 		// overridden in web
 	}
 
@@ -4473,15 +4474,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	final public static String getLabelStyleName(App app, int id) {
 		switch (id) {
-		case (-1):
+		case -1:
 			return app.getLocalization().getMenu("Hidden");
-		case (GeoElementND.LABEL_NAME):
+		case GeoElementND.LABEL_NAME:
 			return app.getLocalization().getMenu("Name");
-		case (GeoElementND.LABEL_NAME_VALUE):
+		case GeoElementND.LABEL_NAME_VALUE:
 			return app.getLocalization().getMenu("NameAndValue");
-		case (GeoElementND.LABEL_VALUE):
+		case GeoElementND.LABEL_VALUE:
 			return app.getLocalization().getMenu("Value");
-		case (GeoElementND.LABEL_CAPTION):
+		case GeoElementND.LABEL_CAPTION:
 			return app.getLocalization().getMenu("Caption");
 		default:
 			return "";

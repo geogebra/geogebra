@@ -5,11 +5,9 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -49,15 +47,11 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 
 	@Override
     protected void addDragDropHandlers() {
-    	table.addBitlessDomHandler(new TouchStartHandler() {
-			
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				isDragging = false;
-				startOfTap = System.currentTimeMillis();
-				yStart = event.getTouches().get(0).getClientY();
-				xStart = event.getTouches().get(0).getClientX();
-			}
+    	table.addBitlessDomHandler(event -> {
+			isDragging = false;
+			startOfTap = System.currentTimeMillis();
+			yStart = event.getTouches().get(0).getClientY();
+			xStart = event.getTouches().get(0).getClientX();
 		}, TouchStartEvent.getType());
     	
     	table.addBitlessDomHandler(new TouchMoveHandler() {
@@ -112,20 +106,16 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 			}
 		}, TouchMoveEvent.getType());
     	
-    	table.addBitlessDomHandler(new TouchEndHandler() {
-			
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				if (draggedRow != null) {
-					draggedRow.removeClassName("isDragging");
-				}
-				if (!isDragging) {
-					return;
-				}
-				RootPanel.get().remove(dummyDragElem);
-				handleDrop(yMove);
-				isDragging = false;
+    	table.addBitlessDomHandler(event -> {
+			if (draggedRow != null) {
+				draggedRow.removeClassName("isDragging");
 			}
+			if (!isDragging) {
+				return;
+			}
+			RootPanel.get().remove(dummyDragElem);
+			handleDrop(yMove);
+			isDragging = false;
 		}, TouchEndEvent.getType());
     	
     }

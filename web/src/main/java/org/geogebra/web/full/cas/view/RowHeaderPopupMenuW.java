@@ -10,8 +10,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-
 /**
  * The one popup menu used in web CAS
  *
@@ -45,88 +43,48 @@ public class RowHeaderPopupMenuW extends
 		// "Insert Above" menuitem
 		AriaMenuItem miCopyInput = new AriaMenuItem(loc.getMenu("CopyInput"),
 				false,
-				new ScheduledCommand() {
-					@Override
-					public void execute() {
-						actionPerformed(CellAction.COPY_INPUT);
-					}
-				});
+				() -> actionPerformed(CellAction.COPY_INPUT));
 		rowHeaderPopupMenu.addItem(miCopyInput);
 
 		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), false,
-				new ScheduledCommand() {
-					@Override
-					public void execute() {
-						actionPerformed(CellAction.PASTE);
-					}
-				});
+				() -> actionPerformed(CellAction.PASTE));
 		rowHeaderPopupMenu.addItem(miPaste);
 		rowHeaderPopupMenu.addSeparator();
 
 		AriaMenuItem miInsertAbove = new AriaMenuItem(
 				loc.getMenu("InsertAbove"),
 				false,
-		        new ScheduledCommand() {
-			        @Override
-					public void execute() {
-						actionPerformed(CellAction.INSERT_ABOVE);
-			        }
-		        });
+				() -> actionPerformed(CellAction.INSERT_ABOVE));
 		rowHeaderPopupMenu.addItem(miInsertAbove);
 
 		// "Insert Below" menuitem
 		AriaMenuItem miInsertBelow = new AriaMenuItem(
 				loc.getMenu("InsertBelow"), false,
-		        new ScheduledCommand() {
-			        @Override
-					public void execute() {
-						actionPerformed(CellAction.INSERT_BELOW);
-			        }
-		        });
+				() -> actionPerformed(CellAction.INSERT_BELOW));
 		rowHeaderPopupMenu.addItem(miInsertBelow);
 
 		int[] selRows = table.getSelectedRows();
 		String strRows = getDeleteString(selRows);
 		AriaMenuItem miDelete = new AriaMenuItem(strRows, false,
-				new ScheduledCommand() {
-			@Override
-			public void execute() {
-				actionPerformed(CellAction.DELETE);
-			}
-		});
+				() -> actionPerformed(CellAction.DELETE));
 		rowHeaderPopupMenu.addItem(miDelete);
 
 		rowHeaderPopupMenu.addSeparator();
 
 		AriaMenuItem miUseAsText = new AriaMenuItem(
 				loc.getMenu("CasCellUseAsText"), false,
-		        new ScheduledCommand() {
-			        @Override
-					public void execute() {
-						actionPerformed(CellAction.TEXT);
-			        }
-		        });
+				() -> actionPerformed(CellAction.TEXT));
 		rowHeaderPopupMenu.addItem(miUseAsText);
 
 		if (CopyPasteCutW.checkClipboardSupported()) {
 
 			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), false,
-					new ScheduledCommand() {
-						@Override
-						public void execute() {
-							actionPerformed(CellAction.COPY);
-						}
-					});
+					() -> actionPerformed(CellAction.COPY));
 			rowHeaderPopupMenu.addItem(copyItem);
 
 			AriaMenuItem latexItem = new AriaMenuItem(
 					loc.getMenu("CopyAsLaTeX"), false,
-					new ScheduledCommand() {
-						@Override
-						public void execute() {
-							actionPerformed(CellAction.COPY_LATEX);
-						}
-					});
+					() -> actionPerformed(CellAction.COPY_LATEX));
 			rowHeaderPopupMenu.addItem(latexItem);
 		}
 	}

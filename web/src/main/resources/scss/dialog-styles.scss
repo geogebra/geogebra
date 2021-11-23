@@ -18,11 +18,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		iframe.objectPropertiesTextEditor:focus,
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
-		select:focus:not([readonly]),
 		textarea:focus:not([readonly]),
 		.gwt-TextArea:focus:not([readonly]),
 		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
 			border: 1px colors.$teal-default solid;
+		}
+		select:focus:not([readonly]) {
+			border-bottom: 1px colors.$teal-default solid;
 		}
 	}
 
@@ -44,10 +46,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.Caption:empty {
 			display: none;
-		}
-
-		.DialogButtonPanel .gwt-Label {
-			text-align: center;
 		}
 	}
 
@@ -166,10 +164,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-radius: 0px;
 		}
 
-		.templatePanel {
-			display: flex;
-			width: fit-content;
-			cursor: pointer;
+		.checkboxPanel {
 			margin-bottom: 28px;
 
 			.checkbox {
@@ -389,13 +384,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.gwt-TabPanelBottom {
-			padding: 0px;
-			select:focus {
-				border: 1px colors.$teal-default solid;
-			}
+			padding: 0px 16px;
 
 			.optionsPanel {
-				margin-top: 10px;
+				margin-top: 8px;
 				margin-bottom: 0px;
 				.gwt-ListBox {
 					border-radius: 2px;
@@ -434,28 +426,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.scriptArea {
 			padding-right: 16px;
-		}
-
-		.DialogButtonPanel {
-			height: 36px;
-			text-align: right;
-			padding-top: 32px;
-			padding-right: 0px;
-			padding-bottom: 8px;
-			padding-left: 0px;
-
-			.gwt-Button, .button {
-				@extend .flatDialogBtn;
-
-				.html-face {
-					text-align: center;
-				}
-
-				.gwt-Label {
-					cursor: pointer;
-					text-align: center;
-				}
-			}
 		}
 
 		.moreBtn {
@@ -859,18 +829,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 		}
 
-		.DialogButtonPanel {
-			min-width: unset;
-			max-width: unset;
-
-			.button {
-				color: colors.$mow_dark;
-				&:hover {
-					color: colors.$mow_dark;
-				}
-			}
-		}
-
 		.progressBar {
 			margin-left: auto;
 			margin-right: auto;
@@ -969,6 +927,22 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent.classicExamStartDialog {
+		.description {
+			margin-bottom: 10px;
+		}
+
+		.checkboxPanel {
+			margin-left: 20px;
+			min-height: 32px;
+		}
+
+		.templateTxt {
+			line-height: 24px;
+			margin-left: 8px;
+		}
+	}
+
 	.dialogComponent.examStartDialog {
 		max-width: 427px;
 
@@ -998,10 +972,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.examExitDialog {
 		padding: 0px;
-
-		.dialogContent {
-			width: 316px;
-		}
+		max-width: 316px;
 
 		.titlePanel {
 			background-color: colors.$teal-default;
@@ -1036,6 +1007,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
+		.withDivider {
+			border-bottom: 1px solid colors.$black-12;
+		}
+
 		.contentPanel {
 			height: 252px;
 			padding: 20px 24px 24px 24px;
@@ -1055,17 +1030,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 
-		.DialogButtonPanel {
-			padding-right: 8px;
-			padding-top: 8px;
-
-			&.withDivider {
-				border-top: 1px solid colors.$black-12;
-			}
+		.dialogPanel {
+			padding: 8px;
+			float: right;
 		}
 	}
 
-	.dialogComponent.examClassicLogDialog,
 	.dialogComponent.errorDialog {
 		max-width: 320px;
 
@@ -1082,6 +1052,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.examLogDialog {
 		@extend .examExitDialog;
+
+		max-width: 316px;
 
 		.contentPanel {
 			min-height: 0;
@@ -1120,12 +1092,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-top: 12px;
 			width: 478px;
 		}
-
-		.DialogButtonPanel {
-			.button {
-				color: colors.$mow_dark;
-			}
-		}
 	}
 
 	.saveDialogMow {
@@ -1146,11 +1112,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 		}
 
-		.templatePanel {
-			display: flex;
+		.checkboxPanel {
 			margin-bottom: 20px;
-			cursor: pointer;
-			width: fit-content;
 
 			.checkbox {
 				margin: 2px 16px 0px 0px;
@@ -1161,14 +1124,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				height: 28px;
 				line-height: 28px;
 				color: colors.$text-primary;
-			}
-		}
-
-		.DialogButtonPanel {
-			padding-top: 8px;
-
-			.button {
-				color: colors.$mow_dark;
 			}
 		}
 	}
@@ -1214,14 +1169,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.MaterialDialogBox.mow {
-		.DialogButtonPanel {
-			.gwt-Button {
-				color: colors.$mow_dark;
-				&:hover {
-					color: colors.$mow_dark;
-				}
-			}
-		}
 		.AutoCompleteTextFieldW {
 			border-bottom: 1px solid colors.$mow_dark;
 		}
@@ -1650,10 +1597,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			// ignore this for now, we need new design
 			border-bottom: 1px solid colors.$teal-default !important;
 		}
-
-		.gwt-TabPanelBottom {
-			padding: 0px 15px;
-		}
 	}
 
 	.inputDialogComponent {
@@ -1803,7 +1746,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin: 24px 0px;
 
 			.uploadFileBtn {
-				border: solid 1px colors.$black-12;
 				color: colors.$mebis-text-btn-col;
 				padding: 0px 16px;
 			}
@@ -1851,6 +1793,159 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					color: colors.$text-secondary;
 					font-size: 12px;
 				}
+			}
+		}
+	}
+
+	.manageTools {
+		max-width: 560px;
+
+		select:focus:not([readonly]) {
+			border: none;
+			border-bottom: 1px colors.$teal-default solid;
+		}
+
+		.toolButtons {
+			display: inline-block;
+			margin-bottom: 16px;
+		}
+
+		.containedButton {
+			margin-right: 8px;
+		}
+	}
+
+	.multiSelectList {
+		position: relative;
+
+		option {
+			height:20px;
+		}
+		.gwt-ListBox {
+			max-width: calc(100% - 52px);
+			margin-right: 16px;
+		}
+
+		.toolListButtons {
+			position: absolute;
+			top: 8px;
+			display: inline-block;
+
+			.MyCanvasButton {
+				margin-bottom: 8px;
+			}
+		}
+	}
+
+	.iconSelectShowPanel {
+		display: flex;
+
+		.iconPanel {
+			display: inline-flex;
+			margin-right: 66px;
+
+			img {
+				border-radius: 5px;
+				border: colors.$tool-border solid 1px;
+				margin-right: 12px;
+			}
+		}
+
+		.templatePanel {
+			display: flex;
+			padding-top: 4px;
+			padding-bottom: 4px;
+
+			.checkbox {
+				margin-right: 12px;
+			}
+
+			.templateTxt {
+				line-height: 26px;
+			}
+		}
+	}
+
+	.toolCreationDialog {
+		max-width: 560px;
+		.toolSelectObjectLabel {
+			margin-top: 8px;
+		}
+		.iconSelectShowPanel {
+			margin-bottom: 8px;
+		}
+		.dialogNavigation {
+			margin-top: 16px;
+			text-align: center;
+
+			.materialOutlinedButton {
+				min-width: 94px;
+			}
+
+			.materialOutlinedButton:disabled {
+				color: colors.$black-38;
+				opacity: 1;
+
+				&:hover {
+					background: white;
+				}
+
+			}
+		}
+	}
+
+	.dialogThreeTabs .gwt-TabBarItem {
+		min-width: 30%;
+	}
+
+
+	.perspectivePopup {
+		width: 280px;
+
+		.listMenuItem img {
+			opacity: 1;
+		}
+
+		.listMenuItem {
+			height: 48px;
+			line-height: 36px;
+			padding: 8px 16px 8px 56px;
+		}
+
+		.menuSeparator {
+			width: 100%;
+		}
+
+		.downloadItem {
+			img {
+				opacity: 0.54;
+			}
+
+			.gwt-Label {
+				line-height: 32px;
+			}
+		}
+
+		.headerItem {
+			padding-left: 24px;
+
+			.headerPanel {
+				display: inline-flex;
+
+				.gwt-Label {
+					width: 200px;
+				}
+
+				.helpBtn {
+					position: relative;
+					display: inline-flex;
+					opacity: 0.54;
+				}
+			}
+
+			&.selectedItem {
+				background: white;
+				cursor: default;
 			}
 		}
 	}

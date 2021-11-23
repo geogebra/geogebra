@@ -8,13 +8,10 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.inputfield.InputSuggestions;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
-import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.himamis.retex.editor.share.model.Korean;
 
 public class MathFieldInputSuggestions extends InputSuggestions
 		implements HasSuggestions {
@@ -45,23 +42,6 @@ public class MathFieldInputSuggestions extends InputSuggestions
 		sug = new ScrollableSuggestionDisplay(this, app.getPanel(), app);
 	}
 
-	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
-		@Override
-		public void onSuggestionsReady(SuggestOracle.Request req,
-				SuggestOracle.Response res) {
-			updateSuggestions(res);
-
-		}
-	};
-
-	protected GSuggestBox.SuggestionCallback sugCallback = new GSuggestBox.SuggestionCallback() {
-		@Override
-		public void onSuggestionSelected(Suggestion s) {
-			String sugg = s.getReplacementString();
-			autocompleteAndHide(sugg);
-		}
-	};
-
 	/**
 	 * @param searchRight
 	 *            TODO whether to check chars to the right?
@@ -78,8 +58,8 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	 * @param sugg
 	 *            suggestion
 	 */
-	public void autocompleteAndHide(String sugg) {
-		component.insertString(sugg);
+	public void autocompleteAndHide(SuggestOracle.Suggestion sugg) {
+		component.insertString(sugg.getReplacementString());
 		sug.hideSuggestions();
 	}
 
@@ -103,11 +83,9 @@ public class MathFieldInputSuggestions extends InputSuggestions
 				hideSuggestions();
 			} else {
 				Log.debug("requestingSug" + curWord);
-				Log.debug(
-						"Korean:" + Korean.unflattenKorean(curWord.toString()));
 				popup.requestSuggestions(
 						new SuggestOracle.Request(this.curWord.toString(),
-								QUERY_LIMIT), popupCallback);
+								QUERY_LIMIT), (req, res) -> updateSuggestions(res));
 			}
 		} else {
 			hideSuggestions();
@@ -136,7 +114,7 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	protected void updateSuggestions(Response res) {
 		sug.updateHeight();
 		component.updatePosition(sug);
-		sug.accessShowSuggestions(res, popup, sugCallback);
+		sug.accessShowSuggestions(res, popup, this::autocompleteAndHide);
 	}
 
 	public void setFocus() {
@@ -152,7 +130,7 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	 */
 	public boolean needsEnterForSuggestion() {
 		if (sug.isSuggestionListShowing()) {
-			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
+			autocompleteAndHide(sug.accessCurrentSelection());
 			return true;
 		}
 		return false;

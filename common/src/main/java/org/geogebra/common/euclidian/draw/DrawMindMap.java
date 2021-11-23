@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.matrix.Coords;
 
 public class DrawMindMap extends DrawInlineText {
@@ -196,10 +197,12 @@ public class DrawMindMap extends DrawInlineText {
 		child.setContentHeight(GeoMindMapNode.CHILD_HEIGHT);
 		child.setSize(GeoMindMapNode.MIN_WIDTH, GeoMindMapNode.CHILD_HEIGHT);
 		child.setParent(node, newAlignment);
+		child.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		child.setBackgroundColor(child.getKernel().getApplication().isMebis()
 				? GColor.MOW_MIND_MAP_CHILD_BG_COLOR : GColor.MIND_MAP_CHILD_BG_COLOR);
 		child.setBorderColor(child.getKernel().getApplication().isMebis()
 				? GColor.MOW_MIND_MAP_CHILD_BORDER_COLOR : GColor.MIND_MAP_CHILD_BORDER_COLOR);
+		child.setLabel(null);
 		return child;
 	}
 

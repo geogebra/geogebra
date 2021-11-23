@@ -38,12 +38,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	/**
 	 * For calling the onResize method in a deferred way
 	 */
-	Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
-		@Override
-		public void execute() {
-			onResize();
-		}
-	};
+	Scheduler.ScheduledCommand deferredOnRes = this::onResize;
 	private boolean forcedLayout = false;
 	private int preferredWidth;
 	private int preferredHeight;

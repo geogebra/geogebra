@@ -14,7 +14,7 @@ public class ArbconstAlgoFixer implements Inspecting {
 	@Override
 	public boolean check(ExpressionValue ev) {
 		if (ev instanceof GeoNumeric) {
-			GeoNumeric num = ((GeoNumeric) ev);
+			GeoNumeric num = (GeoNumeric) ev;
 			AlgorithmSetIterator it = num.getAlgoUpdateSet().getIterator();
 			while (it.hasNext()) {
 				AlgoElement el = it.next();

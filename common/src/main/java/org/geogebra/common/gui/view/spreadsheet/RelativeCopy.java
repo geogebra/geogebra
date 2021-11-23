@@ -356,7 +356,7 @@ public class RelativeCopy {
 			int iy = y - dy1;
 			Iterator<GeoElement> iterator = tree.iterator();
 			while (iterator.hasNext()) {
-				GeoElement geo = (iterator.next());
+				GeoElement geo = iterator.next();
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
 
@@ -411,7 +411,7 @@ public class RelativeCopy {
 			Iterator<GeoElement> iterator = tree.iterator();
 			while (iterator.hasNext()) {
 
-				GeoElement geo = (iterator.next());
+				GeoElement geo = iterator.next();
 
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();

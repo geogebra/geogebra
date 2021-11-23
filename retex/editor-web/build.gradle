@@ -1,14 +1,10 @@
-buildscript {
-    dependencies {
-        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
-    }
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'pmd'
+	id 'checkstyle'
+	id 'org.wisepersist.gwt' version '1.1.16'
 }
-
-apply plugin: 'gwt'
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

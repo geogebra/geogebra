@@ -90,8 +90,8 @@ public class HatchingHandler {
 		double x = dist / Math.sin(angle);
 		double y = dist / Math.cos(angle);
 
-		int xInt = (int) Math.abs(Math.round((x)));
-		int yInt = (int) Math.abs(Math.round((y)));
+		int xInt = (int) Math.abs(Math.round(x));
+		int yInt = (int) Math.abs(Math.round(y));
 		if (angle == 0 // horizontal
 				|| DoubleUtil.isEqual(Kernel.PI_HALF, angle, 10E-8)) { // vertical
 
@@ -495,7 +495,7 @@ public class HatchingHandler {
 	private boolean drawChessboard(double angle, double hatchDist,
 			GGraphics2D g2d) {
 		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
-			double dist = (hatchDist * Math.sin(angle));
+			double dist = hatchDist * Math.sin(angle);
 			path.reset();
 			path.moveTo(dist / 2, dist / 2 - 1);
 			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
@@ -541,7 +541,7 @@ public class HatchingHandler {
 	}
 
 	private void drawHoneycomb(double dist, GGraphics2D g2d) {
-		double centerX = (dist * Math.sqrt(3) / 2);
+		double centerX = dist * Math.sqrt(3) / 2;
 		path.reset();
 		path.moveTo(centerX, dist);
 		path.lineTo(centerX, 2 * dist);
@@ -566,7 +566,7 @@ public class HatchingHandler {
 	}
 
 	private String drawHoneycombSVG(double dist) {
-		double centerX = (dist * Math.sqrt(3) / 2);
+		double centerX = dist * Math.sqrt(3) / 2;
 		double width = centerX + centerX;
 
 		// svgPath = "<pattern id='hexagonggb' patternUnits='userSpaceOnUse'

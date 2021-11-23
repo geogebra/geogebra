@@ -655,7 +655,7 @@ public class MathFieldInternal
 			if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
 				return false;
 			}
-			str.append(((MathCharacter) sel.getArgument(i)).getUnicode());
+			str.append(((MathCharacter) sel.getArgument(i)).getUnicodeString());
 			return true;
 		}
 		return false;

@@ -1028,9 +1028,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			updateCoeff(new Equation(kernel, expression.getFunctionExpression(),
 					new MyDouble(kernel, 0)));
 			for (int factor = 0; factor < factorLength(); ++factor) {
-				updateCoeffSquarefree((new Equation(kernel,
+				updateCoeffSquarefree(new Equation(kernel,
 						getFactor(factor).getFunctionExpression(),
-						new MyDouble(kernel, 0))), factor);
+						new MyDouble(kernel, 0)), factor);
 			}
 		}
 	}

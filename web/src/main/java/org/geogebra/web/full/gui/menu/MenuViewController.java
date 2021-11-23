@@ -27,7 +27,6 @@ import org.geogebra.web.full.gui.menu.action.SuiteMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
@@ -324,12 +323,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
 		MenuItemView view = createMenuItemView(menuItem);
-		view.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				menuActionRouter.handleMenuItem(menuItem);
-			}
-		});
+		view.addFastClickHandler(source -> menuActionRouter.handleMenuItem(menuItem));
 		parent.add(view);
 	}
 

@@ -91,7 +91,7 @@
 	}
 
 	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-	.DialogButtonPanel .gwt-Button, .inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
+	.inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
 		border-radius: 5px;
 		border: 1px solid #6161FF;
 		color: #6161FF;
@@ -479,6 +479,11 @@
 		display: none;
 	}
 
+	.gwt-TabPanelBottom {
+		clear: both;
+		box-sizing: border-box;
+	}
+
 	.gwt-TabPanelBottom,
 	.gwt-TabLayoutPanelContent {
 		padding: 8px;
@@ -501,6 +506,10 @@
 	.splitterFixed {
 		.gwt-SplitLayoutPanel-HDragger, .gwt-SplitLayoutPanel-VDragger {
 			cursor: default;
+		}
+
+		.splitPaneDragger:after {
+			display: none;
 		}
 	}
 
@@ -544,7 +553,7 @@
 	/*           GeoGebraWeb styles from here                    */
 	/*============ App common styles ============*/
 
-	&, .GeoGebraPopup, .DialogBox, .gwt-PopupPanel, .gwt-SuggestBoxPopup, .ToolTip {
+	&, .GeoGebraPopup, .gwt-PopupPanel, .gwt-SuggestBoxPopup, .ToolTip {
 		font: 100%/120% geogebra-sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
 		-webkit-user-select: none;
 		-moz-user-select: none;
@@ -552,7 +561,7 @@
 		user-select: none;
 	}
 
-	*:focus, .GeoGebraPopup *:focus, .DialogBox *:focus {
+	*:focus, .GeoGebraPopup *:focus {
 		outline: none; /* Fixing Chrome's default outline on focus */
 	}
 
@@ -1038,7 +1047,8 @@
 	}
 
 	.dialogContent .sliderWidthPanel .gwt-Label {
-		padding-top: 7px;
+		padding-top: 8px;
+		display: block;
 	}
 
 	.dialogContent .sliderPanelWidget {
@@ -1078,12 +1088,6 @@
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
-	}
-
-	/* ----------- TOOLCREATION DIALOG -------------*/
-
-	.toolCreationDialog .dialogContent {
-		min-width: 400px;
 	}
 
 	/*========= End Dialogs ===========*/
@@ -2527,34 +2531,6 @@
 	  ###   END OF CUSTOMIZE TOOLBAR GUI   ###
 	  ######################################## */
 
-	/*
-	   ########################################
-	   ###       MANAGE TOOLS DIALOG        ###
-	   ######################################## */
-
-	.manageToolsList {
-		display: block;
-	}
-
-	.manageToolsList > * {
-		display: inline-block;
-		vertical-align: middle;
-		margin: 3px 10px 3px 0;
-	}
-
-	.manageToolsList .gwt-ListBox {
-		width: 600px;
-	}
-
-	.manageToolsList .gwt-Button {
-		display: block;
-	}
-
-	/*
-	   ########################################
-	   ###    END OF MANAGE TOOLS DIALOG    ###
-	   ######################################## */
-
 	.popupSliderLabel,
 	.ggbFavorite {
 		float: right;
@@ -2619,71 +2595,6 @@
 	   ########################################
 	   ###       New Start Screen           ###
 	   ######################################## */
-
-	.perspectivesBox {
-		width: 250px;
-		position: absolute !important;
-		right: 0 !important;
-		left: auto !important;
-	}
-
-	.perspectivesCaption {
-		color: #6161FF !important;
-	}
-
-	.perspectivesCaption a {
-		line-height: 30px;
-	}
-
-	.perspectivesMainPanel {
-		width: 250px;
-	}
-
-	.perspectivesRow {
-		float: left;
-		padding-top: 7px;
-		padding-bottom: 7px;
-		text-align: left;
-		cursor: pointer;
-		display: block;
-
-	}
-
-	.perspectivesRow img {
-		padding-right: 10px;
-		padding-left: 5px;
-	}
-
-	.perspectivesLabel {
-		margin-top: 3px;
-	}
-
-	.perspectiveHighlighted {
-		background-color: #F0F0FF;
-	}
-
-	.perspectivesRow:hover {
-		background-color: #CCCCFF;
-	}
-
-	.perspectivesHelp {
-		position: absolute;
-		right: 10px;
-		cursor: pointer;
-		width: 20px;
-		height: 20px;
-		margin-top: 3px;
-	}
-
-	.upperBorder {
-		padding-top: 10px;
-		padding-bottom: 0;
-		border-top: 1px solid #DCDCDC;
-	}
-
-	.upperBorder div {
-		padding-top: 0;
-	}
 
 	.menubarSMART .GeoGebraMenuImage.menuImg {
 		opacity: 0.54;

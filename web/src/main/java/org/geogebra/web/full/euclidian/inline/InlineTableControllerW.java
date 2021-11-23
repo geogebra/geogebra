@@ -21,6 +21,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
@@ -397,6 +398,7 @@ public class InlineTableControllerW implements InlineTableController {
 	private void initTable(Element parent) {
 		tableElement = DOM.createDiv();
 		tableElement.addClassName("mowWidget");
+		EventUtil.stopPointerEvents(tableElement, btn  -> btn <= 0);
 		parent.appendChild(tableElement);
 
 		style = tableElement.getStyle();
@@ -461,6 +463,11 @@ public class InlineTableControllerW implements InlineTableController {
 	public void setTransform(double angle, double sx, double sy) {
 		style.setProperty("transform", "rotate(" + angle + "rad) scale(" + sx + "," + sy + ")");
 		tableImpl.setExternalScale(sx);
+	}
+
+	@Override
+	public void setHitCell(double x, double y) {
+		tableImpl.setHitCell(x, y);
 	}
 
 	private void updateAndStoreUndoPoint() {

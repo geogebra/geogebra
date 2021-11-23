@@ -9,9 +9,6 @@ import org.geogebra.common.gui.menu.SubmenuItem;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
-import org.geogebra.web.html5.gui.FastClickHandler;
-
-import com.google.gwt.user.client.ui.Widget;
 
 class MenuActionRouter {
 
@@ -46,12 +43,7 @@ class MenuActionRouter {
 				Collections.singletonList(submenuItem.getGroup()));
 		HeaderView headerView = menuViewController.createHeaderView();
 		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
-		headerView.getBackButton().addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				menuViewController.hideSubmenu();
-			}
-		});
+		headerView.getBackButton().addFastClickHandler(source -> menuViewController.hideSubmenu());
 		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
 		submenu.setHeaderView(headerView);
 		menuViewController.showSubmenu(submenu);

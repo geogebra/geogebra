@@ -215,7 +215,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
-				.traverse(FunctionExpander.getCollector());
+				.traverse(FunctionExpander.newFunctionExpander(this));
 
 		Command casInput = getCasInput(fixMatrixInput(casInputArg));
 
@@ -243,6 +243,25 @@ public class GeoSymbolic extends GeoElement
 			casResult = tryNumericCommand(casInput, casResult);
 		}
 
+		if (casInput.getName().equals(Commands.SolveODE.name())) {
+			return normalizeSolveODE(casResult, casInput);
+		}
+		return casResult;
+	}
+
+	private String normalizeSolveODE(String casResult, Command casInput) {
+		try {
+			ExpressionValue parsed = kernel.getParser()
+					.parseGeoGebraExpression(casResult).unwrap();
+			if (parsed instanceof Equation) {
+				Function fn = ((Equation) parsed).asFunction();
+				if (fn != null) {
+					return fn.toString(getStringTemplate(casInput));
+				}
+			}
+		} catch (Throwable t) {
+			Log.debug(t);
+		}
 		return casResult;
 	}
 
@@ -266,7 +285,7 @@ public class GeoSymbolic extends GeoElement
 		if (Commands.Solve.name().equals(casInput.getName())) {
 			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
 			Command input = getCasInput(getDefinition().deepCopy(kernel)
-					.traverse(FunctionExpander.getCollector()));
+					.traverse(FunctionExpander.newFunctionExpander(this)));
 			result = evaluateGeoGebraCAS(input, constant);
 		}
 

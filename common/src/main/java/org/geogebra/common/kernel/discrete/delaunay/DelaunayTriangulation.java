@@ -736,7 +736,7 @@ public class DelaunayTriangulation {
 		// the cell line is a line originating from the circumcircle to infinity
 		// x = 500.0 is used as a large enough value
 		PointDt circumcircle = neighbor.circumcircle().center();
-		double x_cell_line = (circumcircle.x() + (500.0 * sign));
+		double x_cell_line = circumcircle.x() + (500.0 * sign);
 		double y_cell_line = perp_delta * (x_cell_line - circumcircle.x())
 				+ circumcircle.y();
 

@@ -2661,7 +2661,7 @@ public class AlgebraProcessor {
 
 		GeoElement[] vars = fun.getGeoElementVariables(
 				info.getSymbolicMode());
-		boolean isIndependent = (vars == null || vars.length == 0);
+		boolean isIndependent = vars == null || vars.length == 0;
 
 		if (isIndependent) {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
@@ -2734,7 +2734,7 @@ public class AlgebraProcessor {
 		}
 		// s = t^2
 		String singleLeftVariable = null;
-		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)) {
+		if (lhs instanceof Variable || lhs instanceof GeoDummyVariable) {
 			singleLeftVariable = lhs.toString(StringTemplate.defaultTemplate);
 			if (kernel.lookupLabel(singleLeftVariable) != null) {
 				singleLeftVariable = null;

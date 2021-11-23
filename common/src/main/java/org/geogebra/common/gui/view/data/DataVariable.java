@@ -624,9 +624,9 @@ public class DataVariable {
 
 		// CASE 2: spreadsheet cell
 		GPoint location = geo.getSpreadsheetCoords();
-		boolean isCell = (location != null
+		boolean isCell = location != null
 				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
-				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP);
+				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
 
 		if (isCell) {
 			for (DataItem dataItem : itemList) {

@@ -88,11 +88,9 @@ import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.dialog.ErrorInfoDialog;
 import org.geogebra.web.full.gui.dialog.H5PReader;
 import org.geogebra.web.full.gui.dialog.RelationPaneW;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.exam.classic.ExamClassicLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.classic.ExamClassicStartDialog;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -154,7 +152,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -169,8 +166,9 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -654,29 +652,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * @param content content
-	 * @param buttonText button text
-	 * @param handler button click handler
-	 */
-	public void showClassicExamLogExitDialog(final HTML content, String buttonText,
-			Runnable handler) {
-		DialogData data = new DialogData(getLocalization().getMenu("exam_log_header") + " "
-				+ getVersionString(), null, buttonText);
-		ExamClassicLogAndExitDialog dialog =
-				new ExamClassicLogAndExitDialog(this, data, content, handler);
-		dialog.show();
-	}
-
-	/**
-	 * @param msg error/info message
-	 */
 	@Override
-	public void showErrorInfoDialog(String msg) {
-		String title = GeoGebraConstants.APPLICATION_NAME + " - "
-				+ getLocalization().getError("Error");
-		DialogData data = new DialogData(title, null, "OK");
-		new ErrorInfoDialog(this, data, msg, true).show();
+	public void showErrorDialog(String title, String negBtn, String posBtn,
+			String message, Runnable posBtnAction) {
+		DialogData data = new DialogData(title, negBtn, posBtn);
+		ComponentDialog dialog = new ComponentDialog(this, data, false, true);
+		FlowPanel messagePanel = new FlowPanel();
+		String[] lines = message.split("\n");
+		for (String item : lines) {
+			messagePanel.add(new Label(item));
+		}
+		dialog.addDialogContent(messagePanel);
+		if (posBtnAction != null) {
+			dialog.setOnPositiveAction(posBtnAction::run);
+		}
+		dialog.show();
 	}
 
 	@Override
@@ -930,7 +920,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
-		afterLocalizationLoaded(() -> getPerspectivesPopup().showPerspectivesPopup());
+		afterLocalizationLoaded(() -> getPerspectivesPopup().show());
 	}
 
 	private boolean isAppletWithoutAppsPicker() {
@@ -1362,7 +1352,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					|| (menuViewController != null
 					&& frame.getWidget(i) == menuViewController.getView())
 					|| frame.getWidget(i) instanceof Persistable
-					|| frame.getWidget(i) instanceof DialogBoxW)) {
+					|| frame.getWidget(i).getStyleName().contains("perspectivePopup"))) {
 				frame.remove(i);
 			}
 		}
@@ -1521,7 +1511,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		frame.updateHeaderSize();
+		if (getAppletParameters().getDataParamApp()) {
+			getAppletFrame().updateHeaderSize();
+		}
 		String perspective = getAppletParameters().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()
@@ -1984,7 +1976,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
-			if (w instanceof DialogBoxW || w instanceof ComponentDialog) {
+			if (w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
 			}

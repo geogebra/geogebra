@@ -30,19 +30,25 @@ public class ScreenReader {
 	// we need)
 	final private static String TRANSLATION_PREFIX = "ScreenReader.";
 
+	private static GeoElement getSelectedGeo(App app) {
+		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
+			return app.getSelectionManager().getSelectedGeos().get(0);
+		}
+
+		return null;
+	}
+
 	/**
 	 * @param app
 	 *            application
 	 */
 	public static void updateSelection(App app) {
-		if (0 < app.getSelectionManager().getSelectedGeos().size()) {
-			GeoElement geo0 = app.getSelectionManager().getSelectedGeos().get(0);
-			// do not steal focus from input box
-			if (geo0.isGeoInputBox()
-					|| app.getMode() == EuclidianConstants.MODE_PEN) {
-				return;
-			}
-			readText(geo0);
+		GeoElement selectedGeo = getSelectedGeo(app);
+
+		// do not steal focus from input box, do not read while drawing
+		if (selectedGeo != null && !selectedGeo.isGeoInputBox()
+				&& app.getMode() != EuclidianConstants.MODE_PEN) {
+			readText(selectedGeo);
 		}
 	}
 
@@ -56,16 +62,24 @@ public class ScreenReader {
 	}
 
 	private static void readText(String text, App app) {
-		// MOW-137 if selection originated in AV we don't want to move
-		// focus to EV
-		if (text != null && (app.getGuiManager() == null || app.getGuiManager()
-				.getLayout().getDockManager().getFocusedViewId() == app
-						.getActiveEuclidianView().getViewID())) {
-
-			// dot on end to help screen readers
-			app.getActiveEuclidianView().getScreenReader()
-					.readText(text.trim());
+		if (text == null) {
+			return;
 		}
+
+		// MOW-137: if selection originated in AV we don't want to move focus to EV
+		if (app.getGuiManager() != null && app.getGuiManager()
+				.getLayout().getDockManager().getFocusedViewId() != app
+						.getActiveEuclidianView().getViewID()) {
+			return;
+		}
+
+		// WLY-298: do not steal focus from input box
+		GeoElement selectedGeo = getSelectedGeo(app);
+		if (selectedGeo != null && selectedGeo.isGeoInputBox()) {
+			return;
+		}
+
+		app.getActiveEuclidianView().getScreenReader().readText(text.trim());
 	}
 
 	// Handling DropDowns

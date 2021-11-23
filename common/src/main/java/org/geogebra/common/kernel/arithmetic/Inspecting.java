@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -272,9 +271,9 @@ public interface Inspecting {
 				return false;
 			}
 			GeoElement geo = (GeoElement) v;
-			return (!geo.isIndependent() || geo.isLabelSet()
+			return !geo.isIndependent() || geo.isLabelSet()
 					|| geo.isLocalVariable() || v instanceof GeoDummyVariable
-					|| geo.isGeoCasCell() || geo.isRandomGeo());
+					|| geo.isGeoCasCell() || geo.isRandomGeo();
 		}
 	};
 
@@ -286,7 +285,7 @@ public interface Inspecting {
 
 		@Override
 		public boolean check(ExpressionValue v) {
-			return (v instanceof GeoText || v instanceof MyStringBuffer);
+			return v instanceof GeoText || v instanceof MyStringBuffer;
 		}
 	};
 
@@ -297,17 +296,15 @@ public interface Inspecting {
 
 		@Override
 		public boolean check(ExpressionValue v) {
-
 			if (v instanceof GeoDummyVariable) {
 				String name = ((GeoDummyVariable) v)
 						.toString(StringTemplate.defaultTemplate);
-				Log.debug(name);
 				GeoElement geo = ((GeoDummyVariable) v).getKernel()
 						.lookupLabel(name);
 				return (geo instanceof GeoPlaneND)
 						|| "z".equals(name);
 			}
-			return (v instanceof GeoPlaneND);
+			return v instanceof GeoPlaneND;
 		}
 	};
 

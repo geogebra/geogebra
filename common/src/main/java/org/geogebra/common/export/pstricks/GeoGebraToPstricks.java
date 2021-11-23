@@ -233,7 +233,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	@Override
 	protected void drawBoxPlot(GeoNumeric geo) {
-		AlgoBoxPlot algo = ((AlgoBoxPlot) geo.getParentAlgorithm());
+		AlgoBoxPlot algo = (AlgoBoxPlot) geo.getParentAlgorithm();
 		double y = algo.getA().getDouble();
 		double height = algo.getB().getDouble();
 		double[] lf = algo.getLeftBorders();
@@ -2129,7 +2129,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		// double x0=euclidianView.toRealWorldCoordX(0);
 		double y0 = euclidianView.toRealWorldCoordY(0);
 		double y = euclidianView.toRealWorldCoordY(info.getY());
-		sb.append(format(Math.abs((y - y0))));
+		sb.append(format(Math.abs(y - y0)));
 		return true;
 	}
 

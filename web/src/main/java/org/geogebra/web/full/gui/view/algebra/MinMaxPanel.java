@@ -14,10 +14,7 @@ import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -158,24 +155,11 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		tfMax.addKeyHandler(this);
 		tfStep.addKeyHandler(this);
 
-		tfStep.addFocusHandler(new FocusHandler() {
-
-			@Override
-			public void onFocus(FocusEvent event) {
-				stepFocused(event);
-			}
-		});
+		tfStep.addFocusHandler(event -> stepFocused(event));
 
 		addMouseDownHandler(this);
 		addMouseUpHandler(this);
-		addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-
-				hide();
-			}
-		});
+		addBlurHandler(event -> hide());
 
 		update();
 	}

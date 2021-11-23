@@ -2129,8 +2129,8 @@ public class AlgoDispatcher {
 
 	private static boolean isConditionalFunction(GeoFunctionable f) {
 		Function fun = f.getFunction();
-		return (fun.getFunctionExpression() != null
-				&& fun.getFunctionExpression().getOperation().isIf());
+		return fun.getFunctionExpression() != null
+				&& fun.getFunctionExpression().getOperation().isIf();
 	}
 
 	private boolean isConditionalPolynomial(GeoFunctionable f) {

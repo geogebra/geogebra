@@ -2943,9 +2943,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append('^');
 
 				// add brackets for eg a^b^c -> a^(b^c)
-				boolean addParentheses = (right.isExpressionNode()
-						&& ((ExpressionNode) right).getOperation()
-								.equals(Operation.POWER));
+				boolean addParentheses = right.isOperation(Operation.POWER);
 
 				sb.append('{');
 				if (addParentheses) {
@@ -3619,11 +3617,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param sb builder
 	 * @param localization localization
 	 */
-	public void getComma(StringBuilder sb, Localization localization) {
+	public void getCommaOptionalSpace(StringBuilder sb, Localization localization) {
 		if (hasType(StringType.SCREEN_READER)) {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());
+			appendOptionalSpace(sb);
 		}
 	}
 }

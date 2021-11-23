@@ -110,7 +110,7 @@ public class PointPairList {
 		if (a.isQonPath) {
 			if (b.isQonPath) {
 				// both on path
-				return (a.dist < b.dist);
+				return a.dist < b.dist;
 			}
 			// a on path, b not on path: a < b
 			return true;
@@ -120,7 +120,7 @@ public class PointPairList {
 			return false;
 		}
 		// both not on path
-		return (a.dist < b.dist);
+		return a.dist < b.dist;
 	}
 
 	/**

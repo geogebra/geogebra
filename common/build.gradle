@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '4.7.9'
+    id 'com.github.spotbugs' version '4.7.10'
     id 'ca.coglinc.javacc' version '2.4.0'
 }
 
@@ -16,7 +16,7 @@ dependencies {
     compile project(':editor-base')
     compile project(':renderer-base')
     compile 'com.google.j2objc:annotations:2.8'
-    compile 'com.github.spotbugs:spotbugs-annotations:4.4.2'
+    compile 'com.github.spotbugs:spotbugs-annotations:4.5.0'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
@@ -49,7 +49,6 @@ task cleanJavacc(type: Delete) {
 	description 'Cleans the javacc generated files.'
 	delete compileJavacc
 }
-
 
 import java.text.DateFormat
 import java.text.SimpleDateFormat

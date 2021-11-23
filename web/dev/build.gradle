@@ -1,6 +1,8 @@
-description 'Developer tools required to compile web platforms'
+plugins {
+	id 'java'
+}
 
-apply plugin: 'java'
+description 'Developer tools required to compile web platforms'
 
 dependencies {
 	compile project(":gwtutil")

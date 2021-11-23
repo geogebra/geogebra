@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -29,7 +30,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -2319,20 +2319,18 @@ public class Construction {
 			return n;
 		}
 		if (!fileLoading) {
-			if (label1.contains("_{")) {
-				label1 = label1.replace("_{", "_");
-				if (label1.length() > 1) {
-					label1 = label1.substring(0, label1.length() - 1);
-					geo = geoTableVarLookup(label1);
+			geo = geoTableVarLookup(label1);
+			if (geo != null) {
+				return checkConstructionStep(geo);
+			}
+
+			List<String> variants = StringUtil.labelVariants(label1);
+			if (variants != null) {
+				for (String variant : variants) {
+					geo = geoTableVarLookup(variant);
 					if (geo != null) {
 						return checkConstructionStep(geo);
 					}
-				}
-			} else if (label1.contains("_")) {
-				label1 = AlgebraProcessor.curlyLabel(label1);
-				geo = geoTableVarLookup(label1);
-				if (geo != null) {
-					return checkConstructionStep(geo);
 				}
 			}
 		}

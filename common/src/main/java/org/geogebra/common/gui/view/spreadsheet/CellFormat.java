@@ -209,17 +209,15 @@ public class CellFormat implements CellFormatInterface {
 			highestIndexColumn = highestIndexColumn - shiftAmount;
 		} else if (direction == Direction.Right) {
 			highestIndexColumn = highestIndexColumn + shiftAmount;
-		} else if ((direction == Direction.Up)) {
+		} else if (direction == Direction.Up) {
 			highestIndexRow = highestIndexRow - shiftAmount;
 		} else if (direction == Direction.Down) {
 			highestIndexRow = highestIndexRow + shiftAmount;
 		}
-
 	}
 
 	private void shiftRowsUp(MyHashMap formatMap, int rowStart,
 			int shiftAmount) {
-
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
 		}

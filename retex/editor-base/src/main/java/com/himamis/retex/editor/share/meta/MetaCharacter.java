@@ -85,4 +85,13 @@ public class MetaCharacter extends MetaComponent {
 		return unicodeString;
 	}
 
+	/**
+	 * @param other string to append
+	 * @return a character model merged from this and other
+	 */
+	public MetaCharacter merge(String other) {
+		MetaCharacter ret = new MetaCharacter(name, getTexName() + other, unicode, type);
+		ret.unicodeString = unicodeString + other;
+		return ret;
+	}
 }

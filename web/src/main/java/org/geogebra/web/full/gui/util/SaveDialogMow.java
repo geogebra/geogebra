@@ -40,14 +40,14 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	public void buildContent() {
 		super.buildContent();
 		Label templateTxt = new Label(app.getLocalization().getMenu("saveTemplate"));
-		templateCheckbox = new ComponentCheckbox(false, templateTxt);
+		templateCheckbox = new ComponentCheckbox(false, templateTxt, null);
 		getContentPanel().add(templateCheckbox);
 	}
 
 	@Override
 	public void show() {
 		super.show();
-		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		Material activeMaterial = app.getActiveMaterial();
 		templateCheckbox.setSelected(activeMaterial != null && Material.MaterialType.ggsTemplate
 				.equals(activeMaterial.getType()));
 	}

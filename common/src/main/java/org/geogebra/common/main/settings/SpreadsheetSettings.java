@@ -480,9 +480,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 	 * @return whether all settings are default
 	 */
 	public boolean isAllDefaults() {
-		return (isDefaultPreferredSize() && isSelectionDefaults()
+		return isDefaultPreferredSize() && isSelectionDefaults()
 				&& isLayoutDefaults() && !hasCellFormat()
-				&& isRowColumnSizeDefaults());
+				&& isRowColumnSizeDefaults();
 	}
 
 	/**
@@ -498,20 +498,20 @@ public class SpreadsheetSettings extends AbstractSettings {
 	 * @return whether the selection is default
 	 */
 	public boolean isSelectionDefaults() {
-		return (hScrollBarValue == 0 && vScrollBarValue == 0
-				&& selectedCell.getX() == 0 && selectedCell.getY() == 0);
+		return hScrollBarValue == 0 && vScrollBarValue == 0
+				&& selectedCell.getX() == 0 && selectedCell.getY() == 0;
 	}
 
 	/**
 	 * @return whether layout settings are all default
 	 */
 	public boolean isLayoutDefaults() {
-		return (isDefaultShowFormulaBar() && isDefaultShowGrid()
+		return isDefaultShowFormulaBar() && isDefaultShowGrid()
 				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
 				&& isDefaultVScrollBar() && isDefaultHScrollBar()
 				&& isDefaultColumnSelect() && isDefaultSpecialEditorAllowed()
 				&& isDefaultToolTipsAllowed() && isDefaultSpecialEditorAllowed()
-				&& !equalsRequired() && !isEnableAutoComplete());
+				&& !equalsRequired() && !isEnableAutoComplete();
 	}
 
 	private boolean isDefaultToolTipsAllowed() {

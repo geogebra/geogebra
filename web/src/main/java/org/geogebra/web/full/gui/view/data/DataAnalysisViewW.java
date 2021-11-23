@@ -71,19 +71,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	/**
 	 * For calling the onResize method in a deferred way
 	 */
-	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
-		@Override
-		public void execute() {
-			onResize();
-		}
-	};
+	private ScheduledCommand deferredOnRes = this::onResize;
 
-	private ScheduledCommand deferredDataPanelOnRes = new ScheduledCommand() {
-		@Override
-		public void execute() {
-			resizeDataPanels();
-		}
-	};
+	private ScheduledCommand deferredDataPanelOnRes = this::resizeDataPanels;
 
 	private DataSource dataSource;
 

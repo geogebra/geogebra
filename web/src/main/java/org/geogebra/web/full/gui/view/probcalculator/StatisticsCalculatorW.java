@@ -612,15 +612,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		field.enableGGBKeyboard();
-		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
-			@Override
-			public void onInsert(String text) {
-				field.removeDummyCursor();
-				doTextFieldActionPerformed(false);
+		field.addInsertHandler(text -> {
+			field.removeDummyCursor();
+			doTextFieldActionPerformed(false);
 
-				if (Browser.isTabletBrowser()) {
-					field.addDummyCursor(field.getCaretPosition());
-				}
+			if (Browser.isTabletBrowser()) {
+				field.addDummyCursor(field.getCaretPosition());
 			}
 		});
 	}

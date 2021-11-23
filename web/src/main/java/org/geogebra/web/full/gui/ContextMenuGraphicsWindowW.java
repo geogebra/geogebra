@@ -123,16 +123,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						MaterialDesignResources.INSTANCE.minor_gridlines()
 								.getSafeUri().asString(),
 						loc.getMenu("Ruling")),
-				true, new Command() {
-
-			@Override
-			public void execute() {
-				showOptionsDialog(optionType);
-				((PropertiesViewW) app.getGuiManager().getPropertiesView())
-						.getOptionPanel(optionType, -1)
-						.getTabPanel().selectTab(3);
-			}
-		});
+				true, () -> {
+					showOptionsDialog(optionType);
+					((PropertiesViewW) app.getGuiManager().getPropertiesView())
+							.getOptionPanel(optionType, -1)
+							.getTabPanel().selectTab(3);
+				});
 
 		wrappedPopup.addItem(rulingMenuItem);
 	}
@@ -193,7 +189,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getSafeUri().asString();
 		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				imgClearTrace, loc.getMenu("ClearTrace")), true,
-				(Command) () -> app.refreshViews());
+				app::refreshViews);
 		wrappedPopup.addItem(miClearTrace);
 	}
 
@@ -310,13 +306,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						? loc.getMenu("Settings")
 						: loc.getMenu(name) + " ..."),
 				true,
-		        new Command() {
-
-			        @Override
-					public void execute() {
-						showOptionsDialog(type);
-			        }
-		        });
+				() -> showOptionsDialog(type));
 		miProperties.setEnabled(true); // TMP AG
 		wrappedPopup.addItem(miProperties);
 	}
@@ -426,12 +416,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			// TODO: it is terrible, should be used ONE listener for each
 			// menuItem, this kills the memory, if GWT changes this
 			// get it right!
-			mi = new AriaMenuItem(sb.toString(), false, new Command() {
-				@Override
-				public void execute() {
-					zoom(getZoomFactor(index));
-				}
-			});
+			mi = new AriaMenuItem(sb.toString(), false, () -> zoom(getZoomFactor(index)));
 			menu.addItem(mi);
 		}
 	}
@@ -516,25 +501,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			String text = app.getLocalization().getMenu(key);
 			boolean isSelected = app.getActiveEuclidianView()
 					.getGridType() == gridType && app.getActiveEuclidianView().getShowGrid();
-			addItem(text, isSelected, new Command() {
-
-				@Override
-				public void execute() {
-					setGridType(gridType);
-				}
-			}, false);
+			addItem(text, isSelected, () -> setGridType(gridType), false);
 		}
 
 		private void addNoGridItem() {
 			String text = app.getLocalization().getMenu("Grid.No");
 			boolean isSelected = !app.getActiveEuclidianView().getShowGrid();
-			addItem(text, isSelected, new Command() {
-
-				@Override
-				public void execute() {
-					setGridType(EuclidianView.GRID_NOT_SHOWN);
-				}
-			}, false);
+			addItem(text, isSelected, () -> setGridType(EuclidianView.GRID_NOT_SHOWN), false);
 		}
 
 		@Override

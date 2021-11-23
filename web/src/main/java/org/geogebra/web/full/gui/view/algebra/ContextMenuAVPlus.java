@@ -20,8 +20,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.user.client.Command;
-
 /**
  * Class for Plus menu for AV Input to select input method (expression, text or
  * image) and get help.
@@ -97,17 +95,10 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void addExpressionItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.description();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img,
-						loc.getMenu("Expression")),
-				true,
-				new Command() {
-					
-					@Override
-					public void execute() {
-						item.getController().setInputAsText(false);
-						item.ensureEditing();
-						kbd.selectTab(KeyboardType.NUMBERS);
-					}
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Expression")), true, () -> {
+					item.getController().setInputAsText(false);
+					item.ensureEditing();
+					kbd.selectTab(KeyboardType.NUMBERS);
 				});
 		wrappedPopup.addItem(mi);
 	}
@@ -115,15 +106,10 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void addTextItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.icon_quote_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Text")), true,
-				new Command() {
-					
-					@Override
-					public void execute() {
-						item.getController().setInputAsText(true);
-						item.ensureEditing();
-						kbd.selectTab(KeyboardType.ABC);
-					}
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Text")), true, () -> {
+					item.getController().setInputAsText(true);
+					item.ensureEditing();
+					kbd.selectTab(KeyboardType.ABC);
 				});
 		wrappedPopup.addItem(mi);
 	}
@@ -131,17 +117,12 @@ public class ContextMenuAVPlus implements SetLabels {
 	void addImageItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true,
-				new Command() {
-					
-					@Override
-					public void execute() {
-						item.getController().setInputAsText(false);
-						app.getImageManager().setPreventAuxImage(true);
-						
-						app.getGuiManager().loadImage(null,
-								null, false, app.getActiveEuclidianView());
-					}
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true, () -> {
+					item.getController().setInputAsText(false);
+					app.getImageManager().setPreventAuxImage(true);
+
+					app.getGuiManager().loadImage(null,
+							null, false, app.getActiveEuclidianView());
 				});
 		wrappedPopup.addItem(mi);
 	}
@@ -149,14 +130,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void addHelpItem() {
 		SVGResource img = SharedResources.INSTANCE.icon_help_black();
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getMenu("Help")),
-				true, new Command() {
-					
-					@Override
-					public void execute() {
-						showHelp();
-					}
-				});
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Help")), true, this::showHelp);
 		wrappedPopup.addItem(mi);
 	}
 

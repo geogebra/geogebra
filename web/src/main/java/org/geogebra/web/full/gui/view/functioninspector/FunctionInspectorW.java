@@ -15,7 +15,6 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -520,12 +519,9 @@ public class FunctionInspectorW extends FunctionInspector {
 				GuiResources.INSTANCE.menu_icon_tools());
 		btnOptions.setFixedIcon(icon);
 		btnOptions.setSelectedIndex(-1);
-		btnOptions.addPopupHandler(new PopupMenuHandler() {
-			@Override
-			public void fireActionPerformed(PopupMenuButtonW actionButton) {
-				doCopyToSpreadsheet();
-				btnOptions.setSelectedIndex(-1);
-			}
+		btnOptions.addPopupHandler(actionButton -> {
+			doCopyToSpreadsheet();
+			btnOptions.setSelectedIndex(-1);
 		});
 	}
 

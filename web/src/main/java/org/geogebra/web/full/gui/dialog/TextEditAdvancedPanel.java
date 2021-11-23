@@ -22,9 +22,6 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Image;
@@ -96,25 +93,18 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	@Override
 	public void insert(final Widget child, Widget tab, int beforeIndex) {
 		super.insert(child, tab, beforeIndex);
-		tab.addDomHandler(new MouseDownHandler() {
-
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				TextEditAdvancedPanel.this.selectTab(child);
-				event.preventDefault();
-			}
+		tab.addDomHandler(event -> {
+			selectTab(child);
+			event.preventDefault();
 		}, MouseDownEvent.getType());
 	}
 
 	private void registerListeners() {
 		// update the geoPanel when selected
-		addSelectionHandler(new SelectionHandler<Integer>() {
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				if (event.getSelectedItem() == 1) {
-					updateGeoList();
-					// geoPanel.setFocus(true);
-				}
+		addSelectionHandler(event -> {
+			if (event.getSelectedItem() == 1) {
+				updateGeoList();
+				// geoPanel.setFocus(true);
 			}
 		});
 	}

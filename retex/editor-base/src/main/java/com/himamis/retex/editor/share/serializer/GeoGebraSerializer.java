@@ -62,7 +62,7 @@ public class GeoGebraSerializer implements Serializer {
 		if (unicode == ',' && !isCommaNeeded(mathCharacter)) {
 			stringBuilder.append(comma);
 		} else {
-			stringBuilder.append(unicode);
+			stringBuilder.append(mathCharacter.getUnicodeString());
 		}
 	}
 
@@ -71,7 +71,8 @@ public class GeoGebraSerializer implements Serializer {
 		int index = token.getParentIndex();
 		while (parent != null) {
 			if (parent instanceof MathArray) {
-				return ((MathArray) parent).getOpen().getKey() == '(';
+				char openKey = ((MathArray) parent).getOpen().getKey();
+				return openKey == '(' || openKey == '{';
 			}
 			if (parent instanceof MathFunction) {
 				return (((MathFunction) parent).getName() == Tag.APPLY

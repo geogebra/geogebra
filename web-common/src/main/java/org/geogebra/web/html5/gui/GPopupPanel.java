@@ -123,6 +123,9 @@ public class GPopupPanel extends SimplePanel implements
 	private final ResizeHandler glassResizer = new ResizeHandler() {
 		@Override
 		public void onResize(ResizeEvent event) {
+			if (glass == null) {
+				return;
+			}
 			Style style = glass.getStyle();
 
 			int winWidth = getRootPanel().getOffsetWidth();
@@ -1081,12 +1084,8 @@ public class GPopupPanel extends SimplePanel implements
 	 */
 	public final void showRelativeTo(final UIObject target) {
 		// Set the position of the popup right before it is shown.
-		setPopupPositionAndShow(new PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				position(target, offsetWidth, offsetHeight);
-			}
-		});
+		setPopupPositionAndShow(
+				(offsetWidth, offsetHeight) -> position(target, offsetWidth, offsetHeight));
 	}
 
 	@Override

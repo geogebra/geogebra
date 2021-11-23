@@ -6,12 +6,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.full.gui.AngleTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -50,30 +44,15 @@ implements ITextFieldListener {
 		setWidget(mainPanel);
 
 		// update on every change, so no extra blur handler needed
-		tfAnimStep.addChangeHandler(new ChangeHandler() {
+		tfAnimStep.addChangeHandler(event -> doActionPerformed());
 
-			@Override
-			public void onChange(ChangeEvent event) {
+		tfAnimStep.addKeyDownHandler(event -> {
+			if (event.getNativeKeyCode() == '\n') {
 				doActionPerformed();
 			}
 		});
 
-		tfAnimStep.addKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeKeyCode() == '\n') {
-					doActionPerformed();
-				}
-			}
-		});
-
-		tfAnimStep.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				doActionPerformed();
-			}
-		});
+		tfAnimStep.addBlurHandler(event -> doActionPerformed());
 
 		tfAnimStep.enableGGBKeyboard();
 	}

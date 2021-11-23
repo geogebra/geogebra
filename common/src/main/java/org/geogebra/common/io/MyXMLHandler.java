@@ -1587,25 +1587,14 @@ public class MyXMLHandler implements DocHandler {
 
 			// set label
 			ev.setAxisLabel(axis, label);
-			/*
-			 * if (label != null && label.length() > 0) { String[] labels =
-			 * ev.getAxesLabels(); labels[axis] = label;
-			 * ev.setAxesLabels(labels); }
-			 */
 
 			// set unitlabel
-			if (unitLabel != null && unitLabel.length() > 0) {
-				String[] unitLabels = ev.getAxesUnitLabels();
-				unitLabels[axis] = unitLabel;
-				ev.setAxesUnitLabels(unitLabels);
+			if (!StringUtil.empty(unitLabel)) {
+				ev.setAxisUnitLabel(axis, unitLabel);
 			}
 
 			// set showNumbers
 			ev.setShowAxisNumbers(axis, showNumbers);
-			/*
-			 * boolean showNums[] = ev.getShowAxesNumbers(); showNums[axis] =
-			 * showNumbers; ev.setShowAxesNumbers(showNums);
-			 */
 
 			// check if tickDistance is given
 			String tickExpr = attrs.get("tickExpression");

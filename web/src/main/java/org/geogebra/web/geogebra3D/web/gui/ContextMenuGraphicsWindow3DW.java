@@ -17,7 +17,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Command;
 
 /**
  * @author mathieu
@@ -210,13 +209,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			boolean isSelected = isProjectionType(projectionType);
 			addItem(MainMenu.getMenuBarHtmlClassic(img.getSafeUri().asString(),
 					app.getLocalization().getMenu(text)),
-					isSelected, new Command() {
-
-						@Override
-						public void execute() {
-							setProjectionType(projectionType);
-						}
-					}, true);
+					isSelected, () -> setProjectionType(projectionType), true);
 		}
 
 		/**

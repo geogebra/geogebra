@@ -1,7 +1,9 @@
-apply plugin: 'java'
-apply plugin: 'gwt-compiler'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
+plugins {
+    id 'java'
+    id 'org.wisepersist.gwt' version '1.1.16'
+    id 'pmd'
+    id 'checkstyle'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -11,12 +13,6 @@ evaluationDependsOn(':keyboard-scientific')
 evaluationDependsOn(':common')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':renderer-web')
-
-buildscript {
-    dependencies {
-        classpath "org.wisepersist:gwt-gradle-plugin:$gwtGradlePluginVersion"
-    }
-}
 
 dependencies{
 	compile project(':keyboard-base'),
@@ -32,8 +28,7 @@ def kbModule = 'org.geogebra.keyboard.KeyboardWeb'
 gwt {
     gwtVersion = project(':renderer-web').gwtCompilerVersion
 
-    
-    modules = [kbModule]    
+    modules = [kbModule]
     
     devModules kbModule
     

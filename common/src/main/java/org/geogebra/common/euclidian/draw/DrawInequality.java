@@ -160,8 +160,8 @@ public class DrawInequality extends Drawable {
 			return;
 		}
 
-		if ((left.drawable == null
-				|| left.operation.equals(Operation.AND_INTERVAL))) {
+		if (left.drawable == null
+				|| left.operation.equals(Operation.AND_INTERVAL)) {
 			left.min = min;
 			left.max = max;
 			left.minBound = minBound;
@@ -228,8 +228,8 @@ public class DrawInequality extends Drawable {
 		 * if (this.operation.equals(Operation.OR)) { wasOR = true; }
 		 */
 
-		if ((right.drawable == null
-				|| right.operation.equals(Operation.AND_INTERVAL))) {
+		if (right.drawable == null
+				|| right.operation.equals(Operation.AND_INTERVAL)) {
 			if (this.operation.equals(Operation.OR)) {
 				right.min = null;
 				right.max = null;

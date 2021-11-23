@@ -18,8 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -440,14 +438,10 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private Label syntaxLabel(String line) {
 		Label syntax = new Label(line);
 		final String fLine = line;
-		syntax.addMouseDownHandler(new MouseDownHandler() {
-
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-				insertText(fLine);
-			}
+		syntax.addMouseDownHandler(event -> {
+			event.preventDefault();
+			event.stopPropagation();
+			insertText(fLine);
 		});
 		return syntax;
     }

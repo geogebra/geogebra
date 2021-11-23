@@ -253,8 +253,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 					perpX = (-lz - ly * perpY) / lx;
 				}
 
-				double dist2 = ((perpX - mx) * (perpX - mx)
-						+ (perpY - my) * (perpY - my));
+				double dist2 = (perpX - mx) * (perpX - mx)
+						+ (perpY - my) * (perpY - my);
 				// if line goes through center, we keep it
 				if (!DoubleUtil.isZero(dist2)) {
 					double sf = r * r / dist2;
@@ -264,8 +264,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 					m.setCoords(mx + sf * (perpX - mx) / 2,
 							my + sf * (perpY - my) / 2, 1.0);
 					setSphereND(m,
-							sf / 2 * Math.sqrt(((perpX - mx) * (perpX - mx)
-									+ (perpY - my) * (perpY - my))));
+							sf / 2 * Math.sqrt((perpX - mx) * (perpX - mx)
+									+ (perpY - my) * (perpY - my)));
 				} else {
 					type = GeoConicNDConstants.CONIC_LINE;
 				}
@@ -653,6 +653,10 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	@Override
 	public Function getFunction() {
+		Function definitionFn = GeoLine.definitionAsFunction(getDefinition());
+		if (definitionFn != null) {
+			return definitionFn;
+		}
 		FunctionVariable x = new FunctionVariable(kernel);
 		ExpressionNode expr;
 		if (isRealValuedFunction()) {

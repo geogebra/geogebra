@@ -1,14 +1,10 @@
-buildscript {
-    dependencies {
-        classpath 'org.wisepersist:gwt-gradle-plugin:1.1.14'
-    }
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'org.wisepersist.gwt' version '1.1.16'
 }
 
 ext.gwtCompilerVersion = '2.9.0'
-
-apply plugin: 'gwt'
-apply plugin: 'java'
-apply plugin: 'eclipse'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

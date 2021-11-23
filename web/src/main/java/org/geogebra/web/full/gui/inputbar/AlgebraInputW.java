@@ -16,7 +16,6 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
@@ -255,36 +254,31 @@ public class AlgebraInputW extends FlowPanel
 
 		try {
 			final int oldStep = app.getKernel().getConstructionStep();
-			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
+			AsyncOperation<GeoElementND[]> callback = geos -> {
 
-				@Override
-				public void callback(GeoElementND[] geos) {
-
-					if (geos == null) {
-						inputField.getTextBox().setFocus(true);
-						return;
-					}
-
-					// need label if we type just eg
-					// lnx
-					if (geos.length == 1 && !geos[0].isLabelSet()) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
-
-					InputHelper.updateProperties(geos,
-							app.getActiveEuclidianView(), oldStep);
-
-					app.setScrollToShow(false);
-
-					inputField.addToHistory(input);
-					if (!getTextField().getText().equals(input)) {
-						inputField.addToHistory(getTextField().getText());
-					}
-					inputField.setText(null);
-
-					inputField.setIsSuggestionJustHappened(false);
+				if (geos == null) {
+					inputField.getTextBox().setFocus(true);
+					return;
 				}
 
+				// need label if we type just eg
+				// lnx
+				if (geos.length == 1 && !geos[0].isLabelSet()) {
+					geos[0].setLabel(geos[0].getDefaultLabel());
+				}
+
+				InputHelper.updateProperties(geos,
+						app.getActiveEuclidianView(), oldStep);
+
+				app.setScrollToShow(false);
+
+				inputField.addToHistory(input);
+				if (!getTextField().getText().equals(input)) {
+					inputField.addToHistory(getTextField().getText());
+				}
+				inputField.setText(null);
+
+				inputField.setIsSuggestionJustHappened(false);
 			};
 			EvalInfo info = new EvalInfo(true, true).withSliders(true)
 					.addDegree(app.getKernel().getAngleUnitUsesDegrees())
@@ -294,19 +288,9 @@ public class AlgebraInputW extends FlowPanel
 							getErrorHandler(valid, explicit), info, callback);
 
 		} catch (Exception ee) {
-			storeError();
 			app.showGenericError(ee);
 		} catch (MyError ee) {
-			storeError();
 			inputField.showError(ee);
-		}
-	}
-
-	private void storeError() {
-		inputField.addToHistory(getTextField().getText());
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().getOptionPane()
-					.setCaller(inputField.getTextBox());
 		}
 	}
 
@@ -429,24 +413,20 @@ public class AlgebraInputW extends FlowPanel
 			setHelpPopup();
 
 			helpPopup.setPopupPositionAndShow(
-					new GPopupPanel.PositionCallback() {
-						@Override
-						public void setPosition(int offsetWidth,
-								int offsetHeight) {
-							helpPopup.getElement().getStyle()
-									.setProperty("left", "auto");
-							helpPopup.getElement().getStyle().setProperty("top",
-									"auto");
-							helpPopup.getElement().getStyle().setRight(0,
-									Unit.PX);
-							helpPopup.getElement().getStyle()
-									.setBottom(
-											getOffsetHeight()
-													* app.getGeoGebraElement()
-															.getScaleX(),
-											Unit.PX);
-							helpPopup.show();
-						}
+					(offsetWidth, offsetHeight) -> {
+						helpPopup.getElement().getStyle()
+								.setProperty("left", "auto");
+						helpPopup.getElement().getStyle().setProperty("top",
+								"auto");
+						helpPopup.getElement().getStyle().setRight(0,
+								Unit.PX);
+						helpPopup.getElement().getStyle()
+								.setBottom(
+										getOffsetHeight()
+												* app.getGeoGebraElement()
+														.getScaleX(),
+										Unit.PX);
+						helpPopup.show();
 					});
 			((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel())
 					.focusCommand(inputField.getCommand());

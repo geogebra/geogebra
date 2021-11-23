@@ -9,7 +9,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -138,12 +137,9 @@ public class ComponentDropDown extends FlowPanel {
 			final int currentIndex = i;
 			AriaMenuItem item = new AriaMenuItem(
 					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
-					new Command() {
-						@Override
-						public void execute() {
-							setSelected(currentIndex);
-							fireSelected(currentIndex);
-						}
+					() -> {
+						setSelected(currentIndex);
+						fireSelected(currentIndex);
 					});
 
 			item.setStyleName("dropDownElement");

@@ -4556,7 +4556,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return whether any macros have been added to this kernel.
 	 */
 	public boolean hasMacros() {
-		return (macroManager != null && macroManager.getMacroNumber() > 0);
+		return macroManager != null && macroManager.getMacroNumber() > 0;
 	}
 
 	/**

@@ -2,12 +2,14 @@ package org.geogebra.common.kernel.geos;
 
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -881,7 +883,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("a=1/2", "1 / 2");
 		GeoSymbolic symbolic = getSymbolic("a");
 		symbolic.setSymbolicMode(false, false);
-		assertEquals("0.5", symbolic.toValueString(StringTemplate.algebraTemplate));
+		assertThat(symbolic, hasValue("0.5"));
 	}
 
 	@Test
@@ -979,8 +981,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testLargeNumbersAreParsedCorrectly() {
 		add("a=11111111111111111^2");
-		String result = getSymbolic("a").toValueString(StringTemplate.giacTemplate);
-		Assert.assertEquals("123456790123456787654320987654321", result);
+		assertThat(getSymbolic("a"), hasValue("123456790123456787654320987654321"));
 	}
 
 	@Test
@@ -1100,25 +1101,22 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testNumbersOutput() {
 		GeoSymbolic degree = add("45" + Unicode.DEGREE_STRING);
-		assertThat(degree.toValueString(StringTemplate.defaultTemplate), is("1 / 4 " + pi));
+		assertThat(degree, hasValue("1 / 4 " + pi));
 
 		GeoSymbolic realNumber = add("2.222222222222222222222");
-		assertThat(realNumber.toValueString(StringTemplate.defaultTemplate),
-				is("1111111111111111111111 / 500000000000000000000"));
+		assertThat(realNumber, hasValue("1111111111111111111111 / 500000000000000000000"));
 
 		GeoSymbolic smallNumber = add("2E-20");
-		assertThat(smallNumber.toValueString(StringTemplate.defaultTemplate),
-				is("1 / 50000000000000000000"));
+		assertThat(smallNumber,	hasValue("1 / 50000000000000000000"));
 
 		GeoSymbolic bigNumber = add("1.2345678934534545345345E20");
-		assertThat(bigNumber.toValueString(StringTemplate.defaultTemplate),
-				is("2469135786906909069069 / 20"));
+		assertThat(bigNumber, hasValue("2469135786906909069069 / 20"));
 	}
 
 	@Test
 	public void testFunctionLikeMultiplication() {
 		GeoSymbolic element = add("x(x + 1)");
-		assertThat(element.toValueString(StringTemplate.defaultTemplate), is("x\u00B2 + x"));
+		assertThat(element, hasValue("x\u00B2 + x"));
 	}
 
 	@Test
@@ -1163,8 +1161,28 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x)=IntegralSymbolic(x)");
 		add("a=5");
 		GeoSymbolic symbolic = add("g(x)=Substitute(f(x), c_{1}, a)");
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), is("1 / 2 x² + 5"));
+		assertThat(symbolic, hasValue("1 / 2 x² + 5"));
 		assertThat(symbolic.getTwinGeo(), is(notNullValue()));
+	}
+
+	@Test
+	public void testSolveODEConstant() {
+		GeoSymbolic symbolic = add("SolveODE(x)");
+		app.getGgbApi().setValue("c_1", 5);
+		assertThat(symbolic.getTwinGeo(), hasValue("5 + 1 / 2 x²"));
+		assertThat(symbolic, hasValue("c_{1} + 1 / 2 x²"));
+	}
+
+	@Test
+	public void testFunctionVariableFollowsConstOrder() {
+		GeoSymbolic symbolic1 = add("f(u)=u^2");
+		assertThat(symbolic1.toValueString(StringTemplate.latexTemplate), is("u^{2}"));
+		GeoSymbolic symbolic2 = add("f(5)");
+		assertThat(symbolic2.toValueString(StringTemplate.latexTemplate), is("25"));
+		GeoSymbolic symbolic3 = add("u=10");
+		assertThat(symbolic3.toValueString(StringTemplate.latexTemplate), is("10"));
+		GeoSymbolic symbolic4 = add("f(5)");
+		assertThat(symbolic4.toValueString(StringTemplate.latexTemplate), is("25"));
 	}
 
 	@Test
@@ -1237,9 +1255,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testPrecision() {
 		GeoSymbolic derivative = add("Derivative(25.8-0.2ℯ^(-0.025x))");
-		assertThat(
-				derivative.toValueString(StringTemplate.defaultTemplate),
-				equalTo("1 / 200 ℯ^(-1 / 40 x)"));
+		assertThat(derivative, hasValue("1 / 200 ℯ^(-1 / 40 x)"));
 	}
 
 	@Test
@@ -1351,8 +1367,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				sin.getValueForInputBar(),
 				equalTo("sin⁻¹(2 / 5)"));
 		assertThat(
-				sin.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
-				equalTo("0.4115168461"));
+				sin.getTwinGeo(),
+				hasValue("0.4115168461"));
 	}
 
 	@Test
@@ -1365,8 +1381,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				asind.getValueForInputBar(),
 				equalTo("sin⁻¹(2 / 5)"));
 		assertThat(
-				asind.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
-				equalTo("0.4115168461"));
+				asind.getTwinGeo(),
+				hasValue("0.4115168461"));
 	}
 
 	@Test
@@ -1619,5 +1635,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = -x^2 * e^(-x)");
 		add("g(x) = 1 + (f'(x))^2");
 		t("Integral(sqrt(g),0,20)", "20.12144888423");
+	}
+
+	@Test
+	public void testBinomialDistNumericIsDefined() {
+		GeoSymbolic binomialDist = add("BinomialDist(230,0.68,140,true)");
+		assertThat(binomialDist.toValueString(StringTemplate.defaultTemplate),
+				matchesPattern("[0-9]+ / [0-9]+"));
+		AlgebraItem.toggleSymbolic(binomialDist);
+		assertEquals(binomialDist.toValueString(StringTemplate.defaultTemplate), "0.0132819219");
 	}
 }

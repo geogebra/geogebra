@@ -884,7 +884,7 @@ public final class EuclidianConstants {
 
 		/** WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
-			return "Line";
+			return "Line.Tool";
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
 			return "ShapeTriangle";
 		case EuclidianConstants.MODE_SHAPE_SQUARE:

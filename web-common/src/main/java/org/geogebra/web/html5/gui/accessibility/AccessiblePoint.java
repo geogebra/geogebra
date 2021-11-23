@@ -89,10 +89,10 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 		oldVal[index] += step;
 		if (point != null && point.isGeoPoint()) {
 			double[] increments = { 0, 0, 0 };
-			increments[index] = 1;
+			increments[index] = step;
 			kernel.getApplication().getGlobalKeyDispatcher().handleArrowKeyMovement(
 					Collections.singletonList(point.toGeoElement()),
-					increments, step);
+					increments);
 			ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 			if (!point.addAuralCaption(sb)) {
 				point.addAuralLabel(sb);

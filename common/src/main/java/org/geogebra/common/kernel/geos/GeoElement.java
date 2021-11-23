@@ -1513,7 +1513,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
-	/** @return true if this is fixed (moving forbidden, deleting OK) */
+	@Override
 	public boolean isLocked() {
 		return fixed;
 	}
@@ -1998,7 +1998,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					final GeoPointND firstInputPoint = freeInputPoints.get(0);
 					final GeoPointND startPoint = ((Locateable) this)
 							.getStartPoint();
-					return (firstInputPoint == startPoint);
+					return firstInputPoint == startPoint;
 				}
 			}
 			break;
@@ -4752,7 +4752,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sb.append("\"");
 			sb.append(" type=\"").append(animationType).append("\"");
 			sb.append(" playing=\"");
-			sb.append((isAnimating() ? "true" : "false"));
+			sb.append(isAnimating());
 			sb.append("\"");
 			sb.append("/>\n");
 		}
@@ -5594,7 +5594,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		try {
 			String diffSb = "Simplify[" + myFormula + "-(" + otherFormula + ")]";
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb, null);
-			return (Double.parseDouble(diff) == 0d);
+			return Double.parseDouble(diff) == 0d;
 		} catch (final Throwable e) {
 			return false;
 		}
@@ -7066,19 +7066,23 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		addAuralStatus(loc, sb);
 		sb.appendSpace();
 		addAuralContent(loc, sb);
-		sb.appendSpace();
+		sb.endSentence();
+		addAuralAction(loc, sb);
 		addAuralOperations(loc, sb);
 		sb.endSentence();
 		return sb.toString();
 	}
 
-	@Override
-	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
+	protected void addAuralAction(Localization loc, ScreenReaderBuilder sb) {
 		if (getScript(EventType.CLICK) != null
 				&& getScript(EventType.CLICK).getText().length() > 0 && !sb.isMobile()) {
 			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
+			sb.endSentence();
 		}
+	}
 
+	@Override
+	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
 		if (isEuclidianShowable()) {
 			if (app.getGuiManager() != null && app.getGuiManager().hasAlgebraView()
 					&& !isGeoInputBox()) {

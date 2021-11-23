@@ -232,8 +232,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 			}
 
 			// the approximation is within standard precision
-			if (Math.abs((decimal - (FractionNumerator
-					/ FractionDenominator))) <= AccuracyFactor) {
+			if (Math.abs(decimal - (FractionNumerator
+					/ FractionDenominator)) <= AccuracyFactor) {
 				denom[steps] = (long) Math.floor(Z);
 				steps++;
 				break;

@@ -306,8 +306,8 @@ public class EquationSolver implements EquationSolverInterface {
 			res[quadRoots] = 0;
 			return quadRoots + 1;
 		}
-		double q = (a * a - 3 * b); // D(q) = 2aD(a) + 3D(b)
-		double r = (2 * a * a * a - 9 * a * b + 27 * c); // D(r) = (3aa-9b)D(a)
+		double q = a * a - 3 * b; // D(q) = 2aD(a) + 3D(b)
+		double r = 2 * a * a * a - 9 * a * b + 27 * c; // D(r) = (3aa-9b)D(a)
 															// - 9aD(b) + 27D(c)
 
 		double Q = q / 9; // D(Q) = D(q)/9
@@ -390,7 +390,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 			return 3;
 		} else {
-			double sgnR = (R >= 0 ? 1 : -1);
+			double sgnR = R >= 0 ? 1 : -1;
 			double A = -sgnR
 					* Math.pow(Math.abs(R) + Math.sqrt(R2 - Q3), 1.0 / 3.0);
 			double B = Q / A;
@@ -482,8 +482,8 @@ public class EquationSolver implements EquationSolverInterface {
 					return t;
 				}
 			} else {
-				return (delta > 0 ? (target + java.lang.Double.MIN_VALUE)
-						: (target - java.lang.Double.MIN_VALUE));
+				return delta > 0 ? (target + java.lang.Double.MIN_VALUE)
+						: (target - java.lang.Double.MIN_VALUE);
 			}
 			double newt = t + delta;
 			if (MyDouble.exactEqual(t, newt)) {
@@ -492,8 +492,8 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 			if (delta * origdelta < 0) {
 				// We have reversed our path.
-				int tag = (origt < t ? getTag(target, origt, t)
-						: getTag(target, t, origt));
+				int tag = origt < t ? getTag(target, origt, t)
+						: getTag(target, t, origt);
 				if (tag != INSIDE) {
 					// Local minima found away from target - return the middle
 					return (origt + t) / 2;
@@ -514,10 +514,10 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	private static int getTag(double coord, double low, double high) {
 		if (coord <= low) {
-			return (coord < low ? BELOW : LOWEDGE);
+			return coord < low ? BELOW : LOWEDGE;
 		}
 		if (coord >= high) {
-			return (coord > high ? ABOVE : HIGHEDGE);
+			return coord > high ? ABOVE : HIGHEDGE;
 		}
 		return INSIDE;
 	}
@@ -779,7 +779,6 @@ public class EquationSolver implements EquationSolverInterface {
 				res[roots] = -res[roots - 1];
 				roots++;
 				return 2;
-
 			}
 		}
 
@@ -823,8 +822,8 @@ public class EquationSolver implements EquationSolverInterface {
 			 * discriminant of the cubic and puts it into the variable disc.
 			 */
 			{
-				double qcub = (rc * rc - 3 * sc);
-				double rcub = (2 * rc * rc * rc - 9 * rc * sc + 27 * tc);
+				double qcub = rc * rc - 3 * sc;
+				double rcub = 2 * rc * rc * rc - 9 * rc * sc + 27 * tc;
 
 				double Q = qcub / 9;
 				double R = rcub / 54;
@@ -869,7 +868,7 @@ public class EquationSolver implements EquationSolverInterface {
 								- rc / 3;
 					}
 				} else {
-					double sgnR = (R >= 0 ? 1 : -1);
+					double sgnR = R >= 0 ? 1 : -1;
 					double modR = Math.abs(R);
 					double sqrt_disc = Math.sqrt(R2 - Q3);
 					double A = -sgnR * Math.pow(modR + sqrt_disc, 1.0 / 3.0);

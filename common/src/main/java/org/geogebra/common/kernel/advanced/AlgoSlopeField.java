@@ -207,11 +207,11 @@ public class AlgoSlopeField extends AlgoElement {
 			if (view.isVisibleInThisView(locus)) {
 				mainView = view;
 				xmax = Math.max(xmax,
-						view.toRealWorldCoordX((view.getWidth())));
+						view.toRealWorldCoordX(view.getWidth()));
 				ymax = Math.max(ymax, view.toRealWorldCoordY(0));
 				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
 				ymin = Math.min(ymin,
-						view.toRealWorldCoordY((view.getHeight())));
+						view.toRealWorldCoordY(view.getHeight()));
 			}
 
 			if (kernel.getApplication().hasEuclidianView2(1)) {
@@ -222,11 +222,11 @@ public class AlgoSlopeField extends AlgoElement {
 						mainView = view2;
 					}
 					xmax = Math.max(xmax,
-							view2.toRealWorldCoordX((view.getWidth())));
+							view2.toRealWorldCoordX(view.getWidth()));
 					ymax = Math.max(ymax, view2.toRealWorldCoordY(0));
 					xmin = Math.min(xmin, view2.toRealWorldCoordX(0));
 					ymin = Math.min(ymin,
-							view2.toRealWorldCoordY((view.getHeight())));
+							view2.toRealWorldCoordY(view.getHeight()));
 				}
 			}
 		}
@@ -249,8 +249,8 @@ public class AlgoSlopeField extends AlgoElement {
 			double xStep = (xmax - xmin) / nD;
 			double yStep = (ymax - ymin) / nD;
 
-			double length = (lengthRatio == null ? 0.5
-					: lengthRatio.getDouble());
+			double length = lengthRatio == null ? 0.5
+					: lengthRatio.getDouble();
 
 			if (length < 0 || length > 1 || Double.isInfinite(length)
 					|| Double.isNaN(length)) {

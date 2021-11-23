@@ -127,7 +127,7 @@ public class Parser implements ParserInterface {
 		}
 		boolean decimalComma = !inputBox || loc.isUsingDecimalComma();
 		String input = StringUtil.preprocessWithInfo(parseString, new ParserInfo(inputBox, decimalComma));
-		ReInit(new StringProvider(input));
+		ReInit(new StringProvider(input.trim()));
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
 		giacParsing = false;
@@ -270,7 +270,7 @@ public class Parser implements ParserInterface {
         }
         throw new MyError(loc, "InvalidInput");
     }
-    
+
     private MyDouble parseDouble(String image, boolean percent) {
         double val = MyDouble.parseDouble(loc, image);
         if (percent) {
@@ -521,17 +521,8 @@ ValidExpression buildValidExpression() :
         {
             ve = new ExpressionNode(kernel, conditions, Operation.IF_SHORT, ve);
         })?
-        
 
-     |
-        LOOKAHEAD(2147483647)
-      ve = cartesianvector_special()
-  |
-  LOOKAHEAD(2147483647)
-  ve = cartesianvector3D_special()
-  |
-      LOOKAHEAD(2147483647)
-        ve = polarvector_special()
+		| LOOKAHEAD(2147483647) ve = vectorSpecial()
     )
     ( <POLAR_SEPARATOR> | <EOF> )
     {
@@ -1639,11 +1630,11 @@ ExpressionValue myDouble():
         boolean hasDegrees = false, hasMinutes = false, hasSeconds = false;
         double vd = 0, vm = 0, vs = 0;
         if (degree != null) {
-                // if e.g. 3° (no minute no second) we need to do 3*° for CAS 
+                // if e.g. 3° (no minute no second) we need to do 3*° for CAS
             if (c2 == null) {
                 d = newSpecialDegree();
                 return new ExpressionNode(kernel, parseDouble(image, false), Operation.MULTIPLY, d);
-            } 
+            }
              // at least 3°5' or 3°5'' (or 3°5'7'')
             isAngle = true;
             vd = MyDouble.parseDouble(loc, image);
@@ -1680,7 +1671,7 @@ ExpressionValue myDouble():
             return new MyDoubleDegreesMinutesSeconds(kernel, vd, hasDegrees, vm, hasMinutes, vs, hasSeconds);
         }
         return parseDouble(image, percent != null);
-    }  
+    }
 |     
     (c = <FLOAT> | c = <EFLOAT>)
     {
@@ -1724,7 +1715,7 @@ ExpressionValue myDouble():
     }
 |
     <EULER_GAMMA>
-    {    
+    {
          return new MySpecialDouble(kernel, MyDouble.EULER_GAMMA, Unicode.EULER_GAMMA_STRING);
     }
 |
@@ -1757,7 +1748,7 @@ ExpressionNode numberFunction():
 {
     ValidExpression en;
     MyList myList;
-    Token c;
+    Token c, closing;
 }
 {
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
@@ -1815,28 +1806,25 @@ ExpressionNode numberFunction():
         return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
     }
 |
-  (
     c = <FUNCTION_LABEL> en = expressionOrEquation()
     {
         myList = new MyList(kernel, true);
         myList.addListElement(en);
     }
-       ( <COMMA> en = expressionOrEquation()
+    (
+    	<COMMA> en = expressionOrEquation()
         {
             myList.addListElement(en);
         }
-        )*
-    )
-  (")"|"]")
-  // note: the last character of FUNCTION_LABEL is a "("
+    )*
+    (closing = ")" | closing = "]")
     {
-        // remove the opening parenthesis
-        return functionParser.makeFunctionNode(c.image,myList, undecided, giacParsing, geoGebraCASParsing);
+		// note: the last character of FUNCTION_LABEL is a "("
+        return functionParser.makeFunctionNode(c.image, myList, undecided, giacParsing,
+        	geoGebraCASParsing, c.beginColumn == 1
+        		&& (closing.next == null || closing.next.kind == EOF || closing.next.kind == POLAR_SEPARATOR));
     }
 }
-
-
-
 
 /**
  *  tuple =  ( expression, expression )
@@ -1845,15 +1833,14 @@ ExpressionNode numberFunction():
  */
 ExpressionValue tuple():
 {
-    ExpressionValue x, y=null, z = null;
+    ExpressionValue x, y = null, z = null;
     Token sep = null;
 }
 {
     // cartesian coordinates
-
     "(" x = expressionOrEquation() (
-           (   sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )
-        |   (  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
+           (  sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )
+        |  (  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
         |  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
         )? ")"
     {
@@ -1875,65 +1862,48 @@ ExpressionValue tuple():
         } else {
             MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
             if (sep.kind == POLAR_SEPARATOR) {
-                ret.setSphericalPolarCoords(x,y,z);
+                ret.setSphericalPolarCoords(x, y, z);
             }
             return ifStructuresEnabled(ret);
         }
     }
 }
 
-
-
 /**
- * cartesianvector_special =  <LABEL>( expression | expression )
- */
-ExpressionNode cartesianvector_special():
+* Expression in the form
+*   <LABEL> "(" <value> "|" <value> ")" 				-- austrian style 2d point (cartesian)
+*   <LABEL> "(" <value> "|" <value> "|" <value> ")"		-- austrian style 3d point (cartesian)
+*   <LABEL> "(" <value> ";" <value> ")" 				-- point with polar coordinates
+*   <LABEL> "(" <value> ";" <value> ";" <value> ")" 	-- point with spherical coordinates
+*/
+ValidExpression vectorSpecial():
 {
-   Token l;
-    ExpressionValue x, y;
+	Token l, sep;
+	ExpressionValue x, y, z = null;
 }
 {
-    // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR> y = expressionNoFreeVars() ")" )
-        {
-          ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y));
-          en.setLabel(l.image.substring(0,l.image.length()-1));
-          return ifStructuresEnabled(en);
-        }
+	// cartesian coordinates
+	l = <FUNCTION_LABEL> x = expressionOrEquation() (
+			(  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
+		|   (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
+		) ")"
+	{
+		if (z == null) {
+			MyVecNode ret = new MyVecNode(kernel, x, y);
+			if (sep.kind == POLAR_SEPARATOR) {
+				ret.setPolarCoords(x, y);
+			}
+			ExpressionNode en = new ExpressionNode(kernel, ret);
+			en.setLabel(l.image.substring(0, l.image.length() - 1));
+			return ifStructuresEnabled(en);
+		} else {
+			MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
+			if (sep.kind == POLAR_SEPARATOR) {
+				ret.setSphericalPolarCoords(x, y, z);
+			}
+			ExpressionNode en = new ExpressionNode(kernel, ret);
+			en.setLabel(l.image.substring(0, l.image.length() - 1));
+			return ifStructuresEnabled(en);
+		}
+	}
 }
-
-ExpressionNode cartesianvector3D_special():
-{
-   Token l;
-    ExpressionValue x, y, z;
-}
-{
-    // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR > y = expressionNoFreeVars() <VERTICAL_BAR> z = expressionNoFreeVars() ")" )
-        {
-          ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z));
-          en.setLabel(l.image.substring(0,l.image.length()-1));
-          return ifStructuresEnabled(en);
-        }
-}
-
-/**
- * polarvector_special =  <LABEL>( expression ; expression )
- */
-ExpressionNode polarvector_special():
-{
-   Token l;
-    ExpressionValue r, phi;
-}
-{
-    // cartesian coordinates
-    (   l = <FUNCTION_LABEL>  r = expressionNoFreeVars() <POLAR_SEPARATOR>  phi = expressionNoFreeVars() ")" )
-        {
-            MyVecNode v = new MyVecNode(kernel);
-            v.setPolarCoords(r, phi);
-            ExpressionNode en =  new ExpressionNode(kernel, v);
-            en.setLabel(l.image.substring(0,l.image.length()-1));
-            return ifStructuresEnabled(en);
-        }
-}
-

@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "com.github.spotbugs" version "4.7.9"
+    id "com.github.spotbugs" version "4.7.10"
 }
 description 'Platform independent supplementary files for graphics support'
 
@@ -9,7 +9,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile project(':common')    
-    compile ("com.github.spotbugs:spotbugs-annotations:4.4.2")
+    compile ("com.github.spotbugs:spotbugs-annotations:4.5.0")
 }
 
 spotbugs {

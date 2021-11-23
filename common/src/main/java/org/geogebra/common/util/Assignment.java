@@ -50,15 +50,6 @@ public abstract class Assignment {
 	}
 
 	/**
-	 * Possible values for fractions (sorted ascending!)
-	 */
-	public final static float[] FRACTIONS = { -1f, -0.9f, -0.875f, -(5f / 6),
-			-0.8f, -0.75f, -0.7f, -(2f / 3), -0.625f, -0.6f, -0.5f, -0.4f,
-			-0.375f, -(1f / 3), -0.3f, -0.25f, -0.2f, -(1f / 6), -0.125f, -0.1f,
-			0f, 0.1f, 0.125f, (1f / 6), 0.2f, 0.25f, 0.3f, (1f / 3), 0.375f,
-			0.4f, 0.5f, 0.6f, 0.625f, (2f / 3), 0.7f, 0.75f, 0.8f, (5f / 6),
-			0.875f, 0.9f, 1f };
-	/**
 	 * The fractions for the Results. Each Result may have any fraction between
 	 * -100 and 100 (i.e. -1 and 1)
 	 */

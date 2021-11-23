@@ -555,7 +555,7 @@ public class EuclidianStyleBarStatic {
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof TextProperties) {
-				TextProperties text = ((TextProperties) geo);
+				TextProperties text = (TextProperties) geo;
 				int oldStyle = text.getFontStyle();
 				int newStyle = add ? (oldStyle | mask) : (oldStyle & ~mask);
 				if (oldStyle != newStyle) {

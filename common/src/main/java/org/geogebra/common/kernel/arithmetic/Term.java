@@ -128,7 +128,7 @@ public class Term implements Comparable<Object> {
 	 * @return true if this has no variables
 	 */
 	boolean hasNoVars() {
-		return (variables.length() == 0);
+		return variables.length() == 0;
 	}
 
 	/**
@@ -394,11 +394,10 @@ public class Term implements Comparable<Object> {
 
 	@Override
 	public boolean equals(Object o) {
-		Term t;
 		if (o instanceof Term) {
-			t = (Term) o;
-			return (coefficient == t.coefficient
-					&& variables.toString().equals(t.variables.toString()));
+			Term t = (Term) o;
+			return coefficient == t.coefficient
+					&& variables.toString().equals(t.variables.toString());
 		}
 		return false;
 	}
@@ -415,7 +414,7 @@ public class Term implements Comparable<Object> {
 	 * @return True if contins given variable
 	 */
 	boolean contains(String var) {
-		return (variables.toString().indexOf(var) >= 0);
+		return variables.toString().indexOf(var) >= 0;
 	}
 
 	@Override

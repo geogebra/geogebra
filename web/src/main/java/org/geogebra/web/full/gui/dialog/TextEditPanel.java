@@ -211,13 +211,9 @@ public class TextEditPanel extends VerticalPanel
 
 	private void registerListeners() {
 
-		sl = new GeoElementSelectionListener() {
-			@Override
-			public void geoElementSelected(GeoElement geo,
-					boolean addToSelection) {
-				if (geo != editGeo) {
-					editor.insertGeoElement(geo);
-				}
+		sl = (geo, addToSelection) -> {
+			if (geo != editGeo) {
+				editor.insertGeoElement(geo);
 			}
 		};
 

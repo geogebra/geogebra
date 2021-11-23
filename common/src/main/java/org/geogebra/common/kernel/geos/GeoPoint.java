@@ -519,12 +519,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 										.getIntervalMax())) {
 					// use angle value closest to closest border
 					double minDiff = Math.abs(
-							(angle - ((GeoNumeric) yvar).getIntervalMin()));
+							angle - ((GeoNumeric) yvar).getIntervalMin());
 					if (minDiff > Math.PI) {
 						minDiff = Kernel.PI_2 - minDiff;
 					}
 					double maxDiff = Math.abs(
-							(angle - ((GeoNumeric) yvar).getIntervalMax()));
+							angle - ((GeoNumeric) yvar).getIntervalMax());
 					if (maxDiff > Math.PI) {
 						maxDiff = Kernel.PI_2 - maxDiff;
 					}
@@ -1329,7 +1329,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	final public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
-		double temp = (1 - r);
+		double temp = 1 - r;
 		setCoords(r * x + temp * S.getX() * z, r * y + temp * S.getY() * z, z);
 	}
 
@@ -1395,7 +1395,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
-			GeoVec2D midpoint = (c.getTranslationVector());
+			GeoVec2D midpoint = c.getTranslationVector();
 			double a = midpoint.getX();
 			double b = midpoint.getY();
 			if (Double.isInfinite(x) || Double.isInfinite(y2D)) {
@@ -1590,14 +1590,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		sb.append('(');
 		sb.append(kernel.format(x, tpl));
-		String separator = buildValueStringSeparator(kernel, tpl);
+		String separatorWithSpace = getValueSeparatorWithSpace(kernel, tpl);
 
-		sb.append(separator);
-		tpl.appendOptionalSpace(sb);
+		sb.append(separatorWithSpace);
 		sb.append(kernel.format(y, tpl));
 
-		sb.append(separator);
-		tpl.appendOptionalSpace(sb);
+		sb.append(separatorWithSpace);
 		sb.append(kernel.format(z, tpl));
 
 		sb.append(')');
@@ -1610,16 +1608,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            output template
 	 * @return separator for cartesian coords
 	 */
-	public static final String buildValueStringSeparator(Kernel kernel,
+	public static final String getValueSeparatorWithSpace(Kernel kernel,
 			StringTemplate tpl) {
 		if (tpl.hasCASType()) {
 			return ",";
 		}
-		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
-			return " |";
-		}
 		StringBuilder sb = new StringBuilder();
-		tpl.getComma(sb, kernel.getLocalization());
+		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+			sb.append(" |");
+			tpl.appendOptionalSpace(sb);
+		} else {
+			tpl.getCommaOptionalSpace(sb, kernel.getLocalization());
+		}
 		return sb.toString();
 	}
 
@@ -1702,8 +1702,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				break;
 
 			default:
-				tpl.getComma(sbBuildValueString, kernel.getLocalization());
-				tpl.appendOptionalSpace(sbBuildValueString);
+				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(tpl.rightBracket());
@@ -1728,9 +1727,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		AlgoElement algo;
-		if (((algo = getParentAlgorithm()) instanceof AlgoPointOnPath)) {
-
+		AlgoElement algo = getParentAlgorithm();
+		if (algo instanceof AlgoPointOnPath) {
 			// write parameter just for GeoCurveCartesian/GeoCurveCartesian3D
 			// as curve may cross itself so just coords doesn't determine unique
 			// pos
@@ -1741,17 +1739,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				sb.append(getPathParameter().t);
 				sb.append("\"");
 				sb.append("/>\n");
-
 			}
 		}
 
 		// write x,y,z after <curveParam>
 		super.getXMLtags(sb);
-
-		/*
-		 * should not be needed if (path != null) { pathParameter.appendXML(sb);
-		 * }
-		 */
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {

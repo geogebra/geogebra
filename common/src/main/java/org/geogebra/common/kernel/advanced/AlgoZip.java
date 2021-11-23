@@ -173,7 +173,7 @@ public class AlgoZip extends AlgoElement {
 		// changed:
 		// in this case it is much more efficient not to create all objects
 		// for the list again, but just to set their new values
-		boolean setValuesOnly = (minOverSize() == last_length);
+		boolean setValuesOnly = minOverSize() == last_length;
 
 		// setValues does not work for functions
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;

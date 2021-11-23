@@ -76,7 +76,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		MyPoint rightPoint = myPointList.get(rightIndex);
 
 		// interpolate between leftPoint and rightPoint
-		double param1 = (param - leftIndex);
+		double param1 = param - leftIndex;
 		double param2 = 1.0 - param1;
 		p.set(param1, param2, leftPoint, rightPoint);
 		p.updateCoords();

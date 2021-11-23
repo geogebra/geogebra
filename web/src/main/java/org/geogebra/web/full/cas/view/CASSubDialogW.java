@@ -14,7 +14,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -163,17 +162,14 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		Localization loc = app.getLocalization();
 		table.addColumn(oldVal, loc.getMenu("OldExpression"));
 		table.setColumnWidth(oldVal, 40, Unit.PX);
-		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
-			@Override
-			public void update(int index, SubstituteValue object, String value) {
-				object.setVariable(value);
-				if ((index == (getTable().getRowCount() - 1))
-				        && object.getValue() != null
-				        && object.getVariable() != null
-				        && !"".equals(object.getValue())
-				        && !"".equals(object.getVariable())) {
-					getList().add(new SubstituteValue("", ""));
-				}
+		oldVal.setFieldUpdater((index, object, value) -> {
+			object.setVariable(value);
+			if ((index == (getTable().getRowCount() - 1))
+					&& object.getValue() != null
+					&& object.getVariable() != null
+					&& !"".equals(object.getValue())
+					&& !"".equals(object.getVariable())) {
+				getList().add(new SubstituteValue("", ""));
 			}
 		});
 
@@ -192,17 +188,14 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		};
 		table.addColumn(newVal, loc.getMenu("NewExpression"));
 		table.setColumnWidth(newVal, 40, Unit.PX);
-		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
-			@Override
-			public void update(int index, SubstituteValue object, String value) {
-				object.setValue(value);
-				if ((index == (getTable().getRowCount() - 1))
-				        && object.getValue() != null
-				        && object.getVariable() != null
-				        && !"".equals(object.getValue())
-				        && !"".equals(object.getVariable())) {
-					getList().add(new SubstituteValue("", ""));
-				}
+		newVal.setFieldUpdater((index, object, value) -> {
+			object.setValue(value);
+			if ((index == (getTable().getRowCount() - 1))
+					&& object.getValue() != null
+					&& object.getVariable() != null
+					&& !"".equals(object.getValue())
+					&& !"".equals(object.getVariable())) {
+				getList().add(new SubstituteValue("", ""));
 			}
 		});
 	}

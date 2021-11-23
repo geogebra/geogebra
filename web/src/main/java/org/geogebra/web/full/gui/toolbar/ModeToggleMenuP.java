@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
@@ -89,13 +88,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		back = new StandardButton(pr.menu_header_back(), null, 32);
 		back.addStyleName("submenuBack");
-		back.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				hideMenu();
-			}
-		});
+		back.addFastClickHandler(source -> hideMenu());
 		// submenuPanel.submenuScrollPanel.toolbarPanel.add
 		((FlowPanel) submenuPanel.getParent().getParent()).add(back);
 	}
