@@ -161,4 +161,8 @@ class EditorChecker {
 	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
 		mathField.setFormatConverter(formatConverter);
 	}
+
+	public void setForceBracketsAfterFunction() {
+		mathField.getMetaModel().setForceBracketAfterFunction(true);
+	}
 }
