@@ -1135,6 +1135,11 @@ public class CommandsTest {
 	@Test
 	public void cmdClosestPoint() {
 		t("ClosestPoint[ x^2+y^2=1, (1,1) ]", "(0.7071067811865476, 0.7071067811865475)");
+		t("ZoomIn(-5,-5,5,5)");
+		t("ClosestPoint[ x⁴ + 2x² y² - 4x² + 3.6x + y⁴ - 4y² = 0.81, (0.55708, -0.2547)]",
+				"(0.5416458135538293, -0.12427455943331392)");
+		t("ClosestPoint[ x⁴ + 2x² y² - 4x² + 3.6x + y⁴ - 4y² = 0.81, (0.55708, 0.20383)]",
+				"(0.547622890963136, 0.12372237646614026)");
 		t("ClosestPoint[ Polygon[(1,1),(2,1/2),(3,1/3)], (1,1) ]", "(1, 1)");
 		t("ClosestPoint[ xAxis, yAxis ]", "(0, 0)");
 	}
