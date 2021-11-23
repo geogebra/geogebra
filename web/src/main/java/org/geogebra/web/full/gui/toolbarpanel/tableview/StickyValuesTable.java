@@ -171,10 +171,40 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		SafeHtmlHeader header = new SafeHtmlHeader(cell.getHTML());
 		if (columnsChange > 0 && position == 1) {
 			header.setHeaderStyleNames("addColumnAut");
+			resetAfterAnimationEnds("addColumnAut", true, false);
 		} else if (position == 2) {
 			header.setHeaderStyleNames("deleteColumnAut");
+			resetAfterAnimationEnds("deleteColumnAut", true, true);
 		}
 		getTable().addColumn(col, header);
+		if (rowsChange < 0) {
+			resetAfterAnimationEnds("deleteRowAut", false, true);
+		} else if (rowsChange > 0) {
+			resetAfterAnimationEnds("addRowAuto", false, false);
+		}
+	}
+
+	private void resetAfterAnimationEnds(String className, boolean column, boolean remove) {
+		app.invokeLater(() -> {
+			Element el;
+			if (column) {
+				el = getHeaderElementByClassName("." + className);
+			} else {
+				el = getTableElementByClassName("." + className);
+			}
+			if (remove) {
+				Dom.addEventListener(el, "animationend", e -> reset());
+			} else {
+				Dom.addEventListener(el, "animationend",
+						e -> removeAnimationStyleName(el, className));
+			}
+			columnsChange = 0;
+			rowsChange = 0;
+		});
+	}
+
+	private void removeAnimationStyleName(Element el, String styleName) {
+		el.removeClassName(styleName);
 	}
 
 	@Override
@@ -228,6 +258,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			getTable().setRowStyles((row, rowIndex) -> {
 				if (rowIndex >= tableModel.getRowCount() + 2) {
 					return "deleteRowAut";
+				}
+				return null;
+			});
+		} else if (rowsChange > 0) {
+			getTable().setRowStyles((row, rowIndex) -> {
+				if (rowsChange > 0 && rowIndex == tableModel.getRowCount() + 1) {
+					return "addRowAuto";
 				}
 				return null;
 			});
@@ -324,13 +361,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		columnsChange = -1;
 		if (column != tableModel.getColumnCount()) {
 			deleteColumn(column);
 		} else {
+			columnsChange = -1;
 			reset();
 		}
-		resetAnimationFlags();
 	}
 
 	@Override
@@ -343,14 +379,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
 			int row) {
 		reset();
-		resetAnimationFlags();
 	}
 
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
 		rowsChange -= 1;
 		reset();
-		resetAnimationFlags();
 	}
 
 	@Override
@@ -362,7 +396,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
 		rowsChange = 1;
 		reset();
-		resetAnimationFlags();
 	}
 
 	@Override
@@ -378,7 +411,6 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyDatasetChanged(TableValuesModel model) {
-		resetAnimationFlags();
 		reset();
 	}
 
@@ -420,15 +452,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "")
 					+ (col >= 0 && columnNotEditable(col) ? " notEditable" : "")
 					+ (col < 0 ? " emptyColumn" : "")
-					+ (rowsChange > 0 ? " addRowAuto" : "");
+					+ (col < 0 && columnsChange < 0 ? " deleteColumnAut" : "");
 		}
-	}
-
-	private void resetAnimationFlags() {
-		app.invokeLater(() -> {
-			columnsChange = 0;
-			rowsChange = 0;
-		});
 	}
 
 	public int getRowsChange() {

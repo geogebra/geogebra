@@ -248,6 +248,11 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 				&.notEditable .content {
 					color: colors.$black-54;
 				}
+
+				&.deleteColumnAut .content {
+					padding-left: 0px;
+					padding-right: 0px;
+				}
 			}
 		}
 
@@ -278,8 +283,8 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 			overflow: hidden !important;
 		}
 
-		tr:last-child {
-			td.addRowAuto {
+		.addRowAuto {
+			td {
 				height: 52px;
 				animation-duration: $deleteAddTime;
 				animation-name: addRow;
