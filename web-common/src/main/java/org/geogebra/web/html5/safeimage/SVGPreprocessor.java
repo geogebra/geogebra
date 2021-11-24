@@ -19,11 +19,12 @@ public class SVGPreprocessor implements ImagePreprocessor {
 	}
 
 	@Override
-	public void process(ImageFile imageFile, SafeImageProvider provider) {
-		String content = toDecoded(imageFile.getContent().string);
+	public void process(ArchiveEntry imageFile, SafeImageProvider provider) {
+		String content = toDecoded(imageFile.string);
 		xml.setContent(content);
 		removeTags();
-		provider.onReady(new ImageFile(imageFile.getFileName(), new ArchiveEntry(encodeSVG())));
+		provider.onReady(
+				new ArchiveEntry(imageFile.getFileName(), encodeSVG()));
 	}
 
 	private String toDecoded(String content) {

@@ -324,7 +324,7 @@ public class GgbAPIW extends GgbAPI {
 						value.string, archive);
 			} else {
 				pushNativeEntryToArchive(entry.getKey(),
-						value.export(entry.getKey()), archive);
+						value.export(), archive);
 			}
 		}
 		jso.set("archive", archive);
@@ -458,7 +458,8 @@ public class GgbAPIW extends GgbAPI {
 		}
 		// write construction thumbnails
 		if (includeThumbnail) {
-			ArchiveEntry thumb = new ArchiveEntry(((EuclidianViewWInterface) getViewForThumbnail())
+			ArchiveEntry thumb = new ArchiveEntry(MyXMLio.XML_FILE_THUMBNAIL,
+					((EuclidianViewWInterface) getViewForThumbnail())
 					.getCanvasBase64WithTypeString());
 			archiveContent.put(MyXMLio.XML_FILE_THUMBNAIL, thumb);
 		}

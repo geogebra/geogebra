@@ -90,4 +90,13 @@ public enum FileExtensions {
 		return isImage;
 	}
 
+	/**
+	 * @return mime type
+	 */
+	public String getMime() {
+		if (this == JPG) {
+			return JPEG.getMime();
+		}
+		return isImage ? "image/" + ext : "text/plain";
+	}
 }
