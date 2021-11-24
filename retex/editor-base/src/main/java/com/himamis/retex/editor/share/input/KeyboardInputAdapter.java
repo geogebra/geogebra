@@ -44,7 +44,7 @@ public class KeyboardInputAdapter {
 				type(mfi, "" + Unicode.LFLOOR);
 				if (plainTextMode(mfi)) {
 					type(mfi, "" + Unicode.RFLOOR);
-					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+					CursorController.prevCharacter(mfi.getEditorState());
 				}
 			}
 		});
@@ -55,7 +55,7 @@ public class KeyboardInputAdapter {
 				type(mfi, "" + Unicode.LCEIL);
 				if (plainTextMode(mfi)) {
 					type(mfi, "" + Unicode.RCEIL);
-					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+					CursorController.prevCharacter(mfi.getEditorState());
 				}
 			}
 		});
@@ -66,7 +66,7 @@ public class KeyboardInputAdapter {
 				type(mfi, "|");
 				if (plainTextMode(mfi)) {
 					type(mfi, "|");
-					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+					CursorController.prevCharacter(mfi.getEditorState());
 				}
 			}
 		});
@@ -99,7 +99,7 @@ public class KeyboardInputAdapter {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
 				type(mfi, "log(");
-				mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				CursorController.prevCharacter(mfi.getEditorState());
 			}
 		});
 
@@ -107,9 +107,9 @@ public class KeyboardInputAdapter {
 			@Override
 			public void commit(MathFieldInternal mfi, String input) {
 				type(mfi, "d/dx");
-				mfi.getCursorController().prevCharacter(mfi.getEditorState());
-				mfi.getCursorController().prevCharacter(mfi.getEditorState());
-				mfi.getCursorController().prevCharacter(mfi.getEditorState());
+				CursorController.prevCharacter(mfi.getEditorState());
+				CursorController.prevCharacter(mfi.getEditorState());
+				CursorController.prevCharacter(mfi.getEditorState());
 			}
 		});
 
@@ -147,7 +147,7 @@ public class KeyboardInputAdapter {
 				}
 
 				for (int i = 0; i < 2 * splitCommand.size() - 3; i++) {
-					mfi.getCursorController().prevCharacter(mfi.getEditorState());
+					CursorController.prevCharacter(mfi.getEditorState());
 				}
 			}
 

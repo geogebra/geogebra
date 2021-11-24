@@ -72,7 +72,6 @@ public class MathFieldInternal
 	@Weak
 	private MathField mathField;
 
-	private CursorController cursorController;
 	private InputController inputController;
 	private MathFieldController mathFieldController;
 
@@ -106,9 +105,8 @@ public class MathFieldInternal
 	 */
 	public MathFieldInternal(MathField mathField) {
 		this.mathField = mathField;
-		cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
-		keyListener = new KeyListenerImpl(cursorController, inputController);
+		keyListener = new KeyListenerImpl(inputController);
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
@@ -234,13 +232,6 @@ public class MathFieldInternal
 	 */
 	public InputController getInputController() {
 		return inputController;
-	}
-
-	/**
-	 * @return cursor controller
-	 */
-	public CursorController getCursorController() {
-		return cursorController;
 	}
 
 	public MathFieldController getMathFieldController() {
