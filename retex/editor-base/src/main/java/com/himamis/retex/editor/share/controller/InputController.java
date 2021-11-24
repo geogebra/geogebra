@@ -15,6 +15,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -1116,6 +1117,11 @@ public class InputController {
 		if (plainTextMode || editorState.isInsideQuotes()) {
 			handleTextModeInsert(editorState, ch);
 			return true;
+		}
+
+		int currentOffset = editorState.getCurrentOffset();
+		if (editorState.getCurrentField().getArgument(currentOffset) instanceof MathPlaceholder) {
+			editorState.getCurrentField().removeArgument(currentOffset);
 		}
 
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
