@@ -105,7 +105,7 @@ public class GFontW extends GFont {
 			this.fontWeight = NORMAL_STR;
 			this.fontStyle = ITALIC_STR;
 			break;
-		case (GFont.BOLD + GFont.ITALIC):
+		case GFont.BOLD + GFont.ITALIC:
 			this.fontWeight = BOLD_STR;
 			this.fontStyle = ITALIC_STR;
 			break;

@@ -95,7 +95,7 @@ class DrawItems {
 		model.applyFontTo(g2);
 
 		double x = (items.getMaxWidth() - item.getWidth()) / 2.0;
-		double y = (items.getMaxHeight() - OptionItemList.PADDING);
+		double y = items.getMaxHeight() - OptionItemList.PADDING;
 
 		EuclidianStatic.drawIndexedString(model.getApp(), g2,
 				item.getText(), item.getLeft() + x, item.getTop() + y, false);

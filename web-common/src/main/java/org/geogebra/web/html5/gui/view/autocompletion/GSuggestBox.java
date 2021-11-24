@@ -543,8 +543,8 @@ public class GSuggestBox extends Composite
 				boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
 				final SuggestionCallback callback) {
 			// Hide the popup if there are no suggestions to display.
-			boolean anySuggestions = (suggestions != null
-					&& suggestions.size() > 0);
+			boolean anySuggestions = suggestions != null
+					&& suggestions.size() > 0;
 			if (!anySuggestions && hideWhenEmpty) {
 				hideSuggestions();
 				return;

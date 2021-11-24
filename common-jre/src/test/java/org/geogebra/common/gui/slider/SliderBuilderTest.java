@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.slider;
 
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 
 import org.geogebra.common.BaseUnitTest;
@@ -54,24 +55,20 @@ public class SliderBuilderTest extends BaseUnitTest {
 	public void createWithEmptyInput() {
 		sliderBuilder.withMin("");
 		Assert.assertNull(sliderBuilder.create());
-		Assert.assertFalse(isSliderInConstructionList());
+		assertFalse(isSliderInConstructionList());
 	}
 
 	@Test
 	public void testSuppressLabelFlagAfterCreated() {
-		boolean wasSuppressedLabelsActive = construction.isSuppressLabelsActive();
+		assertFalse(construction.isSuppressLabelsActive());
 		createSimple();
-		boolean isFlagSetBack =
-				(wasSuppressedLabelsActive == construction.isSuppressLabelsActive());
-		Assert.assertTrue(isFlagSetBack);
+		assertFalse(construction.isSuppressLabelsActive());
 	}
 
 	@Test
 	public void testSuppressLabelFlagAfterEmptyInput() {
-		boolean wasSuppressedLabelsActive = construction.isSuppressLabelsActive();
+		assertFalse(construction.isSuppressLabelsActive());
 		createWithEmptyInput();
-		boolean isFlagSetBack =
-				(wasSuppressedLabelsActive == construction.isSuppressLabelsActive());
-		Assert.assertTrue(isFlagSetBack);
+		assertFalse(construction.isSuppressLabelsActive());
 	}
 }

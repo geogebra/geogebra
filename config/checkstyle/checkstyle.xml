@@ -115,6 +115,9 @@
             <property name="allowMissingReturnTag" value="false"/>
             <property name="allowedAnnotations" value="Override, Test, Before"/>
         </module>
+        <module name="UnnecessaryParentheses">
+            <property name="tokens" value="EXPR"/>
+        </module>
         <module name="AvoidStarImport">
             <property name="allowStaticMemberImports" value="true"/>
         </module>

@@ -134,7 +134,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		if (value != null) {
 			text = controller.getEditorInitString(value);
 			int index = text.indexOf("=");
-			if ((!value.isGeoText())) {
+			if (!value.isGeoText()) {
 				if (index == -1) {
 					text = "=" + text;
 				}

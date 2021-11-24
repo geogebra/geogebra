@@ -160,7 +160,7 @@ public class MathSequence extends MathContainer {
 	 */
 	public void removeBrackets() {
 		if (size() == 1 && getArgument(0) instanceof MathArray) {
-			MathArray arg0 = ((MathArray) getArgument(0));
+			MathArray arg0 = (MathArray) getArgument(0);
 			if (arg0.size() == 1 && arg0.getArgument(0) != null
 					&& arg0.getOpenKey() == '(') {
 				setArgument(0, arg0.getArgument(0));

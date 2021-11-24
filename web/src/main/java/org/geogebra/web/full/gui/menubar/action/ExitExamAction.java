@@ -147,8 +147,8 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		saveScreenshot(app.getLocalization().getMenu((app.getConfig()
-				.getAppName())));
+		saveScreenshot(app.getLocalization().getMenu(app.getConfig()
+				.getAppName()));
 		app.endExam();
 		app.fileNew();
 		app.clearSubAppCons();

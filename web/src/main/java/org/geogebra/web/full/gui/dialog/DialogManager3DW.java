@@ -99,7 +99,7 @@ public class DialogManager3DW extends DialogManagerW {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog rotateAxisInputDialog = new InputDialogRotateAxisW(((AppW) app), data,
+		ComponentInputDialog rotateAxisInputDialog = new InputDialogRotateAxisW((AppW) app, data,
 				handler, polys, selectedLines, selGeos, ec);
 		rotateAxisInputDialog.show();
 

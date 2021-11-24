@@ -125,7 +125,7 @@ public class DrawEquationW extends DrawEquation {
 		if (geo == null) {
 			return c0 == null ? Canvas.createIfSupported() : c0;
 		}
-		AppW app = ((AppW) geo.getKernel().getApplication());
+		AppW app = (AppW) geo.getKernel().getApplication();
 
 		boolean serif = false;
 		if (geo instanceof TextProperties) {
