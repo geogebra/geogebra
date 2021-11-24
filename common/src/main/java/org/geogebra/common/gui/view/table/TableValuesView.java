@@ -44,7 +44,6 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Weak
 	private TableSettings settings;
 
-	private final GeoList values;
 	private SimpleTableValuesModel model;
 	private TableValuesViewDimensions dimensions;
 	private LabelController labelController;
@@ -56,22 +55,12 @@ public class TableValuesView implements TableValues, SettingListener {
 	 * @param kernel {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
-		this(kernel, new GeoList(kernel.getConstruction()));
-	}
-
-	/**
-	 * Create a new Table Value View.
-	 * @param kernel {@link Kernel}
-	 * @param xValues x values
-	 */
-	TableValuesView(Kernel kernel, GeoList xValues) {
 		this.kernel = kernel;
-		values = xValues;
-		model = new SimpleTableValuesModel(kernel, values);
 		app = kernel.getApplication();
 		Settings set = app.getSettings();
 		settings = set.getTable();
-		settings.updateValueList(values);
+		model = new SimpleTableValuesModel(kernel, settings);
+		settings.updateValueList(model.getValueList());
 		elements = new HashSet<>();
 		labelController = new LabelController();
 		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
@@ -136,7 +125,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		settings.setValuesMin(valuesMin);
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
-		settings.setValueList(null);
+		updateValuesFromRange();
 		settings.endBatch();
 		model.endBatchUpdate(true);
 	}
@@ -158,7 +147,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public GeoList getValues() {
-		return values;
+		return model.getValueList();
 	}
 
 	private static void assertValidValues(double min, double max, double step)
@@ -172,20 +161,11 @@ public class TableValuesView implements TableValues, SettingListener {
 	private void updateValues() {
 		GeoList settingsValues = settings.getValueList();
 		if (settingsValues != null) {
-			refillValues(settingsValues);
-			model.updateEvaluatable(values);
-			settings.updateValueList(values);
+			model.updateEvaluatable(settingsValues);
+			settings.updateValueList(settingsValues);
 		} else {
 			updateValuesFromRange();
 		}
-	}
-
-	private void refillValues(GeoList newValues) {
-		values.clear();
-		for (int i = 0; i < newValues.size(); i++) {
-			values.add(newValues.get(i));
-		}
-		values.notifyUpdate();
 	}
 
 	private void updateValuesFromRange() {
@@ -210,26 +190,25 @@ public class TableValuesView implements TableValues, SettingListener {
 					setValuesRow(max, row++);
 				}
 			}
-			for (int index = values.size() - 1; index >= row; index--) {
+			for (int index = getValues().size() - 1; index >= row; index--) {
 				clearValuesRow(index);
 			}
+			getValues().updateRepaint();
 		}
+
 	}
 
 	private void clearValuesRow(int row) {
-		model.set(model.createEmptyValue(), values, row);
+		model.set(model.createEmptyValue(), getValues(), row);
 	}
 
 	private void setValuesRow(double value, int row) {
-		model.set(model.createValue(value), values, row);
+		model.set(model.createValue(value), getValues(), row);
 	}
 
 	@Override
 	public void set(GeoElement element, GeoList column, int rowIndex) {
 		model.set(element, column, rowIndex);
-		if (column == values) {
-			settings.setValueList(values);
-		}
 		storeUndoInfo();
 	}
 
@@ -305,7 +284,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void update(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
-			if (geo.hasTableOfValues() || geo == values) {
+			if (geo.hasTableOfValues() || geo == getValues()) {
 				model.updateEvaluatable(evaluatable);
 			} else {
 				model.removeEvaluatable(evaluatable);
@@ -389,6 +368,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
+		model.updateValuesColumn();
 		updateValues();
 	}
 
@@ -452,10 +432,17 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	private void clearValuesInternal() {
 		model.startBatchUpdate();
-		for (int row = values.size() - 1; row >= 0; row--) {
+		for (int row = getValues().size() - 1; row >= 0; row--) {
 			clearValuesRow(row);
 		}
+		updateValuesNoBatch(getValues());
 		model.endBatchUpdate(false);
+	}
+
+	protected void updateValuesNoBatch(GeoList list) {
+		if (list.hasAlgoUpdateSet()) {
+			kernel.getConstruction().updateAllAlgosInSet(list.getAlgoUpdateSet());
+		}
 	}
 
 	private void storeUndoInfo() {

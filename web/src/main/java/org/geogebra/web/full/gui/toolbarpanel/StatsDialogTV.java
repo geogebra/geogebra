@@ -96,6 +96,7 @@ public class StatsDialogTV extends ComponentDialog {
 			RegressionSpecification regression = available
 					.get(regressionChooser.getSelectedIndex());
 			view.plotRegression(column, regression);
+			app.storeUndoInfo();
 		});
 		updateContent(c -> view.getRegression(c, available.get(0)));
 	}
