@@ -67,6 +67,8 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -2277,12 +2279,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * Switch suite to the given subapp, clearing all construction, and resetting almost
-	 * all the settings
-	 * @param subAppCode "graphing", "3d", "cas", "geometry" or "probability"
-	 */
+	@Override
 	public void switchToSubapp(String subAppCode) {
+		getDialogManager().hideCalcChooser();
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode);
@@ -2306,6 +2305,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			afterMaterialRestored();
 			updateToolbarClosedState(subAppCode);
 		}
+		getEventDispatcher().dispatchEvent(new Event(EventType.SWITCH_CALC, null, subAppCode));
 	}
 
 	private void afterMaterialRestored() {

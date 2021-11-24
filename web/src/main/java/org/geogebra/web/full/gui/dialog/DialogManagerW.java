@@ -76,6 +76,7 @@ public class DialogManagerW extends DialogManager
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog colChooser = null;
 	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
+	private CalculatorSwitcherDialog calcSwitcher;
 
 	/**
 	 * @param app
@@ -219,8 +220,18 @@ public class DialogManagerW extends DialogManager
 	 * show calculator chooser for suite
 	 */
 	public void showCalcChooser(boolean autoHide) {
-		CalculatorSwitcherDialog calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		hideCalcChooser(); // remove any previous chooser
+		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
 		calcSwitcher.show();
+	}
+
+	/**
+	 * Hide the calc chooser
+	 */
+	public void hideCalcChooser() {
+		if (calcSwitcher != null) {
+			calcSwitcher.hide();
+		}
 	}
 
 	@Override
