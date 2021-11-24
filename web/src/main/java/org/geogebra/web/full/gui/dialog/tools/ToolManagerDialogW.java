@@ -400,7 +400,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			appw.getGuiManager().removeFromToolbarDefinition(macroID);
 		}
-		GuiManagerW gm = ((GuiManagerW) appw.getGuiManager());
+		GuiManagerW gm = (GuiManagerW) appw.getGuiManager();
 		gm.setGeneralToolBarDefinition(gm.getCustomToolbarDefinition());
 		updateToolBar();
 	}

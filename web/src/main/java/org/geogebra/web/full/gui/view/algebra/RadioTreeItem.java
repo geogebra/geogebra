@@ -446,9 +446,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void previewValue(GeoElement previewGeo) {
 
-		if ((previewGeo
+		if (previewGeo
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
-				|| getController().isInputAsText())) {
+				|| getController().isInputAsText()) {
 			clearPreview();
 
 		} else if (isInputTreeItem()) {
@@ -1029,7 +1029,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		int itemTop = this.isInputTreeItem()
 				? main.getElement().getAbsoluteTop()
 				: getElement().getAbsoluteTop();
-		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
+		return itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35;
 	}
 
 	/**
@@ -1094,8 +1094,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected boolean hasGeoExtendedAV() {
-		return (geo instanceof HasExtendedAV
-				&& ((HasExtendedAV) geo).isShowingExtendedAV());
+		return (geo instanceof HasExtendedAV)
+				&& ((HasExtendedAV) geo).isShowingExtendedAV();
 	}
 
 	/**
@@ -1274,8 +1274,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			int toggleButtonTop = (int) ((marblePanel.getAbsoluteTop()
 					- (int) app.getAbsTop()) / scale);
 			if (toggleButtonTop < totalHeight / 2) {
-				int top = (toggleButtonTop
-						+ marblePanel.getOffsetHeight());
+				int top = toggleButtonTop
+						+ marblePanel.getOffsetHeight();
 				maxOffsetHeight = totalHeight - top;
 				helpPopup.getElement().getStyle().setProperty("top",
 						top * renderScale + "px");
@@ -1285,7 +1285,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				helpPopup.addStyleName("helpPopupAV");
 			} else {
 				int minBottom = app.isApplet() ? 0 : 10;
-				int bottom = (totalHeight - toggleButtonTop);
+				int bottom = totalHeight - toggleButtonTop;
 				maxOffsetHeight = bottom > 0 ? totalHeight - bottom
 						: totalHeight - minBottom;
 				helpPopup.getElement().getStyle().setProperty("bottom",

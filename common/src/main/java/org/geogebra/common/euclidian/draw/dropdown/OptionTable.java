@@ -78,7 +78,7 @@ class OptionTable {
 		model.setRowCount(maxRows);
 
 		model.balanceTable(maxItems);
-		return (model.getColCount() < maxCols);
+		return model.getColCount() < maxCols;
 	}
 
 	void getOneColumnSettings() {

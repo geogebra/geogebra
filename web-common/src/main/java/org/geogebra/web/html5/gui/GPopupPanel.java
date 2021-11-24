@@ -1364,8 +1364,8 @@ public class GPopupPanel extends SimplePanel implements
 			// Distance from the left edge of the text box to the left edge
 			// of the
 			// window
-			int distanceFromWindowLeft = (relativeObject.getAbsoluteLeft()
-					- root.getAbsoluteLeft());
+			int distanceFromWindowLeft = relativeObject.getAbsoluteLeft()
+					- root.getAbsoluteLeft();
 
 			// If there is not enough space for the overflow of the popup's
 			// width to the right of the text box, and there IS enough space

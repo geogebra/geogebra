@@ -325,10 +325,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		sliderNumClasses.addChangeHandler(event -> {
 			getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
-			fldNumClasses.setText(("" + getModel().getSettings()
-					.getNumClasses()));
+			fldNumClasses.setText("" + getModel().getSettings()
+					.getNumClasses());
 			getModel().updatePlot(true);
-
 		});
 
 		numClassesPanel = new FlowPanel();

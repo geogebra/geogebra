@@ -107,7 +107,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	@Override
 	protected boolean isBackground() {
-		return (btnShowGrid3D != null && btnShowGrid3D.isVisible());
+		return btnShowGrid3D != null && btnShowGrid3D.isVisible();
 	}
 
 	@Override

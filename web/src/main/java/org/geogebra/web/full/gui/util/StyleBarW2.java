@@ -239,8 +239,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
-					boolean geosOK = (geos.size() > 0
-							|| EuclidianView.isPenMode(mode));
+					boolean geosOK = geos.size() > 0
+							|| EuclidianView.isPenMode(mode);
 					boolean hasOpacity = true;
 					for (GeoElement geoElement : geos) {
 						GeoElement geo = geoElement

@@ -257,7 +257,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		public boolean hitLastItem(int y) {
 			TreeItem last = getLastItem();
-			return (y > last.getAbsoluteTop() + last.getOffsetHeight());
+			return y > last.getAbsoluteTop() + last.getOffsetHeight();
 		}
 
 		void toolbarChanged(String toolbarString) {
@@ -515,8 +515,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 
 		public boolean isTopHit(int y) {
-			return (y > getAbsoluteTop() && y < getAbsoluteTop()
-			        + getOffsetHeight() / 2);
+			return y > getAbsoluteTop() && y < getAbsoluteTop()
+					+ getOffsetHeight() / 2;
 		}
 
 		public void addDropHandler(DropHandler handler) {
@@ -879,7 +879,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			dockPanel.setToolbarString(current);
 			dockPanel.updatePanel(true);
 
-			GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+			GuiManagerW gm = (GuiManagerW) app.getGuiManager();
 
 			if (current != null && gm.getActiveToolbarId() == toolbarId) {
 				gm.setToolBarDefinition(current);
@@ -893,7 +893,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	private void setGeneralToolbar(String toolbarString) {
-		GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+		GuiManagerW gm = (GuiManagerW) app.getGuiManager();
 		gm.setToolBarDefinition(toolbarString);
 		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();

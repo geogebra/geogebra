@@ -95,7 +95,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		lbSize.addChangeHandler(event -> {
 			model.setEditGeoText(editor.getText());
-			boolean isCustom = (lbSize.getSelectedIndex() == 7);
+			boolean isCustom = lbSize.getSelectedIndex() == 7;
 			if (isCustom) {
 				String currentSize = Math
 						.round(model.getTextPropertiesAt(0)

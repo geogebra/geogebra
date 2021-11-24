@@ -44,7 +44,7 @@ public class GeoGebraTubeExportW extends
 	protected StringBuffer getPostData(String base64) {
 		Construction cons = app.getKernel().getConstruction();
 
-		boolean isConstruction = (getMacros() == null);
+		boolean isConstruction = getMacros() == null;
 
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();

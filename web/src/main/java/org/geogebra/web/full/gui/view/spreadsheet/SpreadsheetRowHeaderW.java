@@ -492,7 +492,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		requestFocus();
 
 		boolean shiftPressed = e.isShiftDown();
-		boolean rightClick = (e.isRightClick());
+		boolean rightClick = e.isRightClick();
 
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(),
 				app);

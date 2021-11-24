@@ -183,8 +183,8 @@ public class GgbAPIW extends GgbAPI {
 			boolean greyscale) {
 		String url;
 
-		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
-				.getActiveEuclidianView());
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
+				.getActiveEuclidianView();
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
 
@@ -892,7 +892,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            custom toolbar definition
 	 */
 	public void setCustomToolBar(String toolbarString) {
-		GuiManagerInterfaceW gm = ((GuiManagerInterfaceW) app.getGuiManager());
+		GuiManagerInterfaceW gm = (GuiManagerInterfaceW) app.getGuiManager();
 		gm.setToolBarDefinition(toolbarString);
 		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();

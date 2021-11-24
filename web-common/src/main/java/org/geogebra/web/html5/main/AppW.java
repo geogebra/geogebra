@@ -1891,7 +1891,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public boolean showView(int view) {
 		if (getGuiManager() == null) {
-			return (view == App.VIEW_EUCLIDIAN);
+			return view == App.VIEW_EUCLIDIAN;
 		}
 		return getGuiManager().showView(view);
 	}
