@@ -44,7 +44,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
@@ -371,9 +370,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			canvas.addStyleName("canvasDef");
 			definitionPanel.add(canvas);
 		}
-		if (geo == null) {
-			Log.debug("CANVAS to DEF");
-		}
 	}
 
 	protected boolean updateValuePanel(String text) {
@@ -521,9 +517,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
 			content.clear();
-			if (geo == null) {
-				Log.debug("CANVAS to IHTML");
-			}
 			content.add(canvas);
 		} else {
 			if (!buildPlainTextSimple()) {
@@ -542,9 +535,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput(0) != geo
 				&& mayNeedOutput()) {
-			Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
 			content.addStyleName("additionalRow");
-			prefix.addStyleName("prefix");
 			updateFont(content);
 
 			Image arrow = new NoDragImage(
