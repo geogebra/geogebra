@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.draw.DrawMindMap;
@@ -42,6 +41,7 @@ import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawVideo;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
@@ -124,7 +124,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.GeoWidget;
-import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -381,7 +380,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private double vertexY = Double.NaN;
 	private ModeDeleteLocus deleteMode;
 	private ModeShape shapeMode;
-	private GPoint2D startPoint = new GPoint2D();
+	private final GPoint2D startPoint = new GPoint2D();
 	private boolean externalHandling;
 	private long lastPointerRelease;
 	private boolean animationButtonPressed = false;
@@ -413,7 +412,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected double newZero;
 	protected double newScale;
 	private boolean objectMenuActive;
-	private List<CoordSystemListener> zoomerListeners = new LinkedList<>();
+	private final List<CoordSystemListener> zoomerListeners = new LinkedList<>();
 	private final HashMap<GeoElement, CoordSystemAnimationListener> zoomerAnimationListeners =
 			new HashMap<>();
 	private MyModeChangedListener modeChangeListener = null;
@@ -427,15 +426,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private ModeMacro modeMacro;
 	private int numOfTargets = 0;
 
-	private SnapController snapController = new SnapController();
-	private ArrayList<GeoElement> splitPartsToRemove = new ArrayList<>();
+	private final SnapController snapController = new SnapController();
+	private final ArrayList<GeoElement> splitPartsToRemove = new ArrayList<>();
 
 	// used for focused selection in groups and embed elements in groups
 	private Group lastGroupHit;
 	// used for edit mode of inline elements
 	private GeoElement lastMowHit;
 
-	private GeoPriorityComparator priorityComparator;
+	private final GeoPriorityComparator priorityComparator;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -2440,7 +2439,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoFunction[] lines = getSelectedFunctions();
 				ret[0] = getAlgoDispatcher().line(null, (GeoPoint) points[0],
-						(Lineable2D) lines[0]);
+						lines[0]);
 				return ret;
 			}
 		}
@@ -3503,12 +3502,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// empty
 		if (!repaintNeeded) {
 			return false;
-		} else if (oldHighlightedGeos.size() == highlightedGeos.size()
-				&& oldHighlightedGeos.containsAll(highlightedGeos)) {
-			return false;
+		} else {
+			return oldHighlightedGeos.size() != highlightedGeos.size()
+					|| !oldHighlightedGeos.containsAll(highlightedGeos);
 		}
-
-		return true;
 	}
 
 	/**
@@ -6444,10 +6441,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (!hits.isEmpty() && mode == EuclidianConstants.MODE_MOVE) {
-			boolean alwaysOn = false;
-			if (view.getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON) {
-				alwaysOn = true;
-			}
+			boolean alwaysOn = view.getAllowToolTips() == EuclidianStyleConstants.TOOLTIPS_ON;
 
 			String text = GeoElement.getToolTipDescriptionHTML(hits, true, true,
 					alwaysOn);

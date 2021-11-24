@@ -22,7 +22,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -123,7 +123,7 @@ public class GeoList extends GeoElement
 	private double fontSizeD = 1; // size relative to default font size
 	private int printDecimals = -1;
 	private int printFigures = -1;
-	private boolean useSignificantFigures = false;
+	private static final boolean useSignificantFigures = false;
 
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 	private boolean emphasizeRightAngle = true;

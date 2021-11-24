@@ -27,7 +27,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawConic;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -40,6 +39,7 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawWidget;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
@@ -285,7 +285,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private final HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
 			500);
 
-	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
+	private final ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
 
 	private DrawableList allDrawableList;
 
@@ -448,20 +448,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// ggb3D 2009-02-05
 
-	private GEllipse2DDouble circle = AwtFactory.getPrototype()
+	private final GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble(); // polar
 									// grid
 									// circles
-	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
+	private final GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	private GeoElement[] previewFromInputBarGeos;
-	private ArrayList<GeoElement> geosWaiting = new ArrayList<>();
+	private final ArrayList<GeoElement> geosWaiting = new ArrayList<>();
 	private boolean labelHitNeedsRefresh = true;
 	private GeoElement labelHitLastGeo = null;
 	/** reIniting is used by GeoGebraWeb */
 	protected boolean reIniting = false;
 	private boolean backgroundIsUpdating = false;
 
-	private Hits tempArrayList = new Hits();
+	private final Hits tempArrayList = new Hits();
 
 	private CoordSystemAnimation zoomer;
 	private CoordSystemAnimation axesRatioZoomer;
@@ -502,8 +502,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GRectangle exportFrame;
 	private GRectangle tempFrame;
 	private GPoint2D[] tmpClipPoints;
-	private NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
-	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
+	private final NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
+	private final NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
@@ -513,7 +513,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
-	private Rectangle visibleRect;
+	private final Rectangle visibleRect;
 
 	public static class Rectangle {
 
@@ -989,10 +989,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (!GeoNumeric.isChangeable(yminObject)) {
 			return false;
 		}
-		if (!GeoNumeric.isChangeable(ymaxObject)) {
-			return false;
-		}
-		return true;
+		return GeoNumeric.isChangeable(ymaxObject);
 	}
 
 	/**
@@ -1332,13 +1329,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// right
-		if (DoubleUtil.isGreater(p1[0], getXmax(), tolerance)
-				&& DoubleUtil.isGreater(p2[0], getXmax(), tolerance)) {
-			return true;
-		}
+		return DoubleUtil.isGreater(p1[0], getXmax(), tolerance)
+				&& DoubleUtil.isGreater(p2[0], getXmax(), tolerance);
 
 		// close to screen
-		return false;
 	}
 
 	/**
