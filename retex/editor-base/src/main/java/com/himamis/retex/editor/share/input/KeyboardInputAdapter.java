@@ -11,6 +11,10 @@ import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
+import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
+import com.himamis.retex.editor.share.util.CommandParser;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class KeyboardInputAdapter {
@@ -126,11 +130,24 @@ public class KeyboardInputAdapter {
 
 		commandAdapter = new KeyboardAdapter() {
 			@Override
-			public void commit(MathFieldInternal mfi, String commandName) {
-				type(mfi, commandName);
-				if (!commandName.contains("(")) {
-					mfi.getInputController().newBraces(mfi.getEditorState(), '(');
-					mfi.notifyAndUpdate("(");
+			public void commit(MathFieldInternal mfi, String commandString) {
+				List<String> splitCommand = CommandParser.parseCommand(commandString);
+
+				type(mfi, splitCommand.get(0));
+				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
+				mfi.notifyAndUpdate("(");
+
+				MetaModel metaModel = mfi.getEditorState().getMetaModel();
+				for (int i = 1; i < splitCommand.size(); i++) {
+					if (i != 1) {
+						MathCharacter comma = new MathCharacter(metaModel.getCharacter(","));
+						mfi.getEditorState().addArgument(comma);
+					}
+					mfi.getEditorState().addArgument(new MathPlaceholder(splitCommand.get(i)));
+				}
+
+				for (int i = 0; i < 2 * splitCommand.size() - 3; i++) {
+					mfi.getCursorController().prevCharacter(mfi.getEditorState());
 				}
 			}
 

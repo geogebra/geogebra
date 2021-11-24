@@ -6,6 +6,7 @@ import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -386,6 +387,13 @@ public class TeXSerializer extends SerializerAdapter {
 		if (this.currentSelEnd == array) {
 			stringBuilder.append(TeXSerializer.selection_end);
 		}
+	}
+
+	@Override
+	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
+		stringBuilder.append("{\\color{#00000097}")
+				.append(placeholder.getContent())
+				.append("}");
 	}
 
 	private static int letterLength(MathSequence symbol, int i) {

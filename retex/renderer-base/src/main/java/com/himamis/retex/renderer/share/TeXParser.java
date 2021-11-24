@@ -1508,8 +1508,8 @@ public class TeXParser {
 							final int OAOROGOB = (A << 24) | (R << 4) | G
 									| (B >> 4);
 							return FactoryProvider.getInstance()
-									.getGraphicsFactory().createColor(
-											(OAOROGOB << 4) | OAOROGOB, true);
+									.getGraphicsFactory().createColorAlpha(
+											(OAOROGOB << 4) | OAOROGOB);
 						}
 						throw new ParseException(this,
 								"An hexadecimal number #RGB or #RRGGBB expected");
@@ -1542,7 +1542,7 @@ public class TeXParser {
 											acc = acc | (m << 28) | (p << 24);
 											return FactoryProvider.getInstance()
 													.getGraphicsFactory()
-													.createColor(acc, true);
+													.createColorAlpha(acc);
 										}
 									}
 								}
@@ -1643,7 +1643,7 @@ public class TeXParser {
 									+ 0.5);
 							return FactoryProvider.getInstance()
 									.getGraphicsFactory()
-									.createColor((A << 24) | RGB, true);
+									.createColorAlpha((A << 24) | RGB);
 						} else {
 							return FactoryProvider.getInstance()
 									.getGraphicsFactory().createColor(RGB);
