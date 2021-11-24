@@ -897,6 +897,10 @@ public class MathFieldInternal
 		return s.serialize(getFormula());
 	}
 
+	/**
+	 * Gets the name of the function around containing currently edited position
+	 * @return function name, null if not in a function
+	 */
 	public String getCurrentFunction() {
 		MathContainer container = editorState.getCurrentField().getParent();
 		if (container instanceof MathFunction) {
@@ -918,6 +922,10 @@ public class MathFieldInternal
 		return null;
 	}
 
+	/**
+	 * Computes the index of the currently edited function argument
+	 * @return index of currently edited argument, -1 if not in a function
+	 */
 	public int getFunctionArgumentIndex() {
 		MathContainer container = editorState.getCurrentField().getParent();
 		if (container instanceof MathFunction) {
