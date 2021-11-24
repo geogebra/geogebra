@@ -430,11 +430,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	public boolean isEvaluatableEmptyList(int column) {
-		return  getEvaluatable(column).isGeoList()
+		return getEvaluatable(column).isGeoList()
 				&& ((GeoList) getEvaluatable(column)).isEmptyList();
 	}
 
+	/**
+	 * Update values column from the settings
+	 */
 	public void updateValuesColumn() {
-		columns.set(0, new TableValuesListColumn(getValueList()));
+		TableValuesListColumn element = new TableValuesListColumn(getValueList());
+		columns.set(0, element);
+		element.notifyColumnChanged(this, getValueList(), 0);
 	}
 }

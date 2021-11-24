@@ -692,6 +692,7 @@ public class MyXMLHandler implements DocHandler {
 		if (valuesString != null) {
 			xValuesLabel = valuesString;
 		} else {
+			ts.setValueList(null);
 			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
 			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
 			ts.setValuesStep(getNumber(attrs.get("step")).getDouble());

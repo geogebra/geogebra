@@ -60,7 +60,6 @@ public class TableValuesView implements TableValues, SettingListener {
 		Settings set = app.getSettings();
 		settings = set.getTable();
 		model = new SimpleTableValuesModel(kernel, settings);
-		settings.updateValueList(model.getValueList());
 		elements = new HashSet<>();
 		labelController = new LabelController();
 		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
@@ -155,16 +154,6 @@ public class TableValuesView implements TableValues, SettingListener {
 		double points = (max - min) / step;
 		if (points > MAX_ROWS || points < 0) {
 			throw new InvalidValuesException("TooManyRows");
-		}
-	}
-
-	private void updateValues() {
-		GeoList settingsValues = settings.getValueList();
-		if (settingsValues != null) {
-			model.updateEvaluatable(settingsValues);
-			settings.updateValueList(settingsValues);
-		} else {
-			updateValuesFromRange();
 		}
 	}
 
@@ -368,8 +357,13 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
+		GeoList valueList = ((TableSettings) settings).getValueList();
 		model.updateValuesColumn();
-		updateValues();
+		if (valueList == null) {
+			updateValuesFromRange();
+		} else {
+			model.updateEvaluatable(valueList);
+		}
 	}
 
 	/**
