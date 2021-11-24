@@ -46,6 +46,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -618,7 +619,6 @@ public class MathFieldInternal
 				wordEnd = editorState.getSelectionEnd().getParentIndex();
 			}
 			for (int i = Math.min(wordEnd, sel.size() - 1); i >= 0; i--) {
-
 				if (!appendChar(str, sel, i)) {
 					break;
 				}
@@ -895,5 +895,42 @@ public class MathFieldInternal
 	public String getText() {
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
+	}
+
+	public String getCurrentFunction() {
+		MathContainer container = editorState.getCurrentField().getParent();
+		if (container instanceof MathFunction) {
+			MathFunction function = ((MathFunction) container);
+
+			if (function.getName() != Tag.APPLY) {
+				return function.getName().getFunction();
+			}
+
+			StringBuilder str = new StringBuilder();
+			MathSequence name = function.getArgument(0);
+			for (int i = 0; i < name.getArgumentCount(); i++) {
+				appendChar(str, name, i);
+			}
+
+			return str.toString();
+		}
+
+		return null;
+	}
+
+	public int getFunctionArgumentIndex() {
+		MathContainer container = editorState.getCurrentField().getParent();
+		if (container instanceof MathFunction) {
+			int commaCount = 0;
+			for (int i = editorState.getCurrentOffset(); i >= 0; i--) {
+				MathComponent arg = editorState.getCurrentField().getArgument(i);
+				if (arg instanceof MathCharacter && ((MathCharacter) arg).isUnicode(',')) {
+					commaCount++;
+				}
+			}
+			return commaCount;
+		}
+
+		return -1;
 	}
 }
