@@ -275,7 +275,7 @@ public class GeoSymbolic extends GeoElement
 		numericVersion.addArgument(casInput.wrap());
 		String numResult = evaluateGeoGebraCAS(numericVersion, constant);
 
-		if (result.equals("?") && !numResult.equals("?")) {
+		if (!GeoFunction.isUndefined(numResult)) {
 			return numResult;
 		}
 
