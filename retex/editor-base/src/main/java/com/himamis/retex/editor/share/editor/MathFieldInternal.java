@@ -716,6 +716,7 @@ public class MathFieldInternal
 		MathSequence rootBefore = editorState.getRootComponent();
 		boolean allSelected = editorState.getSelectionStart() == rootBefore;
 		boolean rootProtected = rootBefore.isProtected();
+		boolean rootCommas = rootBefore.isKeepCommas();
 		InputController.deleteSelection(editorState);
 
 		if (editorState.isInsideQuotes() || inputController.getPlainTextMode()) {
@@ -739,6 +740,9 @@ public class MathFieldInternal
 
 		if (rootProtected) {
 			editorState.getRootComponent().setProtected();
+		}
+		if (rootCommas) {
+			editorState.getRootComponent().setKeepCommas();
 		}
 	}
 

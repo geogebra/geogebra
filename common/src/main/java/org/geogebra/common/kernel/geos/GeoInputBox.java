@@ -132,6 +132,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return ((GeoText) linkedGeo).getTextStringSafe().replace("\n", GeoText.NEW_LINE);
 		}
 
+		if (isSymbolicMode() && isListEditor()) {
+			return inputBoxRenderer.getStringForFlatList(tpl);
+		}
+
 		String linkedGeoText;
 		if (hasLaTeXEditableVector()) {
 			linkedGeoText = ((GeoVectorND) linkedGeo).toValueStringAsColumnVector(this.tpl);
@@ -569,5 +573,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private String getVariableName(FunctionVariable functionVariable) {
 		String name = functionVariable.getSetVarString();
 		return name.replaceAll("[{}]", "");
+	}
+
+	/**
+	 * @return whether to use the special editor for lists (no braces)
+	 */
+	public boolean isListEditor() {
+		return linkedGeo instanceof GeoList && linkedGeo.hasSpecialEditor()
+				&& !((GeoList) linkedGeo).isMatrix();
 	}
 }

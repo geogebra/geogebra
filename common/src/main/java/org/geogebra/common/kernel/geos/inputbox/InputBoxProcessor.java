@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
+import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
+import org.geogebra.common.kernel.commands.redefinition.RuleCollectionSymbolic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -152,7 +154,8 @@ public class InputBoxProcessor {
 		String defineText = maybeClampInputForNumeric(content.getEditorInput(), tpl);
 		if (linkedGeo.hasSpecialEditor() && content.hasEntries()) {
 			defineText = buildListText(content);
-		} else if ("?".equals(content.getEditorInput()) || "".equals(content.getEditorInput())) {
+		} else if ("?".equals(content.getEditorInput())
+				|| ("".equals(content.getEditorInput()) && !inputBox.isListEditor())) {
 			defineText = "?";
 		} else if (linkedGeo.isGeoLine()) {
 
@@ -183,6 +186,10 @@ public class InputBoxProcessor {
 					+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
 
+		if (inputBox.isSymbolicMode() && inputBox.isListEditor()) {
+			defineText = "{" + defineText + "}";
+		}
+
 		if (GeoPoint.isComplexNumber(linkedGeo)) {
 			defineText = defineText.replace('I', 'i');
 		}
@@ -203,7 +210,7 @@ public class InputBoxProcessor {
 				&& ((GeoSurfaceCartesianND) linkedGeo).getComplexVariable() != null;
 	}
 
-	private RedefinitionRule createRedefinitionRule() {
+	private RuleCollection createRedefinitionRule() {
 		RedefinitionRule same = RedefinitionRules.sameClassRule();
 		RedefinitionRule point = RedefinitionRules.oneWayRule(
 				GeoClass.POINT3D, GeoClass.POINT);
@@ -211,6 +218,10 @@ public class InputBoxProcessor {
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
 		RedefinitionRule numericAngle = RedefinitionRules.oneWayRule(
 				GeoClass.NUMERIC, GeoClass.ANGLE);
-		return RedefinitionRules.anyRule(same, point, vector, numericAngle);
+		if (inputBox.isSymbolicMode()) {
+			return new RuleCollectionSymbolic(same, point, vector, numericAngle);
+		} else {
+			return new RuleCollection(same, point, vector, numericAngle);
+		}
 	}
 }
