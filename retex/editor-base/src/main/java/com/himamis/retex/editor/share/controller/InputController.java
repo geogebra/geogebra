@@ -244,21 +244,20 @@ public class InputController {
 			newFunction(editorState, name, ch == '[', power.script);
 
 		} else {
-			String selText = editorState.getSelectedText().trim();
-			if (editorState.getSelectionStart() instanceof MathCharacter) {
-				if (selText.startsWith("<") && selText.endsWith(">")) {
+			int index = editorState.getCurrentOffsetOrSelection();
+			MathComponent firstSelection = editorState.getCurrentField().getArgument(index);
 
-					deleteSelection(editorState);
-					MetaArray meta = metaModel.getArray(ch);
-					MathArray array = new MathArray(meta, 1);
-					MathSequence seq = new MathSequence();
-					array.setArgument(0, seq);
-					editorState.getCurrentField()
-							.addArgument(editorState.getCurrentOffset(), array);
-					editorState.setCurrentField(seq);
-					editorState.setCurrentOffset(0);
-					return;
-				}
+			if (firstSelection instanceof MathPlaceholder) {
+				editorState.getCurrentField().removeArgument(index);
+				MetaArray meta = metaModel.getArray(ch);
+				MathArray array = new MathArray(meta, 1);
+				MathSequence seq = new MathSequence();
+				array.setArgument(0, seq);
+				editorState.getCurrentField().addArgument(index, array);
+				editorState.setSelectionStart(null);
+				editorState.setCurrentField(seq);
+				editorState.setCurrentOffset(0);
+				return;
 			}
 
 			// TODO brace type
@@ -1119,8 +1118,11 @@ public class InputController {
 			return true;
 		}
 
+		MetaModel meta = editorState.getMetaModel();
+
 		int currentOffset = editorState.getCurrentOffset();
-		if (editorState.getCurrentField().getArgument(currentOffset) instanceof MathPlaceholder) {
+		if (editorState.getCurrentField().getArgument(currentOffset) instanceof MathPlaceholder
+				&& !meta.isFunctionOpenKey(ch)) {
 			editorState.getCurrentField().removeArgument(currentOffset);
 		}
 
@@ -1131,9 +1133,8 @@ public class InputController {
 		if (useSimpleScripts) {
 			checkScriptExit(ch, editorState);
 		}
-		boolean handled = handleEndBlocks(editorState, ch);
 
-		MetaModel meta = editorState.getMetaModel();
+		boolean handled = handleEndBlocks(editorState, ch);
 		if (!handled) {
 			if (meta.isArrayCloseKey(ch)) {
 				endField(editorState, ch);

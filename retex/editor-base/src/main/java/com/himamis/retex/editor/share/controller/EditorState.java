@@ -224,21 +224,6 @@ public class EditorState {
 						getCurrentField().size() - 1)));
 	}
 
-	/**
-	 * @return content of selection as text
-	 */
-	public String getSelectedText() {
-		StringBuilder sb = new StringBuilder();
-		if (currentSelStart != null && currentSelEnd != null
-				&& currentSelStart.getParent() != null) {
-			for (int i = currentSelStart.getParentIndex(); i <= currentSelEnd
-					.getParentIndex(); i++) {
-				sb.append(currentSelStart.getParent().getArgument(i));
-			}
-		}
-		return sb.toString();
-	}
-
 	private static boolean contains(MathContainer commonParent,
 			MathComponent cursorField0) {
 		MathComponent cursorField = cursorField0;

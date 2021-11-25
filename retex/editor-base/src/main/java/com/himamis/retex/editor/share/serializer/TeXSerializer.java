@@ -15,8 +15,11 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class TeXSerializer extends SerializerAdapter {
 
-	public static final String PLACEHOLDER =
-			"{\\bgcolor{#DCDCDC}\\scalebox{1}[1.6]{\\phantom{g}}}";
+	public static final int placeholderColor = 0xDCDCDC;
+	public static final int commandPlaceholderColor = 0x616161;
+
+	public static final String PLACEHOLDER = "{\\bgcolor{#"
+			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}}";
 	private static final String cursor = "\\jlmcursor{0}";
 	private static final String cursorBig = "\\jlmcursor{0.9}";
 	private static final String selection_start = "\\jlmselection{";
@@ -391,7 +394,9 @@ public class TeXSerializer extends SerializerAdapter {
 
 	@Override
 	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
-		stringBuilder.append("{\\color{#00000097}")
+		stringBuilder.append("{\\color{#")
+				.append(Integer.toHexString(commandPlaceholderColor))
+				.append("}")
 				.append(placeholder.getContent())
 				.append("}");
 	}

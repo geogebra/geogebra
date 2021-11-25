@@ -904,7 +904,7 @@ public class MathFieldInternal
 	public String getCurrentFunction() {
 		MathContainer container = editorState.getCurrentField().getParent();
 		if (container instanceof MathFunction) {
-			MathFunction function = ((MathFunction) container);
+			MathFunction function = (MathFunction) container;
 
 			if (function.getName() != Tag.APPLY) {
 				return function.getName().getFunction();
