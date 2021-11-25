@@ -31,7 +31,7 @@ publishing {
 
 dependencies {
     api project(':renderer-base')
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 
 android {
