@@ -827,14 +827,6 @@ public abstract class GlobalKeyDispatcher {
 		case SUBTRACT:
 		case MINUS:
 		case EQUALS:
-
-			// in Chrome and IE11, both the applet and the
-			// browser are zoomed
-			// even when the applet has focus
-			if (app.isHTML5Applet()) {
-				break;
-			}
-
 			// disable zooming in PEN mode
 			if (!EuclidianView
 					.isPenMode(app.getActiveEuclidianView().getMode())) {
@@ -850,8 +842,8 @@ public abstract class GlobalKeyDispatcher {
 					double factor = key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT)
 							? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 							: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-
-					ec.zoomInOut(factor, 15, ec.mouseLoc.x, ec.mouseLoc.y);
+					GPoint zoomPoint = getZoomPoint(ec);
+					ec.zoomInOut(factor, 15, zoomPoint.x, zoomPoint.y);
 					app.setUnsaved();
 					consumed = true;
 				}
@@ -916,6 +908,14 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
+	private GPoint getZoomPoint(EuclidianController ec) {
+		if (ec.getMouseLoc() != null) {
+			return ec.getMouseLoc();
+		} else {
+			return new GPoint(ec.getView().getWidth() / 2, ec.getView().getWidth() / 2);
+		}
+	}
+
 	/**
 	 * Change algebra style value -&gt; definition -&gt; description ...
 	 * 
@@ -929,10 +929,6 @@ public abstract class GlobalKeyDispatcher {
 				(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
 
 		kernel.updateConstruction(false);
-		/*
-		 * if (app.hasOptionsMenu()) {
-		 * app.getOptionsMenu(null).updateMenuViewDescription(); }
-		 */
 		app.setUnsaved();
 	}
 
@@ -947,7 +943,6 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private void handleEscForDropdown() {
-		// Log.debug("handleEscForDropdown");
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
