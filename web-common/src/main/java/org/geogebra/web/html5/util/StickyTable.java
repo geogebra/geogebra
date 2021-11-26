@@ -159,6 +159,14 @@ public abstract class StickyTable<T> extends FlowPanel {
 				".values tr th:nth-child(" + (column + 1) + ") .content");
 	}
 
+	public Element getHeaderElementByClassName(String className) {
+		return Dom.querySelectorForElement(cellTable.getTableHeadElement(), className);
+	}
+
+	public Element getTableElementByClassName(String className) {
+		return Dom.querySelectorForElement(cellTable.getTableBodyElement(), className);
+	}
+
 	/**
 	 * @param column
 	 *            to get

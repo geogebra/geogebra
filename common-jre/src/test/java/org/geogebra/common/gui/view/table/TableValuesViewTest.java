@@ -640,23 +640,6 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testNotifyRowsAddedCalled() {
-		// The following case can happen in undo redo calls
-		// This cannot be reproduced from the UI
-		processor.processInput("1", view.getValues(), 0);
-		model.registerListener(listener);
-		Construction cons = getConstruction();
-		GeoList list = new GeoList(cons);
-		list.add(new GeoNumeric(cons, 1));
-		list.add(new GeoNumeric(cons, 1));
-		list.add(new GeoNumeric(cons, 1));
-		list.add(new GeoNumeric(cons, 1));
-		showColumn(list);
-		verify(listener).notifyRowsAdded(model, 1, 3);
-		verify(listener).notifyColumnAdded(model, list, 1);
-	}
-
-	@Test
 	public void reloadShouldPreservePointOrder() {
 		GeoLine[] lines = createLines(3);
 		setValuesSafe(-5, 5, 2);

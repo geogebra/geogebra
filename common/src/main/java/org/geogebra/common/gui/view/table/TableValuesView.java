@@ -108,7 +108,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		evaluatable.setTableColumn(-1);
-		model.removeEvaluatable(evaluatable);
+		model.removeEvaluatable(evaluatable, true);
 		storeUndoInfo();
 	}
 
@@ -284,7 +284,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			if (model.getEvaluatableIndex(evaluatable) > -1) {
-				model.removeEvaluatable(evaluatable);
+				model.removeEvaluatable(evaluatable, false);
 			}
 		}
 	}
@@ -308,7 +308,7 @@ public class TableValuesView implements TableValues, SettingListener {
 			if (geo.hasTableOfValues() || geo == values) {
 				model.updateEvaluatable(evaluatable);
 			} else {
-				model.removeEvaluatable(evaluatable);
+				model.removeEvaluatable(evaluatable, false);
 			}
 		} else if (geo instanceof GeoNumeric || geo instanceof GeoText) {
 			model.maybeUpdateListElement(geo);

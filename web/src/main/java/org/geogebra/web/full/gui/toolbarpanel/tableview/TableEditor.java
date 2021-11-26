@@ -86,9 +86,7 @@ public class TableEditor implements UnhandledArrowListener {
 	}
 
 	private void moveFocus(final int focusRow, final int focusCol) {
-		app.invokeLater(() -> {
-			startEditing(focusRow, focusCol, null);
-		});
+		app.invokeLater(() -> startEditing(focusRow, focusCol, null));
 	}
 
 	private boolean wasEnterPressed() {
@@ -96,7 +94,8 @@ public class TableEditor implements UnhandledArrowListener {
 	}
 
 	private boolean isLastInputRowEmpty() {
-		return mathTextField.getText().isEmpty() && editRow == table.tableModel.getRowCount();
+		return mathTextField.getText().isEmpty() && (editRow == table.tableModel.getRowCount()
+				|| table.getColumnsChange() < 0 || table.getRowsChange() < 0);
 	}
 
 	private boolean isNewColumnEdited(GeoEvaluatable evaluatable) {
@@ -107,7 +106,7 @@ public class TableEditor implements UnhandledArrowListener {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
 			mathTextField.setRightMargin(26);
-			mathTextField.addChangeHandler(() -> stopEditing());
+			mathTextField.addChangeHandler(this::stopEditing);
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");
 			mathTextField.setUnhandledArrowListener(this);
