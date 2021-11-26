@@ -4,26 +4,26 @@
 
 .GeoGebraFrame {
 
-    /* CHECKBOX COMPONENT */
-    @mixin checkboxBg($color) {
-    	.background {
-    		border-color: $color;
-    		background-color: $color;
-    	}
-    }
+	/* CHECKBOX COMPONENT */
+	@mixin checkboxBg($color) {
+		.background {
+			border-color: $color;
+			background-color: $color;
+		}
+	}
 
-    .checkboxPanel {
-    	display: flex;
-    	width: fit-content;
-    	cursor: pointer;
-    }
+	.checkboxPanel {
+		display: flex;
+		width: fit-content;
+		cursor: pointer;
+	}
 
-    .checkbox {
-        width: 18px;
-        height: 18px;
-        padding: 3px;
-        position: relative;
-        cursor: pointer;
+	.checkbox {
+		width: 18px;
+		height: 18px;
+		padding: 3px;
+		position: relative;
+		cursor: pointer;
 
 		.background {
 			width: 18px;
@@ -314,13 +314,13 @@
 			height: calc(100% - 20px);
 			overflow: hidden;
 
-            .dialogTitle {
-                min-height: 20px;
-                font-size: 125%;
-                margin-bottom: 20px;
-                margin-left: 24px;
-                color: colors.$text-primary;
-            }
+			.dialogTitle {
+				min-height: 20px;
+				font-size: 125%;
+				margin-bottom: 20px;
+				margin-left: 24px;
+				color: colors.$text-primary;
+			}
 
 			.dialogContent {
 				// 112px = 20px title + 20px margin + 52px button panel
@@ -477,6 +477,37 @@
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
 			color: colors.$text-secondary;
+		}
+	}
+
+	.infoErrorPanel {
+		img {
+			padding: 20px;
+			margin-left: calc(50% - 76px); // (112+2*20)/2=76
+			margin-bottom: 48px;
+			margin-top: 88px;
+			opacity: 0.54;
+			background-color: colors.$mow_white_hover;
+			border-radius: 50%;
+		}
+
+		.title {
+			margin-bottom: 12px;
+			color: colors.$text-primary;
+			font-size: 125%;
+			line-height: 1;
+			letter-spacing: 0.25px;
+			vertical-align: top;
+			text-align: center;
+		}
+
+		.subtext {
+			color: colors.$text-secondary;
+			vertical-align: top;
+			text-align: center;
+			line-height: 1;
+			letter-spacing: 0.2px;
+			margin-bottom: 48px;
 		}
 	}
 }

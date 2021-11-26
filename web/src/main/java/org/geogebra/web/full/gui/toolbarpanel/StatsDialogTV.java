@@ -78,25 +78,29 @@ public class StatsDialogTV extends ComponentDialog {
 	/**
 	 * Add regression UI and show
 	 */
-	public void addRegressionChooser(int rows) {
+	public boolean addRegressionChooserHasError(int rows) {
 		ListBox regressionChooser = new ListBox();
 		List<RegressionSpecification> available = RegressionSpecification.getForListSize(rows);
-		available.forEach(spec ->
-			regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
-					spec.getLabel())
-		);
-		regressionChooser.addChangeHandler((change) -> {
-			RegressionSpecification regression = available
-					.get(regressionChooser.getSelectedIndex());
-			setRows(view.getRegression(column, regression));
-		});
-		addDialogContent(regressionChooser);
+		if (available.size() > 0) {
+			available.forEach(spec ->
+					regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
+							spec.getLabel())
+			);
+			regressionChooser.addChangeHandler((change) -> {
+				RegressionSpecification regression = available
+						.get(regressionChooser.getSelectedIndex());
+				setRows(view.getRegression(column, regression));
+			});
+			addDialogContent(regressionChooser);
 
-		setOnPositiveAction(() -> {
-			RegressionSpecification regression = available
-					.get(regressionChooser.getSelectedIndex());
-			view.plotRegression(column, regression);
-		});
-		updateContent(c -> view.getRegression(c, available.get(0)));
+			setOnPositiveAction(() -> {
+				RegressionSpecification regression = available
+						.get(regressionChooser.getSelectedIndex());
+				view.plotRegression(column, regression);
+			});
+			updateContent(c -> view.getRegression(c, available.get(0)));
+			return false;
+		}
+		return true;
 	}
 }
