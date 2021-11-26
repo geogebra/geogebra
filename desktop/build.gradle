@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id "com.github.spotbugs" version "4.7.10"
+    id "com.github.spotbugs" version "4.8.0"
     id 'application'
     id 'eclipse'
     id 'checkstyle'
