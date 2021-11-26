@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.junit.Assert;
@@ -156,6 +158,30 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 		assertEquals(Double.NaN, model.getValueAt(1, 1), Kernel.STANDARD_PRECISION);
 		assertEquals("1", model.getCellAt(0, 1).getInput());
 		assertEquals("", model.getCellAt(1, 1).getInput());
+	}
+
+	@Test
+	public void testUndoHideColumnWithPlot() {
+		GeoList list = add("{1,2,3}");
+		GeoList listY = add("{4,5,6}");
+		getApp().getSettings().getTable().updateValueList(list);
+		view.add(listY);
+		view.showColumn(listY);
+		GeoElement plot = view.plotRegression(1,
+				RegressionSpecification.getForListSize(3).get(0));
+		getApp().storeUndoInfo();
+		assertEquals(plot.toString(StringTemplate.defaultTemplate), "f(x) = x + 3");
+		assertTrue("plot in construction initially", isInGraphics(plot));
+		view.hideColumn(listY);
+		assertFalse("plot removed when column hidden", isInGraphics(plot));
+		getKernel().undo();
+		assertTrue("plot appears again on undo", isInGraphics(lookup("f")));
+		getKernel().redo();
+		assertFalse("plot disappears on redo", isInGraphics(lookup("f")));
+	}
+
+	private boolean isInGraphics(GeoElement plot) {
+		return getApp().getEuclidianView1().getDrawableFor(plot) != null;
 	}
 
 	private void shouldHaveUndoPointsAndColumns(int expected, int expectCols) {
