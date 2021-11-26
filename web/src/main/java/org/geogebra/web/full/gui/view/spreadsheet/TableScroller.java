@@ -211,9 +211,10 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 			return;
 		}
 
-		GPoint upperLeftCellPosition = getUpperLeftCellPosition(getViewPosition(), dx, dy);
+		GPoint viewPosition = getViewPosition();
+		GPoint upperLeftCellPosition = getUpperLeftCellPosition(viewPosition, dx, dy);
 
-		if (upperLeftCellPosition != null) {
+		if (upperLeftCellPosition != null && upperLeftCellPosition.distance(viewPosition) > 2) {
 			doAdjustScroll = false;
 			setHorizontalScrollPosition(upperLeftCellPosition.x);
 			setVerticalScrollPosition(upperLeftCellPosition.y);
@@ -230,7 +231,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		int y = viewPosition.y + offV;
 
 		// get upper left cell coordinates
-		GPoint p = table.getIndexFromPixel(x, y);
+		GPoint p = table.getIndexFromPixel(x, y, 1);
 		if (p == null) {
 			return null;
 		}
