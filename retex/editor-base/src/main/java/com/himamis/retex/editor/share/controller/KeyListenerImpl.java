@@ -87,9 +87,6 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_RIGHT:
-			if (InputController.trySelectNext(editorState)) {
-				return true;
-			}
 			CursorController.nextCharacter(editorState);
 			if (shiftPressed) {
 				editorState.extendSelection(false);
@@ -118,11 +115,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_OPEN_BRACKET:
 			return false;
 		case JavaKeyCodes.VK_TAB:
-			if (!InputController.trySelectNext(editorState)) {
-				if (!InputController.trySelectFirst(editorState)) {
-					onTab(shiftPressed);
-				}
-			}
+			onTab(shiftPressed);
 			return true;
 		default:
 			// InputController.deleteSelection(editorState);

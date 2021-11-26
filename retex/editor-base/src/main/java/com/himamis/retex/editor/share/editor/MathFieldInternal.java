@@ -649,27 +649,6 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * Select next argument of a function.
-	 */
-	public void selectNextArgument() {
-		EditorState state = getEditorState();
-		MathSequence seq = state.getCurrentField();
-
-		if (seq != null && seq.size() > 0) {
-			MathComponent last = seq.getArgument(state.getCurrentOffset() - 1);
-			if (last instanceof MathFunction
-					&& ((MathFunction) last).size() > 0) {
-				// log10: sizse 1, select 0 sin: size 2 select 1
-				MathSequence args = ((MathFunction) last)
-						.getArgument(((MathFunction) last).size() - 1);
-				if (InputController.doSelectNext(args, state, 0)) {
-					update();
-				}
-			}
-		}
-	}
-
-	/**
 	 * @return serialized selection
 	 */
 	public String copy() {

@@ -1313,88 +1313,15 @@ public class InputController {
 	}
 
 	private void comma(EditorState editorState) {
-		if (trySelectNext(editorState)) {
+		int offset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentField.getArgumentCount() > offset
+				&& currentField.getArgument(offset + 1) instanceof MathPlaceholder) {
+			CursorController.nextCharacter(editorState);
 			return;
 		}
 
 		newOperator(editorState, ',');
-
-	}
-
-	/**
-	 * Select next argument in suggested command.
-	 *
-	 * @param editorState
-	 *            current state
-	 * @return success
-	 */
-	public static boolean trySelectNext(EditorState editorState) {
-		int idx = editorState.getCurrentOffset();
-		if (editorState.getSelectionEnd() != null) {
-			idx = editorState.getSelectionEnd().getParentIndex() + 1;
-		}
-		MathSequence field = editorState.getCurrentField();
-		if (field.getArgument(idx) instanceof MathCharacter
-				&& ",".equals(field.getArgument(idx).toString())
-				&& doSelectNext(field, editorState, idx + 1)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Select first argument in suggested command.
-	 *
-	 * @param editorState
-	 *            current state
-	 * @return success
-	 */
-	public static boolean trySelectFirst(EditorState editorState) {
-		int idx = editorState.getCurrentOffset();
-		if (editorState.getSelectionEnd() != null) {
-			idx = editorState.getSelectionEnd().getParentIndex() + 1;
-		}
-
-		MathSequence field = editorState.getCurrentField();
-		if (idx == field.size() - 1 && doSelectNext(field, editorState, 0)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * @param args
-	 *            text of the form &lt;arg1&gt;&lt;arg2&gt;
-	 * @param state
-	 *            current state
-	 * @param offset
-	 *            where to start looking
-	 * @return whether successfully selected
-	 */
-	public static boolean doSelectNext(MathSequence args, EditorState state,
-			int offset) {
-		int endchar = -1;
-		for (int i = offset + 1; i < args.size(); i++) {
-			if (args.getArgument(i) instanceof MathCharacter
-					&& ((MathCharacter) args.getArgument(i))
-					.isUnicode('>')) {
-				endchar = i;
-				if (i < args.size() - 1
-						&& args.getArgument(i + 1) instanceof MathCharacter
-						&& " ".equals(args.getArgument(i + 1).toString())) {
-					endchar++;
-				}
-				break;
-			}
-		}
-		if (endchar > 0) {
-			state.setCurrentField(args);
-			state.setSelectionStart(args.getArgument(offset));
-			state.setSelectionEnd(args.getArgument(endchar));
-			state.setCurrentOffset(endchar);
-			return true;
-		}
-		return false;
 	}
 
 	/**
