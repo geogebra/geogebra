@@ -171,8 +171,9 @@ public class ContextMenuTV {
 				dialogData.getSubTitleTransKey(), "Close", null);
 		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
 		dialog.addStyleName("statistics error");
-		InfoErrorData errorData = new InfoErrorData("Not enough data", "There is not enough data available for regression analysis",
-				null);
+		InfoErrorData errorData = new InfoErrorData(app.getLocalization()
+				.getMenu("StatsDialog.NoData"), app.getLocalization()
+				.getMenu("StatsDialog.NoDataMsg"),	null);
 		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				errorData, MaterialDesignResources.INSTANCE.bar_chart_black(), null);
 		dialog.addDialogContent(infoPanel);

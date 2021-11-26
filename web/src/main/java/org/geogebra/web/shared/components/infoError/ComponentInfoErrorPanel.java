@@ -11,6 +11,13 @@ import com.google.gwt.user.client.ui.Label;
 public class ComponentInfoErrorPanel extends FlowPanel {
 	private Localization loc;
 
+	/**
+	 * info/error panel constructor
+	 * @param loc - localization
+	 * @param data - data of the panel including title, subtext and button text
+	 * @param img - image
+	 * @param buttonAction - handler for the button
+	 */
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data, SVGResource img,
 			 Runnable buttonAction) {
 		this.loc = loc;
@@ -19,9 +26,7 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	}
 
 	private void buildGUI(InfoErrorData data, SVGResource img, Runnable buttonAction) {
-		NoDragImage infoImage = new NoDragImage(img.getSafeUri().asString());
-		infoImage.setWidth(112);
-		infoImage.setHeight(112);
+		NoDragImage infoImage = new NoDragImage(img, 56, 56);
 		add(infoImage);
 
 		if (data.getTitle() != null) {

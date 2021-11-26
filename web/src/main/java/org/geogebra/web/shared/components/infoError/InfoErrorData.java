@@ -5,6 +5,12 @@ public class InfoErrorData {
 	private String subtext;
 	private String actionButtonText;
 
+	/**
+	 * info/error date constructor
+	 * @param title - title
+	 * @param subtext - error/warning message
+	 * @param actionButtonText - action button text
+	 */
 	public InfoErrorData(String title, String subtext, String actionButtonText) {
 		setTitle(title);
 		setSubtext(subtext);

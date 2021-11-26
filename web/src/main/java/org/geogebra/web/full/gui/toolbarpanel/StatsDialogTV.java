@@ -77,6 +77,7 @@ public class StatsDialogTV extends ComponentDialog {
 
 	/**
 	 * Add regression UI and show
+	 * @return if data has error or not
 	 */
 	public boolean addRegressionChooserHasError(int rows) {
 		ListBox regressionChooser = new ListBox();
