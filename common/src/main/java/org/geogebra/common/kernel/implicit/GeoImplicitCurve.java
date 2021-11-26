@@ -64,12 +64,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
 		Transformable, PointRotateable, GeoImplicit, ReplaceChildrenByValues {
-	/**
-	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT,TOP_FAR, BOTTOM_FAR,
-	 * LEFT_FAR, RIGHT_FAR]
-	 */
-	static final int[][] MOVE = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 },
-			{ -3, 0 }, { 3, 0 }, { 0, -3 }, { 0, 3 } };
+
 	/**
 	 * Border mask
 	 */
@@ -1848,38 +1843,44 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				pt.setCoords(new Coords(x1, y1, 1.0), false);
 				return;
 			}
-			double mv = Math.max(w, h) / MAX_SPLIT, x2, y2, d2, mx, my, md;
-			for (int i = 0; i < MOVE.length; i++) {
-				x2 = x1 + mv * MOVE[i][0];
-				y2 = y1 + mv * MOVE[i][1];
-				d2 = evaluateImplicitCurve(x2, y2);
-				if (d2 * d1 <= 0.0) {
-					int count = 0;
-					mx = x1;
-					my = y1;
-					while (!DoubleUtil.isZero(d2) && count < 64) {
-						mx = 0.5 * (x1 + x2);
-						my = 0.5 * (y1 + y2);
-						md = evaluateImplicitCurve(mx, my);
-						if (DoubleUtil.isZero(md)) {
-							pt.setCoords(new Coords(mx, my, 1.0), false);
-							return;
-						}
-						if (d1 * md <= 0.0) {
-							d2 = md;
-							x2 = mx;
-							y2 = my;
-						} else {
-							d1 = md;
-							x1 = mx;
-							y1 = my;
-						}
-						count++;
+
+			// determine the direction of the gradient vector
+			double derivativeX = getDerivativeX().evaluate(x1, y1);
+			double derivativeY = getDerivativeY().evaluate(x1, y1);
+			double derivativeLength = Math.hypot(derivativeX, derivativeY);
+
+			// take one big step in the direction of the gradient vector
+			double mv = Math.max(w, h) / MAX_SPLIT;
+			double x2 = x1 - mv * (derivativeX / derivativeLength) * Math.signum(d1);
+			double y2 = y1 - mv * (derivativeY / derivativeLength) * Math.signum(d1);
+			double d2 = evaluateImplicitCurve(x2, y2);
+
+			// if we stepped over the curve...
+			if (d2 * d1 <= 0.0) {
+				double mx = x1;
+				double my = y1;
+
+				// binary search the closest point to the curve with a maximum depth of 64
+				for (int count = 0; count < 64 && !DoubleUtil.isZero(d2); count++) {
+					mx = 0.5 * (x1 + x2);
+					my = 0.5 * (y1 + y2);
+					double md = evaluateImplicitCurve(mx, my);
+					if (DoubleUtil.isZero(md)) {
+						pt.setCoords(new Coords(mx, my, 1.0), false);
+						return;
 					}
-					// we didn't hit exact 0, let's use the closest we have
-					pt.setCoords(new Coords(mx, my, 1.0), false);
-					return;
+					if (d1 * md <= 0.0) {
+						d2 = md;
+						x2 = mx;
+						y2 = my;
+					} else {
+						d1 = md;
+						x1 = mx;
+						y1 = my;
+					}
 				}
+				// we didn't hit exact 0, let's use the closest we have
+				pt.setCoords(new Coords(mx, my, 1.0), false);
 			}
 		}
 

@@ -135,35 +135,4 @@ public class PathNormalizer {
 		}
 		return z / (1 - z);
 	}
-
-	/*
-	 * TEST
-	 */
-	// public static void main(String[] args) {
-	//
-	// for (int i=0; i<10; i++) {
-	// double t = 2*Math.random()-1;
-	// System.out.println("t = " + t);
-	//
-	// double tn = toNormalizedPathParameter(t, Double.NEGATIVE_INFINITY,
-	// Double.POSITIVE_INFINITY);
-	// double t2= toParentPathParameter(tn, Double.NEGATIVE_INFINITY,
-	// Double.POSITIVE_INFINITY);
-	// System.out.println("\ttn = " + tn + ", error: " + (t2-t));
-	//
-	// tn = toNormalizedPathParameter(t, Double.NEGATIVE_INFINITY, 3);
-	// t2= toParentPathParameter(tn, Double.NEGATIVE_INFINITY, 3);
-	// System.out.println("\ttn = " + tn + ", error: " + (t2-t));
-	//
-	// tn = toNormalizedPathParameter(t, -7, Double.POSITIVE_INFINITY);
-	// t2= toParentPathParameter(tn, -7, Double.POSITIVE_INFINITY);
-	// System.out.println("\ttn = " + tn + ", error: " + (t2-t));
-	//
-	// tn = toNormalizedPathParameter(t, -5, 9);
-	// t2= toParentPathParameter(tn, -5, 9);
-	// System.out.println("\ttn = " + tn + ", error: " + (t2-t));
-	// }
-	//
-	// }
-
 }
