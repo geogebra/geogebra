@@ -308,7 +308,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {
 			// or while(Math.abs(diff)>EPSILON) ?
 			iterations++;
-			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
+			if ((iterations > MAXITERATIONS) || error) { // From experience:
 															// >200 gives
 															// nothing more...
 				Log.debug("More than " + MAXITERATIONS

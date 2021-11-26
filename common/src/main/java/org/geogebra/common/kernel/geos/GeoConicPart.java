@@ -709,7 +709,7 @@ public class GeoConicPart extends GeoConic
 
 				GeoConic orgConic = ((AlgoSemicircle) algo).getConic();
 				GeoConicND transformedConic = t.getTransformedConic(orgConic);
-				(cons).removeFromConstructionList(
+				cons.removeFromConstructionList(
 						transformedConic.getParentAlgorithm());
 				if (t.changesOrientation()) {
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,

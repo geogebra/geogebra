@@ -978,7 +978,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 					i++;
 					index = true;
 				} else {
-					visibleChars -= (1 - indexSize); // penalty for 1char index
+					visibleChars -= 1 - indexSize; // penalty for 1char index
 				}
 			} else if (str.charAt(i) == '}') {
 				index = false;

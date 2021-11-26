@@ -1011,14 +1011,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						}
 						j = j % gLength;
 						boolean pointOK = true;
-						while ((pointOK) && (i < gLength)) {
-							// Log.debug("Recherche pour : "+i+"="+j);
+						while (pointOK && (i < gLength)) {
 							pointOK = (this.getPoint3D(i)
 									.equalsForKernel(g.getPoint3D(j)));
-							/*
-							 * if (pointOK){ Log.debug("Point suivant : "+j);
-							 * }else { Log.debug("Arret : "+j); }
-							 */
 							j = j + step;
 							if (j < 0) {
 								j = gLength - 1;

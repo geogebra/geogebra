@@ -1176,7 +1176,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				dist = new PascalDistribution(n, p);
 
 				first = 0;
-				last = (int) Math.max(1, (kernel).getXmax() + 1);
+				last = (int) Math.max(1, kernel.getXmax() + 1);
 				break;
 			case TYPE_BARCHART_ZIPF:
 				if (!(p1geo.isDefined() && p2geo.isDefined())) {

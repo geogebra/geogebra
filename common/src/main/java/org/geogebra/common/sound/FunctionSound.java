@@ -177,7 +177,7 @@ public abstract class FunctionSound {
 				value -= 0.5;
 			}
 
-			getBuf()[k] = (byte) (value);
+			getBuf()[k] = (byte) value;
 		}
 	}
 
@@ -216,7 +216,7 @@ public abstract class FunctionSound {
 				value -= 0.5;
 			}
 
-			short sample = (short) (value);
+			short sample = (short) value;
 			getBuf()[2 * k] = (byte) (sample & 0xff);
 			getBuf()[2 * k + 1] = (byte) ((sample >> 8) & 0xff);
 		}
@@ -250,7 +250,7 @@ public abstract class FunctionSound {
 
 		for (int k = 0; k < numSamples; k++) {
 			if (getBitDepth() == 8) {
-				fadeBuf[k] = (byte) (value);
+				fadeBuf[k] = (byte) value;
 			} else {
 				fadeBuf[2 * k] = (byte) (value & 0xff);
 				fadeBuf[2 * k + 1] = (byte) ((value >> 8) & 0xff);

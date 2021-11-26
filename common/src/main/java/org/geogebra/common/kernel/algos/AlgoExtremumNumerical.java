@@ -220,10 +220,10 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		if (Double.isNaN(y)) {
 			E.setUndefined();
 		} // Check infinity, discontinuity
-		if (max <= (ld/* +epsilon */)) {
+		if (max <= ld/* +epsilon */) {
 			E.setUndefined();
 		} // Check not on left endpoint of interval
-		if ((rd/*-epsilon*/) <= max) {
+		if (rd/*-epsilon*/ <= max) {
 			E.setUndefined();
 		} // Check not on right endpoint of interval
 

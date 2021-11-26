@@ -3334,7 +3334,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		int pointPos = length - s.indexOf('.') - 1;
 
 		int digits = nf == null ? defaultDigits : nf.getMaximumFractionDigits();
-		int zerosToAdd = digits - (pointPos);
+		int zerosToAdd = digits - pointPos;
 
 		if (pointPos >= length) {
 

@@ -174,13 +174,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         currentBounds[X][MAX] = halfWidth / xscale + x0;
 
         if (getView3D().getYAxisVertical()) {
-            currentBounds[Y][MIN] = (bottom) / yscale + y0;
-            currentBounds[Y][MAX] = (top) / yscale + y0;
+            currentBounds[Y][MIN] = bottom / yscale + y0;
+            currentBounds[Y][MAX] = top / yscale + y0;
             currentBounds[Z][MIN] = -halfWidth / zscale + z0;
             currentBounds[Z][MAX] = halfWidth / zscale + z0;
         } else {
-            currentBounds[Z][MIN] = (bottom) / zscale + z0;
-            currentBounds[Z][MAX] = (top) / zscale + z0;
+            currentBounds[Z][MIN] = bottom / zscale + z0;
+            currentBounds[Z][MAX] = top / zscale + z0;
             currentBounds[Y][MIN] = -halfWidth / yscale + y0;
             currentBounds[Y][MAX] = halfWidth / yscale + y0;
         }

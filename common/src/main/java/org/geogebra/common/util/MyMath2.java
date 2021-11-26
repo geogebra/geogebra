@@ -227,7 +227,7 @@ public class MyMath2 {
 			double x) {
 
 		try {
-			return Erf.erf((x - mean) / (standardDeviation));
+			return Erf.erf((x - mean) / standardDeviation);
 		} catch (Exception ex) {
 			if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
 				return -1.0d;

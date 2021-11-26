@@ -56,8 +56,8 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			formulaController.setHeight((int) (contentHeight));
-			formulaController.setWidth((int) (contentWidth));
+			formulaController.setHeight((int) contentHeight);
+			formulaController.setWidth((int) contentWidth);
 			formulaController.setAngle(angle);
 			formulaController.setScale(width / contentWidth, height / contentHeight);
 			formulaController.setColor(geo.getObjectColor());

@@ -768,7 +768,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case V:
 			// check not spreadsheet, not inputbar
-			if (!(fromSpreadsheet)) {
+			if (!fromSpreadsheet) {
 				handleCtrlV();
 			}
 			break;
