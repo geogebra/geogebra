@@ -1,14 +1,12 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
-import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
 import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -30,8 +28,8 @@ public class IntervalAlgebraTest {
 		n = fmod(interval(-10, -10), interval(3, 3));
 		assertTrue(n.almostEqual(interval(-1, -1)));
 
-		n = fmod(new Interval(), IntervalConstants.empty());
-		assertTrue(n.isEmpty());
+		n = fmod(new Interval(), IntervalConstants.undefined());
+		assertTrue(n.isUndefined());
 
 		n = fmod(interval(2, 2), interval(2, 2));
 		assertTrue(n.almostEqual(zero()));
@@ -64,14 +62,9 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testMultiplicativeInverseResultUndefined() {
-		assertEquals(undefined(), interval(-6, 2)
-				.multiplicativeInverse());
-	}
-
-	@Test
-	public void testMultiplicativeInverseZero() {
-		assertEquals(undefined(), zero().multiplicativeInverse());
+	public void testMultiplicativeInverseResultInverted() {
+		assertEquals(invertedInterval(-0.16666666666666669, 0.5000000000000001),
+				interval(-6, 2).multiplicativeInverse());
 	}
 
 	@Test
@@ -88,7 +81,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testZeroPowerOfZero() {
-		assertTrue(pow(zero(), 0).isEmpty());
+		assertTrue(pow(zero(), 0).isUndefined());
 	}
 
 	@Test
@@ -127,7 +120,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testEmptyPowerOf() {
-		assertTrue(pow(new Interval(), 4).isEmpty());
+		assertTrue(pow(new Interval(), 4).isUndefined());
 	}
 
 	@Test
@@ -137,7 +130,7 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testPowerOfNotSingletonInterval() {
-		assertTrue(pow(interval(2, 5), interval(1, 5)).isEmpty());
+		assertTrue(pow(interval(2, 5), interval(1, 5)).isUndefined());
 	}
 
 	@Test
@@ -174,11 +167,6 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testNegativeAndPositivePowerOfNegatives() {
-		assertEquals(undefined(), pow(interval(-2, 3), -3));
-	}
-
-	@Test
 	public void testSpecialPowerOfCases() {
 		Interval interval = pow(interval(0, 1), -2);
 		assertTrue(interval.getLow() < 1);
@@ -195,38 +183,12 @@ public class IntervalAlgebraTest {
 	public void testSqrt() {
 		assertTrue(interval(2, 3).almostEqual(sqrt(interval(4, 9))));
 		assertTrue(interval(0, 3).almostEqual(sqrt(interval(-4, 9))));
-		assertTrue(sqrt(interval(-9, -4)).isEmpty());
+		assertTrue(sqrt(interval(-9, -4)).isUndefined());
 	}
 
 	@Test
-	public void testNthRoot() {
-		assertTrue(nthRoot(interval(-27, -8), -3).isEmpty());
-		assertTrue(nthRoot(interval(-27, -8), 2).isEmpty());
-		assertTrue(interval(-3, -2).almostEqual(nthRoot(interval(-27, -8), 3)));
-		assertTrue(interval(-2, -2).almostEqual(nthRoot(interval(-8, -8), 3)));
-		assertTrue(interval(0, 3).almostEqual(nthRoot(interval(-4, 9), 2)));
-		assertTrue(interval(-3, 2).almostEqual(nthRoot(interval(-27, 8), 3)));
-		assertTrue(interval(2, 3).almostEqual(nthRoot(interval(4, 9), 2)));
-		assertTrue(interval(2, 3).almostEqual(nthRoot(interval(8, 27), 3)));
-		assertTrue(interval(2, 2).almostEqual(nthRoot(interval(8, 8), 3)));
-	}
-
-	@Test
-	public void testNthRootWithInterval() {
-		assertTrue(interval(-3, -2)
-				.almostEqual(nthRoot(interval(-27, -8), interval(3, 3))));
-		assertTrue(nthRoot(interval(-27, -8), interval(4, 3)).isEmpty());
-
-	}
-
-	@Test
-	public void testSqrtSinUndef() {
-		assertTrue(sqrt(sin(interval(4, 5))).isEmpty());
-	}
-
-	@Test
-	public void testNegativeDividedZero() {
-		assertEquals(undefined(), divide(interval(-7, -3), zero()));
+	public void testSqrtSinEmpty() {
+		assertTrue(sqrt(sin(interval(4, 5))).isUndefined());
 	}
 
 	@Test

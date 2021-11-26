@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewBoundsImp;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
@@ -106,11 +107,11 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	}
 
 	private void createIntervalPlotter() {
-		intervalPlotter = new IntervalPlotter(view, gp);
+		intervalPlotter = new IntervalPlotter(new EuclidianViewBoundsImp(view), gp);
 		if (this.geo != null && this.geo.isGeoFunction()) {
 			if (isIntervalPlotterPreferred()) {
 				GeoFunction function = (GeoFunction) this.geo;
-				intervalPlotter.enableFor(function);
+				intervalPlotter.enableFor(function, view.getEuclidianController());
 			} else {
 				intervalPlotter.disable();
 			}
@@ -136,7 +137,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private void enableIntervalPlotterIfSupported() {
 		if (isIntervalPlotterPreferred()) {
 			if (!intervalPlotter.isEnabled()) {
-				intervalPlotter.enableFor((GeoFunction) geo);
+				intervalPlotter.enableFor((GeoFunction) geo, view.getEuclidianController());
 			}
 		} else {
 			intervalPlotter.disable();

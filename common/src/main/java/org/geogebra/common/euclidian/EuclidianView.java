@@ -67,8 +67,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.XMLBuilder;
-import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -6697,49 +6695,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public Rectangle getVisibleRect() {
 		return visibleRect;
-	}
-
-	/**
-	 *  Converts interval of real world x coordinates
-	 *  to interval of screen x coordinates.
-
-	 * @param interval of real world x coordinates
-	 * @return interval of screen x coordinates.
-	 */
-	public Interval toScreenIntervalX(Interval interval) {
-		return new Interval(toScreenCoordXd(interval.getLow()),
-				toScreenCoordXd(interval.getHigh()));
-	}
-
-	/**
-	 *  Converts interval of real world y coordinates
-	 *  to interval of screen y coordinates.
-
-	 * @param interval of real world y coordinates
-	 * @return interval of screen y coordinates.
-	 */
-	public Interval toScreenIntervalY(Interval interval) {
-		if (interval.isOnlyInfinity()) {
-			return IntervalConstants.zero();
-		}
-		return new Interval(toScreenCoordYd(interval.getHigh()),
-				toScreenCoordYd(interval.getLow()));
-	}
-
-	/**
-	 *
-	 * @return visible x interval
-	 */
-	public Interval domain() {
-		return new Interval(xmin, xmax);
-	}
-
-	/**
-	 *
-	 * @return visible y interval
-	 */
-	public Interval range() {
-		return new Interval(xmin, xmax);
 	}
 
 	/**
