@@ -627,4 +627,18 @@ public class EditorTypingTest {
 				.type(",4")
 				.checkAsciiMath("(32,41)");
 	}
+
+	@Test
+	public void testSqrtInPointEditor() {
+		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
+		checker.setForceBracketsAfterFunction();
+		checker.insert("(2,1,0)").protect()
+				.left(5)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("sqrt9")
+				.right(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("sin3")
+				.checkAsciiMath("(sqrt(9),sin(3),0)");
+	}
 }
