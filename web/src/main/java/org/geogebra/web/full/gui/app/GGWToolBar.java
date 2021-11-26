@@ -1055,7 +1055,7 @@ public class GGWToolBar extends Composite
 		if (toolBar.isMobileToolbar()) {
 			int tbwidth = Math.max(toolBar.getToolbarVecSize() * 45, 45);
 			toolBar.setWidth(tbwidth + "px");
-			toolBPanel.setWidth((maxButtons) * 45 + "px");
+			toolBPanel.setWidth(maxButtons * 45 + "px");
 			toolBPanel.removeStyleName("overflow");
 			toolBPanel.addStyleName("toolBPanelMobile");
 			rightButtonPanel.addStyleName("rightButtonPanelMobile");
@@ -1067,7 +1067,6 @@ public class GGWToolBar extends Composite
 			toolBPanel.addStyleName("overflow");
 			rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 		}
-
 	}
 
 	/**
@@ -1115,7 +1114,7 @@ public class GGWToolBar extends Composite
 						.getWidget(0)).getButtonCount();
 			}
 			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
-			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
+			submenuPanel.setWidth(submenuButtonCount * 45 + "px");
 		}
 	}
 

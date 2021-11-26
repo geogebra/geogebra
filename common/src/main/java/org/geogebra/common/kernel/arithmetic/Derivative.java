@@ -97,49 +97,49 @@ public class Derivative {
 					.subtract(right.derivative(fv, kernel0));
 		case SIN:
 			return new ExpressionNode(kernel0, left, Operation.COS, null)
-					.multiply((left).derivative(fv, kernel0));
+					.multiply(left.derivative(fv, kernel0));
 		case COS:
 			return new ExpressionNode(kernel0, left, Operation.SIN, null)
-					.multiply((left).derivative(fv, kernel0)).multiply(-1);
+					.multiply(left.derivative(fv, kernel0)).multiply(-1);
 		case TAN:
 			return new ExpressionNode(kernel0, left, Operation.SEC, null)
-					.square().multiply((left).derivative(fv, kernel0));
+					.square().multiply(left.derivative(fv, kernel0));
 		case SEC:
 			return new ExpressionNode(kernel0, left, Operation.SEC, null)
 					.multiply(new ExpressionNode(kernel0, left, Operation.TAN,
 							null))
-					.multiply((left).derivative(fv, kernel0));
+					.multiply(left.derivative(fv, kernel0));
 		case CSC:
 			return new ExpressionNode(kernel0, left, Operation.CSC, null)
 					.multiply(new ExpressionNode(kernel0, left, Operation.COT,
 							null))
-					.multiply((left).derivative(fv, kernel0)).multiply(-1);
+					.multiply(left.derivative(fv, kernel0)).multiply(-1);
 		case COT:
 			return new ExpressionNode(kernel0, left, Operation.CSC, null)
-					.square().multiply((left).derivative(fv, kernel0))
+					.square().multiply(left.derivative(fv, kernel0))
 					.multiply(-1);
 		case SINH:
 			return new ExpressionNode(kernel0, left, Operation.COSH, null)
-					.multiply((left).derivative(fv, kernel0));
+					.multiply(left.derivative(fv, kernel0));
 		case COSH:
 			return new ExpressionNode(kernel0, left, Operation.SINH, null)
-					.multiply((left).derivative(fv, kernel0));
+					.multiply(left.derivative(fv, kernel0));
 		case TANH:
 			return new ExpressionNode(kernel0, left, Operation.SECH, null)
-					.square().multiply((left).derivative(fv, kernel0));
+					.square().multiply(left.derivative(fv, kernel0));
 		case SECH:
 			return new ExpressionNode(kernel0, left, Operation.SECH, null)
 					.multiply(new ExpressionNode(kernel0, left, Operation.TANH,
 							null))
-					.multiply((left).derivative(fv, kernel0)).multiply(-1);
+					.multiply(left.derivative(fv, kernel0)).multiply(-1);
 		case CSCH:
 			return new ExpressionNode(kernel0, left, Operation.CSCH, null)
 					.multiply(new ExpressionNode(kernel0, left, Operation.COTH,
 							null))
-					.multiply((left).derivative(fv, kernel0)).multiply(-1);
+					.multiply(left.derivative(fv, kernel0)).multiply(-1);
 		case COTH:
 			return new ExpressionNode(kernel0, left, Operation.CSCH, null)
-					.square().multiply((left).derivative(fv, kernel0))
+					.square().multiply(left.derivative(fv, kernel0))
 					.multiply(-1);
 
 		case ARCSIND:
@@ -315,14 +315,14 @@ public class Derivative {
 					Operation.PSI, null)
 							.multiply(new ExpressionNode(kernel0, left,
 									Operation.FACTORIAL, null))
-							.multiply((left).derivative(fv, kernel0));
+							.multiply(left.derivative(fv, kernel0));
 
 		case GAMMA:
 			// gamma(x) -> gamma(x) psi(x)
 			return new ExpressionNode(kernel0, left, Operation.PSI, null)
 					.multiply(new ExpressionNode(kernel0, left, Operation.GAMMA,
 							null))
-					.multiply((left).derivative(fv, kernel0));
+					.multiply(left.derivative(fv, kernel0));
 
 		case ROUND2:
 		case ROUND:

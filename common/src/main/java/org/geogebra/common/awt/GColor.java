@@ -146,7 +146,7 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor newColorRGB(int rgb) {
 		GColor ret;
-		int arbg = rgb | (0xff000000);
+		int arbg = rgb | 0xff000000;
 		synchronized (map) {
 			ret = map.get(arbg);
 			if (ret == null) {

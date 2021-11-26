@@ -2098,7 +2098,7 @@ public class GuiManagerW extends GuiManager
 			DockPanel avPanel = getLayout().getDockManager()
 					.getPanel(App.VIEW_ALGEBRA);
 			if (avPanel instanceof ToolbarDockPanelW) {
-				return ((ToolbarDockPanelW) (avPanel)).getToolbar();
+				return ((ToolbarDockPanelW) avPanel).getToolbar();
 			}
 		}
 		return null;

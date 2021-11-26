@@ -126,7 +126,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		double Q1;
 		switch (size % 4) {
 		case 0:
-			Q1 = (data[(size) / 4 - 1] + data[(size + 4) / 4 - 1]) / 2;
+			Q1 = (data[size / 4 - 1] + data[(size + 4) / 4 - 1]) / 2;
 			break;
 		case 1:
 			Q1 = (data[(size - 1) / 4 - 1] + data[(size + 3) / 4 - 1]) / 2;

@@ -2735,7 +2735,7 @@ public class GeoCasCell extends GeoElement
 		if (success) {
 			if ((prefix.length() == 0 && postfix.length() == 0)
 					// ignore selection with keep input
-					|| (keepInputUsed)) {
+					|| keepInputUsed) {
 				setOutput(result, true);
 			} else {
 				// make sure that evaluation is put into parentheses

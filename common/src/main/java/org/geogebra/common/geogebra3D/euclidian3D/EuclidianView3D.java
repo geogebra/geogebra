@@ -3532,7 +3532,7 @@ public abstract class EuclidianView3D extends EuclidianView
 					zZero = (zmin2 * (width / 2.0 - rv * width) - zmax2 * (-width / 2.0
 							+ rv * width)) / (
 							2 * rv * width - width);
-					yscale = (bottom) / (ymin2 + yZero) + rv * (top - bottom) / (ymin2 + yZero);
+					yscale = bottom / (ymin2 + yZero) + rv * (top - bottom) / (ymin2 + yZero);
 					zscale = (-width / 2.0 + rv * width) / (zmin2 + zZero);
 				} else {
 					yZero = (ymin2 * (width / 2.0 - rv * width) - ymax2 * (-width / 2.0
@@ -3541,7 +3541,7 @@ public abstract class EuclidianView3D extends EuclidianView
 					zZero = (zmin2 * (top - rv * (top - bottom)) - zmax2 * (bottom + rv * (top
 							- bottom))) / (bottom - top + 2 * rv * (top - bottom));
 					yscale = (-width / 2.0 + rv * width) / (ymin2 + yZero);
-					zscale = (bottom) / (zmin2 + zZero) + rv * (top - bottom) / (zmin2 + zZero);
+					zscale = bottom / (zmin2 + zZero) + rv * (top - bottom) / (zmin2 + zZero);
 				}
 
 				if (updateSettings && getSettings() != null) {

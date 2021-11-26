@@ -4112,7 +4112,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// set the clipping region to the region defined by the axes
 
 		double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
-		double startX = getXZero() % (tickStepX);
+		double startX = getXZero() % tickStepX;
 		double startX2 = getXZero() % (tickStepX / 2);
 		double tickStepY = getYscale() * gridDistances[0];
 		double startY = getYZero() % tickStepY;

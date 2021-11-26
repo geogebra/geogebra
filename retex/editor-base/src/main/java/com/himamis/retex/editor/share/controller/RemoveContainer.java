@@ -159,7 +159,7 @@ public class RemoveContainer {
 					// first operand is current, and first operand is empty
 					// sequence
 				} else if (currentField.getParentIndex() == 0
-						&& (currentField).size() == 0) {
+						&& currentField.size() == 0) {
 					delContainer(editorState, parent, parent.getArgument(1));
 				}
 			}

@@ -430,7 +430,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	 * @return whether this is a valid datafunction
 	 */
 	protected boolean updateDataExpression(ExpressionNode v) {
-		dataExpression = (v);
+		dataExpression = v;
 		if (dataExpression.getLeft().unwrap() instanceof FunctionVariable) {
 			invert = null;
 			return true;

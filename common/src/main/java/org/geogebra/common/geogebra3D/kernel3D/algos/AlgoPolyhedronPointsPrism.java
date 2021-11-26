@@ -102,9 +102,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 			polyhedron.startNewFace();
 			polyhedron.addPointToCurrentFace(points[i]);
 			polyhedron.addPointToCurrentFace(
-					points[(i + 1) % (bottomPointsLength)]);
+					points[(i + 1) % bottomPointsLength]);
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength
-					+ ((i + 1) % (bottomPointsLength))]);
+					+ ((i + 1) % bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength + i]);
 			polyhedron.endCurrentFace();
 		}
