@@ -1,7 +1,8 @@
 @use 'colors';
 @use 'z-index';
 $emptyHeight: 212px;
-$deleteTime: 120ms;
+$deleteAddTime: 250ms;
+$deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 
 .GeoGebraFrame {
 	.tableViewParent {
@@ -56,24 +57,28 @@ $deleteTime: 120ms;
 			-webkit-user-select: $type;
 		}
 
+		th {
+			min-width: 120px;
+		}
+
 		td, th {
 			border-width: 0 1px 1px 0;
 			border-color: colors.$black-12;
 			border-style: solid;
 			box-sizing: border-box;
-			min-width: 120px;
 			max-width: 180px;
-			transition: min-width $deleteTime;
+			transition: min-width $deleteAddTime $deleteAddTransition;
 			.content {
-				transition: width $deleteTime, opacity $deleteTime, margin $deleteTime ease-in;
+				transition: width $deleteAddTime, opacity $deleteAddTime, margin $deleteAddTime $deleteAddTransition;
 			}
+
 			&.deleteCol {
 				min-width: 0;
 
 				.content {
 					overflow: hidden !important;
 					width: 0px !important;
-					margin-left: -81px !important;
+					margin-left: -350px !important;
 					text-align: right;
 					opacity: 0;
 				}
@@ -92,6 +97,50 @@ $deleteTime: 120ms;
 			&.notEditable {
 				cursor: default;
 			}
+
+			&.addColumnAut {
+				min-width: 120px;
+				animation-duration: $deleteAddTime;
+				animation-name: addColumn;
+				animation-timing-function: $deleteAddTransition;
+			}
+
+			&.deleteColumnAut {
+				min-width: 0px;
+				animation-duration: $deleteAddTime;
+				animation-name: removeColumn;
+				animation-timing-function: $deleteAddTransition;
+			}
+		}
+
+		@-webkit-keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@-moz-keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@keyframes addColumn {
+			0% {min-width: 0px;}
+			100% {min-width: 120px;}
+		}
+
+		@-webkit-keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		@-moz-keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
+		}
+
+		@keyframes removeColumn {
+			0% {min-width: 120px;}
+			100% {min-width: 0px;}
 		}
 
 		.values {
@@ -152,9 +201,20 @@ $deleteTime: 120ms;
 							}
 						}
 					}
+
+					&.deleteColumnAut {
+						.content {
+							padding-left: 0px;
+						}
+					}
+
+					&.emptyColumn {
+						.content {
+        					padding-left: 0px;
+        					padding-right: 0px;
+        				}
+        			}
 				}
-
-
 			}
 
 			td {
@@ -188,6 +248,11 @@ $deleteTime: 120ms;
 				&.notEditable .content {
 					color: colors.$black-54;
 				}
+
+				&.deleteColumnAut .content {
+					padding-left: 0px;
+					padding-right: 0px;
+				}
 			}
 		}
 
@@ -200,11 +265,11 @@ $deleteTime: 120ms;
 			overflow-y: auto !important;
 		}
 	
-		.outerScrollPanel{
+		.outerScrollPanel {
 			overflow: hidden !important;
 		}
 	
-		.outerScrollPanel > div{
+		.outerScrollPanel > div {
 			height: 100%;
 		}
 	
@@ -213,10 +278,69 @@ $deleteTime: 120ms;
 			height: 100%;
 		}
 		
-		.headerScroller{
+		.headerScroller {
 			width: 100%;
 			overflow: hidden !important;
-		}		
+		}
+
+		.addRowAuto {
+			td {
+				height: 52px;
+				animation-duration: $deleteAddTime;
+				animation-name: addRow;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+			}
+		}
+
+		.deleteRowAut {
+			td {
+				border-width: 0 1px 0 0;
+				height: 0px;
+				animation-duration: $deleteAddTime;
+				animation-name: deleteRow;
+				animation-timing-function: $deleteAddTransition;
+
+				.content {
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+			}
+		}
+
+		@-webkit-keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@-moz-keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@keyframes addRow {
+			0% {height: 0px;}
+			100% {height: 52px;}
+		}
+
+		@-webkit-keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+
+		@-moz-keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
+
+		@keyframes deleteRow {
+			0% {height: 52px;}
+			100% {height: 0px;}
+		}
 	}
 
 	.errorToast {

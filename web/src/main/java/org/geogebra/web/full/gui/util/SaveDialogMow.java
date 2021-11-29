@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.ui.Label;
 

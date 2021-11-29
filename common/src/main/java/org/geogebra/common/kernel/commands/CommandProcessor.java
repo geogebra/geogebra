@@ -167,7 +167,6 @@ public abstract class CommandProcessor {
 				// use only first resolved argument object for result
 				result[i] = resArg(arg[i], argInfo)[0];
 			}
-
 		} finally {
 			// remove added variables from construction
 			if (newXYZ != null) {

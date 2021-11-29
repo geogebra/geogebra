@@ -262,7 +262,7 @@ public final class DrawText extends Drawable {
 	 		yLabel += labelRectangle.getHeight() - 6;
 		}
 		if (horizontalVal == 0) {
-			xLabel -= (labelRectangle.getWidth() / 2);
+			xLabel -= labelRectangle.getWidth() / 2;
 		}
 		if (verticalVal == 0) {
 			yLabel += (labelRectangle.getHeight() / 2) - 6;

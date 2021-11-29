@@ -27,8 +27,8 @@ import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
@@ -95,7 +95,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		lbSize.addChangeHandler(event -> {
 			model.setEditGeoText(editor.getText());
-			boolean isCustom = (lbSize.getSelectedIndex() == 7);
+			boolean isCustom = lbSize.getSelectedIndex() == 7;
 			if (isCustom) {
 				String currentSize = Math
 						.round(model.getTextPropertiesAt(0)

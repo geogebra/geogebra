@@ -162,7 +162,7 @@ public final class JavaRegExp implements RegExp {
 	@Override
 	public MatchResult exec(String input) {
 		// Start the search at lastIndex if the global flag is true.
-		int searchStartIndex = (globalFlag) ? lastIndex : 0;
+		int searchStartIndex = globalFlag ? lastIndex : 0;
 
 		Matcher matcher;
 		if (input == null || searchStartIndex < 0 || searchStartIndex > input.length()) {

@@ -18,21 +18,21 @@ public class IntervalPlotModel {
 	private final IntervalFunctionSampler sampler;
 	private IntervalTupleList points;
 	private IntervalPath path;
-	private final EuclidianView view;
+	private final EuclidianViewBounds bounds;
 	private Interval oldDomain;
 
 	/**
 	 * Constructor
 	 * @param range to plot.
 	 * @param sampler to retrieve function data from.
-	 * @param view {@link EuclidianView}
+	 * @param bounds {@link EuclidianView}
 	 */
 	public IntervalPlotModel(IntervalTuple range,
 			IntervalFunctionSampler sampler,
-			EuclidianView view) {
+			EuclidianViewBounds bounds) {
 		this.range = range;
 		this.sampler = sampler;
-		this.view = view;
+		this.bounds = bounds;
 	}
 
 	public void setPath(IntervalPath path) {
@@ -46,9 +46,9 @@ public class IntervalPlotModel {
 		updatePath();
 	}
 
-		/**
-		 * Updates the entire model.
-		 */
+	/**
+	 * Updates the entire model.
+	 */
 	public void updateAll() {
 		updateRanges();
 		updateSampler();
@@ -56,8 +56,8 @@ public class IntervalPlotModel {
 	}
 
 	private void updateRanges() {
-		range.set(view.domain(), view.range());
-		oldDomain = view.domain();
+		range.set(bounds.domain(), bounds.range());
+		oldDomain = bounds.domain();
 	}
 
 	void updateSampler() {
@@ -77,14 +77,14 @@ public class IntervalPlotModel {
 	 * update function domain to plot due to the visible x range.
 	 */
 	public void updateDomain() {
-		if (view.domain().equals(oldDomain)) {
+		if (bounds.domain().equals(oldDomain)) {
 			return;
 		}
 		double oldMin = oldDomain.getLow();
 		double oldMax = oldDomain.getHigh();
-		oldDomain = view.domain();
-		double min = view.domain().getLow();
-		double max = view.domain().getHigh();
+		oldDomain = bounds.domain();
+		double min = bounds.domain().getLow();
+		double max = bounds.domain().getHigh();
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
 		} else if (oldMax < max) {
@@ -99,10 +99,10 @@ public class IntervalPlotModel {
 			return;
 		}
 
-		IntervalTupleList newPoints = sampler.evaluateOn(view.getXmin(),
+		IntervalTupleList newPoints = sampler.evaluateOn(bounds.getXmin(),
 				points.get(0).x().getLow());
 		points.prepend(newPoints);
-		points.cutFrom(view.getXmax());
+		points.cutFrom(bounds.getXmax());
 	}
 
 	private void extendMax() {
@@ -112,9 +112,9 @@ public class IntervalPlotModel {
 
 		IntervalTupleList newPoints = sampler.evaluateOn(
 				points.get(points.count() - 1).x().getHigh(),
-				view.getXmax());
+				bounds.getXmax());
 		points.append(newPoints);
-		points.cutTo(view.getXmin());
+		points.cutTo(bounds.getXmin());
 	}
 
 	/**
@@ -134,17 +134,50 @@ public class IntervalPlotModel {
 	}
 
 	/**
-	 *
-	 * @param point to check around
+	 * @param index of the point to check around
+	 * @return if the function is ascending from point to the left.
+	 */
+	public boolean isAscendingBefore(int index) {
+		return points.isAscendingBefore(index);
+	}
+
+	/**
+	 * @param index of the point to check around
 	 * @return if the function is ascending from point to the right.
 	 */
-	public boolean isAscending(IntervalTuple point) {
-		if (point.index() > points.count() - 1) {
-			return false;
-		}
+	public boolean isAscendingAfter(int index) {
+		return points.isAscendingAfter(index);
+	}
 
-		IntervalTuple next = pointAt(point.index() + 1);
-		return next != null && next.y().isGreaterThan(point.y());
+	/**
+	 *
+	 * @param index of the tuple.
+	 * @return if the tuple of a given index is empty or not.
+	 */
+	public boolean isEmptyAt(int index) {
+		return index >= points.count()
+				|| pointAt(index).isEmpty();
+	}
+
+	public boolean isInvertedAt(int index) {
+		return index >= points.count() || pointAt(index).isInverted();
+	}
+
+	/**
+	 *
+	 * @return count of points in model
+	 */
+	public int getCount() {
+		return points.count();
+	}
+
+	/**
+	 *
+	 * @param index of the tuple.
+	 * @return if the tuple value of a given index is whole or not.
+	 */
+	public boolean isWholeAt(int index) {
+		return index >= points.count() || pointAt(index).y().isWhole();
 	}
 
 	/**

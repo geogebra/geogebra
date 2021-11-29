@@ -36,8 +36,8 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -400,7 +400,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			appw.getGuiManager().removeFromToolbarDefinition(macroID);
 		}
-		GuiManagerW gm = ((GuiManagerW) appw.getGuiManager());
+		GuiManagerW gm = (GuiManagerW) appw.getGuiManager();
 		gm.setGeneralToolBarDefinition(gm.getCustomToolbarDefinition());
 		updateToolBar();
 	}

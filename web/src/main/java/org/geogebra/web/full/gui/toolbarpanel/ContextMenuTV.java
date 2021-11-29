@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -23,7 +24,10 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 import com.google.gwt.user.client.Command;
 
@@ -154,7 +158,25 @@ public class ContextMenuTV {
 
 	private void showRegression(DialogData data, int rows) {
 		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-		dialog.addRegressionChooser(rows);
+		boolean hasError = dialog.addRegressionChooserHasError(rows);
+		if (!hasError) {
+			dialog.show();
+		} else {
+			showErrorDialog(data);
+		}
+	}
+
+	private void showErrorDialog(DialogData dialogData) {
+		DialogData errorDialogData = new DialogData(dialogData.getTitleTransKey(),
+				dialogData.getSubTitleTransKey(), "Close", null);
+		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
+		dialog.addStyleName("statistics error");
+		InfoErrorData errorData = new InfoErrorData(app.getLocalization()
+				.getMenu("StatsDialog.NoData"), app.getLocalization()
+				.getMenu("StatsDialog.NoDataMsg"),	null);
+		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
+				errorData, MaterialDesignResources.INSTANCE.bar_chart_black(), null);
+		dialog.addDialogContent(infoPanel);
 		dialog.show();
 	}
 

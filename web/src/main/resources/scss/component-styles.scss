@@ -4,26 +4,26 @@
 
 .GeoGebraFrame {
 
-    /* CHECKBOX COMPONENT */
-    @mixin checkboxBg($color) {
-    	.background {
-    		border-color: $color;
-    		background-color: $color;
-    	}
-    }
+	/* CHECKBOX COMPONENT */
+	@mixin checkboxBg($color) {
+		.background {
+			border-color: $color;
+			background-color: $color;
+		}
+	}
 
-    .checkboxPanel {
-    	display: flex;
-    	width: fit-content;
-    	cursor: pointer;
-    }
+	.checkboxPanel {
+		display: flex;
+		width: fit-content;
+		cursor: pointer;
+	}
 
-    .checkbox {
-        width: 18px;
-        height: 18px;
-        padding: 3px;
-        position: relative;
-        cursor: pointer;
+	.checkbox {
+		width: 18px;
+		height: 18px;
+		padding: 3px;
+		position: relative;
+		cursor: pointer;
 
 		.background {
 			width: 18px;
@@ -50,7 +50,7 @@
 	.accented .checkbox.selected {
 		@include checkboxBg(colors.$teal-default);
 	}
-	
+
 	/* SWITCHER COMPONENT */
 	.switch {
 		width: 40px;
@@ -60,7 +60,7 @@
 		top: 7px;
 		float: right;
 		cursor: pointer;
-				
+
 		.track {
 			content: "";
 			display: inline-block;
@@ -92,7 +92,7 @@
 				background-color: #00A8D5;
 			}
 		}
-				
+
 		&.off {
 			.track {
 				background-color: #c5c5c5;
@@ -110,8 +110,8 @@
 		margin-top: 8px;
 		margin-bottom: 8px;
 		display: inline-block;
-		min-height: 68px; 
-		
+		min-height: 68px;
+
 		.inputLabel {
 			font-size: 75%;
 			color: colors.$text-secondary;
@@ -129,17 +129,17 @@
 				border-bottom-color: colors.$error;
 			}
 		}
-	
+
 		.textField {
 			margin-top: 8px;
 		}
-	
+
 		.AutoCompleteTextFieldW {
 			margin-bottom: 7px; // 8 - border
 			border-radius: 0px;
 			border: none;
 			border-bottom: 1px solid colors.$black-42;
-			
+
 			input[type="text"] {
 				border: none !important;
 				box-shadow: none !important;
@@ -148,7 +148,7 @@
 				padding: 0px 0px 8px 0px;
 			}
 		}
-		
+
 		.errorLabel {
 			color: colors.$error;
 			font-size: 75%;
@@ -164,7 +164,7 @@
 		}
 
 		&.focusState:not(.error), &.focusState:not(.error):hover {
-			
+
 			.inputLabel {
 				color: colors.$teal-default;
 			}
@@ -172,7 +172,7 @@
 				border-bottom-color: colors.$teal-default;
 			}
 		}
-	
+
 		&.hoverState:not(.error) {
 
 			.inputLabel {
@@ -182,7 +182,7 @@
 			.AutoCompleteTextFieldW {
 				border-bottom: 2px solid colors.$black-87;
 			}
-		} 	
+		}
 	}
 
 	// in case the last input field shouldn't have any bottom margin
@@ -314,13 +314,13 @@
 			height: calc(100% - 20px);
 			overflow: hidden;
 
-            .dialogTitle {
-                min-height: 20px;
-                font-size: 125%;
-                margin-bottom: 20px;
-                margin-left: 24px;
-                color: colors.$text-primary;
-            }
+			.dialogTitle {
+				min-height: 20px;
+				font-size: 125%;
+				margin-bottom: 20px;
+				margin-left: 24px;
+				color: colors.$text-primary;
+			}
 
 			.dialogContent {
 				// 112px = 20px title + 20px margin + 52px button panel
@@ -477,6 +477,101 @@
 			font-size: 87.5%; // (=14px)
 			line-height: 1;
 			color: colors.$text-secondary;
+		}
+	}
+
+	/** TAB COMPONENT */
+	.componentTab {
+		width: 100%;
+		overflow: hidden;
+		.indicator {
+			height: 2px;
+			width: 90px;
+			background-color: colors.$purple-default;
+			top: 49px;
+			position: relative;
+			border-radius: 2px 2px 0 0;
+			left: 0px;
+			z-index: 1;
+			transition: all .25s cubic-bezier(.35,0,.25,1);
+		}
+
+		.header {
+			border-bottom: 1px solid colors.$black-12;
+			.tabBtn {
+				min-width: 90px;
+				height: 48px;
+				border-radius: 2px;
+				.gwt-Label {
+					height: 20px;
+					line-height: 20px;
+					margin: 14px 16px;
+					text-align: center;
+					color: colors.$text-primary;
+				}
+
+				&:hover {
+					background-color: colors.$purple-default-12;
+				}
+
+				&.selected {
+					.gwt-Label {
+						color: colors.$purple-default;
+					}
+					&:hover {
+						background-color: colors.$white;
+					}
+				}
+
+				&.ripple:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+		}
+
+			.panelContainer {
+				opacity: 0.2;
+				position: relative;
+				display: inline-flex;
+				right: 0px;
+				transition: right 0.25s cubic-bezier(.35,0,.25,1);
+			}
+	}
+
+	.infoErrorPanel {
+		max-width: 420px;
+
+		img {
+			padding: 28px;
+			margin-left: calc(50% - 56px); // (56+2*28)/2=56
+			margin-bottom: 16px;
+			opacity: 0.54;
+			background-color: colors.$mow_white_hover;
+			border-radius: 50%;
+		}
+
+		.title {
+			margin-bottom: 8px;
+			color: colors.$text-primary;
+			font-size: 100%;
+			min-height: 20px;
+			line-height: 20px;
+			letter-spacing: 0.25px;
+			text-align: center;
+		}
+
+		.subtext {
+			color: colors.$text-secondary;
+			font-size: 87%;
+			min-height: 20px;
+			line-height: 20px;
+			text-align: center;
+			letter-spacing: 0.2px;
+		}
+
+		.dialogContainedButton {
+			display: block;
+			margin: 24px auto 0 auto;
 		}
 	}
 }

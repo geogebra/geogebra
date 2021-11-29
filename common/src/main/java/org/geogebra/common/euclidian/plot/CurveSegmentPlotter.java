@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.plot;
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewBoundsImp;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.DoubleUtil;
@@ -91,7 +92,7 @@ public class CurveSegmentPlotter {
 		move = curve.newDoubleArray();
 		nextLineToNeedsMoveToFirst = false;
 		eval = curve.newDoubleArray();
-		labelPositionCalculator = new LabelPositionCalculator(view);
+		labelPositionCalculator = new LabelPositionCalculator(new EuclidianViewBoundsImp(view));
 		if (start()) {
 			plot();
 		}

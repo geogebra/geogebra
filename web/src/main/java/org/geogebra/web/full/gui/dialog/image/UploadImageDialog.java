@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.dialog.image;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.full.gui.util.VerticalSeparator;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;

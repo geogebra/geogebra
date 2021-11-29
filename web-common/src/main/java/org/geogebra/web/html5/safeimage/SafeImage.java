@@ -2,6 +2,8 @@ package org.geogebra.web.html5.safeimage;
 
 import java.util.List;
 
+import org.geogebra.web.html5.util.ArchiveEntry;
+
 /**
  * Produces a safe image from the original
  * ensuring it has no suspicious content
@@ -11,14 +13,14 @@ import java.util.List;
 public class SafeImage {
 	private SafeImageProvider provider;
 	private List<ImagePreprocessor> preprocessors;
-	private ImageFile imageFile;
+	private ArchiveEntry imageFile;
 
 	/**
 	 * @param imageFile the original image.
 	 * @param provider to notify when safe image is done.
 	 * @param preprocessors list of preprocessors
 	 */
-	public SafeImage(ImageFile imageFile, SafeImageProvider provider,
+	public SafeImage(ArchiveEntry imageFile, SafeImageProvider provider,
 			List<ImagePreprocessor> preprocessors) {
 		this.imageFile = imageFile;
 		this.provider = provider;

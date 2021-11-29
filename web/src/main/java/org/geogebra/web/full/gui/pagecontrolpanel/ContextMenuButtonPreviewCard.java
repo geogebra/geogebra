@@ -12,7 +12,7 @@ import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
  * Context Menu of Page Preview Cards

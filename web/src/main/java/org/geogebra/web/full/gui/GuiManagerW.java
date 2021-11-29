@@ -126,8 +126,8 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.GlobalHeader;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -2098,7 +2098,7 @@ public class GuiManagerW extends GuiManager
 			DockPanel avPanel = getLayout().getDockManager()
 					.getPanel(App.VIEW_ALGEBRA);
 			if (avPanel instanceof ToolbarDockPanelW) {
-				return ((ToolbarDockPanelW) (avPanel)).getToolbar();
+				return ((ToolbarDockPanelW) avPanel).getToolbar();
 			}
 		}
 		return null;

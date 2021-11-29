@@ -78,6 +78,9 @@ public class GeoGebraSerializer implements Serializer {
 				return (((MathFunction) parent).getName() == Tag.APPLY
 						|| ((MathFunction) parent).getName() == Tag.APPLY_SQUARE) && index == 1;
 			}
+			if (parent instanceof MathSequence && ((MathSequence) parent).isKeepCommas()) {
+				return true;
+			}
 			index = parent.getParentIndex();
 			parent = parent.getParent();
 		}

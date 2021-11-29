@@ -326,8 +326,8 @@ public class CASInputHandler {
 				cellValue.setInput(prevCellName.toString());
 				return prevCellName.toString();
 			}
-			cellValue.setInput("$" + (selRow));
-			return "$" + (selRow);
+			cellValue.setInput("$" + selRow);
+			return "$" + selRow;
 		}
 		return "";
 	}

@@ -42,9 +42,8 @@ public class ImageLoader {
 	 */
 	public void load() {
 		for (Map.Entry<String, ArchiveEntry> entry : archiveContent.entrySet()) {
-			ImageFile imageFile = new ImageFile(entry.getKey(), entry.getValue());
-			if (isValid(imageFile)) {
-				addImage(imageFile);
+			if (isValid(entry.getValue())) {
+				addImage(entry.getValue());
 			}
 		}
 
@@ -53,19 +52,19 @@ public class ImageLoader {
 		}
 	}
 
-	private boolean isValid(ImageFile imageFile) {
+	private boolean isValid(ArchiveEntry imageFile) {
 		return !(hasImage(imageFile.getFileName()) || imageFile.isThumbnail()
-				|| !imageFile.isValid());
+				|| !imageFile.getExtension().isImage());
 	}
 
 	private boolean hasImage(String key) {
 		return imageManager.getExternalImage(key, false) != null;
 	}
 
-	private	 void addImage(ImageFile imageFile) {
+	private	 void addImage(ArchiveEntry imageFile) {
 		ArchiveEntry content = SVGUtil.match(imageFile.getExtension())
-				? new ArchiveEntry(SVGUtil.fixAndEncode(imageFile.getContent().string))
-				: imageFile.getContent();
+				? new ArchiveEntry(imageFile.getFileName(), SVGUtil.fixAndEncode(imageFile.string))
+				: imageFile;
 		imageManager.addExternalImage(imageFile.getFileName(),
 				content);
 

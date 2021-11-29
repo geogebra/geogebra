@@ -486,10 +486,10 @@ public class GeoTextEditor extends RichTextArea {
 						public void setPosition(int offsetWidth,
 								int offsetHeight) {
 
-							int left = (getAbsoluteLeft() + getOffsetWidth() / 2
-									- offsetWidth / 2);
-							int top = (getAbsoluteTop() + getOffsetHeight() / 2
-									- offsetHeight / 2);
+							int left = getAbsoluteLeft() + getOffsetWidth() / 2
+									- offsetWidth / 2;
+							int top = getAbsoluteTop() + getOffsetHeight() / 2
+									- offsetHeight / 2;
 
 							textEditPopup.setPopupPosition(left, top);
 							Scheduler.get().scheduleDeferred(

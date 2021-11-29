@@ -569,6 +569,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	public void imaginaryUnitShouldBeDisplayedAsI() {
 		add("m1 = {{1}, {2}}");
 		GeoInputBox inputBox = add("InputBox(m1)");
+		inputBox.setSymbolicMode(false);
+		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
+		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
+
+		inputBox.setSymbolicMode(true);
 		inputBox.updateLinkedGeo("{{" + Unicode.IMAGINARY + "}, {3}}");
 		assertEquals("{{i},{3}}", inputBox.getTextForEditor());
 	}

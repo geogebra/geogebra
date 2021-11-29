@@ -191,7 +191,7 @@ public class PolygonFactory {
 		GeoPointND p = kernel.rigidPolygonPointOnCircle(circle, points[1]);
 
 		try {
-			(cons).replace((GeoElement) points[1], (GeoElement) p);
+			cons.replace((GeoElement) points[1], (GeoElement) p);
 			points[1] = p;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -256,7 +256,7 @@ public class PolygonFactory {
 					ErrorHelper.silent(), true);
 
 			try {
-				(cons).replace((GeoElement) points[i], (GeoElement) pp);
+				cons.replace((GeoElement) points[i], (GeoElement) pp);
 				points[i] = pp;
 				points[i].setEuclidianVisible(false);
 				points[i].update();

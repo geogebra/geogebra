@@ -1685,9 +1685,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			sbBuildValueString.append(kernel.format(x, tpl));
-			tpl.appendOptionalSpace(sbBuildValueString);
-			kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
+			if (x != 0) {
+				sbBuildValueString.append(kernel.format(x, tpl));
+				tpl.appendOptionalSpace(sbBuildValueString);
+				kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
+			} else if (y != 1) {
+				sbBuildValueString.append(kernel.format(y, tpl));
+			}
 			sbBuildValueString.append(tpl.getImaginary());
 			break;
 

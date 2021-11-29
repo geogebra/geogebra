@@ -271,19 +271,13 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 										// all the faces (with a bad user cut)
 		int nbFoundedFaces = 1;
 		int maxRank = 0;
-		while ((nbFoundedFaces < polygonList.length) && (newFaceFound)) {
+		while ((nbFoundedFaces < polygonList.length) && newFaceFound) {
 			maxRank++;
 			newFaceFound = false;
 			for (int iP = 0; iP < polygonList.length; iP++) {
+				// if this polygon has been found but is not yet connected to a son
 				if ((netMap.get(iP).size() == 1)
-						&& (polygonInfo.get(iP).rank) < maxRank) { // if this
-																	// polygon
-																	// has been
-																	// found but
-																	// is not
-																	// yet
-																	// connected
-																	// to a son
+						&& (polygonInfo.get(iP).rank) < maxRank) {
 					for (int iSeg : polygonChildSegsList.get(iP)) {
 						// only if this segment is not cut by the user
 						if (!segmentInfoList.get(iSeg).userCut) {
@@ -599,8 +593,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 							.get(segNumber)).pointIndex2 = pointsCounter;
 					// notice it is the first point of the next segment
 					segmentInfoList.get(currentPolygonSegList
-							.get((segNumber + 1) % (currentPolygonSegList
-									.size()))).pointIndex1 = pointsCounter;
+							.get((segNumber + 1) % currentPolygonSegList
+									.size())).pointIndex1 = pointsCounter;
 					pointsCounter++;
 				}
 			}
@@ -610,8 +604,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 							.get(faceNumber).segShift
 							+ currentPolygonSegList.size(); segNumber++) {
 				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList
-						.get(currentPolygonSegList.get((segNumber)
-								% (currentPolygonSegList.size()))).pointIndex1);
+						.get(currentPolygonSegList.get(segNumber
+								% currentPolygonSegList.size())).pointIndex1);
 			}
 
 		} else { // bottom face
@@ -623,8 +617,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 						.get(segNumber)).pointIndex2 = pointsCounter;
 				// notice it is the second point of the precedent segment
 				segmentInfoList.get(currentPolygonSegList
-						.get((segNumber + 1) % (currentPolygonSegList
-								.size()))).pointIndex1 = pointsCounter;
+						.get((segNumber + 1) % currentPolygonSegList
+								.size())).pointIndex1 = pointsCounter;
 				pointsCounter++;
 			}
 			// create the pointIndex list for this face
@@ -633,8 +627,8 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 							.get(faceNumber).segShift
 							+ currentPolygonSegList.size(); segNumber++) {
 				polygonInfo.get(faceNumber).pointIndex.add(segmentInfoList
-						.get(currentPolygonSegList.get((segNumber)
-								% (currentPolygonSegList.size()))).pointIndex1);
+						.get(currentPolygonSegList.get(segNumber
+								% currentPolygonSegList.size())).pointIndex1);
 			}
 
 		}

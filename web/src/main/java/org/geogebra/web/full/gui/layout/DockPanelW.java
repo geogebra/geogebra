@@ -317,8 +317,8 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/** Builds zoom panel */
 	public void tryBuildZoomPanel() {
-		DockManagerW dm = ((DockManagerW) app.getGuiManager().getLayout()
-				.getDockManager());
+		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager();
 
 		boolean bottomRight = dm.getRoot() == null
 				|| dm.getRoot().isBottomRight(this);

@@ -115,7 +115,7 @@ public class GeneralPathClipped implements GShape {
 		if (largestCoord < MAX_COORD_VALUE || !polygon) {
 			addSimpleSegments();
 		} else {
-			addSegmentsWithSutherladHoloman();
+			addClippedSegmentsWithSutherladHoloman();
 		}
 
 		// clear pathPoints to free up memory
@@ -139,7 +139,7 @@ public class GeneralPathClipped implements GShape {
 		}
 	}
 
-	private void addSegmentsWithSutherladHoloman() {
+	private void addClippedSegmentsWithSutherladHoloman() {
 		int padding = lineThickness + 5;
 		double[][] clipPoints = {
 				{ -padding, -padding},

@@ -58,10 +58,10 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if ((isWidgetHit(slider.controls.getAnimPanel(), evt)
+		if (isWidgetHit(slider.controls.getAnimPanel(), evt)
 				|| (slider.getMinMax() != null
 						&& slider.getMinMax().isVisible())
-				|| isMarbleHit(evt))) {
+				|| isMarbleHit(evt)) {
 			return;
 		}
 		super.onDoubleClick(evt);
@@ -143,7 +143,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		int right = left + w.getOffsetWidth();
 		int bottom = top + w.getOffsetHeight();
 
-		return (x > left && x < right && y > top && y < bottom);
+		return x > left && x < right && y > top && y < bottom;
 	}
 
 	/**

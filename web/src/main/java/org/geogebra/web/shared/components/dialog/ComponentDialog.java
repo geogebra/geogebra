@@ -1,4 +1,4 @@
-package org.geogebra.web.shared.components;
+package org.geogebra.web.shared.components.dialog;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;

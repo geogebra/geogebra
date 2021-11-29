@@ -16,12 +16,13 @@ import com.google.gwt.user.client.ui.Label;
  * Row header with marble
  */
 public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
-	private Image marble;
+	private final Image marble;
 	private boolean oldValue;
-	private RowHeaderHandler handler;
+	private final RowHeaderHandler handler;
+	private final CASTableW casTable;
 
 	/**
-	 * @param casTableW
+	 * @param casTable
 	 *            table
 	 * @param n
 	 *            row number
@@ -30,7 +31,8 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	 * @param app
 	 *            application
 	 */
-	public RowHeaderWidget(CASTableW casTableW, int n, GeoCasCell cell, AppW app) {
+	public RowHeaderWidget(CASTableW casTable, int n, GeoCasCell cell, AppW app) {
+		this.casTable = casTable;
 		Label label = new Label();
 		label.setText(n + "");
 		marble = new Image(AppResources.INSTANCE.hidden());
@@ -47,7 +49,7 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		// handle this event, so this is moved to CASTableCellControllerW
 		// but still, create the RowHeaderHandler for quick implementation
 		// addDomHandler(
-		handler = new RowHeaderHandler(app, casTableW, this);
+		handler = new RowHeaderHandler(app, casTable, this);
 		// , MouseUpEvent.getType());
 	}
 
@@ -93,8 +95,8 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	 * Handler for marble
 	 */
 	protected static class MarbleClickHandler implements ClickHandler {
-		private GeoCasCell cell;
-		private RowHeaderWidget rowHeaderWidget;
+		private final GeoCasCell cell;
+		private final RowHeaderWidget rowHeaderWidget;
 
 		/**
 		 * @param cell
@@ -111,9 +113,14 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		@Override
 		public void onClick(ClickEvent event) {
 			cell.toggleTwinGeoEuclidianVisible();
+			rowHeaderWidget.cancelAnyEditing();
 			CASInputHandler.handleMarble(cell, rowHeaderWidget);
 			event.stopPropagation();
 		}
+	}
+
+	private void cancelAnyEditing() {
+		casTable.cancelEditing();
 	}
 
 }

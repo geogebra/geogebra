@@ -227,7 +227,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private Element getElementForAriaLabel() {
-		if ((NavigatorUtil.isiOS() || NavigatorUtil.isMacOS())) {
+		if (NavigatorUtil.isiOS() || NavigatorUtil.isMacOS()) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
 			Element parentElement = parent.getElement();

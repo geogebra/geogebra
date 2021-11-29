@@ -120,8 +120,8 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	private boolean shouldSetToolbar() {
-		return (getEvNo() != EuclidianView.EVNO_GENERAL
-				|| (getView() instanceof EuclidianViewForPlaneInterface));
+		return getEvNo() != EuclidianView.EVNO_GENERAL
+				|| (getView() instanceof EuclidianViewForPlaneInterface);
 	}
 
 	@Override

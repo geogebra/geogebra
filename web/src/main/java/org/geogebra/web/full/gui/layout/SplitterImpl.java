@@ -10,7 +10,7 @@ public class SplitterImpl {
 	protected Element baseDivElement;
 
 	public Element createElement() {
-		return (baseDivElement = Document.get().createDivElement());
+		return baseDivElement = Document.get().createDivElement();
 	}
 
 	/**

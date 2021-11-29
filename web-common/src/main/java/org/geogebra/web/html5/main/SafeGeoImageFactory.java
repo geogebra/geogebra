@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.safeimage.ConvertToCanvas;
-import org.geogebra.web.html5.safeimage.ImageFile;
 import org.geogebra.web.html5.safeimage.ImagePreprocessor;
 import org.geogebra.web.html5.safeimage.SVGPreprocessor;
 import org.geogebra.web.html5.safeimage.SafeImage;
@@ -33,7 +32,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	private final ImageManagerW imageManager;
 	private final VendorSettings vendor;
 	private GeoImage geoImage;
-	private ImageFile imageFile;
+	private ArchiveEntry imageFile;
 	private HTMLImageElement imageElement;
 	private boolean autoCorners;
 	private String cornerLabel1 = null;
@@ -73,7 +72,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 */
 	public GeoImage create(String fileName, String content) {
 		ensureResultImageExists();
-		ImageFile imageFile = new ImageFile(fileName, new ArchiveEntry(content));
+		ArchiveEntry imageFile = new ArchiveEntry(fileName, content);
 		SafeImage safeImage = new SafeImage(imageFile, this, getPreprocessors());
 		safeImage.process();
 		return geoImage;
@@ -87,7 +86,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 */
 	public GeoImage createInternalFile(String fileName, String content) {
 		ensureResultImageExists();
-		ImageFile imageFile = new ImageFile(fileName, new ArchiveEntry(content));
+		ArchiveEntry imageFile = new ArchiveEntry(fileName, content);
 		onReadyInternal(imageFile, content);
 		return geoImage;
 	}
@@ -110,10 +109,10 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	}
 
 	@Override
-	public void onReady(ImageFile imageFile) {
+	public void onReady(ArchiveEntry imageFile) {
 		this.imageFile = imageFile;
 		imageManager.addExternalImage(imageFile.getFileName(),
-				imageFile.getContent());
+				imageFile);
 		imageManager.triggerSingleImageLoading(imageFile.getFileName(),
 				geoImage);
 		imageElement = imageManager.getExternalImage(imageFile.getFileName(), true);
@@ -123,7 +122,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 				(event) -> imageElement.src = imageManager.getErrorURL());
 	}
 
-	private void onReadyInternal(ImageFile imageFile, String content) {
+	private void onReadyInternal(ArchiveEntry imageFile, String content) {
 		this.imageFile = imageFile;
 		imageElement =
 				imageManager.addInternalImage(imageFile.getFileName(), content);

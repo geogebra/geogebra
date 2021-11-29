@@ -293,7 +293,7 @@ public class AlgoFinancial extends AlgoElement {
 	// ================================================
 
 	private double pmtFactor() {
-		return (1 + rate * pmtType) * (Math.pow(1 + rate, nper) - 1) / (rate);
+		return (1 + rate * pmtType) * (Math.pow(1 + rate, nper) - 1) / rate;
 	}
 
 	/**

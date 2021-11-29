@@ -101,7 +101,7 @@ public class Parser {
 		MathSequence mathSequence = new MathSequence();
 		mathFormula.setRootComponent(mathSequence);
 		editorState.setRootComponent(mathSequence);
-		mathContainer(mathSequence);
+		mathContainerWithCommas(mathSequence);
 		mathFormula.getRootComponent().traverse(new FractionBracketRemover());
 		return mathFormula;
 	}

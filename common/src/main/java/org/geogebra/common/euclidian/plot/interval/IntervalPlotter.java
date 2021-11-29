@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.interval.IntervalTuple;
  * @author laszlo
  */
 public class IntervalPlotter {
-	private final EuclidianView view;
+	private final EuclidianViewBounds evBounds;
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
 	private IntervalPlotModel model = null;
@@ -24,8 +24,8 @@ public class IntervalPlotter {
 	/**
 	 * Creates a disabled plotter
 	 */
-	public IntervalPlotter(EuclidianView view, GeneralPathClipped gp) {
-		this.view = view;
+	public IntervalPlotter(EuclidianViewBounds bounds, GeneralPathClipped gp) {
+		this.evBounds = bounds;
 		this.gp = new IntervalPathPlotterImpl(gp);
 		this.enabled = false;
 	}
@@ -33,14 +33,14 @@ public class IntervalPlotter {
 	/**
 	 * Creates a disabled plotter
 	 */
-	public IntervalPlotter(EuclidianView view, IntervalPathPlotter pathPlotter) {
-		this.view = view;
+	public IntervalPlotter(EuclidianViewBounds bounds, IntervalPathPlotter pathPlotter) {
+		this.evBounds = bounds;
 		this.gp = pathPlotter;
 		this.enabled = false;
 	}
 
 	/**
-	 * Enables plotter
+	 * Enables plotter without controller
 	 */
 	public void enableFor(GeoFunction function) {
 		enabled = true;
@@ -50,17 +50,28 @@ public class IntervalPlotter {
 		update();
 	}
 
+	/**
+	 * Enables plotter
+	 */
+	public void enableFor(GeoFunction function, EuclidianController euclidianController) {
+		enabled = true;
+		createModel(function);
+		createController();
+		this.controller.attachEuclidianController(euclidianController);
+		needsUpdateAll();
+		update();
+	}
+
 	private void createController() {
-		controller = new IntervalPlotController(model);
-		controller.attachEuclidianController(view.getEuclidianController());
+		this.controller = new IntervalPlotController(model);
 	}
 
 	private void createModel(GeoFunction function) {
 		IntervalTuple range = new IntervalTuple();
 		IntervalFunctionSampler sampler =
-				new IntervalFunctionSampler(function, range, view);
-		model = new IntervalPlotModel(range, sampler, view);
-		IntervalPath path = new IntervalPath(gp, view, model);
+				new IntervalFunctionSampler(function, range, evBounds);
+		model = new IntervalPlotModel(range, sampler, evBounds);
+		IntervalPath path = new IntervalPath(gp, evBounds, model);
 		model.setPath(path);
 	}
 

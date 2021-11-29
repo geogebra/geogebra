@@ -5,7 +5,6 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
-import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalOperands.acos;
@@ -13,14 +12,13 @@ import static org.geogebra.common.kernel.interval.IntervalOperands.asin;
 import static org.geogebra.common.kernel.interval.IntervalOperands.atan;
 import static org.geogebra.common.kernel.interval.IntervalOperands.cos;
 import static org.geogebra.common.kernel.interval.IntervalOperands.cosh;
-import static org.geogebra.common.kernel.interval.IntervalOperands.csc;
 import static org.geogebra.common.kernel.interval.IntervalOperands.log;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sec;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sinh;
 import static org.geogebra.common.kernel.interval.IntervalOperands.tan;
 import static org.geogebra.common.kernel.interval.IntervalOperands.tanh;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -52,15 +50,15 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 0), cos(interval(PI / 2, PI)));
 		assertEquals(interval(-1, 1), cos(interval(-PI / 2, PI)));
 		assertEquals(interval(-1, 0), cos(interval(PI / 2, PI)));
-		assertEquals(interval(-1, 1), cos(IntervalConstants.whole()));
+		assertEquals(interval(-1, 1), cos(whole()));
 	}
 
 	@Test
 	public void testCosWithInfinity() {
 		assertEquals(interval(-1, 1),
 				cos(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
-		assertTrue(cos(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isEmpty());
-		assertTrue(cos(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)).isEmpty());
+		assertTrue(cos(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isUndefined());
+		assertTrue(cos(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)).isUndefined());
 	}
 
 	@Test
@@ -83,8 +81,8 @@ public class IntervalTrigonometricTest {
 	public void testSinWithInfinity() {
 		assertEquals(interval(-1, 1),
 				sin(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
-		assertTrue(sin(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isEmpty());
-		assertTrue(sin(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)).isEmpty());
+		assertTrue(sin(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isUndefined());
+		assertTrue(sin(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)).isUndefined());
 	}
 
 	@Test
@@ -95,21 +93,8 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 1), tan(interval(-PI / 4, PI / 4)));
 		assertEquals(interval(-1, 1), tan(interval(-9 * PI / 4, -7 * PI / 4)));
 		assertEquals(interval(-1, 1), tan(interval(7 * PI / 4, 9 * PI / 4)));
-		assertEquals(whole(),
-				tan(interval(PI / 2, PI / 2)));
-		assertEquals(whole(),
-				tan(interval(5 * PI / 2, 5 * PI / 2)));
-		assertEquals(whole(),
-				tan(interval(-5 * PI / 2, -5 * PI / 2)));
-		assertEquals(whole(),
-				tan(interval(0, PI / 2)));
 		assertEquals(interval(0.16767801556, 0.18877817478),
 				tan(interval(-2.975460122699386, -2.955010224948875)));
-	}
-
-	@Test
-	public void testTanWithInfinity() {
-		assertEquals(undefined(), tan(IntervalConstants.whole()));
 	}
 
 	@Test
@@ -117,7 +102,7 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(0, 0), asin(interval(0, 0)));
 		assertEquals(interval(-1.57079633, 1.57079633), asin(interval(-1, 1)));
 		assertEquals(interval(-1.57079633, 1.57079633), asin(interval(-10, 10)));
-		assertTrue(asin(interval(-10, -10)).isEmpty());
+		assertTrue(asin(interval(-10, -10)).isUndefined());
 	}
 
 	@Test
@@ -126,7 +111,7 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(0, PI / 2), acos(interval(0, 1)));
 		assertEquals(interval(0, PI), acos(interval(-1, 1)));
 		assertEquals(interval(0, PI), acos(interval(-10, 10)));
-		assertTrue(acos(interval(-10, -10)).isEmpty());
+		assertTrue(acos(interval(-10, -10)).isUndefined());
 	}
 
 	@Test
@@ -161,57 +146,18 @@ public class IntervalTrigonometricTest {
 
 	@Test
 	public void testSinLnXNegative() {
-		assertEquals(IntervalConstants.empty(),
+		assertEquals(IntervalConstants.undefined(),
 				new Interval(sin(log(interval(-15, 0)))));
 	}
 
 	@Test
-	public void testSinUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), sin(undefined()));
+	public void testInvertedSinShouldReturnInMinusOneOneRange() {
+		assertEquals(interval(-1, 1), sin(invertedInterval(2, 3)));
 	}
 
 	@Test
-	public void testCosUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), cos(undefined()));
+	public void testInvertedCosShouldReturnInMinusOneOneRange() {
+		assertEquals(interval(-1, 1), cos(invertedInterval(2, 3)));
 	}
 
-	@Test
-	public void testTanUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), tan(undefined()));
-	}
-
-	@Test
-	public void testCscUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), csc(undefined()));
-	}
-
-	@Test
-	public void testSecUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), sec(undefined()));
-	}
-
-	@Test
-	public void testSinhUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), sinh(undefined()));
-	}
-
-	@Test
-	public void testCoshUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), cosh(undefined()));
-	}
-
-	@Test
-	public void testAsinUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), asin(undefined()));
-	}
-
-	@Test
-	public void testAcosUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), acos(undefined()));
-	}
-
-	@Test
-	public void testAtanUndefinedShouldReturnUndefined() {
-		assertEquals(undefined(), atan(undefined()));
-	}
 }

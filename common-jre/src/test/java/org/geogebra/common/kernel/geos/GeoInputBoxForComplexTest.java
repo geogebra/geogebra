@@ -23,7 +23,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
 		shouldBeUpdatedAs("2i", "2 " + IMAGINARY_UNIT);
-		assertEquals("0 + 2i",
+		assertEquals("2i",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
 

@@ -173,7 +173,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	 * @return whether all given objects are cells in text mode
 	 */
 	private static boolean checkGeoText(List<GeoElement> geos) {
-		boolean geosOK = (geos.size() > 0);
+		boolean geosOK = geos.size() > 0;
 		for (GeoElement geo : geos) {
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
 				geosOK = false;

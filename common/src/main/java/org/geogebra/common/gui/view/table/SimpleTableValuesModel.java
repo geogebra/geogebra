@@ -135,7 +135,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * Remove an evaluatable from the model.
 	 * @param evaluatable evaluatable
 	 */
-	void removeEvaluatable(GeoEvaluatable evaluatable) {
+	void removeEvaluatable(GeoEvaluatable evaluatable, boolean removedByUser) {
 		int index = getEvaluatableIndex(evaluatable);
 		if (index > -1) {
 			collector.startCollection(this);

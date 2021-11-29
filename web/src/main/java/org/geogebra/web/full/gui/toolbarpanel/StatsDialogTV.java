@@ -9,8 +9,8 @@ import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -77,20 +77,22 @@ public class StatsDialogTV extends ComponentDialog {
 
 	/**
 	 * Add regression UI and show
+	 * @return if data has error or not
 	 */
-	public void addRegressionChooser(int rows) {
+	public boolean addRegressionChooserHasError(int rows) {
 		ListBox regressionChooser = new ListBox();
 		List<RegressionSpecification> available = RegressionSpecification.getForListSize(rows);
-		available.forEach(spec ->
-			regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
-					spec.getLabel())
-		);
-		regressionChooser.addChangeHandler((change) -> {
-			RegressionSpecification regression = available
-					.get(regressionChooser.getSelectedIndex());
-			setRows(view.getRegression(column, regression));
-		});
-		addDialogContent(regressionChooser);
+		if (available.size() > 0) {
+			available.forEach(spec ->
+					regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
+							spec.getLabel())
+			);
+			regressionChooser.addChangeHandler((change) -> {
+				RegressionSpecification regression = available
+						.get(regressionChooser.getSelectedIndex());
+				setRows(view.getRegression(column, regression));
+			});
+			addDialogContent(regressionChooser);
 
 		setOnPositiveAction(() -> {
 			RegressionSpecification regression = available
@@ -98,6 +100,8 @@ public class StatsDialogTV extends ComponentDialog {
 			view.plotRegression(column, regression);
 			app.storeUndoInfo();
 		});
-		updateContent(c -> view.getRegression(c, available.get(0)));
+		updateContent(c -> view.getRegression(c, available.get(0)));return false;
+		}
+		return true;
 	}
 }

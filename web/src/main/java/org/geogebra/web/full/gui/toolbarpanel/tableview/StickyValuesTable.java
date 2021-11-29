@@ -52,7 +52,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	private ContextMenuTV contextMenu;
 	private final TableEditor editor;
 
-	public MathKeyboardListener getKeybaordListener() {
+	private int rowsChange = 0;
+	private int columnsChange = 0;
+
+	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
 	}
 
@@ -155,14 +158,53 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
-		addEmptyColumn();
-		addEmptyColumn();
+		addEmptyColumn(0);
+		addEmptyColumn(1);
+		if (columnsChange < 0) {
+			addEmptyColumn(2);
+		}
 	}
 
-	private void addEmptyColumn() {
+	private void addEmptyColumn(int position) {
 		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
 		TableCell cell = new TableCell("", false);
-		getTable().addColumn(col, new SafeHtmlHeader(cell.getHTML()));
+		SafeHtmlHeader header = new SafeHtmlHeader(cell.getHTML());
+		if (columnsChange > 0 && position == 1) {
+			header.setHeaderStyleNames("addColumnAut");
+			resetAfterAnimationEnds("addColumnAut", true, false);
+		} else if (position == 2) {
+			header.setHeaderStyleNames("deleteColumnAut");
+			resetAfterAnimationEnds("deleteColumnAut", true, true);
+		}
+		getTable().addColumn(col, header);
+		if (rowsChange < 0) {
+			resetAfterAnimationEnds("deleteRowAut", false, true);
+		} else if (rowsChange > 0) {
+			resetAfterAnimationEnds("addRowAuto", false, false);
+		}
+	}
+
+	private void resetAfterAnimationEnds(String className, boolean column, boolean remove) {
+		app.invokeLater(() -> {
+			Element el;
+			if (column) {
+				el = getHeaderElementByClassName("." + className);
+			} else {
+				el = getTableElementByClassName("." + className);
+			}
+			if (remove) {
+				Dom.addEventListener(el, "animationend", e -> reset());
+			} else {
+				Dom.addEventListener(el, "animationend",
+						e -> removeAnimationStyleName(el, className));
+			}
+			columnsChange = 0;
+			rowsChange = 0;
+		});
+	}
+
+	private void removeAnimationStyleName(Element el, String styleName) {
+		el.removeClassName(styleName);
 	}
 
 	@Override
@@ -209,6 +251,24 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		}
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		if (rowsChange < 0) {
+			for (int i = 0; i < Math.abs(rowsChange); i++) {
+				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+			}
+			getTable().setRowStyles((row, rowIndex) -> {
+				if (rowIndex >= tableModel.getRowCount() + 2) {
+					return "deleteRowAut";
+				}
+				return null;
+			});
+		} else if (rowsChange > 0) {
+			getTable().setRowStyles((row, rowIndex) -> {
+				if (rowsChange > 0 && rowIndex == tableModel.getRowCount() + 1) {
+					return "addRowAuto";
+				}
+				return null;
+			});
+		}
 	}
 
 	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
@@ -301,7 +361,12 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		reset();
+		if (column != tableModel.getColumnCount()) {
+			deleteColumn(column);
+		} else {
+			columnsChange = -1;
+			reset();
+		}
 	}
 
 	@Override
@@ -318,6 +383,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
+		rowsChange -= 1;
 		reset();
 	}
 
@@ -328,12 +394,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	@Override
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
+		rowsChange = 1;
 		reset();
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
-		onColumnAdded();
+		columnsChange = 1;
 	}
 
 	@Override
@@ -398,7 +465,17 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return super.getCellStyleNames(context, object)
 					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "")
 					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "")
-					+ (col >= 0 && columnNotEditable(col) ? " notEditable" : "");
+					+ (col >= 0 && columnNotEditable(col) ? " notEditable" : "")
+					+ (col < 0 ? " emptyColumn" : "")
+					+ (col < 0 && columnsChange < 0 ? " deleteColumnAut" : "");
 		}
+	}
+
+	public int getRowsChange() {
+		return rowsChange;
+	}
+
+	public int getColumnsChange() {
+		return columnsChange;
 	}
 }

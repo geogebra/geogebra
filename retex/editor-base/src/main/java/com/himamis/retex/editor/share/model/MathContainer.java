@@ -155,8 +155,8 @@ abstract public class MathContainer extends MathComponent {
 	 * @return argument
 	 */
 	public MathComponent getArgument(int i) {
-		return (arguments != null && arguments.size() > i && i >= 0
-				? arguments.get(i) : null);
+		return arguments != null && arguments.size() > i && i >= 0
+				? arguments.get(i) : null;
 	}
 
 	/**
