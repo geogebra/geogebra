@@ -1645,7 +1645,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testApproxResultForLargePowers() {
-		t("0.99999874^16500", anyOf(equalTo("0.9794246092973"),
-						equalTo("0.979424609317")));
+		String result = AppD.MAC_OS ? "0.9794246092973" : "0.979424609317";
+		t("0.99999874^16500", result);
 	}
 }
