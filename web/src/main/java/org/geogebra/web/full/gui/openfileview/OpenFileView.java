@@ -89,7 +89,7 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void initSpinner() {
-		spinner = new LoadSpinner(app.isMebis());
+		spinner = new LoadSpinner();
 		common.addToContent(spinner);
 	}
 
