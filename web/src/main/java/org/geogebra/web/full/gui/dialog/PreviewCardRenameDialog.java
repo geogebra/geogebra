@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.PageListControllerInterface;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 public class PreviewCardRenameDialog extends CardRenameDialog {
 

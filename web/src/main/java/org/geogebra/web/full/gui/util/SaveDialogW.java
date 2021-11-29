@@ -22,8 +22,8 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;

@@ -13,8 +13,8 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;

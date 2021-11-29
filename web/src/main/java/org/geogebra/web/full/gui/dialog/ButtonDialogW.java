@@ -12,8 +12,8 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

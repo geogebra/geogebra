@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
  * Dialog for rotation around a line

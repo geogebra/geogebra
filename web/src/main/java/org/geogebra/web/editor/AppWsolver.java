@@ -22,7 +22,7 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.SignInController;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;

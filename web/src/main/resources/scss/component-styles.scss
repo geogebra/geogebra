@@ -480,6 +480,64 @@
 		}
 	}
 
+	/** TAB COMPONENT */
+	.componentTab {
+		width: 100%;
+		overflow: hidden;
+		.indicator {
+			height: 2px;
+			width: 90px;
+			background-color: colors.$purple-default;
+			top: 49px;
+			position: relative;
+			border-radius: 2px 2px 0 0;
+			left: 0px;
+			z-index: 1;
+			transition: all .25s cubic-bezier(.35,0,.25,1);
+		}
+
+		.header {
+			border-bottom: 1px solid colors.$black-12;
+			.tabBtn {
+				min-width: 90px;
+				height: 48px;
+				border-radius: 2px;
+				.gwt-Label {
+					height: 20px;
+					line-height: 20px;
+					margin: 14px 16px;
+					text-align: center;
+					color: colors.$text-primary;
+				}
+
+				&:hover {
+					background-color: colors.$purple-default-12;
+				}
+
+				&.selected {
+					.gwt-Label {
+						color: colors.$purple-default;
+					}
+					&:hover {
+						background-color: colors.$white;
+					}
+				}
+
+				&.ripple:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+		}
+
+			.panelContainer {
+				opacity: 0.2;
+				position: relative;
+				display: inline-flex;
+				right: 0px;
+				transition: right 0.25s cubic-bezier(.35,0,.25,1);
+			}
+	}
+
 	.infoErrorPanel {
 		max-width: 420px;
 

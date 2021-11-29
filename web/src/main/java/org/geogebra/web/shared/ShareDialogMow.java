@@ -17,10 +17,10 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.ComponentLinkBox;
 import org.geogebra.web.shared.components.ComponentSwitch;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
