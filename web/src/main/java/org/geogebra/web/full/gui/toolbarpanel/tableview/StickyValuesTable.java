@@ -54,6 +54,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	private int rowsChange = 0;
 	private int columnsChange = 0;
+	private int removedColumnByUser = -1;
 
 	public MathKeyboardListener getKeyboardListener() {
 		return editor.getKeyboardListener();
@@ -275,6 +276,19 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		return new DataTableSafeHtmlColumn(col);
 	}
 
+	private void removeRowsBeforeReset() {
+		NodeList<elemental2.dom.Element> elems = getColumnElements(removedColumnByUser);
+		if (elems != null && elems.length > 0) {
+			int rowsDeleted = elems.getLength() - 2 - tableModel.getRowCount();
+			for (int i = 1; i <= Math.abs(rowsDeleted); i++) {
+				elemental2.dom.Element e = elems.getAt(elems.getLength() - i);
+				elemental2.dom.Element parent = e.parentElement;
+				parent.classList.add("deleteRowAut");
+			}
+		}
+		rowsChange = 0;
+	}
+
 	/**
 	 * Deletes the specified column from the table
 	 *
@@ -363,6 +377,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			GeoEvaluatable evaluatable, int column) {
 		if (column != tableModel.getColumnCount()) {
 			deleteColumn(column);
+			removedColumnByUser = column;
 		} else {
 			columnsChange = -1;
 			reset();
@@ -384,7 +399,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
 		rowsChange -= 1;
-		reset();
+		if (transitioning) {
+			removeRowsBeforeReset();
+		} else {
+			reset();
+		}
 	}
 
 	@Override
