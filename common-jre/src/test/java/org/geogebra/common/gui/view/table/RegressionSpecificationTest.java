@@ -24,7 +24,8 @@ public class RegressionSpecificationTest extends BaseUnitTest {
 		GeoList list = add("{1,2,3,4}");
 		listY = add("{1,8,27,64}");
 		GeoList listY2 = add("{5,7,5,3}");
-		view = new TableValuesView(getKernel(), list);
+		getApp().getSettings().getTable().setValueList(list);
+		view = new TableValuesView(getKernel());
 		getKernel().attach(view);
 		view.add(listY);
 		view.showColumn(listY);

@@ -33,10 +33,14 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			return;
 		}
 		tableValues.set(element, ensureList(list), rowIndex);
+		if (list != null) {
+			tableValues.updateValuesNoBatch(list);
+		}
 	}
 
 	private GeoList ensureList(GeoList list) {
 		if (list != null) {
+			ensureXColumnLabel(list);
 			return list;
 		}
 		GeoList column = new GeoList(cons);
@@ -44,6 +48,13 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		column.notifyAdd();
 		tableValues.doShowColumn(column);
 		return column;
+	}
+
+	private void ensureXColumnLabel(GeoList list) {
+		if (tableValues.getValues() == list && !list.isLabelSet()) {
+			list.setAuxiliaryObject(true);
+			list.setLabel(cons.buildIndexedLabel("x", false));
+		}
 	}
 
 	private GeoElement parseInput(String input) {

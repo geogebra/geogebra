@@ -39,7 +39,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class TableValuesViewTest extends BaseUnitTest {
 
-	protected TableValues view;
+	protected TableValuesView view;
 	protected TableValuesModel model;
 	protected TableValuesProcessor processor;
 

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.statistics.Regression;
 
 public final class RegressionSpecification {
@@ -64,8 +65,16 @@ public final class RegressionSpecification {
 		return label;
 	}
 
+	/**
+	 * @param kernel kernel
+	 * @param points input data as a tuple (x-coordinates, y-coordinates)
+	 * @return regression command
+	 */
 	public Command buildCommand(Kernel kernel, MyVecNode points) {
-		return regression.buildCommand(kernel, degree, points);
+		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
+				false);
+		cleanData.addArgument(points.wrap());
+		return regression.buildCommand(kernel, degree, cleanData);
 	}
 
 	public String getFormula() {

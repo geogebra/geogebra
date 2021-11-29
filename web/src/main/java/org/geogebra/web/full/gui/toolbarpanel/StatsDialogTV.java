@@ -94,11 +94,12 @@ public class StatsDialogTV extends ComponentDialog {
 			});
 			addDialogContent(regressionChooser);
 
-			setOnPositiveAction(() -> {
-				RegressionSpecification regression = available
-						.get(regressionChooser.getSelectedIndex());
-				view.plotRegression(column, regression);
-			});
+		setOnPositiveAction(() -> {
+			RegressionSpecification regression = available
+					.get(regressionChooser.getSelectedIndex());
+			view.plotRegression(column, regression);
+			app.storeUndoInfo();
+		});
 			updateContent(c -> view.getRegression(c, available.get(0)));
 			return false;
 		}

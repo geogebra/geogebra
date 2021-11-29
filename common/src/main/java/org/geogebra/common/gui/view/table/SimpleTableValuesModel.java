@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.settings.TableSettings;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -27,7 +28,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	private final List<TableValuesListener> listeners;
 	private final List<TableValuesColumn> columns;
-	private final GeoList values;
+	private final TableSettings settings;
 
 	private ModelEventCollector collector;
 
@@ -35,9 +36,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 * Construct a SimpleTableValuesModel.
 	 * @param kernel kernel
 	 */
-	SimpleTableValuesModel(Kernel kernel, GeoList values) {
+	SimpleTableValuesModel(Kernel kernel, TableSettings settings) {
 		this.kernel = kernel;
-		this.values = values;
+		this.settings = settings;
 		this.listeners = new ArrayList<>();
 		this.columns = new ArrayList<>();
 		this.collector = new ModelEventCollector();
@@ -117,7 +118,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 			GeoList list = (GeoList) evaluatable;
 			return new TableValuesListColumn(list);
 		}
-		return new TableValuesFunctionColumn(evaluatable, values);
+		return new TableValuesFunctionColumn(evaluatable, getValueList());
 	}
 
 	private void ensureIncreasingIndices(int idx) {
@@ -229,6 +230,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	 */
 	void setValues(double[] valuesArray) {
 		collector.startCollection(this);
+		GeoList values = getValueList();
 		values.clear();
 		for (double value : valuesArray) {
 			values.add(new GeoNumeric(kernel.getConstruction(), value));
@@ -238,8 +240,15 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.endCollection(this);
 	}
 
+	public GeoList getValueList() {
+		if (settings.getValueList() == null) {
+			settings.setValueList(new GeoList(kernel.getConstruction()));
+		}
+		return settings.getValueList();
+	}
+
 	private void initializeModel() {
-		TableValuesColumn column = new TableValuesListColumn(values);
+		TableValuesColumn column = new TableValuesListColumn(getValueList());
 		columns.add(column);
 		column.notifyDatasetChanged(this);
 	}
@@ -322,7 +331,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		column.setDefinition(null);
 		if (isEmptyValue(element)) {
 			handleEmptyValue(column, columnIndex, rowIndex);
-		} else if (column == values) {
+		} else if (column == getValueList()) {
 			collector.notifyRowChanged(this, rowIndex);
 		} else if (getEvaluatableIndex(column) > -1 && column.listContains(element)) {
 			element.notifyUpdate();
@@ -355,7 +364,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private void handleEmptyValue(GeoList column, int columnIndex, int rowIndex) {
 		if (rowIndex == column.size() - 1 && isLastRowEmpty()) {
 			removeEmptyRowsFromBottom();
-		} else if (column == values) {
+		} else if (column == getValueList()) {
 			collector.notifyRowChanged(this, rowIndex);
 		} else if (isColumnEmpty(column)) {
 			column.remove();
@@ -421,7 +430,16 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	public boolean isEvaluatableEmptyList(int column) {
-		return  getEvaluatable(column).isGeoList()
+		return getEvaluatable(column).isGeoList()
 				&& ((GeoList) getEvaluatable(column)).isEmptyList();
+	}
+
+	/**
+	 * Update values column from the settings
+	 */
+	public void updateValuesColumn() {
+		TableValuesListColumn element = new TableValuesListColumn(getValueList());
+		columns.set(0, element);
+		element.notifyColumnChanged(this, getValueList(), 0);
 	}
 }

@@ -99,9 +99,9 @@ public class TableSettings extends AbstractSettings {
 	 */
 	public void getXML(StringBuilder sb) {
 		sb.append("<tableview");
-		if (valueList != null) {
+		if (valueList != null && valueList.isLabelSet()) {
 			sb.append(" xValues=\"");
-			sb.append(StringUtil.encodeXML(valueList.toValueString(StringTemplate.xmlTemplate)));
+			sb.append(StringUtil.encodeXML(valueList.getLabel(StringTemplate.xmlTemplate)));
 			sb.append("\"");
 		} else {
 			sb.append(" min=\"");

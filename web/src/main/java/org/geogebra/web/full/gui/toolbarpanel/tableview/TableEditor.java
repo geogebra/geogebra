@@ -39,9 +39,9 @@ public class TableEditor implements UnhandledArrowListener {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
 			boolean newColumn = table.tableModel.getColumnCount() > column;
-				mathTextField.setText(newColumn
-						? table.tableModel.getCellAt(row, column).getInput()
-						: ""); // make sure we don't load content of previously edited cell
+			mathTextField.setText(newColumn
+					? table.tableModel.getCellAt(row, column).getInput()
+					: ""); // make sure we don't load content of previously edited cell
 			Element cell = table.getCell(row, column);
 			table.scrollIntoView(cell);
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree

@@ -221,9 +221,7 @@ public class ContextMenuTV {
 		Command deleteCommand = () -> {
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 			view.hideColumn(column);
-			if (column instanceof GeoList) {
-				column.remove();
-			} else {
+			if (!column.isGeoList()) {
 				app.dispatchEvent(new Event(EventType.REMOVE_TV, (GeoElement) column));
 			}
 		};

@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -214,6 +215,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ytick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
+	private String xValuesLabel;
 	private ArrayList<String> entries;
 	private String subAppCode;
 
@@ -257,6 +259,7 @@ public class MyXMLHandler implements DocHandler {
 		xtick.clear();
 		ytick.clear();
 		ztick.clear();
+		xValuesLabel = null;
 	}
 
 	private void initKernelVars() {
@@ -687,8 +690,9 @@ public class MyXMLHandler implements DocHandler {
 		TableSettings ts = app.getSettings().getTable();
 		String valuesString = attrs.get("xValues");
 		if (valuesString != null) {
-			ts.updateValueList(getAlgProcessor().evaluateToList(valuesString));
+			xValuesLabel = valuesString;
 		} else {
+			ts.setValueList(null);
 			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
 			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
 			ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
@@ -2967,7 +2971,7 @@ public class MyXMLHandler implements DocHandler {
 				this.geoHandler.processLists();
 				cons.getLayerManager().updateList();
 				processEvSizes();
-
+				processXValuesList();
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;
 				} else {
@@ -3097,6 +3101,13 @@ public class MyXMLHandler implements DocHandler {
 				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();
+		}
+	}
+
+	private void processXValuesList() {
+		GeoElement geoElement = kernel.lookupLabel(xValuesLabel);
+		if (geoElement != null) {
+			app.getSettings().getTable().setValueList((GeoList) geoElement);
 		}
 	}
 
