@@ -48,6 +48,7 @@ public abstract class Analytics {
 		public static final String COMMAND_ERROR = "command_error";
 		public static final String COMMAND_VALIDATED = "command_validated";
 		public static final String COMMAND_HELP_ICON = "command_help_icon";
+		public static final String EXAM_MODE_INITIATED = "exam_mode_initiated";
 
 		protected Event() {
 		}
