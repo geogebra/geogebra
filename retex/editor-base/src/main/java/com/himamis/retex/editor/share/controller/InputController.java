@@ -1120,10 +1120,16 @@ public class InputController {
 
 		MetaModel meta = editorState.getMetaModel();
 
-		int currentOffset = editorState.getCurrentOffset();
-		if (editorState.getCurrentField().getArgument(currentOffset) instanceof MathPlaceholder
-				&& !meta.isFunctionOpenKey(ch)) {
-			editorState.getCurrentField().removeArgument(currentOffset);
+		if (!meta.isFunctionOpenKey(ch) && ch != ',') {
+			int currentOffset = editorState.getCurrentOffset();
+			MathSequence field = editorState.getCurrentField();
+
+			if (field.getArgument(currentOffset) instanceof MathPlaceholder) {
+				editorState.getCurrentField().removeArgument(currentOffset);
+			} else if (field.getArgument(currentOffset - 1) instanceof MathPlaceholder) {
+				editorState.getCurrentField().removeArgument(currentOffset - 1);
+				CursorController.prevCharacter(editorState);
+			}
 		}
 
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
@@ -1315,8 +1321,8 @@ public class InputController {
 	private void comma(EditorState editorState) {
 		int offset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentField.getArgumentCount() > offset
-				&& currentField.getArgument(offset + 1) instanceof MathPlaceholder) {
+		if (currentField.getArgument(offset) instanceof MathCharacter
+				&& ((MathCharacter) currentField.getArgument(offset)).isUnicode(',')) {
 			CursorController.nextCharacter(editorState);
 			return;
 		}
