@@ -128,8 +128,8 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 			MatchResult matches = matrixRegex.exec(transform);
 
 			if (matches != null) {
-				sx *= Double.parseDouble(matches.getGroup(1));
-				sy *= Double.parseDouble(matches.getGroup(4));
+				sx *= length(matches, 1, 2);
+				sx *= length(matches, 3, 4);
 			} else if (transform.indexOf("scale") == 0) {
 				double mul = Double.parseDouble(transform.substring(transform
 					.indexOf("(") + 1, transform.indexOf(")")));
@@ -149,6 +149,12 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 
         return "x".equals(type) ? sx : sy;
     }
+
+	private double length(MatchResult matches, int id1, int id2) {
+		double a = Double.parseDouble(matches.getGroup(id1));
+		double b = Double.parseDouble(matches.getGroup(id2));
+		return Math.hypot(a, b);
+	}
 
 	private double envScale(String type) {
 		return envScale(this, type, true);
