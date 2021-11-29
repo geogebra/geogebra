@@ -1,4 +1,4 @@
-package org.geogebra.web.shared.components;
+package org.geogebra.web.shared.components.dialog;
 
 /**
  * object holding the settings of the dialog

@@ -1,39 +1,34 @@
 package org.geogebra.common.kernel.interval;
 
-public class IntervalOperands {
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+
+public final class IntervalOperands {
 	private static final IntervalAlgebra algebra;
-	private static final IntervalArithmeticImpl arithmetic;
+	private static final IntervalMultiply multiply;
+	private static final IntervalRoot nroot;
 	private static final IntervalTrigonometric trigonometric;
 	private static final IntervalMiscOperandsImpl misc;
+	private static final IntervalDivide divide;
 
 	static {
-		IntervalMiscOperandsImpl misc1;
-		IntervalTrigonometric trigonometric1;
-		IntervalArithmeticImpl arithmetic1;
-		IntervalAlgebra algebra1;
-		try {
-			algebra1 = new IntervalAlgebra();
-			arithmetic1 = new IntervalArithmeticImpl();
-			trigonometric1 = new IntervalTrigonometric();
-			misc1 = new IntervalMiscOperandsImpl();
-		} catch (Throwable t) {
-			algebra1 = null;
-			arithmetic1 = null;
-			trigonometric1 = null;
-			misc1 = null;
-		}
-		misc = misc1;
-		trigonometric = trigonometric1;
-		arithmetic = arithmetic1;
-		algebra = algebra1;
+		algebra = new IntervalAlgebra();
+		multiply = new IntervalMultiply();
+		trigonometric = new IntervalTrigonometric();
+		misc = new IntervalMiscOperandsImpl();
+		divide = new IntervalDivide();
+		nroot = new IntervalRoot();
 	}
 
 	public static Interval multiply(Interval interval, Interval other) {
-		return arithmetic.multiply(interval, other);
+		return multiply.compute(interval, other);
 	}
 
 	public static Interval divide(Interval interval, Interval other) {
-		return arithmetic.divide(interval, other);
+		return divide.compute(interval, other);
+	}
+
+	public static Interval inverse(Interval interval) {
+		return divide.compute(IntervalConstants.one(), interval);
 	}
 
 	/**
@@ -64,7 +59,7 @@ public class IntervalOperands {
 	 * @return nth root of the interval.
 	 */
 	public static Interval nthRoot(Interval interval, Interval other) {
-		return algebra.nthRoot(interval, other);
+		return nroot.compute(interval, other);
 	}
 
 	/**
@@ -74,11 +69,10 @@ public class IntervalOperands {
 	 * @return nth root of the interval.
 	 */
 	public static Interval nthRoot(Interval interval, double n) {
-		return algebra.nthRoot(interval, n);
+		return nroot.compute(interval, n);
 	}
 
-	public static Interval difference(Interval interval, Interval other)
-			throws IntervalsDifferenceException {
+	public static Interval difference(Interval interval, Interval other) {
 		return misc.difference(interval, other);
 	}
 
@@ -106,7 +100,7 @@ public class IntervalOperands {
 	 * @return secant of the interval
 	 */
 	public static Interval sec(Interval interval) {
-		return trigonometric.sec(interval);
+		return inverse(cos(interval));
 	}
 
 	/**
@@ -114,7 +108,7 @@ public class IntervalOperands {
 	 * @return 1 / sin(x)
 	 */
 	public static Interval csc(Interval interval) {
-		return trigonometric.csc(interval);
+		return inverse(sin(interval));
 	}
 
 	/**
@@ -122,7 +116,8 @@ public class IntervalOperands {
 	 * @return cotangent of the interval
 	 */
 	public static Interval cot(Interval interval) {
-		return trigonometric.cot(interval);
+		Interval copy = new Interval(interval);
+		return divide(cos(interval), sin(copy));
 	}
 
 	/**
@@ -138,7 +133,9 @@ public class IntervalOperands {
 	 * @return tangent of the interval.
 	 */
 	public static Interval tan(Interval interval) {
-		return trigonometric.tan(interval);
+		Interval copy = new Interval(interval);
+		return divide(sin(interval), cos(copy));
+
 	}
 
 	/**
@@ -202,7 +199,7 @@ public class IntervalOperands {
 	 * @return square root of the interval.
 	 */
 	public static Interval sqrt(Interval interval) {
-		return algebra.sqrt(interval);
+		return nroot.compute(interval, 2);
 	}
 
 	public static Interval abs(Interval interval) {
@@ -225,8 +222,31 @@ public class IntervalOperands {
 		return misc.intersect(interval, other);
 	}
 
-	public static Interval union(Interval interval, Interval other)
-			throws IntervalsNotOverlapException {
+	public static Interval union(Interval interval, Interval other) {
 		return misc.union(interval, other);
+	}
+
+	static Interval computeInverted(Interval result1, Interval result2) {
+		if (result1.equals(result2) || result1.isPositive() && isNegativeOrEmpty(result2)) {
+			return result1;
+		}
+
+		if (isNegativeOrEmpty(result1) && result2.isPositive()) {
+			return result2;
+		}
+
+		if (isNegativeOrEmpty(result1) && isNegativeOrEmpty(result2)) {
+			return undefined();
+		}
+
+		return new Interval(result1.getHigh(), result2.getLow()).invert();
+	}
+
+	private static boolean isNegativeOrEmpty(Interval interval) {
+		return interval.isNegative() || interval.isUndefined();
+	}
+
+	private IntervalOperands() {
+		throw new IllegalStateException("Utility class");
 	}
 }

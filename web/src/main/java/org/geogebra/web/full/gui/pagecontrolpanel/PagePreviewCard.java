@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.main.Localization;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
@@ -133,7 +134,7 @@ public class PagePreviewCard extends FlowPanel
 		imagePanel.clear();
 		String exportImageDataUrl = ((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(0.5, false, false);
-		setPreviewImage(new ArchiveEntry(exportImageDataUrl));
+		setPreviewImage(new ArchiveEntry(MyXMLio.XML_FILE_THUMBNAIL, exportImageDataUrl));
 	}
 
 	private void updateLabel() {

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
+import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import java.util.Objects;
 
@@ -16,6 +17,7 @@ public class Interval {
 	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
 	private double low;
 	private double high;
+	private boolean inverted = false;
 
 	/**
 	 * Creates a singleton interval [value, value]
@@ -34,17 +36,17 @@ public class Interval {
 	 */
 	public Interval(double low, double high) {
 		if (high < low) {
-			setEmpty();
+			setUndefined();
 		} else {
 			set(low, high);
 		}
 	}
 
 	/**
-	 * Creates an empty interval.
+	 * Creates an undefined interval.
 	 */
 	public Interval() {
-		setEmpty();
+		setUndefined();
 	}
 
 	/**
@@ -54,6 +56,7 @@ public class Interval {
 	 */
 	public Interval(Interval other) {
 		this(other.low, other.high);
+		inverted = other.inverted;
 	}
 
 	/**
@@ -63,11 +66,11 @@ public class Interval {
 	 * @return the max of interval and other.
 	 */
 	public static Interval max(Interval interval, Interval other) {
-		if (interval.isEmpty() && other.isEmpty()) {
-			return empty();
-		} else if (interval.isEmpty()) {
+		if (interval.isUndefined() && other.isUndefined()) {
+			return undefined();
+		} else if (interval.isUndefined()) {
 			return other;
-		} else if (other.isEmpty()) {
+		} else if (other.isUndefined()) {
 			return interval;
 		}
 
@@ -82,11 +85,11 @@ public class Interval {
 	 * @return the min of interval and other.
 	 */
 	public static Interval min(Interval interval, Interval other) {
-		if (interval.isEmpty() && other.isEmpty()) {
-			return empty();
-		} else if (interval.isEmpty()) {
+		if (interval.isUndefined() && other.isUndefined()) {
+			return undefined();
+		} else if (interval.isUndefined()) {
 			return other;
-		} else if (other.isEmpty()) {
+		} else if (other.isUndefined()) {
 			return interval;
 		}
 
@@ -94,10 +97,12 @@ public class Interval {
 				Math.min(interval.high, other.high));
 	}
 
-	/** Empty interval is represented by [∞, -∞]
-	 * as in the original lib. */
-	public void setEmpty() {
+	/**
+	 * Makes interval undefined, which is represented by [∞, -∞]
+	 */
+	public void setUndefined() {
 		set(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		inverted = false;
 	}
 
 	/**
@@ -107,9 +112,23 @@ public class Interval {
 	 * @return this as result
 	 */
 	public Interval add(Interval other) {
+		if (isUndefined() || other.isUndefined()) {
+			setUndefined();
+			return this;
+		}
+
 		low += other.low;
 		high += other.high;
+		updateInversion(other.inverted);
 		return this;
+	}
+
+	private void updateInversion(boolean otherInverted) {
+		if (inverted && otherInverted) {
+			setUndefined();
+		} else {
+			inverted = inverted || otherInverted;
+		}
 	}
 
 	@Override
@@ -127,16 +146,24 @@ public class Interval {
 
 	@Override
 	public String toString() {
+		if (isWhole()) {
+			return "Interval [-Infinity, Infinity] " + invertedPostfix();
+		}
+
 		String result = "Interval [";
-		if (!isEmpty()) {
+		if (!isUndefined()) {
 			result += low;
 			if (!isSingleton()) {
 				result += ", " + high;
 			}
 		}
 
-		result += "]";
+		result += "] " + invertedPostfix();
 		return result;
+	}
+
+	private String invertedPostfix() {
+		return inverted ? "Inverted" : "";
 	}
 
 	/**
@@ -151,6 +178,7 @@ public class Interval {
 		} else {
 			low -= other.high;
 			high -= other.low;
+			updateInversion(other.inverted);
 		}
 		return this;
 	}
@@ -160,7 +188,7 @@ public class Interval {
 	 * @return if interval has zero in it.
 	 */
 	public boolean hasZero() {
-		return low <= 0 && high >= 0;
+		return contains(0);
 	}
 
 	/**
@@ -168,7 +196,8 @@ public class Interval {
 	 * @return if interval represents all the real numbers R.
 	 */
 	public boolean isWhole() {
-		return low == Double.NEGATIVE_INFINITY && high == Double.POSITIVE_INFINITY;
+		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, Double.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -186,9 +215,9 @@ public class Interval {
 
 	/**
 	 *
-	 * @return if interval is empty.
+	 * @return if interval is undefined.
 	 */
-	public boolean isEmpty() {
+	public boolean isUndefined() {
 		return  low > high;
 	}
 
@@ -214,7 +243,7 @@ public class Interval {
 	 * @return if intervals are overlapping
 	 */
 	public boolean isOverlap(Interval other) {
-		if (isEmpty() || other.isEmpty()) {
+		if (isUndefined() || other.isUndefined()) {
 			return false;
 		}
 		return (low <= other.low && other.low <= high)
@@ -231,8 +260,9 @@ public class Interval {
 			return true;
 		}
 
-		return DoubleUtil.isEqual(low, other.low, 1E-7)
-			&& DoubleUtil.isEqual(high, other.high, 1E-7);
+		return inverted == other.inverted
+				&& DoubleUtil.isEqual(low, other.low, 1E-7)
+				&& DoubleUtil.isEqual(high, other.high, 1E-7);
 	}
 
 	/**
@@ -240,40 +270,7 @@ public class Interval {
 	 * @return this as result.
 	 */
 	public Interval multiplicativeInverse() {
-		if (isEmpty()) {
-			return empty();
-		}
-
-		if (isUndefined()) {
-			return this;
-		}
-
-		if (hasZero()) {
-			if (low != 0) {
-				if (high != 0) {
-					// [negative, positive]
-					setUndefined();
-				} else {
-					// [negative, zero]
-					double d = low;
-					low = Double.NEGATIVE_INFINITY;
-					high = RMath.divHigh(1.0, d);
-				}
-			} else {
-				if (high != 0) {
-					// [zero, positive]
-					low = RMath.divLow(1, high);
-					high = Double.POSITIVE_INFINITY;
-				} else {
-					// [zero, zero]
-					setUndefined();
-				}
-			}
-		} else {
-			// [positive, positive]
-			return new Interval(RMath.divLow(1, high), RMath.divHigh(1, low));
-		}
-		return this;
+		return IntervalOperands.divide(IntervalConstants.one(), this);
 	}
 
 	void setWhole() {
@@ -286,6 +283,15 @@ public class Interval {
 	 */
 	public void set(Interval other) {
 		set(other.low, other.high);
+		inverted = other.inverted;
+	}
+
+	/**
+	 * Sets interval as singleton
+	 * @param value to set.
+	 */
+	public void set(double value) {
+		set(value, value);
 	}
 
 	/**
@@ -347,7 +353,7 @@ public class Interval {
 	 *
 	 * @return true if infinite.
 	 */
-	public boolean isOnlyInfinity() {
+	public boolean isInfiniteSingleton() {
 		return (isLowInfinite() || isHighInfinite()) && DoubleUtil.isEqual(high, low);
 	}
 
@@ -356,7 +362,7 @@ public class Interval {
 	 * @return width of the interval.
 	 */
 	public double getWidth() {
-		if (isEmpty()) {
+		if (isUndefined()) {
 			return 0;
 		}
 		return RMath.subHigh(high, low);
@@ -383,8 +389,21 @@ public class Interval {
 		set(IntervalConstants.zero());
 	}
 
+	/**
+	 *
+	 * @return if interval is [0].
+	 */
 	public boolean isZero() {
-		return low == 0 && high == 0;
+		return DoubleUtil.isEqual(low, 0, PRECISION)
+				&& DoubleUtil.isEqual(high, 0, PRECISION);
+	}
+
+	public boolean contains(double value) {
+		return value >= low && value <= high;
+	}
+
+	public boolean containsExclusive(int value) {
+		return value > low && value < high;
 	}
 
 	public boolean contains(Interval interval) {
@@ -397,18 +416,26 @@ public class Interval {
 	 * @return if this interval is greater than the other.
 	 */
 	public boolean isGreaterThan(Interval other) {
-		if (isEmpty() || other.isEmpty()) {
+		if (isUndefined() || other == null || other.isUndefined()) {
 			return false;
 		}
+
 		return high > other.high;
 	}
 
-	public Interval evaluate(Operation operation,
-			Interval other) throws Exception {
+	/**
+	 * Evaluate interval with given operation and param.
+	 *
+	 * @param operation to execute.
+	 * @param other parameter for the operation
+	 * @return the result of the operation.
+	 *
+	 */
+	public Interval evaluate(Operation operation, Interval other) {
 		return evaluate.evaluate(operation, other);
 	}
 
-	public Interval evaluate(Operation operation) throws Exception {
+	public Interval evaluate(Operation operation) {
 		return evaluate.evaluate(operation);
 	}
 
@@ -428,7 +455,7 @@ public class Interval {
 	 */
 	public String toShortString() {
 		String result = "[";
-		if (!isEmpty()) {
+		if (!isUndefined()) {
 			result += low;
 			if (!isSingleton()) {
 				result += ", " + high;
@@ -436,6 +463,9 @@ public class Interval {
 		}
 
 		result += "]";
+		if (inverted) {
+			result += " Inverted";
+		}
 		return result;
 	}
 
@@ -444,7 +474,7 @@ public class Interval {
 	 * @return the length of the interval
 	 */
 	public double getLength() {
-		if (isEmpty()) {
+		if (isUndefined()) {
 			return 0;
 		}
 		return Math.abs(high - low);
@@ -479,7 +509,7 @@ public class Interval {
 	 * @return true if interval one or both border is infinite.
 	 */
 	public boolean hasInfinity() {
-		return !isEmpty() && isLowInfinite() || isHighInfinite();
+		return !isUndefined() && isLowInfinite() || isHighInfinite();
 	}
 
 	/**
@@ -503,7 +533,17 @@ public class Interval {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return low == 1 && high == 1;
+		return DoubleUtil.isEqual(low, 1, PRECISION)
+				&& DoubleUtil.isEqual(high, 1, PRECISION);
+	}
+
+	/**
+	 *
+	 * @return if the interval is the negative unit one.
+	 */
+	public boolean isMinusOne() {
+		return DoubleUtil.isEqual(low, -1, PRECISION)
+				&& DoubleUtil.isEqual(high, -1, PRECISION);
 	}
 
 	public boolean isFinite() {
@@ -521,17 +561,20 @@ public class Interval {
 
 	/**
 	 *
-	 * @return true if interval is undefined (division by zero).
+	 * @return if interval is a positive infinite singleton.
 	 */
-	public boolean isUndefined() {
-		return Double.isNaN(low) && Double.isNaN(high);
+	public boolean isPositiveInfinity() {
+		return DoubleUtil.isEqual(low, Double.POSITIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, low);
 	}
 
 	/**
-	 * Sets interval undefined (result of division by zero).
+	 *
+	 * @return if interval is a negative infinite singleton.
 	 */
-	public void setUndefined() {
-		set(Double.NaN, Double.NaN);
+	public boolean isNegativeInfinity() {
+		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
+				&& DoubleUtil.isEqual(high, low);
 	}
 
 	/**
@@ -550,7 +593,23 @@ public class Interval {
 	 * @return if both bounds are positive.
 	 */
 	public boolean isPositive() {
-		return !isEmpty() && low > 0;
+		return low > 0;
+	}
+
+	/**
+	 *
+	 * @return if low and high is positive or low == 0 and high is positivr
+	 */
+	public boolean isPositiveWithZero() {
+		return low >= 0;
+	}
+
+	/**
+	 *
+	 * @return if both bounds are >= 0.
+	 */
+	public boolean isNatural() {
+		return !isUndefined() && low > 0;
 	}
 
 	/**
@@ -558,7 +617,15 @@ public class Interval {
 	 * @return if both bounds are negative.
 	 */
 	public boolean isNegative() {
-		return !isEmpty() && high < 0;
+		return high < 0;
+	}
+
+	/**
+	 *
+	 * @return if low and high is negative, or low < 0 and high is 0.
+	 */
+	public boolean isNegativeWithZero() {
+		return high <= 0;
 	}
 
 	/**
@@ -568,4 +635,90 @@ public class Interval {
 	public boolean isSingletonInteger() {
 		return isSingleton() && DoubleUtil.isEqual(low, Math.round(low));
 	}
+
+	/**
+	 * Inverts interval
+	 * @return this
+	 */
+	public Interval invert() {
+		setInverted(true);
+		return this;
+	}
+
+	/**
+	 * Clears interval as inverted.
+	 * @return this
+	 */
+	public Interval uninvert() {
+		setInverted(false);
+		return this;
+	}
+
+	/**
+	 *
+	 * @return if interval is inverted,
+	 * ie equals [-∞, low] union [high, ∞].
+	 */
+	public boolean isInverted() {
+		return inverted;
+	}
+
+	/**
+	 *
+	 * @param low to check
+	 * @return whether low bound is equal to a specific value.
+	 */
+	public boolean lowEquals(double low) {
+		return DoubleUtil.isEqual(this.low, low, PRECISION);
+	}
+
+	/**
+	 *
+	 * @param high to check
+	 * @return whether high bound is equal to a specific value.
+	 */
+	public boolean highEquals(double high) {
+		return DoubleUtil.isEqual(this.high, high, PRECISION);
+	}
+
+	/**
+	 *
+	 * @return round to zero within the given precision
+	 */
+	public Interval round() {
+		if (Math.abs(low) < PRECISION) {
+			low = 0;
+		}
+
+		if (Math.abs(high) < PRECISION) {
+			high = 0;
+		}
+		return this;
+	}
+
+	/**
+	 * Sets interval [low, high] inverted. This really means:
+	 * [-∞, low] union [high, ∞]
+	 * @param inverted the flag to set.
+	 */
+	public void setInverted(boolean inverted) {
+		this.inverted = inverted;
+	}
+
+	/**
+	 *
+	 * @return [-∞, a] for inverted intervals, undefined() otherwise
+	 */
+	public Interval extractLow() {
+		return isInverted() ? new Interval(Double.NEGATIVE_INFINITY, low) : undefined();
+	}
+
+	/**
+	 *
+	 * @return [high, ∞] for inverted intervals, undefined otherwise
+	 */
+	public Interval extractHigh() {
+		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();
+	}
+
 }

@@ -365,7 +365,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				+ Math.abs(dd) > EPSILON) {
 
 			iterations++; // debug(""+iterations+" : ");
-			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
+			if ((iterations > MAXITERATIONS) || error) { // From experience:
 															// >100 gives
 															// unusable result
 				Log.debug("More than " + MAXITERATIONS + " iterations...");

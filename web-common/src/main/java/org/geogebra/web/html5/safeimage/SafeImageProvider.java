@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.safeimage;
 
+import org.geogebra.web.html5.util.ArchiveEntry;
+
 public interface SafeImageProvider {
-	void onReady(ImageFile imageFile);
+	void onReady(ArchiveEntry imageFile);
 }

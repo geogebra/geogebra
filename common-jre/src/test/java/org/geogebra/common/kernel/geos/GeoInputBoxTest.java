@@ -824,7 +824,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoElement linked = add("l1 = {1, 2}");
 		GeoInputBox input = add("InputBox(l1)");
 		String updated = "l1 = {3, 4}";
-		input.updateLinkedGeo(updated);
+		input.updateLinkedGeo("3,4");
 		assertEquals(updated, linked.toString(StringTemplate.defaultTemplate));
 	}
 }

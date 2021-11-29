@@ -120,11 +120,6 @@ public class ArgumentHelper {
 		StringBuilder stringBuilder = new StringBuilder();
 		int offset = initialOffset;
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentField.getArgument(offset) instanceof MathCharacter
-				&& ((MathCharacter) currentField.getArgument(offset))
-						.isOperator()) {
-			return "";
-		}
 		while (offset > 0 && currentField
 				.getArgument(offset - 1) instanceof MathCharacter) {
 

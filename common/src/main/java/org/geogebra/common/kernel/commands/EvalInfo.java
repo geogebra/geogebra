@@ -4,7 +4,7 @@ import java.util.TreeMap;
 
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
+import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 import org.geogebra.common.util.GPredicate;
 
 /**
@@ -30,7 +30,7 @@ public class EvalInfo {
 	private boolean keepDefinition = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
-	private RedefinitionRule redefinitionRule;
+	private RuleCollection redefinitionRule;
 	private MyArbitraryConstant constant;
 	private boolean isRedefinition = false;
 
@@ -402,7 +402,7 @@ public class EvalInfo {
 	 * @param rule redefinition rule
 	 * @return a copy of the eval info
 	 */
-	public EvalInfo withRedefinitionRule(RedefinitionRule rule) {
+	public EvalInfo withRedefinitionRule(RuleCollection rule) {
 		EvalInfo info = copy();
 		info.redefinitionRule = rule;
 		return info;
@@ -413,7 +413,7 @@ public class EvalInfo {
 	 *
 	 * @return redefinition rule
 	 */
-	public RedefinitionRule getRedefinitionRule() {
+	public RuleCollection getRedefinitionRule() {
 		return redefinitionRule;
 	}
 

@@ -640,15 +640,15 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					stylePost = "}";
 					break;
 				case GFont.BOLD:
-					stylePre = ("\\textbf{");
+					stylePre = "\\textbf{";
 					stylePost = "}";
 					break;
 				case GFont.ITALIC:
-					stylePre = ("\\textit{");
+					stylePre = "\\textit{";
 					stylePost = "}";
 					break;
 				case GFont.BOLD + GFont.ITALIC:
-					stylePre = ("\\textit{\\textbf{");
+					stylePre = "\\textit{\\textbf{";
 					stylePost = "}}";
 					break;
 				}
@@ -659,15 +659,15 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					// do nothing
 					break;
 				case GFont.BOLD:
-					stylePre = ("\\mathbf{");
+					stylePre = "\\mathbf{";
 					stylePost = "}";
 					break;
 				case GFont.ITALIC:
-					stylePre = ("\\mathit{");
+					stylePre = "\\mathit{";
 					stylePost = "}";
 					break;
 				case GFont.BOLD + GFont.ITALIC:
-					stylePre = ("\\mathit{\\mathbf{");
+					stylePre = "\\mathit{\\mathbf{";
 					stylePost = "}}";
 					break;
 				}

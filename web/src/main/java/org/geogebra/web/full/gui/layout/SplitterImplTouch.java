@@ -67,7 +67,7 @@ public class SplitterImplTouch extends SplitterImpl {
 		glassDivStyle.setProperty("width", (splitterSize + GLASS_SIZE) + "px");
 		glassDivStyle.setProperty("height", "100%");
 		glassDivStyle.setProperty("position", "absolute");
-		glassDivStyle.setProperty("left", (-((GLASS_SIZE) / 2)) + "px");
+		glassDivStyle.setProperty("left", (-(GLASS_SIZE / 2)) + "px");
 		glassDivStyle.setZIndex(10);
 	}
 
@@ -85,7 +85,7 @@ public class SplitterImplTouch extends SplitterImpl {
 		glassDivStyle.setProperty("height", (splitterSize + GLASS_SIZE) + "px");
 		glassDivStyle.setProperty("width", "100%");
 		glassDivStyle.setProperty("position", "absolute");
-		glassDivStyle.setProperty("top", (-((GLASS_SIZE) / 2)) + "px");
+		glassDivStyle.setProperty("top", (-(GLASS_SIZE / 2)) + "px");
 		glassDivStyle.setZIndex(10);
 	}
 

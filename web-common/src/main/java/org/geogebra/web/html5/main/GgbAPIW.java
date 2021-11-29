@@ -183,8 +183,8 @@ public class GgbAPIW extends GgbAPI {
 			boolean greyscale) {
 		String url;
 
-		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
-				.getActiveEuclidianView());
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
+				.getActiveEuclidianView();
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
 
@@ -324,7 +324,7 @@ public class GgbAPIW extends GgbAPI {
 						value.string, archive);
 			} else {
 				pushNativeEntryToArchive(entry.getKey(),
-						value.export(entry.getKey()), archive);
+						value.export(), archive);
 			}
 		}
 		jso.set("archive", archive);
@@ -458,7 +458,8 @@ public class GgbAPIW extends GgbAPI {
 		}
 		// write construction thumbnails
 		if (includeThumbnail) {
-			ArchiveEntry thumb = new ArchiveEntry(((EuclidianViewWInterface) getViewForThumbnail())
+			ArchiveEntry thumb = new ArchiveEntry(MyXMLio.XML_FILE_THUMBNAIL,
+					((EuclidianViewWInterface) getViewForThumbnail())
 					.getCanvasBase64WithTypeString());
 			archiveContent.put(MyXMLio.XML_FILE_THUMBNAIL, thumb);
 		}
@@ -891,7 +892,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            custom toolbar definition
 	 */
 	public void setCustomToolBar(String toolbarString) {
-		GuiManagerInterfaceW gm = ((GuiManagerInterfaceW) app.getGuiManager());
+		GuiManagerInterfaceW gm = (GuiManagerInterfaceW) app.getGuiManager();
 		gm.setToolBarDefinition(toolbarString);
 		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();
@@ -1256,5 +1257,9 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public JsObjectWrapper getWrapper(Object options) {
 		return new JsObjectWrapperW(options);
+	}
+
+	public void switchCalculator(String appCode) {
+		((AppW) app).switchToSubapp(appCode);
 	}
 }

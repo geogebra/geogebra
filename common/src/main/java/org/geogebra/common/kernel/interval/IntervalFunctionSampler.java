@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
@@ -12,10 +13,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class IntervalFunctionSampler {
 
 	private final IntervalFunction function;
-	private EuclidianView view;
+	private EuclidianViewBounds bounds;
 	private int numberOfSamples;
 	private final DiscreteSpace space;
-	private boolean addEmpty;
 
 	/**
 	 * @param geoFunction function to get sampled
@@ -32,12 +32,12 @@ public class IntervalFunctionSampler {
 	/**
 	 * @param geoFunction function to get sampled
 	 * @param range (x, y) range.
-	 * @param view {@link EuclidianView}
+	 * @param bounds {@link EuclidianView}
 	 */
 	public IntervalFunctionSampler(GeoFunction geoFunction, IntervalTuple range,
-			EuclidianView view) {
+			EuclidianViewBounds bounds) {
 		this(geoFunction);
-		this.view = view;
+		this.bounds = bounds;
 		update(range);
 	}
 
@@ -73,25 +73,22 @@ public class IntervalFunctionSampler {
 
 	private IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
 		IntervalTupleList samples = new IntervalTupleList();
-		addEmpty = true;
+		evaluateOnEach(space, samples);
+		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
+		asymptotes.process();
+		return samples;
+	}
+
+	private void evaluateOnEach(DiscreteSpace space, IntervalTupleList samples) {
 		space.values().forEach(x -> {
 					try {
 						Interval y = function.evaluate(x);
-						if (!y.isEmpty() || addEmpty) {
-							IntervalTuple tuple = new IntervalTuple(x, y);
-							samples.add(tuple);
-						}
-
-						addEmpty = !y.isEmpty();
-
+						IntervalTuple tuple = new IntervalTuple(x, y);
+						samples.add(tuple);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				});
-
-		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
-		asymptotes.process();
-		return samples;
 	}
 
 	/**
@@ -104,7 +101,7 @@ public class IntervalFunctionSampler {
 	}
 
 	private int calculateNumberOfSamples() {
-		return numberOfSamples > 0 ? numberOfSamples : view.getWidth();
+		return numberOfSamples > 0 ? numberOfSamples : bounds.getWidth();
 	}
 
 	/**

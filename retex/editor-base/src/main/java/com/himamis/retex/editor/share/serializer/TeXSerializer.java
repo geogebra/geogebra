@@ -55,7 +55,7 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\\\\\vspace{0}");
 		} else if ("n".equals(mathCharacter.getName()) && stringBuilder.length() > 0
 				&& 'l' == stringBuilder.charAt(stringBuilder.length() - 1)) {
-			stringBuilder.setLength((Math.max(stringBuilder.length() - 1, 0)));
+			stringBuilder.setLength(Math.max(stringBuilder.length() - 1, 0));
 			stringBuilder.append("\\mathrm{ln}");
 		} else {
 			stringBuilder.append(TeXEscaper.escapeSymbol(mathCharacter.getTexName()));

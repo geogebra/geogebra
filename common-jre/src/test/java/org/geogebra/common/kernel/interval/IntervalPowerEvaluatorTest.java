@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -85,15 +86,10 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
 	}
 
-	private void shouldBeUndefinedAtZero(IntervalFunction function) throws Exception {
-		assertEquals(IntervalConstants.undefined(), function.evaluate(IntervalConstants.zero()));
-	}
-
 	@Test
 	public void evaluatePowerOfFractionNegativeNominator() throws Exception {
 		GeoFunction geo = add("x^(-2/9)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeUndefinedAtZero(function);
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				function.evaluate(interval(-6, -5.88)));
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
@@ -104,7 +100,6 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	public void evaluatePowerOfNegativeFractionDenominator() throws Exception {
 		GeoFunction geo = add("x^(2/-9)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeUndefinedAtZero(function);
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
 				function.evaluate(interval(-6, -5.88)));
 		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
@@ -119,7 +114,6 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	private void shouldBeXPowerOnMinusThird(IntervalFunction function) throws Exception {
-		shouldBeUndefinedAtZero(function);
 		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.one()));
 		assertEquals(IntervalConstants.one().negative(),
 				function.evaluate(IntervalConstants.one().negative()));
@@ -129,7 +123,8 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	public void evaluatePowerOfFraction1underMinus3() throws Exception {
 		GeoFunction geo = add("x^(1/-3)");
 		IntervalFunction function = new IntervalFunction(geo);
-		shouldBeXPowerOnMinusThird(function);
+		Interval result = function.evaluate(interval(-1, 1));
+		assertTrue("result should be inverted", result.isInverted());
 	}
 
 	@Test

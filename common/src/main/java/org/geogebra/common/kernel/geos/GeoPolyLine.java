@@ -350,7 +350,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		} else {
 			pp.t = pp.t % (points.length - 1);
 			if (pp.t < 0) {
-				pp.t += (points.length - 1);
+				pp.t += points.length - 1;
 			}
 			index = (int) Math.floor(pp.t);
 			

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
+import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -21,7 +22,7 @@ public class IntervalTest {
 	@Test
 	public void testInvalidIntervals() {
 		Interval interval = new Interval(2, 1);
-		assertTrue(interval.isEmpty());
+		assertTrue(interval.isUndefined());
 	}
 
 	@Test
@@ -33,6 +34,12 @@ public class IntervalTest {
 
 	static Interval interval(double low, double high) {
 		return new Interval(low, high);
+	}
+
+	static Interval invertedInterval(double low, double high) {
+		Interval interval = interval(low, high);
+		interval.setInverted(true);
+		return interval;
 	}
 
 	static Interval interval(double singleton) {
@@ -64,6 +71,16 @@ public class IntervalTest {
 	}
 
 	@Test
+	public void testIsZeroWithinPrecision() {
+		double delta = RMath.prev(PRECISION);
+		assertTrue(interval(0, 0). isZero());
+		assertTrue(interval(0, delta). isZero());
+		assertTrue(interval(-delta, 0). isZero());
+		assertTrue(interval(-delta, delta). isZero());
+		assertTrue(interval(delta). isZero());
+	}
+
+	@Test
 	public void testHasZero() {
 		assertTrue(new Interval(-1, 1).hasZero());
 		assertTrue(new Interval(0, 1).hasZero());
@@ -82,12 +99,12 @@ public class IntervalTest {
 
 	@Test
 	public void testEmpty() {
-		assertTrue(new Interval(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).isEmpty());
+		assertTrue(new Interval(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY).isUndefined());
 	}
 
 	@Test
 	public void testEmptyConstant() {
-		assertTrue(empty().isEmpty());
+		assertTrue(undefined().isUndefined());
 	}
 
 	@Test
@@ -103,8 +120,8 @@ public class IntervalTest {
 	@Test
 	public void testNotOverlapWithEmptyInterval() {
 		Interval a = new Interval(-1, 1);
-		assertFalse(a.isOverlap(empty()));
-		assertFalse(empty().isOverlap(a));
+		assertFalse(a.isOverlap(undefined()));
+		assertFalse(undefined().isOverlap(a));
 	}
 
 	@Test
@@ -117,22 +134,28 @@ public class IntervalTest {
 
 	@Test
 	public void testIntervalToString() {
-		assertEquals("Interval [-1.0, 1.0]", interval(-1, 1).toString());
+		assertEquals("Interval [-1.0, 1.0]", interval(-1, 1).toString().trim());
+	}
+
+	@Test
+	public void testInvertedIntervalToString() {
+		assertEquals("Interval [-1.0, 1.0] Inverted",
+				interval(-1, 1).invert().toString().trim());
 	}
 
 	@Test
 	public void testIntervalSingletonToString() {
-		assertEquals("Interval [-1.0]", new Interval(-1).toString());
+		assertEquals("Interval [-1.0]", new Interval(-1).toString().trim());
 	}
 
 	@Test
 	public void testEmptyIntervalToString() {
-		assertEquals("Interval []",	empty().toString());
+		assertEquals("Interval []",	undefined().toString().trim());
 	}
 
 	@Test
 	public void testWholeIntervalToString() {
-		assertEquals("Interval [-Infinity, Infinity]", whole().toString());
+		assertEquals("Interval [-Infinity, Infinity]", whole().toString().trim());
 	}
 
 	@Test

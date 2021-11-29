@@ -14,7 +14,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.RotationSpeedHandler;
@@ -125,7 +125,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/** 3D view controlled by this */
 	protected EuclidianView3D view3D; // TODO move to EuclidianViewInterface
 
-	private GPoint mouseLocOld = new GPoint();
+	private final GPoint mouseLocOld = new GPoint();
 
 	/** says that a free point has just been created (used for 3D cursor) */
 	private boolean freePointJustCreated = false;
@@ -156,27 +156,27 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private boolean lastGetNewPointWasExistingPoint = false;
 	private GeoElement handledGeo;
 
-	private Coords startPoint3D = new Coords(0, 0, 0, 1);
-	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
+	private final Coords startPoint3D = new Coords(0, 0, 0, 1);
+	private final Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
 
 	protected Coords translationVec3D = new Coords(4);
 	private Coords translateDirection;
 
-	private Coords scaleAxisVector = new Coords(2);
-	private Coords scaleOrigin = new Coords(2);
+	private final Coords scaleAxisVector = new Coords(2);
+	private final Coords scaleOrigin = new Coords(2);
 	private double scaleOld;
 	private double scaleDistanceInPixelsStart;
 
-	private Coords tmpCoords = new Coords(4);
-	private Coords tmpCoords2 = new Coords(4);
-	private Coords tmpCoordsForOrigin = new Coords(4);
-	private Coords tmpCoordsForDirection = new Coords(4);
+	private final Coords tmpCoords = new Coords(4);
+	private final Coords tmpCoords2 = new Coords(4);
+	private final Coords tmpCoordsForOrigin = new Coords(4);
+	private final Coords tmpCoordsForDirection = new Coords(4);
 
 	private Hits3D goodHits;
 	/**
 	 * array list for intersection curves
 	 */
-	private ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<>();
+	private final ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<>();
 	private IntersectionCurve resultedIntersectionCurve;
 
 	private GeoPointND singleIntersectionPoint;
@@ -186,9 +186,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private SchedulerFactory.Scheduler schedulerForMouseExit;
 	private ScheduledMouseExit mScheduledMouseExit;
 
-	private List<GeoElement> hitsForSingleIntersectionPoint;
+	private final List<GeoElement> hitsForSingleIntersectionPoint;
 
-	private RotationSpeedHandler rotationSpeedHandler;
+	private final RotationSpeedHandler rotationSpeedHandler;
 
 	/**
 	 * Store infos for intersection curve
@@ -2283,11 +2283,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 									|| region == kernel.getXOYPlane());
 				}
 			}
-			if (createPointAnywhere) {
-				createNewPoint(hits, true, true, true, true, false);
-			} else {
-				createNewPoint(hits, true, false, true, true, false);
-			}
+			createNewPoint(hits, true, createPointAnywhere, true, true, false);
 			break;
 
 		case EuclidianConstants.MODE_PYRAMID:
@@ -3429,15 +3425,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 						return true;
 					}
 					// on xOy plane: can create a point
-					if (point.hasRegion()
-								&& (!(point.getRegion() instanceof GeoCoordSys2D)
-										|| point.getRegion() == kernel
-											.getXOYPlane())) {
-						return true;
-					}
-					return false;
+					return point.hasRegion()
+							&& (!(point.getRegion() instanceof GeoCoordSys2D)
+							|| point.getRegion() == kernel
+							.getXOYPlane());
 
-				case EuclidianConstants.MODE_REGULAR_POLYGON:
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
 					// one point or one region: can create a point
 					if (selPoints() == 0 || selCS2D() == 1) {
 						return true;
@@ -3447,12 +3440,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 					if (point.hasRegion()) {
 						return point.getRegion() == kernel.getXOYPlane();
 					}
-					if (point.isPointOnPath()) {
-						return true;
-					}
-					return false;
+					return point.isPointOnPath();
 
-				default:
+			default:
 					return false;
 			}
 		}

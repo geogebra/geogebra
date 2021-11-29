@@ -1058,4 +1058,8 @@ public class DefaultExportedApi implements ExportedApi {
 	public void setGlobalOptions(Object options) {
 		ggbAPI.setGlobalOptions(options);
 	}
+
+	public void switchCalculator(String appCode) {
+		ggbAPI.switchCalculator(appCode);
+	}
 }

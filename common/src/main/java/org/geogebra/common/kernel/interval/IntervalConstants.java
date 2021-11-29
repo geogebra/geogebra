@@ -1,22 +1,20 @@
 package org.geogebra.common.kernel.interval;
 
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.POSITIVE_INFINITY;
-
-public class IntervalConstants {
+public final class IntervalConstants {
 	public static final double PI_LOW = Math.PI - 1E-16;
 	public static final double PI_HIGH = Math.PI + 1E-16;
 	public static final double PI_HALF_LOW = PI_LOW / 2.0;
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
+	public static final double PRECISION = 1E-6;
 
 	/**
 	 *
 	 * @return a newly created empty interval.
 	 */
-	public static Interval empty() {
-		return new Interval(POSITIVE_INFINITY, NEGATIVE_INFINITY);
+	public static Interval undefined() {
+		return new Interval(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
 	}
 
 	/**
@@ -40,15 +38,7 @@ public class IntervalConstants {
 	 * @return a newly created whole interval.
 	 */
 	public static Interval whole() {
-		return new Interval(NEGATIVE_INFINITY, POSITIVE_INFINITY);
-	}
-
-	/**
-	 *
-	 * @return a newly created undefined interval.
-	 */
-	public static Interval undefined() {
-		return new Interval(Double.NaN);
+		return new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -73,5 +63,51 @@ public class IntervalConstants {
 	 */
 	public static Interval piHalf() {
 		return new Interval(PI_HALF_LOW, PI_HALF_HIGH);
+	}
+
+	/**
+	 *
+	 * @return a newly created positive infinity singleton interval.
+	 */
+	public static Interval positiveInfinity() {
+		return new Interval(Double.POSITIVE_INFINITY,
+				Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 *
+	 * @return a newly created negative infinity singleton interval.
+	 */
+	public static Interval negativeInfinity() {
+		return new Interval(Double.NEGATIVE_INFINITY,
+				Double.NEGATIVE_INFINITY);
+	}
+
+	/**
+	 *
+	 * @return a "-0" interval for 1/-inf compatibility.
+	 */
+	public static Interval zeroWithNegativeSign() {
+		return new Interval(-1E-7, 1E-7);
+	}
+
+	/**
+	 *
+	 * @return interval that is considered to be zero.
+	 */
+	public static Interval zeroWithinPrecision() {
+		return new Interval(RMath.next(-PRECISION), RMath.prev(PRECISION));
+	}
+
+	/**
+	 *
+	 * @return a small interval that contains 0.
+	 */
+	public static Interval aroundZero() {
+		return new Interval(-1E-4, 1E-4);
+	}
+
+	private IntervalConstants() {
+		throw new IllegalStateException("Constants class");
 	}
 }

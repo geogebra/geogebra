@@ -145,7 +145,7 @@ public class DrawSlope extends Drawable {
 					labelDesc = geo.getLabelDescription();
 				}
 				yLabel = (int) (y - height / 2.0f + 6);
-				xLabel = (int) (xright) + 5;
+				xLabel = (int) xright + 5;
 				addLabelOffset();
 
 				// position off horizontal label (i.e. slopeTriangleSize)

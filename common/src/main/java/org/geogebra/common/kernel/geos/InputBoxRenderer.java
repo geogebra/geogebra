@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
@@ -58,7 +59,9 @@ class InputBoxRenderer {
 				&& !((GeoList) linkedGeo).hasSpecialEditor();
 		boolean isComplexFunction = linkedGeo.isGeoSurfaceCartesian()
 				&& linkedGeo.getDefinition() != null;
-		if (isRestrictedPoint()) {
+		if (linkedGeo.isGeoList() && !flatEditableList && !((GeoList) linkedGeo).isMatrix()) {
+			return getStringForFlatList(stringTemplateForLaTeX);
+		} else if (isRestrictedPoint()) {
 			return linkedGeo.toValueString(stringTemplateForLaTeX);
 		} else if (inputBox.hasSymbolicFunction() || flatEditableList || isComplexFunction) {
 			return getLaTeXRedefineString();
@@ -67,6 +70,18 @@ class InputBoxRenderer {
 		}
 
 		return toLaTex();
+	}
+
+	/**
+	 * @param tpl template
+	 * @return string for flat list (definition or value, no brackets)
+	 */
+	public String getStringForFlatList(StringTemplate tpl) {
+		if (linkedGeo.getDefinition() != null
+				&& linkedGeo.getDefinition().unwrap() instanceof MyList) {
+			return ((MyList) linkedGeo.getDefinition().unwrap()).toString(tpl, true, false);
+		}
+		return ((GeoList) linkedGeo).appendElements(new StringBuilder(), tpl).toString();
 	}
 
 	private boolean isRestrictedPoint() {

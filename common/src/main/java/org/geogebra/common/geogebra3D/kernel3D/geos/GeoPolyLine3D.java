@@ -177,7 +177,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 		} else {
 			t = t % (points.length - 1);
 			if (t < 0) {
-				t += (points.length - 1);
+				t += points.length - 1;
 			}
 			index = (int) Math.floor(t);
 		}

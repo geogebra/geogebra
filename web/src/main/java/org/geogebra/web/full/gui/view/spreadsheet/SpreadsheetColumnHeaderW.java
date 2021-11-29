@@ -346,10 +346,9 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		Event.releaseCapture(grid.getElement());
 		isMouseDown = false;
 
-		boolean rightClick = (e.isRightClick());
+		boolean rightClick = e.isRightClick();
 
 		if (rightClick) {
-
 			if (!app.letShowPopupMenu()) {
 				return;
 			}

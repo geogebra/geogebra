@@ -1789,11 +1789,14 @@ public class TeXParser {
 			stack.peek().rbrace(this);
 		} else {
 			final AtomConsumer ac = stack.peek();
-			if (!(ac instanceof GroupConsumer)) {
+			if (!(ac instanceof GroupConsumer))
+			{
 				throw new ParseException(this,
 						"Closing '}' doesn't match any opening '{'");
 			} else if (!((GroupConsumer) ac).close(this,
-					TeXConstants.Opener.LBRACE)) {
+					TeXConstants.Opener.LBRACE))
+			{
+
 				throw new ParseException(this,
 						"Closing '}' is not matching an opening '{'");
 			}
@@ -1804,9 +1807,7 @@ public class TeXParser {
 		final AtomConsumer ac = stack.peek();
 		if ((ac instanceof GroupConsumer)) {
 			final GroupConsumer gc = (GroupConsumer) ac;
-			if (gc.getOpener() == opener) {
-				return true;
-			}
+			return gc.getOpener() == opener;
 		}
 		return false;
 	}
@@ -2362,7 +2363,7 @@ public class TeXParser {
 							res[i] /= 100.;
 						}
 					} else {
-						throw new ParseException(this, "Expect a \'}\'");
+						throw new ParseException(this, "Expect a '}'");
 					}
 					skipPureWhites();
 					if (pos < len) {
@@ -2376,15 +2377,15 @@ public class TeXParser {
 							return;
 						} else if (c != ',' && c != ';') {
 							throw new ParseException(this,
-									"Invalid character \'" + c
-											+ "\' in list of numbers: expect a \',\' or \';\'");
+									"Invalid character '" + c
+											+ "' in list of numbers: expect a ',' or ';'");
 						}
 					}
 				}
-				throw new ParseException(this, "Expect a \'}\'");
+				throw new ParseException(this, "Expect a '}'");
 			}
 		}
-		throw new ParseException(this, "Expect a \'{\'");
+		throw new ParseException(this, "Expect a '{'");
 	}
 
 	public void getArgAsPositiveIntegers(final int[] res, final int resLen) {
@@ -2408,16 +2409,16 @@ public class TeXParser {
 							return;
 						} else if (c != ',' && c != ';') {
 							throw new ParseException(this,
-									"Invalid character \'" + c
-											+ "\' in list of numbers: expect a \',\' or \';\'");
+									"Invalid character '" + c
+											+ "' in list of numbers: expect a ',' or ';'");
 						}
 					}
-					throw new ParseException(this, "Expect a \'}\'");
+					throw new ParseException(this, "Expect a '}'");
 				}
 				return;
 			}
 		}
-		throw new ParseException(this, "Expect a \'{\'");
+		throw new ParseException(this, "Expect a '{'");
 	}
 
 	public int getArgAsHexNumber(final int numLen) {
@@ -2455,12 +2456,12 @@ public class TeXParser {
 							return acc;
 						}
 					}
-					throw new ParseException(this, "Expect a \'}\'");
+					throw new ParseException(this, "Expect a '}'");
 				}
 				throw new ParseException(this, "Expect a hex number");
 			}
 		}
-		throw new ParseException(this, "Expect a \'{\'");
+		throw new ParseException(this, "Expect a '{'");
 	}
 
 	public double getDecimal() {

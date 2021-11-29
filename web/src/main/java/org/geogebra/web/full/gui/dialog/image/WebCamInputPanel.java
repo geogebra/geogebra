@@ -7,7 +7,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebCamAPI;
 import org.geogebra.web.html5.webcam.WebCamPanelInterface;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

@@ -94,20 +94,6 @@ public class RMath {
 		return next(Math.pow(n, power));
 	}
 
-	private static double powHigh(double n, int power) {
-		double y = (power & 1) == 1 ? n : 1;
-		int p = power;
-		p >>= 1;
-		while (p > 0) {
-			double k = mulHigh(n, n);
-			if ((p & 1) == 1) {
-				y = mulHigh(k, y);
-			}
-			p >>= 1;
-		}
-		return y;
-	}
-
 	public static double subHigh(double m, double n) {
 		return next(m - n);
 	}
@@ -198,5 +184,13 @@ public class RMath {
 
 	public static double secHigh(double x) {
 		return next(1 / Math.cos(x));
+	}
+
+	public static double nrootLow(double x, double n) {
+		return powLow(x, 1 / n);
+	}
+
+	public static double nrootHigh(double x, double n) {
+		return powHigh(x, 1 / n);
 	}
 }

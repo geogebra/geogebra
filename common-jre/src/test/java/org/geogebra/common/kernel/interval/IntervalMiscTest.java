@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.interval;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.apache.commons.math3.util.FastMath.nextAfter;
-import static org.geogebra.common.kernel.interval.IntervalConstants.empty;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalOperands.abs;
@@ -33,7 +32,7 @@ public class IntervalMiscTest {
 	public void testLog() {
 		assertEquals(interval(0, 0), log(interval(1, 1)));
 		assertEquals(interval(0, 3), log(interval(1, Math.exp(3))));
-		assertEquals(IntervalConstants.empty(),
+		assertEquals(IntervalConstants.undefined(),
 				log(interval(NEGATIVE_INFINITY, -1)));
 	}
 
@@ -56,33 +55,33 @@ public class IntervalMiscTest {
 		assertEquals(interval(-1, 7),
 				hull(interval(-1, 1), interval(5, 7)));
 		assertEquals(interval(-1, 1),
-				hull(interval(-1, 1), new Interval(empty())));
+				hull(interval(-1, 1), new Interval(undefined())));
 		assertEquals(interval(-1, 1),
-				hull(new Interval(empty()), interval(-1, 1)));
-		assertTrue(hull(empty(), empty()).isEmpty());
+				hull(new Interval(undefined()), interval(-1, 1)));
+		assertTrue(hull(undefined(), undefined()).isUndefined());
 	}
 
 	@Test
 	public void testIntersection() {
-		assertTrue(intersect(interval(-1, 1), interval(5, 7)).isEmpty());
-		assertTrue(intersect(interval(-1, 1), empty()).isEmpty());
+		assertTrue(intersect(interval(-1, 1), interval(5, 7)).isUndefined());
+		assertTrue(intersect(interval(-1, 1), undefined()).isUndefined());
 		assertEquals(interval(0, 1),
 				intersect(interval(-1, 1), interval(0, 7)));
 	}
 
 	@Test
-	public void testUnion() throws IntervalsNotOverlapException {
+	public void testUnion() {
 		assertEquals(interval(1, 4),
 				union(interval(1, 3), interval(2, 4)));
 	}
 
-	@Test(expected = IntervalsNotOverlapException.class)
-	public void testUnionWithException() throws IntervalsNotOverlapException {
-		union(interval(1, 2), interval(3, 4));
+	@Test
+	public void testNonOverlappingUnionShouldBeEmpty() {
+		assertEquals(undefined(), union(interval(1, 2), interval(3, 4)));
 	}
 
 	@Test
-	public void testDifference() throws IntervalsDifferenceException {
+	public void testDifference() {
 		assertEquals(interval(3, 4),
 				difference(interval(3, 5), interval(4, 6)));
 
@@ -99,19 +98,19 @@ public class IntervalMiscTest {
 		assertTrue(diff.getLow() == 0 && diff.getHigh() < 1);
 
 		assertTrue(difference(interval(0, 3), interval(0, 3))
-				.isEmpty());
+				.isUndefined());
 
 		assertEquals(interval(0, 1),
-				difference(interval(0, 1), empty()));
+				difference(interval(0, 1), undefined()));
 
-		assertTrue(difference(interval(0, 1), whole()).isEmpty());
+		assertTrue(difference(interval(0, 1), whole()).isUndefined());
 
 		assertTrue(difference(interval(0, POSITIVE_INFINITY), interval(0, POSITIVE_INFINITY))
-				.isEmpty());
+				.isUndefined());
 		assertTrue(difference(interval(NEGATIVE_INFINITY, 0), interval(NEGATIVE_INFINITY, 0))
-				.isEmpty());
-		assertTrue(difference(interval(NEGATIVE_INFINITY, 0), whole()).isEmpty());
-		assertTrue(difference(whole(), whole()).isEmpty());
+				.isUndefined());
+		assertTrue(difference(interval(NEGATIVE_INFINITY, 0), whole()).isUndefined());
+		assertTrue(difference(whole(), whole()).isUndefined());
 
 		diff = difference(interval(3, nextAfter(5, NEGATIVE_INFINITY)), interval(4, 6));
 		assertTrue(diff.getLow() == 3 && diff.getHigh() < 4);
@@ -120,9 +119,9 @@ public class IntervalMiscTest {
 				difference(interval(4, 6), interval(3, nextAfter(5, NEGATIVE_INFINITY))));
 	}
 
-	@Test(expected = IntervalsDifferenceException.class)
-	public void testDifferenceException() throws IntervalsDifferenceException {
-		difference(interval(1, 4), interval(2, 3));
+	@Test()
+	public void testEmptyDifference() {
+		assertEquals(undefined(), difference(interval(1, 4), interval(2, 3)));
 	}
 
 	@Test
@@ -130,7 +129,6 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 1), abs(interval(-1, 1)));
 		assertEquals(interval(2, 3), abs(interval(-3, -2)));
 		assertEquals(interval(2, 3), abs(interval(2, 3)));
-		assertEquals(undefined(), abs(undefined()));
 	}
 
 	@Test
@@ -138,9 +136,9 @@ public class IntervalMiscTest {
 		assertEquals(interval(5, 7), Interval.max(interval(-1, 1),
 				interval(5, 7)));
 		assertEquals(interval(-1, 1),
-				Interval.max(empty(), interval(-1, 1)));
+				Interval.max(undefined(), interval(-1, 1)));
 		assertEquals(interval(-1, 1),
-				Interval.max(interval(-1, 1), empty()));
+				Interval.max(interval(-1, 1), undefined()));
 	}
 
 	@Test

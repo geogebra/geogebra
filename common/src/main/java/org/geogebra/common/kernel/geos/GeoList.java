@@ -22,7 +22,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -124,7 +124,7 @@ public class GeoList extends GeoElement
 	private double fontSizeD = 1; // size relative to default font size
 	private int printDecimals = -1;
 	private int printFigures = -1;
-	private boolean useSignificantFigures = false;
+	private static final boolean useSignificantFigures = false;
 
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 	private boolean emphasizeRightAngle = true;
@@ -898,23 +898,27 @@ public class GeoList extends GeoElement
 
 		tpl.leftCurlyBracket(sbBuildValueString);
 
-		// first (n-1) elements
-		final int lastIndex = elements.size() - 1;
-		if (lastIndex > -1) {
-			for (int i = 0; i < lastIndex; i++) {
-				final GeoElement geo = elements.get(i);
-				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				tpl.getCommaOptionalSpace(sbBuildValueString, getLoc());
-			}
-
-			// last element
-			final GeoElement geo = elements.get(lastIndex);
-			sbBuildValueString.append(geo.toOutputValueString(tpl));
-		}
+		appendElements(sbBuildValueString, tpl);
 
 		tpl.rightCurlyBracket(sbBuildValueString);
 
 		return sbBuildValueString;
+	}
+
+	/**
+	 * @param sb string builder
+	 * @param tpl template
+	 * @return sb
+	 */
+	public StringBuilder appendElements(StringBuilder sb, StringTemplate tpl) {
+		for (int i = 0; i < elements.size(); i++) {
+			final GeoElement geo = elements.get(i);
+			if (i != 0) {
+				tpl.getCommaOptionalSpace(sb, getLoc());
+			}
+			sb.append(geo.toOutputValueString(tpl));
+		}
+		return sb;
 	}
 
 	@Override
@@ -931,18 +935,16 @@ public class GeoList extends GeoElement
 	 * save object in XML format
 	 */
 	@Override
-	public final void getXML(boolean getListenersToo, final StringBuilder sb) {
+	public final void getExpressionXML(final StringBuilder sb) {
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
 		if (isDefined() && isIndependent() && (getDefaultGeoType() < 0)) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+			sb.append("<expression label=\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			if (getDefinition() != null) {
-				StringUtil.encodeXML(sb,
-						getDefinition().toString(StringTemplate.xmlTemplate));
+				getDefinitionXML(sb);
 			} else {
 				StringUtil.encodeXML(sb,
 						toValueString(StringTemplate.xmlTemplate));
@@ -953,61 +955,6 @@ public class GeoList extends GeoElement
 			}
 			sb.append("\"/>\n");
 		}
-
-		getElementOpenTagXML(sb);
-		getXMLtags(sb);
-
-		if (size() == 0 && getTypeStringForXML() != null) {
-			sb.append("<listType val=\"");
-			sb.append(getTypeStringForXML());
-			sb.append("\"/>\n");
-		}
-
-		if (selectedIndex != 0) {
-			sb.append("\t<selectedIndex val=\"");
-			sb.append(selectedIndex);
-			sb.append("\"/>\n");
-		}
-
-		if (drawAsComboBox) {
-			sb.append("\t<comboBox val=\"true\"/>\n");
-		}
-
-		// point style
-		XMLBuilder.appendPointProperties(sb, this);
-
-		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
-				kernel.getApplication());
-
-		// print decimals
-		if ((printDecimals >= 0) && !useSignificantFigures) {
-			sb.append("\t<decimals val=\"");
-			sb.append(printDecimals);
-			sb.append("\"/>\n");
-		}
-
-		// print significant figures
-		if ((printFigures >= 0) && useSignificantFigures) {
-			sb.append("\t<significantfigures val=\"");
-			sb.append(printFigures);
-			sb.append("\"/>\n");
-		}
-
-		// AngleProperties
-		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
-
-		if (isSymbolicMode()) {
-			sb.append("\t<symbolic val=\"true\" />\n");
-		}
-		// AngleProperties end
-
-		// for ComboBoxes (and comments)
-		getCaptionXML(sb);
-		if (getListenersToo) {
-			getListenerTagsXML(sb);
-		}
-
-		sb.append("</element>\n");
 	}
 
 	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list
@@ -1631,7 +1578,6 @@ public class GeoList extends GeoElement
 		}
 
 		return super.toLaTeXString(symbolic, tpl);
-
 	}
 
 	@Override
@@ -1639,6 +1585,48 @@ public class GeoList extends GeoElement
 		super.getXMLtags(sb);
 
 		getLineStyleXML(sb);
+		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {
+			sb.append("\t<listType val=\"");
+			sb.append(getTypeStringForXML());
+			sb.append("\"/>\n");
+		}
+
+		if (selectedIndex != 0) {
+			sb.append("\t<selectedIndex val=\"");
+			sb.append(selectedIndex);
+			sb.append("\"/>\n");
+		}
+
+		if (drawAsComboBox) {
+			sb.append("\t<comboBox val=\"true\"/>\n");
+		}
+
+		// point style
+		XMLBuilder.appendPointProperties(sb, this);
+
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
+				kernel.getApplication());
+
+		// print decimals
+		if ((printDecimals >= 0) && !useSignificantFigures) {
+			sb.append("\t<decimals val=\"");
+			sb.append(printDecimals);
+			sb.append("\"/>\n");
+		}
+
+		// print significant figures
+		if ((printFigures >= 0) && useSignificantFigures) {
+			sb.append("\t<significantfigures val=\"");
+			sb.append(printFigures);
+			sb.append("\"/>\n");
+		}
+
+		// AngleProperties
+		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
+
+		if (isSymbolicMode()) {
+			sb.append("\t<symbolic val=\"true\" />\n");
+		}
 	}
 
 	/**

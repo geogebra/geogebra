@@ -215,7 +215,12 @@ public enum EventType {
 	/**
 	 * Toolbar settings changed
 	 */
-	TOOLBAR_CHANGED("toolbarChanged");
+	TOOLBAR_CHANGED("toolbarChanged"),
+
+	/**
+	 *  Switch between calculators
+	 */
+	SWITCH_CALC("switchCalculator");
 
 	private String eventName;
 

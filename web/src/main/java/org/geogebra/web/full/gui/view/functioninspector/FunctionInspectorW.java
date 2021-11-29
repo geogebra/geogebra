@@ -116,7 +116,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		tableXY.setCellEditable(-1, -1);
 
 		if (isTable) {
-			int row = (pointCount) / 2;
+			int row = pointCount / 2;
 			modelXY.setRowCount(pointCount);
 			Log.debug("[updateXYTable] pointCount: " + pointCount + " row: "
 			        + row);

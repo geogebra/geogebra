@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 
 /**
  * Class to determine the position of the label belongs to the function curve
@@ -19,10 +19,10 @@ public class LabelPositionCalculator {
 	private static final int Y_THRESHOLD_BOTTOM = 30;
 	private static final int Y_MARGIN_BOTTOM = 5;
 
-	private final EuclidianView view;
+	private final EuclidianViewBounds bounds;
 
-	public LabelPositionCalculator(EuclidianView view) {
-		this.view = view;
+	public LabelPositionCalculator(EuclidianViewBounds bounds) {
+		this.bounds = bounds;
 	}
 
 	/**
@@ -32,20 +32,20 @@ public class LabelPositionCalculator {
 	 * @return the position of the label
 	 */
 	public GPoint calculate(double x, double y) {
-		double xLabel = view.toScreenCoordXd(x) + X_GAP;
+		double xLabel = bounds.toScreenCoordXd(x) + X_GAP;
 		if (xLabel < X_THRESHOLD_LEFT) {
 			xLabel = X_MARGIN_LEFT;
 		}
 
-		if (xLabel > view.getWidth() - X_THRESHOLD_RIGHT) {
-			xLabel = view.getWidth() - X_MARGIN_RIGHT;
+		if (xLabel > bounds.getWidth() - X_THRESHOLD_RIGHT) {
+			xLabel = bounds.getWidth() - X_MARGIN_RIGHT;
 		}
 
-		double yLabel = view.toScreenCoordYd(y) + Y_GAP;
+		double yLabel = bounds.toScreenCoordYd(y) + Y_GAP;
 		if (yLabel < Y_THRESHOLD_TOP) {
 			yLabel = Y_TOP_MARGIN;
-		} else if (yLabel > view.getHeight() - Y_THRESHOLD_BOTTOM) {
-			yLabel = view.getHeight() - Y_MARGIN_BOTTOM;
+		} else if (yLabel > bounds.getHeight() - Y_THRESHOLD_BOTTOM) {
+			yLabel = bounds.getHeight() - Y_MARGIN_BOTTOM;
 		}
 
 		return new GPoint((int) xLabel, (int) yLabel);

@@ -146,16 +146,15 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		int totalHeight = (int) appw.getHeight();
 		int toggleButtonTop = (int) ((y - (int) appw.getAbsTop()) / scale);
 		if (toggleButtonTop < totalHeight / 2) {
-			int top = (toggleButtonTop);
-			maxOffsetHeight = totalHeight - top;
+			maxOffsetHeight = totalHeight - toggleButtonTop;
 			helpPopup.getElement().getStyle().setProperty("top",
-					top * renderScale + "px");
+					toggleButtonTop * renderScale + "px");
 			helpPopup.getElement().getStyle().setProperty("bottom", "auto");
 			helpPopup.removeStyleName("helpPopupAVBottom");
 			helpPopup.addStyleName("helpPopupAV");
 		} else {
 			int minBottom = appw.isApplet() ? 0 : 10;
-			int bottom = (totalHeight - toggleButtonTop);
+			int bottom = totalHeight - toggleButtonTop;
 			maxOffsetHeight = bottom > 0 ? totalHeight - bottom
 					: totalHeight - minBottom;
 			helpPopup.getElement().getStyle().setProperty("bottom",

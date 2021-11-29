@@ -14,7 +14,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.shared.GlobalHeader;
-import org.geogebra.web.shared.components.DialogData;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -147,8 +147,8 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		saveScreenshot(app.getLocalization().getMenu((app.getConfig()
-				.getAppName())));
+		saveScreenshot(app.getLocalization().getMenu(app.getConfig()
+				.getAppName()));
 		app.endExam();
 		app.fileNew();
 		app.clearSubAppCons();
