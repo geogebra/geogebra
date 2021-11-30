@@ -284,7 +284,7 @@ public class CopyPasteD extends CopyPaste {
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null) {
-					((GeoElement) geo).setLabelSimple(labelPrefix + label);
+					((GeoElement) geo).addLabelPrefix(labelPrefix);
 
 					if (samewindow) {
 						copiedXMLlabelsforSameWindow
@@ -337,20 +337,17 @@ public class CopyPasteD extends CopyPaste {
 			geo = conels.get(i);
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
-				if (label != null && label.length() >= labelPrefix.length()) {
-					if (label.substring(0, labelPrefix.length())
-							.equals(labelPrefix)) {
-						try {
-							((GeoElement) geo).setLabelSimple(
-									label.substring(labelPrefix.length()));
+				if (label != null && label.startsWith(labelPrefix)) {
+					try {
+						((GeoElement) geo).setLabelSimple(
+								label.substring(labelPrefix.length()));
 
-							if (putdown) {
-								geo.getKernel().renameLabelInScripts(label,
-										label.substring(labelPrefix.length()));
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
+						if (putdown) {
+							geo.getKernel().renameLabelInScripts(label,
+									label.substring(labelPrefix.length()));
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			}

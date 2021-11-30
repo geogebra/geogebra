@@ -17,8 +17,7 @@ public class LabelController {
 	 * @return true if it has label
 	 */
 	public boolean hasLabel(GeoElement element) {
-		String label = element.getLabelSimple();
-		return LabelManager.isShowableLabel(label);
+		return element.isLabelSet() && element.isAlgebraLabelVisible();
 	}
 
 	/**
