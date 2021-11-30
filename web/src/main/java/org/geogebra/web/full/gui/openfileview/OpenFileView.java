@@ -48,7 +48,6 @@ public class OpenFileView extends HeaderFileView
 	private StandardButton newFileBtn;
 	private final FileOpenButton openFileBtn;
 	private FlowPanel loadMoreFilesPanel;
-	private StandardButton loadMoreFilesButton;
 
 	private ListBox sortDropDown;
 
@@ -278,7 +277,7 @@ public class OpenFileView extends HeaderFileView
 				return;
 			}
 		}
-		common.addMaterial(new MaterialCard(material, app));
+		common.addMaterialOrLoadMoreFilesPanel(new MaterialCard(material, app));
 	}
 
 	private boolean isBeforeOrSame(Material material, Material material2) {
@@ -401,25 +400,26 @@ public class OpenFileView extends HeaderFileView
 					.getPlainDefault("ShowXofYfiles.Mebis", "Showing %0 of %1 files",
 							String.valueOf(counts[1]), String.valueOf(counts[2])));
 			loadMoreFilesPanel.add(loadMoreFilesText);
-			loadMoreFilesButton = new StandardButton(localize("loadMore.Mebis"));
-			loadMoreFilesButton.addFastClickHandler(source -> loadAdditionalFiles());
-			loadMoreFilesButton.setStyleName("dialogContainedButton");
-			loadMoreFilesPanel.add(loadMoreFilesButton);
+			addLoadMoreFilesButton();
 			loadMoreFilesPanel.setStyleName("loadMoreFilesPanel");
-			common.addMaterial(loadMoreFilesPanel);
+			common.addMaterialOrLoadMoreFilesPanel(loadMoreFilesPanel);
 		}
 	}
 
-	private void loadAdditionalFiles() {
-		showSpinner();
-		loadAllMaterials(materialCount);
-	}
-
-	private void showSpinner() {
-		loadMoreFilesButton.setText(null);
-		FlowPanel spinner = new FlowPanel();
-		spinner.addStyleName("spinner-border");
-		DOM.appendChild(loadMoreFilesButton.getElement(), spinner.getElement());
+	private void addLoadMoreFilesButton() {
+		StandardButton loadMoreFilesButton = new StandardButton(localize("loadMore.Mebis"));
+		loadMoreFilesButton.addFastClickHandler(source -> {
+			loadMoreFilesButton.setText(null);
+			loadMoreFilesButton.addStyleName("spinner-button");
+			FlowPanel spinner = new FlowPanel();
+			spinner.addStyleName("spinner-border");
+			Label loading = new Label(localize("Loading"));
+			DOM.appendChild(loadMoreFilesButton.getElement(), spinner.getElement());
+			DOM.appendChild(loadMoreFilesButton.getElement(), loading.getElement());
+			loadAllMaterials(materialCount);
+		});
+		loadMoreFilesButton.setStyleName("dialogContainedButton");
+		loadMoreFilesPanel.add(loadMoreFilesButton);
 	}
 
 	private void closeAndResetFileAmount() {

@@ -250,7 +250,16 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB,
 			MaterialRequest.Order order) {
-		// not supported
+		if (model == null) {
+			userMaterialsCB.onError(new Exception("No user signed in"));
+			return;
+		}
+
+		performRequest("GET",
+				"/users/" + model.getUserId()
+						+ "/materials?limit=50&embed=creator&order="
+						+ orderStr(order),
+				null, userMaterialsCB);
 	}
 
 	@Override

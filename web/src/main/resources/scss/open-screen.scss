@@ -497,28 +497,48 @@
 					float: left;
 					width: 100%;
 					margin-bottom: 16px;
+					margin-left: -8px;
 
 					.dialogContainedButton {
 						display: block;
 						margin: auto;
+						min-width: 140px;
+						text-align: center;
 
 						.spinner-border {
-                            width: 16px;
-                            height: 16px;
-                            border: .25em solid colors.$white;
-                            border-right-color: transparent;
-                            border-radius: 50%;
-                           	margin-left: 18px;
-                            -webkit-animation: spinner-border .75s linear infinite;
-                            animation: rotate 1s linear infinite;
-                        }
+							display: inline-block;
+							text-align: left;
+							width: 10px;
+							height: 10px;
+							border: 3px solid colors.$white;
+							border-right-color: transparent;
+							border-radius: 50%;
+							margin-top: 10px;
+							-webkit-animation: spinner-border .75s linear infinite;
+							animation: rotate 1s linear infinite;
+						}
 
-                        @keyframes rotate {
-                          to {transform: rotate(360deg);}
-                        }
+						.gwt-Label {
+							letter-spacing: 1.07px;
+						}
+
+						@keyframes rotate {
+							to {transform: rotate(360deg);}
+						}
+					}
+
+					.spinner-button {
+						.gwt-Label {
+							display: inline-block;
+							vertical-align: top;
+							padding-left: 9px;
+							letter-spacing: 1.07px;
+						}
 					}
 
 					.loadMoreFilesLabel {
+						height: 14px;
+						line-height: 14px;
 						text-align: center;
 						margin: 8px 0px 8px 0px;
 						font-size: 12px;
