@@ -129,7 +129,7 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 
 			if (matches != null) {
 				sx *= length(matches, 1, 2);
-				sx *= length(matches, 3, 4);
+				sy *= length(matches, 3, 4);
 			} else if (transform.indexOf("scale") == 0) {
 				double mul = Double.parseDouble(transform.substring(transform
 					.indexOf("(") + 1, transform.indexOf(")")));
