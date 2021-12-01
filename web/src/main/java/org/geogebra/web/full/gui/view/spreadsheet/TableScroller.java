@@ -18,10 +18,10 @@ import elemental2.dom.WheelEvent;
 
 public class TableScroller extends ScrollPanel implements ScrollHandler {
 
-	private MyTableW table;
-	private Grid cellTable;
-	private SpreadsheetRowHeaderW rowHeader;
-	private SpreadsheetColumnHeaderW columnHeader;
+	private final MyTableW table;
+	private final Grid cellTable;
+	private final SpreadsheetRowHeaderW rowHeader;
+	private final SpreadsheetColumnHeaderW columnHeader;
 	GRectangle contentRect;
 	boolean doAdjustScroll = true;
 
@@ -59,54 +59,51 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 * Used by the scrollRectToVisible method to determine the proper direction
 	 * and amount to move by. The integer variables are named width, but this
 	 * method is applicable to height also. The code assumes that
-	 * parentWidth/childWidth are positive and childAt can be negative.
+	 * parentSize/childSize are positive and childAt can be negative.
 	 */
-	private static int positionAdjustment(int parentWidth, int childWidth,
+	private static int positionAdjustment(int parentSize, int childSize,
 			int childAt) {
 
-		// App.debug("parent width = " + parentWidth);
-		// App.debug("child width = " + childWidth);
-		// App.debug("child at = " + childAt);
 		// +-----+
 		// | --- | No Change
 		// +-----+
-		if (childAt >= 0 && childWidth + childAt <= parentWidth) {
+		if (childAt >= 0 && childSize + childAt <= parentSize) {
 			return 0;
 		}
 
 		// +-----+
 		// --------- No Change
 		// +-----+
-		if (childAt <= 0 && childWidth + childAt >= parentWidth) {
+		if (childAt <= 0 && childSize + childAt >= parentSize) {
 			return 0;
 		}
 
 		// +-----+ +-----+
 		// | ---- -> | ----|
 		// +-----+ +-----+
-		if (childAt > 0 && childWidth <= parentWidth) {
-			return -childAt + parentWidth - childWidth;
+		if (childAt > 0 && childSize <= parentSize) {
+			return -childAt + parentSize - childSize;
 		}
 
 		// +-----+ +-----+
 		// | -------- -> |--------
 		// +-----+ +-----+
-		if (childAt >= 0 && childWidth >= parentWidth) {
+		if (childAt >= 0 && childSize >= parentSize) {
 			return -childAt;
 		}
 
 		// +-----+ +-----+
 		// ---- | -> |---- |
 		// +-----+ +-----+
-		if (childAt <= 0 && childWidth <= parentWidth) {
+		if (childAt <= 0 && childSize <= parentSize) {
 			return -childAt;
 		}
 
 		// +-----+ +-----+
 		// -------- | -> --------|
 		// +-----+ +-----+
-		if (childAt < 0 && childWidth >= parentWidth) {
-			return -childAt + parentWidth - childWidth;
+		if (childAt < 0 && childSize >= parentSize) {
+			return -childAt + parentSize - childSize;
 		}
 
 		return 0;
@@ -150,23 +147,23 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 
 		int barHeight = AbstractNativeScrollbar.getNativeScrollbarHeight();
 		int barWidth = AbstractNativeScrollbar.getNativeScrollbarWidth();
+		int extentWidth = this.getOffsetWidth() - barWidth;
+		int extentHeight = this.getOffsetHeight() - barHeight;
 
-		dx = positionAdjustment(this.getOffsetWidth() - barWidth,
+		dx = positionAdjustment(extentWidth,
 		        (int) contentRect.getWidth(), (int) contentRect.getX()
 		                - getAbsoluteLeft());
-		dy = positionAdjustment(this.getOffsetHeight() - barHeight,
+		dy = positionAdjustment(extentHeight,
 		        (int) contentRect.getHeight(), (int) contentRect.getY()
 		                - getAbsoluteTop());
 
 		// App.debug("-------- dx / dy : " + dx + " / " + dy);
 		if (dx != 0 || dy != 0) {
 			GPoint viewPosition = getViewPosition();
-			Dimension viewSize = new Dimension(view.getOffsetWidth(),
-			        view.getOffsetHeight());
+			int viewWidth = view.getOffsetWidth();
+			int viewHeight = view.getOffsetHeight();
 			int startX = viewPosition.x;
 			int startY = viewPosition.y;
-			Dimension extent = new Dimension(this.getOffsetWidth() - barWidth,
-			        this.getOffsetHeight() - barHeight);
 
 			viewPosition.x -= dx;
 			viewPosition.y -= dy;
@@ -174,26 +171,25 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 			// TODO In the java code a check is made here for component
 			// orientation, we may do this on the future?
 
-			if (extent.width > viewSize.width) {
-				viewPosition.x = viewSize.width - extent.width;
+			if (extentWidth > viewWidth) {
+				viewPosition.x = viewWidth - extentWidth;
 			} else {
 				viewPosition.x = Math
-				        .max(0, Math.min(viewSize.width - extent.width,
+				        .max(0, Math.min(viewWidth - extentWidth,
 				                viewPosition.x));
 			}
 
-			if (viewPosition.y + extent.height > viewSize.height) {
-				viewPosition.y = Math.max(0, viewSize.height - extent.height);
+			if (viewPosition.y + extentHeight > viewHeight) {
+				viewPosition.y = Math.max(0, viewHeight - extentHeight);
 			} else if (viewPosition.y < 0) {
 				viewPosition.y = 0;
 			}
-
-			// App.debug("viewPosition x / y : " + viewPosition.x + " / " +
-			// viewPosition.y);
-
 			if (viewPosition.x != startX || viewPosition.y != startY) {
+				GPoint anchorPosition = getUpperLeftCellPosition(viewPosition,
+						(int) Math.signum(viewPosition.x - startX),
+						(int) Math.signum(viewPosition.y - startY));
 				doAdjustScroll = false;
-				setViewPosition(viewPosition);
+				setViewPosition(anchorPosition == null ? viewPosition : anchorPosition);
 				doAdjustScroll = true;
 			}
 		}
@@ -210,50 +206,43 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		        getVerticalScrollPosition());
 	}
 
-	private static class Dimension {
-		int height;
-		int width;
-
-		public Dimension(int width, int height) {
-			this.width = width;
-			this.height = height;
-		}
-	}
-
 	protected void adjustScroll(int dx, int dy) {
 		if (!doAdjustScroll) {
 			return;
 		}
 
+		GPoint viewPosition = getViewPosition();
+		GPoint upperLeftCellPosition = getUpperLeftCellPosition(viewPosition, dx, dy);
+
+		if (upperLeftCellPosition != null && upperLeftCellPosition.distance(viewPosition) > 2) {
+			doAdjustScroll = false;
+			setHorizontalScrollPosition(upperLeftCellPosition.x);
+			setVerticalScrollPosition(upperLeftCellPosition.y);
+			doAdjustScroll = true;
+		}
+	}
+
+	private GPoint getUpperLeftCellPosition(GPoint viewPosition, int dx, int dy) {
 		int offH = cellTable.getAbsoluteLeft();
 		int offV = cellTable.getAbsoluteTop();
 
 		// get pixel coordinates of the upper left corner
-		int x = getHorizontalScrollPosition() + offH;
-		int y = getVerticalScrollPosition() + offV;
+		int x = viewPosition.x + offH;
+		int y = viewPosition.y + offV;
 
 		// get upper left cell coordinates
-		GPoint p = table.getIndexFromPixel(x, y);
+		GPoint p = table.getIndexFromPixel(x, y, 1);
 		if (p == null) {
-			return;
+			return null;
 		}
 
 		// get new pixel coordinates to place the upper left cell exactly
 		GPoint p2 = table.getPixel(p.x + dx, p.y + dy, true);
 		if (p2 == null) {
-			return;
+			return null;
 		}
 
-		// now scroll to move the upper left cell into position
-		int newScrollH = p2.x - offH;
-		int newScrollV = p2.y - offV;
-		// App.debug("scroll: " + x + " , " + y + "  col,row: " + p.x + " , "
-		// + p.y + "  scroll2: " + newScrollH + " , " + newScrollV);
-
-		doAdjustScroll = false;
-		setHorizontalScrollPosition(newScrollH);
-		setVerticalScrollPosition(newScrollV);
-		doAdjustScroll = true;
+		return new GPoint(p2.x - offH, p2.y - offV);
 	}
 
 	@Override
