@@ -67,6 +67,9 @@ public class MyButton implements Observer {
 	}
 
 	private String getCaption() {
+		if (geoButton.hasDynamicCaption()) {
+			return geoButton.getDynamicCaption().getTextString();
+		}
 		if (geoButton.getFillImage() == null) {
 			return geoButton.getCaption(StringTemplate.defaultTemplate);
 		}
@@ -85,16 +88,15 @@ public class MyButton implements Observer {
 	 */
 	public void paintComponent(GGraphics2D g, double multiplier,
 			boolean mayResize) {
-
-		boolean latex = CanvasDrawable.isLatexString(getCaption());
-
+		String caption = getCaption();
+		boolean latex = isLaTeX();
 		g.setAntialiasing();
 
 		font = font.deriveFont(geoButton.getFontStyle(),
 				(int) (multiplier * 12));
 		g.setFont(font);
 
-		boolean hasText = geoButton.isLabelVisible() && getCaption().length() > 0;
+		boolean hasText = geoButton.isLabelVisible() && caption.length() > 0;
 
 		int imgHeight = 0;
 		int imgWidth = 0;
@@ -114,12 +116,12 @@ public class MyButton implements Observer {
 		if (hasText) {
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, getCaption(),
+						view.getApplication(), geoButton, font, caption,
 						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
-				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
+				t = AwtFactory.getPrototype().newTextLayout(caption, font,
 						g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -130,7 +132,7 @@ public class MyButton implements Observer {
 				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
 				|| (int) textWidth
 						+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()))) {
-			resize(g, imgGap);
+			resize(g, imgGap, latex);
 			return;
 		}
 
@@ -342,8 +344,8 @@ public class MyButton implements Observer {
 		}
 	}
 
-	private void resize(GGraphics2D g, int imgGap) {
-		boolean latex = CanvasDrawable.isLatexString(getCaption());
+	private void resize(GGraphics2D g, int imgGap, boolean latex) {
+		String caption = getCaption();
 
 		// Reduces the font for attempts
 		int i = GeoText.getFontSizeIndex(
@@ -356,12 +358,12 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, getCaption(),
+						view.getApplication(), geoButton, font, caption,
 						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
-				GTextLayout t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
+				GTextLayout t = AwtFactory.getPrototype().newTextLayout(caption, font,
 						g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -370,6 +372,13 @@ public class MyButton implements Observer {
 
 		double ret = GeoText.getRelativeFontSize(i);
 		paintComponent(g, ret, false);
+	}
+
+	private boolean isLaTeX() {
+		if (geoButton.hasDynamicCaption()) {
+			return geoButton.getDynamicCaption().isLaTeX();
+		}
+		return CanvasDrawable.isLatexString(getCaption());
 	}
 
 	private boolean getSerif() {
