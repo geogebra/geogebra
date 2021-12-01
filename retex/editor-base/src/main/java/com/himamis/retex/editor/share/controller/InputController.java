@@ -756,7 +756,7 @@ public class InputController {
 			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
-		int end = to < 0 ? endToken(currentField) : to;
+		int end = to < 0 ? endToken(from, currentField) : to;
 		int start = from;
 
 		if (st.getCurrentField() == currentField
@@ -792,25 +792,13 @@ public class InputController {
 		return removed;
 	}
 
-	private static int endToken(MathSequence currentField) {
-		for (int i = 0; i < currentField.size(); i++) {
-			if ((i < currentField.size() - 2 && match(currentField, i, ", <"))
-					|| currentField.isArgumentProtected(i)) {
+	private static int endToken(int from, MathSequence currentField) {
+		for (int i = from; i < currentField.size(); i++) {
+			if (currentField.isComma(i)) {
 				return i - 1;
 			}
 		}
 		return currentField.size() - 1;
-	}
-
-	private static boolean match(MathSequence currentField, int i,
-			String string) {
-		for (int j = 0; j < 3; j++) {
-			if (!(string.charAt(j) + "")
-					.equals(currentField.getArgument(i + j).toString())) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
