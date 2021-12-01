@@ -131,18 +131,17 @@ public class InputController {
 	}
 
 	private static int findBackwardCutPosition(MathSequence currentField, int currentPosition) {
-		int index = currentPosition;
-		while (index > 0) {
+		for (int index = currentPosition; index > 0; index --) {
 			MathComponent component = currentField.getArgument(index - 1);
 			if (component instanceof MathCharacter) {
 				MathCharacter character = (MathCharacter) component;
-				if ("=".equals(character.getName())) {
+				if (character.isUnicode('=') || character.isUnicode(',')) {
 					return index;
 				}
 			}
-			index -= 1;
 		}
-		return index;
+
+		return 0;
 	}
 
 	private static void moveCursorOutOfFunctionName(EditorState editorState) {
@@ -659,17 +658,9 @@ public class InputController {
 						.getArgument(currentField.getParentIndex() + 1);
 				currentOffset = 0;
 
-				// if ']' '}' typed at the end of last field ... move out of
-				// array
 			} else if (ch == parent.getCloseKey() && parent.isArray()) {
-
-				ArrayList<MathComponent> removed = cut(currentField,
-						currentOffset);
-				insertReverse(parent.getParent(), parent.getParentIndex(),
-						removed);
-
-				currentOffset = parent.getParentIndex() + 1;
-				currentField = (MathSequence) parent.getParent();
+				newArray(editorState, 1, '(', true);
+				return;
 			} else if ((ch == parent.getCloseKey() && parent.isMatrix())
 					&& parent.size() == currentField.getParentIndex() + 1
 					&& currentOffset == currentField.size()) {
