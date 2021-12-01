@@ -24,6 +24,7 @@ targetCompatibility = 1.8
 dependencies {
 	javacc 'net.java.dev.javacc:javacc:7.0.10'
 	compile project(':renderer-base')
+    testCompile "junit:junit:$junitVersion"
 }
 
 sourceSets.main.java.srcDirs += [compileJavacc.outputDirectory, compileJavacc.inputDirectory]

@@ -8,18 +8,13 @@ import com.himamis.retex.editor.share.util.JavaKeyCodes;
  */
 public class KeyListenerImpl {
 
-	private CursorController cursorController;
 	private InputController inputController;
 
 	/**
-	 * @param cursorController
-	 *            cursor controller
 	 * @param inputController
 	 *            input controller
 	 */
-	public KeyListenerImpl(CursorController cursorController,
-			InputController inputController) {
-		this.cursorController = cursorController;
+	public KeyListenerImpl(InputController inputController) {
 		this.inputController = inputController;
 	}
 
@@ -84,7 +79,7 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_LEFT:
-			cursorController.prevCharacter(editorState);
+			CursorController.prevCharacter(editorState);
 			if (shiftPressed) {
 				editorState.extendSelection(true);
 			} else {
@@ -92,9 +87,6 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_RIGHT:
-			if (InputController.trySelectNext(editorState)) {
-				return true;
-			}
 			CursorController.nextCharacter(editorState);
 			if (shiftPressed) {
 				editorState.extendSelection(false);
@@ -103,10 +95,10 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case JavaKeyCodes.VK_UP:
-			cursorController.upField(editorState);
+			CursorController.upField(editorState);
 			return true;
 		case JavaKeyCodes.VK_DOWN:
-			cursorController.downField(editorState);
+			CursorController.downField(editorState);
 			return true;
 		case JavaKeyCodes.VK_DELETE:
 			if (!InputController.deleteSelection(editorState)) {
@@ -123,11 +115,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_OPEN_BRACKET:
 			return false;
 		case JavaKeyCodes.VK_TAB:
-			if (!InputController.trySelectNext(editorState)) {
-				if (!InputController.trySelectFirst(editorState)) {
-					onTab(shiftPressed);
-				}
-			}
+			onTab(shiftPressed);
 			return true;
 		default:
 			// InputController.deleteSelection(editorState);

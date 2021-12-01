@@ -6,6 +6,7 @@ import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -14,8 +15,11 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class TeXSerializer extends SerializerAdapter {
 
-	public static final String PLACEHOLDER =
-			"{\\bgcolor{#DCDCDC}\\scalebox{1}[1.6]{\\phantom{g}}}";
+	public static final int placeholderColor = 0xDCDCDC;
+	public static final int commandPlaceholderColor = 0x616161;
+
+	public static final String PLACEHOLDER = "{\\bgcolor{#"
+			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}}";
 	private static final String cursor = "\\jlmcursor{0}";
 	private static final String cursorBig = "\\jlmcursor{0.9}";
 	private static final String selection_start = "\\jlmselection{";
@@ -386,6 +390,15 @@ public class TeXSerializer extends SerializerAdapter {
 		if (this.currentSelEnd == array) {
 			stringBuilder.append(TeXSerializer.selection_end);
 		}
+	}
+
+	@Override
+	void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder) {
+		stringBuilder.append("{\\color{#")
+				.append(Integer.toHexString(commandPlaceholderColor))
+				.append("}")
+				.append(placeholder.getContent())
+				.append("}");
 	}
 
 	private static int letterLength(MathSequence symbol, int i) {
