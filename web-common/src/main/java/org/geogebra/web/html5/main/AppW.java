@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -1632,8 +1633,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		if (getSettings().getEuclidian(-1) != null) {
-			getSettings().getEuclidian(-1)
-					.setEnabled(getAppletParameters().getDataParamEnable3D(true));
+			if (getAppletParameters().getDataParamEnable3D(false)
+					|| !getAppletParameters().getDataParamEnable3D(true)) {
+				getSettings().getEuclidian(-1)
+						.setEnabled(getAppletParameters().getDataParamEnable3D(false));
+			}
+		}
+
+		String disableCAS = Window.Location.getParameter("disableCAS");
+		if ("".equals(disableCAS) || "true".equals(disableCAS)) {
+			kernel.getAlgebraProcessor()
+					.addCommandFilter(CommandFilterFactory.createNoCasCommandFilter());
+			enableCAS(false);
+		}
+		String disable3D = Window.Location.getParameter("disable3D");
+		if ("".equals(disable3D) || "true".equals(disable3D)) {
+			getSettings().getEuclidian(-1).setEnabled(false);
 		}
 	}
 

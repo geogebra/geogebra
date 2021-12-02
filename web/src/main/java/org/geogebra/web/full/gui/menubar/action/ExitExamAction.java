@@ -27,7 +27,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected static final int LINE_HEIGHT = 24;
 	private static final double PADDING = 24;
-	private static final GColor EXAM_LOCK_COLOR = GColor.newColorRGB(0x007AFF);
 	private static final GColor EXAM_OK_COLOR = GColor.newColorRGB(0x3DA196);
 
 	private AppWFull app;
@@ -44,35 +43,17 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	protected void showExamExitDialog() {
 		DialogData data = new DialogData(null,
 				"Cancel", "Exit");
-		Runnable returnHandler;
-
-		String buttonText;
-		if (app.getAppletParameters().getParamLockExam()) {
-			buttonText = "Restart";
-			returnHandler = () -> {
-				if (app.getConfig().hasExam()) {
-					exitAndResetExamOffline();
-					new StartExamAction(app).execute(null, app);
-				} else { // classic
-					exitAndResetExam();
-					app.setNewExam();
-					app.examWelcome();
-				}
-			};
-		} else {
-			buttonText = "Exit";
-			returnHandler = () -> {
-				if (app.getConfig().hasExam()) {
-					exitAndResetExamOffline();
-				} else { // classic
-					exitAndResetExam();
-				}
-			};
-		}
 		ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
+		Runnable returnHandler = () -> {
+			if (app.getConfig().hasExam()) {
+				exitAndResetExamOffline();
+			} else { // classic
+				exitAndResetExam();
+			}
+		};
 		exit.setOnPositiveAction(() -> {
 			GlobalHeader.INSTANCE.resetAfterExam();
-			new ExamLogAndExitDialog(app, false, returnHandler, null, buttonText).show();
+			new ExamLogAndExitDialog(app, false, returnHandler, null, "Exit").show();
 		});
 		exit.show();
 	}
@@ -98,8 +79,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		g2.setCoordinateSpaceSize(500, app.getExam().getEventCount() * LINE_HEIGHT + 350);
 		g2.setColor(GColor.WHITE);
 		g2.fillRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
-		GColor color =  app.getAppletParameters().getParamLockExam() ? EXAM_LOCK_COLOR
-				: EXAM_OK_COLOR;
+		GColor color = EXAM_OK_COLOR;
 		if (app.getExam().isCheating()) {
 			color = GColor.DARK_RED;
 		}

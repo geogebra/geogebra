@@ -298,7 +298,11 @@ public class ToolbarPanel extends FlowPanel
 		hideDragger();
 		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
-			setHeaderStyle("examOk");
+			if (app.getAppletParameters().getParamLockExam()) {
+				setHeaderStyle("examLock");
+			} else {
+				setHeaderStyle("examOk");
+			}
 		}
 	}
 

@@ -55,9 +55,13 @@ public class AppSwitcherPopup extends GPopupPanel {
 		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.addStyleName("popupPanelForTranslation");
 		addElement(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
-		addElement(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		if (app.getSettings().getEuclidian(-1).isEnabled()) {
+			addElement(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		}
 		addElement(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
-		addElement(GeoGebraConstants.CAS_APPCODE, contentPanel);
+		if (app.getSettings().getCasSettings().isEnabled()) {
+			addElement(GeoGebraConstants.CAS_APPCODE, contentPanel);
+		}
 		addElement(GeoGebraConstants.PROBABILITY_APPCODE, contentPanel);
 		add(contentPanel);
 	}

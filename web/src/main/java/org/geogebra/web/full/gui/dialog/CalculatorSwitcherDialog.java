@@ -40,9 +40,13 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		contentPanel.add(title);
 
 		buildAndAddCalcButton(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
-		buildAndAddCalcButton(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		if (app.getSettings().getEuclidian(-1).isEnabled()) {
+			buildAndAddCalcButton(GeoGebraConstants.G3D_APPCODE, contentPanel);
+		}
 		buildAndAddCalcButton(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
-		buildAndAddCalcButton(GeoGebraConstants.CAS_APPCODE, contentPanel);
+		if (app.getSettings().getCasSettings().isEnabled()) {
+			buildAndAddCalcButton(GeoGebraConstants.CAS_APPCODE, contentPanel);
+		}
 		buildAndAddCalcButton(GeoGebraConstants.PROBABILITY_APPCODE, contentPanel);
 
 		add(contentPanel);

@@ -47,7 +47,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void initActions() {
-		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (getApp().isExam()) {
 			addItem(new ExitExamItem());
 			return;

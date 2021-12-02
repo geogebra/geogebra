@@ -70,7 +70,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private MenuActionRouter menuActionRouter;
 
 	private DrawerMenuFactory defaultDrawerMenuFactory;
-	private DrawerMenuFactory examDrawerMenuFactory;
+	private ExamDrawerMenuFactory examDrawerMenuFactory;
 
 	private MenuActionHandlerFactory defaultActionHandlerFactory;
 	private MenuActionHandlerFactory examActionHandlerFactory;
@@ -131,7 +131,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private void createDrawerMenuFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
-		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+		examDrawerMenuFactory = new ExamDrawerMenuFactory(version, app.isSuite());
+		examDrawerMenuFactory.setCreatesExitExam(!app.getAppletParameters().getParamLockExam());
 	}
 
 	/**
@@ -159,7 +160,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		if (app.isMebis()) {
 			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
 		} else {
-			boolean addAppSwitcher = version.equals(GeoGebraConstants.Version.SUITE);
+			boolean addAppSwitcher = app.isSuite();
 			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
 					version,
@@ -174,7 +175,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
-		} else if (version == GeoGebraConstants.Version.SUITE) {
+		} else if (app.isSuite()) {
 			defaultActionHandlerFactory = new SuiteMenuActionHandlerFactory(app);
 		} else if (app.isMebis()) {
 			defaultActionHandlerFactory = new MebisMenuActionHandlerFactory(app);

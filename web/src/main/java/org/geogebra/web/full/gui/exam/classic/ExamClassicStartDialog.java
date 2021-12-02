@@ -38,11 +38,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		addStyleName("classicExamStartDialog");
 		buildGUI();
 		setOnPositiveAction(() -> startExam(app));
-		setOnNegativeAction(() -> {
-			if (!app.getAppletParameters().getParamLockExam()) {
-				cancelExam();
-			}
-		});
+		setOnNegativeAction(() -> cancelExam());
 	}
 
 	private void buildGUI() {
@@ -73,7 +69,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 			});
 		}
 
-		if (!app.getAppletParameters().hasDataParamEnable3D()) {
+		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
 			Label allow3DLbl = new Label(loc.getMenu("Perspective.3DGraphics"));
 			final ComponentCheckbox allow3D = new ComponentCheckbox(true, allow3DLbl, null);
 			app.getSettings().getEuclidian(-1).setEnabled(true);
