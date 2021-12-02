@@ -12,7 +12,6 @@ package org.geogebra.common.kernel.statistics;
 
  */
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -28,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**************
@@ -144,41 +144,57 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	public final void compute() {
 		size = geolist.size();
 		error = false; // General flag
-		if (!geolist.isDefined() || (size < 4)) { // Direction-algo needs two
+		if (!geolist.isDefined() || size < 2 || size == 3) { // Direction-algo needs two
 													// flanks, 3 in each.
 			geofunction.setUndefined();
 			Log.debug(
 					"List not properly defined or too small (4 points needed).");
 			return;
 		}
-		// if error in parameters :
-		try {
-			getPoints(); // Sorts the points while getting them
-			doReg();
-		} catch (Exception all) {
-			error = true;
-		} // try-catch
-		if (!error) { // Make function
-			MyDouble A = new MyDouble(kernel, a);
-			MyDouble B = new MyDouble(kernel, b);
-			MyDouble C = new MyDouble(kernel, c);
-			MyDouble D = new MyDouble(kernel, d);
-			FunctionVariable X = new FunctionVariable(kernel);
-			ExpressionValue expr = new ExpressionNode(kernel, C,
-					Operation.MULTIPLY, X);
-			expr = new ExpressionNode(kernel, expr, Operation.PLUS, D);
-			expr = new ExpressionNode(kernel, expr, Operation.SIN, null);
-			expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, expr);
-
-			ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS,
-					expr);
-			Function f = new Function(node, X);
-			geofunction.setFunction(f);
-			geofunction.setDefined(true);
+		getPoints();
+		if (size == 2) {
+			c = Math.PI / (xd[1] - xd[0]);
+			a = (yd[1] + yd[0]) / 2;
+			b = (yd[1] - yd[0]) / 2;
+			if (b == 0) {
+				d = 0;
+			} else {
+				// y=a+b*sin(cx+d), clamp needed to avoid asin(1.00000001)
+				double sin = MyMath.clamp((yd[0] - a) / b, -1, 1);
+				d = Math.asin(sin) - c * xd[0];
+			}
+		} else {
+			try {
+				doReg();
+			} catch (Exception all) {
+				error = true;
+			}
+		}
+		if (!error) {
+			buildFunction();
 		} else {
 			geofunction.setUndefined();
-			return;
-		} // if error in regression
+		}
+	}
+
+	private void buildFunction() {
+		MyDouble A = new MyDouble(kernel, a);
+		MyDouble B = new MyDouble(kernel, b);
+		MyDouble C = new MyDouble(kernel, c);
+		MyDouble D = new MyDouble(kernel, d);
+		FunctionVariable X = new FunctionVariable(kernel);
+		ExpressionValue expr = new ExpressionNode(kernel, C,
+				Operation.MULTIPLY, X);
+		expr = new ExpressionNode(kernel, expr, Operation.PLUS, D);
+		expr = new ExpressionNode(kernel, expr, Operation.SIN, null);
+		expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, expr);
+
+		ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS,
+				expr);
+		Function f = new Function(node, X);
+		geofunction.setFunction(f);
+		geofunction.setDefined(MyDouble.isFinite(a) && MyDouble.isFinite(b)
+				&& MyDouble.isFinite(c) && MyDouble.isFinite(d));
 	}
 
 	// / ============= IMPLEMENTATION
@@ -579,13 +595,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				error = true;
 			} // if point
 		} // for all points
-		Iterator<GeoPoint> iter = sortedSet.iterator();
 		int i = 0;
 		xlist = new double[size];
 		ylist = new double[size];
-		GeoPoint gp;
-		while (iter.hasNext()) {
-			gp = iter.next();
+		for (GeoPoint gp: sortedSet) {
 			gp.getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
