@@ -252,4 +252,8 @@ public class MySpecialDouble extends MyDouble {
 	private boolean isPercentage() {
 		return strToString.endsWith("%");
 	}
+
+	public boolean isAngleUnit() {
+		return isAngle() || Unicode.PI_STRING.equals(strToString);
+	}
 }
