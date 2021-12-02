@@ -293,25 +293,8 @@ var GGBApplet = function() {
         return false;
     };
 
-    var getDefaultApiUrl = function() {
-        var host = location.host;
-        if (host.match(/alpha.geogebra.org/) || host.match(/groot.geogebra.org/)) {
-            return 'https://groot.geogebra.org:5000';
-        }
-        if (host.match(/beta.geogebra.org/)) {
-            return 'https://api-beta.geogebra.org';
-        }
-        if (host.match(/stage.geogebra.org/)) {
-            return 'https://api-stage.geogebra.org';
-        }
-
-        return 'https://api.geogebra.org';
-    };
-
-    var fetchParametersFromApi = function(successCallback, materialsApiUrl) {
-        var apiUrl = materialsApiUrl || getDefaultApiUrl();
-        var apiVersion = parameters.apiVersion || '1.0';
-
+    var fetchParametersFromApi = function(successCallback) {
+        var path = '/materials/' + parameters.material_id + '?scope=basic';
         var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
@@ -333,14 +316,15 @@ var GGBApplet = function() {
 
             successCallback();
         };
-
-        var url = apiUrl + '/v' + apiVersion + '/materials/'
-                     + parameters.material_id + '?scope=basic';
         var onError = function() {
             parameters.onError && parameters.onError();
             log('Error: Fetching material (id ' + parameters.material_id + ') failed.', parameters);
         };
-        sendCorsRequest(url, onSuccess, onError);
+        sendCorsRequest(
+            '/api/proxy.php?path=' + encodeURIComponent(path),
+            onSuccess,
+            onError
+        );
     };
 
     function updateAppletSettings(settings) {
@@ -1138,7 +1122,7 @@ var GGBApplet = function() {
 
     // Read the material parameters from the tube API, if a material_id was passed
     if (parameters.material_id !== undefined) {
-        fetchParametersFromApi(continueInit, parameters.apiUrl);
+        fetchParametersFromApi(continueInit);
     } else {
         continueInit();
     }
