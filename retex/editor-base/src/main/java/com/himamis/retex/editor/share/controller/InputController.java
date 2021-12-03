@@ -657,16 +657,18 @@ public class InputController {
 				currentField = parent
 						.getArgument(currentField.getParentIndex() + 1);
 				currentOffset = 0;
-
-			} else if (ch == parent.getCloseKey() && parent.isArray()) {
-				newArray(editorState, 1, '(', true);
-				return;
-			} else if ((ch == parent.getCloseKey() && parent.isMatrix())
-					&& parent.size() == currentField.getParentIndex() + 1
-					&& currentOffset == currentField.size()) {
-
+			} else if (ch == parent.getCloseKey() && !MathArray.isLocked(parent)) {
+				// in non-protected containers when the closing key is pressed
+				// move out of the container
 				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
+			} else {
+				// else just create a new array for the given closing key
+				MetaArray array = metaModel.getArrayByCloseKey(ch);
+				if (array != null) {
+					newArray(editorState, 1, array.getOpenKey(), true);
+					return;
+				}
 			}
 
 			// now functions, braces, apostrophes ...

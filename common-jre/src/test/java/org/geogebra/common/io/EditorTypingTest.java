@@ -652,6 +652,11 @@ public class EditorTypingTest {
 		checker.insert("(2,3,3+4)")
 				.left(7)
 				.type(")")
+				.checkAsciiMath("(2,3,3+4)");
+
+		checker.insert("(2,3,3+4)").protect()
+				.left(7)
+				.type(")")
 				.checkAsciiMath("((2),3,3+4)");
 
 		checker.insert("(2,3,3+4)")
@@ -660,6 +665,11 @@ public class EditorTypingTest {
 				.checkAsciiMath("(2,(3),3+4)");
 
 		checker.insert("(2,3,3+4)")
+				.left(5)
+				.type(")")
+				.checkAsciiMath("(2,3,3+4)");
+
+		checker.insert("(2,3,3+4)").protect()
 				.left(5)
 				.type(")")
 				.checkAsciiMath("(2,(3),3+4)");
@@ -672,6 +682,21 @@ public class EditorTypingTest {
 		checker.insert("(2,3,3+4)")
 				.left(1)
 				.type(")")
+				.checkAsciiMath("(2,3,3+4)");
+
+		checker.insert("(2,3,3+4)").protect()
+				.left(1)
+				.type(")")
 				.checkAsciiMath("(2,3,(3+4))");
+
+		checker.insert("(2,3,3+4)")
+				.left(8)
+				.type("[")
+				.checkAsciiMath("([2],3,3+4)");
+
+		checker.insert("(2,3,3+4)")
+				.left(5)
+				.type("]")
+				.checkAsciiMath("(2,[3],3+4)");
 	}
 }
