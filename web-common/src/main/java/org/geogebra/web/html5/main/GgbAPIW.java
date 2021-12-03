@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
+import org.geogebra.common.io.EditorStateDescription;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
@@ -21,6 +22,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -1081,8 +1083,17 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @return JSON describing editor state
 	 */
-	public String getEditorState() {
-		return editor == null ? "" : editor.getState();
+	public String getEditorState(String label) {
+		if (label.isEmpty()) {
+			return editor == null ? "" : editor.getState();
+		} else {
+			GeoElement geo = kernel.lookupLabel(label);
+			if (geo instanceof GeoInputBox) {
+				return new EditorStateDescription(((GeoInputBox) geo).getText(),
+						new ArrayList<>()).asJSON();
+			}
+		}
+		return "";
 	}
 
 	/**

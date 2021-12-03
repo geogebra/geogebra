@@ -810,8 +810,8 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getScreenReaderOutput(text + "");
 	}
 
-	public String getEditorState() {
-		return ggbAPI.getEditorState();
+	public String getEditorState(String label) {
+		return ggbAPI.getEditorState(label);
 	}
 
 	public void setEditorState(Object state, String label) {
