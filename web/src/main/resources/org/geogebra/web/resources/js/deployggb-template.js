@@ -294,7 +294,6 @@ var GGBApplet = function() {
     };
 
     var fetchParametersFromApi = function(successCallback) {
-        var path = '/materials/' + parameters.material_id + '?scope=basic';
         var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
@@ -320,8 +319,11 @@ var GGBApplet = function() {
             parameters.onError && parameters.onError();
             log('Error: Fetching material (id ' + parameters.material_id + ') failed.', parameters);
         };
+
+        var host = location.host.match(/.geogebra.(net|org)/) ? location.host : 'www.geogebra.org';
+        var path = '/materials/' + parameters.material_id + '?scope=basic';
         sendCorsRequest(
-            '/api/proxy.php?path=' + encodeURIComponent(path),
+            'https://' + host + '/api/proxy.php?path=' + encodeURIComponent(path),
             onSuccess,
             onError
         );
