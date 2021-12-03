@@ -38,9 +38,9 @@ public class TableEditor implements UnhandledArrowListener {
 	public void startEditing(int row, int column, Event event) {
 		ensureMathTextFieldExists();
 		app.invokeLater(() -> {
-			boolean newColumnAndCell = table.tableModel.getColumnCount() > column
+			boolean newColumnAndRow = table.tableModel.getColumnCount() > column
 					&& table.tableModel.getRowCount() > row;
-			mathTextField.setText(newColumnAndCell
+			mathTextField.setText(newColumnAndRow
 					? table.tableModel.getCellAt(row, column).getInput()
 					: ""); // make sure we don't load content of previously edited cell
 			Element cell = table.getCell(row, column);
