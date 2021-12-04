@@ -1159,10 +1159,12 @@ public class PlotterBrush implements PathPlotter {
 
 	@Override
 	public void drawTo(double[] pos, SegmentType lineTo) {
-
+		if (lineTo == SegmentType.CONTROL) {
+			return;
+		}
 		tmpDrawTo.set(pos);
 
-		drawTo(lineTo == SegmentType.LINE_TO);
+		drawTo(lineTo == SegmentType.LINE_TO || lineTo == SegmentType.CURVE_TO);
 	}
 
 	/**
