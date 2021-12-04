@@ -87,7 +87,7 @@ public class GraphicsFactoryGWT extends GraphicsFactory {
 	}
 
 	@Override
-	public Stroke createBasicStroke(double width, float[] dashes) {
+	public Stroke createBasicStroke(double width, double[] dashes) {
 		return new BasicStrokeW(width, dashes);
 	}
 

@@ -648,7 +648,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Returns the Stroke currently used. Guaranteed to be an instance of
 	 * BasicStroke.
 	 */
-	@Override
 	public GBasicStroke getStroke() {
 		return _stroke;
 	}
