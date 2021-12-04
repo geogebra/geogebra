@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
+import org.geogebra.common.kernel.algos.DependentAlgo;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -19,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -172,7 +174,8 @@ public class CmdSetValue extends CmdScripting {
 				fun.setUndefined();
 			}
 			fun.updateRepaint();
-		} else if (arg0.isGeoList() && arg1.isNumberValue()) {
+		} else if (arg0.isGeoList() && arg1.isNumberValue()
+				&& !Double.isNaN(arg1.evaluateDouble())) {
 			((GeoList) arg0).setSelectedIndex(
 					(int) Math.round(arg1.evaluateDouble()) - 1, true);
 
@@ -183,8 +186,12 @@ public class CmdSetValue extends CmdScripting {
 				if (arg1.isGeoNumeric()
 						&& Double.isNaN(arg1.evaluateDouble())) {
 					// eg SetValue[a,?] for line
-					arg0.setUndefined();
-					arg0.resetDefinition();
+					if (arg0.isGeoList() && ((GeoList) arg0).isMatrix()) {
+						undefine(arg0);
+					} else {
+						arg0.setUndefined();
+						arg0.resetDefinition();
+					}
 				} else {
 					// copy() needed for eg
 					// rnd = {1,2,3,4}
@@ -202,12 +209,37 @@ public class CmdSetValue extends CmdScripting {
 			if (algo.setRandomValue(arg1)) {
 				arg0.updateRepaint();
 			}
+		} else if (arg0.getParentAlgorithm() instanceof DependentAlgo
+				&& arg0.getDefinition() != null) {
+			if (arg1.isGeoNumeric()
+					&& Double.isNaN(arg1.evaluateDouble())) {
+				// eg SetValue[a,?] for line
+				undefine(arg0);
+				arg0.updateRepaint();
+			}
 		} else if (arg0.isGeoInputBox() && arg1.isGeoText()) {
 			String textString = ((GeoText) arg1).getTextString();
 			GeoInputBox geoInputBox = (GeoInputBox) arg0;
 			geoInputBox.updateLinkedGeo(textString);
 		}
 		resetInputboxes(arg0);
+	}
+
+	private static void undefine(GeoElement arg0) {
+		if (arg0.isGeoList()) {
+			if (((GeoList) arg0).getElementType() != GeoClass.LIST) {
+				arg0.setUndefined();
+				((GeoList) arg0).clear();
+				arg0.setDefinition(new MyList(arg0.getKernel()).wrap());
+			} else {
+				((GeoList) arg0).makeEntriesUndefined();
+				arg0.setDefinition(arg0.toValidExpression().wrap());
+			}
+		} else {
+			arg0.setDefinition(arg0.getUndefinedCopy(arg0.getKernel())
+					.toValidExpression().wrap());
+			arg0.setUndefined();
+		}
 	}
 
 	private static void resetInputboxes(GeoElement arg0) {
