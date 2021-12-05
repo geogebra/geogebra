@@ -105,10 +105,7 @@ public abstract class GraphicsFactory {
 				(int) a * 255);
 	}
 
-	public Color createColor(int rgba, boolean hasAlpha) {
-		if (!hasAlpha) {
-			return createColor(rgba);
-		}
+	public Color createColorAlpha(int rgba) {
 		int alpha = (rgba >> 24) & 0xFF;
 		int red = (rgba >> 16) & 0xFF;
 		int green = (rgba >> 8) & 0xFF;

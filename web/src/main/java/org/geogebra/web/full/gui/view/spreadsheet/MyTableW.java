@@ -1509,10 +1509,20 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/**
 	 * Returns Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
-	 * 
+	 *
 	 * @return spreadsheet coordinates from pixel
 	 */
 	public GPoint getIndexFromPixel(int x, int y) {
+		return getIndexFromPixel(x, y, 0);
+	}
+
+	/**
+	 * Returns Point(columnIndex, rowIndex), cell indices for the given pixel
+	 * location
+	 * 
+	 * @return spreadsheet coordinates from pixel
+	 */
+	public GPoint getIndexFromPixel(int x, int y, int diff) {
 		if (x < 0 || y < 0) {
 			return null;
 		}
@@ -1524,7 +1534,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int indexY = -1;
 		for (int i = columnFrom; i < getColumnCount(); ++i) {
 			GPoint point = getPixel(i, rowFrom, false, false);
-			if (x < point.getX()) {
+			if (x + diff < point.getX()) {
 				indexX = i;
 				break;
 			}
@@ -1534,7 +1544,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 		for (int i = rowFrom; i < getRowCount(); ++i) {
 			GPoint point = getPixel(columnFrom, i, false, false);
-			if (y < point.getY()) {
+			if (y + diff < point.getY()) {
 				indexY = i;
 				break;
 			}

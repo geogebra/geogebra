@@ -60,7 +60,7 @@ public class CursorController {
 	 *            current state
 	 * @return whether the cursor moved
 	 */
-	public boolean prevCharacter(EditorState editorState) {
+	public static boolean prevCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset > 0) {
@@ -199,12 +199,12 @@ public class CursorController {
 	 *            current state
 	 * @return whether the cursor moved
 	 */
-	public boolean prevField(EditorState editorState) {
+	public static boolean prevField(EditorState editorState) {
 		return prevField(editorState, editorState.getCurrentField());
 	}
 
 	/* Search for previous component */
-	private boolean prevField(EditorState editorState, MathContainer component) {
+	private static boolean prevField(EditorState editorState, MathContainer component) {
 		// retrieve parent
 		MathContainer container = component.getParent();
 		int current = component.getParentIndex();
@@ -240,7 +240,7 @@ public class CursorController {
 	 *            current state
 	 * @return whether move up is possible
 	 */
-	public boolean upField(EditorState editorState) {
+	public static boolean upField(EditorState editorState) {
 		return upField(editorState, editorState.getCurrentField());
 	}
 
@@ -251,12 +251,12 @@ public class CursorController {
 	 *            current state
 	 * @return whether move down is possible
 	 */
-	public boolean downField(EditorState editorState) {
+	public static boolean downField(EditorState editorState) {
 		return downField(editorState, editorState.getCurrentField());
 	}
 
 	/** Up field. */
-	private boolean upField(EditorState editorState, MathContainer component) {
+	private static boolean upField(EditorState editorState, MathContainer component) {
 		if (component.getParent() instanceof MathFunction) {
 			Tag name = ((MathFunction) component.getParent()).getName();
 			if (name.equals(Tag.SUBSCRIPT)) {
@@ -284,7 +284,7 @@ public class CursorController {
 	}
 
 	/** Down field. */
-	private boolean downField(EditorState editorState,
+	private static boolean downField(EditorState editorState,
 			MathContainer component) {
 		if (component.getParent() instanceof MathFunction) {
 			Tag name = ((MathFunction) component.getParent()).getName();
@@ -335,7 +335,7 @@ public class CursorController {
 		return false;
 	}
 
-	private boolean moveOutOfSuperSubScript(EditorState editorState) {
+	private static boolean moveOutOfSuperSubScript(EditorState editorState) {
 		MathComponent cursorFieldLeft = editorState.getCurrentField().getArgument(
 				editorState.getCurrentOffset() - 1);
 		MathComponent cursorFieldRight = editorState.getCurrentField().getArgument(

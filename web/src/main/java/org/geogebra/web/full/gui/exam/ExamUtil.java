@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
@@ -73,7 +74,7 @@ public class ExamUtil {
 	}
 
 	private void startCheating() {
-		if (app.getExam() != null && !app.getExam().isClosed()) {
+		if (app.getExam() != null && !app.getExam().isClosed() && SecureBrowser.get() == null) {
 			app.getExam().checkedWindowLeft();
 		}
 	}

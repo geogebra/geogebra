@@ -10,7 +10,9 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
+import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -119,6 +121,14 @@ public class GeoGebraFrameFull
 	@Override
 	protected AppW createApplication(GeoGebraElement geoGebraElement,
 			AppletParameters parameters, GLookAndFeelI laf) {
+		if (SecureBrowser.get() != null && SecureBrowser.get().security != null) {
+			parameters.setAttribute("lockExam", "true");
+			SecureBrowser.get().security.lockDown(true,
+					(state) -> Log.info("Lockdown successful"),
+					(state) -> Log.error("Lockdown failed")
+			);
+		}
+
 		AppW application = factory.getApplet(geoGebraElement, parameters, this, laf, this.device);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());

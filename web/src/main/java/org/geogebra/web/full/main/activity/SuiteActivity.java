@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigGeometry;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigProbability;
 import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
@@ -21,15 +22,19 @@ public class SuiteActivity extends BaseActivity {
 	/**
 	 * New Suite activity
 	 */
-	public SuiteActivity(String subAppCode) {
-		super(getAppConfig(subAppCode));
+	public SuiteActivity(String subAppCode, boolean casDisabled) {
+		super(getAppConfig(subAppCode, casDisabled));
 	}
 
-	private static AppConfig getAppConfig(String subAppCode) {
+	private static AppConfig getAppConfig(String subAppCode, boolean casDisabled) {
 		switch (subAppCode) {
 		default:
 		case GeoGebraConstants.GRAPHING_APPCODE:
-			return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
+			if (casDisabled) {
+				return new AppConfigGraphing(GeoGebraConstants.SUITE_APPCODE);
+			} else {
+				return new AppConfigUnrestrictedGraphing(GeoGebraConstants.SUITE_APPCODE);
+			}
 		case GeoGebraConstants.GEOMETRY_APPCODE:
 			return new AppConfigGeometry(GeoGebraConstants.SUITE_APPCODE);
 		case GeoGebraConstants.CAS_APPCODE:

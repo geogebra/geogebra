@@ -1,7 +1,7 @@
 package org.geogebra.web.full.move.googledrive.api;
 
 import org.geogebra.common.util.InjectJsInterop;
-import org.geogebra.web.html5.util.JsConsumer;
+import org.geogebra.gwtutil.JsConsumer;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;

@@ -804,10 +804,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return this.mathFieldInternal.getCurrentWord();
 	}
 
-	public void selectNextArgument() {
-		this.mathFieldInternal.selectNextArgument();
-	}
-
 	/**
 	 * Make the cursor blink in this editor.
 	 */

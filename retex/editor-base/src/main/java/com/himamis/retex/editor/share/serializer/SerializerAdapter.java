@@ -6,6 +6,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 public abstract class SerializerAdapter implements Serializer {
@@ -94,6 +95,9 @@ public abstract class SerializerAdapter implements Serializer {
 		if (container instanceof MathCharacter) {
 			serialize((MathCharacter) container, stringBuilder);
 
+		} else if (container instanceof MathPlaceholder) {
+			serialize((MathPlaceholder) container, stringBuilder);
+
 		} else if (container instanceof MathSequence) {
 			serialize((MathSequence) container, stringBuilder);
 
@@ -129,4 +133,6 @@ public abstract class SerializerAdapter implements Serializer {
 	abstract void serialize(MathFunction function, StringBuilder stringBuilder);
 
 	abstract void serialize(MathArray array, StringBuilder stringBuilder);
+
+	abstract void serialize(MathPlaceholder placeholder, StringBuilder stringBuilder);
 }

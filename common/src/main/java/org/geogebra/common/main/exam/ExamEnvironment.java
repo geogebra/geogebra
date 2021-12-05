@@ -38,7 +38,6 @@ public class ExamEnvironment {
 	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
 	private final Localization localization;
-	private boolean isIncludingSettingsInLog;
 	private String localizedAppName;
 	private CommandDispatcher commandDispatcher;
 
@@ -50,8 +49,6 @@ public class ExamEnvironment {
 
 	private final CheatingEvents cheatingEvents;
 	private long closed = -1;
-
-	private boolean hasGraph = false;
 
 	private TimeFormatAdapter timeFormatter;
 	private final CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
@@ -71,10 +68,6 @@ public class ExamEnvironment {
 		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
 		tempStorage = new TempStorage();
-	}
-
-	public void setIncludingSettingsInLog(boolean includingSettingsInLog) {
-		isIncludingSettingsInLog = includingSettingsInLog;
 	}
 
 	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
@@ -271,31 +264,28 @@ public class ExamEnvironment {
 	 *            localization
 	 * @param settings
 	 *            settings
-	 * @param builder
-	 *            log builder
+	 * @return description of settings (disabled views)
 	 */
-	private void appendSettings(Localization loc, Settings settings, ExamLogBuilder builder) {
+	public StringBuilder getSettings(Localization loc, Settings settings) {
 		// Deactivated Views
 		boolean supportsCAS = settings.getCasSettings().isEnabled();
 		boolean supports3D = settings.supports3D();
 
-		if (!hasGraph) {
-			StringBuilder sb = new StringBuilder();
-			if (!supportsCAS || !supports3D) {
-				sb.append(loc.getMenu("exam_views_deactivated"));
-				sb.append(": ");
-			}
-			if (!supportsCAS) {
-				sb.append(loc.getMenu("Perspective.CAS"));
-			}
-			if (!supportsCAS && !supports3D) {
-				sb.append(", ");
-			}
-			if (!supports3D) {
-				sb.append(loc.getMenu("Perspective.3DGraphics"));
-			}
-			builder.addLine(sb);
+		StringBuilder sb = new StringBuilder();
+		if (!supportsCAS || !supports3D) {
+			sb.append(loc.getMenu("exam_views_deactivated"));
+			sb.append(": ");
 		}
+		if (!supportsCAS) {
+			sb.append(loc.getMenu("Perspective.CAS"));
+		}
+		if (!supportsCAS && !supports3D) {
+			sb.append(", ");
+		}
+		if (!supports3D) {
+			sb.append(loc.getMenu("Perspective.3DGraphics"));
+		}
+		return sb;
 	}
 
 	private void appendStartEnd(Localization loc, ExamLogBuilder builder,
@@ -381,9 +371,6 @@ public class ExamEnvironment {
 	 *            log builder
 	 */
 	public void getLog(Localization loc, Settings settings, ExamLogBuilder sb) {
-		if (isIncludingSettingsInLog) {
-			appendSettings(loc, settings, sb);
-		}
 		appendStartEnd(loc, sb, true);
 		sb.addField(loc.getMenu("exam_activity"), "");
 		appendLogTimes(loc, sb, true);
@@ -431,10 +418,6 @@ public class ExamEnvironment {
 		ExamLogBuilder sb = new ExamLogBuilder();
 		appendLogTimes(loc, sb, showEndTime);
 		return sb.toString();
-	}
-
-	public void setHasGraph(boolean hasGraph) {
-		this.hasGraph = hasGraph;
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -107,6 +108,11 @@ public class DrawDynamicCaption {
 		captionCopy.set(getDynamicCaption());
 		captionCopy.setAllVisualPropertiesExceptEuclidianVisible(getDynamicCaption(),
 				false, false);
+		try {
+			captionCopy.setShowObjectCondition(null);
+		} catch (CircularDefinitionException e) {
+			// never happens
+		}
 		if (geo instanceof GeoInputBox) {
 			captionCopy.setFontSizeMultiplier(((GeoInputBox) geo).getFontSizeMultiplier());
 		}

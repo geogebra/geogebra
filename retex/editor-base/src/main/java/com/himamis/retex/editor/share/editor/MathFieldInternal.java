@@ -46,6 +46,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -72,7 +73,6 @@ public class MathFieldInternal
 	@Weak
 	private MathField mathField;
 
-	private CursorController cursorController;
 	private InputController inputController;
 	private MathFieldController mathFieldController;
 
@@ -107,9 +107,8 @@ public class MathFieldInternal
 	 */
 	public MathFieldInternal(MathField mathField) {
 		this.mathField = mathField;
-		cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
-		keyListener = new KeyListenerImpl(cursorController, inputController);
+		keyListener = new KeyListenerImpl(inputController);
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
@@ -235,13 +234,6 @@ public class MathFieldInternal
 	 */
 	public InputController getInputController() {
 		return inputController;
-	}
-
-	/**
-	 * @return cursor controller
-	 */
-	public CursorController getCursorController() {
-		return cursorController;
 	}
 
 	public MathFieldController getMathFieldController() {
@@ -631,7 +623,6 @@ public class MathFieldInternal
 				wordEnd = editorState.getSelectionEnd().getParentIndex();
 			}
 			for (int i = Math.min(wordEnd, sel.size() - 1); i >= 0; i--) {
-
 				if (!appendChar(str, sel, i)) {
 					break;
 				}
@@ -659,27 +650,6 @@ public class MathFieldInternal
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Select next argument of a function.
-	 */
-	public void selectNextArgument() {
-		EditorState state = getEditorState();
-		MathSequence seq = state.getCurrentField();
-
-		if (seq != null && seq.size() > 0) {
-			MathComponent last = seq.getArgument(state.getCurrentOffset() - 1);
-			if (last instanceof MathFunction
-					&& ((MathFunction) last).size() > 0) {
-				// log10: sizse 1, select 0 sin: size 2 select 1
-				MathSequence args = ((MathFunction) last)
-						.getArgument(((MathFunction) last).size() - 1);
-				if (InputController.doSelectNext(args, state, 0)) {
-					update();
-				}
-			}
-		}
 	}
 
 	/**
@@ -924,5 +894,50 @@ public class MathFieldInternal
 
 	public void setUnhandledArrowListener(UnhandledArrowListener arrowListener) {
 		this.unhandledArrowListener = arrowListener;
+	}
+
+	/**
+	 * Gets the name of the function around containing currently edited position
+	 * @return function name, null if not in a function
+	 */
+	public String getCurrentFunction() {
+		MathContainer container = editorState.getCurrentField().getParent();
+		if (container instanceof MathFunction) {
+			MathFunction function = (MathFunction) container;
+
+			if (function.getName() != Tag.APPLY) {
+				return function.getName().getFunction();
+			}
+
+			StringBuilder str = new StringBuilder();
+			MathSequence name = function.getArgument(0);
+			for (int i = 0; i < name.getArgumentCount(); i++) {
+				appendChar(str, name, i);
+			}
+
+			return str.toString();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Computes the index of the currently edited function argument
+	 * @return index of currently edited argument, -1 if not in a function
+	 */
+	public int getFunctionArgumentIndex() {
+		MathContainer container = editorState.getCurrentField().getParent();
+		if (container instanceof MathFunction) {
+			int commaCount = 0;
+			for (int i = editorState.getCurrentOffset(); i >= 0; i--) {
+				MathComponent arg = editorState.getCurrentField().getArgument(i);
+				if (arg instanceof MathCharacter && ((MathCharacter) arg).isUnicode(',')) {
+					commaCount++;
+				}
+			}
+			return commaCount;
+		}
+
+		return -1;
 	}
 }

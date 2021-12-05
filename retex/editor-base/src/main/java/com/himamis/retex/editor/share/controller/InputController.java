@@ -15,6 +15,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -243,21 +244,20 @@ public class InputController {
 			newFunction(editorState, name, ch == '[', power.script);
 
 		} else {
-			String selText = editorState.getSelectedText().trim();
-			if (editorState.getSelectionStart() instanceof MathCharacter) {
-				if (selText.startsWith("<") && selText.endsWith(">")) {
+			int index = editorState.getCurrentOffsetOrSelection();
+			MathComponent firstSelection = editorState.getCurrentField().getArgument(index);
 
-					deleteSelection(editorState);
-					MetaArray meta = metaModel.getArray(ch);
-					MathArray array = new MathArray(meta, 1);
-					MathSequence seq = new MathSequence();
-					array.setArgument(0, seq);
-					editorState.getCurrentField()
-							.addArgument(editorState.getCurrentOffset(), array);
-					editorState.setCurrentField(seq);
-					editorState.setCurrentOffset(0);
-					return;
-				}
+			if (firstSelection instanceof MathPlaceholder) {
+				editorState.getCurrentField().removeArgument(index);
+				MetaArray meta = metaModel.getArray(ch);
+				MathArray array = new MathArray(meta, 1);
+				MathSequence seq = new MathSequence();
+				array.setArgument(0, seq);
+				editorState.getCurrentField().addArgument(index, array);
+				editorState.setSelectionStart(null);
+				editorState.setCurrentField(seq);
+				editorState.setCurrentOffset(0);
+				return;
 			}
 
 			// TODO brace type
@@ -1118,6 +1118,20 @@ public class InputController {
 			return true;
 		}
 
+		MetaModel meta = editorState.getMetaModel();
+
+		if (!meta.isFunctionOpenKey(ch) && ch != ',') {
+			int currentOffset = editorState.getCurrentOffset();
+			MathSequence field = editorState.getCurrentField();
+
+			if (field.getArgument(currentOffset) instanceof MathPlaceholder) {
+				editorState.getCurrentField().removeArgument(currentOffset);
+			} else if (field.getArgument(currentOffset - 1) instanceof MathPlaceholder) {
+				editorState.getCurrentField().removeArgument(currentOffset - 1);
+				CursorController.prevCharacter(editorState);
+			}
+		}
+
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
 				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL && ch != '"') {
 			deleteSelection(editorState);
@@ -1125,9 +1139,8 @@ public class InputController {
 		if (useSimpleScripts) {
 			checkScriptExit(ch, editorState);
 		}
-		boolean handled = handleEndBlocks(editorState, ch);
 
-		MetaModel meta = editorState.getMetaModel();
+		boolean handled = handleEndBlocks(editorState, ch);
 		if (!handled) {
 			if (meta.isArrayCloseKey(ch)) {
 				endField(editorState, ch);
@@ -1306,88 +1319,15 @@ public class InputController {
 	}
 
 	private void comma(EditorState editorState) {
-		if (trySelectNext(editorState)) {
+		int offset = editorState.getCurrentOffset();
+		MathSequence currentField = editorState.getCurrentField();
+		if (currentField.getArgument(offset) instanceof MathCharacter
+				&& ((MathCharacter) currentField.getArgument(offset)).isUnicode(',')) {
+			CursorController.nextCharacter(editorState);
 			return;
 		}
 
 		newOperator(editorState, ',');
-
-	}
-
-	/**
-	 * Select next argument in suggested command.
-	 *
-	 * @param editorState
-	 *            current state
-	 * @return success
-	 */
-	public static boolean trySelectNext(EditorState editorState) {
-		int idx = editorState.getCurrentOffset();
-		if (editorState.getSelectionEnd() != null) {
-			idx = editorState.getSelectionEnd().getParentIndex() + 1;
-		}
-		MathSequence field = editorState.getCurrentField();
-		if (field.getArgument(idx) instanceof MathCharacter
-				&& ",".equals(field.getArgument(idx).toString())
-				&& doSelectNext(field, editorState, idx + 1)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Select first argument in suggested command.
-	 *
-	 * @param editorState
-	 *            current state
-	 * @return success
-	 */
-	public static boolean trySelectFirst(EditorState editorState) {
-		int idx = editorState.getCurrentOffset();
-		if (editorState.getSelectionEnd() != null) {
-			idx = editorState.getSelectionEnd().getParentIndex() + 1;
-		}
-
-		MathSequence field = editorState.getCurrentField();
-		if (idx == field.size() - 1 && doSelectNext(field, editorState, 0)) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * @param args
-	 *            text of the form &lt;arg1&gt;&lt;arg2&gt;
-	 * @param state
-	 *            current state
-	 * @param offset
-	 *            where to start looking
-	 * @return whether successfully selected
-	 */
-	public static boolean doSelectNext(MathSequence args, EditorState state,
-			int offset) {
-		int endchar = -1;
-		for (int i = offset + 1; i < args.size(); i++) {
-			if (args.getArgument(i) instanceof MathCharacter
-					&& ((MathCharacter) args.getArgument(i))
-					.isUnicode('>')) {
-				endchar = i;
-				if (i < args.size() - 1
-						&& args.getArgument(i + 1) instanceof MathCharacter
-						&& " ".equals(args.getArgument(i + 1).toString())) {
-					endchar++;
-				}
-				break;
-			}
-		}
-		if (endchar > 0) {
-			state.setCurrentField(args);
-			state.setSelectionStart(args.getArgument(offset));
-			state.setSelectionEnd(args.getArgument(endchar));
-			state.setCurrentOffset(endchar);
-			return true;
-		}
-		return false;
 	}
 
 	/**

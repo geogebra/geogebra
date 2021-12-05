@@ -87,7 +87,9 @@ public class ColorAtom extends Atom implements Row {
 			copy.setBackground(background);
 		if (color != null)
 			copy.setColor(color);
-		return elements.createBox(copy);
+		Box box = elements.createBox(copy);
+		box.setAtom(this);
+		return box;
 	}
 
 	@Override

@@ -1422,14 +1422,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Sets real world coord system using min and max values for both axes in
-	 * real world values.
+	 * Sets real world coord system to the whole EV using
+	 * min and max values for both axes in real world values.
 	 */
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
-		double calcXscale = getWidth() / (xmax2 - xmin2);
-		double calcYscale = getHeight() / (ymax2 - ymin2);
+		setRealWorldCoordSystemVisible(xmin2, xmax2, ymin2, ymax2, false);
+	}
+
+	/**
+	 * Sets real world coord system to the visible part or the whole EV
+	 * using min and max values for both axes in real world values.
+	 */
+	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
+											  double ymin2, double ymax2, boolean visible) {
+		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
+		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
 		double calcXzero = calcXscale * -xmin2 + visibleFromX;
@@ -4957,9 +4966,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void setViewShowAllObjects(Rectangle allObjectsRect, boolean storeUndo, int steps) {
 		// check if animation is needed
 		if (steps == 0) {
-			setRealWorldCoordSystem(
+			setRealWorldCoordSystemVisible(
 					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
-					allObjectsRect.getMinY(), allObjectsRect.getMaxY());
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY(), true);
 			if (storeUndo) {
 				getApplication().storeUndoInfo();
 			}
