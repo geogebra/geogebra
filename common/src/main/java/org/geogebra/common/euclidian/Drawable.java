@@ -40,6 +40,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.DrawDynamicCaption;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -349,6 +350,8 @@ public abstract class Drawable extends DrawableND {
 		// draw label and
 		int widthEstimate = (int) labelRectangle.getWidth();
 		int heightEstimate = (int) labelRectangle.getHeight();
+		int screenWidth = view.getWidth();
+		int screenHeight = view.getHeight();
 		boolean roughEstimate = false;
 
 		if (!labelDesc.equals(oldLabelDesc) || lastFontSize != font.getSize()) {
@@ -372,14 +375,14 @@ public abstract class Drawable extends DrawableND {
 		// make sure labelRectangle fits on screen horizontally
 		if (xLabel < 3) {
 			xLabel = 3;
-		} else if (xLabel > view.getWidth() - widthEstimate - 3) {
+		} else if (xLabel > screenWidth - widthEstimate - 3) {
 			if (roughEstimate) {
 				drawLabel(view.getTempGraphics2D(font));
 				widthEstimate = (int) labelRectangle.getWidth();
 				heightEstimate = (int) labelRectangle.getHeight();
 				roughEstimate = false;
 			}
-			xLabel = Math.min(xLabel, view.getWidth() - widthEstimate - 3);
+			xLabel = Math.min(xLabel, screenWidth - widthEstimate - 3);
 		}
 
 		if (yLabel < heightEstimate) {
@@ -390,7 +393,19 @@ public abstract class Drawable extends DrawableND {
 			yLabel = Math.max(yLabel, heightEstimate);
 
 		} else {
-			yLabel = Math.min(yLabel, view.getHeight() - 3);
+			yLabel = Math.min(yLabel, screenHeight - 3);
+		}
+		// Fit label in safe area
+		EdgeInsets insets = view.getSafeAreaInsets();
+		if (xLabel < insets.getLeft()) {
+			xLabel = insets.getLeft();
+		} else if (xLabel + widthEstimate > screenWidth - insets.getRight()) {
+			xLabel = screenWidth - insets.getRight() - widthEstimate;
+		}
+		if (yLabel < insets.getTop()) {
+			yLabel = insets.getTop();
+		} else if (yLabel + heightEstimate > screenHeight - insets.getBottom()) {
+			yLabel = screenHeight - insets.getBottom() - heightEstimate;
 		}
 
 		// update label rectangle position

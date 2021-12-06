@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.background.DrawBackground;
@@ -43,6 +45,7 @@ import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -563,6 +566,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			this.maxY = yMax;
 		}
 	}
+
+	private EdgeInsets safeAreaInsets = new EdgeInsets();
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -6743,5 +6748,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		// do nothing
+	}
+
+	@Override
+	public EdgeInsets getSafeAreaInsets() {
+		return safeAreaInsets;
+	}
+
+	@Override
+	public void setSafeAreaInsets(EdgeInsets safeAreaInsets) {
+		this.safeAreaInsets = safeAreaInsets;
+		repaintView();
 	}
 }

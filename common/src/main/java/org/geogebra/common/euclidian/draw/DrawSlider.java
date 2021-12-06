@@ -22,10 +22,12 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
@@ -99,8 +101,9 @@ public class DrawSlider extends Drawable {
 
 			// start point of horizontal line for slider
 			if (number.isAbsoluteScreenLocActive()) {
-				coordsScreen[0] = number.getSliderX();
-				coordsScreen[1] = number.getSliderY() - 1;
+				EdgeInsets safeAreaInsets = view.getSafeAreaInsets();
+				coordsScreen[0] = number.getSliderX() + safeAreaInsets.getLeft();
+				coordsScreen[1] = number.getSliderY() - 1 + safeAreaInsets.getTop();
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 				widthScreen = number.getSliderWidth();
