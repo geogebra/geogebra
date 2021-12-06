@@ -810,14 +810,22 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getScreenReaderOutput(text + "");
 	}
 
-	public String getEditorState(String label) {
-		return ggbAPI.getEditorState(label);
+	public String getEditorState() {
+		return ggbAPI.getEditorState();
 	}
 
 	public void setEditorState(Object state, String label) {
 		String stateString = JsEval.isJSString(state) ? Js.asString(state)
 				: Global.JSON.stringify(state);
 		ggbAPI.setEditorState(stateString, label);
+	}
+
+	public String getGeoState(String label) {
+		return ggbAPI.getGeoState(label);
+	}
+
+	public void setGeoState(String state, String label) {
+		ggbAPI.setGeoState(state, label);
 	}
 
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,

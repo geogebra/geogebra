@@ -12,7 +12,6 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
-import org.geogebra.common.io.EditorStateDescription;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.Base64ZipFile;
 import org.geogebra.common.kernel.Macro;
@@ -1083,17 +1082,33 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @return JSON describing editor state
 	 */
-	public String getEditorState(String label) {
-		if (label.isEmpty()) {
+	public String getEditorState() {
 			return editor == null ? "" : editor.getState();
-		} else {
-			GeoElement geo = kernel.lookupLabel(label);
-			if (geo instanceof GeoInputBox) {
-				return new EditorStateDescription(((GeoInputBox) geo).getText(),
-						new ArrayList<>()).asJSON();
-			}
+	}
+
+	/**
+	 * @param label - inputbox label
+	 * @return content of the inputbox
+	 */
+	public String getGeoState(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			return ((GeoInputBox) geo).getText();
 		}
-		return "";
+		return getEditorState();
+	}
+
+	/**
+	 * @param state - content of inputbox
+	 * @param label - label of inputbox
+	 */
+	public void setGeoState(String state, String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			((GeoInputBox) geo).updateLinkedGeo(state, state);
+		}
 	}
 
 	/**
