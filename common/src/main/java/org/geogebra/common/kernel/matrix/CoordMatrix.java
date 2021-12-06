@@ -50,8 +50,6 @@ public class CoordMatrix {
 
 	private PivotSolRes pivotSolRes;
 
-	private PivotSolResDegenerate pivotSolResDegenerate;
-
 	private PivotInverseMatrix pivotInverseMatrix;
 
 	private double[][] pivotMatrix;
