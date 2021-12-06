@@ -12,6 +12,7 @@ public class AriaMenuItem extends SimplePanel {
 	private ScheduledCommand cmd;
 	private AriaMenuBar submenu;
 	private boolean enabled = true;
+	private boolean focusable = true;
 
 	/**
 	 * @param text
@@ -120,5 +121,13 @@ public class AriaMenuItem extends SimplePanel {
 	 */
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	public boolean isFocusable() {
+		return focusable;
+	}
+
+	public void setFocusable(boolean focusable) {
+		this.focusable = focusable;
 	}
 }

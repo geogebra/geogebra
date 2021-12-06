@@ -145,7 +145,9 @@ public class AriaMenuBar extends FlowPanel {
 		unselect();
 		this.selectedItem = item;
 		if (item != null) {
-			focus(item);
+			if (item.isFocusable()) {
+				focus(item);
+			}
 			item.addStyleName("selectedItem");
 		}
 	}
@@ -174,7 +176,7 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	/**
-	 * Move focus to an item, may be overriden
+	 * Move focus to an item, may be overridden
 	 * 
 	 * @param item
 	 *            item to move focus to

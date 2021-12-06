@@ -1771,14 +1771,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	/**
 	 * Show suggestions.
-	 *
-	 * @return whether suggestions are shown
 	 */
-	public boolean popupSuggestions() {
+	public void popupSuggestions() {
 		if (controller.isInputAsText()) {
-			return false;
+			return;
 		}
-		return getInputSuggestions().popupSuggestions();
+
+		getInputSuggestions().popupSuggestions();
 	}
 
 	/**

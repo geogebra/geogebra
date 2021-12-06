@@ -4,14 +4,11 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.inputfield.InputSuggestions;
-import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
 
 public class MathFieldInputSuggestions extends InputSuggestions
 		implements HasSuggestions {
@@ -19,9 +16,8 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	private static final int MINIMUM_HEIGHT = 29;
 
 	private ScrollableSuggestionDisplay sug;
-	public static final int QUERY_LIMIT = 5000;
 	StringBuilder curWord;
-	protected CompletionsPopup popup;
+	protected AutoCompletePopup autoCompletePopup;
 	private @Nonnull AutoCompleteW component;
 
 	/**
@@ -37,8 +33,7 @@ public class MathFieldInputSuggestions extends InputSuggestions
 		super(app, forCAS);
 		this.component = component;
 		curWord = new StringBuilder();
-		popup = new CompletionsPopup();
-		popup.addTextField(component);
+		autoCompletePopup = new AutoCompletePopup(app);
 		sug = new ScrollableSuggestionDisplay(this, app.getPanel(), app);
 	}
 
@@ -48,10 +43,6 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	 */
 	public void updateCurrentWord(boolean searchRight) {
 		curWord = new StringBuilder(component.getCommand());
-	}
-
-	public int getCaretPosition() {
-		return 0;
 	}
 
 	/**
@@ -65,10 +56,8 @@ public class MathFieldInputSuggestions extends InputSuggestions
 
 	/**
 	 * Show suggestions.
-	 * 
-	 * @return true
 	 */
-	public boolean popupSuggestions() {
+	public void popupSuggestions() {
 		// sub, or query is the same as the current word,
 		// so moved from method parameter to automatism
 		// updateCurrentWord(true);// although true would be nicer here
@@ -80,45 +69,13 @@ public class MathFieldInputSuggestions extends InputSuggestions
 				// if there is only one letter typed,
 				// for any reason, this method should
 				// hide the suggestions instead!
-				hideSuggestions();
+				autoCompletePopup.hide();
 			} else {
-				Log.debug("requestingSug" + curWord);
-				popup.requestSuggestions(
-						new SuggestOracle.Request(this.curWord.toString(),
-								QUERY_LIMIT), (req, res) -> updateSuggestions(res));
+				autoCompletePopup.fillAndShow(curWord.toString());
 			}
 		} else {
-			hideSuggestions();
+			autoCompletePopup.hide();
 		}
-		return true;
-	}
-
-	/**
-	 * Hide the suggestions.
-	 * 
-	 * @return true
-	 */
-	public boolean hideSuggestions() {
-		if (sug.isSuggestionListShowing()) {
-			sug.hideSuggestions();
-		}
-		return true;
-	}
-
-	/**
-	 * Update the suggestions.
-	 * 
-	 * @param res
-	 *            oracle response
-	 */
-	protected void updateSuggestions(Response res) {
-		sug.updateHeight();
-		component.updatePosition(sug);
-		sug.accessShowSuggestions(res, popup, this::autocompleteAndHide);
-	}
-
-	public void setFocus() {
-		sug.focus();
 	}
 
 	public boolean isSuggesting() {
@@ -126,7 +83,7 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	}
 
 	/**
-	 * @return whether enter should be consumend by suggestions
+	 * @return whether enter should be consumed by suggestions
 	 */
 	public boolean needsEnterForSuggestion() {
 		if (sug.isSuggestionListShowing()) {

@@ -208,4 +208,11 @@
 			margin: 8px 8px 0px 8px;
 		}
 	}
+
+	.autoCompletePopup {
+		max-height: 248px;
+		min-width: 192px;
+		max-width: 320px;
+		overflow-y: auto;
+	}
 }
