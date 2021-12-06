@@ -193,7 +193,7 @@ public class InternalClipboard {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null) {
 					copiedXmlLabels.add(CopyPaste.labelPrefix + label);
-					((GeoElement) geo).setLabelSimple(CopyPaste.labelPrefix + label);
+					((GeoElement) geo).addLabelPrefix(CopyPaste.labelPrefix);
 				}
 			}
 		}

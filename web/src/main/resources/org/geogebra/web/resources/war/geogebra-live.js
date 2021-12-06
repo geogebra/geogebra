@@ -122,8 +122,7 @@
             }
             var xml = this.api.getXML(label);
 
-            var definition = this.api.getCommandString(label);
-            if (definition) {
+            if (!this.api.isIndependent(label)) {
                 this.sendEvent("addObject", this.api.getAlgorithmXML(label), label);
             } else {
                 this.sendEvent("addObject", xml, label);

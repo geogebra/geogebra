@@ -414,6 +414,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void setLabelSimple(final String lab) {
 		label = lab;
 		GeoElementSpreadsheet.setBackgroundColor(this);
+		setAlgebraLabelVisible(lab == null || !lab.startsWith(LabelManager.HIDDEN_PREFIX));
+	}
+
+	public void addLabelPrefix(final String prefix) {
+		label = prefix + label;
 	}
 
 	@Override
@@ -2562,10 +2567,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		}
 
-		if (newLabel.startsWith(LabelManager.HIDDEN_PREFIX)) {
-			setAlgebraLabelVisible(false);
-		}
-
 		setLabelSimple(newLabel); // set new label
 
 		setLabelSet(true);
@@ -2699,8 +2700,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
 
-		label = newLabel; // set new label
-		GeoElementSpreadsheet.setBackgroundColor(this);
+		setLabelSimple(newLabel);
 
 		// rename corresponding cas cell, before the label
 		// is in construction set
@@ -4002,11 +4002,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!isAlgebraLabelVisible()) {
 			String desc = getLaTeXDescriptionRHS(false,
 					StringTemplate.defaultTemplate);
-			if (LabelManager.isShowableLabel(desc)) {
-				builder.clear();
-				builder.append(desc);
-				return builder.toString();
-			}
+			builder.clear();
+			builder.append(desc);
+			return builder.toString();
 		}
 
 		final String algDesc = getAlgebraDescriptionDefault();
@@ -4124,7 +4122,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return  algebraic representation (e.g. coordinates, equation)
 	 */
 	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
-		if (!LabelManager.isShowableLabel(label)) {
+		if (label == null || !isAlgebraLabelVisible()) {
 			return toValueString(tpl);
 		} else {
 			return toString(tpl);
