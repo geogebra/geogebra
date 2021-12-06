@@ -33,7 +33,7 @@ publishing {
 dependencies {
 	api project(':editor-base')
     implementation project(':renderer-android')
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 
 android {
