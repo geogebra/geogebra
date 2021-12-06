@@ -1,5 +1,8 @@
 package org.geogebra.common.gui;
 
+import com.google.j2objc.annotations.ObjectiveCName;
+
+@ObjectiveCName("GGBEdgeInsets")
 public class EdgeInsets {
 	private final int left;
 	private final int top;
