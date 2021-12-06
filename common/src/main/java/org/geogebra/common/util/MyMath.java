@@ -296,7 +296,23 @@ public final class MyMath {
 	 */
 	public static double nextMultiple(double t, double mod) {
 		return Math.ceil(t / mod) * mod;
+	}
 
+	/**
+	 * @param t
+	 *            parameter
+	 * @param mod
+	 *            modulus
+	 * @return similar to nextMultiple, but rounds towards negative infinity for negative numbers
+	 */
+	public static double signedNextMultiple(double t, double mod) {
+		// Today's lesson: NaN * 0 is NaN
+		if (DoubleUtil.isZero(mod)) {
+			return 0;
+		}
+
+		double sign = Math.signum(t) * Math.signum(mod);
+		return Math.ceil(Math.abs(t / mod)) * Math.abs(mod) * sign;
 	}
 
 	/**
