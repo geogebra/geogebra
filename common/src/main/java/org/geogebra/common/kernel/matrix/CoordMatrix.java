@@ -1360,7 +1360,7 @@ public class CoordMatrix {
 
 	/**
 	 * makes Gauss pivot about this matrix and compute sol so that this * sol =
-	 * ret
+	 * retgit push --set-upstream origin apps-3345
 	 * 
 	 * @param sol
 	 *            solution
@@ -1369,16 +1369,16 @@ public class CoordMatrix {
 	 */
 	public void pivotDegenerate(Coords sol, Coords res) {
 		double[][] array2d = new double[columns][rows];
-		for (int i=0; i<rows; i++) {
-			for (int j=0; j<columns; j++) {
-				array2d[j][i] = vectors[i].get(j+1);
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				array2d[j][i] = vectors[i].get(j + 1);
 			}
 		}
 
 		RealMatrix coefficients = new Array2DRowRealMatrix(array2d);
 		double [] array = new double[res.getLength()];
-		for (int i=0; i<res.getLength(); i++) {
-			array[i] = res.get(i+1);
+		for (int i = 0; i < res.getLength(); i++) {
+			array[i] = res.get(i + 1);
 		}
 		RealVector constants = new ArrayRealVector(array);
 
@@ -1387,7 +1387,6 @@ public class CoordMatrix {
 
 		sol.set(solution.toArray());
 	}
-
 
 	/**
 	 * makes Gauss pivot about the matrix and compute sol so that matrix * sol =
