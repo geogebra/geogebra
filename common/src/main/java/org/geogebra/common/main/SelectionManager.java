@@ -841,7 +841,7 @@ public class SelectionManager {
 
 	private void checkInputBoxAndFocus(GeoElement geo) {
 		EuclidianViewInterfaceCommon view = getViewOf(geo);
-		if (geo instanceof GeoInputBox) {
+		if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
 			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
 		} else {
 			view.requestFocus();
