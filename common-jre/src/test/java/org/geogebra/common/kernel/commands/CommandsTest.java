@@ -10,7 +10,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.AppCommonFactory;
@@ -54,13 +54,7 @@ public class CommandsTest {
 	private static int syntaxes = -1000;
 
 	private static void tRound(String s, String... expected) {
-		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
-				StringTemplate.editTemplate);
-	}
-
-	private static void tRoundMaxPrecision(String s, String... expected) {
-		testSyntax(s, AlgebraTestHelper.getMatchers(expected), app, ap,
-				StringTemplate.maxPrecision);
+		t(s, StringTemplate.editTemplate, expected);
 	}
 
 	private static void t(String s, String... expected) {
@@ -74,13 +68,12 @@ public class CommandsTest {
 	}
 
 	private static void t(String s, Matcher<String> expected) {
-		testSyntax(s, Arrays.asList(expected), app, ap,
+		testSyntax(s, Collections.singletonList(expected), app, ap,
 				StringTemplate.xmlTemplate);
 	}
 
 	protected static void testSyntax(String s, List<Matcher<String>> expected,
-			App app1,
-			AlgebraProcessor proc, StringTemplate tpl) {
+			App app1, AlgebraProcessor proc, StringTemplate tpl) {
 		app1.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
@@ -377,9 +370,9 @@ public class CommandsTest {
 		t("cs=ConstructionStep[]", "1");
 		t("2", "2");
 		t("7", "7");
-		t("SetConstructionStep[2]", new String[] {});
+		t("SetConstructionStep[2]");
 		t("cs", "2");
-		t("SetConstructionStep[1]", new String[] {});
+		t("SetConstructionStep[1]");
 		t("cs", "1");
 		assertTrue(app.clearConstruction());
 	}
@@ -414,8 +407,7 @@ public class CommandsTest {
 
 	private static void ti(String in, String out) {
 		testSyntax(in.replace("i", Unicode.IMAGINARY + ""),
-				AlgebraTestHelper.getMatchers(new String[] {
-						out.replace("i", Unicode.IMAGINARY + "") }),
+				AlgebraTestHelper.getMatchers(out.replace("i", Unicode.IMAGINARY + "")),
 				app,
 				ap, StringTemplate.xmlTemplate);
 	}
@@ -473,9 +465,7 @@ public class CommandsTest {
 		String[] dodeca1 = new String[dodeca.length + 1];
 		dodeca1[0] = dodeca[0];
 		dodeca1[1] = "(1, 0, 0)";
-		for (int i = 2; i < dodeca1.length; i++) {
-			dodeca1[i] = dodeca[i - 1];
-		}
+		System.arraycopy(dodeca, 1, dodeca1, 2, dodeca1.length - 2);
 		tRound(string + "[(1;" + deg + "deg),(0,0),Vector[(0,0,1)]]", dodeca1);
 	}
 
@@ -545,11 +535,11 @@ public class CommandsTest {
 
 	@Test
 	public void testRootsRedefine() {
-		tRound("Roots[sin(x),-1,4]", new String[] { "(0, 0)", "(3.14159, 0)" });
+		tRound("Roots[sin(x),-1,4]", "(0, 0)", "(3.14159, 0)");
 		tRound("A", "(0, 0)");
 		tRound("B", "(3.14159, 0)");
 		tRound("A = Roots[sin(x),-1,4.2]",
-				new String[] { "(0, 0)", "(3.14159, 0)" });
+				"(0, 0)", "(3.14159, 0)");
 		tRound("A", "(0, 0)");
 		tRound("Object[\"B\"]", "(3.14159, 0)");
 	}
@@ -584,7 +574,7 @@ public class CommandsTest {
 
 	private static void intProb(String cmd, String args, String val, String pf,
 			String cdf) {
-		t("ZoomIn[0,0,100,100]", new String[0]);
+		t("ZoomIn[0,0,100,100]");
 		tRound(cmd + "(" + args + "," + val + ",false)", pf);
 		tRound(cmd + "(" + args + "," + val + ",true)", cdf);
 
@@ -1026,12 +1016,12 @@ public class CommandsTest {
 	@Test
 	public void cmdCone() {
 		tRound("Cone[x^2+y^2=9,4]",
-				new String[] { eval("12*pi"), "X = (0, 0, 4)",
-						eval("pi*15"), });
-		tRound("Cone[(0,0,0),(0,0,4),3]", new String[] { eval("12*pi"),
-				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", eval("pi*15"), });
+				eval("12*pi"), "X = (0, 0, 4)",
+				eval("pi*15"));
+		tRound("Cone[(0,0,0),(0,0,4),3]", eval("12*pi"),
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", eval("pi*15"));
 		tRound("Cone[(0,0,0),Vector[(0,0,4)],pi/4]",
-				new String[] { indices("x^2 + y^2 - 1z^2 = 0") });
+				indices("x^2 + y^2 - 1z^2 = 0"));
 	}
 
 	@Test
@@ -1076,31 +1066,31 @@ public class CommandsTest {
 	@Test
 	public void cmdCube() {
 		t("Cube[(0,0,0),(0,0,2)]",
-				new String[] { "8", "(2, 0, 0)", "(0, 2, 0)", "(0, 2, 2)",
-						"(2, 2, 2)", "(2, 2, 0)", "4", "4", "4", "4", "4", "4",
-						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
-						"2" });
+				"8", "(2, 0, 0)", "(0, 2, 0)", "(0, 2, 2)",
+				"(2, 2, 2)", "(2, 2, 0)", "4", "4", "4", "4", "4", "4",
+				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+				"2");
 		t("Cube[(0,0,0),(0,2,0),(0,2,2)]",
-				new String[] { "8", "(0, 0, 2)", "(2, 0, 0)", "(2, 2, 0)",
-						"(2, 2, 2)", "(2, 0, 2)", "4", "4", "4", "4", "4", "4",
-						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
-						"2" });
+				"8", "(0, 0, 2)", "(2, 0, 0)", "(2, 2, 0)",
+				"(2, 2, 2)", "(2, 0, 2)", "4", "4", "4", "4", "4", "4",
+				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+				"2");
 		t("Cube[(0,0,0),(0,0,2),xAxis]",
-				new String[] { "8", "(0, -2, 2)", "(0, -2, 0)", "(2, 0, 0)",
-						"(2, 0, 2)", "(2, -2, 2)", "(2, -2, 0)", "4", "4", "4",
-						"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
-						"2", "2", "2", "2" });
+				"8", "(0, -2, 2)", "(0, -2, 0)", "(2, 0, 0)",
+				"(2, 0, 2)", "(2, -2, 2)", "(2, -2, 0)", "4", "4", "4",
+				"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
+				"2", "2", "2", "2");
 	}
 
 	@Test
 	public void cmdCylinder() {
-		tRound("Cylinder[x^2+y^2=9,4]", new String[] { eval("36*pi"),
-				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"), });
-		tRound("Cylinder[(0,0,0),(0,0,4),3]", new String[] { eval("36*pi"),
+		tRound("Cylinder[x^2+y^2=9,4]", eval("36*pi"),
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"));
+		tRound("Cylinder[(0,0,0),(0,0,4),3]", eval("36*pi"),
 				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
-				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24") });
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"));
 		tRound("Cylinder[(0,0,0),Vector[(0,0,4)],1]",
-				new String[] { indices("x^2 + y^2 + 0z^2 = 1") });
+				indices("x^2 + y^2 + 0z^2 = 1"));
 	}
 
 	@Test
@@ -1259,7 +1249,7 @@ public class CommandsTest {
 	@Test
 	public void cmdDataFunction() {
 		t("DataFunction[]", "DataFunction[{}, {},x]");
-		tRound("DataFunction[]", new String[] { "DataFunction[x]" });
+		tRound("DataFunction[]", "DataFunction[x]");
 	}
 
 	@Test
@@ -1351,13 +1341,13 @@ public class CommandsTest {
 	@Test
 	public void cmdDifference() {
 		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
-				new String[] { "3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
-						"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1" });
+				"3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
+				"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1");
 		tRound("Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
-				new String[] { "3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
-						"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
-						"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
-						"2", "1", "1", "1", "2", "2", "1" });
+				"3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
+				"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
+				"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
+				"2", "1", "1", "1", "2", "2", "1");
 	}
 
 	@Test
@@ -1423,7 +1413,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdDotPlot() {
-		t("ZoomIn(0,0,16,12)", new String[0]);
+		t("ZoomIn(0,0,16,12)");
 		t("DotPlot[ {1,1,1,2} ]", "{(1, 1), (1, 2), (1, 3), (2, 1)}");
 		t("DotPlot[ {1,1,1,2},2 ]", "{(1, 2), (1, 4), (1, 6), (2, 2)}");
 		t("DotPlot[ {1,1,1,2}, true]",
@@ -1464,8 +1454,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdEnds() {
-		t("Ends[Cone[x^2+y^2=9,4]]", new String[] {
-				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", "X = (0, 0, 4)" });
+		t("Ends[Cone[x^2+y^2=9,4]]", "X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", "X = (0, 0, 4)");
 	}
 
 	@Test
@@ -1515,8 +1504,8 @@ public class CommandsTest {
 	@Test
 	public void cmdExtremum() {
 		tRound("Extremum[ sin(x), 1, 7 ]",
-				new String[] { "(1.5708, 1)", "(4.71239, -1)" });
-		tRound("Extremum[ x^3-3x ]", new String[] { "(-1, 2)", "(1, -2)" });
+				"(1.5708, 1)", "(4.71239, -1)");
+		tRound("Extremum[ x^3-3x ]", "(-1, 2)", "(1, -2)");
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
@@ -1910,13 +1899,13 @@ public class CommandsTest {
 	@Test
 	public void cmdInteriorAngles() {
 		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
-				new String[] { deg("90"), deg("90"), deg("90"), deg("270"),
-						deg("90"), deg("90") });
+				deg("90"), deg("90"), deg("90"), deg("270"),
+				deg("90"), deg("90"));
 	}
 
 	@Test
 	public void cmdIntersect() {
-		t("ZoomIn(-5,-5,5,5)", new String[0]);
+		t("ZoomIn(-5,-5,5,5)");
 		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false, "(4, 3)",
 				"(-4, -3)");
 		intersect("x=y", "x+y=2", true, "(1, 1)");
@@ -1981,20 +1970,20 @@ public class CommandsTest {
 				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t),"
 						+ " 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))");
 		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
-				new String[] { "1", "(2, 2, 0)", "(1, 2, 0)", "(1, 1, 0)",
-						"(2, 1, 0)", "1", "1", "1", "1" });
+				"1", "(2, 2, 0)", "(1, 2, 0)", "(1, 1, 0)",
+				"(2, 1, 0)", "1", "1", "1", "1");
 		tRound("IntersectPath[Polygon[(0,0),(2,0),4],x+y=3]", eval("sqrt(2)"));
 		// 2D
 		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],x+y=3]",
 				eval("sqrt(2)"));
 		tRound("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
-				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)", "1",
-						"1", "1", "1" });
+				"1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)", "1",
+				"1", "1", "1");
 		tRound("IntersectPath[Polygon[(1,-2),(3,-2),(3,0)],"
 						+ "Polygon[Intersect[x=1,xAxis],(1,-2),(3,-2),(3,0)]]",
-				new String[] { "2", "(3, 0)", "(1, -2)", "(3, -2)", "2.82843", "2", "2" });
+				"2", "(3, 0)", "(1, -2)", "(3, -2)", "2.82843", "2", "2");
 		tRound("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]",
-				new String[] { "2", "2", "2", "2" });
+				"2", "2", "2", "2");
 		tRound("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
 				eval("sqrt(8)"));
 		tRound("IntersectPath[Segment[(0,0),(2,2)],(x-2)^2+(y-2)^2=2]",
@@ -2002,13 +1991,13 @@ public class CommandsTest {
 		tRound("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]",
 				eval("sqrt(.5)"));
 		tRound("IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
-				new String[] { "1.73205", "(1.41421, 0, 0)", "(0, 1.41421, 0)",
-						"(0, 0, 1.41421)", "2", "2", "2" });
+				"1.73205", "(1.41421, 0, 0)", "(0, 1.41421, 0)",
+				"(0, 0, 1.41421)", "2", "2", "2");
 	}
 
 	@Test
 	public void cmdIntersectPoly() {
-		t("ZoomIn(-5,-5,5,5)", new String[0]);
+		t("ZoomIn(-5,-5,5,5)");
 		intersect("x^2+x", "x^2+x", false, "(?, ?)");
 		intersect("x^2+x", "x^2+x+1", false, "(?, ?)");
 	}
@@ -2025,22 +2014,22 @@ public class CommandsTest {
 
 	@Test
 	public void cmdInverseChiSquared() {
-		t("InverseChiSquared[ 5, 0.5 ]", StringTemplate.editTemplate, "4.35146");
+		tRound("InverseChiSquared[ 5, 0.5 ]", "4.35146");
 	}
 
 	@Test
 	public void cmdInverseExponential() {
-		t("InverseExponential[ 2, 0.5 ]", StringTemplate.editTemplate, "0.34657");
+		tRound("InverseExponential[ 2, 0.5 ]", "0.34657");
 	}
 
 	@Test
 	public void cmdInverseFDistribution() {
-		t("InverseFDistribution[ 3, 5, 0.5 ]", StringTemplate.editTemplate, "0.90715");
+		tRound("InverseFDistribution[ 3, 5, 0.5 ]", "0.90715");
 	}
 
 	@Test
 	public void cmdInverseGamma() {
-		t("InverseGamma[ 3, 5, 0.5 ]", StringTemplate.editTemplate, "13.3703");
+		tRound("InverseGamma[ 3, 5, 0.5 ]", "13.3703");
 	}
 
 	@Test
@@ -2080,7 +2069,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdInverseWeibull() {
-		t("InverseWeibull(1, 2, 0.5)", StringTemplate.editTemplate, "1.38629");
+		tRound("InverseWeibull(1, 2, 0.5)", "1.38629");
 	}
 
 	@Test
@@ -2484,7 +2473,7 @@ public class CommandsTest {
 		tRound("Reflect[x+y,e]", "(0u + 1 (u + v), v, 1u + 0 (u + v))");
 		t("Reflect[(1,0),e]", "(0, 0, 1)");
 		t("Reflect[x^3+y^3=0,e]", "?");
-		t("picT=ToolImage[2]", new String[0]);
+		t("picT=ToolImage[2]");
 		t("Reflect[picT,e]", "picT'");
 		tRound("Reflect[xAxis,e]",
 				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 0, 1)"));
@@ -2525,19 +2514,19 @@ public class CommandsTest {
 	@Test
 	public void cmdNet() {
 		tRound("Net[Cube[(0,0,2),(0,0,0)],1]",
-				new String[] { "24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
-						"(2, 0, 2)", "(0, 0, 4)", "(2, 0, 4)", "(2, 0, 6)",
-						"(0, 0, 6)", "(-2, 0, 2)", "(-2, 0, 0)", "(0, 0, -2)",
-						"(2, 0, -2)", "(4, 0, 0)", "(4, 0, 2)", "4", "4", "4",
-						"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
-						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
-						"2" });
+				"24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
+				"(2, 0, 2)", "(0, 0, 4)", "(2, 0, 4)", "(2, 0, 6)",
+				"(0, 0, 6)", "(-2, 0, 2)", "(-2, 0, 0)", "(0, 0, -2)",
+				"(2, 0, -2)", "(4, 0, 0)", "(4, 0, 2)", "4", "4", "4",
+				"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
+				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+				"2");
 		t("Net[Tetrahedron[(0,0,1),(0,1,0),(1,0,0)],Segment[(0,0,1),(0,1,0)]]",
-				new String[] { "NaN", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
-						"(NaN, NaN, NaN)", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
-						"(NaN, NaN, NaN)", "NaN", "NaN", "NaN", "NaN", "NaN",
-						"NaN", "NaN", "NaN", "NaN", "NaN", "NaN", "NaN",
-						"NaN" });
+				"NaN", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)", "NaN", "NaN", "NaN", "NaN", "NaN",
+				"NaN", "NaN", "NaN", "NaN", "NaN", "NaN", "NaN",
+				"NaN");
 	}
 
 	@Test
@@ -2619,8 +2608,8 @@ public class CommandsTest {
 		t("y1'(t, y1, y2) = y2", "y2");
 		t("y2'(t, y1, y2) = (-g) / l sin(y1)", "(((-9.8)) / 2 * sin(y1))");
 		t("nint=NSolveODE({y1', y2'}, 0, {a, b}, 20)",
-				new String[] { "NSolveODE[{y1', y2'}, 0, {a, b}, 20]",
-						"NSolveODE[{y1', y2'}, 0, {a, b}, 20]" });
+				"NSolveODE[{y1', y2'}, 0, {a, b}, 20]",
+				"NSolveODE[{y1', y2'}, 0, {a, b}, 20]");
 
 		tRound("x1 = l sin(y(Point(nint_1, 0)))", "-1.91785");
 		tRound("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732");
@@ -2629,8 +2618,8 @@ public class CommandsTest {
 		t("yu1'(t, y1, y2) = ?", "?");
 		t("yu2'(t, y1, y2) = ?", "?");
 		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
-				new String[] { "NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
-						"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]" });
+				"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
+				"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]");
 	}
 
 	@Test
@@ -2840,7 +2829,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdPoissonWithDoubles() {
-		tRoundMaxPrecision("Poisson[10.5, 11..16]", "0.439655709066945");
+		t("Poisson[10.5, 11..16]", StringTemplate.maxPrecision, "0.439655709066945");
 	}
 
 	@Test
@@ -2902,19 +2891,19 @@ public class CommandsTest {
 	@Test
 	public void cmdPrism() {
 		tRound("Prism[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
-				new String[] { "0.5", "(1, 0, 1)", "(0, 1, 1)", "0.5", "1",
-						eval("sqrt(2)"), "1", "0.5", "1", eval("sqrt(2)"), "1",
-						"1", "1", "1", "1", eval("sqrt(2)"), "1" });
+				"0.5", "(1, 0, 1)", "(0, 1, 1)", "0.5", "1",
+				eval("sqrt(2)"), "1", "0.5", "1", eval("sqrt(2)"), "1",
+				"1", "1", "1", "1", eval("sqrt(2)"), "1");
 		tRound("Prism[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
-				new String[] { "0.5", "(1, 0, 1)", "(0, 1, 1)", "1",
-						eval("sqrt(2)"), "1", "0.5", "1", "1", "1", "1",
-						eval("sqrt(2)"), "1" });
+				"0.5", "(1, 0, 1)", "(0, 1, 1)", "1",
+				eval("sqrt(2)"), "1", "0.5", "1", "1", "1", "1",
+				eval("sqrt(2)"), "1");
 		tRound("Prism[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
-				new String[] { "72", "(-3, 0, 4)", "(0, -3, 4)", "(3, 0, 4)",
-						"(0, 3, 4)", eval("12sqrt(2)"), eval("12sqrt(2)"),
-						eval("12sqrt(2)"), eval("12sqrt(2)"), "18", "4", "4",
-						"4", "4", eval("3sqrt(2)"), eval("3sqrt(2)"),
-						eval("3sqrt(2)"), eval("3sqrt(2)") });
+				"72", "(-3, 0, 4)", "(0, -3, 4)", "(3, 0, 4)",
+				"(0, 3, 4)", eval("12sqrt(2)"), eval("12sqrt(2)"),
+				eval("12sqrt(2)"), eval("12sqrt(2)"), "18", "4", "4",
+				"4", "4", eval("3sqrt(2)"), eval("3sqrt(2)"),
+				eval("3sqrt(2)"), eval("3sqrt(2)"));
 	}
 
 	@Test
@@ -2932,15 +2921,15 @@ public class CommandsTest {
 	@Test
 	public void cmdPyramid() {
 		tRound("Pyramid[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
-				new String[] { eval("1/6"), "0.5", "0.5", eval("sqrt(3)/2"),
-						"0.5", "1", eval("sqrt(2)"), "1", "1", eval("sqrt(2)"),
-						eval("sqrt(2)"), });
+				eval("1/6"), "0.5", "0.5", eval("sqrt(3)/2"),
+				"0.5", "1", eval("sqrt(2)"), "1", "1", eval("sqrt(2)"),
+				eval("sqrt(2)"));
 		tRound("Pyramid[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
-				new String[] { eval("1/6"), "0.5", eval("sqrt(3)/2"), "0.5",
-						"1", eval("sqrt(2)"), eval("sqrt(2)"), });
+				eval("1/6"), "0.5", eval("sqrt(3)/2"), "0.5",
+				"1", eval("sqrt(2)"), eval("sqrt(2)"));
 		tRound("Pyramid[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
-				new String[] { "24", "(0, 0, 4)", "9.60469", "9.60469",
-						"9.60469", "9.60469", "5", "5", "5", "5" });
+				"24", "(0, 0, 4)", "9.60469", "9.60469",
+				"9.60469", "9.60469", "5", "5", "5", "5");
 	}
 
 	@Test
@@ -3108,14 +3097,14 @@ public class CommandsTest {
 
 	@Test
 	public void cmdRename() {
-		t("Rename[ 6*7, \"a\" ]", new String[0]);
+		t("Rename[ 6*7, \"a\" ]");
 		Assert.assertEquals(
 				get("a").toValueString(StringTemplate.defaultTemplate), "42");
-		t("Rename[ a, \"b\" ]", new String[0]);
+		t("Rename[ a, \"b\" ]");
 		Assert.assertEquals(
 				get("b").toValueString(StringTemplate.defaultTemplate), "42");
 		Assert.assertNull(get("a"));
-		t("Rename[ b, \"  cc  d  \" ]", new String[0]);
+		t("Rename[ b, \"  cc  d  \" ]");
 		Assert.assertEquals(
 				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
 		Assert.assertNull(get("b"));
@@ -3127,7 +3116,7 @@ public class CommandsTest {
 		assertNotNull(get("cc"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"A_{\" ]", "Illegal", app);
 		assertNotNull(get("cc"));
-		t("Rename[ cc, \"A_\" ]", new String[0]);
+		t("Rename[ cc, \"A_\" ]");
 		Assert.assertNull(get("cc"));
 		Assert.assertEquals(
 				get("A").toValueString(StringTemplate.defaultTemplate), "42");
@@ -3461,17 +3450,17 @@ public class CommandsTest {
 	@Test
 	public void cmdSetColor() {
 		t("A=(0,0,1)", "(0, 0, 1)");
-		t("SetColor[ A, \"lime\" ]", new String[0]);
+		t("SetColor[ A, \"lime\" ]");
 		Assert.assertEquals(GeoGebraColorConstants.LIME.toString(),
 				get("A").getObjectColor().toString());
-		t("SetColor[ A, \"orange\"^z(A) ]", new String[0]);
+		t("SetColor[ A, \"orange\"^z(A) ]");
 		Assert.assertEquals(GColor.ORANGE.toString(),
 				get("A").getObjectColor().toString());
-		t("SetColor[ A1, \"orange\"^z(A) ]", new String[0]);
-		t("SetColor[ A, 1, 0, 0 ]", new String[0]);
+		t("SetColor[ A1, \"orange\"^z(A) ]");
+		t("SetColor[ A, 1, 0, 0 ]");
 		Assert.assertEquals(GColor.RED.toString(),
 				get("A").getObjectColor().toString());
-		t("SetColor[ A, x(A), y(A), z(A) ]", new String[0]);
+		t("SetColor[ A, x(A), y(A), z(A) ]");
 		Assert.assertEquals(GColor.BLUE.toString(),
 				get("A").getObjectColor().toString());
 		Assert.assertEquals("A,A1",
@@ -3482,19 +3471,19 @@ public class CommandsTest {
 	public void cmdSetCoords() {
 		t("A=(1,1)", "(1, 1)");
 		t("B=(1,1,1)", "(1, 1, 1)");
-		t("SetCoords[ A, x((2,1/2))+1, 3 ]", new String[0]);
+		t("SetCoords[ A, x((2,1/2))+1, 3 ]");
 		t("A", "(3, 3)");
-		t("SetCoords[ B, 4, 5, 6 ]", new String[0]);
+		t("SetCoords[ B, 4, 5, 6 ]");
 		t("B", "(4, 5, 6)");
-		t("SetCoords[ B, 7, 8 ]", new String[0]);
+		t("SetCoords[ B, 7, 8 ]");
 		t("B", "(7, 8, 0)");
 
 		t("A=Point(xAxis)", "(0, 0)");
-		t("SetCoords(A,1/0,0)", new String[0]);
+		t("SetCoords(A,1/0,0)");
 		t("A", "(Infinity, 0)");
 
 		t("B=Point(x=2)", "(2, 0)");
-		t("SetCoords(B,0,1/0)", new String[0]);
+		t("SetCoords(B,0,1/0)");
 		t("B", "(2, Infinity)");
 	}
 
@@ -3502,33 +3491,33 @@ public class CommandsTest {
 	public void cmdSetBackgroundColor() {
 		t("txt=\"GeoGebra Rocks\"", "GeoGebra Rocks");
 		t("A=(0,0,1)", "(0, 0, 1)");
-		t("SetBackgroundColor[ \"red\" ]", new String[0]);
+		t("SetBackgroundColor[ \"red\" ]");
 		Assert.assertEquals(
 				app.getActiveEuclidianView().getBackgroundCommon().toString(),
 				GColor.RED.toString());
-		t("SetBackgroundColor[ 1, 1, 1 ]", new String[0]);
+		t("SetBackgroundColor[ 1, 1, 1 ]");
 		Assert.assertEquals(
 				app.getActiveEuclidianView().getBackgroundCommon().toString(),
 				GColor.WHITE.toString());
-		t("SetBackgroundColor[ \"orange\"^z(A) ]", new String[0]);
+		t("SetBackgroundColor[ \"orange\"^z(A) ]");
 		Assert.assertEquals(
 				app.getActiveEuclidianView().getBackgroundCommon().toString(),
 				GColor.ORANGE.toString());
-		t("SetBackgroundColor[ x(A), y(A), z(A) ]", new String[0]);
+		t("SetBackgroundColor[ x(A), y(A), z(A) ]");
 		Assert.assertEquals(
 				app.getActiveEuclidianView().getBackgroundCommon().toString(),
 				GColor.BLUE.toString());
-		t("SetBackgroundColor[ txt, \"lime\" ]", new String[0]);
+		t("SetBackgroundColor[ txt, \"lime\" ]");
 		Assert.assertEquals(GeoGebraColorConstants.LIME.toString(),
 				get("txt").getBackgroundColor().toString());
-		t("SetBackgroundColor[txt, 0, 1, 0 ]", new String[0]);
+		t("SetBackgroundColor[txt, 0, 1, 0 ]");
 		Assert.assertEquals(GColor.GREEN.toString(),
 				get("txt").getBackgroundColor().toString());
-		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]", new String[0]);
+		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]");
 		Assert.assertEquals(GColor.BLUE.toString(),
 				get("txt").getBackgroundColor().toString());
-		t("SetBackgroundColor[ A1, \"orange\"^z(A) ]", new String[0]);
-		t("SetBackgroundColor[ A1, 0, 1, 1 ]", new String[0]);
+		t("SetBackgroundColor[ A1, \"orange\"^z(A) ]");
+		t("SetBackgroundColor[ A1, 0, 1, 1 ]");
 		Assert.assertEquals("txt,A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 	}
@@ -3538,10 +3527,10 @@ public class CommandsTest {
 		t("a:x+y", "x + y");
 		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
 				SurfaceEvaluable.LevelOfDetail.SPEED);
-		t("SetLevelOfDetail(a,0)", new String[0]);
+		t("SetLevelOfDetail(a,0)");
 		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
 				SurfaceEvaluable.LevelOfDetail.SPEED);
-		t("SetLevelOfDetail(a,1)", new String[0]);
+		t("SetLevelOfDetail(a,1)");
 		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
 				SurfaceEvaluable.LevelOfDetail.QUALITY);
 	}
@@ -4131,11 +4120,11 @@ public class CommandsTest {
 	@Test
 	public void cmdUnion() {
 		t("join=Union[Polygon[(1,1),(1,0),(0,1)],Polygon[(0,0),(1,0),(0,1)]]",
-				new String[] { "1", "(1, 0)", "(1, 1)", "(0, 1)", "(0, 0)", "1",
-						"1", "1", "1" });
+				"1", "(1, 0)", "(1, 1)", "(0, 1)", "(0, 0)", "1",
+				"1", "1", "1");
 		t("join=Union[Polygon[(1,1,0),(1,0,0),(0,1,0)],Polygon[(0,0,0),(1,0,0),(0,1,0)]]",
-				new String[] { "1", "(1, 0, 0)", "(0, 0, 0)", "(0, 1, 0)",
-						"(1, 1, 0)", "1", "1", "1", "1" });
+				"1", "(1, 0, 0)", "(0, 0, 0)", "(0, 1, 0)",
+				"(1, 1, 0)", "1", "1", "1", "1");
 		t("Union[{1,2,3}, {2,2,2,4,4,4}]", "{1, 2, 3, 4}");
 		t("Union[{\"1\",\"2\",\"3\"}, {\"2\",\"2\",\"2\",\"4\",\"4\",\"4\"}]",
 				"{\"1\", \"2\", \"3\", \"4\"}");
@@ -4190,13 +4179,13 @@ public class CommandsTest {
 	@Test
 	public void cmdVertex() {
 		t("Vertex[ x^2/9+y^2/4 =1 ]",
-				new String[] { "(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)" });
+				"(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)");
 		tRound("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
 				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421),"
 						+ " (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189),"
 						+ " (1.30208, 0.55189)}");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
-				new String[] { "(0, 0)", "(1, 0)", "(0, 1)" });
+				"(0, 0)", "(1, 0)", "(0, 1)");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]", "(1, 0)");
 		t("Vertex[ Segment[(1,0),(0,1)], 1]", "(1, 0)");
 	}
