@@ -1309,8 +1309,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			alphaValue = geo.alphaValue;
 		} else {
 			fillColor = geo.objColor;
-			setAlphaValue(geo.getAlphaValue());
 		}
+
+		// if the original geo was not fillable or the current geo is an inequality
+		// then set the alpha from the construction defaults (otherwise when redefining
+		// x = y or x^2 = y to an inequality the result would have an alpha of 0)
+		if (!geo.isFillable() || isInequality()) {
+			ConstructionDefaults defaults = cons.getConstructionDefaults();
+			setAlphaValue(defaults.getDefaultGeo(defaults.getDefaultType(this)).getAlphaValue());
+		}
+
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 
@@ -1322,6 +1330,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
 			}
 		}
+	}
+
+	/**
+	 * @return whether this element is an inequality (in one or more variables)
+	 */
+	public boolean isInequality() {
+		return false;
 	}
 
 	/**
