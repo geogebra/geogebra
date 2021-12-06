@@ -3759,6 +3759,8 @@ public class CommandsTest {
 		t("Sum[ listSum , 0 ]", "0");
 		t("Sum[{x+y,0x+y}]", "x + y + (0 * x) + y");
 		t("Sum[{x,y}]", "x + y");
+		t("Sum[x+1,x+2,x+3]", "x + 1 + x + 2 + x + 3");
+		t("Sum[x+1+y,x+2+y,x+3+y]", "x + 1 + y + x + 2 + y + x + 3 + y");
 		t("Sum[{(1,2),(3,4)}]", "(4, 6)");
 		t("Sum[{(1,2,7),(3,4),(1,1,1)}]", "(5, 7, 8)");
 		t("Sum[{\"Geo\",\"Gebra\"}]", "GeoGebra");
