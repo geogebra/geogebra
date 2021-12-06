@@ -75,6 +75,33 @@ public class CmdSetValueTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void numberShouldStayUndefined() {
+		add("k=42");
+		GeoElement n = add("n=3k+1");
+		add("SetValue(n,?)");
+		assertEquals("?", n.getDefinition(StringTemplate.defaultTemplate));
+		reload();
+		n = lookup("n");
+		assertThat(n, not(isDefined()));
+	}
+
+	@Test
+	public void functionShouldStayUndefined() {
+		add("k=42");
+		GeoElement f = add("f(x)=3k+x");
+		GeoElement g = add("g(x)=3k+x");
+		add("SetValue(f,?)");
+		add("SetValue(g,?)");
+		assertEquals("?", f.getDefinition(StringTemplate.defaultTemplate));
+		assertEquals("?", g.getDefinition(StringTemplate.defaultTemplate));
+		reload();
+		f = lookup("f");
+		g = lookup("f");
+		assertThat(f, not(isDefined()));
+		assertThat(g, not(isDefined()));
+	}
+
+	@Test
 	public void pointShouldKeepType() {
 		add("k=42");
 		GeoElement pt3d = add("P=(1,2,k)");
