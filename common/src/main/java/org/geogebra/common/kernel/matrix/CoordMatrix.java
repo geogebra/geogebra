@@ -1358,7 +1358,7 @@ public class CoordMatrix {
 
 	/**
 	 * makes Gauss pivot about this matrix and compute sol so that this * sol =
-	 * retgit push --set-upstream origin apps-3345
+	 * ret
 	 * 
 	 * @param sol
 	 *            solution
