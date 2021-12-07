@@ -1083,7 +1083,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @return JSON describing editor state
 	 */
 	public String getEditorState() {
-			return editor == null ? "" : editor.getState();
+		return editor == null ? "" : editor.getState();
 	}
 
 	/**
