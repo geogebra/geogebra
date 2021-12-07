@@ -44,6 +44,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
@@ -4161,6 +4162,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getSlideID() {
 		return "";
+	}
+
+	public Layout getLayout() {
+		return getGuiManager() == null ? null : getGuiManager().getLayout();
 	}
 
 	/**

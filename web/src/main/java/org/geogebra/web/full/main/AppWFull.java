@@ -25,7 +25,6 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -554,8 +553,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
 		Perspective p = null;
-		if (isUnbundledOrWhiteboard()) {
-			LayoutW.resetPerspectives(this);
+		if (isUnbundledOrWhiteboard() && getGuiManager() != null) {
+			getGuiManager().getLayout().resetPerspectives(this);
 		}
 
 		if (getGuiManager() != null) {
@@ -563,7 +562,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		if (isUnbundledOrWhiteboard()) {
-			p = PerspectiveDecoder.getDefaultPerspective(getConfig().getForcedPerspective());
+			p = PerspectiveDecoder.getDefaultPerspective(getConfig().getForcedPerspective(),
+					getGuiManager().getLayout());
 		}
 
 		if (isPortrait()) {
@@ -1542,7 +1542,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (perspective != null && !StringUtil.isNaN(perspective)) {
 				p = PerspectiveDecoder.decode(perspective,
 						this.getKernel().getParser(),
-						ToolBar.getAllToolsNoMacros(true, false, this));
+						ToolBar.getAllToolsNoMacros(true, false, this),
+						getLayout());
 			}
 
 			if (isUnbundled()) {
@@ -1631,7 +1632,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		Perspective fromXml = getTmpPerspective(perspective);
 
 		Perspective forcedPerspective = PerspectiveDecoder
-				.getDefaultPerspective(getConfig().getForcedPerspective());
+				.getDefaultPerspective(getConfig().getForcedPerspective(),
+						getGuiManager().getLayout());
 
 		LayoutW layout = getGuiManager().getLayout();
 		updateAvVisibility(forcedPerspective, fromXml);
@@ -1932,16 +1934,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = frame.computeHeight();
-		if (showAlgebraInput()
-				&& getInputPosition() != InputPosition.algebraView
-				&& getGuiManager().getAlgebraInput() != null) {
-			newHeight -= getGuiManager().getAlgebraInput()
-					.getOffsetHeight();
-		}
-		if (getToolbar() != null && getToolbar().isShown()) {
-			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
-		}
+		int newHeight = frame.computeHeight() - getToolbarAndInputbarHeight();
 
 		if (frame.isKeyboardShowing()) {
 			newHeight -= frame.getKeyboardHeight();
@@ -1955,6 +1948,23 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				getGuiManager().updateUnbundledToolbar();
 			}
 		}
+	}
+
+	/**
+	 * @return toolbar height (if toolbar visible) + input bar height (if visible)
+	 */
+	public int getToolbarAndInputbarHeight() {
+		int height = 0;
+		if (showAlgebraInput()
+				&& getInputPosition() != InputPosition.algebraView
+				&& getGuiManager().getAlgebraInput() != null) {
+			height += getGuiManager().getAlgebraInput()
+					.getOffsetHeight();
+		}
+		if (getToolbar() != null && getToolbar().isShown()) {
+			height += GLookAndFeel.TOOLBAR_HEIGHT;
+		}
+		return height;
 	}
 
 	@Override
@@ -2223,7 +2233,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public void endExam() {
 		setExam(null);
 		resetViewsEnabled();
-		LayoutW.resetPerspectives(this);
+		getGuiManager().getLayout().resetPerspectives(this);
 		getLAF().addWindowClosingHandler(this);
 		fireViewsChangedEvent();
 		guiManager.updateToolbarActions();
@@ -2234,7 +2244,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		guiManager.resetMenu();
 		guiManager.resetBrowserGUI();
 		guiManager.updateUnbundledToolbarContent();
-		setActivePerspective(Layout.getDefaultPerspectives(0));
+		setActivePerspective(getGuiManager().getLayout().getDefaultPerspectives(0));
 	}
 
 	@Override
@@ -2292,7 +2302,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
-				getConfig().getForcedPerspective());
+				getConfig().getForcedPerspective(), getGuiManager().getLayout());
 		updateSidebarAndMenu(subAppCode);
 		reinitSettings();
 		clearConstruction();
