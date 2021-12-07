@@ -10,6 +10,8 @@ import org.geogebra.web.html5.main.AppW;
 
 public class AutoCompletePopup extends GPopupMenuW {
 
+	private int prefixLength = 0;
+
 	/**
 	 * constructor for the command autocomplete popup
 	 * @param app - see {@link AppW}
@@ -21,6 +23,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	private void fillContent(final String curWord) {
+		prefixLength = curWord.length();
 		getApp().getParserFunctions().getCompletions(curWord).stream()
 				.map(syntax -> syntax.split("\\(")[0])
 				.forEach(this::addRow);
@@ -32,12 +35,19 @@ public class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	private void addRow(String command) {
-		AriaMenuItem menuItem = new AriaMenuItem(command, false, new AriaMenuBar());
+		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(command),
+				true, new AriaMenuBar());
 		menuItem.addStyleName("no-image");
 		menuItem.setFocusable(false);
 		getPopupMenu().appendSubmenu(menuItem, MaterialDesignResources
 				.INSTANCE.arrow_drop_right_black());
 		getPopupMenu().addItem(menuItem);
+	}
+
+	private String highlightSuffix(String command) {
+		String prefix = command.substring(0, prefixLength);
+		String suffix = command.substring(prefixLength);
+		return prefix + "<strong>" + suffix + "</strong>";
 	}
 
 	/**
