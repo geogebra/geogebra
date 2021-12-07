@@ -6,7 +6,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -78,13 +77,7 @@ public class GCollapseMenuItem {
 		itemPanel.addStyleName("collapseMenuItem");
 		this.parentMenu = wrappedPopup;
 		menuItem = new AriaMenuItem(itemPanel.toString(), true,
-				new ScheduledCommand() {
-
-					@Override
-					public void execute() {
-						toggle();
-					}
-				});
+				this::toggle);
 		setExpanded(expanded);
 	}
 

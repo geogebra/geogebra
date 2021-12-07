@@ -2,13 +2,14 @@ package org.geogebra.common.kernel.interval;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 
 public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval exp(Interval interval) {
-		if (!interval.isEmpty()) {
+		if (!interval.isUndefined()) {
 			interval.set(RMath.expLow(interval.getLow()),
 					RMath.expHigh(interval.getHigh()));
 		}
@@ -17,9 +18,9 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval log(Interval interval) {
-		if (!interval.isEmpty()) {
+		if (!interval.isUndefined()) {
 			if (interval.getHigh() < 0) {
-				interval.setEmpty();
+				interval.setUndefined();
 			} else {
 				double low = interval.getLow();
 				interval.set(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
@@ -31,9 +32,9 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval log2(Interval interval) {
-		if (!interval.isEmpty()) {
+		if (!interval.isUndefined()) {
 			Interval logExp2 = IntervalOperands.log(new Interval(2, 2));
-			divide(log(interval), logExp2);
+			return divide(log(interval), logExp2);
 		}
 
 		return interval;
@@ -41,9 +42,9 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval log10(Interval interval) {
-		if (!interval.isEmpty()) {
+		if (!interval.isUndefined()) {
 			Interval logExp10 = IntervalOperands.log(new Interval(10, 10));
-			divide(log(interval), logExp10);
+			return divide(log(interval), logExp10);
 		}
 
 		return interval;
@@ -51,11 +52,11 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval hull(Interval interval, Interval other) {
-		if (interval.isEmpty() && other.isEmpty()) {
-			interval.setEmpty();
- 		} else if (interval.isEmpty()) {
+		if (interval.isUndefined() && other.isUndefined()) {
+			interval.setUndefined();
+ 		} else if (interval.isUndefined()) {
 			interval.set(other);
-		} else if (!other.isEmpty()) {
+		} else if (!other.isUndefined()) {
 			interval.set(Math.min(interval.getLow(), other.getLow()),
 					Math.max(interval.getHigh(), other.getHigh()));
 		}
@@ -65,24 +66,24 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval intersect(Interval interval, Interval other) {
-		if (interval.isEmpty() || other.isEmpty()) {
-			interval.setEmpty();
+		if (interval.isUndefined() || other.isUndefined()) {
+			interval.setUndefined();
 		} else {
 			double low = Math.max(interval.getLow(), other.getLow());
 			double high = Math.min(interval.getHigh(), other.getHigh());
 			if (low <= high) {
 				interval.set(low, high);
 			} else {
-				interval.setEmpty();
+				interval.setUndefined();
 			}
 		}
 		return interval;
 	}
 
 	@Override
-	public Interval union(Interval interval, Interval other) throws IntervalsNotOverlapException {
+	public Interval union(Interval interval, Interval other) {
 		if (!interval.isOverlap(other)) {
-			throw new IntervalsNotOverlapException();
+			return undefined();
 		}
 		interval.set(Math.min(interval.getLow(), other.getLow()),
 				Math.max(interval.getHigh(), other.getHigh()));
@@ -90,21 +91,20 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	}
 
 	@Override
-	public Interval difference(Interval interval, Interval other)
-			throws IntervalsDifferenceException {
-		if (interval.isEmpty() || other.isWhole()) {
-			interval.setEmpty();
+	public Interval difference(Interval interval, Interval other) {
+		if (interval.isUndefined() || other.isWhole()) {
+			interval.setUndefined();
 			return interval;
 		}
 
 		if (interval.isOverlap(other)) {
 			if (interval.getLow() < other.getLow() && other.getHigh() < interval.getHigh()) {
-				throw new IntervalsDifferenceException();
+				return undefined();
 			}
 
 			if ((other.getLow() <= interval.getLow() && other.getHigh() == POSITIVE_INFINITY)
 				|| (other.getHigh() >= interval.getHigh() && other.getLow() == NEGATIVE_INFINITY)) {
-				interval.setEmpty();
+				interval.setUndefined();
 				return interval;
 			}
 
@@ -119,7 +119,20 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 
 	@Override
 	public Interval abs(Interval interval) {
-		if (interval.isEmpty() || interval.getLow() >= 0 || interval.isUndefined()) {
+		if (interval.isUndefined() || interval.getLow() >= 0) {
+			return interval;
+		}
+
+		if (interval.isInverted()) {
+			interval.setUndefined();
+			return interval;
+		}
+
+		if (interval.isWhole()) {
+			interval.set(0, POSITIVE_INFINITY);
+			if (interval.isInverted()) {
+				interval.uninvert();
+			}
 			return interval;
 		}
 

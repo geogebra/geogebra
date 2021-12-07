@@ -223,8 +223,8 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	private boolean isEmptyString(Object jsFunctionName) {
-		return (jsFunctionName instanceof String
-				&& ((String) jsFunctionName).length() == 0);
+		return jsFunctionName instanceof String
+				&& ((String) jsFunctionName).length() == 0;
 	}
 
 	/**

@@ -12,8 +12,8 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.layout.Perspective;
@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -244,11 +245,10 @@ public abstract class GlobalKeyDispatcher {
 	 * keyboard.
 	 * @param geos moved geos
 	 * @param diff translation in x, y and z directions
-	 * @param increment multiplier for x,y,z
 	 * @return whether any object was moved
 	 */
 	public boolean handleArrowKeyMovement(List<GeoElement> geos,
-			double[] diff, double increment) {
+			double[] diff) {
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
@@ -270,8 +270,14 @@ public abstract class GlobalKeyDispatcher {
 			tempVec = new Coords(4); // 4 coords for 3D
 		}
 
+		if (app.getActiveEuclidianView().getPointCapturingMode()
+				== EuclidianStyleConstants.POINT_CAPTURING_ON_GRID) {
+			for (int i = 0; i < 2; i++) {
+				diff[i] = Math.signum(diff[i]) * MyMath.nextMultiple(Math.abs(diff[i]),
+						app.getActiveEuclidianView().getGridDistances(i));
+			}
+		}
 		tempVec.set(diff);
-		tempVec.mulInside(increment);
 
 		// move objects
 		boolean moved = MoveGeos.moveObjects(geos, tempVec, null, null,
@@ -762,7 +768,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case V:
 			// check not spreadsheet, not inputbar
-			if (!(fromSpreadsheet)) {
+			if (!fromSpreadsheet) {
 				handleCtrlV();
 			}
 			break;
@@ -821,14 +827,6 @@ public abstract class GlobalKeyDispatcher {
 		case SUBTRACT:
 		case MINUS:
 		case EQUALS:
-
-			// in Chrome and IE11, both the applet and the
-			// browser are zoomed
-			// even when the applet has focus
-			if (app.isHTML5Applet()) {
-				break;
-			}
-
 			// disable zooming in PEN mode
 			if (!EuclidianView
 					.isPenMode(app.getActiveEuclidianView().getMode())) {
@@ -844,8 +842,8 @@ public abstract class GlobalKeyDispatcher {
 					double factor = key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT)
 							? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 							: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-
-					ec.zoomInOut(factor, 15, ec.mouseLoc.x, ec.mouseLoc.y);
+					GPoint zoomPoint = getZoomPoint(ec);
+					ec.zoomInOut(factor, 15, zoomPoint.x, zoomPoint.y);
 					app.setUnsaved();
 					consumed = true;
 				}
@@ -894,7 +892,7 @@ public abstract class GlobalKeyDispatcher {
 						geo.setSelectionAllowed(true);
 
 						// fix/unfix sliders
-						if ((geo.isGeoNumeric() && geo.isIndependent())) {
+						if (geo.isGeoNumeric() && geo.isIndependent()) {
 							((GeoNumeric) geo)
 									.setSliderFixed(!selectionAllowed);
 						}
@@ -910,6 +908,14 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
+	private GPoint getZoomPoint(EuclidianController ec) {
+		if (ec.getMouseLoc() != null) {
+			return ec.getMouseLoc();
+		} else {
+			return new GPoint(ec.getView().getWidth() / 2, ec.getView().getWidth() / 2);
+		}
+	}
+
 	/**
 	 * Change algebra style value -&gt; definition -&gt; description ...
 	 * 
@@ -923,10 +929,6 @@ public abstract class GlobalKeyDispatcher {
 				(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
 
 		kernel.updateConstruction(false);
-		/*
-		 * if (app.hasOptionsMenu()) {
-		 * app.getOptionsMenu(null).updateMenuViewDescription(); }
-		 */
 		app.setUnsaved();
 	}
 
@@ -941,7 +943,6 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private void handleEscForDropdown() {
-		// Log.debug("handleEscForDropdown");
 		ArrayList<GeoElement> geos = selection.getSelectedGeos();
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
@@ -1420,8 +1421,10 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-			double[] diff = new double[] { changeValX, changeValY, changeValZ };
-			moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
+			double increment = getIncrement(geos);
+			double[] diff = new double[] { changeValX * increment,
+					changeValY * increment, changeValZ * increment};
+			moved = handleArrowKeyMovement(geos, diff);
 			hasUnsavedGeoChanges = true;
 		}
 

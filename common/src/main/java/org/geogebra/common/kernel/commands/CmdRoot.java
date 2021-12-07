@@ -42,7 +42,7 @@ public class CmdRoot extends CommandProcessor {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0].isRealValuedFunction())) {
+			if (arg[0].isRealValuedFunction()) {
 				GeoFunctionable gf = (GeoFunctionable) arg[0];
 				return root(c, gf);
 			}

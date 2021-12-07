@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -1632,8 +1633,22 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		if (getSettings().getEuclidian(-1) != null) {
-			getSettings().getEuclidian(-1)
-					.setEnabled(getAppletParameters().getDataParamEnable3D(true));
+			if (getAppletParameters().getDataParamEnable3D(false)
+					|| !getAppletParameters().getDataParamEnable3D(true)) {
+				getSettings().getEuclidian(-1)
+						.setEnabled(getAppletParameters().getDataParamEnable3D(false));
+			}
+		}
+
+		String disableCAS = Window.Location.getParameter("disableCAS");
+		if ("".equals(disableCAS) || "true".equals(disableCAS)) {
+			kernel.getAlgebraProcessor()
+					.addCommandFilter(CommandFilterFactory.createNoCasCommandFilter());
+			enableCAS(false);
+		}
+		String disable3D = Window.Location.getParameter("disable3D");
+		if ("".equals(disable3D) || "true".equals(disable3D)) {
+			getSettings().getEuclidian(-1).setEnabled(false);
 		}
 	}
 
@@ -1891,7 +1906,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public boolean showView(int view) {
 		if (getGuiManager() == null) {
-			return (view == App.VIEW_EUCLIDIAN);
+			return view == App.VIEW_EUCLIDIAN;
 		}
 		return getGuiManager().showView(view);
 	}
@@ -3508,5 +3523,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} catch (Throwable e) {
 			Log.debug("Could not initialize analytics object.");
 		}
+	}
+
+	/**
+	 * If the current app supports subapps, witch suite to the given subapp,
+	 * clearing all construction, and resetting almost all the settings
+	 * @param appCode "graphing", "3d", "cas", "geometry" or "probability"
+	 */
+	public void switchToSubapp(String appCode) {
+		// only with UI
 	}
 }

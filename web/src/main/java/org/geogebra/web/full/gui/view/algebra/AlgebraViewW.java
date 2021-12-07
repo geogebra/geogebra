@@ -1321,7 +1321,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			node = getItem(parent, right - 2);
 			right--;
 		}
-		GeoElement geo2 = ((GeoElement) node.getUserObject());
+		GeoElement geo2 = (GeoElement) node.getUserObject();
 
 		if (compare(newGeo, geo2, mode)) {
 			return right;

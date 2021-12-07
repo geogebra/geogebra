@@ -329,7 +329,7 @@ public abstract class GeoGebraExport {
 	protected void drawGeoElement(GeoElement g, boolean fromGeoList,
 			boolean trimmedInter) {
 		if (g.isGeoList()) {
-			GeoList geo = ((GeoList) g);
+			GeoList geo = (GeoList) g;
 			for (int i = 0; i < geo.size(); i++) {
 				drawGeoElement(geo.get(i), true, false);
 			}
@@ -1053,7 +1053,7 @@ public abstract class GeoGebraExport {
 			break;
 		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
 			// vector (vx, vy) to get 2 points around midpoint
-			factor = tickSpacing / (nLength);
+			factor = tickSpacing / nLength;
 			vx = -ny * factor;
 			vy = nx * factor;
 			// use perpendicular vector to set ticks
@@ -1077,7 +1077,7 @@ public abstract class GeoGebraExport {
 			break;
 		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
 			// vector (vx, vy) to get 2 points around midpoint
-			factor = tickSpacing / (nLength);
+			factor = tickSpacing / nLength;
 			vx = -ny * factor;
 			vy = nx * factor;
 			// use perpendicular vector to set ticks
@@ -1257,9 +1257,9 @@ public abstract class GeoGebraExport {
 	}
 
 	protected void drawAllElements() {
-		boolean increment = (euclidianView.getShowGrid()
+		boolean increment = euclidianView.getShowGrid()
 				|| euclidianView.getShowXaxis()
-				|| euclidianView.getShowYaxis());
+				|| euclidianView.getShowYaxis();
 		for (int step = 0; step < construction.steps(); step++) {
 			if (increment) {
 				beamerSlideNumber = step + 2;
@@ -1273,14 +1273,13 @@ public abstract class GeoGebraExport {
 				drawGeoElement(g, false, false);
 			}
 		}
-
 	}
 
 	// added by Hoszu Henrietta
 	protected void drawAllInDependentElements() {
-		boolean increment = (euclidianView.getShowGrid()
+		boolean increment = euclidianView.getShowGrid()
 				|| euclidianView.getShowXaxis()
-				|| euclidianView.getShowYaxis());
+				|| euclidianView.getShowYaxis();
 		for (int step = 0; step < construction.steps(); step++) {
 			if (increment) {
 				beamerSlideNumber = step + 2;

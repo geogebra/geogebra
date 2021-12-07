@@ -113,7 +113,7 @@ public class FunctionExpander implements Traversing {
 					GeoSymbolic symbolic = (GeoSymbolic) geo;
 					FunctionExpander expander = newFunctionExpander(symbolic);
 					en2 = (ExpressionNode) symbolic.getValue().wrap()
-							.getCopy((symbolic).getKernel()).traverse(expander);
+							.getCopy(symbolic.getKernel()).traverse(expander);
 					fv = ((GeoSymbolic) geo).getFunctionVariables();
 				}
 				if (geo instanceof GeoCasCell) {

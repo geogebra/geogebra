@@ -256,7 +256,7 @@ abstract class QuadTree {
 				.evaluateImplicitCurve(pts[0].x, pts[0].y, factor));
 		double q = Math.abs(this.geoImplicitCurve
 				.evaluateImplicitCurve(pts[1].x, pts[1].y, factor));
-		if ((p <= q1 && q <= q2)) {
+		if (p <= q1 && q <= q2) {
 			return VALID;
 		}
 		return EMPTY;

@@ -122,7 +122,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		boolean isgoingup = true; // Max or Min...
 		double l = left.getDouble();
 		double r = right.getDouble();
-		double epsilon = Math.abs((r - l)) / 1.0E15; // About 15 digits accuracy
+		double epsilon = Math.abs(r - l) / 1.0E15; // About 15 digits accuracy
 		double diff = epsilon * 2.0; // To start iteration...
 
 		boolean didslice = false;
@@ -220,10 +220,10 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		if (Double.isNaN(y)) {
 			E.setUndefined();
 		} // Check infinity, discontinuity
-		if (max <= (ld/* +epsilon */)) {
+		if (max <= ld/* +epsilon */) {
 			E.setUndefined();
 		} // Check not on left endpoint of interval
-		if ((rd/*-epsilon*/) <= max) {
+		if (rd/*-epsilon*/ <= max) {
 			E.setUndefined();
 		} // Check not on right endpoint of interval
 

@@ -7,14 +7,12 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 class StepInformation extends DockPanel {
 
@@ -75,12 +73,7 @@ class StepInformation extends DockPanel {
 
             stepsButton = new StandardButton("Show Steps");
             stepsButton.setStyleName("solverButton");
-            stepsButton.addFastClickHandler(new FastClickHandler() {
-                @Override
-                public void onClick(Widget source) {
-                    showSteps();
-                }
-            });
+            stepsButton.addFastClickHandler(source -> showSteps());
             add(stepsButton, DockPanel.EAST);
         } else {
             add(builder.createRow(display, false), DockPanel.WEST);

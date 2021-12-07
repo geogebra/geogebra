@@ -549,8 +549,8 @@ public class MyNumberFormat {
 		if (Double.isNaN(number0)) {
 			return MyNumberConstants.notANumber;
 		}
-		boolean isNegative = ((number0 < 0.0)
-				|| (number0 == 0.0 && 1 / number0 < 0.0));
+		boolean isNegative = (number0 < 0.0)
+				|| (number0 == 0.0 && 1 / number0 < 0.0);
 		double number;
 		if (isNegative) {
 			number = -number0;

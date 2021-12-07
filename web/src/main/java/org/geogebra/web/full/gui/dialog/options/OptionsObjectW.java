@@ -80,11 +80,6 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -343,13 +338,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			intervalLabel = new FormLabel("").setFor(intervalLB);
 			mainWidget.add(intervalLabel);
 
-			intervalLB.addChangeHandler(new ChangeHandler() {
-
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyChanges(getIndex());
-				}
-			});
+			intervalLB.addChangeHandler(event -> model.applyChanges(getIndex()));
 
 			mainWidget.add(intervalLB);
 			setWidget(mainWidget);
@@ -769,16 +758,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		wrappedPanel.setStyleName("propertiesPanel");
 		tabPanel = new MultiRowsTabPanel();
 
-		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				// updateGUI();
-				for (OptionsTab tab : tabs) {
-					tab.setFocused(false);
-				}
-				tabs.get(event.getSelectedItem()).initGUI(isDefaults);
-				onTabSelection.run();
+		tabPanel.addSelectionHandler(event -> {
+			// updateGUI();
+			for (OptionsTab tab : tabs) {
+				tab.setFocused(false);
 			}
+			tabs.get(event.getSelectedItem()).initGUI(isDefaults);
+			onTabSelection.run();
 		});
 		((Widget) tabPanel).setStyleName("propertiesPanel");
 		createBasicTab();
@@ -798,13 +784,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		}
 
 		wrappedPanel.add(tabPanel);
-		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
-
-			@Override
-			public void onAttachOrDetach(AttachEvent event) {
-				app.setDefaultCursor();
-				reinit(); // re-attach the text editor
-			}
+		wrappedPanel.addAttachHandler(event -> {
+			app.setDefaultCursor();
+			reinit(); // re-attach the text editor
 		});
 		wrappedPanel.setVisible(false);
 		selectTab(0);

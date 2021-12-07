@@ -47,10 +47,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.Caption:empty {
 			display: none;
 		}
-
-		.DialogButtonPanel .gwt-Label {
-			text-align: center;
-		}
 	}
 
 	.dialogComponent.colorChooser {
@@ -430,28 +426,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.scriptArea {
 			padding-right: 16px;
-		}
-
-		.DialogButtonPanel {
-			height: 36px;
-			text-align: right;
-			padding-top: 32px;
-			padding-right: 0px;
-			padding-bottom: 8px;
-			padding-left: 0px;
-
-			.gwt-Button, .button {
-				@extend .flatDialogBtn;
-
-				.html-face {
-					text-align: center;
-				}
-
-				.gwt-Label {
-					cursor: pointer;
-					text-align: center;
-				}
-			}
 		}
 
 		.moreBtn {
@@ -855,18 +829,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 		}
 
-		.DialogButtonPanel {
-			min-width: unset;
-			max-width: unset;
-
-			.button {
-				color: colors.$mow_dark;
-				&:hover {
-					color: colors.$mow_dark;
-				}
-			}
-		}
-
 		.progressBar {
 			margin-left: auto;
 			margin-right: auto;
@@ -1130,12 +1092,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-top: 12px;
 			width: 478px;
 		}
-
-		.DialogButtonPanel {
-			.button {
-				color: colors.$mow_dark;
-			}
-		}
 	}
 
 	.saveDialogMow {
@@ -1168,14 +1124,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				height: 28px;
 				line-height: 28px;
 				color: colors.$text-primary;
-			}
-		}
-
-		.DialogButtonPanel {
-			padding-top: 8px;
-
-			.button {
-				color: colors.$mow_dark;
 			}
 		}
 	}
@@ -1221,14 +1169,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.MaterialDialogBox.mow {
-		.DialogButtonPanel {
-			.gwt-Button {
-				color: colors.$mow_dark;
-				&:hover {
-					color: colors.$mow_dark;
-				}
-			}
-		}
 		.AutoCompleteTextFieldW {
 			border-bottom: 1px solid colors.$mow_dark;
 		}
@@ -1711,7 +1651,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.calcChooser {
 			 max-width: 832px;
 			 min-height: 232px;
-			 width: calc(100% - 80px);
 			 left: 0px;
 			 padding: 48px 36px;
 			 border-radius: 2px;
@@ -1912,6 +1851,59 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogThreeTabs .gwt-TabBarItem {
 		min-width: 30%;
 	}
+
+
+	.perspectivePopup {
+		width: 280px;
+
+		.listMenuItem img {
+			opacity: 1;
+		}
+
+		.listMenuItem {
+			height: 48px;
+			line-height: 36px;
+			padding: 8px 16px 8px 56px;
+		}
+
+		.menuSeparator {
+			width: 100%;
+		}
+
+		.downloadItem {
+			img {
+				opacity: 0.54;
+			}
+
+			.gwt-Label {
+				line-height: 32px;
+			}
+		}
+
+		.headerItem {
+			padding-left: 24px;
+
+			.headerPanel {
+				display: inline-flex;
+
+				.gwt-Label {
+					width: 200px;
+				}
+
+				.helpBtn {
+					position: relative;
+					display: inline-flex;
+					opacity: 0.54;
+				}
+			}
+
+			&.selectedItem {
+				background: white;
+				cursor: default;
+			}
+		}
+	}
+}
 
 	.imageDialog {
 		.messagePanel {

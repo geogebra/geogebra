@@ -323,8 +323,8 @@ public class GeoConicPartParameters {
 				arg += Kernel.PI_2;
 			}
 
-			return ((arg >= -Kernel.STANDARD_PRECISION)
-					&& (arg <= paramExtent + Kernel.STANDARD_PRECISION));
+			return (arg >= -Kernel.STANDARD_PRECISION)
+					&& (arg <= paramExtent + Kernel.STANDARD_PRECISION);
 		}
 
 		// for arc, check if is inside the arc : cross product with limit

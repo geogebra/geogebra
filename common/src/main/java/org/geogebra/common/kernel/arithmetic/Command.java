@@ -162,7 +162,7 @@ public class Command extends ValidExpression
 			// XML Handler looks up labels of GeoElements
 			// so we may end up having a GeoElement object here
 			// return its name to use as local variable name
-			GeoElement geo = ((GeoElement) ev);
+			GeoElement geo = (GeoElement) ev;
 			if (geo.isLabelSet() || geo.isLocalVariable()) {
 				return ((GeoElement) ev).getLabelSimple();
 			}

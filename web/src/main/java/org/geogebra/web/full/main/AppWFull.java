@@ -67,6 +67,8 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -152,7 +154,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
-import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -289,7 +290,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (showMenuBar()) {
 			setupSignInButton(header);
 		}
-		if (getConfig().getVersion() == GeoGebraConstants.Version.SUITE) {
+		if (isSuite()) {
 			suiteAppPickerButton = SuiteHeaderAppPicker.addSuiteAppPicker(this);
 		}
 	}
@@ -355,7 +356,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			activity = new EvaluatorActivity();
 			break;
 		case "suite":
-			activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE);
+			String disableCAS = Window.Location.getParameter("disableCAS");
+			activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE,
+					"".equals(disableCAS) || "true".equals(disableCAS));
 			break;
 		default:
 			activity = new ClassicActivity(new AppConfigDefault());
@@ -921,7 +924,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
 			return;
 		}
-		afterLocalizationLoaded(() -> getPerspectivesPopup().showPerspectivesPopup());
+		afterLocalizationLoaded(() -> getPerspectivesPopup().show());
 	}
 
 	private boolean isAppletWithoutAppsPicker() {
@@ -1353,7 +1356,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					|| (menuViewController != null
 					&& frame.getWidget(i) == menuViewController.getView())
 					|| frame.getWidget(i) instanceof Persistable
-					|| frame.getWidget(i) instanceof DialogBoxW)) {
+					|| frame.getWidget(i).getStyleName().contains("perspectivePopup"))) {
 				frame.remove(i);
 			}
 		}
@@ -1977,7 +1980,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
-			if (w instanceof DialogBoxW || w instanceof ComponentDialog) {
+			if (w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
 			}
@@ -2034,7 +2037,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
-				this.activity = new SuiteActivity(subApp);
+				this.activity = new SuiteActivity(subApp,
+						getSettings().getCasSettings().isEnabled());
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
 				setSuiteHeaderButton(subApp);
@@ -2278,15 +2282,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 	}
 
-	/**
-	 * Switch suite to the given subapp, clearing all construction, and resetting almost
-	 * all the settings
-	 * @param subAppCode "graphing", "3d", "cas", "geometry" or "probability"
-	 */
+	@Override
 	public void switchToSubapp(String subAppCode) {
+		getDialogManager().hideCalcChooser();
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
-		activity = new SuiteActivity(subAppCode);
+		activity = new SuiteActivity(subAppCode, getSettings().getCasSettings().isEnabled());
 		activity.start(this);
 
 		resetToolbarPanel();
@@ -2307,6 +2308,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			afterMaterialRestored();
 			updateToolbarClosedState(subAppCode);
 		}
+		getEventDispatcher().dispatchEvent(new Event(EventType.SWITCH_CALC, null, subAppCode));
 	}
 
 	private void afterMaterialRestored() {

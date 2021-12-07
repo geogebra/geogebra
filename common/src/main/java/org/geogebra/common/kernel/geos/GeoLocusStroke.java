@@ -765,8 +765,8 @@ public class GeoLocusStroke extends GeoLocus
 		double screenCoordXB = view.toScreenCoordXd(b.getX());
 		double screenCoordYB = view.toScreenCoordYd(b.getY());
 
-		return Math.abs((screenCoordXA - screenCoordXB)) < 4
-				&& Math.abs((screenCoordYA - screenCoordYB)) < 4;
+		return Math.abs(screenCoordXA - screenCoordXB) < 4
+				&& Math.abs(screenCoordYA - screenCoordYB) < 4;
 	}
 
 	private MyPoint calculateAveragePoint(MyPoint a, MyPoint b) {

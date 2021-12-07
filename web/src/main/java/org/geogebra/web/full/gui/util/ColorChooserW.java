@@ -163,7 +163,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			int h = colorIconSize.getHeight();
 			int w = colorIconSize.getWidth();
 
-			int x = (col * w);
+			int x = col * w;
 			int y = tableOffsetY + (row * h);
 
 			GColor borderColor = NORMAL_TILE_COLOR;
@@ -171,7 +171,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			GColor fillColor = getColorFromPalette(col, row);
 
-			boolean emptyTile = (fillColor == null);
+			boolean emptyTile = fillColor == null;
 			if (emptyTile) {
 				fillColor = NO_TILE_COLOR;
 			}
@@ -252,11 +252,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 
 		private boolean isValidCol(int col) {
-			return (col >= 0 && col < maxCol);
+			return col >= 0 && col < maxCol;
 		}
 
 		private boolean isValidRow(int row) {
-			return (row >= 0 && row < maxRow);
+			return row >= 0 && row < maxRow;
 		}
 
 		protected int getIndex(int col, int row) {
@@ -265,8 +265,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		private GColor getColorFromPalette(int col, int row) {
 			int idx = getIndex(col, row);
-			return (palette != null && idx < palette.size() ? palette.get(idx)
-					: null);
+			return palette != null && idx < palette.size() ? palette.get(idx)
+					: null;
 		}
 
 		public void setHeight(int height) {

@@ -29,7 +29,7 @@ import org.geogebra.common.euclidian.EuclidianHost;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.MaskWidgetList;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
@@ -605,11 +605,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return true;
 		}
 
-		if (id == App.VIEW_EUCLIDIAN3D_2) {
-			return true;
-		}
-
-		return false;
+		return id == App.VIEW_EUCLIDIAN3D_2;
 
 	}
 
@@ -1634,8 +1630,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		String allXml = getXML();
 		String header = allXml.substring(0, allXml.indexOf("<construction"));
-		String footer = allXml.substring(allXml.indexOf("</construction>"),
-				allXml.length());
+		String footer = allXml.substring(allXml.indexOf("</construction>")
+		);
 		StringBuilder sb = new StringBuilder();
 		editMacro.getXML(sb);
 		String macroXml = sb.toString();
@@ -4219,7 +4215,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public interface ViewCallback {
-		public void run(int viewID, String viewName);
+		void run(int viewID, String viewName);
 	}
 
 	final public boolean loadXML(byte[] zipFile) {
@@ -4474,15 +4470,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	final public static String getLabelStyleName(App app, int id) {
 		switch (id) {
-		case (-1):
+		case -1:
 			return app.getLocalization().getMenu("Hidden");
-		case (GeoElementND.LABEL_NAME):
+		case GeoElementND.LABEL_NAME:
 			return app.getLocalization().getMenu("Name");
-		case (GeoElementND.LABEL_NAME_VALUE):
+		case GeoElementND.LABEL_NAME_VALUE:
 			return app.getLocalization().getMenu("NameAndValue");
-		case (GeoElementND.LABEL_VALUE):
+		case GeoElementND.LABEL_VALUE:
 			return app.getLocalization().getMenu("Value");
-		case (GeoElementND.LABEL_CAPTION):
+		case GeoElementND.LABEL_CAPTION:
 			return app.getLocalization().getMenu("Caption");
 		default:
 			return "";
@@ -5131,7 +5127,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	protected void updateExam(@Nonnull ExamEnvironment examEnvironment) {
-		examEnvironment.setIncludingSettingsInLog(!isUnbundled());
 		examEnvironment.setCopyPaste(getCopyPaste());
 	}
 

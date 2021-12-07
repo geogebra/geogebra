@@ -198,7 +198,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// fill using default/hatching/image as appropriate
-			fill(g2, (fillShape ? getShape() : gp));
+			fill(g2, fillShape ? getShape() : gp);
 			if (isHighlighted()) {
 				g2.setPaint(poly.getSelColor());
 				g2.setStroke(selStroke);
@@ -325,13 +325,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
-			fill(g2, (geo.isInverseFill() ? getShape() : gp));
+			fill(g2, geo.isInverseFill() ? getShape() : gp);
 
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
-
 		}
 	}
 

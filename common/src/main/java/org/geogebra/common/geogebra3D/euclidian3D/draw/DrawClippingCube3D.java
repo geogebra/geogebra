@@ -174,13 +174,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         currentBounds[X][MAX] = halfWidth / xscale + x0;
 
         if (getView3D().getYAxisVertical()) {
-            currentBounds[Y][MIN] = (bottom) / yscale + y0;
-            currentBounds[Y][MAX] = (top) / yscale + y0;
+            currentBounds[Y][MIN] = bottom / yscale + y0;
+            currentBounds[Y][MAX] = top / yscale + y0;
             currentBounds[Z][MIN] = -halfWidth / zscale + z0;
             currentBounds[Z][MAX] = halfWidth / zscale + z0;
         } else {
-            currentBounds[Z][MIN] = (bottom) / zscale + z0;
-            currentBounds[Z][MAX] = (top) / zscale + z0;
+            currentBounds[Z][MIN] = bottom / zscale + z0;
+            currentBounds[Z][MAX] = top / zscale + z0;
             currentBounds[Y][MIN] = -halfWidth / yscale + y0;
             currentBounds[Y][MAX] = halfWidth / yscale + y0;
         }
@@ -191,9 +191,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
         if (renderer.reduceForClipping()) {
             rv = REDUCTION_VALUES[reductionIndex];
         }
-        double xr = (currentBounds[X][MAX] - currentBounds[X][MIN]);
-        double yr = (currentBounds[Y][MAX] - currentBounds[Y][MIN]);
-        double zr = (currentBounds[Z][MAX] - currentBounds[Z][MIN]);
+        double xr = currentBounds[X][MAX] - currentBounds[X][MIN];
+        double yr = currentBounds[Y][MAX] - currentBounds[Y][MIN];
+        double zr = currentBounds[Z][MAX] - currentBounds[Z][MIN];
 
         if (view.isXREnabled() || view.isUnity()) {
             for (int i = 0; i < 3; i++) {

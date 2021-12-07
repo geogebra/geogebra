@@ -256,7 +256,7 @@ public class MyArbitraryConstant {
 					((GeoCasCell) outCE).getTwinGeo().update();
 				}
 			} else if (outCE instanceof GeoSymbolic) {
-				outCE.update();
+				((GeoSymbolic) outCE).updateCascade();
 				if (((GeoSymbolic) outCE).getTwinGeo() != null) {
 					((GeoSymbolic) outCE).getTwinGeo().update();
 				}

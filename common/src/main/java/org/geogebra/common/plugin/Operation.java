@@ -104,7 +104,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue) {
 
-				BooleanValue a = ((BooleanValue) lt);
+				BooleanValue a = (BooleanValue) lt;
 				boolean defined = a.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -125,8 +125,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 
-				BooleanValue a = ((BooleanValue) lt);
-				BooleanValue b = ((BooleanValue) rt);
+				BooleanValue a = (BooleanValue) lt;
+				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -147,8 +147,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 
-				BooleanValue a = ((BooleanValue) lt);
-				BooleanValue b = ((BooleanValue) rt);
+				BooleanValue a = (BooleanValue) lt;
+				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -169,8 +169,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 
-				BooleanValue a = ((BooleanValue) lt);
-				BooleanValue b = ((BooleanValue) rt);
+				BooleanValue a = (BooleanValue) lt;
+				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -191,8 +191,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
 
-				BooleanValue a = ((BooleanValue) lt);
-				BooleanValue b = ((BooleanValue) rt);
+				BooleanValue a = (BooleanValue) lt;
+				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -404,12 +404,12 @@ public enum Operation {
 				// check Region before Path (eg Polygon)
 				if (rt instanceof Region) {
 					return new MyBoolean(ev.getKernel(),
-							((Region) rt).isInRegion(((GeoPointND) lt)));
+							((Region) rt).isInRegion((GeoPointND) lt));
 				}
 
 				if (rt instanceof Path) {
 					return new MyBoolean(ev.getKernel(), ((Path) rt).isOnPath(
-							((GeoPointND) lt), Kernel.STANDARD_PRECISION));
+							(GeoPointND) lt, Kernel.STANDARD_PRECISION));
 				}
 			}
 

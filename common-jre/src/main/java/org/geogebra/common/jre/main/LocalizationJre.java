@@ -267,7 +267,7 @@ public abstract class LocalizationJre extends Localization {
 			}
 		}
 
-		boolean updateNeeded = (rbmenuTT != null);
+		boolean updateNeeded = rbmenuTT != null;
 
 		rbmenuTT = null;
 

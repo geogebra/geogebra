@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.AccentedAtom;
@@ -126,6 +127,12 @@ public class TeXBuilder {
 		return ra;
 	}
 
+	private Atom buildPlaceholder(MathPlaceholder placeholder) {
+		return new ColorAtom(buildString(placeholder.getContent()), null,
+				FactoryProvider.getInstance().getGraphicsFactory()
+						.createColor(TeXSerializer.commandPlaceholderColor));
+	}
+
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
 		if (parent == null
@@ -150,7 +157,8 @@ public class TeXBuilder {
 	private Atom getPlaceholderBox() {
 		return new ColorAtom(
 				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, 1.6),
-				FactoryProvider.getInstance().getGraphicsFactory().createColor(0xDCDCDC),
+				FactoryProvider.getInstance().getGraphicsFactory()
+						.createColor(TeXSerializer.placeholderColor),
 				null
 		);
 	}
@@ -179,6 +187,8 @@ public class TeXBuilder {
 			ret = buildFunction((MathFunction) argument);
 		} else if (argument instanceof MathArray) {
 			ret = buildArray((MathArray) argument);
+		} else if (argument instanceof MathPlaceholder) {
+			ret = buildPlaceholder((MathPlaceholder) argument);
 		} else if (argument instanceof MathSequence) {
 			ret = buildSequence((MathSequence) argument);
 		} else {

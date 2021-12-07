@@ -433,7 +433,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
-					boolean finalCell = (c == columns - 1);
+					boolean finalCell = c == columns - 1;
 					addCellLaTeX(c, r, finalCell, tpl, getJustification(c));
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
@@ -468,7 +468,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			for (int c = 0; c < columns; c++) {
 				for (int r = 0; r < rows; r++) {
-					boolean finalCell = (r == rows - 1);
+					boolean finalCell = r == rows - 1;
 					addCellLaTeX(c, r, finalCell, tpl, getJustification(c));
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
@@ -640,15 +640,15 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					stylePost = "}";
 					break;
 				case GFont.BOLD:
-					stylePre = ("\\textbf{");
+					stylePre = "\\textbf{";
 					stylePost = "}";
 					break;
 				case GFont.ITALIC:
-					stylePre = ("\\textit{");
+					stylePre = "\\textit{";
 					stylePost = "}";
 					break;
 				case GFont.BOLD + GFont.ITALIC:
-					stylePre = ("\\textit{\\textbf{");
+					stylePre = "\\textit{\\textbf{";
 					stylePost = "}}";
 					break;
 				}
@@ -659,15 +659,15 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					// do nothing
 					break;
 				case GFont.BOLD:
-					stylePre = ("\\mathbf{");
+					stylePre = "\\mathbf{";
 					stylePost = "}";
 					break;
 				case GFont.ITALIC:
-					stylePre = ("\\mathit{");
+					stylePre = "\\mathit{";
 					stylePost = "}";
 					break;
 				case GFont.BOLD + GFont.ITALIC:
-					stylePre = ("\\mathit{\\mathbf{");
+					stylePre = "\\mathit{\\mathbf{";
 					stylePost = "}}";
 					break;
 				}

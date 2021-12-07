@@ -81,8 +81,8 @@ public class TwoVarInferenceModel {
 	 * @return whether a paired test is selected
 	 */
 	public boolean isPairedData() {
-		return (selectedInference == StatisticsModel.INFER_TINT_PAIRED
-				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
+		return selectedInference == StatisticsModel.INFER_TINT_PAIRED
+				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED;
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class TwoVarInferenceModel {
 	 * @return whether a t-test is selected
 	 */
 	public boolean isTest() {
-		return (selectedInference == StatisticsModel.INFER_TTEST_2MEANS
-				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
+		return selectedInference == StatisticsModel.INFER_TTEST_2MEANS
+				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED;
 	}
 
 	/**

@@ -138,7 +138,7 @@ public class RadioTreeItemController implements ClickHandler,
 		int right = left + w.getOffsetWidth();
 		int bottom = top + w.getOffsetHeight();
 
-		return (x > left && x < right && y > top && y < bottom);
+		return x > left && x < right && y > top && y < bottom;
 	}
 
 	@Override
@@ -510,8 +510,8 @@ public class RadioTreeItemController implements ClickHandler,
 
 		markForEdit = false;
 		boolean enable = true;
-		if ((item.isSliderItem()
-				&& !isWidgetHit(item.getDefinitionValuePanel(), wrappedEvent))) {
+		if (item.isSliderItem()
+				&& !isWidgetHit(item.getDefinitionValuePanel(), wrappedEvent)) {
 			enable = false;
 			if (active) {
 				stopEdit();

@@ -1318,7 +1318,7 @@ public class GeoNumeric extends GeoElement
 		}
 		boolean okMin = isIntervalMinActive();
 		boolean okMax = isIntervalMaxActive();
-		boolean ok = (getIntervalMin() <= getIntervalMax());
+		boolean ok = getIntervalMin() <= getIntervalMax();
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
 			isDrawable = true;
@@ -1527,7 +1527,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public int getMinimumLineThickness() {
-		return (isSlider() ? 1 : 0);
+		return isSlider() ? 1 : 0;
 	}
 
 	/**

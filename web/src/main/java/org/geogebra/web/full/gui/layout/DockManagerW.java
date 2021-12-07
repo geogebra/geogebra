@@ -34,7 +34,6 @@ import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -717,24 +716,18 @@ public class DockManagerW extends DockManager {
 	private void setDividerLocation(DockSplitPaneW splitPane,
 			final double dividerLocation) {
 		final DockSplitPaneW sp = splitPane;
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				sp.setDividerLocation(dividerLocation);
-				rootPane.deferredOnResize();
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			sp.setDividerLocation(dividerLocation);
+			rootPane.deferredOnResize();
 		});
 	}
 
 	private void setDividerLocationAbs(DockSplitPaneW splitPane,
 			final int dividerLocation) {
 		final DockSplitPaneW sp = splitPane;
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				sp.setDividerLocation(dividerLocation);
-				rootPane.deferredOnResize();
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			sp.setDividerLocation(dividerLocation);
+			rootPane.deferredOnResize();
 		});
 	}
 
@@ -943,20 +936,16 @@ public class DockManagerW extends DockManager {
 				opposite = currentPane.getRightComponent();
 			}
 
-			// in root pane, the opposite may be null
+			// the secondLastPos may point to non-existing component
 			if (opposite == null) {
 				opposite = currentPane.getOpposite(null);
-				oppositeDim[0] = opposite.getOffsetWidth();
-				oppositeDim[1] = opposite.getOffsetHeight();
-				rootPane = newSplitPane;
-			} else if (opposite.getParent() == rootPane
+			}
+			oppositeDim[0] = opposite.getOffsetWidth();
+			oppositeDim[1] = opposite.getOffsetHeight();
+			if (opposite.getParent() == rootPane
 					&& rootPane.getOpposite(opposite) == null) {
-				oppositeDim[0] = opposite.getOffsetWidth();
-				oppositeDim[1] = opposite.getOffsetHeight();
 				rootPane = newSplitPane;
 			} else {
-				oppositeDim[0] = opposite.getOffsetWidth();
-				oppositeDim[1] = opposite.getOffsetHeight();
 				currentPane.replaceComponent(opposite, newSplitPane);
 			}
 		}
@@ -1578,13 +1567,7 @@ public class DockManagerW extends DockManager {
 			final double landscape = PerspectiveDecoder.landscapeRatio(app,
 					app.getWidth());
 
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-					adjustViews(landscape, orientationChanged);
-				}
-			});
+			Scheduler.get().scheduleDeferred(() -> adjustViews(landscape, orientationChanged));
 		}
 	}
 

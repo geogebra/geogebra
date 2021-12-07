@@ -27,10 +27,8 @@ class IntervalEvaluate {
 	 * @param operation to execute.
 	 * @param other interval as parameter
 	 * @return result interval of the operation
-	 * @throws Exception division by zero
 	 */
-	Interval evaluate(Operation operation, Interval other)
-			throws Exception {
+	Interval evaluate(Operation operation, Interval other) {
 		switch (operation) {
 		case PLUS:
 			return interval.add(other);
@@ -49,6 +47,8 @@ class IntervalEvaluate {
 			break;
 		case DIFF:
 			return difference(interval, other);
+		default:
+			throw new IllegalStateException("Unexpected value: " + operation);
 		}
 		return interval;
 	}

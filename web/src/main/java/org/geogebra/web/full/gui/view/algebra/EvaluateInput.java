@@ -146,15 +146,12 @@ public class EvaluateInput {
 			app.setScrollToShow(false);
 
 			Scheduler.get()
-					.scheduleDeferred(new Scheduler.ScheduledCommand() {
-						@Override
-						public void execute() {
-							item.scrollIntoView();
-							if (keepFocus) {
-								ctrl.setFocus(true);
-							} else {
-								item.setFocus(false);
-							}
+					.scheduleDeferred(() -> {
+						item.scrollIntoView();
+						if (keepFocus) {
+							ctrl.setFocus(true);
+						} else {
+							item.setFocus(false);
 						}
 					});
 

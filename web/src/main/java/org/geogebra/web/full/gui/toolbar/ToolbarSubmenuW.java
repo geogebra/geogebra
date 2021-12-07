@@ -80,18 +80,14 @@ public class ToolbarSubmenuW extends FlowPanel {
 		super.setVisible(visible);
 		setStyleName("visible", visible);
 		if (visible) {
-			app.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					if (itemList.getOffsetWidth()
-							+ ToolbarSubmenuW.this.order * 45 > app
-									.getWidth()) {
-						itemList.getElement().getStyle().setLeft(
-								app.getWidth() - 45 * ToolbarSubmenuW.this.order
-										- itemList.getOffsetWidth() - 10,
-								Unit.PX);
-					}
+			app.invokeLater(() -> {
+				if (itemList.getOffsetWidth()
+						+ order * 45 > app
+								.getWidth()) {
+					itemList.getElement().getStyle().setLeft(
+							app.getWidth() - 45 * order
+									- itemList.getOffsetWidth() - 10,
+							Unit.PX);
 				}
 			});
 		}

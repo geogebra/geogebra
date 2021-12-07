@@ -8,7 +8,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 /**
  * Menubar with some extra functionality (popups, event logging)
@@ -75,88 +74,82 @@ public class GMenuBar extends AriaMenuBar {
 		final Object[] ait = new Object[2];
 		final AppW app1 = app;
 		ait[1] = null; // means the popup assigned to this MenuItem
-		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
-			@Override
-			public void execute() {
+		ait[0] = addItem(itemtext, textishtml, () -> {
 
-				if (ait[0] != null) {
-					selectItem((AriaMenuItem) ait[0]);
-					// Note that another menu item might have an open popup
-					// here, with a different submenupopup, and that disappears
-					// because its popuppanel is modal, but its ait[1]
-					// variable still remains filled, so it is necessary to
-					// check it here, and make it null if necessary
-					if ((ait[1] != null) && (ait[1] instanceof GPopupPanel)
-							&& !((GPopupPanel) ait[1]).isShowing()
-							&& !((GPopupPanel) ait[1]).isAttached()) {
-						// but here we should exclude the case where the same
-						// menuitem is clicked as the present one!!
-						ait[1] = null;
-					}
+			if (ait[0] != null) {
+				selectItem((AriaMenuItem) ait[0]);
+				// Note that another menu item might have an open popup
+				// here, with a different submenupopup, and that disappears
+				// because its popuppanel is modal, but its ait[1]
+				// variable still remains filled, so it is necessary to
+				// check it here, and make it null if necessary
+				if ((ait[1] != null) && (ait[1] instanceof GPopupPanel)
+						&& !((GPopupPanel) ait[1]).isShowing()
+						&& !((GPopupPanel) ait[1]).isAttached()) {
+					// but here we should exclude the case where the same
+					// menuitem is clicked as the present one!!
+					ait[1] = null;
+				}
 
-					if (ait[1] == null) {
-						// popuppanel still not present
-						final GPopupPanel pp = new GPopupPanel(true, false,
-								app1.getPanel(), app1);
-						pp.addAutoHidePartner(
-								((AriaMenuItem) ait[0]).getElement());
-						submenupopup.addStyleName(subleft ? "subMenuLeftSide2"
-								: "subMenuRightSide2");
-						submenupopup.selectItem(null);
-						if (subleft) {
-							pp.addStyleName("subMenuLeftSidePopup");
-						} else {
-							pp.addStyleName(
-									"GeoGebraMenuBar.subMenuRightSidePopup");
-						}
-
-						pp.add(submenupopup);
-						AriaMenuItem mi0 = (AriaMenuItem) ait[0];
-						int left = (int) ((getAbsoluteHorizontalPos(mi0,
-								subleft) - (int) app1.getAbsLeft())
-								/ app1.getGeoGebraElement().getScaleX());
-						int top = (int) ((mi0.getAbsoluteTop()
-								- app1.getAbsTop())
-								/ app1.getGeoGebraElement().getScaleY());
-
-						pp.setPopupPosition(left, top);
-
-						if (submenupopup instanceof RadioButtonMenuBarW) {
-							((RadioButtonMenuBarW) submenupopup)
-									.registerItemSideEffect(
-											new Scheduler.ScheduledCommand() {
-												@Override
-												public void execute() {
-													// this should only run if
-													// some item
-													// is selected and clicked
-													ait[1] = null;
-													submenupopup
-															.selectItem(null);
-													pp.hide();
-												}
-											});
-						}
-
-						// TODO: more difficult to solve autoOpen
-						// sadly, the following thing can only work together
-						// with submenus created by the other method, in theory
-						// parentMenu.setAutoOpen(true);
-
-						ait[1] = pp;
-						pp.show();
+				if (ait[1] == null) {
+					// popuppanel still not present
+					final GPopupPanel pp = new GPopupPanel(true, false,
+							app1.getPanel(), app1);
+					pp.addAutoHidePartner(
+							((AriaMenuItem) ait[0]).getElement());
+					submenupopup.addStyleName(subleft ? "subMenuLeftSide2"
+							: "subMenuRightSide2");
+					submenupopup.selectItem(null);
+					if (subleft) {
+						pp.addStyleName("subMenuLeftSidePopup");
 					} else {
-						submenupopup.selectItem(null);
-
-						if (ait[1] instanceof GPopupPanel) {
-							((GPopupPanel) ait[1]).hide();
-						}
-
-						// if popuppanel is present, it will be hidden
-						// due to autoHide, and no new one is created instead
-						// let's forget about it
-						ait[1] = null;
+						pp.addStyleName(
+								"GeoGebraMenuBar.subMenuRightSidePopup");
 					}
+
+					pp.add(submenupopup);
+					AriaMenuItem mi0 = (AriaMenuItem) ait[0];
+					int left = (int) ((getAbsoluteHorizontalPos(mi0,
+							subleft) - (int) app1.getAbsLeft())
+							/ app1.getGeoGebraElement().getScaleX());
+					int top = (int) ((mi0.getAbsoluteTop()
+							- app1.getAbsTop())
+							/ app1.getGeoGebraElement().getScaleY());
+
+					pp.setPopupPosition(left, top);
+
+					if (submenupopup instanceof RadioButtonMenuBarW) {
+						((RadioButtonMenuBarW) submenupopup)
+								.registerItemSideEffect(
+										() -> {
+											// this should only run if
+											// some item
+											// is selected and clicked
+											ait[1] = null;
+											submenupopup
+													.selectItem(null);
+											pp.hide();
+										});
+					}
+
+					// TODO: more difficult to solve autoOpen
+					// sadly, the following thing can only work together
+					// with submenus created by the other method, in theory
+					// parentMenu.setAutoOpen(true);
+
+					ait[1] = pp;
+					pp.show();
+				} else {
+					submenupopup.selectItem(null);
+
+					if (ait[1] instanceof GPopupPanel) {
+						((GPopupPanel) ait[1]).hide();
+					}
+
+					// if popuppanel is present, it will be hidden
+					// due to autoHide, and no new one is created instead
+					// let's forget about it
+					ait[1] = null;
 				}
 			}
 		});
@@ -212,11 +205,6 @@ public class GMenuBar extends AriaMenuBar {
 	 * focus menu in a deferred way.
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				getElement().focus();
-			}
-		});
+		Scheduler.get().scheduleDeferred(getElement()::focus);
 	}
 }

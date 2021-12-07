@@ -24,7 +24,7 @@ public class ClassicMenuItemProvider {
 	 */
 	public void addMenus(ArrayList<Submenu> menus) {
 		boolean exam = app.isExam();
-		if (app.enableFileFeatures()) {
+		if (app.enableFileFeatures() &&  !app.getAppletParameters().getParamLockExam()) {
 			menus.add(new FileMenuW(app));
 		}
 		menus.add(new EditMenuW(app));

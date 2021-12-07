@@ -117,12 +117,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 * resize slider to fit to the panel in a deferred way.
 	 */
 	public void deferredResize() {
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				resize();
-			}
-		});
+		Scheduler.get().scheduleDeferred(this::resize);
 	}
 
 	/** update size */

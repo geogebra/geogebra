@@ -298,7 +298,11 @@ public class ToolbarPanel extends FlowPanel
 		hideDragger();
 		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
-			setHeaderStyle("examOk");
+			if (app.getAppletParameters().getParamLockExam()) {
+				setHeaderStyle("examLock");
+			} else {
+				setHeaderStyle("examOk");
+			}
 		}
 	}
 
@@ -814,7 +818,7 @@ public class ToolbarPanel extends FlowPanel
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameFull getFrame() {
-		return (((AppWFull) app).getAppletFrame());
+		return ((AppWFull) app).getAppletFrame();
 	}
 
 	/**

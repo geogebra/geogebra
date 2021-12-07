@@ -95,8 +95,8 @@ public class AnimationExporter {
 			break;
 		}
 
-		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
-				.getActiveEuclidianView());
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
+				.getActiveEuclidianView();
 
 		final Encoder encoder = getEncoder(timeBetweenFrames, filename,
 				frameFormat, ev);
@@ -159,10 +159,8 @@ public class AnimationExporter {
 		Log.debug("exporting animation");
 		double val = val0;
 		double step = step0;
-		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
-				.getActiveEuclidianView());
-
-		// Log.debug("using view " + ev.getViewID());
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
+				.getActiveEuclidianView();
 
 		for (int i = 0; i < n; i++) {
 

@@ -157,15 +157,15 @@ public class DrawAxis {
 				if (filled) {
 
 					gp.reset();
-					gp.moveTo((view.getWidth() - arrowAdjustx), yCrossPix);
+					gp.moveTo(view.getWidth() - arrowAdjustx, yCrossPix);
 					gp.lineTo(
-							(view.getWidth() - arrowAdjustx
-									- arrowSize * 4),
-							(yCrossPix - arrowSize));
+							view.getWidth() - arrowAdjustx
+									- arrowSize * 4,
+							yCrossPix - arrowSize);
 					gp.lineTo(
-							(view.getWidth() - arrowAdjustx
-									- arrowSize * 4),
-							(yCrossPix + arrowSize));
+							view.getWidth() - arrowAdjustx
+									- arrowSize * 4,
+							yCrossPix + arrowSize);
 
 					g2.fill(gp);
 
@@ -190,11 +190,11 @@ public class DrawAxis {
 				if (filled) {
 
 					gp.reset();
-					gp.moveTo((arrowAdjustx), yCrossPix);
-					gp.lineTo((arrowAdjustx + arrowSize * 4),
-							(yCrossPix - arrowSize));
-					gp.lineTo((arrowAdjustx + arrowSize * 4),
-							(yCrossPix + arrowSize));
+					gp.moveTo(arrowAdjustx, yCrossPix);
+					gp.lineTo(arrowAdjustx + arrowSize * 4,
+							yCrossPix - arrowSize);
+					gp.lineTo(arrowAdjustx + arrowSize * 4,
+							yCrossPix + arrowSize);
 
 					g2.fill(gp);
 
@@ -330,10 +330,10 @@ public class DrawAxis {
 
 				gp.reset();
 				gp.moveTo(xCrossPix, arrowAdjusty);
-				gp.lineTo((xCrossPix - arrowSize),
-						(arrowAdjusty + 4 * arrowSize));
-				gp.lineTo((xCrossPix + arrowSize),
-						(arrowAdjusty + 4 * arrowSize));
+				gp.lineTo(xCrossPix - arrowSize,
+						arrowAdjusty + 4 * arrowSize);
+				gp.lineTo(xCrossPix + arrowSize,
+						arrowAdjusty + 4 * arrowSize);
 
 				g2.fill(gp);
 
@@ -350,16 +350,14 @@ public class DrawAxis {
 		if (drawBottomArrow) {
 
 			if (filled) {
-
 				gp.reset();
-				gp.moveTo(xCrossPix, (view.getHeight() - arrowAdjusty));
-				gp.lineTo((xCrossPix - arrowSize), (view.getHeight()
-						- arrowAdjusty - 4 * arrowSize));
-				gp.lineTo((xCrossPix + arrowSize), (view.getHeight()
-						- arrowAdjusty - 4 * arrowSize));
+				gp.moveTo(xCrossPix, view.getHeight() - arrowAdjusty);
+				gp.lineTo(xCrossPix - arrowSize, view.getHeight()
+						- arrowAdjusty - 4 * arrowSize);
+				gp.lineTo(xCrossPix + arrowSize, view.getHeight()
+						- arrowAdjusty - 4 * arrowSize);
 
 				g2.fill(gp);
-
 			} else {
 				// draw bottom arrow for y-axis
 				g2.drawStraightLine(xCrossPix, view.getHeight() - arrowAdjusty,

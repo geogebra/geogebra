@@ -1,8 +1,11 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Stack;
 
 import org.geogebra.common.awt.GColor;
@@ -42,6 +45,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	private static StringBuilder sbReplaceExp = new StringBuilder(200);
 
+	private static Map<String, String> typoMapping = new HashMap<>();
+
+	static {
+		typoMapping.put("o", "0");
+		typoMapping.put("O", "0");
+	}
+
 	/**
 	 * @param data
 	 *            to convert
@@ -72,7 +82,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		for (int i = 0; i < data.length; i++) {
 
 			buf.append(Character.forDigit((data[i] >> 4) & 0xF, 16));
-			buf.append(Character.forDigit((data[i] & 0xF), 16));
+			buf.append(Character.forDigit(data[i] & 0xF, 16));
 		}
 
 		return buf.toString();
@@ -200,7 +210,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			int code = c;
 
 			// standard characters have code 32 to 126
-			if ((code >= 32 && code <= 126)) {
+			if (code >= 32 && code <= 126) {
 
 				if (!encodeLTGT) {
 					sb.append(c);
@@ -968,7 +978,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 					i++;
 					index = true;
 				} else {
-					visibleChars -= (1 - indexSize); // penalty for 1char index
+					visibleChars -= 1 - indexSize; // penalty for 1char index
 				}
 			} else if (str.charAt(i) == '}') {
 				index = false;
@@ -1327,7 +1337,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			int code = c;
 
 			// standard characters have code 32 to 126
-			if ((code >= 32 && code <= 126)) {
+			if (code >= 32 && code <= 126) {
 				switch (code) {
 				case '"':
 					// replace " with \"
@@ -1459,7 +1469,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			}
 		}
 
-		return (inputText + Unicode.DEGREE_STRING);
+		return inputText + Unicode.DEGREE_STRING;
 	}
 
 	/**
@@ -1870,5 +1880,42 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	public static String removePngMarker(String pngURL) {
 		return pngURL.substring(pngMarker.length());
+	}
+
+	/**
+	 * Check for variants, such as _{1} instead of _1 and typos, such as _{o} instead of _0
+	 * @return all the variants of a label
+	 */
+	public static List<String> labelVariants(String label) {
+		int startPos;
+		if ((startPos = label.indexOf("_{")) > 0) {
+			String index = label.substring(startPos + 2, label.length() - 1);
+			String base = label.substring(0, startPos);
+
+			List<String> variants = new ArrayList<>();
+			variants.add(base + "_" + index);
+			addTypoVariants(variants, base, index);
+
+			return variants;
+		} else if ((startPos = label.indexOf("_")) > 0) {
+			String index = label.substring(startPos + 1);
+			String base = label.substring(0, startPos);
+
+			List<String> variants = new ArrayList<>();
+			variants.add(base + "_{" + index + "}");
+			addTypoVariants(variants, base, index);
+
+			return variants;
+		} else {
+			return null;
+		}
+	}
+
+	private static void addTypoVariants(List<String> variants, String base, String index) {
+		String replacement;
+		if ((replacement = typoMapping.get(index)) != null) {
+			variants.add(base + "_" + replacement);
+			variants.add(base + "_{" + replacement + "}");
+		}
 	}
 }

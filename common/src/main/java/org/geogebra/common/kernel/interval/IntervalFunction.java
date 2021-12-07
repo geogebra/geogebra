@@ -19,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
  public class IntervalFunction {
 	private static final UnsupportedOperatorChecker
 			operatorChecker = new UnsupportedOperatorChecker();
-	private static final Interval EMPTY = IntervalConstants.empty();
+	private static final Interval EMPTY = IntervalConstants.undefined();
 	private final GeoFunction function;
 
 	/**
@@ -27,7 +27,7 @@ import org.geogebra.common.util.debug.Log;
 	 *
 	 * @param function to evaluate.
 	 */
-	IntervalFunction(GeoFunction function) {
+	public IntervalFunction(GeoFunction function) {
 		this.function = function;
 	}
 
@@ -36,14 +36,13 @@ import org.geogebra.common.util.debug.Log;
 	 *
 	 * @param x interval to evaulate on.
 	 * @return function result on x.
-	 * @throws Exception that occurs on operands (divide by zero, power is not singleton, etc)
 	 */
-	public Interval evaluate(Interval x) throws Exception {
+	public Interval evaluate(Interval x) {
 		ExpressionNode node = function.getFunctionExpression();
 		return evaluate(new Interval(x), node);
 	}
 
-	static Interval evaluate(Interval x, ExpressionValue ev) throws Exception {
+	static Interval evaluate(Interval x, ExpressionValue ev) {
 		if (ev == null) {
 			return EMPTY;
 		}
@@ -72,7 +71,7 @@ import org.geogebra.common.util.debug.Log;
 	}
 
 	private static Interval evaluate(Interval left, Operation operation,
-			Interval right) throws Exception {
+			Interval right) {
 
 		switch (operation) {
 			case NO_OPERATION:
@@ -130,14 +129,11 @@ import org.geogebra.common.util.debug.Log;
 
 			default:
 				Log.warn("No interval operation for " + operation);
-				return IntervalConstants.empty();
+				return IntervalConstants.undefined();
 			}
 		}
 
 	private static Interval divide(Interval left, Interval right) {
-		if (left.isSingleton()) {
-			return multiply(right.multiplicativeInverse(), left);
-		}
 		return IntervalOperands.divide(left, right);
 	}
 

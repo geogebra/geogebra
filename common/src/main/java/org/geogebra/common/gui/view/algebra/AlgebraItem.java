@@ -137,7 +137,7 @@ public class AlgebraItem {
 				return false;
 			}
 			if (geo.get(i) instanceof GeoList
-					&& !allRHSareIntegers(((GeoList) geo.get(i)))) {
+					&& !allRHSareIntegers((GeoList) geo.get(i))) {
 				return false;
 			}
 		}
@@ -549,9 +549,9 @@ public class AlgebraItem {
 		}
 		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {
 			return geo1.getAlgebraDescription(StringTemplate.latexTemplate);
-		} else if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+		} else if (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 				&& kernel
-						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE)) {
+						.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 			if (geo1.isIndependent()) {
 				return getLatexStringValue(geo1, limit);
 			} else if (Algos.isUsedFor(Algos.Expression, geo1)) {

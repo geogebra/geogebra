@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -302,8 +303,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 					.setVisible(!"".equals(lblSampleStat2[i].getText()));
 		}
 
-		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null
-				&& !"".equals(lblSampleStat2[0].getText())));
+		lblSampleHeader2.setVisible(!StringUtil.empty(lblSampleStat2[0].getText()));
 		setLabels();
 
 		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
@@ -593,8 +593,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
-				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)) {
+		if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT
+				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
 			doTextFieldActionPerformed(
 					event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
 		}
@@ -612,15 +612,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		field.enableGGBKeyboard();
-		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
-			@Override
-			public void onInsert(String text) {
-				field.removeDummyCursor();
-				doTextFieldActionPerformed(false);
+		field.addInsertHandler(text -> {
+			field.removeDummyCursor();
+			doTextFieldActionPerformed(false);
 
-				if (Browser.isTabletBrowser()) {
-					field.addDummyCursor(field.getCaretPosition());
-				}
+			if (Browser.isTabletBrowser()) {
+				field.addDummyCursor(field.getCaretPosition());
 			}
 		});
 	}

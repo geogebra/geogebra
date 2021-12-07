@@ -207,10 +207,10 @@ public abstract class CoordSystemAnimation {
 			case ZOOM_RW:
 				double i = counter;
 				double j = steps - counter;
-				view.setRealWorldCoordSystem(((x0 * i) + (xminOld * j)) / steps,
+				view.setRealWorldCoordSystemVisible(((x0 * i) + (xminOld * j)) / steps,
 						((x1 * i) + (xmaxOld * j)) / steps,
 						((y0 * i) + (yminOld * j)) / steps,
-						((y1 * i) + (ymaxOld * j)) / steps);
+						((y1 * i) + (ymaxOld * j)) / steps, true);
 				coordSystemInfo.setXAxisZoom(false);
 				break;
 			case MOVE:
@@ -244,7 +244,7 @@ public abstract class CoordSystemAnimation {
 			controller.notifyZoomerStopped();
 			break;
 		case ZOOM_RW:
-			view.setRealWorldCoordSystem(x0, x1, y0, y1);
+			view.setRealWorldCoordSystemVisible(x0, x1, y0, y1, true);
 			controller.notifyZoomerStopped();
 			break;
 		case MOVE:

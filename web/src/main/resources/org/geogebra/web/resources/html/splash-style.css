@@ -13,15 +13,6 @@ padding:0;
 border-spacing:0;
 }
 
-/** from LESS */
-.perspectivesBox{
-	width: 250px;
-	position: absolute !important;
-    right: 0px !important;
-    left: auto !important;
-    /* float: right; */
-    
-}
 .perspectivesCaption{
 	color: #6161FF !important;
 }

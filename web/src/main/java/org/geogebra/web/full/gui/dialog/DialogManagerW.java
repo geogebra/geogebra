@@ -76,6 +76,7 @@ public class DialogManagerW extends DialogManager
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog colChooser = null;
 	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
+	private CalculatorSwitcherDialog calcSwitcher;
 
 	/**
 	 * @param app
@@ -93,7 +94,7 @@ public class DialogManagerW extends DialogManager
 
 		try {
 			if (functionInspector == null) {
-				functionInspector = new FunctionInspectorW(((AppW) app),
+				functionInspector = new FunctionInspectorW((AppW) app,
 						geoFunction);
 			} else {
 				functionInspector.insertGeoElement(geoFunction);
@@ -177,7 +178,7 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW(((AppW) app),
+		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW((AppW) app,
 				data, ec, handler, geoPoint1, geoPoint2, direction);
 		regularPolyInputDialog.show();
 	}
@@ -189,7 +190,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
 		ComponentInputDialog circlePointRadiusInputDialog
-				= new InputDialogCirclePointRadiusW(((AppW) app), data,
+				= new InputDialogCirclePointRadiusW((AppW) app, data,
 				handler, (GeoPoint) geoPoint1, app.getKernel());
 		circlePointRadiusInputDialog.show();
 	}
@@ -200,7 +201,7 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
-		AngleInputDialogW angleInputDialog = new AngleInputDialogW(((AppW) app), message,
+		AngleInputDialogW angleInputDialog = new AngleInputDialogW((AppW) app, message,
 				data, initText, handler, true);
 		angleInputDialog.show();
 	}
@@ -209,7 +210,7 @@ public class DialogManagerW extends DialogManager
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
 		DialogData data = new DialogData(textfield ? "TextFieldAction"
 				: "ButtonAction");
-		ButtonDialogW buttonDialog = new ButtonDialogW(((AppW) app), x, y,
+		ButtonDialogW buttonDialog = new ButtonDialogW((AppW) app, x, y,
 				data, textfield);
 		buttonDialog.show();
 		return true;
@@ -219,8 +220,18 @@ public class DialogManagerW extends DialogManager
 	 * show calculator chooser for suite
 	 */
 	public void showCalcChooser(boolean autoHide) {
-		CalculatorSwitcherDialog calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		hideCalcChooser(); // remove any previous chooser
+		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
 		calcSwitcher.show();
+	}
+
+	/**
+	 * Hide the calc chooser
+	 */
+	public void hideCalcChooser() {
+		if (calcSwitcher != null) {
+			calcSwitcher.hide();
+		}
 	}
 
 	@Override
@@ -367,7 +378,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
-				((AppW) app), message, data, initText, handler, changingSign,
+				(AppW) app, message, data, initText, handler, changingSign,
 				checkBoxText);
 		extrudeInputDialog.show();
 	}
@@ -380,7 +391,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public boolean showSliderCreationDialog(int x, int y) {
 		DialogData data = new DialogData("Slider");
-		SliderDialogW sliderDialog = new SliderDialogW(((AppW) app), data, x, y);
+		SliderDialogW sliderDialog = new SliderDialogW((AppW) app, data, x, y);
 		sliderDialog.show();
 		return true;
 	}
@@ -391,7 +402,7 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogRotateW rotatePointInputDialog = new InputDialogRotatePointW(((AppW) app), data,
+		InputDialogRotateW rotatePointInputDialog = new InputDialogRotatePointW((AppW) app, data,
 				handler, polys, points, selGeos, ec);
 		rotatePointInputDialog.show();
 	}
@@ -403,7 +414,7 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogAngleFixedW angleInputDialog = new InputDialogAngleFixedW(((AppW) app),
+		InputDialogAngleFixedW angleInputDialog = new InputDialogAngleFixedW((AppW) app,
 				data, handler, segments, points, app.getKernel(), ec);
 		angleInputDialog.show();
 	}
@@ -414,7 +425,7 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogDilateW dilateInputDialog = new InputDialogDilateW(((AppW) app), data, handler,
+		InputDialogDilateW dilateInputDialog = new InputDialogDilateW((AppW) app, data, handler,
 				points, selGeos, app.getKernel(), ec);
 		dilateInputDialog.show();
 	}
@@ -425,7 +436,7 @@ public class DialogManagerW extends DialogManager
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog segmentInputDialog = new InputDialogSegmentFixedW(((AppW) app), data,
+		ComponentInputDialog segmentInputDialog = new InputDialogSegmentFixedW((AppW) app, data,
 				handler, geoPoint1, app.getKernel());
 		segmentInputDialog.show();
 	}

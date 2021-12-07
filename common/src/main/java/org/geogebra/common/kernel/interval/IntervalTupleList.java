@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 
@@ -80,7 +81,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	}
 
 	private boolean hasTupleValue(IntervalTuple tuple) {
-		return tuple != null && tuple.y() != null && !tuple.y().isEmpty();
+		return tuple != null && tuple.y() != null && !tuple.y().isUndefined();
 	}
 
 	/**
@@ -139,6 +140,40 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	public void cutFrom(double high) {
 		list = list.stream().filter(tuple -> tuple.x().getHigh() <= high)
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 *
+	 * @param index of the tuple to check before.
+	 * @return if the y values are ascending before index.
+	 */
+	public boolean isAscendingBefore(int index) {
+		if (index < 2 || get(index - 1).isEmpty()) {
+			return false;
+		}
+
+		Interval y1 = get(index - 2).y();
+		Interval y2 = get(index - 1).y();
+		return y2 != null && y2.isGreaterThan(y1);
+	}
+
+	/**
+	 *
+	 * @param index of the tuple to check after.
+	 * @return if the y values are ascending after index.
+	 */
+	public boolean isAscendingAfter(int index) {
+		if (index >= list.size() - 2 || list.get(index + 1).isEmpty()) {
+			return false;
+		}
+		Interval y1 = get(index + 1).y();
+		Interval y2 = get(index + 2).y();
+
+		return y2 != null && y2.isGreaterThan(y1);
+	}
+
+	public Stream<IntervalTuple> stream() {
+		return list.stream();
 	}
 
 	/**

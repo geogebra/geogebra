@@ -342,7 +342,7 @@ public class DataItem {
 	public String getDataTitle(App app, boolean enableHeader) {
 
 		if (!enableHeader || sourceType == SourceType.LIST) {
-			return (getSourceString(app));
+			return getSourceString(app);
 
 		} else if (enableHeader && sourceType == SourceType.SPREADSHEET) {
 

@@ -404,7 +404,7 @@ public class FunctionInspectorModel {
 
 		// count how many roots in range
 		for (int i = 0; i < rootGeos.length; i++) {
-			GeoPoint p = ((GeoPoint) rootGeos[i]);
+			GeoPoint p = (GeoPoint) rootGeos[i];
 			if (p.isDefined()) {
 				double rt = p.inhomX;
 				if (DoubleUtil.isGreaterEqual(rt, xMin)

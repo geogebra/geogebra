@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.html5.main.AppW;
@@ -33,15 +32,15 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		DataAnalysisViewW da = ((DataAnalysisViewW) ((GuiManagerW) app
-				.getGuiManager()).getDataAnalysisView());
+		DataAnalysisViewW da = (DataAnalysisViewW) app
+				.getGuiManager().getDataAnalysisView();
 		return da.getDataAnalysisViewComponent();
 	}
 
 	@Override
 	protected Widget loadStyleBar() {
-		DataAnalysisViewW da = ((DataAnalysisViewW) ((GuiManagerW) app
-				.getGuiManager()).getDataAnalysisView());
+		DataAnalysisViewW da = (DataAnalysisViewW) app
+				.getGuiManager().getDataAnalysisView();
 		return da.getStyleBar();
 	}
 

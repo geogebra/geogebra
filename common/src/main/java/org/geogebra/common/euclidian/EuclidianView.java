@@ -27,7 +27,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawConic;
-import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -40,6 +39,7 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawWidget;
+import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
@@ -67,8 +67,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.XMLBuilder;
-import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -285,7 +283,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private final HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
 			500);
 
-	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
+	private final ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
 
 	private DrawableList allDrawableList;
 
@@ -448,20 +446,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// ggb3D 2009-02-05
 
-	private GEllipse2DDouble circle = AwtFactory.getPrototype()
+	private final GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble(); // polar
 									// grid
 									// circles
-	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
+	private final GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	private GeoElement[] previewFromInputBarGeos;
-	private ArrayList<GeoElement> geosWaiting = new ArrayList<>();
+	private final ArrayList<GeoElement> geosWaiting = new ArrayList<>();
 	private boolean labelHitNeedsRefresh = true;
 	private GeoElement labelHitLastGeo = null;
 	/** reIniting is used by GeoGebraWeb */
 	protected boolean reIniting = false;
 	private boolean backgroundIsUpdating = false;
 
-	private Hits tempArrayList = new Hits();
+	private final Hits tempArrayList = new Hits();
 
 	private CoordSystemAnimation zoomer;
 	private CoordSystemAnimation axesRatioZoomer;
@@ -502,8 +500,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GRectangle exportFrame;
 	private GRectangle tempFrame;
 	private GPoint2D[] tmpClipPoints;
-	private NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
-	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
+	private final NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
+	private final NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
@@ -513,7 +511,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
-	private Rectangle visibleRect;
+	private final Rectangle visibleRect;
 
 	public static class Rectangle {
 
@@ -989,10 +987,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (!GeoNumeric.isChangeable(yminObject)) {
 			return false;
 		}
-		if (!GeoNumeric.isChangeable(ymaxObject)) {
-			return false;
-		}
-		return true;
+		return GeoNumeric.isChangeable(ymaxObject);
 	}
 
 	/**
@@ -1332,13 +1327,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// right
-		if (DoubleUtil.isGreater(p1[0], getXmax(), tolerance)
-				&& DoubleUtil.isGreater(p2[0], getXmax(), tolerance)) {
-			return true;
-		}
+		return DoubleUtil.isGreater(p1[0], getXmax(), tolerance)
+				&& DoubleUtil.isGreater(p2[0], getXmax(), tolerance);
 
 		// close to screen
-		return false;
 	}
 
 	/**
@@ -1430,14 +1422,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Sets real world coord system using min and max values for both axes in
-	 * real world values.
+	 * Sets real world coord system to the whole EV using
+	 * min and max values for both axes in real world values.
 	 */
 	@Override
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
 			double ymin2, double ymax2) {
-		double calcXscale = getWidth() / (xmax2 - xmin2);
-		double calcYscale = getHeight() / (ymax2 - ymin2);
+		setRealWorldCoordSystemVisible(xmin2, xmax2, ymin2, ymax2, false);
+	}
+
+	/**
+	 * Sets real world coord system to the visible part or the whole EV
+	 * using min and max values for both axes in real world values.
+	 */
+	final public void setRealWorldCoordSystemVisible(double xmin2, double xmax2,
+											  double ymin2, double ymax2, boolean visible) {
+		double calcXscale = (visible ? getVisibleWidth() : getWidth()) / (xmax2 - xmin2);
+		double calcYscale = (visible ? getVisibleHeight() : getHeight()) / (ymax2 - ymin2);
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
 		double calcXzero = calcXscale * -xmin2 + visibleFromX;
@@ -4120,7 +4121,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// set the clipping region to the region defined by the axes
 
 		double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
-		double startX = getXZero() % (tickStepX);
+		double startX = getXZero() % tickStepX;
 		double startX2 = getXZero() % (tickStepX / 2);
 		double tickStepY = getYscale() * gridDistances[0];
 		double startY = getYZero() % tickStepY;
@@ -4965,9 +4966,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void setViewShowAllObjects(Rectangle allObjectsRect, boolean storeUndo, int steps) {
 		// check if animation is needed
 		if (steps == 0) {
-			setRealWorldCoordSystem(
+			setRealWorldCoordSystemVisible(
 					allObjectsRect.getMinX(), allObjectsRect.getMaxX(),
-					allObjectsRect.getMinY(), allObjectsRect.getMaxY());
+					allObjectsRect.getMinY(), allObjectsRect.getMaxY(), true);
 			if (storeUndo) {
 				getApplication().storeUndoInfo();
 			}
@@ -6203,8 +6204,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return whether size was decreased after file was loaded
 	 */
 	public boolean shrinkedSinceLoad() {
-		return (getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
-				.getFileWidth() || getHeight() < getSettings().getFileHeight()));
+		return getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
+				.getFileWidth() || getHeight() < getSettings().getFileHeight());
 	}
 
 	@Override
@@ -6703,49 +6704,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public Rectangle getVisibleRect() {
 		return visibleRect;
-	}
-
-	/**
-	 *  Converts interval of real world x coordinates
-	 *  to interval of screen x coordinates.
-
-	 * @param interval of real world x coordinates
-	 * @return interval of screen x coordinates.
-	 */
-	public Interval toScreenIntervalX(Interval interval) {
-		return new Interval(toScreenCoordXd(interval.getLow()),
-				toScreenCoordXd(interval.getHigh()));
-	}
-
-	/**
-	 *  Converts interval of real world y coordinates
-	 *  to interval of screen y coordinates.
-
-	 * @param interval of real world y coordinates
-	 * @return interval of screen y coordinates.
-	 */
-	public Interval toScreenIntervalY(Interval interval) {
-		if (interval.isOnlyInfinity()) {
-			return IntervalConstants.zero();
-		}
-		return new Interval(toScreenCoordYd(interval.getHigh()),
-				toScreenCoordYd(interval.getLow()));
-	}
-
-	/**
-	 *
-	 * @return visible x interval
-	 */
-	public Interval domain() {
-		return new Interval(xmin, xmax);
-	}
-
-	/**
-	 *
-	 * @return visible y interval
-	 */
-	public Interval range() {
-		return new Interval(xmin, xmax);
 	}
 
 	/**

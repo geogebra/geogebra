@@ -10,8 +10,6 @@ import org.geogebra.common.util.DoubleUtil;
 public class IntervalTuple {
 	private final Interval x;
 	private final Interval y;
-	private int index = -1;
-	private boolean asymptote = false;
 
 	/**
 	 *
@@ -57,6 +55,22 @@ public class IntervalTuple {
 		return y;
 	}
 
+	/**
+	 *
+	 * @return if tuple is an empty one
+	 */
+	public boolean isEmpty() {
+		return y.isUndefined();
+	}
+
+	/**
+	 *
+	 * @return if tuple y value is inverted or not
+	 */
+	public boolean isInverted() {
+		return y.isInverted();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof IntervalTuple) {
@@ -74,60 +88,5 @@ public class IntervalTuple {
 	@Override
 	public String toString() {
 		return "{x: " + x().toShortString() + ": " + y().toShortString() + "}";
-	}
-
-	public boolean isYNaN() {
-		return y == null || y.isEmpty();
-	}
-
-	/**
-	 *
-	 * @param previous tuple
-	 * @return if this tuple is right after the previous one (no gap)
-	 */
-	public boolean follows(IntervalTuple previous) {
-		return hasValue() && previous.hasValue()
-			&& DoubleUtil.isEqual(x.getLow(), previous.x.getHigh());
-	}
-
-	private boolean hasValue() {
-		return !y.isEmpty();
-	}
-
-	/**
-	 *
-	 * @return if tuple is an empty one
-	 */
-	public boolean isEmpty() {
-		return y.isEmpty();
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	public int index() {
-		return index;
-	}
-
-	public boolean isUndefined() {
-		return y.isUndefined();
-	}
-
-	public boolean isAsymptote() {
-		return asymptote;
-	}
-
-	public void markAsAsymptote() {
-		asymptote = true;
-	}
-
-	/**
-	 *
-	 * @param tuple to check
-	 * @return if tuple is contained by this range
-	 */
-	public boolean contains(IntervalTuple tuple) {
-		return x.contains(tuple.x) && y.contains(tuple.y);
 	}
 }

@@ -18,7 +18,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -28,7 +27,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -90,14 +88,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		app.registerOpenFileListener(this);
 
-		this.addBitlessDomHandler(new TouchMoveHandler() {
-			@Override
-			public void onTouchMove(TouchMoveEvent event) {
-				// prevent zooming
-				if (event.getTouches().length() > 1) {
-					event.preventDefault();
-					event.stopPropagation();
-				}
+		this.addBitlessDomHandler(event -> {
+			// prevent zooming
+			if (event.getTouches().length() > 1) {
+				event.preventDefault();
+				event.stopPropagation();
 			}
 		}, TouchMoveEvent.getType());
 		if (app.getGoogleDriveOperation() != null) {
@@ -128,13 +123,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		locationTube = new StandardButton(
 				BrowseResources.INSTANCE.location_tube());
-		locationTube.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				app.getFileManager().setFileProvider(Provider.TUBE);
-				loadAllMaterials();
-			}
+		locationTube.addFastClickHandler(source -> {
+			app.getFileManager().setFileProvider(Provider.TUBE);
+			loadAllMaterials();
 		});
 
 		setAvailableProviders();
@@ -145,15 +136,11 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		if (locationDrive == null) {
 			locationDrive = new StandardButton(
 					BrowseResources.INSTANCE.location_drive());
-			locationDrive.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					if (BrowseGUI.this.app.getGoogleDriveOperation() != null) {
-						app.getFileManager().setFileProvider(Provider.GOOGLE);
-						BrowseGUI.this.app.getGoogleDriveOperation()
-						        .requestPicker();
-					}
+			locationDrive.addFastClickHandler(source -> {
+				if (app.getGoogleDriveOperation() != null) {
+					app.getFileManager().setFileProvider(Provider.GOOGLE);
+					app.getGoogleDriveOperation()
+							.requestPicker();
 				}
 			});
 		}

@@ -650,13 +650,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// vector + number (for complex addition)
 		else if (lt instanceof VectorValue && rt instanceof NumberValue) {
 			vec = ((VectorValue) lt).getVector();
-			GeoVec2D.add(vec, ((NumberValue) rt), vec);
+			GeoVec2D.add(vec, (NumberValue) rt, vec);
 			return vec;
 		}
 		// number + vector (for complex addition)
 		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
-			GeoVec2D.add(vec, ((NumberValue) lt), vec);
+			GeoVec2D.add(vec, (NumberValue) lt, vec);
 			return vec;
 		}
 		// list + vector
@@ -669,7 +669,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 													// before
 					// + point
 					vec = ((VectorValue) rt).getVector();
-					GeoVec2D.add(vec, ((ListValue) lt), vec);
+					GeoVec2D.add(vec, (ListValue) lt, vec);
 					return vec;
 				}
 			}
@@ -690,7 +690,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 													// before
 					// + point
 					vec = ((VectorValue) lt).getVector();
-					GeoVec2D.add(vec, ((ListValue) rt), vec);
+					GeoVec2D.add(vec, (ListValue) rt, vec);
 					return vec;
 				}
 			}
@@ -847,25 +847,25 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// vector - number (for complex subtraction)
 		else if (lt instanceof VectorValue && rt instanceof NumberValue) {
 			vec = ((VectorValue) lt).getVector();
-			GeoVec2D.sub(vec, ((NumberValue) rt), vec);
+			GeoVec2D.sub(vec, (NumberValue) rt, vec);
 			return vec;
 		}
 		// number - vector (for complex subtraction)
 		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
-			GeoVec2D.sub(((NumberValue) lt), vec, vec);
+			GeoVec2D.sub((NumberValue) lt, vec, vec);
 			return vec;
 		}
 		// list - vector
 		else if (lt instanceof ListValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector();
-			GeoVec2D.sub(vec, ((ListValue) lt), vec, false);
+			GeoVec2D.sub(vec, (ListValue) lt, vec, false);
 			return vec;
 		}
 		// vector - list
 		else if (rt instanceof ListValue && lt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
-			GeoVec2D.sub(vec, ((ListValue) rt), vec, true);
+			GeoVec2D.sub(vec, (ListValue) rt, vec, true);
 			return vec;
 		} else if (lt instanceof TextValue) {
 
@@ -944,7 +944,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (vec.getToStringMode() == Kernel.COORD_COMPLEX) {
 
 				// complex power
-				GeoVec2D.complexPower(vec, ((NumberValue) rt), vec);
+				GeoVec2D.complexPower(vec, (NumberValue) rt, vec);
 				return vec;
 
 			}
@@ -1016,7 +1016,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			long bl = Math.round(b);
 			if (b == 0) {
 				// (x^a)^(1/0)
-				return (Double.NaN);
+				return Double.NaN;
 			} else if (DoubleUtil.isEqual(b, bl)) { // b is
 												// integer
 				// divide through greatest common divisor of a
@@ -1045,16 +1045,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (oddB) {
 					// base < 0 and b odd: (base)^(1/b) =
 					// -(-base^(1/b))
-					return (-Math.pow(-base, 1d / bl));
+					return -Math.pow(-base, 1d / bl);
 				}
 				// base < 0 and a & b even: (base)^(1/b)
 				// = undefined
-				return (Double.NaN);
+				return Double.NaN;
 			}
 		}
 
 		return MyDouble.pow(base, right.evaluateDouble());
-
 	}
 
 	/**
@@ -1399,7 +1398,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// Application.debug(rt.getClass()+" "+rt.getClass());
 		if (lt instanceof GeoList && rt instanceof ListValue) {
 
-			GeoList sublist = ((GeoList) lt);
+			GeoList sublist = (GeoList) lt;
 			ListValue lv = (ListValue) rt;
 			int idx = -1;
 			// convert list1(1,2) into Element[Element[list1,1],2]

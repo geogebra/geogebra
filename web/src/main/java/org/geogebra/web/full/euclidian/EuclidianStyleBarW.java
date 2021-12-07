@@ -645,7 +645,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected boolean isBackground() {
-		return (btnShowGrid != null && btnShowGrid.isVisible());
+		return btnShowGrid != null && btnShowGrid.isVisible();
 	}
 
 	/**
@@ -920,8 +920,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 			public void update(List<GeoElement> geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 						.checkGeosForAngleInterval(geos);
-				boolean geosOK = (geo != null
-						&& !app.isUnbundledOrWhiteboard());
+				boolean geosOK = geo != null
+						&& !app.isUnbundledOrWhiteboard();
 				super.setVisible(geosOK);
 				if (geosOK) {
 					setSelectedIndex(((AngleProperties) geo).getAngleStyle()
@@ -986,9 +986,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
-					boolean geosOK = (geos.size() > 0 || (EuclidianView
+					boolean geosOK = geos.size() > 0 || (EuclidianView
 							.isPenMode(mode)
-							&& !app.isUnbundledOrWhiteboard()));
+							&& !app.isUnbundledOrWhiteboard());
 					for (GeoElement geoElement : geos) {
 						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();

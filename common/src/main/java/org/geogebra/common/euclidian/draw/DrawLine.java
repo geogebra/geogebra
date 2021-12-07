@@ -571,7 +571,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 
 				// calc the line g through (xRW,yRW) and parallel to l
 				GeoVec3D.cross(xRW, yRW, 1.0, linePreview.getY(), -linePreview.getX(),
-						0.0, ((GeoLine) g));
+						0.0, (GeoLine) g);
 				break;
 			case PERPENDICULAR:
 				linePreview = null;
@@ -586,7 +586,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 
 				// calc the line g through (xRW,yRW) and perpendicular to l
 				GeoVec3D.cross(xRW, yRW, 1.0, linePreview.getX(), linePreview.getY(),
-						0.0, ((GeoLine) g));
+						0.0, (GeoLine) g);
 				break;
 			case PERPENDICULAR_BISECTOR:
 				// calc the perpendicular bisector
@@ -594,7 +594,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				double startx = coordsForMousePos.getX();
 				double starty = coordsForMousePos.getY();
 				GeoVec3D.cross((xRW + startx) / 2, (yRW + starty) / 2, 1.0,
-						-yRW + starty, xRW - startx, 0.0, ((GeoLine) g));
+						-yRW + starty, xRW - startx, 0.0, (GeoLine) g);
 
 				break;
 			case ANGLE_BISECTOR:

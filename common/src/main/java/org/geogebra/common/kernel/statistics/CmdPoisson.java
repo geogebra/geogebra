@@ -34,8 +34,7 @@ public class CmdPoisson extends CommandProcessor {
 
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0] instanceof GeoNumberValue)) {
-
+			if (arg[0] instanceof GeoNumberValue) {
 				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons,
 						c.getLabel(), (GeoNumberValue) arg[0]);
 

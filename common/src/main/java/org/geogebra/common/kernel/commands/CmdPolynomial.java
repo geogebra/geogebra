@@ -35,7 +35,7 @@ public class CmdPolynomial extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			if ((arg[0].isRealValuedFunction())) {
+			if (arg[0].isRealValuedFunction()) {
 
 				AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction(
 						cons, c.getLabel(),
@@ -45,9 +45,9 @@ public class CmdPolynomial extends CommandProcessor {
 				return ret;
 			}
 			// PolynomialFromCoordinates
-			else if ((arg[0].isGeoList())) {
+			else if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
-						polynomialFunction(c.getLabel(), ((GeoList) arg[0])) };
+						polynomialFunction(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else {
 				throw argErr(c, arg[0]);

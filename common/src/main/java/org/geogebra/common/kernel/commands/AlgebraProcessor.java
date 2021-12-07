@@ -71,7 +71,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
+import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -2094,9 +2094,9 @@ public class AlgebraProcessor {
 			if (replaceable instanceof GeoNumeric) {
 				((GeoNumeric) replaceable).extendMinMax(ret[0]);
 			}
-			RedefinitionRule rule = info.getRedefinitionRule();
-			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
-					ret[0].getGeoClassType())) {
+			RuleCollection rule = info.getRedefinitionRule();
+			if (rule != null && !rule.allowed(replaceable,
+					ret[0])) {
 				Log.debug("Cannot change " + replaceable.getGeoClassType() + " to "
 						+ ret[0].getGeoClassType());
 				// Set undefined
@@ -2643,7 +2643,7 @@ public class AlgebraProcessor {
 
 		GeoElement[] vars = fun.getGeoElementVariables(
 				info.getSymbolicMode());
-		boolean isIndependent = (vars == null || vars.length == 0);
+		boolean isIndependent = vars == null || vars.length == 0;
 
 		if (isIndependent) {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
@@ -2716,7 +2716,7 @@ public class AlgebraProcessor {
 		}
 		// s = t^2
 		String singleLeftVariable = null;
-		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)) {
+		if (lhs instanceof Variable || lhs instanceof GeoDummyVariable) {
 			singleLeftVariable = lhs.toString(StringTemplate.defaultTemplate);
 			if (kernel.lookupLabel(singleLeftVariable) != null) {
 				singleLeftVariable = null;

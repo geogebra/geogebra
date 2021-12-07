@@ -95,7 +95,7 @@ public class SuggestionStatistics extends Suggestion {
 		GeoElementND statGeoElement = geo instanceof GeoSymbolic
 				? ((GeoSymbolic) geo).getTwinGeo() : geo;
 
-		if ((statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() < 2)) {
+		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() < 2) {
 			neededAlgos[Q1] = false;
 			neededAlgos[Q3] = false;
 		}

@@ -16,7 +16,6 @@ import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
@@ -414,24 +413,20 @@ public class AlgebraInputW extends FlowPanel
 			setHelpPopup();
 
 			helpPopup.setPopupPositionAndShow(
-					new GPopupPanel.PositionCallback() {
-						@Override
-						public void setPosition(int offsetWidth,
-								int offsetHeight) {
-							helpPopup.getElement().getStyle()
-									.setProperty("left", "auto");
-							helpPopup.getElement().getStyle().setProperty("top",
-									"auto");
-							helpPopup.getElement().getStyle().setRight(0,
-									Unit.PX);
-							helpPopup.getElement().getStyle()
-									.setBottom(
-											getOffsetHeight()
-													* app.getGeoGebraElement()
-															.getScaleX(),
-											Unit.PX);
-							helpPopup.show();
-						}
+					(offsetWidth, offsetHeight) -> {
+						helpPopup.getElement().getStyle()
+								.setProperty("left", "auto");
+						helpPopup.getElement().getStyle().setProperty("top",
+								"auto");
+						helpPopup.getElement().getStyle().setRight(0,
+								Unit.PX);
+						helpPopup.getElement().getStyle()
+								.setBottom(
+										getOffsetHeight()
+												* app.getGeoGebraElement()
+														.getScaleX(),
+										Unit.PX);
+						helpPopup.show();
 					});
 			((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel())
 					.focusCommand(inputField.getCommand());

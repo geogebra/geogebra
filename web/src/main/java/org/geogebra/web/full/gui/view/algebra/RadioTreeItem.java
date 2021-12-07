@@ -44,7 +44,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
@@ -57,7 +56,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -372,9 +370,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			canvas.addStyleName("canvasDef");
 			definitionPanel.add(canvas);
 		}
-		if (geo == null) {
-			Log.debug("CANVAS to DEF");
-		}
 	}
 
 	protected boolean updateValuePanel(String text) {
@@ -451,9 +446,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public void previewValue(GeoElement previewGeo) {
 
-		if ((previewGeo
+		if (previewGeo
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
-				|| getController().isInputAsText())) {
+				|| getController().isInputAsText()) {
 			clearPreview();
 
 		} else if (isInputTreeItem()) {
@@ -522,9 +517,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
 			content.clear();
-			if (geo == null) {
-				Log.debug("CANVAS to IHTML");
-			}
 			content.add(canvas);
 		} else {
 			if (!buildPlainTextSimple()) {
@@ -543,9 +535,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput(0) != geo
 				&& mayNeedOutput()) {
-			Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
 			content.addStyleName("additionalRow");
-			prefix.addStyleName("prefix");
 			updateFont(content);
 
 			Image arrow = new NoDragImage(
@@ -845,28 +835,24 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, geo, redefine);
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(geo, newValue, info, true,
-								new AsyncOperation<GeoElementND>() {
-
-									@Override
-									public void callback(GeoElementND geo2) {
-										if (geo2 != null) {
-											geo = geo2.toGeoElement();
-											lastTeX = null;
-											lastInput = null;
-										}
-										if (geo instanceof GeoText && wasLaTeX
-												&& geo.isIndependent()) {
-											((GeoText) geo).setLaTeX(true, false);
-										}
-										if (marblePanel != null) {
-											marblePanel.updateIcons(false);
-										}
-										updateAfterRedefine(geo2 != null);
-										if (callback != null) {
-											callback.callback(geo2);
-										}
-
+								geo2 -> {
+									if (geo2 != null) {
+										geo = geo2.toGeoElement();
+										lastTeX = null;
+										lastInput = null;
 									}
+									if (geo instanceof GeoText && wasLaTeX
+											&& geo.isIndependent()) {
+										((GeoText) geo).setLaTeX(true, false);
+									}
+									if (marblePanel != null) {
+										marblePanel.updateIcons(false);
+									}
+									updateAfterRedefine(geo2 != null);
+									if (callback != null) {
+										callback.callback(geo2);
+									}
+
 								}, AlgebraInputW.getWarningHandler(this, app));
 				// make sure edting ends: run callback even if not successful
 				// TODO maybe prevent running this twice?
@@ -1043,7 +1029,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		int itemTop = this.isInputTreeItem()
 				? main.getElement().getAbsoluteTop()
 				: getElement().getAbsoluteTop();
-		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
+		return itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35;
 	}
 
 	/**
@@ -1108,8 +1094,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected boolean hasGeoExtendedAV() {
-		return (geo instanceof HasExtendedAV
-				&& ((HasExtendedAV) geo).isShowingExtendedAV());
+		return (geo instanceof HasExtendedAV)
+				&& ((HasExtendedAV) geo).isShowingExtendedAV();
 	}
 
 	/**
@@ -1274,47 +1260,44 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void updateHelpPosition(final InputBarHelpPanelW helpPanel) {
-		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				double scale = app.getGeoGebraElement().getScaleX();
-				double renderScale = app.getAppletParameters().getDataParamApp()
-						? scale : 1;
-				helpPopup.getElement().getStyle()
-						.setProperty("left",
-								(marblePanel.getAbsoluteLeft() - app.getAbsLeft()
-										+ marblePanel.getOffsetWidth()) * renderScale
-										+ "px");
-				int maxOffsetHeight;
-				int totalHeight = (int) app.getHeight();
-				int toggleButtonTop = (int) ((marblePanel.getAbsoluteTop()
-						- (int) app.getAbsTop()) / scale);
-				if (toggleButtonTop < totalHeight / 2) {
-					int top = (toggleButtonTop
-							+ marblePanel.getOffsetHeight());
-					maxOffsetHeight = totalHeight - top;
-					helpPopup.getElement().getStyle().setProperty("top",
-							top * renderScale + "px");
-					helpPopup.getElement().getStyle().setProperty("bottom",
-							"auto");
-					helpPopup.removeStyleName("helpPopupAVBottom");
-					helpPopup.addStyleName("helpPopupAV");
-				} else {
-					int minBottom = app.isApplet() ? 0 : 10;
-					int bottom = (totalHeight - toggleButtonTop);
-					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-							: totalHeight - minBottom;
-					helpPopup.getElement().getStyle().setProperty("bottom",
-							(bottom > 0 ? bottom : minBottom) * renderScale
+		helpPopup.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
+			double scale = app.getGeoGebraElement().getScaleX();
+			double renderScale = app.getAppletParameters().getDataParamApp()
+					? scale : 1;
+			helpPopup.getElement().getStyle()
+					.setProperty("left",
+							(marblePanel.getAbsoluteLeft() - app.getAbsLeft()
+									+ marblePanel.getOffsetWidth()) * renderScale
 									+ "px");
-					helpPopup.getElement().getStyle().setProperty("top",
-							"auto");
-					helpPopup.removeStyleName("helpPopupAV");
-					helpPopup.addStyleName("helpPopupAVBottom");
-				}
-				helpPanel.updateGUI(maxOffsetHeight);
-				helpPopup.show();
+			int maxOffsetHeight;
+			int totalHeight = (int) app.getHeight();
+			int toggleButtonTop = (int) ((marblePanel.getAbsoluteTop()
+					- (int) app.getAbsTop()) / scale);
+			if (toggleButtonTop < totalHeight / 2) {
+				int top = toggleButtonTop
+						+ marblePanel.getOffsetHeight();
+				maxOffsetHeight = totalHeight - top;
+				helpPopup.getElement().getStyle().setProperty("top",
+						top * renderScale + "px");
+				helpPopup.getElement().getStyle().setProperty("bottom",
+						"auto");
+				helpPopup.removeStyleName("helpPopupAVBottom");
+				helpPopup.addStyleName("helpPopupAV");
+			} else {
+				int minBottom = app.isApplet() ? 0 : 10;
+				int bottom = totalHeight - toggleButtonTop;
+				maxOffsetHeight = bottom > 0 ? totalHeight - bottom
+						: totalHeight - minBottom;
+				helpPopup.getElement().getStyle().setProperty("bottom",
+						(bottom > 0 ? bottom : minBottom) * renderScale
+								+ "px");
+				helpPopup.getElement().getStyle().setProperty("top",
+						"auto");
+				helpPopup.removeStyleName("helpPopupAV");
+				helpPopup.addStyleName("helpPopupAVBottom");
 			}
+			helpPanel.updateGUI(maxOffsetHeight);
+			helpPopup.show();
 		});
 	}
 

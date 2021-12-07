@@ -219,27 +219,22 @@ public class MathArray extends MathContainer {
 	@Override
 	public MathArray copy() {
 		MathArray array = new MathArray(meta, columns, rows);
-		array.copy(0, 0, this);
+		array.copy(this);
 		return array;
 	}
 
 	/**
 	 * Copy array into this object (with silent clipping).
 	 *
-	 * @param ioffset
-	 *            leading empty rows
-	 * @param joffset
-	 *            leading empty columns.
 	 * @param array
 	 *            original array
 	 */
-	public void copy(int ioffset, int joffset, MathArray array) {
-		for (int i = 0; (i < (rows + joffset) || i < array.rows); i++) {
-			for (int j = 0; (j < (columns + ioffset)
-					|| j < array.columns); j++) {
+	public void copy(MathArray array) {
+		for (int i = 0; i < rows || i < array.rows; i++) {
+			for (int j = 0; j < columns	|| j < array.columns; j++) {
 				MathSequence component = array.getArgument(i, j);
 				component = component.copy();
-				setArgument(i + ioffset, j + joffset, component);
+				setArgument(i, j, component);
 			}
 		}
 	}

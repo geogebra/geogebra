@@ -218,11 +218,11 @@ public class PointDt {
 	 * @return a String: x y z (used by the save to file - write_tsin method).
 	 */
 	public String toFile() {
-		return ("" + x + " " + y + " " + z);
+		return x + " " + y + " " + z;
 	}
 
 	String toFileXY() {
-		return ("" + x + " " + y);
+		return x + " " + y;
 	}
 
 	// pointLineTest

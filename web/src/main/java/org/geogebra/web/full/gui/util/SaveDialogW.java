@@ -165,7 +165,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		if (providerPopup != null) {
 			visibilityPanel.remove(providerPopup);
 		}
-		providerPopup = new PopupMenuButtonW(((AppW) app), ImageOrText.convert(
+		providerPopup = new PopupMenuButtonW((AppW) app, ImageOrText.convert(
 		        providerImages, 24), 1, providerCount,
 				SelectionTable.MODE_ICON);
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");

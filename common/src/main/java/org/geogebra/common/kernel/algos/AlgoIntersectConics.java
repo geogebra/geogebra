@@ -380,12 +380,12 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 		if (DoubleUtil.isZero(r1 + r2 - dist)) {
 			// circles (externally) tangential
-			Q[0].setCoords(((r1 * x2) + (r2 * x1)), ((r1 * y2) + (r2 * y1)), (r1 + r2));
+			Q[0].setCoords((r1 * x2) + (r2 * x1), (r1 * y2) + (r2 * y1), r1 + r2);
 			Q[1].setUndefined();
 
 		} else if (DoubleUtil.isZero(Math.abs(r1 - r2) - dist)) {
 			// circles tangential, one inside the other
-			Q[0].setCoords(((r1 * x2) - (r2 * x1)), ((r1 * y2) - (r2 * y1)), (r1 - r2));
+			Q[0].setCoords((r1 * x2) - (r2 * x1), (r1 * y2) - (r2 * y1), r1 - r2);
 			Q[1].setUndefined();
 
 		} else {
@@ -633,7 +633,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 		// we have a singularity if there are two defined points
 		// that are equal
-		return (count == 2 && P[index[0]].isEqual(P[index[1]]));
+		return count == 2 && P[index[0]].isEqual(P[index[1]]);
 	}
 
 	/**

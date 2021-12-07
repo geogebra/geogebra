@@ -145,19 +145,19 @@ public class CompatibilityLayout {
 
 		// use two split panes in case all three views are visible
 		if (showSpreadsheet && showAlgebra) {
-			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width : height);
+			int total = splitOrientation == SwingConstants.HORIZONTAL_SPLIT
+					? width : height;
 			double relative1 = (double) sp2 / total;
 			double relative2 = (double) sp1 / (total - sp2);
 			spXml = new DockSplitPaneData[] {
 					new DockSplitPaneData("", relative1, splitOrientation),
 					new DockSplitPaneData(
-							(splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-									? "1" : "2"),
+							splitOrientation == SwingConstants.HORIZONTAL_SPLIT
+									? "1" : "2",
 							relative2, splitOrientation) };
 		} else {
-			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width : height);
+			int total = splitOrientation == SwingConstants.HORIZONTAL_SPLIT
+					? width : height;
 			double relative;
 			if (showSpreadsheet) {
 				relative = sp1 / (double) total;

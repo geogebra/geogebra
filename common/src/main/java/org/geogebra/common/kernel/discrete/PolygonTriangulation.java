@@ -244,7 +244,7 @@ public class PolygonTriangulation {
 			if (toLeft != null) {
 				s.append("/ to left : ");
 				for (Segment segment : toLeft) {
-					s.append(((int) (segment.orientation * 180 / Math.PI)));
+					s.append((int) (segment.orientation * 180 / Math.PI));
 					s.append(Unicode.DEGREE_CHAR);
 					s.append(':');
 					s.append(segment.leftPoint.name);
@@ -256,7 +256,7 @@ public class PolygonTriangulation {
 			if (toRight != null) {
 				s.append("/ to right : ");
 				for (Segment segment : toRight) {
-					s.append(((int) (segment.orientation * 180 / Math.PI)));
+					s.append((int) (segment.orientation * 180 / Math.PI));
 					s.append(Unicode.DEGREE_CHAR);
 					s.append(':');
 					s.append(segment.rightPoint.name);
@@ -932,7 +932,7 @@ public class PolygonTriangulation {
 		} else if (delta > Math.PI) {
 			delta -= 2 * Math.PI;
 		}
-		boolean positive = (delta > 0);
+		boolean positive = delta > 0;
 		debug(point1.name + "(" + (point1.orientationToNext * 180 / Math.PI)
 				+ Unicode.DEGREE_CHAR + ")");
 		debug(point2.name + "(" + (point2.orientationToNext * 180 / Math.PI)

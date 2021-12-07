@@ -110,7 +110,7 @@ public class ClipShape {
 		public void curveTo(Function xf, Function yf, double t0, double t1) {
 			flush(); // flush out lines
 
-			double dt = (t1 - t0);
+			double dt = t1 - t0;
 			// I know I'm not explaining the math here, but you can derive
 			// it with a little time and a few sheets of paper. The API for
 			// the PathIterator shows the equations relating to bezier
@@ -126,8 +126,8 @@ public class ClipShape {
 			double y0 = yf.evaluate(t0);
 			double y1 = yf.evaluate(t1);
 
-			g.curveTo((x0 + dx0 / 3), (y0 + dy0 / 3), (x1 - dx1 / 3),
-					(y1 - dy1 / 3), (x1), (y1));
+			g.curveTo(x0 + dx0 / 3, y0 + dy0 / 3, x1 - dx1 / 3,
+					y1 - dy1 / 3, x1, y1);
 		}
 
 		/**

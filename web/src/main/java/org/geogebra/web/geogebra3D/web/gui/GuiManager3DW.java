@@ -74,16 +74,12 @@ public class GuiManager3DW extends GuiManagerW {
 	 * @return command to show/hide 3D axis
 	 */
 	public Command getShowAxes3DAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				// toggle axes
-				((EuclidianView3DW) getApp().getEuclidianView3D()).toggleAxis();
-				// getApp().getEuclidianView().repaint();
-				getApp().storeUndoInfo();
-				getApp().updateMenubar();
-			}
+		return () -> {
+			// toggle axes
+			((EuclidianView3DW) getApp().getEuclidianView3D()).toggleAxis();
+			// getApp().getEuclidianView().repaint();
+			getApp().storeUndoInfo();
+			getApp().updateMenubar();
 		};
 	}
 
@@ -92,16 +88,12 @@ public class GuiManager3DW extends GuiManagerW {
 	 * @return command to show/hide 3D grid
 	 */
 	public Command getShowGrid3DAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				// toggle grid
-				((EuclidianView3DW) getApp().getEuclidianView3D()).toggleGrid();
-				// getApp().getEuclidianView().repaint();
-				getApp().storeUndoInfo();
-				getApp().updateMenubar();
-			}
+		return () -> {
+			// toggle grid
+			((EuclidianView3DW) getApp().getEuclidianView3D()).toggleGrid();
+			// getApp().getEuclidianView().repaint();
+			getApp().storeUndoInfo();
+			getApp().updateMenubar();
 		};
 	}
 
@@ -110,17 +102,13 @@ public class GuiManager3DW extends GuiManagerW {
 	 * @return command to show/hide 3D plane
 	 */
 	public Command getShowPlane3DAction() {
-		return new Command() {
-
-			@Override
-			public void execute() {
-				// toggle plane
-				((EuclidianView3DW) getApp().getEuclidianView3D())
-				        .getSettings().togglePlane();
-				// getApp().getEuclidianView().repaint();
-				getApp().storeUndoInfo();
-				getApp().updateMenubar();
-			}
+		return () -> {
+			// toggle plane
+			((EuclidianView3DW) getApp().getEuclidianView3D())
+					.getSettings().togglePlane();
+			// getApp().getEuclidianView().repaint();
+			getApp().storeUndoInfo();
+			getApp().updateMenubar();
 		};
 	}
 

@@ -617,8 +617,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			case LATEX:
 
 				// add brackets for eg e^b^c -> e^(b^c)
-				boolean addParentheses = (left.isExpressionNode()
-						&& ((ExpressionNode) left).getOperation().equals(Operation.POWER));
+				boolean addParentheses = left.isOperation(Operation.POWER);
 
 				sb.append("\\mathit{e}^{");
 				if (addParentheses) {

@@ -52,7 +52,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		 *            nr of cloumns
 		 */
 		public void setColumns(int columns) {
-			setWidth(((columns) * BUTTON_WIDTH) + "px");
+			setWidth((columns * BUTTON_WIDTH) + "px");
 		}
 	}
 

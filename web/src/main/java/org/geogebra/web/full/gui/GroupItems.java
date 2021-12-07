@@ -8,8 +8,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
-import com.google.gwt.core.client.Scheduler;
-
 /**
  * Class to create group related menu items.
  */
@@ -54,26 +52,20 @@ public class GroupItems {
 
 	private AriaMenuItem createUngroupItem() {
 		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Ungroup"), false,
-				new Scheduler.ScheduledCommand() {
-					@Override
-					public void execute() {
-						app.getKernel().getConstruction().ungroupGroups(getGeos());
-						app.storeUndoInfo();
-						app.getEventDispatcher().ungroupObjects(getGeos());
-					}
+				() -> {
+					app.getKernel().getConstruction().ungroupGroups(getGeos());
+					app.storeUndoInfo();
+					app.getEventDispatcher().ungroupObjects(getGeos());
 				});
 	}
 
 	private AriaMenuItem createGroupItem() {
 		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Group"), false,
-				new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				app.getKernel().getConstruction().createGroupFromSelected(getGeos());
-				app.storeUndoInfo();
-				app.getEventDispatcher().groupObjects(getGeos());
-			}
-		});
+				() -> {
+					app.getKernel().getConstruction().createGroupFromSelected(getGeos());
+					app.storeUndoInfo();
+					app.getEventDispatcher().groupObjects(getGeos());
+				});
 	}
 
 	private ArrayList<GeoElement> getGeos() {

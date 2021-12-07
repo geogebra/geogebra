@@ -103,7 +103,7 @@ public class Polynomial implements HasDebugString {
 	 * @return true if there are no terms
 	 */
 	boolean isEmpty() {
-		return (terms.size() == 0);
+		return terms.size() == 0;
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class Polynomial implements HasDebugString {
 		}
 		try {
 			Term t = terms.get(0);
-			return (t.getVars().equals(var) && t.getCoefficient().isConstant()
-					&& t.getCoefficient().evaluateDouble() == 1.0);
+			return t.getVars().equals(var) && t.getCoefficient().isConstant()
+					&& t.getCoefficient().evaluateDouble() == 1.0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -570,7 +570,7 @@ public class Polynomial implements HasDebugString {
 	public boolean isConstant(EvalInfo info) {
 		HashSet<GeoElement> vars = getVariables(
 				info.getSymbolicMode());
-		return (vars == null || vars.size() == 0);
+		return vars == null || vars.size() == 0;
 	}
 
 	/**

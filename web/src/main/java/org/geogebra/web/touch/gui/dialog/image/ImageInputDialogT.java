@@ -4,7 +4,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -13,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
@@ -92,13 +90,7 @@ public class ImageInputDialogT extends UploadImageDialog implements ClickHandler
 		filePanel.add(chooseFromFile = new StandardButton(
 				((AppW) app).getLocalization().getMenu("ChooseFromFile")));
 		chooseFromFile.addStyleName("gwt-Button");
-		chooseFromFile.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				openFromFileClicked();
-			}
-		});
+		chooseFromFile.addFastClickHandler(source -> openFromFileClicked());
 
 		filePanel.add(picturePanel = new SimplePanel());
 		picturePanel.setStyleName("inputPanel");

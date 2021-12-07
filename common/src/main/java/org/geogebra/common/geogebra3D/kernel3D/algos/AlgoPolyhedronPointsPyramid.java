@@ -103,7 +103,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 			polyhedron.startNewFace();
 			polyhedron.addPointToCurrentFace(bottomPoints[i]);
 			polyhedron.addPointToCurrentFace(
-					bottomPoints[(i + 1) % (bottomPointsLength)]);
+					bottomPoints[(i + 1) % bottomPointsLength]);
 			polyhedron.addPointToCurrentFace(topPoint); // apex
 			polyhedron.endCurrentFace();
 		}

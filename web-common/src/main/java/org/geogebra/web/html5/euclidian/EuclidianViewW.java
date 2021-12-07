@@ -436,7 +436,9 @@ public class EuclidianViewW extends EuclidianView implements
 			exportPaintPre(g4copy, scale, transparency);
 			drawObjects(g4copy);
 			this.appW.setExporting(ExportType.NONE, 1);
-			callback.accept(canvas2svg.getSerializedSvg(true));
+			String serializedSvg = canvas2svg.getSerializedSvg(true);
+			BlobResolver blobResolver = new BlobResolver(serializedSvg);
+			blobResolver.resolve(callback);
 		});
 	}
 

@@ -118,7 +118,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		} else {
 			DrawableND drawable = view.getDrawableFor(input);
 			if (drawable instanceof DrawInputBox) {
-				showRedefinedBox(((DrawInputBox) drawable));
+				showRedefinedBox((DrawInputBox) drawable);
 			}
 		}
 	}
@@ -172,5 +172,14 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected void setBaseline(double baseline) {
 		this.baseline = baseline;
+	}
+
+	protected void setProtection() {
+		if (getGeoInputBox().isListEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setKeepCommas();
+		} else if (getGeoInputBox().getLinkedGeo().hasSpecialEditor()) {
+			getMathFieldInternal().getFormula().getRootComponent().setProtected();
+			getMathFieldInternal().setLockedCaretPath();
+		}
 	}
 }

@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -143,26 +142,16 @@ public class PropertiesStyleBarW extends
 		closeImage.addStyleName("closeButton");
 		TestHarness.setAttr(closeImage, "closeButton");
 		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),
-				true, new ScheduledCommand() {
-
-					@Override
-					public void execute() {
-						propertiesView.close();
-					}
-		}));
+				true, propertiesView::close));
 		buttonMap = new HashMap<>();
 		
 		for (final OptionType type : OPTION_TYPE_IMPL) {
 			if (typeAvailable(type)) {
 				final PropertiesButton btn = new PropertiesButton(app,
-						getMenuHtml(type), new Command() {
-
-					@Override
-					public void execute() {
-						propertiesView.setOptionPanel(type, 0);
-						selectButton(type);
-					}
-				});
+						getMenuHtml(type), () -> {
+							propertiesView.setOptionPanel(type, 0);
+							selectButton(type);
+						});
 				btn.setTitle(propertiesView.getTypeString(type));
 				toolbar.addItem(btn);
 				buttonMap.put(type, btn);

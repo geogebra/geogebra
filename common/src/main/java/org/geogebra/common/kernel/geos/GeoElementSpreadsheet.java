@@ -287,10 +287,9 @@ public class GeoElementSpreadsheet {
 
 		GeoElement cell = app.getKernel().lookupLabel(cellName);
 		if (cell != null) {
-			(cell).setVisualStyle(cellGeo);
-			(cell).setAuxiliaryObject(true);
+			cell.setVisualStyle(cellGeo);
+			cell.setAuxiliaryObject(true);
 		}
-
 	}
 
 	/**

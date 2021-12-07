@@ -33,7 +33,6 @@
 
 
 .GeoGebraFrame {
-.DialogBox,
 	.gwt-DialogBox {
 		z-index: z-index.$z-dialog-over-keyboard;
 		/*box-shadow: 1px 1px 6px 1px #666666;*/
@@ -88,74 +87,6 @@
 
 	.dialogContent .gwt-CheckBox {
 		margin-right: 10px;
-	}
-
-	.DialogButtonPanel {
-		text-align: right;
-		padding-top: 10px;
-		padding-right: 10px;
-		min-width: 250px;
-		max-width: 100%;
-	}
-
-	.DialogButtonPanel button {
-		margin-left: 5px;
-	}
-
-
-	.DialogBox .gwt-Button,
-	.DialogBox .saveButton {
-		background-color: #6161FF;
-		border: 1px solid #6161FF;
-		color: #FFF;
-		font-size: 100%;
-		box-shadow: none;
-		font-weight: normal;
-		margin-left: 15px;
-	}
-
-	.DialogBox .gwt-Button:hover,
-	.DialogBox .saveButton:hover {
-		background-color: #CCCCFF;
-		color: #6161FF;
-	}
-
-	.DialogBox .gwt-Button:active,
-	.DialogBox .saveButton:active {
-		box-shadow: 0 1px 3px 0 rgba(51, 51, 255, 0.5) inset;
-		background-color: #CCCCFF;
-		color: #6161FF;
-	}
-
-	.DialogBox .gwt-Button.cancelBtn,
-	.DialogBox .button.cancelBtn,
-	.DialogBox .gwt-Button.resetBtn,
-	.DialogBox .button.resetBtn {
-		color: #666666;
-		border: none;
-		background: none;
-		text-decoration: underline;
-		padding: 5px 0;
-		font-size: 100%;
-		box-shadow: none;
-		font-weight: normal;
-	}
-	.DialogBox .gwt-Button.cancelBtn:hover,
-	.DialogBox .gwt-Button.cancelBtn:active,
-	.DialogBox .button.cancelBtn:hover,
-	.DialogBox .button.cancelBtn:active,
-	.DialogBox .gwt-Button.resetBtn:hover,
-	.DialogBox .gwt-Button.resetBtn:active,
-	.DialogBox .button.resetBtn:hover,
-	.DialogBox .button.resetBtn:active {
-		color: #6161FF;
-		background-color: none;
-		border: none;
-	}
-
-	.DialogBox .mainChild{
-		overflow-x: hidden;
-		overflow-y: auto;
 	}
 	
 	/*---------------- SHARE DIALOG -------------*/

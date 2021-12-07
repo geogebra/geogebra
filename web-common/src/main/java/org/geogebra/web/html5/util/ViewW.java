@@ -103,9 +103,9 @@ public class ViewW {
 
 				if (extension.matches("(png|jpg|jpeg|gif|bmp|tif|tiff)")) {
 					Uint8Array obj = data.get(name);
-					archiveContent.put(name, new ArchiveEntry(obj));
+					archiveContent.put(name, new ArchiveEntry(name, obj));
 				} else {
-					archiveContent.put(name, new ArchiveEntry(FFlate.get()
+					archiveContent.put(name, new ArchiveEntry(name, FFlate.get()
 							.strFromU8(data.get(name))));
 				}
 			});
@@ -188,7 +188,8 @@ public class ViewW {
 			JsArray<JsPropertyMap<String>> content = Js.uncheckedCast(json.get("archive"));
 			for (int i = 0; i < content.length; i++) {
 				JsPropertyMap<String> entry = content.getAt(i);
-				file.put(entry.get("fileName"), new ArchiveEntry(entry.get("fileContent")));
+				String fileName = entry.get("fileName");
+				file.put(fileName, new ArchiveEntry(fileName, entry.get("fileContent")));
 			}
 		}
 	}

@@ -1040,7 +1040,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						}
 						j = j % gLength;
 						boolean pointOK = true;
-						while ((pointOK) && (i < gLength)) {
+						while (pointOK && (i < gLength)) {
 							pointOK = (this.getPoint(i).isEqual(g.getPoint(j)));
 							if (pointOK) {
 								j = j + step;
@@ -2136,9 +2136,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *         used in 2D)
 	 */
 	public boolean isConvexInverseDirection() {
-		// Log.debug(""+convexOrientation);
-
-		return (convexOrientation > 0);
+		return convexOrientation > 0;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.plugin.GgbAPI;
-import org.geogebra.web.html5.util.JsConsumer;
+import org.geogebra.gwtutil.JsConsumer;
 
 import elemental2.core.Function;
 import elemental2.dom.DomGlobal;

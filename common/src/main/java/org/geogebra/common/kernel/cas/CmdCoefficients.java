@@ -33,23 +33,23 @@ public class CmdCoefficients extends CommandProcessor implements UsesCAS {
 
 		switch (n) {
 		case 1:
-			if ((arg[0].isGeoFunction())) {
+			if (arg[0].isGeoFunction()) {
 
 				AlgoCoefficients algo = new AlgoCoefficients(cons, c.getLabel(),
 						(GeoFunction) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if ((arg[0].isGeoConic())) {
+			} else if (arg[0].isGeoConic()) {
 				AlgoEquationCoefficients algo = new AlgoConicCoefficients(cons,
 						c.getLabel(), (GeoConicND) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if ((arg[0].isGeoQuadric())) {
+			} else if (arg[0].isGeoQuadric()) {
 				AlgoQuadricCoefficients algo = new AlgoQuadricCoefficients(cons,
 						c.getLabel(), (GeoQuadricND) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else if ((arg[0].isGeoPlane())) {
+			} else if (arg[0].isGeoPlane()) {
 				AlgoPlaneCoefficients algo = new AlgoPlaneCoefficients(cons,
 						c.getLabel(), (GeoPlaneND) arg[0]);
 				GeoElement[] ret = { algo.getResult() };

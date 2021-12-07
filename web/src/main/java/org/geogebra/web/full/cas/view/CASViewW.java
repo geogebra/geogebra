@@ -56,15 +56,11 @@ public class CASViewW extends CASView implements PrintableW {
 		component.addBitlessDomHandler(ml, TouchMoveEvent.getType());
 		component.addBitlessDomHandler(ml, TouchEndEvent.getType());
 
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				getCAS().initCurrentCAS();
-				GuiManagerW gm = (GuiManagerW) app.getGuiManager();
-				if (gm != null) {
-					gm.reInitHelpPanel(true);
-				}
+		app.invokeLater(() -> {
+			getCAS().initCurrentCAS();
+			GuiManagerW gm = (GuiManagerW) app.getGuiManager();
+			if (gm != null) {
+				gm.reInitHelpPanel(true);
 			}
 		});
 		// prevent default: no blur

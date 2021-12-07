@@ -300,7 +300,7 @@ public class ShareDialogMow extends ComponentDialog
 			linkBox.focus();
 			ToolTipManagerW.sharedInstance()
 			    .showBottomMessage(((AppW) app).getLocalization()
-			    .getMenu("linkCopyClipboard"), ((AppW) app));
+			    .getMenu("linkCopyClipboard"), (AppW) app);
 		}
 	}
 
