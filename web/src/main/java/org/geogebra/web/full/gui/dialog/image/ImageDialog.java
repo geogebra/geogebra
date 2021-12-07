@@ -10,6 +10,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 
@@ -27,18 +29,30 @@ public class ImageDialog extends ComponentDialog {
 	}
 
 	private void buildGUI() {
-		MessagePanel panel1 = getErrorPanel(MaterialDesignResources.INSTANCE.download(),
-				null, "Upload an image from your local storage");
-		TabData tab1 = new TabData("Upload", panel1);
+		InfoErrorData uploadData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
+				"ImageDialog.Browse");
+		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel(app.getLocalization(),
+				uploadData, MaterialDesignResources.INSTANCE.upload(), this::onBrowse);
+		TabData uploadTab = new TabData("Upload", uploadPanel);
+
+		InfoErrorData cameraData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
+				"ImageDialog.Browse");
+		ComponentInfoErrorPanel cameraPanel = new ComponentInfoErrorPanel(app.getLocalization(),
+				uploadData, MaterialDesignResources.INSTANCE.no_camera(), null);
+		TabData cameraTab = new TabData("Upload", cameraPanel);
 
 		MessagePanel panel2 = getErrorPanel(ToolbarSvgResources.INSTANCE.mode_camera_32(),
 				"You denied access to the camera", "GeoGebra requires access to your camera."
 						+ " Click the camera blocked icon in your browser's address bar.");
 		TabData tab2 = new TabData("Camera", panel2);
 
-		ComponentTab tab = new ComponentTab(new ArrayList<>(Arrays.asList(tab1, tab2)),
+		ComponentTab tab = new ComponentTab(new ArrayList<>(Arrays.asList(uploadTab, tab2)),
 				app.getLocalization());
 		addDialogContent(tab);
+	}
+
+	private void onBrowse() {
+		// TODO browse local storage
 	}
 
 	private MessagePanel getErrorPanel(SVGResource img, String title, String text) {
