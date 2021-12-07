@@ -6757,6 +6757,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void setSafeAreaInsets(EdgeInsets safeAreaInsets) {
 		this.safeAreaInsets = safeAreaInsets;
-		repaintView();
+		updateAllDrawables(true);
 	}
 }
