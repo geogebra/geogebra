@@ -37,7 +37,7 @@ public class ArchiveEntry {
 		this(fileName, string, null);
 	}
 
-	public ArchiveEntry duplicate() {
+	public ArchiveEntry copy(String fileName) {
 		return new ArchiveEntry(fileName, string, data);
 	}
 

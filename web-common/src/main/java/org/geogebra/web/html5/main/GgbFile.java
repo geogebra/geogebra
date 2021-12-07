@@ -52,7 +52,7 @@ public class GgbFile extends HashMap<String, ArchiveEntry> implements ZipFile {
 	public GgbFile duplicate(String copyId) {
 		GgbFile copy = copyId == null ? new GgbFile() : new GgbFile(copyId);
 		for (Entry<String, ArchiveEntry> entry : entrySet()) {
-			copy.put(entry.getKey(), entry.getValue().duplicate());
+			copy.put(entry.getKey(), entry.getValue().copy(entry.getKey()));
 		}
 		return copy;
 	}
