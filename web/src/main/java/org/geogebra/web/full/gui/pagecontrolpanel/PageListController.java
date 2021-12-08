@@ -428,8 +428,9 @@ public class PageListController implements PageListControllerInterface,
 		for (Entry<String, ArchiveEntry> e : archive.entrySet()) {
 			if (e.getKey().startsWith(prefix + "/")
 					|| e.getKey().startsWith(GgbFile.SHARED_PREFIX)) {
-				ret.put(e.getKey().substring(prefix.length() + 1),
-						e.getValue());
+				String fileName = e.getKey().substring(prefix.length() + 1);
+				ArchiveEntry duplicate = e.getValue().copy(fileName);
+				ret.put(fileName, duplicate);
 			}
 		}
 		return ret;
