@@ -514,7 +514,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		}
 		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
 		        .getGuiManager()).getSpreadsheetContextMenu(table);
-		GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
+		GPopupMenuW popup = contextMenu.getMenuContainer();
 		if (relative) {
 			popup.show(grid, x, y);
 		} else {

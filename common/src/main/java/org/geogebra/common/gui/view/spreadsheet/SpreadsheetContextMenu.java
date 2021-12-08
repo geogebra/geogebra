@@ -16,7 +16,7 @@ import org.geogebra.common.plugin.EventType;
  * @author G. Sturr
  * 
  */
-public class SpreadsheetContextMenu {
+public class SpreadsheetContextMenu<T> {
 
 	/** application */
 	protected App app;
@@ -133,8 +133,7 @@ public class SpreadsheetContextMenu {
 	 * Load menu items
 	 */
 	protected void initMenu() {
-
-		Object subMenu = null;
+		T subMenu = null;
 		String cmdString = null;
 
 		setTitle(getTitleString());
@@ -682,7 +681,7 @@ public class SpreadsheetContextMenu {
 	 *            Action command key (and icon key)
 	 * @return Menu object
 	 */
-	public Object addSubMenu(String text, String cmdString) {
+	public T addSubMenu(String text, String cmdString) {
 		// to be overridden
 		return null;
 	}
@@ -697,7 +696,7 @@ public class SpreadsheetContextMenu {
 	 * @param enabled
 	 *            Flag to enable/disable the menu item
 	 */
-	public void addSubMenuItem(Object menu, final String cmdString, String text,
+	public void addSubMenuItem(T menu, final String cmdString, String text,
 			boolean enabled) {
 		// to be overridden
 	}

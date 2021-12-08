@@ -49,15 +49,17 @@ public class SpreadsheetColumnControllerD
 	/** localization */
 	final LocalizationD loc;
 
+	/**
+	 * @param app application
+	 * @param table spreadsheet table
+	 */
 	public SpreadsheetColumnControllerD(AppD app, MyTableD table) {
-
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.table = table;
 		this.view = table.getView();
 		this.model = (DefaultTableModel) table.getModel();
-
 	}
 
 	// =========================================================
@@ -209,7 +211,7 @@ public class SpreadsheetColumnControllerD
 			// show contextMenu
 			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
 					table);
-			JPopupMenu popup = (JPopupMenu) contextMenu.getMenuContainer();
+			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 
 		} else if (isResizing) {
@@ -552,15 +554,10 @@ public class SpreadsheetColumnControllerD
 		private Rectangle rect = new Rectangle();
 
 		/**
-		 * Returns true if the given mouse location (in local coordinates of the
+		 * @return true if the given mouse location (in local coordinates of the
 		 * header component) is over a trace button.
-		 * 
-		 * @param colIndex
-		 * @param loc
-		 * @param value
-		 * @return
 		 */
-		public boolean isOverTraceButton(int colIndex, Point loc,
+		protected boolean isOverTraceButton(int colIndex, Point loc,
 				Object value) {
 
 			if (!app.getTraceManager().isTraceColumn(colIndex)) {
