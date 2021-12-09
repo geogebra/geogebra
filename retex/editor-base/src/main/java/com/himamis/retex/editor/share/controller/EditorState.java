@@ -16,7 +16,8 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class EditorState {
 
-	private MetaModel metaModel;
+	private final MetaModel metaModel;
+	private final SelectAllHandler selectAll;
 	private MathSequence rootComponent;
 
 	private MathSequence currentField;
@@ -26,8 +27,13 @@ public class EditorState {
 	private MathComponent currentSelEnd;
 	private MathComponent selectionAnchor;
 
+	/**
+	 *
+	 * @param metaModel {@link MetaModel}
+	 */
 	public EditorState(MetaModel metaModel) {
 		this.metaModel = metaModel;
+		selectAll = new SelectAllHandler(this);
 	}
 
 	public MathSequence getRootComponent() {
@@ -193,9 +199,7 @@ public class EditorState {
 	 * Select the whole formula
 	 */
 	public void selectAll() {
-		currentSelStart = getRootComponent();
-		currentSelEnd = currentSelStart;
-		anchor(true);
+		selectAll.execute();
 	}
 
 	/**
@@ -395,7 +399,7 @@ public class EditorState {
 							er.mathExpression(sb.reverse().toString()));
 				} catch (Exception e) {
 					FactoryProvider.getInstance()
-							.debug("Invalid: " + sb.reverse().toString());
+							.debug("Invalid: " + sb.reverse());
 				}
 			}
 		}
