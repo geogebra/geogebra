@@ -987,6 +987,12 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	boolean canBeRemovedAsInput();
 
 	/**
+	 * set this can (not) be removed when input of algo
+	 * @param flag true to disable removing this as input
+	 */
+	void setCanBeRemovedAsInput(boolean flag);
+
+	/**
 	 * @return true for CAS cells
 	 */
 	boolean isGeoCasCell();

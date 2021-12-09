@@ -324,7 +324,4 @@ public class LabelManager {
 		return getNextIndexedLabel(LabelType.integerLabels);
 	}
 
-	public static boolean isShowableLabel(String label) {
-		return label != null && !label.startsWith(HIDDEN_PREFIX);
-	}
 }

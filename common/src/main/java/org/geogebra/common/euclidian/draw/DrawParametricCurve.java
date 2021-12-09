@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.interval.IntervalFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -294,9 +293,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			StringTemplate tpl = StringTemplate.latexTemplate;
 			labelSB.setLength(0);
 			labelSB.append('$');
-			String label = getTopLevelGeo().getLabel(tpl);
-			if (LabelManager.isShowableLabel(label)) {
-				labelSB.append(label);
+			if (getTopLevelGeo().isLabelSet() && getTopLevelGeo().isAlgebraLabelVisible()) {
+				labelSB.append(getTopLevelGeo().getLabel(tpl));
 				labelSB.append('(');
 				labelSB.append(((VarString) geo).getVarString(tpl));
 				labelSB.append(")\\;=\\;");

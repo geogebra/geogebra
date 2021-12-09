@@ -414,6 +414,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void setLabelSimple(final String lab) {
 		label = lab;
 		GeoElementSpreadsheet.setBackgroundColor(this);
+		setAlgebraLabelVisible(lab == null || !lab.startsWith(LabelManager.HIDDEN_PREFIX));
+	}
+
+	public void addLabelPrefix(final String prefix) {
+		label = prefix + label;
 	}
 
 	@Override
@@ -1304,8 +1309,16 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			alphaValue = geo.alphaValue;
 		} else {
 			fillColor = geo.objColor;
-			setAlphaValue(geo.getAlphaValue());
 		}
+
+		// if the original geo was not fillable or the current geo is an inequality
+		// then set the alpha from the construction defaults (otherwise when redefining
+		// x = y or x^2 = y to an inequality the result would have an alpha of 0)
+		if (!geo.isFillable() || isInequality()) {
+			ConstructionDefaults defaults = cons.getConstructionDefaults();
+			setAlphaValue(defaults.getDefaultGeo(defaults.getDefaultType(this)).getAlphaValue());
+		}
+
 		bgColor = geo.bgColor;
 		isColorSet = geo.isColorSet();
 
@@ -1317,6 +1330,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 						((ChartStyleAlgo) geo.getParentAlgorithm()).getStyle().getBarColor(i), i);
 			}
 		}
+	}
+
+	/**
+	 * @return whether this element is an inequality (in one or more variables)
+	 */
+	public boolean isInequality() {
+		return false;
 	}
 
 	/**
@@ -2562,10 +2582,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		}
 
-		if (newLabel.startsWith(LabelManager.HIDDEN_PREFIX)) {
-			setAlgebraLabelVisible(false);
-		}
-
 		setLabelSimple(newLabel); // set new label
 
 		setLabelSet(true);
@@ -2699,8 +2715,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
 
-		label = newLabel; // set new label
-		GeoElementSpreadsheet.setBackgroundColor(this);
+		setLabelSimple(newLabel);
 
 		// rename corresponding cas cell, before the label
 		// is in construction set
@@ -4002,11 +4017,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!isAlgebraLabelVisible()) {
 			String desc = getLaTeXDescriptionRHS(false,
 					StringTemplate.defaultTemplate);
-			if (LabelManager.isShowableLabel(desc)) {
-				builder.clear();
-				builder.append(desc);
-				return builder.toString();
-			}
+			builder.clear();
+			builder.append(desc);
+			return builder.toString();
 		}
 
 		final String algDesc = getAlgebraDescriptionDefault();
@@ -4124,7 +4137,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return  algebraic representation (e.g. coordinates, equation)
 	 */
 	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
-		if (!LabelManager.isShowableLabel(label)) {
+		if (label == null || !isAlgebraLabelVisible()) {
 			return toValueString(tpl);
 		} else {
 			return toString(tpl);
@@ -6642,12 +6655,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	// specific input protection
 	/////////////////////////////
 
-	/**
-	 * set this can (not) be removed when input of algo
-	 * 
-	 * @param flag
-	 *            flag
-	 */
+	@Override
 	public void setCanBeRemovedAsInput(boolean flag) {
 		canBeRemovedAsInput = flag;
 	}
