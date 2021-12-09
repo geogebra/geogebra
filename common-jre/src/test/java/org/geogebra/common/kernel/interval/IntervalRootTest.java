@@ -54,13 +54,12 @@ public class IntervalRootTest {
 		assertEquals(interval(2, 2), nthRoot(interval(8, 8), 3));
 	}
 
-	@Ignore
 	@Test
-	public void testNthRootWithInterval() {
+	public void testNthRootWithNegativeN() {
+		assertEquals(interval(-3),
+				nthRoot(interval(-27),	interval(3)));
 		assertEquals(interval(-3, -2),
-				nthRoot(interval(-27, -8),	interval(3, 3)));
-		assertEquals(undefined(), nthRoot(interval(-27, -8), interval(4, 3)));
-
+				nthRoot(interval(-27, -8),	interval(3)));
 	}
 
 	@Test
