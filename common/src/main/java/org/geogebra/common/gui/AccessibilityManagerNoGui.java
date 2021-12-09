@@ -1,6 +1,8 @@
 package org.geogebra.common.gui;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Dummy implementation for desktop/mobile
@@ -71,7 +73,17 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public GeoElement getAltGeoForView() {
-		return null;
+	public void appendAltText(GeoText altText) {
+		// not used
+	}
+
+	@Override
+	public boolean isIndependentFromAltTexts(GeoNumeric geo) {
+		return true;
+	}
+
+	@Override
+	public void addAsAltTextDependency(GeoNumeric geo) {
+		// not used
 	}
 }

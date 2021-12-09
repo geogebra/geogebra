@@ -88,6 +88,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
@@ -4002,8 +4003,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Update graphics view alt text.
+	 * @param geoText to set
 	 */
-	public void setAltText() {
+	public void setAltText(GeoText geoText) {
 		// ignored in desktop
 	}
 

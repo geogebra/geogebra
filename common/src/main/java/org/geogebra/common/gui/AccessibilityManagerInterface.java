@@ -1,6 +1,8 @@
 package org.geogebra.common.gui;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * 
@@ -81,8 +83,22 @@ public interface AccessibilityManagerInterface {
 	void setTabOverGeos();
 
 	/**
-	 *
-	 * @return the geo that has altText (if any) for the active euclidian view.
+	 * Append an altText of a view to read.
+	 * @param altText of a view.
 	 */
-	GeoElement getAltGeoForView();
+	void appendAltText(GeoText altText);
+
+	/**
+	 *
+	 * @param geo to check
+	 * @return if geo is a dependency of the Alt Text of a view.
+	 */
+	boolean isIndependentFromAltTexts(GeoNumeric geo);
+
+	/**
+	 * Add geo as alt text dependency, so its value can be read
+	 * along with the alt text
+	 * @param geo to add.
+	 */
+	void addAsAltTextDependency(GeoNumeric geo);
 }
