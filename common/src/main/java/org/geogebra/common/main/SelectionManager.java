@@ -871,7 +871,7 @@ public class SelectionManager {
 		GeoElement userDefined = kernel.lookupLabel("tabOrder");
 		if (userDefined != null && userDefined.isGeoList()) {
 			GeoList tabOrderList = (GeoList) userDefined;
-			return tabOrderList.elements().stream().filter(GeoElement::isLabelSet)
+			return tabOrderList.elements().filter(GeoElement::isLabelSet)
 					.collect(Collectors.toList());
 		}
 

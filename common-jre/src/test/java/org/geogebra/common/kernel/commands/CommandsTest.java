@@ -2723,6 +2723,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdParseToFunction() {
+		t("ParseToFunction[\"x^2\"]", "x^(2)");
+		t("ParseToFunction[\"x+y\",{}]", "x + y");
+		t("ParseToFunction[\"u+v\",{\"u\",\"v\"}]", "u + v");
+		t("ParseToFunction[\"x+\"]", "?");
+		t("ParseToFunction[\"y\"]", "?");
+		t("ParseToFunction[\"x+\",{}]", "?");
 		t("f(x) = 3x² + 2", "(3 * x^(2)) + 2");
 		t("txt = \"f(x) = 3x + 1\"", "f(x) = 3x + 1");
 		t("ParseToFunction[ f, txt ]", "(3 * x) + 1");
@@ -2730,6 +2736,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdParseToNumber() {
+		t("ParseToNumber[ \"7\"]", "7");
 		t("n1 = 5", "5");
 		t("txt = \"6\"", "6");
 		t("ParseToNumber[ n1, txt ]", "6"); // valid
