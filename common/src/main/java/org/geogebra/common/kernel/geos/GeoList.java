@@ -1321,11 +1321,7 @@ public class GeoList extends GeoElement
 					}
 					for (int j = 0; j < ((GeoList) geoi).size(); j++) {
 						final GeoElement geoij = ((GeoList) geoi).get(j);
-						if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
-								&& !geoij.getGeoClassType()
-										.equals(GeoClass.FUNCTION)
-								&& !geoij.getGeoClassType()
-										.equals(GeoClass.FUNCTION_NVAR)) {
+						if (geoij.getGeoClassType().equals(GeoClass.LIST)) {
 							return false;
 						}
 					}
