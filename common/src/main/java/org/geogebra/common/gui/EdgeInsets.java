@@ -9,10 +9,20 @@ public class EdgeInsets {
 	private final int right;
 	private final int bottom;
 
+	/**
+	 * Creates an empty edge inset
+	 */
 	public EdgeInsets() {
 		this(0, 0, 0, 0);
 	}
 
+	/**
+	 * Construct an edge inset object.
+	 * @param left left inset
+	 * @param top top inset
+	 * @param right right inset
+	 * @param bottom bottom inset
+	 */
 	public EdgeInsets(int left, int top, int right, int bottom) {
 		this.left = left;
 		this.top = top;

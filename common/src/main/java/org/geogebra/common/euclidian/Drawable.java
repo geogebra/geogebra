@@ -391,9 +391,8 @@ public abstract class Drawable extends DrawableND {
 				heightEstimate = (int) labelRectangle.getHeight();
 			}
 			yLabel = Math.max(yLabel, heightEstimate);
-
 		} else {
-			yLabel = Math.min(yLabel, screenHeight - 3);
+			yLabel = Math.min(yLabel, screenHeight);
 		}
 		// Fit label in safe area
 		EdgeInsets insets = view.getSafeAreaInsets();
@@ -402,10 +401,10 @@ public abstract class Drawable extends DrawableND {
 		} else if (xLabel + widthEstimate > screenWidth - insets.getRight()) {
 			xLabel = screenWidth - insets.getRight() - widthEstimate;
 		}
-		if (yLabel < insets.getTop()) {
-			yLabel = insets.getTop();
-		} else if (yLabel + heightEstimate > screenHeight - insets.getBottom()) {
-			yLabel = screenHeight - insets.getBottom() - heightEstimate;
+		if (yLabel - heightEstimate < insets.getTop()) {
+			yLabel = insets.getTop() + heightEstimate;
+		} else if (yLabel > screenHeight - insets.getBottom()) {
+			yLabel = screenHeight - insets.getBottom();
 		}
 
 		// update label rectangle position

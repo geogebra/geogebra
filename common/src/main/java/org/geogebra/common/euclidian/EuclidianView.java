@@ -515,6 +515,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private final CoordSystemInfo coordSystemInfo;
 
 	private final Rectangle visibleRect;
+	private EdgeInsets safeAreaInsets = new EdgeInsets();
 
 	public static class Rectangle {
 
@@ -566,8 +567,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			this.maxY = yMax;
 		}
 	}
-
-	private EdgeInsets safeAreaInsets = new EdgeInsets();
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {

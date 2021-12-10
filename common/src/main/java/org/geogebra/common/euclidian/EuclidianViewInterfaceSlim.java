@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -264,7 +263,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Set the safe area insets for this view.
-	 * @param safeAreaInsets
+	 * @param safeAreaInsets safe area insets
 	 */
 	public void setSafeAreaInsets(EdgeInsets safeAreaInsets);
 
