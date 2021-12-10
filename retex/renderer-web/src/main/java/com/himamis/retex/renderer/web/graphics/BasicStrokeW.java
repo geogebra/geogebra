@@ -51,7 +51,7 @@ public class BasicStrokeW implements BasicStroke {
 	private int cap;
 	private int join;
 	private double miterLimit;
-	private float[] dashes;
+	private double[] dashes;
 
 	public BasicStrokeW(double width, int cap, int join, double miterLimit) {
 		this.width = width;
@@ -68,7 +68,7 @@ public class BasicStrokeW implements BasicStroke {
 		this.miterLimit = miterLimit;
 	}
 
-	public BasicStrokeW(double width2, float[] dashes2) {
+	public BasicStrokeW(double width2, double[] dashes2) {
 		this.width = width2;
 		this.dashes = dashes2;
 		this.cap = CAP_BUTT;
@@ -145,7 +145,7 @@ public class BasicStrokeW implements BasicStroke {
 		}
 	}
 
-	public float[] getDash() {
+	public double[] getDash() {
 		return dashes;
 	}
 }
