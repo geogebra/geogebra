@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.background.DrawBackground;
@@ -1271,20 +1270,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Checks if (real world) coords are on view.
 	 *
-	 * @param x x-coord
-	 * @param y y-coord
-	 *
-	 * @return true if coords are on view
-	 */
-	public boolean isOnView(double x, double y) {
-		return (x >= getXmin()) && (x <= getXmax())
-				&& (y >= getYmin()) && (y <= getYmax());
-	}
-
-	/**
-	 * 
 	 * @param p1
 	 *            first point
 	 * @param p2
