@@ -194,12 +194,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onUpKeyPressed() {
-			// do nothing
-		}
-
-		@Override
-		public void onDownKeyPressed() {
+		public void onArrowKeyPressed(int keyCode) {
 			// do nothing
 		}
 

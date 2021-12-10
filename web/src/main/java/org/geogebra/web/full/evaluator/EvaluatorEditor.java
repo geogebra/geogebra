@@ -103,13 +103,8 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	}
 
 	@Override
-	public void onUpKeyPressed() {
+	public void onArrowKeyPressed(int keyCode) {
 	 	// nothing to do.
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// nothing to do.
 	}
 
 	@Override

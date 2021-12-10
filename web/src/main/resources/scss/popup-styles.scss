@@ -215,4 +215,38 @@
 		max-width: 320px;
 		overflow-y: auto;
 	}
+
+	.autocompleteSyntaxHeading {
+		display: flex;
+		border-bottom: 1px colors.$black-12 solid;
+		line-height: 24px;
+		padding: 0px 8px 8px 16px;
+
+		.gwt-Label {
+			flex-grow: 1;
+		}
+
+		.gwt-Image {
+			opacity: 0.54;
+			&:hover {
+				opacity: 0.87;
+			}
+		}
+	}
+
+	.autocompleteSyntaxContent {
+		padding-top: 8px;
+		font-size: 87.5%;
+		overflow: auto;
+		max-height: 257px - 80px;
+
+		.gwt-MenuItem {
+			color: colors.$text-primary;
+		}
+	}
+
+	.submenuWithHeading {
+		min-width: 192px;
+		max-width: 560px;
+	}
 }

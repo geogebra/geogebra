@@ -41,12 +41,7 @@ public class JlmEditorLib extends JlmLib {
 					}
 
 					@Override
-					public void onDownKeyPressed() {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
-					public void onUpKeyPressed() {
+					public void onArrowKeyPressed(int keyCode) {
 						// TODO Auto-generated method stub
 					}
 

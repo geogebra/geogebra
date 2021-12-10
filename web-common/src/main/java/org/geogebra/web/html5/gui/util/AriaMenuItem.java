@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Accessible menu item: use &lt;li&gt; instead of &lt;td&gt; as a tag
@@ -13,6 +14,7 @@ public class AriaMenuItem extends SimplePanel {
 	private AriaMenuBar submenu;
 	private boolean enabled = true;
 	private boolean focusable = true;
+	private Widget submenuHeading;
 
 	/**
 	 * @param text
@@ -108,6 +110,10 @@ public class AriaMenuItem extends SimplePanel {
 		return getElement().getInnerHTML();
 	}
 
+	public String getText() {
+		return getElement().getInnerText();
+	}
+
 	/**
 	 * @param string
 	 *            content as HTML
@@ -129,5 +135,13 @@ public class AriaMenuItem extends SimplePanel {
 
 	public void setFocusable(boolean focusable) {
 		this.focusable = focusable;
+	}
+
+	public void setSubmenuHeading(Widget label) {
+		this.submenuHeading = label;
+	}
+
+	public Widget getSubmenuHeading() {
+		return submenuHeading;
 	}
 }

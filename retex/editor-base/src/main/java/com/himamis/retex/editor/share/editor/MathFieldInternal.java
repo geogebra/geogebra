@@ -293,11 +293,7 @@ public class MathFieldInternal
 			arrow = true;
 			if (listener != null) {
 				listener.onCursorMove();
-				if (keyEvent.getKeyCode() == JavaKeyCodes.VK_UP) {
-					listener.onUpKeyPressed();
-				} else if (keyEvent.getKeyCode() == JavaKeyCodes.VK_DOWN) {
-					listener.onDownKeyPressed();
-				}
+				listener.onArrowKeyPressed(keyEvent.getKeyCode());
 			}
 		}
 		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_CONTROL) {

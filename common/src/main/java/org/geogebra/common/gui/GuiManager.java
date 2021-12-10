@@ -378,8 +378,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		openHelp(internalCmd, Help.COMMAND);
 	}
 
-	protected abstract void openHelp(String internalCmd, Help command);
-
 	@Override
 	public void openHelp(String page) {
 		openHelp(page, Help.GENERIC);

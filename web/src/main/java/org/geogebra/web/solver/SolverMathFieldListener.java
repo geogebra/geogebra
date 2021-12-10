@@ -26,12 +26,7 @@ public class SolverMathFieldListener implements MathFieldListener {
 	}
 
 	@Override
-	public void onDownKeyPressed() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onUpKeyPressed() {
+	public void onArrowKeyPressed(int keyCode) {
 		// TODO Auto-generated method stub
 	}
 

@@ -9,7 +9,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
+import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.core.client.Scheduler;
@@ -25,7 +25,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
-	private MathFieldInputSuggestions sug;
+	private AutoCompletePopup sug;
 	private RetexKeyboardListener retexListener;
 	private EvaluateInput evalInput;
 
@@ -141,16 +141,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public void onUpKeyPressed() {
+	public void onArrowKeyPressed(int keyCode) {
 		if (isSuggesting()) {
-			sug.onKeyUp();
-		}
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyDown();
+			sug.onArrowKeyPressed(keyCode);
 		}
 	}
 
@@ -252,10 +245,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 	/**
 	 * @return input suggestion model (lazy load)
 	 */
-	MathFieldInputSuggestions getInputSuggestions() {
+	AutoCompletePopup getInputSuggestions() {
 		if (sug == null) {
 			boolean forCas = getApp().getConfig().getVersion() == GeoGebraConstants.Version.CAS;
-			sug = new MathFieldInputSuggestions(app, item, forCas);
+			sug = new AutoCompletePopup(app, forCas, item);
 		}
 		return sug;
 	}
