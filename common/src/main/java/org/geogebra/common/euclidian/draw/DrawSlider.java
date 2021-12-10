@@ -103,7 +103,7 @@ public class DrawSlider extends Drawable {
 			if (number.isAbsoluteScreenLocActive()) {
 				EdgeInsets safeAreaInsets = view.getSafeAreaInsets();
 				coordsScreen[0] = number.getSliderX() + safeAreaInsets.getLeft();
-				coordsScreen[1] = number.getSliderY() - 1 + safeAreaInsets.getTop();
+				coordsScreen[1] = number.getSliderY() + safeAreaInsets.getTop();
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 				widthScreen = number.getSliderWidth();
