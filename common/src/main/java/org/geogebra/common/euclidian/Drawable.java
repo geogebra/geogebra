@@ -270,7 +270,7 @@ public abstract class Drawable extends DrawableND {
 			if (geo.isGeoText()) {
 				serif = ((GeoText) geo).isSerifFont();
 			}
-			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
+			int offsetY = view.getFontSize(); // make sure LaTeX labels
 													// don't go
 													// off bottom of screen
 			App app = view.getApplication();
