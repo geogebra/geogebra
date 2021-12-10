@@ -137,16 +137,10 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public void hide() {
-		if (!getDrawInputBox().isEditing()) {
-			return;
-		}
-
+	protected void hide() {
 		((AppWFull) app).resetInputBox();
-		applyChanges();
 		getDrawInputBox().setEditing(false);
 		editor.setVisible(false);
-
 		AnimationScheduler.get()
 				.requestAnimationFrame(timestamp -> ((EuclidianViewW) view).doRepaint2());
 	}
@@ -185,14 +179,13 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public void onTab(boolean shiftDown) {
-		applyChanges();
-		hide();
+		applyAndHide();
 		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
 	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		hide();
+		applyAndHide();
 	}
 
 	@Override
