@@ -3177,7 +3177,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public boolean isPortrait() {
 		if (getAppletFrame() != null) {
-			return getAppletFrame().getComputedWidth() < getAppletFrame().getComputedHeight();
+			return getAppletFrame().computeWidth() < getAppletFrame().computeHeight();
 		}
 		return getWidth() < getHeight();
 	}
