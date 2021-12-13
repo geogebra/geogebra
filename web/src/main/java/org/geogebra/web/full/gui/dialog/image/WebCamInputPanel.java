@@ -9,8 +9,8 @@ import org.geogebra.web.html5.webcam.WebCamPanelInterface;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLVideoElement;
@@ -19,7 +19,7 @@ import jsinterop.base.Js;
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterface {
+public class WebCamInputPanel extends FlowPanel implements WebCamPanelInterface {
 	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
 	private HTMLVideoElement video;
