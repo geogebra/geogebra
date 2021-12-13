@@ -13,7 +13,15 @@ public class EdgeInsets {
 	 * Creates an empty edge inset
 	 */
 	public EdgeInsets() {
-		this(0, 0, 0, 0);
+		this(0);
+	}
+
+	/**
+	 * Constrauct an edge inset object.
+	 * @param all inset from all directions
+	 */
+	public EdgeInsets(int all) {
+		this(all, all, all, all);
 	}
 
 	/**

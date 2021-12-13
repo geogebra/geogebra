@@ -515,7 +515,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private final CoordSystemInfo coordSystemInfo;
 
 	private final Rectangle visibleRect;
-	private EdgeInsets safeAreaInsets = new EdgeInsets();
+	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
 
 	public static class Rectangle {
 
