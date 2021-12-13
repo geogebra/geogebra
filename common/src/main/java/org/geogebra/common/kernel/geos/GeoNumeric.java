@@ -346,7 +346,8 @@ public class GeoNumeric extends GeoElement
 		}
 		sliderPos = new SliderPosition();
 		if (isAbsoluteScreenLocActive()) {
-			sliderPos.y = 40 * count;
+			sliderPos.x = 30;
+			sliderPos.y = 50 + 40 * count;
 			// make sure slider is visible on screen
 			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
 		} else {
