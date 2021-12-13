@@ -347,20 +347,13 @@ public class GeoNumeric extends GeoElement
 		sliderPos = new SliderPosition();
 		if (isAbsoluteScreenLocActive()) {
 			sliderPos.x = 30;
-			EuclidianViewInterfaceSlim ev = kernel.getApplication()
-					.getActiveEuclidianView();
-			if (ev != null) {
-				sliderPos.y = ev.getSliderOffsetY() + 40 * count;
-			} else {
-				sliderPos.y = 50 + 40 * count;
-			}
+			sliderPos.y = 50 + 40 * count;
 			// make sure slider is visible on screen
 			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
 		} else {
 			sliderPos.x = -5;
 			sliderPos.y = 10 - count;
 		}
-
 	}
 
 	private int countSliders() {

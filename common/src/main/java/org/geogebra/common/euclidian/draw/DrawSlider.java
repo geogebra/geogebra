@@ -26,11 +26,11 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 /**
- * 
  * @author Markus Hohenwarter
  */
 public class DrawSlider extends Drawable {
@@ -68,11 +68,8 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Creates new drawable for slider
-	 * 
-	 * @param view
-	 *            view
-	 * @param number
-	 *            slider
+	 * @param view view
+	 * @param number slider
 	 */
 	public DrawSlider(EuclidianView view, GeoNumeric number) {
 		this.view = view;
@@ -99,8 +96,9 @@ public class DrawSlider extends Drawable {
 
 			// start point of horizontal line for slider
 			if (number.isAbsoluteScreenLocActive()) {
-				coordsScreen[0] = number.getSliderX();
-				coordsScreen[1] = number.getSliderY() - 1;
+				EdgeInsets safeAreaInsets = view.getSafeAreaInsets();
+				coordsScreen[0] = number.getSliderX() + safeAreaInsets.getLeft();
+				coordsScreen[1] = number.getSliderY() + safeAreaInsets.getTop();
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 				widthScreen = number.getSliderWidth();
@@ -165,7 +163,7 @@ public class DrawSlider extends Drawable {
 		if (isVisible) {
 			// horizontal line
 			g2.setPaint(geo.getBackgroundColor() == null
-									? geo.getSelColor()
+					? geo.getSelColor()
 					: geo.getBackgroundColor());
 			g2.setStroke(objStroke);
 			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
@@ -225,13 +223,9 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Returns true iff the movable point was hit
-	 * 
-	 * @param x
-	 *            mouse x-coord
-	 * @param y
-	 *            mouse y-coord
-	 * @param hitThreshold
-	 *            threshold
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y, int hitThreshold) {
@@ -249,13 +243,9 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
-	 * 
-	 * @param x
-	 *            mouse x-coord
-	 * @param y
-	 *            mouse y-coord
-	 * @param hitThreshold
-	 *            threshold
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
@@ -266,13 +256,9 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
-	 * 
-	 * @param x
-	 *            mouse x-coord
-	 * @param y
-	 *            mouse y-coord
-	 * @param hitThreshold
-	 *            threshold
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true if the slider line was hit, but not the blob
 	 */
 	public boolean hitSliderNotBlob(int x, int y, int hitThreshold) {
