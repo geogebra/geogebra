@@ -302,7 +302,7 @@ public class CurvePlotterOriginal {
 			// remember first point on screen for label position
 			if (needLabelPos && onScreen) {
 				double xLabel = view.toScreenCoordXd(eval1[0]);
-				double yLabel = view.toScreenCoordYd(eval1[1]);;
+				double yLabel = view.toScreenCoordYd(eval1[1]);
 
 				labelPoint = new GPoint((int) xLabel, (int) yLabel);
 				needLabelPos = false;
