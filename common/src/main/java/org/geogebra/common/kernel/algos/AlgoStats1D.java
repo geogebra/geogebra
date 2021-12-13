@@ -109,7 +109,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			inputList.toArray(input);
 			inputList.clear();
 		} else {
-			input = geoList.elements().toArray(new GeoElement[0]);
+			input = geoList.elements().toArray(GeoElement[]::new);
 		}
 
 		setOnlyOutput(result);

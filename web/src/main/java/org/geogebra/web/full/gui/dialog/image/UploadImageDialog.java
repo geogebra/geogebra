@@ -58,7 +58,7 @@ public class UploadImageDialog extends ComponentDialog {
 		inputPanel.setHeight("180px");
 		inputPanel.setWidth("240px");
 
-		uploadImagePanel = new UploadImagePanel(this, previewWidth,
+		uploadImagePanel = new UploadImagePanel((AppW) app, this, previewWidth,
 				previewHeight);
 		setPosBtnDisabled(true);
 		addDialogContent(contentPanel);
