@@ -74,21 +74,20 @@ class NavigationRail extends FlowPanel {
 			return;
 		}
 
-		createAlgebraButton();
-		createToolsButton();
-		createTableViewButton();
-
 		center = new FlowPanel();
 		center.addStyleName("center");
 
+		createAlgebraButton();
 		center.add(btnAlgebra);
 
 		boolean showToolPanel = app.getConfig().showToolsPanel();
 
 		if (showToolPanel) {
+			createToolsButton();
 			center.add(btnTools);
 		}
 		if (app.getConfig().hasTableView()) {
+			createTableViewButton();
 			center.add(btnTableView);
 		}
 		if (btnMenu != null && !isHeaderExternal()) {

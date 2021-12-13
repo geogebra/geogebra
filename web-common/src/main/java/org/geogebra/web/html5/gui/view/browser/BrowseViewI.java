@@ -13,7 +13,7 @@ public interface BrowseViewI {
 
 	void setMaterialsDefaultStyle();
 
-	void loadAllMaterials();
+	void loadAllMaterials(int offset);
 
 	void clearMaterials();
 

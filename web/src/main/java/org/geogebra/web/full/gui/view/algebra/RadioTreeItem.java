@@ -400,7 +400,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
-		String text = getLatexString(LATEX_MAX_EDIT_LENGHT, false);
+		String text = getLatexString(null, false);
 		latex = text != null;
 		if (latex) {
 			definitionPanel.addStyleName("avDefinition");

@@ -136,7 +136,7 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 	}
 
 	@Override
-	public Stroke createBasicStroke(double width, float[] dashes) {
+	public Stroke createBasicStroke(double width, double[] dashes) {
 		return new BasicStrokeD(width, dashes);
 	}
 

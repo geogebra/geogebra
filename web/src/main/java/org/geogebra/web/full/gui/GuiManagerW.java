@@ -1762,7 +1762,7 @@ public class GuiManagerW extends GuiManager
 			if (!StringUtil.emptyTrim(query)) {
 				this.browseGUI.displaySearchResults(query);
 			} else {
-				this.browseGUI.loadAllMaterials();
+				this.browseGUI.loadAllMaterials(0);
 			}
 		}
 		else if (!StringUtil.emptyTrim(query)) {

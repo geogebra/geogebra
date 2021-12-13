@@ -1,7 +1,10 @@
 package org.geogebra.cas;
 
+import static org.geogebra.common.BaseUnitTest.hasValue;
 import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -15,11 +18,11 @@ import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.CASTestLogger;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -251,7 +254,7 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void casCellLatexShouldSHowName() {
 		GeoCasCell cell = cellFromInput("SolveODE(2x)");
-		Assert.assertEquals("\\mathbf{y = c_{1} + x^{2}}", cell.getLaTeXOutput());
+		assertEquals("\\mathbf{y = c_{1} + x^{2}}", cell.getLaTeXOutput());
 	}
 
 	/**
@@ -419,9 +422,9 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void constMulti() {
 		ta("Simplify[SolveODE[ y*ln(2)]]", "y = 2^(x) * c_{1}");
-		Assert.assertEquals(1, app.getGgbApi().getValue("c_{1}"), 0.01);
+		assertEquals(1, app.getGgbApi().getValue("c_{1}"), 0.01);
 		ta("SolveODE[ x]", "y = c_{2} + 1 / 2 * x^(2)");
-		Assert.assertEquals(0, app.getGgbApi().getValue("c_2"), 0.01);
+		assertEquals(0, app.getGgbApi().getValue("c_2"), 0.01);
 	}
 
 	@Test
@@ -436,12 +439,12 @@ public class ArbitraryConstIntegrationTest {
 			app.getGgbApi().undo();
 			app.getGgbApi().undo();
 		}
-		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
+		assertEquals(app.getGgbApi().getValueString("$2", true),
 				"F(x):=-cos(x) + c_{1}");
 		String base64 = app.getGgbApi().getBase64();
 		app.getKernel().clearConstruction(true);
 		app.getGgbApi().setBase64(base64);
-		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
+		assertEquals(app.getGgbApi().getValueString("$2", true),
 				"F(x):=-cos(x) + c_{1}");
 	}
 
@@ -449,7 +452,7 @@ public class ArbitraryConstIntegrationTest {
 	public void apTest() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoFunction gf = ap.evaluateToFunction("x+c_1", true, true);
-		Assert.assertEquals(
+		assertEquals(
 				gf.getFunctionExpression().toString(StringTemplate.xmlTemplate),
 				"x + arbconst(1)");
 	}
@@ -478,7 +481,7 @@ public class ArbitraryConstIntegrationTest {
 				return;
 			}
 		}
-		Assert.assertEquals(valid[valid.length - 1], current);
+		assertEquals(valid[valid.length - 1], current);
 
 	}
 
@@ -496,7 +499,15 @@ public class ArbitraryConstIntegrationTest {
 		ap.processAlgebraCommand("F(t,x)=Integral(sin(x)*sin(t-x), x)", false);
 		checkAfterReload("F", "F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)",
 				"F(t, x) = -1 / 2 x cos(t) - 1 / 4 sin(t - 2x)");
+	}
 
+	@Test
+	public void solveOdeShouldNotCreateConstantsForTrig() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		GeoElementND[] f = ap.processAlgebraCommand("F:SolveODE(-1-y^2, (1,2))", false);
+		assertArrayEquals(new String[]{"F"}, app.getGgbApi().getAllObjectNames());
+		assertThat(f[0], hasValue("tan(0π - x + tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 1)"));
 	}
 
 }

@@ -125,18 +125,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 			updateG(casString);
 			oldCASstring = casString;
 		}
-		if (pt != null && arbconst.getTotalNumberOfConsts() == 1) {
-			findPathThroughPoint();
-		}
-	}
-
-	private void findPathThroughPoint() {
-		GeoNumeric c1 = arbconst.getConst(0);
-		if (c1 == null) {
-			g.setUndefined();
-			return;
-		}
-		c1.setAlgebraVisible(false);
 	}
 
 	private void updateG(String casString) {
@@ -145,7 +133,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		try {
 			// TODO put caching back
 			functionOut = kernel.evaluateGeoGebraCAS(casString,
-					nocas ? getSilentArbConst() : arbconst);
+					(nocas || pt != null) ? getSilentArbConst() : arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			GeoElementND[] res = kernel.getAlgebraProcessor()

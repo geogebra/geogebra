@@ -1,6 +1,8 @@
 package org.geogebra.common.media;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.util.AsyncOperation;
 import org.hamcrest.Description;
@@ -35,14 +37,14 @@ public class MediaURLParserTest {
 		return new AsyncOperation<VideoURL>() {
 			@Override
 			public void callback(VideoURL obj) {
-				Assert.assertTrue(obj.isValid());
+				assertTrue(obj.isValid());
 				assertEquals(fmt, obj.getFormat());
 				if (fmt == MediaFormat.VIDEO_YOUTUBE) {
 					assertEquals(id,
 						MediaURLParser.getYouTubeId(obj.getUrl()));
 				}
 				if (fmt == MediaFormat.VIDEO_MEBIS) {
-					Assert.assertThat(obj.getUrl(),
+					assertThat(obj.getUrl(),
 							new TypeSafeMatcher<String>() {
 
 								@Override

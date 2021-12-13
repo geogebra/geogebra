@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.AlgoParseToNumberOrFunction;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -26,17 +28,23 @@ public class CmdParseToNumber extends CommandProcessor {
 
 	@Override
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
-		if (!info.isScripting()) {
+		int n = c.getArgumentNumber();
+		if (!info.isScripting() && n == 2) {
 			return new GeoElement[0];
 		}
-		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-
+		GeoElement[] arg = resArgs(c);
 		boolean ok;
-
 		switch (n) {
+		case 1:
+			if (arg[0] instanceof GeoText) {
+				AlgoParseToNumberOrFunction
+						algo = new AlgoParseToNumberOrFunction(cons, (GeoText) arg[0], null,
+						Commands.ParseToNumber);
+				algo.getOutput(0).setLabel(c.getLabel());
+				return algo.getOutput();
+			}
+			throw argErr(arg[0], c);
 		case 2:
-			arg = resArgs(c);
 			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoText()) {
 
 				GeoNumeric num = (GeoNumeric) arg[0];

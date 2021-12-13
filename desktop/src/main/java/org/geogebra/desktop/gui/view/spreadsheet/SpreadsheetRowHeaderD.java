@@ -32,9 +32,8 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
 public class SpreadsheetRowHeaderD extends JList implements MouseListener,
-		MouseMotionListener, KeyListener, ListSelectionListener
+		MouseMotionListener, KeyListener, ListSelectionListener {
 
-{
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -50,7 +49,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	private static Cursor resizeCursor = Cursor
 			.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
 	private Cursor otherCursor = resizeCursor;
-	private int mouseYOffset, resizingRow;
+	private int mouseYOffset;
+	private int resizingRow;
 	private boolean doRowResize = false;
 
 	protected int row0 = -1;
@@ -100,9 +100,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		}
 
 		// forces update of rowHeader, called after row resizing
-		public Void changed() {
+		protected void changed() {
 			this.fireContentsChanged(this, 0, model.getRowCount());
-			return null;
 		}
 
 	}
@@ -122,7 +121,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		protected JList rowHeader;
 		private Color defaultBackground;
 
-		public RowHeaderRenderer(JTable table, JList rowHeader) {
+		protected RowHeaderRenderer(JTable table, JList rowHeader) {
 			super("", SwingConstants.CENTER);
 			setOpaque(true);
 			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
@@ -251,9 +250,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		// left click
 		if (!rightClick) {
 
-			if (resizingRow >= 0)
-			 {
-				return; // GSTURR 2010-1-9
+			if (resizingRow >= 0) {
+				return;
 			}
 
 			GPoint point = table.getIndexFromPixel(x, y);
@@ -314,7 +312,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			// show contextMenu
 			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
 					table);
-			JPopupMenu popup = (JPopupMenu) contextMenu.getMenuContainer();
+			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 
 		}
@@ -342,9 +340,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (AppD.isRightClick(e))
-		 {
-			return; // G.Sturr 2009-9-30
+		if (AppD.isRightClick(e)) {
+			return;
 		}
 
 		// G.STURR 2010-1-9

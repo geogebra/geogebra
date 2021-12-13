@@ -641,4 +641,62 @@ public class EditorTypingTest {
 				.type("sin3")
 				.checkAsciiMath("(sqrt(9),sin(3),0)");
 	}
+
+	@Test
+	public void testBracketsInPointEditor() {
+		checker.insert("(2,3,3+4)")
+				.left(8)
+				.type("(")
+				.checkAsciiMath("((2),3,3+4)");
+
+		checker.insert("(2,3,3+4)")
+				.left(7)
+				.type(")")
+				.checkAsciiMath("(2,3,3+4)");
+
+		checker.insert("(2,3,3+4)").protect()
+				.left(7)
+				.type(")")
+				.checkAsciiMath("((2),3,3+4)");
+
+		checker.insert("(2,3,3+4)")
+				.left(6)
+				.type("(")
+				.checkAsciiMath("(2,(3),3+4)");
+
+		checker.insert("(2,3,3+4)")
+				.left(5)
+				.type(")")
+				.checkAsciiMath("(2,3,3+4)");
+
+		checker.insert("(2,3,3+4)").protect()
+				.left(5)
+				.type(")")
+				.checkAsciiMath("(2,(3),3+4)");
+
+		checker.insert("(2,3,3+4)")
+				.left(4)
+				.type("(")
+				.checkAsciiMath("(2,3,(3+4))");
+
+		checker.insert("(2,3,3+4)")
+				.left(1)
+				.type(")")
+				.checkAsciiMath("(2,3,3+4)");
+
+		checker.insert("(2,3,3+4)").protect()
+				.left(1)
+				.type(")")
+				.checkAsciiMath("(2,3,(3+4))");
+
+		checker.insert("(2,3,3+4)")
+				.left(8)
+				.type("[")
+				.checkAsciiMath("([2],3,3+4)");
+
+		checker.insert("(2,3,3+4)")
+				.left(5)
+				.type("]")
+				.checkAsciiMath("(2,[3],3+4)");
+	}
 }

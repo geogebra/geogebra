@@ -4,13 +4,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import java.util.Collections;
+
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {
@@ -110,5 +114,15 @@ public class AlgebraItemTest extends BaseUnitTest {
         assertThat(
                 geo.getNameAndDefinition(StringTemplate.latexTemplate),
                 is("a\\, = \\,5\\% \\cdot 5 + 5"));
+    }
+
+    @Test
+    public void addingToAVShouldNotCallUpdate() {
+        EventAcumulator eventAcumulator = new EventAcumulator();
+        getApp().getEventDispatcher().addEventListener(eventAcumulator);
+        GeoElement geo = addAvInput("a=1+3");
+        InputHelper.updateProperties(new GeoElement[]{geo}, getApp().getActiveEuclidianView(),
+                getKernel().getConstructionStep());
+        assertThat(Collections.singletonList("ADD a"), is(eventAcumulator.getEvents()));
     }
 }

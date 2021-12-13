@@ -179,7 +179,7 @@ public class FileViewCommon extends MyHeaderPanel {
 		return materialPanel.getWidget(index);
 	}
 
-	public void addMaterial(Widget widget) {
+	public void addMaterialOrLoadMoreFilesPanel(Widget widget) {
 		materialPanel.add(widget);
 	}
 

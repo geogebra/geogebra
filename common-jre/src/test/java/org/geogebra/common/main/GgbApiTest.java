@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -29,11 +28,11 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.Event;
-import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.test.EventAcumulator;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,21 +71,11 @@ public class GgbApiTest {
 
 	@Test
 	public void evalCommandShouldFireAddEventOncePerCall() {
-		ArrayList<String> evts = new ArrayList<>();
-		app.getEventDispatcher().addEventListener(new EventListener() {
-			@Override
-			public void sendEvent(Event evt) {
-				evts.add(evt.type + " " + evt.argument);
-			}
-
-			@Override
-			public void reset() {
-				// not needed
-			}
-		});
+		EventAcumulator eventAcumulator = new EventAcumulator();
+		app.getEventDispatcher().addEventListener(eventAcumulator);
 		api.evalCommand("a: r=cos(3" + Unicode.theta + ")");
 		api.evalCommand("a: r=cos(2" + Unicode.theta + ")");
-		assertEquals(Arrays.asList("ADD a", "REMOVE a", "ADD a"), evts);
+		assertEquals(Arrays.asList("ADD a", "REMOVE a", "ADD a"), eventAcumulator.getEvents());
 	}
 
 	@Test

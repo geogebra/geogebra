@@ -2636,12 +2636,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return (isInequality != null && isInequality) ? 0 : 1;
 	}
 
-	/**
-	 * @return whether this function is inequality (more precisely logical
-	 *         combination of inequalities)
-	 */
+	@Override
 	public boolean isInequality() {
-		return (isInequality != null && isInequality) ? true : false;
+		return isInequality != null && isInequality;
 	}
 
 	/**

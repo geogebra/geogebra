@@ -644,7 +644,6 @@ public abstract class EuclidianView3D extends EuclidianView
 				d = new DrawPolygon3D(this, (GeoPolygon) geo);
 				break;
 
-			case PENSTROKE:
 			case POLYLINE:
 			case POLYLINE3D:
 				d = new DrawPolyLine3D(this, (GeoElement) geo);
@@ -691,6 +690,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				d = new DrawCurve3D(this, (CurveEvaluable) geo);
 				break;
 
+			case PENSTROKE:
 			case LOCUS:
 				d = new DrawLocus3D(this,
 						((GeoLocusNDInterface) geo).getLocus(),

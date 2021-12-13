@@ -30,7 +30,8 @@ public class SpreadsheetMouseListenerD
 		implements MouseListener, MouseMotionListener {
 
 	protected String selectedCellName;
-	protected String prefix0, postfix0;
+	protected String prefix0;
+	protected String postfix0;
 
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -59,7 +60,7 @@ public class SpreadsheetMouseListenerD
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
-		boolean doubleClick = (e.getClickCount() != 1);
+		boolean doubleClick = e.getClickCount() != 1;
 
 		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (point != null) {
@@ -449,7 +450,7 @@ public class SpreadsheetMouseListenerD
 			// create and show context menu
 			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
 					table);
-			JPopupMenu popup = (JPopupMenu) contextMenu.getMenuContainer();
+			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 		}
 

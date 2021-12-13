@@ -39,7 +39,7 @@ import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.full.gui.dialog.image.UploadImageWithoutDialog;
+import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
@@ -62,6 +62,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
@@ -269,11 +270,13 @@ public class DialogManagerW extends DialogManager
 	 *            used device
 	 */
 	public void showImageInputDialog(GeoPoint corner, GDevice device) {
-		if (app.isWhiteboardActive()) {
-			new UploadImageWithoutDialog((AppW) app).initGUI();
+		AppW app = (AppW) this.app;
+		if (this.app.isWhiteboardActive()) {
+			FileUpload upload = UploadImagePanel.getUploadButton(app, app::imageDropHappened);
+			upload.click();
 			return;
 		}
-		UploadImageDialog imageDialog = device.getImageInputDialog((AppW) app);
+		UploadImageDialog imageDialog = device.getImageInputDialog(app);
 		imageDialog.setLocation(corner);
 		imageDialog.show();
 	}

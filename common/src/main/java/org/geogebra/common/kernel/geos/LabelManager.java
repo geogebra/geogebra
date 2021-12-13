@@ -325,10 +325,6 @@ public class LabelManager {
 		return getNextIndexedLabel(LabelType.integerLabels);
 	}
 
-	public static boolean isShowableLabel(String label) {
-		return label != null && !label.startsWith(HIDDEN_PREFIX);
-	}
-
 	/**
 	 * @param trans localized prefix
 	 * @return first free label of {prefix1, prefix2, ...}

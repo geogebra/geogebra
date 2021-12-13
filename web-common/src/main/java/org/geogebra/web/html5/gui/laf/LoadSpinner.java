@@ -11,15 +11,11 @@ public class LoadSpinner extends FlowPanel {
 
 	/**
 	 * Constructor to create a spinner.
-	 * @param isMebis - true if mebis tafel
 	 */
-	public LoadSpinner(boolean isMebis) {
+	public LoadSpinner() {
 		setStyleName("mk-spinner-wrap");
 		FlowPanel content = new FlowPanel();
 		content.setStyleName("mk-spinner-ring");
-		if (isMebis) {
-			content.addStyleName("mebis");
-		}
 		add(content);
 	}
 

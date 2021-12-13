@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
@@ -121,12 +120,7 @@ public class SuggestionStatistics extends Suggestion {
 
 		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() > 0) {
 			GeoList geoList = (GeoList) statGeoElement;
-			for (GeoElement geoItem : geoList.elements()) {
-				if (!(geoItem instanceof GeoNumeric)) {
-					return false;
-				}
-			}
-			return true;
+			return geoList.elements().allMatch(GeoElement::isGeoNumeric);
 		}
 		return false;
 	}

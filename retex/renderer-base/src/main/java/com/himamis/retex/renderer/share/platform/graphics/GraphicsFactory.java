@@ -119,7 +119,7 @@ public abstract class GraphicsFactory {
 		return null;
 	}
 
-	public Stroke createBasicStroke(double width, float[] dashes) {
+	public Stroke createBasicStroke(double width, double[] dashes) {
 		// not implemented in iOS/Android
 		FactoryProvider.debugS("dashed lines not implemented");
 		return createBasicStroke(width, BasicStroke.CAP_BUTT,

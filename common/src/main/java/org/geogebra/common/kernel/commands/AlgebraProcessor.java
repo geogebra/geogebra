@@ -1691,7 +1691,6 @@ public class AlgebraProcessor {
 									.getFunctionVariable() };
 				} else {
 					funVars = new FunctionVariable[] {
-
 							((GeoFunction) temp[0]).getFunction()
 									.getFunctionVariable(),
 							new FunctionVariable(kernel, "y") };
@@ -1710,10 +1709,6 @@ public class AlgebraProcessor {
 				func = new GeoFunctionNVar(cons, fn);
 
 			}
-			if (!suppressErrors) {
-				app.showError(Errors.InvalidInput, str);
-			}
-
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			if (!suppressErrors) {

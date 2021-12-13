@@ -496,12 +496,22 @@ abstract public class MathContainer extends MathComponent {
 		if (i < 0 || i >= arguments.size()) {
 			return false;
 		}
-		boolean isComma = arguments.get(i) instanceof MathCharacter
-				&& ((MathCharacter) arguments.get(i)).getUnicode() == ',';
-		if (getParent() != null && getParent().getParent() != null
-				&& getParent().getParent().isProtected && isComma) {
-			return true;
+
+		return getParent() != null && getParent().getParent() != null
+				&& getParent().getParent().isProtected && isComma(i);
+	}
+
+	/**
+	 * Check if the i-th position of this container is a comma
+	 * @param i position to check
+	 * @return whether it is a comma
+	 */
+	public boolean isComma(int i) {
+		if (i < 0 || i >= arguments.size()) {
+			return false;
 		}
-		return false;
+
+		return arguments.get(i) instanceof MathCharacter
+				&& ((MathCharacter) arguments.get(i)).getUnicode() == ',';
 	}
 }

@@ -841,7 +841,7 @@ public class SelectionManager {
 
 	private void checkInputBoxAndFocus(GeoElement geo) {
 		EuclidianViewInterfaceCommon view = getViewOf(geo);
-		if (geo instanceof GeoInputBox) {
+		if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
 			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
 		} else {
 			view.requestFocus();
@@ -871,7 +871,7 @@ public class SelectionManager {
 		GeoElement userDefined = kernel.lookupLabel("tabOrder");
 		if (userDefined != null && userDefined.isGeoList()) {
 			GeoList tabOrderList = (GeoList) userDefined;
-			return tabOrderList.elements().stream().filter(GeoElement::isLabelSet)
+			return tabOrderList.elements().filter(GeoElement::isLabelSet)
 					.collect(Collectors.toList());
 		}
 
