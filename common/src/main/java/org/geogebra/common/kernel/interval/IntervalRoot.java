@@ -49,8 +49,10 @@ public class IntervalRoot {
 	}
 
 	private double oddFractionPower(double x, double power) {
-		return Math.max(IntervalConstants.PRECISION,
-				Math.signum(x) * Math.pow(Math.abs(x), power));
+		double fractionPower = Math.pow(Math.abs(x), power);
+		return x > 0
+				? Math.max(IntervalConstants.PRECISION, fractionPower)
+				: Math.min(-IntervalConstants.PRECISION, -fractionPower);
 	}
 
 	private boolean isPositiveOdd(double n) {
