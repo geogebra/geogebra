@@ -3251,7 +3251,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected final boolean slider(boolean selPreview) {
 		if (!selPreview && (mouseLoc != null) && getDialogManager() != null) {
 			EdgeInsets insets = view.getSafeAreaInsets();
-			getDialogManager().showSliderCreationDialog(mouseLoc.x - insets.getLeft(), mouseLoc.y - insets.getTop());
+			getDialogManager().showSliderCreationDialog(mouseLoc.x - insets.getLeft(),
+					mouseLoc.y - insets.getTop());
 		}
 		return false;
 	}
@@ -7177,7 +7178,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (isMoveSliderExpected(app.getCapturingThreshold(type))) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
-						oldLoc.setLocation((int) location.x, (int)location.y);
+						oldLoc.setLocation((int) location.x, (int) location.y);
 						startLoc = mouseLoc;
 
 						// part of snap to grid code
