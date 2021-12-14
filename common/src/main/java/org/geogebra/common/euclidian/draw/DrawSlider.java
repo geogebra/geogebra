@@ -97,7 +97,6 @@ public class DrawSlider extends Drawable {
 			GPoint2D location = getSliderLocation();
 			// start point of horizontal line for slider
 			if (number.isAbsoluteScreenLocActive()) {
-				EdgeInsets safeAreaInsets = view.getSafeAreaInsets();
 				coordsScreen[0] = location.x;
 				coordsScreen[1] = location.y;
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
