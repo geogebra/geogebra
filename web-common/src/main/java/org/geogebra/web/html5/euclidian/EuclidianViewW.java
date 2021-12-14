@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -26,6 +27,7 @@ import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -108,6 +110,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private static final int SELECTION_ARC = 4;
 	private static final int ICON_SIZE = 36;
 	private static final int ICON_MARGIN = 4;
+	private static final int PLAY_SIZE = 24;
+	private static final int PLAY_MARGIN = 12;
 
 	private GGraphics2DWI g2p = null;
 	private GGraphics2D g2dtemp;
@@ -802,17 +806,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public boolean hitAnimationButton(int x, int y) {
-		// draw button in focused EV only
-		if (!drawPlayButtonInThisView()) {
-			return false;
-		}
-
-		return kernel.needToShowAnimationButton() && (x <= 27)
-				&& (y >= (getHeight() - 27));
-	}
-
-	@Override
 	public boolean requestFocusInWindow() {
 		getCanvasElement().focus();
 		return true;
@@ -866,15 +859,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	final protected void drawAnimationButtons(final GGraphics2D g2) {
-
 		// draw button in focused EV only
-		if (!drawPlayButtonInThisView() || appW.isScreenshotGenerator()
-				|| appW.isExporting()) {
+		if (!drawPlayButtonInThisView() || appW.isScreenshotGenerator() || appW.isExporting()) {
 			return;
 		}
-
-		final int x = 3;
-		final int y = getHeight() - 27;
+		GRectangle2D frame = getAnimationButtonFrame();
+		int x = (int) frame.getX();
+		int y = (int) frame.getY();
 
 		// draw pause or play button
 		final HTMLImageElement img = kernel.isAnimationRunning()
@@ -885,6 +876,31 @@ public class EuclidianViewW extends EuclidianView implements
 		} else {
 			img.addEventListener("load", (event) -> ((GGraphics2DW) g2).drawImage(img, x, y));
 		}
+	}
+
+	@Override
+	public boolean hitAnimationButton(int x, int y) {
+		// draw button in focused EV only
+		if (!drawPlayButtonInThisView()) {
+			return false;
+		}
+		GRectangle2D frame = getAnimationButtonFrame();
+		GRectangle2D extendedFrame = AwtFactory.getPrototype().newRectangle(
+				(int) frame.getX() - PLAY_MARGIN, (int) frame.getY() - PLAY_MARGIN,
+				(int) frame.getWidth() + 2 * PLAY_MARGIN,
+				(int) frame.getHeight() + 2 * PLAY_MARGIN
+		);
+
+		return kernel.needToShowAnimationButton() && extendedFrame.contains(x, y);
+	}
+
+	private GRectangle2D getAnimationButtonFrame() {
+		EdgeInsets insets = getSafeAreaInsets();
+		return AwtFactory.getPrototype().newRectangle(
+				insets.getLeft(),
+				getHeight() - insets.getBottom() - PLAY_SIZE,
+				PLAY_SIZE, PLAY_SIZE
+		);
 	}
 
 	@Override
