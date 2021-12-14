@@ -48,6 +48,7 @@ import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -3249,7 +3250,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final boolean slider(boolean selPreview) {
 		if (!selPreview && (mouseLoc != null) && getDialogManager() != null) {
-			getDialogManager().showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
+			EdgeInsets insets = view.getSafeAreaInsets();
+			getDialogManager().showSliderCreationDialog(mouseLoc.x - insets.getLeft(),
+					mouseLoc.y - insets.getTop());
 		}
 		return false;
 	}
@@ -7169,13 +7172,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible()
 					&& mouseLoc != null) {
+				DrawSlider drawSlider = (DrawSlider) d;
+				GPoint2D location = drawSlider.getSliderLocation();
 				// otherwise using Move Tool -> move dot
 				if (isMoveSliderExpected(app.getCapturingThreshold(type))) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
-						oldLoc.setLocation(
-								movedGeoNumeric.getAbsoluteScreenLocX(),
-								movedGeoNumeric.getAbsoluteScreenLocY());
+						oldLoc.setLocation((int) location.x, (int) location.y);
 						startLoc = mouseLoc;
 
 						// part of snap to grid code
@@ -7188,16 +7191,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								.toRealWorldCoordY(oldLoc.y) - yRW;
 					} else {
 						setStartPointLocation(
-								xRW - movedGeoNumeric.getRealWorldLocX(),
-								yRW - movedGeoNumeric.getRealWorldLocY());
+								xRW - location.x,
+								yRW - location.y);
 						transformCoordsOffset[0] = movedGeoNumeric
 								.getRealWorldLocX() - xRW;
 						transformCoordsOffset[1] = movedGeoNumeric
 								.getRealWorldLocY() - yRW;
 					}
 				} else {
-					setStartPointLocation(movedGeoNumeric.getSliderX(),
-							movedGeoNumeric.getSliderY());
+					setStartPointLocation(location.x, location.y);
 
 					// update straightaway in case it's just a click (no drag)
 					moveNumeric(true);
