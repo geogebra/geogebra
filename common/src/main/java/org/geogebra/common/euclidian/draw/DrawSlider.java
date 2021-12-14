@@ -21,6 +21,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -93,20 +94,20 @@ public class DrawSlider extends Drawable {
 			double widthRW;
 			double widthScreen;
 			boolean horizontal = number.isSliderHorizontal();
-
+			GPoint2D location = getSliderLocation();
 			// start point of horizontal line for slider
 			if (number.isAbsoluteScreenLocActive()) {
 				EdgeInsets safeAreaInsets = view.getSafeAreaInsets();
-				coordsScreen[0] = number.getSliderX() + safeAreaInsets.getLeft();
-				coordsScreen[1] = number.getSliderY() + safeAreaInsets.getTop();
+				coordsScreen[0] = location.x;
+				coordsScreen[1] = location.y;
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 				widthScreen = number.getSliderWidth();
 				widthRW = horizontal ? widthScreen * view.getInvXscale()
 						: widthScreen * view.getInvYscale();
 			} else {
-				coordsRW[0] = number.getSliderX();
-				coordsRW[1] = number.getSliderY();
+				coordsRW[0] = location.x;
+				coordsRW[1] = location.y;
 				coordsScreen[0] = view.toScreenCoordXd(coordsRW[0]);
 				coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
 				widthRW = number.getSliderWidth();
@@ -147,6 +148,21 @@ public class DrawSlider extends Drawable {
 			lineThickness = number.getLineThickness();
 			updateStrokes(number, number.getLineThickness());
 		}
+	}
+
+	/**
+	 * Returns the slider location either absolute or relative.
+	 * @return slider location
+	 */
+	public GPoint2D getSliderLocation() {
+		double x = number.getSliderX();
+		double y = number.getSliderY();
+		if (number.isAbsoluteScreenLocActive()) {
+			EdgeInsets insets = view.getSafeAreaInsets();
+			x += insets.getLeft();
+			y += insets.getTop();
+		}
+		return new GPoint2D(x, y);
 	}
 
 	@Override
