@@ -629,4 +629,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/no_photography_black_24dp.svg")
 	SVGResource no_camera();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/camera_white.svg")
+	SVGResource camera_white();
 }

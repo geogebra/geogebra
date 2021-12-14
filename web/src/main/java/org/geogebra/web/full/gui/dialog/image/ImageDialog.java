@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -55,7 +56,21 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		cameraPanel = new FlowPanel();
 		cameraPanel.addStyleName("cameraPanel");
 		webcamInputPanel = new WebCamInputPanel((AppW) app, this);
+		webcamInputPanel.startVideo();
 		cameraPanel.add(webcamInputPanel);
+
+		StandardButton captureBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.camera_white(), null, 24);
+		captureBtn.setStyleName("mowFloatingButton");
+		captureBtn.addFastClickHandler(source -> {
+			String dataURL = webcamInputPanel.getImageDataURL();
+			String name = "webcam";
+			if (dataURL != null) {
+				((AppW) app).imageDropHappened(name, dataURL);
+			}
+			hide();
+		});
+		cameraPanel.add(captureBtn);
 		TabData cameraTab = new TabData("Camera", cameraPanel);
 
 		ComponentTab tab = new ComponentTab(new ArrayList<>(Arrays.asList(uploadTab, cameraTab)),
@@ -123,7 +138,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 
 	@Override
 	public void onCameraSuccess() {
-
+		// nothing to do here
 	}
 
 	@Override
