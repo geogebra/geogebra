@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.interval.IntervalTuple;
  *
  * @author laszlo
  */
-public class IntervalPlotter 
+public class IntervalPlotter {
 	private final EuclidianViewBounds evBounds;
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
