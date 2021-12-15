@@ -8,9 +8,9 @@ import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.util.AutoCompleteDictionary;
 
 /**
- * Autocomplete controller for both plain text and equation editor input
+ * Autocomplete provider for plain text editor
  */
-public class InputSuggestions {
+public class AutocompleteProviderClassic {
 	protected final AutocompleteProvider provider;
 	private List<String> completions;
 	private AutoCompleteDictionary dict;
@@ -23,7 +23,7 @@ public class InputSuggestions {
 	 * @param isForCas
 	 *            whether to use CAS view dictionary
 	 */
-	public InputSuggestions(App app, boolean isForCas) {
+	public AutocompleteProviderClassic(App app, boolean isForCas) {
 		this.app = app;
 		this.forCAS = isForCas;
 		this.provider = new AutocompleteProvider(app, isForCas);
@@ -66,7 +66,7 @@ public class InputSuggestions {
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
 
-		if (completions == null && provider.isFallbackCompletitionAllowed()) {
+		if (completions == null && provider.isFallbackCompletionAllowed()) {
 			completions = app.getEnglishCommandDictionary()
 					.getCompletions(cmdPrefix);
 		}

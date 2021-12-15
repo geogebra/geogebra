@@ -25,9 +25,9 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
-	private AutoCompletePopup sug;
+	private AutoCompletePopup autocomplete;
 	private RetexKeyboardListener retexListener;
-	private EvaluateInput evalInput;
+	private final EvaluateInput evalInput;
 
 	/**
 	 * @param item
@@ -105,7 +105,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	@Override
 	public void onEnter() {
 		if (isSuggesting()) {
-			sug.needsEnterForSuggestion();
+			autocomplete.needsEnterForSuggestion();
 			return;
 		}
 		// make sure editing flag is up to date e.g. after failed redefine
@@ -143,7 +143,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	@Override
 	public void onArrowKeyPressed(int keyCode) {
 		if (isSuggesting()) {
-			sug.onArrowKeyPressed(keyCode);
+			autocomplete.onArrowKeyPressed(keyCode);
 		}
 	}
 
@@ -156,7 +156,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * @return whether suggestions are open
 	 */
 	public boolean isSuggesting() {
-		return sug != null && sug.isSuggesting();
+		return autocomplete != null && autocomplete.isSuggesting();
 	}
 
 	/**
@@ -243,14 +243,14 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	/**
-	 * @return input suggestion model (lazy load)
+	 * @return autocomplete popup (lazy load)
 	 */
-	AutoCompletePopup getInputSuggestions() {
-		if (sug == null) {
+	AutoCompletePopup getAutocompletePopup() {
+		if (autocomplete == null) {
 			boolean forCas = getApp().getConfig().getVersion() == GeoGebraConstants.Version.CAS;
-			sug = new AutoCompletePopup(app, forCas, item);
+			autocomplete = new AutoCompletePopup(app, forCas, item);
 		}
-		return sug;
+		return autocomplete;
 	}
 
 	@Override

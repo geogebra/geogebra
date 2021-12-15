@@ -1781,7 +1781,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return suggestions model
 	 */
 	AutoCompletePopup getInputSuggestions() {
-		return getLatexController().getInputSuggestions();
+		return getLatexController().getAutocompletePopup();
 	}
 
 	private void updatePreview() {

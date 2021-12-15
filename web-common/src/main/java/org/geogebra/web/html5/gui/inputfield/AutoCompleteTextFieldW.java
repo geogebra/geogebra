@@ -28,7 +28,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -141,7 +140,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
     private boolean rightAltDown;
 	private boolean leftAltDown;
-	private final InputSuggestions inputSuggestions;
+	private final AutocompleteProviderClassic inputSuggestions;
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -209,7 +208,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		historyIndex = 0;
 		history = new ArrayList<>(50);
-		inputSuggestions = new InputSuggestions(app, forCAS);
+		inputSuggestions = new AutocompleteProviderClassic(app, forCAS);
 
 		addStyleName("AutoCompleteTextFieldW");
 
@@ -577,11 +576,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setDictionary(boolean forCAS) {
 		inputSuggestions.setDictionary(forCAS);
-	}
-
-	@Override
-	public AutoCompleteDictionary getDictionary() {
-		return inputSuggestions.getDictionary();
 	}
 
 	/**
@@ -1089,7 +1083,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 				String word = MyTextField.getWordAtPos(getText(), pos);
 				String lowerCurWord = word.toLowerCase();
-				String closest = getDictionary().lookup(lowerCurWord);
+				String closest = inputSuggestions.getDictionary().lookup(lowerCurWord);
 
 				if (closest != null) {
 					showCommandHelp(app.getInternalCommand(closest));

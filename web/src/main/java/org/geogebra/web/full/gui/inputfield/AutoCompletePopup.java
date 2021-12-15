@@ -82,7 +82,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	 * fill popup with command list based on the user input
 	 * @param curWord - user input
 	 */
-	public void fillAndShow(String curWord) {
+	private void fillAndShow(String curWord) {
 		getPopupMenu().clear();
 		fillContent(curWord);
 		popupPanel.hide();
@@ -102,13 +102,19 @@ public class AutoCompletePopup extends GPopupMenuW {
 	/**
 	 * @return whether some syntax was inserted
 	 */
-	public boolean insertSelectedSyntax() {
+	public boolean handleEnter() {
 		if (openItem != null) {
 			AriaMenuItem selectedItem = openItem.getSubMenu().getSelectedItem();
 			if (selectedItem != null) {
 				selectedItem.getScheduledCommand().execute();
 				return true;
 			}
+			return false;
+		}
+		AriaMenuItem selectedItem = getPopupMenu().getSelectedItem();
+		if (selectedItem != null && selectedItem.getSubMenu() != null) {
+			openSubmenu(selectedItem);
+			return true;
 		}
 		return false;
 	}
@@ -138,7 +144,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	 */
 	public boolean needsEnterForSuggestion() {
 		if (isSuggesting()) {
-			return insertSelectedSyntax();
+			return handleEnter();
 		}
 		return false;
 	}

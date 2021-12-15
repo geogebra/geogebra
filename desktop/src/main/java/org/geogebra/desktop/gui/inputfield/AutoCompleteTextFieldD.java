@@ -232,8 +232,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * @return dict The dictionary that will be used for the autocomplete
 	 *         lookups.
 	 */
-	@Override
-	public AutoCompleteDictionary getDictionary() {
+	private AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
 			this.dict = this.forCAS ? app.getCommandDictionaryCAS()
 					: app.getCommandDictionary();

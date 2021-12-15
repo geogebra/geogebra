@@ -219,11 +219,20 @@
 	.autocompleteSyntaxHeading {
 		display: flex;
 		border-bottom: 1px colors.$black-12 solid;
-		line-height: 24px;
-		padding: 0px 8px 8px 16px;
+		padding: 4px 8px 4px 16px;
+		align-items: center;
 
 		.gwt-Label {
 			flex-grow: 1;
+			line-height: 24px;
+			height: 24px;
+		}
+
+		.button {
+			padding: 4px;
+			margin-left: 16px;
+			height: 32px;
+			box-sizing: border-box;
 		}
 
 		.gwt-Image {

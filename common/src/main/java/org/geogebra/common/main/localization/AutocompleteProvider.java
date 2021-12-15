@@ -57,7 +57,7 @@ public class AutocompleteProvider {
 	private void addSyntaxes(String cmd, ArrayList<String> syntaxes) {
 		String cmdInt = app.getInternalCommand(cmd);
 		boolean englishOnly = cmdInt == null
-				&& isFallbackCompletitionAllowed();
+				&& isFallbackCompletionAllowed();
 
 		if (englishOnly) {
 			cmdInt = app.englishToInternal(cmd);
@@ -99,7 +99,7 @@ public class AutocompleteProvider {
 	/**
 	 * @return whether to allow English commands as well
 	 */
-	public boolean isFallbackCompletitionAllowed() {
+	public boolean isFallbackCompletionAllowed() {
 		return "zh".equals(app.getLocalization().getLanguage());
 	}
 

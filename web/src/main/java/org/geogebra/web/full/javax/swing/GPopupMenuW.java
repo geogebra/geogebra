@@ -78,10 +78,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		popupPanel.add(popupMenu);
 
 		popupPanel.addCloseHandler(event -> {
-			if (subPopup != null) {
-				subPopup.removeFromDOM();
-				subPopup = null;
-			}
+			removeSubPopup();
 		});
 
 		popupPanel.setAutoHideEnabled(true);
@@ -105,6 +102,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 			merged.add(mb);
 			merged.addStyleName("submenuWithHeading");
 			popupPanel.add(merged);
+			popupPanel.addStyleName("hasHeading");
 		} else {
 			popupPanel.add(mb);
 		}
@@ -562,6 +560,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 		if (subPopup != null) {
 			subPopup.removeFromDOM();
 			subPopup = null;
+			openItem = null;
 		}
 	}
 
