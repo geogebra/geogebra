@@ -936,10 +936,10 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_mindmap();
 
 		case EuclidianConstants.MODE_RULER:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_ruler();
+			return resourceBundle.mode_ruler();
 
 		case EuclidianConstants.MODE_PROTRACTOR:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_protractor();
+			return resourceBundle.mode_protractor();
 
 		default:
 			return AppResources.INSTANCE.empty();

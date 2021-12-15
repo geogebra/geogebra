@@ -292,4 +292,8 @@ public interface ToolbarResources {
 	ResourcePrototype mode_h5p();
 
 	ResourcePrototype mode_mindmap();
+
+	ResourcePrototype mode_ruler();
+
+	ResourcePrototype mode_protractor();
 }
