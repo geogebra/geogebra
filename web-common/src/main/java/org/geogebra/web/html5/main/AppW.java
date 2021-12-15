@@ -2887,10 +2887,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
 				&& !appletParameters.preventFocus()) {
-			if (accessibilityManager.isIndependentFromAltTexts(geo)) {
+			List<GeoText> dependentAltTexts = accessibilityManager.getDependentAltTexts(geo);
+			if (dependentAltTexts.isEmpty()) {
 				readWithTimer(geo);
 			} else {
-				accessibilityManager.addAsAltTextDependency(geo);
+				accessibilityManager.readDependentAltTexts(geo, dependentAltTexts);
 			}
 		}
 	}

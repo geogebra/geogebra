@@ -18,8 +18,9 @@ public class AltTextCollector {
 	private final List<GeoNumeric> dependencies;
 
 	/**
-	 * @param app application
-	 * @param views view alt texts
+	 *
+	 * @param app the application
+	 * @param views views' altTexts
 	 */
 	public AltTextCollector(App app, ViewAltTexts views) {
 		this.views = views;
@@ -48,20 +49,11 @@ public class AltTextCollector {
 
 	private ScreenReaderBuilder concatLines() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		appendDependencies(sb);
 		for (String line: lines) {
 			sb.append(line);
 			sb.endSentence();
 		}
-		dependencies.clear();
 		return sb;
-	}
-
-	private void appendDependencies(ScreenReaderBuilder sb) {
-		for (GeoNumeric numeric: dependencies) {
-			sb.append(numeric.getAuralCurrentValue());
-			sb.endSentence();
-		}
 	}
 
 	private boolean isLastAltText() {
@@ -85,5 +77,24 @@ public class AltTextCollector {
 		if (!dependencies.contains(geo)) {
 			dependencies.add(geo);
 		}
+	}
+
+	public List<GeoText> getDependentAltTexts(GeoNumeric geo) {
+		return views.getDependentAltTexts(geo);
+	}
+
+	/**
+	 *  Reads all list of views' altTexts that are dependent on the given geo.
+	 * @param geo to depend on.
+	 * @param altTexts list of dependent altTexts.
+	 */
+	public void readDependentAltTexts(GeoNumeric geo, List<GeoText> altTexts) {
+		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
+		sb.append(geo.getAuralCurrentValue());
+		altTexts.forEach(geoText -> {
+			geoText.addAuralContent(loc, sb);
+			sb.endSentence();
+		});
+		timer.read(sb);
 	}
 }

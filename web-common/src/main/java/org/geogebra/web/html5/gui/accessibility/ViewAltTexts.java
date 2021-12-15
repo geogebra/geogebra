@@ -36,7 +36,6 @@ public class ViewAltTexts {
 	private final App app;
 
 	/**
-	 *
 	 * @param app the application
 	 */
 	public ViewAltTexts(App app) {
@@ -50,7 +49,6 @@ public class ViewAltTexts {
 	}
 
 	/**
-	 *
 	 * @return the number of views that have altText and visible;
 	 */
 	public int activeAltTextCount() {
@@ -63,9 +61,9 @@ public class ViewAltTexts {
 	}
 
 	/**
+	 * @param viewIndex the index of the euclidian view.
 	 * @return the geo element containing the alt text for the view
 	 * specified by viewIndex.
-	 * @param viewIndex the index of the euclidian view.
 	 */
 	public GeoElement getAltGeo(int viewIndex) {
 		GeoElement geoElement = kernel.lookupLabel(get(viewIndex));
@@ -79,14 +77,13 @@ public class ViewAltTexts {
 	}
 
 	/**
-	 *
 	 * @param altText to check
 	 * @return if there is a view for the altText
 	 */
 	public boolean isValid(GeoText altText) {
 		updateVisibleViews();
 		String label = altText.getLabelSimple();
-		for (Integer viewId: visibleViews) {
+		for (Integer viewId : visibleViews) {
 			if (altTextsPerView.get(viewId).equals(label)) {
 				return true;
 			}
@@ -96,7 +93,6 @@ public class ViewAltTexts {
 	}
 
 	/**
-	 *
 	 * @param geo to check
 	 * @return if this geo is independent for all altText of views or not.
 	 */
@@ -109,5 +105,22 @@ public class ViewAltTexts {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Returns a list of views' altTexts that are dependent on the given geo.
+	 * @param geo to depend on.
+	 * @return list of dependent views' altTexts
+	 */
+	public List<GeoText> getDependentAltTexts(GeoElement geo) {
+		updateVisibleViews();
+		ArrayList<GeoText> result = new ArrayList<>();
+		for (int i = 0; i < viewCount(); i++) {
+			GeoElement altText = getAltGeo(i);
+			if (altText != null && geo.algoUpdateSetContains(altText.getParentAlgorithm())) {
+				result.add((GeoText) altText);
+			}
+		}
+		return result;
 	}
 }
