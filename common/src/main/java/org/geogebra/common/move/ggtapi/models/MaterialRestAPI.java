@@ -211,13 +211,14 @@ public class MaterialRestAPI implements BackendAPI {
 		int[] counts = new int[3];
 		JSONTokener jst = new JSONTokener(responseStr);
 		Object parsed = jst.nextValue();
-		if (parsed instanceof JSONObject) {
+		if (parsed instanceof JSONObject && ((JSONObject) parsed).has("from")) {
 			counts[0] = ((JSONObject) parsed).getInt("from");
 			counts[1] = (((JSONObject) parsed).getInt("to"));
 			counts[2] = (((JSONObject) parsed).getInt("total"));
+			ret.add(new Chapter(null, counts));
+			return ret;
 		}
-		ret.add(new Chapter(null, counts));
-		return ret;
+		return null;
 	}
 
 	/**
@@ -232,10 +233,15 @@ public class MaterialRestAPI implements BackendAPI {
 		JSONTokener jst = new JSONTokener(responseStr);
 		Object parsed = jst.nextValue();
 		if (parsed instanceof JSONObject) {
-			JSONArray materials = ((JSONObject) parsed).getJSONArray("materials");
-			for (int i = 0; i < materials.length(); i++) {
+			if (((JSONObject) parsed).has("materials")) {
+				JSONArray materials = ((JSONObject) parsed).getJSONArray("materials");
+				for (int i = 0; i < materials.length(); i++) {
 					Material mat = JSONParserGGT.prototype.toMaterial(materials.getJSONObject(i));
 					ret.add(mat);
+				}
+			} else {
+				Material mat = JSONParserGGT.prototype.toMaterial((JSONObject) parsed);
+				ret.add(mat);
 			}
 		}
 		return ret;
@@ -244,7 +250,7 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
 		// no public materials
-		userMaterialsCB.onLoaded(new ArrayList<Material>(), null);
+		userMaterialsCB.onLoaded(new ArrayList<>(), null);
 	}
 
 	@Override
@@ -465,7 +471,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?filter="
+						+ "/materials?format=page&filter="
 						+ "ggs-template",
 				null, templateMaterialsCB);
 	}
