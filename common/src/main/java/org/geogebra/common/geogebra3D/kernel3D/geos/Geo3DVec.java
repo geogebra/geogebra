@@ -415,6 +415,8 @@ final public class Geo3DVec extends ValidExpression
 		sbToString.append(kernel.format(x, tpl));
 		sbToString.append(", ");
 		sbToString.append(kernel.format(y, tpl));
+		sbToString.append(", ");
+		sbToString.append(kernel.format(z, tpl));
 		sbToString.append(')');
 		return sbToString.toString();
 	}
