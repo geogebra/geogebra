@@ -1090,7 +1090,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @param label - inputbox label
 	 * @return content of the inputbox
 	 */
-	public String getGeoState(String label) {
+	public String getInputBoxState(String label) {
 		GeoElement geo = StringUtil.empty(label) ? null
 				: kernel.lookupLabel(label);
 		if (geo instanceof GeoInputBox) {
@@ -1103,7 +1103,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @param state - content of inputbox
 	 * @param label - label of inputbox
 	 */
-	public void setGeoState(String state, String label) {
+	public void setInputBoxState(String state, String label) {
 		GeoElement geo = StringUtil.empty(label) ? null
 				: kernel.lookupLabel(label);
 		if (geo instanceof GeoInputBox) {
