@@ -297,7 +297,7 @@ public abstract class GlobalKeyDispatcher {
 
 			case EuclidianView.GRID_POLAR:
 				if (geos.size() != 1) {
-					break;
+					diff[0] = diff[1] = 0;
 				}
 
 				double posX = geo.getLabelPosition().getX();
