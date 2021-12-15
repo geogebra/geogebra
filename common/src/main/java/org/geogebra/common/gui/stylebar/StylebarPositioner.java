@@ -94,8 +94,6 @@ public class StylebarPositioner {
 		return Collections.emptyList();
 	}
 
-	@SuppressWarnings({ "MethodWithTooManyParameters", "OverlyComplexMethod",
-			"OverlyLongMethod", "ReturnOfNull" })
 	private GPoint getStylebarPositionForDrawable(GRectangle2D gRectangle2D,
 			boolean hasBoundingBox, boolean isPoint, boolean noUseOfRectangle,
 			int popupHeight, int popupWidth, GRectangle canvasRect) {
@@ -108,7 +106,6 @@ public class StylebarPositioner {
 		int maxYPosition = (int) Math
 				.round(canvasRect.getY() + canvasRect.getHeight());
 
-		// final int BOTTOM_MARGIN = 7 * MARGIN;
 		double top;
 
 		if (functionOrLine) {
@@ -119,23 +116,22 @@ public class StylebarPositioner {
 			}
 			top = mouseLoc.y + MARGIN;
 		} else if (isPoint) {
-			top = gRectangle2D.getMaxY() /* + MARGIN */;
+			top = gRectangle2D.getMaxY();
 		} else {
 			if (hasBoundingBox) {
-				top = gRectangle2D.getMinY() - popupHeight /*- BOTTOM_MARGIN*/;
+				top = gRectangle2D.getMinY() - popupHeight;
 			} else {
 				top = gRectangle2D.getMinY();
 			}
 		}
 
 		if (top < minYPosition) {
-			top = (gRectangle2D != null ? gRectangle2D.getMaxY()
-					: 0) /* + MARGIN */;
+			top = gRectangle2D != null ? gRectangle2D.getMaxY() : minYPosition;
 		}
 
 		if (top > maxYPosition) {
 			if (isPoint) {
-				top = gRectangle2D.getMinY() - popupHeight /*- BOTTOM_MARGIN*/;
+				top = gRectangle2D.getMinY() - popupHeight;
 			} else {
 				top = maxYPosition;
 			}
@@ -154,9 +150,7 @@ public class StylebarPositioner {
 				left = gRectangle2D.getMaxX();
 			}
 		}
-
-		left = left < minXPosition ? minXPosition : left;
-		left = left > maxXPosition ? maxXPosition : left;
+		left = Math.min(maxXPosition, Math.max(minXPosition, left));
 		return new GPoint((int) left, (int) top);
 	}
 
