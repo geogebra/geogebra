@@ -13,22 +13,13 @@ import org.geogebra.common.kernel.interval.IntervalTuple;
  *
  * @author laszlo
  */
-public class IntervalPlotter {
+public class IntervalPlotter 
 	private final EuclidianViewBounds evBounds;
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
 	private IntervalPlotModel model = null;
 	private boolean updateAll = true;
 	private IntervalPlotController controller;
-
-	/**
-	 * Creates a disabled plotter
-	 */
-	public IntervalPlotter(EuclidianViewBounds bounds, GeneralPathClipped gp) {
-		this.evBounds = bounds;
-		this.gp = new IntervalPathPlotterImpl(gp);
-		this.enabled = false;
-	}
 
 	/**
 	 * Creates a disabled plotter
