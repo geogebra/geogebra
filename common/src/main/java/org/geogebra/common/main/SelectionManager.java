@@ -844,6 +844,7 @@ public class SelectionManager {
 		if (geo instanceof GeoInputBox && geo.isEuclidianVisible()) {
 			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
 		} else {
+			view.getApplication().setActiveView(view.getViewID());
 			view.requestFocus();
 		}
 	}
