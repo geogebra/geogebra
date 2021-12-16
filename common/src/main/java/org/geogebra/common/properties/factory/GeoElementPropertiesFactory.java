@@ -1,8 +1,6 @@
 package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
