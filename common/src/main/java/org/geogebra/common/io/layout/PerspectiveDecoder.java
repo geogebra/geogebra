@@ -177,11 +177,11 @@ public class PerspectiveDecoder {
 	 * @return decoded perspective
 	 */
 	public static Perspective decode(String code, Parser parser,
-			String defToolbar) {
+			String defToolbar, Layout layout) {
 		if (code.length() == 0 || code.startsWith("search:")) {
 			return null;
 		}
-		Perspective defaultPerspective = getDefaultPerspective(code);
+		Perspective defaultPerspective = getDefaultPerspective(code, layout);
 		if (defaultPerspective != null) {
 			return defaultPerspective;
 		}
@@ -218,9 +218,9 @@ public class PerspectiveDecoder {
 	 * @param code default ID as string
 	 * @return default prespective with given defaultID
 	 */
-	public static Perspective getDefaultPerspective(String code) {
-		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
-			Perspective defaultPerspective = Layout.getDefaultPerspectives(i);
+	public static Perspective getDefaultPerspective(String code, Layout layout) {
+		for (int i = 0; i < layout.getDefaultPerspectivesLength(); i++) {
+			Perspective defaultPerspective = layout.getDefaultPerspectives(i);
 			if (defaultPerspective != null && code.equals(defaultPerspective.getDefaultID() + "")) {
 				return defaultPerspective;
 			}

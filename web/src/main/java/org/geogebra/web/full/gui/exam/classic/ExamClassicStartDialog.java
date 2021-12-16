@@ -122,7 +122,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		// do this *before* perspective so that we have CAS toolbar for CAS
 		guiManager.setGeneralToolBarDefinition(
 				ToolBar.getAllToolsNoMacros(true, true, app));
-		LayoutW.resetPerspectives(app);
+		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		app.startExam();
