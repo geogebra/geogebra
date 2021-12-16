@@ -136,15 +136,14 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public void onCursorMove() {
-		item.onCursorMove();
-	}
+	public boolean onArrowKeyPressed(int keyCode) {
 
-	@Override
-	public void onArrowKeyPressed(int keyCode) {
 		if (isSuggesting()) {
 			autocomplete.onArrowKeyPressed(keyCode);
+			return true;
 		}
+		item.onCursorMove();
+		return false;
 	}
 
 	@Override

@@ -93,18 +93,14 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		scrollContentIfNeeded();
+		return false;
 	}
 
 	private void scrollContentIfNeeded() {
 		mathFieldEditor.scrollHorizontally();
 		mathFieldEditor.scrollVertically();
-	}
-
-	@Override
-	public void onArrowKeyPressed(int keyCode) {
-	 	// nothing to do.
 	}
 
 	@Override

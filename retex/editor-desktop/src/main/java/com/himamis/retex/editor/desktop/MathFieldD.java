@@ -23,6 +23,7 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  */
+
 package com.himamis.retex.editor.desktop;
 
 import java.awt.Color;
@@ -33,8 +34,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JLabel;
@@ -50,7 +49,6 @@ import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyListener;
-import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
@@ -70,10 +68,14 @@ public class MathFieldD extends JLabel implements MathField {
 
 	private static final long serialVersionUID = 1L;
 	
-	private MathFieldInternal mathFieldInternal;
+	private final MathFieldInternal mathFieldInternal;
 	private int cursorX;
 	private int scrollX = 0;
 
+	/**
+	 * @param syntaxAdapter syntax adapter
+	 * @param repaint cursor blink listener
+	 */
 	public MathFieldD(SyntaxAdapter syntaxAdapter, Runnable repaint) {
 		SelectionBox.touchSelection = false;
 		setBackground(Color.white);
@@ -83,24 +85,12 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal.setSyntaxAdapter(syntaxAdapter);
 		mathFieldInternal.setSelectionMode(true);
 		this.setVerticalAlignment(SwingConstants.TOP);
-		Timer t = new Timer(500, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CursorBox.toggleBlink();
-				repaint.run();
-			}
+		Timer t = new Timer(500, e -> {
+			CursorBox.toggleBlink();
+			repaint.run();
 		});
 		t.setRepeats(true);
 		t.start();
-	}
-	
-	/**
-	 * @param listener
-	 *            listener
-	 */
-	public void setFieldListener(MathFieldListener listener) {
-		mathFieldInternal.setFieldListener(listener);
 	}
 
 	@Override
@@ -179,14 +169,12 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
+	/**
+	 * @param text string to insert
+	 */
 	public void insertString(String text) {
 		mathFieldInternal.insertString(text);
 		mathFieldInternal.update();
-	}
-
-	public void setFormula(MathFormula f) {
-		mathFieldInternal.setFormula(f);
-
 	}
 
 	@Override
@@ -210,10 +198,6 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
-	public MathFormula getFormula(){
-		return mathFieldInternal.getFormula();
-	}
-
 	@Override
 	public boolean useCustomPaste() {
 		return false;
@@ -229,17 +213,8 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal.setPlainText(text);
 	}
 
-	public String getCurrentWord() {
-		return mathFieldInternal.getCurrentWord();
-	}
-
 	public MathFieldInternal getInternal() {
 		return this.mathFieldInternal;
-	}
-
-	@Override
-	public void tab(boolean shiftDown) {
-		// TODO Auto-generated method stub
 	}
 
 	public int getScrollX() {

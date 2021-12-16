@@ -6,9 +6,7 @@ public interface MathFieldListener {
 
 	void onKeyTyped(String key);
 
-	void onCursorMove();
-
-	void onArrowKeyPressed(int keyCode);
+	boolean onArrowKeyPressed(int keyCode);
 
 	void onInsertString();
 

@@ -238,8 +238,6 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void openHelp(String page);
 
-	void openHelp(String page, Help type);
-
 	void setLayout(Layout layout);
 
 	void initialize();

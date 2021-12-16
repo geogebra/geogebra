@@ -189,13 +189,8 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onCursorMove() {
-			// do nothing
-		}
-
-		@Override
-		public void onArrowKeyPressed(int keyCode) {
-			// do nothing
+		public boolean onArrowKeyPressed(int keyCode) {
+			return false;
 		}
 
 		@Override

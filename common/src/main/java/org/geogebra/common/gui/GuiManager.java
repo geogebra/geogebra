@@ -383,6 +383,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		openHelp(page, Help.GENERIC);
 	}
 
+	protected abstract void openHelp(String page, Help generic);
+
 	@Override
 	final public View getConstructionProtocolData() {
 		ConstructionProtocolView view = getConstructionProtocolView();

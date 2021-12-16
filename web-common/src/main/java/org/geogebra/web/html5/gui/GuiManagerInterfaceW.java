@@ -196,6 +196,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param min - starting value of table
 	 * @param max - ending value of table
 	 * @param step - step value of table
+	 * @throws InvalidValuesException if ((max - min) / step) is out of range
 	 */
 	void setValues(double min, double max, double step) throws InvalidValuesException;
 
@@ -204,6 +205,12 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param show - true if point should be shown, false otherwise
 	 */
 	void showPointsTV(int column, boolean show);
+
+	/**
+	 * @param page command name or page name
+	 * @param type page type
+	 */
+	void openHelp(String page, Help type);
 
 	boolean isAlgebraViewActive();
 }

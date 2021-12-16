@@ -308,7 +308,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	@Override
 	public void onKeyTyped(String key) {
 		getInputSuggestions().popupSuggestions();
-		onCursorMove();
+		mf.scrollParentHorizontally(this);
 	}
 
 	@Override
@@ -317,15 +317,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void onCursorMove() {
-		mf.scrollParentHorizontally(this);
-	}
-
-	@Override
-	public void onArrowKeyPressed(int keyCode) {
+	public boolean onArrowKeyPressed(int keyCode) {
 		if (isSuggesting()) {
 			sug.onArrowKeyPressed(keyCode);
+			return true;
 		}
+		mf.scrollParentHorizontally(this);
+		return false;
 	}
 
 	@Override

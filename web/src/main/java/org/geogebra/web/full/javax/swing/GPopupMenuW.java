@@ -585,9 +585,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				target.getSelectedItem().getSubMenu().selectItem(0);
 			}
 		} else if (keyCode == JavaKeyCodes.VK_LEFT) {
-			if (subPopup != null && subPopup.isMenuShown()) {
-				subPopup.hideMenu();
-			}
+			removeSubPopup();
 		}
 	}
 

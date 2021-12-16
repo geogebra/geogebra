@@ -46,13 +46,9 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		scrollHorizontally();
-	}
-
-	@Override
-	public void onArrowKeyPressed(int keyCode) {
-		// nothing to do
+		return false;
 	}
 
 	@Override

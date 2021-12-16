@@ -21,13 +21,8 @@ public class SolverMathFieldListener implements MathFieldListener {
 	}
 
 	@Override
-	public void onCursorMove() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onArrowKeyPressed(int keyCode) {
-		// TODO Auto-generated method stub
+	public boolean onArrowKeyPressed(int keyCode) {
+		return false;
 	}
 
 	@Override
