@@ -6043,10 +6043,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// or right-hand mouse button
 
 		if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
+			EdgeInsets insets = view.getSafeAreaInsets();
 			// part of snap to grid code
 			movedGeoNumeric.setAbsoluteScreenLoc(
-					view.toScreenCoordX(xRW - getStartPointX()),
-					view.toScreenCoordY(yRW - getStartPointY()), temporaryMode);
+					view.toScreenCoordX(xRW - getStartPointX()) - insets.getLeft(),
+					view.toScreenCoordY(yRW - getStartPointY()) - insets.getTop(), temporaryMode);
 		} else {
 			movedGeoNumeric.setSliderLocation(xRW - getStartPointX(),
 					yRW - getStartPointY(), temporaryMode);
