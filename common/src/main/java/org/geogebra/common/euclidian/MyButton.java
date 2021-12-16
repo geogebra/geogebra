@@ -269,15 +269,18 @@ public class MyButton implements Observer {
 	}
 
 	private void drawSVG(MyImage im, GGraphics2D g, double width, double height) {
-		// SVG is scaled to the button size rather than cropped
-		double sx = im.getWidth() / width;
-		double sy = im.getHeight() / height;
+		// SVG is scaled so that it is as big as possible without exceeding
+		// the button bounds
+		double scale = Math.min(width / im.getWidth(), height / im.getHeight());
 
 		g.saveTransform();
 
-		g.scale(1 / sx, 1 / sy);
-		g.translate(x * sx, y * sy);
+		// center image
+		g.translate(x + (width - im.getWidth() * scale) / 2,
+				y + (height - im.getHeight() * scale) / 2);
+		g.scale(scale, scale);
 
+		// the parameters x and y don't work in desktop for SVGs
 		g.drawImage(im, 0, 0);
 
 		g.restoreTransform();

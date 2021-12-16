@@ -125,7 +125,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				BrowseResources.INSTANCE.location_tube());
 		locationTube.addFastClickHandler(source -> {
 			app.getFileManager().setFileProvider(Provider.TUBE);
-			loadAllMaterials();
+			loadAllMaterials(0);
 		});
 
 		setAvailableProviders();
@@ -164,7 +164,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	@Override
-	public void loadAllMaterials() {
+	public void loadAllMaterials(int offset) {
 		if (header != null) {
 			this.header.clearSearchPanel();
 		}

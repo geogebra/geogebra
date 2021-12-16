@@ -165,15 +165,6 @@ public class MyArbitraryConstant {
 	}
 
 	/**
-	 * Gets arbconst
-	 * @param i index of arbconst within this handler
-	 * @return arbconst
-	 */
-	public GeoNumeric getConst(int i) {
-		return consts.get(i);
-	}
-
-	/**
 	 * Return the list of constants
 	 * @return consts
 	 */

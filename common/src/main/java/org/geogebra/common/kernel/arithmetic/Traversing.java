@@ -237,34 +237,6 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces sin(x) with sin(x deg) GGB-2183 eg Solve(sin(x)=1/2)
-	 *
-	 */
-	public class DegreeVariableReplacer implements Inspecting {
-		private static DegreeVariableReplacer replacer = new DegreeVariableReplacer();
-
-		@Override
-		public boolean check(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
-				Operation op = en.getOperation();
-				return op.hasDegreeInput();
-			}
-			return false;
-		}
-
-		/**
-		 * @param kernel
-		 *            kernel in which resulting variables live (also needed to
-		 *            check which commands are valid)
-		 * @return replacer
-		 */
-		public static DegreeVariableReplacer getReplacer(Kernel kernel) {
-			return replacer;
-		}
-	}
-
-	/**
 	 * Replaces dummy variable with given name
 	 *
 	 */

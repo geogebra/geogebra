@@ -7,7 +7,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
+import org.geogebra.common.kernel.algos.DependentAlgo;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -19,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -160,46 +164,20 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 */
 	public static void setValue2(GeoElement arg0, GeoElement arg1) {
-		if (arg0.isGeoFunction() && arg1.isRealValuedFunction()) {
-			// eg f(x)=x^2
-			// SetValue[f,1]
-			GeoFunction fun = (GeoFunction) arg0;
-			GeoFunctionable val = (GeoFunctionable) arg1;
-			// for GeoFunction set() supports all functionables
-			fun.set(val);
-			if (!fun.validate(true)) {
-				fun.set(arg0);
-				fun.setUndefined();
-			}
-			fun.updateRepaint();
-		} else if (arg0.isGeoList() && arg1.isNumberValue()) {
+		if (arg0.isGeoList() && arg1.isNumberValue()
+				&& !Double.isNaN(arg1.evaluateDouble())) {
 			((GeoList) arg0).setSelectedIndex(
 					(int) Math.round(arg1.evaluateDouble()) - 1, true);
 
 		} else if (arg0.isIndependent() || arg0.isMoveable()) {
-			if (arg0.isGeoNumeric() && arg1.isNumberValue()) {
-				((GeoNumeric) arg0).setValue(arg1.evaluateDouble());
-			} else {
-				if (arg1.isGeoNumeric()
-						&& Double.isNaN(arg1.evaluateDouble())) {
-					// eg SetValue[a,?] for line
-					arg0.setUndefined();
-					arg0.resetDefinition();
-				} else {
-					// copy() needed for eg
-					// rnd = {1,2,3,4}
-					// SetValue[rnd, Shuffle[rnd]]
-					arg0.set(arg1.isGeoList() ? arg1.copy() : arg1);
-					if (arg1.isChildOf(arg0)) {
-						arg0.resetDefinition();
-					}
-				}
-			}
-			arg0.updateRepaint();
+			setValueIndependent(arg0, arg1);
 		} else if (arg0.getParentAlgorithm() instanceof SetRandomValue) {
-			// eg a = RandomBetween[0,10]
-			SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
-			if (algo.setRandomValue(arg1)) {
+			setRandomValue(arg0, arg1);
+		} else if (arg0.getParentAlgorithm() instanceof DependentAlgo) {
+			if (arg1.isGeoNumeric()
+					&& Double.isNaN(arg1.evaluateDouble())) {
+				// eg SetValue[a,?] for line
+				undefine(arg0);
 				arg0.updateRepaint();
 			}
 		} else if (arg0.isGeoInputBox() && arg1.isGeoText()) {
@@ -208,6 +186,79 @@ public class CmdSetValue extends CmdScripting {
 			geoInputBox.updateLinkedGeo(textString);
 		}
 		resetInputboxes(arg0);
+	}
+
+	private static void setValueIndependent(GeoElement arg0, GeoElement arg1) {
+		if (arg0.isGeoNumeric() && arg1.isNumberValue()) {
+			((GeoNumeric) arg0).setValue(arg1.evaluateDouble());
+		} else {
+			if (arg1.isGeoNumeric()
+					&& Double.isNaN(arg1.evaluateDouble())) {
+				// eg SetValue[a,?] for line
+				if (arg0.isGeoList() && ((GeoList) arg0).isMatrix()) {
+					undefine(arg0);
+				} else {
+					arg0.setUndefined();
+					arg0.resetDefinition();
+				}
+			} else if (arg0.isGeoFunction() && arg1.isRealValuedFunction()) {
+				// eg f(x)=x^2
+				// SetValue[f,1]
+				GeoFunction fun = (GeoFunction) arg0;
+				GeoFunctionable val = (GeoFunctionable) arg1;
+				// for GeoFunction set() supports all functionables
+				fun.set(val);
+				if (!fun.validate(true)) {
+					fun.set(arg0);
+					fun.setUndefined();
+				}
+				fun.updateRepaint();
+			} else {
+				// copy() needed for eg
+				// rnd = {1,2,3,4}
+				// SetValue[rnd, Shuffle[rnd]]
+				arg0.set(arg1.isGeoList() ? arg1.copy() : arg1);
+				if (arg1.isChildOf(arg0)) {
+					arg0.resetDefinition();
+				}
+			}
+		}
+		arg0.updateRepaint();
+	}
+
+	private static void setRandomValue(GeoElement arg0, GeoElement arg1) {
+		// eg a = RandomBetween[0,10]
+		SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
+		if (algo.setRandomValue(arg1)) {
+			arg0.updateRepaint();
+		} else if (arg1.isGeoNumeric()
+				&& Double.isNaN(arg1.evaluateDouble()) && algo instanceof DependentAlgo) {
+			// eg SetValue[a,?] for number
+			undefine(arg0);
+			arg0.updateRepaint();
+		}
+	}
+
+	private static void undefine(GeoElement arg0) {
+		Kernel kernel = arg0.getKernel();
+		if (arg0.isGeoList()) {
+			if (((GeoList) arg0).getElementType() != GeoClass.LIST) {
+				arg0.setUndefined();
+				((GeoList) arg0).clear();
+				arg0.setDefinition(new MyList(kernel).wrap());
+			} else {
+				((GeoList) arg0).makeEntriesUndefined();
+				arg0.setDefinition(arg0.toValidExpression().wrap());
+			}
+		} else if (arg0.isGeoFunction() || arg0.isGeoFunctionNVar()) {
+			((Evaluate2Var) arg0).getFunction().setExpression(new ExpressionNode(kernel,
+					Double.NaN));
+			arg0.setUndefined();
+		} else {
+			arg0.setDefinition(arg0.getUndefinedCopy(kernel)
+					.toValidExpression().wrap());
+			arg0.setUndefined();
+		}
 	}
 
 	private static void resetInputboxes(GeoElement arg0) {

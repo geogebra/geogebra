@@ -22,7 +22,7 @@ import com.google.gwt.user.client.Command;
  * @author G. Sturr
  * 
  */
-public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
+public class SpreadsheetContextMenuW extends SpreadsheetContextMenu<AriaMenuItem> {
 
 	private GPopupMenuW popup;
 
@@ -37,7 +37,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public Object getMenuContainer() {
+	public GPopupMenuW getMenuContainer() {
 		return popup;
 	}
 
@@ -103,13 +103,13 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public void addSubMenuItem(Object menu, final String cmdString,
+	public void addSubMenuItem(AriaMenuItem menu, final String cmdString,
 	        String text, boolean enabled) {
 
 		AriaMenuItem mi = new AriaMenuItem(text, true, getCommand(cmdString));
 		mi.setEnabled(enabled);
 
-		((AriaMenuItem) menu).getSubMenu().addItem(mi);
+		menu.getSubMenu().addItem(mi);
 	}
 
 	@Override

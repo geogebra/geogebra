@@ -158,6 +158,20 @@ public class MetaModel {
                 "Component Not found " + arrayOpenKey);
     }
 
+	/**
+	 * @param arrayCloseKey closing parenthesis key ')', ']', etc.
+	 * @return the meta array for the given closing key
+	 */
+	public MetaArray getArrayByCloseKey(char arrayCloseKey) {
+		for (MetaArray metaArray : arrayGroup.getComponents()) {
+			if (metaArray.getCloseKey() == arrayCloseKey) {
+				return metaArray;
+			}
+		}
+
+		return null;
+	}
+
     /**
 	 * @return matrix
 	 */

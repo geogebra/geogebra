@@ -68,9 +68,7 @@ public class InputHelper {
 				GeoText text = (GeoText) geo;
 				centerText(text, ev);
 			}
-			geo.updateRepaint();
 		}
-
 	}
 
 	/**

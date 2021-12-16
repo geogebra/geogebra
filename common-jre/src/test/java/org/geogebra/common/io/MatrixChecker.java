@@ -18,6 +18,12 @@ class MatrixChecker extends EditorChecker {
 		return (MatrixChecker) this.setModifiers(KeyEvent.SHIFT_MASK);
 	}
 
+	public MatrixChecker ctrlA() {
+		setModifiers(KeyEvent.CTRL_MASK);
+		typeKey(JavaKeyCodes.VK_A);
+		return this;
+	}
+
 	public MatrixChecker right() {
 		return (MatrixChecker) typeKey(JavaKeyCodes.VK_RIGHT);
 	}

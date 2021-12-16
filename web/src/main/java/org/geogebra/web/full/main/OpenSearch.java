@@ -126,7 +126,7 @@ public class OpenSearch {
 		OpenTemporaryFileView openFileView =
 				(OpenTemporaryFileView) guiManager.getBrowseView();
 		if (guiManager.browseGUIwasLoaded()) {
-			openFileView.loadAllMaterials();
+			openFileView.loadAllMaterials(0);
 		}
 		showBrowser(openFileView);
 	}

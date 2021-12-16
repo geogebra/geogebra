@@ -244,6 +244,9 @@ public class DrawInputBox extends CanvasDrawable {
 			oldLength = length;
 		}
 		if (!isVisible) {
+			if (view.getSymbolicEditor() != null) {
+				view.getSymbolicEditor().applyAndHidDeferred();
+			}
 			return;
 		}
 

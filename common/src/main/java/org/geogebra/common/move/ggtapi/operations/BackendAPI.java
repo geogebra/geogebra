@@ -166,16 +166,8 @@ public interface BackendAPI {
 	 */
 	void getUsersOwnMaterials(MaterialCallbackI cb, MaterialRequest.Order order);
 
-	/**
-	 * Get materials shared with currently logged in user
-	 *
-	 * @param cb
-	 *            callback
-	 * @param order
-	 *            order
-	 */
-	void getSharedMaterials(final MaterialCallbackI cb,
-			MaterialRequest.Order order);
+	void getUsersAndSharedMaterials(final MaterialCallbackI cb, MaterialRequest.Order order,
+			int offset);
 
 	/**
 	 * Uploads the actual opened application to ggt

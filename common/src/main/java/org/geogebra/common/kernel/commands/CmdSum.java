@@ -132,7 +132,7 @@ public class CmdSum extends CommandProcessor {
 									new FunctionFold()) };
 					return ret;
 				}
-			} else if (arg[0].isGeoFunction()) {
+			} else if (arg[0].isGeoFunctionNVar()) {
 				// try to create list of functions
 				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.FUNCTION_NVAR);

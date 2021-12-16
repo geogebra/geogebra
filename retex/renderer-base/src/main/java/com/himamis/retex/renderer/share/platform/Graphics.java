@@ -90,7 +90,7 @@ public class Graphics {
 		return graphicsFactory.createTransform();
 	}
 
-	public Stroke createBasicStroke(double thickness, float[] dashes) {
+	public Stroke createBasicStroke(double thickness, double[] dashes) {
 		return graphicsFactory.createBasicStroke(thickness, dashes);
 	}
 

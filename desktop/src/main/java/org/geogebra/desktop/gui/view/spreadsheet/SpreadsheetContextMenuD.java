@@ -2,8 +2,6 @@ package org.geogebra.desktop.gui.view.spreadsheet;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -29,7 +27,7 @@ import org.geogebra.desktop.util.ImageResourceD;
  * @author G. Sturr
  * 
  */
-public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
+public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 
 	/** Desktop popUp panel */
 	protected JPopupMenu popup;
@@ -73,7 +71,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	// ======================================
 
 	@Override
-	public Object getMenuContainer() {
+	public JPopupMenu getMenuContainer() {
 		return popup;
 	}
 
@@ -112,12 +110,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 			boolean enabled) {
 		JMenuItem item = new JMenuItem(text);
 		item.setIcon(getIcon(cmdString));
-		item.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doCommand(cmdString);
-			}
-		});
+		item.addActionListener(e -> doCommand(cmdString));
 		item.setEnabled(enabled);
 		addItem(item);
 	}
@@ -127,18 +120,13 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 			boolean isSelected) {
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(text);
 		item.setIcon(getIcon(cmdString));
-		item.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doCommand(cmdString);
-			}
-		});
+		item.addActionListener(e -> doCommand(cmdString));
 		item.setSelected(isSelected);
 		addItem(item);
 	}
 
 	@Override
-	public Object addSubMenu(String text, String cmdString) {
+	public JMenu addSubMenu(String text, String cmdString) {
 		JMenu menu = new JMenu(text);
 		menu.setIcon(getIcon(cmdString));
 		addItem(menu);
@@ -146,15 +134,10 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public void addSubMenuItem(Object menu, final String cmdString, String text,
+	public void addSubMenuItem(JMenu menu, final String cmdString, String text,
 			boolean enabled) {
 		JMenuItem item = new JMenuItem(text, getIcon(cmdString));
-		item.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doCommand(cmdString);
-			}
-		});
+		item.addActionListener(e -> doCommand(cmdString));
 		item.setEnabled(enabled);
 		addSubItem(menu, item);
 	}
@@ -164,16 +147,14 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 		popup.addSeparator();
 	}
 
-	private void addItem(Object item) {
-		Component mi = (Component) item;
-		mi.setBackground(bgColor);
-		popup.add(mi);
+	private void addItem(Component item) {
+		item.setBackground(bgColor);
+		popup.add(item);
 	}
 
-	private static void addSubItem(Object menu, Object item) {
-		Component mi = (Component) item;
-		mi.setBackground(bgColor);
-		((JMenu) menu).add(mi);
+	private static void addSubItem(JMenu menu, JMenuItem item) {
+		item.setBackground(bgColor);
+		menu.add(item);
 	}
 
 	private ImageIcon getIcon(String cmdString) {

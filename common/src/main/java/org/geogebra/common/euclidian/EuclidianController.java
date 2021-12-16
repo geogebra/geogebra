@@ -258,7 +258,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected EuclidianPen pen;
 	private double oldDistance;
 	private boolean wasBoundingBoxHit;
-	private boolean isMultiResize;
+	boolean isMultiResize;
 	private BoundingBoxResizeState startBoundingBoxState;
 	protected double xTemp;
 	protected double yTemp;
@@ -436,6 +436,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private GeoElement lastMowHit;
 
 	private final GeoPriorityComparator priorityComparator;
+	private RotateBoundingBox rotateBoundingBox;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -7536,40 +7537,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GRectangle2D bounds = view.getBoundingBox().getRectangle();
 			// bounds exist
 			if (bounds != null) {
-				if (lastMouseLoc == null) {
-					return;
+				if (rotateBoundingBox == null) {
+					rotateBoundingBox = new RotateBoundingBox(this);
+					rotateBoundingBox.setView(view);
 				}
-				// lastMouseLoc is not updated outside the view, but the event
-				// contains values in that region too, so we clamp them
-				double ex = MyMath.clamp(event.getX(), 0, view.getWidth()),
-						ey = MyMath.clamp(event.getY(), 0, view.getHeight());
-				// calc center coords
-				double centerX = bounds.getMinX() + bounds.getWidth() / 2,
-						centerY = bounds.getMinY() + bounds.getHeight() / 2;
-				// create rotation point
-				if (rotationCenter == null) {
-					rotationCenter = new GeoPoint(
-							app.getKernel().getConstruction(),
-							view.toRealWorldCoordX(centerX),
-							view.toRealWorldCoordY(centerY), 1);
-				}
-				// calc rotation angle
-				NumberValue angle = new GeoNumeric(
-						app.getKernel().getConstruction(),
-						Math.atan2(-(ey - centerY), ex - centerX)
-								- Math.atan2(-(lastMouseLoc.getY() - centerY),
-										lastMouseLoc.getX() - centerX));
-				// do rotate geos
-				if (getResizedShape() != null || isMultiResize) {
-					dontClearSelection = true;
-					hideDynamicStylebar();
-					for (GeoElement geo : selection.getSelectedGeos()) {
-						if (!geo.isGeoPoint() && !isLockedForMultiuser(geo)) {
-							((PointRotateable) geo).rotate(angle,
-									rotationCenter);
-							geo.updateRepaint();
-						}
-					}
+
+				if (rotateBoundingBox.rotate(bounds, event.getX(), event.getY())) {
 					return;
 				}
 			}
@@ -8379,7 +8352,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle pointer drag event.
-	 * 
+	 *
 	 * @param event
 	 *            pointer drag event
 	 * @param startCapture
@@ -9103,7 +9076,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle pointer down event.
-	 * 
+	 *
 	 * @param event
 	 *            pointer event
 	 */
@@ -9701,7 +9674,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Clear selection and show context menu.
-	 * 
+	 *
 	 * @param mouse
 	 *            pointer position
 	 */
@@ -9712,7 +9685,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Show context menu.
-	 * 
+	 *
 	 * @param mouse
 	 *            pointer position
 	 */
@@ -10627,7 +10600,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle mouse wheel event.
-	 * 
+	 *
 	 * @param x
 	 *            mouxe pointer x
 	 * @param y
@@ -10702,7 +10675,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Change opacity of selected geos.
-	 * 
+	 *
 	 * @param alpha
 	 *            opacity
 	 */
@@ -10715,7 +10688,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Change point size or line thickness of selected geos. TODO seems unused
-	 * 
+	 *
 	 * @param size
 	 *            size
 	 */
@@ -10733,7 +10706,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Update preview line endpoint.
-	 * 
+	 *
 	 * @param point
 	 *            line endpoint
 	 */
@@ -10980,7 +10953,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Zoom around center.
-	 * 
+	 *
 	 * @param factor
 	 *            zoom factor (>1 for zoom in)
 	 * @param steps
@@ -11106,7 +11079,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Animate zoom after pinch.
-	 * 
+	 *
 	 * @param x
 	 *            center x-coord
 	 * @param y
@@ -11138,7 +11111,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle touch start.
-	 * 
+	 *
 	 * @param e
 	 *            touch start event
 	 */
@@ -11165,7 +11138,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle touch end.
-	 * 
+	 *
 	 * @param e
 	 *            touch end event
 	 */
@@ -12392,7 +12365,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		updateBoundingBoxFromSelection(false);
 	}
 
-	private boolean isLockedForMultiuser(GeoElement geo) {
+	boolean isLockedForMultiuser(GeoElement geo) {
 		return geo instanceof GeoInline && ((GeoInline) geo).isLockedForMultiuser();
 	}
 }

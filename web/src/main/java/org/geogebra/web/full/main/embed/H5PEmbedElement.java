@@ -63,7 +63,7 @@ public class H5PEmbedElement extends EmbedElement {
 		if (url == null) {
 			element.addClassName(H5P_PREVIEW);
 			element.removeAllChildren();
-			LoadSpinner spinner = new LoadSpinner(app.isMebis());
+			LoadSpinner spinner = new LoadSpinner();
 			element.appendChild(spinner.getElement());
 			update();
 			renderNext();
