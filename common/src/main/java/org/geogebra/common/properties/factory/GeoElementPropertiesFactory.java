@@ -1,6 +1,8 @@
 package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -50,6 +52,9 @@ public class GeoElementPropertiesFactory {
 	 */
 	public static PropertiesArray createGeoElementProperties(
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
+		if (elements.isEmpty()) {
+			return new PropertiesArray("");
+		}
 		List<Property> properties = new ArrayList<>();
 		addPropertyIfNotNull(properties, createNameProperty(localization, elements));
 		addPropertyIfNotNull(properties, createMinProperty(processor, localization, elements));
