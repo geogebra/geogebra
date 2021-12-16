@@ -1,76 +1,102 @@
-/**********************************************
- * Copyright (C) 2010 Lukas Laag
- * This file is part of lib-gwt-svg.
- * 
- * libgwtsvg is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * libgwtsvg is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with libgwtsvg.  If not, see http://www.gnu.org/licenses/
- **********************************************/
+/*
+ *
+ * Copyright © ${year} ${name}
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.geogebra.web.generator;
 
 import java.net.URL;
 
-import org.geogebra.web.resources.DefaultSVGResource;
+import javax.lang.model.element.ExecutableElement;
 
-import com.google.gwt.core.ext.Generator;
-import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.UnableToCompleteException;
-import com.google.gwt.core.ext.typeinfo.JMethod;
-import com.google.gwt.dev.util.Util;
-import com.google.gwt.resources.ext.AbstractResourceGenerator;
-import com.google.gwt.resources.ext.ResourceContext;
-import com.google.gwt.resources.ext.ResourceGeneratorUtil;
-import com.google.gwt.user.rebind.SourceWriter;
-import com.google.gwt.user.rebind.StringSourceWriter;
+import org.gwtproject.resources.ext.AbstractResourceGenerator;
+import org.gwtproject.resources.ext.ResourceContext;
+import org.gwtproject.resources.ext.ResourceOracle;
+import org.gwtproject.resources.ext.TreeLogger;
+import org.gwtproject.resources.ext.UnableToCompleteException;
+import org.gwtproject.resources.rg.Generator;
+import org.gwtproject.resources.rg.util.SourceWriter;
+import org.gwtproject.resources.rg.util.StringSourceWriter;
+import org.gwtproject.resources.rg.util.Util;
 
-/**
- * Provides implementations of SVGResource.
- */
-public class SVGResourceGenerator extends AbstractResourceGenerator {
+/** @author Dmitrii Tikhomirov Created by treblereel 11/13/18 */
+public final class SVGResourceGenerator extends AbstractResourceGenerator {
+	/**
+	 * Java compiler has a limit of 2^16 bytes for encoding string constants in a class file. Since
+	 * the max size of a character is 4 bytes, we'll limit the number of characters to (2^14 - 1) to
+	 * fit within one record.
+	 */
+	private static final int MAX_STRING_CHUNK = 16383;
 
 	@Override
-	public String createAssignment(TreeLogger logger, ResourceContext context,
-	        JMethod method) throws UnableToCompleteException {
-		// Extract the SVG name from the @Source annotation
-		URL[] resources = ResourceGeneratorUtil.findResources(logger, context,
-		        method);
+	public String createAssignment(
+			TreeLogger logger, ResourceContext context, ExecutableElement method)
+			throws UnableToCompleteException {
+		ResourceOracle resourceOracle = context.getGeneratorContext().getResourcesOracle();
+
+		URL[] resources = resourceOracle.findResources(logger, method);
+
 		if (resources.length != 1) {
-			logger.log(TreeLogger.ERROR,
-			        "Exactly one resource must be specified", null);
+			logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
 			throw new UnableToCompleteException();
 		}
+
 		URL resource = resources[0];
 
-		String toWrite = Util.readURLAsString(resource);
 		SourceWriter sw = new StringSourceWriter();
-		sw.println("new " + DefaultSVGResource.class.getName()
-				+ "(\"" + Generator.escape(toWrite) + "\", "
-				+ "\"" + method.getName() + "\") {");
+
+		// Write the expression to create the subtype.
+		sw.println("new org.geogebra.web.resources.SVGResourcePrototype(");
 		sw.indent();
 
-		// Convenience when examining the generated code.
-		sw.println("// " + resource.toExternalForm());
+		if (!AbstractResourceGenerator.STRIP_COMMENTS) {
+			// Convenience when examining the generated code.
+			sw.println("// " + resource.toExternalForm());
+		}
 
-		sw.println("@Override");
-		sw.println("public String getName() {");
-		sw.indent();
-		sw.println("return \"" + method.getName() + "\";");
+		sw.println("\"" + method.getSimpleName() + "\",");
+
+		String toWrite = Util.readURLAsString(resource);
+
+		if (toWrite.length() > MAX_STRING_CHUNK) {
+			writeLongString(sw, toWrite);
+		} else {
+			sw.println("\"" + Generator.escape(toWrite) + "\"");
+		}
+
+		sw.println(");");
 		sw.outdent();
-		sw.println("}");
-		sw.outdent();
-		sw.println("}");
 
 		return sw.toString();
 	}
 
+	/**
+	 * A single constant that is too long will crash the compiler with an out of memory error. Break
+	 * up the constant and generate code that appends using a buffer.
+	 */
+	private void writeLongString(SourceWriter sw, String toWrite) {
+		sw.println("new StringBuilder()");
+		int offset = 0;
+		int length = toWrite.length();
+		while (offset < length - 1) {
+			int subLength = Math.min(MAX_STRING_CHUNK, length - offset);
+			sw.print(".append(\"");
+			sw.print(Generator.escape(toWrite.substring(offset, offset + subLength)));
+			sw.println("\")");
+			offset += subLength;
+		}
+		sw.println(".toString()");
+	}
 }

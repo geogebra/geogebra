@@ -12,4 +12,8 @@
         <Class name="org.geogebra.web.html5.GeoGebraGlobal"/>
         <Bug pattern="MS_CANNOT_BE_FINAL" />
     </Match>
+    <Match>
+        <Class name="~.*(Resources|IconProvider).*Impl"/>
+        <Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
+    </Match>
 </FindBugsFilter>

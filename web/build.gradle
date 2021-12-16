@@ -39,6 +39,8 @@ if(hasProperty("eclipse")){
     eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
 }
 
+compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
+
 dependencies {
     compile project(path: ':carota-web'),
         project(':web:dev'),
@@ -49,11 +51,15 @@ dependencies {
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':web-common').sourceSets.main.allSource.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs)
+        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
+        files(file("build/generated/sources/annotationProcessor/java/main/"))
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
         "com.google.gwt:gwt-user:$gwtCompilerVersion"
+
+    annotationProcessor project(":gwtutil"),
+            'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'

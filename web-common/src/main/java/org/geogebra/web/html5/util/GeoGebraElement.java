@@ -5,9 +5,9 @@ import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

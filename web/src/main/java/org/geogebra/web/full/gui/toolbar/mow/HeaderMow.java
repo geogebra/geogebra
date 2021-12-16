@@ -181,7 +181,7 @@ public class HeaderMow extends FlowPanel
 	 * @return image resource
 	 */
 	public static ImageResourcePrototype getIcon(SVGResource resource) {
-		return new ImageResourcePrototype(null, resource.getSafeUri(), 0, 0, 24,
+		return new ImageResourcePrototype(null, () -> resource.getSafeUri().asString(), 0, 0, 24,
 				24, false, false);
 	}
 

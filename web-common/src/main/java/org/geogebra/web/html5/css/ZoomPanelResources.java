@@ -1,12 +1,13 @@
 package org.geogebra.web.html5.css;
 
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-
+@Resource
 public interface ZoomPanelResources extends ClientBundle {
-	ZoomPanelResources INSTANCE = GWT.create(ZoomPanelResources.class);
+
+	ZoomPanelResources INSTANCE = new ZoomPanelResourcesImpl();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_fullscreen_black_18px.svg")
 	SVGResource fullscreen_black18();

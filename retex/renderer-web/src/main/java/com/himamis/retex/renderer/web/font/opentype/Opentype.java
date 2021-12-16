@@ -41,6 +41,7 @@
  * version.
  *
  */
+
 package com.himamis.retex.renderer.web.font.opentype;
 
 import java.util.ArrayList;
@@ -48,10 +49,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.gwtproject.resources.client.TextResource;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.ScriptInjector;
-import com.google.gwt.resources.client.TextResource;
 import com.himamis.retex.renderer.web.font.FontLoaderWrapper;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.resources.PreloadFontResources;

@@ -1,10 +1,11 @@
 package org.geogebra.web.resources;
 
+import org.gwtproject.resources.client.TextResource;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.HeadElement;
 import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.DOM;
 
 /**

@@ -219,7 +219,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
 		GPushButton btnRemove = new GPushButton(
-				new Image(AppResources.INSTANCE.delete_small()));
+				new Image(AppResources.INSTANCE.delete_small().getSafeUri().asString()));
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		

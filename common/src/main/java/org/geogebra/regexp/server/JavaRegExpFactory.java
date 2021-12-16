@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package org.gwtproject.regexp.client;
+package org.geogebra.regexp.server;
 
-import org.gwtproject.regexp.shared.RegExp;
-import org.gwtproject.regexp.shared.RegExpFactory;
+import org.geogebra.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.RegExpFactory;
 
-/** RegExp factory to create native Javascript implementation */
-public class NativeRegExpFactory extends RegExpFactory {
-
-	@Override
-	public RegExp compile(String pattern) {
-		return NativeRegExp.compile(pattern);
-	}
+/** RegExp factory to create Java implementation */
+public class JavaRegExpFactory extends RegExpFactory {
 
 	@Override
 	public RegExp compile(String pattern, String flags) {
-		return NativeRegExp.compile(pattern, flags);
+		return JavaRegExp.compile(pattern, flags);
+	}
+
+	@Override
+	public RegExp compile(String pattern) {
+		return JavaRegExp.compile(pattern);
 	}
 
 	@Override
 	public String quote(String input) {
-		return NativeRegExp.quote(input);
+		return JavaRegExp.quote(input);
 	}
 }

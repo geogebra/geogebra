@@ -30,10 +30,16 @@ dependencies {
             files(project(':ggbjdk').sourceSets.main.java.srcDirs),
             files(project(':editor-web').sourceSets.main.allSource.srcDirs),
             files(project(':web:dev').sourceSets.main.allSource.srcDirs),
+            files(file("build/generated/sources/annotationProcessor/java/main/")),
             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
             "com.google.gwt:gwt-dev:$gwtCompilerVersion"
+
+    annotationProcessor project(":gwtutil"),
+        'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
 }
+
+compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
 spotbugs {
     ignoreFailures = true
@@ -63,6 +69,7 @@ gwt {
         // Customize the GWT compiler here
         strict = true
         disableCastChecking = true
+        logLevel = 'TRACE'
 
         if (project.hasProperty("greport")) {
             compileReport = true
