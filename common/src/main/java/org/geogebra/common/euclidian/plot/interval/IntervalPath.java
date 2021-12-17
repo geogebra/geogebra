@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.interval.IntervalTuple;
 import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalPath {
-	public static final double CLAMPED_INFINITY = 1E234;
+	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
@@ -162,7 +162,7 @@ public class IntervalPath {
 		gp.moveTo(clamp(low), clamp(high));
 	}
 
-	private void lineTo(double low, double high) {
+	void lineTo(double low, double high) {
 		gp.lineTo(clamp(low), clamp(high));
 	}
 
