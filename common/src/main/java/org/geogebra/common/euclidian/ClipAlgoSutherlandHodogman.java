@@ -92,8 +92,8 @@ public class ClipAlgoSutherlandHodogman {
 
 		double det = a1 * b2 - a2 * b1;
 
-		double x = (b2 * c1 - b1 * c2) / det;
-		double y = (a1 * c2 - a2 * c1) / det;
+		double x = det == 0 ? Double.MAX_VALUE : (b2 * c1 - b1 * c2) / det;
+		double y = det == 0 ? Double.MAX_VALUE : (a1 * c2 - a2 * c1) / det;
 
 		// add 0.0 to avoid -0.0 problem.
 		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());
