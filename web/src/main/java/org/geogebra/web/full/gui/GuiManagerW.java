@@ -1227,7 +1227,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	protected void openHelp(final String page, final Help type) {
+	public void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);

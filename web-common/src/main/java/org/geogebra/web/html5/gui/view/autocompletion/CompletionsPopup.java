@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
  */
 public class CompletionsPopup extends MultiWordSuggestOracle {
 
-	private AutoCompleteW textField;
+	private AutoCompleteTextFieldW textField;
 
 	/**
 	 * New completions popup.
@@ -28,7 +28,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	 * @param autoCompleteTextField
 	 *            textfield
 	 */
-	public void addTextField(AutoCompleteW autoCompleteTextField) {
+	public void addTextField(AutoCompleteTextFieldW autoCompleteTextField) {
 		this.textField = autoCompleteTextField;
     }
 

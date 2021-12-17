@@ -81,8 +81,6 @@ public interface MathField {
 
 	void copy();
 
-	void tab(boolean shiftDown);
-
 	boolean useCustomPaste();
 
 	void parse(String str);

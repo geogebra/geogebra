@@ -80,6 +80,9 @@
 			background-color: colors.$white;
 			scrollbar-width: thin;
 			overflow-y: auto;
+			&.hasHeading {
+				padding-top: 0;
+			}
 
 			// max height is viewport height - header height
 			max-height: calc(100vh - 48px);

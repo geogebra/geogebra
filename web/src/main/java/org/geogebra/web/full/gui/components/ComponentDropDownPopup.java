@@ -81,7 +81,6 @@ public class ComponentDropDownPopup {
 	 * center.
 	 */
 	void show() {
-		menu.setMenuShown(true);
 		restoreHeight();
 		RelativePosition pos = getRelativePosition();
 		if (pos == RelativePosition.HIGH) {

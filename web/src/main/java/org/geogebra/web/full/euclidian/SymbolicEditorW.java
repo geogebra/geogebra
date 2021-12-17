@@ -200,7 +200,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		editor.scrollHorizontally();
+		return false;
 	}
 }

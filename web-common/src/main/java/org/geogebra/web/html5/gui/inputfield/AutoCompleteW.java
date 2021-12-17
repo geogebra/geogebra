@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.web.html5.main.AppW;
 
@@ -9,10 +8,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public interface AutoCompleteW {
 	boolean getAutoComplete();
-
-	List<String> resetCompletions();
-
-	List<String> getCompletions();
 
 	void setFocus(boolean focus);
 

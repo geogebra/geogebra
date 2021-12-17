@@ -24,7 +24,7 @@ public class InputHelper {
 	 *            kernel
 	 * @return whether autocomplete should open
 	 */
-	public static boolean needsAutocomplete(StringBuilder curWord,
+	public static boolean needsAutocomplete(CharSequence curWord,
 			Kernel kernel) {
 		if ("ko".equals(kernel.getLocalization().getLanguage())) {
 			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
