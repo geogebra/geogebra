@@ -124,15 +124,13 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 		}
 
 		if (interval.isInverted()) {
-			interval.setUndefined();
-			return interval;
+			Interval intervalLow = abs(interval.extractLow());
+			Interval intervalHigh = abs(interval.extractHigh());
+			return intervalHigh.isGreaterThan(intervalLow) ? intervalHigh : intervalLow;
 		}
 
 		if (interval.isWhole()) {
 			interval.set(0, POSITIVE_INFINITY);
-			if (interval.isInverted()) {
-				interval.uninvert();
-			}
 			return interval;
 		}
 
