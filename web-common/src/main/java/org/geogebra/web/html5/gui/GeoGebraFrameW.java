@@ -298,7 +298,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// TODO listener (?)
 	}
 
-	private int computeWidth() {
+	/**
+	 * @return frame width, based on applet params
+	 */
+	public int computeWidth() {
 		// do we have data-param-width?
 		int width = appletParameters.getDataParamWidth();
 
