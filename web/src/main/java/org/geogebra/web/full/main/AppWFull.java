@@ -580,7 +580,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		}
 
-		GeoGebraPreferencesW.getPref().loadForApp(this, p);
+		GeoGebraPreferencesW.loadForApp(this, p);
 
 		resetAllToolbars();
 
@@ -1224,7 +1224,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void loadPreferences(Perspective p) {
-		GeoGebraPreferencesW.getPref().loadForApp(this, p);
+		GeoGebraPreferencesW.loadForApp(this, p);
 
 	}
 

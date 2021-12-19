@@ -14,6 +14,6 @@ dependencies {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
