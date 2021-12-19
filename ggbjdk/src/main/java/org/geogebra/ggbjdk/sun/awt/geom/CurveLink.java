@@ -81,7 +81,7 @@ final class CurveLink {
     }
 
     public double getXTop() {
-        return curve.XforY(ytop);
+        return curve.getXforY(ytop);
     }
 
     public double getYTop() {
@@ -89,7 +89,7 @@ final class CurveLink {
     }
 
     public double getXBot() {
-        return curve.XforY(ybot);
+        return curve.getXforY(ybot);
     }
 
     public double getYBot() {
@@ -97,7 +97,7 @@ final class CurveLink {
     }
 
     public double getX() {
-        return curve.XforY(ytop);
+        return curve.getXforY(ytop);
     }
 
     public int getEdgeTag() {

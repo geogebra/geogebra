@@ -24,11 +24,11 @@ public abstract class CASgiacJre extends CASgiacB {
         return new CASGiacBindingJre();
     }
 
-    @Override
 	/**
 	 * synchronized needed in case CAS called from a thread eg Input Bar preview
 	 * eg sin(x)>0
 	 */
+    @Override
 	synchronized protected void callEvaluateFunction(Runnable evaluateFunction)
 			throws Throwable {
         if (useThread()) {

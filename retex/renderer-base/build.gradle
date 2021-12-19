@@ -28,5 +28,5 @@ task jarSources(type: Jar, dependsOn: classes) {
 
 spotbugs {
 	ignoreFailures = true
-	excludeFilter = file("../../common/config/findbugs.xml")
+	excludeFilter = file("../../config/spotbugs.xml")
 }
