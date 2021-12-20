@@ -1900,11 +1900,25 @@ public class Ggb2giac {
 
 				+ "))");
 
-		p("OrthogonalVector.1",
-				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,ggbvect[-ycoord(%0),xcoord(%0)]),"
-						+ "when(is_3dpoint(%0),?,"
-						+ "when((%0)[0]=='=',when(count_eq(z,lname(%0))==0,ggbvect[xcoord(%0),ycoord(%0)],ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]),"
-						+ "ggbvect[-ycoord(%0),xcoord(%0)])))");
+		p("OrthogonalVector.1","["
+
+				+"[[orthvecarg:=%0],[orthveclist:=?], "
+
+				// eg PerpendicularVector(Plane((0,0,0),(0,0,1),(1,2,3)))
+				+"[orthveclist:=when(sommet(orthvecarg[1])==hyperplan,orthvecarg[1,1], "
+
+				// eg PerpendicularVector(Plane(x+2y+3z=1)
+				+ "when(length(lname(orthvecarg))==3,diff(equal2diff(orthvecarg),[x,y,z]),"
+
+				// old code
+				+ "when(type(orthvecarg)==DOM_LIST,when(size(orthvecarg)!=2,?,ggbvect[-ycoord(orthvecarg),xcoord(orthvecarg)]),"
+				+ "when(is_3dpoint(orthvecarg),?,"
+				+ "when((orthvecarg)[0]=='=',when(count_eq(z,lname(orthvecarg))==0,ggbvect[xcoord(orthvecarg),ycoord(orthvecarg)],ggbvect[xcoord(orthvecarg),ycoord(orthvecarg),zcoord(orthvecarg)]),"
+				+ "ggbvect[-ycoord(orthvecarg),xcoord(orthvecarg)])))"
+
+				+"))]"
+				+"],when(zcoord(orthveclist)==0,ggbvect[xcoord(orthveclist),ycoord(orthveclist)],ggbvect[xcoord(orthveclist),ycoord(orthveclist),zcoord(orthveclist)])][1]");
+
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,normalize(ggbvect[-%0[1],%0[0]])),"
 						+ "when(is_3dpoint(%0),?,"
