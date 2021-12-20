@@ -160,7 +160,7 @@ eclipse {
 }
 
 checkstyle {
-    configFile file("config/checkstyle/checkstyle.xml")
+    configFile file("../config/checkstyle/checkstyle.xml")
 }
 
 tasks['checkstyleMain'].setSource(files([]))

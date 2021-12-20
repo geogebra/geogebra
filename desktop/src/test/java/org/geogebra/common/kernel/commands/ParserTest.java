@@ -51,7 +51,9 @@ public class ParserTest {
 
 			parseExpression("(((((((((((((((((((((((1)))))))))))))))))))))))");
 			parseExpression(
-					"If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42"
+					"If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,"
+							+ "If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,"
+							+ "If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42"
 							+ "]]]]]]]]]]]]]]]]]]]]]]]]");
 			l = System.currentTimeMillis() - l;
 			Log.debug("TIME" + l);
@@ -180,7 +182,8 @@ public class ParserTest {
 		try {
 
 			parseExpression(
-					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/()))))))))))))))))))))");
+					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/("
+							+ ")))))))))))))))))))))");
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

@@ -641,49 +641,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("(1,2) * (a,b)", "a+2*b");
 	}
 
-	/* Element */
-
-	/* Singledimensional List */
-
-	/*
-	 * Note:
-	 * 
-	 * Although Geogebra itself supports the element command for
-	 * multidimensional lists, Geogebra CAS does not.
-	 */
-
-	/* Expand */
-
-	@Test
-	public void expand_4() {
-		t("Expand[(x^6 + 6 x^5 + 30 x^4 + 120 x^3 + 360 x^2 + 720 x + 720) / 720]",
-				"1/ 720 * x^(6) + 1 / 120 * x^(5) + 1 / 24 * x^(4) + 1 / 6 *x^(3) + 1 / 2 * x^(2) + x + 1");
-	}
-
-	@Test
-	public void expand_5() {
-		t("Expand[(2 x - 1)^2 + 2 x + 3]", "4 * x^(2) - 2 * x + 4");
-	}
-
-	@Test
-	public void expand_6() {
-		t("Expand[(a + b)^2] / (a + b)", "a + b");
-	}
-
-	/* Fit Sin */
-
-	// TODO Check whether we can have this at all.
-
-	// @Test
-	// public void FitSin_0() {
-	// t("FitSin[{(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)}]", "1 +
-	// sin((pi / 2) * x + pi / 2)");
-	// }
-
-	// TODO Abstract, as well?
-
-	/* Cumulative */
-
 	/* Identity */
 
 	@Test
@@ -715,22 +672,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	/* Indefinite Integral */
 
-	@Test
-	public void integral_Indefinite_0() {
-		s("Integral[cos(x)]", "sin(x) + c_INDEX");
-	}
-
-	@Test
-	public void integral_Indefinite_1() {
-		// s("Integral[cos(a * t), t]", "sin (a * t) / a + c_INDEX");
-		s("Integral[cos(a * t), t]", "sin (a * t) / a + c_INDEX");
-	}
-
-	@Test
-	public void integral_Indefinite_2() {
-		s("Integral[-x^3 + x^2]", "-1 / 4 * x^(4) + 1 / 3 * x^(3) + c_INDEX");
-	}
-
 	/* LeftSide */
 
 	@Test
@@ -744,7 +685,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("Coefficients[lsb]", "{1, 1, 1, -1, 0, 0, 0, 0, 0, 0}");
 		in("lsb2:xx+2yy+3zz+4xy+5zy+6xz+7x+8y+9z=4");
 		t("LeftSide[lsb2]",
-				"x^(2) + 2 * y^(2) + 3 * z^(2) + 4 * x * y + 6 * x * z + 5 * y * z + 7 * x + 8 * y + 9 * z");
+				"x^(2) + 2 * y^(2) + 3 * z^(2) + 4 * x * y + 6 * x * z + 5 * y * z "
+						+ "+ 7 * x + 8 * y + 9 * z");
 		t("RightSide[lsb2]", "4");
 		t("Coefficients[lsb2]", "{1, 2, 3, -4, 4, 6, 5, 7, 8, 9}");
 		in("lsb3:xx+yy=1");
@@ -926,7 +868,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		for (int i = 0; i < 100; i++) {
 			r("Sample[{-5, 2, a, 7, c}, 3]",
 					"\\{(([ac27]|-5),\\s){2}([ac27]|-5)\\}",
-					"A list containing three elements out of {a, c, -5, 2, 7}, where elements may be contained several times.");
+					"A list containing three elements out of {a, c, -5, 2, 7}, "
+							+ "where elements may be contained several times.");
 		}
 	}
 
@@ -935,7 +878,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		/* Beware: This test is random based. */
 		for (int i = 0; i < 100; i++) {
 			r("Sample[{1, 2, 3, 4, 5}, 5, true]", "\\{([1-5],\\s){4}[1-5]\\}",
-					"A list containing five elements out of {1, 2, 3, 4, 5}, where elements may be contained several times.");
+					"A list containing five elements out of {1, 2, 3, 4, 5}, "
+							+ "where elements may be contained several times.");
 		}
 	}
 
@@ -946,7 +890,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		for (int i = 0; i < 100; i++) {
 			r("Sample[{{1, 2, 3}, 4, 5, 6, 7, 8}, 3, false]",
 					"\\{(([4-8]|\\{1,\\s2,\\s3\\}),\\s){2}([4-8]|\\{1,\\s2,\\s3\\})\\}",
-					"A list containing three elements out of {{1, 2, 3}, 4, 5, 6, 7, 8}, where each element may be contained only once.");
+					"A list containing three elements out of {{1, 2, 3}, 4, 5, 6, 7, 8}, "
+							+ "where each element may be contained only once.");
 		}
 	}
 
@@ -1002,18 +947,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	/* One Variable, variable Coefficients */
-
-	@Test
-	public void solve_OneVariableVC_4() {
-		t("Solve[-(10 c + 3) / (2 (4 c^2 - 9)) = -1 / (2 (2 c - 3)), c]",
-				"{c = 0}");
-	}
-
-	@Test
-	public void solve_OneVariableVC_10() {
-		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = 10 / 3 * ln(2)}",
-				"{t = (10 * ln(2)) / 3}");
-	}
 
 	@Test
 	public void solve_OneVariableVC_11() {
@@ -1468,7 +1401,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		// German.
 		tk("Solve[{(x, y) = (3, 2) + t (5, 1), (x, y) = (4, 1) + s (2, -2)}, {x, y, t, s}]",
 				GermanSolve
-						+ "({(x, y) = (3, 2) + t * (5, 1), (x, y) = (4, 1) + s * (2, -2)}, {x, y, t, s})");
+						+ "({(x, y) = (3, 2) + t * (5, 1), (x, y) "
+						+ "= (4, 1) + s * (2, -2)}, {x, y, t, s})");
 	}
 
 	/* Multiple Parametric Equations Abbreviation */
@@ -1666,13 +1600,15 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void solve_ParametricTD_6() {
-		t("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
+		t("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), "
+						+ "(x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
 				"{{x = 2, y = 3, z = -1, t = 1 / 2, s = -1}}");
 	}
 
 	@Test
 	public void solve_ParametricTD_7() {
-		t("Numeric[Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]]",
+		t("Numeric[Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), "
+						+ "(x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]]",
 				"{{x = 2, y = 3, z = -1, t = 0.5, s = -1}}");
 	}
 
@@ -1680,9 +1616,11 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void solve_ParametricTD_8() {
 		// Please note that the language is German. "L\u00f6se" is "Solve" in
 		// German.
-		tk("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), (x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
+		tk("Solve[{(x, y, z) = (3, 1, 2) + t (-2, 4, -6), "
+						+ "(x, y, z) = (3, 7, -4) + s (1, 4, -3)}, {x, y, z, t, s}]",
 				GermanSolve
-						+ "({(x, y, z) = (3, 1, 2) + t * (-2, 4, -6), (x, y, z) = (3, 7, -4) + s * (1, 4, -3)}, {x, y, z, t, s})");
+						+ "({(x, y, z) = (3, 1, 2) + t * (-2, 4, -6), "
+						+ "(x, y, z) = (3, 7, -4) + s * (1, 4, -3)}, {x, y, z, t, s})");
 	}
 
 	@Test
@@ -1703,7 +1641,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		// German.
 		tk("Solve[{X = (3, 1, 2) + t (-2, 4, -6), X = (3, 7, -4) + s (1, 4, -3)}, {t, s}]",
 				GermanSolve
-						+ "({X = (3, 1, 2) + t * (-2, 4, -6), X = (3, 7, -4) + s * (1, 4, -3)}, {t, s})");
+						+ "({X = (3, 1, 2) + t * (-2, 4, -6), "
+						+ "X = (3, 7, -4) + s * (1, 4, -3)}, {t, s})");
 	}
 
 	@Test
@@ -1790,8 +1729,12 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void tangent_PointOnConic_0() {
 		t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) "
+						+ "- 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y "
+						+ "- 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y "
+						+ "- 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) "
+						+ "+ 24 * y^(2) - 40 * y = 0");
 		t("P := (2, 0)", "(2, 0)");
 		t("Tangent[P, c]", "{y = -2 * sqrt(10) + 6 + (sqrt(10) - 3) * x}",
 				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 6}");
@@ -1800,8 +1743,12 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void tangent_PointOnConic_1() {
 		t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) "
+						+ "- 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y "
+						+ "- 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y "
+						+ "- 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) "
+						+ "+ 24 * y^(2) - 40 * y = 0");
 		t("P := (2, 3)", "(2, 3)");
 		t("Tangent[P, c]", "{y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x}",
 				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9}");
@@ -1815,8 +1762,12 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("B := (3, 2)", "(3, 2)");
 		t("C := (2, 3)", "(2, 3)");
 		t("c := Ellipse[A, B, C]",
-				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) "
+						+ "- 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y "
+						+ "- 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y "
+						+ "- 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) "
+						+ "+ 24 * y^(2) - 40 * y = 0");
 		t("Tangent[C, c]", "{y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x}",
 				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9}");
 	}
@@ -1828,10 +1779,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void tangent_PointOffConic_0() {
 		t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
-		t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
-				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)", "(0, (-13 * sqrt(224 * sqrt(10) + 687) * sqrt(10) * sqrt(31) + 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) "
+						+ "- 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x "
+						+ "+ 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y "
+						+ "- 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) "
+						+ "+ 24 * y^(2) - 40 * y = 0");
+		t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) "
+						+ "- 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) "
+						+ "/ (448 * sqrt(10) + 1374))",
+				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)",
+				"(0, (-13 * sqrt(224 * sqrt(10) + 687) * sqrt(10) * sqrt(31) "
+						+ "+ 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
 		// this is always numeric, the 13th digit changed multiple times with new Giac
 		t("Numeric(Last[Tangent[P, c]],12)",	"{y = 5.55821394864 * x - 0.026806742873}",
@@ -1993,7 +1952,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		f.computeOutput();
 
 		Assert.assertEquals(
-				"\\mathbf{\\int\\limits_{somevar}^{g\\left(h \\right)}f\\left(y \\right)\\,\\mathrm{d}y}",
+				"\\mathbf{\\int\\limits_{somevar}^{g\\left(h \\right)}f\\left(y \\right)\\,"
+						+ "\\mathrm{d}y}",
 				f.getLaTeXOutput());
 	}
 
@@ -2020,32 +1980,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		Assert.assertEquals(
 				"\\mathbf{\\sum_{y=somevar}^{g\\left(h \\right)}f\\left(y \\right)}",
 				f.getLaTeXOutput());
-	}
-
-	/* Ticket 3377: Expand Improvements */
-
-	@Test
-	public void ticket_Ticket3377_0() {
-		t("Expand[sqrt(3) * sqrt(3 + x - 1)]", "sqrt(3) * sqrt(x + 2)");
-	}
-
-	@Test
-	public void ticket_Ticket3377_1() {
-		t("Expand[a / c + b / d]", "(a * d + b * c) / (c * d)");
-	}
-
-	@Test
-	public void ticket_Ticket3377_2() {
-		t("Factor[a / c + b / d]", "(a * d + c * b) / (d * c)",
-				"(a * d + b * c) / (c * d)");
-	}
-
-	/* Ticket 3381: Problem with Solve and exponential function */
-
-	@Test
-	public void ticket_Ticket3381_0() {
-		t("Solve[{a = 2, 12 * sqrt(3) * a * b^2 * exp(-3 * b) - 6 * sqrt(3) * a * b *exp(-3 * b) = 0}, {a, b}]",
-				"{{a = 2, b = 0}, {a = 2, b = 1 / 2}}");
 	}
 
 	/* Ticket 3385: Intersection and Union in CAS */
@@ -2102,30 +2036,6 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("{a, b, c} " + ExpressionNodeConstants.strIS_SUBSET_OF_STRICT
 				+ " {a, b, c}", "false");
 	}
-
-	/* Ticket 3524: Solve fails for large numbers and definition as function */
-
-	// TODO What is the correct result for f'(x) = 0 and g(x) = 0 (should be
-	// identical)?
-
-	/* Ticket 3525: Simplification improvements in Giac */
-	/*
-	 * @Test public void ticket_Ticket3525_0 () { t(
-	 * "c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-	 * "(8 * sqrt(10) + 12) * x^(2) - 16 * x * y - (32 * sqrt(10) + 24) * x + (8 * sqrt(10) + 24) * y^(2) - (24 * sqrt(10) + 40) * y + 32 * sqrt(10) = 0"
-	 * ,
-	 * "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0"
-	 * ); t("f(x) := Element[Solve[c, y], 1]",
-	 * "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)"
-	 * ,
-	 * "(x * (-4 * sqrt(10) + 6) - sqrt(10) - 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)"
-	 * ); t("f(RightSide[Element[Solve[f'(x) = 0, x], 1]])", // y-coord of top
-	 * of ellipse (2.33, 3.03) ie approx 3.03
-	 * "(sqrt(10) * 93 * sqrt(31 * (sqrt(10) * 224 + 687)) + 341 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 20832 + 63891) / (sqrt(10) * 13888 + 42594)"
-	 * ); }
-	 * 
-	 * /* Ticket 3554: f '(x) doesn't work in Keep Input mode
-	 */
 
 	@Test
 	public void ticket_Ticket3554_0() {
@@ -2651,8 +2561,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"(g'(x + 1) * (x + 1) - g(x + 1)) / (x + 1)^(2)");
 	}
 
-	@Test
 	/** GGB-1663 */
+	@Test
 	public void eNotationTest() {
 		t("a:=1/1E8", "1 / 100000000");
 		t("b:=1/1E-8", "100000000");

@@ -32,6 +32,7 @@ public class Pstricks {
 		t("ShowGrid(false)");
 	}
 
+	/** Setup the app */
 	@BeforeClass
 	public static void setup() {
 		app = AlgebraTest.createApp();
