@@ -29,7 +29,7 @@ pipeline {
             post {
                 always {
                     junit '**/ui-tests.*.xml' 
-                    archiveArtifacts 'uitest/cypress/videos/**'
+                    archiveArtifacts artifacts: 'uitest/cypress/videos/**', allowEmptyArchive: true
                 }
             }
         }
