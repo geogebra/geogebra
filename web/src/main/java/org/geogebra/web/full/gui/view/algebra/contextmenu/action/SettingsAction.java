@@ -13,6 +13,7 @@ public class SettingsAction extends DefaultMenuAction<GeoElement> {
 	public void execute(GeoElement item, AppWFull app) {
 		ArrayList<GeoElement> list = new ArrayList<>();
 		list.add(item);
+		app.getSelectionManager().setSelectedGeos(list, true);
 		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, list);
 	}
 }
