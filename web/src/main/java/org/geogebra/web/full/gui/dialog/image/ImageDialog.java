@@ -14,6 +14,7 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -30,6 +31,8 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 	private String fileName;
 	private FlowPanel cameraPanel;
 	private WebCamInputPanel webcamInputPanel;
+	private StandardButton captureBtn;
+	private ComponentTab tab;
 
 	/**
 	 * base dialog constructor
@@ -59,7 +62,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		webcamInputPanel.startVideo();
 		cameraPanel.add(webcamInputPanel);
 
-		StandardButton captureBtn = new StandardButton(
+		captureBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.camera_white(), null, 24);
 		captureBtn.setStyleName("mowFloatingButton");
 		captureBtn.addFastClickHandler(source -> {
@@ -73,7 +76,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		cameraPanel.add(captureBtn);
 		TabData cameraTab = new TabData("Camera", cameraPanel);
 
-		ComponentTab tab = new ComponentTab(new ArrayList<>(Arrays.asList(uploadTab, cameraTab)),
+		tab = new ComponentTab(new ArrayList<>(Arrays.asList(uploadTab, cameraTab)),
 				app.getLocalization());
 		addDialogContent(tab);
 		webcamInputPanel.startVideo();
@@ -138,12 +141,29 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 
 	@Override
 	public void onCameraSuccess() {
-		// nothing to do here
+		cameraPanel.removeStyleName("error");
+		cameraPanel.clear();
+		cameraPanel.add(webcamInputPanel);
+		webcamInputPanel.startVideo();
+		cameraPanel.add(captureBtn);
 	}
 
 	@Override
 	public void onCameraError() {
+		cameraPanel.addStyleName("error");
 		cameraPanel.clear();
 		cameraPanel.add(this::getErrorPanel);
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		Scheduler.get().scheduleDeferred(() -> tab.switchToTab(0));
+	}
+
+	@Override
+	public void hide() {
+		webcamInputPanel.stopVideo();
+		super.hide();
 	}
 }

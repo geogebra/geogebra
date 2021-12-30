@@ -25,7 +25,6 @@ public class ComponentTab extends FlowPanel {
 		this.loc = loc;
 		addStyleName("componentTab");
 		buildGUI(tabData);
-		switchToTab(0);
 	}
 
 	private void buildGUI(ArrayList<TabData> tabData) {
@@ -66,7 +65,7 @@ public class ComponentTab extends FlowPanel {
 		return left;
 	}
 
-	private void switchToTab(int tabIdx) {
+	public void switchToTab(int tabIdx) {
 		if (selectedBtn != null) {
 			selectedBtn.removeStyleName("selected");
 		}
@@ -78,5 +77,9 @@ public class ComponentTab extends FlowPanel {
 		indicatorStyle.setWidth(selectedBtn.getOffsetWidth(), Style.Unit.PX);
 
 		panelContainer.getElement().getStyle().setRight(tabIdx * getOffsetWidth(), Style.Unit.PX);
+	}
+
+	public FlowPanel getPanelContainer() {
+		return panelContainer;
 	}
 }

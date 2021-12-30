@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.webcam;
 
+import org.geogebra.web.full.gui.dialog.image.WebCamInputPanel;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -21,7 +22,7 @@ public class WebCamAPI {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private static final int MAX_CANVAS_HEIGHT = (int) Math.round(0.75 * MAX_CANVAS_WIDTH);
 	
-	private WebCamPanelInterface dialog;
+	private WebCamInputPanel webCamInputPanel;
 	private MediaStream stream;
 	private HTMLVideoElement videoElement;
 
@@ -30,10 +31,10 @@ public class WebCamAPI {
 
 	/**
 	 *
-	 * @param dialog the container where the picture of the camera appears.
+	 * @param webCamInputPanel the container where the picture of the camera appears.
 	 */
-	public WebCamAPI(WebCamPanelInterface dialog) {
-		this.dialog = dialog;
+	public WebCamAPI(WebCamInputPanel webCamInputPanel) {
+		this.webCamInputPanel = webCamInputPanel;
 	}
 
 	/**
@@ -87,25 +88,25 @@ public class WebCamAPI {
 	}
 
 	private void onNotSupported() {
-		dialog.onNotSupported();
+		webCamInputPanel.onNotSupported();
 	}
 
 	private void onRequest() {
-		dialog.onRequest();
+		webCamInputPanel.onRequest();
 	}
 
 	private void onCameraSuccess(MediaStream mediaStream) {
 		stream = mediaStream;
 		setVideoSource(mediaStream, videoElement);
-		dialog.onCameraSuccess();
+		webCamInputPanel.onCameraSuccess();
 	}
 
 	private void onCameraError(String error) {
-		dialog.onCameraError(error);
+		webCamInputPanel.onCameraError(error);
 	}
 
 	private void onLoadedMetadata(int width, int height) {
-		dialog.onLoadedMetadata(width, height);
+		webCamInputPanel.onLoadedMetadata(width, height);
 	}
 
 	private void populateMedia() {

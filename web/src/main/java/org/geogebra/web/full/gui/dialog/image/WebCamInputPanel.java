@@ -5,7 +5,6 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebCamAPI;
-import org.geogebra.web.html5.webcam.WebCamPanelInterface;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -19,7 +18,7 @@ import jsinterop.base.Js;
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends FlowPanel implements WebCamPanelInterface {
+public class WebCamInputPanel extends FlowPanel {
 	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
 	private HTMLVideoElement video;
@@ -55,7 +54,6 @@ public class WebCamInputPanel extends FlowPanel implements WebCamPanelInterface 
 		webCam.stop();
 	}
 
-	@Override
 	public void onCameraSuccess() {
 		hidePermissionDialog();
 		webcamDialog.onCameraSuccess();
@@ -170,16 +168,17 @@ public class WebCamInputPanel extends FlowPanel implements WebCamPanelInterface 
 		return canvasHeight;
 	}
 
-	@Override
 	public void onLoadedMetadata(int width, int height) {
 		canvasWidth = width;
 		canvasHeight = height;
 		showAndResizeInputDialog();
 	}
 
-	@Override
 	public void onCameraError(String errName) {
 		webcamDialog.onCameraError();
+		if (!app.isWhiteboardActive()) {
+			return;
+		}
 		if ("PermissionDeniedError".equals(errName)
 				|| "NotAllowedError".equals(errName)
 				|| isElectronMac
@@ -197,13 +196,15 @@ public class WebCamInputPanel extends FlowPanel implements WebCamPanelInterface 
 		Log.debug("Error from WebCam: " + errName);
 	}
 
-	@Override
 	public void onRequest() {
-		showRequestDialog();
+		if (app.isWhiteboardActive()) {
+			showRequestDialog();
+		}
 	}
 
-	@Override
 	public void onNotSupported() {
-		showNotSupportedDialog();
+		if (app.isWhiteboardActive()) {
+			showNotSupportedDialog();
+		}
 	}
 }
