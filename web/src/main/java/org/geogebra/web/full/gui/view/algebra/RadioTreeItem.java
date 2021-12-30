@@ -1041,7 +1041,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					+ definitionPanel.getOffsetWidth()
 					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
-		} else if (geo != null && geo.isIndependent()) {
+		} else if (geo != null) {
 			return content.getOffsetWidth();
 		} else {
 			return 0;
