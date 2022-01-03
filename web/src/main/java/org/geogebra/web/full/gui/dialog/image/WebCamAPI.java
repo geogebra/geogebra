@@ -1,6 +1,5 @@
-package org.geogebra.web.html5.webcam;
+package org.geogebra.web.full.gui.dialog.image;
 
-import org.geogebra.web.full.gui.dialog.image.WebCamInputPanel;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.canvas.client.Canvas;

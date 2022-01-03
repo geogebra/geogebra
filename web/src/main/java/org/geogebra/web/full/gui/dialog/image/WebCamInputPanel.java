@@ -4,7 +4,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.webcam.WebCamAPI;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
