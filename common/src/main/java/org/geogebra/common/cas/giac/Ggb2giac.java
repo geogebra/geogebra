@@ -1018,7 +1018,7 @@ public class Ggb2giac {
 
 		p("Length.1",
 				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt'||(type(ggbv)==DOM_LIST&&subtype(ggbv)=="
-						+ GGBVECT_TYPE + "),l2norm(ggbv),size(ggbv)))][1]");
+						+ GGBVECT_TYPE + "||im(ggbv[0])!=0),l2norm(ggbv),when(real(ggbv[0])==ggbv[0],?,size(ggbv))))][1]");
 		p("Length.3", "arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 
