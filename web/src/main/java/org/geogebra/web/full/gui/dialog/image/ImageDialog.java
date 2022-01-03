@@ -131,12 +131,15 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 
 	@Override
 	public void resize() {
-
+		super.onResize();
+		// nothing for now
 	}
 
 	@Override
 	public void showAndResize() {
-
+		super.onResize();
+		super.show();
+		// nothing for now
 	}
 
 	@Override
@@ -144,7 +147,6 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		cameraPanel.removeStyleName("error");
 		cameraPanel.clear();
 		cameraPanel.add(webcamInputPanel);
-		webcamInputPanel.startVideo();
 		cameraPanel.add(captureBtn);
 	}
 

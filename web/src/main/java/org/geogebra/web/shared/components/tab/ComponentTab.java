@@ -65,6 +65,10 @@ public class ComponentTab extends FlowPanel {
 		return left;
 	}
 
+	/**
+	 * switch to tab
+	 * @param tabIdx - index of tab to switch to
+	 */
 	public void switchToTab(int tabIdx) {
 		if (selectedBtn != null) {
 			selectedBtn.removeStyleName("selected");
