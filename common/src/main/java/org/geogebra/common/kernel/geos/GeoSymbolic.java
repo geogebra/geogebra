@@ -411,13 +411,21 @@ public class GeoSymbolic extends GeoElement
 			for (String localVar : getDefinition().getLocalVariables()) {
 				fVars.add(new FunctionVariable(kernel, localVar));
 			}
-		} else if (def instanceof Command || getDefinition().containsFreeFunctionVariable(null)) {
+		} else if (needsVariables(def)
+				&& (def instanceof Command
+				|| getDefinition().containsFreeFunctionVariable(null))) {
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
 			getDefinition().traverse(functionVarCollector);
 			fVars.addAll(
 					Arrays.asList(functionVarCollector.buildVariables(kernel)));
 		}
+	}
+
+	private boolean needsVariables(ExpressionValue definition) {
+		return !(definition instanceof Command)
+				|| (definition instanceof Command
+				&& !"Solutions".equals(((Command) definition).getName()));
 	}
 
 	@Override
