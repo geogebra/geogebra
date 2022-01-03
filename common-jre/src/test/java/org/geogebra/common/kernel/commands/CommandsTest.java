@@ -84,7 +84,7 @@ public class CommandsTest {
 				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
 			}
 
-			signature = CommandSignatures.getSigneture(cmdName, app1);
+			signature = CommandSignatures.getSignature(cmdName, app1);
 			if (signature != null) {
 				syntaxes = signature.size();
 				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
