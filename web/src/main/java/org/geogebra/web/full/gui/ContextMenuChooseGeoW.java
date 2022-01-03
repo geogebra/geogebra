@@ -10,15 +10,11 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.EventListener;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 
 /**
  * Menu for choosing geos
@@ -57,7 +53,6 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 								 ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
 								 GPoint invokerLocation, ContextMenuFactory factory) {
 		super(app, selectedGeos, factory);
-
 		// return if just one geo, or if first geos more than one
 		if (geos.size() < 2 || selectedGeos.size() > 1) {
 			justOneGeo = false;
@@ -90,7 +85,9 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			addSelectAnotherMenu(view.getMode());
 			for (GeoElement geo : tmpAnotherMenuItemList) {
 				// add geos to submenu
-				addGeo(geo);
+				if (!metas.contains(geo)) {
+					addGeo(geo);
+				}
 			}
 		}
 		addOtherItems();
@@ -122,57 +119,22 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		}
 	}
 
-	private class MyMouseOverListener implements EventListener {
-
-		private GeoElement geo;
-
-		public MyMouseOverListener(GeoElement geo) {
-			this.geo = geo;
-		}
-
-		@Override
-		public void onBrowserEvent(Event event) {
-			view.getEuclidianController().doSingleHighlighting(geo);
-			Log.debug(
-					"view.getEuclidianController().doSingleHighlighting(geo) called");
-		}
-
-	}
-
 	private void addGeo(GeoElement geo) {
-
 		// prevent selection of xOy plane
 		if (geo == app.getKernel().getXOYPlane()) {
 			return;
 		}
 
-		GeoAction chooser = new GeoAction(geo);
 		AriaMenuItem mi = new AriaMenuItem(getDescription(geo, false), true,
-				chooser);
-		DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
-		DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
+				() -> geoActionCmd(geo));
+		mi.addDomHandler(evt -> view.getEuclidianController().doSingleHighlighting(geo),
+				MouseOverEvent.getType());
 
 		selectAnotherMenu.addItem(mi);
 		if (app.isUnbundledOrWhiteboard()) {
 			mi.addStyleName("no-image");
 		}
 		metas.add(geo);
-
-	}
-
-	private class GeoAction implements Command {
-
-		private GeoElement geo;
-
-		public GeoAction(GeoElement geo) {
-			this.geo = geo;
-		}
-
-		@Override
-		public void execute() {
-			geoActionCmd(this.geo);
-		}
-
 	}
 
 	private void addSelectAnotherMenu(int mode) {
@@ -182,11 +144,11 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			selectAnotherMenuItem = new AriaMenuItem(
 					localization.getMenu("SelectAnother"), false,
-			        selectAnotherMenu);
+					selectAnotherMenu);
 		} else {
 			selectAnotherMenuItem = new AriaMenuItem(
 					localization.getMenu("PerformToolOn"), false,
-			        selectAnotherMenu);
+					selectAnotherMenu);
 		}
 		wrappedPopup.addItem(selectAnotherMenuItem);
 	}
@@ -197,6 +159,6 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	 */
 	public void geoActionCmd(GeoElement geo) {
 		geoActionCmd(geo, selectedGeos, getGeos(), view, location);
-
+		wrappedPopup.hideMenu();
 	}
 }

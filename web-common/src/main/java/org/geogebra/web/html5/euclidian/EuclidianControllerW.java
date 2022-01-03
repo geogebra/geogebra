@@ -193,10 +193,14 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
 	        Hits hits) {
-		ArrayList<GeoElement> geos = selectedGeos1 != null
-		        && selectedGeos1.isEmpty() ? getAppSelectedGeos()
-		        : selectedGeos1;
-		app.getGuiManager().showPopupMenu(geos, getView(), mouseLoc);
+		if (app.isUnbundledOrWhiteboard()) {
+			ArrayList<GeoElement> geos = selectedGeos1 != null
+					&& selectedGeos1.isEmpty() ? getAppSelectedGeos()
+					: selectedGeos1;
+			app.getGuiManager().showPopupMenu(geos, getView(), mouseLoc);
+		} else {
+			super.showPopupMenuChooseGeo(selectedGeos1, hits);
+		}
 	}
 
 	/**
