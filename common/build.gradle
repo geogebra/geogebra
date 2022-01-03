@@ -13,8 +13,8 @@ targetCompatibility = 1.8
 
 dependencies {
     javacc 'net.java.dev.javacc:javacc:7.0.10'
-    implementation project(':editor-base')
-    implementation project(':renderer-base')
+    api project(':editor-base')
+    api project(':renderer-base')
     api 'com.google.j2objc:annotations:2.8'
     api 'com.github.spotbugs:spotbugs-annotations:4.5.2'
     api 'com.google.code.findbugs:jsr305:3.0.2'
