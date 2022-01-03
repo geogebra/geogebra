@@ -219,30 +219,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				}
 			};
 
-			/*
-			 * Iterator it = iPoly.poly.getVariables().iterator();
-			 * ExpressionNode iPolyEN =
-			 * (ExpressionNode)iPoly.poly.deepCopy(kernel); ExpressionNode gEN =
-			 * (ExpressionNode)g.getFunctionExpression().deepCopy(kernel);
-			 * ExpressionValue varX = null; ExpressionValue varY = null;
-			 * ExpressionValue vargX = null; vargX =
-			 * g.getFunction().getFunctionVariable(); if (it.hasNext()) varX =
-			 * (ExpressionValue)it.next(); if (it.hasNext()) varY =
-			 * (ExpressionValue)it.next();
-			 * 
-			 * if (vargX!= null && varX !=null && varY !=null) {
-			 * 
-			 * ExpressionNode dummyX = new ExpressionNode(); gEN =
-			 * gEN.replaceAndWrap(g.getFunction().getFunctionVariable(),
-			 * dummyX); iPolyEN = iPolyEN.replaceAndWrap(varY, gEN); gEN =
-			 * gEN.replaceAndWrap(dummyX, vargX);
-			 * 
-			 * }
-			 */
-
-			// }
-
-			// g.getFunction().getFunctionVariable();
 			// TODO: set the correct expression
 			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
 
@@ -1573,6 +1549,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt,
 			FunctionalNVar rt) {
+		// at least one of lt, rt should be defined so that we have a source of function variables
+		if (lt.getFunction() == null) {
+			return undefine(rt.getFunction().deepCopy(rt.getKernel()));
+		}
+		if (rt.getFunction() == null) {
+			return undefine(lt.getFunction().deepCopy(lt.getKernel()));
+		}
 		Kernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
@@ -1595,10 +1578,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		f.initFunction();
 
 		return f;
-		// AlgoDependentFunction adf = new
-		// AlgoDependentFunction(fun1.getConstruction(),f);
-		// return adf.getFunction();
+	}
 
+	private static FunctionNVar undefine(FunctionNVar deepCopy) {
+		deepCopy.setExpression(new ExpressionNode(deepCopy.getKernel(), Double.NaN));
+		return deepCopy;
 	}
 
 	/**
