@@ -40,7 +40,6 @@ public class AltTextCollector {
 		timer.feed(altText.getAuralText());
 	}
 
-
 	/**
 	 *
 	 * @param geo to check

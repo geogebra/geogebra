@@ -9,8 +9,8 @@ import org.gwtproject.timer.client.Timer;
 class AltTextTimer extends Timer {
 	public static final int DELAY_MILLIS = 700;
 	private final ScreenReaderAdapter screenReader;
-	private String text;
 	private Queue<String> lines = new LinkedList<>();
+
 	public AltTextTimer(ScreenReaderAdapter screenReader) {
 		this.screenReader = screenReader;
 	}
@@ -26,6 +26,5 @@ class AltTextTimer extends Timer {
 	public void feed(String auralText) {
 		lines.add(auralText);
 		schedule(DELAY_MILLIS);
-
 	}
 }
