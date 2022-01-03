@@ -41,15 +41,6 @@ public class AltTextCollector {
 	}
 
 	/**
-	 *
-	 * @param geo to check
-	 * @return if this geo is independent for all altText of views or not.
-	 */
-	public boolean isIndependent(GeoNumeric geo) {
-		return views.isIndependent(geo);
-	}
-
-	/**
 	 * Add a GeoNumeric dependent to views' altText
 	 * @param geo to add
 	 */
