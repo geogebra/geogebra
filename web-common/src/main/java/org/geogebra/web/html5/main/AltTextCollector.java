@@ -11,7 +11,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.accessibility.ViewAltTexts;
 
 public class AltTextCollector {
-	private final List<String> lines;
 	private final Localization loc;
 	private final AltTextTimer timer;
 	private final ViewAltTexts views;
@@ -26,7 +25,6 @@ public class AltTextCollector {
 		this.views = views;
 		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader());
 		loc = app.getLocalization();
-		lines = new ArrayList<>();
 		dependencies = new ArrayList<>();
 	}
 
@@ -39,26 +37,9 @@ public class AltTextCollector {
 		if (!views.isValid(altText)) {
 			return;
 		}
-
-		lines.add(altText.getAuralText());
-		if (isLastAltText()) {
-			timer.read(concatLines());
-			lines.clear();
-		}
+		timer.feed(altText.getAuralText());
 	}
 
-	private ScreenReaderBuilder concatLines() {
-		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		for (String line: lines) {
-			sb.append(line);
-			sb.endSentence();
-		}
-		return sb;
-	}
-
-	private boolean isLastAltText() {
-		return lines.size() == views.activeAltTextCount();
-	}
 
 	/**
 	 *
@@ -95,6 +76,6 @@ public class AltTextCollector {
 			geoText.addAuralContent(loc, sb);
 			sb.endSentence();
 		});
-		timer.read(sb);
+		timer.feed(sb.toString());
 	}
 }
