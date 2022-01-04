@@ -50,6 +50,9 @@ public class GeoElementPropertiesFactory {
 	 */
 	public static PropertiesArray createGeoElementProperties(
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
+		if (elements.isEmpty()) {
+			return new PropertiesArray("");
+		}
 		List<Property> properties = new ArrayList<>();
 		addPropertyIfNotNull(properties, createNameProperty(localization, elements));
 		addPropertyIfNotNull(properties, createMinProperty(processor, localization, elements));

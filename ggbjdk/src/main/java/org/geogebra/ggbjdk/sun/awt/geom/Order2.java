@@ -251,18 +251,18 @@ final class Order2 extends Curve {
     }
 
     @Override
-	public double XforY(double y) {
+	public double getXforY(double y) {
         if (y <= y0) {
             return x0;
         }
         if (y >= y1) {
             return x1;
         }
-        return XforT(TforY(y));
+        return getXforT(getTforY(y));
     }
 
     @Override
-	public double TforY(double y) {
+	public double getTforY(double y) {
         if (y <= y0) {
             return 0;
         }
@@ -355,12 +355,12 @@ final class Order2 extends Curve {
     }
 
     @Override
-	public double XforT(double t) {
+	public double getXforT(double t) {
         return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
     }
 
     @Override
-	public double YforT(double t) {
+	public double getYforT(double t) {
         return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
     }
 
@@ -406,7 +406,7 @@ final class Order2 extends Curve {
         r.add(x0, y0);
         double t = -xcoeff1 / (2 * xcoeff2);
         if (t > 0 && t < 1) {
-            r.add(XforT(t), YforT(t));
+            r.add(getXforT(t), getYforT(t));
         }
         r.add(x1, y1);
     }

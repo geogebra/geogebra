@@ -179,7 +179,7 @@ public class DrawConicSection extends DrawConic {
 	@Override
 	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
 
-		if (onlyEdge) {
+		if (onlyEdge && fillShape != null) {
 			return fillShape.intersects(hitX - hitThreshold, hitY - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
 		}

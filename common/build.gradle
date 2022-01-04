@@ -16,7 +16,7 @@ dependencies {
     compile project(':editor-base')
     compile project(':renderer-base')
     compile 'com.google.j2objc:annotations:2.8'
-    compile 'com.github.spotbugs:spotbugs-annotations:4.5.1'
+    compile 'com.github.spotbugs:spotbugs-annotations:4.5.2'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
@@ -85,7 +85,7 @@ test {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 

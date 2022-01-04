@@ -40,22 +40,22 @@ public class BaseSymbolicTest {
         undoManager = kernel.getConstruction().getUndoManager();
     }
 
-    public void t(String input, String... expected) {
+    protected void t(String input, String... expected) {
         AlgebraTestHelper.checkSyntaxSingle(input, expected, ap,
                 StringTemplate.testTemplate);
     }
 
-    public void t(String input, Matcher<String> matcher) {
+    protected void t(String input, Matcher<String> matcher) {
         AlgebraTestHelper.checkSyntaxSingle(input, Collections.singletonList(matcher), ap,
                 StringTemplate.testTemplate);
     }
 
-    public void tn(String input, String... expected) {
+    protected void tn(String input, String... expected) {
         AlgebraTestHelper.checkSyntaxSingle(input, expected, ap,
                 StringTemplate.testNumeric);
     }
 
-    public void t(String input, EvalInfo info, String... expected) {
+    protected void t(String input, EvalInfo info, String... expected) {
         GeoElementND result = ap.processAlgebraCommandNoExceptionHandling(input,
                 false, TestErrorHandler.INSTANCE, info, null)[0];
         AlgebraTestHelper.assertOneOf(result, expected,

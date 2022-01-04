@@ -11,6 +11,7 @@ public class DeleteInMatrixTest {
 	private static final String MATRIX_1_TO_9 = "{{1,2,3},{4,5,6},{7,8,9}}";
 	private static final String ROW_MATRIX = "{{1,2,3}}";
 	public static final String MATRIX_MULIFIGURE = "{{123,456},{321,654}}";
+	public static final String MATRIX_FRAC = "{{1/(2*sqrt(2)),456},{321,654}}";
 	private static final AppCommon app = AppCommonFactory.create();
 
 	/**
@@ -300,5 +301,28 @@ public class DeleteInMatrixTest {
 				.backspace(1)
 				.shouldBeUnchanged();
 
+	}
+
+	@Test
+	public void testSelectAndReplaceElement11() {
+		selectAllAndDelete(MATRIX_MULIFIGURE, 1, "123");
+	}
+
+	private void selectAllAndDelete(String matrix, int rightTimes, String target) {
+		MatrixChecker checker = new MatrixChecker(app, matrix);
+		checker.rightTimes(rightTimes)
+				.ctrlA()
+				.delete();
+		checker.checkAsciiMath(matrix.replace(target, ""));
+	}
+
+	@Test
+	public void testSelectAndReplaceElement11FromMiddle() {
+		selectAllAndDelete(MATRIX_MULIFIGURE, 3, "123");
+	}
+
+	@Test
+	public void testSelectAndReplaceLatexElement11FromMiddle() {
+		selectAllAndDelete(MATRIX_FRAC,  2, "1/(2*sqrt(2))");
 	}
 }

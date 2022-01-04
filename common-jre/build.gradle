@@ -47,7 +47,7 @@ if (hasProperty("eclipse")) {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
 }
 
 pmd {

@@ -41,6 +41,9 @@ import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotterImpl;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -6743,5 +6746,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		// do nothing
+	}
+
+	/**
+	 * Create a new interval path plotter
+	 * @param gp general path
+	 * @return interval path plotter
+	 */
+	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
+		return new IntervalPathPlotterImpl(gp);
 	}
 }

@@ -11,6 +11,10 @@ public class CASTableNoGui implements CASTable {
 	private GeoCasCell[] cells;
 	private int selectedRow = 0;
 
+	/**
+	 * @param inputs table contents (inputs)
+	 * @param app application
+	 */
 	public CASTableNoGui(String[] inputs, App app) {
 		this.inputs = inputs;
 		this.cells = new GeoCasCell[inputs.length];

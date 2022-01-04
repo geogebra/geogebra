@@ -94,7 +94,6 @@ public class CreateSliderTest extends BaseSymbolicTest {
 		assertThat(xml.matches("[\\s\\S]*<slider [^>]* showAlgebra=\"true\"[\\s\\S]*"), is(true));
 	}
 
-
 	@Test
 	public void testUndoRedoKeepsShowingExtendedAV() {
 		GeoElement symbolic = add("a = 5");

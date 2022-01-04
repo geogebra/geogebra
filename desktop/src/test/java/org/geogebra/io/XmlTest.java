@@ -18,6 +18,7 @@ public class XmlTest {
 	static AppDNoGui app;
 	private static AlgebraProcessor ap;
 
+	/** Set up app */
 	@BeforeClass
 	public static void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);

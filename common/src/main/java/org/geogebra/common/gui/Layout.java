@@ -40,7 +40,7 @@ public abstract class Layout implements SettingListener {
 	/**
 	 * An array with the default perspectives.
 	 */
-	private static Perspective[] defaultPerspectives;
+	private Perspective[] defaultPerspectives;
 
 	/**
 	 * Initialize the default perspectives
@@ -51,7 +51,7 @@ public abstract class Layout implements SettingListener {
 	 *            algebra width (relative to screen width, eg 0.2)
 	 * 
 	 */
-	public static void initializeDefaultPerspectives(App app, double avPercent) {
+	public void initializeDefaultPerspectives(App app, double avPercent) {
 		List<Perspective> perspectives = new ArrayList<>();
 
 		DockSplitPaneData[] spData = getSPData(app, avPercent);
@@ -406,7 +406,7 @@ public abstract class Layout implements SettingListener {
 	 * @param customPerspective
 	 *            user defined perspective (in xml saved as tmp)
 	 */
-		public void setPerspectiveOrDefault(Perspective customPerspective) {
+	public void setPerspectiveOrDefault(Perspective customPerspective) {
 		if (customPerspective != null) {
 			applyPerspective(customPerspective);
 		} else {
@@ -426,14 +426,14 @@ public abstract class Layout implements SettingListener {
 	 *            index
 	 * @return default perspective at given index
 	 */
-	public static Perspective getDefaultPerspectives(int i) {
+	public Perspective getDefaultPerspectives(int i) {
 		return defaultPerspectives[i];
 	}
 
 	/**
 	 * @return number of default perspectives
 	 */
-	public static int getDefaultPerspectivesLength() {
+	public int getDefaultPerspectivesLength() {
 		return defaultPerspectives.length;
 	}
 

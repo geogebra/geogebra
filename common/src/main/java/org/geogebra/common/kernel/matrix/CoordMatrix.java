@@ -14,12 +14,6 @@ package org.geogebra.common.kernel.matrix;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.LUDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -49,6 +43,8 @@ public class CoordMatrix {
 	private CoordMatrix inverse;
 
 	private PivotSolRes pivotSolRes;
+
+	private PivotSolResDegenerate pivotSolResDegenerate;
 
 	private PivotInverseMatrix pivotInverseMatrix;
 
@@ -1366,24 +1362,20 @@ public class CoordMatrix {
 	 *            result
 	 */
 	public void pivotDegenerate(Coords sol, Coords res) {
-		double[][] array2d = new double[columns][rows];
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				array2d[j][i] = vectors[i].get(j + 1);
-			}
+		updatePivotMatrix();
+
+		if (pivotSolResDegenerate == null) {
+			pivotSolResDegenerate = new PivotSolResDegenerate();
+		}
+		pivotSolResDegenerate.init(pivotMatrix.length);
+		pivotSolResDegenerate.res = new double[res.getLength()];
+		for (int r = 0; r < rows; r++) {
+			pivotSolResDegenerate.res[r] = res.val[r];
 		}
 
-		RealMatrix coefficients = new Array2DRowRealMatrix(array2d);
-		double [] array = new double[res.getLength()];
-		for (int i = 0; i < res.getLength(); i++) {
-			array[i] = res.get(i + 1);
-		}
-		RealVector constants = new ArrayRealVector(array);
+		pivotSolResDegenerate.sol = sol.val;
 
-		DecompositionSolver solver = new LUDecomposition(coefficients).getSolver();
-		RealVector solution = solver.solve(constants);
-
-		sol.set(solution.toArray());
+		pivot(pivotMatrix, pivotSolResDegenerate);
 	}
 
 	/**
