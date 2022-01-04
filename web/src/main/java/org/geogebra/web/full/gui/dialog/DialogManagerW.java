@@ -276,9 +276,6 @@ public class DialogManagerW extends DialogManager
 		DialogData data = new DialogData("Image", "Cancel", null);
 		ImageDialog dialog = new ImageDialog((AppW) app, data);
 		dialog.show();
-		/*UploadImageDialog imageDialog = device.getImageInputDialog((AppW) app);
-		imageDialog.setLocation(corner);
-		imageDialog.show();*/
 	}
 
 	/**

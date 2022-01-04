@@ -57,23 +57,7 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		TabData uploadTab = new TabData("Upload", uploadPanel);
 
 		cameraPanel = new FlowPanel();
-		cameraPanel.addStyleName("cameraPanel");
-		webcamInputPanel = new WebCamInputPanel((AppW) app, this);
-		webcamInputPanel.startVideo();
-		cameraPanel.add(webcamInputPanel);
-
-		captureBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.camera_white(), null, 24);
-		captureBtn.setStyleName("mowFloatingButton");
-		captureBtn.addFastClickHandler(source -> {
-			String dataURL = webcamInputPanel.getImageDataURL();
-			String name = "webcam";
-			if (dataURL != null) {
-				((AppW) app).imageDropHappened(name, dataURL);
-			}
-			hide();
-		});
-		cameraPanel.add(captureBtn);
+		loadCameraPanel();
 		TabData cameraTab = new TabData("Camera", cameraPanel);
 
 		tab = new ComponentTab(new ArrayList<>(Arrays.asList(uploadTab, cameraTab)),
@@ -82,18 +66,42 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		webcamInputPanel.startVideo();
 	}
 
-	private FlowPanel getErrorPanel() {
-		InfoErrorData cameraData = new InfoErrorData("Webcam.Denied.Caption",
-				"Webcam.Denied.Message", null);
+	private FlowPanel getErrorPanel(String title, String msg) {
+		InfoErrorData cameraData = new InfoErrorData(title, msg, null);
 		ComponentInfoErrorPanel cameraPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				cameraData, MaterialDesignResources.INSTANCE.no_camera(), null);
 		return cameraPanel;
 	}
 
+	private void loadCameraPanel() {
+		if (webcamInputPanel == null) {
+			webcamInputPanel = new WebCamInputPanel((AppW) app, this);
+		}
+
+		if (captureBtn == null) {
+			captureBtn = new StandardButton(
+					MaterialDesignResources.INSTANCE.camera_white(), null, 24);
+			captureBtn.setStyleName("mowFloatingButton");
+			captureBtn.addFastClickHandler(source -> {
+				String dataURL = webcamInputPanel.getImageDataURL();
+				String name = "webcam";
+				if (dataURL != null) {
+					((AppW) app).imageDropHappened(name, dataURL);
+				}
+				hide();
+			});
+		}
+
+		cameraPanel.clear();
+		cameraPanel.setStyleName("cameraPanel");
+		cameraPanel.add(webcamInputPanel);
+		cameraPanel.add(captureBtn);
+	}
+
 	/**
 	 * @param el - Element
 	 */
-	public void addChangeHandler(Element el) {
+	private void addChangeHandler(Element el) {
 		el.setAttribute("accept", "image/*");
 		HTMLInputElement input = Js.uncheckedCast(el);
 		input.addEventListener("change", event -> {
@@ -132,29 +140,24 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 	@Override
 	public void resize() {
 		super.onResize();
-		// nothing for now
 	}
 
 	@Override
 	public void showAndResize() {
 		super.onResize();
 		super.show();
-		// nothing for now
 	}
 
 	@Override
 	public void onCameraSuccess() {
-		cameraPanel.removeStyleName("error");
-		cameraPanel.clear();
-		cameraPanel.add(webcamInputPanel);
-		cameraPanel.add(captureBtn);
+		loadCameraPanel();
 	}
 
 	@Override
-	public void onCameraError() {
+	public void onCameraError(String title, String msg) {
 		cameraPanel.addStyleName("error");
 		cameraPanel.clear();
-		cameraPanel.add(this::getErrorPanel);
+		cameraPanel.add(() -> getErrorPanel(title, msg));
 	}
 
 	@Override
@@ -165,7 +168,9 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 
 	@Override
 	public void hide() {
-		webcamInputPanel.stopVideo();
+		if (this.webcamInputPanel != null) {
+			this.webcamInputPanel.stopVideo();
+		}
 		super.hide();
 	}
 }

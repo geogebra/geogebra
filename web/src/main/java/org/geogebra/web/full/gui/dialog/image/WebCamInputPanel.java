@@ -49,10 +49,16 @@ public class WebCamInputPanel extends FlowPanel {
 		add(inputWidget);
 	}
 
+	/**
+	 * stop camera
+	 */
 	public void stopVideo() {
 		webCam.stop();
 	}
 
+	/**
+	 * on camera success
+	 */
 	public void onCameraSuccess() {
 		hidePermissionDialog();
 		webcamDialog.onCameraSuccess();
@@ -135,16 +141,26 @@ public class WebCamInputPanel extends FlowPanel {
 	}
 
 	private void showPermissionDeniedDialog() {
-		DialogData data = new DialogData(getPermissionDeniedTitleKey(),
-				null, "OK");
-		showPermissionDialog(data, getPermissionDeniedMessageKey());
+		if (!app.isWhiteboardActive()) {
+			webcamDialog.onCameraError(getPermissionDeniedTitleKey(),
+					getPermissionDeniedMessageKey());
+		} else {
+			DialogData data = new DialogData(getPermissionDeniedTitleKey(),
+					null, "OK");
+			showPermissionDialog(data, getPermissionDeniedMessageKey());
+		}
 	}
 
 	private void showErrorDialog() {
-		DialogData data = new DialogData("Webcam.Problem",
-				null, "OK");
-		showPermissionDialog(data, app.getVendorSettings()
-				.getMenuLocalizationKey("Webcam.Problem.Message"));
+		if (!app.isWhiteboardActive()) {
+			webcamDialog.onCameraError("Webcam.Problem",
+					"Webcam.Problem.Message");
+		} else {
+			DialogData data = new DialogData("Webcam.Problem",
+					null, "OK");
+			showPermissionDialog(data, app.getVendorSettings()
+					.getMenuLocalizationKey("Webcam.Problem.Message"));
+		}
 	}
 
 	private void showNotSupportedDialog() {
@@ -173,11 +189,11 @@ public class WebCamInputPanel extends FlowPanel {
 		showAndResizeInputDialog();
 	}
 
+	/**
+	 * on camera error
+	 * @param errName - error
+	 */
 	public void onCameraError(String errName) {
-		webcamDialog.onCameraError();
-		if (!app.isWhiteboardActive()) {
-			return;
-		}
 		if ("PermissionDeniedError".equals(errName)
 				|| "NotAllowedError".equals(errName)
 				|| isElectronMac
@@ -195,15 +211,27 @@ public class WebCamInputPanel extends FlowPanel {
 		Log.debug("Error from WebCam: " + errName);
 	}
 
+	/**
+	 * on camera request
+	 */
 	public void onRequest() {
 		if (app.isWhiteboardActive()) {
 			showRequestDialog();
+		} else {
+			webcamDialog.onCameraError("Webcam.Request",
+					"Webcam.Request.Message");
 		}
 	}
 
+	/**
+	 * camera not supported
+	 */
 	public void onNotSupported() {
 		if (app.isWhiteboardActive()) {
 			showNotSupportedDialog();
+		} else {
+			webcamDialog.onCameraError("Webcam.Notsupported.Caption",
+					"Webcam.Notsupported.Message");
 		}
 	}
 }
