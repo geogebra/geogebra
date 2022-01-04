@@ -183,6 +183,11 @@ public class WebCamInputPanel extends FlowPanel {
 		return canvasHeight;
 	}
 
+	/**
+	 * load size and adjust dialog
+	 * @param width - width
+	 * @param height - height
+	 */
 	public void onLoadedMetadata(int width, int height) {
 		canvasWidth = width;
 		canvasHeight = height;
