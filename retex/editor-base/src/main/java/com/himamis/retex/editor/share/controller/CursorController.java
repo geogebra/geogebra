@@ -337,14 +337,17 @@ public class CursorController {
 		MathComponent cursorFieldRight = editorState.getCurrentField().getArgument(
 				editorState.getCurrentOffset());
 		MathContainer parentFunction = cursorFieldLeft != null ? cursorFieldLeft.getParent()
-				: cursorFieldRight.getParent();
-		if (parentFunction.getArgument(0).equals(cursorFieldRight)
+				: cursorFieldRight != null ? cursorFieldRight.getParent() : null;
+		if (parentFunction != null && parentFunction.getArgument(0).equals(cursorFieldRight)
 				&& cursorFieldLeft == null) {
 			prevCharacter(editorState);
 			return true;
 		}
-		if (parentFunction.getArgument(parentFunction.size() - 1)
+		if (parentFunction != null && parentFunction.getArgument(parentFunction.size() - 1)
 				.equals(cursorFieldLeft) && cursorFieldRight == null) {
+			return nextCharacter(editorState);
+		}
+		if (parentFunction == null) {
 			return nextCharacter(editorState);
 		}
 		return false;

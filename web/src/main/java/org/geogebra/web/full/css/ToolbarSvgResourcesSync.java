@@ -6,10 +6,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 
 /**
- * SVG icons for toolbar
- *
- * @author csilla
- *
+ * SVG icons for toolbar that require sync loading
  */
 @SuppressWarnings("javadoc")
 public interface ToolbarSvgResourcesSync extends ClientBundle {
@@ -32,9 +29,7 @@ public interface ToolbarSvgResourcesSync extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
 	SVGResource mode_extension();
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
-	SVGResource mode_ruler();
+	// ONLY ADD FILES HERE IF THEY NEED SYNC LOADING
+	// (i.e. they are used not only for the toolbar, but also in other places)
 
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_protractor.svg")
-	SVGResource mode_protractor();
 }

@@ -245,7 +245,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			saveSettingsBtn.setStyleName("MyCanvasButton");
 			saveSettingsBtn.addStyleName("settingsBtn");
 			saveSettingsBtn.addFastClickHandler(
-					source -> GeoGebraPreferencesW.getPref().saveXMLPreferences(app));
+					source -> GeoGebraPreferencesW.saveXMLPreferences(app));
 			optionsPanel.add(saveSettingsBtn);
 		}
 
@@ -310,7 +310,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * Reset defaults
 		 */
 		protected void resetDefault() {
-			GeoGebraPreferencesW.getPref().clearPreferences(app);
+			GeoGebraPreferencesW.clearPreferences(app);
 
 			// reset defaults for GUI, views etc
 			// this has to be called before load XML preferences,
@@ -319,7 +319,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 			// for geoelement defaults, this will do nothing, so it is
 			// OK here
-			GeoGebraPreferencesW.getPref().resetPreferences(app);
+			GeoGebraPreferencesW.resetPreferences(app);
 
 			// reset default line thickness etc
 			app.getKernel().getConstruction().getConstructionDefaults()

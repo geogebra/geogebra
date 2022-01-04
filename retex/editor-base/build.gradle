@@ -46,5 +46,5 @@ pmd {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("../../common/config/findbugs.xml")
+    excludeFilter = file("../../config/spotbugs.xml")
 }

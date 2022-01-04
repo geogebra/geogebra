@@ -1,4 +1,4 @@
-package org.geogebra.barycentric;
+package org.geogebra.common.kernel.barycentric;
 
 import java.io.IOException;
 import java.io.OutputStream;

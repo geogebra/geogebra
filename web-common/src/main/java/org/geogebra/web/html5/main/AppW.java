@@ -1352,23 +1352,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *
 	 * @param url
 	 *            - the data url of the image
-	 * @param clientx
-	 *            - desired position on the canvas (x) - unused
-	 * @param clienty
-	 *            - desired position on the canvas (y) - unused
-	 * @return image
-	 */
-	public GeoImage urlDropHappened(String url, int clientx, int clienty) {
-		return urlDropHappened(url, null, null, null);
-	}
-
-	/**
-	 * Loads an image and puts it on the canvas (this happens on webcam input)
-	 * On drag&drop or insert from URL this would be called too, but that would
-	 * set security exceptions
-	 *
-	 * @param url
-	 *            - the data url of the image
 	 * @param corner1
 	 *            corner 1 expression
 	 * @param corner2
@@ -3193,6 +3176,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	@Override
 	public boolean isPortrait() {
+		if (getAppletFrame() != null) {
+			return getAppletFrame().computeWidth() < getAppletFrame().computeHeight();
+		}
 		return getWidth() < getHeight();
 	}
 

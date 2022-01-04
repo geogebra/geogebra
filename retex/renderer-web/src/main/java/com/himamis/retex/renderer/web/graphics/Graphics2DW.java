@@ -119,15 +119,13 @@ public class Graphics2DW implements Graphics2DInterface {
 		context.setLineWidth(basicStroke.getWidth());
 		context.setMiterLimit(basicStroke.getMiterLimit());
 
-		float[] dasharr = basicStroke.getDash();
-		JsArray<Double> jsarrn = JsArray.of();
+		double[] dasharr = basicStroke.getDash();
 		if (dasharr != null) {
-			jsarrn.setLength(dasharr.length);
-			for (float i: dasharr)  {
-				jsarrn.push((double) i);
-			}
+			context.setLineDash(dasharr);
+		} else {
+			context.setLineDash(JsArray.of());
 		}
-		context.setLineDash(jsarrn);
+
 	}
 
 	@Override

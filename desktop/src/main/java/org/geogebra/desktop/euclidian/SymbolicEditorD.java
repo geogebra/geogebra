@@ -7,6 +7,7 @@ import javax.swing.Box;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -48,7 +49,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 			@Override
 			public void focusLost(FocusEvent focusEvent) {
-				hide();
+				applyAndHide();
 			}
 		});
 
@@ -81,13 +82,10 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void hide() {
-		if (getDrawInputBox().isEditing()) {
-			applyChanges();
-			getDrawInputBox().setEditing(false);
-			box.setVisible(false);
-			view.repaintView();
-		}
+	protected void hide() {
+		getDrawInputBox().setEditing(false);
+		box.setVisible(false);
+		view.repaintView();
 	}
 
 	@Override
@@ -142,8 +140,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 	public void onKeyTyped(String key) {
 		addDegree(key, mathField.getInternal());
 		String text = texSerializer.serialize(getMathFieldInternal().getFormula());
-		double currentHeight = app.getDrawEquation().measureEquation(app, null, text,
-				getDrawInputBox().getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
+		GDimension equationSize = app.getDrawEquation().measureEquation(app, null, text,
+				getDrawInputBox().getTextFont(text), false);
+		double currentHeight = equationSize.getHeight()	+ 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(),
 				Math.max((int) currentHeight, DrawInputBox.SYMBOLIC_MIN_HEIGHT));
 		box.revalidate();

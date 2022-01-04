@@ -9,11 +9,11 @@ targetCompatibility = 1.8
 
 dependencies {
     compile project(':common')    
-    compile ("com.github.spotbugs:spotbugs-annotations:4.5.1")
+    compile ("com.github.spotbugs:spotbugs-annotations:4.5.2")
 }
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }

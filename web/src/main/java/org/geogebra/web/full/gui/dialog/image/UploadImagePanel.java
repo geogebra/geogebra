@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.dialog.image;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.laf.LoadSpinner;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -31,7 +33,6 @@ public class UploadImagePanel extends VerticalPanel {
 	private Image previewImg;
 
 	private final UploadImageDialog dialog;
-	private UploadImageWithoutDialog uploadImageWithoutDialog;
 
 	/**
 	 * @param uploadImageDialog
@@ -41,42 +42,37 @@ public class UploadImagePanel extends VerticalPanel {
 	 * @param previewHeight
 	 *            height of preview image
 	 */
-	public UploadImagePanel(UploadImageDialog uploadImageDialog,
+	public UploadImagePanel(AppW app, UploadImageDialog uploadImageDialog,
 			int previewWidth, int previewHeight) {
 		this.dialog = uploadImageDialog;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;
-	    initGUI();
-	    initActions();
+	    initGUI(app);
     }
 
-	/**
-	 * @param uploadImageWithoutDialog
-	 *            enables file upload without dialog
-	 */
-	public UploadImagePanel(UploadImageWithoutDialog uploadImageWithoutDialog) {
-		this(null, 0, 0);
-		this.uploadImageWithoutDialog = uploadImageWithoutDialog;
-	}
-
-	private void initGUI() {
+	private void initGUI(AppW app) {
 		panel = new FormPanel();
-		panel.add(uploadImageBtn = new FileUpload()); 
+		panel.add(uploadImageBtn = getUploadButton(app, this::fileSelected));
 		add(panel);
 	}
 
-	private void initActions() {
-		addChangeHandler(uploadImageBtn.getElement());
-	}
-
 	/**
-	 * @param el
-	 *            Element
+	 * @param callback
+	 *            Upload callback
+	 * @return upload button
 	 */
-	public void addChangeHandler(Element el) {
+	public static FileUpload getUploadButton(AppW app, UploadImageCallback callback) {
+		FileUpload upload = new FileUpload();
+		Element el = upload.getElement();
 		el.setAttribute("accept", "image/*");
 		HTMLInputElement input = Js.uncheckedCast(el);
+		app.getAppletFrame().add(upload); // needs to be in DOM to work for iPad Chrome
 		input.addEventListener("change", event -> {
+			if (upload.getParent() == app.getAppletFrame()) {
+				upload.removeFromParent();
+			}
+			LoadSpinner spinner = new LoadSpinner();
+			app.getAppletFrame().add(spinner);
 			File fileToHandle = null;
 			FileList files = input.files;
 			if (files.length > 0) {
@@ -90,21 +86,24 @@ public class UploadImagePanel extends VerticalPanel {
 			if (fileToHandle != null) {
 				FileReader reader = new FileReader();
 				String fileName = fileToHandle.name;
-				reader.onloadend = (ev) -> {
+				reader.addEventListener("loadend", (ev) -> {
+					Log.debug("Image " + fileName + " loaded");
 					if (reader.readyState == FileReader.DONE) {
 						String fileStr = reader.result.asString();
-						fileSelected(fileStr, fileName);
+						callback.insertImage(fileName, fileStr);
+						spinner.removeFromParent();
 					}
-					return null;
-				};
+				});
+				reader.addEventListener("error", evt -> spinner.removeFromParent());
 				reader.readAsDataURL(fileToHandle);
 			}
 		});
+		return upload;
 	}
 
-	private void fileSelected(String fData, String fName) {
-		this.fileData = fData;
+	private void fileSelected(String fName, String fData) {
 		this.fileName = fName;
+		this.fileData = fData;
 		if (previewImg == null) {
 			try {
 				previewImg = new Image(fileData);
@@ -117,11 +116,7 @@ public class UploadImagePanel extends VerticalPanel {
 		} else {
 			previewImg.setUrl(fileData);
 		}
-		if (dialog == null) {
-			uploadImageWithoutDialog.insertImage();
-		} else {
-			dialog.imageAvailable();
-		}
+		dialog.imageAvailable();
 	}
 
 	/**
