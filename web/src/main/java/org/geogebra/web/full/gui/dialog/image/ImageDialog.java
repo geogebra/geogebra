@@ -15,20 +15,10 @@ import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import elemental2.dom.File;
-import elemental2.dom.FileList;
-import elemental2.dom.FileReader;
-import elemental2.dom.HTMLInputElement;
-import jsinterop.base.Js;
-
 public class ImageDialog extends ComponentDialog implements WebcamDialogInterface {
-	private FileUpload uploadImage;
-	private String fileData;
-	private String fileName;
 	private FlowPanel cameraPanel;
 	private WebCamInputPanel webcamInputPanel;
 	private StandardButton captureBtn;
@@ -46,14 +36,14 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 	}
 
 	private void buildGUI() {
-		uploadImage = new FileUpload();
-		addChangeHandler(uploadImage.getElement());
+		FileUpload uploadImage = UploadImagePanel.getUploadButton((AppW) app,
+				((AppW) app)::imageDropHappened);
 
 		InfoErrorData uploadData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
 				"ImageDialog.Browse");
 		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				uploadData, MaterialDesignResources.INSTANCE.upload(),
-				() -> uploadImage.click());
+				uploadImage::click);
 		TabData uploadTab = new TabData("Upload", uploadPanel);
 
 		cameraPanel = new FlowPanel();
@@ -96,45 +86,6 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		cameraPanel.setStyleName("cameraPanel");
 		cameraPanel.add(webcamInputPanel);
 		cameraPanel.add(captureBtn);
-	}
-
-	/**
-	 * @param el - Element
-	 */
-	private void addChangeHandler(Element el) {
-		el.setAttribute("accept", "image/*");
-		HTMLInputElement input = Js.uncheckedCast(el);
-		input.addEventListener("change", event -> {
-			File fileToHandle = null;
-			FileList files = input.files;
-			if (files.length > 0) {
-				for (int i = 0, j = files.length; i < j; ++i) {
-					if (files.item(i).type.startsWith("image")) {
-						fileToHandle = files.item(i);
-						break;
-					}
-				}
-			}
-			if (fileToHandle != null) {
-				FileReader reader = new FileReader();
-				String fileName = fileToHandle.name;
-				reader.onloadend = (ev) -> {
-					if (reader.readyState == FileReader.DONE) {
-						String fileStr = reader.result.asString();
-						fileSelected(fileStr, fileName);
-					}
-					return null;
-				};
-				reader.readAsDataURL(fileToHandle);
-			}
-		});
-	}
-
-	private void fileSelected(String fData, String fName) {
-		this.fileData = fData;
-		this.fileName = fName;
-		((AppW) app).imageDropHappened(fileName, fileData);
-		hide();
 	}
 
 	@Override

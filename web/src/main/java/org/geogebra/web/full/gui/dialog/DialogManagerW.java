@@ -277,7 +277,7 @@ public class DialogManagerW extends DialogManager
 			return;
 		}
 		DialogData data = new DialogData("Image", "Cancel", null);
-		ImageDialog dialog = new ImageDialog((AppW) app, data);
+		ImageDialog dialog = new ImageDialog(app, data);
 		dialog.show();
 	}
 
