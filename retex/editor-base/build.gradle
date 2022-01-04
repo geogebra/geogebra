@@ -34,6 +34,10 @@ compileJavacc {
 	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern']
 }
 
+compileJava {
+	options.encoding = 'UTF-8'
+}
+
 task cleanJavacc(type: Delete) {
 	description 'Cleans the javacc generated files.'
 	delete compileJavacc
