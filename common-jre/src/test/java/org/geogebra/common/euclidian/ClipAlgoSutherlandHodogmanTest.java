@@ -1,10 +1,12 @@
 package org.geogebra.common.euclidian;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.ClipAlgoSutherlandHodogman.Edge;
 import org.geogebra.common.kernel.MyPoint;
 import org.junit.Test;
 
@@ -75,6 +77,21 @@ public class ClipAlgoSutherlandHodogmanTest {
 		assertOutput();
 	}
 
+	@Test
+	public void testIntersection() {
+		Edge edge =	new Edge(point(578, -10), point(-10, -10));
+		MyPoint expected = point(1.0E-7, 4.9E-324);
+		MyPoint actual = ClipAlgoSutherlandHodogman.intersection(edge,
+				point(213.99999, 2814.9999999),
+				point(213.99999, -1.7976931348623157E308)
+		);
+
+		assertNull(actual);
+	}
+
+	private MyPoint point(double x, double y) {
+		return new MyPoint(x, y);
+	}
 	@Test
 	public void clipRectRight() {
 		addInput(20, 20);
