@@ -294,6 +294,17 @@ public class ArithmeticTest extends Assert {
 	}
 
 	@Test
+	public void sumOfUndefinedFunctionsShouldBeUndefined() {
+		t("l={x}", "{x}");
+		t("l={}", "{}");
+		t("f(x):=Element(l,3)", "?");
+		assertNull(((GeoFunction) lookup("f")).getFunction());
+		t("g:x + 1", "x + 1");
+		t("f + g", "?");
+		t("g + f", "?");
+	}
+
+	@Test
 	public void functionCopySHouldBeDependent() {
 		t("f:x", "x");
 		t("g(x)=f", "x");
