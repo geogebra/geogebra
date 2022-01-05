@@ -8,13 +8,14 @@
   ],
   "devDependencies": {
     "@geogebra/web-test-harness": "0.1.14",
-    "cypress": "^7.0.0",
-    "cypress-image-snapshot": "^4.0.1",
-    "http-server": "^13.0.2",
-    "jest-image-snapshot": "^4.5.1",
-    "wait-on": "^6.0.0"
+    "cypress": "9.2.0",
+    "cypress-image-snapshot": "4.0.1",
+    "del": "^6.0.0",
+    "http-server": "14.0.0",
+    "jest-image-snapshot": "4.5.1",
+    "wait-on": "6.0.0"
   },
   "dependencies": {
-    "xml2js": "^0.4.23"
+    "xml2js": "0.4.23"
   }
 }
