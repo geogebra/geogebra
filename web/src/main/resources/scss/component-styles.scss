@@ -533,7 +533,10 @@
 				position: relative;
 				display: inline-flex;
 				right: 0px;
-				transition: right 0.25s cubic-bezier(.35,0,.25,1);
+
+				&.transition {
+					transition: right 0.25s cubic-bezier(.35,0,.25,1);
+				}
 			}
 	}
 
