@@ -236,6 +236,10 @@ public class GeoSymbolic extends GeoElement
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
+		if (lengthOfCurve(casInput)) {
+			return "?";
+		}
+
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
 		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
@@ -246,6 +250,21 @@ public class GeoSymbolic extends GeoElement
 			return normalizeSolveODE(casResult, casInput);
 		}
 		return casResult;
+	}
+
+	private boolean lengthOfCurve(Command casInput) {
+		if ("Length".equals(casInput.getName())
+				&& casInput.getArgumentNumber()==1) {
+			ExpressionValue arg = casInput.getArgument(0).getLeft();
+			if (arg instanceof GeoElement
+					&& ((GeoElement) arg).getDefinition().getLeft() instanceof Command) {
+				String cmdName = ((Command) ((GeoElement) arg).getDefinition().getLeft()).getName();
+				if (cmdName.contains("Curve")) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private String normalizeSolveODE(String casResult, Command casInput) {
