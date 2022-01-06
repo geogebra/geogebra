@@ -1670,8 +1670,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("b=Curve(t,t^2,t-1,t,0,5)");
 		t("Length(b)", "?");
 
-		t("Length(-5)","?");
-		t("Length((3,4))","5");
+		t("Length(-5)", "?");
+		t("Length((3,4))", "5");
 		t("Length((3,4,5))", "5 * sqrt(2)");
 		t("Length({1,2,3})", "3");
 		t("Length((1,x))", "sqrt(x^(2) + 1)");

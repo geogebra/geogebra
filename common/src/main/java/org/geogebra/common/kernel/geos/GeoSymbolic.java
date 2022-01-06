@@ -254,7 +254,7 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean lengthOfCurve(Command casInput) {
 		if ("Length".equals(casInput.getName())
-				&& casInput.getArgumentNumber()==1) {
+				&& casInput.getArgumentNumber() == 1) {
 			ExpressionValue arg = casInput.getArgument(0).getLeft();
 			if (arg instanceof GeoElement
 					&& ((GeoElement) arg).getDefinition().getLeft() instanceof Command) {
