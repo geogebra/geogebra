@@ -44,18 +44,22 @@ public class IntervalPath {
 
 	private void plotAll() {
 		for (int i = 0; i < model.pointCount(); i++) {
-			IntervalTuple tuple = model.pointAt(i);
-			boolean shouldSkip = shouldSkip(tuple);
-			if (shouldSkip) {
-				skip();
-			} else if (lastY.isUndefined()) {
-				moveToFirst(i, tuple);
-			} else {
-				drawTuple(i, tuple);
-				calculateLabelPoint(tuple);
-			}
-			moveTo = shouldSkip;
+			handleTuple(i);
 		}
+	}
+
+	private void handleTuple(int i) {
+		IntervalTuple tuple = model.pointAt(i);
+		boolean shouldSkip = shouldSkip(tuple);
+		if (shouldSkip) {
+			skip();
+		} else if (lastY.isUndefined()) {
+			moveToFirst(i, tuple);
+		} else {
+			drawTuple(i, tuple);
+			calculateLabelPoint(tuple);
+		}
+		moveTo = shouldSkip;
 	}
 
 	private void drawTuple(int i, IntervalTuple tuple) {

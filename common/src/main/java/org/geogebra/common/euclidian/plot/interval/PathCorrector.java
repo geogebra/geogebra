@@ -44,11 +44,10 @@ public class PathCorrector {
 			this.lastY.setUndefined();
 		} else if (isInvertedAround(idx)) {
 			handleFill(tuple);
-		} else if (bounds.isOnView(tuple.y())) {
-			completePathAt(idx);
 		} else {
-			this.lastY.setUndefined();
+			handleUnion(idx);
 		}
+
 		return this.lastY;
 	}
 
@@ -69,17 +68,29 @@ public class PathCorrector {
 		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
 	}
 
-	private void completePathAt(int idx) {
-		IntervalTuple tuple = model.pointAt(idx);
+	private void handleUnion(int idx) {
+		IntervalTuple point = model.pointAt(idx);
+		IntervalTuple prev = model.pointAt(idx - 1);
+		IntervalTuple next = model.pointAt(idx + 1);
+
 		boolean before = model.isAscendingBefore(idx);
-		boolean after = model.isAscendingAfter(idx);
-		completePathFromLeft(tuple, before);
-		if (hasPointNextTo(idx) && before == after) {
-			Interval other = completePathFromRight(tuple, model.isAscendingBefore(idx));
-			lastY.set(other);
-		} else {
-			lastY.setUndefined();
+		Interval x = toScreenX(point);
+		Interval y = toScreenY(point);
+		if (prev != null) {
+			Interval prevX = toScreenX(prev);
+			Interval prevY = toScreenY(prev);
+			gp.lineTo(prevX.getLow(), before ? 0 : bounds.getHeight());
 		}
+		if (next != null) {
+			Interval nextX = toScreenX(next);
+			Interval nextY = toScreenY(next);
+			if (prev != null) {
+				gp.moveTo(nextX.getLow(), before ? bounds.getHeight() : 0);
+			}
+			gp.lineTo(nextX.getHigh(), nextY.getHigh());
+		}
+		lastY.set(IntervalConstants.undefined());
+
 	}
 
 	private boolean hasPointNextTo(int idx) {

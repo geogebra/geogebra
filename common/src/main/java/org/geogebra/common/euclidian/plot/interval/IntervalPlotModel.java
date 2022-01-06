@@ -129,6 +129,11 @@ public class IntervalPlotModel {
 		return path.getLabelPoint();
 	}
 
+	/**
+	 *
+	 * @param index to get point at
+	 * @return corresponding point if index is valid, null otherwise.
+	 */
 	public IntervalTuple pointAt(int index) {
 		return points.get(index);
 	}
