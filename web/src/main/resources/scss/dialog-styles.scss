@@ -1917,14 +1917,19 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             width: auto;
 
 			&.error {
+			    height: 367px;
 				display: inline-flex;
 			}
 		}
 
 		.webcamInputPanel {
-			max-height: 339px;
-            height: auto;
-            min-height: 100%;
+			display: block;
+			margin: auto;
+			min-height: 40px;
+        	min-width: 53px;
+        	max-width: 100%;
+        	max-height: calc(100vh - 320px);
+        	text-align: center;
 		}
 
 		.mowFloatingButton {

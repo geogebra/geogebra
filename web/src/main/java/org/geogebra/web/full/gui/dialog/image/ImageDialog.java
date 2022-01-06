@@ -15,6 +15,7 @@ import org.geogebra.web.shared.components.tab.ComponentTab;
 import org.geogebra.web.shared.components.tab.TabData;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -129,7 +130,9 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 	public void onResize() {
 		super.onResize();
 		tab.onResize();
-		/*cameraPanel.getElement().getStyle().setHeight(webcamInputPanel.getVideoHeight() + 24,
-				Style.Unit.PX);*/
+		if (!cameraPanel.getStyleName().contains("error")) {
+			cameraPanel.getElement().getStyle().setHeight(webcamInputPanel.getOffsetHeight() + 28,
+					Style.Unit.PX);
+		}
 	}
 }
