@@ -78,7 +78,6 @@ public class ClipAlgoSutherlandHodogman {
 			MyPoint intersection = intersection(edge, prev, current);
 			if (intersection != null) {
 				output.add(intersection);
-
 			}
 		}
 	}
@@ -101,10 +100,11 @@ public class ClipAlgoSutherlandHodogman {
 		double det = a1 * b2 - a2 * b1;
 
 		double n1 = b2 * c1 - b1 * c2;
-		double x = getSafeNumber((n1 / det));
+		double x = getSafeNumber(n1 / det);
 
 		double n2 = a1 * c2 - a2 * c1;
-		double y = getSafeNumber((n2 / det));
+
+		double y = getSafeNumber(n2 / det);
 
 		if (Double.isNaN(x) || Double.isNaN(y))  {
 			return null;
