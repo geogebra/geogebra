@@ -358,6 +358,22 @@ public class ArithmeticTest extends Assert {
 		t("3,5>x", "If[5 > x, 3]");
 	}
 
+	@Test
+	public void testSetDifference() {
+		t("{{1,2},{3}} \\ {{1,2}}", "{{3}}");
+		t("{{1,13-11},{3}} \\ {{1,7-5}}", "{{3}}");
+		t("{(1,2),(3,4)} \\ {(1,2)}", "{(3, 4)}");
+		t("{(1,2,0),(3,4,0)} \\ {(1,2,0)}", "{(3, 4, 0)}");
+	}
+
+	@Test
+	public void setDifferenceShouldWorkWithLabeledAndUnlabeled() {
+		t("m1={{\"a\",\"b\"},{\"c\",\"d\"},{\"a\",\"b\"}}",
+				"{{\"a\", \"b\"}, {\"c\", \"d\"}, {\"a\", \"b\"}}");
+		t("l1={\"a\",\"b\"}", "{\"a\", \"b\"}");
+		t("m1 \\ {l1}", "{{\"c\", \"d\"}}");
+	}
+
 	private GeoElement lookup(String g) {
 		return app.getKernel().lookupLabel(g);
 	}
