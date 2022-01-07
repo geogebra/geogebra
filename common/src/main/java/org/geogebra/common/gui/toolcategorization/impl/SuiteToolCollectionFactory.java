@@ -42,9 +42,11 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
                 EuclidianConstants.MODE_SHOW_HIDE_LABEL,
                 EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 
-        impl.extendCategory(ToolCategory.MEDIA,
-                EuclidianConstants.MODE_IMAGE,
-                EuclidianConstants.MODE_TEXT);
+        if (supportsImageTool) {
+            impl.extendCategory(ToolCategory.MEDIA,
+                    EuclidianConstants.MODE_IMAGE,
+                    EuclidianConstants.MODE_TEXT);
+        }
 
         impl.extendCategory(ToolCategory.MEASURE,
                 EuclidianConstants.MODE_ANGLE,
@@ -84,7 +86,9 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
         impl.extendCategory(ToolCategory.EDIT,
                 EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 
-        impl.extendCategory(ToolCategory.MEDIA);
+        if (supportsImageTool) {
+            impl.extendCategory(ToolCategory.MEDIA);
+        }
 
         impl.extendCategory(ToolCategory.MEASURE,
                 EuclidianConstants.MODE_ANGLE_FIXED,
