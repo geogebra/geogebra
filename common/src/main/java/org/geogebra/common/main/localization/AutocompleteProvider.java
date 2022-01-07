@@ -136,5 +136,21 @@ public class AutocompleteProvider {
 			this.helpPage = helpPage;
 			this.helpType = helpType;
 		}
+
+		public String getCommand() {
+			return command;
+		}
+
+		public List<String> getSyntaxes() {
+			return syntaxes;
+		}
+
+		public String getHelpPage() {
+			return helpPage;
+		}
+
+		public GuiManagerInterface.Help getHelpType() {
+			return helpType;
+		}
 	}
 }
