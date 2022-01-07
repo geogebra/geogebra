@@ -236,7 +236,7 @@ public class GeoSymbolic extends GeoElement
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
-		if (lengthOfCurve(casInput)) {
+		if (isUndefined(casInput)) {
 			return "?";
 		}
 
@@ -252,16 +252,17 @@ public class GeoSymbolic extends GeoElement
 		return casResult;
 	}
 
-	private boolean lengthOfCurve(Command casInput) {
-		if ("Length".equals(casInput.getName())
-				&& casInput.getArgumentNumber() == 1) {
-			ExpressionValue arg = casInput.getArgument(0).getLeft();
-			if (arg instanceof GeoElement
-					&& ((GeoElement) arg).getDefinition().getLeft() instanceof Command) {
-				String cmdName = ((Command) ((GeoElement) arg).getDefinition().getLeft()).getName();
-				if (cmdName.contains("Curve")) {
-					return true;
-				}
+	private boolean isUndefined(Command command) {
+		return isLengthOfCurve(command);
+	}
+
+	private boolean isLengthOfCurve(Command command) {
+		if (Commands.Length.name().equals(command.getName())
+				&& command.getArgumentNumber() == 1) {
+			ExpressionValue arg = command.getArgument(0).unwrap();
+			if (arg instanceof GeoSymbolic) {
+				GeoElementND twinGeo = ((GeoSymbolic) arg).getTwinGeo();
+				return twinGeo != null && twinGeo.isGeoConic();
 			}
 		}
 		return false;
