@@ -6,11 +6,9 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.accessibility.ViewAltTexts;
 
 public class AltTextCollector {
-	private final Localization loc;
 	private final AltTextTimer timer;
 	private final ViewAltTexts views;
 	private final List<GeoNumeric> dependencies;
@@ -24,7 +22,6 @@ public class AltTextCollector {
 		this.views = views;
 		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(),
 				app.getLocalization());
-		loc = app.getLocalization();
 		dependencies = new ArrayList<>();
 	}
 
