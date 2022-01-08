@@ -91,7 +91,4 @@ public class AltGeoTabber implements MayHaveFocus {
 		return AccessibilityGroup.ViewControlId.ALT_GEO;
 	}
 
-	public GeoElement getAltGeo() {
-		return altTexts.getAltGeo(viewIndex);
-	}
 }

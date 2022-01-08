@@ -90,21 +90,4 @@ public class ViewAltTexts {
 
 		return false;
 	}
-
-	/**
-	 * Returns a list of views' altTexts that are dependent on the given geo.
-	 * @param geo to depend on.
-	 * @return list of dependent views' altTexts
-	 */
-	public List<GeoText> getDependentAltTexts(GeoElement geo) {
-		updateVisibleViews();
-		ArrayList<GeoText> result = new ArrayList<>();
-		for (int i = 0; i < viewCount(); i++) {
-			GeoElement altText = getAltGeo(i);
-			if (altText != null && geo.algoUpdateSetContains(altText.getParentAlgorithm())) {
-				result.add((GeoText) altText);
-			}
-		}
-		return result;
-	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.accessibility.ViewAltTexts;
@@ -23,7 +22,8 @@ public class AltTextCollector {
 	 */
 	public AltTextCollector(App app, ViewAltTexts views) {
 		this.views = views;
-		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader());
+		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(),
+				app.getLocalization());
 		loc = app.getLocalization();
 		dependencies = new ArrayList<>();
 	}
@@ -37,7 +37,7 @@ public class AltTextCollector {
 		if (!views.isValid(altText)) {
 			return;
 		}
-		timer.feed(altText.getAuralText());
+		timer.feed(altText.getAuralText(), altText);
 	}
 
 	/**
@@ -50,22 +50,11 @@ public class AltTextCollector {
 		}
 	}
 
-	public List<GeoText> getDependentAltTexts(GeoNumeric geo) {
-		return views.getDependentAltTexts(geo);
-	}
-
 	/**
-	 *  Reads all list of views' altTexts that are dependent on the given geo.
-	 * @param geo to depend on.
-	 * @param altTexts list of dependent altTexts.
+	 * Adds slider to the queue of objects to be read
+	 * @param geo changed slider
 	 */
-	public void readDependentAltTexts(GeoNumeric geo, List<GeoText> altTexts) {
-		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(geo.getAuralCurrentValue());
-		altTexts.forEach(geoText -> {
-			geoText.addAuralContent(loc, sb);
-			sb.endSentence();
-		});
-		timer.feed(sb.toString());
+	public void readSliderUpdate(GeoNumeric geo) {
+		timer.feed(geo.getAuralCurrentValue(), geo);
 	}
 }

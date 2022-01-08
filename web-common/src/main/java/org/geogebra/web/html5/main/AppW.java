@@ -210,7 +210,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
-	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
 	private BrowserStorage storage;
 	private boolean keyboardNeeded;
@@ -2887,21 +2886,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
 				&& !appletParameters.preventFocus()) {
-			List<GeoText> dependentAltTexts = accessibilityManager.getDependentAltTexts(geo);
-			if (dependentAltTexts.isEmpty()) {
-				readWithTimer(geo);
-			} else {
-				accessibilityManager.readDependentAltTexts(geo, dependentAltTexts);
-			}
+			accessibilityManager.readSliderUpdate(geo);
 		}
-	}
-
-	private void readWithTimer(GeoNumeric geo) {
-		if (readerTimer == null) {
-			readerTimer = new ReaderTimer();
-		}
-		readerTimer.setGeo(geo);
-		readerTimer.schedule(700);
 	}
 
 	/**

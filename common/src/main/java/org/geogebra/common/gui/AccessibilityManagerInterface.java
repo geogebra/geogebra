@@ -1,7 +1,5 @@
 package org.geogebra.common.gui;
 
-import java.util.List;
-
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -84,9 +82,7 @@ public interface AccessibilityManagerInterface {
 
 	void setTabOverGeos();
 
-	List<GeoText> getDependentAltTexts(GeoNumeric geo);
-
-	void readDependentAltTexts(GeoNumeric geo, List<GeoText> altTexts);
+	void readSliderUpdate(GeoNumeric geo);
 
 	/**
 	 * @param altText to append

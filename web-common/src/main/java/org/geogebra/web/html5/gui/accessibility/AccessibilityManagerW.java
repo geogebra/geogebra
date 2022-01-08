@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.accessibility;
 
-import java.util.List;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
@@ -209,12 +208,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public List<GeoText> getDependentAltTexts(GeoNumeric geo) {
-		return altTextCollector.getDependentAltTexts(geo);
-	}
-
-	@Override
-	public void readDependentAltTexts(GeoNumeric geo, List<GeoText> altTexts) {
-		altTextCollector.readDependentAltTexts(geo, altTexts);
+	public void readSliderUpdate(GeoNumeric geo) {
+		altTextCollector.readSliderUpdate(geo);
 	}
 }
