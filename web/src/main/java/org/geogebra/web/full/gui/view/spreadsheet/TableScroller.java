@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
@@ -10,7 +9,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 import elemental2.dom.Event;
@@ -19,10 +17,8 @@ import elemental2.dom.WheelEvent;
 public class TableScroller extends ScrollPanel implements ScrollHandler {
 
 	private final MyTableW table;
-	private final Grid cellTable;
 	private final SpreadsheetRowHeaderW rowHeader;
 	private final SpreadsheetColumnHeaderW columnHeader;
-	GRectangle contentRect;
 	boolean doAdjustScroll = true;
 
 	/**
@@ -37,7 +33,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 			SpreadsheetColumnHeaderW columnHeader) {
 		super(table.getGridPanel());
 		this.table = table;
-		this.cellTable = table.getGrid();
 		this.rowHeader = rowHeader;
 		this.columnHeader = columnHeader;
 
@@ -112,12 +107,11 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	/**
 	 * Scroll to make content visible.
 	 * 
-	 * @param contentRect1
-	 *            content rectangle
+	 * @param cell
+	 *            cell to put into view
 	 */
-	public void scrollRectToVisible(GRectangle contentRect1) {
-		this.contentRect = contentRect1;
-		Scheduler.get().scheduleDeferred(this::scrollRectToVisibleCommand);
+	public void scrollRectToVisible(GPoint cell) {
+		Scheduler.get().scheduleDeferred(() -> scrollRectToVisibleCommand(cell));
 	}
 
 	/**
@@ -136,7 +130,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 * scrolling will be confined to the viewport's bounds.
 	 * 
 	 */
-	public void scrollRectToVisibleCommand() {
+	public void scrollRectToVisibleCommand(GPoint bottom) {
 
 		Element view = this.getWidget().getElement();
 
@@ -149,17 +143,15 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		int barWidth = AbstractNativeScrollbar.getNativeScrollbarWidth();
 		int extentWidth = this.getOffsetWidth() - barWidth;
 		int extentHeight = this.getOffsetHeight() - barHeight;
-
-		dx = positionAdjustment(extentWidth,
-		        (int) contentRect.getWidth(), (int) contentRect.getX()
-		                - getAbsoluteLeft());
-		dy = positionAdjustment(extentHeight,
-		        (int) contentRect.getHeight(), (int) contentRect.getY()
-		                - getAbsoluteTop());
-
-		// App.debug("-------- dx / dy : " + dx + " / " + dy);
+		GPoint viewPosition = getViewPosition();
+		GPoint position = table.getPixelRelative(bottom.x, bottom.y);
+		GPoint position2 = table.getPixelRelative(bottom.x + 1, bottom.y + 1);
+		dx = positionAdjustment(extentWidth, position2.x - position.x,
+				position.x - viewPosition.x);
+		dy = positionAdjustment(extentHeight, position2.y - position.y,
+				position.y - viewPosition.y);
 		if (dx != 0 || dy != 0) {
-			GPoint viewPosition = getViewPosition();
+
 			int viewWidth = view.getOffsetWidth();
 			int viewHeight = view.getOffsetHeight();
 			int startX = viewPosition.x;
@@ -185,9 +177,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 				viewPosition.y = 0;
 			}
 			if (viewPosition.x != startX || viewPosition.y != startY) {
-				GPoint anchorPosition = getUpperLeftCellPosition(viewPosition,
-						(int) Math.signum(viewPosition.x - startX),
-						(int) Math.signum(viewPosition.y - startY));
+				GPoint anchorPosition = getUpperLeftCellPosition(viewPosition, 0, 0);
 				doAdjustScroll = false;
 				setViewPosition(anchorPosition == null ? viewPosition : anchorPosition);
 				doAdjustScroll = true;
@@ -223,26 +213,14 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	}
 
 	private GPoint getUpperLeftCellPosition(GPoint viewPosition, int dx, int dy) {
-		int offH = cellTable.getAbsoluteLeft();
-		int offV = cellTable.getAbsoluteTop();
-
-		// get pixel coordinates of the upper left corner
-		int x = viewPosition.x + offH;
-		int y = viewPosition.y + offV;
-
 		// get upper left cell coordinates
-		GPoint p = table.getIndexFromPixel(x, y, 1);
+		GPoint p = table.getIndexFromPixelRelative(viewPosition.x, viewPosition.y);
 		if (p == null) {
 			return null;
 		}
 
 		// get new pixel coordinates to place the upper left cell exactly
-		GPoint p2 = table.getPixel(p.x + dx, p.y + dy, true);
-		if (p2 == null) {
-			return null;
-		}
-
-		return new GPoint(p2.x - offH, p2.y - offV);
+		return table.getPixelRelative(p.x + dx, p.y + dy);
 	}
 
 	@Override

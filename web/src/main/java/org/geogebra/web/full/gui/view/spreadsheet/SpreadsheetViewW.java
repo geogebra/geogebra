@@ -240,8 +240,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		// autoscroll to new cell's location
 		if (scrollToShow) {
-			table.scrollRectToVisible(
-					table.getCellRect(location.y, location.x, true));
+			table.scrollRectToVisible(location);
 		}
 	}
 

@@ -507,7 +507,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void handlePointerMove(boolean touch, int mouseX, int mouseY) {
-		GPoint point = table.getIndexFromPixel(mouseX, mouseY);
+		GPoint point = table.getIndexFromPixel(mouseX, mouseY, -1);
 
 		if (pointerIsDown) {
 			if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
@@ -577,8 +577,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				}
 
 				// scroll to show "highest" selected cell
-				table.scrollRectToVisible(table.getCellRect(point.y,
-						point.x, true));
+				table.scrollRectToVisible(point);
 
 				if (!selRect.contains(mouseX, mouseY)) {
 					int rowOffset = getRowOffset(mouseY, selRect);
