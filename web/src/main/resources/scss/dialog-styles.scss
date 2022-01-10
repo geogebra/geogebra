@@ -73,22 +73,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	/* image tool dialog */
-	.dialogComponent.image {
-		.gwt-Label:hover {
-			color: colors.$teal-default;
-			cursor: pointer;
-		}
-
-		.gwt-Label-highlighted {
-			color: colors.$teal-default;
-
-			&:hover {
-				cursor: default;
-			}
-		}
-	}
-
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;
