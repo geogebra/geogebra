@@ -725,10 +725,8 @@ public class DockManagerW extends DockManager {
 	private void setDividerLocationAbs(DockSplitPaneW splitPane,
 			final int dividerLocation) {
 		final DockSplitPaneW sp = splitPane;
-		Scheduler.get().scheduleDeferred(() -> {
-			sp.setDividerLocation(dividerLocation);
-			rootPane.deferredOnResize();
-		});
+		sp.setDividerLocation(dividerLocation);
+		rootPane.deferredOnResize();
 	}
 
 	/**

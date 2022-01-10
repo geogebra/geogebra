@@ -642,10 +642,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		 *            true if the lines should be bold.
 		 */
 		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
+			if (gridOptions) {
+				return;
+			}
 			BackgroundType bgType = BackgroundType.fromInt(typeIdx);
 			setRulerType(BackgroundType.rulingOptions.indexOf(bgType));
-			if (!gridOptions
-					&& (bgType == BackgroundType.NONE || bgType.isSVG())) {
+			if (bgType == BackgroundType.NONE || bgType.isSVG()) {
 				stylePanel.setVisible(false);
 			} else {
 				stylePanel.setVisible(true);

@@ -586,4 +586,12 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("a_{O} + b_{o}");
 		assertEquals("a_0+b_0", inputBox.getTextForEditor());
 	}
+
+	@Test
+	public void testComplexMatrices() {
+		add("m = {{1, i},{i, 2}}");
+		GeoInputBox inputBox = add("InputBox(m)");
+		assertEquals("\\left(\\begin{array}{rr}1&i\\\\i&2\\\\ \\end{array}\\right)",
+				inputBox.getText());
+	}
 }

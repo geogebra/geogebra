@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
@@ -111,7 +110,7 @@ public class PerspectivesPopup {
 	}
 
 	private void addPerspectiveItem(SVGResource img, int perspectiveID) {
-		Perspective perspective = Layout.getDefaultPerspectives(perspectiveID);
+		Perspective perspective = app.getLayout().getDefaultPerspectives(perspectiveID);
 		String text = perspective != null ? perspective.getId() : "exam_menu_entry";
 		AriaMenuItem mi = new AriaMenuItem(MainMenu.getMenuBarHtml(img,
 						app.getLocalization().getMenu(text)),

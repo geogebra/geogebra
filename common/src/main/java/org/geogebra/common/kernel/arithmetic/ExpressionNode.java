@@ -1661,8 +1661,6 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns true iff ev1 and ev2 are equal.
 	 * 
-	 * https://www.geogebra.org/m/NTKKwVWK
-	 * 
 	 * @param ev1
 	 *            first value to compare
 	 * @param ev2
@@ -1674,17 +1672,18 @@ public class ExpressionNode extends ValidExpression
 			return DoubleUtil.isEqual(ev1.evaluateDouble(),
 					ev2.evaluateDouble(), Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
-			return ((TextValue) ev1)
+			return ev1
 					.toValueString(StringTemplate.defaultTemplate)
-					.equals(((TextValue) ev2)
-							.toValueString(StringTemplate.defaultTemplate));
-		} else if (ev1 instanceof VectorValue && ev2 instanceof VectorValue) {
-			return ((VectorValue) ev1).getVector()
-					.isEqual(((VectorValue) ev2).getVector());
+					.equals(ev2.toValueString(StringTemplate.defaultTemplate));
+		} else if (ev1 instanceof VectorNDValue && ev2 instanceof VectorNDValue) {
+			return ((VectorNDValue) ev1).getVector()
+					.isEqual(((VectorNDValue) ev2).getVector());
 		} else if (ev1 instanceof BooleanValue && ev2 instanceof BooleanValue) {
-			return ((BooleanValue) ev1).getMyBoolean()
-					.getBoolean() == ((BooleanValue) ev2).getMyBoolean()
+			return ((BooleanValue) ev1)
+					.getBoolean() == ((BooleanValue) ev2)
 							.getBoolean();
+		} else if (ev1 instanceof ListValue && ev2 instanceof ListValue) {
+			return ((ListValue) ev1).getMyList().isEqual((ListValue) ev2);
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
 			return ((GeoElement) ev1).isEqual((GeoElement) ev2);
 		} else if (ev1 instanceof Functional && ev2 instanceof Functional) {

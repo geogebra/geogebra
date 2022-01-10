@@ -591,7 +591,9 @@ public class GeoList extends GeoElement
 	 */
 	public void copyListElements(MyList myList) {
 		for (GeoElement element : elements) {
-			myList.addListElement(new ExpressionNode(kernel, element));
+			myList.addListElement(element.isGeoList()
+					? ((GeoList) element).getMyList()
+					: new ExpressionNode(kernel, element));
 		}
 	}
 
@@ -1313,29 +1315,17 @@ public class GeoList extends GeoElement
 		}
 
 		final GeoElement geo0 = get(0);
-		if (geo0.isGeoList()) {
-			final int length = ((GeoList) geo0).size();
-			if (length == 0) {
+		final int length = geo0.isGeoList() ? ((GeoList) geo0).size() : 0;
+		if (length == 0) {
+			return false;
+		}
+		for (GeoElement row: elements) {
+			if (!row.isGeoList() || ((GeoList) row).size() != length) {
 				return false;
 			}
-			if (size() > 0) {
-				for (int i = 0; i < size(); i++) {
-					final GeoElement geoi = get(i);
-					// Application.debug(((GeoList)geoi).get(0).getGeoClassType()+"");
-					if (!get(i).isGeoList() || (((GeoList) geoi).size() == 0)
-							|| (((GeoList) geoi).size() != length)) {
-						return false;
-					}
-					for (int j = 0; j < ((GeoList) geoi).size(); j++) {
-						final GeoElement geoij = ((GeoList) geoi).get(j);
-						if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
-								&& !geoij.getGeoClassType()
-										.equals(GeoClass.FUNCTION)
-								&& !geoij.getGeoClassType()
-										.equals(GeoClass.FUNCTION_NVAR)) {
-							return false;
-						}
-					}
+			for (GeoElement geoij: ((GeoList) row).elements) {
+				if (geoij.getGeoClassType().equals(GeoClass.LIST)) {
+					return false;
 				}
 			}
 		}
@@ -3398,5 +3388,22 @@ public class GeoList extends GeoElement
 
 	public boolean isEmptyList() {
 		return elements == null || elements.isEmpty();
+	}
+
+	/**
+	 * @return replace all entries with undefined numbers
+	 */
+	public ExpressionValue makeEntriesUndefined() {
+		MyList list = new MyList(kernel);
+		for (int i = 0; i < size(); i++) {
+			GeoElement geo = get(i);
+			if (geo.isGeoList()) {
+				((GeoList) geo).makeEntriesUndefined();
+				((GeoList) geo).resetDefinition();
+			} else {
+				elements.set(i, new GeoNumeric(cons, Double.NaN));
+			}
+		}
+		return list;
 	}
 }

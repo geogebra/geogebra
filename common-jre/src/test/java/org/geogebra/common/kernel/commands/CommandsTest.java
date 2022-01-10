@@ -84,7 +84,7 @@ public class CommandsTest {
 				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
 			}
 
-			signature = CommandSignatures.getSigneture(cmdName, app1);
+			signature = CommandSignatures.getSignature(cmdName, app1);
 			if (signature != null) {
 				syntaxes = signature.size();
 				AlgebraTestHelper.dummySyntaxesShouldFail(cmdName, signature,
@@ -2615,8 +2615,8 @@ public class CommandsTest {
 		tRound("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732");
 		tRound("Segment((0, 0), (x1, y1))", "2");
 		// undefined testcase
-		t("yu1'(t, y1, y2) = ?", "?");
-		t("yu2'(t, y1, y2) = ?", "?");
+		t("yu1'(t, y1, y2) = ?", "NaN");
+		t("yu2'(t, y1, y2) = ?", "NaN");
 		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
 				"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
 				"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]");
