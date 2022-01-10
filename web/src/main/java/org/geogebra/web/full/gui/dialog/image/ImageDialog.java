@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
@@ -38,7 +39,10 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 
 	private void buildGUI() {
 		FileUpload uploadImage = UploadImagePanel.getUploadButton((AppW) app,
-				((AppW) app)::imageDropHappened);
+				(fileName, content) -> {
+					((AppW) app).imageDropHappened(fileName, content);
+					hide();
+				});
 
 		InfoErrorData uploadData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
 				"ImageDialog.Browse");
@@ -70,23 +74,29 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		}
 
 		if (captureBtn == null) {
-			captureBtn = new StandardButton(
-					MaterialDesignResources.INSTANCE.camera_white(), null, 24);
-			captureBtn.setStyleName("mowFloatingButton");
-			captureBtn.addFastClickHandler(source -> {
-				String dataURL = webcamInputPanel.getImageDataURL();
-				String name = "webcam";
-				if (dataURL != null) {
-					((AppW) app).imageDropHappened(name, dataURL);
-				}
-				hide();
-			});
+			initCaptureBtn();
 		}
 
 		cameraPanel.clear();
 		cameraPanel.setStyleName("cameraPanel");
 		cameraPanel.add(webcamInputPanel);
 		cameraPanel.add(captureBtn);
+	}
+
+	private void initCaptureBtn() {
+		captureBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.camera_white(), null, 24);
+		captureBtn.setStyleName("mowFloatingButton");
+		AriaHelper.setTitle(captureBtn, app.getLocalization().getMenu("ImageDialog.Capture"));
+
+		captureBtn.addFastClickHandler(source -> {
+			String dataURL = webcamInputPanel.getImageDataURL();
+			String name = "webcam";
+			if (dataURL != null) {
+				((AppW) app).imageDropHappened(name, dataURL);
+			}
+			hide();
+		});
 	}
 
 	@Override
