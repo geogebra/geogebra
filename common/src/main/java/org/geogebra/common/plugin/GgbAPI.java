@@ -1527,10 +1527,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Cast redo
+	 * Mark state as saved
 	 */
-	public void setSaved() {
-		app.setSaved();
+	public void setSaved(boolean saved) {
+		if (saved) {
+			app.setSaved();
+		} else {
+			app.setUnsaved();
+		}
 	}
 
 	/**
