@@ -10,6 +10,7 @@ public class IntervalPath {
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
 	private Interval lastY;
+	private Interval lastValidY;
 	private boolean moveTo;
 	private final PathCorrector corrector;
 
@@ -29,6 +30,7 @@ public class IntervalPath {
 		this.model = model;
 		labelPositionCalculator = new LabelPositionCalculator(bounds);
 		lastY = new Interval();
+		lastValidY = new Interval();
 		corrector = new PathCorrector(gp, model, bounds);
 	}
 
@@ -45,6 +47,9 @@ public class IntervalPath {
 	private void plotAll() {
 		for (int i = 0; i < model.pointCount(); i++) {
 			handleTuple(i);
+			if (!lastY.isUndefined()) {
+				lastValidY.set(lastY);
+			}
 		}
 	}
 

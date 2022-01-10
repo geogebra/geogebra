@@ -77,6 +77,7 @@ public class IntervalTrigonometricTest {
 				-5 * p - (3 * PI) / 2)));
 	}
 
+
 	@Test
 	public void testSinWithInfinity() {
 		assertEquals(interval(-1, 1),

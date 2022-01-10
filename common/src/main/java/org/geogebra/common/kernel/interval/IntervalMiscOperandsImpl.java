@@ -126,7 +126,9 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 		if (interval.isInverted()) {
 			Interval intervalLow = abs(interval.extractLow());
 			Interval intervalHigh = abs(interval.extractHigh());
-			return intervalHigh.isGreaterThan(intervalLow) ? intervalHigh : intervalLow;
+			return intervalLow.getLow() < intervalHigh.getLow()
+					? intervalLow
+					: intervalHigh;
 		}
 
 		if (interval.isWhole()) {
