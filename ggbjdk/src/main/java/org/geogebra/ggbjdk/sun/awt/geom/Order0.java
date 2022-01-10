@@ -94,22 +94,22 @@ final class Order0 extends Curve {
     }
 
     @Override
-	public double XforY(double y) {
+	public double getXforY(double y) {
         return y;
     }
 
     @Override
-	public double TforY(double y) {
+	public double getTforY(double y) {
         return 0;
     }
 
     @Override
-	public double XforT(double t) {
+	public double getXforT(double t) {
         return x;
     }
 
     @Override
-	public double YforT(double t) {
+	public double getYforT(double t) {
         return y;
     }
 

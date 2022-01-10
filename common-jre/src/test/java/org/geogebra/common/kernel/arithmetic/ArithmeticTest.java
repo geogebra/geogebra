@@ -294,6 +294,17 @@ public class ArithmeticTest extends Assert {
 	}
 
 	@Test
+	public void sumOfUndefinedFunctionsShouldBeUndefined() {
+		t("l={x}", "{x}");
+		t("l={}", "{}");
+		t("f(x):=Element(l,3)", "?");
+		assertNull(((GeoFunction) lookup("f")).getFunction());
+		t("g:x + 1", "x + 1");
+		t("f + g", "?");
+		t("g + f", "?");
+	}
+
+	@Test
 	public void functionCopySHouldBeDependent() {
 		t("f:x", "x");
 		t("g(x)=f", "x");
@@ -345,6 +356,22 @@ public class ArithmeticTest extends Assert {
 	@Test
 	public void testAVShortIf() {
 		t("3,5>x", "If[5 > x, 3]");
+	}
+
+	@Test
+	public void testSetDifference() {
+		t("{{1,2},{3}} \\ {{1,2}}", "{{3}}");
+		t("{{1,13-11},{3}} \\ {{1,7-5}}", "{{3}}");
+		t("{(1,2),(3,4)} \\ {(1,2)}", "{(3, 4)}");
+		t("{(1,2,0),(3,4,0)} \\ {(1,2,0)}", "{(3, 4, 0)}");
+	}
+
+	@Test
+	public void setDifferenceShouldWorkWithLabeledAndUnlabeled() {
+		t("m1={{\"a\",\"b\"},{\"c\",\"d\"},{\"a\",\"b\"}}",
+				"{{\"a\", \"b\"}, {\"c\", \"d\"}, {\"a\", \"b\"}}");
+		t("l1={\"a\",\"b\"}", "{\"a\", \"b\"}");
+		t("m1 \\ {l1}", "{{\"c\", \"d\"}}");
 	}
 
 	private GeoElement lookup(String g) {

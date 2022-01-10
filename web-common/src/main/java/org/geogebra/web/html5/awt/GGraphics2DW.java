@@ -17,7 +17,6 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
@@ -47,8 +46,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	private GFontW currentFont = new GFontW("normal");
 	protected GColor color = GColor.newColor(255, 255, 255, 255);
-
-	private double[] dashArray = null;
 
 	private int canvasWidth;
 	private int canvasHeight;
@@ -391,7 +388,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 			} else {
 				context.setLineDash(JsArray.of());
 			}
-			dashArray = dasharr;
 		}
 	}
 
@@ -425,14 +421,6 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public GColor getBackground() {
 		return GColor.WHITE;
-	}
-
-	@Override
-	public GBasicStroke getStroke() {
-
-		return new DefaultBasicStroke(context.getLineWidth(),
-		        GBasicStrokeW.getCap(context.getLineCap()),
-				GBasicStrokeW.getJoin(context.getLineJoin()), 0, dashArray);
 	}
 
 	@Override
@@ -678,13 +666,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void setClip(int x, int y, int width, int height,
 			boolean saveContext) {
-
-		double[] dashArraySave = dashArray;
-		dashArray = null;
 		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
 		setClip(sh, saveContext);
-		dashArray = dashArraySave;
 
 		/*
 		 * alternative: makes clipping bad, see #3212

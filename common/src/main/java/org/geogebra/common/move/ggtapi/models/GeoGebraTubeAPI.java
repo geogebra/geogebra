@@ -349,8 +349,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getSharedMaterials(final MaterialCallbackI cb,
-			MaterialRequest.Order order) {
+	public void getUsersAndSharedMaterials(MaterialCallbackI cb, Order order, int offset) {
 		// not supported
 	}
 

@@ -279,6 +279,7 @@ public class GeoSymbolic extends GeoElement
 		if (Commands.Integral.name().equals(casInput.getName())) {
 			casInput.setName(Commands.NIntegral.name());
 			result = evaluateGeoGebraCAS(casInput, constant);
+			return result;
 		}
 
 		if (Commands.Solve.name().equals(casInput.getName())) {
@@ -286,6 +287,15 @@ public class GeoSymbolic extends GeoElement
 			Command input = getCasInput(getDefinition().deepCopy(kernel)
 					.traverse(FunctionExpander.newFunctionExpander(this)));
 			result = evaluateGeoGebraCAS(input, constant);
+			return result;
+		}
+
+		Command numericVersion = new Command(kernel, "Numeric", false);
+		numericVersion.addArgument(casInput.wrap());
+		String numResult = evaluateGeoGebraCAS(numericVersion, constant);
+
+		if (!GeoFunction.isUndefined(numResult)) {
+			return numResult;
 		}
 
 		return result;

@@ -29,7 +29,7 @@ public class CommandFilterTest extends AlgebraTest {
 			}
 			if (cf.isCommandAllowed(cmd)) {
 				List<Integer> signature = CommandSignatures
-						.getSigneture(cmd.name(), app);
+						.getSignature(cmd.name(), app);
 				if (signature != null && !signature.contains(0)) {
 
 					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg",

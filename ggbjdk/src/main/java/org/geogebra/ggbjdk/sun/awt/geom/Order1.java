@@ -110,7 +110,7 @@ final class Order1 extends Curve {
     }
 
     @Override
-	public double XforY(double y) {
+	public double getXforY(double y) {
         if (x0 == x1 || y <= y0) {
             return x0;
         }
@@ -122,7 +122,7 @@ final class Order1 extends Curve {
     }
 
     @Override
-	public double TforY(double y) {
+	public double getTforY(double y) {
         if (y <= y0) {
             return 0;
         }
@@ -133,12 +133,12 @@ final class Order1 extends Curve {
     }
 
     @Override
-	public double XforT(double t) {
+	public double getXforT(double t) {
         return x0 + t * (x1 - x0);
     }
 
     @Override
-	public double YforT(double t) {
+	public double getYforT(double t) {
         return y0 + t * (y1 - y0);
     }
 
@@ -186,7 +186,7 @@ final class Order1 extends Curve {
                 return false;
             }
             ystart = ylo;
-            xstart = XforY(ylo);
+            xstart = getXforY(ylo);
         } else {
             if (y0 >= yhi) {
                 return false;
@@ -196,7 +196,7 @@ final class Order1 extends Curve {
         }
         if (y1 > yhi) {
             yend = yhi;
-            xend = XforY(yhi);
+            xend = getXforY(yhi);
         } else {
             yend = y1;
             xend = x1;
@@ -318,7 +318,7 @@ final class Order1 extends Curve {
             // (see shortcuts in Order1.XforY())
             y = Math.max(y0, c1.y0);
         }
-        return orderof(XforY(y), c1.XforY(y));
+        return orderof(getXforY(y), c1.getXforY(y));
     }
 
     @Override

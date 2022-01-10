@@ -19,6 +19,7 @@ import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -136,14 +137,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public synchronized void evalXML(String xmlString) {
 		getApplication().getActiveEuclidianView().saveInlines();
-		String sb = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-				+ "<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
-				+ "\">\n"
-				+ "<construction>\n"
-				+ xmlString
-				+ "</construction>\n"
-				+ "</geogebra>\n";
-		getApplication().setXML(sb, false);
+		StringBuilder stringBuilder = new StringBuilder();
+		MyXMLio.addXMLHeader(stringBuilder);
+		MyXMLio.addGeoGebraHeader(stringBuilder, false, null, app);
+		stringBuilder.append("<construction>\n")
+				.append(xmlString)
+				.append("</construction>\n</geogebra>\n");
+		getApplication().setXML(stringBuilder.toString(), false);
 		getApplication().getActiveEuclidianView().updateInlines();
 	}
 
@@ -1735,9 +1735,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 			return;
 		}
+		String allToolsNoMacros = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(),
+				app);
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
-				ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(),
-						app));
+				allToolsNoMacros, app.getLayout());
 		if (app.getGuiManager() == null) {
 			if (ps != null) {
 				app.setTmpPerspective(ps);

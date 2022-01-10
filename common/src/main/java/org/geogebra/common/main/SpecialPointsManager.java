@@ -149,8 +149,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		boolean silentMode = kernel.isSilentMode();
 		boolean suppressLabelsActive = cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
+		GeoElementND unwrapped = geo.unwrapSymbolic();
 		try {
-			doGetSpecialPoints(geo.unwrapSymbolic(), xAxis, yAxis, retList);
+			unwrapped.setCanBeRemovedAsInput(false);
+			doGetSpecialPoints(unwrapped, xAxis, yAxis, retList);
 			// Can be of function or equation
 			if (hasIntersectsBetween(geo)) {
 				getIntersectsBetween(geo, retList);
@@ -158,6 +160,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		} catch (Throwable exception) {
 			// ignore
 		} finally {
+			unwrapped.setCanBeRemovedAsInput(true);
 			kernel.setSilentMode(silentMode);
 			cons.setSuppressLabelCreation(suppressLabelsActive);
 		}

@@ -61,9 +61,26 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected abstract MathFieldInternal getMathFieldInternal();
 
 	/**
-	 * Hide the editor if it was attached.
+	 * Apply changes and hide the editor if it was attached.
 	 */
-	public abstract void hide();
+	public void applyAndHide() {
+		if (getDrawInputBox().isEditing()) {
+			applyChanges();
+			hide();
+		}
+	}
+
+	/**
+	 * Apply changes and hide the widget.
+	 * Deferred, so that we can avoid infine recursion in update.
+	 */
+	public void applyAndHidDeferred() {
+		if (getDrawInputBox().isEditing()) {
+			app.invokeLater(this::applyAndHide);
+		}
+	}
+
+	protected abstract void hide();
 
 	/**
 	 * @param point

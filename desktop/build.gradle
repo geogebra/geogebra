@@ -142,7 +142,7 @@ test {
 }
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 
@@ -160,7 +160,7 @@ eclipse {
 }
 
 checkstyle {
-    configFile file("config/checkstyle/checkstyle.xml")
+    configFile file("../config/checkstyle/checkstyle.xml")
 }
 
 tasks['checkstyleMain'].setSource(files([]))

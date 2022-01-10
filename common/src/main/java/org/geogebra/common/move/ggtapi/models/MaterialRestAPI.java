@@ -206,6 +206,21 @@ public class MaterialRestAPI implements BackendAPI {
 		getUsersOwnMaterials(userMaterialsCB, order);
 	}
 
+	private ArrayList<Chapter> parseMaterialCount(String responseStr) throws JSONException {
+		ArrayList<Chapter> ret = new ArrayList<>();
+		int[] counts = new int[3];
+		JSONTokener jst = new JSONTokener(responseStr);
+		Object parsed = jst.nextValue();
+		if (parsed instanceof JSONObject && ((JSONObject) parsed).has("from")) {
+			counts[0] = ((JSONObject) parsed).getInt("from");
+			counts[1] = (((JSONObject) parsed).getInt("to"));
+			counts[2] = (((JSONObject) parsed).getInt("total"));
+			ret.add(new Chapter(null, counts));
+			return ret;
+		}
+		return null;
+	}
+
 	/**
 	 * @param responseStr
 	 *            JSON encoded material or list of materials
@@ -217,15 +232,17 @@ public class MaterialRestAPI implements BackendAPI {
 		ArrayList<Material> ret = new ArrayList<>();
 		JSONTokener jst = new JSONTokener(responseStr);
 		Object parsed = jst.nextValue();
-		if (parsed instanceof JSONArray) {
-			JSONArray arr = (JSONArray) parsed;
-			for (int i = 0; i < arr.length(); i++) {
-				Material mat = JSONParserGGT.prototype.toMaterial(arr.getJSONObject(i));
+		if (parsed instanceof JSONObject) {
+			if (((JSONObject) parsed).has("materials")) {
+				JSONArray materials = ((JSONObject) parsed).getJSONArray("materials");
+				for (int i = 0; i < materials.length(); i++) {
+					Material mat = JSONParserGGT.prototype.toMaterial(materials.getJSONObject(i));
+					ret.add(mat);
+				}
+			} else {
+				Material mat = JSONParserGGT.prototype.toMaterial((JSONObject) parsed);
 				ret.add(mat);
 			}
-		} else if (parsed instanceof JSONObject) {
-			Material mat = JSONParserGGT.prototype.toMaterial((JSONObject) parsed);
-			ret.add(mat);
 		}
 		return ret;
 	}
@@ -233,7 +250,7 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
 		// no public materials
-		userMaterialsCB.onLoaded(new ArrayList<Material>(), null);
+		userMaterialsCB.onLoaded(new ArrayList<>(), null);
 	}
 
 	@Override
@@ -252,18 +269,19 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getSharedMaterials(final MaterialCallbackI sharedMaterialsCB,
-			MaterialRequest.Order order) {
+	public void getUsersAndSharedMaterials(MaterialCallbackI allMaterialsCB, Order order,
+			int offset) {
 		if (model == null) {
-			sharedMaterialsCB.onError(new Exception("No user signed in"));
+			allMaterialsCB.onError(new Exception("No user signed in"));
 			return;
 		}
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?type=shared_with&embed=creator&limit=50&order="
+						+ "/materials?format=page&type=all&limit=50&offset=" + offset
+						+ "&embed=creator&order="
 						+ orderStr(order),
-				null, sharedMaterialsCB);
+				null, allMaterialsCB);
 	}
 
 	private static String orderStr(Order order) {
@@ -289,7 +307,8 @@ public class MaterialRestAPI implements BackendAPI {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {
-					userMaterialsCB.onLoaded(parseMaterials(responseStr), null);
+					userMaterialsCB
+							.onLoaded(parseMaterials(responseStr), parseMaterialCount(responseStr));
 				} catch (Exception e) {
 					userMaterialsCB.onError(e);
 				}
@@ -452,7 +471,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 		performRequest("GET",
 				"/users/" + model.getUserId()
-						+ "/materials?filter="
+						+ "/materials?format=page&filter="
 						+ "ggs-template",
 				null, templateMaterialsCB);
 	}

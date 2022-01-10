@@ -7,7 +7,7 @@ import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.ImageResizer;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
+import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -95,13 +95,7 @@ public class ToolNameIconPanelW extends FlowPanel {
 				32);
 		StandardButton labelIcon = new StandardButton(loc.getMenu("Icon") + " ...");
 		labelIcon.addFastClickHandler(event -> {
-			UploadImageDialog imageDialog = new UploadImageDialog((AppW) app,
-					ICON_WIDTH, ICON_HEIGHT);
-			imageDialog.center();
-			imageDialog.setOnPositiveAction(() ->
-				setIconFile(imageDialog.getUploadImgPanel().getFileName(),
-						imageDialog.getUploadImgPanel().getImageDataURL())
-			);
+			UploadImagePanel.getUploadButton((AppW) app, this::resizeAndUpdateIcon).click();
 		});
 
 		iconPanel.add(icon);
@@ -122,6 +116,10 @@ public class ToolNameIconPanelW extends FlowPanel {
 		add(iconSelectShowPanel);
 	}
 
+	private void resizeAndUpdateIcon(String fn, String data) {
+		setIconFile(fn, data);
+	}
+
 	private void addHandlers(ComponentInputField tf) {
 		add(tf);
 		tf.getTextField().getTextComponent().addBlurHandler(e -> updateCmdName(tf));
@@ -136,15 +134,17 @@ public class ToolNameIconPanelW extends FlowPanel {
 	 * @param imgDataURL the data URL of the image
 	 */
 	public void setIconFile(String fileName, String imgDataURL) {
-		String data;
-		data = ImageResizer.resizeImage(imgDataURL, ICON_WIDTH, ICON_HEIGHT);
+		ImageResizer.resizeImage(imgDataURL, ICON_WIDTH, ICON_HEIGHT, resizedData -> {
+			// filename will be of form
+			// "a04c62e6a065b47476607ac815d022cc\liar.gif"Mobi
+			iconFileName = ImageManagerW.getMD5FileName(fileName, resizedData);
+			app.getImageManager().addExternalImage(iconFileName, resizedData);
+			updateWithIcon(app.getImageManager().getExternalImageSrc(iconFileName));
+		});
+	}
 
-		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"Mobi
-		iconFileName = ImageManagerW.getMD5FileName(fileName, data);
-
-		app.getImageManager().addExternalImage(iconFileName, data);
-		icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
+	private void updateWithIcon(String url) {
+		icon.setUrl(url);
 		updateMacro();
 		macroChanged();
 	}
@@ -162,21 +162,19 @@ public class ToolNameIconPanelW extends FlowPanel {
 
 		String imageURL = app.getImageManager().getExternalImageSrc(fileName);
 		if (imageURL != null) {
-			String dImageURL = ImageResizer.resizeImage(imageURL, ICON_WIDTH,
-			        ICON_HEIGHT);
-			if (!imageURL.equals(dImageURL)) {
-				app.getImageManager().addExternalImage(fileName, dImageURL);
-			}
-			iconFileName = fileName;
-			icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
+			ImageResizer.resizeImage(imageURL, ICON_WIDTH,
+			        ICON_HEIGHT, dImageURL -> {
+						if (!imageURL.equals(dImageURL)) {
+							app.getImageManager().addExternalImage(fileName, dImageURL);
+						}
+						iconFileName = fileName;
+						updateWithIcon(app.getImageManager().getExternalImageSrc(iconFileName));
+					});
 		} else {
-			icon.setUrl(ImgResourceHelper.safeURI(
-					ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
 			iconFileName = null;
+			updateWithIcon(ImgResourceHelper.safeURI(
+					ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()));
 		}
-
-		updateMacro();
-		macroChanged();
 	}
 
 	/**

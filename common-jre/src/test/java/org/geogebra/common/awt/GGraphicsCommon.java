@@ -87,11 +87,6 @@ public class GGraphicsCommon implements GGraphics2D {
     }
 
     @Override
-    public GBasicStroke getStroke() {
-        return null;
-    }
-
-    @Override
     public GFontRenderContext getFontRenderContext() {
         return null;
     }

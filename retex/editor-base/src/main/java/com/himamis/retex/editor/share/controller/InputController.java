@@ -1,6 +1,8 @@
 package com.himamis.retex.editor.share.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -26,6 +28,7 @@ public class InputController {
 	public static final char FUNCTION_CLOSE_KEY = ')';
 	public static final char DELIMITER_KEY = ';';
 	private static final String[] SUFFIX_REPLACEABLE_FUNCTIONS = {"abs", "sqrt"};
+	private static final List<Character> ignoreChars = Arrays.asList('{', '}');
 
 	private final MetaModel metaModel;
 	private final RemoveContainer removeContainer;
@@ -132,18 +135,17 @@ public class InputController {
 	}
 
 	private static int findBackwardCutPosition(MathSequence currentField, int currentPosition) {
-		int index = currentPosition;
-		while (index > 0) {
+		for (int index = currentPosition; index > 0; index --) {
 			MathComponent component = currentField.getArgument(index - 1);
 			if (component instanceof MathCharacter) {
 				MathCharacter character = (MathCharacter) component;
-				if ("=".equals(character.getName())) {
+				if (character.isUnicode('=') || character.isUnicode(',')) {
 					return index;
 				}
 			}
-			index -= 1;
 		}
-		return index;
+
+		return 0;
 	}
 
 	private static void moveCursorOutOfFunctionName(EditorState editorState) {
@@ -528,7 +530,7 @@ public class InputController {
 		StringBuilder suffix = new StringBuilder(meta.getUnicodeString());
 
 		while (last instanceof MathCharacter) {
-			suffix.append(last.toString());
+			suffix.append(last);
 			if (!metaModel.isReverseSuffix(suffix.toString())) {
 				suffix.setLength(suffix.length() - 1);
 				break;
@@ -658,24 +660,18 @@ public class InputController {
 				currentField = parent
 						.getArgument(currentField.getParentIndex() + 1);
 				currentOffset = 0;
-
-				// if ']' '}' typed at the end of last field ... move out of
-				// array
-			} else if (ch == parent.getCloseKey() && parent.isArray()) {
-
-				ArrayList<MathComponent> removed = cut(currentField,
-						currentOffset);
-				insertReverse(parent.getParent(), parent.getParentIndex(),
-						removed);
-
+			} else if (ch == parent.getCloseKey() && !MathArray.isLocked(parent)) {
+				// in non-protected containers when the closing key is pressed
+				// move out of the container
 				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
-			} else if ((ch == parent.getCloseKey() && parent.isMatrix())
-					&& parent.size() == currentField.getParentIndex() + 1
-					&& currentOffset == currentField.size()) {
-
-				currentOffset = parent.getParentIndex() + 1;
-				currentField = (MathSequence) parent.getParent();
+			} else {
+				// else just create a new array for the given closing key
+				MetaArray array = metaModel.getArrayByCloseKey(ch);
+				if (array != null) {
+					newArray(editorState, 1, array.getOpenKey(), true);
+					return;
+				}
 			}
 
 			// now functions, braces, apostrophes ...
@@ -756,7 +752,7 @@ public class InputController {
 			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
-		int end = to < 0 ? endToken(currentField) : to;
+		int end = to < 0 ? endToken(from, currentField) : to;
 		int start = from;
 
 		if (st.getCurrentField() == currentField
@@ -792,25 +788,13 @@ public class InputController {
 		return removed;
 	}
 
-	private static int endToken(MathSequence currentField) {
-		for (int i = 0; i < currentField.size(); i++) {
-			if ((i < currentField.size() - 2 && match(currentField, i, ", <"))
-					|| currentField.isArgumentProtected(i)) {
+	private static int endToken(int from, MathSequence currentField) {
+		for (int i = from; i < currentField.size(); i++) {
+			if (currentField.isComma(i)) {
 				return i - 1;
 			}
 		}
 		return currentField.size() - 1;
-	}
-
-	private static boolean match(MathSequence currentField, int i,
-			String string) {
-		for (int j = 0; j < 3; j++) {
-			if (!(string.charAt(j) + "")
-					.equals(currentField.getArgument(i + j).toString())) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
@@ -1113,6 +1097,10 @@ public class InputController {
 			return true;
 		}
 
+		if  (shouldCharBeIgnored(editorState, ch)) {
+			return true;
+		}
+
 		if (plainTextMode || editorState.isInsideQuotes()) {
 			handleTextModeInsert(editorState, ch);
 			return true;
@@ -1206,6 +1194,12 @@ public class InputController {
 		return handled;
 	}
 
+	private boolean shouldCharBeIgnored(EditorState editorState, char ch) {
+		MathSequence root = editorState.getRootComponent();
+		return (root.isProtected() || root.isKeepCommas())
+			&& !plainTextMode && ignoreChars.contains(ch);
+	}
+
 	private void handleTextModeInsert(EditorState editorState, char ch) {
 		deleteSelection(editorState);
 
@@ -1254,19 +1248,13 @@ public class InputController {
 
 	private boolean preventDimensionChange(EditorState editorState) {
 		MathContainer parent = editorState.getCurrentField().getParent();
-		if (MathArray.isLocked(parent) && ((MathArray) parent).getOpenKey() == '(') {
-			return true;
-		}
-		return false;
+		return MathArray.isLocked(parent) && ((MathArray) parent).getOpenKey() == '(';
 	}
 
 	private boolean shouldMoveCursor(EditorState editorState) {
 		int offset = editorState.getCurrentOffset();
 		MathComponent next = editorState.getCurrentField().getArgument(offset);
-		if (next != null && ",".equals(next.toString())) {
-			return true;
-		}
-		return false;
+		return next != null && ",".equals(next.toString());
 	}
 
 	private boolean handleEndBlocks(EditorState editorState, char ch) {

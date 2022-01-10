@@ -122,7 +122,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.FileConsumer;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.GlobalHeader;
@@ -613,11 +612,13 @@ public class GuiManagerW extends GuiManager
 			if (geogebraFrame.getOffsetHeight() <= 0) {
 				return; // not in DOM yet => no reliable size
 			}
-			int widthChanged = width - geogebraFrame.getOffsetWidth();
-			int heightChanged = height - geogebraFrame.getOffsetHeight();
 			final DockSplitPaneW root = getLayout().getRootComponent();
-			root.setPixelSize(getPxWidth(root) + widthChanged,
-					getPxHeight(root) + heightChanged);
+			int verticalSpace = borderThickness + getApp().getToolbarAndInputbarHeight();
+			int horizontalSpace = borderThickness;
+			if (mainMenuBar != null) {
+				horizontalSpace += mainMenuBar.getOffsetWidth();
+			}
+			root.setPixelSize(width - horizontalSpace, height - verticalSpace);
 			root.onResize();
 		} else {
 			geogebraFrame.getStyle().setHeight(height, Style.Unit.PX);
@@ -643,16 +644,6 @@ public class GuiManagerW extends GuiManager
 			getApp().centerAndResizeViews();
 			getApp().getKeyboardManager().resizeKeyboard();
 		});
-	}
-
-	private int getPxWidth(DockSplitPaneW root) {
-		return root.getOffsetWidth() > 0 ? root.getOffsetWidth()
-				: Dom.getPxProperty(root.getElement(), "width");
-	}
-
-	private int getPxHeight(DockSplitPaneW root) {
-		return root.getOffsetHeight() > 0 ? root.getOffsetHeight()
-				: Dom.getPxProperty(root.getElement(), "height");
 	}
 
 	private ToolBarW getGeneralToolbar() {
@@ -1762,7 +1753,7 @@ public class GuiManagerW extends GuiManager
 			if (!StringUtil.emptyTrim(query)) {
 				this.browseGUI.displaySearchResults(query);
 			} else {
-				this.browseGUI.loadAllMaterials();
+				this.browseGUI.loadAllMaterials(0);
 			}
 		}
 		else if (!StringUtil.emptyTrim(query)) {

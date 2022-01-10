@@ -493,6 +493,59 @@
 						}
 					}
 		    	}
+				.loadMoreFilesPanel {
+					float: left;
+					// .materialPanel has different side padding, make sure is centered
+					width: calc(100% - 16px);
+					margin-bottom: 16px;
+
+					.dialogContainedButton {
+						display: block;
+						margin: auto;
+						min-width: 140px;
+						text-align: center;
+
+						.spinner-border {
+							display: inline-block;
+							text-align: left;
+							width: 10px;
+							height: 10px;
+							border: 3px solid colors.$white;
+							border-right-color: transparent;
+							border-radius: 50%;
+							margin-top: 10px;
+							-webkit-animation: spinner-border .75s linear infinite;
+							animation: rotate 1s linear infinite;
+						}
+
+						.gwt-Label {
+							letter-spacing: 1.07px;
+						}
+
+						@keyframes rotate {
+							to {transform: rotate(360deg);}
+						}
+					}
+
+					.spinner-button {
+						.gwt-Label {
+							display: inline-block;
+							vertical-align: top;
+							padding-left: 9px;
+							letter-spacing: 1.07px;
+						}
+					}
+
+					.loadMoreFilesLabel {
+						min-height: 14px;
+						line-height: 14px;
+						text-align: center;
+						margin: 8px 0px 8px 0px;
+						font-size: 12px;
+						color: colors.$black-54;
+						letter-spacing: 1.07px;
+					}
+				}
 			}
 
 			.emptyMaterialListInfo {

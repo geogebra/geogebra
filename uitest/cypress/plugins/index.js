@@ -14,7 +14,13 @@
 const {
       addMatchImageSnapshotPlugin,
     } = require('cypress-image-snapshot/plugin');
+const del = require('del');
 
 module.exports = (on, config) => {
     addMatchImageSnapshotPlugin(on, config);
+    on('after:spec', (spec, results) => {
+        if (results.stats.failures === 0 && results.video) {
+            return del(results.video)
+        }
+    });
 };

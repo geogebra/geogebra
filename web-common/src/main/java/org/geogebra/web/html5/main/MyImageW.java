@@ -43,7 +43,7 @@ public final class MyImageW implements MyImage {
 			DomGlobal.document.body.append(img);
 			width = img.offsetWidth;
 			height = img.offsetHeight;
-			DomGlobal.document.body.append(img);
+			DomGlobal.document.body.removeChild(img);
 		}
 	}
 

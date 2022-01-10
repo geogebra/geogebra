@@ -1,6 +1,7 @@
 package org.geogebra.common.io;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +21,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
 import org.gwtproject.regexp.shared.RegExp;
-import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +56,7 @@ public class StringTemplateTest {
 		for (int i = 0; i < 1E4; i++) {
 			sbm.append(minusNode.toValueString(StringTemplate.defaultTemplate));
 		}
-		Assert.assertThat(System.currentTimeMillis() - l,
+		assertThat(System.currentTimeMillis() - l,
 				OrderingComparison.lessThan(10000L));
 	}
 
@@ -208,11 +208,11 @@ public class StringTemplateTest {
 	@Test
 	public void testConvertScientificNotationGiac() {
 		StringTemplate template = StringTemplate.giacTemplate;
-		MatcherAssert.assertThat(template.convertScientificNotationGiac("3E3"), is("3000"));
-		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33"), is("(333/100)"));
-		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E1"), is("(333/10)"));
-		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E2"), is("333"));
-		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E3"), is("3330"));
+		assertThat(template.convertScientificNotationGiac("3E3"), is("3000"));
+		assertThat(template.convertScientificNotationGiac("3.33"), is("(333/100)"));
+		assertThat(template.convertScientificNotationGiac("3.33E1"), is("(333/10)"));
+		assertThat(template.convertScientificNotationGiac("3.33E2"), is("333"));
+		assertThat(template.convertScientificNotationGiac("3.33E3"), is("3330"));
 	}
 
 	@Test

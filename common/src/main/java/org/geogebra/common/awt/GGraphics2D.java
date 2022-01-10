@@ -148,7 +148,6 @@ public interface GGraphics2D {
 	 *            the <code>Stroke</code> object to be used to stroke a
 	 *            <code>Shape</code> during the rendering process
 	 * @see GBasicStroke
-	 * @see #getStroke
 	 */
 	void setStroke(GBasicStroke s);
 
@@ -249,16 +248,6 @@ public interface GGraphics2D {
 	 *         defines the background color.
 	 */
 	GColor getBackground();
-
-	/**
-	 * Returns the current <code>Stroke</code> in the <code>Graphics2D</code>
-	 * context.
-	 * 
-	 * @return the current <code>Graphics2D</code> <code>Stroke</code>, which
-	 *         defines the line style.
-	 * @see #setStroke
-	 */
-	GBasicStroke getStroke();
 
 	/**
 	 * Intersects the current <code>Clip</code> with the interior of the

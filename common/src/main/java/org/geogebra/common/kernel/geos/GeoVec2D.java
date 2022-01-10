@@ -302,16 +302,10 @@ final public class GeoVec2D extends ValidExpression
 		return x * v.x + y * v.y;
 	}
 
-	/**
-	 * Yields true if the coordinates of this vector are equal to those of
-	 * vector v.
-	 * 
-	 * @param v
-	 *            other vector
-	 * @return true if both vectors have equal coords
-	 */
-	public boolean isEqual(GeoVec2D v) {
-		return DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y);
+	@Override
+	public boolean isEqual(GeoVecInterface v) {
+		return DoubleUtil.isEqual(x, v.getX()) && DoubleUtil.isEqual(y, v.getY())
+				&& DoubleUtil.isZero(v.getZ());
 	}
 
 	/**
