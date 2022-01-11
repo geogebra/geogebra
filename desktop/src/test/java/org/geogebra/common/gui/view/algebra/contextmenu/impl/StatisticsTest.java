@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 public class StatisticsTest extends BaseSymbolicTest {
 
 	@Test

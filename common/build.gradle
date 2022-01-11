@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'pmd'
     id 'checkstyle'
     id 'com.github.spotbugs' version '4.8.0'
@@ -13,11 +13,11 @@ targetCompatibility = 1.8
 
 dependencies {
     javacc 'net.java.dev.javacc:javacc:7.0.10'
-    compile project(':editor-base')
-    compile project(':renderer-base')
-    compile 'com.google.j2objc:annotations:2.8'
-    compile 'com.github.spotbugs:spotbugs-annotations:4.5.2'
-    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    api project(':editor-base')
+    api project(':renderer-base')
+    api 'com.google.j2objc:annotations:2.8'
+    api 'com.github.spotbugs:spotbugs-annotations:4.5.3'
+    api 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
 sourceSets {
@@ -43,6 +43,10 @@ if(hasProperty("eclipse")){
 
 compileJavacc {
 	arguments = [static: 'false', JAVA_TEMPLATE_TYPE: 'modern']
+}
+
+compileJava {
+	options.encoding = 'UTF-8'
 }
 
 task cleanJavacc(type: Delete) {
@@ -85,7 +89,7 @@ test {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
     jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 

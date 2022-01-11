@@ -108,16 +108,13 @@ public class CmdDerivative extends CommandProcessor {
 
 					// distinguish between Derivative[ f, a] and Derivative[ f,
 					// p] for f(a,b) = a + b and slider 'p'
-					boolean ok = false;
+					// skip this check on file loading
+					boolean ok = kernel.getLoadingMode();
 					if (vars != null) {
-						for (int i = 0; i < vars.length; i++) {
-							if (vars[i].getSetVarString().equals(var)) {
-								ok = true;
-								break;
-							}
+						for (int i = 0; i < vars.length && !ok; i++) {
+							ok = vars[i].getSetVarString().equals(var);
 						}
 					}
-
 					if (ok) {
 						GeoElement[] ret = { derivative(label,
 								(CasEvaluableFunction) arg2[0], // function

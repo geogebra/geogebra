@@ -33,7 +33,7 @@ describe('Text tool test', () => {
             selectors.euclidianView.get()
                 .mouseEvent('down', 100, 300)
                 .mouseEvent('up', 100, 300);
-            cy.get(".murokTextArea textarea").type("GeoGebra Rocks");
+            cy.get(".murokTextArea textarea").type("GeoGebra Rocks", {"force": true});
             cy.wait(500);
             cy.get(".btnBold img").click();
 
@@ -51,7 +51,7 @@ describe('Text tool test', () => {
            selectors.euclidianView.get()
                 .mouseEvent('down', 100, 300)
                 .mouseEvent('up', 100, 300);
-           cy.get(".murokTextArea textarea").type("Text element example");
+           cy.get(".murokTextArea textarea").type("Text element example", {"force": true});
            cy.wait(500);
            cy.get(".btnUnderline img").click();
 

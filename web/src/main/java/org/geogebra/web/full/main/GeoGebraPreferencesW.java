@@ -9,19 +9,7 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 /**
  * Preferences in Web (Local Storage)
  */
-public class GeoGebraPreferencesW {
-
-	private static GeoGebraPreferencesW singleton;
-
-	/**
-	 * @return preferences
-	 */
-	public static GeoGebraPreferencesW getPref() {
-		if (singleton == null) {
-			singleton = new GeoGebraPreferencesW();
-		}
-		return singleton;
-	}
+public final class GeoGebraPreferencesW {
 
 	/**
 	 * Remove all preferences from storage
@@ -29,7 +17,7 @@ public class GeoGebraPreferencesW {
 	 * @param app
 	 *            application
 	 */
-	public void clearPreferences(App app) {
+	public static void clearPreferences(App app) {
 		BrowserStorage stockStore = BrowserStorage.LOCAL;
 		stockStore.removeItem(getPrefKey(app));
 		stockStore.removeItem(getDefaultsKey(app));
@@ -46,8 +34,7 @@ public class GeoGebraPreferencesW {
 	 * @param app
 	 *            application
 	 */
-	public void resetPreferences(final App app) {
-
+	public static void resetPreferences(final App app) {
 		app.setXML(GeoGebraPreferencesXML.getXML(app), false);
 	}
 
@@ -57,7 +44,7 @@ public class GeoGebraPreferencesW {
 	 * @param app
 	 *            application
 	 */
-	public void saveXMLPreferences(App app) {
+	public static void saveXMLPreferences(App app) {
 		String xml = app.getPreferencesXML();
 		BrowserStorage stockStore = BrowserStorage.LOCAL;
 		stockStore.setItem(getPrefKey(app), xml);
@@ -74,7 +61,7 @@ public class GeoGebraPreferencesW {
 	 * @param p0
 	 *            selected perspective
 	 */
-	public void loadForApp(AppWFull app, Perspective p0) {
+	public static void loadForApp(AppWFull app, Perspective p0) {
 		Perspective p = p0;
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 		BrowserStorage stockStore = BrowserStorage.LOCAL;

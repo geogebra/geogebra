@@ -20,13 +20,13 @@ import org.mockito.Mockito;
 
 public class SymbolicProcessorTest {
 
-	private static AppDNoGui app;
 	private static SymbolicProcessor processor;
 	private static Kernel kernel;
 
+	/** setup the app */
 	@BeforeClass
 	public static void setup() {
-		app = AlgebraTest.createApp();
+		AppDNoGui app = AlgebraTest.createApp();
 		kernel = app.getKernel();
 		processor = new SymbolicProcessor(kernel);
 	}

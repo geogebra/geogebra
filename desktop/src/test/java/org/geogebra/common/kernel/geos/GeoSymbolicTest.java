@@ -17,8 +17,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collections;
-
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
@@ -37,7 +35,6 @@ import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.UndoRedoTester;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -52,11 +49,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		AlgebraTestHelper.checkValidResultCombinations(
 				input, validResults,
 				ap, StringTemplate.testTemplate);
-	}
-
-	public void t(String input, Matcher<String> expected) {
-		AlgebraTestHelper.checkSyntaxSingle(input, Collections.singletonList(expected), ap,
-				StringTemplate.testTemplate);
 	}
 
 	@Before
@@ -155,7 +147,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Sequence(Sequence(Sequence(k+1/j+m^2,k,1,2),j,1,2),m,1,2)",
 				"{{{3, 4}, {5 / 2, 7 / 2}}, {{6, 7}, {11 / 2, 13 / 2}}}");
 		t("Invert(Sequence(Sequence(1/k^2+j^3+(k+j)^2,k,1,3),j,1,3))",
-				"{{3593 / 1316, -4449 / 1316, 340 / 329}, {-1444 / 329, 1684 / 329, -492 / 329}, {2277 / 1316, -2475 / 1316, 351 / 658}}");
+				"{{3593 / 1316, -4449 / 1316, 340 / 329}, {-1444 / 329, 1684 / 329, -492 / 329},"
+						+ " {2277 / 1316, -2475 / 1316, 351 / 658}}");
 
 	}
 
@@ -192,7 +185,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(f(x) = 0)", anyOf(
 				equalTo("{x = (k - sqrt(k^(2) - 16 * k)) / 2, x ="
 						+ " (k + sqrt(k^(2) - 16 * k)) / 2, x = 0}"),
-				equalTo("{x = (k + sqrt(k^(2) - 16 * k)) / 2, x = (k - sqrt(k^(2) - 16 * k)) / 2, x = 0}")));
+				equalTo("{x = (k + sqrt(k^(2) - 16 * k)) / 2, "
+						+ "x = (k - sqrt(k^(2) - 16 * k)) / 2, x = 0}")));
 
 		t("Solve(k(k-16)>0,k)", "{k < 0, k > 16}");
 		t("Solve(x^2=4x)", "{x = 0, x = 4}");
@@ -303,11 +297,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("eq1:x^2+y^2=r^2", "x^(2) + y^(2) = r^(2)");
 		t("eq2:(x-1)^2+y^2=s^2", "y^(2) + (x - 1)^(2) = s^(2)");
 		t("c:Intersect(eq1, eq2)",
-				"{(1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2), (1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)}");
+				"{(1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, sqrt(-r^(4) + 2 * r^(2) * "
+						+ "s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2), "
+						+ "(1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, (-sqrt(-r^(4) + 2 * r^(2) * "
+						+ "s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)}");
 		t("D=Element(c,1)",
-				"((r^(2) - s^(2) + 1) / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2)");
+				"((r^(2) - s^(2) + 1) / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) "
+						+ "- s^(4) + 2 * s^(2) - 1) / 2)");
 		t("E=Element(c,2)",
-				"((r^(2) - s^(2) + 1) / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)");
+				"((r^(2) - s^(2) + 1) / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) "
+						+ "- s^(4) + 2 * s^(2) - 1)) / 2)");
 		t("Line(D,E)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
 	}
 
@@ -368,16 +367,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	 */
 	@Test
 	public void testTutorial3() {
-		t("f(x)=p x^4 + q x^3 + r x^2 + s x + k", "p * x^(4) + q * x^(3) + r * x^(2) + s * x + k");
+		t("f(x)=p x^4 + q x^3 + r x^2 + s x + k",
+				"p * x^(4) + q * x^(3) + r * x^(2) + s * x + k");
 		t("eq1:f(1)=10", "k + p + q + r + s = 10");
 		t("eq2:f'(1)=0", "4 * p + 3 * q + 2 * r + s = 0");
 		t("eq3:f(4)=-1", "k + 256 * p + 64 * q + 16 * r + 4 * s = -1");
 		t("eq4:f''(4)=0", "192 * p + 24 * q + 2 * r = 0");
 		t("eq5:f(-3)=0", "k + 81 * p - 27 * q + 9 * r - 3 * s = 0");
 		t("u=Solve({eq1, eq2, eq3, eq4, eq5})",
-				"{{k = 18659 / 2142, p = 437 / 12852, q = -535 / 2856, r = -311 / 306, s = 63197 / 25704}}");
+				"{{k = 18659 / 2142, p = 437 / 12852, q = -535 / 2856, "
+						+ "r = -311 / 306, s = 63197 / 25704}}");
 		t("Substitute(f,u)",
-				"437 / 12852 * x^(4) - 535 / 2856 * x^(3) - 311 / 306 * x^(2) + 63197 / 25704 * x + 18659 / 2142");
+				"437 / 12852 * x^(4) - 535 / 2856 * x^(3) - 311 / 306 * x^(2)"
+						+ " + 63197 / 25704 * x + 18659 / 2142");
 	}
 
 	/**
@@ -534,7 +536,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testTrigExpand() {
 		t("TrigExpand(tan(aaa+bbb))",
-				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
+				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) "
+						+ "/ (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
 		t("TrigExpand(x)", "x");
 		t("TrigExpand(sin(x)sin(x/3))",
 				"1 / 2 * cos(2 * x / 3) - 1 / 2 * cos(4 * x / 3)");
@@ -560,14 +563,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testMatrixCommands() {
 		t("Invert({{a,b},{c,d}})",
-				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
+				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, "
+						+ "{(-c) / (a * d - b * c), a / (a * d - b * c)}}");
 		t("{{a,b},{c,d}}^-1",
-				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, {(-c) / (a * d - b * c), a / (a * d - b * c)}}");
+				"{{d / (a * d - b * c), (-b) / (a * d - b * c)}, "
+						+ "{(-c) / (a * d - b * c), a / (a * d - b * c)}}");
 		t("Transpose({{a,b},{c,d}})", "{{a, c}, {b, d}}");
 		t("EigenValues({{a,b},{c,d}})",
-				"{(a + d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2, (a + d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2}");
+				"{(a + d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2, "
+						+ "(a + d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)) / 2}");
 		t("EigenVectors({{a,b},{c,d}})",
-				"{{a - d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c), a - d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)}, {2 * c, 2 * c}}");
+				"{{a - d - sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c), "
+						+ "a - d + sqrt(a^(2) - 2 * a * d + d^(2) + 4 * b * c)}, {2 * c, 2 * c}}");
 		testValidResultCombinations("{{a,b},{c,d}} {{a,b},{c,d}}",
 				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}",
 				"{{b * c + a^(2), a * b + b * d}, {a * c + c * d, b * c + d^(2)}}");
@@ -1644,5 +1651,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				matchesPattern("[0-9]+ / [0-9]+"));
 		AlgebraItem.toggleSymbolic(binomialDist);
 		assertEquals(binomialDist.toValueString(StringTemplate.defaultTemplate), "0.0132819219");
+	}
+
+	@Test
+	public void testApproxResultForLargePowers() {
+		String result = AppD.MAC_OS ? "0.9794246092973" : "0.979424609317";
+		t("0.99999874^16500", result);
 	}
 }

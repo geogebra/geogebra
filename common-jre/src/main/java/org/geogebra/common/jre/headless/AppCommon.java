@@ -13,6 +13,7 @@ import org.geogebra.common.factories.CASFactoryDummy;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -37,6 +38,7 @@ import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.config.AppConfigCas;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
@@ -63,6 +65,7 @@ import org.geogebra.common.util.debug.Log;
 public class AppCommon extends App {
 
 	private final LocalizationJre localization;
+	private final Layout layout;
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
@@ -88,7 +91,8 @@ public class AppCommon extends App {
 		getLocalization().initTranslateCommand();
 		initSettings();
 		initEuclidianViews();
-		Layout.initializeDefaultPerspectives(this, 0.2);
+		layout = new LayoutHeadless();
+		layout.initializeDefaultPerspectives(this, 0.2);
 		Log.setLogger(new Log() {
 
 			@Override
@@ -709,4 +713,36 @@ public class AppCommon extends App {
 		return getConfig() instanceof AppConfigNotes;
 	}
 
+	@Override
+	public Layout getLayout() {
+		return layout;
+	}
+
+	private static class LayoutHeadless extends Layout {
+
+		@Override
+		public Perspective createPerspective() {
+			return null;
+		}
+
+		@Override
+		public boolean applyPerspective(Perspective perspective) {
+			return false;
+		}
+
+		@Override
+		public boolean isOnlyVisible(int viewID) {
+			return false;
+		}
+
+		@Override
+		public DockManager getDockManager() {
+			return null;
+		}
+
+		@Override
+		public void settingsChanged(AbstractSettings settings) {
+			// stub
+		}
+	}
 }
