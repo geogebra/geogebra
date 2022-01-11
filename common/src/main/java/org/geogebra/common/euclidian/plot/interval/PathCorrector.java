@@ -43,13 +43,40 @@ public class PathCorrector {
 		} else if (tuple.y().isWhole()) {
 			this.lastY.setUndefined();
 		} else if (isInvertedAround(idx)) {
-			handleFill(tuple);
+			extractAndDraw(tuple);
 		} else {
-			handleUnion(idx);
+			extractAndDraw(tuple);
+			lastY.setUndefined();
 		}
 
 		return this.lastY;
 	}
+
+	private void extractAndDraw(IntervalTuple tuple) {
+		Interval extractLow = tuple.y().extractLow();
+		Interval extractHigh = tuple.y().extractHigh();
+		drawHigh(tuple.x(), extractLow.getHigh());
+		drawLow(tuple.x(), extractHigh.getLow());
+	}
+
+	private void drawLow(Interval x, double value) {
+		if (value > bounds.getYmin()) {
+			Interval sx = bounds.toScreenIntervalX(x);
+			double sValue = bounds.toScreenCoordYd(value);
+			gp.moveTo(sx.getLow(), 0);
+			gp.lineTo(sx.getLow(), sValue);
+		}
+	}
+
+	private void drawHigh(Interval x, double value) {
+		if (value < bounds.getYmax()) {
+			Interval sx = bounds.toScreenIntervalX(x);
+			double sValue = bounds.toScreenCoordYd(value);
+			gp.moveTo(sx.getLow(), bounds.getHeight());
+			gp.lineTo(sx.getLow(), sValue);
+		}
+	}
+
 
 	private void handleFill(IntervalTuple tuple) {
 		Interval sx = toScreenX(tuple);
@@ -179,4 +206,5 @@ public class PathCorrector {
 		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
+
 }
