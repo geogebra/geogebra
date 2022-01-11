@@ -24,12 +24,12 @@ pipeline {
 
         stage('Build') {
             steps {                
-                   sh 'docker run --ipc=host -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work cypress/base:12.4.0 sh runtest.sh'
+                   sh 'docker run --ipc=host -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work cypress/base:16.13.0 sh runtest.sh'
             }
             post {
                 always {
                     junit '**/ui-tests.*.xml' 
-                    archiveArtifacts 'uitest/cypress/videos/**'
+                    archiveArtifacts artifacts: 'uitest/cypress/videos/**', allowEmptyArchive: true
                 }
             }
         }

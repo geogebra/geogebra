@@ -126,7 +126,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("intFunh:=intFunf(x) + intFung1(x)",
 				"x - floor((2 * x)) / 2 + (3 / 2 * floor((2 * x) - (2 * floor(x)))) - 1");
 		t("intFunp:=intFunq(x) intFung(intFunh(x)) + intFunr(x) + sqrt(3)",
-				"(((2 * floor((2 * x) - (2 * floor(x)))) - 1) * sqrt((-(x - floor((2 * x)) / 2 + (3 / 2 * floor((2 * x) - (2 * floor(x)))) - 1)^(2)) + 1)) + ((-sqrt(3)) * floor(x + 1 / 2)) + sqrt(3)");
+				"(((2 * floor((2 * x) - (2 * floor(x)))) - 1) * sqrt((-(x - "
+						+ "floor((2 * x)) / 2 + (3 / 2 * floor((2 * x) - (2 * floor(x)))) - "
+						+ "1)^(2)) + 1)) + ((-sqrt(3)) * floor(x + 1 / 2)) + sqrt(3)");
 		// can work if native Giac is forced in AlgoIntegralDefinite
 		// but causes problems for other cases
 		// t("NIntegral(intFunp, 1 / 2, 2)", "-0.5589329791322");
@@ -201,7 +203,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 		String xml = "<expression label=\"f2\" exp=\"f2(x) = x\" />"
 				+ "<element type=\"function\" label=\"f2\">" + "<casMap>"
-				+ "<entry key=\"Derivative[((Random[-5, 5] x^Random[3, 4]) + Random[1, 4]) / ((Random[1, 3] x) + Random[1, 5]),x,1]\" val=\"((8 * x^(3)) + (6 * x^(2)) - 4) / ((4 * x^(2)) + (4 * x) + 1)\"/>"
+				+ "<entry key=\"Derivative[((Random[-5, 5] x^Random[3, 4]) + Random[1, 4]) "
+				+ "/ ((Random[1, 3] x) + Random[1, 5]),x,1]\" "
+				+ "val=\"((8 * x^(3)) + (6 * x^(2)) - 4) / ((4 * x^(2)) + (4 * x) + 1)\"/>"
 				+ "</casMap></element>";
 		app.getGgbApi().evalXML(xml);
 		Assert.assertFalse(app.getXML().contains("<entry"));
@@ -211,7 +215,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 
 	@Test
 	public void cmdAsymptote() {
-		t("Asymptote[ x*y=1 ]", new String[]{"x = 0", "y = 0"});
+		t("Asymptote[ x*y=1 ]", "x = 0", "y = 0");
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");
 		t("Asymptote[ 1/x^3 ]", "{y = 0, x = 0}");
 		t("Asymptote[ 1/x^4 ]", "{y = 0, x = 0}");

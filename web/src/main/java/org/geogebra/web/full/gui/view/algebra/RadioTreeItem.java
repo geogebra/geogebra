@@ -377,6 +377,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (geo != null && AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
 			addControls();
 			AlgebraOutputPanel.createSymbolicButton(controls, geo, app.getActivity());
+		} else if (controls != null) {
+			AlgebraOutputPanel.removeSymbolicButton(controls);
 		}
 		return ret;
 	}

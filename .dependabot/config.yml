@@ -7,3 +7,4 @@ update_configs:
           dependency_name: "com.jogamp:*"
   - package_manager: "npm_and_yarn"
     directory: "/uitest"
+    update_schedule: "weekly"

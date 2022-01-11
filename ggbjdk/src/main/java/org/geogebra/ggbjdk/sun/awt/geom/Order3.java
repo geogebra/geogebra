@@ -349,7 +349,7 @@ final class Order3 extends Curve {
      * @return the first valid root (in the range [0, 1])
      */
     @Override
-	public double TforY(double y) {
+	public double getTforY(double y) {
         if (y <= y0) {
 			return 0;
 		}
@@ -413,7 +413,7 @@ final class Order3 extends Curve {
                 if (t == t0 || t == t1) {
                     break;
                 }
-                double yt = YforT(t);
+                double yt = getYforT(t);
                 if (yt < y) {
                     t0 = t;
                 } else if (yt > y) {
@@ -439,7 +439,7 @@ final class Order3 extends Curve {
         if (t < -0.1 || t > 1.1) {
             return -1;
         }
-        double y = YforT(t);
+        double y = getYforT(t);
         double t0, t1;
         if (y < target) {
             t0 = t;
@@ -469,7 +469,7 @@ final class Order3 extends Curve {
                 }
                 t = t2;
             }
-            y = YforT(t);
+            y = getYforT(t);
             if (y < target) {
                 t0 = t;
             } else if (y > target) {
@@ -482,23 +482,23 @@ final class Order3 extends Curve {
     }
 
     @Override
-	public double XforY(double y) {
+	public double getXforY(double y) {
         if (y <= y0) {
             return x0;
         }
         if (y >= y1) {
             return x1;
         }
-        return XforT(TforY(y));
+        return getXforT(getTforY(y));
     }
 
     @Override
-	public double XforT(double t) {
+	public double getXforT(double t) {
         return (((xcoeff3 * t) + xcoeff2) * t + xcoeff1) * t + xcoeff0;
     }
 
     @Override
-	public double YforT(double t) {
+	public double getYforT(double t) {
         return (((ycoeff3 * t) + ycoeff2) * t + ycoeff1) * t + ycoeff0;
     }
 
@@ -554,7 +554,7 @@ final class Order3 extends Curve {
         for (int i = 0; i < numroots; i++) {
             double t = eqn[i];
             if (t > 0 && t < 1) {
-                r.add(XforT(t), YforT(t));
+                r.add(getXforT(t), getYforT(t));
             }
         }
         r.add(x1, y1);
@@ -567,8 +567,8 @@ final class Order3 extends Curve {
         }
         double eqn[] = new double[14];
         double t0, t1;
-        t0 = TforY(ystart);
-        t1 = TforY(yend);
+        t0 = getTforY(ystart);
+        t1 = getTforY(yend);
         eqn[0] = x0;
         eqn[1] = y0;
         eqn[2] = cx0;

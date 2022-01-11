@@ -29,7 +29,8 @@ public class APITest {
 		String assignResult = api.evalCommandCAS("$1:=a+a");
 		assertEquals("2a", assignResult);
 		String solveResult = api.evalGeoGebraCAS(
-				"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
+				"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)"
+						+ "-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
 		assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}",
 				solveResult);
 		// OK in GUI, causes problems in the API - sent to Giac as
