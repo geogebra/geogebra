@@ -825,7 +825,7 @@ public class SelectionManager {
 		}
 	}
 
-	public EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
+	private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
 		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
 				? geo.getViewSet().get(0)
 				: -1;

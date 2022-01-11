@@ -3966,8 +3966,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
-				EuclidianViewInterfaceCommon ev = getSelectionManager().getViewOf(geo);
-				Drawable d = (Drawable) ev.getDrawableFor(geo);
+				Drawable d = (Drawable) getActiveEuclidianView()
+						.getDrawableFor(geo);
 				if (d != null) {
 					((DrawDropDownList) d).toggleOptions();
 				}
