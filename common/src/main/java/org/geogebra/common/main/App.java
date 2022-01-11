@@ -3966,12 +3966,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
-				Drawable d = (Drawable) getActiveEuclidianView()
-						.getDrawableFor(geo);
+				EuclidianViewInterfaceCommon ev = getSelectionManager().getViewOf(geo);
+				Drawable d = (Drawable) ev.getDrawableFor(geo);
 				if (d != null) {
 					((DrawDropDownList) d).toggleOptions();
 				}
-
 			} else if (geo.isGeoNumeric()) {
 
 				// <Space> -> toggle slider animation off/on
