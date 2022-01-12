@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -121,8 +120,7 @@ public class FileViewCommon extends MyHeaderPanel {
 	private FlowPanel initEmptyListNotification() {
 		InfoErrorData data = new InfoErrorData("emptyMaterialList.caption.mow",
 				"emptyMaterialList.info.mow", null);
-		ComponentInfoErrorPanel noMaterials = new ComponentInfoErrorPanel(loc,
-				data, MaterialDesignResources.INSTANCE.mow_lightbulb(), null);
+		ComponentInfoErrorPanel noMaterials = new ComponentInfoErrorPanel(loc, data);
 		return noMaterials;
 	}
 

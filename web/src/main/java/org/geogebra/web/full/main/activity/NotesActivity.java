@@ -2,7 +2,6 @@ package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -40,9 +39,8 @@ public class NotesActivity extends BaseActivity {
 		VendorSettings vendorSettings = app.getVendorSettings();
 		InfoErrorData data = new InfoErrorData("UnsupportedBrowser",
 				vendorSettings.getMenuLocalizationKey("UnsupportedBrowser.Message"), null);
-		ComponentInfoErrorPanel browserNotSupported = new ComponentInfoErrorPanel(
-				app.getLocalization(), data, MaterialDesignResources.INSTANCE.mow_lightbulb(),
-				null);
+		ComponentInfoErrorPanel browserNotSupported =
+				new ComponentInfoErrorPanel(app.getLocalization(), data);
 		browserNotSupported.addStyleName("browserNotSupported");
 
 		GeoGebraFrameW frame = app.getAppletFrame();
