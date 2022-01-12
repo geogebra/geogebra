@@ -2604,16 +2604,6 @@
 		opacity: 0.54;
 	}
 
-	.unsupportedBrowserMessage {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: z-index.$z-unsupported-browser-message;
-		background-color: white;
-	}
-
 	.materialPopupPanel {
 		border-radius: 4px;
 		padding: 8px;

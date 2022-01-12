@@ -11,10 +11,6 @@ $deleteTime: 120ms;
 	.emptyTablePanel {
 		position: relative;
 		top: calc(50% - 90px);
-
-		.infoErrorPanel {
-			max-width: unset;
-		}
 	}
 
 	.main >* {
