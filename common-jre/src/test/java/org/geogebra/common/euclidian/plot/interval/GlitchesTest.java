@@ -27,4 +27,12 @@ public class GlitchesTest extends IntervalPlotterCommon {
 		assertEquals(0, gp.getLog().stream().filter(e -> e.y != 0).count());
 	}
 
+	@Test
+	public void testStickBetweenTwoParts() {
+		withBounds(-1, 1, -8, -8);
+		withScreenSize(50, 50);
+		withFunction("sec(|-1/x|)");
+		assertEquals(0, gp.getLog().stream().filter(e -> e.y != 0).count());
+	}
+
 }

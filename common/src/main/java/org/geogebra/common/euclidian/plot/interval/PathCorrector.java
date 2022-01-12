@@ -67,7 +67,7 @@ public class PathCorrector {
 			Interval sx = bounds.toScreenIntervalX(x);
 			double sValue = bounds.toScreenCoordYd(value);
 			gp.moveTo(sx.getLow(), 0);
-			gp.lineTo(sx.getHigh(), sValue);
+			gp.lineTo(sx.getLow(), sValue);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class PathCorrector {
 		if (value < bounds.getYmax()) {
 			Interval sx = bounds.toScreenIntervalX(x);
 			double sValue = bounds.toScreenCoordYd(value);
-			gp.moveTo(sx.getLow(), bounds.getHeight());
+			gp.moveTo(sx.getHigh(), bounds.getHeight());
 			gp.lineTo(sx.getHigh(), sValue);
 		}
 	}

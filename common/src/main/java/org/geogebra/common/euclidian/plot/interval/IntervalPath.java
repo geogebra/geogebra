@@ -59,7 +59,11 @@ public class IntervalPath {
 		if (shouldSkip) {
 			skip();
 		} else if (lastY.isUndefined()) {
-			moveToFirst(i, tuple);
+			if (tuple.isInverted()) {
+				corrector.handleInvertedInterval(i, tuple.y());
+			} else {
+				moveToFirst(i, tuple);
+			}
 		} else {
 			drawTuple(i, tuple);
 			calculateLabelPoint(tuple);
