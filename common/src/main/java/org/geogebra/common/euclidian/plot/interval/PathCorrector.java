@@ -55,7 +55,7 @@ public class PathCorrector {
 		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
 	}
 
-	private void extractAndDraw(IntervalTuple tuple) {
+	public void extractAndDraw(IntervalTuple tuple) {
 		Interval extractLow = tuple.y().extractLow();
 		Interval extractHigh = tuple.y().extractHigh();
 		drawHigh(tuple.x(), extractLow.getHigh());
