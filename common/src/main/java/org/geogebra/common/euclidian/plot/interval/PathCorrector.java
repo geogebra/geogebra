@@ -44,11 +44,17 @@ public class PathCorrector {
 		} else if (isInvertedAround(idx)) {
 			extractAndDraw(tuple);
 		} else {
-			extractAndDraw(tuple);
-			lastY.setUndefined();
+			drawFromNegativeInfinity(idx);
+			lastY.set(IntervalConstants.undefined());
 		}
 
 		return this.lastY;
+	}
+
+	private void drawFromNegativeInfinity(int idx) {
+		IntervalTuple prev = model.pointAt(idx - 1);
+		IntervalTuple tuple = model.pointAt(idx);
+		drawFromNegativeInfinity0(idx, tuple.y().getLow());
 	}
 
 	private boolean isInvertedAround(int idx) {
@@ -58,25 +64,46 @@ public class PathCorrector {
 	public void extractAndDraw(IntervalTuple tuple) {
 		Interval extractLow = tuple.y().extractLow();
 		Interval extractHigh = tuple.y().extractHigh();
-		drawHigh(tuple.x(), extractLow.getHigh());
-		drawLow(tuple.x(), extractHigh.getLow());
+		drawFromNegativeInfinity(tuple.x(), extractLow.getHigh());
+		drawFromPositiveInfinity(tuple.x(), extractHigh.getLow());
 	}
 
-	private void drawLow(Interval x, double value) {
+	private void drawFromNegativeInfinity(Interval x, double value) {
+		if (value < bounds.getYmax()) {
+			Interval sx = bounds.toScreenIntervalX(x);
+			double sValue = bounds.toScreenCoordYd(value);
+			gp.moveTo(sx.getLow(), bounds.getHeight());
+			gp.lineTo(sx.getHigh(), sValue);
+			lastY.set(sValue, bounds.getHeight());
+		}
+	}
+
+	private void drawFromNegativeInfinity0(int idx, double value) {
+		if (value < bounds.getYmax()) {
+			boolean ascendingAfter = model.isAscendingAfter(idx);
+			Interval x = ascendingAfter ? model.pointAt(idx - 1).x()
+					: model.pointAt(idx).x();
+			double sValue = bounds.toScreenCoordYd(value);
+			if (ascendingAfter) {
+				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx + 1).x());
+				gp.moveTo(sx.getHigh(), bounds.getHeight());
+				gp.lineTo(sx.getHigh(), sValue);
+			} else {
+				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx - 1).x());
+				gp.moveTo(sx.getLow(), bounds.getHeight());
+				gp.lineTo(sx.getHigh(), sValue);
+			}
+			lastY.set(sValue, bounds.getHeight());
+		}
+	}
+
+	private void drawFromPositiveInfinity(Interval x, double value) {
 		if (value > bounds.getYmin()) {
 			Interval sx = bounds.toScreenIntervalX(x);
 			double sValue = bounds.toScreenCoordYd(value);
 			gp.moveTo(sx.getLow(), 0);
 			gp.lineTo(sx.getLow(), sValue);
-		}
-	}
-
-	private void drawHigh(Interval x, double value) {
-		if (value < bounds.getYmax()) {
-			Interval sx = bounds.toScreenIntervalX(x);
-			double sValue = bounds.toScreenCoordYd(value);
-			gp.moveTo(sx.getHigh(), bounds.getHeight());
-			gp.lineTo(sx.getHigh(), sValue);
+			lastY.set(0, sValue);
 		}
 	}
 
