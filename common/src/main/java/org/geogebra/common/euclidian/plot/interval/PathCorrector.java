@@ -42,44 +42,31 @@ public class PathCorrector {
 		} else if (tuple.y().isWhole()) {
 			this.lastY.setUndefined();
 		} else if (isInvertedAround(idx)) {
-			extractAndDraw(tuple);
+			drawInvertedInterval(idx);
 		} else {
-			drawFromNegativeInfinity(idx);
+			drawInvertedInterval(idx);
 			lastY.set(IntervalConstants.undefined());
 		}
 
 		return this.lastY;
 	}
 
-	private void drawFromNegativeInfinity(int idx) {
-		IntervalTuple prev = model.pointAt(idx - 1);
-		IntervalTuple tuple = model.pointAt(idx);
-		drawFromNegativeInfinity0(idx, tuple.y().getLow());
-		drawFromPositiveInfinity0(idx, tuple.y().getHigh());
+	/**
+	 * Draws union of two disjunct intervals, comleting it to +/- infinity.
+	 *
+	 * @param idx index of the inverted tuple in model to draw.
+	 */
+	public void drawInvertedInterval(int idx) {
+		Interval y = model.pointAt(idx).y();
+		drawFromNegativeInfinity(idx, y.getLow());
+		drawFromPositiveInfinity(idx, y.getHigh());
 	}
 
 	private boolean isInvertedAround(int idx) {
 		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
 	}
 
-	public void extractAndDraw(IntervalTuple tuple) {
-		Interval extractLow = tuple.y().extractLow();
-		Interval extractHigh = tuple.y().extractHigh();
-		drawFromNegativeInfinity(tuple.x(), extractLow.getHigh());
-		drawFromPositiveInfinity(tuple.x(), extractHigh.getLow());
-	}
-
-	private void drawFromNegativeInfinity(Interval x, double value) {
-		if (value < bounds.getYmax()) {
-			Interval sx = bounds.toScreenIntervalX(x);
-			double sValue = bounds.toScreenCoordYd(value);
-			gp.moveTo(sx.getLow(), bounds.getHeight());
-			gp.lineTo(sx.getHigh(), sValue);
-			lastY.set(sValue, bounds.getHeight());
-		}
-	}
-
-	private void drawFromNegativeInfinity0(int idx, double value) {
+	private void drawFromNegativeInfinity(int idx, double value) {
 		if (value < bounds.getYmax()) {
 			boolean ascendingAfter = model.isAscendingAfter(idx);
 			double sValue = bounds.toScreenCoordYd(value);
@@ -96,7 +83,7 @@ public class PathCorrector {
 		}
 	}
 
-	private void drawFromPositiveInfinity0(int idx, double value) {
+	private void drawFromPositiveInfinity(int idx, double value) {
 		if (value > bounds.getYmin()) {
 			boolean ascendingAfter = model.isAscendingAfter(idx);
 			double sValue = bounds.toScreenCoordYd(value);
@@ -109,16 +96,6 @@ public class PathCorrector {
 				gp.moveTo(sx.getLow(), 0);
 				gp.lineTo(sx.getHigh(), sValue);
 			}
-			lastY.set(0, sValue);
-		}
-	}
-
-	private void drawFromPositiveInfinity(Interval x, double value) {
-		if (value > bounds.getYmin()) {
-			Interval sx = bounds.toScreenIntervalX(x);
-			double sValue = bounds.toScreenCoordYd(value);
-			gp.moveTo(sx.getLow(), 0);
-			gp.lineTo(sx.getLow(), sValue);
 			lastY.set(0, sValue);
 		}
 	}

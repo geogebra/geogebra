@@ -12,6 +12,7 @@ import static org.geogebra.common.kernel.interval.IntervalOperands.asin;
 import static org.geogebra.common.kernel.interval.IntervalOperands.atan;
 import static org.geogebra.common.kernel.interval.IntervalOperands.cos;
 import static org.geogebra.common.kernel.interval.IntervalOperands.cosh;
+import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 import static org.geogebra.common.kernel.interval.IntervalOperands.log;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sinh;
@@ -159,6 +160,11 @@ public class IntervalTrigonometricTest {
 	@Test
 	public void testInvertedCosShouldReturnInMinusOneOneRange() {
 		assertEquals(interval(-1, 1), cos(invertedInterval(2, 3)));
+	}
+
+	@Test
+	public void testInvertedCosLnShouldReturnInMinusOneOneRange() {
+		assertEquals(interval(-1, 1), cos(log(divide(interval(7), zero()))));
 	}
 
 }
