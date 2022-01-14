@@ -58,8 +58,15 @@ public class PathCorrector {
 	 */
 	public void drawInvertedInterval(int idx) {
 		Interval y = model.pointAt(idx).y();
-		drawFromNegativeInfinity(idx, y.getLow());
-		drawFromPositiveInfinity(idx, y.getHigh());
+		double low = y.getLow();
+
+		if (Double.isFinite(low)) {
+			drawFromNegativeInfinity(idx, low);
+			drawFromPositiveInfinity(idx, y.getHigh());
+		} else {
+			drawFromPositiveInfinityOnly(idx, y.getHigh());
+		}
+
 	}
 
 	private boolean isInvertedAround(int idx) {
@@ -82,10 +89,9 @@ public class PathCorrector {
 			lastY.set(sValue, bounds.getHeight());
 		}
 	}
-
 	private void drawFromPositiveInfinity(int idx, double value) {
 		if (value > bounds.getYmin()) {
-			boolean ascendingAfter = model.isAscendingAfter(idx);
+			boolean ascendingAfter = model.isAscendingAfter(idx) || true;
 			double sValue = bounds.toScreenCoordYd(value);
 			if (ascendingAfter) {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx).x());
@@ -96,6 +102,16 @@ public class PathCorrector {
 				gp.moveTo(sx.getLow(), 0);
 				gp.lineTo(sx.getHigh(), sValue);
 			}
+			lastY.set(0, sValue);
+		}
+	}
+
+	private void drawFromPositiveInfinityOnly(int idx, double value) {
+		if (value > bounds.getYmin()) {
+			double sValue = bounds.toScreenCoordYd(value);
+			Interval sx = bounds.toScreenIntervalX(model.pointAt(idx).x());
+			gp.moveTo(sx.getLow(), 0);
+			gp.lineTo(sx.getLow(), sValue);
 			lastY.set(0, sValue);
 		}
 	}
