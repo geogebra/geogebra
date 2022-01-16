@@ -81,7 +81,7 @@ public class PathCorrector {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx + 1).x());
 				gp.moveTo(sx.getHigh(), bounds.getHeight());
 				gp.lineTo(sx.getHigh(), sValue);
-			} else {
+			} else if (model.pointAt(idx - 1) != null) {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx - 1).x());
 				gp.moveTo(sx.getLow(), bounds.getHeight());
 				gp.lineTo(sx.getHigh(), sValue);
@@ -91,13 +91,13 @@ public class PathCorrector {
 	}
 	private void drawFromPositiveInfinity(int idx, double value) {
 		if (value > bounds.getYmin()) {
-			boolean ascendingAfter = model.isAscendingAfter(idx) || true;
+			boolean ascendingAfter = model.isAscendingAfter(idx);
 			double sValue = bounds.toScreenCoordYd(value);
 			if (ascendingAfter) {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx).x());
 				gp.moveTo(sx.getLow(), 0);
 				gp.lineTo(sx.getLow(), sValue);
-			} else {
+			} else if (model.pointAt(idx + 1) != null) {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx + 1).x());
 				gp.moveTo(sx.getLow(), 0);
 				gp.lineTo(sx.getHigh(), sValue);
@@ -109,7 +109,9 @@ public class PathCorrector {
 	private void drawFromPositiveInfinityOnly(int idx, double value) {
 		if (value > bounds.getYmin()) {
 			double sValue = bounds.toScreenCoordYd(value);
-			Interval sx = bounds.toScreenIntervalX(model.pointAt(idx).x());
+			IntervalTuple current = model.pointAt(idx);
+			IntervalTuple next = model.pointAt(idx + 1);
+			Interval sx = bounds.toScreenIntervalX(next != null && !next.y().isUndefined()? next.x() : current.x());
 			gp.moveTo(sx.getLow(), 0);
 			gp.lineTo(sx.getLow(), sValue);
 			lastY.set(0, sValue);

@@ -26,4 +26,5 @@ public class GlitchesTest extends IntervalPlotterCommon {
 		withFunction("0(1/x)");
 		assertEquals(0, gp.getLog().stream().filter(e -> e.y != 0).count());
 	}
+
 }
