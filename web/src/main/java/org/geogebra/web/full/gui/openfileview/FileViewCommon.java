@@ -114,7 +114,7 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	void showEmptyListNotification() {
 		contentPanel.clear();
-		contentPanel.add(this::getEmptyListNotificationPanel);
+		contentPanel.add(getEmptyListNotificationPanel());
 	}
 
 	private FlowPanel getEmptyListNotificationPanel() {
