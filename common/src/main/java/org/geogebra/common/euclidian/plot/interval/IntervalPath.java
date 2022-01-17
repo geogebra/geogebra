@@ -4,8 +4,10 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalPath {
+	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
@@ -71,8 +73,8 @@ public class IntervalPath {
 
 	private void drawWhole(IntervalTuple tuple) {
 		Interval x = bounds.toScreenIntervalX(tuple.x());
-		gp.moveTo(x.getLow(), 0);
-		gp.lineTo(x.getLow(), bounds.getHeight());
+		moveTo(x.getLow(), 0);
+		lineTo(x.getLow(), bounds.getHeight());
 		skip();
 	}
 
@@ -105,8 +107,8 @@ public class IntervalPath {
 	}
 
 	private void line(Interval x, Interval y) {
-		gp.moveTo(x.getHigh(), y.getLow());
-		gp.lineTo(x.getHigh(), y.getHigh());
+		moveTo(x.getHigh(), y.getLow());
+		lineTo(x.getHigh(), y.getHigh());
 		lastY.set(y);
 	}
 
@@ -138,7 +140,7 @@ public class IntervalPath {
 
 	private void plotHigh(Interval x, Interval y) {
 		if (moveTo) {
-			gp.moveTo(x.getLow(), y.getLow());
+			moveTo(x.getLow(), y.getLow());
 		} else {
 			lineTo(x.getLow(), y.getLow());
 		}
@@ -148,7 +150,7 @@ public class IntervalPath {
 
 	private void plotLow(Interval x, Interval y) {
 		if (moveTo) {
-			gp.moveTo(x.getLow(), y.getHigh());
+			moveTo(x.getLow(), y.getHigh());
 		} else {
 			lineTo(x.getLow(), y.getHigh());
 		}
@@ -156,8 +158,23 @@ public class IntervalPath {
 		lineTo(x.getHigh(), y.getLow());
 	}
 
-	private void lineTo(double low, double high) {
-		gp.lineTo(low, high);
+	private void moveTo(double low, double high) {
+		gp.moveTo(clamp(low), clamp(high));
+	}
+
+	void lineTo(double low, double high) {
+		gp.lineTo(clamp(low), clamp(high));
+	}
+
+	private double clamp(double value) {
+		if (DoubleUtil.isEqual(value, Double.POSITIVE_INFINITY)) {
+			return CLAMPED_INFINITY;
+		}
+
+		if (DoubleUtil.isEqual(value, Double.NEGATIVE_INFINITY)) {
+			return -CLAMPED_INFINITY;
+		}
+		return value;
 	}
 
 	public GPoint getLabelPoint() {

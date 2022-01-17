@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
@@ -2342,7 +2343,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		// classifyConic();
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.translate(v)); // for degenerate conics
 	}
 
 	@Override
@@ -2352,6 +2353,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * translate this conic by vector (vx, vy)
+	 * Used for dragging of free conics: assumes that there are no endpoints.
 	 * 
 	 * @param vx
 	 *            x-coord of translation vector
@@ -2419,7 +2421,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		rotate(phi);
 
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.rotate(phiVal)); // for degenerate conics
 	}
 
 	/**
@@ -2445,7 +2447,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		doTranslate(qx, qy);
 
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.rotate(phiVal, point)); // for degenerate conics
 	}
 
 	@Override
@@ -2565,13 +2567,41 @@ public abstract class GeoConicND extends GeoQuadricND
 		matrix[3] *= r2;
 		matrix[4] *= r;
 		matrix[5] *= r;
+		b.dilate(factor);
+		setMidpoint(new double[] { b.getX(), b.getY() });
 	}
 
 	/**
 	 * to avoid classification in movements this method is called to update the
 	 * lines (point) of degenerate conics
 	 */
-	protected final void updateDegenerates() {
+	protected final void updateDegenerates(Consumer<GeoPointND> transform) {
+		if (lines == null) {
+			updateDegenerates();
+			return;
+		}
+		GeoPointND[] startPoints = new GeoPointND[2];
+		GeoPoint[] endPoints = new GeoPoint[2];
+		for (int i = 0; i < lines.length; i++) {
+			startPoints[i] = lines[i].getStartPoint();
+			if (startPoints[i] != null) {
+				startPoints[i] = startPoints[i].copy();
+				transform.accept(startPoints[i]);
+			}
+			endPoints[i] = lines[i].getEndPoint();
+			if (endPoints[i] != null) {
+				endPoints[i] = endPoints[i].copy();
+				transform.accept(endPoints[i]);
+			}
+		}
+		updateDegenerates();
+		for (int i = 0; i < lines.length; i++) {
+			lines[i].setStartPoint(startPoints[i]);
+			lines[i].setEndPoint(endPoints[i]);
+		}
+	}
+
+	private final void updateDegenerates() {
 		// update lines of degenerate conic
 		switch (type) {
 		default:

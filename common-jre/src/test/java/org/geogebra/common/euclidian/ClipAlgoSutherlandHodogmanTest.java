@@ -1,10 +1,13 @@
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.ClipAlgoSutherlandHodogman.Edge;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.junit.Test;
 
@@ -29,7 +32,12 @@ public class ClipAlgoSutherlandHodogmanTest {
 	}
 
 	private void assertOutput() {
-		assertEquals(output.toString(), processAlgo().toString());
+		List<MyPoint> actual = processAlgo();
+		for (int i = 0; i < output.size(); i++) {
+			MyPoint p = output.get(i);
+			MyPoint q = actual.get(i);
+			assertTrue(p.isEqual(q));
+		}
 	}
 
 	@Test
@@ -41,8 +49,8 @@ public class ClipAlgoSutherlandHodogmanTest {
 
 		addOutput(100, 100);
 		addOutput(0, 100);
-		addOutput(0, 0);
-		addOutput(100, 0);
+		addOutput(0, Kernel.STANDARD_PRECISION);
+		addOutput(100, Kernel.STANDARD_PRECISION);
 
 		assertOutput();
 	}
@@ -54,8 +62,8 @@ public class ClipAlgoSutherlandHodogmanTest {
 		addInput(80, 150);
 		addInput(20, 150);
 		addOutput(20, 100);
-		addOutput(20, 0);
-		addOutput(80, 0);
+		addOutput(20, Kernel.STANDARD_PRECISION);
+		addOutput(80, Kernel.STANDARD_PRECISION);
 		addOutput(80, 100);
 		assertOutput();
 	}
@@ -67,12 +75,28 @@ public class ClipAlgoSutherlandHodogmanTest {
 		addInput(80, 50);
 		addInput(20, 70);
 
-		addOutput(20, 0);
-		addOutput(80, 0);
+		addOutput(20, Kernel.STANDARD_PRECISION);
+		addOutput(80, Kernel.STANDARD_PRECISION);
 		addOutput(80, 50);
 		addOutput(20, 70);
 
 		assertOutput();
+	}
+
+	@Test
+	public void testIntersection() {
+		Edge edge =	new Edge(point(578, -10), point(-10, -10));
+		MyPoint expected = point(1.0E-7, 4.9E-324);
+		MyPoint actual = ClipAlgoSutherlandHodogman.intersection(edge,
+				point(213.99999, 2814.9999999),
+				point(213.99999, -1.7976931348623157E308)
+		);
+
+		assertNull(actual);
+	}
+
+	private MyPoint point(double x, double y) {
+		return new MyPoint(x, y);
 	}
 
 	@Test
