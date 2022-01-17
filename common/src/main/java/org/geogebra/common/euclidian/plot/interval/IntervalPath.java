@@ -39,7 +39,7 @@ public class IntervalPath {
 	 * Update the path based on the model.
 	 */
 	public synchronized void update() {
-		if (model.getCount() > 1) {
+		if (model.hasValidData()) {
 			reset();
 			plotAll();
 		}

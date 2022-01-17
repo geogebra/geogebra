@@ -196,4 +196,12 @@ public class IntervalPlotModel {
 	public GeoFunction getGeoFunction() {
 		return sampler.getGeoFunction();
 	}
+
+	public boolean hasValidData() {
+		return pointCount() > 1 && !isAllWhole();
+	}
+
+	private boolean isAllWhole() {
+		return points.stream().filter(p -> p.y().isWhole()).count() == pointCount();
+	}
 }
