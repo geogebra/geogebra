@@ -38,7 +38,7 @@ public class NotesActivity extends BaseActivity {
 	private void showBrowserNotSupportedMessage(AppW app) {
 		VendorSettings vendorSettings = app.getVendorSettings();
 		InfoErrorData data = new InfoErrorData("UnsupportedBrowser",
-				vendorSettings.getMenuLocalizationKey("UnsupportedBrowser.Message"), null);
+				vendorSettings.getMenuLocalizationKey("UnsupportedBrowser.Message"));
 		ComponentInfoErrorPanel browserNotSupported =
 				new ComponentInfoErrorPanel(app.getLocalization(), data);
 		browserNotSupported.addStyleName("browserNotSupported");

@@ -114,12 +114,12 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	void showEmptyListNotification() {
 		contentPanel.clear();
-		contentPanel.add(this::initEmptyListNotification);
+		contentPanel.add(this::getEmptyListNotificationPanel);
 	}
 
-	private FlowPanel initEmptyListNotification() {
+	private FlowPanel getEmptyListNotificationPanel() {
 		InfoErrorData data = new InfoErrorData("emptyMaterialList.caption.mow",
-				"emptyMaterialList.info.mow", null);
+				"emptyMaterialList.info.mow");
 		ComponentInfoErrorPanel noMaterials = new ComponentInfoErrorPanel(loc, data);
 		return noMaterials;
 	}

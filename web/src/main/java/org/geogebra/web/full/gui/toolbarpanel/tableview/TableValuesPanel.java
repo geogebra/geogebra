@@ -48,7 +48,7 @@ public class TableValuesPanel extends FlowPanel
 
 	private void buildEmptyPanel() {
 		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
-				"TableValuesEmptyDescription", null);
+				"TableValuesEmptyDescription");
 		emptyPanel = new ComponentInfoErrorPanel(loc,
 				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
 	}
