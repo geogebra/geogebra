@@ -554,7 +554,8 @@ public class GeoSymbolic extends GeoElement
 
 	private ExpressionNode getNodeFromInput() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
-				.traverse(createPrepareDefinition()).wrap();
+				.traverse(createPrepareDefinition())
+				.wrap();
 		node.setLabel(null);
 		return node;
 	}
@@ -576,8 +577,28 @@ public class GeoSymbolic extends GeoElement
 				} else if (ev instanceof GeoDummyVariable) {
 					GeoDummyVariable variable = (GeoDummyVariable) ev;
 					return new Variable(variable.getKernel(), variable.getVarName());
+				} else if (ev instanceof Command) {
+					Command command = (Command) ev;
+					command = checkIntegralCommand(command);
+					return command;
 				}
 				return ev;
+			}
+
+			private Command checkIntegralCommand(Command command) {
+				if (command.getName().equals(Commands.Integral.name())
+						&& command.getArgumentNumber() == 4) {
+					ExpressionNode function = command.getArgument(0);
+					ExpressionNode lowerLimit = command.getArgument(2);
+					ExpressionNode upperLimit = command.getArgument(3);
+
+					Command newCommand = new Command(kernel, command.getName(), false);
+					newCommand.addArgument(function);
+					newCommand.addArgument(lowerLimit);
+					newCommand.addArgument(upperLimit);
+					return newCommand;
+				}
+				return command;
 			}
 		};
 	}
