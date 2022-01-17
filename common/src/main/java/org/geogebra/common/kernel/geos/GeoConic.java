@@ -307,7 +307,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		setMidpoint(new double[] { b.getX(), b.getY() });
 
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.mirror(Q)); // for degenerate conics
 	}
 
 	/**
@@ -340,7 +340,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		doTranslate(qx, qy);
 
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.mirror(g1)); // for degenerate conics
 	}
 
 	/**
@@ -571,7 +571,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 *            fixed point of dilation
 	 */
 	@Override
-	final public void dilate(NumberValue rval, Coords S) {
+	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double sx = S.getX();
 		double sy = S.getY();
@@ -586,8 +586,15 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		// translate +S
 		doTranslate(sx, sy);
 
-		// classify as type may have change
-		classifyConic();
+		if (r == 0 || !Double.isFinite(r)) {
+			// degenerate case may have changed conic type
+			classifyConic();
+		} else {
+			eigenvec[0].dilate(r);
+			eigenvec[1].dilate(r);
+			setAffineTransform();
+			updateDegenerates(p -> p.dilate(rval, S));
+		}
 
 		// make sure we preserve old Eigenvector orientation
 		setPositiveEigenvectorOrientation(oldOrientation);

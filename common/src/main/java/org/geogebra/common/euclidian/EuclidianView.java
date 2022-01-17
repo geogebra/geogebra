@@ -3983,6 +3983,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * Create a default basic stroke for drawing strings with outline
+	 * @param lineWidth stroke line width
+	 * @return default outline stroke
+	 */
+	protected GBasicStroke createStringOutlineStroke(double lineWidth) {
+		return AwtFactory.getPrototype()
+				.newBasicStroke(lineWidth, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
+	}
+
 	boolean showResetIcon() {
 		if (!getApplication().showResetIcon()
 				|| !(getApplication().isApplet() || getApplication()
