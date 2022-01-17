@@ -131,6 +131,7 @@ public class IntervalMiscTest {
 		assertEquals(interval(2, 3), abs(interval(-3, -2)));
 		assertEquals(interval(2, 3), abs(interval(2, 3)));
 	}
+
 	@Test
 	public void testAbs1() {
 		assertEquals(interval(4, POSITIVE_INFINITY), abs(invertedInterval(-4, 5)));

@@ -58,8 +58,10 @@ public class IntervalTrigonometricTest {
 	public void testCosWithInfinity() {
 		assertEquals(interval(-1, 1),
 				cos(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
-		assertTrue(cos(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isUndefined());
-		assertTrue(cos(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)).isUndefined());
+		assertEquals(interval(-1, 1),
+				cos(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)));
+		assertEquals(interval(-1, 1),
+				cos(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)));
 	}
 
 	@Test
@@ -77,7 +79,6 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(0, 1), sin(interval(-5 * p - 2 * PI,
 				-5 * p - (3 * PI) / 2)));
 	}
-
 
 	@Test
 	public void testSinWithInfinity() {

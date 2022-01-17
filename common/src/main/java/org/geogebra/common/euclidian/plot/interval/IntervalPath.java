@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 
 public class IntervalPath {
-	private static final Interval VISIBLE_RANGE = new Interval(-2, 0);
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
@@ -47,19 +46,11 @@ public class IntervalPath {
 
 	private void plotAll() {
 		for (int i = 0; i < model.pointCount(); i++) {
-			if (isVisibleForDebug(i)) {
-				handleTuple(i);
-				if (!lastY.isUndefined()) {
-					lastValidY.set(lastY);
-				}
+			handleTuple(i);
+			if (!lastY.isUndefined()) {
+				lastValidY.set(lastY);
 			}
 		}
-	}
-
-	private boolean isVisibleForDebug(int index) {
-		// remove this method before merging
-		return true;
-//		return VISIBLE_RANGE.contains(model.pointAt(index).x());
 	}
 
 	private void handleTuple(int i) {

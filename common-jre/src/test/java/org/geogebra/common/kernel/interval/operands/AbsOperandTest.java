@@ -14,7 +14,6 @@ import org.junit.Test;
 
 public class AbsOperandTest {
 
-
 	@Test
 	public void testPositiveIntervals() {
 		assertEquals(interval(0, 1E12), abs(interval(0, 1E12)));
@@ -52,7 +51,7 @@ public class AbsOperandTest {
 
 	@Test
 	public void testNegativeInvertedIntervals() {
-		assertEquals(interval(200, Double.POSITIVE_INFINITY),
+		assertEquals(interval(0, Double.POSITIVE_INFINITY),
 				abs(invertedInterval(-200, -100)));
 	}
 }

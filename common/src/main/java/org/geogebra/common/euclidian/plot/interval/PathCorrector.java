@@ -95,6 +95,7 @@ public class PathCorrector {
 			lastY.set(sValue, bounds.getHeight());
 		}
 	}
+
 	private void drawFromPositiveInfinity(int idx, double value) {
 		if (value > bounds.getYmin()) {
 			boolean ascendingAfter = model.isAscendingAfter(idx);
@@ -117,7 +118,10 @@ public class PathCorrector {
 			double sValue = bounds.toScreenCoordYd(value);
 			IntervalTuple current = model.pointAt(idx);
 			IntervalTuple next = model.pointAt(idx + 1);
-			Interval sx = bounds.toScreenIntervalX(next != null && !next.y().isUndefined()? next.x() : current.x());
+			Interval sx = bounds.toScreenIntervalX(
+					next != null && !next.y().isUndefined()
+							? next.x()
+							: current.x());
 			gp.moveTo(sx.getLow(), 0);
 			gp.lineTo(sx.getLow(), sValue);
 			lastY.set(0, sValue);
@@ -129,7 +133,10 @@ public class PathCorrector {
 			double sValue = bounds.toScreenCoordYd(value);
 			IntervalTuple current = model.pointAt(idx);
 			IntervalTuple next = model.pointAt(idx + 1);
-			Interval sx = bounds.toScreenIntervalX(next != null && !next.y().isUndefined()? next.x() : current.x());
+			Interval sx = bounds.toScreenIntervalX(
+					next != null && !next.y().isUndefined()
+							? next.x()
+							: current.x());
 			gp.moveTo(sx.getLow(), bounds.getHeight());
 			gp.lineTo(sx.getLow(), sValue);
 			lastY.set(sValue, bounds.getHeight());
