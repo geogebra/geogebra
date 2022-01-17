@@ -38,8 +38,20 @@ public class IntervalAsymptotes {
 			return false;
 		}
 
-		return areFinitelyEqual(left, right) &&
-				value.getLength() > PEAK_MULTIPLIER * right.getLength();
+		return (areFinitelyEqual(left, right) &&
+				value.getLength() > PEAK_MULTIPLIER * right.getLength())
+				|| isNegativeInfinityAndPeak(left, value, right)
+				|| isPositiveInfinityAndPeak(left, value, right);
+	}
+
+	private boolean isPositiveInfinityAndPeak(Interval left, Interval value, Interval right) {
+		return left.isPositiveInfinity() && right.isPositiveInfinity()
+				&& !value.isPositiveInfinity();
+	}
+
+	private boolean isNegativeInfinityAndPeak(Interval left, Interval value, Interval right) {
+		return left.isNegativeInfinity() && right.isNegativeInfinity()
+				&& !value.isNegativeInfinity();
 	}
 
 	private boolean areFinitelyEqual(Interval left, Interval right) {

@@ -35,4 +35,12 @@ public class GlitchesTest extends IntervalPlotterCommon {
 		assertEquals(0, gp.getLog().size());
 	}
 
+	@Test
+	public void testCscAbsZeroDividebByXEmpty() {
+		withBounds(-1, 1, -8, -8);
+		withScreenSize(50, 50);
+		withFunction("csc(|0/x|)");
+		assertEquals(0, gp.getLog().size());
+	}
+
 }
