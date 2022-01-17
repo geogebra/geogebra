@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class ComponentRadioButton extends FlowPanel {
-	private boolean enabled = true;
+	private boolean disabled = false;
 	private boolean selected;
 	private Runnable callback;
 
@@ -42,14 +42,22 @@ public class ComponentRadioButton extends FlowPanel {
 		}));
 	}
 
-	public void setEnabled(boolean isEnabled) {
-		enabled = isEnabled;
-		Dom.toggleClass(this, "enabled", enabled);
+	public ComponentRadioButton(Localization loc, String transKey, Runnable callback,
+			boolean disabled) {
+		this(loc, transKey, false, callback);
+		setDisabled(disabled);
+	}
+
+	public void setDisabled(boolean isDisabled) {
+		disabled = isDisabled;
+		Dom.toggleClass(this, "disabled", disabled);
 	}
 
 	public void setSelected(boolean isSelected) {
 		selected = isSelected;
-		Dom.toggleClass(this, "selected", selected);
+		if (!this.getStyleName().contains("selected") && isSelected) {
+			addStyleName("selected");
+		}
 	}
 
 	public boolean isSelected() {

@@ -577,6 +577,7 @@
 
 	.radioButton {
 		cursor: pointer;
+		display: inline-flex;
 
 		.radioBg {
 			display: inline-block;
@@ -602,9 +603,20 @@
 			}
 		}
 
+		.gwt-Label {
+            line-height: 36px;
+            margin-left: 16px;
+            font-size: 100%;
+            color: colors.$text-primary;
+        }
+
 		&.selected {
 			.radioBg {
 				background-color: colors.$purple-default-12;
+
+				&:after {
+                	background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+                }
 			}
 
         	.outerCircle {
@@ -621,10 +633,6 @@
                 left: 13px;
                 border-radius: 50%;
             }
-        }
-
-        &.ripple:after {
-        	background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
         }
 	}
 }

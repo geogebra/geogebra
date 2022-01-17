@@ -127,10 +127,17 @@ public class SliderDialogW extends ComponentDialog implements
 		rbInteger = new RadioButton(id, loc.getMenu("Integer"));
 		rbInteger.addValueChangeHandler(this);
 
-		radioButtonWidget.add(new ComponentRadioButton(loc, "Radio button", true, null));
-		radioButtonWidget.add(rbNumber);
-		radioButtonWidget.add(rbAngle);
-		radioButtonWidget.add(rbInteger);			
+		ComponentRadioButton numeric = new ComponentRadioButton(loc, "Numeric", true,
+				null);
+		ComponentRadioButton angle = new ComponentRadioButton(loc, "Angle", false, null);
+		ComponentRadioButton integer = new ComponentRadioButton(loc, "Integer", false, null);
+
+		radioButtonWidget.add(numeric);
+		radioButtonWidget.add(angle);
+		radioButtonWidget.add(integer);
+		//radioButtonWidget.add(rbNumber);
+		//radioButtonWidget.add(rbAngle);
+		//radioButtonWidget.add(rbInteger);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
