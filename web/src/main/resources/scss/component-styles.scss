@@ -610,6 +610,12 @@
             color: colors.$text-primary;
         }
 
+        &:hover {
+        	.radioBg {
+        		background-color: colors.$purple-default-04;
+        	}
+        }
+
 		&.selected {
 			.radioBg {
 				background-color: colors.$purple-default-12;
@@ -632,6 +638,36 @@
                 bottom: 23px;
                 left: 13px;
                 border-radius: 50%;
+            }
+
+            &.disabled {
+            	.innerCircle {
+            		background-color: colors.$black-36;
+            	}
+
+            	.outerCircle {
+            		border-color: colors.$black-36;
+            	}
+            }
+        }
+
+        &.disabled {
+        	cursor: default;
+
+        	.radioBg {
+        		background-color: white;
+        	}
+
+        	.outerCircle {
+        		border-color: colors.$black-36;
+            }
+
+            .gwt-Label {
+            	color: colors.$black-36;
+            }
+
+            &:hover {
+            	background-color: white;
             }
         }
 	}

@@ -130,6 +130,7 @@ public class SliderDialogW extends ComponentDialog implements
 		ComponentRadioButton numeric = new ComponentRadioButton(loc, "Numeric", true,
 				null);
 		ComponentRadioButton angle = new ComponentRadioButton(loc, "Angle", false, null);
+		angle.setDisabled(true);
 		ComponentRadioButton integer = new ComponentRadioButton(loc, "Integer", false, null);
 
 		radioButtonWidget.add(numeric);

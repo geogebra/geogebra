@@ -35,9 +35,11 @@ public class ComponentRadioButton extends FlowPanel {
 		add(radioLabel);
 
 		Dom.addEventListener(this.getElement(), "click", (evt -> {
-			setSelected(!isSelected());
-			if (callback != null) {
-				callback.run();
+			if (!disabled) {
+				setSelected(!isSelected());
+				if (callback != null) {
+					callback.run();
+				}
 			}
 		}));
 	}
