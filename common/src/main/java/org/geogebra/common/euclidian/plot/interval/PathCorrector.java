@@ -59,12 +59,15 @@ public class PathCorrector {
 	public void drawInvertedInterval(int idx) {
 		Interval y = model.pointAt(idx).y();
 		double low = y.getLow();
+		double high = y.getHigh();
 
 		if (Double.isFinite(low)) {
 			drawFromNegativeInfinity(idx, low);
-			drawFromPositiveInfinity(idx, y.getHigh());
+			if (Double.isFinite(high)) {
+				drawFromPositiveInfinity(idx, high);
+			}
 		} else {
-			drawFromPositiveInfinityOnly(idx, y.getHigh());
+			drawFromPositiveInfinityOnly(idx, high);
 		}
 
 	}

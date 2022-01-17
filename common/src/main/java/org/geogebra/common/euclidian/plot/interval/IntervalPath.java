@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 
 public class IntervalPath {
-	private static final Interval VISIBLE_RANGE = new Interval(-0.1, 2);
+	private static final Interval VISIBLE_RANGE = new Interval(-2, 0);
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;

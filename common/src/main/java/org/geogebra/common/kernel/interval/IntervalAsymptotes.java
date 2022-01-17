@@ -7,7 +7,7 @@ package org.geogebra.common.kernel.interval;
  * that data should be fixed there.
  */
 public class IntervalAsymptotes {
-	public static final int PEAK_MULTIPLIER = 4;
+	private static final int PEAK_MULTIPLIER = 4;
 	private final IntervalTupleList samples;
 
 	/**
