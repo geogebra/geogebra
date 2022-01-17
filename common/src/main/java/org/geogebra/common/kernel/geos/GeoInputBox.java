@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -121,6 +122,19 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public String getTextForEditor() {
 		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
 		return textForEditor.replace(Unicode.IMAGINARY, 'i');
+	}
+
+	/*
+	editor state on editing, inputbox state otherwise
+	 */
+	public String getInputBoxState() {
+		if (app.getActiveEuclidianView().getSymbolicEditor() != null) {
+			SymbolicEditor editor = app.getActiveEuclidianView().getSymbolicEditor();
+			if (editor.getGeoInputBox() == this) {
+				return editor.getEditorState();
+			}
+		}
+		return getTextForEditor();
 	}
 
 	private String getTextForEditor(StringTemplate tpl) {
