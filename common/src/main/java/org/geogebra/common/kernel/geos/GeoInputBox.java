@@ -137,6 +137,17 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return getTextForEditor();
 	}
 
+	public void setInputBoxState(String input) {
+		DrawInputBox d = (DrawInputBox) app.getActiveEuclidianView().getDrawableFor(this);
+		if (d != null) {
+			d.attachMathField();
+			SymbolicEditor editor = app.getActiveEuclidianView().getSymbolicEditor();
+			if (editor != null) {
+				editor.setEditorState(input);
+			}
+		}
+ 	}
+
 	private String getTextForEditor(StringTemplate tpl) {
 		if (tempUserEvalInput != null) {
 			return tempUserEvalInput;

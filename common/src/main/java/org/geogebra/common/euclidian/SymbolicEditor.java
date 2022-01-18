@@ -195,4 +195,8 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		}
 		return editedText;
 	}
+
+	public void setEditorState(String text) {
+		getMathFieldInternal().parse(text);
+	}
 }

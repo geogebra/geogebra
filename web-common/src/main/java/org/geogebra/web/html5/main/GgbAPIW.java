@@ -1107,7 +1107,7 @@ public class GgbAPIW extends GgbAPI {
 		GeoElement geo = StringUtil.empty(label) ? null
 				: kernel.lookupLabel(label);
 		if (geo instanceof GeoInputBox) {
-			((GeoInputBox) geo).updateLinkedGeo(state, state);
+			((GeoInputBox) geo).setInputBoxState(state);
 		}
 	}
 
