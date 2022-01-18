@@ -208,6 +208,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
+	public void cancelReadCollectedAltTexts() {
+		altTextCollector.cancel();
+	}
+
+	@Override
 	public void readSliderUpdate(GeoNumeric geo) {
 		altTextCollector.readSliderUpdate(geo);
 	}

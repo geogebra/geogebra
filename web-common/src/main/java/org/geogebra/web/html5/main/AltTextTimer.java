@@ -34,6 +34,13 @@ class AltTextTimer extends Timer {
 		queuedGeos.clear();
 	}
 
+	@Override
+	public void cancel() {
+		super.cancel();
+		lines.clear();
+		queuedGeos.clear();
+	}
+
 	public void feed(String auralText, GeoElement geo) {
 		if (!queuedGeos.contains(geo)) {
 			queuedGeos.add(geo);

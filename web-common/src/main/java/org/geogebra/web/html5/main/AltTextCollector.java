@@ -54,4 +54,11 @@ public class AltTextCollector {
 	public void readSliderUpdate(GeoNumeric geo) {
 		timer.feed(geo.getAuralCurrentValue(), geo);
 	}
+
+	/**
+	 * Stops reading the collected text.
+	 */
+	public void cancel() {
+		timer.cancel();
+	}
 }

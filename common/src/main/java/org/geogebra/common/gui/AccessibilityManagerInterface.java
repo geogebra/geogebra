@@ -88,4 +88,9 @@ public interface AccessibilityManagerInterface {
 	 * @param altText to append
 	 */
 	void appendAltText(GeoText altText);
+
+	/**
+	 * Cancels reading the view alt texts
+	 */
+	void cancelReadCollectedAltTexts();
 }

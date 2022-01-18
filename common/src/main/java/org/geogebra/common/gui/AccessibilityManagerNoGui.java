@@ -78,6 +78,11 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
+	public void cancelReadCollectedAltTexts() {
+		// not used
+	}
+
+	@Override
 	public void readSliderUpdate(GeoNumeric geo) {
 		// not used
 	}
