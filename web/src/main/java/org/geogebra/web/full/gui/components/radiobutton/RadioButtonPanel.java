@@ -9,6 +9,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class RadioButtonPanel extends FlowPanel {
 	private ArrayList<ComponentRadioButton> radioButtonList = new ArrayList<>();
 
+	/**
+	 * constructor for panel holding multiple radio buttons
+	 * @param loc - localization
+	 * @param data - radio button list data
+	 */
 	public RadioButtonPanel(Localization loc, ArrayList<RadioButtonData> data) {
 		addStyleName("radioButtonPanel");
 		for (RadioButtonData buttonData : data) {

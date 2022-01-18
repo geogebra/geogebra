@@ -38,14 +38,14 @@ public class ComponentRadioButton extends FlowPanel {
 		Label radioLabel = new Label(loc.getMenu(data.getLabel()));
 		add(radioLabel);
 
-		Dom.addEventListener(this.getElement(), "click", (evt -> {
+		Dom.addEventListener(this.getElement(), "click", evt -> {
 			if (!disabled) {
 				if (callback != null) {
 					callback.run();
 				}
 				setSelected(!isSelected());
 			}
-		}));
+		});
 	}
 
 	/**

@@ -130,8 +130,7 @@ public class SliderDialogW extends ComponentDialog implements
 		rbAngle.addValueChangeHandler(this);
 		rbInteger = new RadioButton(id, loc.getMenu("Integer"));
 		rbInteger.addValueChangeHandler(this);
-
-
+		
 		RadioButtonData numericdata = new RadioButtonData("Numeric", true);
 		RadioButtonData angledata = new RadioButtonData("Angle", true, true);
 		RadioButtonData integerdata = new RadioButtonData("Numeric", false);
