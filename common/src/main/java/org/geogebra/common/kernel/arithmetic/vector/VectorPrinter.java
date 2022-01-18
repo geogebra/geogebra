@@ -8,20 +8,16 @@ import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class VectorPrinter implements Printer {
 
+    private PrintableVector vector;
     private Printer defaultPrinter;
     private Printer editPrinter;
     private Printer latexPrinter;
 
     VectorPrinter(PrintableVector vector) {
+        this.vector = vector;
         defaultPrinter = new DefaultVectorPrinter(vector);
         editPrinter = new EditVectorPrinter(vector);
-
-        // if the vector is actually a pair of lists
-        // then on the definition panel it should be printed simply as (x, y)
-        latexPrinter =
-                GeoSymbolic.hasListTwin(vector.getX()) && GeoSymbolic.hasListTwin(vector.getY())
-                        ? defaultPrinter
-                        : new LatexVectorPrinter(vector);
+        latexPrinter = new LatexVectorPrinter(vector);
     }
 
     @Override
@@ -30,7 +26,11 @@ class VectorPrinter implements Printer {
     }
 
     private Printer getPrinterFor(StringTemplate tpl) {
-        if (tpl == StringTemplate.editorTemplate) {
+        // if the vector is actually a pair of lists
+        // then on the definition panel it should be printed simply as (x, y)
+        if (GeoSymbolic.hasListTwin(vector.getX()) && GeoSymbolic.hasListTwin(vector.getY())) {
+            return defaultPrinter;
+        } else if (tpl == StringTemplate.editorTemplate) {
             return editPrinter;
         } else if (tpl.isLatex()) {
             return latexPrinter;
