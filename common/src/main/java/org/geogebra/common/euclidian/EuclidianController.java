@@ -48,7 +48,6 @@ import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -3251,9 +3250,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final boolean slider(boolean selPreview) {
 		if (!selPreview && (mouseLoc != null) && getDialogManager() != null) {
-			EdgeInsets insets = view.getSafeAreaInsets();
-			getDialogManager().showSliderCreationDialog(mouseLoc.x - insets.getLeft(),
-					mouseLoc.y - insets.getTop());
+			getDialogManager().showSliderCreationDialog(mouseLoc.x, mouseLoc.y);
 		}
 		return false;
 	}
@@ -6044,11 +6041,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// or right-hand mouse button
 
 		if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
-			EdgeInsets insets = view.getSafeAreaInsets();
 			// part of snap to grid code
 			movedGeoNumeric.setAbsoluteScreenLoc(
-					view.toScreenCoordX(xRW - getStartPointX()) - insets.getLeft(),
-					view.toScreenCoordY(yRW - getStartPointY()) - insets.getTop(), temporaryMode);
+					view.toScreenCoordX(xRW - getStartPointX()),
+					view.toScreenCoordY(yRW - getStartPointY()), temporaryMode);
 		} else {
 			movedGeoNumeric.setSliderLocation(xRW - getStartPointX(),
 					yRW - getStartPointY(), temporaryMode);
