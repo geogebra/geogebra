@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
@@ -31,17 +30,12 @@ class GiacPrinter implements Printer {
     private String getHead() {
         if (vector.isCASVector()) {
             return "ggbvect[";
-        } else if (isList(vector.getX()) && isList(vector.getY())) {
+        } else if (GeoSymbolic.hasListTwin(vector.getX())
+                && GeoSymbolic.hasListTwin(vector.getY())) {
             return "zip((x,y)->point(x,y),";
         } else {
             return "point(";
         }
-    }
-
-    private boolean isList(ExpressionValue value) {
-        ExpressionValue unwrapped = value.unwrap();
-        return unwrapped instanceof GeoSymbolic
-                && ((GeoSymbolic) unwrapped).getTwinGeo().isGeoList();
     }
 
     private char getTail() {

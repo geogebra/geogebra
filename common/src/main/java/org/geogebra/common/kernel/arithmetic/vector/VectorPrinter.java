@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
@@ -14,7 +15,13 @@ class VectorPrinter implements Printer {
     VectorPrinter(PrintableVector vector) {
         defaultPrinter = new DefaultVectorPrinter(vector);
         editPrinter = new EditVectorPrinter(vector);
-        latexPrinter = new LatexVectorPrinter(vector);
+
+        // if the vector is actually a pair of lists
+        // then on the definition panel it should be printed simply as (x, y)
+        latexPrinter =
+                GeoSymbolic.hasListTwin(vector.getX()) && GeoSymbolic.hasListTwin(vector.getY())
+                        ? defaultPrinter
+                        : new LatexVectorPrinter(vector);
     }
 
     @Override
