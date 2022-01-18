@@ -158,8 +158,8 @@ public class DrawSlider extends Drawable {
 		double y = number.getSliderY();
 		if (number.isAbsoluteScreenLocActive()) {
 			EdgeInsets insets = view.getSafeAreaInsets();
-			x += insets.getLeft();
-			y += insets.getTop();
+			x = Math.max(x, insets.getLeft());
+			y = Math.max(y, insets.getTop());
 		}
 		return new GPoint2D(x, y);
 	}
