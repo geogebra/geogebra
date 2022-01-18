@@ -14,13 +14,12 @@ public class ComponentRadioButton extends FlowPanel {
 	/**
 	 * default constructor
 	 * @param loc - localization
-	 * @param transKey - label of button
-	 * @param selected - selected state
+	 * @param data - data
 	 * @param callback - callback on click
 	 */
-	public ComponentRadioButton(Localization loc, String transKey, boolean selected,
-			Runnable callback) {
-		setSelected(selected);
+	public ComponentRadioButton(Localization loc, RadioButtonData data,	Runnable callback) {
+		setSelected(data.isSelected());
+		setDisabled(data.isDisabled());
 
 		addStyleName("radioButton");
 		FlowPanel radioBg = new FlowPanel();
@@ -36,30 +35,17 @@ public class ComponentRadioButton extends FlowPanel {
 		innerCircle.addStyleName("innerCircle");
 		radioBg.add(innerCircle);
 
-		Label radioLabel = new Label(loc.getMenu(transKey));
+		Label radioLabel = new Label(loc.getMenu(data.getLabel()));
 		add(radioLabel);
 
 		Dom.addEventListener(this.getElement(), "click", (evt -> {
 			if (!disabled) {
-				setSelected(!isSelected());
 				if (callback != null) {
 					callback.run();
 				}
+				setSelected(!isSelected());
 			}
 		}));
-	}
-
-	/**
-	 * constructor for not selected radio button
-	 * @param loc - localization
-	 * @param transKey - label of button
-	 * @param callback - callback on click
-	 * @param disabled - disabled state
-	 */
-	public ComponentRadioButton(Localization loc, String transKey, Runnable callback,
-			boolean disabled) {
-		this(loc, transKey, false, callback);
-		setDisabled(disabled);
 	}
 
 	/**
@@ -79,6 +65,9 @@ public class ComponentRadioButton extends FlowPanel {
 		selected = isSelected;
 		if (!this.getStyleName().contains("selected") && isSelected) {
 			addStyleName("selected");
+		}
+		if (!isSelected) {
+			removeStyleName("selected");
 		}
 	}
 

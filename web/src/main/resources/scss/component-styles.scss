@@ -641,6 +641,12 @@
             }
 
             &.disabled {
+            	.radioBg {
+            		&:after {
+            			background-image: none;
+            		}
+            	}
+
             	.innerCircle {
             		background-color: colors.$black-36;
             	}
@@ -670,5 +676,9 @@
             	background-color: white;
             }
         }
+	}
+
+	.radioButtonPanel {
+		display: inline-grid;
 	}
 }
