@@ -234,7 +234,6 @@ public abstract class CASSubDialog {
 			keepInput = true;
 		} else if ("Numeric".equals(actionCommand)) {
 			subCmd = "Numeric[" + subCmd + "]";
-			keepInput = false;
 		}
 
 		try {

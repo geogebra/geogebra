@@ -12,10 +12,8 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Maintains a Singular WebService. For the SingularWS API please see the
  * documentation of SingularWS
- * 
- * @see "https://github.com/kovzol/singularws"
- * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @see "https://github.com/kovzol/singularws"
  */
 public class SingularWebService {
 
@@ -35,7 +33,7 @@ public class SingularWebService {
 			// "/home/singularws/grobcov-20170620",
 			"grobcov",
 			"grobcovG",
-			"grobcovF2m", "grobcovC1", "grobcovC0" };
+			"grobcovF2m", "grobcovC1", "grobcovC0"};
 
 	private final static int CONNECTION_SPEED_NO_TESTS = 3;
 	private final static int CONNECTION_SPEED_THRESHOLD = 100;
@@ -69,9 +67,8 @@ public class SingularWebService {
 		// In fact we will not use Varnish after changing SingularWS to version
 		// >= 3 (2014-01-03).
 		String response = httpr.getResponse(); // will not work in web, TODO:
-												// callback!
-		if (response == null)
-		 {
+		// callback!
+		if (response == null) {
 			return null; // avoiding NPE in web
 		}
 		// Trimming:
@@ -101,22 +98,14 @@ public class SingularWebService {
 	/**
 	 * Reports if SingularWS is available. (It must be initialized by enable()
 	 * first.)
-	 * 
 	 * @return true if SingularWS is available
 	 */
 	public boolean isAvailable() {
-		if (available == null) {
-			return false;
-		}
-		if (available) {
-			return true;
-		}
-		return false;
+		return available == null ? false : available;
 	}
 
 	/**
 	 * Reports if SingularWS has a fast connection available.
-	 * 
 	 * @return true if SingularWS connection is fast enough
 	 */
 	public boolean isFast() {
@@ -124,16 +113,12 @@ public class SingularWebService {
 	}
 
 	private String speed() {
-		if (isFast()) {
-			return "fast";
-		}
-		return "slow";
+		return isFast() ? "fast" : "slow";
 	}
 
 	/**
 	 * Create a connection to the SingularWS server for testing. Also sets up
 	 * variables depending on the installed features of Singular.
-	 * 
 	 * @return true if the connection works properly
 	 */
 	public boolean testConnection() {
@@ -200,12 +185,9 @@ public class SingularWebService {
 
 	/**
 	 * Sends a Singular program to the SingularWS server and returns the answer.
-	 * 
-	 * @param singularProgram
-	 *            The program code to be sent directly to Singular
+	 * @param singularProgram The program code to be sent directly to Singular
 	 * @return the answer
-	 * @throws Throwable
-	 *             ComputationException when problem occurs
+	 * @throws Throwable ComputationException when problem occurs
 	 */
 	public String directCommand(String singularProgram) throws Throwable {
 		return swsCommandResult(singularDirectCommand,
@@ -214,9 +196,7 @@ public class SingularWebService {
 
 	/**
 	 * Sets the remote server being used for SingularWS.
-	 * 
-	 * @param site
-	 *            The remote http URL for the remote server
+	 * @param site The remote http URL for the remote server
 	 */
 	public void setConnectionSite(String site) {
 		this.wsHost = site;
@@ -224,7 +204,6 @@ public class SingularWebService {
 
 	/**
 	 * Reports what remote server is used for SingularWS.
-	 * 
 	 * @return the URL of the remote server
 	 */
 	public String getConnectionSite() {
@@ -242,12 +221,7 @@ public class SingularWebService {
 			return;
 		}
 		Log.debug("Trying to enable SingularWS connection");
-		boolean tc = testConnection();
-		if (tc) {
-			this.available = true;
-		} else {
-			this.available = false;
-		}
+		this.available = testConnection();
 	}
 
 	/**
@@ -260,9 +234,7 @@ public class SingularWebService {
 	/**
 	 * Sets the maximal time spent in SingularWS for a program (not yet
 	 * implemented).
-	 * 
-	 * @param timeout
-	 *            the timeout in seconds
+	 * @param timeout the timeout in seconds
 	 */
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
@@ -270,7 +242,6 @@ public class SingularWebService {
 
 	/**
 	 * Gets Singular version.
-	 * 
 	 * @return version number (int), e.g. 3150
 	 */
 	public String getVersion() {
@@ -286,7 +257,6 @@ public class SingularWebService {
 
 	/**
 	 * Gets full Singular version string.
-	 * 
 	 * @return version string
 	 */
 	public String getSingularVersionString() {
@@ -303,7 +273,6 @@ public class SingularWebService {
 	 * degenerate parts of the algebraic curve. See
 	 * http://www-ma2.upc.edu/montes/ for more details. Thanks to Antonio Montes
 	 * and Francisco Botana for providing this extra library.
-	 * 
 	 * @return the name of the auxiliary Groebner cover library
 	 */
 	public String getLocusLib() {
@@ -314,7 +283,6 @@ public class SingularWebService {
 	 * Decides if we are using a new or an old version of the grobcov library.
 	 * In old versions the "locusdg" command was "locus2d". In the newest
 	 * version it is "locus".
-	 * 
 	 * @return locus command
 	 */
 	public String getLocusCommand() {
@@ -332,19 +300,18 @@ public class SingularWebService {
 	 * post-processed by GeoGebra and GeoGebraCAS. This is important since we
 	 * assume that the factors computed by Singular in CIFactor.1 will be
 	 * further simplified by Giac.
-	 * 
-	 * @param command
-	 *            the GeoGebra command pattern
+	 * @param command the GeoGebra command pattern
 	 * @return its translation to Singular commands
 	 */
 	public String getTranslatedCASCommand(String command) {
 		if ("CIFactor.1".equals(command)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("LIB \"absfact.lib\";").
-			// FIXME: This covers the one-letter variables only, but
-			// does nothing for the others
-			// (infinitely many).
-					append("ring R=0, (x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w), ds; short=0;")
+					// FIXME: This covers the one-letter variables only, but
+					// does nothing for the others
+					// (infinitely many).
+							append(
+							"ring R=0, (x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w), ds; short=0;")
 					.append("poly q=%0;").
 					// Warning: the absfact.lib package prints an unwanted line
 					// containing "absolute_factors".
@@ -352,31 +319,34 @@ public class SingularWebService {
 					// SingularWS (server side)
 					// for SingularWS version < 3. TODO: Do it for version >= 3
 					// too, or hack the LIB.
-					append("def S=absFactorize(q); setring(S); list af=absolute_factors;")
+							append("def S=absFactorize(q); setring(S); list af=absolute_factors;")
 					.append("string Z=\"\";")
 					.append("int i; int p=size(af[1]);").
 					// quadpolyroot returns the Ith root of poly P
-					append("proc quadpolyroot(poly P, int I) {")
+							append("proc quadpolyroot(poly P, int I) {")
 					.append("string PS=string(P);")
 					.append("string RS=string(\"poly PP=\",PS[2,size(PS)-2]);").
 					// @c is the variable name for the rootof-like polynomial.
-					append("def RR=basering; ring NR=0,(@c),ds;	execute(RS);")
+							append("def RR=basering; ring NR=0,(@c),ds;	execute(RS);")
 					.append("matrix L=coeffs(PP,@c); bigint A=bigint(L[3,1]); bigint B=bigint(L[2,1]); bigint C=bigint(L[1,1]);")
 					.append("string SC; if (I==1) { SC=\"+\"; } if (I==2) { SC=\"-\"; }")
 					.append("string RV=string(\"((\",(-B),SC,\"sqrt(\",(B*B)-(4*A*C),\"))/(\",(2*A),\"))\");")
 					.append("setring(RR); return(RV); }").
 					// polydeg returns the degree of poly P
-					append("proc polydeg(poly P) { string PS=string(P); string RS=string(\"poly PP=\",PS[2,size(PS)-2]);")
+							append(
+							"proc polydeg(poly P) { string PS=string(P); string RS=string(\"poly PP=\",PS[2,size(PS)-2]);")
 					.append("def RR=basering; ring NR=0,(@c),ds; execute(RS); int L=size(coeffs(PP,@c))-1; setring(RR); return(L); }")
-					.
+							.
 					// replace is a standard search-replace string function
-					append("proc replace(string HS, string N, string TO) { int found=1; while (found>0) { found=find(HS,N);")
+							append(
+							"proc replace(string HS, string N, string TO) { int found=1; while (found>0) { found=find(HS,N);")
 					.append("if (found>0) { string BEF=HS[1,found-1]; string AFT; if (found+size(N)<=size(HS)) {")
 					.append("AFT=HS[found+size(N),size(HS)]; } HS=string(BEF,TO,AFT); } } return(HS); }")
-					.
+							.
 					// the main computation: we return the product of the
 					// factors as a string in Z
-					append("for (i=1; i<=p; i++) { poly s=af[3][i]; if (polydeg(s)>2) { print(\"error\"); }")
+							append(
+							"for (i=1; i<=p; i++) { poly s=af[3][i]; if (polydeg(s)>2) { print(\"error\"); }")
 					.append("string f=string(\"(\",af[1][i],\")\");")
 					.append("if (polydeg(s)==2) { string f1=replace(f,\"@c\",quadpolyroot(s,1));")
 					.append("string f2=replace(f,\"@c\",quadpolyroot(s,2)); f=string(\"simplify(\",f1,\")*simplify(\",f2,\")\"); }")
