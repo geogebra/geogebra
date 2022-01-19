@@ -124,8 +124,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return textForEditor.replace(Unicode.IMAGINARY, 'i');
 	}
 
-	/*
-	editor state on editing, inputbox state otherwise
+	/**
+	 * @return editor state on edit, inputbox flat string otherwise
 	 */
 	public String getInputBoxState() {
 		if (app.getActiveEuclidianView().getSymbolicEditor() != null) {
@@ -137,14 +137,15 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return getTextForEditor();
 	}
 
+	/**
+	 * set inputbox state
+	 * @param input flat string
+	 */
 	public void setInputBoxState(String input) {
-		DrawInputBox d = (DrawInputBox) app.getActiveEuclidianView().getDrawableFor(this);
-		if (d != null) {
-			d.attachMathField();
-			SymbolicEditor editor = app.getActiveEuclidianView().getSymbolicEditor();
-			if (editor != null) {
-				editor.setEditorState(input);
-			}
+		SymbolicEditor editor = app.getActiveEuclidianView().initSymbolicEditor();
+		if (editor != null) {
+			String latex = editor.getLatexInput(input);
+			updateLinkedGeo(input, latex);
 		}
  	}
 

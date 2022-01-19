@@ -183,8 +183,9 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		}
 	}
 
-	/*
-	editor state while editing
+	/**
+	 * get editor state
+	 * @return input as flat string
 	 */
 	public String getEditorState() {
 		MathFormula formula = getMathFieldInternal().getFormula();
@@ -196,7 +197,14 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		return editedText;
 	}
 
-	public void setEditorState(String text) {
-		getMathFieldInternal().parse(text);
+	/**
+	 * serialize to latex
+	 * @param input - input text
+	 * @return input serialized to latex
+	 */
+	public String getLatexInput(String input) {
+		getMathFieldInternal().parse(input);
+		MathFormula formula = getMathFieldInternal().getFormula();
+		return texSerializer.serialize(formula);
 	}
 }
