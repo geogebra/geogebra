@@ -69,19 +69,7 @@ public class DoubleUtil {
 	
 		double eAbs = Math.abs(e);
 	
-		if (eAbs > Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(z) * Kernel.STANDARD_PRECISION) {
+		if (eAbs > Kernel.STANDARD_PRECISION || eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION || eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION || eAbs > Math.abs(z) * Kernel.STANDARD_PRECISION) {
 			return false;
 		}
 	
@@ -104,18 +92,10 @@ public class DoubleUtil {
 	
 		double eAbs = Math.abs(e);
 	
-		if (eAbs > Kernel.STANDARD_PRECISION) {
+		if (eAbs > Kernel.STANDARD_PRECISION || eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION || eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION) {
 			return false;
 		}
-	
-		if (eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
+
 		return true;
 	}
 
@@ -153,10 +133,7 @@ public class DoubleUtil {
 	 * @return whether the x-eps &lt; y &lt; x+eps
 	 */
 	final public static boolean isEqual(double x, double y, double eps) {
-		if (x == y) {
-			return true;
-		}
-		return ((x - eps) < y) && (y < (x + eps));
+		return x == y ? true : ((x - eps) < y) && (y < (x + eps));
 	}
 
 	/**
@@ -290,11 +267,7 @@ public class DoubleUtil {
 	final public static boolean isEpsilonWithPrecision(double e, double x, double eps) {
 		double eAbs = Math.abs(e);
 	
-		if (eAbs > eps) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(x) * eps) {
+		if (eAbs > eps || eAbs > Math.abs(x) * eps) {
 			return false;
 		}
 	

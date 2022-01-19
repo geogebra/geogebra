@@ -656,14 +656,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return whether it's localized digit or underscore
 	 */
 	public static boolean isLetterOrDigitOrUnderscore(final char character) {
-		switch (character) {
-		case '_': // allow underscore as a valid letter in an autocompletion
-					// word
-			return true;
-
-		default:
-			return isLetterOrDigit(character);
-		}
+		return character == '_' ? true : isLetterOrDigit(character);
 	}
 
 	/**
@@ -1064,17 +1057,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			return "undef";
 		}
 
-		if (tpl.isNumeric()) {
-			return s;
-		}
-
-		if ("inf".equals(s)) {
-			return s;
-		}
-
-		if ("-inf".equals(s)) {
-			return s;
-		}
+		if (tpl.isNumeric() || "inf".equals(s) || "-inf".equals(s)) return s;
 
 		StringBuilder sb1 = new StringBuilder();
 		if (tpl == StringTemplate.giacTemplateInternal && kernel != null) {
@@ -1430,11 +1413,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 */
 	public static String changeFileExtension(String fileName,
 			FileExtensions extension) {
-		if (fileName == null) {
-			return null;
-		}
-
-		return removeFileExtension(fileName) + "." + extension.toString();
+		return fileName == null ? null : removeFileExtension(fileName) + "." + extension.toString();
 	}
 
 	/**

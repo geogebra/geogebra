@@ -290,18 +290,19 @@ public class ToolBar {
 	 */
 	public static List<Integer> getNotesMediaToolBar(boolean includeGraspableMath,
 			boolean includeH5P) {
-		List<Integer>tools = new ArrayList<>();
-		tools.add(EuclidianConstants.MODE_MEDIA_TEXT);
-		tools.add(EuclidianConstants.MODE_TABLE);
-		tools.add(EuclidianConstants.MODE_EQUATION);
-		tools.add(EuclidianConstants.MODE_CALCULATOR);
-		tools.add(EuclidianConstants.MODE_EXTENSION);
-		tools.add(EuclidianConstants.MODE_MIND_MAP);
-		tools.add(EuclidianConstants.MODE_IMAGE);
-		tools.add(EuclidianConstants.MODE_CAMERA);
-		tools.add(EuclidianConstants.MODE_VIDEO);
-		tools.add(EuclidianConstants.MODE_AUDIO);
-		tools.add(EuclidianConstants.MODE_PDF);
+		List<Integer>tools = new ArrayList<>(Arrays.asList(
+				EuclidianConstants.MODE_MEDIA_TEXT,
+				EuclidianConstants.MODE_TABLE,
+				EuclidianConstants.MODE_EQUATION,
+				EuclidianConstants.MODE_CALCULATOR,
+				EuclidianConstants.MODE_EXTENSION,
+				EuclidianConstants.MODE_MIND_MAP,
+				EuclidianConstants.MODE_IMAGE,
+				EuclidianConstants.MODE_CAMERA,
+				EuclidianConstants.MODE_VIDEO,
+				EuclidianConstants.MODE_AUDIO,
+				EuclidianConstants.MODE_PDF
+		));
 		if (includeGraspableMath) {
 			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
 		}
@@ -855,10 +856,7 @@ public class ToolBar {
 		 * @return whether to keep the mode
 		 */
 		public boolean keep(int mode) {
-			if (mode != 59 && mode != 1011) {
-				return true;
-			}
-			return false;
+			return mode != 59 && mode != 1011;
 		}
 	}
 
@@ -891,6 +889,7 @@ public class ToolBar {
 			for (int j = 0; j < defaults.length && !found; j++) {
 				if (defaults[j].equals(menu)) {
 					found = true;
+					break;
 				}
 			}
 			if (!found) {
