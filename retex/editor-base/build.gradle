@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
     id 'pmd'
     id 'checkstyle'
@@ -23,14 +23,19 @@ targetCompatibility = 1.8
 
 dependencies {
 	javacc 'net.java.dev.javacc:javacc:7.0.10'
-	compile project(':renderer-base')
-    testCompile "junit:junit:$junitVersion"
+	api project(':renderer-base')
+    implementation 'com.google.j2objc:annotations:2.8'
+    testImplementation "junit:junit:$junitVersion"
 }
 
 sourceSets.main.java.srcDirs += [compileJavacc.outputDirectory, compileJavacc.inputDirectory]
 
 compileJavacc {
 	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern']
+}
+
+compileJava {
+	options.encoding = 'UTF-8'
 }
 
 task cleanJavacc(type: Delete) {

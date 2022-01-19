@@ -18,12 +18,12 @@ allprojects {
             mavenCentral()
             maven { url 'https://plugins.gradle.org/m2/' }
             google()
-            maven { url 'http://dev.geogebra.org/maven2' }
+            maven { url 'https://dev.geogebra.org/maven2' }
         }
     }
 
     repositories {
-        maven { url 'http://dev.geogebra.org/maven2' }
+        maven { url 'https://dev.geogebra.org/maven2' }
         mavenCentral()
         google()
     }
