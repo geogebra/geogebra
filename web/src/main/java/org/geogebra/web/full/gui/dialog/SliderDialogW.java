@@ -12,9 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.dialog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -23,8 +20,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
-import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -131,16 +126,9 @@ public class SliderDialogW extends ComponentDialog implements
 		rbInteger = new RadioButton(id, loc.getMenu("Integer"));
 		rbInteger.addValueChangeHandler(this);
 
-		RadioButtonData numericdata = new RadioButtonData("Numeric", true);
-		RadioButtonData angledata = new RadioButtonData("Angle", true, true);
-		RadioButtonData integerdata = new RadioButtonData("Numeric", false);
-		ArrayList<RadioButtonData> radioButtonData =
-				new ArrayList<>(Arrays.asList(numericdata, angledata, integerdata));
-		RadioButtonPanel radioButtonPanel = new RadioButtonPanel(loc, radioButtonData);
-		radioButtonWidget.add(radioButtonPanel);
-		//radioButtonWidget.add(rbNumber);
-		//radioButtonWidget.add(rbAngle);
-		//radioButtonWidget.add(rbInteger);
+		radioButtonWidget.add(rbNumber);
+		radioButtonWidget.add(rbAngle);
+		radioButtonWidget.add(rbInteger);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
