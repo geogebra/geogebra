@@ -27,4 +27,13 @@ public interface GeoVecInterface extends ExpressionValue {
 	 */
 	public double getZ();
 
+	/**
+	 * Yields true if the coordinates of this vector are equal to those of
+	 * vector v.
+	 *
+	 * @param vector
+	 *            other vector
+	 * @return true if both vectors have equal coords
+	 */
+	boolean isEqual(GeoVecInterface vector);
 }

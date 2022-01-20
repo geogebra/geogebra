@@ -336,13 +336,7 @@ public class CmdExportImage extends CmdScripting {
 		geoImage.setLabel(label);
 
 		// invokeLater needed in web to make sure image appears
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				geoImage.updateRepaint();
-			}
-		});
-
+		app.invokeLater(geoImage::updateRepaint);
 	}
 
 }

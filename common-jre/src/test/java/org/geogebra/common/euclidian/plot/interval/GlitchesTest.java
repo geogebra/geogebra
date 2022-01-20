@@ -34,4 +34,11 @@ public class GlitchesTest extends IntervalPlotterCommon {
 		withFunction("0/(0/tan(x)");
 		assertEquals(0, gp.getLog().size());
 	}
+
+	@Test
+	public void oneDividedByXDoesNotProduceNans() {
+		withDefaultScreen();
+		withFunction("1/x");
+		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y)).count());
+	}
 }

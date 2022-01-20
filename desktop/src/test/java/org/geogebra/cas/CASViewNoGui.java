@@ -9,6 +9,10 @@ public class CASViewNoGui extends CASView {
 	private AppDNoGui app;
 	private CASTableNoGui casTable;
 
+	/**
+	 * @param app application
+	 * @param inputs CAS table contents
+	 */
 	public CASViewNoGui(AppDNoGui app, String... inputs) {
 		super(app.getKernel());
 		this.app = app;

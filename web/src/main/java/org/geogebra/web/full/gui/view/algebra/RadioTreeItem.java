@@ -378,6 +378,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (geo != null && AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
 			addControls();
 			AlgebraOutputPanel.createSymbolicButton(controls, geo, app.getActivity());
+		} else if (controls != null) {
+			AlgebraOutputPanel.removeSymbolicButton(controls);
 		}
 		return ret;
 	}
@@ -1041,7 +1043,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					+ definitionPanel.getOffsetWidth()
 					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
-		} else if (geo != null && geo.isIndependent()) {
+		} else if (geo != null) {
 			return content.getOffsetWidth();
 		} else {
 			return 0;

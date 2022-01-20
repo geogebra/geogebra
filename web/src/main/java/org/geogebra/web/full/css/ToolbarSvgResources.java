@@ -304,197 +304,197 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_zoomout_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_countcells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_countcells.svg")
 	@Override
 	SVGResource mode_countcells_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_createlistofpoints.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_createlistofpoints.svg")
 	@Override
 	SVGResource mode_createlistofpoints_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_creatematrix.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_creatematrix.svg")
 	@Override
 	SVGResource mode_creatematrix_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_createpolyline.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_createpolyline.svg")
 	@Override
 	SVGResource mode_createpolyline_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_createtable.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_createtable.svg")
 	@Override
 	SVGResource mode_createtable_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_derivative.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_derivative.svg")
 	@Override
 	SVGResource mode_derivative_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_evaluate.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_evaluate.svg")
 	@Override
 	SVGResource mode_evaluate_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_expand.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_expand.svg")
 	@Override
 	SVGResource mode_expand_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_factor.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_factor.svg")
 	@Override
 	SVGResource mode_factor_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_integral.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_integral.svg")
 	@Override
 	SVGResource mode_integral_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_intersectioncurve.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_intersectioncurve.svg")
 	@Override
 	SVGResource mode_intersectioncurve_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_keepinput.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_keepinput.svg")
 	@Override
 	SVGResource mode_keepinput_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_maxcells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_maxcells.svg")
 	@Override
 	SVGResource mode_maxcells_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_meancells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_meancells.svg")
 	@Override
 	SVGResource mode_meancells_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_mincells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mincells.svg")
 	@Override
 	SVGResource mode_mincells_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_multivarstats.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_multivarstats.svg")
 	@Override
 	SVGResource mode_multivarstats_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_nsolve.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_nsolve.svg")
 	@Override
 	SVGResource mode_nsolve_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_numeric.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_numeric.svg")
 	@Override
 	SVGResource mode_numeric_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_onevarstats.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_onevarstats.svg")
 	@Override
 	SVGResource mode_onevarstats_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_solve.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_solve.svg")
 	@Override
 	SVGResource mode_solve_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_substitute.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_substitute.svg")
 	@Override
 	SVGResource mode_substitute_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_sumcells.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_sumcells.svg")
 	@Override
 	SVGResource mode_sumcells_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_twovarstats.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_twovarstats.svg")
 	@Override
 	SVGResource mode_twovarstats_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_graspablemath.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_graspablemath.svg")
 	@Override
 	SVGResource mode_graspablemath_32();
 
 	// 3D
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_circleaxispoint.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circleaxispoint.svg")
 	@Override
 	SVGResource mode_circleaxispoint_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_circlepointradiusdirection.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circlepointradiusdirection.svg")
 	@Override
 	SVGResource mode_circlepointradiusdirection_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_cone.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_cone.svg")
 	@Override
 	SVGResource mode_cone_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_conify.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_conify.svg")
 	@Override
 	SVGResource mode_conify_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_cube.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_cube.svg")
 	@Override
 	SVGResource mode_cube_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_cylinder.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_cylinder.svg")
 	@Override
 	SVGResource mode_cylinder_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_extrusion.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extrusion.svg")
 	@Override
 	SVGResource mode_extrusion_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_mirroratplane.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mirroratplane.svg")
 	@Override
 	SVGResource mode_mirroratplane_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_net.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_net.svg")
 	@Override
 	SVGResource mode_net_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_orthogonalplane.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_orthogonalplane.svg")
 	@Override
 	SVGResource mode_orthogonalplane_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_parallelplane.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_parallelplane.svg")
 	@Override
 	SVGResource mode_parallelplane_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_planethreepoint.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_planethreepoint.svg")
 	@Override
 	SVGResource mode_planethreepoint_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_plane.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_plane.svg")
 	@Override
 	SVGResource mode_plane_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_prism.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_prism.svg")
 	@Override
 	SVGResource mode_prism_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_pyramid.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pyramid.svg")
 	@Override
 	SVGResource mode_pyramid_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_rotatearoundline.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_rotatearoundline.svg")
 	@Override
 	SVGResource mode_rotatearoundline_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_rotateview.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_rotateview.svg")
 	@Override
 	SVGResource mode_rotateview_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_sphere2.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_sphere2.svg")
 	@Override
 	SVGResource mode_sphere2_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_spherepointradius.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_spherepointradius.svg")
 	@Override
 	SVGResource mode_spherepointradius_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_tetrahedron.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tetrahedron.svg")
 	@Override
 	SVGResource mode_tetrahedron_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_viewinfrontof.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_viewinfrontof.svg")
 	@Override
 	SVGResource mode_viewinfrontof_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_volume.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_volume.svg")
 	@Override
 	SVGResource mode_volume_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_orthogonalthreed.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_orthogonalthreed.svg")
 	@Override
 	SVGResource mode_orthogonalthreed_32();
 
-	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_surface_of_revolution.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_surface_of_revolution.svg")
 	@Override
 	SVGResource mode_surface_of_revolution();
 
@@ -584,11 +584,19 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_table();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_h5p.svg")
 	SVGResource mode_h5p();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mindmap.svg")
 	SVGResource mode_mindmap();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
+	SVGResource mode_ruler();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_protractor.svg")
+	SVGResource mode_protractor();
 
 }
