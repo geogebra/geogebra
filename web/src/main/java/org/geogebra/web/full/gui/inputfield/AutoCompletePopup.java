@@ -107,7 +107,7 @@ public class AutoCompletePopup extends GPopupMenuW {
 	private void positionAndShowPopup(int left, int top, int bottom) {
 		popupPanel.show();
 		popupPanel.setHeight("100%");
-		
+
 		int popupTop = bottom;
 		int distBottomKeyboardTop = (int) (getApp().getHeight() - bottom
 				- getApp().getAppletFrame().getKeyboardHeight());
