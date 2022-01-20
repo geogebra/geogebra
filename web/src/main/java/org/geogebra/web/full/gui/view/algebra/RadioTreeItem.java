@@ -1776,7 +1776,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return;
 		}
 
-		getInputSuggestions().popupSuggestions();
+		int left = (int) (marblePanel.getAbsoluteLeft() - app.getAbsLeft()
+				+ marblePanel.getOffsetWidth());
+		int top = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
+		int bottom =  top + marblePanel.getOffsetHeight();
+		getInputSuggestions().popupSuggestions(left, top, bottom);
 	}
 
 	/**
