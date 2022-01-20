@@ -72,7 +72,6 @@ public class PathCorrector {
 		} else {
 			drawFromPositiveInfinityOnly(idx, high);
 		}
-
 	}
 
 	private boolean isInvertedAround(int idx) {
@@ -180,5 +179,4 @@ public class PathCorrector {
 		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
-
 }
