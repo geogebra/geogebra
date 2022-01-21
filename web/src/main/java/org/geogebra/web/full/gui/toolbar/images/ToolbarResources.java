@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.images;
 
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 @SuppressWarnings("javadoc")
 public interface ToolbarResources {

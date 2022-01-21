@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.ImageResourceConverter;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -41,8 +42,8 @@ public class BrowserDevice implements GDevice {
 		public FileOpenButton() {
 			super();
 			this.setStyleName("button");
-			final Image icon = new Image(
-					BrowseResources.INSTANCE.location_local());
+			final Image icon = new Image(ImageResourceConverter
+						.convertToOldImageResource(BrowseResources.INSTANCE.location_local()));
 			final Element span = DOM.createElement("span");
 			span.setAttribute("style",
 					"position: absolute; top: 0px; left: 0px; "

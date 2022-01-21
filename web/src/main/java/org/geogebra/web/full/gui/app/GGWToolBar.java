@@ -28,6 +28,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.impl.ImageResourcePrototype;
+import org.gwtproject.safehtml.shared.UriUtils;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -38,9 +41,6 @@ import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
-import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -249,7 +249,7 @@ public class GGWToolBar extends Composite
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);
 		Image info = new Image(
-				GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri());
+				GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri().asString());
 		info.setStyleName("examInfo");
 		fp.add(info);
 

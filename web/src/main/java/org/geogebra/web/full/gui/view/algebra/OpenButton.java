@@ -1,7 +1,8 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.gwtproject.safehtml.shared.SafeUri;
+
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TreeItem;

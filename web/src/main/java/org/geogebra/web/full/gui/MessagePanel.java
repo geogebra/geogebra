@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 

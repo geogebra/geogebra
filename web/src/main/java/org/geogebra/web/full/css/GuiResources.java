@@ -1,16 +1,15 @@
 package org.geogebra.web.full.css;
 
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.Resource;
+import org.gwtproject.resources.client.TextResource;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.TextResource;
-
-@SuppressWarnings("javadoc")
+@Resource
 public interface GuiResources extends ClientBundle {
 
-	GuiResources INSTANCE = GWT.create(GuiResources.class);
+	GuiResources INSTANCE = new GuiResourcesImpl();
 
 	@Source("org/geogebra/common/icons/svg/web/ic_get_app_black_24px.svg")
 	SVGResource get_app();

@@ -1,13 +1,13 @@
 package org.geogebra.web.full.gui.browser;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.Resource;
 
-@SuppressWarnings("javadoc")
+@Resource
 public interface BrowseResources extends ClientBundle {
 	
-	BrowseResources INSTANCE = GWT.create(BrowseResources.class);
+	BrowseResources INSTANCE = new BrowseResourcesImpl();
 	
 	@Source("org/geogebra/common/icons/png/web/button_search.png")
 	ImageResource search();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.gwtproject.regexp.shared;
+package org.geogebra.regexp.shared;
 
 public interface MatchResult {
 
