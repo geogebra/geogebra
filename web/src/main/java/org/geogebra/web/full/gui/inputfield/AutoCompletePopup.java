@@ -81,18 +81,56 @@ public class AutoCompletePopup extends GPopupMenuW {
 	/**
 	 * fill popup with command list based on the user input
 	 * @param curWord - user input
+	 * @param left - left position
+	 * @param top - top of input
+	 * @param bottom - bottom of input
 	 */
-	private void fillAndShow(String curWord) {
+	private void fillAndShow(String curWord, int left, int top, int bottom) {
 		getPopupMenu().clear();
 		fillContent(curWord);
 		popupPanel.hide();
 		if (getPopupMenu().getWidgetCount() > 0) {
 			removeSubPopup();
-			popupPanel.show();
+			positionAndShowPopup(left, top, bottom);
 			getPopupMenu().selectItem(0);
 		} else {
 			popupPanel.hide();
 		}
+	}
+
+	/**
+	 * positioning logic for the autocomplete popup
+	 * @param left - left position based on marble panel
+	 * @param top - top of input
+	 * @param bottom - bottom of input
+	 */
+	private void positionAndShowPopup(int left, int top, int bottom) {
+		popupPanel.show();
+		popupPanel.setHeight("100%");
+
+		int popupTop = bottom;
+		int distBottomKeyboardTop = (int) (getApp().getHeight() - bottom
+				- getApp().getAppletFrame().getKeyboardHeight());
+		// not enough place to show below input
+		if (distBottomKeyboardTop < popupPanel.getOffsetHeight()) {
+			popupTop = top - popupPanel.getOffsetHeight();
+			// not enough place to show above input
+			if (popupTop < 0) {
+				// more place above input -> show above
+				if (top > distBottomKeyboardTop) {
+					popupPanel.setHeight(top - 16 + "px");
+					popupTop = 0;
+				} else {
+					// show below input otherwise
+					popupPanel.setHeight(distBottomKeyboardTop - 16 + "px");
+					popupTop = bottom;
+				}
+			}
+		}
+
+		int finalPopupTop = popupTop;
+		popupPanel.setPopupPositionAndShow((offsetWidth, offsetHeight) ->
+				popupPanel.setPopupPosition(left, finalPopupTop));
 	}
 
 	public boolean isSuggesting() {
@@ -127,13 +165,16 @@ public class AutoCompletePopup extends GPopupMenuW {
 
 	/**
 	 * Show suggestions.
+	 * @param left - left position
+	 * @param top - top of input
+	 * @param bottom - bottom of input
 	 */
-	public void popupSuggestions() {
+	public void popupSuggestions(int left, int top, int bottom) {
 		String curWord = component.getCommand();
 		if (curWord != null
 				&& !"sqrt".equals(curWord)
 				&& InputHelper.needsAutocomplete(curWord, getApp().getKernel())) {
-			fillAndShow(curWord);
+			fillAndShow(curWord, left, top, bottom);
 		} else {
 			hide();
 		}
