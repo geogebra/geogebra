@@ -307,7 +307,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onKeyTyped(String key) {
-		getInputSuggestions().popupSuggestions(0, 0, 0);
+		getInputSuggestions().popupSuggestions(getAbsoluteLeft(),
+				getAbsoluteTop() - 3, // extra padding of editor
+				getAbsoluteTop() + getOffsetHeight() + 5); // extra padding of editor
 		mf.scrollParentHorizontally(this);
 	}
 
