@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
@@ -42,7 +43,7 @@ public class CmdSetLineStyle extends CmdScripting {
 				}
 
 				arg[0].setLineType(EuclidianView.getLineType(style));
-				arg[0].updateRepaint();
+				arg[0].updateVisualStyleRepaint(GProperty.LINE_STYLE);
 
 				return arg;
 			}

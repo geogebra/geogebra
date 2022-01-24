@@ -426,7 +426,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	}
 
 	@Override
-	protected void getXMLtagsMatrix(StringBuilder sb) {
+	protected void getMatrixXML(StringBuilder sb) {
 		// no matrix needed since it comes from an algo
 	}
 

@@ -412,8 +412,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// allowOutlyingIntersections
 		sb.append("\t<outlyingIntersections val=\"");

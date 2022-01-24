@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -32,7 +33,7 @@ public class LayerModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		GeoElement geo = getGeoAt(index);
 		geo.setLayer(value);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LAYER);
 	}
 
 	@Override

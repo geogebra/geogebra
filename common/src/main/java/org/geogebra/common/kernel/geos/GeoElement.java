@@ -4459,6 +4459,17 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return sb.toString();
 	}
 
+	/**
+	 * @return style-related XML (no value)
+	 */
+	public String getStyleXML() {
+		final StringBuilder sb = new StringBuilder();
+		getElementOpenTagXML(sb);
+		getStyleXML(sb);
+		getElementCloseTagXML(sb);
+		return sb.toString();
+	}
+
 	@Override
 	public void getXML(boolean getListenersToo, final StringBuilder sb) {
 		if (isSpotlight()) {
@@ -4467,8 +4478,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		getExpressionXML(sb);
 		getElementOpenTagXML(sb);
 		getXMLtags(sb);
-		getCaptionXML(sb);
-		getExtraTagsXML(sb);
 		if (getListenersToo) {
 			getListenerTagsXML(sb);
 		}
@@ -4792,7 +4801,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            string builder
 	 */
 	protected void getXMLtags(final StringBuilder sb) {
-		// sb.append(getLineStyleXML());
+		getStyleXML(sb);
+	}
+
+	protected void getStyleXML(StringBuilder sb) {
 		getXMLvisualTags(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
@@ -4802,9 +4814,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (kernel.getSaveScriptsToXML()) {
 			getScriptTags(sb);
 		}
+		getCaptionXML(sb);
 	}
 
-	private void getExtraTagsXML(StringBuilder sb) {
+	protected void getExtraTagsXML(StringBuilder sb) {
 		if (this.getParentAlgorithm() instanceof ChartStyleAlgo) {
 			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
 					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());

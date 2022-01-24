@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
@@ -33,7 +34,7 @@ public class CmdSetLineThickness extends CmdScripting {
 				int thickness = (int) arg[1].evaluateDouble();
 
 				arg[0].setLineThicknessOrVisibility(thickness);
-				arg[0].updateRepaint();
+				arg[0].updateVisualStyleRepaint(GProperty.LINE_STYLE);
 
 				return arg;
 			}

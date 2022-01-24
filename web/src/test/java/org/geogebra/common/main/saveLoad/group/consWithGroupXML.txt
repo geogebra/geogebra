@@ -6,9 +6,9 @@
 	<ordering val="0"/>
 	<labelMode val="0"/>
 	<animation step="0.1" speed="1" type="1" playing="false"/>
-	<coords x="0.0" y="0.0" z="1.0"/>
 	<pointSize val="5"/>
 	<pointStyle val="0"/>
+	<coords x="0.0" y="0.0" z="1.0"/>
 </element>
 <element type="point" label="B">
 	<show object="true" label="true"/>
@@ -17,9 +17,9 @@
 	<ordering val="1"/>
 	<labelMode val="0"/>
 	<animation step="0.1" speed="1" type="1" playing="false"/>
-	<coords x="3.0" y="0.0" z="1.0"/>
 	<pointSize val="5"/>
 	<pointStyle val="0"/>
+	<coords x="3.0" y="0.0" z="1.0"/>
 </element>
 <element type="point" label="C">
 	<show object="true" label="true"/>
@@ -28,9 +28,9 @@
 	<ordering val="2"/>
 	<labelMode val="0"/>
 	<animation step="0.1" speed="1" type="1" playing="false"/>
-	<coords x="3.0" y="3.0" z="1.0"/>
 	<pointSize val="5"/>
 	<pointStyle val="0"/>
+	<coords x="3.0" y="3.0" z="1.0"/>
 </element>
 <command name="Line">
 	<input a0="B" a1="C"/>
@@ -42,9 +42,9 @@
 	<layer val="0"/>
 	<ordering val="3"/>
 	<labelMode val="0"/>
-	<coords x="-3.0" y="0.0" z="9.0"/>
 	<lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
 	<eqnStyle style="implicit"/>
+	<coords x="-3.0" y="0.0" z="9.0"/>
 </element>
 <group l0="A" l1="g" />
 </construction>

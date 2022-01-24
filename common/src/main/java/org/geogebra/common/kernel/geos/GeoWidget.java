@@ -166,8 +166,8 @@ public abstract class GeoWidget extends GeoElement
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		XMLBuilder.appendPosition(sb, this);
 	}
 

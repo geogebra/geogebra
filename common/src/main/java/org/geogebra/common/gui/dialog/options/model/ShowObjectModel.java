@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
@@ -65,7 +66,7 @@ public class ShowObjectModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		GeoElement geo = getGeoAt(index);
 		geo.setEuclidianVisible(value);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 		storeUndoInfo();
 	}
 

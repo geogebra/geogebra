@@ -948,8 +948,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sbxml) {
-		super.getXMLtags(sbxml);
+	protected void getStyleXML(StringBuilder sbxml) {
+		super.getStyleXML(sbxml);
 
 		// line thickness and type
 		getLineStyleXML(sbxml);

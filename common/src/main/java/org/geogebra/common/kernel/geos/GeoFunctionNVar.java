@@ -1179,8 +1179,8 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// needed for inequalities
 		if (showLineProperties()) {

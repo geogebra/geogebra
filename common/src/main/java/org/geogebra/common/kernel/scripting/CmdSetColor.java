@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -98,7 +99,7 @@ public class CmdSetColor extends CmdScripting {
 					}
 				}
 
-				target.updateRepaint();
+				target.updateVisualStyleRepaint(GProperty.COLOR);
 				return target.asArray();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -134,7 +135,7 @@ public class CmdSetColor extends CmdScripting {
 				target.setObjColor(col);
 			}
 
-			target.updateRepaint();
+			target.updateVisualStyleRepaint(GProperty.COLOR);
 
 			return target.asArray();
 

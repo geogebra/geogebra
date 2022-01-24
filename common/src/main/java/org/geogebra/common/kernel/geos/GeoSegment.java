@@ -468,8 +468,8 @@ final public class GeoSegment extends GeoLine
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// allowOutlyingIntersections
 		sb.append("\t<outlyingIntersections val=\"");
@@ -480,7 +480,6 @@ final public class GeoSegment extends GeoLine
 		sb.append("\t<keepTypeOnTransform val=\"");
 		sb.append(keepTypeOnGeometricTransform);
 		sb.append("\"/>\n");
-
 	}
 
 	/**

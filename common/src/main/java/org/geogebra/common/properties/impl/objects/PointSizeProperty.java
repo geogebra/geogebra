@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -28,7 +29,7 @@ public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 	protected void setValueSafe(Integer value) {
 		GeoElement element = delegate.getElement();
 		setSize(element, value);
-		element.updateRepaint();
+		element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 	}
 
 	@Override

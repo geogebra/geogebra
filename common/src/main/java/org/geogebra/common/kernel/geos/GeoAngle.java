@@ -521,18 +521,19 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-
 		// from ggb44 need to save before value in case it's unbounded
 		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
+		getValueXML(sb);
+		getStyleXMLAfter(sb);
+	}
 
-		sb.append("\t<value val=\"");
-		sb.append(rawValue);
-		sb.append("\"");
-		if (isRandom()) {
-			sb.append(" random=\"true\"");
-		}
-		sb.append("/>\n");
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
+		getStyleXMLAfter(sb);
+	}
 
+	private void getStyleXMLAfter(StringBuilder sb) {
 		// if angle is drawable then we need to save visual options too
 		if (isDrawable() || isSliderable()) {
 			// save slider info before show to have min and max set

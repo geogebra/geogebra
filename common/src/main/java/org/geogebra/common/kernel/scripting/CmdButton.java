@@ -41,9 +41,8 @@ public class CmdButton extends CommandProcessor {
 				String caption = ((GeoText) arg[0]).getTextString();
 				GeoButton gb = new GeoButton(cons);
 				gb.setLabelVisible(true);
-				gb.setLabel(c.getLabel());
 				gb.setCaption(caption);
-				gb.updateRepaint();
+				gb.setLabel(c.getLabel());
 				return new GeoElement[] { gb };
 			}
 			throw argErr(c, arg[0]);
@@ -51,7 +50,6 @@ public class CmdButton extends CommandProcessor {
 			GeoButton gb = new GeoButton(cons);
 			gb.setLabelVisible(true);
 			gb.setLabel(c.getLabel());
-			gb.updateRepaint();
 			return new GeoElement[] { gb };
 
 		default:

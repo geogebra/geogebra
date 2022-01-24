@@ -35,5 +35,9 @@ public enum GProperty {
 	/** highlight */
 	HIGHLIGHT,
 	/** Selection for text/table */
-	TEXT_SELECTION
+	TEXT_SELECTION,
+	/** Wrapping, border etc. */
+	TABLE_STYLE,
+	/** Angle/segment decoration */
+	DECORATION,
 }

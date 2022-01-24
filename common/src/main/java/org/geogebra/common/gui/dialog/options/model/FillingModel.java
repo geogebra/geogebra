@@ -300,7 +300,7 @@ public class FillingModel extends MultipleOptionsModel {
 			} else {
 				setImage(geo, fileName);
 			}
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.HATCHING);
 		}
 
 	}
@@ -323,7 +323,7 @@ public class FillingModel extends MultipleOptionsModel {
 					geo.setFillType(fillType);
 					geo.setFillSymbol(symbolText);
 				}
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.HATCHING);
 			}
 
 		}
@@ -419,7 +419,7 @@ public class FillingModel extends MultipleOptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setInverseFill(value);
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.HATCHING);
 		}
 		storeUndoInfo();
 	}

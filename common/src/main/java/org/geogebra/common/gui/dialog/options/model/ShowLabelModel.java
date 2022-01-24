@@ -64,7 +64,7 @@ public class ShowLabelModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLabelVisible(value);
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
 		}
 		updateProperties();
 		storeUndoInfo();

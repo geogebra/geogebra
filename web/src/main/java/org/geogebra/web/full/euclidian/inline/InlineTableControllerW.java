@@ -267,7 +267,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setBorderThickness(int borderThickness) {
 		tableImpl.setBorderThickness(borderThickness);
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	@Override
@@ -278,7 +278,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setBorderStyle(BorderType borderType) {
 		tableImpl.setBorderStyle(borderType.toString());
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setWrapping(String setting) {
 		tableImpl.setCellProperty("wrapping", setting);
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	@Override
@@ -300,7 +300,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setRotation(String setting) {
 		tableImpl.setCellProperty("rotation", setting);
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	@Override
@@ -316,7 +316,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setVerticalAlignment(VerticalAlignment alignment) {
 		tableImpl.setCellProperty("valign", alignment.toString());
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
 		tableImpl.setCellProperty("halign", alignment.toString(), null);
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	@Override
@@ -388,7 +388,7 @@ public class InlineTableControllerW implements InlineTableController {
 		table.setMinWidth(tableImpl.getMinWidth());
 		table.setMinHeight(tableImpl.getMinHeight());
 		saveContent();
-		table.updateRepaint();
+		table.updateVisualStyleRepaint(GProperty.TABLE_STYLE);
 	}
 
 	private String getContent() {

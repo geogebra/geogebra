@@ -884,8 +884,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	public void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		if (!StringUtil.empty(splitParentLabel)) {
 			sb.append("\t<parentLabel val=\"");
 			sb.append(StringUtil.encodeXML(splitParentLabel));

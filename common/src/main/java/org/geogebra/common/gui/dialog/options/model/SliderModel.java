@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -303,7 +304,7 @@ public class SliderModel extends OptionsModel {
 			GColor colorWithTransparency = GColor.newColor(lineCol.getRed(),
 					lineCol.getGreen(), lineCol.getBlue(), value * 255 / 100);
 			num.setBackgroundColor(colorWithTransparency);
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.COLOR);
 		}
 		storeUndoInfo();
 	}
@@ -316,7 +317,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setSliderBlobSize(value);
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
 		storeUndoInfo();
 	}
@@ -329,7 +330,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setLineThickness((int) Math.round(value));
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 		storeUndoInfo();
 	}
@@ -342,7 +343,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setObjColor(color);
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.COLOR);
 		}
 		blobColor = color;
 		storeUndoInfo();
@@ -370,7 +371,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setBackgroundColor(color);
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.COLOR);
 		}
 		lineColor = color;
 		storeUndoInfo();

@@ -1062,4 +1062,8 @@ public class DefaultExportedApi implements ExportedApi {
 	public void switchCalculator(String appCode) {
 		ggbAPI.switchCalculator(appCode);
 	}
+
+	public String getStyleXML(String objName) {
+		return ggbAPI.getStyleXML(objName);
+	}
 }

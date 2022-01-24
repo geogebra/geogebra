@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
@@ -63,7 +64,7 @@ public class LodModel extends MultipleOptionsModel {
 		SurfaceEvaluable geo = getSurfaceAt(index);
 		geo.setLevelOfDetail(
 				value == 0 ? LevelOfDetail.SPEED : LevelOfDetail.QUALITY);
-		((GeoElementND) geo).updateRepaint();
+		((GeoElementND) geo).updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override

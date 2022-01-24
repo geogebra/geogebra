@@ -239,12 +239,10 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// line thickness and type
-		// getLineStyleXML(sb);
-
+		getLineStyleXML(sb);
 	}
 
 	@Override

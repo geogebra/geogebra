@@ -376,8 +376,8 @@ public class GeoVector3D extends GeoVec4D
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sbXml) {
-		super.getXMLtags(sbXml);
+	protected void getStyleXML(StringBuilder sbXml) {
+		super.getStyleXML(sbXml);
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {

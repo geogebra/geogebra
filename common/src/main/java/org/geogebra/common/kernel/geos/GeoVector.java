@@ -567,11 +567,11 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	/**
-	 * returns all class-specific xml tags for saveXML
+	 * returns class-specific style xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder xmlsb) {
-		super.getXMLtags(xmlsb);
+	protected void getStyleXML(StringBuilder xmlsb) {
+		super.getStyleXML(xmlsb);
 		// line thickness and type
 		getLineStyleXML(xmlsb);
 

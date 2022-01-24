@@ -151,8 +151,8 @@ public class GeoEmbed extends GeoWidget {
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	public void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		sb.append("\t<embed id=\"");
 		sb.append(embedID);
 		sb.append("\" app=\"");

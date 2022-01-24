@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -101,7 +101,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		AngleProperties geo = getAnglePropertiesAt(index);
 		geo.setAngleStyle(value);
-		((GeoElementND) geo).updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.ANGLE_INTERVAL);
 	}
 
 	public boolean hasOrientation() {

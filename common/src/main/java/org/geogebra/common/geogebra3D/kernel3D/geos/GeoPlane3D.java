@@ -564,9 +564,7 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-
 		Coords equation = getCoordSys().getEquationVector();
-
 		// equation
 		sb.append("\t<coords x=\"");
 		sb.append(equation.getX());
@@ -577,7 +575,11 @@ public class GeoPlane3D extends GeoElement3D
 		sb.append("\" w=\"");
 		sb.append(equation.getW());
 		sb.append("\"/>\n");
+	}
 
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// fading
 		sb.append("\t<fading val=\"");
 		sb.append(getFading());

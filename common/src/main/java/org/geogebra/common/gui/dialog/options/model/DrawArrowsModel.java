@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.main.App;
@@ -21,7 +22,7 @@ public class DrawArrowsModel extends BooleanOptionModel {
 			GeoElement geo = getGeoAt(i);
 			if (geo instanceof GeoLocus) {
 				((GeoLocus) geo).drawAsArrows(value);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.DECORATION);
 			}
 		}
 		storeUndoInfo();

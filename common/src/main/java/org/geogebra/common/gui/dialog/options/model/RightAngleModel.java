@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
@@ -34,7 +35,7 @@ public class RightAngleModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		AngleProperties geo = (AngleProperties) getObjectAt(index);
 		geo.setEmphasizeRightAngle(value);
-		geo.updateRepaint();
+		geo.updateVisualStyle(GProperty.ANGLE_STYLE);
 	}
 
 }

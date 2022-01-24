@@ -5,6 +5,7 @@ import java.util.Set;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
@@ -73,7 +74,7 @@ public class CmdSetDecoration extends CmdScripting {
 				arg[0].setFillType(types[style]);
 			}
 
-			arg[0].updateRepaint();
+			arg[0].updateVisualStyleRepaint(GProperty.DECORATION);
 
 			return arg;
 

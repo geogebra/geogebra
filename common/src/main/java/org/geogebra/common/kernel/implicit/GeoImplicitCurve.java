@@ -852,7 +852,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		getLineStyleXML(sb);
 		if (coeff != null) {
 			sb.append("\t<coefficients rep=\"array\" data=\"");
 			sb.append("[");
@@ -872,6 +871,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			sb.append("]");
 			sb.append("\" />\n");
 		}
+
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		getLineStyleXML(sb);
 		sb.append("\t<userinput show=\"");
 		sb.append(isInputForm());
 		sb.append("\"/>");

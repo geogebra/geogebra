@@ -568,8 +568,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-
+	protected void getStyleXML(StringBuilder sb) {
 		// name of image file
 		sb.append("\t<file name=\"");
 		sb.append(StringUtil
@@ -601,15 +600,12 @@ public class GeoImage extends GeoElement implements Locateable,
 			}
 		}
 
-		getAuxiliaryXML(sb);
-
 		if (cropBox != null) {
 			getCropBoxXML(sb);
 		}
 		// sb.append(getXMLvisualTags());
 		// sb.append(getBreakpointXML());
-		super.getXMLtags(sb);
-
+		super.getStyleXML(sb);
 	}
 
 	private void getXMLabsScreenLoc(StringBuilder sb) {

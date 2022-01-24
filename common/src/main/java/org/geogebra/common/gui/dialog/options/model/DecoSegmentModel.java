@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentProperties;
 import org.geogebra.common.main.App;
@@ -37,7 +38,7 @@ public class DecoSegmentModel extends NumberOptionsModel {
 	protected void apply(int index, int value) {
 		SegmentProperties geo = getGeoSegmentAt(index);
 		geo.setDecorationType(value);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.DECORATION);
 	}
 
 	@Override

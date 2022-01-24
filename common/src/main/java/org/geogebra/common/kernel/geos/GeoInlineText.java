@@ -204,8 +204,8 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
     }
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		XMLBuilder.appendBorderAndAlignment(sb, this, verticalAlignment);
 		if (getLineThickness() != 0) {
 			getLineStyleXML(sb);

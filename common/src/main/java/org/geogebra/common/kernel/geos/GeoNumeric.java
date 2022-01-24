@@ -716,6 +716,11 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
+		getValueXML(sb);
+		getStyleXML(sb);
+	}
+
+	protected void getValueXML(StringBuilder sb) {
 		sb.append("\t<value val=\"");
 		sb.append(value);
 		sb.append("\"");
@@ -723,6 +728,10 @@ public class GeoNumeric extends GeoElement
 			sb.append(" random=\"true\"");
 		}
 		sb.append("/>\n");
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
 		XMLBuilder.appendSymbolicMode(sb, this, false);
 		// colors
 		getXMLvisualTags(sb);
@@ -748,6 +757,8 @@ public class GeoNumeric extends GeoElement
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		getScriptTags(sb);
+		getCaptionXML(sb);
+		getExtraTagsXML(sb);
 	}
 
 	/**

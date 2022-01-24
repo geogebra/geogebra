@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -50,7 +51,7 @@ public class DecoAngleModel extends NumberOptionsModel {
 			listener.setArcSizeMinValue();
 		}
 		// END
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.DECORATION);
 	}
 
 	@Override

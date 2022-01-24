@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
@@ -26,6 +27,6 @@ public class ShowObjectProperty extends AbstractProperty implements BooleanPrope
 	@Override
 	public void setValue(boolean show) {
 		element.setEuclidianVisible(show);
-		element.updateRepaint();
+		element.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}
 }

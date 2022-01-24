@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -292,15 +293,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized String getXML(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
+		return getGeoProperty(objName, GeoElement::getXML, "");
+	}
+
+	private<T> T getGeoProperty(String label, Function<GeoElement, T> prop, T fallback) {
+		GeoElement geo = kernel.lookupLabel(label);
 		if (geo == null) {
-			return "";
+			return fallback;
 		}
-		// if (geo.isIndependent()) removed as we want a way to get the
-		// <element> tag for all objects
-		return geo.getXML();
-		// else
-		// return "";
+		return prop.apply(geo);
+	}
+
+	public synchronized String getStyleXML(String label) {
+		return getGeoProperty(label, GeoElement::getStyleXML, "");
 	}
 
 	/**
@@ -330,7 +335,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setEuclidianVisible(visible);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}
 
 	/**
@@ -360,7 +365,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setLayer(layer);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LAYER);
 	}
 
 	/**
@@ -391,7 +396,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			if (geo != null) {
 				if (geo.getLayer() == layer) {
 					geo.setEuclidianVisible(visible);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 				}
 			}
 		}
@@ -526,7 +531,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setObjColor(GColor.newColor(red, green, blue));
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.COLOR);
 	}
 
 	@Override
@@ -623,7 +628,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setLineThickness(thickness);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	@Override
@@ -646,7 +651,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		if (geo instanceof PointProperties) {
 			((PointProperties) geo).setPointStyle(style);
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
 	}
 
@@ -931,7 +936,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		geo.setLineType(EuclidianView.getLineType(style));
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	/**

@@ -150,8 +150,8 @@ public class GeoAudio extends GeoMedia {
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		if (src != null) {
 			sb.append("\t<audio src=\"");
 			sb.append(StringUtil.encodeXML(src));
