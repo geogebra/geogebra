@@ -20,6 +20,8 @@ import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.ImageResourceConverter;
+import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -27,7 +29,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -87,8 +88,10 @@ public class TextEditPanel extends VerticalPanel
 		previewer = advancedPanel.getPreviewer();
 
 		disclosurePanel = new DisclosurePanel(
-				GuiResources.INSTANCE.triangle_down(),
-				GuiResources.INSTANCE.triangle_right(),
+				ImageResourceConverter
+						.convertToOldImageResource(GuiResources.INSTANCE.triangle_down()),
+				ImageResourceConverter
+						.convertToOldImageResource(GuiResources.INSTANCE.triangle_right()),
 				loc.getMenu("Advanced"));
 		disclosurePanel.setContent(advancedPanel);
 		disclosurePanel.getContent().removeStyleName("content");

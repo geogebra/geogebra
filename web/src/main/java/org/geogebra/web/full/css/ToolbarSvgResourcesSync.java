@@ -1,18 +1,16 @@
 package org.geogebra.web.full.css;
 
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
 
 /**
  * SVG icons for toolbar that require sync loading
  */
-@SuppressWarnings("javadoc")
+@Resource
 public interface ToolbarSvgResourcesSync extends ClientBundle {
 	/** singleton instance */
-	ToolbarSvgResourcesSync INSTANCE = GWT
-			.create(ToolbarSvgResourcesSync.class);
+	ToolbarSvgResourcesSync INSTANCE = new ToolbarSvgResourcesSyncImpl();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_tool.svg")
 	SVGResource mode_tool_32();

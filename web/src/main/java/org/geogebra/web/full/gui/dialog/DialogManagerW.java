@@ -58,6 +58,7 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.resources.ImageResourceConverter;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.GWT;
@@ -567,8 +568,8 @@ public class DialogManagerW extends DialogManager
 	private static PopupPanel createLoadingAnimation() {
 		PopupPanel anim = new PopupPanel();
 		anim.addStyleName("loadinganimation");
-		anim.add(
-				new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
+		anim.add(new Image(ImageResourceConverter
+				.convertToOldImageResource(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner())));
 		return anim;
 	}
 

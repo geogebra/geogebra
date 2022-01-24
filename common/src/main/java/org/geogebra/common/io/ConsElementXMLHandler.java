@@ -1,6 +1,7 @@
 package org.geogebra.common.io;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -429,7 +430,7 @@ public class ConsElementXMLHandler {
 			fVars[i] = new FunctionVariable(xmlHandler.kernel, variables[i]);
 		}
 		GeoSymbolic symbolic = (GeoSymbolic) geo;
-		symbolic.setVariables(fVars);
+		symbolic.setVariables(Arrays.asList(fVars));
 		return true;
 	}
 

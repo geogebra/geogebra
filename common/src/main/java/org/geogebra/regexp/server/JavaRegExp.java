@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.gwtproject.regexp.server;
+package org.geogebra.regexp.server;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,8 +23,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.RegExp;
 
 public final class JavaRegExp implements RegExp {
 

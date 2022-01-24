@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.gwtproject.regexp.client;
+package org.geogebra.regexp.client;
 
 import static java.util.Objects.isNull;
 
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.RegExp;
 
 import elemental2.core.JsRegExp;
 import elemental2.core.JsString;

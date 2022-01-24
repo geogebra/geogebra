@@ -127,7 +127,7 @@ import com.google.gwt.user.client.ui.impl.FocusImpl;
  * html body. For example:
  * 
  * <pre>
- * &lt;ui:image field='downButton'/> &lt;!-- define an {@link com.google.gwt.resources.client.ImageResource ImageResource} -->
+ * &lt;ui:image field='downButton'/> &lt;!-- define an {@link org.gwtproject.resources.client.ImageResource ImageResource} -->
  *
  * &lt;g:PushButton ui:field='pushButton' enabled='true'>
  *   &lt;g:upFace>
@@ -410,7 +410,6 @@ public abstract class GCustomButton extends ButtonBase {
 		this(upImage);
 		addClickHandler(handler);
 	}
-
 
 	/**
 	 * Constructor for <code>CustomButton</code>.
