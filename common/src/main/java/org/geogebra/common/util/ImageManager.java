@@ -93,7 +93,7 @@ abstract public class ImageManager {
 		EuclidianView ev = app.getActiveEuclidianView();
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
 		if (x2 > xmax) {
-			point.setCoords((x1 + 9 * xmax) / 10, point.getInhomX(), 1);
+			point.setCoords((x1 + 9 * xmax) / 10, point.getInhomY(), 1);
 			point.update();
 		}
 	}
