@@ -11,6 +11,7 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -111,12 +112,15 @@ public class CASViewW extends CASView implements PrintableW {
 		if (subDialog != null && subDialog.getDialog().isShowing()) {
 			return;
 		}
-		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
-		        selRow);
-		d.getDialog().center();
-		d.getDialog().show();
-		subDialog = d;
-
+		//CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
+		    //    selRow);
+	//	d.getDialog().center();
+		//d.getDialog().show();
+		//subDialog = d;
+		DialogData data = new DialogData("Substitute", "Row1",
+				"Cancel", "OK" );
+		CASSubstituteDialogW dialog = new CASSubstituteDialogW(app, data);
+		dialog.show();
 	}
 
 	/**
