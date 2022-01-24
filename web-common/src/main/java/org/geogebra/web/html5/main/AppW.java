@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
@@ -1415,11 +1416,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GeoImage createImageFromString(final String imgFileName,
 			String imageAsString, GeoImage imageOld,
-			final boolean autoCorners, final String c1, final String c2,
-			final String c4) {
+			final boolean autoCorners, final GeoPointND c1, final GeoPointND c2) {
 		SafeGeoImageFactory factory =
 				new SafeGeoImageFactory(this, imageOld).withAutoCorners(c1 == null)
-						.withCorners(c1, c2, c4);
+						.withCorners(c1, c2);
 		return factory.create(imgFileName, imageAsString);
 	}
 
