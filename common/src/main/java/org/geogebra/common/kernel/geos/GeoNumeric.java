@@ -27,6 +27,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -344,10 +345,15 @@ public class GeoNumeric extends GeoElement
 				.isUnbundled()) {
 			count++;
 		}
+
 		sliderPos = new SliderPosition();
+
 		if (isAbsoluteScreenLocActive()) {
-			sliderPos.x = 30;
-			sliderPos.y = 50 + 40 * count;
+			EuclidianViewInterfaceSlim ev = kernel.getApplication()
+					.getActiveEuclidianView();
+			EdgeInsets insets = ev.getSafeAreaInsets();
+			sliderPos.x = insets.getLeft() + 30;
+			sliderPos.y = insets.getTop() + 50 + 40 * count;
 			// make sure slider is visible on screen
 			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
 		} else {
