@@ -7,6 +7,7 @@ package org.geogebra.common.kernel.interval;
  * that data should be fixed there.
  */
 public class IntervalAsymptotes {
+	private static final int PEAK_MULTIPLIER = 4;
 	private final IntervalTupleList samples;
 
 	/**
@@ -23,10 +24,38 @@ public class IntervalAsymptotes {
 	 */
 	public void process() {
 		for (int index = 1; index < samples.count() - 1; index++) {
-			if (isWholeButNotTheNeighbours(index)) {
+			if (isWholeButNotTheNeighbours(index) || isPeak(index)) {
 				samples.valueAt(index).setUndefined();
 			}
 		}
+	}
+
+	private boolean isPeak(int index) {
+		Interval left = value(index - 1);
+		Interval value = value(index);
+		Interval right = value(index + 1);
+		if (left.isUndefined() || right.isUndefined()) {
+			return false;
+		}
+
+		return (areFinitelyEqual(left, right)
+				&& value.getLength() > PEAK_MULTIPLIER * right.getLength())
+				|| isNegativeInfinityAndPeak(left, value, right)
+				|| isPositiveInfinityAndPeak(left, value, right);
+	}
+
+	private boolean isPositiveInfinityAndPeak(Interval left, Interval value, Interval right) {
+		return left.isPositiveInfinity() && right.isPositiveInfinity()
+				&& !value.isPositiveInfinity();
+	}
+
+	private boolean isNegativeInfinityAndPeak(Interval left, Interval value, Interval right) {
+		return left.isNegativeInfinity() && right.isNegativeInfinity()
+				&& !value.isNegativeInfinity();
+	}
+
+	private boolean areFinitelyEqual(Interval left, Interval right) {
+		return left.isFinite() && right.isFinite() && left.almostEqual(right);
 	}
 
 	private boolean isWholeButNotTheNeighbours(int index) {

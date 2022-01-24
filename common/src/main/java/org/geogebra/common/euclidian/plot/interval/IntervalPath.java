@@ -12,6 +12,7 @@ public class IntervalPath {
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
 	private Interval lastY;
+	private Interval lastValidY;
 	private boolean moveTo;
 	private final PathCorrector corrector;
 
@@ -31,6 +32,7 @@ public class IntervalPath {
 		this.model = model;
 		labelPositionCalculator = new LabelPositionCalculator(bounds);
 		lastY = new Interval();
+		lastValidY = new Interval();
 		corrector = new PathCorrector(gp, model, bounds);
 	}
 
@@ -38,7 +40,7 @@ public class IntervalPath {
 	 * Update the path based on the model.
 	 */
 	public synchronized void update() {
-		if (model.getCount() > 1) {
+		if (model.hasValidData()) {
 			reset();
 			plotAll();
 		}
@@ -46,18 +48,29 @@ public class IntervalPath {
 
 	private void plotAll() {
 		for (int i = 0; i < model.pointCount(); i++) {
-			IntervalTuple tuple = model.pointAt(i);
-			boolean shouldSkip = shouldSkip(tuple);
-			if (shouldSkip) {
-				skip();
-			} else if (lastY.isUndefined()) {
-				moveToFirst(i, tuple);
-			} else {
-				drawTuple(i, tuple);
-				calculateLabelPoint(tuple);
+			handleTuple(i);
+			if (!lastY.isUndefined()) {
+				lastValidY.set(lastY);
 			}
-			moveTo = shouldSkip;
 		}
+	}
+
+	private void handleTuple(int i) {
+		IntervalTuple tuple = model.pointAt(i);
+		boolean shouldSkip = shouldSkip(tuple);
+		if (shouldSkip) {
+			skip();
+		} else if (lastY.isUndefined()) {
+			if (tuple.isInverted()) {
+				corrector.drawInvertedInterval(i);
+			} else {
+				moveToFirst(i, tuple);
+			}
+		} else {
+			drawTuple(i, tuple);
+			calculateLabelPoint(tuple);
+		}
+		moveTo = shouldSkip;
 	}
 
 	private void drawTuple(int i, IntervalTuple tuple) {

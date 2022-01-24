@@ -107,7 +107,7 @@ public class ClipAlgoSutherlandHodogman {
 		double y = getSafeNumber(n2 / det);
 
 		if (Double.isNaN(x) || Double.isNaN(y))  {
-			return null;
+			return new MyPoint(Double.MAX_VALUE, Double.MAX_VALUE);
 		}
 
 		// add 0.0 to avoid -0.0 problem.
