@@ -1074,13 +1074,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
-	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		StringBuilder sbToStr = getSbToString();
-		getXMLtagsMinimal(sbToStr, tpl);
-		return sbToStr.toString();
-	}
-
 	private String buildImplicitEquation(double[] g, StringTemplate tpl) {
 		g[0] = x;
 		g[1] = y;

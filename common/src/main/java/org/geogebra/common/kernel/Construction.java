@@ -1408,44 +1408,6 @@ public class Construction {
 	}
 
 	/**
-	 * Returns this construction in regression file .out format.
-	 * 
-	 * @author Zoltan Kovacs
-	 * 
-	 * @param sb
-	 *            string builder
-	 */
-	public void getConstructionRegressionOut(StringBuilder sb) {
-
-		// change kernel settings temporarily
-		StringTemplate tpl = StringTemplate.regression;
-		try {
-			ConstructionElement ce;
-			int size = ceList.size();
-			for (int i = 0; i < size; ++i) {
-				ce = ceList.get(i);
-				sb.append(ce.getNameDescription());
-				sb.append(" = ");
-
-				if (ce instanceof GeoElement) {
-					// sb.append(((GeoElement) ce).toValueString());
-					((GeoElement) ce).getXMLtagsMinimal(sb, tpl);
-
-				} else if (ce instanceof AlgoElement) {
-					sb.append(((AlgoElement) ce).getDefinition(tpl));
-					sb.append(" == ");
-					sb.append(((AlgoElement) ce)
-							.getAlgebraDescriptionRegrOut(tpl));
-				}
-				sb.append("\n");
-			}
-		} catch (Exception e) {
-			sb.append(e.getMessage());
-		}
-
-	}
-
-	/**
 	 * @return true if undo is enabled
 	 */
 	public boolean isUndoEnabled() {
@@ -1458,7 +1420,6 @@ public class Construction {
 	 */
 	public void setUndoEnabled(boolean b) {
 		undoEnabled = b;
-
 	}
 
 	/*
