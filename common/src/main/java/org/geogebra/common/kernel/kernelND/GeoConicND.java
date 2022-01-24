@@ -1652,35 +1652,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	public String toValueStringMinimal(StringTemplate tpl) {
-		return getXMLtagsMinimal();
-	}
-
-	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		return getXMLtagsMinimal();
-	}
-
-	/**
-	 * returns some class-specific xml tags for getConstructionRegressionOut
-	 * 
-	 * @return some class-specific xml tags for getConstructionRegressionOut
-	 */
-	protected String getXMLtagsMinimal() {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < 5; i++) {
-			sb.append(regrFormat(matrix[i]));
-			sb.append(" ");
-		}
-		sb.append(regrFormat(matrix[5]));
-
-		return sb.toString();
-	}
-	// I'm not sure if this is the right place for the *Minimal() methods.
-	// In v3.2 they were put into kernel.GeoConic. It seems both are OK.
-	// -- Zoltan, 2011-08-01
-
-	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 		return buildValueString(tpl, matrix);
 	}

@@ -1379,29 +1379,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * Creates the regression file for the current GGB file with the textual
-	 * content of the algebra window, then exits.
-	 * 
-	 * @throws IOException
-	 *             if the file is not writable
-	 */
-	public void createRegressionFile() throws IOException {
-		if (regressionFileName == null) {
-			return;
-		}
-		File regressionFile = new File(regressionFileName);
-
-		BufferedWriter regressionFileWriter = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(regressionFile),
-						"UTF-8"));
-
-		kernel.updateConstruction(false);
-		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
-		regressionFileWriter.close();
-		AppD.exit(0);
-	}
-
-	/**
 	 * This function helps determine if a ggt file was loaded because if a ggt
 	 * file was loaded we will need to load something instead of the ggb
 	 * 
@@ -3230,15 +3207,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			setHideConstructionProtocolNavigation();
 		}
 
-		boolean success = loadXML(file, isMacroFile);
-
-		try {
-			createRegressionFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return success;
+		return loadXML(file, isMacroFile);
 	}
 
 	/**
