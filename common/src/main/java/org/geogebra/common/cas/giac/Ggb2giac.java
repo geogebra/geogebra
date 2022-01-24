@@ -1017,8 +1017,7 @@ public class Ggb2giac {
 				+ "when(ggb_is_equals(ggbleftarg0[%1-1][0]),right(ggbleftarg0[%1-1]),?)][1]");
 
 		p("Length.1",
-				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt'||(type(ggbv)==DOM_LIST&&subtype(ggbv)=="
-						+ GGBVECT_TYPE + "),l2norm(ggbv),size(ggbv)))][1]");
+				"[[ggbv:=%0],regroup(when(type(ggbv)==DOM_LIST&&subtype(ggbv)!=" + GGBVECT_TYPE + ",size(ggbv),when(real(ggbv)==ggbv&&subtype(ggbv)!=" + GGBVECT_TYPE + ",?,l2norm(ggbv))))][1]");
 		p("Length.3", "arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 
