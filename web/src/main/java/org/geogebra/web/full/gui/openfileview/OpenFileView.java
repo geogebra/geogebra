@@ -102,7 +102,7 @@ public class OpenFileView extends HeaderFileView
 		if (materialListEmpty) {
 			common.showEmptyListNotification();
 			setExtendedButtonStyle();
-			common.addToInfo(buttonPanel);
+			common.addToContent(buttonPanel);
 		} else {
 			setSmallButtonStyle();
 			common.addToContent(buttonPanel);
@@ -155,7 +155,6 @@ public class OpenFileView extends HeaderFileView
 	 * Reload materials sorted by another property.
 	 */
 	protected void updateOrder() {
-
 		order = map[sortDropDown.getSelectedIndex() - 1];
 		loadAllMaterials(0);
 	}

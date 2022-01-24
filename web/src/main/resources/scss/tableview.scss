@@ -9,56 +9,13 @@ $deleteTime: 120ms;
 	}
 
 	.emptyTablePanel {
-		width: 100%;
-		text-align: center;
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%) translateY(-28px);
-		color: colors.$text-secondary;
-		height: $emptyHeight;
-	}
-
-	.emptyTablePanel div {
-		text-align: center;
-	}
-
-	.emptyTableImageWrap {
-		background-color: colors.$white-5-overlay;
-		border-radius: 50%;
-		padding: 28px;
-		margin: auto;
-		margin: 16px auto;
-		width: 56px;
-		height: 56px;
-	}
-
-	.emptyTableImage {
-		opacity: .38;
-	}
-
-	.emptyTableInfo {
-		font-size: 14px;
-		line-height: 20px;
-		margin: 0 24px;
-	}
-
-	.emptyTableLabel {
-		line-height: 24px;
-		font-size: 18px;
-		font-weight: 500;
-		margin: 4px auto;
-		color: colors.$text-primary;
+		position: relative;
+		top: calc(50% - 90px);
 	}
 
 	.main >* {
 		position: absolute !important;
 		display: inline-block;
-	}
-
-	.tableViewMain {
-		margin-top: 8px;
-		margin-left: 0px;
-		margin-right: 0px;
 	}
 
 	%colDelete {
