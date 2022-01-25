@@ -53,6 +53,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		};
 		exit.setOnPositiveAction(() -> {
 			GlobalHeader.INSTANCE.resetAfterExam();
+			app.getExam().exit();
 			new ExamLogAndExitDialog(app, false, returnHandler, null, "Exit").show();
 		});
 		exit.show();
@@ -65,7 +66,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.getLAF().toggleFullscreen(false);
 		ExamEnvironment exam = app.getExam();
 		StringBuilder settings = exam.getSettings(app.getLocalization(), app.getSettings());
-		exam.exit();
 		saveScreenshot(app.getLocalization().getMenu("exam_log_header")
 				+ " " + app.getVersionString(), settings);
 		app.endExam();
