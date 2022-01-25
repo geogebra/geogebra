@@ -17,6 +17,15 @@ public class InfoErrorData {
 		setActionButtonText(actionButtonText);
 	}
 
+	/**
+	 * info/error date constructor without button
+	 * @param title - title
+	 * @param subtext - error/warning message
+	 */
+	public InfoErrorData(String title, String subtext) {
+		this(title, subtext, null);
+	}
+
 	private void setTitle(String title) {
 		this.title = title;
 	}

@@ -1638,13 +1638,6 @@ public class GeoPolyhedron extends GeoElement3D
 		return sbToString.toString();
 	}
 
-	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(getVolume()));
-		return sbToString.toString();
-	}
-
 	/** to be able to fill it with an alpha value */
 	@Override
 	public boolean isFillable() {

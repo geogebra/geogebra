@@ -1,9 +1,9 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 
 /**

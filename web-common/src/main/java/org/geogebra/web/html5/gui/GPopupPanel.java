@@ -26,7 +26,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.animation.client.Animation;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
@@ -110,7 +109,7 @@ public class GPopupPanel extends SimplePanel implements
 	 */
 	private static final String DEFAULT_STYLENAME = "gwt-PopupPanel";
 
-	private static final PopupImpl impl = GWT.create(PopupImpl.class);
+	private static final PopupImpl impl = new PopupImpl();
 
 	/**
 	 * Total of top + bottom paddings

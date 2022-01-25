@@ -26,6 +26,7 @@ allprojects {
         maven { url 'https://dev.geogebra.org/maven2' }
         mavenCentral()
         google()
+        maven { url 'https://repo.vertispan.com/gwt-snapshot' }
     }
 }
 

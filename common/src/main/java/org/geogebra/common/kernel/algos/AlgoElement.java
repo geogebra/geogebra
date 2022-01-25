@@ -1187,26 +1187,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return sbAE.toString();
 	}
 
-	/**
-	 * @param tpl
-	 *            template
-	 * @return regression output
-	 */
-	public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
-		sbAE.setLength(0);
-
-		if (getOutput(0).isLabelSet()) {
-			sbAE.append(getOutput(0).getAlgebraDescriptionRegrOut(tpl));
-		}
-		for (int i = 1; i < getOutputLength(); ++i) {
-			if (getOutput(i).isLabelSet()) {
-				sbAE.append("\n");
-				sbAE.append(getOutput(i).getAlgebraDescriptionRegrOut(tpl));
-			}
-		}
-		return sbAE.toString();
-	}
-
 	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
 		return toString(tpl);

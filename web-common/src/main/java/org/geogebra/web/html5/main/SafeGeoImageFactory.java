@@ -35,9 +35,9 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	private ArchiveEntry imageFile;
 	private HTMLImageElement imageElement;
 	private boolean autoCorners;
-	private String cornerLabel1 = null;
-	private String cornerLabel2 = null;
-	private String cornerLabel4 = null;
+	private GeoPointND corner1 = null;
+	private GeoPointND corner2 = null;
+	private GeoPointND corner4 = null;
 
 	/**
 	 * Constructor
@@ -162,19 +162,12 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	}
 
 	private void setManualCorners() {
-		if (cornerLabel1 != null) {
-
-			GeoPointND corner1 = algebraProcessor
-					.evaluateToPoint(cornerLabel1, null, true);
+		if (corner1 != null) {
 			geoImage.setCorner(corner1, 0);
 
-			GeoPoint corner2;
-			if (cornerLabel2 != null) {
-				corner2 = (GeoPoint) algebraProcessor
-						.evaluateToPoint(cornerLabel2, null, true);
-			} else {
+			if (corner2 == null) {
 				corner2 = new GeoPoint(construction, 0, 0, 1);
-				geoImage.calculateCornerPoint(corner2, 2);
+				geoImage.calculateCornerPoint((GeoPoint) corner2, 2);
 			}
 			geoImage.setCorner(corner2, 1);
 
@@ -182,9 +175,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 			ImageManager.ensure2ndCornerOnScreen(
 					corner1.getInhomX(), corner2, app);
 
-			if (cornerLabel4 != null) {
-				GeoPointND corner4 = algebraProcessor
-						.evaluateToPoint(cornerLabel4, null, true);
+			if (corner4 != null) {
 				geoImage.setCorner(corner4, 2);
 			}
 			geoImage.setLabel(null);
@@ -212,9 +203,27 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	 */
 	public SafeGeoImageFactory withCorners(String cornerLabel1, String cornerLabel2,
 			String cornerLabel4) {
-		this.cornerLabel1 = cornerLabel1;
-		this.cornerLabel2 = cornerLabel2;
-		this.cornerLabel4 = cornerLabel4;
+		this.corner1 = asPoint(cornerLabel1);
+		this.corner2 = asPoint(cornerLabel2);
+		this.corner4 = asPoint(cornerLabel4);
 		return this;
+	}
+
+	/**
+	 * Sets corners for the image
+	 *
+	 * @param corner1 Corner1
+	 * @param corner2 Corner2
+	 * @return factory object with corners set.
+	 */
+	public SafeGeoImageFactory withCorners(GeoPointND corner1, GeoPointND corner2) {
+		this.corner1 = corner1;
+		this.corner2 = corner2;
+		return this;
+	}
+
+	private GeoPointND asPoint(String label) {
+		return label == null ? null :  algebraProcessor
+				.evaluateToPoint(label, null, true);
 	}
 }

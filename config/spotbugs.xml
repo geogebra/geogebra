@@ -22,6 +22,10 @@
         <Bug pattern="MS_CANNOT_BE_FINAL" />
     </Match>
     <Match>
+        <Class name="~.*(Resources|IconProvider).*Impl"/>
+        <Bug pattern="LI_LAZY_INIT_UPDATE_STATIC" />
+    </Match>
+    <Match>
         <Package name="~(org.geogebra.common.kernel.(parser|prover.polynomial)|com.himamis.retex.editor.share.io.latex)" />
         <Or>
             <Bug pattern="DLS_DEAD_LOCAL_STORE" />

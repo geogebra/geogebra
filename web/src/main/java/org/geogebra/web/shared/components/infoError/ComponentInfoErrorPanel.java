@@ -1,6 +1,7 @@
 package org.geogebra.web.shared.components.infoError;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
@@ -23,6 +24,15 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 		this.loc = loc;
 		addStyleName("infoErrorPanel");
 		buildGUI(data, img, buttonAction);
+	}
+
+	/**
+	 * default info/error panel constructor without button with light bulb img
+	 * @param loc - localization
+	 * @param data - data of the panel including title, subtext and button text
+	 */
+	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data) {
+		this(loc, data,  MaterialDesignResources.INSTANCE.mow_lightbulb(), null);
 	}
 
 	private void buildGUI(InfoErrorData data, SVGResource img, Runnable buttonAction) {

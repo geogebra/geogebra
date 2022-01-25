@@ -1,10 +1,11 @@
 package org.geogebra.web.resources;
 
+import org.gwtproject.resources.client.TextResource;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.HeadElement;
 import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.DOM;
 
 /**
@@ -18,17 +19,23 @@ public class JavaScriptInjector {
 	 *            javascript file
 	 */
 	public static void inject(TextResource scriptResource) {
-		if (DOM.getElementById(scriptResource.getName()) == null) {
-			ScriptElement element = createScriptElement(scriptResource
-			        .getName());
-			element.setText(scriptResource.getText());
+		inject(scriptResource.getName(), scriptResource.getText());
+	}
+
+	/**
+	 * @param name unique name of the script element
+	 * @param text script content
+	 */
+	public static void inject(String name, String text) {
+		if (DOM.getElementById(name) == null) {
+			ScriptElement element = createScriptElement(name);
+			element.setText(text);
 			getHead().appendChild(element);
 		}
 	}
 
 	private static ScriptElement createScriptElement(String id) {
 		ScriptElement script = Document.get().createScriptElement();
-		script.setAttribute("language", "javascript");
 		script.setAttribute("id", id);
 		script.setClassName(StyleInjector.CLASSNAME);
 		return script;

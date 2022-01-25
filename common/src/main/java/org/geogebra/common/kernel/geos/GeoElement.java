@@ -39,7 +39,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
-import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
@@ -109,7 +108,6 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.LaTeXCache;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -316,7 +314,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private List<Integer> viewFlags = null;
 
-	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
 
 	private boolean descriptionNeedsUpdateInAV;
@@ -4161,42 +4158,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return toValueString(StringTemplate.latexTemplate);
 	}
 
-	/**
-	 * Returns simplified algebraic representation of this GeoElement. Used by
-	 * the regression test output creator.
-	 * 
-	 * @param tpl
-	 *            string template
-	 * 
-	 * @return sumplifiedrepresentation for regression test
-	 */
-	final public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
-		if (strAlgebraDescriptionNeedsUpdate) {
-			if (isDefined()) {
-				strAlgebraDescription = toStringMinimal(tpl);
-			} else {
-				strAlgebraDescription = "?";
-			}
-
-			strAlgebraDescriptionNeedsUpdate = false;
-		} else {
-			strAlgebraDescription = toStringMinimal(tpl);
-		}
-
-		return strAlgebraDescription;
-	}
-
-	/**
-	 * ToString(tpl) by default, but may be overriden
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return string for regression output
-	 */
-	public String toStringMinimal(StringTemplate tpl) {
-		return toString(tpl);
-	}
-
 	@Override
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
@@ -4848,50 +4809,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
 					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());
 		}
-	}
-
-	/**
-	 * returns some class-specific xml tags for getConstructionRegrOut (default
-	 * implementation, may be overridden in certain subclasses)
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param tpl
-	 *            string template
-	 */
-	public void getXMLtagsMinimal(final StringBuilder sb, StringTemplate tpl) {
-		sb.append(toValueStringMinimal(tpl));
-	}
-
-	/**
-	 * returns class-specific value string for getConstructionRegressionOut
-	 * (default implementation, may be overridden in certain subclasses)
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return value string
-	 */
-	protected String toValueStringMinimal(StringTemplate tpl) {
-		return toValueString(tpl);
-	}
-
-	/**
-	 * returns the number in rounded format to 6 decimal places, in case of the
-	 * number is very close to 0, it returns the exact value
-	 * 
-	 * @param number
-	 *            number to be formated
-	 * @return formatted String
-	 */
-	protected String regrFormat(final double number) {
-		if (Math.abs(number) < 0.000001) {
-			return Double.toString(number);
-		}
-		// this constructors uses US locale, so we don't have to worry about ","
-		if (numberFormatter6 == null) {
-			numberFormatter6 = FormatFactory.getPrototype().getNumberFormat("#.######", 6);
-		}
-		return numberFormatter6.format(number);
 	}
 
 	/**

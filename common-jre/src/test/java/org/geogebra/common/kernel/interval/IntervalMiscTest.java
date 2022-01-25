@@ -15,6 +15,7 @@ import static org.geogebra.common.kernel.interval.IntervalOperands.log10;
 import static org.geogebra.common.kernel.interval.IntervalOperands.log2;
 import static org.geogebra.common.kernel.interval.IntervalOperands.union;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -129,6 +130,12 @@ public class IntervalMiscTest {
 		assertEquals(interval(0, 1), abs(interval(-1, 1)));
 		assertEquals(interval(2, 3), abs(interval(-3, -2)));
 		assertEquals(interval(2, 3), abs(interval(2, 3)));
+	}
+
+	@Test
+	public void testAbs1() {
+		assertEquals(interval(4, POSITIVE_INFINITY), abs(invertedInterval(-4, 5)));
+		assertEquals(interval(5, POSITIVE_INFINITY), abs(invertedInterval(-8, 5)));
 	}
 
 	@Test

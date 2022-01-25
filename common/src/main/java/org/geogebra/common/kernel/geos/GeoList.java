@@ -858,33 +858,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		sbBuildValueString.setLength(0);
-		if (!isDefined) {
-			sbBuildValueString.append("?");
-			return sbBuildValueString.toString();
-		}
-
-		// first (n-1) elements
-		final int lastIndex = elements.size() - 1;
-		if (lastIndex > -1) {
-			for (int i = 0; i < lastIndex; i++) {
-				final GeoElement geo = elements.get(i);
-
-				sbBuildValueString
-						.append(geo.getAlgebraDescriptionRegrOut(tpl));
-				sbBuildValueString.append(" ");
-			}
-
-			// last element
-			final GeoElement geo = elements.get(lastIndex);
-			sbBuildValueString.append(geo.getAlgebraDescriptionRegrOut(tpl));
-		}
-
-		return sbBuildValueString.toString();
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}

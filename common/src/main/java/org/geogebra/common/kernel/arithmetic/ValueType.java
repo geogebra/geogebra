@@ -110,6 +110,9 @@ public enum ValueType {
 			}
 
 			if (rightType == ValueType.TEXT || rightType == ValueType.LIST) {
+				if (leftType == ValueType.NONCOMPLEX2D && right.getListDepth() == 2) {
+					return leftType;
+				}
 				return rightType;
 			}
 
