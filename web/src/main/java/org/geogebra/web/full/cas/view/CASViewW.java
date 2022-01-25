@@ -117,7 +117,7 @@ public class CASViewW extends CASView implements PrintableW {
 	//	d.getDialog().center();
 		//d.getDialog().show();
 		//subDialog = d;
-		DialogData data = new DialogData("Substitute", "Row1",
+		DialogData data = new DialogData("Substitute", "Row " + selRow+1,
 				"Cancel", "OK" );
 		CASSubstituteDialogW dialog = new CASSubstituteDialogW(app, data);
 		dialog.show();

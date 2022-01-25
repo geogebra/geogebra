@@ -1903,4 +1903,25 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 	}
+
+	.substituteDialog {
+		max-width: 384px;
+
+		.dialogSubtitle {
+			margin-bottom: 26px;
+		}
+
+		.radioButtonPanel {
+			margin-bottom: 18px;
+		}
+
+		.flexGroup {
+			display: flex;
+
+			.gwt-Label {
+				max-width: 168px;
+				width: 100%;
+			}
+		}
+	}
 }
