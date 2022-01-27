@@ -4,17 +4,20 @@ public class RadioButtonData {
 	private String label;
 	private boolean selected;
 	private boolean disabled;
+	private Runnable callback;
 
 	/**
 	 * radio button data
 	 * @param label - label
 	 * @param selected - whether is selected
 	 * @param disabled - whether is disabled
+	 * @param callback - callback on click
 	 */
-	public RadioButtonData(String label, boolean selected, boolean disabled) {
+	public RadioButtonData(String label, boolean selected, boolean disabled, Runnable callback) {
 		this.label = label;
 		this.selected = selected;
 		this.disabled = disabled;
+		this.callback = callback;
 	}
 
 	/**
@@ -22,8 +25,8 @@ public class RadioButtonData {
 	 * @param label - label
 	 * @param selected - whether is selected
 	 */
-	public RadioButtonData(String label, boolean selected) {
-		this(label, selected, false);
+	public RadioButtonData(String label, boolean selected, Runnable callback) {
+		this(label, selected, false, callback);
 	}
 
 	public String getLabel() {
@@ -36,5 +39,9 @@ public class RadioButtonData {
 
 	public boolean isDisabled() {
 		return disabled;
+	}
+
+	public Runnable getCallback() {
+		return callback;
 	}
 }

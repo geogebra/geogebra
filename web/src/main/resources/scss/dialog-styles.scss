@@ -1907,20 +1907,32 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.substituteDialog {
 		max-width: 384px;
 
-		.dialogSubtitle {
-			margin-bottom: 26px;
-		}
-
 		.radioButtonPanel {
+			margin-top: 10px;
 			margin-bottom: 18px;
 		}
 
 		.flexGroup {
 			display: flex;
+			margin-bottom: 16px;
 
 			.gwt-Label {
 				max-width: 168px;
 				width: 100%;
+				font-size: 87%;
+				font-weight: bold;
+				color: colors.$text-primary;
+			}
+
+			.AutoCompleteTextFieldW {
+				border: 1px solid colors.$input-field-border;
+				border-radius: 4px;
+				margin-bottom: 0px;
+
+				input[type=text] {
+					margin-bottom: 8px;
+					margin-top: 8px;
+				}
 			}
 		}
 	}

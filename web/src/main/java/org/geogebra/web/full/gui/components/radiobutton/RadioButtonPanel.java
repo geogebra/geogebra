@@ -22,6 +22,9 @@ public class RadioButtonPanel extends FlowPanel {
 						for (ComponentRadioButton radioButton : radioButtonList) {
 							radioButton.setSelected(false);
 						}
+						if (buttonData.getCallback() != null) {
+							buttonData.getCallback().run();
+						}
 					});
 			radioButtonList.add(radioBtn);
 			add(radioBtn);
