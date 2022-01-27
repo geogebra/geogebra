@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -40,5 +41,14 @@ public class GlitchesTest extends IntervalPlotterCommon {
 		withDefaultScreen();
 		withFunction("1/x");
 		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y)).count());
+	}
+
+//	@Ignore
+	@Test
+	public void debugCode() {
+		withBounds(-3.4, -2.5, -2, 2);
+		withScreenSize(100, 100);
+		withFunction("csc(csc(cot(x)))");
+		fail();
 	}
 }

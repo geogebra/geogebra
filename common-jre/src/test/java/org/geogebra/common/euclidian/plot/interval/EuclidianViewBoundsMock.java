@@ -8,6 +8,8 @@ public class EuclidianViewBoundsMock
 	private final double xmax;
 	private final double ymin;
 	private final double ymax;
+	private final double xZero;
+	private final double yZero;
 	private int width;
 	private int height;
 
@@ -24,6 +26,8 @@ public class EuclidianViewBoundsMock
 		this.xmax = xmax;
 		this.ymin = ymin;
 		this.ymax = ymax;
+		xZero = (xmax - xmin) / 2;
+		yZero = (ymax - ymin) / 2;
 	}
 
 	@Override
@@ -94,12 +98,12 @@ public class EuclidianViewBoundsMock
 
 	@Override
 	public double toScreenCoordXd(double x) {
-		return x;
+		return xZero + x;
 	}
 
 	@Override
 	public double toScreenCoordYd(double y) {
-		return y;
+		return yZero + y;
 	}
 
 	@Override

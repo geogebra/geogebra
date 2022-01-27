@@ -51,6 +51,14 @@ public class PathCorrector {
 		return this.lastY;
 	}
 
+
+	public void handleInvertedInterval(int idx) {
+		drawInvertedInterval(idx);
+		if (!isInvertedNextTo(idx)) {
+			lastY.set(IntervalConstants.undefined());
+		}
+	}
+
 	/**
 	 * Draws union of two disjunct intervals, comleting it to +/- infinity.
 	 *
@@ -75,7 +83,11 @@ public class PathCorrector {
 	}
 
 	private boolean isInvertedAround(int idx) {
-		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
+		return model.isInvertedAt(idx - 1) && isInvertedNextTo(idx);
+	}
+
+	private boolean isInvertedNextTo(int idx) {
+		return model.pointCount() > idx && model.isInvertedAt(idx + 1);
 	}
 
 	private void drawFromNegativeInfinity(int idx, double value) {
@@ -179,4 +191,5 @@ public class PathCorrector {
 		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
+
 }
