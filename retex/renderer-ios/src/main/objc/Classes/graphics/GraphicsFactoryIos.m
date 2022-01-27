@@ -7,7 +7,7 @@
 
 @implementation GraphicsFactoryIos
 
-- (id <RXBasicStroke>)createBasicStrokeWithFloat:(jfloat)width withInt:(jint)cap withInt:(jint)join withFloat:(jfloat)miterLimit {
+- (id<RXBasicStroke>)createBasicStrokeWithDouble:(jdouble)width withInt:(jint)cap withInt:(jint)join withDouble:(jdouble)miterLimit {
     return [[BasicStrokeI alloc] initWithWidth:width withMiterLimit:miterLimit withCap:cap withJoin:join];
 }
 
