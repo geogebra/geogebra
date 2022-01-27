@@ -1,22 +1,19 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 /**
  * Activity class for the notes app
  */
 public class NotesActivity extends BaseActivity {
-
-	private static final String MESSAGE_PANEL_STYLE_NAME = "unsupportedBrowserMessage";
 
 	/**
 	 * New notes activity
@@ -39,25 +36,17 @@ public class NotesActivity extends BaseActivity {
 	}
 
 	private void showBrowserNotSupportedMessage(AppW app) {
-		Localization localization = app.getLocalization();
 		VendorSettings vendorSettings = app.getVendorSettings();
-		MessagePanel messagePanel = createBrowserNotSupportedMessage(localization, vendorSettings);
+		InfoErrorData data = new InfoErrorData("UnsupportedBrowser",
+				vendorSettings.getMenuLocalizationKey("UnsupportedBrowser.Message"));
+		ComponentInfoErrorPanel browserNotSupported =
+				new ComponentInfoErrorPanel(app.getLocalization(), data);
+		browserNotSupported.addStyleName("browserNotSupported");
+
 		GeoGebraFrameW frame = app.getAppletFrame();
 		frame.clear();
-		frame.add(messagePanel);
+		frame.add(browserNotSupported);
 		frame.forceHeaderHidden(true);
-	}
-
-	private MessagePanel createBrowserNotSupportedMessage(
-			Localization localization, VendorSettings vendorSettings) {
-		MessagePanel messagePanel = new MessagePanel();
-		messagePanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
-		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
-		messagePanel.setPanelTitle(localization.getMenu("UnsupportedBrowser"));
-		String messageKey = vendorSettings.getMenuLocalizationKey("UnsupportedBrowser.Message");
-		messagePanel.setPanelMessage(localization.getMenu(messageKey));
-
-		return messagePanel;
 	}
 
 	@Override

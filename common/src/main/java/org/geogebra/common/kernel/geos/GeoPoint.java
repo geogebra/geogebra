@@ -1510,20 +1510,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
-		return toValueStringMinimal(tpl);
-	}
-
-	@Override
-	final public String toValueStringMinimal(StringTemplate tpl) {
-		if (isInfinite()) {
-			return "?";
-		}
-
-		return regrFormat(inhomX) + " " + regrFormat(inhomY);
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
 			if (getDefinition() != null) {

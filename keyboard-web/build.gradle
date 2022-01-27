@@ -22,8 +22,15 @@ dependencies{
 	project(':common'), //needed for Unicode and Language
 	files(project(':common').sourceSets.main.allSource.srcDirs),
 	project(':web:dev'), //needed for Unicode and Language
-	files(project(':web:dev').sourceSets.main.allSource.srcDirs)
+	files(project(':web:dev').sourceSets.main.allSource.srcDirs),
+    files(file("build/generated/sources/annotationProcessor/java/main/"))
+
+    annotationProcessor project(":gwtutil"),
+            'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
 }
+
+compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
+
 def kbModule = 'org.geogebra.keyboard.KeyboardWeb'
 gwt {
     gwtVersion = project(':renderer-web').gwtCompilerVersion

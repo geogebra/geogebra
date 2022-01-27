@@ -81,11 +81,11 @@ public class ConstructionProtocolNavigationW
 	}
 	
 	private static Image getIcon(SVGResource resource) {
-		return new Image(resource.getSafeUri(), 0, 0, 24, 24);
+		return new Image(resource.getSafeUri().asString(), 0, 0, 24, 24);
 	}
 
 	private static Image getFilledIcon(SVGResource resource) {
-		return new Image(resource.withFill(hoverColor).getSafeUri(), 0, 0, 24, 24);
+		return new Image(resource.withFill(hoverColor).getSafeUri().asString(), 0, 0, 24, 24);
 	}
 
 	@Override

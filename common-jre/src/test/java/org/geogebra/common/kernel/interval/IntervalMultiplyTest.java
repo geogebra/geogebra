@@ -6,6 +6,7 @@ import static org.geogebra.common.kernel.interval.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.IntervalDivide.prev;
 import static org.geogebra.common.kernel.interval.IntervalOperands.multiply;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -381,5 +382,11 @@ public class IntervalMultiplyTest {
 				multiply(interval(Double.NEGATIVE_INFINITY, a2),
 						interval(b1, b2)));
 
+	}
+
+	@Test
+	public void multiplyInvertedWithZero() {
+		assertEquals(IntervalConstants.whole().invert(), multiply(interval(0),
+				invertedInterval(1, 2)));
 	}
 }

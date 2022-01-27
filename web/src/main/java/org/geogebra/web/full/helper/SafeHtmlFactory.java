@@ -1,6 +1,7 @@
 package org.geogebra.web.full.helper;
 
-import com.google.gwt.resources.client.ImageResource;
+import org.gwtproject.resources.client.ImageResource;
+
 import com.google.gwt.safehtml.shared.SafeHtml;
 
 /**

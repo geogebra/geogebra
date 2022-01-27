@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.gwtproject.regexp.server;
+package org.geogebra.regexp.server;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gwtproject.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.MatchResult;
 
 /** Pure Java implementation of a regular expression match result. */
 public final class JavaMatchResult implements MatchResult {

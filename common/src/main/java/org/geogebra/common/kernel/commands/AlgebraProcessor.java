@@ -131,8 +131,8 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.RegExp;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;

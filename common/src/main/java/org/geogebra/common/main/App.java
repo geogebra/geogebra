@@ -93,6 +93,7 @@ import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.kernel.statistics.AlgoTableToChart;
@@ -4838,13 +4839,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            corner 1
 	 * @param c2
 	 *            corner 2
-	 * @param c4
-	 *            corner 4
 	 * @return image
 	 */
 	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners, String c1,
-			String c2, String c4) {
+			String imgBase64, GeoImage imageOld, boolean autoCorners, GeoPointND c1,
+			GeoPointND c2) {
 		return null;
 	}
 

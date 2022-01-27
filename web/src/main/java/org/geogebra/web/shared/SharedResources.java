@@ -1,14 +1,14 @@
 package org.geogebra.web.shared;
 
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.Resource;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
-
+@Resource
 public interface SharedResources extends ClientBundle {
 
-    SharedResources INSTANCE = GWT.create(SharedResources.class);
+    SharedResources INSTANCE = new SharedResourcesImpl();
 
     @Source("org/geogebra/common/icons/png/web/algebra-view-tree-open.png")
     ImageResource algebra_tree_open();

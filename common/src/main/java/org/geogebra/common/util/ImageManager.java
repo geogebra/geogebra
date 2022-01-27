@@ -87,13 +87,13 @@ abstract public class ImageManager {
 	 * @param app
 	 *            app
 	 */
-	public static void ensure2ndCornerOnScreen(double x1, GeoPoint point,
+	public static void ensure2ndCornerOnScreen(double x1, GeoPointND point,
 			App app) {
-		double x2 = point.inhomX;
+		double x2 = point.getInhomX();
 		EuclidianView ev = app.getActiveEuclidianView();
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
 		if (x2 > xmax) {
-			point.setCoords((x1 + 9 * xmax) / 10, point.inhomY, 1);
+			point.setCoords((x1 + 9 * xmax) / 10, point.getInhomY(), 1);
 			point.update();
 		}
 	}

@@ -234,7 +234,8 @@ public class CASgiacW extends CASgiac {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC webAssembly");
-					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm());
+					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm().getName(),
+							CASResources.INSTANCE.giacWasm().getText());
 					// don't call this here
 					// needs to be called once WebAssembly is actually working
 					// (compiled?)

@@ -14,26 +14,37 @@
  * limitations under the License.
  */
 
-package org.gwtproject.regexp.server;
+package org.geogebra.regexp.client;
 
-import org.gwtproject.regexp.shared.RegExp;
-import org.gwtproject.regexp.shared.RegExpFactory;
+import org.geogebra.regexp.shared.MatchResult;
 
-/** RegExp factory to create Java implementation */
-public class JavaRegExpFactory extends RegExpFactory {
+import elemental2.core.JsArray;
 
-	@Override
-	public RegExp compile(String pattern, String flags) {
-		return JavaRegExp.compile(pattern, flags);
+public class NativeMatchResult implements MatchResult {
+
+	private JsArray<String> array;
+
+	NativeMatchResult(JsArray<String> results) {
+		array = results;
 	}
 
 	@Override
-	public RegExp compile(String pattern) {
-		return JavaRegExp.compile(pattern);
+	public String getGroup(int index) {
+		return array.getAt(index);
 	}
 
 	@Override
-	public String quote(String input) {
-		return JavaRegExp.quote(input);
+	public int getGroupCount() {
+		return array.length;
+	}
+
+	@Override
+	public int getIndex() {
+		return array.index;
+	}
+
+	@Override
+	public String getInput() {
+		return array.input;
 	}
 }

@@ -1493,4 +1493,12 @@ final public class GeoVec2D extends ValidExpression
 		return (new MyDouble(kernel1, 0)).wrap();
 	}
 
+	/**
+	 * Multiply this by a factor
+	 * @param r factor
+	 */
+	public void dilate(double r) {
+		x = x * r;
+		y = y * r;
+	}
 }

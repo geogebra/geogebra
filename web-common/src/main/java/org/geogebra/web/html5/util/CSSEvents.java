@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.RegExp;
 
 import com.google.gwt.dom.client.Element;
 

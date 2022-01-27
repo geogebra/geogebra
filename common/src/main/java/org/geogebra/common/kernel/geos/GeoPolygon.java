@@ -1531,11 +1531,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
-		return regrFormat(getArea());
-	}
-
-	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
 	}

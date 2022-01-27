@@ -526,4 +526,8 @@
 		box-sizing: border-box;
 		border: colors.$mow_primary 2px solid;
 	}
+
+	.infoErrorPanel.browserNotSupported {
+		margin-top: 88px;
+	}
 }

@@ -10,11 +10,6 @@ the Free Software Foundation.
 
  */
 
-/**
- * GeoGebra Application
- *
- * @author Markus Hohenwarter
- */
 package org.geogebra.desktop.main;
 
 import java.awt.AWTKeyStroke;
@@ -147,6 +142,7 @@ import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.MyError.Errors;
@@ -237,6 +233,11 @@ import org.geogebra.desktop.util.UtilD;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+/**
+ * GeoGebra Application
+ *
+ * @author Markus Hohenwarter
+ */
 @SuppressWarnings("javadoc")
 public class AppD extends App implements KeyEventDispatcher, AppDI {
 
@@ -272,7 +273,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// ==============================================================
 
 	private static LinkedList<File> fileList = new LinkedList<>();
-	protected File currentPath, currentImagePath, currentFile = null;
+	protected File currentPath;
+	protected File currentImagePath;
+	protected File currentFile = null;
 
 	/**
 	 * maximum number of files to (save &amp;) show in File &rarr; Recent
@@ -296,7 +299,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	protected Component mainComp;
 
 	/** Panels that form the main content panel */
-	protected JPanel centerPanel, northPanel, southPanel, eastPanel, westPanel;
+	protected JPanel centerPanel;
+	protected JPanel northPanel;
+	protected JPanel southPanel;
+	protected JPanel eastPanel;
+	protected JPanel westPanel;
 
 	/**
 	 * Split pane panel that holds main content panel and a slide-out sidebar
@@ -356,34 +363,27 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public boolean macsandbox = false;
 
 	private CopyPasteD copyPaste;
+	private int centerX;
+	private int centerY;
+	private String regressionFileName = null;
 
 	/*************************************************************
 	 * Construct application within JFrame
 	 * 
-	 * @param args
-	 * @param frame
-	 * @param undoActive
+	 * @param args command line arguments
+	 * @param frame frame
+	 * @param undoActive whether undo is active
 	 */
 	public AppD(CommandLineArguments args, JFrame frame, boolean undoActive) {
 		this(args, frame, null, undoActive, new LocalizationD(2));
 	}
 
 	/*************************************************************
-	 * Construct application within Applet
-	 * 
-	 * @param args
-	 * @param undoActive
-	 */
-	public AppD(CommandLineArguments args, boolean undoActive) {
-		this(args, null, null, undoActive, new LocalizationD(2));
-	}
-
-	/*************************************************************
 	 * Construct application within Container (e.g. GeoGebraPanel)
 	 * 
-	 * @param args
-	 * @param comp
-	 * @param undoActive
+	 * @param args command line arguments
+	 * @param comp parent panel
+	 * @param undoActive whether undo is active
 	 */
 	public AppD(CommandLineArguments args, Container comp, boolean undoActive) {
 		this(args, null, comp, undoActive, new LocalizationD(2));
@@ -391,11 +391,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/*************************************************************
 	 * GeoGebra application general constructor
-	 * 
-	 * @param args
-	 * @param frame
-	 * @param comp
-	 * @param undoActive
+	 *
+	 * @param args command line arguments
+	 * @param comp parent panel
+	 * @param frame frame
+	 * @param undoActive whether undo is active
+	 * @param loc localization
 	 */
 	public AppD(CommandLineArguments args, JFrame frame, Container comp,
 			boolean undoActive,
@@ -599,6 +600,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * @param frame app frame
+	 */
 	public void setFrame(JFrame frame) {
 		mainComp = frame;
 
@@ -691,24 +695,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					+ "Start GeoGebra with the specified OPTIONs and open the given FILE.\n"
 					+ "  --help\t\tprint this message\n"
 					+ "  --v\t\tprint version\n"
-					+ "  --language=LANGUAGE_CODE\t\tset language using locale strings, e.g. en, de, de_AT, ...\n" // here
-																													// "auto"
-																													// is
-																													// also
-																													// accepted
+					+ "  --language=LANGUAGE_CODE"
+					// here "auto" is also accepted
+					+ "\t\tset language using locale strings, e.g. en, de, de_AT, ...\n"
 					+ "  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field\n"
 					+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
 					+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
 					+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
-					+ "  --showCAS=BOOLEAN\tshow/hide CAS window\n" // here
-																	// "disable"
-																	// is also
-																	// accepted
-					+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here
-																	// "disable"
-																	// is
-																	// also
-																	// accepted
+					// here "disable" is also accepted
+					+ "  --showCAS=BOOLEAN\tshow/hide CAS window\n"
+					// here "disable" is also accepted
+					+ "  --show3D=BOOLEAN\tshow/hide 3D window\n"
 					+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
 					+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
 					+ "  --fontSize=NUMBER\tset default font size\n"
@@ -716,16 +713,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					+ "  --showGrid=BOOLEAN\tshow/hide grid\n"
 					+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
 					+ "  --resetSettings\treset current settings\n"
-					+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
-					+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
-					+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
+					+ "  --regressionFile=FILENAME"
+							+ "\texport textual representations of dependent objects, then exit\n"
+					+ "  --versionCheckAllow=SETTING"
+							+ "\tallow version check (on/off or true/false for single launch)\n"
+					+ "  --logLevel=LEVEL\tset logging level "
+							+ "(EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
 					+ "  --logFile=FILENAME\tset log file\n"
 					+ "  --silent\tCompletely mute logging\n"
-					+ "  --prover=OPTIONS\tSet options for the prover subsystem (use --proverhelp for more information)\n"
-			/*
-			 * +
-			 * "  --singularWS=OPTIONS\tSet options for SingularWS (use --singularWShelp for more information)\n"
-			 */
+					+ "  --prover=OPTIONS\tSet options for the prover subsystem "
+							+ "(use --proverhelp for more information)\n"
 			);
 
 			AppD.exit(0);
@@ -735,10 +732,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// help message for the prover
 			System.out.println(
 					"  --prover=OPTIONS\tset options for the prover subsystem\n"
-							+ "    where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
-							+ "      engine:ENGINE\tset engine (Auto|OpenGeoProver|Recio|Botana|PureSymbolic) ["
+							+ "    where OPTIONS is a comma separated list, formed with the "
+							+ "following available settings (defaults in brackets):\n"
+							+ "      engine:ENGINE\tset engine "
+							+ "(Auto|OpenGeoProver|Recio|Botana|PureSymbolic) ["
 							+ proverSettings.proverEngine + "]\n"
-							+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) ["
+							+ "      timeout:SECS\tset the maximum time attributed to the prover"
+							+ " (in seconds) ["
 							+ proverSettings.proverTimeout + "]\n"
 							+ "      maxterms:NUMBER\tset the maximal number of terms ["
 							+ proverSettings.getMaxTerms()
@@ -746,33 +746,25 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
 							+ proverSettings.proverMethod
 							+ "] (OpenGeoProver/Recio only)\n"
-							/*
-							 * +
-							 * "      fpnevercoll:BOOLEAN\tassume three free points are never collinear for Prove ["
-							 * + ProverSettings.freePointsNeverCollinear +
-							 * "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
-							 */
-							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
+							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first"
+							+ " NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
 							+ proverSettings.useFixCoordinatesProve
 							+ proverSettings.useFixCoordinatesProveDetails
 							+ "] (Botana only)\n"
-							/*
-							 * +
-							 * "      transcext:BOOLEAN\tuse polynomial ring with coeffs from a transcendental extension for Prove ["
-							 * + ProverSettings.transcext +
-							 * "] (Botana only, needs SingularWS)\n"
-							 */
-							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
+							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information"
+							+ " in object captions ["
 							+ proverSettings.captionAlgebra
 							+ "] (Botana only)\n"
-							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
+							+ "  Example: --prover=engine:Botana,timeout:10,"
+							+ "fpnevercoll:true,usefixcoords:43\n");
 			AppD.exit(0);
 		}
 		if (args.containsArg("singularWShelp")) {
 			// help message for singularWS
 			System.out.println(
 					" --singularWS=OPTIONS\tset options for SingularWS\n"
-							+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
+							+ "   where OPTIONS is a comma separated list, formed with the "
+							+ "following available settings (defaults in brackets):\n"
 							+ "      enable:BOOLEAN\tuse Singular WebService when possible ["
 							+ SingularWSSettings.useSingularWebService() + "]\n"
 							+ "      remoteURL:URL\tset the remote server URL ["
@@ -805,7 +797,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * init the ImageManager (and ImageManager3D for 3D)
 	 * 
-	 * @param component
+	 * @param component component
 	 */
 	protected void initImageManager(Component component) {
 		imageManager = new ImageManagerD(component);
@@ -1386,31 +1378,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		gm.setToolBarDefinition(gm.getDefaultToolbarString());
 	}
 
-	private String regressionFileName = null;
-
-	/**
-	 * Creates the regression file for the current GGB file with the textual
-	 * content of the algebra window, then exits.
-	 * 
-	 * @throws IOException
-	 *             if the file is not writable
-	 */
-	public void createRegressionFile() throws IOException {
-		if (regressionFileName == null) {
-			return;
-		}
-		File regressionFile = new File(regressionFileName);
-
-		BufferedWriter regressionFileWriter = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(regressionFile),
-						"UTF-8"));
-
-		kernel.updateConstruction(false);
-		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
-		regressionFileWriter.close();
-		AppD.exit(0);
-	}
-
 	/**
 	 * This function helps determine if a ggt file was loaded because if a ggt
 	 * file was loaded we will need to load something instead of the ggb
@@ -1573,7 +1540,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * </ol>
 	 * </li>
 	 * </ol>
-	 * 
+	 * @return success
+	 * @throws IOException if URL can't be opened
 	 */
 	public boolean loadFromHtml(URL htmlurl) throws IOException {
 		URL url = htmlurl;
@@ -1728,10 +1696,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * Check if just the euclidian view is visible in the document just loaded.
-	 * 
-	 * @return
-	 * @throws OperationNotSupportedException
+	 * @return whether  just the euclidian view is visible in the document just loaded.
+	 *
+	 * @throws OperationNotSupportedException if perspective is not set
 	 */
 	private boolean isJustEuclidianVisible()
 			throws OperationNotSupportedException {
@@ -2095,6 +2062,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Loads text file and returns content as String.
+	 * @return file content
 	 */
 	public String loadTextFile(String s) {
 		StringBuilder sb = new StringBuilder();
@@ -2875,7 +2843,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * Set show dockBar with GUI update
 	 * 
-	 * @param showDockBar
+	 * @param showDockBar whether to show the dockbar
 	 */
 	public void setShowDockBar(boolean showDockBar) {
 		setShowDockBar(showDockBar, true);
@@ -3174,6 +3142,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Load file
+	 * @return success
 	 */
 	public boolean loadFile(File file, boolean isMacroFile) {
 
@@ -3238,15 +3207,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			setHideConstructionProtocolNavigation();
 		}
 
-		boolean success = loadXML(file, isMacroFile);
-
-		try {
-			createRegressionFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return success;
+		return loadXML(file, isMacroFile);
 	}
 
 	/**
@@ -3353,8 +3314,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return false;
 		}
 	}
-
-	private int centerX, centerY;
 
 	@Override
 	public void storeFrameCenter() {
@@ -3524,7 +3483,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * Returns the CodeBase URL.
+	 * @return the CodeBase URL.
 	 */
 	public static URL getCodeBase() {
 		if (codebase == null) {
@@ -4029,7 +3988,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (Log.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
 			Log.debug(
-					"Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
+					"Logging into explicitly defined file, not using LogManager");
 			return;
 		}
 
@@ -4384,7 +4343,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * 
-	 * return Left/Right as appropriate for eg Hebrew / Arabic
+	 * @return Left/Right as appropriate for eg Hebrew / Arabic
 	 * 
 	 * return int rather than FlowLayout.LEFT so we're not dependent on awt
 	 */
@@ -4397,7 +4356,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * 
-	 * return Left/Right as appropriate for eg Hebrew / Arabic
+	 * @return Left/Right as appropriate for eg Hebrew / Arabic
 	 * 
 	 * return int rather than FlowLayout.RIGHT so we're not dependent on awt
 	 */
@@ -4549,13 +4508,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				setComponentOrientation(container.getComponent(i));
 			}
 		}
-
 	}
 
 	/**
 	 * set a flow layout for the panel with correct orientation
 	 * 
-	 * @param panel
+	 * @param panel panel
 	 */
 	public void setFlowLayoutOrientation(JPanel panel) {
 		if (getLocalization().isRightToLeftReadingOrder()) {
@@ -4569,8 +4527,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// SINGULAR
 	// **************************************************************************
 
-	private class initializeSingularWS_thread implements Runnable {
-		protected initializeSingularWS_thread() {
+	private class InitializeSingularWSThread implements Runnable {
+		protected InitializeSingularWSThread() {
 		}
 
 		@Override
@@ -4581,8 +4539,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	public void initializeSingularWSD() {
-		Thread t = new Thread(new initializeSingularWS_thread(), "compute");
+	private void initializeSingularWSD() {
+		Thread t = new Thread(new InitializeSingularWSThread(), "compute");
 		long startTime = System.currentTimeMillis();
 		t.start();
 		int i = 0;
@@ -5052,8 +5010,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * 
-	 * @param url
+	 * @param url online image URL
 	 * @return url converted to a data URI if possible. If not, returns the URL
 	 *         unaltered
 	 */
@@ -5128,14 +5085,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners, String c1,
-			String c2, String c4) {
+			String imgBase64, GeoImage imageOld, boolean autoCorners, GeoPointND c1,
+			GeoPointND c2) {
 		GeoImage geoImage = imageOld != null ? imageOld
 				: new GeoImage(getKernel().getConstruction());
 
 		kernel.getApplication().getImageManager().addExternalImage(imgFileName,
 				imgBase64);
 		geoImage.setImageFileName(imgFileName);
+		geoImage.setCorner(c1, 0);
+		geoImage.setCorner(c2, 1);
 		return geoImage;
 	}
 
@@ -5144,6 +5103,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return md5EncryptStatic(s);
 	}
 
+	/**
+	 * @param s string to hash
+	 * @return md5 hash
+	 */
 	public static String md5EncryptStatic(String s) {
 		if (getMd5Encrypter() == null) {
 			return UUID.randomUUID().toString();
@@ -5153,6 +5116,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return StringUtil.convertToHex(md5hash);
 	}
 
+	/**
+	 * @return md5 encrypter
+	 */
 	public static synchronized MessageDigest getMd5Encrypter() {
 		if (md5EncrypterD == null) {
 			try {
