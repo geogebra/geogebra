@@ -2053,6 +2053,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				updateSidebarAndMenu(subApp);
 				setSuiteHeaderButton(subApp);
 			}
+			getDialogManager().hideCalcChooser();
 		}
 	}
 
