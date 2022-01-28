@@ -45,8 +45,9 @@ public class CASSubDialogW extends CASSubDialog {
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 		initData(cell);
 
-		DialogData dialogData = new DialogData("Substitute", "Row " + (editRow + 1),
-				"Cancel", "OK" );
+		DialogData dialogData = new DialogData("Substitute", app.getLocalization()
+				.getPlainDefault("RowA", "Row %0", Integer.toString(editRow + 1)),
+				"Cancel", "OK");
 		dialog = new CASSubstituteDialogW(app, dialogData, data);
 		dialog.setOnPositiveAction(() -> apply(ACTION_SUBSTITUTE));
 	}

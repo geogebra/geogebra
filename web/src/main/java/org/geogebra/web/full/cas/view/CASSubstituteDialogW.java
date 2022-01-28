@@ -8,6 +8,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -44,12 +46,7 @@ public class CASSubstituteDialogW extends ComponentDialog {
 		block.addStyleName("flexGroup");
 
 		InputPanelW subst = new InputPanelW(data.get(idx).get(0), app, 1, -1, false);
-		subst.addTextComponentKeyUpHandler(event -> {
-			data.get(idx).set(0, subst.getText());
-		});
-		if (data.get(idx).get(1) != null && !data.get(idx).get(1).isEmpty()) {
-			setPosBtnDisabled(false);
-		}
+		subst.addTextComponentKeyUpHandler(event -> data.get(idx).set(0, subst.getText()));
 		InputPanelW with = new InputPanelW(data.get(idx).get(1), app, 1, -1, false);
 		with.addTextComponentKeyUpHandler(event -> {
 			setPosBtnDisabled(false);
@@ -58,6 +55,67 @@ public class CASSubstituteDialogW extends ComponentDialog {
 		block.add(subst);
 		block.add(with);
 
+		if (data.get(idx).get(1) != null && !data.get(idx).get(1).isEmpty()) {
+			setPosBtnDisabled(false);
+		}
+
+		addFocusHandler(subst);
+		addFocusHandler(with);
+		addHoverHandler(subst);
+		addHoverHandler(with);
+		subst.getTextComponent().addBlurHandler(event -> {
+			removeOrAddEmptyLine(subst, data, idx, 1, block);
+			subst.getTextComponent().removeStyleName("focused");
+		});
+		with.getTextComponent().addBlurHandler(event -> {
+			removeOrAddEmptyLine(with, data, idx, 0, block);
+
+			if (noWithInput(data)) {
+				setPosBtnDisabled(true);
+			}
+		});
+
 		addDialogContent(block);
+	}
+
+	private void removeOrAddEmptyLine(InputPanelW inputField, Vector<Vector<String>> data, int idx,
+			int vectElem, FlowPanel parenPanel) {
+		if (inputField.getText().isEmpty() && idx != data.size()
+				&& data.get(idx).get(vectElem).isEmpty() && idx != data.size() - 1) {
+			data.remove(idx);
+			parenPanel.removeFromParent();
+		}
+
+		if (!inputField.getText().isEmpty() && (idx == data.size() - 1 || idx == data.size())) {
+			extendData(data);
+		}
+		inputField.getTextComponent().removeStyleName("focused");
+	}
+
+	private void addFocusHandler(InputPanelW inputField) {
+		inputField.getTextComponent().addFocusHandler(event ->
+				inputField.getTextComponent().addStyleName("focused"));
+	}
+
+	private void addHoverHandler(InputPanelW inputField) {
+		inputField.getTextComponent().addDomHandler(event -> {
+			inputField.getTextComponent().addStyleName("hover");
+		}, MouseOverEvent.getType());
+		inputField.getTextComponent().addDomHandler(event -> {
+			inputField.getTextComponent().removeStyleName("hover");
+		}, MouseOutEvent.getType());
+	}
+
+	private void extendData(Vector<Vector<String>> data) {
+		Vector<String> vec = new Vector<>();
+		vec.setSize(2);
+		vec.set(0, "");
+		vec.set(1, "");
+		data.add(vec);
+		buildSubstWithBlock(data, data.size() - 1);
+	}
+
+	private boolean noWithInput(Vector<Vector<String>> data) {
+		return data.stream().allMatch(elem -> elem.get(1).isEmpty());
 	}
 }

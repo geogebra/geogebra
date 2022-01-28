@@ -1933,6 +1933,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					margin-bottom: 8px;
 					margin-top: 8px;
 				}
+
+				&.focused,
+				&.focused.hover {
+					border-color: colors.$purple-default;
+					border-width: 2px;
+
+					input[type=text] {
+						margin-bottom: 7px;
+						margin-top: 7px;
+					}
+				}
+
+				&.hover {
+					border-color: colors.$black-54;
+				}
 			}
 		}
 	}
