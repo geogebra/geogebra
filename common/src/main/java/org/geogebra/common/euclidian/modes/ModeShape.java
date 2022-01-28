@@ -438,7 +438,6 @@ public class ModeShape {
 		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(),
 				view.toRealWorldCoordX(startX), view.toRealWorldCoordY(startY), 1);
 		pt.setEuclidianVisible(false);
-		//pt.updateRepaint();
 		return pt;
 	}
 

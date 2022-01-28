@@ -16,7 +16,9 @@ import org.junit.Test;
 import jsinterop.annotations.JsIgnore;
 
 public class TypescriptGenerator {
-	static HashMap<String,String> types = new HashMap<>();
+
+	static HashMap<String, String> types = new HashMap<>();
+
 	static {
 		types.put("long", "number");
 		types.put("double", "number");
@@ -29,8 +31,9 @@ public class TypescriptGenerator {
 		types.put("promise<java.lang.string>", "Promise<string>");
 		types.put("[ljava.lang.string;", "string[]");
 	}
+
 	@Test
-	public void generate(){
+	public void generate() {
 		Method[] methods = DefaultExportedApi.class.getMethods();
 		Arrays.sort(methods, Comparator.comparing(Method::getName));
 		for (Method mtd: methods) {

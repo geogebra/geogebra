@@ -480,18 +480,13 @@ public class GeoFunctionNVar extends GeoElement
 		return isBooleanFunction() || isForceInequality() || shortLHS != null ? ':' : '=';
 	}
 
-	/**
-	 * save object in xml format
-	 */
 	@Override
-	public final void getXML(boolean getListenersToo, StringBuilder sb) {
-
-		// an indpendent function needs to add
+	public final void getExpressionXML(StringBuilder sb) {
+		// an independent function needs to add
 		// its expression itself
 		// e.g. f(a,b) = a^2 - 3*b
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+			sb.append("<expression label=\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
@@ -499,15 +494,12 @@ public class GeoFunctionNVar extends GeoElement
 			sb.append(getFunctionType());
 			sb.append("\"/>\n");
 		}
+	}
 
-		getElementOpenTagXML(sb);
-		getXMLtags(sb);
-		getCaptionXML(sb);
-		if (getListenersToo) {
-			getListenerTagsXML(sb);
-		}
-		// sb.append(sb);
-		sb.append("</element>\n");
+	@Override
+	public void getXMLtags(StringBuilder sbxml) {
+		super.getXMLtags(sbxml);
+		printCASEvalMapXML(sbxml);
 	}
 
 	/**

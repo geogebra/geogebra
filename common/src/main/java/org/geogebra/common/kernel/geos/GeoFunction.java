@@ -906,17 +906,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return "?";
 	}
 
-	/**
-	 * save object in xml format
-	 */
 	@Override
-	public void getXML(boolean getListenersToo, StringBuilder sbxml) {
+	public void getExpressionXML(StringBuilder sbxml) {
 		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label=\"");
+			sbxml.append("<expression label=\"");
 			sbxml.append(label);
 			sbxml.append("\" exp=\"");
 			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
@@ -924,15 +920,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			sbxml.append(getFunctionType());
 			sbxml.append("\"/>\n");
 		}
+	}
 
-		getElementOpenTagXML(sbxml);
-		getXMLtags(sbxml);
-		getCaptionXML(sbxml);
+	@Override
+	public void getXMLtags(StringBuilder sbxml) {
+		super.getXMLtags(sbxml);
 		printCASEvalMapXML(sbxml);
-		if (getListenersToo) {
-			getListenerTagsXML(sbxml);
-		}
-		sbxml.append("</element>\n");
 	}
 
 	/**

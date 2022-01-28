@@ -716,13 +716,13 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		getValueXML(sb);
+		getValueXML(sb, value);
 		getStyleXML(sb);
 	}
 
-	protected void getValueXML(StringBuilder sb) {
+	protected void getValueXML(StringBuilder sb, double rawVal) {
 		sb.append("\t<value val=\"");
-		sb.append(value);
+		sb.append(rawVal);
 		sb.append("\"");
 		if (isRandom()) {
 			sb.append(" random=\"true\"");

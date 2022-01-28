@@ -523,7 +523,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	protected void getXMLtags(StringBuilder sb) {
 		// from ggb44 need to save before value in case it's unbounded
 		XMLBuilder.appendAngleStyle(sb, angleStyle, emphasizeRightAngle);
-		getValueXML(sb);
+		getValueXML(sb, rawValue);
 		getStyleXMLAfter(sb);
 	}
 
