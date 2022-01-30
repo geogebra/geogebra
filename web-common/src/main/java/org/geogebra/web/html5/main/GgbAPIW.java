@@ -1259,6 +1259,11 @@ public class GgbAPIW extends GgbAPI {
 		return new JsObjectWrapperW(options);
 	}
 
+	@Override
+	protected JsObjectWrapper createWrapper() {
+		return new JsObjectWrapperW(JsPropertyMap.of());
+	}
+
 	public void switchCalculator(String appCode) {
 		((AppW) app).switchToSubapp(appCode);
 	}

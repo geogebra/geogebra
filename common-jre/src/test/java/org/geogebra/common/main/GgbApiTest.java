@@ -380,5 +380,28 @@ public class GgbApiTest {
 		protected JsObjectWrapper wrap(Object nativeObject) {
 			return new JsObjectWrapperCommon(nativeObject);
 		}
+
+		@Override
+		public void setProperty(String property, Object value) {
+			try {
+				((JSONObject) nativeObject).put(property, value);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void setProperty(String property, int value) {
+			try {
+				((JSONObject) nativeObject).put(property, value);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public Object getNativeObject() {
+			return nativeObject;
+		}
 	}
 }

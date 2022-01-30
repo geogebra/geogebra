@@ -1059,6 +1059,10 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
+	public Object getGraphicsOptions(int viewId) {
+		return ggbAPI.getGraphicsOptions(viewId);
+	}
+
 	public void setGlobalOptions(Object options) {
 		ggbAPI.setGlobalOptions(options);
 	}

@@ -220,7 +220,12 @@ public enum EventType {
 	/**
 	 *  Switch between calculators
 	 */
-	SWITCH_CALC("switchCalculator");
+	SWITCH_CALC("switchCalculator"),
+
+	/**
+	 * View properties changed, such as background color or axes settings
+	 */
+	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged");
 
 	private String eventName;
 

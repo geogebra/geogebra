@@ -1200,4 +1200,7 @@ public interface JavaScriptAPI {
 	 * @param viewId 1 for graphhics, 2 for graphics 2, 3 for 3D
 	 */
 	void setGraphicsOptions(int viewId, Object options);
+
+
+	Object getGraphicsOptions(int viewId);
 }

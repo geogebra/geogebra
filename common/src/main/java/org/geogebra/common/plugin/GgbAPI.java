@@ -2428,6 +2428,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return null;
 	}
 
+	protected JsObjectWrapper createWrapper() {
+		return null;
+	}
+
 	@Override
 	public void setGraphicsOptions(Object options) {
 		setGraphicsOptions(1, options);
@@ -2447,6 +2451,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val3 -> es.setBackground(GColor.parseHexColor(val3)));
 		opts.ifPropertySet("gridColor",
 				(Consumer<String>) val2 -> es.setGridColor(GColor.parseHexColor(val2)));
+		opts.ifPropertySet("axesColor",
+				(Consumer<String>) val2 -> es.setAxesColor(GColor.parseHexColor(val2)));
+
 		opts.ifObjectPropertySet("axes", axes -> {
 			for (char axis = 'x'; axis <= 'z'; axis++) {
 				final int axisNo = axis - 'x';
@@ -2458,6 +2465,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	protected void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {
+		axisOptions.ifPropertySet("visible",
+				(Consumer<Boolean>) val -> es.setShowAxis(axisNo, val));
 		axisOptions.ifPropertySet("positiveAxis",
 				(Consumer<Boolean>) val -> es.setPositiveAxis(axisNo, val));
 		axisOptions.ifPropertySet("showNumbers",
@@ -2469,4 +2478,37 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val -> es.setAxisUnitLabel(axisNo, val));
 	}
 
+	@Override
+	public Object getGraphicsOptions(int viewId) {
+		JsObjectWrapper opts = createWrapper();
+		EuclidianSettings es = app.getSettings().getEuclidian(viewId);
+		opts.setProperty("rightAngleStyle", app.rightAngleStyle);
+		opts.setProperty("pointCapturing", es.getPointCapturingMode());
+		opts.setProperty("grid", es.getShowGrid());
+		opts.setProperty("gridIsBold", es.getGridIsBold());
+		opts.setProperty("gridType", es.getGridType());
+		opts.setProperty("bgColor", StringUtil.toHtmlColor(es.getBackground()));
+		opts.setProperty("gridColor", StringUtil.toHtmlColor(es.getGridColor()));
+		opts.setProperty("axesColor", StringUtil.toHtmlColor(es.getAxesColor()));
+
+		JsObjectWrapper axes = createWrapper();
+		for (char axis = 'x'; axis <= 'z'; axis++) {
+			final int axisNo = axis - 'x';
+			axes.setProperty(String.valueOf(axis), getAxisOptions(axisNo, es).getNativeObject());
+		}
+
+		opts.setProperty("axes", axes.getNativeObject());
+		return opts.getNativeObject();
+	}
+
+	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {
+		JsObjectWrapper axisOptions = createWrapper();
+		axisOptions.setProperty("visible", es.getShowAxis(axisNo));
+		axisOptions.setProperty("positiveAxis", es.getPositiveAxes()[axisNo]);
+		axisOptions.setProperty("showNumbers", es.getShowAxisNumbers()[axisNo]);
+		axisOptions.setProperty("tickStyle", es.getAxesTickStyles()[axisNo]);
+		axisOptions.setProperty("label", es.getAxesLabels()[axisNo]);
+		axisOptions.setProperty("unitLabel", es.getAxesUnitLabels()[axisNo]);
+		return axisOptions;
+	}
 }

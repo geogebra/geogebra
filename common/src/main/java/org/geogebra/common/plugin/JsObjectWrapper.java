@@ -28,4 +28,10 @@ public abstract class JsObjectWrapper {
 	public void ifObjectPropertySet(String key, Consumer<JsObjectWrapper> consumer) {
 		ifPropertySet(key, obj -> consumer.accept(wrap(obj)));
 	}
+
+	public abstract void setProperty(String property, Object value);
+
+	public abstract void setProperty(String property, int value);
+
+	public abstract Object getNativeObject();
 }
