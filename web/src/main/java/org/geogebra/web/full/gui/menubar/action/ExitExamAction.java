@@ -53,6 +53,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		};
 		exit.setOnPositiveAction(() -> {
 			GlobalHeader.INSTANCE.resetAfterExam();
+			app.getExam().storeEndTime();
 			new ExamLogAndExitDialog(app, false, returnHandler, null, "Exit").show();
 		});
 		exit.show();
