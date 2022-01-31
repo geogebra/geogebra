@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.arithmetic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
@@ -18,12 +19,27 @@ class GiacPrinter implements Printer {
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
         StringBuilder sb = new StringBuilder();
-        sb.append(vector.isCASVector() ? "ggbvect[" : "point(");
+        sb.append(getHead());
         printReGiac(sb, vector.getX(), expressionPrinter, tpl);
         sb.append(",");
         printReGiac(sb, vector.getY(), expressionPrinter, tpl);
-        sb.append(vector.isCASVector() ? "]" : ")");
+        sb.append(getTail());
         return sb.toString();
+    }
+
+    private String getHead() {
+        if (vector.isCASVector()) {
+            return "ggbvect[";
+        } else if (GeoSymbolic.hasListTwin(vector.getX())
+                && GeoSymbolic.hasListTwin(vector.getY())) {
+            return "zip((x,y)->point(x,y),";
+        } else {
+            return "point(";
+        }
+    }
+
+    private char getTail() {
+        return vector.isCASVector() ? ']' : ')';
     }
 
     private static void printReGiac(
