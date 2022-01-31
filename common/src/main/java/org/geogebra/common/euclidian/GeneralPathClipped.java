@@ -61,6 +61,7 @@ public class GeneralPathClipped implements GShape {
 		this.view = view;
 		pathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
+		clipAlgoSutherlandHodogman.setMaxValue(view.getMaxCanvasCoordinate());
 		gp = AwtFactory.getPrototype().newGeneralPath();
 	}
 
