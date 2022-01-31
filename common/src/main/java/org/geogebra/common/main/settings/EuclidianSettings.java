@@ -167,7 +167,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            application
 	 */
 	public EuclidianSettings(App app) {
-		// this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
