@@ -12,6 +12,8 @@ public class ClipAlgoSutherlandHodogman {
 	public static final int EDGE_COUNT = 4;
 	public static final double Y_LIMIT = 1E6;
 
+	private double maxValue = Double.MAX_VALUE;
+
 	static class Edge {
 		private final MyPoint start;
 		private final MyPoint end;
@@ -21,8 +23,6 @@ public class ClipAlgoSutherlandHodogman {
 			this.end = end;
 		}
 	}
-
-	private double maxValue = Double.MAX_VALUE;
 
 	/**
 	 * Max value used when calculations produce Infinity or NaN values.
