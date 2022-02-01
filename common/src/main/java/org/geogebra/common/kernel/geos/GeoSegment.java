@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -54,6 +55,9 @@ final public class GeoSegment extends GeoLine
 	private Coords pnt2D;
 
 	private GeoElement meta = null;
+
+	private MyImage startStyleImage;
+	private MyImage endStyleImage;
 
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
@@ -889,5 +893,21 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
+	}
+
+	public void setStartStyle(MyImage img) {
+		startStyleImage = img;
+	}
+
+	public void setEndStyle(MyImage img) {
+		endStyleImage = img;
+	}
+
+	public MyImage getStartStyle() {
+		return startStyleImage;
+	}
+
+	public MyImage getEndStyle() {
+		return endStyleImage;
 	}
 }

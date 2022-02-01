@@ -10,6 +10,7 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
@@ -35,9 +36,11 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.BorderType;
@@ -73,14 +76,19 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.HTMLImageElement;
 
 /**
  * StyleBar for euclidianView
@@ -145,6 +153,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private @CheckForNull ContextMenuPopup btnContextMenu = null;
 	private MyToggleButtonW btnCrop;
 	private LabelSettingsPopup btnLabel;
+	private PopupMenuButtonW btnSegmentStartStyle;
+	private PopupMenuButtonW btnSegmentEndStyle;
 
 	/**
 	 * @param ev
@@ -442,6 +452,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 			add(btnFilling);
 		}
 		add(btnLineStyle);
+		add(btnSegmentStartStyle);
+		add(btnSegmentEndStyle);
 		add(btnPointStyle);
 		if (app.isWhiteboardActive()) {
 			// update language of descriptions in color, line style and point
@@ -701,11 +713,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnBorderText,
-				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
-				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
-				btnHorizontalAlignment, btnVerticalAlignment, btnLabelStyle, btnPointCapture,
-				btnChangeView
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
+				btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
+				btnTextBgColor, btnFilling,	btnLineStyle, btnPointStyle, btnTextSize,
+				btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
+				btnLabelStyle, btnPointCapture,	btnChangeView
 		};
 	}
 
@@ -718,6 +730,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createAxesAndGridButtons();
 		createStandardViewBtn();
 		createLineStyleBtn();
+		createSegmentStartStyleBtn();
+		createSegmentEndStyleBtn();
 		createPointStyleBtn(mode);
 		createLabelStyleBtn();
 		createAngleIntervalBtn();
@@ -862,6 +876,78 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnPointCapture.setIcon(new ImageOrText(ptCaptureIcon, 24));
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
+	}
+
+	private void createSegmentStartStyleBtn() {
+		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
+		ImageOrText[] startStyleSvgs = new ImageOrText[] {
+				getImgResource(resources.stylingbar_start_default()),
+				getImgResource(resources.stylingbar_start_line()),
+				getImgResource(resources.stylingbar_start_square_outlined()),
+				getImgResource(resources.stylingbar_start_square()),
+				getImgResource(resources.stylingbar_start_arrow()),
+				getImgResource(resources.stylingbar_start_arrow_filled()),
+				getImgResource(resources.stylingbar_start_circle_outlined()),
+				getImgResource(resources.stylingbar_start_circle()) };
+
+		btnSegmentStartStyle = new PopupMenuButtonW(app, startStyleSvgs, 2, 4,
+				SelectionTable.MODE_ICON) {
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoSegment(geos);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					// TODO HANDLE setting segment start style
+				}
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return this.getIcon();
+			}
+		};
+
+		SVGResource defaultStyle = MaterialDesignResources.INSTANCE.stylingbar_start_default();
+		btnSegmentStartStyle.setIcon(new ImageOrText(defaultStyle, 24));
+		btnSegmentStartStyle.addPopupHandler(this);
+		btnSegmentStartStyle.setKeepVisible(false);
+	}
+
+	private void createSegmentEndStyleBtn() {
+		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
+		ImageOrText[] endStyleSvgs = new ImageOrText[] {
+				getImgResource(resources.stylingbar_end_default()),
+				getImgResource(resources.stylingbar_end_line()),
+				getImgResource(resources.stylingbar_end_square_outlined()),
+				getImgResource(resources.stylingbar_end_square()),
+				getImgResource(resources.stylingbar_end_arrow()),
+				getImgResource(resources.stylingbar_end_arrow_filled()),
+				getImgResource(resources.stylingbar_end_circle_outlined()),
+				getImgResource(resources.stylingbar_end_circle()) };
+
+		btnSegmentEndStyle = new PopupMenuButtonW(app, endStyleSvgs, 2, 4,
+				SelectionTable.MODE_ICON) {
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoSegment(geos);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					// TODO HANDLE setting segment start style
+				}
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return this.getIcon();
+			}
+		};
+
+		SVGResource defaultStyle = MaterialDesignResources.INSTANCE.stylingbar_end_default();
+		btnSegmentEndStyle.setIcon(new ImageOrText(defaultStyle, 24));
+		btnSegmentEndStyle.addPopupHandler(this);
+		btnSegmentEndStyle.setKeepVisible(false);
 	}
 
 	private void createLabelStyleBtn() {
@@ -1475,6 +1561,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return checkGeos(geos, geo -> geo instanceof GeoInlineTable);
 	}
 
+	private static boolean checkGeoSegment(List<GeoElement> geos) {
+		return checkGeos(geos, geo -> geo instanceof GeoSegment);
+	}
+
 	private static boolean checkGeos(List<GeoElement> geos, GPredicate<GeoElement> check) {
 		boolean geosOK = geos.size() > 0;
 		for (GeoElement geo : geos) {
@@ -1577,6 +1667,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnBorderStyle) {
 			needUndo = applyBorderStyle(targetGeos, btnBorderStyle.getBorderType(),
 					btnBorderStyle.getBorderThickness());
+		} else if (source == btnSegmentStartStyle || source == btnSegmentEndStyle) {
+			boolean isStart = source == btnSegmentStartStyle;
+			SegmentStyle segmentStyle
+					= SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
+						: btnSegmentEndStyle.getSelectedIndex()];
+			needUndo = applySegmentStartStyle(targetGeos, segmentStyle,	isStart);
 		} else if (source == btnHorizontalAlignment) {
 			HorizontalAlignment alignment
 					= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
@@ -1710,6 +1806,61 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		return changed;
+	}
+
+	private boolean applySegmentStartStyle(List<GeoElement> targetGeos, SegmentStyle style,
+			boolean start) {
+		boolean changed = false;
+		for (GeoElement geo : targetGeos) {
+			if (geo instanceof GeoSegment && style != SegmentStyle.DEFAULT) {
+				if (start) {
+					((GeoSegment) geo).setStartStyle(getSegmentStyleImage(style, true));
+				} else {
+					((GeoSegment) geo).setEndStyle(getSegmentStyleImage(style, false));
+				}
+				changed = true;
+			}
+		}
+
+		return changed;
+	}
+
+	private MyImage getSegmentStyleImage(SegmentStyle style, boolean start) {
+		SVGResource res = getSegmentStyleRes(style, start);
+		if (res != null) {
+			String uri = ImgResourceHelper.safeURI(res);
+			HTMLImageElement img = Dom.createImage();
+			img.src = uri;
+			MyImage segmentStyleImg = new MyImageW(img, true);
+			return segmentStyleImg;
+		}
+		return null;
+	}
+
+	private SVGResource getSegmentStyleRes(SegmentStyle style, boolean start) {
+		MaterialDesignResources src = MaterialDesignResources.INSTANCE;
+		switch (style) {
+		case DEFAULT:
+			return start ? src.stylingbar_start_default() : src.stylingbar_end_default();
+		case LINE:
+			return start ? src.stylingbar_start_line() : src.stylingbar_end_line();
+		case CIRCLE:
+			return start ? src.stylingbar_start_circle() : src.stylingbar_end_circle();
+		case CIRCLE_OUTLINE:
+			return start ? src.stylingbar_start_circle_outlined()
+					: src.stylingbar_end_circle_outlined();
+		case SQUARE:
+			return start ? src.stylingbar_start_square() : src.stylingbar_end_square();
+		case SQUARE_OUTLINE:
+			return start ? src.stylingbar_start_square_outlined()
+					: src.stylingbar_end_square_outlined();
+		case ARROW:
+			return start ? src.stylingbar_start_arrow() : src.stylingbar_end_arrow();
+		case ARROW_FILLED:
+			return start ? src.stylingbar_start_arrow_filled()
+					: src.stylingbar_end_arrow_filled();
+		}
+		return null;
 	}
 
 	/**
@@ -2025,6 +2176,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		setToolTipText(btnVerticalAlignment, "stylebar.VerticalAlign");
 		setPopupTooltips(btnVerticalAlignment, new String[] { "Top", "Middle", "Bottom" });
+
+		setToolTipText(btnSegmentStartStyle, "stylebar.LineStartStyle");
+		setToolTipText(btnSegmentEndStyle, "stylebar.LineEndStyle");
 	}
 
 	private void setToolTipText(MyCJButton btn, String key) {

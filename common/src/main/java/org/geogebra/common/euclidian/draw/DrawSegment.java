@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -35,6 +36,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -471,6 +473,20 @@ public class DrawSegment extends SetDrawable implements Previewable {
 				g2.setPaint(geo.getLabelColor());
 				g2.setFont(view.getFontLine());
 				drawLabel(g2);
+			}
+
+			if (geo instanceof GeoSegment) {
+				MyImage startImage = ((GeoSegment) geo).getStartStyle();
+				if (startImage != null) {
+					g2.drawImage(startImage, (int) line.getX1() - 12,(int) line.getY1() - 12,
+							24, 24);
+				}
+
+				MyImage endImage = ((GeoSegment) geo).getEndStyle();
+				if (endImage != null) {
+					g2.drawImage(endImage, (int) line.getX2() - 12,(int) line.getY2() - 12,
+							24, 24);
+				}
 			}
 		}
 	}
