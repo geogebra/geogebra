@@ -29,11 +29,11 @@ public enum EventType {
 	/** RENAME_COMPLETE */
 	RENAME_COMPLETE("renameComplete"),
 
-	/** ADD_POLYGON */
-	ADD_POLYGON("addPolygon"),
+	/** Start batch of add events */
+	BATCH_ADD_STARTED("batchAddStarted"),
 
-	/** ADD_POLYGON_COMPLETE */
-	ADD_POLYGON_COMPLETE("addPolygonComplete"),
+	/** Finish batch of add events */
+	BATCH_ADD_COMPLETE("batchAddComplete"),
 
 	/** MOVING_GEOS */
 	MOVING_GEOS("movingGeos"),

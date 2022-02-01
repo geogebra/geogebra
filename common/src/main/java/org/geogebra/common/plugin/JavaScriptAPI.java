@@ -797,6 +797,12 @@ public interface JavaScriptAPI {
 	String[] getAllObjectNames(String type);
 
 	/**
+	 * @param objName object name
+	 * @return names of all
+	 */
+	String[] getSiblingObjectNames(String objName);
+
+	/**
 	 * Returns the number of objects in the construction.
 	 * 
 	 * @return number of objects
@@ -1201,6 +1207,9 @@ public interface JavaScriptAPI {
 	 */
 	void setGraphicsOptions(int viewId, Object options);
 
-
+	/**
+	 * @param viewId 1,2 or 3 for 3D
+	 * @return view options
+	 */
 	Object getGraphicsOptions(int viewId);
 }

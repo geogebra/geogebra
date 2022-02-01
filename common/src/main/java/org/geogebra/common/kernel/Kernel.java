@@ -3804,7 +3804,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (notifyViewsActive) {
 			this.addingPolygon = true;
 			if (app.hasEventDispatcher()) {
-				app.getEventDispatcher().addingPolygon();
+				app.getEventDispatcher().batchAddStarted();
 			}
 		}
 	}
@@ -3814,7 +3814,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public final void notifyPolygonAdded() {
 		if (notifyViewsActive && app.hasEventDispatcher()) {
-			app.getEventDispatcher().addPolygonComplete(this.newPolygon);
+			app.getEventDispatcher().batchAddComplete(this.newPolygon);
 		}
 	}
 

@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -435,6 +436,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 		}
 		return objList.toArray(new String[objList.size()]);
+	}
+
+	@Override
+	public String[] getSiblingObjectNames(String objName) {
+		return getGeoProperty(objName, geo -> {
+			AlgoElement parent = geo.getParentAlgorithm();
+			if (parent != null) {
+				return Arrays.stream(parent.getOutput())
+						.map(GeoElement::getLabelSimple).toArray(String[]::new);
+			} else {
+				return new String[]{objName};
+			}
+		}, null);
 	}
 
 	@Override

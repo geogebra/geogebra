@@ -1011,8 +1011,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.ungroupObjects(objects);
 	}
 
-	public String[] getObjectsOfItsGroup(String object) {
-		return ggbAPI.getObjectsOfItsGroup(object);
+	public JsArray<String> getObjectsOfItsGroup(String object) {
+		return new JsArray<>(ggbAPI.getObjectsOfItsGroup(object));
 	}
 
 	public void addToGroup(String item, String[] objectsInGroup) {
@@ -1073,5 +1073,9 @@ public class DefaultExportedApi implements ExportedApi {
 
 	public String getStyleXML(String objName) {
 		return ggbAPI.getStyleXML(objName);
+	}
+
+	public JsArray<String> getSiblingObjectNames(String objName) {
+		return new JsArray<>(ggbAPI.getSiblingObjectNames(objName));
 	}
 }
