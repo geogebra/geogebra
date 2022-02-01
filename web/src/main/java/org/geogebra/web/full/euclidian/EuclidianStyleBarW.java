@@ -10,7 +10,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
@@ -76,19 +75,14 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.MyImageW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
-
-import elemental2.dom.HTMLImageElement;
 
 /**
  * StyleBar for euclidianView
@@ -898,13 +892,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					// TODO HANDLE setting segment start style
+					SegmentStyle style = ((GeoSegment) geos.get(0)).getStartStyle();
+					btnSegmentStartStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
+					if (btnSegmentStartStyle.getSelectedIndex() == -1) {
+						btnSegmentStartStyle.setIcon(
+								new ImageOrText(MaterialDesignResources.INSTANCE
+										.stylingbar_start_default(), 24));
+					}
 				}
-			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getIcon();
 			}
 		};
 
@@ -934,13 +929,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					// TODO HANDLE setting segment start style
+					SegmentStyle style = ((GeoSegment) geos.get(0)).getEndStyle();
+					btnSegmentEndStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
+					if (btnSegmentEndStyle.getSelectedIndex() == -1) {
+						btnSegmentEndStyle.setIcon(
+								new ImageOrText(MaterialDesignResources.INSTANCE
+										.stylingbar_end_default(), 24));
+					}
 				}
-			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getIcon();
 			}
 		};
 
@@ -1812,55 +1808,17 @@ public class EuclidianStyleBarW extends StyleBarW2
 			boolean start) {
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
-			if (geo instanceof GeoSegment && style != SegmentStyle.DEFAULT) {
+			if (geo instanceof GeoSegment) {
 				if (start) {
-					((GeoSegment) geo).setStartStyle(getSegmentStyleImage(style, true));
+					((GeoSegment) geo).setStartStyle(style);
 				} else {
-					((GeoSegment) geo).setEndStyle(getSegmentStyleImage(style, false));
+					((GeoSegment) geo).setEndStyle(style);
 				}
 				changed = true;
 			}
 		}
 
 		return changed;
-	}
-
-	private MyImage getSegmentStyleImage(SegmentStyle style, boolean start) {
-		SVGResource res = getSegmentStyleRes(style, start);
-		if (res != null) {
-			String uri = ImgResourceHelper.safeURI(res);
-			HTMLImageElement img = Dom.createImage();
-			img.src = uri;
-			MyImage segmentStyleImg = new MyImageW(img, true);
-			return segmentStyleImg;
-		}
-		return null;
-	}
-
-	private SVGResource getSegmentStyleRes(SegmentStyle style, boolean start) {
-		MaterialDesignResources src = MaterialDesignResources.INSTANCE;
-		switch (style) {
-		case DEFAULT:
-			return start ? src.stylingbar_start_default() : src.stylingbar_end_default();
-		case LINE:
-			return start ? src.stylingbar_start_line() : src.stylingbar_end_line();
-		case CIRCLE:
-			return start ? src.stylingbar_start_circle() : src.stylingbar_end_circle();
-		case CIRCLE_OUTLINE:
-			return start ? src.stylingbar_start_circle_outlined()
-					: src.stylingbar_end_circle_outlined();
-		case SQUARE:
-			return start ? src.stylingbar_start_square() : src.stylingbar_end_square();
-		case SQUARE_OUTLINE:
-			return start ? src.stylingbar_start_square_outlined()
-					: src.stylingbar_end_square_outlined();
-		case ARROW:
-			return start ? src.stylingbar_start_arrow() : src.stylingbar_end_arrow();
-		case ARROW_FILLED:
-			return start ? src.stylingbar_start_arrow_filled()
-					: src.stylingbar_end_arrow_filled();
-		}
-		return null;
 	}
 
 	/**

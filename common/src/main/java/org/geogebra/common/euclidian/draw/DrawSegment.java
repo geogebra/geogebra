@@ -20,11 +20,12 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -37,6 +38,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -476,18 +478,42 @@ public class DrawSegment extends SetDrawable implements Previewable {
 			}
 
 			if (geo instanceof GeoSegment) {
-				MyImage startImage = ((GeoSegment) geo).getStartStyle();
-				if (startImage != null) {
-					g2.drawImage(startImage, (int) line.getX1() - 12,(int) line.getY1() - 12,
-							24, 24);
-				}
-
-				MyImage endImage = ((GeoSegment) geo).getEndStyle();
-				if (endImage != null) {
-					g2.drawImage(endImage, (int) line.getX2() - 12,(int) line.getY2() - 12,
-							24, 24);
-				}
+				drawSegmentStyle(g2, ((GeoSegment) geo).getStartStyle(), true);
+				drawSegmentStyle(g2, ((GeoSegment) geo).getEndStyle(), false);
 			}
+		}
+	}
+
+	private void drawSegmentStyle(GGraphics2D g2, SegmentStyle style, boolean isStartStyle) {
+		int posX = isStartStyle ? (int) line.getX1() - 5 : (int) line.getX2() - 5;
+		int posY = isStartStyle ? (int) line.getY1() - 5 : (int) line.getY2() - 5;
+
+		switch (style) {
+		case SQUARE_OUTLINE:
+			g2.setColor(GColor.WHITE);
+			g2.fillRect(posX, posY, 10, 10);
+			g2.setColor(geo.getObjectColor());
+			g2.drawRect(posX, posY, 10, 10);
+			break;
+		case SQUARE:
+			g2.setColor(geo.getObjectColor());
+			g2.fillRect(posX, posY, 10, 10);
+			break;
+		case CIRCLE:
+			GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+			circle.setFrame(posX, posY, 10, 10);
+			g2.setColor(geo.getObjectColor());
+			g2.fill(circle);
+			break;
+		case CIRCLE_OUTLINE:
+			GEllipse2DDouble circleOutline = AwtFactory.getPrototype().newEllipse2DDouble();
+			circleOutline.setFrame(posX, posY, 10, 10);
+			g2.setColor(GColor.WHITE);
+			g2.fill(circleOutline);
+			g2.setColor(geo.getObjectColor());
+			g2.draw(circleOutline);
+			break;
+
 		}
 	}
 

@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -56,8 +55,8 @@ final public class GeoSegment extends GeoLine
 
 	private GeoElement meta = null;
 
-	private MyImage startStyleImage;
-	private MyImage endStyleImage;
+	private SegmentStyle startStyle = SegmentStyle.DEFAULT;
+	private SegmentStyle endStyle = SegmentStyle.DEFAULT;
 
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
@@ -485,6 +484,13 @@ final public class GeoSegment extends GeoLine
 		sb.append(keepTypeOnGeometricTransform);
 		sb.append("\"/>\n");
 
+		sb.append("\t<startStyle val=\"");
+		sb.append(startStyle.toString());
+		sb.append("\"/>\n");
+
+		sb.append("\t<endStyle val=\"");
+		sb.append(endStyle.toString());
+		sb.append("\"/>\n");
 	}
 
 	/**
@@ -895,19 +901,21 @@ final public class GeoSegment extends GeoLine
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
 
-	public void setStartStyle(MyImage img) {
-		startStyleImage = img;
+	public void setStartStyle(SegmentStyle startStyle) {
+		this.startStyle = startStyle;
+		updateRepaint();
 	}
 
-	public void setEndStyle(MyImage img) {
-		endStyleImage = img;
+	public void setEndStyle(SegmentStyle endStyle) {
+		this.endStyle = endStyle;
+		updateRepaint();
 	}
 
-	public MyImage getStartStyle() {
-		return startStyleImage;
+	public SegmentStyle getStartStyle() {
+		return startStyle;
 	}
 
-	public MyImage getEndStyle() {
-		return endStyleImage;
+	public SegmentStyle getEndStyle() {
+		return endStyle;
 	}
 }
