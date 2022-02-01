@@ -386,10 +386,9 @@ public class GeoLocusStroke extends GeoLocus
 			splits = this.split(realRectangle);
 
 			for (GeoElement split : splits) {
-				split.setLabel(null);
 				split.setVisualStyle(this);
 				split.setEuclidianVisible(true);
-				split.update();
+				split.setLabel(null);
 			}
 
 			if (removeOriginal) {
