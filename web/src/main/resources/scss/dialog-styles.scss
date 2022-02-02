@@ -1932,9 +1932,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.substituteDialog {
 		max-width: 384px;
 
-		.radioButtonPanel {
-			margin-top: 10px;
-			margin-bottom: 18px;
+		.dialogContent {
+			max-height: 390px;
+			min-height: 390px;
 		}
 
 		.flexGroup {
@@ -1947,6 +1947,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				font-size: 87%;
 				font-weight: bold;
 				color: colors.$text-primary;
+				margin-top: 16px;
 			}
 
 			.AutoCompleteTextFieldW {

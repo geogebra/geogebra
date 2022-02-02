@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -90,6 +91,8 @@ public class CASSubstituteDialogW extends ComponentDialog {
 			extendData(data);
 		}
 		inputField.getTextComponent().removeStyleName("focused");
+
+		Dom.toggleClass(this, "hasBorder", data.size() >= 7);
 	}
 
 	private void addFocusHandler(InputPanelW inputField) {
