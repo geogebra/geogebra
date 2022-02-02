@@ -26,6 +26,9 @@ public enum EventType {
 	/** RENAME */
 	RENAME("rename"),
 
+	/** RENAME */
+	REDEFINE("redefine"),
+
 	/** RENAME_COMPLETE */
 	RENAME_COMPLETE("renameComplete"),
 

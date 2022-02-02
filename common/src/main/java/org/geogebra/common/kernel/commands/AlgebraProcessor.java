@@ -602,6 +602,7 @@ public class AlgebraProcessor {
 					if (obj != null) {
 						app.getScriptManager().enableListeners();
 						if (listeners && obj.length > 0) {
+							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
 							obj[0].updateCascade();
 						}
 						app.getCompanion().recallViewCreators();
