@@ -1084,14 +1084,13 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void setAltText() {
-		GeoElement altGeo = appW.getAccessibilityManager().getAltGeoForView();
+	public void setAltText(GeoText altGeo) {
 		if (altGeo == null) {
 			return;
 		}
 		String content = getAltTextFrom(altGeo);
 
-		if (content != null && !content.equals(currentAltText) && altGeo.isGeoText()) {
+		if (content != null && !content.equals(currentAltText)) {
 			getScreenReader().readText(content);
 			currentAltText = content;
 		}
@@ -1310,7 +1309,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private class DrawLaTeXCallBack implements Runnable {
 
-		private GeoElementND geo;
+		private final GeoElementND geo;
 
 		public DrawLaTeXCallBack(GeoElementND geo) {
 			this.geo = geo;
