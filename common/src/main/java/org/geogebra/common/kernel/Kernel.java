@@ -171,8 +171,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// (add, remove, update)
 	/** List of attached views */
 	protected ArrayList<View> views = new ArrayList<>();
-	private boolean addingPolygon = false;
-	private GeoElement newPolygon;
+	private boolean batchAddStarted = false;
+	private GeoElement firstGeoInBatch;
 	private final ArrayList<GeoElement> deleteList;
 	/** Construction */
 	protected Construction cons;
@@ -3780,11 +3780,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
-			if (addingPolygon && geo.isLabelSet()) {
-				if (geo.getXMLtypeString().equalsIgnoreCase("Polygon")) {
-					this.newPolygon = geo;
-				}
-
+			if (batchAddStarted && geo.isLabelSet() && firstGeoInBatch == null) {
+				firstGeoInBatch = geo;
 			}
 			for (View view : views) {
 				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
@@ -3798,11 +3795,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Notify views about adding polygon.
+	 * Notify views about adding multiple geos from a single command.
+	 * Algos that have one kind of output should call this through LabelManager,
+	 * algos with heterogeneous output should call this from constructor or AlgoDispatcher
 	 */
-	public final void addingPolygon() {
+	public final void batchAddStarted() {
 		if (notifyViewsActive) {
-			this.addingPolygon = true;
+			this.batchAddStarted = true;
+			this.firstGeoInBatch = null;
 			if (app.hasEventDispatcher()) {
 				app.getEventDispatcher().batchAddStarted();
 			}
@@ -3810,12 +3810,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Notify views about new polygon
+	 * Notify views about new batch of geos from a single command.
+	 * See {@link #batchAddStarted()}
 	 */
-	public final void notifyPolygonAdded() {
+	public final void batchAddComplete() {
 		if (notifyViewsActive && app.hasEventDispatcher()) {
-			app.getEventDispatcher().batchAddComplete(this.newPolygon);
+			app.getEventDispatcher().batchAddComplete(this.firstGeoInBatch);
 		}
+		firstGeoInBatch = null;
+		batchAddStarted = false;
 	}
 
 	/**

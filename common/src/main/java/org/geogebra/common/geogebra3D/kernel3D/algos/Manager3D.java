@@ -472,9 +472,9 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	@Override
 	final public GeoElement[] polygon3D(String[] label, GeoPointND[] points) {
-
+		this.kernel.batchAddStarted();
 		AlgoPolygon3D algo = new AlgoPolygon3D(cons, label, points, null);
-
+		this.kernel.batchAddComplete();
 		return algo.getOutput();
 	}
 
@@ -2045,8 +2045,10 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
+		kernel.batchAddStarted();
 		AlgoPolygonRegular3D algo = new AlgoPolygonRegular3D(cons, labels, A, B,
 				n, direction);
+		kernel.batchAddComplete();
 		return algo.getOutput();
 	}
 

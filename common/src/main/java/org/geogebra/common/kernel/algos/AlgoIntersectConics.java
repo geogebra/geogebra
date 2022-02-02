@@ -107,15 +107,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	/**
-	 * @param cons construction
-	 */
-	public AlgoIntersectConics(Construction cons) {
-		super(cons);
-		helper = new GeoPoint(cons, true);
-		init(cons);
-	}
-
-	/**
 	 * @param cons                  construction
 	 * @param addToConstructionList whether to add to construction list
 	 */
@@ -138,8 +129,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * @param B    second conic
 	 */
 	public AlgoIntersectConics(Construction cons, GeoConic A, GeoConic B) {
-		this(cons);
-
+		this(cons, true);
 		this.A = A;
 		this.B = B;
 		isLimitedPathSituation = A.isLimitedPath() || B.isLimitedPath();

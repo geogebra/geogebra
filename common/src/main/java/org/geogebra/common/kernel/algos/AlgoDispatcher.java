@@ -1206,7 +1206,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n) {
+		cons.getKernel().batchAddStarted();
 		AlgoPolygonRegular algo = new AlgoPolygonRegular(cons, labels, A, B, n);
+		cons.getKernel().batchAddComplete();
 		return algo.getOutput();
 	}
 
@@ -1221,8 +1223,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoNumeric area(String label, GeoConicND c) {
 		AlgoAreaConic algo = new AlgoAreaConic(cons, label, c);
-		GeoNumeric num = algo.getArea();
-		return num;
+		return algo.getArea();
 	}
 
 	/**
@@ -1465,13 +1466,15 @@ public class AlgoDispatcher {
 	 * @return polygon
 	 */
 	public GeoElement[] polygon(String[] labels, GeoPointND[] P) {
+		cons.getKernel().batchAddStarted();
 		AlgoPolygon algo = new AlgoPolygon(cons, labels, P);
+		cons.getKernel().batchAddComplete();
 		return algo.getOutput();
 	}
 
 	/**
-	 * Polygon with vertices from geolist Only the polygon is labeled, segments
-	 * are not labeled
+	 * Polygon with vertices from a list of points. Only the polygon is labeled, segments
+	 * are not labeled (so no batch needed).
 	 * 
 	 * @param labels
 	 *            labels
