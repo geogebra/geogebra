@@ -12,8 +12,6 @@ import org.geogebra.web.html5.util.Persistable;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -37,11 +35,8 @@ public class MenuToggleButton extends MyToggleButton
 	}
 
 	private static Image getImage() {
-		ImageResource menuImgRec = new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.toolbar_menu_black()
-						.getSafeUri(),
-				0, 0, 24, 24, false, false);
-		return new Image(menuImgRec);
+		return new Image(MaterialDesignResources.INSTANCE.toolbar_menu_black()
+				.getSafeUri().asString(), 0, 0, 24, 24);
 	}
 
 	private void buildUI() {

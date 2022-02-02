@@ -21,8 +21,8 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
 /**

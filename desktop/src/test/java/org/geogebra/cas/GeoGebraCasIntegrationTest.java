@@ -774,6 +774,16 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 		t("PerpendicularVector[(a, b)]", "(-b, a)");
 	}
 
+	@Test
+	public void perpendicularVector_2() {
+		t("PerpendicularVector(Plane(x+2y+3z=1))", "(1,2,3)");
+	}
+
+	@Test
+	public void perpendicularVector_3() {
+		t("PerpendicularVector(Plane(x+2y+3z=1))", "(1,2,3)");
+	}
+
 	/* Root */
 
 	@Test

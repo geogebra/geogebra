@@ -239,6 +239,10 @@ public class GeoSymbolic extends GeoElement
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 
+		if (isUndefined(casInput)) {
+			return "?";
+		}
+
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
 		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
@@ -249,6 +253,22 @@ public class GeoSymbolic extends GeoElement
 			return normalizeSolveODE(casResult, casInput);
 		}
 		return casResult;
+	}
+
+	private boolean isUndefined(Command command) {
+		return isLengthOfCurve(command);
+	}
+
+	private boolean isLengthOfCurve(Command command) {
+		if (Commands.Length.name().equals(command.getName())
+				&& command.getArgumentNumber() == 1) {
+			ExpressionValue arg = command.getArgument(0).unwrap();
+			if (arg instanceof GeoSymbolic) {
+				GeoElementND twinGeo = ((GeoSymbolic) arg).getTwinGeo();
+				return twinGeo != null && twinGeo.isGeoConic();
+			}
+		}
+		return false;
 	}
 
 	private String normalizeSolveODE(String casResult, Command casInput) {
@@ -1033,5 +1053,21 @@ public class GeoSymbolic extends GeoElement
 			}
 		}
 		super.getDefinitionXML(sb);
+	}
+
+	/**
+	 * @param value value
+	 * @return True if the unwrapped value's twin is a GeoList.
+	 * 		Returns false if the value is null
+	 * 		or if the unwrapped value is not a GeoSymbolic
+	 * 		or if the unwrapped value's twin is not a GeoList.
+	 */
+	public static boolean hasListTwin(ExpressionValue value) {
+		if (value == null) {
+			return false;
+		}
+		ExpressionValue unwrapped = value.unwrap();
+		return unwrapped instanceof GeoSymbolic
+				&& ((GeoSymbolic) unwrapped).getTwinGeo().isGeoList();
 	}
 }

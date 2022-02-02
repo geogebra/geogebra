@@ -5,9 +5,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**

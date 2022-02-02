@@ -12,7 +12,8 @@ public class IntervalTrigonometric {
 		if (interval.isInverted()) {
 			Interval result1 = cos(interval.extractLow());
 			Interval result2 = cos(interval.extractHigh());
-			return IntervalOperands.computeInverted(result1, result2);
+			Interval result = IntervalOperands.computeInverted(result1, result2);
+			return result.isUndefined() ? new Interval(-1, 1) : result;
 		}
 		return cos0(interval);
 	}
@@ -23,7 +24,7 @@ public class IntervalTrigonometric {
 		}
 
 		if (interval.isUndefined() || interval.isInfiniteSingleton()) {
-			interval.setUndefined();
+			setDefaultInterval(interval);
 			return interval;
 		}
 

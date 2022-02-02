@@ -2,9 +2,8 @@ package org.geogebra.web.resources;
 
 import org.geogebra.gwtutil.DOMParser;
 import org.geogebra.gwtutil.XMLSerializer;
-
-import com.google.gwt.safehtml.shared.SafeUri;
-import com.google.gwt.safehtml.shared.UriUtils;
+import org.gwtproject.safehtml.shared.SafeUri;
+import org.gwtproject.safehtml.shared.UriUtils;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.Document;
@@ -14,7 +13,7 @@ import jsinterop.base.Js;
 /**
  * Implementation of SVGResource.
  */
-public class DefaultSVGResource implements SVGResource {
+public class SVGResourcePrototype implements SVGResource {
 
 	private static DOMParser parser;
 
@@ -34,14 +33,14 @@ public class DefaultSVGResource implements SVGResource {
 	 * @param svg content
 	 * @param name name
 	 */
-	public DefaultSVGResource(String svg, String name) {
-		this.svg = svg;
+	public SVGResourcePrototype(String name, String svg) {
 		this.name = name;
+		this.svg = svg;
 	}
 
 	@Override
 	public SafeUri getSafeUri() {
-		return UriUtils.fromSafeConstant(getUrl());
+		return UriUtils.fromTrustedString(getUrl());
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class DefaultSVGResource implements SVGResource {
 	@Override
 	public SVGResource withFill(String color) {
 		String filled = createFilled(color);
-		return new DefaultSVGResource(filled, name);
+		return new SVGResourcePrototype(name, filled);
 	}
 
 	private String createFilled(String color) {
@@ -63,7 +62,6 @@ public class DefaultSVGResource implements SVGResource {
 		return serializer.serializeToString(doc);
 	}
 
-	@Override
 	public String getUrl() {
 		return "data:image/svg+xml;base64," + DomGlobal.btoa(svg);
 	}

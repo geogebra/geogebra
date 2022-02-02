@@ -358,17 +358,6 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * Returns .out representation for regression testing.
-	 * 
-	 * @return .out representation for regression testing.
-	 */
-	public String getConstructionRegressionOut() {
-		StringBuilder sb = new StringBuilder();
-		cons.getConstructionRegressionOut(sb);
-		return sb.toString();
-	}
-
-	/**
 	 * @param str
 	 *            XML string
 	 * @param clearAll

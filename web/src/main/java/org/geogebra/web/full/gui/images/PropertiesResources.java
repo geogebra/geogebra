@@ -1,16 +1,17 @@
 package org.geogebra.web.full.gui.images;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.Resource;
 
 /**
  * Resources for the properties view.
  */
+@Resource
 public interface PropertiesResources extends ClientBundle {
 
 	/** Singleton instance */
-	PropertiesResources INSTANCE = GWT.create(PropertiesResources.class);
+	PropertiesResources INSTANCE = new PropertiesResourcesImpl();
 
 	@Source("org/geogebra/web/full/gui/images/ruling/colored.png")
 	ImageResource coloredRuling();
