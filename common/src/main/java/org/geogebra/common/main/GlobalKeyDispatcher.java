@@ -247,8 +247,7 @@ public abstract class GlobalKeyDispatcher {
 	 * @param diff translation in x, y and z directions
 	 * @return whether any object was moved
 	 */
-	public boolean handleArrowKeyMovement(List<GeoElement> geos,
-			double[] diff) {
+	public boolean handleArrowKeyMovement(List<GeoElement> geos, double[] diff) {
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
@@ -272,9 +271,55 @@ public abstract class GlobalKeyDispatcher {
 
 		if (app.getActiveEuclidianView().getPointCapturingMode()
 				== EuclidianStyleConstants.POINT_CAPTURING_ON_GRID) {
-			for (int i = 0; i < 2; i++) {
-				diff[i] = Math.signum(diff[i]) * MyMath.nextMultiple(Math.abs(diff[i]),
-						app.getActiveEuclidianView().getGridDistances(i));
+
+			double xGrid = app.getActiveEuclidianView().getGridDistances(0);
+			double yGrid = app.getActiveEuclidianView().getGridDistances(1);
+
+			switch (app.getActiveEuclidianView().getGridType()) {
+			case EuclidianView.GRID_CARTESIAN:
+			case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID:
+				diff[0] = MyMath.signedNextMultiple(diff[0], xGrid);
+				diff[1] = MyMath.signedNextMultiple(diff[1], yGrid);
+				break;
+
+			case EuclidianView.GRID_ISOMETRIC:
+				double sin60 = Math.sqrt(3) / 2;
+				double cos60 = 0.5;
+
+				if (DoubleUtil.isZero(diff[0])) {
+					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid);
+				} else {
+					diff[0] = MyMath.signedNextMultiple(diff[0], xGrid * sin60);
+					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * cos60);
+				}
+
+				break;
+
+			case EuclidianView.GRID_POLAR:
+				if (geos.size() != 1) {
+					diff[0] = diff[1] = 0;
+				}
+
+				double posX = geo.getLabelPosition().getX();
+				double posY = geo.getLabelPosition().getY();
+
+				double angle = Math.atan2(posY, posX);
+				double radius = Math.hypot(posX, posY);
+
+				if (DoubleUtil.isZero(diff[0])) {
+					diff[0] = MyMath.signedNextMultiple(diff[1], xGrid * Math.cos(angle));
+					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * Math.sin(angle));
+				} else {
+					double angleIncrement = Math.signum(diff[0])
+							* app.getActiveEuclidianView().getGridDistances(2);
+
+					diff[0] = radius * Math.cos(angle - angleIncrement) - posX;
+					diff[1] = radius * Math.sin(angle - angleIncrement) - posY;
+				}
+				break;
+
+			default:
+				// do nothing
 			}
 		}
 		tempVec.set(diff);
@@ -1351,6 +1396,8 @@ public abstract class GlobalKeyDispatcher {
 
 		// check for arrow keys: try to move objects accordingly
 		boolean moved = false;
+		boolean isometric = app.getActiveEuclidianView().getGridType()
+				== EuclidianView.GRID_ISOMETRIC;
 		switch (key) {
 		default:
 			// do nothing
@@ -1361,8 +1408,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet
-					&& handleUpDownArrowsForDropdown(geos, false)) {
+			if (handleUpDownArrowsForDropdown(geos, false)) {
 				return true;
 			}
 			changeValY = base;
@@ -1375,8 +1421,7 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet
-					&& handleUpDownArrowsForDropdown(geos, true)) {
+			if (handleUpDownArrowsForDropdown(geos, true)) {
 				return true;
 			}
 			changeValY = -base;
@@ -1389,11 +1434,13 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet
-					&& handleLeftRightArrowsForDropdown(geos, true)) {
+			if (handleLeftRightArrowsForDropdown(geos, true)) {
 				return true;
 			}
 			changeValX = base;
+			if (isometric) {
+				changeValY = base;
+			}
 			break;
 
 		case LEFT:
@@ -1403,12 +1450,31 @@ public abstract class GlobalKeyDispatcher {
 					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			if (!fromSpreadsheet
-					&& handleLeftRightArrowsForDropdown(geos, false)) {
+			if (handleLeftRightArrowsForDropdown(geos, false)) {
 				return true;
 			}
 
 			changeValX = -base;
+			if (isometric) {
+				changeValY = -base;
+			}
+			break;
+
+		case PLUS:
+		case ADD:
+		case EQUALS:
+			if (isometric) {
+				changeValX = -base;
+				changeValY = base;
+			}
+			break;
+
+		case MINUS:
+		case SUBTRACT:
+			if (isometric) {
+				changeValX = base;
+				changeValY = -base;
+			}
 			break;
 
 		case PAGEUP:

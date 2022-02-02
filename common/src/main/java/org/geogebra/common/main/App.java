@@ -44,6 +44,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
@@ -93,6 +94,7 @@ import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.kernel.statistics.AlgoTableToChart;
@@ -3971,7 +3973,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				if (d != null) {
 					((DrawDropDownList) d).toggleOptions();
 				}
-
 			} else if (geo.isGeoNumeric()) {
 
 				// <Space> -> toggle slider animation off/on
@@ -4163,6 +4164,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public String getSlideID() {
 		return "";
+	}
+
+	public Layout getLayout() {
+		return getGuiManager() == null ? null : getGuiManager().getLayout();
 	}
 
 	/**
@@ -4835,13 +4840,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            corner 1
 	 * @param c2
 	 *            corner 2
-	 * @param c4
-	 *            corner 4
 	 * @return image
 	 */
 	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners, String c1,
-			String c2, String c4) {
+			String imgBase64, GeoImage imageOld, boolean autoCorners, GeoPointND c1,
+			GeoPointND c2) {
 		return null;
 	}
 

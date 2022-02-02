@@ -900,6 +900,7 @@ public class ToolbarPanel extends FlowPanel
 		}
 
 		switchTab(TabIds.TABLE, fade);
+		setMoveMode();
 		if (tabTable != null) {
 			tabTable.scrollTo(geo);
 		}

@@ -1,12 +1,15 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.AlgoParseToNumberOrFunction;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 
@@ -27,20 +30,26 @@ public class CmdParseToFunction extends CommandProcessor {
 
 	@Override
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
-		if (!info.isScripting()) {
-			return new GeoElement[0];
-		}
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
+		GeoElement[] arg = resArgs(c);
 
 		boolean ok;
 
 		switch (n) {
+		case 1:
+			if (arg[0].isGeoText()) {
+				return getParseAlgoResult((GeoText) arg[0], c, null);
+			}
+			throw argErr(arg[0], c);
 		case 2:
-			arg = resArgs(c);
+			if (arg[0].isGeoText() && arg[1].isGeoList()) {
+				return getParseAlgoResult((GeoText) arg[0], c, (GeoList) arg[1]);
+			}
 			if ((ok = (arg[0].isGeoFunction() || arg[0].isGeoFunctionNVar()))
 					&& arg[1].isGeoText()) {
-
+				if (!info.isScripting()) {
+					return new GeoElement[0];
+				}
 				GeoElement fun = arg[0];
 				if (!fun.isLabelSet()) {
 					AlgoElement algo = fun.getParentAlgorithm();
@@ -76,5 +85,12 @@ public class CmdParseToFunction extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoElement[] getParseAlgoResult(GeoText text, Command c, GeoList vars) {
+		AlgoParseToNumberOrFunction parseAlgo = new AlgoParseToNumberOrFunction(cons, text, vars,
+				Commands.ParseToFunction);
+		parseAlgo.getOutput(0).setLabel(c.getLabel());
+		return parseAlgo.getOutput();
 	}
 }

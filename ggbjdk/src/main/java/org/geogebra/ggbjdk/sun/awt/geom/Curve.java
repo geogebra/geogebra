@@ -854,10 +854,10 @@ public abstract class Curve {
     public abstract double getX1();
     public abstract double getY1();
 
-    public abstract double XforY(double y);
-    public abstract double TforY(double y);
-    public abstract double XforT(double t);
-    public abstract double YforT(double t);
+    public abstract double getXforY(double y);
+    public abstract double getTforY(double y);
+    public abstract double getXforT(double t);
+    public abstract double getYforT(double t);
     public abstract double dXforT(double t, int deriv);
     public abstract double dYforT(double t, int deriv);
 
@@ -865,7 +865,7 @@ public abstract class Curve {
 
     public int crossingsFor(double x, double y) {
         if (y >= getYTop() && y < getYBot()) {
-            if (x < getXMax() && (x < getXMin() || x < XforY(y))) {
+            if (x < getXMax() && (x < getXMin() || x < getXforY(y))) {
                 return 1;
             }
         }
@@ -888,7 +888,7 @@ public abstract class Curve {
                 return false;
             }
             ystart = ylo;
-            tstart = TforY(ylo);
+            tstart = getTforY(ylo);
         } else {
             if (y0 >= yhi) {
                 return false;
@@ -898,7 +898,7 @@ public abstract class Curve {
         }
         if (y1 > yhi) {
             yend = yhi;
-            tend = TforY(yhi);
+            tend = getTforY(yhi);
         } else {
             yend = y1;
             tend = 1;
@@ -906,7 +906,7 @@ public abstract class Curve {
         boolean hitLo = false;
         boolean hitHi = false;
         while (true) {
-            double x = XforT(tstart);
+            double x = getXforT(tstart);
             if (x < xhi) {
                 if (hitHi || x > xlo) {
                     return true;
@@ -968,30 +968,30 @@ public abstract class Curve {
         // [st]h = parameters for hypothesis point
         // [d][xy]s = valuations of thi(s) curve at sh
         // [d][xy]t = valuations of tha(t) curve at th
-        double s0 = this.TforY(y0);
-        double ys0 = this.YforT(s0);
+        double s0 = this.getTforY(y0);
+        double ys0 = this.getYforT(s0);
         if (ys0 < y0) {
             s0 = refineTforY(s0, y0);
-            ys0 = this.YforT(s0);
+            ys0 = this.getYforT(s0);
         }
-        double s1 = this.TforY(y1);
-        if (this.YforT(s1) < y0) {
+        double s1 = this.getTforY(y1);
+        if (this.getYforT(s1) < y0) {
             s1 = refineTforY(s1, y0);
             //System.out.println("s1 problem!");
         }
-        double t0 = that.TforY(y0);
-        double yt0 = that.YforT(t0);
+        double t0 = that.getTforY(y0);
+        double yt0 = that.getYforT(t0);
         if (yt0 < y0) {
             t0 = that.refineTforY(t0, y0);
-            yt0 = that.YforT(t0);
+            yt0 = that.getYforT(t0);
         }
-        double t1 = that.TforY(y1);
-        if (that.YforT(t1) < y0) {
+        double t1 = that.getTforY(y1);
+        if (that.getYforT(t1) < y0) {
             t1 = that.refineTforY(t1, y0);
             //System.out.println("t1 problem!");
         }
-        double xs0 = this.XforT(s0);
-        double xt0 = that.XforT(t0);
+        double xs0 = this.getXforT(s0);
+        double xt0 = that.getXforT(t0);
         double scale = Math.max(Math.abs(y0), Math.abs(y1));
         double ymin = Math.max(scale * 1E-14, 1E-300);
         if (fairlyClose(xs0, xt0)) {
@@ -999,7 +999,7 @@ public abstract class Curve {
             double maxbump = Math.min(ymin * 1E13, (y1 - y0) * .1);
             double y = y0 + bump;
             while (y <= y1) {
-                if (fairlyClose(this.XforY(y), that.XforY(y))) {
+                if (fairlyClose(this.getXforY(y), that.getXforY(y))) {
                     if ((bump *= 2) > maxbump) {
                         bump = maxbump;
                     }
@@ -1011,7 +1011,7 @@ public abstract class Curve {
                         if (newy <= y) {
                             break;
                         }
-                        if (fairlyClose(this.XforY(newy), that.XforY(newy))) {
+                        if (fairlyClose(this.getXforY(newy), that.getXforY(newy))) {
                             y = newy;
                         }
                     }
@@ -1036,11 +1036,11 @@ public abstract class Curve {
         */
         while (s0 < s1 && t0 < t1) {
             double sh = this.nextVertical(s0, s1);
-            double xsh = this.XforT(sh);
-            double ysh = this.YforT(sh);
+            double xsh = this.getXforT(sh);
+            double ysh = this.getYforT(sh);
             double th = that.nextVertical(t0, t1);
-            double xth = that.XforT(th);
-            double yth = that.YforT(th);
+            double xth = that.getXforT(th);
+            double yth = that.getYforT(th);
             /*
             System.out.println("sh = "+sh);
             System.out.println("th = "+th);
@@ -1097,7 +1097,7 @@ public abstract class Curve {
         System.out.println("final order = "+orderof(this.XforY(ymid),
                                                     that.XforY(ymid)));
         */
-        return orderof(this.XforY(ymid), that.XforY(ymid));
+        return orderof(this.getXforY(ymid), that.getXforY(ymid));
     }
 
     public static final double TMIN = 1E-3;
@@ -1136,8 +1136,8 @@ public abstract class Curve {
         //  intensive algorithm).
         if (s1 - s0 > TMIN) {
             double s = (s0 + s1) / 2;
-            double xs = this.XforT(s);
-            double ys = this.YforT(s);
+            double xs = this.getXforT(s);
+            double ys = this.getYforT(s);
             if (s == s0 || s == s1) {
                 System.out.println("s0 = "+s0);
                 System.out.println("s1 = "+s1);
@@ -1145,8 +1145,8 @@ public abstract class Curve {
             }
             if (t1 - t0 > TMIN) {
                 double t = (t0 + t1) / 2;
-                double xt = that.XforT(t);
-                double yt = that.YforT(t);
+                double xt = that.getXforT(t);
+                double yt = that.getYforT(t);
                 if (t == t0 || t == t1) {
                     System.out.println("t0 = "+t0);
                     System.out.println("t1 = "+t1);
@@ -1198,8 +1198,8 @@ public abstract class Curve {
             }
         } else if (t1 - t0 > TMIN) {
             double t = (t0 + t1) / 2;
-            double xt = that.XforT(t);
-            double yt = that.YforT(t);
+            double xt = that.getXforT(t);
+            double yt = that.getYforT(t);
             if (t == t0 || t == t1) {
                 System.out.println("t0 = "+t0);
                 System.out.println("t1 = "+t1);
@@ -1238,7 +1238,7 @@ public abstract class Curve {
                     if (s < 0 || s > 1 || t < 0 || t > 1) {
                         System.out.println("Uh oh!");
                     }
-                    double y = (this.YforT(s) + that.YforT(t)) / 2;
+                    double y = (this.getYforT(s) + that.getYforT(t)) / 2;
                     if (y <= yrange[1] && y > yrange[0]) {
                         yrange[1] = y;
                         return true;
@@ -1257,7 +1257,7 @@ public abstract class Curve {
             if (th == t0 || th == t1) {
                 return t1;
             }
-            double y = YforT(th);
+            double y = getYforT(th);
             if (y < y0) {
                 t0 = th;
              } else if (y > y0) {

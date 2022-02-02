@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -11,8 +10,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -59,7 +57,7 @@ public class PerspectivesMenuW extends Submenu {
 	}
 
 	private void addPerspective(final int index, ResourcePrototype icon) {
-		Perspective perspective = Layout.getDefaultPerspectives(index);
+		Perspective perspective = app.getLayout().getDefaultPerspectives(index);
 		if (perspective == null) {
 			return;
 		}

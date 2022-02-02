@@ -4,12 +4,15 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalPath {
+	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
 	private Interval lastY;
+	private Interval lastValidY;
 	private boolean moveTo;
 	private final PathCorrector corrector;
 
@@ -29,6 +32,7 @@ public class IntervalPath {
 		this.model = model;
 		labelPositionCalculator = new LabelPositionCalculator(bounds);
 		lastY = new Interval();
+		lastValidY = new Interval();
 		corrector = new PathCorrector(gp, model, bounds);
 	}
 
@@ -36,7 +40,7 @@ public class IntervalPath {
 	 * Update the path based on the model.
 	 */
 	public synchronized void update() {
-		if (model.getCount() > 1) {
+		if (model.hasValidData()) {
 			reset();
 			plotAll();
 		}
@@ -44,18 +48,29 @@ public class IntervalPath {
 
 	private void plotAll() {
 		for (int i = 0; i < model.pointCount(); i++) {
-			IntervalTuple tuple = model.pointAt(i);
-			boolean shouldSkip = shouldSkip(tuple);
-			if (shouldSkip) {
-				skip();
-			} else if (lastY.isUndefined()) {
-				moveToFirst(i, tuple);
-			} else {
-				drawTuple(i, tuple);
-				calculateLabelPoint(tuple);
+			handleTuple(i);
+			if (!lastY.isUndefined()) {
+				lastValidY.set(lastY);
 			}
-			moveTo = shouldSkip;
 		}
+	}
+
+	private void handleTuple(int i) {
+		IntervalTuple tuple = model.pointAt(i);
+		boolean shouldSkip = shouldSkip(tuple);
+		if (shouldSkip) {
+			skip();
+		} else if (lastY.isUndefined()) {
+			if (tuple.isInverted()) {
+				corrector.drawInvertedInterval(i);
+			} else {
+				moveToFirst(i, tuple);
+			}
+		} else {
+			drawTuple(i, tuple);
+			calculateLabelPoint(tuple);
+		}
+		moveTo = shouldSkip;
 	}
 
 	private void drawTuple(int i, IntervalTuple tuple) {
@@ -71,8 +86,8 @@ public class IntervalPath {
 
 	private void drawWhole(IntervalTuple tuple) {
 		Interval x = bounds.toScreenIntervalX(tuple.x());
-		gp.moveTo(x.getLow(), 0);
-		gp.lineTo(x.getLow(), bounds.getHeight());
+		moveTo(x.getLow(), 0);
+		lineTo(x.getLow(), bounds.getHeight());
 		skip();
 	}
 
@@ -105,8 +120,8 @@ public class IntervalPath {
 	}
 
 	private void line(Interval x, Interval y) {
-		gp.moveTo(x.getHigh(), y.getLow());
-		gp.lineTo(x.getHigh(), y.getHigh());
+		moveTo(x.getHigh(), y.getLow());
+		lineTo(x.getHigh(), y.getHigh());
 		lastY.set(y);
 	}
 
@@ -138,7 +153,7 @@ public class IntervalPath {
 
 	private void plotHigh(Interval x, Interval y) {
 		if (moveTo) {
-			gp.moveTo(x.getLow(), y.getLow());
+			moveTo(x.getLow(), y.getLow());
 		} else {
 			lineTo(x.getLow(), y.getLow());
 		}
@@ -148,7 +163,7 @@ public class IntervalPath {
 
 	private void plotLow(Interval x, Interval y) {
 		if (moveTo) {
-			gp.moveTo(x.getLow(), y.getHigh());
+			moveTo(x.getLow(), y.getHigh());
 		} else {
 			lineTo(x.getLow(), y.getHigh());
 		}
@@ -156,8 +171,23 @@ public class IntervalPath {
 		lineTo(x.getHigh(), y.getLow());
 	}
 
-	private void lineTo(double low, double high) {
-		gp.lineTo(low, high);
+	private void moveTo(double low, double high) {
+		gp.moveTo(clamp(low), clamp(high));
+	}
+
+	void lineTo(double low, double high) {
+		gp.lineTo(clamp(low), clamp(high));
+	}
+
+	private double clamp(double value) {
+		if (DoubleUtil.isEqual(value, Double.POSITIVE_INFINITY)) {
+			return CLAMPED_INFINITY;
+		}
+
+		if (DoubleUtil.isEqual(value, Double.NEGATIVE_INFINITY)) {
+			return -CLAMPED_INFINITY;
+		}
+		return value;
 	}
 
 	public GPoint getLabelPoint() {

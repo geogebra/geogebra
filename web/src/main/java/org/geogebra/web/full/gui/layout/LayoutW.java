@@ -52,8 +52,8 @@ public class LayoutW extends Layout {
 		this.dockManager = new DockManagerW(this);
 
 		// change inputPosition to default inputPosition
-		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
-			Perspective p = Layout.getDefaultPerspectives(i);
+		for (int i = 0; i < getDefaultPerspectivesLength(); i++) {
+			Perspective p = getDefaultPerspectives(i);
 			if (p != null) {
 				p.setInputPosition(appw.getInputPosition());
 			}
@@ -215,10 +215,10 @@ public class LayoutW extends Layout {
 			perspective.setDockPanelData(dockPanelInfo);
 		} else {
 			perspective.setSplitPaneData(
-					Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1)
+					getDefaultPerspectives(Perspective.GEOMETRY - 1)
 							.getSplitPaneData());
 			perspective.setDockPanelData(
-					Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1)
+					getDefaultPerspectives(Perspective.GEOMETRY - 1)
 							.getDockPanelData());
 		}
 		perspective.setToolbarDefinition(((GuiManagerW) app.getGuiManager())
@@ -305,8 +305,8 @@ public class LayoutW extends Layout {
 	 * @param app
 	 *            application
 	 */
-	public static void resetPerspectives(AppW app) {
-		Layout.initializeDefaultPerspectives(app,
+	public void resetPerspectives(AppW app) {
+		initializeDefaultPerspectives(app,
 				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth()));
 
 	}

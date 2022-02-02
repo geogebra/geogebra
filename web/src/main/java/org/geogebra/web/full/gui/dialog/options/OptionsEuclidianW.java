@@ -31,8 +31,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.gwtproject.resources.client.ImageResource;
 
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -642,10 +642,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		 *            true if the lines should be bold.
 		 */
 		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
+			if (gridOptions) {
+				return;
+			}
 			BackgroundType bgType = BackgroundType.fromInt(typeIdx);
 			setRulerType(BackgroundType.rulingOptions.indexOf(bgType));
-			if (!gridOptions
-					&& (bgType == BackgroundType.NONE || bgType.isSVG())) {
+			if (bgType == BackgroundType.NONE || bgType.isSVG()) {
 				stylePanel.setVisible(false);
 			} else {
 				stylePanel.setVisible(true);

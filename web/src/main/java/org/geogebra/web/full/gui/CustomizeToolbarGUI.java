@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.ImageResourceConverter;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.dom.client.Element;
@@ -86,17 +87,20 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		@Override
 		public ImageResource treeClosed() {
-			return SharedResources.INSTANCE.algebra_tree_closed();
+			return ImageResourceConverter
+					.convertToOldImageResource(SharedResources.INSTANCE.algebra_tree_closed());
 		}
 
 		@Override
 		public ImageResource treeLeaf() {
-			return SharedResources.INSTANCE.algebra_tree_closed();
+			return ImageResourceConverter
+					.convertToOldImageResource(SharedResources.INSTANCE.algebra_tree_closed());
 		}
 
 		@Override
 		public ImageResource treeOpen() {
-			return SharedResources.INSTANCE.algebra_tree_open();
+			return ImageResourceConverter
+					.convertToOldImageResource(SharedResources.INSTANCE.algebra_tree_open());
 		}
 
 	}

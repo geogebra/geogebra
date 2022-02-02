@@ -262,35 +262,6 @@
 		}
 	}
 
-	.messagePanel {
-		img {
-			padding: 20px;
-			margin-left: calc(50% - 76px); // (112+2*20)/2=76
-			margin-bottom: 48px;
-			margin-top: 88px;
-			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
-			border-radius: 50%;
-		}
-		.caption {
-			margin-bottom: 12px;
-			color: colors.$text-primary;
-			font-size: 125%;
-			line-height: 1;
-			letter-spacing: 0.25px;
-			vertical-align: top;
-			text-align: center;
-		}
-		.info {
-			color: colors.$text-secondary;
-			vertical-align: top;
-			text-align: center;
-			line-height: 1;
-			letter-spacing: 0.2px;
-			margin-bottom: 48px;
-		}
-	}
-
 	.dialogComponent.hasBorder .dialogContent {
 		box-sizing: border-box;
 		border-top: 1px solid colors.$black-12;
@@ -530,17 +501,17 @@
 		}
 
 			.panelContainer {
-				opacity: 0.2;
 				position: relative;
 				display: inline-flex;
 				right: 0px;
-				transition: right 0.25s cubic-bezier(.35,0,.25,1);
+
+				&.transition {
+					transition: right 0.25s cubic-bezier(.35,0,.25,1);
+				}
 			}
 	}
 
 	.infoErrorPanel {
-		max-width: 420px;
-
 		img {
 			padding: 28px;
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56

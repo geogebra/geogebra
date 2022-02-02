@@ -292,13 +292,6 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(length));
-		return sbToString.toString();
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		return kernel.format(length, tpl);
 	}

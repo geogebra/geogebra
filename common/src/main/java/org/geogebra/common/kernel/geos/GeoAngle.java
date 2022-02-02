@@ -558,18 +558,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		getScriptTags(sb);
 	}
 
-	/**
-	 * returns some class-specific xml tags for getConstructionRegressionOut
-	 */
-	@Override
-	public void getXMLtagsMinimal(StringBuilder sb, StringTemplate tpl) {
-		sb.append(regrFormat(rawValue));
-		if (isDrawable() || isSliderable()) {
-			sb.append(" ");
-			sb.append(regrFormat(arcSize));
-		}
-	}
-
 	@Override
 	public void setDecorationType(int type) {
 		setDecorationType(type, getDecoTypes().length);

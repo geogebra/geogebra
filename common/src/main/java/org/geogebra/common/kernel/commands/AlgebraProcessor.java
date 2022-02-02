@@ -131,8 +131,8 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.common.util.debug.Log;
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.RegExp;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -1691,7 +1691,6 @@ public class AlgebraProcessor {
 									.getFunctionVariable() };
 				} else {
 					funVars = new FunctionVariable[] {
-
 							((GeoFunction) temp[0]).getFunction()
 									.getFunctionVariable(),
 							new FunctionVariable(kernel, "y") };
@@ -1710,10 +1709,6 @@ public class AlgebraProcessor {
 				func = new GeoFunctionNVar(cons, fn);
 
 			}
-			if (!suppressErrors) {
-				app.showError(Errors.InvalidInput, str);
-			}
-
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			if (!suppressErrors) {

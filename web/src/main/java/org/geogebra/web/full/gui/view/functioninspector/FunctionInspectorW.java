@@ -311,13 +311,13 @@ public class FunctionInspectorW extends FunctionInspector {
 		FlowPanel btnPanel = new FlowPanel();
 		btnPanel.setStyleName("panelRowIndent");
 		btnTable = new MyToggleButtonW(new Image(AppResources.INSTANCE.table()
-		        .getSafeUri()));
+		        .getSafeUri().asString()));
 		btnXYSegments = new MyToggleButtonW(new Image(AppResources.INSTANCE
-		        .xy_segments().getSafeUri()));
+		        .xy_segments().getSafeUri().asString()));
 		btnTangent = new MyToggleButtonW(new Image(AppResources.INSTANCE
-		        .tangent_line().getSafeUri()));
+		        .tangent_line().getSafeUri().asString()));
 		btnOscCircle = new MyToggleButtonW(new Image(AppResources.INSTANCE
-		        .osculating_circle().getSafeUri()));
+		        .osculating_circle().getSafeUri().asString()));
 
 		btnPanel.add(btnTable);
 		btnPanel.add(btnXYSegments);

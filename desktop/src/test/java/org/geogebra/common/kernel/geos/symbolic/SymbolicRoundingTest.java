@@ -21,6 +21,7 @@ public class SymbolicRoundingTest extends BaseSymbolicTest {
 		printFigures = kernel.getPrintFigures();
 	}
 
+	/** Reset rounding **/
 	@After
 	public void resetRounding() {
 		kernel.setPrintFigures(printFigures);

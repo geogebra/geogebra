@@ -1,6 +1,6 @@
 package org.geogebra.web.shared.ggtapi;
 
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.RegExp;
 
 /**
  * Class to validate urls

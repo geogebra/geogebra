@@ -3,8 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 public final class AppDescription {
 

@@ -6,10 +6,10 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;

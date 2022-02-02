@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'pmd'
     id 'checkstyle'
     id 'jacoco'
@@ -19,15 +19,14 @@ compileTestJava {
 }
 
 dependencies {
-    compile project(':common')
-    compile project(':giac-jni')
-    compile project(':renderer-base')
-    compile project(':editor-base')
-    testCompile project(':ggbjdk')
-
-    testCompile "junit:junit:$junitVersion"
+    api project(':common')
+    implementation project(':giac-jni')
+    implementation project(':renderer-base')
+    implementation project(':editor-base')
+    testImplementation project(':ggbjdk')
+    testImplementation "junit:junit:$junitVersion"
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
-    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
 }
 
 sourceSets {
@@ -47,7 +46,7 @@ if (hasProperty("eclipse")) {
 
 spotbugs {
     ignoreFailures = true
-    excludeFilter = file("config/findbugs.xml")
+    excludeFilter = file("../config/spotbugs.xml")
 }
 
 pmd {
@@ -64,7 +63,7 @@ gradle.projectsEvaluated {
     // include src from all dependent projects (compile dependency) in JaCoCo test report
     jacocoTestReport {
         // get all projects we have a (compile) dependency on
-        def projs = configurations.compile.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
+        def projs = configurations.implementation.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
         projs.each {
             additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
             additionalClassDirs files(files(it.sourceSets.main['java'].outputDir).collect({

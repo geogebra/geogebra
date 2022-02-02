@@ -344,22 +344,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel
-	 * settings, string type is XML
-	 */
-	public static final StringTemplate regression = new StringTemplate(
-			"regression");
-
-	static {
-		regression.sf = FormatFactory.getPrototype().getScientificFormat(6, 20,
-				false);
-		regression.nf = FormatFactory.getPrototype().getNumberFormat(6);
-		regression.forceSF = true;
-		regression.setType(StringType.GEOGEBRA_XML);
-		regression.changeArcTrig = false;
-	}
-
-	/**
 	 * OGP string type
 	 */
 	public static final StringTemplate ogpTemplate = new StringTemplate(

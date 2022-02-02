@@ -1,17 +1,16 @@
 package org.geogebra.web.full.gui.images;
 
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
 
 /**
  * SVGs of the main buttons
  */
-@SuppressWarnings("javadoc")
+@Resource
 public interface SvgPerspectiveResources extends ClientBundle {
 
-	SvgPerspectiveResources INSTANCE = GWT.create(SvgPerspectiveResources.class);
+	SvgPerspectiveResources INSTANCE = new SvgPerspectiveResourcesImpl();
 
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_algebra.svg")
 	SVGResource menu_icon_algebra();

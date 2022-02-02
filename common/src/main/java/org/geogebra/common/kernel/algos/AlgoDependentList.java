@@ -18,6 +18,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -170,7 +171,9 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
+		if (geoList.getDefinition() != null) {
+			return geoList.getDefinition().toString(tpl);
+		}
 		if (sb == null) {
 			sb = new StringBuilder();
 		} else {
@@ -195,6 +198,19 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	@Override
 	public ExpressionNode getExpression() {
 		return geoList.wrap();
+	}
+
+	@Override
+	protected void getExpXML(StringTemplate tpl, StringBuilder sb) {
+		if (!isDefinedAsEmpty()) {
+			super.getExpXML(tpl, sb);
+		}
+	}
+
+	private boolean isDefinedAsEmpty() {
+		return geoList.getDefinition() != null
+				&& (geoList.getDefinition().unwrap() instanceof MyList)
+				&& ((MyList) geoList.getDefinition().unwrap()).size() == 0;
 	}
 
 }

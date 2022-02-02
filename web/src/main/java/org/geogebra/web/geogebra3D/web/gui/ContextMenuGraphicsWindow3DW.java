@@ -15,8 +15,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 /**
  * @author mathieu

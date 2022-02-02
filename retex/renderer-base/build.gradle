@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
     id "com.github.spotbugs" version "4.7.3"
 }
@@ -18,7 +18,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile 'com.google.j2objc:annotations:2.7'
+    implementation 'com.google.j2objc:annotations:2.8'
 }
 
 task jarSources(type: Jar, dependsOn: classes) {
@@ -28,5 +28,5 @@ task jarSources(type: Jar, dependsOn: classes) {
 
 spotbugs {
 	ignoreFailures = true
-	excludeFilter = file("../../common/config/findbugs.xml")
+	excludeFilter = file("../../config/spotbugs.xml")
 }

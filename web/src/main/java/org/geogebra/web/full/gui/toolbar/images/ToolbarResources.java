@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.toolbar.images;
 
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 @SuppressWarnings("javadoc")
 public interface ToolbarResources {
@@ -292,4 +292,8 @@ public interface ToolbarResources {
 	ResourcePrototype mode_h5p();
 
 	ResourcePrototype mode_mindmap();
+
+	ResourcePrototype mode_ruler();
+
+	ResourcePrototype mode_protractor();
 }

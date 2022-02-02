@@ -3,14 +3,18 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.util.DoubleUtil;
 
 public class ClipAlgoSutherlandHodogman {
 
 	public static final int EDGE_COUNT = 4;
 	public static final double Y_LIMIT = 1E6;
 
-	private static class Edge {
+	private double maxValue = Double.MAX_VALUE;
+
+	static class Edge {
 		private final MyPoint start;
 		private final MyPoint end;
 
@@ -18,6 +22,14 @@ public class ClipAlgoSutherlandHodogman {
 			this.start = start;
 			this.end = end;
 		}
+	}
+
+	/**
+	 * Max value used when calculations produce Infinity or NaN values.
+	 * @param maxValue value
+	 */
+	public void setMaxValue(double maxValue) {
+		this.maxValue = maxValue;
 	}
 
 	/**
@@ -71,7 +83,8 @@ public class ClipAlgoSutherlandHodogman {
 			output.add(current);
 
 		} else if (isInside(edge, prev)) {
-			output.add(intersection(edge, prev, current));
+			MyPoint intersection = intersection(edge, prev, current);
+			output.add(intersection);
 		}
 	}
 
@@ -80,7 +93,7 @@ public class ClipAlgoSutherlandHodogman {
 				< (edge.start.y - c.y) * (edge.end.x - c.x);
 	}
 
-	private static MyPoint intersection(Edge edge, MyPoint p,
+	private MyPoint intersection(Edge edge, MyPoint p,
 			MyPoint q) {
 		double a1 = edge.end.y - edge.start.y;
 		double b1 = edge.start.x - edge.end.x;
@@ -88,14 +101,39 @@ public class ClipAlgoSutherlandHodogman {
 
 		double a2 = q.y - p.y;
 		double b2 = p.x - q.x;
-		double c2 = a2 * p.x + b2 * p.y;
+		double c2 = getSafeNumber(a2 * p.x + b2 * p.y);
 
 		double det = a1 * b2 - a2 * b1;
 
-		double x = (b2 * c1 - b1 * c2) / det;
-		double y = (a1 * c2 - a2 * c1) / det;
+		double n1 = b2 * c1 - b1 * c2;
+		double x = getSafeNumber(n1 / det);
+
+		double n2 = a1 * c2 - a2 * c1;
+
+		double y = getSafeNumber(n2 / det);
+
+		if (Double.isNaN(x) || Double.isNaN(y))  {
+			return new MyPoint(maxValue, maxValue);
+		}
 
 		// add 0.0 to avoid -0.0 problem.
 		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());
+	}
+
+	private double getSafeNumber(double value) {
+		if (DoubleUtil.isEqual(value, 0)) {
+			return Kernel.STANDARD_PRECISION;
+		}
+
+		if (DoubleUtil.isEqual(value, Double.POSITIVE_INFINITY)) {
+			return maxValue;
+		}
+
+		if (DoubleUtil.isEqual(value, Double.NEGATIVE_INFINITY)) {
+			return -maxValue;
+		}
+
+		return value;
+
 	}
 }

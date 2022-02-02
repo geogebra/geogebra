@@ -628,13 +628,6 @@ public class GeoNumeric extends GeoElement
 		}
 	}
 
-	/**
-	 * @return string representation for regression output
-	 */
-	final public String toStringMinimal() {
-		return regrFormat(value);
-	}
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 

@@ -8,8 +8,8 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
