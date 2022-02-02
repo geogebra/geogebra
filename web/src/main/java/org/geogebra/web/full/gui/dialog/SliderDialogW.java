@@ -128,7 +128,7 @@ public class SliderDialogW extends ComponentDialog implements
 
 		radioButtonWidget.add(rbNumber);
 		radioButtonWidget.add(rbAngle);
-		radioButtonWidget.add(rbInteger);			
+		radioButtonWidget.add(rbInteger);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
