@@ -1933,6 +1933,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		max-width: 384px;
 
 		.dialogContent {
+			height: calc(100% - 110px);
 			max-height: 390px;
 			min-height: 390px;
 		}
@@ -1951,6 +1952,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 
 			.AutoCompleteTextFieldW {
+				height: 40px;
 				border: 1px solid colors.$input-field-border;
 				border-radius: 4px;
 				margin-bottom: 0px;
