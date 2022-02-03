@@ -488,8 +488,11 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	}
 
 	private void drawSegmentStyle(GGraphics2D g2, SegmentStyle style, boolean isStartStyle) {
-		int posX = isStartStyle ? (int) line.getX1() - 5 : (int) line.getX2() - 5;
-		int posY = isStartStyle ? (int) line.getY1() - 5 : (int) line.getY2() - 5;
+		int lineThickness = geo.getLineThickness();
+		int posX = isStartStyle ? (int) line.getX1() - lineThickness
+				: (int) line.getX2() - lineThickness;
+		int posY = isStartStyle ? (int) line.getY1() - lineThickness
+				: (int) line.getY2() - lineThickness;
 
 		double deltaX = line.getX2() - line.getX1();
 		double deltaY = line.getY2() - line.getY1();
@@ -499,12 +502,14 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		switch (style) {
 		case LINE:
 			double x1 = isStartStyle ? line.getX1() : line.getX2();
-			double y1 = isStartStyle ? line.getY1() - 5 : line.getY2() - 5;
-			double y2 = isStartStyle ? line.getY1() + 5 : line.getY2() + 5;
+			double y1 = isStartStyle ? line.getY1() - lineThickness
+					: line.getY2() - lineThickness;
+			double y2 = isStartStyle ? line.getY1() + lineThickness
+					: line.getY2() + lineThickness;
 
-			t.translate(x1, y1 + 5);
+			t.translate(x1, y1 + lineThickness);
 			t.rotate(angle);
-			t.translate(-x1, -y1 - 5);
+			t.translate(-x1, -y1 - lineThickness);
 
 			GLine2D line2D = AwtFactory.getPrototype().newLine2D();
 			line2D.setLine(x1, y1, x1, y2);
@@ -513,11 +518,12 @@ public class DrawSegment extends SetDrawable implements Previewable {
 			break;
 		case SQUARE_OUTLINE:
 		case SQUARE:
-			t.translate(posX + 5, posY + 5);
+			t.translate(posX + lineThickness, posY + lineThickness);
 			t.rotate(angle);
-			t.translate(-posX - 5, -posY - 5);
+			t.translate(-posX - lineThickness, -posY - lineThickness);
 
-			GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY, 10, 10);
+			GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY,
+					lineThickness * 2, lineThickness * 2);
 			GShape rotated = t.createTransformedShape(r);
 
 			g2.setColor(style == SegmentStyle.SQUARE_OUTLINE ? GColor.WHITE : geo.getObjectColor());
@@ -528,7 +534,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		case CIRCLE:
 		case CIRCLE_OUTLINE:
 			GEllipse2DDouble circleOutline = AwtFactory.getPrototype().newEllipse2DDouble();
-			circleOutline.setFrame(posX, posY, 10, 10);
+			circleOutline.setFrame(posX, posY, lineThickness * 2, lineThickness * 2);
 			g2.setColor(style == SegmentStyle.CIRCLE_OUTLINE ? GColor.WHITE : geo.getObjectColor());
 			g2.fill(circleOutline);
 			g2.setColor(geo.getObjectColor());
