@@ -198,10 +198,6 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return pointCount() > 1 && !isAllWhole();
-	}
-
-	private boolean isAllWhole() {
-		return points.stream().filter(p -> p.y().isWhole()).count() == pointCount();
+		return pointCount() > 1;
 	}
 }

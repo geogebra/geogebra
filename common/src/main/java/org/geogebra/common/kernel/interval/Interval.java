@@ -270,6 +270,10 @@ public class Interval {
 	 * @return this as result.
 	 */
 	public Interval multiplicativeInverse() {
+		if (isZero()) {
+			setUndefined();
+			return this;
+		}
 		return IntervalOperands.divide(IntervalConstants.one(), this);
 	}
 

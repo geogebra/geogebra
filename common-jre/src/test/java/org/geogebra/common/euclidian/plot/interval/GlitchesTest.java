@@ -6,6 +6,8 @@ import org.junit.Test;
 
 public class GlitchesTest extends IntervalPlotterCommon {
 
+	public static final int RESET_LINE_ONLY = 1;
+
 	@Test
 	public void testZeroDividedBySinXShouldNotContainInfinity() {
 		withDefaultScreen();
@@ -31,8 +33,16 @@ public class GlitchesTest extends IntervalPlotterCommon {
 	public void testZeroDividedByZeroDividedByTanXShouldBeEmpty() {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
-		withFunction("0/(0/tan(x)");
-		assertEquals(0, gp.getLog().size());
+		withFunction("0/(0/tan(x))");
+		assertEquals(RESET_LINE_ONLY, gp.getLog().size());
+	}
+
+	@Test
+	public void testTanXAtHighZoomIsWhole() {
+		withBounds(-1E15, 1E15, -1E15, -1E15);
+		withScreenSize(50, 50);
+		withFunction("tan(x)");
+		assertEquals(101, gp.getLog().size());
 	}
 
 	@Test

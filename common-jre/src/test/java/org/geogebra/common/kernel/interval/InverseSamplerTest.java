@@ -11,7 +11,7 @@ public class InverseSamplerTest extends SamplerTest {
 		IntervalTupleList samples = functionValues("1/(0x)", -4, 4, -5, -5);
 		for (IntervalTuple tuple: samples) {
 			Interval y = tuple.y();
-			assertTrue(tuple.y() + " is not +/- infinite singleton",  y.isInfiniteSingleton());
+			assertTrue(tuple.y() + " is not undefined",  y.isUndefined());
 		}
 	}
 
@@ -20,7 +20,7 @@ public class InverseSamplerTest extends SamplerTest {
 		IntervalTupleList samples = functionValues("1/(1/(0x))", -4, 4, -5, -5);
 		for (IntervalTuple tuple: samples) {
 			Interval y = tuple.y();
-			assertTrue(tuple.y() + " is not [0]",  y.isZero());
+			assertTrue(tuple.y() + " is not undefined",  y.isUndefined());
 		}
 	}
 }
