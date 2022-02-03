@@ -42,11 +42,9 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
                 EuclidianConstants.MODE_SHOW_HIDE_LABEL,
                 EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 
-        if (!isPhoneApp) {
-            impl.extendCategory(ToolCategory.MEDIA,
-                    EuclidianConstants.MODE_IMAGE,
-                    EuclidianConstants.MODE_TEXT);
-        }
+        impl.extendCategory(ToolCategory.MEDIA,
+                EuclidianConstants.MODE_IMAGE,
+                EuclidianConstants.MODE_TEXT);
 
         impl.extendCategory(ToolCategory.MEASURE,
                 EuclidianConstants.MODE_ANGLE,
@@ -86,9 +84,7 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
         impl.extendCategory(ToolCategory.EDIT,
                 EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 
-        if (!isPhoneApp) {
-            impl.extendCategory(ToolCategory.MEDIA);
-        }
+        impl.extendCategory(ToolCategory.MEDIA);
 
         impl.extendCategory(ToolCategory.MEASURE,
                 EuclidianConstants.MODE_ANGLE_FIXED,

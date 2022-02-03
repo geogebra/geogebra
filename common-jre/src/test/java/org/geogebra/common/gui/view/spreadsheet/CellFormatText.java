@@ -1,19 +1,19 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CellFormatText {
-	private static AppDNoGui app;
+	private static AppCommon app;
 
 	@BeforeClass
 	public static void setup() {
-		app = AlgebraTest.createApp();
+		app = AppCommonFactory.create3D();
 	}
 
 	@Test

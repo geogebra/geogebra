@@ -12,6 +12,8 @@ public class ClipAlgoSutherlandHodogman {
 	public static final int EDGE_COUNT = 4;
 	public static final double Y_LIMIT = 1E6;
 
+	private double maxValue = Double.MAX_VALUE;
+
 	static class Edge {
 		private final MyPoint start;
 		private final MyPoint end;
@@ -20,6 +22,14 @@ public class ClipAlgoSutherlandHodogman {
 			this.start = start;
 			this.end = end;
 		}
+	}
+
+	/**
+	 * Max value used when calculations produce Infinity or NaN values.
+	 * @param maxValue value
+	 */
+	public void setMaxValue(double maxValue) {
+		this.maxValue = maxValue;
 	}
 
 	/**
@@ -68,17 +78,13 @@ public class ClipAlgoSutherlandHodogman {
 		if (isInside(edge, current)) {
 			if (!isInside(edge, prev)) {
 				MyPoint intersection = intersection(edge, prev, current);
-				if (intersection != null) {
-					output.add(intersection);
-				}
+				output.add(intersection);
 			}
 			output.add(current);
 
 		} else if (isInside(edge, prev)) {
 			MyPoint intersection = intersection(edge, prev, current);
-			if (intersection != null) {
-				output.add(intersection);
-			}
+			output.add(intersection);
 		}
 	}
 
@@ -87,7 +93,7 @@ public class ClipAlgoSutherlandHodogman {
 				< (edge.start.y - c.y) * (edge.end.x - c.x);
 	}
 
-	static MyPoint intersection(Edge edge, MyPoint p,
+	private MyPoint intersection(Edge edge, MyPoint p,
 			MyPoint q) {
 		double a1 = edge.end.y - edge.start.y;
 		double b1 = edge.start.x - edge.end.x;
@@ -107,24 +113,24 @@ public class ClipAlgoSutherlandHodogman {
 		double y = getSafeNumber(n2 / det);
 
 		if (Double.isNaN(x) || Double.isNaN(y))  {
-			return new MyPoint(Double.MAX_VALUE, Double.MAX_VALUE);
+			return new MyPoint(maxValue, maxValue);
 		}
 
 		// add 0.0 to avoid -0.0 problem.
 		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());
 	}
 
-	private static double getSafeNumber(double value) {
+	private double getSafeNumber(double value) {
 		if (DoubleUtil.isEqual(value, 0)) {
 			return Kernel.STANDARD_PRECISION;
 		}
 
 		if (DoubleUtil.isEqual(value, Double.POSITIVE_INFINITY)) {
-			return Double.MAX_VALUE;
+			return maxValue;
 		}
 
 		if (DoubleUtil.isEqual(value, Double.NEGATIVE_INFINITY)) {
-			return Double.MIN_VALUE;
+			return -maxValue;
 		}
 
 		return value;

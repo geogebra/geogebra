@@ -73,22 +73,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	/* image tool dialog */
-	.dialogComponent.image {
-		.gwt-Label:hover {
-			color: colors.$teal-default;
-			cursor: pointer;
-		}
-
-		.gwt-Label-highlighted {
-			color: colors.$teal-default;
-
-			&:hover {
-				cursor: default;
-			}
-		}
-	}
-
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;
@@ -1903,4 +1887,47 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 	}
+
+	.imageDialog {
+		.infoErrorPanel {
+			min-width: 100%;
+			width: auto;
+			margin: auto;
+		}
+
+		.cameraPanel {
+			height: 367px;
+			min-width: 100%;
+			width: auto;
+
+			&.error {
+				height: 367px;
+				display: inline-flex;
+			}
+		}
+
+		.webcamInputPanel {
+			display: block;
+			margin: auto;
+			min-height: 40px;
+			min-width: 53px;
+			max-width: 100%;
+			max-height: calc(100vh - 320px);
+			text-align: center;
+		}
+
+		.mowFloatingButton {
+			position: relative;
+			left: calc(50% - 24px);
+			bottom: 30px;
+			padding: 12px;
+			height: 24px;
+
+			&:hover, &:focus {
+				background: colors.$purple-dark;
+			}
+		}
+
+	}
+
 }
