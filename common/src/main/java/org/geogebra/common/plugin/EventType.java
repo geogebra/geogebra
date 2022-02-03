@@ -26,7 +26,7 @@ public enum EventType {
 	/** RENAME */
 	RENAME("rename"),
 
-	/** RENAME */
+	/** After object was redefined */
 	REDEFINE("redefine"),
 
 	/** RENAME_COMPLETE */
