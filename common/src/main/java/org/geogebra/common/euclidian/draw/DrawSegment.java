@@ -20,12 +20,15 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -488,32 +491,49 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		int posX = isStartStyle ? (int) line.getX1() - 5 : (int) line.getX2() - 5;
 		int posY = isStartStyle ? (int) line.getY1() - 5 : (int) line.getY2() - 5;
 
+		double deltaX = (line.getX2() - line.getX1());
+		double deltaY = (line.getY2() - line.getY1());
+		double angle = Math.atan2(deltaY, deltaX);
+		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
+
 		switch (style) {
-		case SQUARE_OUTLINE:
-			g2.setColor(GColor.WHITE);
-			g2.fillRect(posX, posY, 10, 10);
-			g2.setColor(geo.getObjectColor());
-			g2.drawRect(posX, posY, 10, 10);
+		case LINE:
+			double x1 = isStartStyle ? line.getX1() : line.getX2();
+			double y1 = isStartStyle ? line.getY1() - 5 : line.getY2() - 5;
+			double y2 = isStartStyle ? line.getY1() + 5 : line.getY2() + 5;
+
+			t.translate(x1, y1 + 5);
+			t.rotate(angle);
+			t.translate(-x1, -y1 - 5);
+
+			GLine2D line2D = AwtFactory.getPrototype().newLine2D();
+			line2D.setLine(x1, y1, x1, y2);
+			GShape trans = t.createTransformedShape(line2D);
+			g2.draw(trans);
 			break;
+		case SQUARE_OUTLINE:
 		case SQUARE:
+			t.translate(posX + 5, posY + 5);
+			t.rotate(angle);
+			t.translate(-posX - 5, -posY - 5);
+
+			GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY, 10, 10);
+			GShape rotated = t.createTransformedShape(r);
+
+			g2.setColor(style == SegmentStyle.SQUARE_OUTLINE ? GColor.WHITE : geo.getObjectColor());
+			g2.fill(rotated);
 			g2.setColor(geo.getObjectColor());
-			g2.fillRect(posX, posY, 10, 10);
+			g2.draw(rotated);
 			break;
 		case CIRCLE:
-			GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
-			circle.setFrame(posX, posY, 10, 10);
-			g2.setColor(geo.getObjectColor());
-			g2.fill(circle);
-			break;
 		case CIRCLE_OUTLINE:
 			GEllipse2DDouble circleOutline = AwtFactory.getPrototype().newEllipse2DDouble();
 			circleOutline.setFrame(posX, posY, 10, 10);
-			g2.setColor(GColor.WHITE);
+			g2.setColor(style == SegmentStyle.CIRCLE_OUTLINE ? GColor.WHITE : geo.getObjectColor());
 			g2.fill(circleOutline);
 			g2.setColor(geo.getObjectColor());
 			g2.draw(circleOutline);
 			break;
-
 		}
 	}
 
