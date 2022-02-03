@@ -52,6 +52,7 @@ public class SegmentStyleModel extends NumberOptionsModel {
 			} else {
 				((GeoSegment) geo).setEndStyle(SegmentStyle.values()[value]);
 			}
+			app.updateStyleBars();
 		}
 	}
 
