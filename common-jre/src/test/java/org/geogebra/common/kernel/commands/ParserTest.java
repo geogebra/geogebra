@@ -10,6 +10,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -22,8 +24,6 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,14 +31,14 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserTest {
-	private AppDNoGui app;
+	private AppCommon app;
 	private Parser parser;
 
 	@Before
 	public void setup() {
-		app = new AppDNoGui(new LocalizationD(3), false);
+		app = AppCommonFactory.create3D();
 		parser = app.getKernel().getParser();
-		app.setLanguage(Locale.US);
+		app.setLocale(Locale.US);
 	}
 
 	@Test
@@ -324,7 +324,7 @@ public class ParserTest {
 
 	@Test
 	public void commaParsingShouldWorkInGerman() {
-		app.setLanguage(new Locale("de"));
+		app.setLocale(new Locale("de"));
 		shouldReparseAs("3,141", "3.141");
 		shouldReparseAs("3,5", "3.5");
 		shouldReparseAs("1,2 + 1,4", "1.2 + 1.4");

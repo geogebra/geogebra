@@ -31,7 +31,7 @@ public class GlitchesTest extends IntervalPlotterCommon {
 	public void testZeroDividedByZeroDividedByTanXShouldBeEmpty() {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
-		withFunction("0/(0/tan(x)");
+		withFunction("0/(0/tan(x))");
 		assertEquals(0, gp.getLog().size());
 	}
 
