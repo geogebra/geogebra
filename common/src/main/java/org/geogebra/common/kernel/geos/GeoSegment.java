@@ -901,20 +901,32 @@ final public class GeoSegment extends GeoLine
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
 	}
 
+	/**
+	 * @param startStyle - segment start style
+	 */
 	public void setStartStyle(SegmentStyle startStyle) {
 		this.startStyle = startStyle;
 		updateRepaint();
 	}
 
+	/**
+	 * @param endStyle - segment end style
+	 */
 	public void setEndStyle(SegmentStyle endStyle) {
 		this.endStyle = endStyle;
 		updateRepaint();
 	}
 
+	/**
+	 * @return segment start style
+	 */
 	public SegmentStyle getStartStyle() {
 		return startStyle;
 	}
 
+	/**
+	 * @return segment end style
+	 */
 	public SegmentStyle getEndStyle() {
 		return endStyle;
 	}

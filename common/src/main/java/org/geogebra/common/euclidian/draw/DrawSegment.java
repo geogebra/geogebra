@@ -491,8 +491,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		int posX = isStartStyle ? (int) line.getX1() - 5 : (int) line.getX2() - 5;
 		int posY = isStartStyle ? (int) line.getY1() - 5 : (int) line.getY2() - 5;
 
-		double deltaX = (line.getX2() - line.getX1());
-		double deltaY = (line.getY2() - line.getY1());
+		double deltaX = line.getX2() - line.getX1();
+		double deltaY = line.getY2() - line.getY1();
 		double angle = Math.atan2(deltaY, deltaX);
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 
