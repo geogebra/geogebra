@@ -39,12 +39,14 @@ import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
+import org.geogebra.common.gui.dialog.options.model.SegmentStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
 import org.geogebra.common.gui.dialog.options.model.StartPointModel;
 import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ChartStyle;
@@ -54,6 +56,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
@@ -68,6 +71,7 @@ import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.util.PointStylePopup;
+import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -299,6 +303,21 @@ public class OptionsTab extends FlowPanel {
 					app);
 			dsp.getWidget().setStyleName("optionsPanel");
 			return dsp;
+		}
+		if (m instanceof SegmentStyleModel) {
+			if (((SegmentStyleModel) m).isStartStyle()) {
+				SegmentStartStylePanel ssp = new SegmentStartStylePanel((SegmentStyleModel) m,
+						app);
+				ssp.getWidget().setStyleName("optionsPanel");
+				ssp.getWidget().addStyleName("segmentStyle");
+				return ssp;
+			} else {
+				SegmentEndStylePanel sep = new SegmentEndStylePanel((SegmentStyleModel) m,
+						app);
+				sep.getWidget().setStyleName("optionsPanel");
+				sep.getWidget().addStyleName("segmentStyle");
+				return sep;
+			}
 		}
 		if (m instanceof TextOptionsModel) {
 			return new TextOptionsPanelW((TextOptionsModel) m, app);
@@ -641,7 +660,130 @@ public class OptionsTab extends FlowPanel {
 			// angleArcSizePanel.setMinValue(); //TODO update min arc size on
 			// deco change
 		}
+	}
 
+	private static class SegmentStartStylePanel extends OptionPanel
+			implements IComboListener {
+		SegmentStyleModel model;
+		Label styleLbl;
+		PopupMenuButtonW stylePopup;
+		AppW app;
+
+		public SegmentStartStylePanel(SegmentStyleModel model, AppW app) {
+			this.model = model;
+			this.app = app;
+			model.setListener(this);
+			setModel(model);
+
+			FlowPanel mainWidget = new FlowPanel();
+			styleLbl = new Label();
+			mainWidget.add(styleLbl);
+
+			MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
+			ImageOrText[] startStyleSvgs = new ImageOrText[] {
+					new ImageOrText(resources.stylingbar_start_default(), 24),
+					new ImageOrText(resources.stylingbar_start_line(), 24),
+					new ImageOrText(resources.stylingbar_start_square_outlined(), 24),
+					new ImageOrText(resources.stylingbar_start_square(), 24),
+					new ImageOrText(resources.stylingbar_start_arrow(), 24),
+					new ImageOrText(resources.stylingbar_start_arrow_filled(), 24),
+					new ImageOrText(resources.stylingbar_start_circle_outlined(), 24),
+					new ImageOrText(resources.stylingbar_start_circle(), 24) };
+			stylePopup = new PopupMenuButtonW(app, startStyleSvgs, -1, 1, SelectionTable.MODE_ICON) {
+				@Override
+				public void handlePopupActionEvent() {
+					super.handlePopupActionEvent();
+					int idx = getSelectedIndex();
+					model.applyChanges(idx);
+				}
+			};
+			stylePopup.setKeepVisible(false);
+			mainWidget.add(stylePopup);
+			setWidget(mainWidget);
+			setLabels();
+		}
+
+		@Override
+		public void setLabels() {
+			styleLbl.setText(app.getLocalization().getMenu("stylebar.LineStartStyle") + ":");
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			stylePopup.setSelectedIndex(index);
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// do nothing
+		}
+
+		@Override
+		public void clearItems() {
+			// do nothing
+		}
+	}
+
+	private static class SegmentEndStylePanel extends OptionPanel
+			implements IComboListener {
+		SegmentStyleModel model;
+		Label styleLbl;
+		PopupMenuButtonW stylePopup;
+		AppW app;
+
+		public SegmentEndStylePanel(SegmentStyleModel model, AppW app) {
+			this.model = model;
+			this.app = app;
+			model.setListener(this);
+			setModel(model);
+
+			FlowPanel mainWidget = new FlowPanel();
+			styleLbl = new Label();
+			mainWidget.add(styleLbl);
+
+			MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
+			ImageOrText[] endStyleSvgs = new ImageOrText[] {
+					new ImageOrText(resources.stylingbar_end_default(), 24),
+					new ImageOrText(resources.stylingbar_end_line(), 24),
+					new ImageOrText(resources.stylingbar_end_square_outlined(), 24),
+					new ImageOrText(resources.stylingbar_end_square(), 24),
+					new ImageOrText(resources.stylingbar_end_arrow(), 24),
+					new ImageOrText(resources.stylingbar_end_arrow_filled(), 24),
+					new ImageOrText(resources.stylingbar_end_circle_outlined(), 24),
+					new ImageOrText(resources.stylingbar_end_circle(), 24) };
+			stylePopup = new PopupMenuButtonW(app, endStyleSvgs, -1, 1, SelectionTable.MODE_ICON) {
+				@Override
+				public void handlePopupActionEvent() {
+					super.handlePopupActionEvent();
+					int idx = getSelectedIndex();
+					model.applyChanges(idx);
+				}
+			};
+			stylePopup.setKeepVisible(false);
+			mainWidget.add(stylePopup);
+			setWidget(mainWidget);
+			setLabels();
+		}
+
+		@Override
+		public void setLabels() {
+			styleLbl.setText(app.getLocalization().getMenu("stylebar.LineEndStyle") + ":");
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			stylePopup.setSelectedIndex(index);
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// do nothing
+		}
+
+		@Override
+		public void clearItems() {
+			// do nothing
+		}
 	}
 
 	private static class DecoSegmentPanel extends DecoOptionPanel {
