@@ -664,13 +664,11 @@ public class OptionsTab extends FlowPanel {
 
 	private static class SegmentStartStylePanel extends OptionPanel
 			implements IComboListener {
-		SegmentStyleModel model;
 		Label styleLbl;
 		PopupMenuButtonW stylePopup;
 		AppW app;
 
 		public SegmentStartStylePanel(SegmentStyleModel model, AppW app) {
-			this.model = model;
 			this.app = app;
 			model.setListener(this);
 			setModel(model);
@@ -689,7 +687,8 @@ public class OptionsTab extends FlowPanel {
 					new ImageOrText(resources.stylingbar_start_arrow_filled(), 24),
 					new ImageOrText(resources.stylingbar_start_circle_outlined(), 24),
 					new ImageOrText(resources.stylingbar_start_circle(), 24) };
-			stylePopup = new PopupMenuButtonW(app, startStyleSvgs, -1, 1, SelectionTable.MODE_ICON) {
+			stylePopup = new PopupMenuButtonW(app, startStyleSvgs, -1,
+					1, SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -726,13 +725,11 @@ public class OptionsTab extends FlowPanel {
 
 	private static class SegmentEndStylePanel extends OptionPanel
 			implements IComboListener {
-		SegmentStyleModel model;
 		Label styleLbl;
 		PopupMenuButtonW stylePopup;
 		AppW app;
 
 		public SegmentEndStylePanel(SegmentStyleModel model, AppW app) {
-			this.model = model;
 			this.app = app;
 			model.setListener(this);
 			setModel(model);
