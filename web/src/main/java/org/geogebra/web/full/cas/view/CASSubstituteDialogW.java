@@ -34,6 +34,7 @@ public class CASSubstituteDialogW extends ComponentDialog {
 		Label substLabel = new Label(loc.getMenu("Substitute"));
 		labelPanel.add(substLabel);
 		Label withLabel = new Label(loc.getMenu("With"));
+		withLabel.addStyleName("with");
 		labelPanel.add(withLabel);
 		addDialogContent(labelPanel);
 
@@ -49,6 +50,7 @@ public class CASSubstituteDialogW extends ComponentDialog {
 		InputPanelW subst = new InputPanelW(data.get(idx).get(0), app, 1, -1, false);
 		subst.addTextComponentKeyUpHandler(event -> data.get(idx).set(0, subst.getText()));
 		InputPanelW with = new InputPanelW(data.get(idx).get(1), app, 1, -1, false);
+		with.getTextComponent().addStyleName("with");
 		with.addTextComponentKeyUpHandler(event -> {
 			setPosBtnDisabled(false);
 			data.get(idx).set(1, with.getText());

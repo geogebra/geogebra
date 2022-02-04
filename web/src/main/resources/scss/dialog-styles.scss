@@ -1949,6 +1949,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				font-weight: bold;
 				color: colors.$text-primary;
 				margin-top: 16px;
+
+				&.with {
+					margin-left: 16px;
+				}
 			}
 
 			.AutoCompleteTextFieldW {
@@ -1975,6 +1979,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 				&.hover {
 					border-color: colors.$black-54;
+				}
+
+				&.with {
+					margin-right: 0px;
 				}
 			}
 		}
