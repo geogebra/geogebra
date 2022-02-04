@@ -198,6 +198,10 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return pointCount() > 1;
+		return countDefined() > 1;
+	}
+
+	private long countDefined() {
+		return points.stream().filter(t -> !t.y().isUndefined()).count();
 	}
 }
