@@ -577,7 +577,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				}
 
 				// scroll to show "highest" selected cell
-				table.scrollRectToVisible(point);
+				table.scrollRectToVisible(point.x, point.y);
 
 				if (!selRect.contains(mouseX, mouseY)) {
 					int rowOffset = getRowOffset(mouseY, selRect);

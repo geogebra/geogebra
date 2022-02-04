@@ -107,11 +107,11 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	/**
 	 * Scroll to make content visible.
 	 * 
-	 * @param cell
-	 *            cell to put into view
+	 * @param x cell column
+	 * @param y cell row
 	 */
-	public void scrollRectToVisible(GPoint cell) {
-		Scheduler.get().scheduleDeferred(() -> scrollRectToVisibleCommand(cell));
+	public void scrollRectToVisible(int x, int y) {
+		Scheduler.get().scheduleDeferred(() -> scrollRectToVisibleCommand(x, y));
 	}
 
 	/**
@@ -130,8 +130,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	 * scrolling will be confined to the viewport's bounds.
 	 * 
 	 */
-	public void scrollRectToVisibleCommand(GPoint bottom) {
-
+	public void scrollRectToVisibleCommand(int x, int y) {
 		Element view = this.getWidget().getElement();
 
 		if (view == null) {
@@ -144,8 +143,8 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		int extentWidth = this.getOffsetWidth() - barWidth;
 		int extentHeight = this.getOffsetHeight() - barHeight;
 		GPoint viewPosition = getViewPosition();
-		GPoint position = table.getPixelRelative(bottom.x, bottom.y);
-		GPoint position2 = table.getPixelRelative(bottom.x + 1, bottom.y + 1);
+		GPoint position = table.getPixelRelative(x, y);
+		GPoint position2 = table.getPixelRelative(x + 1, y + 1);
 		dx = positionAdjustment(extentWidth, position2.x - position.x,
 				position.x - viewPosition.x);
 		dy = positionAdjustment(extentHeight, position2.y - position.y,
@@ -214,13 +213,14 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 
 	private GPoint getUpperLeftCellPosition(GPoint viewPosition, int dx, int dy) {
 		// get upper left cell coordinates
-		GPoint p = table.getIndexFromPixelRelative(viewPosition.x, viewPosition.y);
-		if (p == null) {
+		int x = table.getIndexFromPixelRelativeX(viewPosition.x);
+		int y = table.getIndexFromPixelRelativeX(viewPosition.x);
+		if (x < 0 || y < 0) {
 			return null;
 		}
 
 		// get new pixel coordinates to place the upper left cell exactly
-		return table.getPixelRelative(p.x + dx, p.y + dy);
+		return table.getPixelRelative(x + dx, y + dy);
 	}
 
 	@Override

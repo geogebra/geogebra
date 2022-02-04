@@ -9,9 +9,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -25,7 +22,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -42,14 +38,11 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	private int mouseXOffset;
 	private int resizingColumn = -1;
 
-	private boolean isMouseDown = false;
-
 	protected int column0 = -1;
 	private boolean doColumnResize = false;
 
 	private int overTraceButtonColumn = -1;
-	
-	private LongTouchManager longTouchManager;
+
 	private SpreadsheetHeaderController headerController;
 
 	/***************************************************
@@ -60,18 +53,17 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		this.table = table;
 
 		prepareGUI();
-		headerController = new SpreadsheetHeaderController(this);
+		headerController = new SpreadsheetHeaderController(this, grid, table);
 		registerListeners();
-		longTouchManager = LongTouchManager.getInstance();
 	}
 
 	private void registerListeners() {
 		grid.addBitlessDomHandler(headerController, MouseDownEvent.getType());
 		grid.addBitlessDomHandler(headerController, MouseUpEvent.getType());
 		grid.addBitlessDomHandler(headerController, MouseMoveEvent.getType());
-		grid.addBitlessDomHandler(this, TouchStartEvent.getType());
-		grid.addBitlessDomHandler(this, TouchEndEvent.getType());
-		grid.addBitlessDomHandler(this, TouchMoveEvent.getType());
+		grid.addBitlessDomHandler(headerController, TouchStartEvent.getType());
+		grid.addBitlessDomHandler(headerController, TouchEndEvent.getType());
+		grid.addBitlessDomHandler(headerController, TouchMoveEvent.getType());
 	}
 
 	// ============================================
@@ -197,11 +189,11 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			}
 		}
 	}
-	
+
 	/**
 	 * Added "selected" class to the table headers of the selected cell needed
 	 * for css styling
-	 * 
+	 *
 	 * @param selected
 	 *            whether to select
 	 * @param index
@@ -230,12 +222,6 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		grid.getColumnFormatter().getElement(columnIndex).getStyle()
 		        .setWidth(width, Style.Unit.PX);
 	}
-
-	/* Steffi: not needed anymore -> NOW: updateCellSelection
-	 * private static void setBgColorIfNeeded(Style s, String bgColor) {
-		if (!s.getBackgroundColor().equals(bgColor))
-			s.setBackgroundColor(bgColor);
-	}*/
 
 	/**
 	 * @param p
@@ -266,7 +252,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 
 		return resizeColumn;
 	}
-	
+
 	private static int getBoundary(PointerEventType eventType) {
 		return eventType == PointerEventType.MOUSE ? 3 : 6;
 	}
@@ -276,16 +262,6 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	// ===============================================
 	@Override
 	public void onPointerDown(PointerEvent e) {
-		Event.setCapture(grid.getElement());
-		isMouseDown = true;
-
-		if (table.getEditor().isEditing()) {
-			table.getEditor().setAllowProcessGeo(true);
-			table.getEditor().stopCellEditing();
-			table.getEditor().setAllowProcessGeo(false);
-			table.finishEditing(false);
-		}
-
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
 		int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
 
@@ -340,48 +316,12 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onPointerUp(PointerEvent e) {
-		Event.releaseCapture(grid.getElement());
-		isMouseDown = false;
-
-		boolean rightClick = e.isRightClick();
-
-		if (rightClick) {
-			if (!app.letShowPopupMenu()) {
-				return;
-			}
-
-			GPoint p = table.getIndexFromPixel(
-					SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app),
-					SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app));
-					
-			if (p == null) {
-				return;
-			}
-
-			// if click is outside current selection then change selection
-			if (p.getY() < table.minSelectionRow
-			        || p.getY() > table.maxSelectionRow
-			        || p.getX() < table.minSelectionColumn
-			        || p.getX() > table.maxSelectionColumn) {
-				// switch to column selection mode and select column
-				if (table
-						.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
-					table.setSelectionType(MyTableInterface.COLUMN_SELECT);
-				}
-
-				// selectNone();
-				table.setColumnSelectionInterval(p.getX(), p.getX());
-				renderSelection();
-			}
-
-			showContextMenu(e.getX(), e.getY(), true);
-		}
 
 		// left click
-		
+
 		if (doColumnResize) {
 			// If column resize has happened, resize all other selected columns
 			Log.debug("doing column resize");
@@ -409,7 +349,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		}
 
 	}
-	
+
 	@Override
 	public void onPointerMove(PointerEvent e) {
 		// Show resize cursor when mouse is over a row boundary
@@ -427,7 +367,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		}
 		// DRAG
 
-		if (isMouseDown) {
+		if (headerController.isMouseDown) {
 
 			if (e.isRightClick()) {
 				return;
@@ -468,47 +408,10 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		longTouchManager.cancelTimer();
-		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
-		onPointerUp(e);
-	    CancelEventTimer.touchEventOccured();
-    }
-
-	@Override
-	public void onTouchMove(TouchMoveEvent event) {
-		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
-		if (doColumnResize) {
-			// resizing a column cancel long touch
-			longTouchManager.cancelTimer();
-		} else {
-			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(), false);
-		}
-		onPointerMove(e);
-		CancelEventTimer.touchEventOccured();
-    }
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
-		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
-		onPointerDown(e);
-		CancelEventTimer.touchEventOccured();
-    }
-
-	@Override
-	public void handleLongTouch(int x, int y) {
-	    showContextMenu(x, y, false);
-    }
-	
-	private void showContextMenu(int x, int y, boolean relative) {
+	public void showContextMenu(int x, int y, boolean relative) {
 		if (!app.letShowPopupMenu()) {
 			return;
 		}
@@ -520,6 +423,24 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		} else {
 			popup.show(x, y);
 		}
+	}
+
+	@Override
+	public boolean isResizing() {
+		return doColumnResize;
+	}
+
+	@Override
+	public void updateSelection(GPoint p) {
+		// switch to column selection mode and select column
+		if (table
+				.getSelectionType() != MyTableInterface.COLUMN_SELECT) {
+			table.setSelectionType(MyTableInterface.COLUMN_SELECT);
+		}
+
+		// selectNone();
+		table.setColumnSelectionInterval(p.getX(), p.getX());
+		renderSelection();
 	}
 
 	public int getContentWidth() {

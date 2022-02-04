@@ -939,7 +939,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (autoScrolls) {
 			GRectangle cellRect = getCellRect(rowIndex, columnIndex, false);
 			if (cellRect != null) {
-				scroller.scrollRectToVisible(new GPoint(columnIndex, rowIndex));
+				scroller.scrollRectToVisible(columnIndex, rowIndex);
 			}
 		}
 	}
@@ -960,7 +960,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		setSelectAll(true);
 		setAutoscrolls(true);
-		scrollRectToVisible(new GPoint(0, 0));
+		scrollRectToVisible(0, 0);
 
 		// setRowSelectionInterval(0, getRowCount()-1);
 		// getColumnModel().getSelectionModel().setSelectionInterval(0,
@@ -974,8 +974,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		this.autoScrolls = autoScrolls;
 	}
 
-	protected void scrollRectToVisible(GPoint cell) {
-		scroller.scrollRectToVisible(cell);
+	protected void scrollRectToVisible(int x, int y) {
+		scroller.scrollRectToVisible(x, y);
 	}
 
 	/**
@@ -1280,8 +1280,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 				// scroll to upper left corner of rectangle
 				setAutoscrolls(true);
-				GPoint cell = new GPoint(cr.getMinColumn(), cr.getMinRow());
-				scrollRectToVisible(cell);
+				scrollRectToVisible(cr.getMinColumn(), cr.getMinRow());
 				repaint();
 			}
 		} catch (Exception e) {
@@ -1555,40 +1554,47 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	/**
 	 * @param x x-offset with respect to the whole grid
-	 * @param y y-offset with respect to the whole grid
-	 * @return cell coordinates
+	 * @return cell x-coordinate or -1 if not found
 	 */
-	public GPoint getIndexFromPixelRelative(int x, int y) {
-		if (x < 0 || y < 0) {
-			return null;
+	public int getIndexFromPixelRelativeX(int x) {
+		if (x < 0) {
+			return -1;
 		}
 
-		int columnFrom = 0;
 		int rowFrom = 0;
 
 		int indexX = -1;
-		int indexY = -1;
-		for (int i = columnFrom; i < getColumnCount(); ++i) {
+		for (int i = 0; i < getColumnCount(); ++i) {
 			Element point = ssGrid.getCellFormatter().getElement(rowFrom, i);
 			if (x <= point.getOffsetLeft()) {
 				indexX = i;
 				break;
 			}
 		}
-		if (indexX == -1) {
-			return null;
+		return indexX;
+	}
+
+	/**
+	 * @param y y-offset with respect to the whole grid
+	 * @return cell y-coordinates or -1 if not found
+	 */
+	public int getIndexFromPixelRelativeY(int y) {
+		if (y < 0) {
+			return -1;
 		}
-		for (int i = rowFrom; i < getRowCount(); ++i) {
+
+		int columnFrom = 0;
+
+		int indexY = -1;
+
+		for (int i = 0; i < getRowCount(); ++i) {
 			Element point = ssGrid.getCellFormatter().getElement(i, columnFrom);
 			if (y <= point.getOffsetTop()) {
 				indexY = i;
 				break;
 			}
 		}
-		if (indexY == -1) {
-			return null;
-		}
-		return new GPoint(indexX, indexY);
+		return indexY;
 	}
 
 	public GRectangle getCellRect(int row, int column, boolean spacing) {
@@ -1717,8 +1723,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					} else {
 						app.showKeyboard(textField, true);
 					}
-					final GPoint cell = new GPoint(col, row);
-					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(cell));
+					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(col, row));
 
 					if (Browser.isTabletBrowser()) {
 						textField.setEnabled(false);

@@ -8,9 +8,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
@@ -27,7 +24,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
@@ -56,9 +52,6 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 
 	protected int row0 = -1;
 
-	private boolean isMouseDown = false;
-
-	private LongTouchManager longTouchManager;
 	private SpreadsheetHeaderController headerController;
 
 	/**
@@ -73,19 +66,8 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		this.table = table;
 
 		prepareGUI();
-		headerController = new SpreadsheetHeaderController(this);
+		headerController = new SpreadsheetHeaderController(this, grid, table);
 		registerListeners();
-
-		/*
-		 * setFocusable(true); setAutoscrolls(false); addMouseListener(this);
-		 * addMouseMotionListener(this); addKeyListener(this);
-		 * setFixedCellWidth(SpreadsheetView.ROW_HEADER_WIDTH);
-		 * 
-		 * setCellRenderer(new RowHeaderRenderer(table, this));
-		 * 
-		 * table.getSelectionModel().addListSelectionListener(this);
-		 */
-		longTouchManager = LongTouchManager.getInstance();
 	}
 
 	// ============================================
@@ -96,9 +78,9 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 		grid.addBitlessDomHandler(headerController, MouseDownEvent.getType());
 		grid.addBitlessDomHandler(headerController, MouseUpEvent.getType());
 		grid.addBitlessDomHandler(headerController, MouseMoveEvent.getType());
-		grid.addBitlessDomHandler(this, TouchStartEvent.getType());
-		grid.addBitlessDomHandler(this, TouchMoveEvent.getType());
-		grid.addBitlessDomHandler(this, TouchEndEvent.getType());
+		grid.addBitlessDomHandler(headerController, TouchStartEvent.getType());
+		grid.addBitlessDomHandler(headerController, TouchMoveEvent.getType());
+		grid.addBitlessDomHandler(headerController, TouchEndEvent.getType());
 	}
 
 	private void prepareGUI() {
@@ -252,23 +234,6 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			grid.getCellFormatter().removeStyleName(index, 0, "selected");
 		}
 	}
-
-	/*
-	 * Steffi: not needed anymore -> NOW: updateCellSelection private static
-	 * void setBgColorIfNeeded(Style s, String bgColor) { if
-	 * (!s.getBackgroundColor().equals(bgColor)) s.setBackgroundColor(bgColor);
-	 * }
-	 */
-
-	/**
-	 * Update the rowHeader list when row selection changes in the table
-	 */
-	/*
-	 * public void valueChanged(ListSelectionEvent e) { ListSelectionModel
-	 * selectionModel = (ListSelectionModel) e.getSource(); minSelectionRow =
-	 * selectionModel.getMinSelectionIndex(); maxSelectionRow =
-	 * selectionModel.getMaxSelectionIndex(); repaint(); }
-	 */
 
 	/**
 	 * @param p
@@ -440,55 +405,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 	}
 
 	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		longTouchManager.cancelTimer();
-		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
-		onPointerUp(e);
-		CancelEventTimer.touchEventOccured();
-	}
-
-	@Override
-	public void onTouchMove(TouchMoveEvent event) {
-		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
-		if (doRowResize) {
-			// resizing a column cancel long touch
-			longTouchManager.cancelTimer();
-		} else {
-			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(),
-					false);
-		}
-		onPointerMove(e);
-		CancelEventTimer.touchEventOccured();
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
-		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
-		onPointerDown(e);
-		CancelEventTimer.touchEventOccured();
-	}
-
-	@Override
-	public void handleLongTouch(int x, int y) {
-		showContextMenu(x, y, false);
-	}
-
-	@Override
 	public void onPointerDown(PointerEvent e) {
-		Event.setCapture(grid.getElement());
-		isMouseDown = true;
-
-		if (table.getEditor().isEditing()) {
-			table.getEditor().setAllowProcessGeo(true);
-			table.getEditor().stopCellEditing();
-			table.getEditor().setAllowProcessGeo(false);
-			table.finishEditing(false);
-		}
-
 		requestFocus();
 
 		boolean shiftPressed = e.isShiftDown();
@@ -555,7 +472,7 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			setDefaultCursor();
 		}
 
-		if (isMouseDown) {
+		if (headerController.isMouseDown) {
 
 			if (e.isRightClick()) {
 				return;
@@ -599,44 +516,6 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 
 	@Override
 	public void onPointerUp(PointerEvent e) {
-		Event.releaseCapture(grid.getElement());
-		isMouseDown = false;
-
-		boolean rightClick = e.isRightClick();
-
-		if (rightClick) {
-			if (!app.letShowPopupMenu()) {
-				return;
-			}
-
-			GPoint p = table.getIndexFromPixel(
-					SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(),
-							app),
-					SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(),
-							app));
-			if (p == null) {
-				return;
-			}
-
-			// if click is outside current selection then change selection
-			if (p.getY() < table.minSelectionRow
-					|| p.getY() > table.maxSelectionRow
-					|| p.getX() < table.minSelectionColumn
-					|| p.getX() > table.maxSelectionColumn) {
-
-				// switch to row selection mode and select row
-				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
-					table.setSelectionType(MyTableInterface.ROW_SELECT);
-				}
-
-				table.setRowSelectionInterval(p.getY(), p.getY());
-				renderSelection();
-			}
-
-			// show contextMenu
-			showContextMenu(e.getX(), e.getY(), true);
-		}
-
 		// If row resize has happened, resize all other selected rows
 		if (doRowResize) {
 
@@ -660,10 +539,10 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			table.renderSelectionDeferred();
 			doRowResize = false;
 		}
-
 	}
 
-	private void showContextMenu(int x, int y, boolean relative) {
+	@Override
+	public void showContextMenu(int x, int y, boolean relative) {
 		if (!app.letShowPopupMenu()) {
 			return;
 		}
@@ -761,5 +640,20 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 
 	public int getContentHeight() {
 		return grid.getOffsetHeight();
+	}
+
+	@Override
+	public boolean isResizing() {
+		return doRowResize;
+	}
+
+	@Override
+	public void updateSelection(GPoint p) {
+		// switch to row selection mode and select row
+		if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
+			table.setSelectionType(MyTableInterface.ROW_SELECT);
+		}
+		table.setRowSelectionInterval(p.getY(), p.getY());
+		renderSelection();
 	}
 }
