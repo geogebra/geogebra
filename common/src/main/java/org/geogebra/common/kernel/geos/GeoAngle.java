@@ -539,24 +539,14 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 			// save slider info before show to have min and max set
 			// before setEuclidianVisible(true) is called
 			getXMLsliderTag(sb);
-
-			getXMLvisualTags(sb);
 			getLineStyleXML(sb);
 
 			// arc size
 			sb.append("\t<arcSize val=\"");
 			sb.append(arcSize);
 			sb.append("\"/>\n");
-		} else if (GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
-			// make sure colors saved for spreadsheet objects
-			appendObjectColorXML(sb);
 		}
-
-		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
-		getAuxiliaryXML(sb);
-		getBreakpointXML(sb);
-		getScriptTags(sb);
+		getBasicStyleXML(sb);
 	}
 
 	@Override

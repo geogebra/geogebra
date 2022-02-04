@@ -1953,22 +1953,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	protected void getStyleXML(StringBuilder sb) {
 		getLineStyleXML(sb);
-		getXMLvisualTags(sb);
-		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
-		getXMLisShapeTag(sb);
-		getAuxiliaryXML(sb);
-		getBreakpointXML(sb);
-		getScriptTags(sb);
+		super.getStyleXML(sb);
 		getMaskXML(sb);
 	}
 
 	private void getMaskXML(final StringBuilder sb) {
-		if (!isMask) {
-			return;
+		if (isMask) {
+			sb.append("\t<isMask val=\"true\"/>\n");
 		}
-
-		sb.append("\t<isMask val=\"true\"/>\n");
 	}
 
 	/**

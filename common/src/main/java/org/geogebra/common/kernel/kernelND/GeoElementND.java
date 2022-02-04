@@ -1666,4 +1666,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 
 	/** @return true if this is fixed (moving forbidden, deleting OK) */
 	boolean isLocked();
+
+	String getStyleXML();
 }

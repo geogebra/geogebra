@@ -595,6 +595,8 @@ public class ConsElementXMLHandler {
 			// replacement
 			if (MyXMLHandler.parseBoolean(attrs.get("playing"))) {
 				animatingList.add(geo);
+			} else {
+				geo.setAnimating(false); // evalXML should act on existing objects
 			}
 
 			return true;

@@ -733,9 +733,6 @@ public class GeoNumeric extends GeoElement
 	@Override
 	protected void getStyleXML(StringBuilder sb) {
 		XMLBuilder.appendSymbolicMode(sb, this, false);
-		// colors
-		getXMLvisualTags(sb);
-
 		// if number is drawable then we need to save visual options too
 		if (isDrawable || isSliderable()) {
 			// save slider info before show to have min and max set
@@ -752,13 +749,16 @@ public class GeoNumeric extends GeoElement
 				sb.append("\"/>\n");
 			}
 		}
-		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
-		getAuxiliaryXML(sb);
-		getBreakpointXML(sb);
-		getScriptTags(sb);
-		getCaptionXML(sb);
+		getBasicStyleXML(sb);
 		getExtraTagsXML(sb);
+	}
+
+	/**
+	 * Expose parent implementation to angles
+	 * @param sb string builder
+	 */
+	protected void getBasicStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 	}
 
 	/**
