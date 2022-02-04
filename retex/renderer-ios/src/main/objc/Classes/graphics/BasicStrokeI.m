@@ -2,7 +2,7 @@
 
 @implementation BasicStrokeI
 
-- (instancetype)initWithWidth:(float)width withMiterLimit:(float)miterLimit withCap:(int)cap withJoin:(int)join {
+- (instancetype)initWithWidth:(double)width withMiterLimit:(double)miterLimit withCap:(int)cap withJoin:(int)join {
     self = [super init];
     if (self) {
         _width = width;
