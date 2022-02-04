@@ -4459,9 +4459,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return sb.toString();
 	}
 
-	/**
-	 * @return style-related XML (no value)
-	 */
+	@Override
 	public String getStyleXML() {
 		final StringBuilder sb = new StringBuilder();
 		getElementOpenTagXML(sb);
