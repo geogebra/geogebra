@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
@@ -181,13 +183,6 @@ public class CmdExportImage extends CmdScripting {
 
 		GgbAPI api = kernel.getApplication().getGgbApi();
 
-		// Log.debug("dpi = " + dpi);
-		// Log.debug("exportScale = " + exportScale);
-		// Log.debug("transparent = " + transparent);
-		// Log.debug("scaleCM = " + scaleCM);
-		// Log.debug("filename = " + filename);
-		// Log.debug("type = " + type);
-
 		// see CmdSetActiveView
 		switch (view) {
 		default:
@@ -234,8 +229,6 @@ public class CmdExportImage extends CmdScripting {
 			double dpcm = dpi / 2.54;
 
 			double pixelWidth = Math.round(dpcm * widthRW * scaleCM);
-			// Log.debug("widthRW= " + widthRW);
-			// Log.debug("pixelWidth= " + pixelWidth);
 			exportScale = pixelWidth / viewWidth;
 		}
 
@@ -316,25 +309,26 @@ public class CmdExportImage extends CmdScripting {
 
 	private void addImageToConstruction(String label, String imageStr,
 			GeoPoint corner1, GeoPoint corner2, boolean svg) {
-
-		final GeoImage geoImage;
-		GeoImage oldImage = (GeoImage) kernel.lookupLabel(label);
+		String targetLabel = label;
+		GeoElementND oldImage = kernel.lookupLabel(label);
+		if (!(oldImage instanceof GeoImage) && oldImage != null) {
+			oldImage = null;
+			targetLabel = null;
+		}
 
 		String imageFilename = kernel.getApplication().md5Encrypt(imageStr)
 				+ "/image."
 				+ (svg ? "svg" : "png");
 
-		StringTemplate tpl = StringTemplate.defaultTemplate;
-
-		String c1 = corner1 == null ? "(0,0)" : corner1.getLabel(tpl);
-		String c2 = corner2 == null ? "(1,0)" : corner2.getLabel(tpl);
-
-		geoImage = app.createImageFromString(imageFilename,
-				svg ? imageStr : StringUtil.pngMarker + imageStr, oldImage,
-				false, c1, c2, null);
-
-		geoImage.setLabel(label);
-
+		GeoPointND c1 = corner1 == null ? new GeoPoint(cons, 0, 0, 1) : corner1;
+		GeoPointND c2 = corner2 == null ? new GeoPoint(cons, 1, 0, 1) : corner2;
+		final GeoImage geoImage = app.createImageFromString(imageFilename,
+				svg ? imageStr : StringUtil.pngMarker + imageStr, (GeoImage) oldImage,
+				false, c1, c2);
+		boolean oldSuppress = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(false);
+		geoImage.setLabel(targetLabel);
+		cons.setSuppressLabelCreation(oldSuppress);
 		// invokeLater needed in web to make sure image appears
 		app.invokeLater(geoImage::updateRepaint);
 	}

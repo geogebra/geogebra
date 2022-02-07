@@ -1,8 +1,7 @@
 package org.geogebra.web.full.gui.menu;
 
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 class MenuItemView extends StandardButton {
 

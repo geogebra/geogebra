@@ -3992,6 +3992,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * Create a default basic stroke for drawing strings with outline
+	 * @param lineWidth stroke line width
+	 * @return default outline stroke
+	 */
+	protected GBasicStroke createStringOutlineStroke(double lineWidth) {
+		return AwtFactory.getPrototype()
+				.newBasicStroke(lineWidth, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
+	}
+
 	boolean showResetIcon() {
 		if (!getApplication().showResetIcon()
 				|| !(getApplication().isApplet() || getApplication()
@@ -6276,6 +6286,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void focusTextField(GeoInputBox inputBox) {
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
+			app.getAccessibilityManager().cancelReadCollectedAltTexts();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			if (inputBox.isSymbolicMode()) {
 				drawInputBox.attachMathField();

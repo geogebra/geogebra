@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
-import org.gwtproject.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.MatchResult;
 
 /**
  * FillCells

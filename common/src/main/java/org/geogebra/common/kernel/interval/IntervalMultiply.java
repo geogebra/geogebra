@@ -22,6 +22,10 @@ public class IntervalMultiply {
 	}
 
 	private Interval multiply(Interval interval, Interval other) {
+		if (interval.isZero() && other.isInverted()) {
+			return IntervalConstants.whole();
+		}
+
 		if (interval.isZero() || other.isZero()) {
 			return IntervalConstants.zero();
 		}

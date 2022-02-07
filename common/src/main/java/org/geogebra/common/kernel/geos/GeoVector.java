@@ -474,15 +474,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(x));
-		sbToString.append(" ");
-		sbToString.append(regrFormat(y));
-		return sbToString.toString();
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}

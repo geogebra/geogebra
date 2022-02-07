@@ -80,7 +80,7 @@ public class WebcamInputDialog extends ComponentDialog
 	}
 
 	@Override
-	public void onCameraError() {
+	public void onCameraError(String title, String msg) {
 		// not used
 	}
 

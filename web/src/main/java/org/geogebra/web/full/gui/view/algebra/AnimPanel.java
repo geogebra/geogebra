@@ -122,10 +122,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 		btnPlay = new MyToggleButtonW(play, pause);
 
-		btnPlay.getUpHoveringFace().setImage(new Image(play.withFill(hoverColor).getSafeUri(),
-				0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
-		btnPlay.getDownHoveringFace().setImage(new Image(pause.withFill(hoverColor).getSafeUri(),
-				0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
+		btnPlay.getUpHoveringFace().setImage(new Image(play.withFill(hoverColor)
+				.getSafeUri().asString(), 0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
+		btnPlay.getDownHoveringFace().setImage(new Image(pause.withFill(hoverColor)
+				.getSafeUri().asString(), 0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
 
 		btnPlay.setIgnoreTab();
 		btnPlay.setStyleName("avPlayButton");

@@ -18,7 +18,7 @@ import com.google.j2objc.annotations.Weak;
 public class GeoConicPartParameters {
 
 	@Weak
-	private GeoConicND conic;
+	private final GeoConicND conic;
 	/** start param */
 	public double paramStart;
 	/** end param */
@@ -95,25 +95,24 @@ public class GeoConicPartParameters {
 	 */
 	final public void setParameters(boolean isDefined, double start, double end,
 			boolean positiveOrientation) {
-
-		double startParam = start;
-		double endParam = end;
-		setValueDefined(isDefined);
-		if (!isValueDefined()) {
-			value = Double.NaN;
-			return;
-		}
-
 		posOrientation = positiveOrientation;
 		if (!posOrientation) {
 			// internally we always use positive orientation, i.e. a <= b
 			// the orientation flag is important for points on this path (see
 			// pathChanged())
-			double tmp = startParam;
-			startParam = endParam;
-			endParam = tmp;
+			setParametersKeepOrientation(isDefined, end, start);
+		} else {
+			setParametersKeepOrientation(isDefined, start, end);
 		}
+	}
 
+	private void setParametersKeepOrientation(boolean isDefined,
+			double startParam, double endParam) {
+		setValueDefined(isDefined);
+		if (!isValueDefined()) {
+			value = Double.NaN;
+			return;
+		}
 		// handle conic types
 		switch (conic.getType()) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
@@ -179,9 +178,6 @@ public class GeoConicPartParameters {
 
 		default:
 			setValueDefined(false);
-			// Log.debug(
-			// "GeoConicPart: unsupported conic part for conic type: "
-			// + conic.getType());
 		}
 	}
 
@@ -192,7 +188,6 @@ public class GeoConicPartParameters {
 		if (paramExtent < 0) {
 			paramExtent += Kernel.PI_2;
 		}
-
 	}
 
 	/**
@@ -400,13 +395,7 @@ public class GeoConicPartParameters {
 				conic.lines[0].doPointChanged(P, pp);
 
 				// make sure we don't get outside [0,1]
-				if (pp.t < 0) {
-					return false;
-				}
-				if (pp.t > 1) {
-					return false;
-				}
-				return true;
+				return pp.t >= 0 && pp.t <= 1;
 			}
 			// two rays
 			return true;
@@ -440,5 +429,9 @@ public class GeoConicPartParameters {
 		} else {
 			curve.setInterval(paramStart, paramEnd + Kernel.PI_2);
 		}
+	}
+
+	public void update() {
+		setParametersKeepOrientation(valueDefined, paramStart, paramEnd);
 	}
 }

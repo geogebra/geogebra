@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -225,7 +228,7 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue casOutput = parseOutputString(casResult);
 		setValue(casOutput);
 
-		computeFunctionVariables();
+		setFunctionVariables();
 
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
@@ -235,6 +238,10 @@ public class GeoSymbolic extends GeoElement
 	private String calculateCasResult(Command casInput) {
 		MyArbitraryConstant constant = getArbitraryConstant();
 		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
+
+		if (isUndefined(casInput)) {
+			return "?";
+		}
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
@@ -246,6 +253,22 @@ public class GeoSymbolic extends GeoElement
 			return normalizeSolveODE(casResult, casInput);
 		}
 		return casResult;
+	}
+
+	private boolean isUndefined(Command command) {
+		return isLengthOfCurve(command);
+	}
+
+	private boolean isLengthOfCurve(Command command) {
+		if (Commands.Length.name().equals(command.getName())
+				&& command.getArgumentNumber() == 1) {
+			ExpressionValue arg = command.getArgument(0).unwrap();
+			if (arg instanceof GeoSymbolic) {
+				GeoElementND twinGeo = ((GeoSymbolic) arg).getTwinGeo();
+				return twinGeo != null && twinGeo.isGeoConic();
+			}
+		}
+		return false;
 	}
 
 	private String normalizeSolveODE(String casResult, Command casInput) {
@@ -400,24 +423,43 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
-	private void computeFunctionVariables() {
-		if (getDefinition() == null || !fVars.isEmpty()) {
+	private void setFunctionVariables() {
+		if (!fVars.isEmpty()) {
 			return;
+		}
+		Iterable<FunctionVariable> variables = computeFunctionVariables();
+		setVariables(variables);
+	}
+
+	private Iterable<FunctionVariable> computeFunctionVariables() {
+		if (getDefinition() == null) {
+			return Collections.emptyList();
 		}
 		ExpressionValue def = getDefinition().unwrap();
 		if (def instanceof FunctionNVar) {
-			setVariables(((FunctionNVar) def).getFunctionVariables());
+			return Arrays.asList(((FunctionNVar) def).getFunctionVariables());
 		} else if (getDefinition().getLocalVariables().size() > 0) {
-			for (String localVar : getDefinition().getLocalVariables()) {
-				fVars.add(new FunctionVariable(kernel, localVar));
-			}
-		} else if (def instanceof Command || getDefinition().containsFreeFunctionVariable(null)) {
-			FunctionVarCollector functionVarCollector = FunctionVarCollector
-					.getCollector();
-			getDefinition().traverse(functionVarCollector);
-			fVars.addAll(
-					Arrays.asList(functionVarCollector.buildVariables(kernel)));
+			List<String> localVariables = getDefinition().getLocalVariables();
+			return localVariables.stream().map((var) -> new FunctionVariable(kernel, var))
+					.collect(Collectors.toList());
+		} else if (def instanceof Command && supportsVariables((Command) def)) {
+			return collectVariables();
+		} else if (getDefinition().containsFreeFunctionVariable(null)) {
+			return collectVariables();
+		} else {
+			return Collections.emptyList();
 		}
+	}
+
+	private Iterable<FunctionVariable> collectVariables() {
+		FunctionVarCollector functionVarCollector = FunctionVarCollector
+				.getCollector();
+		getDefinition().traverse(functionVarCollector);
+		return Arrays.asList(functionVarCollector.buildVariables(kernel));
+	}
+
+	private boolean supportsVariables(Command command) {
+		return !Commands.Solutions.getCommand().equals(command.getName());
 	}
 
 	@Override
@@ -465,7 +507,7 @@ public class GeoSymbolic extends GeoElement
 	/**
 	 * @param functionVariables function variables
 	 */
-	public void setVariables(FunctionVariable[] functionVariables) {
+	public void setVariables(Iterable<FunctionVariable> functionVariables) {
 		fVars.clear();
 		for (FunctionVariable fv : functionVariables) {
 			fVars.add(fv.deepCopy(kernel));
@@ -554,7 +596,8 @@ public class GeoSymbolic extends GeoElement
 
 	private ExpressionNode getNodeFromInput() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
-				.traverse(createPrepareDefinition()).wrap();
+				.traverse(createPrepareDefinition())
+				.wrap();
 		node.setLabel(null);
 		return node;
 	}
@@ -576,8 +619,28 @@ public class GeoSymbolic extends GeoElement
 				} else if (ev instanceof GeoDummyVariable) {
 					GeoDummyVariable variable = (GeoDummyVariable) ev;
 					return new Variable(variable.getKernel(), variable.getVarName());
+				} else if (ev instanceof Command) {
+					Command command = (Command) ev;
+					command = checkIntegralCommand(command);
+					return command;
 				}
 				return ev;
+			}
+
+			private Command checkIntegralCommand(Command command) {
+				if (command.getName().equals(Commands.Integral.name())
+						&& command.getArgumentNumber() == 4) {
+					ExpressionNode function = command.getArgument(0);
+					ExpressionNode lowerLimit = command.getArgument(2);
+					ExpressionNode upperLimit = command.getArgument(3);
+
+					Command newCommand = new Command(kernel, command.getName(), false);
+					newCommand.addArgument(function);
+					newCommand.addArgument(lowerLimit);
+					newCommand.addArgument(upperLimit);
+					return newCommand;
+				}
+				return command;
 			}
 		};
 	}
@@ -990,5 +1053,21 @@ public class GeoSymbolic extends GeoElement
 			}
 		}
 		super.getDefinitionXML(sb);
+	}
+
+	/**
+	 * @param value value
+	 * @return True if the unwrapped value's twin is a GeoList.
+	 * 		Returns false if the value is null
+	 * 		or if the unwrapped value is not a GeoSymbolic
+	 * 		or if the unwrapped value's twin is not a GeoList.
+	 */
+	public static boolean hasListTwin(ExpressionValue value) {
+		if (value == null) {
+			return false;
+		}
+		ExpressionValue unwrapped = value.unwrap();
+		return unwrapped instanceof GeoSymbolic
+				&& ((GeoSymbolic) unwrapped).getTwinGeo().isGeoList();
 	}
 }

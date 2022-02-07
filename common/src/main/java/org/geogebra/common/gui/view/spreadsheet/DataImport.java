@@ -3,7 +3,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.common.util.opencsv.CSVParser;
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.RegExp;
 
 /**
  * Utility class with methods to handle importing data into the spreadsheet.

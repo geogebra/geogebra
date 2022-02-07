@@ -262,35 +262,6 @@
 		}
 	}
 
-	.messagePanel {
-		img {
-			padding: 20px;
-			margin-left: calc(50% - 76px); // (112+2*20)/2=76
-			margin-bottom: 48px;
-			margin-top: 88px;
-			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
-			border-radius: 50%;
-		}
-		.caption {
-			margin-bottom: 12px;
-			color: colors.$text-primary;
-			font-size: 125%;
-			line-height: 1;
-			letter-spacing: 0.25px;
-			vertical-align: top;
-			text-align: center;
-		}
-		.info {
-			color: colors.$text-secondary;
-			vertical-align: top;
-			text-align: center;
-			line-height: 1;
-			letter-spacing: 0.2px;
-			margin-bottom: 48px;
-		}
-	}
-
 	.dialogComponent.hasBorder .dialogContent {
 		box-sizing: border-box;
 		border-top: 1px solid colors.$black-12;
@@ -530,17 +501,17 @@
 		}
 
 			.panelContainer {
-				opacity: 0.2;
 				position: relative;
 				display: inline-flex;
 				right: 0px;
-				transition: right 0.25s cubic-bezier(.35,0,.25,1);
+
+				&.transition {
+					transition: right 0.25s cubic-bezier(.35,0,.25,1);
+				}
 			}
 	}
 
 	.infoErrorPanel {
-		max-width: 420px;
-
 		img {
 			padding: 28px;
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56
@@ -573,5 +544,122 @@
 			display: block;
 			margin: 24px auto 0 auto;
 		}
+	}
+
+	.radioButton {
+		cursor: pointer;
+		display: inline-flex;
+
+		.radioBg {
+			display: inline-block;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: white;
+
+			.outerCircle {
+				width: 16px;
+				height: 16px;
+				margin: 8px;
+				border: 2px solid;
+				border-color: colors.$black-54;
+				border-radius: 50%;
+				transition: border-color .12s cubic-bezier(0,0,.2,1) 0ms;
+			}
+
+			.innerCircle {
+				background-color: transparent;
+				transform: scale(0);
+				transition: transform .12s cubic-bezier(0,0,.2,1) 0ms,background-color .12s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .12s cubic-bezier(0,0,.2,1) 0ms;
+			}
+		}
+
+		.gwt-Label {
+			line-height: 36px;
+			margin-left: 16px;
+			font-size: 100%;
+			color: colors.$text-primary;
+		}
+
+		&:hover {
+			.radioBg {
+				background-color: colors.$black-08;
+			}
+		}
+
+		&.selected {
+			.radioBg {
+				&:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+
+			.outerCircle {
+				border-color: colors.$purple-default;
+			}
+
+			.innerCircle {
+				transform: scale(1);
+				width: 10px;
+				height: 10px;
+				background-color: colors.$purple-default;
+				position: relative;
+				bottom: 23px;
+				left: 13px;
+				border-radius: 50%;
+			}
+
+			&.disabled {
+				.radioBg {
+					&:after {
+						background-image: none;
+					}
+				}
+
+				.innerCircle {
+					background-color: colors.$black-36;
+				}
+
+				.outerCircle {
+					border-color: colors.$black-36;
+				}
+
+				&:hover {
+					.radioBg {
+						background-color: white;
+					}
+				}
+			}
+
+			&:hover {
+				.radioBg {
+					background-color: colors.$purple-default-12;
+				}
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+
+			.radioBg {
+				background-color: white;
+			}
+
+			.outerCircle {
+				border-color: colors.$black-36;
+			}
+
+			.gwt-Label {
+				color: colors.$black-36;
+			}
+
+			&:hover {
+				background-color: white;
+			}
+		}
+	}
+
+	.radioButtonPanel {
+		display: inline-grid;
 	}
 }

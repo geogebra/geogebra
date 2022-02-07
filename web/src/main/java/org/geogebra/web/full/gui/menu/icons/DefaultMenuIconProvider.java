@@ -1,16 +1,16 @@
 package org.geogebra.web.full.gui.menu.icons;
 
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
 
 /**
  * Gives default access to menu icons.
  */
+@Resource
 public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider {
 
-	DefaultMenuIconProvider INSTANCE = GWT.create(DefaultMenuIconProvider.class);
+	DefaultMenuIconProvider INSTANCE = new DefaultMenuIconProviderImpl();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-clear-24px.svg")

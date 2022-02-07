@@ -40,6 +40,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
@@ -77,6 +79,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.regexp.client.NativeRegExpFactory;
+import org.geogebra.regexp.shared.RegExpFactory;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.awt.GFontW;
@@ -139,8 +143,6 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.regexp.client.NativeRegExpFactory;
-import org.gwtproject.regexp.shared.RegExpFactory;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
@@ -209,11 +211,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
-	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
 	private BrowserStorage storage;
 	private boolean keyboardNeeded;
-	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
+	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
 	private PageListControllerInterface pageController;
@@ -229,15 +230,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
-	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
+	private final ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
 	private ViewW viewW;
 	private ZoomPanel zoomPanel;
-	private PopupRegistry popupRegistry = new PopupRegistry();
+	private final PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
 	private FpsProfiler fpsProfiler;
 	private AccessibilityView accessibilityView;
-
 	Timer timeruc = new Timer() {
 		@Override
 		public void run() {
@@ -1375,7 +1375,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');
 		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
+			fn = fn.substring(index + 1); // filename without
 		}
 		// path
 		fn = org.geogebra.common.util.Util.processFilename(fn);
@@ -1415,11 +1415,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GeoImage createImageFromString(final String imgFileName,
 			String imageAsString, GeoImage imageOld,
-			final boolean autoCorners, final String c1, final String c2,
-			final String c4) {
+			final boolean autoCorners, final GeoPointND c1, final GeoPointND c2) {
 		SafeGeoImageFactory factory =
 				new SafeGeoImageFactory(this, imageOld).withAutoCorners(c1 == null)
-						.withCorners(c1, c2, c4);
+						.withCorners(c1, c2);
 		return factory.create(imgFileName, imageAsString);
 	}
 
@@ -1440,7 +1439,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		FileReader reader = new FileReader();
 		reader.addEventListener("load", (event) -> {
-			if (reader.readyState == reader.DONE) {
+			if (reader.readyState == FileReader.DONE) {
 				String fileStr = reader.result.asString();
 				String fileName = fileToHandle.name;
 				imageDropHappened(fileName, fileStr);
@@ -2820,23 +2819,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public abstract Panel getPanel();
 
-	private Timer altTextTimer = new Timer() {
-
-		@Override
-		public void run() {
-			getEuclidianView1().setAltText();
-			if (hasEuclidianView2(1)) {
-				getEuclidianView2(1).setAltText();
-			}
-			if (isEuclidianView3Dinited()) {
-				((EuclidianViewWInterface) getEuclidianView3D()).setAltText();
-			}
-		}
-	};
-
 	@Override
-	public void setAltText() {
-		altTextTimer.schedule(700);
+	public void setAltText(GeoText altText) {
+		accessibilityManager.appendAltText(altText);
 	}
 
 	@Override
@@ -2883,12 +2868,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
-				&& !appletParameters.preventFocus()) {
-			if (readerTimer == null) {
-				readerTimer = new ReaderTimer();
-			}
-			readerTimer.setGeo(geo);
-			readerTimer.schedule(700);
+				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
+			accessibilityManager.readSliderUpdate(geo);
 		}
 	}
 

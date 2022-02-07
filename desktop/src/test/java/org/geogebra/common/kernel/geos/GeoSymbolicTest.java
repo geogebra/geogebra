@@ -1658,4 +1658,32 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		String result = AppD.MAC_OS ? "0.9794246092973" : "0.979424609317";
 		t("0.99999874^16500", result);
 	}
+
+	@Test
+	public void testSolutionsString() {
+		GeoSymbolic solutions = add("Solutions(x^2=5)");
+		assertThat(AlgebraItem.getLatexString(solutions, null, false),
+				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5}, \\sqrt{5}\\right\\}"));
+	}
+
+	@Test
+	public void testLengthImprovements() {
+		t("Length(5+5i)", "5 * sqrt(2)");
+		t("Length(t e x t)", "?");
+
+		add("a=Curve(t,t^2,t,0,5)");
+		t("Length(a)", "?");
+
+		add("b=Curve(t,t^2,t-1,t,0,5)");
+		t("Length(b)", "?");
+
+		t("Length(-5)", "?");
+		t("Length((3,4))", "5");
+		t("Length((3,4,5))", "5 * sqrt(2)");
+		t("Length({1,2,3})", "3");
+		t("Length((1,x))", "sqrt(x^(2) + 1)");
+		t("Length((1,2,x))", "sqrt(x^(2) + 5)");
+		t("Length(\"hello\")", "5");
+		t("Length(x-y^2=0)", "?");
+	}
 }

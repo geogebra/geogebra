@@ -5,9 +5,13 @@ import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CustomScrollbar;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -15,9 +19,6 @@ import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * HTML representation of the Table of Values View.
- *
- * @author laszlo
- *
  */
 public class TableValuesPanel extends FlowPanel
 		implements SetLabels, TableValuesListener {
@@ -25,7 +26,8 @@ public class TableValuesPanel extends FlowPanel
 	/** view of table values */
 	TableValuesView view;
 	private StickyValuesTable table;
-	private TableValuesEmptyPanel emptyPanel;
+	private ComponentInfoErrorPanel emptyPanel;
+	private Localization loc;
 	private TableTab parentTab;
 
 	/**
@@ -34,18 +36,25 @@ public class TableValuesPanel extends FlowPanel
 	 */
 	public TableValuesPanel(AppW app, TableTab parentTab) {
 		super();
+		this.loc = app.getLocalization();
 		view = (TableValuesView) app.getGuiManager().getTableValuesView();
 		view.getTableValuesModel().registerListener(this);
-		emptyPanel = new TableValuesEmptyPanel(app);
+		buildEmptyPanel();
 		table = new StickyValuesTable(app, view);
 		this.parentTab = parentTab;
 		TestHarness.setAttr(table, "TV_table");
-		add(emptyPanel);
 		add(table);
 	}
 
+	private void buildEmptyPanel() {
+		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
+				"TableValuesEmptyDescription");
+		emptyPanel = new ComponentInfoErrorPanel(loc,
+				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
+	}
+
 	private void showEmptyView() {
-		show(emptyPanel);
+		add(emptyPanel);
 		hide(table);
 		setStyleForEmpty(true);
 	}
@@ -58,7 +67,7 @@ public class TableValuesPanel extends FlowPanel
 	}
 
 	private void showTableView() {
-		hide(emptyPanel);
+		remove(emptyPanel);
 		show(table);
 		setStyleForEmpty(false);
 	}
@@ -76,7 +85,9 @@ public class TableValuesPanel extends FlowPanel
 
 	@Override
 	public void setLabels() {
-		emptyPanel.setLabels();
+		remove(emptyPanel);
+		buildEmptyPanel();
+		add(emptyPanel);
 	}
 
 	/**
