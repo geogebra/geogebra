@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.annotation.CheckForNull;
@@ -18,7 +19,7 @@ import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
-public interface AppConfig {
+public interface AppConfig extends Serializable {
 
 	void adjust(DockPanelData dp);
 
