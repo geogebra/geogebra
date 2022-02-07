@@ -20,10 +20,16 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -35,6 +41,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -472,7 +480,104 @@ public class DrawSegment extends SetDrawable implements Previewable {
 				g2.setFont(view.getFontLine());
 				drawLabel(g2);
 			}
+
+			if (geo instanceof GeoSegment) {
+				drawSegmentStyle(g2, ((GeoSegment) geo).getStartStyle(), true);
+				drawSegmentStyle(g2, ((GeoSegment) geo).getEndStyle(), false);
+			}
 		}
+	}
+
+	private void drawSegmentStyle(GGraphics2D g2, SegmentStyle style, boolean isStartStyle) {
+		if (style == SegmentStyle.DEFAULT) {
+			return;
+		}
+
+		int lineThickness = geo.getLineThickness();
+		int posX = isStartStyle ? (int) line.getX1() - lineThickness
+				: (int) line.getX2() - lineThickness;
+		int posY = isStartStyle ? (int) line.getY1() - lineThickness
+				: (int) line.getY2() - lineThickness;
+
+		double deltaX = line.getX2() - line.getX1();
+		double deltaY = line.getY2() - line.getY1();
+		double angle = Math.atan2(deltaY, deltaX);
+		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
+
+		if (style == SegmentStyle.CIRCLE_OUTLINE || style == SegmentStyle.SQUARE_OUTLINE) {
+			g2.setColor(GColor.WHITE);
+		}
+
+		switch (style) {
+		case DEFAULT:
+			break;
+		case LINE:
+			double x1 = isStartStyle ? line.getX1() : line.getX2();
+			double y1 = isStartStyle ? line.getY1() - lineThickness
+					: line.getY2() - lineThickness;
+			double y2 = isStartStyle ? line.getY1() + lineThickness
+					: line.getY2() + lineThickness;
+
+			initRotateTrans(angle, x1, y1 + lineThickness, t);
+			GLine2D line2D = AwtFactory.getPrototype().newLine2D();
+			line2D.setLine(x1, y1, x1, y2);
+			GShape rotatedLine = t.createTransformedShape(line2D);
+			g2.draw(rotatedLine);
+			break;
+		case SQUARE_OUTLINE:
+		case SQUARE:
+			initRotateTrans(angle, posX + lineThickness,
+					posY + lineThickness, t);
+			GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY,
+					lineThickness * 2, lineThickness * 2);
+			GShape rotatedSquare = t.createTransformedShape(r);
+
+			g2.fill(rotatedSquare);
+			g2.setColor(geo.getObjectColor());
+			g2.draw(rotatedSquare);
+			break;
+		case CIRCLE:
+		case CIRCLE_OUTLINE:
+			GEllipse2DDouble circleOutline = AwtFactory.getPrototype().newEllipse2DDouble();
+			circleOutline.setFrame(posX, posY, lineThickness * 2, lineThickness * 2);
+			g2.fill(circleOutline);
+			g2.setColor(geo.getObjectColor());
+			g2.draw(circleOutline);
+			break;
+		case ARROW:
+		case ARROW_FILLED:
+			double x = isStartStyle ? line.getX1() : line.getX2();
+			double y = isStartStyle ? line.getY1() : line.getY2();
+			double arrowSideX = isStartStyle ? x + lineThickness : x - lineThickness;
+
+			initRotateTrans(angle, x, y, t);
+			GGeneralPath arrowPath = AwtFactory.getPrototype().newGeneralPath();
+			arrowPath.moveTo(x, y);
+
+			arrowPath.lineTo(arrowSideX, y + lineThickness);
+			if (style == SegmentStyle.ARROW_FILLED) {
+				arrowPath.lineTo(arrowSideX, y - lineThickness);
+				arrowPath.closePath();
+			} else {
+				arrowPath.moveTo(arrowSideX, y - lineThickness);
+				arrowPath.lineTo(x, y);
+			}
+			GShape rotatedArrow = t.createTransformedShape(arrowPath);
+
+			g2.setColor(geo.getObjectColor());
+			if (style == SegmentStyle.ARROW_FILLED) {
+				g2.fill(rotatedArrow);
+			}
+			g2.draw(rotatedArrow);
+			break;
+		}
+	}
+
+	private void initRotateTrans(double angle, double transX, double transY,
+			GAffineTransform trans) {
+		trans.translate(transX, transY);
+		trans.rotate(angle);
+		trans.translate(-transX, -transY);
 	}
 
 	@Override

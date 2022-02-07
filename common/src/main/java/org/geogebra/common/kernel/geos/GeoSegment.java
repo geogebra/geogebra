@@ -55,6 +55,9 @@ final public class GeoSegment extends GeoLine
 
 	private GeoElement meta = null;
 
+	private SegmentStyle startStyle = SegmentStyle.DEFAULT;
+	private SegmentStyle endStyle = SegmentStyle.DEFAULT;
+
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
 	/** one tick */
@@ -481,6 +484,13 @@ final public class GeoSegment extends GeoLine
 		sb.append(keepTypeOnGeometricTransform);
 		sb.append("\"/>\n");
 
+		sb.append("\t<startStyle val=\"");
+		sb.append(startStyle.toString());
+		sb.append("\"/>\n");
+
+		sb.append("\t<endStyle val=\"");
+		sb.append(endStyle.toString());
+		sb.append("\"/>\n");
 	}
 
 	/**
@@ -889,5 +899,35 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
+	}
+
+	/**
+	 * @param startStyle - segment start style
+	 */
+	public void setStartStyle(SegmentStyle startStyle) {
+		this.startStyle = startStyle;
+		updateRepaint();
+	}
+
+	/**
+	 * @param endStyle - segment end style
+	 */
+	public void setEndStyle(SegmentStyle endStyle) {
+		this.endStyle = endStyle;
+		updateRepaint();
+	}
+
+	/**
+	 * @return segment start style
+	 */
+	public SegmentStyle getStartStyle() {
+		return startStyle;
+	}
+
+	/**
+	 * @return segment end style
+	 */
+	public SegmentStyle getEndStyle() {
+		return endStyle;
 	}
 }
