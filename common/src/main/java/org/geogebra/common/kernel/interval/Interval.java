@@ -305,8 +305,12 @@ public class Interval {
 	 * @param high higher bound.
 	 */
 	public void set(double low, double high) {
-		this.low = low;
-		this.high = high;
+		this.low = filterNegativeZero(low);
+		this.high = filterNegativeZero(high);
+	}
+
+	private double filterNegativeZero(double value) {
+		return DoubleUtil.isEqual(-0.0, value, 0) ? 0 : value;
 	}
 
 	/**

@@ -39,10 +39,6 @@ public class TanOperandTest {
 		assertEquals(invertedInterval(-15.894544843864, 15.894544843866603), tan(pi2()));
 	}
 
-	private Interval halfOfPiTimes(int times) {
-		return new Interval((Math.PI / 2) * times);
-	}
-
 	@Test
 	public void inverseOsSqrtTanXShouldBePositive() {
 		Interval x = pi2();

@@ -161,7 +161,7 @@ public class IntervalPlotModel {
 	 */
 	public boolean isEmptyAt(int index) {
 		return index >= points.count()
-				|| pointAt(index).isEmpty();
+				|| pointAt(index).isUndefined();
 	}
 
 	public boolean isInvertedAt(int index) {
