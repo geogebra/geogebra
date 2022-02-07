@@ -837,8 +837,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (def.hasDefaults3d()) {
 				getXMLio().processXMLString(def.getDefaults3d(), false, true);
 			}
-			afterLoadFileAppOrNot(asSlide);
 
+			afterLoadFileAppOrNot(asSlide);
+			dispatchEvent(new Event(EventType.CONTENT_CHANGED));
 		} catch (Exception e) {
 			Log.debug(e);
 		}

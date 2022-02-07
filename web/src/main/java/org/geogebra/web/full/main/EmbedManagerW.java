@@ -24,7 +24,6 @@ import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -509,7 +508,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		ge.setEmbedId(id);
 		ge.initPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
-		app.dispatchEvent(new Event(EventType.EMBEDDED_CONTENT_CHANGED, ge, material.getBase64()));
 	}
 
 	private void showAndSelect(final GeoEmbed ge) {

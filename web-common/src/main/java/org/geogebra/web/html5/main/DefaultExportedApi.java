@@ -1019,10 +1019,6 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.addToGroup(item, objectsInGroup);
 	}
 
-	public void setEmbedContent(String label, String base64) {
-		ggbAPI.setEmbedContent(label, base64);
-	}
-
 	public void addGeoToTV(String label) {
 		ggbAPI.addGeoToTV(label);
 	}
