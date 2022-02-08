@@ -340,6 +340,10 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.isAnimationRunning();
 	}
 
+	public boolean isAnimating(String objName) {
+		return ggbAPI.isAnimating(objName);
+	}
+
 	public double getFrameRate() {
 		return ggbAPI.getFrameRate();
 	}

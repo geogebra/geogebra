@@ -499,6 +499,12 @@ public interface JavaScriptAPI {
 	boolean isAnimationRunning();
 
 	/**
+	 * @param objName object name
+	 * @return whether given object is animating
+	 */
+	boolean isAnimating(String objName);
+
+	/**
 	 * Current frame rate of the animation.
 	 * 
 	 * @return in seconds

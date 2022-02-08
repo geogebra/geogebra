@@ -777,6 +777,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
+	public boolean isAnimating(String label) {
+		return getGeoProperty(label, GeoElement::isAnimating, false);
+	}
+
+	@Override
 	public double getFrameRate() {
 		return kernel.getFrameRate();
 	}
@@ -887,11 +892,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean isMoveable(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) {
-			return false;
-		}
-		return geo.isMoveable();
+		return getGeoProperty(objName, GeoElement::isMoveable, false);
 	}
 
 	/**
