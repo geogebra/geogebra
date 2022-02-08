@@ -187,6 +187,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private LineStyleHiddenPanel lineStylePanelHidden;
 	private DrawArrowsPanel drawArrowsPanel;
 	private SegmentStartStylePanel segmentStartStylePanel;
+	private SegmentEndStylePanel segmentEndStylePanel;
 	// added by Loic BEGIN
 	private DecoSegmentPanel decoSegmentPanel;
 	private DecoAnglePanel decoAnglePanel;
@@ -303,6 +304,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		lineStylePanelHidden = new LineStyleHiddenPanel();
 		drawArrowsPanel = new DrawArrowsPanel();
 		segmentStartStylePanel = new SegmentStartStylePanel();
+		segmentEndStylePanel = new SegmentEndStylePanel();
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -488,6 +490,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		styleTabList.add(textFieldAlignmentPanel);
 		styleTabList.add(decoAnglePanel);
 		styleTabList.add(segmentStartStylePanel);
+		styleTabList.add(segmentEndStylePanel);
 		styleTabList.add(decoSegmentPanel);
 		styleTabList.add(lineStylePanelHidden);
 		styleTab = new TabPanel(styleTabList);
@@ -600,6 +603,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		ineqStylePanel.setLabels();
 		lineStylePanelHidden.setLabels();
 		segmentStartStylePanel.setLabels();
+		segmentEndStylePanel.setLabels();
 		decoSegmentPanel.setLabels();
 		decoAnglePanel.setLabels();
 		rightAnglePanel.setLabels();
@@ -3225,6 +3229,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			segmentStartStyleLbl = new JLabel();
 			add(segmentStartStyleLbl);
 			add(btnSegmentStartStyle);
+			setLabels();
 		}
 
 		@Override
@@ -3239,7 +3244,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void setLabels() {
 			segmentStartStyleLbl.setText(app.getLocalization()
-					.getMenu("stylebar.LineStartStyle"));
+					.getMenu("stylebar.LineStartStyle") + ":");
 		}
 
 		@Override
@@ -3263,6 +3268,99 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			btnSegmentStartStyle.removeActionListener(this);
 			model.updateProperties();
 			btnSegmentStartStyle.addActionListener(this);
+			return this;
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// nothing to do here
+		}
+
+		@Override
+		public void clearItems() {
+			// nothing to do here
+		}
+
+		@Override
+		public void updateVisualStyle(GeoElement geo) {
+			// nothing to do here
+		}
+	}
+
+	private class SegmentEndStylePanel extends JPanel implements ActionListener, SetLabels,
+			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+		private SegmentStyleModel model;
+		private PopupMenuButtonD btnSegmentEndStyle;
+		private JLabel segmentEndStyleLbl;
+
+		SegmentEndStylePanel() {
+			super(new FlowLayout(FlowLayout.LEFT));
+			model = new SegmentStyleModel(app, false);
+			model.setListener(this);
+
+			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
+			imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
+			imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
+			imgFileNameList.add(GuiResourcesD.FILLING_STOP);
+			imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
+			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
+			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
+			imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
+			imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
+			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+			for (int i = 0; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIconD.createFileImageIcon(
+						imgFileNameList.get(i));
+			}
+			btnSegmentEndStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
+					new Dimension(24, 24), SelectionTable.MODE_ICON);
+			btnSegmentEndStyle.setSelectedIndex(0);
+			btnSegmentEndStyle.setStandardButton(true);
+			btnSegmentEndStyle.setKeepVisible(false);
+			btnSegmentEndStyle.addActionListener(this);
+
+			segmentEndStyleLbl = new JLabel();
+			add(segmentEndStyleLbl);
+			add(btnSegmentEndStyle);
+			setLabels();
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == btnSegmentEndStyle) {
+				model.applyChanges(btnSegmentEndStyle
+						.getSelectedIndex());
+			}
+		}
+
+		@Override
+		public void setLabels() {
+			segmentEndStyleLbl.setText(app.getLocalization()
+					.getMenu("stylebar.LineEndStyle") + ":");
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			segmentEndStyleLbl.setFont(font);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			btnSegmentEndStyle.setSelectedIndex(index);
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
+			btnSegmentEndStyle.removeActionListener(this);
+			model.updateProperties();
+			btnSegmentEndStyle.addActionListener(this);
 			return this;
 		}
 
