@@ -19,24 +19,13 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log(Interval interval) {
 		if (!interval.isUndefined()) {
-			return interval.isInverted() ? logInverted(interval) : logNormal(interval);
-		}
-		return interval;
-	}
-
-	private Interval logInverted(Interval interval) {
-		Interval logLow = log(interval.extractLow());
-		Interval logHigh = log(interval.extractHigh());
-		return IntervalOperands.computeInverted(logLow, logHigh);
-	}
-
-	private Interval logNormal(Interval interval) {
-		if (interval.getHigh() < 0) {
-			interval.setUndefined();
-		} else {
-			double low = interval.getLow();
-			interval.set(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
-					RMath.logHigh(interval.getHigh()));
+			if (interval.getHigh() < 0) {
+				interval.setUndefined();
+			} else {
+				double low = interval.getLow();
+				interval.set(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
+						RMath.logHigh(interval.getHigh()));
+			}
 		}
 		return interval;
 	}

@@ -8,7 +8,6 @@ import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalPath {
 	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
-	public static final Interval VISIBLE_RANGE = new Interval(-2, 2);
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
@@ -48,7 +47,6 @@ public class IntervalPath {
 	}
 
 	private void plotAll() {
-//		for (int i = 38; i < 44; i++) {
 		for (int i = 0; i < model.pointCount(); i++) {
 			handleTuple(i);
 			if (!lastY.isUndefined()) {
@@ -59,9 +57,6 @@ public class IntervalPath {
 
 	private void handleTuple(int i) {
 		IntervalTuple tuple = model.pointAt(i);
-//		if (!VISIBLE_RANGE.contains(tuple.x())) {
-//			return;
-//		}
 		boolean shouldSkip = shouldSkip(tuple);
 		if (shouldSkip) {
 			skip();
