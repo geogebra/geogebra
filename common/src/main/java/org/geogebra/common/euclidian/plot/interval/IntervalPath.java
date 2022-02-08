@@ -62,7 +62,6 @@ public class IntervalPath {
 			skip();
 		} else if (lastY.isUndefined()) {
 			if (tuple.isInverted()) {
-//				corrector.drawInvertedInterval(i);
 				corrector.handleInvertedInterval(i);
 			} else {
 				moveToFirst(i, tuple);
