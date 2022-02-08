@@ -596,28 +596,28 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_angle_interval.svg")
 	SVGResource stylingbar_angle_interval();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_arrow.svg")
 	SVGResource stylingbar_start_arrow();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow_filled.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_arrow_filled.svg")
 	SVGResource stylingbar_start_arrow_filled();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_circle.svg")
 	SVGResource stylingbar_start_circle();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle_outlined.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_circle_outlined.svg")
 	SVGResource stylingbar_start_circle_outlined();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_default.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_default.svg")
 	SVGResource stylingbar_start_default();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_line.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_line.svg")
 	SVGResource stylingbar_start_line();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_square.svg")
 	SVGResource stylingbar_start_square();
 
-	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square_outlined.svg")
+	@Source("org/geogebra/common/icons/svg/common/start_square_outlined.svg")
 	SVGResource stylingbar_start_square_outlined();
 
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow.svg")

@@ -34,6 +34,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -94,6 +95,7 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import org.geogebra.common.gui.dialog.options.model.RightAngleModel;
+import org.geogebra.common.gui.dialog.options.model.SegmentStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
@@ -111,6 +113,7 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -135,6 +138,8 @@ import org.geogebra.desktop.gui.properties.AnimationStepPanel;
 import org.geogebra.desktop.gui.properties.SliderPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -181,6 +186,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
 	private DrawArrowsPanel drawArrowsPanel;
+	private SegmentStartStylePanel segmentStartStylePanel;
 	// added by Loic BEGIN
 	private DecoSegmentPanel decoSegmentPanel;
 	private DecoAnglePanel decoAnglePanel;
@@ -296,6 +302,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		lineStylePanel = new LineStylePanel();
 		lineStylePanelHidden = new LineStyleHiddenPanel();
 		drawArrowsPanel = new DrawArrowsPanel();
+		segmentStartStylePanel = new SegmentStartStylePanel();
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -480,6 +487,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		styleTabList.add(textFieldSizePanel);
 		styleTabList.add(textFieldAlignmentPanel);
 		styleTabList.add(decoAnglePanel);
+		styleTabList.add(segmentStartStylePanel);
 		styleTabList.add(decoSegmentPanel);
 		styleTabList.add(lineStylePanelHidden);
 		styleTab = new TabPanel(styleTabList);
@@ -591,6 +599,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		drawArrowsPanel.setLabels();
 		ineqStylePanel.setLabels();
 		lineStylePanelHidden.setLabels();
+		segmentStartStylePanel.setLabels();
 		decoSegmentPanel.setLabels();
 		decoAnglePanel.setLabels();
 		rightAnglePanel.setLabels();
@@ -3181,12 +3190,101 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	}
 
+	private class SegmentStartStylePanel extends JPanel implements ActionListener, SetLabels,
+			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+		private SegmentStyleModel model;
+		private PopupMenuButtonD btnSegmentStartStyle;
+		private JLabel segmentStartStyleLbl;
+
+		SegmentStartStylePanel() {
+			super(new FlowLayout(FlowLayout.LEFT));
+			model = new SegmentStyleModel(app, true);
+			model.setListener(this);
+
+			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
+			imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
+			imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
+			imgFileNameList.add(GuiResourcesD.FILLING_STOP);
+			imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
+			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
+			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
+			imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
+			imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
+			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+			for (int i = 0; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIconD.createFileImageIcon(
+						imgFileNameList.get(i));
+			}
+			btnSegmentStartStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
+					new Dimension(24, 24), SelectionTable.MODE_ICON);
+			btnSegmentStartStyle.setSelectedIndex(0);
+			btnSegmentStartStyle.setStandardButton(true);
+			btnSegmentStartStyle.setKeepVisible(false);
+			btnSegmentStartStyle.addActionListener(this);
+
+			segmentStartStyleLbl = new JLabel();
+			add(segmentStartStyleLbl);
+			add(btnSegmentStartStyle);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == btnSegmentStartStyle) {
+				model.applyChanges(btnSegmentStartStyle
+						.getSelectedIndex());
+			}
+		}
+
+		@Override
+		public void setLabels() {
+			segmentStartStyleLbl.setText(app.getLocalization()
+					.getMenu("stylebar.LineStartStyle"));
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			segmentStartStyleLbl.setFont(font);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			btnSegmentStartStyle.setSelectedIndex(index);
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
+			btnSegmentStartStyle.removeActionListener(this);
+			model.updateProperties();
+			btnSegmentStartStyle.addActionListener(this);
+			return this;
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// nothing to do here
+		}
+
+		@Override
+		public void clearItems() {
+			// nothing to do here
+		}
+
+		@Override
+		public void updateVisualStyle(GeoElement geo) {
+			// nothing to do here
+		}
+	}
+
 	private class DecoAnglePanel extends JPanel
 			implements ActionListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IDecoAngleListener {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
