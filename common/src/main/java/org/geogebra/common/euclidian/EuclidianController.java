@@ -10943,10 +10943,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (wasUndoableMode) {
 				kernel.restoreStateForInitNewMode();
 			}
-
-			if (kernel.isUndoActive()) {
-				kernel.storeStateForModeStarting();
-			}
+			kernel.storeStateForModeStarting();
 		}
 	}
 

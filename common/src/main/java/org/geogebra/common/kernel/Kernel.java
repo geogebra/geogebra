@@ -352,7 +352,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private boolean arcusFunctionCreatesAngle;
 	private ArrayList<AlgoElement> renameListenerAlgos;
 	private boolean spreadsheetBatchRunning;
-	private StringBuilder stateForModeStarting;
+	private ElementCollector previewElementsCollector;
 	private final GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
 	private final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 	private boolean userStopsLoading = false;
@@ -4194,8 +4194,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Store mode-specific undo point.
 	 */
 	public void storeStateForModeStarting() {
-		stateForModeStarting = cons.getCurrentUndoXML(true);
-		getSelectionManager().resetGeoToggled();
+		if (undoActive) {
+			if (previewElementsCollector == null) {
+				previewElementsCollector = new ElementCollector();
+				getApplication().getEventDispatcher().addEventListener(previewElementsCollector);
+			}
+			previewElementsCollector.reset();
+			getSelectionManager().resetGeoToggled();
+		}
 	}
 
 	/**
@@ -4206,8 +4212,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			storeStateForModeStarting();
 			if (cons.isUndoEnabled()) {
 				// reuse cons.getCurrentUndoXML(true)
-				cons.getUndoManager().storeUndoInfo(stateForModeStarting,
-						false);
+				cons.getUndoManager().storeUndoInfo(false);
 			}
 		}
 	}
@@ -4219,13 +4224,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private void restoreStateForModeStarting() {
 		app.batchUpdateStart();
 		app.getCompanion().storeViewCreators();
-		app.getScriptManager().disableListeners();
-		notifyReset();
+		if (previewElementsCollector != null) {
+			previewElementsCollector.removeAll();
+		}
 		getApplication().getActiveEuclidianView().getEuclidianController()
 				.clearSelections();
-		cons.processXML(stateForModeStarting);
 		notifyReset();
-		app.getScriptManager().enableListeners();
 		app.getCompanion().recallViewCreators();
 		app.batchUpdateEnd();
 		app.setUnAutoSaved();
