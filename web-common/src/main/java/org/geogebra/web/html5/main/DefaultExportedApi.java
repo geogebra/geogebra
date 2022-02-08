@@ -720,12 +720,12 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.showTooltip(tooltip + "");
 	}
 
-	public void addMultiuserSelection(String user, String color, String label, boolean newGeo) {
-		ggbAPI.addMultiuserSelection(user, color, label, newGeo);
+	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean newGeo) {
+		ggbAPI.addMultiuserSelection(clientId, user, color, label, newGeo);
 	}
 
-	public void removeMultiuserSelections(String user) {
-		ggbAPI.removeMultiuserSelections(user);
+	public void removeMultiuserSelections(String clientId) {
+		ggbAPI.removeMultiuserSelections(clientId);
 	}
 
 	// APPS-646 deprecated, needs changing to getValue("correct")

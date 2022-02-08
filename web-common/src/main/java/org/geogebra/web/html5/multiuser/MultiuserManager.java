@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.multiuser;
 
+import java.util.Map;
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GBasicStroke;
@@ -22,17 +23,20 @@ public final class MultiuserManager {
 	/**
 	 * Add a multiuser interaction coming from another user
 	 * @param app application
-	 * @param user user that changed this object
+	 * @param clientId id of the client that changed this object
+	 * @param userName name of the user that changed this object
 	 * @param color color associated with the user
 	 * @param label label of the changed object
 	 * @param newGeo if the geo was added
 	 */
-	public void addSelection(App app, String user, GColor color, String label, boolean newGeo) {
+	public void addSelection(App app, String clientId, String user, GColor color, String label, boolean newGeo) {
 		User currentUser = activeInteractions
-				.computeIfAbsent(user, k -> new User(user, color));
-		for (User u : activeInteractions.values()) {
-			if (u != currentUser) {
-				u.removeSelection(label);
+				.computeIfAbsent(clientId, k -> new User(user, color));
+
+		// TODO this removeSelection is not propagated to other users. Markers get inconsistant, if two users select the same object.
+		for (Map.Entry<String, User> entry : activeInteractions.entrySet()) {
+			if (entry.getKey() != clientId) {
+				entry.getValue().removeSelection(label);
 			}
 		}
 		currentUser.addSelection(app.getActiveEuclidianView(), label, newGeo);
@@ -41,10 +45,10 @@ public final class MultiuserManager {
 	/**
 	 * Deselect objects associated with given user
 	 * @param app application
-	 * @param user user ID
+	 * @param clientId client ID
 	 */
-	public void deselect(App app, String user) {
-		User currentUser = activeInteractions.get(user);
+	public void deselect(App app, String clientId) {
+		User currentUser = activeInteractions.get(clientId);
 		if (currentUser != null) {
 			currentUser.deselectAll(app.getActiveEuclidianView());
 		}
