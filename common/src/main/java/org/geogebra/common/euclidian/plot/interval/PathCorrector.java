@@ -27,7 +27,7 @@ public class PathCorrector {
 	}
 
 	/**
-	 * Coplete inverted interval on demand.
+	 * Complete inverted interval on demand.
 	 *
 	 * @param idx tuple index in model
 	 * @param y inverted value to handle.
@@ -51,7 +51,11 @@ public class PathCorrector {
 		return this.lastY;
 	}
 
-
+	/**
+	 * Complete inverted interval independently from last y value.
+	 *
+	 * @param idx tuple index in model
+	 */
 	public void handleInvertedInterval(int idx) {
 		drawInvertedInterval(idx);
 		if (!isInvertedNextTo(idx)) {
