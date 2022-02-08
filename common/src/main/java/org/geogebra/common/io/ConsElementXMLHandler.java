@@ -35,12 +35,10 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
-import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -81,6 +79,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JsReference;
@@ -247,7 +246,7 @@ public class ConsElementXMLHandler {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
 		String angle = attrs.get("angle");
-		String unscaled = attrs.get("unscaled");
+		boolean unscaled = attrs.get("unscaled") != null;
 		if (width != null && height != null) {
 
 			double widthD = -1;
@@ -269,28 +268,23 @@ public class ConsElementXMLHandler {
 				button.setFixedSize(true);
 				return true;
 			} else if (geo instanceof RectangleTransformable) {
-				if (angle == null) {
+				if (angle == null && geo instanceof GeoEmbed) {
 					// we have an old GeoEmbed
 					((GeoEmbed) geo).setContentWidth(widthD);
 					((GeoEmbed) geo).setContentHeight(heightD);
 				} else {
 					((RectangleTransformable) geo).setAngle(angleD);
-					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
-							|| geo instanceof GeoInlineTable) {
-						if (unscaled != null) {
-							((GeoInline) geo).setSizeOnly(widthD * geo.getKernel().getApplication()
-											.getActiveEuclidianView().getSettings().getXscale(),
-									heightD * geo.getKernel().getApplication()
-											.getActiveEuclidianView().getSettings().getYscale());
-						} else {
-							((GeoInline) geo).setSizeOnly(widthD, heightD);
-						}
+					EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
+					double pixelWidth = unscaled ? widthD * settings.getXscale() : widthD;
+					double pixelHeight = unscaled ? heightD * settings.getYscale() : heightD;
+					if (geo instanceof GeoInline) {
+						((GeoInline) geo).setSizeOnly(pixelWidth, pixelHeight);
 						if (((GeoInline) geo).isZoomingEnabled()) {
 							((GeoInline) geo).setContentWidth(widthD);
 							((GeoInline) geo).setContentHeight(heightD);
 						}
 					} else {
-						((RectangleTransformable) geo).setSize(widthD, heightD);
+						((RectangleTransformable) geo).setSize(pixelWidth, pixelHeight);
 					}
 				}
 			}

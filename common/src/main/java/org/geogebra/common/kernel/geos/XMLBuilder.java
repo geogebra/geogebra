@@ -417,12 +417,12 @@ public class XMLBuilder {
 		}
 		double width;
 		double height;
-		if (inline instanceof GeoInlineText) {
+		boolean convertToRw = !(inline instanceof GeoAudio);
+		if (convertToRw) {
 			width = inline.getWidth() / inline.getKernel().getApplication()
 					.getActiveEuclidianView().getXscale();
 			height = inline.getHeight() / inline.getKernel().getApplication()
 					.getActiveEuclidianView().getYscale();
-
 		} else {
 			width = inline.getWidth();
 			height = inline.getHeight();
@@ -431,9 +431,8 @@ public class XMLBuilder {
 		sb.append(width);
 		sb.append("\" height=\"");
 		sb.append(height);
-		if (inline instanceof GeoInlineText) {
-			sb.append("\" unscaled=\"");
-			sb.append("true");
+		if (convertToRw) {
+			sb.append("\" unscaled=\"true");
 		}
 		sb.append("\" angle=\"");
 		sb.append(inline.getAngle());

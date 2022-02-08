@@ -238,13 +238,11 @@ public class GeoVideo extends GeoMedia {
 		} else if (getSrc() != null) {
 			sb.append(StringUtil.encodeXML(getSrc()));
 		}
-		sb.append("\"");
 		if (getFormat() != null) {
-			sb.append(" type=\"");
+			sb.append("\" type=\"");
 			sb.append(getFormat());
-			sb.append("\"");
 		}
-		sb.append("/>\n");
+		sb.append("\"/>\n");
 	}
 
 	/**
