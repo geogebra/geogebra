@@ -299,7 +299,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		Dom.addEventListener(textField.getElement(), "pointerdown", (event) -> {
 				storeTemporaryInput();
 				// set this text field to be edited by the keyboard
-				app.updateKeyBoardField(AutoCompleteTextFieldW.this);
+				app.updateKeyBoardField(this);
 
 				// make sure the keyboard is not closed
 				CancelEventTimer.keyboardSetVisible();
