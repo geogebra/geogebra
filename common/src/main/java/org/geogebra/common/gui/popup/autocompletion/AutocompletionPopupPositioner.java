@@ -23,14 +23,14 @@ public class AutocompletionPopupPositioner {
 
 	@Nonnull
 	public Rectangle calculatePositionAndSizeFor(Rectangle inputBounds, Size popupSize) {
-		double x = inputBounds.getMinX();
-		double y = inputBounds.getMaxY();
-		XYPoint dummyPosition = new XYPoint(x, y);
-
 		double fittingWidth = popupSize.getWidth();
 		double fittingHeight = popupSize.getHeight();
 		Size dummyFittingSize = new Size(fittingWidth, fittingHeight);
 
-		return new Rectangle(dummyPosition, dummyFittingSize);
+		double x = inputBounds.getMinX();
+		double y = inputBounds.getMinY() - fittingHeight;
+		XYPoint dummyAbovePosition = new XYPoint(x, y);
+
+		return new Rectangle(dummyAbovePosition, dummyFittingSize);
 	}
 }
