@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.multiuser;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -24,22 +24,30 @@ public final class MultiuserManager {
 	 * Add a multiuser interaction coming from another user
 	 * @param app application
 	 * @param clientId id of the client that changed this object
-	 * @param userName name of the user that changed this object
+	 * @param user name of the user that changed this object
 	 * @param color color associated with the user
 	 * @param label label of the changed object
 	 * @param newGeo if the geo was added
 	 */
-	public void addSelection(App app, String clientId, String user, GColor color, String label, boolean newGeo) {
+	public void addSelection(App app, String clientId, String user, GColor color, String label,
+			boolean newGeo) {
+		GColor withAlpha = GColor.newColor(adjustColor(color.getRed()),
+				adjustColor(color.getGreen()), adjustColor(color.getBlue()), 127);
 		User currentUser = activeInteractions
-				.computeIfAbsent(clientId, k -> new User(user, color));
+				.computeIfAbsent(clientId, k -> new User(user, withAlpha));
 
-		// TODO this removeSelection is not propagated to other users. Markers get inconsistant, if two users select the same object.
+		// TODO this removeSelection is not propagated to other users. Markers get
+		// inconsistent, if two users select the same object.
 		for (Map.Entry<String, User> entry : activeInteractions.entrySet()) {
-			if (entry.getKey() != clientId) {
+			if (!entry.getKey().equals(clientId)) {
 				entry.getValue().removeSelection(label);
 			}
 		}
 		currentUser.addSelection(app.getActiveEuclidianView(), label, newGeo);
+	}
+
+	private int adjustColor(int component) {
+		return Math.max(2 * component - 255, 0);
 	}
 
 	/**

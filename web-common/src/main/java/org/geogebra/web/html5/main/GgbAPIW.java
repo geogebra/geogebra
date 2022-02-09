@@ -814,7 +814,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param color color CSS string
 	 * @param newGeo if the geo was added
 	 */
-	public void addMultiuserSelection(String clientId, String userName, String color, String label, boolean newGeo) {
+	public void addMultiuserSelection(String clientId, String userName, String color,
+			String label, boolean newGeo) {
 		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
 				label, newGeo);
 	}

@@ -1170,13 +1170,6 @@ public interface JavaScriptAPI {
 	String[] getObjectsOfItsGroup(String object);
 
 	/**
-	 * add an element to a group
-	 * @param object - object to be added to group
-	 * @param objectInGroup - objects in group
-	 */
-	void addToGroup(String object, String[] objectInGroup);
-
-	/**
 	 * @param label - label of element
 	 * @return whether element has unlabeled predecessors
 	 */

@@ -1019,10 +1019,6 @@ public class DefaultExportedApi implements ExportedApi {
 		return new JsArray<>(ggbAPI.getObjectsOfItsGroup(object));
 	}
 
-	public void addToGroup(String item, String[] objectsInGroup) {
-		ggbAPI.addToGroup(item, objectsInGroup);
-	}
-
 	public void addGeoToTV(String label) {
 		ggbAPI.addGeoToTV(label);
 	}
