@@ -3,6 +3,7 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -24,9 +25,11 @@ import org.geogebra.common.main.undo.ActionExecutor;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -175,6 +178,12 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth());
 		fr.setComputedHeight(parameters.getDataParamHeight());
+		fr.setOnLoadCallback(Js.uncheckedCast((JsConsumer<Object>) exportedApi -> {
+			Map<String, Object> jsonArgument = new HashMap<>();
+			jsonArgument.put("api", exportedApi);
+			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
+					.setJsonArgument(jsonArgument));
+		}));
 		fr.runAsyncAfterSplash();
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());

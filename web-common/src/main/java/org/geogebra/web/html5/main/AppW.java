@@ -839,7 +839,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 
 			afterLoadFileAppOrNot(asSlide);
-			dispatchEvent(new Event(EventType.CONTENT_CHANGED));
 		} catch (Exception e) {
 			Log.debug(e);
 		}

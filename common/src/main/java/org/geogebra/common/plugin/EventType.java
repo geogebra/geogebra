@@ -141,10 +141,8 @@ public enum EventType {
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
 	/** Prune state list in external object */
 	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
-
-	/** Change the whole content of an applet (file loading, also embedded applets in notes) */
-	CONTENT_CHANGED("contentChanged"),
-
+	/** Embed finished loading **/
+	EMBED_LOADED("embedLoaded"),
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
 	/** Tools Panel selected */
