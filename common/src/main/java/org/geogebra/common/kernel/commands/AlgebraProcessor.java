@@ -2182,11 +2182,8 @@ public class AlgebraProcessor {
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new MyError(loc, Errors.ReplaceFailed);
-				} catch (MyError e) {
-					e.printStackTrace();
+				} catch (Exception | MyError e) {
+					Log.debug(e);
 					throw new MyError(loc, Errors.ReplaceFailed);
 				}
 			}

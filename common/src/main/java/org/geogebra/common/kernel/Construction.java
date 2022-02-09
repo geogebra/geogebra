@@ -1590,6 +1590,8 @@ public class Construction {
 			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
 			isRemovingGeoToReplaceIt = true;
+			Group grp = oldGeo.getParentGroup();
+			oldGeo.setParentGroup(null);
 			oldGeo.remove();
 			isRemovingGeoToReplaceIt = false;
 
@@ -1610,6 +1612,11 @@ public class Construction {
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
 			layerManager.replace(oldGeo.getOrdering(), newGeo);
+			if (grp != null) {
+				newGeo.setParentGroup(grp);
+				grp.getGroupedGeos().remove(oldGeo);
+				grp.getGroupedGeos().add(newGeo);
+			}
 			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
 			}
