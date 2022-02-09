@@ -56,7 +56,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
@@ -677,18 +676,8 @@ public class OptionsTab extends FlowPanel {
 			styleLbl = new Label();
 			mainWidget.add(styleLbl);
 
-			MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
-			ImageOrText[] startStyleSvgs = new ImageOrText[] {
-					new ImageOrText(resources.stylingbar_start_default(), 24),
-					new ImageOrText(resources.stylingbar_start_line(), 24),
-					new ImageOrText(resources.stylingbar_start_square_outlined(), 24),
-					new ImageOrText(resources.stylingbar_start_square(), 24),
-					new ImageOrText(resources.stylingbar_start_arrow(), 24),
-					new ImageOrText(resources.stylingbar_start_arrow_filled(), 24),
-					new ImageOrText(resources.stylingbar_start_circle_outlined(), 24),
-					new ImageOrText(resources.stylingbar_start_circle(), 24) };
-			stylePopup = new PopupMenuButtonW(app, startStyleSvgs, -1,
-					1, SelectionTable.MODE_ICON) {
+			stylePopup = new PopupMenuButtonW(app, GeoGebraIconW.createSegmentStartStyleIcons(),
+					-1, 1, SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -738,17 +727,8 @@ public class OptionsTab extends FlowPanel {
 			styleLbl = new Label();
 			mainWidget.add(styleLbl);
 
-			MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
-			ImageOrText[] endStyleSvgs = new ImageOrText[] {
-					new ImageOrText(resources.stylingbar_end_default(), 24),
-					new ImageOrText(resources.stylingbar_end_line(), 24),
-					new ImageOrText(resources.stylingbar_end_square_outlined(), 24),
-					new ImageOrText(resources.stylingbar_end_square(), 24),
-					new ImageOrText(resources.stylingbar_end_arrow(), 24),
-					new ImageOrText(resources.stylingbar_end_arrow_filled(), 24),
-					new ImageOrText(resources.stylingbar_end_circle_outlined(), 24),
-					new ImageOrText(resources.stylingbar_end_circle(), 24) };
-			stylePopup = new PopupMenuButtonW(app, endStyleSvgs, -1, 1, SelectionTable.MODE_ICON) {
+			stylePopup = new PopupMenuButtonW(app, GeoGebraIconW.createSegmentEndStyleIcons(),
+					-1, 1, SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();

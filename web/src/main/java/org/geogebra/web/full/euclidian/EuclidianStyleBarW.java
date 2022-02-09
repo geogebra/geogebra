@@ -873,19 +873,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createSegmentStartStyleBtn() {
-		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
-		ImageOrText[] startStyleSvgs = new ImageOrText[] {
-				getImgResource(resources.stylingbar_start_default()),
-				getImgResource(resources.stylingbar_start_line()),
-				getImgResource(resources.stylingbar_start_square_outlined()),
-				getImgResource(resources.stylingbar_start_square()),
-				getImgResource(resources.stylingbar_start_arrow()),
-				getImgResource(resources.stylingbar_start_arrow_filled()),
-				getImgResource(resources.stylingbar_start_circle_outlined()),
-				getImgResource(resources.stylingbar_start_circle()) };
-
-		btnSegmentStartStyle = new PopupMenuButtonW(app, startStyleSvgs, 2, 4,
-				SelectionTable.MODE_ICON) {
+		ImageOrText[] segmentStartStyleIcons = GeoGebraIconW.createSegmentStartStyleIcons();
+		btnSegmentStartStyle = new PopupMenuButtonW(app, segmentStartStyleIcons,
+				2, 4, SelectionTable.MODE_ICON) {
 			@Override
 			public void update(List<GeoElement> geos) {
 				boolean geosOK = checkGeoSegment(geos);
@@ -895,34 +885,21 @@ public class EuclidianStyleBarW extends StyleBarW2
 					SegmentStyle style = ((GeoSegment) geos.get(0)).getStartStyle();
 					btnSegmentStartStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
 					if (btnSegmentStartStyle.getSelectedIndex() == -1) {
-						btnSegmentStartStyle.setIcon(
-								new ImageOrText(MaterialDesignResources.INSTANCE
-										.stylingbar_start_default(), 24));
+						btnSegmentStartStyle.setIcon(segmentStartStyleIcons[0]);
 					}
 				}
 			}
 		};
 
-		SVGResource defaultStyle = MaterialDesignResources.INSTANCE.stylingbar_start_default();
-		btnSegmentStartStyle.setIcon(new ImageOrText(defaultStyle, 24));
+		btnSegmentStartStyle.setIcon(segmentStartStyleIcons[0]);
 		btnSegmentStartStyle.addPopupHandler(this);
 		btnSegmentStartStyle.setKeepVisible(false);
 	}
 
 	private void createSegmentEndStyleBtn() {
-		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
-		ImageOrText[] endStyleSvgs = new ImageOrText[] {
-				getImgResource(resources.stylingbar_end_default()),
-				getImgResource(resources.stylingbar_end_line()),
-				getImgResource(resources.stylingbar_end_square_outlined()),
-				getImgResource(resources.stylingbar_end_square()),
-				getImgResource(resources.stylingbar_end_arrow()),
-				getImgResource(resources.stylingbar_end_arrow_filled()),
-				getImgResource(resources.stylingbar_end_circle_outlined()),
-				getImgResource(resources.stylingbar_end_circle()) };
-
-		btnSegmentEndStyle = new PopupMenuButtonW(app, endStyleSvgs, 2, 4,
-				SelectionTable.MODE_ICON) {
+		ImageOrText[] segmentEndStyleIcons = GeoGebraIconW.createSegmentEndStyleIcons();
+		btnSegmentEndStyle = new PopupMenuButtonW(app, segmentEndStyleIcons,
+				2, 4, SelectionTable.MODE_ICON) {
 			@Override
 			public void update(List<GeoElement> geos) {
 				boolean geosOK = checkGeoSegment(geos);
@@ -932,16 +909,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 					SegmentStyle style = ((GeoSegment) geos.get(0)).getEndStyle();
 					btnSegmentEndStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
 					if (btnSegmentEndStyle.getSelectedIndex() == -1) {
-						btnSegmentEndStyle.setIcon(
-								new ImageOrText(MaterialDesignResources.INSTANCE
-										.stylingbar_end_default(), 24));
+						btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
 					}
 				}
 			}
 		};
 
-		SVGResource defaultStyle = MaterialDesignResources.INSTANCE.stylingbar_end_default();
-		btnSegmentEndStyle.setIcon(new ImageOrText(defaultStyle, 24));
+		btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
 		btnSegmentEndStyle.addPopupHandler(this);
 		btnSegmentEndStyle.setKeepVisible(false);
 	}

@@ -3206,21 +3206,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			model.setListener(this);
 
 			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
-			imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
-			imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
-			imgFileNameList.add(GuiResourcesD.FILLING_STOP);
-			imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
-			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
-			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
-			imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
-			imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_DEFAULT);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_LINE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_SQUARE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_ARROW);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_ARROW_FILLED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_CIRCLE);
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconD.createFileImageIcon(
 						imgFileNameList.get(i));
 			}
 			btnSegmentStartStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
-					new Dimension(24, 24), SelectionTable.MODE_ICON);
+					new Dimension(36, 36), SelectionTable.MODE_ICON);
 			btnSegmentStartStyle.setSelectedIndex(0);
 			btnSegmentStartStyle.setStandardButton(true);
 			btnSegmentStartStyle.setKeepVisible(false);
@@ -3299,21 +3299,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			model.setListener(this);
 
 			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
-			imgFileNameList.add(GuiResourcesD.FILLING_PAUSE);
-			imgFileNameList.add(GuiResourcesD.FILLING_PLAY);
-			imgFileNameList.add(GuiResourcesD.FILLING_STOP);
-			imgFileNameList.add(GuiResourcesD.FILLING_REPLAY);
-			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_NEXT);
-			imgFileNameList.add(GuiResourcesD.FILLING_SKIP_PREVIOUS);
-			imgFileNameList.add(GuiResourcesD.FILLING_LOOP);
-			imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_IN);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_DEFAULT);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_LINE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_SQUARE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_ARROW);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_ARROW_FILLED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_CIRCLE);
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconD.createFileImageIcon(
 						imgFileNameList.get(i));
 			}
 			btnSegmentEndStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
-					new Dimension(24, 24), SelectionTable.MODE_ICON);
+					new Dimension(36, 36), SelectionTable.MODE_ICON);
 			btnSegmentEndStyle.setSelectedIndex(0);
 			btnSegmentEndStyle.setStandardButton(true);
 			btnSegmentEndStyle.setKeepVisible(false);
