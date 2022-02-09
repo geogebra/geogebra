@@ -1,11 +1,11 @@
 package org.geogebra.common.util.shape;
 
-public class Point {
+public class XYPoint {
 
 	private double x;
 	private double y;
 
-	public Point(double x, double y) {
+	public XYPoint(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}

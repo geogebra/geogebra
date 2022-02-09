@@ -2,7 +2,7 @@ package org.geogebra.common.util.shape;
 
 public class Rectangle {
 
-	private final Point location;
+	private final XYPoint location;
 	private final Size size;
 
 	public Rectangle() {
@@ -10,10 +10,10 @@ public class Rectangle {
 	}
 
 	public Rectangle(double minX, double maxX, double minY, double maxY) {
-		this(new Point(minX, minY), new Size(maxX - minX, maxY - minY));
+		this(new XYPoint(minX, minY), new Size(maxX - minX, maxY - minY));
 	}
 
-	public Rectangle(Point location, Size size) {
+	public Rectangle(XYPoint location, Size size) {
 		this.location = location;
 		this.size = size;
 	}

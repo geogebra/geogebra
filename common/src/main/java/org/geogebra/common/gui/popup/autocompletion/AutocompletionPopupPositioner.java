@@ -1,6 +1,8 @@
 package org.geogebra.common.gui.popup.autocompletion;
 
-import org.geogebra.common.util.shape.Point;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.util.shape.XYPoint;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -19,10 +21,11 @@ public class AutocompletionPopupPositioner {
 		this.popupMinSize = popupMinSize;
 	}
 
+	@Nonnull
 	public Rectangle calculatePositionAndSizeFor(Rectangle inputBounds, Size popupSize) {
 		double x = inputBounds.getMinX();
 		double y = inputBounds.getMaxY();
-		Point dummyPosition = new Point(x, y);
+		XYPoint dummyPosition = new XYPoint(x, y);
 
 		double fittingWidth = popupSize.getWidth();
 		double fittingHeight = popupSize.getHeight();
