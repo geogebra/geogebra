@@ -97,8 +97,6 @@ public abstract class Analytics {
 		 */
 		public static String convertToSubAppParam(String subAppName) {
 			switch (subAppName) {
-			case GeoGebraConstants.GRAPHING_APPCODE:
-				return SUB_APP_GRAPHING;
 			case GeoGebraConstants.GEOMETRY_APPCODE:
 				return SUB_APP_GEOMETRY;
 			case GeoGebraConstants.CAS_APPCODE:
@@ -107,6 +105,7 @@ public abstract class Analytics {
 				return SUB_APP_3D;
 			case GeoGebraConstants.PROBABILITY_APPCODE:
 				return SUB_APP_PROBABILITY;
+			case GeoGebraConstants.GRAPHING_APPCODE:
 			default:
 				return SUB_APP_GRAPHING;
 			}
