@@ -412,7 +412,7 @@ public class LayerManager {
 	 */
 	public void replace(int pos, GeoElement newGeo) {
 		drawingOrder.remove(newGeo);
-		if (drawingOrder.size() >= pos) {
+		if (drawingOrder.size() >= pos && pos >= 0) {
 			drawingOrder.add(pos, newGeo);
 			updateOrdering();
 			newGeo.getKernel().getApplication()
