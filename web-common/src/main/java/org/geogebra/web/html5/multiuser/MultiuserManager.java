@@ -9,8 +9,11 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
+import org.geogebra.common.plugin.EventType;
 
-public final class MultiuserManager {
+public final class MultiuserManager implements EventListener {
 
 	public static final MultiuserManager INSTANCE = new MultiuserManager();
 
@@ -35,7 +38,8 @@ public final class MultiuserManager {
 				adjustColor(color.getGreen()), adjustColor(color.getBlue()), 127);
 		User currentUser = activeInteractions
 				.computeIfAbsent(clientId, k -> new User(user, withAlpha));
-
+		app.getEventDispatcher().removeEventListener(this);
+		app.getEventDispatcher().addEventListener(this);
 		// TODO this removeSelection is not propagated to other users. Markers get
 		// inconsistent, if two users select the same object.
 		for (Map.Entry<String, User> entry : activeInteractions.entrySet()) {
@@ -74,5 +78,19 @@ public final class MultiuserManager {
 		for (User user : activeInteractions.values()) {
 			user.paintInteractionBoxes(view, graphics);
 		}
+	}
+
+	@Override
+	public void sendEvent(Event evt) {
+		if (evt.type == EventType.RENAME) {
+			for (User user : activeInteractions.values()) {
+				user.rename(evt.target);
+			}
+		}
+	}
+
+	@Override
+	public void reset() {
+		// not needed
 	}
 }

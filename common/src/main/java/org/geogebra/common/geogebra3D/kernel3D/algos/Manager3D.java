@@ -112,22 +112,6 @@ public class Manager3D implements Manager3DInterface {
 		this.cons = kernel.getConstruction();
 	}
 
-	/** Point3D label with cartesian coordinates (x,y,z) */
-	@Override
-	final public GeoPoint3D point3D(String label, double x, double y, double z,
-			boolean coords2D) {
-		GeoPoint3D p = new GeoPoint3D(cons);
-		if (coords2D) {
-			p.setCartesian();
-		} else {
-			p.setCartesian3D();
-		}
-		p.setCoords(x, y, z, 1.0);
-		p.setLabel(label); // invokes add()
-
-		return p;
-	}
-
 	@Override
 	final public GeoPoint3D point3D(double x, double y, double z,
 			boolean coords2D) {

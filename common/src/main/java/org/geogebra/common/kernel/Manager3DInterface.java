@@ -48,10 +48,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public interface Manager3DInterface {
 
 	/** @return Point3D label with cartesian coordinates (x,y,z) */
-	public GeoElement point3D(String label, double x, double y, double z,
-			boolean coords2D);
-
-	public GeoPointND point3D(double x, double y, double z, boolean coords2D);
+	GeoPointND point3D(double x, double y, double z, boolean coords2D);
 
 	/**
 	 * Point dependent on arithmetic expression with variables, represented by a

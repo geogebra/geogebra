@@ -39,13 +39,13 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 	private int inputPointsCount;
 
-	private CoordMatrix4x4 matrix;
+	private final CoordMatrix4x4 matrix;
 
 	private Coords[] coords;
 
-	private Commands name;
+	private final Commands name;
 
-	private PlatonicSolid solidDescription;
+	private final PlatonicSolid solidDescription;
 	/**
 	 * factor to calculate the volume
 	 */
@@ -61,19 +61,18 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 */
 	private double areaFactor;
 
-	private Coords tmpCoords = Coords.createInhomCoorsInD3();
+	private final Coords tmpCoords = Coords.createInhomCoorsInD3();
 
 	private boolean polyhedronIsDummy;
 
-	private Coords o = Coords.createInhomCoorsInD3();
-	private Coords v1 = new Coords(4);
-	private Coords v1l = new Coords(4);
-	private Coords v2 = new Coords(4);
-	private Coords v2l = new Coords(4);
-	private Coords v3 = new Coords(4);
-	private Coords v3l = new Coords(4);
-	private Coords vn = new Coords(4);
-	private double dist;
+	private final Coords o = Coords.createInhomCoorsInD3();
+	private final Coords v1 = new Coords(4);
+	private final Coords v1l = new Coords(4);
+	private final Coords v2 = new Coords(4);
+	private final Coords v2l = new Coords(4);
+	private final Coords v3 = new Coords(4);
+	private final Coords v3l = new Coords(4);
+	private final Coords vn = new Coords(4);
 
 	private boolean wasDirect;
 
@@ -126,21 +125,15 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		this.isDirectGeo = isDirect;
 
 		switch (name) {
-		default:
+		default: // Icosahedron, Octahedron
 		case Tetrahedron:
 			inputPointsCount = 3;
 			break;
 		case Cube:
 			inputPointsCount = 4;
 			break;
-		case Octahedron:
-			inputPointsCount = 3;
-			break;
 		case Dodecahedron:
 			inputPointsCount = 5;
-			break;
-		case Icosahedron:
-			inputPointsCount = 3;
 			break;
 		}
 
@@ -221,15 +214,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		// faces are oriented to the inside
 		initIsDirect();
 		setOutput();
-		if (labels == null || labels.length <= 1) {
-			polyhedron.initLabels(labels);
-		} else {
-			polyhedron.setAllLabelsAreSet(true);
-			for (int i = 0; i < labels.length; i++) {
-				getOutput(i).setLabel(labels[i]);
-			}
-		}
-
+		setLabels(labels);
 		update();
 	}
 
@@ -393,7 +378,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		v1l.calcNorm();
-		dist = v1l.getNorm();
+		double dist = v1l.getNorm();
 		v1.setMul3(v1l, 1 / dist);
 
 		Coords vnd;

@@ -3761,15 +3761,17 @@ public class Construction {
 	}
 
 	/**
-	 * @param label
-	 *            label of object
+	 * @param geo
+	 *            construction element
 	 * @return whether object has unlabeled predecessors
 	 */
-	public boolean hasUnlabeledPredecessors(String label) {
-		final TreeSet<GeoElement> set = geoTable.get(label).getAllPredecessors();
-		for (GeoElement el : set) {
-			if (el.getLabelSimple() == null) {
-				return true;
+	public boolean hasUnlabeledPredecessors(GeoElement geo) {
+		final AlgoElement algo = geo.getParentAlgorithm();
+		if (algo != null) {
+			for (GeoElement el : algo.getInput()) {
+				if (el.getLabelSimple() == null) {
+					return true;
+				}
 			}
 		}
 		return false;

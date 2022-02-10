@@ -153,4 +153,14 @@ class User {
 	private double getOffsetX(AppW app) {
 		return app.getActiveEuclidianView().getAbsoluteLeft() - app.getAbsLeft();
 	}
+
+	public void rename(GeoElement target) {
+		String oldLabel = target.getOldLabel();
+		if (selectedGeos.contains(oldLabel)) {
+			selectedGeos.remove(oldLabel);
+			selectedGeos.add(target.getLabelSimple());
+			target.getKernel().notifyRepaint();
+		}
+		// only selected geos handled here, updated geos are on timer => eventual consistency
+	}
 }

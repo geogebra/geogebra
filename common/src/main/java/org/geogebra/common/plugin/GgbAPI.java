@@ -2396,7 +2396,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean hasUnlabeledPredecessors(String label) {
-		return kernel.getConstruction().hasUnlabeledPredecessors(label);
+		return kernel.getConstruction().hasUnlabeledPredecessors(kernel.lookupLabel(label));
 	}
 
 	@Override
