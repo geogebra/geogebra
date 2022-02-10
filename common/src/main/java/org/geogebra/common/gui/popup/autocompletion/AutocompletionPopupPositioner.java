@@ -48,4 +48,8 @@ public class AutocompletionPopupPositioner {
 
 		return popupRectangle;
 	}
+
+	public Rectangle getSafeArea() {
+		return safeArea;
+	}
 }
