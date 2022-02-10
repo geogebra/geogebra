@@ -18,6 +18,14 @@ public class Rectangle {
 		this.size = size;
 	}
 
+	public double getWidth() {
+		return size.getWidth();
+	}
+
+	public double getHeight() {
+		return size.getHeight();
+	}
+
 	public double getMinX() {
 		return location.getX();
 	}
@@ -52,5 +60,9 @@ public class Rectangle {
 
 	public void setMaxY(double maxY) {
 		size.setHeight(maxY - getMinY());
+	}
+
+	public void moveVertically(double delta) {
+		location.setY(location.getY() + delta);
 	}
 }

@@ -23,14 +23,29 @@ public class AutocompletionPopupPositioner {
 
 	@Nonnull
 	public Rectangle calculatePositionAndSizeFor(Rectangle inputBounds, Size popupSize) {
-		double fittingWidth = popupSize.getWidth();
-		double fittingHeight = popupSize.getHeight();
-		Size dummyFittingSize = new Size(fittingWidth, fittingHeight);
+		double x = safeArea.getMinX();
+		double y = inputBounds.getMaxY();
+		double width = safeArea.getWidth();
+		double height = popupSize.getHeight();
 
-		double x = 0;
-		double y = inputBounds.getMinY() - fittingHeight;
-		XYPoint dummyAbovePosition = new XYPoint(x, y);
+		Rectangle popupRectangle = new Rectangle(new XYPoint(x, y), new Size(width, height));
 
-		return new Rectangle(dummyAbovePosition, dummyFittingSize);
+		if (safeArea.getMaxY() < popupRectangle.getMaxY()) {
+			double delta = -(inputBounds.getHeight() + popupRectangle.getHeight());
+			popupRectangle.moveVertically(delta);
+		}
+		if (safeArea.getMinY() > popupRectangle.getMinY()) {
+			double spaceBelowInput = inputBounds.getMaxY() - safeArea.getMaxY();
+			double spaceAboveInput = inputBounds.getMinY() - safeArea.getMinY();
+			if (spaceBelowInput >= spaceAboveInput) {
+				popupRectangle = new Rectangle(
+						x, x + width, inputBounds.getMaxY(), safeArea.getMaxY());
+			} else {
+				popupRectangle = new Rectangle(
+						x, x + width, safeArea.getMinY(), inputBounds.getMinY());
+			}
+		}
+
+		return popupRectangle;
 	}
 }
