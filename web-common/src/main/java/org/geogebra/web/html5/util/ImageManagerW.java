@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -146,11 +147,8 @@ public class ImageManagerW extends ImageManager {
 
 	/**
 	 * Load a single image.
-	 * 
-	 * @param imageFileName
-	 *            filename
-	 * @param geoi
-	 *            image for construction
+	 * @param imageFileName filename
+	 * @param geoi image to update
 	 */
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
 		HTMLImageElement img = getExternalImage(imageFileName, true);
@@ -158,6 +156,17 @@ public class ImageManagerW extends ImageManager {
 		EventListener errorCallback = (event) -> onError(geoi);
 		img.addEventListener("error", errorCallback);
 		img.addEventListener("abort", errorCallback);
+		img.src = externalImageSrcs.get(imageFileName).createUrl();
+	}
+
+	/**
+	 * Trigger loading of a single image not (yet) connected to a GeoImage
+	 * @param imageFileName filename
+	 * @param kernel image for construction
+	 */
+	public void triggerSingleImageLoading(String imageFileName, Kernel kernel) {
+		HTMLImageElement img = getExternalImage(imageFileName, true);
+		img.addEventListener("load", (event) -> kernel.updateConstruction());
 		img.src = externalImageSrcs.get(imageFileName).createUrl();
 	}
 

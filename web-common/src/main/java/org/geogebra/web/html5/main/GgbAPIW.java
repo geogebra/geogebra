@@ -778,7 +778,7 @@ public class GgbAPIW extends GgbAPI {
 			url = Browser.encodeSVG(urlOrSvgContent);
 		}
 		imageManager.addExternalImage(filename, url);
-		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
+		imageManager.triggerSingleImageLoading(filename, kernel);
 	}
 
 	private static String checkCorner(String cornerExp) {
