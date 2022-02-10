@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.components.radiobutton;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.util.Dom;
 
@@ -7,9 +8,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class ComponentRadioButton extends FlowPanel {
+public class ComponentRadioButton extends FlowPanel implements SetLabels {
 	private boolean disabled = false;
 	private boolean selected;
+	private Label radioLabel;
+	private String ggbTransKey;
+	private Localization loc;
 
 	/**
 	 * default constructor
@@ -20,6 +24,8 @@ public class ComponentRadioButton extends FlowPanel {
 	public ComponentRadioButton(Localization loc, RadioButtonData data,	Runnable callback) {
 		setSelected(data.isSelected());
 		setDisabled(data.isDisabled());
+		this.ggbTransKey = data.getLabel();
+		this.loc = loc;
 
 		addStyleName("radioButton");
 		FlowPanel radioBg = new FlowPanel();
@@ -35,7 +41,7 @@ public class ComponentRadioButton extends FlowPanel {
 		innerCircle.addStyleName("innerCircle");
 		radioBg.add(innerCircle);
 
-		Label radioLabel = new Label(loc.getMenu(data.getLabel()));
+		radioLabel = new Label(loc.getMenu(data.getLabel()));
 		add(radioLabel);
 
 		Dom.addEventListener(this.getElement(), "click", evt -> {
@@ -73,5 +79,10 @@ public class ComponentRadioButton extends FlowPanel {
 
 	public boolean isSelected() {
 		return selected;
+	}
+
+	@Override
+	public void setLabels() {
+		radioLabel.setText(loc.getMenu(ggbTransKey));
 	}
 }
