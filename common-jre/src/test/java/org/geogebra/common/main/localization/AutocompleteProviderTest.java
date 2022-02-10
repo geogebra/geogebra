@@ -59,7 +59,8 @@ public class AutocompleteProviderTest extends BaseUnitTest {
 		AppConfig config = Mockito.spy(new AppConfigGraphing());
 		SyntaxFilter commandSyntax = Mockito.spy(new GraphingSyntaxFilter());
 		// Filter every syntax for InverseBinomial
-		when(commandSyntax.getFilteredSyntax(eq(Commands.InverseBinomial.name()), anyString())).thenReturn("");
+		when(commandSyntax.getFilteredSyntax(
+				eq(Commands.InverseBinomial.name()), anyString())).thenReturn("");
 		when(config.newCommandSyntaxFilter()).thenReturn(commandSyntax);
 
 		App app = AppCommonFactory.create(config);
