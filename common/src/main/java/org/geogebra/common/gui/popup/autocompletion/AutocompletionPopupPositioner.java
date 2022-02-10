@@ -27,7 +27,7 @@ public class AutocompletionPopupPositioner {
 		double fittingHeight = popupSize.getHeight();
 		Size dummyFittingSize = new Size(fittingWidth, fittingHeight);
 
-		double x = inputBounds.getMinX();
+		double x = 0;
 		double y = inputBounds.getMinY() - fittingHeight;
 		XYPoint dummyAbovePosition = new XYPoint(x, y);
 
