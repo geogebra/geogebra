@@ -3,15 +3,21 @@ package org.geogebra.common;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.main.AppCommon3D;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.test.LocalizationCommonUTF;
 
 public class AppCommonFactory {
 
+	public static AppCommon create() {
+		return create(new AppConfigDefault());
+	}
+
 	/**
 	 * @return app instance for 2D testing
 	 */
-	public static AppCommon create() {
-		return new AppCommon(new LocalizationCommonUTF(2), new AwtFactoryCommon());
+	public static AppCommon create(AppConfig appConfig) {
+		return new AppCommon(new LocalizationCommonUTF(2), new AwtFactoryCommon(), appConfig);
 	}
 
 	/**

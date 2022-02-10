@@ -73,7 +73,7 @@ public class AutocompleteProvider {
 					: ap.getSyntax(cmdInt, app.getSettings());
 		}
 
-		if (syntaxString == null) {
+		if (syntaxString == null || syntaxString.isEmpty()) {
 			return;
 		}
 
@@ -108,19 +108,19 @@ public class AutocompleteProvider {
 	 * @return stream of suggestions
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
-		Stream str = app.getParserFunctions().getCompletions(curWord).stream()
+		Stream<Completion> completions = app.getParserFunctions().getCompletions(curWord).stream()
 				.map(function -> new Completion(function.split("\\(")[0],
 						Collections.singletonList(function), App.WIKI_OPERATORS,
 						GuiManagerInterface.Help.GENERIC));
 		List<String> cmdDict = app.getCommandDictionary()
 				.getCompletions(curWord.toLowerCase());
 		if (cmdDict != null) {
-			Stream<Completion> cmdstr = cmdDict.stream()
+			Stream<Completion> commands = cmdDict.stream()
 					.map(command -> new Completion(command, getSyntaxes(command),
 							app.getInternalCommand(command), GuiManagerInterface.Help.COMMAND));
-			return Stream.concat(str, cmdstr);
+			completions = Stream.concat(completions, commands);
 		}
-		return str;
+		return completions.filter(completion -> !completion.syntaxes.isEmpty());
 	}
 
 	public static class Completion {

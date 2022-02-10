@@ -69,9 +69,13 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
-	private AppConfig config = new AppConfigDefault();
+	private AppConfig config;
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
+
+	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
+	    this(loc, awtFactory, new AppConfigDefault());
+    }
 
 	/**
 	 * Construct an AppCommon.
@@ -81,8 +85,9 @@ public class AppCommon extends App {
 	 * @param awtFactory
 	 *            AWT factory
 	 */
-	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
+	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
+		config = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
         initFactories();
 		initKernel();
