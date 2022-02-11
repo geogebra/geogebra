@@ -163,14 +163,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	private void dispatchKeyTypeEvent(String key) {
 		Event event = new Event(EventType.EDITOR_KEY_TYPED);
-		if (key != null) {
-			HashMap<String, Object> jsonArgument = new HashMap<>();
-			jsonArgument.put("key", key);
-			jsonArgument.put("label", getGeoInputBox() != null
-					? getGeoInputBox().getLabelSimple() : "");
+		HashMap<String, Object> jsonArgument = new HashMap<>();
+		jsonArgument.put("key", key == null ? "" : key);
+		jsonArgument.put("label", getGeoInputBox() != null
+				? getGeoInputBox().getLabelSimple() : "");
 
-			event.setJsonArgument(jsonArgument);
-		}
+		event.setJsonArgument(jsonArgument);
 		app.dispatchEvent(event);
 	}
 
