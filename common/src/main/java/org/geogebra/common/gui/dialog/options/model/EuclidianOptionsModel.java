@@ -638,6 +638,10 @@ public class EuclidianOptionsModel {
 				return "Elementary34";
 			case MUSIC:
 				return "Music";
+			case ISOMETRIC:
+				return "Isometric";
+			case POLAR:
+				return "Polar";
 			default:
 				return "NoRuling";
 		}
