@@ -35,7 +35,7 @@ public class AutocompletionPopupPositioner {
 			popupRectangle.moveVertically(delta);
 		}
 		if (safeArea.getMinY() > popupRectangle.getMinY()) {
-			double spaceBelowInput = inputBounds.getMaxY() - safeArea.getMaxY();
+			double spaceBelowInput = safeArea.getMaxY() - inputBounds.getMaxY();
 			double spaceAboveInput = inputBounds.getMinY() - safeArea.getMinY();
 			if (spaceBelowInput >= spaceAboveInput) {
 				popupRectangle = new Rectangle(
