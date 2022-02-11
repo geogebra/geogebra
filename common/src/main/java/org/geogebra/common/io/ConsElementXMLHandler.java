@@ -435,7 +435,8 @@ public class ConsElementXMLHandler {
 		lineStyleTagProcessed = false;
 		geo = getGeoElement(attrs);
 		if (needsConstructionDefaults) {
-			geo.setConstructionDefaults();
+			// don't set auxiliary prop here, it will be loaded from XML
+			geo.setConstructionDefaults(true, false);
 		}
 		geo.setLineOpacity(255);
 		if (geo instanceof VectorNDValue) {
