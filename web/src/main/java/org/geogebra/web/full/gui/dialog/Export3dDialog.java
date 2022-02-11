@@ -324,7 +324,7 @@ public class Export3dDialog extends ComponentDialog
 		} else {
 			String current = lineThicknessValue.getText();
 			if (oldLineThicknessValue != null && current == null
-					|| current.trim().length() == 0) {
+					|| current.trim().isEmpty()) {
 				lineThicknessValue
 						.setInputText(oldLineThicknessValue);
 			}
