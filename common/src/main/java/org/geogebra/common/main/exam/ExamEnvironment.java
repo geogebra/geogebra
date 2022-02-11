@@ -450,7 +450,6 @@ public class ExamEnvironment {
 	 * Store end time
 	 */
 	public void exit() {
-		storeEndTime();
 		restoreCommands();
 		clearClipboard();
 	}

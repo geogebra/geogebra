@@ -1,10 +1,10 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class NameModelTest {
 
-	private static AppDNoGui app;
+	private static AppCommon app;
 	private static NameValueModel model;
 
 	/**
@@ -21,7 +21,7 @@ public class NameModelTest {
 	 */
 	@BeforeClass
 	public static void setup() {
-		app = AlgebraTest.createApp();
+		app = AppCommonFactory.create3D();
 		model = new NameValueModel(app, new INameValueListener() {
 
 			@Override
