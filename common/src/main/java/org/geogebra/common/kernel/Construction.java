@@ -1377,14 +1377,8 @@ public class Construction {
 		int size = ceList.size();
 		for (int i = 0; i < size; ++i) {
 			ce = ceList.get(i);
-			if (!isNumericDependentConst(ce)) {
-				ce.getXML(getListenersToo, sb);
-			}
+			ce.getXML(getListenersToo, sb);
 		}
-	}
-
-	private static boolean isNumericDependentConst(ConstructionElement ce) {
-		return ce instanceof GeoNumeric && ((GeoNumeric) ce).isDependentConst();
 	}
 
 	/**
