@@ -127,7 +127,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 
 	private FlowPanel getCheckboxPanel() {
 		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
-				"saveTemplate", null);
+				"saveTemplate");
 		return templateCheckbox;
 	}
 

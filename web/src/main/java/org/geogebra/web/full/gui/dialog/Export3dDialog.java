@@ -312,21 +312,23 @@ public class Export3dDialog extends ComponentDialog
 				thicknessPanel);
 
 		filledSolid = new ComponentCheckbox(app.getLocalization(), false,
-				"STL.FilledSolid", () -> {
-					if (filledSolid.isSelected()) {
-						oldLineThicknessValue = lineThicknessValue.getText();
-						lineThicknessValue.setInputText("");
-					} else {
-						String current = lineThicknessValue.getText();
-						if (oldLineThicknessValue != null && current == null
-								|| current.trim().length() == 0) {
-							lineThicknessValue
-									.setInputText(oldLineThicknessValue);
-						}
-					}
-				});
+				"STL.FilledSolid", this::onFilledSolidAction);
 		thicknessPanel.add(filledSolid);
 		root.add(thicknessPanel);
+	}
+
+	private void onFilledSolidAction() {
+		if (filledSolid.isSelected()) {
+			oldLineThicknessValue = lineThicknessValue.getText();
+			lineThicknessValue.setInputText("");
+		} else {
+			String current = lineThicknessValue.getText();
+			if (oldLineThicknessValue != null && current == null
+					|| current.trim().length() == 0) {
+				lineThicknessValue
+						.setInputText(oldLineThicknessValue);
+			}
+		}
 	}
 
 	private ParsableComponentInputField addTextField(String labelText,
