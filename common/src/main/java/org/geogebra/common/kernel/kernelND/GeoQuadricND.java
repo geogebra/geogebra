@@ -77,9 +77,6 @@ public abstract class GeoQuadricND extends GeoElement
 	/** TODO merge with 2D eigenvec */
 	protected Coords[] eigenvecND;
 
-	/** numbers on matrix diagonal */
-	protected double[] diagonal;
-
 	/** variable string */
 	private static final char[] VAR_STRING = { 'x', 'y', 'z' };
 
@@ -90,7 +87,6 @@ public abstract class GeoQuadricND extends GeoElement
 	protected double[] mu = new double[2];
 	/** flag for intersect(quadric, quadric) */
 	protected boolean isIntersection;
-	private CoordMatrix tmpEigenMatrix;
 
 	private ChangeableParent changeableParent = null;
 
@@ -229,36 +225,6 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	public CoordMatrix getSymetricMatrix() {
 		return getSymetricMatrix(matrix);
-	}
-
-	/**
-	 * sets the matrix values from eigenvectors, midpoint and "diagonal" values
-	 */
-	protected final void setMatrixFromEigen() {
-		setMatrixFromEigen(0);
-	}
-
-	/**
-	 * @param m21
-	 *            element (4,1) of diagonalized matrix
-	 */
-	protected final void setMatrixFromEigen(double m21) {
-		if (tmpEigenMatrix == null) {
-			tmpEigenMatrix = new CoordMatrix(4, 4);
-		}
-		tmpEigenMatrix.set(eigenvecND);
-		tmpEigenMatrix.set(getMidpoint(), 4);
-
-		CoordMatrix diagonalizedMatrix = CoordMatrix.diagonalMatrix(diagonal);
-
-		CoordMatrix eigenMatrixInv = tmpEigenMatrix.inverse();
-
-		diagonalizedMatrix.set(1, 4, m21);
-		diagonalizedMatrix.set(4, 1, m21);
-		CoordMatrix finalMatrix = eigenMatrixInv.transposeCopy()
-				.mul(diagonalizedMatrix).mul(eigenMatrixInv);
-
-		setMatrix(finalMatrix);
 	}
 
 	/**
