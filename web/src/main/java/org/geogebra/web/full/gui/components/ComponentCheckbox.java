@@ -51,8 +51,8 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 
         checkboxLbl = new Label();
         checkboxLbl.setStyleName("checkboxLbl");
-        this.add(checkbox);
-        this.add(checkboxLbl);
+        add(checkbox);
+        add(checkboxLbl);
         ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
             @Override
@@ -65,6 +65,15 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
         });
 
         setLabels();
+    }
+
+    /**
+     * @param loc - localization
+     * @param setSelected - true if checkbox should be selected
+     * @param templateTxt - text of checkbox
+     */
+    public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt) {
+        this(loc, setSelected, templateTxt, null);
     }
 
     /**

@@ -38,7 +38,7 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	public void buildContent() {
 		super.buildContent();
 		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
-				"saveTemplate", null);
+				"saveTemplate");
 		getContentPanel().add(templateCheckbox);
 	}
 
