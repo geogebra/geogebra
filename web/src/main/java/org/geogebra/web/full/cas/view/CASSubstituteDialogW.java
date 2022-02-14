@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Label;
 public class CASSubstituteDialogW extends ComponentDialog {
 	private ArrayList<InputPanelW> substFields = new ArrayList<>();
 	private ArrayList<InputPanelW> withFields = new ArrayList<>();
-	/**
+
 	/**
 	 * base dialog constructor
 	 * @param app - see {@link AppW}
