@@ -4582,14 +4582,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param i
+	 * @param macroID
 	 *            macro index
 	 * @return i-th registered macro
 	 */
-	public Macro getMacro(int i) {
+	public Macro getMacro(int macroID) {
 		try {
-			return macroManager.getMacro(i);
+			return macroManager.getMacro(macroID);
 		} catch (Exception e) {
+			Log.error("Cannot find macro " + macroID);
 			return null;
 		}
 	}
