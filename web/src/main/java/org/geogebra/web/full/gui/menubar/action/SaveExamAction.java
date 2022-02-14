@@ -18,7 +18,7 @@ public class SaveExamAction implements MenuAction<Void> {
 
 	/**
 	 * Shows the save dialog during exam.
-	 * @param app
+	 * @param app application
 	 */
 	public static void showExamSaveDialog(AppWFull app) {
 		new ExamSaveDialog(app, null).show();
