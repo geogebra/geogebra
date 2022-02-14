@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.validator.exception.NumberValueOutOfBoundsExce
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -51,8 +52,8 @@ public class Export3dDialog extends ComponentDialog
 	static private class ParsableComponentInputField
 			extends ComponentInputField {
 
-		private NumberValidator numberValidator;
-		private Localization localization;
+		private final NumberValidator numberValidator;
+		private final Localization localization;
 		private double parsedValue;
 
 		public ParsableComponentInputField(AppW app, String placeholder,
@@ -80,14 +81,14 @@ public class Export3dDialog extends ComponentDialog
 		 * @param showError
 		 *            if error should be shown
 		 * @param canBeEqual
-		 *            if value can be equel to min value
+		 *            if value can be equal to min value
 		 * @param canBeEmpty
-		 *            if textfield can be empty (value is 0)
+		 *            if text field can be empty (value is 0)
 		 * @return true if parsed ok
 		 */
 		public boolean parse(boolean showError, boolean canBeEqual,
 				boolean canBeEmpty) {
-			if (canBeEmpty && getText().trim().length() == 0) {
+			if (canBeEmpty && StringUtil.emptyTrim(getText())) {
 				parsedValue = 0;
 				return true;
 			}
@@ -323,8 +324,7 @@ public class Export3dDialog extends ComponentDialog
 			lineThicknessValue.setInputText("");
 		} else {
 			String current = lineThicknessValue.getText();
-			if (oldLineThicknessValue != null && current == null
-					|| current.trim().isEmpty()) {
+			if (oldLineThicknessValue != null && StringUtil.emptyTrim(current)) {
 				lineThicknessValue
 						.setInputText(oldLineThicknessValue);
 			}
