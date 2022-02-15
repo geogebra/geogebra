@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -71,8 +72,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	/** helper for 2d projection */
 	protected double[] tmpDouble2 = new double[2];
 	private double detS;
-
-	private CoordMatrix tmpMatrix3x3;
 
 	private GeoPlane3D[] planes;
 
