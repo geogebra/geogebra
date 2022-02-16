@@ -3295,7 +3295,7 @@ public class GeoCasCell extends GeoElement
 		this.firstComputeOutput = true;
 		this.computeOutput(true, true);
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
-			twinGeo.setLabel(null);
+			setLabelOfTwinGeo();
 		}
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
 				&& twinGeo.isEuclidianShowable()) {
@@ -3409,6 +3409,12 @@ public class GeoCasCell extends GeoElement
 		}
 		if (isCasVector) {
 			return PLOT_VAR.toLowerCase();
+		}
+		if (unwrapped instanceof ExpressionNode) {
+			String label = ((ExpressionNode) unwrapped).getLabel();
+			if (label != null) {
+				return label;
+			}
 		}
 		return PLOT_VAR;
 	}
