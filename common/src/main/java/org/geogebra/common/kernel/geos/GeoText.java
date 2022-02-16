@@ -90,7 +90,7 @@ public class GeoText extends GeoElement
 	 * used for eg Text["text",(1,2)] to stop it being editable
 	 */
 	public boolean isTextCommand = false;
-	private StringBuilder sbToString = new StringBuilder(80);
+	private final StringBuilder sbToString = new StringBuilder(80);
 
 	private SpreadsheetTraceCase spreadsheetTraceableCase = SpreadsheetTraceCase.NOT_TESTED;
 	private ExpressionValue spreadsheetTraceableValue;
@@ -127,7 +127,7 @@ public class GeoText extends GeoElement
 	private boolean symbolicMode;
 	private int totalHeight;
 	private int totalWidth;
-	private List<GeoElement> updateListeners;
+	private final List<GeoElement> updateListeners;
 
 	/**
 	 * Creates new text
@@ -404,7 +404,7 @@ public class GeoText extends GeoElement
 		super.update(drag);
 		if (!cons.isFileLoading() && getLabelSimple() != null
 				&& getLabelSimple().startsWith("altText")) {
-			kernel.getApplication().setAltText();
+			kernel.getApplication().setAltText(this);
 		}
 
 		for (GeoElement geo : updateListeners) {
@@ -1200,7 +1200,7 @@ public class GeoText extends GeoElement
 		return linkedText.getStringTemplate();
 	}
 
-	private static enum SpreadsheetTraceCase {
+	private enum SpreadsheetTraceCase {
 		NOT_TESTED, TRUE, FALSE
 	}
 

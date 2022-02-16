@@ -1,7 +1,6 @@
 package org.geogebra.desktop.headless;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import org.geogebra.common.awt.GBufferedImage;
@@ -25,7 +24,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.FileExtensions;
@@ -33,7 +31,6 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.AwtFactoryD;
@@ -121,49 +118,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		// make sure digits are updated in all numbers
 		getKernel().updateConstruction(false);
 		setUnsaved();
-	}
-
-	/**
-	 * @param locale
-	 *            locale
-	 */
-	public void setLocale(Locale locale) {
-		if (locale == getLocalization().getLocale()) {
-			return;
-		}
-		// Locale oldLocale = loc.getLocale();
-
-		// only allow special locales due to some weird server
-		// problems with the naming of the property files
-		((LocalizationD) getLocalization()).setLocale(locale);
-		getLocalization().updateLanguageFlags(locale.getLanguage());
-	}
-
-	public void testFeatures() {
-		boolean pre = prerelease;
-		ArrayList<Feature> stable = new ArrayList<>();
-		ArrayList<Feature> beta = new ArrayList<>();
-		ArrayList<Feature> dead = new ArrayList<>();
-
-		for (Feature f : Feature.values()) {
-
-			this.prerelease = false;
-			if (has(f)) {
-				stable.add(f);
-			} else {
-				this.prerelease = true;
-				if (has(f)) {
-					beta.add(f);
-				} else {
-					dead.add(f);
-				}
-			}
-		}
-		Log.debug(stable.size() + StringUtil.join("\n", stable));
-		Log.debug(beta.size() + StringUtil.join("\n", beta));
-		Log.debug(dead.size() + StringUtil.join("\n", dead));
-
-		prerelease = pre;
 	}
 
 	@Override

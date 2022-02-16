@@ -1,6 +1,5 @@
-package org.geogebra.io;
+package org.geogebra.common.io;
 
-import org.geogebra.common.io.MathMLParser;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;

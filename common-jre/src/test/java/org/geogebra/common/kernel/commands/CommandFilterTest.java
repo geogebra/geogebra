@@ -2,18 +2,28 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.List;
 
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.main.App;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.geogebra.test.commands.CommandSignatures;
 import org.junit.Test;
 
-public class CommandFilterTest extends AlgebraTest {
+public class CommandFilterTest extends BaseUnitTest {
+
+	@Override
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create3D();
+	}
 
 	@Test
 	public void noCASfilterTest() {
 		CommandFilter cf = CommandFilterFactory
 				.createNoCasCommandFilter();
+		App app = getApp();
 		app.getKernel().getAlgebraProcessor().addCommandFilter(cf);
 		for (Commands cmd0 : Commands.values()) {
 			Commands cmd = cmd0;

@@ -6277,6 +6277,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void focusTextField(GeoInputBox inputBox) {
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
+			app.getAccessibilityManager().cancelReadCollectedAltTexts();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			if (inputBox.isSymbolicMode()) {
 				drawInputBox.attachMathField();

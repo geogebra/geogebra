@@ -742,8 +742,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(TestGeo.GEOIMAGE, tempArrayList),
 						false);
-				app.setMode(EuclidianConstants.MODE_SELECT_MOW,
-						ModeSetter.DOCK_PANEL);
+
+				if (app.isWhiteboardActive()) {
+					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
+							ModeSetter.DOCK_PANEL);
+				}
 				return;
 			}
 			if (newMode == EuclidianConstants.MODE_RULER

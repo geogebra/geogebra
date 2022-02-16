@@ -87,11 +87,9 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
                 EuclidianConstants.MODE_MIRROR_AT_POINT,
                 EuclidianConstants.MODE_DILATE_FROM_POINT);
 
-        if (!isPhoneApp) {
-            impl.extendCategory(ToolCategory.MEDIA,
-                    EuclidianConstants.MODE_IMAGE,
-                    EuclidianConstants.MODE_TEXT);
-        }
+        impl.extendCategory(ToolCategory.MEDIA,
+                EuclidianConstants.MODE_IMAGE,
+                EuclidianConstants.MODE_TEXT);
     }
 
     private void createAdvancedLevel(ToolCollectionImpl impl) {
@@ -143,9 +141,7 @@ public class GeometryToolCollectionFactory extends AbstractToolCollectionFactory
         impl.extendCategory(ToolCategory.TRANSFORM,
                 EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
 
-        if (!isPhoneApp) {
-            impl.extendCategory(ToolCategory.MEDIA);
-        }
+        impl.extendCategory(ToolCategory.MEDIA);
 
         List<Integer> others = new ArrayList<>(Arrays.asList(
                 EuclidianConstants.MODE_PEN,

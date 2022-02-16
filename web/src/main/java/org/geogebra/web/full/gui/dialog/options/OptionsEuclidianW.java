@@ -613,6 +613,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					return PropertiesResources.INSTANCE.elementary34Ruling();
 				case MUSIC:
 					return PropertiesResources.INSTANCE.musicRuling();
+				case ISOMETRIC:
+					return PropertiesResources.INSTANCE.isometricRuling();
+				case POLAR:
+					return PropertiesResources.INSTANCE.polarRuling();
 				default:
 					return AppResources.INSTANCE.empty();
 			}

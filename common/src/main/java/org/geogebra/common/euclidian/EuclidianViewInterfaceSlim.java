@@ -78,7 +78,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * convert screen coordinate x to real world coordinate x
-	 * 
+	 *
 	 * @param x
 	 *            screen coord
 	 * @return real world coord
@@ -87,7 +87,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * convert screen coordinate x to real world coordinate x
-	 * 
+	 *
 	 * @param y
 	 *            screen coord
 	 * @return real world coord
@@ -96,7 +96,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Update bounds from bound objects
-	 * 
+	 *
 	 * @param updateDrawables
 	 *            whether drawables need updating
 	 * @param updateSettings
@@ -107,7 +107,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Replaces old bound by new bound in all positions where it is used
-	 * 
+	 *
 	 * @param oldBound
 	 *            old bound object
 	 * @param newBound
@@ -171,7 +171,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Zooms w.r.t P with given zoom factor
-	 * 
+	 *
 	 * @param px
 	 *            x(P)
 	 * @param py
@@ -188,7 +188,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Returns point capturing mode.
-	 * 
+	 *
 	 * @return point capturing mode.
 	 */
 	public int getPointCapturingMode();
@@ -212,7 +212,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Set real world bounds of this view
-	 * 
+	 *
 	 * @param xmin
 	 *            x min
 	 * @param xmax
@@ -227,7 +227,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * center the view on point
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -267,4 +267,11 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 */
 	public void setSafeAreaInsets(EdgeInsets safeAreaInsets);
 
+	/**
+	 * Maximum value that can be used with the current Graphics system.
+	 * @return max value
+	 */
+	default double getMaxCanvasCoordinate() {
+		return Double.MAX_VALUE;
+	}
 }

@@ -139,9 +139,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				&& !optionsEuclidianW.view.isLockedAxesRatio());
 
 		imgLock = new Image(MaterialDesignResources.INSTANCE.lock_black()
-						.getSafeUri().asString(), 0, 0, 18, 18);
+						.getSafeUri().asString(), 0, 0, 24, 24);
 		imgUnlock = new Image(MaterialDesignResources.INSTANCE.lock_open_black()
-						.getSafeUri().asString(), 0, 0, 18, 18);
+						.getSafeUri().asString(), 0, 0, 24, 24);
 
 		tbLockRatio = new GToggleButton(imgLock);
 		tbLockRatio.setValue(optionsEuclidianW.view.isLockedAxesRatio());
@@ -592,7 +592,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.getTextBox().setEnabled(value);
 		tfAxesRatioY.getTextBox().setEnabled(value);
-		// tbLockRatio.getDownFace().setImage(value ? imgUnlock : imgLock);
 		if (tbLockRatio != null) {
 			tbLockRatio.getUpFace().setImage(value ? imgUnlock : imgLock);
 		}

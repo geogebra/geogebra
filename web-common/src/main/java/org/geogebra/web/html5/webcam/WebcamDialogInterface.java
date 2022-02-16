@@ -21,6 +21,5 @@ public interface WebcamDialogInterface {
 	void onCameraSuccess();
 	
 	/** Called if something is wrong with the camera */
-	void onCameraError();
-	
+	void onCameraError(String title, String msg);
 }
