@@ -16,7 +16,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class TeXSerializer extends SerializerAdapter {
 
 	public static final int placeholderColor = 0xDCDCDC;
-	public static final int commandPlaceholderColor = 0x616161;
+	public static final int commandPlaceholderColor = 0x9E9E9E;
 
 	public static final String PLACEHOLDER = "{\\bgcolor{#"
 			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}}";

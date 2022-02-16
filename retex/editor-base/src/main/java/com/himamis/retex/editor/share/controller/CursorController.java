@@ -8,6 +8,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 /**
@@ -42,6 +43,9 @@ public class CursorController {
 			return true;
 		} else {
 			editorState.incCurrentOffset();
+			if (component instanceof MathPlaceholder) {
+				nextCharacter(editorState);
+			}
 			return true;
 		}
 	}
