@@ -4,6 +4,7 @@ import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
 public class GraphicsFactoryAndroid extends GraphicsFactory {
@@ -29,4 +30,8 @@ public class GraphicsFactoryAndroid extends GraphicsFactory {
 		return new TransformA();
 	}
 
+	@Override
+	public Stroke createBasicStroke(double width, double[] dashes) {
+		return new BasicStrokeA(width, dashes);
+	}
 }
