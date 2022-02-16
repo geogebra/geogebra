@@ -838,8 +838,6 @@ public class InputController {
 				extendBrackets(parent, editorState);
 			} if (prev instanceof MathFunction) {
 				bkspLastFunctionArg((MathFunction) prev, editorState);
-			} else if (prev instanceof MathPlaceholder) {
-				CursorController.prevCharacter(editorState);
 			} else {
 				deleteSingleArg(editorState);
 			}
