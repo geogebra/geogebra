@@ -1086,11 +1086,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.parse(text);
 	}
 
-	@Override
-	public void setPlainText(String text) {
-		mathFieldInternal.setPlainText(text);
-	}
-
 	/**
 	 * @return text in GGB syntax
 	 */
