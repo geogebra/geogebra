@@ -1881,14 +1881,18 @@ public class GeoCasCell extends GeoElement
 			return false;
 		}
 
-		// allow GeoElement to get same label as CAS cell, so we temporarily
-		// remove the label
-		// but keep it in the underlying CAS
-		cons.removeCasCellLabel(assignmentVar);
-		// set Label of twinGeo
-		twinGeo.setLabel(assignmentVar);
-		// set back CAS cell label
-		cons.putCasCellLabel(this, assignmentVar);
+		if (assignmentVar == null || assignmentVar.equals(PLOT_VAR)) {
+			twinGeo.setLabel(null);
+		} else {
+			// allow GeoElement to get same label as CAS cell, so we temporarily
+			// remove the label
+			// but keep it in the underlying CAS
+			cons.removeCasCellLabel(assignmentVar);
+			// set Label of twinGeo
+			twinGeo.setLabel(assignmentVar);
+			// set back CAS cell label
+			cons.putCasCellLabel(this, assignmentVar);
+		}
 		if (cons.isFileLoading()) {
 			updateConstructionDependencies();
 		}
