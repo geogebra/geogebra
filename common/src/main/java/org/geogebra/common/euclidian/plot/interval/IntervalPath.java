@@ -116,7 +116,7 @@ public class IntervalPath {
 	}
 
 	private boolean shouldSkip(IntervalTuple tuple) {
-		return tuple.isEmpty() || tuple.y().isPositiveInfinity();
+		return tuple.isUndefined() || tuple.y().isPositiveInfinity();
 	}
 
 	private void line(Interval x, Interval y) {
