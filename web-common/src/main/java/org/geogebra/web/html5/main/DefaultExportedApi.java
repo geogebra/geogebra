@@ -820,6 +820,14 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setEditorState(stateString, label);
 	}
 
+	public String getInputBoxState(String label) {
+		return ggbAPI.getInputBoxState(label);
+	}
+
+	public void setInputBoxState(String state, String label) {
+		ggbAPI.setInputBoxState(state, label);
+	}
+
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,
 			Object zmax, Object xyScale, Object xzScale, Object xTickDistance,
 			Object yTickDistance, Object zTickDistance) {
