@@ -33,7 +33,7 @@ public class CoordsTest {
 		Coords origin = new Coords(1, 2, 3, 1);
 		Coords output = new Coords(4);
 		origin.projectPlaneThruV(CoordMatrix4x4.identity(),
-				new Coords(89.13, 14.19,17.21),
+				new Coords(89.13, 14.19, 17.21),
 				output);
 
 		assertEquals(0, output.getZ(), 1E-18);
