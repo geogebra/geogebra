@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.interval.IntervalTupleList;
 public class IntervalPlotModel {
 	private final IntervalTuple range;
 	private final IntervalFunctionSampler sampler;
+	private final IntervalSampleAnalizer analizer;
 	private IntervalTupleList points;
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
@@ -33,6 +34,7 @@ public class IntervalPlotModel {
 		this.range = range;
 		this.sampler = sampler;
 		this.bounds = bounds;
+		analizer = new IntervalSampleAnalizer();
 	}
 
 	public void setPath(IntervalPath path) {
@@ -63,10 +65,11 @@ public class IntervalPlotModel {
 	void updateSampler() {
 		sampler.update(range);
 		points = sampler.result();
+		updateAnalizer();
 	}
 
-	public boolean isEmpty() {
-		return points.isEmpty();
+	private void updateAnalizer() {
+		analizer.setTuples(points);
 	}
 
 	private void updatePath() {
@@ -87,6 +90,7 @@ public class IntervalPlotModel {
 		double max = bounds.domain().getHigh();
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
+			updateAnalizer();
 		} else if (oldMax < max) {
 			extendMax();
 		} else if (oldMin > min) {
@@ -103,6 +107,7 @@ public class IntervalPlotModel {
 				points.get(0).x().getLow());
 		points.prepend(newPoints);
 		points.cutFrom(bounds.getXmax());
+		updateAnalizer();
 	}
 
 	private void extendMax() {
@@ -115,6 +120,7 @@ public class IntervalPlotModel {
 				bounds.getXmax());
 		points.append(newPoints);
 		points.cutTo(bounds.getXmin());
+		updateAnalizer();
 	}
 
 	/**
@@ -123,6 +129,7 @@ public class IntervalPlotModel {
 	public void clear() {
 		points.clear();
 		path.reset();
+		updateAnalizer();
 	}
 
 	GPoint getLabelPoint() {
@@ -140,18 +147,10 @@ public class IntervalPlotModel {
 
 	/**
 	 * @param index of the point to check around
-	 * @return if the function is ascending from point to the left.
-	 */
-	public boolean isAscendingBefore(int index) {
-		return points.isAscendingBefore(index);
-	}
-
-	/**
-	 * @param index of the point to check around
 	 * @return if the function is ascending from point to the right.
 	 */
-	public boolean isAscendingAfter(int index) {
-		return points.isAscendingAfter(index);
+	public boolean isAscendingAt(int index) {
+		return !analizer.isDescendingFrom(index);
 	}
 
 	/**
@@ -160,20 +159,25 @@ public class IntervalPlotModel {
 	 * @return if the tuple of a given index is empty or not.
 	 */
 	public boolean isEmptyAt(int index) {
-		return index >= points.count()
+		return isValid(index)
 				|| pointAt(index).isEmpty();
 	}
 
-	public boolean isInvertedAt(int index) {
-		return index >= points.count() || pointAt(index).isInverted();
+	private boolean isValid(int index) {
+		return index >= points.count();
 	}
+
+	public boolean isInvertedAt(int index) {
+		return isValid(index) || pointAt(index).isInverted();
+	}
+
 
 	/**
 	 *
 	 * @return count of points in model
 	 */
 	public int getCount() {
-		return points.count();
+		return analizer.count();
 	}
 
 	/**
@@ -182,7 +186,7 @@ public class IntervalPlotModel {
 	 * @return if the tuple value of a given index is whole or not.
 	 */
 	public boolean isWholeAt(int index) {
-		return index >= points.count() || pointAt(index).y().isWhole();
+		return isValid(index) || pointAt(index).y().isWhole();
 	}
 
 	/**
@@ -190,7 +194,7 @@ public class IntervalPlotModel {
 	 * @return the number of interval tuples aka points.
 	 */
 	public int pointCount() {
-		return points.count();
+		return analizer.count();
 	}
 
 	public GeoFunction getGeoFunction() {
@@ -198,10 +202,14 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return pointCount() > 1 && !isAllWhole();
+		return analizer.hasValidData();
 	}
 
 	private boolean isAllWhole() {
-		return points.stream().filter(p -> p.y().isWhole()).count() == pointCount();
+		return analizer.isAllWhole();
+	}
+
+	public boolean isDivergentAt(int idx) {
+		return analizer.isDivergentAt(idx);
 	}
 }
