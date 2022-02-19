@@ -159,8 +159,8 @@ public class IntervalPlotModel {
 	 * @return if the tuple of a given index is empty or not.
 	 */
 	public boolean isEmptyAt(int index) {
-		return isValid(index)
-				|| pointAt(index).isEmpty();
+		return index >= points.count()
+				|| pointAt(index).isUndefined();
 	}
 
 	private boolean isValid(int index) {
@@ -202,14 +202,10 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return analizer.hasValidData();
+		return countDefined() > 1;
 	}
 
-	private boolean isAllWhole() {
-		return analizer.isAllWhole();
-	}
-
-	public boolean isDivergentAt(int idx) {
-		return analizer.isDivergentAt(idx);
+	private long countDefined() {
+		return points.stream().filter(t -> !t.y().isUndefined()).count();
 	}
 }

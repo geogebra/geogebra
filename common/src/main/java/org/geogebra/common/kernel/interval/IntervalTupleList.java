@@ -148,7 +148,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @return if the y values are ascending before index.
 	 */
 	public boolean isAscendingBefore(int index) {
-		if (index < 2 || get(index - 1).isEmpty()) {
+		if (index < 2 || get(index - 1).isUndefined()) {
 			return false;
 		}
 
@@ -163,7 +163,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @return if the y values are ascending after index.
 	 */
 	public boolean isAscendingAfter(int index) {
-		if (index >= list.size() - 2 || list.get(index + 1).isEmpty()) {
+		if (index >= list.size() - 2 || list.get(index + 1).isUndefined()) {
 			return false;
 		}
 		Interval y1 = get(index + 1).y();

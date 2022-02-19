@@ -9,20 +9,22 @@ public class InverseSamplerTest extends SamplerTest {
 
 	@Test
 	public void zeroXInverseShouldBeInfiniteOnly() {
-		IntervalTupleList samples = functionValues("1/(0x)", -4, 4, -5, -5);
-		for (IntervalTuple tuple: samples) {
-			Interval y = tuple.y();
-			assertTrue(tuple.y() + " is not +/- infinite singleton",  y.isInfiniteSingleton());
-		}
+		assertAll("1/(0x)", IntervalTuple::isUndefined);
+	}
+
+	private void assertAll(String description, Predicate<? super IntervalTuple> predicate) {
+		IntervalTupleList samples = functionValues(description, -4, 4, -5, -5);
+		assertEquals(samples.count(), samples.stream().filter(predicate).count());
 	}
 
 	@Test
 	public void inverseOfzeroXInverse() {
-		IntervalTupleList samples = functionValues("1/(1/(0x))", -4, 4, -5, -5);
-		for (IntervalTuple tuple: samples) {
-			Interval y = tuple.y();
-			assertTrue(tuple.y() + " is not [0]",  y.isZero());
-		}
+		assertAll("1/(1/(0x))", IntervalTuple::isUndefined);
+	}
+
+	@Test
+	public void zeroDividedByTanSecXShouldBeZero() {
+		assertAll("0/(tan(sec(x)))", t -> t.y().isZero());
 	}
 
 	@Test
