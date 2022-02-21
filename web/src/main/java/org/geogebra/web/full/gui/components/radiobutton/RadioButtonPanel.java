@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.components.radiobutton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
@@ -8,14 +9,14 @@ import org.geogebra.common.main.Localization;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class RadioButtonPanel extends FlowPanel implements SetLabels {
-	private ArrayList<ComponentRadioButton> radioButtonList = new ArrayList<>();
+	private List<ComponentRadioButton> radioButtonList = new ArrayList<>();
 
 	/**
 	 * constructor for panel holding multiple radio buttons
 	 * @param loc - localization
 	 * @param data - radio button list data
 	 */
-	public RadioButtonPanel(Localization loc, ArrayList<RadioButtonData> data) {
+	public RadioButtonPanel(Localization loc, List<RadioButtonData> data) {
 		addStyleName("radioButtonPanel");
 		for (RadioButtonData buttonData : data) {
 			ComponentRadioButton radioBtn = new ComponentRadioButton(loc, buttonData,

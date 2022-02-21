@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D.web.gui.dialog.options;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GColor;
@@ -164,18 +163,25 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			boxSizeTitle.setStyleName("panelTitle");
 			boxSizePanel = new FlowPanel();
 
-			RadioButtonData clippingSmall = new RadioButtonData("BoxSize.small", false,
-					() -> setClippingAndRepaint(GeoClippingCube3D.REDUCTION_SMALL));
-			RadioButtonData clippingMedium = new RadioButtonData("BoxSize.medium", true,
-					() -> setClippingAndRepaint(GeoClippingCube3D.REDUCTION_MEDIUM));
-			RadioButtonData clippingLarge = new RadioButtonData("BoxSize.large", false,
-					() -> setClippingAndRepaint(GeoClippingCube3D.REDUCTION_LARGE));
 			clippingRadioBtnPanel = new RadioButtonPanel(loc,
-					new ArrayList<>(Arrays.asList(clippingSmall, clippingMedium, clippingLarge)));
+					Arrays.asList(
+							newClippingButtonData("BoxSize.small", false,
+									GeoClippingCube3D.REDUCTION_SMALL),
+							newClippingButtonData("BoxSize.medium", true,
+									GeoClippingCube3D.REDUCTION_MEDIUM),
+							newClippingButtonData("BoxSize.large", false,
+									GeoClippingCube3D.REDUCTION_LARGE)));
+
 			boxSizePanel.add(clippingRadioBtnPanel);
 
 			add(boxSizeTitle);
 			indent(boxSizePanel);
+		}
+
+		private RadioButtonData newClippingButtonData(String label, boolean selected,
+				int value) {
+			return new RadioButtonData(label, selected,
+					() -> setClippingAndRepaint(value));
 		}
 
 		private void setClippingAndRepaint(int clippingType) {
