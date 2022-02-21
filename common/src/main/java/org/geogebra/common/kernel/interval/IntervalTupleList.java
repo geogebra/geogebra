@@ -185,15 +185,4 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		list = list.stream().filter(tuple -> tuple.x().getLow() >= low)
 				.collect(Collectors.toList());
 	}
-
-
-	public boolean isDivergentAt(int index) {
-		return isValid(index + 1)
-				&& (Math.abs(valueAt(index - 1).getLow()
-				- valueAt(index + 1).getLow()) > 12);
-	}
-
-	private boolean isValid(int index) {
-		return index < list.size();
-	}
 }

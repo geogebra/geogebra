@@ -74,33 +74,16 @@ public class PathCorrector {
 		double high = y.getHigh();
 
 		if (Double.isFinite(low)) {
+
 			if (Double.isFinite(high)) {
-				if (model.isDivergentAt(idx)) {
-					drawFromNegativeInfinity(idx, low);
-					drawFromPositiveInfinity(idx, high);
-				} else {
-					drawFromOneDirection(idx);
-				}
+				drawFromNegativeInfinity(idx, low);
+				drawFromPositiveInfinity(idx, high);
 			} else {
 				drawFromNegativeInfinityOnly(idx, low);
 			}
 		} else {
 			drawFromPositiveInfinityOnly(idx, high);
 		}
-	}
-
-	private void drawFromOneDirection(int idx) {
-		IntervalTuple left = model.pointAt(idx - 1);
-		IntervalTuple right = model.pointAt(idx + 1);
-		Interval sLeftX = bounds.toScreenIntervalX(left.x());
-		Interval sLeftY = bounds.toScreenIntervalY(left.y());
-		Interval sRightX = bounds.toScreenIntervalX(right.x());
-		Interval sRightY = bounds.toScreenIntervalY(right.y());
-		double y = model.isAscendingAt(idx + 1) ? bounds.getHeight() : 0;
-		gp.moveTo(sLeftX.getLow(), sLeftY.getHigh());
-		gp.lineTo(sLeftX.getHigh(), y);
-		gp.moveTo(sRightX.getHigh(), sRightY.getHigh());
-		gp.lineTo(sRightX.getLow(), y);
 	}
 
 	private boolean isInvertedAround(int idx) {
@@ -113,7 +96,7 @@ public class PathCorrector {
 
 	private void drawFromNegativeInfinity(int idx, double value) {
 		if (value < bounds.getYmax()) {
-			boolean ascendingAfter = model.isAscendingAt(idx);
+			boolean ascendingAfter = model.isAscendingAfter(idx);
 			double sValue = bounds.toScreenCoordYd(value);
 			if (ascendingAfter) {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx + 1).x());
@@ -130,7 +113,7 @@ public class PathCorrector {
 
 	private void drawFromPositiveInfinity(int idx, double value) {
 		if (value > bounds.getYmin()) {
-			boolean ascendingAfter = model.isAscendingAt(idx);
+			boolean ascendingAfter = model.isAscendingAfter(idx);
 			double sValue = bounds.toScreenCoordYd(value);
 			if (ascendingAfter) {
 				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx).x());
@@ -190,7 +173,7 @@ public class PathCorrector {
 		}
 
 		Interval nextY = bounds.toScreenIntervalY(model.pointAt(index + 1).y());
-		if (model.isAscendingAt(index)) {
+		if (model.isAscendingAfter(index)) {
 			completeToNegativeInfinity(x, nextY);
 		} else {
 			completeToPositiveInfinity(x, nextY);
