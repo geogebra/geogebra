@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -13,22 +15,32 @@ import com.google.gwt.user.client.ui.SimplePanel;
 /**
  * material design checkbox component
  */
-public class ComponentCheckbox extends FlowPanel {
+public class ComponentCheckbox extends FlowPanel implements SetLabels {
+    private Localization loc;
     private boolean selected;
     private FlowPanel checkbox;
+    private Label checkboxLbl;
+    private String checkboxTxt;
 
     /**
-     *
-     * @param setSelected true if the checkmark is shown
+     * @param loc - localization
+     * @param setSelected - true if checkbox should be selected
+     * @param templateTxt - text of checkbox
+     * @param callback - on click action
      */
-    public ComponentCheckbox(boolean setSelected, Label templateTxt, Runnable callback) {
+    public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt,
+            Runnable callback) {
+        this.loc = loc;
         this.selected = setSelected;
+        this.checkboxTxt = templateTxt;
+
         this.addStyleName("checkboxPanel");
         checkbox = new FlowPanel();
         checkbox.addStyleName("checkbox");
         if (selected) {
             checkbox.addStyleName("selected");
         }
+
         SimplePanel background = new SimplePanel();
         background.addStyleName("background");
         NoDragImage checkMark = new NoDragImage(MaterialDesignResources.INSTANCE.check_white(),
@@ -36,9 +48,11 @@ public class ComponentCheckbox extends FlowPanel {
         checkMark.addStyleName("checkmark");
         checkbox.add(background);
         checkbox.add(checkMark);
-        templateTxt.setStyleName("templateTxt");
-        this.add(checkbox);
-        this.add(templateTxt);
+
+        checkboxLbl = new Label();
+        checkboxLbl.setStyleName("checkboxLbl");
+        add(checkbox);
+        add(checkboxLbl);
         ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
             @Override
@@ -49,6 +63,17 @@ public class ComponentCheckbox extends FlowPanel {
                 }
             }
         });
+
+        setLabels();
+    }
+
+    /**
+     * @param loc - localization
+     * @param setSelected - true if checkbox should be selected
+     * @param templateTxt - text of checkbox
+     */
+    public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt) {
+        this(loc, setSelected, templateTxt, null);
     }
 
     /**
@@ -74,4 +99,8 @@ public class ComponentCheckbox extends FlowPanel {
         Dom.toggleClass(checkbox, "selected", isSelected());
     }
 
+    @Override
+    public void setLabels() {
+        checkboxLbl.setText(loc.getMenu(checkboxTxt));
+    }
 }

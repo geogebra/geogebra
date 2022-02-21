@@ -161,7 +161,7 @@ public class IntervalPlotModel {
 	 */
 	public boolean isEmptyAt(int index) {
 		return index >= points.count()
-				|| pointAt(index).isEmpty();
+				|| pointAt(index).isUndefined();
 	}
 
 	public boolean isInvertedAt(int index) {
@@ -198,10 +198,10 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return pointCount() > 1 && !isAllWhole();
+		return countDefined() > 1;
 	}
 
-	private boolean isAllWhole() {
-		return points.stream().filter(p -> p.y().isWhole()).count() == pointCount();
+	private long countDefined() {
+		return points.stream().filter(t -> !t.y().isUndefined()).count();
 	}
 }

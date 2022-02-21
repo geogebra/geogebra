@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -122,6 +123,31 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
 		return textForEditor.replace(Unicode.IMAGINARY, 'i');
 	}
+
+	/**
+	 * @return editor state on edit, inputbox flat string otherwise
+	 */
+	public String getInputBoxState() {
+		if (app.getActiveEuclidianView().getSymbolicEditor() != null) {
+			SymbolicEditor editor = app.getActiveEuclidianView().getSymbolicEditor();
+			if (editor.getGeoInputBox() == this) {
+				return editor.getEditorState();
+			}
+		}
+		return getTextForEditor();
+	}
+
+	/**
+	 * set inputbox state
+	 * @param input flat string
+	 */
+	public void setInputBoxState(String input) {
+		SymbolicEditor editor = app.getActiveEuclidianView().initSymbolicEditor();
+		if (editor != null) {
+			String latex = editor.getLatexInput(input);
+			updateLinkedGeo(input, latex);
+		}
+ 	}
 
 	private String getTextForEditor(StringTemplate tpl) {
 		if (tempUserEvalInput != null) {

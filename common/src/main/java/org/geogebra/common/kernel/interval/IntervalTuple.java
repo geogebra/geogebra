@@ -59,7 +59,7 @@ public class IntervalTuple {
 	 *
 	 * @return if tuple is an empty one
 	 */
-	public boolean isEmpty() {
+	public boolean isUndefined() {
 		return y.isUndefined();
 	}
 

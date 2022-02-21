@@ -36,4 +36,10 @@ public interface PropertiesResources extends ClientBundle {
 
 	@Source("org/geogebra/web/full/gui/images/ruling/lined.png")
 	ImageResource linedRuling();
+
+	@Source("org/geogebra/web/full/gui/images/ruling/polar.png")
+	ImageResource polarRuling();
+
+	@Source("org/geogebra/web/full/gui/images/ruling/isometric.png")
+	ImageResource isometricRuling();
 }

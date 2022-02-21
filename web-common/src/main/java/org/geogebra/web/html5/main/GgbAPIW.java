@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -1083,6 +1084,31 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public String getEditorState() {
 		return editor == null ? "" : editor.getState();
+	}
+
+	/**
+	 * @param label - inputbox label
+	 * @return content of the inputbox
+	 */
+	public String getInputBoxState(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			return ((GeoInputBox) geo).getInputBoxState();
+		}
+		return getEditorState();
+	}
+
+	/**
+	 * @param state - content of inputbox
+	 * @param label - label of inputbox
+	 */
+	public void setInputBoxState(String state, String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			((GeoInputBox) geo).setInputBoxState(state);
+		}
 	}
 
 	/**
