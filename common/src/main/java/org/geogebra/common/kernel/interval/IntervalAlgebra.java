@@ -62,7 +62,7 @@ public class IntervalAlgebra {
 		if (power == 0) {
 			return powerOfZero(interval);
 		} else if (power < 0) {
-			interval.set(pow(divide(one(), interval), -power));
+			interval.set(divide(one(), pow(interval, -power)));
 			return interval;
 		}
 

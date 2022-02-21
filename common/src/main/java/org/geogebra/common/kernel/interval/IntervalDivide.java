@@ -143,7 +143,7 @@ public class IntervalDivide {
 		return new Interval(prev(a1 / b2), Double.POSITIVE_INFINITY);
 	}
 
-	private boolean hasZeroInBetween(final Interval interval) {
+	public static boolean hasZeroInBetween(final Interval interval) {
 		return interval.containsExclusive(0);
 	}
 
