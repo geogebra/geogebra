@@ -1,17 +1,24 @@
 package org.geogebra.common.euclidian.plot.interval;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to correct interval path at limits
  */
 public class PathCorrector {
+	public static final String PREFIX = "[PathCorrection] ";
 	private final IntervalPathPlotter gp;
 	private final IntervalPlotModel model;
 	private final EuclidianViewBounds bounds;
 	private Interval lastY = new Interval();
+	private Set<String> messages = new HashSet<>();
 
 	/**
 	 * Constructor.
@@ -70,20 +77,30 @@ public class PathCorrector {
 	 */
 	public void drawInvertedInterval(int idx) {
 		Interval y = model.pointAt(idx).y();
-		double low = y.getLow();
-		double high = y.getHigh();
-
-		if (Double.isFinite(low)) {
-
-			if (Double.isFinite(high)) {
-				drawFromNegativeInfinity(idx, low);
-				drawFromPositiveInfinity(idx, high);
-			} else {
-				drawFromNegativeInfinityOnly(idx, low);
-			}
-		} else {
-			drawFromPositiveInfinityOnly(idx, high);
+		if (y.isFinite()) {
+			completeInBothDirection(idx, y);
 		}
+	}
+
+	/**
+	 * tan(x), sec(sec(x))
+ 	 */
+	private void completeInBothDirection(int idx, Interval y) {
+		drawFromNegativeInfinity(idx, y.getLow());
+		drawFromPositiveInfinity(idx, y.getHigh());
+		log("completeInBothDirection");
+	}
+
+	private void log(String message) {
+		String fullMessage = PREFIX + message + " " + model.getGeoFunction().toValueString(
+				StringTemplate.algebraTemplate
+		);
+		if (messages.contains(fullMessage)) {
+			return;
+		}
+		messages.add(fullMessage);
+		Log.debug(fullMessage);
+
 	}
 
 	private boolean isInvertedAround(int idx) {
@@ -195,5 +212,4 @@ public class PathCorrector {
 		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
-
 }
