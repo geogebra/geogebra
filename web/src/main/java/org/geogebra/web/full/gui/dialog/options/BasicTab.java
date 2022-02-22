@@ -219,7 +219,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				this::onShowAxes);
 
 		// show bold checkbox
-		cbBoldAxes = new ComponentCheckbox(optionsEuclidianW.loc, false,"Bold",
+		cbBoldAxes = new ComponentCheckbox(optionsEuclidianW.loc, false, "Bold",
 				this::onBoldAxes);
 
 		// axes color

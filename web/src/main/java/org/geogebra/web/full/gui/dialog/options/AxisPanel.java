@@ -64,14 +64,17 @@ public class AxisPanel extends FlowPanel
 		// show axis
 		cbShowAxis = new ComponentCheckbox(loc, true, "Show" + strAxisEn,
 				() -> model.showAxis(cbShowAxis.isSelected()));
+		cbShowAxis.addStyleName("block");
 
 		// show numbers
 		cbAxisNumber = new ComponentCheckbox(loc, true, "ShowAxisNumbers",
 				() -> model.showAxisNumbers(cbAxisNumber.isSelected()));
+		cbAxisNumber.addStyleName("block");
 
 		// show positive axis only
 		cbPositiveAxis = new ComponentCheckbox(loc, false, "PositiveDirectionOnly",
 				() -> model.applyPositiveAxis(cbPositiveAxis.isSelected()));
+		cbPositiveAxis.addStyleName("block");
 
 		// allow axis selection
 		cbAllowSelection = new ComponentCheckbox(loc, false, "SelectionAllowed",

@@ -594,5 +594,18 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		&.disabled {
 			opacity: 0.42;
 		}
+
+		&.block {
+			display: block;
+
+			.checkbox {
+				display: inline-block;
+			}
+
+			.checkboxLbl {
+                display: inline-block;
+                vertical-align: top;
+            }
+		}
 	}
 }

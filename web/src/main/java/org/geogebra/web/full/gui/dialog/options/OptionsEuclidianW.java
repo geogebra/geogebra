@@ -424,7 +424,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 			// bold
 			cbBoldGrid = new ComponentCheckbox(app.getLocalization(), false, "Bold",
-					()-> {
+					() -> {
 						if (gridOptions) {
 							model.applyBoldGrid(cbBoldGrid.isSelected());
 						} else {
