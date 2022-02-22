@@ -15,7 +15,7 @@ describe('CAS tests', () => {
 				.replace(/c_\{[0-9]+\}/g, "c_0")
 				.replace(/k_\{[0-9]+\}/g, "k_0")
 				.replace(/ /g,"")
-				.replace(/ggbvect\(((\([^()]*\)|[^()])*)\)/g, "$1"); // only needed for 4D vectors
+				.replace(/ggbvect\(((\((\([^()]*\)|[^()])*\)|[^()])*)\)/g, "$1"); // only needed for 4D vectors
 	}
 
 	const normalizeExpected = (str) => {
@@ -23,7 +23,7 @@ describe('CAS tests', () => {
 				.replace(/n_[0-9]+/g, "k_0")
 				.replace(/ /g, "")
 				.replace(/GEOGEBRAERROR/, "")
-				.replace(/ggbvect\(((\([^()]*\)|[^()])*)\)/g, "$1");
+				.replace(/ggbvect\(((\((\([^()]*\)|[^()])*\)|[^()])*)\)/g, "$1");
 	}
 
 	beforeEach(() => {
