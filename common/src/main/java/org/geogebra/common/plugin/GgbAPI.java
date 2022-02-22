@@ -2,7 +2,6 @@ package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.TreeSet;
 import java.util.function.Consumer;
@@ -28,8 +27,8 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -156,52 +155,45 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return output from CAS
 	 */
 	@Override
-	public synchronized String evalCommandCAS(String cmdString) {
+	public synchronized String evalCommandCAS(String cmdString, String rounding) {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return "?";
 		}
 		GeoCasCell assignment = algebraprocessor.checkCasEval(cmdString,
 				"(:=?)|" + Unicode.ASSIGN_STRING);
 		if (assignment != null) {
-			return getCasCellValue(assignment);
+			return getCasCellValue(assignment, rounding);
 		}
 		// default (undefined)
 		String ret = "?";
 
 		try {
 			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-			// kernel.getConstruction().addToConstructionList(f, false);
-
 			f.setInput(cmdString);
 			f.computeOutput();
-
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<>();
-
-			f.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			ret = getCasCellValue(f);
+			ret = getCasCellValue(f, rounding);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.error(e);
 		}
 
 		return ret;
 	}
 
-	private String getCasCellValue(GeoCasCell f) {
-		return f.getValue() != null
-				? f.getValue().toString(StringTemplate.numericDefault)
-				: f.getOutput(StringTemplate.testTemplate);
+	private String getCasCellValue(GeoCasCell f, String rounding) {
+		StringTemplate valueTemplate = StringTemplate.numericDefault;
+		if (!StringUtil.empty(rounding)) {
+			valueTemplate = StringTemplate.printDecimals(
+					ExpressionNodeConstants.StringType.GEOGEBRA,
+					Integer.parseInt(rounding), f.includesNumericCommand());
+		}
+		ValidExpression value = f.getValue();
+		if (value == null) {
+			return f.getOutput(valueTemplate);
+		} else if (value.unwrap().isGeoElement()) {
+			return value.unwrap().toValueString(valueTemplate);
+		} else {
+			return value.toString(valueTemplate);
+		}
 	}
 
 	/**
@@ -233,43 +225,23 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		StringBuilder ret = new StringBuilder();
 
-		if (cmdString.indexOf('\n') == -1) {
-			result = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(cmdString, false);
-			// return success
-			if (result == null) {
-				kernel.setUseInternalCommandNames(oldVal);
-				return null;
-			}
+		String[] cmdStrings = cmdString.indexOf('\n') > -1
+				? cmdString.split("[\\n]+") :  new String[]{cmdString};
+		try {
+			for (String string : cmdStrings) {
+				result = kernel.getAlgebraProcessor()
+						.processAlgebraCommand(string, false);
 
-			for (GeoElementND geoElementND : result) {
-				ret.append(geoElementND.getLabelSimple());
-				ret.append(",");
-			}
-
-			if (ret.length() > 0) {
-				// remove last comma
-				ret.setLength(ret.length() - 1);
-			}
-
-			kernel.setUseInternalCommandNames(oldVal);
-			return ret.toString();
-		}
-
-		String[] cmdStrings = cmdString.split("[\\n]+");
-		for (String string : cmdStrings) {
-			result = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(string, false);
-
-			if (result != null) {
-				for (GeoElementND geoElementND : result) {
-					ret.append(geoElementND.getLabelSimple());
-					ret.append(",");
+				if (result != null) {
+					for (GeoElementND geoElementND : result) {
+						ret.append(geoElementND.getLabelSimple());
+						ret.append(",");
+					}
 				}
 			}
+		} finally {
+			kernel.setUseInternalCommandNames(oldVal);
 		}
-
-		kernel.setUseInternalCommandNames(oldVal);
 
 		if (ret.length() == 0) {
 			return null;

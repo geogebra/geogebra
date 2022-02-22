@@ -128,8 +128,9 @@ public class DefaultExportedApi implements ExportedApi {
 		});
 	}
 
-	public String evalCommandCAS(String cmdString) {
-		return ggbAPI.evalCommandCAS(cmdString + "");
+	public String evalCommandCAS(String cmdString, String rounding) {
+		return ggbAPI.evalCommandCAS(cmdString + "",
+				Js.isTruthy(rounding) ? rounding : null);
 	}
 
 	public String evalGeoGebraCAS(String cmdString) {
