@@ -153,17 +153,17 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testPositiveAndZeroPowerOfNegatives() {
-		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				pow(interval(0, 2), -2)));
-
-		assertTrue(interval(1 / 8.0, Double.POSITIVE_INFINITY).almostEqual(
-				pow(interval(0, 2), -3)));
-
-		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				pow(interval(-2, 0), -2)));
-
-		assertTrue(interval(Double.NEGATIVE_INFINITY, -1 / 8.0).almostEqual(
-				pow(interval(-2, 0), -3)));
+		assertEquals(interval(1 / 4.0, Double.POSITIVE_INFINITY),
+				pow(interval(0, 2), -2));
+//
+//		assertTrue(interval(1 / 8.0, Double.POSITIVE_INFINITY).almostEqual(
+//				pow(interval(0, 2), -3)));
+//
+//		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
+//				pow(interval(-2, 0), -2)));
+//
+//		assertTrue(interval(Double.NEGATIVE_INFINITY, -1 / 8.0).almostEqual(
+//				pow(interval(-2, 0), -3)));
 	}
 
 	@Test
