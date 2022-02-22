@@ -182,7 +182,8 @@ public class Opentype implements FontLoaderWrapper {
 		// force different version from CDN
 		// change if the fonts are updated
 		path = path + "?v=3";
-		HTMLScriptElement script = new HTMLScriptElement();
+		HTMLScriptElement script = (HTMLScriptElement) DomGlobal.document
+				.createElement("script");
 		script.onload = ignore -> parseFont(familyName);
 		script.onerror = ex -> {
 			fireFontInactiveEvent(ex, familyName);
