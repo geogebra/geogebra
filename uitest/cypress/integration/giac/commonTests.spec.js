@@ -3,8 +3,7 @@ import giac from '../../../../common/src/main/resources/giac/giacTests.js';
 describe('CAS tests', () => {
 	const categories = {};
 	for (const testcase of giac) {
-		//if (testcase.cat != "SolveLambertIneq") {
-		if (testcase.cat == "Evaluate") {
+		if (testcase.cat != "SolveLambertIneq") {
 			categories[testcase.cat] = categories[testcase.cat] || [];
 			categories[testcase.cat].push(testcase);
 		}
