@@ -34,7 +34,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
         this.selected = setSelected;
         this.checkboxTxt = templateTxt;
 
-        this.addStyleName("checkboxPanel");
+        addStyleName("checkboxPanel");
         checkbox = new FlowPanel();
         checkbox.addStyleName("checkbox");
         if (selected) {
@@ -102,5 +102,9 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
     @Override
     public void setLabels() {
         checkboxLbl.setText(loc.getMenu(checkboxTxt));
+    }
+
+    public void setEnabled(boolean enabled) {
+        Dom.toggleClass(this, "disabled", !enabled);
     }
 }
