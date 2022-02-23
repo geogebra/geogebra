@@ -17,7 +17,7 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	 * @param app app
 	 */
 	public SymbolicEditorCommon(MathFieldCommon mf, App app) {
-		super(app,	app.getActiveEuclidianView());
+		super(app, app.getActiveEuclidianView());
 		this.mf = mf;
 	}
 
