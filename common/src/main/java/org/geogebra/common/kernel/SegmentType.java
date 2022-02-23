@@ -21,5 +21,4 @@ public enum SegmentType {
 	CONTROL,
 	/** aux point for arc_to */
 	AUXILIARY
-
 }

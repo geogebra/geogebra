@@ -1701,16 +1701,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// lhs of implicit equation without constant coeff
 	final private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean CANCEL_DOWN,
+			String[] vars, boolean cancelDown,
 			boolean needsZ, StringTemplate tpl) {
 		return buildImplicitVarPart(sbBuildImplicitVarPart, numbers, vars,
-				CANCEL_DOWN, needsZ, false, tpl);
+				cancelDown, needsZ, false, tpl);
 	}
 
 	// lhs of implicit equation without constant coeff
 	final private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean CANCEL_DOWN,
+			String[] vars, boolean cancelDown,
 			boolean needsZ, boolean setConstantIfNoLeading,
 			StringTemplate tpl) {
 		int leadingNonZero = -1;
@@ -1723,7 +1723,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 
-		if (CANCEL_DOWN) {
+		if (cancelDown) {
 			// check if integers and divide through gcd
 			boolean allIntegers = true;
 			for (int i = 0; i < numbers.length; i++) {

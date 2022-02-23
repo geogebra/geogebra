@@ -193,9 +193,9 @@ public class GeoConicPart extends GeoConic
 			return false;
 		}
 
-		GeoConicPart other = (GeoConicPart) geo;
+		GeoConicPartND other = (GeoConicPartND) geo;
 
-		return parameters.isEqual(other.parameters) && super.isEqual(other);
+		return parameters.isEqual(other.getParameters()) && super.isEqual(geo);
 	}
 
 	/**

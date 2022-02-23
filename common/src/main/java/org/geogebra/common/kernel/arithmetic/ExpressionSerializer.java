@@ -1711,8 +1711,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			break;
 
 		case VEC_FUNCTION:
-			// GeoCurveCartesian should not be expanded
-			if (left.isGeoElement() && ((GeoElement) left).isGeoCurveCartesian()) {
+			// GeoCurveCartesian and GeoSurfaceCartesian should not be expanded
+			if (left.isGeoElement() && (((GeoElement) left).isGeoCurveCartesian()
+					|| ((GeoElement) left).isGeoSurfaceCartesian())) {
 				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
 				sb.append(leftStr);

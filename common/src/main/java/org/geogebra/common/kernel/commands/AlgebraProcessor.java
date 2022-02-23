@@ -874,9 +874,6 @@ public class AlgebraProcessor {
 			rett = parseMathml(cmd, storeUndo, handler,
 					info.isAutocreateSliders(),
 					callback0);
-			if (rett != null && callback0 != null) {
-				callback0.callback(rett);
-			}
 			return rett;
 		}
 		try {
