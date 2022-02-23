@@ -53,7 +53,7 @@ public class CASSubstituteDialogW extends ComponentDialog {
 
 		InputPanelW subst = new InputPanelW(data.get(idx).get(0), app, 1, -1, false);
 		subst.addTextComponentKeyUpHandler(event -> {
-			int substIdx = substFields.indexOf(subst);;
+			int substIdx = substFields.indexOf(subst);
 			if (substIdx > -1) {
 				data.get(substIdx).set(0, subst.getText());
 			}
