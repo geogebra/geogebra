@@ -39,6 +39,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.DrawDynamicCaption;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -124,7 +125,7 @@ public abstract class Drawable extends DrawableND {
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
 	private DrawDynamicCaption drawDynamicCaption;
-	private int labelMargin = 3;
+	private int labelMargin = DrawText.DEFAULT_MARGIN;
 
 	/**
 	 * Create a default drawable. GeoElement and the view must be set
