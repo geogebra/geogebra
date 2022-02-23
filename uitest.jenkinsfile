@@ -8,12 +8,6 @@ pipeline {
         cron('H 10,19 * * 1-5') 
     }
     stages {
-        stage('Native check') {
-            steps {
-               sh "grep -rn '/\\*-{' */src */*/src | sed 's/\\([0-9]:\\)/\\1 warning:/' "
-               recordIssues tool:java()
-            }
-        }
         stage('Get Web JS'){
             steps {
                 dir('uitest') {

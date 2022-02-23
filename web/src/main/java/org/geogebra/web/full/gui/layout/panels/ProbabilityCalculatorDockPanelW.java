@@ -27,7 +27,7 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	 */
 	public ProbabilityCalculatorDockPanelW(AppW app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR,
-				"0", // toolbar string - move tool only, force!
+				app.isSuite() ? null : "0", // toolbar string - move tool only, force!
 				true);
 
 		this.app = app;

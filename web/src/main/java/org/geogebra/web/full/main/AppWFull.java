@@ -2048,7 +2048,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,
-						getSettings().getCasSettings().isEnabled());
+						!getSettings().getCasSettings().isEnabled());
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
 				setSuiteHeaderButton(subApp);
@@ -2297,7 +2297,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getDialogManager().hideCalcChooser();
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
-		activity = new SuiteActivity(subAppCode, getSettings().getCasSettings().isEnabled());
+		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
 		activity.start(this);
 
 		resetToolbarPanel();

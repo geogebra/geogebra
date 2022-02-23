@@ -9,13 +9,13 @@ import android.graphics.RectF;
 
 public class ScaleStack {
 
-	private List<Float> mScaleStackX;
-	private List<Float> mScaleStackY;
+	private final List<Float> mScaleStackX;
+	private final List<Float> mScaleStackY;
 
 	public ScaleStack() {
-		mScaleStackX = new ArrayList<Float>();
+		mScaleStackX = new ArrayList<>();
 		mScaleStackX.add(1.0f);
-		mScaleStackY = new ArrayList<Float>();
+		mScaleStackY = new ArrayList<>();
 		mScaleStackY.add(1.0f);
 	}
 
@@ -61,7 +61,15 @@ public class ScaleStack {
 	}
 
 	public float scaleFontSize(float size) {
-		return Math.min(getScaleX(), getScaleY()) * size;
+		return scaleBySmallerScale(size);
+	}
+
+	public float scaleThickness(float thickness) {
+		return scaleBySmallerScale(thickness);
+	}
+
+	private float scaleBySmallerScale(float value) {
+		return Math.min(getScaleX(), getScaleY()) * value;
 	}
 
 	public RectF scaleRectF(RectF rect) {
@@ -70,12 +78,6 @@ public class ScaleStack {
 		rect.left *= getScaleX();
 		rect.right *= getScaleX();
 		return rect;
-	}
-
-	public PointF scalePointF(PointF point) {
-		point.x *= getScaleX();
-		point.y *= getScaleY();
-		return point;
 	}
 
 	public Bitmap scaleBitmap(Bitmap bitmap) {

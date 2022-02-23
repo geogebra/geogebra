@@ -69,7 +69,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	/** graphics */
 	private GGraphics2DWI g2p = null;
 
-	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+	private final AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	private long lastRepaint;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private int objectsWaitingForNewRepaint = 0;
@@ -78,7 +78,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private ReaderWidget screenReader;
 
-	private AppW appW = (AppW) super.app;
+	private final AppW appW = (AppW) super.app;
 
 	/**
 	 * constructor
@@ -578,7 +578,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void setAltText() {
+	public void setAltText(GeoText altText) {
 		String altStr = appW.getLocalization().getMenu("GraphicsView3D");
 		GeoElement alt = app.getKernel().lookupLabel("altText3D1");
 		if (alt == null) {

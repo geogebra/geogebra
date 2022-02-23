@@ -22,16 +22,12 @@ public class IntervalDivideTest {
 	@Test
 	public void hasZeroByHasZeroShouldBeWhole() {
 		// Table 1 Case 1.
-		assertEquals(whole(), divide(interval(0), interval(0)));
 		assertEquals(whole(), divide(interval(0), interval(-1, 0)));
 		assertEquals(whole(), divide(interval(0), interval(-1, 1)));
-		assertEquals(whole(), divide(interval(-2, 0), interval(0)));
 		assertEquals(whole(), div(-2, 0, -1, 0));
 		assertEquals(whole(), div(-2, 0, -1, 1));
-		assertEquals(whole(), divide(interval(0, 2), interval(0)));
 		assertEquals(whole(), div(0, 2, -1, 0));
 		assertEquals(whole(), div(0, 2, -1, 1));
-		assertEquals(whole(), divide(interval(-2, 2), interval(0)));
 		assertEquals(whole(), div(-2, 2, -1, 0));
 		assertEquals(whole(), div(-2, 2, -1, 1));
 	}
@@ -540,14 +536,8 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divPositiveByZeroShouldBePositiveInfinity() {
-		assertEquals(positiveInfinity(), divide(interval(1), zero()));
-		assertEquals(positiveInfinity(), divide(interval(1, 1E10), zero()));
-	}
-
-	@Test
 	public void divNegativeByZeroShouldBeNegativeInfinity() {
-		assertEquals(negativeInfinity(), divide(interval(-1), zero()));
+		assertEquals(undefined(), divide(interval(-1), zero()));
 	}
 
 	@Test
@@ -569,5 +559,20 @@ public class IntervalDivideTest {
 		Interval res2 = divide(interval(a1, a2), u2);
 		Interval actual = divide(interval(a1, a2), invertedInterval(b1, b2));
 		assertEquals(IntervalOperands.union(res1, res2), actual);
+	}
+
+	@Test
+	public void divByZeroSingletonShouldBeUndefined() {
+		assertEquals(undefined(), divByZeroSingleton(Double.NEGATIVE_INFINITY, -2));
+		assertEquals(undefined(), divByZeroSingleton(-2.1, -2));
+		assertEquals(undefined(), divByZeroSingleton(-2.1, 0));
+		assertEquals(undefined(), divByZeroSingleton(0, 42.567));
+		assertEquals(undefined(), divByZeroSingleton(12.34, 42.567));
+		assertEquals(undefined(), divByZeroSingleton(12.34, Double.POSITIVE_INFINITY));
+
+	}
+
+	private Interval divByZeroSingleton(double a1, double a2) {
+		return divide(new Interval(a1, a2), zero());
 	}
 }

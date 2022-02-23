@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.accessibility;
 
-import java.util.Comparator;
 import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
@@ -8,8 +7,11 @@ import javax.annotation.Nonnull;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.web.html5.main.AltTextCollector;
 
 /**
  * Web implementation of AccessibilityManager.
@@ -18,23 +20,22 @@ import org.geogebra.common.main.SelectionManager;
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private final GeoTabber geoTabber;
 	private final AltGeoTabber altGeoTabber;
-	private App app;
-	private SelectionManager selection;
+	private final App app;
+	private final SelectionManager selection;
 	private MayHaveFocus anchor;
 	private SideBarAccessibilityAdapter menuContainer;
-	private TreeSet<MayHaveFocus> components = new TreeSet<>(new Comparator<MayHaveFocus>() {
-		@Override
-		public int compare(MayHaveFocus o1, MayHaveFocus o2) {
-			int viewDiff = o1.getAccessibilityGroup().ordinal()
-					- o2.getAccessibilityGroup().ordinal();
-			if (viewDiff != 0) {
-				return viewDiff;
-			}
-			if (o1.getViewControlId() != null && o2.getViewControlId() != null) {
-				return o1.getViewControlId().ordinal() - o2.getViewControlId().ordinal();
-			}
-			return 0;
+	private final AltTextCollector altTextCollector;
+
+	private final TreeSet<MayHaveFocus> components = new TreeSet<>((o1, o2) -> {
+		int viewDiff = o1.getAccessibilityGroup().ordinal()
+				- o2.getAccessibilityGroup().ordinal();
+		if (viewDiff != 0) {
+			return viewDiff;
 		}
+		if (o1.getViewControlId() != null && o2.getViewControlId() != null) {
+			return o1.getViewControlId().ordinal() - o2.getViewControlId().ordinal();
+		}
+		return 0;
 	});
 
 	/**
@@ -47,7 +48,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		this.app = app;
 		selection = app.getSelectionManager();
 		this.geoTabber = new GeoTabber(app);
-		altGeoTabber = new AltGeoTabber(app.getActiveEuclidianView());
+		ViewAltTexts altTexts = new ViewAltTexts(app);
+		altTextCollector = new AltTextCollector(app, altTexts);
+		altGeoTabber = new AltGeoTabber(app, altTexts);
 		components.add(altGeoTabber);
 		components.add(geoTabber);
 		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
@@ -200,7 +203,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public GeoElement getAltGeoForView() {
-		return altGeoTabber.getAltGeo();
+	public void appendAltText(GeoText altText) {
+		altTextCollector.add(altText);
+	}
+
+	@Override
+	public void cancelReadCollectedAltTexts() {
+		altTextCollector.cancel();
+	}
+
+	@Override
+	public void readSliderUpdate(GeoNumeric geo) {
+		altTextCollector.readSliderUpdate(geo);
 	}
 }

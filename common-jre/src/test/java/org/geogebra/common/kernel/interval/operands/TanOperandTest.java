@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.interval.operands;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
@@ -31,16 +31,12 @@ public class TanOperandTest {
 
 	@Test
 	public void testTanAtAroundPiHalf() {
-		assertEquals(positiveInfinity(), tan(IntervalConstants.piHalf()));
+		assertEquals(undefined(), tan(IntervalConstants.piHalf()));
 	}
 
 	@Test
 	public void testTanAtAroundPiHalfCase2() {
 		assertEquals(invertedInterval(-15.894544843864, 15.894544843866603), tan(pi2()));
-	}
-
-	private Interval halfOfPiTimes(int times) {
-		return new Interval((Math.PI / 2) * times);
 	}
 
 	@Test

@@ -5,8 +5,6 @@ import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.user.client.ui.Label;
-
 public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	private ComponentCheckbox templateCheckbox;
 
@@ -39,8 +37,8 @@ public class SaveDialogMow extends DoYouWantToSaveChangesDialog {
 	@Override
 	public void buildContent() {
 		super.buildContent();
-		Label templateTxt = new Label(app.getLocalization().getMenu("saveTemplate"));
-		templateCheckbox = new ComponentCheckbox(false, templateTxt, null);
+		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
+				"saveTemplate");
 		getContentPanel().add(templateCheckbox);
 	}
 

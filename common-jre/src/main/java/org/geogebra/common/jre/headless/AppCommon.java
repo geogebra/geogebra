@@ -1,5 +1,7 @@
 package org.geogebra.common.jre.headless;
 
+import java.util.Locale;
+
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -744,5 +746,21 @@ public class AppCommon extends App {
 		public void settingsChanged(AbstractSettings settings) {
 			// stub
 		}
+	}
+
+	/**
+	 * @param locale
+	 *            locale
+	 */
+	public void setLocale(Locale locale) {
+		if (locale == getLocalization().getLocale()) {
+			return;
+		}
+		// Locale oldLocale = loc.getLocale();
+
+		// only allow special locales due to some weird server
+		// problems with the naming of the property files
+		getLocalization().setLocale(locale);
+		getLocalization().updateLanguageFlags(locale.getLanguage());
 	}
 }
