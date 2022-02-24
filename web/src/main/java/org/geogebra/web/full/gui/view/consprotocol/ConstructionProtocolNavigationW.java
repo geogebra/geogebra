@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.consprotocol;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
@@ -83,7 +84,7 @@ public class ConstructionProtocolNavigationW
 		});
 		btn.addMouseOutHandler((event) -> {
 			SVGResource filledIcon = icon
-					.withFill(GeoGebraColorConstants.GEOGEBRA_ACCENT.toString());
+					.withFill(GColor.BLACK.toString());
 			btn.setIcon(filledIcon);
 		});
 		btn.addFastClickHandler(this);
