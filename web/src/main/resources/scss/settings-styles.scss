@@ -101,16 +101,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-right: 16px;
 		}
 
-		.checkBoxPanel {
-			display: block;
-
-			label {
-				font-size: 90%;
-				display: inline-block;
-				margin: 6px 18px;
-			}
-		}
-
 		.checkBoxPanel-disabled {
 			opacity: 0.42;
 			color: initial;
@@ -596,5 +586,26 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		font-size: 90%;
 		height: 18px;
 		line-height: 18px;
+	}
+
+	.propertiesPanel .checkboxPanel {
+		margin-right: 30px;
+
+		&.disabled {
+			opacity: 0.42;
+		}
+
+		&.block {
+			display: block;
+
+			.checkbox {
+				display: inline-block;
+			}
+
+			.checkboxLbl {
+                display: inline-block;
+                vertical-align: top;
+            }
+		}
 	}
 }

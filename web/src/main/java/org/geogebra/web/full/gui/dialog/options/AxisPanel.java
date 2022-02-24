@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.NumberListBox;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -13,7 +14,6 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -22,12 +22,12 @@ public class AxisPanel extends FlowPanel
 
 	protected AxisModel model;
 
-	protected CheckBox cbShowAxis;
-	protected CheckBox cbAxisNumber;
-	protected CheckBox cbManualTicks;
-	protected CheckBox cbPositiveAxis;
-	protected CheckBox cbDrawAtBorder;
-	protected CheckBox cbAllowSelection;
+	protected ComponentCheckbox cbShowAxis;
+	protected ComponentCheckbox cbAxisNumber;
+	protected ComponentCheckbox cbManualTicks;
+	protected ComponentCheckbox cbPositiveAxis;
+	protected ComponentCheckbox cbDrawAtBorder;
+	protected ComponentCheckbox cbAllowSelection;
 
 	protected NumberListBox ncbTickDist;
 	protected ListBox lbTickStyle;
@@ -60,24 +60,25 @@ public class AxisPanel extends FlowPanel
 		model = new AxisModel(app, view, axis, this);
 
 		String strAxisEn = model.getAxisName();
-		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 
 		// show axis
-		cbShowAxis = new CheckBox(loc.getMenu("Show" + strAxisEn));
-		cbShowAxis.addClickHandler(event -> model.showAxis(cbShowAxis.getValue()));
+		cbShowAxis = new ComponentCheckbox(loc, true, "Show" + strAxisEn,
+				() -> model.showAxis(cbShowAxis.isSelected()));
+		cbShowAxis.addStyleName("block");
 
 		// show numbers
-		cbAxisNumber = new CheckBox(loc.getMenu("ShowAxisNumbers"));
-		cbAxisNumber.addClickHandler(event -> model.showAxisNumbers(cbAxisNumber.getValue()));
+		cbAxisNumber = new ComponentCheckbox(loc, true, "ShowAxisNumbers",
+				() -> model.showAxisNumbers(cbAxisNumber.isSelected()));
+		cbAxisNumber.addStyleName("block");
 
 		// show positive axis only
-		cbPositiveAxis = new CheckBox(loc.getMenu("PositiveDirectionOnly"));
-		cbPositiveAxis.addClickHandler(event -> model.applyPositiveAxis(cbPositiveAxis.getValue()));
+		cbPositiveAxis = new ComponentCheckbox(loc, false, "PositiveDirectionOnly",
+				() -> model.applyPositiveAxis(cbPositiveAxis.isSelected()));
+		cbPositiveAxis.addStyleName("block");
 
 		// allow axis selection
-		cbAllowSelection = new CheckBox(loc.getMenu("SelectionAllowed"));
-		cbAllowSelection.addClickHandler(
-				event -> model.applyAllowSelection(cbAllowSelection.getValue()));
+		cbAllowSelection = new ComponentCheckbox(loc, false, "SelectionAllowed",
+				() -> model.applyAllowSelection(cbAllowSelection.isSelected()));
 
 		// ticks
 		lbTickStyle = new ListBox();
@@ -88,8 +89,6 @@ public class AxisPanel extends FlowPanel
 		lbTickStyle.addChangeHandler(event -> {
 			int type = lbTickStyle.getSelectedIndex();
 			model.applyTickStyle(type);
-			// view.updateBackground();
-			// updatePanel();
 		});
 
 		FlowPanel showTicksPanel = new FlowPanel();
@@ -97,16 +96,8 @@ public class AxisPanel extends FlowPanel
 		showTicksPanel.add(lbTickStyle);
 
 		// distance
-		cbManualTicks = new CheckBox(loc.getMenu("TickDistance") + ":");
-		cbManualTicks.addClickHandler(event -> {
-			boolean isTickDistanceOn = cbManualTicks.getValue();
-			model.applyTickDistance(isTickDistanceOn);
-			ncbTickDist.setEnabled(isTickDistanceOn);
-			if (isTickDistanceOn) {
-				model.applyTickDistance(ncbTickDist.getValue());
-			}
-
-		});
+		cbManualTicks = new ComponentCheckbox(loc, false, "TickDistance",
+				this::onDistanceSelected);
 
 		ncbTickDist = new NumberListBox(app) {
 
@@ -173,21 +164,17 @@ public class AxisPanel extends FlowPanel
 		tfCross.addBlurHandler(event -> model.applyCrossing(tfCross.getText()));
 
 		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
-		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));
-		cbDrawAtBorder.addClickHandler(event -> model.applyDrawAtBorder(cbDrawAtBorder.getValue()));
+		cbDrawAtBorder = new ComponentCheckbox(loc, false, "StickToEdge",
+				() -> model.applyDrawAtBorder(cbDrawAtBorder.isSelected()));
 
 		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
 				cbDrawAtBorder);
 
-		cbShowAxis.setStyleName("checkBoxPanel");
-		cbAxisNumber.setStyleName("checkBoxPanel");
-		cbPositiveAxis.setStyleName("checkBoxPanel");
 		distancePanel.setStyleName("listBoxPanel");
 		showTicksPanel.setStyleName("listBoxPanel");
 		labelPanel.setStyleName("listBoxPanel");
 		unitPanel.setStyleName("listBoxPanel");
 		tfCross.setStyleName("numberInput");
-		cbAllowSelection.setStyleName("checkBoxPanel");
 
 		// add all panels
 		add(cbShowAxis);
@@ -204,6 +191,15 @@ public class AxisPanel extends FlowPanel
 		updatePanel();
 	}
 
+	private void onDistanceSelected() {
+		boolean isTickDistanceOn = cbManualTicks.isSelected();
+		model.applyTickDistance(isTickDistanceOn);
+		ncbTickDist.setEnabled(isTickDistanceOn);
+		if (isTickDistanceOn) {
+			model.applyTickDistance(ncbTickDist.getValue());
+		}
+	}
+
 	/**
 	 * @param eView
 	 *            view to set
@@ -218,11 +214,11 @@ public class AxisPanel extends FlowPanel
 	 */
 	public void updatePanel() {
 		int axis = model.getAxis();
-		cbAxisNumber.setValue(view.getShowAxesNumbers()[axis]);
+		cbAxisNumber.setSelected(view.getShowAxesNumbers()[axis]);
 
-		cbManualTicks.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
+		cbManualTicks.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
 		ncbTickDist.setSelectedId(model.getAxisDistance());
-		ncbTickDist.setEnabled(cbManualTicks.getValue());
+		ncbTickDist.setEnabled(cbManualTicks.isSelected());
 
 		comboAxisLabel.setSelectedId(view.getAxesLabels(true)[axis]);
 		comboUnitLabel.setSelectedId(view.getAxesUnitLabels()[axis]);
@@ -230,8 +226,6 @@ public class AxisPanel extends FlowPanel
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);
 
-		// cbShowAxis.setSelected(axis == 0 ? view.getShowXaxis() :
-		// view.getShowYaxis());
 		setShowAxis(view.getShowAxis(axis));
 
 		if (view.getDrawBorderAxes()[axis]) {
@@ -241,10 +235,10 @@ public class AxisPanel extends FlowPanel
 		}
 
 		tfCross.setVisible(!view.getDrawBorderAxes()[axis]);
-		cbPositiveAxis.setValue(view.getPositiveAxes()[axis]);
+		cbPositiveAxis.setSelected(view.getPositiveAxes()[axis]);
 
-		cbDrawAtBorder.setValue(view.getDrawBorderAxes()[axis]);
-		cbAllowSelection.setValue(getModel().isSelectionAllowed());
+		cbDrawAtBorder.setSelected(view.getDrawBorderAxes()[axis]);
+		cbAllowSelection.setSelected(getModel().isSelectionAllowed());
 
 	}
 
@@ -253,50 +247,22 @@ public class AxisPanel extends FlowPanel
 	 *            whether to show axis
 	 */
 	public void setShowAxis(boolean value) {
-		cbShowAxis.setValue(value);
+		cbShowAxis.setSelected(value);
 	}
 
 	@Override
 	public void setLabels() {
-		String strAxisEn = model.getAxisName();
-		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
-		// this.setBorder(LayoutUtil.titleBorder(null));
-		cbShowAxis.setText(loc.getMenu("Show" + strAxisEn));
-		cbAxisNumber.setText(loc.getMenu("ShowAxisNumbers"));
-		cbManualTicks.setText(loc.getMenu("TickDistance") + ":");
+		cbShowAxis.setLabels();
+		cbAxisNumber.setLabels();
+		cbManualTicks.setLabels();
 		axisTicks.setText(loc.getMenu("AxisTicks") + ":");
-		cbPositiveAxis.setText(loc.getMenu("PositiveDirectionOnly"));
+		cbPositiveAxis.setLabels();
 		axisLabel.setText(loc.getMenu("AxisLabel") + ":");
 		axisUnitLabel.setText(loc.getMenu("AxisUnitLabel") + ":");
 		crossAt.setText(loc.getMenu("CrossAt") + ":");
-		cbDrawAtBorder.setText(loc.getMenu("StickToEdge"));
-		cbAllowSelection.setText(loc.getMenu("SelectionAllowed"));
+		cbDrawAtBorder.setLabels();
+		cbAllowSelection.setLabels();
 	}
-
-	//
-	// public void updateFont() {
-	// Font font = app.getPlainFont();
-	//
-	// setFont(font);
-	//
-	// cbShowAxis.setFont(font);
-	// cbAxisNumber.setFont(font);
-	// cbManualTicks.setFont(font);
-	// axisTicks.setFont(font);
-	// cbPositiveAxis.setFont(font);
-	// axisLabel.setFont(font);
-	// axisUnitLabel.setFont(font);
-	// crossAt.setFont(font);
-	// stickToEdge.setFont(font);
-	//
-	// ncbTickDist.setFont(font);
-	//
-	// lbTickStyle.setFont(font);
-	// lbAxisLabel.setFont(font);
-	// lbUnitLabel.setFont(font);
-	//
-	// tfCross.setFont(font);
-	// }
 
 	@Override
 	public void addTickItem(String item) {
