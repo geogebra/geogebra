@@ -65,6 +65,7 @@ public abstract class Analytics {
 		public static final String COMMAND_HELP_ICON = "command_help_icon";
 		public static final String EXAM_MODE_INITIATED = "exam_mode_initiated";
 		public static final String APP_SWITCHED = "switch_app";
+		public static final String LOGIN = "login";
 
 		protected Event() {
 		}
