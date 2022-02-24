@@ -2,7 +2,6 @@ package org.geogebra.common.gui.popup.autocompletion;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.util.shape.XYPoint;
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -13,43 +12,48 @@ import org.geogebra.common.util.shape.Size;
  */
 public class AutocompletionPopupPositioner {
 
-	private final Rectangle safeArea;
-	private final Size popupMinSize;
+	private static final int MAX_WIDTH = 520;
+	private static final int MAX_HEIGHT = 228;
+	private static final int MARGIN = 8;
 
-	public AutocompletionPopupPositioner(Rectangle safeArea, Size popupMinSize) {
-		this.safeArea = safeArea;
-		this.popupMinSize = popupMinSize;
-	}
+	public Rectangle calculatePopupFrame(Rectangle inputBounds, Size popupSize, Rectangle frame) {
+		// Position
+		double x, y;
 
-	@Nonnull
-	public Rectangle calculatePositionAndSizeFor(Rectangle inputBounds, Size popupSize) {
-		double x = safeArea.getMinX();
-		double y = inputBounds.getMaxY();
-		double width = safeArea.getWidth();
-		double height = popupSize.getHeight();
+		// Restrict popup size to max values
+		double width = MAX_WIDTH;
+		double height = Math.min(popupSize.getHeight(), MAX_HEIGHT);
 
-		Rectangle popupRectangle = new Rectangle(new XYPoint(x, y), new Size(width, height));
-
-		if (safeArea.getMaxY() < popupRectangle.getMaxY()) {
-			double delta = -(inputBounds.getHeight() + popupRectangle.getHeight());
-			popupRectangle.moveVertically(delta);
+		// Restrict popup size to frame width with margins
+		if (width > frame.getWidth() - 2 * MARGIN) {
+			width = frame.getWidth() - 2 * MARGIN;
 		}
-		if (safeArea.getMinY() > popupRectangle.getMinY()) {
-			double spaceBelowInput = safeArea.getMaxY() - inputBounds.getMaxY();
-			double spaceAboveInput = inputBounds.getMinY() - safeArea.getMinY();
-			if (spaceBelowInput >= spaceAboveInput) {
-				popupRectangle = new Rectangle(
-						x, x + width, inputBounds.getMaxY(), safeArea.getMaxY());
-			} else {
-				popupRectangle = new Rectangle(
-						x, x + width, safeArea.getMinY(), inputBounds.getMinY());
+
+		// Horizontal positioning
+		if (frame.getWidth() - 2 * MARGIN > width) {
+			// Popup aligned to the left of the input
+			x = inputBounds.getMinX();
+
+			// Change width to still fit into screen
+			if (width > frame.getWidth() - x - MARGIN) {
+				width = frame.getWidth() - x - MARGIN;
 			}
+		} else {
+			// Popup aligned to the left of the frame with margin
+			x = MARGIN;
 		}
 
-		return popupRectangle;
-	}
+		// Vertical positioning
+		double spaceBelow = frame.getMaxY() - inputBounds.getMaxY();
+		double spaceAbove = inputBounds.getMinY() - frame.getMinY();
+		if (height <= spaceBelow || (height > spaceAbove && spaceBelow > spaceAbove)) {
+			// Popup below input bar
+			y = inputBounds.getMaxY();
+		} else {
+			// Popup above input bar
+			y = inputBounds.getMinY() - height;
+		}
 
-	public Rectangle getSafeArea() {
-		return safeArea;
+		return new Rectangle(x, x + width, y, y + height);
 	}
 }
