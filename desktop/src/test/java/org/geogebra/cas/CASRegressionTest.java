@@ -91,7 +91,7 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 				lookup("plane").getGeoClassType());
 		assertEquals("(p, q, p + q)",
 				lookup("plane").getValueForInputBar());
-		view.getConsoleTable().setInput(0,"plane(p,q):=(p,q-1,p+q)");
+		view.getConsoleTable().setInput(0, "plane(p,q):=(p,q-1,p+q)");
 		cih.processCurrentRow("Evaluate", false);
 		assertEquals("(p, q - 1, p + q)",
 				lookup("plane").getValueForInputBar());
