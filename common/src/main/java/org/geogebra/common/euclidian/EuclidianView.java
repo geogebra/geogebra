@@ -152,7 +152,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** border in which axis numbers are not drawn */
 	protected static final int SCREEN_BORDER = 10;
 	/** Number of inset pixels for safe area */
-	public static final int MINIMUM_SAFE_AREA = 16;
+	public static final int MINIMUM_SAFE_AREA = 8;
 
 	// public static final double SCALE_MAX = 10000;
 	// public static final double SCALE_MIN = 0.1;
