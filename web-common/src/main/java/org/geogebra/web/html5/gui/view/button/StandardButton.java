@@ -10,6 +10,11 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -76,6 +81,10 @@ public class StandardButton extends Widget implements HasResource {
 	public StandardButton(final ResourcePrototype icon, final String label,
 			int width) {
 		this(icon, label, width, -1);
+	}
+
+	public StandardButton(final ResourcePrototype icon, int width) {
+		this(icon, null, width, -1);
 	}
 
 	/**
@@ -233,5 +242,25 @@ public class StandardButton extends Widget implements HasResource {
 			handler.onClick(this);
 			e.stopPropagation();
 		});
+	}
+
+	/**
+	 * @param handler
+	 *            - mouse out
+	 * @return handler
+	 */
+	public final HandlerRegistration addMouseOutHandler(
+			MouseOutHandler handler) {
+		return addDomHandler(handler, MouseOutEvent.getType());
+	}
+
+	/**
+	 * @param handler
+	 *            - mouse over
+	 * @return handler
+	 */
+	public final HandlerRegistration addMouseOverHandler(
+			MouseOverHandler handler) {
+		return addDomHandler(handler, MouseOverEvent.getType());
 	}
 }
