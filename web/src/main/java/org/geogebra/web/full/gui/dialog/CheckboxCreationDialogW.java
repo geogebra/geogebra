@@ -218,7 +218,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
 		StandardButton btnRemove = new StandardButton(MaterialDesignResources
-				.INSTANCE.delete_black(), 20);
+				.INSTANCE.delete_black(), 20, null);
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		

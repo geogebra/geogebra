@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.consprotocol;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
@@ -76,17 +75,8 @@ public class ConstructionProtocolNavigationW
 	}
 
 	private StandardButton createButton(SVGResource icon) {
-		StandardButton btn = new StandardButton(icon, 24);
-		btn.addMouseOverHandler((event) -> {
-			SVGResource filledIcon = icon
-					.withFill(GeoGebraColorConstants.GEOGEBRA_ACCENT.toString());
-			btn.setIcon(filledIcon);
-		});
-		btn.addMouseOutHandler((event) -> {
-			SVGResource filledIcon = icon
-					.withFill(GColor.BLACK.toString());
-			btn.setIcon(filledIcon);
-		});
+		StandardButton btn = new StandardButton(icon, 24,
+				GeoGebraColorConstants.GEOGEBRA_ACCENT);
 		btn.addFastClickHandler(this);
 		return btn;
 	}
@@ -225,33 +215,13 @@ public class ConstructionProtocolNavigationW
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
-		
-		ConstructionStepper stepper = getProt();
-
-		if (source == btFirst) {
-			stepper.firstStep();
-		} 
-		else if (source == btLast) {			
-			stepper.lastStep();
-		}
-		else if (source == btPrev) {
-			stepper.previousStep();
-		}
-		else if (source == btNext) {
-			stepper.nextStep();
-			return;
-		}
-		else if (source == btPlay) {
+		if (source == btPlay) {
 			if (isPlaying()) {
 				player.stopAnimation();
 			} else {
 				player = new AutomaticPlayer();
 				player.startAnimation();
 			}
-		}
-
-		if (prot != null) {
-			prot.scrollToConstructionStep();
 		}
 	}
 	
@@ -282,6 +252,17 @@ public class ConstructionProtocolNavigationW
 		ConstructionStepper stepper = getProt();
 		if (source == btFirst) {
 			stepper.firstStep();
+		} else if (source == btLast) {
+			stepper.lastStep();
+		} else if (source == btPrev) {
+			stepper.previousStep();
+		} else if (source == btNext) {
+			stepper.nextStep();
+			return;
+		}
+
+		if (prot != null) {
+			prot.scrollToConstructionStep();
 		}
 	}
 
@@ -329,9 +310,7 @@ public class ConstructionProtocolNavigationW
         public synchronized void stopAnimation() {
         	//TODO remove cursor:wait
         	timer.cancel();
-            
-            // unblock application events
-//			app.stopDispatchingEvents();
+
 			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);

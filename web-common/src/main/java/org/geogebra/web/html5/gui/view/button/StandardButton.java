@@ -1,20 +1,17 @@
 package org.geogebra.web.html5.gui.view.button;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -83,8 +80,12 @@ public class StandardButton extends Widget implements HasResource {
 		this(icon, label, width, -1);
 	}
 
-	public StandardButton(final ResourcePrototype icon, int width) {
+	public StandardButton(final ResourcePrototype icon, int width, GColor hoverIconColor) {
 		this(icon, null, width, -1);
+		if (hoverIconColor != null) {
+			addMouseOverHandler(hoverIconColor);
+			addMouseOutHandler();
+		}
 	}
 
 	/**
@@ -183,7 +184,12 @@ public class StandardButton extends Widget implements HasResource {
 	 *            - icon
 	 */
 	public void setIcon(final ResourcePrototype icon) {
-		setIconAndLabel(icon, this.label, this.width, this.height);
+		if (btnImage != null) {
+			this.icon = icon;
+			btnImage.setUrl(NoDragImage.safeURI(icon));
+		} else {
+			setIconAndLabel(icon, this.label, this.width, this.height);
+		}
 	}
 
 	@Override
@@ -245,22 +251,18 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * @param handler
-	 *            - mouse out
-	 * @return handler
+	 * @param color of icon on hover
 	 */
-	public final HandlerRegistration addMouseOutHandler(
-			MouseOutHandler handler) {
-		return addDomHandler(handler, MouseOutEvent.getType());
+	private void addMouseOverHandler(GColor color) {
+		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
+			setIcon(((SVGResource) getIcon()).withFill(color.toString())));
 	}
 
 	/**
-	 * @param handler
-	 *            - mouse over
-	 * @return handler
+	 * color icon back to black after hover over
 	 */
-	public final HandlerRegistration addMouseOverHandler(
-			MouseOverHandler handler) {
-		return addDomHandler(handler, MouseOverEvent.getType());
+	private void addMouseOutHandler() {
+		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
+				setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString())));
 	}
 }

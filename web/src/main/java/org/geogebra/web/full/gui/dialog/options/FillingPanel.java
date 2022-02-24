@@ -345,7 +345,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		};
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
-		btnClearImage = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(), 24);
+		btnClearImage = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(),
+				24, null);
 		btnClearImage.addFastClickHandler(event -> model.applyImage(""));
 		btnOpenFile = new Button();
 		btnOpenFile.addStyleName("openFileBtn");

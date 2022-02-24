@@ -484,7 +484,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			foregroundButton.setName("bgfg");
 
 			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
-					.delete_black(), 24);
+					.delete_black(), 24, null);
 			btnClearBackground.setStyleName("clearBackgroundButton");
 
 			updateBackgroundButtons(false);
