@@ -2,7 +2,6 @@ package org.geogebra.common.gui.popup.autocompletion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
@@ -19,29 +18,38 @@ public class AutocompletionPopupPositionerTest {
 	private final AutocompletionPopupPositioner positioner = new AutocompletionPopupPositioner();
 
 	@Test
-	public void testVerticalPositionPopupAboveInputBar() {
+	public void testVerticalPositionUnspecifiedPopupAboveInputBar() {
 		Rectangle inputFrame =
-				new Rectangle(0, PHONE_FRAME.getWidth(), PHONE_FRAME.getHeight() / 6 * 4,
-						PHONE_FRAME.getHeight() / 6 * 4 + INPUT_HEIGHT);
+				new Rectangle(0, PHONE_FRAME.getWidth(), PHONE_FRAME.getHeight() - INPUT_HEIGHT,
+						PHONE_FRAME.getHeight());
 		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME);
-		assertThat(frame.getMaxY(), greaterThanOrEqualTo(inputFrame.getMinY()));
+				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
+		assertThat(frame.getMaxY(), equalTo(inputFrame.getMinY()));
 	}
 
 	@Test
-	public void testVerticalPositionPopupBelowInputBar() {
+	public void testVerticalPositionUnspecifiedPopupBelowInputBar() {
 		Rectangle inputFrame = new Rectangle(0, PHONE_FRAME.getWidth(),
 				INPUT_HEIGHT / 2, INPUT_HEIGHT / 2 + INPUT_HEIGHT);
 		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME);
-		assertThat(frame.getMinY(), greaterThanOrEqualTo(inputFrame.getMaxY()));
+				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
+		assertThat(frame.getMinY(), equalTo(inputFrame.getMaxY()));
+	}
+
+	@Test
+	public void testVerticalPositionAbove() {
+		Rectangle inputFrame = new Rectangle(0, PHONE_FRAME.getWidth(),
+				INPUT_HEIGHT * 2, INPUT_HEIGHT * 3);
+		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
+				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.ABOVE);
+		assertThat(frame.getMaxY(), equalTo(inputFrame.getMinY()));
 	}
 
 	@Test
 	public void testHorizontalPositionForPhone() {
 		Rectangle inputFrame = new Rectangle(0, PHONE_FRAME.getWidth(), 0, INPUT_HEIGHT);
 		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME);
+				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMinX(), equalTo(MARGIN));
 		assertThat(frame.getMaxX(), equalTo(PHONE_FRAME.getWidth() - MARGIN));
 	}
@@ -50,7 +58,7 @@ public class AutocompletionPopupPositionerTest {
 	public void testHorizontalPositionForDesktop() {
 		Rectangle inputFrame = new Rectangle(48, 256, 0, INPUT_HEIGHT);
 		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, DESKTOP_FRAME);
+				SINGLE_LINE_POPUP, DESKTOP_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMinX(), equalTo(inputFrame.getMinX()));
 		assertThat(frame.getWidth(), equalTo(520.0));
 	}

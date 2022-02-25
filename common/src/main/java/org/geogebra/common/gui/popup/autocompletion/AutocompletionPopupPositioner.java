@@ -8,7 +8,6 @@ import org.geogebra.common.util.shape.Size;
 /**
  * The AutocompletionPopupPositioner calculates
  * the position of the autocomplete (or suggestion) popup.
- * A new instance of this class has to be created on orientation change.
  */
 public class AutocompletionPopupPositioner {
 
@@ -16,7 +15,19 @@ public class AutocompletionPopupPositioner {
 	private static final int MAX_HEIGHT = 228;
 	private static final int MARGIN = 8;
 
-	public Rectangle calculatePopupFrame(Rectangle inputBounds, Size popupSize, Rectangle frame) {
+	// The size of the syntax popup header, the margin and one row
+	private static final int MIN_SPACE = 48 + 8 + 40;
+
+	/**
+	 * Calculates the frame of the popup.
+	 * @param inputBounds the frame of the input view
+	 * @param popupSize the preferred size of the pupup to be displayed
+	 * @param frame the frame in which we display the popup
+	 * @param verticalPosition the vertical position of the popup
+	 * @return the frame of the popup
+	 */
+	public Rectangle calculatePopupFrame(Rectangle inputBounds, Size popupSize, Rectangle frame,
+			VerticalPosition position) {
 		// Position
 		double x, y;
 
@@ -46,7 +57,9 @@ public class AutocompletionPopupPositioner {
 		// Vertical positioning
 		double spaceBelow = frame.getMaxY() - inputBounds.getMaxY();
 		double spaceAbove = inputBounds.getMinY() - frame.getMinY();
-		if (height <= spaceBelow || (spaceBelow > spaceAbove)) {
+		double requiredHeight = Math.max(height, MIN_SPACE);
+		if (position == VerticalPosition.BELOW || (position != VerticalPosition.ABOVE &&
+				(requiredHeight <= spaceBelow || spaceBelow > spaceAbove))) {
 			// Popup below input bar
 			y = inputBounds.getMaxY();
 			// Restrict height to remaining space

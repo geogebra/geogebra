@@ -515,7 +515,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
-	private final Rectangle visibleRect;
+	private Rectangle visibleRect = new Rectangle();
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -564,7 +564,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView() {
 		hitDetector = new HitDetector(this);
-		visibleRect = new Rectangle();
 		coordSystemInfo = new CoordSystemInfo(this);
 	}
 
@@ -1731,10 +1730,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		ymin = (getYZero() - getHeight()) * getInvYscale();
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
-		visibleRect.setMinX(-(getXZero() - visibleFromX) * getInvXscale());
-		visibleRect.setMaxX(xmax);
-		visibleRect.setMinY((getYZero() - getVisibleHeight()) * getInvYscale());
-		visibleRect.setMaxY(ymax);
+		visibleRect = new Rectangle(-(getXZero() - visibleFromX) * getInvXscale(), xmax,
+				(getYZero() - getVisibleHeight()) * getInvYscale(), ymax);
 	}
 
 	/**
