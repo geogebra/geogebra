@@ -12,9 +12,9 @@ import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Table popup for selecting properties of objects
  *
  */
-public class PopupMenuButtonW extends MyCJButton
+public class PopupMenuButtonW extends StandardButton
 		implements ChangeHandler, SliderInputHandler {
 
 	/**
@@ -105,24 +105,17 @@ public class PopupMenuButtonW extends MyCJButton
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
-		super();
+		super(24);
 		this.app = app;
 		this.hasTable = hasTable;
 		this.lineStyleMap = lineStyleMap0;
 
 		createPopup();
-
-		// add a mouse listener to our button that triggers the popup
-		addClickHandler(DomEvent::stopPropagation);
-
 		// merge mousedown + touchstart
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!PopupMenuButtonW.this.isEnabled()) {
-					return;
-				}
 				handleClick();
 			}
 		});
@@ -191,7 +184,7 @@ public class PopupMenuButtonW extends MyCJButton
 			}
 			currentPopup = myPopup;
 			app.registerPopup(myPopup);
-			myPopup.showRelativeTo(getWidget());
+			myPopup.showRelativeTo(this);
 			myPopup.getFocusPanel().getElement().focus();
 		} else {
 			myPopup.setVisible(false);
@@ -310,7 +303,6 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	@Override
 	public void setIcon(ImageOrText icon) {
-
 		if (isFixedIcon) {
 			super.setIcon(fixedIcon);
 			return;
@@ -320,8 +312,7 @@ public class PopupMenuButtonW extends MyCJButton
 		if (icon != null) {
 			super.setIcon(icon);
 		} else {
-			ImgResourceHelper.setIcon(
-					GuiResources.INSTANCE.toolbar_further_tools(), this);
+			setIcon(GuiResources.INSTANCE.toolbar_further_tools());
 		}
 	}
 
@@ -426,6 +417,15 @@ public class PopupMenuButtonW extends MyCJButton
 		sliderPanel.addStyleName("panelRow2");
 
 		myPopup.getPanel().add(sliderPanel);
+	}
+
+	@Override
+	public void setTitle(String title) {
+		if (title == null || title.length() == 0) {
+			getElement().removeAttribute("title");
+		} else {
+			getElement().setAttribute("title", title);
+		}
 	}
 
 	/**

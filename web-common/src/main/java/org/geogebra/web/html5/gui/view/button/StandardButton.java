@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
+import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
@@ -17,10 +18,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * @author csilla
- * 
- */
 public class StandardButton extends Widget implements HasResource {
 
 	private ResourcePrototype icon;
@@ -28,6 +25,8 @@ public class StandardButton extends Widget implements HasResource {
 	private int width = -1;
 	private int height = -1;
 	private NoDragImage btnImage;
+	private ImageOrText colorIcon;
+	private Label colorLbl;
 
 	protected StandardButton() {
 		setElement(DOM.createButton());
@@ -80,12 +79,29 @@ public class StandardButton extends Widget implements HasResource {
 		this(icon, label, width, -1);
 	}
 
+	/**
+	 * @param icon - img of button
+	 * @param width - width
+	 * @param hoverIconColor - color of icon on hover
+	 */
 	public StandardButton(final ResourcePrototype icon, int width, GColor hoverIconColor) {
 		this(icon, null, width, -1);
 		if (hoverIconColor != null) {
 			addMouseOverHandler(hoverIconColor);
 			addMouseOutHandler();
 		}
+	}
+
+	public StandardButton(int width) {
+		this();
+		setStyleName("MyCanvasButton");
+		this.width = width;
+		this.height = -1;
+		this.colorIcon = new ImageOrText();
+		colorLbl = new Label();
+		colorLbl.setStyleName("buttonContent");
+		//setIcon(colorIcon);
+		buildColorIcon();
 	}
 
 	/**
@@ -119,6 +135,11 @@ public class StandardButton extends Widget implements HasResource {
 		btnImage.setPresentation();
 
 		Roles.getButtonRole().removeAriaPressedState(getElement());
+	}
+
+	private void buildColorIcon() {
+		this.getElement().removeAllChildren();
+		this.getElement().appendChild(colorLbl.getElement());
 	}
 
 	private void setIconAndLabel(final ResourcePrototype image,
@@ -164,6 +185,10 @@ public class StandardButton extends Widget implements HasResource {
 		return this.label;
 	}
 
+	public Label getColorLabel() {
+		return colorLbl;
+	}
+
 	/**
 	 * @param label
 	 *            - set text of button
@@ -179,6 +204,10 @@ public class StandardButton extends Widget implements HasResource {
 		return this.icon;
 	}
 
+	public ImageOrText getImageOrTextIcon() {
+		return colorIcon;
+	}
+
 	/**
 	 * @param icon
 	 *            - icon
@@ -190,6 +219,12 @@ public class StandardButton extends Widget implements HasResource {
 		} else {
 			setIconAndLabel(icon, this.label, this.width, this.height);
 		}
+	}
+
+	public void setIcon(ImageOrText icon) {
+		this.colorIcon = icon;
+		colorIcon.applyToLabel(colorLbl);
+		buildColorIcon();
 	}
 
 	@Override
@@ -253,16 +288,18 @@ public class StandardButton extends Widget implements HasResource {
 	/**
 	 * @param color of icon on hover
 	 */
-	private void addMouseOverHandler(GColor color) {
-		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
-			setIcon(((SVGResource) getIcon()).withFill(color.toString())));
+	public void addMouseOverHandler(GColor color) {
+		Dom.addEventListener(this.getElement(), "mouseover", (e) -> {
+			setIcon(((SVGResource) getIcon()).withFill(color.toString()));
+		});
 	}
 
 	/**
 	 * color icon back to black after hover over
 	 */
-	private void addMouseOutHandler() {
-		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
-				setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString())));
+	public void addMouseOutHandler() {
+		Dom.addEventListener(this.getElement(), "mouseout", (e) -> {
+			setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString()));
+		});
 	}
 }

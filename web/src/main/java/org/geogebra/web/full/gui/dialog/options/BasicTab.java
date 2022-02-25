@@ -11,13 +11,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -45,13 +45,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected CheckBox cbShowAxes;
 	CheckBox cbBoldAxes;
 	private Label colorLabel;
-	private MyCJButton btAxesColor;
+	private StandardButton btAxesColor;
 	private Label lineStyle;
 	protected FlowPanel axesOptionsPanel;
 	private Label axesOptionsTitle;
 	private PopupMenuButtonW axesStylePopup;
 	protected Label backgroundColorLabel;
-	protected MyCJButton btBackgroundColor;
+	protected StandardButton btBackgroundColor;
 	CheckBox cbShowMouseCoords;
 	private FormLabel tooltips;
 	private FormLabel rightAngleStyleLabel;
@@ -238,9 +238,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbAxisLabelItalic = new CheckBox(
 				optionsEuclidianW.loc.getMenu("Italic"));
 
-		btAxesColor = new MyCJButton();
+		btAxesColor = new StandardButton(24);
 
-		btAxesColor.addClickHandler(event -> optionsEuclidianW.getDialogManager()
+		btAxesColor.addFastClickHandler(event -> optionsEuclidianW.getDialogManager()
 				.showColorChooserDialog(model.getAxesColor(),
 						new ColorChangeHandler() {
 
@@ -435,7 +435,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		backgroundColorLabel = new Label(
 				optionsEuclidianW.loc.getMenu("BackgroundColor") + ":");
 
-		btBackgroundColor = new MyCJButton();
+		btBackgroundColor = new StandardButton(24);
 
 		// show mouse coords
 		cbShowMouseCoords = new CheckBox();
@@ -461,7 +461,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		indent(miscPanel);
 
-		btBackgroundColor.addClickHandler(event -> {
+		btBackgroundColor.addFastClickHandler(event -> {
 			optionsEuclidianW.getDialogManager()
 					.showColorChooserDialog(model.getBackgroundColor(),
 							new ColorChangeHandler() {
@@ -497,7 +497,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 									// TODO Auto-generated method stub
 								}
 							});
-			// model.applyBackgroundColor();
 		});
 
 		cbShowMouseCoords.addClickHandler(
@@ -646,7 +645,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 *            axes color override for axis color
 	 */
 	public final void updateAxes(GColor color) {
-		// btAxesColor.setForeground(new GColorW(view.getAxesColor()));
 		cbShowAxes.setValue(optionsEuclidianW.view.getShowXaxis()
 				&& optionsEuclidianW.view.getShowYaxis());
 		cbBoldAxes.setValue(optionsEuclidianW.view.areAxesBold());

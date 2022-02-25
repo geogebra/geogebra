@@ -5,11 +5,9 @@ import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
@@ -37,7 +35,7 @@ public class ConstructionProtocolNavigationW
 	private GToggleButton btPlay;
 	private final GSpinnerW spDelay;
 	private AutomaticPlayer player;
-	private MyCJButton btOpenWindow;
+	private StandardButton btOpenWindow;
 	private FlowPanel playPanel;
 
 	private static final String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
@@ -124,13 +122,13 @@ public class ConstructionProtocolNavigationW
 		implPanel.add(leftPanel);
 		implPanel.add(playPanel);
 		
-		btOpenWindow = new MyCJButton();
-		btOpenWindow.setIcon(new ImageOrText(GuiResources.INSTANCE
-				.icons_view_construction_protocol_p24()));
+		btOpenWindow = new StandardButton(GuiResources.INSTANCE
+				.icons_view_construction_protocol_p24(), null, 24);
 
-		btOpenWindow.addClickHandler(event -> toggleConstructionProtocol());
+		btOpenWindow.addFastClickHandler(event -> toggleConstructionProtocol());
 		btOpenWindow.setVisible(isConsProtButtonVisible());
 		addPaddingPlayPanel(showConsProtButton);
+		btOpenWindow.addStyleName("MyCanvasButton");
 		btOpenWindow.addStyleName("navbar_btOpenWindow");
 		implPanel.add(btOpenWindow);
 

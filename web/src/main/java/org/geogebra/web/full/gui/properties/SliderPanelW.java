@@ -14,11 +14,11 @@ import org.geogebra.web.full.gui.AngleTextFieldW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.CheckboxPanel;
 import org.geogebra.web.full.gui.dialog.options.model.ExtendedAVModel;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
@@ -44,9 +44,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private Label transparencyLabel;
 	private Label blobSizeUnitLabel;
 	private Label lineThicknessUnitLabel;
-	private MyCJButton blobColorChooserBtn;
+	private StandardButton blobColorChooserBtn;
 	private Label blobColorLbl;
-	private MyCJButton lineColorChooserBtn;
+	private StandardButton lineColorChooserBtn;
 	private Label pointStyleTitleLbl;
 	private Label lineStyleTitleLbl;
 	private Label lineColorLbl;
@@ -270,9 +270,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	private void createBlobColorChooserBtn(final AppW app) {
-		blobColorChooserBtn = new MyCJButton();
+		blobColorChooserBtn = new StandardButton(24);
 		updateBlobOrLineColorButton(model.getBlobColor(), true);
-		blobColorChooserBtn.addClickHandler(event -> ((DialogManagerW) app.getDialogManager())
+		blobColorChooserBtn.addFastClickHandler(event -> ((DialogManagerW) app.getDialogManager())
 				.showColorChooserDialog(getModel().getBlobColor(),
 						getBlobColorHandler()));
 	}
@@ -326,10 +326,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	private void createLineColorChooserBtn(final AppW app) {
-		lineColorChooserBtn = new MyCJButton();
+		lineColorChooserBtn = new StandardButton(24);
 		updateBlobOrLineColorButton(getColorWithOpacity(model.getLineColor()),
 				false);
-		lineColorChooserBtn.addClickHandler(event -> ((DialogManagerW) app.getDialogManager())
+		lineColorChooserBtn.addFastClickHandler(event -> ((DialogManagerW) app.getDialogManager())
 				.showColorChooserDialog(getModel().getLineColor(),
 						getLineColorHandler()));
 	}

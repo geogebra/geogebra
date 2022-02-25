@@ -1283,7 +1283,15 @@
 	.navbar_leftPanel {
 		text-align: center;
 		white-space: nowrap;
-		display: table-cell
+		display: table-cell;
+
+		.button img {
+			opacity: 0.54;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
 	}
 
 	.navbar_playPanel {

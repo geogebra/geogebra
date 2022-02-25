@@ -450,21 +450,6 @@ public abstract class GCustomButton extends ButtonBase {
 
 	/**
 	 * Constructor for <code>CustomButton</code>.
-	 *
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param downText
-	 *            the text for the down face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GCustomButton(String upText, String downText, ClickHandler handler) {
-		this(upText, downText);
-		addClickHandler(handler);
-	}
-
-	/**
-	 * Constructor for <code>CustomButton</code>.
 	 */
 	protected GCustomButton() {
 		// Use FocusPanel.impl rather than FocusWidget because only

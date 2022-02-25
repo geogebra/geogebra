@@ -111,7 +111,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					MaterialDesignResources.INSTANCE.sortObjects());
 			treeModeButton.setFixedIcon(icon);
 	
-			treeModeButton.addClickHandler(event -> {
+			treeModeButton.addFastClickHandler(event -> {
 				SortMode selectedMode = app.getAlgebraView().getTreeMode();
 				treeModeButton.setSelectedIndex(supportedModes
 						.indexOf(selectedMode));
@@ -138,7 +138,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 					MaterialDesignResources.INSTANCE.description(), 24);
 			descriptionButton.setFixedIcon(icon);
 
-			descriptionButton.addClickHandler(event -> {
+			descriptionButton.addFastClickHandler(event -> {
 				int selectedMode = app.getKernel().getAlgebraStyle();
 
 				descriptionButton.setSelectedIndex(
@@ -181,9 +181,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 	}
 
 	private void setToolTips() {
-		treeModeButton.setToolTipText(app.getLocalization().getPlainTooltip(
+		treeModeButton.setTitle(app.getLocalization().getPlainTooltip(
 		        "SortBy"));
-		descriptionButton.setToolTipText(app.getLocalization().getMenu(
+		descriptionButton.setTitle(app.getLocalization().getMenu(
 				"AlgebraDescriptions"));
 	}
 
