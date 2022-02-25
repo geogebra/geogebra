@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.popup.autocompletion;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.util.shape.Rectangle;
 import org.geogebra.common.util.shape.Size;
 
@@ -27,7 +25,7 @@ public class AutocompletionPopupPositioner {
 	 * @return the frame of the popup
 	 */
 	public Rectangle calculatePopupFrame(Rectangle inputBounds, Size popupSize, Rectangle frame,
-			VerticalPosition position) {
+			VerticalPosition verticalPosition) {
 		// Position
 		double x, y;
 
@@ -58,8 +56,9 @@ public class AutocompletionPopupPositioner {
 		double spaceBelow = frame.getMaxY() - inputBounds.getMaxY();
 		double spaceAbove = inputBounds.getMinY() - frame.getMinY();
 		double requiredHeight = Math.max(height, MIN_SPACE);
-		if (position == VerticalPosition.BELOW || (position != VerticalPosition.ABOVE &&
-				(requiredHeight <= spaceBelow || spaceBelow > spaceAbove))) {
+		if (verticalPosition == VerticalPosition.BELOW
+				|| (verticalPosition != VerticalPosition.ABOVE
+				&& (requiredHeight <= spaceBelow || spaceBelow > spaceAbove))) {
 			// Popup below input bar
 			y = inputBounds.getMaxY();
 			// Restrict height to remaining space
