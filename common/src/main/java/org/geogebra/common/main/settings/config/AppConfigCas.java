@@ -83,7 +83,7 @@ public class AppConfigCas extends AppConfigGraphing {
 
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
-		return new CASCommandArgumentFilter();
+		return null;
 	}
 
 	@CheckForNull
