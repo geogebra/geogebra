@@ -6543,6 +6543,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
+	public SymbolicEditor initSymbolicEditor() {
+		return createSymbolicEditor();
+	}
+
 	/**
 	 * @param mouseLoc
 	 *            mouse coordinates

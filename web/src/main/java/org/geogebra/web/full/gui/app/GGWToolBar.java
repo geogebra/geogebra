@@ -27,7 +27,6 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -945,25 +944,6 @@ public class GGWToolBar extends Composite
 			return AppResources.INSTANCE.empty();
 		}
 
-	}
-
-	/**
-	 * @param resourceBundle
-	 *            image resource
-	 * @param mode
-	 *            tool id
-	 * @param app
-	 *            see {@link AppW}
-	 * @return colored img for selected on tool
-	 */
-	public static ResourcePrototype getColoredImageForMode(
-			ToolbarResources resourceBundle, int mode, AppW app, String color) {
-		ResourcePrototype prototype = getImageURLNotMacro(resourceBundle, mode, app);
-		if (prototype instanceof SVGResource) {
-			SVGResource resource = (SVGResource) prototype;
-			prototype = resource.withFill(color);
-		}
-		return prototype;
 	}
 
 	/**

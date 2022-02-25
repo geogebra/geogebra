@@ -15,6 +15,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.plugin.Operation;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Arbitrary constant comming from native CAS
  *
@@ -33,6 +35,7 @@ public class MyArbitraryConstant {
 	private ArrayList<GeoNumeric> ints = new ArrayList<>();
 	private ArrayList<GeoNumeric> complexNumbers = new ArrayList<>();
 
+	@Weak
 	private ConstructionElement ce;
 	private int position = 0;
 	private boolean blocking;

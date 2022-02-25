@@ -1,10 +1,9 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
@@ -74,8 +73,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	protected double[] tmpDouble2 = new double[2];
 	private double detS;
 
-	private CoordMatrix tmpMatrix3x3;
-
 	private GeoPlane3D[] planes;
 
 	private GeoLine3D line;
@@ -102,8 +99,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private boolean showUndefinedInAlgebraView = false;
 	private Coords tmpCoords6;
-	private EigenDecomposition decomp;
-	private double[][] eigenvectors = new double[3][3];
+	/** numbers on matrix diagonal */
+	protected double[] diagonal;
+	private CoordMatrix tmpEigenMatrix;
 
 	/**
 	 * @param c
@@ -219,7 +217,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// no midpoint, detS == 0
 
 		// set eigenvalues
-		eigenval = findEigenvaluesApache(matrix);
+		eigenval[0] = -matrix[0] * matrix[1] - matrix[1] * matrix[2]
+				- matrix[2] * matrix[0] + matrix[4] * matrix[4]
+				+ matrix[5] * matrix[5] + matrix[6] * matrix[6];
+		eigenval[1] = matrix[0] + matrix[1] + matrix[2];
+		eigenval[2] = -1;
+
+		int nRoots = EquationSolver.solveQuadraticS(eigenval, eigenval,
+				Kernel.STANDARD_PRECISION);
+
+		if (nRoots == 1) {
+			eigenval[1] = eigenval[0];
+		}
+
+		eigenval[2] = 0;
 
 		// Log.debug("eigenvals = " + eigenval[0] + "," + eigenval[1] + ","
 		// + eigenval[2]);
@@ -256,13 +267,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 				// find from eigenvalue = 0, since both others are equal
-				findEigenvectorApache(2, eigenvecND[2]);
+				findEigenvector(eigenval[2], eigenvecND[2]);
 				eigenvecND[2].normalize();
 				eigenvecND[2].completeOrthonormal(eigenvecND[0], eigenvecND[1]);
 			} else {
-				findEigenvectorApache(0, eigenvecND[0]);
+				findEigenvector(eigenval[0], eigenvecND[0]);
 				eigenvecND[0].normalize();
-				findEigenvectorApache(1, eigenvecND[1]);
+				findEigenvector(eigenval[1], eigenvecND[1]);
 				eigenvecND[1].normalize();
 				eigenvecND[2].setCrossProduct4(eigenvecND[0], eigenvecND[1]);
 			}
@@ -351,45 +362,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
-	private int countZeros(double[] array) {
-		int count = 0;
-		for (double value : array) {
-			if (DoubleUtil.isZero(value)) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	private void arrangeEigens(double[] array) {
-		double[] tmp;
-		if (countZeros(array) == 1) {
-			if (DoubleUtil.isZero(array[0])) {
-				swapEigens(0, 2, array);
-			} else if (DoubleUtil.isZero(array[1])) {
-				swapEigens(1, 2, array);
-			}
-		} else if (countZeros(array) == 2) {
-			if (!DoubleUtil.isZero(array[2])) {
-				swapEigens(2, 0, array);
-			} else if (!DoubleUtil.isZero(array[1])) {
-				swapEigens(1, 0, array);
-			}
-		}
-	}
-
-	private void swapEigens(int i, int j, double[] array) {
-		double tmpVal;
-		double[] tmpVec;
-		tmpVal = array[i];
-		array[i] = array[j];
-		array[j] = tmpVal;
-
-		tmpVec = eigenvectors[i];
-		eigenvectors[i] = eigenvectors[j];
-		eigenvectors[j] = tmpVec;
-	}
-
 	private void paraboloid(double x, double y, double z, double m) {
 
 		// set midpoint
@@ -435,68 +407,30 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	private void findEigenvector(double value, Coords ret) {
-		if (tmpMatrix3x3 == null) {
-			tmpMatrix3x3 = new CoordMatrix(3, 3);
-		}
 
-		tmpMatrix3x3.set(1, 1, matrix[0] - value);
-		tmpMatrix3x3.set(2, 2, matrix[1] - value);
-		tmpMatrix3x3.set(3, 3, matrix[2] - value);
-
-		tmpMatrix3x3.set(1, 2, matrix[4]);
-		tmpMatrix3x3.set(2, 1, matrix[4]);
-		tmpMatrix3x3.set(1, 3, matrix[5]);
-		tmpMatrix3x3.set(3, 1, matrix[5]);
-		tmpMatrix3x3.set(2, 3, matrix[6]);
-		tmpMatrix3x3.set(3, 2, matrix[6]);
-
-		// Log.debug("\n=================================\nvalue = " + value);
-
-		ret.setX(0);
-		ret.setY(0);
-		ret.setZ(0);
-		ret.setW(0);
-		tmpMatrix3x3.pivotDegenerate(ret, Coords.ZERO);
-
-		// Log.debug("\nvalue = " + value + "\nmatrix = \n" + tmpMatrix3x3
-		// + "\nsol = \n" + ret);
-	}
-
-	private double[] findEigenvaluesApache(double[] matrix) {
 		double[][] mat2d = new double[3][3];
+
 		mat2d[0][0] = matrix[0];
 		mat2d[1][1] = matrix[1];
 		mat2d[2][2] = matrix[2];
 
 		mat2d[0][1] = matrix[4];
 		mat2d[1][0] = matrix[4];
-
 		mat2d[0][2] = matrix[5];
 		mat2d[2][0] = matrix[5];
-
 		mat2d[1][2] = matrix[6];
 		mat2d[2][1] = matrix[6];
 
-		RealMatrix apacheMatrix = MatrixUtils.createRealMatrix(mat2d);
-		decomp = new EigenDecomposition(apacheMatrix);
-		eigenval = decomp.getRealEigenvalues();
-		if (eigenval.length == 3) {
-			eigenval = Arrays.copyOf(eigenval, 4);
-		}
+		RealMatrix realMatrix = new Array2DRowRealMatrix(mat2d);
+		EigenDecomposition solver = new EigenDecomposition(realMatrix);
 
-		for (int i = 0; i < 3; i++) {
-			eigenvectors[i] = decomp.getEigenvector(i).toArray();
-		}
-		arrangeEigens(eigenval);
+		double[] eigenValues = solver.getRealEigenvalues();
 
-		return eigenval;
-	}
-
-	private void findEigenvectorApache(int i, Coords ret) {
-		if (decomp == null) {
-			findEigenvaluesApache(matrix);
+		for (int i = 0; i < eigenValues.length; i++) {
+			if (DoubleUtil.isEqual(value, eigenValues[i])) {
+				ret.set(solver.getEigenvector(i).toArray());
+			}
 		}
-		ret.set(new Coords(eigenvectors[i]));
 	}
 
 	/**
@@ -3589,5 +3523,35 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return getLoc().getMenu("SphereEquation");
 		}
 		return null;
+	}
+
+	/**
+	 * sets the matrix values from eigenvectors, midpoint and "diagonal" values
+	 */
+	protected final void setMatrixFromEigen() {
+		setMatrixFromEigen(0);
+	}
+
+	/**
+	 * @param m21
+	 *            element (4,1) of diagonalized matrix
+	 */
+	protected final void setMatrixFromEigen(double m21) {
+		if (tmpEigenMatrix == null) {
+			tmpEigenMatrix = new CoordMatrix(4, 4);
+		}
+		tmpEigenMatrix.set(eigenvecND);
+		tmpEigenMatrix.set(getMidpoint(), 4);
+
+		CoordMatrix diagonalizedMatrix = CoordMatrix.diagonalMatrix(diagonal);
+
+		CoordMatrix eigenMatrixInv = tmpEigenMatrix.inverse();
+
+		diagonalizedMatrix.set(1, 4, m21);
+		diagonalizedMatrix.set(4, 1, m21);
+		CoordMatrix finalMatrix = eigenMatrixInv.transposeCopy()
+				.mul(diagonalizedMatrix).mul(eigenMatrixInv);
+
+		setMatrix(finalMatrix);
 	}
 }
