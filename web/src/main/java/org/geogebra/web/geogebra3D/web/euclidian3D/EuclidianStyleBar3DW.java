@@ -251,7 +251,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void setActionCommands() {
 		setActionCommand(btnShowGrid3D, "showGrid");
-		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
 

@@ -45,7 +45,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
@@ -68,7 +67,6 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -131,9 +129,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private MyToggleButtonW btnFixPosition;
 	private MyToggleButtonW btnFixObject;
-
-	protected StandardButton btnStandardView;
-	protected StandardButton btnCloseView;
 
 	private MyToggleButtonW[] toggleBtnList;
 	private MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
@@ -417,12 +412,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void addButtons() {
 		clear();
 		// --- order matters here
-		// button for closing extra views
-		if (app.isUnbundledOrWhiteboard()
-				&& App.VIEW_EUCLIDIAN_FOR_PLANE_START <= viewID
-				&& viewID <= App.VIEW_EUCLIDIAN_FOR_PLANE_END) {
-			addCloseViewButton();
-		}
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		add(btnPointCapture);
@@ -674,10 +663,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnChangeView);
 	}
 
-	private void addCloseViewButton() {
-		add(btnCloseView);
-	}
-
 	/**
 	 * add automatic rotate 3D view button
 	 */
@@ -715,7 +700,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected void createButtons() {
 		// TODO: fill in
 		createAxesAndGridButtons();
-		createStandardViewBtn();
 		createLineStyleBtn();
 		createPointStyleBtn(mode);
 		createLabelStyleBtn();
@@ -741,9 +725,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createFixObjectBtn();
 		createTextSizeBtn();
 		createChangeViewButtons();
-		if (app.isUnbundledOrWhiteboard()) {
-			createCloseViewBtn();
-		}
 	}
 
 	private LabelSettingsPopup getLabelPopup() {
@@ -938,22 +919,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnAngleInterval.setIcon(icon);
 		btnAngleInterval.addPopupHandler(this);
 		btnAngleInterval.setKeepVisible(false);
-	}
-
-	private void createStandardViewBtn() {
-		btnStandardView = new StandardButton(MaterialDesignResources.INSTANCE.home_black(),
-				null, 24);
-		btnStandardView.addFastClickHandler(event -> setEvStandardView());
-	}
-
-	private void createCloseViewBtn() {
-		btnCloseView = new StandardButton(GuiResourcesSimple.INSTANCE.close(), null, 24);
-		btnCloseView.addStyleName("StylebarCloseViewButton");
-		btnCloseView.addFastClickHandler(event -> closeView());
-	}
-
-	private void closeView() {
-		app.getGuiManager().setShowView(false, viewID);
 	}
 
 	/**
@@ -1214,7 +1179,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		// btnFixPosition.addStyleName("btnFixPosition");
 		btnFixPosition.addValueChangeHandler(this);
 	}
 
@@ -1988,7 +1952,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 			return;
 		}
 		setAxesAndGridToolTips(loc);
-		btnStandardView.setTitle("stylebar.ViewDefault");
 		setToolTipText(btnLabelStyle, "stylebar.Label");
 		setToolTipText(btnAngleInterval, "AngleBetween");
 		setToolTipText(btnColor, "stylebar.Color");
@@ -2069,5 +2032,4 @@ public class EuclidianStyleBarW extends StyleBarW2
 			toggleCrop(false);
 		}
 	}
-
 }
