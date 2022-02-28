@@ -160,8 +160,9 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setUndoPoint();
 	}
 
-	public void setSaved() {
-		ggbAPI.setSaved();
+	public void setSaved(Object saved) {
+		// setSaved() is a shortcut for setSaved(true) for compatibility, use safe!==false
+		ggbAPI.setSaved(!Js.isTripleEqual(saved, false));
 	}
 
 	public boolean isSaved() {
