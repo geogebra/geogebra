@@ -66,12 +66,12 @@ public class AutocompletionPopupPositioner {
 				height = spaceBelow;
 			}
 		} else {
-			// Popup above input bar
-			y = inputBounds.getMinY() - height;
 			// Restrict height to remaining space
 			if (height > spaceAbove) {
 				height = spaceAbove;
 			}
+			// Popup above input bar
+			y = inputBounds.getMinY() - height;
 		}
 
 		return new Rectangle(x, x + width, y, y + height);
