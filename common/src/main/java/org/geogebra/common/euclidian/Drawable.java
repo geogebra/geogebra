@@ -402,6 +402,10 @@ public abstract class Drawable extends DrawableND {
 			xLabel = screenWidth - insets.getRight() - widthEstimate;
 		}
 		if (yLabel - heightEstimate < insets.getTop()) {
+			if (roughEstimate) {
+				drawLabel(view.getTempGraphics2D(font));
+				heightEstimate = (int) labelRectangle.getHeight();
+			}
 			yLabel = insets.getTop() + heightEstimate;
 		} else if (yLabel > screenHeight - insets.getBottom()) {
 			yLabel = screenHeight - insets.getBottom();
