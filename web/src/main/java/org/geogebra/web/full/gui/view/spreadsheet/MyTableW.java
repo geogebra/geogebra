@@ -1460,29 +1460,26 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int left, top;
 		if (scaleOffset) {
 			left = (int) ((wt.getAbsoluteLeft() - offx)
-					/ app.getGeoGebraElement().getScaleX()) + offx;
+					/ getScale()) + offx;
 			top = (int) ((wt.getAbsoluteTop() - offy)
-					/ app.getGeoGebraElement().getScaleY()) + offy;
+					/ getScale()) + offy;
 		} else {
 			left = (int) (wt.getAbsoluteLeft()
-					/ app.getGeoGebraElement().getScaleX());
+					/ getScale());
 			top = (int) (wt.getAbsoluteTop()
-					/ app.getGeoGebraElement().getScaleY());
+					/ getScale());
 		}
-		// Log.debug("-----------------------" + min);
 
 		if (min) {
-			// Log.debug("col x row: " + column + " x " + row + " pixels: " +
-			// left + " x " + top);
-			// getPixel2(column,row,min);
 			return new GPoint(left, top);
 		}
-		// Log.debug("col x row: " + column + " x " + row + " pixels: " + (left
-		// + wt.getOffsetWidth()) +
-		// " x " + (top+wt.getOffsetHeight()));
-		// getPixel2(column,row,min);
 		return new GPoint(left + wt.getOffsetWidth(), top
 		        + wt.getOffsetHeight());
+	}
+
+	private double getScale() {
+		// based on GPopupPanel.getScale. Assumes that x and y scale are the same
+		return Browser.isSafariByVendor() ? 1 : app.getGeoGebraElement().getScaleX();
 	}
 
 	protected GPoint getPixelRelative(int column, int row) {
