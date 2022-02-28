@@ -83,6 +83,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	@Override
 	public void setHeight(int height) {
 		style.setHeight(height, Style.Unit.PX);
+		mathFieldEditor.getMathField().setMinHeight(height);
 	}
 
 	@Override
