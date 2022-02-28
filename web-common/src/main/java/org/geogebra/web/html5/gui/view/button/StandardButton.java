@@ -87,9 +87,19 @@ public class StandardButton extends Widget implements HasResource {
 	public StandardButton(final ResourcePrototype icon, int width, GColor hoverIconColor) {
 		this(icon, null, width, -1);
 		if (hoverIconColor != null) {
-			addMouseOverHandler(hoverIconColor);
-			addMouseOutHandler();
+			setMouseOverHandler(() ->
+					setIcon(((SVGResource) getIcon()).withFill(hoverIconColor.toString())));
+			setMouseOutHandler(() ->
+					setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString())));
 		}
+	}
+
+	/**
+	 * @param icon - img of button
+	 * @param width - width
+	 */
+	public StandardButton(final ResourcePrototype icon, int width) {
+		this(icon, null, width, -1);
 	}
 
 	public StandardButton(int width) {
@@ -100,7 +110,6 @@ public class StandardButton extends Widget implements HasResource {
 		this.colorIcon = new ImageOrText();
 		colorLbl = new Label();
 		colorLbl.setStyleName("buttonContent");
-		//setIcon(colorIcon);
 		buildColorIcon();
 	}
 
@@ -285,21 +294,13 @@ public class StandardButton extends Widget implements HasResource {
 		});
 	}
 
-	/**
-	 * @param color of icon on hover
-	 */
-	public void addMouseOverHandler(GColor color) {
-		Dom.addEventListener(this.getElement(), "mouseover", (e) -> {
-			setIcon(((SVGResource) getIcon()).withFill(color.toString()));
-		});
+	public void setMouseOverHandler(Runnable mouseOverHandler) {
+		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
+				mouseOverHandler.run());
 	}
 
-	/**
-	 * color icon back to black after hover over
-	 */
-	public void addMouseOutHandler() {
-		Dom.addEventListener(this.getElement(), "mouseout", (e) -> {
-			setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString()));
-		});
+	public void setMouseOutHandler(Runnable mouseOutHandler) {
+		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
+				mouseOutHandler.run());
 	}
 }

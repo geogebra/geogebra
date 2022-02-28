@@ -34,8 +34,9 @@ public class ContextMenuPopup extends StandardButton
 	 * @param popup - context menu popup
 	 */
 	public ContextMenuPopup(AppW app, GPopupMenuW popup) {
-		super(MaterialDesignResources.INSTANCE.more_vert_black(), 24,
-				GeoGebraColorConstants.GEOGEBRA_ACCENT);
+		super(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
+		setMouseOverHandler(() -> switchIcon(true));
+		setMouseOutHandler(() -> switchIcon(false));
 		this.app = app;
 		this.popup = popup;
 		location = new GPoint();
@@ -89,8 +90,8 @@ public class ContextMenuPopup extends StandardButton
 		}
 
 		Dom.toggleClass(this, "noOpacity", isActive);
-		setIcon(((SVGResource) getIcon()).withFill(isActive ?
-				GeoGebraColorConstants.GEOGEBRA_ACCENT.toString()
+		setIcon(((SVGResource) getIcon()).withFill(isActive
+				? GeoGebraColorConstants.GEOGEBRA_ACCENT.toString()
 				: GColor.BLACK.toString()));
 	}
 
