@@ -4,7 +4,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Analytics;
-import org.geogebra.common.util.debug.Log;
 
 public class LoginAnalytics implements EventRenderable {
 
