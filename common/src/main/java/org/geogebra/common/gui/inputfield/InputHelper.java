@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.shape.Rectangle;
 
 import com.himamis.retex.editor.share.model.Korean;
 
@@ -87,7 +88,7 @@ public class InputHelper {
 						.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 
-				EuclidianView.Rectangle visibleRect = ev.getVisibleRect();
+				Rectangle visibleRect = ev.getVisibleRect();
 				GeoPoint p = new GeoPoint(text.getConstruction(), null,
 						(visibleRect.getMinX() + visibleRect.getMaxX()) / 2,
 						(visibleRect.getMinY() + visibleRect.getMaxX()) / 2, 1.0);
