@@ -1376,7 +1376,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(new ImageOrText(
+		btnTextSize.setFixedIcon(new ImageOrText(
 						MaterialDesignResources.INSTANCE.text_size_black(), 24));
 		btnTextSize.addStyleName("withIcon");
 		btnTextSize.getMyPopup().removeStyleName("matPopupPanel");

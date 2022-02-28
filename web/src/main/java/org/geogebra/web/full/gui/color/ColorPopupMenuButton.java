@@ -186,11 +186,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
-			if (!app.isWhiteboardActive()) {
+			if (!app.isUnbundledOrWhiteboard()) {
 				this.setIcon(
 						GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
-			}
-			if (!app.isUnbundledOrWhiteboard()) {
 				this.getElement().getStyle().setBorderColor(gc.toString());
 			}
 		} else {
