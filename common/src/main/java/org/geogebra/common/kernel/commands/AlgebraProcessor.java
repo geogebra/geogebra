@@ -1976,11 +1976,6 @@ public class AlgebraProcessor {
 		if (replaceable instanceof HasArbitraryConstant) {
 			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
 			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
-		} else if (replaceable != null && replaceable.getParentAlgorithm()
-				instanceof HasArbitraryConstant) {
-			HasArbitraryConstant hasConstant = (HasArbitraryConstant)
-					replaceable.getParentAlgorithm();
-			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
 		}
 
 		GeoElement[] ret;

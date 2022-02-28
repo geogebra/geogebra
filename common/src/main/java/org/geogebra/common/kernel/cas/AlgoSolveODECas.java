@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.HasArbitraryConstant;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
@@ -22,13 +21,13 @@ import org.geogebra.common.util.debug.Log;
  * @author zbynek
  *
  */
-public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements HasArbitraryConstant {
+public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private CasEvaluableFunction f;
 	private GeoFunction g;
 	private GeoPointND pt;
 	private String oldCASstring;
 	private boolean nocas = false;
-	private MyArbitraryConstant arbconst;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -43,11 +42,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements HasArbitrar
 	public AlgoSolveODECas(Construction cons, String label,
 			CasEvaluableFunction f, EvalInfo info) {
 		super(cons);
-		nocas = !info.isUsingCAS();
-		arbconst = info.getArbitraryConstant();
-		if (arbconst == null) {
-			arbconst = new MyArbitraryConstant(this);
-		}
+		this.nocas = !info.isUsingCAS();
 		this.f = f;
 		/** g is created in compute */
 		compute();
@@ -191,15 +186,5 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements HasArbitrar
 	@Override
 	public void refreshCASResults() {
 		this.oldCASstring = "";
-	}
-
-	@Override
-	public MyArbitraryConstant getArbitraryConstant() {
-		return arbconst;
-	}
-
-	@Override
-	public void setArbitraryConstant(MyArbitraryConstant constant) {
-		arbconst = constant;
 	}
 }
