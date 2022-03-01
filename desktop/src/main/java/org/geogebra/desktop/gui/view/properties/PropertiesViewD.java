@@ -66,7 +66,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	// option panels
 	private OptionsDefaultsD defaultsPanel;
-	private OptionsEuclidianD<EuclidianViewD> euclidianPanel, euclidianPanel2;
+	private OptionsEuclidianD<EuclidianViewD> euclidianPanel;
+	private OptionsEuclidianD<EuclidianViewD> euclidianPanel2;
 	private OptionsSpreadsheetD spreadsheetPanel;
 	private OptionsCASD casPanel;
 	private OptionsAdvancedD advancedPanel;
@@ -84,7 +85,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	/**************************************************
 	 * Constructor
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public PropertiesViewD(AppD app) {
 		super(app);
@@ -108,7 +109,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		setLabels();
 
-		app.setDefaultCursor();// remove this if init object properties is
+		app.setDefaultCursor(); // remove this if init object properties is
 								// faster
 	}
 
@@ -313,6 +314,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		wrappedPanel.repaint();
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void updateGUI() {
 
 		if (defaultsPanel != null) {
@@ -392,8 +396,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 * Returns the option panel for the given type. If the panel does not exist,
 	 * a new one is constructed
 	 * 
-	 * @param type
-	 * @return
+	 * @param type option type
+	 * @return option panel
 	 */
 	public OptionPanelD getOptionPanel(OptionType type) {
 
@@ -614,7 +618,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			return;
 		}
 
-		((OptionsObjectD) getObjectPanel()).updateVisualStyle(geo);
+		((OptionsObjectD) getObjectPanel()).updateSelection(
+				app.getSelectionManager().getSelectedGeos());
 		((OptionsObjectD) getObjectPanel()).getTree().updateVisualStyle(geo, prop);
 
 	}
@@ -783,28 +788,25 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		}
 	}
 
-	// //////////////////////////////////////////////////////
-	// FOR DOCK/UNDOCK PANEL
-	// //////////////////////////////////////////////////////
-
+	/**
+	 * Dock this view
+	 */
 	public void windowPanel() {
 		applyModifications();
 		((OptionsObjectD) getObjectPanel()).setGeoTreeVisible();
-
-		// kernel.attach(geoTree);
-		// kernel.notifyAddAll(geoTree);
-		// app.setSelectionListenerMode(this);
 	}
 
+	/**
+	 * Undock this view
+	 */
 	public void unwindowPanel() {
 		applyModifications();
 		((OptionsObjectD) getObjectPanel()).setGeoTreeNotVisible();
-
-		// kernel.detach(geoTree);
-		// geoTree.clear();
-		// app.setSelectionListenerMode(null);
 	}
 
+	/**
+	 * Hide the view
+	 */
 	public void closeDialog() {
 		wrappedPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		app.storeUndoInfo();
@@ -812,6 +814,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		app.getGuiManager().setShowView(false, getViewID());
 	}
 
+	/**
+	 * Show the properties view and focus slider tab
+	 */
 	public void showSliderTab() {
 		selectedOptionType = OptionType.EUCLIDIAN;
 		setOptionPanel(OptionType.OBJECTS);
@@ -826,14 +831,13 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	}
 
 	public JPanel getWrappedPanel() {
-		// TODO Auto-generated method stub
 		return wrappedPanel;
 	}
 
 	/**
-	 * @param app
-	 * @param type
-	 * @return
+	 * @param app application
+	 * @param type properties view tab
+	 * @return icon
 	 */
 	public static ImageIcon getTypeIcon(AppD app, OptionType type) {
 		switch (type) {
@@ -875,43 +879,34 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		Font font = ((AppD) app).getPlainFont();
 		mainPanel.setFont(font);
 
-		if (defaultsPanel != null)
-		 {
+		if (defaultsPanel != null) {
 			defaultsPanel.updateFont(); // tree + button
 		}
-		if (euclidianPanel != null)
-		 {
-			euclidianPanel.updateFont(); //
+		if (euclidianPanel != null) {
+			euclidianPanel.updateFont();
 		}
-		if (euclidianPanel2 != null)
-		 {
-			euclidianPanel2.updateFont(); //
+		if (euclidianPanel2 != null) {
+			euclidianPanel2.updateFont();
 		}
-		if (spreadsheetPanel != null)
-		 {
-			spreadsheetPanel.updateFont(); //
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.updateFont();
 		}
-		if (casPanel != null)
-		 {
-			casPanel.updateFont(); //
+		if (casPanel != null) {
+			casPanel.updateFont();
 		}
-		if (advancedPanel != null)
-		 {
-			advancedPanel.updateFont(); //
+		if (advancedPanel != null) {
+			advancedPanel.updateFont();
 		}
-		if (getObjectPanel() != null)
-		 {
+		if (getObjectPanel() != null) {
 			((OptionsObjectD) getObjectPanel()).updateFont(); // tree
 		}
-		if (layoutPanel != null)
-		 {
-			layoutPanel.updateFont(); //
+		if (layoutPanel != null) {
+			layoutPanel.updateFont();
 		}
 
 		if (styleBar != null) {
 			styleBar.reinit();
 		}
-		// SwingUtilities.updateComponentTreeUI(mainPanel);
 
 	}
 
@@ -919,8 +914,10 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		Log.debug("unimplemented");
 	}
 
+	/**
+	 * @return whether the parent dock panel is visible
+	 */
 	public boolean isShowing() {
-
 		PropertiesDockPanel dockPanel = ((GuiManagerD) app.getGuiManager())
 				.getPropertiesDockPanel();
 		if (dockPanel == null) {

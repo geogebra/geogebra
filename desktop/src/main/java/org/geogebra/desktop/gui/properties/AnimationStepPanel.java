@@ -17,7 +17,6 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.AngleTextField;
 import org.geogebra.desktop.main.AppD;
 
@@ -129,12 +128,6 @@ public class AnimationStepPanel extends JPanel
 
 		label.setFont(font);
 		tfAnimStep.setFont(font);
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

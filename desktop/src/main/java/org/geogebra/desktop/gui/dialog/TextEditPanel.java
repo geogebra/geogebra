@@ -11,7 +11,6 @@ import javax.swing.JSplitPane;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -47,7 +46,8 @@ public class TextEditPanel extends JPanel implements ActionListener,
 		if (td != null) {
 			return;
 		}
-		td = new TextInputDialogD(this.propertiesPanelD.app, this.propertiesPanelD.loc.getMenu("Text"), null, null,
+		td = new TextInputDialogD(this.propertiesPanelD.app,
+				this.propertiesPanelD.loc.getMenu("Text"), null, null,
 				true, 30, 5, false);
 		setLayout(new BorderLayout());
 
@@ -116,11 +116,5 @@ public class TextEditPanel extends JPanel implements ActionListener,
 
 		editPanel.setFont(font);
 		td.updateFonts();
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 }

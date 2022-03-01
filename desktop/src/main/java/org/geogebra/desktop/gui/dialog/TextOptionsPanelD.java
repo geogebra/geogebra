@@ -27,7 +27,6 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -49,8 +48,11 @@ class TextOptionsPanelD extends JPanel
 	private static final long serialVersionUID = 1L;
 	private TextOptionsModel model;
 	private JLabel decimalLabel;
-	private JComboBox cbFont, cbSize, cbDecimalPlaces;
-	private JToggleButton btBold, btItalic;
+	private JComboBox cbFont;
+	private JComboBox cbSize;
+	private JComboBox cbDecimalPlaces;
+	private JToggleButton btBold;
+	private JToggleButton btItalic;
 
 	private JPanel secondLine;
 	private TextEditPanel editPanel;
@@ -173,14 +175,6 @@ class TextOptionsPanelD extends JPanel
 		return update();
 	}
 
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		if (!model.hasGeos()) {
-			return;
-		}
-		update();
-	}
-
 	public JPanel update() {
 		// check geos
 		if (!model.checkGeos()) {
@@ -208,7 +202,7 @@ class TextOptionsPanelD extends JPanel
 		Object source = e.getSource();
 
 		if (source == cbSize) {
-			boolean isCustom = (cbSize.getSelectedIndex() == 7);
+			boolean isCustom = cbSize.getSelectedIndex() == 7;
 			if (isCustom) {
 				final String percentStr = JOptionPane
 						.showInputDialog(

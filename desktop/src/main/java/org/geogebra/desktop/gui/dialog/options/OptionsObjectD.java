@@ -274,29 +274,6 @@ public class OptionsObjectD extends OptionsObject
 		}
 	}
 
-	/**
-	 * update visual style of geo
-	 * 
-	 * @param geo
-	 *            geo
-	 */
-	public void updateVisualStyle(GeoElement geo) {
-		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected =
-		// "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
-		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains =
-		// "+(selection!=null
-		// && selection.contains(geo)));
-
-		/*
-		 * if (selection != null && selection.contains(geo))
-		 * propPanel.updateSelection(selection.toArray()); // TODO update only
-		 * // first tab, set // flag to others
-		 */
-
-		propPanel.updateVisualStyle(geo);
-
-	}
-
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();

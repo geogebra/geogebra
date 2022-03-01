@@ -32,7 +32,6 @@ import org.geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsLi
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.desktop.awt.GColorD;
@@ -56,37 +55,44 @@ public class SliderPanelD extends JPanel
 	 */
 
 	private static final long serialVersionUID = 1L;
-	private SliderModel model;
-	private AngleTextField tfMin, tfMax;
-	private JTextField tfWidth;
-	private JTextField tfBlobSize;
-	private JTextField tfLineThickness;
-	private JTextField[] tfields;
-	private JLabel[] tLabels;
-	private JLabel lbWidthUnit;
-	private JLabel lblBlobSizeUnit;
-	private JLabel lblLineThicknessUnit;
-	private JCheckBox cbSliderFixed, cbRandom;
-	private JComboBox coSliderHorizontal;
-	private JLabel lblLineColor;
-	private JButton btnLineColor;
-	private JLabel lblBlobColor;
-	private JButton btnBlobColor;
-	private JPanel opacityPanel;
-	private JSlider sliderLineOpacity;
-	private JLabel lblLineOpacity;
-	private AppD app;
-	private AnimationStepPanel stepPanel;
-	private AnimationSpeedPanel speedPanel;
-	private Kernel kernel;
-	private PropertiesPanelD propPanel;
-	private JPanel intervalPanel, sliderPanel, animationPanel;
-	private JPanel pointSliderStylePanel, lineSliderStylePanel;
-	private boolean useTabbedPane;
+	private final SliderModel model;
+	private final AngleTextField tfMin;
+	private final AngleTextField tfMax;
+	private final JTextField tfWidth;
+	private final JTextField tfBlobSize;
+	private final JTextField tfLineThickness;
+	private final JTextField[] tfields;
+	private final JLabel[] tLabels;
+	private final JLabel lbWidthUnit;
+	private final JCheckBox cbSliderFixed;
+	private final JCheckBox cbRandom;
+	private final JComboBox<String> coSliderHorizontal;
+	private final JLabel lblLineColor;
+	private final JButton btnLineColor;
+	private final JLabel lblBlobColor;
+	private final JButton btnBlobColor;
+	private final JSlider sliderLineOpacity;
+	private final AppD app;
+	private final AnimationStepPanel stepPanel;
+	private final AnimationSpeedPanel speedPanel;
+	private final Kernel kernel;
+	private final PropertiesPanelD propPanel;
+	private final JPanel intervalPanel;
+	private final JPanel sliderPanel;
+	private final JPanel animationPanel;
+	private final JPanel pointSliderStylePanel;
+	private final JPanel lineSliderStylePanel;
+	private final boolean useTabbedPane;
 	private boolean actionPerforming;
 
 	private final Localization loc;
 
+	/**
+	 * @param app app
+	 * @param propPanel properties panel
+	 * @param useTabbedPane whether to use tabs
+	 * @param includeRandom whether to add checkbox for random
+	 */
 	public SliderPanelD(AppD app, PropertiesPanelD propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
@@ -103,7 +109,6 @@ public class SliderPanelD extends JPanel
 		pointSliderStylePanel = new JPanel(
 				new GridLayout(2, 1));
 		lineSliderStylePanel = new JPanel(new GridLayout(4, 1));
-		lblLineOpacity = new JLabel(loc.getMenu("LineOpacity") + ":");
 		sliderLineOpacity = new JSlider(0, 100);
 		sliderLineOpacity.setMajorTickSpacing(25);
 		sliderLineOpacity.setMinorTickSpacing(5);
@@ -121,7 +126,7 @@ public class SliderPanelD extends JPanel
 		cbRandom.addActionListener(this);
 		sliderPanel.add(cbRandom);
 
-		coSliderHorizontal = new JComboBox();
+		coSliderHorizontal = new JComboBox<>();
 		coSliderHorizontal.addActionListener(this);
 		sliderPanel.add(coSliderHorizontal);
 
@@ -131,8 +136,8 @@ public class SliderPanelD extends JPanel
 		tfBlobSize = new MyTextFieldD(app, 4);
 		tfLineThickness = new MyTextFieldD(app, 4);
 		lbWidthUnit = new JLabel("");
-		lblBlobSizeUnit = new JLabel("px");
-		lblLineThicknessUnit = new JLabel("px");
+		JLabel lblBlobSizeUnit = new JLabel("px");
+		JLabel lblLineThicknessUnit = new JLabel("px");
 		tfields = new MyTextFieldD[5];
 		tLabels = new JLabel[5];
 		tfields[0] = tfMin;
@@ -191,7 +196,8 @@ public class SliderPanelD extends JPanel
 				.add(LayoutUtil.flowPanel(lblBlobColor, btnBlobColor));
 		lineSliderStylePanel
 				.add(LayoutUtil.flowPanel(lblLineColor, btnLineColor));
-		opacityPanel = LayoutUtil.flowPanel(lblLineOpacity, sliderLineOpacity);
+		JLabel lblLineOpacity = new JLabel(loc.getMenu("LineOpacity") + ":");
+		JPanel opacityPanel = LayoutUtil.flowPanel(lblLineOpacity, sliderLineOpacity);
 		lineSliderStylePanel.add(opacityPanel);
 		// add increment to intervalPanel
 		stepPanel = new AnimationStepPanel(app);
@@ -254,8 +260,8 @@ public class SliderPanelD extends JPanel
 		coSliderHorizontal.removeActionListener(this);
 		coSliderHorizontal.removeAllItems();
 
-		for (int i = 0; i < comboStr.length; ++i) {
-			coSliderHorizontal.addItem(comboStr[i]);
+		for (String s : comboStr) {
+			coSliderHorizontal.addItem(s);
 		}
 
 		coSliderHorizontal.setSelectedIndex(selectedIndex);
@@ -288,19 +294,17 @@ public class SliderPanelD extends JPanel
 			return null;
 		}
 
-		for (int i = 0; i < tfields.length; i++) {
-			tfields[i].removeActionListener(this);
+		for (JTextField tfield : tfields) {
+			tfield.removeActionListener(this);
 		}
 
 		coSliderHorizontal.removeActionListener(this);
 		cbSliderFixed.removeActionListener(this);
 		cbRandom.removeActionListener(this);
-
-
 		model.updateProperties();
 
-		for (int i = 0; i < tfields.length; i++) {
-			tfields[i].addActionListener(this);
+		for (JTextField tfield : tfields) {
+			tfield.addActionListener(this);
 		}
 
 		coSliderHorizontal.addActionListener(this);
@@ -310,11 +314,10 @@ public class SliderPanelD extends JPanel
 		return this;
 	}
 
-	private void doBlobColorActionPerformed(JButton btnBlobCol) {
+	private void doBlobColorActionPerformed() {
 		model.applyBlobColor(
 				GColorD.newColor(((GuiManagerD) app.getGuiManager())
 						.showColorChooser(model.getBlobColor())));
-		btnBlobCol.setForeground(GColorD.getAwtColor(model.getBlobColor()));
 	}
 
 	/**
@@ -328,11 +331,10 @@ public class SliderPanelD extends JPanel
 				lineCol.getBlue(), sliderLineOpacity.getValue() * 255 / 100);
 	}
 
-	private void doLineColorActionPerformed(JButton btnLineCol) {
+	private void doLineColorActionPerformed() {
 		model.applyLineColor(
 				GColorD.newColor(((GuiManagerD) app.getGuiManager())
 						.showColorChooser(model.getLineColor())));
-		btnLineCol.setForeground(GColorD.getAwtColor(model.getLineColor()));
 	}
 
 	/**
@@ -346,11 +348,11 @@ public class SliderPanelD extends JPanel
 		} else if (source == cbRandom) {
 			doRandomActionPerformed((JCheckBox) source);
 		} else if (source == coSliderHorizontal) {
-			doComboBoxActionPerformed((JComboBox) source);
+			doComboBoxActionPerformed();
 		} else if (source == btnBlobColor) {
-			doBlobColorActionPerformed(btnBlobColor);
+			doBlobColorActionPerformed();
 		} else if (source == btnLineColor) {
-			doLineColorActionPerformed(btnLineColor);
+			doLineColorActionPerformed();
 		} else {
 			doTextFieldActionPerformed((JTextField) e.getSource());
 		}
@@ -366,8 +368,8 @@ public class SliderPanelD extends JPanel
 		updatePanel(model.getGeos());
 	}
 
-	private void doComboBoxActionPerformed(JComboBox source) {
-		model.applyDirection(source.getSelectedIndex());
+	private void doComboBoxActionPerformed() {
+		model.applyDirection(coSliderHorizontal.getSelectedIndex());
 		updatePanel(model.getGeos());
 	}
 
@@ -428,27 +430,20 @@ public class SliderPanelD extends JPanel
 		cbRandom.setFont(font);
 		coSliderHorizontal.setFont(font);
 
-		for (int i = 0; i < tLabels.length; ++i) {
-			tLabels[i].setFont(font);
+		for (JLabel tLabel : tLabels) {
+			tLabel.setFont(font);
 		}
 
 		tfMin.setFont(font);
 		tfMax.setFont(font);
 		tfWidth.setFont(font);
 
-		for (int i = 0; i < tfields.length; ++i) {
-			tfields[i].setFont(font);
+		for (JTextField tfield : tfields) {
+			tfield.setFont(font);
 		}
 
 		stepPanel.updateFonts();
 		speedPanel.updateFonts();
-
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -498,12 +493,14 @@ public class SliderPanelD extends JPanel
 
 	@Override
 	public void setBlobColor(GColor color) {
-		// TODO implement desktop
+		btnBlobColor.setForeground(GColorD.getAwtColor(color));
+		btnBlobColor.repaint();
 	}
 
 	@Override
 	public void setLineColor(GColor color) {
-		// TODO implement desktop
+		btnLineColor.setForeground(GColorD.getAwtColor(color));
+		btnLineColor.repaint();
 	}
 
 	@Override
