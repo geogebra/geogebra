@@ -23,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawAxis3D extends DrawLine3D {
 
-	private TreeMap<String, DrawLabel3D> labels;
+	private TreeMap<String, DrawAxisLabel3D> labels;
 	private float numbersXOffset;
 	private float numbersYOffset;
 	private float numbersZOffset;
@@ -134,7 +134,7 @@ public class DrawAxis3D extends DrawLine3D {
 					strNum += unitLabel;
 				}
 				// check if the label already exists
-				DrawLabel3D tickLabel = labels.get(strNum);
+				DrawAxisLabel3D tickLabel = labels.get(strNum);
 				if (tickLabel != null) {
 					// sets the label visible
 					tickLabel.setIsVisible(true);
@@ -146,7 +146,7 @@ public class DrawAxis3D extends DrawLine3D {
 					// TODO optimize this
 				} else {
 					// creates new label
-					tickLabel = new DrawLabel3D(getView3D(), this);
+					tickLabel = new DrawAxisLabel3D(getView3D(), this);
 					tickLabel.setAnchor(true);
 					tickLabel.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),

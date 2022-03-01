@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -177,7 +178,8 @@ class NamePanel extends OptionPanel
 			autoShowCaption();
 		}
 		model.applyCaptionChange(tfCaption.getText());
-		((EuclidianViewW) app.getActiveEuclidianView()).doRepaint();
+		EuclidianView activeEuclidianView = app.getActiveEuclidianView();
+		((EuclidianViewW) activeEuclidianView).doRepaint();
 	}
 
 	private void autoShowCaption() {
