@@ -525,19 +525,21 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			case MULTIPLY:
 				StringBuilder sp = new StringBuilder();
 				for (int i = 0; i < operands.length; i++) {
-					if (i != 0 && requiresDot(operands[i - 1], operands[i])) {
+					StepExpression current = operands[i];
+					if (i != 0 && requiresDot(operands[i - 1], current)) {
 						sp.append(" \\cdot ");
 					} else if (i != 0) {
 						sp.append(" ");
 					}
-
+					boolean last = i == operands.length - 1;
 					boolean parentheses =
-							operands[i].isOperation(Operation.PLUS) || operands[i].isNegative();
+							current.isOperation(Operation.PLUS) || current.isNegative()
+									|| (current.isOperation(Operation.DIFF)	&& !last);
 
 					if (parentheses) {
 						sp.append("\\left(");
 					}
-					sp.append(operands[i].toLaTeXString(loc, colored));
+					sp.append(current.toLaTeXString(loc, colored));
 					if (parentheses) {
 						sp.append("\\right)");
 					}
@@ -593,11 +595,14 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				sb.append("\\frac{d}{d");
 				sb.append(operands[1].toLaTeXString(loc, colored));
 				sb.append("}");
-				if (operands[0].isOperation(Operation.PLUS)) {
+				boolean composite = operands[0].isNegative()
+						|| operands[0].isOperation(Operation.PLUS)
+						|| operands[0].isOperation(Operation.MULTIPLY);
+				if (composite) {
 					sb.append("\\left(");
 				}
 				sb.append(operands[0].toLaTeXString(loc, colored));
-				if (operands[0].isOperation(Operation.PLUS)) {
+				if (composite) {
 					sb.append("\\right)");
 				}
 				return sb.toString();
