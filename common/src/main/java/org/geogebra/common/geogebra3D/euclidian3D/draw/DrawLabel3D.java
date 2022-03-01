@@ -165,9 +165,13 @@ public class DrawLabel3D {
 	 * @param zOffset0
 	 * 	          abs offset in y
 	 */
-	public void update(String text0, GFont font0, GColor bgColor,
+	public void update(String text1, GFont font0, GColor bgColor,
 			GColor fgColor, Coords v, float xOffset0, float yOffset0, float zOffset0) {
 
+		GeoElement geo = drawable.getGeoElement();
+		String text0 = geo.hasDynamicCaption()
+				? geo.getDynamicCaption().getTextStringSafe()
+				: text1;
 		this.origin = v;
 		if (text0.length() == 0) {
 			return;
@@ -211,7 +215,6 @@ public class DrawLabel3D {
 			tempGraphics.setFont(font);
 
 			serif = true;
-			GeoElement geo = drawable.getGeoElement();
 			if (geo instanceof TextProperties) {
 				serif = ((TextProperties) geo).isSerifFont();
 			}
