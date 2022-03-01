@@ -1,8 +1,12 @@
 <script>
     defaultParams.id = "notesApplet";
+    var loadedFromStorage = false;
 
-    function ggbAppletOnLoad(){
+    function ggbAppletOnLoad(id){
         window.parent.postMessage("{\"action\":\"appletOnLoad\"}","*");
+        if (loadedFromStorage && id == defaultParams.id) {
+            window[defaultParams.id].setSaved(false);
+        }
     }
 
     function loadFontScript(basePath) {
@@ -18,6 +22,7 @@
         if (unsavedWork) {
             loadBase64(ggw, unsavedWork);
             storage.removeItem('tafelUnsaved')
+            loadedFromStorage = true;
         }
         return unsavedWork;
     }

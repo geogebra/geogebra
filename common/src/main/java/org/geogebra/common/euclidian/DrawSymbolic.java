@@ -35,6 +35,9 @@ public class DrawSymbolic extends Drawable {
 				&& twinDrawable.getGeoElement() == twinGeo) {
 			twinDrawable.update();
 		} else {
+			if (twinDrawable instanceof RemoveNeeded) {
+				((RemoveNeeded) twinDrawable).remove();
+			}
 			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
 			twinGeo.setVisualStyle(symbolic);
 			twinGeo.setEuclidianVisible(symbolic.isEuclidianVisible());

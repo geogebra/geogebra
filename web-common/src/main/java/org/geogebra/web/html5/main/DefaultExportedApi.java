@@ -160,8 +160,9 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setUndoPoint();
 	}
 
-	public void setSaved() {
-		ggbAPI.setSaved();
+	public void setSaved(Object saved) {
+		// setSaved() is a shortcut for setSaved(true) for compatibility, use safe!==false
+		ggbAPI.setSaved(!Js.isTripleEqual(saved, false));
 	}
 
 	public boolean isSaved() {
@@ -818,6 +819,14 @@ public class DefaultExportedApi implements ExportedApi {
 		String stateString = JsEval.isJSString(state) ? Js.asString(state)
 				: Global.JSON.stringify(state);
 		ggbAPI.setEditorState(stateString, label);
+	}
+
+	public String getInputBoxState(String label) {
+		return ggbAPI.getInputBoxState(label);
+	}
+
+	public void setInputBoxState(String state, String label) {
+		ggbAPI.setInputBoxState(state, label);
 	}
 
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,

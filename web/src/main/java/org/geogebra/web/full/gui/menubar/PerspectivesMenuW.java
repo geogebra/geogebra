@@ -107,15 +107,11 @@ public class PerspectivesMenuW extends Submenu {
 				&& app.getAppletParameters().getDataParamApp()) {
 			Browser.changeMetaTitle(app.getLocalization()
 					.getMenu(perspective.getId()));
-			updateURL(perspective.getSlug());
+			Browser.changeUrl("/classic#" + perspective.getSlug());
 		}
 		if (changed) {
 			app.storeUndoInfo();
 		}
-	}
-
-	private static void updateURL(String slug) {
-		Browser.changeUrl("/classic#" + slug);
 	}
 
 	@Override

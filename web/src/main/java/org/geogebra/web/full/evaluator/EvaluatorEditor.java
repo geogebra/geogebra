@@ -83,6 +83,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 				.setJsonArgument(evaluatorValue);
 		if (key != null) {
 			evaluatorValue.put("key", key);
+			evaluatorValue.put("label", "");
 		}
 		app.dispatchEvent(event);
 	}

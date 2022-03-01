@@ -13,6 +13,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -33,7 +34,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.resources.client.ImageResource;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -91,12 +91,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 		
 	protected class GridTab extends EuclidianTab {
-		CheckBox cbShowGrid;
+		ComponentCheckbox cbShowGrid;
 		private FormLabel lbPointCapturing;
 		private ListBox pointCapturingStyleList;
 		ListBox lbGridType;
 		GridDropdown lbRulerType = null;
-		CheckBox cbGridManualTick;
+		ComponentCheckbox cbGridManualTick;
 		NumberListBox ncbGridTickX;
 		NumberListBox ncbGridTickY;
 		ComboBoxW cbGridTickAngle;
@@ -108,7 +108,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
-		CheckBox cbBoldGrid;
+		ComponentCheckbox cbBoldGrid;
 		private MyCJButton btGridColor;
 		private FlowPanel mainPanel;
 		/**
@@ -121,9 +121,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			super();
 			mainPanel = new FlowPanel();
 			if (gridOptions) {
-				cbShowGrid = new CheckBox();
-				cbShowGrid.addClickHandler(event -> {
-					enableGrid(cbShowGrid.getValue());
+				cbShowGrid = new ComponentCheckbox(app.getLocalization(), true, "ShowGrid",
+				() -> {
+					enableGrid(cbShowGrid.isSelected());
 					app.storeUndoInfo();
 				});
 
@@ -257,12 +257,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 			// tick intervals
 
-			cbGridManualTick = new CheckBox();
-			cbGridManualTick.addClickHandler(event -> {
-				model.applyGridManualTick(cbGridManualTick.getValue());
-				updateView();
-			});
-			cbGridManualTick.setStyleName("checkBoxPanel");
+			cbGridManualTick = new ComponentCheckbox(app.getLocalization(), false, "TickDistance",
+				() -> {
+					model.applyGridManualTick(cbGridManualTick.isSelected());
+					updateView();
+				});
 			ncbGridTickX = new NumberListBox(app) {
 
 				@Override
@@ -377,7 +376,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblColor = new Label();
 			btGridColor = new MyCJButton();
 			btGridColor.addClickHandler(event -> {
-				if (gridOptions && !cbShowGrid.getValue()) {
+				if (gridOptions && !cbShowGrid.isSelected()) {
 					return;
 				}
 				getDialogManager().showColorChooserDialog(
@@ -424,15 +423,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				//
 			});
 			// bold
-			cbBoldGrid = new CheckBox();
-			cbBoldGrid.addClickHandler(event -> {
-				if (gridOptions) {
-					model.applyBoldGrid(cbBoldGrid.getValue());
-				} else {
-					model.applyBoldRuler(cbBoldGrid.getValue());
-				}
-				updateView();
-			});
+			cbBoldGrid = new ComponentCheckbox(app.getLocalization(), false, "Bold",
+					() -> {
+						if (gridOptions) {
+							model.applyBoldGrid(cbBoldGrid.isSelected());
+						} else {
+							model.applyBoldRuler(cbBoldGrid.isSelected());
+						}
+						updateView();
+				});
 
 			// style panel
 			stylePanel = new FlowPanel();
@@ -450,7 +449,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		@Override
 		public void setLabels() {
 			if (gridOptions) {
-				cbShowGrid.setText(loc.getMenu("ShowGrid"));
+				cbShowGrid.setLabels();
 				setTextColon(lbPointCapturing, "PointCapturing");
 				updatePointCapturingStyleList();
 				int idx = lbGridType.getSelectedIndex();
@@ -463,12 +462,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				cbGridTickAngle.cleanSelection();
 				model.fillAngleOptions();
 				cbGridTickAngle.setSelectedIndex(idx);
-				cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
+				cbGridManualTick.setLabels();
 			}
 
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
-			cbBoldGrid.setText(loc.getMenu("Bold"));
+			cbBoldGrid.setLabels();
 
 			if (!gridOptions) {
 				lblRulerType.setText(loc.getMenu("Ruling") + ":");
@@ -510,8 +509,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			}
 			stylePanel.setVisible(true);
 			enableGrid(isShown);
-			cbShowGrid.setValue(isShown);
-			cbBoldGrid.setValue(isBold);
+			cbShowGrid.setSelected(isShown);
+			cbBoldGrid.setSelected(isBold);
 			lbGridType.setSelectedIndex(gridType);
 			btGridColor.getElement().getStyle().setColor(StringUtil.toHtmlColor(color));
 			updateGridColorButton(color);
@@ -657,7 +656,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				stylePanel.setVisible(true);
 				updateGridColorButton(color);
 				selectRulerStyle(lineStyle);
-				cbBoldGrid.setValue(bold);
+				cbBoldGrid.setSelected(bold);
 			}
 		}
 	}
@@ -889,7 +888,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void enableLock(boolean value) {
-		basicTab.enabeLock(value);
+		basicTab.enableLock(value);
 	}
 
 	@Override
@@ -947,9 +946,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void updateAxisFontStyle(boolean serif, boolean isBold,
 			boolean isItalic) {
-		basicTab.cbAxisLabelSerif.setValue(serif);
-		basicTab.cbAxisLabelBold.setValue(isBold);
-		basicTab.cbAxisLabelItalic.setValue(isItalic);
+		basicTab.cbAxisLabelSerif.setSelected(serif);
+		basicTab.cbAxisLabelBold.setSelected(isBold);
+		basicTab.cbAxisLabelItalic.setSelected(isItalic);
 	}
 
 	@Override

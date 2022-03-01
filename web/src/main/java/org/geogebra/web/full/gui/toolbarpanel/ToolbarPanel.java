@@ -1357,6 +1357,17 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
+	 * Removes tool tab. Used to avoid updating tool tab during perspective reset if we're
+	 * going to rebuild it using custom toolbar from a file.
+	 */
+	public void removeToolsTab() {
+		if (tabTools != null) {
+			tabTools.removeFromParent();
+		}
+		tabTools = null;
+	}
+
+	/**
 	 * Base class for Toolbar Tabs-
 	 * @author Laszlo
 	 */
