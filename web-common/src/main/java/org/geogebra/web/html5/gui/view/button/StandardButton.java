@@ -102,6 +102,11 @@ public class StandardButton extends Widget implements HasResource {
 		this(icon, null, width, -1);
 	}
 
+	/**
+	 * constructor for MyCanvasButton like colored button,
+	 * context menu buttons and dyn stylebar buttons
+	 * @param width - width
+	 */
 	public StandardButton(int width) {
 		this();
 		setStyleName("MyCanvasButton");
@@ -199,8 +204,7 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * @param label
-	 *            - set text of button
+	 * @param label - set text of button
 	 */
 	public void setLabel(final String label) {
 		setIconAndLabel(this.icon, label, this.width, this.height);
@@ -218,8 +222,7 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * @param icon
-	 *            - icon
+	 * @param icon - icon
 	 */
 	public void setIcon(final ResourcePrototype icon) {
 		if (btnImage != null) {
@@ -230,6 +233,9 @@ public class StandardButton extends Widget implements HasResource {
 		}
 	}
 
+	/**
+	 * @param icon - image or text icon (e.g. colored buttons)
+	 */
 	public void setIcon(ImageOrText icon) {
 		this.colorIcon = icon;
 		colorIcon.applyToLabel(colorLbl);
@@ -294,11 +300,17 @@ public class StandardButton extends Widget implements HasResource {
 		});
 	}
 
+	/**
+	 * @param mouseOverHandler - mouse over handler
+	 */
 	public void setMouseOverHandler(Runnable mouseOverHandler) {
 		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
 				mouseOverHandler.run());
 	}
 
+	/**
+	 * @param mouseOutHandler - mouse out handler
+	 */
 	public void setMouseOutHandler(Runnable mouseOutHandler) {
 		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
 				mouseOutHandler.run());
