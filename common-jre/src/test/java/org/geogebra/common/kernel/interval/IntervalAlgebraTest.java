@@ -152,31 +152,18 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testPositiveAndZeroPowerOfNegatives() {
-		assertEquals(interval(1 / 4.0, Double.POSITIVE_INFINITY),
+	public void testNegativePowersOfPositive()  {
+		assertEquals(interval(Double.NEGATIVE_INFINITY, 1 / 4.0).invert(),
 				pow(interval(0, 2), -2));
-//
-//		assertTrue(interval(1 / 8.0, Double.POSITIVE_INFINITY).almostEqual(
-//				pow(interval(0, 2), -3)));
-//
-//		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-//				pow(interval(-2, 0), -2)));
-//
-//		assertTrue(interval(Double.NEGATIVE_INFINITY, -1 / 8.0).almostEqual(
-//				pow(interval(-2, 0), -3)));
 	}
 
 	@Test
 	public void testSpecialPowerOfCases() {
 		Interval interval = pow(interval(0, 1), -2);
-		assertTrue(interval.getLow() < 1);
-		assertTrue(Math.abs(interval.getLow() - 1) < 1E-7);
-
+		assertEquals(interval(Double.NEGATIVE_INFINITY, 1).invert(), interval);
 		Interval halfOpen = pow(interval(0, 1).halfOpenLeft(), -2);
-		assertTrue(halfOpen.getLow() < 1);
-		assertTrue(Math.abs(halfOpen.getLow() - 1) < 1E-7);
-		assertEquals(Double.POSITIVE_INFINITY, halfOpen.getHigh(), 0);
-
+		assertEquals(interval(Double.NEGATIVE_INFINITY, 1).invert(), halfOpen);
+		assertEquals(1, halfOpen.getHigh(), 1E-7);
 	}
 
 	@Test

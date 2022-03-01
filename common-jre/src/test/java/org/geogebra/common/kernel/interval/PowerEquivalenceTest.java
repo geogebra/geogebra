@@ -20,7 +20,10 @@ public class PowerEquivalenceTest extends SamplerTest {
 		IntervalTupleList samples1 = samplesOf(description1);
 		IntervalTupleList samples2 = samplesOf(description2);
 		for (int i = 0; i < samples1.count(); i++) {
-			assertTrue(isSimilar(samples1.get(i), samples2.get(i)));
+			IntervalTuple tuple1 = samples1.get(i);
+			IntervalTuple tuple2 = samples2.get(i);
+			assertTrue(tuple1 + " != " + tuple2,
+					isSimilar(tuple1, tuple2));
 		}
 	}
 
@@ -31,7 +34,6 @@ public class PowerEquivalenceTest extends SamplerTest {
 			&& (y.equals(y1)) || (Math.abs(y.getLow() - y1.getLow()) < 1E-5
 				&& Math.abs(y.getHigh() - y1.getHigh()) < 1E-5);
 	}
-
 
 	private IntervalTupleList samplesOf(String description) {
 		return functionValues(description, -10, 10, 10, 10);

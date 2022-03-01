@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
 import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
@@ -142,13 +143,21 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void evaluateZeroPowerOfZeroMultipliedByXPowerOfZero() throws Exception {
+	public void evaluateZeroPowerOfZeroMultipliedByXPowerOfZero() {
 		GeoFunction geo = add("0^0*x^0");
 		IntervalFunction function = new IntervalFunction(geo);
 		shouldBeOne(function);
 	}
 
-	private void shouldBeOne(IntervalFunction function) throws Exception {
+	private void shouldBeOne(IntervalFunction function) {
 		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.whole()));
+	}
+
+	@Test
+	public void xInverseOnPowerOfMinus2ShouldBeXSquared() {
+		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
+		Interval inverse = x.multiplicativeInverse();
+		Interval pow = pow(inverse, -2);
+		assertEquals(undefined().invert(), pow);
 	}
 }

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalOperands.computeInverted;
 import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 import static org.geogebra.common.kernel.interval.IntervalOperands.exp;
 import static org.geogebra.common.kernel.interval.IntervalOperands.log;
@@ -59,10 +60,16 @@ public class IntervalAlgebra {
 			return interval;
 		}
 
+		if (interval.isInverted()) {
+			return computeInverted(pow(interval.extractLow(), power),
+					pow(interval.extractHigh(), power));
+		}
+
 		if (power == 0) {
 			return powerOfZero(interval);
 		} else if (power < 0) {
-			interval.set(divide(one(), pow(interval, -power)));
+			Interval divide = divide(one(), pow(interval, -power));
+			interval.set(divide);
 			return interval;
 		}
 

@@ -17,7 +17,7 @@ public class GlitchesTest extends IntervalPlotterCommon {
 	@Test
 	public void oneDividedByZeroTimeXShouldBeEmpty() {
 		withHiResFunction("1/(0x)");
-		assertEquals(1, gp.getLog().size());
+		assertEquals(0, gp.getLog().size());
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class GlitchesTest extends IntervalPlotterCommon {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
 		withFunction("0/(0/tan(x))");
-		assertEquals(1, gp.getLog().size());
+		assertEquals(0, gp.getLog().size());
 	}
 
 	@Test
