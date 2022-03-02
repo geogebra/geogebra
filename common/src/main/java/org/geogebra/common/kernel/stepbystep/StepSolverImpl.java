@@ -41,6 +41,7 @@ public class StepSolverImpl implements StepSolver {
 			break;
 		case "derivative":
 			StepNode.differentiate((StepExpression) expression, variable).differentiate(sb);
+			break;
 		default:
 			throw new IllegalArgumentException("Unexpected step type " + type);
 		}
