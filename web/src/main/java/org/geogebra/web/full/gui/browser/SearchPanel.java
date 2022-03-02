@@ -133,10 +133,11 @@ public class SearchPanel extends FlowPanel
 	}
 
 	private void fireSearchEvent() {
-		Analytics.logEvent(Analytics.Event.SEARCH, Analytics.Param.SEARCH_TERM, query.getText());
-		for (final SearchListener s : this.listeners) {
-			s.onSearch(this.query.getText());
+		String queryText = query.getText();
+		for (SearchListener listener : listeners) {
+			listener.onSearch(queryText);
 		}
+		Analytics.logEvent(Analytics.Event.SEARCH, Analytics.Param.SEARCH_TERM, queryText);
 	}
 
 	@Override
