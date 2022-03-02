@@ -141,6 +141,15 @@ public class Macro {
 	}
 
 	/**
+	 * Returns the kernel object of this macro.
+	 *
+	 * @return kernel object of this macro.
+	 */
+	public Kernel getMacroKernel() {
+		return macroKernel;
+	}
+
+	/**
 	 * Initiates macro
 	 * 
 	 * @param macroCons1
