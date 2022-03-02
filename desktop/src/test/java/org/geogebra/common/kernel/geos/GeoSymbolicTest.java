@@ -1065,6 +1065,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testShorthandIfAccepted() {
+		kernel.setUndoActive(true);
+		kernel.initUndoInfo();
+		add("f(x)=x^2,x<5");
+		kernel.storeUndoInfo();
+		undoRedo();
+		GeoElement element = lookup("f");
+		assertThat(element.toString(StringTemplate.defaultTemplate),
+				equalTo("f(x) = If(5 > x, x²)"));
+	}
+
+	@Test
 	public void testRedefinitionKeepsConstant() {
 		add("f(x) = Integral(x)");
 		// redefine geo
