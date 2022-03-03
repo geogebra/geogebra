@@ -136,7 +136,7 @@ public class TeXBuilder {
 	private Atom getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
 		if (parent == null
-				|| (parent instanceof MathArray	&& parent.size() == 1)
+				|| (parent instanceof MathArray && parent.size() == 1)
 				|| !teXSerializer.isPlaceholderEnabled()) {
 			return getInvisiblePlaceholder();
 		}

@@ -43,7 +43,7 @@ import org.geogebra.desktop.util.FrameCollector;
  * TODO What happens with the slider context menu entry
  */
 public class AnimationExportDialogD extends Dialog {
-	/**	 */
+	/** */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -179,7 +179,6 @@ public class AnimationExportDialogD extends Dialog {
 		panel.add(cancelButton);
 
 		contentPane.add(panel, gbc(4));
-		
 
 		setTitle(loc.getMenu("AnimatedGIFExport"));
 		pack();

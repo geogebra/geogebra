@@ -94,7 +94,7 @@ public class DrawImageResizable extends DrawImage {
 			newWidth = MyMath.clamp(event.x - cropLeft,
 					minWidth, imageWidth - cropLeft);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight, imageHeight	- cropTop);
+					minHeight, imageHeight - cropTop);
 			cropBoxRelative.setFrame(cropLeft, cropTop,
 					newWidth, newHeight);
 			break;
@@ -102,7 +102,7 @@ public class DrawImageResizable extends DrawImage {
 			newWidth = MyMath.clamp(cropRight - event.x,
 					minWidth, cropRight);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight, imageHeight	- cropTop);
+					minHeight, imageHeight - cropTop);
 			cropBoxRelative.setFrame(cropRight - newWidth , cropTop,
 					newWidth, newHeight);
 			break;
@@ -118,7 +118,7 @@ public class DrawImageResizable extends DrawImage {
 			newWidth = MyMath.clamp(cropRight - event.x,
 					minWidth, cropRight);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight,	cropBottom);
+					minHeight, cropBottom);
 			cropBoxRelative.setFrame(cropRight - newWidth , cropBottom - newHeight,
 					newWidth, newHeight);
 			break;

@@ -339,7 +339,7 @@ public class TabletFileManager extends FileManagerT {
 
 			@Override
 			public void onFailure(Object reason) {
-				// not needed					
+				// not needed
 			}
 		});
 		renameNative(oldKey, newKey, mat.toJson().toString(), callback1);

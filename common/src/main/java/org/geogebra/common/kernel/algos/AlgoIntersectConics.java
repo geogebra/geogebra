@@ -1122,7 +1122,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	//
 	// + c*c l + 4f*f m - 4c f p = 0
 	private void fillQuarticRoots(double[] eqn, double c, double d, double e,
-			double f, double k, double l, double m,	double o, double p) {
+			double f, double k, double l, double m, double o, double p) {
 		eqn[4] = 4 * d * d * k;
 		eqn[3] = 8 * d * d * o + 8 * d * f * k;
 		eqn[2] = 4 * d * d * m + 4 * e * e * l + 4 * f * f * k - 8 * d * e * p + 16 * d * f * o;

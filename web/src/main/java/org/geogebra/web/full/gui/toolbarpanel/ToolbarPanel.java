@@ -338,7 +338,7 @@ public class ToolbarPanel extends FlowPanel
 			if (undoRedoPanel != null) {
 				undoRedoPanel.addStyleName("withTransition");
 			}
-			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
+			dockParent.setWidgetSize(getToolbarDockPanel(), targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
 	}

@@ -184,7 +184,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	protected double computeTop(int height) {
-		return MyMath.clamp(baseline - height / 2d, 0,	view.getHeight() - height);
+		return MyMath.clamp(baseline - height / 2d, 0, view.getHeight() - height);
 	}
 
 	protected void setBaseline(double baseline) {

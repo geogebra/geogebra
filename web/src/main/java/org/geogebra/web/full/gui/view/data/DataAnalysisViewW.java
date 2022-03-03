@@ -157,7 +157,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		model.setView(dataSource, mode,
 				app.getSettings().getDataAnalysis(),
 				forceModeUpdate);
-		//		updateFonts();
 		setLabels();
 		updateGUI();
 	}
@@ -248,8 +247,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		if (dataPanel == null) {
 			buildDataPanel();
 		}
-		// TODO: Implement!
-		//		dataPanel.loadDataTable(dataArray);
+		// TODO: Implement! dataPanel.loadDataTable(dataArray);
 	}
 
 	protected DataPanelW getDataPanel() {
@@ -366,7 +364,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	 */
 	public Widget getDataAnalysisViewComponent() {
 		return this;
-		//	return statisticsPanel;
 	}
 
 	@Override
@@ -381,10 +378,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public AppW getApp() {
 		return app;
 	}
-
-	// public int getMode() {
-	// return mode;
-	// }
 
 	// =================================================
 	// Handlers for Component Visibility

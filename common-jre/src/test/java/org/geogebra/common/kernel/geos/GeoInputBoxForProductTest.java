@@ -201,7 +201,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void minusPiShouldStayAsItIs() {
 		String minusPi = "-" + Unicode.PI_STRING;
-		numberBeUpdatedAs(minusPi,	minusPi);
+		numberBeUpdatedAs(minusPi, minusPi);
 	}
 
 	@Test
