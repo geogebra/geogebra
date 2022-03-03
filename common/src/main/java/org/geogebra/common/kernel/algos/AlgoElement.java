@@ -1659,7 +1659,7 @@ public abstract class AlgoElement extends ConstructionElement
 		GeoList list = (GeoList) geo;
 		return list.getElementType() == GeoClass.IMAGE
 				|| (list.getElementType() == GeoClass.LIST
-				&& ((GeoList) list.get(0)).getElementType() == GeoClass.IMAGE);
+				&& list.size() > 0 && isGeoListImageType(list.get(0)));
 	}
 
 	/**
