@@ -623,8 +623,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeHeight() {
-		double margin = getMargin(lastIcon);
-		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
+		return Math.max(getHeightWithMargin(), minHeight);
+	}
+
+	public double getHeightWithMargin() {
+		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
 	}
 
 	public int getIconHeight() {
@@ -1212,5 +1215,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setInputBoxFunctionVariables(List<String> funcVars) {
 		metaModel.setInputBoxFunctionVars(funcVars);
 		metaModel.enableSubstitutions();
+	}
+
+	public int getMinHeight() {
+		return minHeight;
 	}
 }
