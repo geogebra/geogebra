@@ -692,34 +692,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	/**
-	 * Returns boolean editor (checkbox) for this table. If none exists, a new
-	 * one is created.
-	 */
-	/*
-	 * public MyCellEditorBooleanW getEditorBoolean() { if (editorBoolean ==
-	 * null) editorBoolean = new MyCellEditorBooleanW(kernel); return
-	 * editorBoolean; }
-	 */
-
-	/**
-	 * Returns button editor for this table. If none exists, a new one is
-	 * created.
-	 */
-	/*
-	 * public MyCellEditorButton getEditorButton() { if (editorButton == null)
-	 * editorButton = new MyCellEditorButton(); return editorButton; }
-	 */
-
-	/**
-	 * Returns list editor (comboBox) for this table. If none exists, a new one
-	 * is created.
-	 */
-	/*
-	 * public MyCellEditorList getEditorList() { if (editorList == null)
-	 * editorList = new MyCellEditorList(); return editorList; }
-	 */
-
-	/**
 	 * Get element type of given cell
 	 * 
 	 * @param row
@@ -937,7 +909,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		selectionChanged();
 
 		if (autoScrolls) {
-			GRectangle cellRect = getCellRect(rowIndex, columnIndex, false);
+			GRectangle cellRect = getCellRect(rowIndex, columnIndex, true);
 			if (cellRect != null) {
 				scroller.scrollRectToVisible(columnIndex, rowIndex);
 			}
@@ -1594,16 +1566,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return indexY;
 	}
 
-	public GRectangle getCellRect(int row, int column, boolean spacing) {
-		return getCellRect(row, column, spacing, true);
-	}
-
 	/**
-	 * @param spacing
-	 *            whether to include border -- TODO unused
 	 * @return rectangle (with screen coordinates)
 	 */
-	public GRectangle getCellRect(int row, int column, boolean spacing,
+	public GRectangle getCellRect(int row, int column,
 			boolean offset) {
 		GPoint min = getPixel(column, row, true, offset);
 		if (min == null) {
@@ -1614,39 +1580,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			return null;
 		}
 		return new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
-	}
-
-	/**
-	 * @param column1
-	 *            min column
-	 * @param row1
-	 *            min row
-	 * @param column2
-	 *            max column
-	 * @param row2
-	 *            max row
-	 * @param includeSpacing
-	 *            whether to iclude grid
-	 * @return bounding rectangle of the area
-	 */
-	public GRectangle getCellBlockRect(int column1, int row1, int column2,
-	        int row2, boolean includeSpacing) {
-		GRectangle r1 = getCellRect(row1, column1, includeSpacing);
-		GRectangle r2 = getCellRect(row2, column2, includeSpacing);
-		r1.setBounds((int) r1.getX(), (int) r1.getY(),
-		        (int) ((r2.getX() - r1.getX()) + r2.getWidth()),
-		        (int) ((r2.getY() - r1.getY()) + r2.getHeight()));
-		return r1;
-	}
-
-	/**
-	 * @param includeSpacing
-	 *            whether to include cell borders
-	 * @return selection rectangle
-	 */
-	public GRectangle getSelectionRect(boolean includeSpacing) {
-		return getCellBlockRect(minSelectionColumn, minSelectionRow,
-		        maxSelectionColumn, maxSelectionRow, includeSpacing);
 	}
 
 	// target selection frame
@@ -2612,7 +2545,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		// cells
-		GeoElement geo = null;
+		GeoElement geo;
 		int maxColumn = tableModel.getHighestUsedColumn();
 		int maxRow = tableModel.getHighestUsedRow();
 		for (int col = maxColumn; col >= 0; col--) {
@@ -2806,7 +2739,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (dragFrame == null) {
 			return;
 		}
-		int borderWidth = 2;
+		int borderWidth = 1;
 		dragFrame.setVisible(visible);
 
 		if (visible) {

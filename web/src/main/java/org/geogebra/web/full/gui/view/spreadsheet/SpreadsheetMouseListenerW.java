@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.view.spreadsheet;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -560,7 +559,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			if (isDragingDot) {
 				table.draggingToRow = point.getY();
 				table.draggingToColumn = point.getX();
-				GRectangle selRect = table.getSelectionRect(true);
 
 				// increase size if we're at the bottom of the spreadsheet
 				if (table.draggingToRow + 1 == table.getRowCount()
@@ -579,25 +577,26 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				// scroll to show "highest" selected cell
 				table.scrollRectToVisible(point.x, point.y);
 
-				if (!selRect.contains(mouseX, mouseY)) {
-					int rowOffset = getRowOffset(mouseY, selRect);
-					int colOffset = getColOffset(mouseX, selRect);
+				int rowOffset = getOffset(point.y, table.minSelectionRow,
+						table.maxSelectionRow);
+				int colOffset = getOffset(point.x, table.minSelectionColumn,
+						table.maxSelectionColumn);
 
-					// get column distance
-					if (rowOffset == 0 && colOffset == 0) {
-						table.draggingToColumn = -1;
-						table.draggingToRow = -1;
-					} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
-						table.draggingToRow = point.y;
-						table.draggingToColumn = (colOffset > 0) ? table.maxSelectionColumn
-								: table.minSelectionColumn;
-					} else {
-						table.draggingToColumn = point.x;
-						table.draggingToRow = (rowOffset > 0) ? table.maxSelectionRow
-								: table.minSelectionRow;
-					}
-					table.repaint();
+				// get column distance
+				if (rowOffset == 0 && colOffset == 0) {
+					table.draggingToColumn = -1;
+					table.draggingToRow = -1;
+				} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
+					table.draggingToRow = point.y;
+					table.draggingToColumn = (colOffset > 0) ? table.maxSelectionColumn
+							: table.minSelectionColumn;
+				} else {
+					table.draggingToColumn = point.x;
+					table.draggingToRow = (rowOffset > 0) ? table.maxSelectionRow
+							: table.minSelectionRow;
 				}
+				table.repaint();
+
 				return;
 			}
 
@@ -623,48 +622,14 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		}
 	}
 
-	private int getColOffset(int mouseX, GRectangle selRect) {
-		int colOffset = 0;
-		if (table.minSelectionColumn > 0
-				&& table.draggingToColumn < table.minSelectionColumn) {
-			colOffset = mouseX - (int) selRect.getX();
-			if (-colOffset < 0.5 * table.getCellRect(table.minSelectionRow,
-					table.minSelectionColumn - 1, true).getWidth()) {
-				colOffset = 0;
-			}
-		} else if (table.maxSelectionColumn < app
-				.getMaxSpreadsheetColumnsVisible()
-				&& table.draggingToColumn > table.maxSelectionColumn) {
-			colOffset = mouseX
-					- ((int) selRect.getX() + (int) selRect.getWidth());
-			if (colOffset < 0.5 * table.getCellRect(table.maxSelectionRow,
-					table.maxSelectionColumn + 1, true).getWidth()) {
-				colOffset = 0;
-			}
+	private int getOffset(int val, int min, int max) {
+		if (val < min) {
+			return min - val;
+		} else if (val > max) {
+			return max - val;
+		} else {
+			return 0;
 		}
-		return colOffset;
-	}
-
-	private int getRowOffset(int mouseY, GRectangle selRect) {
-		int rowOffset = 0;
-		// get row distance
-		if (table.minSelectionRow > 0
-				&& table.draggingToRow < table.minSelectionRow) {
-			rowOffset = mouseY - (int) selRect.getY();
-			if (-rowOffset < 0.5 * table.getCellRect(table.minSelectionRow - 1,
-					table.minSelectionColumn, true).getHeight()) {
-				rowOffset = 0;
-			}
-		} else if (table.maxSelectionRow < app.getMaxSpreadsheetRowsVisible()
-				&& table.draggingToRow > table.maxSelectionRow) {
-			rowOffset = mouseY
-					- ((int) selRect.getY() + (int) selRect.getHeight());
-			if (rowOffset < 0.5 * table.getCellRect(table.maxSelectionRow + 1,
-					table.maxSelectionColumn, true).getHeight()) {
-				rowOffset = 0;
-			}
-		}
-		return rowOffset;
 	}
 
 	private void updateTableIsOverDot(boolean touch, int mouseX, int mouseY) {

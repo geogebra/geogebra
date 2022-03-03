@@ -249,13 +249,13 @@ public class SpreadsheetRowHeaderW implements SpreadsheetHeader, CopyPasteHandle
 			int cellRow = point.getY();
 
 			if (cellRow >= 0) {
-				GRectangle r = table.getCellRect(cellRow, 0, true, false);
+				GRectangle r = table.getCellRect(cellRow, 0, false);
 				// near row bottom ?
-				if (p.y < r.getY() + boundary) {
+				if (r != null && p.y < r.getY() + boundary) {
 					resizeRow = cellRow - 1;
 				}
 				// near row top ?
-				if (p.y > r.getY() + r.getHeight() - boundary) {
+				if (r != null && p.y > r.getY() + r.getHeight() - boundary) {
 					resizeRow = cellRow;
 				}
 			}

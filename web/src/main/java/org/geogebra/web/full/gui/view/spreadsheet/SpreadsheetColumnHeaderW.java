@@ -238,13 +238,13 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 			// test if mouse is 3 pixels from column boundary
 			int cellColumn = point.getX();
 			if (cellColumn >= 0) {
-				GRectangle r = table.getCellRect(0, cellColumn, true, false);
+				GRectangle r = table.getCellRect(0, cellColumn, false);
 				// near column left ?
-				if (p.x < r.getX() + boundary) {
+				if (r != null && p.x < r.getX() + boundary) {
 					resizeColumn = cellColumn - 1;
 				}
 				// near column right ?
-				if (p.x > r.getX() + r.getWidth() - boundary) {
+				if (r != null && p.x > r.getX() + r.getWidth() - boundary) {
 					resizeColumn = cellColumn;
 				}
 			}
