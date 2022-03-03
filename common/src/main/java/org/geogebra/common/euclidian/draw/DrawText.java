@@ -205,6 +205,17 @@ public final class DrawText extends Drawable {
 		}
 	}
 
+	/**
+	 * Updates label rectangle assuming xLabel and yLabel have been set before
+	 * @param captionWidth caption width
+	 */
+	protected void updateLabelRectangleForCaption(int captionWidth) {
+		labelRectangle.setLocation(xLabel,
+				isLaTeX ? yLabel : (int) (yLabel - labelRectangle.getHeight()
+						+ 2 * DEFAULT_MARGIN));
+		labelRectangle.setSize(captionWidth, (int) labelRectangle.getHeight());
+	}
+
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
@@ -259,13 +270,13 @@ public final class DrawText extends Drawable {
 		}
 		if (verticalVal == -1) {
 			// magic number 6 comes from EuclidianStatic::drawMultiLineText
-	 		yLabel += labelRectangle.getHeight() - 6;
+	 		yLabel += labelRectangle.getHeight() - 2 * DEFAULT_MARGIN;
 		}
 		if (horizontalVal == 0) {
 			xLabel -= labelRectangle.getWidth() / 2;
 		}
 		if (verticalVal == 0) {
-			yLabel += (labelRectangle.getHeight() / 2) - 6;
+			yLabel += (labelRectangle.getHeight() / 2) - 2 * DEFAULT_MARGIN;
 		}
 	}
 
