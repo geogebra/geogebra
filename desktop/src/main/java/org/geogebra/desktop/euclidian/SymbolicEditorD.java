@@ -63,7 +63,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		boolean textMode = isTextMode();
 		mathField.getInternal().setPlainTextMode(textMode);
 		if (textMode) {
-			mathField.setPlainText(text);
+			mathField.getInternal().setPlainText(text);
 		} else {
 			mathField.parse(text);
 		}
