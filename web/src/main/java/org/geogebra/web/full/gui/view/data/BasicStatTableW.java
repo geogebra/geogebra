@@ -44,7 +44,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		this.daView = statDialog;
 		this.app = app;
 		setStyleName("daStatistics");
-		
+
 		if (defaultModel) {
 			setModel(new StatTableModel(app, this));
 		}

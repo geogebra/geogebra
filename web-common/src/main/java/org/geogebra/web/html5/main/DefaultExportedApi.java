@@ -128,8 +128,9 @@ public class DefaultExportedApi implements ExportedApi {
 		});
 	}
 
-	public String evalCommandCAS(String cmdString) {
-		return ggbAPI.evalCommandCAS(cmdString + "");
+	public String evalCommandCAS(String cmdString, String rounding) {
+		return ggbAPI.evalCommandCAS(cmdString + "",
+				Js.isTruthy(rounding) ? rounding : null);
 	}
 
 	public String evalGeoGebraCAS(String cmdString) {
@@ -145,11 +146,11 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public boolean isFixed(String objName) {
-		return	ggbAPI.isFixed(objName + "");
+		return ggbAPI.isFixed(objName + "");
 	}
 
 	public boolean isSelectionAllowed(String objName) {
-		return	ggbAPI.isSelectionAllowed(objName + "");
+		return ggbAPI.isSelectionAllowed(objName + "");
 	}
 
 	public void setOnTheFlyPointCreationActive(Object flag) {
@@ -160,8 +161,9 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setUndoPoint();
 	}
 
-	public void setSaved() {
-		ggbAPI.setSaved();
+	public void setSaved(Object saved) {
+		// setSaved() is a shortcut for setSaved(true) for compatibility, use safe!==false
+		ggbAPI.setSaved(!Js.isTripleEqual(saved, false));
 	}
 
 	public boolean isSaved() {
@@ -818,6 +820,14 @@ public class DefaultExportedApi implements ExportedApi {
 		String stateString = JsEval.isJSString(state) ? Js.asString(state)
 				: Global.JSON.stringify(state);
 		ggbAPI.setEditorState(stateString, label);
+	}
+
+	public String getInputBoxState(String label) {
+		return ggbAPI.getInputBoxState(label);
+	}
+
+	public void setInputBoxState(String state, String label) {
+		ggbAPI.setInputBoxState(state, label);
 	}
 
 	public String exportCollada(Object xmin, Object xmax, Object ymin, Object ymax, Object zmin,

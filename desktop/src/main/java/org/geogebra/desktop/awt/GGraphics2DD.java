@@ -213,9 +213,11 @@ public class GGraphics2DD implements GGraphics2D {
 
 		if (imgD.isSVG()) {
 			try {
+				translate(x, y);
 				imgD.getDiagram().render(impl);
-			} catch (Exception e) {
-				e.printStackTrace();
+				translate(-x, -y);
+			} catch (SVGException e) {
+				Log.debug(e);
 			}
 		} else {
 			impl.drawImage(imgD.getImage(), x, y, null);
@@ -427,25 +429,24 @@ public class GGraphics2DD implements GGraphics2D {
 	/**
 	 * @param img
 	 *            image
-	 * @param x
-	 *            left
-	 * @param y
-	 *            top
 	 * @param width
 	 *            width
 	 * @param height
 	 *            height
 	 */
-	public void drawImage(MyImageD img, int x, int y, int width, int height) {
+	public void drawImageScaled(MyImageD img, int width, int height) {
 		if (img.isSVG()) {
 			try {
-				// TODO: scaling
+				saveTransform();
+				scale((double) width / img.getWidth(),
+						(double) height / img.getHeight());
 				img.getDiagram().render(impl);
+				restoreTransform();
 			} catch (SVGException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		} else {
-			impl.drawImage(img.getImage(), x, y, width, height, null);
+			impl.drawImage(img.getImage(), 0, 0, width, height, null);
 		}
 	}
 
@@ -473,7 +474,7 @@ public class GGraphics2DD implements GGraphics2D {
 			try {
 				((MyImageD) img).getDiagram().render(impl);
 			} catch (SVGException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			impl.translate(-dx, -dy);
 		} else {
@@ -484,7 +485,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
-		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh, null);
+		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx, dy, null);
 	}
 
 }

@@ -874,9 +874,6 @@ public class AlgebraProcessor {
 			rett = parseMathml(cmd, storeUndo, handler,
 					info.isAutocreateSliders(),
 					callback0);
-			if (rett != null && callback0 != null) {
-				callback0.callback(rett);
-			}
 			return rett;
 		}
 		try {
@@ -889,7 +886,7 @@ public class AlgebraProcessor {
 			}
 			ValidExpression ve = parser.parseGeoGebraExpression(cmd);
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, callback0,	info);
+					handler, callback0, info);
 
 		} catch (ParseException e) {
 			e.printStackTrace(System.out);
@@ -2150,7 +2147,7 @@ public class AlgebraProcessor {
 					// type:
 					// simply assign value and don't redefine
 					if (replaceable.isIndependent() && ret[0].isIndependent()
-							&& compatibleTypes(replaceable,	ret[0])) {
+							&& compatibleTypes(replaceable, ret[0])) {
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);

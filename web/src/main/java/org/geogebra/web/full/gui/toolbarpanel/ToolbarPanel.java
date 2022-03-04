@@ -339,7 +339,7 @@ public class ToolbarPanel extends FlowPanel
 			if (undoRedoPanel != null) {
 				undoRedoPanel.addStyleName("withTransition");
 			}
-			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
+			dockParent.setWidgetSize(getToolbarDockPanel(), targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
 	}
@@ -1363,6 +1363,17 @@ public class ToolbarPanel extends FlowPanel
 	private void setHeadingHeight(int to) {
 		heading.setVisible(to > 0);
 		heading.setHeight(to + "px");
+	}
+
+	/**
+	 * Removes tool tab. Used to avoid updating tool tab during perspective reset if we're
+	 * going to rebuild it using custom toolbar from a file.
+	 */
+	public void removeToolsTab() {
+		if (tabTools != null) {
+			tabTools.removeFromParent();
+		}
+		tabTools = null;
 	}
 
 	/**

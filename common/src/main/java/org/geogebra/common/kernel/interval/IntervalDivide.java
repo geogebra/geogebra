@@ -26,6 +26,10 @@ public class IntervalDivide {
 	}
 
 	private Interval divide(Interval numerator, Interval divisor) {
+		if (divisor.isZero()) {
+			return IntervalConstants.undefined();
+		}
+
 		if (isZeroByZero(numerator, divisor) || isWholeByNonZero(numerator, divisor)) {
 			return whole();
 		}

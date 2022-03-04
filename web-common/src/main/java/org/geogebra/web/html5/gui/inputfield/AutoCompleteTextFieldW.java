@@ -64,8 +64,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -298,23 +296,19 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.addValueChangeHandler(this);
 		textField.addSelectionHandler(this);
 
-		ClickStartHandler.init(textField, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
+		Dom.addEventListener(textField.getElement(), "pointerdown", (event) -> {
 				storeTemporaryInput();
 				// set this text field to be edited by the keyboard
-				app.updateKeyBoardField(AutoCompleteTextFieldW.this);
+				app.updateKeyBoardField(this);
 
 				// make sure the keyboard is not closed
 				CancelEventTimer.keyboardSetVisible();
-			}
+				event.stopPropagation();
 		});
 
-		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				requestFocus();
-			}
+		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
+			requestFocus();
+			event.stopPropagation();
 		});
 
 		add(textField);

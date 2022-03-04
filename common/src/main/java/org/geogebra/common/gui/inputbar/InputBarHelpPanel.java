@@ -264,7 +264,6 @@ public class InputBarHelpPanel {
 
 		// check if math func
 		if (command.contains("(")) {
-//			Log.debug("math func");
 			String mathFuncHelpURL = mApp.getGuiManager()
 					.getHelpURL(GuiManager.Help.GENERIC, App.WIKI_OPERATORS);
 

@@ -130,6 +130,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (key != null) {
 			HashMap<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("key", key);
+			jsonArgument.put("label", "");
 			event.setJsonArgument(jsonArgument);
 		}
 		app.dispatchEvent(event);

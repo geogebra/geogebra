@@ -1,5 +1,7 @@
 package org.geogebra.cas;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.HashSet;
@@ -772,6 +774,16 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 			propagate(t);
 		}
 		t("PerpendicularVector[(a, b)]", "(-b, a)");
+	}
+
+	@Test
+	public void perpendicularVector_2() {
+		t("PerpendicularVector(Plane(x+2y+3z=1))", "(1,2,3)");
+	}
+
+	@Test
+	public void perpendicularVector_3() {
+		t("PerpendicularVector(Plane(x+2y+3z=1))", "(1,2,3)");
 	}
 
 	/* Root */
@@ -1793,7 +1805,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 						+ "+ 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
 		// this is always numeric, the 13th digit changed multiple times with new Giac
-		t("Numeric(Last[Tangent[P, c]],12)",	"{y = 5.55821394864 * x - 0.026806742873}",
+		t("Numeric(Last[Tangent[P, c]],12)", "{y = 5.55821394864 * x - 0.026806742873}",
 				"{y = 5.55821394864 * x - 0.0268067428731}");
 	}
 
@@ -2683,5 +2695,23 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void testFunctionExpanderWithComplexGeoSurfaceCartesian() {
 		in("f(x)=x * (1 + i)");
 		t("f(x) + 1", "x * (1 + ί) + 1", "(1 + ί) * x + 1");
+	}
+
+	@Test
+	public void testLineLabel() {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("Line((1,1,1),(2,2,2))");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("f"));
+	}
+
+	@Test
+	public void testInequalityLabel() {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("b:= x<3");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("b"));
 	}
 }

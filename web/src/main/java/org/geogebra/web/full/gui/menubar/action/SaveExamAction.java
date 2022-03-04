@@ -13,6 +13,14 @@ public class SaveExamAction implements MenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
+		showExamSaveDialog(app);
+	}
+
+	/**
+	 * Shows the save dialog during exam.
+	 * @param app application
+	 */
+	public static void showExamSaveDialog(AppWFull app) {
 		new ExamSaveDialog(app, null).show();
 	}
 }

@@ -329,7 +329,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected App app;
 
 	private EquationSolver eqnSolver;
-	private SystemOfEquationsSolver sysEqSolv;
 	private ExtremumFinderI extrFinder;
 	/** Parser */
 	protected Parser parser;
@@ -563,24 +562,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param eSolver
-	 *            single equation solver
-	 * @return system solver
-	 */
-	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
-			EquationSolverInterface eSolver) {
-		if (sysEqSolv == null) {
-			sysEqSolv = new SystemOfEquationsSolver(eSolver);
-		}
-		return sysEqSolv;
-	}
-
-	/**
 	 * @return extremum finding utility
 	 */
 	final public ExtremumFinderI getExtremumFinder() {
 		if (extrFinder == null) {
-
 			extrFinder = new ExtremumFinder();
 		}
 		return extrFinder;
@@ -1642,7 +1627,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return LHS string
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars, boolean cancelDown,
-			boolean needsZ,	StringTemplate tpl) {
+			boolean needsZ, StringTemplate tpl) {
 
 		return buildLHS(numbers, vars, cancelDown, needsZ,
 				false, tpl);
@@ -1702,16 +1687,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// lhs of implicit equation without constant coeff
 	final private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean CANCEL_DOWN,
+			String[] vars, boolean cancelDown,
 			boolean needsZ, StringTemplate tpl) {
 		return buildImplicitVarPart(sbBuildImplicitVarPart, numbers, vars,
-				CANCEL_DOWN, needsZ, false, tpl);
+				cancelDown, needsZ, false, tpl);
 	}
 
 	// lhs of implicit equation without constant coeff
 	final private double buildImplicitVarPart(
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean CANCEL_DOWN,
+			String[] vars, boolean cancelDown,
 			boolean needsZ, boolean setConstantIfNoLeading,
 			StringTemplate tpl) {
 		int leadingNonZero = -1;
@@ -1724,7 +1709,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 
-		if (CANCEL_DOWN) {
+		if (cancelDown) {
 			// check if integers and divide through gcd
 			boolean allIntegers = true;
 			for (int i = 0; i < numbers.length; i++) {
@@ -4583,14 +4568,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param i
+	 * @param macroID
 	 *            macro index
 	 * @return i-th registered macro
 	 */
-	public Macro getMacro(int i) {
+	public Macro getMacro(int macroID) {
 		try {
-			return macroManager.getMacro(i);
+			return macroManager.getMacro(macroID);
 		} catch (Exception e) {
+			Log.error("Cannot find macro " + macroID);
 			return null;
 		}
 	}

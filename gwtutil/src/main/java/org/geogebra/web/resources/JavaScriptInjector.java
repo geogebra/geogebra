@@ -19,17 +19,10 @@ public class JavaScriptInjector {
 	 *            javascript file
 	 */
 	public static void inject(TextResource scriptResource) {
-		inject(scriptResource.getName(), scriptResource.getText());
-	}
-
-	/**
-	 * @param name unique name of the script element
-	 * @param text script content
-	 */
-	public static void inject(String name, String text) {
+		String name = scriptResource.getName();
 		if (DOM.getElementById(name) == null) {
 			ScriptElement element = createScriptElement(name);
-			element.setText(text);
+			element.setText(scriptResource.getText());
 			getHead().appendChild(element);
 		}
 	}

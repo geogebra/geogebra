@@ -649,6 +649,17 @@ public class Construction {
 		return null;
 	}
 
+	/**
+	 * Hide all CAS twin geos that were not loaded from a file
+	 */
+	public void updateCasCellTwinVisibility() {
+		for (GeoElement ce : geoSetWithCasCells) {
+			if (ce.getCorrespondingCasCell() != null) {
+				ce.getCorrespondingCasCell().updateTwinGeoVisibility();
+			}
+		}
+	}
+
 	/***
 	 * Returns the last GeoCasCell object (free or dependent) in the
 	 * construction list.

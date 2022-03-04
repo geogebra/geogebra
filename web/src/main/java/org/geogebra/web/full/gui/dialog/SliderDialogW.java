@@ -128,7 +128,7 @@ public class SliderDialogW extends ComponentDialog implements
 
 		radioButtonWidget.add(rbNumber);
 		radioButtonWidget.add(rbAngle);
-		radioButtonWidget.add(rbInteger);			
+		radioButtonWidget.add(rbInteger);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
@@ -161,7 +161,7 @@ public class SliderDialogW extends ComponentDialog implements
 	 * @return GeoElement: the geoResult itself
 	 */
 	public GeoElement getResult() {
-		if (geoResult != null) {		
+		if (geoResult != null) {
 			// set label of geoResult
 			String strLabel;
 			String text = tfLabel.getText();
@@ -225,7 +225,7 @@ public class SliderDialogW extends ComponentDialog implements
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> vc) {
-		GeoElement selGeo = rbAngle.getValue() ? angle : number;			
+		GeoElement selGeo = rbAngle.getValue() ? angle : number;
 		if (vc.getSource() == rbInteger) {
 			number.setAutoStep(false);
 			number.setAnimationStep(1);

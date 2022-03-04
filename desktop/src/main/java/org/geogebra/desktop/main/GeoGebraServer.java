@@ -112,7 +112,7 @@ public class GeoGebraServer {
 					} else if ("setRounding".equals(cmd)) {
 						api.setRounding(args);
 					} else if ("evalCommandCAS".equals(cmd)) {
-						results.put(api.evalCommandCAS(args));
+						results.put(api.evalCommandCAS(args, null));
 					} else if ("evalGeoGebraCAS".equals(cmd)) {
 						results.put(app.getKernel().evaluateGeoGebraCAS(args,
 								null, StringTemplate

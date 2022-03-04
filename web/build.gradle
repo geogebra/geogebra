@@ -8,7 +8,7 @@ plugins {
     id "com.github.spotbugs" version "4.8.0"
     id 'de.aaschmid.cpd' version '3.3'
     id "io.miret.etienne.sass" version "1.1.2"
-    id 'org.wisepersist.gwt' version '1.1.16'
+    id 'org.wisepersist.gwt' version '1.1.17'
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -288,7 +288,8 @@ task mergeDeploy(){
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
       def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
       def currentVersion = getGeogebraVersion(parentRoot)
-      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','./')
+      def localPath = project.findProperty("deployggbRoot") ?: './'
+      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%', localPath)
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
       file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
    }

@@ -539,6 +539,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void add(GeoElement geo) {
 		if (geo.isVisibleInView3D()) {
 			createAndAddDrawable(geo);
+			repaintView();
 		}
 	}
 

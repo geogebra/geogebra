@@ -45,7 +45,7 @@ Date        Translator        Changes
 
 3/24/98     Steve Verrill     Translated
 
-8/04/04		Markus Hohenwarter added NaN and Max iteration tests 
+8/04/04     Markus Hohenwarter added NaN and Max iteration tests
 
 */
 

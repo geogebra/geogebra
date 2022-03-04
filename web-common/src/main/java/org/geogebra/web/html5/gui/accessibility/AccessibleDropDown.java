@@ -117,7 +117,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 						updateText();
 						button.getElement().focus();
 						toggle();
-					},	ClickEvent.getType());
+					}, ClickEvent.getType());
 			option.addDomHandler(e -> setHoverIndex(idx), FocusEvent.getType());
 			options.add(option);
 		}

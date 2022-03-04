@@ -106,7 +106,7 @@ public class PackageSize {
 			packages.get(parent).put("name", parent);
 			if (parent.length() > 0) {
 				addParents(parent, parentPackage);
-			}			
+			}
 		}
 		if (!packages.get(parent).has("children")) {
 			packages.get(parent).put("children", new JSONArray());

@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -66,6 +67,8 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 			hide();
 			((AppWFull) app).setSuiteHeaderButton(subAppCode);
 			((AppWFull) app).switchToSubapp(subAppCode);
+			Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
+					Analytics.Param.convertToSubAppParam(subAppCode));
 		});
 
 		contentPanel.add(button);

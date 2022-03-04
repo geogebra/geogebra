@@ -880,6 +880,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public void update(boolean drag) {
+		asFunction = null;
 		if (twinGeo != null) {
 			twinGeo.setVisualStyle(this);
 		}
@@ -1054,5 +1055,21 @@ public class GeoSymbolic extends GeoElement
 			}
 		}
 		super.getDefinitionXML(sb);
+	}
+
+	/**
+	 * @param value value
+	 * @return True if the unwrapped value's twin is a GeoList.
+	 * 		Returns false if the value is null
+	 * 		or if the unwrapped value is not a GeoSymbolic
+	 * 		or if the unwrapped value's twin is not a GeoList.
+	 */
+	public static boolean hasListTwin(ExpressionValue value) {
+		if (value == null) {
+			return false;
+		}
+		ExpressionValue unwrapped = value.unwrap();
+		return unwrapped instanceof GeoSymbolic
+				&& ((GeoSymbolic) unwrapped).getTwinGeo().isGeoList();
 	}
 }

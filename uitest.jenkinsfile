@@ -8,12 +8,6 @@ pipeline {
         cron('H 10,19 * * 1-5') 
     }
     stages {
-        stage('Native check') {
-            steps {
-               sh "grep -rn '/\\*-{' */src */*/src | sed 's/\\([0-9]:\\)/\\1 warning:/' "
-               recordIssues tool:java()
-            }
-        }
         stage('Get Web JS'){
             steps {
                 dir('uitest') {
@@ -23,8 +17,8 @@ pipeline {
         }
 
         stage('Build') {
-            steps {                
-                   sh 'docker run --ipc=host -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work cypress/base:16.13.0 sh runtest.sh'
+            steps {
+                   sh 'docker run --ipc=host -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work -v $PWD/common:/common cypress/base:16.13.0 sh runtest.sh'
             }
             post {
                 always {

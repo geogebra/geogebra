@@ -624,8 +624,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeHeight() {
-		double margin = getMargin(lastIcon);
-		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
+		return Math.max(getHeightWithMargin(), minHeight);
+	}
+
+	public double getHeightWithMargin() {
+		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
 	}
 
 	public int getIconHeight() {
@@ -1087,11 +1090,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.parse(text);
 	}
 
-	@Override
-	public void setPlainText(String text) {
-		mathFieldInternal.setPlainText(text);
-	}
-
 	/**
 	 * @return text in GGB syntax
 	 */
@@ -1223,5 +1221,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public void setRightMargin(int rightMargin) {
 		this.rightMargin = rightMargin;
+	}
+
+	public int getMinHeight() {
+		return minHeight;
 	}
 }

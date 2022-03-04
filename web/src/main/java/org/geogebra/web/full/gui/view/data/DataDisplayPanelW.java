@@ -208,9 +208,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel());
-	
-		//		plotPanel.setPreferredSize(PLOTPANEL_WIDTH, PLOTPANEL_HEIGHT);
-		//		plotPanel.updateSize();
+
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
 
@@ -428,7 +426,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 				+ GuiResources.INSTANCE.menu_icons_file_export().getSafeUri()
 						.asString() + "\" >";
 		btnExport.addItem(new AriaMenuItem(image, true, menu));
-	
 	}
 	// ==============================================
 	// DISPLAY UPDATE
@@ -452,9 +449,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		// do the export
 		getModel().exportGeosToEV(euclidianViewID);
-		
 		daView.updateOtherDataDisplay(this);
-    }
+	}
 
 	@Override
 	public void showControlPanel() {
@@ -470,7 +466,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	@Override
 	public void showInvalidDataDisplay() {
-		//		imageContainer.setIcon(null);
 		displayDeckPanel.showWidget(IMAGE_IDX);
 	}
 
@@ -502,13 +497,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 				getModel().getSettings().setStemAdjust(1);
 			}
 			getModel().updatePlot(true);
-		}
-
-		else if (source == btnOptions) {
+		} else if (source == btnOptions) {
 			optionsPanel.setPanel(getModel().getSelectedPlot());
 			optionsPanel.setVisible(btnOptions.isSelected());
 			resize();
-			
 		}
 
 		else if (source == lbDisplayType) {
@@ -567,10 +559,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 		metaPlotPanel.clear();
 		plotPanelNorth.clear();
 		plotPanelSouth.clear();
-		
+
 		plotPanelSouth.add(LayoutUtilW.panelRow(lblTitleX, fldTitleX));
 		plotPanelNorth.add(LayoutUtilW.panelRow(lblTitleY, fldTitleY));
-		
+
 		metaPlotPanel.add(plotPanelNorth);
 		metaPlotPanel.add(plotPanel.getComponent());
 		metaPlotPanel.add(plotPanelSouth);
@@ -623,12 +615,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void showPlotPanel() {
 		displayDeckPanel.showWidget(METAPLOT_IDX);
 	}
-	
+
 	@Override
 	public void updateStemPlot(String latex) {
 		btnOptions.setVisible(false);
 		btnExport.setVisible(false);
-		
+
 		DrawEquationW.paintOnCanvas(sample, latex, latexCanvas,
 				app.getFontSize());
 
@@ -683,7 +675,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;
 		int h = offsetHeight;
-		
+
 		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
 				: w;
 		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() 
@@ -693,7 +685,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			height -= 2 * lblTitleX.getOffsetHeight();
 			height -= lblTitleY.getOffsetHeight();
 		}
-		
+
 		if (width < PLOTPANEL_MIN_WIDTH) {
 			width =  PLOTPANEL_MIN_WIDTH;
 		}
@@ -705,10 +697,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 		if (oldWidth == width && oldHeight == height) {
 			return;
 		}
-		
+
 		oldWidth = width;
 		oldHeight = height;
-		
+
 		plotPanel.setPreferredSize(new Dimension(width, height));
 		if (optionsPanel.isVisible()) {
 			optionsPanel.resize(w - width - PLOTPANEL_MARGIN, height);

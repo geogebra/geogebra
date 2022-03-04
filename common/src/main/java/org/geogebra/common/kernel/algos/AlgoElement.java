@@ -1810,7 +1810,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public boolean isUndefined() {
 		for (GeoElement geo : getInput()) {
-			if (!geo.isDefined()) {
+			if (!geo.isDefined() && !geo.isLocalVariable()) {
 				return true;
 			}
 		}

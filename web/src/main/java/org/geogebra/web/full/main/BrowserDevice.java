@@ -3,7 +3,6 @@ package org.geogebra.web.full.main;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.browser.BrowseResources;
-import org.geogebra.web.full.gui.dialog.image.ImageInputDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
@@ -127,7 +126,7 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public UploadImageDialog getImageInputDialog(AppW app) {
-		return new ImageInputDialog(app);
+		return null;
 	}
 
 	@Override

@@ -587,14 +587,16 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		// translate +S
 		doTranslate(sx, sy);
 
-		if (r == 0 || !Double.isFinite(r)) {
-			// degenerate case may have changed conic type
-			classifyConic();
-		} else {
+		if (isDegenerate() && r != 0 && Double.isFinite(r)) {
+			// for degenerate conics avoid full classification to keep start points
+			// unless a special value of r changes conic type
 			eigenvec[0].dilate(r);
 			eigenvec[1].dilate(r);
 			setAffineTransform();
 			updateDegenerates(p -> p.dilate(rval, S));
+		} else {
+			// non-degenerate conics have a lot of internal state that may need updating
+			classifyConic();
 		}
 
 		// make sure we preserve old Eigenvector orientation

@@ -29,4 +29,6 @@ public interface InlineFormulaController {
 	void discard();
 
 	String getText();
+
+	void setMinHeight(int minHeight);
 }

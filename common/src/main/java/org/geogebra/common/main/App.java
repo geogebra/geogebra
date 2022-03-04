@@ -89,6 +89,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
@@ -2785,55 +2786,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Returns name or help for given tool
-	 *
-	 * @param mode
-	 *            mode number
-	 * @param toolName
-	 *            true for name, false for help
-	 * @return tool name or help
-	 */
-	public String getToolNameOrHelp(int mode, boolean toolName) {
-		// macro
-		String ret;
-
-		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			// MACRO
-			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			try {
-				Macro macro1 = kernel.getMacro(macroID);
-				if (toolName) {
-					// TOOL NAME
-					ret = macro1.getToolOrCommandName();
-				} else {
-					// TOOL HELP
-					ret = macro1.getToolHelp();
-				}
-			} catch (Exception e) {
-				Log.debug(
-						"Application.getModeText(): macro does not exist: ID = "
-								+ macroID);
-				// e.printStackTrace();
-				return "";
-			}
-		} else {
-			// STANDARD TOOL
-
-			if (toolName) {
-				// tool name
-				String modeText = EuclidianConstants.getModeText(mode);
-				ret = getLocalization().getMenu(modeText);
-			} else {
-				String modeText = EuclidianConstants.getModeTextSimple(mode);
-				// tool help
-				ret = getLocalization().getMenu(modeText + ".Help");
-			}
-		}
-
-		return ret;
-	}
-
-	/**
 	 * Returns name of given tool.
 	 *
 	 * @param mode
@@ -2841,7 +2793,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return name of given tool.
 	 */
 	public String getToolName(int mode) {
-		return getToolNameOrHelp(mode, true);
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolName();
+		} else {
+			String modeText = EuclidianConstants.getModeText(mode);
+			return getLocalization().getMenu(modeText);
+		}
 	}
 
 	/**
@@ -2852,7 +2810,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return the tool help text for the given tool.
 	 */
 	public String getToolHelp(int mode) {
-		return getToolNameOrHelp(mode, false);
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolHelp();
+		} else {
+			String modeText = EuclidianConstants.getModeTextSimple(mode);
+			return getLocalization().getMenu(modeText + ".Help");
+		}
 	}
 
 	/**
@@ -3972,7 +3936,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				if (d != null) {
 					((DrawDropDownList) d).toggleOptions();
 				}
-
 			} else if (geo.isGeoNumeric()) {
 
 				// <Space> -> toggle slider animation off/on
@@ -4004,8 +3967,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Update graphics view alt text.
+	 * @param geoText to set
 	 */
-	public void setAltText() {
+	public void setAltText(GeoText geoText) {
 		// ignored in desktop
 	}
 

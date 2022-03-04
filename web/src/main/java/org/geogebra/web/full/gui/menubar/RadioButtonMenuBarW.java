@@ -58,7 +58,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 	}
 
 	private AriaMenuItem addItem(String text, Command com, boolean selected) {
-		RadioButton radioButton = new RadioButton(menubarID, text, true);		
+		RadioButton radioButton = new RadioButton(menubarID, text, true);
 		radioButton.setValue(selected);
 		radioButton.addStyleName("RadioButtonMenuItem");
 		return super.addItem(radioButton.toString(), true, com);
@@ -74,13 +74,13 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 			}
 		}
 		commands = actionCommands;
-		listener = al;		
+		listener = al;
 		setSelected(selectedPos);
 	}
 
 	@Override
 	public void setSelected(int selectedPos) {
-		clearItems();	
+		clearItems();
 		for (int i = 0; i < texts.length; i++) {
 			if ("---".equals(texts[i])) {
 				addSeparator();

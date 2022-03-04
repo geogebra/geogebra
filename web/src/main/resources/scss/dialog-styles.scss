@@ -73,22 +73,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	/* image tool dialog */
-	.dialogComponent.image {
-		.gwt-Label:hover {
-			color: colors.$teal-default;
-			cursor: pointer;
-		}
-
-		.gwt-Label-highlighted {
-			color: colors.$teal-default;
-
-			&:hover {
-				cursor: default;
-			}
-		}
-	}
-
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;
@@ -165,24 +149,16 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.checkboxPanel {
+			margin-top: 4px;
 			margin-bottom: 28px;
 
 			.checkbox {
-				margin: 2px 16px 0px 0px;
-
 				&.selected {
 					.background {
 						border-color: colors.$teal-default;
 						background-color: colors.$teal-default;
 					}
 				}
-			}
-
-			.templateTxt {
-				font-size: 100%;
-				height: 28px;
-				line-height: 28px;
-				color: colors.$text-primary;
 			}
 		}
 
@@ -933,13 +909,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.checkboxPanel {
-			margin-left: 20px;
+			margin-left: 30px;
 			min-height: 32px;
-		}
-
-		.templateTxt {
-			line-height: 24px;
-			margin-left: 8px;
 		}
 	}
 
@@ -1113,18 +1084,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.checkboxPanel {
+			margin-top: 4px;
 			margin-bottom: 20px;
-
-			.checkbox {
-				margin: 2px 16px 0px 0px;
-			}
-
-			.templateTxt {
-				font-size: 100%;
-				height: 28px;
-				line-height: 28px;
-				color: colors.$text-primary;
-			}
 		}
 	}
 
@@ -1449,12 +1410,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				max-width: 96px;
 			}
 		}
-		.gwt-CheckBox {
+
+		.checkboxPanel {
 				padding-left: 16px;
-		}
-		.gwt-CheckBox label {
-				padding-left: 8px;
-				opacity: 0.7;
 		}
 		.equal {
 			// margin top and bottom set to center it with text field
@@ -1485,7 +1443,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.mowInputPanelContent  {
 		.TextField::selection {
-			background: rgba(colors.$mow_primary, 0.2)
+			background: rgba(colors.$mow_primary, 0.2);
 		}
 	}
 
@@ -1866,7 +1824,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				margin-right: 12px;
 			}
 
-			.templateTxt {
+			.checkboxLbl {
 				line-height: 26px;
 			}
 		}
@@ -1955,4 +1913,47 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			}
 		}
 	}
+
+	.imageDialog {
+		.infoErrorPanel {
+			min-width: 100%;
+			width: auto;
+			margin: auto;
+		}
+
+		.cameraPanel {
+			height: 367px;
+			min-width: 100%;
+			width: auto;
+
+			&.error {
+				height: 367px;
+				display: inline-flex;
+			}
+		}
+
+		.webcamInputPanel {
+			display: block;
+			margin: auto;
+			min-height: 40px;
+			min-width: 53px;
+			max-width: 100%;
+			max-height: calc(100vh - 320px);
+			text-align: center;
+		}
+
+		.mowFloatingButton {
+			position: relative;
+			left: calc(50% - 24px);
+			bottom: 30px;
+			padding: 12px;
+			height: 24px;
+
+			&:hover, &:focus {
+				background: colors.$purple-dark;
+			}
+		}
+
+	}
+
 }

@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -34,6 +35,7 @@ public class ViewTextFieldW extends ViewTextField {
 			box = new SimplePanel();
 			box.addStyleName("gbox");
 			box.setWidget(textField);
+			EventUtil.stopPointer(box.getElement());
 		}
 	}
 
