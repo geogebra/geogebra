@@ -128,8 +128,9 @@ public class DefaultExportedApi implements ExportedApi {
 		});
 	}
 
-	public String evalCommandCAS(String cmdString) {
-		return ggbAPI.evalCommandCAS(cmdString + "");
+	public String evalCommandCAS(String cmdString, String rounding) {
+		return ggbAPI.evalCommandCAS(cmdString + "",
+				Js.isTruthy(rounding) ? rounding : null);
 	}
 
 	public String evalGeoGebraCAS(String cmdString) {
@@ -160,8 +161,9 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.setUndoPoint();
 	}
 
-	public void setSaved() {
-		ggbAPI.setSaved();
+	public void setSaved(Object saved) {
+		// setSaved() is a shortcut for setSaved(true) for compatibility, use safe!==false
+		ggbAPI.setSaved(!Js.isTripleEqual(saved, false));
 	}
 
 	public boolean isSaved() {

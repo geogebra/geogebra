@@ -73,8 +73,7 @@ public class LayoutW extends Layout {
 	public void registerPanel(DockPanelW dockPanel) {
 		dockManager.registerPanel(dockPanel);
 	}
-	
-	/* Many of this not implemented yet, later we can make it togehter */
+
 	@Override
 	public boolean applyPerspective(Perspective perspective) {
 		int labelingStyle = perspective.getLabelingStyle();
@@ -95,8 +94,16 @@ public class LayoutW extends Layout {
 	 * @param perspective perspective
 	 */
 	public void updateLayout(Perspective perspective) {
-		app.getGuiManager().setGeneralToolBarDefinition(
-				perspective.getToolbarDefinition());
+		updateLayout(perspective, perspective.getToolbarDefinition());
+	}
+
+	/**
+	 * Apply the dock panel changes from the perspective, but no ev settings/labeling
+	 * @param perspective perspective
+	 * @param customToolbarDef custom toolbar definition (overrides the one from perspective)
+	 */
+	public void updateLayout(Perspective perspective, String customToolbarDef) {
+		app.getGuiManager().setGeneralToolBarDefinition(customToolbarDef);
 		app.setToolbarPosition(perspective.getToolBarPosition(), false);
 		// override the previous command with the data-param-customToolBar
 		// setting

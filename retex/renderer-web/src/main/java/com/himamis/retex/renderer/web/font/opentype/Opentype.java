@@ -49,16 +49,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geogebra.web.resources.JavaScriptInjector;
 import org.gwtproject.resources.client.TextResource;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.ScriptInjector;
 import com.himamis.retex.renderer.web.font.FontLoaderWrapper;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.resources.PreloadFontResources;
 
 import elemental2.core.JsArray;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLScriptElement;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -85,6 +86,9 @@ public class Opentype implements FontLoaderWrapper {
 		fonts = new HashMap<>();
 	}
 
+	/**
+	 * @param listener font load listener
+	 */
 	public void addListener(OpentypeFontStatusListener listener) {
 		if (!listeners.contains(listener)) {
 			listeners.add(listener);
@@ -178,19 +182,15 @@ public class Opentype implements FontLoaderWrapper {
 		// force different version from CDN
 		// change if the fonts are updated
 		path = path + "?v=3";
-		ScriptInjector.fromUrl(path).setWindow(ScriptInjector.TOP_WINDOW)
-				.setRemoveTag(true)
-				.setCallback(new Callback<Void, Exception>() {
-					@Override
-					public void onFailure(Exception reason) {
-						fireFontInactiveEvent(reason, familyName);
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						parseFont(familyName);
-					}
-				}).inject();
+		HTMLScriptElement script = (HTMLScriptElement) DomGlobal.document
+				.createElement("script");
+		script.onload = ignore -> parseFont(familyName);
+		script.onerror = ex -> {
+			fireFontInactiveEvent(ex, familyName);
+			return false;
+		};
+		script.src = path;
+		DomGlobal.document.head.append(script);
 	}
 
 	private void ensureMapExists() {
@@ -202,8 +202,7 @@ public class Opentype implements FontLoaderWrapper {
 	private boolean checkPreloadNative(String familyName,
 			TextResource resource) {
 		if (resource.getName().equals(familyName)) {
-			ScriptInjector.fromString(resource.getText())
-					.setWindow(ScriptInjector.TOP_WINDOW).inject();
+			JavaScriptInjector.inject(resource);
 			parseFont(familyName);
 			return true;
 		}

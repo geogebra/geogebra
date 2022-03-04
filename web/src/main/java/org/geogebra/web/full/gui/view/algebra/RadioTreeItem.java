@@ -1711,7 +1711,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		if (mf != null) {
 			if (isTextItem()) {
-				mf.setPlainText(text);
+				mf.getInternal().setPlainText(text);
 			} else {
 				mf.parse(text);
 			}

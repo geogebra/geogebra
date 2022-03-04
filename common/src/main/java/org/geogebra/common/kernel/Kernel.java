@@ -328,7 +328,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected App app;
 
 	private EquationSolver eqnSolver;
-	private SystemOfEquationsSolver sysEqSolv;
 	private ExtremumFinderI extrFinder;
 	/** Parser */
 	protected Parser parser;
@@ -562,24 +561,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param eSolver
-	 *            single equation solver
-	 * @return system solver
-	 */
-	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
-			EquationSolverInterface eSolver) {
-		if (sysEqSolv == null) {
-			sysEqSolv = new SystemOfEquationsSolver(eSolver);
-		}
-		return sysEqSolv;
-	}
-
-	/**
 	 * @return extremum finding utility
 	 */
 	final public ExtremumFinderI getExtremumFinder() {
 		if (extrFinder == null) {
-
 			extrFinder = new ExtremumFinder();
 		}
 		return extrFinder;
@@ -4582,14 +4567,15 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param i
+	 * @param macroID
 	 *            macro index
 	 * @return i-th registered macro
 	 */
-	public Macro getMacro(int i) {
+	public Macro getMacro(int macroID) {
 		try {
-			return macroManager.getMacro(i);
+			return macroManager.getMacro(macroID);
 		} catch (Exception e) {
+			Log.error("Cannot find macro " + macroID);
 			return null;
 		}
 	}

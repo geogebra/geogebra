@@ -103,7 +103,7 @@ public interface JavaScriptAPI {
 	 *            CAS command
 	 * @return CAS result
 	 */
-	String evalCommandCAS(String cmdString);
+	String evalCommandCAS(String cmdString, String rounding);
 
 	/**
 	 * Runs command in CAS, all variables are substituted by GeoGebra objects

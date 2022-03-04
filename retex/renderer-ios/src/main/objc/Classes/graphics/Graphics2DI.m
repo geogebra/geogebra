@@ -43,6 +43,21 @@
     CGContextSetLineJoin(_context, [_stroke getNativeJoin]);
     CGContextSetMiterLimit(_context, [_stroke miterLimit]);
     CGContextSetLineWidth(_context, [_stroke width]);
+    CGFloat* lengths = NULL;
+    int count = 0;
+    if (_stroke.dashes != nil) {
+        lengths = [self convertDashes:_stroke.dashes];
+        count = _stroke.dashes.length;
+    }
+    CGContextSetLineDash(_context, 0.0, lengths, count);
+}
+
+-(CGFloat*)convertDashes:(IOSDoubleArray*)dashes {
+    CGFloat* floats = malloc(sizeof(CGFloat) * dashes.length);
+    for (int i = 0; i < dashes.length; i++) {
+        floats[i] = [dashes doubleAtIndex:i];
+    }
+    return floats;
 }
 
 - (id <RXStroke>)getStroke {

@@ -2908,6 +2908,10 @@ public class MyXMLHandler implements DocHandler {
 			if ("element".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
+				GeoCasCell twinCell = cons.lookupCasCellLabel(attrs.get("label"));
+				if (twinCell != null) {
+					twinCell.setTwinLoadedFromFile(true);
+				}
 				geoHandler.init(attrs);
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);

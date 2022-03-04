@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PointPair;
 import org.geogebra.common.kernel.PointPairList;
-import org.geogebra.common.kernel.SystemOfEquationsSolver;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -43,7 +42,6 @@ import org.geogebra.common.kernel.prover.adapters.IntersectConicsAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -91,9 +89,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	// circles
 
 	private final PointPairList pointList = new PointPairList();
-
-	private SystemOfEquationsSolver sysSolver;
-
 	private IntersectConicsAdapter proverAdapter;
 
 	@Override
@@ -126,8 +121,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	private void init(Construction cons1) {
-		EquationSolver eqnSolver = cons1.getKernel().getEquationSolver();
-		sysSolver = cons1.getKernel().getSystemOfEquationsSolver(eqnSolver);
 
 		degConic = new GeoConic(cons1);
 	}
@@ -261,8 +254,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 		// check if conics A and B are defined
 		if (!(A.isDefined() && B.isDefined())) {
-			for (int i = 0; i < P.length; i++) {
-				P[i].setUndefined();
+			for (GeoPoint geoPoint : P) {
+				geoPoint.setUndefined();
 			}
 			return;
 		}
@@ -307,10 +300,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		}
 
 		double gap = Double.POSITIVE_INFINITY;
-		double minDistance = Double.POSITIVE_INFINITY;
-		double d = Double.POSITIVE_INFINITY;
-		int closestPointIndex = 0; // for preexist point
 
+		int closestPointIndex = 0; // for preexist point
+		double d;
 		for (int i = 0; i < 4; i++) {
 			for (int j = i + 1; j < 4; j++) {
 				if (P[i].isDefined() && P[j].isDefined()) {
@@ -321,7 +313,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 				}
 			}
 		}
-
+		double minDistance;
 		for (int i = 0; i < 4; i++) {
 			if (P[i].isDefined()) {
 				minDistance = Double.POSITIVE_INFINITY;
@@ -367,6 +359,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			return false;
 		}
 
+		// intersect the two circles
 		// centres and radii of the circles
 		double r1 = A.getCircleRadius();
 		double x1 = A.b.getX();
@@ -376,7 +369,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		double y2 = B.b.getY();
 
 		// distance between centres
-		double dist = MyMath.length(x1 - x2, y1 - y2);
+		double dist = Math.hypot(x1 - x2, y1 - y2);
 
 		if (DoubleUtil.isZero(r1 + r2 - dist)) {
 			// circles (externally) tangential
@@ -392,7 +385,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			// more general case (2 circles)
 			intersectConicsWithEqualSubmatrixS(A, B, Q, Kernel.STANDARD_PRECISION);
 		}
-
 		// pointOnConic should be first intersection point
 		// Note: if the first intersection point was already set when a file
 		// was loaded, then we need to make sure that we don't lose this
@@ -481,9 +473,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path
-			for (int i = 0; i < P.length; i++) {
-				if (!pointLiesOnBothPaths(P[i])) {
-					P[i].setUndefined();
+			for (GeoPoint geoPoint : P) {
+				if (!pointLiesOnBothPaths(geoPoint)) {
+					geoPoint.setUndefined();
 				}
 			}
 		}
@@ -492,7 +484,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	// calc intersections of conics A and B, with the permutation
 	// according to a near-to relationship with the old permutation
 	// then store the current permutation to int[] storePermutation.
-	final private void computeContinuous() {
+	private void computeContinuous() {
 		/*
 		 * D ... old defined points P ... current points Q ... new points
 		 *
@@ -646,14 +638,14 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	final public void intersectConics(GeoConic conic1, GeoConic conic2, GeoPoint[] points) {
 
 		if (!(conic1.isDefined() && conic2.isDefined())) {
-			for (int i = 0; i < points.length; i++) {
-				points[i].setUndefined();
+			for (GeoPoint point : points) {
+				point.setUndefined();
 			}
 			return;
 		}
 
 		boolean ok = false;
-		int i = 0;
+		int i;
 
 		// equal conics have no intersection points, unless they are themselves
 		// single points.
@@ -728,7 +720,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	/**
 	 * Intersect conic with degenerate conic degConic. Write result into points.
 	 */
-	final static private void intersectWithDegenerate(GeoConic conic, GeoConic degConic,
+	static private void intersectWithDegenerate(GeoConic conic, GeoConic degConic,
 			GeoPoint[] points, double eps) {
 		if (degConic.isDefined()) {
 			switch (degConic.getType()) {
@@ -786,7 +778,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	/**
 	 * Tests if at least one point lies on conics A and B.
 	 */
-	final private boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
+	private boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
 		boolean foundPoint = false;
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {
@@ -797,13 +789,15 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 				double x2 = DoubleUtil.checkDecimalFraction(x, 100000000);
 				double y2 = DoubleUtil.checkDecimalFraction(y, 100000000);
 				if (x != x2 || y != y2) {
-					if (DoubleUtil.isGreaterEqual(B.distance(x, y, helper),
-							B.distance(x2, y2, helper))
-							&& DoubleUtil.isGreaterEqual(A.distance(x, y, helper),
-							A.distance(x2, y2, helper))) {
+					if (B.distance(x, y, helper) >= B.distance(x2, y2, helper)
+							&& A.distance(x, y, helper) >= A.distance(x2, y2, helper)) {
 						// rounded point is at least as close to both conics
 						// -> let's take that one instead
-						// eg Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)
+						// eg Intersect(-x^2 + 6x + 20y = -291, -x y - x + 2y = -83)
+
+						// needs to use >= instead of DoubleUtil.greaterEqual to avoid making
+						// the rounding error worse, e.g.
+						// {Intersect(4y² + 3x - 6y = 13, -7 x y - 2x + 8y = -32)}
 						P[i].setCoords(x2, y2, 1);
 					}
 				}
@@ -818,22 +812,20 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		return foundPoint;
 	}
 
-	static final private double absCrossProduct(double a1, double a2, double b1, double b2) {
+	static private double absCrossProduct(double a1, double a2, double b1, double b2) {
 		return Math.abs(a1 * b2 - a2 * b1);
 	}
 
 	/**
 	 * Calculates the intersection points of the conic sections 1 and 2.
 	 */
-	final private boolean calcIntersectionPoints(GeoConic conic1, GeoConic conic2,
+	private boolean calcIntersectionPoints(GeoConic conic1, GeoConic conic2,
 			GeoPoint[] points, double eps) {
 		/*
 		 * Pluecker mu method: Solves the cubic equation det(A + x B) = 0 or det(x A +
 		 * B) = 0 to get degenerate conics C = A + x B or C = x A + B that pass through
 		 * all intersection points of A and B.
 		 */
-
-		double[] flatDeg = new double[6]; // flat matrix of degenerate conic
 
 		// test wheter conics A and B have proportional submatrix S
 		// => degnerate is single line
@@ -845,7 +837,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		if (absCrossProduct(Amatrix[0], Amatrix[1], Bmatrix[0], Bmatrix[1]) < eps
 				&& absCrossProduct(Amatrix[0], Amatrix[3], Bmatrix[0], Bmatrix[3]) < eps
 				&& absCrossProduct(Amatrix[1], Amatrix[3], Bmatrix[1], Bmatrix[3]) < eps) {
-
 			return intersectConicsWithEqualSubmatrixS(conic1, conic2, points, eps);
 		}
 
@@ -859,11 +850,46 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			return intersectSpecial(conic2, conic1, points, eps);
 		}
 
-		// STANDARD CASE
-		// We search for det(A + x B) = 0 to get a degenerate conic section C
-		// with C = A + x B that includes all intersection points of A and B.
-		// This leads to a cubic equation for x.
-		double[] eqn = new double[4];
+		if (isZero(Amatrix[1]) && isZero(Amatrix[3]) && isZero(Bmatrix[3])) {
+			// eg Intersect(x^2 - 2x - 12y = -108, -4 x^2 - 4y^2 + 9x - 9y = -405)
+			return intersectSpecial2(conic1, conic2, points, eps, true);
+		}
+
+		if (isZero(Amatrix[0]) && isZero(Amatrix[3]) && isZero(Bmatrix[3])) {
+			// eg {Intersect(4y^2 - 9x + y = 66, -9 x^2 - 9y^2 - 4x - 2y = -920)}
+			return intersectSpecial2(conic1, conic2, points, eps, false);
+		}
+
+		if (isZero(Bmatrix[1]) && isZero(Bmatrix[3]) && isZero(Amatrix[3])) {
+			// eg Intersect(-4 x^2 - 4y^2 + 9x - 9y = -405,x^2 - 2x - 12y = -108)
+			return intersectSpecial2(conic2, conic1, points, eps, true);
+		}
+
+		if (isZero(Bmatrix[0]) && isZero(Bmatrix[3]) && isZero(Amatrix[3])) {
+			// eg {Intersect(-9 x^2 - 9y^2 - 4x - 2y = -920, 4y^2 - 9x + y = 66)}
+			return intersectSpecial2(conic2, conic1, points, eps, false);
+		}
+
+		if (isZero(Amatrix[0]) && isZero(Bmatrix[0]) && isZero(Bmatrix[1])) {
+			// eg {Intersect(-5x y + 5y^2 + 6x + 7y = 724, 2x y - 2x - 9y = -108)}
+			return intersectSpecial3(conic1, conic2, points, eps, true);
+		}
+
+		if (isZero(Bmatrix[0]) && isZero(Amatrix[0]) && isZero(Amatrix[1])) {
+			// eg {Intersect(2x y - 2x - 9y = -108, -5x y + 5y^2 + 6x + 7y = 724)}
+			return intersectSpecial3(conic2, conic1, points, eps, true);
+		}
+
+		if (isZero(Amatrix[1]) && isZero(Bmatrix[0]) && isZero(Bmatrix[1])) {
+			// eg {Intersect(-3 x^2 + 14x y - 6x + 6y = 643, 5x y - 8x + 2y = 240)}
+			return intersectSpecial3(conic1, conic2, points, eps, false);
+		}
+
+		if (isZero(Bmatrix[1]) && isZero(Amatrix[0]) && isZero(Amatrix[1])) {
+			// eg {Intersect(5x y - 8x + 2y = 240, -3 x^2 + 14x y - 6x + 6y = 643)}
+			return intersectSpecial3(conic2, conic1, points, eps, false);
+		}
+
 		double[] flatA = new double[6]; // flat matrix of conic A
 		double[] flatB = new double[6]; // flat matrix of conic B
 
@@ -874,6 +900,17 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		}
 		normalizeArray(flatA);
 		normalizeArray(flatB);
+		// STANDARD CASE
+		// We search for det(A + x B) = 0 to get a degenerate conic section C
+		// with C = A + x B that includes all intersection points of A and B.
+		// This leads to a cubic equation for x.
+		return standardCase(conic1, conic2, flatA, flatB, points, eps)
+				|| standardCase(conic2, conic1, flatB, flatA, points, eps);
+	}
+
+	private boolean standardCase(GeoConic conic1, GeoConic conic2, double[] flatA,
+			double[] flatB, GeoPoint[] points, double eps) {
+		double[] eqn = new double[4];
 
 		// compute coefficients of cubic equation
 		// sol[0] + sol[1] x + sol[2] x^2 + sol[3] x^3 = 0
@@ -900,9 +937,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 				+ flatB[4] * (2.0 * flatB[3] * flatB[5] - flatB[1] * flatB[4])
 				- flatB[0] * flatB[5] * flatB[5];
 
-		// Log.debug(eqn[3] + " x^3 + " + eqn[2] + " x^2 + " + eqn[1] + " x + " + eqn[0]
-		// );
-
 		// solve cubic equation and sort solutions
 		double[] sol = new double[3];
 		int solnr = EquationSolver.solveCubicS(eqn, sol, eps);
@@ -912,6 +946,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 		// Go through cubic equation's solutions and take first degenerate conic
 		// with det(A + x B) < eps.
+		double[] flatDeg = new double[6]; // flat matrix of degenerate conic
 		for (int i = 0; i < solnr; i++) {
 			// A + x B
 			for (int j = 0; j < 6; j++) {
@@ -934,87 +969,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			}
 		}
 
-		// DESPARATE MODE
-		// we did not find a degenerate conic with the solutions from above
-		// so we try det(x A + B) now
-
-		// change equation from {0, 1, 2, 3} to {3, 2, 1, 0}
-		// i.e. intersect(A,B) = intersect(B,A)
-		// Application.debug("CHANGE EQUATION");
-
-		double temp = eqn[0];
-		eqn[0] = eqn[3];
-		eqn[3] = temp;
-		temp = eqn[1];
-		eqn[1] = eqn[2];
-		eqn[2] = temp;
-
-		// solve cubic equation and sort solutions
-		solnr = EquationSolver.solveCubicS(eqn, sol, eps);
-		if (solnr > -1) {
-			Arrays.sort(sol, 0, solnr);
-		}
-
-		// Go through cubic equation's solutions and take first degenerate conic
-		// that gives us intersection points
-		for (int i = 0; i < solnr; i++) {
-			// x A + B
-			for (int j = 0; j < 6; j++) {
-				flatDeg[j] = (sol[i] * flatA[j] + flatB[j]);
-			}
-			degConic.setDegenerateMatrixFromArray(flatDeg);
-
-			// try first conic
-			intersectWithDegenerate(conic1, degConic, points, eps);
-			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
-				return true;
-			}
-
-			// try second conic
-			intersectWithDegenerate(conic2, degConic, points, eps);
-			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION)) {
-				return true;
-			}
-		}
-
-		// If intersection points not found
-		// try with another algorithm - solving system of algebraic equations of
-		// conics
-		/* Author ddrakulic */
-
-		double[] param1 = new double[6];
-		param1[0] = Amatrix[0]; // x^2
-		param1[1] = 2 * Amatrix[3]; // xy
-		param1[2] = Amatrix[1]; // y^2
-		param1[3] = 2 * Amatrix[4]; // x
-		param1[4] = 2 * Amatrix[5]; // y
-		param1[5] = Amatrix[2]; // constant
-
-		double[] param2 = new double[6];
-		param2[0] = Bmatrix[0]; // x^2
-		param2[1] = 2 * Bmatrix[3]; // xy
-		param2[2] = Bmatrix[1]; // y^2
-		param2[3] = 2 * Bmatrix[4]; // x
-		param2[4] = 2 * Bmatrix[5]; // y
-		param2[5] = Bmatrix[2]; // constant
-
-		double[][] res = new double[4][2];
-		// Solving system of equations
-		solnr = sysSolver.solveSystemOfQuadraticEquations(param1, param2, res, eps);
-
-		if (solnr == -1 || solnr > res.length) {
-			return false;
-		}
-
-		for (int i = 0; i < solnr; i++) {
-			points[i].setCoords(res[i][0], res[i][1], 1.0d);
-		}
-
-		for (int i = solnr; i < 4; i++) {
-			points[i].setUndefined();
-		}
-
-		return testPoints(conic1, conic2, points, Kernel.MIN_PRECISION);
+		return false;
 	}
 
 	// special case when a=b=n=0
@@ -1052,12 +1007,143 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		intersectLines(true, eqn, roots, points, tempLine, c1, c2, set, eps);
 
 		// now try with x/y swapped and check horizontal lines
-		// eg Intersect(-9x² + 20x + 2y = -1106, 5x y + 6x - 2y = 96)
+		// eg Intersect(-9x^2 + 20x + 2y = -1106, 5x y + 6x - 2y = 96)
 		// swap x/y so
 		// swap e/f k/l o/p
 		fillQuarticRoots(eqn, c, d, f, e, l, k, m, p, o);
 		roots = kernel.getEquationSolver().polynomialRoots(eqn, false);
 		intersectLines(false, eqn, roots, points, tempLine, c1, c2, set, eps);
+
+		// found some points
+		if (set.size() > 0) {
+
+			for (int i = 0; i < points.length; i++) {
+
+				if (i < set.size()) {
+					MyPoint pt = set.get(i);
+					points[i].setCoords(pt.x, pt.y, 1);
+				} else {
+					points[i].setUndefined();
+				}
+
+			}
+
+			return true;
+
+		}
+
+		// no intersections found
+		return false;
+	}
+
+	// special case when b=d=n=0
+	private boolean intersectSpecial2(GeoConic c1, GeoConic c2, GeoPoint[] points, double eps,
+			boolean vertical) {
+
+		double[] Amatrix = c1.getFlatMatrix();
+		double[] Bmatrix = c2.getFlatMatrix();
+
+		// a x^2 + b y^2 + c + 2d x y + 2e x + 2f y = 0
+		// k x^2 + l y^2 + m + 2n x y + 2o x + 2p y = 0
+		double a = Amatrix[0];
+		double b = Amatrix[1];
+		double c = Amatrix[2];
+		// double d = Amatrix[3];
+		double e = Amatrix[4];
+		double f = Amatrix[5];
+
+		double k = Bmatrix[0];
+		double l = Bmatrix[1];
+		double m = Bmatrix[2];
+		// double n = Bmatrix[2];
+		double o = Bmatrix[4];
+		double p = Bmatrix[5];
+
+		double[] eqn = new double[5];
+
+		if (tempLine == null) {
+			tempLine = new GeoLine(cons);
+		}
+
+		ArrayList<MyPoint> set = new ArrayList<>();
+
+		// intersect vertical lines
+		if (vertical) {
+			fillQuarticRoots2(eqn, a, c, e, f, k, l, m, o, p);
+		} else {
+			// swap a/b and e/f and k/l and p/o
+			fillQuarticRoots2(eqn, b, c, f, e, l, k, m, p, o);
+		}
+		int roots = kernel.getEquationSolver().polynomialRoots(eqn, false);
+		intersectLines(vertical, eqn, roots, points, tempLine, c1, c2, set, eps);
+
+		// found some points
+		if (set.size() > 0) {
+
+			for (int i = 0; i < points.length; i++) {
+
+				if (i < set.size()) {
+					MyPoint pt = set.get(i);
+					points[i].setCoords(pt.x, pt.y, 1);
+				} else {
+					points[i].setUndefined();
+				}
+
+			}
+
+			return true;
+
+		}
+
+		// no intersections found
+		return false;
+	}
+
+	// special case when a=k=l=0 (vertical = true) or b=k=l=0 (vertical = false)
+	private boolean intersectSpecial3(GeoConic c1, GeoConic c2, GeoPoint[] points, double eps,
+			boolean vertical) {
+
+		double[] Amatrix = c1.getFlatMatrix();
+		double[] Bmatrix = c2.getFlatMatrix();
+
+		// a x^2 + b y^2 + c + 2d x y + 2e x + 2f y = 0
+		// k x^2 + l y^2 + m + 2n x y + 2o x + 2p y = 0
+		double a = Amatrix[0];
+		double b = Amatrix[1];
+		double c = Amatrix[2];
+		double d = Amatrix[3];
+		double e = Amatrix[4];
+		double f = Amatrix[5];
+
+		// double k = Bmatrix[0];
+		// double l = Bmatrix[1];
+		double m = Bmatrix[2];
+		double n = Bmatrix[3];
+		double o = Bmatrix[4];
+		double p = Bmatrix[5];
+
+		double[] eqn = new double[4];
+
+		if (tempLine == null) {
+			tempLine = new GeoLine(cons);
+		}
+
+		ArrayList<MyPoint> set = new ArrayList<>();
+
+		// intersect vertical lines
+		if (vertical) {
+			// a = 0
+			fillCubicRoots3(eqn, b, c, d, e, f, m, n, o, p);
+		} else {
+			// b = 0
+			// swap a/b and e/f and p/o
+			fillCubicRoots3(eqn, a, c, d, f, e, m, n, p, o);
+		}
+		// solve cubic equation
+		double[] sol = new double[3];
+		int roots = EquationSolver.solveCubicS(eqn, sol, eps);
+
+		intersectLines(vertical, sol, roots, points, tempLine, c1, c2, set, eps);
 
 		// found some points
 		if (set.size() > 0) {
@@ -1122,13 +1208,59 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	//
 	// + c*c l + 4f*f m - 4c f p = 0
 	private void fillQuarticRoots(double[] eqn, double c, double d, double e,
-			double f, double k, double l, double m,	double o, double p) {
+			double f, double k, double l, double m, double o, double p) {
 		eqn[4] = 4 * d * d * k;
 		eqn[3] = 8 * d * d * o + 8 * d * f * k;
 		eqn[2] = 4 * d * d * m + 4 * e * e * l + 4 * f * f * k - 8 * d * e * p + 16 * d * f * o;
 		eqn[1] = 8 * f * f * o - 4 * c * d * p + 4 * c * e * l + 8 * d * f * m - 8 * e * f * p;
 		eqn[0] = c * c * l + 4 * f * f * m - 4 * c * f * p;
+	}
 
+	// in CAS
+	// a x^2 +0y^2 +c +0xy +e x + f y = 0
+	// k x^2 +l y^2 +m +o x + p y = 0
+	// Solve($1,y)
+	// Substitute($2,$3)
+	// $4 f^2
+	// Simplify($5)
+	//
+	// a^2 * l * x^4 + 2 * a * e * l * x^3 + e^2 * l * x^2
+	// + f^2 * k * x^2 + 2 * a * c * l * x^2 - a * f * p *
+	// x^2 + f^2 * o * x + 2 * c * e * l * x - e * f * p * x
+	// + c^2 * l + f^2 * m - c * f * p = 0
+	private void fillQuarticRoots2(double[] eqn, double a, double c, double e, double f, double k,
+			double l, double m,	double o, double p) {
+		eqn[4] = a * a * l;
+		eqn[3] = 4 * l * a * e;
+		eqn[2] = 2 * l * a * c + 4 * l * e * e - 4 * a * f * p + 4 * f * f * k;
+		eqn[1] = 4 * l * c * e - 8 * f * e * p + 8 * f * f * o;
+		eqn[0] = -4 * f * c * p + l * c * c + 4 * f * f * m;
+
+	}
+
+	// in CAS
+	// 0 x^2 +b y^2 +c +2d x y +2e x + 2f y = 0
+	// 0 x^2 +0 y^2 +m +2n x y +2o x + 2p y = 0
+	// Solve($2,y)
+	// Substitute($1,$3)
+	// $4 * 4(p + x n)^2
+	// Simplify($5)
+	//
+	// + 8 * x^3 * n * n * e - 8 * x^3 * n * o * d
+	// 4 * b * x^2 * o * o + 16 * x^2 * p * n * e - 8 * x^2 * p * o * d + 4 * x^2 *
+	// n * n * c - 4 * x^2 * n * m * d - 8 * x^2 * n * o * f
+	// + 4 * b * x * m * o + 8 * x * p * p * e + 8 * x * p * n * c - 4 * x * p * m *
+	// d - 8 * x * p * o * f - 4 * x * n * m * f
+	// + 4 * p * p * c - 4 * p * m * f + b * m * m
+	// = 0
+	private void fillCubicRoots3(double[] eqn, double b, double c, double d, double e, double f,
+			double m, double n, double o, double p) {
+		eqn[3] = 8 * n * n * e - 8 * n * o * d;
+		eqn[2] = 4 * b * o * o + 16 * p * n * e - 8 * p * o * d
+				+ 4 * n * n * c - 4 * n * m * d - 8 * n * o * f;
+		eqn[1] = 4 * b * m * o + 8 * p * p * e + 8 * p * n * c
+				- 4 * p * m * d - 8 * p * o * f - 4 * n * m * f;
+		eqn[0] = 4 * p * p * c - 4 * p * m * f + b * m * m;
 	}
 
 	private void savePoints(ArrayList<MyPoint> set, GeoPoint[] points) {
@@ -1198,7 +1330,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 			// special case a = d = k = n =0
 			// ie no x^2 or xy terms in either
 
-			// eg Intersect( -y² + 18x - 16y = -8 , -4y² + 5x - 8y = 2 )
+			// eg Intersect( -y^2 + 18x - 16y = -8 , -4y^2 + 5x - 8y = 2 )
 
 			// line is
 			// y(((2 * b) * p) * y) - (((2 * f) * l) * y) = ((((-2) * b) * o) * x) + (((2 *
@@ -1216,9 +1348,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		} else {
 
 			// slightly more general case
-			// eg Intersect( -5x² - 9x + 9y = 0 , 2x² - 12x + 14y = 7 )
+			// eg Intersect( -5x^2 - 9x + 9y = 0 , 2x^2 - 12x + 14y = 7 )
 
-			// Intersect(a x² + b y² + c + 2d x y + 2e x + 2f y = 0, k x² + (k b) / a y² + m
+			// Intersect(a x^2 + b y^2 + c + 2d x y + 2e x + 2f y = 0, k x^2 + (k b) / a y^2
+			// + m
 			// + 2 k d / a x y + 2o x + 2p y = 0)
 			// then line through intersection point is (from CAS):
 			// y = (x * (((-a) * o) + (e * k)) / ((a * p) - (f * k))) + (((-a) * m) + (c *
@@ -1274,9 +1407,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		}
 	}
 
-	/***************************************************************
-	 * NEAREST DISTANCE RELATION
-	 ***************************************************************/
+	/* NEAREST DISTANCE RELATION */
 
 	/**
 	 * set tabel[i][j] to square distance between D[i] and Q[j]. distSqr(D[i], Q[j])
@@ -1290,7 +1421,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * @param Q     new points, not permutated
 	 * @param table output distance table
 	 */
-	final public static void distanceTable(GeoPoint[] D, int[] age, GeoPoint[] Q,
+	public static void distanceTable(GeoPoint[] D, int[] age, GeoPoint[] Q,
 			double[][] table) {
 		int i, j;
 		boolean foundUndefined = false;
@@ -1348,7 +1479,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * @param eps         precision: if csome intersection points are closer than
 	 *                    this, don't permute
 	 */
-	final static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q, boolean[] isQonPath,
+	static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q, boolean[] isQonPath,
 			double[][] distTable, PointPairList pointList, int[] permutation,
 			boolean needStrict, double eps) {
 		int indexP, indexQ;
@@ -1443,7 +1574,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 *                    used to set points P, e.g. permuation {1,0} means that
 	 *                    P[0]=Q[1] and P[1]=Q[0]
 	 */
-	final static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q, boolean[] isQonPath,
+	static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q, boolean[] isQonPath,
 			double[][] distTable, PointPairList pointList, int[] permutation) {
 		int indexP, indexQ;
 		pointList.clear();
@@ -1516,7 +1647,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 	/**
 	 * @param i index
-	 * @return esisting intersection
+	 * @return existing intersection
 	 */
 	public GeoPointND getPreexistPoint(int i) {
 		if (preexistPoints != null) {
