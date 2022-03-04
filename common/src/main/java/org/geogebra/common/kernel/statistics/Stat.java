@@ -10,7 +10,7 @@ public enum Stat {
 	SD(Commands.SD, "%t%v"), SAMPLE_SD(Commands.SampleSD, "%t%v"),
 	SUM(Commands.Sum, "\\Sigma %v"),
 	SIGMAXX(Commands.SigmaXX, "\\Sigma %v" + Unicode.SUPERSCRIPT_2),
-	MIN(Commands.Min, "%t(%v)"),	Q1(Commands.Quartile1), MEDIAN(Commands.Median),
+	MIN(Commands.Min, "%t(%v)"), Q1(Commands.Quartile1), MEDIAN(Commands.Median),
 	Q3(Commands.Q3), MAX(Commands.Max, "%t(%v)"), MEANX(Commands.MeanX),
 	MEANY(Commands.MeanY), SX(Commands.SampleSDX), SY(Commands.SampleSDY), PMCC(Commands.PMCC),
 	SPEARMAN(Commands.Spearman), SXX(Commands.SXX), SYY(Commands.SYY), SXY(Commands.SXY),

@@ -69,6 +69,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		dialogMainPanel.add(title);
 
 		if (subTitleTransKey != null) {
+			addStyleName("withSubtitle");
 			Label subTitle = new Label();
 			subTitle.getElement().setInnerHTML(subTitleTransKey);
 			subTitle.setStyleName("dialogSubTitle");

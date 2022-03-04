@@ -173,7 +173,7 @@ public class ContextMenuTV {
 		dialog.addStyleName("statistics error");
 		InfoErrorData errorData = new InfoErrorData(app.getLocalization()
 				.getMenu("StatsDialog.NoData"), app.getLocalization()
-				.getMenu("StatsDialog.NoDataMsg"),	null);
+				.getMenu("StatsDialog.NoDataMsg"), null);
 		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				errorData, MaterialDesignResources.INSTANCE.bar_chart_black(), null);
 		dialog.addDialogContent(infoPanel);
