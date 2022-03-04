@@ -134,8 +134,9 @@ public abstract class CASgiacB extends CASgiac {
             }
         }
 
-        g = binding.createGen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", context);
-        g.eval(1, context);
+        binding.createGen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", context)
+				.eval(1, context);
+		binding.createGen("\"ckevery 20\"", context).eval(1, context);
 
         // make sure we don't always get the same value!
         int seed = rand.nextInt(Integer.MAX_VALUE);
