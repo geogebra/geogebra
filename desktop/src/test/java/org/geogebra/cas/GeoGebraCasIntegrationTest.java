@@ -1805,7 +1805,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 						+ "+ 27 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2883) / 1922)");
 		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
 		// this is always numeric, the 13th digit changed multiple times with new Giac
-		t("Numeric(Last[Tangent[P, c]],12)",	"{y = 5.55821394864 * x - 0.026806742873}",
+		t("Numeric(Last[Tangent[P, c]],12)", "{y = 5.55821394864 * x - 0.026806742873}",
 				"{y = 5.55821394864 * x - 0.0268067428731}");
 	}
 

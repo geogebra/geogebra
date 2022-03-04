@@ -112,12 +112,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * @param x
-	 *            x-axis scale
-	 * @param y
-	 *            y-axis scale
-	 * @param z
-	 *			  z-axis scale
+	 * @param x x-axis scale
+	 * @param y y-axis scale
+	 * @param z z-axis scale
 	 */
 	public void setXYZscale(double x, double y, double z) {
 		setXYZscaleValues(x, y, z);
@@ -125,12 +122,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * @param x
-	 *            x-axis scale
-	 * @param y
-	 *            y-axis scale
-	 * @param z
-	 *			  z-axis scale
+	 * @param x x-axis scale
+	 * @param y y-axis scale
+	 * @param z z-axis scale
 	 */
 	public void setXYZscaleValues(double x, double y, double z) {
 		this.xscale = x;

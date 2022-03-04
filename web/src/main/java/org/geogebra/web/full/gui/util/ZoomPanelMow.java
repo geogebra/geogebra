@@ -119,7 +119,7 @@ public class ZoomPanelMow extends FlowPanel
 		ClickStartHandler.init(spotlightOnBtn, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				DockPanelW dp =	(DockPanelW) appW.getGuiManager().getLayout().getDockManager()
+				DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
 						.getPanel(App.VIEW_EUCLIDIAN);
 				dp.getComponent().addStyleName("graphicsWithSpotlight");
 				getEuclidianController().spotlightOn();
@@ -149,7 +149,7 @@ public class ZoomPanelMow extends FlowPanel
 						&& evt.getTarget() != null && evt.getTarget().isSpotlight()
 				) {
 					EuclidianView view = appW.getActiveEuclidianView();
-					DockPanelW dp =	(DockPanelW) appW.getGuiManager().getLayout().getDockManager()
+					DockPanelW dp = (DockPanelW) appW.getGuiManager().getLayout().getDockManager()
 							.getPanel(App.VIEW_EUCLIDIAN);
 					dp.getComponent().removeStyleName("graphicsWithSpotlight");
 					view.clearSpotlight();

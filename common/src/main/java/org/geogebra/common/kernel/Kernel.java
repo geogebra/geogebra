@@ -1626,7 +1626,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return LHS string
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars, boolean cancelDown,
-			boolean needsZ,	StringTemplate tpl) {
+			boolean needsZ, StringTemplate tpl) {
 
 		return buildLHS(numbers, vars, cancelDown, needsZ,
 				false, tpl);

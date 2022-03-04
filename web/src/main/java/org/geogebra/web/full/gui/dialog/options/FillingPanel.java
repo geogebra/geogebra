@@ -244,8 +244,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		opacitySlider.addChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
 
-		ChangeHandler angleAndDistanceHandler =	event -> model.applyAngleAndDistance(
-				angleSlider.getValue(),	distanceSlider.getValue());
+		ChangeHandler angleAndDistanceHandler = event -> model.applyAngleAndDistance(
+				angleSlider.getValue(), distanceSlider.getValue());
 
 		angleSlider.addChangeHandler(angleAndDistanceHandler);
 		distanceSlider.addChangeHandler(angleAndDistanceHandler);

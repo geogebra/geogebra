@@ -376,7 +376,7 @@ public class DrawAxis {
 			double yCrossPix, double yAxisEnd) {
 		double xoffset = -4 - (fontsize / 4d);
 		double yoffset = (fontsize / 2d) - 1;
-		
+
 		boolean enableTicks = !view.getShowGrid()
 				|| (view.axesNumberingDistances[1] != view.getGridDistances()[1]);
 		boolean[] drawMajorTicks = {
@@ -437,7 +437,7 @@ public class DrawAxis {
 		// draw all of the remaining ticks and labels
 
 		int maxY = EuclidianView.SCREEN_BORDER;
-		
+
 		// yAxisEnd
 
 		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
@@ -476,12 +476,12 @@ public class DrawAxis {
 										g2.getFontRenderContext());
 
 						double width = layout.getAdvance();
-						
+
 						int x = (int) ((xCrossPix + xoffset) - width);
-						
+
 						// flag for handling label at axis cross point
 						boolean zero = strNum.equals(crossAtStr);
-						
+
 						int y;
 
 						boolean bothNull = zero && view.axisCross[0] == 0
@@ -498,10 +498,10 @@ public class DrawAxis {
 						if (!bothNull) {
 							numbers.add(new TickNumber(g2, sb.toString(), x, y,
 									xCrossPix, xoffset, width));
-							
+
 							if (labelno == -unitsPerLabelY) {
 								beforeZeroY = y - fontsize;
-							}	
+							}
 						}
 
 						// measure width, so grid line can avoid it

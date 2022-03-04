@@ -501,7 +501,7 @@ public class DrawMindMap extends DrawInlineText {
 		Group group = node.getParentGroup();
 		if (group != null) {
 			group.stream().filter(this::translateFiler)
-					.forEach(geo ->	((Translateable) geo).translate(shift));
+					.forEach(geo -> ((Translateable) geo).translate(shift));
 		}
 		node.updateCascade(false);
 		for (GeoMindMapNode child: node.getChildren()) {

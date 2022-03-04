@@ -953,7 +953,7 @@ public class MyXMLHandler implements DocHandler {
 			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
 				GeoNumberValue val = getNumber(parmStringArray[i]);
-				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
+				parameters[i] = val instanceof GeoNumeric ? (GeoNumeric) val
 								: new GeoNumeric(cons, Double.NaN);
 			}
 

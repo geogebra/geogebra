@@ -46,7 +46,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 			boolean defaultModel) {
 		this.daView = statDialog;
 		setStyleName("daStatistics");
-		
+
 		if (defaultModel) {
 			setModel(new StatTableModel(app, this));
 		}
@@ -120,7 +120,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 						getModel().getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
-						setValueAt(value, row,	1);
+						setValueAt(value, row, 1);
 					}
 				}
 			}

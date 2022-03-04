@@ -66,9 +66,9 @@ public class CheckboxPanel extends OptionPanel implements
 				.getValue());
 		onChecked();
 	}
-	
+
 	/** Override this to do stuff after setting checkbox */
-	public void onChecked() {		
+	public void onChecked() {
 		// Override and put your code here.
 	}
 }

@@ -131,7 +131,7 @@ public class VectorArithmetic {
 						exp.getRight());
 			}
 		default:
-			return new ExpressionNode(kernel, exp,	ops[i], null);
+			return new ExpressionNode(kernel, exp, ops[i], null);
 		}
 
 	}

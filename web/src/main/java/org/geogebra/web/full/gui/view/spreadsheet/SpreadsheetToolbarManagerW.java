@@ -46,7 +46,7 @@ public class SpreadsheetToolbarManagerW {
 		// Application.printStacktrace("");
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
-		switch (mode) {	
+		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
@@ -97,7 +97,7 @@ public class SpreadsheetToolbarManagerW {
 
 		default:
 			// ignore other modes
-		}				
+		}
 	}
 
 	private void openDialog(int type, String title) {

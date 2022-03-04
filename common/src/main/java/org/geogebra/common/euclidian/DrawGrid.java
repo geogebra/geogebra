@@ -67,7 +67,7 @@ public class DrawGrid {
 			//start of subgrids
 			start = view.getYZero() % smallStep;
 			//start of grids
-			double start2 = view.getYZero() % tickStepY;		
+			double start2 = view.getYZero() % tickStepY;
 			// number of subgrids at the top, above the highest main grid
 			topSubGrids = Math.round((float) ((start2 - start) / smallStep));
 		}
