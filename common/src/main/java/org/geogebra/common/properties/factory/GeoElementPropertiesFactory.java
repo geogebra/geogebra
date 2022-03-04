@@ -272,7 +272,6 @@ public class GeoElementPropertiesFactory {
 	 * @param elements elements
 	 * @return property or null
 	 */
-
 	public static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
