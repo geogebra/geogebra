@@ -27,7 +27,7 @@ public class GeoGebraIconW {
 			matIcons.point_diamond_empty(), matIcons.point_up(),
 			matIcons.point_down(), matIcons.point_right(),
 			matIcons.point_left(), matIcons.point_no_outline() };
-	
+
 	private static SVGResource[] lineStyleSVGIcons = {
 			matIcons.line_solid(),
 			matIcons.line_dashed_long(), matIcons.line_dashed_short(),
@@ -55,8 +55,8 @@ public class GeoGebraIconW {
 	 */
 	public static ImageOrText createPointStyleIcon(int pointStyle) {
 		return new ImageOrText(pointStyleSVGIcons[pointStyle], 24);
-    }
-	
+	}
+
 	/**
 	 * @param fillType
 	 *            fill type
@@ -90,8 +90,8 @@ public class GeoGebraIconW {
 	 */
 	public static ImageOrText createGridStyleIcon(int pointStyle) {
 		return new ImageOrText(gridStyleIcons[pointStyle], 24);
-    }
-	
+	}
+
 	/**
 	 * @param alpha
 	 *            {@code float}
@@ -133,7 +133,7 @@ public class GeoGebraIconW {
 		ret.setBgColor(bgColor);
 		return ret;
 	}
-	
+
 	/**
 	 * @return {@link ImageOrText} Empty icon
 	 */
@@ -163,7 +163,7 @@ public class GeoGebraIconW {
 			break;
 		case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
 				svgResource =  GuiResources.INSTANCE.deco_angle_3strokes();
-			break;			
+			break;
 		case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 				svgResource =  GuiResources.INSTANCE.deco_angle_arrow_up();
 			break;
@@ -183,7 +183,7 @@ public class GeoGebraIconW {
 	 */
 	public static ImageOrText createDecorSegmentIcon(int id) {
 		SVGResource svgResource;
-		switch (id) {		
+		switch (id) {
 		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
 			svgResource =  GuiResources.INSTANCE.deco_segment_1stroke();
 			break;

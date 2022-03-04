@@ -303,7 +303,7 @@ public class GgbAPIW extends GgbAPI {
 				mergeFiles(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
 						usage);
 			}
-			jso.put(GgbFile.STRUCTURE_JSON,	pageController.getStructureJSON());
+			jso.put(GgbFile.STRUCTURE_JSON, pageController.getStructureJSON());
 			mergeFiles(shared, jso, GgbFile.SHARED_PREFIX, null);
 			return jso;
 		}

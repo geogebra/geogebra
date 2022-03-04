@@ -20,7 +20,7 @@ import com.zspace.ZSVector3;
 
 
 public class ZSpaceGeoGebra {
-	
+
 	public class ZSMatrix4Ggb extends ZSMatrix4 {
 
 		public void set(float[] values) {
@@ -38,14 +38,13 @@ public class ZSpaceGeoGebra {
 	public static float TRACKER_THRESHOLD_DISTANCE = 0.0001f;
 	public static float TRACKER_THRESHOLD_ANGLE = 1f;
 	public static float TRACKER_THRESHOLD_TIME = 0.02f;
-	
+
 	/**
 	 * max delay (in ms) during which the tracker may be not detected but
 	 * present
 	 */
 	private static int TRACKER_NOT_DETECTED_MAX_DELAY = 3000;
 
-//	@BeforeClass
 	public static void RunOnce() throws Input3DException {
 		try {
 			System.loadLibrary("ZSpaceSDK4");
@@ -54,7 +53,7 @@ public class ZSpaceGeoGebra {
 					"zSpace: Failed to load library");
 		}
 	}
-	
+
 	/**
 	 * try to initialize zSpace context
 	 * 
@@ -69,15 +68,14 @@ public class ZSpaceGeoGebra {
 					"zSpace: Failed to init");
 		}
 	}
-	
-	
+
 	private abstract class ZJEventListener extends ZCEventListener {
-		
+
 		public ZSMatrix4Ggb viewPortMatrix;
-		
+
 		protected ZSpaceGeoGebra zsggb;
 		private ZCTrackerPose trackerPose;
-		
+
 		public ZJEventListener(ZSpaceGeoGebra zsggb) {
 			this.zsggb = zsggb;
 			viewPortMatrix = new ZSMatrix4Ggb();
@@ -87,48 +85,41 @@ public class ZSpaceGeoGebra {
 		@Override
 		public void runWithEventData(long targetHandle,
 				ZCTrackerEventData eventData, Object userData) {
-			
 			zsggb.setEventOccured();
 			setTrackerPose(trackerPose);
 			updateViewPortMatrix();
-			
 		}
-		
+
 		abstract protected void setTrackerPose(ZCTrackerPose trackerPose);
 
 		/**
 		 * update matrix in viewport space
 		 * 
 		 */
-		public void updateViewPortMatrix(){
-
+		public void updateViewPortMatrix() {
 			viewPortMatrix.set(trackerPose.matrix.f);
 			Sdk4.zcTransformMatrix(
 					zsggb.zViewport,
 					ZCCoordinateSpace.ZC_COORDINATE_SPACE_TRACKER,
 					ZCCoordinateSpace.ZC_COORDINATE_SPACE_VIEWPORT,
 					viewPortMatrix);
-			
 			updateCoords();
 		}
-		
+
 		/**
 		 * update coords
 		 */
 		abstract protected void updateCoords();
-		
-		
 	}
-	
-	private class ZJEventListenerStylus extends ZJEventListener{
-		
+
+	private class ZJEventListenerStylus extends ZJEventListener {
 
 		public double x, y, z, qx, qy, qz, qw, dx, dy, dz;
 
 		public ZJEventListenerStylus(ZSpaceGeoGebra zsggb) {
 			super(zsggb);
 		}
-		
+
 		@Override
 		public void runWithEventData(long targetHandle,
 				ZCTrackerEventData eventData, Object userData) {
@@ -138,17 +129,17 @@ public class ZSpaceGeoGebra {
 		}
 
 		@Override
-		protected void updateCoords(){
+		protected void updateCoords() {
 			// update x, y, z
 			x = viewPortMatrix.f[12] * zsggb.toPixelRatio;
 			y = viewPortMatrix.f[13] * zsggb.toPixelRatio;
 			z = viewPortMatrix.f[14] * zsggb.toPixelRatio;
-			
+
 			// update direction x, y, z
 			dx = viewPortMatrix.f[8];
 			dy = viewPortMatrix.f[9];
 			dz = viewPortMatrix.f[10];
-			
+
 			// update quaternion
 			// (from http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion)
 			double m00 = viewPortMatrix.f[0];
@@ -160,7 +151,7 @@ public class ZSpaceGeoGebra {
 			double m02 = dx;
 			double m12 = dy;
 			double m22 = dz;
-			
+
 			double tr = m00 + m11 + m22;
 
 			if (tr > 0) { 
@@ -194,14 +185,12 @@ public class ZSpaceGeoGebra {
 		protected void setTrackerPose(ZCTrackerPose trackerPose) {
 			Sdk4.zcGetTargetPose(targetHandle, trackerPose);
 		}
-		
+
 	}
-	
-	private class ZJEventListenerHead extends ZJEventListener{
-		
+
+	private class ZJEventListenerHead extends ZJEventListener {
+
 		private double leftX, leftY, leftZ, rightX, rightY, rightZ;
-		
-		
 
 		public ZJEventListenerHead(ZSpaceGeoGebra zsggb) {
 			super(zsggb);
@@ -214,10 +203,9 @@ public class ZSpaceGeoGebra {
 			zsggb.setGlassesDetected();
 			super.runWithEventData(targetHandle, eventData, userData);
 		}
-		
+
 		@Override
-		protected void updateCoords(){
-			
+		protected void updateCoords() {
 			// update eyes
 			double x = viewPortMatrix.f[12];
 			double y = viewPortMatrix.f[13];
@@ -225,77 +213,66 @@ public class ZSpaceGeoGebra {
 			double dx = ZSpaceGeoGebra.EYE_SEP_HALF * viewPortMatrix.f[0];
 			double dy = ZSpaceGeoGebra.EYE_SEP_HALF * viewPortMatrix.f[1];
 			double dz = ZSpaceGeoGebra.EYE_SEP_HALF * viewPortMatrix.f[2];
-			
+
 			leftX = (x - dx) * zsggb.toPixelRatio;
 			leftY = (y - dy) * zsggb.toPixelRatio;
 			leftZ = (z - dz) * zsggb.toPixelRatio;
-			
+
 			rightX = (x + dx) * zsggb.toPixelRatio;
 			rightY = (y + dy) * zsggb.toPixelRatio;
 			rightZ = (z + dz) * zsggb.toPixelRatio;
-
 		}
 
 		@Override
 		protected void setTrackerPose(ZCTrackerPose trackerPose) {
 			Sdk4.zcGetFrustumHeadPose(frustumHandle, trackerPose);
 		}
-		
+
 	}
-	
-	
+
 	private class ZJEventListenerPressButtons extends ZCEventListener {
-		
+
 		protected ZSpaceGeoGebra zsggb;
-		
+
 		public ZJEventListenerPressButtons(ZSpaceGeoGebra zsggb){
 			this.zsggb = zsggb;
 		}
-		
+
 		@Override
 		public void runWithEventData(long targetHandle,
 				ZCTrackerEventData eventData, Object userData) {
-			
 			zsggb.setEventOccured();
 			zsggb.button[eventData.buttonId] = true;
 		}
-		
-		
-		
+
 	}
-	
-	
+
 	private class ZJEventListenerReleaseButtons extends ZCEventListener {
-		
+
 		protected ZSpaceGeoGebra zsggb;
 
 		public ZJEventListenerReleaseButtons(ZSpaceGeoGebra zsggb){
 			this.zsggb = zsggb;
 		}
-		
+
 		@Override
 		public void runWithEventData(long targetHandle,
 				ZCTrackerEventData eventData, Object userData) {
-			
 			zsggb.setEventOccured();
 			zsggb.button[eventData.buttonId] = false;
-			
 		}
-		
-		
-		
+
 	}
-	
+
 	static private DecimalFormat format = new DecimalFormat(" 0.00;-0.00");
-	
+
 	public static String matrixToString(ZSMatrix4Ggb m) {
-		
-		if (m == null){
+		if (m == null) {
 			return "m == null";
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append(format.format(m.getM(0, 0)));
 		sb.append(" ");
 		sb.append(format.format(m.getM(0, 1)));
@@ -304,7 +281,7 @@ public class ZSpaceGeoGebra {
 		sb.append(" ");
 		sb.append(format.format(m.getM(0, 3)));
 		sb.append("\n");
-		
+
 		sb.append(format.format(m.getM(1, 0)));
 		sb.append(" ");
 		sb.append(format.format(m.getM(1, 1)));
@@ -313,7 +290,7 @@ public class ZSpaceGeoGebra {
 		sb.append(" ");
 		sb.append(format.format(m.getM(1, 3)));
 		sb.append("\n");
-		
+
 		sb.append(format.format(m.getM(2, 0)));
 		sb.append(" ");
 		sb.append(format.format(m.getM(2, 1)));
@@ -322,7 +299,7 @@ public class ZSpaceGeoGebra {
 		sb.append(" ");
 		sb.append(format.format(m.getM(2, 3)));
 		sb.append("\n");
-		
+
 		sb.append(format.format(m.getM(3, 0)));
 		sb.append(" ");
 		sb.append(format.format(m.getM(3, 1)));
@@ -330,32 +307,30 @@ public class ZSpaceGeoGebra {
 		sb.append(format.format(m.getM(3, 2)));
 		sb.append(" ");
 		sb.append(format.format(m.getM(3, 3)));
-		
-		
+
+
 		return sb.toString();
 	}
-	
-	
-	
+
 	static private long zContext;
 	private long zViewport, zHead, zStylus;
 	private long zBuffer;
-	
+
 	private boolean[] button;
-	
+
 	private ZSMatrix4Ggb origMatrix, viewPortMatrixFromOrigin;
-	
-    public ZSpaceGeoGebra() {
+
+	public ZSpaceGeoGebra() {
 
 		init();
-		
-	    float[] unitFloat = {	1.0f,0.0f,0.0f,0.0f,
-				0.0f,1.0f,0.0f,0.0f,
-				0.0f,0.0f,1.0f,0.0f,
-				0.0f,0.0f,0.0f,1.0f};
+
+		float[] unitFloat = {1.0f, 0.0f, 0.0f, 0.0f,
+				0.0f, 1.0f, 0.0f, 0.0f,
+				0.0f, 0.0f, 1.0f, 0.0f,
+				0.0f, 0.0f, 0.0f, 1.0f};
 		origMatrix = new ZSMatrix4Ggb();
 		origMatrix.set(unitFloat);
-		
+
 		viewPortMatrixFromOrigin = new ZSMatrix4Ggb();
 
     }
@@ -365,18 +340,18 @@ public class ZSpaceGeoGebra {
 	private long displayHandle;
 	long frustumHandle;
     
-    private void init(){
-    	
+    private void init() {
+    
     	// buttons
     	button = new boolean[3];
-		
+
 		// get display size
 		int numDisplays = Sdk4.zcGetNumDisplays(zContext);
 		// System.out.println("============= numDisplays = "+numDisplays);
 		for (int i = 0 ; i < numDisplays ; i++){
 			displayHandle = Sdk4.zcGetDisplayByIndex(zContext, i);
 			ZCDisplayType type = Sdk4.zcGetDisplayType(displayHandle);
-			
+
 			if (type.equals(ZCDisplayType.ZC_DISPLAY_TYPE_ZSPACE)) {
 				ZSVector2 displaySize = new ZSVector2();
 				Sdk4.zcGetDisplaySize(displayHandle, displaySize);
@@ -390,14 +365,14 @@ public class ZSpaceGeoGebra {
 				System.out.println("============= ratio = " + toPixelRatio);
 				System.out.println("============= monitor = "
 						+ Sdk4.zcGetDisplayMonitorIndex(displayHandle));
-			}			
-			
+			}
+
 		}
-		
+
 		zBuffer = Sdk4.zcCreateStereoBuffer(zContext,
 				Sdk4.ZCRenderer.ZC_RENDERER_QUAD_BUFFER_GL, 0);
 		zViewport = Sdk4.zcCreateViewport(zContext);
-		
+
 		frustumHandle = Sdk4.zcGetFrustum(zViewport);
 
 		// initialize head tracking
@@ -412,11 +387,11 @@ public class ZSpaceGeoGebra {
 		zStylus = Sdk4.zcGetTargetByType(
 				zContext,
 				ZCTargetType.ZC_TARGET_TYPE_PRIMARY,
-				0);		
+				0);
 		Sdk4.zcSetTargetMoveEventThresholds(zStylus, TRACKER_THRESHOLD_TIME,
 				TRACKER_THRESHOLD_DISTANCE, TRACKER_THRESHOLD_ANGLE);
-		
-		
+
+
 		// ZSVector3 th = new ZSVector3();
 		// Sdk4.zcGetTargetMoveEventThresholds(zHead, th);
 		// System.out.println("========= head distance threshold: " + th.y);
@@ -434,22 +409,22 @@ public class ZSpaceGeoGebra {
     private ZJEventListenerPressButtons buttonspresslistener;
     private ZJEventListenerReleaseButtons buttonsreleaselistener;
        
-    private void createCallbacks(){
-    	
+    private void createCallbacks() {
+    
     	//add listener for head
     	headlistener = new ZJEventListenerHead(this);
 		headlistener.targetHandle = zHead;
 		headlistener.trackerEventType = Sdk4.ZCTrackerEventType.ZC_TRACKER_EVENT_MOVE;
 		headlistener.userData = null;
 		Sdk4.zcAddTrackerEventHandler(headlistener);
-    	
+    
     	//add listener for stylus
     	styluslistener = new ZJEventListenerStylus(this);
 		styluslistener.targetHandle = zStylus;
 		styluslistener.trackerEventType = Sdk4.ZCTrackerEventType.ZC_TRACKER_EVENT_MOVE;
 		styluslistener.userData = null;
 		Sdk4.zcAddTrackerEventHandler(styluslistener);
-    	
+    
 		// add listeners for buttons
     	buttonspresslistener = new ZJEventListenerPressButtons(this);
 		buttonspresslistener.targetHandle = zStylus;
@@ -477,16 +452,16 @@ public class ZSpaceGeoGebra {
 		lastStylusDetection = System.currentTimeMillis();
 	}
 
-    public void setEventOccured(){
+    public void setEventOccured() {
     	eventOccured = true;
     }
     
-    public boolean eventOccured(){
+    public boolean eventOccured() {
     	return eventOccured;
     }
     
-    public void getData(){
-    	
+    public void getData() {
+    
     	eventOccured = false;
     	//return "\nhead:\n"+matrixToString(headlistener.matrix)+"\nin viewport:\n"+matrixToString(headlistener.viewPortMatrix);
     	//return button[0]+","+button[1]+","+button[2];
@@ -502,14 +477,14 @@ public class ZSpaceGeoGebra {
     }
 
     public void setViewPort(int x, int y, int w, int h){
-    	
+    
 		Sdk4.zcUpdate(zContext);
 		Sdk4.zcSyncStereoBuffer(zBuffer);
-    	
+    
 		Sdk4.zcSetViewportPosition(zViewport, x, y);
 		Sdk4.zcSetViewportSize(zViewport, w, h);
-		
-		
+
+
 		viewPortMatrixFromOrigin.set(origMatrix.f);
 
 		Sdk4.zcTransformMatrix(
@@ -517,7 +492,7 @@ public class ZSpaceGeoGebra {
 				ZCCoordinateSpace.ZC_COORDINATE_SPACE_TRACKER,
 				ZCCoordinateSpace.ZC_COORDINATE_SPACE_VIEWPORT,
 				viewPortMatrixFromOrigin);
-		
+
 		headlistener.updateViewPortMatrix();
 		styluslistener.updateViewPortMatrix();
     }
@@ -526,7 +501,7 @@ public class ZSpaceGeoGebra {
 		Sdk4.zcUpdate(zContext);
 	}
 
-    public String getViewPortMatrix(){
+    public String getViewPortMatrix() {
     	return matrixToString(viewPortMatrixFromOrigin);
     }
     
@@ -534,118 +509,116 @@ public class ZSpaceGeoGebra {
 	/**
 	 * @return last calculated x coord
 	 */
-	public double getStylusX(){
+	public double getStylusX() {
 		return styluslistener.x;
 	}
-	
+
 	/**
 	 * @return last calculated y coord
 	 */
-	public double getStylusY(){
+	public double getStylusY() {
 		return styluslistener.y;
 	}
-	
+
 	/**
 	 * @return last calculated z coord
 	 */
-	public double getStylusZ(){
+	public double getStylusZ() {
 		return styluslistener.z;
 	}
-	
+
 	/**
 	 * @return last calculated direction x coord
 	 */
-	public double getStylusDX(){
+	public double getStylusDX() {
 		return -styluslistener.dx;
 	}
-	
+
 	/**
 	 * @return last calculated direction y coord
 	 */
-	public double getStylusDY(){
+	public double getStylusDY() {
 		return -styluslistener.dy;
 	}
-	
+
 	/**
 	 * @return last calculated direction z coord
 	 */
-	public double getStylusDZ(){
+	public double getStylusDZ() {
 		return -styluslistener.dz;
 	}
-	
+
 	/**
 	 * @return last calculated quaternion x coord
 	 */
-	public double getStylusQX(){
+	public double getStylusQX() {
 		return styluslistener.qx;
 	}
-	
+
 	/**
 	 * @return last calculated quaternion y coord
 	 */
-	public double getStylusQY(){
+	public double getStylusQY() {
 		return styluslistener.qy;
 	}
-	
+
 	/**
 	 * @return last calculated quaternion z coord
 	 */
-	public double getStylusQZ(){
+	public double getStylusQZ() {
 		return styluslistener.qz;
 	}
-	
+
 	/**
 	 * @return last calculated quaternion w coord
 	 */
-	public double getStylusQW(){
+	public double getStylusQW() {
 		return styluslistener.qw;
 	}
-	
-	
-	
-	public String getStylusMatrix(){
+
+	public String getStylusMatrix() {
 		return matrixToString(styluslistener.viewPortMatrix);
 	}
-	
+
 	/**
 	 * @return last calculated left eye x coord
 	 */
-	public double getLeftEyeX(){
+	public double getLeftEyeX() {
 		return headlistener.leftX;
 	}
-	
+
 	/**
 	 * @return last calculated left eye y coord
 	 */
-	public double getLeftEyeY(){
+	public double getLeftEyeY() {
 		return headlistener.leftY;
 	}
-	
+
 	/**
 	 * @return last calculated left eye z coord
 	 */
-	public double getLeftEyeZ(){
+	public double getLeftEyeZ() {
 		return headlistener.leftZ;
 	}
 
 	/**
 	 * @return last calculated right eye x coord
 	 */
-	public double getRightEyeX(){
+	public double getRightEyeX() {
 		return headlistener.rightX;
 	}
-	
+
 	/**
 	 * @return last calculated right eye y coord
 	 */
-	public double getRightEyeY(){
+	public double getRightEyeY() {
 		return headlistener.rightY;
 	}
-	
+
 	/**
 	 * @return last calculated right eye z coord
 	 */
-	public double getRightEyeZ(){
+	public double getRightEyeZ() {
 		return headlistener.rightZ;
 	}
 
@@ -653,7 +626,7 @@ public class ZSpaceGeoGebra {
 	 * 
 	 * @return real world dim to pixel dim ratio
 	 */
-	public double toPixelRatio(){
+	public double toPixelRatio() {
 		return toPixelRatio;
 	}
 

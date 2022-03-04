@@ -953,7 +953,7 @@ public class MyXMLHandler implements DocHandler {
 			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
 				GeoNumberValue val = getNumber(parmStringArray[i]);
-				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
+				parameters[i] = val instanceof GeoNumeric ? (GeoNumeric) val
 								: new GeoNumeric(cons, Double.NaN);
 			}
 
@@ -2908,6 +2908,10 @@ public class MyXMLHandler implements DocHandler {
 			if ("element".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
+				GeoCasCell twinCell = cons.lookupCasCellLabel(attrs.get("label"));
+				if (twinCell != null) {
+					twinCell.setTwinLoadedFromFile(true);
+				}
 				geoHandler.init(attrs);
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);

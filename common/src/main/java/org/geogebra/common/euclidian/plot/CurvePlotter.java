@@ -37,7 +37,7 @@ public class CurvePlotter {
 		double maxParamStep = Math.abs(tMax - tMin) / minSamplePoints;
 		// plot Interval [tMin, tMax]
 		curveSegmentPlotter = new CurveSegmentPlotter(curve, tMin, tMax, 0,
-				maxParamStep, view,	gp, calcLabelPos, moveToAllowed);
+				maxParamStep, view, gp, calcLabelPos, moveToAllowed);
 
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();

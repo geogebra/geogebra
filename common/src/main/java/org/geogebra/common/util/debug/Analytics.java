@@ -65,6 +65,7 @@ public abstract class Analytics {
 		public static final String COMMAND_HELP_ICON = "command_help_icon";
 		public static final String EXAM_MODE_INITIATED = "exam_mode_initiated";
 		public static final String APP_SWITCHED = "switch_app";
+		public static final String SEARCH = "search";
 
 		protected Event() {
 		}
@@ -89,6 +90,7 @@ public abstract class Analytics {
 		public static final String SUB_APP_CAS = "CAS";
 		public static final String SUB_APP_3D = "3D";
 		public static final String SUB_APP_PROBABILITY = "probability";
+		public static final String SEARCH_TERM = "search_term";
 
 		/**
 		 * Convert sub app code to analyitcs sub app parameter

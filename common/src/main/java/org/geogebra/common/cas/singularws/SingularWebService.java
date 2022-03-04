@@ -360,7 +360,7 @@ public class SingularWebService {
 					.append("string PS=string(P);")
 					.append("string RS=string(\"poly PP=\",PS[2,size(PS)-2]);").
 					// @c is the variable name for the rootof-like polynomial.
-					append("def RR=basering; ring NR=0,(@c),ds;	execute(RS);")
+					append("def RR=basering; ring NR=0,(@c),ds; execute(RS);")
 					.append("matrix L=coeffs(PP,@c); bigint A=bigint(L[3,1]); bigint B=bigint(L[2,1]); bigint C=bigint(L[1,1]);")
 					.append("string SC; if (I==1) { SC=\"+\"; } if (I==2) { SC=\"-\"; }")
 					.append("string RV=string(\"((\",(-B),SC,\"sqrt(\",(B*B)-(4*A*C),\"))/(\",(2*A),\"))\");")

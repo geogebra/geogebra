@@ -30,7 +30,7 @@ public class ButtonDialogW extends ComponentDialog
 	private ButtonDialogModel model;
 	private ScriptArea tfScript;
 	private Localization loc;
-	
+
 	/**
 	 * @param app
 	 *            app
@@ -70,7 +70,7 @@ public class ButtonDialogW extends ComponentDialog
 		if (app.isUnbundledOrWhiteboard()) {
 			captionLabel.addStyleName("coloredLabel");
 		}
-		
+
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);
 		tfCaption = ip.getTextComponent();
@@ -82,11 +82,11 @@ public class ButtonDialogW extends ComponentDialog
 		captionPanel.add(captionLabel);
 		captionPanel.add(ip);
 		captionPanel.addStyleName("captionPanel");
-				
+
 		// combo box to link GeoElement to TextField
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
-		
+
 		final ListBox cbAdd = new ListBox();
 		cbAdd.addItem("");
 		if (model.isTextField()) {
@@ -97,7 +97,7 @@ public class ButtonDialogW extends ComponentDialog
 					String str = geo.toString(StringTemplate.defaultTemplate);
 					cbAdd.addItem(str);
 				}
-			}	
+			}
 
 			if (cbAdd.getItemCount() > 1) {
 				cbAdd.addChangeHandler(event -> updateModel(cbAdd));
@@ -111,7 +111,6 @@ public class ButtonDialogW extends ComponentDialog
 			scriptLabel.addStyleName("coloredLabel");
 		}
 		tfScript = new ScriptArea((AppW) app);
-		
 		tfScript.enableGGBKeyboard();
 
 		FlowPanel scriptPanel = new FlowPanel();
@@ -127,16 +126,15 @@ public class ButtonDialogW extends ComponentDialog
 		}
 		linkedPanel.add(linkedLabel);
 		linkedPanel.add(cbAdd);
-			
+
 		FlowPanel contentPanel = new FlowPanel();
-		
+
 		// create object list
 		contentPanel.add(captionPanel);
 
 		if (model.isTextField()) {
 			contentPanel.add(linkedPanel);
-		}
-		else {
+		} else {
 			contentPanel.add(scriptPanel);
 		}
 		addDialogContent(contentPanel);

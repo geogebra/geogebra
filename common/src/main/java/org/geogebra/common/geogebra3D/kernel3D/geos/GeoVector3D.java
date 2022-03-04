@@ -607,7 +607,7 @@ public class GeoVector3D extends GeoVec4D
 	@Override
 	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
-		return "x(" +	name +	"), y(" + name + "), z(" +	name +	")";
+		return "x(" + name + "), y(" + name + "), z(" + name + ")";
 	}
 
 	@Override

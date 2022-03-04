@@ -198,7 +198,7 @@ public class LayerManager {
 	 * Move the selected geos to the top of the drawing priority list
 	 * while respecting their relative ordering
 	 */
-	public void	moveToFront(List<GeoElement> selection) {
+	public void moveToFront(List<GeoElement> selection) {
 		if (isGroupMember(selection)) {
 			moveGroupMemberToFront(selection.get(0));
 		} else {

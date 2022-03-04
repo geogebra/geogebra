@@ -53,7 +53,7 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 		return checkboxOrNull == null ? null : this;
 	}
 
-	private void updateLayout()	{
+	private void updateLayout() {
 		int rows = enableDynamicCaption.isSelected() ? 2 : 1;
 		SpringUtilities.makeCompactGrid(this, rows, 1,
 				0,0,5,5);

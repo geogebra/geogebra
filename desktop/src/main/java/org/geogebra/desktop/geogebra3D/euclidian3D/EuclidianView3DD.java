@@ -118,15 +118,6 @@ public class EuclidianView3DD extends EuclidianView3D
 		// set stereo on/off
 		getCompanion().setIsStereoBuffered(((App3D) app).isStereo3D());
 
-		// lines below for testing
-
-		// return new RendererCheckGLVersionD(this, !app.isApplet(),
-		// RendererType.SHADER);
-
-//		 return new RendererCheckGLVersionD(this, !app.isApplet(),
-//		 RendererType.GL2);
-
-
 		// we don't want shaders with win os < vista
 		if (!AppD.WINDOWS_VISTA_OR_EARLIER) {
 			return new RendererCheckGLVersionD(this, canUseCanvas());

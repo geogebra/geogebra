@@ -496,9 +496,9 @@ public class IntervalDivideTest {
 		assertEquals(positiveInfinity(), divide(positiveInfinity(),
 				interval(12.34, 56.78)));
 		assertEquals(negativeInfinity(), divide(positiveInfinity(),
-				interval(-985.654,	-12.34)));
+				interval(-985.654, -12.34)));
 		assertEquals(whole(), divide(positiveInfinity(),
-				interval(-985.654,	12.34)));
+				interval(-985.654, 12.34)));
 	}
 
 	@Test

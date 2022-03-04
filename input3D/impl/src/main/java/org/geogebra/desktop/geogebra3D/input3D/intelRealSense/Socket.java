@@ -961,7 +961,7 @@ public class Socket {
 	 *            status
 	 */
 	public void setLeftButtonPressed(boolean flag) {
-		leftButton = flag;	
+		leftButton = flag;
 	}
 
 	/**

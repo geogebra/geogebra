@@ -11,16 +11,26 @@ public class BasicStrokeA implements BasicStroke {
 	private double mMiterLimit;
 	private int mCap;
 	private int mJoin;
+	private double[] mDashes;
 	
 	public BasicStrokeA(double width, double miterLimit, Cap cap, Join join) {
-		this(width, miterLimit, getCap(cap), getJoin(join));
+		this(width, miterLimit, getCap(cap), getJoin(join), null);
 	}
 
 	public BasicStrokeA(double width, double miterLimit, int cap, int join) {
+		this(width, miterLimit, cap, join, null);
+	}
+
+	public BasicStrokeA(double width, double[] dashes) {
+		this(width, 10, CAP_BUTT, JOIN_MITER, dashes);
+	}
+
+	public BasicStrokeA(double width, double miterLimit, int cap, int join, double[] dashes) {
 		mWidth = width;
 		mMiterLimit = miterLimit;
 		mCap = cap;
 		mJoin = join;
+		mDashes = dashes;
 	}
 
 	public double getWidth() {
@@ -93,5 +103,9 @@ public class BasicStrokeA implements BasicStroke {
 		default:
 			return JOIN_BEVEL;
 		}
+	}
+
+	public double[] getDashes() {
+		return mDashes;
 	}
 }

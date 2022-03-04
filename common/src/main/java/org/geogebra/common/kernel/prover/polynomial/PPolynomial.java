@@ -449,7 +449,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			PVariable fv = it.next();
 			if ((free == null) || (free && freeVariables.contains(fv))
 					|| (!free && !(freeVariables.contains(fv))))
-				sb.append("," + fv);		
+				sb.append("," + fv);
 		}
 		if (sb.length()>0)
 			return sb.substring(1); // removing first "," character
@@ -722,20 +722,12 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			PTerm t = new PTerm(term);
 			if (result.containsKey(t)) {
 				BigInteger sum = result.get(t).add(product);
-//				if (sum.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > -1) {
-//					throw new ArithmeticException(
-//							"Integer Overflow in polynomial class");
-//				}
 				if (sum.longValue() == 0) {
 					result.remove(t);
 				} else {
 					result.put(t, sum);
 				}
 			} else if (product.intValue() != 0){
-//				if (product.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > -1) {
-//					throw new ArithmeticException(
-//							"Integer Overflow in polynomial class");
-//				}
 				result.put(t, product);
 			}
 		}
@@ -1261,7 +1253,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			it = dependentVariables.iterator();
 			for (int j = vSize; j < variables.size(); ++j) {
 				pVariables[j] = it.next();
-			}	
+			}
 			/* End of permutation. */
 			
 			elimProgram = createEliminateFactorizedScript(

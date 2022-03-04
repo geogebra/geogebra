@@ -42,30 +42,30 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *   
  *   Interface:
  *   
- *   	FitRealFunction(Function)				Makes a copy of Function with gliders
- *												replaced by mydouble parameters
- *   	value(double,double[])					Evaluates for x and pars[]
- *   	gradient(double,double[])				Evaluates a gradient for x and pars[] numerically
+ *       FitRealFunction(Function)                Makes a copy of Function with gliders
+ *                                                replaced by mydouble parameters
+ *       value(double,double[])                    Evaluates for x and pars[]
+ *       gradient(double,double[])                Evaluates a gradient for x and pars[] numerically
  *   
  *   For AlgoFitNL:
  *   
- *   	getNumberOfParameters()					Get number of gliders/parameters found and changed
- *   	getStartParameters()					Get array of startvalues for parameters.
- *     getGeoFunction(double[])				Get FitFunction as GeoFunction with parameters replaced
+ *       getNumberOfParameters()             Get number of gliders/parameters found and changed
+ *       getStartParameters()                Get array of startvalues for parameters.
+ *       getGeoFunction(double[])            Get FitFunction as GeoFunction with parameters replaced
  *   
  *   For later extensions and external use:
  *   
- *   	evaluate(double,double[])				As value(...), perhaps implementing 
- *   											other interfaces later?
- *   	evaluate(double)						As an ordinary function
- *   	evaluate()								Last value
- *   	getFunction(double[])					Get as Function with parameters replaced
- *   	
- *   	ToDo:		The gradient could be more sophisticated, but the Apache lib is quite robust :-)
- *   				Some tuning of numerical precision both here and in the setup of LM-optimizer
- *   				
- *   				Should probably make an abstract, and make this a subclass,
- *   				will do if the need arises.
+ *       evaluate(double,double[])                As value(...), perhaps implementing
+ *                                               other interfaces later?
+ *       evaluate(double)                        As an ordinary function
+ *       evaluate()                                Last value
+ *       getFunction(double[])                    Get as Function with parameters replaced
+ *
+ *       ToDo:    The gradient could be more sophisticated, but the Apache lib is quite robust :-)
+ *                Some tuning of numerical precision both here and in the setup of LM-optimizer
+ *
+ *                Should probably make an abstract, and make this a subclass,
+ *                will do if the need arises.
  * </pre>
  * 
  * @author Hans-Petter Ulven
