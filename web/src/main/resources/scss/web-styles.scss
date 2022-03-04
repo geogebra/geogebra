@@ -405,13 +405,13 @@
 	}
 
 	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
-	.MyCanvasButton.disabled {
+	.MyCanvasButton:disabled {
 		cursor: default !important;
 		opacity: .5;
 		zoom: 1;
 	}
 
-	.MyCanvasButton.disabled:hover {
+	.MyCanvasButton:disabled:hover {
 		border: #DCDCDC solid 1px;
 	}
 
