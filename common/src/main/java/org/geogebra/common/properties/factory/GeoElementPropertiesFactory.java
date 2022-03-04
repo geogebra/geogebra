@@ -265,7 +265,7 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-	private static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
+	public static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<OpacityProperty> opacityProperties = new ArrayList<>();
