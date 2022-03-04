@@ -25,7 +25,6 @@ public class StandardButton extends Widget implements HasResource {
 	private int width = -1;
 	private int height = -1;
 	private NoDragImage btnImage;
-	private ImageOrText colorIcon;
 	private Label colorLbl;
 
 	protected StandardButton() {
@@ -112,7 +111,6 @@ public class StandardButton extends Widget implements HasResource {
 		setStyleName("MyCanvasButton");
 		this.width = width;
 		this.height = -1;
-		this.colorIcon = new ImageOrText();
 		colorLbl = new Label();
 		colorLbl.setStyleName("buttonContent");
 		buildColorIcon();
@@ -217,10 +215,6 @@ public class StandardButton extends Widget implements HasResource {
 		return this.icon;
 	}
 
-	public ImageOrText getImageOrTextIcon() {
-		return colorIcon;
-	}
-
 	/**
 	 * @param icon - icon
 	 */
@@ -237,8 +231,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param icon - image or text icon (e.g. colored buttons)
 	 */
 	public void setIcon(ImageOrText icon) {
-		this.colorIcon = icon;
-		colorIcon.applyToLabel(colorLbl);
+		icon.applyToLabel(colorLbl);
 		buildColorIcon();
 	}
 
