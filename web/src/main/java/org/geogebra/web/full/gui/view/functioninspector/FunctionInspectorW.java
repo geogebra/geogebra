@@ -387,15 +387,18 @@ public class FunctionInspectorW extends FunctionInspector {
 				getModel().addColumn(getSelectedIndex());
 				btnAddColumn.setSelectedIndex(-1);
 			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(MaterialDesignResources.INSTANCE.add_black(), 24);
+			}
 		};
 		btnAddColumn.setKeepVisible(false);
-		btnAddColumn.setText("\u271A");
 		btnAddColumn.setSelectedIndex(-1);
 	}
 
 	@Override
 	protected void createGUIElements() {
-
 		mainPanel = new FlowPanel();
 		mainPanel.addStyleName("functionInspectorMainPanel");
 		lblGeoName = new Label(getModel().getTitleString());
@@ -570,14 +573,11 @@ public class FunctionInspectorW extends FunctionInspector {
 		        .getPlainTooltip("fncInspector.addColumn"));
 		btnRemoveColumn.setTitle(loc
 		        .getPlainTooltip("fncInspector.removeColumn"));
-		btnAddColumn.setText("\u271A");
 
 		btnOptions.getMyTable().updateText(
 				new ImageOrText[] { new ImageOrText(
 						app.getLocalization()
 		                .getMenu("CopyToSpreadsheet")) });
-		btnAddColumn.getMyTable().updateText(
-		        ImageOrText.convert(getModel().getColumnNames()));
 
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 	}
