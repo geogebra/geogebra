@@ -96,12 +96,13 @@ public class AppWsimple extends AppW {
 		}
 
 		buildApplicationPanel();
-
 		getScriptManager().ggbOnInit(); // put this here from Application
 										// constructor because we have to delay
 										// scripts until the EuclidianView is
 										// shown
-
+		if (needsSpreadsheetTableModel()) {
+			getSpreadsheetTableModel(); // spreadsheet trace useful even without UI
+		}
 		initUndoInfoSilent();
 
 		EuclidianViewW view = getEuclidianView1();
