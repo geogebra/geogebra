@@ -110,11 +110,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					// find the geoColor in the table and select it
 					int index = this.getColorIndex(geoColor);
 					setSelectedIndex(index);
-					// if nothing was selected, set the icon to show the
-					// non-standard color
-					if (index == -1) {
-						this.setIcon(getButtonIcon());
-					}
 				}
 			}
 
