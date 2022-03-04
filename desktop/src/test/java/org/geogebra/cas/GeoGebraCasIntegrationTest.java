@@ -1,5 +1,7 @@
 package org.geogebra.cas;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assume.assumeFalse;
 
 import java.util.HashSet;
@@ -2693,5 +2695,23 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	public void testFunctionExpanderWithComplexGeoSurfaceCartesian() {
 		in("f(x)=x * (1 + i)");
 		t("f(x) + 1", "x * (1 + ί) + 1", "(1 + ί) * x + 1");
+	}
+
+	@Test
+	public void testLineLabel() {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("Line((1,1,1),(2,2,2))");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("f"));
+	}
+
+	@Test
+	public void testInequalityLabel() {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput("b:= x<3");
+		f.computeOutput();
+		f.plot();
+		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("b"));
 	}
 }
