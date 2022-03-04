@@ -830,16 +830,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 									&& mode != EuclidianConstants.MODE_ERASER);
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getImageOrTextIcon();
-			}
 		};
 
 		// it is not needed, must be an Image preloaded like others.
 		SVGResource ptCaptureIcon = MaterialDesignResources.INSTANCE.snap_to_grid();
-		btnPointCapture.setIcon(new ImageOrText(ptCaptureIcon, 24));
+		btnPointCapture.setFixedIcon(new ImageOrText(ptCaptureIcon, 24));
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
 	}
@@ -868,15 +863,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 							.getIndexForLabelMode(geo, app));
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getImageOrTextIcon();
-			}
 		};
 		SVGResource ic = ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
 		// must be done with callback btnLabelStyle.setIcon(ic);
-		btnLabelStyle.setIcon(new ImageOrText(ic, 24));
+		btnLabelStyle.setFixedIcon(new ImageOrText(ic, 24));
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
 	}
@@ -908,15 +898,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 							.getXmlVal());
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getImageOrTextIcon();
-			}
 		};
 		ImageOrText icon = new ImageOrText(
 				MaterialDesignResources.INSTANCE.stylingbar_angle_interval(), 24);
-		btnAngleInterval.setIcon(icon);
+		btnAngleInterval.setFixedIcon(icon);
 		btnAngleInterval.addPopupHandler(this);
 		btnAngleInterval.setKeepVisible(false);
 	}
