@@ -265,7 +265,6 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-
 	/**
 	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
 	 * @param localization localization
