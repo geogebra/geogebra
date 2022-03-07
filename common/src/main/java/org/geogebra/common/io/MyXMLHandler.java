@@ -3384,8 +3384,9 @@ public class MyXMLHandler implements DocHandler {
 
 				GeoElementND randomResult = getAlgProcessor()
 						.evaluateToGeoElement(randomVal, false);
-
-				randomizableAlgo.setRandomValue(randomResult);
+				if (randomResult != null) {
+					randomizableAlgo.setRandomValue(randomResult);
+				}
 			}
 
 			cons.registerFunctionVariable(null);
