@@ -39,7 +39,6 @@ import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -296,16 +295,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.addValueChangeHandler(this);
 		textField.addSelectionHandler(this);
 
-		Dom.addEventListener(textField.getElement(), "pointerdown", (event) -> {
-				storeTemporaryInput();
-				// set this text field to be edited by the keyboard
-				app.updateKeyBoardField(this);
-
-				// make sure the keyboard is not closed
-				CancelEventTimer.keyboardSetVisible();
-				event.stopPropagation();
-		});
-
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
 			requestFocus();
 			event.stopPropagation();
@@ -316,13 +305,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (showSymbolButton) {
 			setupShowSymbolButton();
 		}
-	}
-
-	private void storeTemporaryInput() {
-		if (geoUsedForInputBox == null) {
-			return;
-		}
-		geoUsedForInputBox.setTempUserInput(getText(), null);
 	}
 
 	@Override

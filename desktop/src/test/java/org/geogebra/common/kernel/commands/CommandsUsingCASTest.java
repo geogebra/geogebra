@@ -375,20 +375,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void cmdShowSteps() {
-		AlgebraTestHelper.shouldFail("ShowSteps(ConstructionStep())",
-				"Illegal argument: ConstructionStep", app);
-		t("First(ShowSteps(Solve(x^2=-1/4)))", "{\"x^{2} = \\frac{-1}{4}\"}");
-		t("First(ShowSteps(Solve(x^2=1/4)))",
-				"{\"x = \\pm \\sqrt{\\frac{1}{4}}\"}");
-		t("IndexOf(Text(\"x = \\pm \\frac{1}{2}\"),ShowSteps(Solve(x^2=1/4)))>0",
-				"true");
-		t("eq:x*x=1/4", unicode("(-x - 0.5) (-x + 0.5) = 0"));
-		t("IndexOf(Text(\"x = \\pm \\frac{1}{2}\"),ShowSteps(Solve(eq)))>0",
-				"true");
-	}
-
-	@Test
 	public void testDerivativeDegrees() {
 		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
 	}

@@ -169,7 +169,8 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		return new MyArbitraryConstant(this) {
 			@Override
 			protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
-					Map<Integer, GeoNumeric> map, String prefix, double index) {
+					Map<Integer, GeoNumeric> map, String prefix,
+					double index, double initialValue) {
 				return new GeoNumeric(cons, 0.0);
 			}
 		};

@@ -182,7 +182,7 @@ public class LayoutW extends Layout {
 		}
 		
 		// return the default perspective in case we're creating new preferences of
-		// a virgin application.		
+		// a virgin application.
 		EuclidianView ev = app.getEuclidianView1();
 		Perspective perspective = new Perspective();
 
@@ -302,7 +302,7 @@ public class LayoutW extends Layout {
 	public DockSplitPaneW getRootComponent() {
 		if (dockManager == null) {
 			return null;
-		}		
+		}
 		return dockManager.getRoot();
 	}
 

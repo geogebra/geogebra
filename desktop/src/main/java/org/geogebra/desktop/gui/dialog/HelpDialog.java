@@ -23,12 +23,10 @@ public class HelpDialog {
 
 	public void openToolHelp() {
 		openToolHelp(app.getMode());
-
 	}
 
 	public void openToolHelp(int mode) {
-
-		String toolName = app.getToolHelp(mode);
+		String toolName = app.getToolName(mode);
 		String helpText = app.getToolHelp(mode);
 		ImageIcon icon;
 		String modeTextInternal = null;

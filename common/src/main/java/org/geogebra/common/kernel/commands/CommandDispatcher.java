@@ -72,8 +72,6 @@ public abstract class CommandDispatcher {
 	protected static CommandDispatcherInterface advancedDispatcher = null;
 	/** dispatcher for stats commands */
 	protected static CommandDispatcherInterface statsDispatcher = null;
-	/** dispatcher for steps commands */
-	protected static CommandDispatcherInterface stepsDispatcher = null;
 	/** disptcher for prover commands */
 	protected static CommandDispatcherInterface proverDispatcher = null;
 
@@ -888,8 +886,6 @@ public abstract class CommandDispatcher {
 			case PreviousPrime:
 			case CompleteSquare:
 				return getCASDispatcher().dispatch(command, kernel);
-			case ShowSteps:
-				return getStepsDispatcher().dispatch(command, kernel);
 			default:
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
@@ -914,9 +910,6 @@ public abstract class CommandDispatcher {
 
 	/** @return dispatcher for advanced commands */
 	public abstract CommandDispatcherInterface getAdvancedDispatcher();
-
-	/** @return dispatcher for steps commands */
-	public abstract CommandDispatcherInterface getStepsDispatcher();
 
 	/** @return dispatcher for prover commands */
 	public abstract CommandDispatcherInterface getProverDispatcher();

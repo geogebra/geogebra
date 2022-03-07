@@ -57,7 +57,7 @@ public class InputFieldTouchTest {
 	private GeoInputBox addInputBox(String name) {
 		String command = name + " = InputBox()";
 		GeoElementND[] results = app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(command,	false);
+				.processAlgebraCommand(command, false);
 		return (GeoInputBox) results[0];
 	}
 }

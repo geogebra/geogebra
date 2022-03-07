@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.debug.analytics.LoginAnalytics;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
@@ -49,6 +50,7 @@ public class LoginOperationW extends LogInOperation {
 		super();
 		this.app = appWeb;
 		getView().add(new LanguageLoginCallback());
+		getView().add(new LoginAnalytics());
 		AuthenticationModelW model = new AuthenticationModelW(appWeb);
 		setModel(model);
 

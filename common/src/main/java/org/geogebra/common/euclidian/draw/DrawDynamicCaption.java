@@ -156,6 +156,7 @@ public class DrawDynamicCaption {
 		} else {
 			drawCaption.xLabel = drawable.xLabel;
 		}
+		drawCaption.updateLabelRectangleForCaption(captionWidth);
 	}
 
 	/**
@@ -174,6 +175,10 @@ public class DrawDynamicCaption {
 
 	public int getHeight() {
 		return captionHeight;
+	}
+
+	public int getWidth() {
+		return captionWidth;
 	}
 
 	/**

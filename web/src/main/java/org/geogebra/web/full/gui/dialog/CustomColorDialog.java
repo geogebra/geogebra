@@ -58,7 +58,7 @@ public class CustomColorDialog extends ComponentDialog {
 			spinner.setMinValue(0);
 			spinner.setMaxValue(255);
 			spinner.setStepValue(1);
-			add(sp);			
+			add(sp);
 			add(spinner);
 					
 			spinner.addChangeHandler(event -> {

@@ -22,9 +22,11 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.View;
@@ -45,6 +47,7 @@ public class Graphics2DA implements Graphics2DInterface {
 	private FontA mFont;
 	private ColorA mColor;
 	private Style mOldDrawPaintStyle;
+	private Stroke mStroke;
 
 	public Graphics2DA() {
 		mDrawPaint = new Paint();
@@ -87,16 +90,33 @@ public class Graphics2DA implements Graphics2DInterface {
 		mDrawPaint.setStrokeMiter((float)basicStroke.getMiterLimit());
 		mDrawPaint.setStrokeCap(basicStroke.getNativeCap());
 		mDrawPaint.setStrokeJoin(basicStroke.getNativeJoin());
+		PathEffect pathEffect = null;
+		if (basicStroke.getDashes() != null) {
+			float[] dashes = convertDashes(basicStroke.getDashes());
+			pathEffect = new DashPathEffect(dashes, 0.0f);
+		}
+		mDrawPaint.setPathEffect(pathEffect);
+	}
+
+	private float[] convertDashes(double[] dashes) {
+		float[] scaledDashes = new float[dashes.length];
+		for (int i = 0; i < dashes.length; i++) {
+			scaledDashes[i] = mScaleStack.scaleThickness((float) dashes[i]);
+		}
+		return scaledDashes;
 	}
 
 	public Stroke getStroke() {
+		if (mStroke != null) {
+			return mStroke;
+		}
 		return new BasicStrokeA(mDrawPaint.getStrokeWidth(), mDrawPaint.getStrokeMiter(),
 				mDrawPaint.getStrokeCap(), mDrawPaint.getStrokeJoin());
 	}
 
 	public void setStroke(Stroke stroke) {
-		BasicStrokeA basicStroke = (BasicStrokeA) stroke;
-		setBasicStroke(basicStroke);
+		mStroke = stroke;
+		setBasicStroke((BasicStrokeA) stroke);
 	}
 
 	public Color getColor() {

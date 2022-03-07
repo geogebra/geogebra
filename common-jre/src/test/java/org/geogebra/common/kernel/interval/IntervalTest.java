@@ -150,7 +150,7 @@ public class IntervalTest {
 
 	@Test
 	public void testEmptyIntervalToString() {
-		assertEquals("Interval []",	undefined().toString().trim());
+		assertEquals("Interval []", undefined().toString().trim());
 	}
 
 	@Test

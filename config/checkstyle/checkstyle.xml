@@ -29,6 +29,10 @@
         <property name="format" value="\n\s*\n\s*\n"/>
         <property name="message" value="More than one empty line"/>
     </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="\S\t"/>
+        <property name="message" value="Tabs only allowed as indentation"/>
+    </module>
     <module name="RegexpMultiline">
         <property name="format" value="addDomHandler.*Touch"/>
         <property name="message" value="Used addDomHanlder instead of addBitlessDomHandler for touch events"/>

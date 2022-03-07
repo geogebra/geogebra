@@ -6,7 +6,7 @@ public class AriaMenuCheckMock extends AriaMenuItemMock {
 	private boolean checked = false;
 
 	public AriaMenuCheckMock(String html) {
-		super(html, false, () -> {	});
+		super(html, false, () -> { });
 	}
 
 	public boolean isChecked() {

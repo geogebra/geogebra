@@ -2581,7 +2581,7 @@ public class AlgoDispatcher {
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(f, c);
-		
+
 		if (existingAlgo instanceof AlgoIntersectPolynomialConic) {
 			return (AlgoIntersectPolynomialConic) existingAlgo;
 		}
@@ -2590,7 +2590,7 @@ public class AlgoDispatcher {
 			Log.debug("unexpected class returned: " + existingAlgo.getClass()
 					+ " " + existingAlgo.getClassName() + " "
 					+ existingAlgo.toString(StringTemplate.defaultTemplate));
-		}	
+		}
 
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomialConic algo = new AlgoIntersectPolynomialConic(
