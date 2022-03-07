@@ -336,8 +336,8 @@ task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) 
 
 task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
     description 'Creates the Math Apps Bundle file.'
-    destinationDir = file(warDirRel)
-    baseName = "geogebra-bundle"
+    destinationDirectory = file(warDirRel)
+    archiveBaseName = "geogebra-bundle"
     from compileGwt {
         include ("web3d/**")
         into "GeoGebra/HTML5/5.0"
