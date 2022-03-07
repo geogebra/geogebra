@@ -1,15 +1,11 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 
-public interface SpreadsheetHeader extends KeyDownHandler,
-		LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler {
+public interface SpreadsheetHeader extends KeyDownHandler {
 
 	void onPointerDown(PointerEvent event);
 
@@ -17,4 +13,9 @@ public interface SpreadsheetHeader extends KeyDownHandler,
 
 	void onPointerMove(PointerEvent event);
 
+	void showContextMenu(int x, int y, boolean b);
+
+	boolean isResizing();
+
+	void updateSelection(GPoint p);
 }
