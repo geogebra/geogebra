@@ -98,9 +98,6 @@ public class AsyncManager {
 					case STATS:
 						cmdDispatcher.getStatsDispatcher();
 						break;
-					case STEPS:
-						cmdDispatcher.getStepsDispatcher();
-						break;
 					case PROVER:
 						cmdDispatcher.getProverDispatcher();
 						break;
