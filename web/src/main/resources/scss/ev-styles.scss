@@ -709,6 +709,11 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		overflow: auto;
 		height: 100%;
 	}
+
+	.graphicsResetIcon {
+		padding-top: 10px;
+		padding-right: 10px;
+	}
 }
 
 /* Outside of GeoGebraFrame */
