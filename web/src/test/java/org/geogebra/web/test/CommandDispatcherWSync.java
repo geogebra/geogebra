@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandDispatcherProver;
 import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
 import org.geogebra.common.kernel.commands.CommandDispatcherStats;
-import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 
 /**
@@ -43,11 +42,6 @@ class CommandDispatcherWSync extends CommandDispatcherW {
 	@Override
 	public CommandDispatcherInterface getAdvancedDispatcher() {
 		return new CommandDispatcherAdvanced();
-	}
-
-	@Override
-	public CommandDispatcherInterface getStepsDispatcher() {
-		return new CommandDispatcherSteps();
 	}
 
 	@Override

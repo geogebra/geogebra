@@ -1901,7 +1901,64 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				background: colors.$purple-dark;
 			}
 		}
-
 	}
 
+	.substituteDialog {
+		max-width: 384px;
+
+		.dialogContent {
+			height: calc(100% - 110px);
+			max-height: 390px;
+			min-height: 390px;
+		}
+
+		.flexGroup {
+			display: flex;
+			margin-bottom: 16px;
+
+			.gwt-Label {
+				max-width: 168px;
+				width: 100%;
+				font-size: 87%;
+				font-weight: bold;
+				color: colors.$text-primary;
+				margin-top: 16px;
+
+				&.with {
+					margin-left: 16px;
+				}
+			}
+
+			.AutoCompleteTextFieldW {
+				height: 40px;
+				border: 1px solid colors.$input-field-border;
+				border-radius: 4px;
+				margin-bottom: 0px;
+
+				input[type=text] {
+					margin-bottom: 8px;
+					margin-top: 8px;
+				}
+
+				&.focused,
+				&.focused.hover {
+					border-color: colors.$purple-default;
+					border-width: 2px;
+
+					input[type=text] {
+						margin-bottom: 7px;
+						margin-top: 7px;
+					}
+				}
+
+				&.hover {
+					border-color: colors.$black-54;
+				}
+
+				&.with {
+					margin-right: 0px;
+				}
+			}
+		}
+	}
 }
