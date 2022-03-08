@@ -14,6 +14,9 @@ import org.junit.Test;
 
 public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 
+	public static final Interval X_AROUND_ZERO =
+			interval(-2.0539125955565396E-15, 0.19999999999999796);
+
 	@Test
 	public void evaluateXSquared() throws Exception {
 		assertEquals(
@@ -159,5 +162,41 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 		Interval inverse = x.multiplicativeInverse();
 		Interval pow = pow(inverse, -2);
 		assertEquals(undefined().invert(), pow);
+	}
+
+	@Test
+	public void xInverseAndPOWMinus1() {
+		shouldBeSameAt("x^-1", "1/x",
+				interval(-2.0539125955565396E-15, 0.19999999999999796));
+	}
+
+	@Test
+	public void xInverseAndPOWDoubleApply() {
+		shouldBeSameAt("(x^-1)^-1", "1/(1/x)", X_AROUND_ZERO);
+	}
+
+	private void shouldBeSameAt(String description1, String description2, Interval x) {
+		IntervalFunction f1 = newFunction(description1);
+		IntervalFunction f2 = newFunction(description2);
+		assertEquals(f1.evaluate(x), f2.evaluate(x));
+	}
+
+	private IntervalFunction newFunction(String description) {
+		return new IntervalFunction(add(description));
+
+	}
+
+	@Test
+	public void xInverseAndPOWDoubleApply2() {
+		Interval pow1 = pow(X_AROUND_ZERO, -1);
+		Interval pow2 = pow(pow1, -1);
+		assertEquals(X_AROUND_ZERO, pow2);
+	}
+
+
+	@Test
+	public void inverseOfXInverse() {
+		assertEquals(X_AROUND_ZERO,
+				X_AROUND_ZERO.multiplicativeInverse().multiplicativeInverse());
 	}
 }

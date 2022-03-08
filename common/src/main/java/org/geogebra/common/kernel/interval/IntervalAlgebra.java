@@ -56,13 +56,19 @@ public class IntervalAlgebra {
 	 * @return power of the interval
 	 */
 	Interval pow(Interval interval, double power) {
-		if (interval.isUndefined()) {
+		if (interval.isUndefined() || DoubleUtil.isEqual(power, 1)) {
 			return interval;
 		}
 
+		if (DoubleUtil.isEqual(power, -1)) {
+			return interval.multiplicativeInverse();
+		}
+
 		if (interval.isInverted()) {
-			return computeInverted(pow(interval.extractLow(), power),
+
+			Interval result = computeInverted(pow(interval.extractLow(), power),
 					pow(interval.extractHigh(), power));
+			return result;
 		}
 
 		if (power == 0) {
