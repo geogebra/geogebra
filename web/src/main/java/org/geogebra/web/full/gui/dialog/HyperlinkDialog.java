@@ -40,7 +40,7 @@ public class HyperlinkDialog extends ComponentDialog {
 	}
 
 	private void buildContent(AppW app) {
-		textInputPanel = new MediaInputPanel(app, this,	"Text", false);
+		textInputPanel = new MediaInputPanel(app, this, "Text", false);
 		linkInputPanel = new MediaInputPanel(app, this, "Link", true);
 
 		linkInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
@@ -66,10 +66,10 @@ public class HyperlinkDialog extends ComponentDialog {
 		String url = normalizeUrl(link);
 
 		String text = textInputPanel.inputField.getText();
-		if (text.equals(hyperlinkText)	&& !StringUtil.empty(formatter.getHyperLinkURL())) {
+		if (text.equals(hyperlinkText) && !StringUtil.empty(formatter.getHyperLinkURL())) {
 			formatter.setHyperlinkUrl(url);
 		} else {
-			formatter.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
+			formatter.insertHyperlink(url, text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
 		}
 	}
 

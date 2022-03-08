@@ -73,9 +73,8 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 				updateReferences(((GeoFunction) num).getFunctionExpression());
 			}
 		} else {
-			vars.elements().filter(GeoElement::isGeoText).forEach(fVar -> {
-				cons.registerFunctionVariable(((GeoText) fVar).getTextString());
-			});
+			vars.elements().filter(GeoElement::isGeoText).forEach(fVar ->
+					cons.registerFunctionVariable(((GeoText) fVar).getTextString()));
 			num = ap.evaluateToFunctionNVar(text.getTextString(),
 							true, false);
 			if (num != null) {

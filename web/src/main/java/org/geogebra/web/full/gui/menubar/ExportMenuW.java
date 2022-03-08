@@ -84,7 +84,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 								= (EuclidianViewWInterface) app.getActiveEuclidianView();
 						ev.getExportSVG(1, false, (svg) ->
 								app.getFileManager().showExportAsPictureDialog(
-										Browser.encodeSVG(svg),	app.getExportTitle(), "svg",
+										Browser.encodeSVG(svg), app.getExportTitle(), "svg",
 										"ExportAsPicture", app));
 					}
 				});

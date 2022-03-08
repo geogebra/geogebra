@@ -85,8 +85,6 @@ public interface MathField {
 
 	void parse(String str);
 
-	void setPlainText(String str);
-
 	/**
 	 * @return the cross-platform representation of this field
 	 */

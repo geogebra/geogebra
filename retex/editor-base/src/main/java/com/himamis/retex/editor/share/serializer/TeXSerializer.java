@@ -176,7 +176,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private String getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
 		if (parent == null
-				|| (parent instanceof MathArray	&& parent.size() == 1)) {
+				|| (parent instanceof MathArray && parent.size() == 1)) {
 			return PLACEHOLDER_INVISIBLE;
 		}
 		if (parent instanceof MathFunction) {

@@ -64,26 +64,21 @@ public class OptionsAdvancedD implements OptionPanelD,
 	 */
 	private Settings settings;
 
-	/** */
 	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel,
 			languagePanel, angleUnitPanel, continuityPanel,
 			usePathAndRegionParametersPanel, rightAnglePanel, coordinatesPanel;
 
-	/**	*/
 	private JLabel keyboardLanguageLabel, guiFontSizeLabel, widthLabel,
 			heightLabel, opacityLabel, tooltipLanguageLabel,
 			tooltipTimeoutLabel;
 
-	/** */
 	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage,
 			cbTooltipTimeout,
 			cbGUIFont;
 
-	/**	 */
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
 			cbUseLocalLabels;
 
-	/** */
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			angleUnitRadioDegreesMinutesSeconds,
 			continuityRadioOn, continuityRadioOff,
@@ -92,15 +87,12 @@ public class OptionsAdvancedD implements OptionPanelD,
 			rightAngleRadio2, rightAngleRadio3, rightAngleRadio4,
 			coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
 
-	/** */
 	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup,
 			usePathAndRegionParametersButtonGroup, rightAngleButtonGroup,
 			coordinatesButtonGroup;
 
-	/** */
 	private JTextField tfKeyboardWidth, tfKeyboardHeight;
 
-	/** */
 	private JSlider slOpacity;
 
 	/**

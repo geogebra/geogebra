@@ -95,7 +95,7 @@ public abstract class HttpRequest {
 	 * Set mimetype to JSON
 	 */
 	public void setContentTypeJson() {
-		this.type = "application/json";		
+		this.type = "application/json";
 	}
 	
 	protected String getType() {

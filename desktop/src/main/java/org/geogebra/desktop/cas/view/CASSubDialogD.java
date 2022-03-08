@@ -23,8 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellEditor;
 
 import org.geogebra.common.cas.view.CASSubDialog;
@@ -83,9 +81,6 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		dialog.setLocationRelativeTo(casView.getCASViewComponent());
 	}
 
-	/**
-	 * 
-	 */
 	protected void createGUI() {
 		// do not dock the substitution dialog to the main frame: ticket 1832
 		dialog = new Dialog(
@@ -124,13 +119,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		replaceTable.getSelectionModel()
 				.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		replaceTable.getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						addRow(false);
-					}
-				});
+				.addListSelectionListener(e -> addRow(false));
 
 		replaceTable.addKeyListener(new KeyAdapter() {
 			@Override
@@ -254,22 +243,6 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	}
 
 	/**
-	 * if editing insert inStr at current caret position
-	 * 
-	 * @param inStr
-	 *            string to insert
-	 */
-	public void insertText(String inStr) {
-		if (inStr == null) {
-			return;
-		}
-		TableCellEditor editor = replaceTable.getCellEditor();
-		if (editor != null && editor instanceof MathTextCellEditor) {
-			((MathTextCellEditor) editor).insertString(inStr);
-		}
-	}
-
-	/**
 	 * @return the app
 	 */
 	public AppD getApp() {
@@ -358,5 +331,4 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	public JDialog getDialog() {
 		return dialog;
 	}
-
 }

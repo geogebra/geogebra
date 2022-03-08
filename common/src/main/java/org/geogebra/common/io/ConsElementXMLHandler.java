@@ -2007,9 +2007,13 @@ public class ConsElementXMLHandler {
 
 	private boolean handleShow(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setEuclidianVisible(
-					MyXMLHandler.parseBoolean(attrs.get("object")));
-			geo.setLabelVisible(MyXMLHandler.parseBoolean(attrs.get("label")));
+			if (isUndefinedGeoNumber()) {
+				geo.setEuclidianVisible(false);
+			} else {
+				geo.setEuclidianVisible(
+						MyXMLHandler.parseBoolean(attrs.get("object")));
+				geo.setLabelVisible(MyXMLHandler.parseBoolean(attrs.get("label")));
+			}
 
 			// bit 0 -> display object in EV1, 0 = true (default)
 			// bit 1 -> display object in EV2, 0 = false (default)
@@ -2057,6 +2061,15 @@ public class ConsElementXMLHandler {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private boolean isUndefinedGeoNumber() {
+		if (!geo.isGeoNumeric()) {
+			return false;
+		}
+
+		GeoNumeric numeric = (GeoNumeric) this.geo;
+		return Double.isNaN(numeric.value);
 	}
 
 	private boolean handleShowOnAxis(LinkedHashMap<String, String> attrs) {

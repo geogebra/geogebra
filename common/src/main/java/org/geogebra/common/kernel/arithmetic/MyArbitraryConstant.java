@@ -54,7 +54,16 @@ public class MyArbitraryConstant {
 	 * @return real constant
 	 */
 	public GeoNumeric nextConst(double myDouble) {
-		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble);
+		return nextConst(myDouble, 0);
+	}
+
+	/**
+	 * @param myDouble constant index (global)
+	 * @param initialValue initial value
+	 * @return real constant
+	 */
+	public GeoNumeric nextConst(double myDouble, double initialValue) {
+		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble, initialValue);
 	}
 
 	/**
@@ -62,7 +71,7 @@ public class MyArbitraryConstant {
 	 * @return integer constant
 	 */
 	public GeoNumeric nextInt(double myDouble) {
-		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble);
+		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble, 0);
 	}
 
 	/**
@@ -71,7 +80,7 @@ public class MyArbitraryConstant {
 	 */
 	public GeoNumeric nextComplex(double myDouble) {
 		return nextConst(complexNumbers, ce.getConstruction().complexNumbersM,
-				"c", myDouble);
+				"c", myDouble, 0);
 	}
 
 	/**
@@ -85,19 +94,22 @@ public class MyArbitraryConstant {
 	 * with each computation but two constants with the same name
 	 * always refer to the same number eg
 	 * {x+arbonst(10),2x+arbconst(10)+arbconst(9)}
+	 * @param initialValue initial value of the constant, set only if the constant
+	 * does not yet exist and has to be created, used only for numeric constants
 	 * @return element of consts2; if one with a given index already exists in
 	 * map take that one, otherwise pick the next one from consts2 (or
 	 * create one if  	there are not enough)
 	 */
 	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
-			Map<Integer, GeoNumeric> map, String prefix, double index) {
+			Map<Integer, GeoNumeric> map, String prefix, double index,
+			double initialValue) {
 		int indexInt = (int) Math.round(index);
 		GeoNumeric found = map.get(indexInt);
 		if (found != null) {
 			return found;
 		}
 		if (position >= consts2.size() || consts2.get(position) == null) {
-			return createConstant(consts2, map, prefix, indexInt);
+			return createConstant(consts2, map, prefix, indexInt, initialValue);
 		}
 		GeoNumeric ret = consts2.get(position);
 		map.put(indexInt, ret);
@@ -115,14 +127,15 @@ public class MyArbitraryConstant {
 	}
 
 	private GeoNumeric createConstant(ArrayList<GeoNumeric> consts2,
-			Map<Integer, GeoNumeric> map, String prefix, int index) {
+			Map<Integer, GeoNumeric> map, String prefix, int index,
+			double initialValue) {
 		Construction construction = ce.getConstruction();
 		String label = construction.getIndexLabel(prefix, true);
 		GeoNumeric constant;
 		if (symbolic) {
 			constant = createSymbolicConstant(construction, label);
 		} else {
-			constant = createNumericConstant(construction, label);
+			constant = createNumericConstant(construction, label, initialValue);
 		}
 
 		consts2.add(position, constant);
@@ -132,8 +145,9 @@ public class MyArbitraryConstant {
 		return constant;
 	}
 
-	private GeoNumeric createNumericConstant(Construction cons, String label) {
-		GeoNumeric numeric = new GeoNumeric(cons);
+	private GeoNumeric createNumericConstant(Construction cons,
+			String label, double initialValue) {
+		GeoNumeric numeric = new GeoNumeric(cons, initialValue);
 		numeric.setSendValueToCas(false);
 		boolean oldLabeling = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(false);
@@ -332,18 +346,14 @@ public class MyArbitraryConstant {
 				if (en.getLeft() != null && en.getLeftTree()
 						.getOperation() == Operation.ARBCONST) {
 					GeoNumeric newLeft = arbconst.nextConst(
-							en.getLeftTree().getLeft().evaluateDouble());
-					newLeft.setValue(1);
-					newLeft.update();
+							en.getLeftTree().getLeft().evaluateDouble(), 1);
 					en.getRight().traverse(this);
 					en.setLeft(newLeft);
 				}
 				if (en.getRight() != null && en.getRightTree()
 						.getOperation() == Operation.ARBCONST) {
 					GeoNumeric newRight = arbconst.nextConst(
-							en.getRightTree().getLeft().evaluateDouble());
-					newRight.setValue(1);
-					newRight.update();
+							en.getRightTree().getLeft().evaluateDouble(), 1);
 					en.getLeft().traverse(this);
 					en.setRight(newRight);
 				}

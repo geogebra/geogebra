@@ -2820,6 +2820,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Returns the internal name for the given tool.
+	 * @param mode number
+	 * @return the tool help text for the given tool.
+	 */
+	public String getInternalToolName(int mode) {
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolName();
+		} else {
+			return EuclidianConstants.getModeText(mode);
+		}
+
+	}
+
+	/**
 	 * @return parser extension for functions
 	 */
 	public ParserFunctions getParserFunctions(boolean inputBox) {

@@ -118,7 +118,7 @@ public class PropertiesViewW extends PropertiesView
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
 		if (styleBar != null) {
 			styleBar.updateGUI();
-		}	
+		}
 		switch (type) {
 		case GLOBAL:
 			if (globalPanel == null) {
@@ -212,7 +212,7 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	public void remove(GeoElement geo) {
 		// TODO Auto-generated method stub
-	}	
+	}
 
 	@Override
 	public void rename(GeoElement geo) {
@@ -384,7 +384,7 @@ public class PropertiesViewW extends PropertiesView
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
-		}	
+		}
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class APITest {
 
 	@Test
 	public void casEvalTest() {
-		String assignResult = api.evalCommandCAS("$1:=a+a");
+		String assignResult = api.evalCommandCAS("$1:=a+a", null);
 		assertEquals("2a", assignResult);
 		String solveResult = api.evalGeoGebraCAS(
 				"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)"
@@ -65,7 +65,7 @@ public class APITest {
 		api.evalCommand("$1=7");
 		// create a bool in AV
 		assertEquals("a", api.evalCommandGetLabels("$1==8"));
-		String compare = api.evalCommandCAS("$1==8");
+		String compare = api.evalCommandCAS("$1==8", null);
 		assertEquals("false", compare);
 		assertEquals(1, app.getKernel().getConstruction().getCASObjectNumber());
 	}
@@ -74,7 +74,7 @@ public class APITest {
 	public void casCellAsignmentCommandCAS() {
 		api.evalCommand("$1:=7");
 		assertEquals("7", casInput(0));
-		String evalEquation = api.evalCommandCAS("$1=8");
+		String evalEquation = api.evalCommandCAS("$1=8", null);
 		assertEquals("7", casInput(0));
 		assertEquals("7 = 8", evalEquation);
 	}

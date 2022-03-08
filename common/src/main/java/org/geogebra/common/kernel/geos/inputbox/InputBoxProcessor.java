@@ -179,7 +179,7 @@ public class InputBoxProcessor {
 			}
 		}
 
-		if (linkedGeo instanceof FunctionalNVar	|| isComplexFunction()) {
+		if (linkedGeo instanceof FunctionalNVar || isComplexFunction()) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
