@@ -134,7 +134,7 @@ public abstract class CASgiacB extends CASgiac {
 		long timeout = timeoutMilliseconds / 1000;
 		binding.createGen("caseval(\"timeout " + timeout + "\")", context)
 				.eval(1, context);
-		binding.createGen("caseval(\"ckevery 1\")", context)
+		binding.createGen("caseval(\"ckevery 20\")", context)
 				.eval(1, context);
 
 		// make sure we don't always get the same value!
