@@ -46,7 +46,7 @@ public class InputDialogDilateW extends ComponentInputDialog {
 
 		this.points = points;
 		this.selGeos = selGeos;
-		this.kernel = kernel;	
+		this.kernel = kernel;
 		this.ec = ec;
 	}
 

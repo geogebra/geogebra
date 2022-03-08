@@ -135,11 +135,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected boolean hitResetIcon() {
-		return mtg.hitResetIcon();
-	}
-
-	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
 		if (isComboboxFocused()) {
 			this.draggingOccured = false;

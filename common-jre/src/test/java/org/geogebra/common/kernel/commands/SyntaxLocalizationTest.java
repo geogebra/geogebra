@@ -20,8 +20,7 @@ public class SyntaxLocalizationTest {
 			List<Integer> signature = CommandSignatures
 					.getSignature(cmd.name(), app);
 			int size = signature == null ? 0 : signature.size();
-			if (cmd == Commands.ShowSteps
-					|| cmd.getTable() == CommandsConstants.TABLE_CAS
+			if (cmd.getTable() == CommandsConstants.TABLE_CAS
 					|| NoExceptionsTest.betaCommand(cmd, app)) {
 				continue;
 			}

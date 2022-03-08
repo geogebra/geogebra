@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap;
-import android.graphics.PointF;
 import android.graphics.RectF;
 
 public class ScaleStack {
@@ -61,15 +60,15 @@ public class ScaleStack {
 	}
 
 	public float scaleFontSize(float size) {
-		return scaleBySmallerScale(size);
+		return scaleByLargerScale(size);
 	}
 
 	public float scaleThickness(float thickness) {
-		return scaleBySmallerScale(thickness);
+		return scaleByLargerScale(thickness);
 	}
 
-	private float scaleBySmallerScale(float value) {
-		return Math.min(getScaleX(), getScaleY()) * value;
+	private float scaleByLargerScale(float value) {
+		return Math.max(getScaleX(), getScaleY()) * value;
 	}
 
 	public RectF scaleRectF(RectF rect) {

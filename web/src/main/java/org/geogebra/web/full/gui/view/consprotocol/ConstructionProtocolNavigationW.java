@@ -58,12 +58,12 @@ public class ConstructionProtocolNavigationW
 	public ConstructionProtocolNavigationW(AppW app, int viewID) {
 		super(app, viewID);
 		implPanel = new FlowPanel();
-		
+
 		spDelay = new GSpinnerW();
-		
+
 		lbSteps = new Label();
 	}
-	
+
 	private static Image getIcon(SVGResource resource) {
 		return new Image(resource.getSafeUri().asString(), 0, 0, 24, 24);
 	}
@@ -85,14 +85,14 @@ public class ConstructionProtocolNavigationW
 		btLast = createButton(GuiResourcesSimple.INSTANCE.skip_next());
 		btPrev = createButton(GuiResourcesSimple.INSTANCE.fast_rewind());
 		btNext = createButton(GuiResourcesSimple.INSTANCE.fast_forward());
-		
+
 		FlowPanel leftPanel = new FlowPanel();
 		leftPanel.add(btFirst);
 		leftPanel.add(btPrev);
 		leftPanel.add(lbSteps);
 		leftPanel.add(btNext);
 		leftPanel.add(btLast);
-		
+
 		playPanel = new FlowPanel();
 		playPanel.setVisible(showPlayButton);
 
@@ -103,7 +103,7 @@ public class ConstructionProtocolNavigationW
 		btPlay.getDownHoveringFace().setImage(pauseIconHover);
 
 		btPlay.addClickHandler(this);
-	
+
 		spDelay.addChangeHandler(event -> {
 			try {
 				playDelay = Double.parseDouble(spDelay.getValue());
@@ -111,17 +111,17 @@ public class ConstructionProtocolNavigationW
 				playDelay = 2;
 			}
 		});
-		
+
 		playPanel.add(btPlay);
 		playPanel.add(spDelay);
 		playPanel.add(new Label("s"));
-		
+
 		leftPanel.addStyleName("navbar_leftPanel");
 		playPanel.addStyleName("navbar_playPanel");
-		
+
 		implPanel.add(leftPanel);
 		implPanel.add(playPanel);
-		
+
 		btOpenWindow = new StandardButton(GuiResources.INSTANCE
 				.icons_view_construction_protocol_p24(), null, 24);
 
@@ -159,7 +159,7 @@ public class ConstructionProtocolNavigationW
     public void update() {
 		int currentStep = getProt().getCurrentStepNumber();
 		int stepNumber = getProt().getLastStepNumber();
-			lbSteps.setText(currentStep + " / " + stepNumber);	
+			lbSteps.setText(currentStep + " / " + stepNumber);
 	}
 
 	@Override
@@ -170,18 +170,18 @@ public class ConstructionProtocolNavigationW
 	@Override
     public void setPlayDelay(double delay) {
 		playDelay = delay;
-		
+
 		try {
 			spDelay.setValue(playDelay + "");
 		} catch (Exception e) {
 			spDelay.setValue(Math.round(playDelay) + "");
-			
+
 		}
     }
 
 	@Override
     public void setConsProtButtonVisible(boolean flag) {
-		showConsProtButton = flag;	
+		showConsProtButton = flag;
 		if (btOpenWindow != null) {
 			btOpenWindow.setVisible(isConsProtButtonVisible());
 			addPaddingPlayPanel(isConsProtButtonVisible());
@@ -222,7 +222,7 @@ public class ConstructionProtocolNavigationW
 			}
 		}
 	}
-	
+
 	/**
 	 * Make all components enabled / disabled
 	 * @param flag whether components should be enabled
@@ -234,7 +234,7 @@ public class ConstructionProtocolNavigationW
 		}
 		btPlay.setEnabled(true);
 	}
-	
+
 	@Override
 	public void setButtonPlay() {
 		btPlay.setDown(false);
@@ -266,14 +266,14 @@ public class ConstructionProtocolNavigationW
 
 	private class AutomaticPlayer {
 		Timer timer;
-		
+
 	      /**
          * Creates a new player to step through the construction
          * automatically.
          */
 		public AutomaticPlayer() {
 			timer = new Timer() {
-				
+
 				@Override
                 public void run() {
 					getProt().nextStep();
@@ -283,16 +283,15 @@ public class ConstructionProtocolNavigationW
 		        	}
 					if (isPlaying()) {
 		        		timer.schedule((int) (playDelay * 1000));
-		        	}	                
+		        	}
                 }
-				
+
 			};
 		}
 
 		public synchronized void startAnimation() {
-//			app.startDispatchingEventsTo(btPlay);
 			//TODO set cursor:wait
-			
+
 			setPlaying(true);
 			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
@@ -304,15 +303,14 @@ public class ConstructionProtocolNavigationW
 
 			timer.run();
 		}
-		
-        public synchronized void stopAnimation() {
-        	//TODO remove cursor:wait
-        	timer.cancel();
 
+		public synchronized void stopAnimation() {
+			//TODO remove cursor:wait
+			timer.cancel();
 			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
-        }
+		}
 	}
 
 	@Override

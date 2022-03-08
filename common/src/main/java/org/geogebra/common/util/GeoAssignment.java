@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoMacro;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -242,8 +242,8 @@ public class GeoAssignment extends Assignment {
 			// Result.CORRECT
 			// : Result.WRONG);
 		} else if ("==".equals(checkOp)) {
-			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-					macroOutput, possibleOutput[i]).getBoolean()
+			partRes.add(ExpressionNode.isEqual(
+					macroOutput, possibleOutput[i])
 							? Result.CORRECT : Result.WRONG);
 		} else if ("AreCongruent".equals(checkOp)) {
 			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
@@ -293,8 +293,8 @@ public class GeoAssignment extends Assignment {
 			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
 		} else if ("==".equals(checkOp)) {
-			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-					macroOutput, possibleOutput[i]).getBoolean()
+			partRes.add(ExpressionNode.isEqual(
+					macroOutput, possibleOutput[i])
 							? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		} else if ("AreCongruent".equals(checkOp)) {
 			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())

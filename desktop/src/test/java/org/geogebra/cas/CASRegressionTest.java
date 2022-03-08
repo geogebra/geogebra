@@ -1,7 +1,11 @@
 package org.geogebra.cas;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
+import org.geogebra.common.cas.view.CASInputHandler;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.main.AppD;
 import org.junit.Test;
 
@@ -74,6 +78,23 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 				"{x = (-sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}",
 				"{x = (sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}");
+	}
 
+	@Test
+	public void redefineShouldKeepTwinGeo() {
+		CASViewNoGui view = new CASViewNoGui(getApp(), "plane(p,q):=(p,q,p+q)");
+		CASInputHandler cih = new CASInputHandler(view);
+
+		view.getConsoleTable().setSelected(0);
+		cih.processCurrentRow("Evaluate", false);
+		assertEquals(GeoClass.SURFACECARTESIAN3D,
+				lookup("plane").getGeoClassType());
+		assertEquals("(p, q, p + q)",
+				lookup("plane").getValueForInputBar());
+		view.getConsoleTable().setInput(0, "plane(p,q):=(p,q-1,p+q)");
+		cih.processCurrentRow("Evaluate", false);
+		assertEquals("(p, q - 1, p + q)",
+				lookup("plane").getValueForInputBar());
+		assertArrayEquals(new String[]{"plane"}, getApp().getGgbApi().getAllObjectNames());
 	}
 }

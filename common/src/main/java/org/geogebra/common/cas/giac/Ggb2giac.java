@@ -427,7 +427,7 @@ public class Ggb2giac {
 		// necessary for eg
 		// Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),0,pi/2)
 
-		String integralPart1 = "[[ggbintans:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],";
+		String integralPart1 = "[[ggbintans:=0/0], [ggbintanssimplified:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],";
 
 		// make sure Integral[y^2,1,2] works
 		String integralPart2 = "[if(size(vars)==1) then factored:=subst(factored,vars[0],x) fi],";

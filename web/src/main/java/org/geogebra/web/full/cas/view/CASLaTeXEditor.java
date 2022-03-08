@@ -163,7 +163,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void setText(String text0) {
 		if (mf != null) {
 			if (editAsText) {
-				mf.setPlainText(text0);
+				mf.getInternal().setPlainText(text0);
 			} else {
 				mf.parse(text0);
 			}

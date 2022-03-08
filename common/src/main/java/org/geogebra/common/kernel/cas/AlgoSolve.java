@@ -91,7 +91,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			sb.append("}");
 			varString = "{" + StringUtil.join(",", vars) + "}";
 		} else {
-			trig = printCAS(equations, sb)	;
+			trig = printCAS(equations, sb);
 		}
 		if (hint != null) {
 			sb.append(',');

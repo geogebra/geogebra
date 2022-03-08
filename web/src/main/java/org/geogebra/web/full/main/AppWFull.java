@@ -1637,10 +1637,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		LayoutW layout = getGuiManager().getLayout();
 		updateAvVisibility(forcedPerspective, fromXml);
-
-		layout.updateLayout(forcedPerspective);
-
-		getGuiManager().setGeneralToolBarDefinition(fromXml.getToolbarDefinition());
+		if (!StringUtil.empty(fromXml.getToolbarDefinition())) {
+			layout.updateLayout(forcedPerspective, fromXml.getToolbarDefinition());
+		} else {
+			layout.updateLayout(forcedPerspective);
+		}
 		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
 		if (unbundledToolbar != null) {
 			unbundledToolbar.updateContent();
@@ -2051,6 +2052,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						!getSettings().getCasSettings().isEnabled());
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
+				reinitAlgebraView();
 				setSuiteHeaderButton(subApp);
 			}
 		}
@@ -2299,7 +2301,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		storeCurrentMaterial();
 		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
 		activity.start(this);
-
+		getKernel().removeAllMacros();
+		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
 		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
@@ -2307,6 +2310,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		reinitSettings();
 		clearConstruction();
 		setTmpPerspective(null);
+		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
 		if (restoreMaterial(subAppCode)) {
@@ -2324,6 +2328,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void afterMaterialRestored() {
 		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
+		reinitAlgebraView();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
@@ -2377,7 +2382,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						: SymbolicMode.NONE);
 
 		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
-		reinitAlgebraView();
+
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);
 		}

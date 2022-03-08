@@ -254,6 +254,7 @@ public class StandardButton extends Widget implements HasResource {
 
 	@Override
 	public void setResource(ResourcePrototype res) {
+		icon = res;
 		btnImage.setResource(res);
 	}
 

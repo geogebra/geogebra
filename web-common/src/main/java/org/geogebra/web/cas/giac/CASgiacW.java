@@ -20,7 +20,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
-import fr.grenoble.ujf.giac.CASResources;
+import fr.grenoble.ujf.giac.CASResourcesImpl;
 import jsinterop.base.Js;
 
 /**
@@ -234,8 +234,7 @@ public class CASgiacW extends CASgiac {
 				@Override
 				public void onSuccess() {
 					LoggerW.loaded("GIAC webAssembly");
-					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm().getName(),
-							CASResources.INSTANCE.giacWasm().getText());
+					JavaScriptInjector.inject(new CASResourcesImpl().giacWasm());
 					// don't call this here
 					// needs to be called once WebAssembly is actually working
 					// (compiled?)

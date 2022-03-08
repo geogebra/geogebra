@@ -234,14 +234,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
 
-		if (location == null || location.x == -1 && location.y == -1) {
-			return;
-		}
-
-		// autoscroll to new cell's location
-		if (scrollToShow) {
-			table.scrollRectToVisible(
-					table.getCellRect(location.y, location.x, true));
+		if (scrollToShow && location != null && (location.x > -1) && (location.y > -1)) {
+			// autoscroll to new cell's location
+			table.scrollRectToVisible(location.x, location.y);
 		}
 	}
 

@@ -1,8 +1,7 @@
 package org.geogebra.web.richtext.impl;
 
+import org.geogebra.web.resources.JavaScriptInjector;
 import org.murok.editor.MurokResources;
-
-import com.google.gwt.core.client.ScriptInjector;
 
 /**
  * Utility class for the editor.
@@ -18,8 +17,7 @@ public class CarotaUtil {
 		if (isScriptInjected) {
 			return;
 		}
-		String javascript = MurokResources.INSTANCE.murokJs().getText();
-		ScriptInjector.fromString(javascript).setWindow(ScriptInjector.TOP_WINDOW).inject();
+		JavaScriptInjector.inject(MurokResources.INSTANCE.murokJs());
 		isScriptInjected = true;
 		setDefaultFontSize(fontSize);
 	}

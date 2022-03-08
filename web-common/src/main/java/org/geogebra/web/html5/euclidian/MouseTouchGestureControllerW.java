@@ -232,14 +232,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// TODO Auto-generated method stub
 	}
 
-	/**
-	 * @return whether reset icon was hit
-	 */
-	public boolean hitResetIcon() {
-		return app.showResetIcon()
-				&& ((ec.mouseLoc.y < 32) && (ec.mouseLoc.x > (ec.getView().getViewWidth() - 32)));
-	}
-
 	@Override
 	public LinkedList<PointerEvent> getMouseEventPool() {
 		return mousePool;

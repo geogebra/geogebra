@@ -1114,7 +1114,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(realNumber, hasValue("1111111111111111111111 / 500000000000000000000"));
 
 		GeoSymbolic smallNumber = add("2E-20");
-		assertThat(smallNumber,	hasValue("1 / 50000000000000000000"));
+		assertThat(smallNumber, hasValue("1 / 50000000000000000000"));
 
 		GeoSymbolic bigNumber = add("1.2345678934534545345345E20");
 		assertThat(bigNumber, hasValue("2469135786906909069069 / 20"));

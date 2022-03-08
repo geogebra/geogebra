@@ -76,7 +76,7 @@ public class ExamSaveDialog {
 		}
 
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-				app.getLocalization().getMenu(msg),	app);
+				app.getLocalization().getMenu(msg), app);
 	}
 
 	private static String getThumbnail(AppW app) {

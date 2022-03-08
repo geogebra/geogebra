@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandDispatcherProver;
 import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
 import org.geogebra.common.kernel.commands.CommandDispatcherStats;
-import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
@@ -150,29 +149,6 @@ public class CommandDispatcherW extends CommandDispatcher {
 		}
 
 		return statsDispatcher;
-	}
-
-	@Override
-	public CommandDispatcherInterface getStepsDispatcher() {
-		if (stepsDispatcher == null) {
-			GWT.runAsync(CommandDispatcherSteps.class, new RunAsyncCallback() {
-				@Override
-				public void onFailure(Throwable reason) {
-					Log.error("Loading failed for steps commands");
-				}
-
-				@Override
-				public void onSuccess() {
-					LoggerW.loaded("steps commands");
-					stepsDispatcher = new CommandDispatcherSteps();
-					initCmdTable();
-					((AppW) app).commandsLoaded();
-				}
-			});
-			throw new CommandNotLoadedError("Steps commands not loaded yet");
-		}
-
-		return stepsDispatcher;
 	}
 
 	@Override
