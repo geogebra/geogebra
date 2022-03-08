@@ -1895,9 +1895,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (this.isFloatingMenu()) {
 			this.toggleMenu();
 		} else {
+			spWidth = this.oldSplitLayoutPanel.getOffsetWidth()
+					+ GLookAndFeel.MENUBAR_WIDTH;
 			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth()
-							+ GLookAndFeel.MENUBAR_WIDTH,
+					spWidth,
 					this.oldSplitLayoutPanel.getOffsetHeight());
 			if (this.splitPanelWrapper != null) {
 				this.splitPanelWrapper.remove(frame.getMenuBar(this));
