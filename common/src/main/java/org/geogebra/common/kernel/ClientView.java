@@ -78,7 +78,7 @@ public interface ClientView extends View {
 	 * Notifies client that the animation for a geoElement is starting.
 	 *
 	 * @param geo
-	 * 			The geoElement that is to be animated
+	 *           The geoElement that is to be animated
 	 */
 	public void startAnimation(GeoElement geo);
 
@@ -86,7 +86,7 @@ public interface ClientView extends View {
 	 * Notifies client that the animation for a geoElement is stopping.
 	 *
 	 * @param geo
-	 * 			The animated geoElement
+	 *            The animated geoElement
 	 */
 	public void stopAnimation(GeoElement geo);
 
@@ -98,7 +98,7 @@ public interface ClientView extends View {
 	 * Notifies client that an text element is locked for moving by other users.
 	 *
 	 * @param geo
-	 * 			The geoElement that is to be locked for movement
+	 *           The geoElement that is to be locked for movement
 	 */
 	public void lockTextElement(GeoElement geo);
 
@@ -106,7 +106,7 @@ public interface ClientView extends View {
 	 * Notifies client that an text element is unlocked for moving by other users.
 	 *
 	 * @param geo
-	 * 			The geoElement that is to be unlocked for movement
+	 *           The geoElement that is to be unlocked for movement
 	 */
 	public void unlockTextElement(GeoElement geo);
 }

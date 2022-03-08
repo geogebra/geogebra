@@ -451,7 +451,7 @@ public abstract class ProbabilityCalculatorView
 		if (showNormalOverlay) {
 			createOverlay();
 		}
- 		hideAllGeosFromViews();
+		hideAllGeosFromViews();
 		hideToolTips();
 	}
 
@@ -601,7 +601,7 @@ public abstract class ProbabilityCalculatorView
 		// the starting value of the discrete x list. Thus,
 		// offset = 1 - lowest discrete x value
 
- 		double firstX = discreteValueAt(0);
+		double firstX = discreteValueAt(0);
 		MyDouble offset = new MyDouble(kernel, 1d - firstX + 0.5);
 
 		ExpressionNode low1 = xAxis.getLowExpression();

@@ -147,7 +147,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			String latex = editor.getLatexInput(input);
 			updateLinkedGeo(input, latex);
 		}
- 	}
+	}
 
 	private String getTextForEditor(StringTemplate tpl) {
 		if (tempUserEvalInput != null) {

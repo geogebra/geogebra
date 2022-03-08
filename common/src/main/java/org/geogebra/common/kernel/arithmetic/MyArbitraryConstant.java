@@ -98,7 +98,7 @@ public class MyArbitraryConstant {
 	 * does not yet exist and has to be created, used only for numeric constants
 	 * @return element of consts2; if one with a given index already exists in
 	 * map take that one, otherwise pick the next one from consts2 (or
-	 * create one if  	there are not enough)
+	 * create one if there are not enough)
 	 */
 	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, double index,

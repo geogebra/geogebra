@@ -23,12 +23,9 @@ public class TestEvent extends AbstractEvent {
 	}
 
 	/**
-	 * @param x
-	 *            screen x-coord
-	 * @param y
-	 *            screen y-coord
-	 * @param type
-	 * 			  event type
+	 * @param x screen x-coord
+	 * @param y screen y-coord
+	 * @param type event type
 	 */
 	public TestEvent(int x, int y, PointerEventType type) {
 		this.x = x;

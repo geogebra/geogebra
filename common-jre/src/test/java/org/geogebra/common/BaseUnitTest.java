@@ -133,11 +133,9 @@ public class BaseUnitTest {
 	/**
 	 * Use this method when you want to test the commands with a specific EvalInfo.
 	 *
-	 * @param command
-	 * 			algebra input to be processed
-	 * @param info
-	 * 			EvalInfo to pass to the AlgebraProcessor.processAlgebraCommandNoExceptionHandling
-	 * 			method.
+	 * @param command algebra input to be processed
+	 * @param info EvalInfo to pass
+	 *         to the AlgebraProcessor.processAlgebraCommandNoExceptionHandling method.
 	 * @return resulting element
 	 */
 	protected <T extends GeoElement> T add(String command, EvalInfo info) {

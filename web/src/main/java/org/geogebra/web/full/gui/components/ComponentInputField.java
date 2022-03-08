@@ -42,9 +42,9 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 * @param width
 	 *            of input text field
 	 * @param height
-	 * 			 of input text field
+	 *            of input text field
 	 * @param showSymbolPopup
-	 * 			 if button for symbol popup should be shown
+	 *            if button for symbol popup should be shown
 	 * @param suffixTxt
 	 *            suffix at end of text field
 	 */
@@ -78,9 +78,9 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 * @param width
 	 *            of input text field
 	 * @param height
-	 * 	 		 of input text field
+	 *            of input text field
 	 * @param showSymbolPopup
-	 * 			 if button for symbol popup should be shown
+	 *            if button for symbol popup should be shown
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height,

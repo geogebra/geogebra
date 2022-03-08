@@ -149,7 +149,7 @@ public class ItemControls extends FlowPanel
 	 * Opens more menu for a particular geo
 	 *
 	 * @param geo
-	 * 		element to show the menu for.
+	 *     element to show the menu for.
 	 */
 	void openMenuFor(GeoElement geo) {
 		radioTreeItem.getAV().openMenuFor(geo);

@@ -4456,7 +4456,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public final void setViewShowAllObjects(boolean storeUndo,
 			boolean keepRatio) {
-    	if (isZoomable()) {
+		if (isZoomable()) {
 			setViewShowAllObjects(storeUndo, keepRatio, 15);
 		}
 	}
@@ -5193,14 +5193,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param point
 	 *            point
 	 */
-    public void enlargeClippingForPoint(GeoPointND point) {
-    	if (isXREnabled() || isUnity()) {
-            if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
-                setViewChangedByZoom();
-                setWaitForUpdate();
-            }
-        }
-    }
+	public void enlargeClippingForPoint(GeoPointND point) {
+		if (isXREnabled() || isUnity()) {
+			if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
+				setViewChangedByZoom();
+				setWaitForUpdate();
+			}
+		}
+	}
 
 	/**
 	 * enlarge clipping for AR

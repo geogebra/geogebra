@@ -109,7 +109,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * @param sb string builder to append the correct xml representation as a
-	 * 	start point for an object (button, vector, text)
+	 *         start point for an object (button, vector, text)
 	 */
 	void appendStartPointXML(StringBuilder sb);
 

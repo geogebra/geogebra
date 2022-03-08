@@ -46,15 +46,15 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
     }
 
 	@Override
-    protected void addDragDropHandlers() {
-    	table.addBitlessDomHandler(event -> {
+	protected void addDragDropHandlers() {
+		table.addBitlessDomHandler(event -> {
 			isDragging = false;
 			startOfTap = System.currentTimeMillis();
 			yStart = event.getTouches().get(0).getClientY();
 			xStart = event.getTouches().get(0).getClientX();
 		}, TouchStartEvent.getType());
-    	
-    	table.addBitlessDomHandler(new TouchMoveHandler() {
+
+		table.addBitlessDomHandler(new TouchMoveHandler() {
 			
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
@@ -105,8 +105,8 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 								+ LONG_PRESS_TIMEOUT;
 			}
 		}, TouchMoveEvent.getType());
-    	
-    	table.addBitlessDomHandler(event -> {
+
+		table.addBitlessDomHandler(event -> {
 			if (draggedRow != null) {
 				draggedRow.removeClassName("isDragging");
 			}
@@ -117,6 +117,5 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 			handleDrop(yMove);
 			isDragging = false;
 		}, TouchEndEvent.getType());
-    	
-    }
+	}
 }

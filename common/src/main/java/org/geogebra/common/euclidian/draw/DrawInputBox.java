@@ -657,8 +657,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * Set this true if an editor is active for this input box
 	 * or false if it is not.
 	 *
-	 * @param editing
-	 * 			to set.
+	 * @param editing to set
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;
