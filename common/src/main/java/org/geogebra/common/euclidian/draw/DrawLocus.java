@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -48,10 +49,13 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
+
 	private GBufferedImage bitmap;
 	private GGraphics2D graphics;
 
 	private boolean needsUpdate;
+	private int bitmapShiftX;
+	private int bitmapShiftY;
 
 	private GRectangle partialHitClip;
 
@@ -148,10 +152,10 @@ public class DrawLocus extends Drawable {
 
 	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
-
 			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
+				GRectangle bounds = getBounds();
 				GRectangle viewBounds = view.getFrame();
-				GRectangle bitmapBounds = getBitmapBounds(viewBounds);
+				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
 				if (bitmap == null
 						|| bitmapBounds.getWidth() != bitmap.getWidth()
 						|| bitmapBounds.getHeight() != bitmap.getHeight()) {
@@ -162,10 +166,17 @@ public class DrawLocus extends Drawable {
 					graphics.clearRect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 				}
 				if (needsUpdate) {
+					bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
+					bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
+
+					graphics.saveTransform();
+					graphics.translate(-bitmapShiftX, -bitmapShiftY);
 					drawPath(graphics);
+					graphics.restoreTransform();
+
 					needsUpdate = false;
 				}
-				g2.drawImage(bitmap, 0, 0);
+				g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
 			} else {
 				drawPath(g2);
 			}
@@ -188,10 +199,12 @@ public class DrawLocus extends Drawable {
 				(int) bounds.getWidth(), (int) bounds.getHeight(), g2p);
 	}
 
-	private GRectangle getBitmapBounds(GRectangle bounds) {
+	private GRectangle getBitmapBounds(GRectangle bounds, GRectangle viewBounds) {
+		GRectangle2D rectangle = bounds.createIntersection(viewBounds);
 		return AwtFactory.getPrototype().newRectangle(
-				(int) bounds.getWidth() + 2 * BITMAP_PADDING,
-				(int) bounds.getHeight() + 2 * BITMAP_PADDING);
+				(int) rectangle.getX(), (int) rectangle.getY(),
+				(int) rectangle.getWidth() + 2 * BITMAP_PADDING,
+				(int) rectangle.getHeight() + 2 * BITMAP_PADDING);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
