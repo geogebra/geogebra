@@ -37,7 +37,6 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of locus
- *
  */
 public class DrawLocus extends Drawable {
 	private static final int BITMAP_PADDING = 20;
@@ -50,21 +49,17 @@ public class DrawLocus extends Drawable {
 	private double[] labelPosition;
 	private CoordSys transformSys;
 	private GBufferedImage bitmap;
+	private GGraphics2D graphics;
 
-	private int bitmapShiftX;
-	private int bitmapShiftY;
+	private boolean needsUpdate;
 
 	private GRectangle partialHitClip;
 
 	/**
 	 * Creates new drawable for given locus
-	 * 
-	 * @param view
-	 *            view
-	 * @param locus
-	 *            locus
-	 * @param transformSys
-	 *            coord system of trnsformed locus
+	 * @param view view
+	 * @param locus locus
+	 * @param transformSys coord system of trnsformed locus
 	 */
 	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus,
 			CoordSys transformSys) {
@@ -78,7 +73,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		bitmap = null;
+		needsUpdate = true;
 		if (!isVisible) {
 			return;
 		}
@@ -155,17 +150,22 @@ public class DrawLocus extends Drawable {
 		if (isVisible) {
 
 			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
-				GRectangle bounds = getBounds();
-				if (bitmap == null && bounds != null) {
-					this.bitmap = makeImage(g2, bounds);
-					GGraphics2D g2bmp = bitmap.createGraphics();
-					g2bmp.setAntialiasing();
-					bitmapShiftX = (int) bounds.getMinX() - BITMAP_PADDING;
-					bitmapShiftY = (int) bounds.getMinY() - BITMAP_PADDING;
-					g2bmp.translate(-bitmapShiftX, -bitmapShiftY);
-					drawPath(g2bmp);
+				GRectangle viewBounds = view.getFrame();
+				GRectangle bitmapBounds = getBitmapBounds(viewBounds);
+				if (bitmap == null
+						|| bitmapBounds.getWidth() != bitmap.getWidth()
+						|| bitmapBounds.getHeight() != bitmap.getHeight()) {
+					bitmap = makeImage(g2, bitmapBounds);
+					graphics = bitmap.createGraphics();
+					graphics.setAntialiasing();
+				} else if (needsUpdate) {
+					graphics.clearRect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 				}
-				g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
+				if (needsUpdate) {
+					drawPath(graphics);
+					needsUpdate = false;
+				}
+				g2.drawImage(bitmap, 0, 0);
 			} else {
 				drawPath(g2);
 			}
@@ -185,8 +185,13 @@ public class DrawLocus extends Drawable {
 
 	private GBufferedImage makeImage(GGraphics2D g2p, GRectangle bounds) {
 		return AwtFactory.getPrototype().newBufferedImage(
+				(int) bounds.getWidth(), (int) bounds.getHeight(), g2p);
+	}
+
+	private GRectangle getBitmapBounds(GRectangle bounds) {
+		return AwtFactory.getPrototype().newRectangle(
 				(int) bounds.getWidth() + 2 * BITMAP_PADDING,
-				(int) bounds.getHeight() + 2 * BITMAP_PADDING, g2p);
+				(int) bounds.getHeight() + 2 * BITMAP_PADDING);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
