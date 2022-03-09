@@ -12,7 +12,7 @@ import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.GiacNative;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.gwtutil.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;

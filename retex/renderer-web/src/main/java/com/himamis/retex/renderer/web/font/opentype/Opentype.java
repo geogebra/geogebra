@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.gwtproject.resources.client.TextResource;
 
 import com.google.gwt.core.client.GWT;

@@ -4,7 +4,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.dom.client.Document;
