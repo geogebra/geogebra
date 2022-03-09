@@ -101,8 +101,8 @@ public class Variable extends ValidExpression {
 	 *            when true, error is thrown when geo not found. Otherwise null
 	 *            is returned in such case.
 	 * @param allowMultiLetterVariables
-	 * 			  when false, allow only single letter variables
-	 * 			  or followed by apostrophes or subscript (only for inputbox)
+	 *            when false, allow only single letter variables
+	 *            or followed by apostrophes or subscript (only for inputbox)
 	 * @param mode
 	 *            symbolic mode
 	 * @return GeoElement with same label
@@ -158,7 +158,7 @@ public class Variable extends ValidExpression {
 	 * @param multipleUnassignedAllowed
 	 *            whether to allow splitting into multiple unassigned variables
 	 * @param allowMultiLetterVariables
-	 * 			  whether multiple letter variable name are allowed
+	 *         whether multiple letter variable name are allowed
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */

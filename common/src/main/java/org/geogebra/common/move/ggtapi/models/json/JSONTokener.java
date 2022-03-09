@@ -27,7 +27,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * 
  * <pre>
  * String json = "{" + "  \"query\": \"Pizza\", "
- * 		+ "  \"locations\": [ 94043, 90210 ] " + "}";
+ *     + "  \"locations\": [ 94043, 90210 ] " + "}";
  *
  * JSONObject object = (JSONObject) new JSONTokener(json).nextValue();
  * String query = object.getString("query");

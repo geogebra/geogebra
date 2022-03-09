@@ -114,12 +114,12 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 
 	@Override
 	public void setEnabled(boolean value) {
-	    for (RadioButton button: radioButtons) {
-	    	if (button != null) {
-	    		button.setEnabled(value);
-	    	}
-	    }
-    }
+		for (RadioButton button: radioButtons) {
+			if (button != null) {
+				button.setEnabled(value);
+			}
+		}
+	}
 
 	/**
 	 * Wondering why they make protected methods if we can get them this way

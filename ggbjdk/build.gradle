@@ -9,7 +9,7 @@ targetCompatibility = 1.8
 
 dependencies {
     implementation project(':common')
-    implementation "com.github.spotbugs:spotbugs-annotations:4.5.3"
+    implementation "com.github.spotbugs:spotbugs-annotations:4.6.0"
 }
 
 spotbugs {

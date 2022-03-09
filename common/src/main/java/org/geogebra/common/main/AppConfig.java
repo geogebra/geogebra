@@ -302,8 +302,8 @@ public interface AppConfig extends Serializable {
 
 	/**
 	 * @return if closing/opening keyboard should send event
-	 * 	 (only for evaluator for now)
- 	 */
+	 * (only for evaluator for now)
+	 */
 	boolean sendKeyboardEvents();
 
 	/**

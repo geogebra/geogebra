@@ -662,7 +662,7 @@ public class TabbedKeyboard extends FlowPanel
 					"altText.AtomicPre");
 		}
 
-  		if (resourceName.equals(Resource.ROOT.name())) {
+		if (resourceName.equals(Resource.ROOT.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.sqrt(),
 					button.getPrimaryActionName(), bh, false, loc,

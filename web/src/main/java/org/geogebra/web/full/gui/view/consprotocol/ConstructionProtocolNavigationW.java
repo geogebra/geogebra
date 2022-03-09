@@ -301,12 +301,12 @@ public class ConstructionProtocolNavigationW
 					getProt().nextStep();
 					if (getProt().getCurrentStepNumber() == getProt()
 							.getLastStepNumber()) {
-		        		stopAnimation();
-		        	}
+						stopAnimation();
+					}
 					if (isPlaying()) {
-		        		timer.schedule((int) (playDelay * 1000));
-		        	}
-                }
+						timer.schedule((int) (playDelay * 1000));
+					}
+				}
 
 			};
 		}
@@ -326,16 +326,16 @@ public class ConstructionProtocolNavigationW
 			timer.run();
 		}
 
-        public synchronized void stopAnimation() {
-        	//TODO remove cursor:wait
-        	timer.cancel();
-            
-            // unblock application events
+		public synchronized void stopAnimation() {
+			//TODO remove cursor:wait
+			timer.cancel();
+
+			// unblock application events
 			// app.stopDispatchingEvents();
 			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
-        }
+		}
 	}
 
 	@Override

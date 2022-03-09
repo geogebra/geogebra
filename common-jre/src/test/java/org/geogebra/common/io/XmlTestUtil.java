@@ -33,10 +33,8 @@ public class XmlTestUtil {
 	/**
 	 * Validate app's state against XML schema at a specified url.
 	 *
-	 * @param application
-	 *            app
-	 * @param xsdUrl
-	 * 			url to the XML schema
+	 * @param application app
+	 * @param xsdUrl url to the XML schema
 	 */
 	public static void checkCurrentXMLWithURL(AppCommon application, String xsdUrl) {
 		String xml = application.getXML();

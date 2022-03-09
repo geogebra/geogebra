@@ -601,16 +601,15 @@ public abstract class UndoManager {
 
 	/**
 	 * @param undoPossibleListener
-	 *            undo listener
+	 *            undo stack listener
 	 */
 	public void addUndoListener(UndoPossibleListener undoPossibleListener) {
 		mListener.add(undoPossibleListener);
 	}
 
 	/**
-	 *
 	 * @param undoPossibleListener
-	 * 			  undo listener
+	 *            undo stack listener
 	 */
 	public void removeUndoListener(UndoPossibleListener undoPossibleListener) {
 		mListener.remove(undoPossibleListener);
