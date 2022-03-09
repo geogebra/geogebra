@@ -51,9 +51,7 @@ public class DrawLocus extends Drawable {
 	private CoordSys transformSys;
 
 	private GBufferedImage bitmap;
-	private GGraphics2D graphics;
 
-	private boolean needsUpdate;
 	private int bitmapShiftX;
 	private int bitmapShiftY;
 
@@ -77,7 +75,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		needsUpdate = true;
+		bitmap = null;
 		if (!isVisible) {
 			return;
 		}
@@ -154,27 +152,18 @@ public class DrawLocus extends Drawable {
 		if (isVisible) {
 			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
 				GRectangle bounds = getBounds();
-				GRectangle viewBounds = view.getFrame();
-				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
-				if (bitmap == null
-						|| bitmapBounds.getWidth() != bitmap.getWidth()
-						|| bitmapBounds.getHeight() != bitmap.getHeight()) {
+				if (bitmap == null && bounds != null) {
+					GRectangle viewBounds = view.getFrame();
+					GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
+
 					bitmap = makeImage(g2, bitmapBounds);
-					graphics = bitmap.createGraphics();
-					graphics.setAntialiasing();
-				} else if (needsUpdate) {
-					graphics.clearRect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-				}
-				if (needsUpdate) {
 					bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
 					bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
 
-					graphics.saveTransform();
+					GGraphics2D graphics = bitmap.createGraphics();
+					graphics.setAntialiasing();
 					graphics.translate(-bitmapShiftX, -bitmapShiftY);
 					drawPath(graphics);
-					graphics.restoreTransform();
-
-					needsUpdate = false;
 				}
 				g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
 			} else {
@@ -223,8 +212,8 @@ public class DrawLocus extends Drawable {
 		 */
 		int plSize = pointList.size();
 		for (int i = 0; i < plSize; ++i) {
-			double px = ((MyPoint) pointList.get(i)).x;
-			double py = ((MyPoint) pointList.get(i)).y;
+			double px = pointList.get(i).x;
+			double py = pointList.get(i).y;
 			if (px + py < labelPosition[0] + labelPosition[1]) {
 				labelPosition[0] = px;
 				labelPosition[1] = py;
