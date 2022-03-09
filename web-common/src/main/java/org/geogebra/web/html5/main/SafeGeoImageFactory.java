@@ -196,7 +196,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 	/**
 	 * Sets corners for the image
 	 *
- 	 * @param cornerLabel1 Corner1
+	 * @param cornerLabel1 Corner1
 	 * @param cornerLabel2 Corner2
 	 * @param cornerLabel4 Corner4
 	 * @return factory object with corners set.

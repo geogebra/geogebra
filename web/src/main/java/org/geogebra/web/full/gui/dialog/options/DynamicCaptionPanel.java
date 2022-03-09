@@ -21,7 +21,7 @@ public class DynamicCaptionPanel extends OptionPanel {
 	 *
 	 * @param app the application
 	 * @param captionField needs to be disabled/re-enabled
-	 * 		  as dynamic caption is enabled/disabled.
+	 *            as dynamic caption is enabled/disabled.
 	 */
 	public DynamicCaptionPanel(App app, AutoCompleteTextFieldW captionField) {
 		enableDynamicCaption = new EnableDynamicCaptionPanel(app, captionField);

@@ -29,22 +29,21 @@ public class ProjectionsProperty extends AbstractEnumerableProperty
 	 *
 	 * @param localization
 	 *            localization for the title
-     * @param view
-     * 	          euclidian view.
+	 * @param view
+	 *            euclidian view.
 	 * @param euclidianSettings
 	 *            euclidian settings.
 	 */
 	public ProjectionsProperty(Localization localization,
-                               EuclidianView view,
-                               EuclidianSettings3D euclidianSettings) {
+			EuclidianView view, EuclidianSettings3D euclidianSettings) {
 		super(localization, "Projection");
 		this.view = view;
 		this.euclidianSettings = euclidianSettings;
 		setValuesAndLocalize(new String[] {
-		        "stylebar.ParallelProjection",
-                "stylebar.PerspectiveProjection",
+				"stylebar.ParallelProjection",
+				"stylebar.PerspectiveProjection",
 				"stylebar.GlassesProjection",
-                "stylebar.ObliqueProjection"
+				"stylebar.ObliqueProjection"
 		});
 	}
 

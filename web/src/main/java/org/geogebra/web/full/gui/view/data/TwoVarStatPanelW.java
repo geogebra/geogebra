@@ -74,23 +74,23 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 
 	private void createListBoxCell(final int row, final int col, String title, String[] items,
 			int selectedIdx) {
-	    Label label = new Label(title);
-	    final ListBox listBox = new ListBox();
-	    for (String item: items) {
-	    	listBox.addItem(item);
-	    }
-	    
-	    listBox.addChangeHandler(event -> {
+		Label label = new Label(title);
+		final ListBox listBox = new ListBox();
+		for (String item: items) {
+			listBox.addItem(item);
+		}
+
+		listBox.addChangeHandler(event -> {
 			int idx = listBox.getSelectedIndex();
 			listboxChange(row, idx);
 		});
-	    
-	    listBox.setSelectedIndex(selectedIdx);
-	    
-	    FlowPanel p = new FlowPanel();
-	    p.add(LayoutUtilW.panelRow(label, listBox));
-	    getTable().setWidget(row, col, p);
-    }
+
+		listBox.setSelectedIndex(selectedIdx);
+
+		FlowPanel p = new FlowPanel();
+		p.add(LayoutUtilW.panelRow(label, listBox));
+		getTable().setWidget(row, col, p);
+	}
 
 	/**
 	 * Update model when a listbox in given row changes.

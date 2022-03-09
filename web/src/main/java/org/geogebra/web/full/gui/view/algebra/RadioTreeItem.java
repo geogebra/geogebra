@@ -2046,7 +2046,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}.attachTo(app);
 		getHelpToggle().setIndex(1);
 		inputControl.addInputControls();
- 		return this;
+		return this;
 	}
 
 	/**

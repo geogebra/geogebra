@@ -22,7 +22,7 @@ public abstract class MediaDialog extends ComponentDialog {
 	 * @param app
 	 *            app
 	 * @param dialogTitle
-	 * 			  title of dialog
+	 *            title of dialog
 	 */
 
 	public MediaDialog(AppW app, String dialogTitle) {

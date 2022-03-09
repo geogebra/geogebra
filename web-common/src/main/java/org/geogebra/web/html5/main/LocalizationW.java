@@ -51,10 +51,8 @@ public final class LocalizationW extends Localization {
 	private ArrayList<SetLabels> setLabelsListeners;
 
 	/**
-	 * @param config
-	 * 			app config
-	 * @param dimension
-	 *           3 for 3D
+	 * @param config app config
+	 * @param dimension 3 for 3D
 	 */
 	public LocalizationW(AppConfig config, int dimension) {
 		super(dimension, 13);

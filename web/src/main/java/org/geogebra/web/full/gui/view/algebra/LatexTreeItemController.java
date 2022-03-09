@@ -187,8 +187,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 	
 	/**
-	 * @param afterCb 
-	 * 				additional callback that runs after creation.
+	 * @param afterCb additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
 		evalInput.createGeoFromInput(afterCb);

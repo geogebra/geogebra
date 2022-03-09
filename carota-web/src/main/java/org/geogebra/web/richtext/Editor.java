@@ -60,7 +60,7 @@ public interface Editor {
 
 	/**
 	 * @return if part is selected, then hyperlink of selection,
-	 * 		otherwise hyperlink at the end of text
+	 *         otherwise hyperlink at the end of text
 	 */
 	String getHyperLinkURL();
 

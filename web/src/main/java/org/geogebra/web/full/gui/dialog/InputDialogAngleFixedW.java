@@ -25,9 +25,9 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	private GeoPointND[] points;
 
 	private Kernel kernel;
-	
+
 	private EuclidianController ec;
-		
+
 	/**
 	 * @param app
 	 *            application
@@ -94,10 +94,9 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	}
 
 	/*
- 	* auto-insert degree symbol when appropriate
- 	*/
-	//moved the operations from onKeyUp to onKeyPress,
-	//because only the KeyPress event has getCharCode method
+	 * auto-insert degree symbol when appropriate
+	 * needs to be done in onKeyPress because only the KeyPress event has getCharCode method
+	 */
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		AutoCompleteTextFieldW tc = getTextComponent();

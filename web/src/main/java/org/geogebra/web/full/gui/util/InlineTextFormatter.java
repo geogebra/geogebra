@@ -29,7 +29,7 @@ public class InlineTextFormatter {
 	 * @param targetGeos
 	 *            geos to be formatter (non-texts are ignored)
 	 * @param formatFn
-	 * 			  formatting function
+	 *            formatting function
 	 * @return whether format changed
 	 */
 	public boolean formatInlineText(List<GeoElement> targetGeos,

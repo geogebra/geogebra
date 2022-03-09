@@ -9443,7 +9443,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param isControlDown
 	 *            control button is down
 	 * @param shift
-	 * 	          pressed shift button
+	 *            pressed shift button
 	 */
 	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
@@ -9770,7 +9770,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (!draggingOccured) {
 			// TODO: this will be simplified when I refactor embeds and videos to
-			// 	act more like inlines (probably in the media rotation ticket)
+			// act more like inlines (probably in the media rotation ticket)
 			if (!needsFocus && topHit instanceof GeoVideo) {
 				handleVideoHit(topHit);
 			}
