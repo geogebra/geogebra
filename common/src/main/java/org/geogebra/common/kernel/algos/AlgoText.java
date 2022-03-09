@@ -77,9 +77,9 @@ public class AlgoText extends AlgoElement {
 	 * @param latex
 	 *            whether to use LaTeX output
 	 * @param horizontalAlign
-	 * 	     	  horizontal alignment for text [-1|0|1]
+	 *            horizontal alignment for text [-1|0|1]
 	 * @param verticalAlign
-	 * 			  vertical alignment for text [-1|0|1]
+	 *            vertical alignment for text [-1|0|1]
 	 */
 	public AlgoText(Construction cons, String label, GeoElement geo,
 			GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex,
@@ -120,9 +120,9 @@ public class AlgoText extends AlgoElement {
 	 * @param latex
 	 *            whether to use LaTeX output
 	 * @param horizontalAlign
-	 * 			  horizontal alignment for text [-1|0|1]
+	 *            horizontal alignment for text [-1|0|1]
 	 * @param verticalAlign
-	 * 			  vertical alignment for text [-1|0|1]
+	 *            vertical alignment for text [-1|0|1]
 	 */
 	public AlgoText(Construction cons, GeoElement geo, GeoPointND p,
 			GeoBoolean substituteVars, GeoBoolean latex,

@@ -1118,9 +1118,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Converts english command name to internal command key.
 	 *
 	 * @param englishName
-	 * 				the english command name.
+	 *             the english command name.
 	 * @return the internal key of the command
-	 *
 	 */
 	public String englishToInternal(String englishName)  {
 		initTranslatedCommands();

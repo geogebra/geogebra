@@ -72,7 +72,7 @@ public class PDFInputDialog extends ComponentDialog
 	 * @param app
 	 *            see {@link App}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 */
 	public PDFInputDialog(AppW app, DialogData data) {
 		super(app, data, false, true);

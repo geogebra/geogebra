@@ -197,7 +197,7 @@ public class RowHeaderPopupMenuW extends
 	 * @param x
 	 *            x-coord of the point where the popup should appear
 	 *  @param y
-	 * 	          y-coord of the point where the popup should appear
+	 *            y-coord of the point where the popup should appear
 	 */
 	public void show(double x, double y) {
 		rowHeaderPopupMenu.show(x, y);

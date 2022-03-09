@@ -37,7 +37,7 @@ public class InputDialogTableView extends ComponentDialog
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 */
 	public InputDialogTableView(final AppW app, DialogData data) {
 		super(app, data, false, true);

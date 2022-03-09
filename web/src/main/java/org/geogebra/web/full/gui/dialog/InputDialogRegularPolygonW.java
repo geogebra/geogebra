@@ -22,7 +22,7 @@ public class InputDialogRegularPolygonW extends ComponentInputDialog {
 	 * @param app
 	 *            application
 	 * @param data
-	 * 			  dialog trans keys
+	 *            dialog translation keys
 	 * @param ec
 	 *            controller
 	 * @param handler

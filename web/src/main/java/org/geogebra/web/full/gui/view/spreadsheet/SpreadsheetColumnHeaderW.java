@@ -224,10 +224,8 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 	}
 
 	/**
-	 * @param p
-	 *            location of mouse (in client area pixels)
-	 * @param boundary
-	 *  		  the boundary
+	 * @param p location of mouse (in client area pixels)
+	 * @param boundary the boundary
 	 * @return index of the column to be resized if mouse point p is near a
 	 *         column boundary
 	 */

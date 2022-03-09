@@ -34,7 +34,7 @@ public class IntervalDivideTest {
 
 	@Test
 	public void negativeByZeroShouldBeEmpty() {
- 		// Table 1 Case 2.
+		// Table 1 Case 2.
 		assertEquals(undefined(), divide(interval(-2.3, -1), zero()));
 		assertEquals(undefined(), divide(interval(-25.73, -11), zero()));
 	}
@@ -543,7 +543,7 @@ public class IntervalDivideTest {
 	@Test
 	public void divPositiveWithInverted() {
 		divByInverted(4, 14, -2, 2);
-		divByInverted(4, 14, 	0, 2);
+		divByInverted(4, 14, 0, 2);
 		divByInverted(2.4, 1E54, -1E2, 44.22);
 	}
 

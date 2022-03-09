@@ -30,7 +30,7 @@
         <property name="message" value="More than one empty line"/>
     </module>
     <module name="RegexpSingleline">
-        <property name="format" value="\S\t"/>
+        <property name="format" value="[^\t]\t"/>
         <property name="message" value="Tabs only allowed as indentation"/>
     </module>
     <module name="RegexpMultiline">

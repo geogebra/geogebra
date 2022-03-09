@@ -328,7 +328,7 @@ public class EvalInfo {
 
 	/**
 	 * @param copyingPlainVariables
-	 * 				true to copy variables
+	 *           true to copy variables
 	 * @return this or copy with property set
 	 */
 	public EvalInfo withCopyingPlainVariables(
