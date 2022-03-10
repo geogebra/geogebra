@@ -1,18 +1,23 @@
 package org.geogebra.common.gui.view.table;
 
 import java.util.HashSet;
+import java.util.List;
 
-import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.view.table.dialog.RegressionBuilder;
+import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
+import org.geogebra.common.gui.view.table.dimensions.LaTeXTextSizeMeasurer;
 import org.geogebra.common.gui.view.table.dimensions.TableValuesViewDimensions;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
@@ -21,7 +26,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -30,7 +35,6 @@ import com.google.j2objc.annotations.Weak;
  */
 public class TableValuesView implements TableValues, SettingListener {
 
-	private static final double[] DEFAULT_RANGE = new double[] {-2.0, -1.0, 0.0, 1.0, 2.0};
 	private static final int MAX_ROWS = 200;
 
 	@Weak
@@ -44,45 +48,38 @@ public class TableValuesView implements TableValues, SettingListener {
 	private TableValuesViewDimensions dimensions;
 	private LabelController labelController;
 	private HashSet<GeoElementND> elements;
+	private TableValuesInputProcessor processor;
 
 	/**
 	 * Create a new Table Value View.
-	 * 
-	 * @param kernel
-	 *            {@link Kernel}
+	 * @param kernel {@link Kernel}
 	 */
 	public TableValuesView(Kernel kernel) {
-		this.model = new SimpleTableValuesModel(kernel);
-		this.app = kernel.getApplication();
-		Settings set = app.getSettings();
-		this.settings = set.getTable();
-		this.elements = new HashSet<>();
 		this.kernel = kernel;
-		this.labelController = new LabelController();
+		app = kernel.getApplication();
+		Settings set = app.getSettings();
+		settings = set.getTable();
+		model = new SimpleTableValuesModel(kernel, settings);
+		elements = new HashSet<>();
+		labelController = new LabelController();
+		processor = new TableValuesInputProcessor(kernel.getConstruction(), this);
 		createTableDimensions();
-		updateModelValues();
 		settings.addListener(this);
 	}
 
 	private void createTableDimensions() {
-		AwtFactory factory = AwtFactory.getPrototype();
-		GFont font = factory.newFont("SansSerif", GFont.PLAIN, 16);
-		GBufferedImage bufferedImage = factory.createBufferedImage(2, 2, false);
-		GGraphics2D graphics = bufferedImage.createGraphics();
-		GFontRenderContext fontRenderContext = graphics.getFontRenderContext();
-		dimensions = new TableValuesViewDimensions(model, AwtFactory.getPrototype(),
-				fontRenderContext);
-		dimensions.setFont(font);
+		LaTeXTextSizeMeasurer measurer = new LaTeXTextSizeMeasurer(16);
+		dimensions = new TableValuesViewDimensions(model, measurer);
 		model.registerListener(dimensions);
 	}
 
 	@Override
 	public void showColumn(GeoEvaluatable evaluatable) {
 		doShowColumn(evaluatable);
-		app.storeUndoInfo();
+		storeUndoInfo();
 	}
 
-	private void doShowColumn(GeoEvaluatable evaluatable) {
+	void doShowColumn(GeoEvaluatable evaluatable) {
 		if (elements.contains(evaluatable) && evaluatable.hasTableOfValues()) {
 			if (evaluatable.getTableColumn() < 0) {
 				evaluatable.setTableColumn(model.getColumnCount());
@@ -99,18 +96,16 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void hideColumn(GeoEvaluatable evaluatable) {
 		evaluatable.setTableColumn(-1);
-		model.removeEvaluatable(evaluatable);
-		if (model.getColumnCount() == 1) {
-			setDefaultValues();
+		model.removeEvaluatable(evaluatable, true);
+		if (evaluatable.isGeoList()) {
+			evaluatable.remove();
 		}
-		app.storeUndoInfo();
+		storeUndoInfo();
 	}
 
 	@Override
 	public int getColumn(GeoEvaluatable evaluatable) {
-		int index = model.getEvaluatableIndex(evaluatable);
-		index += index > -1 ? 1 : 0;
-		return index;
+		return model.getEvaluatableIndex(evaluatable);
 	}
 
 	@Override
@@ -123,18 +118,18 @@ public class TableValuesView implements TableValues, SettingListener {
 			throws InvalidValuesException {
 		assertValidValues(valuesMin, valuesMax, valuesStep);
 		setSettingsValues(valuesMin, valuesMax, valuesStep);
-		// empty view: next undo point will be created when geo is added
-		if (!isEmpty()) {
-			app.storeUndoInfo();
-		}
+		storeUndoInfo();
 	}
 
 	private void setSettingsValues(double valuesMin, double valuesMax, double valuesStep) {
+		model.startBatchUpdate();
 		settings.beginBatch();
 		settings.setValuesMin(valuesMin);
 		settings.setValuesMax(valuesMax);
 		settings.setValuesStep(valuesStep);
+		updateValuesFromRange();
 		settings.endBatch();
+		model.endBatchUpdate(true);
 	}
 
 	@Override
@@ -152,6 +147,11 @@ public class TableValuesView implements TableValues, SettingListener {
 		return settings.getValuesStep();
 	}
 
+	@Override
+	public GeoList getValues() {
+		return model.getValueList();
+	}
+
 	private static void assertValidValues(double min, double max, double step)
 			throws InvalidValuesException {
 		double points = (max - min) / step;
@@ -160,31 +160,53 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
-	private void updateModelValues() {
-		double[] range = createRangeOrDefault();
-		model.setValues(range);
+	private void updateValuesFromRange() {
+		double min = getValuesMin();
+		double max = getValuesMax();
+		double step = getValuesStep();
+		boolean emptyModel = min == 0 && max == 0 && step == 0;
+		boolean invalidValues = min > max || step <= 0;
+		if (emptyModel) {
+			clearValuesInternal();
+		} else {
+			int row = 0;
+			double value = min;
+			if (invalidValues) {
+				setValuesRow(value, row++);
+			} else {
+				while (value <= max) {
+					setValuesRow(value, row++);
+					value += step;
+				}
+				if (value - step < max - Kernel.STANDARD_PRECISION) {
+					setValuesRow(max, row++);
+				}
+			}
+			for (int index = getValues().size() - 1; index >= row; index--) {
+				clearValuesRow(index);
+			}
+			getValues().updateRepaint();
+		}
+
 	}
 
-	private double[] createRangeOrDefault() {
-		try {
-			return DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep());
-		} catch (OutOfMemoryError error) {
-			return DEFAULT_RANGE;
-		}
+	private void clearValuesRow(int row) {
+		model.set(model.createEmptyValue(), getValues(), row);
+	}
+
+	private void setValuesRow(double value, int row) {
+		model.set(model.createValue(value), getValues(), row);
+	}
+
+	@Override
+	public void set(GeoElement element, GeoList column, int rowIndex) {
+		model.set(element, column, rowIndex);
+		storeUndoInfo();
 	}
 
 	@Override
 	public TableValuesModel getTableValuesModel() {
 		return model;
-	}
-
-	/**
-	 * @param column
-	 *            index of column
-	 * @return geo at the given column
-	 */
-	public GeoElement getGeoAt(int column) {
-		return this.model.getEvaluatable(column).toGeoElement();
 	}
 
 	@Override
@@ -233,7 +255,7 @@ public class TableValuesView implements TableValues, SettingListener {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
 			if (model.getEvaluatableIndex(evaluatable) > -1) {
-				model.removeEvaluatable(evaluatable);
+				model.removeEvaluatable(evaluatable, false);
 			}
 		}
 	}
@@ -254,23 +276,20 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void update(GeoElement geo) {
 		if (geo instanceof GeoEvaluatable) {
 			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
-			if (geo.hasTableOfValues()) {
+			if (geo.hasTableOfValues() || geo == getValues()) {
 				model.updateEvaluatable(evaluatable);
 			} else {
-				model.removeEvaluatable(evaluatable);
+				model.removeEvaluatable(evaluatable, false);
 			}
+		} else if (geo instanceof GeoNumeric || geo instanceof GeoText) {
+			model.maybeUpdateListElement(geo);
 		}
 	}
 
 	@Override
 	public void clearView() {
 		model.clearModel();
-		setDefaultValues();
-	}
-
-	private void setDefaultValues() {
-		setSettingsValues(TableSettings.DEFAULT_MIN, TableSettings.DEFAULT_MAX,
-				TableSettings.DEFAULT_STEP);
+		setSettingsValues(0, 0, 0);
 	}
 
 	@Override
@@ -325,7 +344,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void endBatchUpdate() {
-		model.endBatchUpdate();
+		model.endBatchUpdate(true);
 	}
 
 	@Override
@@ -335,12 +354,96 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public boolean isEmpty() {
-		return model == null || model.getColumnCount() == 1;
+		return model == null
+				|| (model.getColumnCount() == 1 && model.isEvaluatableEmptyList(0));
 	}
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		updateModelValues();
+		GeoList valueList = ((TableSettings) settings).getValueList();
+		model.updateValuesColumn();
+		if (valueList == null) {
+			updateValuesFromRange();
+		} else {
+			model.updateEvaluatable(valueList);
+		}
+	}
+
+	/**
+	 * @param column column
+	 * @return one variable stats
+	 */
+	public List<StatisticGroup> getStatistics1Var(int column) {
+		return new StatsBuilder(model.getEvaluatable(column))
+				.getStatistics1Var(model.getHeaderAt(column));
+	}
+
+	/**
+	 * @param column column
+	 * @return two variable stats for first and given column
+	 */
+	public List<StatisticGroup> getStatistics2Var(int column) {
+		return new StatsBuilder(model.getEvaluatable(0),
+				model.getEvaluatable(column)).getStatistics2Var(model.getHeaderAt(0),
+				model.getHeaderAt(1));
+	}
+
+	/**
+	 * @param column column
+	 * @param regression regression type + degree
+	 * @return regression parameters for first and given column
+	 */
+	public List<StatisticGroup> getRegression(int column, RegressionSpecification regression) {
+		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
+				.getRegression(regression);
+	}
+
+	/**
+	 * @param regression regression type + degree
+	 * @param column column
+	 * @return plot element
+	 */
+	public GeoElement plotRegression(int column, RegressionSpecification regression) {
+		GeoEvaluatable xVal = model.getEvaluatable(0);
+		GeoEvaluatable yVal = model.getEvaluatable(column);
+		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
+		Command cmd = regression.buildCommand(kernel, points);
+		try {
+			return kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
+		} catch (Exception e) {
+			Log.error(e);
+		}
+		return null;
+	}
+
+	@Override
+	public TableValuesProcessor getProcessor() {
+		return processor;
+	}
+
+	@Override
+	public void clearValues() {
+		clearValuesInternal();
+		storeUndoInfo();
+	}
+
+	private void clearValuesInternal() {
+		model.startBatchUpdate();
+		for (int row = getValues().size() - 1; row >= 0; row--) {
+			clearValuesRow(row);
+		}
+		updateValuesNoBatch(getValues());
+		model.endBatchUpdate(false);
+	}
+
+	protected void updateValuesNoBatch(GeoList list) {
+		if (list.hasAlgoUpdateSet()) {
+			kernel.getConstruction().updateAllAlgosInSet(list.getAlgoUpdateSet());
+		}
+	}
+
+	private void storeUndoInfo() {
+		app.storeUndoInfo();
 	}
 
 }

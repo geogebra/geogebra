@@ -228,11 +228,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		CancelEventTimer.keyboardSetVisible();
 	}
 
-	@Override
-	public void showKeyboard() {
-		app.showKeyboard(item);
-	}
-
 	/**
 	 * @param show
 	 *            whether to show keyboard

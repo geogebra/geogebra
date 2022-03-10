@@ -4379,11 +4379,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void batchUpdateStart() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(true);
 	}
 
 	public void batchUpdateEnd() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(false);
 	}
 
 	/**

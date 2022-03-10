@@ -136,6 +136,13 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	protected final void addMoreButton() {
+		if (moreButton == null) {
+			createMoreButton();
+		}
+		contents.add(moreButton);
+	}
+
+	private void createMoreButton() {
 		Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
 				.getSafeUri().asString());
 		img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
@@ -157,7 +164,6 @@ public class KeyboardSwitcher extends FlowPanel {
 						moreButton.getAbsoluteTop());
 			}
 		});
-		contents.add(moreButton);
 	}
 
 	protected void reset() {

@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.arithmetic.Functional;
+import org.geogebra.common.kernel.arithmetic.Evaluatable;
 
 /**
  * Geos that can be used as R -&gt; R functions.
  */
-public interface GeoEvaluatable extends Functional, GeoElementND {
+public interface GeoEvaluatable extends GeoElementND, Evaluatable {
 	/**
 	 * @return table index
 	 */

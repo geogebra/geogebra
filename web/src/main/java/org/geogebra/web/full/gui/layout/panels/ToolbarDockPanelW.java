@@ -62,11 +62,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		if (toolbar.isAlgebraViewActive()) {
-			return toolbar.getKeyboardListener();
-		}
-
-		return super.getKeyboardListener();
+		return toolbar.getKeyboardListener(super::getKeyboardListener);
 	}
 
 	/**
@@ -80,6 +76,9 @@ public class ToolbarDockPanelW extends DockPanelW
 	public MathKeyboardListener updateKeyboardListener(MathKeyboardListener ml) {
 		if (toolbar.isAlgebraViewActive()) {
 			return toolbar.updateKeyboardListener(ml);
+		}
+		if (toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE) {
+			return ml;
 		}
 		return null;
 	}

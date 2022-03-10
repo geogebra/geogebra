@@ -2,34 +2,37 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
-import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.StickyTable;
 import org.geogebra.web.html5.util.TestHarness;
 
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.safecss.shared.SafeStylesBuilder;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SafeHtmlHeader;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import elemental2.dom.NodeList;
+import jsinterop.base.Js;
 
 /**
  * Sticky table of values.
@@ -39,20 +42,26 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
-	// margin to align value cells to header - 3dot empty place
-	private static final int VALUE_RIGHT_MARGIN = 36;
-	private static final int X_LEFT_PADDING = 16;
-	private static final int MIN_COLUMN_WIDTH = 72;
-
-	private TableValuesModel tableModel;
-	private TableValuesDimensions dimensions;
-	private TableValuesView view;
-	private AppW app;
-	private HeaderCell headerCell = new HeaderCell();
+	private static final int CONTEXT_MENU_OFFSET = 4; // distance from three-dot button
+	private static final int LINE_HEIGHT = 56;
+	protected final TableValuesModel tableModel;
+	protected final TableValuesView view;
+	private final AppW app;
+	private final HeaderCell headerCell = new HeaderCell();
 	private boolean transitioning;
+	private ContextMenuTV contextMenu;
+	private final TableEditor editor;
+
+	private int rowsChange = 0;
+	private int columnsChange = 0;
+	private int removedColumnByUser = -1;
+
+	public MathKeyboardListener getKeyboardListener() {
+		return editor.getKeyboardListener();
+	}
 
 	private static class HeaderCell {
-		private String value;
+		private final String value;
 
 		/**
 		 * Header
@@ -70,35 +79,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		/**
 		 * @param content
 		 *            cell text content
-		 * @param width
-		 *            width in pixels
-		 * @param height
-		 *            height in pixels
 		 * @return cell HTML markup
 		 *
 		 */
-		SafeHtmlHeader getHtmlHeader(String content, int width, int height) {
+		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			SafeHtml safeHtmlContent = SafeHtmlUtils.fromTrustedString(stringHtmlContent);
-			return new SafeHtmlHeader(makeCell(safeHtmlContent, width, height));
-		}
-	}
-
-	/**
-	 * Class to wrap callback after column delete.
-	 *
-	 * @author laszlo.
-	 *
-	 */
-	private class ColumnDelete implements Runnable {
-
-		protected ColumnDelete() {
-			// non-synthetic constructor
-		}
-
-		@Override
-		public void run() {
-			onDeleteColumn();
+			TableCell headerCell = new TableCell(stringHtmlContent);
+			return new SafeHtmlHeader(headerCell.getHTML());
 		}
 	}
 
@@ -110,15 +97,61 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		this.app = app;
 		this.view = view;
 		this.tableModel = view.getTableValuesModel();
-		this.dimensions = view.getTableValuesDimensions();
 		tableModel.registerListener(this);
+		editor = new TableEditor(this, app);
 		reset();
+		addHeadClickHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
+			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
+					&& el.getParentElement().hasClassName("MyToggleButton"))) {
+				onHeaderClick(el, column);
+			}
+			return false;
+		});
+		addBodyPointerDownHandler((row, column, evt) -> {
+			if (row <= tableModel.getRowCount()
+					&& column <= tableModel.getColumnCount()) {
+				if (column == tableModel.getColumnCount() || isColumnEditable(column)) {
+					editor.startEditing(row, column, evt);
+					return true;
+				}
+			}
+			return false;
+		});
+		addMouseOverHandler((row, column, evt) -> {
+			Element el = Js.uncheckedCast(evt.target);
+			if (el != null && el.hasClassName("errorStyle")) {
+				Label toast = new Label(app.getLocalization().getMenu("UseNumbersOnly"));
+				toast.addStyleName("errorToast");
+				toast.getElement().setId("errorToastID");
+				toast.getElement().getStyle().setLeft(el.getAbsoluteRight() + 8, Style.Unit.PX);
+				toast.getElement().getStyle().setTop(el.getAbsoluteTop() - 66, Style.Unit.PX);
+				app.getAppletFrame().add(toast);
+			}
+			return false;
+		});
+		addMouseOutHandler((row, column, evt) -> {
+			Element toast = DOM.getElementById("errorToastID");
+			if (toast != null) {
+				toast.removeFromParent();
+			}
+			return false;
+		});
 	}
 
-	@Override
-	protected void onHeaderClick(Element source, int column) {
-		new ContextMenuTV(app, column > 0 ? view.getGeoAt(column - 1) : null, column - 1)
-				.show(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8);
+	private boolean isColumnEditable(int column) {
+		return view.getEvaluatable(column) instanceof GeoList;
+	}
+
+	public boolean columnNotEditable(int column) {
+		return view.getEvaluatable(column) instanceof GeoFunctionable;
+	}
+
+	private void onHeaderClick(Element source, int column) {
+		contextMenu = new ContextMenuTV(app, this, view,
+				view.getEvaluatable(column).toGeoElement(), column);
+		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
+						+ source.getClientHeight() + CONTEXT_MENU_OFFSET);
 	}
 
 	@Override
@@ -126,6 +159,53 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		for (int column = 0; column < tableModel.getColumnCount(); column++) {
 			addColumn(column);
 		}
+		addEmptyColumn(0);
+		addEmptyColumn(1);
+		if (columnsChange < 0) {
+			addEmptyColumn(2);
+		}
+	}
+
+	private void addEmptyColumn(int position) {
+		Column<TVRowData, SafeHtml> col = new DataTableSafeHtmlColumn(-1);
+		TableCell cell = new TableCell("", false);
+		SafeHtmlHeader header = new SafeHtmlHeader(cell.getHTML());
+		if (columnsChange > 0 && position == 1) {
+			header.setHeaderStyleNames("addColumnAut");
+			resetAfterAnimationEnds("addColumnAut", true, false);
+		} else if (position == 2) {
+			header.setHeaderStyleNames("deleteColumnAut");
+			resetAfterAnimationEnds("deleteColumnAut", true, true);
+		}
+		getTable().addColumn(col, header);
+		if (rowsChange < 0) {
+			resetAfterAnimationEnds("deleteRowAut", false, true);
+		} else if (rowsChange > 0) {
+			resetAfterAnimationEnds("addRowAuto", false, false);
+		}
+	}
+
+	private void resetAfterAnimationEnds(String className, boolean column, boolean remove) {
+		app.invokeLater(() -> {
+			Element el;
+			if (column) {
+				el = getHeaderElementByClassName("." + className);
+			} else {
+				el = getTableElementByClassName("." + className);
+			}
+			if (remove) {
+				Dom.addEventListener(el, "animationend", e -> reset());
+			} else {
+				Dom.addEventListener(el, "animationend",
+						e -> removeAnimationStyleName(el, className));
+			}
+			columnsChange = 0;
+			rowsChange = 0;
+		});
+	}
+
+	private void removeAnimationStyleName(Element el, String styleName) {
+		el.removeClassName(styleName);
 	}
 
 	@Override
@@ -134,81 +214,79 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void addColumn(int column) {
-		Column<TVRowData, ?> colValue = getColumnValue(column, dimensions);
+		Column<TVRowData, ?> colValue = getColumnValue(column);
 		getTable().addColumn(colValue, getHeaderFor(column));
+		if (isColumnEditable(column)) {
+			getTable().addColumnStyleName(column, "editableColumn");
+		}
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
+		String headerHTMLName = getHeaderNameHTML(columnIndex);
+		return headerCell.getHtmlHeader(headerHTMLName);
+	}
+
+	/**
+	 * returns html string of indexed label
+	 * @param columnIndex index of column
+	 * @return html string of indexed label
+	 */
+	public String getHeaderNameHTML(int columnIndex) {
 		String content = tableModel.getHeaderAt(columnIndex);
-		int width = getColumnWidth(dimensions, columnIndex);
-		int height = dimensions.getHeaderHeight();
-		return headerCell.getHtmlHeader(content, width, height);
+		if (content.contains("_")) {
+			String[] labelParts = content.split("_");
+			if (labelParts.length == 2) {
+				String index = labelParts[1].replaceAll("\\{", "")
+						.replaceAll("\\}", "");
+				return labelParts[0] + "<sub>" + index + "</sub>";
+			}
+		}
+		return content;
 	}
 
 	@Override
 	protected void fillValues(List<TVRowData> rows) {
 		rows.clear();
-		if (tableModel.getColumnCount() < 2) {
-			// quit now, otherwise 5 empty rows will be initialized
-			return;
-		}
 		for (int row = 0; row < tableModel.getRowCount(); row++) {
 			rows.add(new TVRowData(row, tableModel));
 		}
-	}
-
-	/**
-	 * Makes a cell as SafeHtml.
-	 *
-	 * @param content
-	 *            of the cell.
-	 * @param width
-	 *            of the cell.
-	 * @param height
-	 *            of the cell.
-	 * @return SafeHtml of the cell.
-	 */
-	static SafeHtml makeCell(SafeHtml content, int width, int height) {
-		SafeStylesBuilder sb = new SafeStylesBuilder();
-		sb.width(width, Unit.PX).height(height, Unit.PX).trustedNameAndValue("line-height", height,
-				Unit.PX);
-		return  () -> "<div style=\"" + sb.toSafeStyles().asString() + "\" class=\"cell\">"
-				+ "<div class=\"content\">" + content.asString() + "</div></div>";
-	}
-
-	/**
-	 * Gives the preferred width of a column.
-	 *
-	 * @param dimensions
-	 *            The column sizes
-	 * @param column
-	 *            particular column index.
-	 * @return the calculated width of the column.
-	 */
-	static int getColumnWidth(TableValuesDimensions dimensions, int column) {
-		int w = Math.max(dimensions.getColumnWidth(column), dimensions.getHeaderWidth(column))
-				+ VALUE_RIGHT_MARGIN;
-		if (column == 0) {
-			w += X_LEFT_PADDING;
-		}
-		return Math.max(w, MIN_COLUMN_WIDTH + X_LEFT_PADDING);
-	}
-
-	private static Column<TVRowData, SafeHtml> getColumnValue(final int col,
-			final TableValuesDimensions dimensions) {
-		Column<TVRowData, SafeHtml> column = new Column<TVRowData, SafeHtml>(new SafeHtmlCell()) {
-
-			@Override
-			public SafeHtml getValue(TVRowData object) {
-				String valStr = object.getValue(col);
-				boolean empty = "".equals(valStr);
-				SafeHtml value = SafeHtmlUtils.fromSafeConstant(valStr);
-				int width = empty ? 0 : getColumnWidth(dimensions, col);
-				int height = empty ? 0 : dimensions.getRowHeight(object.getRow());
-				return makeCell(value, width, height);
+		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
+		if (rowsChange < 0) {
+			for (int i = 0; i < Math.abs(rowsChange); i++) {
+				rows.add(new TVRowData(tableModel.getRowCount(), tableModel));
 			}
-		};
-		return column;
+			getTable().setRowStyles((row, rowIndex) -> {
+				if (rowIndex >= tableModel.getRowCount() + 2) {
+					return "deleteRowAut";
+				}
+				return null;
+			});
+		} else if (rowsChange > 0) {
+			getTable().setRowStyles((row, rowIndex) -> {
+				if (rowsChange > 0 && rowIndex == tableModel.getRowCount() + 1) {
+					return "addRowAuto";
+				}
+				return null;
+			});
+		}
+	}
+
+	private Column<TVRowData, SafeHtml> getColumnValue(final int col) {
+		return new DataTableSafeHtmlColumn(col);
+	}
+
+	private void removeRowsBeforeReset() {
+		NodeList<elemental2.dom.Element> elems = getColumnElements(removedColumnByUser);
+		if (elems != null && elems.length > 0) {
+			int rowsDeleted = elems.getLength() - 2 - tableModel.getRowCount();
+			for (int i = 1; i <= Math.abs(rowsDeleted); i++) {
+				elemental2.dom.Element e = elems.getAt(elems.getLength() - i);
+				elemental2.dom.Element parent = e.parentElement;
+				parent.classList.add("deleteRowAut");
+			}
+		}
+		rowsChange = 0;
 	}
 
 	/**
@@ -223,7 +301,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			reset();
 			return;
 		}
-		NodeList<Element> elems = getColumnElements(column);
+		NodeList<elemental2.dom.Element> elems = getColumnElements(column);
 		Element header = getHeaderElement(column);
 
 		if (elems == null || elems.getLength() == 0 || header == null) {
@@ -231,14 +309,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return;
 		}
 		transitioning = true;
-
-		header.addClassName("delete");
-
-		CSSEvents.runOnTransition(new ColumnDelete(), header, "delete");
+		header.getParentElement().addClassName("deleteCol");
+		Dom.addEventListener(header, "transitionend", e -> onDeleteColumn());
+		app.invokeLater(() -> header.addClassName("delete"));
 
 		for (int i = 0; i < elems.getLength(); i++) {
-			Element e = elems.getItem(i);
-			e.addClassName("delete");
+			elemental2.dom.Element e = elems.getAt(i);
+			e.classList.add("deleteCol");
 		}
 	}
 
@@ -270,6 +347,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 */
 	public void setHeight(int height) {
 		setBodyHeight(height);
+		if (contextMenu != null) {
+			contextMenu.hide(); // hide context menu on resize
+			contextMenu = null;
+		}
 	}
 
 	/**
@@ -284,28 +365,61 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 			return;
 		}
 
-		int pos = 0;
-		int col = view.getColumn(geo);
-		for (int i = 0; i < col; i++) {
-			pos += getColumnWidth(dimensions, i);
+		Element headerElement = getHeaderElement(view.getColumn(geo));
+		if (headerElement != null) {
+			setHorizontalScrollPosition(headerElement.getParentElement().getAbsoluteLeft()
+					- getAbsoluteLeft());
 		}
-		setHorizontalScrollPosition(pos);
 	}
 
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model,
 			GeoEvaluatable evaluatable, int column) {
-		deleteColumn(column);
+		if (column != tableModel.getColumnCount()) {
+			deleteColumn(column);
+			removedColumnByUser = column;
+		} else {
+			columnsChange = -1;
+			reset();
+		}
 	}
 
 	@Override
 	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {
-		//
+		reset();
+	}
+
+	@Override
+	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
+			int row) {
+		reset();
+	}
+
+	@Override
+	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
+		rowsChange -= 1;
+		if (transitioning) {
+			removeRowsBeforeReset();
+		} else {
+			reset();
+		}
+	}
+
+	@Override
+	public void notifyRowChanged(TableValuesModel model, int row) {
+		reset();
+	}
+
+	@Override
+	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
+		rowsChange = 1;
+		reset();
 	}
 
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
+		columnsChange = 1;
 		onColumnAdded();
 	}
 
@@ -321,13 +435,67 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	/**
-	 * @param column to get
-	 * @return the header element.
+	 * Scroll the least amount so that the given cell is fully visible. Won't scroll
+	 * the view if it is not necessary.
+	 * @param cell cell to scroll into view
 	 */
-	private static Element getHeaderElement(int column) {
-		// gives the (column+1)th element of the header row.
-		NodeList<Element> list = Dom.querySelectorAll(
-				".values tr th:nth-child(" + (column + 1) + ") .cell");
-		return list != null ? list.getItem(0) : null;
+	public void scrollIntoView(Element cell) {
+		int top = cell.getOffsetTop();
+		int headerHeight = LINE_HEIGHT;
+		int verticalScrollPosition = getScroller().getVerticalScrollPosition();
+
+		if (top - headerHeight < verticalScrollPosition) {
+			getScroller().setVerticalScrollPosition(top - headerHeight);
+		} else if (top - verticalScrollPosition > getScroller().getOffsetHeight() - headerHeight) {
+			getScroller().setVerticalScrollPosition(
+					top - getScroller().getOffsetHeight() + headerHeight);
+		}
+
+		int left = cell.getOffsetLeft();
+		int cellWidth = cell.getOffsetWidth();
+		int horizontalScrollPosition = getScroller().getHorizontalScrollPosition();
+		int scrollerContentWidth = getScroller().getWidget().getOffsetWidth();
+
+		if (left < horizontalScrollPosition) {
+			getScroller().setHorizontalScrollPosition(left);
+		} else if (left + cellWidth > horizontalScrollPosition + scrollerContentWidth) {
+			getScroller().setHorizontalScrollPosition(left +  cellWidth - scrollerContentWidth);
+		}
+	}
+
+	private class DataTableSafeHtmlColumn extends Column<TVRowData, SafeHtml> {
+
+		private final int col;
+
+		public DataTableSafeHtmlColumn(int col) {
+			super(new SafeHtmlCell());
+			this.col = col;
+		}
+
+		@Override
+		public SafeHtml getValue(TVRowData object) {
+			String valStr = col < 0 ? "" : object.getValue(col);
+			boolean hasError = col >= 0 && object.isCellErroneous(col);
+			TableCell cell = new TableCell(valStr, hasError);
+			return cell.getHTML();
+		}
+
+		@Override
+		public String getCellStyleNames(Cell.Context context, TVRowData object) {
+			return super.getCellStyleNames(context, object)
+					+ (col < 0 || isColumnEditable(col) ? " editableCell" : "")
+					+ (col >= 0 && object.isCellErroneous(col) ? " errorCell" : "")
+					+ (col >= 0 && columnNotEditable(col) ? " notEditable" : "")
+					+ (col < 0 ? " emptyColumn" : "")
+					+ (col < 0 && columnsChange < 0 ? " deleteColumnAut" : "");
+		}
+	}
+
+	public int getRowsChange() {
+		return rowsChange;
+	}
+
+	public int getColumnsChange() {
+		return columnsChange;
 	}
 }
