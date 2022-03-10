@@ -17,7 +17,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
 	TextResource xmlUtil();
 
-	@Source("org/geogebra/web/resources/js/fflate.min.js")
+	@Source("fflate/index.js")
 	TextResource fflateJs();
 
 	@Source("org/geogebra/web/resources/js/base64.js")

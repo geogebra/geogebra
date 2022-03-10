@@ -20,10 +20,24 @@ public class JavaScriptInjector {
 	 *            javascript file
 	 */
 	public static void inject(TextResource scriptResource) {
+		inject(scriptResource, true);
+	}
+
+	/**
+	 * @param scriptResource
+	 *            javascript file
+	 * @param noDefine
+	 *            whether to protect against using requirejs (see APPS-3018)
+	 */
+	public static void inject(TextResource scriptResource, boolean noDefine) {
 		String name = scriptResource.getName();
 		if (DOM.getElementById(name) == null) {
 			ScriptElement element = createScriptElement(name);
-			element.setText(scriptResource.getText());
+			if (noDefine) {
+				element.setText("(function(define){" + scriptResource.getText() + "})()");
+			} else {
+				element.setText(scriptResource.getText());
+			}
 			getHead().appendChild(element);
 		}
 	}
