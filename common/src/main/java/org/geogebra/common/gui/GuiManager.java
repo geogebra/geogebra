@@ -696,9 +696,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public String getLicenseUrl() {
-		return GeoGebraConstants.GGW_ABOUT_LICENSE_URL
-				+ "&version=" + app.getVersionString()
-				+ "&date=" + GeoGebraConstants.BUILD_DATE;
+		return GeoGebraConstants.GGB_LICENSE_URL;
 	}
 
 	@Override
