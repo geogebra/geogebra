@@ -1413,6 +1413,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return getMathField().hasFocus();
 	}
 
+	@Override
+	public boolean acceptsCommandInserts() {
+		return true;
+	}
+
 	public boolean isForceControls() {
 		return forceControls;
 	}
@@ -1546,14 +1551,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public LatexTreeItemController getLatexController() {
 		return (LatexTreeItemController) getController();
-	}
-
-	/**
-	 * Show keyboard
-	 */
-	public void showKeyboard() {
-		// TODO default implementation is infinite recursion
-		getLatexController().showKeyboard();
 	}
 
 	/**

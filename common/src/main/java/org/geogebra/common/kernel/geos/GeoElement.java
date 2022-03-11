@@ -2894,7 +2894,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final GeoList list = (GeoList) this;
 
 			String prefix = list.isMatrix() ? "m" : "l";
-			return defaultNumberedLabel(prefix);
+			return list.getTableColumn() == -1 ? defaultNumberedLabel(prefix)
+					: cons.buildIndexedLabel("y", false);
 		} else {
 			chars = LabelType.lowerCaseLabels;
 		}
@@ -2904,14 +2905,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private String defaultNumberedLabel(final String plainKey) {
 		String trans = getLoc().getPlainLabel(plainKey, plainKey);
-		int counter = 0;
-		String str;
-		do {
-			counter++;
-			str = trans + kernel.internationalizeDigits(counter + "",
-					StringTemplate.defaultTemplate);
-		} while (!cons.isFreeLabel(str));
-		return str;
+		return cons.getLabelManager().getNextNumberedLabel(trans);
 	}
 
 	@Override
@@ -3237,10 +3231,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if ((correspondingCasCell != null) && isIndependent()) {
 			updateAlgoUpdateSetWith(correspondingCasCell);
 		} else if (algoUpdateSet != null) {
-			// update all algorithms in the algorithm set of this GeoElement
-			cons.setAlgoSetCurrentlyUpdated(algoUpdateSet);
-			algoUpdateSet.updateAll();
-			cons.setAlgoSetCurrentlyUpdated(null);
+			cons.updateAllAlgosInSet(algoUpdateSet);
 		}
 	}
 

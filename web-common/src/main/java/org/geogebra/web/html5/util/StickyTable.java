@@ -7,12 +7,15 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.dom.client.TableSectionElement;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.ListDataProvider;
+
+import elemental2.dom.EventListener;
+import jsinterop.base.Js;
 
 /**
  * Table with sticky header.
@@ -21,30 +24,72 @@ import com.google.gwt.view.client.ListDataProvider;
  *            Type of table cells.
  *
  */
-public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
-	private CellTable<T> cellTable;
+public abstract class StickyTable<T> extends FlowPanel {
+	private final CellTableWithBody cellTable;
 	private ListDataProvider<T> dataProvider;
-	private ScrollPanel scroller;
+	private final ScrollPanel scroller;
 
 	/**
 	 * Create a sticky table.
 	 */
 	public StickyTable() {
-		cellTable = new CellTable<>();
+		cellTable = new CellTableWithBody();
 
 		cellTable.addStyleName("values");
-		cellTable.addHandler(this, ClickEvent.getType());
 
 		scroller = new ScrollPanel();
 		scroller.addStyleName("scroller");
 		CustomScrollbar.apply(scroller);
 		scroller.addStyleName("customScrollbar");
-
-		scroller.setWidget(cellTable);
+		FlowPanel wrapper = new FlowPanel();
+		wrapper.add(cellTable);
+		scroller.setWidget(wrapper);
 		add(scroller);
 		addStyleName("mainScrollPanel");
 		cellTable.setVisible(true);
 		createDataProvider();
+	}
+
+	protected void addBodyPointerDownHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "pointerdown",
+				getDomEventHandler(clickHandler));
+	}
+
+	protected void addHeadClickHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableHeadElement(), "click",
+				getDomEventHandler(clickHandler));
+	}
+
+	protected void addMouseOverHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "mouseover",
+				getDomEventHandler(clickHandler));
+	}
+
+	protected void addMouseOutHandler(CellClickHandler clickHandler) {
+		Dom.addEventListener(cellTable.getTableBodyElement(), "mouseout",
+				getDomEventHandler(clickHandler));
+	}
+
+	private EventListener getDomEventHandler(CellClickHandler eventHandler) {
+		return event -> {
+			Element element = Js.uncheckedCast(event.target);
+			Element cell = getTargetCell(element);
+			if (cell != null) {
+				int col = getParentIndex(cell);
+				int row = getParentIndex(cell.getParentElement());
+				if (eventHandler.onClick(row, col, event)) {
+					event.preventDefault();
+				}
+			}
+		};
+	}
+
+	protected Element getTargetCell(Element start) {
+		Element cell = start;
+		while (cell != null && !cell.hasTagName("TD") && !cell.hasTagName("TH")) {
+			cell = cell.getParentElement();
+		}
+		return cell;
 	}
 
 	/**
@@ -56,7 +101,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	private void createDataProvider() {
 		dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(cellTable);
-
 	}
 
 	/**
@@ -68,7 +112,6 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 * Decreases the number of columns by removing the last column.
 	 */
 	protected void decreaseColumnNumber() {
-
 		// In AbstractCellTable model each column remembers its index
 		// so deleting last column and let dataProvider do the rest we need.
 		cellTable.removeColumn(cellTable.getColumnCount() - 1);
@@ -92,57 +135,47 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 */
 	protected abstract void fillValues(List<T> data);
 
-	@Override
-	public void onClick(ClickEvent event) {
-		Element el = Element.as(event.getNativeEvent().getEventTarget());
-		if (el != null && el.getParentNode() != null
-				&& el.getParentElement().hasClassName("MyToggleButton")) {
-			Node buttonParent = el.getParentNode().getParentNode();
-			toggleButtonClick(buttonParent.getParentNode(), el);
-		}
-	}
-
-	/**
-	 * @param buttonParent parent of the button
-	 * @param el           element for positioning
-	 */
-	protected void toggleButtonClick(Node buttonParent, Element el) {
-		if (buttonParent != null && buttonParent.getParentNode() != null
-				&& buttonParent.getParentNode().getParentElement() != null) {
-			// parent tag with the header children
-			Element parent = buttonParent.getParentNode().getParentElement();
-			// header column which was clicked on
-			Node currHeaderCell = buttonParent.getParentNode();
-			// get list of header cells
+	protected int getParentIndex(Node currHeaderCell) {
+		Element parent = currHeaderCell.getParentElement();
+		if (parent != null) {
 			NodeList<Node> headerNodes = parent.getChildNodes();
 			for (int i = 0; i < headerNodes.getLength(); i++) {
 				Node node = headerNodes.getItem(i);
 				// check if header cell is the one it was clicked on
 				if (node.equals(currHeaderCell)) {
-					onHeaderClick(el, i);
+					return i;
 				}
 			}
 		}
+		return -1;
 	}
 
 	/**
-	 * Called when header is clicked.
-	 *
-	 * @param source
-	 *            of the click.
-	 * @param column
-	 *            header index clicked on
+	 * @param column to get
+	 * @return the header element.
 	 */
-	protected abstract void onHeaderClick(Element source, int column);
+	public Element getHeaderElement(int column) {
+		return Dom.querySelectorForElement(cellTable.getTableHeadElement(),
+				".values tr th:nth-child(" + (column + 1) + ") .content");
+	}
+
+	public Element getHeaderElementByClassName(String className) {
+		return Dom.querySelectorForElement(cellTable.getTableHeadElement(), className);
+	}
+
+	public Element getTableElementByClassName(String className) {
+		return Dom.querySelectorForElement(cellTable.getTableBodyElement(), className);
+	}
 
 	/**
 	 * @param column
 	 *            to get
 	 * @return the list of the specified value column elements (without the header).
 	 */
-	public static NodeList<Element> getColumnElements(int column) {
-		// gives the (column+1)th element of each row of the value table
-		return Dom.querySelectorAll(".values tr td:nth-child(" + (column + 1) + ") .cell");
+	public elemental2.dom.NodeList<elemental2.dom.Element> getColumnElements(int column) {
+		elemental2.dom.Element body = Js.uncheckedCast(cellTable.getTableBodyElement());
+		// gives the columnth element of each row of the value table. (nth-child is 1 indexed)
+		return body.querySelectorAll(".values tr td:nth-child(" + (column + 1) + ")");
 	}
 
 	/**
@@ -159,7 +192,7 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 *
 	 * @return the values table.
 	 */
-	protected CellTable<T> getTable() {
+	public CellTable<T> getTable() {
 		return cellTable;
 	}
 
@@ -170,14 +203,13 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 	 *            to scroll.
 	 */
 	public void setHorizontalScrollPosition(final int pos) {
-		Scheduler.get().scheduleDeferred(() -> getScroller().setHorizontalScrollPosition(pos));
+		Scheduler.get().scheduleDeferred(() -> scroller.setHorizontalScrollPosition(pos));
 	}
 
 	/**
-	 *
 	 * @return the scroll panel of the values.
 	 */
-	ScrollPanel getScroller() {
+	protected ScrollPanel getScroller() {
 		return scroller;
 	}
 
@@ -212,5 +244,40 @@ public abstract class StickyTable<T> extends FlowPanel implements ClickHandler {
 		addCells();
 		fillValues(dataProvider.getList());
 		refreshVisibleRange();
+	}
+
+	public Panel getTableWrapper() {
+		return (Panel) scroller.getWidget();
+	}
+
+	public Element getCell(int row, int column) {
+		return cellTable.getTableBodyElement().getChild(row).getChild(column).cast();
+	}
+
+	public void flush() {
+		cellTable.flush();
+	}
+
+	/**
+	 * @param col column
+	 * @param row row
+	 * @return whether a cell at given coordinates exists and is not hidden by shadow
+	 */
+	public boolean hasCell(int col, int row) {
+		return col >= 0 && col < cellTable.getColumnCount() - 1
+				&& row >= 0 && row < cellTable.getRowCount() - 1;
+	}
+
+	private class CellTableWithBody extends CellTable<T> {
+
+		@Override
+		public TableSectionElement getTableBodyElement() {
+			return super.getTableBodyElement();
+		}
+
+		@Override
+		public TableSectionElement getTableHeadElement() {
+			return super.getTableHeadElement();
+		}
 	}
 }

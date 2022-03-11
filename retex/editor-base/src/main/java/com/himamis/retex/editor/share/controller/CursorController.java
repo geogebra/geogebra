@@ -58,15 +58,17 @@ public class CursorController {
 	 *
 	 * @param editorState
 	 *            current state
+	 * @return whether the cursor moved
 	 */
-	public static void prevCharacter(EditorState editorState) {
+	public static boolean prevCharacter(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffset();
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset > 0) {
 			MathComponent component = currentField.getArgument(currentOffset - 1);
 			prevCharacterInCurrentField(component, editorState);
+			return true;
 		} else {
-			prevField(editorState);
+			return prevField(editorState);
 		}
 	}
 
@@ -195,13 +197,14 @@ public class CursorController {
 	 *
 	 * @param editorState
 	 *            current state
+	 * @return whether the cursor moved
 	 */
-	public static void prevField(EditorState editorState) {
-		prevField(editorState, editorState.getCurrentField());
+	public static boolean prevField(EditorState editorState) {
+		return prevField(editorState, editorState.getCurrentField());
 	}
 
 	/* Search for previous component */
-	private static void prevField(EditorState editorState, MathContainer component) {
+	private static boolean prevField(EditorState editorState, MathContainer component) {
 		// retrieve parent
 		MathContainer container = component.getParent();
 		int current = component.getParentIndex();
@@ -210,23 +213,24 @@ public class CursorController {
 			// this component has no parent
 			// previous component doesn't exist
 			// no-op
-			return;
+			return false;
 		}
 		if (container instanceof MathSequence) {
 			editorState.setCurrentField((MathSequence) container);
 			editorState.setCurrentOffset(component.getParentIndex());
-
+			return true;
 			// try to find previous sibling
 		} else if (container.hasPrev(current)) {
 			current = container.prev(current);
 			MathContainer component1 = (MathContainer) container
 					.getArgument(current);
 			lastField(editorState, component1);
-
+			return true;
 			// delve down the tree
 		} else if (!MathArray.isLocked(container)) {
-			prevField(editorState, container);
+			return prevField(editorState, container);
 		}
+		return false;
 	}
 
 	/**

@@ -157,9 +157,9 @@ class NavigationRail extends FlowPanel {
 			onClosePressed(false);
 			return;
 		}
-		app.setKeyboardNeeded(false);
+		app.setKeyboardNeeded(true);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
-		toolbarPanel.getFrame().showKeyboardButton(false);
+		toolbarPanel.getFrame().showKeyboardButton(true);
 		toolbarPanel.openTableView(null, isOpen());
 	}
 
@@ -490,4 +490,5 @@ class NavigationRail extends FlowPanel {
 	public void setAVIconNonSelect(boolean exam) {
 		setSelected(btnAlgebra, false, exam);
 	}
+
 }

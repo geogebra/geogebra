@@ -1709,6 +1709,58 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent.statistics {
+		.dialogTitle {
+			margin-bottom: 0px;
+			height: 24px;
+			font-size: 125%;
+			padding-bottom: 8px;
+			color: colors.$text-primary;
+			line-height: 1.2;
+		}
+
+		.dialogSubTitle {
+			margin-bottom: 16px;
+			margin-left: 24px;
+			height: 14px;
+			font-size: 75%;
+			color: colors.$text-secondary;
+			line-height: 1.2;
+		}
+
+		&.error {
+			max-width: 468px;
+			.dialogContent {
+				border: none;
+			}
+		}
+
+		.dialogContent {
+			max-height: 426px;
+			height: calc(100% - 114px);
+			box-sizing: border-box;
+			border-top: 1px solid colors.$black-12;
+			border-bottom: 1px solid colors.$black-12;
+
+			select:focus:not([readonly]) {
+				border: none;
+				border-bottom: 1px colors.$teal-default solid;
+			}
+
+			.group {
+				margin-bottom: 22px;
+
+				.heading {
+					margin-top: 8px;
+					margin-bottom: 4px;
+					height: 14px;
+					color: colors.$text-secondary;
+					font-size: 12px;
+				}
+			}
+		}
+	}
+
 	.manageTools {
 		max-width: 560px;
 
