@@ -110,11 +110,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					// find the geoColor in the table and select it
 					int index = this.getColorIndex(geoColor);
 					setSelectedIndex(index);
-					// if nothing was selected, set the icon to show the
-					// non-standard color
-					if (index == -1) {
-						this.setIcon(getButtonIcon());
-					}
 				}
 			}
 
@@ -125,7 +120,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 			}
 		};
 		btnTextColor.setEnableTable(true);
-		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
 		btnBold = new MyToggleButtonW(new NoDragImage(
@@ -342,6 +336,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnUseAsText.setToolTipText(loc.getMenu("CasCellUseAsText"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
+		btnTextColor.setTitle(loc.getPlainTooltip("stylebar.TextColor"));
 	}
 }

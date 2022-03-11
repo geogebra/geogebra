@@ -45,7 +45,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
@@ -64,12 +63,10 @@ import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.BorderStylePopup;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -132,9 +129,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private MyToggleButtonW btnFixPosition;
 	private MyToggleButtonW btnFixObject;
-
-	protected MyCJButton btnStandardView;
-	protected MyCJButton btnCloseView;
 
 	private MyToggleButtonW[] toggleBtnList;
 	private MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
@@ -418,12 +412,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void addButtons() {
 		clear();
 		// --- order matters here
-		// button for closing extra views
-		if (app.isUnbundledOrWhiteboard()
-				&& App.VIEW_EUCLIDIAN_FOR_PLANE_START <= viewID
-				&& viewID <= App.VIEW_EUCLIDIAN_FOR_PLANE_END) {
-			addCloseViewButton();
-		}
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		add(btnPointCapture);
@@ -675,10 +663,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnChangeView);
 	}
 
-	private void addCloseViewButton() {
-		add(btnCloseView);
-	}
-
 	/**
 	 * add automatic rotate 3D view button
 	 */
@@ -716,7 +700,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected void createButtons() {
 		// TODO: fill in
 		createAxesAndGridButtons();
-		createStandardViewBtn();
 		createLineStyleBtn();
 		createPointStyleBtn(mode);
 		createLabelStyleBtn();
@@ -742,9 +725,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createFixObjectBtn();
 		createTextSizeBtn();
 		createChangeViewButtons();
-		if (app.isUnbundledOrWhiteboard()) {
-			createCloseViewBtn();
-		}
 	}
 
 	private LabelSettingsPopup getLabelPopup() {
@@ -850,16 +830,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 									&& mode != EuclidianConstants.MODE_ERASER);
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getIcon();
-			}
 		};
 
 		// it is not needed, must be an Image preloaded like others.
 		SVGResource ptCaptureIcon = MaterialDesignResources.INSTANCE.snap_to_grid();
-		btnPointCapture.setIcon(new ImageOrText(ptCaptureIcon, 24));
+		btnPointCapture.setFixedIcon(new ImageOrText(ptCaptureIcon, 24));
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
 	}
@@ -888,15 +863,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 							.getIndexForLabelMode(geo, app));
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getIcon();
-			}
 		};
 		SVGResource ic = ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
 		// must be done with callback btnLabelStyle.setIcon(ic);
-		btnLabelStyle.setIcon(new ImageOrText(ic, 24));
+		btnLabelStyle.setFixedIcon(new ImageOrText(ic, 24));
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
 	}
@@ -928,38 +898,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 							.getXmlVal());
 				}
 			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getIcon();
-			}
 		};
 		ImageOrText icon = new ImageOrText(
 				MaterialDesignResources.INSTANCE.stylingbar_angle_interval(), 24);
-		btnAngleInterval.setIcon(icon);
+		btnAngleInterval.setFixedIcon(icon);
 		btnAngleInterval.addPopupHandler(this);
 		btnAngleInterval.setKeepVisible(false);
-	}
-
-	private void createStandardViewBtn() {
-		btnStandardView = new MyCJButton();
-		ImageOrText icon = new ImageOrText(
-				MaterialDesignResources.INSTANCE.home_black(), 24);
-		btnStandardView.setIcon(icon);
-		btnStandardView.addClickHandler(event -> setEvStandardView());
-	}
-
-	private void createCloseViewBtn() {
-		btnCloseView = new MyCJButton();
-		ImageOrText icon = new ImageOrText(
-				GuiResourcesSimple.INSTANCE.close(), 24);
-		btnCloseView.setIcon(icon);
-		btnCloseView.addStyleName("StylebarCloseViewButton");
-		btnCloseView.addClickHandler(event -> closeView());
-	}
-
-	private void closeView() {
-		app.getGuiManager().setShowView(false, viewID);
 	}
 
 	/**
@@ -1220,7 +1164,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 			}
 		};
-		// btnFixPosition.addStyleName("btnFixPosition");
 		btnFixPosition.addValueChangeHandler(this);
 	}
 
@@ -1418,7 +1361,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(new ImageOrText(
+		btnTextSize.setFixedIcon(new ImageOrText(
 						MaterialDesignResources.INSTANCE.text_size_black(), 24));
 		btnTextSize.addStyleName("withIcon");
 		btnTextSize.getMyPopup().removeStyleName("matPopupPanel");
@@ -1982,7 +1925,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected void setAxesAndGridToolTips(Localization loc) {
-		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
+		btnShowGrid.setTitle(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 	}
 
@@ -1994,7 +1937,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 			return;
 		}
 		setAxesAndGridToolTips(loc);
-		setToolTipText(btnStandardView, "stylebar.ViewDefault");
 		setToolTipText(btnLabelStyle, "stylebar.Label");
 		setToolTipText(btnAngleInterval, "AngleBetween");
 		setToolTipText(btnColor, "stylebar.Color");
@@ -2027,9 +1969,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setPopupTooltips(btnVerticalAlignment, new String[] { "Top", "Middle", "Bottom" });
 	}
 
-	private void setToolTipText(MyCJButton btn, String key) {
+	private void setToolTipText(StandardButton btn, String key) {
 		if (btn != null) {
-			btn.setToolTipText(loc.getPlainTooltip(key));
+			btn.setTitle(loc.getPlainTooltip(key));
 		}
 	}
 
@@ -2075,5 +2017,4 @@ public class EuclidianStyleBarW extends StyleBarW2
 			toggleCrop(false);
 		}
 	}
-
 }

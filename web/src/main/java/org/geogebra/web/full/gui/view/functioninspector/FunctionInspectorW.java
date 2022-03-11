@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -56,7 +56,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private StandardButton btnHelp;
 	PopupMenuButtonW btnOptions;
-	// private MenuBar btnOptions;
 
 	private Label lblGeoName;
 	private Label lblStep;
@@ -69,7 +68,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private GridModel modelInterval;
 
 	PopupMenuButtonW btnAddColumn;
-	private MyCJButton btnRemoveColumn;
+	private StandardButton btnRemoveColumn;
 
 	private int pointCount = 9;
 
@@ -335,8 +334,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createBtnRemoveColumn() {
-		btnRemoveColumn = new MyCJButton();
-		btnRemoveColumn.addClickHandler(event -> removeColumn());
+		btnRemoveColumn = new StandardButton(MaterialDesignResources.INSTANCE.clear(), null, 24);
+		btnRemoveColumn.addStyleName("MyCanvasButton");
+		btnRemoveColumn.addFastClickHandler(event -> removeColumn());
 	}
 
 	private void createXYtable() {
@@ -387,15 +387,18 @@ public class FunctionInspectorW extends FunctionInspector {
 				getModel().addColumn(getSelectedIndex());
 				btnAddColumn.setSelectedIndex(-1);
 			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(MaterialDesignResources.INSTANCE.add_black(), 24);
+			}
 		};
 		btnAddColumn.setKeepVisible(false);
-		btnAddColumn.setText("\u271A");
 		btnAddColumn.setSelectedIndex(-1);
 	}
 
 	@Override
 	protected void createGUIElements() {
-
 		mainPanel = new FlowPanel();
 		mainPanel.addStyleName("functionInspectorMainPanel");
 		lblGeoName = new Label(getModel().getTitleString());
@@ -566,20 +569,15 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
 		btnTangent.setToolTipText(loc
 		        .getPlainTooltip("fncInspector.showTangent"));
-		btnAddColumn.setToolTipText(loc
+		btnAddColumn.setTitle(loc
 		        .getPlainTooltip("fncInspector.addColumn"));
 		btnRemoveColumn.setTitle(loc
 		        .getPlainTooltip("fncInspector.removeColumn"));
-		// // add/remove extra column buttons
-		btnRemoveColumn.setText("\u2718");
-		btnAddColumn.setText("\u271A");
 
 		btnOptions.getMyTable().updateText(
 				new ImageOrText[] { new ImageOrText(
 						app.getLocalization()
 		                .getMenu("CopyToSpreadsheet")) });
-		btnAddColumn.getMyTable().updateText(
-		        ImageOrText.convert(getModel().getColumnNames()));
 
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 	}

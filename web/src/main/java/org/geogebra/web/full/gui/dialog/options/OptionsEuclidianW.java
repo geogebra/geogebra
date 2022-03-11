@@ -20,7 +20,6 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.PropertiesResources;
 import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.NumberListBox;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -28,6 +27,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
@@ -108,8 +108,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
-		ComponentCheckbox cbBoldGrid;
-		private MyCJButton btGridColor;
+		private ComponentCheckbox cbBoldGrid;
+		private StandardButton btGridColor;
 		private FlowPanel mainPanel;
 		/**
 		 * special grid types for mow (e.g. 3/4 or 1/2)
@@ -374,8 +374,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			// color
 			lblColor = new Label();
-			btGridColor = new MyCJButton();
-			btGridColor.addClickHandler(event -> {
+			btGridColor = new StandardButton(24);
+			btGridColor.addFastClickHandler(event -> {
 				if (gridOptions && !cbShowGrid.isSelected()) {
 					return;
 				}

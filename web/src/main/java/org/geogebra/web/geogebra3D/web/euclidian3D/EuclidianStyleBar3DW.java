@@ -206,22 +206,10 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		Localization loc = app.getLocalization();
 		btnRotateView
-		        .setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		// btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
-		btnViewProjection.setToolTipText(loc
+		        .setTitle(loc.getPlainTooltip("stylebar.RotateView"));
+		btnViewProjection.setTitle(loc
 				.getPlainTooltip("stylebar.ViewProjection"));
-		// btnChangeView.setToolTipText(loc
-		// .getPlainTooltip("stylebar.ViewDirection"));
 	}
-
-	// @Override
-	// public void updateGUI() {
-	//
-	// super.updateGUI();
-	//
-	// btnClipping.updateGUI();
-	//
-	// }
 
 	@Override
 	protected MyToggleButtonW[] newToggleBtnList() {
@@ -263,7 +251,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void setActionCommands() {
 		setActionCommand(btnShowGrid3D, "showGrid");
-		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
@@ -271,7 +258,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid3D.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxesAndPlane
-		        .setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+		        .setTitle(loc.getPlainTooltip("stylebar.Axes"));
 	}
 
 	@Override

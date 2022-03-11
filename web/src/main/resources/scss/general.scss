@@ -30,12 +30,10 @@
 	}
 
 	.button,
-	.gwt-PushButton,
 	.gwt-MenuItem {
 		cursor: pointer;
 
-		&.button-up-disabled,
-		&.gwt-PushButton-up-disabled {
+		&.button-up-disabled {
 			cursor: default;
 			opacity: 0.3;
 		}

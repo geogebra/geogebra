@@ -93,7 +93,6 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(false);
 		btnBgColor.setSelectedIndex(7);
-		btnBgColor.addActionListener(this);
 		btnBgColor.addPopupHandler(this);
 	}
 
@@ -131,7 +130,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		        "stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.Italic"));
-		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
+		btnBgColor.setTitle(loc.getPlainTooltip("stylebar.BgColor"));
 		btnLeftAlign.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.AlignLeft"));
 		btnCenterAlign.setToolTipText(loc.getPlainTooltip(
@@ -207,7 +206,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			// set the color
 			ImageOrText data = GeoGebraIconW.createColorSwatchIcon(1.0, null,
 			        bgCol);
-			data.applyToLabel(btnBgColor.getButtonContent());
+			data.applyToLabel(btnBgColor.getColorLabel());
 			
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {
@@ -267,7 +266,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		}
 		ImageOrText data = GeoGebraIconW
 				.createColorSwatchIcon(1.0, null, color);
-		data.applyToLabel(btnBgColor.getButtonContent());
+		data.applyToLabel(btnBgColor.getColorLabel());
 
 		allowActionPerformed = true;
 	}

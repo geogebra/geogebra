@@ -427,21 +427,6 @@ public abstract class GCustomButton extends ButtonBase {
 	/**
 	 * Constructor for <code>CustomButton</code>.
 	 *
-	 * @param upImage
-	 *            image for the default (up) face of the button
-	 * @param downImage
-	 *            image for the down face of the button
-	 * @param handler
-	 *            clickListener
-	 */
-	public GCustomButton(Image upImage, Image downImage, ClickHandler handler) {
-		this(upImage, handler);
-		getDownFace().setImage(downImage);
-	}
-
-	/**
-	 * Constructor for <code>CustomButton</code>.
-	 *
 	 * @param upText
 	 *            the text for the default (up) face of the button
 	 */
@@ -455,40 +440,12 @@ public abstract class GCustomButton extends ButtonBase {
 	 *
 	 * @param upText
 	 *            the text for the default (up) face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GCustomButton(String upText, ClickHandler handler) {
-		this(upText);
-		addClickHandler(handler);
-	}
-
-	/**
-	 * Constructor for <code>CustomButton</code>.
-	 *
-	 * @param upText
-	 *            the text for the default (up) face of the button
 	 * @param downText
 	 *            the text for the down face of the button
 	 */
 	public GCustomButton(String upText, String downText) {
 		this(upText);
 		getDownFace().setText(downText);
-	}
-
-	/**
-	 * Constructor for <code>CustomButton</code>.
-	 *
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param downText
-	 *            the text for the down face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GCustomButton(String upText, String downText, ClickHandler handler) {
-		this(upText, downText);
-		addClickHandler(handler);
 	}
 
 	/**

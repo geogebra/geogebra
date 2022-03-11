@@ -25,19 +25,18 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -218,12 +217,12 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
-		GPushButton btnRemove = new GPushButton(
-				new Image(AppResources.INSTANCE.delete_small().getSafeUri().asString()));
+		StandardButton btnRemove = new StandardButton(MaterialDesignResources
+				.INSTANCE.delete_black(), 20, null);
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		
-		btnRemove.addClickHandler(event -> {
+		btnRemove.addFastClickHandler(event -> {
 			GeoElement geo = gbList.getSelectedGeo();
 			if (geo != null) {
 				gbObjects.add(geo);
