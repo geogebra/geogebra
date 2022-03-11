@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -1609,6 +1611,7 @@ public class DockManagerW extends DockManager {
 
 			avPanel.onOrientationChange();
 		}
+		adjustEuclidianViewSafeArea();
 	}
 
 	private void adjustGraphicsAndAvPosition(double landscapeRatio, boolean orientationChanged,
@@ -1661,6 +1664,13 @@ public class DockManagerW extends DockManager {
 		return Math.max(minHeight,
 				toolbar.getOffsetHeight()
 						- keyboardManager.estimateHiddenKeyboardHeight() + draggerOffset);
+	}
+
+	private void adjustEuclidianViewSafeArea() {
+		int margin = EuclidianView.MINIMUM_SAFE_AREA;
+		int left = portrait == ExtendedBoolean.TRUE || !app.isUnbundled() ? 0 : 16;
+		EdgeInsets edgeInsets = new EdgeInsets(left + margin, margin, margin, margin);
+		getFocusedEuclidianPanel().getEuclidianView().setSafeAreaInsets(edgeInsets);
 	}
 
 	/**
