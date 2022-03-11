@@ -71,23 +71,23 @@ public class ForceInputFormTest extends BaseUnitTest {
         Assert.assertEquals(GeoRay.EQUATION_IMPLICIT_NON_CANONICAL, geoRay.getToStringMode());
     }
 
-    @Test
-    public void testHideOutputRowGraphing() {
-    	getApp().setGraphingConfig();
-        GeoRay ray = getElementFactory().createGeoRay();
-
-        Assert.assertFalse(ray.isAllowedToShowValue());
-        Assert.assertEquals(DescriptionMode.DEFINITION, ray.getDescriptionMode());
-    }
-
-    @Test
-    public void testShowOutputRowGeometry() {
-        getApp().setConfig(new AppConfigGeometry());
+	@Test
+	public void testHideOutputRowGraphing() {
+		getApp().setGraphingConfig();
 		GeoRay ray = getElementFactory().createGeoRay();
 
-        Assert.assertTrue(ray.isAllowedToShowValue());
-        Assert.assertEquals(ray.getDescriptionMode(), DescriptionMode.DEFINITION_VALUE);
-    }
+		Assert.assertFalse(ray.isAllowedToShowValue());
+		Assert.assertEquals(DescriptionMode.DEFINITION, ray.getDescriptionMode());
+	}
+
+	@Test
+	public void testShowOutputRowGeometry() {
+		getApp().setConfig(new AppConfigGeometry());
+		GeoRay ray = getElementFactory().createGeoRay();
+
+		Assert.assertTrue(ray.isAllowedToShowValue());
+		Assert.assertEquals(ray.getDescriptionMode(), DescriptionMode.DEFINITION_VALUE);
+	}
 
 	@Test
 	public void testEquationPropertyIsHiddenGraphing() {

@@ -57,7 +57,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 * @param app
 	 *            The application.
 	 * @param listener
-	 * 			  listener for the MathField
+	 *            listener for the MathField
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this(app);

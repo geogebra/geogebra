@@ -15,12 +15,9 @@ public class AppWSimpleMock extends AppWsimple {
 	private ViewW view;
 
 	/**
-	 * @param article
-	 *            article element
-	 * @param frame
-	 * 			  GeoGebraFrame
-	 * @param undoActive
-	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
+	 * @param article article element
+	 * @param frame GeoGebraFrame
+	 * @param undoActive if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
 	public AppWSimpleMock(AppletParameters article, GeoGebraFrameSimple frame,
 						  boolean undoActive) {

@@ -270,7 +270,7 @@ public final class DrawText extends Drawable {
 		}
 		if (verticalVal == -1) {
 			// magic number 6 comes from EuclidianStatic::drawMultiLineText
-	 		yLabel += labelRectangle.getHeight() - 2 * DEFAULT_MARGIN;
+			yLabel += labelRectangle.getHeight() - 2 * DEFAULT_MARGIN;
 		}
 		if (horizontalVal == 0) {
 			xLabel -= labelRectangle.getWidth() / 2;

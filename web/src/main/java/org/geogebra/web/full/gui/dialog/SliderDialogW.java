@@ -57,7 +57,7 @@ public class SliderDialogW extends ComponentDialog implements
 	 *  @param app
 	 *            application
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param x
 	 *            x-coordinate of slider in screen coords
 	 * @param y

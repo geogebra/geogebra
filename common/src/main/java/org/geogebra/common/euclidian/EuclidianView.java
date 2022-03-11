@@ -6521,9 +6521,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Attaches a symbolic-capable editor to the input box
 	 * @param geoInputBox
-	 * 			the input box to attach
+	 *             the input box to attach
 	 * @param bounds
-	 * 			where the editor should be attached to.
+	 *             where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
 		if (symbolicEditor == null) {

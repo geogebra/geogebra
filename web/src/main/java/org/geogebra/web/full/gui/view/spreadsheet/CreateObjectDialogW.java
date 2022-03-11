@@ -68,7 +68,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	 * @param objectType
 	 *            resulting object type
 	 * @param title
-	 * 			  dialog title
+	 *            dialog title
 	 */
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType, String title) {
 		super(app, new DialogData(title), false, false);

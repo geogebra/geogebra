@@ -152,7 +152,7 @@ public class AlgebraController {
 	 * @param errorHandler
 	 *            interface to handle errors from evaluating the input
 	 * @param cb
-	 * 			  callback
+	 *            callback
 	 * @return evaluation was successful
 	 */
 	public boolean onTextEntered(
@@ -171,9 +171,9 @@ public class AlgebraController {
 	 * @param errorHandler
 	 *            interface to handle errors from evaluating the input
 	 * @param info
-	 * 			  additional information for the evaluation
+	 *            additional information for the evaluation
 	 * @param cb
-	 * 			  callback
+	 *            callback
 	 * @return evaluation was successful
 	 */
 	public boolean onTextEntered(

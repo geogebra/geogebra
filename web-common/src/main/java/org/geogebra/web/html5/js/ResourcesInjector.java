@@ -1,9 +1,9 @@
 package org.geogebra.web.html5.js;
 
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
 import elemental2.dom.DomGlobal;

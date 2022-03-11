@@ -422,7 +422,7 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo
 	 *            true to make undo step
 	 * @param withSliders
-	 * 			  true to autocreate sliders
+	 *            true to autocreate sliders
 	 * @param handler
 	 *            error handler
 	 *
@@ -825,7 +825,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * @param addDegree
-	 * 				whether to add degrees
+	 *           whether to add degrees
 	 * @return evaluation flags
 	 */
 	public EvalInfo getEvalInfo(boolean addDegree) {
@@ -899,12 +899,11 @@ public class AlgebraProcessor {
 		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
- 		}
+		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}
 		return null;
-
 	}
 
 	/**

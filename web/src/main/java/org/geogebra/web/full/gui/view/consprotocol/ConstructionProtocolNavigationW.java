@@ -279,12 +279,12 @@ public class ConstructionProtocolNavigationW
 					getProt().nextStep();
 					if (getProt().getCurrentStepNumber() == getProt()
 							.getLastStepNumber()) {
-		        		stopAnimation();
-		        	}
+						stopAnimation();
+					}
 					if (isPlaying()) {
-		        		timer.schedule((int) (playDelay * 1000));
-		        	}
-                }
+						timer.schedule((int) (playDelay * 1000));
+					}
+				}
 
 			};
 		}

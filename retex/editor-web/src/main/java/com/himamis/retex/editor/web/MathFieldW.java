@@ -1142,8 +1142,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/**
 	 * Sets foreground color in rgba(r, g, b, a) format.
 	 *
-	 * @param cssColor
-	 * 			to set.
+	 * @param cssColor color to set
 	 */
 	public void setForegroundColor(String cssColor) {
 		this.foregroundColor = new ColorW(cssColor);
@@ -1152,8 +1151,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/**
 	 * Sets background color in #rrggbb format.
 	 *
-	 * @param cssColor
-	 * 			to set.
+	 * @param cssColor color to set
 	 */
 	public void setBackgroundColor(String cssColor) {
 		this.backgroundColor = new ColorW(cssColor);

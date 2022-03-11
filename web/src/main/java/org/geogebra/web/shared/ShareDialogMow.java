@@ -51,7 +51,7 @@ public class ShareDialogMow extends ComponentDialog
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 * 			  dialog tanskeys
+	 *            dialog tanslation keys
 	 * @param shareURL
 	 *            share URL
 	 * @param mat

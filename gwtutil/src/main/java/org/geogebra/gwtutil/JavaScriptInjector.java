@@ -1,5 +1,6 @@
-package org.geogebra.web.resources;
+package org.geogebra.gwtutil;
 
+import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.resources.client.TextResource;
 
 import com.google.gwt.dom.client.Document;

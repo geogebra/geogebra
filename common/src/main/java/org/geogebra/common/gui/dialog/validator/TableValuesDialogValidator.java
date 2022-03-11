@@ -45,9 +45,9 @@ public class TableValuesDialogValidator {
 	 * @param maxField End value input field.
 	 * @param stepField Step input field.
 	 * @return If all the strings of the inputs can be converted to doubles
-	 * 		then this method returns an array with length 3 which contains the double values of the
-	 * 		input strings.
-	 * 		If the strings cannot be converted to doubles then the method returns null.
+	 *         then this method returns an array with length 3 which contains
+	 *         the double values of the input strings.
+	 *         If the strings cannot be converted to doubles then the method returns null.
 	 */
 	public double[] getDoubles(Input minField, Input maxField, Input stepField) {
 		Double min = getDouble(minField, null, null);

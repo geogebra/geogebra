@@ -62,7 +62,7 @@ public abstract class Localization {
 	private int[] decimalPlaces = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
 	private int[] significantFigures = {3, 5, 10, 15};
 
- 	private CommandErrorMessageBuilder commandErrorMessageBuilder;
+	private CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
 	 * eg Function.sin

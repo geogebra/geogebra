@@ -39,7 +39,7 @@ public class ButtonDialogW extends ComponentDialog
 	 * @param y
 	 *            position
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param inputBox
 	 *            whether this is for inputbox
 	 */

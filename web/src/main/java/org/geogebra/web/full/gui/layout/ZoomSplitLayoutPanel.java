@@ -81,15 +81,15 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
       return getCenterWidth();
     }
 
-    @Override
-    protected int getEventPosition(Event event) {
-    	int type = DOM.eventGetType(event);
-    	return type == Event.ONTOUCHSTART
-		        || type == Event.ONTOUCHMOVE
-		        || type == Event.ONTOUCHEND
+	@Override
+	protected int getEventPosition(Event event) {
+		int type = DOM.eventGetType(event);
+		return type == Event.ONTOUCHSTART
+				|| type == Event.ONTOUCHMOVE
+				|| type == Event.ONTOUCHEND
 				? (int) (event.getTouches().get(0).getClientX() * getZoom())
-		        : (int) (event.getClientX() * getZoom());
-    }
+				: (int) (event.getClientX() * getZoom());
+	}
 
     @Override
     protected int getTargetPosition() {
@@ -368,14 +368,14 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
 
     @Override
-    protected int getEventPosition(Event event) {
+	protected int getEventPosition(Event event) {
 		int type = DOM.eventGetType(event);
-    	return type == Event.ONTOUCHSTART
-		        || type == Event.ONTOUCHMOVE
-		        || type == Event.ONTOUCHEND
+		return type == Event.ONTOUCHSTART
+				|| type == Event.ONTOUCHMOVE
+				|| type == Event.ONTOUCHEND
 				? (int) (event.getTouches().get(0).getClientY() * getZoom())
-		        : (int) (event.getClientY() * getZoom());
-    }
+				: (int) (event.getClientY() * getZoom());
+	}
 
     @Override
     protected int getTargetPosition() {
@@ -482,7 +482,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
   }
 
-  	/**
+	/**
 	 * Sets the minimum allowable size for the given widget.
 	 *
 	 * <p>
@@ -506,7 +506,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
   }
 
-  	/**
+	/**
 	 * Sets a size below which the slider will close completely. This can be
 	 * used in conjunction with {@link #setWidgetMinSize} to provide a
 	 * speed-bump effect where the slider will stick to a preferred minimum size
