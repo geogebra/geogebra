@@ -1113,7 +1113,7 @@ public class OptionsTab extends FlowPanel {
 			labelHeight.setText(getLoc().getMenu("Height"));
 			labelPixelW.setText(getLoc().getMenu("Pixels.short"));
 			labelPixelH.setText(getLoc().getMenu("Pixels.short"));
-			cbUseFixedSize.setText(getLoc().getMenu("fixed"));
+			cbUseFixedSize.setLabels();
 		}
 
 		/**

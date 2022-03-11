@@ -11,8 +11,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class CheckboxPanel extends OptionPanel implements
 		IBooleanOptionListener {
 	private final ComponentCheckbox checkbox;
-	private final String titleId;
-	private Localization loc;
 
 	/**
 	 * @param title - title
@@ -33,13 +31,11 @@ public class CheckboxPanel extends OptionPanel implements
 	 *            localization
 	 */
 	public CheckboxPanel(final String title, Localization loc) {
-		this.loc = loc;
 		FlowPanel holderPanel = new FlowPanel();
 		holderPanel.addStyleName("checkBoxPanel");
-		checkbox = new ComponentCheckbox(loc, false, "", this::onClick);
+		checkbox = new ComponentCheckbox(loc, false, title, this::onClick);
 		holderPanel.add(checkbox);
 		setWidget(holderPanel);
-		this.titleId = title;
 	}
 
 	@Override
@@ -49,7 +45,7 @@ public class CheckboxPanel extends OptionPanel implements
 
 	@Override
 	public void setLabels() {
-		getCheckbox().setText(loc.getMenu(titleId));
+		getCheckbox().setLabels();
 	}
 
 	public ComponentCheckbox getCheckbox() {

@@ -684,11 +684,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		@Override
 		public void setLabels() {
 			title.setText(loc.getMenu("Location"));
-			cbGraphicsView.setText(localize("DrawingPad"));
-			cbGraphicsView2.setText(localize("DrawingPad2"));
-			cbGraphicsView3D.setText(localize("GraphicsView3D"));
-			cbGraphicsViewForPlane.setText(localize("ExtraViews"));
-			cbAlgebraView.setText(localize("Algebra"));
+			cbGraphicsView.setLabels();
+			cbGraphicsView2.setLabels();
+			cbGraphicsView3D.setLabels();
+			cbGraphicsViewForPlane.setLabels();
+			cbAlgebraView.setLabels();
 		}
 
 		@Override
