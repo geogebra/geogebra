@@ -126,8 +126,9 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addVersionNumber(AppW appW) {
+		String versionNr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
 		String versionStr = appW.getLocalization().getPlainDefault("VersionA",
-				"Version %0", appW.getVersionString());
+				"Version %0", versionNr);
 		Label version = new Label(versionStr);
 		version.addStyleName("versionNr");
 		add(version);
