@@ -157,16 +157,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		}
 
 		private void updateShowLabel() {
-			if (!model.isNameValueShown()) {
-				showLabelCB.setText(localize("ShowLabel"));
-			} else {
-				showLabelCB.setText(localize("ShowLabel") + ":");
-			}
+			showLabelCB.setLabels();
 		}
 
 		@Override
 		public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
-			// change "Show Label:" to "Show Label" if there's no menu
 			updateShowLabel();
 
 			GeoElement geo0 = model.getGeoAt(0);

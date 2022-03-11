@@ -99,13 +99,6 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
         Dom.toggleClass(checkbox, "selected", isSelected());
     }
 
-    /**
-     * @param text - of checkbox localized
-     */
-    public void setText(String text) {
-        checkboxLbl.setText(text);
-    }
-
     @Override
     public void setLabels() {
         checkboxLbl.setText(loc.getMenu(checkboxTxt));
