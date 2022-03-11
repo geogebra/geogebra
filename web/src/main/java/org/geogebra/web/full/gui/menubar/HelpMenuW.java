@@ -12,6 +12,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
+import com.google.gwt.user.client.ui.Label;
+
 /**
  * Help menu
  */
@@ -48,10 +50,9 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		addTutorialItem(app, loc);
 		addManualItem(app, loc);
 		addForumItem(app, loc);
-		addSeparator();
 		addReportBugItem(app, loc);
-		addSeparator();
 		addAboutItem();
+		addVersionNumber(app);
 	}
 
 	private void buildMenuNotes(final AppW app, Localization loc) {
@@ -122,6 +123,14 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 
 	private void addAboutItem() {
 		about = addItem(new LicenseItem());
+	}
+
+	private void addVersionNumber(AppW appW) {
+		String versionStr = appW.getLocalization().getMenu("Version") + " " +
+				appW.getVersionString();
+		Label version = new Label(versionStr);
+		version.addStyleName("versionNr");
+		add(version);
 	}
 
 	@Override
