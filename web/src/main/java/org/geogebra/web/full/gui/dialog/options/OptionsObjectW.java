@@ -135,7 +135,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			showLabelCB = new ComponentCheckbox(loc, true, localize("ShowLabel") + ":",
 					this::onShowLabelCBClick);
 			mainWidget.add(showLabelCB);
-			mainWidget.setStyleName("checkBoxPanel");
+			mainWidget.setStyleName("checkboxHolder");
 			setWidget(mainWidget);
 
 			model = new ShowLabelModel(app, this);

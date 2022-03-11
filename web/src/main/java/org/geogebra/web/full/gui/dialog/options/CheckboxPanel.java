@@ -32,7 +32,7 @@ public class CheckboxPanel extends OptionPanel implements
 	 */
 	public CheckboxPanel(final String title, Localization loc) {
 		FlowPanel holderPanel = new FlowPanel();
-		holderPanel.addStyleName("checkBoxPanel");
+		holderPanel.addStyleName("checkboxHolder");
 		checkbox = new ComponentCheckbox(loc, false, title, this::onClick);
 		holderPanel.add(checkbox);
 		setWidget(holderPanel);

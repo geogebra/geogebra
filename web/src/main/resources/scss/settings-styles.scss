@@ -101,7 +101,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-right: 16px;
 		}
 
-		.checkBoxPanel {
+		.checkboxHolder {
 			display: block;
 		}
 
@@ -597,8 +597,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		line-height: 18px;
 	}
 
-	.propertiesPanel .checkboxPanel,
-	.propertiesTab .checkBoxPanel {
+	.propertiesPanel .checkboxPanel {
 		margin-right: 30px;
 
 		&.disabled {
