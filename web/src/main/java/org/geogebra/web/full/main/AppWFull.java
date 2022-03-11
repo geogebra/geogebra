@@ -1580,10 +1580,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getEuclidianView1().doRepaint2();
 		frame.hideSplash();
 
+		if (needsSpreadsheetTableModel()) {
+			getSpreadsheetTableModel(); // spreadsheet trace also useful without UI
+		}
+
 		if (isUsingFullGui()) {
-			if (needsSpreadsheetTableModel()) {
-				getSpreadsheetTableModel();
-			}
 			refreshSplitLayoutPanel();
 
 			// probably this method can be changed by more,
