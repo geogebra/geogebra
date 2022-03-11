@@ -1437,11 +1437,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	boolean hasDrawable3D();
 
 	/**
-	 * @return is geo created with shape tool
-	 */
-	boolean isShape();
-
-	/**
 	 * @return is geo created with mask tool
 	 */
 	boolean isMask();

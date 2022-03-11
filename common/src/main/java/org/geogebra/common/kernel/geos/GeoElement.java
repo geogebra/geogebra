@@ -1311,7 +1311,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// if the original geo was not fillable or the current geo is an inequality
 		// then set the alpha from the construction defaults (otherwise when redefining
 		// x = y or x^2 = y to an inequality the result would have an alpha of 0)
-		if (!geo.isFillable() || isInequality()) {
+		if ((!geo.isFillable() && !geo.isMask()) || isInequality()) {
 			ConstructionDefaults defaults = cons.getConstructionDefaults();
 			setAlphaValue(defaults.getDefaultGeo(defaults.getDefaultType(this)).getAlphaValue());
 		}
@@ -4779,19 +4779,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * Appends isShape tag to given builder
-	 * 
-	 * @param sb
-	 *            string builder
-	 */
-	protected final void getXMLisShapeTag(final StringBuilder sb) {
-		// was object created with shape tool
-		if (isShape()) {
-			sb.append("\t<isShape val=\"true\"/>\n");
-		}
-	}
-
-	/**
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 * 
 	 * @param sb
@@ -4805,7 +4792,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		getXMLvisualTags(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
-		getXMLisShapeTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		if (kernel.getSaveScriptsToXML()) {
@@ -5179,21 +5165,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public boolean isShape() {
-		return false;
-	}
-
-	@Override
 	public boolean isMask() {
 		return false;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	public void setIsShape(boolean isShape) {
-		// overridden for conics & polygons
 	}
 
 	/**

@@ -94,7 +94,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/** says if the polygon had created its segments itself (used for 3D) */
 	private boolean createSegments = true;
 
-	private boolean isShape = false;
 	/** true for polygons created by area intersection methods */
 	protected boolean isIntersection;
 
@@ -2605,7 +2604,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setVisualStyle(final GeoElement geo,
 			boolean setAuxiliaryProperty) {
 		super.setVisualStyle(geo, setAuxiliaryProperty);
-
+		isMask = geo.isMask();
 		if (segments == null) {
 			return;
 		}
@@ -2617,22 +2616,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	@Override
 	public boolean isMask() {
 		return isMask;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	@Override
@@ -2644,7 +2629,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	private void setMaskPreferences() {
-		this.isShape = true;
 		setLabelVisible(false);
 		setAlphaValue(1);
 		setLineThickness(1);

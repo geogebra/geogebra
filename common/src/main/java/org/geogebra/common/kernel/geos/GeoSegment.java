@@ -46,7 +46,6 @@ final public class GeoSegment extends GeoLine
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
 															// rotation, ...
-	private boolean isShape = false;
 	private StringBuilder sbToString = new StringBuilder(30);
 
 	private boolean forceSimpleTransform;
@@ -214,7 +213,6 @@ final public class GeoSegment extends GeoLine
 		if (geo.isGeoSegment()) {
 			GeoSegmentND seg = (GeoSegmentND) geo;
 			allowOutlyingIntersections = seg.allowOutlyingIntersections();
-			isShape = isShape || geo.isShape();
 		}
 	}
 
@@ -864,20 +862,6 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void setChangeableParentIfNull(ChangeableParent ccp) {
 		// used for GeoPoint3D
-	}
-
-	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	@Override
