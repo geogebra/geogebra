@@ -126,8 +126,8 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addVersionNumber(AppW appW) {
-		String versionStr = appW.getLocalization().getMenu("Version") + " " +
-				appW.getVersionString();
+		String versionStr = appW.getLocalization().getPlainDefault("VersionA",
+				"Version %0", appW.getVersionString());
 		Label version = new Label(versionStr);
 		version.addStyleName("versionNr");
 		add(version);
