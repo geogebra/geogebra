@@ -24,8 +24,6 @@ import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -495,13 +493,9 @@ public class PropertiesViewW extends PropertiesView
 			((AppWFull) app).getAppletFrame().add(wrappedPanel);
 			setFloatingAttached(true);
 		}
-		final Style style = ((AppW) app).getFrameElement().getStyle();
-		style.setOverflow(Overflow.HIDDEN);
 		((AppWFull) app).centerAndResizeViews();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
-		CSSEvents.runOnAnimation(() -> style.setOverflow(Overflow.VISIBLE),
-				wrappedPanel.getElement(), "animateIn");
 	}
 
 	/**
@@ -514,7 +508,6 @@ public class PropertiesViewW extends PropertiesView
 		}
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
-		((AppW) app).getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSEvents.runOnAnimation(this::onFloatingSettingsClose,
 				wrappedPanel.getElement(), "animateOut");
 	}
@@ -526,8 +519,6 @@ public class PropertiesViewW extends PropertiesView
 		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 		((AppWFull) app).getAppletFrame().remove(wrappedPanel);
 		setFloatingAttached(false);
-		((AppW) app).getFrameElement().getStyle()
-				.setOverflow(Overflow.VISIBLE);
 	}
 
 	/**
