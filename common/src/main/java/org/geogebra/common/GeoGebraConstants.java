@@ -123,15 +123,6 @@ public interface GeoGebraConstants {
 
 	}
 
-	/**
-	 * Get the version string for versions 6.0.*
-	 *
-	 * @return version string
-	 */
-	static String getVersionString6() {
-		return VERSION_STRING.replace("5.0.", "6.0.");
-	}
-
 	enum MenuType {
 		DEFAULT, EXAM
 	}
@@ -281,4 +272,13 @@ public interface GeoGebraConstants {
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
 	public static final String CDN_APPS = "https://cdn.geogebra.org/apps/";
+
+	/**
+	 * Get the version string for versions 6.0.*
+	 *
+	 * @return version string
+	 */
+	static String getVersionString6() {
+		return VERSION_STRING.replace("5.0.", "6.0.");
+	}
 }
