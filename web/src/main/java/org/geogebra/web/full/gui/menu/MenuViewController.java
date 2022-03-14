@@ -141,9 +141,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
+		String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
 		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
 				app.getPlatform(),
-				version,
+				version, app.getLocalization().getPlainDefault("VersionA",
+				"Version %0", versionStr),
 				hasLoginButton(app) ? app.getLoginOperation() : null,
 				shouldCreateExamEntry(app),
 				app.enableFileFeatures(),
@@ -161,9 +163,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
 		} else {
 			boolean addAppSwitcher = app.isSuite();
+			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
 			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
-					version,
+					version, app.getLocalization().getPlainDefault("VersionA",
+					"Version %0", versionStr),
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),

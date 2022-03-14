@@ -111,7 +111,7 @@ public class DefaultDrawerMenuFactoryTest {
 				Action.SAVE_FILE, Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.GRAPHING, null, false, false);
+				GeoGebraConstants.Version.GRAPHING, null, null, false, false);
 		DrawerMenu menu = factory.createDrawerMenu();
 
 		for (MenuItemGroup menuItemGroup : menu.getMenuItemGroups()) {
@@ -125,7 +125,7 @@ public class DefaultDrawerMenuFactoryTest {
 	public void testSwitchCalculator() {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.SUITE, null, false, false, true);
+				GeoGebraConstants.Version.SUITE, null, null, false, false, true);
 		DrawerMenu menu = factory.createDrawerMenu();
 		MenuItemGroup group = menu.getMenuItemGroups().get(1);
 

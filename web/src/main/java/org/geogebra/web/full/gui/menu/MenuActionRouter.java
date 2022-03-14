@@ -10,6 +10,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
 
+import com.google.gwt.user.client.ui.Label;
+
 class MenuActionRouter {
 
 	private MenuActionHandler menuActionHandler;
@@ -45,6 +47,11 @@ class MenuActionRouter {
 		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
 		headerView.getBackButton().addFastClickHandler(source -> menuViewController.hideSubmenu());
 		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
+		if (submenuItem.getBottomText() != null) {
+			Label version = new Label(submenuItem.getBottomText());
+			version.addStyleName("versionNumber");
+			submenu.add(version);
+		}
 		submenu.setHeaderView(headerView);
 		menuViewController.showSubmenu(submenu);
 	}
