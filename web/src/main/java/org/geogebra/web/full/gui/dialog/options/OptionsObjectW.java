@@ -70,6 +70,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
@@ -81,7 +82,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -99,11 +99,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	// Basic
 	LabelPanel labelPanel;
 	AppW app;
-
-	// Color picker
-
-	// Style
-	// FillingPanel fillingPanel;
 
 	// Advanced
 	final boolean isDefaults;
@@ -124,22 +119,23 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 		@Override
 		public void updateCheckbox(boolean value, boolean isEnabled) {
-			getCheckbox().setValue(value);
+			getCheckbox().setSelected(value);
 			getCheckbox().setEnabled(isEnabled);
 		}
 	}
 
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
-		final CheckBox showLabelCB;
+		final ComponentCheckbox showLabelCB;
 		private final FlowPanel mainWidget;
 		final ListBox labelMode;
 		ShowLabelModel model;
 
 		public LabelPanel() {
 			mainWidget = new FlowPanel();
-			showLabelCB = new CheckBox(localize("ShowLabel") + ":");
+			showLabelCB = new ComponentCheckbox(loc, true, localize("ShowLabel") + ":",
+					this::onShowLabelCBClick);
 			mainWidget.add(showLabelCB);
-			mainWidget.setStyleName("checkBoxPanel");
+			mainWidget.setStyleName("checkboxHolder");
 			setWidget(mainWidget);
 
 			model = new ShowLabelModel(app, this);
@@ -150,33 +146,30 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			labelMode = new ListBox();
 			labelMode.setMultipleSelect(false);
 
-			showLabelCB.addClickHandler(event -> model.applyShowChanges(showLabelCB.getValue()));
-
 			labelMode.addChangeHandler(event -> model.applyModeChanges(
 					model.fromDropdown(labelMode.getSelectedIndex()),
 					true));
 			mainWidget.add(labelMode);
 		}
 
+		private void onShowLabelCBClick() {
+			model.applyShowChanges(showLabelCB.isSelected());
+		}
+
 		private void updateShowLabel() {
-			if (!model.isNameValueShown()) {
-				showLabelCB.setText(localize("ShowLabel"));
-			} else {
-				showLabelCB.setText(localize("ShowLabel") + ":");
-			}
+			showLabelCB.setLabels();
 		}
 
 		@Override
 		public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
-			// change "Show Label:" to "Show Label" if there's no menu
 			updateShowLabel();
 
 			GeoElement geo0 = model.getGeoAt(0);
 			// set label visible checkbox
 			if (isEqualVal) {
-				showLabelCB.setValue(geo0.isLabelVisible());
+				showLabelCB.setSelected(geo0.isLabelVisible());
 			} else {
-				showLabelCB.setValue(false);
+				showLabelCB.setSelected(false);
 			}
 
 			// set label visible checkbox
@@ -622,36 +615,27 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		ViewLocationModel model;
 
 		private Label title;
-		CheckBox cbGraphicsView;
-		CheckBox cbGraphicsView2;
-		CheckBox cbGraphicsView3D;
-		CheckBox cbGraphicsViewForPlane;
-		CheckBox cbAlgebraView;
+		ComponentCheckbox cbGraphicsView;
+		ComponentCheckbox cbGraphicsView2;
+		ComponentCheckbox cbGraphicsView3D;
+		ComponentCheckbox cbGraphicsViewForPlane;
+		ComponentCheckbox cbAlgebraView;
 
 		public ViewLocationPanel() {
 			model = new ViewLocationModel(app, this);
 			setModel(model);
 
 			title = new Label();
-			cbGraphicsView = new CheckBox();
-			cbGraphicsView2 = new CheckBox();
-			cbGraphicsView3D = new CheckBox();
-			cbGraphicsViewForPlane = new CheckBox();
-			cbGraphicsView.addClickHandler(
-					event -> model.applyToEuclidianView1(cbGraphicsView.getValue()));
-
-			cbGraphicsView2.addClickHandler(
-					event -> model.applyToEuclidianView2(cbGraphicsView2.getValue()));
-
-			cbGraphicsView3D.addClickHandler(
-					event -> model.applyToEuclidianView3D(cbGraphicsView3D.getValue()));
-
-			cbGraphicsViewForPlane.addClickHandler(event -> model.applyToEuclidianViewForPlane(
-					cbGraphicsViewForPlane.getValue()));
-
-			cbAlgebraView = new CheckBox();
-			cbAlgebraView.addClickHandler(
-					event -> model.applyToAlgebraView(cbAlgebraView.getValue()));
+			cbGraphicsView = new ComponentCheckbox(loc, false, "DrawingPad",
+					() -> model.applyToEuclidianView1(cbGraphicsView.isSelected()));
+			cbGraphicsView2 = new ComponentCheckbox(loc, false, "DrawingPad2",
+					() -> model.applyToEuclidianView2(cbGraphicsView2.isSelected()));
+			cbGraphicsView3D = new ComponentCheckbox(loc, false, "GraphicsView3D",
+					() -> model.applyToEuclidianView3D(cbGraphicsView3D.isSelected()));
+			cbGraphicsViewForPlane = new ComponentCheckbox(loc, false, "ExtraViews",
+					() -> model.applyToEuclidianViewForPlane(cbGraphicsViewForPlane.isSelected()));
+			cbAlgebraView = new ComponentCheckbox(loc, false, "Algebra",
+					() -> model.applyToAlgebraView(cbAlgebraView.isSelected()));
 
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();
@@ -672,19 +656,19 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public void selectView(int index, boolean isSelected) {
 			switch (index) {
 			case 0:
-				cbGraphicsView.setValue(isSelected);
+				cbGraphicsView.setSelected(isSelected);
 				break;
 			case 1:
-				cbGraphicsView2.setValue(isSelected);
+				cbGraphicsView2.setSelected(isSelected);
 				break;
 			case 2:
-				cbGraphicsView3D.setValue(isSelected);
+				cbGraphicsView3D.setSelected(isSelected);
 				break;
 			case 3:
-				cbGraphicsViewForPlane.setValue(isSelected);
+				cbGraphicsViewForPlane.setSelected(isSelected);
 				break;
 			case 4:
-				cbAlgebraView.setValue(isSelected);
+				cbAlgebraView.setSelected(isSelected);
 				break;
 			default:
 				// do nothing
@@ -695,11 +679,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		@Override
 		public void setLabels() {
 			title.setText(loc.getMenu("Location"));
-			cbGraphicsView.setText(localize("DrawingPad"));
-			cbGraphicsView2.setText(localize("DrawingPad2"));
-			cbGraphicsView3D.setText(localize("GraphicsView3D"));
-			cbGraphicsViewForPlane.setText(localize("ExtraViews"));
-			cbAlgebraView.setText(localize("Algebra"));
+			cbGraphicsView.setLabels();
+			cbGraphicsView2.setLabels();
+			cbGraphicsView3D.setLabels();
+			cbGraphicsViewForPlane.setLabels();
+			cbAlgebraView.setLabels();
 		}
 
 		@Override
