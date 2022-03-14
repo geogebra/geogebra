@@ -434,13 +434,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void showLogInDialog() {
-		app.setWaitCursor();
-
-		SignInDialogD dialog = new SignInDialogD((AppD) app);
-		((AppD) app).isShowingLogInDialog();
-		dialog.setVisible(true);
-
-		app.setDefaultCursor();
+		// No Login Dialog
 	}
 
 	@Override

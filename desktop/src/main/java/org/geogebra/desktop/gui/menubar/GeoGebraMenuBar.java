@@ -12,9 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -34,14 +32,8 @@ import javax.swing.SwingUtilities;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
-import org.geogebra.common.move.ggtapi.events.LogOutEvent;
-import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
-import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
@@ -52,7 +44,6 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
@@ -64,9 +55,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 	private final AppD app;
 	private LayoutD layout;
-	private AbstractButton signInButton;
-
-	private AbstractAction signInAction, signInInProgressAction, signOutAction;
 
 	/**
 	 * Creates new menubar
@@ -147,114 +135,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		helpMenu = new HelpMenuD(app);
 		add(helpMenu);
 
-		// applets might be running in Java 6 (no JavaFX)
-		// and not wanted for applets anyway
-		// Add the Sign in button (force it to the far right)
-
-		boolean javaFx22Available = false;
-		try {
-			this.getClass().getClassLoader()
-					.loadClass("javafx.embed.swing.JFXPanel");
-			javaFx22Available = true;
-		} catch (Throwable e) {
-			Log.error("JavaFX 2.2 not available");
-		}
-
-		// JavaFX 2.2 available by default only on Java 7u6 or higher
-		// http://www.oracle.com/us/corporate/press/1735645
-		if (javaFx22Available) {
-
-			// try needed for eg OSX 10.6 with fake jfxrt.jar
-			try {
-				add(Box.createHorizontalGlue());
-				addSignIn();
-			} catch (Exception e) {
-				Log.error("problem starting JavaFX");
-			}
-		}
-
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-	}
-
-	/**
-	 * Creates and adds the sign in button
-	 */
-	@SuppressWarnings("serial")
-	private void addSignIn() {
-		Localization loc = app.getLocalization();
-		signInAction = new AbstractAction(loc.getMenu("SignIn")) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().login();
-			}
-		};
-		signInInProgressAction = new AbstractAction(
-				loc.getMenu("SignInProgress")) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// do nothing
-			}
-		};
-		signOutAction = new AbstractAction(loc.getMenu("SignOut")) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().logout();
-			}
-		};
-
-		if (app.isMacOS()) {
-			signInButton = new JMenuItem(signInAction);
-			JMenu m = new BaseMenu(app, "GeoGebraMaterials") {
-
-				@Override
-				public void update() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				protected void initActions() {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				protected void initItems() {
-					// TODO Auto-generated method stub
-					add(signInButton);
-
-				}
-				// );
-			};
-			// m.add(signInButton);
-			add(m);
-		} else {
-			signInButton = new JButton(signInAction);
-			add(signInButton);
-		}
-		signInButton.setContentAreaFilled(false);
-		signInButton.setFocusPainted(false);
-		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));
-
-		// Add the menu bar as a listener for login/logout operations
-		LogInOperation signIn = app.getLoginOperation();
-		signIn.getView().add(this);
-		if (signIn.isLoggedIn()) {
-			onLogin(true, signIn.getModel().getLoggedInUser(), true);
-		} else if (!((LoginOperationD) signIn).isTubeAvailable()) {
-			signInButton.setVisible(false);
-		}
-
 	}
 
 	/**
@@ -262,76 +144,20 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 */
 	@Override
 	public void renderEvent(final BaseEvent event) {
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				doRenderEvent(event);
-			}
-		});
+		SwingUtilities.invokeLater(() -> doRenderEvent(event));
 
 	}
 
 	protected void doRenderEvent(BaseEvent event) {
-		if (event instanceof LoginAttemptEvent) {
-			signInButton.setAction(signInInProgressAction);
-			signInButton.setVisible(true);
-		} else if (event instanceof LogOutEvent) {
-			signInButton.setAction(signInAction);
-			signInButton.setVisible(true);
-		} else if (event instanceof LoginEvent) {
-			LoginEvent loginEvent = (LoginEvent) event;
-			onLogin(loginEvent.isSuccessful(), loginEvent.getUser(),
-					loginEvent.isAutomatic());
-			signInButton.setVisible(true);
-		} else if (event instanceof TubeAvailabilityCheckEvent) {
+		if (event instanceof TubeAvailabilityCheckEvent) {
 			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
 			onTubeAvailable(checkEvent.isAvailable());
 		}
-
 	}
 
 	private void onTubeAvailable(boolean available) {
 		if (available) {
-			signInButton.setVisible(true);
 			app.showPopUps();
-		}
-	}
-
-	private void onLogin(boolean successful, GeoGebraTubeUser user,
-			boolean automatic) {
-
-		Localization loc = app.getLocalization();
-
-		if (successful) {
-
-			// Show the username in the menu
-			signInButton.setAction(signOutAction);
-			String username = user.getUserName();
-			if (app.isMacOS()) {
-				username = app.getNormalizer().transform(username);
-			}
-			signInButton.setText(loc.getPlain("SignedInAsA", username));
-
-			// Show a login success message
-			if (!automatic) {
-				Object[] options = {
-						loc.getMenu("OK") };
-				JOptionPane.showOptionDialog(app.getMainComponent(),
-						loc.getMenu("ThanksForSigningIn"),
-						loc.getMenu("SignInSuccessful"),
-						JOptionPane.DEFAULT_OPTION,
-						JOptionPane.INFORMATION_MESSAGE, null, options,
-						options[0]);
-
-				// open perspective popup after logging in
-				if (app.isShowDockBar()) {
-					app.getDockBar().showPopup();
-				}
-			}
-		} else {
-			signInButton.setAction(signInAction);
-			signInButton.setText(loc.getMenu("SignInError"));
 		}
 	}
 
@@ -404,11 +230,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				// update title (always visible)
 				m.setFont(app.getPlainFont());
 			}
-		}
-
-		// Update the font of the sign in button
-		if (signInButton != null && signInButton instanceof JButton) {
-			signInButton.setFont(app.getPlainFont());
 		}
 	}
 
