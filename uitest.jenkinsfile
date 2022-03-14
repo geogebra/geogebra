@@ -18,7 +18,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                   sh 'docker run --ipc=host -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work -v $PWD/common:/common cypress/base:16.13.0 sh runtest.sh'
+                   sh 'docker run --ipc=host --shm-size=1gb -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work -v $PWD/common:/common cypress/base:16.13.0 sh runtest.sh'
             }
             post {
                 always {
