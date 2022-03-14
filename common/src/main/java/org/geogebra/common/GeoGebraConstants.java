@@ -123,6 +123,15 @@ public interface GeoGebraConstants {
 
 	}
 
+	/**
+	 * Get the version string for versions 6.0.*
+	 *
+	 * @return version string
+	 */
+	static String getVersionString6() {
+		return VERSION_STRING.replace("5.0.", "6.0.");
+	}
+
 	enum MenuType {
 		DEFAULT, EXAM
 	}
