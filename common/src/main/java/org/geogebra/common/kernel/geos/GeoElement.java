@@ -1291,7 +1291,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			selColor = geo.selColor;
 		}
 
-		if (geo.isFillable()) {
+		if (geo.isFillable() || geo.isMask()) {
 			if (geo.isAutoColor()) {
 				fillColor = objColor;
 				setAlphaValue(geo.getAlphaValue());
