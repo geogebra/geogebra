@@ -218,7 +218,7 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public boolean showSliderCreationDialog(int x, int y)		 {
+	public boolean showSliderCreationDialog(int x, int y) {
 				Kernel kernel = app.getKernel();
 				boolean isAngle = !confirm("OK for number, Cancel for angle");
 				GeoNumeric slider = GeoNumeric

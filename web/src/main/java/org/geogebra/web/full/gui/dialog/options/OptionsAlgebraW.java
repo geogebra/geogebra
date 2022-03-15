@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -18,9 +19,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -45,10 +43,10 @@ public class OptionsAlgebraW
 	 *
 	 */
 	protected class AlgebraTab extends FlowPanel
-			implements ClickHandler, ChangeHandler {
+			implements ChangeHandler {
 		private FlowPanel optionsPanel;
 		private Label lblShow;
-		private CheckBox showAuxiliaryObjects;
+		private ComponentCheckbox showAuxiliaryObjects;
 		private ListBox sortMode;
 		private AlgebraStyleListBox description;
 		private FormLabel lblCoordStyle;
@@ -81,8 +79,9 @@ public class OptionsAlgebraW
 			optionsPanel = new FlowPanel();
 			lblShow = new Label();
 			lblShow.addStyleName("panelTitle");
-			showAuxiliaryObjects = new CheckBox();
-			showAuxiliaryObjects.addClickHandler(this);
+			showAuxiliaryObjects = new ComponentCheckbox(app.getLocalization(),
+					false, "AuxiliaryObjects", () ->
+					getApp().setShowAuxiliaryObjects(showAuxiliaryObjects.isSelected()));
 
 			sortMode = new ListBox();
 			lblSortMode = new FormLabel().setFor(sortMode);
@@ -141,13 +140,6 @@ public class OptionsAlgebraW
 		 */
 		public ListBox getSortMode() {
 			return sortMode;
-		}
-
-		/**
-		 * @return show aux obj check box
-		 */
-		public CheckBox getShowAuxiliaryObjects() {
-			return showAuxiliaryObjects;
 		}
 
 		/**
@@ -233,7 +225,7 @@ public class OptionsAlgebraW
 		 */
 		public void updateGUI() {
 			rebuildAngleUnit();
-			showAuxiliaryObjects.setValue(getApp().showAuxiliaryObjects);
+			showAuxiliaryObjects.setSelected(getApp().showAuxiliaryObjects);
 			updateSortMode();
 			description.update();
 			updateCoordStyle();
@@ -260,9 +252,7 @@ public class OptionsAlgebraW
 		 */
 		public void setLabels() {
 			lblShow.setText(getApp().getLocalization().getMenu("Show"));
-			showAuxiliaryObjects
-					.setText(getApp().getLocalization()
-							.getMenu("AuxiliaryObjects"));
+			showAuxiliaryObjects.setLabels();
 			lblSortMode.setText(getApp().getLocalization().getMenu("SortBy"));
 			lblDescriptionMode.setText(
 					getApp().getLocalization().getMenu("AlgebraDescriptions"));
@@ -300,16 +290,6 @@ public class OptionsAlgebraW
 				getApp().setUnsaved();
 			}
 		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Object source = event.getSource();
-			if (source == getShowAuxiliaryObjects()) {
-				getApp().setShowAuxiliaryObjects(
-						getShowAuxiliaryObjects().getValue());
-			}
-		}
-
 	}
 
 	/**

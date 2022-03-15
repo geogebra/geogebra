@@ -16,7 +16,7 @@ public class RemoveDialog extends ComponentDialog {
 	 * @param app
 	 *            application
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param card
 	 *            card
 	 */

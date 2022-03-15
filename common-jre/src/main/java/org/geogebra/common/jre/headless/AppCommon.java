@@ -110,17 +110,17 @@ public class AppCommon extends App {
 
 	@Override
 	public DefaultSettings getDefaultSettings() {
-    	if (defaultSettings == null) {
-    		defaultSettings = new DefaultSettingsCommon();
+		if (defaultSettings == null) {
+			defaultSettings = new DefaultSettingsCommon();
 		}
 		return defaultSettings;
 	}
 
 	@Override
-    protected void initLocalization() {
-        localization.setApp(this);
-        super.initLocalization();
-    }
+	protected void initLocalization() {
+		localization.setApp(this);
+		super.initLocalization();
+	}
 
 	private static void initFactories() {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
@@ -128,24 +128,24 @@ public class AppCommon extends App {
 		UtilFactoryJre.setupRegexFactory();
 	}
 
-    @Override
-    protected void showErrorDialog(String msg) {
+	@Override
+	protected void showErrorDialog(String msg) {
 		// not needed with no UI
-    }
+	}
 
-    @Override
-    protected void initGuiManager() {
+	@Override
+	protected void initGuiManager() {
 		// not needed with no UI
-    }
+	}
 
-    @Override
-    protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
+	@Override
+	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
 		getSettings().getEuclidian(1).setPreferredSize(
 				AwtFactory.getPrototype().newDimension(800, 600));
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
 				getSettings().getEuclidian(1),
 				createGraphics());
-    }
+	}
 
 	protected GGraphics2D createGraphics() {
 		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)

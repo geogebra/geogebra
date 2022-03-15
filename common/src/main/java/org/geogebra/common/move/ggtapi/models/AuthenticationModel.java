@@ -213,7 +213,7 @@ public abstract class AuthenticationModel {
 	}
 
 	/**
-	 *	initialize timer
+	 * initialize timer
 	 * @param timer new session timer
 	 */
 	public void setSessionExpireTimer(GTimer timer) {

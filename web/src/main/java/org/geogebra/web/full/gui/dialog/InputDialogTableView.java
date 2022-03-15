@@ -1,5 +1,9 @@
 package org.geogebra.web.full.gui.dialog;
 
+import static org.geogebra.common.main.settings.TableSettings.DEFAULT_MAX;
+import static org.geogebra.common.main.settings.TableSettings.DEFAULT_MIN;
+import static org.geogebra.common.main.settings.TableSettings.DEFAULT_STEP;
+
 import org.geogebra.common.gui.dialog.validator.TableValuesDialogValidator;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -37,7 +41,7 @@ public class InputDialogTableView extends ComponentDialog
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 */
 	public InputDialogTableView(final AppW app, DialogData data) {
 		super(app, data, false, true);
@@ -100,12 +104,20 @@ public class InputDialogTableView extends ComponentDialog
 	public void show(GeoElement functionGeo) {
 		this.geo = functionGeo;
 		TableValuesView tv = (TableValuesView) app.getGuiManager().getTableValuesView();
-		startValue.setInputText(tv.getValuesMinStr());
-		endValue.setInputText(tv.getValuesMaxStr());
-		step.setInputText(tv.getValuesStepStr());
+		if (tv.getValuesMin() == 0 && tv.getValuesMax() == 0 && tv.getValuesStep() == 0) {
+			setFieldValues(DEFAULT_MIN + "", DEFAULT_MAX + "", DEFAULT_STEP + "");
+		} else {
+			setFieldValues(tv.getValuesMinStr(), tv.getValuesMaxStr(), tv.getValuesStepStr());
+		}
 		errorLabel.setText("");
 		((AppW) app).registerPopup(this);
 		show();
+	}
+
+	private void setFieldValues(String minStr, String maxStr, String stepStr) {
+		startValue.setInputText(minStr);
+		endValue.setInputText(maxStr);
+		step.setInputText(stepStr);
 	}
 
 	private void openTableView() {
@@ -120,6 +132,7 @@ public class InputDialogTableView extends ComponentDialog
 		if (inputFieldValues != null) {
 			try {
 				initTableValuesView(inputFieldValues[0], inputFieldValues[1], inputFieldValues[2]);
+				app.storeUndoInfo();
 				hide();
 			} catch (InvalidValuesException ex) {
 				errorLabel

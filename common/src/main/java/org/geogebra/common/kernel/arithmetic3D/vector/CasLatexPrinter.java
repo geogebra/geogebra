@@ -21,6 +21,6 @@ class CasLatexPrinter implements Printer {
                 + expressionPrinter.print(vector.getY(), tpl)
                 + "\\\\ "
                 + expressionPrinter.print(vector.getZ(), tpl)
-                + "\\\\ \\end{tabular} \\right)	";
+                + "\\\\ \\end{tabular} \\right) ";
     }
 }

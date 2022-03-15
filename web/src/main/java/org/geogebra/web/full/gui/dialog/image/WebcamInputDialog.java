@@ -21,7 +21,7 @@ public class WebcamInputDialog extends ComponentDialog
 	 * @param app
 	 *            application
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog transkeys
 	 */
 	public WebcamInputDialog(AppW app, DialogData data) {
 		super(app, data, false, true);

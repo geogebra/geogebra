@@ -312,11 +312,11 @@ class StatementFeatures {
 						if (!firstEdge) {
 							node_edges.append(",");
 						} else {
-							firstEdge = false;						
+							firstEdge = false;
 						}
 						node_edges.append(nodeLabel(child));
 					}
-				}				
+				}
 			}
 			node_edges.append("])");
 			if (out > 0 && nodeLabel != null) {

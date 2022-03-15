@@ -92,7 +92,7 @@ public interface ClientView extends View {
 	 * Notifies client that an text element is locked for moving by other users.
 	 *
 	 * @param geo
-	 * 			The geoElement that is to be locked for movement
+	 *           The geoElement that is to be locked for movement
 	 */
 	void lockTextElement(GeoElement geo);
 
@@ -100,7 +100,7 @@ public interface ClientView extends View {
 	 * Notifies client that an text element is unlocked for moving by other users.
 	 *
 	 * @param geo
-	 * 			The geoElement that is to be unlocked for movement
+	 *           The geoElement that is to be unlocked for movement
 	 */
 	void unlockTextElement(GeoElement geo);
 }

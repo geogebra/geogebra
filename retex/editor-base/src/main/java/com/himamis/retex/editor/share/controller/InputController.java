@@ -921,7 +921,7 @@ public class InputController {
 	}
 
 	private static void delCharacters(EditorState editorState, int length0) {
-		int	currentOffset = editorState.getCurrentOffsetOrSelection();
+		int currentOffset = editorState.getCurrentOffsetOrSelection();
 		MathSequence currentField = editorState.getCurrentField();
 		int length = length0;
 		while (length > 0 && currentOffset > 0 && currentField

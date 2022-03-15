@@ -39,7 +39,6 @@ import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -64,8 +63,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -298,23 +295,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.addValueChangeHandler(this);
 		textField.addSelectionHandler(this);
 
-		ClickStartHandler.init(textField, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				storeTemporaryInput();
-				// set this text field to be edited by the keyboard
-				app.updateKeyBoardField(AutoCompleteTextFieldW.this);
-
-				// make sure the keyboard is not closed
-				CancelEventTimer.keyboardSetVisible();
-			}
-		});
-
-		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				requestFocus();
-			}
+		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
+			requestFocus();
+			event.stopPropagation();
 		});
 
 		add(textField);
@@ -322,13 +305,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (showSymbolButton) {
 			setupShowSymbolButton();
 		}
-	}
-
-	private void storeTemporaryInput() {
-		if (geoUsedForInputBox == null) {
-			return;
-		}
-		geoUsedForInputBox.setTempUserInput(getText(), null);
 	}
 
 	@Override
@@ -1376,6 +1352,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public boolean hasFocus() {
 		return isFocused;
+	}
+
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
 	}
 
 	/**

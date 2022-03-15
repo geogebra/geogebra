@@ -32,7 +32,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
@@ -59,6 +58,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
@@ -214,6 +215,7 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> ytick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ztick = new HashMap<>();
 	private HashMap<EuclidianSettings, String> ymax = new HashMap<>();
+	private String xValuesLabel;
 	private ArrayList<String> entries;
 	private String subAppCode;
 
@@ -257,6 +259,7 @@ public class MyXMLHandler implements DocHandler {
 		xtick.clear();
 		ytick.clear();
 		ztick.clear();
+		xValuesLabel = null;
 	}
 
 	private void initKernelVars() {
@@ -685,9 +688,15 @@ public class MyXMLHandler implements DocHandler {
 
 	private void setTableParameters(LinkedHashMap<String, String> attrs) {
 		TableSettings ts = app.getSettings().getTable();
-		ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
-		ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
-		ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+		String valuesString = attrs.get("xValues");
+		if (valuesString != null) {
+			xValuesLabel = valuesString;
+		} else {
+			ts.setValueList(null);
+			ts.setValuesMin(getNumber(attrs.get("min")).getDouble());
+			ts.setValuesMax(getNumber(attrs.get("max")).getDouble());
+			ts.setValuesStep(getNumber(attrs.get("step")).getDouble());
+		}
 	}
 
 	protected GeoNumberValue getNumber(String string) {
@@ -953,7 +962,7 @@ public class MyXMLHandler implements DocHandler {
 			GeoNumeric[] parameters = new GeoNumeric[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++) {
 				GeoNumberValue val = getNumber(parmStringArray[i]);
-				parameters[i] =	val instanceof GeoNumeric ? (GeoNumeric) val
+				parameters[i] = val instanceof GeoNumeric ? (GeoNumeric) val
 								: new GeoNumeric(cons, Double.NaN);
 			}
 
@@ -1929,11 +1938,11 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleDataAnalysis(LinkedHashMap<String, String> attrs) {
 		mode = MODE_DATA_ANALYSIS;
 		try {
+			app.getSettings().getDataAnalysis().reset();
 			app.getSettings().getDataAnalysis()
 					.setMode(Integer.parseInt(attrs.get("mode")));
 			app.getSettings().getDataAnalysis()
 					.setRegression(Regression.valueOf(attrs.get("regression")));
-			
 			app.getSettings().getDataAnalysis().setPlotType(0,
 					PlotType.valueOf(attrs.get("plot1")));
 			app.getSettings().getDataAnalysis().setPlotType(1,
@@ -2908,6 +2917,10 @@ public class MyXMLHandler implements DocHandler {
 			if ("element".equals(eName)) {
 				cons.setOutputGeo(null);
 				constMode = MODE_CONST_GEO_ELEMENT;
+				GeoCasCell twinCell = cons.lookupCasCellLabel(attrs.get("label"));
+				if (twinCell != null) {
+					twinCell.setTwinLoadedFromFile(true);
+				}
 				geoHandler.init(attrs);
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
@@ -2962,7 +2975,7 @@ public class MyXMLHandler implements DocHandler {
 				this.geoHandler.processLists();
 				cons.getLayerManager().updateList();
 				processEvSizes();
-
+				processXValuesList();
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;
 				} else {
@@ -3092,6 +3105,13 @@ public class MyXMLHandler implements DocHandler {
 				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();
+		}
+	}
+
+	private void processXValuesList() {
+		GeoElement geoElement = kernel.lookupLabel(xValuesLabel);
+		if (geoElement != null) {
+			app.getSettings().getTable().setValueList((GeoList) geoElement);
 		}
 	}
 
@@ -3380,8 +3400,9 @@ public class MyXMLHandler implements DocHandler {
 
 				GeoElementND randomResult = getAlgProcessor()
 						.evaluateToGeoElement(randomVal, false);
-
-				randomizableAlgo.setRandomValue(randomResult);
+				if (randomResult != null) {
+					randomizableAlgo.setRandomValue(randomResult);
+				}
 			}
 
 			cons.registerFunctionVariable(null);
@@ -3519,6 +3540,8 @@ public class MyXMLHandler implements DocHandler {
 						((ExpressionNode) ve).setForceInequality();
 					} else if ("surfacecartesian".equals(type)) {
 						((ExpressionNode) ve).setForceSurfaceCartesian();
+					} else if ("list".equals(type)) {
+						((ExpressionNode) ve).setForceList();
 					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {

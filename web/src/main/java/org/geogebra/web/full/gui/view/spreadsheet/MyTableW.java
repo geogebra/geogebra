@@ -29,6 +29,7 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -691,34 +692,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	/**
-	 * Returns boolean editor (checkbox) for this table. If none exists, a new
-	 * one is created.
-	 */
-	/*
-	 * public MyCellEditorBooleanW getEditorBoolean() { if (editorBoolean ==
-	 * null) editorBoolean = new MyCellEditorBooleanW(kernel); return
-	 * editorBoolean; }
-	 */
-
-	/**
-	 * Returns button editor for this table. If none exists, a new one is
-	 * created.
-	 */
-	/*
-	 * public MyCellEditorButton getEditorButton() { if (editorButton == null)
-	 * editorButton = new MyCellEditorButton(); return editorButton; }
-	 */
-
-	/**
-	 * Returns list editor (comboBox) for this table. If none exists, a new one
-	 * is created.
-	 */
-	/*
-	 * public MyCellEditorList getEditorList() { if (editorList == null)
-	 * editorList = new MyCellEditorList(); return editorList; }
-	 */
-
-	/**
 	 * Get element type of given cell
 	 * 
 	 * @param row
@@ -936,9 +909,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		selectionChanged();
 
 		if (autoScrolls) {
-			GRectangle cellRect = getCellRect(rowIndex, columnIndex, false);
+			GRectangle cellRect = getCellRect(rowIndex, columnIndex, true);
 			if (cellRect != null) {
-				scroller.scrollRectToVisible(cellRect);
+				scroller.scrollRectToVisible(columnIndex, rowIndex);
 			}
 		}
 	}
@@ -959,7 +932,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		setSelectAll(true);
 		setAutoscrolls(true);
-		scrollRectToVisible(getCellRect(0, 0, true));
+		scrollRectToVisible(0, 0);
 
 		// setRowSelectionInterval(0, getRowCount()-1);
 		// getColumnModel().getSelectionModel().setSelectionInterval(0,
@@ -973,8 +946,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		this.autoScrolls = autoScrolls;
 	}
 
-	protected void scrollRectToVisible(GRectangle contentRect) {
-		scroller.scrollRectToVisible(contentRect);
+	protected void scrollRectToVisible(int x, int y) {
+		scroller.scrollRectToVisible(x, y);
 	}
 
 	/**
@@ -1123,8 +1096,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		updateCopiableSelection();
-		// Log.debug("------------------");
-		// for (CellRange cr: selectedCellRanges)cr.debug();
 	}
 
 	/**
@@ -1281,8 +1252,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 				// scroll to upper left corner of rectangle
 				setAutoscrolls(true);
-				scrollRectToVisible(getCellRect(cr.getMinRow(),
-				        cr.getMinColumn(), true));
+				scrollRectToVisible(cr.getMinColumn(), cr.getMinRow());
 				repaint();
 			}
 		} catch (Exception e) {
@@ -1462,39 +1432,35 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int left, top;
 		if (scaleOffset) {
 			left = (int) ((wt.getAbsoluteLeft() - offx)
-					/ app.getGeoGebraElement().getScaleX()) + offx;
+					/ getScale()) + offx;
 			top = (int) ((wt.getAbsoluteTop() - offy)
-					/ app.getGeoGebraElement().getScaleY()) + offy;
+					/ getScale()) + offy;
 		} else {
 			left = (int) (wt.getAbsoluteLeft()
-					/ app.getGeoGebraElement().getScaleX());
+					/ getScale());
 			top = (int) (wt.getAbsoluteTop()
-					/ app.getGeoGebraElement().getScaleY());
+					/ getScale());
 		}
-		// Log.debug("-----------------------" + min);
 
 		if (min) {
-			// Log.debug("col x row: " + column + " x " + row + " pixels: " +
-			// left + " x " + top);
-			// getPixel2(column,row,min);
 			return new GPoint(left, top);
 		}
-		// Log.debug("col x row: " + column + " x " + row + " pixels: " + (left
-		// + wt.getOffsetWidth()) +
-		// " x " + (top+wt.getOffsetHeight()));
-		// getPixel2(column,row,min);
 		return new GPoint(left + wt.getOffsetWidth(), top
 		        + wt.getOffsetHeight());
 	}
 
+	private double getScale() {
+		// based on GPopupPanel.getScale. Assumes that x and y scale are the same
+		return Browser.isSafariByVendor() ? 1 : app.getGeoGebraElement().getScaleX();
+	}
+
 	protected GPoint getPixelRelative(int column, int row) {
-		Element wt = ssGrid.getCellFormatter().getElement(Math.min(row, getRowCount() - 1),
-				Math.min(column, getColumnCount() - 1));
-		int offx = ssGrid.getAbsoluteLeft() - (column == getColumnCount()
-				? wt.getOffsetWidth() : 0);
-		int offy = ssGrid.getAbsoluteTop() - (row == getRowCount()
-				? wt.getOffsetHeight() : 0);
-		return new GPoint(wt.getAbsoluteLeft() - offx, wt.getAbsoluteTop() - offy);
+		Element wt = ssGrid.getCellFormatter().getElement(
+				(int) MyMath.clamp(row, 0, getRowCount() - 1),
+				(int) MyMath.clamp(column, 0, getColumnCount() - 1));
+		int offx = column == getColumnCount() ? wt.getOffsetWidth() : 0;
+		int offy = row == getRowCount() ? wt.getOffsetHeight() : 0;
+		return new GPoint(wt.getOffsetLeft() + offx, wt.getOffsetTop() + offy);
 	}
 
 	protected GPoint getMinSelectionPixel() {
@@ -1555,16 +1521,55 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return new GPoint(indexX, indexY);
 	}
 
-	public GRectangle getCellRect(int row, int column, boolean spacing) {
-		return getCellRect(row, column, spacing, true);
+	/**
+	 * @param x x-offset with respect to the whole grid
+	 * @return cell x-coordinate or -1 if not found
+	 */
+	public int getIndexFromPixelRelativeX(int x) {
+		if (x < 0) {
+			return -1;
+		}
+
+		int rowFrom = 0;
+
+		int indexX = -1;
+		for (int i = 0; i < getColumnCount(); ++i) {
+			Element point = ssGrid.getCellFormatter().getElement(rowFrom, i);
+			if (x <= point.getOffsetLeft()) {
+				indexX = i;
+				break;
+			}
+		}
+		return indexX;
 	}
 
 	/**
-	 * @param spacing
-	 *            whether to include border -- TODO unused
+	 * @param y y-offset with respect to the whole grid
+	 * @return cell y-coordinates or -1 if not found
+	 */
+	public int getIndexFromPixelRelativeY(int y) {
+		if (y < 0) {
+			return -1;
+		}
+
+		int columnFrom = 0;
+
+		int indexY = -1;
+
+		for (int i = 0; i < getRowCount(); ++i) {
+			Element point = ssGrid.getCellFormatter().getElement(i, columnFrom);
+			if (y <= point.getOffsetTop()) {
+				indexY = i;
+				break;
+			}
+		}
+		return indexY;
+	}
+
+	/**
 	 * @return rectangle (with screen coordinates)
 	 */
-	public GRectangle getCellRect(int row, int column, boolean spacing,
+	public GRectangle getCellRect(int row, int column,
 			boolean offset) {
 		GPoint min = getPixel(column, row, true, offset);
 		if (min == null) {
@@ -1575,39 +1580,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			return null;
 		}
 		return new Rectangle(min.x, min.y, max.x - min.x, max.y - min.y);
-	}
-
-	/**
-	 * @param column1
-	 *            min column
-	 * @param row1
-	 *            min row
-	 * @param column2
-	 *            max column
-	 * @param row2
-	 *            max row
-	 * @param includeSpacing
-	 *            whether to iclude grid
-	 * @return bounding rectangle of the area
-	 */
-	public GRectangle getCellBlockRect(int column1, int row1, int column2,
-	        int row2, boolean includeSpacing) {
-		GRectangle r1 = getCellRect(row1, column1, includeSpacing);
-		GRectangle r2 = getCellRect(row2, column2, includeSpacing);
-		r1.setBounds((int) r1.getX(), (int) r1.getY(),
-		        (int) ((r2.getX() - r1.getX()) + r2.getWidth()),
-		        (int) ((r2.getY() - r1.getY()) + r2.getHeight()));
-		return r1;
-	}
-
-	/**
-	 * @param includeSpacing
-	 *            whether to include cell borders
-	 * @return selection rectangle
-	 */
-	public GRectangle getSelectionRect(boolean includeSpacing) {
-		return getCellBlockRect(minSelectionColumn, minSelectionRow,
-		        maxSelectionColumn, maxSelectionRow, includeSpacing);
 	}
 
 	// target selection frame
@@ -1681,8 +1653,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					} else {
 						app.showKeyboard(textField, true);
 					}
-					final GRectangle rect = getCellRect(row, col, true);
-					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(rect));
+					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(col, row));
 
 					if (Browser.isTabletBrowser()) {
 						textField.setEnabled(false);
@@ -2574,7 +2545,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		// cells
-		GeoElement geo = null;
+		GeoElement geo;
 		int maxColumn = tableModel.getHighestUsedColumn();
 		int maxRow = tableModel.getHighestUsedRow();
 		for (int col = maxColumn; col >= 0; col--) {
@@ -2768,7 +2739,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (dragFrame == null) {
 			return;
 		}
-		int borderWidth = 2;
+		int borderWidth = 1;
 		dragFrame.setVisible(visible);
 
 		if (visible) {

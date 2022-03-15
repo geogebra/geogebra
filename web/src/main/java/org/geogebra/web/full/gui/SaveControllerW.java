@@ -120,9 +120,9 @@ public class SaveControllerW implements SaveController {
 	 * @param anchor
 	 *         UI element to be used for positioning the save dialog
 	 * @param doYouWantSaveChanges
-	 * 		  true if doYouWantToSaveYourChanges should be shown
+	 *         true if doYouWantToSaveYourChanges should be shown
 	 * @param addTempCheckBox
-	 * 		  true if checkbox should be visible
+	 *         true if checkbox should be visible
 	 */
 	public void showDialogIfNeeded(final AsyncOperation<Boolean> runnable, boolean needed,
 								   Widget anchor, boolean doYouWantSaveChanges,

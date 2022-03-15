@@ -6326,8 +6326,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean hitResetIcon() {
-		return view.showResetIcon()
-				&& ((mouseLoc.y < 40) && (mouseLoc.x > (view.getViewWidth() - 40)));
+		return view.showResetIcon() && (mouseLoc.y < 32)
+				&& (mouseLoc.x > (view.getViewWidth() - 32));
 	}
 
 	protected void setHitCursor() {
@@ -7172,13 +7172,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			DrawableND d = view.getDrawableFor(movedGeoNumeric);
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible()
 					&& mouseLoc != null) {
+				DrawSlider drawSlider = (DrawSlider) d;
+				GPoint2D location = drawSlider.getSliderLocation();
 				// otherwise using Move Tool -> move dot
 				if (isMoveSliderExpected(app.getCapturingThreshold(type))) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
-						oldLoc.setLocation(
-								movedGeoNumeric.getAbsoluteScreenLocX(),
-								movedGeoNumeric.getAbsoluteScreenLocY());
+						oldLoc.setLocation((int) location.x, (int) location.y);
 						startLoc = mouseLoc;
 
 						// part of snap to grid code
@@ -7191,16 +7191,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								.toRealWorldCoordY(oldLoc.y) - yRW;
 					} else {
 						setStartPointLocation(
-								xRW - movedGeoNumeric.getRealWorldLocX(),
-								yRW - movedGeoNumeric.getRealWorldLocY());
+								xRW - location.x,
+								yRW - location.y);
 						transformCoordsOffset[0] = movedGeoNumeric
 								.getRealWorldLocX() - xRW;
 						transformCoordsOffset[1] = movedGeoNumeric
 								.getRealWorldLocY() - yRW;
 					}
 				} else {
-					setStartPointLocation(movedGeoNumeric.getSliderX(),
-							movedGeoNumeric.getSliderY());
+					setStartPointLocation(location.x, location.y);
 
 					// update straightaway in case it's just a click (no drag)
 					moveNumeric(true);
@@ -9442,7 +9441,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param isControlDown
 	 *            control button is down
 	 * @param shift
-	 * 	          pressed shift button
+	 *            pressed shift button
 	 */
 	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
@@ -9769,7 +9768,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (!draggingOccured) {
 			// TODO: this will be simplified when I refactor embeds and videos to
-			// 	act more like inlines (probably in the media rotation ticket)
+			// act more like inlines (probably in the media rotation ticket)
 			if (!needsFocus && topHit instanceof GeoVideo) {
 				handleVideoHit(topHit);
 			}

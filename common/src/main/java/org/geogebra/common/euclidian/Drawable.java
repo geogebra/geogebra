@@ -39,7 +39,9 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.DrawDynamicCaption;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -124,7 +126,7 @@ public abstract class Drawable extends DrawableND {
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
 	private DrawDynamicCaption drawDynamicCaption;
-	private int labelMargin = 3;
+	private int labelMargin = DrawText.DEFAULT_MARGIN;
 
 	/**
 	 * Create a default drawable. GeoElement and the view must be set
@@ -269,7 +271,7 @@ public abstract class Drawable extends DrawableND {
 			if (geo.isGeoText()) {
 				serif = ((GeoText) geo).isSerifFont();
 			}
-			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
+			int offsetY = view.getFontSize(); // make sure LaTeX labels
 													// don't go
 													// off bottom of screen
 			App app = view.getApplication();
@@ -349,6 +351,8 @@ public abstract class Drawable extends DrawableND {
 		// draw label and
 		int widthEstimate = (int) labelRectangle.getWidth();
 		int heightEstimate = (int) labelRectangle.getHeight();
+		int screenWidth = view.getWidth();
+		int screenHeight = view.getHeight();
 		boolean roughEstimate = false;
 
 		if (!labelDesc.equals(oldLabelDesc) || lastFontSize != font.getSize()) {
@@ -372,14 +376,14 @@ public abstract class Drawable extends DrawableND {
 		// make sure labelRectangle fits on screen horizontally
 		if (xLabel < 3) {
 			xLabel = 3;
-		} else if (xLabel > view.getWidth() - widthEstimate - 3) {
+		} else if (xLabel > screenWidth - widthEstimate - 3) {
 			if (roughEstimate) {
 				drawLabel(view.getTempGraphics2D(font));
 				widthEstimate = (int) labelRectangle.getWidth();
 				heightEstimate = (int) labelRectangle.getHeight();
 				roughEstimate = false;
 			}
-			xLabel = Math.min(xLabel, view.getWidth() - widthEstimate - 3);
+			xLabel = Math.min(xLabel, screenWidth - widthEstimate - 3);
 		}
 
 		if (yLabel < heightEstimate) {
@@ -388,9 +392,24 @@ public abstract class Drawable extends DrawableND {
 				heightEstimate = (int) labelRectangle.getHeight();
 			}
 			yLabel = Math.max(yLabel, heightEstimate);
-
 		} else {
-			yLabel = Math.min(yLabel, view.getHeight() - 3);
+			yLabel = Math.min(yLabel, screenHeight);
+		}
+		// Fit label in safe area
+		EdgeInsets insets = view.getSafeAreaInsets();
+		if (xLabel < insets.getLeft()) {
+			xLabel = insets.getLeft();
+		} else if (xLabel + widthEstimate > screenWidth - insets.getRight()) {
+			xLabel = screenWidth - insets.getRight() - widthEstimate;
+		}
+		if (yLabel - heightEstimate < insets.getTop()) {
+			if (roughEstimate) {
+				drawLabel(view.getTempGraphics2D(font));
+				heightEstimate = (int) labelRectangle.getHeight();
+			}
+			yLabel = insets.getTop() + heightEstimate;
+		} else if (yLabel > screenHeight - insets.getBottom()) {
+			yLabel = screenHeight - insets.getBottom();
 		}
 
 		// update label rectangle position

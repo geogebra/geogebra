@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.controller;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -12,6 +13,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
  * @author laszlo
  */
 public class SelectAllHandler {
+	@Weak
 	private final EditorState editorState;
 
 	/**

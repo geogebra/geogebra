@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -36,6 +37,7 @@ import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -53,7 +55,6 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
-import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArrayString;
@@ -302,7 +303,7 @@ public class GgbAPIW extends GgbAPI {
 				mergeFiles(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
 						usage);
 			}
-			jso.put(GgbFile.STRUCTURE_JSON,	pageController.getStructureJSON());
+			jso.put(GgbFile.STRUCTURE_JSON, pageController.getStructureJSON());
 			mergeFiles(shared, jso, GgbFile.SHARED_PREFIX, null);
 			return jso;
 		}
@@ -1085,6 +1086,31 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public String getEditorState() {
 		return editor == null ? "" : editor.getState();
+	}
+
+	/**
+	 * @param label - inputbox label
+	 * @return content of the inputbox
+	 */
+	public String getInputBoxState(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			return ((GeoInputBox) geo).getInputBoxState();
+		}
+		return getEditorState();
+	}
+
+	/**
+	 * @param state - content of inputbox
+	 * @param label - label of inputbox
+	 */
+	public void setInputBoxState(String state, String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			((GeoInputBox) geo).setInputBoxState(state);
+		}
 	}
 
 	/**

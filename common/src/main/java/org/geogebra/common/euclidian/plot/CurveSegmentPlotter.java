@@ -173,7 +173,7 @@ public class CurveSegmentPlotter {
 				stack.push(params.dyad, params.depth, onScreen, evalRight);
 				params.progress();
 
-        		// evaluate curve for parameter t
+				// evaluate curve for parameter t
 				curve.evaluateCurve(params.t, eval);
 				onScreen = view.isOnView(eval);
 

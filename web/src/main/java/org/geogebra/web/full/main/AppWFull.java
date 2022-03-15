@@ -161,7 +161,6 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
@@ -566,18 +565,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					getGuiManager().getLayout());
 		}
 
-		if (isPortrait()) {
-			p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
-					getHeight(),
-					isUnbundledGraphing() || isUnbundled3D()
-							|| "1".equals(
-							appletParameters.getDataParamPerspective())
-							|| "5".equals(
-							appletParameters.getDataParamPerspective())));
-		} else {
-			p.getSplitPaneData()[0].setDivider(
-					PerspectiveDecoder.landscapeRatio(this, getWidth()));
-
+		if (isUnbundled()) {
+			if (isPortrait()) {
+				p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
+						getHeight(),
+						isUnbundledGraphing() || isUnbundled3D()));
+			} else {
+				p.getSplitPaneData()[0].setDivider(
+						PerspectiveDecoder.landscapeRatio(this, getWidth()));
+			}
 		}
 
 		GeoGebraPreferencesW.loadForApp(this, p);
@@ -1580,10 +1576,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getEuclidianView1().doRepaint2();
 		frame.hideSplash();
 
+		if (needsSpreadsheetTableModel()) {
+			getSpreadsheetTableModel(); // spreadsheet trace also useful without UI
+		}
+
 		if (isUsingFullGui()) {
-			if (needsSpreadsheetTableModel()) {
-				getSpreadsheetTableModel();
-			}
 			refreshSplitLayoutPanel();
 
 			// probably this method can be changed by more,
@@ -1637,10 +1634,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		LayoutW layout = getGuiManager().getLayout();
 		updateAvVisibility(forcedPerspective, fromXml);
-
-		layout.updateLayout(forcedPerspective);
-
-		getGuiManager().setGeneralToolBarDefinition(fromXml.getToolbarDefinition());
+		if (!StringUtil.empty(fromXml.getToolbarDefinition())) {
+			layout.updateLayout(forcedPerspective, fromXml.getToolbarDefinition());
+		} else {
+			layout.updateLayout(forcedPerspective);
+		}
 		ToolbarPanel unbundledToolbar = getGuiManager().getUnbundledToolbar();
 		if (unbundledToolbar != null) {
 			unbundledToolbar.updateContent();
@@ -1854,8 +1852,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
 			}
 			getGuiManager().refreshDraggingViews();
-			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (menuViewController != null) {
@@ -1897,15 +1893,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (this.isFloatingMenu()) {
 			this.toggleMenu();
 		} else {
+			spWidth = this.oldSplitLayoutPanel.getOffsetWidth()
+					+ GLookAndFeel.MENUBAR_WIDTH;
 			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth()
-							+ GLookAndFeel.MENUBAR_WIDTH,
+					spWidth,
 					this.oldSplitLayoutPanel.getOffsetHeight());
 			if (this.splitPanelWrapper != null) {
 				this.splitPanelWrapper.remove(frame.getMenuBar(this));
 			}
-			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Overflow.VISIBLE);
 		}
 		this.menuShowing = false;
 
@@ -2048,9 +2043,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,
-						getSettings().getCasSettings().isEnabled());
+						!getSettings().getCasSettings().isEnabled());
 				setPerspective(p);
 				updateSidebarAndMenu(subApp);
+				reinitAlgebraView();
 				setSuiteHeaderButton(subApp);
 			}
 			getDialogManager().hideCalcChooser();
@@ -2298,9 +2294,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getDialogManager().hideCalcChooser();
 		storeCurrentUndoHistory();
 		storeCurrentMaterial();
-		activity = new SuiteActivity(subAppCode, getSettings().getCasSettings().isEnabled());
+		activity = new SuiteActivity(subAppCode, !getSettings().getCasSettings().isEnabled());
 		activity.start(this);
-
+		getKernel().removeAllMacros();
+		getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllTools(this));
 		resetToolbarPanel();
 		Perspective perspective = PerspectiveDecoder.getDefaultPerspective(
 				getConfig().getForcedPerspective(), getGuiManager().getLayout());
@@ -2308,6 +2305,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		reinitSettings();
 		clearConstruction();
 		setTmpPerspective(null);
+		getGuiManager().getUnbundledToolbar().removeToolsTab();
 		getGuiManager().getLayout().applyPerspective(perspective);
 		kernel.initUndoInfo();
 		if (restoreMaterial(subAppCode)) {
@@ -2325,6 +2323,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void afterMaterialRestored() {
 		getGuiManager().getLayout().getDockManager().adjustViews(true);
 		resetFullScreenBtn();
+		reinitAlgebraView();
 		if (isExam()) {
 			Material material = getExam().getTempStorage().newMaterial();
 			setActiveMaterial(material);
@@ -2378,7 +2377,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						: SymbolicMode.NONE);
 
 		setUndoRedoPanelAllowed(!"probability".equals(subAppCode));
-		reinitAlgebraView();
+
 		if (menuViewController != null) {
 			menuViewController.resetMenuOnAppSwitch(this);
 		}

@@ -29,7 +29,6 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	public CmdArchimedeanSolid(Kernel kernel, Commands name) {
 		super(kernel);
 		this.name = name;
-
 	}
 
 	@Override

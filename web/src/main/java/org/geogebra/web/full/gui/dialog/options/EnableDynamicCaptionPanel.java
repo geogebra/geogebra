@@ -22,7 +22,7 @@ class EnableDynamicCaptionPanel extends CheckboxPanel {
 
 	@Override
 	public void onChecked() {
-		setCaptionTextFieldEnabled(!getCheckbox().getValue());
+		setCaptionTextFieldEnabled(!getCheckbox().isSelected());
 	}
 
 	private void setCaptionTextFieldEnabled(boolean enable) {

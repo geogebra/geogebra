@@ -86,6 +86,7 @@ import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
+import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -1022,7 +1023,12 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean save() {
-		return getApp().getFileManager().save(getApp());
+		if (getApp().isExam()) {
+			SaveExamAction.showExamSaveDialog(getApp());
+			return true;
+		} else {
+			return getApp().getFileManager().save(getApp());
+		}
 	}
 
 	@Override

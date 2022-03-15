@@ -4,11 +4,16 @@
 #import "ColorI.h"
 #import "ImageI.h"
 #import "TransformI.h"
+#import "IOSPrimitiveArray.h"
 
 @implementation GraphicsFactoryIos
 
 - (id<RXBasicStroke>)createBasicStrokeWithDouble:(jdouble)width withInt:(jint)cap withInt:(jint)join withDouble:(jdouble)miterLimit {
     return [[BasicStrokeI alloc] initWithWidth:width withMiterLimit:miterLimit withCap:cap withJoin:join];
+}
+
+-(id<RXStroke>)createBasicStrokeWithDouble:(jdouble)width withDoubleArray:(IOSDoubleArray *)dashes {
+    return [[BasicStrokeI alloc] initWithWidth:width withDashes:dashes];
 }
 
 - (id <RXColor>)createColorWithInt:(jint)red

@@ -27,7 +27,7 @@ class ScrollArrows {
 				dimension.getHeight() / 2);
 		down = AwtFactory.getPrototype()
 				.newRectangle(dimension.getWidth(), dimension.getHeight() / 2);
-		up.setBounds(left, top, (int) (up.getWidth()),	(int) (up.getHeight()));
+		up.setBounds(left, top, (int) (up.getWidth()), (int) (up.getHeight()));
 		down.setBounds(left, top + height
 						- (int) (down.getHeight()),
 				(int) (down.getWidth()),
@@ -92,7 +92,7 @@ class ScrollArrows {
 		int y1 = middleY + tH;
 		int x2 = middleX + tW;
 		int y3 = middleY + 2 * tW;
-		AwtFactory.fillTriangle(g2, x1, y1, x2, y1,	middleX, y3);
+		AwtFactory.fillTriangle(g2, x1, y1, x2, y1, middleX, y3);
 	}
 
 	int getUpHeight() {

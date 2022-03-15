@@ -107,7 +107,7 @@ public final class Cursive {
 
 	private static String truncate(String name) {
 		return name.length() > Cursive.MAX_CAPTION_LENGHT
-				? name.substring(0,	Cursive.MAX_CAPTION_LENGHT)
+				? name.substring(0, Cursive.MAX_CAPTION_LENGHT)
 				: name;
 	}
 

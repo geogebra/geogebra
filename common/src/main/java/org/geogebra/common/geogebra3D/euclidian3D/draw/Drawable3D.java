@@ -66,16 +66,16 @@ import org.geogebra.common.util.DoubleUtil;
  * <p>
  * <code>
                 public void drawGeometry(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-            	       // call the geometry to be drawn <br>
-            	}
-            	<br>
-            	public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-            	       // for hidden part, let it empty first <br>
-            	}
-            	<br>
-            	public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-            	       // to show the object is picked, let it empty first <br>
-            	}
+                       // call the geometry to be drawn <br>
+                }
+                <br>
+                public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+                       // for hidden part, let it empty first <br>
+                }
+                <br>
+                public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+                       // to show the object is picked, let it empty first <br>
+                }
               </code></li>
  * <li>for {@link Drawable3DSurfaces} :
  * <p>
@@ -84,20 +84,20 @@ import org.geogebra.common.util.DoubleUtil;
                     // call the geometry to be drawn <br>
             }
             <br>
-	        void drawGeometryHiding(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-	           // call the geometry that hides other objects <br>&nbsp;&nbsp;
+            void drawGeometryHiding(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+               // call the geometry that hides other objects <br>&nbsp;&nbsp;
                    // first sets it to :  <br>&nbsp;&nbsp;
                    drawGeometry(renderer);      <br>
-	        }
-	        <br>
-	        public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-	           // for hidden part, let it empty first   <br> 
-	        }
-	        <br>
-	        public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+            }
+            <br>
+            public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+                // for hidden part, let it empty first   <br>
+            }
+            <br>
+            public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
                    // to show the object is picked, let it empty first <br>
-	        }
-	      </code></li>
+            }
+          </code></li>
  * </ul>
  * </li>
  * </ul>

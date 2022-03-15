@@ -31,24 +31,23 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	private LocalizationW loc;
 
-//	private static final GColor TABLE_HEADER_COLOR = GeoGebraColorConstants.TABLE_HEADER_COLOR;
 	private StatTableW dataTable;
 
 	private ScrollPanel scrollPane;
-	
+
 	private class DataClickHandler implements ClickHandler {
 		private int index;
 
 		public DataClickHandler(int index) {
 			this.index = index;
 		}
-		
+
 		@Override
 		public void onClick(ClickEvent event) {
 	        onDataClick(index);
         }
 	}
-	
+
 	/*************************************************
 	 * Construct a DataPanel
 	 * 
@@ -63,10 +62,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		this.statController = statDialog.getController();
 
 		buildDataTable();
-	
 		cbEnableAll = new CheckBox("");
 		cbEnableAll.addClickHandler(event -> enableAll());
-		
+
 		populateDataTable(statController.getDataArray());
 		createGUI();
 		enableAll();
@@ -94,13 +92,8 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	@Override
 	public void updatePanel() {
-//		setRowHeight();
+		// setRowHeight();
 	}
-//
-//	public void updateFonts(Font font) {
-//		// TODO Auto-generated method stub
-//
-//	}
 
 	private Boolean[] updateSelectionList(ArrayList<GeoElement> dataArray) {
 
@@ -134,7 +127,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		updateSelectionList(dataArray);
 
 	}
-	
+
 	private void populateRegressionDataTable(ArrayList<GeoElement> dataArray) {
 		// a data source may be a list of points with a single title
 		// so we must create a title for the y column
@@ -171,7 +164,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		updateSelectionList(dataArray);
 	}
-	
+
 	private void populateDataTable(ArrayList<GeoElement> dataArray) {
 
 		if (dataArray == null || dataArray.size() < 1) {
@@ -179,65 +172,13 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		}
 
 		int mode = daView.getModel().getMode();
-	
 		if (mode == DataAnalysisModel.MODE_ONEVAR) {
 			populateOneVarDataTable(dataArray);
-		}
-		else if (mode == DataAnalysisModel.MODE_REGRESSION) {
+		} else if (mode == DataAnalysisModel.MODE_REGRESSION) {
 			populateRegressionDataTable(dataArray);
-
 		}
 	}
-//
-//	/**
-//	 * Loads the data table. Called on data set changes.
-//	 */
-//	public void loadDataTable(ArrayList<GeoElement> dataArray) {
-//
-//		// load the data model
-//		populateDataTable(dataArray);
-//
-//		// prepare boolean selection list for the checkboxes
-//		selectionList = new Boolean[dataArray.size()];
-//		for (int i = 0; i < dataArray.size(); ++i) {
-//			selectionList[i] = true;
-//		}
-//
-//		// create a new header
-//		rowHeader = new MyRowHeader(this, dataTable);
-//		scrollPane.setRowHeaderView(rowHeader);
-//		updateFonts(getFont());
-//
-//		// repaint
-//		dataTable.repaint();
-//		rowHeader.repaint();
-//
-//	}
-//
-//	public void ensureTableFill() {
-//		Container p = getParent();
-//		DefaultTableModel dataModel = (DefaultTableModel) dataTable.getModel();
-//		if (dataTable.getHeight() < p.getHeight()) {
-//			int newRows = (p.getHeight() - dataTable.getHeight())
-//					/ dataTable.getRowHeight();
-//			dataModel.setRowCount(dataTable.getRowCount() + newRows);
-//			for (int i = 0; i <= dataTable.getRowCount(); ++i) {
-//				if (rowHeader.getModel().getElementAt(i) != null)
-//					((DefaultListModel) rowHeader.getModel()).add(i, true);
-//			}
-//		}
-//
-//	}
 
-//	public void actionPerformed(ActionEvent e) {
-//		if (e.getSource() == btnEnableAll) {
-//			rowHeader.enableAll();
-//			btnEnableAll.setEnabled(false);
-//
-//		}
-//	}
-//}
-	
 	/**
 	 * @param index
 	 *            clicked item index

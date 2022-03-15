@@ -1108,7 +1108,7 @@ public class FunctionNVar extends ValidExpression
 		// right tree
 		if (right == fVars[varNo]) {
 			// is there a constant number to the left?
-			if (left instanceof MyDouble && left.isConstant()) { 				
+			if (left instanceof MyDouble && left.isConstant()) {
 				MyDouble num = (MyDouble) left;
 				double temp;
 				switch (en.getOperation()) {
@@ -1131,7 +1131,6 @@ public class FunctionNVar extends ValidExpression
 		} else {
 			dilateExpressionX(right, vx, varNo);
 		}
-
 	}
 
 	private void dilateExpressionX(ExpressionValue right, double vx,

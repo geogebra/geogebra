@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import java.util.function.Supplier;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -294,7 +296,6 @@ public class ToolbarPanel extends FlowPanel
 		heading.setStyleName("toolPanelHeading");
 		add(heading);
 		add(main);
-		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
@@ -338,7 +339,7 @@ public class ToolbarPanel extends FlowPanel
 			if (undoRedoPanel != null) {
 				undoRedoPanel.addStyleName("withTransition");
 			}
-			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
+			dockParent.setWidgetSize(getToolbarDockPanel(), targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
 	}
@@ -901,9 +902,11 @@ public class ToolbarPanel extends FlowPanel
 
 		switchTab(TabIds.TABLE, fade);
 		setMoveMode();
-		if (tabTable != null) {
-			tabTable.scrollTo(geo);
-		}
+		// remove the scrolling for now
+		//if (tabTable != null) {
+			//tabTable.scrollTo(geo);
+		//}
+
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
 	}
 
@@ -1033,12 +1036,18 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @return keyboard listener of AV.
 	 */
-	public MathKeyboardListener getKeyboardListener() {
-		if (tabAlgebra == null
-				|| app.getInputPosition() != InputPosition.algebraView) {
-			return null;
+	public MathKeyboardListener getKeyboardListener(Supplier<MathKeyboardListener> fallback) {
+		if (isAlgebraViewActive()) {
+			if (tabAlgebra == null
+					|| app.getInputPosition() != InputPosition.algebraView) {
+				return null;
+			}
+			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 		}
-		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
+			return tabTable.getKeyboardListener();
+		}
+		return fallback.get();
 	}
 
 	/**
@@ -1354,6 +1363,17 @@ public class ToolbarPanel extends FlowPanel
 	private void setHeadingHeight(int to) {
 		heading.setVisible(to > 0);
 		heading.setHeight(to + "px");
+	}
+
+	/**
+	 * Removes tool tab. Used to avoid updating tool tab during perspective reset if we're
+	 * going to rebuild it using custom toolbar from a file.
+	 */
+	public void removeToolsTab() {
+		if (tabTools != null) {
+			tabTools.removeFromParent();
+		}
+		tabTools = null;
 	}
 
 	/**

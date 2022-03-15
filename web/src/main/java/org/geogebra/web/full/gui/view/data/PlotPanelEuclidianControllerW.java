@@ -25,7 +25,7 @@ public class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	
 	@Override
 	public void showDrawingPadPopup(GPoint mouse) {
-		// do nothing		
+		// do nothing
 	}
 	
 	@Override

@@ -107,7 +107,7 @@ public class BaseActivity implements GeoGebraActivity {
 	@Override
 	public HeaderResizer getHeaderResizer(GeoGebraFrameW frame) {
 		if (headerResizer == null) {
-			headerResizer =	new BaseHeaderResizer(frame);
+			headerResizer = new BaseHeaderResizer(frame);
 		}
 		return headerResizer;
 	}

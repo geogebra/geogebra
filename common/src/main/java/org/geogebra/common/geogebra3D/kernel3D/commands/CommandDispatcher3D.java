@@ -294,11 +294,6 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 	}
 
 	@Override
-	public CommandDispatcherInterface getStepsDispatcher() {
-		return commandDispatcher.getStepsDispatcher();
-	}
-
-	@Override
 	public CommandDispatcherInterface getProverDispatcher() {
 		return commandDispatcher.getProverDispatcher();
 	}

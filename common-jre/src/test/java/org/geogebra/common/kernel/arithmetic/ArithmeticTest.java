@@ -374,6 +374,17 @@ public class ArithmeticTest extends Assert {
 		t("m1 \\ {l1}", "{{\"c\", \"d\"}}");
 	}
 
+	@Test
+	public void testEqualityCheck() {
+		// in common-jre this will only work correctly for polynomials
+		t("f(x)=x^3", "x^(3)");
+		t("g(x)=-x^3", "(-x^(3))");
+		t("f==g", "false");
+		t("f!=g", "true");
+		t("f==-g", "true");
+		t("f!=-g", "false");
+	}
+
 	private GeoElement lookup(String g) {
 		return app.getKernel().lookupLabel(g);
 	}

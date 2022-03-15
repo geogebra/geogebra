@@ -1279,6 +1279,20 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
+	 * Returns true if the string only contains whitespace.
+	 * @param string string to check
+	 * @return true if string.trim().isEmpty() is true
+	 */
+	public static boolean isTrimmedEmpty(String string) {
+		for (int i = 0; i < string.length(); i++) {
+			if (!isWhitespace(string.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Used in DynamicTextProcessor and DynamicTextInputPane
 	 * 
 	 * @param sb

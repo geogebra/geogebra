@@ -1596,9 +1596,8 @@ public class GeoText extends GeoElement
 	}
 
 	/**
-	 *
 	 * @return original string with extra \ in order to escape special characters
-	 * 		e.g. "cos(x)" will return "cos\\(x\\)"
+	 *       e.g. "cos(x)" will return "cos\\(x\\)"
 	 */
 	public String getEscapedSpecialCharsString() {
 		StringBuilder b = new StringBuilder();

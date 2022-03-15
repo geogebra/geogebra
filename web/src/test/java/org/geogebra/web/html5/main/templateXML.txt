@@ -1,7 +1,7 @@
 <euclidianView>
 	<viewNumber viewNo="1"/>
 	<coordSystem xZero="0.0" yZero="0.0" scale="50.0" yscale="50.0"/>
-	<evSettings axes="false" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="3"/>
+	<evSettings axes="false" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="1" checkboxSize="26" gridType="-1"/>
 	<bgColor r="255" g="255" b="255"/>
 	<axesColor r="0" g="0" b="0"/>
 	<gridColor r="192" g="192" b="192"/>

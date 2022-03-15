@@ -113,10 +113,8 @@ public class CASViewW extends CASView implements PrintableW {
 		}
 		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
 		        selRow);
-		d.getDialog().center();
 		d.getDialog().show();
 		subDialog = d;
-
 	}
 
 	/**

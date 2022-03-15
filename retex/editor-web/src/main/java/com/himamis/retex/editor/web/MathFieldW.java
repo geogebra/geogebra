@@ -129,6 +129,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int fixMargin = 0;
 	private int minHeight = 0;
 	private boolean wasPaintedWithCursor;
+	private int rightMargin = 30;
 
 	/**
 	 * @param converter
@@ -592,7 +593,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeWidth() {
-		return roundUp(lastIcon.getIconWidth() + 30);
+		return roundUp(lastIcon.getIconWidth() + rightMargin);
 	}
 
 	/**
@@ -623,8 +624,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeHeight() {
-		double margin = getMargin(lastIcon);
-		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
+		return Math.max(getHeightWithMargin(), minHeight);
+	}
+
+	public double getHeightWithMargin() {
+		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
 	}
 
 	public int getIconHeight() {
@@ -1086,11 +1090,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.parse(text);
 	}
 
-	@Override
-	public void setPlainText(String text) {
-		mathFieldInternal.setPlainText(text);
-	}
-
 	/**
 	 * @return text in GGB syntax
 	 */
@@ -1144,8 +1143,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/**
 	 * Sets foreground color in rgba(r, g, b, a) format.
 	 *
-	 * @param cssColor
-	 * 			to set.
+	 * @param cssColor color to set
 	 */
 	public void setForegroundColor(String cssColor) {
 		this.foregroundColor = new ColorW(cssColor);
@@ -1154,8 +1152,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/**
 	 * Sets background color in #rrggbb format.
 	 *
-	 * @param cssColor
-	 * 			to set.
+	 * @param cssColor color to set
 	 */
 	public void setBackgroundColor(String cssColor) {
 		this.backgroundColor = new ColorW(cssColor);
@@ -1192,7 +1189,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            panel to be scrolled
 	 */
 	public void scrollParentHorizontally(FlowPanel parentPanel) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, lastIcon.getCursorX());
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
+				rightMargin, lastIcon.getCursorX());
 	}
 
 	/**
@@ -1217,5 +1215,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setInputBoxFunctionVariables(List<String> funcVars) {
 		metaModel.setInputBoxFunctionVars(funcVars);
 		metaModel.enableSubstitutions();
+	}
+
+	public void setRightMargin(int rightMargin) {
+		this.rightMargin = rightMargin;
+	}
+
+	public int getMinHeight() {
+		return minHeight;
 	}
 }

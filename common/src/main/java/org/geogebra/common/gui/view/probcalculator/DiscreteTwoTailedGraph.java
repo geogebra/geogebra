@@ -14,7 +14,7 @@ public class DiscreteTwoTailedGraph {
 	 * @param left part of the graph.
 	 * @param right part of the graph.
 	 */
-	public DiscreteTwoTailedGraph(GeoElement left,	GeoElement right) {
+	public DiscreteTwoTailedGraph(GeoElement left, GeoElement right) {
 		this.left = left;
 		this.right = right;
 	}

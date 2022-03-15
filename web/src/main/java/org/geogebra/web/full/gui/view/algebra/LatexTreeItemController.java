@@ -130,6 +130,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (key != null) {
 			HashMap<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("key", key);
+			jsonArgument.put("label", "");
 			event.setJsonArgument(jsonArgument);
 		}
 		app.dispatchEvent(event);
@@ -186,8 +187,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 	
 	/**
-	 * @param afterCb 
-	 * 				additional callback that runs after creation.
+	 * @param afterCb additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
 		evalInput.createGeoFromInput(afterCb);
@@ -226,11 +226,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
-	}
-
-	@Override
-	public void showKeyboard() {
-		app.showKeyboard(item);
 	}
 
 	/**

@@ -53,11 +53,8 @@ class NamePanel extends OptionPanel
 	private ShowLabelModel showLabelModel;
 
 	/**
-	 *
-	 * @param app
-	 * 				The application.
-	 * @param showLabelModel
-	 * 				Model for showing/hiding label.
+	 * @param app The application.
+	 * @param showLabelModel Model for showing/hiding label.
 	 */
 	NamePanel(final AppW app, ShowLabelModel showLabelModel) {
 		this.app = app;

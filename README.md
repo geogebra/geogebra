@@ -7,8 +7,7 @@ is a read-only Subversion repository. We maintain a copy of it
 at https://github.com/geogebra/geogebra.
 
 Please read https://www.geogebra.org/license about GeoGebra's
-licensing. A copy of this license should also be found in the file
-desktop/src/nonfree/resources/org/geogebra/desktop/_license.txt.
+licensing.
 
 To learn more on development of GeoGebra (including suggested compilation
 steps) please visit https://dev.geogebra.org/.
