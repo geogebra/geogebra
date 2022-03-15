@@ -6,8 +6,8 @@ def template = { fileName ->
 def css = { directory, fileName ->
     String text
     def relPath = (directory ? directory + "/" : "") + fileName + ".css"
-    def ggbVersion = getGeogebraVersion(".");
     if (project.hasProperty("downloadStyles")) {
+        def ggbVersion = getGeogebraVersion(".")
         text = new URL("https://www.geogebra.org/apps/$ggbVersion/css/$relPath").withReader { reader ->
             reader.readLines().join("\n")
         }
