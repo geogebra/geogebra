@@ -60,7 +60,6 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -72,6 +71,10 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLCanvasElement;
+import jsinterop.base.Js;
 
 /**
  * Frame for applets with GUI
@@ -1028,9 +1031,10 @@ public class GeoGebraFrameFull
 			super.getScreenshotBase64(callback, scale);
 			return;
 		}
-		Canvas c = Canvas.createIfSupported();
+		HTMLCanvasElement canvas = Js.uncheckedCast(DomGlobal
+				.document.createElement("canvas"));
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
-		((DockManagerW) dockManager).paintPanels(c, callback, scale);
+		((DockManagerW) dockManager).paintPanels(canvas, callback, scale);
 	}
 
 	@Override

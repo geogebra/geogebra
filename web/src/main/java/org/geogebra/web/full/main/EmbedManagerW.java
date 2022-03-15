@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -32,9 +32,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JsConsumer;
-import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.html5.Sandbox;
@@ -45,13 +43,10 @@ import org.geogebra.web.full.main.embed.H5PEmbedElement;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.GeoGebraElement;
-import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -531,21 +526,11 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 	}
 
 	@Override
-	public MyImage getPreview(DrawEmbed drawEmbed) {
-		SVGResource resource = getSvgPlaceholder(drawEmbed);
-
-		return new MyImageW(ImageManagerW.getInternalImage(
-				resource), true);
-
-	}
-
-	private SVGResource getSvgPlaceholder(DrawEmbed drawEmbed) {
-		switch (drawEmbed.getGeoEmbed().getAppName()) {
-			case "graphing":
-				return SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent();
-			case "cas":
-				return SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent();
-			default: return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
+	public void drawPreview(GGraphics2D g2, DrawEmbed drawEmbed,
+			int width, int height, double angle) {
+		EmbedElement widget = widgets.get(drawEmbed);
+		if (widget != null) {
+			widget.drawPreview(g2, width, height, angle);
 		}
 	}
 

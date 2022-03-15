@@ -35,6 +35,7 @@ import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.CanvasPattern;
 import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.ImageData;
 import jsinterop.base.Js;
@@ -891,6 +892,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	public void drawImage(HTMLImageElement img, int x, int y) {
 		context.drawImage(img, x, y);
+	}
+
+	public void drawImage(HTMLCanvasElement img, int x, int y, int width, int height) {
+		context.drawImage(img, x, y, width, height);
 	}
 
 	@Override

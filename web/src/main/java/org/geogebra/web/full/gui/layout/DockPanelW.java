@@ -58,7 +58,7 @@ import elemental2.dom.CanvasRenderingContext2D;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite
-		implements DockPanel, DockComponent {
+		implements DockPanel, DockComponent, PaintToCanvas {
 
 	/** Dock manager */
 	protected DockManagerW dockManager;
@@ -493,17 +493,15 @@ public abstract class DockPanelW extends ResizeComposite
 		return 0;
 	}
 
-	/***
-	 * @param context2d rendering context
-	 * @param callback to be called on both success and failure
-	 * @param left left offset in pixels
-	 * @param top top offset in pixels
-	 */
+	@Override
 	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			Runnable callback, int left, int top) {
+			ViewCounter callback, int left, int top) {
+		if (callback == null) {
+			return;
+		}
 		getElement().addClassName("ggbScreenshot");
 		if (component == null) {
-			callback.run();
+			callback.decrement();
 			return;
 		}
 		Domvas.get().toImage(component.getElement(), (image) -> {
@@ -511,7 +509,7 @@ public abstract class DockPanelW extends ResizeComposite
 			drawWhiteBackground(context2d, left, top);
 			context2d.drawImage(image, left, top);
 			getElement().removeClassName("ggbScreenshot");
-			callback.run();
+			callback.decrement();
 		});
 	}
 

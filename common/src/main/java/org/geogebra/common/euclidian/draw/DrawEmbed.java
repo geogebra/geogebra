@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
@@ -18,8 +17,6 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 	private final GeoEmbed geoEmbed;
 	private final EmbedManager embedManager;
 
-	private MyImage preview;
-
 	/**
 	 * @param view
 	 *            view
@@ -31,9 +28,6 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 		this.geoEmbed = geo;
 		embedManager = view.getApplication().getEmbedManager();
 		update();
-		if (embedManager != null) {
-			preview = embedManager.getPreview(this);
-		}
 	}
 
 	@Override
@@ -65,11 +59,10 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 		g2.fillRect(0, 0, sx, sy);
 		g2.setColor(GColor.BLACK);
 		g2.drawRect(0, 0, sx, sy);
+		if (embedManager != null) {
+			embedManager.drawPreview(g2, this, sx, sy, getGeoEmbed().getAngle());
+		}
 
-		int s = Math.min(sx, sy);
-		int iconLeft = Math.max((sx - s) / 2, 0);
-		int iconTop = Math.max((sy - s) / 2, 0);
-		g2.drawImage(preview, iconLeft, iconTop, s, s);
 		g2.restoreTransform();
 	}
 

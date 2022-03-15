@@ -1,6 +1,11 @@
 package org.geogebra.web.full.main.embed;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
+import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.ImageManagerW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
@@ -97,5 +102,20 @@ public class EmbedElement {
 	 */
 	public Object getApi() {
 		return null;
+	}
+
+	/**
+	 * @param g2 graphics
+	 * @param width width in pixels
+	 * @param height height in pixels
+	 */
+	public void drawPreview(GGraphics2D g2, int width, int height, double angle) {
+		SVGResource resource = ToolbarSvgResourcesSync.INSTANCE.mode_extension();
+		MyImageW internalImage = new MyImageW(ImageManagerW.getInternalImage(
+				resource), true);
+		double s = Math.min(width, height);
+		int iconLeft = (int) Math.max((width - s) / 2, 0);
+		int iconTop = (int) Math.max((height - s) / 2, 0);
+		g2.drawImage(internalImage, iconLeft, iconTop, (int) s, (int) s);
 	}
 }
