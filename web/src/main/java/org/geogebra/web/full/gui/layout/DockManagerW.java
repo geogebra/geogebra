@@ -1801,7 +1801,7 @@ public class DockManagerW extends DockManager {
 		context2d.fillRect(0, 0, width, height);
 		context2d.scale(scale, scale);
 		for (DockPanelW panel: dockPanels) {
-			if (panel.isAttached() && panel.isVisible()) {
+			if (panel.isAttached()) {
 				int left = (int) ((panel.getAbsoluteLeft() - rootPane.getAbsoluteLeft()) / app
 						.getGeoGebraElement().getScaleX());
 				int top = (int) ((panel.getAbsoluteTop() - rootPane.getAbsoluteTop()) / app

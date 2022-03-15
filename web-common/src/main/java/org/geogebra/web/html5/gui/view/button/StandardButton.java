@@ -235,4 +235,8 @@ public class StandardButton extends Widget implements HasResource {
 			e.stopPropagation();
 		});
 	}
+
+	public NoDragImage getImage() {
+		return btnImage;
+	}
 }
