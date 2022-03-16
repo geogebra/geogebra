@@ -1679,7 +1679,6 @@ public class GeoNumeric extends GeoElement
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
 			boolean isAngle) {
 		return setSliderFromDefault(num, isAngle, true);
-
 	}
 
 	/**

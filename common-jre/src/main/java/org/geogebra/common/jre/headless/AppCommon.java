@@ -767,4 +767,9 @@ public class AppCommon extends App {
 		getLocalization().setLocale(locale);
 		getLocalization().updateLanguageFlags(locale.getLanguage());
 	}
+
+	@Override
+	public boolean isUnbundledGeometry() {
+		return "geometry".equals(getConfig().getAppCode());
+	}
 }

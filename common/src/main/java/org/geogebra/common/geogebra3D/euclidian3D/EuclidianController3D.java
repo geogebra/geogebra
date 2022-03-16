@@ -1156,9 +1156,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			slider.setIntervalMax(1);
 			slider.setAutoStep(false);
 			slider.setAnimationStep(0.01);
-			slider.setLabel(null);
 			slider.setValue(1);
-			slider.update();
+			slider.setLabel(null);
 			GeoElement polyhedron = getSelectedGeos()[0];
 			return new GeoElement[] { kernel.getManager3D().polyhedronNet(null,
 					polyhedron, slider, null, null)[0] // no bottom face, no

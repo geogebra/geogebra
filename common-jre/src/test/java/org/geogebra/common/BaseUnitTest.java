@@ -1,5 +1,7 @@
 package org.geogebra.common;
 
+import static org.junit.Assert.fail;
+
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
@@ -10,6 +12,8 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -158,9 +162,41 @@ public class BaseUnitTest {
 				.processAlgebraCommandNoExceptionHandling(
 						command,
 						false,
-						app.getErrorHandler(),
+						getSliderErrorHandler(info),
 						info,
 						null);
+	}
+
+	private ErrorHandler getSliderErrorHandler(EvalInfo info) {
+		if (!info.isAutocreateSliders()) {
+			return app.getErrorHandler();
+		}
+		return new ErrorHandler() {
+			@Override
+			public void showError(String msg) {
+				fail(msg);
+			}
+
+			@Override
+			public void showCommandError(String command, String message) {
+				fail(message);
+			}
+
+			@Override
+			public String getCurrentCommand() {
+				return null;
+			}
+
+			@Override
+			public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+				return true;
+			}
+
+			@Override
+			public void resetError() {
+				// nothing to do
+			}
+		};
 	}
 
 	/**
