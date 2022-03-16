@@ -185,6 +185,10 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
 					.setJsonArgument(jsonArgument));
 		}));
+		if ("suite".equals(drawEmbed.getGeoEmbed().getAppName())) {
+			parameters.setAttribute("showAppsPicker", "true");
+			parameters.setAttribute("preventFocus", "true");
+		}
 		fr.runAsyncAfterSplash();
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
@@ -203,9 +207,6 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
 			}
-		} else if ("suite".equals(drawEmbed.getGeoEmbed().getAppName())) {
-			appEmbedded.getDialogManager().showCalcChooser(false);
-			appEmbedded.getAppletParameters().setAttribute("preventFocus", true + "");
 		}
 		return element;
 	}
