@@ -11,11 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfaceW {
 
 	private String[] strHeader;
-	// protected DataAnalysisViewD statDialog;
-	// private int mode;
 	protected StatTableW statTable;
-	
-	// private StatPanelSettings settings;
 
 	/**
 	 * Create new frequency table
@@ -56,14 +52,7 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 	}
 
 	private void setTableSize() {
-//
-//		 d = statTable.getPreferredSize();
-//		this.setPreferredSize(d);
-//		int numRows = Math.min(8, statTable.getTable().getRowCount());
-//		d.height = numRows * statTable.getTable().getRowHeight();
-//		this.setMaximumSize(d);
-//		statTable.revalidate();
-//		updateFonts(app.getPlainFont());
+		// do nothing
 	}
 
 	@Override

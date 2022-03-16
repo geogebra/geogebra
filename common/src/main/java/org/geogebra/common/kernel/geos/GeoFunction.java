@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -84,7 +85,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, Dilateable,
 		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable,
-		Lineable2D {
+		Lineable2D, Functional {
 
 	/** inner function representation */
 	protected Function fun;

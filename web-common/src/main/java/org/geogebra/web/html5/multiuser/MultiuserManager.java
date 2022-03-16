@@ -86,6 +86,10 @@ public final class MultiuserManager implements EventListener {
 			for (User user : activeInteractions.values()) {
 				user.rename(evt.target);
 			}
+		} else if (evt.type == EventType.REMOVE) {
+			for (User user : activeInteractions.values()) {
+				user.removeSelection(evt.target.getLabelSimple());
+			}
 		}
 	}
 

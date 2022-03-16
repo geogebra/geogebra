@@ -13,15 +13,22 @@
 	}
 
 	.checkboxPanel {
-		display: flex;
+		display: inline-flex;
 		width: fit-content;
 		cursor: pointer;
+
+		.checkboxLbl {
+			height: 20px;
+			line-height: 20px;
+			margin-left: 16px;
+			color: colors.$text-primary;
+			font-size: 100%;
+		}
 	}
 
 	.checkbox {
 		width: 18px;
 		height: 18px;
-		padding: 3px;
 		position: relative;
 		cursor: pointer;
 
@@ -38,8 +45,8 @@
 
 		 .checkmark {
 			 position: absolute;
-			 left: 5px;
-			 top: 5px;
+			 left: 2px;
+			 top: 2px;
 		 }
 
 		&.selected {
@@ -307,6 +314,21 @@
 				padding: 8px 8px 8px 24px;
 				position: relative;
 				float: right;
+			}
+		}
+
+		&.withSubtitle {
+			.dialogTitle {
+				margin-bottom: 8px;
+			}
+
+			.dialogSubTitle {
+				margin-bottom: 16px;
+				margin-left: 24px;
+				height: 14px;
+				font-size: 75%;
+				color: colors.$text-secondary;
+				line-height: 1.2;
 			}
 		}
 	}

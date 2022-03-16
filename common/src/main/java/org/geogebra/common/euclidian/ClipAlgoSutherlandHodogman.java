@@ -77,13 +77,22 @@ public class ClipAlgoSutherlandHodogman {
 			MyPoint prev, MyPoint current, List<MyPoint> output) {
 		if (isInside(edge, current)) {
 			if (!isInside(edge, prev)) {
-				MyPoint intersection = intersection(edge, prev, current);
-				output.add(intersection);
+				handleIntersectionPoint(edge, prev, current, output);
 			}
+
 			output.add(current);
 
 		} else if (isInside(edge, prev)) {
-			MyPoint intersection = intersection(edge, prev, current);
+			handleIntersectionPoint(edge, prev, current, output);
+		}
+	}
+
+	private void handleIntersectionPoint(Edge edge, MyPoint prev,
+			MyPoint current, List<MyPoint> output) {
+		MyPoint intersection = intersection(edge, prev, current);
+		if (intersection == null) {
+			current.setLineTo(false);
+		} else {
 			output.add(intersection);
 		}
 	}
@@ -113,7 +122,7 @@ public class ClipAlgoSutherlandHodogman {
 		double y = getSafeNumber(n2 / det);
 
 		if (Double.isNaN(x) || Double.isNaN(y))  {
-			return new MyPoint(maxValue, maxValue);
+			return null;
 		}
 
 		// add 0.0 to avoid -0.0 problem.

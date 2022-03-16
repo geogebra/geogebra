@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -86,6 +87,8 @@ public class AppSwitcherPopup extends GPopupPanel {
 			GlobalHeader.onResize();
 			app.hideMenu();
 			((AppWFull) app).switchToSubapp(subAppCode);
+			Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
+					Analytics.Param.convertToSubAppParam(subAppCode));
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
 	}

@@ -55,6 +55,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
 import org.geogebra.web.full.gui.properties.AnimationStepPanelW;
@@ -1024,7 +1025,7 @@ public class OptionsTab extends FlowPanel {
 		private InputPanelW ipButtonHeight;
 		private AutoCompleteTextFieldW tfButtonWidth;
 		private AutoCompleteTextFieldW tfButtonHeight;
-		private CheckBox cbUseFixedSize;
+		private ComponentCheckbox cbUseFixedSize;
 		private Label labelWidth;
 		private Label labelHeight;
 		private Label labelPixelW;
@@ -1045,7 +1046,8 @@ public class OptionsTab extends FlowPanel {
 			labelHeight = new Label();
 			labelPixelW = new Label();
 			labelPixelH = new Label();
-			cbUseFixedSize = new CheckBox();
+			cbUseFixedSize = new ComponentCheckbox(loc, false, "fixed",
+					() -> getModel().applyChanges(getCbUseFixedSize().isSelected()));
 			setLabels();
 
 			ipButtonWidth = new InputPanelW(null, app, 1, -1, false);
@@ -1060,7 +1062,7 @@ public class OptionsTab extends FlowPanel {
 			BlurHandler focusListener = event -> getModel().setSizesFromString(
 					getTfButtonWidth().getText(),
 					getTfButtonHeight().getText(),
-					getCbUseFixedSize().getValue());
+					getCbUseFixedSize().isSelected());
 
 			tfButtonWidth.addBlurHandler(focusListener);
 			tfButtonHeight.addBlurHandler(focusListener);
@@ -1070,15 +1072,12 @@ public class OptionsTab extends FlowPanel {
 					getModel().setSizesFromString(
 							getTfButtonWidth().getText(),
 							getTfButtonHeight().getText(),
-							getCbUseFixedSize().getValue());
+							getCbUseFixedSize().isSelected());
 				}
 			};
 
 			tfButtonWidth.addKeyHandler(keyHandler);
 			tfButtonHeight.addKeyHandler(keyHandler);
-
-			cbUseFixedSize.addClickHandler(
-					event -> getModel().applyChanges(getCbUseFixedSize().getValue()));
 
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.setStyleName("textPropertiesTab");
@@ -1103,11 +1102,9 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void updateSizes(int width, int height, boolean isFixed) {
-			cbUseFixedSize.setValue(isFixed);
+			cbUseFixedSize.setSelected(isFixed);
 			tfButtonHeight.setText("" + height);
 			tfButtonWidth.setText("" + width);
-			// tfButtonHeight.setEnabled(isFixed);
-			// tfButtonWidth.setEnabled(isFixed);
 		}
 
 		@Override
@@ -1116,7 +1113,7 @@ public class OptionsTab extends FlowPanel {
 			labelHeight.setText(getLoc().getMenu("Height"));
 			labelPixelW.setText(getLoc().getMenu("Pixels.short"));
 			labelPixelH.setText(getLoc().getMenu("Pixels.short"));
-			cbUseFixedSize.setText(getLoc().getMenu("fixed"));
+			cbUseFixedSize.setLabels();
 		}
 
 		/**
@@ -1136,7 +1133,7 @@ public class OptionsTab extends FlowPanel {
 		/**
 		 * @return check box to fix size
 		 */
-		public CheckBox getCbUseFixedSize() {
+		public ComponentCheckbox getCbUseFixedSize() {
 			return cbUseFixedSize;
 		}
 

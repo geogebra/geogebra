@@ -442,6 +442,7 @@ public abstract class MyXMLio {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
 				kernel.updateConstruction(randomize, 1);
+				cons.updateCasCellTwinVisibility();
 				kernel.setNotifyViewsActive(oldVal);
 			}
 

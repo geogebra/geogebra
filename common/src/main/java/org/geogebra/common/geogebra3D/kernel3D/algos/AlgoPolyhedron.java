@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.settings.LabelVisibility;
 
 /**
  * @author ggb3D
@@ -247,7 +248,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				}
 			} else { // no element yet
 				visible = isFirstInputPointVisible();
-				labelVisible = isFirstInputPointLabelVisible();
+				labelVisible = isFirstInputPointLabelVisible() && labelsAllowed();
 			}
 
 			p.setEuclidianVisible(visible);
@@ -271,6 +272,11 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 
 			return p;
 		}
+	}
+
+	protected boolean labelsAllowed() {
+		return kernel.getApplication().getSettings().getLabelSettings().getLabelVisibility()
+				!= LabelVisibility.AlwaysOff;
 	}
 
 	@Override

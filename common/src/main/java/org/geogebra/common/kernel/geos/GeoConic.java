@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -52,7 +53,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class GeoConic extends GeoConicND implements ConicMirrorable,
 		SymbolicParametersBotanaAlgo, EquationValue, GeoEvaluatable,
-		GeoFunctionable {
+		GeoFunctionable, Functional {
 	private CoordSys coordSys;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
@@ -586,14 +587,16 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		// translate +S
 		doTranslate(sx, sy);
 
-		if (r == 0 || !Double.isFinite(r)) {
-			// degenerate case may have changed conic type
-			classifyConic();
-		} else {
+		if (isDegenerate() && r != 0 && Double.isFinite(r)) {
+			// for degenerate conics avoid full classification to keep start points
+			// unless a special value of r changes conic type
 			eigenvec[0].dilate(r);
 			eigenvec[1].dilate(r);
 			setAffineTransform();
 			updateDegenerates(p -> p.dilate(rval, S));
+		} else {
+			// non-degenerate conics have a lot of internal state that may need updating
+			classifyConic();
 		}
 
 		// make sure we preserve old Eigenvector orientation

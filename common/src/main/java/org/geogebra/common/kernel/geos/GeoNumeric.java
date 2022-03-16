@@ -27,6 +27,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -344,23 +345,21 @@ public class GeoNumeric extends GeoElement
 				.isUnbundled()) {
 			count++;
 		}
+
 		sliderPos = new SliderPosition();
+
 		if (isAbsoluteScreenLocActive()) {
-			sliderPos.x = 30;
 			EuclidianViewInterfaceSlim ev = kernel.getApplication()
 					.getActiveEuclidianView();
-			if (ev != null) {
-				sliderPos.y = ev.getSliderOffsetY() + 40 * count;
-			} else {
-				sliderPos.y = 50 + 40 * count;
-			}
+			EdgeInsets insets = ev.getSafeAreaInsets();
+			sliderPos.x = insets.getLeft() + 30;
+			sliderPos.y = insets.getTop() + 50 + 40 * count;
 			// make sure slider is visible on screen
 			sliderPos.y = (int) (sliderPos.y / 400) * 10 + sliderPos.y % 400;
 		} else {
 			sliderPos.x = -5;
 			sliderPos.y = 10 - count;
 		}
-
 	}
 
 	private int countSliders() {
@@ -708,6 +707,13 @@ public class GeoNumeric extends GeoElement
 			setAutoStep(((GeoNumeric) geo).autoStep);
 			symbolicMode = ((GeoNumeric) geo).symbolicMode;
 			sliderFixed = ((GeoNumeric) geo).sliderFixed;
+		}
+	}
+
+	@Override
+	public void getXML(boolean getListenersToo, StringBuilder sb) {
+		if (!isDependentConst()) {
+			super.getXML(getListenersToo, sb);
 		}
 	}
 

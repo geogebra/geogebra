@@ -19,6 +19,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private final LogInOperation logInOperation;
 	private final boolean createExamEntry;
 	private final boolean enableFileFeatures;
+	private final String versionNumber;
 
 	/**
 	 * Create a new DrawerMenuFactory.
@@ -55,7 +56,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			GeoGebraConstants.Version version,
 			LogInOperation logInOperation,
 			boolean createExamEntry) {
-		this(platform, version, logInOperation, createExamEntry, true);
+		this(platform, version, null, logInOperation, createExamEntry, true);
 	}
 
 	/**
@@ -69,16 +70,19 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
+			String versionNumber,
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures) {
-		this(platform, version, logInOperation, createExamEntry, enableFileFeatures, false);
+		this(platform, version, versionNumber, logInOperation, createExamEntry,
+				enableFileFeatures, false);
 	}
 
 	/**
 	 * Create a new DrawerMenuFactory.
 	 * @param platform platform
 	 * @param version version
+	 * @param versionNumber version number
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
 	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 * @param createExamEntry whether the factory should create the start exam button
@@ -87,12 +91,14 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
+			String versionNumber,
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures,
 			boolean isSuiteApp) {
 		super(version, isSuiteApp);
 		this.platform = platform;
+		this.versionNumber = versionNumber;
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;
 		this.enableFileFeatures = enableFileFeatures;
@@ -186,7 +192,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return new ActionableItemImpl(Icon.PRINT, "PrintPreview", Action.PREVIEW_PRINT);
 	}
 
-	private static MenuItem showHelpAndFeedback() {
+	private MenuItem showHelpAndFeedback() {
 		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
 				"Tutorial", Action.SHOW_TUTORIALS);
 		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
@@ -195,7 +201,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"ReportProblem", Action.REPORT_PROBLEM);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
 				"AboutLicense", Action.SHOW_LICENSE);
-		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback",
+		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback", versionNumber,
 				tutorials, askQuestion, reportProblem, license);
 	}
 
@@ -221,7 +227,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItem buildDownloadAs(ActionableItem... items) {
-		return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", items);
+		return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", null, items);
 	}
 
 	private static ActionableItem createDownloadGgb() {

@@ -1,49 +1,37 @@
 package org.geogebra.common.gui.view.table;
 
-import org.geogebra.common.awt.GFont;
-
 /**
- * Has information about table cell dimensions. Make sure to call
- *  * {@link TableValuesDimensions#setFont(GFont)} before
- *  * using this object, to make width calculations more specific.
+ * Has information about table cell dimensions.
  */
 public interface TableValuesDimensions {
+	/** Header height */
+	int HEADER_HEIGHT = 48;
+	/** Row height */
+	int ROW_HEIGHT = 40;
+	/** Minimum column width */
+	int MIN_COLUMN_WIDTH = 120;
+	/** Maximum column width */
+	int MAX_COLUMN_WIDTH = 180;
+	/** Width of the column for fade */
+	int FADE_COLUMN_WIDTH = 56;
+	/** Left margin of the cell */
+	int CELL_LEFT_MARGIN = 16;
+	/** Right margin of the cell */
+	int CELL_RIGHT_MARGIN = 28;
 
-    /**
-     * Set the font which is used for the calculations.
-     *
-     * @param font font
-     */
-    void setFont(GFont font);
+	/**
+	 * Returns the column width.
+	 * @param column column
+	 * @return the width of the colum
+	 */
+	int getColumnWidth(int column);
 
-    /**
-     * Returns the row height.
-     *
-     * @param row row
-     * @return the height of the row
-     */
-    int getRowHeight(int row);
-
-    /**
-     * Returns the column width.
-     *
-     * @param column column
-     * @return the width of the colum
-     */
-    int getColumnWidth(int column);
-
-    /**
-     * Returns the header height.
-     *
-     * @return the header height
-     */
-    int getHeaderHeight();
-
-    /**
-     * Returns the header width.
-     *
-     * @param header the header index
-     * @return the header width
-     */
-    int getHeaderWidth(int header);
+	/**
+	 * Calculating the column width excluding a row
+	 *
+	 * @param column column
+	 * @param exceptRow row which should be excluded
+	 * @return the width of the column excluding the exceptRow
+	 */
+	int getColumnWidth(int column, int exceptRow);
 }

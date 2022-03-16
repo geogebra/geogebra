@@ -422,7 +422,7 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo
 	 *            true to make undo step
 	 * @param withSliders
-	 * 			  true to autocreate sliders
+	 *            true to autocreate sliders
 	 * @param handler
 	 *            error handler
 	 *
@@ -826,7 +826,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * @param addDegree
-	 * 				whether to add degrees
+	 *           whether to add degrees
 	 * @return evaluation flags
 	 */
 	public EvalInfo getEvalInfo(boolean addDegree) {
@@ -875,9 +875,6 @@ public class AlgebraProcessor {
 			rett = parseMathml(cmd, storeUndo, handler,
 					info.isAutocreateSliders(),
 					callback0);
-			if (rett != null && callback0 != null) {
-				callback0.callback(rett);
-			}
 			return rett;
 		}
 		try {
@@ -890,7 +887,7 @@ public class AlgebraProcessor {
 			}
 			ValidExpression ve = parser.parseGeoGebraExpression(cmd);
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, callback0,	info);
+					handler, callback0, info);
 
 		} catch (ParseException e) {
 			e.printStackTrace(System.out);
@@ -903,12 +900,11 @@ public class AlgebraProcessor {
 		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
- 		}
+		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}
 		return null;
-
 	}
 
 	/**
@@ -2016,6 +2012,24 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * Process given expression silently (without adding to construction or labeling)
+	 * @param ve expression
+	 * @return resulting elements
+	 * @throws MyError when expression is invalid
+	 * @throws Exception e.g. circular definition
+	 */
+	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
+			throws MyError, Exception {
+		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		try {
+			return processValidExpression(ve, new EvalInfo(false));
+		} finally {
+			cons.setSuppressLabelCreation(oldSuppressLabel);
+		}
+	}
+
 	private void stripDefinition(GeoElement[] elements) {
 		for (GeoElement element: elements) {
 			element.setDefinition(null);
@@ -2133,7 +2147,7 @@ public class AlgebraProcessor {
 					// type:
 					// simply assign value and don't redefine
 					if (replaceable.isIndependent() && ret[0].isIndependent()
-							&& compatibleTypes(replaceable,	ret[0])) {
+							&& compatibleTypes(replaceable, ret[0])) {
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -3071,7 +3085,7 @@ public class AlgebraProcessor {
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
-				&& !willResultInSlider(node)) {
+				&& !willResultInSlider(node) && !n.isForceList()) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command

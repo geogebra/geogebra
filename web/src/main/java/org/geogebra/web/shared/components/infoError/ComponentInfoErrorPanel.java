@@ -20,7 +20,7 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	 * @param buttonAction - handler for the button
 	 */
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data, SVGResource img,
-			Runnable buttonAction) {
+			 Runnable buttonAction) {
 		this.loc = loc;
 		addStyleName("infoErrorPanel");
 		buildGUI(data, img, buttonAction);

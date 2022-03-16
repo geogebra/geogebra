@@ -1,17 +1,13 @@
 package org.geogebra.web.full.gui.view.data;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatTableModel;
-import org.geogebra.common.gui.view.data.StatTableModel.Stat;
 import org.geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.statistics.Regression;
+import org.geogebra.common.kernel.statistics.Stat;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,6 +21,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 		StatTableListener {
+	protected final AppW app;
 	private StatTableModel model;
 
 	protected DataAnalysisViewW daView;
@@ -45,8 +42,9 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog,
 			boolean defaultModel) {
 		this.daView = statDialog;
+		this.app = app;
 		setStyleName("daStatistics");
-		
+
 		if (defaultModel) {
 			setModel(new StatTableModel(app, this));
 		}
@@ -95,36 +93,10 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	 */
 	@Override
 	public void updatePanel() {
-		// App.printStacktrace("update stat panel");
-		GeoList dataList = getDataSelected();
-
-		GeoElement geoRegression = getRegressionModel();
-		// when the regression mode is NONE geoRegression is a dummy linear
-		// model, so reset it to null
-		if (getRegressionMode().equals(Regression.NONE)) {
-			geoRegression = null;
-		}
-
-		double value;
 		statTable.setStatTable(getModel().getRowCount(), getModel()
 				.getRowNames(), getColumnCount(), getModel()
 				.getColumnNames());
-		ArrayList<Stat> list = getModel().getStatList();
-
-		for (int row = 0; row < list.size(); row++) {
-			for (int column = 1; column < getColumnCount(); column++) {
-				Stat stat = list.get(row);
-				if (isValidData() && stat != Stat.NULL) {
-					AlgoElement algo = getAlgo(stat, dataList, geoRegression);
-					if (algo != null) {
-						getModel().getConstruction().removeFromConstructionList(algo);
-						value = ((GeoNumeric) algo.getGeoElements()[0])
-								.getDouble();
-						setValueAt(value, row,	1);
-					}
-				}
-			}
-		}
+		app.getAsyncManager().scheduleCallback(getModel()::updatePanel);
 	}
 
 	protected AlgoElement getAlgo(Stat algoName, GeoList dataList,
@@ -148,7 +120,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	@Override
-	public DataAnalysisModel.Regression getRegressionMode() {
+	public Regression getRegressionMode() {
 		return daView.getModel().getRegressionMode();
 	}
 
@@ -160,7 +132,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	@Override
 	public void setValueAt(double value, int row, int col) {
 		statTable.setValueAt(daView.getModel().format(value), row,
-				col);
+				col + 1);
 	}
 
 	@Override

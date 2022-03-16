@@ -181,6 +181,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		fr.setOnLoadCallback(Js.uncheckedCast((JsConsumer<Object>) exportedApi -> {
 			Map<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("api", exportedApi);
+			jsonArgument.put("loadedWithFile", currentBase64 != null);
 			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
 					.setJsonArgument(jsonArgument));
 		}));

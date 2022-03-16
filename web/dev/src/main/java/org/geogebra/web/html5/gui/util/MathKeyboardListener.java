@@ -19,4 +19,6 @@ public interface MathKeyboardListener {
 	boolean needsAutofocus();
 
 	boolean hasFocus();
+
+	boolean acceptsCommandInserts();
 }

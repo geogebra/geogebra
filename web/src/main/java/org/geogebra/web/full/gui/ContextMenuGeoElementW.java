@@ -73,7 +73,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *  @param app
 	 *            application
 	 * @param factory
-	 * 			widget factory
+	 *            widget factory
 	 */
 	ContextMenuGeoElementW(AppW app, ContextMenuFactory factory) {
 		super(app);

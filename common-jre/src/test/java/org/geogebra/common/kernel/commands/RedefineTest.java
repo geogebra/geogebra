@@ -457,6 +457,16 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals(1, redefined.getAlphaValue(), 1E-5);
 	}
 
+	@Test
+	public void curveShouldBeDefinedAfterInputUpdate() {
+		add("b=?");
+		add("f(x)=?");
+		GeoElement curve = add("Curve(f(t),f(t),t,-b,b)");
+		add("SetValue(b,1)");
+		add("SetValue(f,sin(x))");
+		assertThat(curve, isDefined());
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */

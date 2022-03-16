@@ -47,7 +47,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	 * @param view
 	 *            Euclidian view
 	 * @param cache
-	 * 			  Point cache
+	 *            Point cache
 	 */
 	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view, List<MyPoint> cache) {
 		super(view);

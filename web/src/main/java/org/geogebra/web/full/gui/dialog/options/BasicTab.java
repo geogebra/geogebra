@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -19,7 +20,6 @@ import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -42,8 +42,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private Image imgLock;
 	private Image imgUnlock;
 
-	protected CheckBox cbShowAxes;
-	CheckBox cbBoldAxes;
+	protected ComponentCheckbox cbShowAxes;
+	ComponentCheckbox cbBoldAxes;
 	private Label colorLabel;
 	private MyCJButton btAxesColor;
 	private Label lineStyle;
@@ -52,19 +52,19 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private PopupMenuButtonW axesStylePopup;
 	protected Label backgroundColorLabel;
 	protected MyCJButton btBackgroundColor;
-	CheckBox cbShowMouseCoords;
+	ComponentCheckbox cbShowMouseCoords;
 	private FormLabel tooltips;
 	private FormLabel rightAngleStyleLabel;
 	protected Label miscTitle;
 	private Label consProtocolTitle;
 	private FlowPanel consProtocolPanel;
-	CheckBox cbShowNavbar;
-	CheckBox cbNavPlay;
-	CheckBox cbOpenConsProtocol;
+	ComponentCheckbox cbShowNavbar;
+	ComponentCheckbox cbNavPlay;
+	ComponentCheckbox cbOpenConsProtocol;
 	protected Label lblAxisLabelStyle;
-	protected CheckBox cbAxisLabelSerif;
-	protected CheckBox cbAxisLabelBold;
-	protected CheckBox cbAxisLabelItalic;
+	protected ComponentCheckbox cbAxisLabelSerif;
+	protected ComponentCheckbox cbAxisLabelBold;
+	protected ComponentCheckbox cbAxisLabelItalic;
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
 	ListBox rightAngleStyleListBox;
@@ -215,11 +215,12 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		axesOptionsTitle = new Label();
 		axesOptionsTitle.setStyleName("panelTitle");
 		// show axes checkbox
-		cbShowAxes = new CheckBox(
-				optionsEuclidianW.loc.getMenu("ShowAxes"));
+		cbShowAxes = new ComponentCheckbox(optionsEuclidianW.loc, true, "ShowAxes",
+				this::onShowAxes);
 
 		// show bold checkbox
-		cbBoldAxes = new CheckBox(optionsEuclidianW.loc.getMenu("Bold"));
+		cbBoldAxes = new ComponentCheckbox(optionsEuclidianW.loc, false, "Bold",
+				this::onBoldAxes);
 
 		// axes color
 		colorLabel = new Label(
@@ -228,15 +229,15 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		lblAxisLabelStyle = new Label(
 				optionsEuclidianW.loc.getMenu("LabelStyle") + ":");
 		// show axis label bold checkbox
-		cbAxisLabelBold = new CheckBox(
-				optionsEuclidianW.loc.getMenu("Bold"));
+		cbAxisLabelBold = new ComponentCheckbox(optionsEuclidianW.loc, false, "Bold",
+				() -> model.setAxisFontBold(cbAxisLabelBold.isSelected()));
 
-		cbAxisLabelSerif = new CheckBox(
-				optionsEuclidianW.loc.getMenu("Serif"));
+		cbAxisLabelSerif = new ComponentCheckbox(optionsEuclidianW.loc, false, "Serif",
+				() -> model.setAxesLabelsSerif(cbAxisLabelSerif.isSelected()));
 
 		// show axis label italic checkbox
-		cbAxisLabelItalic = new CheckBox(
-				optionsEuclidianW.loc.getMenu("Italic"));
+		cbAxisLabelItalic = new ComponentCheckbox(optionsEuclidianW.loc, false, "Italic",
+				() -> model.setAxisFontItalic(cbAxisLabelItalic.isSelected()));
 
 		btAxesColor = new MyCJButton();
 
@@ -301,7 +302,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				model.applyAxesStyle(EuclidianStyleConstants
 						.getLineStyleOptions(idx)
 						// make sure bold checkbox doesn't change
-						+ (cbBoldAxes.getValue()
+						+ (cbBoldAxes.isSelected()
 								? EuclidianStyleConstants.AXES_BOLD : 0));
 				optionsEuclidianW.updateView();
 				super.handlePopupActionEvent();
@@ -314,27 +315,20 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		axesOptionsPanel = new FlowPanel();
 		add(axesOptionsTitle);
 		fillAxesOptionsPanel();
-		cbShowAxes.addClickHandler(event -> {
-			setShowAxes(cbShowAxes.getValue());
-			optionsEuclidianW.updateView();
-			optionsEuclidianW.app.storeUndoInfo();
-		});
-
-		cbBoldAxes.addClickHandler(event -> {
-			model.applyBoldAxes(cbBoldAxes.getValue(),
-					cbShowAxes.getValue());
-			optionsEuclidianW.updateView();
-		});
-
-		cbAxisLabelSerif.addClickHandler(
-				event -> model.setAxesLabelsSerif(cbAxisLabelSerif.getValue()));
-
-		cbAxisLabelBold.addClickHandler(event -> model.setAxisFontBold(cbAxisLabelBold.getValue()));
-
-		cbAxisLabelItalic.addClickHandler(
-				event -> model.setAxisFontItalic(cbAxisLabelItalic.getValue()));
 
 		indent(axesOptionsPanel);
+	}
+
+	private void onShowAxes() {
+		setShowAxes(cbShowAxes.isSelected());
+		optionsEuclidianW.updateView();
+		optionsEuclidianW.app.storeUndoInfo();
+	}
+
+	private void onBoldAxes() {
+		model.applyBoldAxes(cbBoldAxes.isSelected(),
+				cbShowAxes.isSelected());
+		optionsEuclidianW.updateView();
 	}
 
 	protected void setShowAxes(Boolean value) {
@@ -376,39 +370,35 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		consProtocolTitle.setStyleName("panelTitle");
 		consProtocolPanel = new FlowPanel();
 
-		cbShowNavbar = new CheckBox();
+		cbShowNavbar = new ComponentCheckbox(optionsEuclidianW.loc, false, "Show",
+				this::onShowNavBar);
 
 		consProtocolPanel.add(cbShowNavbar);
 
-		cbNavPlay = new CheckBox();
+		cbNavPlay = new ComponentCheckbox(optionsEuclidianW.loc, false, "PlayButton",
+				() -> togglePlayButton());
 
-		cbOpenConsProtocol = new CheckBox();
-
-		cbShowNavbar.setStyleName("checkBoxPanel");
+		cbOpenConsProtocol = new ComponentCheckbox(optionsEuclidianW.loc, false,
+				"ConstructionProtocolButton",
+				() -> toggleConsProtButton());
 
 		FlowPanel buttons = new FlowPanel();
 		buttons.setStyleName("panelIndent");
-		cbNavPlay.setStyleName("checkBoxPanel");
-		cbOpenConsProtocol.setStyleName("checkBoxPanel");
 		buttons.add(cbNavPlay);
 		buttons.add(cbOpenConsProtocol);
 		consProtocolPanel.add(buttons);
 
 		add(consProtocolTitle);
 		indent(consProtocolPanel);
+	}
 
-		cbShowNavbar.addClickHandler(event -> {
-			optionsEuclidianW.app
-					.toggleShowConstructionProtocolNavigation(
-							optionsEuclidianW.view
-									.getViewID());
-			cbNavPlay.setEnabled(cbShowNavbar.getValue());
-			cbOpenConsProtocol.setEnabled(cbShowNavbar.getValue());
-		});
-
-		cbNavPlay.addClickHandler(event -> togglePlayButton());
-
-		cbOpenConsProtocol.addClickHandler(event -> toggleConsProtButton());
+	private void onShowNavBar() {
+		optionsEuclidianW.app
+				.toggleShowConstructionProtocolNavigation(
+						optionsEuclidianW.view
+								.getViewID());
+		cbNavPlay.setEnabled(cbShowNavbar.isSelected());
+		cbOpenConsProtocol.setEnabled(cbShowNavbar.isSelected());
 	}
 
 	protected void applyBackgroundColor(GColor color) {
@@ -438,8 +428,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		btBackgroundColor = new MyCJButton();
 
 		// show mouse coords
-		cbShowMouseCoords = new CheckBox();
-
+		cbShowMouseCoords = new ComponentCheckbox(optionsEuclidianW.loc, false,
+				"ShowMouseCoordinates",
+				() -> model.applyMouseCoords(cbShowMouseCoords.isSelected()));
 		// show tooltips
 		lbTooltips = new ListBox();
 		fillTooltipCombo();
@@ -500,9 +491,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			// model.applyBackgroundColor();
 		});
 
-		cbShowMouseCoords.addClickHandler(
-				event -> model.applyMouseCoords(cbShowMouseCoords.getValue()));
-
 		lbTooltips.addChangeHandler(event -> model.applyTooltipMode(
 				lbTooltips.getSelectedIndex()));
 
@@ -538,8 +526,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				+ " : " + optionsEuclidianW.loc.getMenu("yAxis"));
 
 		axesOptionsTitle.setText(optionsEuclidianW.loc.getMenu("Axes"));
-		cbShowAxes.setText(optionsEuclidianW.loc.getMenu("ShowAxes"));
-		cbBoldAxes.setText(optionsEuclidianW.loc.getMenu("Bold"));
+		cbShowAxes.setLabels();
+		cbBoldAxes.setLabels();
 		colorLabel.setText(optionsEuclidianW.loc.getMenu("Color") + ":");
 		lineStyle
 				.setText(optionsEuclidianW.loc.getMenu("LineStyle") + ":");
@@ -551,8 +539,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		fillTooltipCombo();
 		lbTooltips.setSelectedIndex(index);
-		cbShowMouseCoords.setText(
-				optionsEuclidianW.loc.getMenu("ShowMouseCoordinates"));
+		cbShowMouseCoords.setLabels();
 
 		index = rightAngleStyleListBox.getSelectedIndex();
 
@@ -562,16 +549,15 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		consProtocolTitle.setText(optionsEuclidianW.loc
 				.getMenu("ConstructionProtocolNavigation"));
 
-		cbShowNavbar.setText(optionsEuclidianW.loc.getMenu("Show"));
-		cbNavPlay.setText(optionsEuclidianW.loc.getMenu("PlayButton"));
-		cbOpenConsProtocol.setText(optionsEuclidianW.loc
-				.getMenu("ConstructionProtocolButton"));
+		cbShowNavbar.setLabels();
+		cbNavPlay.setLabels();
+		cbOpenConsProtocol.setLabels();
 
 		lblAxisLabelStyle.setText(
 				optionsEuclidianW.loc.getMenu("LabelStyle") + ":");
-		cbAxisLabelSerif.setText(optionsEuclidianW.loc.getMenu("Serif"));
-		cbAxisLabelBold.setText(optionsEuclidianW.loc.getMenu("Bold"));
-		cbAxisLabelItalic.setText(optionsEuclidianW.loc.getMenu("Italic"));
+		cbAxisLabelSerif.setLabels();
+		cbAxisLabelBold.setLabels();
+		cbAxisLabelItalic.setLabels();
 		tooltips.setText(optionsEuclidianW.loc.getMenu("Tooltips") + ":");
 
 		rightAngleStyleLabel.setText(
@@ -647,9 +633,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 */
 	public final void updateAxes(GColor color) {
 		// btAxesColor.setForeground(new GColorW(view.getAxesColor()));
-		cbShowAxes.setValue(optionsEuclidianW.view.getShowXaxis()
+		cbShowAxes.setSelected(optionsEuclidianW.view.getShowXaxis()
 				&& optionsEuclidianW.view.getShowYaxis());
-		cbBoldAxes.setValue(optionsEuclidianW.view.areAxesBold());
+		cbBoldAxes.setSelected(optionsEuclidianW.view.areAxesBold());
 		updateAxesColorButton(color);
 	}
 
@@ -681,26 +667,26 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 */
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
-		cbShowNavbar.setValue(isVisible);
+		cbShowNavbar.setSelected(isVisible);
 		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
 				.getGuiManager().getCPNavigationIfExists();
-		cbNavPlay.setValue(cpn == null || cpn.isPlayButtonVisible());
+		cbNavPlay.setSelected(cpn == null || cpn.isPlayButtonVisible());
 		cbOpenConsProtocol
-				.setValue(cpn == null || cpn.isConsProtButtonVisible());
+				.setSelected(cpn == null || cpn.isConsProtButtonVisible());
 
 		cbNavPlay.setEnabled(isVisible);
 		cbOpenConsProtocol.setEnabled(isVisible);
 	}
 
 	public void showMouseCoords(boolean value) {
-		cbShowMouseCoords.setValue(value);
+		cbShowMouseCoords.setSelected(value);
 	}
 
 	public void selectAxesStyle(int index) {
 		axesStylePopup.setSelectedIndex(index);
 	}
 
-	public void enabeLock(boolean value) {
+	public void enableLock(boolean value) {
 		tbLockRatio.setEnabled(value);
 	}
 
@@ -721,7 +707,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 * Update xmin, xmax, ymin, ymax and scale inputs
 	 */
 	public void updateBounds() {
-
 		updateMinMax();
 
 		double xscale = optionsEuclidianW.view.getXscale();
@@ -735,7 +720,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 					.format(yscale / xscale, StringTemplate.editTemplate));
 			tfAxesRatioY.setText("1");
 		}
-
 	}
 
 	public FormLabel[] getDimLabel() {

@@ -80,16 +80,16 @@ public class ImageOrText {
 	 * @return converted array
 	 */
 	public static ImageOrText[] convert(ImageResource[] res, int size) {
-	    ImageOrText[] arr = new ImageOrText[res.length];
+		ImageOrText[] arr = new ImageOrText[res.length];
 		for (int i = 0; i < arr.length; i++) {
 			if (res[i] == null) {
-	    		return arr;
-	    	}
+				return arr;
+			}
 			arr[i] = new ImageOrText(res[i]);
 			arr[i].bgSize = size;
-	    }
-	    return arr;
-    }
+		}
+		return arr;
+	}
 
 	/**
 	 * @param res
@@ -115,13 +115,13 @@ public class ImageOrText {
 	 * @return converted array
 	 */
 	public static ImageOrText[] convert(String[] res) {
-	    ImageOrText[] arr = new ImageOrText[res.length];
+		ImageOrText[] arr = new ImageOrText[res.length];
 		for (int i = 0; i < arr.length; i++) {
-	    	arr[i] = new ImageOrText();
-	    	arr[i].setText(res[i]);
-	    }
-	    return arr;
-    }
+			arr[i] = new ImageOrText();
+			arr[i].setText(res[i]);
+		}
+		return arr;
+	}
 
 	/**
 	 * @param button
@@ -161,11 +161,11 @@ public class ImageOrText {
 		}
 		if (fgColor != null) {
 			button.getElement()
-			        .getStyle()
-			        .setBorderColor(
-			                "rgba(" + fgColor.getRed() + ", "
-			                        + fgColor.getGreen() + ", "
-			                        + fgColor.getBlue() + ", 1)");
+					.getStyle()
+					.setBorderColor(
+							"rgba(" + fgColor.getRed() + ", "
+								+ fgColor.getGreen() + ", "
+								+ fgColor.getBlue() + ", 1)");
 			button.getElement().addClassName("borderButton");
 			button.getElement().getStyle()
 					.setBackgroundColor(GColor.getColorString(fgColor));

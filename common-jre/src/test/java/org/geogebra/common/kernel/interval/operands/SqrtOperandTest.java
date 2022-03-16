@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.interval.operands;
 
-import static org.geogebra.common.kernel.interval.IntervalConstants.negativeInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
@@ -37,26 +36,26 @@ public class SqrtOperandTest {
 
 	@Test
 	public void sqrtOfZeroInverseShouldBePositiveInfinity() {
-		assertEquals(interval(Double.POSITIVE_INFINITY), sqrt(zero().multiplicativeInverse()));
+		assertEquals(undefined(), sqrt(zero().multiplicativeInverse()));
 	}
 
 	@Test
-	public void intervalWithMinusLowShouldBeMinusInfinity() {
+	public void intervalWithMinusLowShouldBeUndefined() {
 		Interval x = interval(-3.224503997145689E-14, 0.019999999999967755);
-		assertEquals(interval(Double.NEGATIVE_INFINITY),
+		assertEquals(undefined(),
 				sqrt(x.negative()).negative().multiplicativeInverse());
 	}
 
 	@Test
-	public void intervalWithMinusZeroShouldBeMinusInfinity() {
+	public void intervalWithMinusZeroShouldBeUndefined() {
 		Interval x = interval(-0.0, 0.019999999999967755);
-		assertEquals(interval(Double.NEGATIVE_INFINITY),
+		assertEquals(undefined(),
 				sqrt(x.negative()).negative().multiplicativeInverse());
 	}
 
 	@Test
-	public void minusSqrtInverseShouldBeNegativeInfinityAtZero() {
-		assertEquals(negativeInfinity(),
+	public void minusSqrtInverseShouldBeUndefinedAtZero() {
+		assertEquals(undefined(),
 				IntervalOperands.multiply(sqrt(zero()).multiplicativeInverse(),
 						interval(-1)));
 	}

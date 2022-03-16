@@ -46,6 +46,7 @@ import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotterImpl;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -150,6 +151,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static final double SCALE_STANDARD = 50;
 	/** border in which axis numbers are not drawn */
 	protected static final int SCREEN_BORDER = 10;
+	/** Number of inset pixels for safe area */
+	public static final int MINIMUM_SAFE_AREA = 8;
 
 	// public static final double SCALE_MAX = 10000;
 	// public static final double SCALE_MIN = 0.1;
@@ -515,6 +518,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private final CoordSystemInfo coordSystemInfo;
 
 	private final Rectangle visibleRect;
+	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
 
 	public static class Rectangle {
 
@@ -1273,20 +1277,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Checks if (real world) coords are on view.
 	 *
-	 * @param x x-coord
-	 * @param y y-coord
-	 *
-	 * @return true if coords are on view
-	 */
-	public boolean isOnView(double x, double y) {
-		return (x >= getXmin()) && (x <= getXmax())
-				&& (y >= getYmin()) && (y <= getYmax());
-	}
-
-	/**
-	 * 
 	 * @param p1
 	 *            first point
 	 * @param p2
@@ -6524,9 +6515,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Attaches a symbolic-capable editor to the input box
 	 * @param geoInputBox
-	 * 			the input box to attach
+	 *             the input box to attach
 	 * @param bounds
-	 * 			where the editor should be attached to.
+	 *             where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
 		if (symbolicEditor == null) {
@@ -6553,6 +6544,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor createSymbolicEditor() {
 		// overridden in web and desktop
 		return null;
+	}
+
+	public SymbolicEditor initSymbolicEditor() {
+		return createSymbolicEditor();
 	}
 
 	/**
@@ -6760,6 +6755,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		// do nothing
+	}
+
+	@Override
+	public EdgeInsets getSafeAreaInsets() {
+		return safeAreaInsets;
+	}
+
+	@Override
+	public void setSafeAreaInsets(EdgeInsets safeAreaInsets) {
+		this.safeAreaInsets = safeAreaInsets;
+		updateAllDrawables(true);
 	}
 
 	/**

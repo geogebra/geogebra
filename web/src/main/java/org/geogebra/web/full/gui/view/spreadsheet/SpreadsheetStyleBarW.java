@@ -93,7 +93,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(false);
 		btnBgColor.setSelectedIndex(7);
-		btnBgColor.addActionListener(this);	
+		btnBgColor.addActionListener(this);
 		btnBgColor.addPopupHandler(this);
 	}
 
@@ -218,7 +218,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 					geo.setBackgroundColor(bgCol);
 					geo.updateRepaint();
 				}
-			}		  
+			}
 		}
 		app.storeUndoInfo();
 		table.updateCellFormat(selectedCells);

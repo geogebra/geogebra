@@ -5,6 +5,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.PI;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalOperands.acos;
@@ -164,8 +165,8 @@ public class IntervalTrigonometricTest {
 	}
 
 	@Test
-	public void testInvertedCosLnShouldReturnInMinusOneOneRange() {
-		assertEquals(interval(-1, 1), cos(log(divide(interval(7), zero()))));
+	public void testInvertedCosLnShouldBeUndefined() {
+		assertEquals(undefined(), cos(log(divide(interval(7), zero()))));
 	}
 
 }

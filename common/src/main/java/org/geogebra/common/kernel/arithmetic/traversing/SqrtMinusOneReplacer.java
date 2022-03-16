@@ -10,7 +10,7 @@ import org.geogebra.common.plugin.Operation;
 
 import com.google.j2objc.annotations.Weak;
 
-public 	class SqrtMinusOneReplacer implements Traversing {
+public class SqrtMinusOneReplacer implements Traversing {
 	@Weak
 	private final Kernel kernel;
 

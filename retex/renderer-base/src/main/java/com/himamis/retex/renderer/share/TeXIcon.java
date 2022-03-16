@@ -298,10 +298,14 @@ public class TeXIcon implements Icon {
 		g2.setColor(oldColor);
 	}
 
-	public void paintCursor(Graphics2DInterface ctx, double margin) {
+	public void paintCursor(Graphics2DInterface ctx, double marginTop) {
+		paintCursor(ctx, marginTop, 0);
+	}
+
+	public void paintCursor(Graphics2DInterface ctx, double marginTop, double marginLeft) {
 		if (selectionPosition != null) {
-			double x = selectionPosition.getX() * size + insets.left;
-			double y = (box.getHeight() + selectionPosition.getY()) * size + insets.top + margin;
+			double x = selectionPosition.getX() * size + insets.left + marginLeft;
+			double y = (box.getHeight() + selectionPosition.getY()) * size + insets.top + marginTop;
 			double width = selectionPosition.getWidth() * size;
 			double height = selectionPosition.getHeight() * size;
 
@@ -309,8 +313,8 @@ public class TeXIcon implements Icon {
 					.createColor(204, 204, 255, 100));
 			ctx.fillRect((int) x, (int) y, (int) width, (int) height);
 		} else if (cursorPosition != null && CursorBox.visible()) {
-			double x = cursorPosition.getX() * size + insets.left;
-			double y = (box.getHeight() + cursorPosition.getY()) * size + insets.top + margin;
+			double x = cursorPosition.getX() * size + insets.left + marginLeft;
+			double y = (box.getHeight() + cursorPosition.getY()) * size + insets.top + marginTop;
 			double height = cursorPosition.getHeight() * size;
 
 			ctx.setColor(FactoryProvider.getInstance().getGraphicsFactory().createColor(0x4c42a1));

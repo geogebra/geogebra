@@ -123,7 +123,7 @@ public abstract class UndoManager {
 	 *            action type
 	 * @param args event arguments
 	 */
-	public void executeAction(EventType action,	String... args) {
+	public void executeAction(EventType action, String... args) {
 		for (ActionExecutor executor: executors) {
 			if (executor.executeAction(action, args)) {
 				return;
@@ -601,16 +601,15 @@ public abstract class UndoManager {
 
 	/**
 	 * @param undoPossibleListener
-	 *            undo listener
+	 *            undo stack listener
 	 */
 	public void addUndoListener(UndoPossibleListener undoPossibleListener) {
 		mListener.add(undoPossibleListener);
 	}
 
 	/**
-	 *
 	 * @param undoPossibleListener
-	 * 			  undo listener
+	 *            undo stack listener
 	 */
 	public void removeUndoListener(UndoPossibleListener undoPossibleListener) {
 		mListener.remove(undoPossibleListener);

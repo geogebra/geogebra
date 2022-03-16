@@ -1319,6 +1319,10 @@ public class Coords implements AnimatableValue<Coords> {
 		// direction is not parallel to the plane
 		// we can use globalCoords twice as it will be set at this end
 		projectPlaneNoCheck(vx, vy, vz, o, globalCoords.val, globalCoords.val);
+		// special case: in horizontal space we can remove the rounding error from z
+		if (vx.getZ() == 0 && vy.getZ() == 0) {
+			globalCoords.setZ(o.getZ());
+		}
 	}
 
 	/**
@@ -2288,7 +2292,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            vector to add
 	 * @return
 	 * 
-	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
+	 * deprecated: create vector and use {@link #setAdd(Coords, Coords)}
 	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
 
@@ -2336,7 +2340,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            vector in smaller dim than this
 	 * @return
 	 * 
-	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
+	 * deprecated: create vector and use {@link #setAdd(Coords, Coords)}
 	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
 
@@ -2398,7 +2402,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            val0
 	 * @return
 	 * 
-	 * 		deprecated create vector and use {@link #setMul(Coords, double)}
+	 * deprecated: create vector and use {@link #setMul(Coords, double)}
 	 *         instead
 	 */
 
@@ -2559,7 +2563,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * 
 	 * @return
 	 * 
-	 * 		deprecated create 3 rows vector and use
+	 * deprecated: create 3 rows vector and use
 	 *         {@link #setCoordsIn2DView(Coords)} instead
 	 */
 

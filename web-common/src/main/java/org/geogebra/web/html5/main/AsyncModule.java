@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
 import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
 import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
 import org.geogebra.common.kernel.commands.CommandDispatcherStats;
-import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -32,13 +31,11 @@ public enum AsyncModule {
 
 	SCRIPTING(RunAsyncCode.runAsyncCode(CommandDispatcherScripting.class)),
 
-	DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class)),
+	DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class));
 
-	STEPS(RunAsyncCode.runAsyncCode(CommandDispatcherSteps.class));
+	private final RunAsyncCode asyncCode;
 
-	private RunAsyncCode asyncCode;
-
-	private AsyncModule(RunAsyncCode splitPoint) {
+	AsyncModule(RunAsyncCode splitPoint) {
 		this.asyncCode = splitPoint;
 	}
 

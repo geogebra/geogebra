@@ -48,7 +48,7 @@ public class IntervalPathMockEntry {
 	public String toString() {
 		return  operation == PathOperation.RESET
 				? operation.toString()
-				: operation	+ " " + x + ", "  + y;
+				: operation + " " + x + ", "  + y;
 	}
 
 	@Override

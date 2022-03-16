@@ -28,6 +28,7 @@ public class AsyncManager {
 	private AppW app;
 
 	private List<Runnable> callbacks;
+	private boolean callbackRunning;
 
 	/**
 	 * @param app Application
@@ -97,9 +98,6 @@ public class AsyncManager {
 						break;
 					case STATS:
 						cmdDispatcher.getStatsDispatcher();
-						break;
-					case STEPS:
-						cmdDispatcher.getStepsDispatcher();
 						break;
 					case PROVER:
 						cmdDispatcher.getProverDispatcher();
@@ -195,14 +193,28 @@ public class AsyncManager {
 		Log.debug("resource loaded called");
 		while (callbacks.size() > 0) {
 			try {
+				callbackRunning = true;
 				callbacks.get(0).run();
 				if (!callbacks.isEmpty()) {
 					callbacks.remove(0);
 				}
 			} catch (CommandNotLoadedError e) {
 				break;
+			} finally {
+				callbackRunning = false;
 			}
 		}
 	}
 
+	/**
+	 * If we're already inside a callback, just run it, otherwise schedule it.
+	 * @param callback callback
+	 */
+	public void runOrSchedule(Runnable callback) {
+		if (callbackRunning) {
+			callback.run();
+		} else {
+			scheduleCallback(callback);
+		}
+	}
 }

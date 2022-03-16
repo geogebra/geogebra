@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -255,11 +256,22 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	public boolean isInPlane(CoordSys sys);
 
 	/**
+	 * Get the safe area insets of this view.
+	 * @return safe area insets
+	 */
+	public EdgeInsets getSafeAreaInsets();
+
+	/**
+	 * Set the safe area insets for this view.
+	 * @param safeAreaInsets safe area insets
+	 */
+	public void setSafeAreaInsets(EdgeInsets safeAreaInsets);
+
+	/**
 	 * Maximum value that can be used with the current Graphics system.
 	 * @return max value
 	 */
 	default double getMaxCanvasCoordinate() {
 		return Double.MAX_VALUE;
 	}
-
 }

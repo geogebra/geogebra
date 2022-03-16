@@ -27,7 +27,7 @@ public class PathCorrector {
 	}
 
 	/**
-	 * Coplete inverted interval on demand.
+	 * Complete inverted interval on demand.
 	 *
 	 * @param idx tuple index in model
 	 * @param y inverted value to handle.
@@ -49,6 +49,18 @@ public class PathCorrector {
 		}
 
 		return this.lastY;
+	}
+
+	/**
+	 * Complete inverted interval independently from last y value.
+	 *
+	 * @param idx tuple index in model
+	 */
+	public void handleInvertedInterval(int idx) {
+		drawInvertedInterval(idx);
+		if (!isInvertedNextTo(idx)) {
+			lastY.set(IntervalConstants.undefined());
+		}
 	}
 
 	/**
@@ -75,7 +87,11 @@ public class PathCorrector {
 	}
 
 	private boolean isInvertedAround(int idx) {
-		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
+		return model.isInvertedAt(idx - 1) && isInvertedNextTo(idx);
+	}
+
+	private boolean isInvertedNextTo(int idx) {
+		return model.pointCount() > idx && model.isInvertedAt(idx + 1);
 	}
 
 	private void drawFromNegativeInfinity(int idx, double value) {
@@ -179,4 +195,5 @@ public class PathCorrector {
 		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
+
 }

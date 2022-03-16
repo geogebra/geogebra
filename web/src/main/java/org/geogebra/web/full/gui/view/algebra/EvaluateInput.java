@@ -49,7 +49,7 @@ public class EvaluateInput {
 
 	/**
 	 * @param keepFocus
-	 * 			whether the focus should stay afterwards
+	 *          whether the focus should stay afterwards
 	 * @param forceSliders
 	 *          whether to override default creating sliders
 	 */
@@ -60,7 +60,7 @@ public class EvaluateInput {
 
 	/**
 	 * @param afterCb
-	 * 				additional callback that runs after creation.
+	 *            additional callback that runs after creation.
 	 */
 	public void createGeoFromInput(final AsyncOperation<GeoElementND[]> afterCb) {
 		evaluate(true, false, createEvaluationCallback(afterCb));

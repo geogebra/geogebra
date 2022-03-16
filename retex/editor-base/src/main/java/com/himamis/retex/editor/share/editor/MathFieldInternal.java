@@ -86,6 +86,7 @@ public class MathFieldInternal
 	private boolean selectionDrag;
 
 	private MathFieldListener listener;
+	private UnhandledArrowListener unhandledArrowListener;
 
 	private boolean enterPressed;
 
@@ -316,6 +317,10 @@ public class MathFieldInternal
 				listener.onKeyTyped(null);
 			}
 		}
+		if (arrow && !handled && unhandledArrowListener != null) {
+			unhandledArrowListener.onArrow(keyEvent.getKeyCode());
+			return true;
+		}
 
 		return handled;
 	}
@@ -392,10 +397,10 @@ public class MathFieldInternal
 	 * @param key key name
 	 */
 	public void notifyAndUpdate(String key) {
+		update();
 		if (listener != null) {
 			listener.onKeyTyped(key);
 		}
-		update();
 	}
 
 	@Override
@@ -878,6 +883,18 @@ public class MathFieldInternal
 	public String getText() {
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
+	}
+
+	public boolean isEnterPressed() {
+		return enterPressed;
+	}
+
+	public void setEnterPressed(boolean enterPressed) {
+		this.enterPressed = enterPressed;
+	}
+
+	public void setUnhandledArrowListener(UnhandledArrowListener arrowListener) {
+		this.unhandledArrowListener = arrowListener;
 	}
 
 	/**

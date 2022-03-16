@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
+import org.geogebra.common.gui.util.InvalidToolFilter;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -63,6 +64,7 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 		ToolCollectionFactory toolCollectionFactory = app.createToolCollectionFactory();
 		toolCollection = toolCollectionFactory.createToolCollection();
+		toolCollection.filter(new InvalidToolFilter(app));
 
 		createContents();
 		if (!isCustomToolbar) {

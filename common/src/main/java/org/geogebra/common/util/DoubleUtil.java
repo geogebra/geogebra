@@ -541,9 +541,9 @@ public class DoubleUtil {
 	 * @param max >= min
 	 * @param step > 0
 	 * @return {min} if min >= max,
-	 * 		{min, min + step, min + 2*step, ..., min + i*step, max}
-	 * 		otherwise, where min + i*step is the greatest such number
-	 * 		that is smaller than max
+	 *       {min, min + step, min + 2*step, ..., min + i*step, max}
+	 *       otherwise, where min + i*step is the greatest such number
+	 *       that is smaller than max
 	 */
 	public static double[] range(double min, double max, double step) throws OutOfMemoryError {
 		// To any future developer who wants to simplify this code:

@@ -4,8 +4,18 @@ def template = { fileName ->
 }
 
 def css = { directory, fileName ->
-    String fileDir = "war/css/" + directory + "/" + fileName + ".css";
-    return "<style id=\"ggbstyle_" + fileName + "\">" + file(fileDir).text + "</style>\n";
+    String text
+    def relPath = (directory ? directory + "/" : "") + fileName + ".css"
+    def ggbVersion = getGeogebraVersion(".");
+    if (project.hasProperty("downloadStyles")) {
+        text = new URL("https://www.geogebra.org/apps/$ggbVersion/css/$relPath").withReader { reader ->
+            reader.readLines().join("\n")
+        }
+    } else {
+        String fileDir = "war/css/" + relPath
+        text = file(fileDir).text;
+    }
+    return "<style id=\"ggbstyle_" + fileName + "\">" + text + "</style>\n";
 }
 
 String html = template("app-template.html")

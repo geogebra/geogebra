@@ -2,6 +2,7 @@
 build/
 **/build
 web/war
+web/extras
 /.gradle/
 
 # InteliJ specific

@@ -48,8 +48,8 @@ public class IntervalTrigonometric {
 
 		double low = cache.getLow();
 		double high = cache.getHigh();
-  		double rlo = RMath.cosLow(high);
-  		double rhi = RMath.cosHigh(low);
+		double rlo = RMath.cosLow(high);
+		double rhi = RMath.cosHigh(low);
 		// it's ensured that t.lo < pi and that t.lo >= 0
 		if (high <= PI_LOW) {
 			// when t.hi < pi
@@ -155,7 +155,7 @@ public class IntervalTrigonometric {
 	 */
 	public Interval sinh(Interval interval) {
 		if (!interval.isUndefined()) {
-  			interval.set(RMath.sinhLow(interval.getLow()), RMath.sinhHigh(interval.getHigh()));
+			interval.set(RMath.sinhLow(interval.getLow()), RMath.sinhHigh(interval.getHigh()));
 		}
 		return interval;
 	}

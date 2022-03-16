@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.cas;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -42,5 +43,19 @@ public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = Integral(Integral(x))");
 		GeoElement element = lookup("c_3");
 		assertThat(element, is(nullValue()));
+	}
+
+	@Test
+	public void testUndoRedoConstant() {
+		add("Invert(sin(x))");
+		GeoElement constant = lookup("k_1");
+		assertThat(constant, is(notNullValue()));
+		constant = lookup("k_2");
+		assertThat(constant, is(nullValue()));
+
+		app.setXML(app.getXML(), true);
+
+		constant = lookup("k_2");
+		assertThat(constant, is(nullValue()));
 	}
 }

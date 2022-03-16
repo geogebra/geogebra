@@ -7,6 +7,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.move.views.BooleanRenderable;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -132,9 +133,11 @@ public class SearchPanel extends FlowPanel
 	}
 
 	private void fireSearchEvent() {
-		for (final SearchListener s : this.listeners) {
-			s.onSearch(this.query.getText());
+		String queryText = query.getText();
+		for (SearchListener listener : listeners) {
+			listener.onSearch(queryText);
 		}
+		Analytics.logEvent(Analytics.Event.SEARCH, Analytics.Param.SEARCH_TERM, queryText);
 	}
 
 	@Override

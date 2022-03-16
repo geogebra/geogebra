@@ -149,6 +149,7 @@ public class GeoCasCell extends GeoElement
 	private boolean pointList;
 
 	private String tooltip;
+	private boolean twinLoadedFromFile;
 
 	/**
 	 * Creates new CAS cell
@@ -1881,14 +1882,18 @@ public class GeoCasCell extends GeoElement
 			return false;
 		}
 
-		// allow GeoElement to get same label as CAS cell, so we temporarily
-		// remove the label
-		// but keep it in the underlying CAS
-		cons.removeCasCellLabel(assignmentVar);
-		// set Label of twinGeo
-		twinGeo.setLabel(assignmentVar);
-		// set back CAS cell label
-		cons.putCasCellLabel(this, assignmentVar);
+		if (assignmentVar == null || assignmentVar.equals(PLOT_VAR)) {
+			twinGeo.setLabel(null);
+		} else {
+			// allow GeoElement to get same label as CAS cell, so we temporarily
+			// remove the label
+			// but keep it in the underlying CAS
+			cons.removeCasCellLabel(assignmentVar);
+			// set Label of twinGeo
+			twinGeo.setLabel(assignmentVar);
+			// set back CAS cell label
+			cons.putCasCellLabel(this, assignmentVar);
+		}
 		if (cons.isFileLoading()) {
 			updateConstructionDependencies();
 		}
@@ -1966,44 +1971,17 @@ public class GeoCasCell extends GeoElement
 						((GeoNumeric) twinGeo)
 								.extendMinMax(lastOutputEvaluationGeo);
 					}
-					if (twinGeo instanceof GeoSurfaceCartesianND
-							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesianND) {
-						// when we replace twinGeo, dependent geos are also
-						// deleted from cons
-						twinGeo.doRemove();
-						notifyRemove();
-						twinGeo = lastOutputEvaluationGeo;
-						cons.addToConstructionList(twinGeo, true);
-						cons.putLabel(twinGeo);
-						twinGeo.notifyAdd();
-						twinGeo.setCorrespondingCasCell(this);
-						// add to construction casCell and parentAlgo
-						if (this.getParentAlgorithm() != null) {
-							cons.addToConstructionList(
-									this.getParentAlgorithm(), true);
-						}
-						cons.addToGeoSetWithCasCells(this);
-						if (assignmentVar == null) {
-							assignmentVar = twinGeo
-									.getLabel(StringTemplate.defaultTemplate);
-						}
+
+					if (uniformListCommand() && lastOutputEvaluationGeo instanceof GeoList) {
+						makePlotable((GeoList) lastOutputEvaluationGeo);
 					}
-					// switch twinGeo with new evaluation
-					// needed for undo->function wasn't draggable
-					else {
-
-						if (uniformListCommand() && lastOutputEvaluationGeo instanceof GeoList) {
-							makePlotable((GeoList) lastOutputEvaluationGeo);
-						}
-						// if both geos are the same type we can use set safely
-						twinGeo.set(lastOutputEvaluationGeo);
-						// update constants references
-						if (lastOutputEvaluationGeo instanceof GeoFunction) {
-							ExpressionNode expr = ((GeoFunction) lastOutputEvaluationGeo)
-									.getFunctionExpression();
-							expr.inspect(new ArbconstAlgoFixer());
-
-						}
+					// if both geos are the same type we can use set safely
+					twinGeo.set(lastOutputEvaluationGeo);
+					// update constants references
+					if (lastOutputEvaluationGeo instanceof GeoFunction) {
+						ExpressionNode expr = ((GeoFunction) lastOutputEvaluationGeo)
+								.getFunctionExpression();
+						expr.inspect(new ArbconstAlgoFixer());
 					}
 				} else if (!lastOutputEvaluationGeo.isDefined()) {
 					// newly created GeoElement is undefined, we can set our
@@ -3295,7 +3273,7 @@ public class GeoCasCell extends GeoElement
 		this.firstComputeOutput = true;
 		this.computeOutput(true, true);
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
-			twinGeo.setLabel(null);
+			setLabelOfTwinGeo();
 		}
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
 				&& twinGeo.isEuclidianShowable()) {
@@ -3409,6 +3387,12 @@ public class GeoCasCell extends GeoElement
 		}
 		if (isCasVector) {
 			return PLOT_VAR.toLowerCase();
+		}
+		if (unwrapped instanceof ExpressionNode) {
+			String label = ((ExpressionNode) unwrapped).getLabel();
+			if (label != null) {
+				return label;
+			}
 		}
 		return PLOT_VAR;
 	}
@@ -3779,4 +3763,16 @@ public class GeoCasCell extends GeoElement
 		return cmd != null && "IntegralSymbolic".equals(cmd.getName());
 	}
 
+	/**
+	 * Hide twin if it was not loaded from XML
+	 */
+	public void updateTwinGeoVisibility() {
+		if (!twinLoadedFromFile && twinGeo != null) {
+			twinGeo.setEuclidianVisible(false);
+		}
+	}
+
+	public void setTwinLoadedFromFile(boolean twinLoadedFromFile) {
+		this.twinLoadedFromFile = twinLoadedFromFile;
+	}
 }

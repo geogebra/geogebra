@@ -855,21 +855,21 @@ public class MathMLParser {
 	 * 
 	 * <pre>
 	 * while (pos &lt;= blockEnd) {
-	 * 	if (insideOfInnerstBlock) {
-	 * 		result.append(convertToLatexSyntax(area));
-	 * 	} else {
-	 * 		tmpTag = getNextTag(); // pos = pos + tmpTag.length();
-	 * 		if (substitutionAvailable(tmpTag)) {
-	 * 			while (substitutionContainsBlock) {
-	 * 				addSubstitutionUpToPlaceHolderOfBlockToOutput();
-	 * 				parseBlock(getAreaOfNextBlock());
-	 * 			}
-	 * 			addRestOfSubstitutionOutPut();
-	 * 		} else {
-	 * 			parseBlock(pos, getBlockEndIndex(tmpTag));
-	 * 		}
-	 * 		skipClosingTag();
-	 * 	}
+	 *     if (insideOfInnerstBlock) {
+	 *         result.append(convertToLatexSyntax(area));
+	 *     } else {
+	 *         tmpTag = getNextTag(); // pos = pos + tmpTag.length();
+	 *         if (substitutionAvailable(tmpTag)) {
+	 *             while (substitutionContainsBlock) {
+	 *                 addSubstitutionUpToPlaceHolderOfBlockToOutput();
+	 *                 parseBlock(getAreaOfNextBlock());
+	 *              }
+	 *              addRestOfSubstitutionOutPut();
+	 *         } else {
+	 *             parseBlock(pos, getBlockEndIndex(tmpTag));
+	 *         }
+	 *         skipClosingTag();
+	 *     }
 	 * }
 	 * </pre>
 	 * 
