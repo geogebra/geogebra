@@ -609,15 +609,6 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleIsShape(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setIsShape(MyXMLHandler.parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
 	private boolean handleIsMask(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setIsMask(MyXMLHandler.parseBoolean(attrs.get("val")));
@@ -2237,7 +2228,7 @@ public class ConsElementXMLHandler {
 				handleIsMask(attrs);
 				break;
 			case "isShape":
-				handleIsShape(attrs);
+				// don't print error, skip silently
 				break;
 			case "centered":
 				handleCentered(attrs);

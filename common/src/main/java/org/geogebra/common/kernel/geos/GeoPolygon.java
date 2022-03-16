@@ -93,7 +93,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/** says if the polygon had created its segments itself (used for 3D) */
 	private boolean createSegments = true;
 
-	private boolean isShape = false;
 	/** true for polygons created by area intersection methods */
 	protected boolean isIntersection;
 
@@ -118,10 +117,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private boolean reverseNormalForDrawing = false;
 	private PolygonTriangulation pt;
 	private boolean isMask = false;
-
-	private boolean showLineProperties = true;
-	private boolean fillable = true;
-	private boolean traceable = true;
 
 	/**
 	 * common constructor for 2D.
@@ -583,7 +578,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		if (condShowObject != null) {
 			try {
-				((GeoElement) segment)
+				segment
 						.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception e) {
 				// circular definition
@@ -828,16 +823,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isFillable() {
-		return fillable;
-	}
-
-	/**
-	 * Set whether this object is fillable.
-	 *
-	 * @param fillable true to set object to fillable, false otherwise.
-	 */
-	public void setFillable(boolean fillable) {
-		this.fillable = fillable;
+		return !isMask;
 	}
 
 	@Override
@@ -1955,16 +1941,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isTraceable() {
-		return traceable;
-	}
-
-	/**
-	 * Set whether this object is traceable.
-	 *
-	 * @param traceable true to set object to traceable, false otherwise.
-	 */
-	public void setTraceable(boolean traceable) {
-		this.traceable = traceable;
+		return !isMask;
 	}
 
 	@Override
@@ -2586,7 +2563,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setVisualStyle(final GeoElement geo,
 			boolean setAuxiliaryProperty) {
 		super.setVisualStyle(geo, setAuxiliaryProperty);
-
+		isMask = geo.isMask();
 		if (segments == null) {
 			return;
 		}
@@ -2598,22 +2575,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	@Override
 	public boolean isMask() {
 		return isMask;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	@Override
@@ -2625,13 +2588,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	private void setMaskPreferences() {
-		this.isShape = true;
 		setLabelVisible(false);
 		setAlphaValue(1);
 		setLineThickness(1);
-		setShowLineProperties(false);
-		setFillable(false);
-		setTraceable(false);
 	}
 
 	/**
@@ -2715,16 +2674,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean showLineProperties() {
-		return showLineProperties && super.showLineProperties();
-	}
-
-	/**
-	 * Set whether this object should show line properties.
-	 *
-	 * @param showLineProperties true if it should show line properties
-	 */
-	public void setShowLineProperties(boolean showLineProperties) {
-		this.showLineProperties = showLineProperties;
+		return !isMask; // super.showLineProperties is true because this is always a path
 	}
 
 	/**

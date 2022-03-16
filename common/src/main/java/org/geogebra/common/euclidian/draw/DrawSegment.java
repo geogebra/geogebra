@@ -121,7 +121,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		update(A, B);
-		if (geo.isShape()) {
+		if (view.getApplication().isWhiteboardActive()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 				// for segment only two handler
