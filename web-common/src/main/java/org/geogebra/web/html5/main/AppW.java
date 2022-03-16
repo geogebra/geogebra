@@ -3171,8 +3171,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public void exportStringToFile(String extension, String content) {
-
+	public void exportStringToFile(String extension, String content, boolean showDialog) {
 		String url;
 
 		if ("html".equals(extension)) {
@@ -3184,8 +3183,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		dispatchEvent(new Event(EventType.OPEN_DIALOG, null, "export3D"));
-		getFileManager().showExportAsPictureDialog(url, getExportTitle(),
-				extension, "Export", this);
+		if (showDialog) {
+			getFileManager().showExportAsPictureDialog(url, getExportTitle(),
+					extension, "Export", this);
+		} else {
+			getFileManager().exportImage(url,  getExportTitle() + "." + extension,
+					extension);
+			dispatchEvent(new Event(EventType.EXPORT, null,
+					"[\"" + extension + "\"]"));
+		}
 	}
 
 	/**

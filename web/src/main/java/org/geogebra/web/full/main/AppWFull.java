@@ -2065,9 +2065,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void exportCollada(boolean html) {
 		if (html) {
-			setExport3D(new FormatColladaHTML());
+			setExport3D(new FormatColladaHTML(), false);
 		} else {
-			setExport3D(new FormatCollada());
+			setExport3D(new FormatCollada(), false);
 		}
 	}
 

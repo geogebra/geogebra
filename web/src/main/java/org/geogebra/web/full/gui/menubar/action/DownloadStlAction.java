@@ -11,6 +11,6 @@ public class DownloadStlAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		app.setExport3D(new FormatSTL());
+		app.setExport3D(new FormatSTL(), true);
 	}
 }
