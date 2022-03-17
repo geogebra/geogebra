@@ -14,12 +14,11 @@ import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
-public class StandardButton extends Widget implements HasResource {
-
+public class StandardButton extends FocusWidget implements HasResource {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
@@ -202,7 +201,8 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * @param label - set text of button
+	 * @param label
+	 *            - set text of button
 	 */
 	public void setLabel(final String label) {
 		setIconAndLabel(this.icon, label, this.width, this.height);
@@ -216,7 +216,8 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
-	 * @param icon - icon
+	 * @param icon
+	 *            - icon
 	 */
 	public void setIcon(final ResourcePrototype icon) {
 		if (btnImage != null) {
@@ -263,6 +264,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * Changes "disabled" property in DOM, so use :disabled in css
 	 * @param enabled whether to add or remove the "disabled" property
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		if (enabled) {
 			getElement().removeAttribute("disabled");

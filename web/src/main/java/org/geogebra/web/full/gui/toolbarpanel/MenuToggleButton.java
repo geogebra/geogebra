@@ -1,27 +1,22 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
+
+import elemental2.dom.KeyboardEvent;
 
 /**
  * Toggle button for main menu
  */
-public class MenuToggleButton extends MyToggleButton
-		implements Persistable, KeyDownHandler {
-
+public class MenuToggleButton extends ToggleButton
+		implements Persistable {
 	private AppW appW;
 
 	/**
@@ -29,34 +24,22 @@ public class MenuToggleButton extends MyToggleButton
 	 *            application
 	 */
 	public MenuToggleButton(AppW app) {
-		super(getImage(), app);
+		super(MaterialDesignResources.INSTANCE.toolbar_menu_black(),
+				MaterialDesignResources.INSTANCE.toolbar_menu_black());
+		removeStyleName("MyToggleButton");
 		this.appW = app;
 		buildUI();
 	}
 
-	private static Image getImage() {
-		return new Image(MaterialDesignResources.INSTANCE.toolbar_menu_black()
-				.getSafeUri().asString(), 0, 0, 24, 24);
-	}
-
 	private void buildUI() {
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				toggleMenu();
+		addFastClickHandler(event -> toggleMenu());
+		Dom.addEventListener(this.getElement(), "keydown", event -> {
+			KeyboardEvent e = (KeyboardEvent) event;
+			if (!"Enter".equals(e.code) && !"Space".equals(e.code)) {
+				return;
 			}
+			toggleMenu();
 		});
-		addKeyDownHandler(this);
-	}
-
-	@Override
-	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
-		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-			return;
-		}
-		toggleMenu();
 	}
 
 	/**
@@ -84,7 +67,6 @@ public class MenuToggleButton extends MyToggleButton
 			dummy.removeFromParent();
 		}
 		root.insert(this, 0);
-
 	}
 
 	/**

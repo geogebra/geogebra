@@ -14,16 +14,14 @@ import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
@@ -32,9 +30,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Properties for 3D view (web)
- * 
- * @author mathieu
- *
  */
 @SuppressWarnings({ "synthetic-access" })
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
@@ -305,41 +300,44 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private CheckBox cbGlassesGray;
 		private CheckBox cbGlassesShutDownGreen;
 
-		private class ProjectionButtons implements ClickHandler {
+		private class ProjectionButtons implements FastClickHandler {
 
-			private MyToggleButtonW[] buttons;
+			private ToggleButton[] buttons;
 			private int buttonSelected;
 
 			ProjectionButtons() {
-				buttons = new MyToggleButtonW[4];
+				buttons = new ToggleButton[4];
 
-				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_orthographic());
-				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_perspective());
-				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_glasses());
-				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_oblique());
 
 				for (int i = 0; i < 4; i++) {
-					buttons[i].addClickHandler(this);
+					buttons[i].addFastClickHandler(this);
 				}
 
 				buttonSelected = get3dview().getProjection();
-				buttons[buttonSelected].setDown(true);
+				buttons[buttonSelected].setSelected(true);
 			}
 
-			public GToggleButton getButton(int i) {
+			public ToggleButton getButton(int i) {
 				return buttons[i];
 			}
 
 			@Override
-			public void onClick(ClickEvent event) {
-				MyToggleButtonW source = (MyToggleButtonW) event.getSource();
+			public void onClick(Widget target) {
+				if (!(target instanceof ToggleButton)) {
+					return;
+				}
+				ToggleButton source = (ToggleButton) target;
 
 				if (source == buttons[get3dview().getProjection()]) {
-					source.setDown(true);
+					source.setSelected(true);
 					return;
 				}
 
@@ -347,9 +345,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					if (buttons[i].equals(source)) {
 						get3dview().getSettings().setProjection(i);
 						repaintView();
-						buttons[i].setDown(true);
+						buttons[i].setSelected(true);
 					} else {
-						buttons[i].setDown(false);
+						buttons[i].setSelected(false);
 					}
 				}
 			}
