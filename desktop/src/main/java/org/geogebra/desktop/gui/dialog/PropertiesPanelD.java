@@ -3146,11 +3146,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void clearItems() {
 			// nothing to do here
 		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// nothing to do here
-		}
 	}
 
 	private class SegmentEndStylePanel extends JPanel implements ActionListener, SetLabels,
@@ -3237,11 +3232,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		@Override
 		public void clearItems() {
-			// nothing to do here
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
 			// nothing to do here
 		}
 	}
