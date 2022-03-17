@@ -36,13 +36,13 @@ package com.himamis.retex.editor.share.meta;
 public class MetaSymbol extends MetaCharacter {
 	private String cas;
 
-	MetaSymbol(String name, String casName, String texName,
+	MetaSymbol(String casName, String texName,
 			char unicode, int type) {
-		super(name, texName, unicode, type);
+		super(texName, unicode, type);
 		this.cas = casName;
-    }
+	}
 
 	public String getCasName() {
-		return cas;
+		return cas == null ? getUnicodeString() : cas;
 	}
 }

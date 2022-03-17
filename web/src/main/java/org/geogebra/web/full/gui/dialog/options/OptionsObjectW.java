@@ -43,6 +43,7 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import org.geogebra.common.gui.dialog.options.model.RightAngleModel;
+import org.geogebra.common.gui.dialog.options.model.SegmentStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
@@ -890,12 +891,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		InterpolateImageModel interpol = new InterpolateImageModel(app);
 		DecoAngleModel decoAngle = new DecoAngleModel(app);
 		DecoSegmentModel decoSegment = new DecoSegmentModel(app);
+		SegmentStyleModel segmentStartStyle = new SegmentStyleModel(app, true);
+		SegmentStyleModel segmentEndStyle = new SegmentStyleModel(app, false);
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod).addModel(lineStyle)
 				.addModel(drawArrows).addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
 				.addModel(tfSize).addModel(alignModel).addModel(buttonSize)
 				.addModel(filling).addModel(interpol).addModel(decoAngle)
-				.addModel(decoSegment);
+				.addModel(segmentStartStyle).addModel(segmentEndStyle).addModel(decoSegment);
 		return tab;
 	}
 
