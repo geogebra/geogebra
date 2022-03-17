@@ -13,15 +13,14 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -38,9 +37,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	AutoCompleteTextFieldW tfAxesRatioY;
 	private Label axesRatioLabel;
 	private FlowPanel dimPanel;
-	GToggleButton tbLockRatio;
-	private Image imgLock;
-	private Image imgUnlock;
+	ToggleButton tbLockRatio;
 
 	protected ComponentCheckbox cbShowAxes;
 	ComponentCheckbox cbBoldAxes;
@@ -138,13 +135,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		enableAxesRatio(optionsEuclidianW.view.isZoomable()
 				&& !optionsEuclidianW.view.isLockedAxesRatio());
 
-		imgLock = new Image(MaterialDesignResources.INSTANCE.lock_black()
-						.getSafeUri().asString(), 0, 0, 24, 24);
-		imgUnlock = new Image(MaterialDesignResources.INSTANCE.lock_open_black()
-						.getSafeUri().asString(), 0, 0, 24, 24);
-
-		tbLockRatio = new GToggleButton(imgLock);
-		tbLockRatio.setValue(optionsEuclidianW.view.isLockedAxesRatio());
+		tbLockRatio = new ToggleButton(MaterialDesignResources.INSTANCE.lock_open_black(),
+				MaterialDesignResources.INSTANCE.lock_black());
+		tbLockRatio.removeStyleName("MyToggleButton");
+		tbLockRatio.setSelected(optionsEuclidianW.view.isLockedAxesRatio());
 		tbLockRatio.setEnabled(optionsEuclidianW.view.isZoomable());
 
 		axesRatioLabel = new Label("");
@@ -190,8 +184,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		addAxesRatioHandler(tfAxesRatioX);
 		addAxesRatioHandler(tfAxesRatioY);
 
-		tbLockRatio.addClickHandler(event -> {
-			if (tbLockRatio.getValue()) {
+		tbLockRatio.addFastClickHandler(event -> {
+			if (tbLockRatio.isSelected()) {
 				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 						/ parseDouble(tfAxesRatioY.getText()));
 			} else {
@@ -578,7 +572,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		tfAxesRatioX.getTextBox().setEnabled(value);
 		tfAxesRatioY.getTextBox().setEnabled(value);
 		if (tbLockRatio != null) {
-			tbLockRatio.getUpFace().setImage(value ? imgUnlock : imgLock);
+			tbLockRatio.setEnabled(value);
 		}
 	}
 

@@ -13,8 +13,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -23,10 +23,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -49,10 +47,10 @@ public class FunctionInspectorW extends FunctionInspector {
 	private TabPanel tabPanel;
 	private FlowPanel intervalTab;
 	private FlowPanel pointsTab;
-	private MyToggleButtonW btnTable;
-	private MyToggleButtonW btnXYSegments;
-	private MyToggleButtonW btnTangent;
-	private MyToggleButtonW btnOscCircle;
+	private ToggleButton btnTable;
+	private ToggleButton btnXYSegments;
+	private ToggleButton btnTangent;
+	private ToggleButton btnOscCircle;
 
 	private StandardButton btnHelp;
 	PopupMenuButtonW btnOptions;
@@ -309,27 +307,21 @@ public class FunctionInspectorW extends FunctionInspector {
 	private FlowPanel createBtnPanel() {
 		FlowPanel btnPanel = new FlowPanel();
 		btnPanel.setStyleName("panelRowIndent");
-		btnTable = new MyToggleButtonW(new Image(AppResources.INSTANCE.table()
-		        .getSafeUri().asString()));
-		btnXYSegments = new MyToggleButtonW(new Image(AppResources.INSTANCE
-		        .xy_segments().getSafeUri().asString()));
-		btnTangent = new MyToggleButtonW(new Image(AppResources.INSTANCE
-		        .tangent_line().getSafeUri().asString()));
-		btnOscCircle = new MyToggleButtonW(new Image(AppResources.INSTANCE
-		        .osculating_circle().getSafeUri().asString()));
+		btnTable = new ToggleButton(AppResources.INSTANCE.table());
+		btnXYSegments = new ToggleButton(AppResources.INSTANCE.xy_segments());
+		btnTangent = new ToggleButton(AppResources.INSTANCE.tangent_line());
+		btnOscCircle = new ToggleButton(AppResources.INSTANCE.osculating_circle());
 
 		btnPanel.add(btnTable);
 		btnPanel.add(btnXYSegments);
 		btnPanel.add(btnTangent);
 		btnPanel.add(btnOscCircle);
 
-		ClickHandler btnClick = event -> updateGUI();
-
-		btnTable.addClickHandler(btnClick);
-		btnXYSegments.addClickHandler(btnClick);
-		btnTangent.addClickHandler(btnClick);
-		btnOscCircle.addClickHandler(btnClick);
-		btnXYSegments.setDown(true);
+		btnTable.addFastClickHandler(event -> updateGUI());
+		btnXYSegments.addFastClickHandler(event -> updateGUI());
+		btnTangent.addFastClickHandler(event -> updateGUI());
+		btnOscCircle.addFastClickHandler(event -> updateGUI());
+		btnXYSegments.setSelected(true);
 		return btnPanel;
 	}
 
@@ -559,20 +551,13 @@ public class FunctionInspectorW extends FunctionInspector {
 		tabBar.setTabText(1, loc.getMenu("fncInspector.Points"));
 
 		lblGeoName.setText(getModel().getTitleString());
-		//
-		// // tool tips
 		btnHelp.setTitle(loc.getMenu("ShowOnlineHelp"));
-		btnOscCircle.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.showOscCircle"));
-		btnXYSegments.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.showXYLines"));
-		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
-		btnTangent.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.showTangent"));
-		btnAddColumn.setTitle(loc
-		        .getPlainTooltip("fncInspector.addColumn"));
-		btnRemoveColumn.setTitle(loc
-		        .getPlainTooltip("fncInspector.removeColumn"));
+		btnOscCircle.setTitle(loc.getPlainTooltip("fncInspector.showOscCircle"));
+		btnXYSegments.setTitle(loc.getPlainTooltip("fncInspector.showXYLines"));
+		btnTable.setTitle(loc.getPlainTooltip("fncInspector.showTable"));
+		btnTangent.setTitle(loc.getPlainTooltip("fncInspector.showTangent"));
+		btnAddColumn.setTitle(loc.getPlainTooltip("fncInspector.addColumn"));
+		btnRemoveColumn.setTitle(loc.getPlainTooltip("fncInspector.removeColumn"));
 
 		btnOptions.getMyTable().updateText(
 				new ImageOrText[] { new ImageOrText(

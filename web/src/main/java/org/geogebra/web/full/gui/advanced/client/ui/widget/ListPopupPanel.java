@@ -248,6 +248,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		}
 		super.hide();
 		setHidden(true);
+		getComboBox().deselectChoiceButton();
 	}
 
 	/** {@inheritDoc} */
@@ -766,7 +767,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 			if (!getElement().isOrHasChild(source)
 					&& !getComboBox().getElement().isOrHasChild(source)) {
 				hide();
-				getComboBox().getChoiceButton().setDown(false);
+				getComboBox().getChoiceButton().setSelected(false);
 			}
 		}
 	}

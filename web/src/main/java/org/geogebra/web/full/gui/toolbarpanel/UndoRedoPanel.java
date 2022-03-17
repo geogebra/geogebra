@@ -1,12 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GCustomButton;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -23,8 +19,8 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  */
 public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 	protected FocusableWidget redoAnchor;
-	MyToggleButton btnUndo;
-	MyToggleButton btnRedo;
+	StandardButton btnUndo;
+	StandardButton btnRedo;
 	private final AppW app;
 
 	/**
@@ -40,45 +36,22 @@ public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 	}
 
 	void addUndoButton() {
-		btnUndo = new MyToggleButton(
-				new NoDragImage(MaterialDesignResources.INSTANCE.undo_border(),
-						24),
-				app);
+		btnUndo = new StandardButton(MaterialDesignResources.INSTANCE.undo_border(), 24);
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addStyleName("undo");
-
-		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				onUndoPressed();
-			}
-		});
-
+		btnUndo.addFastClickHandler(event -> onUndoPressed());
 		btnUndo.addKeyDownHandler(this);
-
 		add(btnUndo);
 	}
 
 	private void addRedoButton() {
-		btnRedo = new MyToggleButton(
-				new NoDragImage(MaterialDesignResources.INSTANCE.redo_border(),
-						24),
-				app);
+		btnRedo = new StandardButton(MaterialDesignResources.INSTANCE.redo_border(), 24);
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
 		btnRedo.addStyleName("redo");
-
-		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				onRedoPressed();
-			}
-		});
-
+		btnRedo.addFastClickHandler(event -> onRedoPressed());
 		btnRedo.addKeyDownHandler(this);
 		add(btnRedo);
 	}
@@ -135,7 +108,7 @@ public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 		setAltTexts();
 	}
 
-	private void tabIndex(GCustomButton btn, AccessibilityGroup group) {
+	private void tabIndex(StandardButton btn, AccessibilityGroup group) {
 		if (btn != null) {
 			new FocusableWidget(group, null, btn).attachTo(app);
 		}
@@ -159,7 +132,7 @@ public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 		}
 	}
 
-	private void setAltText(MyToggleButton btn, String string) {
+	private void setAltText(StandardButton btn, String string) {
 		if (btn != null) {
 			btn.setAltText(app.getLocalization().getMenu(string));
 		}

@@ -5,31 +5,26 @@ import java.util.List;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Menu item that acts like a toolbar.
- *
- * @author laszlo
  */
-public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
-
+public class InlineTextToolbar implements FastClickHandler {
 	private AriaMenuItem item;
 	private final App app;
 	private List<HasTextFormat> formatters;
 	private FlowPanel panel;
-	private MyToggleButtonW subScriptBtn;
-	private MyToggleButtonW superScriptBtn;
-	private MyToggleButtonW bulletListBtn;
-	private MyToggleButtonW numberedListBtn;
+	private ToggleButton subScriptBtn;
+	private ToggleButton superScriptBtn;
+	private ToggleButton bulletListBtn;
+	private ToggleButton numberedListBtn;
 
 	/**
 	 * Constructor of special context menu item holding the
@@ -95,9 +90,9 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 		numberedListBtn.setSelected("number".equals(getListStyle()));
 	}
 
-	private MyToggleButtonW createButton(SVGResource resource) {
-		MyToggleButtonW button = new MyToggleButtonW(new NoDragImage(resource, 24));
-		button.addValueChangeHandler(this);
+	private ToggleButton createButton(SVGResource resource) {
+		ToggleButton button = new ToggleButton(resource);
+		button.addFastClickHandler(this);
 		return button;
 	}
 
@@ -149,14 +144,14 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	}
 
 	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		if (subScriptBtn.equals(event.getSource())) {
-			setSubscript(event.getValue());
-		} else if (superScriptBtn.equals(event.getSource())) {
-			setSuperscript(event.getValue());
-		} else if (bulletListBtn.equals(event.getSource())) {
+	public void onClick(Widget source) {
+		if (subScriptBtn == source) {
+			setSubscript(subScriptBtn.isSelected());
+		} else if (superScriptBtn == source) {
+			setSuperscript(superScriptBtn.isSelected());
+		} else if (bulletListBtn == source) {
 			switchListTo("bullet");
-		} else if (numberedListBtn.equals(event.getSource())) {
+		} else if (numberedListBtn == source) {
 			switchListTo("number");
 		}
 
@@ -189,10 +184,10 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	 * Sets the tooltips
 	 */
 	protected void setTooltips() {
-		subScriptBtn.setToolTipText(app.getLocalization().getMenu("Subscript"));
-		superScriptBtn.setToolTipText(app.getLocalization().getMenu("Superscript"));
-		bulletListBtn.setToolTipText(app.getLocalization().getMenu("bulletList"));
-		numberedListBtn.setToolTipText(app.getLocalization().getMenu("numberedList"));
+		subScriptBtn.setTitle(app.getLocalization().getMenu("Subscript"));
+		superScriptBtn.setTitle(app.getLocalization().getMenu("Superscript"));
+		bulletListBtn.setTitle(app.getLocalization().getMenu("bulletList"));
+		numberedListBtn.setTitle(app.getLocalization().getMenu("numberedList"));
 	}
 
 	/**
