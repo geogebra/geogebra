@@ -596,6 +596,54 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_angle_interval.svg")
 	SVGResource stylingbar_angle_interval();
 
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow.svg")
+	SVGResource stylingbar_start_arrow();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_arrow_filled.svg")
+	SVGResource stylingbar_start_arrow_filled();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle.svg")
+	SVGResource stylingbar_start_circle();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_circle_outlined.svg")
+	SVGResource stylingbar_start_circle_outlined();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_default.svg")
+	SVGResource stylingbar_start_default();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_line.svg")
+	SVGResource stylingbar_start_line();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square.svg")
+	SVGResource stylingbar_start_square();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentStart/start_square_outlined.svg")
+	SVGResource stylingbar_start_square_outlined();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow.svg")
+	SVGResource stylingbar_end_arrow();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_arrow_filled.svg")
+	SVGResource stylingbar_end_arrow_filled();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_circle.svg")
+	SVGResource stylingbar_end_circle();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_circle_outlined.svg")
+	SVGResource stylingbar_end_circle_outlined();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_default.svg")
+	SVGResource stylingbar_end_default();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_line.svg")
+	SVGResource stylingbar_end_line();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_square.svg")
+	SVGResource stylingbar_end_square();
+
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/segmentEnd/end_square_outlined.svg")
+	SVGResource stylingbar_end_square_outlined();
+
 	// DIALOG
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/bar_chart_black.svg")

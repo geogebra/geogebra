@@ -51,6 +51,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			box-shadow: none;
 		}
 
+		.optionsPanel.segmentStyle {
+			display: inline-block;
+		}
+
 		.panelRowIndent,
 		.panelRowCell,
 		.panelRow,

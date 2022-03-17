@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -61,6 +62,7 @@ import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
@@ -1057,6 +1059,36 @@ public class ConsElementXMLHandler {
 			LimitedPath lpath = (LimitedPath) geo;
 			lpath.setKeepTypeOnGeometricTransform(
 					MyXMLHandler.parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleSegmentStartStyle(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSegment)) {
+			Log.debug("wrong element type for segment style: "
+					+ geo.getGeoClassType());
+			return false;
+		}
+
+		try {
+			((GeoSegment) geo).setStartStyle(SegmentStyle.fromString(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleSegmentEndStyle(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSegment)) {
+			Log.debug("wrong element type for segment style: "
+					+ geo.getGeoClassType());
+			return false;
+		}
+
+		try {
+			((GeoSegment) geo).setEndStyle(SegmentStyle.fromString(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -2209,6 +2241,9 @@ public class ConsElementXMLHandler {
 			case "embedSettings":
 				handleEmbedSettings(attrs);
 				break;
+			case "endStyle":
+				handleSegmentEndStyle(attrs);
+				break;
 			case "fixed":
 				handleFixed(attrs);
 				break;
@@ -2325,6 +2360,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "spreadsheetTrace":
 				handleSpreadsheetTrace(attrs);
+				break;
+			case "startStyle":
+				handleSegmentStartStyle(attrs);
 				break;
 			case "showTrimmed":
 				handleShowTrimmed(attrs);
