@@ -709,9 +709,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected PopupMenuButtonW[] newPopupBtnList() {
         return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
                 btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
-                btnTextBgColor, btnFilling,	btnLineStyle, btnPointStyle, btnTextSize,
+				btnTextBgColor, btnFilling,	btnLineStyle, btnPointStyle, btnTextSize,
                 btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
-                btnLabelStyle, btnPointCapture,	btnChangeView
+				btnLabelStyle, btnPointCapture,	btnChangeView
         };
     }
 
@@ -1640,8 +1640,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnSegmentStartStyle || source == btnSegmentEndStyle) {
             boolean isStart = source == btnSegmentStartStyle;
             SegmentStyle segmentStyle
-                    = SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
-                        : btnSegmentEndStyle.getSelectedIndex()];
+					= SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
+					: btnSegmentEndStyle.getSelectedIndex()];
             needUndo = applySegmentStartStyle(targetGeos, segmentStyle,	isStart);
 		} else if (source == btnHorizontalAlignment) {
 			HorizontalAlignment alignment
