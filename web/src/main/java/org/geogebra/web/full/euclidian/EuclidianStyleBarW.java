@@ -707,13 +707,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
-				btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
-				btnTextBgColor, btnFilling,	btnLineStyle, btnPointStyle, btnTextSize,
-				btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
-				btnLabelStyle, btnPointCapture,	btnChangeView
-		};
-	}
+        return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
+                btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
+                btnTextBgColor, btnFilling,	btnLineStyle, btnPointStyle, btnTextSize,
+                btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
+                btnLabelStyle, btnPointCapture,	btnChangeView
+        };
+    }
 
 	// =====================================================
 	// Create Buttons
@@ -1638,11 +1638,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 			needUndo = applyBorderStyle(targetGeos, btnBorderStyle.getBorderType(),
 					btnBorderStyle.getBorderThickness());
 		} else if (source == btnSegmentStartStyle || source == btnSegmentEndStyle) {
-			boolean isStart = source == btnSegmentStartStyle;
-			SegmentStyle segmentStyle
-					= SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
-						: btnSegmentEndStyle.getSelectedIndex()];
-			needUndo = applySegmentStartStyle(targetGeos, segmentStyle,	isStart);
+            boolean isStart = source == btnSegmentStartStyle;
+            SegmentStyle segmentStyle
+                    = SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
+                        : btnSegmentEndStyle.getSelectedIndex()];
+            needUndo = applySegmentStartStyle(targetGeos, segmentStyle,	isStart);
 		} else if (source == btnHorizontalAlignment) {
 			HorizontalAlignment alignment
 					= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
