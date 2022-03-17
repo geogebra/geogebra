@@ -258,7 +258,9 @@ public class ConsElementXMLHandler {
 			try {
 				widthD = StringUtil.parseDouble(width);
 				heightD = StringUtil.parseDouble(height);
-				angleD = StringUtil.parseDouble(angle);
+				if (angle != null) {
+					angleD = StringUtil.parseDouble(angle);
+				}
 			} catch (Exception e) {
 				Log.warn(e.getMessage());
 			}
