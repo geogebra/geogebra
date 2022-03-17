@@ -95,7 +95,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		NONE, UPDATE, UPDATE_STYLE
 	}
 
-	private EuclidianController ec;
+	private final EuclidianController ec;
 	protected EuclidianView ev;
 	protected EuclidianStyleBarSelection selection;
 
@@ -139,11 +139,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected MyCJButton btnCloseView;
 
 	private MyToggleButtonW[] toggleBtnList;
-	private MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
+	private final MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
-	private Localization loc;
+	private final Localization loc;
 	private @CheckForNull ContextMenuPopup btnContextMenu = null;
 	private MyToggleButtonW btnCrop;
 	private LabelSettingsPopup btnLabel;
@@ -707,13 +707,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-        return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
-                btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
-				btnTextBgColor, btnFilling,	btnLineStyle, btnPointStyle, btnTextSize,
-                btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
-				btnLabelStyle, btnPointCapture,	btnChangeView
-        };
-    }
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
+				btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
+				btnTextBgColor, btnFilling, btnLineStyle, btnPointStyle, btnTextSize,
+				btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
+				btnLabelStyle, btnPointCapture, btnChangeView
+		};
+	}
 
 	// =====================================================
 	// Create Buttons
@@ -1074,16 +1074,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 							if (geo.isFillable()) {
 								alphaOnly = geo.isAngle() || geo.isGeoImage();
 								hasFillable = true;
-								// alpha = geo.getAlphaValue();
 								fillType = geo.getFillType();
 								break;
 							}
 							if (geo instanceof GeoPolyLine
 									&& EuclidianView.isPenMode(mode)) {
 								hasFillable = true;
-								// alpha = ((GeoElement)
-								// geos[i]).getLineOpacity();
-
 								break;
 							}
 						}
@@ -1638,11 +1634,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 			needUndo = applyBorderStyle(targetGeos, btnBorderStyle.getBorderType(),
 					btnBorderStyle.getBorderThickness());
 		} else if (source == btnSegmentStartStyle || source == btnSegmentEndStyle) {
-            boolean isStart = source == btnSegmentStartStyle;
-            SegmentStyle segmentStyle
+			boolean isStart = source == btnSegmentStartStyle;
+			SegmentStyle segmentStyle
 					= SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
 					: btnSegmentEndStyle.getSelectedIndex()];
-            needUndo = applySegmentStartStyle(targetGeos, segmentStyle,	isStart);
+			needUndo = applySegmentStartStyle(targetGeos, segmentStyle, isStart);
 		} else if (source == btnHorizontalAlignment) {
 			HorizontalAlignment alignment
 					= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
