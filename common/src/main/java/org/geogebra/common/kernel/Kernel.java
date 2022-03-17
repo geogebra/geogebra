@@ -18,6 +18,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
@@ -328,7 +329,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected App app;
 
 	private EquationSolver eqnSolver;
-	private SystemOfEquationsSolver sysEqSolv;
 	private ExtremumFinderI extrFinder;
 	/** Parser */
 	protected Parser parser;
@@ -562,24 +562,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param eSolver
-	 *            single equation solver
-	 * @return system solver
-	 */
-	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
-			EquationSolverInterface eSolver) {
-		if (sysEqSolv == null) {
-			sysEqSolv = new SystemOfEquationsSolver(eSolver);
-		}
-		return sysEqSolv;
-	}
-
-	/**
 	 * @return extremum finding utility
 	 */
 	final public ExtremumFinderI getExtremumFinder() {
 		if (extrFinder == null) {
-
 			extrFinder = new ExtremumFinder();
 		}
 		return extrFinder;
@@ -1641,7 +1627,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return LHS string
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars, boolean cancelDown,
-			boolean needsZ,	StringTemplate tpl) {
+			boolean needsZ, StringTemplate tpl) {
 
 		return buildLHS(numbers, vars, cancelDown, needsZ,
 				false, tpl);
@@ -5212,6 +5198,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	@Override
 	public int getLastStepNumber() {
 		return cons.steps();
+	}
+
+	/**
+	 * starts or ends batch updates for tableView
+	 * @param start true if batch update should start, false if it should end
+	 */
+	public void notifyTableViewAboutBatchUpdate(boolean start) {
+		for (View view: views) {
+			if (view instanceof TableValuesView) {
+				if (start) {
+					view.startBatchUpdate();
+				} else {
+					view.endBatchUpdate();
+				}
+			}
+		}
 	}
 
 }

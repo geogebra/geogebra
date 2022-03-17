@@ -45,7 +45,11 @@ public class Browser {
 	 */
 	public static boolean isSafariByVendor() {
 		String vendorString = (String) Js.asPropertyMap(DomGlobal.navigator).get("vendor");
-		return "Apple Computer, Inc.".equals(vendorString);
+		return "Apple Computer, Inc.".equals(vendorString) && !isChrome();
+	}
+
+	private static boolean isChrome() {
+		return DomGlobal.navigator.userAgent.toLowerCase(Locale.US).contains("chrome");
 	}
 
 	/**
@@ -297,7 +301,7 @@ public class Browser {
 		// https://stackoverflow.com/questions/695151/data-protocol-url-size-limitations/41755526#41755526
 		// https://stackoverflow.com/questions/38781968/problems-downloading-big-filemax-15-mb-on-google-chrome/38845151#38845151
 		// idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
-		if (DomGlobal.navigator.userAgent.toLowerCase(Locale.US).contains("chrome")) {
+		if (isChrome()) {
 
 			String byteCharacters = url.substring(url.indexOf(',') + 1);
 

@@ -161,7 +161,6 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
@@ -566,18 +565,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					getGuiManager().getLayout());
 		}
 
-		if (isPortrait()) {
-			p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
-					getHeight(),
-					isUnbundledGraphing() || isUnbundled3D()
-							|| "1".equals(
-							appletParameters.getDataParamPerspective())
-							|| "5".equals(
-							appletParameters.getDataParamPerspective())));
-		} else {
-			p.getSplitPaneData()[0].setDivider(
-					PerspectiveDecoder.landscapeRatio(this, getWidth()));
-
+		if (isUnbundled()) {
+			if (isPortrait()) {
+				p.getSplitPaneData()[0].setDivider(PerspectiveDecoder.portraitRatio(
+						getHeight(),
+						isUnbundledGraphing() || isUnbundled3D()));
+			} else {
+				p.getSplitPaneData()[0].setDivider(
+						PerspectiveDecoder.landscapeRatio(this, getWidth()));
+			}
 		}
 
 		GeoGebraPreferencesW.loadForApp(this, p);
@@ -1580,10 +1576,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		getEuclidianView1().doRepaint2();
 		frame.hideSplash();
 
+		if (needsSpreadsheetTableModel()) {
+			getSpreadsheetTableModel(); // spreadsheet trace also useful without UI
+		}
+
 		if (isUsingFullGui()) {
-			if (needsSpreadsheetTableModel()) {
-				getSpreadsheetTableModel();
-			}
 			refreshSplitLayoutPanel();
 
 			// probably this method can be changed by more,
@@ -1855,8 +1852,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
 			}
 			getGuiManager().refreshDraggingViews();
-			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (menuViewController != null) {
@@ -1898,15 +1893,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (this.isFloatingMenu()) {
 			this.toggleMenu();
 		} else {
+			spWidth = this.oldSplitLayoutPanel.getOffsetWidth()
+					+ GLookAndFeel.MENUBAR_WIDTH;
 			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth()
-							+ GLookAndFeel.MENUBAR_WIDTH,
+					spWidth,
 					this.oldSplitLayoutPanel.getOffsetHeight());
 			if (this.splitPanelWrapper != null) {
 				this.splitPanelWrapper.remove(frame.getMenuBar(this));
 			}
-			oldSplitLayoutPanel.getElement().getStyle()
-					.setOverflow(Overflow.VISIBLE);
 		}
 		this.menuShowing = false;
 

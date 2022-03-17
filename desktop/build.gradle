@@ -163,6 +163,30 @@ checkstyle {
     configFile file("../config/checkstyle/checkstyle.xml")
 }
 
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'org.geogebra.desktop.GeoGebra3D'
+        )
+    }
+}
+
+task debugJars(type:Zip, dependsOn: 'jar') {
+    description = 'Collect all jar files in a single archive. Fast: no proguard or code signing.'
+    archiveBaseName = 'jars'
+    destinationDirectory = file('build')
+    from 'build/libs'
+    doLast {
+        configurations.compile.each { jarFile ->
+            copy {
+                from jarFile
+                into 'build/libs'
+            }
+        }
+    }
+}
+
 tasks['checkstyleMain'].setSource(files([]))
 
 task e2eTest(type: Test) {

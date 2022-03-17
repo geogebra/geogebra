@@ -39,11 +39,9 @@ public class OptionsLayoutD
 	private AppD app;
 	private Settings settings;
 
-	/** */
 	private JPanel sideBarPanel, inputBarPanel, toolbarPanel,
 			perspectivesPanel;
 
-	/**	 */
 	private JCheckBox ckShowInputHelp, ckShowTitleBar, ckAllowStyleBar,
 			ckShowInputBar, ckShowToolbar, ckShowToolHelp, ckShowMenuBar,
 			ckShowSideBar;

@@ -589,8 +589,6 @@ public class CASInputHandler {
 	 * 
 	 * @param ggbcmd
 	 *            is the given command (just Solve is supported)
-	 * @param params
-	 *            the list of parameters
 	 */
 	private void processMultipleRows(String ggbcmd) {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
@@ -1048,7 +1046,7 @@ public class CASInputHandler {
 			} else if (ve.unwrap() instanceof Command) {
 				isPlottable &= ((Command) ve.unwrap()).getName().equals("If");
 			} else {
-				isPlottable = false;
+				isPlottable = cell.getTwinGeo() != null && cell.getTwinGeo().isEuclidianShowable();
 			}
 		}
 		if (ve != null

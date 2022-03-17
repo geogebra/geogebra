@@ -263,30 +263,18 @@ public class SpreadsheetKeyListenerW
 		pos.y = 0;
 		pos.x = 0;
 		// find rectangle that will contain all defined cells
-		for (int c = 0; c < table.getColumnCount() - 1; c++) {
-			for (int r = 0; r < table.getRowCount() - 1; r++) {
-				if ((r > pos.y || c > pos.x)
-						&& model.getValueAt(r, c) != null) {
-					if (r > pos.y) {
-						pos.y = r;
-					}
-					if (c > pos.x) {
-						pos.x = c;
-					}
-				}
-			}
-		}
+		movePointToBottomRight(pos);
 		table.changeSelection(0, 0, false);
 		table.changeSelection(pos.y, pos.x, true);
-
 	}
 
 	private void handleEndKey(boolean shift, GPoint pos) {
-
-		// move to bottom right of spreadsheet
+		movePointToBottomRight(pos);
 		// if shift pressed, select cells too
+		table.changeSelection(pos.y, pos.x, shift);
+	}
 
-		// find rectangle that will contain all cells
+	private void movePointToBottomRight(GPoint pos) {
 		for (int c = 0; c < table.getColumnCount() - 1; c++) {
 			for (int r = 0; r < table.getRowCount() - 1; r++) {
 				if ((r > pos.y || c > pos.x)
@@ -300,8 +288,6 @@ public class SpreadsheetKeyListenerW
 				}
 			}
 		}
-		table.changeSelection(pos.y, pos.x, shift);
-
 	}
 
 	private void handleKeyLeft(boolean ctrl, boolean shift,

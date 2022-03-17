@@ -1433,7 +1433,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			top += -cropLeft * Math.sin(angle) - cropTop * Math.cos(angle);
 		}
 
-		Coords shift = new Coords(location.x - left,	location.y - top);
+		Coords shift = new Coords(location.x - left, location.y - top);
 		if (getStartPoints()[1] != null && getStartPoints()[2] != null) {
 			getStartPoint().translate(shift);
 			getStartPoints()[1].translate(shift);

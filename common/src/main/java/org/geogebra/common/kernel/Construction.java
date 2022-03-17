@@ -13,6 +13,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
@@ -645,6 +647,17 @@ public class Construction {
 
 		// less than n casCell
 		return null;
+	}
+
+	/**
+	 * Hide all CAS twin geos that were not loaded from a file
+	 */
+	public void updateCasCellTwinVisibility() {
+		for (GeoElement ce : geoSetWithCasCells) {
+			if (ce.getCorrespondingCasCell() != null) {
+				ce.getCorrespondingCasCell().updateTwinGeoVisibility();
+			}
+		}
 	}
 
 	/***
@@ -2703,6 +2716,17 @@ public class Construction {
 			pref = "a";
 		}
 
+		return buildIndexedLabel(pref, includeDummies);
+	}
+
+	/**
+	 * Please note that we do not check here for valid label
+	 * (see {@link #getIndexLabel(String, boolean)})
+	 * @param pref - prefix
+	 * @param includeDummies - to include cas dummy variables
+	 * @return indexed label, e.g. "y_{2}"
+	 */
+	public String buildIndexedLabel(String pref, boolean includeDummies) {
 		String longIndexLabel;
 		boolean freeLabelFound;
 		int n = 0;
@@ -3323,14 +3347,15 @@ public class Construction {
 	 */
 
 	/**
-	 * set the algo set currently updated by GeoElement.updateDependentObjects()
+	 * Updates all algos in the set. Guards against double updates if location is involved.
 	 * 
-	 * @param algoSetCurrentlyUpdated
+	 * @param algoSet
 	 *            algo set
 	 */
-	public void setAlgoSetCurrentlyUpdated(
-			AlgorithmSet algoSetCurrentlyUpdated) {
-		this.algoSetCurrentlyUpdated = algoSetCurrentlyUpdated;
+	public void updateAllAlgosInSet(@Nonnull AlgorithmSet algoSet) {
+		this.algoSetCurrentlyUpdated = algoSet;
+		algoSet.updateAll();
+		this.algoSetCurrentlyUpdated = null;
 	}
 
 	/**

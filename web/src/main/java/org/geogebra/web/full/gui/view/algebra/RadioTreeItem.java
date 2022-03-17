@@ -1413,6 +1413,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return getMathField().hasFocus();
 	}
 
+	@Override
+	public boolean acceptsCommandInserts() {
+		return true;
+	}
+
 	public boolean isForceControls() {
 		return forceControls;
 	}
@@ -1546,14 +1551,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	public LatexTreeItemController getLatexController() {
 		return (LatexTreeItemController) getController();
-	}
-
-	/**
-	 * Show keyboard
-	 */
-	public void showKeyboard() {
-		// TODO default implementation is infinite recursion
-		getLatexController().showKeyboard();
 	}
 
 	/**
@@ -1711,7 +1708,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		if (mf != null) {
 			if (isTextItem()) {
-				mf.setPlainText(text);
+				mf.getInternal().setPlainText(text);
 			} else {
 				mf.parse(text);
 			}
@@ -2046,7 +2043,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}.attachTo(app);
 		getHelpToggle().setIndex(1);
 		inputControl.addInputControls();
- 		return this;
+		return this;
 	}
 
 	/**

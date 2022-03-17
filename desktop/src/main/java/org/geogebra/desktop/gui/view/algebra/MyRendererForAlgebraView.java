@@ -30,7 +30,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 	}
 
 	@Override
-	protected String getDescription(GeoElement geo,	GeoMutableTreeNode node) {
+	protected String getDescription(GeoElement geo, GeoMutableTreeNode node) {
 
 		String text = null;
 		if (geo.isIndependent() && geo.getDefinition() == null) {

@@ -152,7 +152,7 @@ public class FragmentShader {
 				+ "\n// packed hidden dashed texture (for lines etc.)\n"
 				+ "if (textureType == "
 				  + (RendererImplShaders.TEXTURE_TYPE_DASH
-				  		+ Textures.DASH_PACKED_HIDDEN)
+						+ Textures.DASH_PACKED_HIDDEN)
 				  + ") {\n"
 				+ "  y = (float(int((coordTexture.y+0.5) / "
 				  + Textures.DASH_ID_LENGTH

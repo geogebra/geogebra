@@ -115,7 +115,7 @@ public class InputIntelRealsense3D extends Input3D {
 		}
 		
 		// request next message
-		socket.getData();		
+		socket.getData();
 		
 		return updateOccured;
 		

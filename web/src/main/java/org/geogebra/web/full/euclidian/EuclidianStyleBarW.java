@@ -35,9 +35,11 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.HasTextFormatter;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.BorderType;
@@ -93,7 +95,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		NONE, UPDATE, UPDATE_STYLE
 	}
 
-	private EuclidianController ec;
+	private final EuclidianController ec;
 	protected EuclidianView ev;
 	protected EuclidianStyleBarSelection selection;
 
@@ -137,14 +139,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected MyCJButton btnCloseView;
 
 	private MyToggleButtonW[] toggleBtnList;
-	private MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
+	private final MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
-	private Localization loc;
+	private final Localization loc;
 	private @CheckForNull ContextMenuPopup btnContextMenu = null;
 	private MyToggleButtonW btnCrop;
 	private LabelSettingsPopup btnLabel;
+	private PopupMenuButtonW btnSegmentStartStyle;
+	private PopupMenuButtonW btnSegmentEndStyle;
 
 	/**
 	 * @param ev
@@ -442,6 +446,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 			add(btnFilling);
 		}
 		add(btnLineStyle);
+		add(btnSegmentStartStyle);
+		add(btnSegmentEndStyle);
 		add(btnPointStyle);
 		if (app.isWhiteboardActive()) {
 			// update language of descriptions in color, line style and point
@@ -701,11 +707,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnBorderText,
-				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
-				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
-				btnHorizontalAlignment, btnVerticalAlignment, btnLabelStyle, btnPointCapture,
-				btnChangeView
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(), btnSegmentStartStyle,
+				btnSegmentEndStyle, btnBorderText, btnColor, btnBgColor, btnTextColor,
+				btnTextBgColor, btnFilling, btnLineStyle, btnPointStyle, btnTextSize,
+				btnAngleInterval, btnBorderStyle, btnHorizontalAlignment, btnVerticalAlignment,
+				btnLabelStyle, btnPointCapture, btnChangeView
 		};
 	}
 
@@ -718,6 +724,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createAxesAndGridButtons();
 		createStandardViewBtn();
 		createLineStyleBtn();
+		createSegmentStartStyleBtn();
+		createSegmentEndStyleBtn();
 		createPointStyleBtn(mode);
 		createLabelStyleBtn();
 		createAngleIntervalBtn();
@@ -862,6 +870,54 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnPointCapture.setIcon(new ImageOrText(ptCaptureIcon, 24));
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
+	}
+
+	private void createSegmentStartStyleBtn() {
+		ImageOrText[] segmentStartStyleIcons = GeoGebraIconW.createSegmentStartStyleIcons();
+		btnSegmentStartStyle = new PopupMenuButtonW(app, segmentStartStyleIcons,
+				2, 4, SelectionTable.MODE_ICON) {
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoSegment(geos);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					SegmentStyle style = ((GeoSegment) geos.get(0)).getStartStyle();
+					btnSegmentStartStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
+					if (btnSegmentStartStyle.getSelectedIndex() == -1) {
+						btnSegmentStartStyle.setIcon(segmentStartStyleIcons[0]);
+					}
+				}
+			}
+		};
+
+		btnSegmentStartStyle.setIcon(segmentStartStyleIcons[0]);
+		btnSegmentStartStyle.addPopupHandler(this);
+		btnSegmentStartStyle.setKeepVisible(false);
+	}
+
+	private void createSegmentEndStyleBtn() {
+		ImageOrText[] segmentEndStyleIcons = GeoGebraIconW.createSegmentEndStyleIcons();
+		btnSegmentEndStyle = new PopupMenuButtonW(app, segmentEndStyleIcons,
+				2, 4, SelectionTable.MODE_ICON) {
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoSegment(geos);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					SegmentStyle style = ((GeoSegment) geos.get(0)).getEndStyle();
+					btnSegmentEndStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
+					if (btnSegmentEndStyle.getSelectedIndex() == -1) {
+						btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
+					}
+				}
+			}
+		};
+
+		btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
+		btnSegmentEndStyle.addPopupHandler(this);
+		btnSegmentEndStyle.setKeepVisible(false);
 	}
 
 	private void createLabelStyleBtn() {
@@ -1018,16 +1074,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 							if (geo.isFillable()) {
 								alphaOnly = geo.isAngle() || geo.isGeoImage();
 								hasFillable = true;
-								// alpha = geo.getAlphaValue();
 								fillType = geo.getFillType();
 								break;
 							}
 							if (geo instanceof GeoPolyLine
 									&& EuclidianView.isPenMode(mode)) {
 								hasFillable = true;
-								// alpha = ((GeoElement)
-								// geos[i]).getLineOpacity();
-
 								break;
 							}
 						}
@@ -1475,6 +1527,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return checkGeos(geos, geo -> geo instanceof GeoInlineTable);
 	}
 
+	private static boolean checkGeoSegment(List<GeoElement> geos) {
+		return checkGeos(geos, geo -> geo instanceof GeoSegment);
+	}
+
 	private static boolean checkGeos(List<GeoElement> geos, GPredicate<GeoElement> check) {
 		boolean geosOK = geos.size() > 0;
 		for (GeoElement geo : geos) {
@@ -1577,6 +1633,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnBorderStyle) {
 			needUndo = applyBorderStyle(targetGeos, btnBorderStyle.getBorderType(),
 					btnBorderStyle.getBorderThickness());
+		} else if (source == btnSegmentStartStyle || source == btnSegmentEndStyle) {
+			boolean isStart = source == btnSegmentStartStyle;
+			SegmentStyle segmentStyle
+					= SegmentStyle.values()[isStart ? btnSegmentStartStyle.getSelectedIndex()
+					: btnSegmentEndStyle.getSelectedIndex()];
+			needUndo = applySegmentStartStyle(targetGeos, segmentStyle, isStart);
 		} else if (source == btnHorizontalAlignment) {
 			HorizontalAlignment alignment
 					= HorizontalAlignment.values()[btnHorizontalAlignment.getSelectedIndex()];
@@ -1706,6 +1768,23 @@ public class EuclidianStyleBarW extends StyleBarW2
 					formatter.setBorderThickness(borderThickness);
 					changed = true;
 				}
+			}
+		}
+
+		return changed;
+	}
+
+	private boolean applySegmentStartStyle(List<GeoElement> targetGeos, SegmentStyle style,
+			boolean start) {
+		boolean changed = false;
+		for (GeoElement geo : targetGeos) {
+			if (geo instanceof GeoSegment) {
+				if (start) {
+					((GeoSegment) geo).setStartStyle(style);
+				} else {
+					((GeoSegment) geo).setEndStyle(style);
+				}
+				changed = true;
 			}
 		}
 
@@ -2025,6 +2104,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		setToolTipText(btnVerticalAlignment, "stylebar.VerticalAlign");
 		setPopupTooltips(btnVerticalAlignment, new String[] { "Top", "Middle", "Bottom" });
+
+		setToolTipText(btnSegmentStartStyle, "stylebar.LineStartStyle");
+		setToolTipText(btnSegmentEndStyle, "stylebar.LineEndStyle");
 	}
 
 	private void setToolTipText(MyCJButton btn, String key) {

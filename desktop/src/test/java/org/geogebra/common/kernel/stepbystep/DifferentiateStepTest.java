@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import java.util.Objects;
+
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
@@ -47,6 +49,8 @@ public class DifferentiateStepTest {
 		d("exp(cos(x) * (ln(x))^2)", "x",
 				"((e)^((cos(x))((log_(e)(x))^(2))))((((2)(cos(x))(log_(e)(x)))/(x)-(sin(x))((log_(e)(x))^(2))))");
 		d("(sin(x)^2)", "x", "(2)(sin(x))(cos(x))");
+		d("x^(7-4x)","x",
+				"((e)^((log_(e)(x))((7-(4)(x)))))((-(4)(log_(e)(x)) + ((7-(4)(x)))/(x)))");
 	}
 
 	public void d(String toDifferentiate, String variable, String expectedResult) {
@@ -61,7 +65,7 @@ public class DifferentiateStepTest {
 		
 		StepExpression sn = (StepExpression) StepNode.getStepTree(toDifferentiate, app.getKernel().getParser());
 		StepExpression input = StepNode.differentiate(sn, new StepVariable(variable));
-		String result = input.differentiateOutput(sb).toString();
+		String result = Objects.requireNonNull(input).differentiateOutput(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
 		htmlBuilder.buildStepGui(steps);

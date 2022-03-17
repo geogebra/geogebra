@@ -5,14 +5,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -185,27 +183,14 @@ public abstract class CasTestJsonCommon {
 			kernel.getConstruction().addToConstructionList(f, false);
 
 			f.setInput(input);
-
 			f.computeOutput();
 
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<>();
 			if (f.getInputVE() == null) {
 				Assert.assertEquals("Input should be parsed", "GEOGEBRAERROR",
 						expectedResult[0]);
 				return;
 			}
-			f.getInputVE().traverse(Traversing.CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-							&& cmd.getArgumentNumber() > 1);
-				}
-			}
+			boolean includesNumericCommand = f.includesNumericCommand();
 			if (f.getValue() == null) {
 				result = f.getOutput(StringTemplate.testTemplate);
 			} else if (f.getValue()
@@ -391,8 +376,13 @@ public abstract class CasTestJsonCommon {
 	}
 
 	@Test
-	public void testNumeric() {
-		testCat("Numeric");
+	public void testNumeric1() {
+		testCat("Numeric.1");
+	}
+
+	@Test
+	public void testNumeric2() {
+		testCat("Numeric.2");
 	}
 
 	@Test

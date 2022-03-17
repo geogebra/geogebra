@@ -122,7 +122,7 @@ public class DrawEquationD extends DrawEquation {
 
 		GGraphics2DD.setAntialiasing(g2image);
 
-		GDimension d = drawEquation(app, null,	new Graphics2DD(g2image), 0, 0,
+		GDimension d = drawEquation(app, null, new Graphics2DD(g2image), 0, 0,
 				latex,
 				new GFontD(font), serif, ColorD.get(fgColor),
 				ColorD.get(bgColor), true, null, null);

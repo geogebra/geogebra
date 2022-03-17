@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 public class AnimationStepPanelW extends OptionPanel 
 implements ITextFieldListener {
 	private AnimationStepModel model;
-	private Label label;	
+	private Label label;
 	private AngleTextFieldW tfAnimStep;
 	private Kernel kernel;
 

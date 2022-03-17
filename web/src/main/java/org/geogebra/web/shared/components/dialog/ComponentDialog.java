@@ -47,7 +47,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		FlowPanel dialogMainPanel = new FlowPanel();
 		dialogMainPanel.addStyleName("dialogMainPanel");
 
-		addTitleOfDialog(dialogMainPanel, dialogData.getTitleTransKey());
+		addTitleOfDialog(dialogMainPanel, dialogData.getTitleTransKey(),
+				dialogData.getSubTitleTransKey());
 		createEmptyDialogContent(dialogMainPanel);
 		if (dialogData.getNegativeBtnTransKey() != null
 				|| dialogData.getPositiveBtnTransKey() != null) {
@@ -57,7 +58,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		this.add(dialogMainPanel);
 	}
 
-	private void addTitleOfDialog(FlowPanel dialogMainPanel, String titleTransKey) {
+	private void addTitleOfDialog(FlowPanel dialogMainPanel, String titleTransKey,
+			String subTitleTransKey) {
 		if (titleTransKey == null) {
 			return;
 		}
@@ -65,6 +67,14 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		Label title = new Label(getApplication().getLocalization().getMenu(titleTransKey));
 		title.setStyleName("dialogTitle");
 		dialogMainPanel.add(title);
+
+		if (subTitleTransKey != null) {
+			addStyleName("withSubtitle");
+			Label subTitle = new Label();
+			subTitle.getElement().setInnerHTML(subTitleTransKey);
+			subTitle.setStyleName("dialogSubTitle");
+			dialogMainPanel.add(subTitle);
+		}
 	}
 
 	private void createEmptyDialogContent(FlowPanel dialogMainPanel) {

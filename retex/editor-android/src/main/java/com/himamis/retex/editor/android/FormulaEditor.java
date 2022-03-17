@@ -49,6 +49,8 @@ public class FormulaEditor extends View implements MathField {
     private static final int DEFAULT_SIZE = 20;
     private static final int PRE_INIT_VALUE = -1;
     private static final int NO_BACKGROUND = -2;
+    private static final int ALIGN_LEFT = 0;
+    private static final int ALIGN_RIGHT = 1;
 
     public static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
@@ -65,6 +67,7 @@ public class FormulaEditor extends View implements MathField {
     private Parser mParser;
     private int mIconWidth;
     private int mShiftX = 0;
+    private int mAlignment = ALIGN_LEFT;
 
     private TeXIcon mFormulaPreviewTeXIcon;
 
@@ -118,6 +121,7 @@ public class FormulaEditor extends View implements MathField {
             initForegroundColor(a);
             initText(a);
             initType(a);
+            initAlignment(a);
         } finally {
             a.recycle();
         }
@@ -172,6 +176,15 @@ public class FormulaEditor extends View implements MathField {
             mType = type;
         } else if (mType == PRE_INIT_VALUE) {
             mType = TeXFormula.SANSSERIF;
+        }
+    }
+
+    private void initAlignment(TypedArray typedArray) {
+        int alignment = typedArray.getInteger(R.styleable.FormulaEditor_fe_alignment, PRE_INIT_VALUE);
+        if (alignment != PRE_INIT_VALUE) {
+            mAlignment = alignment;
+        } else if (mType == PRE_INIT_VALUE) {
+            mAlignment = ALIGN_LEFT;
         }
     }
 
@@ -378,13 +391,23 @@ public class FormulaEditor extends View implements MathField {
 
         //noinspection MagicNumber
         int y = Math.round((getMeasuredHeight() - teXIcon.getIconHeight()) / 2.0f);
+        int left = mAlignment == ALIGN_LEFT ? shiftX : (getWidth() - teXIcon.getIconWidth());
+        int cursorOffset = mAlignment == ALIGN_LEFT ? 0 : cursorOffsetForRightAlignment(teXIcon);
         // draw latex
         mGraphics.setCanvas(canvas);
         teXIcon.setForeground(mForegroundColor);
-        teXIcon.paintIcon(null, mGraphics, shiftX, y);
-        mGraphics.translate(shiftX, 0);
-        teXIcon.paintCursor(mGraphics, y);
-        mGraphics.translate(-shiftX, 0);
+        teXIcon.paintIcon(null, mGraphics, left, y);
+        mGraphics.translate(left, 0);
+        teXIcon.paintCursor(mGraphics, y, cursorOffset);
+        mGraphics.translate(-left, 0);
+    }
+
+    private int cursorOffsetForRightAlignment(TeXIcon teXIcon) {
+        if (teXIcon.getIconWidth() > getWidth()) {
+            return teXIcon.getIconWidth() - getWidth();
+        } else {
+            return 0;
+        }
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -569,10 +592,5 @@ public class FormulaEditor extends View implements MathField {
     @Override
     public void parse(String text) {
         mMathFieldInternal.parse(text);
-    }
-
-    @Override
-    public void setPlainText(String text) {
-        mMathFieldInternal.setPlainText(text);
     }
 }

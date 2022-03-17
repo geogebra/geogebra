@@ -127,7 +127,7 @@ public class DrawLabel3D {
 	 * @param yOffset0
 	 *            abs offset in y
 	 * @param zOffset0
-	 * 	 *        abs offset in z
+	 *            abs offset in z
 	 */
 	public void update(String text0, GFont font0, GColor fgColor, Coords v,
 			float xOffset0, float yOffset0, float zOffset0) {
@@ -163,7 +163,7 @@ public class DrawLabel3D {
 	 * @param yOffset0
 	 *            abs offset in y
 	 * @param zOffset0
-	 * 	          abs offset in y
+	 *            abs offset in z
 	 */
 	public void update(String text0, GFont font0, GColor bgColor,
 			GColor fgColor, Coords v, float xOffset0, float yOffset0, float zOffset0) {

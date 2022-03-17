@@ -231,7 +231,7 @@ public class MathArray extends MathContainer {
 	 */
 	public void copy(MathArray array) {
 		for (int i = 0; i < rows || i < array.rows; i++) {
-			for (int j = 0; j < columns	|| j < array.columns; j++) {
+			for (int j = 0; j < columns || j < array.columns; j++) {
 				MathSequence component = array.getArgument(i, j);
 				component = component.copy();
 				setArgument(i, j, component);

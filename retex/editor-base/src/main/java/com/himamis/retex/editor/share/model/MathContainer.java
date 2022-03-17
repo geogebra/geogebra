@@ -97,7 +97,7 @@ abstract public class MathContainer extends MathComponent {
 
 			// check if "previous" char needs changing
 			if (ret[0] != lastChar) {
-				MetaCharacter metaChar = new MetaCharacter(ret[0] + "",
+				MetaCharacter metaChar = new MetaCharacter(
 						ret[0] + "", ret[0], MetaCharacter.CHARACTER);
 
 				MathCharacter mathChar = (MathCharacter) compLast;
@@ -118,7 +118,7 @@ abstract public class MathContainer extends MathComponent {
 			}
 
 			MathCharacter mathChar = (MathCharacter) comp;
-			mathChar.setChar(new MetaCharacter(newNewChar + "", newNewChar + "",
+			mathChar.setChar(new MetaCharacter(newNewChar + "",
 					newNewChar, MetaCharacter.CHARACTER));
 
 			// make sure comp is still inserted

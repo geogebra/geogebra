@@ -49,15 +49,16 @@ public class TeXSerializer extends SerializerAdapter {
 		if (mathCharacter == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
-		if ("=".equals(mathCharacter.getName())) {
+		String name = mathCharacter.getUnicodeString();
+		if ("=".equals(name)) {
 			stringBuilder.append("\\,=\\,");
-		} else if ("@".equals(mathCharacter.getName())) {
+		} else if ("@".equals(name)) {
 			stringBuilder.append("\\@ ");
-		} else if (" ".equals(mathCharacter.getName())) {
+		} else if (" ".equals(name)) {
 			stringBuilder.append("\\nbsp{}");
-		} else if (lineBreakEnabled && 10 == mathCharacter.getName().charAt(0)) {
+		} else if (lineBreakEnabled && 10 == name.charAt(0)) {
 			stringBuilder.append("\\\\\\vspace{0}");
-		} else if ("n".equals(mathCharacter.getName()) && stringBuilder.length() > 0
+		} else if ("n".equals(name) && stringBuilder.length() > 0
 				&& 'l' == stringBuilder.charAt(stringBuilder.length() - 1)) {
 			stringBuilder.setLength(Math.max(stringBuilder.length() - 1, 0));
 			stringBuilder.append("\\mathrm{ln}");
@@ -176,7 +177,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private String getPlaceholder(MathSequence sequence) {
 		MathContainer parent = sequence.getParent();
 		if (parent == null
-				|| (parent instanceof MathArray	&& parent.size() == 1)) {
+				|| (parent instanceof MathArray && parent.size() == 1)) {
 			return PLACEHOLDER_INVISIBLE;
 		}
 		if (parent instanceof MathFunction) {

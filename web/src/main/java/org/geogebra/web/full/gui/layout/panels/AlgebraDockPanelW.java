@@ -254,7 +254,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public double getMinVHeight(boolean keyboard) {
-		return Math.max(aview.getInputTreeItem().getOffsetHeight(),	120);
+		return Math.max(aview.getInputTreeItem().getOffsetHeight(), 120);
 	}
 
 	@Override

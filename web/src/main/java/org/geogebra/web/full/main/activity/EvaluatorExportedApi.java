@@ -91,4 +91,8 @@ public class EvaluatorExportedApi implements ExportedApi {
 	public void closeKeyboard() {
 		evaluatorActivity.getEditor().setKeyboardVisibility(false);
 	}
+
+	public Object getSteps(JsPropertyMap<String> options) {
+		return Global.JSON.parse(evaluatorActivity.getEditorAPI().getSteps(options.get("type")));
+	}
 }

@@ -17,7 +17,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	private Label modeLabel;
 	private AnimationSpeedModel model;
 	private AppW app;
-	
+
 	public AnimationSpeedPanelW(AppW app) {
 		this(new AnimationSpeedModel(app), app);
 	}

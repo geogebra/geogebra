@@ -372,7 +372,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoLineND line3D(String label, GeoPointND P, GeoVectorND v) {
-		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, P,	v);
+		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, P, v);
 		GeoLineND g = algo.getLine();
 		g.setLabel(label);
 		return g;

@@ -35,13 +35,10 @@ public class MetaCharacter extends MetaComponent {
     public static final int SYMBOL = 3;
 
     private int type;
-	private String name;
 	private char unicode;
 	private String unicodeString;
 
 	/**
-	 * @param name
-	 *            ASCII name
 	 * @param texName
 	 *            tex name
 	 * @param unicode
@@ -49,11 +46,10 @@ public class MetaCharacter extends MetaComponent {
 	 * @param type
 	 *            CHARACTER / OPERATOR / SYMBOL
 	 */
-	public MetaCharacter(String name, String texName, char unicode,
+	public MetaCharacter(String texName, char unicode,
 			int type) {
 		super(Tag.CHAR, texName);
         this.type = type;
-		this.name = name;
 		this.unicode = unicode;
 		this.unicodeString = Character.toString(unicode);
     }
@@ -64,10 +60,6 @@ public class MetaCharacter extends MetaComponent {
 	public int getType() {
 		return type;
     }
-
-	public String getCharName() {
-		return name;
-	}
 
 	/**
 	 * @return Unicode char.
@@ -90,7 +82,7 @@ public class MetaCharacter extends MetaComponent {
 	 * @return a character model merged from this and other
 	 */
 	public MetaCharacter merge(String other) {
-		MetaCharacter ret = new MetaCharacter(name, getTexName() + other, unicode, type);
+		MetaCharacter ret = new MetaCharacter(getTexName() + other, unicode, type);
 		ret.unicodeString = unicodeString + other;
 		return ret;
 	}

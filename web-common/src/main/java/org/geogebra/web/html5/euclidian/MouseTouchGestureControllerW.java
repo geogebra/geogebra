@@ -67,7 +67,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.app = app;
 
 		app.getGlobalHandlers().add(Window.addWindowScrollHandler(e -> calculateEnvironment()));
-		app.addWindowResizeListener(this);
+		app.addWindowResizeListener(this::calculateEnvironment);
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
@@ -230,14 +230,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public void resetToolTipManager() {
 		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @return whether reset icon was hit
-	 */
-	public boolean hitResetIcon() {
-		return app.showResetIcon()
-				&& ((ec.mouseLoc.y < 32) && (ec.mouseLoc.x > (ec.getView().getViewWidth() - 32)));
 	}
 
 	@Override

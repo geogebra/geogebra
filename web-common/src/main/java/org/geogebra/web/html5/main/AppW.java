@@ -89,7 +89,6 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
 import org.geogebra.web.html5.export.GeoGebraToPgfW;
@@ -154,6 +153,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -230,7 +230,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
-	private final ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
+	private final ArrayList<RequiresResize> euclidianHandlers = new ArrayList<>();
 	private ViewW viewW;
 	private ZoomPanel zoomPanel;
 	private final PopupRegistry popupRegistry = new PopupRegistry();
@@ -412,8 +412,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * handler for window resize
 	 */
 	protected final void windowResized() {
-		for (MouseTouchGestureControllerW mtg : this.euclidianHandlers) {
-			mtg.calculateEnvironment();
+		for (RequiresResize mtg : this.euclidianHandlers) {
+			mtg.onResize();
 		}
 		if (this.getGuiManager() != null) {
 			getGuiManager().setPixelRatio(getPixelRatio());
@@ -2806,7 +2806,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return Browser.getPixelRatio() * geoGebraElement.readScaleX();
 	}
 
-	public void addWindowResizeListener(MouseTouchGestureControllerW mtg) {
+	public void addWindowResizeListener(RequiresResize mtg) {
 		this.euclidianHandlers.add(mtg);
 	}
 

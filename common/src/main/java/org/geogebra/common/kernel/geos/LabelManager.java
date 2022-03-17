@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
@@ -324,4 +325,18 @@ public class LabelManager {
 		return getNextIndexedLabel(LabelType.integerLabels);
 	}
 
+	/**
+	 * @param trans localized prefix
+	 * @return first free label of {prefix1, prefix2, ...}
+	 */
+	public String getNextNumberedLabel(String trans) {
+		int counter = 0;
+		String str;
+		do {
+			counter++;
+			str = trans + cons.getKernel().internationalizeDigits(counter + "",
+					StringTemplate.defaultTemplate);
+		} while (!cons.isFreeLabel(str));
+		return str;
+	}
 }

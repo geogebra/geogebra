@@ -15,8 +15,8 @@ import elemental2.dom.HTMLHtmlElement;
 import elemental2.dom.Window;
 
 /**
+ * windowReference for GGT API
  * @author gabor
- *	windowReference for GGT API
  */
 public final class WindowReference implements EventRenderable {
 	private static final int WIDTH = 900;
@@ -46,9 +46,9 @@ public final class WindowReference implements EventRenderable {
 	 * protected constructor as superclass of js object
 	 */
 	private WindowReference() {
-		
+		// singleton
 	}
-	
+
 	/**
 	 * Close the window.
 	 */
@@ -57,7 +57,7 @@ public final class WindowReference implements EventRenderable {
 			wnd.close();
 		}
 	}
-	
+
 	/**
 	 * @param app
 	 *            Application
@@ -80,7 +80,7 @@ public final class WindowReference implements EventRenderable {
 			lOW.getView().add(instance);
 			instance.initClosedCheck();
 		}
-		
+
 		return instance;
 	}
 
@@ -106,7 +106,7 @@ public final class WindowReference implements EventRenderable {
 	public static WindowReference get() {
 		return instance;
 	}
-	
+
 	/**
 	 * @return the closed state of the
 	 */

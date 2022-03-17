@@ -164,7 +164,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
 	@Override
 	public double getWidth() {
-    	return Window.getClientWidth();
+		return Window.getClientWidth();
 	}
 
 	@Override

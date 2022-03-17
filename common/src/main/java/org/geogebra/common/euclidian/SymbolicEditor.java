@@ -40,12 +40,16 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		this.view = view;
 		this.texSerializer = new TeXSerializer(new SyntaxAdapterImpl(app.getKernel()));
 		asciiSerializer.forceRoundBrackets();
-		asciiSerializer.setComma(app.getLocalization().isUsingDecimalComma() ? "." : "");
 	}
 
 	protected void applyChanges() {
 		MathFormula formula = getMathFieldInternal().getFormula();
 		String editedText = null;
+		if (getMathFieldInternal().getInputController().getPlainTextMode()) {
+			asciiSerializer.setComma(",");
+		} else {
+			asciiSerializer.setComma(app.getLocalization().isUsingDecimalComma() ? "." : "");
+		}
 		String[] entries = asciiSerializer.serializeMatrixEntries(formula);
 		if (entries.length == 0) {
 			editedText = asciiSerializer.serialize(formula);
@@ -184,7 +188,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	protected double computeTop(int height) {
-		return MyMath.clamp(baseline - height / 2d, 0,	view.getHeight() - height);
+		return MyMath.clamp(baseline - height / 2d, 0, view.getHeight() - height);
 	}
 
 	protected void setBaseline(double baseline) {

@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
@@ -82,7 +83,13 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 
 	@Override
 	public boolean isOnView(double x, double y) {
-		return view.isOnView(x, y);
+		EdgeInsets safeAreaInsets = view.getSafeAreaInsets();
+		double safeAreaLeft = toRealWorldCoordX(safeAreaInsets.getLeft());
+		double safeAreaRight = toRealWorldCoordX(getWidth() - safeAreaInsets.getRight());
+		double safeAreaTop = toRealWorldCoordY(safeAreaInsets.getTop());
+		double safeAreaBottom = toRealWorldCoordY(getHeight() - safeAreaInsets.getBottom());
+		return (x >= safeAreaLeft) && (x <= safeAreaRight)
+				&& (y >= safeAreaBottom) && (y <= safeAreaTop);
 	}
 
 	@Override

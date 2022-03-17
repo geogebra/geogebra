@@ -10,14 +10,20 @@ import static org.junit.Assert.assertTrue;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
+import org.geogebra.common.io.FactoryProviderCommon;
+import org.geogebra.common.io.MathFieldCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
@@ -28,6 +34,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		return AppCommonFactory.create3D();
 	}
 
+	@BeforeClass
+	public static void prepare() {
+		FactoryProvider.setInstance(new FactoryProviderCommon());
+	}
+
 	@Test
 	public void shouldNotShowQuotesForText() {
 		setupInput("txt", "\"GeoGebra Rocks\"");
@@ -35,6 +46,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("GeoGebra Really Rocks");
 		t("txt", "GeoGebra Really Rocks");
 		hasType("txt", GeoClass.TEXT);
+	}
+
+	@Test
+	public void shouldNotRemoveCommasForText() {
+		setupInput("txt", "\"Hello Friends\"");
+		final MathFieldCommon mf = new MathFieldCommon(new MetaModel(), null);
+		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
+		editor.attach((GeoInputBox) lookup("ib"), new Rectangle());
+		mf.getInternal().setPlainText("Hello, Friends");
+		editor.onEnter();
+		t("txt", "Hello, Friends");
 	}
 
 	@Test
@@ -594,4 +616,5 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("\\left(\\begin{array}{rr}1&i\\\\i&2\\\\ \\end{array}\\right)",
 				inputBox.getText());
 	}
+
 }

@@ -1289,7 +1289,7 @@ public class GPopupPanel extends SimplePanel implements
 	}
 
 	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth,
-			int textBoxOffsetWidth,	int offsetWidthDiff) {
+			int textBoxOffsetWidth, int offsetWidthDiff) {
 		int left;
 		int textBoxAbsoluteLeft = (int) ((relativeObject.getAbsoluteLeft() - root
 						.getAbsoluteLeft()) / getScale(root.getElement(), "x"));

@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
 import org.geogebra.common.kernel.commands.CommandDispatcherProver;
 import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
 import org.geogebra.common.kernel.commands.CommandDispatcherStats;
-import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
 
 public class CommandDispatcherJre extends CommandDispatcher {
 
@@ -55,14 +54,6 @@ public class CommandDispatcherJre extends CommandDispatcher {
 			advancedDispatcher = new CommandDispatcherAdvanced();
 		}
 		return advancedDispatcher;
-	}
-
-	@Override
-	public CommandDispatcherInterface getStepsDispatcher() {
-		if (stepsDispatcher == null) {
-			stepsDispatcher = new CommandDispatcherSteps();
-		}
-		return stepsDispatcher;
 	}
 
 	@Override
