@@ -23,6 +23,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
+import elemental2.dom.CanvasRenderingContext2D;
+import elemental2.dom.HTMLImageElement;
+import jsinterop.base.Js;
+
 /**
  * Navigation rail or bottom bar
  */
@@ -491,4 +495,21 @@ class NavigationRail extends FlowPanel {
 		setSelected(btnAlgebra, false, exam);
 	}
 
+	/**
+	 * @param context2d context
+	 * @param left distance from left canvas edge
+	 * @param top distance from top canvas edge
+	 */
+	public void paintToCanvas(CanvasRenderingContext2D context2d, int left, int top) {
+		int btnTop = 40;
+		context2d.globalAlpha = 0.54;
+		for (StandardButton btn: new StandardButton[]{btnAlgebra, btnTools, btnTableView}) {
+			if (btn != null) {
+				HTMLImageElement el = Js.uncheckedCast(btn.getImage().getElement());
+				context2d.drawImage(el, left + 24, top + btnTop);
+				btnTop += 72;
+			}
+		}
+		context2d.globalAlpha = 1;
+	}
 }

@@ -10,6 +10,8 @@ import org.gwtproject.resources.client.ResourcePrototype;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.CanvasRenderingContext2D;
+
 /**
  * @author Laszlo Gal
  *
@@ -201,6 +203,17 @@ public class ToolbarDockPanelW extends DockPanelW
 	public void hideToolbar() {
 		if (toolbar != null) {
 			toolbar.hideToolbar();
+		}
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		if (toolbar != null) {
+			drawWhiteBackground(context2d, left, top);
+			toolbar.paintToCanvas(context2d, callback, left, top);
+		} else {
+			callback.run();
 		}
 	}
 }
