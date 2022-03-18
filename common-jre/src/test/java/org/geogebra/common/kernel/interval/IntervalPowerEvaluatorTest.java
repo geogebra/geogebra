@@ -193,7 +193,6 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 		assertEquals(X_AROUND_ZERO, pow2);
 	}
 
-
 	@Test
 	public void inverseOfXInverse() {
 		assertEquals(X_AROUND_ZERO,

@@ -27,7 +27,6 @@ public class PowerEquivalenceTest extends SamplerTest {
 		shouldBeEquivalent("(x^-1)^-1", "1/(1/x)");
 	}
 
-
 	private void shouldBeEquivalent(String description1, String description2) {
 		IntervalTupleList samples = samplesOf(description1);
 		samples.removeAll(samplesOf(description2));
