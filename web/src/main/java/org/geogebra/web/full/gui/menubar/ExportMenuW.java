@@ -187,7 +187,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				@Override
 				public void doExecute() {
 					menu.hide();
-					app.setExport3D(new FormatSTL(), true);
+					app.setExport3D(new FormatSTL());
 				}
 			});
 

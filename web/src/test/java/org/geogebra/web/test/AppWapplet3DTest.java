@@ -58,7 +58,7 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	}
 
 	@Override
-	public void setExport3D(Format format, boolean showDialog) {
+	public void setExport3D(Format format) {
 		// no-op
 	}
 

@@ -508,7 +508,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						app.setExport3D(new FormatSTL(), true);
+						app.setExport3D(new FormatSTL());
 					} catch (Exception ex) {
 						ex.printStackTrace();
 						Log.debug("Problem exporting to STL");
@@ -524,7 +524,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						app.setExport3D(new FormatCollada(), true);
+						app.setExport3D(new FormatCollada());
 					} catch (Exception ex) {
 						Log.debug("Export to Collada not available");
 					}
@@ -540,7 +540,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						app.setExport3D(new FormatColladaHTML(), true);
+						app.setExport3D(new FormatColladaHTML());
 					} catch (Exception ex) {
 						Log.debug("Export to Collada not available");
 					}
