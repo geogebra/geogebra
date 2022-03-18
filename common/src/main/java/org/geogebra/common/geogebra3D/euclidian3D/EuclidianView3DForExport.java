@@ -217,11 +217,9 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 										dialog.getCurrentThickness() / 2,
 										dialog.getCurrentScale(),
 										dialog.wantsFilledSolids());
-								ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(
-										EuclidianView3DForExport.this,
+								ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
 										renderer.getGeometryManager());
-								getApplication().getKernel().detach(
-										EuclidianView3DForExport.this);
+								getApplication().getKernel().detach(this);
 								getApplication().exportStringToFile(
 										format.getExtension(),
 										exportToPrinter.export(format)

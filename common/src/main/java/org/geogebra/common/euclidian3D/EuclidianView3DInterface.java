@@ -214,8 +214,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * set export will be done on next 3D frame
 	 * 
 	 * @param format - export format
-	 * @param showDialog - true if export dialog should be shown,
-	 * 	 	export directly otherwise
+	 * @param showDialog - true if export dialog should be shown, export directly otherwise
 	 */
 	public void setExport3D(final Format format, boolean showDialog);
 	

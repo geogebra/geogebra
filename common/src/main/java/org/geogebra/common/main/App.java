@@ -4667,8 +4667,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * set export will be done on next 3D frame
 	 *
 	 * @param format - export format
-	 * @param showDialog - true if export dialog should be shown,
-	 * 		export directly otherwise
+	 * @param showDialog - true if export dialog should be shown, export directly otherwise
 	 */
 	public void setExport3D(Format format, boolean showDialog) {
 		companion.setExport3D(format, showDialog);

@@ -4877,7 +4877,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void setExport3D(final Format format, boolean showDialog) {
 		renderer.setExport3D(() -> {
-			ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(EuclidianView3D.this,
+			ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
 					renderer.getGeometryManager());
 			StringBuilder export = exportToPrinter.export(format);
 			getApplication().exportStringToFile(format.getExtension(),

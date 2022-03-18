@@ -175,8 +175,7 @@ public class AppCompanion {
 	 * set export will be done on next 3D frame
 	 * 
 	 * @param format - export format
-	 * @param showDialog - true if export dialog should be shown,
-	 * 	 	export directly otherwise
+	 * @param showDialog - true if export dialog should be shown, export directly otherwise
 	 */
 	public void setExport3D(Format format, boolean showDialog) {
 		// implemented in App3DCompanion
