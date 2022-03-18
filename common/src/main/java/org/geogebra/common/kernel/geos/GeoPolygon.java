@@ -1731,9 +1731,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			double yu = p1.inhomY - p0.inhomY;
 			double xv = p2.inhomX - p0.inhomX;
 			double yv = p2.inhomY - p0.inhomY;
-
-			setRegionChanged(P, p0.inhomX + rp.getT1() * xu + rp.getT2() * xv,
-					p0.inhomY + rp.getT1() * yu + rp.getT2() * yv);
+			double newX = p0.inhomX + rp.getT1() * xu + rp.getT2() * xv;
+			double newY = p0.inhomY + rp.getT1() * yu + rp.getT2() * yv;
+			if (!cons.isUpdateConstructionRunning()
+					|| !DoubleUtil.isEqual(newX, P.getX2D())
+					|| !DoubleUtil.isEqual(newY, P.getY2D())) {
+				setRegionChanged(P, newX, newY);
+			}
 
 			if (!isInRegion(P)) {
 				pointChanged(P);

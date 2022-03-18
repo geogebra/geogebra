@@ -3829,9 +3829,14 @@ public abstract class GeoConicND extends GeoQuadricND
 				}
 				P.setZ(1.0);
 				coordsEVtoRW(P);
-				PI.setCoords2D(P.getX(), P.getY(), P.getZ());
-				PI.updateCoordsFrom2D(false, getCoordSys());
-
+				double newX = P.getX();
+				double newY = P.getY();
+				if (!cons.isUpdateConstructionRunning()
+						|| !DoubleUtil.isEqual(newX, PI.getX2D())
+						|| !DoubleUtil.isEqual(newY, PI.getY2D())) {
+					PI.setCoords2D(P.getX(), P.getY(), P.getZ());
+					PI.updateCoordsFrom2D(false, getCoordSys());
+				}
 			}
 
 			// in some cases (e.g. ellipse becomes an hyperbola), point goes
