@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -173,20 +172,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 				.calcRootsMultiple(fun, derivDegree, solution, eqnSolver);
 
 		if (solution.curRealRoots > 1) {
-			// sort roots and eliminate duplicate ones
-			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
-
-			// eliminate duplicate roots
-			double maxRoot = solution.curRoots[0];
-			int maxIndex = 0;
-			for (int i = 1; i < solution.curRealRoots; i++) {
-				if ((solution.curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
-					maxRoot = solution.curRoots[i];
-					maxIndex++;
-					solution.curRoots[maxIndex] = maxRoot;
-				}
-			}
-			solution.curRealRoots = maxIndex + 1;
+			solution.sortAndMakeUnique();
 		}
 
 		// for first or second derivative we only

@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.algos;
 
+import java.util.Arrays;
+
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * Set of real numbers that are solutions to an equation
@@ -105,5 +108,25 @@ public class Solution {
 		curRoots[0] = x;
 		curRealRoots = 1;
 
+	}
+
+	/**
+	 * Sort roots and eliminate duplicate ones
+	 */
+	public void sortAndMakeUnique() {
+		// sort roots and eliminate duplicate ones
+		Arrays.sort(this.curRoots, 0, this.curRealRoots);
+
+		// eliminate duplicate roots
+		double maxRoot = this.curRoots[0];
+		int maxIndex = 0;
+		for (int i = 1; i < this.curRealRoots; i++) {
+			if ((this.curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
+				maxRoot = this.curRoots[i];
+				maxIndex++;
+				this.curRoots[maxIndex] = maxRoot;
+			}
+		}
+		this.curRealRoots = maxIndex + 1;
 	}
 }
