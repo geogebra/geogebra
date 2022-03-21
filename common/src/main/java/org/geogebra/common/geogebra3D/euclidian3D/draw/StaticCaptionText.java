@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 public class StaticCaptionText implements CaptionText {
 	private GeoElement geo;
 	private GFont font;
-	private boolean serif;
+	private boolean serif = false;
 
 	public StaticCaptionText(GeoElement geo) {
 		this.geo = geo;

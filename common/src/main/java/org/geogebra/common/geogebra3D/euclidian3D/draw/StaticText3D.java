@@ -10,7 +10,7 @@ import org.geogebra.common.main.App;
 public class StaticText3D implements CaptionText {
 	private GeoElement geo;
 	private GFont font;
-	private boolean serif;
+	private boolean serif = false;
 
 	public StaticText3D(GeoElement geo) {
 		this.geo = geo;
