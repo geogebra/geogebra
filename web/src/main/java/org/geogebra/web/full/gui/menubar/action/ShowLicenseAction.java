@@ -26,7 +26,7 @@ public class ShowLicenseAction extends DefaultMenuAction<Void> {
 							+ app.getVersionString() + "&date="
 							+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
 		} else {
-			Window.open(GeoGebraConstants.LICENSE_URL, "_blank", "");
+			Window.open(GeoGebraConstants.GGB_LICENSE_URL, "_blank", "");
 		}
 	}
 }
