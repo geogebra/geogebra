@@ -104,11 +104,11 @@ abstract public class ImageManager {
 	private void ensure1stCornerOnScreen(GeoPointND point, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
 		EdgeInsets safeArea = ev.getSafeAreaInsets();
-		double xmin = ev.toRealWorldCoordX(safeArea.getLeft());
-		double xmax = ev.toRealWorldCoordX(ev.getWidth() - safeArea.getRight());
-		double ymin = ev.toRealWorldCoordY(safeArea.getTop());
-		double ymax = ev.toRealWorldCoordY(ev.getHeight() - safeArea.getBottom());
-		point.setCoords(xmin + (xmax - xmin) / 5, ymax - (ymax - ymin) / 5,
+		double xMin = ev.toRealWorldCoordX(safeArea.getLeft());
+		double xMax = ev.toRealWorldCoordX(ev.getWidth() - safeArea.getRight());
+		double yMin = ev.toRealWorldCoordY(safeArea.getTop());
+		double yMax = ev.toRealWorldCoordY(ev.getHeight() - safeArea.getBottom());
+		point.setCoords(xMin + (xMax - xMin) / 5, yMax - (yMax - yMin) / 5,
 				1.0);
 		point.update();
 	}
@@ -125,9 +125,9 @@ abstract public class ImageManager {
 		double factor = imageHeight / imageWidth;
 		double realWorldWidth = image.getRealWorldX(1) - image.getRealWorldX(0);
 		double realWorldHeight = realWorldWidth * factor;
-		double ymax = ev.toRealWorldCoordY(safeArea.getTop());
-		if (point.getInhomY() + realWorldHeight > ymax) {
-			double expectedHeight = (ymax - point.getInhomY()) * 0.9;
+		double yMax = ev.toRealWorldCoordY(safeArea.getTop());
+		if (point.getInhomY() + realWorldHeight > yMax) {
+			double expectedHeight = (yMax - point.getInhomY()) * 0.9;
 			double expectedWidth = expectedHeight / factor;
 			point.setCoords(x1 + expectedWidth, point.getInhomY(), 1);
 			point.update();
