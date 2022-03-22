@@ -146,6 +146,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
@@ -172,6 +173,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.File;
 import jsinterop.base.JsPropertyMap;
@@ -1308,6 +1310,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// blocked by initing flag
 		initing = false;
 		GeoGebraFrameW.handleLoadFile(appletParameters, this);
+		MathFieldW.setGlobalEventCheck(GlobalKeyDispatcherW::isGlobalEvent);
 	}
 
 	private void buildSingleApplicationPanel() {
