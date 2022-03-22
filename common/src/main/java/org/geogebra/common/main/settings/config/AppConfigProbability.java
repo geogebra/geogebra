@@ -6,7 +6,6 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.factory.ProbabilityPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
-import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 
 public class AppConfigProbability extends AppConfigGraphing {
 
