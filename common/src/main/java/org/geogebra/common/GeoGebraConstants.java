@@ -268,6 +268,7 @@ public interface GeoGebraConstants {
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
 	public static final String FORUM_URL = "https://www.reddit.com/r/geogebra/";
+	public static final String LICENSE_URL = "https://www.geogebra.org/license";
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
