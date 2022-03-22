@@ -4,6 +4,9 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
+import org.geogebra.common.properties.factory.ProbabilityPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
+import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 
 public class AppConfigProbability extends AppConfigGraphing {
 
@@ -68,6 +71,11 @@ public class AppConfigProbability extends AppConfigGraphing {
 	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.PROBABILITY;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new ProbabilityPropertiesFactory();
 	}
 
 	@Override

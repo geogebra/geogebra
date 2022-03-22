@@ -30,7 +30,7 @@ import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
@@ -289,7 +289,7 @@ public class AppConfigGraphing extends AbstractAppConfig {
 
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
-		return new BasePropertiesFactory();
+		return new DefaultPropertiesFactory();
 	}
 
 	@Override
