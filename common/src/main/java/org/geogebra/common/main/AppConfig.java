@@ -317,6 +317,16 @@ public interface AppConfig extends Serializable {
 	boolean hasEuclidianView();
 
 	/**
+	 * @return true if the app has distribution view
+	 */
+	boolean hasDistributionView();
+
+	/**
+	 * @return true if the app has algebra view
+	 */
+	boolean hasAlgebraView();
+
+	/**
 	 *
 	 * @return the traslation key of the application
 	 * (always thed key of suite if in a subApp)

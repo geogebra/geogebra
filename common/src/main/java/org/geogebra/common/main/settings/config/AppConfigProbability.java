@@ -57,7 +57,7 @@ public class AppConfigProbability extends AppConfigGraphing {
 
 	@Override
 	public boolean hasTableView() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -72,6 +72,16 @@ public class AppConfigProbability extends AppConfigGraphing {
 
 	@Override
 	public boolean hasEuclidianView() {
+		return false;
+	}
+
+	@Override
+	public boolean hasDistributionView() {
+		return true;
+	}
+
+	@Override
+	public boolean hasAlgebraView() {
 		return false;
 	}
 }
