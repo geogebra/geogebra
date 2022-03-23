@@ -346,4 +346,14 @@ public class AppConfigDefault extends AbstractAppConfig {
 	public boolean hasEuclidianView() {
 		return true;
 	}
+
+	@Override
+	public boolean hasDistributionView() {
+		return false;
+	}
+
+	@Override
+	public boolean hasAlgebraView() {
+		return true;
+	}
 }
