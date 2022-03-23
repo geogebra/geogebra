@@ -6754,6 +6754,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	        return DescriptionMode.DEFINITION;
         }
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
+		if ((isGeoPoint() || isGeoVector())
+				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
+				&& !"".equals(def0)) {
+			def0 = label + def0.replaceAll(",", " |");
+		}
 		if ("".equals(def0) || (!isDefined() && isIndependent())) {
 			return DescriptionMode.VALUE;
 		}
@@ -6761,7 +6766,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return DescriptionMode.VALUE;
 		}
 
-		String def = addLabelText(def0);
+		String def = (isGeoPoint() || isGeoVector())
+				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
+				? def0 : addLabelText(def0);
 		String val = getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
