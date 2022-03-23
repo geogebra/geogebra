@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
@@ -1109,7 +1110,7 @@ public class AlgebraProcessor {
 		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
 		ExpressionNode node =
 				expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2]))
-						.wrap();
+						.traverse(SqrtMultiplyFixer.INSTANCE).wrap();
 		node.setLabels(expression.getLabels());
 		return node;
 	}
@@ -2044,14 +2045,7 @@ public class AlgebraProcessor {
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
-        ExpressionValue expressionValue = expression.unwrap();
-        if (expressionValue instanceof Command) {
-            Command command = (Command) expressionValue;
-            if (command.getName().equals(loc.getFunction("freehand"))) {
-                return true;
-            }
-        }
-		return false;
+		return expression.isTopLevelCommand(loc.getFunction("freehand"));
 	}
 
 	/**
