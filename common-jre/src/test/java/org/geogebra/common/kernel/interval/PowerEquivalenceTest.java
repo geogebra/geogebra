@@ -18,6 +18,21 @@ public class PowerEquivalenceTest extends SamplerTest {
 	}
 
 	@Test
+	public void nrootOfXInverseAndXOnPowMinus1ShouldBeEqual() {
+		shouldBeEquivalent("nroot(1/x, 9))^2", "nroot(x^-1, 9))^2");
+	}
+
+	@Test
+	public void nrootAndPowFractionShouldBeEqual() {
+		shouldBeEquivalent("nroot(x, 9)", "x^(1/9)");
+	}
+
+	@Test
+	public void nrootOfXInverseAndPowFractionShouldBeEqual() {
+		shouldBeEquivalent("nroot(1/x, 9)", "(1/x)^(1/9)");
+	}
+
+	@Test
 	public void xInverseAndXPOWMinus1ShouldBeEqual() {
 		shouldBeEquivalent("x^-1", "1/x");
 	}
@@ -26,6 +41,7 @@ public class PowerEquivalenceTest extends SamplerTest {
 	public void xInverseAndXPOWDoubleApply() {
 		shouldBeEquivalent("(x^-1)^-1", "1/(1/x)");
 	}
+
 
 	private void shouldBeEquivalent(String description1, String description2) {
 		IntervalTupleList samples = samplesOf(description1);

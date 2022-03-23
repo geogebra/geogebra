@@ -171,6 +171,12 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void nrootOfXInverseAndPowFraction() {
+		shouldBeSameAt("nroot(1/x, 9)", "(1/x)^(1/9)",
+				interval(-2.0539125955565396E-15, 0.19999999999999796));
+	}
+
+	@Test
 	public void xInverseAndPOWDoubleApply() {
 		shouldBeSameAt("(x^-1)^-1", "1/(1/x)", X_AROUND_ZERO);
 	}
