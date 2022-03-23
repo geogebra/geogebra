@@ -50,4 +50,15 @@ public class RadioButtonPanel extends FlowPanel implements SetLabels {
 		}
 		radioButtonList.get(idx).setSelected(selected);
 	}
+
+	/**
+	 * @param idx - index of radio button in the panel
+	 * @return true if idx-th radio button is selected
+	 */
+	public boolean isNthRadioButtonSelected(int idx) {
+		if (radioButtonList.size() <= idx) {
+			return false;
+		}
+		return radioButtonList.get(idx).isSelected();
+	}
 }
