@@ -1,5 +1,8 @@
 package org.geogebra.common.properties.factory;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -11,7 +14,12 @@ import org.geogebra.common.properties.impl.general.RoundingProperty;
 public class ScientificPropertiesFactory implements PropertiesFactory {
 
 	@Override
-	public PropertiesArray createGeneralProperties(
+	public List<PropertiesArray> createProperties(App app, Localization localization,
+			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+		return Arrays.asList(createGeneralProperties(app, localization, onLanguageSetCallback));
+	}
+
+	private PropertiesArray createGeneralProperties(
 			App app,
 			Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
@@ -25,15 +33,5 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 						app.getSettings().getFontSettings(),
 						app.getSettingsUpdater().getFontSettingsUpdater()),
 				new LanguageProperty(app, localization, onLanguageSetCallback));
-	}
-
-	@Override
-	public PropertiesArray createAlgebraProperties(App app, Localization localization) {
-		return null;
-	}
-
-	@Override
-	public PropertiesArray createGraphicsProperties(App app, Localization localization) {
-		return null;
 	}
 }

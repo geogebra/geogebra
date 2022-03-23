@@ -26,7 +26,7 @@ import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
@@ -281,7 +281,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
-		return new BasePropertiesFactory();
+		return new DefaultPropertiesFactory();
 	}
 
 	@Override
