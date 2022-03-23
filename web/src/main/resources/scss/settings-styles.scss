@@ -595,14 +595,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		font-size: 90%;
 		height: 18px;
 		line-height: 18px;
+		margin-left: 8px;
 	}
 
 	.propertiesPanel .checkboxPanel {
 		margin-right: 30px;
-
-		&.disabled {
-			opacity: 0.42;
-		}
 
 		&.block {
 			display: block;

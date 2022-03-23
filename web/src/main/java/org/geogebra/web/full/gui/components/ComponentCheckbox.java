@@ -1,10 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 
@@ -18,6 +16,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class ComponentCheckbox extends FlowPanel implements SetLabels {
     private Localization loc;
     private boolean selected;
+    private boolean disabled = false;
     private FlowPanel checkbox;
     private Label checkboxLbl;
     private String checkboxTxt;
@@ -49,14 +48,17 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
         checkbox.add(background);
         checkbox.add(checkMark);
 
+        FlowPanel checkboxBg = new FlowPanel();
+        checkboxBg.addStyleName("hoverBg");
+        checkboxBg.addStyleName("ripple");
+        checkbox.add(checkboxBg);
+
         checkboxLbl = new Label();
         checkboxLbl.setStyleName("checkboxLbl");
         add(checkbox);
         add(checkboxLbl);
-        ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
+        Dom.addEventListener(this.getElement(), "click", evt -> {
+            if (!disabled) {
                 setSelected(!isSelected());
                 if (callback != null) {
                     callback.run();
@@ -99,12 +101,18 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
         Dom.toggleClass(checkbox, "selected", isSelected());
     }
 
+    /**
+     * set disabled state of checkbox
+     * @param isDisabled - true if should be disabled
+     */
+    public void setDisabled(boolean isDisabled) {
+        disabled = isDisabled;
+        Dom.toggleClass(checkbox, "disabled", disabled);
+        Dom.toggleClass(checkboxLbl, "disabled", disabled);
+    }
+
     @Override
     public void setLabels() {
         checkboxLbl.setText(loc.getMenu(checkboxTxt));
-    }
-
-    public void setEnabled(boolean enabled) {
-        Dom.toggleClass(this, "disabled", !enabled);
     }
 }
