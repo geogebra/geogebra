@@ -3566,12 +3566,9 @@ public class ExpressionNode extends ValidExpression
 		}
 	}
 
-	private void initSurd() {
-		if (resolve == null || !resolve.isExpressionNode()) {
-			resolve = Surds.getResolution(this, kernel);
-		}
-	}
-
+	/**
+	 * @return whether this is a simplifiable surd
+	 */
 	public boolean isSimplifiableSurd() {
 		ExpressionValue resolvedSurd = Surds.getResolution(this, kernel);
 		if (resolvedSurd != null) {
