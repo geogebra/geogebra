@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.jre.headless.ScreenReaderAccumulator;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -25,6 +26,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
@@ -973,6 +976,41 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdConic() {
+		areEqual("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
+		areEqual("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
+		areEqual("Conic[ {2, 3, -1, 4, 2, -3} ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
+		areEqual("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]",
+				"2.56x y = 2.56");
+		areEqual("Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1)]",
+				"-151x² + 37xy - 14x - 72y² + 42y + 1320 = 0");
+		areEqual("Conic[ 2, 3, -1, 4, 2, -3 ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
+
+	}
+
+	private void areEqual(String command1, String command2) {
+		t("AreEqual[" + command1 + ", " + command2 + "]", "true");
+	}
+
+	@Test
+	public void testConic5() {
+		GeoPoint[] points = {
+				newPoint(-0.25558616768332837, 0),
+				newPoint(-0.24401517687241298, 0.09869574035418058),
+				newPoint(-0.31884715907669187, 0.16407854720571086),
+				newPoint(-0.4410243233086352, 0.14553384365563557),
+				newPoint(-0.35858986503875784, -0.06827447415125582)
+		};
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
+		GeoConicND conic = algo.getConic();
+		assertTrue(conic.isDefined());
+	}
+
+	private GeoPoint newPoint(double x, double y) {
+		return new GeoPoint(app.kernel.getConstruction(), x, y, 0.001);
+	}
+
+	@Test
 	public void cmdCircumference() {
 		t("Circumference[ x^2+y^2=1 ]", "6.283185307179586");
 	}
@@ -983,17 +1021,6 @@ public class CommandsTest {
 				complex("{-2 + 0i, -0.5 - 0.86603i,"
 						+ " -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
 		t("ComplexRoot( x^2 )", complex("0i"));
-	}
-
-	@Test
-	public void cmdConic() {
-		t("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
-		t("Conic[ {2, 3, -1, 4, 2, -3} ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
-		t("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]", "2.560000000000155x y ="
-				+ " 2.559999999999828");
-		t("Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1) ]",
-				"151x² - 37x y + 72y² + 14x - 42y = 1320");
-		t("Conic[ 2, 3, -1, 4, 2, -3 ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
 	}
 
 	@Test
