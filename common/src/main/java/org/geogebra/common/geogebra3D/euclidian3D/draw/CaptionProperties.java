@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 public class CaptionProperties {
 	private CaptionText caption;
-	private Coords color = new Coords(0, 0, 0);
-	private EuclidianView3D view;
+	private final Coords color = new Coords(0, 0, 0, 1);
+	private final EuclidianView3D view;
 	private Coords backgroundColor;
 
 	public CaptionProperties(EuclidianView3D view) {
