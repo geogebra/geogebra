@@ -53,6 +53,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
+import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.AltKeys;
@@ -292,13 +293,9 @@ public class MathFieldInternal
 		if (keyEvent.getKeyCode() >= 37 && keyEvent.getKeyCode() <= 40) {
 			// move cursor
 			arrow = true;
-			if (listener != null) {
-				listener.onCursorMove();
-				if (keyEvent.getKeyCode() == JavaKeyCodes.VK_UP) {
-					listener.onUpKeyPressed();
-				} else if (keyEvent.getKeyCode() == JavaKeyCodes.VK_DOWN) {
-					listener.onDownKeyPressed();
-				}
+			if (listener != null
+					&& listener.onArrowKeyPressed(keyEvent.getKeyCode())) {
+				return true;
 			}
 		}
 		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_CONTROL) {
@@ -832,6 +829,17 @@ public class MathFieldInternal
 	 *            whether shift is pressed
 	 */
 	public void onTab(boolean shiftDown) {
+		MathSequence currentField = editorState.getCurrentField();
+		int jumpTo = editorState.getCurrentOffset();
+		int dir = shiftDown ? -1 : 1;
+		do {
+			jumpTo += dir;
+			if (currentField.getArgument(jumpTo) instanceof MathPlaceholder) {
+				editorState.setCurrentOffset(jumpTo);
+				update();
+				return;
+			}
+		} while (jumpTo < currentField.size() && jumpTo >= 0);
 		if (listener != null) {
 			listener.onTab(shiftDown);
 		}

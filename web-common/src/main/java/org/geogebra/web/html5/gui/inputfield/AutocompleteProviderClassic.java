@@ -1,23 +1,20 @@
 package org.geogebra.web.html5.gui.inputfield;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
-import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.localization.AutocompleteProvider;
 import org.geogebra.common.util.AutoCompleteDictionary;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.main.AppW;
 
 /**
- * Autocomplete controller for both plain text and equation editor input
+ * Autocomplete provider for plain text editor
  */
-public class InputSuggestions {
+public class AutocompleteProviderClassic {
+	protected final AutocompleteProvider provider;
 	private List<String> completions;
 	private AutoCompleteDictionary dict;
-	private AppW app;
+	private App app;
 	private boolean forCAS;
 
 	/**
@@ -26,9 +23,10 @@ public class InputSuggestions {
 	 * @param isForCas
 	 *            whether to use CAS view dictionary
 	 */
-	public InputSuggestions(AppW app, boolean isForCas) {
+	public AutocompleteProviderClassic(App app, boolean isForCas) {
 		this.app = app;
 		this.forCAS = isForCas;
+		this.provider = new AutocompleteProvider(app, isForCas);
 	}
 
 	/**
@@ -46,7 +44,7 @@ public class InputSuggestions {
 	 * 
 	 * @return completions for current word
 	 */
-	public List<String> resetCompletions(StringBuilder currentWord) {
+	public List<String> resetCompletions(CharSequence currentWord) {
 		completions = null;
 
 		boolean korean = false;
@@ -68,14 +66,12 @@ public class InputSuggestions {
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
 
-		if (completions == null && isFallbackCompletitionAllowed()) {
+		if (completions == null && provider.isFallbackCompletionAllowed()) {
 			completions = app.getEnglishCommandDictionary()
 					.getCompletions(cmdPrefix);
 		}
 
-		Log.debug(cmdPrefix + ":"
-				+ (completions == null ? "-1" : completions.size()));
-		List<String> commandCompletions = getSyntaxes(completions);
+		List<String> commandCompletions = provider.getSyntaxes(completions);
 
 		// Start with the built-in function completions
 		completions = app.getParserFunctions().getCompletions(cmdPrefix);
@@ -103,65 +99,8 @@ public class InputSuggestions {
 	 *            current word
 	 * @return whether the word is long enough to trigger autocomplete
 	 */
-	protected boolean needsAutocomplete(StringBuilder currentWord) {
+	protected boolean needsAutocomplete(CharSequence currentWord) {
 		return InputHelper.needsAutocomplete(currentWord, app.getKernel());
-	}
-
-	/**
-	 * Take a list of commands and return all possible syntaxes for these
-	 * commands
-	 * 
-	 * @param commands
-	 *            commands
-	 * @return syntaxes
-	 */
-	public List<String> getSyntaxes(List<String> commands) {
-		if (commands == null) {
-			return null;
-		}
-		ArrayList<String> syntaxes = new ArrayList<>();
-		for (String cmd : commands) {
-			String cmdInt = app.getInternalCommand(cmd);
-			boolean englishOnly = cmdInt == null
-					&& isFallbackCompletitionAllowed();
-
-			if (englishOnly) {
-				cmdInt = app.englishToInternal(cmd);
-			}
-			String syntaxString;
-			if (forCAS) {
-				syntaxString = app.getLocalization()
-						.getCommandSyntaxCAS(cmdInt);
-			} else {
-				AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-				syntaxString = englishOnly
-						? ap.getEnglishSyntax(cmdInt, app.getSettings())
-						: ap.getSyntax(cmdInt, app.getSettings());
-			}
-
-			if (syntaxString == null) {
-				return syntaxes;
-			}
-
-			if (syntaxString.endsWith(Localization.syntaxCAS)
-					|| syntaxString.endsWith(Localization.syntaxStr)) {
-				// command not found, check for macros
-				Macro macro = forCAS ? null
-						: app.getKernel().getMacro(cmd);
-				if (macro != null) {
-					syntaxes.add(macro.toString());
-				} else {
-					// syntaxes.add(cmdInt + "[]");
-					Log.debug("Can't find syntax for: " + cmd);
-				}
-
-				continue;
-			}
-			for (String syntax : syntaxString.split("\\n")) {
-				syntaxes.add(syntax);
-			}
-		}
-		return syntaxes;
 	}
 
 	/**
@@ -175,13 +114,6 @@ public class InputSuggestions {
 					: app.getCommandDictionary();
 		}
 		return dict;
-	}
-
-	/**
-	 * @return whether to allow English commands as well
-	 */
-	protected boolean isFallbackCompletitionAllowed() {
-		return "zh".equals(app.getLocalization().getLanguage());
 	}
 
 	/**

@@ -14,7 +14,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
-import org.geogebra.common.util.AutoCompleteDictionary;
 
 import com.himamis.retex.editor.share.util.KeyCodes;
 
@@ -89,11 +88,6 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	@Override
 	public void setDictionary(boolean forCAS) {
 		// for test, not needed
-	}
-
-	@Override
-	public AutoCompleteDictionary getDictionary() {
-		return null;
 	}
 
 	@Override

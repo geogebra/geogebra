@@ -22,6 +22,7 @@ public class AriaMenuBar extends FlowPanel {
 	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
 	private boolean autoOpen;
 	private boolean handleArrows = true;
+	private MenuHoverListener selectListener;
 
 	/**
 	 * Create new accessible menu
@@ -96,7 +97,7 @@ public class AriaMenuBar extends FlowPanel {
 	/**
 	 * @return selected item (may be null)
 	 */
-	protected AriaMenuItem getSelectedItem() {
+	public AriaMenuItem getSelectedItem() {
 		return this.selectedItem;
 	}
 
@@ -145,9 +146,26 @@ public class AriaMenuBar extends FlowPanel {
 		unselect();
 		this.selectedItem = item;
 		if (item != null) {
-			focus(item);
+			if (item.isFocusable()) {
+				focus(item);
+			}
 			item.addStyleName("selectedItem");
 		}
+	}
+
+	/**
+	 * Returns the index of the menu item that is currently selected.
+	 *
+	 * @return returns the selected item
+	 */
+	public int getSelectedItemIndex() {
+		// The index of the currently selected item can only be
+		// obtained if the menu is showing.
+		AriaMenuItem selectedItem = getSelectedItem();
+		if (selectedItem != null) {
+			return getItems().indexOf(selectedItem);
+		}
+		return -1;
 	}
 
 	/**
@@ -174,13 +192,15 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	/**
-	 * Move focus to an item, may be overriden
+	 * Move focus to an item, may be overridden
 	 * 
 	 * @param item
 	 *            item to move focus to
 	 */
 	protected void focus(AriaMenuItem item) {
-		item.getElement().focus();
+		if (item.isFocusable()) {
+			item.getElement().focus();
+		}
 	}
 
 	/**
@@ -191,6 +211,12 @@ public class AriaMenuBar extends FlowPanel {
 		submenus.clear();
 		getElement().removeAllChildren();
 		selectItem(null);
+	}
+
+	@Override
+	public void clear() {
+		super.clear();
+		clearItems();
 	}
 
 	/**
@@ -270,7 +296,6 @@ public class AriaMenuBar extends FlowPanel {
 		}
 		switch (DOM.eventGetType(event)) {
 		case Event.ONCLICK:
-			// TODOFocusPanel.impl.focus(getElement());
 			// Fire an item's command when the user clicks on it.
 			if (item != null) {
 				doItemAction(item);
@@ -383,7 +408,7 @@ public class AriaMenuBar extends FlowPanel {
 	 */
 	protected void itemOver(AriaMenuItem item) {
 		if (item != null) {
-			removeSubPopup();
+			onItemHover();
 			selectItem(item);
 		}
 		if (item != null
@@ -418,11 +443,17 @@ public class AriaMenuBar extends FlowPanel {
 				: item.getElement().getAbsoluteRight() + 8;
 	}
 
+	public void setSelectionListener(MenuHoverListener gPopupMenuW) {
+		this.selectListener = gPopupMenuW;
+	}
+
 	/**
 	 * Remove currently open submenu from DOM
 	 */
-	public void removeSubPopup() {
-		// needs override
+	public void onItemHover() {
+		if (selectListener != null) {
+			selectListener.onItemHover();
+		}
 	}
 
 	/**
@@ -446,4 +477,12 @@ public class AriaMenuBar extends FlowPanel {
 	public void stylePopup(Widget widget) {
 		// implement in subclasses if needed
 	}
+
+	/**
+	 * focus menu in a deferred way.
+	 */
+	public void focusDeferred() {
+		Scheduler.get().scheduleDeferred(getElement()::focus);
+	}
+
 }

@@ -150,8 +150,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		view.repaintView();
+		return false;
 	}
 
 	@Override
