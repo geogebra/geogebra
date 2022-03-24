@@ -37,7 +37,7 @@ public class CmdRandomElement extends CmdOneListFunction {
 	}
 
 	private void initSymbolicMode(GeoElement element, EvalInfo info) {
-		if (info != null && info.isFractions() && element instanceof HasSymbolicMode) {
+		if (info != null && info.isSymbolic() && element instanceof HasSymbolicMode) {
 			((HasSymbolicMode) element).setSymbolicMode(true, false);
 		}
 	}

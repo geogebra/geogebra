@@ -17,7 +17,7 @@ public class EvalInfoFactory {
 	 */
 	public static EvalInfo getEvalInfoForAV(App app, boolean withSliders) {
 		return new EvalInfo(true, true).withSliders(withSliders)
-				.withFractions(true)
+				.withSymbolic(true)
 				.addDegree(app.getKernel().getAngleUnitUsesDegrees())
 				.withUserEquation(true)
 				.withSymbolicMode(app.getKernel().getSymbolicMode())
@@ -36,7 +36,7 @@ public class EvalInfoFactory {
 				.withSymbolicMode(isSlider(geo) ? SymbolicMode.NONE : kernel.getSymbolicMode())
 				.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
 				.withSliders(true)
-				.withFractions(true);
+				.withSymbolic(true);
 	}
 
 	private static boolean isSlider(GeoElement geo) {

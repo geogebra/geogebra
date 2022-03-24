@@ -3566,6 +3566,20 @@ public class ExpressionNode extends ValidExpression
 		}
 	}
 
+	private void initSurd() {
+		if (resolve == null || !resolve.isExpressionNode()) {
+			resolve = Surds.getResolution(this, kernel);
+		}
+	}
+
+	public boolean isSimplifiableSurd() {
+		ExpressionValue resolvedSurd = Surds.getResolution(this, kernel);
+		if (resolvedSurd != null) {
+			resolve = resolvedSurd;
+		}
+		return resolvedSurd != null;
+	}
+
 	/**
 	 * @return simplified fraction if this is one; null otherwise
 	 */
