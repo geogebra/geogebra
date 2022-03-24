@@ -4222,13 +4222,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private void restoreStateForModeStarting() {
 		app.batchUpdateStart();
 		app.getCompanion().storeViewCreators();
-		app.getScriptManager().disableListeners();
+		app.getEventDispatcher().disableListeners();
 		notifyReset();
 		getApplication().getActiveEuclidianView().getEuclidianController()
 				.clearSelections();
 		cons.processXML(stateForModeStarting);
 		notifyReset();
-		app.getScriptManager().enableListeners();
+		app.getEventDispatcher().enableListeners();
 		app.getCompanion().recallViewCreators();
 		app.batchUpdateEnd();
 		app.setUnAutoSaved();

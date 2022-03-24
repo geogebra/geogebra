@@ -2275,9 +2275,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Initialize undo info without notifying scripts
 	 */
 	protected void initUndoInfoSilent() {
-		getScriptManager().disableListeners();
+		getEventDispatcher().disableListeners();
 		kernel.initUndoInfo();
-		getScriptManager().enableListeners();
+		getEventDispatcher().enableListeners();
 	}
 
 	@Override

@@ -242,6 +242,26 @@ public class GgbApiTest {
 				.evalJavaScript("onUpdate(\"correct\");");
 	}
 
+	@Test
+	public void updateScriptShouldBeCalledOnce() {
+		api.evalCommand("C=1");
+		api.evalCommand("ans = ?");
+		api.evalCommand("input = InputBox(ans)");
+		api.evalCommand("correct = ans == 2*C");
+		GeoInputBox input = (GeoInputBox) lookup("input");
+		app.getScriptManager().registerObjectUpdateListener("correct", "onUpdate");
+		EventAcumulator listener = new EventAcumulator();
+		app.getEventDispatcher().addEventListener(listener);
+
+		input.updateLinkedGeo("2");
+		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct"),
+				listener.getEvents());
+		listener.getEvents().clear();
+		input.updateLinkedGeo("2 + C");
+		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct"),
+				listener.getEvents());
+	}
+
 	private GeoElement lookup(String input) {
 		return app.getKernel().lookupLabel(input);
 	}

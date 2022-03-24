@@ -186,7 +186,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		if (currentBase64 != null) {
 			appEmbedded.registerOpenFileListener(
 					getListener(drawEmbed, parameters, appEmbedded));
-			appEmbedded.getScriptManager().disableListeners();
+			appEmbedded.getEventDispatcher().disableListeners();
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			appEmbedded.getGgbApi().setFileJSON(
@@ -313,7 +313,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		return () -> {
 			drawEmbed.getGeoEmbed()
 					.setAppName(parameters.getDataParamAppName());
-			fr.getScriptManager().enableListeners();
+			fr.getEventDispatcher().enableListeners();
 			return true;
 		};
 	}
