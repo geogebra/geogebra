@@ -19,7 +19,7 @@ public class Surds {
 			// Sqrt of number
 			NumberValue number = (NumberValue) evaluated;
 			double value = number.getDouble();
-			if (value % 1 == 0 && value > 0) {
+			if (value % 1 == 0 && value > 0 && value < Integer.MAX_VALUE) {
 				return getSimplifiedSurd(kernel, (int) value);
 			}
 		}
@@ -46,7 +46,7 @@ public class Surds {
 		if (currentValue != Integer.MIN_VALUE) {
 			innerValue *= currentValue;
 		}
-		if (innerValue == 1) {
+		if (innerValue == 1 || outerValue == 1) {
 			return null;
 		}
 		ExpressionValue innerLeft = new MyDouble(kernel, innerValue);
