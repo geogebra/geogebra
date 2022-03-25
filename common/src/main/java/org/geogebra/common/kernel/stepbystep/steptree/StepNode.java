@@ -108,6 +108,9 @@ public abstract class StepNode implements HasLaTeX {
 			StepNode RHS = convertExpression(((Equation) ev).getRHS());
 			return new StepEquation((StepExpression) LHS, (StepExpression) RHS);
 		}
+		if (ev instanceof Variable && "e".equals(((Variable) ev).getName())) {
+			return StepConstant.E;
+		}
 		if (ev instanceof FunctionVariable || ev instanceof Variable) {
 			return new StepVariable(ev.toString(StringTemplate.defaultTemplate));
 		}
