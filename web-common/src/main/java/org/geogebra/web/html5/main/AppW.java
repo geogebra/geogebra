@@ -283,7 +283,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getAppletParameters().getParamScaleContainerClass()),
 					this::checkScaleContainer);
 		}
-		initializeAnalytics();
+		if (getAppletParameters().getDataParamApp()) {
+			initializeAnalytics();
+		}
 	}
 
 	/**
@@ -3496,7 +3498,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		try {
 			Analytics.setInstance(new AnalyticsW());
 		} catch (Throwable e) {
-			Log.debug("Could not initialize analytics object.");
+			Log.debug("Could not initialize analytics object." + e);
 		}
 	}
 
