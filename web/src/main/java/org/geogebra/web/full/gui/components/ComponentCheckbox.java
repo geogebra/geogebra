@@ -41,8 +41,8 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		SimplePanel background = new SimplePanel();
 		background.addStyleName("background");
 		SimplePanel checkMark = new SimplePanel();
-		checkMark.getElement().setInnerHTML("<svg class=\"mdc-checkbox__checkmark\" "
-				+ "viewBox=\"0 0 24 24\"><path class=\"mdc-checkbox__checkmark-path\" "
+		checkMark.getElement().setInnerHTML("<svg class=\"checkmarkSvg\" "
+				+ "viewBox=\"0 0 24 24\"><path class=\"checkmarkPath\" "
 				+ "fill=\"none\" stroke=\"white\" d=\"M1.73,12.91 8.1,19.28 22.79,4.59\">"
 				+ "</path></svg>");
 		checkMark.addStyleName("checkmark");

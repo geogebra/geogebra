@@ -62,7 +62,7 @@
 			 height: 14px;
 			 visibility: hidden;
 
-			.mdc-checkbox__checkmark {
+			.checkmarkSvg {
                 -webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
                 transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
                 -o-transition: opacity .18s 0ms cubic-bezier(0,0,.2,1),transform .18s 0ms cubic-bezier(0,0,.2,1);
@@ -71,7 +71,7 @@
                 opacity: 1;
             }
 
-            .mdc-checkbox__checkmark-path {
+            .checkmarkPath {
                 -webkit-transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
                 -o-transition: stroke-dashoffset .18s 0ms cubic-bezier(.4,0,.6,1);
                 transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
