@@ -456,9 +456,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		btnCalculate.addClickHandler(this);
 
 		tailRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left, false),
-						newRadioButtonData(StatisticsCollection.tail_right, false),
-						newRadioButtonData(StatisticsCollection.tail_two, true)));
+				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
+						newRadioButtonData(StatisticsCollection.tail_right),
+						newRadioButtonData(StatisticsCollection.tail_two)), 2);
 
 		lblNull = new Label();
 		lblHypParameter = new Label();
@@ -495,8 +495,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		}
 	}
 
-	private RadioButtonData newRadioButtonData(String label, boolean selected) {
-		return new RadioButtonData(label, selected, () -> updateResult(true));
+	private RadioButtonData newRadioButtonData(String label) {
+		return new RadioButtonData(label, false, () -> updateResult(true));
 	}
 
 	private TextObject buildTextField() {
