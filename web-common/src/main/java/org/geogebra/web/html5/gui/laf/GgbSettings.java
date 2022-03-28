@@ -16,7 +16,7 @@ public class GgbSettings implements VendorSettings {
 
 	@Override
 	public String getLicenseURL() {
-		return GeoGebraConstants.GGW_ABOUT_LICENSE_URL;
+		return GeoGebraConstants.GGB_LICENSE_URL;
 	}
 
 	@Override

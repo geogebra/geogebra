@@ -226,8 +226,7 @@ public interface GeoGebraConstants {
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 
 	/** license URL */
-	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra"
-			+ ".org/license/?action=AboutLicense";
+	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
 
 	/**
 	 * URL of the webpage to call if a file should be uploaded. If you want to
