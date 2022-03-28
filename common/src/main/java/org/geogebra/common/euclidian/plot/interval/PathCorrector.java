@@ -131,9 +131,12 @@ public class PathCorrector {
 		Interval sx = bounds.toScreenIntervalX(tuple.x());
 		Interval sy = bounds.toScreenIntervalY(tuple.y());
 		if (sy.getLow() > 0) {
-			gp.lineTo(sx.getHigh(), 0);
+			gp.moveTo(sx.getHigh(), 0);
+			double nextXLow = sx.getHigh() + sx.getLength();
+			gp.lineTo(nextXLow, sy.getLow());
 			lastY.set(0, sy.getLow());
 		}
+		lastY.setUndefined();
 	}
 
 	private double screenYMin() {
