@@ -382,6 +382,17 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				"ConstructionProtocolButton",
 				() -> toggleConsProtButton());
 
+		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
+				.getGuiManager().getCPNavigationIfExists();
+		boolean selectNavPlay = cpn == null || cpn.isPlayButtonVisible();
+		if (selectNavPlay != cbNavPlay.isSelected()) {
+			cbNavPlay.setSelected(selectNavPlay);
+		}
+		boolean selectConsProtocol = cpn == null || cpn.isConsProtButtonVisible();
+		if (selectConsProtocol != cbOpenConsProtocol.isSelected()) {
+			cbOpenConsProtocol.setSelected(selectConsProtocol);
+		}
+
 		FlowPanel buttons = new FlowPanel();
 		buttons.setStyleName("panelIndent");
 		buttons.add(cbNavPlay);
@@ -668,17 +679,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
 		cbShowNavbar.setSelected(isVisible);
-		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
-				.getGuiManager().getCPNavigationIfExists();
-		boolean selectNavPlay = cpn == null || cpn.isPlayButtonVisible();
-		if (selectNavPlay != cbNavPlay.isSelected()) {
-			cbNavPlay.setSelected(selectNavPlay);
-		}
-		boolean selectConsProtocol = cpn == null || cpn.isConsProtButtonVisible();
-		if (selectConsProtocol != cbOpenConsProtocol.isSelected()) {
-			cbOpenConsProtocol.setSelected(selectConsProtocol);
-		}
-
 		cbNavPlay.setDisabled(!isVisible);
 		cbOpenConsProtocol.setDisabled(!isVisible);
 	}
