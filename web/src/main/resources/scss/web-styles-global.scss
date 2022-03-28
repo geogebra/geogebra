@@ -203,7 +203,7 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}
 }
 
-.mk-spinner-ring, .GeoGebraFrame .mk-spinner-ring{
+.startscreen .mk-spinner-ring, .GeoGebraFrame .mk-spinner-ring{
 	height:50px;
 	margin-top:-25px;
 	border-radius:50%;
@@ -214,7 +214,7 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	animation:a 1s infinite linear
 }
 
-.mk-spinner-ring, .GeoGebraFrame .mk-spinner-ring{
+.startscreen .mk-spinner-ring, .GeoGebraFrame .mk-spinner-ring{
 	content:"";
 	display:inline-block;
 	position:absolute;
@@ -225,7 +225,7 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	z-index:1
 }
 
-.mk-spinner-wrap, .GeoGebraFrame .mk-spinner-wrap{
+.startscreen .mk-spinner-wrap, .GeoGebraFrame .mk-spinner-wrap{
 	min-height:100px;
 	width:100%;
 	position: absolute;
