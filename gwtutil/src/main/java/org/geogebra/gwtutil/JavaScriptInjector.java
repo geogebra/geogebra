@@ -20,7 +20,7 @@ public class JavaScriptInjector {
 	 *            javascript file
 	 */
 	public static void inject(TextResource scriptResource) {
-		inject(scriptResource, true);
+		inject(scriptResource, false);
 	}
 
 	/**
