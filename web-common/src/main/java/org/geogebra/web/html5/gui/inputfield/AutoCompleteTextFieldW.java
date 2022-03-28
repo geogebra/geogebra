@@ -28,7 +28,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.regexp.shared.MatchResult;
@@ -39,7 +38,6 @@ import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
@@ -139,7 +137,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
     private boolean rightAltDown;
 	private boolean leftAltDown;
-	private final InputSuggestions inputSuggestions;
+	private final AutocompleteProviderClassic inputSuggestions;
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -207,7 +205,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		historyIndex = 0;
 		history = new ArrayList<>(50);
-		inputSuggestions = new InputSuggestions(app, forCAS);
+		inputSuggestions = new AutocompleteProviderClassic(app, forCAS);
 
 		addStyleName("AutoCompleteTextFieldW");
 
@@ -296,16 +294,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.addValueChangeHandler(this);
 		textField.addSelectionHandler(this);
 
-		Dom.addEventListener(textField.getElement(), "pointerdown", (event) -> {
-				storeTemporaryInput();
-				// set this text field to be edited by the keyboard
-				app.updateKeyBoardField(this);
-
-				// make sure the keyboard is not closed
-				CancelEventTimer.keyboardSetVisible();
-				event.stopPropagation();
-		});
-
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
 			requestFocus();
 			event.stopPropagation();
@@ -316,13 +304,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (showSymbolButton) {
 			setupShowSymbolButton();
 		}
-	}
-
-	private void storeTemporaryInput() {
-		if (geoUsedForInputBox == null) {
-			return;
-		}
-		geoUsedForInputBox.setTempUserInput(getText(), null);
 	}
 
 	@Override
@@ -427,7 +408,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		autoComplete = val && loc.isAutoCompletePossible();
 	}
 
-	@Override
+	/**
+	 * @return list of completions
+	 */
 	public List<String> resetCompletions() {
 		String text = getText();
 		updateCurrentWord(false);
@@ -496,7 +479,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return curWord.toString();
 	}
 
-	@Override
 	public List<String> getCompletions() {
 		return inputSuggestions.getCompletions();
 	}
@@ -570,11 +552,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setDictionary(boolean forCAS) {
 		inputSuggestions.setDictionary(forCAS);
-	}
-
-	@Override
-	public AutoCompleteDictionary getDictionary() {
-		return inputSuggestions.getDictionary();
 	}
 
 	/**
@@ -1082,7 +1059,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				}
 				String word = MyTextField.getWordAtPos(getText(), pos);
 				String lowerCurWord = word.toLowerCase();
-				String closest = getDictionary().lookup(lowerCurWord);
+				String closest = inputSuggestions.getDictionary().lookup(lowerCurWord);
 
 				if (closest != null) {
 					showCommandHelp(app.getInternalCommand(closest));
@@ -1370,6 +1347,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public boolean hasFocus() {
 		return isFocused;
+	}
+
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
 	}
 
 	/**

@@ -1,8 +1,12 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.CustomScrollbar;
+import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Tab of Table Values View.
@@ -11,9 +15,8 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class TableTab extends ToolbarPanel.ToolbarTab {
 
-	private ToolbarPanel toolbarPanel;
-	private AppW app;
-	private TableValuesPanel tableValuesPanel;
+	private final StickyValuesTable table;
+	private final ToolbarPanel toolbarPanel;
 
 	/**
 	 * @param toolbarPanel
@@ -22,26 +25,23 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 	public TableTab(ToolbarPanel toolbarPanel) {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
-		this.app = toolbarPanel.getApp();
-		tableValuesPanel = new TableValuesPanel(app, this);
+		AppW app = toolbarPanel.getApp();
+		TableValuesView view = (TableValuesView) app.getGuiManager().getTableValuesView();
+		this.table = new StickyValuesTable(app, view);
+		TestHarness.setAttr(table, "TV_table");
+		table.setStyleName("tvTable", true);
+		CustomScrollbar.apply(this);
 	}
 
 	@Override
 	protected void onActive() {
-		buildGui();
-		tableValuesPanel.setHeight(toolbarPanel.getTabHeight());
-	}
-
-	/**
-	 * Rebuild the tab.
-	 */
-	private void buildGui() {
-		setWidget(tableValuesPanel);
+		setWidget(table);
+		table.setHeight(toolbarPanel.getTabHeight());
 	}
 
 	@Override
 	public void setLabels() {
-		tableValuesPanel.setLabels();
+		// nothing to do
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 
 		setWidth(w + "px");
 		setHeight(h + "px");
-		tableValuesPanel.setHeight(h);
+		table.setHeight(h);
 	}
 
 	/**
@@ -74,6 +74,10 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 	 *            to scroll.
 	 */
 	public void scrollTo(GeoEvaluatable geo) {
-		tableValuesPanel.scrollTo(geo);
+		table.scrollTo(geo);
+	}
+
+	public MathKeyboardListener getKeyboardListener() {
+		return table.getKeyboardListener();
 	}
 }

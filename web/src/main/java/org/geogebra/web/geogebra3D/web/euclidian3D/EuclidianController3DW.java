@@ -103,11 +103,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	protected boolean hitResetIcon() {
-		return mtg.hitResetIcon();
-	}
-
-	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		oldCenterX3D = (int) (x1 + x2) / 2;
 		oldCenterY3D = (int) (y1 + y2) / 2;

@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
@@ -86,7 +87,7 @@ public class GeoGebraFileChooser extends JFileChooser
 	/**
 	 * The accessory panel which displays the preview of the selected file.
 	 */
-	private PreviewPanel previewPanel;
+	private final PreviewPanel previewPanel;
 
 	/**
 	 * Whether to show the accessory or not. The accessory is not displayed in
@@ -128,7 +129,7 @@ public class GeoGebraFileChooser extends JFileChooser
 	public GeoGebraFileChooser(AppD app, File currentDirectory,
 			boolean restricted) {
 		super(currentDirectory,
-				(restricted ? new RestrictedFileSystemView() : null));
+				restricted ? new RestrictedFileSystemView() : null);
 
 		this.app = app;
 
@@ -257,7 +258,7 @@ public class GeoGebraFileChooser extends JFileChooser
 		 */
 		private static final int maxImageSize = 300;
 
-		private GeoGebraFileChooser fileChooser;
+		private final GeoGebraFileChooser fileChooser;
 
 		/**
 		 * The image to draw in the preview area.
@@ -267,7 +268,7 @@ public class GeoGebraFileChooser extends JFileChooser
 		/**
 		 * The panel on which the image is drawn.
 		 */
-		private ImagePanel imagePanel = null;
+		private final ImagePanel imagePanel;
 
 		/**
 		 * Panel for data preview.
@@ -277,12 +278,12 @@ public class GeoGebraFileChooser extends JFileChooser
 		/**
 		 * CardLayout panel to hold different preview panels
 		 */
-		private JPanel cards;
+		private final JPanel cards;
 
 		/**
 		 * A label to describe the properties of the selected file.
 		 */
-		private Label fileLabel;
+		private final Label fileLabel;
 
 		public PreviewPanel(GeoGebraFileChooser fileChooser) {
 			this.fileChooser = fileChooser;
@@ -358,21 +359,21 @@ public class GeoGebraFileChooser extends JFileChooser
 		/**
 		 * Updates the data preview panel
 		 * 
-		 * @param file
-		 * @throws IOException
+		 * @param file file to be previewed
+		 * @throws IOException if file cannot be opened
 		 */
 		private void updateDataPreview(File file) throws IOException {
 
 			fileLabel.setText("");
 			String fileName = file.getName();
 
-			StringBuffer contents = new StringBuffer();
+			StringBuilder contents = new StringBuilder();
 			BufferedReader reader = null;
 
 			try {
 				reader = new BufferedReader(new InputStreamReader(
 						new FileInputStream(file), Charsets.getUtf8()));
-				String text = null;
+				String text;
 				int lineCount = 0;
 				// read at most 20 lines
 				while ((text = reader.readLine()) != null && lineCount < 20) {
@@ -399,10 +400,7 @@ public class GeoGebraFileChooser extends JFileChooser
 
 				dataPreviewPanel.setText(contents.toString());
 				dataPreviewPanel.setCaretPosition(0);
-
-			}
-
-			catch (FileNotFoundException e) {
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 
 			} finally {
@@ -420,8 +418,8 @@ public class GeoGebraFileChooser extends JFileChooser
 		/**
 		 * Update the preview image if it's possible to load one.
 		 * 
-		 * @param file
-		 * @throws IOException
+		 * @param file file to preview
+		 * @throws IOException if file cannot be opened
 		 */
 		private void updateImage(File file) throws IOException {
 			fileLabel.setText("");
@@ -510,48 +508,21 @@ public class GeoGebraFileChooser extends JFileChooser
 							newWidth = (ImagePanel.SIZE * oldWidth) / oldHeight;
 							newHeight = ImagePanel.SIZE;
 						}
+						// Create a new image for the scaled preview image
+						setImg(new MyImageD(new BufferedImage(newWidth,
+								newHeight, BufferedImage.TYPE_INT_RGB)));
 
+						GGraphics2DD graphics2D = (GGraphics2DD) getImg()
+								.createGraphics();
 						if (tmpImage.isSVG()) {
-							// Create a new image for the scaled preview image
-
-							MyImageD bigImage = new MyImageD(
-									new BufferedImage(oldWidth, oldHeight,
-											BufferedImage.TYPE_INT_ARGB));
-
-							// draw SVG at full size
-							GGraphics2DD graphics2D = (GGraphics2DD) bigImage
-									.createGraphics();
-							graphics2D.drawImage(tmpImage, 0, 0);
-
-							// then scale down
-							setImg(new MyImageD(new BufferedImage(newWidth,
-									newHeight, BufferedImage.TYPE_INT_ARGB)));
-							graphics2D = (GGraphics2DD) getImg().createGraphics();
-							graphics2D.drawImage(bigImage, 0, 0, newWidth,
-									newHeight);
-
-							graphics2D.dispose();
-
-						} else {
-							// Create a new image for the scaled preview image
-							setImg(new MyImageD(new BufferedImage(newWidth,
-									newHeight, BufferedImage.TYPE_INT_RGB)));
-
-							GGraphics2DD graphics2D = (GGraphics2DD) getImg()
-									.createGraphics();
-
-							graphics2D.drawImage(tmpImage, 0, 0, newWidth,
-									newHeight);
-
-							graphics2D.dispose();
-
+							graphics2D.setColor(GColor.WHITE);
+							graphics2D.fillRect(0, 0, newWidth, newHeight);
 						}
-
+						graphics2D.drawImageScaled(tmpImage, newWidth, newHeight);
+						graphics2D.dispose();
 					} else {
 						setImg(tmpImage);
 					}
-
-					tmpImage = null;
 				} else {
 					setImg(null);
 				}
@@ -613,12 +584,11 @@ public class GeoGebraFileChooser extends JFileChooser
 					int height = getImg().getHeight();
 
 					// center image
-					int x = ((getWidth() - width) / 2);
-					int y = ((getHeight() - height) / 2);
+					int x = (getWidth() - width) / 2;
+					int y = (getHeight() - height) / 2;
 
 					// draw the image
-					getImg().drawImage(g2, x, y, width, height);
-					// g2.drawImage(img, x, y, width, height, null);
+					new GGraphics2DD(g2).drawImage(getImg(), x, y);
 				}
 
 				// draw "no preview" message

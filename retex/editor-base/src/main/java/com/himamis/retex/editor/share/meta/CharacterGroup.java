@@ -15,7 +15,7 @@ class CharacterGroup {
 		MetaCharacter character = characters.get(name);
 		if (character == null) {
 			char code = name.charAt(0);
-			character = new MetaCharacter(name, name, code, MetaCharacter.CHARACTER);
+			character = new MetaCharacter(name, code, MetaCharacter.CHARACTER);
 			characters.put(name, character);
 		}
 		return character;

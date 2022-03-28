@@ -55,7 +55,7 @@ class MaskWidget extends FlowPanel {
 		double m23 = pB.getY();
 		String sb = "matrix(" + m11 + ", " + m21
 				+ ", " + m12 + ", " + m22
-				+ ", " + m13 + ", " +	m23 + ")";
+				+ ", " + m13 + ", " + m23 + ")";
 		style.setProperty("transform", sb);
 	}
 

@@ -31,12 +31,13 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  *          27.01.09: Extended FitPoly to more than 4th degree ToDo: Put in a
  *          max degree limit, after some testing...
  */
-public class AlgoFitPoly extends AlgoElement {
+public class AlgoFitPoly extends AlgoElement implements FitAlgo {
 
 	private GeoList geolist; // input
 	private GeoNumberValue degree; // input
 	private GeoFunction geofunction; // output
 	private final RegressionMath regMath;
+	private double[] coeff;
 
 	/**
 	 * @param cons
@@ -85,34 +86,34 @@ public class AlgoFitPoly extends AlgoElement {
 		int size = geolist.size();
 		int par;
 		boolean regok = true;
-		double[] cof = null;
 		par = degree == null ? size - 1 : (int) Math.round(degree.getDouble());
 		if (!geolist.isDefined() || (size < 2) || (par < 0) || (par >= size)) {
 			geofunction.setUndefined();
 			return;
 		}
 		if (par == size - 1) {
-			AlgoPolynomialFromCoordinates.setFromPoints(geofunction, geolist);
+			coeff = new double[size];
+			AlgoPolynomialFromCoordinates.setFromPoints(geofunction, geolist, coeff);
 			return;
 		}
 		// if error in parameters :
 		switch (par) {
 		case RegressionMath.LINEAR: // moved up linear case from default
-			cof = new double[2];
-			regok = regMath.doLinear(geolist, cof);
+			coeff = new double[2];
+			regok = regMath.doLinear(geolist, coeff);
 			break;
 		case RegressionMath.QUAD:
-			cof = new double[3];
-			regok = regMath.doQuad(geolist, cof);
+			coeff = new double[3];
+			regok = regMath.doQuad(geolist, coeff);
 			break;
 		case RegressionMath.CUBIC:
-			cof = new double[4];
-			regok = regMath.doCubic(geolist, cof);
+			coeff = new double[4];
+			regok = regMath.doCubic(geolist, coeff);
 			break;
 		default:
 			if (par < 300) { // ToDo: test speed for max limit!
-				cof = new double[par + 1];
-				regok = regMath.doPolyN(geolist, par, cof);
+				coeff = new double[par + 1];
+				regok = regMath.doPolyN(geolist, par, coeff);
 				// else: ->
 			} else {
 				regok = false; // 24.04.08: Only 1<=degree
@@ -125,8 +126,12 @@ public class AlgoFitPoly extends AlgoElement {
 		}
 		// if error in regression
 		geofunction.setFunction(AlgoPolynomialFromCoordinates
-				.buildPolyFunctionExpression(cons.getKernel(), cof));
+				.buildPolyFunctionExpression(cons.getKernel(), coeff));
 		geofunction.setDefined(true);
 	}
 
+	@Override
+	public double[] getCoeffs() {
+		return coeff;
+	}
 }

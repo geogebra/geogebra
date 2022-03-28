@@ -229,7 +229,7 @@ public class FunctionParser {
 		}
 		if (geo instanceof GeoFunctionNVar || geo instanceof GeoSymbolic) {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
-		} else if (geo instanceof Evaluatable) {// function
+		} else if (geo instanceof Evaluatable && !geo.isGeoList()) {// function
 			if (geo instanceof ParametricCurve
 					&& ((ParametricCurve) geo).getFunctionVariables() != null) {
 				kernel.getConstruction()

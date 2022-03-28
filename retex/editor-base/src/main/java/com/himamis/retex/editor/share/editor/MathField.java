@@ -81,13 +81,9 @@ public interface MathField {
 
 	void copy();
 
-	void tab(boolean shiftDown);
-
 	boolean useCustomPaste();
 
 	void parse(String str);
-
-	void setPlainText(String str);
 
 	/**
 	 * @return the cross-platform representation of this field

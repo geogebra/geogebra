@@ -394,5 +394,5 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
 				+ ".MoreColors"));
- 	}
+	}
 }

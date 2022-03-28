@@ -328,7 +328,7 @@ public class GSuggestBox extends Composite
 	public static class DefaultSuggestionDisplay extends SuggestionDisplay
 			implements HasAnimation, AbstractSuggestionDisplay {
 
-		private final SuggestionMenu suggestionMenu;
+		private final AriaMenuBar suggestionMenu;
 		private final GPopupPanel suggestionPopup;
 
 		/**
@@ -357,7 +357,8 @@ public class GSuggestBox extends Composite
 		 * Construct a new {@link DefaultSuggestionDisplay}.
 		 */
 		public DefaultSuggestionDisplay(Panel panel, App app) {
-			suggestionMenu = new SuggestionMenu();
+			suggestionMenu = new AriaMenuBar();
+			suggestionMenu.setStyleName("");
 			suggestionPopup = createPopup(panel, app);
 			suggestionPopup.setWidget(decorateSuggestionList(suggestionMenu));
 		}
@@ -457,11 +458,11 @@ public class GSuggestBox extends Composite
 		}
 
 		@Override
-		protected Suggestion getCurrentSelection() {
+		public Suggestion getCurrentSelection() {
 			if (!isSuggestionListShowing()) {
 				return null;
 			}
-			AriaMenuItem item = suggestionMenu.doGetSelectedItem();
+			AriaMenuItem item = suggestionMenu.getSelectedItem();
 			return item == null ? null
 					: ((SuggestionMenuItem) item).getSuggestion();
 		}
@@ -514,7 +515,7 @@ public class GSuggestBox extends Composite
 				// be able
 				// to use the up arrow to navigate to the suggestions.
 				if (suggestionMenu.getSelectedItemIndex() == -1) {
-					suggestionMenu.selectItem(suggestionMenu.getNumItems() - 1);
+					suggestionMenu.selectItem(suggestionMenu.getItems().size() - 1);
 				} else {
 					suggestionMenu.selectItem(
 							suggestionMenu.getSelectedItemIndex() - 1);
@@ -611,58 +612,6 @@ public class GSuggestBox extends Composite
 	}
 
 	/**
-	 * The SuggestionMenu class is used for the display and selection of
-	 * suggestions in the SuggestBox widget. SuggestionMenu differs from MenuBar
-	 * in that it always has a vertical orientation, and it has no submenus. It
-	 * also allows for programmatic selection of items in the menu, and
-	 * programmatically performing the action associated with the selected item.
-	 * In the MenuBar class, items cannot be selected programatically - they can
-	 * only be selected when the user places the mouse over a particlar item.
-	 * Additional methods in SuggestionMenu provide information about the number
-	 * of items in the menu, and the index of the currently selected item.
-	 */
-	public static class SuggestionMenu extends AriaMenuBar {
-
-		/**
-		 * New suggestion menu.
-		 */
-		public SuggestionMenu() {
-			super();
-			// Make sure that CSS styles specified for the default Menu classes
-			// do not affect this menu
-			setStyleName("");
-		}
-
-		public AriaMenuItem doGetSelectedItem() {
-			return getSelectedItem();
-		}
-
-		public int getNumItems() {
-			return getItems().size();
-		}
-
-		/**
-		 * Returns the index of the menu item that is currently selected.
-		 *
-		 * @return returns the selected item
-		 */
-		public int getSelectedItemIndex() {
-			// The index of the currently selected item can only be
-			// obtained if the menu is showing.
-			AriaMenuItem selectedItem = getSelectedItem();
-			if (selectedItem != null) {
-				return getItems().indexOf(selectedItem);
-			}
-			return -1;
-		}
-
-		@Override
-		protected void focus(AriaMenuItem item) {
-			// do not move the real focus
-		}
-	}
-
-	/**
 	 * Class for menu items in a SuggestionMenu. A SuggestionMenuItem differs
 	 * from a MenuItem in that each item is backed by a Suggestion object. The
 	 * text of each menu item is derived from the display string of a Suggestion
@@ -691,6 +640,7 @@ public class GSuggestBox extends Composite
 			getElement().getStyle().setProperty("whiteSpace", "nowrap");
 			setStyleName(STYLENAME_ARIA);
 			setSuggestion(suggestion);
+			setFocusable(false);
 		}
 
 		public Suggestion getSuggestion() {

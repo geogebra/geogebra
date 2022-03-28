@@ -8,14 +8,15 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def murokVersion = "1.0.202111050924"
+def murokVersion = "1.0.202201250206"
 
 dependencies {
     compile 'com.google.elemental2:elemental2-core:1.1.0',
             'com.google.elemental2:elemental2-dom:1.1.0',
             "org.murok:editor:$murokVersion",
             "org.murok:editor:$murokVersion:sources",
-            'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
+            'org.gwtproject.timer:gwt-timer:1.0.0-RC1',
+            project(':gwtutil')
 }
 
 pmd {

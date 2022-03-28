@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import org.geogebra.common.kernel.Kernel;
+
 public final class IntervalConstants {
 	public static final double PI_LOW = Math.PI - 1E-16;
 	public static final double PI_HIGH = Math.PI + 1E-16;
@@ -7,7 +9,7 @@ public final class IntervalConstants {
 	public static final double PI_HALF_HIGH = PI_HIGH / 2.0;
 	public static final double PI_TWICE_LOW = PI_LOW * 2.0;
 	public static final double PI_TWICE_HIGH = PI_HIGH * 2.0;
-	public static final double PRECISION = 1E-7;
+	public static final double PRECISION = Kernel.MAX_PRECISION;
 
 	/**
 	 *

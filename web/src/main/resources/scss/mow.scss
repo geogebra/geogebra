@@ -304,7 +304,6 @@
 
 	@keyframes pCPanimateIn {
 		0% {right: -$pagecontrolpanelWidth; top: 0px;}
-		50% {right: -calc($pagecontrolpanelWidth/3); top: 0px;}
 		100% {right: 0px; top: 0px;}
 	}
 
@@ -316,7 +315,6 @@
 
 	@keyframes pCPanimateOut {
 		0% {right: 0px; top: 0px;}
-		50% {right: -calc($pagecontrolpanelWidth*2/3); top: 0px;}
 		100% {right: -$pagecontrolpanelWidth; top: 0px;}
 	}
 

@@ -1212,7 +1212,7 @@ public enum Commands implements CommandsConstants,
 
 	CASLoaded(TABLE_GEOGEBRA),
 
-	ShowSteps(TABLE_ALGEBRA), IsVertexForm(TABLE_FUNCTION),
+	IsVertexForm(TABLE_FUNCTION),
 
 	TableToChart(TABLE_ENGLISH);
 

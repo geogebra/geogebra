@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.gui.dialog.options;
 
+import java.util.Arrays;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -8,6 +10,8 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -24,7 +28,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -56,9 +59,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private FlowPanel boxSizePanel;
 		private Label clippingOptionsTitle;
 		private Label boxSizeTitle;
-		private RadioButton radioClippingSmall;
-		private RadioButton radioClippingMedium;
-		private RadioButton radioClippingLarge;
+		private RadioButtonPanel clippingRadioBtnPanel;
 		private CheckBox cbUseLight;
 
 		/**
@@ -158,37 +159,34 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				repaintView();
 			});
 
-			// clipping box size
 			boxSizeTitle = new Label();
 			boxSizeTitle.setStyleName("panelTitle");
 			boxSizePanel = new FlowPanel();
-			radioClippingSmall = new RadioButton("radioClipping");
-			radioClippingMedium = new RadioButton("radioClipping");
-			radioClippingLarge = new RadioButton("radioClipping");
-			boxSizePanel.add(radioClippingSmall);
-			boxSizePanel.add(radioClippingMedium);
-			boxSizePanel.add(radioClippingLarge);
+
+			clippingRadioBtnPanel = new RadioButtonPanel(loc,
+					Arrays.asList(
+							newClippingButtonData("BoxSize.small", false,
+									GeoClippingCube3D.REDUCTION_SMALL),
+							newClippingButtonData("BoxSize.medium", true,
+									GeoClippingCube3D.REDUCTION_MEDIUM),
+							newClippingButtonData("BoxSize.large", false,
+									GeoClippingCube3D.REDUCTION_LARGE)));
+
+			boxSizePanel.add(clippingRadioBtnPanel);
 
 			add(boxSizeTitle);
 			indent(boxSizePanel);
+		}
 
-			radioClippingSmall.addClickHandler(event -> {
-				get3dview().getSettings().setClippingReduction(
-						GeoClippingCube3D.REDUCTION_SMALL);
-				repaintView();
-			});
+		private RadioButtonData newClippingButtonData(String label, boolean selected,
+				int value) {
+			return new RadioButtonData(label, selected,
+					() -> setClippingAndRepaint(value));
+		}
 
-			radioClippingMedium.addClickHandler(event -> {
-				get3dview().getSettings().setClippingReduction(
-						GeoClippingCube3D.REDUCTION_MEDIUM);
-				repaintView();
-			});
-
-			radioClippingLarge.addClickHandler(event -> {
-				get3dview().getSettings().setClippingReduction(
-						GeoClippingCube3D.REDUCTION_LARGE);
-				repaintView();
-			});
+		private void setClippingAndRepaint(int clippingType) {
+			get3dview().getSettings().setClippingReduction(clippingType);
+			repaintView();
 		}
 
 		/**
@@ -206,12 +204,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			cbShowClipping.setValue(get3dview().showClippingCube());
 
 			int flag = get3dview().getClippingReduction();
-			radioClippingSmall
-					.setValue(flag == GeoClippingCube3D.REDUCTION_SMALL);
-			radioClippingMedium
-					.setValue(flag == GeoClippingCube3D.REDUCTION_MEDIUM);
-			radioClippingLarge
-					.setValue(flag == GeoClippingCube3D.REDUCTION_LARGE);
+			clippingRadioBtnPanel.setValueOfNthRadioButton(0,
+					flag == GeoClippingCube3D.REDUCTION_SMALL);
+			clippingRadioBtnPanel.setValueOfNthRadioButton(1,
+					flag == GeoClippingCube3D.REDUCTION_MEDIUM);
+			clippingRadioBtnPanel.setValueOfNthRadioButton(2,
+					flag == GeoClippingCube3D.REDUCTION_LARGE);
 
 		}
 
@@ -226,9 +224,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			setText(cbUseClipping, "UseClipping");
 			setText(cbShowClipping, "ShowClipping");
 			setText(boxSizeTitle, "BoxSize");
-			setText(radioClippingSmall, "BoxSize.small");
-			setText(radioClippingMedium, "BoxSize.medium");
-			setText(radioClippingLarge, "BoxSize.large");
+			clippingRadioBtnPanel.setLabels();
 			getDimLabel()[4].setText(getOptionsEuclidianW().loc.getMenu("zmin") + ":");
 			getDimLabel()[5].setText(getOptionsEuclidianW().loc.getMenu("zmax") + ":");
 		}

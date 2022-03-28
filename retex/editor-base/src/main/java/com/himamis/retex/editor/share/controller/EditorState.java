@@ -57,7 +57,7 @@ public class EditorState {
 	}
 
 	public void setCurrentOffset(int currentOffset) {
-		this.currentOffset = currentOffset >= 0 ? currentOffset : 0;
+		this.currentOffset = Math.max(currentOffset, 0);
 	}
 
 	/**

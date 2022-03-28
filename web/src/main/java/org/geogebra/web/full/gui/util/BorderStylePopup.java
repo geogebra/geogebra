@@ -80,14 +80,14 @@ public class BorderStylePopup extends PopupMenuButtonW {
 
 	public BorderType getBorderType() {
 		return BorderType.values()[getSelectedIndex()];
- 	}
+	}
 
 	/**
 	 * get button index of certain border type
 	 * @param type border type
 	 * @return index of button based on border type
 	 */
- 	public Integer getBorderTypeIndex(BorderType type) {
+	public Integer getBorderTypeIndex(BorderType type) {
 		return type == BorderType.MIXED ? -1 : type.ordinal();
 	}
 

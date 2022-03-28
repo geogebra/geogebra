@@ -111,7 +111,7 @@ public class AlgoFitGrowth extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = { regMath.getP1(), regMath.getP2() };
+		double[] ret = { regMath.getP1(), Math.exp(regMath.getP2()) };
 		return ret;
 	}
 

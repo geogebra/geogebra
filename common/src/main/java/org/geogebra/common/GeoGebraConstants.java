@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "23 February 2022";
+	public static final String BUILD_DATE = "22 March 2022";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.691.0";
+	public static final String VERSION_STRING = "5.0.695.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -226,8 +226,7 @@ public interface GeoGebraConstants {
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 
 	/** license URL */
-	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra"
-			+ ".org/license/?action=AboutLicense";
+	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
 
 	/**
 	 * URL of the webpage to call if a file should be uploaded. If you want to
@@ -272,4 +271,13 @@ public interface GeoGebraConstants {
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
 	public static final String CDN_APPS = "https://cdn.geogebra.org/apps/";
+
+	/**
+	 * Get the version string for versions 6.0.*
+	 *
+	 * @return version string
+	 */
+	static String getVersionString6() {
+		return VERSION_STRING.replace("5.0.", "6.0.");
+	}
 }

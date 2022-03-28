@@ -22,7 +22,7 @@ public abstract class CardRenameDialog extends ComponentDialog {
 	 * @param app
 	 *            app
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 */
 	public CardRenameDialog(AppW app, DialogData data) {
 		super(app, data, false, true);

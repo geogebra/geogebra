@@ -35,7 +35,8 @@ function addAppletPreview(tubeid){
 	} else {
 		ga('create','UA-1780044-1','auto');
 	}
-	
+
+	ga('set', 'anonymizeIp', true);
 	ga('send', 'pageview');
 	
 	var gaPrefixes = {"graphing":"Graphing", "geometry":"Geometry"};

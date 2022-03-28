@@ -208,21 +208,6 @@ public class MyImageD implements MyImageJre {
 		return svg.toString();
 	}
 
-	public void drawImage(Graphics2D g2, int x, int y, int width, int height) {
-		if (img != null) {
-			// bitmap
-			g2.drawImage(img, x, y, width, height, null);
-		} else {
-			// SVG
-			try {
-				diagram.render(g2);
-			} catch (Exception e) {
-				Log.error("Drawing svg image failed");
-			}
-		}
-
-	}
-
 	@Override
 	public String toLaTeXStringBase64() {
 		if (!isSVG() && img instanceof BufferedImage) {

@@ -101,9 +101,7 @@ public interface GeoGebraActivity {
 	boolean useValidInput();
 
 	/**
-	 *
-	 * @param frame
-	 *  			  application frame
+	 * @param frame application frame
 	 * @return resizer class for the external header.
 	 */
 	HeaderResizer getHeaderResizer(GeoGebraFrameW frame);

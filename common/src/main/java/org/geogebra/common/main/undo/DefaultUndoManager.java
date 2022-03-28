@@ -43,9 +43,9 @@ public class DefaultUndoManager extends UndoManager {
         onStoreUndo();
     }
 
-    protected UndoCommand createUndoCommand(AppState appState) {
-    	return new UndoCommand(appState);
-    }
+	protected UndoCommand createUndoCommand(AppState appState) {
+		return new UndoCommand(appState);
+	}
 
     @Override
 	protected void loadUndoInfo(AppState state, String slideID) {

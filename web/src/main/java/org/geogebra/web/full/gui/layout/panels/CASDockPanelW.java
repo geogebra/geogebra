@@ -26,7 +26,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 	 *            application
 	 */
 	public CASDockPanelW(App appl) {
-		super(App.VIEW_CAS,	getDefaultToolbar(), true);
+		super(App.VIEW_CAS, getDefaultToolbar(), true);
 		app = (AppW) appl;
 	}
 

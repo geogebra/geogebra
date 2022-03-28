@@ -118,22 +118,12 @@ public class MathFieldCommon implements MathField {
 	}
 
 	@Override
-	public void tab(boolean shiftDown) {
-		// stub
-	}
-
-	@Override
 	public boolean useCustomPaste() {
 		return false;
 	}
 
 	@Override
 	public void parse(String str) {
-		// stub
-	}
-
-	@Override
-	public void setPlainText(String str) {
 		// stub
 	}
 

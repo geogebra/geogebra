@@ -28,7 +28,7 @@ public class CurveSegmentInfo {
 	 * Constructor
 	 *
 	 * @param view {@link EuclidianView}
- 	 */
+	 */
 	public CurveSegmentInfo(EuclidianView view) {
 		this.view = view;
 	}

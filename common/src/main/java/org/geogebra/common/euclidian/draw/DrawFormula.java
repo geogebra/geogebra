@@ -142,6 +142,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		rectangle.updateByBoundingBoxResize(point, handler);
+		formulaController.setMinHeight(rectangle.getHeight());
 	}
 
 	@Override

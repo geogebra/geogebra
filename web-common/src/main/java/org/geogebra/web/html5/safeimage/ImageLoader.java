@@ -61,7 +61,7 @@ public class ImageLoader {
 		return imageManager.getExternalImage(key, false) != null;
 	}
 
-	private	 void addImage(ArchiveEntry imageFile) {
+	private void addImage(ArchiveEntry imageFile) {
 		ArchiveEntry content = SVGUtil.match(imageFile.getExtension())
 				? new ArchiveEntry(imageFile.getFileName(), SVGUtil.fixAndEncode(imageFile.string))
 				: imageFile;

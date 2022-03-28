@@ -110,7 +110,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		boolean textMode = isTextMode();
 		editor.setTextMode(textMode);
 		if (textMode) {
-			editor.getMathField().setPlainText(text);
+			getMathFieldInternal().setPlainText(text);
 		} else {
 			editor.getMathField().parse(text);
 		}
@@ -201,7 +201,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		editor.scrollHorizontally();
+		return false;
 	}
 }

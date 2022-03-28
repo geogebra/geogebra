@@ -38,24 +38,24 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @param onLanguageSetCallback callback when language is set
      * @return an array of general properties
      */
-    @Override
-    public PropertiesArray createGeneralProperties(
-            App app, Localization localization,
-            LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-        Kernel kernel = app.getKernel();
-        String name = localization.getMenu("General");
+	@Override
+	public PropertiesArray createGeneralProperties(
+			App app, Localization localization,
+			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
+		Kernel kernel = app.getKernel();
+		String name = localization.getMenu("General");
 		Settings settings = app.getSettings();
-        return new PropertiesArray(name,
-                new RoundingProperty(app, localization),
-                new AngleUnitProperty(kernel, localization),
-                new LabelingProperty(localization, settings.getLabelSettings()),
-                new CoordinatesProperty(kernel, localization),
-                new FontSizeProperty(
-                		localization,
+		return new PropertiesArray(name,
+				new RoundingProperty(app, localization),
+				new AngleUnitProperty(kernel, localization),
+				new LabelingProperty(localization, settings.getLabelSettings()),
+				new CoordinatesProperty(kernel, localization),
+				new FontSizeProperty(
+						localization,
 						settings.getFontSettings(),
 						app.getSettingsUpdater().getFontSettingsUpdater()),
-                new LanguageProperty(app, localization, onLanguageSetCallback));
-    }
+				new LanguageProperty(app, localization, onLanguageSetCallback));
+	}
 
     /**
      * Creates algebra specific properties.

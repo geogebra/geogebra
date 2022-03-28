@@ -14,11 +14,12 @@ def getChangelog() {
 
 def isGiac = env.BRANCH_NAME.matches("dependabot.*giac.*")
 def nodeLabel = isGiac ? "Ubuntu" : "posix"
+def s3buildDir = "geogebra/branches/${env.BRANCH_NAME}/${env.BUILD_NUMBER}/"
 
 def s3uploadDefault = { dir, pattern, encoding ->
     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
         if (!pattern.contains(".zip")) {
-            s3Upload(bucket: 'apps-builds', workingDir: dir, path: "geogebra/branches/${env.GIT_BRANCH}/${env.BUILD_NUMBER}/",
+            s3Upload(bucket: 'apps-builds', workingDir: dir, path: s3buildDir,
                includePathPattern: pattern, acl: 'PublicRead', contentEncoding: encoding)
         }
         s3Upload(bucket: 'apps-builds', workingDir: dir, path: "geogebra/branches/${env.GIT_BRANCH}/latest/",
@@ -46,7 +47,7 @@ pipeline {
             steps {
                 updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
-                sh label: 'build web', script: './gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
+                sh label: 'build web', script: "./gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true -PdeployggbRoot=https://apps-builds.s3-eu-central-1.amazonaws.com/${s3buildDir}"
             }
         }
         stage('tests and reports') {

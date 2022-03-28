@@ -66,7 +66,7 @@ public class GridModel {
 			String result = "";
 			if (value != null) {
 				return value.toString();
-	 		}
+			}
 			return result;
 		}
 	}

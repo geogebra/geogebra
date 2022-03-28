@@ -18,7 +18,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.jre.headless.ScreenReaderAccumulator;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoIntersectConics;
+import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.algos.AlgoTableText;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -26,6 +26,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCommon3D;
@@ -277,7 +279,6 @@ public class CommandsTest {
 		tRound("its:=Intersect(" + arg1 + "," + arg2 + ")", results);
 		GeoElement geo = get("its") == null ? get("its_1") : get("its");
 		boolean symmetric = geo != null
-				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)
 				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines
 						&& geo.getParentAlgorithm().getOutput(0)
 								.getGeoClassType() == geo.getParentAlgorithm()
@@ -298,61 +299,59 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void intersectConicConic() {
-		tRound("{Intersect(7x y + 3x - 9y = -820, -7x^2 - 7y^2 - 4x + 14y = -1220)}",
+	public void intersectConicConicSymmetric() {
+		intersectSym("7x y + 3x - 9y = -820", "-7x^2 - 7y^2 - 4x + 14y = -1220",
 				"{(-10, 10), (-9.21683, 10.77766)}");
-		tRound("{Intersect(-7x^2 - 7y^2 - 4x + 14y = -1220, 7x y + 3x - 9y = -820)}",
-				"{(-10, 10), (-9.21683, 10.77766)}");
+		intersectSym("-9x² + 20x + 2y = -1106", "5x y + 6x - 2y = 96",
+				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
+		intersectSym("-10x y + 8x + 7y = -270", "7x^2 + 7y^2 + 6x + 4y = 564",
+				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
+						+ " (5.88084, 6.11961), (6, 6)}");
+		intersectSym("5x y - 8x + 2y = 240", "-3 x^2 + 14x y - 6x + 6y = 643",
+				"{(7, 8)}");
+		intersectSym("4y² - 9x + y = 66", "-9 x² - 9y² - 4x - 2y = -920",
+				"{(8, -6), (8.01745, 5.75334)}");
+		intersectSym("-4x² - 4y² + 9x - 9y = -405", "x² - 2x - 12y = -108",
+				"{(0, 9), (2.09298, 9.01622)}");
+		intersectSym("2x y - 2x - 9y = -108", "-5x y + 5y² + 6x + 7y = 724",
+				"{(-0.34925, 11.20776), (463.84925, 0.89224), (10, -8)}");
+		intersectSym("-9x² + 20x + 2y = -1106", "5x y + 6x - 2y = 96",
+				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
+		intersectSym("-x² + 6x + 20y = -291", "-x y - x + 2y = -83",
+				"{(-7, -10), (22, 3.05)}");
+		intersectSym("-4x y + 2x - 7y = -88", "x² + y² + 2x + 8y = 3",
+				"{(-5, -6)}");
+	}
+
+	private void intersectSym(String in1, String in2, String expected) {
+		tRound("{Intersect(" + in1 + "," + in2 + ")}", expected);
+		tRound("{Intersect(" + in2 + "," + in1 + ")}", expected);
+	}
+
+	@Test
+		public void intersectConicConic() {
 		tRound("{Intersect(x y + 6x -5y = 158, x y = 128)}",
 				"{(-8.12623, -15.75147), (13.12623, 9.75147)}");
 		tRound("{Intersect( 7y² + 2x + 14y = 3 , -6y² - 20x = 7 )}",
 				"{(-2.11538, -2.42582), (-0.36704, 0.23832)}");
 		tRound("{Intersect( -5x² - 9x + 9y = 0 , 2x² - 12x + 14y = 7 )}",
 				"{(0.75, 1.0625), (-0.95455, -0.44835)}");
-		tRound("{Intersect[-10x y + 8x + 7y = -270,7x^2 + 7y^2 + 6x + 4y = 564]} ",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423), (5.88084, 6.11961), (6, 6)}");
-		tRound("{Intersect(-9x² + 20x + 2y = -1106, 5x y + 6x - 2y = 96)}",
-				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
-		tRound("{Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)}",
-				"{(-7, -10), (22, 3.05)}");
-		tRound("{Intersect(-4x y + 2x - 7y = -88, x² + y² + 2x + 8y = 3)}",
-				"{(-5, -6)}");
-		tRound("{Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)}",
-				"{(-7, -10), (22, 3.05)}");
-		tRound("{Intersect(-9x² + 20x + 2y = -1106, 5x y + 6x - 2y = 96)}",
-				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
-		tRound("{Intersect[-10x y + 8x + 7y = -270,7x^2 + 7y^2 + 6x + 4y = 564]}",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
-						+ " (5.88084, 6.11961), (6, 6)}");
-		tRound("{Intersect[7x^2 + 7y^2 + 6x + 4y = 564,-10x y + 8x + 7y = -270]}",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
-						+ " (5.88084, 6.11961), (6, 6)}");
 		tRound("{Intersect[-7x y - 10x - 7y = 10, 2x y - 9x + 2y = 9]}",
 				"{(?, ?)}");
-		tRound("{Intersect(-4x y + 2x - 7y = -88, x² + y² + 2x + 8y = 3)}",
-				"{(-5, -6)}");
-		tRound("{Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)}",
-				"{(-7, -10), (22, 3.05)}");
-		tRound("{Intersect(-9x² + 20x + 2y = -1106, 5x y + 6x - 2y = 96)}",
-				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
-		tRound("{Intersect[-10x y + 8x + 7y = -270,7x^2 + 7y^2 + 6x + 4y = 564]}",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
-						+ " (5.88084, 6.11961), (6, 6)}");
-		tRound("{Intersect[7x^2 + 7y^2 + 6x + 4y = 564,-10x y + 8x + 7y = -270]}",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
-						+ " (5.88084, 6.11961), (6, 6)}");
 		tRound("{Intersect[x y - x + 3y = -15, x² + y² - 12x - 2y = 143]}",
-				"{(-6, 7), (-1.3923, -10.19615), "
-						+ "(19.3923, 0.19615)}");
+				"{(-6, 7), (-1.3923, -10.19615), (19.3923, 0.19615)}");
 		tRound("{Intersect[-7x y - 10x - 7y = 10, 2x y - 9x + 2y = 9]}", "{(?, ?)}");
 		tRound("{Intersect(-4x y + 2x - 7y = -88, x² + y² + 2x + 8y = 3)}", "{(-5, -6)}");
 		tRound("{Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)}",
 				"{(-7, -10), (22, 3.05)}");
-		tRound("{Intersect(-9x² + 20x + 2y = -1106, 5x y + 6x - 2y = 96)}",
-				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
-		tRound("{Intersect[-10x y + 8x + 7y = -270,7x^2 + 7y^2 + 6x + 4y = 564]}",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
-						+ " (5.88084, 6.11961), (6, 6)}");
+		tRound("{Intersect(-7x² - 10x + 18y = 118, -5x² - 5y² - 7x - 3y = -272)}",
+				"{(-2, 7), (0.57571, 7.00428)}");
+		tRound("{Intersect(4y² + 3x - 6y = 13, -7x y - 2x + 8y = -32)}",
+				"{(-2.14218, -1.5779), (5.08096, 0.79219), (3, 2)}");
+		tRound("{Intersect[ x² - 6x - 2y = -11, x² + y² - 6x - 4y = -12]}", "{(3, 1)}");
+		// intersect very flat parabola (nearly parallel lines) with a circle
+		tRound("{Intersect[ -9y² - 2x + 8y = -992, 5x² + 5y² - 9x + 6y = 566]}",
+				"{(-3.99989, -10.10585), (6, -10)}");
 	}
 
 	@Test
@@ -360,7 +359,6 @@ public class CommandsTest {
 		tRound("{Intersect[(x + 3.04)^2 + (y + 0.11)^2 = 144,"
 						+ "(x - 4.16)^2 + (y + 0.11)^2 = 23.04]}",
 				"{(8.96, -0.11)}");
-
 	}
 
 	@Test
@@ -978,6 +976,41 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdConic() {
+		areEqual("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
+		areEqual("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
+		areEqual("Conic[ {2, 3, -1, 4, 2, -3} ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
+		areEqual("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]",
+				"2.56x y = 2.56");
+		areEqual("Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1)]",
+				"-151x² + 37xy - 14x - 72y² + 42y + 1320 = 0");
+		areEqual("Conic[ 2, 3, -1, 4, 2, -3 ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
+
+	}
+
+	private void areEqual(String command1, String command2) {
+		t("AreEqual[" + command1 + ", " + command2 + "]", "true");
+	}
+
+	@Test
+	public void testConic5() {
+		GeoPoint[] points = {
+				newPoint(-0.25558616768332837, 0),
+				newPoint(-0.24401517687241298, 0.09869574035418058),
+				newPoint(-0.31884715907669187, 0.16407854720571086),
+				newPoint(-0.4410243233086352, 0.14553384365563557),
+				newPoint(-0.35858986503875784, -0.06827447415125582)
+		};
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.kernel.getConstruction(), points);
+		GeoConicND conic = algo.getConic();
+		assertTrue(conic.isDefined());
+	}
+
+	private GeoPoint newPoint(double x, double y) {
+		return new GeoPoint(app.kernel.getConstruction(), x, y, 0.001);
+	}
+
+	@Test
 	public void cmdCircumference() {
 		t("Circumference[ x^2+y^2=1 ]", "6.283185307179586");
 	}
@@ -988,17 +1021,6 @@ public class CommandsTest {
 				complex("{-2 + 0i, -0.5 - 0.86603i,"
 						+ " -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
 		t("ComplexRoot( x^2 )", complex("0i"));
-	}
-
-	@Test
-	public void cmdConic() {
-		t("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
-		t("Conic[ {2, 3, -1, 4, 2, -3} ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
-		t("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]", "2.560000000000155x y ="
-				+ " 2.559999999999828");
-		t("Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1) ]",
-				"151x² - 37x y + 72y² + 14x - 42y = 1320");
-		t("Conic[ 2, 3, -1, 4, 2, -3 ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
 	}
 
 	@Test
