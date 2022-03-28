@@ -1969,6 +1969,10 @@ public class CommandsTest {
 
 		// function with removable discontinuity
 		intersect("(x ln(x + 1)) / (exp(2x) - 1)", "xAxis", false, "(?, ?)");
+		intersect("Curve(t,-t^4+2 t^2+0.25 t+5,t,-10,10)", "0.1x - 0.96y=-3.9156",
+				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
+		intersect("-x^4+2 x^2+0.25 x+5", "0.1x - 0.96y=-3.9156",
+				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
