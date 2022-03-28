@@ -80,7 +80,7 @@ public class PathCorrector {
 				drawFromNegativeInfinityOnly(idx, low);
 			}
 		} else {
-			drawFromPositiveInfinityOnly(idx, high);
+			drawFromPositiveInfinityOnly(idx);
 		}
 	}
 
@@ -126,19 +126,18 @@ public class PathCorrector {
 		}
 	}
 
-	private void drawFromPositiveInfinityOnly(int idx, double value) {
-		if (value > bounds.getYmin()) {
-			double sValue = bounds.toScreenCoordYd(value);
-			IntervalTuple current = model.pointAt(idx);
-			IntervalTuple next = model.pointAt(idx + 1);
-			Interval sx = bounds.toScreenIntervalX(
-					next != null && !next.y().isUndefined()
-							? next.x()
-							: current.x());
-			gp.moveTo(sx.getLow(), 0);
-			gp.lineTo(sx.getLow(), sValue);
-			lastY.set(0, sValue);
+	private void drawFromPositiveInfinityOnly(int idx) {
+		IntervalTuple tuple = model.pointAt(idx);
+		Interval sx = bounds.toScreenIntervalX(tuple.x());
+		Interval sy = bounds.toScreenIntervalY(tuple.y());
+		if (sy.getLow() > 0) {
+			gp.lineTo(sx.getHigh(), 0);
+			lastY.set(0, sy.getLow());
 		}
+	}
+
+	private double screenYMin() {
+		return bounds.toScreenCoordXd(bounds.getYmin());
 	}
 
 	private void drawFromNegativeInfinityOnly(int idx, double value) {
