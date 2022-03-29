@@ -775,7 +775,7 @@ public abstract class Drawable extends DrawableND {
 	 *         object with the alpha value set, else the original {@code GColor}
 	 *         .
 	 */
-	protected GColor getObjectColor() {
+	public GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
 			color = color.deriveWithAlpha(geo.getLineOpacity());
