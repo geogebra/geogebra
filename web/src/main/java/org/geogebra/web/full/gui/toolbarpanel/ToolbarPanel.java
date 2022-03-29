@@ -85,6 +85,7 @@ public class ToolbarPanel extends FlowPanel
 	private AlgebraTab tabAlgebra;
 	private @CheckForNull TableTab tabTable;
 	private @CheckForNull ToolsTab tabTools;
+	private @CheckForNull DistributionTab tabDist;
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
@@ -284,6 +285,12 @@ public class ToolbarPanel extends FlowPanel
 			addTab(tabTools, false);
 		} else {
 			tabTools = null;
+		}
+		if (app.getConfig().hasDistributionView()) {
+			tabDist = new DistributionTab(this);
+			addTab(tabDist, false);
+		} else {
+			tabDist = null;
 		}
 		if (isTableTabExpected()) {
 			tabTable = new TableTab(this);
@@ -861,6 +868,9 @@ public class ToolbarPanel extends FlowPanel
 			if (tabTable != null) {
 				tabTable.setActive(tab == TabIds.TABLE);
 			}
+			if (tabDist != null) {
+				tabDist.setActive(tab == TabIds.DISTRIBUTION);
+			}
 			resizeTabs();
 		});
 		updateMoveButton();
@@ -904,12 +914,20 @@ public class ToolbarPanel extends FlowPanel
 
 		switchTab(TabIds.TABLE, fade);
 		setMoveMode();
-		// remove the scrolling for now
-		//if (tabTable != null) {
-			//tabTable.scrollTo(geo);
-		//}
 
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
+	}
+
+	/**
+	 * Open distribution tab.
+	 * @param fade decides if tab should fade during animation.
+	 */
+	public void openDistributionView(boolean fade) {
+		if (!app.getConfig().hasDistributionView()) {
+			return;
+		}
+		switchTab(TabIds.DISTRIBUTION, fade);
+		setMoveMode();
 	}
 
 	/**

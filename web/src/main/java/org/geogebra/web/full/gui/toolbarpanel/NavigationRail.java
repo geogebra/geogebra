@@ -34,6 +34,7 @@ class NavigationRail extends FlowPanel {
 	private MenuToggleButton btnMenu;
 	private @CheckForNull StandardButton btnAlgebra;
 	private @CheckForNull StandardButton btnTools;
+	private @CheckForNull StandardButton btnDistribution;
 	private @CheckForNull StandardButton btnTableView;
 	private final Image imgMenu;
 	private final FlowPanel contents;
@@ -81,14 +82,20 @@ class NavigationRail extends FlowPanel {
 		center = new FlowPanel();
 		center.addStyleName("center");
 
-		createAlgebraButton();
-		center.add(btnAlgebra);
+		if (!app.getConfig().hasDistributionView()) {
+			createAlgebraButton();
+			center.add(btnAlgebra);
+		}
 
 		boolean showToolPanel = app.getConfig().showToolsPanel();
 
 		if (showToolPanel) {
 			createToolsButton();
 			center.add(btnTools);
+		}
+		if (app.getConfig().hasDistributionView()) {
+			createDistributionButton();
+			center.add(btnDistribution);
 		}
 		if (app.getConfig().hasTableView()) {
 			createTableViewButton();
@@ -116,6 +123,12 @@ class NavigationRail extends FlowPanel {
 		btnTableView = createTabButton("Table",
 				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
+	}
+
+	private void createDistributionButton() {
+		btnDistribution = createTabButton("Distribution",
+				MaterialDesignResources.INSTANCE.toolbar_distribution());
+		btnDistribution.addFastClickHandler(source -> onDistributionPressed());
 	}
 
 	private StandardButton createTabButton(String label, SVGResource icon) {
@@ -168,6 +181,17 @@ class NavigationRail extends FlowPanel {
 	}
 
 	/**
+	 * Handler for distribution view button.
+	 */
+	protected void onDistributionPressed() {
+		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.DISTRIBUTION) {
+			onClosePressed(false);
+			return;
+		}
+		toolbarPanel.openDistributionView(isOpen());
+	}
+
+	/**
 	 * Handler for Close button.
 	 */
 	protected void onClosePressed(boolean snap) {
@@ -206,7 +230,7 @@ class NavigationRail extends FlowPanel {
 		setButtonText(btnAlgebra, app.getConfig().getAVTitle());
 		setButtonText(btnTools, "Tools");
 		setButtonText(btnTableView, "Table");
-
+		setButtonText(btnDistribution, "Distribution");
 	}
 
 	private void setButtonText(StandardButton btnTools, String key) {
@@ -489,6 +513,7 @@ class NavigationRail extends FlowPanel {
 		setSelected(btnAlgebra, tabId == TabIds.ALGEBRA, exam);
 		setSelected(btnTools, tabId == TabIds.TOOLS, exam);
 		setSelected(btnTableView, tabId == TabIds.TABLE, exam);
+		setSelected(btnDistribution, tabId == TabIds.DISTRIBUTION, exam);
 	}
 
 	public void setAVIconNonSelect(boolean exam) {
@@ -503,7 +528,8 @@ class NavigationRail extends FlowPanel {
 	public void paintToCanvas(CanvasRenderingContext2D context2d, int left, int top) {
 		int btnTop = 40;
 		context2d.globalAlpha = 0.54;
-		for (StandardButton btn: new StandardButton[]{btnAlgebra, btnTools, btnTableView}) {
+		for (StandardButton btn: new StandardButton[]{btnAlgebra, btnTools, btnTableView,
+				btnDistribution}) {
 			if (btn != null) {
 				HTMLImageElement el = Js.uncheckedCast(btn.getImage().getElement());
 				context2d.drawImage(el, left + 24, top + btnTop);
