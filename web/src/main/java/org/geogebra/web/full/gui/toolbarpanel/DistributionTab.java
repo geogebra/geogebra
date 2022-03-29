@@ -20,17 +20,17 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	protected void onActive() {
-
+		// to do fill
 	}
 
 	@Override
 	public void setLabels() {
-
+		// to do fill
 	}
 
 	@Override
 	public void open() {
-
+		// to do fill
 	}
 
 	@Override

@@ -930,7 +930,6 @@ public class ToolbarPanel extends FlowPanel
 		setMoveMode();
 	}
 
-
 	/**
 	 * This getter is public only for testing.
 	 * @return tool tab
