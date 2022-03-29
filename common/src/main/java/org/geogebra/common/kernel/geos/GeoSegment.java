@@ -906,7 +906,6 @@ final public class GeoSegment extends GeoLine
 	 */
 	public void setStartStyle(SegmentStyle startStyle) {
 		this.startStyle = startStyle;
-		updateRepaint();
 	}
 
 	/**
@@ -914,7 +913,6 @@ final public class GeoSegment extends GeoLine
 	 */
 	public void setEndStyle(SegmentStyle endStyle) {
 		this.endStyle = endStyle;
-		updateRepaint();
 	}
 
 	/**

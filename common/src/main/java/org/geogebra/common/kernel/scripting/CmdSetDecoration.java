@@ -5,7 +5,10 @@ import java.util.Set;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -76,10 +79,37 @@ public class CmdSetDecoration extends CmdScripting {
 			arg[0].updateRepaint();
 
 			return arg;
+		case 3:
+			GeoElement[] args = resArgs(c);
+			if (!args[1].isNumberValue()) {
+				throw argErr(c, args[1]);
+			}
+			if (!args[2].isNumberValue()) {
+				throw argErr(c, args[2]);
+			}
+
+			int startStyle = getValidStyle(args[1]);
+			int endStyle = getValidStyle(args[2]);
+
+			if (args[0] instanceof GeoSegment) {
+				((GeoSegment) args[0]).setStartStyle(SegmentStyle.values()[startStyle]);
+				((GeoSegment) args[0]).setEndStyle(SegmentStyle.values()[endStyle]);
+			}
+
+			args[0].updateVisualStyleRepaint(GProperty.COMBINED);
+			return args;
 
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private int getValidStyle(GeoElement arg) {
+		int style = (int) arg.evaluateDouble();
+		if (style < 0 || style >= SegmentStyle.values().length) {
+			style = 0;
+		}
+		return style;
 	}
 
 }

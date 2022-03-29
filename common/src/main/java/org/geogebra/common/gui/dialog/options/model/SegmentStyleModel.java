@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentStyle;
@@ -52,6 +53,7 @@ public class SegmentStyleModel extends NumberOptionsModel {
 			} else {
 				((GeoSegment) geo).setEndStyle(SegmentStyle.values()[value]);
 			}
+			geo.updateVisualStyleRepaint(GProperty.COMBINED);
 			app.updateStyleBars();
 		}
 	}
