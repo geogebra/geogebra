@@ -2,7 +2,7 @@ package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

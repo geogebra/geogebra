@@ -14,7 +14,7 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;

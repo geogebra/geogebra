@@ -15,7 +15,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.ToggleButtonWforEV;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
 

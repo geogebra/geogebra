@@ -38,7 +38,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;

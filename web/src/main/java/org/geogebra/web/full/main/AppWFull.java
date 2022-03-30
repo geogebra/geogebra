@@ -150,7 +150,7 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.GlobalHeader;

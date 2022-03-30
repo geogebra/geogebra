@@ -21,7 +21,7 @@ import org.geogebra.web.full.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.InlineTextFormatter;
-import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.main.AppW;

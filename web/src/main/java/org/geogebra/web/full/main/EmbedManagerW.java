@@ -44,7 +44,7 @@ import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;

@@ -15,7 +15,7 @@ import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.util.StyleBarW;
-import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
 

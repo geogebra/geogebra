@@ -9,7 +9,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.dom.client.Element;

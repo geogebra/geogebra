@@ -29,8 +29,8 @@ import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.ComboBoxChangeE
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.DefaultListItemFactory;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.DropDownPosition;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.ListItemFactory;
-import org.geogebra.web.full.gui.util.ToggleButton;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;

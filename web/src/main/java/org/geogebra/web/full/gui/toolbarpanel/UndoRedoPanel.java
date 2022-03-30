@@ -5,7 +5,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.TestHarness;
 

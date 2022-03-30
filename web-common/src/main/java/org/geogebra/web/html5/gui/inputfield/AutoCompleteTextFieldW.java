@@ -34,6 +34,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
@@ -41,13 +42,13 @@ import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.core.client.Scheduler;
@@ -76,7 +77,6 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
-import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class AutoCompleteTextFieldW extends FlowPanel
@@ -104,7 +104,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private DrawInputBox drawTextField = null;
 
 	// symbol table popup fields
-	private GToggleButton showSymbolButton = null;
+	private ToggleButton showSymbolButton = null;
 	private SymbolTablePopupW tablePopup;
 
 	/**
@@ -319,8 +319,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	private void setupShowSymbolButton() {
-		showSymbolButton = new GToggleButton();
-		showSymbolButton.setText(Unicode.alpha + "");
+		showSymbolButton = new ToggleButton(GuiResourcesSimple.INSTANCE.alpha());
 		showSymbolButton.addStyleName("SymbolToggleButton");
 
 		ClickStartHandler.init(showSymbolButton,

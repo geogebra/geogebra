@@ -386,29 +386,7 @@ public abstract class GCustomButton extends ButtonBase {
 	 */
 	private boolean allowClick;
 
-	/**
-	 * Constructor for <code>CustomButton</code>.
-	 *
-	 * @param upImage
-	 *            image for the default (up) face of the button
-	 */
-	public GCustomButton(Image upImage) {
-		this();
-		getUpFace().setImage(upImage);
-	}
 
-	/**
-	 * Constructor for <code>CustomButton</code>.
-	 *
-	 * @param upImage
-	 *            image for the default (up) face of the button
-	 * @param downImage
-	 *            image for the down face of the button
-	 */
-	public GCustomButton(Image upImage, Image downImage) {
-		this(upImage);
-		getDownFace().setImage(downImage);
-	}
 
 	/**
 	 * Constructor for <code>CustomButton</code>.

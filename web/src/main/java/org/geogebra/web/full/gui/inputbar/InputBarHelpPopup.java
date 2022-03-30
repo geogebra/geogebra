@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.inputbar;
 
-import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;

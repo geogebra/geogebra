@@ -58,7 +58,7 @@ import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.SafeGeoImageFactory;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.resources.SVGResource;

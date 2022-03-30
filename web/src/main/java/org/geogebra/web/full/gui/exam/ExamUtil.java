@@ -6,7 +6,7 @@ import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 

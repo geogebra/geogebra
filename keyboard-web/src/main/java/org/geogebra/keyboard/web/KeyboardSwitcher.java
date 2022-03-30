@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
-import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
@@ -21,7 +21,7 @@ public class KeyboardSwitcher extends FlowPanel {
 
 	private FlowPanel contents;
 	private Map<KeyboardType, SwitcherButton> switches;
-	private GToggleButton moreButton;
+	private ToggleButton moreButton;
 
 	public class SwitcherButton extends Button {
 
@@ -142,27 +142,23 @@ public class KeyboardSwitcher extends FlowPanel {
 		Image hoverImg = new Image(KeyboardResources.INSTANCE
 				.keyboard_more_purple().getSafeUri().asString());
 		hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
-		moreButton = new GToggleButton(img, hoverImg);
+		moreButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_more(),
+				KeyboardResources.INSTANCE.keyboard_more_purple());
 		moreButton.getElement().setAttribute("aria-label",
 				tabbedkeyboard.locale.getMenu("Commands"));
 
-		moreButton.getUpHoveringFace().setImage(hoverImg);
+		moreButton.removeStyleName("MyToggleButton");
 		moreButton.addStyleName("moreKeyboardButton");
-		ClickStartHandler.init(moreButton, new ClickStartHandler() {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
+		moreButton.addFastClickHandler((source) ->
 				tabbedkeyboard.showHelp(moreButton.getAbsoluteLeft()
-								+ moreButton.getOffsetWidth(),
-						moreButton.getAbsoluteTop());
-			}
-		});
+						+ moreButton.getOffsetWidth(),
+				moreButton.getAbsoluteTop()));
 		contents.add(moreButton);
 	}
 
 	protected void reset() {
 		if (moreButton != null) {
-			moreButton.setValue(false);
+			moreButton.setSelected(false);
 		}
 	}
 

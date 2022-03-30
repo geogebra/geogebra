@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.toolbarpanel.LogoAndName;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.MouseDownEvent;

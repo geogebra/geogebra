@@ -6,7 +6,7 @@ import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.user.client.ui.Widget;
 

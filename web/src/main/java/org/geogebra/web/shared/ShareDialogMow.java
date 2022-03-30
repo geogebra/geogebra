@@ -11,7 +11,7 @@ import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.NoDragImage;

@@ -17,7 +17,7 @@ import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;

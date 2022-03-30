@@ -27,7 +27,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -38,7 +38,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;

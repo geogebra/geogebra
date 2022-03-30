@@ -6,7 +6,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;

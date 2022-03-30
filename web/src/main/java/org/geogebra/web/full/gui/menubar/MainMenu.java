@@ -15,7 +15,7 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;

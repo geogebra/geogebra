@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
 import com.google.gwt.user.client.ui.FlowPanel;

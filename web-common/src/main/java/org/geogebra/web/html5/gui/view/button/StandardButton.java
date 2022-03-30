@@ -1,12 +1,12 @@
 package org.geogebra.web.html5.gui.view.button;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;

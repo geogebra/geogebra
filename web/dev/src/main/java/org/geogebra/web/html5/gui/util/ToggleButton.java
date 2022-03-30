@@ -1,11 +1,8 @@
-package org.geogebra.web.full.gui.util;
+package org.geogebra.web.html5.gui.util;
 
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.Dom;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.user.client.DOM;

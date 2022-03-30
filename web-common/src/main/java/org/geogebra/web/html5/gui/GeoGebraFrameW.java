@@ -11,7 +11,7 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.StringConsumer;

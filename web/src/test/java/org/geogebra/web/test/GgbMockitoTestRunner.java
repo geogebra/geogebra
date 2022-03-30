@@ -9,7 +9,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.FileDropHandlerW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.CopyPasteW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.MyNumberFormat;
 import org.geogebra.web.resources.SVGResourcePrototype;
