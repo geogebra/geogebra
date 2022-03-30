@@ -150,4 +150,10 @@ public class ToggleButton extends FocusWidget {
 			focusImpl.blur(getElement());
 		}
 	}
+
+	public void updateImage() {
+		if (svgDown != null) {
+			setIcon(isSelected ? svgDown : svgUp);
+		}
+	}
 }
