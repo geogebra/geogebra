@@ -63,23 +63,23 @@
 			 visibility: hidden;
 
 			.checkmarkSvg {
-                -webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
-                transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
-                -o-transition: opacity .18s 0ms cubic-bezier(0,0,.2,1),transform .18s 0ms cubic-bezier(0,0,.2,1);
-                transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms;
-                transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
-                opacity: 1;
-            }
+				-webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				-o-transition: opacity .18s 0ms cubic-bezier(0,0,.2,1),transform .18s 0ms cubic-bezier(0,0,.2,1);
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				opacity: 1;
+			}
 
-            .checkmarkPath {
-                -webkit-transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
-                -o-transition: stroke-dashoffset .18s 0ms cubic-bezier(.4,0,.6,1);
-                transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
-                stroke: white;
-                stroke-width: 3.12px;
-                stroke-dashoffset: 29.7833385;
-                stroke-dasharray: 29.7833385;
-            }
+			.checkmarkPath {
+				-webkit-transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				-o-transition: stroke-dashoffset .18s 0ms cubic-bezier(.4,0,.6,1);
+				transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				stroke: white;
+				stroke-width: 3.12px;
+				stroke-dashoffset: 29.7833385;
+				stroke-dasharray: 29.7833385;
+			}
 		 }
 
 		 .hoverBg {
@@ -115,8 +115,8 @@
 				visibility: visible;
 
 				 .checkmarkPath {
-                    stroke-dashoffset: 0;
-                }
+					stroke-dashoffset: 0;
+				}
 			}
 		}
 

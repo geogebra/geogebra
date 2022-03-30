@@ -181,14 +181,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		return text.startsWith("=");
 	}
 
-	/**
-	 * 
-	 * @return true if the completion popup is open
-	 */
-	public boolean completionsPopupOpen() {
-		return autoCompleteTextField.getCompletions() != null;
-	}
-
 	// =======================================================
 	// In-cell Editing Methods
 	// =======================================================

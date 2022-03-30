@@ -11,7 +11,5 @@ public class Firebase {
 	}
 
 	@JsProperty(name = "firebase")
-	public static native Firebase get();
-
-	public native FirebaseAnalytics analytics();
+	public static native FirebaseAnalytics get();
 }

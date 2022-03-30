@@ -153,7 +153,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 							menu.hide();
 							app.exportStringToFile("html",
 									app.getGgbApi().exportConstruction("color",
-											"name", "definition", "value"));
+											"name", "definition", "value"), true);
 						}
 					});
 
@@ -166,7 +166,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						public void doExecute() {
 							menu.hide();
 							app.exportStringToFile("html",
-									HTML5Export.getFullString(app));
+									HTML5Export.getFullString(app), true);
 						}
 					});
 

@@ -578,14 +578,9 @@ public class FormulaEditor extends View implements MathField {
     public float getTextSize() {
         return mSize;
     }
-    
+
     @Override
-    public void tab(boolean shiftDown){
-
-    }
-
-	@Override
-	public MathFieldInternal getInternal() {
+    public MathFieldInternal getInternal() {
 		return mMathFieldInternal;
 	}
 

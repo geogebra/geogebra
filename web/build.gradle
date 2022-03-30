@@ -41,18 +41,29 @@ if(hasProperty("eclipse")){
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
+apply from: "../gradle-scripts/webjars.gradle"
+compileJava.dependsOn('extractJs')
+
+task extractJs() {
+    doLast {
+        extractWebjars()
+    }
+}
+
 dependencies {
     compile project(path: ':carota-web'),
         project(':web:dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
+        'org.webjars.npm:pdfjs-dist:2.5.207',
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':web-common').sourceSets.main.allSource.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
         files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
-        files(file("build/generated/sources/annotationProcessor/java/main/"))
+        files(file("build/generated/sources/annotationProcessor/java/main/")),
+        files(file("build/generated/sources/webjars/java/main/"))
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',

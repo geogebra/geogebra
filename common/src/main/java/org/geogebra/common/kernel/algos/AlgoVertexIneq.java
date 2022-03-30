@@ -243,7 +243,7 @@ public class AlgoVertexIneq extends AlgoElement {
 						a.getFunBorder(), helperLine, new GeoPoint(cons)));
 			}
 		}
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		for (double bRoot : bz) {
 			helperLine.setCoords(0, 1, -bRoot);
 			helpers[i][j].compute();
@@ -252,7 +252,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamYX(Inequality a, Inequality b) {
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
 		for (double bRoot : bz) {
 			ensurePoint();
@@ -305,7 +305,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamXY(Inequality a, Inequality b) {
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
 		for (double bRoot : bz) {
 			ensurePoint();
@@ -415,8 +415,8 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intXY(Inequality a, Inequality b) {
-		double[] az = a.getZeros();
-		double[] bz = b.getZeros();
+		ArrayList<Double> az = a.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		for (double aRoot : az) {
 			for (double bRoot : bz) {
 				ensurePoint();
@@ -429,7 +429,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intConicY(Inequality a, Inequality b) {
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		double[] coef = a.getConicBorder().getMatrix();
 		for (double bRoot : bz) {
 			co[2] = coef[0];
@@ -448,7 +448,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intConicX(Inequality a, Inequality b) {
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		double[] coef = a.getConicBorder().getMatrix();
 		for (double bRoot : bz) {
 			co[2] = coef[1];
@@ -480,7 +480,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intLinearY(Inequality a, Inequality b) {
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		GeoLine af = a.getLineBorder();
 		if (DoubleUtil.isZero(af.getX())) {
 			return;
@@ -496,7 +496,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intLinearX(Inequality a, Inequality b) {
-		double[] bz = b.getZeros();
+		ArrayList<Double> bz = b.getZeros();
 		GeoLine af = a.getLineBorder();
 		if (DoubleUtil.isZero(af.getY())) {
 			return;
