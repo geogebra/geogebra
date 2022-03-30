@@ -96,20 +96,6 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 			return complexRoots;
 		}
 		return complexRoots;
-
-		/*
-		 * if (solution.curRealRoots > 1) { // sort roots and eliminate
-		 * duplicate ones Arrays.sort(solution.curRoots, 0,
-		 * solution.curRealRoots);
-		 * 
-		 * // eliminate duplicate roots double maxRoot = solution.curRoots[0];
-		 * int maxIndex = 0; for (int i = 1; i < solution.curRealRoots; i++) {
-		 * if ((solution.curRoots[i] - maxRoot) > AbstractKernel.MIN_PRECISION)
-		 * { maxRoot = solution.curRoots[i]; maxIndex++;
-		 * solution.curRoots[maxIndex] = maxRoot; } } solution.curRealRoots =
-		 * maxIndex + 1; }
-		 */
-
 	}
 
 	// add first number of doubles in roots to current roots

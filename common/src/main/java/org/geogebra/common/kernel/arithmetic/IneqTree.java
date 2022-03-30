@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
@@ -152,10 +153,8 @@ public class IneqTree {
 	 */
 	public void getZeros(Set<Double> zeros) {
 		if (ineq != null) {
-			double[] zeroPoints = ineq.getZeros();
-			for (int i = 0; i < zeroPoints.length; i++) {
-				zeros.add(zeroPoints[i]);
-			}
+			ArrayList<Double> zeroPoints = ineq.getZeros();
+			zeros.addAll(zeroPoints);
 		}
 		if (left != null) {
 			left.getZeros(zeros);

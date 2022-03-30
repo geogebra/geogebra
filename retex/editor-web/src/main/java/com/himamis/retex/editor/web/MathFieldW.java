@@ -1045,11 +1045,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	@Override
-	public void tab(boolean shiftDown) {
-		mathFieldInternal.onTab(shiftDown);
-	}
-
-	@Override
 	public void requestViewFocus(Runnable runnable) {
 		setEnabled(true);
 		setFocus(true, runnable);

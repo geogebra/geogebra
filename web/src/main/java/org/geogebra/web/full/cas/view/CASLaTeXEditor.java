@@ -1,7 +1,6 @@
 package org.geogebra.web.full.cas.view;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -10,7 +9,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
+import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -44,7 +43,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
-	MathFieldInputSuggestions sug;
+	AutoCompletePopup sug;
 	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
@@ -249,16 +248,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public List<String> resetCompletions() {
-		return getInputSuggestions().resetCompletions();
-	}
-
-	@Override
-	public List<String> getCompletions() {
-		return getInputSuggestions().getCompletions();
-	}
-
-	@Override
 	public void insertString(String text) {
 		new MathFieldProcessing(mf).autocomplete(
 				app.getParserFunctions().toEditorAutocomplete(text, app.getLocalization()));
@@ -303,9 +292,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		return mf == null ? "" : mf.getCurrentWord();
 	}
 
-	private MathFieldInputSuggestions getInputSuggestions() {
+	private AutoCompletePopup getInputSuggestions() {
 		if (sug == null) {
-			sug = new MathFieldInputSuggestions(app, this, true);
+			sug = new AutoCompletePopup(app, true, this);
 		}
 		return sug;
 	}
@@ -318,8 +307,10 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onKeyTyped(String key) {
-		getInputSuggestions().popupSuggestions();
-		onCursorMove();
+		getInputSuggestions().popupSuggestions(getAbsoluteLeft(),
+				getAbsoluteTop() - 3, // extra padding of editor
+				getAbsoluteTop() + getOffsetHeight() + 5); // extra padding of editor
+		mf.scrollParentHorizontally(this);
 	}
 
 	@Override
@@ -328,22 +319,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
+		if (isSuggesting()) {
+			sug.onArrowKeyPressed(keyCode);
+			return true;
+		}
 		mf.scrollParentHorizontally(this);
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyUp();
-		}
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyDown();
-		}
+		return false;
 	}
 
 	@Override

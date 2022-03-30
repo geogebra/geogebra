@@ -909,21 +909,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	/**
-	 * @return true if menu is shown
-	 */
-	public boolean isMenuShown() {
-		return wrappedPopup.isMenuShown();
-	}
-
-	/**
-	 * @param menuShown
-	 *            true if menu is shown
-	 */
-	public void setMenuShown(boolean menuShown) {
-		wrappedPopup.setMenuShown(menuShown);
-	}
-
-	/**
 	 * update whole popup
 	 */
 	public void update() {

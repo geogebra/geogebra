@@ -1969,12 +1969,14 @@ public class ConsElementXMLHandler {
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")));
+			if (conic.isIndependent()) {
+				conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+						StringUtil.parseDouble(attrs.get("y0")),
+						StringUtil.parseDouble(attrs.get("z0")),
+						StringUtil.parseDouble(attrs.get("x1")),
+						StringUtil.parseDouble(attrs.get("y1")),
+						StringUtil.parseDouble(attrs.get("z1")));
+			}
 			return true;
 		} catch (RuntimeException e) {
 			return false;
