@@ -33,6 +33,17 @@ public class RadioButtonPanel extends FlowPanel implements SetLabels {
 		}
 	}
 
+	/**
+	 * constructor for panel holding multiple radio buttons
+	 * @param loc - localization
+	 * @param data - radio button list data
+	 * @param defaultIdx - selected radio button at the start
+	 */
+	public RadioButtonPanel(Localization loc, List<RadioButtonData> data, int defaultIdx) {
+		this(loc, data);
+		setValueOfNthRadioButton(defaultIdx, true);
+	}
+
 	@Override
 	public void setLabels() {
 		for (ComponentRadioButton radioButton : radioButtonList) {
@@ -49,5 +60,16 @@ public class RadioButtonPanel extends FlowPanel implements SetLabels {
 			return;
 		}
 		radioButtonList.get(idx).setSelected(selected);
+	}
+
+	/**
+	 * @param idx - index of radio button in the panel
+	 * @return true if idx-th radio button is selected
+	 */
+	public boolean isNthRadioButtonSelected(int idx) {
+		if (radioButtonList.size() <= idx && idx >= 0) {
+			return false;
+		}
+		return radioButtonList.get(idx).isSelected();
 	}
 }
