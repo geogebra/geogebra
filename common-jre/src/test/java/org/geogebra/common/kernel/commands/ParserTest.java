@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 import org.geogebra.common.AppCommonFactory;
@@ -151,8 +150,7 @@ public class ParserTest {
 					: new EvalInfo(false);
 
 			v1.resolveVariables(info);
-			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
-					new ArrayList<ExpressionNode>());
+			v1.wrap().replaceXYZnodes(xVar, yVar, zVar);
 			app.getKernel().getConstruction().registerFunctionVariable(null);
 			reparse1 = v1.toString(tpl);
 		} catch (ParseException e) {
