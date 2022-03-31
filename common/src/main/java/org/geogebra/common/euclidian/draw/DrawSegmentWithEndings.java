@@ -35,7 +35,7 @@ public class DrawSegmentWithEndings {
 			return;
 		}
 
-		GeoSegment segment = ((GeoSegment) geo);
+		GeoSegment segment = (GeoSegment) geo;
 		SegmentStyle startStyle = segment.getStartStyle();
 		SegmentStyle endStyle = segment.getEndStyle();
 		if (startStyle.isOutline() || endStyle.isOutline()) {
