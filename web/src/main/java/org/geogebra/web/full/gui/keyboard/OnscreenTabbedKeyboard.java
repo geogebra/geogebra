@@ -51,9 +51,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 				av != null ? av.getInputTreeItem() : null,
 				"helpPopupAV");
 		helpPopup.addAutoHidePartner(this.getElement());
-		helpPopup.addCloseHandler(event -> {
-			// TODO handle closing?
-		});
+		helpPopup.addCloseHandler(event -> switcher.switchIcon(false));
 	}
 	
 	@Override
