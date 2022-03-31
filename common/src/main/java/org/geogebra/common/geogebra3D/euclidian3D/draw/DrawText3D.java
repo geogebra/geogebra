@@ -1,18 +1,16 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 public final class DrawText3D extends Drawable3DCurves {
-
-	private boolean wasLaTeX;
 
 	/**
 	 * @param a_view3d
@@ -22,7 +20,6 @@ public final class DrawText3D extends Drawable3DCurves {
 	 */
 	public DrawText3D(EuclidianView3D a_view3d, GeoText text) {
 		super(a_view3d, text);
-		wasLaTeX = text.isLaTeX();
 		((DrawLabel3DForText) label).setGeo(text);
 
 		setPickingType(PickingType.POINT_OR_CURVE);
@@ -52,49 +49,19 @@ public final class DrawText3D extends Drawable3DCurves {
 	@Override
 	protected void updateLabel() {
 		if (getView3D().drawsLabels()) {
-			GeoText text = (GeoText) getGeoElement();
-			if (wasLaTeX != text.isLaTeX()) {
-				label.setWaitForReset();
-			}
-			wasLaTeX = text.isLaTeX();
-			label.update(text.getTextStringSafe(), getFont(),
-					getGeoElement().getBackgroundColor(),
-					getGeoElement().getObjectColor(), getLabelPosition(),
-					getLabelOffsetX(), -getLabelOffsetY(), 0);
+			super.updateLabel();
 		}
+	}
+
+	@Override
+	public CaptionText createStaticCaption3D(GeoElement geo) {
+		return new StaticText3D(geo);
+
 	}
 
 	@Override
 	protected void updateLabelPosition() {
 		label.updatePosition(getView3D().getRenderer());
-	}
-
-	private GFont getFont() {
-		GeoText text = (GeoText) getGeoElement();
-
-		// text's font size is relative to the global font size
-		int newFontSize = (int) Math.max(4,
-				getView3D().getFontSize() * text.getFontSizeMultiplier());
-		int newFontStyle = text.getFontStyle();
-		boolean newSerifFont = text.isSerifFont();
-
-		/*
-		 * if (textFont.canDisplayUpTo(text.getTextString()) != -1 || fontSize
-		 * !=newFontSize || fontStyle != newFontStyle || newSerifFont !=
-		 * serifFont) { super.updateFontSize();
-		 * 
-		 * fontSize = newFontSize; fontStyle = newFontStyle; serifFont =
-		 * newSerifFont;
-		 */
-
-		// if (isLaTeX) {
-		// //setEqnFontSize();
-		// } else {
-		GFont textFont = getView3D().getApplication().getFontCanDisplay(
-				text.getTextString(), newSerifFont, newFontStyle, newFontSize);
-		// }
-
-		return textFont;
 	}
 
 	// private boolean isLocationDefined;

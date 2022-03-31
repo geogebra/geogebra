@@ -407,6 +407,10 @@ public class GeoText extends GeoElement
 			kernel.getApplication().setAltText(this);
 		}
 
+		notifyListeners();
+	}
+
+	private void notifyListeners() {
 		for (GeoElement geo : updateListeners) {
 			geo.notifyUpdate();
 		}
@@ -1340,6 +1344,7 @@ public class GeoText extends GeoElement
 			}
 			AlgoElement.updateCascadeAlgos(algosTextCorner);
 		}
+		notifyListeners();
 	}
 
 	@Override
