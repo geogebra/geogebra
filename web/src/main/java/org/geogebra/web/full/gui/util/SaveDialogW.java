@@ -61,7 +61,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param factory
 	 *            widget factory
 	 */

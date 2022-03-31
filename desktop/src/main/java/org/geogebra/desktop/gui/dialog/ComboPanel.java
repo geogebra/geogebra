@@ -106,11 +106,6 @@ class ComboPanel extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// nothing to do here
-	}
-
-	@Override
 	public void setSelectedIndex(int index) {
 		comboBox.setSelectedIndex(index);
 	}

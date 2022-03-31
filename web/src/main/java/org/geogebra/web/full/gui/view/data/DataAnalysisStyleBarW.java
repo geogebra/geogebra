@@ -10,7 +10,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * @author G. Sturr
@@ -34,7 +33,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	public DataAnalysisStyleBarW(AppW app, DataAnalysisViewW statDialog) {
 		super(app, App.VIEW_DATA_ANALYSIS);
 		this.daView = statDialog;
-	//	this.setFloatable(false);
 		createGUI();
 		updateGUI();
 		setLabels();
@@ -46,13 +44,13 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 		btnShowStatistics = new MyToggleButtonW(AppResources.INSTANCE.dataview_showstatistics());
 		btnShowStatistics.addClickHandler(this);
-		
+
 		btnShowData = new MyToggleButtonW(AppResources.INSTANCE.dataview_showdata());
 		btnShowData.addClickHandler(this);
-	
+
 		btnShowPlot2 = new MyToggleButtonW(AppResources.INSTANCE.dataview_showplot2());
 		btnShowPlot2.addClickHandler(this);
-		
+
 		// create export button
 		btnExport = new MyToggleButtonW(AppResources.INSTANCE.export());
 		btnExport.addClickHandler(this);
@@ -61,17 +59,11 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addClickHandler(this);
 		btnSwapXY.getElement().addClassName("daSwapXYButton");
-		buildRoundingButton();
-		createDataSourcePanel();
 
-		// add(btnRounding);
-//		add(btnDataSource);
-		// addSeparator();
 		add(btnShowStatistics);
 		add(btnShowData);
 		add(btnShowPlot2);
 		add(btnSwapXY);
-		// add(createDataSourcePanel());
 	}
 
 	/**
@@ -108,42 +100,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnShowPlot2.setSelected(model.showDataDisplayPanel2());
 		btnSwapXY.setVisible(model.isRegressionMode());
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
-		
-	} 
-
-	private static FlowPanel createDataSourcePanel() {
-
-//		btnDataSource = new MyToggleButton2(AppResources.INSTANCE.a);
-//		btnDataSource.addClickHandler(this);
-//		//fldDataSource = new MyTextField(app);
-//
-		FlowPanel dataSourcePanel = new FlowPanel();
-		// dataSourcePanel.add(btnDataSource, app.borderWest());
-		// dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
-		return dataSourcePanel;
-	}
-
-	/**
-	 * Builds popup button with options menu items
-	 */
-	private void buildRoundingButton() {
-
-//		btnRounding = new JButton(app.getImageIcon("triangle-down.png"));
-//		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
-//		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
-
-		/*
-		 * roundingPopup = createRoundingPopup();
-		 * 
-		 * btnRounding.addActionListener(new ActionListener(){ public void
-		 * actionPerformed(ActionEvent e) { // popup appears below the button
-		 * roundingPopup.show(getParent(),
-		 * btnRounding.getLocation().x,btnRounding.getLocation().y +
-		 * btnRounding.getHeight()); } });
-		 * 
-		 * updateMenuDecimalPlaces(roundingPopup);
-		 */
-
 	}
 
 	@Override
@@ -168,7 +124,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	 */
 	public void actionPerformed(Object source) {
 		DataAnalysisModel model = daView.getModel();
-	
 		if (source == btnShowStatistics) {
 			model.setShowStatistics(btnShowStatistics.isSelected());
 			updateGUI();
@@ -187,8 +142,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 			updateGUI();
 		}
 		else if (source == btnExport) {
-//			JPopupMenu menu = daView.getExportMenu();
-//			menu.show(btnExport, 0, btnExport.getHeight());
 			btnExport.setSelected(false);
 		}
 	}

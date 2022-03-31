@@ -34,6 +34,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -94,6 +95,7 @@ import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel.IReflexAngleListener;
 import org.geogebra.common.gui.dialog.options.model.RightAngleModel;
+import org.geogebra.common.gui.dialog.options.model.SegmentStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SelectionAllowedModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel;
 import org.geogebra.common.gui.dialog.options.model.ShowConditionModel.IShowConditionListener;
@@ -111,9 +113,11 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -135,6 +139,8 @@ import org.geogebra.desktop.gui.properties.AnimationStepPanel;
 import org.geogebra.desktop.gui.properties.SliderPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -181,6 +187,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
 	private DrawArrowsPanel drawArrowsPanel;
+	private SegmentStartStylePanel segmentStartStylePanel;
+	private SegmentEndStylePanel segmentEndStylePanel;
 	// added by Loic BEGIN
 	private DecoSegmentPanel decoSegmentPanel;
 	private DecoAnglePanel decoAnglePanel;
@@ -296,6 +304,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		lineStylePanel = new LineStylePanel();
 		lineStylePanelHidden = new LineStyleHiddenPanel();
 		drawArrowsPanel = new DrawArrowsPanel();
+		segmentStartStylePanel = new SegmentStartStylePanel();
+		segmentEndStylePanel = new SegmentEndStylePanel();
 		// added by Loic BEGIN
 		decoSegmentPanel = new DecoSegmentPanel();
 		decoAnglePanel = new DecoAnglePanel();
@@ -327,14 +337,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		tabs = new JTabbedPane();
 		initTabs();
 
-		tabs.addChangeListener(new ChangeListener() {
-
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				applyModifications();
-
-			}
-		});
+		tabs.addChangeListener(e -> applyModifications());
 
 		setLayout(new BorderLayout());
 		add(tabs, BorderLayout.CENTER);
@@ -382,7 +385,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	public void setSliderMinValue() {
 		arcSizePanel.setMinValue();
 	}
-
 
 	/**
 	 * A list of the tab panels
@@ -480,6 +482,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		styleTabList.add(textFieldSizePanel);
 		styleTabList.add(textFieldAlignmentPanel);
 		styleTabList.add(decoAnglePanel);
+		styleTabList.add(segmentStartStylePanel);
+		styleTabList.add(segmentEndStylePanel);
 		styleTabList.add(decoSegmentPanel);
 		styleTabList.add(lineStylePanelHidden);
 		styleTab = new TabPanel(styleTabList);
@@ -591,6 +595,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		drawArrowsPanel.setLabels();
 		ineqStylePanel.setLabels();
 		lineStylePanelHidden.setLabels();
+		segmentStartStylePanel.setLabels();
+		segmentEndStylePanel.setLabels();
 		decoSegmentPanel.setLabels();
 		decoAnglePanel.setLabels();
 		rightAnglePanel.setLabels();
@@ -634,10 +640,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		Component selectedTab = tabs.getSelectedComponent();
 
 		// update tab labels
-		tabs.removeAll();
-		for (int i = 0; i < tabPanelList.size(); i++) {
-			TabPanel tp = tabPanelList.get(i);
-			tp.addToTabbedPane(tabs);
+		for (int i = 0; i < tabs.getTabCount(); i++) {
+			TabPanel tp = (TabPanel) tabs.getComponentAt(i);
+			if (tp != null) {
+				tabs.setTitleAt(i, tp.title);
+			}
 		}
 
 		// switch back to previously selected tab
@@ -729,8 +736,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		tabs.removeAll();
 		for (int i = 0; i < tabPanelList.size(); i++) {
 			TabPanel tp = tabPanelList.get(i);
-			tp.update(geos);
-			tp.addToTabbedPane(tabs);
+			tp.update(geos, tabs);
 		}
 
 		// switch back to previously selected tab
@@ -758,7 +764,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		for (int i = 0; i < size; i++) {
 			UpdateablePropertiesPanel up = (UpdateablePropertiesPanel) tabList
 					.get(i);
-			boolean show = (up.updatePanel(geos) != null);
+			boolean show = up.updatePanel(geos) != null;
 			up.setVisible(show);
 			if (show) {
 				oneVisible = true;
@@ -778,21 +784,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		// oldSelGeos = geos;
 
 		updateTabs(geos);
-	}
-
-	/**
-	 * @param geo
-	 *            geo
-	 */
-	public void updateVisualStyle(GeoElement geo) {
-
-		for (int i = 0; i < tabPanelList.size(); i++) {
-			TabPanel tp = tabPanelList.get(i);
-			if (tp != null) {
-				tp.updateVisualStyle(geo);
-			}
-		}
-
 	}
 
 	/**
@@ -821,7 +812,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		private String title;
 		private ArrayList<JPanel> panelList;
-		private boolean makeVisible = true;
 
 		public TabPanel(ArrayList<JPanel> pVec) {
 			panelList = pVec;
@@ -865,22 +855,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			this.title = title;
 		}
 
-		public void update(Object[] geos) {
-			makeVisible = updateTabPanel(panelList, geos);
-		}
-
-		public void updateVisualStyle(GeoElement geo) {
-
-			for (int i = 0; i < panelList.size(); i++) {
-				UpdateablePropertiesPanel up = (UpdateablePropertiesPanel) panelList
-						.get(i);
-				up.updateVisualStyle(geo);
-			}
-
-		}
-
-		public void addToTabbedPane(JTabbedPane tabs) {
-			if (makeVisible) {
+		public void update(Object[] geos, JTabbedPane tabs) {
+			if (updateTabPanel(panelList, geos)) {
 				tabs.addTab(title, this);
 			}
 		}
@@ -993,7 +969,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			super.apply(value);
 		}
 
-	}// IneqPanel
+	}
 
 	/**
 	 * panel with label properties
@@ -1057,14 +1033,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			return update();
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			if (model.getGeos() == null) {
-				return;
-			}
-			update();
 		}
 
 		/**
@@ -1432,12 +1400,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void addItem(String item) {
 			intervalCombo.addItem(item);
 		}
@@ -1609,12 +1571,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void setSelectedIndex(int index) {
 			if (index == 0) {
 				GeoElement p = (GeoElement) model.getLocateableAt(0)
@@ -1698,10 +1654,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 	private class CornerPointsPanel extends JPanel
-			implements UpdateablePropertiesPanel, SetLabels, UpdateFonts /**
-																			* 
-																			*/
-	{
+			implements UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+
 		private static final long serialVersionUID = 1L;
 
 		private ImageCornerPanel corner0;
@@ -1770,12 +1724,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				center.setVisible(b);
 			}
 		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 
 	/**
@@ -1787,9 +1735,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private ScriptInputDialog clickDialog, updateDialog, globalDialog;
+		private ScriptInputDialog clickDialog;
+		private ScriptInputDialog updateDialog;
+		private ScriptInputDialog globalDialog;
 		private JTabbedPane tabbedPane;
-		private JPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
+		private JPanel clickScriptPanel;
+		private JPanel updateScriptPanel;
+		private JPanel globalScriptPanel;
 
 		public ScriptEditPanel() {
 			super(new BorderLayout());
@@ -1810,19 +1762,19 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			// add(td.getInputPanel(), BorderLayout.NORTH);
 			// add(td2.getInputPanel(), BorderLayout.CENTER);
 			clickScriptPanel = new JPanel(new BorderLayout(0, 0));
-			clickScriptPanel.add(clickDialog.getInputPanel(row, column, true),
+			clickScriptPanel.add(clickDialog.getInputPanel(row, column),
 					BorderLayout.CENTER);
 			clickScriptPanel.add(clickDialog.getButtonPanel(),
 					BorderLayout.SOUTH);
 
 			updateScriptPanel = new JPanel(new BorderLayout(0, 0));
-			updateScriptPanel.add(updateDialog.getInputPanel(row, column, true),
+			updateScriptPanel.add(updateDialog.getInputPanel(row, column),
 					BorderLayout.CENTER);
 			updateScriptPanel.add(updateDialog.getButtonPanel(),
 					BorderLayout.SOUTH);
 
 			globalScriptPanel = new JPanel(new BorderLayout(0, 0));
-			globalScriptPanel.add(globalDialog.getInputPanel(row, column, true),
+			globalScriptPanel.add(globalDialog.getInputPanel(row, column),
 					BorderLayout.CENTER);
 			globalScriptPanel.add(globalDialog.getButtonPanel(),
 					BorderLayout.SOUTH);
@@ -1864,7 +1816,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			}
 
 			// remember selected tab
-			Component selectedTab = tabbedPane.getSelectedComponent();
+			final Component selectedTab = tabbedPane.getSelectedComponent();
 
 			GeoElement button = (GeoElement) geos[0];
 			clickDialog.setGeo(button);
@@ -1914,13 +1866,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			clickDialog.updateFonts();
 			updateDialog.updateFonts();
 			globalDialog.updateFonts();
-
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 
@@ -2046,14 +1991,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			return update();
 		}
 
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			if (!model.hasGeos()) {
-				return;
-			}
-			update();
-		}
-
 		public JPanel update() {
 			// check geos
 			if (!model.checkGeos()) {
@@ -2173,14 +2110,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public JPanel updatePanel(Object[] geos) {
 			model.setGeos(geos);
 			return update();
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			if (!model.hasGeos()) {
-				return;
-			}
-			update();
 		}
 
 		public JPanel update() {
@@ -2356,12 +2285,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
 
@@ -2427,7 +2350,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			slider.setValue(AngleArcSizeModel.MIN_VALUE);
 		}
 
-
 		@Override
 		public JPanel updatePanel(Object[] geos) {
 			// check geos
@@ -2472,12 +2394,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				label = (JLabel) en.nextElement();
 				label.setFont(app.getSmallFont());
 			}
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -2597,14 +2513,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			model.setGeos(geos);
 			return update();
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			if (!model.hasGeos()) {
-				return;
-			}
-			update();
 		}
 
 		public JPanel update() {
@@ -2807,14 +2715,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			return update();
 		}
 
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			if (geos == null) {
-				return;
-			}
-			update();
-		}
-
 		public JPanel update() {
 
 			// check if we use 3D view
@@ -2863,7 +2763,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			for (int i = 0; i < geos.length; i++) {
 				geo = (GeoElement) geos[i];
 				geo.setLineTypeHidden(type);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 			}
 		}
 
@@ -2981,12 +2881,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			slider.setFont(app.getSmallFont());
 		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 
 	/**
@@ -3055,13 +2949,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			label.setFont(font);
 			combo.setFont(font);
-
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// nothing to do here
-
 		}
 
 		@Override
@@ -3154,14 +3041,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void updateFonts() {
 			Font font = app.getPlainFont();
-
 			decoLabel.setFont(font);
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -3181,12 +3061,185 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	}
 
+	private class SegmentStartStylePanel extends JPanel implements ActionListener, SetLabels,
+			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+		private SegmentStyleModel model;
+		private PopupMenuButtonD btnSegmentStartStyle;
+		private JLabel segmentStartStyleLbl;
+
+		SegmentStartStylePanel() {
+			super(new FlowLayout(FlowLayout.LEFT));
+			model = new SegmentStyleModel(app, true);
+			model.setListener(this);
+
+			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_DEFAULT);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_LINE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_SQUARE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_SQUARE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_ARROW);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_ARROW_FILLED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_CIRCLE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_START_CIRCLE);
+			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+			for (int i = 0; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIconD.createFileImageIcon(
+						imgFileNameList.get(i));
+			}
+			btnSegmentStartStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
+					new Dimension(36, 36), SelectionTable.MODE_ICON);
+			btnSegmentStartStyle.setSelectedIndex(0);
+			btnSegmentStartStyle.setStandardButton(true);
+			btnSegmentStartStyle.setKeepVisible(false);
+			btnSegmentStartStyle.addActionListener(this);
+
+			segmentStartStyleLbl = new JLabel();
+			add(segmentStartStyleLbl);
+			add(btnSegmentStartStyle);
+			setLabels();
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == btnSegmentStartStyle) {
+				model.applyChanges(btnSegmentStartStyle
+						.getSelectedIndex());
+			}
+		}
+
+		@Override
+		public void setLabels() {
+			segmentStartStyleLbl.setText(app.getLocalization()
+					.getMenu("stylebar.LineStartStyle") + ":");
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			segmentStartStyleLbl.setFont(font);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			btnSegmentStartStyle.setSelectedIndex(index);
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
+			btnSegmentStartStyle.removeActionListener(this);
+			model.updateProperties();
+			btnSegmentStartStyle.addActionListener(this);
+			return this;
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// nothing to do here
+		}
+
+		@Override
+		public void clearItems() {
+			// nothing to do here
+		}
+	}
+
+	private class SegmentEndStylePanel extends JPanel implements ActionListener, SetLabels,
+			UpdateFonts, UpdateablePropertiesPanel, IComboListener {
+		private SegmentStyleModel model;
+		private PopupMenuButtonD btnSegmentEndStyle;
+		private JLabel segmentEndStyleLbl;
+
+		SegmentEndStylePanel() {
+			super(new FlowLayout(FlowLayout.LEFT));
+			model = new SegmentStyleModel(app, false);
+			model.setListener(this);
+
+			ArrayList<ImageResourceD> imgFileNameList = new ArrayList<>();
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_DEFAULT);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_LINE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_SQUARE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_SQUARE);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_ARROW);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_ARROW_FILLED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_CIRCLE_OUTLINED);
+			imgFileNameList.add(GuiResourcesD.STYLEBAR_END_CIRCLE);
+			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
+			for (int i = 0; i < iconArray.length; i++) {
+				iconArray[i] = GeoGebraIconD.createFileImageIcon(
+						imgFileNameList.get(i));
+			}
+			btnSegmentEndStyle = new PopupMenuButtonD(app, iconArray, -1, 1,
+					new Dimension(36, 36), SelectionTable.MODE_ICON);
+			btnSegmentEndStyle.setSelectedIndex(0);
+			btnSegmentEndStyle.setStandardButton(true);
+			btnSegmentEndStyle.setKeepVisible(false);
+			btnSegmentEndStyle.addActionListener(this);
+
+			segmentEndStyleLbl = new JLabel();
+			add(segmentEndStyleLbl);
+			add(btnSegmentEndStyle);
+			setLabels();
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == btnSegmentEndStyle) {
+				model.applyChanges(btnSegmentEndStyle
+						.getSelectedIndex());
+			}
+		}
+
+		@Override
+		public void setLabels() {
+			segmentEndStyleLbl.setText(app.getLocalization()
+					.getMenu("stylebar.LineEndStyle") + ":");
+		}
+
+		@Override
+		public void updateFonts() {
+			Font font = app.getPlainFont();
+			segmentEndStyleLbl.setFont(font);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			btnSegmentEndStyle.setSelectedIndex(index);
+		}
+
+		@Override
+		public JPanel updatePanel(Object[] geos) {
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
+				return null;
+			}
+
+			btnSegmentEndStyle.removeActionListener(this);
+			model.updateProperties();
+			btnSegmentEndStyle.addActionListener(this);
+			return this;
+		}
+
+		@Override
+		public void addItem(String plain) {
+			// nothing to do here
+		}
+
+		@Override
+		public void clearItems() {
+			// nothing to do here
+		}
+	}
+
 	private class DecoAnglePanel extends JPanel
 			implements ActionListener, SetLabels, UpdateFonts,
 			UpdateablePropertiesPanel, IDecoAngleListener {
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		private JComboBox decoCombo;
 		private JLabel decoLabel;
@@ -3243,13 +3296,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void updateFonts() {
 			Font font = app.getPlainFont();
-
 			decoLabel.setFont(font);
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -3417,13 +3464,6 @@ class TextfieldSizePanel extends JPanel
 	@Override
 	public void updateFonts() {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -3530,11 +3570,6 @@ class TextFieldAlignmentPanel extends JPanel
 	public void clearItems() {
 		comboBox.removeAllItems();
 	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// ignore
-	}
 }
 
 /**
@@ -3639,12 +3674,6 @@ class ShowConditionPanel extends JPanel
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setText(String text) {
 		tfCondition.setText(text);
 	}
@@ -3669,17 +3698,25 @@ class ColorFunctionPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	/** color fun model */
 	ColorFunctionModel model;
-	private JTextField tfRed, tfGreen, tfBlue, tfAlpha;
+	private JTextField tfRed;
+	private JTextField tfGreen;
+	private JTextField tfBlue;
+	private JTextField tfAlpha;
 	private JButton btRemove;
-	private JLabel nameLabelR, nameLabelG, nameLabelB, nameLabelA;
+	private JLabel nameLabelR;
+	private JLabel nameLabelG;
+	private JLabel nameLabelB;
+	private JLabel nameLabelA;
 
 	private JComboBox cbColorSpace;
 	private int colorSpace = GeoElement.COLORSPACE_RGB;
 	// flag to prevent unneeded relabeling of the colorSpace comboBox
 	private boolean allowSetComboBoxLabels = true;
 
-	private String defaultR = "0", defaultG = "0", defaultB = "0",
-			defaultA = "1";
+	private String defaultR = "0";
+	private String defaultG = "0";
+	private String defaultB = "0";
+	private String defaultA = "1";
 
 	private Kernel kernel;
 	private PropertiesPanelD propPanel;
@@ -3912,12 +3949,6 @@ class ColorFunctionPanel extends JPanel
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setRedText(final String text) {
 		tfRed.setText(text);
 
@@ -3986,8 +4017,10 @@ class GraphicsViewLocationPanel extends JPanel
 
 	private ViewLocationModel model;
 
-	private JCheckBox cbGraphicsView, cbGraphicsView2, cbGraphicsView3D,
-			cbGraphicsViewForPlane;
+	private JCheckBox cbGraphicsView;
+	private JCheckBox cbGraphicsView2;
+	private JCheckBox cbGraphicsView3D;
+	private JCheckBox cbGraphicsViewForPlane;
 
 	private AppD app;
 
@@ -4081,12 +4114,6 @@ class GraphicsViewLocationPanel extends JPanel
 		cbGraphicsView2.setFont(font);
 		cbGraphicsView3D.setFont(font);
 		cbGraphicsViewForPlane.setFont(font);
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -4217,13 +4244,6 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 		tfButtonHeight.setEnabled(isFixed);
 		tfButtonWidth.setEnabled(isFixed);
 		cbUseFixedSize.addChangeListener(this);
-
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

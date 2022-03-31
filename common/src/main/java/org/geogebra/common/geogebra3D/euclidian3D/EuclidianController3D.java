@@ -539,10 +539,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return free point from cursor coords
 	 */
 	private GeoPoint3D getNewPointFree(GeoPointND point) {
-		GeoPoint3D point3D = (GeoPoint3D) kernel.getManager3D().point3D(null, 0,
+		GeoPoint3D point3D = (GeoPoint3D) kernel.getManager3D().point3D(0,
 				0, 0, false);
 		point3D.setCoords(point);
 		point3D.updateCoords();
+		point3D.setLabel(null);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		view3D.updateMatrixForCursor3D();
 		GeoCursor3D cursor = view3D.getCursor3D();
@@ -1155,9 +1156,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			slider.setIntervalMax(1);
 			slider.setAutoStep(false);
 			slider.setAnimationStep(0.01);
-			slider.setLabel(null);
 			slider.setValue(1);
-			slider.update();
+			slider.setLabel(null);
 			GeoElement polyhedron = getSelectedGeos()[0];
 			return new GeoElement[] { kernel.getManager3D().polyhedronNet(null,
 					polyhedron, slider, null, null)[0] // no bottom face, no
@@ -3515,8 +3515,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * update translation vector
 	 * 
-	 * @param moveDirection
-	 *            direction for the move
+	 * @param changeableParent
+	 *            determines direction for the move
 	 * @return true if move is possible
 	 */
     protected boolean updateTranslationVector(

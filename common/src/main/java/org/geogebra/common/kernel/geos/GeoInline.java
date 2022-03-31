@@ -171,7 +171,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getStyleXML(StringBuilder sb) {
 		getXMLfixedTag(sb);
 		getXMLvisualTags(sb);
 

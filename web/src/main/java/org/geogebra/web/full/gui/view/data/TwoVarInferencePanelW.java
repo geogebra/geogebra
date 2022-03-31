@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
 		TwoVarInferenceListener {
-	
+
 	private AppW app;
 	private DataAnalysisViewW daView;
 	private StatTableW resultTable;
@@ -55,7 +55,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	 *            analysis view
 	 */
 	public TwoVarInferencePanelW(AppW app, DataAnalysisViewW view) {
-		
 		isIniting = true;
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -80,7 +79,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lbTitle1 = new ListBox();
 		lbTitle2 = new ListBox();
 		lbTitle1.addChangeHandler(event -> actionPerformed(lbTitle1));
-		
+
 		lbTitle2.addChangeHandler(event -> actionPerformed(lbTitle2));
 		lblTitle1 = new Label();
 		lblTitle2 = new Label();
@@ -117,7 +116,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 				doTextFieldActionPerformed(fldConfLevel);
 			}
 		});
-		
+
 		fldConfLevel.addBlurHandler(event -> doTextFieldActionPerformed(fldConfLevel));
 
 		lblResultHeader = new Label();
@@ -165,10 +164,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		mainPanel.add(samplePanel);
 		// mainPanel.add(ckEqualVariances,c);
 		mainPanel.add(resultPanel);
-
-//		resultTable.getTable().setRowHeight(
-//				twoStatPanel.getTable().getRowHeight());
-
 	}
 
 	// ============================================================

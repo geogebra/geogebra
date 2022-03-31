@@ -102,15 +102,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	/**
-	 * @param cons construction
-	 */
-	public AlgoIntersectConics(Construction cons) {
-		super(cons);
-		helper = new GeoPoint(cons, true);
-		init(cons);
-	}
-
-	/**
 	 * @param cons                  construction
 	 * @param addToConstructionList whether to add to construction list
 	 */
@@ -131,8 +122,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * @param B    second conic
 	 */
 	public AlgoIntersectConics(Construction cons, GeoConic A, GeoConic B) {
-		this(cons);
-
+		this(cons, true);
 		this.A = A;
 		this.B = B;
 		isLimitedPathSituation = A.isLimitedPath() || B.isLimitedPath();
@@ -1229,13 +1219,12 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	// x^2 + f^2 * o * x + 2 * c * e * l * x - e * f * p * x
 	// + c^2 * l + f^2 * m - c * f * p = 0
 	private void fillQuarticRoots2(double[] eqn, double a, double c, double e, double f, double k,
-			double l, double m,	double o, double p) {
+			double l, double m, double o, double p) {
 		eqn[4] = a * a * l;
 		eqn[3] = 4 * l * a * e;
 		eqn[2] = 2 * l * a * c + 4 * l * e * e - 4 * a * f * p + 4 * f * f * k;
 		eqn[1] = 4 * l * c * e - 8 * f * e * p + 8 * f * f * o;
 		eqn[0] = -4 * f * c * p + l * c * c + 4 * f * f * m;
-
 	}
 
 	// in CAS

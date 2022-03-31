@@ -12,8 +12,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -37,7 +37,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	/** The AV item associated the menu with */
 	RadioTreeItem item;
 	/** On-Screen Keyboard instance to switch tabs if needed */
-	VirtualKeyboardGUI kbd;
+	KeyboardManager kbd;
 
 	/**
 	 * Creates new context menu
@@ -49,7 +49,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
-		kbd = app.getKeyboardManager().getOnScreenKeyboard();
+		kbd = app.getKeyboardManager();
 		wrappedPopup = new GPopupMenuW(app);
 
 		buildGUI();

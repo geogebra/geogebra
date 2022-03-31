@@ -256,7 +256,7 @@ public class Export3dDialog extends ComponentDialog
 	 * @param app
 	 *            app
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param view
 	 *            exported view
 	 */

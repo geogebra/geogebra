@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -49,13 +50,13 @@ public class ScriptInputDialog extends InputDialogD
 	/**
 	 * Input Dialog for a GeoButton object
 	 * 
-	 * @param app
-	 * @param title
-	 * @param button
-	 * @param cols
-	 * @param rows
-	 * @param updateScript
-	 * @param forceJavaScript
+	 * @param app application
+	 * @param title title
+	 * @param button element with script
+	 * @param cols number of columns
+	 * @param rows number of rows
+	 * @param updateScript whether it's for update script
+	 * @param forceJavaScript whether to restrict language chooser to JS
 	 */
 	public ScriptInputDialog(AppD app, String title, GeoButton button, int cols,
 			int rows, boolean updateScript, boolean forceJavaScript) {
@@ -67,9 +68,6 @@ public class ScriptInputDialog extends InputDialogD
 				DialogType.GeoGebraEditor);
 
 		// init dialog using text
-
-		JPanel centerPanel = new JPanel(new BorderLayout());
-
 		languageSelector = new JComboBox();
 		for (ScriptType type : ScriptType.values()) {
 			languageSelector.addItem(loc.getMenu(type.getName()));
@@ -86,6 +84,7 @@ public class ScriptInputDialog extends InputDialogD
 		btPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		btPanel.add(languageSelector, 0);
 
+		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);
 
 		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -99,23 +98,19 @@ public class ScriptInputDialog extends InputDialogD
 	 * Returns the inputPanel and sets its preferred size from the given row and
 	 * column value. Includes option to hide/show line numbering.
 	 * 
-	 * @param row
-	 * @param column
-	 * @param showLineNumbers
-	 * @return
+	 * @param row number of rows
+	 * @param column number of columns
+	 * @return input panel
 	 */
-	public JPanel getInputPanel(int row, int column, boolean showLineNumbers) {
-
+	public JPanel getInputPanel(int row, int column) {
 		Dimension dim = ((GeoGebraEditorPane) inputPanel.getTextComponent())
 				.getPreferredSizeFromRowColumn(row, column);
 		inputPanel.setPreferredSize(dim);
-		inputPanel.setShowLineNumbering(showLineNumbers);
+		inputPanel.setShowLineNumbering(true);
 		// add a small margin
 		inputPanel.getTextComponent()
 				.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
-
 		return inputPanel;
-
 	}
 
 	private void processInput(AsyncOperation<Boolean> callback) {
@@ -150,7 +145,7 @@ public class ScriptInputDialog extends InputDialogD
 	 * Inserts geo into text and creates the string for a dynamic text, e.g.
 	 * "Length of a = " + a + "cm"
 	 * 
-	 * @param geo
+	 * @param geo element
 	 */
 	@Override
 	public void insertGeoElement(GeoElement geo) {
@@ -212,7 +207,9 @@ public class ScriptInputDialog extends InputDialogD
 		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
 				.getTextComponent();
 		editor.getDocument().removeDocumentListener(this);
+		languageSelector.removeActionListener(this);
 		languageSelector.setSelectedIndex(type.ordinal());
+		languageSelector.addActionListener(this);
 		editor.setEditorKit(type.getXMLName());
 		editor.getDocument().addDocumentListener(this);
 	}

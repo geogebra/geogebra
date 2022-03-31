@@ -51,6 +51,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			box-shadow: none;
 		}
 
+		.optionsPanel.segmentStyle {
+			display: inline-block;
+		}
+
 		.panelRowIndent,
 		.panelRowCell,
 		.panelRow,
@@ -101,13 +105,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			margin-right: 16px;
 		}
 
-		.checkBoxPanel-disabled {
-			opacity: 0.42;
-			color: initial;
-
-			input[type="checkbox"] {
-				cursor: default;
-			}
+		.checkboxHolder {
+			display: block;
 		}
 
 		.gwt-ToggleButton {
@@ -168,7 +167,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 
 			&:disabled {
-				background-color: colors.$transparent;
+				background-color: colors.$transparent-white;
 				opacity: 0.42;
 
 				&:hover {
@@ -246,6 +245,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 		.optionsPanel, .optionsPanelIndent {
 			display: flex;
+			flex-wrap: wrap;
 
 			.optionsSlider {
 				display: flex;
@@ -546,10 +546,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			right: -500px;
 			top: 0px;
 		}
-		50% {
-			right: -250;
-			top: 0px;
-		}
 		100% {
 			right: 0px;
 			top: 0px;
@@ -597,16 +593,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 	.propertiesPanel .checkboxLbl {
 		font-size: 90%;
-		height: 18px;
+		min-height: 18px;
 		line-height: 18px;
+		margin-left: 8px;
 	}
 
 	.propertiesPanel .checkboxPanel {
 		margin-right: 30px;
-
-		&.disabled {
-			opacity: 0.42;
-		}
 
 		&.block {
 			display: block;
@@ -616,9 +609,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			}
 
 			.checkboxLbl {
-                display: inline-block;
-                vertical-align: top;
-            }
+				display: inline-block;
+				vertical-align: top;
+			}
 		}
 	}
 }

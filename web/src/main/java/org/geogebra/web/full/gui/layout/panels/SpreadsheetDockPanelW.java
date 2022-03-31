@@ -33,7 +33,7 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	 *            application
 	 */
 	public SpreadsheetDockPanelW(App appl) {
-		super(App.VIEW_SPREADSHEET,	getDefaultToolbar(), true);
+		super(App.VIEW_SPREADSHEET, getDefaultToolbar(), true);
 		app = (AppW) appl;
 	}
 

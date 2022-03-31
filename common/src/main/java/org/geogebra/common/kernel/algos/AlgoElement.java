@@ -1641,7 +1641,7 @@ public abstract class AlgoElement extends ConstructionElement
 			sb.append("\"");
 		}
 
-		if (this instanceof SetRandomValue && (getOutput(0) instanceof GeoList
+		if (this instanceof SetRandomValue && (!isGeoListImageType(getOutput(0))
 				|| getOutput(0) instanceof VarString
 				|| getOutput(0) instanceof GeoText)) {
 			sb.append(" randomResult=\"");
@@ -1650,6 +1650,16 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		sb.append("/>\n");
+	}
+
+	private boolean isGeoListImageType(GeoElement geo) {
+		if (!(geo instanceof GeoList)) {
+			return false;
+		}
+		GeoList list = (GeoList) geo;
+		return list.getElementType() == GeoClass.IMAGE
+				|| (list.getElementType() == GeoClass.LIST
+				&& list.size() > 0 && isGeoListImageType(list.get(0)));
 	}
 
 	/**

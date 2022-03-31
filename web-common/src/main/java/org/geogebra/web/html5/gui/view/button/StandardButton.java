@@ -196,6 +196,7 @@ public class StandardButton extends Widget implements HasResource {
 
 	@Override
 	public void setResource(ResourcePrototype res) {
+		icon = res;
 		btnImage.setResource(res);
 	}
 
@@ -233,5 +234,9 @@ public class StandardButton extends Widget implements HasResource {
 			handler.onClick(this);
 			e.stopPropagation();
 		});
+	}
+
+	public NoDragImage getImage() {
+		return btnImage;
 	}
 }

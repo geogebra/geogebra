@@ -14,85 +14,82 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class CASgiacB extends CASgiac {
 
-    /**
-     * Giac's context.
-     */
-    private Context context;
+	/**
+	 * Giac's context.
+	 */
+	private Context context;
 	/** result from thread */
-    protected volatile String threadResult;
+	protected volatile String threadResult;
 
 	/**
-	 * @param casParser
-	 *            parser
+	 * @param casParser parser
 	 */
-    public CASgiacB(CASparser casParser) {
-        super(casParser);
-        createContext();
-    }
+	public CASgiacB(CASparser casParser) {
+		super(casParser);
+		createContext();
+	}
 
 	/**
 	 * @return binding
 	 */
-    protected abstract CASGiacBinding createBinding();
+	protected abstract CASGiacBinding createBinding();
 
 	/**
 	 * Create context instance
 	 */
-    protected void createContext() {
-        try {
-            CASGiacBinding binding = createBinding();
-            context = binding.createContext();
-        } catch (Throwable e) {
-            Log.error("CAS not available: " + e.getMessage());
-        }
-    }
+	protected void createContext() {
+		try {
+			CASGiacBinding binding = createBinding();
+			context = binding.createContext();
+		} catch (Throwable e) {
+			Log.error("CAS not available: " + e.getMessage());
+		}
+	}
 
-    @Override
-    final public void clearResult() {
-        threadResult = null;
-    }
+	@Override
+	final public void clearResult() {
+		threadResult = null;
+	}
 
-    /**
-     * @param exp0                String to send to Giac
-     * @param timeoutMilliseconds timeout in milliseconds
-     * @return String from Giac
-     */
-    final String evalRaw(String exp0, long timeoutMilliseconds) {
-        CASGiacBinding binding = createBinding();
-        // #5439
-        // reset Giac before each call
-        init(exp0, timeoutMilliseconds);
+	/**
+	 * @param exp0 String to send to Giac
+	 * @param timeoutMilliseconds timeout in milliseconds
+	 * @return String from Giac
+	 */
+	final String evalRaw(String exp0, long timeoutMilliseconds) {
+		CASGiacBinding binding = createBinding();
+		// #5439
+		// reset Giac before each call
+		init(exp0, timeoutMilliseconds);
 
-        String exp = wrapInevalfa(exp0);
+		String exp = wrapInevalfa(exp0);
 
 		debug("giac evalRaw input: ", exp);
 
-        String cachedResult = getResultFromCache(exp);
+		String cachedResult = getResultFromCache(exp);
 
-        if (cachedResult != null && !cachedResult.isEmpty()) {
-            return cachedResult;
-        }
+		if (cachedResult != null && !cachedResult.isEmpty()) {
+			return cachedResult;
+		}
 
-        Gen g = binding.createGen("caseval(" + exp + ")", context);
-        g = g.eval(1, context);
-        String ret = g.print(context);
+		Gen g = binding.createGen("caseval(" + exp + ")", context);
+		g = g.eval(1, context);
+		String ret = g.print(context);
 
 		debug("giac evalRaw output: ", ret);
 
-        if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
-            ret = ret.substring(1, ret.length() - 1);
-        }
+		if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
+			ret = ret.substring(1, ret.length() - 1);
+		}
 
-        addResultToCache(exp, ret);
+		addResultToCache(exp, ret);
 
 		return ret;
-    }
+	}
 
 	/**
-	 * @param prefix
-	 *            debug prefix
-	 * @param giacString
-	 *            giac input / output
+	 * @param prefix debug prefix
+	 * @param giacString giac input / output
 	 */
 	protected void debug(String prefix, String giacString) {
 		Log.debug(prefix + giacString);
@@ -100,27 +97,27 @@ public abstract class CASgiacB extends CASgiac {
 	}
 
 	private void init(String exp, long timeoutMilliseconds) {
-        CASGiacBinding binding = createBinding();
-        Gen g = binding.createGen(initString, context);
-        g.eval(1, context);
+		CASGiacBinding binding = createBinding();
+		Gen g = binding.createGen(initString, context);
+		g.eval(1, context);
 
-        CustomFunctions[] init = CustomFunctions.values();
+		CustomFunctions[] init = CustomFunctions.values();
 		CustomFunctions.setDependencies();
 
-        for (int i = 0; i < init.length; i++) {
-            CustomFunctions function = init[i];
+		for (int i = 0; i < init.length; i++) {
+			CustomFunctions function = init[i];
 
-            // send only necessary init commands
+			// send only necessary init commands
 			boolean foundInInput = false;
 			/* This is very hacky here. If the input expression as string
 			 * contains an internal GeoGebra CAS command, then that command will be executed
 			 * in Giac. TODO: find a better a way.
 			 */
-            if (function.functionName == null
+			if (function.functionName == null
 					|| (foundInInput = (exp
-							.indexOf(function.functionName) > -1))) {
-                g = binding.createGen(function.definitionString, context);
-                g.eval(1, context);
+					.indexOf(function.functionName) > -1))) {
+				g = binding.createGen(function.definitionString, context);
+				g.eval(1, context);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
 					ArrayList<CustomFunctions> dependencies = CustomFunctions
@@ -131,69 +128,70 @@ public abstract class CASgiacB extends CASgiac {
 						g.eval(1, context);
 					}
 				}
-            }
-        }
+			}
+		}
 
-        g = binding.createGen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", context);
-        g.eval(1, context);
+		long timeout = timeoutMilliseconds / 1000;
+		binding.createGen("caseval(\"timeout " + timeout + "\")", context)
+				.eval(1, context);
+		binding.createGen("caseval(\"ckevery 20\")", context)
+				.eval(1, context);
 
-        // make sure we don't always get the same value!
-        int seed = rand.nextInt(Integer.MAX_VALUE);
-        g = binding.createGen("srand(" + seed + ")", context);
-        g.eval(1, context);
-    }
+		// make sure we don't always get the same value!
+		int seed = rand.nextInt(Integer.MAX_VALUE);
+		g = binding.createGen("srand(" + seed + ")", context);
+		g.eval(1, context);
+	}
 
-    @Override
-    public String evaluateCAS(String input) {
-        // don't need to replace Unicode when sending to JNI
-        String exp = casParser.replaceIndices(input, false);
+	@Override
+	public String evaluateCAS(String input) {
+		// don't need to replace Unicode when sending to JNI
+		String exp = casParser.replaceIndices(input, false);
 
-        try {
-            return evaluate(exp, timeoutMillis);
-        } catch (TimeoutException te) {
-            throw te;
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+		try {
+			return evaluate(exp, timeoutMillis);
+		} catch (TimeoutException te) {
+			throw te;
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    protected String evaluate(final String exp, final long timeoutMillis0)
-            throws Throwable {
-        Runnable evalFunction = new Runnable() {
-            @Override
-            public void run() {
-                threadResult = evalRaw(exp, timeoutMillis0);
-            }
-        };
+	@Override
+	protected String evaluate(final String exp, final long timeoutMillis0)
+			throws Throwable {
+		Runnable evalFunction = new Runnable() {
+			@Override
+			public void run() {
+				threadResult = evalRaw(exp, timeoutMillis0);
+			}
+		};
 
-        threadResult = null;
+		threadResult = null;
 
-        callEvaluateFunction(evalFunction);
+		callEvaluateFunction(evalFunction);
 
-        String ret = postProcess(threadResult);
+		String ret = postProcess(threadResult);
 
-        // Log.debug("giac output: " + ret);
-        if (ret.contains("user interruption")) {
-            Log.debug("Standard timeout from Giac");
-            throw new TimeoutException("Standard timeout from Giac");
-        }
+		// Log.debug("giac output: " + ret);
+		if (ret.contains("user interruption")) {
+			Log.debug("Standard timeout from Giac");
+			throw new TimeoutException("Standard timeout from Giac");
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
 	/**
-	 * @param evaluateFunction
-	 *            function
-	 * @throws Throwable
-	 *             exception
+	 * @param evaluateFunction function
+	 * @throws Throwable exception
 	 */
-    protected abstract void callEvaluateFunction(Runnable evaluateFunction) throws Throwable;
+	protected abstract void callEvaluateFunction(Runnable evaluateFunction) throws Throwable;
 
 	@Override
 	public boolean externalCAS() {
-        return true;
-    }
+		return true;
+	}
 }

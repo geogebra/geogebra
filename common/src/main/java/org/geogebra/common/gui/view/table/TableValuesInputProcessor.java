@@ -1,0 +1,72 @@
+package org.geogebra.common.gui.view.table;
+
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoText;
+
+public class TableValuesInputProcessor implements TableValuesProcessor {
+
+	private final Construction cons;
+	private final TableValuesView tableValues;
+	private final TableValuesModel model;
+
+	/**
+	 * Creates a TableValuesInputProcessor
+	 * @param cons construction
+	 * @param tableValues Table Values view
+	 */
+	public TableValuesInputProcessor(Construction cons, TableValuesView tableValues) {
+		this.cons = cons;
+		this.tableValues = tableValues;
+		model = tableValues.getTableValuesModel();
+	}
+
+	@Override
+	public void processInput(@Nonnull String input, GeoList list, int rowIndex) {
+		GeoElement element = parseInput(input);
+		if (model.isEmptyValue(element) && (list == null || rowIndex >= list.size())) {
+			// Do not process empty input at the end of the table
+			// And do not add empty element to an already empty list
+			return;
+		}
+		tableValues.set(element, ensureList(list), rowIndex);
+		if (list != null) {
+			tableValues.updateValuesNoBatch(list);
+		}
+	}
+
+	private GeoList ensureList(GeoList list) {
+		if (list != null) {
+			ensureXColumnLabel(list);
+			return list;
+		}
+		GeoList column = new GeoList(cons);
+		column.setAuxiliaryObject(true);
+		column.notifyAdd();
+		tableValues.doShowColumn(column);
+		return column;
+	}
+
+	private void ensureXColumnLabel(GeoList list) {
+		if (tableValues.getValues() == list && !list.isLabelSet()) {
+			list.setAuxiliaryObject(true);
+			list.setLabel(cons.buildIndexedLabel("x", false));
+		}
+	}
+
+	private GeoElement parseInput(String input) {
+		String trimmedInput = input.trim();
+		if (trimmedInput.equals("")) {
+			return model.createEmptyValue();
+		}
+		try {
+			double parsedInput = Double.parseDouble(trimmedInput);
+			return model.createValue(parsedInput);
+		} catch (NumberFormatException e) {
+			return new GeoText(cons, input);
+		}
+	}
+}

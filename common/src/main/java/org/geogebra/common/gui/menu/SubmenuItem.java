@@ -11,4 +11,12 @@ public interface SubmenuItem extends MenuItem {
 	 * @return group
 	 */
 	MenuItemGroup getGroup();
+
+	/**
+	 * Text shown at the bottom of panel
+	 * (e.g. version number in case of Help and Feedback submenu)
+	 *
+	 * @return bottom text
+	 */
+	String getBottomText();
 }

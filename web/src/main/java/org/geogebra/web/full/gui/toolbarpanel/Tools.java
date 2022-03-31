@@ -7,6 +7,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -217,9 +219,12 @@ public class Tools extends FlowPanel implements SetLabels {
 			final ToolButton btn = new ToolButton(mode, getApp());
 			AriaHelper.hide(btn);
 			btn.addFastClickHandler(source -> {
-				getApp().setMode(mode);
+				App app = getApp();
+				app.setMode(mode);
 				showTooltip(mode);
-				getApp().updateDynamicStyleBars();
+				app.updateDynamicStyleBars();
+				Analytics.logEvent(Analytics.Event.TOOL_SELECTED, Analytics.Param.TOOL_NAME,
+						app.getInternalToolName(mode));
 			});
 			return btn;
 		}

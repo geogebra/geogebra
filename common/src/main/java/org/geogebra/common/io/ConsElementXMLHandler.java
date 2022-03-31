@@ -35,12 +35,10 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
-import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -51,6 +49,7 @@ import org.geogebra.common.kernel.geos.GeoMindMapNode.NodeAlignment;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -61,6 +60,7 @@ import org.geogebra.common.kernel.geos.HasVerticalAlignment;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
+import org.geogebra.common.kernel.geos.SegmentStyle;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
@@ -81,6 +81,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.JsReference;
@@ -247,7 +248,7 @@ public class ConsElementXMLHandler {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
 		String angle = attrs.get("angle");
-		String unscaled = attrs.get("unscaled");
+		boolean unscaled = attrs.get("unscaled") != null;
 		if (width != null && height != null) {
 
 			double widthD = -1;
@@ -256,7 +257,9 @@ public class ConsElementXMLHandler {
 			try {
 				widthD = StringUtil.parseDouble(width);
 				heightD = StringUtil.parseDouble(height);
-				angleD = StringUtil.parseDouble(angle);
+				if (angle != null) {
+					angleD = StringUtil.parseDouble(angle);
+				}
 			} catch (Exception e) {
 				Log.warn(e.getMessage());
 			}
@@ -269,28 +272,23 @@ public class ConsElementXMLHandler {
 				button.setFixedSize(true);
 				return true;
 			} else if (geo instanceof RectangleTransformable) {
-				if (angle == null) {
+				if (angle == null && geo instanceof GeoEmbed) {
 					// we have an old GeoEmbed
 					((GeoEmbed) geo).setContentWidth(widthD);
 					((GeoEmbed) geo).setContentHeight(heightD);
 				} else {
 					((RectangleTransformable) geo).setAngle(angleD);
-					if (geo instanceof GeoInlineText || geo instanceof GeoFormula
-							|| geo instanceof GeoInlineTable) {
-						if (unscaled != null) {
-							((GeoInline) geo).setSizeOnly(widthD * geo.getKernel().getApplication()
-											.getActiveEuclidianView().getSettings().getXscale(),
-									heightD * geo.getKernel().getApplication()
-											.getActiveEuclidianView().getSettings().getYscale());
-						} else {
-							((GeoInline) geo).setSizeOnly(widthD, heightD);
-						}
+					EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
+					double pixelWidth = unscaled ? widthD * settings.getXscale() : widthD;
+					double pixelHeight = unscaled ? heightD * settings.getYscale() : heightD;
+					if (geo instanceof GeoInline) {
+						((GeoInline) geo).setSizeOnly(pixelWidth, pixelHeight);
 						if (((GeoInline) geo).isZoomingEnabled()) {
 							((GeoInline) geo).setContentWidth(widthD);
 							((GeoInline) geo).setContentHeight(heightD);
 						}
 					} else {
-						((RectangleTransformable) geo).setSize(widthD, heightD);
+						((RectangleTransformable) geo).setSize(pixelWidth, pixelHeight);
 					}
 				}
 			}
@@ -441,7 +439,8 @@ public class ConsElementXMLHandler {
 		lineStyleTagProcessed = false;
 		geo = getGeoElement(attrs);
 		if (needsConstructionDefaults) {
-			geo.setConstructionDefaults();
+			// don't set auxiliary prop here, it will be loaded from XML
+			geo.setConstructionDefaults(true, false);
 		}
 		geo.setLineOpacity(255);
 		if (geo instanceof VectorNDValue) {
@@ -595,6 +594,8 @@ public class ConsElementXMLHandler {
 			// replacement
 			if (MyXMLHandler.parseBoolean(attrs.get("playing"))) {
 				animatingList.add(geo);
+			} else {
+				geo.setAnimating(false); // evalXML should act on existing objects
 			}
 
 			return true;
@@ -606,15 +607,6 @@ public class ConsElementXMLHandler {
 	private boolean handleFixed(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setFixed(MyXMLHandler.parseBoolean(attrs.get("val")));
-			return true;
-		} catch (RuntimeException e) {
-			return false;
-		}
-	}
-
-	private boolean handleIsShape(LinkedHashMap<String, String> attrs) {
-		try {
-			geo.setIsShape(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1057,6 +1049,36 @@ public class ConsElementXMLHandler {
 			LimitedPath lpath = (LimitedPath) geo;
 			lpath.setKeepTypeOnGeometricTransform(
 					MyXMLHandler.parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleSegmentStartStyle(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSegment)) {
+			Log.debug("wrong element type for segment style: "
+					+ geo.getGeoClassType());
+			return false;
+		}
+
+		try {
+			((GeoSegment) geo).setStartStyle(SegmentStyle.fromString(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleSegmentEndStyle(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSegment)) {
+			Log.debug("wrong element type for segment style: "
+					+ geo.getGeoClassType());
+			return false;
+		}
+
+		try {
+			((GeoSegment) geo).setEndStyle(SegmentStyle.fromString(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1935,12 +1957,14 @@ public class ConsElementXMLHandler {
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
-					StringUtil.parseDouble(attrs.get("y0")),
-					StringUtil.parseDouble(attrs.get("z0")),
-					StringUtil.parseDouble(attrs.get("x1")),
-					StringUtil.parseDouble(attrs.get("y1")),
-					StringUtil.parseDouble(attrs.get("z1")));
+			if (conic.isIndependent()) {
+				conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+						StringUtil.parseDouble(attrs.get("y0")),
+						StringUtil.parseDouble(attrs.get("z0")),
+						StringUtil.parseDouble(attrs.get("x1")),
+						StringUtil.parseDouble(attrs.get("y1")),
+						StringUtil.parseDouble(attrs.get("z1")));
+			}
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -2007,9 +2031,13 @@ public class ConsElementXMLHandler {
 
 	private boolean handleShow(LinkedHashMap<String, String> attrs) {
 		try {
-			geo.setEuclidianVisible(
-					MyXMLHandler.parseBoolean(attrs.get("object")));
-			geo.setLabelVisible(MyXMLHandler.parseBoolean(attrs.get("label")));
+			if (isUndefinedGeoNumber()) {
+				geo.setEuclidianVisible(false);
+			} else {
+				geo.setEuclidianVisible(
+						MyXMLHandler.parseBoolean(attrs.get("object")));
+				geo.setLabelVisible(MyXMLHandler.parseBoolean(attrs.get("label")));
+			}
 
 			// bit 0 -> display object in EV1, 0 = true (default)
 			// bit 1 -> display object in EV2, 0 = false (default)
@@ -2057,6 +2085,15 @@ public class ConsElementXMLHandler {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private boolean isUndefinedGeoNumber() {
+		if (!geo.isGeoNumeric()) {
+			return false;
+		}
+
+		GeoNumeric numeric = (GeoNumeric) this.geo;
+		return Double.isNaN(numeric.value);
 	}
 
 	private boolean handleShowOnAxis(LinkedHashMap<String, String> attrs) {
@@ -2196,6 +2233,9 @@ public class ConsElementXMLHandler {
 			case "embedSettings":
 				handleEmbedSettings(attrs);
 				break;
+			case "endStyle":
+				handleSegmentEndStyle(attrs);
+				break;
 			case "fixed":
 				handleFixed(attrs);
 				break;
@@ -2227,7 +2267,7 @@ public class ConsElementXMLHandler {
 				handleIsMask(attrs);
 				break;
 			case "isShape":
-				handleIsShape(attrs);
+				// don't print error, skip silently
 				break;
 			case "centered":
 				handleCentered(attrs);
@@ -2312,6 +2352,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "spreadsheetTrace":
 				handleSpreadsheetTrace(attrs);
+				break;
+			case "startStyle":
+				handleSegmentStartStyle(attrs);
 				break;
 			case "showTrimmed":
 				handleShowTrimmed(attrs);

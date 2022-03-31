@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.BarList;
@@ -29,7 +28,6 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -63,7 +61,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private ArrayList<String> iconNameList;
 
 	ListBox lbFillType;
-	CheckBox cbFillInverse;
+	ComponentCheckbox cbFillInverse;
 	private FlowPanel fillTypePanel;
 	private Label fillTypeTitle;
 	private FlowPanel btnPanel;
@@ -142,12 +140,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillTypePanel.add(fillTypeTitle);
 		fillTypePanel.add(lbFillType);
 
-		cbFillInverse = new CheckBox();
+		cbFillInverse = new ComponentCheckbox(app.getLocalization(), false, "InverseFilling",
+				() -> model.applyFillingInverse(cbFillInverse.isSelected()));
 		fillTypePanel.add(cbFillInverse);
 		lbFillType.addChangeHandler(event -> model.applyFillType(lbFillType.getSelectedIndex()));
-
-		cbFillInverse.addClickHandler(event ->
-				model.applyFillingInverse(cbFillInverse.getValue()));
 
 		FlowPanel panel = new FlowPanel();
 		panel.add(fillTypePanel);
@@ -244,8 +240,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		opacitySlider.addChangeHandler(event -> model.applyOpacity(opacitySlider.getValue()));
 
-		ChangeHandler angleAndDistanceHandler =	event -> model.applyAngleAndDistance(
-				angleSlider.getValue(),	distanceSlider.getValue());
+		ChangeHandler angleAndDistanceHandler = event -> model.applyAngleAndDistance(
+				angleSlider.getValue(), distanceSlider.getValue());
 
 		angleSlider.addChangeHandler(angleAndDistanceHandler);
 		distanceSlider.addChangeHandler(angleAndDistanceHandler);
@@ -282,10 +278,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	public void applyImage(String fileName0, String fileData) {
 		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
 
-		Construction cons = app.getKernel().getConstruction();
 		app.getImageManager().addExternalImage(fileName, fileData);
-		GeoImage geoImage = new GeoImage(cons);
-		app.getImageManager().triggerSingleImageLoading(fileName, geoImage);
+		app.getImageManager().triggerSingleImageLoading(fileName, app.getKernel());
 		model.applyImage(fileName);
 	}
 
@@ -480,7 +474,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		fillTypeTitle.setText(loc.getMenu("Filling") + ":");
-		cbFillInverse.setText(loc.getMenu("InverseFilling"));
+		cbFillInverse.setLabels();
 		int idx = lbFillType.getSelectedIndex();
 		lbFillType.clear();
 		model.fillModes(loc);
@@ -575,13 +569,12 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	@Override
 	public void setFillInverseSelected(boolean value) {
-		cbFillInverse.setValue(value);
+		cbFillInverse.setSelected(value);
 	}
 
 	@Override
 	public void clearItems() {
-		// TODO Auto-generated method stub
-
+		// nothing to do here
 	}
 
 	@Override

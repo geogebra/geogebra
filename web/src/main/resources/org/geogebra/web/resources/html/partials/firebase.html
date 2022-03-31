@@ -1,21 +1,2 @@
-<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-analytics.js"></script>
-
-<script>
-var firebaseConfig = {
-    apiKey: "AIzaSyDg3hfaFLUKQDJCRRrTnTIshxxgyAUzPuU",
-    authDomain: "geogebra-ggb.firebaseapp.com",
-    databaseURL: "https://geogebra-ggb.firebaseio.com",
-    projectId: "geogebra-ggb",
-    storageBucket: "geogebra-ggb.appspot.com",
-    messagingSenderId: "895270214636",
-    appId: "<!--FIREBASE APP ID-->",
-    measurementId: "<!--MEASUREMENT ID-->"
-};
-
-// Initialize Firebase
-if (window.firebase) {
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
-}
-</script>
+<script src="https://www.geogebra.org/apps/beta/firebase/analytics.js" id="fbase"
+        data-appId="<!--FIREBASE APP ID-->" data-measurementId="<!--MEASUREMENT ID-->" async></script>

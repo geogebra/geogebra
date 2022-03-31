@@ -22,7 +22,7 @@ public class LogoAndName implements IsWidget, SetLabels {
 	/**
 	 * @param app application
 	 */
-	public LogoAndName(App	app) {
+	public LogoAndName(App app) {
 		this.app = app;
 		name = new Label();
 		NoDragImage icon = new NoDragImage(((AppWFull) app).getActivity().getIcon(),

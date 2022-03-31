@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -74,8 +73,6 @@ public class FunctionNVar extends ValidExpression
 	private String casEvalStringSymbolic;
 
 	private boolean forceInequality;
-
-	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
 	private final static class RandomCheck implements Inspecting {
 		protected RandomCheck() {
@@ -392,12 +389,7 @@ public class FunctionNVar extends ValidExpression
 		FunctionVariable[] xyzVars = getXYZVars(fVars);
 
 		// try to replace x(x+1) by x*(x+1)
-		undecided.clear();
-		expression.replaceXYZnodes(xyzVars[0], xyzVars[1], xyzVars[2], undecided);
-		for (ExpressionNode en : undecided) {
-			en.setOperation(Operation.MULTIPLY);
-		}
-		undecided.clear();
+		expression.replaceXYZnodes(xyzVars[0], xyzVars[1], xyzVars[2]);
 	}
 
 	/**
@@ -1108,7 +1100,7 @@ public class FunctionNVar extends ValidExpression
 		// right tree
 		if (right == fVars[varNo]) {
 			// is there a constant number to the left?
-			if (left instanceof MyDouble && left.isConstant()) { 				
+			if (left instanceof MyDouble && left.isConstant()) {
 				MyDouble num = (MyDouble) left;
 				double temp;
 				switch (en.getOperation()) {
@@ -1131,7 +1123,6 @@ public class FunctionNVar extends ValidExpression
 		} else {
 			dilateExpressionX(right, vx, varNo);
 		}
-
 	}
 
 	private void dilateExpressionX(ExpressionValue right, double vx,

@@ -25,6 +25,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -57,7 +58,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	 * @param app
 	 *            The application.
 	 * @param listener
-	 * 			  listener for the MathField
+	 *            listener for the MathField
 	 */
 	public MathFieldEditor(App app, MathFieldListener listener) {
 		this(app);
@@ -86,6 +87,9 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 				canvas, listener, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setOnBlur(this);
+		updatePixelRatio();
+		app.addWindowResizeListener(this::updatePixelRatio);
+
 		getMathField().setBackgroundColor("rgba(255,255,255,0)");
 		app.getGlobalHandlers().addEventListener(mathField.asWidget().getElement(),
 				"pointerdown", (evt) -> {
@@ -95,6 +99,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();
+	}
+
+	private void updatePixelRatio() {
+		mathField.setPixelRatio(app.getPixelRatio());
 	}
 
 	private void initEventHandlers() {
@@ -119,7 +127,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 	/**
 	 * Called when editor was clicked.
 	 */
-	private void editorClicked() {
+	public void editorClicked() {
 		if (editable) {
 			preventBlur = true;
 		}
@@ -351,5 +359,17 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		mathField.getInternal().setFieldListener(null);
 		mathField.getInternal().setSyntaxAdapter(null);
 		mathField.setExpressionReader(null);
+	}
+
+	public void setRightMargin(int rightMargin) {
+		mathField.setRightMargin(rightMargin);
+	}
+
+	public void adjustCaret(double x, double y) {
+		mathField.adjustCaret((int) x, (int) y);
+	}
+
+	public void setUnhandledArrowListener(UnhandledArrowListener listener) {
+		mathField.getInternal().setUnhandledArrowListener(listener);
 	}
 }

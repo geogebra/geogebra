@@ -33,7 +33,7 @@ public class ExportImageDialog extends ComponentDialog {
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param base64Image
 	 *            optional image
 	 */

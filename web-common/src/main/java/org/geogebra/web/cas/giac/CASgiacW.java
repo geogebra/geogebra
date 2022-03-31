@@ -7,12 +7,12 @@ import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.GiacNative;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -126,14 +126,12 @@ public class CASgiacW extends CASgiac {
 			}
 		}
 
-		// timeout doesn't work for giac.js / webassembly so use 999
-		// @solve(((x^2*((-2*sqrt(10))-6))+(((x*(3*sqrt(10)+9))-6*sqrt(10)-18)*sqrt((x^2*(-2*sqrt(10)-6))+(x*(8*sqrt(10)+24))-(2*sqrt(10))-5))+(x*(8*sqrt(10)+24))-2*sqrt(10)-5)/((x^2*(-12*sqrt(10)-38))+(x*(48*sqrt(10)+152))-11*sqrt(10)-35))
-		String timeoutCommand = "timeout "
-				+ (externalCAS ? "" + (timeoutMilliseconds / 1000)
-						: "999");
+		long timeout = timeoutMilliseconds / 1000;
+		String timeoutCommand = "caseval(\"timeout " + timeout + "\")";
 
 		// Giac's default is 15s unless specified
 		evaluateRaw(timeoutCommand, externalCAS);
+		evaluateRaw("caseval(\"ckevery 20\")", externalCAS);
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);

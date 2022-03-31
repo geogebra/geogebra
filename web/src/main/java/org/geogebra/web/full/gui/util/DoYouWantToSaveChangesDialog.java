@@ -106,8 +106,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	/**
 	 * Sets material type to be saved.
 	 *
-	 * @param saveType
-	 *			for the dialog.
+	 * @param saveType for the dialog.
 	 */
 	@Override
 	public void setSaveType(Material.MaterialType saveType) {

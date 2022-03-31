@@ -23,61 +23,45 @@ import com.sun.net.httpserver.HttpServer;
 public class GeoGebraServer {
 
 	App app;
-	GgbAPI api;
-	String secret;
 
-	public GeoGebraServer(String secret) {
+	public GeoGebraServer() {
 		this.app = new AppDNoGui(new LocalizationD(3), false);
-		api = app.getGgbApi();
-		this.secret = secret;
 	}
 
+	/**
+	 * Starts the server on port 8000
+	 */
 	public void start() {
 		HttpServer server;
 		try {
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
-			server.createContext("/v0.1/json", new MyHandlerJSON());
+			// server.createContext("/v0.1/json", new MyHandlerJSON()); TODO decide if we want this
+			server.createContext("/v0.1/steps", new StepsHandlerJSON(app.getKernel().getParser()));
 			server.start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug("Problem on server startup " + e);
 		}
 	}
 
 	class MyHandlerJSON implements HttpHandler {
 		@Override
 		public void handle(HttpExchange t) throws IOException {
-
 			app.reset();
+			GgbAPI api = app.getGgbApi();
 			api.setRounding("10");
-
-			boolean testing = false;
-
 			String inputJSON = null;
 			String result;
 			try {
 				inputJSON = HttpRequestD.readOutput(t.getRequestBody());
-
-				
-				
 				if (inputJSON == null) {
 					// ? syntax eg
 					// http://localhost:8000/test?123=456
 					inputJSON = t.getRequestURI().getQuery();
-					testing = true;
 				}
 
 				Log.error(inputJSON);
 				JSONObject topLevel = new JSONObject(inputJSON);
-				if (secret != null) {
-					Log.debug("secret = " + topLevel.get("secret"));
 
-					if (!secret.equals(topLevel.get("secret"))) {
-						writeError(t, "Wrong secret", testing);
-						return;
-					}
-
-				}
 				JSONArray json = topLevel.getJSONArray("commands");
 				int i = 0;
 				JSONArray results = new JSONArray();
@@ -89,9 +73,6 @@ public class GeoGebraServer {
 						continue;
 					}
 					JSONObject test = (JSONObject) testVal;
-
-
-					
 					String cmd = test.get("cmd").toString();
 					String args = test.get("args").toString();
 					Log.debug("cmd = " + cmd);
@@ -134,31 +115,32 @@ public class GeoGebraServer {
 
 				e.printStackTrace();
 				Log.debug(inputJSON);
-				writeError(t, e.getMessage(), testing);
+				writeError(t, e.getMessage());
 				return;
 			}
 
 			// StringBuilder result = new StringBuilder("[");
 
-			writeOutput(t, result.toString(), testing);
+			writeOutput(t, result);
 			
 		}
 	}
 
-	private void writeOutput(HttpExchange t, String message, boolean testing) {
+	/**
+	 * @param httpExchange exchange
+	 * @param responseBody response body
+	 */
+	public static void writeOutput(HttpExchange httpExchange, String responseBody) {
 		String encoding = "UTF-8";
 		try {
-			if (!testing) {
-				t.getResponseHeaders().set("Content-type",
-						"applcation/json; charset=" + encoding);
-			}
+			httpExchange.getResponseHeaders().set("Content-type",
+						"application/json; charset=" + encoding);
 
 			// http://stackoverflow.com/questions/6828076/how-to-correctly-compute-the-length-of-a-string-in-java
-			t.sendResponseHeaders(200, message.getBytes(encoding).length);
+			httpExchange.sendResponseHeaders(200, responseBody.getBytes(encoding).length);
 
-			Writer out = new OutputStreamWriter(t.getResponseBody(), encoding);
-			Log.debug("message = " + message);
-			out.write(message);
+			Writer out = new OutputStreamWriter(httpExchange.getResponseBody(), encoding);
+			out.write(responseBody);
 			out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -166,18 +148,19 @@ public class GeoGebraServer {
 		}
 	}
 
-	public void writeError(HttpExchange t, String message, boolean testing) {
+	/**
+	 * @param httpExchange exchange
+	 * @param message error message
+	 */
+	public static void writeError(HttpExchange httpExchange, String message) {
 		JSONObject error = new JSONObject();
 		try {
 			error.put("error", message + "");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.debug("error = " + error);
-
-		writeOutput(t, error.toString(), testing);
-
+		Log.error("error = " + error);
+		writeOutput(httpExchange, error.toString());
 	}
 
 }

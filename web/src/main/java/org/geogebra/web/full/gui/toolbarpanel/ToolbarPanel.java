@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import java.util.function.Supplier;
+
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
@@ -25,6 +27,7 @@ import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
+import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -53,6 +56,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.EventListener;
 
 /**
@@ -294,7 +298,6 @@ public class ToolbarPanel extends FlowPanel
 		heading.setStyleName("toolPanelHeading");
 		add(heading);
 		add(main);
-		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
@@ -338,7 +341,7 @@ public class ToolbarPanel extends FlowPanel
 			if (undoRedoPanel != null) {
 				undoRedoPanel.addStyleName("withTransition");
 			}
-			dockParent.setWidgetSize(getToolbarDockPanel(),	targetSize);
+			dockParent.setWidgetSize(getToolbarDockPanel(), targetSize);
 			dockParent.animate(OPEN_ANIM_TIME, fullscreenClose(dockParent));
 		}
 	}
@@ -901,9 +904,11 @@ public class ToolbarPanel extends FlowPanel
 
 		switchTab(TabIds.TABLE, fade);
 		setMoveMode();
-		if (tabTable != null) {
-			tabTable.scrollTo(geo);
-		}
+		// remove the scrolling for now
+		//if (tabTable != null) {
+			//tabTable.scrollTo(geo);
+		//}
+
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
 	}
 
@@ -1033,12 +1038,18 @@ public class ToolbarPanel extends FlowPanel
 	/**
 	 * @return keyboard listener of AV.
 	 */
-	public MathKeyboardListener getKeyboardListener() {
-		if (tabAlgebra == null
-				|| app.getInputPosition() != InputPosition.algebraView) {
-			return null;
+	public MathKeyboardListener getKeyboardListener(Supplier<MathKeyboardListener> fallback) {
+		if (isAlgebraViewActive()) {
+			if (tabAlgebra == null
+					|| app.getInputPosition() != InputPosition.algebraView) {
+				return null;
+			}
+			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 		}
-		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
+			return tabTable.getKeyboardListener();
+		}
+		return fallback.get();
 	}
 
 	/**
@@ -1365,6 +1376,26 @@ public class ToolbarPanel extends FlowPanel
 			tabTools.removeFromParent();
 		}
 		tabTools = null;
+	}
+
+	/**
+	 * Paint this on canvas
+	 * @param context2d context
+	 * @param callback after painting is done
+	 * @param left distance from left canvas edge
+	 * @param top distance from top canvas edge
+	 */
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		navRail.paintToCanvas(context2d, left, top);
+		// if tool tabs is active, still paint algebra
+		ToolbarTab active = tabTable != null && tabTable.isActive() ? tabTable : tabAlgebra;
+		active.getElement().addClassName("ggbScreenshot");
+		Domvas.get().toImage(active.getElement(), (image) -> {
+			context2d.drawImage(image, left + 72, top);
+			active.getElement().removeClassName("ggbScreenshot");
+			callback.run();
+		});
 	}
 
 	/**

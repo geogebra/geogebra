@@ -94,7 +94,7 @@ class ScriptEditPanel extends OptionPanel {
 		}
 
 		// select tab as before
-		tabbedPane.selectTab(Math.max(0,	idx));
+		tabbedPane.selectTab(Math.max(0, idx));
 		return this;
 	}
 

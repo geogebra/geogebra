@@ -17,9 +17,9 @@ public class WebcamPermissionDialog extends ComponentDialog {
 	 * @param app
 	 *            application
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog transkeys
 	 * @param msgTranskey
-	 * 			  message displayed in the dialog
+	 *            message displayed in the dialog
 	 */
 	public WebcamPermissionDialog(AppW app, DialogData data,
 			String msgTranskey) {

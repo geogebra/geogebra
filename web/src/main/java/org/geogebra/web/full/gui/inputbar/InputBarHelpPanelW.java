@@ -475,7 +475,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		// sb.append("<table>");
 		
 		for (int i = 0; i < f.length; i++) {
-			HorizontalPanel widget = new HorizontalPanel();	
+			HorizontalPanel widget = new HorizontalPanel();
 			for (int j = 0; j < f[i].length; j++) {
 				Label syntax = syntaxLabel(f[i][j]);
 				widget.add(syntax);

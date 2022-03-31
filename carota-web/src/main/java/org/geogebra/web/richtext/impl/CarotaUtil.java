@@ -1,6 +1,6 @@
 package org.geogebra.web.richtext.impl;
 
-import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.murok.editor.MurokResources;
 
 /**

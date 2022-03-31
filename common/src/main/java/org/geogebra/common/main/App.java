@@ -1118,9 +1118,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Converts english command name to internal command key.
 	 *
 	 * @param englishName
-	 * 				the english command name.
+	 *             the english command name.
 	 * @return the internal key of the command
-	 *
 	 */
 	public String englishToInternal(String englishName)  {
 		initTranslatedCommands();
@@ -1282,9 +1281,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			geos2.addAll(selection.getSelectedGeos());
 			for (GeoElement geo : geos2) {
 				if (filter.test(geo)) {
-					boolean removePredecessors = isCut || geo.isShape();
 					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (removePredecessors && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo.getParentAlgorithm().input) {
 							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
@@ -2817,6 +2815,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			String modeText = EuclidianConstants.getModeTextSimple(mode);
 			return getLocalization().getMenu(modeText + ".Help");
 		}
+	}
+
+	/**
+	 * Returns the internal name for the given tool.
+	 * @param mode number
+	 * @return the tool help text for the given tool.
+	 */
+	public String getInternalToolName(int mode) {
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolName();
+		} else {
+			return EuclidianConstants.getModeText(mode);
+		}
+
 	}
 
 	/**
@@ -4365,11 +4378,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void batchUpdateStart() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(true);
 	}
 
 	public void batchUpdateEnd() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(false);
 	}
 
 	/**
@@ -4652,11 +4665,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * set export will be done on next 3D frame
 	 *
-	 * @param format
-	 *            export format
+	 * @param format - export format
 	 */
 	public void setExport3D(Format format) {
-		companion.setExport3D(format);
+		companion.setExport3D(format, true);
+	}
+
+	/**
+	 * export directly
+	 * @param format - export format
+	 */
+	public void setDirectExport3D(Format format) {
+		companion.setExport3D(format, false);
 	}
 
 	public boolean isPortrait() {
@@ -4759,13 +4779,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 *
-	 * @param ext
-	 *            extension
-	 * @param content
-	 *            contents of file
-	 *
+	 * @param ext - extension
+	 * @param content - contents of file
+	 * @param showDialog - whether should show dialog
 	 */
-	public void exportStringToFile(String ext, String content) {
+	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		// needs to be implemented in subclasses
 	}
 

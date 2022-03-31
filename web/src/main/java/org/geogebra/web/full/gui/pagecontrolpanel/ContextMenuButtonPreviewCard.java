@@ -12,7 +12,11 @@ import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.shared.components.dialog.DialogData;
+
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Response;
 
 /**
  * Context Menu of Page Preview Cards
@@ -100,16 +104,24 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	 */
 	private void onPaste() {
 		hide();
-		app.dispatchEvent(new Event(EventType.PASTE_SLIDE)
-				.setJsonArgument(getPasteJson()));
-		frame.getPageControlPanel().pastePage(card,
-				BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE));
+		String url = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
+		DomGlobal.fetch(url).then(Response::text).then(text -> {
+			app.dispatchEvent(new Event(EventType.PASTE_SLIDE)
+					.setJsonArgument(getPasteJson(text)));
+			frame.getPageControlPanel().pastePage(card, text);
+			return null;
+		}).catch_(err -> {
+			// paste data from previous session -> delete
+			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
+			paste.setEnabled(false);
+			return null;
+		});
 	}
 
-	protected Map<String, Object> getPasteJson() {
+	protected Map<String, Object> getPasteJson(String content) {
 		Map<String, Object> pasteJson = new HashMap<>();
 		pasteJson.put("cardIdx", card.getPageIndex());
-		pasteJson.put("ggbFile", BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE));
+		pasteJson.put("ggbFile", content);
 
 		return pasteJson;
 	}
@@ -117,8 +129,8 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	private void onCopy() {
 		hide();
 		frame.getPageControlPanel().saveSlide(card);
-		BrowserStorage.LOCAL.setItem(BrowserStorage.COPY_SLIDE,
-				app.getGgbApi().toJson(card.getFile()));
+		String blob = CopyPasteW.asBlobURL(app.getGgbApi().toJson(card.getFile()));
+		BrowserStorage.LOCAL.setItem(BrowserStorage.COPY_SLIDE, blob);
 	}
 
 	@Override

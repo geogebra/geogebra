@@ -2292,7 +2292,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            vector to add
 	 * @return
 	 * 
-	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
+	 * deprecated: create vector and use {@link #setAdd(Coords, Coords)}
 	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
 
@@ -2340,7 +2340,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            vector in smaller dim than this
 	 * @return
 	 * 
-	 * 		deprecated create vector and use {@link #setAdd(Coords, Coords)}
+	 * deprecated: create vector and use {@link #setAdd(Coords, Coords)}
 	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
 
@@ -2402,7 +2402,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            val0
 	 * @return
 	 * 
-	 * 		deprecated create vector and use {@link #setMul(Coords, double)}
+	 * deprecated: create vector and use {@link #setMul(Coords, double)}
 	 *         instead
 	 */
 
@@ -2563,7 +2563,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * 
 	 * @return
 	 * 
-	 * 		deprecated create 3 rows vector and use
+	 * deprecated: create 3 rows vector and use
 	 *         {@link #setCoordsIn2DView(Coords)} instead
 	 */
 

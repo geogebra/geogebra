@@ -66,16 +66,16 @@ import org.geogebra.common.util.DoubleUtil;
  * <p>
  * <code>
                 public void drawGeometry(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-            	       // call the geometry to be drawn <br>
-            	}
-            	<br>
-            	public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-            	       // for hidden part, let it empty first <br>
-            	}
-            	<br>
-            	public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-            	       // to show the object is picked, let it empty first <br>
-            	}
+                       // call the geometry to be drawn <br>
+                }
+                <br>
+                public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+                       // for hidden part, let it empty first <br>
+                }
+                <br>
+                public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+                       // to show the object is picked, let it empty first <br>
+                }
               </code></li>
  * <li>for {@link Drawable3DSurfaces} :
  * <p>
@@ -84,20 +84,20 @@ import org.geogebra.common.util.DoubleUtil;
                     // call the geometry to be drawn <br>
             }
             <br>
-	        void drawGeometryHiding(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-	           // call the geometry that hides other objects <br>&nbsp;&nbsp;
+            void drawGeometryHiding(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+               // call the geometry that hides other objects <br>&nbsp;&nbsp;
                    // first sets it to :  <br>&nbsp;&nbsp;
                    drawGeometry(renderer);      <br>
-	        }
-	        <br>
-	        public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-	           // for hidden part, let it empty first   <br> 
-	        }
-	        <br>
-	        public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+            }
+            <br>
+            public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+                // for hidden part, let it empty first   <br>
+            }
+            <br>
+            public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
                    // to show the object is picked, let it empty first <br>
-	        }
-	      </code></li>
+            }
+          </code></li>
  * </ul>
  * </li>
  * </ul>
@@ -111,7 +111,7 @@ import org.geogebra.common.util.DoubleUtil;
  * 
  * @author ggb3D
  */
-public abstract class Drawable3D extends DrawableND {
+public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	// constants for rendering
 	/**
 	 * objects that are picked are drawn with a thickness * PICKED_DILATATION
@@ -236,7 +236,7 @@ public abstract class Drawable3D extends DrawableND {
 
 	/** visibility as intersection curve */
 	protected boolean intersectionCurveVisibility;
-
+	private Caption3D caption = null;
 	// /////////////////////////////////////////////////////////////////////////////
 	// constructors
 
@@ -268,7 +268,7 @@ public abstract class Drawable3D extends DrawableND {
 	public Drawable3D(EuclidianView3D a_view3D, GeoElement a_geo) {
 		this(a_view3D);
 		init(a_geo);
-
+		caption = new Caption3D(geo, this);
 	}
 
 	/**
@@ -388,18 +388,21 @@ public abstract class Drawable3D extends DrawableND {
 	 * update the label
 	 */
 	protected void updateLabel() {
-
-		label.update(getGeoElement().getLabelDescription(),
-				getView3D().getFontPoint(), getGeoElement().getObjectColor(),
+		caption.update();
+		label.update(caption,
+				getView3D().getFontPoint(),
 				getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0);
 
+	}
+
+	protected Caption3D getCaption3D() {
+		return caption;
 	}
 
 	/**
 	 * update label position on screen
 	 */
 	protected void updateLabelPosition() {
-
 		label.updatePosition(getView3D().getRenderer());
 
 	}
@@ -2155,5 +2158,10 @@ public abstract class Drawable3D extends DrawableND {
 	@Override
 	public GRectangle getPartialHitClip() {
 		return null;
+	}
+
+	@Override
+	public CaptionText createStaticCaption3D(GeoElement geo) {
+		return new StaticCaption3D(geo);
 	}
 }

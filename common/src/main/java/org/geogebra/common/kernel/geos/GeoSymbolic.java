@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -50,7 +51,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoSymbolic extends GeoElement
 		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties,
-		HasArbitraryConstant, EuclidianViewCE {
+		HasArbitraryConstant, EuclidianViewCE, Functional {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -899,6 +900,11 @@ public class GeoSymbolic extends GeoElement
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
 		getFVarsXML(builder);
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder builder) {
+		super.getStyleXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
@@ -1059,9 +1065,9 @@ public class GeoSymbolic extends GeoElement
 	/**
 	 * @param value value
 	 * @return True if the unwrapped value's twin is a GeoList.
-	 * 		Returns false if the value is null
-	 * 		or if the unwrapped value is not a GeoSymbolic
-	 * 		or if the unwrapped value's twin is not a GeoList.
+	 *        Returns false if the value is null
+	 *        or if the unwrapped value is not a GeoSymbolic
+	 *        or if the unwrapped value's twin is not a GeoList.
 	 */
 	public static boolean hasListTwin(ExpressionValue value) {
 		if (value == null) {

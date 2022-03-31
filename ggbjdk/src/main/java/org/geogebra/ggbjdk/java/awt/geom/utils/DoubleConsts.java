@@ -101,12 +101,4 @@ public class DoubleConsts {
 	 */
 	public static final long SIGNIF_BIT_MASK = 0x000FFFFFFFFFFFFFL;
 
-//	static {
-//		// verify bit masks cover all bit positions and that the bit
-//		// masks are non-overlapping
-//		assert (((SIGN_BIT_MASK | EXP_BIT_MASK | SIGNIF_BIT_MASK) == ~0L)
-//				&& (((SIGN_BIT_MASK & EXP_BIT_MASK) == 0L)
-//						&& ((SIGN_BIT_MASK & SIGNIF_BIT_MASK) == 0L)
-//						&& ((EXP_BIT_MASK & SIGNIF_BIT_MASK) == 0L)));
-//	}
 }

@@ -16,8 +16,10 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.ExamMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.MebisMenuActionHandlerFactory;
@@ -75,7 +77,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private MenuActionHandlerFactory defaultActionHandlerFactory;
 	private MenuActionHandlerFactory examActionHandlerFactory;
 
-	private GeoGebraTubeUser user;
+	private LogInOperation loginOperation;
 
 	/**
 	 * Creates a MenuViewController.
@@ -93,6 +95,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private void createObjects(AppWFull app) {
 		localization = app.getLocalization();
 		frame = app.getAppletFrame();
+		loginOperation = app.getLoginOperation();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
 	}
@@ -141,9 +144,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	 */
 	public void resetMenuOnAppSwitch(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
+		String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
 		defaultDrawerMenuFactory =  new DefaultDrawerMenuFactory(
 				app.getPlatform(),
-				version,
+				version, app.getLocalization().getPlainDefault("VersionA",
+				"Version %0", versionStr),
 				hasLoginButton(app) ? app.getLoginOperation() : null,
 				shouldCreateExamEntry(app),
 				app.enableFileFeatures(),
@@ -161,9 +166,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
 		} else {
 			boolean addAppSwitcher = app.isSuite();
+			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");
 			return new DefaultDrawerMenuFactory(
 					app.getPlatform(),
-					version,
+					version, app.getLocalization().getPlainDefault("VersionA",
+					"Version %0", versionStr),
 					hasLoginButton(app) ? app.getLoginOperation() : null,
 					shouldCreateExamEntry(app),
 					app.enableFileFeatures(),
@@ -340,7 +347,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	private ImageResource getUserImage() {
-		return new ImageResourcePrototype(user.getUserName(),
+		GeoGebraTubeUser user = loginOperation.getModel().getLoggedInUser();
+		if (user == null) {
+			return AppResources.INSTANCE.empty();
+		}
+		return new ImageResourcePrototype("user_icon",
 				UriUtils.fromString(user.getImageURL()),
 				0, 0, 36, 36, false, false);
 	}
@@ -353,11 +364,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	@Override
 	public void renderEvent(BaseEvent event) {
-		if (event instanceof LoginEvent) {
-			user = ((LoginEvent) event).getUser();
-		} else {
-			user = null;
-		}
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			setDefaultMenu();
 		}

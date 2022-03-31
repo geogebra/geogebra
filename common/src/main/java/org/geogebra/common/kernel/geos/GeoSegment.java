@@ -46,7 +46,6 @@ final public class GeoSegment extends GeoLine
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
 															// rotation, ...
-	private boolean isShape = false;
 	private StringBuilder sbToString = new StringBuilder(30);
 
 	private boolean forceSimpleTransform;
@@ -54,6 +53,9 @@ final public class GeoSegment extends GeoLine
 	private Coords pnt2D;
 
 	private GeoElement meta = null;
+
+	private SegmentStyle startStyle = SegmentStyle.DEFAULT;
+	private SegmentStyle endStyle = SegmentStyle.DEFAULT;
 
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
@@ -214,7 +216,6 @@ final public class GeoSegment extends GeoLine
 		if (geo.isGeoSegment()) {
 			GeoSegmentND seg = (GeoSegmentND) geo;
 			allowOutlyingIntersections = seg.allowOutlyingIntersections();
-			isShape = isShape || geo.isShape();
 		}
 	}
 
@@ -468,8 +469,8 @@ final public class GeoSegment extends GeoLine
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// allowOutlyingIntersections
 		sb.append("\t<outlyingIntersections val=\"");
@@ -481,6 +482,13 @@ final public class GeoSegment extends GeoLine
 		sb.append(keepTypeOnGeometricTransform);
 		sb.append("\"/>\n");
 
+		sb.append("\t<startStyle val=\"");
+		sb.append(startStyle.toString());
+		sb.append("\"/>\n");
+
+		sb.append("\t<endStyle val=\"");
+		sb.append(endStyle.toString());
+		sb.append("\"/>\n");
 	}
 
 	/**
@@ -868,20 +876,6 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
-	}
-
-	@Override
 	public char getLabelDelimiter() {
 		return '=';
 	}
@@ -889,5 +883,33 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		curve.setFromPolyLine(new GeoPointND[] { startPoint, endPoint }, false);
+	}
+
+	/**
+	 * @param startStyle - segment start style
+	 */
+	public void setStartStyle(SegmentStyle startStyle) {
+		this.startStyle = startStyle;
+	}
+
+	/**
+	 * @param endStyle - segment end style
+	 */
+	public void setEndStyle(SegmentStyle endStyle) {
+		this.endStyle = endStyle;
+	}
+
+	/**
+	 * @return segment start style
+	 */
+	public SegmentStyle getStartStyle() {
+		return startStyle;
+	}
+
+	/**
+	 * @return segment end style
+	 */
+	public SegmentStyle getEndStyle() {
+		return endStyle;
 	}
 }

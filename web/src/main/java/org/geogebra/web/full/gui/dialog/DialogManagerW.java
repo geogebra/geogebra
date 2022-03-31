@@ -218,9 +218,7 @@ public class DialogManagerW extends DialogManager
 		return true;
 	}
 
-	/**
-	 * show calculator chooser for suite
-	 */
+	@Override
 	public void showCalcChooser(boolean autoHide) {
 		hideCalcChooser(); // remove any previous chooser
 		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
@@ -444,9 +442,9 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * @param doYouWantSaveChanges true if doYooWantToSaveYourChangesDialog
-	 * 		should be shown
+	 *        should be shown
 	 * @param addTempCheckBox
-	 * 	    true if checkbox should be visible
+	 *        true if checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog(boolean doYouWantSaveChanges, boolean addTempCheckBox) {

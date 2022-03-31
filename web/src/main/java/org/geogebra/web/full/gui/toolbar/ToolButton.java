@@ -77,7 +77,7 @@ public class ToolButton extends StandardButton {
 	 * @param appMode current mode of the app
 	 */
 	public void updateSelected(int appMode) {
-		boolean selected = (mode == appMode) ||	isAdditionalToolSelected();
+		boolean selected = (mode == appMode) || isAdditionalToolSelected();
 		getElement().setAttribute("selected",
 				String.valueOf(selected));
 		setSelected(selected);

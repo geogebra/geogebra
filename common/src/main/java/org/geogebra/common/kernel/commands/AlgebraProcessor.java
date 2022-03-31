@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
@@ -422,7 +423,7 @@ public class AlgebraProcessor {
 	 * @param storeUndoInfo
 	 *            true to make undo step
 	 * @param withSliders
-	 * 			  true to autocreate sliders
+	 *            true to autocreate sliders
 	 * @param handler
 	 *            error handler
 	 *
@@ -602,6 +603,7 @@ public class AlgebraProcessor {
 					if (obj != null) {
 						app.getScriptManager().enableListeners();
 						if (listeners && obj.length > 0) {
+							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
 							obj[0].updateCascade();
 						}
 						app.getCompanion().recallViewCreators();
@@ -825,7 +827,7 @@ public class AlgebraProcessor {
 
 	/**
 	 * @param addDegree
-	 * 				whether to add degrees
+	 *           whether to add degrees
 	 * @return evaluation flags
 	 */
 	public EvalInfo getEvalInfo(boolean addDegree) {
@@ -886,7 +888,7 @@ public class AlgebraProcessor {
 			}
 			ValidExpression ve = parser.parseGeoGebraExpression(cmd);
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, callback0,	info);
+					handler, callback0, info);
 
 		} catch (ParseException e) {
 			e.printStackTrace(System.out);
@@ -899,12 +901,11 @@ public class AlgebraProcessor {
 		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
- 		}
+		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}
 		return null;
-
 	}
 
 	/**
@@ -1110,7 +1111,7 @@ public class AlgebraProcessor {
 		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
 		ExpressionNode node =
 				expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2]))
-						.wrap();
+						.traverse(SqrtMultiplyFixer.INSTANCE).wrap();
 		node.setLabels(expression.getLabels());
 		return node;
 	}
@@ -2012,6 +2013,24 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * Process given expression silently (without adding to construction or labeling)
+	 * @param ve expression
+	 * @return resulting elements
+	 * @throws MyError when expression is invalid
+	 * @throws Exception e.g. circular definition
+	 */
+	public GeoElement[] processValidExpressionSilent(ValidExpression ve)
+			throws MyError, Exception {
+		boolean oldSuppressLabel = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		try {
+			return processValidExpression(ve, new EvalInfo(false));
+		} finally {
+			cons.setSuppressLabelCreation(oldSuppressLabel);
+		}
+	}
+
 	private void stripDefinition(GeoElement[] elements) {
 		for (GeoElement element: elements) {
 			element.setDefinition(null);
@@ -2027,14 +2046,7 @@ public class AlgebraProcessor {
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
-        ExpressionValue expressionValue = expression.unwrap();
-        if (expressionValue instanceof Command) {
-            Command command = (Command) expressionValue;
-            if (command.getName().equals(loc.getFunction("freehand"))) {
-                return true;
-            }
-        }
-		return false;
+		return expression.isTopLevelCommand(loc.getFunction("freehand"));
 	}
 
 	/**
@@ -2129,7 +2141,7 @@ public class AlgebraProcessor {
 					// type:
 					// simply assign value and don't redefine
 					if (replaceable.isIndependent() && ret[0].isIndependent()
-							&& compatibleTypes(replaceable,	ret[0])) {
+							&& compatibleTypes(replaceable, ret[0])) {
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -2178,11 +2190,8 @@ public class AlgebraProcessor {
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new MyError(loc, Errors.ReplaceFailed);
-				} catch (MyError e) {
-					e.printStackTrace();
+				} catch (Exception | MyError e) {
+					Log.debug(e);
 					throw new MyError(loc, Errors.ReplaceFailed);
 				}
 			}
@@ -3070,7 +3079,7 @@ public class AlgebraProcessor {
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
-				&& !willResultInSlider(node)) {
+				&& !willResultInSlider(node) && !n.isForceList()) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command

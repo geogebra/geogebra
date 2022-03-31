@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
@@ -12,10 +13,7 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 import jsinterop.base.Js;
@@ -62,32 +60,23 @@ public class SplashDialog extends SimplePanel {
 			style.setZIndex(1000000);
 			style.setBackgroundColor("white");
 			if (showLogo) {
-				HTML logo = new HTML(GuiResourcesSimple.INSTANCE
-				        .ggbSplashHtml().getText());
+				NoDragImage logo = new NoDragImage(GuiResourcesSimple.INSTANCE
+				        .ggb_logo_name(), 427 , 120);
 				panel.add(logo);
 			}
-			Image spinner = new NoDragImage(GuiResourcesSimple.INSTANCE
-					.getGeoGebraWebSpinner().getSafeUri().asString());
-			Style sstyle = spinner.getElement().getStyle();
-			// position:absolute; margin-left:-8px; left:50%; bottom:5px;
-			sstyle.setLeft(50, Unit.PCT);
-			sstyle.setBottom(5, Unit.PX);
-			sstyle.setPosition(Position.ABSOLUTE);
-			sstyle.setMarginLeft(-8, Unit.PX);
-
+			LoadSpinner spinner = new LoadSpinner();
+			spinner.addStyleName("spinnerForLogo");
 			panel.add(spinner);
-			Dom.addEventListener(spinner.getElement(), "load", evt -> triggerImageLoaded());
 			add(panel);
-		} else {
-			Timer afterConstructor = new Timer() {
-
-				@Override
-				public void run() {
-					triggerImageLoaded();
-				}
-			};
-			afterConstructor.schedule(0);
 		}
+		Timer afterConstructor = new Timer() {
+
+			@Override
+			public void run() {
+				triggerImageLoaded();
+			}
+		};
+		afterConstructor.schedule(0);
 
 		t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
 	}

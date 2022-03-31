@@ -133,9 +133,10 @@ public class GeoPieChart extends GeoElement {
 	}
 
 	@Override
-	protected void getXMLtags(final StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(final StringBuilder sb) {
+		super.getStyleXML(sb);
 		getLineStyleXML(sb);
+		getExtraTagsXML(sb);
 	}
 
 }

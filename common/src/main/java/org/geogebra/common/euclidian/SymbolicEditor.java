@@ -110,21 +110,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	@Override
-	public void onCursorMove() {
-		// nothing to do.
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-		// nothing to do.
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// nothing to do.
-	}
-
-	@Override
 	public void onInsertString() {
 		// nothing to do.
 	}
@@ -188,7 +173,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	protected double computeTop(int height) {
-		return MyMath.clamp(baseline - height / 2d, 0,	view.getHeight() - height);
+		return MyMath.clamp(baseline - height / 2d, 0, view.getHeight() - height);
 	}
 
 	protected void setBaseline(double baseline) {
