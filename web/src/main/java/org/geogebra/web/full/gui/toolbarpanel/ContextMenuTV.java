@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
@@ -115,7 +116,8 @@ public class ContextMenuTV {
 		addDelete();
 		wrappedPopup.addVerticalSeparator();
 
-		String headerHTMLName = stickyValuesTable.getHeaderNameHTML(getColumnIdx());
+		String headerHTMLName = TableUtil.getHeaderHtml(view.getTableValuesModel(),
+				getColumnIdx());
 		DialogData oneVarStat = new DialogData("1VariableStatistics",
 				getColumnTransKey(headerHTMLName), "Close", null);
 		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var, oneVarStat);
