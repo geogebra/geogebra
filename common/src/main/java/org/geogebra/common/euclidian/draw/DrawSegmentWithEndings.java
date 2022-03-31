@@ -25,9 +25,13 @@ public class DrawSegmentWithEndings {
 		this.drawSegment = drawSegment;
 	}
 
+	/**
+	 * Draws the segment with endings (if any)
+	 * @param g2 {@link GGraphics2D}
+	 */
 	public void draw(GGraphics2D g2) {
 		GeoElement geo = drawSegment.getGeoElement();
-		if (!(geo instanceof GeoSegment)) {
+		if (!geo.isGeoSegment()) {
 			return;
 		}
 

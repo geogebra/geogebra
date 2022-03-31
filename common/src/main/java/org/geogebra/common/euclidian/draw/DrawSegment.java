@@ -474,7 +474,6 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 	}
 
-
 	@Override
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
