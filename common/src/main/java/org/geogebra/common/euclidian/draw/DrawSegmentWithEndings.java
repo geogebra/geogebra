@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.SegmentStyle;
 
-public class DrawSegmentStyle {
+public class DrawSegmentWithEndings {
 	private GLine2D line;
 	private DrawSegment drawSegment;
 	private int lineThickness;
@@ -21,7 +21,7 @@ public class DrawSegmentStyle {
 	private int posY;
 	private boolean isStartStyle;
 
-	public DrawSegmentStyle(DrawSegment drawSegment) {
+	public DrawSegmentWithEndings(DrawSegment drawSegment) {
 		this.drawSegment = drawSegment;
 	}
 
@@ -50,9 +50,14 @@ public class DrawSegmentStyle {
 		GShape lineWithEnds = union(subtractedLine,
 				outlinedStart == null ? solidStart : outlinedStart,
 				outlinedEnd == null ? solidEnd : outlinedEnd);
-		g2.setStroke(drawSegment.getObjStroke());
-		g2.setColor(drawSegment.getObjectColor());
-		g2.fill(lineWithEnds);
+		draw(g2, lineWithEnds);
+	}
+
+	private void draw(GGraphics2D g2, GShape lineWithEnds) {
+		if (drawSegment.isHighlighted()) {
+			drawSegment.drawHighlighted(g2, lineWithEnds);
+		}
+		drawSegment.fillShape(g2, lineWithEnds);
 	}
 
 	private GShape createSolidStart(SegmentStyle style) {
@@ -84,9 +89,7 @@ public class DrawSegmentStyle {
 		GShape solidEnd = createSolidEnd(endStyle);
 		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
 		GShape lineWithEnds = union(subtractedLine, solidStart, solidEnd);
-		g2.setStroke(drawSegment.getObjStroke());
-		g2.setColor(drawSegment.getObjectColor());
-		g2.fill(lineWithEnds);
+		draw(g2, lineWithEnds);
 
 	}
 

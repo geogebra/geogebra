@@ -20,7 +20,6 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -37,7 +36,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -68,7 +66,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	private SegmentBoundingBox boundingBox;
 	private GPoint2D endPoint = new GPoint2D();
-	private DrawSegmentStyle segmentStyle;
+	private DrawSegmentWithEndings segmentWithEndings;
 
 	/**
 	 * Creates new DrawSegment
@@ -82,7 +80,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		this.view = view;
 		this.s = s;
 		geo = (GeoElement) s;
-		segmentStyle = new DrawSegmentStyle(this);
+		segmentWithEndings = new DrawSegmentWithEndings(this);
 		update();
 	}
 
@@ -414,74 +412,65 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		if (isVisible) {
-			if (isHighlighted()) {
-				g2.setPaint(geo.getSelColor());
-				g2.setStroke(selStroke);
-				g2.draw(line);
+			drawLineMiddleDecoration(g2);
+			drawLabelIfVisible(g2);
+			segmentWithEndings.draw(g2);
+		}
+	}
+
+	private void drawLineMiddleDecoration(GGraphics2D g2) {
+		// decoTicks is null for zero length segments
+		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
+				&& decoTicks != null) {
+			g2.setStroke(decoStroke);
+
+			switch (geo.getDecorationType()) {
+			default:
+				// do nothing
+				break;
+			case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
+				g2.draw(decoTicks[0]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				g2.draw(decoTicks[2]);
+				break;
+			case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				g2.draw(decoTicks[2]);
+				g2.draw(decoTicks[3]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				g2.draw(decoTicks[2]);
+				g2.draw(decoTicks[3]);
+				g2.draw(decoTicks[4]);
+				g2.draw(decoTicks[5]);
+				break;
 			}
-//
-//			g2.setPaint(getObjectColor());
-//			g2.setStroke(objStroke);
-//			g2.draw(line);
+		}
+	}
 
-			// decoTicks is null for zero length segments
-			if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
-					&& decoTicks != null) {
-				g2.setStroke(decoStroke);
-
-				switch (geo.getDecorationType()) {
-				default:
-					// do nothing
-					break;
-				case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
-					g2.draw(decoTicks[0]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					g2.draw(decoTicks[2]);
-					break;
-				case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					g2.draw(decoTicks[2]);
-					g2.draw(decoTicks[3]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					g2.draw(decoTicks[2]);
-					g2.draw(decoTicks[3]);
-					g2.draw(decoTicks[4]);
-					g2.draw(decoTicks[5]);
-					break;
-				}
-			}
-			// END
-
-			if (labelVisible) {
-				g2.setPaint(geo.getLabelColor());
-				g2.setFont(view.getFontLine());
-				drawLabel(g2);
-			}
-
-			segmentStyle.draw(g2);
-			if (geo instanceof GeoSegment) {
-			//	segmentStyle.draw(g2, ((GeoSegment) geo).getStartStyle(), true);
-//				segmentStyle.draw(g2, ((GeoSegment) geo).getEndStyle(), false);
-			}
+	private void drawLabelIfVisible(GGraphics2D g2) {
+		if (labelVisible) {
+			g2.setPaint(geo.getLabelColor());
+			g2.setFont(view.getFontLine());
+			drawLabel(g2);
 		}
 	}
 
@@ -666,11 +655,15 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		return line;
 	}
 
-	GBasicStroke getObjStroke() {
-		return objStroke;
+	void drawHighlighted(GGraphics2D g2, GShape shape) {
+				g2.setPaint(geo.getSelColor());
+				g2.setStroke(selStroke);
+				g2.draw(shape);
 	}
 
-	public GShape getStrokedShape() {
-		return strokedShape;
+	void fillShape(GGraphics2D g2, GShape lineWithEnds) {
+		g2.setStroke(selStroke);
+		g2.setColor(getObjectColor());
+		g2.fill(lineWithEnds);
 	}
 }

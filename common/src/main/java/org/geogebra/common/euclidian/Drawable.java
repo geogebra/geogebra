@@ -665,7 +665,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param fillShape
 	 *            shape to be filled
 	 */
-	protected void fill(GGraphics2D g2, GShape fillShape) {
+	public void fill(GGraphics2D g2, GShape fillShape) {
 		if (isForceNoFill()) {
 			return;
 		}
@@ -775,7 +775,7 @@ public abstract class Drawable extends DrawableND {
 	 *         object with the alpha value set, else the original {@code GColor}
 	 *         .
 	 */
-	public GColor getObjectColor() {
+	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
 			color = color.deriveWithAlpha(geo.getLineOpacity());
