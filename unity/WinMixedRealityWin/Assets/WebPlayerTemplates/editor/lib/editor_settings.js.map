@@ -1,1 +1,0 @@
-{"version":3,"file":"editor_settings.js","sourceRoot":"","sources":["editor_settings.ts"],"names":[],"mappings":"AAAA;;GAEG;;IAGH,YAAY,CAAC;;IAEb,kBAAe;QACX,aAAa,EAAE;YACX,IAAI,EAAE,IAAI;YACV,aAAa,EAAE,aAAa;SAC/B;QACD,oBAAoB,EAAE;YAClB,iBAAiB,EAAE,IAAI;YACvB,UAAU,EAAE;gBACR,uBAAuB,EAAE,IAAI;aAChC;SACJ;KACJ,CAAC"}

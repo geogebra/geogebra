@@ -116,7 +116,6 @@ public class ContextMenuPopup extends MyCJButton
 		updatePopup();
 		popup.show(location.x, location.y);
 		ImgResourceHelper.setIcon(getActiveMoreVert(), this);
-		popup.setMenuShown(true);
 	}
 
 	public void updatePopup() {
@@ -127,7 +126,6 @@ public class ContextMenuPopup extends MyCJButton
 	 * hide the menu
 	 */
 	public void hideMenu() {
-		popup.setMenuShown(false);
 		popup.hide();
 		switchIcon(false);
 	}

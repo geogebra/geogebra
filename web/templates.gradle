@@ -73,7 +73,7 @@ ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--PRELOADED CSS-->", inlinedCss)
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
-            .injectMeasurementTemplate(app.firebaseAppId, app.measurementId, app.hotjar)
+            .injectMeasurementTemplate(offline ? "" : app.firebaseAppId, app.measurementId, app.hotjar)
 }
 
 String.metaClass.injectMeasurementTemplate = { firebaseAppId, measurementId, hotjar ->

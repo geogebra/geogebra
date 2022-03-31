@@ -12,10 +12,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	/* NEW MATERIAL DESIGN ICONS */
 
-	// header
-	@Source("org/geogebra/common/icons/svg/web/header/ggb-logo-name.svg")
-	SVGResource ggb_logo_name();
-
 	@Source("org/geogebra/common/icons/svg/web/header/baseline-apps-24px.svg")
 	SVGResource apps_black();
 

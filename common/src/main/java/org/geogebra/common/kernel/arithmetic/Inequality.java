@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -71,7 +73,7 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private double[] zeros;
+	private ArrayList<Double> zeros;
 	// if variable x or y appears with 0 coef, we want to replace the
 	// variable by 0 itself to avoid errors on computation
 	private MyDouble[] zeroDummy = new MyDouble[2];
@@ -281,10 +283,10 @@ public class Inequality {
 
 	}
 
-	final private double[] rootMultiple(GeoFunction f) {
+	private ArrayList<Double> rootMultiple(GeoFunction f) {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.isPolynomialFunction(true)) {
-			return new double[0];
+			return new ArrayList<>();
 		}
 		Function fun = f.getFunctionForRoot();
 		// get polynomial factors anc calc roots
@@ -292,7 +294,27 @@ public class Inequality {
 			rootAlgo = new AlgoRootsPolynomial(f);
 		}
 		rootAlgo.calcRoots(fun, 0);
-		return rootAlgo.getRealRoots();
+		double[] roots = rootAlgo.getRealRoots();
+		ArrayList<Double> squareFreeRoots = new ArrayList<>();
+		for (int i = 0; i < roots.length; i++) {
+			double sgnBefore = Math.signum(funBorder.value(before(roots, i)));
+			double sgnAfter = Math.signum(funBorder.value(after(roots, i)));
+			if (sgnBefore != sgnAfter) {
+				squareFreeRoots.add(roots[i]);
+			} else if ((sgnBefore > 0) ^ !isStrict()) {
+				squareFreeRoots.add(roots[i]);
+				squareFreeRoots.add(roots[i]);
+			}
+		}
+		return squareFreeRoots;
+	}
+
+	private double before(double[] roots, int i) {
+		return i == 0 ? roots[0] - 1 : (roots[i] + roots[i - 1]) / 2;
+	}
+
+	private double after(double[] roots, int i) {
+		return i == roots.length - 1 ? roots[roots.length - 1] + 1 : (roots[i] + roots[i + 1]) / 2;
 	}
 
 	/**
@@ -393,7 +415,7 @@ public class Inequality {
 	/**
 	 * @return zero points for 1var ineqs
 	 */
-	public double[] getZeros() {
+	public ArrayList<Double> getZeros() {
 		if (zeros == null && funBorder != null) {
 			zeros = rootMultiple(funBorder);
 		}

@@ -12,7 +12,7 @@ import org.geogebra.web.html5.util.JsRunnable;
 import com.google.gwt.dom.client.Style;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 
-public class MathTextFieldW extends MathFieldEditor  implements MathFieldListener, ErrorHandler {
+public class MathTextFieldW extends MathFieldEditor implements MathFieldListener, ErrorHandler {
 	private final ArrayList<JsRunnable> inputHandlers = new ArrayList<>();
 	private final ArrayList<JsRunnable> changeHandlers = new ArrayList<>();
 
@@ -45,18 +45,9 @@ public class MathTextFieldW extends MathFieldEditor  implements MathFieldListene
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		scrollHorizontally();
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-		// nothing to do
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// nothing to do
+		return false;
 	}
 
 	@Override

@@ -1,0 +1,15 @@
+ext.extractWebjars = { ->
+    file("build/generated/sources/webjars/java/main/").mkdirs()
+
+    configurations.compile.each { jarFile ->
+        if ("${jarFile}".contains("webjars.npm")) {
+            copy {
+                from zipTree(jarFile).matching { include "**/*.js" }
+                into file("build/generated/sources/webjars/java/main/")
+                eachFile {
+                    path = "${jarFile.name.replaceAll("-[0-9].*", "").replace("-", "_")}/${name}"
+                }
+            }
+        }
+    }
+}
