@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.interval;
 
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.util.debug.Log;
 import org.junit.Test;
 
 public class PowerEquivalenceTest extends SamplerTest {
@@ -42,11 +41,9 @@ public class PowerEquivalenceTest extends SamplerTest {
 		shouldBeEquivalent("(x^-1)^-1", "1/(1/x)");
 	}
 
-
 	private void shouldBeEquivalent(String description1, String description2) {
 		IntervalTupleList samples = samplesOf(description1);
 		samples.removeAll(samplesOf(description2));
-		samples.forEach(Log::debug);
 		assertEquals(0, samples.count());
 	}
 

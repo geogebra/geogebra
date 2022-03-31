@@ -39,8 +39,6 @@ public class PathCorrector {
 		IntervalTuple tuple = model.pointAt(idx);
 		if (lastY.isUndefined() || tuple.y().isWhole()) {
 			this.lastY.setUndefined();
-		} else if (isInvertedAround(idx)) {
-			drawInvertedInterval(idx);
 		} else {
 			drawInvertedInterval(idx);
 		}
@@ -137,10 +135,6 @@ public class PathCorrector {
 			lastY.set(0, sy.getLow());
 		}
 		lastY.setUndefined();
-	}
-
-	private double screenYMin() {
-		return bounds.toScreenCoordXd(bounds.getYmin());
 	}
 
 	private void drawFromNegativeInfinityOnly(int idx, double value) {
