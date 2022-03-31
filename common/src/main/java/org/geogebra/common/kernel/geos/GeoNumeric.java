@@ -773,7 +773,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true iff slider is possible
 	 */
 	public boolean isSliderable() {
-		return hasValidIntervals() && isSimple();
+		return hasValidIntervals() && isIndependent();
 	}
 
 	private boolean hasValidIntervals() {
@@ -1042,11 +1042,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
-		return isValidInterval(getIntervalMax());
-	}
-
-	private boolean isValidInterval(double value) {
-		return !Double.isNaN(value) && !Double.isInfinite(value);
+		return MyDouble.isFinite(getIntervalMax());
 	}
 
 	/**
@@ -1055,7 +1051,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
-		return isValidInterval(getIntervalMin());
+		return MyDouble.isFinite(getIntervalMin());
 	}
 
 	/**
