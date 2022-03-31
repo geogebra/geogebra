@@ -172,8 +172,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// (add, remove, update)
 	/** List of attached views */
 	protected ArrayList<View> views = new ArrayList<>();
-	private boolean addingPolygon = false;
-	private GeoElement newPolygon;
+	private boolean batchAddStarted = false;
+	private GeoElement firstGeoInBatch;
 	private final ArrayList<GeoElement> deleteList;
 	/** Construction */
 	protected Construction cons;
@@ -352,7 +352,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private boolean arcusFunctionCreatesAngle;
 	private ArrayList<AlgoElement> renameListenerAlgos;
 	private boolean spreadsheetBatchRunning;
-	private StringBuilder stateForModeStarting;
+	private ElementCollector previewElementsCollector;
 	private final GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
 	private final ScheduledPreviewFromInputBar scheduledPreviewFromInputBar;
 	private boolean userStopsLoading = false;
@@ -3766,11 +3766,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
-			if (addingPolygon && geo.isLabelSet()) {
-				if (geo.getXMLtypeString().equalsIgnoreCase("Polygon")) {
-					this.newPolygon = geo;
-				}
-
+			if (batchAddStarted && geo.isLabelSet() && firstGeoInBatch == null) {
+				firstGeoInBatch = geo;
 			}
 			for (View view : views) {
 				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
@@ -3784,24 +3781,30 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Notify views about adding polygon.
+	 * Notify views about adding multiple geos from a single command.
+	 * Algos that have one kind of output should call this through LabelManager,
+	 * algos with heterogeneous output should call this from constructor or AlgoDispatcher
 	 */
-	public final void addingPolygon() {
+	public final void batchAddStarted() {
 		if (notifyViewsActive) {
-			this.addingPolygon = true;
+			this.batchAddStarted = true;
+			this.firstGeoInBatch = null;
 			if (app.hasEventDispatcher()) {
-				app.getEventDispatcher().addingPolygon();
+				app.getEventDispatcher().batchAddStarted();
 			}
 		}
 	}
 
 	/**
-	 * Notify views about new polygon
+	 * Notify views about new batch of geos from a single command.
+	 * See {@link #batchAddStarted()}
 	 */
-	public final void notifyPolygonAdded() {
+	public final void batchAddComplete() {
 		if (notifyViewsActive && app.hasEventDispatcher()) {
-			app.getEventDispatcher().addPolygonComplete(this.newPolygon);
+			app.getEventDispatcher().batchAddComplete(this.firstGeoInBatch);
 		}
+		firstGeoInBatch = null;
+		batchAddStarted = false;
 	}
 
 	/**
@@ -4018,26 +4021,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
-	/**
-	 * @param geo
-	 *            animated geo
-	 */
-	public void notifyStartAnimation(GeoElement geo) {
-		if (notifyViewsActive) {
-			app.getEventDispatcher().startAnimation(geo);
-		}
-	}
-
-	/**
-	 * @param geo
-	 *            animated geo
-	 */
-	public void notifyStopAnimation(GeoElement geo) {
-		if (notifyViewsActive) {
-			app.getEventDispatcher().stopAnimation(geo);
-		}
-	}
-
 	public boolean isNotifyViewsActive() {
 		return notifyViewsActive && !viewReiniting;
 	}
@@ -4197,8 +4180,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Store mode-specific undo point.
 	 */
 	public void storeStateForModeStarting() {
-		stateForModeStarting = cons.getCurrentUndoXML(true);
-		getSelectionManager().resetGeoToggled();
+		if (undoActive) {
+			if (previewElementsCollector == null) {
+				previewElementsCollector = new ElementCollector();
+				getApplication().getEventDispatcher().addEventListener(previewElementsCollector);
+			}
+			previewElementsCollector.reset();
+			getSelectionManager().resetGeoToggled();
+		}
 	}
 
 	/**
@@ -4209,8 +4198,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			storeStateForModeStarting();
 			if (cons.isUndoEnabled()) {
 				// reuse cons.getCurrentUndoXML(true)
-				cons.getUndoManager().storeUndoInfo(stateForModeStarting,
-						false);
+				cons.getUndoManager().storeUndoInfo(false);
 			}
 		}
 	}
@@ -4222,13 +4210,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	private void restoreStateForModeStarting() {
 		app.batchUpdateStart();
 		app.getCompanion().storeViewCreators();
-		app.getScriptManager().disableListeners();
-		notifyReset();
+		if (previewElementsCollector != null) {
+			previewElementsCollector.removeAll();
+		}
 		getApplication().getActiveEuclidianView().getEuclidianController()
 				.clearSelections();
-		cons.processXML(stateForModeStarting);
 		notifyReset();
-		app.getScriptManager().enableListeners();
 		app.getCompanion().recallViewCreators();
 		app.batchUpdateEnd();
 		app.setUnAutoSaved();

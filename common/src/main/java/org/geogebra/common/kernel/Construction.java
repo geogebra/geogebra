@@ -1603,6 +1603,8 @@ public class Construction {
 			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
 			isRemovingGeoToReplaceIt = true;
+			final Group grp = oldGeo.getParentGroup();
+			oldGeo.setParentGroup(null);
 			oldGeo.remove();
 			isRemovingGeoToReplaceIt = false;
 
@@ -1623,6 +1625,11 @@ public class Construction {
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
 			layerManager.replace(oldGeo.getOrdering(), newGeo);
+			if (grp != null) {
+				newGeo.setParentGroup(grp);
+				grp.getGroupedGeos().remove(oldGeo);
+				grp.getGroupedGeos().add(newGeo);
+			}
 			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
 			}
@@ -3763,26 +3770,6 @@ public class Construction {
 		return null;
 	}
 
-	/**
-	 * adds an object to a group
-	 * @param object
-	 *            label of object to be added to the group
-	 * @param objectsInGroup
-	 *            list of labels of objects in the group the given object has to be added to
-	 */
-	public void addToGroup(String object, String[] objectsInGroup) {
-		GeoElement geo = geoTable.get(object);
-		for (String i : objectsInGroup) {
-			Group parentGroup = getParentGroup(i);
-			if (parentGroup != null) {
-				parentGroup.setFixed(geo.isLocked());
-				parentGroup.getGroupedGeos().add(geo);
-				geo.setParentGroup(parentGroup);
-				return;
-			}
-		}
-	}
-
 	private Group getParentGroup(String object) {
 		GeoElement geoInGroup = geoTable.get(object);
 		return geoInGroup.getParentGroup();
@@ -3791,21 +3778,25 @@ public class Construction {
 	private ArrayList<GeoElement> getGeosByLabel(String[] list) {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		for (String g : list) {
-			geos.add(geoTable.get(g));
+			if (geoTable.containsKey(g)) {
+				geos.add(geoTable.get(g));
+			}
 		}
 		return geos;
 	}
 
 	/**
-	 * @param label
-	 *            label of object
+	 * @param geo
+	 *            construction element
 	 * @return whether object has unlabeled predecessors
 	 */
-	public boolean hasUnlabeledPredecessors(String label) {
-		final TreeSet<GeoElement> set = geoTable.get(label).getAllPredecessors();
-		for (GeoElement el : set) {
-			if (el.getLabelSimple() == null) {
-				return true;
+	public boolean hasUnlabeledPredecessors(GeoElement geo) {
+		final AlgoElement algo = geo.getParentAlgorithm();
+		if (algo != null) {
+			for (GeoElement el : algo.getInput()) {
+				if (el.getLabelSimple() == null) {
+					return true;
+				}
 			}
 		}
 		return false;

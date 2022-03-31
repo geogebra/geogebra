@@ -34,12 +34,7 @@ public class AnimationManager implements GTimerListener {
 	protected double frameRate = MAX_ANIMATION_FRAME_RATE;
 	private boolean needToShowAnimationButton;
 
-	/**
-	 * list containing all {@link TimerListener} that will receive notifications
-	 * when the timer is started or stopped
-	 */
-	protected ArrayList<TimerListener> listener = new ArrayList<>();
-	private GTimer timer;
+	private final GTimer timer;
 
 	private TreeSet<AlgoElement> tempSet;
 	private long lastStart = 0;
@@ -78,15 +73,13 @@ public class AnimationManager implements GTimerListener {
 		}
 
 		// if one animated geo has a static speed, we need to get out of here
-		for (int i = 0; i < size; i++) {
-			GeoElement geo = animatedGeos.get(i);
+		for (GeoElement geo : animatedGeos) {
 			GeoElement animObj = geo.getAnimationSpeedObject();
 			if (animObj == null
 					|| !animObj.isLabelSet() && animObj.isIndependent()) {
 				needToShowAnimationButton = true;
 				return;
 			}
-
 		}
 
 		// all animated geos have dynamic speed
@@ -265,32 +258,6 @@ public class AnimationManager implements GTimerListener {
 	}
 
 	/**
-	 * add a {@link TimerListener} that will be notified when the timer is
-	 * started or stopped
-	 * 
-	 * @param timerListener
-	 *            the listener to be added
-	 */
-	public void addListener(TimerListener timerListener) {
-		listener.add(timerListener);
-	}
-
-	/**
-	 * removes a {@link TimerListener} that will no longer receive notifications
-	 * when the timer is started or stopped
-	 * 
-	 * if there exists more than one {@link TimerListener} that is equal to the
-	 * given listener (e.g. if one listener was added multiple times), only the
-	 * first one will be removed
-	 * 
-	 * @param timerListener
-	 *            the listener to be removed
-	 */
-	public void removeTimerListener(TimerListener timerListener) {
-		listener.remove(timerListener);
-	}
-
-	/**
 	 * @return whether the animation is currently running.
 	 */
 	public boolean isRunning() {
@@ -304,13 +271,11 @@ public class AnimationManager implements GTimerListener {
 
 	protected void setTimerDelay(int i) {
 		timer.setDelay(i);
-
 	}
 
 	@Override
 	public void onRun() {
 		sliderStep();
-
 	}
 
 	/**
@@ -318,9 +283,7 @@ public class AnimationManager implements GTimerListener {
 	 */
 	protected void stopTimer() {
 		timer.stop();
-		for (TimerListener tl : listener) {
-			tl.onTimerStopped();
-		}
+		kernel.getApplication().getEventDispatcher().stopAnimation();
 	}
 
 	/**
@@ -328,9 +291,7 @@ public class AnimationManager implements GTimerListener {
 	 */
 	protected void startTimer() {
 		timer.startRepeat();
-		for (TimerListener tl : listener) {
-			tl.onTimerStarted();
-		}
+		kernel.getApplication().getEventDispatcher().startAnimation();
 	}
 
 	/**

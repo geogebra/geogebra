@@ -77,10 +77,6 @@
                         // send command for dependent objects
                         if (commandString) {
                             that.sendEvent("evalCommand", label + " := " + commandString, label);
-                            var group = that.api.getObjectsOfItsGroup(label);
-                            if (group != null) {
-                                that.sendEvent("addToGroup", label, group);
-                            }
                         }
                         // send XML for free and moveable objects (point on line)
                         if (!commandString || that.api.isMoveable(label)) {
@@ -404,8 +400,6 @@
                 target.api.groupObjects(last.content);
             } else if (last.type == "ungroupObjects") {
                 target.api.ungroupObjects(last.content);
-            } else if (last.type == "addToGroup") {
-                target.api.addToGroup(last.content, last.label);
             } else if (last.type == "embeddedContentChanged") {
                 target.api.setEmbedContent(last.label, last.content);
             } else if (last.type == "addGeoToTV") {

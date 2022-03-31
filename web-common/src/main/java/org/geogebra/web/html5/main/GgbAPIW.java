@@ -779,7 +779,7 @@ public class GgbAPIW extends GgbAPI {
 			url = Browser.encodeSVG(urlOrSvgContent);
 		}
 		imageManager.addExternalImage(filename, url);
-		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
+		imageManager.triggerSingleImageLoading(filename, kernel);
 	}
 
 	private static String checkCorner(String cornerExp) {
@@ -809,22 +809,24 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Add a multiuser interaction
-	 * @param user tooltip content
+	 * @param clientId id of the client that triggered the selection
+	 * @param userName tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
 	 * @param newGeo if the geo was added
 	 */
-	public void addMultiuserSelection(String user, String color, String label, boolean newGeo) {
-		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
+	public void addMultiuserSelection(String clientId, String userName, String color,
+			String label, boolean newGeo) {
+		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
 				label, newGeo);
 	}
 
 	/**
 	 * Remove a multiuser interaction
-	 * @param user tooltip content
+	 * @param clientId the id of the client
 	 */
-	public void removeMultiuserSelections(String user) {
-		MultiuserManager.INSTANCE.deselect(app, user);
+	public void removeMultiuserSelections(String clientId) {
+		MultiuserManager.INSTANCE.deselect(app, clientId);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
@@ -1195,17 +1197,6 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param label label of the embed
-	 * @param base64 applet content as base64
-	 */
-	public void setEmbedContent(String label, String base64) {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			embedManager.setContentSync(label, base64);
-		}
-	}
-
-	/**
 	 * @param label name of the function
 	 */
 	public void addGeoToTV(String label) {
@@ -1283,6 +1274,11 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public JsObjectWrapper getWrapper(Object options) {
 		return new JsObjectWrapperW(options);
+	}
+
+	@Override
+	protected JsObjectWrapper createWrapper() {
+		return new JsObjectWrapperW(JsPropertyMap.of());
 	}
 
 	public void switchCalculator(String appCode) {

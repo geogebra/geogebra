@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -42,7 +43,7 @@ public class CmdSetCaption extends CmdScripting {
 				} else {
 					geo.setCaption(txt);
 					geo.setLabelMode(GeoElementND.LABEL_CAPTION);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
 				}
 				return arg;
 			}

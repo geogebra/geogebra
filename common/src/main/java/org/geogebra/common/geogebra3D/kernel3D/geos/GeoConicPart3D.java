@@ -573,11 +573,9 @@ public class GeoConicPart3D extends GeoConic3D
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-
-		parameters.getXMLtags(sb);
-
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		parameters.getLimitedPathXML(sb);
 	}
 
 	/**

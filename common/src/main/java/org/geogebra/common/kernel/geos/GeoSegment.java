@@ -46,7 +46,6 @@ final public class GeoSegment extends GeoLine
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
 															// rotation, ...
-	private boolean isShape = false;
 	private StringBuilder sbToString = new StringBuilder(30);
 
 	private boolean forceSimpleTransform;
@@ -217,7 +216,6 @@ final public class GeoSegment extends GeoLine
 		if (geo.isGeoSegment()) {
 			GeoSegmentND seg = (GeoSegmentND) geo;
 			allowOutlyingIntersections = seg.allowOutlyingIntersections();
-			isShape = isShape || geo.isShape();
 		}
 	}
 
@@ -471,8 +469,8 @@ final public class GeoSegment extends GeoLine
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// allowOutlyingIntersections
 		sb.append("\t<outlyingIntersections val=\"");
@@ -875,20 +873,6 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void setChangeableParentIfNull(ChangeableParent ccp) {
 		// used for GeoPoint3D
-	}
-
-	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	@Override

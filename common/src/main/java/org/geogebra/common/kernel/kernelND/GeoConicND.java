@@ -147,7 +147,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
 
-	private boolean isShape = false;
 	private double[] tmpDouble4;
 
 	private double[] coeffs = new double[6];
@@ -3575,10 +3574,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-		// line thickness and type
-		getLineStyleXML(sb);
-
+		getStyleXML(sb);
 		sb.append("\t<eigenvectors x0=\"");
 		sb.append(eigenvec[0].getX());
 		sb.append("\" y0=\"");
@@ -3597,6 +3593,13 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append(" A").append(i).append("=\"").append(matrix[i]).append("\"");
 		}
 		sb.append("/>\n");
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		// line thickness and type
+		getLineStyleXML(sb);
 		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), parameter);
 	}
 
@@ -4510,16 +4513,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	public void toParametric(String param) {
 		this.toStringMode = GeoConicND.EQUATION_PARAMETRIC;
 		this.parameter = param;
-	}
-
-	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	private void setModeIfEquationFormIsNotForced(int mode) {
