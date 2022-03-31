@@ -23,7 +23,7 @@ public class DrawAxisLabel3D extends DrawLabel3D {
 			float xOffset0, float yOffset0, float zOffset0) {
 		caption.update(text0, font0, fgColor);
 		if (view.drawsLabels()) {
-			update(text0, font0, null, fgColor, v, xOffset0, yOffset0, zOffset0);
+			update(text0, font0, v, xOffset0, yOffset0, zOffset0);
 		}
 	}
 }

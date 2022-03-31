@@ -62,9 +62,9 @@ public class DrawLabel3D {
 	protected double drawY;
 	protected double drawZ;
 
-	private Coords vScreen = new Coords(3);
+	private final Coords vScreen = new Coords(3);
 
-	private float[] labelOrigin = new float[3];
+	private final float[] labelOrigin = new float[3];
 
 	private int pickingX;
 	private int pickingY;
@@ -82,7 +82,7 @@ public class DrawLabel3D {
 
     private CoordMatrix4x4 positionMatrix;
 	protected CaptionText caption;
-	private CaptionProperties properties;
+	private final CaptionProperties properties;
 
 	/**
 	 * common constructor
@@ -115,15 +115,13 @@ public class DrawLabel3D {
 	 * @param yOffset0
 	 *            abs offset in y
 	 * @param zOffset0
-	 * 	 *        abs offset in z
+	 *            abs offset in z
 	 */
 	public void update(CaptionText caption, GFont font0, Coords v,
 			float xOffset0, float yOffset0, float zOffset0) {
 		setCaption(caption);
 		if (view.drawsLabels()) {
-			update(caption.text(), font0,
-					caption.backgroundColor(),
-					caption.foregroundColor(), v, xOffset0, yOffset0, zOffset0);
+			update(caption.text(), font0, v, xOffset0, yOffset0, zOffset0);
 		}
 	}
 
@@ -154,7 +152,7 @@ public class DrawLabel3D {
 			float xOffset0, float yOffset0, float zOffset0) {
 
 		if (view.drawsLabels()) {
-			update(text0, font0, null, fgColor, v, xOffset0, yOffset0, zOffset0);
+			update(text0, font0, v, xOffset0, yOffset0, zOffset0);
 		}
 	}
 
@@ -173,10 +171,6 @@ public class DrawLabel3D {
 	 *            text
 	 * @param font0
 	 *            font
-	 * @param bgColor
-	 *            background color
-	 * @param fgColor
-	 *            foreground color
 	 * @param v
 	 *            coordinates
 	 * @param xOffset0
@@ -186,8 +180,8 @@ public class DrawLabel3D {
 	 * @param zOffset0
 	 *            abs offset in z
 	 */
-	public void update(String text0, GFont font0, GColor bgColor,
-			GColor fgColor, Coords v, float xOffset0, float yOffset0, float zOffset0) {
+	public void update(String text0, GFont font0, Coords v,
+			float xOffset0, float yOffset0, float zOffset0) {
 				this.origin = v;
 		if (text0.length() == 0) {
 			setIsVisible(false);
@@ -338,7 +332,7 @@ public class DrawLabel3D {
 
 	protected class DrawLaTeXCallBack implements Runnable {
 
-		private DrawLabel3D label;
+		private final DrawLabel3D label;
 
 		public DrawLaTeXCallBack(DrawLabel3D label) {
 			this.label = label;
@@ -761,7 +755,7 @@ public class DrawLabel3D {
 		// backgroundIndex: "+backgroundIndex);
 	}
 
-	private static final int drawRectangle(Renderer renderer, double x,
+	private static int drawRectangle(Renderer renderer, double x,
 			double y, double z, double w, double h, int index) {
 		return renderer.getGeometryManager().rectangle(x, y, z, w, h, index);
 	}
