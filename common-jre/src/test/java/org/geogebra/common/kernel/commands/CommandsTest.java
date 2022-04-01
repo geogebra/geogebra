@@ -3593,8 +3593,15 @@ public class CommandsTest {
 
 	@Test
 	public void cmdShortestDistance() {
-		t("ShortestDistance[ {1,2,3,4,5}, (3,1/3), (5,1/5), false ]",
-				"ShortestDistance[{1, 2, 3, 4, 5}, (3, 1 / 3), (5, 1 / 5), false]");
+		t("Perimeter(ShortestDistance({1,2,3,4,5}, (3,1/3), (5,1/5), false ))",
+				"NaN"); // not even segments
+		t("A=(0, 0)", "(0, 0)");
+		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+				+ "(2,0), (0,1), false))", "3");
+		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+				+ "(2,0), (2,0), false))", "0"); // empty path
+		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+				+ "(2,0), (4,0), false))", "NaN"); // not connected
 	}
 
 	@Test

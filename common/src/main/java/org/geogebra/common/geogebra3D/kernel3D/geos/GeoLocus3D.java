@@ -47,18 +47,7 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 		return new GeoLocus3D(cons);
 	}
 
-	/**
-	 * Adds a new point (x,y,z) to the end of the point list of this locus.
-	 * 
-	 * @param x
-	 *            x-coord
-	 * @param y
-	 *            y-coord
-	 * @param z
-	 *            z-coord
-	 * @param lineTo
-	 *            true to draw a line to (x,y,z); false to only move to (x,y,z)
-	 */
+	@Override
 	public void insertPoint(double x, double y, double z, boolean lineTo) {
 		myPointList.add(new MyPoint3D(x, y, z, lineTo ? SegmentType.LINE_TO
 				: SegmentType.MOVE_TO));

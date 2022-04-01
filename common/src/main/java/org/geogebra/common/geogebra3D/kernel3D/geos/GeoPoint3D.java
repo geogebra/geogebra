@@ -529,9 +529,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	final public void getInhomCoords(double[] d) {
 		double[] coords = getInhomCoords().get();
-		for (int i = 0; i < d.length; i++) {
-			d[i] = coords[i];
-		}
+		System.arraycopy(coords, 0, d, 0, d.length);
 	}
 
 	@Override
