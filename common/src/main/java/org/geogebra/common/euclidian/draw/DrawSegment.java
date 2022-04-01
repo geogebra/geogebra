@@ -20,6 +20,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -36,6 +37,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -66,7 +68,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	private SegmentBoundingBox boundingBox;
 	private GPoint2D endPoint = new GPoint2D();
-	private DrawSegmentWithEndings segmentWithEndings;
+	private DrawSegmentWithEndings segmentWithEndings = null;
 
 	/**
 	 * Creates new DrawSegment
@@ -80,7 +82,9 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		this.view = view;
 		this.s = s;
 		geo = (GeoElement) s;
-		segmentWithEndings = new DrawSegmentWithEndings(this);
+		if (geo instanceof GeoSegment) {
+			segmentWithEndings = new DrawSegmentWithEndings(this);
+		}
 		update();
 	}
 
@@ -412,14 +416,34 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		if (isVisible) {
-			drawLineMiddleDecoration(g2);
-			drawLabelIfVisible(g2);
+			if (hasSegmentStyle()) {
+				drawLineMiddleDecoration(g2);
+				drawLabelIfVisible(g2);
+				drawSegmentWithEndings(g2);
+			} else {
+				drawHighlighted(g2, line);
+				drawLineMiddleDecoration(g2);
+				drawLabelIfVisible(g2);
+				drawSimpleSegment(g2);
+			}
+		}
+	}
+
+	private void drawSimpleSegment(GGraphics2D g2) {
+		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
+		g2.draw(line);
+	}
+
+	private void drawSegmentWithEndings(GGraphics2D g2) {
+		if (segmentWithEndings != null) {
 			segmentWithEndings.draw(g2);
 		}
 	}
 
 	private void drawLineMiddleDecoration(GGraphics2D g2) {
 		// decoTicks is null for zero length segments
+		g2.setColor(getObjectColor());
 		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
 				&& decoTicks != null) {
 			g2.setStroke(decoStroke);
@@ -478,7 +502,11 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.draw(line);
+		if (hasSegmentStyle()) {
+			g2.fill(getDecoratedShape());
+		} else {
+			g2.draw(line);
+		}
 	}
 
 	@Override
@@ -553,20 +581,31 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return line != null
-				&& line.intersects(x - hitThreshold, y - hitThreshold,
+		return getDecoratedShape() != null
+				&& getDecoratedShape().intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
+	}
+
+	private GShape getDecoratedShape() {
+		return hasSegmentStyle()
+				? segmentWithEndings.getShape()
+				: line;
+	}
+
+	private boolean hasSegmentStyle() {
+		return geo instanceof GeoSegment
+			&& ((GeoSegment) geo).hasSegmentStyle();
 	}
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		return line != null && rect.contains(line.getP1())
-				&& rect.contains(line.getP2());
+		GShape decoratedShape = getDecoratedShape();
+		return decoratedShape != null && rect.contains(decoratedShape.getBounds());
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return line.intersects(rect);
+		return getDecoratedShape().intersects(rect);
 	}
 
 	@Override
@@ -661,8 +700,12 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	}
 
 	void fillShape(GGraphics2D g2, GShape lineWithEnds) {
-		g2.setStroke(selStroke);
+		g2.setStroke(decoStroke);
 		g2.setColor(getObjectColor());
 		g2.fill(lineWithEnds);
+	}
+
+	public GBasicStroke getObjStroke() {
+		return objStroke;
 	}
 }

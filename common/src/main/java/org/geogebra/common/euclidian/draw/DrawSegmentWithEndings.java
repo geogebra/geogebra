@@ -20,6 +20,7 @@ public class DrawSegmentWithEndings {
 	private int posX;
 	private int posY;
 	private boolean isStartStyle;
+	private GShape shape;
 
 	public DrawSegmentWithEndings(DrawSegment drawSegment) {
 		this.drawSegment = drawSegment;
@@ -38,14 +39,13 @@ public class DrawSegmentWithEndings {
 		GeoSegment segment = (GeoSegment) geo;
 		SegmentStyle startStyle = segment.getStartStyle();
 		SegmentStyle endStyle = segment.getEndStyle();
-		if (startStyle.isOutline() || endStyle.isOutline()) {
-			drawOutlined(g2, startStyle, endStyle);
-		} else {
-			drawSolid(g2, startStyle, endStyle);
-		}
+		shape = startStyle.isOutline() || endStyle.isOutline()
+				? createOutlinedShape(startStyle, endStyle)
+			    : createSolidShape(startStyle, endStyle);
+		draw(g2, shape);
 	}
 
-	private void drawOutlined(GGraphics2D g2, SegmentStyle startStyle, SegmentStyle endStyle) {
+	private GShape createOutlinedShape(SegmentStyle startStyle, SegmentStyle endStyle) {
 		GShape solidStart = createSolidStart(startStyle);
 		GShape solidEnd = createSolidEnd(endStyle);
 		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
@@ -54,26 +54,7 @@ public class DrawSegmentWithEndings {
 		GShape lineWithEnds = union(subtractedLine,
 				outlinedStart == null ? solidStart : outlinedStart,
 				outlinedEnd == null ? solidEnd : outlinedEnd);
-		draw(g2, lineWithEnds);
-	}
-
-	private void draw(GGraphics2D g2, GShape lineWithEnds) {
-		if (drawSegment.isHighlighted()) {
-			drawSegment.drawHighlighted(g2, lineWithEnds);
-		}
-		drawSegment.fillShape(g2, lineWithEnds);
-	}
-
-	private GShape createSolidStart(SegmentStyle style) {
-		isStartStyle = true;
-		calculatePositions();
-		return createSolidEnding(style);
-	}
-	
-	private GShape createSolidEnd(SegmentStyle style) {
-		isStartStyle = false;
-		calculatePositions();
-		return createSolidEnding(style);
+		return lineWithEnds;
 	}
 
 	private GShape createOutlinedStart(SegmentStyle style) {
@@ -81,20 +62,38 @@ public class DrawSegmentWithEndings {
 		calculatePositions();
 		return createOutlinedEnding(style);
 	}
-	
+
 	private GShape createOutlinedEnd(SegmentStyle style) {
 		isStartStyle = false;
 		calculatePositions();
 		return createOutlinedEnding(style);
 	}
 
-	private void drawSolid(GGraphics2D g2, SegmentStyle startStyle, SegmentStyle endStyle) {
+	private GShape createSolidShape(SegmentStyle startStyle, SegmentStyle endStyle) {
 		GShape solidStart = createSolidStart(startStyle);
 		GShape solidEnd = createSolidEnd(endStyle);
 		GArea subtractedLine = substractFromLine(solidStart, solidEnd);
 		GShape lineWithEnds = union(subtractedLine, solidStart, solidEnd);
-		draw(g2, lineWithEnds);
+		return lineWithEnds;
+	}
 
+	private GShape createSolidStart(SegmentStyle style) {
+		isStartStyle = true;
+		calculatePositions();
+		return createSolidEnding(style);
+	}
+
+	private GShape createSolidEnd(SegmentStyle style) {
+		isStartStyle = false;
+		calculatePositions();
+		return createSolidEnding(style);
+	}
+
+	private void draw(GGraphics2D g2, GShape lineWithEnds) {
+		if (drawSegment.isHighlighted()) {
+			drawSegment.drawHighlighted(g2, lineWithEnds);
+		}
+		drawSegment.fillShape(g2, lineWithEnds);
 	}
 
 	private GShape union(GArea composite, GShape... shapes) {
@@ -107,7 +106,7 @@ public class DrawSegmentWithEndings {
 	}
 
 	private GArea substractFromLine(GShape... shapes) {
-		GShape strokedLine = drawSegment.getDecoStroke().createStrokedShape(line, 255);
+		GShape strokedLine = drawSegment.getObjStroke().createStrokedShape(line, 255);
 		GArea area = toArea(strokedLine);
 		for (GShape shape : shapes) {
 			if (shape != null) {
@@ -262,5 +261,9 @@ public class DrawSegmentWithEndings {
 			return area;
 		}
 		return transformedArrow;
+	}
+
+	public GShape getShape() {
+		return shape;
 	}
 }
