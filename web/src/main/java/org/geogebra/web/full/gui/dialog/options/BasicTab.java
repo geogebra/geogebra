@@ -13,11 +13,11 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
-import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
