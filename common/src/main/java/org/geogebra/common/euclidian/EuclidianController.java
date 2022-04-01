@@ -2011,9 +2011,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& hits.contains(getSelectedPointList().get(0));
 			if (finished) {
 				// build polygon
-				this.kernel.addingPolygon();
+
 				GeoElement[] elms = polygon();
-				this.kernel.notifyPolygonAdded();
 				return elms;
 			}
 		}
@@ -10943,10 +10942,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (wasUndoableMode) {
 				kernel.restoreStateForInitNewMode();
 			}
-
-			if (kernel.isUndoActive()) {
-				kernel.storeStateForModeStarting();
-			}
+			kernel.storeStateForModeStarting();
 		}
 	}
 

@@ -378,12 +378,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		openHelp(internalCmd, Help.COMMAND);
 	}
 
-	protected abstract void openHelp(String internalCmd, Help command);
-
 	@Override
 	public void openHelp(String page) {
 		openHelp(page, Help.GENERIC);
 	}
+
+	protected abstract void openHelp(String page, Help generic);
 
 	@Override
 	final public View getConstructionProtocolData() {
@@ -696,9 +696,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public String getLicenseUrl() {
-		return GeoGebraConstants.GGW_ABOUT_LICENSE_URL
-				+ "&version=" + app.getVersionString()
-				+ "&date=" + GeoGebraConstants.BUILD_DATE;
+		return GeoGebraConstants.GGB_LICENSE_URL;
 	}
 
 	@Override

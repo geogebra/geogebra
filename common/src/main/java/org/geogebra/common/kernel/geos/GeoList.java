@@ -1545,8 +1545,8 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	protected void getXMLtags(final StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		getLineStyleXML(sb);
 		if ((size() == 0 || !isDefined()) && getTypeStringForXML() != null) {

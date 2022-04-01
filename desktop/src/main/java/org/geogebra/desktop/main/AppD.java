@@ -5039,7 +5039,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void exportStringToFile(String ext, String content) {
+	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		try {
 			StringBuilder fileName = new StringBuilder();
 			fileName.append("test.");

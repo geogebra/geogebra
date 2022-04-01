@@ -110,21 +110,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	@Override
-	public void onCursorMove() {
-		// nothing to do.
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-		// nothing to do.
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// nothing to do.
-	}
-
-	@Override
 	public void onInsertString() {
 		// nothing to do.
 	}

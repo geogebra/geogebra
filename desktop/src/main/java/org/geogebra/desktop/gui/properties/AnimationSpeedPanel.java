@@ -38,13 +38,16 @@ public class AnimationSpeedPanel extends JPanel
 	private AnimationSpeedModel model;
 	private JTextField tfAnimSpeed;
 	private JComboBox animationModeCB;
-	private JLabel modeLabel, speedLabel;
+	private JLabel modeLabel;
+	private JLabel speedLabel;
 	private AppD app;
 	private Kernel kernel;
 	private LocalizationD loc;
 
+	/**
+	 * @param app application
+	 */
 	public AnimationSpeedPanel(AppD app) {
-
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
@@ -99,7 +102,7 @@ public class AnimationSpeedPanel extends JPanel
 		return update(geos);
 	}
 
-	public JPanel update(Object[] geos) {
+	protected JPanel update(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) { // geos,partOfSliderPanel))
 			return null;
@@ -177,12 +180,6 @@ public class AnimationSpeedPanel extends JPanel
 		animationModeCB.setFont(font);
 
 		tfAnimSpeed.setFont(font);
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

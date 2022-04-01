@@ -18,21 +18,32 @@
 		cursor: pointer;
 
 		.checkboxLbl {
-			height: 20px;
+			height: auto;
+			min-height: 20px;
 			line-height: 20px;
-			margin-left: 16px;
+			margin-left: 20px;
+			margin-top: 8px;
+			margin-bottom: 8px;
 			color: colors.$text-primary;
 			font-size: 100%;
+
+			&.disabled {
+				cursor: default;
+				color: colors.$text-disabled;
+			}
 		}
 	}
 
 	.checkbox {
-		width: 18px;
-		height: 18px;
+		width: 36px;
+		height: 36px;
 		position: relative;
 		cursor: pointer;
 
 		.background {
+			position: absolute;
+			top: 9px;
+			left: 9px;
 			width: 18px;
 			height: 18px;
 			box-sizing: border-box;
@@ -40,17 +51,107 @@
 			border-radius: 2px;
 			border-color: colors.$black-54;
 			background-color: transparent;
-			transition: border-color 90ms cubic-bezier(0,0,.2,1) 0ms,background-color 90ms cubic-bezier(0,0,.2,1) 0ms;
+			transition: border-color 180ms cubic-bezier(0,0,.2,1) 0ms,background-color 180ms cubic-bezier(0,0,.2,1) 0ms;
 		 }
 
 		 .checkmark {
 			 position: absolute;
-			 left: 2px;
-			 top: 2px;
+			 left: 11px;
+			 top: 10px;
+			 width: 14px;
+			 height: 14px;
+			 visibility: hidden;
+
+			.checkmarkSvg {
+				-webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				-o-transition: opacity .18s 0ms cubic-bezier(0,0,.2,1),transform .18s 0ms cubic-bezier(0,0,.2,1);
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				opacity: 1;
+			}
+
+			.checkmarkPath {
+				-webkit-transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				-o-transition: stroke-dashoffset .18s 0ms cubic-bezier(.4,0,.6,1);
+				transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				stroke: white;
+				stroke-width: 3.12px;
+				stroke-dashoffset: 29.7833385;
+				stroke-dasharray: 29.7833385;
+			}
+		 }
+
+		 .hoverBg {
+			display: inline-block;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: white;
+			opacity: 0;
+
+			&:after {
+				background-image: radial-gradient(circle, black 10%, transparent 10.01%);
+			}
 		 }
 
 		&.selected {
 			@include checkboxBg(colors.$mow_primary);
+
+			.hoverBg {
+				&:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+
+			&:hover {
+				.hoverBg {
+					opacity: 1;
+					background-color: colors.$purple-default-12;
+				}
+			}
+
+			.checkmark {
+				visibility: visible;
+
+				 .checkmarkPath {
+					stroke-dashoffset: 0;
+				}
+			}
+		}
+
+		&:hover {
+			.hoverBg {
+				opacity: 1;
+				background-color: colors.$black-08;
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+
+			.hoverBg {
+				&:after {
+					background-image: none;
+				}
+			}
+
+			&:hover {
+				.hoverBg {
+					background-color: transparent;
+				}
+			}
+
+			.background {
+				border-color: colors.$black-36;
+			}
+
+			&.selected {
+				.background {
+					background-color: colors.$black-36;
+					border-color: transparent;
+				}
+			}
 		}
 	}
 

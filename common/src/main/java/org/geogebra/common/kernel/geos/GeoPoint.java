@@ -1724,17 +1724,19 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// pos
 			if (((AlgoPointOnPath) algo)
 					.getPath() instanceof GeoCurveCartesianND) {
-				sb.append("\t<curveParam");
-				sb.append(" t=\"");
+				sb.append("\t<curveParam t=\"");
 				sb.append(getPathParameter().t);
-				sb.append("\"");
-				sb.append("/>\n");
+				sb.append("\"/>\n");
 			}
 		}
 
 		// write x,y,z after <curveParam>
 		super.getXMLtags(sb);
+	}
 
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// polar or cartesian coords
 		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
@@ -1759,7 +1761,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		XMLBuilder.appendPointProperties(sb, this);
-
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -264,15 +266,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized String getXML(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
+		return getGeoProperty(objName, GeoElement::getXML, "");
+	}
+
+	private<T> T getGeoProperty(String label, Function<GeoElement, T> prop, T fallback) {
+		GeoElement geo = kernel.lookupLabel(label);
 		if (geo == null) {
-			return "";
+			return fallback;
 		}
-		// if (geo.isIndependent()) removed as we want a way to get the
-		// <element> tag for all objects
-		return geo.getXML();
-		// else
-		// return "";
+		return prop.apply(geo);
+	}
+
+	public synchronized String getStyleXML(String label) {
+		return getGeoProperty(label, GeoElement::getStyleXML, "");
 	}
 
 	/**
@@ -302,7 +308,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setEuclidianVisible(visible);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}
 
 	/**
@@ -332,7 +338,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setLayer(layer);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LAYER);
 	}
 
 	/**
@@ -363,7 +369,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			if (geo != null) {
 				if (geo.getLayer() == layer) {
 					geo.setEuclidianVisible(visible);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 				}
 			}
 		}
@@ -402,6 +408,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 		}
 		return objList.toArray(new String[objList.size()]);
+	}
+
+	@Override
+	public String[] getSiblingObjectNames(String objName) {
+		return getGeoProperty(objName, geo -> {
+			AlgoElement parent = geo.getParentAlgorithm();
+			if (parent != null) {
+				return Arrays.stream(parent.getOutput())
+						.map(GeoElement::getLabelSimple).toArray(String[]::new);
+			} else {
+				return new String[]{objName};
+			}
+		}, null);
 	}
 
 	@Override
@@ -498,7 +517,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setObjColor(GColor.newColor(red, green, blue));
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.COLOR);
 	}
 
 	@Override
@@ -595,7 +614,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setLineThickness(thickness);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	@Override
@@ -618,7 +637,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		if (geo instanceof PointProperties) {
 			((PointProperties) geo).setPointStyle(style);
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
 	}
 
@@ -727,6 +746,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public boolean isAnimationRunning() {
 		return kernel.getAnimatonManager().isRunning();
+	}
+
+	@Override
+	public boolean isAnimating(String label) {
+		return getGeoProperty(label, GeoElement::isAnimating, false);
 	}
 
 	@Override
@@ -840,11 +864,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean isMoveable(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) {
-			return false;
-		}
-		return geo.isMoveable();
+		return getGeoProperty(objName, GeoElement::isMoveable, false);
 	}
 
 	/**
@@ -903,7 +923,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		geo.setLineType(EuclidianView.getLineType(style));
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	/**
@@ -2305,11 +2325,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return kernel.getConstruction().getObjectsOfItsGroup(object);
 	}
 
-	@Override
-	public void addToGroup(String object, String[] objectsInGroup) {
-		kernel.getConstruction().addToGroup(object, objectsInGroup);
-	}
-
 	/**
 	 * @return exercise fraction (same as getValue("correct"))
 	 */
@@ -2357,7 +2372,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean hasUnlabeledPredecessors(String label) {
-		return kernel.getConstruction().hasUnlabeledPredecessors(label);
+		return kernel.getConstruction().hasUnlabeledPredecessors(kernel.lookupLabel(label));
 	}
 
 	@Override
@@ -2399,6 +2414,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return null;
 	}
 
+	protected JsObjectWrapper createWrapper() {
+		return null;
+	}
+
 	@Override
 	public void setGraphicsOptions(Object options) {
 		setGraphicsOptions(1, options);
@@ -2418,6 +2437,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val3 -> es.setBackground(GColor.parseHexColor(val3)));
 		opts.ifPropertySet("gridColor",
 				(Consumer<String>) val2 -> es.setGridColor(GColor.parseHexColor(val2)));
+		opts.ifPropertySet("axesColor",
+				(Consumer<String>) val2 -> es.setAxesColor(GColor.parseHexColor(val2)));
+
 		opts.ifObjectPropertySet("axes", axes -> {
 			for (char axis = 'x'; axis <= 'z'; axis++) {
 				final int axisNo = axis - 'x';
@@ -2429,6 +2451,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	protected void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {
+		axisOptions.ifPropertySet("visible",
+				(Consumer<Boolean>) val -> es.setShowAxis(axisNo, val));
 		axisOptions.ifPropertySet("positiveAxis",
 				(Consumer<Boolean>) val -> es.setPositiveAxis(axisNo, val));
 		axisOptions.ifPropertySet("showNumbers",
@@ -2440,4 +2464,37 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val -> es.setAxisUnitLabel(axisNo, val));
 	}
 
+	@Override
+	public Object getGraphicsOptions(int viewId) {
+		JsObjectWrapper opts = createWrapper();
+		EuclidianSettings es = app.getSettings().getEuclidian(viewId);
+		opts.setProperty("rightAngleStyle", app.rightAngleStyle);
+		opts.setProperty("pointCapturing", es.getPointCapturingMode());
+		opts.setProperty("grid", es.getShowGrid());
+		opts.setProperty("gridIsBold", es.getGridIsBold());
+		opts.setProperty("gridType", es.getGridType());
+		opts.setProperty("bgColor", StringUtil.toHtmlColor(es.getBackground()));
+		opts.setProperty("gridColor", StringUtil.toHtmlColor(es.getGridColor()));
+		opts.setProperty("axesColor", StringUtil.toHtmlColor(es.getAxesColor()));
+
+		JsObjectWrapper axes = createWrapper();
+		for (char axis = 'x'; axis <= 'z'; axis++) {
+			final int axisNo = axis - 'x';
+			axes.setProperty(String.valueOf(axis), getAxisOptions(axisNo, es).getNativeObject());
+		}
+
+		opts.setProperty("axes", axes.getNativeObject());
+		return opts.getNativeObject();
+	}
+
+	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {
+		JsObjectWrapper axisOptions = createWrapper();
+		axisOptions.setProperty("visible", es.getShowAxis(axisNo));
+		axisOptions.setProperty("positiveAxis", es.getPositiveAxes()[axisNo]);
+		axisOptions.setProperty("showNumbers", es.getShowAxisNumbers()[axisNo]);
+		axisOptions.setProperty("tickStyle", es.getAxesTickStyles()[axisNo]);
+		axisOptions.setProperty("label", es.getAxesLabels()[axisNo]);
+		axisOptions.setProperty("unitLabel", es.getAxesUnitLabels()[axisNo]);
+		return axisOptions;
+	}
 }

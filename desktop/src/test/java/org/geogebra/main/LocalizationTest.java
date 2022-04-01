@@ -50,6 +50,7 @@ public class LocalizationTest {
 		checkAlias(Language.Filipino, "fil", "tl");
 		checkAlias(Language.Yiddish, "yi", "ji");
 		checkAlias(Language.Mongolian, "mn", "mn-mn");
+		checkAlias(Language.Mongolian_Traditional, "mn-mn-mt");
 		checkAlias(Language.English_UK, "en-GB");
 		checkAlias(Language.English_US, "en-US", "en", "whatever");
 	}

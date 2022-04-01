@@ -44,10 +44,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 /**
- * @author gabor
- * 
  * ProbablityCalculatorView for web
- *
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		implements ChangeHandler, ValueChangeHandler<Boolean>, InsertHandler {

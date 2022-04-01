@@ -2,6 +2,7 @@
 @use 'text-styles';
 @use 'info-card';
 @use 'z-index';
+@use 'sass:math';
 
 $duration: 0.2s;
 $shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
@@ -554,7 +555,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					font-size: 75%;
 					min-height: 20px;
 					line-height: 20px;
-					max-width: 25em * 4 / 3;
+					max-width: math.div(25em * 4, 3);
 				}
 
 				&.hoverState {
@@ -613,7 +614,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent {
 		.globalErrorLabel {
 			color: colors.$error;
-			max-width: (20em/0.75);
+			max-width: math.div(20em * 4, 3);
 			font-size: 75%;
 			line-height: 16px;
 			min-height: 32px;

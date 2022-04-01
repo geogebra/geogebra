@@ -173,26 +173,3 @@ $menuWidth: 320px;
 	}
 }
 
-@keyframes animateIn {
-	0% {left: -320px; top: 0px;}
-	50% {left: -100; top: 0px;}
-	100% {left: 0px; top: 0px;}
-}
-
-@keyframes animateOut {
-	0% {left: 0px; top: 0px;}
-	50% {left: -220; top: 0px;}
-	100% {left: -320px; top: 0px;}
-}
-
-@keyframes animateInClassic {
-	0% {right: -320px; top: $classicToolbar;}
-	50% {right: -100; top: $classicToolbar;}
-	100% {right: 0px; top: $classicToolbar;}
-}
-
-@keyframes animateOutClassic {
-	0% {right: 0px; top: $classicToolbar;}
-	50% {right: -220; top: $classicToolbar;}
-	100% {right: -320px; top: $classicToolbar;}
-}

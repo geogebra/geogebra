@@ -270,11 +270,17 @@ public class Interval {
 	 * @return this as result.
 	 */
 	public Interval multiplicativeInverse() {
-		if (isZero()) {
+		if (isZeroWithDelta(1E-6)) {
 			setUndefined();
 			return this;
 		}
 		return IntervalOperands.divide(IntervalConstants.one(), this);
+	}
+
+	private boolean isZeroWithDelta(double delta) {
+		return DoubleUtil.isEqual(low, 0, delta)
+				&& DoubleUtil.isEqual(high, 0, delta);
+
 	}
 
 	void setWhole() {
@@ -402,8 +408,7 @@ public class Interval {
 	 * @return if interval is [0].
 	 */
 	public boolean isZero() {
-		return DoubleUtil.isEqual(low, 0, PRECISION)
-				&& DoubleUtil.isEqual(high, 0, PRECISION);
+		return isZeroWithDelta(PRECISION);
 	}
 
 	public boolean contains(double value) {

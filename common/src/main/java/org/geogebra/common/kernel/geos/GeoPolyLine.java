@@ -430,14 +430,9 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getStyleXML(StringBuilder sb) {
 		getLineStyleXML(sb);
-		getXMLvisualTags(sb);
-		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
-		getAuxiliaryXML(sb);
-		getBreakpointXML(sb);
-		getScriptTags(sb);
+		super.getStyleXML(sb);
 	}
 
 	@Override

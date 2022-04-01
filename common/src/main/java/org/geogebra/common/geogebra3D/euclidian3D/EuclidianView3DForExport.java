@@ -212,23 +212,18 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				if (dialog != null) {
 					dialog.show(dimensions[0] * scale, dimensions[1] * scale,
 							dimensions[2] * scale, scale, thickness * 2,
-							new Runnable() {
-								@Override
-								public void run() {
-									setThicknessAndScale(format,
-											dialog.getCurrentThickness() / 2,
-											dialog.getCurrentScale(),
-											dialog.wantsFilledSolids());
-									ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(
-											EuclidianView3DForExport.this,
-											renderer.getGeometryManager());
-									getApplication().getKernel().detach(
-											EuclidianView3DForExport.this);
-									getApplication().exportStringToFile(
-											format.getExtension(),
-											exportToPrinter.export(format)
-													.toString());
-								}
+							() -> {
+								setThicknessAndScale(format,
+										dialog.getCurrentThickness() / 2,
+										dialog.getCurrentScale(),
+										dialog.wantsFilledSolids());
+								ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
+										renderer.getGeometryManager());
+								getApplication().getKernel().detach(this);
+								getApplication().exportStringToFile(
+										format.getExtension(),
+										exportToPrinter.export(format)
+												.toString(), true);
 							});
 					return null;
 				}

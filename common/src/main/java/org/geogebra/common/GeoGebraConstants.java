@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "15 March 2022";
+	public static final String BUILD_DATE = "29 March 2022";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.694.0";
+	public static final String VERSION_STRING = "5.0.697.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -226,8 +226,7 @@ public interface GeoGebraConstants {
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 
 	/** license URL */
-	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra"
-			+ ".org/license/?action=AboutLicense";
+	public static final String GGB_LICENSE_URL = "https://www.geogebra.org/license";
 
 	/**
 	 * URL of the webpage to call if a file should be uploaded. If you want to

@@ -2,7 +2,6 @@ package org.geogebra.common.main.settings;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -91,9 +90,7 @@ public class Settings {
 				LinkedList<SettingListener> ls = euclidianSettings[i]
 						.getListeners();
 				euclidianSettings[i] = createEuclidanSettings(app, i);
-				Iterator<SettingListener> lsi = ls.iterator();
-				while (lsi.hasNext()) {
-					SettingListener a = lsi.next();
+				for (SettingListener a : ls) {
 					euclidianSettings[i].addListener(a);
 				}
 			}

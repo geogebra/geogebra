@@ -116,7 +116,9 @@ public class LoadFilePresenter {
 			}
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
-
+			if (app.isSuite() && view.getDataParamShowAppsPicker()) {
+				app.getDialogManager().showCalcChooser(false);
+			}
 			app.getAsyncManager().scheduleCallback(() -> app.getScriptManager().ggbOnInit());
 		} else {
 			// only do this after app initialized

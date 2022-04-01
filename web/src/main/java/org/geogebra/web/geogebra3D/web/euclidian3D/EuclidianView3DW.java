@@ -627,8 +627,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 	
 	@Override
-	public void setExport3D(Format format) {
-		super.setExport3D(format);
+	public void setExport3D(Format format, boolean showDialog) {
+		super.setExport3D(format, showDialog);
 		repaint();
 	}
 
