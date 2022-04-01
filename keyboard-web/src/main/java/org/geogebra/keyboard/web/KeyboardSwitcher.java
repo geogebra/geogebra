@@ -159,7 +159,6 @@ public class KeyboardSwitcher extends FlowPanel {
 				: GColor.BLACK.toString()));
 	}
 
-
 	protected void reset() {
 		if (moreButton != null) {
 			moreButton.setSelected(false);

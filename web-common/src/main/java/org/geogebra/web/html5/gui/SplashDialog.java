@@ -3,9 +3,9 @@ package org.geogebra.web.html5.gui;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.gwtproject.timer.client.Timer;
 
