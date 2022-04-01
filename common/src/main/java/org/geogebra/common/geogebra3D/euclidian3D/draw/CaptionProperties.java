@@ -1,11 +1,13 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.matrix.Coords;
 
 public class CaptionProperties {
-	private CaptionText caption;
+	private @CheckForNull CaptionText caption;
 	private final Coords color = new Coords(0, 0, 0, 1);
 	private final EuclidianView3D view;
 	private Coords backgroundColor;
@@ -19,7 +21,7 @@ public class CaptionProperties {
 	}
 
 	public boolean hasSubscript() {
-		return caption.text().contains("_");
+		return caption != null && caption.text().contains("_");
 	}
 
 	/**
@@ -31,6 +33,9 @@ public class CaptionProperties {
 	}
 
 	private void updateColor() {
+		if (caption == null) {
+			return;
+		}
 		GColor convertColor = caption.foregroundColor();
 		if (view.isAdditiveDisplay()
 				&& convertColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
@@ -59,6 +64,9 @@ public class CaptionProperties {
 	}
 
 	private void updateBackgroundColor() {
+		if (caption == null) {
+			return;
+		}
 		GColor bgColor = caption.backgroundColor();
 		this.backgroundColor = bgColor == null
 				? null
@@ -69,6 +77,6 @@ public class CaptionProperties {
 	}
 
 	public boolean hasBackgroundColor() {
-		return caption.backgroundColor() != null;
+		return caption != null && caption.backgroundColor() != null;
 	}
 }
