@@ -1,10 +1,10 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.dom.client.Element;
