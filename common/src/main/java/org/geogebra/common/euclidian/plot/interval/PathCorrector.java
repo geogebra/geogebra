@@ -82,10 +82,6 @@ public class PathCorrector {
 		}
 	}
 
-	private boolean isInvertedAround(int idx) {
-		return model.isInvertedAt(idx - 1) && isInvertedNextTo(idx);
-	}
-
 	private boolean isInvertedNextTo(int idx) {
 		return model.pointCount() > idx && model.isInvertedAt(idx + 1);
 	}
