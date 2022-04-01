@@ -9,11 +9,11 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.LayoutUtilW;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.gui.util.ToggleButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.timer.client.Timer;
@@ -74,7 +74,7 @@ public class ZoomController {
 	public void setFullScreenActive(boolean fullScreenActive,
 			ToggleButton fullscreenBtn) {
 		this.fullScreenActive = fullScreenActive;
-		if (fullscreenBtn != null) {
+		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
 			fullscreenBtn.setSelected(fullScreenActive);
 			fullscreenBtn.updateImage();
 		}

@@ -395,6 +395,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	}
 
 	/**
+	 * @param isFullscreen whether fullscreen should be active
+	 */
+	public void setFullScreen(boolean isFullscreen) {
+		getZoomController().setFullScreenActive(isFullscreen, fullscreenBtn);
+	}
+
+	/**
 	 * @return whether home button is shown
 	 */
 	public boolean isHomeShown() {

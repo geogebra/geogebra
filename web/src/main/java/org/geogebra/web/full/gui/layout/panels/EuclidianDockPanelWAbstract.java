@@ -247,7 +247,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public void tryBuildZoomPanel() {
+		boolean wasFullscreenActive = false;
 		if (zoomPanel != null) {
+			wasFullscreenActive = zoomPanel.isFullScreen();
 			zoomPanel.removeFromParent();
 			zoomPanel = null;
 		}
@@ -258,6 +260,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					this.mayHaveZoomButtons);
 			if (bottomRight) {
 				app.setZoomPanel(zoomPanel);
+			}
+			if (wasFullscreenActive) {
+				zoomPanel.setFullScreen(true);
 			}
 		}
 		tryBuildMowZoomPanel();
