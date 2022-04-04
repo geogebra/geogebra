@@ -55,6 +55,11 @@ public class GgbApiTest {
 		api = new GgbAPIHeadless(app) {
 
 			@Override
+			public void setAlgebraOptions(int sortBy) {
+				//
+			}
+
+			@Override
 			public JsObjectWrapper getWrapper(Object options) {
 				return new JsObjectWrapperCommon(options);
 			}

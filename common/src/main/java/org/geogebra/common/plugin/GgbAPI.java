@@ -17,6 +17,7 @@ import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.MyXMLio;
@@ -2485,6 +2486,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		opts.setProperty("axes", axes.getNativeObject());
 		return opts.getNativeObject();
+	}
+
+	@Override
+	public void setAlgebraOptions(int sortBy) {
+		app.getAlgebraView().setTreeMode(AlgebraView.SortMode.fromInt(sortBy));
 	}
 
 	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {
