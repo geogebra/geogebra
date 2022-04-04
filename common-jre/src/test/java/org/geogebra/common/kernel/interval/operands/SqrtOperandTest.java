@@ -40,10 +40,10 @@ public class SqrtOperandTest {
 	}
 
 	@Test
-	public void intervalWithMinusLowShouldBeUndefined() {
+	public void inverseOfNegativeSqrtNegativXShouldConvergeToNegativeInfinity() {
 		Interval x = interval(-3.224503997145689E-14, 0.019999999999967755);
-		assertEquals(undefined(),
-				sqrt(x.negative()).negative().multiplicativeInverse());
+		assertEquals(Double.POSITIVE_INFINITY,
+				sqrt(x.negative()).negative().multiplicativeInverse().getLow(), 0);
 	}
 
 	@Test

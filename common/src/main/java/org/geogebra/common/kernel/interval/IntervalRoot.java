@@ -35,9 +35,13 @@ public class IntervalRoot {
 		}
 
 		if (interval.isInverted()) {
+			if (isOdd(n)) {
+				return compute(interval.uninvert(), n).invert();
+			}
 			Interval result1 = compute(interval.extractLow(), n);
 			Interval result2 = compute(interval.extractHigh(), n);
-			return computeInverted(result1, result2);
+			Interval result = computeInverted(result1, result2);
+			return result;
 		}
 
 		double power = 1 / n;
@@ -56,6 +60,10 @@ public class IntervalRoot {
 	}
 
 	private boolean isPositiveOdd(double n) {
-		return n > 0 && DoubleUtil.isInteger(n) && (int) n % 2 != 0;
+		return n > 0 && isOdd(n);
+	}
+
+	private boolean isOdd(double n) {
+		return DoubleUtil.isInteger(n) && ((int) n) % 2 != 0;
 	}
 }
