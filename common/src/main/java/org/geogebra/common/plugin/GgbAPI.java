@@ -1020,7 +1020,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
 		StringTemplate template =
-				localized ? StringTemplate.algebraTemplate : StringTemplate.noLocalDefault;
+				localized ? StringTemplate.defaultTemplate : StringTemplate.noLocalDefault;
 
 		return geo.getAlgebraDescriptionPublic(template);
 	}

@@ -65,6 +65,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean numeric = true;
 
 	private boolean niceQuotes = false;
+	private boolean printsUnicodeSqrt = false;
 
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
@@ -157,6 +158,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		algebraTemplate.niceQuotes = true;
 		algebraTemplate.allowPiHack = false;
+		algebraTemplate.printsUnicodeSqrt = true;
 	}
 
 	/**
@@ -3163,6 +3165,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public boolean allowPiHack() {
 		return this.allowPiHack;
+	}
+
+	/**
+	 * @return true if prints sqrt in unicode
+	 */
+	public boolean printsUnicodeSqrt() {
+		return printsUnicodeSqrt;
 	}
 
 	/**
