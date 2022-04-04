@@ -298,7 +298,6 @@ public class ModeShape {
 			GeoConic conic = new GeoConic(view.getKernel().getConstruction(),
 					conicEqu);
 			conic.setLabelVisible(false);
-			conic.setIsShape(true);
 			conic.setLabel(null);
 			view.setShapeEllipse(null);
 			view.repaintView();
@@ -311,7 +310,6 @@ public class ModeShape {
 					 points[0], points[1]);
 			GeoSegment segment = algo.getSegment();
 			segment.setLabelVisible(false);
-			segment.setIsShape(true);
 			segment.setLabel(null);
 			view.setShapeLine(null);
 			view.repaintView();
@@ -375,7 +373,6 @@ public class ModeShape {
 	private static void createPolygon(AlgoPolygon algo) {
 		GeoPolygon poly = algo.getPoly();
 		poly.setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
-		poly.setIsShape(true);
 		poly.setLabelVisible(false);
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
@@ -386,7 +383,6 @@ public class ModeShape {
 	private static void createMask(AlgoPolygon algo) {
 		GeoPolygon polygon = algo.getPoly();
 		polygon.setIsMask(true);
-		polygon.setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
 		polygon.setObjColor(GeoGebraColorConstants.MEBIS_MASK);
 		polygon.setLabel(null);
 	}
@@ -438,7 +434,6 @@ public class ModeShape {
 		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(),
 				view.toRealWorldCoordX(startX), view.toRealWorldCoordY(startY), 1);
 		pt.setEuclidianVisible(false);
-		pt.updateRepaint();
 		return pt;
 	}
 

@@ -101,6 +101,7 @@ public class IntervalPowerEvaluator {
 
 	private Interval powerFraction(Interval x, long a, long b) {
 		Interval posPower = powerFractionPositive(x, Math.abs(a), Math.abs(b));
+		posPower.setInverted(x.isInverted());
 		if (a * b < 0) {
 			return posPower.multiplicativeInverse();
 		} else {

@@ -1,11 +1,15 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import java.util.Arrays;
+
 import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -21,20 +25,15 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * @author gabor
- * 
- *         Statistics calculator for web
- *
+ *  Statistics calculator for web
  */
 public class StatisticsCalculatorW extends StatisticsCalculator
 		implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>,
@@ -48,9 +47,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	private CheckBox ckPooled;
 	private ListBox cbProcedure;
 	private Button btnCalculate;
-	private RadioButton btnLeft;
-	private RadioButton btnRight;
-	private RadioButton btnTwo;
+	private RadioButtonPanel tailRadioButtonPanel;
 	private Label lblNull;
 	private Label lblHypParameter;
 	private Label lblTailType;
@@ -157,12 +154,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 		// reset the text in the result panel
 		recompute(false);
-
 	}
 
 	private void setHypParameterLabel() {
 		switch (sc.getSelectedProcedure()) {
-
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
 			lblHypParameter
@@ -191,7 +186,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	private void setProcedureComboLabels() {
-
 		combolabelsPreprocess();
 
 		cbProcedure.clear();
@@ -217,16 +211,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
 		ListBoxApi.select(mapProcedureToName.get(sc.getSelectedProcedure()),
 				cbProcedure);
-		// cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
-
-		// TODO for testing only, remove later
-		// cbProcedure.setSelectedItem(mapProcedureToName
-		// .get(Procedure.CHISQ_TEST));
-
 	}
 
 	private void setSampleFieldLabels() {
-
 		for (int i = 0; i < 3; i++) {
 			lblSampleStat1[i].setText("");
 			lblSampleStat2[i].setText("");
@@ -283,12 +270,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			lblSampleStat2[0].setText(strSuccesses);
 			lblSampleStat2[1].setText(strN);
 			break;
-
 		}
 	}
 
 	private void updateGUI() {
-
 		setHypParameterLabel();
 		setSampleFieldLabels();
 		setSampleFieldText();
@@ -310,11 +295,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 				|| sc.getSelectedProcedure() == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
-
 	}
 
 	private void setPanelLayout() {
-
 		panelBasicProcedures.setVisible(false);
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
@@ -330,7 +313,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			setInputPanelLayout();
 			panelBasicProcedures.setVisible(true);
 		}
-
 	}
 
 	private void setInputPanelLayout() {
@@ -353,8 +335,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			panelTestAndCI.addStyleName("panelTestAndCI");
 		}
 
-		// ---- add components
-
 		panelBasicProcedures.clear();
 		panelSample1.clear();
 		panelSample2.clear();
@@ -366,17 +346,14 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			panelSample1.add(lblSampleStat1[i]);
 			panelSample1.add((AutoCompleteTextFieldW) fldSampleStat1[i]);
 			panelSample1.add(new LineBreak());
-			// panelSample1.getElement().appendChild(Document.get().createBRElement());
 		}
 
-		// panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
 		panelSample2.add(lblSampleHeader2);
 
 		for (int i = 0; i < lblSampleStat2.length; i++) {
 			panelSample2.add(lblSampleStat2[i]);
 			panelSample2.add((AutoCompleteTextFieldW) fldSampleStat2[i]);
 			panelSample2.add(new LineBreak());
-			// panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
 
 		switch (sc.getSelectedProcedure()) {
@@ -395,23 +372,18 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add((AutoCompleteTextFieldW) fldNullHyp);
 				panelTestAndCI.add(lblHypParameter);
-				// panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(lblHypParameter);
 				panelTestAndCI.add((AutoCompleteTextFieldW) fldNullHyp);
-				// panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 
 			}
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(lblTailType);
-			panelTestAndCI.add(btnLeft);
-			panelTestAndCI.add(btnRight);
-			panelTestAndCI.add(btnTwo);
+			panelTestAndCI.add(tailRadioButtonPanel);
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
-			// panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 
 		case ZMEAN_CI:
@@ -424,7 +396,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			panelTestAndCI.add((AutoCompleteTextFieldW) fldConfLevel);
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
-			// panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 		}
 
@@ -459,10 +430,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	private void createGUIElements() {
 		tabIndex = 1; // 0 as first tabindex does not work.
-		// resultPane = new RichTextArea();
 		resultPane = new FlowPanel();
 		resultPane.addStyleName("resultPane");
-		// resultPane.setEnabled(false);
 
 		s1 = new double[3];
 		s2 = new double[3];
@@ -485,23 +454,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 		btnCalculate = new Button();
 		btnCalculate.addClickHandler(this);
-		String id = DOM.createUniqueId();
-		btnLeft = new RadioButton(id);
-		btnLeft.setText(StatisticsCollection.tail_left);
-		btnRight = new RadioButton(id);
-		btnRight.setText(StatisticsCollection.tail_right);
-		btnTwo = new RadioButton(id);
-		btnTwo.setText(StatisticsCollection.tail_two);
 
-		FlowPanel group = new FlowPanel();
-		group.add(btnLeft);
-		group.add(btnRight);
-		group.add(btnTwo);
-
-		btnLeft.addValueChangeHandler(this);
-		btnRight.addValueChangeHandler(this);
-		btnTwo.addValueChangeHandler(this);
-		btnTwo.setValue(true);
+		tailRadioButtonPanel = new RadioButtonPanel(loc,
+				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
+						newRadioButtonData(StatisticsCollection.tail_right),
+						newRadioButtonData(StatisticsCollection.tail_two)), 2);
 
 		lblNull = new Label();
 		lblHypParameter = new Label();
@@ -522,7 +479,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		}
 
 		fldSampleStat1 = new AutoCompleteTextFieldW[3];
-		// fldSampleStat1KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
 			fldSampleStat1[i] = buildTextField();
 		}
@@ -534,11 +490,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		}
 
 		fldSampleStat2 = new AutoCompleteTextFieldW[3];
-		// fldSampleStat2KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
 			fldSampleStat2[i] = buildTextField();
 		}
+	}
 
+	private RadioButtonData newRadioButtonData(String label) {
+		return new RadioButtonData(label, false, () -> updateResult(true));
 	}
 
 	private TextObject buildTextField() {
@@ -553,7 +511,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	@Override
 	protected void updateResultText(String str) {
-
 		resultPane.getElement().setInnerHTML(str);
 	}
 
@@ -579,10 +536,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		Object source = event.getSource();
 		if (source == ckPooled) {
 			sc.pooled = ckPooled.getValue();
-			updateResult(true);
-		}
-
-		if (source == btnLeft || source == btnRight || source == btnTwo) {
 			updateResult(true);
 		}
 
@@ -627,7 +580,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		if (event.getSource() instanceof TextBox) {
 			doTextFieldActionPerformed(true);
 		}
-
 	}
 
 	/**
@@ -651,19 +603,17 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 	@Override
 	protected boolean btnRightIsSelected() {
-		return btnRight.getValue();
+		return tailRadioButtonPanel.isNthRadioButtonSelected(1);
 	}
 
 	@Override
 	protected boolean btnLeftIsSelected() {
-		return btnLeft.getValue();
+		return tailRadioButtonPanel.isNthRadioButtonSelected(0);
 	}
 
 	@Override
 	protected void updateTailCheckboxes(boolean left, boolean right) {
-		btnLeft.setValue(left);
-		btnRight.setValue(right);
-		btnTwo.setValue(!left && !right);
+		// nothing to do here
 	}
 
 	@Override

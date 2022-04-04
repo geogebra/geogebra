@@ -306,7 +306,7 @@ public class SliderModel extends OptionsModel {
 			GColor colorWithTransparency = GColor.newColor(lineCol.getRed(),
 					lineCol.getGreen(), lineCol.getBlue(), value * 255 / 100);
 			num.setBackgroundColor(colorWithTransparency);
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.COLOR);
 		}
 		storeUndoInfo();
 	}
@@ -319,7 +319,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setSliderBlobSize(value);
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
 		storeUndoInfo();
 	}
@@ -332,7 +332,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setLineThickness((int) Math.round(value));
-			num.updateRepaint();
+			num.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
 		storeUndoInfo();
 	}

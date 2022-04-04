@@ -1281,9 +1281,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			geos2.addAll(selection.getSelectedGeos());
 			for (GeoElement geo : geos2) {
 				if (filter.test(geo)) {
-					boolean removePredecessors = isCut || geo.isShape();
 					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (removePredecessors && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo.getParentAlgorithm().input) {
 							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}

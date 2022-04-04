@@ -2110,4 +2110,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		setFocusedStyle(false);
 	}
+
+	/**
+	 * Insert string (like autocomplete) but with math support
+	 * @param string math content
+	 */
+	public void insertMath(String string) {
+		if (mf != null) {
+			mf.getInternal().convertAndInsert(string);
+		}
+	}
 }

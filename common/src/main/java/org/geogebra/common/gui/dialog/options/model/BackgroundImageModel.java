@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 
@@ -27,7 +28,7 @@ public class BackgroundImageModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		GeoImage geo = getImageAt(index);
 		geo.setInBackground(value);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.HATCHING);
 		storeUndoInfo();
 	}
 }

@@ -449,8 +449,8 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// font settings
 		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,

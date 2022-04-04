@@ -340,6 +340,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return onLoadCallback;
 	}
 
+	public void setOnLoadCallback(JavaScriptObject onLoadCallback) {
+		this.onLoadCallback = onLoadCallback;
+	}
+
 	/**
 	 * @param width
 	 *            width computed from article parameters

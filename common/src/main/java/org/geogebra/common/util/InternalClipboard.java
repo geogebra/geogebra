@@ -333,7 +333,8 @@ public class InternalClipboard {
 			ArrayList<GeoElement> movable = new ArrayList<>();
 			ArrayList<GeoMindMapNode> mindMaps = new ArrayList<>();
 			for (GeoElement created : createdElements) {
-				if (created.isShape() || created instanceof GeoLocusStroke
+				if (created.isGeoPolygon() || created.isGeoSegment()
+						|| created.isGeoConic() || created instanceof GeoLocusStroke
 						|| created instanceof GeoWidget || created instanceof GeoImage
 						|| created instanceof GeoInline) {
 					shapes.add(created);

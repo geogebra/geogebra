@@ -261,8 +261,8 @@ public class Interval {
 		}
 
 		return inverted == other.inverted
-				&& DoubleUtil.isEqual(low, other.low, 1E-7)
-				&& DoubleUtil.isEqual(high, other.high, 1E-7);
+				&& DoubleUtil.isEqual(low, other.low, PRECISION)
+				&& DoubleUtil.isEqual(high, other.high, PRECISION);
 	}
 
 	/**

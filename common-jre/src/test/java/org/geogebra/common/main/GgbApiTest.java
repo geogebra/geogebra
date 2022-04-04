@@ -353,6 +353,14 @@ public class GgbApiTest {
 		assertEquals(app.getActiveEuclidianView().getBackgroundCommon(), GColor.BLUE);
 	}
 
+	@Test
+	public void testHasUnlabeledPredecessors() {
+		api.evalCommand("a=Segment((0,0),(1,0))");
+		api.evalCommand("b=2*a");
+		assertTrue(api.hasUnlabeledPredecessors("a"));
+		assertFalse(api.hasUnlabeledPredecessors("b"));
+	}
+
 	private class MockScriptManager extends ScriptManagerJre {
 		public MockScriptManager() {
 			super(GgbApiTest.this.app);
@@ -379,6 +387,29 @@ public class GgbApiTest {
 		@Override
 		protected JsObjectWrapper wrap(Object nativeObject) {
 			return new JsObjectWrapperCommon(nativeObject);
+		}
+
+		@Override
+		public void setProperty(String property, Object value) {
+			try {
+				((JSONObject) nativeObject).put(property, value);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void setProperty(String property, int value) {
+			try {
+				((JSONObject) nativeObject).put(property, value);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public Object getNativeObject() {
+			return nativeObject;
 		}
 	}
 }
