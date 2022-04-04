@@ -28,6 +28,7 @@ package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.timer.client.Timer;
@@ -92,6 +93,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
+	private static Predicate<NativeEvent> isGlobalEvent = evt -> false;
 	private MetaModel metaModel;
 
 	private final MathFieldInternal mathFieldInternal;
@@ -184,24 +186,28 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
 		instances.add(this);
-		if (canvas == null) {
-			return;
+		if (canvas != null) {
+
+			canvas.addDomHandler(event -> {
+				if (!isEnabled()) {
+					return;
+				}
+				event.stopPropagation();
+				// prevent default to keep focus; also avoid dragging the whole
+				// editor
+				event.preventDefault();
+				setFocus(true);
+				setRightAltDown(false);
+				setLeftAltDown(false);
+
+			}, MouseDownEvent.getType());
+
+			setKeyListener(inputTextArea, keyListener);
 		}
-		canvas.addDomHandler(event -> {
-			if (!isEnabled()) {
-				return;
-			}
-			event.stopPropagation();
-			// prevent default to keep focus; also avoid dragging the whole
-			// editor
-			event.preventDefault();
-			setFocus(true);
-			setRightAltDown(false);
-			setLeftAltDown(false);
+	}
 
-		}, MouseDownEvent.getType());
-
-		setKeyListener(inputTextArea, keyListener);
+	public static void setGlobalEventCheck(Predicate<NativeEvent> globalEvent) {
+		MathFieldW.isGlobalEvent = globalEvent;
 	}
 
 	/**
@@ -400,7 +406,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					|| isLeftAltDown()) {
 				event.preventDefault();
 			}
-			event.stopPropagation();
+			if (!isGlobalEvent.test(event.getNativeEvent())) {
+				event.stopPropagation();
+			}
 
 		}, KeyDownEvent.getType());
 	}
@@ -1042,11 +1050,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public void setScale(double scaleX) {
 		this.scale = scaleX;
-	}
-
-	@Override
-	public void tab(boolean shiftDown) {
-		mathFieldInternal.onTab(shiftDown);
 	}
 
 	@Override

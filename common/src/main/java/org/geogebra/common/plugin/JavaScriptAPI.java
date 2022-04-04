@@ -499,6 +499,12 @@ public interface JavaScriptAPI {
 	boolean isAnimationRunning();
 
 	/**
+	 * @param objName object name
+	 * @return whether given object is animating
+	 */
+	boolean isAnimating(String objName);
+
+	/**
 	 * Current frame rate of the animation.
 	 * 
 	 * @return in seconds
@@ -795,6 +801,12 @@ public interface JavaScriptAPI {
 	 * @return objects of this type
 	 */
 	String[] getAllObjectNames(String type);
+
+	/**
+	 * @param objName object name
+	 * @return names of all
+	 */
+	String[] getSiblingObjectNames(String objName);
 
 	/**
 	 * Returns the number of objects in the construction.
@@ -1158,13 +1170,6 @@ public interface JavaScriptAPI {
 	String[] getObjectsOfItsGroup(String object);
 
 	/**
-	 * add an element to a group
-	 * @param object - object to be added to group
-	 * @param objectInGroup - objects in group
-	 */
-	void addToGroup(String object, String[] objectInGroup);
-
-	/**
 	 * @param label - label of element
 	 * @return whether element has unlabeled predecessors
 	 */
@@ -1200,4 +1205,10 @@ public interface JavaScriptAPI {
 	 * @param viewId 1 for graphhics, 2 for graphics 2, 3 for 3D
 	 */
 	void setGraphicsOptions(int viewId, Object options);
+
+	/**
+	 * @param viewId 1,2 or 3 for 3D
+	 * @return view options
+	 */
+	Object getGraphicsOptions(int viewId);
 }

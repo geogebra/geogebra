@@ -59,6 +59,9 @@ public class IntervalPath {
 		IntervalTuple tuple = model.pointAt(i);
 		boolean shouldSkip = shouldSkip(tuple);
 		if (shouldSkip) {
+			if (tuple.isInverted()) {
+				return;
+			}
 			skip();
 		} else if (lastY.isUndefined()) {
 			if (tuple.isInverted()) {
@@ -116,7 +119,8 @@ public class IntervalPath {
 	}
 
 	private boolean shouldSkip(IntervalTuple tuple) {
-		return tuple.isUndefined() || tuple.y().isPositiveInfinity();
+		return tuple.isUndefined()
+				|| tuple.y().isPositiveInfinity();
 	}
 
 	private void line(Interval x, Interval y) {

@@ -155,7 +155,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		if (latex 
 				&& (geo1.isLaTeXDrawableGeo()
-						|| AlgebraItem.isGeoFraction(geo1))) {
+						|| AlgebraItem.isGeoFraction(geo1)
+						|| AlgebraItem.isGeoSurd(geo1))) {
 			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
 					fontSize);
 			valCanvas.addStyleName("canvasVal");

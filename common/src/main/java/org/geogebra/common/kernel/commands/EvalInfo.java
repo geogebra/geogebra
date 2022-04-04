@@ -20,7 +20,7 @@ public class EvalInfo {
 	private boolean useCAS = true;
 	private boolean autocreateSliders = true;
 	private boolean autoAddDegree = false;
-	private boolean fractions = false;
+	private boolean symbolic = false;
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
@@ -150,7 +150,7 @@ public class EvalInfo {
 		ret.useCAS = this.useCAS;
 		ret.autocreateSliders = this.autocreateSliders;
 		ret.autoAddDegree = this.autoAddDegree;
-		ret.fractions = this.fractions;
+		ret.symbolic = this.symbolic;
 		ret.forceUserEquation = this.forceUserEquation;
 		ret.updateRandom = this.updateRandom;
 		ret.symbolicMode = this.symbolicMode;
@@ -242,16 +242,16 @@ public class EvalInfo {
 	}
 
 	/**
-	 * @param symbFractions
+	 * @param symbolic
 	 *            whether to show symbolic fractionss
 	 * @return derived eval info
 	 */
-	public EvalInfo withFractions(boolean symbFractions) {
-		if (symbFractions == this.fractions) {
+	public EvalInfo withSymbolic(boolean symbolic) {
+		if (symbolic == this.symbolic) {
 			return this;
 		}
 		EvalInfo ret = copy();
-		ret.fractions = symbFractions;
+		ret.symbolic = symbolic;
 		return ret;
 	}
 
@@ -272,8 +272,8 @@ public class EvalInfo {
 	/**
 	 * @return whether to show symbolic fractions
 	 */
-	public boolean isFractions() {
-		return fractions;
+	public boolean isSymbolic() {
+		return symbolic;
 	}
 
 	/**

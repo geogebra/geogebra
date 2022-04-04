@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
@@ -34,7 +35,7 @@ public class CmdShowLabel extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				geo.setLabelVisible(((GeoBoolean) arg[1]).getBoolean());
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
 
 				return arg;
 			}

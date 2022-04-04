@@ -386,10 +386,9 @@ public class GeoLocusStroke extends GeoLocus
 			splits = this.split(realRectangle);
 
 			for (GeoElement split : splits) {
-				split.setLabel(null);
 				split.setVisualStyle(this);
 				split.setEuclidianVisible(true);
-				split.update();
+				split.setLabel(null);
 			}
 
 			if (removeOriginal) {
@@ -884,8 +883,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	public void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		if (!StringUtil.empty(splitParentLabel)) {
 			sb.append("\t<parentLabel val=\"");
 			sb.append(StringUtil.encodeXML(splitParentLabel));

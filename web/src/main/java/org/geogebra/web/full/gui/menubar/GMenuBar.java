@@ -7,8 +7,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-
 /**
  * Menubar with some extra functionality (popups, event logging)
  *
@@ -201,10 +199,4 @@ public class GMenuBar extends AriaMenuBar {
 		}
 	}
 
-	/**
-	 * focus menu in a deferred way.
-	 */
-	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(getElement()::focus);
-	}
 }

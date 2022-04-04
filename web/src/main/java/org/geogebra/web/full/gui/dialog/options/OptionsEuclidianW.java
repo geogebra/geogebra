@@ -234,9 +234,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				mainPanel.setStyleName("disabled");
 			}
 			lbGridType.setEnabled(value);
-			cbGridManualTick.setEnabled(value);
+			cbGridManualTick.setDisabled(!value);
 			btnGridStyle.setEnabled(value);
-			cbBoldGrid.setEnabled(value);
+			cbBoldGrid.setDisabled(!value);
 			btGridColor.setEnabled(value);
 		}
 

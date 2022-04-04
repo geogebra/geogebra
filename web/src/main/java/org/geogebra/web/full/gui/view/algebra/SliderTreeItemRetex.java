@@ -70,7 +70,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	}
 
 	@Override
-	protected RadioTreeItemController createController() {
+	protected LatexTreeItemController createController() {
 		return new SliderTreeItemRetexController(this);
 	}
 

@@ -99,6 +99,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
+import org.geogebra.common.util.shape.Rectangle;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -517,59 +518,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
-	private final Rectangle visibleRect;
+	private Rectangle visibleRect;
 	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
-
-	public static class Rectangle {
-
-		private double minX;
-		private double maxX;
-		private double minY;
-		private double maxY;
-
-		private Rectangle() {
-			this(0, 0, 0, 0);
-		}
-
-		private Rectangle(double minX, double maxX, double minY, double maxY) {
-			this.minX = minX;
-			this.maxX = maxX;
-			this.minY = minY;
-			this.maxY = maxY;
-		}
-
-		public double getMinX() {
-			return minX;
-		}
-
-		public void setMinX(double xMin) {
-			this.minX = xMin;
-		}
-
-		public double getMaxX() {
-			return maxX;
-		}
-
-		public void setMaxX(double xMax) {
-			this.maxX = xMax;
-		}
-
-		public double getMinY() {
-			return minY;
-		}
-
-		public void setMinY(double yMin) {
-			this.minY = yMin;
-		}
-
-		public double getMaxY() {
-			return maxY;
-		}
-
-		public void setMaxY(double yMax) {
-			this.maxY = yMax;
-		}
-	}
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -618,7 +568,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView() {
 		hitDetector = new HitDetector(this);
-		visibleRect = new Rectangle();
 		coordSystemInfo = new CoordSystemInfo(this);
 	}
 
@@ -655,7 +604,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.euclidianController = ec;
 		this.kernel = ec.getKernel();
 		this.app = kernel.getApplication();
+
 		this.settings = settings;
+		if (settings != null) {
+			settings.addListener(s -> app.dispatchEvent(
+					new Event(EventType.VIEW_PROPERTIES_CHANGED, null, String.valueOf(viewNo))));
+		}
 
 		GeoPriorityComparator cmp = app.getGeoPriorityComparator();
 		logToCrashlytics("EuclidianView.allDrawableList reinitialized at EuclidianView.init(",
@@ -1772,10 +1726,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		ymin = (getYZero() - getHeight()) * getInvYscale();
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
-		visibleRect.minX = -(getXZero() - visibleFromX) * getInvXscale();
-		visibleRect.maxX = xmax;
-		visibleRect.minY = (getYZero() - getVisibleHeight()) * getInvYscale();
-		visibleRect.maxY = ymax;
+		visibleRect = new Rectangle(-(getXZero() - visibleFromX) * getInvXscale(), xmax,
+				(getYZero() - getVisibleHeight()) * getInvYscale(), ymax);
 	}
 
 	/**
@@ -5158,7 +5110,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// enlarge x/y if we want to keep ratio
 		if (keepRatio) {
 			double oldRatio =
-					(visibleRect.maxX - visibleRect.minX) / (visibleRect.maxY - visibleRect.minY);
+					(visibleRect.getMaxX() - visibleRect.getMinX())
+							/ (visibleRect.getMaxY() - visibleRect.getMinY());
 			double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
 			if (newRatio > oldRatio) {
 				// enlarge y

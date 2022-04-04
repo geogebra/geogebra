@@ -8,7 +8,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalFunction;
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class SqrtEvaluationTest extends BaseUnitTest {
 	@Test
 	public void testNoWholeInInverseOfMinusSqrtMinusX() {
 		IntervalFunction function = new IntervalFunction(add("1/-sqrt(-x)"));
-		for (double t = -5; t < 1; t += IntervalConstants.PRECISION) {
+		for (double t = -5; t < 1; t += 1E-4) {
 			assertFalse(function.evaluate(around(t)).isWhole());
 		}
 	}

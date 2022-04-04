@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog.options.model;
 
 import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.main.App;
@@ -27,7 +28,7 @@ public class ExtendedAVModel extends BooleanOptionModel {
 		if (isValidAt(index)) {
 			GeoElement geo = getGeoAt(index);
 			((HasExtendedAV) geo).setShowExtendedAV(value);
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		}
 	}
 

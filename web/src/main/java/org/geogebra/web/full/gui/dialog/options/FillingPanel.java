@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -280,10 +278,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	public void applyImage(String fileName0, String fileData) {
 		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
 
-		Construction cons = app.getKernel().getConstruction();
 		app.getImageManager().addExternalImage(fileName, fileData);
-		GeoImage geoImage = new GeoImage(cons);
-		app.getImageManager().triggerSingleImageLoading(fileName, geoImage);
+		app.getImageManager().triggerSingleImageLoading(fileName, app.getKernel());
 		model.applyImage(fileName);
 	}
 

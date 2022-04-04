@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.redefinition.RuleCollection;
@@ -437,7 +438,7 @@ public class AlgebraProcessor {
 				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
 						.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
-						.withFractions(true);
+						.withSymbolic(true);
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
@@ -602,6 +603,7 @@ public class AlgebraProcessor {
 					if (obj != null) {
 						app.getScriptManager().enableListeners();
 						if (listeners && obj.length > 0) {
+							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
 							obj[0].updateCascade();
 						}
 						app.getCompanion().recallViewCreators();
@@ -1109,7 +1111,7 @@ public class AlgebraProcessor {
 		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
 		ExpressionNode node =
 				expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2]))
-						.wrap();
+						.traverse(SqrtMultiplyFixer.INSTANCE).wrap();
 		node.setLabels(expression.getLabels());
 		return node;
 	}
@@ -2044,14 +2046,7 @@ public class AlgebraProcessor {
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
-        ExpressionValue expressionValue = expression.unwrap();
-        if (expressionValue instanceof Command) {
-            Command command = (Command) expressionValue;
-            if (command.getName().equals(loc.getFunction("freehand"))) {
-                return true;
-            }
-        }
-		return false;
+		return expression.isTopLevelCommand(loc.getFunction("freehand"));
 	}
 
 	/**
@@ -2195,11 +2190,8 @@ public class AlgebraProcessor {
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new MyError(loc, Errors.ReplaceFailed);
-				} catch (MyError e) {
-					e.printStackTrace();
+				} catch (Exception | MyError e) {
+					Log.debug(e);
 					throw new MyError(loc, Errors.ReplaceFailed);
 				}
 			}
@@ -3280,7 +3272,7 @@ public class AlgebraProcessor {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
-		if (info.isFractions() && ret instanceof HasSymbolicMode) {
+		if (info.isSymbolic() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 		if (ret instanceof HasExtendedAV) {
@@ -3350,7 +3342,7 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
-			if (info.isFractions()) {
+			if (info.isSymbolic()) {
 				((HasSymbolicMode) ret).initSymbolicMode();
 			}
 			if (!evalList.isDefined()) {

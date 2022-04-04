@@ -12,9 +12,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/options-layout24.png")
 	ImageResource options_layout24();
 
-	@Source("org/geogebra/common/icons/png/web/general/geogebra32.png")
-	ImageResource geogebraLogo();
-
 	@Source("org/geogebra/common/icons/png/web/general/aux_folder.gif")
 	ImageResource aux_folder();
 

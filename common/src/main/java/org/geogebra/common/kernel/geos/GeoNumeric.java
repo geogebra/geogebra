@@ -722,17 +722,23 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
+		getValueXML(sb, value);
+		getStyleXML(sb);
+	}
+
+	protected void getValueXML(StringBuilder sb, double rawVal) {
 		sb.append("\t<value val=\"");
-		sb.append(value);
+		sb.append(rawVal);
 		sb.append("\"");
 		if (isRandom()) {
 			sb.append(" random=\"true\"");
 		}
 		sb.append("/>\n");
-		XMLBuilder.appendSymbolicMode(sb, this, false);
-		// colors
-		getXMLvisualTags(sb);
+	}
 
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		XMLBuilder.appendSymbolicMode(sb, this, false);
 		// if number is drawable then we need to save visual options too
 		if (isDrawable || isSliderable()) {
 			// save slider info before show to have min and max set
@@ -749,11 +755,16 @@ public class GeoNumeric extends GeoElement
 				sb.append("\"/>\n");
 			}
 		}
-		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
-		getAuxiliaryXML(sb);
-		getBreakpointXML(sb);
-		getScriptTags(sb);
+		getBasicStyleXML(sb);
+		getExtraTagsXML(sb);
+	}
+
+	/**
+	 * Expose parent implementation to angles
+	 * @param sb string builder
+	 */
+	protected void getBasicStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 	}
 
 	/**
@@ -762,7 +773,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true iff slider is possible
 	 */
 	public boolean isSliderable() {
-		return hasValidIntervals() && isSimple();
+		return hasValidIntervals() && isIndependent();
 	}
 
 	private boolean hasValidIntervals() {
@@ -1031,11 +1042,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
-		return isValidInterval(getIntervalMax());
-	}
-
-	private boolean isValidInterval(double value) {
-		return !Double.isNaN(value) && !Double.isInfinite(value);
+		return MyDouble.isFinite(getIntervalMax());
 	}
 
 	/**
@@ -1044,7 +1051,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
-		return isValidInterval(getIntervalMin());
+		return MyDouble.isFinite(getIntervalMin());
 	}
 
 	/**
@@ -1668,7 +1675,6 @@ public class GeoNumeric extends GeoElement
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
 			boolean isAngle) {
 		return setSliderFromDefault(num, isAngle, true);
-
 	}
 
 	/**
@@ -1852,7 +1858,8 @@ public class GeoNumeric extends GeoElement
 		ExpressionNode definition = getDefinition();
 		boolean symbolicMode =
 				(definition == null)
-						|| (!definition.isSimpleFraction() && definition.isFractionNoPi());
+						|| (!definition.isSimpleFraction() && definition.isFractionNoPi())
+						|| (definition.isSimplifiableSurd());
 		setSymbolicMode(symbolicMode, false);
 	}
 

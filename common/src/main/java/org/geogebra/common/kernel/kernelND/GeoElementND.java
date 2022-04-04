@@ -1437,11 +1437,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	boolean hasDrawable3D();
 
 	/**
-	 * @return is geo created with shape tool
-	 */
-	boolean isShape();
-
-	/**
 	 * @return is geo created with mask tool
 	 */
 	boolean isMask();
@@ -1666,4 +1661,9 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 
 	/** @return true if this is fixed (moving forbidden, deleting OK) */
 	boolean isLocked();
+
+	/**
+	 * @return style-related XML (no value)
+	 */
+	String getStyleXML();
 }

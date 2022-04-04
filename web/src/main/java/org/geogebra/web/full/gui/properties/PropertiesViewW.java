@@ -534,6 +534,11 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	public void setFloatingAttached(boolean floatingAttached) {
 		this.floatingAttached = floatingAttached;
+		if (floatingAttached) {
+			kernel.attach(this);
+		} else {
+			kernel.detach(this);
+		}
 	}
 
 	/**

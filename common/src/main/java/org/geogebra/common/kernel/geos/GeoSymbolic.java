@@ -900,6 +900,11 @@ public class GeoSymbolic extends GeoElement
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
 		getFVarsXML(builder);
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder builder) {
+		super.getStyleXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
