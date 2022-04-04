@@ -369,30 +369,20 @@ public class TableValuesView implements TableValues, SettingListener {
 		}
 	}
 
-	/**
-	 * @param column column
-	 * @return one variable stats
-	 */
+	@Override
 	public List<StatisticGroup> getStatistics1Var(int column) {
 		return new StatsBuilder(model.getEvaluatable(column))
 				.getStatistics1Var(model.getHeaderAt(column));
 	}
 
-	/**
-	 * @param column column
-	 * @return two variable stats for first and given column
-	 */
+	@Override
 	public List<StatisticGroup> getStatistics2Var(int column) {
 		return new StatsBuilder(model.getEvaluatable(0),
 				model.getEvaluatable(column)).getStatistics2Var(model.getHeaderAt(0),
 				model.getHeaderAt(1));
 	}
 
-	/**
-	 * @param column column
-	 * @param regression regression type + degree
-	 * @return regression parameters for first and given column
-	 */
+	@Override
 	public List<StatisticGroup> getRegression(int column, RegressionSpecification regression) {
 		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
 				.getRegression(regression);
