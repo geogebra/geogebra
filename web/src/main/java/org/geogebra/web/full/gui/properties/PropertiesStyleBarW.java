@@ -103,8 +103,10 @@ public class PropertiesStyleBarW extends
 
 		setButtonVisible(OptionType.CAS,
 				app.getGuiManager().showView(App.VIEW_CAS));
-    }
-	
+		setButtonVisible(OptionType.ALGEBRA,
+				app.getConfig().hasAlgebraView());
+	}
+
 	private void buildGUI() {
 		final AriaMenuBar toolbar = new AriaMenuBar() {
 			@Override
