@@ -411,10 +411,9 @@ public class Command extends ValidExpression
 						}
 					}
 				}
-				sbToString.append(',');
-			}
-			if (size > 0) {
-				sbToString.deleteCharAt(sbToString.length() - 1);
+				if (i < size - 1) {
+					tpl.getCommaOptionalSpace(sbToString, kernel.getLocalization());
+				}
 			}
 			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\right");
