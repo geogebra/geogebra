@@ -177,7 +177,7 @@ class NamePanel extends OptionPanel
 		model.applyCaptionChange(tfCaption.getText());
 		EuclidianView activeEuclidianView = app.getActiveEuclidianView();
 
-		// to avoid NPE in 3D
+		// to avoid casting error in 3D
 		if (activeEuclidianView instanceof EuclidianViewW) {
 			((EuclidianViewW) activeEuclidianView).doRepaint();
 		}
