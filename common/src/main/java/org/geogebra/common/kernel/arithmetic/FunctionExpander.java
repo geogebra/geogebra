@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Expands f as f(x) or f(x,y) in CAS
@@ -218,25 +217,11 @@ public class FunctionExpander implements Traversing {
 					// will result in f(x, x)
 					for (int i = 0; i < fv.length; i++) {
 						if (en.getOperation() == Operation.FUNCTION_NVAR || surfaceNoComplex) {
-							if (argument instanceof MyList) {
+							if (argument instanceof MyList
+									&& ((MyList) argument).size() == fv.length) {
 								ithArg = ((MyList) argument).getListElement(i);
 							} else {
-								MyVecNDNode vec = (MyVecNDNode) argument;
-								switch (i) {
-								default:
-									ithArg = null;
-									Log.debug("problem in FunctionExpander " + i);
-									break;
-								case 0:
-									ithArg = vec.getX();
-									break;
-								case 1:
-									ithArg = vec.getY();
-									break;
-								case 2:
-									ithArg = vec.getZ();
-									break;
-								}
+								ithArg = VectorArithmetic.computeCoord(argument.wrap(), i);
 							}
 						}
 						VariableReplacer.addVars(fv[i].getSetVarString(), ithArg);

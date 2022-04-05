@@ -322,12 +322,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	// SPECIFIC XML
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-
-		// line style
-		getLineStyleXML(sb);
-
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// level of detail
 		if (getLevelOfDetail() == LevelOfDetail.QUALITY) {
 			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
 import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
@@ -51,14 +52,14 @@ public class IntervalAlgebraTest {
 	public void testMultiplicativeInverseResultInfinityAbs() {
 		Interval actual = interval(-6, 0).multiplicativeInverse();
 		assertEquals(actual.getLow(), Double.NEGATIVE_INFINITY, 0);
-		assertEquals(actual.getHigh(), -1.0 / 6.0, 1E-7);
+		assertEquals(actual.getHigh(), -1.0 / 6.0, PRECISION);
 	}
 
 	@Test
 	public void testMultiplicativeInverseResultAbsInfinity() {
 		Interval actual = interval(0, 2).multiplicativeInverse();
 		assertEquals(actual.getHigh(), Double.POSITIVE_INFINITY, 0);
-		assertEquals(actual.getLow(), 1.0 / 2.0, 1E-7);
+		assertEquals(actual.getLow(), 1.0 / 2.0, PRECISION);
 	}
 
 	@Test
@@ -70,13 +71,14 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testPowOne() {
 		Interval interval = pow(interval(Math.exp(-1), Math.exp(1)), 1);
-		assertTrue(interval.almostEqual(interval(0.36787944117, 2.71828182846)));
+		assertEquals(interval(0.36787944117144233, 2.718281828459045),
+				interval);
 	}
 
 	@Test
 	public void testPowThree() {
 		Interval interval = pow(interval(Math.exp(-1), Math.exp(1)), 3);
-		assertTrue(interval.almostEqual(interval(0.04978706836, 20.0855369232)));
+		assertEquals(interval(0.049787068367863944, 20.085536923187668), interval);
 	}
 
 	@Test
@@ -152,31 +154,18 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testPositiveAndZeroPowerOfNegatives() {
-		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				pow(interval(0, 2), -2)));
-
-		assertTrue(interval(1 / 8.0, Double.POSITIVE_INFINITY).almostEqual(
-				pow(interval(0, 2), -3)));
-
-		assertTrue(interval(1 / 4.0, Double.POSITIVE_INFINITY).almostEqual(
-				pow(interval(-2, 0), -2)));
-
-		assertTrue(interval(Double.NEGATIVE_INFINITY, -1 / 8.0).almostEqual(
-				pow(interval(-2, 0), -3)));
+	public void testNegativePowersOfPositive()  {
+		assertEquals(interval(Double.NEGATIVE_INFINITY, 1 / 4.0).invert(),
+				pow(interval(0, 2), -2));
 	}
 
 	@Test
 	public void testSpecialPowerOfCases() {
 		Interval interval = pow(interval(0, 1), -2);
-		assertTrue(interval.getLow() < 1);
-		assertTrue(Math.abs(interval.getLow() - 1) < 1E-7);
-
+		assertEquals(interval(Double.NEGATIVE_INFINITY, 1).invert(), interval);
 		Interval halfOpen = pow(interval(0, 1).halfOpenLeft(), -2);
-		assertTrue(halfOpen.getLow() < 1);
-		assertTrue(Math.abs(halfOpen.getLow() - 1) < 1E-7);
-		assertEquals(Double.POSITIVE_INFINITY, halfOpen.getHigh(), 0);
-
+		assertEquals(interval(Double.NEGATIVE_INFINITY, 1).invert(), halfOpen);
+		assertEquals(1, halfOpen.getHigh(), PRECISION);
 	}
 
 	@Test

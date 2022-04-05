@@ -37,15 +37,10 @@ public class PathCorrector {
 			Interval y) {
 		lastY = y;
 		IntervalTuple tuple = model.pointAt(idx);
-		if (this.lastY.isUndefined()) {
+		if (lastY.isUndefined() || tuple.y().isWhole()) {
 			this.lastY.setUndefined();
-		} else if (tuple.y().isWhole()) {
-			this.lastY.setUndefined();
-		} else if (isInvertedAround(idx)) {
-			drawInvertedInterval(idx);
 		} else {
 			drawInvertedInterval(idx);
-			lastY.set(IntervalConstants.undefined());
 		}
 
 		return this.lastY;
@@ -78,16 +73,13 @@ public class PathCorrector {
 			if (Double.isFinite(high)) {
 				drawFromNegativeInfinity(idx, low);
 				drawFromPositiveInfinity(idx, high);
+				lastY.setUndefined();
 			} else {
 				drawFromNegativeInfinityOnly(idx, low);
 			}
 		} else {
-			drawFromPositiveInfinityOnly(idx, high);
+			drawFromPositiveInfinityOnly(idx);
 		}
-	}
-
-	private boolean isInvertedAround(int idx) {
-		return model.isInvertedAt(idx - 1) && isInvertedNextTo(idx);
 	}
 
 	private boolean isInvertedNextTo(int idx) {
@@ -128,19 +120,17 @@ public class PathCorrector {
 		}
 	}
 
-	private void drawFromPositiveInfinityOnly(int idx, double value) {
-		if (value > bounds.getYmin()) {
-			double sValue = bounds.toScreenCoordYd(value);
-			IntervalTuple current = model.pointAt(idx);
-			IntervalTuple next = model.pointAt(idx + 1);
-			Interval sx = bounds.toScreenIntervalX(
-					next != null && !next.y().isUndefined()
-							? next.x()
-							: current.x());
-			gp.moveTo(sx.getLow(), 0);
-			gp.lineTo(sx.getLow(), sValue);
-			lastY.set(0, sValue);
+	private void drawFromPositiveInfinityOnly(int idx) {
+		IntervalTuple tuple = model.pointAt(idx);
+		Interval sx = bounds.toScreenIntervalX(tuple.x());
+		Interval sy = bounds.toScreenIntervalY(tuple.y());
+		if (sy.getLow() > 0) {
+			gp.moveTo(sx.getHigh(), 0);
+			double nextXLow = sx.getHigh() + sx.getLength();
+			gp.lineTo(nextXLow, sy.getLow());
+			lastY.set(0, sy.getLow());
 		}
+		lastY.setUndefined();
 	}
 
 	private void drawFromNegativeInfinityOnly(int idx, double value) {
@@ -195,5 +185,4 @@ public class PathCorrector {
 		gp.lineTo(x.getHigh(), y1);
 		lastY.set(y.getHigh(), yMax);
 	}
-
 }

@@ -182,7 +182,6 @@ public class PolygonFactory {
 	 */
 	final public GeoElement[] rigidPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
-
 		cons.setSuppressLabelCreation(true);
 		GeoConicND circle = kernel.getAlgoDispatcher().circle(null, points[0],
 				new GeoNumeric(cons, points[0].distance(points[1])));

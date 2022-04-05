@@ -3425,6 +3425,7 @@ public class CommandsTest {
 	@Test
 	public void cmdSetDecoration() {
 		t("SetDecoration[ x+y=17, 4 ]");
+		t("SetDecoration[ Segment[(0,1),(1,0)], 1, 2 ]");
 	}
 
 	@Test

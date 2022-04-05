@@ -37,11 +37,9 @@ public class XMLBuilder {
 		// show object and/or label in EuclidianView
 		// don't save this for simple dependent numbers (e.g. in spreadsheet)
 		if (isDrawable) {
-			sb.append("\t<show");
-			sb.append(" object=\"");
+			sb.append("\t<show object=\"");
 			sb.append(geo.isSetEuclidianVisible());
-			sb.append("\"");
-			sb.append(" label=\"");
+			sb.append("\" label=\"");
 			sb.append(geo.getLabelVisible());
 			sb.append("\"");
 
@@ -146,29 +144,22 @@ public class XMLBuilder {
 
 		if (withLabelOffset
 				&& ((geo.labelOffsetX != 0) || (geo.labelOffsetY != 0))) {
-			sb.append("\t<labelOffset");
-			sb.append(" x=\"");
+			sb.append("\t<labelOffset x=\"");
 			sb.append(geo.labelOffsetX);
-			sb.append("\"");
-			sb.append(" y=\"");
+			sb.append("\" y=\"");
 			sb.append(geo.labelOffsetY);
-			sb.append("\"");
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 		}
 
 		if (geo.isDrawable()) {
-			sb.append("\t<labelMode");
-			sb.append(" val=\"");
+			sb.append("\t<labelMode val=\"");
 			sb.append(geo.labelMode);
-			sb.append("\"");
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 
 			if (geo.getTooltipMode() != GeoElementND.TOOLTIP_ALGEBRAVIEW_SHOWING) {
-				sb.append("\t<tooltipMode");
-				sb.append(" val=\"");
+				sb.append("\t<tooltipMode val=\"");
 				sb.append(geo.getTooltipMode());
-				sb.append("\"");
-				sb.append("/>\n");
+				sb.append("\"/>\n");
 			}
 		}
 
@@ -199,8 +190,7 @@ public class XMLBuilder {
 
 		// decoration type
 		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE) {
-			sb.append("\t<decoration");
-			sb.append(" type=\"");
+			sb.append("\t<decoration type=\"");
 			sb.append(geo.getDecorationType());
 			sb.append("\"/>\n");
 		}
@@ -427,12 +417,12 @@ public class XMLBuilder {
 		}
 		double width;
 		double height;
-		if (inline instanceof GeoInlineText) {
+		boolean convertToRw = !(inline instanceof GeoAudio);
+		if (convertToRw) {
 			width = inline.getWidth() / inline.getKernel().getApplication()
 					.getActiveEuclidianView().getXscale();
 			height = inline.getHeight() / inline.getKernel().getApplication()
 					.getActiveEuclidianView().getYscale();
-
 		} else {
 			width = inline.getWidth();
 			height = inline.getHeight();
@@ -441,9 +431,8 @@ public class XMLBuilder {
 		sb.append(width);
 		sb.append("\" height=\"");
 		sb.append(height);
-		if (inline instanceof GeoInlineText) {
-			sb.append("\" unscaled=\"");
-			sb.append("true");
+		if (convertToRw) {
+			sb.append("\" unscaled=\"true");
 		}
 		sb.append("\" angle=\"");
 		sb.append(inline.getAngle());

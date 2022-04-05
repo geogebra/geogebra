@@ -104,7 +104,11 @@ public class AppCommon extends App {
 
 			@Override
 			public void print(Level level, Object logEntry) {
-				System.out.println(logEntry); // NOPMD
+				if (logEntry instanceof Throwable) {
+					((Throwable) logEntry).printStackTrace();
+				} else {
+					System.out.println(logEntry); // NOPMD
+				}
 			}
 		});
     }
@@ -767,5 +771,10 @@ public class AppCommon extends App {
 		// problems with the naming of the property files
 		getLocalization().setLocale(locale);
 		getLocalization().updateLanguageFlags(locale.getLanguage());
+	}
+
+	@Override
+	public boolean isUnbundledGeometry() {
+		return "geometry".equals(getConfig().getAppCode());
 	}
 }

@@ -25,8 +25,10 @@ public class IntervalMiscTest {
 
 	@Test
 	public void testExp() {
-		assertEquals(interval(0.36787944117, 2.71828182846), exp(interval(-1, 1)));
-		assertEquals(interval(0.04978706836, 20.0855369232), exp(interval(-3, 3)));
+		assertEquals(interval(0.3678794411714423, 2.7182818284590455),
+				exp(interval(-1, 1)));
+		assertEquals(interval(0.04978706836786394, 20.08553692318767),
+				exp(interval(-3, 3)));
 	}
 
 	@Test

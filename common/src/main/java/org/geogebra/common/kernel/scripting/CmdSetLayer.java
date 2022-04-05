@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
@@ -34,8 +35,7 @@ public class CmdSetLayer extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				geo.setLayer((int) ((GeoNumeric) arg[1]).getDouble());
-				geo.updateRepaint();
-
+				geo.updateVisualStyleRepaint(GProperty.LAYER);
 				return arg;
 			}
 			throw argErr(c, arg[1]);

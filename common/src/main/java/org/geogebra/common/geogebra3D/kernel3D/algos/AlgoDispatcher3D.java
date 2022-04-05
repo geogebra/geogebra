@@ -267,10 +267,12 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				yOffset = DETACH_OFFSET * view.getInvYscale();
 			}
 
-			return (GeoPointND) getManager3D().point3D(null,
+			GeoPointND ret = getManager3D().point3D(
 					point.getInhomX() + xOffset, point.getInhomY() + yOffset,
 					point.getInhomZ(),
 					point.getToStringMode() == Kernel.COORD_CARTESIAN);
+			ret.setLabel(null);
+			return ret;
 		}
 
 		return super.copyFreePoint(point, view);
