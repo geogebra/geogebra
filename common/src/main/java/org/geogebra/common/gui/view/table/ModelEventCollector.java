@@ -109,18 +109,20 @@ public class ModelEventCollector implements TableValuesListener {
 		for (ColumnEvent columnEvent : event.columnsChanged) {
 			model.notifyColumnChanged(columnEvent.evaluatable, columnEvent.columnIndex);
 		}
+		int newRowCount = model.getRowCount();
+		if (newRowCount < event.initialRowCount) {
+			model.notifyRowsRemoved(newRowCount, event.initialRowCount - 1);
+			event.rowsChanged.removeIf(row -> row >= newRowCount);
+		} else if (newRowCount > event.initialRowCount) {
+			model.notifyRowsAdded(event.initialRowCount, newRowCount - 1);
+			event.rowsChanged.removeIf(row -> row >= event.initialRowCount);
+		}
 		for (int row : event.rowsChanged) {
 			model.notifyRowChanged(row);
 		}
 		for (CellEvent cellEvent : event.cellsChanged) {
 			model.notifyCellChanged(cellEvent.evaluatable, cellEvent.columnIndex,
 					cellEvent.rowIndex);
-		}
-		int newRowCount = model.getRowCount();
-		if (newRowCount < event.initialRowCount) {
-			model.notifyRowsRemoved(newRowCount, event.initialRowCount - 1);
-		} else if (newRowCount > event.initialRowCount) {
-			model.notifyRowsAdded(event.initialRowCount, newRowCount - 1);
 		}
 	}
 
