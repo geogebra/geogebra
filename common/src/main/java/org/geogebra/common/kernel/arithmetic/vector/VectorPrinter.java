@@ -30,7 +30,7 @@ class VectorPrinter implements Printer {
         // then on the definition panel it should be printed simply as (x, y)
         if (GeoSymbolic.hasListTwin(vector.getX()) && GeoSymbolic.hasListTwin(vector.getY())) {
             return defaultPrinter;
-        } else if (tpl == StringTemplate.editorTemplate) {
+        } else if (tpl == StringTemplate.editorTemplate || tpl == StringTemplate.editTemplate) {
             return editPrinter;
         } else if (tpl.isLatex()) {
             return latexPrinter;
