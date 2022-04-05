@@ -268,18 +268,18 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	public Drawable3D(EuclidianView3D a_view3D, GeoElement a_geo) {
 		this(a_view3D);
 		init(a_geo);
-		caption = new Caption3D(geo, this);
 	}
 
 	/**
 	 * init
-	 * 
+	 *
 	 * @param geoElement
 	 *            geo
 	 */
 	protected void init(GeoElement geoElement) {
 		setGeoElement(geoElement);
 		waitForUpdate = true;
+		caption = new Caption3D(geo, this);
 
 	}
 
