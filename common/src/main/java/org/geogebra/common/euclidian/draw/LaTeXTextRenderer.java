@@ -38,8 +38,13 @@ public class LaTeXTextRenderer implements TextRenderer {
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
 		int textTop = (int) Math.round(yPos + diffToCenter);
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-		rect.setRect(textLeft, 0, drawInputBox.boxWidth - CLIP_PADDING,
-				drawInputBox.getView().getHeight());
+		int clipWidth = drawInputBox.boxWidth - CLIP_PADDING;
+		if (textDimension.getWidth() > clipWidth) {
+			// if the text does not fit, reduce the margin a little
+			clipWidth = drawInputBox.boxWidth - DrawInputBox.TF_PADDING_HORIZONTAL;
+			textLeft -= DrawInputBox.TF_PADDING_HORIZONTAL;
+		}
+		rect.setRect(textLeft, 0, clipWidth, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
 		drawInputBox.drawLatex(graphics, geo, font, text, textLeft, textTop, true);
 		graphics.resetClip();
