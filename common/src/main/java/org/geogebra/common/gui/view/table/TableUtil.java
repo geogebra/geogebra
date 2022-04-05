@@ -19,7 +19,7 @@ public final class TableUtil {
         String content = model.getHeaderAt(columnIndex);
         String[] parts = splitByIndices(content);
         return IntStream.range(0, parts.length)
-                .mapToObj(i -> i % 2 == 1 ? "<sub>" + parts[i] + "</sub>" : parts[i])
+                .mapToObj(i -> i % 2 != 0 ? "<sub>" + parts[i] + "</sub>" : parts[i])
                 .collect(Collectors.joining());
     }
 
