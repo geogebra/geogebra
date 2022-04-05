@@ -3358,9 +3358,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-
-		getLineStyleXML(sb);
+		getStyleXML(sb);
 
 		sb.append("\t<eigenvectors x0=\"");
 		sb.append(eigenvecND[0].getX());
@@ -3385,10 +3383,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// matrix must be saved after eigenvectors
 		// as only <matrix> will cause a call to classifyConic()
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
-		getXMLtagsMatrix(sb);
+		getMatrixXML(sb);
+	}
 
+	@Override
+	public void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		getLineStyleXML(sb);
 		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), null);
-
 	}
 
 	@Override
@@ -3405,7 +3407,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * @param sb
 	 *            string builder
 	 */
-	protected void getXMLtagsMatrix(StringBuilder sb) {
+	protected void getMatrixXML(StringBuilder sb) {
 		sb.append("\t<matrix");
 		for (int i = 0; i < 10; i++) {
 			sb.append(" A" + i + "=\"" + matrix[i] + "\"");

@@ -290,7 +290,7 @@ public class GeoConicPartParameters {
 	 * @param sb
 	 *            builder
 	 */
-	public void getXMLtags(StringBuilder sb) {
+	public void getLimitedPathXML(StringBuilder sb) {
 
 		// allowOutlyingIntersections
 		sb.append("\t<outlyingIntersections val=\"");

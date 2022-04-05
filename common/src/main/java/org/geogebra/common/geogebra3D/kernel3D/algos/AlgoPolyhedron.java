@@ -297,4 +297,22 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		}
 	}
 
+	/**
+	 * set the labels
+	 *
+	 * @param labels labels for all outputs
+	 */
+	protected void setLabels(String[] labels) {
+		kernel.batchAddStarted();
+		if (labels == null || labels.length <= 1) {
+			polyhedron.initLabels(labels);
+		} else {
+			polyhedron.setAllLabelsAreSet(true);
+			for (int i = 0; i < labels.length; i++) {
+				getOutput(i).setLabel(labels[i]);
+			}
+		}
+		kernel.batchAddComplete();
+	}
+
 }

@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -51,7 +52,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.COLOR);
 
 				return new GeoElement[0];
 

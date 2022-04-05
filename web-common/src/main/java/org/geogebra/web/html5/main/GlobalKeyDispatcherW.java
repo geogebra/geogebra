@@ -25,6 +25,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
@@ -87,7 +88,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())) {
+			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())
+					&& !isGlobalEvent(event)) {
 				return;
 			}
 
@@ -321,5 +323,20 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	public boolean isEscPressed() {
 		return escPressed;
+	}
+
+	/**
+	 * Whether an event should be handled globally rather than by specific textfield
+	 * @param event keybaord event
+	 * @return whether event is global
+	 */
+	public static boolean isGlobalEvent(NativeEvent event) {
+		int code = event.getKeyCode();
+		if (isControlKeyDown(event)) {
+			return code == JavaKeyCodes.VK_S
+					|| code == JavaKeyCodes.VK_O;
+		} else {
+			return code == JavaKeyCodes.VK_F4;
+		}
 	}
 }

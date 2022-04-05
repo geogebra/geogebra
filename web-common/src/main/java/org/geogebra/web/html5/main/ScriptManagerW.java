@@ -176,11 +176,8 @@ public class ScriptManagerW extends ScriptManager {
 			Object object = entry.getValue();
 			if (object instanceof Integer) {
 				jsMap.set(entry.getKey(), unbox((Integer) object));
-			} else if (object instanceof Double
-					|| object instanceof String[]) {
-				jsMap.set(entry.getKey(), object);
 			} else {
-				jsMap.set(entry.getKey(), object.toString());
+				jsMap.set(entry.getKey(), object);
 			}
 		}
 	}

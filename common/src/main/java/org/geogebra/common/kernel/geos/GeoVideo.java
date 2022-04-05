@@ -230,21 +230,19 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		sb.append("\t<video src=\"");
 		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
 			sb.append(StringUtil.encodeXML(getEmbeddedUrl()));
 		} else if (getSrc() != null) {
 			sb.append(StringUtil.encodeXML(getSrc()));
 		}
-		sb.append("\"");
 		if (getFormat() != null) {
-			sb.append(" type=\"");
+			sb.append("\" type=\"");
 			sb.append(getFormat());
-			sb.append("\"");
 		}
-		sb.append("/>\n");
+		sb.append("\"/>\n");
 	}
 
 	/**

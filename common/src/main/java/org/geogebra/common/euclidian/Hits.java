@@ -409,7 +409,7 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	private boolean isPolygon(GeoElement geo) {
-		return geo.isGeoPolygon() && !geo.isShape();
+		return geo.isGeoPolygon() && !geo.getKernel().getApplication().isWhiteboardActive();
 	}
 
 	/**

@@ -32,13 +32,13 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					tempGraphics, geo, tempGraphics, font, GColor.BLACK,
-					GColor.WHITE, text, 0, 0,
+					tempGraphics, geo, tempGraphics, font(), GColor.BLACK,
+					GColor.WHITE, caption.text(), 0, 0,
 					((TextProperties) geo).isSerifFont(), getCallBack(),
 					bounds);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					text, tempGraphics, bounds, font,
+					caption.text(), tempGraphics, bounds, font(),
 					((TextProperties) geo).isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
 		}
 		return bounds;
@@ -52,12 +52,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					tempGraphics, geo, g2d, font, GColor.BLACK, GColor.WHITE,
-					text, 0, 0, ((TextProperties) geo).isSerifFont(),
+					tempGraphics, geo, g2d, font(), GColor.BLACK, GColor.WHITE,
+					caption.text(), 0, 0, ((TextProperties) geo).isSerifFont(),
 					getCallBack(), null);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					text, g2d, AwtFactory.getPrototype().newRectangle(),
+					caption.text(), g2d, AwtFactory.getPrototype().newRectangle(),
 					g2d.getFont(), ((TextProperties) geo).isSerifFont(), 0, 0,
 					DrawText.DEFAULT_MARGIN);
 		}

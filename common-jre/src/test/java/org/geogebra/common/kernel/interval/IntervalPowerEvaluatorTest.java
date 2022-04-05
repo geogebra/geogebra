@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
 import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
 import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
@@ -12,6 +13,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.junit.Test;
 
 public class IntervalPowerEvaluatorTest extends BaseUnitTest {
+
+	public static final Interval X_AROUND_ZERO =
+			interval(-2.0539125955565396E-15, 0.19999999999999796);
 
 	@Test
 	public void evaluateXSquared() throws Exception {
@@ -142,13 +146,62 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void evaluateZeroPowerOfZeroMultipliedByXPowerOfZero() throws Exception {
+	public void evaluateZeroPowerOfZeroMultipliedByXPowerOfZero() {
 		GeoFunction geo = add("0^0*x^0");
 		IntervalFunction function = new IntervalFunction(geo);
 		shouldBeOne(function);
 	}
 
-	private void shouldBeOne(IntervalFunction function) throws Exception {
+	private void shouldBeOne(IntervalFunction function) {
 		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.whole()));
+	}
+
+	@Test
+	public void xInverseOnPowerOfMinus2ShouldBeXSquared() {
+		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
+		Interval inverse = x.multiplicativeInverse();
+		Interval pow = pow(inverse, -2);
+		assertEquals(undefined().invert(), pow);
+	}
+
+	@Test
+	public void xInverseAndPOWMinus1() {
+		shouldBeSameAt("x^-1", "1/x",
+				interval(-2.0539125955565396E-15, 0.19999999999999796));
+	}
+
+	@Test
+	public void nrootOfXInverseAndPowFraction() {
+		shouldBeSameAt("nroot(1/x, 9)", "(1/x)^(1/9)",
+				interval(-2.0539125955565396E-15, 0.19999999999999796));
+	}
+
+	@Test
+	public void xInverseAndPOWDoubleApply() {
+		shouldBeSameAt("(x^-1)^-1", "1/(1/x)", X_AROUND_ZERO);
+	}
+
+	private void shouldBeSameAt(String description1, String description2, Interval x) {
+		IntervalFunction f1 = newFunction(description1);
+		IntervalFunction f2 = newFunction(description2);
+		assertEquals(f1.evaluate(x), f2.evaluate(x));
+	}
+
+	private IntervalFunction newFunction(String description) {
+		return new IntervalFunction(add(description));
+
+	}
+
+	@Test
+	public void xInverseAndPOWDoubleApply2() {
+		Interval pow1 = pow(X_AROUND_ZERO, -1);
+		Interval pow2 = pow(pow1, -1);
+		assertEquals(X_AROUND_ZERO, pow2);
+	}
+
+	@Test
+	public void inverseOfXInverse() {
+		assertEquals(X_AROUND_ZERO,
+				X_AROUND_ZERO.multiplicativeInverse().multiplicativeInverse());
 	}
 }

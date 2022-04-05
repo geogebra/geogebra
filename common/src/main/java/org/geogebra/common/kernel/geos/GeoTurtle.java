@@ -926,8 +926,8 @@ public class GeoTurtle extends GeoPoint {
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// name of image file
 		if (getFillImage() != null) {

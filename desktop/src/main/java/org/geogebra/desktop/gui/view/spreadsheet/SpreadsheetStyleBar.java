@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
@@ -262,7 +263,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 					} else {
 						geo.setBackgroundColor(bgCol);
 					}
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint(GProperty.COLOR);
 				}
 			}
 

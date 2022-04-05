@@ -46,7 +46,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	private boolean isFunctionDependent; // Equation depends (non-constant) on
 											// functions (set in InitEquation)
 	@Weak
-	private Kernel kernel;
+	private final Kernel kernel;
 
 	private boolean forcePlane = false;
 	private boolean forceLine = false;
@@ -57,8 +57,6 @@ public class Equation extends ValidExpression implements EquationValue {
 	private boolean forceFunction = false;
 	private ArrayList<ExpressionValue> variableDegrees = null;
 	private boolean isPolynomial = true;
-
-	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
@@ -300,12 +298,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			FunctionVariable xVar, FunctionVariable yVar,
 			FunctionVariable zVar) {
 		// try to replace x(x+1) by x*(x+1)
-		undecided.clear();
-		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
-		for (ExpressionNode en : undecided) {
-			en.setOperation(Operation.MULTIPLY);
-		}
-		undecided.clear();
+		expression.replaceXYZnodes(xVar, yVar, zVar);
 	}
 
 	/**
@@ -802,19 +795,15 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	private boolean rhsHasLists() {
-		Inspecting check = new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (!v.isExpressionNode()) {
-					return false;
-				}
-				ExpressionNode n = (ExpressionNode) v;
-				return n.getOperation() != Operation.FUNCTION_NVAR
-						&& n.getOperation() != Operation.ELEMENT_OF
-						&& (n.getLeft() instanceof MyList
-								|| n.getRight() instanceof MyList);
+		Inspecting check = v -> {
+			if (!v.isExpressionNode()) {
+				return false;
 			}
+			ExpressionNode n = (ExpressionNode) v;
+			return n.getOperation() != Operation.FUNCTION_NVAR
+					&& n.getOperation() != Operation.ELEMENT_OF
+					&& (n.getLeft() instanceof MyList
+							|| n.getRight() instanceof MyList);
 		};
 		return rhs.inspect(check);
 	}

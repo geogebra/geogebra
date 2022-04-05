@@ -129,7 +129,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		update(A, B);
-		if (geo.isShape()) {
+		if (view.getApplication().isWhiteboardActive()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 				// for segment only two handler
@@ -730,7 +730,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);
 		s.getParentAlgorithm().update();
-		s.updateRepaint();
+		view.getKernel().notifyRepaint();
 	}
 
 	@Override

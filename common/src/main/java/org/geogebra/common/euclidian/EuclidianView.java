@@ -604,7 +604,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.euclidianController = ec;
 		this.kernel = ec.getKernel();
 		this.app = kernel.getApplication();
+
 		this.settings = settings;
+		if (settings != null) {
+			settings.addListener(s -> app.dispatchEvent(
+					new Event(EventType.VIEW_PROPERTIES_CHANGED, null, String.valueOf(viewNo))));
+		}
 
 		GeoPriorityComparator cmp = app.getGeoPriorityComparator();
 		logToCrashlytics("EuclidianView.allDrawableList reinitialized at EuclidianView.init(",
