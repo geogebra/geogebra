@@ -10,6 +10,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
@@ -40,7 +41,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	private AxisTab zAxisTab;
-
 	private ProjectionTab projectionTab;
 
 	/**
@@ -51,22 +51,21 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 	 */
 	protected class BasicTab3D extends BasicTab {
 
-		private CheckBox cbYAxisVertical;
-		private CheckBox cbAxesColored;
-		private CheckBox cbUseClipping;
-		private CheckBox cbShowClipping;
+		private ComponentCheckbox cbYAxisVertical;
+		private ComponentCheckbox cbAxesColored;
+		private ComponentCheckbox cbUseClipping;
+		private ComponentCheckbox cbShowClipping;
 		private FlowPanel clippingOptionsPanel;
 		private FlowPanel boxSizePanel;
 		private Label clippingOptionsTitle;
 		private Label boxSizeTitle;
 		private RadioButtonPanel clippingRadioBtnPanel;
-		private CheckBox cbUseLight;
+		private ComponentCheckbox cbUseLight;
 
 		/**
 		 * constructor
 		 * 
-		 * @param o
-		 *            euclidian options
+		 * @param o - euclidian options
 		 */
 		public BasicTab3D(OptionsEuclidianW o) {
 			super(o);
@@ -87,16 +86,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void addMiscPanel() {
-
-			cbUseLight = new CheckBox();
+			cbUseLight = new ComponentCheckbox(loc, true, "UseLighting",
+					() -> {
+						get3dview().getSettings()
+								.setUseLight(cbUseLight.isSelected());
+						repaintView();
+					});
 
 			super.addMiscPanel();
-
-			cbUseLight.addClickHandler(event -> {
-				get3dview().getSettings()
-						.setUseLight(cbUseLight.getValue());
-				repaintView();
-			});
 		}
 
 		@Override
@@ -106,16 +103,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void addAxesOptionsPanel() {
-			cbYAxisVertical = new CheckBox();
-			cbYAxisVertical.addClickHandler(event -> {
-				get3dview().setYAxisVertical(cbYAxisVertical.getValue());
+			cbYAxisVertical = new ComponentCheckbox(loc, false, "YAxisVertical",
+					() -> {
+				get3dview().setYAxisVertical(cbYAxisVertical.isSelected());
 				repaintView();
 			});
 
-			cbAxesColored = new CheckBox();
-			cbAxesColored.addClickHandler(event -> {
+			cbAxesColored = new ComponentCheckbox(loc, true, "AxesColored",
+				() -> {
 				get3dview().getSettings()
-						.setHasColoredAxes(cbAxesColored.getValue());
+						.setHasColoredAxes(cbAxesColored.isSelected());
 				repaintView();
 			});
 
@@ -132,32 +129,25 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		private void addClippingOptionsPanel() {
-
 			// clipping options panel
 			clippingOptionsTitle = new Label();
 			clippingOptionsTitle.setStyleName("panelTitle");
 			clippingOptionsPanel = new FlowPanel();
-			cbUseClipping = new CheckBox();
-			cbUseClipping.setStyleName("checkBoxPanel");
+			cbUseClipping = new ComponentCheckbox(loc, false, "UseClipping",
+					() -> {
+						get3dview().setUseClippingCube(cbUseClipping.isSelected());
+						repaintView();
+					});
 			clippingOptionsPanel.add(cbUseClipping);
-			// clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10,
-			// 0)));
-			cbShowClipping = new CheckBox();
-			cbShowClipping.setStyleName("checkBoxPanel");
+			cbShowClipping = new ComponentCheckbox(loc, false, "ShowClipping",
+					() -> {
+						get3dview().setShowClippingCube(cbShowClipping.isSelected());
+						repaintView();
+					});
 			clippingOptionsPanel.add(cbShowClipping);
 
 			add(clippingOptionsTitle);
 			indent(clippingOptionsPanel);
-
-			cbUseClipping.addClickHandler(event -> {
-				get3dview().setUseClippingCube(cbUseClipping.getValue());
-				repaintView();
-			});
-
-			cbShowClipping.addClickHandler(event -> {
-				get3dview().setShowClippingCube(cbShowClipping.getValue());
-				repaintView();
-			});
 
 			boxSizeTitle = new Label();
 			boxSizeTitle.setStyleName("panelTitle");
@@ -193,15 +183,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 * update clipping properties (use and size)
 		 */
 		public void update3DProperties() {
-
-			cbYAxisVertical.setValue(get3dview().getYAxisVertical());
+			cbYAxisVertical.setSelected(get3dview().getYAxisVertical());
 			cbAxesColored
-					.setValue(get3dview().getSettings().getHasColoredAxes());
+					.setSelected(get3dview().getSettings().getHasColoredAxes());
 
-			cbUseLight.setValue(get3dview().getUseLight());
+			cbUseLight.setSelected(get3dview().getUseLight());
 
-			cbUseClipping.setValue(get3dview().useClippingCube());
-			cbShowClipping.setValue(get3dview().showClippingCube());
+			cbUseClipping.setSelected(get3dview().useClippingCube());
+			cbShowClipping.setSelected(get3dview().showClippingCube());
 
 			int flag = get3dview().getClippingReduction();
 			clippingRadioBtnPanel.setValueOfNthRadioButton(0,
@@ -217,12 +206,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		public void setLabels() {
 			super.setLabels();
 
-			setText(cbYAxisVertical, "YAxisVertical");
-			setText(cbAxesColored, "AxesColored");
-			setText(cbUseLight, "UseLighting");
+			cbYAxisVertical.setLabels();
+			cbAxesColored.setLabels();
+			cbUseLight.setLabels();
 			setText(clippingOptionsTitle, "Clipping");
-			setText(cbUseClipping, "UseClipping");
-			setText(cbShowClipping, "ShowClipping");
+			cbUseClipping.setLabels();
+			cbShowClipping.setLabels();
 			setText(boxSizeTitle, "BoxSize");
 			clippingRadioBtnPanel.setLabels();
 			getDimLabel()[4].setText(getOptionsEuclidianW().loc.getMenu("zmin") + ":");
