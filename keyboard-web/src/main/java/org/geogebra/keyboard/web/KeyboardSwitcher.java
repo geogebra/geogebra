@@ -132,8 +132,7 @@ public class KeyboardSwitcher extends FlowPanel {
 
 	protected final void addMoreButton() {
 		moreButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_more(),
-				KeyboardResources.INSTANCE.keyboard_more().withFill(
-						GeoGebraColorConstants.GEOGEBRA_ACCENT.toString()));
+				KeyboardResources.INSTANCE.keyboard_more());
 		moreButton.setMouseOverHandler(() -> switchIcon(true));
 		moreButton.setMouseOutHandler(() -> switchIcon(moreButton.isSelected()));
 		moreButton.getElement().setAttribute("aria-label",
@@ -141,10 +140,9 @@ public class KeyboardSwitcher extends FlowPanel {
 
 		moreButton.removeStyleName("MyToggleButton");
 		moreButton.addStyleName("moreKeyboardButton");
-		moreButton.addFastClickHandler((source) ->
-				tabbedkeyboard.showHelp(moreButton.getAbsoluteLeft()
-								+ moreButton.getOffsetWidth(),
-						moreButton.getAbsoluteTop()));
+		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(moreButton
+						.getAbsoluteLeft() + moreButton.getOffsetWidth(),
+				moreButton.getAbsoluteTop()));
 		contents.add(moreButton);
 	}
 

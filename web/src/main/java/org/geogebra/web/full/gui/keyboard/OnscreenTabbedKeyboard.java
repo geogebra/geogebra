@@ -107,7 +107,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
-	protected void showHelp(int x, int y) {
+	protected void toggleHelp(int x, int y) {
 		boolean show = helpPopup != null && helpPopup.isShowing();
 		if (!show) {
 			createHelpPopup();

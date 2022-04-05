@@ -321,6 +321,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private void setupShowSymbolButton() {
 		showSymbolButton = new ToggleButton(GuiResourcesSimple.INSTANCE.alpha());
 		showSymbolButton.addStyleName("SymbolToggleButton");
+		showSymbolButton.removeStyleName("MyToggleButton");
 
 		ClickStartHandler.init(showSymbolButton,
 				new ClickStartHandler(false, true) {

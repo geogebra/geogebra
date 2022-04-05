@@ -45,8 +45,7 @@ public class ToggleButton extends FocusWidget {
 		if (hoverIconColor != null) {
 			setMouseOverHandler(() ->
 					setIcon(((SVGResource) svgRes).withFill(hoverIconColor.toString())));
-			setMouseOutHandler(() ->
-					setIcon(((SVGResource) svgRes).withFill(GColor.BLACK.toString())));
+			setMouseOutHandler(() -> setIcon(svgRes));
 		}
 	}
 
@@ -83,8 +82,7 @@ public class ToggleButton extends FocusWidget {
 			SVGResource curIcon = (SVGResource) (isSelected ? svgDown : svgUp);
 			setMouseOverHandler(() ->
 					setIcon(curIcon.withFill(hoverIconColor.toString())));
-			setMouseOutHandler(() ->
-					setIcon(curIcon.withFill(GColor.BLACK.toString())));
+			setMouseOutHandler(() -> setIcon(curIcon));
 		}
 	}
 
