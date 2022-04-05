@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
-import java.util.HashMap;
-
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
@@ -143,41 +141,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * plot panel is dragged into an EV.
 	 */
 	private void createExportToEvAction() {
-		exportToEVAction = new ScheduledCommand() {
-			
-			private final HashMap<String, Object> value = new HashMap<>();
-			
-			public Object getValue(String key) {
-				return value.get(key);
-			}
-			
-			public void putValue(String key, Object val) {
-				this.value.put(key, val);
-			}
-			
-			@Override
-			public void execute() {
-				Integer euclidianViewID = (Integer) this
-						.getValue("euclidianViewID");
-
-				// if null ID then use EV1 unless shift is down, then use EV2
-				if (euclidianViewID == null) {
-					euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
-							? getApp().getEuclidianView2(1).getViewID()
-							: getApp().getEuclidianView1().getViewID();
-				}
-
-				// do the export
-				exportGeosToEV(euclidianViewID);
-
-				// null out the ID property
-				this.putValue("euclidianViewID", null);
-			}
+		exportToEVAction = () -> {
+			// if null ID then use EV1 unless shift is down, then use EV2
+			int euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
+						? getApp().getEuclidianView2(1).getViewID()
+						: getApp().getEuclidianView1().getViewID();
+			// do the export
+			exportGeosToEV(euclidianViewID);
 		};
 	}
 
 	private void buildProbCalcPanel() {
-		//TODO tabbedPane.clear();
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);
 		plotSplitPane.add(controlPanel);
@@ -292,7 +266,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			fldParameterArray[i] = new MathTextFieldW(app);
 			fldParameterArray[i].setPxWidth(64);
 			resultPanel.addInsertHandler(fldParameterArray[i]);
-			//TODO fldParameterArray[i].getTextBox().setTabIndex(i + 1);
 		}
 
 		lblMeanSigma = new Label();
@@ -307,9 +280,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		btnLineGraph = new MyToggleButtonW(GuiResources.INSTANCE.line_graph());
 		btnLineGraph.addStyleName("probCalcStylbarBtn");
-		btnLineGraph.addClickHandler(event -> {
-			setGraphType(GRAPH_LINE);
-		});
+		btnLineGraph.addClickHandler(event -> setGraphType(GRAPH_LINE));
 
 		btnStepGraph = new MyToggleButtonW(GuiResources.INSTANCE.step_graph());
 		btnStepGraph.addStyleName("probCalcStylbarBtn");
@@ -384,7 +355,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			mainSplitPane
 					.remove(((ProbabilityTableW) getTable()).getWrappedPanel());
 		}
-		tabbedPaneOnResize();
+		tabResized();
 	}
 
 	@Override
@@ -401,7 +372,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		int[] firstXLastX = generateFirstXLastXCommon();
 		getTable().setTable(selectedDist, parameters,
 				firstXLastX[0], firstXLastX[1]);
-		tabbedPaneOnResize();
+		tabResized();
 	}
 
 	@Override
@@ -461,7 +432,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void updateLowHighResult() {
-		Scheduler.get().scheduleDeferred(this::tabbedPaneOnResize);
+		Scheduler.get().scheduleDeferred(this::tabResized);
 		updateResult(resultPanel);
 	}
 
@@ -485,13 +456,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			parameters = ProbabilityManager.getDefaultParameters(selectedDist, cons);
 			setProbabilityCalculator(selectedDist, parameters,
 					isCumulative);
-			tabbedPaneOnResize();
+			tabResized();
 		}
-
-	}
-
-	protected void tabbedPaneOnResize() {
-		// nothing to do
 	}
 
 	private void setDistributionComboBoxMenu() {
