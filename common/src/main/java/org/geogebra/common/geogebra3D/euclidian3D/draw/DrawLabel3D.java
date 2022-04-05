@@ -183,7 +183,7 @@ public class DrawLabel3D {
 	public void update(String text0, GFont font0, Coords v,
 			float xOffset0, float yOffset0, float zOffset0) {
 				this.origin = v;
-		if (text0.length() == 0) {
+		if (text0.length() == 0 || caption == null) {
 			setIsVisible(false);
 			return;
 		}
