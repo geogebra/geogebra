@@ -882,7 +882,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					SegmentStyle style = ((GeoSegment) geos.get(0)).getStartStyle();
+					SegmentStyle style = ((GeoSegment) getFirst(geos)).getStartStyle();
 					btnSegmentStartStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
 					if (btnSegmentStartStyle.getSelectedIndex() == -1) {
 						btnSegmentStartStyle.setIcon(segmentStartStyleIcons[0]);
@@ -906,7 +906,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					SegmentStyle style = ((GeoSegment) geos.get(0)).getEndStyle();
+					SegmentStyle style = ((GeoSegment) getFirst(geos)).getEndStyle();
 					btnSegmentEndStyle.setSelectedIndex(style == null ? -1 : style.ordinal());
 					if (btnSegmentEndStyle.getSelectedIndex() == -1) {
 						btnSegmentEndStyle.setIcon(segmentEndStyleIcons[0]);
@@ -1382,7 +1382,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				if (geosOK) {
 					HasTextFormat formatter
-							= ((HasTextFormatter) geos.get(0)).getFormatter();
+							= ((HasTextFormatter) getFirst(geos)).getFormatter();
 
 					HorizontalAlignment alignment = formatter != null
 							? formatter.getHorizontalAlignment() : null;
@@ -1425,7 +1425,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				if (geosOK) {
 					HasTextFormat formatter
-							= ((HasTextFormatter) geos.get(0)).getFormatter();
+							= ((HasTextFormatter) getFirst(geos)).getFormatter();
 
 					VerticalAlignment alignment = formatter != null
 							? formatter.getVerticalAlignment() : null;
@@ -1529,6 +1529,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private static boolean checkGeoSegment(List<GeoElement> geos) {
 		return checkGeos(geos, geo -> geo instanceof GeoSegment);
+	}
+
+	private Object getFirst(List<GeoElement> geos) {
+		return geos.get(0).getGeoElementForPropertiesDialog();
 	}
 
 	private static boolean checkGeos(List<GeoElement> geos, GPredicate<GeoElement> check) {
@@ -1784,6 +1788,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				} else {
 					((GeoSegment) geo).setEndStyle(style);
 				}
+				geo.updateVisualStyleRepaint(GProperty.COMBINED);
 				changed = true;
 			}
 		}

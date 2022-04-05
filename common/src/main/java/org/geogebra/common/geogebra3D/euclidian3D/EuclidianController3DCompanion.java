@@ -369,63 +369,63 @@ public class EuclidianController3DCompanion
 	@Override
 	protected GeoPointND createNewPoint(boolean forPreviewable,
 			boolean complex) {
-
-		GeoPoint3D point3D;
-
 		if (!forPreviewable) {
 			// if there's "no" 3D cursor, no point is created
 			if (ec3D.view3D
 					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE) {
 				return null;
 			}
-			point3D = (GeoPoint3D) ec.getKernel().getManager3D().point3D(null,
-					0, 0,
-					0, false);
-		} else {
-            if (ec3D.view3D.isXREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
-                    && !ec3D.view3D.getxOyPlane().isGridVisible()) {
-                if (ec3D.view3D.getRenderer().getHittingFloorAR(tmpCoords1)) {
-                    // round z coordinate and check if already existing hit
-                    // to keep points at the same level
-                    double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE
-                            * ec3D.view3D.getRenderer().getHittingDistanceAR()
-                            / ec3D.view3D.getZscale());
-                    if (DoubleUtil.isGreater(rounding, 0)) {
-                        tmpCoords1.setZ(ec3D.view3D.getRenderer()
-                                .checkHittingFloorZ(
-                                        ((int) (tmpCoords1.getZ() / rounding)) * rounding));
-                    }
-                    tmpCoords1.setW(1);
-                    // re-center it
-                    ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
-                    ec3D.view3D.getHittingDirection(tmpCoordsForDirection);
-                    tmpCoordsForOrigin.projectPlaneThruVIfPossible(Coords.VX, Coords.VY, Coords.VZ,
-                            tmpCoords1, tmpCoordsForDirection, tmpCoords2);
-                    // force z coordinate to be rounded as previously
-                    tmpCoords2.setZ(tmpCoords1.getZ());
-                    // set to 3D cursor
-                    point3D = ec3D.view3D.getCursor3D();
-                    point3D.setCoords(tmpCoords2);
-                } else {
-                    point3D = null;
-                    ec3D.view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
-                }
-            } else {
-                point3D = createNewFreePoint(complex);
-            }
-			if (point3D == null) {
-				return null;
-			}
-			point3D.setPath(null);
-			point3D.setRegion(null);
-			ec3D.view3D
-					.setCursor3DType(EuclidianView3D.PREVIEW_POINT_FREE);
+			GeoPoint3D point3D = (GeoPoint3D) ec.getKernel().getManager3D().point3D(
+					0, 0, 0, false);
+			CoordMatrix4x4.identity(ec3D.getCurrentPlane());
+			ec3D.movePointOnCurrentPlane(point3D, false);
+			point3D.setLabel(null);
 			return point3D;
+		} else {
+            return createPointForPreviewable(complex);
 		}
+	}
 
-		CoordMatrix4x4.identity(ec3D.getCurrentPlane());
-		ec3D.movePointOnCurrentPlane(point3D, false);
-
+	private GeoPointND createPointForPreviewable(boolean complex) {
+		GeoPoint3D point3D;
+		if (ec3D.view3D.isXREnabled() && !ec3D.view3D.getxOyPlane().isPlateVisible()
+				&& !ec3D.view3D.getxOyPlane().isGridVisible()) {
+			if (ec3D.view3D.getRenderer().getHittingFloorAR(tmpCoords1)) {
+				// round z coordinate and check if already existing hit
+				// to keep points at the same level
+				double rounding = DoubleUtil.round125(AR_ROUNDING_PRECISION_PERCENTAGE
+						* ec3D.view3D.getRenderer().getHittingDistanceAR()
+						/ ec3D.view3D.getZscale());
+				if (DoubleUtil.isGreater(rounding, 0)) {
+					tmpCoords1.setZ(ec3D.view3D.getRenderer()
+							.checkHittingFloorZ(
+									((int) (tmpCoords1.getZ() / rounding)) * rounding));
+				}
+				tmpCoords1.setW(1);
+				// re-center it
+				ec3D.view3D.getHittingOrigin(ec.mouseLoc, tmpCoordsForOrigin);
+				ec3D.view3D.getHittingDirection(tmpCoordsForDirection);
+				tmpCoordsForOrigin.projectPlaneThruVIfPossible(Coords.VX, Coords.VY, Coords.VZ,
+						tmpCoords1, tmpCoordsForDirection, tmpCoords2);
+				// force z coordinate to be rounded as previously
+				tmpCoords2.setZ(tmpCoords1.getZ());
+				// set to 3D cursor
+				point3D = ec3D.view3D.getCursor3D();
+				point3D.setCoords(tmpCoords2);
+			} else {
+				point3D = null;
+				ec3D.view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
+			}
+		} else {
+			point3D = createNewFreePoint(complex);
+		}
+		if (point3D == null) {
+			return null;
+		}
+		point3D.setPath(null);
+		point3D.setRegion(null);
+		ec3D.view3D
+				.setCursor3DType(EuclidianView3D.PREVIEW_POINT_FREE);
 		return point3D;
 	}
 

@@ -23,22 +23,22 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	private OutputHandler<GeoPolygon3D> outputPolygons;
 	private OutputHandler<GeoSegment3D> outputSegments;
 
-	private GeoPointND A;
-	private GeoPointND B;
-	private GeoPointND C;
+	private final GeoPointND A;
+	private final GeoPointND B;
+	private final GeoPointND C;
 
-	private CoordMatrix4x4 matrix;
+	private final CoordMatrix4x4 matrix;
 
 	private Coords[] coords;
 
-	private Commands name;
+	private final Commands name;
 
-	private PlatonicSolid solidDescription;
+	private final PlatonicSolid solidDescription;
 
-	private Coords v1l = new Coords(4);
-	private Coords v2l = new Coords(4);
-	private Coords vnl = new Coords(4);
-	private Coords tmpCoords = new Coords(4);
+	private final Coords v1l = new Coords(4);
+	private final Coords v2l = new Coords(4);
+	private final Coords vnl = new Coords(4);
+	private final Coords tmpCoords = new Coords(4);
 
 	/**
 	 * factor to calculate the volume
@@ -112,31 +112,11 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		return AlgoArchimedeanSolid.getPolyhedronType(name);
 	}
 
-	/**
-	 * set the labels
-	 * 
-	 * @param labels
-	 *            lables
-	 */
-	protected void setLabels(String[] labels) {
-
-		if (labels == null || labels.length <= 1) {
-			polyhedron.initLabels(labels);
-		} else {
-			polyhedron.setAllLabelsAreSet(true);
-			for (int i = 0; i < labels.length; i++) {
-				getOutput(i).setLabel(labels[i]);
-			}
-		}
-
-	}
-
 	private void setInput() {
 		input = new GeoElement[3];
 		input[0] = (GeoElement) A;
 		input[1] = (GeoElement) B;
 		input[2] = (GeoElement) C;
-
 	}
 
 	@Override

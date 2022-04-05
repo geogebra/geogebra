@@ -14,13 +14,13 @@ public interface ClientView extends View {
 	 * Notify the client that all updates related to renaming an object are
 	 * finished
 	 */
-	public void renameUpdatesComplete();
+	void renameUpdatesComplete();
 
 	/**
 	 * Notify client that a polygon and all it's related GeoElms are about the
 	 * be created
 	 */
-	public void addingPolygon();
+	void batchAddStarted();
 
 	/**
 	 * Notify the client that a new polygon is complete.
@@ -28,14 +28,14 @@ public interface ClientView extends View {
 	 * @param polygon
 	 *            The fully defined, new polygon
 	 */
-	public void addPolygonComplete(GeoElement polygon);
+	void batchAddComplete(GeoElement polygon);
 
 	/**
 	 * Notify the client that a group of objects are being moved together. Using
 	 * this, the client can ignore the individual updates from the base View
 	 * interface when a group of elms are being moved together.
 	 */
-	public void movingGeos();
+	void movingGeos();
 
 	/**
 	 * Update the client with the new location of the objects
@@ -43,7 +43,7 @@ public interface ClientView extends View {
 	 * @param elms
 	 *            The list of GeoElements that were moved.
 	 */
-	public void movedGeos(ArrayList<GeoElement> elms);
+	void movedGeos(ArrayList<GeoElement> elms);
 
 	/**
 	 * Notifies the client that elements have been delete. This includes geoElms
@@ -55,7 +55,7 @@ public interface ClientView extends View {
 	 *            The full list of elms that were removed due to an object with
 	 *            dependents being deleted.
 	 */
-	public void deleteGeos(ArrayList<GeoElement> elms);
+	void deleteGeos(ArrayList<GeoElement> elms);
 
 	/**
 	 * Notify client that objects are about to pasted into the construction.
@@ -63,7 +63,7 @@ public interface ClientView extends View {
 	 * @param pasteXml
 	 *            XML of pasted construction
 	 */
-	public void pasteElms(String pasteXml);
+	void pasteElms(String pasteXml);
 
 	/**
 	 * Provide the full list of pasted elms to the client, in their finished
@@ -72,27 +72,21 @@ public interface ClientView extends View {
 	 * @param pastedElms
 	 *            The full list of pasted elms, in their finished state.
 	 */
-	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms);
+	void pasteElmsComplete(ArrayList<GeoElement> pastedElms);
 
 	/**
-	 * Notifies client that the animation for a geoElement is starting.
-	 *
-	 * @param geo
-	 *           The geoElement that is to be animated
+	 * Notifies client that the automatic animation is starting.
 	 */
-	public void startAnimation(GeoElement geo);
+	void startAnimation();
 
 	/**
-	 * Notifies client that the animation for a geoElement is stopping.
-	 *
-	 * @param geo
-	 *            The animated geoElement
+	 * Notifies client that the automatic animation is stopping.
 	 */
-	public void stopAnimation(GeoElement geo);
+	void stopAnimation();
 
-	public void groupObjects(ArrayList<GeoElement> geos);
+	void groupObjects(ArrayList<GeoElement> geos);
 
-	public void ungroupObjects(ArrayList<GeoElement> geos);
+	void ungroupObjects(ArrayList<GeoElement> geos);
 
 	/**
 	 * Notifies client that an text element is locked for moving by other users.
@@ -100,7 +94,7 @@ public interface ClientView extends View {
 	 * @param geo
 	 *           The geoElement that is to be locked for movement
 	 */
-	public void lockTextElement(GeoElement geo);
+	void lockTextElement(GeoElement geo);
 
 	/**
 	 * Notifies client that an text element is unlocked for moving by other users.
@@ -108,5 +102,5 @@ public interface ClientView extends View {
 	 * @param geo
 	 *           The geoElement that is to be unlocked for movement
 	 */
-	public void unlockTextElement(GeoElement geo);
+	void unlockTextElement(GeoElement geo);
 }

@@ -97,15 +97,15 @@ public class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 1), tan(interval(-PI / 4, PI / 4)));
 		assertEquals(interval(-1, 1), tan(interval(-9 * PI / 4, -7 * PI / 4)));
 		assertEquals(interval(-1, 1), tan(interval(7 * PI / 4, 9 * PI / 4)));
-		assertEquals(interval(0.16767801556, 0.18877817478),
+		assertEquals(interval(0.16767801556850204, 0.18877817478678283),
 				tan(interval(-2.975460122699386, -2.955010224948875)));
 	}
 
 	@Test
 	public void testAsin() {
 		assertEquals(interval(0, 0), asin(interval(0, 0)));
-		assertEquals(interval(-1.57079633, 1.57079633), asin(interval(-1, 1)));
-		assertEquals(interval(-1.57079633, 1.57079633), asin(interval(-10, 10)));
+		assertEquals(interval(-1.5707963267948966, 1.5707963267948966), asin(interval(-1, 1)));
+		assertEquals(interval(-1.5707963267948966, 1.5707963267948966), asin(interval(-10, 10)));
 		assertTrue(asin(interval(-10, -10)).isUndefined());
 	}
 
@@ -121,28 +121,28 @@ public class IntervalTrigonometricTest {
 	@Test
 	public void testAtan() {
 		assertEquals(interval(0, 0), atan(interval(0, 0)));
-		assertEquals(interval(-0.785398163, 0.785398163), atan(interval(-1, 1)));
+		assertEquals(interval(-0.7853981633974484, 0.7853981633974484), atan(interval(-1, 1)));
 	}
 
 	@Test
 	public void testSinh() {
 		assertEquals(interval(0, 0), sinh(interval(0, 0)));
-		assertEquals(interval(-3.62686040785, 3.62686040785), sinh(interval(-2, 2)));
+		assertEquals(interval(-3.6268604078470195, 3.6268604078470195), sinh(interval(-2, 2)));
 	}
 
 	@Test
 	public void testCosh() {
 		assertEquals(interval(1, 1), cosh(interval(0, 0)));
-		assertEquals(interval(1, 3.76219569108), cosh(interval(-2, 2)));
-		assertEquals(interval(3.76219569108, 3.76219569108), cosh(interval(-2, -2)));
-		assertEquals(interval(3.76219569108, 3.76219569108), cosh(interval(2, 2)));
+		assertEquals(interval(1, 3.762195691083632), cosh(interval(-2, 2)));
+		assertEquals(interval(3.762195691083632), cosh(interval(-2, -2)));
+		assertEquals(interval(3.762195691083632), cosh(interval(2, 2)));
 
 	}
 
 	@Test
 	public void testTanh() {
 		assertEquals(interval(0, 0), tanh(interval(0, 0)));
-		assertEquals(interval(-0.99932929973, 0.99932929973),
+		assertEquals(interval(-0.9993292997390671, 0.9993292997390671),
 				tanh(interval(-4, 4)));
 		assertEquals(interval(-1, 1),
 				tanh(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));

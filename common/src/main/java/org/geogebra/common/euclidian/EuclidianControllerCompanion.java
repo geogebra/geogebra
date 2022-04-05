@@ -397,11 +397,8 @@ public class EuclidianControllerCompanion {
 	 */
 	public GeoElement[] regularPolygon(GeoPointND geoPoint1,
 			GeoPointND geoPoint2, GeoNumberValue value, GeoCoordSys2D direction) {
-		ec.kernel.addingPolygon();
-		GeoElement[] elms = ec.getAlgoDispatcher().regularPolygon(null,
+		return ec.getAlgoDispatcher().regularPolygon(null,
 				geoPoint1, geoPoint2, value);
-		ec.kernel.notifyPolygonAdded();
-		return elms;
 	}
 
 	/**

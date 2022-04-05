@@ -407,6 +407,10 @@ public class GeoText extends GeoElement
 			kernel.getApplication().setAltText(this);
 		}
 
+		notifyListeners();
+	}
+
+	private void notifyListeners() {
 		for (GeoElement geo : updateListeners) {
 			geo.notifyUpdate();
 		}
@@ -609,14 +613,13 @@ public class GeoText extends GeoElement
 	 * save object in XML format
 	 */
 	@Override
-	public final void getXML(boolean getListenersToo, StringBuilder sb) {
+	public final void getExpressionXML(StringBuilder sb) {
 
 		// an independent text needs to add
 		// its expression itself
 		// e.g. text0 = "Circle"
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+			sb.append("<expression label=\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb,
@@ -624,26 +627,16 @@ public class GeoText extends GeoElement
 			// expression
 			sb.append("\"/>\n");
 		}
-
-		getElementOpenTagXML(sb);
-
-		if (isSymbolicMode()) {
-			sb.append("\t<symbolic val=\"true\" />\n");
-		}
-
-		getXMLtags(sb);
-		if (getListenersToo) {
-			getListenerTagsXML(sb);
-		}
-		sb.append("</element>\n");
-
 	}
 
 	/**
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getStyleXML(StringBuilder sb) {
+		if (isSymbolicMode()) {
+			sb.append("\t<symbolic val=\"true\" />\n");
+		}
 		XMLBuilder.getXMLvisualTags(this, sb, false);
 
 		getXMLfixedTag(sb);
@@ -1351,6 +1344,7 @@ public class GeoText extends GeoElement
 			}
 			AlgoElement.updateCascadeAlgos(algosTextCorner);
 		}
+		notifyListeners();
 	}
 
 	@Override

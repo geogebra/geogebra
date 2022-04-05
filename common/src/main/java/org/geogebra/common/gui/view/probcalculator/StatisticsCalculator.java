@@ -192,7 +192,6 @@ public abstract class StatisticsCalculator {
 	}
 
 	final protected void setSampleFieldText() {
-
 		for (int i = 0; i < 3; i++) {
 			removeActionListener(fldSampleStat1[i]);
 			removeActionListener(fldSampleStat2[i]);

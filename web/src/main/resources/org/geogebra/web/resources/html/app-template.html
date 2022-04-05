@@ -66,6 +66,8 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function perspective(id, name){
+		var unbundled = ["graphing", "geometry", "whiteboard", "notes", "3d", "cas",
+				"scientific", "calculator", "suite"].indexOf(name) >= 0;
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 
@@ -85,7 +87,7 @@ var codebase = "<!--CODEBASE-->";
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
 			setParamFromURL("ggbbase64");
-			if (isEmbed()) {
+			if (isEmbed() || unbundled) {
 				e("ggw").setAttribute("data-param-showAppsPicker","false");
 				e("appsPicker") && e("appsPicker").style.setProperty("display", "none");
 			}
@@ -103,8 +105,6 @@ var codebase = "<!--CODEBASE-->";
 		}
 		if (name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
-			var unbundled = ["graphing", "geometry", "whiteboard", "notes", "3d", "cas",
-				"scientific", "calculator", "suite"].indexOf(name) >= 0;
 			if (name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)) {
 				name = "classic#" + name;
 			}

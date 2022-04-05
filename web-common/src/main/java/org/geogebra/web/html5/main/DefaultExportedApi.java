@@ -46,7 +46,7 @@ public class DefaultExportedApi implements ExportedApi {
 		scriptManager.export(null);
 	}
 
-	public String getXML(String objName) {
+	public String getXML(@TS(TS.OPTIONAL_STRING) String objName) {
 		if (Js.isTruthy(objName)) {
 			return ggbAPI.getXML(objName + "");
 		} else {
@@ -342,11 +342,16 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.isAnimationRunning();
 	}
 
+	public boolean isAnimating(String objName) {
+		return ggbAPI.isAnimating(objName);
+	}
+
 	public double getFrameRate() {
 		return ggbAPI.getFrameRate();
 	}
 
-	public boolean renameObject(String oldName, String newName, Object force) {
+	public boolean renameObject(String oldName, String newName,
+			@TS(TS.OPTIONAL_BOOL) Object force) {
 		return ggbAPI.renameObject(oldName + "", newName + "", Js.isTruthy(force));
 	}
 
@@ -358,7 +363,7 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.isDefined(objName + "");
 	}
 
-	public String getValueString(String objName, Object localized) {
+	public String getValueString(String objName, @TS(TS.OPTIONAL_BOOL) Object localized) {
 		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
 		return ggbAPI.getValueString(objName + "", localizedB);
 	}
@@ -367,7 +372,7 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getListValue(objName + "", index);
 	}
 
-	public String getDefinitionString(String objName, Object localized) {
+	public String getDefinitionString(String objName, @TS(TS.OPTIONAL_BOOL) Object localized) {
 		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
 		return ggbAPI.getDefinitionString(objName + "",  localizedB);
 	}
@@ -376,11 +381,11 @@ public class DefaultExportedApi implements ExportedApi {
 		return ggbAPI.getLaTeXString(objName + "");
 	}
 
-	public String getLaTeXBase64(String objName, Object value) {
+	public String getLaTeXBase64(String objName, @TS(TS.OPTIONAL_BOOL) Object value) {
 		return ggbAPI.getLaTeXBase64(objName + "", Js.isTruthy(value));
 	}
 
-	public String getCommandString(String objName, Object localized) {
+	public String getCommandString(String objName, @TS(TS.OPTIONAL_BOOL) Object localized) {
 		boolean localizedB = JsEval.isUndefined(localized) || Js.isTruthy(localized);
 		return ggbAPI.getCommandString(objName + "", localizedB);
 	}
@@ -548,7 +553,7 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
-	public JsArray<String> getAllObjectNames(String objectType) {
+	public JsArray<String> getAllObjectNames(@TS(TS.OPTIONAL_STRING) String objectType) {
 		if (JsEval.isUndefined(objectType)) {
 			return new JsArray<>(ggbAPI.getAllObjectNames());
 		} else {
@@ -710,19 +715,19 @@ public class DefaultExportedApi implements ExportedApi {
 	}
 
 	public void setLanguage(String lang) {
-		ggbAPI.setLanguage(lang + "");
+		ggbAPI.setLanguage(lang);
 	}
 
 	public void showTooltip(Object tooltip) {
 		ggbAPI.showTooltip(tooltip + "");
 	}
 
-	public void addMultiuserSelection(Object user, Object color, Object label, boolean newGeo) {
-		ggbAPI.addMultiuserSelection(user + "", color + "", label + "", newGeo);
+	public void addMultiuserSelection(String clientId, String user, String color, String label, boolean newGeo) {
+		ggbAPI.addMultiuserSelection(clientId, user, color, label, newGeo);
 	}
 
-	public void removeMultiuserSelections(Object user) {
-		ggbAPI.removeMultiuserSelections(user + "");
+	public void removeMultiuserSelections(String clientId) {
+		ggbAPI.removeMultiuserSelections(clientId);
 	}
 
 	// APPS-646 deprecated, needs changing to getValue("correct")
@@ -881,7 +886,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.nextConstructionStep();
 	}
 
-	public JsPropertyMap<Object> getEmbeddedCalculators(Object includeGraspableMath) {
+	public JsPropertyMap<Object> getEmbeddedCalculators(
+			@TS(TS.OPTIONAL_BOOL) Object includeGraspableMath) {
 		return ggbAPI.getEmbeddedCalculators(Js.isTruthy(includeGraspableMath));
 	}
 
@@ -909,35 +915,35 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.endDrawRecordingAndLogResults();
 	}
 
-	public void registerAddListener(Object JSFunctionName) {
+	public void registerAddListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerAddListener(JSFunctionName);
 	}
 
-	public void unregisterAddListener(Object JSFunctionName) {
+	public void unregisterAddListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.unregisterAddListener(JSFunctionName);
 	}
 
-	public void registerStoreUndoListener(Object JSFunctionName) {
+	public void registerStoreUndoListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerStoreUndoListener(JSFunctionName);
 	}
 
-	public void unregisterStoreUndoListener(Object JSFunctionName) {
+	public void unregisterStoreUndoListener(@TS(TS.VOID_FUNCTION) Object JSFunctionName) {
 		ggbAPI.unregisterStoreUndoListener(JSFunctionName);
 	}
 
-	public void registerRemoveListener(Object JSFunctionName) {
+	public void registerRemoveListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerRemoveListener(JSFunctionName);
 	}
 
-	public void unregisterRemoveListener(Object JSFunctionName) {
+	public void unregisterRemoveListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.unregisterRemoveListener(JSFunctionName);
 	}
 
-	public void registerClearListener(Object JSFunctionName) {
+	public void registerClearListener(@TS(TS.VOID_FUNCTION) Object JSFunctionName) {
 		ggbAPI.registerClearListener(JSFunctionName);
 	}
 
-	public void unregisterClearListener(Object JSFunctionName) {
+	public void unregisterClearListener(@TS(TS.VOID_FUNCTION) Object JSFunctionName) {
 		ggbAPI.unregisterClearListener(JSFunctionName);
 	}
 
@@ -949,23 +955,24 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.unregisterRenameListener(JSFunctionName);
 	}
 
-	public void registerUpdateListener(Object JSFunctionName) {
+	public void registerUpdateListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerUpdateListener(JSFunctionName);
 	}
 
-	public void unregisterUpdateListener(Object JSFunctionName) {
+	public void unregisterUpdateListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.unregisterUpdateListener(JSFunctionName);
 	}
 
-	public void registerClientListener(Object JSFunctionName) {
+	public void registerClientListener(@TS(TS.CLIENT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerClientListener(JSFunctionName);
 	}
 
-	public void unregisterClientListener(Object JSFunctionName) {
+	public void unregisterClientListener(@TS(TS.CLIENT_LISTENER) Object JSFunctionName) {
 		ggbAPI.unregisterClientListener(JSFunctionName);
 	}
 
-	public void registerObjectUpdateListener(String objName, Object JSFunctionName) {
+	public void registerObjectUpdateListener(String objName,
+			@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerObjectUpdateListener(objName + "", JSFunctionName);
 	}
 
@@ -973,7 +980,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.unregisterObjectUpdateListener(label);
 	}
 
-	public void registerObjectClickListener(String objName, Object JSFunctionName) {
+	public void registerObjectClickListener(String objName,
+			@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerObjectClickListener(objName + "", JSFunctionName);
 	}
 
@@ -981,11 +989,11 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.unregisterObjectClickListener(objName + "");
 	}
 
-	public void registerClickListener(Object JSFunctionName) {
+	public void registerClickListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.registerClickListener(JSFunctionName);
 	}
 
-	public void unregisterClickListener(Object JSFunctionName) {
+	public void unregisterClickListener(@TS(TS.OBJECT_LISTENER) Object JSFunctionName) {
 		ggbAPI.unregisterClickListener(JSFunctionName);
 	}
 
@@ -1017,16 +1025,8 @@ public class DefaultExportedApi implements ExportedApi {
 		ggbAPI.ungroupObjects(objects);
 	}
 
-	public String[] getObjectsOfItsGroup(String object) {
-		return ggbAPI.getObjectsOfItsGroup(object);
-	}
-
-	public void addToGroup(String item, String[] objectsInGroup) {
-		ggbAPI.addToGroup(item, objectsInGroup);
-	}
-
-	public void setEmbedContent(String label, String base64) {
-		ggbAPI.setEmbedContent(label, base64);
+	public JsArray<String> getObjectsOfItsGroup(String object) {
+		return new JsArray<>(ggbAPI.getObjectsOfItsGroup(object));
 	}
 
 	public void addGeoToTV(String label) {
@@ -1065,11 +1065,23 @@ public class DefaultExportedApi implements ExportedApi {
 		}
 	}
 
+	public Object getGraphicsOptions(int viewId) {
+		return ggbAPI.getGraphicsOptions(viewId);
+	}
+
 	public void setGlobalOptions(Object options) {
 		ggbAPI.setGlobalOptions(options);
 	}
 
 	public void switchCalculator(String appCode) {
 		ggbAPI.switchCalculator(appCode);
+	}
+
+	public String getStyleXML(String objName) {
+		return ggbAPI.getStyleXML(objName);
+	}
+
+	public JsArray<String> getSiblingObjectNames(String objName) {
+		return new JsArray<>(ggbAPI.getSiblingObjectNames(objName));
 	}
 }

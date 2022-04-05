@@ -157,6 +157,16 @@ public class AlgebraItem {
 	/**
 	 * @param geo
 	 *            element
+	 * @return whether element is a numeric that can be written as a sqrt
+	 */
+	public static boolean isGeoSurd(GeoElement geo) {
+		return geo instanceof GeoNumeric && geo.getDefinition() != null
+				&& geo.getDefinition().isSimplifiableSurd();
+	}
+
+	/**
+	 * @param geo
+	 *            element
 	 * @param app
 	 *            application requesting suggestion (may disallow it)
 	 * @return most relevant suggestion

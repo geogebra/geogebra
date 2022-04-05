@@ -168,8 +168,8 @@ public class GeoMindMapNode extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		XMLBuilder.appendBorderAndAlignment(sb, this, verticalAlignment);
 		XMLBuilder.appendParent(sb, parent, nodeAlignment);
 		if (getLineThickness() != 0) {

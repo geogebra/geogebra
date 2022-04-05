@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.multiuser;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -8,8 +9,11 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
+import org.geogebra.common.plugin.EventType;
 
-public final class MultiuserManager {
+public final class MultiuserManager implements EventListener {
 
 	public static final MultiuserManager INSTANCE = new MultiuserManager();
 
@@ -22,29 +26,41 @@ public final class MultiuserManager {
 	/**
 	 * Add a multiuser interaction coming from another user
 	 * @param app application
-	 * @param user user that changed this object
+	 * @param clientId id of the client that changed this object
+	 * @param user name of the user that changed this object
 	 * @param color color associated with the user
 	 * @param label label of the changed object
 	 * @param newGeo if the geo was added
 	 */
-	public void addSelection(App app, String user, GColor color, String label, boolean newGeo) {
+	public void addSelection(App app, String clientId, String user, GColor color, String label,
+			boolean newGeo) {
+		GColor withAlpha = GColor.newColor(adjustColor(color.getRed()),
+				adjustColor(color.getGreen()), adjustColor(color.getBlue()), 127);
 		User currentUser = activeInteractions
-				.computeIfAbsent(user, k -> new User(user, color));
-		for (User u : activeInteractions.values()) {
-			if (u != currentUser) {
-				u.removeSelection(label);
+				.computeIfAbsent(clientId, k -> new User(user, withAlpha));
+		app.getEventDispatcher().removeEventListener(this);
+		app.getEventDispatcher().addEventListener(this);
+		// TODO this removeSelection is not propagated to other users. Markers get
+		// inconsistent, if two users select the same object.
+		for (Map.Entry<String, User> entry : activeInteractions.entrySet()) {
+			if (!entry.getKey().equals(clientId)) {
+				entry.getValue().removeSelection(label);
 			}
 		}
 		currentUser.addSelection(app.getActiveEuclidianView(), label, newGeo);
 	}
 
+	private int adjustColor(int component) {
+		return Math.max(2 * component - 255, 0);
+	}
+
 	/**
 	 * Deselect objects associated with given user
 	 * @param app application
-	 * @param user user ID
+	 * @param clientId client ID
 	 */
-	public void deselect(App app, String user) {
-		User currentUser = activeInteractions.get(user);
+	public void deselect(App app, String clientId) {
+		User currentUser = activeInteractions.get(clientId);
 		if (currentUser != null) {
 			currentUser.deselectAll(app.getActiveEuclidianView());
 		}
@@ -62,5 +78,23 @@ public final class MultiuserManager {
 		for (User user : activeInteractions.values()) {
 			user.paintInteractionBoxes(view, graphics);
 		}
+	}
+
+	@Override
+	public void sendEvent(Event evt) {
+		if (evt.type == EventType.RENAME) {
+			for (User user : activeInteractions.values()) {
+				user.rename(evt.target);
+			}
+		} else if (evt.type == EventType.REMOVE) {
+			for (User user : activeInteractions.values()) {
+				user.removeSelection(evt.target.getLabelSimple());
+			}
+		}
+	}
+
+	@Override
+	public void reset() {
+		// not needed
 	}
 }
