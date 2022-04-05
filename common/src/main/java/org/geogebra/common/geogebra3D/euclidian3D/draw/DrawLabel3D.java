@@ -1,5 +1,8 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -81,7 +84,7 @@ public class DrawLabel3D {
 	protected boolean hasIndex = false;
 
     private CoordMatrix4x4 positionMatrix;
-	protected CaptionText caption;
+	protected @CheckForNull CaptionText caption;
 	private final CaptionProperties properties;
 
 	/**
@@ -183,18 +186,18 @@ public class DrawLabel3D {
 	public void update(String text0, GFont font0, Coords v,
 			float xOffset0, float yOffset0, float zOffset0) {
 				this.origin = v;
-		if (text0.length() == 0) {
+		if (text0.length() == 0 || caption == null) {
 			setIsVisible(false);
 			return;
 		}
-
+		CaptionText cpt = caption;
 		properties.update();
 		setIsVisible(true);
 
-		caption.createFont(font0);
-		tempGraphics.setFont(caption.font());
+		cpt.createFont(font0);
+		tempGraphics.setFont(cpt.font());
 
-		GRectangle rectangle = getBounds();
+		GRectangle rectangle = getBounds(cpt);
 
 		int xMin = (int) rectangle.getMinX() - 1;
 		int xMax = (int) rectangle.getMaxX() + 1;
@@ -207,7 +210,7 @@ public class DrawLabel3D {
 		yOffset2 = -yMax;
 
 		// creates the buffered image
-		GBufferedImage bimg = draw();
+		GBufferedImage bimg = draw(cpt);
 
 		// creates the texture
 		view.getRenderer().createAlphaTexture(this, bimg);
@@ -224,9 +227,10 @@ public class DrawLabel3D {
 	 * 
 	 * @param bimg
 	 *            buffered image
+	 * @param cpt caption
 	 * @return graphics2D
 	 */
-	protected GGraphics2D createGraphics2D(GBufferedImage bimg) {
+	protected GGraphics2D createGraphics2D(GBufferedImage bimg, @Nonnull CaptionText cpt) {
 		GGraphics2D g2d = bimg.createGraphics();
 
 		GAffineTransform gt = AwtFactory.getPrototype().newAffineTransform();
@@ -234,8 +238,8 @@ public class DrawLabel3D {
 		gt.translate(-xOffset2, yOffset2); // put the baseline on the label
 											// anchor
 		g2d.transform(gt);
-		g2d.setColor(caption.foregroundColor());
-		g2d.setFont(caption.font());
+		g2d.setColor(cpt.foregroundColor());
+		g2d.setFont(cpt.font());
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -252,16 +256,15 @@ public class DrawLabel3D {
 		return view.getRenderer().createBufferedImage(this);
 	}
 
-	protected GRectangle getBounds() {
-		
+	protected GRectangle getBounds(@Nonnull CaptionText cpt) {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), caption.text(), 0, 0, tempGraphics, false,
-				caption.font(),
+				view.getApplication(), cpt.text(), 0, 0, tempGraphics, false,
+				cpt.font(),
 				AwtFactory.getPrototype().newRectangle(), null, DrawText.DEFAULT_MARGIN);
 		if (properties.hasSubscript()) { // text contains subscript
 			hasIndex = true;
 			EuclidianStatic.drawIndexedString(view.getApplication(),
-					tempGraphics, caption.text(), 0, 0, false);
+					tempGraphics, cpt.text(), 0, 0, false);
 		} else {
 			hasIndex = false;
 		}
@@ -272,13 +275,12 @@ public class DrawLabel3D {
 	/**
 	 * @return buffered image with label drawn in it
 	 */
-	protected GBufferedImage draw() {
-
+	protected GBufferedImage draw(@Nonnull CaptionText cpt) {
 		GBufferedImage bimg;
 		GGraphics2D g2d;
 
-		if (caption.isLaTeX()) {
-			GeoElement geo = caption.getGeoElement();
+		if (cpt.isLaTeX()) {
+			GeoElement geo = cpt.getGeoElement();
 
 			// make sure LaTeX labels
 			// don't go off bottom of screen
@@ -286,36 +288,36 @@ public class DrawLabel3D {
 
 			height += offsetY;
 			bimg = createBufferedImage();
-			g2d = createGraphics2D(bimg);
+			g2d = createGraphics2D(bimg, cpt);
 
 			App app = view.getApplication();
 			app.getDrawEquation().drawEquation(geo.getKernel().getApplication(),
-					geo, g2d, 0, -offsetY, caption.textToDraw(),
-					caption.font(), caption.isSerifFont(), caption.foregroundColor(),
-					caption.backgroundColor(),
+					geo, g2d, 0, -offsetY, cpt.textToDraw(),
+					cpt.font(), cpt.isSerifFont(), cpt.foregroundColor(),
+					cpt.backgroundColor(),
 					true, false, getCallBack());
 			return bimg;
 		}
 
 		bimg = createBufferedImage();
-		g2d = createGraphics2D(bimg);
-		g2d.setFont(caption.font());
+		g2d = createGraphics2D(bimg, cpt);
+		g2d.setFont(cpt.font());
 
 		if (hasIndex) {
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, caption.text(),
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, cpt.text(),
 					0, 0, false);
 		} else {
-			drawPlainTextLabel(g2d);
+			drawPlainTextLabel(g2d, cpt);
 		}
 
 		return bimg;
 	}
 
-	private void drawPlainTextLabel(GGraphics2D g2d) {
-		GFont font0 = view.getApplication().getFontCanDisplay(caption.text(),
-				caption.isSerifFont(), caption.font().getStyle(), caption.font().getSize());
+	private void drawPlainTextLabel(GGraphics2D g2d, @Nonnull CaptionText cpt) {
+		GFont font0 = view.getApplication().getFontCanDisplay(cpt.text(),
+				cpt.isSerifFont(), cpt.font().getStyle(), cpt.font().getSize());
 		g2d.setFont(font0);
-		g2d.drawString(caption.text(), 0, 0);
+		g2d.drawString(cpt.text(), 0, 0);
 	}
 
 	/**
@@ -769,9 +771,5 @@ public class DrawLabel3D {
 		manager.remove(pickingIndex);
 		manager.remove(backgroundIndex);
 		view.getRenderer().getTextures().removeTexture(textureIndex);
-	}
-
-	protected GFont font() {
-		return caption.font();
 	}
 }
