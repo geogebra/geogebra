@@ -234,6 +234,13 @@ public abstract class DialogManager {
 	public abstract boolean showButtonCreationDialog(int x, int y,
 			boolean textfield);
 
+	/**
+	 * show calculator chooser for suite
+	 */
+	public void showCalcChooser(boolean autoHide) {
+		// only in Web
+	}
+
 	public interface CreateGeoForRotate {
 		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo,
 				GeoNumberValue num);

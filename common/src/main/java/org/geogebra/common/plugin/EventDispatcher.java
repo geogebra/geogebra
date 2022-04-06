@@ -235,13 +235,13 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
-	public void addingPolygon() {
-		dispatchEvent(EventType.ADD_POLYGON, null);
+	public void batchAddStarted() {
+		dispatchEvent(EventType.BATCH_ADD_STARTED, null);
 	}
 
 	@Override
-	public void addPolygonComplete(GeoElement polygon) {
-		dispatchEvent(EventType.ADD_POLYGON_COMPLETE, polygon);
+	public void batchAddComplete(GeoElement polygon) {
+		dispatchEvent(EventType.BATCH_ADD_COMPLETE, polygon);
 	}
 
 	@Override
@@ -270,13 +270,13 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
-	public void startAnimation(GeoElement geo) {
-		dispatchEvent(new Event(EventType.START_ANIMATION, geo));
+	public void startAnimation() {
+		dispatchEvent(new Event(EventType.START_ANIMATION));
 	}
 
 	@Override
-	public void stopAnimation(GeoElement geo) {
-		dispatchEvent(new Event(EventType.STOP_ANIMATION, geo));
+	public void stopAnimation() {
+		dispatchEvent(new Event(EventType.STOP_ANIMATION));
 	}
 
 	@Override

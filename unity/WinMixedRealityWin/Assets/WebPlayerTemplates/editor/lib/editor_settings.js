@@ -1,1 +1,0 @@
-define(["require","exports"],function(e,i){"use strict";Object.defineProperty(i,"__esModule",{value:!0}),i.default={environment:{GT:"GT",Hummingbird:"Hummingbird"},defaultPreferences:{couiEnvironment:"GT",timeline:{filterTimelineWidgets:!0}}}});

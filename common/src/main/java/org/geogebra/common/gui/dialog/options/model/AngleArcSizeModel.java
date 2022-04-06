@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -40,7 +41,7 @@ public class AngleArcSizeModel extends OptionsModel {
 			else {
 				angle.setArcSize(size);
 			}
-			angle.updateRepaint();
+			angle.updateVisualStyleRepaint(GProperty.ANGLE_STYLE);
 		}
 		storeUndoInfo();
 	}

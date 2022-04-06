@@ -38,25 +38,29 @@ public class CoordMultiplyReplacer implements Traversing {
 		switch (node.getOperation()) {
 		case XCOORD:
 			if (xVar != null && !leftHasCoord(node)) {
-				return new ExpressionNode(node.getKernel(), xVar, Operation.MULTIPLY_OR_FUNCTION,
-						node.getLeft());
+				return asMultiplication(node, xVar);
 			}
 			return node;
 		case YCOORD:
 			if (yVar != null && !leftHasCoord(node)) {
-				return new ExpressionNode(node.getKernel(), yVar, Operation.MULTIPLY_OR_FUNCTION,
-						node.getLeft());
+				return asMultiplication(node, yVar);
 			}
 			return node;
 		case ZCOORD:
 			if (zVar != null && !leftHasCoord(node)) {
-				return new ExpressionNode(node.getKernel(), zVar, Operation.MULTIPLY_OR_FUNCTION,
-						node.getLeft());
+				return asMultiplication(node, zVar);
 			}
 			return node;
 		default:
 			return node;
 		}
+	}
+
+	private ExpressionValue asMultiplication(ExpressionNode node, FunctionVariable fVar) {
+		ExpressionNode mul = new ExpressionNode(node.getKernel(), fVar,
+				Operation.MULTIPLY_OR_FUNCTION, node.getLeft()).traverse(this).wrap();
+		mul.setBrackets(node.hasBrackets());
+		return mul;
 	}
 
 	private boolean leftHasCoord(ExpressionNode node) {

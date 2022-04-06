@@ -17,7 +17,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/xmlutil.js")
 	TextResource xmlUtil();
 
-	@Source("org/geogebra/web/resources/js/fflate.min.js")
+	@Source("fflate/index.js")
 	TextResource fflateJs();
 
 	@Source("org/geogebra/web/resources/js/base64.js")
@@ -35,8 +35,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/images/spinner.gif")
 	ImageResource getGeoGebraWebSpinner();
 
-	@Source("org/geogebra/web/resources/images/ggbSplash.html")
-	TextResource ggbSplashHtml();
+	@Source("org/geogebra/common/icons/svg/web/header/ggb-logo-name.svg")
+	SVGResource ggb_logo_name();
 
 	// INFO, WARNING, QUESTION, ERROR
 	@Source("org/geogebra/common/icons/png/web/dialog-error.png")

@@ -127,6 +127,7 @@ public abstract class ScriptManager implements EventListener {
 				callListener(fn.getText(), args);
 			}
 		} catch (Exception e) {
+			Log.debug(e);
 			Log.error("Scripting error " + e.getMessage());
 		}
 	}

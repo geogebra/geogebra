@@ -1007,7 +1007,12 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				sb.append("sqrt(");
+				if (tpl.printsUnicodeSqrt()) {
+					sb.append("\u221a");
+				} else {
+					sb.append("sqrt");
+				}
+				sb.append("(");
 				sb.append(leftStr);
 				sb.append(')');
 			}

@@ -369,12 +369,23 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		consProtocolPanel.add(cbShowNavbar);
 
-		cbNavPlay = new ComponentCheckbox(optionsEuclidianW.loc, false, "PlayButton",
+		cbNavPlay = new ComponentCheckbox(optionsEuclidianW.loc, true, "PlayButton",
 				() -> togglePlayButton());
 
-		cbOpenConsProtocol = new ComponentCheckbox(optionsEuclidianW.loc, false,
+		cbOpenConsProtocol = new ComponentCheckbox(optionsEuclidianW.loc, true,
 				"ConstructionProtocolButton",
 				() -> toggleConsProtButton());
+
+		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
+				.getGuiManager().getCPNavigationIfExists();
+		boolean selectNavPlay = cpn == null || cpn.isPlayButtonVisible();
+		if (selectNavPlay != cbNavPlay.isSelected()) {
+			cbNavPlay.setSelected(selectNavPlay);
+		}
+		boolean selectConsProtocol = cpn == null || cpn.isConsProtButtonVisible();
+		if (selectConsProtocol != cbOpenConsProtocol.isSelected()) {
+			cbOpenConsProtocol.setSelected(selectConsProtocol);
+		}
 
 		FlowPanel buttons = new FlowPanel();
 		buttons.setStyleName("panelIndent");
@@ -391,8 +402,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				.toggleShowConstructionProtocolNavigation(
 						optionsEuclidianW.view
 								.getViewID());
-		cbNavPlay.setEnabled(cbShowNavbar.isSelected());
-		cbOpenConsProtocol.setEnabled(cbShowNavbar.isSelected());
+		cbNavPlay.setDisabled(!cbShowNavbar.isSelected());
+		cbOpenConsProtocol.setDisabled(!cbShowNavbar.isSelected());
 	}
 
 	protected void applyBackgroundColor(GColor color) {
@@ -660,14 +671,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
 		cbShowNavbar.setSelected(isVisible);
-		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
-				.getGuiManager().getCPNavigationIfExists();
-		cbNavPlay.setSelected(cpn == null || cpn.isPlayButtonVisible());
-		cbOpenConsProtocol
-				.setSelected(cpn == null || cpn.isConsProtButtonVisible());
-
-		cbNavPlay.setEnabled(isVisible);
-		cbOpenConsProtocol.setEnabled(isVisible);
+		cbNavPlay.setDisabled(!isVisible);
+		cbOpenConsProtocol.setDisabled(!isVisible);
 	}
 
 	public void showMouseCoords(boolean value) {

@@ -131,6 +131,13 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	protected final void addMoreButton() {
+		if (moreButton == null) {
+			createMoreButton();
+		}
+		contents.add(moreButton);
+	}
+
+	private void createMoreButton() {
 		moreButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_more(),
 				KeyboardResources.INSTANCE.keyboard_more());
 		moreButton.setMouseOverHandler(() -> switchIcon(true));
@@ -140,10 +147,10 @@ public class KeyboardSwitcher extends FlowPanel {
 
 		moreButton.removeStyleName("MyToggleButton");
 		moreButton.addStyleName("moreKeyboardButton");
+
 		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(moreButton
 						.getAbsoluteLeft() + moreButton.getOffsetWidth(),
 				moreButton.getAbsoluteTop()));
-		contents.add(moreButton);
 	}
 
 	/**

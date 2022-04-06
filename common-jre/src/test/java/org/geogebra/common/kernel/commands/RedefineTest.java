@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -445,6 +446,15 @@ public class RedefineTest extends BaseUnitTest {
 		assertEquals(Arrays.asList("a", "l1", "l2"), labels);
 		assertEquals("Zip(IntersectPath(P, a), P, l1)",
 				lookup("l2").getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void maskShouldStayMask() {
+		GeoPolygon mask = add("q1=Polygon((0,0),(0,1),(1,1),(1,0))");
+		mask.setIsMask(true);
+		GeoPolygon redefined = add("q1=Polygon((0,0),(0,2),(1,2),(1,0))");
+		assertTrue("rectangle should still be a mask", redefined.isMask());
+		assertEquals(1, redefined.getAlphaValue(), 1E-5);
 	}
 
 	@Test

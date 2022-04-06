@@ -2,37 +2,19 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoListLength;
-import org.geogebra.common.kernel.algos.AlgoListMinMax;
-import org.geogebra.common.kernel.algos.AlgoMedian;
-import org.geogebra.common.kernel.algos.AlgoQ1;
-import org.geogebra.common.kernel.algos.AlgoQ3;
-import org.geogebra.common.kernel.algos.AlgoSum;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.statistics.AlgoListMeanX;
-import org.geogebra.common.kernel.statistics.AlgoListMeanY;
-import org.geogebra.common.kernel.statistics.AlgoListPMCC;
-import org.geogebra.common.kernel.statistics.AlgoListSXX;
-import org.geogebra.common.kernel.statistics.AlgoListSXY;
-import org.geogebra.common.kernel.statistics.AlgoListSYY;
-import org.geogebra.common.kernel.statistics.AlgoListSampleSDX;
-import org.geogebra.common.kernel.statistics.AlgoListSampleSDY;
-import org.geogebra.common.kernel.statistics.AlgoMean;
-import org.geogebra.common.kernel.statistics.AlgoRSquare;
-import org.geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
-import org.geogebra.common.kernel.statistics.AlgoSigmaXX;
-import org.geogebra.common.kernel.statistics.AlgoSpearman;
-import org.geogebra.common.kernel.statistics.AlgoStandardDeviation;
-import org.geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.statistics.Regression;
+import org.geogebra.common.kernel.statistics.Stat;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Displays statistics for DataAnalysisView when in one variable or regression
@@ -52,7 +34,7 @@ public class StatTableModel {
 
 		GeoElement getRegressionModel();
 
-		DataAnalysisModel.Regression getRegressionMode();
+		Regression getRegressionMode();
 
 		boolean isValidData();
 
@@ -67,14 +49,8 @@ public class StatTableModel {
 		boolean isNumericData();
 	}
 
-	public enum Stat {
-		NULL, LENGTH, MEAN, SD, SAMPLE_SD, SUM, SIGMAXX, MIN, Q1, MEDIAN, Q3,
-
-		MAX, MEANX, MEANY, SX, SY, PMCC, SPEARMAN, SXX, SYY, SXY, RSQUARE, SSE
-	}
-
-	/*************************************************
-	 * Construct the panel
+	/**
+	 * Construct the model
 	 * 
 	 * @param app
 	 *            application
@@ -218,56 +194,7 @@ public class StatTableModel {
 	}
 
 	protected String getStatName(Stat stat) {
-		Localization loc = app.getLocalization();
-		switch (stat) {
-		case LENGTH:
-			return loc.getMenu("Length.short");
-		case MEAN:
-			return loc.getMenu("Mean");
-		case SD:
-			return loc.getMenu("StandardDeviation.short");
-		case SAMPLE_SD:
-			return loc.getMenu("SampleStandardDeviation.short");
-		case SUM:
-			return loc.getMenu("Sum");
-		case SIGMAXX:
-			return loc.getMenu("Sum2");
-		case MIN:
-			return loc.getMenu("Minimum.short");
-		case Q1:
-			return loc.getMenu("LowerQuartile.short");
-		case MEDIAN:
-			return loc.getMenu("Median");
-		case Q3:
-			return loc.getMenu("UpperQuartile.short");
-		case MAX:
-			return loc.getMenu("Maximum.short");
-		case MEANX:
-			return loc.getMenu("MeanX");
-		case MEANY:
-			return loc.getMenu("MeanY");
-		case SX:
-			return loc.getMenu("Sx");
-		case SY:
-			return loc.getMenu("Sy");
-		case PMCC:
-			return loc.getMenu("CorrelationCoefficient.short");
-		case SPEARMAN:
-			return loc.getMenu("Spearman.short");
-		case SXX:
-			return loc.getMenu("Sxx");
-		case SYY:
-			return loc.getMenu("Syy");
-		case SXY:
-			return loc.getMenu("Sxy");
-		case RSQUARE:
-			return loc.getMenu("RSquare.Short");
-		case SSE:
-			return loc.getMenu("SumSquaredErrors.short");
-		default:
-			return null;
-		}
-
+		return app.getLocalization().getMenu(stat.getTranslationKey());
 	}
 
 	/**
@@ -281,7 +208,18 @@ public class StatTableModel {
 	 */
 	public AlgoElement getAlgo(Stat algoName, GeoList dataList,
 			GeoElement geoRegression) {
+		try {
+			Command command = getCommand(algoName, dataList, geoRegression);
+			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+			GeoElementND geo = algebraProcessor.processValidExpressionSilent(command)[0];
+			return geo.getParentAlgorithm();
+		} catch (Exception e) {
+			Log.error(e);
+		}
+		return null;
+	}
 
+	private Command getCommand(Stat algoName, GeoList dataList, GeoElement geoRegression) {
 		switch (getListener().getMode()) {
 
 		case DataAnalysisModel.MODE_ONEVAR:
@@ -315,66 +253,45 @@ public class StatTableModel {
 	 *            rgression line or function (null if not needed)
 	 * @return stats algo
 	 */
-	public AlgoElement getAlgoRawData(Stat stat, GeoList dataList,
+	public Command getAlgoRawData(Stat stat, GeoList dataList,
 			GeoElement geoRegression) {
-
+		Command command = new Command(app.getKernel(), stat.getCommandName(), false);
 		switch (stat) {
-
 		case LENGTH:
-			return new AlgoListLength(getConstruction(), dataList);
 		case MEAN:
-			return new AlgoMean(getConstruction(), dataList);
 		case SD:
-			return new AlgoStandardDeviation(getConstruction(), dataList);
 		case SAMPLE_SD:
-			return new AlgoSampleStandardDeviation(getConstruction(), dataList);
 		case SUM:
-			return new AlgoSum(getConstruction(), dataList);
 		case SIGMAXX:
-			return new AlgoSigmaXX(getConstruction(), dataList);
 		case MIN:
-			return new AlgoListMinMax(getConstruction(), dataList, true);
 		case Q1:
-			return new AlgoQ1(getConstruction(), dataList);
 		case MEDIAN:
-			return new AlgoMedian(getConstruction(), dataList);
 		case Q3:
-			return new AlgoQ3(getConstruction(), dataList);
 		case MAX:
-			return new AlgoListMinMax(getConstruction(), dataList, false);
 		case MEANX:
-			return new AlgoListMeanX(getConstruction(), dataList);
 		case MEANY:
-			return new AlgoListMeanY(getConstruction(), dataList);
 		case SX:
-			return new AlgoListSampleSDX(getConstruction(), dataList);
 		case SY:
-			return new AlgoListSampleSDY(getConstruction(), dataList);
 		case PMCC:
-			return new AlgoListPMCC(getConstruction(), dataList);
 		case SPEARMAN:
-			return new AlgoSpearman(getConstruction(), dataList);
 		case SXX:
-			return new AlgoListSXX(getConstruction(), dataList);
 		case SYY:
-			return new AlgoListSYY(getConstruction(), dataList);
 		case SXY:
-			return new AlgoListSXY(getConstruction(), dataList);
+			command.addArgument(dataList.wrap());
+			break;
 		case RSQUARE:
-			if (geoRegression == null) {
-				return null;
-			}
-			return new AlgoRSquare(getConstruction(), dataList,
-					(GeoFunctionable) geoRegression);
 		case SSE:
 			if (geoRegression == null) {
 				return null;
 			}
-			return new AlgoSumSquaredErrors(getConstruction(), dataList,
-					(GeoFunctionable) geoRegression);
+			command.addArgument(dataList.wrap());
+			command.addArgument(geoRegression.wrap());
+			break;
 		default:
 			return null;
 		}
+
+		return command;
 	}
 
 	/**
@@ -386,7 +303,7 @@ public class StatTableModel {
 	 *            list with 2 items: {data points, frequencies}
 	 * @return stats algo
 	 */
-	public AlgoElement getAlgoFrequency(Stat stat, GeoList frequencyData) {
+	public Command getAlgoFrequency(Stat stat, GeoList frequencyData) {
 
 		GeoList dataList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);
@@ -394,29 +311,23 @@ public class StatTableModel {
 		switch (stat) {
 
 		case LENGTH:
-			return new AlgoSum(getConstruction(), freqList);
+			Command cmd = new Command(app.getKernel(), "Sum", false);
+			cmd.addArgument(freqList.wrap());
+			return cmd;
 		case MEAN:
-			return new AlgoMean(getConstruction(), dataList, freqList);
 		case SD:
-			return new AlgoStandardDeviation(getConstruction(), dataList,
-					freqList);
 		case SAMPLE_SD:
-			return new AlgoSampleStandardDeviation(getConstruction(), dataList,
-					freqList);
 		case SUM:
-			return new AlgoSum(getConstruction(), dataList, freqList);
 		case SIGMAXX:
-			return new AlgoSigmaXX(getConstruction(), dataList, freqList);
 		case MIN:
-			return new AlgoListMinMax(getConstruction(), dataList, freqList, true);
 		case Q1:
-			return new AlgoQ1(getConstruction(), dataList, freqList);
 		case MEDIAN:
-			return new AlgoMedian(getConstruction(), dataList, freqList);
 		case Q3:
-			return new AlgoQ3(getConstruction(), dataList, freqList);
 		case MAX:
-			return new AlgoListMinMax(getConstruction(), dataList, freqList, false);
+			cmd = new Command(app.getKernel(), stat.getCommandName(), false);
+			cmd.addArgument(dataList.wrap());
+			cmd.addArgument(freqList.wrap());
+			return cmd;
 		default:
 			return null;
 		}
@@ -431,7 +342,7 @@ public class StatTableModel {
 	 *            two item list {class borders, frequencies}
 	 * @return stats algo
 	 */
-	public AlgoElement getAlgoClass(Stat stat, GeoList frequencyData) {
+	public Command getAlgoClass(Stat stat, GeoList frequencyData) {
 
 		GeoList classList = (GeoList) frequencyData.get(0);
 		GeoList freqList = (GeoList) frequencyData.get(1);
@@ -439,19 +350,18 @@ public class StatTableModel {
 		switch (stat) {
 
 		case LENGTH:
-			return new AlgoSum(getConstruction(), freqList);
+			Command cmd = new Command(app.getKernel(), "Sum", false);
+			cmd.addArgument(freqList.wrap());
+			return cmd;
 		case MEAN:
-			return new AlgoMean(getConstruction(), classList, freqList);
 		case SD:
-			return new AlgoStandardDeviation(getConstruction(), classList,
-					freqList);
 		case SAMPLE_SD:
-			return new AlgoSampleStandardDeviation(getConstruction(), classList,
-					freqList);
 		case SUM:
-			return new AlgoSum(getConstruction(), classList, freqList);
 		case SIGMAXX:
-			return new AlgoSigmaXX(getConstruction(), classList);
+			cmd = new Command(app.getKernel(), stat.getCommandName(), false);
+			cmd.addArgument(classList.wrap());
+			cmd.addArgument(freqList.wrap());
+			return cmd;
 		default:
 			return null;
 		}

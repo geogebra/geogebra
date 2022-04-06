@@ -6,16 +6,11 @@ public interface MathFieldListener {
 
 	void onKeyTyped(String key);
 
-	void onCursorMove();
-
-	void onUpKeyPressed();
-	
-	void onDownKeyPressed();
+	boolean onArrowKeyPressed(int keyCode);
 
 	void onInsertString();
 
 	boolean onEscape();
 
 	void onTab(boolean shiftDown);
-	
 }

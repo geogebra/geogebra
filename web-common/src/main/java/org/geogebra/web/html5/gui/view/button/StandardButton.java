@@ -311,4 +311,8 @@ public class StandardButton extends FocusWidget implements HasResource {
 		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
 				mouseOutHandler.run());
 	}
+
+	public NoDragImage getImage() {
+		return btnImage;
+	}
 }

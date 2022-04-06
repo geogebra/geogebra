@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
@@ -192,15 +193,14 @@ public class LabelManager {
 	 *            labels
 	 * @param geos
 	 *            geos
-	 * @param indexedOnly
-	 *            true for labels a_1,a_2,a_3,...
 	 */
-	static void setLabels(final String[] labels, final GeoElementND[] geos,
-			final boolean indexedOnly) {
+	public static void setLabels(final String[] labels, final GeoElementND[] geos) {
+		geos[0].getKernel().batchAddStarted();
 		final int labelLen = (labels == null) ? 0 : labels.length;
 
 		if ((labelLen == 1) && (labels[0] != null) && !labels[0].equals("")) {
 			setLabels(labels[0], geos);
+			geos[0].getKernel().batchAddComplete();
 			return;
 		}
 
@@ -212,25 +212,9 @@ public class LabelManager {
 				label = null;
 			}
 
-			if (indexedOnly) {
-				label = geos[i].getIndexLabel(label);
-			}
-
 			geos[i].setLabel(label);
 		}
-	}
-
-	/**
-	 * set labels for array of GeoElements pairwise: geos[i].setLabel(labels[i])
-	 * 
-	 * @param labels
-	 *            array of labels
-	 * @param geos
-	 *            array of geos
-	 */
-	public static void setLabels(final String[] labels,
-			final GeoElementND[] geos) {
-		setLabels(labels, geos, false);
+		geos[0].getKernel().batchAddComplete();
 	}
 
 	/**
@@ -324,4 +308,18 @@ public class LabelManager {
 		return getNextIndexedLabel(LabelType.integerLabels);
 	}
 
+	/**
+	 * @param trans localized prefix
+	 * @return first free label of {prefix1, prefix2, ...}
+	 */
+	public String getNextNumberedLabel(String trans) {
+		int counter = 0;
+		String str;
+		do {
+			counter++;
+			str = trans + cons.getKernel().internationalizeDigits(counter + "",
+					StringTemplate.defaultTemplate);
+		} while (!cons.isFreeLabel(str));
+		return str;
+	}
 }

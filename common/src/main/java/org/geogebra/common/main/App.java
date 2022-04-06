@@ -1281,9 +1281,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			geos2.addAll(selection.getSelectedGeos());
 			for (GeoElement geo : geos2) {
 				if (filter.test(geo)) {
-					boolean removePredecessors = isCut || geo.isShape();
 					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (removePredecessors && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo.getParentAlgorithm().input) {
 							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
@@ -4379,11 +4378,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void batchUpdateStart() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(true);
 	}
 
 	public void batchUpdateEnd() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(false);
 	}
 
 	/**
@@ -4666,11 +4665,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * set export will be done on next 3D frame
 	 *
-	 * @param format
-	 *            export format
+	 * @param format - export format
 	 */
 	public void setExport3D(Format format) {
-		companion.setExport3D(format);
+		companion.setExport3D(format, true);
+	}
+
+	/**
+	 * export directly
+	 * @param format - export format
+	 */
+	public void setDirectExport3D(Format format) {
+		companion.setExport3D(format, false);
 	}
 
 	public boolean isPortrait() {
@@ -4773,13 +4779,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 *
-	 * @param ext
-	 *            extension
-	 * @param content
-	 *            contents of file
-	 *
+	 * @param ext - extension
+	 * @param content - contents of file
+	 * @param showDialog - whether should show dialog
 	 */
-	public void exportStringToFile(String ext, String content) {
+	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		// needs to be implemented in subclasses
 	}
 

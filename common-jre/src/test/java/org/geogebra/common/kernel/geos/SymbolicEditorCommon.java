@@ -27,6 +27,11 @@ class SymbolicEditorCommon extends SymbolicEditor {
 	}
 
 	@Override
+	public boolean onArrowKeyPressed(int keyCode) {
+		return false;
+	}
+
+	@Override
 	public boolean onEscape() {
 		return false;
 	}

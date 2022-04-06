@@ -15,5 +15,9 @@
             <flag name="roman" value="8"/>
             <flag name="typewriter" value="16"/>
         </attr>
+        <attr name="fe_alignment">
+            <flag name="left" value="0" />
+            <flag name="right" value="1" />
+        </attr>
     </declare-styleable>
 </resources>

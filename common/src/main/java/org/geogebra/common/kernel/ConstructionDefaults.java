@@ -629,7 +629,12 @@ public class ConstructionDefaults implements SettingListener {
 		 * we have to set min/max/increment/speed here because
 		 * SetEuclideanVisible takes these from default geo
 		 */
-		angle.setIntervalMax(GeoAngle.DEFAULT_SLIDER_MAX_ANGLE);
+		if (cons.getApplication().isUnbundledGeometry()) {
+			angle.setIntervalMax(Math.PI);
+			angle.labelMode = GeoElementND.LABEL_VALUE;
+		} else {
+			angle.setIntervalMax(GeoAngle.DEFAULT_SLIDER_MAX_ANGLE);
+		}
 		angle.setIntervalMin(GeoAngle.DEFAULT_SLIDER_MIN_ANGLE);
 		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT_ANGLE);
 		angle.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
@@ -641,8 +646,7 @@ public class ConstructionDefaults implements SettingListener {
 		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE, true);
 		angle.setLineTypeHidden(
 				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
-		if (cons.getApplication().isUnbundledGeometry()) {
-			angle.labelMode = GeoElementND.LABEL_VALUE;
+		if (angle.getIntervalMax() == Math.PI) { // in Geometry app
 			angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		}
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);

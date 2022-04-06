@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
@@ -73,7 +74,7 @@ public class Solver {
 
 		FlowPanel editorFocusPanel = new FlowPanel();
 
-		mathField = new MathFieldW(null, editorFocusPanel, canvas,
+		mathField = new MathFieldW(new SyntaxAdapterImpl(app.getKernel()), editorFocusPanel, canvas,
 				new SolverMathFieldListener(this));
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);

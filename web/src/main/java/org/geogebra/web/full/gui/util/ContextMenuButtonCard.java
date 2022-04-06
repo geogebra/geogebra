@@ -112,7 +112,6 @@ public class ContextMenuButtonCard extends StandardButton
 			initPopup();
 		}
 		wrappedPopup.getPopupMenu().focusDeferred();
-		wrappedPopup.setMenuShown(true);
 		toggleIcon(true);
 	}
 
@@ -121,7 +120,6 @@ public class ContextMenuButtonCard extends StandardButton
 	 */
 	public void hide() {
 		wrappedPopup.hide();
-		wrappedPopup.setMenuShown(false);
 		toggleIcon(false);
 	}
 

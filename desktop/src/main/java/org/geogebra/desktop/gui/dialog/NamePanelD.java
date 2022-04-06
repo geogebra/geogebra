@@ -39,7 +39,9 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 	private static final long serialVersionUID = 1L;
 	/** name model */
 	ObjectNameModel model;
-	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
+	private AutoCompleteTextFieldD tfName;
+	private AutoCompleteTextFieldD tfDefinition;
+	private AutoCompleteTextFieldD tfCaption;
 
 	private Runnable doActionStopped = new Runnable() {
 		@Override
@@ -47,7 +49,9 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 			model.setBusy(false);
 		}
 	};
-	private JLabel nameLabel, defLabel, captionLabel;
+	private JLabel nameLabel;
+	private JLabel defLabel;
+	private JLabel captionLabel;
 	private InputPanelD inputPanelName;
 	private UpdateTabs tabs;
 	private InputPanelD inputPanelDef;
@@ -364,13 +368,6 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 		inputPanelCap.updateFonts();
 		dynamicCaptionPanel.updateFonts();
 		setLayout();
-
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// NOTHING SHOULD BE DONE HERE (ENDLESS CALL WITH UPDATE)
-
 	}
 
 	@Override

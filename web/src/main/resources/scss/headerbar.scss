@@ -372,6 +372,13 @@ $shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 			.RadioButtonMenuItem label {
 				cursor: pointer;
 			}
+
+			.versionNr {
+				color: colors.$text-disabled;
+				height: 31px;
+				line-height: 31px;
+				padding-left: 35px;
+			}
 		}
 	}
 

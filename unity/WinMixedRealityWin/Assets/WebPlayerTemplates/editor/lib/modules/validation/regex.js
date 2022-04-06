@@ -1,1 +1,0 @@
-define(["require","exports"],function(e,n){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.default={number:/^[-+]?([0-9]+|\.[0-9]+|[0-9]+\.[0-9]+)$/,namesToken:/^[A-Za-z]+[\w\-:.]*$/,spaces:/[ ,]+/,flex:/auto|inherit|\d*(cm|em|ex|in|mm|pc|pt|px|vh|vmin|%)/,dataBinding:/{{.*?}}/,globalDataBinding:/{{.*?}}/g}});

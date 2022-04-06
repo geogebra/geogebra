@@ -26,16 +26,8 @@ public class CheckboxTreeItem extends RadioTreeItem {
 	}
 
 	@Override
-	protected RadioTreeItemController createController() {
+	protected LatexTreeItemController createController() {
 		return new CheckBoxTreeItemController(this);
-	}
-
-	/**
-	 * 
-	 * @return The controller as CheckBoxTreeItemController.
-	 */
-	public CheckBoxTreeItemController getCheckBoxController() {
-		return (CheckBoxTreeItemController) getController();
 	}
 
 	@Override

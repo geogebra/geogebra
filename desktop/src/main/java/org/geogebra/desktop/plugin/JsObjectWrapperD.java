@@ -16,6 +16,21 @@ public class JsObjectWrapperD extends JsObjectWrapper {
 	}
 
 	@Override
+	public void setProperty(String property, Object value) {
+		((NativeObject) options).put(property, value);
+	}
+
+	@Override
+	public void setProperty(String property, int value) {
+		((NativeObject) options).put(property, value);
+	}
+
+	@Override
+	public Object getNativeObject() {
+		return options;
+	}
+
+	@Override
 	protected Object getValue(String key) {
 		return ((NativeObject) options).get(key);
 	}

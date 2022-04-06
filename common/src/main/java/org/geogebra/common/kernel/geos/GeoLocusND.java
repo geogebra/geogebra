@@ -140,8 +140,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		getLineStyleXML(sb);
 	}
 

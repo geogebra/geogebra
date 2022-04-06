@@ -29,7 +29,7 @@ public class ResourcesInjector {
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.clipboardJs());
 
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.fflateJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.fflateJs(), true);
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 

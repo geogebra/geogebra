@@ -33,13 +33,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 */
 	public OnscreenTabbedKeyboard(HasKeyboard app, boolean hasMoreButton) {
 		super(app, hasMoreButton);
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// just stop propagation
-			}
-		});
+		ClickStartHandler.initDefaults(this, true, true);
 	}
 	
 	private void createHelpPopup() {

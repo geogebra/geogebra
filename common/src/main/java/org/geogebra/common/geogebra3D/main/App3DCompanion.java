@@ -280,7 +280,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 	
 	@Override
-	public void setExport3D(Format format) {
+	public void setExport3D(Format format, boolean showDialog) {
 		// try first with existing 3D view
 		if (format.useSpecificViewForExport()) {
 			int width = 0, height = 0;
@@ -342,13 +342,13 @@ public abstract class App3DCompanion extends AppCompanion {
 				StringBuilder export = exportView3D.export3D(format);
 				app.getKernel().detach(exportView3D);
 				app.exportStringToFile(format.getExtension(),
-						export.toString());
+						export.toString(), showDialog);
 			}
 		} else {
 			if (app.isEuclidianView3Dinited()) {
 				EuclidianView3DInterface view3D = app.getEuclidianView3D();
 				if (view3D.isShowing() && view3D.getRenderer().useShaders()) {
-					view3D.setExport3D(format);
+					view3D.setExport3D(format, showDialog);
 					return;
 				}
 			}
@@ -358,7 +358,7 @@ public abstract class App3DCompanion extends AppCompanion {
 					app.getSettings().getEuclidian(3));
 			StringBuilder export = exportView3D.export3D(format);
 			app.getKernel().detach(exportView3D);
-			app.exportStringToFile(format.getExtension(), export.toString());
+			app.exportStringToFile(format.getExtension(), export.toString(), showDialog);
 		}
 	}
 
