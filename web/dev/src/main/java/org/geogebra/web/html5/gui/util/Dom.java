@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.debug.Log;
 

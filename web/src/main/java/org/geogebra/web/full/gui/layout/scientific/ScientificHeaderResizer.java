@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.layout.scientific;
 
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 
