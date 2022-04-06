@@ -659,6 +659,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	@Override
 	protected void setLabels(String[] labels) {
+		kernel.batchAddStarted();
 		if (labels == null || labels.length <= 1) {
 			polyhedron.initLabels(labels);
 		} else {
@@ -668,5 +669,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			}
 			polyhedron.setAllLabelsAreSet(true);
 		}
+		kernel.batchAddComplete();
 	}
 }
