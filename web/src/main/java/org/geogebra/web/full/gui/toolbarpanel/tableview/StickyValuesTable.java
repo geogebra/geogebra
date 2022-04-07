@@ -98,8 +98,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		reset();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
-			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
-					&& el.getParentElement().hasClassName("MyToggleButton"))) {
+			if (el != null && (el.hasClassName("button") || el.getParentNode() != null
+					&& el.getParentElement().hasClassName("button"))) {
 				onHeaderClick(el, column);
 			}
 			return false;
