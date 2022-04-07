@@ -339,8 +339,7 @@ public class OpenFileView extends HeaderFileView
 		return new MaterialCallback() {
 			@Override
 			public void onError(final Throwable exception) {
-				exception.printStackTrace();
-				Log.warn(exception.getMessage());
+				Log.warn(exception);
 				spinner.hide();
 			}
 

@@ -11,6 +11,7 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -729,7 +730,7 @@ public class OptionsPanelW extends FlowPanel
 			updateGUI();
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

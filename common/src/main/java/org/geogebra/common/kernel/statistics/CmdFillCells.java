@@ -111,7 +111,7 @@ public class CmdFillCells extends CommandProcessor {
 									.setSpreadsheetCell(app, row, minCol + 1,
 											new GeoNumeric(cons, p.y));
 						} catch (Exception e) {
-							e.printStackTrace();
+							Log.debug(e);
 							app.setScrollToShow(true);
 							throw argErr(c, arg[1]);
 						}
@@ -146,7 +146,7 @@ public class CmdFillCells extends CommandProcessor {
 								// .setSpreadsheetCell(app, row, col, geo);
 							} catch (Exception e) {
 								app.setScrollToShow(true);
-								e.printStackTrace();
+								Log.debug(e);
 								throw argErr(c, arg[1]);
 							}
 						}
@@ -180,7 +180,7 @@ public class CmdFillCells extends CommandProcessor {
 
 							} catch (Exception e) {
 								app.setScrollToShow(true);
-								e.printStackTrace();
+								Log.debug(e);
 								throw argErr(c, arg[1]);
 							}
 						}
@@ -205,7 +205,7 @@ public class CmdFillCells extends CommandProcessor {
 
 							} catch (Exception e) {
 								app.setScrollToShow(true);
-								e.printStackTrace();
+								Log.debug(e);
 								throw argErr(c, arg[1]);
 							}
 						}
@@ -283,7 +283,7 @@ public class CmdFillCells extends CommandProcessor {
 									.setSpreadsheetCell(app, row, column + i,
 											list.get(i).copy());
 						} catch (Exception e) {
-							e.printStackTrace();
+							Log.debug(e);
 							app.setScrollToShow(true);
 							throw argErr(c, arg[1]);
 						}

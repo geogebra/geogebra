@@ -42,7 +42,7 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 			// sb.append("\\end{array}}");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

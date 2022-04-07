@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -237,7 +238,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 								highPrecision, true);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			eqn = "\\text{" + loc.getMenu("NotAvailable") + "}";
 		}
 
@@ -298,7 +299,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 				fldOutputY.setText(statDialog.format(output));
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 	}

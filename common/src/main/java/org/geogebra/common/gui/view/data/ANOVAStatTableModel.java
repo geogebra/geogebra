@@ -12,13 +12,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 public class ANOVAStatTableModel extends StatTableModel {
 
 	/**
 	 * @param geoList
 	 *            tabular data
-	 * @return catagory data
+	 * @return category data
 	 */
 	public static ArrayList<double[]> getCategoryData(GeoList geoList) {
 
@@ -141,7 +142,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return null;
 	}

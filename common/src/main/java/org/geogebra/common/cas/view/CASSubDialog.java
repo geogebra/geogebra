@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Common class for substitution dialogs
@@ -250,7 +251,7 @@ public abstract class CASSubDialog {
 			// table.startEditingRow(editRow + 1);
 			return true;
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

@@ -497,7 +497,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				coeffs[5 - i] = coeffsRV.getEntry(i);
 			}
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 			return null;
 		}
 

@@ -453,7 +453,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

@@ -289,56 +289,9 @@ public class Textures {
 		renderer.getRendererImpl().bindTexture(index);
 
 		renderer.textureImage2D(sizeX, sizeY, bytes);
-
 	}
 
-	/*
-	 * private void initViewButtonsTextures(int index, String name){
-	 * 
-	 * 
-	 * 
-	 * 
-	 * try { //gets the image BufferedImage img =
-	 * readImage("/geogebra3D/gui/images/"+name);
-	 * 
-	 * 
-	 * //turn it into pixels for texture 2D boolean storeAlphaChannel = true;
-	 * int[] packedPixels = new int[img.getWidth() * img.getHeight()];
-	 * 
-	 * PixelGrabber pixelgrabber = new PixelGrabber(img, 0, 0, img.getWidth(),
-	 * img.getHeight(), packedPixels, 0, img.getWidth()); try {
-	 * pixelgrabber.grabPixels(); } catch (InterruptedException e) { throw new
-	 * RuntimeException(); }
-	 * 
-	 * int bytesPerPixel = storeAlphaChannel ? 4 : 3; ByteBuffer unpackedPixels
-	 * = RendererJogl.newByteBuffer(packedPixels.length * bytesPerPixel);
-	 * 
-	 * 
-	 * for (int row = img.getHeight() - 1; row >= 0; row--) { for (int col = 0;
-	 * col < img.getWidth(); col++) { int packedPixel = packedPixels[row *
-	 * img.getWidth() + col]; unpackedPixels.put((byte) ((packedPixel >> 16) &
-	 * 0xFF)); unpackedPixels.put((byte) ((packedPixel >> 8) & 0xFF));
-	 * unpackedPixels.put((byte) ((packedPixel >> 0) & 0xFF)); if
-	 * (storeAlphaChannel) { unpackedPixels.put((byte) ((packedPixel >> 24) &
-	 * 0xFF)); } } }
-	 * 
-	 * unpackedPixels.flip();
-	 * 
-	 * //create the texture gl.glBindTexture(GL.GL_TEXTURE_2D, index);
-	 * gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, img.getWidth(),
-	 * img.getHeight(), 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, unpackedPixels);
-	 * 
-	 * } catch (IOException e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 * 
-	 * private BufferedImage readImage(String name) throws IOException { return
-	 * ImageManager
-	 * .toBufferedImage(imageManager.getImageResource(name),Transparency
-	 * .TRANSLUCENT); }
-	 */
-
-	final private void setTextureLinear() {
+	private void setTextureLinear() {
 		renderer.setTextureLinear();
 	}
 

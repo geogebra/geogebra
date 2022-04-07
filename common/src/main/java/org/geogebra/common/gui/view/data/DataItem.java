@@ -417,7 +417,7 @@ public class DataItem {
 						copyByValue, isSorted, doStoreUndo, geoClass, setLabel);
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				return null;
 			}
 			break;
@@ -639,7 +639,7 @@ public class DataItem {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return strList;

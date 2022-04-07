@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Victor Franco Espino, Markus Hohenwarter
@@ -162,7 +163,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 						: Math.abs(f.evaluateCurvature(t));
 				K.setValue(kVal);
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				Log.debug(ex);
 				K.setUndefined();
 			}
 		} else {

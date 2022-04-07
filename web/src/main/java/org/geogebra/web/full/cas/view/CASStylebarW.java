@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -269,7 +270,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 			try {
 				toggleBtnList[i].update(selectedRows);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				// TODO: find problem
 			}
 		}

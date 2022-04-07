@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Stat;
+import org.geogebra.common.util.debug.Log;
 
 public class StatsBuilder {
 
@@ -76,7 +77,7 @@ public class StatsBuilder {
 				stats.add(StatisticGroup.withLaTeX(heading,
 						lhs + " = " + result.toValueString(StringTemplate.defaultTemplate)));
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 	}

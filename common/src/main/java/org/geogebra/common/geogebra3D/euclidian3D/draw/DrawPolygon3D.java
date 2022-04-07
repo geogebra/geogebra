@@ -294,7 +294,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			}
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -380,7 +380,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				}
 			} catch (Exception e) {
 				Log.debug(e.getMessage());
-				e.printStackTrace();
+				Log.debug(e);
 				endPacking();
 			}
 		}

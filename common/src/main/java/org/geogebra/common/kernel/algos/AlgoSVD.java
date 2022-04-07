@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author csilla
@@ -105,7 +106,7 @@ public class AlgoSVD extends AlgoElement {
 
 		} catch (Throwable t) {
 			listOfMatrices.setUndefined();
-			t.printStackTrace();
+			Log.debug(t);
 		}
 
 	}

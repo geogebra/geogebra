@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * CopyFreeObject
@@ -112,7 +113,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			if (!geoElement.isLabelSet()) {
 				geoElement.remove();
 			}
-			e.printStackTrace();
+			Log.debug(e);
 			throw argErr(geoElement, c);
 		}
 

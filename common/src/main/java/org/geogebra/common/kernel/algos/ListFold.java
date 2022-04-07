@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Helper for Sum[list of lists]
@@ -51,12 +52,9 @@ public class ListFold implements FoldComputer {
 			try {
 				result.add(ap.processValidExpression(
 						sum.getListElement(i).wrap())[0]);
-			} catch (MyError e) {
+			} catch (MyError | Exception e) {
 				result.setUndefined();
-				e.printStackTrace();
-			} catch (Exception e) {
-				result.setUndefined();
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		result.getConstruction().setSuppressLabelCreation(oldMode);

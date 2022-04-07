@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.HasDebugString;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -122,7 +123,7 @@ public class Polynomial implements HasDebugString {
 			return t.getVars().equals(var) && t.getCoefficient().isConstant()
 					&& t.getCoefficient().evaluateDouble() == 1.0;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

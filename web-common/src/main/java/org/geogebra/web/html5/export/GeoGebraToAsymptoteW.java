@@ -6,6 +6,7 @@ import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class GeoGebraToAsymptoteW extends GeoGebraToAsymptote {
 
@@ -20,7 +21,7 @@ public class GeoGebraToAsymptoteW extends GeoGebraToAsymptote {
 		try {
 			return new MyGraphicsAs(ef, inequality);
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}

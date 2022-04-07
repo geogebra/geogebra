@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.solution.HasLaTeX;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class StepNode implements HasLaTeX {
 
@@ -35,7 +36,7 @@ public abstract class StepNode implements HasLaTeX {
 			StepTransformable sn = convertExpression(ev);
 			return cleanupExpression(sn);
 		} catch (Throwable t) { // :(
-			t.printStackTrace();
+			Log.debug(t);
 			return null;
 		}
 	}
