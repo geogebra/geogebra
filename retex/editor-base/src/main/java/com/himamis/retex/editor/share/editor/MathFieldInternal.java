@@ -99,6 +99,8 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
+	private SyntaxController syntaxController;
+
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
@@ -113,6 +115,7 @@ public class MathFieldInternal
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
+		syntaxController = new SyntaxController();
 		setupMathField();
 	}
 
@@ -201,6 +204,8 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
+		updateSyntax();
+
 	}
 
 	public void setLockedCaretPath() {
@@ -219,6 +224,7 @@ public class MathFieldInternal
 		editorState.setRootComponent(formula.getRootComponent());
 		CursorController.setPath(path, getEditorState());
 		mathFieldController.update(mathFormula, editorState, false);
+		updateSyntax();
 	}
 
 	/**
@@ -261,6 +267,11 @@ public class MathFieldInternal
 
 	private void update(boolean focusEvent) {
 		mathFieldController.update(mathFormula, editorState, focusEvent);
+		updateSyntax();
+	}
+
+	private void updateSyntax() {
+		syntaxController.update(editorState);
 	}
 
 	/**
@@ -297,6 +308,8 @@ public class MathFieldInternal
 					&& listener.onArrowKeyPressed(keyEvent.getKeyCode())) {
 				return true;
 			}
+
+			updateSyntax();
 		}
 		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_CONTROL) {
 			return false;
@@ -948,5 +961,16 @@ public class MathFieldInternal
 		}
 
 		return -1;
+	}
+
+	/**
+	 * @return syntax hint for current cursor position
+	 */
+	public SyntaxHint getSyntaxHint() {
+		return syntaxController.getHint();
+	}
+
+	public void setCommandForSyntax(String command) {
+		syntaxController.setCommand(command);
 	}
 }

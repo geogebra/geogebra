@@ -13,6 +13,8 @@ import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathContainer;
+import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.util.CommandParser;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -133,7 +135,9 @@ public class KeyboardInputAdapter {
 			public void commit(MathFieldInternal mfi, String commandString) {
 				List<String> splitCommand = CommandParser.parseCommand(commandString);
 
-				type(mfi, splitCommand.get(0));
+				String input = splitCommand.get(0);
+				mfi.setCommandForSyntax(input);
+				type(mfi, input);
 				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
 				mfi.notifyAndUpdate("(");
 
@@ -144,6 +148,11 @@ public class KeyboardInputAdapter {
 						mfi.getEditorState().addArgument(comma);
 					}
 					mfi.getEditorState().addArgument(new MathPlaceholder(splitCommand.get(i)));
+					MathContainer parent = mfi.getEditorState().getCurrentField().getParent();
+
+					if (parent instanceof MathFunction) {
+						((MathFunction) parent).getPlaceholders().add(splitCommand.get(i));
+					}
 				}
 
 				for (int i = 0; i < 2 * splitCommand.size() - 3; i++) {
