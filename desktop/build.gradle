@@ -1,9 +1,3 @@
-buildscript {
-    dependencies {
-        classpath "org.openjfx:javafx-plugin:0.0.12"
-    }
-}
-
 plugins {
     id "com.github.spotbugs" version "4.8.0"
     id 'application'
@@ -12,14 +6,6 @@ plugins {
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')
-
-if (JavaVersion.current() == JavaVersion.VERSION_11) {
-    apply plugin: 'org.openjfx.javafxplugin'
-    javafx {
-        version = "11.0.2"
-        modules = [ 'javafx.controls', 'javafx.web', 'javafx.swing' ]
-    }
-}
 
 sourceSets {
     nonfree
@@ -54,18 +40,6 @@ eclipse.classpath.file {
 	}
 }
 
-File javaHome = new File(System.properties['java.home'])
-javaHome = javaHome.name == 'jre' ? javaHome.parentFile : javaHome
-String jfxrtLocation = new File("${javaHome}/jre/lib/jfxrt.jar").absolutePath
-// JavaFX locations for JDK7, JDK7, JDK8
-for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']) {
-    File file = new File(javaHome, location)
-    if (file.exists()) {
-        jfxrtLocation = file.absolutePath
-        break
-    }
-}
-
 compileJava {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -87,7 +61,6 @@ dependencies {
             'com.apple:mac_extensions:20040714',
             'com.ogprover:OpenGeoProver:20120725',
             'com.sun:jna:4.1.0'
-    compile files(jfxrtLocation)
 
     runtime "com.jogamp:jogl-all:$joglVersion:natives-linux-amd64",
         "com.jogamp:jogl-all:$joglVersion:natives-windows-i586",
@@ -153,7 +126,6 @@ eclipse {
             whenMerged { classpath ->
                 def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
                 jre.accessRules.add(new AccessRule('accessible', 'com/**'))
-                jre.accessRules.add(new AccessRule('accessible', 'javafx/**'))
             }
         }
     }

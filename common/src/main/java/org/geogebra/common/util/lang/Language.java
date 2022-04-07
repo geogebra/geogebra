@@ -268,6 +268,12 @@ public enum Language {
 	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK + "", null, true, "mn",
 			"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B",
+			Script.CYRILLIC, ',', '\u1810'),
+
+	Mongolian_Traditional(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_TUGHRIK + "", null, false, "mnMNMT", "mn",
+			"Mongolian Traditional / "
+					+ "\u182E\u1823\u1829\u182D\u1823\u182F \u182A\u1822\u1834\u1822\u182D\u180C",
 			Script.MONG, ',', '\u1810'),
 
 	Nepalese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
@@ -592,21 +598,22 @@ public enum Language {
 	 * @return whether localized keyboard is supported
 	 */
 	final public boolean hasTranslatedKeyboard() {
-		switch (this) {
-		case Chinese_Traditional:
-			return false;
-		default:
-			return true;
-		}
+		return this != Language.Chinese_Traditional;
 	}
 
 	/**
 	 * @return locale string for GWT
 	 */
 	public String getLocaleGWT() {
-		String lang = this.localeISO6391.replace("nl_BE", "nl");
-		return "nb".equals(lang) || "nn".equals(lang)
-				|| this.locale.length() < 3 ? lang
-				: lang + "-" + this.locale.substring(2);
+		if (this == Language.Dutch_Belgium) {
+			return "nl";
+		} else if (this == Language.Mongolian_Traditional) {
+			return "mn-MN-MT";
+		} else {
+			String lang = this.localeISO6391;
+			return "nb".equals(lang) || "nn".equals(lang)
+					|| this.locale.length() < 3 ? lang
+					: lang + "-" + this.locale.substring(2);
+		}
 	}
 }

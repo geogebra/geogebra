@@ -411,8 +411,8 @@ public class LayerManager {
 	 * @param newGeo construction element
 	 */
 	public void replace(int pos, GeoElement newGeo) {
-		if (!drawingOrder.isEmpty()) {
-			drawingOrder.remove(newGeo);
+		drawingOrder.remove(newGeo);
+		if (drawingOrder.size() >= pos && pos >= 0) {
 			drawingOrder.add(pos, newGeo);
 			updateOrdering();
 			newGeo.getKernel().getApplication()

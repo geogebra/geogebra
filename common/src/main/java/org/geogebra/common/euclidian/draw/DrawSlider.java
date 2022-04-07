@@ -21,16 +21,17 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 /**
- * 
  * @author Markus Hohenwarter
  */
 public class DrawSlider extends Drawable {
@@ -68,11 +69,8 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Creates new drawable for slider
-	 * 
-	 * @param view
-	 *            view
-	 * @param number
-	 *            slider
+	 * @param view view
+	 * @param number slider
 	 */
 	public DrawSlider(EuclidianView view, GeoNumeric number) {
 		this.view = view;
@@ -96,19 +94,19 @@ public class DrawSlider extends Drawable {
 			double widthRW;
 			double widthScreen;
 			boolean horizontal = number.isSliderHorizontal();
-
+			GPoint2D location = getSliderLocation();
 			// start point of horizontal line for slider
 			if (number.isAbsoluteScreenLocActive()) {
-				coordsScreen[0] = number.getSliderX();
-				coordsScreen[1] = number.getSliderY() - 1;
+				coordsScreen[0] = location.x;
+				coordsScreen[1] = location.y;
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 				widthScreen = number.getSliderWidth();
 				widthRW = horizontal ? widthScreen * view.getInvXscale()
 						: widthScreen * view.getInvYscale();
 			} else {
-				coordsRW[0] = number.getSliderX();
-				coordsRW[1] = number.getSliderY();
+				coordsRW[0] = location.x;
+				coordsRW[1] = location.y;
 				coordsScreen[0] = view.toScreenCoordXd(coordsRW[0]);
 				coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
 				widthRW = number.getSliderWidth();
@@ -151,6 +149,21 @@ public class DrawSlider extends Drawable {
 		}
 	}
 
+	/**
+	 * Returns the slider location either absolute or relative.
+	 * @return slider location
+	 */
+	public GPoint2D getSliderLocation() {
+		double x = number.getSliderX();
+		double y = number.getSliderY();
+		if (number.isAbsoluteScreenLocActive()) {
+			EdgeInsets insets = view.getSafeAreaInsets();
+			x = Math.max(x, insets.getLeft());
+			y = Math.max(y, insets.getTop());
+		}
+		return new GPoint2D(x, y);
+	}
+
 	@Override
 	final public void update() {
 		updateScreenCoords();
@@ -165,7 +178,7 @@ public class DrawSlider extends Drawable {
 		if (isVisible) {
 			// horizontal line
 			g2.setPaint(geo.getBackgroundColor() == null
-									? geo.getSelColor()
+					? geo.getSelColor()
 					: geo.getBackgroundColor());
 			g2.setStroke(objStroke);
 			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
@@ -225,13 +238,9 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Returns true iff the movable point was hit
-	 * 
-	 * @param x
-	 *            mouse x-coord
-	 * @param y
-	 *            mouse y-coord
-	 * @param hitThreshold
-	 *            threshold
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y, int hitThreshold) {
@@ -249,13 +258,9 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
-	 * 
-	 * @param x
-	 *            mouse x-coord
-	 * @param y
-	 *            mouse y-coord
-	 * @param hitThreshold
-	 *            threshold
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
@@ -266,13 +271,9 @@ public class DrawSlider extends Drawable {
 
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
-	 * 
-	 * @param x
-	 *            mouse x-coord
-	 * @param y
-	 *            mouse y-coord
-	 * @param hitThreshold
-	 *            threshold
+	 * @param x mouse x-coord
+	 * @param y mouse y-coord
+	 * @param hitThreshold threshold
 	 * @return true if the slider line was hit, but not the blob
 	 */
 	public boolean hitSliderNotBlob(int x, int y, int hitThreshold) {

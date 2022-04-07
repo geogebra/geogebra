@@ -526,7 +526,7 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void typingPiShouldProduceUnicode() {
+	public void typingPiShouldProduceUnicodeInInputBox() {
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
@@ -534,11 +534,27 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void typingEpsilonShouldProduceUnicode() {
+	public void typingEpsilonShouldProduceUnicodeInInputBox() {
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
 		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+" + Unicode.epsilon);
+	}
+
+	@Test
+	public void typingEpsilonShouldNotProduceUnicodeByDefault() {
+		MetaModel model = new MetaModel();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("1+epsilon").checkAsciiMath("1+epsilon");
+	}
+
+	@Test
+	public void typingOperatorsShouldProduceUnicode() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("x<=y").checkAsciiMath("x" + Unicode.LESS_EQUAL + "y");
+		inputBoxChecker.type("x&&y").checkAsciiMath("x" + Unicode.AND + "y");
 	}
 
 	@Test

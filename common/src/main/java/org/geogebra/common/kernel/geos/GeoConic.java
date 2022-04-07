@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -52,7 +53,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class GeoConic extends GeoConicND implements ConicMirrorable,
 		SymbolicParametersBotanaAlgo, EquationValue, GeoEvaluatable,
-		GeoFunctionable {
+		GeoFunctionable, Functional {
 	private CoordSys coordSys;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;

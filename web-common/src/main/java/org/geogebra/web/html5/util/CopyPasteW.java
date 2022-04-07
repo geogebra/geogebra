@@ -42,6 +42,8 @@ import elemental2.dom.EventTarget;
 import elemental2.dom.FileReader;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.HTMLTextAreaElement;
+import elemental2.dom.Response;
+import elemental2.dom.URL;
 import elemental2.promise.Promise;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -51,6 +53,15 @@ public class CopyPasteW extends CopyPaste {
 	private static final String pastePrefix = "ggbpastedata";
 
 	private static final int defaultTextWidth = 300;
+
+	/**
+	 * @param data copied data
+	 * @return blob URL to the data (as plain text)
+	 */
+	public static String asBlobURL(String data) {
+		return URL.createObjectURL(new Blob(
+				new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+	}
 
 	@Override
 	public void copyToXML(App app, List<GeoElement> geos) {
@@ -80,8 +91,8 @@ public class CopyPasteW extends CopyPaste {
 			BlobPropertyBag bag =
 					BlobPropertyBag.create();
 			bag.setType("text/plain");
-			Blob blob = new Blob(new Blob.ConstructorBlobPartsArrayUnionType[]{
-					Blob.ConstructorBlobPartsArrayUnionType.of(toWrite)}, bag);
+			Blob blob = new Blob(new JsArray<>(
+					Blob.ConstructorBlobPartsArrayUnionType.of(toWrite)), bag);
 			Clipboard.ClipboardItem data = new Clipboard.ClipboardItem(JsPropertyMap.of(
 				"text/plain", blob));
 
@@ -136,7 +147,7 @@ public class CopyPasteW extends CopyPaste {
 		if (!NavigatorUtil.isiOS() || copyToExternalSupported()) {
 			writeToExternalClipboard(encoded);
 		}
-		BrowserStorage.LOCAL.setItem(pastePrefix, encoded);
+		BrowserStorage.LOCAL.setItem(pastePrefix, asBlobURL(encoded));
 	}
 
 	private static boolean copyToExternalSupported() {
@@ -149,7 +160,11 @@ public class CopyPasteW extends CopyPaste {
 	}
 
 	private static void handleStorageFallback(AsyncOperation<String> callback) {
-		callback.callback(BrowserStorage.LOCAL.getItem(pastePrefix));
+		DomGlobal.fetch(BrowserStorage.LOCAL.getItem(pastePrefix)).then(Response::text)
+				.then(text -> {
+					callback.callback(text);
+					return null;
+				});
 	}
 
 	@Override
@@ -386,10 +401,11 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 */
 	public static void pasteInternal(AppW app) {
-		String stored = BrowserStorage.LOCAL.getItem(pastePrefix);
-		if (!StringUtil.empty(stored)) {
-			pasteGeoGebraXML(app, stored);
-		}
+		handleStorageFallback(content -> {
+			if (!StringUtil.empty(content)) {
+				pasteGeoGebraXML(app, content);
+			}
+		});
 	}
 
 	/**

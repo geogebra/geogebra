@@ -12,6 +12,7 @@ import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.MenuHoverListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -22,14 +23,16 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 /**
  * Popup menu for web.
- * 
+ *
  * @author Judit Elias
  */
-public class GPopupMenuW implements AttachedToDOM {
+public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	public static final int SUBMENU_VERTICAL_PADDING = 16;
 	/**
@@ -39,22 +42,20 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * popup menu
 	 */
-	protected PopupMenuBar popupMenu;
-	private int popupMenuSize = 0;
+	protected AriaMenuBar popupMenu;
 	/**
 	 * popup panel for submenu this field used to avoid having more submenu at
 	 * the same time
 	 */
-	GPopupMenuW subPopup;
-	private AppW app;
-	private boolean menuShown = false;
+	private GPopupMenuW subPopup;
+	private final AppW app;
 
 	private boolean horizontal;
-	private AriaMenuItem openItem = null;
+	protected AriaMenuItem openItem = null;
 
 	/**
 	 * @param app
-	 * 
+	 *
 	 *            Creates a popup menu. App needed for get environment style
 	 */
 	public GPopupMenuW(AppW app) {
@@ -63,7 +64,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	/**
 	 * @param app
-	 * 
+	 *
 	 *            Creates a popup menu. App needed for get environment style
 	 * @param horizontal
 	 *            whether this is horizontal menu
@@ -77,13 +78,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		popupPanel.add(popupMenu);
 
 		popupPanel.addCloseHandler(event -> {
-			if (subPopup != null) {
-				subPopup.removeFromDOM();
-				subPopup = null;
-			}
-			if (event.isAutoClosed()) {
-				setMenuShown(false);
-			}
+			removeSubPopup();
 		});
 
 		popupPanel.setAutoHideEnabled(true);
@@ -91,16 +86,26 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	/**
 	 * Constructor for submenu-popups
-	 * 
+	 *
 	 * @param mb
 	 *            menu
 	 * @param app
 	 *            application
 	 */
-	public GPopupMenuW(Widget mb, AppW app) {
+	public GPopupMenuW(AriaMenuBar mb, AppW app, Widget heading) {
 		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
-		popupPanel.add(mb);
+		popupMenu = mb;
+		if (heading != null) {
+			FlowPanel merged = new FlowPanel();
+			merged.add(heading);
+			merged.add(mb);
+			merged.addStyleName("submenuWithHeading");
+			popupPanel.add(merged);
+			popupPanel.addStyleName("hasHeading");
+		} else {
+			popupPanel.add(mb);
+		}
 		popupPanel.addStyleName("contextSubMenu");
 	}
 
@@ -157,7 +162,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * Shows the popup menu at the p point, independently of there is enough
 	 * place for the popup menu. (Maybe some details of the popup menu won't be
 	 * visible.)
-	 * 
+	 *
 	 * @param x
 	 *            x-coord to show popup
 	 * @param y
@@ -210,7 +215,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @return nr of menu items
 	 */
 	public int getComponentCount() {
-		return popupMenuSize;
+		return popupMenu.getWidgetCount();
 	}
 
 	/**
@@ -249,7 +254,6 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * Hide menu and mark this as hidden
 	 */
 	public void hideMenu() {
-		setMenuShown(false);
 		popupPanel.hide();
 		hide();
 	}
@@ -292,39 +296,35 @@ public class GPopupMenuW implements AttachedToDOM {
 			// The submenu is not added for the menu as submenu,
 			// but this will be placed on a different popup panel.
 			// In this way we can set this popup panel's position easily.
-			String itemHTML = item.getHTML();
-			ScheduledCommand itemCommand = null;
-			final AriaMenuItem newItem = new AriaMenuItem(itemHTML, true,
-					itemCommand);
-			newItem.setStyleName(item.getStyleName());
-			newItem.getElement().setAttribute("hasPopup", "true");
-			popupMenu.addItem(newItem);
-			itemCommand = () -> {
-				if (subPopup != null) {
-					subPopup.removeFromDOM();
-				}
-				subPopup = new GPopupMenuW(subMenu, getApp());
-				subPopup.setVisible(true);
-				subMenu.unselect();
-				subMenu.stylePopup(subPopup.getPopupPanel());
-				// Calculate the position of the "submenu", and show it
-				openItem = newItem;
-				positionAndShowSubmenu();
-
-			};
-			newItem.setScheduledCommand(itemCommand);
+			item.getElement().setAttribute("hasPopup", "true");
+			popupMenu.addItem(item);
+			ScheduledCommand itemCommand = () -> openSubmenu(item);
+			item.setScheduledCommand(itemCommand);
 
 			// adding arrow for the menuitem
 
-			popupMenu.setParentMenu(this);
+			popupMenu.setSelectionListener(this);
 			if (!horizontal) {
 				SVGResource imgRes = getSubMenuIcon(
 						app.getLocalization().isRightToLeftReadingOrder());
-				popupMenu.appendSubmenu(newItem, imgRes);
+				popupMenu.appendSubmenu(item, imgRes);
 			}
-
 		}
-		popupMenuSize++;
+	}
+
+	protected void openSubmenu(AriaMenuItem item) {
+		final AriaMenuBar subMenu = item.getSubMenu();
+		if (subPopup != null) {
+			subPopup.removeFromDOM();
+		}
+		subPopup = new GPopupMenuW(subMenu, getApp(), item.getSubmenuHeading());
+
+		subPopup.setVisible(true);
+		subMenu.unselect();
+		subMenu.stylePopup(subPopup.getPopupPanel());
+		// Calculate the position of the "submenu", and show it
+		openItem = item;
+		positionAndShowSubmenu();
 	}
 
 	/**
@@ -391,18 +391,18 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	/**
 	 * Adds an expand/collapse item {@link GCollapseMenuItem} to the popup.
-	 * 
+	 *
 	 * @param ci
 	 *            The collapse item to add.
 	 */
 	public void addItem(GCollapseMenuItem ci) {
 		addItem(ci.getMenuItem(), false);
-		popupMenu.addItem(ci);
+		((PopupMenuBar) popupMenu).addItem(ci);
 	}
 
 	/**
 	 * Show submenu popup
-	 * 
+	 *
 	 * @param xCoord
 	 *            popup x
 	 * @param yCoord
@@ -467,7 +467,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * Gets the submenu's suggested absolute left position in pixels, as
 	 * measured from the browser window's client area, in case of the submenu is
 	 * on the left side of its parent menu.
-	 * 
+	 *
 	 * @return submenu's left position in pixels
 	 */
 	public final int getLeftSubPopupXCord() {
@@ -489,7 +489,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * Gets the submenu's suggested absolute left position in pixels, as
 	 * measured from the browser window's client area, in case of the submenu is
 	 * on the right side of its parent menu.
-	 * 
+	 *
 	 * @return submenu's left position in pixels
 	 */
 	public final int getRightSubPopupXCord() {
@@ -528,7 +528,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * @return popup menu
 	 */
-	public GMenuBar getPopupMenu() {
+	public AriaMenuBar getPopupMenu() {
 		return popupMenu;
 	}
 
@@ -543,15 +543,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @return true if menu is shown
 	 */
 	public boolean isMenuShown() {
-		return menuShown;
-	}
-
-	/**
-	 * @param menuShown
-	 *            true if menu is shown
-	 */
-	public void setMenuShown(boolean menuShown) {
-		this.menuShown = menuShown;
+		return popupMenu.isAttached() && popupMenu.isVisible();
 	}
 
 	/**
@@ -568,13 +560,43 @@ public class GPopupMenuW implements AttachedToDOM {
 		if (subPopup != null) {
 			subPopup.removeFromDOM();
 			subPopup = null;
+			openItem = null;
 		}
+	}
+
+	/**
+	 * Handle arrow keys
+	 * @param keyCode key code
+	 */
+	public void onArrowKeyPressed(int keyCode) {
+		AriaMenuBar target = popupMenu;
+		if (subPopup != null && subPopup.isMenuShown()
+				&& subPopup.popupMenu.getSelectedItem() != null) {
+			target = subPopup.popupMenu;
+		}
+		if (keyCode == JavaKeyCodes.VK_UP) {
+			target.moveSelectionUp();
+		} else if (keyCode == JavaKeyCodes.VK_DOWN) {
+			target.moveSelectionDown();
+		} else if (keyCode == JavaKeyCodes.VK_RIGHT) {
+			if (target.getSelectedItem() != null
+					&& target.getSelectedItem().getSubMenu() != null) {
+				openSubmenu(target.getSelectedItem());
+				target.getSelectedItem().getSubMenu().selectItem(0);
+			}
+		} else if (keyCode == JavaKeyCodes.VK_LEFT) {
+			removeSubPopup();
+		}
+	}
+
+	@Override
+	public void onItemHover() {
+		removeSubPopup();
 	}
 
 	private class PopupMenuBar extends GMenuBar {
 
-		private GPopupMenuW selectListener;
-		private Map<AriaMenuItem, GCollapseMenuItem> expandItems = new HashMap<>();
+		private final Map<AriaMenuItem, GCollapseMenuItem> expandItems = new HashMap<>();
 		private GCollapseMenuItem activeCollapseItem = null;
 
 		public PopupMenuBar(AppW app1) {
@@ -584,17 +606,6 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		public void addItem(GCollapseMenuItem ci) {
 			expandItems.put(ci.getMenuItem(), ci);
-		}
-
-		public void setParentMenu(GPopupMenuW gPopupMenuW) {
-			this.selectListener = gPopupMenuW;
-		}
-
-		@Override
-		public void removeSubPopup() {
-			if (selectListener != null) {
-				selectListener.removeSubPopup();
-			}
 		}
 
 		private AriaMenuItem findItem(Element hItem) {
@@ -611,14 +622,10 @@ public class GPopupMenuW implements AttachedToDOM {
 			if (DOM.eventGetType(event) == Event.ONMOUSEOVER) {
 				AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
-					if ("true".equals(
-							item.getElement().getAttribute("hasPopup"))) {
-						ScheduledCommand cmd = item.getScheduledCommand();
-						if (cmd != null) {
-							cmd.execute();
-						}
+					if (item.getSubMenu() != null) {
+						openSubmenu(item);
 					} else {
-						removeSubPopup();
+						GPopupMenuW.this.onItemHover();
 					}
 				}
 			} else if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
@@ -637,7 +644,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					}
 					AriaMenuBar.eatEvent(event);
 					return;
-			    }
+				}
 			}
 			super.onBrowserEvent(event);
 		}

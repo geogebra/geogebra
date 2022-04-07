@@ -114,7 +114,6 @@ public class ContextMenuPopup extends StandardButton
 	 * hide the menu
 	 */
 	public void hideMenu() {
-		popup.setMenuShown(false);
 		popup.hide();
 		switchIcon(false);
 	}

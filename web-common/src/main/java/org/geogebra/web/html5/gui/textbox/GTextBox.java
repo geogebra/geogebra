@@ -118,4 +118,9 @@ public class GTextBox extends TextBox
 	public void setEditable(boolean editable) {
 		this.setReadOnly(!editable);
 	}
+
+	@Override
+	public boolean acceptsCommandInserts() {
+		return false;
+	}
 }

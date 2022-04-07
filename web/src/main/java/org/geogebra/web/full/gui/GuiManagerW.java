@@ -1233,7 +1233,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	protected void openHelp(final String page, final Help type) {
+	public void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
@@ -2053,7 +2053,7 @@ public class GuiManagerW extends GuiManager
 				.getInputTreeItem() != null) {
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
-			input.autocomplete(string);
+			input.insertMath(string);
 			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {

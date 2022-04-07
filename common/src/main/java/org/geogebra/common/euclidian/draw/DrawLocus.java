@@ -18,6 +18,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -37,7 +38,6 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of locus
- *
  */
 public class DrawLocus extends Drawable {
 	private static final int BITMAP_PADDING = 20;
@@ -49,6 +49,7 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
+
 	private GBufferedImage bitmap;
 
 	private int bitmapShiftX;
@@ -58,13 +59,9 @@ public class DrawLocus extends Drawable {
 
 	/**
 	 * Creates new drawable for given locus
-	 * 
-	 * @param view
-	 *            view
-	 * @param locus
-	 *            locus
-	 * @param transformSys
-	 *            coord system of trnsformed locus
+	 * @param view view
+	 * @param locus locus
+	 * @param transformSys coord system of trnsformed locus
 	 */
 	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus,
 			CoordSys transformSys) {
@@ -153,17 +150,20 @@ public class DrawLocus extends Drawable {
 
 	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
-
 			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
 				GRectangle bounds = getBounds();
 				if (bitmap == null && bounds != null) {
-					this.bitmap = makeImage(g2, bounds);
-					GGraphics2D g2bmp = bitmap.createGraphics();
-					g2bmp.setAntialiasing();
-					bitmapShiftX = (int) bounds.getMinX() - BITMAP_PADDING;
-					bitmapShiftY = (int) bounds.getMinY() - BITMAP_PADDING;
-					g2bmp.translate(-bitmapShiftX, -bitmapShiftY);
-					drawPath(g2bmp);
+					GRectangle viewBounds = view.getFrame();
+					GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds);
+
+					bitmap = makeImage(g2, bitmapBounds);
+					bitmapShiftX = (int) bitmapBounds.getMinX() - BITMAP_PADDING;
+					bitmapShiftY = (int) bitmapBounds.getMinY() - BITMAP_PADDING;
+
+					GGraphics2D graphics = bitmap.createGraphics();
+					graphics.setAntialiasing();
+					graphics.translate(-bitmapShiftX, -bitmapShiftY);
+					drawPath(graphics);
 				}
 				g2.drawImage(bitmap, bitmapShiftX, bitmapShiftY);
 			} else {
@@ -185,8 +185,15 @@ public class DrawLocus extends Drawable {
 
 	private GBufferedImage makeImage(GGraphics2D g2p, GRectangle bounds) {
 		return AwtFactory.getPrototype().newBufferedImage(
-				(int) bounds.getWidth() + 2 * BITMAP_PADDING,
-				(int) bounds.getHeight() + 2 * BITMAP_PADDING, g2p);
+				(int) bounds.getWidth(), (int) bounds.getHeight(), g2p);
+	}
+
+	private GRectangle getBitmapBounds(GRectangle bounds, GRectangle viewBounds) {
+		GRectangle2D rectangle = bounds.createIntersection(viewBounds);
+		return AwtFactory.getPrototype().newRectangle(
+				(int) rectangle.getX(), (int) rectangle.getY(),
+				(int) rectangle.getWidth() + 2 * BITMAP_PADDING,
+				(int) rectangle.getHeight() + 2 * BITMAP_PADDING);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
@@ -205,8 +212,8 @@ public class DrawLocus extends Drawable {
 		 */
 		int plSize = pointList.size();
 		for (int i = 0; i < plSize; ++i) {
-			double px = ((MyPoint) pointList.get(i)).x;
-			double py = ((MyPoint) pointList.get(i)).y;
+			double px = pointList.get(i).x;
+			double py = pointList.get(i).y;
 			if (px + py < labelPosition[0] + labelPosition[1]) {
 				labelPosition[0] = px;
 				labelPosition[1] = py;

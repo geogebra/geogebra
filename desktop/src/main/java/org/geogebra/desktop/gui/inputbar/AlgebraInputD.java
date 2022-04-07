@@ -436,7 +436,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		app.setScrollToShow(true);
 		try {
 			EvalInfo info = new EvalInfo(true, true).withSliders(true)
-					.addDegree(app.getKernel().getAngleUnitUsesDegrees()).withFractions(true);
+					.addDegree(app.getKernel().getAngleUnitUsesDegrees()).withSymbolic(true);
 			AsyncOperation<GeoElementND[]> callback =
 					new InputBarCallback(app, inputField, input,
 							app.getKernel().getConstructionStep());

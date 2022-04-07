@@ -48,6 +48,7 @@ public class CASActivity extends BaseActivity {
 		tryLoadingCasDispatcher(dispatcher);
 		tryLoadingAdvancedDispatcher(dispatcher);
 		tryLoadingScriptingDispatcher(dispatcher);
+		tryLoadingStatsDispatcher(dispatcher);
 	}
 
 	private void tryLoadingCasDispatcher(CommandDispatcher dispatcher) {
@@ -69,6 +70,14 @@ public class CASActivity extends BaseActivity {
 	private void tryLoadingScriptingDispatcher(CommandDispatcher dispatcher) {
 		try {
 			dispatcher.getScriptingDispatcher();
+		} catch (CommandNotLoadedError e) {
+			// ignore
+		}
+	}
+
+	private void tryLoadingStatsDispatcher(CommandDispatcher dispatcher) {
+		try {
+			dispatcher.getStatsDispatcher();
 		} catch (CommandNotLoadedError e) {
 			// ignore
 		}

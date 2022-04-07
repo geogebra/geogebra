@@ -8,6 +8,7 @@ import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.html5.util.debug.firebase.Firebase;
 import org.geogebra.web.html5.util.debug.firebase.FirebaseAnalytics;
 
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 public class AnalyticsW extends Analytics {
@@ -18,7 +19,10 @@ public class AnalyticsW extends Analytics {
 	 * Creates an Analytics instance for the web platform.
 	 */
 	public AnalyticsW() {
-		analytics = Firebase.get().analytics();
+		analytics = Firebase.get();
+		if (!"function".equals(Js.typeof(Js.asPropertyMap(analytics).get("logEvent")))) {
+			throw new IllegalStateException();
+		}
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import javax.swing.SpringLayout;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.DynamicCaptionModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.main.AppD;
@@ -15,6 +14,11 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 	private final EnableDynamicCaptionPanel enableDynamicCaption;
 	private final ComboPanel captions;
 
+	/**
+	 * @param app app
+	 * @param textField caption input
+	 * @param tabs properties view
+	 */
 	public DynamicCaptionPanelD(AppD app, AutoCompleteTextFieldD textField, UpdateTabs tabs) {
 		captions = new ComboPanel(app, "");
 		enableDynamicCaption = new EnableDynamicCaptionPanel(app, textField,
@@ -56,7 +60,7 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 	private void updateLayout() {
 		int rows = enableDynamicCaption.isSelected() ? 2 : 1;
 		SpringUtilities.makeCompactGrid(this, rows, 1,
-				0,0,5,5);
+				0, 0, 5, 5);
 		validate();
 	}
 
@@ -68,10 +72,5 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 	@Override
 	public void clearItems() {
 		captions.clearItems();
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// nothing to do here
 	}
 }

@@ -2008,6 +2008,16 @@
 		margin: 3px 5px;
 	}
 
+	.StatisticsCalculatorW .radioButtonPanel {
+		display: inline;
+		position: relative;
+		top: 12px;
+
+		.gwt-Label {
+			margin: 0 24px 0 4px;
+		}
+	}
+
 	.StatisticsCalculatorW .panelSample1, .StatisticsCalculatorW .panelSample2 {
 		text-align: center;
 		max-width: 50%;
@@ -2614,5 +2624,9 @@
 
 	.panelRow .optionsSlider input[type=range] {
 		display: inline-block;
+	}
+
+	.mk-spinner-wrap.spinnerForLogo {
+		position:static;
 	}
 }

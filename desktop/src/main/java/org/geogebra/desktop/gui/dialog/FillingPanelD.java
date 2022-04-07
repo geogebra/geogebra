@@ -84,8 +84,11 @@ class FillingPanelD extends JPanel
 	private JComboBox cbFillType;
 	private JCheckBox cbFillInverse;
 
-	private JPanel transparencyPanel, hatchFillPanel, imagePanel, anglePanel,
-			distancePanel;
+	private JPanel transparencyPanel;
+	private JPanel  hatchFillPanel;
+	private JPanel imagePanel;
+	private JPanel anglePanel;
+	private JPanel distancePanel;
 	private JLabel lblFillType;
 	/** symbol used for filling */
 	JLabel lblSelectedSymbol;
@@ -201,7 +204,6 @@ class FillingPanelD extends JPanel
 		// panel for the fill type combobox
 		cbFillType = new JComboBox();
 		JPanel cbPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JPanel syPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		lblFillType = new JLabel(loc.getMenu("Filling") + ":");
 		cbFillInverse = new JCheckBox();
 		lblFillInverse = new JLabel(loc.getMenu("InverseFilling"));
@@ -209,6 +211,7 @@ class FillingPanelD extends JPanel
 		cbPanel.add(cbFillType);
 		cbPanel.add(cbFillInverse);
 		cbPanel.add(lblFillInverse);
+		JPanel syPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		syPanel.add(lblSymbols);
 		syPanel.add(btInsertUnicode);
 		syPanel.add(lblMsgSelected);
@@ -623,12 +626,6 @@ class FillingPanelD extends JPanel
 		lblFillInverse.setFont(font);
 	}
 
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// TODO Auto-generated method stub
-
-	}
-
 	private void addSelectionBar() {
 		if (barsPanel != null) {
 			remove(barsPanel);
@@ -641,11 +638,11 @@ class FillingPanelD extends JPanel
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
-			barsPanel.setBorder(new TitledBorder(loc.getMenu(isPie ?
-					"SelectedSlice" : "SelectedBar")));
+			barsPanel.setBorder(new TitledBorder(loc.getMenu(
+					isPie ?	"SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
-						loc.getPlain(isPie? "SliceA" : "BarA", i + ""));
+						loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(new ActionListener() {
@@ -675,8 +672,6 @@ class FillingPanelD extends JPanel
 		btInsertUnicode.setStandardButton(true);
 		btInsertUnicode.setFixedIcon(GeoGebraIconD.createDownTriangleIcon(10));
 
-		JMenu menu = new JMenu(loc.getMenu("Properties.Basic"));
-
 		// Suits and music
 		String[] fancy = StringUtil.getSetOfSymbols(0x2660, 16);
 		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
@@ -696,8 +691,6 @@ class FillingPanelD extends JPanel
 		// Squares
 		fancy = StringUtil.getSetOfSymbols(0x2b12, 8);
 		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
-		app.setComponentOrientation(menu);
-
 	}
 
 	private JMenu createMenuItem(String[] table, int rows, int columns) {

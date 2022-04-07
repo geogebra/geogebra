@@ -1,8 +1,5 @@
 package org.geogebra.common.euclidian.plot;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -26,7 +23,6 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	private static final double EPSILON = 0.0001;
 
 	public static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
-	private final List<MyPoint> cache;
 
 	private boolean lineDrawn;
 	private Coords tmpCoords = new Coords(4);
@@ -38,20 +34,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	 *            Euclidian view
 	 */
 	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
-		this(view, new ArrayList<MyPoint>());
-	}
-
-	/**
-	 * constructor
-	 *
-	 * @param view
-	 *            Euclidian view
-	 * @param cache
-	 *            Point cache
-	 */
-	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view, List<MyPoint> cache) {
 		super(view);
-		this.cache = cache;
 	}
 
 	@Override
@@ -69,9 +52,6 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		drawTo(p[0], p[1], segmentType);
-		MyPoint myPoint = new MyPoint(p[0], p[1], segmentType);
-
-		cache.add(myPoint);
 	}
 
 	/**

@@ -16,7 +16,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class TeXSerializer extends SerializerAdapter {
 
 	public static final int placeholderColor = 0xDCDCDC;
-	public static final int commandPlaceholderColor = 0x616161;
+	public static final int commandPlaceholderColor = 0x9E9E9E;
 
 	public static final String PLACEHOLDER = "{\\bgcolor{#"
 			+ Integer.toHexString(placeholderColor) + "}\\scalebox{1}[1.6]{\\phantom{g}}}";
@@ -49,15 +49,16 @@ public class TeXSerializer extends SerializerAdapter {
 		if (mathCharacter == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
-		if ("=".equals(mathCharacter.getName())) {
+		String name = mathCharacter.getUnicodeString();
+		if ("=".equals(name)) {
 			stringBuilder.append("\\,=\\,");
-		} else if ("@".equals(mathCharacter.getName())) {
+		} else if ("@".equals(name)) {
 			stringBuilder.append("\\@ ");
-		} else if (" ".equals(mathCharacter.getName())) {
+		} else if (" ".equals(name)) {
 			stringBuilder.append("\\nbsp{}");
-		} else if (lineBreakEnabled && 10 == mathCharacter.getName().charAt(0)) {
+		} else if (lineBreakEnabled && 10 == name.charAt(0)) {
 			stringBuilder.append("\\\\\\vspace{0}");
-		} else if ("n".equals(mathCharacter.getName()) && stringBuilder.length() > 0
+		} else if ("n".equals(name) && stringBuilder.length() > 0
 				&& 'l' == stringBuilder.charAt(stringBuilder.length() - 1)) {
 			stringBuilder.setLength(Math.max(stringBuilder.length() - 1, 0));
 			stringBuilder.append("\\mathrm{ln}");

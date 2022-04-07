@@ -1,11 +1,13 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
@@ -14,7 +16,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
@@ -29,17 +30,6 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
  *
  */
 public class DrawLabel3D {
-
-	/** text of the label */
-	protected String text;
-	/** font of the label */
-	protected GFont font;
-	protected GFont fontOriginal;
-	/** text wants serif */
-	private boolean serif;
-	/** color of the label */
-	private Coords backgroundColor;
-	private Coords color;
 	/** origin of the label (left-bottom corner) */
 	protected Coords origin;
 	/** x, y, z offset */
@@ -75,9 +65,9 @@ public class DrawLabel3D {
 	protected double drawY;
 	protected double drawZ;
 
-	private Coords vScreen = new Coords(3);
+	private final Coords vScreen = new Coords(3);
 
-	private float[] labelOrigin = new float[3];
+	private final float[] labelOrigin = new float[3];
 
 	private int pickingX;
 	private int pickingY;
@@ -94,6 +84,8 @@ public class DrawLabel3D {
 	protected boolean hasIndex = false;
 
     private CoordMatrix4x4 positionMatrix;
+	protected @CheckForNull CaptionText caption;
+	private final CaptionProperties properties;
 
 	/**
 	 * common constructor
@@ -109,11 +101,41 @@ public class DrawLabel3D {
 		if (view.drawsLabels()) {
 			tempGraphics = AwtFactory.getPrototype().newBufferedImage(1, 1, 1).createGraphics();
 		}
+		properties = new CaptionProperties(view);
 	}
 
 	/**
 	 * update the label
 	 * 
+	 * @param caption
+	 *            the CaptionText object
+	 * @param font0
+	 *            font
+	 * @param v
+	 *            coordinates
+	 * @param xOffset0
+	 *            abs offset in x
+	 * @param yOffset0
+	 *            abs offset in y
+	 * @param zOffset0
+	 *            abs offset in z
+	 */
+	public void update(CaptionText caption, GFont font0, Coords v,
+			float xOffset0, float yOffset0, float zOffset0) {
+		setCaption(caption);
+		if (view.drawsLabels()) {
+			update(caption.text(), font0, v, xOffset0, yOffset0, zOffset0);
+		}
+	}
+
+	protected void setCaption(CaptionText caption) {
+		this.caption = caption;
+		properties.update(caption);
+	}
+
+	/**
+	 * update the label
+	 *
 	 * @param text0
 	 *            text
 	 * @param font0
@@ -133,7 +155,7 @@ public class DrawLabel3D {
 			float xOffset0, float yOffset0, float zOffset0) {
 
 		if (view.drawsLabels()) {
-			update(text0, font0, null, fgColor, v, xOffset0, yOffset0, zOffset0);
+			update(text0, font0, v, xOffset0, yOffset0, zOffset0);
 		}
 	}
 
@@ -152,10 +174,6 @@ public class DrawLabel3D {
 	 *            text
 	 * @param font0
 	 *            font
-	 * @param bgColor
-	 *            background color
-	 * @param fgColor
-	 *            foreground color
 	 * @param v
 	 *            coordinates
 	 * @param xOffset0
@@ -165,84 +183,42 @@ public class DrawLabel3D {
 	 * @param zOffset0
 	 *            abs offset in z
 	 */
-	public void update(String text0, GFont font0, GColor bgColor,
-			GColor fgColor, Coords v, float xOffset0, float yOffset0, float zOffset0) {
-
-		this.origin = v;
-		if (text0.length() == 0) {
+	public void update(String text0, GFont font0, Coords v,
+			float xOffset0, float yOffset0, float zOffset0) {
+				this.origin = v;
+		if (text0.length() == 0 || caption == null) {
+			setIsVisible(false);
 			return;
 		}
-
-		GColor convertColor = fgColor;
-		if (view.isAdditiveDisplay()
-				&& convertColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
-			convertColor = Drawable3D.DARKEST_ADDITIVE_COLOR
-					.deriveWithAlpha(convertColor.getAlpha());
-		}
-
-		this.color = new Coords((double) convertColor.getRed() / 255,
-				(double) convertColor.getGreen() / 255, (double) convertColor.getBlue() / 255,
-				1);
-
-		if (bgColor != null) {
-			this.backgroundColor = new Coords(
-					(double) bgColor.getRed() / 255,
-					(double) bgColor.getGreen() / 255,
-					(double) bgColor.getBlue() / 255, 1);
-		} else {
-			this.backgroundColor = null;
-		}
-
-		if (view.isGrayScaled()) {
-			this.color.convertToGrayScale();
-		}
-
+		CaptionText cpt = caption;
+		properties.update();
 		setIsVisible(true);
 
-		if (waitForReset || !text0.equals(this.text)
-				|| !font0.equals(this.fontOriginal)) {
-			this.text = text0;
-			fontOriginal = font0;
-			int style = fontOriginal.getStyle();
-			int size = fontOriginal.getSize();
-			font = fontOriginal.deriveFont(style,
-					(float) (size * getFontScale()));
+		cpt.createFont(font0);
+		tempGraphics.setFont(cpt.font());
 
-			tempGraphics.setFont(font);
+		GRectangle rectangle = getBounds(cpt);
 
-			serif = true;
-			GeoElement geo = drawable.getGeoElement();
-			if (geo instanceof TextProperties) {
-				serif = ((TextProperties) geo).isSerifFont();
-			}
+		int xMin = (int) rectangle.getMinX() - 1;
+		int xMax = (int) rectangle.getMaxX() + 1;
+		int yMin = (int) rectangle.getMinY() - 1;
+		int yMax = (int) rectangle.getMaxY() + 1;
 
-			GRectangle rectangle = getBounds();
+		width = xMax - xMin;
+		height = yMax - yMin;
+		xOffset2 = xMin;
+		yOffset2 = -yMax;
 
-			int xMin = (int) rectangle.getMinX() - 1;
-			int xMax = (int) rectangle.getMaxX() + 1;
-			int yMin = (int) rectangle.getMinY() - 1;
-			int yMax = (int) rectangle.getMaxY() + 1;
+		// creates the buffered image
+		GBufferedImage bimg = draw(cpt);
 
-			// Application.debug(text+"\nxMin="+xMin+", xMax="+xMax+",
-			// advance="+textLayout.getAdvance());
+		// creates the texture
+		view.getRenderer().createAlphaTexture(this, bimg);
 
-			width = xMax - xMin;
-			height = yMax - yMin;
-			xOffset2 = xMin;
-			yOffset2 = -yMax;
+		waitForReset = false;
 
-			// creates the buffered image
-			GBufferedImage bimg = draw();
-
-			// creates the texture
-			view.getRenderer().createAlphaTexture(this, bimg);
-
-			waitForReset = false;
-			// Application.debug("textureIndex = "+textureIndex);
-		}
-
-		this.xOffset = xOffset0; // + xOffset2;
-		this.yOffset = yOffset0; // + yOffset2;
+		this.xOffset = xOffset0;
+		this.yOffset = yOffset0;
 		this.zOffset = zOffset0;
 	}
 
@@ -251,9 +227,10 @@ public class DrawLabel3D {
 	 * 
 	 * @param bimg
 	 *            buffered image
+	 * @param cpt caption
 	 * @return graphics2D
 	 */
-	protected GGraphics2D createGraphics2D(GBufferedImage bimg) {
+	protected GGraphics2D createGraphics2D(GBufferedImage bimg, @Nonnull CaptionText cpt) {
 		GGraphics2D g2d = bimg.createGraphics();
 
 		GAffineTransform gt = AwtFactory.getPrototype().newAffineTransform();
@@ -261,9 +238,8 @@ public class DrawLabel3D {
 		gt.translate(-xOffset2, yOffset2); // put the baseline on the label
 											// anchor
 		g2d.transform(gt);
-
-		g2d.setColor(GColor.BLACK);
-		g2d.setFont(font);
+		g2d.setColor(cpt.foregroundColor());
+		g2d.setFont(cpt.font());
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -280,17 +256,15 @@ public class DrawLabel3D {
 		return view.getRenderer().createBufferedImage(this);
 	}
 
-	protected GRectangle getBounds() {
-		
+	protected GRectangle getBounds(@Nonnull CaptionText cpt) {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), text, 0, 0, tempGraphics, false, font,
+				view.getApplication(), cpt.text(), 0, 0, tempGraphics, false,
+				cpt.font(),
 				AwtFactory.getPrototype().newRectangle(), null, DrawText.DEFAULT_MARGIN);
-		if (text.contains("_")) { // text contains subscript
+		if (properties.hasSubscript()) { // text contains subscript
 			hasIndex = true;
-			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					tempGraphics, text, 0, 0, false);
-			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(),
-					rectangle.getWidth(), rectangle.getHeight() + p.y);
+			EuclidianStatic.drawIndexedString(view.getApplication(),
+					tempGraphics, cpt.text(), 0, 0, false);
 		} else {
 			hasIndex = false;
 		}
@@ -298,20 +272,15 @@ public class DrawLabel3D {
 		return rectangle;
 	}
 
-	private static boolean isLatex(String text) {
-		return text.length() > 1 && text.charAt(0) == '$' && text.endsWith("$");
-	}
-
 	/**
 	 * @return buffered image with label drawn in it
 	 */
-	protected GBufferedImage draw() {
-
+	protected GBufferedImage draw(@Nonnull CaptionText cpt) {
 		GBufferedImage bimg;
 		GGraphics2D g2d;
 
-		if (isLatex(text)) {
-			GeoElement geo = drawable.getGeoElement();
+		if (cpt.isLaTeX()) {
+			GeoElement geo = cpt.getGeoElement();
 
 			// make sure LaTeX labels
 			// don't go off bottom of screen
@@ -319,29 +288,36 @@ public class DrawLabel3D {
 
 			height += offsetY;
 			bimg = createBufferedImage();
-			g2d = createGraphics2D(bimg);
+			g2d = createGraphics2D(bimg, cpt);
 
 			App app = view.getApplication();
-			// GDimension dim =
 			app.getDrawEquation().drawEquation(geo.getKernel().getApplication(),
-					geo, g2d, 0, -offsetY, text.substring(1, text.length() - 1),
-					g2d.getFont(), serif, g2d.getColor(), g2d.getBackground(),
+					geo, g2d, 0, -offsetY, cpt.textToDraw(),
+					cpt.font(), cpt.isSerifFont(), cpt.foregroundColor(),
+					cpt.backgroundColor(),
 					true, false, getCallBack());
 			return bimg;
 		}
 
 		bimg = createBufferedImage();
-		g2d = createGraphics2D(bimg);
-		g2d.setFont(font);
+		g2d = createGraphics2D(bimg, cpt);
+		g2d.setFont(cpt.font());
 
 		if (hasIndex) {
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, text,
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, cpt.text(),
 					0, 0, false);
 		} else {
-			g2d.drawString(text, 0, 0);
+			drawPlainTextLabel(g2d, cpt);
 		}
 
 		return bimg;
+	}
+
+	private void drawPlainTextLabel(GGraphics2D g2d, @Nonnull CaptionText cpt) {
+		GFont font0 = view.getApplication().getFontCanDisplay(cpt.text(),
+				cpt.isSerifFont(), cpt.font().getStyle(), cpt.font().getSize());
+		g2d.setFont(font0);
+		g2d.drawString(cpt.text(), 0, 0);
 	}
 
 	/**
@@ -358,7 +334,7 @@ public class DrawLabel3D {
 
 	protected class DrawLaTeXCallBack implements Runnable {
 
-		private DrawLabel3D label;
+		private final DrawLabel3D label;
 
 		public DrawLaTeXCallBack(DrawLabel3D label) {
 			this.label = label;
@@ -408,7 +384,6 @@ public class DrawLabel3D {
 	 *            renderer
 	 */
 	public void draw(Renderer renderer) {
-
 		draw(renderer, false);
 	}
 
@@ -507,7 +482,7 @@ public class DrawLabel3D {
 	 * @return true if mouse hits the label
 	 */
 	public boolean hit(double x, double y) {
-		if (backgroundColor != null) {
+		if (properties.hasBackgroundColor()) {
 			return drawX <= x && drawX + width >= x && drawY <= y
 					&& drawY + height >= y;
 		}
@@ -565,11 +540,10 @@ public class DrawLabel3D {
 		renderer.getRendererImpl().setLabelOrigin(labelOrigin);
 		renderer.getRendererImpl().setLabelLocation(
 				new float[]{(float) drawX, (float) drawY, (float) drawZ});
-
 		if (forPicking) {
 			// renderer.getGeometryManager().rectangle(drawX + pickingX, drawY +
 			// pickingY, drawZ, pickingW, pickingH);
-			if (backgroundColor != null) {
+			if (properties.hasBackgroundColor()) {
 				renderer.getGeometryManager().draw(backgroundIndex);
 			} else {
 				renderer.getGeometryManager().draw(pickingIndex);
@@ -577,8 +551,8 @@ public class DrawLabel3D {
 		} else {
 
 			// draw background
-			if (backgroundColor != null) {
-				renderer.setColor(backgroundColor);
+			if (properties.hasBackgroundColor()) {
+				renderer.setColor(properties.backgroundColorNormalized());
 				renderer.getRendererImpl().disableTextures();
 				// renderer.getGeometryManager().rectangle(drawX, drawY, drawZ,
 				// width, height);
@@ -600,7 +574,7 @@ public class DrawLabel3D {
 	 */
 	protected void drawText(Renderer renderer) {
 		// draw text
-		renderer.setColor(color);
+		renderer.setColor(properties.foregroundColorNormalized());
 		renderer.getRendererImpl().enableTextures();
 		renderer.getRendererImpl().setLayer(Renderer.LAYER_FOR_TEXTS);
 		renderer.getTextures().setTextureLinear(textureIndex);
@@ -783,7 +757,7 @@ public class DrawLabel3D {
 		// backgroundIndex: "+backgroundIndex);
 	}
 
-	private static final int drawRectangle(Renderer renderer, double x,
+	private static int drawRectangle(Renderer renderer, double x,
 			double y, double z, double w, double h, int index) {
 		return renderer.getGeometryManager().rectangle(x, y, z, w, h, index);
 	}
@@ -798,5 +772,4 @@ public class DrawLabel3D {
 		manager.remove(backgroundIndex);
 		view.getRenderer().getTextures().removeTexture(textureIndex);
 	}
-
 }

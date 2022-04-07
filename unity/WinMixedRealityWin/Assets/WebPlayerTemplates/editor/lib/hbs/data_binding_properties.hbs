@@ -1,7 +1,0 @@
-{{#if this.dataBindingTypes}}
-    {{#each this.dataBindingTypes}}
-            <div class="wrap-property clearfix">
-                <label class="data-binding-labels">{{@key}}: </label> <input property class="data-binding-value" type="text" value="{{ this }}" data-property-set="dataBindings" data-property-key="{{ @key }}"/>
-            </div>
-    {{/each}}
-{{/if}}

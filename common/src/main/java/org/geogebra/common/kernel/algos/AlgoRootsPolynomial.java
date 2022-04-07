@@ -380,20 +380,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				solution, eqnSolver);
 
 		if (solution.curRealRoots > 1) {
-			// sort roots and eliminate duplicate ones
-			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
-
-			// eliminate duplicate roots
-			double maxRoot = solution.curRoots[0];
-			int maxIndex = 0;
-			for (int i = 1; i < solution.curRealRoots; i++) {
-				if ((solution.curRoots[i] - maxRoot) > Kernel.MIN_PRECISION) {
-					maxRoot = solution.curRoots[i];
-					maxIndex++;
-					solution.curRoots[maxIndex] = maxRoot;
-				}
-			}
-			solution.curRealRoots = maxIndex + 1;
+			solution.sortAndMakeUnique();
 		}
 
 		// for first or second derivative we only

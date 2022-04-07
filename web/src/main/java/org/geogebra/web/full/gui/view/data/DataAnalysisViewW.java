@@ -151,11 +151,13 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
-		model.setView(dataSource, mode,
-				app.getSettings().getDataAnalysis(),
-				forceModeUpdate);
-		setLabels();
-		updateGUI();
+		app.getAsyncManager().runOrSchedule(() -> {
+			model.setView(dataSource, mode,
+					app.getSettings().getDataAnalysis(),
+					forceModeUpdate);
+			setLabels();
+			updateGUI();
+		});
 	}
 
 	/**

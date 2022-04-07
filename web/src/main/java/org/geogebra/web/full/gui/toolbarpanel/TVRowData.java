@@ -40,9 +40,27 @@ public class TVRowData {
 	 */
 	public String getValue(int col) {
 		if (row < model.getRowCount() && col < model.getColumnCount()) {
-			return model.getCellAt(row, col);
+			return model.getCellAt(row, col).getInput();
 		}
 		return "";
+	}
+
+	/**
+	 *
+	 * @param col
+	 *            the column
+	 * @return if cell is erroneous
+	 */
+	public boolean isCellErroneous(int col) {
+		if (row < model.getRowCount() && col < model.getColumnCount()
+			&& hasCellAt(row, col)) {
+			return model.getCellAt(row, col).isErroneous();
+		}
+		return false;
+	}
+
+	private boolean hasCellAt(int row, int col) {
+		return model.getCellAt(row, col) != null;
 	}
 
 	/**

@@ -1291,7 +1291,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			selColor = geo.selColor;
 		}
 
-		if (geo.isFillable()) {
+		if (geo.isFillable() || geo.isMask()) {
 			if (geo.isAutoColor()) {
 				fillColor = objColor;
 				setAlphaValue(geo.getAlphaValue());
@@ -1311,7 +1311,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// if the original geo was not fillable or the current geo is an inequality
 		// then set the alpha from the construction defaults (otherwise when redefining
 		// x = y or x^2 = y to an inequality the result would have an alpha of 0)
-		if (!geo.isFillable() || isInequality()) {
+		if ((!geo.isFillable() && !geo.isMask()) || isInequality()) {
 			ConstructionDefaults defaults = cons.getConstructionDefaults();
 			setAlphaValue(defaults.getDefaultGeo(defaults.getDefaultType(this)).getAlphaValue());
 		}
@@ -2253,11 +2253,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final AnimationManager am = kernel.getAnimatonManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
-				kernel.notifyStartAnimation(this);
 			} else {
 				am.removeAnimatedGeo(this);
-				kernel.notifyStopAnimation(this);
 			}
+			kernel.notifyUpdateVisualStyle(this, GProperty.COMBINED);
 		}
 	}
 
@@ -2894,7 +2893,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			final GeoList list = (GeoList) this;
 
 			String prefix = list.isMatrix() ? "m" : "l";
-			return defaultNumberedLabel(prefix);
+			return list.getTableColumn() == -1 ? defaultNumberedLabel(prefix)
+					: cons.buildIndexedLabel("y", false);
 		} else {
 			chars = LabelType.lowerCaseLabels;
 		}
@@ -2904,14 +2904,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private String defaultNumberedLabel(final String plainKey) {
 		String trans = getLoc().getPlainLabel(plainKey, plainKey);
-		int counter = 0;
-		String str;
-		do {
-			counter++;
-			str = trans + kernel.internationalizeDigits(counter + "",
-					StringTemplate.defaultTemplate);
-		} while (!cons.isFreeLabel(str));
-		return str;
+		return cons.getLabelManager().getNextNumberedLabel(trans);
 	}
 
 	@Override
@@ -3237,10 +3230,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if ((correspondingCasCell != null) && isIndependent()) {
 			updateAlgoUpdateSetWith(correspondingCasCell);
 		} else if (algoUpdateSet != null) {
-			// update all algorithms in the algorithm set of this GeoElement
-			cons.setAlgoSetCurrentlyUpdated(algoUpdateSet);
-			algoUpdateSet.updateAll();
-			cons.setAlgoSetCurrentlyUpdated(null);
+			cons.updateAllAlgosInSet(algoUpdateSet);
 		}
 	}
 
@@ -4460,6 +4450,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
+	public String getStyleXML() {
+		final StringBuilder sb = new StringBuilder();
+		getElementOpenTagXML(sb);
+		getStyleXML(sb);
+		getElementCloseTagXML(sb);
+		return sb.toString();
+	}
+
+	@Override
 	public void getXML(boolean getListenersToo, final StringBuilder sb) {
 		if (isSpotlight()) {
 			return;
@@ -4467,8 +4466,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		getExpressionXML(sb);
 		getElementOpenTagXML(sb);
 		getXMLtags(sb);
-		getCaptionXML(sb);
-		getExtraTagsXML(sb);
 		if (getListenersToo) {
 			getListenerTagsXML(sb);
 		}
@@ -4773,38 +4770,28 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * Appends isShape tag to given builder
-	 * 
-	 * @param sb
-	 *            string builder
-	 */
-	protected final void getXMLisShapeTag(final StringBuilder sb) {
-		// was object created with shape tool
-		if (isShape()) {
-			sb.append("\t<isShape val=\"true\"/>\n");
-		}
-	}
-
-	/**
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 * 
 	 * @param sb
 	 *            string builder
 	 */
 	protected void getXMLtags(final StringBuilder sb) {
-		// sb.append(getLineStyleXML());
+		getStyleXML(sb);
+	}
+
+	protected void getStyleXML(StringBuilder sb) {
 		getXMLvisualTags(sb);
 		getXMLanimationTags(sb);
 		getXMLfixedTag(sb);
-		getXMLisShapeTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);
 		if (kernel.getSaveScriptsToXML()) {
 			getScriptTags(sb);
 		}
+		getCaptionXML(sb);
 	}
 
-	private void getExtraTagsXML(StringBuilder sb) {
+	protected void getExtraTagsXML(StringBuilder sb) {
 		if (this.getParentAlgorithm() instanceof ChartStyleAlgo) {
 			((ChartStyleAlgo) this.getParentAlgorithm()).getStyle().barXml(sb,
 					((ChartStyleAlgo) this.getParentAlgorithm()).getIntervals());
@@ -5169,21 +5156,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public boolean isShape() {
-		return false;
-	}
-
-	@Override
 	public boolean isMask() {
 		return false;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	public void setIsShape(boolean isShape) {
-		// overridden for conics & polygons
 	}
 
 	/**
