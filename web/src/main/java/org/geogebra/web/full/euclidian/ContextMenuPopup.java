@@ -103,7 +103,6 @@ public class ContextMenuPopup extends StandardButton
 		updatePopup();
 		popup.show(location.x, location.y);
 		switchIcon(true);
-		popup.setMenuShown(true);
 	}
 
 	public void updatePopup() {

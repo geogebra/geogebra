@@ -11,9 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -100,8 +98,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		reset();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
-			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
-					&& el.getParentElement().hasClassName("MyToggleButton"))) {
+			if (el != null && (el.hasClassName("button") || el.getParentNode() != null
+					&& el.getParentElement().hasClassName("button"))) {
 				onHeaderClick(el, column);
 			}
 			return false;
