@@ -2407,7 +2407,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void setGlobalOptions(Object options) {
 		JsObjectWrapper opts = getWrapper(options);
-		opts.ifPropertySet("labelingStyle", app::setLabelingStyle);
+		opts.ifIntPropertySet("labelingStyle", app::setLabelingStyle);
 		opts.ifIntPropertySet("fontSize", val -> app.setFontSize(val, true));
 	}
 
@@ -2448,7 +2448,38 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						axisOptions -> setAxisOptions(axisNo, axisOptions, es));
 			}
 		});
+
+		opts.ifObjectPropertySet("tickStyle", tickStyle -> {
+			for (int i = 0; i < 3; i ++) {
+				final int axisNo = i;
+				final String axisName = Character.toString((char) ('x' + axisNo));
+				tickStyle.ifObjectPropertySet(axisName,
+						ticks -> {
+							String style = tickStyle.getValue(axisName).toString();
+							es.setAxisTickStyle(axisNo,
+									Integer.parseInt(style));
+						});
+
+			}
+		});
+
+		opts.ifObjectPropertySet("gridDistance", distances ->
+				setGridDistances(distances, es));
 		es.endBatch();
+	}
+
+	private void setGridDistances(JsObjectWrapper distanceOptions,
+			EuclidianSettings es) {
+		boolean theta = distanceOptions.getValue("theta") != null;
+		double[] distances = new double[theta ? 3 : 2];
+		distances[0] = 1;
+		distances[1] = 1;
+		distanceOptions.ifPropertySet("x", (Consumer<Double>) value -> {distances[0] = value;});
+		distanceOptions.ifPropertySet("y", (Consumer<Double>) value -> {distances[1] = value;});
+		distanceOptions.ifPropertySet("theta", (Consumer<Double>) value
+				-> {distances[2] = value;});
+
+		es.setGridDistances(distances);
 	}
 
 	protected void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {

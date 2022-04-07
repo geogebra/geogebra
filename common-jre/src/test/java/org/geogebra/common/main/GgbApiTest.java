@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -351,11 +352,39 @@ public class GgbApiTest {
 
 	@Test
 	public void testSetGraphicsOptions() throws JSONException {
-		String json = "{gridColor:\"#FF0000\", bgColor: \"#0000ff\"}";
+		String json = "{gridColor:\"#FF0000\", bgColor: \"#0000ff\", "
+				+ " tickStyle: {\"x\": 0, \"y\":1},"
+				+ " gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
+				+ "}";
+
 		JSONObject jso = new JSONObject(new JSONTokener(json));
 		api.setGraphicsOptions(1, jso);
 		assertEquals(app.getActiveEuclidianView().getGridColor(), GColor.RED);
 		assertEquals(app.getActiveEuclidianView().getBackgroundCommon(), GColor.BLUE);
+		assertArrayEquals(new int[]{0,1},
+				app.getActiveEuclidianView().getAxesTickStyles());
+	}
+
+	@Test
+	public void testDistanceOptions() throws JSONException {
+		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5}"
+				+ "}";
+
+		JSONObject jso = new JSONObject(new JSONTokener(json));
+		api.setGraphicsOptions(1, jso);
+		assertArrayEquals(new double[]{1.5, 0.5},
+				app.getActiveEuclidianView().getGridDistances(), 0);
+	}
+
+	@Test
+	public void testDistanceOptionsWithTheta() throws JSONException {
+		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
+				+ "}";
+
+		JSONObject jso = new JSONObject(new JSONTokener(json));
+		api.setGraphicsOptions(1, jso);
+		assertArrayEquals(new double[]{1.5, 0.5, 0.1234},
+				app.getActiveEuclidianView().getGridDistances(), 0);
 	}
 
 	@Test
