@@ -29,6 +29,7 @@
 package com.himamis.retex.editor.share.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.himamis.retex.editor.share.meta.MetaFunction;
@@ -45,8 +46,9 @@ public class MathFunction extends MathContainer {
 
 	private static final long serialVersionUID = 1L;
 	private MetaFunction meta;
+	private List<String> placeholders = new ArrayList<>();
 
-    /**
+	/**
 	 * Use MathFormula.newFunction(...)
 	 * 
 	 * @param meta
@@ -170,5 +172,9 @@ public class MathFunction extends MathContainer {
 		return argument instanceof MathFunction
 				&& (argument.hasTag(Tag.SUPERSCRIPT)
 				|| argument.hasTag(Tag.SUBSCRIPT));
+	}
+
+	public List<String> getPlaceholders() {
+		return placeholders;
 	}
 }
