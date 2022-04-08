@@ -614,7 +614,7 @@ public class Function extends FunctionNVar
 					try {
 						rightVal = node.getRight().evaluateDouble();
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.debug(e);
 						return false;
 					}
 					if (node.getOperation().equals(Operation.POWER)) {
@@ -749,7 +749,7 @@ public class Function extends FunctionNVar
 				polyFun.coeffs[degree - i] = coeff.evaluateDouble();
 			} catch (Exception e) {
 				Log.warn("error in buildPolyFunction:" + e.getMessage());
-				e.printStackTrace();
+				Log.debug(e);
 				return null;
 			}
 		}
@@ -822,10 +822,10 @@ public class Function extends FunctionNVar
 			}
 			return en;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		} catch (Error e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}

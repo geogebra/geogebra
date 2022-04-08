@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 public class TextDispatcher {
 	protected Localization loc;
@@ -174,7 +175,7 @@ public class TextDispatcher {
 					true, true);
 			return text;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}
@@ -216,7 +217,7 @@ public class TextDispatcher {
 				try {
 					text.setStartPoint(P);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 					return null;
 				}
 			} else {
@@ -349,7 +350,7 @@ public class TextDispatcher {
 			text.updateRepaint();
 			return text;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}

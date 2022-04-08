@@ -6,6 +6,8 @@ package org.geogebra.common.io;
 
 import java.util.HashMap;
 
+import org.geogebra.common.util.debug.Log;
+
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -842,7 +844,7 @@ public class MathMLParser {
 			// StringBuilder(result) o. result.toString()
 			return result.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return null; // TODO statt exception, speter lo(umlaut)schen
 	}

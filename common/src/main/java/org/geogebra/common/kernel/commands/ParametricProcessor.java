@@ -160,7 +160,7 @@ public class ParametricProcessor {
 					return ret;
 				}
 			} catch (Throwable tt) {
-				tt.printStackTrace();
+				Log.debug(tt);
 				Log.debug("X is not parametric");
 			}
 			removeSliders(num, undefinedVariables);
@@ -636,7 +636,7 @@ public class ParametricProcessor {
 					return ret[0].wrap();
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 				Log.debug("X is not parametric");
 			}
 		}

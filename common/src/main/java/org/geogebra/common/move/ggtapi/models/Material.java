@@ -6,6 +6,7 @@ import java.util.Date;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Material POJO
@@ -616,7 +617,7 @@ public class Material implements Comparable<Material>, Serializable {
 			try {
 				ret.put(key, Boolean.valueOf(val));
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 
@@ -627,7 +628,7 @@ public class Material implements Comparable<Material>, Serializable {
 			try {
 				ret.put(key, value);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 	}

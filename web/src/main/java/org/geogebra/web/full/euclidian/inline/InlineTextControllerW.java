@@ -101,7 +101,7 @@ public class InlineTextControllerW implements InlineTextController {
 			try {
 				return new JSONArray(content);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		return new JSONArray();

@@ -1988,7 +1988,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 						}
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
-						e.printStackTrace();
+						Log.debug(e);
 					}
 				}
 			}

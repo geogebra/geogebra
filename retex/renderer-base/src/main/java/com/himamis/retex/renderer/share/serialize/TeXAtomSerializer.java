@@ -197,7 +197,6 @@ public class TeXAtomSerializer {
 
 		FactoryProvider.debugS("Unhandled atom:"
 				+ (root == null ? "null" : (root.getClass() + " " + root.toString())));
-		// FactoryProvider.getInstance().printStacktrace();
 
 		return "?";
 	}

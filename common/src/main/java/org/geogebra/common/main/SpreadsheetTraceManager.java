@@ -893,7 +893,7 @@ public class SpreadsheetTraceManager {
 			cell.updateCascade();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -980,7 +980,7 @@ public class SpreadsheetTraceManager {
 			cell.updateCascade();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

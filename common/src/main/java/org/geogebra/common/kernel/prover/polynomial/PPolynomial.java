@@ -1350,7 +1350,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 					elimResult, variables);
 		} catch (ParseException e) {
 			Log.debug("Cannot parse: " + elimResult);
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return null; // cannot decide

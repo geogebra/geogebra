@@ -228,7 +228,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		try {
 			result = getImplicitPoly();
 		} catch (Throwable ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			Log.debug("Cannot compute implicit curve (yet?)");
 		}
 

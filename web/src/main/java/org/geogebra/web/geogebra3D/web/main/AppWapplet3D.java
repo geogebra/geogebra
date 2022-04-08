@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -229,7 +230,7 @@ public class AppWapplet3D extends AppWFull {
 			}
 		} catch (CSVException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		h.updateAfterParsing();
 		afterLoadFileAppOrNot(false);

@@ -2,6 +2,7 @@ package org.geogebra.common.io;
 
 import java.text.Normalizer;
 
+import org.geogebra.common.util.debug.Log;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -337,7 +338,7 @@ public class LaTeXSerializationTest {
 			tp.parse();
 			return mf;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Assert.fail(e.getMessage());
 		}
 		return null;
