@@ -33,26 +33,12 @@ public class AlgoCurvatureVector extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param A
 	 *            point
 	 * @param f
 	 *            function
 	 */
-	public AlgoCurvatureVector(Construction cons, String label, GeoPoint A,
-			GeoFunction f) {
-		this(cons, A, f);
-
-		if (label != null) {
-			v.setLabel(label);
-		} else {
-			// if we don't have a label we could try c
-			v.setLabel("c");
-		}
-	}
-
-	AlgoCurvatureVector(Construction cons, GeoPoint A, GeoFunction f) {
+	public AlgoCurvatureVector(Construction cons, GeoPoint A, GeoFunction f) {
 		super(cons);
 		this.A = A;
 		this.f = f;
@@ -109,11 +95,8 @@ public class AlgoCurvatureVector extends AlgoElement {
 			double t = Math.sqrt(1 + f1eval * f1eval);
 			double t4 = t * t * t * t;
 
-			double x = A.inhomX - (f1eval * f2eval) / t4;
-			double y = A.inhomY + f2eval / t4;
-
-			v.x = x - A.inhomX;
-			v.y = y - A.inhomY;
+			v.x = - (f1eval * f2eval) / t4;
+			v.y = f2eval / t4;
 			v.z = 0.0;
 		} catch (Exception e) {
 			// in case something went wrong, e.g. derivatives not defined

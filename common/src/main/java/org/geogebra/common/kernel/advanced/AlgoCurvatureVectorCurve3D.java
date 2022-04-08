@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
-import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author Michael
@@ -101,9 +101,6 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		} catch (CircularDefinitionException e) {
 			// can't happen with new vectors
 		}
-		f = new GeoCurveCartesian3D(cons);
-		gc.toGeoCurveCartesian(f);
-		cas();
 
 		setInputOutput();
 		compute();
@@ -121,24 +118,6 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		cons.removeFromConstructionList(algoCAS2);
 		this.f2 = (GeoCurveCartesian3D) algoCAS2.getResult();
 	}
-
-	/*
-	 * AlgoCurvatureVectorCurve3D(Construction cons, String label, GeoPoint a2,
-	 * GeoConic geoConic) { this(cons, a2, geoConic); if (label != null) {
-	 * v.setLabel(label); } else { v.setLabel("cv"); } }
-	 */
-
-	/*
-	 * public AlgoCurvatureVectorCurve3D(Construction cons, GeoPoint A, GeoConic
-	 * geoConic) { super(cons); this.A = A; this.gc = geoConic; f = new
-	 * GeoCurveCartesian3D(cons); gc.toGeoCurveCartesian(f); // create new
-	 * vector v = new GeoVector3D(cons); try { v.setStartPoint(A); } catch
-	 * (CircularDefinitionException e) { }
-	 * 
-	 * cas();
-	 * 
-	 * setInputOutput(); compute(); }
-	 */
 
 	@Override
 	public Commands getClassName() {
@@ -169,34 +148,28 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	@Override
 	public final void compute() {
 		try {
-			double tvalue;
 			double curvature;
-			if (gc != null
-					&& gc.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
-				tvalue = gc.getClosestParameterForParabola(A);
-				gc.evaluateFirstDerivativeForParabola(tvalue, f1eval);
-				gc.evaluateSecondDerivativeForParabola(tvalue, f2eval);
-				curvature = gc.evaluateCurvatureForParabola(tvalue);
+
+			double[] w2 = new double[3];
+			if (gc != null) {
+				gc.evaluateFirstDerivative(A, f1eval);
+
+				curvature = gc.evaluateCurvatureFromDerivative(f1eval);
+				Coords rw = gc.getCoordSys().getVector(f1eval[0], f1eval[1]);
+				w2[0] = rw.getX();
+				w2[1] = rw.getY();
+				w2[2] = rw.getZ();
 			} else {
-				if (gc != null) {
-					gc.toGeoCurveCartesian(f);
-					f.updateDistanceFunction();
-					cas();
-				}
-				tvalue = f.getClosestParameterForCurvature(A,
+				double tvalue = f.getClosestParameterForCurvature(A,
 						f.getMinParameter());
 				f1.evaluateCurve(tvalue, f1eval);
 				f2.evaluateCurve(tvalue, f2eval);
 				curvature = f.evaluateCurvature(tvalue);
+				// CurvatureVector = curvature.((f'xf'')xf')/|(f'xf'')xf'|
+				double[] w = new double[3];
+				GeoVec3D.cross(f1eval, f2eval, w);
+				GeoVec3D.cross(w, f1eval, w2);
 			}
-
-			double[] w = new double[3];
-			double[] w2 = new double[3];
-			double[] w3 = new double[4];
-
-			// CurvatureVector = curvature.((f'xf'')xf')/|(f'xf'')xf'|
-			GeoVec3D.cross(f1eval, f2eval, w);
-			GeoVec3D.cross(w, f1eval, w2);
 
 			// normalize
 			double d = Math.sqrt(w2[0] * w2[0] + w2[1] * w2[1] + w2[2] * w2[2]);
@@ -204,6 +177,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 			w2[1] /= d;
 			w2[2] /= d;
 
+			double[] w3 = new double[4];
 			w3[0] = w2[0] * curvature;
 			w3[1] = w2[1] * curvature;
 			w3[2] = w2[2] * curvature;

@@ -147,8 +147,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
 
-	private double[] tmpDouble4;
-
 	private double[] coeffs = new double[6];
 
 	private boolean eigenvectorsSetOnLoad = false;
@@ -334,94 +332,35 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * compute closest t parameter to point P
-	 * 
-	 * @param P
-	 *            point
-	 * @return t parameter
-	 */
-	public double getClosestParameterForParabola(GeoPointND P) {
-		Coords coords = P.getCoordsInD2(getCoordSys());
-		coordsRWtoEV(coords);
-		double x = coords.getX();
-		double y = coords.getY();
-		if (tmpDouble4 == null) {
-			tmpDouble4 = new double[4];
-		}
-
-		// solve PM.dM=0
-		tmpDouble4[3] = p / 2;
-		tmpDouble4[2] = 0;
-		tmpDouble4[1] = p - x;
-		tmpDouble4[0] = -y;
-
-		int nRoots = EquationSolver.solveCubicS(tmpDouble4,
-				tmpDouble4, Kernel.STANDARD_PRECISION);
-
-		// find closest root
-		double dist = Double.POSITIVE_INFINITY;
-		double param = 0;
-		for (int i = 0; i < nRoots; i++) {
-			double t = tmpDouble4[i];
-			double yt = p * t;
-			double xt = yt * t / 2.0;
-			double dx = xt - x;
-			double dy = yt - y;
-			double d = dx * dx + dy * dy;
-			if (d < dist) {
-				dist = d;
-				param = t;
-			}
-
-			// //debug
-			// coords.setX(xt);
-			// coords.setY(yt);
-			// coords.setZ(1);
-			// coordsEVtoRW(coords);
-			// Log.debug("root #" + i + ": (" + coords.getX() + ","
-			// + coords.getY() + ") , d=" + d);
-		}
-		return param;
-	}
-
-	/**
-	 * 
-	 * @param t
-	 *            parameter on parabola
-	 * @return curvature value
-	 */
-	public double evaluateCurvatureForParabola(double t) {
-		double s = Math.sqrt(1 + t * t);
-		return 1 / (p * s * s * s);
-	}
-
-	/**
 	 * evaluate first derivative for parameter t
 	 * 
-	 * @param t
-	 *            parameter
-	 * @param result
+	 * @param pt
+	 *            point (if not on conic, closest point is used)
+	 * @param f1
 	 *            (x,y) first derivative
+	 *
 	 */
-	public void evaluateFirstDerivativeForParabola(double t, double[] result) {
-		Coords eigenvec0 = getEigenvec(0);
-		Coords eigenvec1 = getEigenvec(1);
-		result[0] = p * (t * eigenvec0.getX() + eigenvec1.getX());
-		result[1] = p * (t * eigenvec0.getY() + eigenvec1.getY());
+	public void evaluateFirstDerivative(GeoPointND pt, double[] f1) {
+		Coords coords = pt.getCoordsInD2(getCoordSys());
+		PathParameter pp = new PathParameter();
+		pathChanged(coords, pp);
+		double x = coords.getX();
+		double y = coords.getY();
+		double fx = matrix[0] * x + matrix[3] * y + matrix[4];
+		double fy = matrix[1] * y + matrix[3] * x + matrix[5];
+		f1[1] = fy;
+		f1[0] = fx;
 	}
 
 	/**
-	 * evaluate second derivative for parameter t
-	 * 
-	 * @param t
-	 *            parameter
-	 * @param result
-	 *            (x,y) second derivative
+	 * @param f1 derivative (may be computed using evaluateFirstDerivative)
+	 * @return curvature; may be negative
 	 */
-	public void evaluateSecondDerivativeForParabola(double t, double[] result) {
-		Coords eigenvec0 = getEigenvec(0);
-		result[0] = p * eigenvec0.getX();
-		result[1] = p * eigenvec0.getY();
+	public double evaluateCurvatureFromDerivative(double[] f1) {
+		double fx = f1[0];
+		double fy = f1[1];
+		return (-fy * fy * matrix[0] + 2 * fx * fy * matrix[3] - fx * fx * matrix[1])
+				/ Math.pow(fx * fx + fy * fy, 1.5);
 	}
 
 	@Override

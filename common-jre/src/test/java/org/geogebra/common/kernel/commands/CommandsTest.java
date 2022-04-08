@@ -1214,7 +1214,7 @@ public class CommandsTest {
 	public void cmdCurvature() {
 		tRound("Curvature[ (1,1), Curve[sin(t),cos(t),t,0,3] ]", "-1");
 		t("Curvature[ (1,1), sin(x) ]", "-0.5730366435551724");
-		t("Curvature[ (1,1), circle[(2, 3),2] ]", "0.5");
+		tRound("Curvature[ (1,1), circle[(2, 3),2] ]", "0.5");
 	}
 
 	@Test
@@ -2681,8 +2681,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdOsculatingCircle() {
-		t("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
-				"x² + y² + 1.9999999999999991x + 0.9999999999999971y = -0.9999999999999991");
+		tRound("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
+				"x² + y² + 2x + 1y = -1");
 		t("OsculatingCircle[ (0, 0), x^2 ]", "x² + y² - y = 0");
 		t("OsculatingCircle[ (1,1), (x - 2)² + (y - 3)² = 4 ]", "?");
 	}
