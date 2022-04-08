@@ -94,6 +94,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.AutoCompleteTextFieldW {
 			border-bottom: 1px solid colors.$teal-default !important;
 		}
+
+		.button img {
+			opacity: 0.54;
+		}
 	}
 
 	/* button tool dialog*/
@@ -183,7 +187,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* text tool dialog */
 	.inputDialogComponent.TextInputDialog {
 
-		 .MyToggleButton {
+		.MyToggleButton {
 			border-radius: 2px;
 			line-height: 24px;
 			vertical-align: middle;
@@ -204,14 +208,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				opacity: 0.54;
 			}
 		 }
-
-		.MyToggleButton.gwt-ToggleButton-down, .MyToggleButton.gwt-ToggleButton-down-hovering {
-			border-color: colors.$teal-default;
-		}
-
-		.MyToggleButton.gwt-ToggleButton-up-hovering {
-			border-color: colors.$teal-light;
-		}
 
 		.textEditor {
 			margin-right: 16px;

@@ -98,15 +98,13 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			border: none !important;
 
 			&.noOpacity, &.noOpacity:hover {
-				.buttonContent.stylebarButton {
+				img {
 					opacity: 1 !important;
 				}
 			}
 
-			&:hover {
-				.buttonContent.stylebarButton {
-					opacity: 1 !important;
-				}
+			&:hover img {
+				opacity: 1 !important;
 			}
 
 		}
