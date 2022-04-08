@@ -2,6 +2,7 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
@@ -123,7 +124,7 @@ public abstract class AuthenticationModel {
 	/**
 	 * @return list of group IDs for current user
 	 */
-	public ArrayList<String> getUserGroups() {
+	public ArrayList<GroupIdentifier> getUserGroups() {
 		if (loggedInUser != null) {
 			return loggedInUser.getGroups();
 		}

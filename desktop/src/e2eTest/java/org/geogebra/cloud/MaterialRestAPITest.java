@@ -12,6 +12,7 @@ import java.util.Set;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
@@ -112,10 +113,11 @@ public class MaterialRestAPITest {
 		needsAuth();
 		final MaterialRestAPI api = authAPI();
 		final String[] success = new String[1];
-		final TestAsyncOperation<List<String>> groupCallback = new TestAsyncOperation<List<String>>() {
+		final TestAsyncOperation<List<GroupIdentifier>> groupCallback =
+				new TestAsyncOperation<List<GroupIdentifier>>() {
 
 			@Override
-			public void callback(List<String> obj) {
+			public void callback(List<GroupIdentifier> obj) {
 				success[0] = obj == null ? "FAIL" : obj.size() + "";
 
 			}
@@ -124,7 +126,7 @@ public class MaterialRestAPITest {
 			@Override
 			public boolean handleMaterial(Material mat) {
 
-				api.getGroups(mat.getSharingKeyOrId(), groupCallback);
+				api.getGroups(mat.getSharingKeyOrId(), null, groupCallback);
 				return true;
 			}
 		});
