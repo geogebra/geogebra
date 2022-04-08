@@ -2474,10 +2474,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		double[] distances = new double[theta ? 3 : 2];
 		distances[0] = 1;
 		distances[1] = 1;
-		distanceOptions.ifPropertySet("x", (Consumer<Double>) value -> {distances[0] = value;});
-		distanceOptions.ifPropertySet("y", (Consumer<Double>) value -> {distances[1] = value;});
-		distanceOptions.ifPropertySet("theta", (Consumer<Double>) value
-				-> {distances[2] = value;});
+		distanceOptions.ifPropertySet("x", (Consumer<Double>) value -> {
+			distances[0] = value; });
+		distanceOptions.ifPropertySet("y", (Consumer<Double>) value -> {
+			distances[1] = value; });
+		distanceOptions.ifPropertySet("theta", (Consumer<Double>) value -> {
+			distances[2] = value; });
 
 		es.setGridDistances(distances);
 	}
