@@ -89,6 +89,7 @@ public class AlgoTranspose extends AlgoElement {
 				return;
 			}
 		}
+		outputList.setDefined(true);
 		for (int i = 0; i < cols; i++) {
 			GeoList column = new GeoList(cons);
 			for (int j = 0; j < inputList.size(); j++) {
