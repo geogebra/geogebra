@@ -236,16 +236,16 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 	}
 
 	private void updateStyleBar() {
-		for (int i = 0; i < popupBtnList.length; i++) {
+		for (PopupMenuButtonW popupButton : popupBtnList) {
 			try {
-				popupBtnList[i].update(selectedRows);
+				popupButton.update(selectedRows);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
-		for (int i = 0; i < toggleBtnList.length; i++) {
+		for (ToggleButton toggleButton : toggleBtnList) {
 			try {
-				toggleBtnList[i].update(selectedRows);
+				toggleButton.update(selectedRows);
 			} catch (Exception e) {
 				Log.debug(e);
 			}
