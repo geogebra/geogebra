@@ -421,7 +421,9 @@ public class DrawSegment extends SetDrawable implements Previewable {
 				drawLabelIfVisible(g2);
 				drawSegmentWithEndings(g2);
 			} else {
-				drawHighlighted(g2, line);
+				if (isHighlighted()) {
+					drawHighlighted(g2, line);
+				}
 				drawLineMiddleDecoration(g2);
 				drawLabelIfVisible(g2);
 				drawSimpleSegment(g2);
