@@ -361,7 +361,7 @@ public class GgbApiTest {
 		api.setGraphicsOptions(1, jso);
 		assertEquals(app.getActiveEuclidianView().getGridColor(), GColor.RED);
 		assertEquals(app.getActiveEuclidianView().getBackgroundCommon(), GColor.BLUE);
-		assertArrayEquals(new int[]{0,1},
+		assertArrayEquals(new int[]{0, 1},
 				app.getActiveEuclidianView().getAxesTickStyles());
 	}
 
