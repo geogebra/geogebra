@@ -2001,9 +2001,13 @@
 		text-align: right;
 	}
 
+	.StatisticsCalculatorW .checkboxPanel .checkboxLbl {
+        margin-right: 30px;
+        margin-left: 8px;
+    }
+
 	.StatisticsCalculatorW .gwt-Label, .StatisticsCalculatorW .AutoCompleteTextFieldW,
-	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-CheckBox,
-	.StatisticsCalculatorW .gwt-RadioButton {
+	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-RadioButton {
 		display: inline-block;
 		margin: 3px 5px;
 	}
