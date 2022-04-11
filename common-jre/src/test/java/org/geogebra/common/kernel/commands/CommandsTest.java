@@ -961,6 +961,15 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdCircle3D() {
+		// first check with 2D view active
+		t("Circle[ (1,1,0), 42 ]", "X = (1, 1, 0) + (42 cos(t), 42 sin(t), 0)");
+		app.setActiveView(App.VIEW_EUCLIDIAN3D);
+		// first check with 2D view active
+		t("Circle[ (1,1,0), 42 ]", "X = (1, 1, 0) + (42 cos(t), 42 sin(t), 0)");
+	}
+
+	@Test
 	public void cmdCircleSector() {
 		t("CircularSector[ (5,1/5), (1,1),(2,1/2) ]", "0.8130878692245387");
 	}

@@ -27,7 +27,7 @@ public class CmdSemicircle3D extends CmdSemicircle {
 	protected GeoElement semicircle(String label, GeoPointND A, GeoPointND B) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+				.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation != null) {
 			return (GeoElement) kernel.getManager3D().semicircle3D(label, A, B,
 					orientation);
