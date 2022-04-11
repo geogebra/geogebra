@@ -1214,11 +1214,7 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Sets sorting order of the algebra view
-	 * @param sortBy to specify the sorting order:
-	 *  0 - dependency
-	 *  1 - object type
-	 *  2 - layer
-	 *  3 - construction order
+	 * @param sortBy to specify the sorting order
 	 */
 	void setAlgebraOptions(Object options);
 }

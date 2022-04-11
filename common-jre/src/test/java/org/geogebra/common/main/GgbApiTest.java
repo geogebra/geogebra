@@ -354,7 +354,6 @@ public class GgbApiTest {
 	@Test
 	public void testSetGraphicsOptions() throws JSONException {
 		String json = "{gridColor:\"#FF0000\", bgColor: \"#0000ff\", "
-				+ " tickStyle: {\"x\": 0, \"y\":1},"
 				+ " gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
 				+ "}";
 
@@ -362,8 +361,6 @@ public class GgbApiTest {
 		api.setGraphicsOptions(1, jso);
 		assertEquals(app.getActiveEuclidianView().getGridColor(), GColor.RED);
 		assertEquals(app.getActiveEuclidianView().getBackgroundCommon(), GColor.BLUE);
-		assertArrayEquals(new int[]{0, 1},
-				app.getActiveEuclidianView().getAxesTickStyles());
 	}
 
 	@Test
