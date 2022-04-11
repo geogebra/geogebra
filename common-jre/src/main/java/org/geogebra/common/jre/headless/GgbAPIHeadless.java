@@ -54,7 +54,7 @@ public class GgbAPIHeadless extends GgbAPIJre {
 	}
 
 	@Override
-	public void setAlgebraOptions(int sortBy) {
+	public void setAlgebraOptions(Object options) {
 		// stub
 	}
 

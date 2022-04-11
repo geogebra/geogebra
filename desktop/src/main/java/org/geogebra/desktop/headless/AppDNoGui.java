@@ -275,7 +275,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		}
 
 		@Override
-		public void setAlgebraOptions(int sortBy) {
+		public void setAlgebraOptions(Object options) {
 			// stub
 		}
 

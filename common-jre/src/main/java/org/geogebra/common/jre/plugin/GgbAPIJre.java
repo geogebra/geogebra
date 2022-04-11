@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.file.ByteArrayZipFile;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
@@ -73,11 +72,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 		}
 
 		return base64encodePNG(transparent, DPI, exportScale, ev);
-	}
-
-	@Override
-	public void setAlgebraOptions(int sortBy) {
-		app.getAlgebraView().setTreeMode(AlgebraView.SortMode.fromInt(sortBy));
 	}
 
 	/**

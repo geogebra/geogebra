@@ -1220,5 +1220,5 @@ public interface JavaScriptAPI {
 	 *  2 - layer
 	 *  3 - construction order
 	 */
-	void setAlgebraOptions(int sortBy);
+	void setAlgebraOptions(Object options);
 }

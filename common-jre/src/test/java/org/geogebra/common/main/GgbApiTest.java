@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
@@ -56,7 +57,7 @@ public class GgbApiTest {
 		api = new GgbAPIHeadless(app) {
 
 			@Override
-			public void setAlgebraOptions(int sortBy) {
+			public void setAlgebraOptions(Object options) {
 				//
 			}
 
@@ -385,6 +386,25 @@ public class GgbApiTest {
 		api.setGraphicsOptions(1, jso);
 		assertArrayEquals(new double[]{1.5, 0.5, 0.1234},
 				app.getActiveEuclidianView().getGridDistances(), 0);
+	}
+
+	@Test
+	public void testAutomaticDistanceOptions() throws JSONException {
+		String json = "{gridDistance: {}}";
+		JSONObject jso = new JSONObject(new JSONTokener(json));
+		api.setGraphicsOptions(1, jso);
+		assertTrue(app.getSettings().getEuclidian(1).getAutomaticGridDistance());
+	}
+
+	@Test
+	public void testDistanceOptionsWithNegativeValues() throws JSONException {
+		EuclidianSettings es = app.getSettings().getEuclidian(1);
+		double[] distances = {1.5, 0.5};
+		es.setGridDistances(distances);
+		String json = "{gridDistance: {\"x\": -1.0, \"y\":-1.0}}";
+		JSONObject jso = new JSONObject(new JSONTokener(json));
+		api.setGraphicsOptions(1, jso);
+		assertArrayEquals(distances, es.getGridDistances(), 0);
 	}
 
 	@Test
