@@ -15,35 +15,28 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.ImageResourceConverter;
-import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.himamis.retex.editor.share.util.Unicode;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
- * 
  * Panel to manage editing of GeoText strings.
- * 
- * @author G. Sturr
- * 
  */
 public class TextEditPanel extends VerticalPanel
-		implements ClickHandler, FocusHandler, ITextEditPanel, SetLabels {
+		implements FastClickHandler, FocusHandler, ITextEditPanel, SetLabels {
 
 	private AppW app;
 	private DynamicTextProcessor dTProcessor;
@@ -52,24 +45,21 @@ public class TextEditPanel extends VerticalPanel
 	private FlowPanel toolBar;
 	private TextPreviewPanelW previewer;
 
-	private GToggleButton btnInsert;
-
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
 
-	private MyToggleButtonW btnBold;
-	private MyToggleButtonW btnItalic;
-	private MyToggleButtonW btnSerif;
-	private MyToggleButtonW btnLatex;
+	private ToggleButton btnBold;
+	private ToggleButton btnItalic;
+	private ToggleButton btnSerif;
+	private ToggleButton btnLatex;
 	private GeoElementSelectionListener sl;
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;
 	private TextEditAdvancedPanel advancedPanel;
 	private boolean mayDetectLaTeX = true;
 
-	/*****************************************************
-	 * @param app
-	 *            application
+	/**
+	 * @param app - application
 	 */
 	public TextEditPanel(App app) {
 		super();
@@ -83,7 +73,6 @@ public class TextEditPanel extends VerticalPanel
 
 		createToolBar();
 
-		// TODO: advancedPanel is slow loading. Make this happen on demand.
 		advancedPanel = new TextEditAdvancedPanel(app, this);
 		previewer = advancedPanel.getPreviewer();
 
@@ -112,10 +101,6 @@ public class TextEditPanel extends VerticalPanel
 		// force a dummy geo to be created on first use
 		setEditGeo(null);
 	}
-
-	// ======================================================
-	// Event Handlers
-	// ======================================================
 
 	@Override
 	public void setVisible(boolean visible) {
@@ -147,13 +132,9 @@ public class TextEditPanel extends VerticalPanel
 
 	/**
 	 * Replaces _ to its unicode identifier on MOW
-	 * 
-	 * @param app
-	 *            The application.
-	 * @param input
-	 *            The text input.
-	 * @param latex
-	 *            true if text is LaTeX.
+	 * @param app - The application.
+	 * @param input - The text input.
+	 * @param latex - true if text is LaTeX.
 	 * @return the processed text.
 	 */
 	public static String handleUnderscores(App app, String input, boolean latex) {
@@ -164,36 +145,25 @@ public class TextEditPanel extends VerticalPanel
 	}
 
 	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource();
-
+	public void onClick(Widget source) {
 		if (source == btnBold || source == btnItalic) {
 			int style = 0;
-			if (btnBold.getValue()) {
+			if (btnBold.isSelected()) {
 				style += 1;
 			}
-			if (btnItalic.getValue()) {
+			if (btnItalic.isSelected()) {
 				style += 2;
 			}
 			editGeo.setFontStyle(style);
 			updatePreviewPanel();
-
 		} else if (source == btnLatex) {
-			editGeo.setLaTeX(btnLatex.getValue(), false);
+			editGeo.setLaTeX(btnLatex.isSelected(), false);
 			// latex detection override
-			mayDetectLaTeX = btnLatex.getValue();
+			mayDetectLaTeX = btnLatex.isSelected();
 			updatePreviewPanel();
-
 		} else if (source == btnSerif) {
-			editGeo.setSerifFont(btnSerif.getValue());
+			editGeo.setSerifFont(btnSerif.isSelected());
 			updatePreviewPanel();
-
-		} else if (source == btnInsert) {
-			if (btnInsert.isDown()) {
-				// open a symbol table
-			} else {
-				// close a symbol table
-			}
 		}
 	}
 
@@ -201,10 +171,6 @@ public class TextEditPanel extends VerticalPanel
 	public void setLabels() {
 		disclosurePanel.getHeaderTextAccessor()
 				.setText(loc.getMenu("Advanced"));
-		if (!app.isUnbundledOrWhiteboard()) {
-			btnBold.setText(loc.getMenu("Bold.Short"));
-			btnItalic.setText(loc.getMenu("Italic.Short"));
-		}
 		btnLatex.setText(loc.getMenu("LaTeXFormula"));
 		btnSerif.setText(loc.getMenu("Serif"));
 		if (advancedPanel != null) {
@@ -213,7 +179,6 @@ public class TextEditPanel extends VerticalPanel
 	}
 
 	private void registerListeners() {
-
 		sl = (geo, addToSelection) -> {
 			if (geo != editGeo) {
 				editor.insertGeoElement(geo);
@@ -223,15 +188,9 @@ public class TextEditPanel extends VerticalPanel
 		editor.addFocusHandler(this);
 	}
 
-	// ======================================================
-	// Getters/Setters
-	// ======================================================
-
 	/**
 	 * Change edited element.
-	 * 
-	 * @param editGeo
-	 *            edited text element
+	 * @param editGeo - edited text element
 	 */
 	public void setEditGeo(GeoText editGeo) {
 		if (editGeo == null) {
@@ -251,19 +210,19 @@ public class TextEditPanel extends VerticalPanel
 	 * @return whether latex toggle button is checked
 	 */
 	public boolean isLatex() {
-		return btnLatex.getValue();
+		return btnLatex.isSelected();
 	}
 
 	private boolean isSerif() {
-		return btnSerif.getValue();
+		return btnSerif.isSelected();
 	}
 
 	private boolean isBold() {
-		return btnBold.getValue();
+		return btnBold.isSelected();
 	}
 
 	private boolean isItalic() {
-		return btnItalic.getValue();
+		return btnItalic.isSelected();
 	}
 
 	/**
@@ -273,76 +232,39 @@ public class TextEditPanel extends VerticalPanel
 		return editor;
 	}
 
-	// ======================================================
-	// ToolBar
-	// ======================================================
-
 	private void createToolBar() {
-		btnInsert = new GToggleButton(Unicode.alpha + "");
-		btnInsert.addClickHandler(this);
-
-		if (app.isUnbundledOrWhiteboard()) {
-			btnBold = new MyToggleButtonW(
-					new ImageResourcePrototype(
-							null, MaterialDesignResources.INSTANCE
-									.text_bold_black().getSafeUri(),
-							0, 0, 24, 24, false, false));
-		} else {
-			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
-		}
-		btnBold.addClickHandler(this);
+		btnBold = new ToggleButton(MaterialDesignResources.INSTANCE.text_bold_black());
+		btnBold.addFastClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		if (app.isUnbundledOrWhiteboard()) {
-			btnItalic = new MyToggleButtonW(
-					new ImageResourcePrototype(
-							null, MaterialDesignResources.INSTANCE
-									.text_italic_black().getSafeUri(),
-							0, 0, 24, 24, false, false));
-		} else {
-			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
-		}
-		btnItalic.addClickHandler(this);
+		btnItalic = new ToggleButton(MaterialDesignResources.INSTANCE.text_italic_black());
+		btnItalic.addFastClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 
-		btnSerif = new MyToggleButtonW(loc.getMenu("Serif"));
-		btnSerif.addClickHandler(this);
+		btnSerif = new ToggleButton(loc.getMenu("Serif"));
+		btnSerif.addFastClickHandler(this);
 		btnSerif.addStyleName("btnSerif");
 
 		String latexTr = loc.getMenu("LaTeXFormula");
-		btnLatex = new MyToggleButtonW(latexTr);
-		btnLatex.addClickHandler(this);
+		btnLatex = new ToggleButton(latexTr);
+		btnLatex.addFastClickHandler(this);
 		btnLatex.addStyleName("btnLatex");
-
-		// TODO: put styles in css stylesheet
 
 		HorizontalPanel leftPanel = new HorizontalPanel();
 		leftPanel.setSpacing(2);
-		// leftPanel.getElement().getStyle().setFloat(Style.Float.LEFT);
 		leftPanel.add(btnBold);
 		leftPanel.add(btnItalic);
 		leftPanel.add(btnSerif);
 		leftPanel.add(btnLatex);
 
-		FlowPanel rightPanel = new FlowPanel();
-		rightPanel.getElement().getStyle().setFloat(Style.Float.RIGHT);
-		rightPanel.add(btnInsert);
-
 		toolBar = new FlowPanel();
-		// toolBar.setSize("100%", "20px");
 		toolBar.getElement().getStyle().setFloat(Style.Float.LEFT);
 		toolBar.getElement().getStyle().setFontSize(80, Unit.PCT);
 		toolBar.add(leftPanel);
-		// toolBar.add(rightPanel);
 	}
 
-	// ======================================================
-	// Text Handlers
-	// ======================================================
-
 	/**
-	 * @param text
-	 *            content as HTML
+	 * @param text - content as HTML
 	 */
 	public void setText(String text) {
 		editor.setHTML(text);
@@ -360,30 +282,25 @@ public class TextEditPanel extends VerticalPanel
 
 	/**
 	 * Sets editor content to represent the text string of a given GeoText.
-	 * 
-	 * @param geo
-	 *            GeoText
+	 * @param geo - GeoText
 	 */
 	public void setText(GeoText geo) {
 		ArrayList<DynamicTextElement> list = dTProcessor
 				.buildDynamicTextList(geo);
-
 		editor.setText(list);
 
 		if (geo == null) {
-			btnLatex.setValue(false);
-			btnSerif.setValue(false);
-			btnBold.setValue(false);
-			btnItalic.setValue(false);
-
+			btnLatex.setSelected(false);
+			btnSerif.setSelected(false);
+			btnBold.setSelected(false);
+			btnItalic.setSelected(false);
 		} else {
-
-			btnLatex.setValue(geo.isLaTeX());
-			btnSerif.setValue(geo.isSerifFont());
+			btnLatex.setSelected(geo.isLaTeX());
+			btnSerif.setSelected(geo.isSerifFont());
 			int style = geo.getFontStyle();
-			btnBold.setValue(style == GFont.BOLD
+			btnBold.setSelected(style == GFont.BOLD
 					|| style == (GFont.BOLD + GFont.ITALIC));
-			btnItalic.setValue(style == GFont.ITALIC
+			btnItalic.setSelected(style == GFont.ITALIC
 					|| style == (GFont.BOLD + GFont.ITALIC));
 		}
 
@@ -393,9 +310,7 @@ public class TextEditPanel extends VerticalPanel
 	/**
 	 * Inserts into the editor a dynamic text element representing a given
 	 * GeoElement. The element is inserted at the current caret position.
-	 * 
-	 * @param geo
-	 *            element
+	 * @param geo - element
 	 */
 	@Override
 	public void insertGeoElement(GeoElement geo) {
@@ -404,11 +319,8 @@ public class TextEditPanel extends VerticalPanel
 
 	/**
 	 * Inserts a text string into the editor at the current caret position.
-	 * 
-	 * @param text
-	 *            string literal
-	 * @param isLatex
-	 *            whether it's latex
+	 * @param text - string literal
+	 * @param isLatex - whether it's latex
 	 */
 	@Override
 	public void insertTextString(String text, boolean isLatex) {
@@ -421,16 +333,14 @@ public class TextEditPanel extends VerticalPanel
 
 	@Override
 	public void ensureLaTeX() {
-		btnLatex.setValue(true);
+		btnLatex.setSelected(true);
 		editGeo.setLaTeX(true, false);
 		updatePreviewPanel();
 	}
 
 	/**
 	 * Apply style to text
-	 * 
-	 * @param t
-	 *            text to be updated
+	 * @param t - text to be updated
 	 */
 	public void updateTextStyle(GeoText t) {
 		t.setLaTeX(isLatex(), true);
@@ -454,7 +364,7 @@ public class TextEditPanel extends VerticalPanel
 				handleUnderscores(app, inputValue, false), isLatex(),
 				byUser && mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
-			btnLatex.setValue(true);
+			btnLatex.setSelected(true);
 			if (editGeo != null) {
 				editGeo.setLaTeX(true, false);
 			}
@@ -462,7 +372,6 @@ public class TextEditPanel extends VerticalPanel
 	}
 
 	/**
-	 *
 	 * @return advanced panel of text tool dialog
 	 */
 	public DisclosurePanel getDisclosurePanel() {

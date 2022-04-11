@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 
@@ -18,30 +19,24 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * @author gabor
- * 
- *         ChiSquarePanel for Web
- *
+ * ChiSquarePanel for Web
  */
 public class ChiSquarePanelW extends ChiSquarePanel
-		implements ValueChangeHandler<Boolean>, ChangeHandler {
+		implements ChangeHandler {
 
 	private FlowPanel wrappedPanel;
 	private Label lblRows;
 	private Label lblColumns;
-	private CheckBox ckExpected;
-	private CheckBox ckChiDiff;
-	private CheckBox ckRowPercent;
-	private CheckBox ckColPercent;
+	private ComponentCheckbox ckExpected;
+	private ComponentCheckbox ckChiDiff;
+	private ComponentCheckbox ckRowPercent;
+	private ComponentCheckbox ckColPercent;
 	private ListBox cbRows;
 	private ListBox cbColumns;
 	private FlowPanel pnlCount;
@@ -50,12 +45,8 @@ public class ChiSquarePanelW extends ChiSquarePanel
 
 	/**
 	 * Constructs chisquarepanel for web
-	 * 
-	 * @param loc
-	 *            application
-	 * @param statcalc
-	 *            calculator
-	 * 
+	 * @param loc - application
+	 * @param statcalc - calculator
 	 */
 	public ChiSquarePanelW(Localization loc, StatisticsCalculator statcalc) {
 		super(loc, statcalc);
@@ -148,10 +139,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		}
 	}
 
-	// ==========================================
-	// Event handlers
-	// ==========================================
-
 	/**
 	 * Update the UI
 	 */
@@ -193,17 +180,17 @@ public class ChiSquarePanelW extends ChiSquarePanel
 	 * Copy visibility flags
 	 */
 	public void updateShowFlags() {
-		getSc().showExpected = ckExpected.getValue();
-		getSc().showDiff = ckChiDiff.getValue();
-		getSc().showRowPercent = ckRowPercent.getValue();
-		getSc().showColPercent = ckColPercent.getValue();
+		getSc().showExpected = ckExpected.isSelected();
+		getSc().showDiff = ckChiDiff.isSelected();
+		getSc().showRowPercent = ckRowPercent.isSelected();
+		getSc().showColPercent = ckColPercent.isSelected();
 	}
 
 	private void updateCheckboxes() {
-		ckExpected.setValue(getSc().showExpected);
-		ckChiDiff.setValue(getSc().showDiff);
-		ckRowPercent.setValue(getSc().showRowPercent);
-		ckColPercent.setValue(getSc().showColPercent);
+		ckExpected.setSelected(getSc().showExpected);
+		ckChiDiff.setSelected(getSc().showDiff);
+		ckRowPercent.setSelected(getSc().showRowPercent);
+		ckColPercent.setSelected(getSc().showColPercent);
 	}
 
 	/**
@@ -212,10 +199,10 @@ public class ChiSquarePanelW extends ChiSquarePanel
 	public void setLabels() {
 		lblRows.setText(getMenu("Rows"));
 		lblColumns.setText(getMenu("Columns"));
-		ckExpected.setText(getMenu("ExpectedCount"));
-		ckChiDiff.setText(getMenu("ChiSquaredContribution"));
-		ckRowPercent.setText(getMenu("RowPercent"));
-		ckColPercent.setText(getMenu("ColumnPercent"));
+		ckExpected.setLabels();
+		ckChiDiff.setLabels();
+		ckRowPercent.setLabels();
+		ckColPercent.setLabels();
 
 		if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 			cell[0][1].setLabelText(0, getMenu("ObservedCount"));
@@ -228,15 +215,10 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		lblRows = new Label();
 		lblColumns = new Label();
 
-		ckExpected = new CheckBox();
-		ckChiDiff = new CheckBox();
-		ckRowPercent = new CheckBox();
-		ckColPercent = new CheckBox();
-
-		ckExpected.addValueChangeHandler(this);
-		ckChiDiff.addValueChangeHandler(this);
-		ckRowPercent.addValueChangeHandler(this);
-		ckColPercent.addValueChangeHandler(this);
+		ckExpected = createCheckbox("ExpectedCount");
+		ckChiDiff = createCheckbox("ChiSquaredContribution");
+		ckRowPercent = createCheckbox("RowPercent");
+		ckColPercent = createCheckbox("ColumnPercent");
 
 		// drop down menu for rows/columns 2-12
 		String[] num = new String[11];
@@ -261,16 +243,12 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		cbColumns.addChangeHandler(this);
 	}
 
-	// @Override
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-
-		if (source == ckExpected || source == ckChiDiff
-				|| source == ckRowPercent || source == ckColPercent) {
+	private ComponentCheckbox createCheckbox(String ggbtrans) {
+		ComponentCheckbox checkbox = new ComponentCheckbox(loc, false, ggbtrans, () -> {
 			updateShowFlags();
 			updateVisibility();
-		}
+		});
+		return checkbox;
 	}
 
 	@Override
@@ -404,8 +382,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 
 				fldInput.setVisible(true);
 				wrappedCellPanel.addStyleName("headercell");
-				// TODO CSSfldInput.setBackground(geogebra.awt.GColorD
-				// .getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
 			} else if (isInputCell) {
 				fldInput.setVisible(true);
@@ -413,28 +389,11 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			} else {
 				fldInput.setVisible(true);
 				wrappedCellPanel.removeStyleName("headercell");
-				// TODO
-				// csswrappedPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY,
-				// 1));
-				// TODO cssfldInput.setBackground(geogebra.awt.GColorD
-				// .getAwtColor(GeoGebraColorConstants.WHITE));
 			}
 		}
 
 		private void updateCellData() {
 			updateCellData(fldInput.getText());
-		}
-
-		/**
-		 * TODO attach the listener
-		 * 
-		 * @param e
-		 *            event
-		 */
-		public void focusLost(FocusEvent e) {
-			updateCellData();
-			getStatCalc().updateResult(true);
-			updateCellContent();
 		}
 
 		/**

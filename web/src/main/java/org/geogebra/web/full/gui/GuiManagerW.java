@@ -539,7 +539,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

@@ -559,7 +559,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				try {
 					getXMLio().processXMLString(xml, true, false);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		};
@@ -1142,8 +1142,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					setToolLoadedFromStorage(true);
 					return true;
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}

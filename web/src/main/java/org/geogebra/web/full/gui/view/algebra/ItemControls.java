@@ -1,27 +1,23 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -35,7 +31,7 @@ public class ItemControls extends FlowPanel
 	private final LatexTreeItemController ctrl;
 
 	/** opens context menu */
-	private MyToggleButton btnMore;
+	private StandardButton btnMore;
 
 	/** animation controls */
 	private AnimPanel animPanel = null;
@@ -59,32 +55,17 @@ public class ItemControls extends FlowPanel
 	}
 
 	/**
-	 *
 	 * @return The more button which opens the context menu.
 	 */
-	public GToggleButton getMoreButton() {
+	public StandardButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new MyToggleButton(
-					new NoDragImage(
-							MaterialDesignResources.INSTANCE.more_vert_black(),
-							24),
-					radioTreeItem.app);
-
-			btnMore.getUpHoveringFace()
-					.setImage(new NoDragImage(
-							MaterialDesignResources.INSTANCE.more_vert_purple(),
-							24));
+			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(),
+					24, GeoGebraColorConstants.GEOGEBRA_ACCENT);
 			btnMore.addStyleName("more");
 			TestHarness.setAttr(btnMore, "avItemMoreButton");
-			ClickStartHandler.init(btnMore, new ClickStartHandler(true, true) {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
+			btnMore.addFastClickHandler((event) -> {
 					getController().preventBlur();
 					openMoreMenu();
-					DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
-				}
-
 			});
 			AriaHelper.setHidden(btnMore, true);
 		}

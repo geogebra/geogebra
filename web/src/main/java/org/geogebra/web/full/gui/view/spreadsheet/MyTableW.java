@@ -30,6 +30,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -1256,7 +1257,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				repaint();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 
@@ -2249,7 +2250,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						.performAutoFunctionCreation(selectedCellRanges.get(0),
 								GlobalKeyDispatcherW.getShiftDown());
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			// Don't stay in this mode, we're done

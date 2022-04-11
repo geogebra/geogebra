@@ -42,7 +42,7 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	protected GeoElement lineBisector(String label, GeoSegmentND segment) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+				.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (segment.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();
@@ -54,7 +54,6 @@ public class CmdLineBisector3D extends CmdLineBisector {
 
 		return kernel.getManager3D().lineBisector3D(label, segment,
 				orientation);
-
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class CmdLineBisector3D extends CmdLineBisector {
 			GeoPointND b) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+				.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();

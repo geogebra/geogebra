@@ -391,7 +391,7 @@ public abstract class CommandProcessor {
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 

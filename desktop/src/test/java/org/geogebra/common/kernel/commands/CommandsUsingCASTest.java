@@ -20,7 +20,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.test.TestErrorHandler;
-import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -450,7 +449,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	private void frac(String def, String expect) {
-		EvalInfo evalInfo = new EvalInfo(true, true).withFractions(true);
+		EvalInfo evalInfo = new EvalInfo(true, true).withSymbolic(true);
 		checkWithEvalInfo(def, expect, evalInfo);
 	}
 

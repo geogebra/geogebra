@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * SetConditionToShowObject
@@ -37,7 +38,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 				try {
 					geo.setShowObjectCondition((GeoBoolean) arg2[1]);
 				} catch (CircularDefinitionException e) {
-					e.printStackTrace();
+					Log.debug(e);
 					throw argErr(c, arg2[1]);
 				}
 				geo.updateRepaint();

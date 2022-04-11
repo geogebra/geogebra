@@ -316,7 +316,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 					outputPoints.getElement(i).setUndefined();
 				}
 
-				e.printStackTrace();
+				Log.debug(e);
 				return;
 			}
 

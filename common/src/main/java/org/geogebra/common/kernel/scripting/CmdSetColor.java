@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * SetColor
@@ -102,7 +103,7 @@ public class CmdSetColor extends CmdScripting {
 				target.updateVisualStyleRepaint(GProperty.COLOR);
 				return target.asArray();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				throw argErr(c, target);
 			}
 

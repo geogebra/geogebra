@@ -14,8 +14,8 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -35,8 +35,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -47,7 +45,7 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
  * ProbablityCalculatorView for web
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
-		implements ChangeHandler, ValueChangeHandler<Boolean>, InsertHandler {
+		implements ChangeHandler, InsertHandler {
 
 	/**
 	 * separator for list boxes
@@ -57,7 +55,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private static final int TABLE_PADDING_AND_SCROLLBAR = 32;
 
 	private Label lblDist;
-	private MyToggleButtonW btnCumulative;
+	private ToggleButton btnCumulative;
 	private ProbabilityModeGroup modeGroup;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -76,10 +74,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyTabLayoutPanel tabbedPane;
 	private HandlerRegistration comboDistributionHandler;
 	private GPopupMenuW btnExport;
-	private MyToggleButtonW btnNormalOverlay;
-	private MyToggleButtonW btnLineGraph;
-	private MyToggleButtonW btnStepGraph;
-	private MyToggleButtonW btnBarGraph;
+	private ToggleButton btnNormalOverlay;
+	private ToggleButton btnLineGraph;
+	private ToggleButton btnStepGraph;
+	private ToggleButton btnBarGraph;
 	private ResultPanelW resultPanel;
 
 	/**
@@ -134,7 +132,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			getTable().setLabels();
 		}
 
-		btnCumulative.setToolTipText(loc.getMenu("Cumulative"));
+		btnCumulative.setTitle(loc.getMenu("Cumulative"));
 
 		modeGroup.setLabels();
 
@@ -275,24 +273,24 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		comboDistributionHandler = comboDistribution.addChangeHandler(this);
 		
 		lblDist = new Label();
-		
-		btnCumulative = new MyToggleButtonW(GuiResources.INSTANCE.cumulative_distribution());
+		btnCumulative = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
 
 		modeGroup = new ProbabilityModeGroup(loc);
-
 		modeGroup.add(PROB_LEFT, GuiResources.INSTANCE.interval_left(), "LeftProb");
-
 		modeGroup.add(PROB_INTERVAL, GuiResources.INSTANCE.interval_between(), "IntervalProb");
-
 		modeGroup.add(PROB_TWO_TAILED, GuiResources.INSTANCE.interval_two_tailed(),
 				"TwoTailedProb");
-
 		modeGroup.add(PROB_RIGHT, GuiResources.INSTANCE.interval_right(), "RightProb");
-
 		modeGroup.endGroup();
 
-		btnCumulative.addValueChangeHandler(this);
-		modeGroup.addValueChangeHandler(this);
+		btnCumulative.addFastClickHandler((e) -> setCumulative(btnCumulative.isSelected()));
+		modeGroup.addFastClickHandler((source) -> {
+			if (modeGroup.handle(source) && !isCumulative) {
+				changeProbabilityType();
+				updateProbabilityType(resultPanel);
+				updateGUI();
+			}
+		});
 
 		lblParameterArray = new Label[maxParameterCount];
 		fldParameterArray = new MathTextFieldW[maxParameterCount];
@@ -310,24 +308,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		createExportMenu();
 
-		btnNormalOverlay = new MyToggleButtonW(
-				GuiResources.INSTANCE.normal_overlay());
+		btnNormalOverlay = new ToggleButton(GuiResources.INSTANCE.normal_overlay());
 		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
-		btnNormalOverlay.addClickHandler(event -> onOverlayClicked());
+		btnNormalOverlay.addFastClickHandler(event -> onOverlayClicked());
 
-		btnLineGraph = new MyToggleButtonW(GuiResources.INSTANCE.line_graph());
+		btnLineGraph = new ToggleButton(GuiResources.INSTANCE.line_graph());
 		btnLineGraph.addStyleName("probCalcStylbarBtn");
-		btnLineGraph.addClickHandler(event -> {
-			setGraphType(GRAPH_LINE);
-		});
+		btnLineGraph.addFastClickHandler(event -> setGraphType(GRAPH_LINE));
 
-		btnStepGraph = new MyToggleButtonW(GuiResources.INSTANCE.step_graph());
+		btnStepGraph = new ToggleButton(GuiResources.INSTANCE.step_graph());
 		btnStepGraph.addStyleName("probCalcStylbarBtn");
-		btnStepGraph.addClickHandler(event -> setGraphType(GRAPH_STEP));
+		btnStepGraph.addFastClickHandler(event -> setGraphType(GRAPH_STEP));
 
-		btnBarGraph = new MyToggleButtonW(GuiResources.INSTANCE.bar_chart());
+		btnBarGraph = new ToggleButton(GuiResources.INSTANCE.bar_chart());
 		btnBarGraph.addStyleName("probCalcStylbarBtn");
-		btnBarGraph.addClickHandler(event -> setGraphType(GRAPH_BAR));
+		btnBarGraph.addFastClickHandler(event -> setGraphType(GRAPH_BAR));
 	}
 	
 	/**
@@ -425,9 +420,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateLowHighResult();
 		updateDistributionCombo();
 		updateGraphButtons();
-		btnCumulative.setValue(isCumulative);
+		btnCumulative.setSelected(isCumulative);
 		modeGroup.setMode(probMode);
-		btnNormalOverlay.setValue(isShowNormalOverlay());
+		btnNormalOverlay.setSelected(isShowNormalOverlay());
 	}
 
 	private void updateGraphButtons() {
@@ -596,19 +591,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (height > 0 && isDiscreteProbability()) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
 					.setPixelSize(tableWidth, height);
-		}
-	}
-
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-		if (source == btnCumulative) {
-			setCumulative(btnCumulative.isSelected());
-
-		} else if (modeGroup.handle(source) && !isCumulative) {
-			changeProbabilityType();
-			updateProbabilityType(resultPanel);
-			updateGUI();
 		}
 	}
 

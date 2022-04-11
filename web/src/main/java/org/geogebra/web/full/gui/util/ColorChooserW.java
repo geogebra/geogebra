@@ -17,10 +17,9 @@ import org.geogebra.web.full.gui.dialog.CustomColorDialog;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.awt.GFontW;
-import org.geogebra.web.html5.gui.util.GPushButton;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -475,7 +474,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private class BackgroundColorPanel extends FlowPanel {
 		RadioButton backgroundButton;
 		RadioButton foregroundButton;
-		GPushButton btnClearBackground;
+		StandardButton btnClearBackground;
 
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
@@ -484,21 +483,20 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			backgroundButton.setName("bgfg");
 			foregroundButton.setName("bgfg");
 
-			btnClearBackground = new GPushButton(new NoDragImage(
-					MaterialDesignResources.INSTANCE.delete_black(), 24));
-			btnClearBackground.setStyleName("ClearBackgroundButton");
+			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
+					.delete_black(), 24, null);
+			btnClearBackground.setStyleName("clearBackgroundButton");
 
 			updateBackgroundButtons(false);
 
 			add(foregroundButton);
 			add(backgroundButton);
 			add(btnClearBackground);
+
 			btnClearBackground.setVisible(false);
 			foregroundButton.addClickHandler(event -> setBackground(false));
-
 			backgroundButton.addClickHandler(event -> setBackground(true));
-
-			btnClearBackground.addClickHandler(event -> changeHandler.onClearBackground());
+			btnClearBackground.addFastClickHandler(event -> changeHandler.onClearBackground());
 
 		}
 

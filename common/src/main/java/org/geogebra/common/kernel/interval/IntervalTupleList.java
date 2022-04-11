@@ -185,4 +185,8 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		list = list.stream().filter(tuple -> tuple.x().getLow() >= low)
 				.collect(Collectors.toList());
 	}
+
+	public boolean removeAll(IntervalTupleList other) {
+		return list.removeAll(other.list);
+	}
 }

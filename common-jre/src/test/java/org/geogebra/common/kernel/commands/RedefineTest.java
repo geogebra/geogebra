@@ -467,6 +467,14 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(curve, isDefined());
 	}
 
+	@Test
+	public void matrixShouldBeDefinedAfterRedefine() {
+		add("m1={?}");
+		add("m2=Transpose(m1)");
+		add("m1={{1,2},{3,4}}");
+		assertThat(lookup("m2"), hasValue("{{1, 3}, {2, 4}}"));
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */

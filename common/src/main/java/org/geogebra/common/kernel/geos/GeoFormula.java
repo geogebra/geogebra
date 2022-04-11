@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
@@ -88,7 +89,7 @@ public class GeoFormula extends GeoInline {
 		try {
 			latex = texSerializer.serialize(parser.parse(formula));
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

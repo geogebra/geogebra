@@ -109,7 +109,7 @@ public class DialogManagerW extends DialogManager
 
 		} catch (Exception e) {
 			success = false;
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return success;
 	}

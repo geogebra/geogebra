@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Fits implicit curve of given degree through points
@@ -121,7 +122,7 @@ public class AlgoFitImplicit extends AlgoElement {
 			makeFunction();
 		} catch (Throwable t) {
 			fitfunction.setUndefined();
-			t.printStackTrace();
+			Log.debug(t);
 		}
 	}
 

@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.advanced.client.datamodel.ComboBoxDataModel;
 import org.geogebra.web.full.gui.advanced.client.datamodel.ListDataModel;
 import org.geogebra.web.full.gui.advanced.client.datamodel.ListModelEvent;
@@ -28,9 +29,10 @@ import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.ComboBoxChangeE
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.DefaultListItemFactory;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.DropDownPosition;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.ListItemFactory;
+import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -492,7 +494,15 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	/** Hides the drop down list. */
 	public void hideList() {
 		getListPanel().hide();
-		getChoiceButton().setDown(false);
+		getChoiceButton().setSelected(false);
+	}
+
+	/**
+	 * set deselected state and icon of button
+	 */
+	public void deselectChoiceButton() {
+		getChoiceButton().setSelected(false);
+		getChoiceButton().setIcon(MaterialDesignResources.INSTANCE.arrow_drop_down());
 	}
 
 	/**
@@ -505,7 +515,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		getModel().setSelectedIndex(row);
 		getListPanel().hide();
 		getSelectedValue().removeStyleName("selected-row");
-		getChoiceButton().setDown(false);
+		getChoiceButton().setSelected(false);
 	}
 
 	/** {@inheritDoc} */
@@ -744,19 +754,16 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	@Override
 	protected void addComponentListeners() {
 		AutoCompleteTextFieldW value = getSelectedValue();
-		GToggleButton button = getChoiceButton();
+		ToggleButton button = getChoiceButton();
 
 		getListPanel().addChangeHandler(getDelegateHandler());
 
-		// value.addChangeHandler(getDelegateHandler());
 		button.addFocusHandler(getDelegateHandler());
 		value.addFocusHandler(getDelegateHandler());
 		button.addBlurHandler(getDelegateHandler());
 		value.addBlurHandler(getDelegateHandler());
-		// value.addClickHandler(getDelegateHandler());
-		button.addClickHandler(getDelegateHandler());
+		button.addFastClickHandler(getDelegateHandler());
 		value.addKeyUpHandler(getDelegateHandler());
-		// value.addKeyDownHandler(getDelegateHandler());
 		value.addKeyPressHandler(getDelegateHandler());
 	}
 
@@ -800,7 +807,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	 * Universal handler that delegates all events handling to custom handlers.
 	 */
 	protected class DelegateHandler
-			implements FocusHandler, BlurHandler, ClickHandler, ChangeHandler,
+			implements FocusHandler, BlurHandler, FastClickHandler, ChangeHandler,
 			KeyUpHandler, KeyDownHandler, KeyPressHandler {
 		/** a list of focused controls */
 		private Set<Object> focuses;
@@ -872,29 +879,27 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 						getListItemFactory().convert(getModel().getSelected()));
 				getListPanel().hide();
 				getSelectedValue().removeStyleName("selected-row");
-				getChoiceButton().setDown(false);
+				getChoiceButton().setSelected(false);
 			}
 			fireEvent(event);
 		}
 
 		@Override
-		public void onClick(ClickEvent event) {
+		public void onClick(Widget sender) {
 			int count = getModel().getCount();
-			Object sender = event.getSource();
-			if (sender instanceof GToggleButton || !isCustomTextAllowed()) {
+			if (sender instanceof ToggleButton || !isCustomTextAllowed()) {
 				if (count > 0 && !getListPanel().isShowing()) {
 					getListPanel().prepareList();
 					getListPanel().show();
 					if (getItemCount() <= 0) {
 						getListPanel().hide();
 					}
-					getChoiceButton().setDown(true);
+					getChoiceButton().setSelected(true);
 				} else {
 					getListPanel().hide();
-					getChoiceButton().setDown(false);
+					getChoiceButton().setSelected(false);
 				}
 			}
-			fireEvent(event);
 		}
 
 		@Override

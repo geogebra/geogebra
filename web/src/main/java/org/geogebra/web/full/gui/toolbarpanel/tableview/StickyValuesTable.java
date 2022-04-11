@@ -11,9 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.StickyTable;
@@ -36,9 +35,6 @@ import jsinterop.base.Js;
 
 /**
  * Sticky table of values.
- *
- * @author laszlo
- *
  */
 public class StickyValuesTable extends StickyTable<TVRowData> implements TableValuesListener {
 
@@ -69,8 +65,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		HeaderCell() {
 			FlowPanel p = new FlowPanel();
 			p.add(new Label("%s"));
-			MyToggleButtonW btn = new MyToggleButtonW(
-					new NoDragImage(MaterialDesignResources.INSTANCE.more_vert_black(), 24));
+			StandardButton btn = new StandardButton(MaterialDesignResources.INSTANCE
+					.more_vert_black(), 24);
 			TestHarness.setAttr(btn, "btn_tvHeader3dot");
 			p.add(btn);
 			value = p.getElement().getInnerHTML();
@@ -102,8 +98,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		reset();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
-			if (el != null && (el.hasClassName("MyToggleButton") || el.getParentNode() != null
-					&& el.getParentElement().hasClassName("MyToggleButton"))) {
+			if (el != null && (el.hasClassName("button") || el.getParentNode() != null
+					&& el.getParentElement().hasClassName("button"))) {
 				onHeaderClick(el, column);
 			}
 			return false;
@@ -291,9 +287,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	/**
 	 * Deletes the specified column from the table
-	 *
-	 * @param column
-	 *            column to delete.
+	 * @param column - column to delete.
 	 */
 	public void deleteColumn(int column) {
 		if (transitioning) {
@@ -341,9 +335,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 	/**
 	 * Sets height of the values to be able to scroll.
-	 *
-	 * @param height
-	 *            to set.
+	 * @param height - to set.
 	 */
 	public void setHeight(int height) {
 		setBodyHeight(height);
@@ -354,11 +346,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	/**
-	 *
 	 * Scroll table view to the corresponding column of the geo.
-	 *
-	 * @param geo
-	 *            to scroll.
+	 * @param geo - to scroll.
 	 */
 	public void scrollTo(GeoEvaluatable geo) {
 		if (geo == null) {

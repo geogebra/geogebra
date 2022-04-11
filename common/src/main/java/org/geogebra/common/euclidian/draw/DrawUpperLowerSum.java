@@ -222,7 +222,7 @@ public class DrawUpperLowerSum extends Drawable {
 				fill(g2, gp); // fill using default/hatching/image as
 								// appropriate
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			try {
