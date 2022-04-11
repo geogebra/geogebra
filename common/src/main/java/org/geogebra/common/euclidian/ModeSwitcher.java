@@ -1,5 +1,8 @@
 package org.geogebra.common.euclidian;
 
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -97,7 +100,7 @@ public class ModeSwitcher {
 
 	private void setUpEmbedManager(EmbedManager embedManager) {
 		final GeoEmbed ge = new GeoEmbed(cons);
-		ge.setAppName("suite");
+		ge.setAppName(SUITE_APPCODE);
 		EuclidianView view = app.getActiveEuclidianView();
 		ge.initDefaultPosition(view);
 		embedManager.initAppEmbed(ge);

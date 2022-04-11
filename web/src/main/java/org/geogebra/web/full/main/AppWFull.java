@@ -1,5 +1,13 @@
 package org.geogebra.web.full.main;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.EVALUATOR_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.NOTES_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
@@ -332,31 +340,31 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 		switch (appletParameters.getDataParamAppName()) {
-		case "graphing":
+		case GRAPHING_APPCODE:
 			activity = new GraphingActivity();
 			break;
-		case "geometry":
+		case GEOMETRY_APPCODE:
 			activity = new GeometryActivity();
 			break;
-		case "3d":
+		case G3D_APPCODE:
 			activity = new Graphing3DActivity();
 			break;
 		case "mr":
 			activity = new MixedRealityActivity();
 			break;
-		case "cas":
+		case CAS_APPCODE:
 			activity = new CASActivity();
 			break;
-		case "scientific":
+		case SCIENTIFIC_APPCODE:
 			activity = new ScientificActivity();
 			break;
-		case "notes":
+		case NOTES_APPCODE:
 			activity = isMebis() ? new MebisNotesActivity() : new NotesActivity();
 			break;
-		case "evaluator":
+		case EVALUATOR_APPCODE:
 			activity = new EvaluatorActivity();
 			break;
-		case "suite":
+		case SUITE_APPCODE:
 			String disableCAS = Window.Location.getParameter("disableCAS");
 			activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE,
 					"".equals(disableCAS) || "true".equals(disableCAS));
@@ -2047,7 +2055,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void updateAppCodeSuite(String subApp, Perspective p) {
-		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
+		if (SUITE_APPCODE.equals(getAppletParameters().getDataParamAppName())) {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,

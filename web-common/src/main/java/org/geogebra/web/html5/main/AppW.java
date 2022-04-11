@@ -1,5 +1,11 @@
 package org.geogebra.web.html5.main;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -3109,31 +3115,31 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean isUnbundledGraphing() {
-		return "graphing".equals(getSubAppCode());
+		return GRAPHING_APPCODE.equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isUnbundledGeometry() {
-		return "geometry".equals(getSubAppCode());
+		return GEOMETRY_APPCODE.equals(getSubAppCode());
 	}
 
 	/**
 	 * @return whether we are running 3D grapher
 	 */
 	public boolean isUnbundled3D() {
-		return "3d".equals(getSubAppCode());
+		return G3D_APPCODE.equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isSuite() {
-		return "suite".equals(getConfig().getAppCode());
+		return SUITE_APPCODE.equals(getConfig().getAppCode());
 	}
 
 	/**
 	 * @return whether we are running cas
 	 */
 	public boolean isUnbundledCas() {
-		return "cas".equals(getSubAppCode());
+		return CAS_APPCODE.equals(getSubAppCode());
 	}
 
 	/**

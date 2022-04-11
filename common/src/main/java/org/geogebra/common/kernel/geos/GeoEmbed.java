@@ -1,9 +1,14 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
@@ -220,8 +225,8 @@ public class GeoEmbed extends GeoWidget {
 	 *            app name of the embedded applet
 	 */
 	public void setAppName(String appName) {
-		if ("graphing".equals(appName) || "cas".equals(appName)) {
-			this.appName = "suite";
+		if (GRAPHING_APPCODE.equals(appName) || CAS_APPCODE.equals(appName)) {
+			this.appName = SUITE_APPCODE;
 		} else {
 			this.appName = appName;
 		}
