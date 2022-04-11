@@ -30,20 +30,20 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		}
 	}
 
-	.tableEditor {
+	.tableEditorWrap {
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: center;
+		min-height: 51px;
 		box-sizing: border-box;
-		background-color: colors.$white;
 		border: 1px colors.$purple-default solid;
+	}
+
+	.tableEditor {
+		background-color: colors.$white;
 		overflow: hidden;
 		text-align: right;
-		min-height: 51px;
 		padding-left: 16px;
-
-		canvas {
-			transform: translateY(-50%);
-			position: relative;
-			top: 50%;
-		}
 	}
 
 	.editableCell {
