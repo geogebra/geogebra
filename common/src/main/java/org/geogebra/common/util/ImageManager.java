@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.QDParser;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -60,6 +61,7 @@ abstract public class ImageManager {
 
 			// make sure 2nd corner is on screen
 			ensure2ndCornerOnScreen(point1.getInhomX(), point2, app);
+			ensureImageHeightFitsInScreen(point1.getInhomX(), point2, app, geoImage);
 		}
 		if (app.isWhiteboardActive()) {
 			centerOnScreen(geoImage, app);
@@ -91,7 +93,8 @@ abstract public class ImageManager {
 			App app) {
 		double x2 = point.getInhomX();
 		EuclidianView ev = app.getActiveEuclidianView();
-		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+		EdgeInsets safeArea = ev.getSafeAreaInsets();
+		double xmax = ev.toRealWorldCoordX(ev.getWidth() - safeArea.getRight());
 		if (x2 > xmax) {
 			point.setCoords((x1 + 9 * xmax) / 10, point.getInhomY(), 1);
 			point.update();
@@ -100,13 +103,35 @@ abstract public class ImageManager {
 
 	private void ensure1stCornerOnScreen(GeoPointND point, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
-		double xmin = ev.toRealWorldCoordX(0.0);
-		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
-		double ymin = ev.toRealWorldCoordY(0.0);
-		double ymax = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
-		point.setCoords(xmin + (xmax - xmin) / 5, ymax - (ymax - ymin) / 5,
+		EdgeInsets safeArea = ev.getSafeAreaInsets();
+		double xMin = ev.toRealWorldCoordX(safeArea.getLeft());
+		double xMax = ev.toRealWorldCoordX(ev.getWidth() - safeArea.getRight());
+		double yMin = ev.toRealWorldCoordY(safeArea.getTop());
+		double yMax = ev.toRealWorldCoordY(ev.getHeight() - safeArea.getBottom());
+		point.setCoords(xMin + (xMax - xMin) / 5, yMax - (yMax - yMin) / 5,
 				1.0);
 		point.update();
+	}
+
+	private void ensureImageHeightFitsInScreen(double x1, GeoPointND point,
+			App app, GeoImage image) {
+		EuclidianView ev = app.getActiveEuclidianView();
+		EdgeInsets safeArea = ev.getSafeAreaInsets();
+
+		double xScale = ev.getKernel().getXscale();
+		double yScale = ev.getKernel().getYscale();
+		double imageHeight = image.getTotalHeight(ev) / yScale;
+		double imageWidth = image.getTotalWidth(ev) / xScale;
+		double factor = imageHeight / imageWidth;
+		double realWorldWidth = image.getRealWorldX(1) - image.getRealWorldX(0);
+		double realWorldHeight = realWorldWidth * factor;
+		double yMax = ev.toRealWorldCoordY(safeArea.getTop());
+		if (point.getInhomY() + realWorldHeight > yMax) {
+			double expectedHeight = (yMax - point.getInhomY()) * 0.9;
+			double expectedWidth = expectedHeight / factor;
+			point.setCoords(x1 + expectedWidth, point.getInhomY(), 1);
+			point.update();
+		}
 	}
 
 	/**
