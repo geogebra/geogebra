@@ -169,10 +169,6 @@ public class ToolManagerDialogD extends Dialog
 			toolButtonPanel.add(btSave);
 			btSave.setText(loc.getMenu("SaveAs") + " ...");
 
-			final JButton btShare = new JButton();
-			toolButtonPanel.add(btShare);
-			btShare.setText(loc.getMenu("Share") + " ...");
-
 			// name & icon
 			final ToolNameIconPanelD namePanel = new ToolNameIconPanelD(app,
 					true);
@@ -210,14 +206,11 @@ public class ToolManagerDialogD extends Dialog
 						openTools(toolList);
 					} else if (src == btSave) {
 						saveTools(toolList);
-					} else if (src == btShare) {
-						uploadToGeoGebraTube(toolList);
 					}
 				}
 
 			};
 
-			btShare.addActionListener(ac);
 			btSave.addActionListener(ac);
 			btDelete.addActionListener(ac);
 			btOpen.addActionListener(ac);
@@ -362,21 +355,6 @@ public class ToolManagerDialogD extends Dialog
 			}
 			return this;
 		}
-	}
-
-	/*
-	 * upload selected Tools to GeoGebraTube
-	 */
-	private void uploadToGeoGebraTube(final JList<Macro> toolList) {
-
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
-				model.uploadToGeoGebraTube(
-						toolList.getSelectedValuesList().toArray());
-			}
-		};
-		runner.start();
 	}
 
 	/**

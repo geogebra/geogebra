@@ -271,9 +271,6 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 		addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
 				loc.getMenu("Save"), w -> this.saveTools());
-		addStyledButton(MaterialDesignResources.INSTANCE.share_black(), toolButtonPanel,
-				loc.getMenu("Share"),
-				w -> model.uploadToGeoGebraTube(toolList.getSelectedMacros().toArray()));
 
 		// name & icon
 		macroPanel = new ToolNameIconPanelW(appw);
