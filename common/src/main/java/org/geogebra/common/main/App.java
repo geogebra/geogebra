@@ -4350,7 +4350,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return relation tool dialog
 	 */
-	public RelationPane getRelationDialog() {
+	public RelationPane getRelationDialog(String subTitle) {
 		// overridden in web
 		return null;
 	}

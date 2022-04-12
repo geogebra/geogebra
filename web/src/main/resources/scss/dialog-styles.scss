@@ -74,6 +74,42 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
+	.dialogComponent.relationDialog {
+		width: 384px;
+		max-height: 364px;
+		height: 90%;
+
+		.dialogContent {
+			font-size: 85%;
+			height: calc(100% - 110px);
+
+			.relationContent {
+				height: 100%;
+			}
+		}
+
+		&.numericOnly {
+			max-height: 260px;
+		}
+
+		.headerLbl {
+			font-size: 85%;
+			font-weight: bold;
+			margin-bottom: 16px;
+		}
+
+		.checkSymBtn {
+			display: block;
+			margin: 32px auto 0 auto;
+		}
+
+		.divider {
+			height: 1px;
+			margin: 16px 0;
+			background-color: colors.$disabled-contained-btn-bg;
+		}
+	}
+
 	/* checkbox tool dialog */
 	.dialogComponent.Checkbox {
 		max-width: 391px;

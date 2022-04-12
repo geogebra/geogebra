@@ -72,8 +72,26 @@ public class Relation {
 	 * Show relation dialog. Shouldn't be here, but shouldn't be in App either.
 	 */
 	public void showDialog() {
-		RelationPane tablePane = app.getFactory().newRelationPane();
+		RelationPane tablePane = app.getFactory().newRelationPane(getSubTitle());
 		tablePane.showDialog(app.getLocalization().getCommand("Relation"), getRows(), app);
+	}
+
+	private String getSubTitle() {
+		String subTitle;
+		if (rc == null && rd == null) {
+			return ra.getLabelSimple() + app.getLocalization().getMenu(" and ")
+					+ rb.getLabelSimple();
+		} else {
+			subTitle = ra.getLabelSimple() + ", " + rb.getLabelSimple();
+			if (rc != null) {
+				subTitle += rd == null ? app.getLocalization().getMenu(" and ") : ", ";
+				subTitle += rc.getLabelSimple();
+			}
+			if (rd != null) {
+				subTitle += app.getLocalization().getMenu(" and ") + rd.getLabelSimple();
+			}
+		}
+		return subTitle;
 	}
 
 	/**
@@ -99,18 +117,26 @@ public class Relation {
 		final RelationRow[] rr = new RelationRow[rels];
 		int i = 0;
 		for (Report r : relInfosAll) {
-			relInfos[i] = r.stringResult.replace("\n", "<br>");
+			if (app.isDesktop()) {
+				relInfos[i] = r.stringResult.replace("\n", "<br>");
+			} else {
+				relInfos[i] = r.stringResult;
+			}
 			relAlgos[i] = r.symbolicCheck;
 			Boolean result = r.boolResult;
 			rr[i] = new RelationRow();
 			final String relInfo = relInfos[i];
 			// First information shown (result of numerical checks):
-			rr[i].setInfo(
-					"<html>" + relInfo + "<br>"
-							+ app.getLocalization().getMenuDefault(
-									"CheckedNumerically",
-									"(checked numerically)")
-							+ "</html>");
+			if (app.isDesktop()) {
+				rr[i].setInfo(
+						"<html>" + relInfo + "<br>"
+								+ app.getLocalization().getMenuDefault(
+								"CheckedNumerically",
+								"(checked numerically)")
+								+ "</html>");
+			} else {
+				rr[i].setInfo(relInfo);
+			}
 			if (result != null && result && relAlgos[i] != null) {
 				rr[i].setCallback(this);
 			}

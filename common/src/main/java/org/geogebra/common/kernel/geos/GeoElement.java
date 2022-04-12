@@ -3907,6 +3907,21 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	final public String getColoredLabel() {
 		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
 		StringBuilder sb = new StringBuilder();
+		if (app.isDesktop()) {
+			addDesktopStyle(sb, formatedLabel);
+		} else {
+			addWebStyle(sb, formatedLabel);
+		}
+		return sb.toString();
+	}
+
+	private void addWebStyle(StringBuilder sb, String formatedLabel) {
+		sb.append("<strong>");
+		sb.append(indicesToHTML(formatedLabel, false));
+		sb.append("</strong>");
+	}
+
+	private void addDesktopStyle(StringBuilder sb, String formatedLabel) {
 		final GColor colorAdapter = GColor.newColor(getAlgebraColor().getRed(),
 				getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
 		sb.append("<b><font color=\"#");
@@ -3914,7 +3929,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		sb.append("\">");
 		sb.append(indicesToHTML(formatedLabel, false));
 		sb.append("</font></b>");
-		return sb.toString();
 	}
 
 	/**
