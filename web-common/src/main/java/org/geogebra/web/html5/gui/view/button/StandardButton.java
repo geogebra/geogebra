@@ -1,31 +1,30 @@
 package org.geogebra.web.html5.gui.view.button;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
+import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
-/**
- * @author csilla
- * 
- */
-public class StandardButton extends Widget implements HasResource {
-
+public class StandardButton extends FocusWidget implements HasResource {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
 	private int height = -1;
 	private NoDragImage btnImage;
+	private Label colorLbl;
 
 	protected StandardButton() {
 		setElement(DOM.createButton());
@@ -79,6 +78,44 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
+	 * @param icon - img of button
+	 * @param width - width
+	 * @param hoverIconColor - color of icon on hover
+	 */
+	public StandardButton(final ResourcePrototype icon, int width, GColor hoverIconColor) {
+		this(icon, null, width, -1);
+		if (hoverIconColor != null) {
+			setMouseOverHandler(() ->
+					setIcon(((SVGResource) getIcon()).withFill(hoverIconColor.toString())));
+			setMouseOutHandler(() ->
+					setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString())));
+		}
+	}
+
+	/**
+	 * @param icon - img of button
+	 * @param width - width
+	 */
+	public StandardButton(final ResourcePrototype icon, int width) {
+		this(icon, null, width, -1);
+	}
+
+	/**
+	 * constructor for MyCanvasButton like colored button,
+	 * context menu buttons and dyn stylebar buttons
+	 * @param width - width
+	 */
+	public StandardButton(int width) {
+		this();
+		setStyleName("MyCanvasButton");
+		this.width = width;
+		this.height = -1;
+		colorLbl = new Label();
+		colorLbl.setStyleName("buttonContent");
+		buildColorIcon();
+	}
+
+	/**
 	 * @param icon
 	 *            - img of button
 	 * @param label
@@ -109,6 +146,11 @@ public class StandardButton extends Widget implements HasResource {
 		btnImage.setPresentation();
 
 		Roles.getButtonRole().removeAriaPressedState(getElement());
+	}
+
+	private void buildColorIcon() {
+		this.getElement().removeAllChildren();
+		this.getElement().appendChild(colorLbl.getElement());
 	}
 
 	private void setIconAndLabel(final ResourcePrototype image,
@@ -154,6 +196,10 @@ public class StandardButton extends Widget implements HasResource {
 		return this.label;
 	}
 
+	public Label getColorLabel() {
+		return colorLbl;
+	}
+
 	/**
 	 * @param label
 	 *            - set text of button
@@ -174,7 +220,20 @@ public class StandardButton extends Widget implements HasResource {
 	 *            - icon
 	 */
 	public void setIcon(final ResourcePrototype icon) {
-		setIconAndLabel(icon, this.label, this.width, this.height);
+		if (btnImage != null) {
+			this.icon = icon;
+			btnImage.setUrl(NoDragImage.safeURI(icon));
+		} else {
+			setIconAndLabel(icon, this.label, this.width, this.height);
+		}
+	}
+
+	/**
+	 * @param icon - image or text icon (e.g. colored buttons)
+	 */
+	public void setIcon(ImageOrText icon) {
+		icon.applyToLabel(colorLbl);
+		buildColorIcon();
 	}
 
 	@Override
@@ -205,6 +264,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * Changes "disabled" property in DOM, so use :disabled in css
 	 * @param enabled whether to add or remove the "disabled" property
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		if (enabled) {
 			getElement().removeAttribute("disabled");
@@ -238,5 +298,21 @@ public class StandardButton extends Widget implements HasResource {
 
 	public NoDragImage getImage() {
 		return btnImage;
+	}
+
+	/**
+	 * @param mouseOverHandler - mouse over handler
+	 */
+	public void setMouseOverHandler(Runnable mouseOverHandler) {
+		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
+				mouseOverHandler.run());
+	}
+
+	/**
+	 * @param mouseOutHandler - mouse out handler
+	 */
+	public void setMouseOutHandler(Runnable mouseOutHandler) {
+		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
+				mouseOutHandler.run());
 	}
 }

@@ -669,30 +669,6 @@ public class GeoConic3D extends GeoConicND
 	}
 
 	@Override
-	public void evaluateFirstDerivativeForParabola(double t, double[] result) {
-		Coords eigenvec0 = getEigenvec(0);
-		Coords eigenvec1 = getEigenvec(1);
-		double x = p * (t * eigenvec0.getX() + eigenvec1.getX());
-		double y = p * (t * eigenvec0.getY() + eigenvec1.getY());
-
-		result[0] = x * coordSys.getVx().getX() + y * coordSys.getVy().getX();
-		result[1] = x * coordSys.getVx().getY() + y * coordSys.getVy().getY();
-		result[2] = x * coordSys.getVx().getZ() + y * coordSys.getVy().getZ();
-	}
-
-	@Override
-	public void evaluateSecondDerivativeForParabola(double t, double[] result) {
-		Coords eigenvec0 = getEigenvec(0);
-		double x = p * eigenvec0.getX();
-		double y = p * eigenvec0.getY();
-
-		result[0] = x * coordSys.getVx().getX() + y * coordSys.getVy().getX();
-		result[1] = x * coordSys.getVx().getY() + y * coordSys.getVy().getY();
-		result[2] = x * coordSys.getVx().getZ() + y * coordSys.getVy().getZ();
-
-	}
-
-	@Override
 	public boolean isRegion3D() {
 		return true;
 	}

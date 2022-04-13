@@ -6,6 +6,7 @@ import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class GeoGebraToPstricksW extends GeoGebraToPstricks {
 
@@ -19,7 +20,7 @@ public class GeoGebraToPstricksW extends GeoGebraToPstricks {
 		try {
 			return new MyGraphicsPstricks(ef, inequality);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			return null;
 		}
 	}

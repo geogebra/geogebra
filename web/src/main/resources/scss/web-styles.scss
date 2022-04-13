@@ -405,13 +405,13 @@
 	}
 
 	.button:disabled, .MyToggleButton.gwt-ToggleButton-up-disabled, .MyToggleButton.gwt-ToggleButton-down-disabled,
-	.MyCanvasButton.disabled {
+	.MyCanvasButton:disabled {
 		cursor: default !important;
 		opacity: .5;
 		zoom: 1;
 	}
 
-	.MyCanvasButton.disabled:hover {
+	.MyCanvasButton:disabled:hover {
 		border: #DCDCDC solid 1px;
 	}
 
@@ -782,12 +782,6 @@
 		height: 15px;
 	}
 
-	.StylebarCloseViewButton {
-		border: 0 !important;
-		padding: 4px !important;
-		margin-right: 5px;
-	}
-
 	.DockGlassPane,
 	.TitleBarPanel {
 		cursor: pointer;
@@ -925,7 +919,7 @@
 	}
 
 	.inputHelp-toggleButton {
-		padding: 0 10px;
+		padding: 5px 10px 0 10px;
 	}
 
 	.inputHelp-toggleButton img {
@@ -1261,7 +1255,7 @@
 			padding: 0 8px;
 		}
 
-		.gwt-PushButton, .gwt-ToggleButton {
+		.gwt-ToggleButton {
 			 opacity: 0.54;
 			 padding: 0 6px;
 			 display: inline-block;
@@ -1283,7 +1277,15 @@
 	.navbar_leftPanel {
 		text-align: center;
 		white-space: nowrap;
-		display: table-cell
+		display: table-cell;
+
+		.button img {
+			opacity: 0.54;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
 	}
 
 	.navbar_playPanel {
@@ -1999,9 +2001,13 @@
 		text-align: right;
 	}
 
+	.StatisticsCalculatorW .checkboxPanel .checkboxLbl {
+        margin-right: 30px;
+        margin-left: 8px;
+    }
+
 	.StatisticsCalculatorW .gwt-Label, .StatisticsCalculatorW .AutoCompleteTextFieldW,
-	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-CheckBox,
-	.StatisticsCalculatorW .gwt-RadioButton {
+	.StatisticsCalculatorW .gwt-ListBox, .StatisticsCalculatorW .gwt-RadioButton {
 		display: inline-block;
 		margin: 3px 5px;
 	}

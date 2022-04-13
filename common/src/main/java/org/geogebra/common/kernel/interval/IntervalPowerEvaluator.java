@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to evaluate expressions on an interval that has power in it.
@@ -56,7 +57,7 @@ public class IntervalPowerEvaluator {
 					return negPower;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 

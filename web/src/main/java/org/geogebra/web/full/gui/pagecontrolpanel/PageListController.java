@@ -143,7 +143,7 @@ public class PageListController implements PageListControllerInterface,
 			// to clear ruler and protractor selection
 			app.setMode(app.getMode());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -243,7 +243,7 @@ public class PageListController implements PageListControllerInterface,
 			app.resetPerspectiveParam();
 			app.loadGgbFile(dest.getFile(), true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -388,7 +388,7 @@ public class PageListController implements PageListControllerInterface,
 			listener.update();
 		} catch (Exception e) {
 			Log.debug(e);
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return true;
 	}

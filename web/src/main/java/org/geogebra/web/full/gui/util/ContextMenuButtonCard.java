@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -10,7 +9,6 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -51,14 +49,11 @@ public class ContextMenuButtonCard extends StandardButton
 	private void initButton() {
 		addStyleName("mowMoreButton");
 
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (isShowing()) {
-					hide();
-				} else {
-					show();
-				}
+		addFastClickHandler((event) -> {
+			if (isShowing()) {
+				hide();
+			} else {
+				show();
 			}
 		});
 	}

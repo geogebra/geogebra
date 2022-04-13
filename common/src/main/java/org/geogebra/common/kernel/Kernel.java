@@ -4324,7 +4324,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			AlgoMacro algo = new AlgoMacro(cons, labels, macro, input, true);
 			return algo.getOutput();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}

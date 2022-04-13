@@ -3,6 +3,7 @@ package org.geogebra.web.linker;
 import java.io.InputStream;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.ext.LinkerContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -131,7 +132,7 @@ public class ServiceWorkerBuilder {
 			}
 			// fbr.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			logger.log(Type.ERROR, e.getMessage());
 		}
 		return sb.toString();

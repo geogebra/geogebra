@@ -11,6 +11,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Serializes internal formulas representation into GeoGebra string
@@ -261,7 +262,7 @@ public class GeoGebraSerializer implements Serializer {
 			formula1 = parser.parse(serialize(formula.getRootComponent()));
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			FactoryProvider.getInstance().debug(e);
 		}
 		return formula1 == null ? formula : formula1;
 	}

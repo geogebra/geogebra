@@ -41,7 +41,7 @@ public class CmdCircle3D extends CmdCircle {
 	protected GeoElement circle(String label, GeoPointND a, GeoNumberValue v) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+				.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();
@@ -58,7 +58,7 @@ public class CmdCircle3D extends CmdCircle {
 	protected GeoElement circle(String label, GeoPointND a, GeoPointND b) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+				.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();

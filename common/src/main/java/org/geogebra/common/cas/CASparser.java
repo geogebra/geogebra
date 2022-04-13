@@ -188,7 +188,7 @@ public class CASparser implements CASParserInterface {
 		try {
 			return toString(ev, tpl);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			throw new CASException(e);
 		}
 	}

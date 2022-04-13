@@ -1,24 +1,20 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -37,9 +33,9 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	final static double[] ANIM_SPEEDS = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
 			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private final RadioTreeItem radioTreeItem;
-	private MyToggleButtonW btnSpeedDown;
-	private MyToggleButtonW btnSpeedUp;
-	private MyToggleButtonW btnPlay;
+	private StandardButton btnSpeedDown;
+	private StandardButton btnSpeedUp;
+	private ToggleButton btnPlay;
 	private boolean play = false;
 	private double speed = 1; // currently displayed speed
 	private FlowPanel speedPanel;
@@ -85,18 +81,22 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private void buildSpeedPanel() {
 		speedPanel = new FlowPanel();
 		speedPanel.addStyleName("speedPanel-hidden");
-		btnSpeedDown = new MyToggleButtonW(new NoDragImage(
-				MaterialDesignResources.INSTANCE.speed_down_black(), PLAY_BUTTON_SIZE));
-
+		btnSpeedDown = new StandardButton(
+				MaterialDesignResources.INSTANCE.speed_down_black(), PLAY_BUTTON_SIZE);
 		btnSpeedDown.setStyleName("flatButton");
 
-		btnSpeedUp = new MyToggleButtonW(new NoDragImage(
-				MaterialDesignResources.INSTANCE.speed_up_black(), PLAY_BUTTON_SIZE));
-
+		btnSpeedUp = new StandardButton(
+				MaterialDesignResources.INSTANCE.speed_up_black(), PLAY_BUTTON_SIZE);
 		btnSpeedUp.setStyleName("flatButton");
 
-		btnSpeedDown.addClickHandler(this);
-		btnSpeedUp.addClickHandler(this);
+		btnSpeedDown.addFastClickHandler((e) -> {
+			radioTreeItem.getController().stopEdit();
+			speedUp();
+		});
+		btnSpeedUp.addFastClickHandler((e) -> {
+			radioTreeItem.getController().stopEdit();
+			speedDown();
+		});
 		lblSpeedValue = new Label("");
 		lblSpeedValue.addStyleName("value");
 		lblSpeedValue.addClickHandler(this);
@@ -104,8 +104,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 		setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
 
-		btnSpeedUp.setIgnoreTab();
-		btnSpeedDown.setIgnoreTab();
+		btnSpeedUp.setTabIndex(-1);
+		btnSpeedDown.setTabIndex(-1);
 
 		speedPanel.add(btnSpeedDown);
 		speedPanel.add(lblSpeedValue);
@@ -116,27 +116,11 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void createPlayButton() {
-		String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
-		SVGResource play = GuiResourcesSimple.INSTANCE.play_circle();
-		SVGResource pause = GuiResourcesSimple.INSTANCE.pause_circle();
-
-		btnPlay = new MyToggleButtonW(play, pause);
-
-		btnPlay.getUpHoveringFace().setImage(new Image(play.withFill(hoverColor)
-				.getSafeUri().asString(), 0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
-		btnPlay.getDownHoveringFace().setImage(new Image(pause.withFill(hoverColor)
-				.getSafeUri().asString(), 0, 0, PLAY_BUTTON_SIZE, PLAY_BUTTON_SIZE));
-
-		btnPlay.setIgnoreTab();
+		btnPlay = new ToggleButton(GuiResourcesSimple.INSTANCE.play_circle(),
+				GuiResourcesSimple.INSTANCE.pause_circle());
+		btnPlay.setTabIndex(-1);
 		btnPlay.setStyleName("avPlayButton");
-
-		ClickStartHandler.init(btnPlay, new ClickStartHandler() {
-			@Override
-			public boolean onClickStart(int x, int y, PointerEventType type,
-					boolean right) {
-				if (right) {
-					return true;
-				}
+		btnPlay.addFastClickHandler((event) -> {
 				getController().stopEdit();
 
 				boolean value = !isGeoAnimating();
@@ -145,15 +129,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 				setPlay(value);
 				getGeo().updateRepaint();
 
-				AnimPanel.this.setAnimating(
-						getGeo().isAnimating());
-				return true;
-			}
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				onClickStart(x, y, type, false);
-			}
+				setAnimating(getGeo().isAnimating());
 		});
 	}
 
@@ -229,11 +205,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 			return;
 		}
 		Object source = event.getSource();
-		if (source == btnSpeedDown) {
-			speedDown();
-		} else if (source == btnSpeedUp) {
-			speedUp();
-		} else if (source == lblSpeedValue) {
+		if (source == lblSpeedValue) {
 			event.stopPropagation();
 		}
 	}
@@ -265,7 +237,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		if (isGeoAnimating() != play || !isVisible()) {
 			boolean v = isGeoAnimating();
 			setPlay(v);
-			btnPlay.setDown(v);
+			btnPlay.setSelected(v);
 		}
 		if (visible && getGeo().getAnimationSpeed() != speed) {
 			speed = getGeo().getAnimationSpeed();

@@ -610,13 +610,9 @@ public class EuclidianStyleBarStatic {
 
 	/**
 	 * process the action performed
-	 * 
-	 * @param actionCommand
-	 *            showGrid, showAxes, standardView, pointCapture
-	 * @param targetGeos
-	 *            elements
-	 * @param ev
-	 *            view
+	 * @param actionCommand - showGrid, showAxes, standardView, pointCapture
+	 * @param targetGeos - elements
+	 * @param ev - view
 	 * @return success
 	 */
 	// if all cases will be processed here, instead of
@@ -624,21 +620,17 @@ public class EuclidianStyleBarStatic {
 	public static boolean processSourceCommon(String actionCommand,
 			ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
 		App app = ev.getApplication();
-		// cons = app.getKernel().getConstruction();
 		boolean changed = false;
 		if ("showAxes".equals(actionCommand)) {
 			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
 					app);
-
 			if (evs != null) {
 				changed = evs.setShowAxes(!evs.getShowAxis(0));
 			} else {
 				changed = ev.setShowAxes(!ev.getShowXaxis(), true);
 			}
 			ev.repaint();
-		}
-
-		else if ("showGrid".equals(actionCommand)) {
+		} else if ("showGrid".equals(actionCommand)) {
 			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
 					app);
 			if (evs != null) {
@@ -647,16 +639,11 @@ public class EuclidianStyleBarStatic {
 				changed = ev.showGrid(!ev.getShowGrid());
 			}
 			ev.repaint();
-		}
-
-		else if ("standardView".equals(actionCommand)) {
-
+		} else if ("standardView".equals(actionCommand)) {
 			// no parameters, always do this
 			// app.setStandardView();
 			ev.setStandardView(true);
-		}
-
-		else if ("pointCapture".equals(actionCommand)) {
+		} else if ("pointCapture".equals(actionCommand)) {
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 
 			if (mode == 3 || mode == 0) {
@@ -667,6 +654,7 @@ public class EuclidianStyleBarStatic {
 			// update other EV stylebars since this is a global property
 			app.updateStyleBars();
 		}
+
 		if (changed) {
 			app.storeUndoInfo();
 		} else {

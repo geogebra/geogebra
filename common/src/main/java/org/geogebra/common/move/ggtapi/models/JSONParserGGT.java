@@ -339,7 +339,7 @@ public class JSONParserGGT {
 			JSONTokener tok = new JSONTokener(item);
 			mat = new JSONObject(tok);
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 		}
 		if (mat == null) {
 			return null;

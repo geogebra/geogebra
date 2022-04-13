@@ -127,8 +127,7 @@ public class AnimationExporter {
 					scale, rotate, frameFormat);
 		} catch (Exception ex) {
 			app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.getMessage());
-			ex.printStackTrace();
+			Log.debug(ex);
 		} finally {
 			app.setDefaultCursor();
 		}

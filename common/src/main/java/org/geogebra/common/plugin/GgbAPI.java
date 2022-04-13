@@ -551,7 +551,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				((Locateable) loc).setStartPoint(corner, index);
 			} catch (CircularDefinitionException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		geo.updateRepaint();
@@ -1727,7 +1727,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					app.getGuiManager().updateGUIafterLoadFile(true, false);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			return;
 		}

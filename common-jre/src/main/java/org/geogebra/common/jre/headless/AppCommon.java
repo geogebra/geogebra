@@ -105,7 +105,7 @@ public class AppCommon extends App {
 			@Override
 			public void print(Level level, Object logEntry) {
 				if (logEntry instanceof Throwable) {
-					((Throwable) logEntry).printStackTrace();
+					((Throwable) logEntry).printStackTrace(); // NOPMD
 				} else {
 					System.out.println(logEntry); // NOPMD
 				}

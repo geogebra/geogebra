@@ -199,7 +199,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 					// Kernel.internationalizeDigits = internationalizeDigits;
 
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 					Log.debug("derivative failed");
 				}
 				if (ev == null) {

@@ -142,7 +142,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 							// GeoGebraTubeAPID.this.available = false;
 						} catch (Exception e) {
-							e.printStackTrace();
+							Log.debug(e);
 						}
 
 					}
@@ -244,7 +244,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 					});
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

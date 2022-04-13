@@ -54,6 +54,12 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		myPointList.add(new MyPoint(x, y, segmentType));
 	}
 
+	@Override
+	public void insertPoint(double x, double y, double z, boolean lineTo) {
+		myPointList.add(new MyPoint(x, y, lineTo ? SegmentType.LINE_TO
+				: SegmentType.MOVE_TO));
+	}
+
 	/**
 	 * @param coords changed point
 	 * @param pp path parameter

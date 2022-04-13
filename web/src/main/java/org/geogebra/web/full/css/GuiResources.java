@@ -25,9 +25,6 @@ public interface GuiResources extends ClientBundle {
 	ImageResource toolbar_further_tools();
 
 	// Icons
-	@Source("org/geogebra/common/menu_icons/p20/menu-file-export.png")
-	ImageResource menu_icons_file_export();
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_exam.png")
 	ImageResource menu_icon_exam24();
 

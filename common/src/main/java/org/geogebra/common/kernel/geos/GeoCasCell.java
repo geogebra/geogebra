@@ -1726,10 +1726,10 @@ public class GeoCasCell extends GeoElement
 				newTwinGeo = line[0];
 			} catch (MyError e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			} catch (CircularDefinitionException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		} else {
 			HashSet<FunctionVariable> fVarSet = new HashSet<>();
@@ -2019,7 +2019,7 @@ public class GeoCasCell extends GeoElement
 									.unwrap()).getDrawAlgorithm());
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		} else {
 			// r2835: if the evaluation of outputVE returns null we have no twin
@@ -2366,7 +2366,7 @@ public class GeoCasCell extends GeoElement
 			} catch (Exception e) {
 				Log.error("GeoCasCell.computeOutput(), CAS eval: " + evalVE
 						+ "\n\t " + e);
-				e.printStackTrace();
+				Log.debug(e);
 				success = false;
 				ce = new CASException(e);
 			}
@@ -2420,7 +2420,7 @@ public class GeoCasCell extends GeoElement
 					nativeOutput = false;
 				}
 			} catch (Throwable th2) {
-				th2.printStackTrace();
+				Log.debug(th2);
 				Log.warn("GeoCasCell.computeOutput(), GeoGebra eval: "
 						+ evalVE + "\n error: " + th2.getMessage());
 				success = false;

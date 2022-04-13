@@ -6,6 +6,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptError;
 import org.geogebra.common.plugin.ScriptType;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author arno Class for JavaScript scripts
@@ -37,7 +38,7 @@ public class JsScript extends Script {
 			}
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			throw new ScriptError(app.getLocalization()
 					.getMenu(update ? "OnUpdate" : "OnClick") + " " + label
 					+ ":\n"

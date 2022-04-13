@@ -3438,7 +3438,7 @@ public class MyXMLHandler implements DocHandler {
 			throw e;
 		} catch (Throwable t) {
 			errors.add("processing of command: " + cmd);
-			t.printStackTrace();
+			Log.debug(t);
 			return false;
 		}
 	}

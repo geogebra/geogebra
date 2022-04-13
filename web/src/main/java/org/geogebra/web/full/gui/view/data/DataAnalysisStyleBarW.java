@@ -3,26 +3,19 @@ package org.geogebra.web.full.gui.view.data;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-
-/**
- * @author G. Sturr
- * 
- */
-public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
-
+public class DataAnalysisStyleBarW extends StyleBarW {
 	private DataAnalysisViewW daView;
-	private MyToggleButtonW btnShowStatistics;
-	private MyToggleButtonW btnShowPlot2;
-	private MyToggleButtonW btnShowData;
-	private MyToggleButtonW btnExport;
-	private MyToggleButtonW btnSwapXY;
+	private ToggleButton btnShowStatistics;
+	private ToggleButton btnShowPlot2;
+	private ToggleButton btnShowData;
+	private ToggleButton btnExport;
+	private ToggleButton btnSwapXY;
 
 	/**
 	 * @param app
@@ -42,22 +35,22 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	private void createGUI() {
 		this.clear();
 
-		btnShowStatistics = new MyToggleButtonW(AppResources.INSTANCE.dataview_showstatistics());
-		btnShowStatistics.addClickHandler(this);
+		btnShowStatistics = new ToggleButton(AppResources.INSTANCE.dataview_showstatistics());
+		btnShowStatistics.addFastClickHandler(this::actionPerformed);
 
-		btnShowData = new MyToggleButtonW(AppResources.INSTANCE.dataview_showdata());
-		btnShowData.addClickHandler(this);
+		btnShowData = new ToggleButton(AppResources.INSTANCE.dataview_showdata());
+		btnShowData.addFastClickHandler(this::actionPerformed);
 
-		btnShowPlot2 = new MyToggleButtonW(AppResources.INSTANCE.dataview_showplot2());
-		btnShowPlot2.addClickHandler(this);
+		btnShowPlot2 = new ToggleButton(AppResources.INSTANCE.dataview_showplot2());
+		btnShowPlot2.addFastClickHandler(this::actionPerformed);
 
 		// create export button
-		btnExport = new MyToggleButtonW(AppResources.INSTANCE.export());
-		btnExport.addClickHandler(this);
+		btnExport = new ToggleButton(MaterialDesignResources.INSTANCE.prob_calc_export());
+		btnExport.addFastClickHandler(this::actionPerformed);
 
-		btnSwapXY = new MyToggleButtonW(getSwapXYString(app.getLocalization()));
+		btnSwapXY = new ToggleButton(getSwapXYString(app.getLocalization()));
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
-		btnSwapXY.addClickHandler(this);
+		btnSwapXY.addFastClickHandler(this::actionPerformed);
 		btnSwapXY.getElement().addClassName("daSwapXYButton");
 
 		add(btnShowStatistics);
@@ -78,11 +71,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 		switch (model.getMode()) {
 		case DataAnalysisModel.MODE_ONEVAR:
-			// if (daView.groupType() == GroupType.RAWDATA) {
 			btnShowData.setVisible(true);
-			// } else {
-			// btnShowData.setVisible(false);
-			// }
 			break;
 		case DataAnalysisModel.MODE_REGRESSION:
 			btnShowData.setVisible(true);
@@ -106,9 +95,9 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	public void setLabels() {
 		super.setLabels();
 		Localization loc = app.getLocalization();
-		btnShowStatistics.setToolTipText(loc.getMenu("ShowStatistics"));
-		btnShowData.setToolTipText(loc.getMenu("ShowData"));
-		btnShowPlot2.setToolTipText(loc.getMenu("ShowPlot2"));
+		btnShowStatistics.setTitle(loc.getMenu("ShowStatistics"));
+		btnShowData.setTitle(loc.getMenu("ShowData"));
+		btnShowPlot2.setTitle(loc.getMenu("ShowPlot2"));
 		btnSwapXY.setText(getSwapXYString(loc));
 	}
 
@@ -118,9 +107,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	/**
 	 * Handle input change
-	 * 
-	 * @param source
-	 *            event source
+	 * @param source - event source
 	 */
 	public void actionPerformed(Object source) {
 		DataAnalysisModel model = daView.getModel();
@@ -130,30 +117,19 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		} else if (source == btnShowData) {
 			model.setShowDataPanel(btnShowData.isSelected());
 			updateGUI();
-		}
-
-		else if (source == btnShowPlot2) {
+		} else if (source == btnShowPlot2) {
 			model.setShowComboPanel2(btnShowPlot2.isSelected());
 			updateGUI();
-		}
-
-		else if (source == btnSwapXY) {
+		} else if (source == btnSwapXY) {
 			daView.getController().swapXY();
 			updateGUI();
-		}
-		else if (source == btnExport) {
+		} else if (source == btnExport) {
 			btnExport.setSelected(false);
 		}
 	}
 
 	@Override
     public void setOpen(boolean showStyleBar) {
-	    // TODO Auto-generated method stub
+	    // nothing to do here
     }
-
-	@Override
-	public void onClick(ClickEvent event) {
-	    actionPerformed(event.getSource());
-    }
-
 }

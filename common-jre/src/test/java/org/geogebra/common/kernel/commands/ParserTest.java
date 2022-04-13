@@ -59,7 +59,7 @@ public class ParserTest {
 			assertTrue("Too long:" + l, l < 400);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -154,7 +154,7 @@ public class ParserTest {
 			app.getKernel().getConstruction().registerFunctionVariable(null);
 			reparse1 = v1.toString(tpl);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			fail(e.getMessage());
 		}
 		return reparse1;
@@ -185,7 +185,7 @@ public class ParserTest {
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		l = System.currentTimeMillis() - l;
 		Log.debug("TIME" + l);

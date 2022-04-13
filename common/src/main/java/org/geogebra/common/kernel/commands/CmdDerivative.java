@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Derivative[ &lt;GeoFunction> ] Derivative[ &lt;GeoFunctionNVar>, &lt;var> ]
@@ -91,7 +92,7 @@ public class CmdDerivative extends CommandProcessor {
 
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 			}
 			cons.setSuppressLabelCreation(suppress);
 			// Derivative[ f(a,b), a ]
@@ -124,7 +125,7 @@ public class CmdDerivative extends CommandProcessor {
 
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 			}
 
 			// Derivative[ f(x, y), x]
@@ -157,7 +158,7 @@ public class CmdDerivative extends CommandProcessor {
 					return ret;
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 			}
 
 			arg = resArgs(c);

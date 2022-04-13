@@ -961,6 +961,15 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdCircle3D() {
+		// first check with 2D view active
+		t("Circle[ (1,1,0), 42 ]", "X = (1, 1, 0) + (42 cos(t), 42 sin(t), 0)");
+		app.setActiveView(App.VIEW_EUCLIDIAN3D);
+		// first check with 2D view active
+		t("Circle[ (1,1,0), 42 ]", "X = (1, 1, 0) + (42 cos(t), 42 sin(t), 0)");
+	}
+
+	@Test
 	public void cmdCircleSector() {
 		t("CircularSector[ (5,1/5), (1,1),(2,1/2) ]", "0.8130878692245387");
 	}
@@ -1214,7 +1223,7 @@ public class CommandsTest {
 	public void cmdCurvature() {
 		tRound("Curvature[ (1,1), Curve[sin(t),cos(t),t,0,3] ]", "-1");
 		t("Curvature[ (1,1), sin(x) ]", "-0.5730366435551724");
-		t("Curvature[ (1,1), circle[(2, 3),2] ]", "0.5");
+		tRound("Curvature[ (1,1), circle[(2, 3),2] ]", "0.5");
 	}
 
 	@Test
@@ -2681,8 +2690,8 @@ public class CommandsTest {
 
 	@Test
 	public void cmdOsculatingCircle() {
-		t("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
-				"x² + y² + 1.9999999999999991x + 0.9999999999999971y = -0.9999999999999991");
+		tRound("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
+				"x² + y² + 2x + 1y = -1");
 		t("OsculatingCircle[ (0, 0), x^2 ]", "x² + y² - y = 0");
 		t("OsculatingCircle[ (1,1), (x - 2)² + (y - 3)² = 4 ]", "?");
 	}
@@ -3593,8 +3602,15 @@ public class CommandsTest {
 
 	@Test
 	public void cmdShortestDistance() {
-		t("ShortestDistance[ {1,2,3,4,5}, (3,1/3), (5,1/5), false ]",
-				"ShortestDistance[{1, 2, 3, 4, 5}, (3, 1 / 3), (5, 1 / 5), false]");
+		t("Perimeter(ShortestDistance({1,2,3,4,5}, (3,1/3), (5,1/5), false ))",
+				"NaN"); // not even segments
+		t("A=(0, 0)", "(0, 0)");
+		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+				+ "(2,0), (0,1), false))", "3");
+		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+				+ "(2,0), (2,0), false))", "0"); // empty path
+		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+				+ "(2,0), (4,0), false))", "NaN"); // not connected
 	}
 
 	@Test

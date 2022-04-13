@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -47,7 +48,7 @@ public class LoadFromJsonFileTest {
 		try {
 			latch.await();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Returns the name of a GeoElement as a GeoText.
@@ -153,7 +154,7 @@ public class AlgoText extends AlgoElement {
 			try {
 				text.setStartPoint(startPointCopy);
 			} catch (CircularDefinitionException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			text.setAlwaysFixed(true); // disable dragging if p != null
 		}

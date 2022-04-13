@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a one way ANOVA test.
@@ -141,7 +142,7 @@ public class AlgoANOVA extends AlgoElement {
 
 		} catch (Exception e) {
 			result.setUndefined();
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
