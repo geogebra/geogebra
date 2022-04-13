@@ -85,7 +85,8 @@ public class MaterialRestAPI implements BackendAPI {
 		return false;
 	}
 
-	private void addGroups(JSONObject user, String allClasses, ArrayList<GroupIdentifier> allGroups, GroupIdentifier.GroupCategory cat)
+	private void addGroups(JSONObject user, String allClasses,
+			ArrayList<GroupIdentifier> allGroups, GroupIdentifier.GroupCategory cat)
 			throws JSONException {
 		if (user.has(allClasses)) {
 			JSONArray classList = user.getJSONArray(allClasses);
