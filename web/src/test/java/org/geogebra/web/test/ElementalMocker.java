@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+import org.geogebra.common.util.debug.Log;
+
 import elemental2.core.Global;
 import elemental2.core.JSONType;
 import elemental2.dom.Console;
@@ -40,7 +42,7 @@ public class ElementalMocker {
 			DomGlobal.document.body = new HTMLBodyElement();
 		} catch (Exception e) {
 			System.err.println("Failed to set up elemental2 mocks");
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

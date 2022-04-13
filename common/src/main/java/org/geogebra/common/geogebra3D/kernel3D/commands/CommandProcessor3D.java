@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.kernel.Kernel;
@@ -18,7 +17,7 @@ public class CommandProcessor3D {
 
 	/**
 	 * return current view orientation if not in a loading mode and not in a
-	 * macro
+	 * macro; returns GeoSpace if 3D view is active
 	 * 
 	 * @param kernelA
 	 *            current kernel
@@ -26,10 +25,30 @@ public class CommandProcessor3D {
 	 *            application
 	 * @return current view orientation
 	 */
-	static final public GeoDirectionND getCurrentViewOrientation(Kernel kernelA,
+	public static GeoDirectionND getCurrentViewOrientation(Kernel kernelA,
 			App app) {
+		return getCurrentViewOrientation(kernelA, app, kernelA.getSpace());
+	}
 
-		EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+	/**
+	 * return current view orientation if not in a loading mode and not in a
+	 * macro; returns null if 3D view is active
+	 *
+	 * @param kernelA
+	 *            current kernel
+	 * @param app
+	 *            application
+	 * @return current view orientation
+	 */
+	public static GeoDirectionND getCurrentViewOrientationNoSpace(Kernel kernelA,
+			App app) {
+		return getCurrentViewOrientation(kernelA, app, null);
+	}
+
+	private static GeoDirectionND getCurrentViewOrientation(Kernel kernelA,
+			App app, GeoDirectionND spaceFallback) {
+
+		EuclidianView view = app.getActiveEuclidianView();
 
 		// first check if it's an input line call, with 2D/3D view active
 		if (!kernelA.isMacroKernel() && !kernelA.getLoadingMode()
@@ -41,12 +60,12 @@ public class CommandProcessor3D {
 
 			if (view instanceof EuclidianViewForPlaneInterface) {
 				// plane view is active
-				return ((EuclidianViewForPlaneCompanion) ((EuclidianView) view)
+				return ((EuclidianViewForPlaneCompanion) view
 						.getCompanion()).getPlane();
 			}
 
 			// 3D view is active
-			return kernelA.getSpace();
+			return spaceFallback;
 		}
 
 		return null;

@@ -10,7 +10,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
@@ -21,7 +20,6 @@ import org.geogebra.web.shared.GlobalHeader;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.HTMLImageElement;
@@ -35,7 +33,6 @@ class NavigationRail extends FlowPanel {
 	private @CheckForNull StandardButton btnAlgebra;
 	private @CheckForNull StandardButton btnTools;
 	private @CheckForNull StandardButton btnTableView;
-	private final Image imgMenu;
 	private final FlowPanel contents;
 	private FlowPanel center;
 	private boolean animating = false;
@@ -65,7 +62,6 @@ class NavigationRail extends FlowPanel {
 			createMenuButton();
 			toolbarPanel.setMenuButton(focusableMenuButton);
 		}
-		imgMenu = new NoDragImage(MaterialDesignResources.INSTANCE.toolbar_menu_black(), 24);
 		createCenter();
 		setLabels();
 		setTabIndexes();
@@ -202,7 +198,9 @@ class NavigationRail extends FlowPanel {
 	}
 
 	private void setAltTexts() {
-		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
+		if (btnMenu != null) {
+			btnMenu.setImageAltText(app.getLocalization().getMenu("Menu"));
+		}
 		setButtonText(btnAlgebra, app.getConfig().getAVTitle());
 		setButtonText(btnTools, "Tools");
 		setButtonText(btnTableView, "Table");
@@ -216,8 +214,7 @@ class NavigationRail extends FlowPanel {
 	}
 
 	/**
-	 * @param tabId
-	 *            tab id
+	 * @param tabId - tab id
 	 */
 	void selectTab(TabIds tabId) {
 		if (center == null) {
@@ -239,15 +236,13 @@ class NavigationRail extends FlowPanel {
 	}
 
 	/**
-	 * @param expanded
-	 *            whether menu is expanded
+	 * @param expanded - whether menu is expanded
 	 */
 	public void markMenuAsExpanded(boolean expanded) {
 		if (btnMenu != null) {
 			btnMenu.getElement().setAttribute("aria-expanded",
 					String.valueOf(expanded));
 			btnMenu.getElement().removeAttribute("aria-pressed");
-			Dom.toggleClass(btnMenu, "selected", expanded);
 		}
 	}
 
@@ -350,7 +345,6 @@ class NavigationRail extends FlowPanel {
 		}
 		Dom.toggleClass(btnMenu, "portraitMenuBtn",
 				"landscapeMenuBtn", app.isPortrait());
-		btnMenu.getUpFace().setImage(imgMenu);
 	}
 
 	/**

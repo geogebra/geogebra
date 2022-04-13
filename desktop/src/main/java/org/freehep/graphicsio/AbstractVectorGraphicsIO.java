@@ -1522,10 +1522,6 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	protected void writeError(Exception exception) {
 		throw new RuntimeException(exception);
 		// FIXME decide what we should do
-		/*
-		 * if (isProperty(EMIT_ERRORS)) { System.err.println(exception);
-		 * exception.printStackTrace(System.err); }
-		 */
 	}
 
 	@Override

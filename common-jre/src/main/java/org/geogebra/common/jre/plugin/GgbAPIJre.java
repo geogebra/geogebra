@@ -9,6 +9,7 @@ import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Api for desktop and Android
@@ -85,8 +86,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 		try {
 			zipFile = Base64.decode(base64);
 		} catch (Exception e) {
-
-			e.printStackTrace();
+			Log.debug(e);
 			return;
 		}
 		app.loadXML(new ByteArrayZipFile(zipFile));
@@ -104,7 +104,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 					includeThumbnail);
 			return Base64.encodeToString(baos.toByteArray(), false);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}

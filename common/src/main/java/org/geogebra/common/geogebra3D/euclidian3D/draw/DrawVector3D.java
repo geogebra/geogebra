@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing vectors
@@ -83,7 +84,7 @@ public class DrawVector3D extends DrawJoinPoints {
 		try {
 			((GeoVector3D) getGeoElement()).setStartPoint(firstPoint);
 		} catch (CircularDefinitionException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

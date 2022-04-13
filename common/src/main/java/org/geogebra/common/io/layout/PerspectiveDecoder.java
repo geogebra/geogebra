@@ -194,7 +194,7 @@ public class PerspectiveDecoder {
 		try {
 			expr = parser.parseGeoGebraExpression(longCode.toString()).wrap();
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 		ArrayList<DockPanelData> panelList = new ArrayList<>();

@@ -18,10 +18,9 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.SliderPanel;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
@@ -55,7 +54,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	private PopupMenuButtonW btnImage;
 	// button for removing turtle's image
-	private GPushButton btnClearImage;
+	private StandardButton btnClearImage;
 	private Label lblSymbols;
 	ArrayList<SVGResource> iconList;
 	private ArrayList<String> iconNameList;
@@ -340,9 +339,9 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		};
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
-		btnClearImage = new GPushButton(
-				new NoDragImage(MaterialDesignResources.INSTANCE.delete_black(), 24));
-		btnClearImage.addClickHandler(event -> model.applyImage(""));
+		btnClearImage = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(),
+				24, null);
+		btnClearImage.addFastClickHandler(event -> model.applyImage(""));
 		btnOpenFile = new Button();
 		btnOpenFile.addStyleName("openFileBtn");
 		btnClearImage.addStyleName("clearImgBtn");

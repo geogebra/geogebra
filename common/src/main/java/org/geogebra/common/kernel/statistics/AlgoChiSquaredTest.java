@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a chi square Goodness of Fit test or Test of Independence.
@@ -234,7 +235,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 			result.setUndefined();
 		}
 

@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLocus3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyLine3D;
@@ -21,11 +22,14 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -222,5 +226,10 @@ public class GeoFactory3D extends GeoFactory {
 			return new GeoSurfaceCartesian2D(cons, point, fun);
 		}
 		return new GeoSurfaceCartesian3D(cons, point, fun);
+	}
+
+	@Override
+	public GeoLocusND<? extends MyPoint> newLocus(int dimension, Construction cons) {
+		return dimension == 3 ? new GeoLocus3D(cons) : new GeoLocus(cons);
 	}
 }

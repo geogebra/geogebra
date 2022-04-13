@@ -70,12 +70,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		if (cellEditor == null) {
 			return null;
 		}
-		
+
 		Double value = null;
 		try {
 			value = Double.parseDouble(cellEditor.getText());
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			// not a number
 		}
 		return value;
 	}

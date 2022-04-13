@@ -2025,7 +2025,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				}
 			}
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -2218,7 +2218,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 								verticalSB.append(asymptoteX.getValue());
 							}
 						} catch (Throwable e) {
-							e.printStackTrace();
+							Log.debug(e);
 						}
 					}
 
@@ -2226,7 +2226,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 		}
 	}
 

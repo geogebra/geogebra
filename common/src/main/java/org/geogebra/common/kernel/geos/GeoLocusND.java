@@ -268,6 +268,15 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	abstract protected double changingPointDistance(GeoSegmentND segment);
 
 	/**
+	 * Adds a new point (x,y,z) to the end of the point list of this locus.
+	 * @param x x-coord
+	 * @param y y-coord
+	 * @param z z-coord, ignored for 2D loci
+	 * @param lineTo true for lineTo, false for moveTo
+	 */
+	public abstract void insertPoint(double x, double y, double z, boolean lineTo);
+
+	/**
 	 * Returns the point of this locus that is closest to current point infos.
 	 */
 	private void getClosestLine() {

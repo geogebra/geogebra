@@ -656,4 +656,19 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			outputSegmentsHandler.addOutput((GeoSegment3D) segment, false);
 		}
 	}
+
+	@Override
+	protected void setLabels(String[] labels) {
+		kernel.batchAddStarted();
+		if (labels == null || labels.length <= 1) {
+			polyhedron.initLabels(labels);
+		} else {
+			augmentOutputSize(labels.length);
+			for (int i = 0; i < labels.length; i++) {
+				getOutput(i).setLabel(labels[i]);
+			}
+			polyhedron.setAllLabelsAreSet(true);
+		}
+		kernel.batchAddComplete();
+	}
 }

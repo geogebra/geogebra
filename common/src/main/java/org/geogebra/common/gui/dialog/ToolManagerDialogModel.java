@@ -179,7 +179,7 @@ public class ToolManagerDialogModel {
 
 		} catch (Exception e) {
 			Log.debug("Uploading failed");
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		app.setDefaultCursor();
 	}

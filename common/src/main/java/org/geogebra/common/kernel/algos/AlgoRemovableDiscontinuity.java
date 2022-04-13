@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		UsesCAS {
@@ -153,7 +154,7 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 					.evaluateToNumeric(numStr, ErrorHelper.silent())
 					.getDouble();
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return 0;
 		}
 	}

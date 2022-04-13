@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,7 +33,7 @@ public class SystemStepTest {
         try {
             app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
         } catch (Throwable e) {
-            e.printStackTrace();
+            Log.debug(e);
         }
     }
 
@@ -163,7 +164,7 @@ public class SystemStepTest {
 
             Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
         } catch (CASException e) {
-            e.printStackTrace();
+            Log.debug(e);
             Assert.fail();
         }
     }

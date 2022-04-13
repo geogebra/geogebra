@@ -109,7 +109,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			display: block;
 		}
 
-		.gwt-ToggleButton {
+		.gwt-ToggleButton, .button {
 			cursor: pointer;
 			padding: 4px;
 			margin: 0px;
@@ -398,7 +398,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				}
 			}
 
-			.ClearBackgroundButton {
+			.clearBackgroundButton {
 				cursor: pointer;
 				padding: 4px;
 				margin: 0px;

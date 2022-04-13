@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
 
@@ -46,7 +47,7 @@ public class ExpandConic {
 					"coeff3(s):=map(map(pad3(coeffs(s,x)),tt->pad3(coeffs(tt,y))),uu->map(uu,vv->pad3(coeffs(vv,z))))");
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		doExp();
 		/*
@@ -1573,7 +1574,7 @@ public class ExpandConic {
 
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		if (!"0".equals(symhomCheck)) {
@@ -1603,7 +1604,7 @@ public class ExpandConic {
 
 			} catch (Throwable e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			if ("0".equals(symCheck)) {
 				sym.add(name);

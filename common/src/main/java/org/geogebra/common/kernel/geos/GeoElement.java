@@ -2560,7 +2560,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 					cons.replace(geo, this);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.debug(e);
 				}
 				geo = this;
 				if (!((GeoNumeric) geo).isDependentConst()) {
@@ -3382,7 +3382,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				try {
 					algoElement.update();
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}

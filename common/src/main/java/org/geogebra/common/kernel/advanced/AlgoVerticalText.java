@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm for vertical text
@@ -105,7 +106,7 @@ public class AlgoVerticalText extends AlgoElement {
 			try {
 				text.setStartPoint(startPointCopy);
 			} catch (CircularDefinitionException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			text.setAlwaysFixed(true); // disable dragging if p != null
 		}

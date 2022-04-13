@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -252,5 +253,9 @@ public class GeoFactory {
 	public GeoSurfaceCartesianND newSurface(Construction cons, ExpressionNode point,
 			FunctionNVar[] fun) {
 		return new GeoSurfaceCartesian2D(cons, point, fun);
+	}
+
+	public GeoLocusND<? extends MyPoint> newLocus(int dimension, Construction cons) {
+		return new GeoLocus(cons);
 	}
 }
