@@ -23,12 +23,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
-import org.geogebra.web.full.gui.util.SaveDialogI;
-import org.geogebra.web.full.main.GeoGebraTubeExportW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -315,10 +311,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	 */
 	private void saveTools() {
 		applyChanges();
-		SaveDialogI dlg = ((DialogManagerW) appw.getDialogManager())
-				.getSaveDialog(false, true);
-		dlg.setSaveType(MaterialType.ggt);
-		dlg.show();
+		((GuiManagerW) app.getGuiManager()).exportMacros(app.getExportTitle() + ".ggt");
 	}
 
 	@Override
@@ -330,13 +323,6 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	public void refreshCustomToolsInToolBar() {
 		appw.getGuiManager().refreshCustomToolsInToolBar();
 		appw.getGuiManager().updateToolbar();
-	}
-
-	@Override
-	public void uploadWorksheet(ArrayList<Macro> macros) {
-		GeoGebraTubeExportW exporter = new GeoGebraTubeExportW(appw);
-
-		exporter.uploadWorksheet(macros);
 	}
 
 	@Override

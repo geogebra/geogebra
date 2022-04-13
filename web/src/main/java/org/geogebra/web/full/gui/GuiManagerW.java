@@ -1888,6 +1888,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
+	 * Download macro file (.ggt)
+	 * @param filename file name
+	 */
+	public void exportMacros(String filename) {
+		getApp().dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\"ggt\"]"));
+
+		if (NavigatorUtil.isFirefox()) {
+			getApp().getGgbApi().getMacrosBase64(true,
+					getBase64DownloadCallback(filename));
+		} else {
+			getApp().getGgbApi().getZippedMacrosAsync(
+					getDownloadCallback(filename));
+		}
+	}
+
+	/**
 	 * @param title
 	 *            construction title
 	 * @return local file saving callback for binary file

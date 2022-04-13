@@ -40,8 +40,6 @@ public class ToolManagerDialogModel {
 
 		void refreshCustomToolsInToolBar();
 
-		void uploadWorksheet(ArrayList<Macro> macros);
-
 	}
 
 	/**

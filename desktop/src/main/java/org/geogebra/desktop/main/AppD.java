@@ -4320,7 +4320,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public void uploadToGeoGebraTube() {
 		GeoGebraTubeExportD ggbtube = new GeoGebraTubeExportD(this);
-		ggbtube.uploadWorksheet(null);
+		ggbtube.uploadWorksheet();
 	}
 
 	@Override
