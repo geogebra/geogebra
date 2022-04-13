@@ -79,16 +79,18 @@ public class Relation {
 	private String getSubTitle() {
 		String subTitle;
 		if (rc == null && rd == null) {
-			return ra.getLabelSimple() + app.getLocalization().getMenu(" and ")
-					+ rb.getLabelSimple();
+			return app.getLocalization().getPlainDefault("AandB", "%0 and %1",
+					ra.getLabelSimple(), rb.getLabelSimple());
 		} else {
 			subTitle = ra.getLabelSimple() + ", " + rb.getLabelSimple();
 			if (rc != null) {
-				subTitle += rd == null ? app.getLocalization().getMenu(" and ") : ", ";
-				subTitle += rc.getLabelSimple();
+				subTitle = rd == null ? app.getLocalization().getPlainDefault("AandB",
+						"%0 and %1", subTitle, rc.getLabelSimple())
+						: subTitle + ", " + rc.getLabelSimple();
 			}
 			if (rd != null) {
-				subTitle += app.getLocalization().getMenu(" and ") + rd.getLabelSimple();
+				subTitle = app.getLocalization().getPlainDefault("AandB",
+						"%0 and %1", subTitle, rd.getLabelSimple());
 			}
 		}
 		return subTitle;

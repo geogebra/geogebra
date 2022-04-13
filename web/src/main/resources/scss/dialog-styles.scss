@@ -81,7 +81,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.dialogContent {
 			font-size: 85%;
-			height: calc(100% - 110px);
+			height: calc(100% - 118px);
 
 			.relationContent {
 				height: 100%;
@@ -1748,20 +1748,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.statistics {
 		.dialogTitle {
-			margin-bottom: 0px;
 			height: 24px;
 			font-size: 125%;
-			padding-bottom: 8px;
 			color: colors.$text-primary;
-			line-height: 1.2;
-		}
-
-		.dialogSubTitle {
-			margin-bottom: 16px;
-			margin-left: 24px;
-			height: 14px;
-			font-size: 75%;
-			color: colors.$text-secondary;
 			line-height: 1.2;
 		}
 
@@ -2003,7 +1992,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.flexGroup {
 			display: flex;
-			margin-bottom: 16px;
+			margin-bottom: 8px;
 
 			.gwt-Label {
 				max-width: 168px;
