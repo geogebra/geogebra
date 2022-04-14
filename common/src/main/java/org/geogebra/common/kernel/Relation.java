@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.javax.swing.RelationPane;
@@ -24,7 +28,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -78,23 +82,12 @@ public class Relation {
 	}
 
 	private String getSubTitle() {
-		String subTitle;
-		if (rc == null && rd == null) {
-			return app.getLocalization().getPlainDefault("AandB", "%0 and %1",
-					ra.getLabelSimple(), rb.getLabelSimple());
-		} else {
-			subTitle = ra.getLabelSimple() + ", " + rb.getLabelSimple();
-			if (rc != null) {
-				subTitle = rd == null ? app.getLocalization().getPlainDefault("AandB",
-						"%0 and %1", subTitle, rc.getLabelSimple())
-						: subTitle + ", " + rc.getLabelSimple();
-			}
-			if (rd != null) {
-				subTitle = app.getLocalization().getPlainDefault("AandB",
-						"%0 and %1", subTitle, rd.getLabelSimple());
-			}
-		}
-		return subTitle;
+		List<String> labels = Stream.of(ra, rb, rc, rd).filter(Objects::nonNull)
+				.map(geo -> GeoElement.indicesToHTML(geo.getLabelSimple(), false))
+				.collect(Collectors.toList());
+		String first = StringUtil.join(", ", labels.subList(0, labels.size() - 1));
+		return app.getLocalization().getPlainDefault("AandB", "%0 and %1",
+					first, labels.get(labels.size() - 1));
 	}
 
 	/**
@@ -107,7 +100,7 @@ public class Relation {
 		try {
 			cas.getCurrentCAS().evaluateRaw("1");
 		} catch (Throwable e) {
-			Log.debug(e);
+			e.printStackTrace();
 		}
 		// Computing numerical results and collecting them alphabetically:
 		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
