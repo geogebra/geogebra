@@ -29,6 +29,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -100,7 +101,8 @@ public class Relation {
 		try {
 			cas.getCurrentCAS().evaluateRaw("1");
 		} catch (Throwable e) {
-			e.printStackTrace();
+			// input is valid, CAS not loaded doesn't throw, only timeout can get here
+			Log.warn(e);
 		}
 		// Computing numerical results and collecting them alphabetically:
 		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
