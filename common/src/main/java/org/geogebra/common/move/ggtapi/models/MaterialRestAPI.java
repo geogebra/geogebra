@@ -2,8 +2,10 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
@@ -27,10 +29,10 @@ public class MaterialRestAPI implements BackendAPI {
 	protected boolean available = true;
 	/** whether availability check request was sent */
 	private boolean availabilityCheckDone = false;
-	private String baseURL;
+	private final String baseURL;
 	private AuthenticationModel model;
 
-	private Service service;
+	private final Service service;
 
 	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
 
@@ -72,15 +74,24 @@ public class MaterialRestAPI implements BackendAPI {
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
 			guser.setLanguage(user.getString("lang_ui"));
-			if (user.has("allGroups")) {
-				JSONArray classList = user.getJSONArray("allGroups");
-				guser.setGroups(stringList(classList));
-			}
+			ArrayList<GroupIdentifier> allGroups = new ArrayList<>();
+			addGroups(user, "allClasses", allGroups, GroupIdentifier.GroupCategory.CLASS);
+			addGroups(user, "allCourses", allGroups, GroupIdentifier.GroupCategory.COURSE);
+			guser.setGroups(allGroups);
 			return true;
 		} catch (Exception e) {
 			Log.warn(e.getMessage());
 		}
 		return false;
+	}
+
+	private void addGroups(JSONObject user, String allClasses,
+			ArrayList<GroupIdentifier> allGroups, GroupIdentifier.GroupCategory cat)
+			throws JSONException {
+		if (user.has(allClasses)) {
+			JSONArray classList = user.getJSONArray(allClasses);
+			allGroups.addAll(stringList(classList, cat));
+		}
 	}
 
 	/**
@@ -90,10 +101,11 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @throws JSONException
 	 *             if array contains objects other than strings
 	 */
-	private static ArrayList<String> stringList(JSONArray classList) throws JSONException {
-		ArrayList<String> groups = new ArrayList<>();
+	private static ArrayList<GroupIdentifier> stringList(JSONArray classList,
+			GroupIdentifier.GroupCategory category) throws JSONException {
+		ArrayList<GroupIdentifier> groups = new ArrayList<>();
 		for (int i = 0; i < classList.length(); i++) {
-			groups.add(classList.getString(i));
+			groups.add(new GroupIdentifier(classList.getString(i), category));
 		}
 		return groups;
 	}
@@ -403,11 +415,12 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public void setShared(Material m, String groupID, boolean shared,
+	public void setShared(Material m, GroupIdentifier groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
 		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost(shared ? "POST" : "DELETE",
-				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/" + groupID, null,
+				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/"
+						+ groupID.name + "?category=" + groupID.getCategory(), null,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
@@ -422,17 +435,22 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public void getGroups(String materialID, final AsyncOperation<List<String>> callback) {
+	public void getGroups(String materialID, GroupIdentifier.GroupCategory category,
+			AsyncOperation<List<GroupIdentifier>> callback) {
 		HttpRequest request = service.createRequest(model);
+		String path = "/materials/" + materialID + "/groups?type=isShared";
+		if (category != null) {
+			path += "&category=" + category.name().toLowerCase(Locale.ROOT);
+		}
 		request.sendRequestPost("GET",
-				baseURL + "/materials/" + materialID + "/groups?type=isShared", null,
+				baseURL + path, null,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
 						JSONArray groups;
 						try {
 							groups = new JSONArray(new JSONTokener(responseStr));
-							callback.callback(stringList(groups));
+							callback.callback(stringList(groups, category));
 						} catch (JSONException e) {
 							callback.callback(null);
 						}
@@ -465,7 +483,7 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void getTemplateMaterials(final MaterialCallbackI templateMaterialsCB) {
 		if (model == null || !model.isLoggedIn()) {
-			templateMaterialsCB.onLoaded(new ArrayList<Material>(), null);
+			templateMaterialsCB.onLoaded(new ArrayList<>(), null);
 			return;
 		}
 

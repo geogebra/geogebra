@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import org.geogebra.common.util.AsyncOperation;
-
 /**
  * Common interface for material cards.
  */
@@ -27,17 +25,6 @@ public interface MaterialCardI {
 	 * Show delete dialog.
 	 */
 	void onDelete();
-
-	/**
-	 * @param groupID
-	 *            group to share with
-	 * @param share
-	 *            whether to share
-	 * @param callback
-	 *            callback
-	 */
-	void setShare(String groupID, boolean share,
-			AsyncOperation<Boolean> callback);
 
 	/**
 	 * @return material id / sharing key
