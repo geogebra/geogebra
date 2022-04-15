@@ -8,6 +8,11 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class ComponentToast extends GPopupPanel {
 	private SimplePanel content;
 
+	/**
+	 * constructor
+	 * @param app - see {@link AppW}
+	 * @param contentStr - content of the toast
+	 */
 	public ComponentToast(AppW app, String contentStr) {
 		super(app.getPanel(), app);
 		addStyleName("toast");

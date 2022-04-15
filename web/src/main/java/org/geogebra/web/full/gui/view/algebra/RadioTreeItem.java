@@ -1766,7 +1766,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (!toast.isShowing()) {
 				toast.show();
 			}
- 		}
+		}
 		onCursorMove();
 		if (mf != null) {
 			updateEditorAriaLabel(getText());
