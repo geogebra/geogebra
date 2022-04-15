@@ -222,11 +222,16 @@ public class DrawLabel3D {
 		this.zOffset = zOffset0;
 	}
 
+	/**
+	 * make sure caption and it's properties is initialized for drawing label in 3d (like axis)
+	 * @param caption - caption
+	 */
 	public void initCaption(CaptionText caption) {
 		this.caption = caption;
 		if (properties == null) {
 			properties = new CaptionProperties(view);
 		}
+		properties.update(caption);
 	}
 
 	/**
