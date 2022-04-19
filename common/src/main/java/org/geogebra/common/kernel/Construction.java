@@ -1596,6 +1596,9 @@ public class Construction {
 			kernel.notifyRepaint();
 			return;
 		}
+		if (softRedefine(oldGeo, newGeo)) {
+			return;
+		}
 
 		// if oldGeo does not have any children, we can simply
 		// delete oldGeo and give newGeo the name of oldGeo
@@ -1710,6 +1713,33 @@ public class Construction {
 
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
+	}
+
+	private boolean softRedefine(GeoElement oldGeo, GeoElement newGeo) {
+		AlgoElement oldParent = oldGeo.getParentAlgorithm();
+		AlgoElement newParent = newGeo.getParentAlgorithm();
+		if (oldParent != null && newParent != null && oldParent.isCompatible(newParent)) {
+			ArrayList<Integer> updateInputIdx = new ArrayList<>();
+			for (int i = 0; i < oldParent.getInput().length; i++) {
+				if (oldParent.getInput(i) != newParent.getInput(i)) {
+					if (!Inspecting.dynamicGeosFinder.check(oldParent.getInput(i))
+							&& !Inspecting.dynamicGeosFinder.check(newParent.getInput(i))
+							&& oldParent.getInput(i).getGeoClassType()
+									== newParent.getInput(i).getGeoClassType()) {
+						updateInputIdx.add(i);
+					} else {
+						return false;
+					}
+				}
+			}
+			for (Integer i: updateInputIdx) {
+				oldParent.getInput(i).set(newParent.getInput(i));
+			}
+			oldParent.compute();
+			oldGeo.updateRepaint();
+			return true;
+		}
+		return false;
 	}
 
 	private void buildConstructionWithGlobalListeners(

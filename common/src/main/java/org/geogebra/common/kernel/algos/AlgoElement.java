@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
@@ -1905,5 +1907,18 @@ public abstract class AlgoElement extends ConstructionElement
 		return !geoElement.isAllowedToShowValue()
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
+	}
+
+	/**
+	 * Checks eligibility of two algos for soft redefinition
+	 * @param newParent other algo
+	 * @return whether these two algos are compatible
+	 */
+	public boolean isCompatible(@Nonnull AlgoElement newParent) {
+		return this.getClassName() == newParent.getClassName()
+				// we may add support for macros/expressions later
+				&& this.getClassName() instanceof Commands
+				&& this.getInputLength() == newParent.getInputLength();
+
 	}
 }
