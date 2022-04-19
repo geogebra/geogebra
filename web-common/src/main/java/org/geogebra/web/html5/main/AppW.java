@@ -2828,7 +2828,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void setAltText(GeoText altText) {
-		accessibilityManager.appendAltText(altText);
+		getAccessibilityManager().appendAltText(altText);
 	}
 
 	@Override
@@ -2876,7 +2876,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
 				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
-			accessibilityManager.readSliderUpdate(geo);
+			getAccessibilityManager().readSliderUpdate(geo);
 		}
 	}
 
