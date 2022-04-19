@@ -2,6 +2,8 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
+
 /**
  * Represents a user in GeoGebraTube. Each user is identified by a user name.
  * 
@@ -22,7 +24,7 @@ public class GeoGebraTubeUser {
 	private String image;
 	private String language;
 	private String gender;
-	private ArrayList<String> groups;
+	private ArrayList<GroupIdentifier> groups;
 	private boolean shibbolethAuth;
 	private boolean student = false;
 
@@ -212,14 +214,14 @@ public class GeoGebraTubeUser {
 	 * @param groups
 	 *            group IDs
 	 */
-	public void setGroups(ArrayList<String> groups) {
+	public void setGroups(ArrayList<GroupIdentifier> groups) {
 		this.groups = groups;
 	}
 
 	/**
 	 * @return user group IDs (may be empt, not null)
 	 */
-	public ArrayList<String> getGroups() {
+	public ArrayList<GroupIdentifier> getGroups() {
 		if (groups == null) {
 			return new ArrayList<>();
 		}
