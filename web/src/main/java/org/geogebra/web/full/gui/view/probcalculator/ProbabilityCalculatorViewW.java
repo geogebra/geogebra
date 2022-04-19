@@ -170,7 +170,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		FlowPanel plotPanelOptions = new FlowPanel();
 		plotPanelOptions.setStyleName("plotPanelOptions");
-		plotPanelOptions.add(lblMeanSigma);
+		if (!app.getConfig().hasDistributionView()) {
+			plotPanelOptions.add(lblMeanSigma);
+		}
 		if (!getApp().isExam() && app.getConfig().getAppCode().equals("classic")) {
 			plotPanelOptions.add(btnExport.getPopupMenu());
 		}
