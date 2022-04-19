@@ -2205,8 +2205,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void addGeoToTV(GeoElement geo) {
-		getTableValuesView().add(geo);
-		getTableValuesView().showColumn((GeoEvaluatable) geo);
+		getTableValuesView().addAndShow(geo);
 	}
 
 	@Override
