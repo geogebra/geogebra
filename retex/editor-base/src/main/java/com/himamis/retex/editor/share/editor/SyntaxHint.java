@@ -66,8 +66,7 @@ public class SyntaxHint {
 	 * @return if hint is empty.
 	 */
 	public boolean isEmpty() {
-		return "".equals(command) && Collections.emptyList().equals(placeholders)
-				;
+		return "".equals(command) && Collections.emptyList().equals(placeholders);
 	}
 
 	@Override

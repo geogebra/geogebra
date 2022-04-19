@@ -45,6 +45,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.HasHelpButton;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
@@ -165,6 +166,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private String ariaPreview;
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
+	private ComponentToast toast;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -1654,6 +1656,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			if (isInputTreeItem()) {
 				setItemWidth(getAV().getFullWidth());
+				toast.hide();
 			} else {
 				content.removeStyleName("scrollableTextBox");
 			}
@@ -1752,6 +1755,18 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		inputControl.ensureInputMoreMenu();
 		updatePreview();
 		popupSuggestions();
+		String hint = "Solve( List of Parametric Equations, List of Variables, Some more text ,"
+				+ "List of Parametric Equations, List of Variables, Some more text ,"
+				+ "List of Parametric Equations, List of Variables, Some more text )";
+		if (toast == null) {
+			toast = new ComponentToast(app, hint);
+			toast.show();
+		} else {
+			toast.updateContent(hint);
+			if (!toast.isShowing()) {
+				toast.show();
+			}
+		}
 		onCursorMove();
 		if (mf != null) {
 			updateEditorAriaLabel(getText());
