@@ -47,6 +47,6 @@ ext.gwtCompilerVersion = '2.9.0'
 ext.gradleVersionGGB = "6.7.1"
 ext.joglVersion = '2.2.0'
 ext.junitVersion = '4.13.2'
-ext.mockitoVersion = '4.4.0'
+ext.mockitoVersion = '4.5.0'
 ext.hamcrestVersion = '2.2'
 ext.javaGiacVersion = '69951'
