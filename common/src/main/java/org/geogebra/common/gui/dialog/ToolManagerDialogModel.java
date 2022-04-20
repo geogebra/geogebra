@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -40,8 +39,6 @@ public class ToolManagerDialogModel {
 		void removeMacroFromToolbar(int i);
 
 		void refreshCustomToolsInToolBar();
-
-		void uploadWorksheet(ArrayList<Macro> macros);
 
 	}
 
@@ -140,48 +137,6 @@ public class ToolManagerDialogModel {
 	 */
 	public List<Macro> getDeletedMacros() {
 		return deletedMacros;
-	}
-
-	/**
-	 * @param sel
-	 *            selected macros
-	 */
-	public void uploadToGeoGebraTube(final Object[] sel) {
-		app.setWaitCursor();
-		try {
-			app.getSelectionManager().clearSelectedGeos(true, false);
-			app.updateSelection(false);
-
-			if (sel == null || sel.length == 0) {
-				return;
-			}
-
-			// we need to save all selected tools and all tools
-			// that are used by the selected tools
-			LinkedHashSet<Macro> tools = new LinkedHashSet<>();
-			for (int i = 0; i < sel.length; i++) {
-				Macro macro = (Macro) sel[i];
-				ArrayList<Macro> macros = macro.getUsedMacros();
-				if (macros != null) {
-					tools.addAll(macros);
-				}
-				tools.add(macro);
-			}
-
-			// create Macro array list from tools set
-			ArrayList<Macro> macros = new ArrayList<>(tools.size());
-			Iterator<Macro> it = tools.iterator();
-			while (it.hasNext()) {
-				macros.add(it.next());
-			}
-
-			listener.uploadWorksheet(macros);
-
-		} catch (Exception e) {
-			Log.debug("Uploading failed");
-			Log.debug(e);
-		}
-		app.setDefaultCursor();
 	}
 
 	/**

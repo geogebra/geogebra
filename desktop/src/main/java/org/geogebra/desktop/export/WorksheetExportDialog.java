@@ -123,7 +123,7 @@ public class WorksheetExportDialog extends Dialog {
 
 						GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
 								app);
-						ggtExport.uploadWorksheet(null);
+						ggtExport.uploadWorksheet();
 
 					}
 				};

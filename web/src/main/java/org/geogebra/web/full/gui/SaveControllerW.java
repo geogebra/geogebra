@@ -161,7 +161,7 @@ public class SaveControllerW implements SaveController {
 			uploadToDrive();
 		} else {
 			Material activeMaterial = app.getActiveMaterial();
-			if (activeMaterial == null || isMacro()) {
+			if (activeMaterial == null) {
 				activeMaterial = new Material(0, saveType);
 				app.setActiveMaterial(activeMaterial);
 			} else if (!app.getLoginOperation()
@@ -191,9 +191,7 @@ public class SaveControllerW implements SaveController {
 	private void uploadToGgt(final String visibility) {
 		final boolean titleChanged = !fileName
 				.equals(app.getKernel().getConstruction().getTitle());
-		if (this.saveType != MaterialType.ggt) {
-			app.getKernel().getConstruction().setTitle(fileName);
-		}
+		app.getKernel().getConstruction().setTitle(fileName);
 		Material mat = app.getActiveMaterial();
 		if (!titleChanged && mat != null) {
 			syncIdAndType(mat);
@@ -205,9 +203,8 @@ public class SaveControllerW implements SaveController {
 				getAppW().updateMaterialURL(0, null, null);
 				doUploadToGgt(getAppW().getTubeId(), visibility, base64,
 						newMaterialCB(base64, false));
-			} else if (StringUtil.emptyOrZero(getAppW().getTubeId())
-					|| isMacro()) {
-				Log.debug("SAVE had no Tube ID or tool is saved");
+			} else if (StringUtil.emptyOrZero(getAppW().getTubeId())) {
+				Log.debug("SAVE had no Tube ID");
 				doUploadToGgt(null, visibility, base64,
 						newMaterialCB(base64, false));
 			} else {
@@ -217,11 +214,7 @@ public class SaveControllerW implements SaveController {
 
 		ToolTipManagerW.sharedInstance().showBottomMessage(loc.getMenu("Saving"), app);
 
-		if (saveType == MaterialType.ggt) {
-			app.getGgbApi().getMacrosBase64(true, handler::consume);
-		} else {
-			app.getGgbApi().getBase64(true, handler);
-		}
+		app.getGgbApi().getBase64(true, handler);
 		if (listener != null) {
 			listener.hide();
 		}
@@ -238,7 +231,7 @@ public class SaveControllerW implements SaveController {
 	 */
 	void doUploadToDrive() {
 		String saveName = fileName;
-		String prefix = saveType == MaterialType.ggb ? ".ggb" : ".ggt";
+		String prefix = ".ggb";
 		if (!saveName.endsWith(prefix)) {
 			app.getKernel().getConstruction().setTitle(saveName);
 			saveName += prefix;
@@ -248,11 +241,7 @@ public class SaveControllerW implements SaveController {
 		}
 		StringConsumer callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation())
 				.getPutFileCallback(saveName, "GeoGebra", saveType == MaterialType.ggb);
-		if (saveType == MaterialType.ggt) {
-			app.getGgbApi().getMacrosBase64(true, callback);
-		} else {
-			app.getGgbApi().getBase64(true, callback);
-		}
+		app.getGgbApi().getBase64(true, callback);
 	}
 
 	/**
@@ -323,11 +312,6 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public boolean isWorksheet() {
 		return MaterialType.ggb.equals(saveType) || MaterialType.ggs.equals(saveType);
-	}
-
-	@Override
-	public boolean isMacro() {
-		return MaterialType.ggt.equals(saveType);
 	}
 
 	/**
@@ -401,11 +385,11 @@ public class SaveControllerW implements SaveController {
 				} else {
 					if (parseResponse.size() == 1) {
 						SaveCallback.onSaved(getAppW(), SaveState.OK,
-								isMacro());
+								false);
 						runAutoSaveCallback();
 					} else {
 						SaveCallback.onSaved(getAppW(), SaveState.ERROR,
-								isMacro());
+								false);
 					}
 				}
 				if (getListener() != null) {
@@ -498,7 +482,7 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public boolean updateSaveTitle(TextObject title, String fallback) {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (!StringUtil.empty(consTitle) && !isMacro()) {
+		if (!StringUtil.empty(consTitle)) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
