@@ -85,7 +85,7 @@ public class DrawLabel3D {
 
     private CoordMatrix4x4 positionMatrix;
 	protected @CheckForNull CaptionText caption;
-	private final CaptionProperties properties;
+	private CaptionProperties properties;
 
 	/**
 	 * common constructor
@@ -220,6 +220,18 @@ public class DrawLabel3D {
 		this.xOffset = xOffset0;
 		this.yOffset = yOffset0;
 		this.zOffset = zOffset0;
+	}
+
+	/**
+	 * make sure caption and it's properties is initialized for drawing label in 3d (like axis)
+	 * @param caption - caption
+	 */
+	public void initCaption(CaptionText caption) {
+		this.caption = caption;
+		if (properties == null) {
+			properties = new CaptionProperties(view);
+		}
+		properties.update(caption);
 	}
 
 	/**
