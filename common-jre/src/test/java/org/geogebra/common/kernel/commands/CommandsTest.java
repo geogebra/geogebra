@@ -1982,6 +1982,8 @@ public class CommandsTest {
 				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
 		intersect("-x^4+2 x^2+0.25 x+5", "0.1x - 0.96y=-3.9156",
 				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
+		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y",
+				false, "(1, 1)");
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
