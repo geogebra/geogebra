@@ -187,7 +187,11 @@ public class AlgebraProcessor {
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
 	private CommandSyntax englishCommandSyntax;
-	private SqrtMinusOneReplacer sqrtMinusOneReplacer;
+	private final SqrtMinusOneReplacer sqrtMinusOneReplacer;
+
+	// Somewhat duplicates EvalInfo.isRedefinition but propagating EvalInfo to constructors of
+	// all geos would be an overkill (needed for autocolor)
+	private boolean isRedefining;
 
 	/**
 	 * @param kernel
@@ -1981,9 +1985,11 @@ public class AlgebraProcessor {
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		boolean oldRedefine = isRedefining;
 		if (replaceable != null) {
 			evalInfo = evalInfo.withRedefinition(true);
             cons.setSuppressLabelCreation(true);
+			isRedefining = true;
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
 			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
@@ -2003,6 +2009,7 @@ public class AlgebraProcessor {
 						loc.getInvalidInputError() + ":\n" + expression);
 			}
 		} finally {
+			isRedefining = false;
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 		if (!info.getKeepDefinition()) {
@@ -2196,6 +2203,10 @@ public class AlgebraProcessor {
 				}
 			}
 		}
+	}
+
+	public boolean isRedefining() {
+		return this.isRedefining;
 	}
 
 	private static boolean isFunctionIneq(GeoElement geo) {
@@ -2904,7 +2915,6 @@ public class AlgebraProcessor {
 	 */
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -2912,9 +2922,9 @@ public class AlgebraProcessor {
 		boolean isIndependent = lhs.isConstant(info);
 		if (isIndependent) {
 			// get coefficients
-			a = lhs.getCoeffValue("x");
-			b = lhs.getCoeffValue("y");
-			c = lhs.getCoeffValue("");
+			double a = lhs.getCoeffValue("x");
+			double b = lhs.getCoeffValue("y");
+			double c = lhs.getCoeffValue("");
 			line = new GeoLine(cons, a, b, c);
 		} else {
 			line = dependentLine(equ);
