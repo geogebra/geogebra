@@ -12362,4 +12362,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	boolean isLockedForMultiuser(GeoElement geo) {
 		return geo instanceof GeoInline && ((GeoInline) geo).isLockedForMultiuser();
 	}
+
+	protected App getApp() {
+		return app;
+	}
 }
