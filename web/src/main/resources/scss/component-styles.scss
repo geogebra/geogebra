@@ -788,12 +788,12 @@
 
 	.toast {
 		position: absolute;
-		background-color: colors.$black-54;
+		background-color: colors.$toast-background;
 		max-width: 624px;
 		border-radius: 4px;
 		padding: 8px 12px;
 		box-shadow: 0 3px 5px -1px colors.$black-20,0 6px 10px 0 colors.$black-14,0 1px 18px 0 colors.$black-12;
-		transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.25s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transition: opacity 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms;
 		transform: scale(.8);
 		opacity: 0;
 
