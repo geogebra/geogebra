@@ -1211,4 +1211,10 @@ public interface JavaScriptAPI {
 	 * @return view options
 	 */
 	Object getGraphicsOptions(int viewId);
+
+	/**
+	 * Sets sorting order of the algebra view
+	 * @param options to specify algebra options: sortBy for sorting order
+	 */
+	void setAlgebraOptions(Object options);
 }

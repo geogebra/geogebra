@@ -1084,4 +1084,8 @@ public class DefaultExportedApi implements ExportedApi {
 	public JsArray<String> getSiblingObjectNames(String objName) {
 		return new JsArray<>(ggbAPI.getSiblingObjectNames(objName));
 	}
+
+	public void setAlgebraOptions(Object options) {
+		ggbAPI.setAlgebraOptions(options);
+	}
 }

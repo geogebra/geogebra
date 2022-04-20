@@ -17,6 +17,7 @@ import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.MyXMLio;
@@ -55,6 +56,7 @@ import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -2406,7 +2408,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void setGlobalOptions(Object options) {
 		JsObjectWrapper opts = getWrapper(options);
-		opts.ifPropertySet("labelingStyle", app::setLabelingStyle);
+		opts.ifIntPropertySet("labelingStyle", app::setLabelingStyle);
 		opts.ifIntPropertySet("fontSize", val -> app.setFontSize(val, true));
 	}
 
@@ -2447,7 +2449,41 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						axisOptions -> setAxisOptions(axisNo, axisOptions, es));
 			}
 		});
+
+		opts.ifObjectPropertySet("gridDistance", distances ->
+				setGridDistances(distances, es));
 		es.endBatch();
+	}
+
+	private void setGridDistances(JsObjectWrapper distanceOptions,
+			EuclidianSettings es) {
+
+		if (isDistanceAutomatic(distanceOptions)) {
+			es.setAutomaticGridDistance(true, true);
+			return;
+		}
+		Double x = getDoubleIf(distanceOptions, "x", Double.valueOf(0));
+		Double y = getDoubleIf(distanceOptions, "y", Double.valueOf(0));
+		Double theta = getDoubleIf(distanceOptions, "theta", null);
+
+		double[] distances = theta != null
+				? new double[]{x, y, theta}
+				: new double[]{x, y};
+
+		if (distances[0] > 0 && distances[1] > 0) {
+			es.setGridDistances(distances);
+		}
+
+	}
+
+	private Double getDoubleIf(JsObjectWrapper distanceOptions, String x, Double defaultValue) {
+		return distanceOptions.getValue(x) != null
+				? (Double) distanceOptions.getValue(x)
+				: defaultValue;
+	}
+
+	private static boolean isDistanceAutomatic(JsObjectWrapper opts) {
+		return opts.getValue("x") == null && opts.getValue("y") == null;
 	}
 
 	protected void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {
@@ -2484,7 +2520,33 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		opts.setProperty("axes", axes.getNativeObject());
+		opts.setProperty("gridDistance", getGridDistance(es));
 		return opts.getNativeObject();
+	}
+
+	private Object getGridDistance(EuclidianSettings es) {
+		JsObjectWrapper opts = createWrapper();
+		if (es.getAutomaticGridDistance()) {
+			opts.setProperty("x", null);
+			opts.setProperty("y", null);
+		} else {
+			double[] distances = es.getGridDistances();
+			opts.setProperty("x", distances[0]);
+			opts.setProperty("y", distances[1]);
+			if (distances.length == 3) {
+				opts.setProperty("theta", distances[2]);
+			}
+		}
+
+		return opts.getNativeObject();
+	}
+
+	@Override
+	public void setAlgebraOptions(Object options) {
+		JsObjectWrapper opts = getWrapper(options);
+		AlgebraSettings settings = app.getSettings().getAlgebra();
+		opts.ifIntPropertySet("sortBy",
+				mode -> settings.setTreeMode(AlgebraView.SortMode.fromInt(mode)));
 	}
 
 	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {
