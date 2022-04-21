@@ -505,8 +505,6 @@ public class DrawInequality extends Drawable {
 	private void createDrawable() {
 		switch (ineq.getType()) {
 		case INEQUALITY_PARAMETRIC_Y:
-			drawable = new DrawParametricInequality(ineq, view, geo);
-			break;
 		case INEQUALITY_PARAMETRIC_X:
 			drawable = new DrawParametricInequality(ineq, view, geo);
 			break;
