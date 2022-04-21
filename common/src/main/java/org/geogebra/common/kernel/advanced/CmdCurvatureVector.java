@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
@@ -44,10 +45,8 @@ public class CmdCurvatureVector extends CommandProcessor {
 					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
 				AlgoCurvatureVector algo = new AlgoCurvatureVector(cons,
-						c.getLabel(), (GeoPoint) arg[0], (GeoFunction) arg[1]);
-
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
+						(GeoPoint) arg[0], (GeoFunction) arg[1]);
+				return withLabel(algo.getVector(), c);
 			} else if ((ok[0] = (arg[0] instanceof GeoPointND))
 					&& (ok[1] = (arg[1] instanceof GeoCurveCartesian3D))) {
 
@@ -69,17 +68,15 @@ public class CmdCurvatureVector extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 
 				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(
-						cons, c.getLabel(), (GeoPoint) arg[0],
+						cons, (GeoPoint) arg[0],
 						(GeoCurveCartesian) arg[1]);
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
+				return withLabel(algo.getVector(), c);
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 				AlgoCurvatureVectorCurve algo = new AlgoCurvatureVectorCurve(
-						cons, c.getLabel(), (GeoPoint) arg[0],
+						cons, (GeoPoint) arg[0],
 						(GeoConic) arg[1]);
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
+				return withLabel(algo.getVector(), c);
 			}
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
@@ -89,5 +86,15 @@ public class CmdCurvatureVector extends CommandProcessor {
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoElement[] withLabel(GeoVector vector, Command c) {
+		if (c.getLabel() != null) {
+			vector.setLabel(c.getLabel());
+		} else {
+			// if we don't have a label we could try cv
+			vector.setLabel("cv");
+		}
+		return new GeoElement[]{ vector };
 	}
 }

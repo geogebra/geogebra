@@ -181,14 +181,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		return text.startsWith("=");
 	}
 
-	/**
-	 * 
-	 * @return true if the completion popup is open
-	 */
-	public boolean completionsPopupOpen() {
-		return autoCompleteTextField.getCompletions() != null;
-	}
-
 	// =======================================================
 	// In-cell Editing Methods
 	// =======================================================
@@ -335,7 +327,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		} catch (Exception ex) {
 			// show GeoGebra error dialog
 			// kernel.getApplication().showError(ex.getMessage());
-			ex.printStackTrace();
+			Log.debug(ex);
 			// TODO super.stopCellEditing();
 			editing = false;
 			return false;

@@ -44,7 +44,7 @@ public class ContextMenuFactory {
 	 *
 	 * @param text menu text
 	 * @param asHtml indicates if text is a html one.
-	 * @param submenu Submenu if any.0
+	 * @param submenu Submenu if any.
 	 * @return a new AriaMenuItem instance.
 	 */
 	public AriaMenuItem newAriaMenuItem(String text, boolean asHtml, AriaMenuBar submenu) {

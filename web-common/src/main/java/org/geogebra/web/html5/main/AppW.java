@@ -1,5 +1,11 @@
 package org.geogebra.web.html5.main;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -283,7 +289,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getAppletParameters().getParamScaleContainerClass()),
 					this::checkScaleContainer);
 		}
-		initializeAnalytics();
+		if (getAppletParameters().getDataParamApp()) {
+			initializeAnalytics();
+		}
 	}
 
 	/**
@@ -557,7 +565,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				try {
 					getXMLio().processXMLString(xml, true, false);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		};
@@ -837,8 +845,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (def.hasDefaults3d()) {
 				getXMLio().processXMLString(def.getDefaults3d(), false, true);
 			}
-			afterLoadFileAppOrNot(asSlide);
 
+			afterLoadFileAppOrNot(asSlide);
 		} catch (Exception e) {
 			Log.debug(e);
 		}
@@ -1140,8 +1148,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					setToolLoadedFromStorage(true);
 					return true;
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}
@@ -2821,7 +2828,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void setAltText(GeoText altText) {
-		accessibilityManager.appendAltText(altText);
+		getAccessibilityManager().appendAltText(altText);
 	}
 
 	@Override
@@ -2869,7 +2876,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
 				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
-			accessibilityManager.readSliderUpdate(geo);
+			getAccessibilityManager().readSliderUpdate(geo);
 		}
 	}
 
@@ -3108,31 +3115,31 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean isUnbundledGraphing() {
-		return "graphing".equals(getSubAppCode());
+		return GRAPHING_APPCODE.equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isUnbundledGeometry() {
-		return "geometry".equals(getSubAppCode());
+		return GEOMETRY_APPCODE.equals(getSubAppCode());
 	}
 
 	/**
 	 * @return whether we are running 3D grapher
 	 */
 	public boolean isUnbundled3D() {
-		return "3d".equals(getSubAppCode());
+		return G3D_APPCODE.equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isSuite() {
-		return "suite".equals(getConfig().getAppCode());
+		return SUITE_APPCODE.equals(getConfig().getAppCode());
 	}
 
 	/**
 	 * @return whether we are running cas
 	 */
 	public boolean isUnbundledCas() {
-		return "cas".equals(getSubAppCode());
+		return CAS_APPCODE.equals(getSubAppCode());
 	}
 
 	/**
@@ -3171,8 +3178,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public void exportStringToFile(String extension, String content) {
-
+	public void exportStringToFile(String extension, String content, boolean showDialog) {
 		String url;
 
 		if ("html".equals(extension)) {
@@ -3184,8 +3190,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		dispatchEvent(new Event(EventType.OPEN_DIALOG, null, "export3D"));
-		getFileManager().showExportAsPictureDialog(url, getExportTitle(),
-				extension, "Export", this);
+		if (showDialog) {
+			getFileManager().showExportAsPictureDialog(url, getExportTitle(),
+					extension, "Export", this);
+		} else {
+			getFileManager().exportImage(url,  getExportTitle() + "." + extension,
+					extension);
+			dispatchEvent(new Event(EventType.EXPORT, null,
+					"[\"" + extension + "\"]"));
+		}
 	}
 
 	/**
@@ -3490,7 +3503,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		try {
 			Analytics.setInstance(new AnalyticsW());
 		} catch (Throwable e) {
-			Log.debug("Could not initialize analytics object.");
+			Log.debug("Could not initialize analytics object." + e);
 		}
 	}
 

@@ -7,10 +7,8 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -45,9 +43,9 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		styleBarPanel.setStyleName("StyleBarPanel_");
 		updateStyles();
 		add(titleBarPanelContent);
-		NoDragImage closeIcon = new NoDragImage(GuiResourcesSimple.INSTANCE.close(), 24);
-		GPushButton closeButton = new GPushButton(closeIcon);
-		closeButton.addClickHandler(event ->
+		StandardButton closeButton = new StandardButton(MaterialDesignResources.INSTANCE.clear(),
+				24, null);
+		closeButton.addFastClickHandler(event ->
 				app.getGuiManager().setShowView(false, dockPanel.id));
 		closeButtonPanel = new FlowPanel();
 		closeButtonPanel.setStyleName("closeButtonPanel");

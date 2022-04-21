@@ -48,9 +48,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	 *            point
 	 */
 	public DrawPoint3D(EuclidianView3D view3D, GeoPointND point) {
-
 		super(view3D, (GeoElement) point);
-
 	}
 
 	@Override

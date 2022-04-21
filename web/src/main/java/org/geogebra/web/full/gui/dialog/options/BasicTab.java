@@ -12,16 +12,15 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
-import org.geogebra.web.full.gui.util.MyCJButton;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -38,20 +37,18 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	AutoCompleteTextFieldW tfAxesRatioY;
 	private Label axesRatioLabel;
 	private FlowPanel dimPanel;
-	GToggleButton tbLockRatio;
-	private Image imgLock;
-	private Image imgUnlock;
+	ToggleButton tbLockRatio;
 
 	protected ComponentCheckbox cbShowAxes;
 	ComponentCheckbox cbBoldAxes;
 	private Label colorLabel;
-	private MyCJButton btAxesColor;
+	private StandardButton btAxesColor;
 	private Label lineStyle;
 	protected FlowPanel axesOptionsPanel;
 	private Label axesOptionsTitle;
 	private PopupMenuButtonW axesStylePopup;
 	protected Label backgroundColorLabel;
-	protected MyCJButton btBackgroundColor;
+	protected StandardButton btBackgroundColor;
 	ComponentCheckbox cbShowMouseCoords;
 	private FormLabel tooltips;
 	private FormLabel rightAngleStyleLabel;
@@ -138,13 +135,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		enableAxesRatio(optionsEuclidianW.view.isZoomable()
 				&& !optionsEuclidianW.view.isLockedAxesRatio());
 
-		imgLock = new Image(MaterialDesignResources.INSTANCE.lock_black()
-						.getSafeUri().asString(), 0, 0, 24, 24);
-		imgUnlock = new Image(MaterialDesignResources.INSTANCE.lock_open_black()
-						.getSafeUri().asString(), 0, 0, 24, 24);
-
-		tbLockRatio = new GToggleButton(imgLock);
-		tbLockRatio.setValue(optionsEuclidianW.view.isLockedAxesRatio());
+		tbLockRatio = new ToggleButton(MaterialDesignResources.INSTANCE.lock_open_black(),
+				MaterialDesignResources.INSTANCE.lock_black());
+		tbLockRatio.removeStyleName("MyToggleButton");
+		tbLockRatio.setSelected(optionsEuclidianW.view.isLockedAxesRatio());
 		tbLockRatio.setEnabled(optionsEuclidianW.view.isZoomable());
 
 		axesRatioLabel = new Label("");
@@ -190,8 +184,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		addAxesRatioHandler(tfAxesRatioX);
 		addAxesRatioHandler(tfAxesRatioY);
 
-		tbLockRatio.addClickHandler(event -> {
-			if (tbLockRatio.getValue()) {
+		tbLockRatio.addFastClickHandler(event -> {
+			if (tbLockRatio.isSelected()) {
 				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 						/ parseDouble(tfAxesRatioY.getText()));
 			} else {
@@ -239,9 +233,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbAxisLabelItalic = new ComponentCheckbox(optionsEuclidianW.loc, false, "Italic",
 				() -> model.setAxisFontItalic(cbAxisLabelItalic.isSelected()));
 
-		btAxesColor = new MyCJButton();
+		btAxesColor = new StandardButton(24);
 
-		btAxesColor.addClickHandler(event -> optionsEuclidianW.getDialogManager()
+		btAxesColor.addFastClickHandler(event -> optionsEuclidianW.getDialogManager()
 				.showColorChooserDialog(model.getAxesColor(),
 						new ColorChangeHandler() {
 
@@ -375,12 +369,23 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		consProtocolPanel.add(cbShowNavbar);
 
-		cbNavPlay = new ComponentCheckbox(optionsEuclidianW.loc, false, "PlayButton",
+		cbNavPlay = new ComponentCheckbox(optionsEuclidianW.loc, true, "PlayButton",
 				() -> togglePlayButton());
 
-		cbOpenConsProtocol = new ComponentCheckbox(optionsEuclidianW.loc, false,
+		cbOpenConsProtocol = new ComponentCheckbox(optionsEuclidianW.loc, true,
 				"ConstructionProtocolButton",
 				() -> toggleConsProtButton());
+
+		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
+				.getGuiManager().getCPNavigationIfExists();
+		boolean selectNavPlay = cpn == null || cpn.isPlayButtonVisible();
+		if (selectNavPlay != cbNavPlay.isSelected()) {
+			cbNavPlay.setSelected(selectNavPlay);
+		}
+		boolean selectConsProtocol = cpn == null || cpn.isConsProtButtonVisible();
+		if (selectConsProtocol != cbOpenConsProtocol.isSelected()) {
+			cbOpenConsProtocol.setSelected(selectConsProtocol);
+		}
 
 		FlowPanel buttons = new FlowPanel();
 		buttons.setStyleName("panelIndent");
@@ -397,8 +402,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				.toggleShowConstructionProtocolNavigation(
 						optionsEuclidianW.view
 								.getViewID());
-		cbNavPlay.setEnabled(cbShowNavbar.isSelected());
-		cbOpenConsProtocol.setEnabled(cbShowNavbar.isSelected());
+		cbNavPlay.setDisabled(!cbShowNavbar.isSelected());
+		cbOpenConsProtocol.setDisabled(!cbShowNavbar.isSelected());
 	}
 
 	protected void applyBackgroundColor(GColor color) {
@@ -425,7 +430,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		backgroundColorLabel = new Label(
 				optionsEuclidianW.loc.getMenu("BackgroundColor") + ":");
 
-		btBackgroundColor = new MyCJButton();
+		btBackgroundColor = new StandardButton(24);
 
 		// show mouse coords
 		cbShowMouseCoords = new ComponentCheckbox(optionsEuclidianW.loc, false,
@@ -452,7 +457,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		indent(miscPanel);
 
-		btBackgroundColor.addClickHandler(event -> {
+		btBackgroundColor.addFastClickHandler(event -> {
 			optionsEuclidianW.getDialogManager()
 					.showColorChooserDialog(model.getBackgroundColor(),
 							new ColorChangeHandler() {
@@ -488,7 +493,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 									// TODO Auto-generated method stub
 								}
 							});
-			// model.applyBackgroundColor();
 		});
 
 		lbTooltips.addChangeHandler(event -> model.applyTooltipMode(
@@ -579,7 +583,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		tfAxesRatioX.getTextBox().setEnabled(value);
 		tfAxesRatioY.getTextBox().setEnabled(value);
 		if (tbLockRatio != null) {
-			tbLockRatio.getUpFace().setImage(value ? imgUnlock : imgLock);
+			tbLockRatio.setEnabled(value);
 		}
 	}
 
@@ -632,7 +636,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 *            axes color override for axis color
 	 */
 	public final void updateAxes(GColor color) {
-		// btAxesColor.setForeground(new GColorW(view.getAxesColor()));
 		cbShowAxes.setSelected(optionsEuclidianW.view.getShowXaxis()
 				&& optionsEuclidianW.view.getShowYaxis());
 		cbBoldAxes.setSelected(optionsEuclidianW.view.areAxesBold());
@@ -668,14 +671,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	public void updateConsProtocolPanel(boolean isVisible) {
 		// cons protocol panel
 		cbShowNavbar.setSelected(isVisible);
-		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
-				.getGuiManager().getCPNavigationIfExists();
-		cbNavPlay.setSelected(cpn == null || cpn.isPlayButtonVisible());
-		cbOpenConsProtocol
-				.setSelected(cpn == null || cpn.isConsProtButtonVisible());
-
-		cbNavPlay.setEnabled(isVisible);
-		cbOpenConsProtocol.setEnabled(isVisible);
+		cbNavPlay.setDisabled(!isVisible);
+		cbOpenConsProtocol.setDisabled(!isVisible);
 	}
 
 	public void showMouseCoords(boolean value) {

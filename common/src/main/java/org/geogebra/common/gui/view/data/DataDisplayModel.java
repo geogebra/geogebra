@@ -536,7 +536,7 @@ public class DataDisplayModel {
 		} catch (Exception e) {
 			daModel.getDaCtrl().setValidData(false);
 			listener.showInvalidDataDisplay();
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -671,7 +671,7 @@ public class DataDisplayModel {
 			updatePlot(true);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			app.setDefaultCursor();
 		}
 

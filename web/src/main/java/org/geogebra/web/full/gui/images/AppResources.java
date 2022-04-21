@@ -12,9 +12,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/options-layout24.png")
 	ImageResource options_layout24();
 
-	@Source("org/geogebra/common/icons/png/web/general/geogebra32.png")
-	ImageResource geogebraLogo();
-
 	@Source("org/geogebra/common/icons/png/web/general/aux_folder.gif")
 	ImageResource aux_folder();
 
@@ -33,14 +30,8 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png16x16/cumulative_distribution.png")
 	ImageResource cumulative_distribution();
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-delete.png")
-	ImageResource delete_small();
-
 	@Source("org/geogebra/common/icons/png/web/general/empty.gif")
 	ImageResource empty();
-
-	@Source("org/geogebra/common/icons/png/web/general/export.png")
-	ImageResource export();
 
 	@Source("org/geogebra/common/icons/png/web/general/geogebra.png")
 	ImageResource geogebra();

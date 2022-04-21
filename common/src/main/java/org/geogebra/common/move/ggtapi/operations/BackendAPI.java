@@ -2,6 +2,7 @@ package org.geogebra.common.move.ggtapi.operations;
 
 import java.util.List;
 
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -223,7 +224,7 @@ public interface BackendAPI {
 	 * @param callback
 	 *            callback; gets true if successful
 	 */
-	void setShared(Material material, String groupID, boolean shared,
+	void setShared(Material material, GroupIdentifier groupID, boolean shared,
 			AsyncOperation<Boolean> callback);
 
 	/**
@@ -231,8 +232,10 @@ public interface BackendAPI {
 	 *            material ID
 	 * @param asyncOperation
 	 *            callback; gets list of groups we can share with
+	 * @param category filter only groups in this category; null for no filter
 	 */
-	void getGroups(String materialID, AsyncOperation<List<String>> asyncOperation);
+	void getGroups(String materialID, GroupIdentifier.GroupCategory category,
+			AsyncOperation<List<GroupIdentifier>> asyncOperation);
 
 	/**
 	 * @param mat

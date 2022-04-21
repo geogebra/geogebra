@@ -208,6 +208,11 @@ public class GeoLine3D extends GeoCoordSys1D {
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		getCoordsXML(sb);
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		XMLBuilder.appendEquationTypeLine(sb, GeoLine.PARAMETRIC, parameter);
 	}
 

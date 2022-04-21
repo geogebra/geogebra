@@ -1,12 +1,13 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -22,9 +23,9 @@ public class MarblePanel extends FlowPanel
 	
 	private Marble marble;
 	/** warning triangle / help button */
-	private MyToggleButton btnWarning;
+	private StandardButton btnWarning;
 	/** plus button (new expression / text, ...) */
-	MyToggleButton btnPlus;
+	StandardButton btnPlus;
 	/** av item */
 	RadioTreeItem item;
 	/** plus menu */
@@ -118,18 +119,10 @@ public class MarblePanel extends FlowPanel
 
 	private void initHelpToggle() {
 		if (btnWarning == null) {
-			btnWarning = new MyToggleButton(item.app);
-			NoDragImage warnIcon = new NoDragImage(
-					GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
-							.asString());
-
-			btnWarning.getUpFace().setImage(warnIcon);
-			btnWarning.getUpHoveringFace().setImage(warnIcon);
-			btnWarning.getDownFace().setImage(warnIcon);
-			btnWarning.getDownHoveringFace().setImage(warnIcon);
+			btnWarning = new StandardButton(GuiResourcesSimple.INSTANCE.icon_dialog_warning(), 24);
 			// when clicked, this steals focus
 			// => we need to push focus to parent item
-			btnWarning.addFocusHandler(event -> {
+			Dom.addEventListener(btnWarning.getElement(), "mouseover", event -> {
 				item.setFocus(true);
 				event.preventDefault();
 				event.stopPropagation();
@@ -142,23 +135,15 @@ public class MarblePanel extends FlowPanel
 	 */
 	public void initPlus() {
 		if (btnPlus == null) {
-			btnPlus = new MyToggleButton(item.app);
-			NoDragImage plus = new NoDragImage(
-					MaterialDesignResources.INSTANCE.add_black(), 24);
-			NoDragImage hover = new NoDragImage(
-					MaterialDesignResources.INSTANCE.add_purple(), 24);
-			btnPlus.getUpHoveringFace().setImage(hover);
-			btnPlus.getDownHoveringFace().setImage(hover);
-			btnPlus.getUpFace().setImage(plus);
-			btnPlus.getDownFace().setImage(plus);
-
+			btnPlus = new StandardButton(MaterialDesignResources.INSTANCE.add_black(),
+					24, GeoGebraColorConstants.GEOGEBRA_ACCENT);
 			add(btnPlus);
 			if (item.app.isUnbundled()) {
 				btnPlus.addStyleName("flatButton");
 			}
-			
+
 			ClickStartHandler.init(btnPlus, new ClickStartHandler(true, true) {
-				
+
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					item.preventBlur();
@@ -168,8 +153,8 @@ public class MarblePanel extends FlowPanel
 		}
 		String tooltip = item.app.getLocalization().getMenu("AddItem");
 		btnPlus.setTitle(tooltip);
+		AriaHelper.setLabel(btnPlus, tooltip);
 		btnPlus.setAltText(tooltip);
-		btnPlus.addKeyDownHandler(this);
 		AriaHelper.setHidden(btnPlus, true);
 	}
 

@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Manages a list of DataVariables for the DataAnalysisView.
@@ -422,7 +423,7 @@ public class DataSource {
 			return;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

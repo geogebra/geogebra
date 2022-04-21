@@ -3940,17 +3940,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		});
 	}
 
-	public static void printStacktrace(String message) {
-		try {
-			throw new Exception(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	// **************************************************************************
-	// SCRIPTING: GgbAPI/PYTHON
+	// SCRIPTING: GgbAPI
 	// **************************************************************************
 
 	/**
@@ -4329,7 +4320,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public void uploadToGeoGebraTube() {
 		GeoGebraTubeExportD ggbtube = new GeoGebraTubeExportD(this);
-		ggbtube.uploadWorksheet(null);
+		ggbtube.uploadWorksheet();
 	}
 
 	@Override
@@ -5039,7 +5030,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void exportStringToFile(String ext, String content) {
+	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		try {
 			StringBuilder fileName = new StringBuilder();
 			fileName.append("test.");

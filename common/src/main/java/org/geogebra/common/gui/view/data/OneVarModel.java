@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 public class OneVarModel {
 	private TTest tTestImpl;
@@ -88,7 +89,7 @@ public class OneVarModel {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -120,11 +121,8 @@ public class OneVarModel {
 
 		try {
 			nv = kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Double.NaN;
-		} catch (Error e) {
-			e.printStackTrace();
+		} catch (Exception | Error e) {
+			Log.debug(e);
 			return Double.NaN;
 		}
 		return nv.getDouble();

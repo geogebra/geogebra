@@ -1645,9 +1645,9 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sbXml) {
+	protected void getStyleXML(StringBuilder sbXml) {
 		getLineStyleXML(sbXml);
-		super.getXMLtags(sbXml);
+		super.getStyleXML(sbXml);
 	}
 
 	// /////////////////////////////////////////

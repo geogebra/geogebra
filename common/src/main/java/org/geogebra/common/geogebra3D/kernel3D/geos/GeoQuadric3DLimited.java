@@ -174,20 +174,24 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			return;
 		}
 
+		kernel.batchAddStarted();
 		if (labels == null || labels.length == 0) {
-			initLabelsIncludingBottom(new String[1]);
-			return;
+			setLabel(null);
+			initSideLabels(null);
+		} else {
+			setLabel(labels[0]);
+			initSideLabels(labels);
 		}
+		kernel.batchAddComplete();
+	}
 
-		setLabel(labels[0]);
-
-		if (labels.length < 3) {
+	private void initSideLabels(String[] labels) {
+		if (labels == null || labels.length < 3) {
 			bottom.setLabel(null);
 			if (!silentTop) {
 				top.setLabel(null);
 			}
 			side.setLabel(null);
-			return;
 		} else if (labels.length == 3) {
 			bottom.setLabel(labels[1]);
 			side.setLabel(labels[2]);
@@ -196,7 +200,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.setLabel(labels[2]);
 			side.setLabel(labels[3]);
 		}
-
 	}
 
 	/**

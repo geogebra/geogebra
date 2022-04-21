@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 public class TwoVarInferenceModel {
 	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
@@ -315,7 +316,7 @@ public class TwoVarInferenceModel {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 

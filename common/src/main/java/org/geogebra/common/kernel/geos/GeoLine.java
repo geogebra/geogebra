@@ -1108,16 +1108,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		sb.append(sbToStringLHS);
 	}
 
-	/**
-	 * returns all class-specific xml tags for saveXML GeoGebra File Format
-	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// line thickness and type
 		getLineStyleXML(sb);
-
-		// prametric, explicit or implicit mode
 		XMLBuilder.appendEquationTypeLine(sb, getToStringMode(), parameter);
 	}
 

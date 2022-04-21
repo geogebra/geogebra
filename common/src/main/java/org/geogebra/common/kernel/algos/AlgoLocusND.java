@@ -410,7 +410,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			 * geo.isAlgoMacroOutput = true; } Pcopy.isAlgoMacroOutput = false;
 			 */
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			locus.setUndefined();
 			macroCons = null;
 		}

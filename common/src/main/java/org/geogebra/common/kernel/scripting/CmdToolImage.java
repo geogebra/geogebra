@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * ToolImage
@@ -95,7 +96,7 @@ public class CmdToolImage extends CmdScripting {
 							}
 
 						} catch (CircularDefinitionException e) {
-							e.printStackTrace();
+							Log.debug(e);
 						}
 						geoImage.setLabel(c.getLabel());
 

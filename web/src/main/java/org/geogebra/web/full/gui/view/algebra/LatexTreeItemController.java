@@ -9,7 +9,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
+import org.geogebra.web.full.gui.inputfield.AutoCompletePopup;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.core.client.Scheduler;
@@ -25,9 +25,9 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
-	private MathFieldInputSuggestions sug;
+	private AutoCompletePopup autocomplete;
 	private RetexKeyboardListener retexListener;
-	private EvaluateInput evalInput;
+	private final EvaluateInput evalInput;
 
 	/**
 	 * @param item
@@ -105,7 +105,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	@Override
 	public void onEnter() {
 		if (isSuggesting()) {
-			sug.needsEnterForSuggestion();
+			autocomplete.needsEnterForSuggestion();
 			return;
 		}
 		// make sure editing flag is up to date e.g. after failed redefine
@@ -137,22 +137,14 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
+
+		if (isSuggesting()) {
+			autocomplete.onArrowKeyPressed(keyCode);
+			return true;
+		}
 		item.onCursorMove();
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyUp();
-		}
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyDown();
-		}
+		return false;
 	}
 
 	@Override
@@ -164,7 +156,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * @return whether suggestions are open
 	 */
 	public boolean isSuggesting() {
-		return sug != null && sug.isSuggesting();
+		return autocomplete != null && autocomplete.isSuggesting();
 	}
 
 	/**
@@ -245,14 +237,14 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	/**
-	 * @return input suggestion model (lazy load)
+	 * @return autocomplete popup (lazy load)
 	 */
-	MathFieldInputSuggestions getInputSuggestions() {
-		if (sug == null) {
+	AutoCompletePopup getAutocompletePopup() {
+		if (autocomplete == null) {
 			boolean forCas = getApp().getConfig().getVersion() == GeoGebraConstants.Version.CAS;
-			sug = new MathFieldInputSuggestions(app, item, forCas);
+			autocomplete = new AutoCompletePopup(app, forCas, item);
 		}
-		return sug;
+		return autocomplete;
 	}
 
 	@Override

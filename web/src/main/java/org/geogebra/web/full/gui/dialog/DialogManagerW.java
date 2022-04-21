@@ -109,7 +109,7 @@ public class DialogManagerW extends DialogManager
 
 		} catch (Exception e) {
 			success = false;
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return success;
 	}
@@ -218,9 +218,7 @@ public class DialogManagerW extends DialogManager
 		return true;
 	}
 
-	/**
-	 * show calculator chooser for suite
-	 */
+	@Override
 	public void showCalcChooser(boolean autoHide) {
 		hideCalcChooser(); // remove any previous chooser
 		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);

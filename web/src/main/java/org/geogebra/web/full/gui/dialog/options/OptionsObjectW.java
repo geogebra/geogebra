@@ -121,7 +121,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		@Override
 		public void updateCheckbox(boolean value, boolean isEnabled) {
 			getCheckbox().setSelected(value);
-			getCheckbox().setEnabled(isEnabled);
+			getCheckbox().setDisabled(!isEnabled);
 		}
 	}
 

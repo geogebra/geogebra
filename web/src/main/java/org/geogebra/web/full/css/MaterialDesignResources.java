@@ -12,10 +12,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	/* NEW MATERIAL DESIGN ICONS */
 
-	// header
-	@Source("org/geogebra/common/icons/svg/web/header/ggb-logo-name.svg")
-	SVGResource ggb_logo_name();
-
 	@Source("org/geogebra/common/icons/svg/web/header/baseline-apps-24px.svg")
 	SVGResource apps_black();
 
@@ -114,9 +110,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_black_24px.svg")
 	SVGResource more_vert_black();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_purple_24px.svg")
-	SVGResource more_vert_purple();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_mebis_24px.svg")
 	SVGResource more_vert_mebis();

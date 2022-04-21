@@ -193,15 +193,14 @@ public class LabelManager {
 	 *            labels
 	 * @param geos
 	 *            geos
-	 * @param indexedOnly
-	 *            true for labels a_1,a_2,a_3,...
 	 */
-	static void setLabels(final String[] labels, final GeoElementND[] geos,
-			final boolean indexedOnly) {
+	public static void setLabels(final String[] labels, final GeoElementND[] geos) {
+		geos[0].getKernel().batchAddStarted();
 		final int labelLen = (labels == null) ? 0 : labels.length;
 
 		if ((labelLen == 1) && (labels[0] != null) && !labels[0].equals("")) {
 			setLabels(labels[0], geos);
+			geos[0].getKernel().batchAddComplete();
 			return;
 		}
 
@@ -213,25 +212,9 @@ public class LabelManager {
 				label = null;
 			}
 
-			if (indexedOnly) {
-				label = geos[i].getIndexLabel(label);
-			}
-
 			geos[i].setLabel(label);
 		}
-	}
-
-	/**
-	 * set labels for array of GeoElements pairwise: geos[i].setLabel(labels[i])
-	 * 
-	 * @param labels
-	 *            array of labels
-	 * @param geos
-	 *            array of geos
-	 */
-	public static void setLabels(final String[] labels,
-			final GeoElementND[] geos) {
-		setLabels(labels, geos, false);
+		geos[0].getKernel().batchAddComplete();
 	}
 
 	/**

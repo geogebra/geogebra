@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -98,7 +99,7 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 			// P.setMode(temp.getMode());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			conic.setUndefined();
 		}
 	}

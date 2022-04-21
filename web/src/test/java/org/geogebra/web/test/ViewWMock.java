@@ -5,6 +5,7 @@ import java.util.Map;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArchiveEntry;
@@ -32,7 +33,7 @@ public class ViewWMock extends ViewW {
 				archiveEntry.put("fileContent", entry.getValue().string);
 				archive.put(archiveEntry);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		return archive.toString();
@@ -55,7 +56,7 @@ public class ViewWMock extends ViewW {
 						content.getString("fileContent"));
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 }

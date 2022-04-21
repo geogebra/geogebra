@@ -82,7 +82,6 @@ public class AlgoConicFivePoints extends AlgoElement
 		super(cons);
 		this.P = createPoints2D(inputP);
 		conic = newGeoConic(cons);
-
 		setInputOutput(); // for AlgoElement
 
 		line = new GeoVec3D[4];
@@ -210,7 +209,9 @@ public class AlgoConicFivePoints extends AlgoElement
 		GeoVec3D.cross(P[2], P[3], line[1]);
 		GeoVec3D.cross(P[0], P[2], line[2]);
 		GeoVec3D.cross(P[1], P[3], line[3]);
-
+		for (int i = 0; i < 4; i++) {
+			normalizeLines(i);
+		}
 		// compute degenerate conics A = line[0] u line[1],
 		// B = line[2] u line[3]
 		degCone(line[0], line[1], A);
@@ -248,6 +249,16 @@ public class AlgoConicFivePoints extends AlgoElement
 		conic.setMatrix(C);
 		// System.out.println(conic.getTypeString());
 
+	}
+
+	private void normalizeLines(int i) {
+		double norm = Math.max(Math.abs(line[i].x),
+				Math.max(Math.abs(line[i].y), Math.abs(line[i].z)));
+		if (norm < 1) {
+			line[i].x = line[i].x / norm;
+			line[i].y = line[i].y / norm;
+			line[i].z = line[i].z / norm;
+		}
 	}
 
 	/**

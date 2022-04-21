@@ -187,7 +187,7 @@ public class AlgoIntegralODE extends AlgoElement {
 				try {
 					integrator.integrate(ode, p.inhomX, yy, xmax, yy);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 
 				al.add(new MyPoint(p.inhomX, p.inhomY, SegmentType.MOVE_TO));
@@ -198,7 +198,7 @@ public class AlgoIntegralODE extends AlgoElement {
 				try {
 					integrator.integrate(ode, p.inhomX, yya, xmin, yya);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 
 			}
@@ -208,14 +208,14 @@ public class AlgoIntegralODE extends AlgoElement {
 			try {
 				integrator.integrate(ode, 0.0, yy2, n, yy2);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			// draw backwards
 			al.add(new MyPoint(p.inhomX, p.inhomY, SegmentType.MOVE_TO));
 			try {
 				integrator.integrate(ode, 0.0, yy2a, -n, yy2a);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 

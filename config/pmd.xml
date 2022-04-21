@@ -31,7 +31,6 @@
         <exclude name="DefaultLabelNotLastInSwitchStmt"/>
         <exclude name="AbstractClassWithoutAbstractMethod"/>
         <exclude name="SwitchStmtsShouldHaveDefault"/>
-        <exclude name="AvoidPrintStackTrace"/>
         <exclude name="OneDeclarationPerLine"/>
         <exclude name="ReplaceVectorWithList"/>
         <exclude name="UnusedAssignment"/>

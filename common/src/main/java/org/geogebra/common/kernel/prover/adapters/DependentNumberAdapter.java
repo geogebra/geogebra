@@ -129,7 +129,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		throw new NoSymbolicParametersException();

@@ -263,8 +263,8 @@ public class CommandDispatcherGiac {
 		}
 		try {
 			cmd = GiacCommands.valueOf(cmdName);
-		} catch (Exception Ex) {
-			Ex.printStackTrace();
+		} catch (Exception ex) {
+			Log.debug(ex);
 			Log.error(
 					"Unknown CAS command " + cmdName + ", arguments: " + args);
 			return null;
@@ -672,7 +672,7 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.error("CommandDispatcherGiac: error when processing command: "
 								+ cmdName + ", " + args);
 		}

@@ -1057,6 +1057,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testIntegralIf() {
+		add("a(x)=If(0<x<=1,x,1<x<=2,2-x)");
+		GeoElement element = add("Integral(a)");
+		assertThat(element.toString(StringTemplate.defaultTemplate),
+				equalTo("f(x) = If(0 < x ≤ 1, 1 / 2 x², 1 < x ≤ 2, -1 / 2 x² + 2x) + c_{1}"));
+	}
+
+	@Test
 	public void testShorthandIfAccepted() {
 		kernel.setUndoActive(true);
 		kernel.initUndoInfo();
@@ -1065,13 +1073,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		GeoElement element = lookup("f");
 		assertThat(element.toString(StringTemplate.defaultTemplate),
-				equalTo("f(x) = If(5 > x,x²)"));
-	}
-
-	@Test
-	public void testIfArgumentFiltered() {
-		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
-		assertThat(element.getTwinGeo(), is(nullValue()));
+				equalTo("f(x) = If(5 > x, x²)"));
 	}
 
 	@Test
@@ -1305,7 +1307,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
 		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
-				equalTo("NSolve(eq1,x)"));
+				equalTo("NSolve(eq1, x)"));
 	}
 
 	@Test

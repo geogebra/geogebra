@@ -117,6 +117,7 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -2762,7 +2763,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			for (int i = 0; i < geos.length; i++) {
 				geo = (GeoElement) geos[i];
 				geo.setLineTypeHidden(type);
-				geo.updateRepaint();
+				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 			}
 		}
 

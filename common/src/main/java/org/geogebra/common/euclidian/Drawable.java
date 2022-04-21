@@ -615,7 +615,7 @@ public abstract class Drawable extends DrawableND {
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 
 			selStroke = EuclidianStatic.getStroke(
-					!fromGeo.isShape() ? 2 * Math.max(width, 1) + 2
+					!isShape(fromGeo) ? 2 * Math.max(width, 1) + 2
 									: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
@@ -626,6 +626,11 @@ public abstract class Drawable extends DrawableND {
 			double width = lineThickness / 2.0;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 		}
+	}
+
+	protected boolean isShape(GeoElementND fromGeo) {
+		return view.getApplication().isWhiteboardActive()
+				&& (fromGeo.isGeoPolygon() || fromGeo.isGeoSegment() || fromGeo.isGeoConic());
 	}
 
 	/**
@@ -665,7 +670,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param fillShape
 	 *            shape to be filled
 	 */
-	protected void fill(GGraphics2D g2, GShape fillShape) {
+	public void fill(GGraphics2D g2, GShape fillShape) {
 		if (isForceNoFill()) {
 			return;
 		}

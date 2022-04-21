@@ -13,6 +13,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -186,13 +187,12 @@ public abstract class StatisticsCalculator {
 			}
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
 
 	final protected void setSampleFieldText() {
-
 		for (int i = 0; i < 3; i++) {
 			removeActionListener(fldSampleStat1[i]);
 			removeActionListener(fldSampleStat2[i]);
@@ -453,7 +453,7 @@ public abstract class StatisticsCalculator {
 			return nv == null ? Double.NaN : nv.getDouble();
 
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return Double.NaN;
 	}

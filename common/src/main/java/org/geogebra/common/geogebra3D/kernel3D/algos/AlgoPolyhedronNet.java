@@ -111,7 +111,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	}
 
 	private void setLabels(String[] labels) {
-
+		kernel.batchAddStarted();
 		if (labels == null || labels.length <= 1) {
 			getNet().initLabels(labels);
 		} else {
@@ -124,7 +124,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 				getOutput(i).setLabel(labels[i]);
 			}
 		}
-
+		kernel.batchAddComplete();
 	}
 
 	protected abstract int getPointLengthFromLabelsLength(int length);

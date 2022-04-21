@@ -159,7 +159,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		}
 
 		public void caught() {
-			printStackTrace();
+			Log.debug(this);
 			surface.setNoRoomLeft();
 		}
 	}

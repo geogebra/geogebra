@@ -5,6 +5,7 @@ import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Extension of StatTable that displays summary statistics for two data sets.
@@ -197,7 +198,7 @@ public class TwoVarStatModel {
 					sample2, meanDifference));
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 
@@ -235,7 +236,7 @@ public class TwoVarStatModel {
 			n2 = stats2.getN();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 

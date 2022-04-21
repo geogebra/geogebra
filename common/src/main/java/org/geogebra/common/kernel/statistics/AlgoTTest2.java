@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a two sample t-test of the difference of means.
@@ -231,7 +232,7 @@ public class AlgoTTest2 extends AlgoElement {
 			} catch (RuntimeException e) {
 				// catches ArithmeticException, IllegalStateException and
 				// ArithmeticException
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			// sample statistics input
@@ -276,7 +277,7 @@ public class AlgoTTest2 extends AlgoElement {
 			} catch (RuntimeException e) {
 				// catches ArithmeticException, IllegalStateException and
 				// ArithmeticException
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 		}

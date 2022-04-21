@@ -789,7 +789,6 @@ public interface Traversing {
 				GeoNumeric slider = geoClass == GeoClass.ANGLE
 						? new GeoAngle(kernel.getConstruction(), Math.PI / 4)
 						: new GeoNumeric(kernel.getConstruction(), 1);
-				slider.setLabel(name);
 				kernel.getConstruction().setSuppressLabelCreation(old);
 				undefined.add(slider);
 				boolean visible = !kernel.getApplication()
@@ -797,6 +796,7 @@ public interface Traversing {
 						|| kernel.getApplication().showAutoCreatedSlidersInEV();
 				GeoNumeric.setSliderFromDefault(slider,
 						geoClass == GeoClass.ANGLE, visible);
+				slider.setLabel(name);
 			}
 
 		}

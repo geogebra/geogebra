@@ -1,5 +1,13 @@
 package org.geogebra.web.full.main;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.EVALUATOR_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.NOTES_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 import static org.geogebra.common.gui.Layout.findDockPanelData;
 
 import java.util.ArrayList;
@@ -146,6 +154,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
@@ -161,6 +170,7 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
@@ -172,6 +182,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.dom.File;
 import jsinterop.base.JsPropertyMap;
@@ -329,31 +340,31 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 		switch (appletParameters.getDataParamAppName()) {
-		case "graphing":
+		case GRAPHING_APPCODE:
 			activity = new GraphingActivity();
 			break;
-		case "geometry":
+		case GEOMETRY_APPCODE:
 			activity = new GeometryActivity();
 			break;
-		case "3d":
+		case G3D_APPCODE:
 			activity = new Graphing3DActivity();
 			break;
 		case "mr":
 			activity = new MixedRealityActivity();
 			break;
-		case "cas":
+		case CAS_APPCODE:
 			activity = new CASActivity();
 			break;
-		case "scientific":
+		case SCIENTIFIC_APPCODE:
 			activity = new ScientificActivity();
 			break;
-		case "notes":
+		case NOTES_APPCODE:
 			activity = isMebis() ? new MebisNotesActivity() : new NotesActivity();
 			break;
-		case "evaluator":
+		case EVALUATOR_APPCODE:
 			activity = new EvaluatorActivity();
 			break;
-		case "suite":
+		case SUITE_APPCODE:
 			String disableCAS = Window.Location.getParameter("disableCAS");
 			activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE,
 					"".equals(disableCAS) || "true".equals(disableCAS));
@@ -1308,6 +1319,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// blocked by initing flag
 		initing = false;
 		GeoGebraFrameW.handleLoadFile(appletParameters, this);
+		MathFieldW.setGlobalEventCheck(GlobalKeyDispatcherW::isGlobalEvent);
 	}
 
 	private void buildSingleApplicationPanel() {
@@ -1852,6 +1864,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
 			}
 			getGuiManager().refreshDraggingViews();
+			oldSplitLayoutPanel.getElement().getStyle()
+					.setOverflow(Style.Overflow.HIDDEN);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (menuViewController != null) {
@@ -1901,6 +1915,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			if (this.splitPanelWrapper != null) {
 				this.splitPanelWrapper.remove(frame.getMenuBar(this));
 			}
+			oldSplitLayoutPanel.getElement().getStyle()
+					.setOverflow(Style.Overflow.VISIBLE);
 		}
 		this.menuShowing = false;
 
@@ -2039,7 +2055,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void updateAppCodeSuite(String subApp, Perspective p) {
-		if ("suite".equals(getAppletParameters().getDataParamAppName())) {
+		if (SUITE_APPCODE.equals(getAppletParameters().getDataParamAppName())) {
 			String appCode = getConfig().getSubAppCode();
 			if (appCode != null && !appCode.equals(subApp)) {
 				this.activity = new SuiteActivity(subApp,
@@ -2049,6 +2065,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				reinitAlgebraView();
 				setSuiteHeaderButton(subApp);
 			}
+			getDialogManager().hideCalcChooser();
 		}
 	}
 
@@ -2060,9 +2077,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void exportCollada(boolean html) {
 		if (html) {
-			setExport3D(new FormatColladaHTML());
+			setDirectExport3D(new FormatColladaHTML());
 		} else {
-			setExport3D(new FormatCollada());
+			setDirectExport3D(new FormatCollada());
 		}
 	}
 

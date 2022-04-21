@@ -36,7 +36,7 @@ public class ScreenReaderTest {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(string, false,
 				TestErrorHandler.INSTANCE,
-				new EvalInfo(true).withFractions(true).addDegree(true),
+				new EvalInfo(true).withSymbolic(true).addDegree(true),
 				null);
 		return result[0];
 	}

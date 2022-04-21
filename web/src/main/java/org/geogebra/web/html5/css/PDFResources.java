@@ -9,9 +9,9 @@ public interface PDFResources extends ClientBundle {
 
 	PDFResources INSTANCE = new PDFResourcesImpl();
 
-	@Source("org/geogebra/web/resources/js/pdfjs/pdf.min.js")
+	@Source("pdfjs_dist/pdf.min.js")
 	TextResource pdfJs();
 
-	@Source("org/geogebra/web/resources/js/pdfjs/pdf.worker.min.js")
+	@Source("pdfjs_dist/pdf.worker.min.js")
 	TextResource pdfWorkerJs();
 }

@@ -94,7 +94,7 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 			GeoPointND b, GeoNumberValue v) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+				.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();

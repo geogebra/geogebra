@@ -14,17 +14,15 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.Validation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
-import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -42,9 +40,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 /**
  * Class to dynamically display plots and statistics in coordination with the
  * DataAnalysisView.
- * 
- * @author G.Sturr
- * 
  */
 public class DataDisplayPanelW extends FlowPanel implements 
 		StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
@@ -60,12 +55,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private static final int PLOTPANEL_MIN_WIDTH = 400;
 	private static final int PLOTPANEL_MIN_HEIGHT = 150;
-	// ggb fields
+
 	private AppW app;
 	private final LocalizationW loc;
-	// privateDataAnalysisViewD daView;
 	private DataDisplayModel model;
-	// data view mode
 	// display panels
 	private DeckPanel displayDeckPanel;
 	private FlowPanel metaPlotPanel;
@@ -83,10 +76,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private List<PlotType> plotTypes;
 	// options button and sidebar panel
 	private OptionsPanelW optionsPanel;
-	private MyToggleButtonW btnOptions;
+	private ToggleButton btnOptions;
 
 	// numClasses panel
-	// private int numClasses = 6;
 	private FlowPanel numClassesPanel;
 	private Slider sliderNumClasses;
 
@@ -100,9 +92,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// stemplot adjustment panel
 	private FlowPanel stemAdjustPanel;
 	private Label lblAdjust;
-	private MyToggleButtonW minus;
-	private MyToggleButtonW none;
-	private MyToggleButtonW plus;
+	private ToggleButton minus;
+	private ToggleButton none;
+	private ToggleButton plus;
 
 	private FlowPanel imagePanel;
 
@@ -122,11 +114,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private int oldHeight;
 	private DataAnalysisViewW daView;
 
-	/*****************************************
+	/**
 	 * Constructs a ComboStatPanel
-	 * 
-	 * @param daView
-	 *            daView
+	 * @param daView - daView
 	 */
 	public DataDisplayPanelW(DataAnalysisViewW daView, int id) {
 		this.app = daView.getApp();
@@ -144,31 +134,23 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 * Sets the plot to be displayed and the GUI corresponding to the given data
 	 * analysis mode
 	 * 
-	 * @param plotIndex
-	 *            the plot to be displayed
-	 * @param mode
-	 *            the data analysis mode
+	 * @param plotIndex - the plot to be displayed
+	 * @param mode - the data analysis mode
 	 */
 	public void setPanel(PlotType plotIndex, int mode) {
 		getModel().updatePlot(plotIndex, mode);
 		setLabels();
 		getModel().updatePlot(true);
 		optionsPanel.setVisible(false);
-		btnOptions.setValue(false);
+		btnOptions.setSelected(false);
 	}
-
-	// ==============================================
-	// GUI
-	// ==============================================
 
 	private void createGUI() {
 		oldWidth = 0;
 		oldHeight = 0;
 		// create options button
-		btnOptions = new MyToggleButtonW(new NoDragImage(GuiResources.INSTANCE
-				.menu_icon_options().getSafeUri().asString(), 18));
-		ClickStartHandler.initDefaults(btnOptions, true, false);
-		btnOptions.addValueChangeHandler(event -> actionPerformed(btnOptions));
+		btnOptions = new ToggleButton(MaterialDesignResources.INSTANCE.settings_border());
+		btnOptions.addFastClickHandler(event -> actionPerformed(btnOptions));
 
 		// create export button
 		btnExport = new GPopupMenuW(app, true) {
@@ -275,7 +257,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		lblAdjust.setText(loc.getMenu("Adjustment") + ": ");
 
 		optionsPanel.setLabels();
-		btnOptions.setToolTipText(loc.getMenu("Options"));
+		btnOptions.setTitle(loc.getMenu("Options"));
 	}
 
 	/**
@@ -337,17 +319,16 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 * Creates a control panel to adjust the stem plot
 	 */
 	private void createStemPlotAdjustmentPanel() {
-
 		lblAdjust = new Label();
-		minus = new MyToggleButtonW("-1");
-		none = new MyToggleButtonW("0");
-		plus = new MyToggleButtonW("+1");
+		minus = new ToggleButton("-1");
+		none = new ToggleButton("0");
+		plus = new ToggleButton("+1");
 
-		minus.addClickHandler(event -> actionPerformed(minus));
-		none.addClickHandler(event -> actionPerformed(none));
-		plus.addClickHandler(event -> actionPerformed(plus));
+		minus.addFastClickHandler(event -> actionPerformed(minus));
+		none.addFastClickHandler(event -> actionPerformed(none));
+		plus.addFastClickHandler(event -> actionPerformed(plus));
 
-		none.setValue(true);
+		none.setSelected(true);
 
 		stemAdjustPanel = new FlowPanel();
 		stemAdjustPanel.add(LayoutUtilW.panelRow(minus, none, plus));
@@ -423,13 +404,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 			menu.addItem(miAsPicture);
 		}
 		String image = "<img src=\""
-				+ GuiResources.INSTANCE.menu_icons_file_export().getSafeUri()
+				+ MaterialDesignResources.INSTANCE.prob_calc_export().getSafeUri()
 						.asString() + "\" >";
 		btnExport.addItem(new AriaMenuItem(image, true, menu));
 	}
-	// ==============================================
-	// DISPLAY UPDATE
-	// ==============================================
 
 	protected void exportAsPicture() {
 		app.getSelectionManager().clearSelectedGeos(true,
@@ -469,13 +447,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		displayDeckPanel.showWidget(IMAGE_IDX);
 	}
 
-	// ============================================================
-	// Event Handlers
-	// ============================================================
-	//
 	/**
-	 * @param source
-	 *            event source
+	 * @param source - event source
 	 */
 	protected void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW) {
@@ -483,9 +456,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		else if (source == minus || source == plus || source == none) {
-			minus.setValue(source == minus);
-			none.setValue(source == none);
-			plus.setValue(source == plus);
+			minus.setSelected(source == minus);
+			none.setSelected(source == none);
+			plus.setSelected(source == plus);
 			Log.debug("[Data]  - 0 + has pressed");
 			if (source == minus) {
 				getModel().getSettings().setStemAdjust(-1);
@@ -501,9 +474,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			optionsPanel.setPanel(getModel().getSelectedPlot());
 			optionsPanel.setVisible(btnOptions.isSelected());
 			resize();
-		}
-
-		else if (source == lbDisplayType) {
+		} else if (source == lbDisplayType) {
 			int idx = lbDisplayType.getSelectedIndex();
 			if (idx != -1) {
 				PlotType t = plotTypes.get(idx);
@@ -519,7 +490,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
-
 		if (source == fldStart) {
 			getModel().getSettings().setClassStart(
 					Validation.validateDouble(fldStart, getModel()
@@ -665,12 +635,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	/**
-	 * @param offsetWidth
-	 *            width
-	 * @param offsetHeight
-	 *            height
-	 * @param update
-	 *            whether to update plot
+	 * @param offsetWidth - width
+	 * @param offsetHeight - height
+	 * @param update - whether to update plot
 	 */
 	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;
