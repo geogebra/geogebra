@@ -547,29 +547,10 @@ public class AlgoVertexIneq extends AlgoElement {
 
 	private void validateLast() {
 		GeoPoint last = vertices.get(validVertices);
-		ExtendedBoolean value = valueAround(last.getInhomX(), last.getInhomY(), p.getIneqs());
+		ExtendedBoolean value = p.getIneqs().valueAround(last.getInhomX(), last.getInhomY());
 		if (value == ExtendedBoolean.UNKNOWN) {
 			validVertices++;
 		}
-	}
-
-	private ExtendedBoolean valueAround(double x, double y, IneqTree expr) {
-		if (expr.getIneq() != null) {
-			return expr.getIneq().valueAround(x, y);
-		}
-		ExtendedBoolean leftVal = valueAround(x, y, expr.getLeft());
-		switch (expr.getOperation()) {
-		case AND_INTERVAL:
-		case AND:
-			return leftVal.and(valueAround(x, y, expr.getRight()));
-		case OR:
-			return leftVal.or(valueAround(x, y, expr.getRight()));
-		case IMPLICATION:
-			return leftVal.and(valueAround(x, y, expr.getRight()).negate()).negate();
-		case NOT:
-			return leftVal.negate();
-		}
-		return ExtendedBoolean.UNKNOWN;
 	}
 
 	private void addVertices(AlgoElement algoElement, boolean transpose) {

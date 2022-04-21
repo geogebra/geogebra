@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Tree containing inequalities (possibly with NOT) in leaves and AND or OR
@@ -179,5 +180,31 @@ public class IneqTree {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @return value (TRUE/FALSE) in neighborhood of (x,y) if it's constant in the area,
+	 *         UNKNOWN otherwise
+	 */
+	public ExtendedBoolean valueAround(double x, double y) {
+		IneqTree expr = this;
+		if (expr.getIneq() != null) {
+			return expr.getIneq().valueAround(x, y);
+		}
+		ExtendedBoolean leftVal = expr.getLeft().valueAround(x, y);
+		switch (expr.getOperation()) {
+		case AND_INTERVAL:
+		case AND:
+			return leftVal.and(expr.getRight().valueAround(x, y));
+		case OR:
+			return leftVal.or(expr.getRight().valueAround(x, y));
+		case IMPLICATION:
+			return leftVal.and(expr.getRight().valueAround(x, y).negate()).negate();
+		case NOT:
+			return leftVal.negate();
+		}
+		return ExtendedBoolean.UNKNOWN;
 	}
 }
