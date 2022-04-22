@@ -122,6 +122,7 @@ import org.geogebra.common.main.syntax.CommandSyntax;
 import org.geogebra.common.main.syntax.EnglishCommandSyntax;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
