@@ -11,6 +11,11 @@ public class DistributionPanelSuite extends DistributionPanel {
 	}
 
 	@Override
+	public void buildGUI() {
+		buildDistrComboBox();
+	}
+
+	@Override
 	public void buildCumulativeWidget() {
 		// todo APPS-3712
 	}

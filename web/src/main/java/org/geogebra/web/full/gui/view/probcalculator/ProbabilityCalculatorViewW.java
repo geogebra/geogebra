@@ -37,8 +37,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	public static final String SEPARATOR = "--------------------";
 	private Label lblDist;
 	private ProbabilityModeGroup modeGroup;
-	private Label[] lblParameterArray;
-	private MathTextFieldW[] fldParameterArray;
+//	private Label[] lblParameterArray;
+	//private MathTextFieldW[] fldParameterArray;
 	private Label lblMeanSigma;
 	/** control panel */
 	FlowPanel controlPanel;
@@ -105,10 +105,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnBarGraph.setTitle(loc.getMenu("BarChart"));
 
 		btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
-		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
-			lblParameterArray[i]
-					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
-		}
 	}
 
 	/**
@@ -178,15 +174,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		//distribution combobox panel
 		FlowPanel cbPanel = new FlowPanel();
 		cbPanel.addStyleName("cbPanel");
-		FlowPanel parameterPanel = new FlowPanel();
-		parameterPanel.addStyleName("parameterPanel");
-		//comboDistribution.addStyleName("groupEnd");
-		//parameter panel
-		for (int i = 0; i < maxParameterCount; i++) {
-			parameterPanel.add(lblParameterArray[i]);
-			parameterPanel.add(fldParameterArray[i]);
-		}
-		cbPanel.add(parameterPanel);
 
 		modeGroup.add(resultPanel);
 
@@ -234,16 +221,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				updateGUI();
 			}
 		});
-
-		lblParameterArray = new Label[maxParameterCount];
-		fldParameterArray = new MathTextFieldW[maxParameterCount];
-		
-		for (int i = 0; i < maxParameterCount; i++) {
-			lblParameterArray[i] = new Label();
-			fldParameterArray[i] = new MathTextFieldW(app);
-			fldParameterArray[i].setPxWidth(64);
-			resultPanel.addInsertHandler(fldParameterArray[i]);
-		}
 
 		lblMeanSigma = new Label();
 		lblMeanSigma.addStyleName("lblMeanSigma");
@@ -358,7 +335,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	protected void updateGUI() {
-		updateParameters();
 		updateLowHighResult();
 		distrPanel.updateGUI();
 		updateGraphButtons();
@@ -384,25 +360,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				.equals(getDistributionMap().get(selectedDist))) {
 			ListBoxApi.select(
 					getDistributionMap().get(selectedDist), comboDistribution);
-		}
-	}
-
-	private void updateParameters() {
-		for (int i = 0; i < maxParameterCount; ++i) {
-
-			boolean hasParm = i < ProbabilityManager.getParmCount(selectedDist);
-
-			lblParameterArray[i].setVisible(hasParm);
-			fldParameterArray[i].setVisible(hasParm);
-
-			if (hasParm) {
-				// set label
-				lblParameterArray[i].setVisible(true);
-				lblParameterArray[i].setText(getParameterLabels()[selectedDist
-						.ordinal()][i]);
-				// set field
-				fldParameterArray[i].setText(format(parameters[i]));
-			}
 		}
 	}
 
@@ -500,7 +457,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			} else {
 				// handle parameter entry
 				for (int i = 0; i < parameters.length; ++i) {
-					if (source == fldParameterArray[i]) {
+					/*if (source == fldParameterArray[i]) {
 						if (isValidParameterChange(value, i)) {
 							parameters[i] = numericValue;
 							if (intervalCheck) {
@@ -511,7 +468,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 							}
 						}
 
-					}
+					}*/
 				}
 			}
 			if (intervalCheck) {
@@ -656,4 +613,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		return app;
 	}
 
+	public GeoNumberValue[] getParameters() {
+		return parameters;
+	}
 }
