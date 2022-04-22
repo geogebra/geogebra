@@ -11,7 +11,6 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -35,10 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		implements InsertHandler {
 	public static final String SEPARATOR = "--------------------";
-	private Label lblDist;
-	private ProbabilityModeGroup modeGroup;
-//	private Label[] lblParameterArray;
-	//private MathTextFieldW[] fldParameterArray;
+	//private ProbabilityModeGroup modeGroup;
 	private Label lblMeanSigma;
 	/** control panel */
 	FlowPanel controlPanel;
@@ -55,7 +51,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private ToggleButton btnLineGraph;
 	private ToggleButton btnStepGraph;
 	private ToggleButton btnBarGraph;
-	private ResultPanelW resultPanel;
 
 	private DistributionPanel distrPanel;
 
@@ -89,16 +84,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		statCalculator.setLabels();
 		setLabelArrays();
 
-		lblDist.setText(loc.getMenu("Distribution") + ": ");
-		resultPanel.setLabels();
-
 		distrPanel.setLabels();
 
 		if (getTable() != null) {
 			getTable().setLabels();
 		}
-
-		modeGroup.setLabels();
 
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
 		btnStepGraph.setTitle(loc.getMenu("StepGraph"));
@@ -175,13 +165,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		FlowPanel cbPanel = new FlowPanel();
 		cbPanel.addStyleName("cbPanel");
 
-		modeGroup.add(resultPanel);
+		//modeGroup.add(resultPanel);
 
 		controlPanel = new FlowPanel();
 		controlPanel.addStyleName("controlPanel");
 		controlPanel.add(cbPanel);
 		controlPanel.add(new ClearPanel());
-		controlPanel.add(modeGroup);
 		controlPanel.add(new ClearPanel());
 
 		distrPanel = new DistributionPanel(this, loc);
@@ -203,24 +192,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	private void createGUIElements() {
 		setLabelArrays();
-		resultPanel = new ResultPanelW(app, this);
-		
-		lblDist = new Label();
-
-		modeGroup = new ProbabilityModeGroup(loc);
-		modeGroup.add(PROB_LEFT, GuiResources.INSTANCE.interval_left(), "LeftProb");
-		modeGroup.add(PROB_INTERVAL, GuiResources.INSTANCE.interval_between(), "IntervalProb");
-		modeGroup.add(PROB_TWO_TAILED, GuiResources.INSTANCE.interval_two_tailed(),
-				"TwoTailedProb");
-		modeGroup.add(PROB_RIGHT, GuiResources.INSTANCE.interval_right(), "RightProb");
-		modeGroup.endGroup();
-		modeGroup.addFastClickHandler((source) -> {
-			if (modeGroup.handle(source) && !isCumulative) {
-				changeProbabilityType();
-				updateProbabilityType(resultPanel);
-				updateGUI();
-			}
-		});
 
 		lblMeanSigma = new Label();
 		lblMeanSigma.addStyleName("lblMeanSigma");
@@ -261,7 +232,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	public ResultPanelW getResultPanel() {
-		return resultPanel;
+		return distrPanel.getResultPanel();
 	}
 
 	@Override
@@ -282,7 +253,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			if (oldProbMode == PROB_TWO_TAILED) {
 				removeTwoTailedGraph();
 			}
-			probMode = modeGroup.getValue();
+			probMode = distrPanel.getModeGroupValue();
 
 			if (probMode == PROB_TWO_TAILED) {
 				addTwoTailedGraph();
@@ -338,7 +309,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateLowHighResult();
 		distrPanel.updateGUI();
 		updateGraphButtons();
-		modeGroup.setMode(probMode);
 		btnNormalOverlay.setSelected(isShowNormalOverlay());
 	}
 
@@ -365,11 +335,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	private void updateLowHighResult() {
 		Scheduler.get().scheduleDeferred(this::tabResized);
-		updateResult(resultPanel);
+		updateResult(getResultPanel());
 	}
 
 	private void updateLowHigh() {
-		resultPanel.updateLowHigh(format(low), format(high));
+		getResultPanel().updateLowHigh(format(low), format(high));
 	}
 
 	public void changeDistribution(ListBox comboDistribution) {
@@ -426,17 +396,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			if (!Double.isNaN(value)) {
 				source.resetError();
 			}
-			if (resultPanel.isFieldLow(source)) {
+			if (getResultPanel().isFieldLow(source)) {
 
 				checkBounds(numericValue, intervalCheck, false);
 			}
 
-			else if (resultPanel.isFieldHigh(source)) {
+			else if (getResultPanel().isFieldHigh(source)) {
 				checkBounds(numericValue, intervalCheck, true);
 			}
 
 			// handle inverse probability
-			else if (resultPanel.isFieldResult(source)) {
+			else if (getResultPanel().isFieldResult(source)) {
 				update = false;
 				if (value < 0 || value > 1) {
 					if (!intervalCheck) {
@@ -484,7 +454,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	public void setInterval(double low, double high) {
 		this.setLow(low);
 		this.setHigh(high);
-		resultPanel.updateLowHigh("" + low, "" + high);
+		getResultPanel().updateLowHigh("" + low, "" + high);
 		setXAxisPoints();
 		updateIntervalProbability();
 		updateGUI();
@@ -544,18 +514,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (intervalCheck) {
 			updateGUI();
 			if (isTwoTailedMode()) {
-				updateGreaterSign(resultPanel);
+				updateGreaterSign(getResultPanel());
 			}
 		} else {
 			updateIntervalProbability();
 			if (isTwoTailedMode()) {
-				resultPanel.updateTwoTailedResult(getProbabilityText(leftProbability),
+				getResultPanel().updateTwoTailedResult(getProbabilityText(leftProbability),
 						getProbabilityText(rightProbability));
-				resultPanel.updateResult(getProbabilityText(leftProbability
+				getResultPanel().updateResult(getProbabilityText(leftProbability
 						+ rightProbability));
-				updateGreaterSign(resultPanel);
+				updateGreaterSign(getResultPanel());
 			} else {
-				resultPanel.updateResult(getProbabilityText(probability));
+				getResultPanel().updateResult(getProbabilityText(probability));
 			}
 		}
 	}

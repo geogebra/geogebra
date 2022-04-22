@@ -116,7 +116,7 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * maximum number of parameters allowed for a distribution
 	 */
-	protected final static int maxParameterCount = 3;
+	public final static int maxParameterCount = 3;
 	protected GeoNumberValue[] parameters;
 	protected boolean isCumulative = false;
 
@@ -1999,7 +1999,7 @@ public abstract class ProbabilityCalculatorView
 		this.reverseDistributionMap = reverseDistributionMap;
 	}
 
-	protected String[][] getParameterLabels() {
+	public String[][] getParameterLabels() {
 		return parameterLabels;
 	}
 
@@ -2052,7 +2052,7 @@ public abstract class ProbabilityCalculatorView
 
 	protected abstract void addRemoveTable(boolean showTable);
 
-	protected void updateProbabilityType(ResultPanel resultPanel) {
+	public void updateProbabilityType(ResultPanel resultPanel) {
 		if (isIniting) {
 			return;
 		}

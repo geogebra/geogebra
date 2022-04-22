@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 
@@ -18,7 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class DistributionPanel extends FlowPanel implements ChangeHandler {
+public class DistributionPanel extends FlowPanel implements ChangeHandler, InsertHandler {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
 	private ListBox comboDistribution;
@@ -26,6 +28,8 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler {
 	private Widget cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
+	private ProbabilityModeGroup modeGroup;
+	private ResultPanelW resultPanel;
 
 	public DistributionPanel(ProbabilityCalculatorViewW view, Localization loc) {
 		this.view = view;
@@ -37,6 +41,32 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler {
 		buildCumulativeWidget();
 		buildDistrComboBox();
 		buildParameterPanel();
+		buildModeGroup();
+		buildResultPanel();
+	}
+
+	private void buildModeGroup() {
+		modeGroup = new ProbabilityModeGroup(loc);
+		modeGroup.add(ProbabilityCalculatorView.PROB_LEFT, GuiResources.INSTANCE.interval_left(), "LeftProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_INTERVAL, GuiResources.INSTANCE.interval_between(), "IntervalProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_TWO_TAILED, GuiResources.INSTANCE.interval_two_tailed(),
+				"TwoTailedProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_RIGHT, GuiResources.INSTANCE.interval_right(), "RightProb");
+		modeGroup.endGroup();
+		modeGroup.addFastClickHandler((source) -> {
+			if (modeGroup.handle(source) && !view.isCumulative()) {
+				view.changeProbabilityType();
+				view.updateProbabilityType(resultPanel);
+				updateGUI();
+			}
+		});
+
+		add(modeGroup);
+	}
+
+	private void buildResultPanel() {
+		resultPanel = new ResultPanelW(view.getApp(), this);
+		modeGroup.add(resultPanel);
 	}
 
 	private void buildParameterPanel() {
@@ -141,6 +171,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler {
 		setDistributionComboBoxMenu();
 		((ToggleButton) cumulativeWidget).setSelected(view.isCumulative());
 		updateParameters();
+		modeGroup.setMode(view.getProbMode());
 	}
 
 	public void setLabels() {
@@ -150,5 +181,20 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler {
 			lblParameterArray[i]
 					.setText(view.getParameterLabels()[view.getSelectedDist().ordinal()][i]);
 		}
+		modeGroup.setLabels();
+		resultPanel.setLabels();
+	}
+
+	public int getModeGroupValue() {
+		return modeGroup.getValue();
+	}
+
+	@Override
+	public void doTextFieldActionPerformed(MathTextFieldW source, boolean intervalCheck) {
+		view.doTextFieldActionPerformed(source, intervalCheck);
+	}
+
+	public ResultPanelW getResultPanel() {
+		return resultPanel;
 	}
 }
