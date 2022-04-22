@@ -7,7 +7,10 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Stat;
@@ -52,23 +55,36 @@ public class StatsBuilder {
 	 */
 	public List<StatisticGroup> getStatistics2Var(String varName, String varName2) {
 		List<StatisticGroup> stats = new ArrayList<>();
-		// use command strings, not algos, to make sure code splitting works in Web
-		addStats(stats, ONE_VAR_STATS, varName, lists[0]);
-		addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
-		addStats(stats, TWO_VAR_STATS, varName + varName2, lists);
-		addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
-		addStats(stats, MIN_MAX, varName, lists[0]);
-		addStats(stats, MIN_MAX, varName2, lists[1]);
+		if (isSize2List(lists[0]) && isSize2List(lists[1])) {
+			// use command strings, not algos, to make sure code splitting works in Web
+			addStats(stats, ONE_VAR_STATS, varName, lists[0]);
+			addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
+			addStats(stats, TWO_VAR_STATS, varName + varName2, lists);
+			addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
+			addStats(stats, MIN_MAX, varName, lists[0]);
+			addStats(stats, MIN_MAX, varName2, lists[1]);
+		}
 		return stats;
+	}
+
+	private boolean isSize2List(GeoEvaluatable list) {
+		return list instanceof GeoList && ((GeoList) list).size() >= 2;
 	}
 
 	private void addStats(List<StatisticGroup> stats, List<Stat> statAlgos, String varName,
 			GeoEvaluatable... lists) {
+		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
+				false);
+		if (lists.length == 2) {
+			MyVecNode points = new MyVecNode(kernel, lists[0], lists[1]);
+			cleanData.addArgument(points.wrap());
+		} else {
+			cleanData.addArgument(lists[0].wrap());
+		}
 		for (Stat cmd: statAlgos) {
 			Command exec = new Command(kernel, cmd.getCommandName(), false);
-			for (GeoEvaluatable list: lists) {
-				exec.addArgument(list.wrap());
-			}
+			exec.addArgument(cleanData.wrap());
+
 			try {
 				AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 				GeoElementND result = algebraProcessor.processValidExpressionSilent(exec)[0];
