@@ -262,11 +262,11 @@ public class GgbApiTest {
 		app.getEventDispatcher().addEventListener(listener);
 
 		input.updateLinkedGeo("2");
-		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct"),
+		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct", "REDEFINE ans"),
 				listener.getEvents());
 		listener.getEvents().clear();
 		input.updateLinkedGeo("2 + C");
-		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct"),
+		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct", "REDEFINE ans"),
 				listener.getEvents());
 	}
 
