@@ -379,7 +379,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 						osw.flush();
 						zip.closeEntry();
 					} catch (IOException e) {
-						e.printStackTrace();
+						Log.debug(e);
 					}
 
 				} else {

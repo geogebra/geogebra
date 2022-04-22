@@ -540,7 +540,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -1885,6 +1885,23 @@ public class GuiManagerW extends GuiManager
 					getBase64DownloadCallback(filename));
 		} else {
 			getApp().getGgbApi().getZippedGgbAsync(true,
+					getDownloadCallback(filename));
+		}
+	}
+
+	/**
+	 * Download macro file (.ggt)
+	 * @param filename file name
+	 */
+	public void exportMacros(String filename) {
+		getApp().dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\"ggt\"]"));
+
+		if (NavigatorUtil.isFirefox()) {
+			getApp().getGgbApi().getMacrosBase64(true,
+					getBase64DownloadCallback(filename));
+		} else {
+			getApp().getGgbApi().getZippedMacrosAsync(
 					getDownloadCallback(filename));
 		}
 	}

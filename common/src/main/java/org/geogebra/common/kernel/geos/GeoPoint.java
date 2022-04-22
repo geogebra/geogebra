@@ -716,7 +716,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						}
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
-						e.printStackTrace();
+						Log.debug(e);
 					}
 				}
 			}

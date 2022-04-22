@@ -12,20 +12,17 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -37,11 +34,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * InputBar for GeoGebraWeb
- *
- * @author gabor
  */
 public class AlgebraInputW extends FlowPanel
-		implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler,
+		implements KeyUpHandler, FocusHandler, BlurHandler,
 		RequiresResize, AlgebraInput, HasHelpButton {
 	/** app */
 	protected AppW app;
@@ -51,17 +46,14 @@ public class AlgebraInputW extends FlowPanel
 	protected AutoCompleteTextFieldW inputField;
 	// protected FlowPanel innerPanel;
 	/** button for help */
-	protected MyToggleButton btnHelpToggle;
+	protected ToggleButton btnHelpToggle;
 	/** help popup */
 	protected InputBarHelpPopup helpPopup;
-	// protected PopupPanel helpPopup;
 	private boolean focused = false;
 
 	/**
-	 * @param app1
-	 *            Application
-	 * 
-	 *            Attaches Application and creates the GUI of AlgebraInput
+	 * @param app1 - Application
+	 * Attaches Application and creates the GUI of AlgebraInput
 	 */
 	public void init(AppW app1) {
 		this.app = app1;
@@ -91,10 +83,12 @@ public class AlgebraInputW extends FlowPanel
 			inputField.enableGGBKeyboard();
 		}
 
-		updateIcons(false);
+		initButton();
+		btnHelpToggle.removeStyleName("MyToggleButton");
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
-		btnHelpToggle.addClickHandler(this);
+		btnHelpToggle.addFastClickHandler(event ->
+				setShowInputHelpPanel(btnHelpToggle.isSelected()));
 		add(inputPanel);
 		if (app.showInputHelpToggle()) {
 			add(btnHelpToggle);
@@ -103,22 +97,10 @@ public class AlgebraInputW extends FlowPanel
 		setLabels();
 	}
 
-	private void updateIcons(boolean warning) {
+	private void initButton() {
 		if (btnHelpToggle == null) {
-			btnHelpToggle = new MyToggleButton(app);
+			btnHelpToggle = new ToggleButton(GuiResources.INSTANCE.icon_help());
 		}
-		btnHelpToggle.getUpFace().setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
-						: GuiResources.INSTANCE.icon_help()).getSafeUri()
-								.asString(),
-				24));
-		// new
-		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
-		btnHelpToggle.getDownFace().setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
-						: GuiResources.INSTANCE.icon_help()).getSafeUri()
-								.asString(),
-				24));
 	}
 
 	/**
@@ -157,7 +139,7 @@ public class AlgebraInputW extends FlowPanel
 		Localization loc = app.getLocalization();
 
 		if (btnHelpToggle != null) {
-			btnHelpToggle.setTitle(loc.getMenu("InputHelp"));
+			AriaHelper.setTitle(btnHelpToggle, loc.getMenu("InputHelp"));
 		}
 
 		if (helpPopup != null) {
@@ -371,26 +353,13 @@ public class AlgebraInputW extends FlowPanel
 		inputField.requestFocus();
 	}
 
-	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource();
-
-		if (source == btnHelpToggle) {
-			if (btnHelpToggle.isDown()) {
-				setShowInputHelpPanel(true);
-			} else {
-				setShowInputHelpPanel(false);
-			}
-		}
-	}
-
 	private void setHelpPopup() {
 		if (helpPopup == null && app != null) {
 			helpPopup = new InputBarHelpPopup(this.app, this.inputField,
 					"helpPopup");
 			helpPopup.addAutoHidePartner(this.getElement());
 			if (btnHelpToggle != null) {
-				helpPopup.setBtnHelpToggle(this.btnHelpToggle);
+				helpPopup.setBtnHelpToggle(btnHelpToggle);
 			}
 		} else if (app != null && helpPopup.getWidget() == null) {
 			helpPopup.add((InputBarHelpPanelW) app.getGuiManager()
@@ -399,12 +368,9 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	/**
-	 * 
-	 * @param show
-	 *            whether inputhelp should be shown
+	 * @param show - whether inputhelp should be shown
 	 */
 	public void setShowInputHelpPanel(boolean show) {
-
 		if (show) {
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
@@ -456,20 +422,20 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	@Override
-	public MyToggleButton getHelpToggle() {
-		return this.btnHelpToggle;
+	public ToggleButton getHelpToggle() {
+		return btnHelpToggle;
 	}
 
 	@Override
 	public void setError(String msg) {
-		updateIcons(msg != null);
+		initButton();
 		getHelpToggle().asWidget().getElement().setTitle(msg == null
 				? app.getLocalization().getMenu("InputHelp") : msg);
 	}
 
 	@Override
 	public void setCommandError(String command) {
-		updateIcons(true);
+		initButton();
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Dispatcher for Area / Length texts
@@ -82,7 +83,7 @@ public class TextDispatcher3D extends TextDispatcher {
 			p.setCoords(view3D.getCursor3D().getCoords());
 			text.setStartPoint(p);
 		} catch (CircularDefinitionException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

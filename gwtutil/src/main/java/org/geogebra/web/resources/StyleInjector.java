@@ -57,9 +57,14 @@ public class StyleInjector {
 			element.id = prefixedName;
 			element.rel = "stylesheet";
 			element.type = "text/css";
-			element.href = GWT.getModuleBaseURL() + "../" + baseUrl + "/" + name + ".css";
+			element.href = devModeFix(GWT.getModuleBaseURL()) + "../" + baseUrl + "/" + name + ".css";
 			DomGlobal.document.head.appendChild(element);
 		}
+	}
+
+	private static String devModeFix(String moduleBaseURL) {
+		// when localhost:8888/dev is used as codebase, the styles are one level above
+		return moduleBaseURL.replace(":8888/dev", ":8888");
 	}
 
 	private static void checkIfAllStylesLoaded() {

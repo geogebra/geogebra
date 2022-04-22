@@ -2,6 +2,7 @@ package org.geogebra.common.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.statistics.AlgoTableToChart;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class InternalClipboard {
 	private static final ArrayList<String> copiedXmlLabels = new ArrayList<>();
@@ -70,7 +72,9 @@ public class InternalClipboard {
 		ArrayList<ConstructionElement> geostohide = CopyPaste.addPredecessorGeos(geoslocal);
 
 		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
-
+		// topological order to make sure client listener can process predecessor objects
+		// before child objects (e.g. for multiuser)
+		Collections.sort(geoslocal);
 		Kernel kernel = app.getKernel();
 		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
@@ -228,7 +232,7 @@ public class InternalClipboard {
 							((GeoElement) geo).setLabelSimple(
 									label.substring(CopyPaste.labelPrefix.length()));
 						} catch (Exception e) {
-							e.printStackTrace();
+							Log.debug(e);
 						}
 					}
 				}
@@ -292,7 +296,7 @@ public class InternalClipboard {
 	 * @param copiedXml copied XML
 	 */
 	public static void pasteGeoGebraXMLInternal(App app,
-			ArrayList<String> copiedXmlLabels, String copiedXml) {
+			List<String> copiedXmlLabels, String copiedXml) {
 		app.getKernel().notifyPaste(copiedXml);
 
 		// it turned out to be necessary for e.g. handleLabels

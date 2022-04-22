@@ -185,7 +185,7 @@ public abstract class FileManager extends MaterialsManager {
 			app.getGgbApi().setBase64(base64);
 		} catch (final Throwable t) {
 			app.showError(Errors.LoadFileFailed);
-			t.printStackTrace();
+			Log.debug(t);
 		}
 	}
 

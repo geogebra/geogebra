@@ -1711,7 +1711,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 						try {
 							cons.replace(replaceable.toGeoElement(), newGeo);
 						} catch (Exception e) {
-							e.printStackTrace();
+							Log.debug(e);
 						} finally {
 							// update geo selected
 							String newLabel = newGeo.isLabelSet()

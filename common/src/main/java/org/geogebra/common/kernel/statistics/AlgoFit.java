@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoFit A general linear curvefit: Fit[&lt;List of Points>,&lt;List of
@@ -155,7 +156,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		} catch (Throwable t) {
 			fitfunction.setUndefined();
-			t.printStackTrace();
+			Log.debug(t);
 		}
 	}
 

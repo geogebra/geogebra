@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * FillRow
@@ -61,7 +62,7 @@ public class CmdFillRow extends CommandProcessor {
 						kernel.getGeoElementSpreadsheet()
 								.setSpreadsheetCell(app, row, col, cellGeo);
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.debug(e);
 						throw argErr(c, arg[1]);
 					}
 

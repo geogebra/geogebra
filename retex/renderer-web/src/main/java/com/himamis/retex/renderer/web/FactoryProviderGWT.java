@@ -72,16 +72,9 @@ public class FactoryProviderGWT extends FactoryProvider {
 	}
 
 	@Override
-	public void debug(Object string) {
+	public void debug(Object msg) {
 		if (Js.isTruthy(Js.asPropertyMap(DomGlobal.console).get("log"))) {
-			DomGlobal.console.log("[LaTeX]", string);
-		}
-	}
-
-	@Override
-	public void printStacktrace() {
-		if (Js.isTruthy(Js.asPropertyMap(DomGlobal.console).get("trace"))) {
-			DomGlobal.console.trace();
+			DomGlobal.console.log("[LaTeX]", msg);
 		}
 	}
 

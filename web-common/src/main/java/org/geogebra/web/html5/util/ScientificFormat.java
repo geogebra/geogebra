@@ -2,6 +2,9 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.util.ScientificFormatAdapter;
 
+import elemental2.core.JsNumber;
+import jsinterop.base.Js;
+
 /**
  * This code formats numbers in Scientific Notation. The input Number object is
  * returned as a ScientificFormated string. There are two output styles: Pure
@@ -27,7 +30,6 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	private int sigDigit = 5;
 	private int maxWidth = 8;
 	private boolean sciNote = false;
-	private MyNumberFormat decimalFormat;
 
 	/**
 	 * Default scientific format
@@ -70,7 +72,6 @@ public class ScientificFormat implements ScientificFormatAdapter {
 			throw new IllegalArgumentException("sigDigit");
 		}
 		this.sigDigit = sigDigit;
-		decimalFormat = null;
 	}
 
 	/**
@@ -101,15 +102,6 @@ public class ScientificFormat implements ScientificFormatAdapter {
 		this.sciNote = sciNote;
 	}
 
-	private static MyNumberFormat getDecimalFormat(int sigDig) {
-		StringBuilder buffer = new StringBuilder("0.");
-		for (int i = 1; i < sigDig; i++) {
-			buffer.append('0');
-		}
-		buffer.append("E0");
-		return new MyNumberFormat(buffer.toString());
-	}
-
 	/**
 	 * Format the number using scientific notation
 	 */
@@ -119,14 +111,9 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	}
 
 	private String format(double d, int sigDig) {
-		// Delegate the hard part to decimalFormat
-		if (decimalFormat == null) {
-			decimalFormat = getDecimalFormat(sigDigit);
-		}
-		MyNumberFormat format = (sigDig == sigDigit) ? decimalFormat
-		        : getDecimalFormat(sigDig);
-
-		String preliminaryResult = format.format(d);
+		// Delegate the hard part to toExponential; fractional digits = sig. digits - 1
+		String preliminaryResult = toExponential(d, sigDigit - 1)
+				.replace('e', 'E');
 		if (sciNote) {
 			return preliminaryResult;
 		}
@@ -143,8 +130,8 @@ public class ScientificFormat implements ScientificFormatAdapter {
 		// We need to fix up the result
 
 		int sign = preliminaryResult.charAt(0) == '-' ? 1 : 0;
-		StringBuffer result = new StringBuffer(preliminaryResult.substring(
-		        sign, sign + 1) + preliminaryResult.substring(sign + 2, ePos));
+		StringBuilder result = new StringBuilder(preliminaryResult.charAt(
+		        sign) + preliminaryResult.substring(sign + 2, ePos));
 
 		if (exponent >= sigDig) {
 			for (int i = sigDig; i < exponent; i++) {
@@ -163,12 +150,10 @@ public class ScientificFormat implements ScientificFormatAdapter {
 		}
 		return result.toString();
 	}
-	// /**
-	// * Format a number plus error using scientific notation
-	// */
-	// public String formatError(double d,double dx)
-	// {
-	// return format(dx, resolveErrorSigDigit(d, dx));
-	// }
+
+	private static String toExponential(double d, int fractionalDigits) {
+		JsNumber num = Js.uncheckedCast(d);
+		return num.toExponential(fractionalDigits);
+	}
 
 }

@@ -504,7 +504,7 @@ public abstract class MyXMLio {
 			MyXMLHandler h = getGGBHandler();
 			parseXML(h, createXMLStreamString(perspectiveXML));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

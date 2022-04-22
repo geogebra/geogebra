@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventDispatcher;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.GgbMockitoTestRunner;
@@ -122,7 +123,7 @@ public class ToolbarPanelTest {
 		try {
 			latch.await();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 }

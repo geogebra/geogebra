@@ -287,7 +287,7 @@ public class RelativeCopy {
 					"Error from RelativeCopy.doCopy:\r\n" + msg);
 		} catch (Exception ex) {
 			// kernel.getApplication().showError(ex.getMessage());
-			ex.printStackTrace();
+			Log.debug(ex);
 			return false;
 		} finally {
 			cons.stopCollectingRedefineCalls();
@@ -659,7 +659,7 @@ public class RelativeCopy {
 				value2.setColorFunction(newColorFunction);
 				// value2.update();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				return null;
 			}
 		}

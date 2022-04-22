@@ -248,7 +248,7 @@ public abstract class Log {
 	 * @param message
 	 *            message to be printed
 	 */
-	public static void warn(String message) {
+	public static void warn(Object message) {
 		if (logger != null) {
 			logger.log(Level.WARN, message);
 		}

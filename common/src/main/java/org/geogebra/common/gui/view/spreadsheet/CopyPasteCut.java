@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -342,7 +343,7 @@ public abstract class CopyPasteCut {
 
 			succ = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		} finally {
 			app.setDefaultCursor();
 		}
@@ -516,7 +517,7 @@ public abstract class CopyPasteCut {
 
 			succ = true;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 		} finally {
 			app.setDefaultCursor();
 		}

@@ -9,22 +9,22 @@ $floatingbtn-appear-transition: width 0.25s, height 0.25s, right 0.25s, margin-b
 $floatingbtn-img-appear-transition: width 0.25s, height 0.25s, padding 0.25s;
 
 .GeoGebraFrame {
-	.gwt-ToggleButton.flatButton.menu {
+	.flatButton.menu {
 		margin-left: 18px;
 		&:focus {
 			outline: colors.$focus-black 5px auto;
 		}
 	}
-	&.small .gwt-ToggleButton.flatButton.menu.landscapeMenuBtn {
+	&.small .flatButton.menu.landscapeMenuBtn {
 		margin-left: 10px;
 	}
-	.gwt-ToggleButton.flatButton.menu {
+	.flatButton.menu {
 		img {
 			opacity: 0.54;
 		}
 	}
 
-	.gwt-ToggleButton.flatButton.menu.gwt-ToggleButton-up-hovering {
+	.flatButton.menu:hover {
 		img {
 			opacity: 0.8;
 		}

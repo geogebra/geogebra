@@ -16,6 +16,7 @@ import org.apache.commons.math3.distribution.FDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -74,7 +75,7 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
 				num.setValue(dist.inverseCumulativeProbability(val)); // P(T <=
 																		// val)
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				num.setUndefined();
 			}
 		} else {

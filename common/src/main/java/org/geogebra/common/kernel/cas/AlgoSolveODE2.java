@@ -148,7 +148,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		locus.setPoints(al);

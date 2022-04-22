@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
@@ -288,7 +289,7 @@ public class CreateObjectModel {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

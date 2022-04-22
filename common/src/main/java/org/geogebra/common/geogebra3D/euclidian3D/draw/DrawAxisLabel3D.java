@@ -15,15 +15,17 @@ public class DrawAxisLabel3D extends DrawLabel3D {
 	public DrawAxisLabel3D(EuclidianView3D view,
 			Drawable3D drawable) {
 		super(view, drawable);
-		setCaption(new AxisCaptionText());
+		setCaption(new AxisCaptionText(view.getSettings()));
 	}
 
 	@Override
 	public void update(String text0, GFont font0, GColor fgColor, Coords v,
 			float xOffset0, float yOffset0, float zOffset0) {
-		caption.update(text0, font0, fgColor);
-		if (view.drawsLabels()) {
-			update(text0, font0, v, xOffset0, yOffset0, zOffset0);
+		if (caption != null) {
+			caption.update(text0, font0, fgColor);
+			if (view.drawsLabels()) {
+				update(text0, font0, v, xOffset0, yOffset0, zOffset0);
+			}
 		}
 	}
 }

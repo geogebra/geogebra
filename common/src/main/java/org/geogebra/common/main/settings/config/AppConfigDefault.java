@@ -1,5 +1,13 @@
 package org.geogebra.common.main.settings.config;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.NOTES_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SCIENTIFIC_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -77,13 +85,13 @@ public class AppConfigDefault extends AbstractAppConfig {
 	 * @return whether app name is one of the unbundled apps
 	 */
 	public static boolean isUnbundled(String appName) {
-		return "graphing".equals(appName) || "geometry".equals(appName)
-				|| "cas".equals(appName) || "3d".equals(appName)
-				|| "scientific".equals(appName) || "suite".equals(appName);
+		return GRAPHING_APPCODE.equals(appName) || GEOMETRY_APPCODE.equals(appName)
+				|| CAS_APPCODE.equals(appName) || G3D_APPCODE.equals(appName)
+				|| SCIENTIFIC_APPCODE.equals(appName) || SUITE_APPCODE.equals(appName);
 	}
 
 	public static boolean isUnbundledOrNotes(String appName) {
-		return isUnbundled(appName) || "notes".equals(appName);
+		return isUnbundled(appName) || NOTES_APPCODE.equals(appName);
 	}
 
 	@Override

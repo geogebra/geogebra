@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.common.util.debug.Log;
 import org.junit.Assert;
 
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -51,7 +52,7 @@ class EditorChecker {
 			ExpressionNode en = parse(exp);
 			Assert.assertEquals(output, en.toString(StringTemplate.defaultTemplate));
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Assert.assertEquals(output, "Exception: " + e.toString());
 		}
 

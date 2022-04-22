@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.himamis.retex.editor.share.editor.UnhandledArrowListener;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
@@ -48,7 +49,10 @@ public class TableEditor implements UnhandledArrowListener {
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
 			cell.removeAllChildren();
 			cell.removeClassName("errorCell");
-			cell.appendChild(mathTextField.asWidget().getElement()); // then move in DOM
+			Element wrap = DOM.createDiv();
+			wrap.addClassName("tableEditorWrap");
+			wrap.appendChild(mathTextField.asWidget().getElement());
+			cell.appendChild(wrap); // then move in DOM
 
 			mathTextField.editorClicked();
 			if (event != null) {
@@ -60,7 +64,9 @@ public class TableEditor implements UnhandledArrowListener {
 	}
 
 	private void stopEditing() {
+		Element wrapper = mathTextField.asWidget().getElement().getParentElement();
 		mathTextField.asWidget().removeFromParent();
+		wrapper.removeFromParent();
 		GeoEvaluatable evaluatable = table.view.getEvaluatable(editColumn);
 		if (evaluatable instanceof GeoList) {
 			GeoList list = (GeoList) evaluatable;

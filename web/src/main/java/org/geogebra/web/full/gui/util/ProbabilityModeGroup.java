@@ -5,16 +5,16 @@ import java.util.Map;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * Group of toggles to switch between probability modes
  */
 public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
-	private final Map<Integer, MyToggleButtonW> buttons;
+	private final Map<Integer, ToggleButton> buttons;
 	private final Map<Integer, String> tooltips;
 	private final Localization loc;
 
@@ -38,24 +38,24 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * @param tooltip to show on hover.
 	 */
 	public void add(Integer mode, SVGResource resource, String tooltip) {
-		MyToggleButtonW button = new MyToggleButtonW(resource);
+		ToggleButton button = new ToggleButton(resource);
 		buttons.put(mode, button);
 		tooltips.put(mode, tooltip);
 		add(button);
 	}
 
 	/**
-	 * Add a ValueChangeHandler to the whole group.
+	 * Add a FastClickHandler to the whole group.
 	 *
 	 * @param handler to add.
 	 */
-	public void addValueChangeHandler(ValueChangeHandler<Boolean> handler) {
-		buttons.values().forEach(button -> button.addValueChangeHandler(handler));
+	public void addFastClickHandler(FastClickHandler handler) {
+		buttons.values().forEach(button -> button.addFastClickHandler(handler));
 	}
 
 	@Override
 	public void setLabels() {
-		buttons.forEach((k, v) -> v.setToolTipText(loc.getMenu(tooltips.get(k))));
+		buttons.forEach((k, v) -> v.setTitle(loc.getMenu(tooltips.get(k))));
 	}
 
 	/**
@@ -72,11 +72,11 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * @return if button was toggled or not.
 	 */
 	public boolean handle(Object source) {
-		if (!(source instanceof  MyToggleButtonW)) {
+		if (!(source instanceof  ToggleButton)) {
 			return false;
 		}
-		MyToggleButtonW sourceButton = (MyToggleButtonW) source;
-		buttons.values().forEach(button -> button.setValue(button == sourceButton));
+		ToggleButton sourceButton = (ToggleButton) source;
+		buttons.values().forEach(button -> button.setSelected(button == sourceButton));
 		return buttons.containsValue(sourceButton);
 	}
 
@@ -85,7 +85,7 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * @param mode to set as toggled in the group
 	 */
 	public void setMode(int mode) {
-		buttons.forEach((k, v) -> v.setValue(k == mode));
+		buttons.forEach((k, v) -> v.setSelected(k == mode));
 
 	}
 
@@ -95,7 +95,7 @@ public class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * -1 for none.
 	 */
 	public int getValue() {
-		for (Map.Entry<Integer, MyToggleButtonW> entry: buttons.entrySet()) {
+		for (Map.Entry<Integer, ToggleButton> entry: buttons.entrySet()) {
 			if (entry.getValue().isSelected()) {
 				return entry.getKey();
 			}

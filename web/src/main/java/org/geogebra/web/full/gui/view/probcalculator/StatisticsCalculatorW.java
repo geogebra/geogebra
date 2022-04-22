@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.html5.Browser;
@@ -26,7 +27,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -44,7 +44,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	private Label lblResult;
 	private Label lblSampleHeader1;
 	private Label lblSampleHeader2;
-	private CheckBox ckPooled;
+	private ComponentCheckbox ckPooled;
 	private ListBox cbProcedure;
 	private Button btnCalculate;
 	private RadioButtonPanel tailRadioButtonPanel;
@@ -143,7 +143,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 		lblSampleHeader2.setText(loc.getMenu("Sample2"));
 
-		ckPooled.setText(loc.getMenu("Pooled"));
+		ckPooled.setLabels();
 
 		setHypParameterLabel();
 		setLabelStrings();
@@ -444,10 +444,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 		bodyText = new StringBuilder();
 
-		ckPooled = new CheckBox();
+		ckPooled = new ComponentCheckbox(loc, false, "Pooled", () -> {
+					sc.pooled = ckPooled.isSelected();
+					updateResult(true);
+				});
 		ckPooled.addStyleName("ckPooled");
-		ckPooled.setValue(false);
-		ckPooled.addValueChangeHandler(this);
 
 		cbProcedure = new ListBox();
 		cbProcedure.addChangeHandler(this);
@@ -534,10 +535,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		Object source = event.getSource();
-		if (source == ckPooled) {
-			sc.pooled = ckPooled.getValue();
-			updateResult(true);
-		}
 
 		if (source == btnCalculate) {
 			updateResult(true);

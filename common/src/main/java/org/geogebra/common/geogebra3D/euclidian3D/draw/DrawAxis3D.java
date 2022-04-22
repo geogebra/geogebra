@@ -170,6 +170,10 @@ public class DrawAxis3D extends DrawLine3D {
 			if (getView3D().isXRDrawing()) {
 				updateDrawPositionLabel();
 			} else {
+				CaptionText caption = new AxisCaptionText(getView3D().getSettings());
+				caption.update(text, getView3D().getAxisLabelFont(axisIndex),
+						axis.getObjectColor());
+				label.initCaption(caption);
 				label.update(text, getView3D().getAxisLabelFont(axisIndex),
 				getGeoElement().getObjectColor(),
 				((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),

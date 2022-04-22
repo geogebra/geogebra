@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -28,36 +30,34 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected GRectangle getBounds() {
-
+	final protected GRectangle getBounds(@Nonnull CaptionText cpt) {
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					tempGraphics, geo, tempGraphics, font(), GColor.BLACK,
-					GColor.WHITE, caption.text(), 0, 0,
+					tempGraphics, geo, tempGraphics, cpt.font(), GColor.BLACK,
+					GColor.WHITE, cpt.text(), 0, 0,
 					((TextProperties) geo).isSerifFont(), getCallBack(),
 					bounds);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					caption.text(), tempGraphics, bounds, font(),
+					cpt.text(), tempGraphics, bounds, cpt.font(),
 					((TextProperties) geo).isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
 		}
 		return bounds;
-
 	}
 
 	@Override
-	final protected GBufferedImage draw() {
+	final protected GBufferedImage draw(@Nonnull CaptionText cpt) {
 		GBufferedImage bimg = createBufferedImage();
-		GGraphics2D g2d = createGraphics2D(bimg);
+		GGraphics2D g2d = createGraphics2D(bimg, cpt);
 
 		if (geo.isLaTeX()) {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					tempGraphics, geo, g2d, font(), GColor.BLACK, GColor.WHITE,
-					caption.text(), 0, 0, ((TextProperties) geo).isSerifFont(),
+					tempGraphics, geo, g2d, cpt.font(), GColor.BLACK, GColor.WHITE,
+					cpt.text(), 0, 0, ((TextProperties) geo).isSerifFont(),
 					getCallBack(), null);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					caption.text(), g2d, AwtFactory.getPrototype().newRectangle(),
+					cpt.text(), g2d, AwtFactory.getPrototype().newRectangle(),
 					g2d.getFont(), ((TextProperties) geo).isSerifFont(), 0, 0,
 					DrawText.DEFAULT_MARGIN);
 		}
@@ -128,7 +128,6 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		} else {
 			super.updateDrawPosition();
 		}
-
 	}
 
 	@Override

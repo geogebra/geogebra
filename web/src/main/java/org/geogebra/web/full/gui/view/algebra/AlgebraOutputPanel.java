@@ -1,15 +1,13 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
-import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.DrawEquationW;
 
@@ -82,22 +80,17 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 */
 	public static void createSymbolicButton(FlowPanel parent,
 			final GeoElement geo, GeoGebraActivity activity) {
-		MyToggleButtonW btnSymbolic = null;
+		ToggleButton btnSymbolic = null;
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
 			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
-				btnSymbolic = (MyToggleButtonW) parent.getWidget(i);
+				btnSymbolic = (ToggleButton) parent.getWidget(i);
 			}
 		}
 		if (btnSymbolic == null) {
-			btnSymbolic = new MyToggleButtonW(activity.getNumericIcon(),
+			btnSymbolic = new ToggleButton(activity.getNumericIcon(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-			final MyToggleButtonW btn = btnSymbolic;
-			ClickEndHandler.init(btnSymbolic, new ClickEndHandler() {
-				@Override
-				public void onClickEnd(int x, int y, PointerEventType type) {
-					btn.setSelected(AlgebraItem.toggleSymbolic(geo));
-				}
-			});
+			final ToggleButton btn = btnSymbolic;
+			btn.addFastClickHandler((e) -> AlgebraItem.toggleSymbolic(geo));
 		}
 		btnSymbolic.addStyleName("symbolicButton");
 		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
@@ -109,7 +102,6 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 
 		parent.add(btnSymbolic);
-
 	}
 
 	static void removeSymbolicButton(FlowPanel parent) {
@@ -155,7 +147,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 		if (latex 
 				&& (geo1.isLaTeXDrawableGeo()
-						|| AlgebraItem.isGeoFraction(geo1))) {
+						|| AlgebraItem.isGeoFraction(geo1)
+						|| AlgebraItem.isGeoSurd(geo1))) {
 			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
 					fontSize);
 			valCanvas.addStyleName("canvasVal");

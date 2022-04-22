@@ -368,7 +368,7 @@ public class AlgebraProcessor {
 				// casCell.updateCascade();
 			} catch (Exception e) {
 				app.getScriptManager().enableListeners();
-				e.printStackTrace();
+				Log.debug(e);
 				casCell.setError("ReplaceFailed");
 				// app.showError(e.getMessage());
 			} catch (CommandNotLoadedError e) {
@@ -438,7 +438,7 @@ public class AlgebraProcessor {
 				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
 						.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
-						.withFractions(true);
+						.withSymbolic(true);
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
@@ -894,7 +894,7 @@ public class AlgebraProcessor {
 			e.printStackTrace(System.out);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
@@ -1418,7 +1418,7 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
@@ -1478,7 +1478,7 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error e) {
-			e.printStackTrace();
+			Log.debug(e);
 			handler.showError(loc.getInvalidInputError());
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -1525,7 +1525,7 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 		} finally {
 			cons.registerFunctionVariable(null);
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -1593,7 +1593,7 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
@@ -1715,7 +1715,7 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 			if (!suppressErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
@@ -1777,12 +1777,12 @@ public class AlgebraProcessor {
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ErrorHelper.handleError(e, str, loc, handler);
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ErrorHelper.handleException(new Exception(e), app, handler);
 		} finally {
 			cons.registerFunctionVariable(null);
@@ -1878,7 +1878,7 @@ public class AlgebraProcessor {
 			throw e;
 		} catch (Throwable t) {
 			if (showErrors) {
-				t.printStackTrace();
+				Log.debug(t);
 				app.showError(Errors.InvalidInput, str);
 			}
 		} finally {
@@ -1914,7 +1914,7 @@ public class AlgebraProcessor {
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 			if (showErrors) {
 				app.showError(Errors.InvalidInput, str);
 			}
@@ -2712,7 +2712,7 @@ public class AlgebraProcessor {
 			try {
 				return processValidExpression(equ.getRHS(), info);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		// s = t^2
@@ -2731,7 +2731,7 @@ public class AlgebraProcessor {
 				equ.getRHS().setLabel(equ.getLabel());
 				return doProcessValidExpression(equ.getRHS(), info);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 
@@ -2740,7 +2740,7 @@ public class AlgebraProcessor {
 			try {
 				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		if (lhs instanceof MyDouble
@@ -2749,7 +2749,7 @@ public class AlgebraProcessor {
 			try {
 				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 
@@ -2762,7 +2762,7 @@ public class AlgebraProcessor {
 			try {
 				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 
 			}
 		}
@@ -3272,7 +3272,7 @@ public class AlgebraProcessor {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
-		if (info.isFractions() && ret instanceof HasSymbolicMode) {
+		if (info.isSymbolic() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 		if (ret instanceof HasExtendedAV) {
@@ -3342,7 +3342,7 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
-			if (info.isFractions()) {
+			if (info.isSymbolic()) {
 				((HasSymbolicMode) ret).initSymbolicMode();
 			}
 			if (!evalList.isDefined()) {
@@ -3697,7 +3697,7 @@ public class AlgebraProcessor {
 		} catch (ParseException e) {
 			// could be ParseException or Classcast Exception
 			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.StringIndexOutOfBoundsException&tf=String.java&tc=java.lang.String&tm=startEndAndLength&nid&an&c&s=new_status_desc&ed=0
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		if (ret instanceof Equation) {
 			return (Equation) ret;

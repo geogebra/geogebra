@@ -1,5 +1,7 @@
 package org.geogebra.common.jre.io;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -16,7 +18,7 @@ public class XmlHeaderReaderTest {
                 + "  xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/apps/xsd/ggb.xsd\""
                 + " xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >";
         XmlHeaderReader.HeaderAttributes attributes = xmlHeaderReader.getHeaderAttributes(header);
-        assertThat(attributes.getAppCode(), equalTo("suite"));
-        assertThat(attributes.getSubAppCode(), equalTo("cas"));
+        assertThat(attributes.getAppCode(), equalTo(SUITE_APPCODE));
+        assertThat(attributes.getSubAppCode(), equalTo(CAS_APPCODE));
     }
 }

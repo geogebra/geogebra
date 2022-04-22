@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Find a limit
@@ -108,7 +109,7 @@ public class AlgoLimit extends AlgoElement
 					.evaluateToNumeric(numStr, ErrorHelper.silent())
 					.getDouble());
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			outNum.setUndefined();
 			return;
 		}
