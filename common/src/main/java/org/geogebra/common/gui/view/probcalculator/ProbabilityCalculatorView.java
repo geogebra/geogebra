@@ -1982,7 +1982,7 @@ public abstract class ProbabilityCalculatorView
 				|| (selectedDist == Dist.F && parameters[1].getDouble() < 4));
 	}
 
-	protected HashMap<Dist, String> getDistributionMap() {
+	public HashMap<Dist, String> getDistributionMap() {
 		return distributionMap;
 	}
 
@@ -1990,7 +1990,7 @@ public abstract class ProbabilityCalculatorView
 		this.distributionMap = distributionMap;
 	}
 
-	protected HashMap<String, Dist> getReverseDistributionMap() {
+	public HashMap<String, Dist> getReverseDistributionMap() {
 		return reverseDistributionMap;
 	}
 

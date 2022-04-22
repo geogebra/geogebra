@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -25,12 +24,6 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.OptionElement;
-import com.google.gwt.dom.client.SelectElement;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -40,19 +33,13 @@ import com.google.gwt.user.client.ui.Widget;
  * ProbablityCalculatorView for web
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
-		implements ChangeHandler, InsertHandler {
-
-	/**
-	 * separator for list boxes
-	 */
+		implements InsertHandler {
 	public static final String SEPARATOR = "--------------------";
-
 	private Label lblDist;
 	private ToggleButton btnCumulative;
 	private ProbabilityModeGroup modeGroup;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
-	private ListBox comboDistribution;
 	private Label lblMeanSigma;
 	/** control panel */
 	FlowPanel controlPanel;
@@ -64,13 +51,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	protected FlowPanel mainSplitPane;
 	protected FlowPanel probCalcPanel;
 	protected final StatisticsCalculatorW statCalculator;
-	private HandlerRegistration comboDistributionHandler;
 	private GPopupMenuW btnExport;
 	private ToggleButton btnNormalOverlay;
 	private ToggleButton btnLineGraph;
 	private ToggleButton btnStepGraph;
 	private ToggleButton btnBarGraph;
 	private ResultPanelW resultPanel;
+
+	private DistributionPanel distrPanel;
 
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -105,7 +93,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		lblDist.setText(loc.getMenu("Distribution") + ": ");
 		resultPanel.setLabels();
 
-		setDistributionComboBoxMenu();
+		distrPanel.setLabels();
 
 		if (getTable() != null) {
 			getTable().setLabels();
@@ -194,10 +182,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		FlowPanel cbPanel = new FlowPanel();
 		cbPanel.addStyleName("cbPanel");
 		cbPanel.add(btnCumulative);
-		cbPanel.add(comboDistribution);
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
-		comboDistribution.addStyleName("groupEnd");
+		//comboDistribution.addStyleName("groupEnd");
 		//parameter panel
 		for (int i = 0; i < maxParameterCount; i++) {
 			parameterPanel.add(lblParameterArray[i]);
@@ -213,6 +200,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		controlPanel.add(new ClearPanel());
 		controlPanel.add(modeGroup);
 		controlPanel.add(new ClearPanel());
+
+		distrPanel = new DistributionPanel(this, loc);
+		controlPanel.add(distrPanel);
 	}
 
 	protected void init() {
@@ -231,9 +221,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private void createGUIElements() {
 		setLabelArrays();
 		resultPanel = new ResultPanelW(app, this);
-		comboDistribution = new ListBox();
-		comboDistribution.addStyleName("comboDistribution");
-		comboDistributionHandler = comboDistribution.addChangeHandler(this);
 		
 		lblDist = new Label();
 		btnCumulative = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
@@ -380,7 +367,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	protected void updateGUI() {
 		updateParameters();
 		updateLowHighResult();
-		updateDistributionCombo();
+		distrPanel.updateGUI();
 		updateGraphButtons();
 		btnCumulative.setSelected(isCumulative);
 		modeGroup.setMode(probMode);
@@ -400,7 +387,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				== ProbabilityCalculatorView.GRAPH_BAR);
 	}
 
-	private void updateDistributionCombo() {
+	public void updateDistributionCombo(ListBox comboDistribution) {
 		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
 				.equals(getDistributionMap().get(selectedDist))) {
 			ListBoxApi.select(
@@ -436,14 +423,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		resultPanel.updateLowHigh(format(low), format(high));
 	}
 
-	@Override
-	public void onChange(ChangeEvent event) {
-		if (comboDistribution.getSelectedIndex() > -1) {
-			changeDistribution();
-		}
-	}
-
-	private void changeDistribution() {
+	public void changeDistribution(ListBox comboDistribution) {
 		if (!selectedDist
 				.equals(this.getReverseDistributionMap().get(comboDistribution
 						.getValue(comboDistribution.getSelectedIndex())))) {
@@ -456,34 +436,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 	}
 
-	private void setDistributionComboBoxMenu() {
-		comboDistributionHandler.removeHandler();
-		comboDistribution.clear();
-		comboDistribution.addItem(getDistributionMap().get(Dist.NORMAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.STUDENT));
-		comboDistribution.addItem(getDistributionMap().get(Dist.CHISQUARE));
-		comboDistribution.addItem(getDistributionMap().get(Dist.F));
-		comboDistribution.addItem(getDistributionMap().get(Dist.EXPONENTIAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.CAUCHY));
-		comboDistribution.addItem(getDistributionMap().get(Dist.WEIBULL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.GAMMA));
-		comboDistribution.addItem(getDistributionMap().get(Dist.LOGNORMAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.LOGISTIC));
-		
-		comboDistribution.addItem(SEPARATOR);
-		NodeList<OptionElement> options = SelectElement.as(comboDistribution.getElement())
-				.getOptions();
-		options.getItem(options.getLength() - 1)
-				.setAttribute("disabled", "disabled");
-		comboDistribution.addItem(getDistributionMap().get(Dist.BINOMIAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.PASCAL));
-		comboDistribution.addItem(getDistributionMap().get(Dist.POISSON));
-		comboDistribution.addItem(getDistributionMap().get(Dist.HYPERGEOMETRIC));
-
-		ListBoxApi.select(getDistributionMap().get(selectedDist),
-				comboDistribution);
-		comboDistribution.addChangeHandler(this);
-	}
 
 	/**
 	 * @return wheter distribution tab is open
