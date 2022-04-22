@@ -36,7 +36,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		implements InsertHandler {
 	public static final String SEPARATOR = "--------------------";
 	private Label lblDist;
-	private ToggleButton btnCumulative;
 	private ProbabilityModeGroup modeGroup;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
@@ -98,8 +97,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (getTable() != null) {
 			getTable().setLabels();
 		}
-
-		btnCumulative.setTitle(loc.getMenu("Cumulative"));
 
 		modeGroup.setLabels();
 
@@ -181,7 +178,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		//distribution combobox panel
 		FlowPanel cbPanel = new FlowPanel();
 		cbPanel.addStyleName("cbPanel");
-		cbPanel.add(btnCumulative);
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
 		//comboDistribution.addStyleName("groupEnd");
@@ -223,7 +219,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		resultPanel = new ResultPanelW(app, this);
 		
 		lblDist = new Label();
-		btnCumulative = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
 
 		modeGroup = new ProbabilityModeGroup(loc);
 		modeGroup.add(PROB_LEFT, GuiResources.INSTANCE.interval_left(), "LeftProb");
@@ -232,8 +227,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				"TwoTailedProb");
 		modeGroup.add(PROB_RIGHT, GuiResources.INSTANCE.interval_right(), "RightProb");
 		modeGroup.endGroup();
-
-		btnCumulative.addFastClickHandler((e) -> setCumulative(btnCumulative.isSelected()));
 		modeGroup.addFastClickHandler((source) -> {
 			if (modeGroup.handle(source) && !isCumulative) {
 				changeProbabilityType();
@@ -369,7 +362,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateLowHighResult();
 		distrPanel.updateGUI();
 		updateGraphButtons();
-		btnCumulative.setSelected(isCumulative);
 		modeGroup.setMode(probMode);
 		btnNormalOverlay.setSelected(isShowNormalOverlay());
 	}
