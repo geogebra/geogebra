@@ -30,8 +30,6 @@ import com.google.gwt.dom.client.OptionElement;
 import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -508,19 +506,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	public EuclidianViewW getPlotPanelEuclidianView() {
 		return getPlotPanel();
-	}
-
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-		if (source == btnCumulative) {
-			setCumulative(btnCumulative.isSelected());
-
-		} else if (modeGroup.handle(source) && !isCumulative) {
-			changeProbabilityType();
-			updateProbabilityType(resultPanel);
-			updateGUI();
-		}
 	}
 
 	@Override
