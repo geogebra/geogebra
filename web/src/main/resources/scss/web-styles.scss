@@ -1930,7 +1930,11 @@
 		margin-right: 30px;
 	}
 
-	.cbPanel, .intervalPanel {
+	.distrPanel {
+		display: grid;
+	}
+
+	.comboParamPanel, .intervalPanel {
 		padding: 5px 0;
 		float: left;
 		white-space: nowrap;
@@ -1952,12 +1956,12 @@
 		margin: 0;
 	}
 
-	.cbPanel .gwt-ToggleButton, .cbPanel .gwt-ListBox {
+	.comboParamPanel .gwt-ToggleButton, .comboParamPanel .gwt-ListBox {
 		display: inline-block;
 		margin-right: 10px;
 	}
 
-	.cbPanel .gwt-ToggleButton {
+	.comboParamPanel .gwt-ToggleButton {
 		float: left;
 	}
 

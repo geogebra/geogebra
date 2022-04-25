@@ -2,7 +2,11 @@ package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
@@ -34,24 +38,34 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	public DistributionPanel(ProbabilityCalculatorViewW view, Localization loc) {
 		this.view = view;
 		this.loc = loc;
+		addStyleName("distrPanel");
 		buildGUI();
 	}
 
 	public void buildGUI() {
-		buildCumulativeWidget();
-		buildDistrComboBox();
-		buildParameterPanel();
-		buildModeGroup();
-		buildResultPanel();
+		initCumulativeWidget();
+		initDistrComboBox();
+		FlowPanel comboParamPanel = new FlowPanel();
+		comboParamPanel.addStyleName("comboParamPanel");
+		comboParamPanel.add(cumulativeWidget);
+		comboParamPanel.add(comboDistribution);
+		add(comboParamPanel);
+
+		resultPanel = new ResultPanelW(view.getApp(), this);
+		buildParameterPanel(comboParamPanel);
+		buildModeGroupWithResult();
 	}
 
-	private void buildModeGroup() {
+	private void buildModeGroupWithResult() {
 		modeGroup = new ProbabilityModeGroup(loc);
-		modeGroup.add(ProbabilityCalculatorView.PROB_LEFT, GuiResources.INSTANCE.interval_left(), "LeftProb");
-		modeGroup.add(ProbabilityCalculatorView.PROB_INTERVAL, GuiResources.INSTANCE.interval_between(), "IntervalProb");
-		modeGroup.add(ProbabilityCalculatorView.PROB_TWO_TAILED, GuiResources.INSTANCE.interval_two_tailed(),
-				"TwoTailedProb");
-		modeGroup.add(ProbabilityCalculatorView.PROB_RIGHT, GuiResources.INSTANCE.interval_right(), "RightProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_LEFT, GuiResources.INSTANCE.interval_left(),
+				"LeftProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_INTERVAL,
+				GuiResources.INSTANCE.interval_between(), "IntervalProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_TWO_TAILED,
+				GuiResources.INSTANCE.interval_two_tailed(), "TwoTailedProb");
+		modeGroup.add(ProbabilityCalculatorView.PROB_RIGHT,
+				GuiResources.INSTANCE.interval_right(), "RightProb");
 		modeGroup.endGroup();
 		modeGroup.addFastClickHandler((source) -> {
 			if (modeGroup.handle(source) && !view.isCumulative()) {
@@ -61,15 +75,11 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			}
 		});
 
+		modeGroup.add(resultPanel);
 		add(modeGroup);
 	}
 
-	private void buildResultPanel() {
-		resultPanel = new ResultPanelW(view.getApp(), this);
-		modeGroup.add(resultPanel);
-	}
-
-	private void buildParameterPanel() {
+	private void buildParameterPanel(FlowPanel parent) {
 		initParamFields();
 
 		FlowPanel parameterPanel = new FlowPanel();
@@ -79,7 +89,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			parameterPanel.add(fldParameterArray[i]);
 		}
 
-		add(parameterPanel);
+		parent.add(parameterPanel);
 	}
 
 	private void initParamFields() {
@@ -90,7 +100,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			lblParameterArray[i] = new Label();
 			fldParameterArray[i] = new MathTextFieldW(view.getApp());
 			fldParameterArray[i].setPxWidth(64);
-			//resultPanel.addInsertHandler(fldParameterArray[i]); TODO check ProbCalcW:460
+			resultPanel.addInsertHandler(fldParameterArray[i]);
 		}
 	}
 
@@ -113,21 +123,18 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 	}
 
-	public void buildCumulativeWidget() {
+	public void initCumulativeWidget() {
 		cumulativeWidget = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
 		((ToggleButton) cumulativeWidget).addFastClickHandler((e) ->
 				view.setCumulative(((ToggleButton) cumulativeWidget).isSelected()));
-		add(cumulativeWidget);
 	}
 
-	public void buildDistrComboBox() {
+	public void initDistrComboBox() {
 		comboDistribution = new ListBox();
 		comboDistribution.addStyleName("comboDistribution");
 		comboDistributionHandler = comboDistribution.addChangeHandler(this);
 
 		setDistributionComboBoxMenu();
-
-		add(comboDistribution);
 	}
 
 	@Override
@@ -140,30 +147,35 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	private void setDistributionComboBoxMenu() {
 		comboDistributionHandler.removeHandler();
 		comboDistribution.clear();
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.NORMAL));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.STUDENT));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.CHISQUARE));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.F));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.EXPONENTIAL));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.CAUCHY));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.WEIBULL));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.GAMMA));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.LOGNORMAL));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.LOGISTIC));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.NORMAL));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.STUDENT));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.CHISQUARE));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.F));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.EXPONENTIAL));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.CAUCHY));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.WEIBULL));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.GAMMA));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.LOGNORMAL));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.LOGISTIC));
 
 		comboDistribution.addItem(view.SEPARATOR);
 		NodeList<OptionElement> options = SelectElement.as(comboDistribution.getElement())
 				.getOptions();
 		options.getItem(options.getLength() - 1)
 				.setAttribute("disabled", "disabled");
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.BINOMIAL));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.PASCAL));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.POISSON));
-		comboDistribution.addItem(view.getDistributionMap().get(ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.BINOMIAL));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.PASCAL));
+		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.POISSON));
+		comboDistribution.addItem(getDistribution(
+				ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC));
 
-		ListBoxApi.select(view.getDistributionMap().get(view.getSelectedDist()),
+		ListBoxApi.select(getDistribution(view.getSelectedDist()),
 				comboDistribution);
 		comboDistribution.addChangeHandler(this);
+	}
+
+	private String getDistribution(ProbabilityCalculatorSettings.Dist dist) {
+		return view.getDistributionMap().get(dist);
 	}
 
 
@@ -191,7 +203,109 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 
 	@Override
 	public void doTextFieldActionPerformed(MathTextFieldW source, boolean intervalCheck) {
-		view.doTextFieldActionPerformed(source, intervalCheck);
+		if (view.isIniting()) {
+			return;
+		}
+		String inputText = source.getText().trim();
+		boolean update = true;
+		if (!"".equals(inputText)) {
+			Kernel kernel = view.getApp().getKernel();
+			// allow input such as sqrt(2)
+			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
+					inputText, intervalCheck ? source : ErrorHelper.silent());
+			GeoNumberValue numericValue = nv != null
+					? nv : new GeoNumeric(kernel.getConstruction(), Double.NaN);
+			double value = numericValue.getDouble();
+			if (!Double.isNaN(value)) {
+				source.resetError();
+			}
+			if (getResultPanel().isFieldLow(source)) {
+				checkBounds(numericValue, intervalCheck, false);
+			}
+
+			else if (getResultPanel().isFieldHigh(source)) {
+				checkBounds(numericValue, intervalCheck, true);
+			}
+
+			// handle inverse probability
+			else if (getResultPanel().isFieldResult(source)) {
+				update = false;
+				if (value < 0 || value > 1) {
+					if (!intervalCheck) {
+						updateLowHigh();
+						return;
+					}
+					updateGUI();
+				} else {
+					if (view.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
+						view.setHigh(view.inverseProbability(value));
+					}
+					if (view.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
+						view.setLow(view.inverseProbability(1 - value));
+					}
+					updateLowHigh();
+					view.setXAxisPoints();
+				}
+			} else {
+				// handle parameter entry
+				for (int i = 0; i < view.getParameters().length; ++i) {
+					if (source == fldParameterArray[i]) {
+						if (view.isValidParameterChange(value, i)) {
+							view.getParameters()[i] = numericValue;
+							if (intervalCheck) {
+								view.updateAll(true);
+							} else {
+								view.updateOutput();
+								view.updateLowHighResult();
+							}
+						}
+
+					}
+				}
+			}
+			if (intervalCheck) {
+				view.updateIntervalProbability();
+				if (update) {
+					updateGUI();
+				}
+			}
+		}
+	}
+
+	private void updateLowHigh() {
+		getResultPanel().updateLowHigh(view.format(view.getLow()), view.format(view.getHigh()));
+	}
+
+	private void checkBounds(GeoNumberValue value, boolean intervalCheck, boolean high) {
+		boolean valid = high ? view.isValidInterval(view.getLow(), value.getDouble())
+				: view.isValidInterval(value.getDouble(), view.getHigh());
+
+		if (valid) {
+			if (high) {
+				view.setHigh(value);
+			} else {
+				view.setLow(value);
+			}
+			view.setXAxisPoints();
+		}
+		if (intervalCheck) {
+			updateGUI();
+			if (view.isTwoTailedMode()) {
+				view.updateGreaterSign(getResultPanel());
+			}
+		} else {
+			view.updateIntervalProbability();
+			if (view.isTwoTailedMode()) {
+				getResultPanel().updateTwoTailedResult(view.getProbabilityText(
+						view.getLeftProbability()),
+						view.getProbabilityText(view.getRightProbability()));
+				getResultPanel().updateResult(view.getProbabilityText(view.getLeftProbability()
+						+ view.getRightProbability()));
+				view.updateGreaterSign(getResultPanel());
+			} else {
+				getResultPanel().updateResult(view.getProbabilityText(view.getProbability()));
+			}
+		}
 	}
 
 	public ResultPanelW getResultPanel() {

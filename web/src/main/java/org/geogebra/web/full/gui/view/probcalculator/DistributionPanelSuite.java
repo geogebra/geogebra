@@ -4,19 +4,17 @@ import org.geogebra.common.main.Localization;
 
 public class DistributionPanelSuite extends DistributionPanel {
 
-
-	public DistributionPanelSuite(
-			ProbabilityCalculatorViewW view, Localization loc) {
+	public DistributionPanelSuite(ProbabilityCalculatorViewW view, Localization loc) {
 		super(view, loc);
 	}
 
 	@Override
 	public void buildGUI() {
-		buildDistrComboBox();
+		initDistrComboBox();
 	}
 
 	@Override
-	public void buildCumulativeWidget() {
+	public void initCumulativeWidget() {
 		// todo APPS-3712
 	}
 }

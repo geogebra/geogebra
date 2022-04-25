@@ -18,8 +18,8 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 	}
 
 	private void createContent() {
-		ProbabilityCalculatorViewW view =
-				(ProbabilityCalculatorViewW) toolbarPanel.getApp().getGuiManager().getProbabilityCalculator();
+		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
+				.getGuiManager().getProbabilityCalculator();
 		add(new DistributionPanelSuite(view, toolbarPanel.getApp().getLocalization()));
 	}
 

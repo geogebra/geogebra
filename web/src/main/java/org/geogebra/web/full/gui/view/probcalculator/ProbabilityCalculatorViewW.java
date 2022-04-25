@@ -5,9 +5,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -31,13 +29,9 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * ProbablityCalculatorView for web
  */
-public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
-		implements InsertHandler {
+public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public static final String SEPARATOR = "--------------------";
-	//private ProbabilityModeGroup modeGroup;
 	private Label lblMeanSigma;
-	/** control panel */
-	FlowPanel controlPanel;
 	/** export action */
 	ScheduledCommand exportToEVAction;
 	/** plot panel */
@@ -93,7 +87,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
 		btnStepGraph.setTitle(loc.getMenu("StepGraph"));
 		btnBarGraph.setTitle(loc.getMenu("BarChart"));
-
 		btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 	}
 
@@ -118,9 +111,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void buildProbCalcPanel() {
+		distrPanel = new DistributionPanel(this, loc);
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);
-		plotSplitPane.add(controlPanel);
+		plotSplitPane.add(distrPanel);
 		plotSplitPane.addStyleName("plotSplitPane");
 		mainSplitPane = new FlowPanel();
 		mainSplitPane.addStyleName("mainSplitPanel");
@@ -128,13 +122,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		probCalcPanel = new FlowPanel();
 		probCalcPanel.addStyleName("ProbCalcPanel");
-		
 		probCalcPanel.add(mainSplitPane);
 	}
 
 	private void createLayoutPanels() {
 		//control panel
-		createControlPanel();
 		setPlotPanel(new PlotPanelEuclidianViewW(kernel));
 
 		FlowPanel plotPanelOptions = new FlowPanel();
@@ -160,34 +152,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		setTable(new ProbabilityTableW(app, this));
 	}
 
-	private void createControlPanel() {
-		//distribution combobox panel
-		FlowPanel cbPanel = new FlowPanel();
-		cbPanel.addStyleName("cbPanel");
-
-		//modeGroup.add(resultPanel);
-
-		controlPanel = new FlowPanel();
-		controlPanel.addStyleName("controlPanel");
-		controlPanel.add(cbPanel);
-		controlPanel.add(new ClearPanel());
-		controlPanel.add(new ClearPanel());
-
-		distrPanel = new DistributionPanel(this, loc);
-		controlPanel.add(distrPanel);
-	}
-
 	protected void init() {
 		setLabels();
 		attachView();
 		settingsChanged(getApp().getSettings().getProbCalcSettings());
-	}
-
-	private static class ClearPanel extends FlowPanel {
-		public ClearPanel() {
-			super();
-			this.setStyleName("clear");
-		}
 	}
 
 	private void createGUIElements() {
@@ -333,15 +301,15 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 	}
 
-	private void updateLowHighResult() {
+	public void updateLowHighResult() {
 		Scheduler.get().scheduleDeferred(this::tabResized);
 		updateResult(getResultPanel());
 	}
 
-	private void updateLowHigh() {
-		getResultPanel().updateLowHigh(format(low), format(high));
-	}
-
+	/**
+	 * handle distribution selection
+	 * @param comboDistribution - distribution drop-down
+	 */
 	public void changeDistribution(ListBox comboDistribution) {
 		if (!selectedDist
 				.equals(this.getReverseDistributionMap().get(comboDistribution
@@ -354,7 +322,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			tabResized();
 		}
 	}
-
 
 	/**
 	 * @return wheter distribution tab is open
@@ -380,80 +347,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void doTextFieldActionPerformed(MathTextFieldW source, boolean intervalCheck) {
-		if (isIniting) {
-			return;
-		}
-		String inputText = source.getText().trim();
-		boolean update = true;
-		if (!"".equals(inputText)) {
-			// allow input such as sqrt(2)
-			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
-					inputText, intervalCheck ? source : ErrorHelper.silent());
-			GeoNumberValue numericValue = nv != null
-					? nv : new GeoNumeric(cons, Double.NaN);
-			double value = numericValue.getDouble();
-			if (!Double.isNaN(value)) {
-				source.resetError();
-			}
-			if (getResultPanel().isFieldLow(source)) {
-
-				checkBounds(numericValue, intervalCheck, false);
-			}
-
-			else if (getResultPanel().isFieldHigh(source)) {
-				checkBounds(numericValue, intervalCheck, true);
-			}
-
-			// handle inverse probability
-			else if (getResultPanel().isFieldResult(source)) {
-				update = false;
-				if (value < 0 || value > 1) {
-					if (!intervalCheck) {
-						updateLowHigh();
-						return;
-					}
-					updateGUI();
-				} else {
-					if (probMode == PROB_LEFT) {
-						setHigh(inverseProbability(value));
-					}
-					if (probMode == PROB_RIGHT) {
-						setLow(inverseProbability(1 - value));
-					}
-					updateLowHigh();
-					setXAxisPoints();
-				}
-			} else {
-				// handle parameter entry
-				for (int i = 0; i < parameters.length; ++i) {
-					/*if (source == fldParameterArray[i]) {
-						if (isValidParameterChange(value, i)) {
-							parameters[i] = numericValue;
-							if (intervalCheck) {
-								updateAll(true);
-							} else {
-								updateOutput();
-								updateLowHighResult();
-							}
-						}
-
-					}*/
-				}
-			}
-			if (intervalCheck) {
-				updateIntervalProbability();
-				if (update) {
-					updateGUI();
-				}
-			}
-		}
-	}
-
-	@Override
 	public void setInterval(double low, double high) {
-		this.setLow(low);
-		this.setHigh(high);
+		setLow(low);
+		setHigh(high);
 		getResultPanel().updateLowHigh("" + low, "" + high);
 		setXAxisPoints();
 		updateIntervalProbability();
@@ -497,37 +393,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
 		plotSplitPane.setWidth(width + "px");
-	}
-
-	private void checkBounds(GeoNumberValue value, boolean intervalCheck, boolean high) {
-		boolean valid = high ? isValidInterval(probMode, getLow(), value.getDouble())
-				: isValidInterval(probMode, value.getDouble(), getHigh());
-
-		if (valid) {
-			if (high) {
-				setHigh(value);
-			} else {
-				setLow(value);
-			}
-			setXAxisPoints();
-		}
-		if (intervalCheck) {
-			updateGUI();
-			if (isTwoTailedMode()) {
-				updateGreaterSign(getResultPanel());
-			}
-		} else {
-			updateIntervalProbability();
-			if (isTwoTailedMode()) {
-				getResultPanel().updateTwoTailedResult(getProbabilityText(leftProbability),
-						getProbabilityText(rightProbability));
-				getResultPanel().updateResult(getProbabilityText(leftProbability
-						+ rightProbability));
-				updateGreaterSign(getResultPanel());
-			} else {
-				getResultPanel().updateResult(getProbabilityText(probability));
-			}
-		}
 	}
 
 	private void createExportMenu() {
