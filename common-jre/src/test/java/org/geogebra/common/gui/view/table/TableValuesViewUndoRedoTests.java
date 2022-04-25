@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -13,10 +14,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
+public class TableValuesViewUndoRedoTests extends BaseUnitTest {
+
+	protected TableValuesView view;
+	protected TableValuesModel model;
+	protected TableValuesProcessor processor;
 
 	@Before
 	public void setupUndoRedo() {
+		view = new TableValuesView(getKernel());
+		getKernel().attach(view);
+		model = view.getTableValuesModel();
+		view.clearView();
+		processor = view.getProcessor();
 		getApp().setUndoRedoEnabled(true);
 		getApp().setUndoActive(true);
 		getKernel().getConstruction().initUndoInfo();
@@ -30,23 +40,23 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 
 	@Test
 	public void testUndoAddFirst() {
-		GeoLine[] lines = createLines(2);
+		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
+		view.addAndShow(lines[0]);
 		getKernel().undo();
-		assertTrue(view.getTableValuesModel().getColumnCount() == 1);
+		assertEquals(1, view.getTableValuesModel().getColumnCount());
 		getKernel().redo();
 		shouldHaveUndoPointsAndColumns(2, 2);
 	}
 
 	@Test
 	public void testUndoAddSecond() {
-		GeoLine[] lines = createLines(2);
+		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		showColumn(lines[1]);
+		view.addAndShow(lines[0]);
+		view.addAndShow(lines[1]);
 		shouldHaveUndoPointsAndColumns(3, 3);
 		getKernel().undo();
 		assertEquals(2, 2);
@@ -56,27 +66,27 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 
 	@Test
 	public void testUndoDeleteFirst() {
-		GeoLine[] lines = createLines(2);
+		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		hideColumn(lines[0]);
-		assertTrue(view.getTableValuesModel().getColumnCount() == 1);
+		view.addAndShow(lines[0]);
+		view.hideColumn(lines[0]);
+		assertEquals(1, view.getTableValuesModel().getColumnCount());
 		getKernel().undo();
 		assertFalse(view.isEmpty());
 		getKernel().redo();
-		assertTrue(view.getTableValuesModel().getColumnCount() == 1);
+		assertEquals(1, view.getTableValuesModel().getColumnCount());
 		shouldHaveUndoPointsAndColumns(3, 1);
 	}
 
 	@Test
 	public void testUndoDeleteSecond() {
-		GeoLine[] lines = createLines(2);
+		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
-		showColumn(lines[1]);
-		hideColumn(lines[1]);
+		view.addAndShow(lines[0]);
+		view.addAndShow(lines[1]);
+		view.hideColumn(lines[1]);
 		shouldHaveUndoPointsAndColumns(4, 2);
 		getKernel().undo();
 		shouldHaveUndoPointsAndColumns(3, 3);
@@ -85,13 +95,13 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 	}
 
 	@Test
-	public void testUndoRange() {
-		GeoLine[] lines = createLines(2);
+	public void testUndoRange() throws InvalidValuesException {
+		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
-		setValuesSafe(0, 10, 2);
-		showColumn(lines[0]);
-		setValuesSafe(5, 20, 3);
+		view.setValues(0, 10, 2);
+		view.addAndShow(lines[0]);
+		view.setValues(5, 20, 3);
 		shouldHaveUndoPointsAndColumns(4, 2);
 		assertEquals(5, view.getValuesMin(), .1);
 		getKernel().undo();
@@ -103,11 +113,11 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 
 	@Test
 	public void testUndoShowPoints() {
-		TableValuesPoints points = setupPointListener();
-		GeoLine[] lines = createLines(2);
+		TableValuesPoints points = TableValuesPointsImpl.create(getConstruction(), view, model);
+		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
-		showColumn(lines[0]);
+		view.addAndShow(lines[0]);
 		points.setPointsVisible(1, false);
 		points.setPointsVisible(1, true);
 		shouldHaveUndoPointsAndColumns(4, 2);
@@ -147,7 +157,7 @@ public class TableValuesViewUndoRedoTests extends TableValuesViewTest {
 
 	@Test
 	public void testUndoRegression() {
-		setupPointListener();
+		TableValuesPointsImpl.create(getConstruction(), view, model);
 		processor.processInput("1", null, 0);
 		GeoList list = (GeoList) view.getEvaluatable(1);
 		processor.processInput("1", list, 1);

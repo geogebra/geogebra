@@ -4,14 +4,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
-import org.geogebra.common.Stopwatch;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -23,14 +23,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.RegexpMatch;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 /**
@@ -174,12 +172,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	protected GeoLine[] createLines(int number) {
-		GeoElementFactory factory = getElementFactory();
-		GeoLine[] lines = new GeoLine[number];
-		for (int i = 0; i < number; i++) {
-			lines[i] = factory.createGeoLine();
-		}
-		return lines;
+		return getElementFactory().createLines(number);
 	}
 
 	@Test
@@ -242,32 +235,20 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
 	public void testCachingOfGetValues() {
-		final long sleepTime = 10;
-		Function slowFunction = mock(Function.class);
-		Mockito.when(slowFunction.value(1.0)).then(invocation -> {
-			Thread.sleep(sleepTime);
-			return 0.0;
-		});
-		Mockito.when(slowFunction.getExpression()).thenReturn(new ExpressionNode(getKernel(), 0));
+		ExpressionNode expr = new ExpressionNode(getKernel(), 0);
+		Function slowFunction = spy(new Function(getKernel(), expr));
 		setValuesSafe(1, 2, 1);
 
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction geoFunction = factory.createFunction(slowFunction);
 		showColumn(geoFunction);
 
-		Stopwatch stopwatch = new Stopwatch();
-
-		stopwatch.start();
 		model.getCellAt(0, 1);
-		long elapsed = stopwatch.stop();
+		verify(slowFunction, times(1)).value(anyDouble());
 
-		stopwatch.start();
 		model.getCellAt(0, 1);
-		long cachedElapsed = stopwatch.stop();
-
-		assertThat(
-				"Querying with the cache is not at least 10 times faster",
-				elapsed, OrderingComparison.greaterThan(cachedElapsed * 10));
+		model.getCellAt(0, 1);
+		verify(slowFunction, times(1)).value(anyDouble());
 	}
 
 	@Test
@@ -633,9 +614,7 @@ public class TableValuesViewTest extends BaseUnitTest {
 	}
 
 	protected TableValuesPoints setupPointListener() {
-		tablePoints = new TableValuesPointsImpl(getConstruction(), view,
-				model);
-		model.registerListener(tablePoints);
+		tablePoints = TableValuesPointsImpl.create(getConstruction(), view, model);
 		return tablePoints;
 	}
 
