@@ -510,4 +510,14 @@ public class ArbitraryConstIntegrationTest {
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 1)"));
 	}
 
+	@Test
+	public void shouldKeepValueAfterReload() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		ap.processAlgebraCommand("f:=SolveODE(x)", false);
+		ap.processAlgebraCommand("SetValue(c_1,3)", false);
+		app.setXML(app.getXML(), true);
+		assertThat(kernel.lookupLabel("f"), hasValue("3 + 1 / 2 x"
+				+ Unicode.SUPERSCRIPT_2));
+	}
+
 }
