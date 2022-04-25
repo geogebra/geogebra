@@ -467,9 +467,6 @@ public class MyXMLHandler implements DocHandler {
 
 	private void startScriptingElement(LinkedHashMap<String, String> attrs) {
 		try {
-			String scriptingLanguage = attrs.get("language");
-			app.setScriptingLanguage(scriptingLanguage);
-
 			boolean blockScripting = "true".equals(attrs.get("blocked"));
 			app.setBlockUpdateScripts(blockScripting);
 
