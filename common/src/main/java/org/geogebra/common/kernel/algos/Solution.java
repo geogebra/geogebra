@@ -114,6 +114,9 @@ public class Solution {
 	 * Sort roots and eliminate duplicate ones
 	 */
 	public void sortAndMakeUnique() {
+		if (curRealRoots == 0) {
+			return; // further we assume that curRoots[0] is actual root
+		}
 		// sort roots and eliminate duplicate ones
 		Arrays.sort(this.curRoots, 0, this.curRealRoots);
 
