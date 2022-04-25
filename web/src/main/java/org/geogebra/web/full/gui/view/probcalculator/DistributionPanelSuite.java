@@ -4,6 +4,11 @@ import org.geogebra.common.main.Localization;
 
 public class DistributionPanelSuite extends DistributionPanel {
 
+	/**
+	 * constructor
+	 * @param view - prob calc view
+	 * @param loc - localization
+	 */
 	public DistributionPanelSuite(ProbabilityCalculatorViewW view, Localization loc) {
 		super(view, loc);
 		addStyleName("suiteDistrTab");
