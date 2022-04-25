@@ -35,6 +35,11 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	private ProbabilityModeGroup modeGroup;
 	private ResultPanelW resultPanel;
 
+	/**
+	 * costructor
+	 * @param view - prob calc view
+	 * @param loc - localization
+	 */
 	public DistributionPanel(ProbabilityCalculatorViewW view, Localization loc) {
 		this.view = view;
 		this.loc = loc;
@@ -42,6 +47,9 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		buildGUI();
 	}
 
+	/**
+	 * build distribution panel
+	 */
 	public void buildGUI() {
 		initCumulativeWidget();
 		FlowPanel comboParamPanel = new FlowPanel();
@@ -103,6 +111,9 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 	}
 
+	/**
+	 * update parameter fields
+	 */
 	public void updateParameters() {
 		for (int i = 0; i < view.maxParameterCount; ++i) {
 
@@ -122,12 +133,19 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 	}
 
+	/**
+	 * init cumulative widget
+	 */
 	public void initCumulativeWidget() {
 		cumulativeWidget = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
 		((ToggleButton) cumulativeWidget).addFastClickHandler((e) ->
 				view.setCumulative(((ToggleButton) cumulativeWidget).isSelected()));
 	}
 
+	/**
+	 * init and fill the distribution drop-down
+	 * @param parent - parent panel
+	 */
 	public void buildDistrComboBox(FlowPanel parent) {
 		comboDistribution = new ListBox();
 		comboDistribution.addStyleName("comboDistribution");
@@ -178,7 +196,9 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		return view.getDistributionMap().get(dist);
 	}
 
-
+	/**
+	 * update the whole gui
+	 */
 	public void updateGUI() {
 		setDistributionComboBoxMenu();
 		((ToggleButton) cumulativeWidget).setSelected(view.isCumulative());
@@ -186,6 +206,9 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		modeGroup.setMode(view.getProbMode());
 	}
 
+	/**
+	 * update translation
+	 */
 	public void setLabels() {
 		setDistributionComboBoxMenu();
 		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));

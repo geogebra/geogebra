@@ -293,6 +293,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				== ProbabilityCalculatorView.GRAPH_BAR);
 	}
 
+	/**
+	 *update distribution drop-down
+	 * @param comboDistribution - distribution drop-down
+	 */
 	public void updateDistributionCombo(ListBox comboDistribution) {
 		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
 				.equals(getDistributionMap().get(selectedDist))) {
@@ -301,6 +305,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		}
 	}
 
+	/**
+	 * update low and high
+	 */
 	public void updateLowHighResult() {
 		Scheduler.get().scheduleDeferred(this::tabResized);
 		updateResult(getResultPanel());
