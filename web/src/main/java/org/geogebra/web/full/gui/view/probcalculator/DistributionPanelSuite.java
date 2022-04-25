@@ -6,11 +6,12 @@ public class DistributionPanelSuite extends DistributionPanel {
 
 	public DistributionPanelSuite(ProbabilityCalculatorViewW view, Localization loc) {
 		super(view, loc);
+		addStyleName("suiteDistrTab");
 	}
 
 	@Override
 	public void buildGUI() {
-		initDistrComboBox();
+		buildDistrComboBox(this);
 	}
 
 	@Override

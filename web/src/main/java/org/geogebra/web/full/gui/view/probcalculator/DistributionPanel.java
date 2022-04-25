@@ -44,11 +44,10 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 
 	public void buildGUI() {
 		initCumulativeWidget();
-		initDistrComboBox();
 		FlowPanel comboParamPanel = new FlowPanel();
 		comboParamPanel.addStyleName("comboParamPanel");
 		comboParamPanel.add(cumulativeWidget);
-		comboParamPanel.add(comboDistribution);
+		buildDistrComboBox(comboParamPanel);
 		add(comboParamPanel);
 
 		resultPanel = new ResultPanelW(view.getApp(), this);
@@ -129,12 +128,13 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 				view.setCumulative(((ToggleButton) cumulativeWidget).isSelected()));
 	}
 
-	public void initDistrComboBox() {
+	public void buildDistrComboBox(FlowPanel parent) {
 		comboDistribution = new ListBox();
 		comboDistribution.addStyleName("comboDistribution");
 		comboDistributionHandler = comboDistribution.addChangeHandler(this);
 
 		setDistributionComboBoxMenu();
+		parent.add(comboDistribution);
 	}
 
 	@Override
