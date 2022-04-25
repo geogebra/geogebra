@@ -697,5 +697,4 @@ public class ExamEnvironment {
 	public TempStorage getTempStorage() {
 		return tempStorage;
 	}
-
 }

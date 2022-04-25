@@ -101,6 +101,9 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
+import org.geogebra.common.main.exam.restriction.RestrictExam;
+import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -446,6 +449,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private final AppConfig appConfig = new AppConfigDefault();
 
 	private Material activeMaterial;
+	private RestrictExam restrictions;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -3953,12 +3957,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setNewExam() {
 		ExamEnvironment examEnvironment = newExamEnvironment();
+		initRestrictions();
 		setExam(examEnvironment);
 		examEnvironment.setAppNameWith(getConfig());
 		CommandDispatcher commandDispatcher =
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
 		examEnvironment.setCommandDispatcher(commandDispatcher);
 		updateExam(examEnvironment);
+	}
+
+	private void initRestrictions() {
+		if (restrictions == null) {
+			restrictions = ExamRestrictionFactory.create(getLocalization());
+		}
 	}
 
 	protected ExamEnvironment newExamEnvironment() {
@@ -3971,6 +3982,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void startExam() {
 		setupExamEnvironment();
 		getExam().setStart((new Date()).getTime());
+		restrictions.enable();
 	}
 
 	private void setupExamEnvironment() {
@@ -4073,6 +4085,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public Layout getLayout() {
 		return getGuiManager() == null ? null : getGuiManager().getLayout();
+	}
+
+	public void clearRestictions() {
+		restrictions.disable();
 	}
 
 	/**
@@ -5047,5 +5063,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	@Override
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
+	}
+
+	/**
+	 * Register a component to be restriced during exam
+	 *
+	 * @param restrictable the component to restrict.
+	 */
+	public void registerRestrictable(Restrictable restrictable) {
+		initRestrictions();
+		restrictions.register(restrictable);
 	}
 }
