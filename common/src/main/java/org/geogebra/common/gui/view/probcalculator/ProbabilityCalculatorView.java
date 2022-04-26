@@ -116,7 +116,7 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * maximum number of parameters allowed for a distribution
 	 */
-	protected final static int maxParameterCount = 3;
+	public final static int maxParameterCount = 3;
 	protected GeoNumberValue[] parameters;
 	protected boolean isCumulative = false;
 
@@ -1099,7 +1099,6 @@ public abstract class ProbabilityCalculatorView
 	 * this method is called after a field change.
 	 */
 	public void setXAxisPoints() {
-
 		isSettingAxisPoints = true;
 
 		xAxis.lowPoint().setCoords(getLow(), 0.0, 1.0);
@@ -1119,7 +1118,7 @@ public abstract class ProbabilityCalculatorView
 	 *
 	 * @return true if mode is ][
 	 */
-	protected boolean isTwoTailedMode() {
+	public boolean isTwoTailedMode() {
 		return probMode == PROB_TWO_TAILED;
 	}
 
@@ -1417,8 +1416,7 @@ public abstract class ProbabilityCalculatorView
 		xAxis.swapIfNeeded();
 
 		if (geo.equals(xAxis.lowPoint())) {
-			if (isValidInterval(probMode, xAxis.lowPoint().getInhomX(),
-					getHigh())) {
+			if (isValidInterval(xAxis.lowPoint().getInhomX(), getHigh())) {
 				low = asNumeric(xAxis.lowPoint(), low);
 				updateIntervalProbability();
 				updateGUI();
@@ -1431,8 +1429,7 @@ public abstract class ProbabilityCalculatorView
 		}
 
 		if (geo.equals(xAxis.highPoint())) {
-			if (isValidInterval(probMode, getLow(),
-					xAxis.highPoint().getInhomX())) {
+			if (isValidInterval(getLow(), xAxis.highPoint().getInhomX())) {
 				high = asNumeric(xAxis.highPoint(), high);
 				updateIntervalProbability();
 				updateGUI();
@@ -1493,7 +1490,7 @@ public abstract class ProbabilityCalculatorView
 	 *            cumulative probability
 	 * @return inverse probability
 	 */
-	protected double inverseProbability(double prob) {
+	public double inverseProbability(double prob) {
 		return probManager.inverseProbability(selectedDist, prob, parameters);
 	}
 
@@ -1501,14 +1498,14 @@ public abstract class ProbabilityCalculatorView
 	 * @param probability to format.
 	 * @return probability formatted as String
 	 */
-	protected String getProbabilityText(double probability) {
+	public String getProbabilityText(double probability) {
 		return probability >= 0 ? format(probability) : "?";
 	}
 
 	/**
 	 * Update probability value and the graph
 	 */
-	protected void updateIntervalProbability() {
+	public void updateIntervalProbability() {
 		probability = intervalProbability();
 		if (isDiscreteProbability()) {
 			if (isTwoTailedMode()) {
@@ -1544,15 +1541,11 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @param probabilityMode
-	 *            mode
-	 * @param xLow
-	 *            interval min
-	 * @param xHigh
-	 *            interval max
+	 * @param xLow - interval min
+	 * @param xHigh - interval max
 	 * @return whether interval is valid for given mode
 	 */
-	protected boolean isValidInterval(int probabilityMode, double xLow, double xHigh) {
+	public boolean isValidInterval(double xLow, double xHigh) {
 		if (isTwoTailedMode()) {
 			return xLow <= xHigh;
 		}
@@ -1582,13 +1575,13 @@ public abstract class ProbabilityCalculatorView
 
 		case CHISQUARE:
 		case EXPONENTIAL:
-			if (probabilityMode != PROB_LEFT) {
+			if (probMode != PROB_LEFT) {
 				isValid = xLow >= 0;
 			}
 			break;
 
 		case F:
-			if (probabilityMode != PROB_LEFT) {
+			if (probMode != PROB_LEFT) {
 				isValid = xLow > 0;
 			}
 			break;
@@ -1603,7 +1596,7 @@ public abstract class ProbabilityCalculatorView
 	 * @param index parameter index
 	 * @return whether new value is valid and differs from the old one
 	 */
-	protected boolean isValidParameterChange(double parameter, int index) {
+	public boolean isValidParameterChange(double parameter, int index) {
 		if (MyDouble.exactEqual(parameters[index].getDouble(), parameter)) {
 			return false;
 		}
@@ -1958,19 +1951,19 @@ public abstract class ProbabilityCalculatorView
 		return meanSigmaStr;
 	}
 
-	protected void setHigh(double highValue) {
+	public void setHigh(double highValue) {
 		this.high = new GeoNumeric(cons, highValue);
 	}
 
-	protected void setHigh(GeoNumberValue high) {
+	public void setHigh(GeoNumberValue high) {
 		this.high = high;
 	}
 
-	protected void setLow(double lowValue) {
+	public void setLow(double lowValue) {
 		this.low = new GeoNumeric(cons, lowValue);
 	}
 
-	protected void setLow(GeoNumberValue low) {
+	public void setLow(GeoNumberValue low) {
 		this.low = low;
 	}
 
@@ -1982,7 +1975,7 @@ public abstract class ProbabilityCalculatorView
 				|| (selectedDist == Dist.F && parameters[1].getDouble() < 4));
 	}
 
-	protected HashMap<Dist, String> getDistributionMap() {
+	public HashMap<Dist, String> getDistributionMap() {
 		return distributionMap;
 	}
 
@@ -1990,7 +1983,7 @@ public abstract class ProbabilityCalculatorView
 		this.distributionMap = distributionMap;
 	}
 
-	protected HashMap<String, Dist> getReverseDistributionMap() {
+	public HashMap<String, Dist> getReverseDistributionMap() {
 		return reverseDistributionMap;
 	}
 
@@ -1999,7 +1992,7 @@ public abstract class ProbabilityCalculatorView
 		this.reverseDistributionMap = reverseDistributionMap;
 	}
 
-	protected String[][] getParameterLabels() {
+	public String[][] getParameterLabels() {
 		return parameterLabels;
 	}
 
@@ -2052,7 +2045,11 @@ public abstract class ProbabilityCalculatorView
 
 	protected abstract void addRemoveTable(boolean showTable);
 
-	protected void updateProbabilityType(ResultPanel resultPanel) {
+	/**
+	 * update probability
+	 * @param resultPanel - panel of results
+	 */
+	public void updateProbabilityType(ResultPanel resultPanel) {
 		if (isIniting) {
 			return;
 		}
@@ -2190,7 +2187,7 @@ public abstract class ProbabilityCalculatorView
 	 * Sets > or >= on demand
 	 * @param resultPanel to display.
 	 */
-	protected void updateGreaterSign(ResultPanel resultPanel) {
+	public void updateGreaterSign(ResultPanel resultPanel) {
 		if (getHigh() == getLow()) {
 			resultPanel.setGreaterThan();
 		} else {
@@ -2235,4 +2232,20 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	protected abstract void onDistributionUpdate();
+
+	public boolean isIniting() {
+		return isIniting;
+	}
+
+	public double getRightProbability() {
+		return rightProbability;
+	}
+
+	public double getLeftProbability() {
+		return leftProbability;
+	}
+
+	public double getProbability() {
+		return probability;
+	}
 }

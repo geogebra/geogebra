@@ -1921,16 +1921,11 @@
 		float: right;
 	}
 
-	.controlPanel {
-		float: left;
-		overflow: auto;
+	.distrPanel {
+		display: grid;
 	}
 
-	.controlPanel .groupEnd {
-		margin-right: 30px;
-	}
-
-	.cbPanel, .intervalPanel {
+	.comboParamPanel, .intervalPanel {
 		padding: 5px 0;
 		float: left;
 		white-space: nowrap;
@@ -1947,17 +1942,12 @@
 		align-items: center;
 	}
 
-	.controlPanel > div.clear {
-		padding: 0;
-		margin: 0;
-	}
-
-	.cbPanel .gwt-ToggleButton, .cbPanel .gwt-ListBox {
+	.comboParamPanel .gwt-ToggleButton, .comboParamPanel .gwt-ListBox {
 		display: inline-block;
 		margin-right: 10px;
 	}
 
-	.cbPanel .gwt-ToggleButton {
+	.comboParamPanel .gwt-ToggleButton {
 		float: left;
 	}
 

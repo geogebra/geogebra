@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.web.full.gui.view.probcalculator.DistributionPanelSuite;
+import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
+
 public class DistributionTab extends ToolbarPanel.ToolbarTab {
 
 	private final ToolbarPanel toolbarPanel;
@@ -15,7 +18,9 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 	}
 
 	private void createContent() {
-		add(new DistributionPanel());
+		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
+				.getGuiManager().getProbabilityCalculator();
+		add(new DistributionPanelSuite(view, toolbarPanel.getApp().getLocalization()));
 	}
 
 	@Override
