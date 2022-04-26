@@ -30,7 +30,6 @@ public enum Regression {
 	/**
 	 * @param label label
 	 * @param command command
-	 * @param formula generic formula
 	 */
 	Regression(String label, Commands command) {
 		this.label = label;

@@ -7,6 +7,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Stat;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 public class StatsBuilder {
@@ -43,11 +45,14 @@ public class StatsBuilder {
 	 */
 	public List<StatisticGroup> getStatistics1Var(String varName) {
 		List<StatisticGroup> stats = new ArrayList<>();
-		// use command strings, not algos, to make sure code splitting works in Web
-
-		addStats(stats, ONE_VAR_STATS, varName, lists[0]);
-		addStats(stats, ONE_VAR_EXTRA, varName, lists[0]);
-		return stats;
+		try {
+			// use command strings, not algos, to make sure code splitting works in Web
+			addStats(stats, ONE_VAR_STATS, varName, lists[0]);
+			addStats(stats, ONE_VAR_EXTRA, varName, lists[0]);
+			return stats;
+		} catch (Exception e) {
+			return stats;
+		}
 	}
 
 	/**
@@ -55,7 +60,7 @@ public class StatsBuilder {
 	 */
 	public List<StatisticGroup> getStatistics2Var(String varName, String varName2) {
 		List<StatisticGroup> stats = new ArrayList<>();
-		if (isSize2List(lists[0]) && isSize2List(lists[1])) {
+		try {
 			// use command strings, not algos, to make sure code splitting works in Web
 			addStats(stats, ONE_VAR_STATS, varName, lists[0]);
 			addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
@@ -63,37 +68,49 @@ public class StatsBuilder {
 			addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
 			addStats(stats, MIN_MAX, varName, lists[0]);
 			addStats(stats, MIN_MAX, varName2, lists[1]);
+			return stats;
+		} catch (Exception e) {
+			return stats;
 		}
-		return stats;
-	}
-
-	private boolean isSize2List(GeoEvaluatable list) {
-		return list instanceof GeoList && ((GeoList) list).size() >= 2;
 	}
 
 	private void addStats(List<StatisticGroup> stats, List<Stat> statAlgos, String varName,
-			GeoEvaluatable... lists) {
+			GeoEvaluatable... lists) throws Exception {
 		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
 				false);
-		if (lists.length == 2) {
-			MyVecNode points = new MyVecNode(kernel, lists[0], lists[1]);
-			cleanData.addArgument(points.wrap());
-		} else {
-			cleanData.addArgument(lists[0].wrap());
-		}
-		for (Stat cmd: statAlgos) {
-			Command exec = new Command(kernel, cmd.getCommandName(), false);
-			exec.addArgument(cleanData.wrap());
+		MyVecNode points = new MyVecNode(kernel, this.lists[0], this.lists[1]);
+		cleanData.addArgument(points.wrap());
+		ExpressionNode xCoordExpr =
+				new ExpressionNode(kernel, cleanData.wrap(), Operation.XCOORD, null);
+		ExpressionNode yCoordExpr =
+				new ExpressionNode(kernel, cleanData.wrap(), Operation.YCOORD, null);
+		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+		GeoElementND resultX = algebraProcessor.processValidExpressionSilent(xCoordExpr)[0];
+		GeoElementND resultY = algebraProcessor.processValidExpressionSilent(yCoordExpr)[0];
 
-			try {
-				AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
-				GeoElementND result = algebraProcessor.processValidExpressionSilent(exec)[0];
-				String heading = kernel.getLocalization().getMenu("Stats." + cmd.getCommandName());
-				String lhs = cmd.getLHS(kernel.getLocalization(), varName);
-				String formula = lhs + " = " + result.toValueString(StringTemplate.defaultTemplate);
-				stats.add(new StatisticGroup(true, heading, formula));
-			} catch (Exception e) {
-				Log.debug(e);
+		if (resultX.isGeoList() && ((GeoList) resultX).size() >= 2) {
+			for (Stat cmd : statAlgos) {
+				Command exec = new Command(kernel, cmd.getCommandName(), false);
+				if (lists[0] == this.lists[0]) {
+					exec.addArgument(resultX.wrap());
+					if (lists[1] == this.lists[1]) {
+						exec.addArgument(resultY.wrap());
+					}
+				}
+				if (lists[0] == this.lists[1]) {
+					exec.addArgument(resultY.wrap());
+				}
+
+				try {
+					GeoElementND r = algebraProcessor.processValidExpressionSilent(exec)[0];
+					String heading =
+							kernel.getLocalization().getMenu("Stats." + cmd.getCommandName());
+					String lhs = cmd.getLHS(kernel.getLocalization(), varName);
+					String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
+					stats.add(new StatisticGroup(true, heading, formula));
+				} catch (Exception e) {
+					Log.debug(e);
+				}
 			}
 		}
 	}
