@@ -73,7 +73,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		app = (AppW) kernel.getApplication();
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
-		        (AppW) kernel.getApplication(), false, keyListener, false, false);
+		        (AppW) kernel.getApplication(), false, keyListener, false);
 		autoCompleteTextField.addInsertHandler(text -> {
 			if (!editing) {
 			((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
