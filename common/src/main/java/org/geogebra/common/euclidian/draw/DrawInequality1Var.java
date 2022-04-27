@@ -128,21 +128,21 @@ public class DrawInequality1Var extends SetDrawable {
 		// get x-coords of the lines
 		if (varIsY) {
 			ArrayList<Double> roots = ineq.getZeros();
-			double[] x = new double[roots.size() + 2];
-			double[] xRW = new double[roots.size() + 2];
-			x[0] = view.getHeight() + 10;
+			double[] y = new double[roots.size() + 2];
+			double[] yRW = new double[roots.size() + 2];
+			y[0] = view.getHeight() + 10;
 			int numOfX = 1;
 			for (Double root : roots) {
 				if (root < view.toRealWorldCoordY(-10)
 						&& root > view.toRealWorldCoordY(view.getHeight() + 10)) {
-					xRW[numOfX] = root;
-					x[numOfX++] = view.toScreenCoordY(root);
+					yRW[numOfX] = root;
+					y[numOfX++] = view.toScreenCoordY(root);
 				}
 			}
-			x[numOfX++] = -10;
-			if (numOfX > 2 && x[numOfX - 2] > 0
-					&& x[numOfX - 2] < view.getHeight()) {
-				yLabel = (int) x[numOfX - 2] - 5;
+			y[numOfX++] = -10;
+			if (numOfX > 2 && y[numOfX - 2] > 0
+					&& y[numOfX - 2] < view.getHeight()) {
+				yLabel = (int) y[numOfX - 2] - 5;
 			} else {
 				yLabel = 10;
 			}
@@ -154,26 +154,14 @@ public class DrawInequality1Var extends SetDrawable {
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
 				gp[i].resetWithThickness(geo.getLineThickness());
-				gp[i].moveTo(-10, x[2 * i + j]);
-				gp[i].lineTo(view.getWidth() + 10, x[2 * i + j]);
-				gp[i].lineTo(view.getWidth() + 10, x[2 * i + j + 1]);
-				gp[i].lineTo(-10, x[2 * i + j + 1]);
-				gp[i].lineTo(-10, x[2 * i + j]);
+				gp[i].moveTo(-10, y[2 * i + j]);
+				gp[i].lineTo(view.getWidth() + 10, y[2 * i + j]);
+				gp[i].lineTo(view.getWidth() + 10, y[2 * i + j + 1]);
+				gp[i].lineTo(-10, y[2 * i + j + 1]);
+				gp[i].lineTo(-10, y[2 * i + j]);
 				gp[i].closePath();
-				if (isVisibleRoot(xRW[2 * i + j])) {
-					lines[2 * i] = AwtFactory.getPrototype().newLine2D();
-					lines[2 * i].setLine(-10, x[2 * i + j], view.getWidth() + 10,
-							x[2 * i + j]);
-				} else {
-					lines[2 * i] = null;
-				}
-				if (isVisibleRoot(xRW[2 * i + j + 1])) {
-					lines[2 * i + 1] = AwtFactory.getPrototype().newLine2D();
-					lines[2 * i + 1].setLine(-10, x[2 * i + j + 1],
-							view.getWidth() + 10, x[2 * i + j + 1]);
-				} else {
-					lines[2 * i + 1] = null;
-				}
+				lines[2 * i] = horizontalLine(yRW[2 * i + j], y[2 * i + j]);
+				lines[2 * i + 1] = horizontalLine(yRW[2 * i + j + 1], y[2 * i + j + 1]);
 				a.add(AwtFactory.getPrototype().newArea(gp[i]));
 			}
 			setShape(a);
@@ -240,20 +228,8 @@ public class DrawInequality1Var extends SetDrawable {
 					gp[i].lineTo(x[2 * i + j + 1], -10);
 					gp[i].lineTo(x[2 * i + j], -10);
 					gp[i].closePath();
-					if (isVisibleRoot(xRW[2 * i + j])) {
-						lines[2 * i] = AwtFactory.getPrototype().newLine2D();
-						lines[2 * i].setLine(x[2 * i + j], -10, x[2 * i + j],
-								view.getHeight() + 10);
-					} else {
-						lines[2 * i] = null;
-					}
-					if (isVisibleRoot(xRW[2 * i + 1 + j])) {
-						lines[2 * i + 1] = AwtFactory.getPrototype().newLine2D();
-						lines[2 * i + 1].setLine(x[2 * i + 1 + j], -10,
-								x[2 * i + 1 + j], view.getHeight() + 10);
-					} else {
-						lines[2 * i + 1] = null;
-					}
+					lines[2 * i] = verticalLine(xRW[2 * i + j], x[2 * i + j]);
+					lines[2 * i + 1] = verticalLine(xRW[2 * i + 1 + j], x[2 * i + 1 + j]);
 					a.add(AwtFactory.getPrototype().newArea(gp[i]));
 				}
 			}
@@ -262,9 +238,29 @@ public class DrawInequality1Var extends SetDrawable {
 		updateStrokes(geo);
 	}
 
-	private boolean isVisibleRoot(double x) {
-		return parentTree == null || parentTree.valueAround(
-				x, 0) == ExtendedBoolean.UNKNOWN;
+	private GLine2D verticalLine(double xRW, double x) {
+		if (isVisibleRoot(xRW)) {
+			GLine2D ret = AwtFactory.getPrototype().newLine2D();
+			ret.setLine(x, -10, x, view.getHeight() + 10);
+			return ret;
+		} else {
+			return null;
+		}
+	}
+
+	private GLine2D horizontalLine(double yRW, double y) {
+		if (isVisibleRoot(yRW)) {
+			GLine2D ret = AwtFactory.getPrototype().newLine2D();
+			ret.setLine(-10, y, view.getWidth() + 10, y);
+			return ret;
+		} else {
+			return null;
+		}
+	}
+
+	private boolean isVisibleRoot(double val) {
+		return parentTree == null
+				|| parentTree.valueAround(val, 0) == ExtendedBoolean.UNKNOWN;
 	}
 
 	private void initGP(int numOfX) {
