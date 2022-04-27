@@ -356,10 +356,10 @@ public class AlgebraProcessor {
 			try {
 				// update construction order and
 				// rebuild construction using XML
-				app.getScriptManager().disableListeners();
+				app.getEventDispatcher().disableListeners();
 				cons.changeCasCell(casCell);
-				app.getScriptManager().enableListeners();
-				app.dispatchEvent(new Event(EventType.UPDATE, casCell));
+				app.getEventDispatcher().enableListeners();
+				app.getEventDispatcher().notifyListenersUpdateCascade(casCell);
 				// the changeCasCell command computes the output
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
@@ -367,15 +367,12 @@ public class AlgebraProcessor {
 				// casCell.computeOutput();
 				// casCell.updateCascade();
 			} catch (Exception e) {
-				app.getScriptManager().enableListeners();
+				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
 				casCell.setError("ReplaceFailed");
-				// app.showError(e.getMessage());
-			} catch (CommandNotLoadedError e) {
+			} catch (Error e) { // including CommandNotFoundError
+				app.getEventDispatcher().enableListeners();
 				throw e;
-			} catch (Error er) {
-				app.getScriptManager().enableListeners();
-				throw er;
 			}
 		} else {
 			casCell.notifyAdd();
@@ -595,16 +592,16 @@ public class AlgebraProcessor {
 		if (sameLabel(newLabel, oldLabel)) {
 			// try to overwrite
 			final boolean listeners = app.getScriptManager().hasListeners();
-			app.getScriptManager().disableListeners();
+			app.getEventDispatcher().disableListeners();
 			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
 
 				@Override
 				public void callback(GeoElementND[] obj) {
 					if (obj != null) {
-						app.getScriptManager().enableListeners();
+						app.getEventDispatcher().enableListeners();
 						if (listeners && obj.length > 0) {
+							app.getEventDispatcher().notifyListenersUpdateCascade(obj[0]);
 							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
-							obj[0].updateCascade();
 						}
 						app.getCompanion().recallViewCreators();
 						if (storeUndoInfo) {
@@ -621,7 +618,7 @@ public class AlgebraProcessor {
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
 					changeCallback, info);
 			// make sure listeneres are enabled if redefinition failed
-			app.getScriptManager().enableListeners();
+			app.getEventDispatcher().enableListeners();
 			cons.registerFunctionVariable(null);
 			return;
 		} else if (cons.isFreeLabel(newLabel)) {
