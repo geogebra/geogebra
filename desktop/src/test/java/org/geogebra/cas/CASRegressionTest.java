@@ -34,7 +34,11 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 						+ "+ 24) - 2 * sqrt(10) - 5) + 5) / (2 * sqrt(10) + 6)",
 				"(x * (-4 * sqrt(10) + 6) - sqrt(10) + 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) "
 						+ "+ x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) "
-						+ "/ (-6 * sqrt(10) - 22)");
+						+ "/ (-6 * sqrt(10) - 22)",
+				"1 / 2 * (2 * sqrt(10) * x + 3 * sqrt(10) * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x "
+						+ "* (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5) - 6 * x - 4 * sqrt(10) - 9 "
+						+ "* sqrt(x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) + 24) - 2 "
+						+ "* sqrt(10) - 5) + 15)");
 		t("Solve[f'(x) = 0, x]",
 				"{x = (-sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}",
@@ -73,7 +77,10 @@ public class CASRegressionTest extends BaseCASIntegrationTest {
 				"(-2 * x^(2) + (3 * x - 6) * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x "
 						+ "* (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5) + 8 * x + sqrt(10) - 5) "
 						+ "/ (x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) + 24) "
-						+ "- 2 * sqrt(10) - 5)");
+						+ "- 2 * sqrt(10) - 5)",
+				"(-2 * x^(2) + (-3 * x + 6) * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) "
+						+ "+ 24) - 2 * sqrt(10) - 5) + 8 * x + sqrt(10) - 5) / (x^(2) * (-2 "
+						+ "* sqrt(10) - 6) + x * (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5)");
 		t("Solve[g(x) = 0, x]",
 				"{x = (-sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}",

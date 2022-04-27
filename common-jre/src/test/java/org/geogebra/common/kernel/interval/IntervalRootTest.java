@@ -71,4 +71,18 @@ public class IntervalRootTest {
 	public void testPowerOnPositiveFraction() {
 		assertEquals(sqrt(interval(1, 2)), pow(interval(1, 2), 0.5));
 	}
+
+	@Test
+	public void testEvenNRootWithInvertedXAroundZero() {
+		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
+		assertEquals(interval(2.2360679774998005, Double.POSITIVE_INFINITY),
+				nthRoot(x.multiplicativeInverse(), 2));
+	}
+
+	@Test
+	public void testOddNRootWithInvertedXAroundZero() {
+		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
+		assertEquals(interval(-78669.43188987061, 1.7099759466767028).invert(),
+				nthRoot(x.multiplicativeInverse(), 3));
+	}
 }

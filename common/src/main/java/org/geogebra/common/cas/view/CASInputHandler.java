@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles CAS input
@@ -111,7 +112,7 @@ public class CASInputHandler {
 				text.updateRepaint();
 
 			} catch (Throwable e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			return;
 		}
@@ -519,7 +520,7 @@ public class CASInputHandler {
 			}
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return sb.toString();
@@ -718,7 +719,7 @@ public class CASInputHandler {
 					}
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 			String cellText;

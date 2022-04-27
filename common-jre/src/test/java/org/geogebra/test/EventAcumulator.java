@@ -11,7 +11,7 @@ public class EventAcumulator implements EventListener {
 
 	@Override
 	public void sendEvent(Event evt) {
-		evts.add(evt.type + " " + evt.argument);
+		evts.add(evt.type + " " + (evt.argument == null ? evt.targets : evt.argument));
 	}
 
 	@Override

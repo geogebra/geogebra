@@ -912,4 +912,8 @@ final public class GeoSegment extends GeoLine
 	public SegmentStyle getEndStyle() {
 		return endStyle;
 	}
+
+	public boolean hasSegmentStyle() {
+		return !(startStyle.isDefault() && endStyle.isDefault());
+	}
 }

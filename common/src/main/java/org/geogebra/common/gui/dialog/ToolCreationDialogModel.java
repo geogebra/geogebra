@@ -181,7 +181,7 @@ public class ToolCreationDialogModel {
 		} catch (Exception e) {
 			// show error message
 			app.showError(Errors.ToolCreationFailed, e.getMessage());
-			e.printStackTrace();
+			Log.debug(e);
 			newTool = null;
 			return false;
 		}

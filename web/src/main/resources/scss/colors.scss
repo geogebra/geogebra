@@ -6,6 +6,7 @@ $purple-dark: #4C42A1;
 $purple-dark-26: rgba($purple-dark, 0.26);
 $purple-dark-87: rgba($purple-dark, 0.87);
 $purple-default-12: rgba($purple-default, 0.12);
+$purple-default-20: rgba($purple-default, 0.2);
 
 // CARROT
 $carrot-light: #EA9143;
@@ -112,12 +113,14 @@ $slider-track-focus: rgba(0, 0, 0, 0.6);
  --ggb-primary-variant-color: #{$purple-light};
  --ggb-dark-color: #{$purple-dark};
  --ggb-light-color: #{$purple-light};
+ --ggb-selection-color: #{$purple-default-20};
 }
 
 $mow_primary: var(--ggb-primary-color);
 $mow_primary_variant:  var(--ggb-primary-variant-color);
 $mow_dark: var(--ggb-dark-color);
 $mow_light: var(--ggb-light-color);
+$mow_selection_color: var(--ggb-selection-color);
 
 $mow_grey_button: #f5f5f5;
 $mow_card_background: #fafafa;

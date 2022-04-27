@@ -412,6 +412,12 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	@Override
+	public void addAndShow(GeoElement geo) {
+		add(geo);
+		showColumn((GeoEvaluatable) geo);
+	}
+
+	@Override
 	public void clearValues() {
 		clearValuesInternal();
 		storeUndoInfo();

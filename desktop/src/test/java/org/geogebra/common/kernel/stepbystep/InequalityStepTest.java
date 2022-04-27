@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,7 +29,7 @@ public class InequalityStepTest {
         try {
             app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
         } catch (Throwable e) {
-            e.printStackTrace();
+            Log.debug(e);
         }
     }
 
@@ -124,7 +125,7 @@ public class InequalityStepTest {
             Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
             return;
         } catch (CASException e) {
-            e.printStackTrace();
+            Log.debug(e);
             Assert.fail();
         }
 

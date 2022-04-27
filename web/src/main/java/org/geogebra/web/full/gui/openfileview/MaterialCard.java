@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.openfileview;
 
 import java.util.List;
 
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.CardInfoPanel;
 import org.geogebra.web.full.gui.browser.MaterialCardController;
@@ -127,12 +127,6 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	}
 
 	@Override
-	public void setShare(String groupID, boolean shared,
-			AsyncOperation<Boolean> callback) {
-		controller.setShare(groupID, shared, callback);
-	}
-
-	@Override
 	public String getMaterialID() {
 		return getMaterial().getSharingKeyOrId();
 	}
@@ -146,7 +140,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		switch (visibility) {
 		case "P":
 			app.getLoginOperation().getGeoGebraTubeAPI()
-					.getGroups(getMaterial().getSharingKeyOrId(),
+					.getGroups(getMaterial().getSharingKeyOrId(), null,
 							this::showSharedIcon);
 			visibiltyImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
@@ -170,7 +164,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
 	}
 
-	private void showSharedIcon(List<String> strings) {
+	private void showSharedIcon(List<GroupIdentifier> strings) {
 		if (strings != null && !strings.isEmpty()) {
 			updateVisibility("S");
 		}

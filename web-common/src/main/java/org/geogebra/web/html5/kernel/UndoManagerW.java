@@ -58,9 +58,9 @@ public class UndoManagerW extends DefaultUndoManager {
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 
 			// load undo info
-			app.getScriptManager().disableListeners();
+			app.getEventDispatcher().disableListeners();
 			processXML(tempXML, false);
-			app.getScriptManager().enableListeners();
+			app.getEventDispatcher().enableListeners();
 
 			app.getActiveEuclidianView().invalidateDrawableList();
 
@@ -108,10 +108,9 @@ public class UndoManagerW extends DefaultUndoManager {
 
 	@Override
 	public void undoHistoryFrom(Map<String, UndoHistory> undoHistory) {
-		app.getScriptManager().disableListeners();
+		app.getEventDispatcher().disableListeners();
 		super.undoHistoryFrom(undoHistory);
-		app.getScriptManager().enableListeners();
+		app.getEventDispatcher().enableListeners();
 		app.getActiveEuclidianView().invalidateDrawableList();
-
 	}
 }

@@ -24,4 +24,20 @@ public enum SegmentStyle {
 			return null;
 		}
 	}
+
+	/**
+	 *
+	 * @return if segment style is outlined or not.
+	 */
+	public boolean isOutline() {
+		return equals(SQUARE_OUTLINE) || equals(CIRCLE_OUTLINE);
+	}
+
+	/**
+	 *
+	 * @return if default
+	 */
+	public boolean isDefault() {
+		return equals(DEFAULT);
+	}
 }

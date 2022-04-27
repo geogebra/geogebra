@@ -320,7 +320,8 @@ var GGBApplet = function() {
             log('Error: Fetching material (id ' + parameters.material_id + ') failed.', parameters);
         };
 
-        var host = location.host.match(/.geogebra.(net|org)/) ? location.host : 'www.geogebra.org';
+        var host = location.host.match(/(www|stage|beta|groot|alpha).geogebra.(org|net)/) ? location.host
+        	: 'www.geogebra.org';
         var path = '/materials/' + parameters.material_id + '?scope=basic';
         sendCorsRequest(
             'https://' + host + '/api/proxy.php?path=' + encodeURIComponent(path),

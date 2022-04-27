@@ -1,14 +1,13 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow.TabIds;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
@@ -16,17 +15,12 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Similar toolbar header as for graphing
- * 
- * @author csilla
- *
  */
 public class HeaderMow extends FlowPanel
 		implements FastClickHandler, SetLabels {
@@ -37,7 +31,7 @@ public class HeaderMow extends FlowPanel
 	private StandardButton penPanelBtn;
 	private StandardButton toolsPanelBtn;
 	private StandardButton mediaPanelBtn;
-	private MyToggleButton openCloseBtn;
+	private ToggleButton openCloseBtn;
 
 	/**
 	 * constructor
@@ -99,21 +93,16 @@ public class HeaderMow extends FlowPanel
 	}
 
 	private void createRight() {
-		openCloseBtn = new MyToggleButton(new Image(
-				getIcon(MaterialDesignResources.INSTANCE
-						.toolbar_close_portrait_white())),
-				appW);
+		openCloseBtn = new ToggleButton(MaterialDesignResources.INSTANCE
+						.toolbar_close_portrait_white(), MaterialDesignResources.INSTANCE
+				.toolbar_open_portrait_white());
 		openCloseBtn.setStyleName("flatButton");
 		openCloseBtn.addStyleName("button");
 		openCloseBtn.addStyleName("openCloseBtn");
-		openCloseBtn.setTitle(appW.getLocalization().getMenu("Close"));
-		ClickStartHandler.init(openCloseBtn, new ClickStartHandler(true, true) {
-			
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
+		AriaHelper.setTitle(openCloseBtn, appW.getLocalization().getMenu("Close"));
+		openCloseBtn.addFastClickHandler(event -> {
 				onOpenClose();
 				DOM.setCapture(null);
-			}
 		});
 		content.add(openCloseBtn);
 	}
@@ -145,6 +134,9 @@ public class HeaderMow extends FlowPanel
 			break;
 		}
 		if (!toolbar.isOpen()) {
+			openCloseBtn.setIcon(MaterialDesignResources.INSTANCE
+					.toolbar_close_portrait_white());
+			openCloseBtn.setSelected(false);
 			onOpenClose();
 		}
 		toolbar.tabSwitch(tab);
@@ -163,26 +155,8 @@ public class HeaderMow extends FlowPanel
 	 * @param open true if toolbar is open
 	 */
 	public void toggleCloseButton(boolean open) {
-		Image upFace = new Image(getIcon(MaterialDesignResources.INSTANCE
-				.toolbar_open_portrait_white()));
-		upFace.getElement().setAttribute("draggable", "false");
-		Image downFace = new Image(getIcon(MaterialDesignResources.INSTANCE
-				.toolbar_close_portrait_white()));
-		downFace.getElement().setAttribute("draggable", "false");
-		openCloseBtn.getUpFace().setImage(open ? upFace : downFace);
-		openCloseBtn.setTitle(
-				appW.getLocalization()
-						.getMenu(toolbar.isOpen() ? "Open" : "Close"));
-	}
-
-	/**
-	 * @param resource
-	 *            svg source
-	 * @return image resource
-	 */
-	public static ImageResourcePrototype getIcon(SVGResource resource) {
-		return new ImageResourcePrototype(null, () -> resource.getSafeUri().asString(), 0, 0, 24,
-				24, false, false);
+		AriaHelper.setTitle(openCloseBtn, appW.getLocalization()
+						.getMenu(open ? "Open" : "Close"));
 	}
 
 	@Override
@@ -191,7 +165,7 @@ public class HeaderMow extends FlowPanel
 		toolsPanelBtn.setTitle(appW.getLocalization().getMenu("Tools"));
 		mediaPanelBtn
 				.setTitle(appW.getLocalization().getMenu("ToolCategory.Media"));
-		openCloseBtn.setTitle(appW.getLocalization()
+		AriaHelper.setTitle(openCloseBtn, appW.getLocalization()
 				.getMenu(toolbar.isOpen() ? "Open" : "Close"));
 	}
 }

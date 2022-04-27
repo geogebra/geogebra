@@ -180,7 +180,7 @@ public class TeXBuilder {
 	}
 
 	private Atom build(MathComponent argument) {
-		Atom ret = null;
+		Atom ret;
 		if (argument instanceof MathCharacter) {
 			ret = newCharAtom((MathCharacter) argument);
 		} else if (argument instanceof MathFunction) {
@@ -219,6 +219,11 @@ public class TeXBuilder {
 			return new AccentedAtom(new SpaceAtom(), Symbols.HAT);
 		case '_':
 			return new UnderscoreAtom();
+		case '\u2032':
+			return asScript(parser.getAtomFromUnicode(unicode, false));
+		case '\u2033':
+			return asScript(new RowAtom(parser.getAtomFromUnicode('\u2032', false),
+					parser.getAtomFromUnicode('\u2032', false)));
 		}
 
 		String replacement = replacements.get(unicode);
@@ -233,6 +238,12 @@ public class TeXBuilder {
 
 		// apply wrapping hack on symbols
 		return new ResizeAtom(ret, null, null);
+	}
+
+	private Atom asScript(Atom content) {
+		Atom script = new ScriptsAtom(EmptyAtom.get(), null,
+				content);
+		return new ResizeAtom(script, null, null);
 	}
 
 	private Atom buildArray(MathArray array) {

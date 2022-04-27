@@ -97,7 +97,7 @@ public class InputHelper {
 				text.setStartPoint(p);
 				text.update();
 			} catch (CircularDefinitionException e1) {
-				e1.printStackTrace();
+				Log.debug(e1);
 			}
 		}
 	}

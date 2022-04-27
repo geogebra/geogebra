@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Serializable description of editor state
@@ -63,7 +64,7 @@ public class EditorStateDescription {
 			return new EditorStateDescription(jso.getString("content"),
 					caretPath);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return null;
 	}

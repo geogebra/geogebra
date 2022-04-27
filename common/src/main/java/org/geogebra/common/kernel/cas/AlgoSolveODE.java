@@ -192,7 +192,7 @@ public class AlgoSolveODE extends AlgoElement {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 			locus.setDefined(false);
 		} // now y contains final state at time t=16.0
 

@@ -19,7 +19,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -41,7 +40,6 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogLi
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -63,6 +61,9 @@ public class ToolManagerDialogD extends Dialog
 	private DefaultListModel<Macro> toolsModel;
 	private ToolManagerDialogModel model;
 
+	/**
+	 * @param app application
+	 */
 	public ToolManagerDialogD(AppD app) {
 		super(app.getFrame());
 		setModal(true);
@@ -169,10 +170,6 @@ public class ToolManagerDialogD extends Dialog
 			toolButtonPanel.add(btSave);
 			btSave.setText(loc.getMenu("SaveAs") + " ...");
 
-			final JButton btShare = new JButton();
-			toolButtonPanel.add(btShare);
-			btShare.setText(loc.getMenu("Share") + " ...");
-
 			// name & icon
 			final ToolNameIconPanelD namePanel = new ToolNameIconPanelD(app,
 					true);
@@ -210,14 +207,11 @@ public class ToolManagerDialogD extends Dialog
 						openTools(toolList);
 					} else if (src == btSave) {
 						saveTools(toolList);
-					} else if (src == btShare) {
-						uploadToGeoGebraTube(toolList);
 					}
 				}
 
 			};
 
-			btShare.addActionListener(ac);
 			btSave.addActionListener(ac);
 			btDelete.addActionListener(ac);
 			btOpen.addActionListener(ac);
@@ -333,8 +327,7 @@ public class ToolManagerDialogD extends Dialog
 																				// display
 				int index, // cell index
 				boolean iss, // is the cell selected
-				boolean chf) // the list and the cell have the focus
-		{
+				boolean chf) { // the list and the cell have the focus
 			/*
 			 * The DefaultListCellRenderer class will take care of the JLabels
 			 * text property, it's foreground and background colors, and so on.
@@ -362,21 +355,6 @@ public class ToolManagerDialogD extends Dialog
 			}
 			return this;
 		}
-	}
-
-	/*
-	 * upload selected Tools to GeoGebraTube
-	 */
-	private void uploadToGeoGebraTube(final JList<Macro> toolList) {
-
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
-				model.uploadToGeoGebraTube(
-						toolList.getSelectedValuesList().toArray());
-			}
-		};
-		runner.start();
 	}
 
 	/**
@@ -408,16 +386,6 @@ public class ToolManagerDialogD extends Dialog
 	@Override
 	public void refreshCustomToolsInToolBar() {
 		app.getGuiManager().refreshCustomToolsInToolBar();
-
-	}
-
-	@Override
-	public void uploadWorksheet(ArrayList<Macro> macros) {
-		// create new exporter
-		GeoGebraTubeExportD exporter = new GeoGebraTubeExportD(app);
-
-		exporter.uploadWorksheet(macros);
-
 	}
 
 }

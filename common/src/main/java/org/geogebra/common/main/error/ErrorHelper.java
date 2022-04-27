@@ -94,7 +94,7 @@ public class ErrorHelper {
 		if (handler instanceof ErrorLogger) {
 			((ErrorLogger) handler).log(e);
 		} else {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		if (e.getcommandName() != null) {

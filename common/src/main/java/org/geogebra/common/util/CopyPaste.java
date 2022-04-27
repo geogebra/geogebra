@@ -378,7 +378,7 @@ public abstract class CopyPaste {
 	 * @return list of elements
 	 */
 	protected static ArrayList<GeoElement> handleLabels(App app,
-			ArrayList<String> labels, boolean renameInScripts) {
+			List<String> labels, boolean renameInScripts) {
 		ArrayList<GeoElement> ret = new ArrayList<>();
 
 		Kernel kernel = app.getKernel();

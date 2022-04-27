@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.discrete;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,16 +7,15 @@ import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.AlgoMinimumSpanningTree.MyLink;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoLocus;
-import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.SparseMultigraph;
@@ -30,16 +28,13 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	private GeoPointND start;
 	private GeoPointND end;
 	private GeoList inputList;
-	private GeoLocus locus;
+	private GeoLocusND<? extends MyPoint> locus;
 	private GeoBoolean weighted;
-	private ArrayList<MyPoint> al;
 	private int edgeCount = 0;
 
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param inputList
 	 *            set of vertices
 	 * @param start
@@ -49,21 +44,18 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	 * @param weighted
 	 *            whether to use Euclidian length
 	 */
-	public AlgoShortestDistance(Construction cons, String label,
-			GeoList inputList, GeoPointND start, GeoPointND end,
-			GeoBoolean weighted) {
+	public AlgoShortestDistance(Construction cons, GeoList inputList,
+			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
 		super(cons);
 		this.inputList = inputList;
 		this.start = start;
 		this.end = end;
 		this.weighted = weighted;
-
-		locus = new GeoLocus(cons);
+		int dimension = Math.max(end.getDimension(), start.getDimension());
+		locus = kernel.getGeoFactory().newLocus(dimension, cons);
 
 		setInputOutput();
 		compute();
-		locus.setLabel(label);
-
 	}
 
 	@Override
@@ -81,7 +73,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	/**
 	 * @return resulting locus (shortest path)
 	 */
-	public GeoLocus getResult() {
+	public GeoLocusND<? extends MyPoint> getResult() {
 		return locus;
 	}
 
@@ -114,12 +106,14 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 		SparseMultigraph<MyNode, MyLink> g = new SparseMultigraph<>();
 
-		MyNode node1, node2, startNode = null, endNode = null;
+		MyNode node1, node2;
+		NodeMatcher startNode = new NodeMatcher(start);
+		NodeMatcher endNode = new NodeMatcher(end);
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isDefined() && geo.isGeoSegment()) {
-				GeoSegment seg = (GeoSegment) geo;
+				GeoSegmentND seg = (GeoSegmentND) geo;
 				GeoPointND p1 = seg.getStartPoint();
 				GeoPointND p2 = seg.getEndPoint();
 				node1 = nodes.get(p1);
@@ -134,17 +128,10 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 				}
 
 				// take note of start and end points
-				if (p1 == start) {
-					startNode = node1;
-				} else if (p1 == end) {
-					endNode = node1;
-				}
-
-				if (p2 == start) {
-					startNode = node2;
-				} else if (p2 == end) {
-					endNode = node2;
-				}
+				startNode.check(p1, node1);
+				startNode.check(p2, node2);
+				endNode.check(p1, node1);
+				endNode.check(p2, node2);
 
 				// add edge to graph
 				g.addEdge(
@@ -155,15 +142,16 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			}
 		}
 
-		if (al == null) {
-			al = new ArrayList<>();
-		} else {
-			al.clear();
-		}
-
-		if (startNode == null || endNode == null) {
-			locus.setPoints(al);
+		locus.clearPoints();
+		if (startNode.node == null || endNode.node == null) {
 			locus.setDefined(false);
+			return;
+		}
+		double[] inhomLast = new double[3];
+		if (startNode.node == endNode.node) {
+			start.getInhomCoords(inhomLast);
+			locus.insertPoint(inhomLast[0], inhomLast[1], inhomLast[2], false);
+			locus.setDefined(true);
 			return;
 		}
 
@@ -176,52 +164,57 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			alg = new DijkstraShortestPath<>(g);
 		}
 
-		List<MyLink> list = alg.getPath(startNode, endNode);
-
-		double[] inhom1 = new double[2];
-		double[] inhom2 = new double[2];
-		double[] inhomLast = new double[2];
+		List<MyLink> list = alg.getPath(startNode.node, endNode.node);
 
 		MyNode n1, n2;
-		MyLink link = list.get(0);
-		n1 = link.n1;
-		n2 = link.n2;
-
-		// nodes may not be in the right order, might need n1 or n2
-		if (n1 == startNode) {
-			n1.id.getInhomCoords(inhomLast);
-		} else if (n2 == startNode) {
-			n2.id.getInhomCoords(inhomLast);
-		} else if (n1 == endNode) {
-			n1.id.getInhomCoords(inhomLast);
-		} else if (n2 == endNode) {
-			n2.id.getInhomCoords(inhomLast);
-		}
-
-		MyPoint pt = new MyPoint(inhomLast[0], inhomLast[1],
-				SegmentType.MOVE_TO);
-		al.add(pt);
-
-		for (int i = 0; i < list.size(); i++) {
-			link = list.get(i);
-			link.n1.id.getInhomCoords(inhom1);
-			link.n2.id.getInhomCoords(inhom2);
+		if (!list.isEmpty()) {
+			MyLink link = list.get(0);
+			n1 = link.n1;
+			n2 = link.n2;
 
 			// nodes may not be in the right order, might need n1 or n2
+			if (n1 == startNode.node || n1 == endNode.node) {
+				n1.id.getInhomCoords(inhomLast);
+			} else if (n2 == startNode.node || n2 == endNode.node) {
+				n2.id.getInhomCoords(inhomLast);
+			}
+			locus.insertPoint(inhomLast[0], inhomLast[1], inhomLast[2],
+					false);
+		}
+		double[] inhom1 = new double[3];
+		double[] inhom2 = new double[3];
+		for (MyLink link : list) {
+			link.n1.id.getInhomCoords(inhom1);
+			link.n2.id.getInhomCoords(inhom2);
+			// nodes may not be in the right order, might need n1 or n2
 			if (inhom1[1] == inhomLast[1] && inhom1[0] == inhomLast[0]) {
-				pt = new MyPoint(inhom2[0], inhom2[1], SegmentType.LINE_TO);
-				inhomLast[0] = inhom2[0];
-				inhomLast[1] = inhom2[1];
+				System.arraycopy(inhom2, 0, inhomLast, 0, 3);
 			} else {
-				pt = new MyPoint(inhom1[0], inhom1[1], SegmentType.LINE_TO);
-				inhomLast[0] = inhom1[0];
-				inhomLast[1] = inhom1[1];
+				System.arraycopy(inhom1, 0, inhomLast, 0, 3);
 			}
 
-			al.add(pt);
+			locus.insertPoint(inhomLast[0], inhomLast[1], inhomLast[2], true);
 		}
 
-		locus.setPoints(al);
 		locus.setDefined(true);
+	}
+
+	private static class NodeMatcher {
+		private final GeoPointND target;
+		public MyNode node;
+		private boolean exactMatch;
+
+		public NodeMatcher(GeoPointND target) {
+			this.target = target;
+		}
+
+		public void check(GeoPointND p1, MyNode node2) {
+			if (p1 == target) {
+				exactMatch = true;
+				node = node2;
+			} else if (!exactMatch && target.isEqual(p1)) {
+				node = node2;
+			}
+		}
 	}
 }

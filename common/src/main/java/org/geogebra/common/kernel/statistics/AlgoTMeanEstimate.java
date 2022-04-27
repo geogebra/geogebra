@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Calculates a one sample t-confidence interval estimate of a mean.
@@ -207,7 +208,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

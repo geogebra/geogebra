@@ -1,13 +1,10 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,16 +12,15 @@ import com.google.gwt.user.client.ui.Widget;
  * Settings for CAS in HTML5
  *
  */
-public class OptionsCASW implements OptionPanelW, ClickHandler {
+public class OptionsCASW implements OptionPanelW {
 
 	private AppW app;
 	private FlowPanel optionsPanel;
-	private CheckBox showRoots;
-	private CheckBox showNavigation;
+	private ComponentCheckbox showRoots;
+	private ComponentCheckbox showNavigation;
 
 	/**
-	 * @param app
-	 *            app
+	 * @param app - app
 	 */
 	public OptionsCASW(AppW app) {
 		this.app = app;
@@ -32,45 +28,42 @@ public class OptionsCASW implements OptionPanelW, ClickHandler {
     }
 
 	private void createGUI() {
-		showRoots = new CheckBox();
-		showRoots.addClickHandler(this);
-		showRoots.setStyleName("checkBoxPanel");
+		showRoots = new ComponentCheckbox(app.getLocalization(), false,
+				"CASShowRationalExponentsAsRoots", () -> {
+			app.getSettings().getCasSettings().setShowExpAsRoots(showRoots.isSelected());
+			updateGUI();
+		});
 
-		showNavigation = new CheckBox();
-		showNavigation.addClickHandler(this);
-		showNavigation.setStyleName("checkBoxPanel");
+		showNavigation = new ComponentCheckbox(app.getLocalization(), false, "NavigationBar",
+				() -> {
+			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
+			updateGUI();
+		});
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.addStyleName("propertiesPanel");
 		optionsPanel.addStyleName("simplePropertiesPanel");
 
-		// optionsPanel.add(cbShowFormulaBar);
 		optionsPanel.add(showRoots);
 		optionsPanel.add(showNavigation);
 
-		// spacer
-		// layoutOptions.add(Box.createVerticalStrut(16));
-
 		setLabels();
 		updateGUI();
-
 	}
 
 	/**
 	 * Update the language
 	 */
 	public void setLabels() {
-		Localization loc = app.getLocalization();
-		showRoots.setText(loc.getMenu("CASShowRationalExponentsAsRoots"));
-		showNavigation.setText(loc.getMenu("NavigationBar"));
-
+		showRoots.setLabels();
+		showNavigation.setLabels();
 	}
 
 	@Override
 	public void updateGUI() {
-		showRoots.setValue(app.getSettings().getCasSettings()
+		showRoots.setSelected(app.getSettings().getCasSettings()
 				.getShowExpAsRoots());
-		showNavigation.setValue(app.showConsProtNavigation(App.VIEW_CAS));
+		showNavigation.setSelected(app.showConsProtNavigation(App.VIEW_CAS));
     }
 
 	@Override
@@ -81,33 +74,11 @@ public class OptionsCASW implements OptionPanelW, ClickHandler {
 	@Override
     public void onResize(int height, int width) {
 	    // TODO Auto-generated method stub
-	    
     }
-
-	@Override
-	public void onClick(ClickEvent event) {
-		actionPerformed(event.getSource());
-
-	}
-
-	private void actionPerformed(Object source) {
-		if (source == showRoots) {
-			app.getSettings().getCasSettings()
-					.setShowExpAsRoots(showRoots.getValue());
-		}
-
-		else if (source == showNavigation) {
-			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
-		}
-
-		updateGUI();
-
-	}
 
 	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

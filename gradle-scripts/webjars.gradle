@@ -1,8 +1,13 @@
+import java.nio.file.Paths
+
 ext.extractWebjars = { ->
     file("build/generated/sources/webjars/java/main/").mkdirs()
 
     configurations.compile.each { jarFile ->
-        if ("${jarFile}".contains("webjars.npm")) {
+        // relative path: avoid problems when Dependabot branch name is used as workspace
+        def jarPath = Paths.get(file(".").getAbsolutePath()).relativize(Paths.get("${jarFile}"))
+
+        if ("${jarPath}".contains("webjars.npm")) {
             copy {
                 from zipTree(jarFile).matching { include "**/*.js" }
                 into file("build/generated/sources/webjars/java/main/")

@@ -3168,11 +3168,8 @@ public class AlgoDispatcher {
 
 			// clearSelections();
 			return newPoint;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return null;
-		} catch (MyError e1) {
-			e1.printStackTrace();
+		} catch (Exception | MyError e1) {
+			Log.debug(e1);
 			return null;
 		}
 	}
@@ -3220,7 +3217,7 @@ public class AlgoDispatcher {
 			return newPoint;
 
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			Log.debug(e1);
 			return null;
 		}
 	}
@@ -3277,7 +3274,7 @@ public class AlgoDispatcher {
 						.getObjectColor());
 			}
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			Log.debug(e1);
 			return false;
 		}
 		return true;

@@ -246,8 +246,10 @@ class TextOptionsPanelD extends JPanel
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
+		cbSize.removeActionListener(this);
 		cbSize.setSelectedIndex(GeoText.getFontSizeIndex(
 				model.getTextPropertiesAt(0).getFontSizeMultiplier()));
+		cbSize.addActionListener(this);
 	}
 
 	@Override

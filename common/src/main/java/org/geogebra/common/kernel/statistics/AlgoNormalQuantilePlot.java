@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Creates a Normal Quantile Plot.
@@ -129,7 +130,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

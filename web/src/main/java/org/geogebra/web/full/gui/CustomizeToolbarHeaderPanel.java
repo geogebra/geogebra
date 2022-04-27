@@ -4,21 +4,15 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
-import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * GUI for toolbar customization
- * 
- * @author Laszlo
- *
  */
 public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
@@ -36,17 +30,15 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	 */
 	public interface CustomizeToolbarListener {
 		/**
-		 * @param id
-		 *            toolbar ID
+		 * @param id - toolbar ID
 		 */
 		void update(int id);
 	}
 
-	private static class ViewButton extends MyToggleButtonW {
-
+	private static class ViewButton extends ToggleButton {
 		private int id;
 
-		public ViewButton(Image img, int viewId) {
+		public ViewButton(ResourcePrototype img, int viewId) {
 			super(img);
 			this.id = viewId;
 		}
@@ -80,8 +72,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		buttons = new FlowPanel();
 		buttons.setStyleName("panelRow");
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
-		final MyToggleButtonW btnGeneral = new MyToggleButtonW(new NoDragImage(
-				ImgResourceHelper.safeURI(pr.menu_icon_graphics()), 24));
+		final ToggleButton btnGeneral = new ToggleButton(pr.menu_icon_graphics());
 		buttons.add(btnGeneral);
 		DockPanelW[] panels = ((GuiManagerW) app.getGuiManager()).getLayout()
 		        .getDockManager().getPanels();
@@ -98,42 +89,34 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 					res = panel.getIcon();
 				}
 
-				final ViewButton btn = new ViewButton(
-						new NoDragImage(ImgResourceHelper.safeURI(res), 24),
-						viewId);
-
-				btn.addClickHandler(event -> selectAndUpdate(btn, viewId));
-
+				final ViewButton btn = new ViewButton(res, viewId);
+				btn.addFastClickHandler(event -> selectAndUpdate(btn, viewId));
 				buttons.add(btn);
 			}
 		}
-		btnGeneral.addClickHandler(event -> selectAndUpdate(btnGeneral, GENERAL));
+		btnGeneral.addFastClickHandler(event -> selectAndUpdate(btnGeneral, GENERAL));
 
 		selectedViewId = GENERAL;
 
 		rightPanel.add(buttons);
 		add(rightPanel);
-
 	}
 
 	/**
-	 * @param btn
-	 *            clicked button
-	 * @param viewId
-	 *            view ID
+	 * @param btn - clicked button
+	 * @param viewId - view ID
 	 */
-	protected void selectAndUpdate(MyToggleButtonW btn, int viewId) {
+	protected void selectAndUpdate(ToggleButton btn, int viewId) {
 		uncheckAll(btn);
 		selectedViewId = viewId;
 		listener.update(selectedViewId);
-
 	}
 
-	private void uncheckAll(MyToggleButtonW current) {
+	private void uncheckAll(ToggleButton current) {
 		for (int i = 0; i < buttons.getWidgetCount(); i++) {
 			Widget w = buttons.getWidget(i);
-			if (w instanceof MyToggleButtonW && w != current) {
-				((MyToggleButtonW) w).setValue(false);
+			if (w instanceof ToggleButton && w != current) {
+				((ToggleButton) w).setSelected(false);
 			}
 		}
 	}
@@ -143,9 +126,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			Widget w = buttons.getWidget(i);
 			if (w instanceof ViewButton) {
 				ViewButton btn = (ViewButton) w;
-				btn.setValue(btn.getId() == viewId);
-			} else if (w instanceof MyToggleButtonW) {
-				((MyToggleButtonW) w).setValue(viewId == -1);
+				btn.setSelected(btn.getId() == viewId);
 			}
 		}
 	}
@@ -158,8 +139,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	}
 
 	/**
-	 * @param viewId
-	 *            new view ID
+	 * @param viewId - new view ID
 	 */
 	public void setSelectedViewId(int viewId) {
 		selectedViewId = viewId;

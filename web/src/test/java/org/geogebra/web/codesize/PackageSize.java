@@ -3,6 +3,7 @@ package org.geogebra.web.codesize;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class PackageSize {
 			checkModule("web3d");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -47,7 +48,7 @@ public class PackageSize {
 					total += Integer
 							.parseInt(cells[3].replaceAll("[^0-9]", ""));
 				} catch (JSONException e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}

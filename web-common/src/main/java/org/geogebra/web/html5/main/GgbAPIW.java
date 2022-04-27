@@ -587,6 +587,14 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void getZippedGgbAsync(final boolean includeThumbnail, final FileConsumer clb) {
 		final GgbFile arch = getFile(includeThumbnail);
+		getCompressed(arch, clb);
+	}
+
+	public void getZippedMacrosAsync(final FileConsumer clb) {
+		getCompressed(createMacrosArchive(), clb);
+	}
+
+	private void getCompressed(GgbFile arch, FileConsumer clb) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 
 		FFlate.get().zip(fflatePrepared, (err, data) -> {
