@@ -39,6 +39,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -674,7 +675,7 @@ public class FunctionNVar extends ValidExpression
 			}
 			resultFun.initFunction();
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			resultFun = null;
 		}
 
@@ -682,8 +683,6 @@ public class FunctionNVar extends ValidExpression
 		if (useCaching && resultFun != null) {
 			getCasEvalMap().put(casString, resultFun);
 		}
-
-		// System.out.println("NO caching: " + casString + " -> " + resultFun);
 
 		return resultFun;
 	}

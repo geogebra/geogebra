@@ -34,24 +34,20 @@ public class CmdShortestDistance extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 
-		switch (n) {
-		case 4:
-
+		if (n == 4) {
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoPoint())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
 
-				GeoElement[] ret = { new AlgoShortestDistance(cons,
-						c.getLabel(), (GeoList) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2], (GeoBoolean) arg[3]).getResult() };
-
+				GeoElement[] ret = {new AlgoShortestDistance(cons,
+						(GeoList) arg[0], (GeoPointND) arg[1],
+						(GeoPointND) arg[2], (GeoBoolean) arg[3]).getResult()};
+				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
 		}
+		throw argNumErr(c);
 	}
 
 }

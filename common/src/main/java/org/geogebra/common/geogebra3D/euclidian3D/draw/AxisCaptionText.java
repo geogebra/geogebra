@@ -3,11 +3,17 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.EuclidianSettings;
 
 public class AxisCaptionText implements CaptionText {
 	private String text;
 	private GFont font;
 	private GColor objectColor;
+	private final EuclidianSettings settings;
+
+	public AxisCaptionText(EuclidianSettings settings) {
+		this.settings = settings;
+	}
 
 	@Override
 	public String text() {
@@ -26,7 +32,7 @@ public class AxisCaptionText implements CaptionText {
 
 	@Override
 	public boolean isSerifFont() {
-		return false;
+		return settings.getAxesLabelsSerif();
 	}
 
 	@Override

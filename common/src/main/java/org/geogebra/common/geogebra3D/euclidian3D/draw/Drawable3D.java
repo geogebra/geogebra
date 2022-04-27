@@ -282,7 +282,6 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		setGeoElement(geoElement);
 		waitForUpdate = true;
 		caption = new Caption3D(geo, this);
-
 	}
 
 	// /////////////////////////////////////////////////////////////////////////////

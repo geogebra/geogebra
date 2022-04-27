@@ -15,7 +15,7 @@ public class DrawAxisLabel3D extends DrawLabel3D {
 	public DrawAxisLabel3D(EuclidianView3D view,
 			Drawable3D drawable) {
 		super(view, drawable);
-		setCaption(new AxisCaptionText());
+		setCaption(new AxisCaptionText(view.getSettings()));
 	}
 
 	@Override

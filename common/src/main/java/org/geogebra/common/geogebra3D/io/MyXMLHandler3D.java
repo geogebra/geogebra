@@ -392,7 +392,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			}
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

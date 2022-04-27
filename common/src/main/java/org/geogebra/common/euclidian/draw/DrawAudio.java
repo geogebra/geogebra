@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable class for Audio elemens.
@@ -105,7 +106,7 @@ public class DrawAudio extends DrawWidget {
 		try {
 			updateSlider(view.getGraphicsForPen());
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		playing = geoAudio.isPlaying();
 	}

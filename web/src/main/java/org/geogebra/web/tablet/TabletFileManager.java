@@ -113,7 +113,7 @@ public class TabletFileManager extends FileManagerT {
 									addMaterial(mat);
 								}
 							} catch (JSONException e) {
-								e.printStackTrace();
+								Log.debug(e);
 								}
 							}
 

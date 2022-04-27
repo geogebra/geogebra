@@ -657,12 +657,6 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	@Override
-	public void setShare(String groupID, boolean shared,
-			AsyncOperation<Boolean> callback) {
-		controller.setShare(groupID, shared, callback);
-	}
-
-	@Override
 	public String getMaterialID() {
 		return getMaterial().getSharingKeyOrId();
 	}

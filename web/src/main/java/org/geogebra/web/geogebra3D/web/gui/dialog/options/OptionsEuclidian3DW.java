@@ -10,21 +10,19 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.options.BasicTab;
 import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
-import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
@@ -32,15 +30,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Properties for 3D view (web)
- * 
- * @author mathieu
- *
  */
 @SuppressWarnings({ "synthetic-access" })
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	private AxisTab zAxisTab;
-
 	private ProjectionTab projectionTab;
 
 	/**
@@ -51,22 +45,21 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 	 */
 	protected class BasicTab3D extends BasicTab {
 
-		private CheckBox cbYAxisVertical;
-		private CheckBox cbAxesColored;
-		private CheckBox cbUseClipping;
-		private CheckBox cbShowClipping;
+		private ComponentCheckbox cbYAxisVertical;
+		private ComponentCheckbox cbAxesColored;
+		private ComponentCheckbox cbUseClipping;
+		private ComponentCheckbox cbShowClipping;
 		private FlowPanel clippingOptionsPanel;
 		private FlowPanel boxSizePanel;
 		private Label clippingOptionsTitle;
 		private Label boxSizeTitle;
 		private RadioButtonPanel clippingRadioBtnPanel;
-		private CheckBox cbUseLight;
+		private ComponentCheckbox cbUseLight;
 
 		/**
 		 * constructor
 		 * 
-		 * @param o
-		 *            euclidian options
+		 * @param o - euclidian options
 		 */
 		public BasicTab3D(OptionsEuclidianW o) {
 			super(o);
@@ -87,16 +80,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void addMiscPanel() {
-
-			cbUseLight = new CheckBox();
+			cbUseLight = new ComponentCheckbox(loc, true, "UseLighting",
+					() -> {
+						get3dview().getSettings().setUseLight(cbUseLight.isSelected());
+						repaintView();
+					});
 
 			super.addMiscPanel();
-
-			cbUseLight.addClickHandler(event -> {
-				get3dview().getSettings()
-						.setUseLight(cbUseLight.getValue());
-				repaintView();
-			});
 		}
 
 		@Override
@@ -106,16 +96,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		protected void addAxesOptionsPanel() {
-			cbYAxisVertical = new CheckBox();
-			cbYAxisVertical.addClickHandler(event -> {
-				get3dview().setYAxisVertical(cbYAxisVertical.getValue());
+			cbYAxisVertical = new ComponentCheckbox(loc, false, "YAxisVertical",
+					() -> {
+				get3dview().setYAxisVertical(cbYAxisVertical.isSelected());
 				repaintView();
 			});
 
-			cbAxesColored = new CheckBox();
-			cbAxesColored.addClickHandler(event -> {
-				get3dview().getSettings()
-						.setHasColoredAxes(cbAxesColored.getValue());
+			cbAxesColored = new ComponentCheckbox(loc, true, "AxesColored",
+				() -> {
+				get3dview().getSettings().setHasColoredAxes(cbAxesColored.isSelected());
 				repaintView();
 			});
 
@@ -132,32 +121,25 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		private void addClippingOptionsPanel() {
-
 			// clipping options panel
 			clippingOptionsTitle = new Label();
 			clippingOptionsTitle.setStyleName("panelTitle");
 			clippingOptionsPanel = new FlowPanel();
-			cbUseClipping = new CheckBox();
-			cbUseClipping.setStyleName("checkBoxPanel");
+			cbUseClipping = new ComponentCheckbox(loc, false, "UseClipping",
+					() -> {
+						get3dview().setUseClippingCube(cbUseClipping.isSelected());
+						repaintView();
+					});
 			clippingOptionsPanel.add(cbUseClipping);
-			// clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10,
-			// 0)));
-			cbShowClipping = new CheckBox();
-			cbShowClipping.setStyleName("checkBoxPanel");
+			cbShowClipping = new ComponentCheckbox(loc, false, "ShowClipping",
+					() -> {
+						get3dview().setShowClippingCube(cbShowClipping.isSelected());
+						repaintView();
+					});
 			clippingOptionsPanel.add(cbShowClipping);
 
 			add(clippingOptionsTitle);
 			indent(clippingOptionsPanel);
-
-			cbUseClipping.addClickHandler(event -> {
-				get3dview().setUseClippingCube(cbUseClipping.getValue());
-				repaintView();
-			});
-
-			cbShowClipping.addClickHandler(event -> {
-				get3dview().setShowClippingCube(cbShowClipping.getValue());
-				repaintView();
-			});
 
 			boxSizeTitle = new Label();
 			boxSizeTitle.setStyleName("panelTitle");
@@ -193,15 +175,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 * update clipping properties (use and size)
 		 */
 		public void update3DProperties() {
-
-			cbYAxisVertical.setValue(get3dview().getYAxisVertical());
+			cbYAxisVertical.setSelected(get3dview().getYAxisVertical());
 			cbAxesColored
-					.setValue(get3dview().getSettings().getHasColoredAxes());
+					.setSelected(get3dview().getSettings().getHasColoredAxes());
 
-			cbUseLight.setValue(get3dview().getUseLight());
+			cbUseLight.setSelected(get3dview().getUseLight());
 
-			cbUseClipping.setValue(get3dview().useClippingCube());
-			cbShowClipping.setValue(get3dview().showClippingCube());
+			cbUseClipping.setSelected(get3dview().useClippingCube());
+			cbShowClipping.setSelected(get3dview().showClippingCube());
 
 			int flag = get3dview().getClippingReduction();
 			clippingRadioBtnPanel.setValueOfNthRadioButton(0,
@@ -217,12 +198,12 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		public void setLabels() {
 			super.setLabels();
 
-			setText(cbYAxisVertical, "YAxisVertical");
-			setText(cbAxesColored, "AxesColored");
-			setText(cbUseLight, "UseLighting");
+			cbYAxisVertical.setLabels();
+			cbAxesColored.setLabels();
+			cbUseLight.setLabels();
 			setText(clippingOptionsTitle, "Clipping");
-			setText(cbUseClipping, "UseClipping");
-			setText(cbShowClipping, "ShowClipping");
+			cbUseClipping.setLabels();
+			cbShowClipping.setLabels();
 			setText(boxSizeTitle, "BoxSize");
 			clippingRadioBtnPanel.setLabels();
 			getDimLabel()[4].setText(getOptionsEuclidianW().loc.getMenu("zmin") + ":");
@@ -302,44 +283,47 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private FormLabel tfGlassesLabel;
 		private FormLabel tfObliqueAngleLabel;
 		private FormLabel tfObliqueFactorLabel;
-		private CheckBox cbGlassesGray;
-		private CheckBox cbGlassesShutDownGreen;
+		private ComponentCheckbox cbGlassesGray;
+		private ComponentCheckbox cbGlassesShutDownGreen;
 
-		private class ProjectionButtons implements ClickHandler {
+		private class ProjectionButtons implements FastClickHandler {
 
-			private MyToggleButtonW[] buttons;
+			private ToggleButton[] buttons;
 			private int buttonSelected;
 
 			ProjectionButtons() {
-				buttons = new MyToggleButtonW[4];
+				buttons = new ToggleButton[4];
 
-				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_orthographic());
-				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_PERSPECTIVE] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_perspective());
-				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_GLASSES] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_glasses());
-				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new MyToggleButtonW(
+				buttons[EuclidianView3DInterface.PROJECTION_OBLIQUE] = new ToggleButton(
 						MaterialDesignResources.INSTANCE.projection_oblique());
 
 				for (int i = 0; i < 4; i++) {
-					buttons[i].addClickHandler(this);
+					buttons[i].addFastClickHandler(this);
 				}
 
 				buttonSelected = get3dview().getProjection();
-				buttons[buttonSelected].setDown(true);
+				buttons[buttonSelected].setSelected(true);
 			}
 
-			public GToggleButton getButton(int i) {
+			public ToggleButton getButton(int i) {
 				return buttons[i];
 			}
 
 			@Override
-			public void onClick(ClickEvent event) {
-				MyToggleButtonW source = (MyToggleButtonW) event.getSource();
+			public void onClick(Widget target) {
+				if (!(target instanceof ToggleButton)) {
+					return;
+				}
+				ToggleButton source = (ToggleButton) target;
 
 				if (source == buttons[get3dview().getProjection()]) {
-					source.setDown(true);
+					source.setSelected(true);
 					return;
 				}
 
@@ -347,9 +331,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					if (buttons[i].equals(source)) {
 						get3dview().getSettings().setProjection(i);
 						repaintView();
-						buttons[i].setDown(true);
+						buttons[i].setSelected(true);
 					} else {
-						buttons[i].setDown(false);
+						buttons[i].setSelected(false);
 					}
 				}
 			}
@@ -408,17 +392,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			});
 			tfGlassesEyeSep.addBlurHandler(event -> processGlassesEyeSepText());
-			cbGlassesGray = new CheckBox(loc.getMenu("GrayScale"));
-			cbGlassesGray.addClickHandler(event -> {
-				get3dview().setGlassesGrayScaled(cbGlassesGray.getValue());
-				repaintView();
-			});
-			cbGlassesShutDownGreen = new CheckBox(loc.getMenu("ShutDownGreen"));
-			cbGlassesShutDownGreen.addClickHandler(event -> {
-				get3dview().setGlassesShutDownGreen(
-						cbGlassesShutDownGreen.getValue());
-				repaintView();
-			});
+			cbGlassesGray = new ComponentCheckbox(loc, false, "GrayScale",
+					() -> {
+						get3dview().setGlassesGrayScaled(cbGlassesGray.isSelected());
+						repaintView();
+					});
+			cbGlassesShutDownGreen = new ComponentCheckbox(loc, false, "ShutDownGreen",
+					() -> {
+						get3dview().setGlassesShutDownGreen(cbGlassesShutDownGreen.isSelected());
+						repaintView();
+					});
 			FlowPanel tfGlassesPanel = new FlowPanel();
 			tfGlassesPanel.setStyleName("panelRowCell");
 			tfGlassesPanel.add(tfGlassesLabel);
@@ -550,8 +533,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			setTextColon(tfPerspLabel, "EyeDistance");
 			setText(glassesTitle, "Glasses");
 			setTextColon(tfGlassesLabel, "EyesSeparation");
-			setText(cbGlassesGray, "GrayScale");
-			setText(cbGlassesShutDownGreen, "ShutDownGreen");
+			cbGlassesGray.setLabels();
+			cbGlassesShutDownGreen.setLabels();
 			setText(obliqueTitle, "Oblique");
 			setTextColon(tfObliqueAngleLabel, "Angle");
 			setTextColon(tfObliqueFactorLabel, "Dilate.Factor");
@@ -564,9 +547,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfPersp.setText(""
 					+ (int) get3dview().getProjectionPerspectiveEyeDistance());
 			tfGlassesEyeSep.setText("" + (int) get3dview().getEyeSep());
-			cbGlassesGray.setValue(get3dview().isGlassesGrayScaled());
-			cbGlassesShutDownGreen
-					.setValue(get3dview().isGlassesShutDownGreen());
+			cbGlassesGray.setSelected(get3dview().isGlassesGrayScaled());
+			cbGlassesShutDownGreen.setSelected(get3dview().isGlassesShutDownGreen());
 			tfObliqueAngle
 					.setText("" + get3dview().getProjectionObliqueAngle());
 			tfObliqueFactor

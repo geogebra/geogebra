@@ -16,6 +16,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.input.Character;
 
@@ -137,7 +138,7 @@ public class MacroConstruction extends Construction {
 				try {
 					cell = Integer.parseInt(labelWithoutDollar.toString());
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 				if (cell > 0) {
 					return this.getCasCell(cell - 1);

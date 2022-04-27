@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import java.util.Locale;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
@@ -637,7 +638,11 @@ public class AppletParameters {
 	 * @return getDataParamAppName by default, or prefix of the share link
 	 */
 	public String getParamShareLinkPrefix() {
-		return getStringDataParam("shareLinkPrefix", getDataParamAppName());
+		String dataParam = getStringDataParam("shareLinkPrefix", getDataParamAppName());
+		if (GeoGebraConstants.SUITE_APPCODE.equals(dataParam)) {
+			dataParam = GeoGebraConstants.SUITE_URL_NAME;
+		}
+		return dataParam;
 	}
 
 	/**

@@ -153,7 +153,7 @@ public abstract class CASgiacB extends CASgiac {
 		} catch (TimeoutException te) {
 			throw te;
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		return null;

@@ -409,7 +409,7 @@ public class ConsElementXMLHandler {
 			return true;
 		} catch (RuntimeException e) {
 			errors.add(e.getLocalizedMessage());
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -962,7 +962,7 @@ public class ConsElementXMLHandler {
 					.parseBooleanRev(attrs.get("labelVisible")));
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -976,7 +976,7 @@ public class ConsElementXMLHandler {
 							MyXMLHandler.parseBoolean(attrs.get("points")));
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -1368,7 +1368,7 @@ public class ConsElementXMLHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -1473,7 +1473,7 @@ public class ConsElementXMLHandler {
 
 			return true;
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -1542,7 +1542,7 @@ public class ConsElementXMLHandler {
 			return true;
 
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -1893,7 +1893,7 @@ public class ConsElementXMLHandler {
 									: Integer.parseInt(colorSpace));
 				}
 			} catch (RuntimeException e) {
-				e.printStackTrace();
+				Log.debug(e);
 				Log.error("Error loading Dynamic Colors");
 			}
 		}
@@ -2082,7 +2082,7 @@ public class ConsElementXMLHandler {
 			return true;
 
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -2106,7 +2106,7 @@ public class ConsElementXMLHandler {
 			return true;
 
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -2484,7 +2484,7 @@ public class ConsElementXMLHandler {
 			}
 		} catch (Exception e) {
 			startPointList.clear();
-			e.printStackTrace();
+			Log.debug(e);
 			addError("Invalid start point: " + e.toString());
 		}
 		startPointList.clear();
@@ -2498,7 +2498,7 @@ public class ConsElementXMLHandler {
 			}
 		} catch (RuntimeException e) {
 			linkedGeoList.clear();
-			e.printStackTrace();
+			Log.debug(e);
 			addError("Invalid linked geo " + e.toString());
 		}
 		linkedGeoList.clear();
@@ -2517,7 +2517,7 @@ public class ConsElementXMLHandler {
 				}
 			}
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			Log.debug(e);
 		} finally {
 			dynamicCaptionList.clear();
 		}
@@ -2540,7 +2540,7 @@ public class ConsElementXMLHandler {
 
 			} catch (Exception e) {
 				showObjectConditionList.clear();
-				e.printStackTrace();
+				Log.debug(e);
 				addError("Invalid condition to show object: " + e.toString());
 			}
 		}
@@ -2560,7 +2560,7 @@ public class ConsElementXMLHandler {
 			}
 		} catch (RuntimeException e) {
 			animationSpeedList.clear();
-			e.printStackTrace();
+			Log.debug(e);
 			addError("Invalid animation speed: " + e.toString());
 		}
 		animationSpeedList.clear();
@@ -2584,7 +2584,7 @@ public class ConsElementXMLHandler {
 			}
 		} catch (RuntimeException e) {
 			animationStepList.clear();
-			e.printStackTrace();
+			Log.debug(e);
 			addError("Invalid animation step: " + e.toString());
 		}
 		animationSpeedList.clear();
@@ -2636,7 +2636,7 @@ public class ConsElementXMLHandler {
 			}
 		} catch (RuntimeException e) {
 			minMaxList.clear();
-			e.printStackTrace();
+			Log.debug(e);
 			addError("Invalid min/max: " + e.toString());
 		}
 		minMaxList.clear();
@@ -2655,7 +2655,7 @@ public class ConsElementXMLHandler {
 			}
 		} catch (RuntimeException e) {
 			dynamicColorList.clear();
-			e.printStackTrace();
+			Log.debug(e);
 			addError("Invalid dynamic color: " + e.toString());
 		}
 		dynamicColorList.clear();

@@ -275,6 +275,11 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		}
 
 		@Override
+		public void setAlgebraOptions(Object options) {
+			// stub
+		}
+
+		@Override
 		protected void exportPNGClipboard(boolean transparent, int DPI,
 				double exportScale, EuclidianView ev) {
 			// TODO Auto-generated method stub

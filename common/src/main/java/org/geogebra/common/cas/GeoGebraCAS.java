@@ -187,7 +187,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 			return ret;
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 			throw new CASException(t);
 		}
 	}

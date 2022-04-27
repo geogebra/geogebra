@@ -76,11 +76,6 @@ public interface SaveController {
 	boolean isWorksheet();
 
 	/**
-	 * @return true if the MaterialType is ggb
-	 */
-	boolean isMacro();
-
-	/**
 	 * @param saveType
 	 *            set the saveType.
 	 */

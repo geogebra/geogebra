@@ -21,15 +21,12 @@ import org.geogebra.web.full.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.InlineTextFormatter;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
-import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
-import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -46,10 +43,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	ListBox lbFont;
 	ListBox lbSize;
 	ListBox lbDecimalPlaces;
-	MyToggleButtonW btnBold;
-	MyToggleButtonW btnItalic;
-	@CheckForNull MyToggleButtonW btnUnderline;
-	private GToggleButton btnLatex;
+	ToggleButton btnBold;
+	ToggleButton btnItalic;
+	@CheckForNull ToggleButton btnUnderline;
+	private ToggleButton btnLatex;
 
 	private FlowPanel secondLine;
 
@@ -120,27 +117,19 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			updatePreviewPanel();
 		});
 
-		btnItalic = new MyToggleButtonW(
-				new ImageResourcePrototype(
-						null, MaterialDesignResources.INSTANCE
-								.text_italic_black().getSafeUri(),
-						0, 0, 24, 24, false, false));
+		btnItalic = new ToggleButton(MaterialDesignResources.INSTANCE.text_italic_black());
 		btnItalic.addStyleName("btnItalic");
 
-		btnBold = new MyToggleButtonW(
-				new ImageResourcePrototype(
-						null, MaterialDesignResources.INSTANCE
-								.text_bold_black().getSafeUri(),
-						0, 0, 24, 24, false, false));
+		btnBold = new ToggleButton(MaterialDesignResources.INSTANCE.text_bold_black());
 		btnBold.addStyleName("btnBold");
 
 		if (app.isWhiteboardActive()) {
-			btnUnderline = new MyToggleButtonW(new NoDragImage(
-					MaterialDesignResources.INSTANCE.text_underline_black(), 24));
+			btnUnderline = new ToggleButton(
+					MaterialDesignResources.INSTANCE.text_underline_black());
 			btnUnderline.addStyleName("btnUnderline");
 		}
 
-		btnLatex = new MyToggleButtonW("LaTeX");
+		btnLatex = new ToggleButton("LaTeX");
 
 		addStyleClickListener("bold", GFont.BOLD, btnBold);
 		addStyleClickListener("italic", GFont.ITALIC, btnItalic);
@@ -148,7 +137,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			addStyleClickListener("underline", GFont.UNDERLINE, btnUnderline);
 		}
 
-		btnLatex.addClickHandler(event -> {
+		btnLatex.addFastClickHandler(event -> {
 			model.setLaTeX(isLatex(), true);
 			// manual override -> ignore autodetect
 			mayDetectLaTeX = isLatex();
@@ -222,11 +211,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	}
 
 	private void addStyleClickListener(final String propertyName, final int mask,
-									   final MyToggleButtonW toggle) {
-		toggle.addClickHandler(event -> {
+									   final ToggleButton toggle) {
+		toggle.addFastClickHandler(event -> {
 			model.setEditGeoText(editor.getText());
-			model.applyFontStyle(mask, toggle.getValue());
-			inlineFormat(propertyName, toggle.getValue());
+			model.applyFontStyle(mask, toggle.isSelected());
+			inlineFormat(propertyName, toggle.isSelected());
 			updatePreviewPanel();
 		});
 	}
@@ -264,7 +253,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			return null;
 		}
 		if (geos.length > 0 && geos[0] instanceof GeoText) {
-			btnLatex.setValue(((GeoText) geos[0]).isLaTeX());
+			btnLatex.setSelected(((GeoText) geos[0]).isLaTeX());
 		}
 		getModel().updateProperties();
 		setLabels();
@@ -284,8 +273,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 
 		btnLatex.setText(loc.getMenu("LaTeXFormula"));
-		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		btnBold.setTitle(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setTitle(loc.getPlainTooltip("stylebar.Italic"));
 
 		if (advancedPanel != null) {
 			advancedPanel.setLabels();
@@ -337,15 +326,15 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	}
 
 	boolean isLatex() {
-		return btnLatex.getValue();
+		return btnLatex.isSelected();
 	}
 
 	@Override
 	public void selectFontStyle(int style) {
-		btnBold.setValue((style & GFont.BOLD) != 0);
-		btnItalic.setValue((style & GFont.ITALIC) != 0);
+		btnBold.setSelected((style & GFont.BOLD) != 0);
+		btnItalic.setSelected((style & GFont.ITALIC) != 0);
 		if (btnUnderline != null) {
-			btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
+			btnUnderline.setSelected((style & GFont.UNDERLINE) != 0);
 		}
 	}
 
@@ -367,7 +356,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 						editor.getDynamicTextList(), isLatex()), isLatex(),
 						byUser && mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
-			btnLatex.setValue(true);
+			btnLatex.setSelected(true);
 			if (model.getEditGeo() != null) {
 				model.getEditGeo().setLaTeX(true, false);
 			}
@@ -387,7 +376,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	@Override
 	public void insertTextString(String text, boolean isLatex) {
 		editor.insertTextString(text, isLatex);
-
 	}
 
 	@Override
@@ -398,14 +386,12 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		model.cancelEditGeo();
-
 	}
 
 	@Override
 	public void ensureLaTeX() {
-		btnLatex.setValue(true);
+		btnLatex.setSelected(true);
 		model.getEditGeo().setLaTeX(true, false);
 		updatePreviewPanel();
 	}
-
 }

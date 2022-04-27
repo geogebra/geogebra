@@ -10,7 +10,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.SaveControllerW;
@@ -264,21 +263,6 @@ public class MaterialCardController implements OpenFileListener {
 						}
 					});
 		}
-	}
-
-	/**
-	 * @param groupID
-	 *            group ID
-	 * @param shared
-	 *            whether to share the material
-	 * @param callback
-	 *            success / error callback
-	 */
-	public void setShare(String groupID, boolean shared,
-			AsyncOperation<Boolean> callback) {
-		app.getLoginOperation().getGeoGebraTubeAPI().setShared(getMaterial(),
-				groupID, shared, callback);
-
 	}
 
 	@Override

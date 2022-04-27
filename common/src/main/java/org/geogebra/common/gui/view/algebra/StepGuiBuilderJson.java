@@ -9,6 +9,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Makes a JSON object with a list of steps
@@ -34,7 +35,7 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 			buildStepGui(step, sb);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

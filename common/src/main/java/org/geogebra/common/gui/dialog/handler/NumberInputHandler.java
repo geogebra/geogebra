@@ -11,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 
 public class NumberInputHandler implements InputHandler {
 	private AlgebraProcessor algebraProcessor;
@@ -90,7 +91,7 @@ public class NumberInputHandler implements InputHandler {
 				callback0.callback(false);
 			}
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

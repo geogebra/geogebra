@@ -884,7 +884,7 @@ public class MathFieldInternal
 			setFormula(formula);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Problem parsing: " + text);
-			e.printStackTrace();
+			FactoryProvider.getInstance().debug(e);
 		}
 	}
 

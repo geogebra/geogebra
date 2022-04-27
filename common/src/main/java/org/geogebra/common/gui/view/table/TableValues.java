@@ -137,4 +137,6 @@ public interface TableValues extends View {
 	 * @return processor
 	 */
 	TableValuesProcessor getProcessor();
+
+	void addAndShow(GeoElement geo);
 }

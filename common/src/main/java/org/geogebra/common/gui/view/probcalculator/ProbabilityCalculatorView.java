@@ -892,7 +892,7 @@ public abstract class ProbabilityCalculatorView
 			return geos[0];
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 	}
@@ -1356,7 +1356,7 @@ public abstract class ProbabilityCalculatorView
 			newGeoList.clear();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			app.setDefaultCursor();
 		}
 

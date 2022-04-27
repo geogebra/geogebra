@@ -18,9 +18,9 @@ package org.geogebra.web.full.gui.advanced.client.ui.widget;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.advanced.client.ui.AdvancedWidget;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -46,7 +46,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	/** a selected value box */
 	private AutoCompleteTextFieldW selectedValue;
 	/** a choice button */
-	private MyToggleButton choiceButton;
+	private ToggleButton choiceButton;
 	/** this flag means whether it's possible to enter a custom text */
 	private boolean customTextAllowed;
 
@@ -218,11 +218,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 * Prepares the drop down button for displaying.
 	 */
 	protected void prepareChoiceButton() {
-		MyToggleButton dropDownButton = getChoiceButton();
-		dropDownButton.setUpfaceDownfaceImg(
-				MaterialDesignResources.INSTANCE.arrow_drop_down(),
-				MaterialDesignResources.INSTANCE.arrow_drop_up());
-
+		ToggleButton dropDownButton = getChoiceButton();
 		dropDownButton.setStyleName("choice-button");
 	}
 
@@ -265,9 +261,10 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	 *
 	 * @return Value for property 'choiceButton'.
 	 */
-	protected MyToggleButton getChoiceButton() {
+	protected ToggleButton getChoiceButton() {
 		if (choiceButton == null) {
-			choiceButton = new MyToggleButton(app);
+			choiceButton = new ToggleButton(MaterialDesignResources.INSTANCE.arrow_drop_down(),
+					MaterialDesignResources.INSTANCE.arrow_drop_up());
 		}
 		return choiceButton;
 	}

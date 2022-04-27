@@ -1,10 +1,10 @@
 package org.geogebra.web.shared;
 
-import java.util.AbstractMap.SimpleEntry;
+import java.util.function.BiConsumer;
 
-import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -18,15 +18,11 @@ import com.google.gwt.user.client.ui.SimplePanel;
  *
  */
 public class GroupButtonMow extends FlowPanel {
-	private AppW appW;
-	private FlowPanel contentPanel;
 	private boolean selected;
-	private AsyncOperation<SimpleEntry<String, Boolean>> callBack;
-	private String groupName;
+	private final BiConsumer<GroupIdentifier, Boolean> callBack;
+	private final GroupIdentifier groupDescription;
 
 	/**
-	 * @param app
-	 *            see {@link AppW}
 	 * @param groupName
 	 *            name of the group
 	 * @param selected
@@ -34,21 +30,13 @@ public class GroupButtonMow extends FlowPanel {
 	 * @param callBack
 	 *            to add to selected/unselected groups list
 	 */
-	public GroupButtonMow(AppW app, String groupName, boolean selected,
-			AsyncOperation<SimpleEntry<String, Boolean>> callBack) {
-		this.appW = app;
-		this.groupName = groupName;
+	public GroupButtonMow(GroupIdentifier groupName, boolean selected,
+			BiConsumer<GroupIdentifier, Boolean> callBack) {
+		this.groupDescription = groupName;
 		this.selected = selected;
 		this.callBack = callBack;
 		buildGui();
 		addClickHandler();
-	}
-
-	/**
-	 * @return true if group selected (already shared with group)
-	 */
-	public boolean isSelected() {
-		return selected;
 	}
 
 	/**
@@ -60,25 +48,18 @@ public class GroupButtonMow extends FlowPanel {
 	}
 
 	/**
-	 * @return callback
-	 */
-	public AsyncOperation<SimpleEntry<String, Boolean>> getCallBack() {
-		return callBack;
-	}
-
-	/**
 	 * @return group name
 	 */
-	public String getGroupName() {
-		return groupName;
+	public GroupIdentifier getGroupDescription() {
+		return groupDescription;
 	}
 
 	private void buildGui() {
 		this.addStyleName("groupButton");
-		if (isSelected()) {
+		if (selected) {
 			this.addStyleName("selected");
 		}
-		contentPanel = new FlowPanel();
+		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.addStyleName("content");
 		SimplePanel groupImgHolder = new SimplePanel();
 		groupImgHolder.addStyleName("groupImgHolder");
@@ -91,7 +72,7 @@ public class GroupButtonMow extends FlowPanel {
 		checkMark.addStyleName("checkMark");
 		contentPanel.add(groupImgHolder);
 		contentPanel.add(checkMark);
-		Label groupLbl = new Label(groupName);
+		Label groupLbl = new Label(groupDescription.name);
 		groupLbl.setStyleName("groupName");
 		contentPanel.add(groupLbl);
 		add(contentPanel);
@@ -99,29 +80,17 @@ public class GroupButtonMow extends FlowPanel {
 
 	private void addClickHandler() {
 		addDomHandler(event -> {
+			setSelected(!selected);
 			updateToSelected();
-			setSelected(!isSelected());
-			getCallBack().callback(
-					new SimpleEntry<>(
-					getGroupName(), isSelected()));
+			callBack.accept(groupDescription, selected);
 		}, ClickEvent.getType());
-	}
-
-	/**
-	 * @return see {@link AppW}
-	 */
-	public AppW getAppW() {
-		return appW;
 	}
 
 	/**
 	 * update design of button on selection/deselection
 	 */
 	public void updateToSelected() {
-		if (isSelected()) {
-			removeStyleName("selected");
-		} else {
-			addStyleName("selected");
-		}
+		Dom.toggleClass(this, "selected", selected);
 	}
+
 }
