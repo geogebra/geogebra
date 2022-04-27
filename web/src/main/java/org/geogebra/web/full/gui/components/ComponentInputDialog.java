@@ -102,14 +102,6 @@ public class ComponentInputDialog extends ComponentDialog
 	}
 
 	@Override
-	public void hide() {
-		super.hide();
-		if (getTextComponent() != null) {
-			getTextComponent().hideTablePopup();
-		}
-	}
-
-	@Override
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
 	}

@@ -79,7 +79,6 @@ public class AngleInputDialogW extends ComponentInputDialog {
 	@Override
 	public void processInput() {
 		String inputTextWithSign = getInputText();
-		getTextComponent().hideTablePopup();
 
 		// negative orientation ?
 		if (rbClockWise.getValue()) {

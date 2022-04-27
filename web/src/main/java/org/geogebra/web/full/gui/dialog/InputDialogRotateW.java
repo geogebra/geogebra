@@ -50,9 +50,7 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	@Override
 	public void processInput() {
 		processInput(obj -> {
-			if (obj == null) {
-				getTextComponent().hideTablePopup();
-			} else {
+			if (obj != null) {
 				hide();
 			}
 		});
