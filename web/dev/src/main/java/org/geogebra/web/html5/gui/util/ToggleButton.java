@@ -1,11 +1,10 @@
-package org.geogebra.web.full.gui.util;
+package org.geogebra.web.html5.gui.util;
 
 import java.util.List;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.user.client.DOM;
@@ -41,6 +40,15 @@ public class ToggleButton extends FocusWidget {
 		setIcon(svgRes);
 	}
 
+	public ToggleButton(ResourcePrototype svgRes, GColor hoverIconColor) {
+		this(svgRes);
+		if (hoverIconColor != null) {
+			setMouseOverHandler(() ->
+					setIcon(((SVGResource) svgRes).withFill(hoverIconColor.toString())));
+			setMouseOutHandler(() -> setIcon(svgRes));
+		}
+	}
+
 	/**
 	 * text based toggle button
 	 * @param labelStr - label
@@ -64,16 +72,44 @@ public class ToggleButton extends FocusWidget {
 	}
 
 	/**
+	 * toggle button with two faces
+	 * @param svgUp - up image
+	 * @param svgDown - down image
+	 */
+	public ToggleButton(ResourcePrototype svgUp, ResourcePrototype svgDown, GColor hoverIconColor) {
+		this(svgUp, svgDown);
+		if (hoverIconColor != null) {
+			SVGResource curIcon = (SVGResource) (isSelected ? svgDown : svgUp);
+			setMouseOverHandler(() ->
+					setIcon(curIcon.withFill(hoverIconColor.toString())));
+			setMouseOutHandler(() -> setIcon(curIcon));
+		}
+	}
+
+	/**
 	 * @param image - resource
 	 */
 	public void setIcon(final ResourcePrototype image) {
-		this.getElement().removeAllChildren();
-		if (image != null) {
-			btnImage = new NoDragImage(image, 24, 24);
-			btnImage.getElement().setTabIndex(-1);
-			getElement().appendChild(btnImage.getElement());
-			btnImage.setPresentation();
+		if (btnImage != null) {
+			if (isSelected) {
+				svgDown = image;
+			} else {
+				svgUp = image;
+			}
+			btnImage.setUrl(NoDragImage.safeURI(image));
+		} else {
+			this.getElement().removeAllChildren();
+			if (image != null) {
+				btnImage = new NoDragImage(image, 24, 24);
+				btnImage.getElement().setTabIndex(-1);
+				getElement().appendChild(btnImage.getElement());
+				btnImage.setPresentation();
+			}
 		}
+	}
+
+	public ResourcePrototype getIcon() {
+		return isSelected ? svgDown : svgUp;
 	}
 
 	public void setText(String labelStr) {
@@ -149,5 +185,27 @@ public class ToggleButton extends FocusWidget {
 		} else {
 			focusImpl.blur(getElement());
 		}
+	}
+
+	public void updateImage() {
+		if (svgDown != null) {
+			setIcon(isSelected ? svgDown : svgUp);
+		}
+	}
+
+	/**
+	 * @param mouseOverHandler - mouse over handler
+	 */
+	public void setMouseOverHandler(Runnable mouseOverHandler) {
+		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
+				mouseOverHandler.run());
+	}
+
+	/**
+	 * @param mouseOutHandler - mouse out handler
+	 */
+	public void setMouseOutHandler(Runnable mouseOutHandler) {
+		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
+				mouseOutHandler.run());
 	}
 }

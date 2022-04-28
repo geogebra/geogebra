@@ -9,11 +9,11 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.timer.client.Timer;
@@ -67,15 +67,16 @@ public class ZoomController {
 
 	/**
 	 * @param fullScreenActive
-	 *            true if fillscreen
+	 *            true if fullscreen
 	 * @param fullscreenBtn
 	 *            button
 	 */
 	public void setFullScreenActive(boolean fullScreenActive,
-			GToggleButton fullscreenBtn) {
+			ToggleButton fullscreenBtn) {
 		this.fullScreenActive = fullScreenActive;
-		if (fullscreenBtn != null) {
-			fullscreenBtn.setDown(fullScreenActive);
+		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
+			fullscreenBtn.setSelected(fullScreenActive);
+			fullscreenBtn.updateImage();
 		}
 	}
 
@@ -213,7 +214,7 @@ public class ZoomController {
 	 *            fullscreen button
 	 */
 	public void onExitFullscreen(Element elem,
-			GToggleButton fullscreenButton) {
+			ToggleButton fullscreenButton) {
 		setFullScreenActive(false, fullscreenButton);
 		if (!app.getAppletParameters().getDataParamFitToScreen()) {
 			final Element scaler = app.getGeoGebraElement().getParentElement();
@@ -280,7 +281,7 @@ public class ZoomController {
 	 *            fullscreen button
 	 */
 	protected void onFullscreenPressed(final Element elem,
-			final GToggleButton fullscreenBtn) {
+			final ToggleButton fullscreenBtn) {
 		app.closeMenuHideKeyboard();
 		final Element container;
 		emulated = useEmulatedFullscreen(app);
@@ -352,7 +353,7 @@ public class ZoomController {
 		}
 	}
 
-	private void handleIframeFullscreen(GToggleButton fullscreenBtn) {
+	private void handleIframeFullscreen(ToggleButton fullscreenBtn) {
 		if (isRunningInIframe() && emulated) {
 			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
 			if (fullScreenHandler != null) {
@@ -401,7 +402,7 @@ public class ZoomController {
 	 * @param fullscreenBtn
 	 *            fullscreen button
 	 */
-	void onFullscreen(GToggleButton fullscreenBtn) {
+	void onFullscreen(ToggleButton fullscreenBtn) {
 		setFullScreenActive(true, fullscreenBtn);
 		fullscreenBtn.getElement().focus();
 	}

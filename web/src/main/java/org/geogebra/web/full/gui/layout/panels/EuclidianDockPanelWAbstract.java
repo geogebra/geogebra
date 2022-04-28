@@ -11,10 +11,10 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigatio
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -247,7 +247,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public void tryBuildZoomPanel() {
+		boolean wasFullscreenActive = false;
 		if (zoomPanel != null) {
+			wasFullscreenActive = zoomPanel.isFullScreen();
 			zoomPanel.removeFromParent();
 			zoomPanel = null;
 		}
@@ -258,6 +260,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					this.mayHaveZoomButtons);
 			if (bottomRight) {
 				app.setZoomPanel(zoomPanel);
+			}
+			if (wasFullscreenActive) {
+				zoomPanel.setFullScreen(true);
 			}
 		}
 		tryBuildMowZoomPanel();

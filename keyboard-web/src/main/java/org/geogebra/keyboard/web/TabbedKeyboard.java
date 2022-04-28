@@ -786,7 +786,7 @@ public class TabbedKeyboard extends FlowPanel
 	 * @param y
 	 *            coord
 	 */
-	protected void showHelp(int x, int y) {
+	protected void toggleHelp(int x, int y) {
 		// do nothing
 	}
 
