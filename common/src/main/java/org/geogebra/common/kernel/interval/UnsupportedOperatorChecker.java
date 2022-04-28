@@ -65,7 +65,8 @@ public class UnsupportedOperatorChecker implements Inspecting {
 			return true;
 		}
 
-		return node.getRightTree().containsFunctionVariable()
-				|| power >= 100;
+//		return node.getRightTree().containsFunctionVariable()
+//				|| power >= 100;
+		return power >= 100;
 	}
 }
