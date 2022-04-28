@@ -1007,7 +1007,12 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				break;
 
 			default:
-				sb.append("sqrt(");
+				if (tpl.printsUnicodeSqrt()) {
+					sb.append("\u221a");
+				} else {
+					sb.append("sqrt");
+				}
+				sb.append("(");
 				sb.append(leftStr);
 				sb.append(')');
 			}
@@ -1711,8 +1716,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			break;
 
 		case VEC_FUNCTION:
-			// GeoCurveCartesian should not be expanded
-			if (left.isGeoElement() && ((GeoElement) left).isGeoCurveCartesian()) {
+			// GeoCurveCartesian and GeoSurfaceCartesian should not be expanded
+			if (left.isGeoElement() && (((GeoElement) left).isGeoCurveCartesian()
+					|| ((GeoElement) left).isGeoSurfaceCartesian())) {
 				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
 				sb.append(leftStr);

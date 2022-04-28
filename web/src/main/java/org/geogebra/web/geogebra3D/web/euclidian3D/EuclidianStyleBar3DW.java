@@ -13,35 +13,25 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
-import org.geogebra.web.full.euclidian.MyToggleButtonWforEV;
-import org.geogebra.web.full.gui.util.MyToggleButtonW;
+import org.geogebra.web.full.euclidian.ToggleButtonWforEV;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
+import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
 
 /**
  * style bar for 3D view
- * 
- * @author mathieu
- *
  */
 public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private RotateViewPopup btnRotateView;
-
-	// private ClippingPopup btnClipping;
-
-	private MyToggleButtonW btnShowGrid3D;
-
+	private ToggleButton btnShowGrid3D;
 	private AxesAndPlanePopup btnShowAxesAndPlane;
-
 	private PopupMenuButtonW btnViewProjection;
 
 	/**
 	 * constructor
-	 * 
-	 * @param ev
-	 *            euclidian view
+	 * @param ev - euclidian view
 	 */
 	public EuclidianStyleBar3DW(EuclidianView ev) {
 		super(ev, App.VIEW_EUCLIDIAN3D);
@@ -64,20 +54,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	@Override
 	protected void createButtons() {
-
 		super.createButtons();
-
 		getBtnPointStyle().setEuclidian3D(true);
 
-		// ========================================
-		// rotate view button
 		btnRotateView = new RotateViewPopup(
 		        this, MaterialDesignResources.INSTANCE.rotateViewPlay(),
 				MaterialDesignResources.INSTANCE.rotateViewPause());
 		btnRotateView.addPopupHandler(this);
 
-		// // ========================================
-		// // projection view button
 		ImageOrText[] projectionIcons = ImageOrText.convert(
 				new SVGResource[] {
 						MaterialDesignResources.INSTANCE.projection_orthographic(),
@@ -101,7 +85,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 				MaterialDesignResources.INSTANCE.viewYZ() }, 24);
 
 		btnChangeView = new ProjectionPopup(app, directionIcons);
-		btnChangeView.setIcon(directionIcons[getView().getProjection()]);
+		btnChangeView.setFixedIcon(new ImageOrText(MaterialDesignResources.INSTANCE.home_black(),
+				24));
 		btnChangeView.addPopupHandler(this);
 	}
 
@@ -124,18 +109,16 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void setDirection(int si) {
 		switch (si) {
 		default:
-		case 0: // standard view
+		case 0:
 			getView().setStandardView(true);
 			break;
-		case 1: // show all objects
+		case 1:
 			getView().setViewShowAllObjects(true, false);
 			break;
-		case 2: // standard view orientation
+		case 2:
 			getView().setRotAnimation(EuclidianView3DInterface.ANGLE_ROT_OZ,
 					EuclidianView3DInterface.ANGLE_ROT_XOY, false);
 			break;
-
-		// views parallel to axes
 		case 3:
 			getView().setRotAnimation(-90, 90, true);
 			break;
@@ -150,9 +133,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	@Override
 	protected void createAxesAndGridButtons() {
-
-		// ========================================
-		// show axes button
 		ImageOrText[] axesAndPlaneIcons = ImageOrText.convert(
 				new SVGResource[] {
 						MaterialDesignResources.INSTANCE.stylebar_empty(),
@@ -164,16 +144,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 				getView());
 		btnShowAxesAndPlane.addPopupHandler(this);
 
-		// ========================================
-		// show grid button
-		btnShowGrid3D = new MyToggleButtonWforEV(
+		btnShowGrid3D = new ToggleButtonWforEV(
 				MaterialDesignResources.INSTANCE.grid_black(), this);
 		btnShowGrid3D.setSelected(ev.getShowGrid());
-		btnShowGrid3D.addValueChangeHandler(this);
+		btnShowGrid3D.addFastClickHandler(this);
 	}
 
 	@Override
-	protected MyToggleButtonW getAxesOrGridToggleButton() {
+	protected ToggleButton getAxesOrGridToggleButton() {
 		return btnShowGrid3D;
 	}
 
@@ -206,32 +184,20 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		Localization loc = app.getLocalization();
 		btnRotateView
-		        .setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		// btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
-		btnViewProjection.setToolTipText(loc
+		        .setTitle(loc.getPlainTooltip("stylebar.RotateView"));
+		btnViewProjection.setTitle(loc
 				.getPlainTooltip("stylebar.ViewProjection"));
-		// btnChangeView.setToolTipText(loc
-		// .getPlainTooltip("stylebar.ViewDirection"));
 	}
 
-	// @Override
-	// public void updateGUI() {
-	//
-	// super.updateGUI();
-	//
-	// btnClipping.updateGUI();
-	//
-	// }
-
 	@Override
-	protected MyToggleButtonW[] newToggleBtnList() {
-		MyToggleButtonW[] superList = super.newToggleBtnList();
+	protected ToggleButton[] newToggleBtnList() {
+		ToggleButton[] superList = super.newToggleBtnList();
 		
 		if (!app.isUnbundledOrWhiteboard()) {
 			return superList;
 		}
 
-		MyToggleButtonW[] ret = new MyToggleButtonW[superList.length + 1];
+		ToggleButton[] ret = new ToggleButton[superList.length + 1];
 		for (int i = 0; i < superList.length; i++) {
 			ret[i] = superList[i];
 		}
@@ -263,22 +229,20 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void setActionCommands() {
 		setActionCommand(btnShowGrid3D, "showGrid");
-		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
 	@Override
 	protected void setAxesAndGridToolTips(Localization loc) {
-		btnShowGrid3D.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
+		btnShowGrid3D.setTitle(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxesAndPlane
-		        .setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+		        .setTitle(loc.getPlainTooltip("stylebar.Axes"));
 	}
 
 	@Override
 	protected void updateAxesAndGridGUI() {
-		btnShowGrid3D.removeValueChangeHandler();
 		btnShowGrid3D.setSelected(ev.getShowGrid());
-		btnShowGrid3D.addValueChangeHandler(this);
+		btnShowGrid3D.addFastClickHandler(this);
 
 		btnShowAxesAndPlane.setIndexFromEV();
 	}

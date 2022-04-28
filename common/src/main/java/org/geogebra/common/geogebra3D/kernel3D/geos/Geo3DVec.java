@@ -205,6 +205,12 @@ final public class Geo3DVec extends ValidExpression
 		return z;
 	}
 
+	@Override
+	public boolean isEqual(GeoVecInterface v) {
+		return DoubleUtil.isEqual(x, v.getX()) && DoubleUtil.isEqual(y, v.getY())
+				&& DoubleUtil.isEqual(z, v.getZ());
+	}
+
 	/**
 	 * Calculates the eucilidian length of this 2D vector. The result is
 	 * sqrt(x^2 + y^2).

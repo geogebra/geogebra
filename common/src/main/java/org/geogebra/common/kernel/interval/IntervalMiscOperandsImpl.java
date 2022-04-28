@@ -54,7 +54,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	public Interval hull(Interval interval, Interval other) {
 		if (interval.isUndefined() && other.isUndefined()) {
 			interval.setUndefined();
- 		} else if (interval.isUndefined()) {
+		} else if (interval.isUndefined()) {
 			interval.set(other);
 		} else if (!other.isUndefined()) {
 			interval.set(Math.min(interval.getLow(), other.getLow()),
@@ -124,15 +124,15 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 		}
 
 		if (interval.isInverted()) {
-			interval.setUndefined();
-			return interval;
+			Interval intervalLow = abs(interval.extractLow());
+			Interval intervalHigh = abs(interval.extractHigh());
+			return intervalLow.getLow() < intervalHigh.getLow()
+					? intervalLow
+					: intervalHigh;
 		}
 
 		if (interval.isWhole()) {
 			interval.set(0, POSITIVE_INFINITY);
-			if (interval.isInverted()) {
-				interval.uninvert();
-			}
 			return interval;
 		}
 

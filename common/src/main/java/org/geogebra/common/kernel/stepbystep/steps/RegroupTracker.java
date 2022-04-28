@@ -15,10 +15,10 @@ public class RegroupTracker {
 	private Set<Mark> marks;
 
 	public enum MarkType {
-		EXPAND,			// marked for expansion
-		FACTOR, 		// marked for factoring common
-		PERIOD,			// trigonometric function with period extracted
-		EXPAND_FRAC,	// marked for expansion (in the fraction expansion sense)
+		EXPAND, // marked for expansion
+		FACTOR, // marked for factoring common
+		PERIOD, // trigonometric function with period extracted
+		EXPAND_FRAC, // marked for expansion (in the fraction expansion sense)
 	}
 
 	private static class Mark {

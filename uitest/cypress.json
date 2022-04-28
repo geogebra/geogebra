@@ -3,6 +3,7 @@
     "watchForFileChanges" : false,
     "pageLoadTimeout" : 200000,
     "defaultCommandTimeout" : 200000,
+    "videoUploadOnPasses": false,
     "reporter": "junit",
     "reporterOptions": {
         "mochaFile": "results/ui-tests.[hash].xml",

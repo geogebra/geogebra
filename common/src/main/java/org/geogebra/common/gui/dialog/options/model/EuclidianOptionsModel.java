@@ -472,11 +472,19 @@ public class EuclidianOptionsModel {
 
 			double value = app.getKernel().getAlgebraProcessor()
 					.evaluateToDouble(text);
-			value = Math.PI
-					/ Math.min(360, Math.round(Math.abs(Math.PI / value)));
-			ticks[2] = value;
+			ticks[2] = getGridTickAngle(value);
 			view.setGridDistances(ticks);
 		}
+	}
+
+	/**
+	 *
+	 * @param value .
+	 * @return the angle
+	 */
+	public static double getGridTickAngle(double value) {
+		return Math.PI
+				/ Math.min(360, Math.round(Math.abs(Math.PI / value)));
 	}
 
 	public String gridAngleToString() {
@@ -638,6 +646,10 @@ public class EuclidianOptionsModel {
 				return "Elementary34";
 			case MUSIC:
 				return "Music";
+			case ISOMETRIC:
+				return "Isometric";
+			case POLAR:
+				return "Polar";
 			default:
 				return "NoRuling";
 		}

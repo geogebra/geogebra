@@ -226,7 +226,7 @@ public class UploadRequest implements Request {
 
 			return request.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.debug("problem building request: " + e.getMessage());
 			return null;
 		}

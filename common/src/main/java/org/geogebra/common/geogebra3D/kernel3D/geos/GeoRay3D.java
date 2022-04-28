@@ -200,8 +200,8 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// allowOutlyingIntersections
 		sb.append("\t<outlyingIntersections val=\"");

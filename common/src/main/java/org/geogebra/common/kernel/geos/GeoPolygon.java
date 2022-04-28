@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.algos.PolygonAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -94,7 +93,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/** says if the polygon had created its segments itself (used for 3D) */
 	private boolean createSegments = true;
 
-	private boolean isShape = false;
 	/** true for polygons created by area intersection methods */
 	protected boolean isIntersection;
 
@@ -119,10 +117,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private boolean reverseNormalForDrawing = false;
 	private PolygonTriangulation pt;
 	private boolean isMask = false;
-
-	private boolean showLineProperties = true;
-	private boolean fillable = true;
-	private boolean traceable = true;
 
 	/**
 	 * common constructor for 2D.
@@ -584,7 +578,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		if (condShowObject != null) {
 			try {
-				((GeoElement) segment)
+				segment
 						.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception e) {
 				// circular definition
@@ -829,16 +823,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isFillable() {
-		return fillable;
-	}
-
-	/**
-	 * Set whether this object is fillable.
-	 *
-	 * @param fillable true to set object to fillable, false otherwise.
-	 */
-	public void setFillable(boolean fillable) {
-		this.fillable = fillable;
+		return !isMask;
 	}
 
 	@Override
@@ -1088,26 +1073,22 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					// first two segments from segmentsPoly1 and segmentsPoly2
 					// are
 					// congruent
-					if (ExpressionNodeEvaluator
-							.evalEquals(kernel, segmentsPoly1[0],
+					if (ExpressionNode
+							.isEqual(segmentsPoly1[0],
 									segmentsPoly2[0])
-							.getBoolean()
-							&& ExpressionNodeEvaluator.evalEquals(kernel,
-									segmentsPoly1[1], segmentsPoly2[1])
-									.getBoolean()) {
+							&& ExpressionNode.isEqual(
+									segmentsPoly1[1], segmentsPoly2[1])) {
 						break;
 					}
 					// first two segment from segmentPoly1 are congruent with
 					// the
 					// last two segment from segmentPoly2
-					if (ExpressionNodeEvaluator
-							.evalEquals(kernel, segmentsPoly1[0],
+					if (ExpressionNode
+							.isEqual(segmentsPoly1[0],
 									segmentsPoly2[segmentsPoly2.length - 1])
-							.getBoolean()
-							&& ExpressionNodeEvaluator.evalEquals(kernel,
+							&& ExpressionNode.isEqual(
 									segmentsPoly1[1],
-									segmentsPoly2[segmentsPoly2.length - 2])
-									.getBoolean()) {
+									segmentsPoly2[segmentsPoly2.length - 2])) {
 						break;
 					}
 					segmentsPoly2 = shiftSegments(segmentsPoly2);
@@ -1207,25 +1188,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					// we have the internal angles of first and second polygon
 					else {
 						// first two angles from both angelPolys are congruent
-						if (ExpressionNodeEvaluator
-								.evalEquals(kernel, anglesPoly1[0],
-										anglesPoly2[0])
-								.getBoolean()
-								&& ExpressionNodeEvaluator.evalEquals(kernel,
-										anglesPoly1[1], anglesPoly2[1])
-										.getBoolean()) {
+						if (ExpressionNode.isEqual(anglesPoly1[0], anglesPoly2[0])
+								&& ExpressionNode.isEqual(
+										anglesPoly1[1], anglesPoly2[1])) {
 							break;
 						}
 						// first two angles from anglesPoly1 equals to last two
 						// angles from anglesPoly2
-						if (ExpressionNodeEvaluator
-								.evalEquals(kernel, anglesPoly1[0],
+						if (ExpressionNode.isEqual(anglesPoly1[0],
 										anglesPoly2[anglesPoly2.length - 1])
-								.getBoolean()
-								&& ExpressionNodeEvaluator.evalEquals(kernel,
-										anglesPoly1[1],
-										anglesPoly2[anglesPoly2.length - 2])
-										.getBoolean()) {
+								&& ExpressionNode.isEqual(anglesPoly1[1],
+										anglesPoly2[anglesPoly2.length - 2])) {
 							break;
 						}
 						anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1279,9 +1252,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		boolean leftDirection = true;
 		// check in right direction
 		for (int i = 0; i < segmentsPoly1.length; i++) {
-			if (!(ExpressionNodeEvaluator
-					.evalEquals(kernel, segmentsPoly1[i], segmentsPoly2[i])
-					.getBoolean())) {
+			if (!ExpressionNode.isEqual(segmentsPoly1[i], segmentsPoly2[i])) {
 				rightDirection = false;
 				break;
 			}
@@ -1330,9 +1301,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// we have the internal angles
 			else {
 				for (int i = 0; i < anglesPoly1.length; i++) {
-					if (!(ExpressionNodeEvaluator
-							.evalEquals(kernel, anglesPoly1[i], anglesPoly2[i])
-							.getBoolean())) {
+					if (!ExpressionNode.isEqual(anglesPoly1[i], anglesPoly2[i])) {
 						return false;
 					}
 				}
@@ -1341,9 +1310,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 		// check if segmentsPoly2 is the mirror of segmentsPoly1
 		for (int i = segmentsPoly1.length - 1; i >= 0; i--) {
-			if (!(ExpressionNodeEvaluator.evalEquals(kernel,
-					segmentsPoly2[segmentsPoly2.length - i - 1],
-					segmentsPoly1[i]).getBoolean())) {
+			if (!ExpressionNode.isEqual(segmentsPoly2[segmentsPoly2.length - i - 1],
+					segmentsPoly1[i])) {
 				leftDirection = false;
 				break;
 			}
@@ -1390,9 +1358,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				}
 			} else {
 				for (int i = segmentsPoly1.length - 1; i >= 0; i--) {
-					if (!(ExpressionNodeEvaluator.evalEquals(kernel,
-							anglesPoly2[anglesPoly2.length - i - 1],
-							anglesPoly1[i]).getBoolean())) {
+					if (!ExpressionNode.isEqual(anglesPoly2[anglesPoly2.length - i - 1],
+							anglesPoly1[i])) {
 						return false;
 					}
 				}
@@ -1528,11 +1495,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return label + " = " + kernel.format(getArea(), tpl);
-	}
-
-	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
-		return regrFormat(getArea());
 	}
 
 	@Override
@@ -1755,9 +1717,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			double yu = p1.inhomY - p0.inhomY;
 			double xv = p2.inhomX - p0.inhomX;
 			double yv = p2.inhomY - p0.inhomY;
-
-			setRegionChanged(P, p0.inhomX + rp.getT1() * xu + rp.getT2() * xv,
-					p0.inhomY + rp.getT1() * yu + rp.getT2() * yv);
+			double newX = p0.inhomX + rp.getT1() * xu + rp.getT2() * xv;
+			double newY = p0.inhomY + rp.getT1() * yu + rp.getT2() * yv;
+			if (!cons.isUpdateConstructionRunning()
+					|| !DoubleUtil.isEqual(newX, P.getX2D())
+					|| !DoubleUtil.isEqual(newY, P.getY2D())) {
+				setRegionChanged(P, newX, newY);
+			}
 
 			if (!isInRegion(P)) {
 				pointChanged(P);
@@ -1956,24 +1922,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * returns all class-specific xml tags for getXML GeoGebra File Format
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getStyleXML(StringBuilder sb) {
 		getLineStyleXML(sb);
-		getXMLvisualTags(sb);
-		getXMLanimationTags(sb);
-		getXMLfixedTag(sb);
-		getXMLisShapeTag(sb);
-		getAuxiliaryXML(sb);
-		getBreakpointXML(sb);
-		getScriptTags(sb);
+		super.getStyleXML(sb);
 		getMaskXML(sb);
 	}
 
 	private void getMaskXML(final StringBuilder sb) {
-		if (!isMask) {
-			return;
+		if (isMask) {
+			sb.append("\t<isMask val=\"true\"/>\n");
 		}
-
-		sb.append("\t<isMask val=\"true\"/>\n");
 	}
 
 	/**
@@ -1987,16 +1945,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean isTraceable() {
-		return traceable;
-	}
-
-	/**
-	 * Set whether this object is traceable.
-	 *
-	 * @param traceable true to set object to traceable, false otherwise.
-	 */
-	public void setTraceable(boolean traceable) {
-		this.traceable = traceable;
+		return !isMask;
 	}
 
 	@Override
@@ -2618,7 +2567,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setVisualStyle(final GeoElement geo,
 			boolean setAuxiliaryProperty) {
 		super.setVisualStyle(geo, setAuxiliaryProperty);
-
+		isMask = geo.isMask();
 		if (segments == null) {
 			return;
 		}
@@ -2630,22 +2579,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	@Override
 	public boolean isMask() {
 		return isMask;
-	}
-
-	/**
-	 * @param isShape
-	 *            - true, if geo was created with shape tool
-	 */
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	@Override
@@ -2657,13 +2592,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	private void setMaskPreferences() {
-		this.isShape = true;
 		setLabelVisible(false);
 		setAlphaValue(1);
 		setLineThickness(1);
-		setShowLineProperties(false);
-		setFillable(false);
-		setTraceable(false);
 	}
 
 	/**
@@ -2747,16 +2678,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean showLineProperties() {
-		return showLineProperties && super.showLineProperties();
-	}
-
-	/**
-	 * Set whether this object should show line properties.
-	 *
-	 * @param showLineProperties true if it should show line properties
-	 */
-	public void setShowLineProperties(boolean showLineProperties) {
-		this.showLineProperties = showLineProperties;
+		return !isMask; // super.showLineProperties is true because this is always a path
 	}
 
 	/**

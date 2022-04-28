@@ -529,9 +529,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	final public void getInhomCoords(double[] d) {
 		double[] coords = getInhomCoords().get();
-		for (int i = 0; i < d.length; i++) {
-			d[i] = coords[i];
-		}
+		System.arraycopy(coords, 0, d, 0, d.length);
 	}
 
 	@Override
@@ -1084,8 +1082,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * returns all class-specific xml tags for saveXML GeoGebra File Format
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
@@ -1990,7 +1988,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 						}
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
-						e.printStackTrace();
+						Log.debug(e);
 					}
 				}
 			}

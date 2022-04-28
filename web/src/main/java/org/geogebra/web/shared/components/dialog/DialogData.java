@@ -6,6 +6,7 @@ package org.geogebra.web.shared.components.dialog;
 public class DialogData {
 
 	private String titleTransKey;
+	private String subTitleHTML;
 	private String negativeBtnTransKey;
 	private String positiveBtnTransKey;
 
@@ -19,6 +20,19 @@ public class DialogData {
 					  String positiveBtnTransKey) {
 		setTitleTransKey(titleTransKey);
 		setButtonTransKeys(negativeBtnTransKey, positiveBtnTransKey);
+	}
+
+	/**
+	 * dialog settings constructor
+	 * @param titleTransKey - ggb trans key for the dialog title
+	 * @param subTitleHTML - HTML content of the subtitle
+	 * @param negativeBtnTransKey - negative button trans key
+	 * @param positiveBtnTransKey - positive button trans key
+	 */
+	public DialogData(String titleTransKey, String subTitleHTML,
+			String negativeBtnTransKey, String positiveBtnTransKey) {
+		this(titleTransKey, negativeBtnTransKey, positiveBtnTransKey);
+		setSubtitleHTML(subTitleHTML);
 	}
 
 	/**
@@ -41,6 +55,20 @@ public class DialogData {
 	 */
 	public void setTitleTransKey(String titleTransKey) {
 		this.titleTransKey = titleTransKey;
+	}
+
+	/**
+	 * @return trans key of the dialog subtitle
+	 */
+	public String getSubTitleHTML() {
+		return subTitleHTML;
+	}
+
+	/**
+	 * @param subtitleHTML - HTML content of the dialog subtitle
+	 */
+	public void setSubtitleHTML(String subtitleHTML) {
+		this.subTitleHTML = subtitleHTML;
 	}
 
 	/**

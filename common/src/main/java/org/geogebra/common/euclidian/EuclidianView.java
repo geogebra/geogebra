@@ -41,8 +41,12 @@ import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.draw.dropdown.DrawDropDownList;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotterImpl;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -95,6 +99,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.crashlytics.CrashlyticsLogger;
+import org.geogebra.common.util.shape.Rectangle;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -147,6 +152,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static final double SCALE_STANDARD = 50;
 	/** border in which axis numbers are not drawn */
 	protected static final int SCREEN_BORDER = 10;
+	/** Number of inset pixels for safe area */
+	public static final int MINIMUM_SAFE_AREA = 8;
 
 	// public static final double SCALE_MAX = 10000;
 	// public static final double SCALE_MIN = 0.1;
@@ -511,58 +518,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor symbolicEditor = null;
 	private final CoordSystemInfo coordSystemInfo;
 
-	private final Rectangle visibleRect;
-
-	public static class Rectangle {
-
-		private double minX;
-		private double maxX;
-		private double minY;
-		private double maxY;
-
-		private Rectangle() {
-			this(0, 0, 0, 0);
-		}
-
-		private Rectangle(double minX, double maxX, double minY, double maxY) {
-			this.minX = minX;
-			this.maxX = maxX;
-			this.minY = minY;
-			this.maxY = maxY;
-		}
-
-		public double getMinX() {
-			return minX;
-		}
-
-		public void setMinX(double xMin) {
-			this.minX = xMin;
-		}
-
-		public double getMaxX() {
-			return maxX;
-		}
-
-		public void setMaxX(double xMax) {
-			this.maxX = xMax;
-		}
-
-		public double getMinY() {
-			return minY;
-		}
-
-		public void setMinY(double yMin) {
-			this.minY = yMin;
-		}
-
-		public double getMaxY() {
-			return maxY;
-		}
-
-		public void setMaxY(double yMax) {
-			this.maxY = yMax;
-		}
-	}
+	private Rectangle visibleRect;
+	private EdgeInsets safeAreaInsets = new EdgeInsets(MINIMUM_SAFE_AREA);
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -611,7 +568,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public EuclidianView() {
 		hitDetector = new HitDetector(this);
-		visibleRect = new Rectangle();
 		coordSystemInfo = new CoordSystemInfo(this);
 	}
 
@@ -648,7 +604,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.euclidianController = ec;
 		this.kernel = ec.getKernel();
 		this.app = kernel.getApplication();
+
 		this.settings = settings;
+		if (settings != null) {
+			settings.addListener(s -> app.dispatchEvent(
+					new Event(EventType.VIEW_PROPERTIES_CHANGED, null, String.valueOf(viewNo))));
+		}
 
 		GeoPriorityComparator cmp = app.getGeoPriorityComparator();
 		logToCrashlytics("EuclidianView.allDrawableList reinitialized at EuclidianView.init(",
@@ -1267,20 +1228,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Checks if (real world) coords are on view.
 	 *
-	 * @param x x-coord
-	 * @param y y-coord
-	 *
-	 * @return true if coords are on view
-	 */
-	public boolean isOnView(double x, double y) {
-		return (x >= getXmin()) && (x <= getXmax())
-				&& (y >= getYmin()) && (y <= getYmax());
-	}
-
-	/**
-	 * 
 	 * @param p1
 	 *            first point
 	 * @param p2
@@ -1778,10 +1726,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		ymin = (getYZero() - getHeight()) * getInvYscale();
 
 		int visibleFromX = settings != null ? settings.getVisibleFromX() : 0;
-		visibleRect.minX = -(getXZero() - visibleFromX) * getInvXscale();
-		visibleRect.maxX = xmax;
-		visibleRect.minY = (getYZero() - getVisibleHeight()) * getInvYscale();
-		visibleRect.maxY = ymax;
+		visibleRect = new Rectangle(-(getXZero() - visibleFromX) * getInvXscale(), xmax,
+				(getYZero() - getVisibleHeight()) * getInvYscale(), ymax);
 	}
 
 	/**
@@ -3989,6 +3935,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * Create a default basic stroke for drawing strings with outline
+	 * @param lineWidth stroke line width
+	 * @return default outline stroke
+	 */
+	protected GBasicStroke createStringOutlineStroke(double lineWidth) {
+		return AwtFactory.getPrototype()
+				.newBasicStroke(lineWidth, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
+	}
+
 	boolean showResetIcon() {
 		if (!getApplication().showResetIcon()
 				|| !(getApplication().isApplet() || getApplication()
@@ -5154,7 +5110,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// enlarge x/y if we want to keep ratio
 		if (keepRatio) {
 			double oldRatio =
-					(visibleRect.maxX - visibleRect.minX) / (visibleRect.maxY - visibleRect.minY);
+					(visibleRect.getMaxX() - visibleRect.getMinX())
+							/ (visibleRect.getMaxY() - visibleRect.getMinY());
 			double newRatio = (x1RW - x0RW) / (y1RW - y0RW);
 			if (newRatio > oldRatio) {
 				// enlarge y
@@ -6273,6 +6230,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void focusTextField(GeoInputBox inputBox) {
 		DrawableND d = getDrawableFor(inputBox);
 		if (d != null) {
+			app.getAccessibilityManager().cancelReadCollectedAltTexts();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
 			if (inputBox.isSymbolicMode()) {
 				drawInputBox.attachMathField();
@@ -6507,9 +6465,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Attaches a symbolic-capable editor to the input box
 	 * @param geoInputBox
-	 * 			the input box to attach
+	 *             the input box to attach
 	 * @param bounds
-	 * 			where the editor should be attached to.
+	 *             where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
 		if (symbolicEditor == null) {
@@ -6536,6 +6494,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected SymbolicEditor createSymbolicEditor() {
 		// overridden in web and desktop
 		return null;
+	}
+
+	public SymbolicEditor initSymbolicEditor() {
+		return createSymbolicEditor();
 	}
 
 	/**
@@ -6743,5 +6705,25 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void setMeasurementTool(GeoImage tool, int width, int height, int posLeftCorner) {
 		// do nothing
+	}
+
+	@Override
+	public EdgeInsets getSafeAreaInsets() {
+		return safeAreaInsets;
+	}
+
+	@Override
+	public void setSafeAreaInsets(EdgeInsets safeAreaInsets) {
+		this.safeAreaInsets = safeAreaInsets;
+		updateAllDrawables(true);
+	}
+
+	/**
+	 * Create a new interval path plotter
+	 * @param gp general path
+	 * @return interval path plotter
+	 */
+	public IntervalPathPlotter createIntervalPathPlotter(GeneralPathClippedForCurvePlotter gp) {
+		return new IntervalPathPlotterImpl(gp);
 	}
 }

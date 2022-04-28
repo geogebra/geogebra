@@ -113,7 +113,7 @@ public class TabletFileManager extends FileManagerT {
 									addMaterial(mat);
 								}
 							} catch (JSONException e) {
-								e.printStackTrace();
+								Log.debug(e);
 								}
 							}
 
@@ -339,7 +339,7 @@ public class TabletFileManager extends FileManagerT {
 
 			@Override
 			public void onFailure(Object reason) {
-				// not needed					
+				// not needed
 			}
 		});
 		renameNative(oldKey, newKey, mat.toJson().toString(), callback1);

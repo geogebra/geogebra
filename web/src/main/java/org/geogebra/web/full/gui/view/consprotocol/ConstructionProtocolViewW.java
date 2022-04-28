@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
+import org.geogebra.web.resources.ImageResourceConverter;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
@@ -324,8 +325,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		if (tb.getStyleName().indexOf("headerTable") > 0) {
 			sb.append(SafeHtmlUtils
 					.fromSafeConstant("<div class=\"CP_popupImage\">"));
-			sb.append(AbstractImagePrototype
-					.create(GuiResources.INSTANCE.menu_dots()).getSafeHtml());
+			sb.append(AbstractImagePrototype.create(ImageResourceConverter
+					.convertToOldImageResource(GuiResources.INSTANCE.menu_dots())).getSafeHtml());
 			sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 		}
 

@@ -106,6 +106,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
+	private static long fastDrawThreshold = 10;
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -852,7 +853,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		getLineStyleXML(sb);
 		if (coeff != null) {
 			sb.append("\t<coefficients rep=\"array\" data=\"");
 			sb.append("[");
@@ -872,6 +872,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			sb.append("]");
 			sb.append("\" />\n");
 		}
+
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		getLineStyleXML(sb);
 		sb.append("\t<userinput show=\"");
 		sb.append(isInputForm());
 		sb.append("\"/>");
@@ -1674,7 +1681,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		private int sw;
 		private int sh;
 		private Rect[][] grid;
-		private Timer timer = Timer.newTimer();
+		private final Timer timer = Timer.newTimer();
 
 		public WebExperimentalQuadTree() {
 			super(GeoImplicitCurve.this);
@@ -1754,7 +1761,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 				timer.record();
 
-				if (timer.elapse <= 10) {
+				if (timer.elapse <= fastDrawThreshold) {
 					// Fast device optimize for UX
 					plotDepth = 3;
 					segmentCheckDepth = 2;
@@ -2454,5 +2461,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void replaceChildrenByValues(GeoElement var) {
 		this.expression.getFunctionExpression().replaceChildrenByValues(var);
+	}
+
+	public static void setFastDrawThreshold(int threshold) {
+		fastDrawThreshold = threshold;
 	}
 }

@@ -109,7 +109,7 @@ public class ProfilePanel extends FlowPanel {
 			this.profileImage.setUrl(user.getImageURL());
 		} else {
 			this.profileImage.setUrl(
-					SharedResources.INSTANCE.icon_help_black().getSafeUri());
+					SharedResources.INSTANCE.icon_help_black().getSafeUri().asString());
 		}
 	}
 

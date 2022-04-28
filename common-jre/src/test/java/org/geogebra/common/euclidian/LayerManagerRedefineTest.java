@@ -50,7 +50,6 @@ public class LayerManagerRedefineTest extends BaseUnitTest {
 		AlgoPolygon algo = new AlgoPolygon(getConstruction(), pointArray,
 				null, null, false, null, null);
 		GeoPolygon poly = algo.getPoly();
-		poly.setIsShape(true);
 		poly.setLabel(label);
 	}
 

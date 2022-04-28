@@ -10,7 +10,7 @@ describe('Sliders test', () => {
         cy.writeInAVInput("5{enter}");
         cy.wait(200);
         cy.get(".avPlainText").click();
-        cy.focused().type("00{enter}");
+        cy.focused().type("00{enter}", {"force": true});
         cy.get(".avPlainText").contains("a = 500").should('exist');
     });
 });

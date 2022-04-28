@@ -1,13 +1,8 @@
 package org.geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -20,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	/** curve */
 	protected GeoCurveCartesianND curve;
+	private Solution soln;
 
 	/**
 	 * 
@@ -44,50 +40,19 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		double[] roots = null;
 		int outputSize = -1;
 
-		ArrayList<Double> polyRoots = new ArrayList<>();
-
 		if (geoFun.isPolynomialFunction(true)) {
 			// AbstractApplication.debug("trying polynomial");
-
-			LinkedList<PolyFunction> factorList = geoFun.getFunction()
-					.getPolynomialFactors(false, false);
-
-			if (factorList != null) {
-				// compute the roots of every single factor
-				Iterator<PolyFunction> it = factorList.iterator();
-				while (it.hasNext()) {
-					PolyFunction polyFun = it.next();
-
-					if (polyFun.updateCoeffValues()) {
-						// now let's compute the roots of this factor
-						// compute all roots of polynomial polyFun
-						roots = polyFun.getCoeffsCopy();
-						int n = cons.getKernel().getEquationSolver()
-								.polynomialRoots(roots, true);
-
-						for (int i = 0; i < n; i++) {
-							polyRoots.add(roots[i]);
-						}
-					} else {
-						outputSize = -1;
-						break;
-					}
-
-				}
+			if (soln == null) {
+				soln = new Solution();
 			}
-
+			AlgoRootsPolynomial.calcRootsMultiple(geoFun.getFunction(),
+					0, soln, kernel.getEquationSolver());
+			soln.sortAndMakeUnique();
+			roots = soln.curRoots;
+			outputSize = soln.curRealRoots;
 		}
 
-		if (polyRoots.size() > 0) {
-
-			outputSize = polyRoots.size();
-
-			roots = new double[outputSize];
-
-			for (int i = 0; i < outputSize; i++) {
-				roots[i] = polyRoots.get(i);
-			}
-		} else {
+		if (roots == null || outputSize == 0) {
 			// polynomial method hasn't worked
 			// AbstractApplication.debug("trying non-polynomial");
 
@@ -97,7 +62,6 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 					curve.getMaxParameter(), 100);
 
 			outputSize = roots == null || roots.length == 0 ? 1 : roots.length;
-
 		}
 
 		// update and/or create points

@@ -94,4 +94,16 @@ public class GeoElementFactory {
 		assertFalse(line.isAlgebraLabelVisible());
 		return line;
 	}
+
+	/**
+	 * @param number number of lines
+	 * @return multiple default lines
+	 */
+	public GeoLine[] createLines(int number) {
+		GeoLine[] lines = new GeoLine[number];
+		for (int i = 0; i < number; i++) {
+			lines[i] = createGeoLine();
+		}
+		return lines;
+	}
 }

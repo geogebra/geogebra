@@ -26,14 +26,17 @@ public enum EventType {
 	/** RENAME */
 	RENAME("rename"),
 
+	/** After object was redefined */
+	REDEFINE("redefine"),
+
 	/** RENAME_COMPLETE */
 	RENAME_COMPLETE("renameComplete"),
 
-	/** ADD_POLYGON */
-	ADD_POLYGON("addPolygon"),
+	/** Start batch of add events */
+	BATCH_ADD_STARTED("batchAddStarted"),
 
-	/** ADD_POLYGON_COMPLETE */
-	ADD_POLYGON_COMPLETE("addPolygonComplete"),
+	/** Finish batch of add events */
+	BATCH_ADD_COMPLETE("batchAddComplete"),
 
 	/** MOVING_GEOS */
 	MOVING_GEOS("movingGeos"),
@@ -138,12 +141,8 @@ public enum EventType {
 	EMBEDDED_STORE_UNDO("embeddedStoreUndo"),
 	/** Prune state list in external object */
 	EMBEDDED_PRUNE_STATE_LIST("embeddedPruneStateList"),
-
-	/**
-	 * Change the whole content (base64) of embedded applet
-	 */
-	EMBEDDED_CONTENT_CHANGED("embeddedContentChanged"),
-
+	/** Embed finished loading **/
+	EMBED_LOADED("embedLoaded"),
 	/** Algebra Panel selected */
 	ALGEBRA_PANEL_SELECTED("algebraPanelSelected"),
 	/** Tools Panel selected */
@@ -220,7 +219,12 @@ public enum EventType {
 	/**
 	 *  Switch between calculators
 	 */
-	SWITCH_CALC("switchCalculator");
+	SWITCH_CALC("switchCalculator"),
+
+	/**
+	 * View properties changed, such as background color or axes settings
+	 */
+	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged");
 
 	private String eventName;
 

@@ -33,15 +33,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class DataAnalysisViewW extends FlowPanel implements View, 
 		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,
 		PrintableW {
-
-	// ggb
 	private AppW app;
 	private Kernel kernel;
 	private DataAnalysisModel model;
 	protected DataAnalysisControllerW daCtrl;
 	private DataAnalysisStyleBarW stylebar;
 
-	// colors
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
 	public static final GColor TABLE_HEADER_COLOR = GColor.newColor(240, 240,
 			240);
@@ -154,12 +151,13 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		mainSplit.setWidgetMinSize(comboPanelSplit, 500);
 		mainSplit.setStyleName("daMainSplit");
 		add(mainSplit);
-		model.setView(dataSource, mode,
-				app.getSettings().getDataAnalysis(),
-				forceModeUpdate);
-		//		updateFonts();
-		setLabels();
-		updateGUI();
+		app.getAsyncManager().runOrSchedule(() -> {
+			model.setView(dataSource, mode,
+					app.getSettings().getDataAnalysis(),
+					forceModeUpdate);
+			setLabels();
+			updateGUI();
+		});
 	}
 
 	/**
@@ -192,21 +190,18 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			PlotType plotType2) {
 		dataDisplayPanel1.setPanel(plotType1, mode);
 		dataDisplayPanel2.setPanel(plotType2, mode);
-
 	}
 
 	@Override
 	public void setPlotPanelOVFrequency(int mode, PlotType pt1, PlotType pt2) {
 		dataDisplayPanel1.setPanel(pt1, mode);
 		dataDisplayPanel2.setPanel(pt2, mode);
-
 	}
 
 	@Override
 	public void setPlotPanelOVClass(int mode, PlotType pt1, PlotType pt2) {
 		dataDisplayPanel1.setPanel(pt1, mode);
 		dataDisplayPanel2.setPanel(pt2, mode);
-
 	}
 
 	@Override
@@ -218,7 +213,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	@Override
 	public void setPlotPanelMultiVar(int mode, PlotType pt1) {
 		dataDisplayPanel1.setPanel(pt1, mode);
-
 	}
 
 	/**
@@ -248,17 +242,12 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		if (dataPanel == null) {
 			buildDataPanel();
 		}
-		// TODO: Implement!
-		//		dataPanel.loadDataTable(dataArray);
+		// TODO: Implement! dataPanel.loadDataTable(dataArray);
 	}
 
 	protected DataPanelW getDataPanel() {
 		return dataPanel;
 	}
-
-	// =================================================
-	// GUI
-	// =================================================
 
 	private void updateLayout() {
 		clear();
@@ -283,31 +272,23 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 				comboPanelSplit.add(dataDisplayPanel1);
 			} else {
 				comboPanelSplit.add(dataDisplayPanel1);
-				
 			}
 			mainSplit.add(comboPanelSplit);
 		} else {
-
 			if (stat && data) {
 				mainSplit.addWest(statisticsPanel, 300);
 				mainSplit.addEast(comboPanelSplit, 300);
 				mainSplit.add(dataPanel);
-
-			} else
-
-				if (stat && !data) {
-					mainSplit.addWest(statisticsPanel, 300);
-					mainSplit.add(comboPanelSplit);
-				} else
-
-					if (!stat && data) {
-						mainSplit.addWest(dataPanel, 300);
-						mainSplit.add(comboPanelSplit);
-					} else {
-						mainSplit.add(comboPanelSplit);
-					}
+			} else if (stat && !data) {
+				mainSplit.addWest(statisticsPanel, 300);
+				mainSplit.add(comboPanelSplit);
+			} else if (!stat && data) {
+				mainSplit.addWest(dataPanel, 300);
+				mainSplit.add(comboPanelSplit);
+			} else {
+				mainSplit.add(comboPanelSplit);
+			}
 			mainSplit.setWidgetMinSize(comboPanelSplit, 500);
-
 		}
 		add(mainSplit);
 
@@ -326,10 +307,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 		deferredDataPanelOnResize();
 	} 
-
-	// ======================================
-	// Getters/setters
-	// ======================================
 
 	public DataAnalysisControllerW getDaCtrl() {
 		return daCtrl;
@@ -361,12 +338,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	/**
 	 * Component representation of this view
-	 * 
 	 * @return reference to self
 	 */
 	public Widget getDataAnalysisViewComponent() {
 		return this;
-		//	return statisticsPanel;
 	}
 
 	@Override
@@ -382,27 +357,14 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return app;
 	}
 
-	// public int getMode() {
-	// return mode;
-	// }
-
-	// =================================================
-	// Handlers for Component Visibility
-	// =================================================
-
 	@Override
 	public void updateStatDataPanelVisibility() {
 		updateLayout();
 		dataDisplayPanel1.update();
 	}
 
-	// =================================================
-	// Event Handlers and Updates
-	// =================================================
-
 	@Override
 	public void updateGUI() {
-
 		if (stylebar != null) {
 			stylebar.updateGUI();
 		}
@@ -423,16 +385,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			stylebar.setLabels();
 		}
 	}
-
-	// =================================================
-	// Number Format
-	//
-	// (use GeoGebra rounding settings unless decimals < 4)
-	// =================================================
-
-	// =================================================
-	// View Implementation
-	// =================================================
 
 	@Override
 	public void remove(GeoElement geo) {
@@ -533,13 +485,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -567,7 +517,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		Log.error("" + plotType1);
 		setDataPlotPanels(plotType1, plotType2);
 		updateLayout();
-
 	}
 
 	@Override
@@ -581,7 +530,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			dataDisplayPanel1.resize(w, h / 2, true);
 			comboPanelSplit.addNorth(dataDisplayPanel1, h / 2.0);
 			comboPanelSplit.add(dataDisplayPanel2);
-
 		} else {
 			dataDisplayPanel1.resize(w, h, true);
 			comboPanelSplit.add(dataDisplayPanel1);
@@ -601,7 +549,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	@Override
 	public boolean hasFocus() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -716,7 +716,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						}
 					} catch (Throwable e) {
 						changeableCoordNumbers.clear();
-						e.printStackTrace();
+						Log.debug(e);
 					}
 				}
 			}
@@ -1501,26 +1501,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			case Kernel.COORD_STYLE_AUSTRIAN:
 				// no equal sign
-				return "";
+				if (!tpl.isForEditorParser()) {
+					return "";
+				}
 
 			default:
 				return tpl.getEqualsWithSpace();
 			}
 		}
-	}
-
-	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
-		return toValueStringMinimal(tpl);
-	}
-
-	@Override
-	final public String toValueStringMinimal(StringTemplate tpl) {
-		if (isInfinite()) {
-			return "?";
-		}
-
-		return regrFormat(inhomX) + " " + regrFormat(inhomY);
 	}
 
 	@Override
@@ -1614,7 +1602,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return ",";
 		}
 		StringBuilder sb = new StringBuilder();
-		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN
+			&& !tpl.isForEditorParser()) {
 			sb.append(" |");
 			tpl.appendOptionalSpace(sb);
 		} else {
@@ -1700,10 +1689,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
-				tpl.appendOptionalSpace(sbBuildValueString);
-				sbBuildValueString.append("|");
-				tpl.appendOptionalSpace(sbBuildValueString);
-				break;
+				if (!tpl.isForEditorParser()) {
+					tpl.appendOptionalSpace(sbBuildValueString);
+					sbBuildValueString.append("|");
+					tpl.appendOptionalSpace(sbBuildValueString);
+					break;
+				}
 
 			default:
 				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
@@ -1738,17 +1729,19 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// pos
 			if (((AlgoPointOnPath) algo)
 					.getPath() instanceof GeoCurveCartesianND) {
-				sb.append("\t<curveParam");
-				sb.append(" t=\"");
+				sb.append("\t<curveParam t=\"");
 				sb.append(getPathParameter().t);
-				sb.append("\"");
-				sb.append("/>\n");
+				sb.append("\"/>\n");
 			}
 		}
 
 		// write x,y,z after <curveParam>
 		super.getXMLtags(sb);
+	}
 
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// polar or cartesian coords
 		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
@@ -1773,7 +1766,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		XMLBuilder.appendPointProperties(sb, this);
-
 	}
 
 	@Override

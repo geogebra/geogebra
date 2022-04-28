@@ -260,7 +260,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		try {
 			result = getImplicitPoly(implicit);
 		} catch (Throwable ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			Log.debug("Cannot compute implicit curve (yet?)");
 		}
 

@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMultiplyFixer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -36,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -72,6 +72,7 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceInequality = false;
 	private boolean forceSurface = false;
 	private boolean forceAngle = false;
+	private boolean forceList = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -714,77 +715,22 @@ public class ExpressionNode extends ValidExpression
 	 *            variable y
 	 * @param zVar
 	 *            variable z
-	 * @param undecided
-	 *            list for subexpressions where it's not clear whether they can
-	 *            be used for multiplication directly or not
-	 * 
-	 * @return number of replacements done
 	 */
-	public int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
-			FunctionVariable zVar, ArrayList<ExpressionNode> undecided) {
-		if ((xVar == null) && ((yVar == null) & (zVar == null))) {
-			return 0;
+	public void replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
+			FunctionVariable zVar) {
+		ExpressionNode replaced = traverse(new CoordMultiplyReplacer(xVar, yVar, zVar))
+				.traverse(SqrtMultiplyFixer.INSTANCE).wrap();
+		if (replaced != this) {
+			setFrom(replaced);
 		}
-
-		// left tree
-		if (left.isExpressionNode()) {
-			((ExpressionNode) left).replaceXYZnodes(xVar, yVar, zVar,
-					undecided);
-		}
-		// right tree
-		if ((right != null) && right.isExpressionNode()) {
-			((ExpressionNode) right).replaceXYZnodes(xVar, yVar, zVar,
-					undecided);
-		}
-
-		switch (operation) {
-		case XCOORD:
-			if (xVar != null && !leftHasCoord()) {
-				undecided.add(this);
-				operation = Operation.MULTIPLY_OR_FUNCTION;
-				right = left;
-				left = xVar;
-			}
-			break;
-
-		case YCOORD:
-			if (yVar != null && !leftHasCoord()) {
-				undecided.add(this);
-				operation = Operation.MULTIPLY_OR_FUNCTION;
-				right = left;
-				left = yVar;
-			}
-			break;
-
-		case ZCOORD:
-			if (zVar != null && !leftHasCoord()) {
-				undecided.add(this);
-				operation = Operation.MULTIPLY_OR_FUNCTION;
-				right = left;
-				left = zVar;
-			}
-			break;
-		case POWER:
-		case FACTORIAL:
-			fixPowerFactorial(Operation.MULTIPLY_OR_FUNCTION);
-			break;
-		case SQRT_SHORT:
-			fixSqrtShort(Operation.MULTIPLY_OR_FUNCTION);
-			break;
-		default:
-			break;
-		}
-
-		return undecided.size();
 	}
 
-	private boolean leftHasCoord() {
-		return left.evaluatesToNDVector()
-				|| left.getValueType() == ValueType.COMPLEX
-				|| (left.unwrap() instanceof GeoLine);
-	}
-
-	private void fixSqrtShort(Operation multiplicativeOperation) {
+	/**
+	 * Change &#8730;[x(x+1)] to &#8730;x * (x+1) where [] is implicit multiplication.
+	 * @param multiplicativeOperation
+	 *         implicit multiplication op: either MULTIPLY or MULTIPLY_OR_FUNCTION
+	 */
+	public void fixSqrtShort(Operation multiplicativeOperation) {
 		if (left.isExpressionNode()
 				&& ((ExpressionNode) left).operation == multiplicativeOperation
 				&& !((ExpressionNode) left).hasBrackets()) {
@@ -795,7 +741,13 @@ public class ExpressionNode extends ValidExpression
 		}
 	}
 
-	private void fixPowerFactorial(Operation multiplicativeOperation) {
+	/**
+	 * Change [x(x+1)]! to x * (x+1)! and [x(x+1)]^2  to x * (x+1)^2
+	 * where [] is implicit multiplication.
+	 * @param multiplicativeOperation
+	 *         implicit multiplication op: either MULTIPLY or MULTIPLY_OR_FUNCTION
+	 */
+	public void fixPowerFactorial(Operation multiplicativeOperation) {
 		if (left.isExpressionNode()
 				&& ((ExpressionNode) left).operation == multiplicativeOperation
 				&& !((ExpressionNode) left).hasBrackets()) {
@@ -854,12 +806,16 @@ public class ExpressionNode extends ValidExpression
 
 		if (isLeaf() && left != null && left.isExpressionNode()) {
 			ExpressionNode leftNode = left.wrap();
-			right = leftNode.right;
-			left = leftNode.left;
-			leaf = leftNode.leaf;
-			operation = leftNode.operation;
+			setFrom(leftNode);
 		}
 		return this;
+	}
+
+	private void setFrom(ExpressionNode other) {
+		right = other.right;
+		left = other.left;
+		leaf = other.leaf;
+		operation = other.operation;
 	}
 
 	@Override
@@ -1660,8 +1616,6 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns true iff ev1 and ev2 are equal.
 	 * 
-	 * https://www.geogebra.org/m/NTKKwVWK
-	 * 
 	 * @param ev1
 	 *            first value to compare
 	 * @param ev2
@@ -1673,17 +1627,18 @@ public class ExpressionNode extends ValidExpression
 			return DoubleUtil.isEqual(ev1.evaluateDouble(),
 					ev2.evaluateDouble(), Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
-			return ((TextValue) ev1)
+			return ev1
 					.toValueString(StringTemplate.defaultTemplate)
-					.equals(((TextValue) ev2)
-							.toValueString(StringTemplate.defaultTemplate));
-		} else if (ev1 instanceof VectorValue && ev2 instanceof VectorValue) {
-			return ((VectorValue) ev1).getVector()
-					.isEqual(((VectorValue) ev2).getVector());
+					.equals(ev2.toValueString(StringTemplate.defaultTemplate));
+		} else if (ev1 instanceof VectorNDValue && ev2 instanceof VectorNDValue) {
+			return ((VectorNDValue) ev1).getVector()
+					.isEqual(((VectorNDValue) ev2).getVector());
 		} else if (ev1 instanceof BooleanValue && ev2 instanceof BooleanValue) {
-			return ((BooleanValue) ev1).getMyBoolean()
-					.getBoolean() == ((BooleanValue) ev2).getMyBoolean()
+			return ((BooleanValue) ev1)
+					.getBoolean() == ((BooleanValue) ev2)
 							.getBoolean();
+		} else if (ev1 instanceof ListValue && ev2 instanceof ListValue) {
+			return ((ListValue) ev1).getMyList().isEqual((ListValue) ev2);
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
 			return ((GeoElement) ev1).isEqual((GeoElement) ev2);
 		} else if (ev1 instanceof Functional && ev2 instanceof Functional) {
@@ -3567,6 +3522,17 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
+	 * @return whether this is a simplifiable surd
+	 */
+	public boolean isSimplifiableSurd() {
+		ExpressionValue resolvedSurd = Surds.getResolution(this, kernel);
+		if (resolvedSurd != null) {
+			resolve = resolvedSurd;
+		}
+		return resolvedSurd != null;
+	}
+
+	/**
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {
@@ -3728,6 +3694,14 @@ public class ExpressionNode extends ValidExpression
 
 	public boolean isForceAngle() {
 		return forceAngle;
+	}
+
+	public void setForceList() {
+		this.forceList = true;
+	}
+
+	public boolean isForceList() {
+		return forceList;
 	}
 
 	/**

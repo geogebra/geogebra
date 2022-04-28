@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -1187,26 +1188,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return sbAE.toString();
 	}
 
-	/**
-	 * @param tpl
-	 *            template
-	 * @return regression output
-	 */
-	public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
-		sbAE.setLength(0);
-
-		if (getOutput(0).isLabelSet()) {
-			sbAE.append(getOutput(0).getAlgebraDescriptionRegrOut(tpl));
-		}
-		for (int i = 1; i < getOutputLength(); ++i) {
-			if (getOutput(i).isLabelSet()) {
-				sbAE.append("\n");
-				sbAE.append(getOutput(i).getAlgebraDescriptionRegrOut(tpl));
-			}
-		}
-		return sbAE.toString();
-	}
-
 	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
 		return toString(tpl);
@@ -1369,7 +1350,7 @@ public abstract class AlgoElement extends ConstructionElement
 				getOutputXML(sb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -1414,7 +1395,7 @@ public abstract class AlgoElement extends ConstructionElement
 				getOutputXML(sb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -1661,7 +1642,7 @@ public abstract class AlgoElement extends ConstructionElement
 			sb.append("\"");
 		}
 
-		if (this instanceof SetRandomValue && (getOutput(0) instanceof GeoList
+		if (this instanceof SetRandomValue && (!isGeoListImageType(getOutput(0))
 				|| getOutput(0) instanceof VarString
 				|| getOutput(0) instanceof GeoText)) {
 			sb.append(" randomResult=\"");
@@ -1670,6 +1651,16 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		sb.append("/>\n");
+	}
+
+	private boolean isGeoListImageType(GeoElement geo) {
+		if (!(geo instanceof GeoList)) {
+			return false;
+		}
+		GeoList list = (GeoList) geo;
+		return list.getElementType() == GeoClass.IMAGE
+				|| (list.getElementType() == GeoClass.LIST
+				&& list.size() > 0 && isGeoListImageType(list.get(0)));
 	}
 
 	/**
@@ -1830,7 +1821,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public boolean isUndefined() {
 		for (GeoElement geo : getInput()) {
-			if (!geo.isDefined()) {
+			if (!geo.isDefined() && !geo.isLocalVariable()) {
 				return true;
 			}
 		}

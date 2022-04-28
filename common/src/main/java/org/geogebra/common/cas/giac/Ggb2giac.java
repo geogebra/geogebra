@@ -427,7 +427,7 @@ public class Ggb2giac {
 		// necessary for eg
 		// Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),0,pi/2)
 
-		String integralPart1 = "[[ggbintans:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],";
+		String integralPart1 = "[[ggbintans:=0/0], [ggbintanssimplified:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],";
 
 		// make sure Integral[y^2,1,2] works
 		String integralPart2 = "[if(size(vars)==1) then factored:=subst(factored,vars[0],x) fi],";
@@ -1017,8 +1017,7 @@ public class Ggb2giac {
 				+ "when(ggb_is_equals(ggbleftarg0[%1-1][0]),right(ggbleftarg0[%1-1]),?)][1]");
 
 		p("Length.1",
-				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt'||(type(ggbv)==DOM_LIST&&subtype(ggbv)=="
-						+ GGBVECT_TYPE + "),l2norm(ggbv),size(ggbv)))][1]");
+				"[[ggbv:=%0],regroup(when(type(ggbv)==DOM_LIST&&subtype(ggbv)!=" + GGBVECT_TYPE + ",size(ggbv),when(real(ggbv)==ggbv&&subtype(ggbv)!=" + GGBVECT_TYPE + ",?,l2norm(ggbv))))][1]");
 		p("Length.3", "arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
 
@@ -1900,11 +1899,25 @@ public class Ggb2giac {
 
 				+ "))");
 
-		p("OrthogonalVector.1",
-				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,ggbvect[-ycoord(%0),xcoord(%0)]),"
-						+ "when(is_3dpoint(%0),?,"
-						+ "when((%0)[0]=='=',when(count_eq(z,lname(%0))==0,ggbvect[xcoord(%0),ycoord(%0)],ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]),"
-						+ "ggbvect[-ycoord(%0),xcoord(%0)])))");
+		p("OrthogonalVector.1","["
+
+				+"[[orthvecarg:=%0],[orthveclist:=?], "
+
+				// eg PerpendicularVector(Plane((0,0,0),(0,0,1),(1,2,3)))
+				+"[orthveclist:=when(sommet(orthvecarg[1])==hyperplan,orthvecarg[1,1], "
+
+				// eg PerpendicularVector(Plane(x+2y+3z=1)
+				+ "when(length(lname(orthvecarg))==3,diff(equal2diff(orthvecarg),[x,y,z]),"
+
+				// old code
+				+ "when(type(orthvecarg)==DOM_LIST,when(size(orthvecarg)!=2,?,ggbvect[-ycoord(orthvecarg),xcoord(orthvecarg)]),"
+				+ "when(is_3dpoint(orthvecarg),?,"
+				+ "when((orthvecarg)[0]=='=',when(count_eq(z,lname(orthvecarg))==0,ggbvect[xcoord(orthvecarg),ycoord(orthvecarg)],ggbvect[xcoord(orthvecarg),ycoord(orthvecarg),zcoord(orthvecarg)]),"
+				+ "ggbvect[-ycoord(orthvecarg),xcoord(orthvecarg)])))"
+
+				+"))]"
+				+"],when(zcoord(orthveclist)==0,ggbvect[xcoord(orthveclist),ycoord(orthveclist)],ggbvect[xcoord(orthveclist),ycoord(orthveclist),zcoord(orthveclist)])][1]");
+
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,normalize(ggbvect[-%0[1],%0[0]])),"
 						+ "when(is_3dpoint(%0),?,"

@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.algos.AlgoConicPartConicPoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoSemicircle;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -192,9 +193,9 @@ public class GeoConicPart extends GeoConic
 			return false;
 		}
 
-		GeoConicPart other = (GeoConicPart) geo;
+		GeoConicPartND other = (GeoConicPartND) geo;
 
-		return parameters.isEqual(other.parameters) && super.isEqual(other);
+		return parameters.isEqual(other.getParameters()) && super.isEqual(geo);
 	}
 
 	/**
@@ -574,11 +575,9 @@ public class GeoConicPart extends GeoConic
 	 * returns all class-specific xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-
-		parameters.getXMLtags(sb);
-
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		parameters.getLimitedPathXML(sb);
 	}
 
 	/**
@@ -924,5 +923,12 @@ public class GeoConicPart extends GeoConic
 	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		super.toGeoCurveCartesian(curve);
 		parameters.updateCurve(curve);
+	}
+
+	@Override
+	public void dilate(NumberValue rval, Coords S) {
+		super.dilate(rval, S);
+		parameters.setValueDefined(super.isDefined());
+		parameters.update();
 	}
 }

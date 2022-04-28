@@ -25,7 +25,6 @@ public class RendererJogl {
 	static public final int GL_STREAM_DRAW = GL2ES2.GL_STREAM_DRAW;
 	
 	public GL getGL(){
-		
 		return getGL2(); 
 	}
 	
@@ -35,29 +34,18 @@ public class RendererJogl {
 		}
 		return gLDrawable.getGL().getGL2(); 
 	}
-	
-	
-	
-	public void setGL(GLAutoDrawable gLDrawable){		
+
+	public void setGL(GLAutoDrawable gLDrawable) {
 		this.gLDrawable = gLDrawable;
 	}
-	
-	
-	
-	
+
 	/**
 	 * 
 	 * @return current GL (as GL2ES2)
 	 */
 	public javax.media.opengl.GL2ES2 getGL2ES2() {
-		
 		return gLDrawable.getGL().getGL2ES2();
 	}
-	
-	
-	
-	
-	
 
 	public final static IntBuffer newIntBuffer(int size){
 		return GLBuffers.newDirectIntBuffer(size); 

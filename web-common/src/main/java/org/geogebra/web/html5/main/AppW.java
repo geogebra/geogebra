@@ -1,5 +1,11 @@
 package org.geogebra.web.html5.main;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +46,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
@@ -77,6 +85,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.regexp.client.NativeRegExpFactory;
+import org.geogebra.regexp.shared.RegExpFactory;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.awt.GFontW;
@@ -85,7 +95,6 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.export.GeoGebraToAsymptoteW;
 import org.geogebra.web.html5.export.GeoGebraToPgfW;
@@ -139,8 +148,6 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.AnalyticsW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.gwtproject.regexp.client.NativeRegExpFactory;
-import org.gwtproject.regexp.shared.RegExpFactory;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.core.client.GWT;
@@ -152,6 +159,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -209,11 +217,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
-	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
 	private BrowserStorage storage;
 	private boolean keyboardNeeded;
-	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
+	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
 	private PageListControllerInterface pageController;
@@ -229,15 +236,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
-	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
+	private final ArrayList<RequiresResize> euclidianHandlers = new ArrayList<>();
 	private ViewW viewW;
 	private ZoomPanel zoomPanel;
-	private PopupRegistry popupRegistry = new PopupRegistry();
+	private final PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
 	private FpsProfiler fpsProfiler;
 	private AccessibilityView accessibilityView;
-
 	Timer timeruc = new Timer() {
 		@Override
 		public void run() {
@@ -283,7 +289,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					getAppletParameters().getParamScaleContainerClass()),
 					this::checkScaleContainer);
 		}
-		initializeAnalytics();
+		if (getAppletParameters().getDataParamApp()) {
+			initializeAnalytics();
+		}
 	}
 
 	/**
@@ -412,8 +420,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * handler for window resize
 	 */
 	protected final void windowResized() {
-		for (MouseTouchGestureControllerW mtg : this.euclidianHandlers) {
-			mtg.calculateEnvironment();
+		for (RequiresResize mtg : this.euclidianHandlers) {
+			mtg.onResize();
 		}
 		if (this.getGuiManager() != null) {
 			getGuiManager().setPixelRatio(getPixelRatio());
@@ -557,7 +565,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				try {
 					getXMLio().processXMLString(xml, true, false);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		};
@@ -837,8 +845,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (def.hasDefaults3d()) {
 				getXMLio().processXMLString(def.getDefaults3d(), false, true);
 			}
-			afterLoadFileAppOrNot(asSlide);
 
+			afterLoadFileAppOrNot(asSlide);
 		} catch (Exception e) {
 			Log.debug(e);
 		}
@@ -1140,8 +1148,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					setToolLoadedFromStorage(true);
 					return true;
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}
@@ -1375,7 +1382,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');
 		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
+			fn = fn.substring(index + 1); // filename without
 		}
 		// path
 		fn = org.geogebra.common.util.Util.processFilename(fn);
@@ -1415,11 +1422,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public GeoImage createImageFromString(final String imgFileName,
 			String imageAsString, GeoImage imageOld,
-			final boolean autoCorners, final String c1, final String c2,
-			final String c4) {
+			final boolean autoCorners, final GeoPointND c1, final GeoPointND c2) {
 		SafeGeoImageFactory factory =
 				new SafeGeoImageFactory(this, imageOld).withAutoCorners(c1 == null)
-						.withCorners(c1, c2, c4);
+						.withCorners(c1, c2);
 		return factory.create(imgFileName, imageAsString);
 	}
 
@@ -1440,7 +1446,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		FileReader reader = new FileReader();
 		reader.addEventListener("load", (event) -> {
-			if (reader.readyState == reader.DONE) {
+			if (reader.readyState == FileReader.DONE) {
 				String fileStr = reader.result.asString();
 				String fileName = fileToHandle.name;
 				imageDropHappened(fileName, fileStr);
@@ -2276,9 +2282,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Initialize undo info without notifying scripts
 	 */
 	protected void initUndoInfoSilent() {
-		getScriptManager().disableListeners();
+		getEventDispatcher().disableListeners();
 		kernel.initUndoInfo();
-		getScriptManager().enableListeners();
+		getEventDispatcher().enableListeners();
 	}
 
 	@Override
@@ -2807,7 +2813,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return Browser.getPixelRatio() * geoGebraElement.readScaleX();
 	}
 
-	public void addWindowResizeListener(MouseTouchGestureControllerW mtg) {
+	public void addWindowResizeListener(RequiresResize mtg) {
 		this.euclidianHandlers.add(mtg);
 	}
 
@@ -2820,23 +2826,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public abstract Panel getPanel();
 
-	private Timer altTextTimer = new Timer() {
-
-		@Override
-		public void run() {
-			getEuclidianView1().setAltText();
-			if (hasEuclidianView2(1)) {
-				getEuclidianView2(1).setAltText();
-			}
-			if (isEuclidianView3Dinited()) {
-				((EuclidianViewWInterface) getEuclidianView3D()).setAltText();
-			}
-		}
-	};
-
 	@Override
-	public void setAltText() {
-		altTextTimer.schedule(700);
+	public void setAltText(GeoText altText) {
+		getAccessibilityManager().appendAltText(altText);
 	}
 
 	@Override
@@ -2883,12 +2875,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
-				&& !appletParameters.preventFocus()) {
-			if (readerTimer == null) {
-				readerTimer = new ReaderTimer();
-			}
-			readerTimer.setGeo(geo);
-			readerTimer.schedule(700);
+				&& (!appletParameters.preventFocus() || !geo.isAnimating())) {
+			getAccessibilityManager().readSliderUpdate(geo);
 		}
 	}
 
@@ -3127,31 +3115,31 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean isUnbundledGraphing() {
-		return "graphing".equals(getSubAppCode());
+		return GRAPHING_APPCODE.equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isUnbundledGeometry() {
-		return "geometry".equals(getSubAppCode());
+		return GEOMETRY_APPCODE.equals(getSubAppCode());
 	}
 
 	/**
 	 * @return whether we are running 3D grapher
 	 */
 	public boolean isUnbundled3D() {
-		return "3d".equals(getSubAppCode());
+		return G3D_APPCODE.equals(getSubAppCode());
 	}
 
 	@Override
 	public boolean isSuite() {
-		return "suite".equals(getConfig().getAppCode());
+		return SUITE_APPCODE.equals(getConfig().getAppCode());
 	}
 
 	/**
 	 * @return whether we are running cas
 	 */
 	public boolean isUnbundledCas() {
-		return "cas".equals(getSubAppCode());
+		return CAS_APPCODE.equals(getSubAppCode());
 	}
 
 	/**
@@ -3190,8 +3178,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-	public void exportStringToFile(String extension, String content) {
-
+	public void exportStringToFile(String extension, String content, boolean showDialog) {
 		String url;
 
 		if ("html".equals(extension)) {
@@ -3203,8 +3190,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		dispatchEvent(new Event(EventType.OPEN_DIALOG, null, "export3D"));
-		getFileManager().showExportAsPictureDialog(url, getExportTitle(),
-				extension, "Export", this);
+		if (showDialog) {
+			getFileManager().showExportAsPictureDialog(url, getExportTitle(),
+					extension, "Export", this);
+		} else {
+			getFileManager().exportImage(url,  getExportTitle() + "." + extension,
+					extension);
+			dispatchEvent(new Event(EventType.EXPORT, null,
+					"[\"" + extension + "\"]"));
+		}
 	}
 
 	/**
@@ -3473,8 +3467,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * reset url after e.g. new file
 	 */
 	public void resetUrl() {
-	 	Browser.resetUrl();
-		Browser.changeUrl("/" + appletParameters.getParamShareLinkPrefix());
+		if (appletParameters.getDataParamApp()) {
+			Browser.resetUrl();
+			Browser.changeUrl("/" + appletParameters.getParamShareLinkPrefix());
+		}
 	}
 
 	/**
@@ -3507,7 +3503,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		try {
 			Analytics.setInstance(new AnalyticsW());
 		} catch (Throwable e) {
-			Log.debug("Could not initialize analytics object.");
+			Log.debug("Could not initialize analytics object." + e);
 		}
 	}
 

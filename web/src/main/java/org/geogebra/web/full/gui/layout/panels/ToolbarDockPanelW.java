@@ -5,10 +5,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * @author Laszlo Gal
@@ -62,11 +64,7 @@ public class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		if (toolbar.isAlgebraViewActive()) {
-			return toolbar.getKeyboardListener();
-		}
-
-		return super.getKeyboardListener();
+		return toolbar.getKeyboardListener(super::getKeyboardListener);
 	}
 
 	/**
@@ -80,6 +78,9 @@ public class ToolbarDockPanelW extends DockPanelW
 	public MathKeyboardListener updateKeyboardListener(MathKeyboardListener ml) {
 		if (toolbar.isAlgebraViewActive()) {
 			return toolbar.updateKeyboardListener(ml);
+		}
+		if (toolbar.getSelectedTabId() == DockPanelData.TabIds.TABLE) {
+			return ml;
 		}
 		return null;
 	}
@@ -202,6 +203,17 @@ public class ToolbarDockPanelW extends DockPanelW
 	public void hideToolbar() {
 		if (toolbar != null) {
 			toolbar.hideToolbar();
+		}
+	}
+
+	@Override
+	public void paintToCanvas(CanvasRenderingContext2D context2d,
+			Runnable callback, int left, int top) {
+		if (toolbar != null) {
+			drawWhiteBackground(context2d, left, top);
+			toolbar.paintToCanvas(context2d, callback, left, top);
+		} else {
+			callback.run();
 		}
 	}
 }

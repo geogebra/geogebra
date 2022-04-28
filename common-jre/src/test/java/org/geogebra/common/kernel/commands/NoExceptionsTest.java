@@ -57,7 +57,7 @@ public class NoExceptionsTest {
 		if (syntaxes == -1000) {
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			List<Integer> signature = CommandSignatures.getSigneture(cmdName, app);
+			List<Integer> signature = CommandSignatures.getSignature(cmdName, app);
 			syntaxes = 0;
 			if (signature != null) {
 				syntaxes = signature.size();

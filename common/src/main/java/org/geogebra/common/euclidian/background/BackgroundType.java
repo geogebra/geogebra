@@ -39,7 +39,13 @@ public enum BackgroundType {
 	SVG(8),
 
 	/** Elementary 1/2 with colored background */
-	ELEMENTARY12_COLORED(9);
+	ELEMENTARY12_COLORED(9),
+
+	/** Isometric background */
+	ISOMETRIC(10),
+
+	/** Polar background */
+	POLAR(11);
 
 	/**
 	 * Ordered list of ruling options used for the settings
@@ -54,7 +60,9 @@ public enum BackgroundType {
 					BackgroundType.ELEMENTARY12_COLORED,
 					BackgroundType.ELEMENTARY12_HOUSE,
 					BackgroundType.ELEMENTARY34,
-					BackgroundType.MUSIC
+					BackgroundType.MUSIC,
+					BackgroundType.ISOMETRIC,
+					BackgroundType.POLAR
 			));
 
 	private int value;

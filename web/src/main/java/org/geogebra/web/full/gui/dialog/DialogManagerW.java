@@ -38,7 +38,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
-import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
+import org.geogebra.web.full.gui.dialog.image.ImageDialog;
 import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
@@ -58,6 +58,7 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.resources.ImageResourceConverter;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.GWT;
@@ -108,7 +109,7 @@ public class DialogManagerW extends DialogManager
 
 		} catch (Exception e) {
 			success = false;
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return success;
 	}
@@ -217,9 +218,7 @@ public class DialogManagerW extends DialogManager
 		return true;
 	}
 
-	/**
-	 * show calculator chooser for suite
-	 */
+	@Override
 	public void showCalcChooser(boolean autoHide) {
 		hideCalcChooser(); // remove any previous chooser
 		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
@@ -276,9 +275,9 @@ public class DialogManagerW extends DialogManager
 			upload.click();
 			return;
 		}
-		UploadImageDialog imageDialog = device.getImageInputDialog(app);
-		imageDialog.setLocation(corner);
-		imageDialog.show();
+		DialogData data = new DialogData("Image", "Cancel", null);
+		ImageDialog dialog = new ImageDialog(app, data);
+		dialog.show();
 	}
 
 	/**
@@ -443,9 +442,9 @@ public class DialogManagerW extends DialogManager
 
 	/**
 	 * @param doYouWantSaveChanges true if doYooWantToSaveYourChangesDialog
-	 * 		should be shown
+	 *        should be shown
 	 * @param addTempCheckBox
-	 * 	    true if checkbox should be visible
+	 *        true if checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog(boolean doYouWantSaveChanges, boolean addTempCheckBox) {
@@ -567,8 +566,8 @@ public class DialogManagerW extends DialogManager
 	private static PopupPanel createLoadingAnimation() {
 		PopupPanel anim = new PopupPanel();
 		anim.addStyleName("loadinganimation");
-		anim.add(
-				new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
+		anim.add(new Image(ImageResourceConverter
+				.convertToOldImageResource(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner())));
 		return anim;
 	}
 

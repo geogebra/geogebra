@@ -598,7 +598,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			kernel.getAlgebraProcessor().evaluateToDouble(result, true, n);
 
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 			n.setUndefined();
 		}
 

@@ -41,15 +41,17 @@
  * version.
  * 
  */
+
 package com.himamis.retex.renderer.web.resources;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
+import org.gwtproject.resources.client.TextResource;
 
+@Resource
 public interface PreloadFontResources extends ClientBundle {
 
-	PreloadFontResources INSTANCE = GWT.create(PreloadFontResources.class);
+	PreloadFontResources INSTANCE = new PreloadFontResourcesImpl();
 
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/font/jlm_cmss10.js")
 	TextResource jlm_cmss10();

@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.ImageResourceConverter;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -57,8 +58,8 @@ public class ToolbarSubmenuW extends FlowPanel {
 
 	protected void initGui() {
 		submenuArrow = new FlowPanel();
-		submenuArrow
-				.add(new Image(GuiResources.INSTANCE.arrow_submenu_up()));
+		submenuArrow.add(new Image(ImageResourceConverter
+				.convertToOldImageResource(GuiResources.INSTANCE.arrow_submenu_up())));
 		submenuArrow.setStyleName("submenuArrow");
 		add(submenuArrow);
 

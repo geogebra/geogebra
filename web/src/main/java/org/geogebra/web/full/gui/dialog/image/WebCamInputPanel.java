@@ -4,13 +4,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.webcam.WebCamAPI;
-import org.geogebra.web.html5.webcam.WebCamPanelInterface;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLVideoElement;
@@ -19,7 +17,7 @@ import jsinterop.base.Js;
 /**
  * Panel for HTML5 webcam input
  */
-public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterface {
+public class WebCamInputPanel extends FlowPanel {
 	private final boolean isElectronMac;
 	private SimplePanel inputWidget;
 	private HTMLVideoElement video;
@@ -51,11 +49,16 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterf
 		add(inputWidget);
 	}
 
+	/**
+	 * stop camera
+	 */
 	public void stopVideo() {
 		webCam.stop();
 	}
 
-	@Override
+	/**
+	 * on camera success
+	 */
 	public void onCameraSuccess() {
 		hidePermissionDialog();
 		webcamDialog.onCameraSuccess();
@@ -138,16 +141,26 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterf
 	}
 
 	private void showPermissionDeniedDialog() {
-		DialogData data = new DialogData(getPermissionDeniedTitleKey(),
-				null, "OK");
-		showPermissionDialog(data, getPermissionDeniedMessageKey());
+		if (!app.isWhiteboardActive()) {
+			webcamDialog.onCameraError(getPermissionDeniedTitleKey(),
+					getPermissionDeniedMessageKey());
+		} else {
+			DialogData data = new DialogData(getPermissionDeniedTitleKey(),
+					null, "OK");
+			showPermissionDialog(data, getPermissionDeniedMessageKey());
+		}
 	}
 
 	private void showErrorDialog() {
-		DialogData data = new DialogData("Webcam.Problem",
-				null, "OK");
-		showPermissionDialog(data, app.getVendorSettings()
-				.getMenuLocalizationKey("Webcam.Problem.Message"));
+		if (!app.isWhiteboardActive()) {
+			webcamDialog.onCameraError("Webcam.Problem",
+					"Webcam.Problem.Message");
+		} else {
+			DialogData data = new DialogData("Webcam.Problem",
+					null, "OK");
+			showPermissionDialog(data, app.getVendorSettings()
+					.getMenuLocalizationKey("Webcam.Problem.Message"));
+		}
 	}
 
 	private void showNotSupportedDialog() {
@@ -170,16 +183,22 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterf
 		return canvasHeight;
 	}
 
-	@Override
+	/**
+	 * load size and adjust dialog
+	 * @param width - width
+	 * @param height - height
+	 */
 	public void onLoadedMetadata(int width, int height) {
 		canvasWidth = width;
 		canvasHeight = height;
 		showAndResizeInputDialog();
 	}
 
-	@Override
+	/**
+	 * on camera error
+	 * @param errName - error
+	 */
 	public void onCameraError(String errName) {
-		webcamDialog.onCameraError();
 		if ("PermissionDeniedError".equals(errName)
 				|| "NotAllowedError".equals(errName)
 				|| isElectronMac
@@ -197,13 +216,27 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamPanelInterf
 		Log.debug("Error from WebCam: " + errName);
 	}
 
-	@Override
+	/**
+	 * on camera request
+	 */
 	public void onRequest() {
-		showRequestDialog();
+		if (app.isWhiteboardActive()) {
+			showRequestDialog();
+		} else {
+			webcamDialog.onCameraError("Webcam.Request",
+					"Webcam.Request.Message");
+		}
 	}
 
-	@Override
+	/**
+	 * camera not supported
+	 */
 	public void onNotSupported() {
-		showNotSupportedDialog();
+		if (app.isWhiteboardActive()) {
+			showNotSupportedDialog();
+		} else {
+			webcamDialog.onCameraError("Webcam.Notsupported.Caption",
+					"Webcam.Notsupported.Message");
+		}
 	}
 }

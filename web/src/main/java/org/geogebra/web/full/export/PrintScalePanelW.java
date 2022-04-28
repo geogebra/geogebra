@@ -168,7 +168,7 @@ public class PrintScalePanelW extends FlowPanel {
 				// viewChanged = true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 		updateFixedSizeTextFields();

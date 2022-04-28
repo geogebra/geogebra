@@ -18,6 +18,6 @@ public class AlgoDerivativeTest extends BaseUnitTest {
 
 	private void t(String s, String s1) {
 		AlgebraTestHelper.checkSyntaxSingle(s, new String[]{s1},
-				getApp().getKernel().getAlgebraProcessor(),	StringTemplate.testTemplate);
+				getApp().getKernel().getAlgebraProcessor(), StringTemplate.testTemplate);
 	}
 }

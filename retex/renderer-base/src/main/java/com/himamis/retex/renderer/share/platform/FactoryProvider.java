@@ -104,10 +104,15 @@ public abstract class FactoryProvider {
 	/**
 	 * Overridden in eg FactoryProviderGWT
 	 * 
-	 * @param string debug message
+	 * @param msg debug message
 	 */
-	public void debug(Object string) {
-		System.out.println("[LaTeX] " + string);
+	public void debug(Object msg) {
+		if (msg instanceof Throwable) {
+			System.out.println("[LaTeX] exception caught");
+			((Throwable) msg).printStackTrace(System.out);
+		} else {
+			System.out.println("[LaTeX] " + msg);
+		}
 	}
 
 	public static void setInstance(FactoryProvider factory) {
@@ -117,15 +122,6 @@ public abstract class FactoryProvider {
 
 	public static FactoryProvider getInstance() {
 		return INSTANCE;
-	}
-
-	public void printStacktrace() {
-		try {
-			// message null check done in caller
-			throw new Exception("");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	// TODO remove as part of Android / iOS cleanup

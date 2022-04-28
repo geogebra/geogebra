@@ -263,6 +263,7 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	void toggle() {
 		if (visible) {
 			chooseItem(selector.hoveredIndex());
+			app.setActiveView(view.getViewID());
 		} else {
 			setVisible(true);
 		}

@@ -5,10 +5,10 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id "com.github.spotbugs" version "4.8.0"
+    id 'com.github.spotbugs' version '4.8.0'
     id 'de.aaschmid.cpd' version '3.3'
-    id "io.miret.etienne.sass" version "1.1.2"
-    id 'org.wisepersist.gwt' version '1.1.16'
+    id 'io.miret.etienne.sass' version '1.3.0'
+    id 'org.wisepersist.gwt' version '1.1.18'
 }
 
 description 'Parts of GeoGebra related to web platforms'
@@ -39,21 +39,38 @@ if(hasProperty("eclipse")){
     eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
 }
 
+compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
+
+apply from: "../gradle-scripts/webjars.gradle"
+compileJava.dependsOn('extractJs')
+
+task extractJs() {
+    doLast {
+        extractWebjars()
+    }
+}
+
 dependencies {
     compile project(path: ':carota-web'),
         project(':web:dev'),
         project(':web-common'),
         project(':editor-web'),
         project(':keyboard-web'),
+        'org.webjars.npm:pdfjs-dist:2.5.207',
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':web-common').sourceSets.main.allSource.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs)
+        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
+        files(file("build/generated/sources/annotationProcessor/java/main/")),
+        files(file("build/generated/sources/webjars/java/main/"))
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
         "com.google.gwt:gwt-user:$gwtCompilerVersion"
+
+    annotationProcessor project(":gwtutil"),
+            'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
 }
 
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
@@ -282,7 +299,8 @@ task mergeDeploy(){
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
       def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
       def currentVersion = getGeogebraVersion(parentRoot)
-      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','./')
+      def localPath = project.findProperty("deployggbRoot") ?: './'
+      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%', localPath)
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
       file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
    }
@@ -329,8 +347,8 @@ task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) 
 
 task createDraftBundleZip (type: Zip, dependsOn: 'compileSass') {
     description 'Creates the Math Apps Bundle file.'
-    destinationDir = file(warDirRel)
-    baseName = "geogebra-bundle"
+    destinationDirectory = file(warDirRel)
+    archiveBaseName = "geogebra-bundle"
     from compileGwt {
         include ("web3d/**")
         into "GeoGebra/HTML5/5.0"

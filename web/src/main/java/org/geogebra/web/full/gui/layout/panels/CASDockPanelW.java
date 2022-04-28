@@ -7,8 +7,8 @@ import org.geogebra.web.full.cas.view.CASViewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,7 +26,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 	 *            application
 	 */
 	public CASDockPanelW(App appl) {
-		super(App.VIEW_CAS,	getDefaultToolbar(), true);
+		super(App.VIEW_CAS, getDefaultToolbar(), true);
 		app = (AppW) appl;
 	}
 

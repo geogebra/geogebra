@@ -100,8 +100,7 @@ public interface GeoVectorND
 	/**
 	 * Get string as column vector for editing.
 	 *
-	 * @param tpl
-	 * 		StringTemplate
+	 * @param tpl StringTemplate
 	 * @return the column vector that can be rendered by editor.
 	 */
 	String toValueStringAsColumnVector(StringTemplate tpl);

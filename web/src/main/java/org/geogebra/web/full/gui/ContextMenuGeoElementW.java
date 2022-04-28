@@ -42,10 +42,10 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -73,7 +73,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *  @param app
 	 *            application
 	 * @param factory
-	 * 			widget factory
+	 *            widget factory
 	 */
 	ContextMenuGeoElementW(AppW app, ContextMenuFactory factory) {
 		super(app);
@@ -906,21 +906,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			mnu.addItem(mi);
 		}
 		return mnu;
-	}
-
-	/**
-	 * @return true if menu is shown
-	 */
-	public boolean isMenuShown() {
-		return wrappedPopup.isMenuShown();
-	}
-
-	/**
-	 * @param menuShown
-	 *            true if menu is shown
-	 */
-	public void setMenuShown(boolean menuShown) {
-		wrappedPopup.setMenuShown(menuShown);
 	}
 
 	/**

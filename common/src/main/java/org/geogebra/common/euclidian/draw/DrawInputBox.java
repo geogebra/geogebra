@@ -244,7 +244,8 @@ public class DrawInputBox extends CanvasDrawable {
 			oldLength = length;
 		}
 		if (!isVisible) {
-			if (view.getSymbolicEditor() != null) {
+			if (view.getSymbolicEditor() != null
+					&& view.getSymbolicEditor().getDrawInputBox() == this) {
 				view.getSymbolicEditor().applyAndHidDeferred();
 			}
 			return;
@@ -603,7 +604,7 @@ public class DrawInputBox extends CanvasDrawable {
 		hideTextField();
 		view.attachSymbolicEditor(geoInputBox, textRenderer.measureBounds(
 				view.getGraphicsForPen(), geoInputBox,  textFont, labelDesc));
-		geoInputBox.update();
+		update();
 		view.repaintView();
 	}
 
@@ -657,8 +658,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * Set this true if an editor is active for this input box
 	 * or false if it is not.
 	 *
-	 * @param editing
-	 * 			to set.
+	 * @param editing to set
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;

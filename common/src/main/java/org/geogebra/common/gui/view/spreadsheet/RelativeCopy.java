@@ -34,8 +34,8 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.gwtproject.regexp.shared.MatchResult;
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.MatchResult;
+import org.geogebra.regexp.shared.RegExp;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -287,7 +287,7 @@ public class RelativeCopy {
 					"Error from RelativeCopy.doCopy:\r\n" + msg);
 		} catch (Exception ex) {
 			// kernel.getApplication().showError(ex.getMessage());
-			ex.printStackTrace();
+			Log.debug(ex);
 			return false;
 		} finally {
 			cons.stopCollectingRedefineCalls();
@@ -659,7 +659,7 @@ public class RelativeCopy {
 				value2.setColorFunction(newColorFunction);
 				// value2.update();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				return null;
 			}
 		}

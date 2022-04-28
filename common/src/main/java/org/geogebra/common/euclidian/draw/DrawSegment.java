@@ -20,10 +20,12 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -35,6 +37,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -65,6 +68,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	private SegmentBoundingBox boundingBox;
 	private GPoint2D endPoint = new GPoint2D();
+	private DrawSegmentWithEndings segmentWithEndings = null;
 
 	/**
 	 * Creates new DrawSegment
@@ -78,7 +82,9 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		this.view = view;
 		this.s = s;
 		geo = (GeoElement) s;
-
+		if (geo instanceof GeoSegment) {
+			segmentWithEndings = new DrawSegmentWithEndings(this);
+		}
 		update();
 	}
 
@@ -121,7 +127,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		update(A, B);
-		if (geo.isShape()) {
+		if (view.getApplication().isWhiteboardActive()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 				// for segment only two handler
@@ -410,68 +416,87 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		if (isVisible) {
-			if (isHighlighted()) {
-				g2.setPaint(geo.getSelColor());
-				g2.setStroke(selStroke);
-				g2.draw(line);
-			}
-
-			g2.setPaint(getObjectColor());
-			g2.setStroke(objStroke);
-			g2.draw(line);
-
-			// decoTicks is null for zero length segments
-			if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
-					&& decoTicks != null) {
-				g2.setStroke(decoStroke);
-
-				switch (geo.getDecorationType()) {
-				default:
-					// do nothing
-					break;
-				case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
-					g2.draw(decoTicks[0]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					g2.draw(decoTicks[2]);
-					break;
-				case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					g2.draw(decoTicks[2]);
-					g2.draw(decoTicks[3]);
-					break;
-
-				case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
-					g2.draw(decoTicks[0]);
-					g2.draw(decoTicks[1]);
-					g2.draw(decoTicks[2]);
-					g2.draw(decoTicks[3]);
-					g2.draw(decoTicks[4]);
-					g2.draw(decoTicks[5]);
-					break;
+			if (hasSegmentStyle()) {
+				drawLineMiddleDecoration(g2);
+				drawLabelIfVisible(g2);
+				drawSegmentWithEndings(g2);
+			} else {
+				if (isHighlighted()) {
+					drawHighlighted(g2, line);
 				}
+				drawLineMiddleDecoration(g2);
+				drawLabelIfVisible(g2);
+				drawSimpleSegment(g2);
 			}
-			// END
+		}
+	}
 
-			if (labelVisible) {
-				g2.setPaint(geo.getLabelColor());
-				g2.setFont(view.getFontLine());
-				drawLabel(g2);
+	private void drawSimpleSegment(GGraphics2D g2) {
+		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
+		g2.draw(line);
+	}
+
+	private void drawSegmentWithEndings(GGraphics2D g2) {
+		if (segmentWithEndings != null) {
+			segmentWithEndings.draw(g2);
+		}
+	}
+
+	private void drawLineMiddleDecoration(GGraphics2D g2) {
+		// decoTicks is null for zero length segments
+		g2.setColor(getObjectColor());
+		if (geo.getDecorationType() != GeoElementND.DECORATION_NONE
+				&& decoTicks != null) {
+			g2.setStroke(decoStroke);
+
+			switch (geo.getDecorationType()) {
+			default:
+				// do nothing
+				break;
+			case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
+				g2.draw(decoTicks[0]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				g2.draw(decoTicks[2]);
+				break;
+			case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				g2.draw(decoTicks[2]);
+				g2.draw(decoTicks[3]);
+				break;
+
+			case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
+				g2.draw(decoTicks[0]);
+				g2.draw(decoTicks[1]);
+				g2.draw(decoTicks[2]);
+				g2.draw(decoTicks[3]);
+				g2.draw(decoTicks[4]);
+				g2.draw(decoTicks[5]);
+				break;
 			}
+		}
+	}
+
+	private void drawLabelIfVisible(GGraphics2D g2) {
+		if (labelVisible) {
+			g2.setPaint(geo.getLabelColor());
+			g2.setFont(view.getFontLine());
+			drawLabel(g2);
 		}
 	}
 
@@ -479,7 +504,11 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.draw(line);
+		if (hasSegmentStyle()) {
+			g2.fill(getDecoratedShape());
+		} else {
+			g2.draw(line);
+		}
 	}
 
 	@Override
@@ -554,20 +583,31 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return line != null
-				&& line.intersects(x - hitThreshold, y - hitThreshold,
+		return getDecoratedShape() != null
+				&& getDecoratedShape().intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
+	}
+
+	private GShape getDecoratedShape() {
+		return hasSegmentStyle()
+				? segmentWithEndings.getShape()
+				: line;
+	}
+
+	private boolean hasSegmentStyle() {
+		return geo instanceof GeoSegment
+			&& ((GeoSegment) geo).hasSegmentStyle();
 	}
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		return line != null && rect.contains(line.getP1())
-				&& rect.contains(line.getP2());
+		GShape decoratedShape = getDecoratedShape();
+		return decoratedShape != null && rect.contains(decoratedShape.getBounds());
 	}
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return line.intersects(rect);
+		return getDecoratedShape().intersects(rect);
 	}
 
 	@Override
@@ -625,7 +665,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);
 		s.getParentAlgorithm().update();
-		s.updateRepaint();
+		view.getKernel().notifyRepaint();
 	}
 
 	@Override
@@ -653,5 +693,21 @@ public class DrawSegment extends SetDrawable implements Previewable {
 
 	public GLine2D getLine() {
 		return line;
+	}
+
+	void drawHighlighted(GGraphics2D g2, GShape shape) {
+				g2.setPaint(geo.getSelColor());
+				g2.setStroke(selStroke);
+				g2.draw(shape);
+	}
+
+	void fillShape(GGraphics2D g2, GShape lineWithEnds) {
+		g2.setStroke(decoStroke);
+		g2.setColor(getObjectColor());
+		g2.fill(lineWithEnds);
+	}
+
+	public GBasicStroke getObjStroke() {
+		return objStroke;
 	}
 }

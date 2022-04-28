@@ -70,12 +70,12 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		if (cellEditor == null) {
 			return null;
 		}
-		
+
 		Double value = null;
 		try {
 			value = Double.parseDouble(cellEditor.getText());
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			// not a number
 		}
 		return value;
 	}
@@ -103,7 +103,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		clearSelectedRowStyle();
 		RowFormatter rf = getRowFormatter();
 		rf.setStyleName(row, style);
-		selectedRow = row;	
+		selectedRow = row;
 	}
 	
 	/**
@@ -128,8 +128,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 		
 	protected void updateCell(int row, int col, DataCell value) {
-		//App.debug(TABLE_PREFIX + "updating cell at row: " + row 
-		//		+ " col: " + col);
 		Widget widget = getWidget(row, col);
 		
 		if (widget != null) {

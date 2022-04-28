@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 
@@ -93,7 +94,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	void requestFocus();
 
-	void setAltText();
+	void setAltText(GeoText altText);
 
 	void getExportSVG(double scale, boolean transparency, Consumer<String> callback);
 

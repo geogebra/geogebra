@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
@@ -53,11 +54,8 @@ class NamePanel extends OptionPanel
 	private ShowLabelModel showLabelModel;
 
 	/**
-	 *
-	 * @param app
-	 * 				The application.
-	 * @param showLabelModel
-	 * 				Model for showing/hiding label.
+	 * @param app The application.
+	 * @param showLabelModel Model for showing/hiding label.
 	 */
 	NamePanel(final AppW app, ShowLabelModel showLabelModel) {
 		this.app = app;
@@ -177,7 +175,12 @@ class NamePanel extends OptionPanel
 			autoShowCaption();
 		}
 		model.applyCaptionChange(tfCaption.getText());
-		((EuclidianViewW) app.getActiveEuclidianView()).doRepaint();
+		EuclidianView activeEuclidianView = app.getActiveEuclidianView();
+
+		// to avoid casting error in 3D
+		if (activeEuclidianView instanceof EuclidianViewW) {
+			((EuclidianViewW) activeEuclidianView).doRepaint();
+		}
 	}
 
 	private void autoShowCaption() {

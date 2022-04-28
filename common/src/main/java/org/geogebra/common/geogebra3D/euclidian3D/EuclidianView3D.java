@@ -539,6 +539,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void add(GeoElement geo) {
 		if (geo.isVisibleInView3D()) {
 			createAndAddDrawable(geo);
+			repaintView();
 		}
 	}
 
@@ -4455,7 +4456,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public final void setViewShowAllObjects(boolean storeUndo,
 			boolean keepRatio) {
-    	if (isZoomable()) {
+		if (isZoomable()) {
 			setViewShowAllObjects(storeUndo, keepRatio, 15);
 		}
 	}
@@ -4874,16 +4875,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public void setExport3D(final Format format) {
-		renderer.setExport3D(new Runnable() {
-			@Override
-			public void run() {
-				ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(EuclidianView3D.this,
-						renderer.getGeometryManager());
-				StringBuilder export = exportToPrinter.export(format);
-				getApplication().exportStringToFile(format.getExtension(),
-						export.toString());
-			}
+	public void setExport3D(final Format format, boolean showDialog) {
+		renderer.setExport3D(() -> {
+			ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this,
+					renderer.getGeometryManager());
+			StringBuilder export = exportToPrinter.export(format);
+			getApplication().exportStringToFile(format.getExtension(),
+					export.toString(), showDialog);
 		});
 	}
 
@@ -5192,14 +5190,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param point
 	 *            point
 	 */
-    public void enlargeClippingForPoint(GeoPointND point) {
-    	if (isXREnabled() || isUnity()) {
-            if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
-                setViewChangedByZoom();
-                setWaitForUpdate();
-            }
-        }
-    }
+	public void enlargeClippingForPoint(GeoPointND point) {
+		if (isXREnabled() || isUnity()) {
+			if (clippingCubeDrawable.enlargeFor(point.getInhomCoordsInD3())) {
+				setViewChangedByZoom();
+				setWaitForUpdate();
+			}
+		}
+	}
 
 	/**
 	 * enlarge clipping for AR

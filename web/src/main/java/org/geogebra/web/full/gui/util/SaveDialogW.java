@@ -24,12 +24,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -61,7 +61,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param factory
 	 *            widget factory
 	 */
@@ -126,8 +126,8 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	}
 
 	private FlowPanel getCheckboxPanel() {
-		Label templateTxt = new Label(loc.getMenu("saveTemplate"));
-		templateCheckbox = new ComponentCheckbox(false, templateTxt, null);
+		templateCheckbox = new ComponentCheckbox(app.getLocalization(), false,
+				"saveTemplate");
 		return templateCheckbox;
 	}
 

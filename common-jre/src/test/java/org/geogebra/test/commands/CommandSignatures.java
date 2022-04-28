@@ -14,7 +14,7 @@ public class CommandSignatures {
 	 *            command name
 	 * @return numbers of arguments per syntax
 	 */
-	public static List<Integer> getSigneture(String cmdName, App app) {
+	public static List<Integer> getSignature(String cmdName, App app) {
 		if ("ExportImage".equals(cmdName)) {
 			return Arrays.asList(0, 2, 4, 6);
 		}

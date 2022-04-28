@@ -65,6 +65,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean numeric = true;
 
 	private boolean niceQuotes = false;
+	private boolean printsUnicodeSqrt = false;
 
 	private boolean shouldPrintMethodsWithParenthesis;
 	private boolean forEditorParser = false;
@@ -157,6 +158,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		algebraTemplate.niceQuotes = true;
 		algebraTemplate.allowPiHack = false;
+		algebraTemplate.printsUnicodeSqrt = true;
 	}
 
 	/**
@@ -341,22 +343,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		editTemplate.changeArcTrig = false;
 		initForEditing(editorTemplate);
 		editorTemplate.forEditorParser = true;
-	}
-
-	/**
-	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel
-	 * settings, string type is XML
-	 */
-	public static final StringTemplate regression = new StringTemplate(
-			"regression");
-
-	static {
-		regression.sf = FormatFactory.getPrototype().getScientificFormat(6, 20,
-				false);
-		regression.nf = FormatFactory.getPrototype().getNumberFormat(6);
-		regression.forceSF = true;
-		regression.setType(StringType.GEOGEBRA_XML);
-		regression.changeArcTrig = false;
 	}
 
 	/**
@@ -3182,6 +3168,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * @return true if prints sqrt in unicode
+	 */
+	public boolean printsUnicodeSqrt() {
+		return printsUnicodeSqrt;
+	}
+
+	/**
 	 * Split eg 3.1E10 to 3.1 and 10; keep small numbers.
 	 *
 	 * @param decimal
@@ -3624,5 +3617,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(localization.getComma());
 			appendOptionalSpace(sb);
 		}
+	}
+
+	public boolean isForEditorParser() {
+		return forEditorParser;
 	}
 }

@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -84,7 +85,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		GeoEvaluatable, FunctionalNVar, GeoFunctionable, Region,
 		CasEvaluableFunction, ParametricCurve, Dilateable,
 		Transformable, InequalityProperties, SurfaceEvaluable, GeoLocusable,
-		Lineable2D {
+		Lineable2D, Functional {
 
 	/** inner function representation */
 	protected Function fun;
@@ -219,30 +220,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				}
 			};
 
-			/*
-			 * Iterator it = iPoly.poly.getVariables().iterator();
-			 * ExpressionNode iPolyEN =
-			 * (ExpressionNode)iPoly.poly.deepCopy(kernel); ExpressionNode gEN =
-			 * (ExpressionNode)g.getFunctionExpression().deepCopy(kernel);
-			 * ExpressionValue varX = null; ExpressionValue varY = null;
-			 * ExpressionValue vargX = null; vargX =
-			 * g.getFunction().getFunctionVariable(); if (it.hasNext()) varX =
-			 * (ExpressionValue)it.next(); if (it.hasNext()) varY =
-			 * (ExpressionValue)it.next();
-			 * 
-			 * if (vargX!= null && varX !=null && varY !=null) {
-			 * 
-			 * ExpressionNode dummyX = new ExpressionNode(); gEN =
-			 * gEN.replaceAndWrap(g.getFunction().getFunctionVariable(),
-			 * dummyX); iPolyEN = iPolyEN.replaceAndWrap(varY, gEN); gEN =
-			 * gEN.replaceAndWrap(dummyX, vargX);
-			 * 
-			 * }
-			 */
-
-			// }
-
-			// g.getFunction().getFunctionVariable();
 			// TODO: set the correct expression
 			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
 
@@ -930,17 +907,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return "?";
 	}
 
-	/**
-	 * save object in xml format
-	 */
 	@Override
-	public void getXML(boolean getListenersToo, StringBuilder sbxml) {
+	public void getExpressionXML(StringBuilder sbxml) {
 		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label=\"");
+			sbxml.append("<expression label=\"");
 			sbxml.append(label);
 			sbxml.append("\" exp=\"");
 			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
@@ -948,15 +921,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			sbxml.append(getFunctionType());
 			sbxml.append("\"/>\n");
 		}
+	}
 
-		getElementOpenTagXML(sbxml);
-		getXMLtags(sbxml);
-		getCaptionXML(sbxml);
+	@Override
+	public void getXMLtags(StringBuilder sbxml) {
+		super.getXMLtags(sbxml);
 		printCASEvalMapXML(sbxml);
-		if (getListenersToo) {
-			getListenerTagsXML(sbxml);
-		}
-		sbxml.append("</element>\n");
 	}
 
 	/**
@@ -972,8 +942,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sbxml) {
-		super.getXMLtags(sbxml);
+	protected void getStyleXML(StringBuilder sbxml) {
+		super.getStyleXML(sbxml);
 
 		// line thickness and type
 		getLineStyleXML(sbxml);
@@ -1573,6 +1543,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt,
 			FunctionalNVar rt) {
+		// at least one of lt, rt should be defined so that we have a source of function variables
+		if (lt.getFunction() == null) {
+			return undefine(rt.getFunction().deepCopy(rt.getKernel()));
+		}
+		if (rt.getFunction() == null) {
+			return undefine(lt.getFunction().deepCopy(lt.getKernel()));
+		}
 		Kernel kernel = lt.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
@@ -1595,10 +1572,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		f.initFunction();
 
 		return f;
-		// AlgoDependentFunction adf = new
-		// AlgoDependentFunction(fun1.getConstruction(),f);
-		// return adf.getFunction();
+	}
 
+	private static FunctionNVar undefine(FunctionNVar deepCopy) {
+		deepCopy.setExpression(new ExpressionNode(deepCopy.getKernel(), Double.NaN));
+		return deepCopy;
 	}
 
 	/**
@@ -2047,7 +2025,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				}
 			}
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -2240,7 +2218,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 								verticalSB.append(asymptoteX.getValue());
 							}
 						} catch (Throwable e) {
-							e.printStackTrace();
+							Log.debug(e);
 						}
 					}
 
@@ -2248,7 +2226,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 
 		} catch (Throwable t) {
-			t.printStackTrace();
+			Log.debug(t);
 		}
 	}
 

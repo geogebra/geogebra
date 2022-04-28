@@ -55,6 +55,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.getMathField().setChangeListener(this);
 		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
 		editor.getMathField().setMinHeight(DrawInputBox.SYMBOLIC_MIN_HEIGHT);
+		editor.getMathField().setRightMargin(8);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
@@ -110,7 +111,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		boolean textMode = isTextMode();
 		editor.setTextMode(textMode);
 		if (textMode) {
-			editor.getMathField().setPlainText(text);
+			getMathFieldInternal().setPlainText(text);
 		} else {
 			editor.getMathField().parse(text);
 		}
@@ -149,7 +150,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public void onKeyTyped(String key) {
 		updateTop();
 		addDegree(key, editor.getMathField().getInternal());
-		getGeoInputBox().update();
+		getDrawInputBox().update();
 		editor.scrollHorizontally();
 		editor.updateAriaLabel();
 		dispatchKeyTypeEvent(key);
@@ -157,11 +158,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	private void dispatchKeyTypeEvent(String key) {
 		Event event = new Event(EventType.EDITOR_KEY_TYPED);
-		if (key != null) {
-			HashMap<String, Object> jsonArgument = new HashMap<>();
-			jsonArgument.put("key", key);
-			event.setJsonArgument(jsonArgument);
-		}
+		HashMap<String, Object> jsonArgument = new HashMap<>();
+		jsonArgument.put("key", key == null ? "" : key);
+		jsonArgument.put("label", getGeoInputBox() != null
+				? getGeoInputBox().getLabelSimple() : "");
+
+		event.setJsonArgument(jsonArgument);
 		app.dispatchEvent(event);
 	}
 
@@ -200,7 +202,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public void onCursorMove() {
+	public boolean onArrowKeyPressed(int keyCode) {
 		editor.scrollHorizontally();
+		return false;
 	}
 }

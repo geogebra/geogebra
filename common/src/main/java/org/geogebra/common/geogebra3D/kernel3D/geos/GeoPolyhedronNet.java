@@ -48,13 +48,6 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(getArea()));
-		return sbToString.toString();
-	}
-
-	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
 	}

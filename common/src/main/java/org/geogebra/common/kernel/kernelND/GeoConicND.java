@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
@@ -145,9 +146,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	private GeoVec2D c = new GeoVec2D(kernel);
 	/** error DetS */
 	public double errDetS = Kernel.STANDARD_PRECISION;
-
-	private boolean isShape = false;
-	private double[] tmpDouble4;
 
 	private double[] coeffs = new double[6];
 
@@ -334,94 +332,35 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * compute closest t parameter to point P
-	 * 
-	 * @param P
-	 *            point
-	 * @return t parameter
-	 */
-	public double getClosestParameterForParabola(GeoPointND P) {
-		Coords coords = P.getCoordsInD2(getCoordSys());
-		coordsRWtoEV(coords);
-		double x = coords.getX();
-		double y = coords.getY();
-		if (tmpDouble4 == null) {
-			tmpDouble4 = new double[4];
-		}
-
-		// solve PM.dM=0
-		tmpDouble4[3] = p / 2;
-		tmpDouble4[2] = 0;
-		tmpDouble4[1] = p - x;
-		tmpDouble4[0] = -y;
-
-		int nRoots = EquationSolver.solveCubicS(tmpDouble4,
-				tmpDouble4, Kernel.STANDARD_PRECISION);
-
-		// find closest root
-		double dist = Double.POSITIVE_INFINITY;
-		double param = 0;
-		for (int i = 0; i < nRoots; i++) {
-			double t = tmpDouble4[i];
-			double yt = p * t;
-			double xt = yt * t / 2.0;
-			double dx = xt - x;
-			double dy = yt - y;
-			double d = dx * dx + dy * dy;
-			if (d < dist) {
-				dist = d;
-				param = t;
-			}
-
-			// //debug
-			// coords.setX(xt);
-			// coords.setY(yt);
-			// coords.setZ(1);
-			// coordsEVtoRW(coords);
-			// Log.debug("root #" + i + ": (" + coords.getX() + ","
-			// + coords.getY() + ") , d=" + d);
-		}
-		return param;
-	}
-
-	/**
-	 * 
-	 * @param t
-	 *            parameter on parabola
-	 * @return curvature value
-	 */
-	public double evaluateCurvatureForParabola(double t) {
-		double s = Math.sqrt(1 + t * t);
-		return 1 / (p * s * s * s);
-	}
-
-	/**
 	 * evaluate first derivative for parameter t
 	 * 
-	 * @param t
-	 *            parameter
-	 * @param result
+	 * @param pt
+	 *            point (if not on conic, closest point is used)
+	 * @param f1
 	 *            (x,y) first derivative
+	 *
 	 */
-	public void evaluateFirstDerivativeForParabola(double t, double[] result) {
-		Coords eigenvec0 = getEigenvec(0);
-		Coords eigenvec1 = getEigenvec(1);
-		result[0] = p * (t * eigenvec0.getX() + eigenvec1.getX());
-		result[1] = p * (t * eigenvec0.getY() + eigenvec1.getY());
+	public void evaluateFirstDerivative(GeoPointND pt, double[] f1) {
+		Coords coords = pt.getCoordsInD2(getCoordSys());
+		PathParameter pp = new PathParameter();
+		pathChanged(coords, pp);
+		double x = coords.getX();
+		double y = coords.getY();
+		double fx = matrix[0] * x + matrix[3] * y + matrix[4];
+		double fy = matrix[1] * y + matrix[3] * x + matrix[5];
+		f1[1] = fy;
+		f1[0] = fx;
 	}
 
 	/**
-	 * evaluate second derivative for parameter t
-	 * 
-	 * @param t
-	 *            parameter
-	 * @param result
-	 *            (x,y) second derivative
+	 * @param f1 derivative (may be computed using evaluateFirstDerivative)
+	 * @return curvature; may be negative
 	 */
-	public void evaluateSecondDerivativeForParabola(double t, double[] result) {
-		Coords eigenvec0 = getEigenvec(0);
-		result[0] = p * eigenvec0.getX();
-		result[1] = p * eigenvec0.getY();
+	public double evaluateCurvatureFromDerivative(double[] f1) {
+		double fx = f1[0];
+		double fy = f1[1];
+		return (-fy * fy * matrix[0] + 2 * fx * fy * matrix[3] - fx * fx * matrix[1])
+				/ Math.pow(fx * fx + fy * fy, 1.5);
 	}
 
 	@Override
@@ -1651,35 +1590,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	public String toValueStringMinimal(StringTemplate tpl) {
-		return getXMLtagsMinimal();
-	}
-
-	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		return getXMLtagsMinimal();
-	}
-
-	/**
-	 * returns some class-specific xml tags for getConstructionRegressionOut
-	 * 
-	 * @return some class-specific xml tags for getConstructionRegressionOut
-	 */
-	protected String getXMLtagsMinimal() {
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < 5; i++) {
-			sb.append(regrFormat(matrix[i]));
-			sb.append(" ");
-		}
-		sb.append(regrFormat(matrix[5]));
-
-		return sb.toString();
-	}
-	// I'm not sure if this is the right place for the *Minimal() methods.
-	// In v3.2 they were put into kernel.GeoConic. It seems both are OK.
-	// -- Zoltan, 2011-08-01
-
-	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 		return buildValueString(tpl, matrix);
 	}
@@ -2342,7 +2252,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		// classifyConic();
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.translate(v)); // for degenerate conics
 	}
 
 	@Override
@@ -2352,6 +2262,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * translate this conic by vector (vx, vy)
+	 * Used for dragging of free conics: assumes that there are no endpoints.
 	 * 
 	 * @param vx
 	 *            x-coord of translation vector
@@ -2419,7 +2330,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		rotate(phi);
 
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.rotate(phiVal)); // for degenerate conics
 	}
 
 	/**
@@ -2445,7 +2356,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		doTranslate(qx, qy);
 
 		setAffineTransform();
-		updateDegenerates(); // for degenerate conics
+		updateDegenerates(p -> p.rotate(phiVal, point)); // for degenerate conics
 	}
 
 	@Override
@@ -2565,13 +2476,41 @@ public abstract class GeoConicND extends GeoQuadricND
 		matrix[3] *= r2;
 		matrix[4] *= r;
 		matrix[5] *= r;
+		b.dilate(factor);
+		setMidpoint(new double[] { b.getX(), b.getY() });
 	}
 
 	/**
 	 * to avoid classification in movements this method is called to update the
 	 * lines (point) of degenerate conics
 	 */
-	protected final void updateDegenerates() {
+	protected final void updateDegenerates(Consumer<GeoPointND> transform) {
+		if (lines == null) {
+			updateDegenerates();
+			return;
+		}
+		GeoPointND[] startPoints = new GeoPointND[2];
+		GeoPoint[] endPoints = new GeoPoint[2];
+		for (int i = 0; i < lines.length; i++) {
+			startPoints[i] = lines[i].getStartPoint();
+			if (startPoints[i] != null) {
+				startPoints[i] = startPoints[i].copy();
+				transform.accept(startPoints[i]);
+			}
+			endPoints[i] = lines[i].getEndPoint();
+			if (endPoints[i] != null) {
+				endPoints[i] = endPoints[i].copy();
+				transform.accept(endPoints[i]);
+			}
+		}
+		updateDegenerates();
+		for (int i = 0; i < lines.length; i++) {
+			lines[i].setStartPoint(startPoints[i]);
+			lines[i].setEndPoint(endPoints[i]);
+		}
+	}
+
+	private final void updateDegenerates() {
 		// update lines of degenerate conic
 		switch (type) {
 		default:
@@ -3574,10 +3513,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-		// line thickness and type
-		getLineStyleXML(sb);
-
+		getStyleXML(sb);
 		sb.append("\t<eigenvectors x0=\"");
 		sb.append(eigenvec[0].getX());
 		sb.append("\" y0=\"");
@@ -3596,6 +3532,13 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append(" A").append(i).append("=\"").append(matrix[i]).append("\"");
 		}
 		sb.append("/>\n");
+	}
+
+	@Override
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
+		// line thickness and type
+		getLineStyleXML(sb);
 		XMLBuilder.appendEquationTypeConic(sb, getToStringMode(), parameter);
 	}
 
@@ -3828,9 +3771,14 @@ public abstract class GeoConicND extends GeoQuadricND
 				}
 				P.setZ(1.0);
 				coordsEVtoRW(P);
-				PI.setCoords2D(P.getX(), P.getY(), P.getZ());
-				PI.updateCoordsFrom2D(false, getCoordSys());
-
+				double newX = P.getX();
+				double newY = P.getY();
+				if (!cons.isUpdateConstructionRunning()
+						|| !DoubleUtil.isEqual(newX, PI.getX2D())
+						|| !DoubleUtil.isEqual(newY, PI.getY2D())) {
+					PI.setCoords2D(P.getX(), P.getY(), P.getZ());
+					PI.updateCoordsFrom2D(false, getCoordSys());
+				}
 			}
 
 			// in some cases (e.g. ellipse becomes an hyperbola), point goes
@@ -4504,16 +4452,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	public void toParametric(String param) {
 		this.toStringMode = GeoConicND.EQUATION_PARAMETRIC;
 		this.parameter = param;
-	}
-
-	@Override
-	public boolean isShape() {
-		return isShape;
-	}
-
-	@Override
-	public void setIsShape(boolean isShape) {
-		this.isShape = isShape;
 	}
 
 	private void setModeIfEquationFormIsNotForced(int mode) {

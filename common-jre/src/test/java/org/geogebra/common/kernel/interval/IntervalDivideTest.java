@@ -22,23 +22,19 @@ public class IntervalDivideTest {
 	@Test
 	public void hasZeroByHasZeroShouldBeWhole() {
 		// Table 1 Case 1.
-		assertEquals(whole(), divide(interval(0), interval(0)));
 		assertEquals(whole(), divide(interval(0), interval(-1, 0)));
 		assertEquals(whole(), divide(interval(0), interval(-1, 1)));
-		assertEquals(whole(), divide(interval(-2, 0), interval(0)));
 		assertEquals(whole(), div(-2, 0, -1, 0));
 		assertEquals(whole(), div(-2, 0, -1, 1));
-		assertEquals(whole(), divide(interval(0, 2), interval(0)));
 		assertEquals(whole(), div(0, 2, -1, 0));
 		assertEquals(whole(), div(0, 2, -1, 1));
-		assertEquals(whole(), divide(interval(-2, 2), interval(0)));
 		assertEquals(whole(), div(-2, 2, -1, 0));
 		assertEquals(whole(), div(-2, 2, -1, 1));
 	}
 
 	@Test
 	public void negativeByZeroShouldBeEmpty() {
- 		// Table 1 Case 2.
+		// Table 1 Case 2.
 		assertEquals(undefined(), divide(interval(-2.3, -1), zero()));
 		assertEquals(undefined(), divide(interval(-25.73, -11), zero()));
 	}
@@ -500,9 +496,9 @@ public class IntervalDivideTest {
 		assertEquals(positiveInfinity(), divide(positiveInfinity(),
 				interval(12.34, 56.78)));
 		assertEquals(negativeInfinity(), divide(positiveInfinity(),
-				interval(-985.654,	-12.34)));
+				interval(-985.654, -12.34)));
 		assertEquals(whole(), divide(positiveInfinity(),
-				interval(-985.654,	12.34)));
+				interval(-985.654, 12.34)));
 	}
 
 	@Test
@@ -540,20 +536,14 @@ public class IntervalDivideTest {
 	}
 
 	@Test
-	public void divPositiveByZeroShouldBePositiveInfinity() {
-		assertEquals(positiveInfinity(), divide(interval(1), zero()));
-		assertEquals(positiveInfinity(), divide(interval(1, 1E10), zero()));
-	}
-
-	@Test
 	public void divNegativeByZeroShouldBeNegativeInfinity() {
-		assertEquals(negativeInfinity(), divide(interval(-1), zero()));
+		assertEquals(undefined(), divide(interval(-1), zero()));
 	}
 
 	@Test
 	public void divPositiveWithInverted() {
 		divByInverted(4, 14, -2, 2);
-		divByInverted(4, 14, 	0, 2);
+		divByInverted(4, 14, 0, 2);
 		divByInverted(2.4, 1E54, -1E2, 44.22);
 	}
 
@@ -569,5 +559,20 @@ public class IntervalDivideTest {
 		Interval res2 = divide(interval(a1, a2), u2);
 		Interval actual = divide(interval(a1, a2), invertedInterval(b1, b2));
 		assertEquals(IntervalOperands.union(res1, res2), actual);
+	}
+
+	@Test
+	public void divByZeroSingletonShouldBeUndefined() {
+		assertEquals(undefined(), divByZeroSingleton(Double.NEGATIVE_INFINITY, -2));
+		assertEquals(undefined(), divByZeroSingleton(-2.1, -2));
+		assertEquals(undefined(), divByZeroSingleton(-2.1, 0));
+		assertEquals(undefined(), divByZeroSingleton(0, 42.567));
+		assertEquals(undefined(), divByZeroSingleton(12.34, 42.567));
+		assertEquals(undefined(), divByZeroSingleton(12.34, Double.POSITIVE_INFINITY));
+
+	}
+
+	private Interval divByZeroSingleton(double a1, double a2) {
+		return divide(new Interval(a1, a2), zero());
 	}
 }

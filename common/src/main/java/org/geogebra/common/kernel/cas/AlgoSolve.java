@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -91,7 +92,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			sb.append("}");
 			varString = "{" + StringUtil.join(",", vars) + "}";
 		} else {
-			trig = printCAS(equations, sb)	;
+			trig = printCAS(equations, sb);
 		}
 		if (hint != null) {
 			sb.append(',');
@@ -128,7 +129,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 		} catch (Throwable e) {
 			solutions.setUndefined();
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		if (type != Commands.PlotSolve) {
 			solutions.setNotDrawable();
@@ -235,7 +236,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				definitionObject = equations2.getKernel().getParser()
 						.parseGeoGebraExpression(definition);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		sb.append(definition);

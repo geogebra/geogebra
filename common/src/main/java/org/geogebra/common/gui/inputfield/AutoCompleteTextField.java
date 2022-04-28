@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
-import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.TextObject;
 
 public interface AutoCompleteTextField
@@ -42,8 +41,6 @@ public interface AutoCompleteTextField
 	void setCaretPosition(int caretPos);
 
 	void setDictionary(boolean forCAS);
-
-	AutoCompleteDictionary getDictionary();
 
 	void setUsedForInputBox(GeoInputBox geoTextField);
 

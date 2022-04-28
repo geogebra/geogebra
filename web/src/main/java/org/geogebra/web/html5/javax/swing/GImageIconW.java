@@ -3,8 +3,7 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 public class GImageIconW extends GImageIcon implements HasResource {
 

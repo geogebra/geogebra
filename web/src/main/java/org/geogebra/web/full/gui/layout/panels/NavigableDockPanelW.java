@@ -2,9 +2,9 @@ package org.geogebra.web.full.gui.layout.panels;
 
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;

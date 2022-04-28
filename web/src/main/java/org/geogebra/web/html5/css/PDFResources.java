@@ -1,16 +1,17 @@
 package org.geogebra.web.html5.css;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
+import org.gwtproject.resources.client.TextResource;
 
+@Resource
 public interface PDFResources extends ClientBundle {
 
-	PDFResources INSTANCE = GWT.create(PDFResources.class);
+	PDFResources INSTANCE = new PDFResourcesImpl();
 
-	@Source("org/geogebra/web/resources/js/pdfjs/pdf.min.js")
+	@Source("pdfjs_dist/pdf.min.js")
 	TextResource pdfJs();
 
-	@Source("org/geogebra/web/resources/js/pdfjs/pdf.worker.min.js")
+	@Source("pdfjs_dist/pdf.worker.min.js")
 	TextResource pdfWorkerJs();
 }

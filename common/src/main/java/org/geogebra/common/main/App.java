@@ -89,10 +89,12 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.kernel.statistics.AlgoTableToChart;
@@ -405,7 +407,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
 	private final Object commandDictLock = new Object();
-	private String scriptingLanguage;
 	/**
 	 * flag for current state
 	 */
@@ -1116,9 +1117,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Converts english command name to internal command key.
 	 *
 	 * @param englishName
-	 * 				the english command name.
+	 *             the english command name.
 	 * @return the internal key of the command
-	 *
 	 */
 	public String englishToInternal(String englishName)  {
 		initTranslatedCommands();
@@ -1280,9 +1280,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			geos2.addAll(selection.getSelectedGeos());
 			for (GeoElement geo : geos2) {
 				if (filter.test(geo)) {
-					boolean removePredecessors = isCut || geo.isShape();
 					boolean isChartEmbed = geo.getParentAlgorithm() instanceof AlgoTableToChart;
-					if (removePredecessors && !isChartEmbed && geo.getParentAlgorithm() != null) {
+					if (isCut && !isChartEmbed && geo.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo.getParentAlgorithm().input) {
 							ge.removeOrSetUndefinedIfHasFixedDescendent();
 						}
@@ -1403,25 +1402,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public boolean isWindows() {
 		return false;
-	}
-
-	/**
-	 * @return the scriptingLanguage
-	 */
-	public String getScriptingLanguage() {
-		// in some files we stored language="null" accidentally
-		if ("null".equals(scriptingLanguage)) {
-			scriptingLanguage = null;
-		}
-		return scriptingLanguage;
-	}
-
-	/**
-	 * @param scriptingLanguage
-	 *            the scriptingLanguage to set
-	 */
-	public void setScriptingLanguage(String scriptingLanguage) {
-		this.scriptingLanguage = scriptingLanguage;
 	}
 
 	/**
@@ -1743,7 +1723,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param e exception
 	 */
 	public final void showGenericError(Exception e) {
-		e.printStackTrace();
+		Log.debug(e);
 		showError(getLocalization().getInvalidInputError());
 	}
 
@@ -1872,13 +1852,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
-		sb.append("<scripting");
-		if (getScriptingLanguage() != null) {
-			sb.append(" language=\"");
-			sb.append(getScriptingLanguage());
-			sb.append("\"");
-		}
-		sb.append(" blocked=\"");
+		sb.append("<scripting blocked=\"");
 		sb.append(isBlockUpdateScripts());
 
 		if (!asPreference) {
@@ -1951,18 +1925,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return the scriptingDisabled
+	 * @return whether GGBScript scripting is disabled via file XML (UI option no longer exists)
 	 */
 	public boolean isScriptingDisabled() {
 		return scriptingDisabled;
 	}
 
 	/**
-	 * @param sd
-	 *            the scriptingDisabled to set
+	 * @param disabled
+	 *            see {@link #isScriptingDisabled()}
 	 */
-	public void setScriptingDisabled(boolean sd) {
-		this.scriptingDisabled = sd;
+	public void setScriptingDisabled(boolean disabled) {
+		this.scriptingDisabled = disabled;
 	}
 
 	/**
@@ -2027,7 +2001,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			getGuiManager().updateToolbar();
 			updateKeyboard();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -2784,55 +2758,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Returns name or help for given tool
-	 *
-	 * @param mode
-	 *            mode number
-	 * @param toolName
-	 *            true for name, false for help
-	 * @return tool name or help
-	 */
-	public String getToolNameOrHelp(int mode, boolean toolName) {
-		// macro
-		String ret;
-
-		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			// MACRO
-			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			try {
-				Macro macro1 = kernel.getMacro(macroID);
-				if (toolName) {
-					// TOOL NAME
-					ret = macro1.getToolOrCommandName();
-				} else {
-					// TOOL HELP
-					ret = macro1.getToolHelp();
-				}
-			} catch (Exception e) {
-				Log.debug(
-						"Application.getModeText(): macro does not exist: ID = "
-								+ macroID);
-				// e.printStackTrace();
-				return "";
-			}
-		} else {
-			// STANDARD TOOL
-
-			if (toolName) {
-				// tool name
-				String modeText = EuclidianConstants.getModeText(mode);
-				ret = getLocalization().getMenu(modeText);
-			} else {
-				String modeText = EuclidianConstants.getModeTextSimple(mode);
-				// tool help
-				ret = getLocalization().getMenu(modeText + ".Help");
-			}
-		}
-
-		return ret;
-	}
-
-	/**
 	 * Returns name of given tool.
 	 *
 	 * @param mode
@@ -2840,7 +2765,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return name of given tool.
 	 */
 	public String getToolName(int mode) {
-		return getToolNameOrHelp(mode, true);
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolName();
+		} else {
+			String modeText = EuclidianConstants.getModeText(mode);
+			return getLocalization().getMenu(modeText);
+		}
 	}
 
 	/**
@@ -2851,7 +2782,28 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return the tool help text for the given tool.
 	 */
 	public String getToolHelp(int mode) {
-		return getToolNameOrHelp(mode, false);
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolHelp();
+		} else {
+			String modeText = EuclidianConstants.getModeTextSimple(mode);
+			return getLocalization().getMenu(modeText + ".Help");
+		}
+	}
+
+	/**
+	 * Returns the internal name for the given tool.
+	 * @param mode number
+	 * @return the tool help text for the given tool.
+	 */
+	public String getInternalToolName(int mode) {
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			Macro macro = kernel.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
+			return macro == null ? "" : macro.getToolName();
+		} else {
+			return EuclidianConstants.getModeText(mode);
+		}
+
 	}
 
 	/**
@@ -3677,11 +3629,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 							+ "\">" + xml + "</geogebra>",
 					false, true);
 		} catch (MyError err) {
-			err.printStackTrace();
+			Log.debug(err);
 			showError(err);
 			ok = false;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 			showError(Errors.LoadFileFailed);
 		}
@@ -3971,7 +3923,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				if (d != null) {
 					((DrawDropDownList) d).toggleOptions();
 				}
-
 			} else if (geo.isGeoNumeric()) {
 
 				// <Space> -> toggle slider animation off/on
@@ -4003,8 +3954,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * Update graphics view alt text.
+	 * @param geoText to set
 	 */
-	public void setAltText() {
+	public void setAltText(GeoText geoText) {
 		// ignored in desktop
 	}
 
@@ -4251,7 +4203,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return true;
 		} catch (Exception err) {
 			resetCurrentFile();
-			err.printStackTrace();
+			Log.debug(err);
 			return false;
 		}
 	}
@@ -4372,7 +4324,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return relation tool dialog
 	 */
-	public RelationPane getRelationDialog() {
+	public RelationPane getRelationDialog(String subTitle) {
 		// overridden in web
 		return null;
 	}
@@ -4400,11 +4352,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void batchUpdateStart() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(true);
 	}
 
 	public void batchUpdateEnd() {
-		// used in android
+		kernel.notifyTableViewAboutBatchUpdate(false);
 	}
 
 	/**
@@ -4687,11 +4639,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * set export will be done on next 3D frame
 	 *
-	 * @param format
-	 *            export format
+	 * @param format - export format
 	 */
 	public void setExport3D(Format format) {
-		companion.setExport3D(format);
+		companion.setExport3D(format, true);
+	}
+
+	/**
+	 * export directly
+	 * @param format - export format
+	 */
+	public void setDirectExport3D(Format format) {
+		companion.setExport3D(format, false);
 	}
 
 	public boolean isPortrait() {
@@ -4794,13 +4753,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 *
-	 * @param ext
-	 *            extension
-	 * @param content
-	 *            contents of file
-	 *
+	 * @param ext - extension
+	 * @param content - contents of file
+	 * @param showDialog - whether should show dialog
 	 */
-	public void exportStringToFile(String ext, String content) {
+	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		// needs to be implemented in subclasses
 	}
 
@@ -4838,13 +4795,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            corner 1
 	 * @param c2
 	 *            corner 2
-	 * @param c4
-	 *            corner 4
 	 * @return image
 	 */
 	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners, String c1,
-			String c2, String c4) {
+			String imgBase64, GeoImage imageOld, boolean autoCorners, GeoPointND c1,
+			GeoPointND c2) {
 		return null;
 	}
 

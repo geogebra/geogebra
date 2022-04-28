@@ -261,8 +261,8 @@ public class Interval {
 		}
 
 		return inverted == other.inverted
-				&& DoubleUtil.isEqual(low, other.low, 1E-7)
-				&& DoubleUtil.isEqual(high, other.high, 1E-7);
+				&& DoubleUtil.isEqual(low, other.low, PRECISION)
+				&& DoubleUtil.isEqual(high, other.high, PRECISION);
 	}
 
 	/**
@@ -270,7 +270,17 @@ public class Interval {
 	 * @return this as result.
 	 */
 	public Interval multiplicativeInverse() {
+		if (isZeroWithDelta(1E-6)) {
+			setUndefined();
+			return this;
+		}
 		return IntervalOperands.divide(IntervalConstants.one(), this);
+	}
+
+	private boolean isZeroWithDelta(double delta) {
+		return DoubleUtil.isEqual(low, 0, delta)
+				&& DoubleUtil.isEqual(high, 0, delta);
+
 	}
 
 	void setWhole() {
@@ -301,8 +311,12 @@ public class Interval {
 	 * @param high higher bound.
 	 */
 	public void set(double low, double high) {
-		this.low = low;
-		this.high = high;
+		this.low = filterNegativeZero(low);
+		this.high = filterNegativeZero(high);
+	}
+
+	private double filterNegativeZero(double value) {
+		return DoubleUtil.isEqual(-0.0, value, 0) ? 0 : value;
 	}
 
 	/**
@@ -394,8 +408,7 @@ public class Interval {
 	 * @return if interval is [0].
 	 */
 	public boolean isZero() {
-		return DoubleUtil.isEqual(low, 0, PRECISION)
-				&& DoubleUtil.isEqual(high, 0, PRECISION);
+		return isZeroWithDelta(PRECISION);
 	}
 
 	public boolean contains(double value) {

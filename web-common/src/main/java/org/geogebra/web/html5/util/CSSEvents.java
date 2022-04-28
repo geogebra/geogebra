@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util;
 
-import org.gwtproject.regexp.shared.RegExp;
+import org.geogebra.regexp.shared.RegExp;
 
 import com.google.gwt.dom.client.Element;
 
@@ -36,18 +36,6 @@ public class CSSEvents {
 		}
 
 		DomGlobal.setTimeout((_0) -> callback.handleEvent(null), 0);
-	}
-
-	/**
-	 * @param runnable
-	 *            transition callback
-	 * @param root
-	 *            the transition element
-	 * @param classname
-	 *            class to be checked for transition and removed afterwards
-	 */
-	public static void runOnTransition(Runnable runnable, Element root, String classname) {
-		runOnEvent(runnable, "transitionend", Js.uncheckedCast(root), classname);
 	}
 
 	/**

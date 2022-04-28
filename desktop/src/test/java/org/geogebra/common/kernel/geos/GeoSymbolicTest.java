@@ -1057,6 +1057,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testIntegralIf() {
+		add("a(x)=If(0<x<=1,x,1<x<=2,2-x)");
+		GeoElement element = add("Integral(a)");
+		assertThat(element.toString(StringTemplate.defaultTemplate),
+				equalTo("f(x) = If(0 < x ≤ 1, 1 / 2 x², 1 < x ≤ 2, -1 / 2 x² + 2x) + c_{1}"));
+	}
+
+	@Test
 	public void testShorthandIfAccepted() {
 		kernel.setUndoActive(true);
 		kernel.initUndoInfo();
@@ -1065,13 +1073,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		undoRedo();
 		GeoElement element = lookup("f");
 		assertThat(element.toString(StringTemplate.defaultTemplate),
-				equalTo("f(x) = If(5 > x,x²)"));
-	}
-
-	@Test
-	public void testIfArgumentFiltered() {
-		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
-		assertThat(element.getTwinGeo(), is(nullValue()));
+				equalTo("f(x) = If(5 > x, x²)"));
 	}
 
 	@Test
@@ -1114,7 +1116,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(realNumber, hasValue("1111111111111111111111 / 500000000000000000000"));
 
 		GeoSymbolic smallNumber = add("2E-20");
-		assertThat(smallNumber,	hasValue("1 / 50000000000000000000"));
+		assertThat(smallNumber, hasValue("1 / 50000000000000000000"));
 
 		GeoSymbolic bigNumber = add("1.2345678934534545345345E20");
 		assertThat(bigNumber, hasValue("2469135786906909069069 / 20"));
@@ -1305,7 +1307,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
 		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
-				equalTo("NSolve(eq1,x)"));
+				equalTo("NSolve(eq1, x)"));
 	}
 
 	@Test
@@ -1657,5 +1659,33 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testApproxResultForLargePowers() {
 		String result = AppD.MAC_OS ? "0.9794246092973" : "0.979424609317";
 		t("0.99999874^16500", result);
+	}
+
+	@Test
+	public void testSolutionsString() {
+		GeoSymbolic solutions = add("Solutions(x^2=5)");
+		assertThat(AlgebraItem.getLatexString(solutions, null, false),
+				equalTo("l1\\, = \\,\\left\\{-\\sqrt{5}, \\sqrt{5}\\right\\}"));
+	}
+
+	@Test
+	public void testLengthImprovements() {
+		t("Length(5+5i)", "5 * sqrt(2)");
+		t("Length(t e x t)", "?");
+
+		add("a=Curve(t,t^2,t,0,5)");
+		t("Length(a)", "?");
+
+		add("b=Curve(t,t^2,t-1,t,0,5)");
+		t("Length(b)", "?");
+
+		t("Length(-5)", "?");
+		t("Length((3,4))", "5");
+		t("Length((3,4,5))", "5 * sqrt(2)");
+		t("Length({1,2,3})", "3");
+		t("Length((1,x))", "sqrt(x^(2) + 1)");
+		t("Length((1,2,x))", "sqrt(x^(2) + 5)");
+		t("Length(\"hello\")", "5");
+		t("Length(x-y^2=0)", "?");
 	}
 }

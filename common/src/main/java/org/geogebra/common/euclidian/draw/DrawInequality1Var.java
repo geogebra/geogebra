@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
@@ -249,15 +251,14 @@ public class DrawInequality1Var extends SetDrawable {
 	public void update() {
 		// get x-coords of the lines
 		if (varIsY) {
-			double[] roots = ineq.getZeros();
-			double[] x = new double[roots.length + 2];
+			ArrayList<Double> roots = ineq.getZeros();
+			double[] x = new double[roots.size() + 2];
 			x[0] = view.getHeight() + 10;
 			int numOfX = 1;
-			for (int i = 0; i < roots.length; i++) {
-				if (roots[i] < view.toRealWorldCoordY(-10)
-						&& roots[i] > view
-								.toRealWorldCoordY(view.getHeight() + 10)) {
-					x[numOfX++] = view.toScreenCoordY(roots[i]);
+			for (Double root : roots) {
+				if (root < view.toRealWorldCoordY(-10)
+						&& root > view.toRealWorldCoordY(view.getHeight() + 10)) {
+					x[numOfX++] = view.toScreenCoordY(root);
 				}
 			}
 			x[numOfX++] = -10;
@@ -291,15 +292,14 @@ public class DrawInequality1Var extends SetDrawable {
 			}
 			setShape(a);
 		} else {
-			double[] roots = ineq.getZeros();
-			double[] x = new double[roots.length + 2];
+			ArrayList<Double> roots = ineq.getZeros();
+			double[] x = new double[roots.size() + 2];
 			x[0] = -10;
 			int numOfX = 1;
-			for (int i = 0; i < roots.length; i++) {
-				if (roots[i] > view.toRealWorldCoordX(-10)
-						&& roots[i] < view
-								.toRealWorldCoordX(view.getWidth() + 10)) {
-					x[numOfX++] = view.toScreenCoordX(roots[i]);
+			for (Double root : roots) {
+				if (root > view.toRealWorldCoordX(-10)
+						&& root < view.toRealWorldCoordX(view.getWidth() + 10)) {
+					x[numOfX++] = view.toScreenCoordX(root);
 				}
 			}
 			x[numOfX++] = view.getWidth() + 10;

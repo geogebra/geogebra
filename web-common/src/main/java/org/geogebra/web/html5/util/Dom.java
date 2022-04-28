@@ -35,17 +35,6 @@ public final class Dom {
 	}
 
 	/**
-         * TODO remove when data-table is merged
-	 * @param selector
-	 *            CSS selector
-	 * @return Nodelist of elements found by the selector
-	 */
-	public static native com.google.gwt.dom.client.NodeList<Element> querySelectorAll(
-			String selector) /*-{
-		return $doc.querySelectorAll(selector);
-	}-*/;
-
-	/**
 	 * @param selector
 	 *            CSS selector
 	 * @return first Element found by selector className

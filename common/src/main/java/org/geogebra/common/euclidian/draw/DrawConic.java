@@ -1277,7 +1277,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		try {
 			inverse = conicTransform.createInverse();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		if (inverse == null) {
 			return;
@@ -1502,7 +1502,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// shape is null for 3D ellipse
-			if (conic.isShape()) {
+			if (view.getApplication().isWhiteboardActive()) {
 				return rectForRotatedEllipse();
 			}
 			return fillShape == null ? null : fillShape.getBounds();

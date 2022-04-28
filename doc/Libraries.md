@@ -7,9 +7,6 @@ The following tools are used as part of GeoGebra's software development process.
 
 ### Compilation 
 
-  AndroidAnnotations
-  : https://github.com/excilys/androidannotations (Apache 2.0)
-
   The Apache Commons IO Library
   : https://commons.apache.org/proper/commons-io/ (Apache Software License)
 

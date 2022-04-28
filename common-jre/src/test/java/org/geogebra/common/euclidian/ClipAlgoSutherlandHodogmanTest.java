@@ -1,10 +1,11 @@
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.junit.Test;
 
@@ -29,7 +30,12 @@ public class ClipAlgoSutherlandHodogmanTest {
 	}
 
 	private void assertOutput() {
-		assertEquals(output.toString(), processAlgo().toString());
+		List<MyPoint> actual = processAlgo();
+		for (int i = 0; i < output.size(); i++) {
+			MyPoint p = output.get(i);
+			MyPoint q = actual.get(i);
+			assertTrue(p.isEqual(q));
+		}
 	}
 
 	@Test
@@ -41,8 +47,8 @@ public class ClipAlgoSutherlandHodogmanTest {
 
 		addOutput(100, 100);
 		addOutput(0, 100);
-		addOutput(0, 0);
-		addOutput(100, 0);
+		addOutput(0, Kernel.STANDARD_PRECISION);
+		addOutput(100, Kernel.STANDARD_PRECISION);
 
 		assertOutput();
 	}
@@ -54,8 +60,8 @@ public class ClipAlgoSutherlandHodogmanTest {
 		addInput(80, 150);
 		addInput(20, 150);
 		addOutput(20, 100);
-		addOutput(20, 0);
-		addOutput(80, 0);
+		addOutput(20, Kernel.STANDARD_PRECISION);
+		addOutput(80, Kernel.STANDARD_PRECISION);
 		addOutput(80, 100);
 		assertOutput();
 	}
@@ -67,8 +73,8 @@ public class ClipAlgoSutherlandHodogmanTest {
 		addInput(80, 50);
 		addInput(20, 70);
 
-		addOutput(20, 0);
-		addOutput(80, 0);
+		addOutput(20, Kernel.STANDARD_PRECISION);
+		addOutput(80, Kernel.STANDARD_PRECISION);
 		addOutput(80, 50);
 		addOutput(20, 70);
 

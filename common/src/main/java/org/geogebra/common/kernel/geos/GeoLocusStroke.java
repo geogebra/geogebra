@@ -299,7 +299,7 @@ public class GeoLocusStroke extends GeoLocus
 	 * Splits the stroke into two separate strokes
 	 * @param rectangle the real rectangle to use for the boundary of the split
 	 * @return a list of one or two elements, containing the inside
-	 * 		and outside part of the stroke, if it exists
+	 *         and outside part of the stroke, if it exists
 	 */
 	public ArrayList<GeoElement> split(GRectangle2D rectangle) {
 		ArrayList<MyPoint> inside = new ArrayList<>();
@@ -386,10 +386,9 @@ public class GeoLocusStroke extends GeoLocus
 			splits = this.split(realRectangle);
 
 			for (GeoElement split : splits) {
-				split.setLabel(null);
 				split.setVisualStyle(this);
 				split.setEuclidianVisible(true);
-				split.update();
+				split.setLabel(null);
 			}
 
 			if (removeOriginal) {
@@ -402,7 +401,7 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * Deletes part of the pen stroke
 	 * @param rectangle the real reactangle, the inside part of which
-	 * 		should be removed from the pen stroke
+	 *                  should be removed from the pen stroke
 	 * @return true, if the pen stroke still has points left after the deletion
 	 */
 	public boolean deletePart(GRectangle2D rectangle) {
@@ -884,8 +883,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	public void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		if (!StringUtil.empty(splitParentLabel)) {
 			sb.append("\t<parentLabel val=\"");
 			sb.append(StringUtil.encodeXML(splitParentLabel));

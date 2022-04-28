@@ -19,12 +19,12 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;

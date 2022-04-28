@@ -11,8 +11,6 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author Victor Franco Espino
@@ -41,26 +39,12 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param A
 	 *            point
 	 * @param f
 	 *            curve
 	 */
-	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
-			GeoCurveCartesian f) {
-		this(cons, A, f);
-
-		if (label != null) {
-			v.setLabel(label);
-		} else {
-			// if we don't have a label we could try c
-			v.setLabel("cv");
-		}
-	}
-
-	AlgoCurvatureVectorCurve(Construction cons, GeoPoint A,
+	public AlgoCurvatureVectorCurve(Construction cons, GeoPoint A,
 			GeoCurveCartesian f) {
 		super(cons);
 		this.A = A;
@@ -93,16 +77,6 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		this.f2 = (GeoCurveCartesian) algoCAS2.getResult();
 	}
 
-	AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint a2,
-			GeoConic geoConic) {
-		this(cons, a2, geoConic);
-		if (label != null) {
-			v.setLabel(label);
-		} else {
-			v.setLabel("cv");
-		}
-	}
-
 	/**
 	 * @param cons
 	 *            construction
@@ -116,8 +90,6 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		super(cons);
 		this.A = A;
 		this.gc = geoConic;
-		f = new GeoCurveCartesian(cons);
-		gc.toGeoCurveCartesian(f);
 		// create new vector
 		v = new GeoVector(cons);
 		try {
@@ -125,8 +97,6 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		} catch (CircularDefinitionException e) {
 			// can't happen with new vectors
 		}
-
-		cas();
 
 		setInputOutput();
 		compute();
@@ -161,35 +131,25 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	@Override
 	public final void compute() {
 		try {
-			double t2, t4, x, y, evals, tvalue;
-			if (gc != null
-					&& gc.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
-				tvalue = gc.getClosestParameterForParabola(A);
-				gc.evaluateFirstDerivativeForParabola(tvalue, f1eval);
-				gc.evaluateSecondDerivativeForParabola(tvalue, f2eval);
+			double t2, t4, evals;
+			if (gc != null) {
+				gc.evaluateFirstDerivative(A, f1eval);
+				double curvature = gc.evaluateCurvatureFromDerivative(f1eval);
+				double norm = Math.hypot(f1eval[0], f1eval[1]);
+				v.x = f1eval[0] * curvature / norm;
+				v.y = f1eval[1] * curvature / norm;
 			} else {
-				if (gc != null) {
-					gc.toGeoCurveCartesian(f);
-					f.updateDistanceFunction();
-					cas();
-				}
-				tvalue = f.getClosestParameterForCurvature(A,
+				double tvalue = f.getClosestParameterForCurvature(A,
 						f.getMinParameter());
 				f1.evaluateCurve(tvalue, f1eval);
 				f2.evaluateCurve(tvalue, f2eval);
+				t2 = f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1];
+				t4 = t2 * t2;
+				evals = f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1];
+
+				v.x = ((evals / t4) * (-f1eval[1]));
+				v.y = ((evals / t4) * f1eval[0]);
 			}
-			t2 = f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1];
-			t4 = t2 * t2;
-			evals = f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1];
-
-			Coords coords = A.getCoordsInD2();
-			double ax = coords.getX() / coords.getZ();
-			double ay = coords.getY() / coords.getZ();
-			x = ax + ((evals / t4) * (-f1eval[1]));
-			y = ay + ((evals / t4) * f1eval[0]);
-
-			v.x = x - ax;
-			v.y = y - ay;
 			v.z = 0.0;
 		} catch (Exception e) {
 			// in case something went wrong, e.g. derivatives not defined

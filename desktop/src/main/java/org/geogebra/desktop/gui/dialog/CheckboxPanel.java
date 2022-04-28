@@ -8,7 +8,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -54,11 +53,6 @@ class CheckboxPanel extends OptionPanel
 
 		checkbox.addItemListener(this);
 		return this;
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// nothing to do here
 	}
 
 	@Override

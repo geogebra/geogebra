@@ -1,12 +1,12 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
-import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,8 +22,6 @@ public class FileViewCommon extends MyHeaderPanel {
 	private FlowPanel contentPanel;
 	// material panel
 	private FlowPanel materialPanel;
-	private FlowPanel infoPanel;
-	private MessagePanel messagePanel;
 	private final LocalizationW loc;
 
 	/**
@@ -74,14 +72,11 @@ public class FileViewCommon extends MyHeaderPanel {
 	}
 
 	/**
-	 * Clear contents and infopanel
+	 * Clear contents
 	 */
 	public void clearPanels() {
 		if (contentPanel != null) {
 			contentPanel.clear();
-		}
-		if (infoPanel != null) {
-			infoPanel.clear();
 		}
 	}
 
@@ -93,9 +88,6 @@ public class FileViewCommon extends MyHeaderPanel {
 			if (widget instanceof MaterialCard) {
 				((MaterialCard) widget).setLabels();
 			}
-		}
-		if (messagePanel != null) {
-			setMessagePanelLabels(messagePanel);
 		}
 	}
 
@@ -121,26 +113,15 @@ public class FileViewCommon extends MyHeaderPanel {
 	}
 
 	void showEmptyListNotification() {
-		infoPanel = new FlowPanel();
-		infoPanel.setStyleName("emptyMaterialListInfo");
-
-		messagePanel = createMessagePanel();
-		infoPanel.add(messagePanel);
-
 		contentPanel.clear();
-		contentPanel.add(infoPanel);
+		contentPanel.add(getEmptyListNotificationPanel());
 	}
 
-	private MessagePanel createMessagePanel() {
-		MessagePanel panel = new MessagePanel();
-		panel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
-		setMessagePanelLabels(panel);
-		return panel;
-	}
-
-	private void setMessagePanelLabels(MessagePanel messagePanel) {
-		messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
-		messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
+	private FlowPanel getEmptyListNotificationPanel() {
+		InfoErrorData data = new InfoErrorData("emptyMaterialList.caption.mow",
+				"emptyMaterialList.info.mow");
+		ComponentInfoErrorPanel noMaterials = new ComponentInfoErrorPanel(loc, data);
+		return noMaterials;
 	}
 
 	String localize(String key) {
@@ -161,10 +142,6 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	public void clearContents() {
 		contentPanel.clear();
-	}
-
-	public void addToInfo(Widget widget) {
-		infoPanel.add(widget);
 	}
 
 	public boolean hasNoMaterials() {

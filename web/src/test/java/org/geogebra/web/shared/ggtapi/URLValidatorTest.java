@@ -3,8 +3,8 @@ package org.geogebra.web.shared.ggtapi;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.gwtproject.regexp.server.JavaRegExpFactory;
-import org.gwtproject.regexp.shared.RegExpFactory;
+import org.geogebra.regexp.server.JavaRegExpFactory;
+import org.geogebra.regexp.shared.RegExpFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

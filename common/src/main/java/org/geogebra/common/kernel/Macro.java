@@ -45,6 +45,7 @@ public class Macro {
 	private String iconFileName = ""; // image file
 	private boolean showInToolBar = true;
 
+	private Kernel macroKernel;
 	private Construction macroCons; // macro construction
 	private StringBuilder macroConsXML;
 	private GeoElement[] macroInput;
@@ -140,6 +141,15 @@ public class Macro {
 	}
 
 	/**
+	 * Returns the kernel object of this macro.
+	 *
+	 * @return kernel object of this macro.
+	 */
+	public Kernel getMacroKernel() {
+		return macroKernel;
+	}
+
+	/**
 	 * Initiates macro
 	 * 
 	 * @param macroCons1
@@ -152,6 +162,7 @@ public class Macro {
 	public void initMacro(Construction macroCons1, String[] inputLabels,
 			String[] outputLabels) {
 		this.macroCons = macroCons1;
+		this.macroKernel = macroCons.getKernel();
 		this.macroConsXML = new StringBuilder();
 		macroCons.getConstructionXML(macroConsXML, false);
 		this.macroInputLabels = inputLabels;
@@ -492,10 +503,10 @@ public class Macro {
 		} catch (MyError e) {
 			String msg = e.getLocalizedMessage();
 			Log.debug(msg);
-			e.printStackTrace();
+			Log.debug(e);
 			throw new Exception(msg);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			throw new Exception(e.getMessage());
 		}
 

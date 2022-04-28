@@ -2,10 +2,10 @@ package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.TreeSet;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -17,6 +17,7 @@ import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.Columns;
 import org.geogebra.common.io.MyXMLio;
@@ -28,8 +29,9 @@ import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -54,6 +56,7 @@ import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -156,52 +159,45 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return output from CAS
 	 */
 	@Override
-	public synchronized String evalCommandCAS(String cmdString) {
+	public synchronized String evalCommandCAS(String cmdString, String rounding) {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return "?";
 		}
 		GeoCasCell assignment = algebraprocessor.checkCasEval(cmdString,
 				"(:=?)|" + Unicode.ASSIGN_STRING);
 		if (assignment != null) {
-			return getCasCellValue(assignment);
+			return getCasCellValue(assignment, rounding);
 		}
 		// default (undefined)
 		String ret = "?";
 
 		try {
 			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-			// kernel.getConstruction().addToConstructionList(f, false);
-
 			f.setInput(cmdString);
 			f.computeOutput();
-
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<>();
-
-			f.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			ret = getCasCellValue(f);
+			ret = getCasCellValue(f, rounding);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Log.error(e);
 		}
 
 		return ret;
 	}
 
-	private String getCasCellValue(GeoCasCell f) {
-		return f.getValue() != null
-				? f.getValue().toString(StringTemplate.numericDefault)
-				: f.getOutput(StringTemplate.testTemplate);
+	private String getCasCellValue(GeoCasCell f, String rounding) {
+		StringTemplate valueTemplate = StringTemplate.numericDefault;
+		if (!StringUtil.empty(rounding)) {
+			valueTemplate = StringTemplate.printDecimals(
+					ExpressionNodeConstants.StringType.GEOGEBRA,
+					Integer.parseInt(rounding), f.includesNumericCommand());
+		}
+		ValidExpression value = f.getValue();
+		if (value == null) {
+			return f.getOutput(valueTemplate);
+		} else if (value.unwrap().isGeoElement()) {
+			return value.unwrap().toValueString(valueTemplate);
+		} else {
+			return value.toString(valueTemplate);
+		}
 	}
 
 	/**
@@ -233,43 +229,23 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		StringBuilder ret = new StringBuilder();
 
-		if (cmdString.indexOf('\n') == -1) {
-			result = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(cmdString, false);
-			// return success
-			if (result == null) {
-				kernel.setUseInternalCommandNames(oldVal);
-				return null;
-			}
+		String[] cmdStrings = cmdString.indexOf('\n') > -1
+				? cmdString.split("[\\n]+") :  new String[]{cmdString};
+		try {
+			for (String string : cmdStrings) {
+				result = kernel.getAlgebraProcessor()
+						.processAlgebraCommand(string, false);
 
-			for (GeoElementND geoElementND : result) {
-				ret.append(geoElementND.getLabelSimple());
-				ret.append(",");
-			}
-
-			if (ret.length() > 0) {
-				// remove last comma
-				ret.setLength(ret.length() - 1);
-			}
-
-			kernel.setUseInternalCommandNames(oldVal);
-			return ret.toString();
-		}
-
-		String[] cmdStrings = cmdString.split("[\\n]+");
-		for (String string : cmdStrings) {
-			result = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(string, false);
-
-			if (result != null) {
-				for (GeoElementND geoElementND : result) {
-					ret.append(geoElementND.getLabelSimple());
-					ret.append(",");
+				if (result != null) {
+					for (GeoElementND geoElementND : result) {
+						ret.append(geoElementND.getLabelSimple());
+						ret.append(",");
+					}
 				}
 			}
+		} finally {
+			kernel.setUseInternalCommandNames(oldVal);
 		}
-
-		kernel.setUseInternalCommandNames(oldVal);
 
 		if (ret.length() == 0) {
 			return null;
@@ -292,15 +268,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized String getXML(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
+		return getGeoProperty(objName, GeoElement::getXML, "");
+	}
+
+	private<T> T getGeoProperty(String label, Function<GeoElement, T> prop, T fallback) {
+		GeoElement geo = kernel.lookupLabel(label);
 		if (geo == null) {
-			return "";
+			return fallback;
 		}
-		// if (geo.isIndependent()) removed as we want a way to get the
-		// <element> tag for all objects
-		return geo.getXML();
-		// else
-		// return "";
+		return prop.apply(geo);
+	}
+
+	public synchronized String getStyleXML(String label) {
+		return getGeoProperty(label, GeoElement::getStyleXML, "");
 	}
 
 	/**
@@ -330,7 +310,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setEuclidianVisible(visible);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 	}
 
 	/**
@@ -360,7 +340,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setLayer(layer);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LAYER);
 	}
 
 	/**
@@ -391,7 +371,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			if (geo != null) {
 				if (geo.getLayer() == layer) {
 					geo.setEuclidianVisible(visible);
-					geo.updateRepaint();
+					geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 				}
 			}
 		}
@@ -430,6 +410,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 		}
 		return objList.toArray(new String[objList.size()]);
+	}
+
+	@Override
+	public String[] getSiblingObjectNames(String objName) {
+		return getGeoProperty(objName, geo -> {
+			AlgoElement parent = geo.getParentAlgorithm();
+			if (parent != null) {
+				return Arrays.stream(parent.getOutput())
+						.map(GeoElement::getLabelSimple).toArray(String[]::new);
+			} else {
+				return new String[]{objName};
+			}
+		}, null);
 	}
 
 	@Override
@@ -526,7 +519,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setObjColor(GColor.newColor(red, green, blue));
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.COLOR);
 	}
 
 	@Override
@@ -560,7 +553,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				((Locateable) loc).setStartPoint(corner, index);
 			} catch (CircularDefinitionException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 		geo.updateRepaint();
@@ -623,7 +616,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		geo.setLineThickness(thickness);
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	@Override
@@ -646,7 +639,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		if (geo instanceof PointProperties) {
 			((PointProperties) geo).setPointStyle(style);
-			geo.updateRepaint();
+			geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
 	}
 
@@ -755,6 +748,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public boolean isAnimationRunning() {
 		return kernel.getAnimatonManager().isRunning();
+	}
+
+	@Override
+	public boolean isAnimating(String label) {
+		return getGeoProperty(label, GeoElement::isAnimating, false);
 	}
 
 	@Override
@@ -868,11 +866,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean isMoveable(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null) {
-			return false;
-		}
-		return geo.isMoveable();
+		return getGeoProperty(objName, GeoElement::isMoveable, false);
 	}
 
 	/**
@@ -931,7 +925,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		geo.setLineType(EuclidianView.getLineType(style));
-		geo.updateRepaint();
+		geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 
 	/**
@@ -1028,7 +1022,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
 		StringTemplate template =
-				localized ? StringTemplate.algebraTemplate : StringTemplate.noLocalDefault;
+				localized ? StringTemplate.defaultTemplate : StringTemplate.noLocalDefault;
 
 		return geo.getAlgebraDescriptionPublic(template);
 	}
@@ -1527,10 +1521,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Cast redo
+	 * Mark state as saved
 	 */
-	public void setSaved() {
-		app.setSaved();
+	public void setSaved(boolean saved) {
+		if (saved) {
+			app.setSaved();
+		} else {
+			app.setUnsaved();
+		}
 	}
 
 	/**
@@ -1731,7 +1729,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					app.getGuiManager().updateGUIafterLoadFile(true, false);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			return;
 		}
@@ -2329,11 +2327,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return kernel.getConstruction().getObjectsOfItsGroup(object);
 	}
 
-	@Override
-	public void addToGroup(String object, String[] objectsInGroup) {
-		kernel.getConstruction().addToGroup(object, objectsInGroup);
-	}
-
 	/**
 	 * @return exercise fraction (same as getValue("correct"))
 	 */
@@ -2381,7 +2374,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public boolean hasUnlabeledPredecessors(String label) {
-		return kernel.getConstruction().hasUnlabeledPredecessors(label);
+		return kernel.getConstruction().hasUnlabeledPredecessors(kernel.lookupLabel(label));
 	}
 
 	@Override
@@ -2415,11 +2408,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void setGlobalOptions(Object options) {
 		JsObjectWrapper opts = getWrapper(options);
-		opts.ifPropertySet("labelingStyle", app::setLabelingStyle);
+		opts.ifIntPropertySet("labelingStyle", app::setLabelingStyle);
 		opts.ifIntPropertySet("fontSize", val -> app.setFontSize(val, true));
 	}
 
 	protected JsObjectWrapper getWrapper(Object options) {
+		return null;
+	}
+
+	protected JsObjectWrapper createWrapper() {
 		return null;
 	}
 
@@ -2442,6 +2439,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val3 -> es.setBackground(GColor.parseHexColor(val3)));
 		opts.ifPropertySet("gridColor",
 				(Consumer<String>) val2 -> es.setGridColor(GColor.parseHexColor(val2)));
+		opts.ifPropertySet("axesColor",
+				(Consumer<String>) val2 -> es.setAxesColor(GColor.parseHexColor(val2)));
+
 		opts.ifObjectPropertySet("axes", axes -> {
 			for (char axis = 'x'; axis <= 'z'; axis++) {
 				final int axisNo = axis - 'x';
@@ -2449,10 +2449,46 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						axisOptions -> setAxisOptions(axisNo, axisOptions, es));
 			}
 		});
+
+		opts.ifObjectPropertySet("gridDistance", distances ->
+				setGridDistances(distances, es));
 		es.endBatch();
 	}
 
+	private void setGridDistances(JsObjectWrapper distanceOptions,
+			EuclidianSettings es) {
+
+		if (isDistanceAutomatic(distanceOptions)) {
+			es.setAutomaticGridDistance(true, true);
+			return;
+		}
+		Double x = getDoubleIf(distanceOptions, "x", Double.valueOf(0));
+		Double y = getDoubleIf(distanceOptions, "y", Double.valueOf(0));
+		Double theta = getDoubleIf(distanceOptions, "theta", null);
+
+		double[] distances = theta != null
+				? new double[]{x, y, theta}
+				: new double[]{x, y};
+
+		if (distances[0] > 0 && distances[1] > 0) {
+			es.setGridDistances(distances);
+		}
+
+	}
+
+	private Double getDoubleIf(JsObjectWrapper distanceOptions, String x, Double defaultValue) {
+		return distanceOptions.getValue(x) != null
+				? (Double) distanceOptions.getValue(x)
+				: defaultValue;
+	}
+
+	private static boolean isDistanceAutomatic(JsObjectWrapper opts) {
+		return opts.getValue("x") == null && opts.getValue("y") == null;
+	}
+
 	protected void setAxisOptions(int axisNo, JsObjectWrapper axisOptions, EuclidianSettings es) {
+		axisOptions.ifPropertySet("visible",
+				(Consumer<Boolean>) val -> es.setShowAxis(axisNo, val));
 		axisOptions.ifPropertySet("positiveAxis",
 				(Consumer<Boolean>) val -> es.setPositiveAxis(axisNo, val));
 		axisOptions.ifPropertySet("showNumbers",
@@ -2464,4 +2500,63 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				(Consumer<String>) val -> es.setAxisUnitLabel(axisNo, val));
 	}
 
+	@Override
+	public Object getGraphicsOptions(int viewId) {
+		JsObjectWrapper opts = createWrapper();
+		EuclidianSettings es = app.getSettings().getEuclidian(viewId);
+		opts.setProperty("rightAngleStyle", app.rightAngleStyle);
+		opts.setProperty("pointCapturing", es.getPointCapturingMode());
+		opts.setProperty("grid", es.getShowGrid());
+		opts.setProperty("gridIsBold", es.getGridIsBold());
+		opts.setProperty("gridType", es.getGridType());
+		opts.setProperty("bgColor", StringUtil.toHtmlColor(es.getBackground()));
+		opts.setProperty("gridColor", StringUtil.toHtmlColor(es.getGridColor()));
+		opts.setProperty("axesColor", StringUtil.toHtmlColor(es.getAxesColor()));
+
+		JsObjectWrapper axes = createWrapper();
+		for (char axis = 'x'; axis <= 'z'; axis++) {
+			final int axisNo = axis - 'x';
+			axes.setProperty(String.valueOf(axis), getAxisOptions(axisNo, es).getNativeObject());
+		}
+
+		opts.setProperty("axes", axes.getNativeObject());
+		opts.setProperty("gridDistance", getGridDistance(es));
+		return opts.getNativeObject();
+	}
+
+	private Object getGridDistance(EuclidianSettings es) {
+		JsObjectWrapper opts = createWrapper();
+		if (es.getAutomaticGridDistance()) {
+			opts.setProperty("x", null);
+			opts.setProperty("y", null);
+		} else {
+			double[] distances = es.getGridDistances();
+			opts.setProperty("x", distances[0]);
+			opts.setProperty("y", distances[1]);
+			if (distances.length == 3) {
+				opts.setProperty("theta", distances[2]);
+			}
+		}
+
+		return opts.getNativeObject();
+	}
+
+	@Override
+	public void setAlgebraOptions(Object options) {
+		JsObjectWrapper opts = getWrapper(options);
+		AlgebraSettings settings = app.getSettings().getAlgebra();
+		opts.ifIntPropertySet("sortBy",
+				mode -> settings.setTreeMode(AlgebraView.SortMode.fromInt(mode)));
+	}
+
+	protected JsObjectWrapper getAxisOptions(int axisNo, EuclidianSettings es) {
+		JsObjectWrapper axisOptions = createWrapper();
+		axisOptions.setProperty("visible", es.getShowAxis(axisNo));
+		axisOptions.setProperty("positiveAxis", es.getPositiveAxes()[axisNo]);
+		axisOptions.setProperty("showNumbers", es.getShowAxisNumbers()[axisNo]);
+		axisOptions.setProperty("tickStyle", es.getAxesTickStyles()[axisNo]);
+		axisOptions.setProperty("label", es.getAxesLabels()[axisNo]);
+		axisOptions.setProperty("unitLabel", es.getAxesUnitLabels()[axisNo]);
+		return axisOptions;
+	}
 }

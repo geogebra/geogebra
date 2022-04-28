@@ -219,15 +219,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(), lt,
-					rt);
-			// b can't be null here (findbugs)
-			// if (b == null) {
-			// return ev.illegalComparison(lt, rt,
-			// ExpressionNodeConstants.strNOT_EQUAL);
-			// }
-			b.setValue(!b.getBoolean());
-			return b;
+			return new MyBoolean(ev.getKernel(), !ExpressionNode.isEqual(lt, rt));
 		}
 	},
 	EQUAL_BOOLEAN {
@@ -235,13 +227,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			// b can't be null here (findbugs)
-			// if (b == null) {
-			// return ev.illegalComparison(lt, rt,
-			// ExpressionNodeConstants.strNOT_EQUAL);
-			// }
-			return ExpressionNodeEvaluator.evalEquals(ev.getKernel(), lt,
-					rt);
+			return new MyBoolean(ev.getKernel(), ExpressionNode.isEqual(lt, rt));
 		}
 	},
 	LESS {

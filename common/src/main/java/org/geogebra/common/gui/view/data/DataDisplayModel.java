@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.data;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -11,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
+import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -536,7 +536,7 @@ public class DataDisplayModel {
 		} catch (Exception e) {
 			daModel.getDaCtrl().setValidData(false);
 			listener.showInvalidDataDisplay();
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}
@@ -671,7 +671,7 @@ public class DataDisplayModel {
 			updatePlot(true);
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			app.setDefaultCursor();
 		}
 

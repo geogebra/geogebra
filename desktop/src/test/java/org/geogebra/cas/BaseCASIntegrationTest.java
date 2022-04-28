@@ -174,4 +174,8 @@ public class BaseCASIntegrationTest {
 	protected AppDNoGui getApp() {
 		return app;
 	}
+
+	public GeoElement lookup(String label) {
+		return getApp().getKernel().lookupLabel(label);
+	}
 }

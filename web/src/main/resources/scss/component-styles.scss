@@ -13,19 +13,37 @@
 	}
 
 	.checkboxPanel {
-		display: flex;
+		display: inline-flex;
 		width: fit-content;
 		cursor: pointer;
+
+		.checkboxLbl {
+			height: auto;
+			min-height: 20px;
+			line-height: 20px;
+			margin-left: 20px;
+			margin-top: 8px;
+			margin-bottom: 8px;
+			color: colors.$text-primary;
+			font-size: 100%;
+
+			&.disabled {
+				cursor: default;
+				color: colors.$text-disabled;
+			}
+		}
 	}
 
 	.checkbox {
-		width: 18px;
-		height: 18px;
-		padding: 3px;
+		width: 36px;
+		height: 36px;
 		position: relative;
 		cursor: pointer;
 
 		.background {
+			position: absolute;
+			top: 9px;
+			left: 9px;
 			width: 18px;
 			height: 18px;
 			box-sizing: border-box;
@@ -33,17 +51,107 @@
 			border-radius: 2px;
 			border-color: colors.$black-54;
 			background-color: transparent;
-			transition: border-color 90ms cubic-bezier(0,0,.2,1) 0ms,background-color 90ms cubic-bezier(0,0,.2,1) 0ms;
+			transition: border-color 180ms cubic-bezier(0,0,.2,1) 0ms,background-color 180ms cubic-bezier(0,0,.2,1) 0ms;
 		 }
 
 		 .checkmark {
 			 position: absolute;
-			 left: 5px;
-			 top: 5px;
+			 left: 11px;
+			 top: 10px;
+			 width: 14px;
+			 height: 14px;
+			 visibility: hidden;
+
+			.checkmarkSvg {
+				-webkit-transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				-o-transition: opacity .18s 0ms cubic-bezier(0,0,.2,1),transform .18s 0ms cubic-bezier(0,0,.2,1);
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				transition: opacity .18s cubic-bezier(0,0,.2,1) 0ms,transform .18s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .18s cubic-bezier(0,0,.2,1) 0ms;
+				opacity: 1;
+			}
+
+			.checkmarkPath {
+				-webkit-transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				-o-transition: stroke-dashoffset .18s 0ms cubic-bezier(.4,0,.6,1);
+				transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms;
+				stroke: white;
+				stroke-width: 3.12px;
+				stroke-dashoffset: 29.7833385;
+				stroke-dasharray: 29.7833385;
+			}
+		 }
+
+		 .hoverBg {
+			display: inline-block;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: white;
+			opacity: 0;
+
+			&:after {
+				background-image: radial-gradient(circle, black 10%, transparent 10.01%);
+			}
 		 }
 
 		&.selected {
 			@include checkboxBg(colors.$mow_primary);
+
+			.hoverBg {
+				&:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+
+			&:hover {
+				.hoverBg {
+					opacity: 1;
+					background-color: colors.$purple-default-12;
+				}
+			}
+
+			.checkmark {
+				visibility: visible;
+
+				 .checkmarkPath {
+					stroke-dashoffset: 0;
+				}
+			}
+		}
+
+		&:hover {
+			.hoverBg {
+				opacity: 1;
+				background-color: colors.$black-08;
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+
+			.hoverBg {
+				&:after {
+					background-image: none;
+				}
+			}
+
+			&:hover {
+				.hoverBg {
+					background-color: transparent;
+				}
+			}
+
+			.background {
+				border-color: colors.$black-36;
+			}
+
+			&.selected {
+				.background {
+					background-color: colors.$black-36;
+					border-color: transparent;
+				}
+			}
 		}
 	}
 
@@ -262,35 +370,6 @@
 		}
 	}
 
-	.messagePanel {
-		img {
-			padding: 20px;
-			margin-left: calc(50% - 76px); // (112+2*20)/2=76
-			margin-bottom: 48px;
-			margin-top: 88px;
-			opacity: 0.54;
-			background-color: colors.$mow_white_hover;
-			border-radius: 50%;
-		}
-		.caption {
-			margin-bottom: 12px;
-			color: colors.$text-primary;
-			font-size: 125%;
-			line-height: 1;
-			letter-spacing: 0.25px;
-			vertical-align: top;
-			text-align: center;
-		}
-		.info {
-			color: colors.$text-secondary;
-			vertical-align: top;
-			text-align: center;
-			line-height: 1;
-			letter-spacing: 0.2px;
-			margin-bottom: 48px;
-		}
-	}
-
 	.dialogComponent.hasBorder .dialogContent {
 		box-sizing: border-box;
 		border-top: 1px solid colors.$black-12;
@@ -336,6 +415,21 @@
 				padding: 8px 8px 8px 24px;
 				position: relative;
 				float: right;
+			}
+		}
+
+		&.withSubtitle {
+			.dialogTitle {
+				margin-bottom: 8px;
+			}
+
+			.dialogSubTitle {
+				margin-bottom: 24px;
+				margin-left: 24px;
+				height: 14px;
+				font-size: 75%;
+				color: colors.$text-secondary;
+				line-height: 1.2;
 			}
 		}
 	}
@@ -530,17 +624,17 @@
 		}
 
 			.panelContainer {
-				opacity: 0.2;
 				position: relative;
 				display: inline-flex;
 				right: 0px;
-				transition: right 0.25s cubic-bezier(.35,0,.25,1);
+
+				&.transition {
+					transition: right 0.25s cubic-bezier(.35,0,.25,1);
+				}
 			}
 	}
 
 	.infoErrorPanel {
-		max-width: 420px;
-
 		img {
 			padding: 28px;
 			margin-left: calc(50% - 56px); // (56+2*28)/2=56
@@ -573,5 +667,122 @@
 			display: block;
 			margin: 24px auto 0 auto;
 		}
+	}
+
+	.radioButton {
+		cursor: pointer;
+		display: inline-flex;
+
+		.radioBg {
+			display: inline-block;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background-color: white;
+
+			.outerCircle {
+				width: 16px;
+				height: 16px;
+				margin: 8px;
+				border: 2px solid;
+				border-color: colors.$black-54;
+				border-radius: 50%;
+				transition: border-color .12s cubic-bezier(0,0,.2,1) 0ms;
+			}
+
+			.innerCircle {
+				background-color: transparent;
+				transform: scale(0);
+				transition: transform .12s cubic-bezier(0,0,.2,1) 0ms,background-color .12s cubic-bezier(0,0,.2,1) 0ms,-webkit-transform .12s cubic-bezier(0,0,.2,1) 0ms;
+			}
+		}
+
+		.gwt-Label {
+			line-height: 36px;
+			margin-left: 16px;
+			font-size: 100%;
+			color: colors.$text-primary;
+		}
+
+		&:hover {
+			.radioBg {
+				background-color: colors.$black-08;
+			}
+		}
+
+		&.selected {
+			.radioBg {
+				&:after {
+					background-image: radial-gradient(circle, colors.$purple-default 10%, transparent 10.01%);
+				}
+			}
+
+			.outerCircle {
+				border-color: colors.$purple-default;
+			}
+
+			.innerCircle {
+				transform: scale(1);
+				width: 10px;
+				height: 10px;
+				background-color: colors.$purple-default;
+				position: relative;
+				bottom: 23px;
+				left: 13px;
+				border-radius: 50%;
+			}
+
+			&.disabled {
+				.radioBg {
+					&:after {
+						background-image: none;
+					}
+				}
+
+				.innerCircle {
+					background-color: colors.$black-36;
+				}
+
+				.outerCircle {
+					border-color: colors.$black-36;
+				}
+
+				&:hover {
+					.radioBg {
+						background-color: white;
+					}
+				}
+			}
+
+			&:hover {
+				.radioBg {
+					background-color: colors.$purple-default-12;
+				}
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+
+			.radioBg {
+				background-color: white;
+			}
+
+			.outerCircle {
+				border-color: colors.$black-36;
+			}
+
+			.gwt-Label {
+				color: colors.$black-36;
+			}
+
+			&:hover {
+				background-color: white;
+			}
+		}
+	}
+
+	.radioButtonPanel {
+		display: inline-grid;
 	}
 }

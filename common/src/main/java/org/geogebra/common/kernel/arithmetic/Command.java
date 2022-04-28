@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -410,10 +411,9 @@ public class Command extends ValidExpression
 						}
 					}
 				}
-				sbToString.append(',');
-			}
-			if (size > 0) {
-				sbToString.deleteCharAt(sbToString.length() - 1);
+				if (i < size - 1) {
+					tpl.getCommaOptionalSpace(sbToString, kernel.getLocalization());
+				}
 			}
 			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\right");
@@ -541,7 +541,7 @@ public class Command extends ValidExpression
 	@Override
 	public ValueType getValueType() {
 		if ("Sequence".equals(name) || "IterationList".equals(name)
-				|| "KeepIf".equals(name)) {
+				|| "KeepIf".equals(name) || "Identity".equals(name)) {
 			return ValueType.LIST;
 		}
 		if ("Function".equals(name)) {
@@ -610,7 +610,9 @@ public class Command extends ValidExpression
 		try {
 			return evaluate(
 					StringTemplate.defaultTemplate) instanceof VectorValue;
-		} catch (MyError ex) {
+		} catch (MyError | CommandNotLoadedError ex) {
+			// if we run into command not loaded, it probably happened in Classic CAS because
+			// algebra processor is evaluating commands bottom up
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
 			if (ev != null) {
@@ -622,23 +624,7 @@ public class Command extends ValidExpression
 
 	@Override
 	public boolean evaluatesToText() {
-		if (!allowEvaluationForTypeCheck) {
-			return false;
-		}
-		if (app.getInternalCommand(name) == null
-				&& kernel.getMacro(name) == null) {
-			return false;
-		}
-		try {
-			return evaluate(StringTemplate.defaultTemplate).evaluatesToText();
-		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
-					.evaluateToExpression(this, null, kernel);
-			if (ev != null) {
-				return ev.unwrap().evaluatesToText();
-			}
-			throw ex;
-		}
+		return getValueType() == ValueType.TEXT;
 	}
 
 	@Override

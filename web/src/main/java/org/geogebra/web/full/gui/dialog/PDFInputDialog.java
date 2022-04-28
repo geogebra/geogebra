@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.PDFResources;
@@ -14,14 +15,13 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
-import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -72,15 +72,15 @@ public class PDFInputDialog extends ComponentDialog
 	 * @param app
 	 *            see {@link App}
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 */
 	public PDFInputDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
 		addStyleName("pdfDialog");
 		buildContent();
 		initActions();
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs());
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs(), true);
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs(), true);
 	}
 
 	private void buildContent() {

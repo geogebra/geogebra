@@ -266,26 +266,20 @@ api.registerObjectUpdateListener("g", "gListener");
 }
 
 if (ggbApplet.getObjectType("correct") == "numeric") {
-  //document.getElementById("ggbApplet").style.display = "none";
   document.getElementById("warning").innerHTML+= '<br><font color="darkgreen">Partial scoring enabled, maxscore = ' + maxscore + '</font>';
 } else if (ggbApplet.getObjectType("correct") != "boolean") {
-  //document.getElementById("ggbApplet").style.display = "none";
   document.getElementById("warning").innerHTML+= '<br><font size="20" color="red">"correct" object has type '+ggbApplet.getObjectType("correct")+' maxscore = ' + maxscore + '</font>';
 }
 if (ggbApplet.getObjectType("validate") != "boolean") {
-  document.getElementById("ggbApplet").style.display = "none";
   document.getElementById("warning").innerHTML+= '<br><font size="20" color="red">"validate" object missing in GeoGebra file</font>';
 }
 if (ggbApplet.getObjectType("showanswer") != "boolean") {
-  document.getElementById("ggbApplet").style.display = "none";
   document.getElementById("warning").innerHTML+= '<br><font size="20" color="red">"showanswer" object missing in GeoGebra file</font>';
 }
 if (ggbApplet.getObjectType("showsolution") != "boolean") {
-  document.getElementById("ggbApplet").style.display = "none";
   document.getElementById("warning").innerHTML+= '<br><font size="20" color="red">"showsolution" object missing in GeoGebra file</font>';
 }
 if (ggbApplet.getObjectType("Archimedean") != "" || ggbApplet.getObjectType("Prism") != "" || ggbApplet.getObjectType("Pyramid") != "") {
-  document.getElementById("ggbApplet").style.display = "none";
   document.getElementById("warning").innerHTML+= '<br><font size="20" color="red">Please make sure you delete the GeoGebra objects "Archimedean", "Prism", "Pyramid"</font>';
 }
 

@@ -50,6 +50,9 @@ public class GeoElementPropertiesFactory {
 	 */
 	public static PropertiesArray createGeoElementProperties(
 			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
+		if (elements.isEmpty()) {
+			return new PropertiesArray("");
+		}
 		List<Property> properties = new ArrayList<>();
 		addPropertyIfNotNull(properties, createNameProperty(localization, elements));
 		addPropertyIfNotNull(properties, createMinProperty(processor, localization, elements));
@@ -262,7 +265,13 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-	private static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
+	/**
+	 * Returns a RangePropertyCollection controlling the opacity or null if not applicable.
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<OpacityProperty> opacityProperties = new ArrayList<>();

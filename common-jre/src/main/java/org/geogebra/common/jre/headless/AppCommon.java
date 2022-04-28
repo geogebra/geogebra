@@ -1,5 +1,7 @@
 package org.geogebra.common.jre.headless;
 
+import java.util.Locale;
+
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -69,9 +71,13 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
-	private AppConfig config = new AppConfigDefault();
+	private AppConfig config;
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
+
+	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
+	    this(loc, awtFactory, new AppConfigDefault());
+    }
 
 	/**
 	 * Construct an AppCommon.
@@ -81,8 +87,9 @@ public class AppCommon extends App {
 	 * @param awtFactory
 	 *            AWT factory
 	 */
-	public AppCommon(LocalizationJre loc, AwtFactory awtFactory) {
+	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
+		config = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
         initFactories();
 		initKernel();
@@ -97,24 +104,28 @@ public class AppCommon extends App {
 
 			@Override
 			public void print(Level level, Object logEntry) {
-				System.out.println(logEntry); // NOPMD
+				if (logEntry instanceof Throwable) {
+					((Throwable) logEntry).printStackTrace(); // NOPMD
+				} else {
+					System.out.println(logEntry); // NOPMD
+				}
 			}
 		});
     }
 
 	@Override
 	public DefaultSettings getDefaultSettings() {
-    	if (defaultSettings == null) {
-    		defaultSettings = new DefaultSettingsCommon();
+		if (defaultSettings == null) {
+			defaultSettings = new DefaultSettingsCommon();
 		}
 		return defaultSettings;
 	}
 
 	@Override
-    protected void initLocalization() {
-        localization.setApp(this);
-        super.initLocalization();
-    }
+	protected void initLocalization() {
+		localization.setApp(this);
+		super.initLocalization();
+	}
 
 	private static void initFactories() {
 		FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
@@ -122,24 +133,24 @@ public class AppCommon extends App {
 		UtilFactoryJre.setupRegexFactory();
 	}
 
-    @Override
-    protected void showErrorDialog(String msg) {
+	@Override
+	protected void showErrorDialog(String msg) {
 		// not needed with no UI
-    }
+	}
 
-    @Override
-    protected void initGuiManager() {
+	@Override
+	protected void initGuiManager() {
 		// not needed with no UI
-    }
+	}
 
-    @Override
-    protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
+	@Override
+	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
 		getSettings().getEuclidian(1).setPreferredSize(
 				AwtFactory.getPrototype().newDimension(800, 600));
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
 				getSettings().getEuclidian(1),
 				createGraphics());
-    }
+	}
 
 	protected GGraphics2D createGraphics() {
 		return AwtFactory.getPrototype().createBufferedImage(800, 600, false)
@@ -744,5 +755,26 @@ public class AppCommon extends App {
 		public void settingsChanged(AbstractSettings settings) {
 			// stub
 		}
+	}
+
+	/**
+	 * @param locale
+	 *            locale
+	 */
+	public void setLocale(Locale locale) {
+		if (locale == getLocalization().getLocale()) {
+			return;
+		}
+		// Locale oldLocale = loc.getLocale();
+
+		// only allow special locales due to some weird server
+		// problems with the naming of the property files
+		getLocalization().setLocale(locale);
+		getLocalization().updateLanguageFlags(locale.getLanguage());
+	}
+
+	@Override
+	public boolean isUnbundledGeometry() {
+		return "geometry".equals(getConfig().getAppCode());
 	}
 }

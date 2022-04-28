@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.interval;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Class to detect and fix asymptotes and cut off points
  *
@@ -7,6 +11,7 @@ package org.geogebra.common.kernel.interval;
  * that data should be fixed there.
  */
 public class IntervalAsymptotes {
+	private static final int PEAK_MULTIPLIER = 4;
 	private final IntervalTupleList samples;
 
 	/**
@@ -22,11 +27,72 @@ public class IntervalAsymptotes {
 	 * Check samples for cut-off points and fix them.
 	 */
 	public void process() {
+		if (isConstant()) {
+			handleConstant();
+		} else {
+			handlePeaks();
+		}
+	}
+
+	private void handleConstant() {
+		if (uniqueElements().count() == 1) {
+			return;
+		}
+		List<Interval> list = uniqueElements().collect(Collectors.toList());
+		Interval constValue = list.get(0).isWhole() ? list.get(1) : list.get(0);
+		samples.forEach(t -> {
+			t.set(t.x(), constValue);
+		});
+	}
+
+	private void handlePeaks() {
 		for (int index = 1; index < samples.count() - 1; index++) {
-			if (isWholeButNotTheNeighbours(index)) {
+			if (isWholeButNotTheNeighbours(index) || isPeak(index)) {
 				samples.valueAt(index).setUndefined();
 			}
 		}
+	}
+
+	boolean isConstant() {
+		long count = uniqueElements().count();
+		return count == 1
+				|| (count == 2 && hasWholeValues());
+	}
+
+	private boolean hasWholeValues() {
+		return samples.stream().filter(t -> t.y().isWhole()).count() != 0;
+	}
+
+	private Stream<Interval> uniqueElements() {
+		return samples.stream().map(t -> t.y()).distinct();
+	}
+
+	private boolean isPeak(int index) {
+		Interval left = value(index - 1);
+		Interval value = value(index);
+		Interval right = value(index + 1);
+		if (left.isUndefined() || right.isUndefined()) {
+			return false;
+		}
+
+		return (areFinitelyEqual(left, right)
+				&& value.getLength() > PEAK_MULTIPLIER * right.getLength())
+				|| isNegativeInfinityAndPeak(left, value, right)
+				|| isPositiveInfinityAndPeak(left, value, right);
+	}
+
+	private boolean isPositiveInfinityAndPeak(Interval left, Interval value, Interval right) {
+		return left.isPositiveInfinity() && right.isPositiveInfinity()
+				&& !value.isPositiveInfinity();
+	}
+
+	private boolean isNegativeInfinityAndPeak(Interval left, Interval value, Interval right) {
+		return left.isNegativeInfinity() && right.isNegativeInfinity()
+				&& !value.isNegativeInfinity();
+	}
+
+	private boolean areFinitelyEqual(Interval left, Interval right) {
+		return left.isFinite() && right.isFinite() && left.almostEqual(right);
 	}
 
 	private boolean isWholeButNotTheNeighbours(int index) {

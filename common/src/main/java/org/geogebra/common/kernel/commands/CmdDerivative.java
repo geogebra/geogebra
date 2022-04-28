@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Derivative[ &lt;GeoFunction> ] Derivative[ &lt;GeoFunctionNVar>, &lt;var> ]
@@ -91,7 +92,7 @@ public class CmdDerivative extends CommandProcessor {
 
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 			}
 			cons.setSuppressLabelCreation(suppress);
 			// Derivative[ f(a,b), a ]
@@ -108,16 +109,13 @@ public class CmdDerivative extends CommandProcessor {
 
 					// distinguish between Derivative[ f, a] and Derivative[ f,
 					// p] for f(a,b) = a + b and slider 'p'
-					boolean ok = false;
+					// skip this check on file loading
+					boolean ok = kernel.getLoadingMode();
 					if (vars != null) {
-						for (int i = 0; i < vars.length; i++) {
-							if (vars[i].getSetVarString().equals(var)) {
-								ok = true;
-								break;
-							}
+						for (int i = 0; i < vars.length && !ok; i++) {
+							ok = vars[i].getSetVarString().equals(var);
 						}
 					}
-
 					if (ok) {
 						GeoElement[] ret = { derivative(label,
 								(CasEvaluableFunction) arg2[0], // function
@@ -127,7 +125,7 @@ public class CmdDerivative extends CommandProcessor {
 
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 			}
 
 			// Derivative[ f(x, y), x]
@@ -160,7 +158,7 @@ public class CmdDerivative extends CommandProcessor {
 					return ret;
 				}
 			} catch (Throwable t) {
-				t.printStackTrace();
+				Log.debug(t);
 			}
 
 			arg = resArgs(c);

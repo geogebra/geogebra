@@ -2,19 +2,13 @@ package org.geogebra.web.full.css;
 
 import org.geogebra.web.full.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-
-/**
- * SVG icons for toolbar
- * 
- * @author csilla
- *
- */
+@Resource
 public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
-	/** singleton instance */
-	ToolbarSvgResources INSTANCE = GWT.create(ToolbarSvgResources.class);
+
+	ToolbarSvgResources INSTANCE = new ToolbarSvgResourcesImpl();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_angle.svg")
 	@Override

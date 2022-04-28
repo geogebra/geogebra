@@ -28,6 +28,7 @@ package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.gwtproject.timer.client.Timer;
@@ -92,6 +93,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
+	private static Predicate<NativeEvent> isGlobalEvent = evt -> false;
 	private MetaModel metaModel;
 
 	private final MathFieldInternal mathFieldInternal;
@@ -129,6 +131,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int fixMargin = 0;
 	private int minHeight = 0;
 	private boolean wasPaintedWithCursor;
+	private int rightMargin = 30;
 
 	/**
 	 * @param converter
@@ -183,24 +186,28 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
 		instances.add(this);
-		if (canvas == null) {
-			return;
+		if (canvas != null) {
+
+			canvas.addDomHandler(event -> {
+				if (!isEnabled()) {
+					return;
+				}
+				event.stopPropagation();
+				// prevent default to keep focus; also avoid dragging the whole
+				// editor
+				event.preventDefault();
+				setFocus(true);
+				setRightAltDown(false);
+				setLeftAltDown(false);
+
+			}, MouseDownEvent.getType());
+
+			setKeyListener(inputTextArea, keyListener);
 		}
-		canvas.addDomHandler(event -> {
-			if (!isEnabled()) {
-				return;
-			}
-			event.stopPropagation();
-			// prevent default to keep focus; also avoid dragging the whole
-			// editor
-			event.preventDefault();
-			setFocus(true);
-			setRightAltDown(false);
-			setLeftAltDown(false);
+	}
 
-		}, MouseDownEvent.getType());
-
-		setKeyListener(inputTextArea, keyListener);
+	public static void setGlobalEventCheck(Predicate<NativeEvent> globalEvent) {
+		MathFieldW.isGlobalEvent = globalEvent;
 	}
 
 	/**
@@ -399,7 +406,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 					|| isLeftAltDown()) {
 				event.preventDefault();
 			}
-			event.stopPropagation();
+			if (!isGlobalEvent.test(event.getNativeEvent())) {
+				event.stopPropagation();
+			}
 
 		}, KeyDownEvent.getType());
 	}
@@ -592,7 +601,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeWidth() {
-		return roundUp(lastIcon.getIconWidth() + 30);
+		return roundUp(lastIcon.getIconWidth() + rightMargin);
 	}
 
 	/**
@@ -623,8 +632,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private double computeHeight() {
-		double margin = getMargin(lastIcon);
-		return Math.max(lastIcon.getIconHeight() + margin + bottomOffset, minHeight);
+		return Math.max(getHeightWithMargin(), minHeight);
+	}
+
+	public double getHeightWithMargin() {
+		return lastIcon.getIconHeight() + getMargin(lastIcon) + bottomOffset;
 	}
 
 	public int getIconHeight() {
@@ -1041,11 +1053,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	@Override
-	public void tab(boolean shiftDown) {
-		mathFieldInternal.onTab(shiftDown);
-	}
-
-	@Override
 	public void requestViewFocus(Runnable runnable) {
 		setEnabled(true);
 		setFocus(true, runnable);
@@ -1084,11 +1091,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	@Override
 	public void parse(String text) {
 		mathFieldInternal.parse(text);
-	}
-
-	@Override
-	public void setPlainText(String text) {
-		mathFieldInternal.setPlainText(text);
 	}
 
 	/**
@@ -1144,8 +1146,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/**
 	 * Sets foreground color in rgba(r, g, b, a) format.
 	 *
-	 * @param cssColor
-	 * 			to set.
+	 * @param cssColor color to set
 	 */
 	public void setForegroundColor(String cssColor) {
 		this.foregroundColor = new ColorW(cssColor);
@@ -1154,8 +1155,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	/**
 	 * Sets background color in #rrggbb format.
 	 *
-	 * @param cssColor
-	 * 			to set.
+	 * @param cssColor color to set
 	 */
 	public void setBackgroundColor(String cssColor) {
 		this.backgroundColor = new ColorW(cssColor);
@@ -1192,7 +1192,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            panel to be scrolled
 	 */
 	public void scrollParentHorizontally(FlowPanel parentPanel) {
-		MathFieldScroller.scrollHorizontallyToCursor(parentPanel, lastIcon.getCursorX());
+		MathFieldScroller.scrollHorizontallyToCursor(parentPanel,
+				rightMargin, lastIcon.getCursorX());
 	}
 
 	/**
@@ -1217,5 +1218,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setInputBoxFunctionVariables(List<String> funcVars) {
 		metaModel.setInputBoxFunctionVars(funcVars);
 		metaModel.enableSubstitutions();
+	}
+
+	public void setRightMargin(int rightMargin) {
+		this.rightMargin = rightMargin;
+	}
+
+	public int getMinHeight() {
+		return minHeight;
 	}
 }

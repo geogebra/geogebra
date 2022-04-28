@@ -4,8 +4,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**

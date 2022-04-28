@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 /**
  * Helper for manipulationg with image resources

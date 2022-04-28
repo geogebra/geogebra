@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -57,7 +58,7 @@ public class SliderDialogW extends ComponentDialog implements
 	 *  @param app
 	 *            application
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog translation keys
 	 * @param x
 	 *            x-coordinate of slider in screen coords
 	 * @param y
@@ -128,7 +129,7 @@ public class SliderDialogW extends ComponentDialog implements
 
 		radioButtonWidget.add(rbNumber);
 		radioButtonWidget.add(rbAngle);
-		radioButtonWidget.add(rbInteger);			
+		radioButtonWidget.add(rbInteger);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
@@ -161,7 +162,7 @@ public class SliderDialogW extends ComponentDialog implements
 	 * @return GeoElement: the geoResult itself
 	 */
 	public GeoElement getResult() {
-		if (geoResult != null) {		
+		if (geoResult != null) {
 			// set label of geoResult
 			String strLabel;
 			String text = tfLabel.getText();
@@ -198,7 +199,7 @@ public class SliderDialogW extends ComponentDialog implements
 					
 					geoNum.setValue(val);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		}
@@ -225,7 +226,7 @@ public class SliderDialogW extends ComponentDialog implements
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> vc) {
-		GeoElement selGeo = rbAngle.getValue() ? angle : number;			
+		GeoElement selGeo = rbAngle.getValue() ? angle : number;
 		if (vc.getSource() == rbInteger) {
 			number.setAutoStep(false);
 			number.setAnimationStep(1);

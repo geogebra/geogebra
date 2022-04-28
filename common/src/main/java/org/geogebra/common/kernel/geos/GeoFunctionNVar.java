@@ -79,7 +79,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	private static FunctionExpander functionExpander;
 
-	private FunctionNVar fun;
+	private @CheckForNull FunctionNVar fun;
 	/** derivative functions */
 	private FunctionNVar[] fun1;
 	// private List<Inequality> ineqs;
@@ -148,8 +148,8 @@ public class GeoFunctionNVar extends GeoElement
 			boolean simplifyInt) {
 		this(c, false);
 		setFunction(f);
-		fun.initFunction(simplifyInt);
-		isInequality = fun.initIneqs(this.getFunctionExpression());
+		f.initFunction(simplifyInt);
+		isInequality = f.initIneqs(this.getFunctionExpression());
 
 		setConstructionDefaults();
 	}
@@ -213,7 +213,7 @@ public class GeoFunctionNVar extends GeoElement
 		// reset derivatives
 		fun1 = null;
 
-		if (geo instanceof GeoNumeric) {
+		if (geo instanceof GeoNumeric && fun != null) {
 			fun.setExpression(geo.wrap());
 			return;
 		}
@@ -227,8 +227,9 @@ public class GeoFunctionNVar extends GeoElement
 		isDefined = geo.isDefined();
 		FunctionVariable[] oldVars = fun == null ? null
 				: fun.getFunctionVariables();
-		setFunction(new FunctionNVar(geoFun.getFunction(), kernel));
-		fun.fillVariables(oldVars);
+		FunctionNVar newFun = new FunctionNVar(geoFun.getFunction(), kernel);
+		setFunction(newFun);
+		newFun.fillVariables(oldVars);
 		// macro OUTPUT
 		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
 			// this object is an output object of AlgoMacro
@@ -242,7 +243,7 @@ public class GeoFunctionNVar extends GeoElement
 		if (geo instanceof GeoFunctionNVar) {
 			setForceInequality(((GeoFunctionNVar) geo).isForceInequality());
 		}
-		isInequality = fun.initIneqs(this.getFunctionExpression());
+		isInequality = newFun.initIneqs(this.getFunctionExpression());
 	}
 
 	/**
@@ -261,9 +262,8 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void setDerivatives() {
-
 		// check if derivatives already exist
-		if (fun1 != null) {
+		if (fun1 != null || fun == null) {
 			return;
 		}
 
@@ -326,7 +326,6 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public double evaluate(double[] vals) {
-		// Application.printStacktrace("");
 		if (fun == null || !isDefined) {
 			return Double.NaN;
 		}
@@ -355,7 +354,6 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public double evaluate(double x, double y) {
-		// Application.printStacktrace("");
 		if (fun == null) {
 			return Double.NaN;
 		}
@@ -394,7 +392,7 @@ public class GeoFunctionNVar extends GeoElement
 
 		GeoFunctionNVar ff = (GeoFunctionNVar) f;
 
-		if (ff.isDefined()) {
+		if (ff.isDefined() && ff.fun != null) {
 			setFunction(ff.fun.evalCasCommand(ggbCasCmd, symbolic, arbconst));
 			checkDefined();
 		} else {
@@ -403,7 +401,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public boolean isDefined() {
+	public final boolean isDefined() {
 		return isDefined && fun != null && GeoFunction.isFunctionDefined(fun);
 	}
 
@@ -455,7 +453,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (isDefined()) {
+		if (fun != null && isDefined) {
 			return fun.toValueString(tpl);
 		}
 		return "?";
@@ -463,7 +461,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public String toSymbolicString(StringTemplate tpl) {
-		if (isDefined()) {
+		if (fun != null && isDefined) {
 			return fun.toString(tpl);
 		}
 		return "?";
@@ -471,7 +469,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (isDefined()) {
+		if (fun != null && isDefined) {
 			return fun.toLaTeXString(symbolic, tpl);
 		}
 		return "?";
@@ -482,18 +480,13 @@ public class GeoFunctionNVar extends GeoElement
 		return isBooleanFunction() || isForceInequality() || shortLHS != null ? ':' : '=';
 	}
 
-	/**
-	 * save object in xml format
-	 */
 	@Override
-	public final void getXML(boolean getListenersToo, StringBuilder sb) {
-
-		// an indpendent function needs to add
+	public final void getExpressionXML(StringBuilder sb) {
+		// an independent function needs to add
 		// its expression itself
 		// e.g. f(a,b) = a^2 - 3*b
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+			sb.append("<expression label=\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
@@ -501,15 +494,12 @@ public class GeoFunctionNVar extends GeoElement
 			sb.append(getFunctionType());
 			sb.append("\"/>\n");
 		}
+	}
 
-		getElementOpenTagXML(sb);
-		getXMLtags(sb);
-		getCaptionXML(sb);
-		if (getListenersToo) {
-			getListenerTagsXML(sb);
-		}
-		// sb.append(sb);
-		sb.append("</element>\n");
+	@Override
+	public void getXMLtags(StringBuilder sbxml) {
+		super.getXMLtags(sbxml);
+		printCASEvalMapXML(sbxml);
 	}
 
 	/**
@@ -533,10 +523,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public boolean isBooleanFunction() {
-		if (fun != null) {
-			return fun.isBooleanFunction();
-		}
-		return false;
+		return fun != null && fun.isBooleanFunction();
 	}
 
 	@Override
@@ -604,15 +591,11 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public String getCASString(StringTemplate tpl, boolean symbolic) {
+		if (fun == null) {
+			return "?";
+		}
 		return fun.getExpression().getCASstring(tpl, symbolic);
 	}
-
-	/*
-	 * public String getLabelForAssignment() { StringBuilder sb = new
-	 * StringBuilder(); sb.append(getLabel()); sb.append("(" );
-	 * sb.append(fun.getVarString(kernel.getStringTemplate())); sb.append(")");
-	 * return sb.toString(); }
-	 */
 
 	// ///////////////////////////////////////
 	// INTERVALS
@@ -627,13 +610,7 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public double getMinParameter(int index) {
-
-		if (from == null) {
-			return Double.NaN;
-		}
-
-		return from[index];
-
+		return from == null ? Double.NaN : from[index];
 	}
 
 	/**
@@ -645,12 +622,7 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public double getMaxParameter(int index) {
-
-		if (to == null) {
-			return Double.NaN;
-		}
-
-		return to[index];
+		return to == null ? Double.NaN : to[index];
 	}
 
 	/**
@@ -662,10 +634,8 @@ public class GeoFunctionNVar extends GeoElement
 	 *            end param
 	 */
 	public void setInterval(double[] from, double[] to) {
-
 		this.from = from;
 		this.to = to;
-
 	}
 
 	// ///////////////////////////////////////
@@ -673,6 +643,9 @@ public class GeoFunctionNVar extends GeoElement
 	// ///////////////////////////////////////
 
 	private double evaluateForDrawSurface(double u, double v) {
+		if (fun == null) {
+			return Double.NaN;
+		}
 		if (isBooleanFunction()) {
 			if (fun.evaluateBoolean(u, v)) {
 				return 0;
@@ -744,7 +717,7 @@ public class GeoFunctionNVar extends GeoElement
 	 * Reset all inequalities (slow, involves parser)
 	 */
 	public void resetIneqs() {
-		isInequality = fun.initIneqs(getFunctionExpression());
+		isInequality = fun != null && fun.initIneqs(getFunctionExpression());
 	}
 
 	/**
@@ -752,6 +725,9 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public IneqTree getIneqs() {
+		if (fun == null) {
+			return null;
+		}
 		if (fun.getIneqs() == null) {
 			isInequality = fun.initIneqs(fun.getExpression());
 		}
@@ -783,14 +759,13 @@ public class GeoFunctionNVar extends GeoElement
 
 		// 2 var function
 		Coords coords = P.getInhomCoordsInD3();
-		double z = fun.evaluate(coords.getX(), coords.getY());
+		double z = evaluate(coords.getX(), coords.getY());
 		return DoubleUtil.isEqual(coords.getZ(), z);
-
 	}
 
 	@Override
 	public boolean isInRegion(double x0, double y0) {
-		return fun.evaluateBoolean(x0, y0);
+		return fun != null && fun.evaluateBoolean(x0, y0);
 	}
 
 	@Override
@@ -889,7 +864,7 @@ public class GeoFunctionNVar extends GeoElement
 				coords.setY(xyzf[DICHO_MID][1]);
 				coords.setZ(xyzf[DICHO_MID][3]);
 			} else {
-				double z = fun.evaluate(coords.getX(), coords.getY());
+				double z = evaluate(coords.getX(), coords.getY());
 				coords.setZ(z);
 			}
 
@@ -1059,7 +1034,9 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void translate(Coords v) {
-		fun.translate(v.getX(), v.getY());
+		if (fun != null) {
+			fun.translate(v.getX(), v.getY());
+		}
 		this.getIneqs();
 	}
 
@@ -1070,7 +1047,9 @@ public class GeoFunctionNVar extends GeoElement
 	 *            translation vector
 	 */
 	public void translate3D(Coords v) {
-		fun.translate(v.getX(), v.getY(), v.getZ());
+		if (fun != null) {
+			fun.translate(v.getX(), v.getY(), v.getZ());
+		}
 	}
 
 	/**
@@ -1087,7 +1066,7 @@ public class GeoFunctionNVar extends GeoElement
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
 		double d = a00 * a11 - a01 * a10;
-		if (d == 0) {
+		if (d == 0 || fun == null) {
 			setUndefined();
 		} else {
 			fun.matrixTransform(a11 / d, -a01 / d, -a10 / d, a00 / d);
@@ -1097,7 +1076,9 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void dilate(NumberValue r, Coords S) {
-		fun.dilate(r, S);
+		if (fun != null) {
+			fun.dilate(r, S);
+		}
 	}
 
 	/**
@@ -1107,25 +1088,33 @@ public class GeoFunctionNVar extends GeoElement
 	 *            coordinate
 	 */
 	public void dilate3D(NumberValue r, Coords S) {
-		fun.dilate3D(r, S);
+		if (fun != null) {
+			fun.dilate3D(r, S);
+		}
 	}
 
 	@Override
 	public void rotate(NumberValue phi) {
-		fun.rotate(phi);
+		if (fun != null) {
+			fun.rotate(phi);
+		}
 		isInequality = null;
 	}
 
 	@Override
 	public void rotate(NumberValue phi, GeoPointND point) {
 		Coords P = point.getInhomCoords();
-		fun.rotate(phi, P);
+		if (fun != null) {
+			fun.rotate(phi, P);
+		}
 		isInequality = null;
 	}
 
 	@Override
 	public void mirror(Coords Q) {
-		fun.dilate(new MyDouble(kernel, -1.0), Q);
+		if (fun != null) {
+			fun.dilate(new MyDouble(kernel, -1.0), Q);
+		}
 		isInequality = null;
 	}
 
@@ -1156,14 +1145,18 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void mirror(GeoLineND g1) {
-		fun.mirror((GeoLine) g1);
+		if (fun != null) {
+			fun.mirror((GeoLine) g1);
+		}
 		isInequality = null;
 	}
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		fun.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+		if (fun != null) {
+			fun.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
+		}
 		isInequality = null;
 	}
 
@@ -1178,8 +1171,8 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 
 		// needed for inequalities
 		if (showLineProperties()) {
@@ -1241,8 +1234,10 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	public MyList getFunctionVariableList() {
 		MyList ml = new MyList(kernel);
-		for (FunctionVariable fv : fun.getFunctionVariables()) {
-			ml.addListElement(fv);
+		if (fun != null) {
+			for (FunctionVariable fv : fun.getFunctionVariables()) {
+				ml.addListElement(fv);
+			}
 		}
 		return ml;
 	}
@@ -1386,12 +1381,16 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public void printCASEvalMapXML(StringBuilder sb) {
-		fun.printCASevalMapXML(sb);
+		if (fun != null) {
+			fun.printCASevalMapXML(sb);
+		}
 	}
 
 	@Override
 	public void updateCASEvalMap(TreeMap<String, String> map) {
-		fun.updateCASEvalMap(map);
+		if (fun != null) {
+			fun.updateCASEvalMap(map);
+		}
 	}
 
 	@Override

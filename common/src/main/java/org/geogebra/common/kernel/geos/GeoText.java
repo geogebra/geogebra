@@ -90,7 +90,7 @@ public class GeoText extends GeoElement
 	 * used for eg Text["text",(1,2)] to stop it being editable
 	 */
 	public boolean isTextCommand = false;
-	private StringBuilder sbToString = new StringBuilder(80);
+	private final StringBuilder sbToString = new StringBuilder(80);
 
 	private SpreadsheetTraceCase spreadsheetTraceableCase = SpreadsheetTraceCase.NOT_TESTED;
 	private ExpressionValue spreadsheetTraceableValue;
@@ -127,7 +127,7 @@ public class GeoText extends GeoElement
 	private boolean symbolicMode;
 	private int totalHeight;
 	private int totalWidth;
-	private List<GeoElement> updateListeners;
+	private final List<GeoElement> updateListeners;
 
 	/**
 	 * Creates new text
@@ -404,9 +404,13 @@ public class GeoText extends GeoElement
 		super.update(drag);
 		if (!cons.isFileLoading() && getLabelSimple() != null
 				&& getLabelSimple().startsWith("altText")) {
-			kernel.getApplication().setAltText();
+			kernel.getApplication().setAltText(this);
 		}
 
+		notifyListeners();
+	}
+
+	private void notifyListeners() {
 		for (GeoElement geo : updateListeners) {
 			geo.notifyUpdate();
 		}
@@ -609,14 +613,13 @@ public class GeoText extends GeoElement
 	 * save object in XML format
 	 */
 	@Override
-	public final void getXML(boolean getListenersToo, StringBuilder sb) {
+	public final void getExpressionXML(StringBuilder sb) {
 
 		// an independent text needs to add
 		// its expression itself
 		// e.g. text0 = "Circle"
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+			sb.append("<expression label=\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb,
@@ -624,26 +627,16 @@ public class GeoText extends GeoElement
 			// expression
 			sb.append("\"/>\n");
 		}
-
-		getElementOpenTagXML(sb);
-
-		if (isSymbolicMode()) {
-			sb.append("\t<symbolic val=\"true\" />\n");
-		}
-
-		getXMLtags(sb);
-		if (getListenersToo) {
-			getListenerTagsXML(sb);
-		}
-		sb.append("</element>\n");
-
 	}
 
 	/**
 	 * returns all class-specific xml tags for getXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
+	protected void getStyleXML(StringBuilder sb) {
+		if (isSymbolicMode()) {
+			sb.append("\t<symbolic val=\"true\" />\n");
+		}
 		XMLBuilder.getXMLvisualTags(this, sb, false);
 
 		getXMLfixedTag(sb);
@@ -1200,7 +1193,7 @@ public class GeoText extends GeoElement
 		return linkedText.getStringTemplate();
 	}
 
-	private static enum SpreadsheetTraceCase {
+	private enum SpreadsheetTraceCase {
 		NOT_TESTED, TRUE, FALSE
 	}
 
@@ -1351,6 +1344,7 @@ public class GeoText extends GeoElement
 			}
 			AlgoElement.updateCascadeAlgos(algosTextCorner);
 		}
+		notifyListeners();
 	}
 
 	@Override
@@ -1607,9 +1601,8 @@ public class GeoText extends GeoElement
 	}
 
 	/**
-	 *
 	 * @return original string with extra \ in order to escape special characters
-	 * 		e.g. "cos(x)" will return "cos\\(x\\)"
+	 *       e.g. "cos(x)" will return "cos\\(x\\)"
 	 */
 	public String getEscapedSpecialCharsString() {
 		StringBuilder b = new StringBuilder();

@@ -40,7 +40,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	 */
 	private TreeSet<GeoElement> metas;
 
-	private ArrayList<GeoElement> selectedGeos;
+	private final ArrayList<GeoElement> selectedGeos;
 	private GPoint loc;
 
 	private JMenu selectAnotherMenu;
@@ -90,13 +90,14 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		metas = new TreeSet<>();
 
 		for (GeoElement geo : geos) {
-			if (geo != geoSelected) {// don't add selected geo
+			if (geo != geoSelected && !metas.contains(geo)) { // don't add selected geo
 				addGeo(geo);
 			}
 
 			if (geo.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo).getMetas()) {
-					if (!metas.contains(meta) && (meta != geoSelected || !app.has(Feature.G3D_SELECT_META))) {
+					if (!metas.contains(meta)
+							&& (meta != geoSelected || !app.has(Feature.G3D_SELECT_META))) {
 						addGeo(meta);
 					}
 				}
@@ -109,7 +110,6 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		// TODO: clear selection is not working from here
 		this.getWrappedPopup().getSelectionModel().clearSelection();
-
 	}
 
 	private void createSelectAnotherMenu(int mode) {
@@ -155,19 +155,18 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		// prevent to add meta twice
 		metas.add(geo);
-
 	}
 
 	/**
 	 * Action when select a geo
-	 * 
+	 *
 	 * @author mathieu
 	 *
 	 */
 	private class GeoAction extends AbstractAction {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -175,7 +174,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		/**
 		 * Create chooser for this geo
-		 * 
+		 *
 		 * @param geo
 		 *            geo to choose
 		 */

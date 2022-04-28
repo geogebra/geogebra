@@ -5,16 +5,19 @@ import java.util.ArrayList;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class ComponentTab extends FlowPanel {
+public class ComponentTab extends FlowPanel implements RequiresResize {
 	private Localization loc;
 	private SimplePanel indicator;
 	private FlowPanel panelContainer;
 	private StandardButton selectedBtn;
 	private ArrayList<StandardButton> tabBtns = new ArrayList<>();
+	private int selectedTabIdx = 0;
 
 	/**
 	 * tab component constructor
@@ -25,7 +28,6 @@ public class ComponentTab extends FlowPanel {
 		this.loc = loc;
 		addStyleName("componentTab");
 		buildGUI(tabData);
-		switchToTab(0);
 	}
 
 	private void buildGUI(ArrayList<TabData> tabData) {
@@ -66,17 +68,35 @@ public class ComponentTab extends FlowPanel {
 		return left;
 	}
 
-	private void switchToTab(int tabIdx) {
+	/**
+	 * switch to tab
+	 * @param tabIdx - index of tab to switch to
+	 */
+	public void switchToTab(int tabIdx) {
 		if (selectedBtn != null) {
 			selectedBtn.removeStyleName("selected");
 		}
 		tabBtns.get(tabIdx).addStyleName("selected");
 		selectedBtn = tabBtns.get(tabIdx);
+		selectedTabIdx = tabIdx;
 
 		Style indicatorStyle = indicator.getElement().getStyle();
 		indicatorStyle.setLeft(calculateLeft(tabIdx), Style.Unit.PX);
 		indicatorStyle.setWidth(selectedBtn.getOffsetWidth(), Style.Unit.PX);
 
-		panelContainer.getElement().getStyle().setRight(tabIdx * getOffsetWidth(), Style.Unit.PX);
+		panelContainer.addStyleName("transition");
+		Scheduler.get().scheduleDeferred(() -> panelContainer.getElement().getStyle()
+				.setRight(tabIdx * getOffsetWidth(), Style.Unit.PX));
+	}
+
+	public FlowPanel getPanelContainer() {
+		return panelContainer;
+	}
+
+	@Override
+	public void onResize() {
+		panelContainer.removeStyleName("transition");
+		panelContainer.getElement().getStyle().setRight(selectedTabIdx * getOffsetWidth(),
+				Style.Unit.PX);
 	}
 }

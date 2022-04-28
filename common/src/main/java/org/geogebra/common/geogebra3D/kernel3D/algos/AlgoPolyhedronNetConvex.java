@@ -122,7 +122,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		outputPointsNet = createOutputPoints();
 		outputPolygons = createOutputPolygons();
 		outputSegments = createOutputSegments();
-
+		kernel.batchAddStarted();
 		netFacesCompute();
 
 		if (iBottom != -1) {
@@ -155,6 +155,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			updateOutputSegmentsAndPolygonsParentAlgorithms();
 
 		}
+		kernel.batchAddComplete();
 	}
 
 	private void netFacesCompute() {
@@ -664,7 +665,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private void setLabels(String[] labels) {
-
 		if (labels == null || labels.length <= 1) {
 			getNet().initLabels(labels);
 		} else {
@@ -673,7 +673,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 				getOutput(i).setLabel(labels[i]);
 			}
 		}
-
 	}
 
 	/**

@@ -1,6 +1,27 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalOperands.*;
+import static org.geogebra.common.kernel.interval.IntervalOperands.abs;
+import static org.geogebra.common.kernel.interval.IntervalOperands.acos;
+import static org.geogebra.common.kernel.interval.IntervalOperands.asin;
+import static org.geogebra.common.kernel.interval.IntervalOperands.atan;
+import static org.geogebra.common.kernel.interval.IntervalOperands.cos;
+import static org.geogebra.common.kernel.interval.IntervalOperands.cosh;
+import static org.geogebra.common.kernel.interval.IntervalOperands.cot;
+import static org.geogebra.common.kernel.interval.IntervalOperands.csc;
+import static org.geogebra.common.kernel.interval.IntervalOperands.difference;
+import static org.geogebra.common.kernel.interval.IntervalOperands.exp;
+import static org.geogebra.common.kernel.interval.IntervalOperands.log;
+import static org.geogebra.common.kernel.interval.IntervalOperands.log10;
+import static org.geogebra.common.kernel.interval.IntervalOperands.log2;
+import static org.geogebra.common.kernel.interval.IntervalOperands.multiply;
+import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
+import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sec;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sinh;
+import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
+import static org.geogebra.common.kernel.interval.IntervalOperands.tan;
+import static org.geogebra.common.kernel.interval.IntervalOperands.tanh;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -50,7 +71,7 @@ import org.geogebra.common.util.debug.Log;
 			return new Interval(x);
 		}
 		if (!ev.isExpressionNode()) {
-			return new Interval(ev.evaluateDouble());
+			return evaluateDouble(ev);
 		}
 
 		ExpressionNode node = ev.wrap();
@@ -61,13 +82,20 @@ import org.geogebra.common.util.debug.Log;
 		}
 
 		if (!node.containsFreeFunctionVariable(null)) {
-			return new Interval(ev.evaluateDouble());
+			return evaluateDouble(ev);
 		}
 
 		Interval left = evaluate(x, node.getLeft());
 		Interval right = evaluate(x, node.getRight());
 		Operation operation = node.getOperation();
 		return evaluate(left, operation, right);
+	}
+
+	private static Interval evaluateDouble(ExpressionValue ev) {
+		double value = ev.evaluateDouble();
+		return Double.isNaN(value)
+				? IntervalConstants.undefined()
+				: new Interval(value);
 	}
 
 	private static Interval evaluate(Interval left, Operation operation,

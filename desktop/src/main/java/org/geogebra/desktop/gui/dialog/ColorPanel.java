@@ -60,10 +60,13 @@ class ColorPanel extends JPanel
 	private final PropertiesPanelD propertiesPanelD;
 	private static final long serialVersionUID = 1L;
 	private ColorObjectModel model;
-	private JLabel previewLabel, currentColorLabel;
+	private JLabel previewLabel;
+	private JLabel currentColorLabel;
 	private PreviewPanel previewPanel;
-	private JPanel opacityPanel, colorChooserContainer;
-	private JRadioButton rbtnForegroundColor, rbtnBackgroundColor;
+	private JPanel opacityPanel;
+	private JPanel colorChooserContainer;
+	private JRadioButton rbtnForegroundColor;
+	private JRadioButton rbtnBackgroundColor;
 	private JButton btnClearBackground;
 
 	private JSlider opacitySlider;
@@ -93,10 +96,6 @@ class ColorPanel extends JPanel
 		colChooser.setLocale(this.propertiesPanelD.app.getLocale());
 		colChooser.getSelectionModel().addChangeListener(this);
 
-		// get the color chooser panel
-		AbstractColorChooserPanel colorChooserPanel = colChooser
-				.getChooserPanels()[0];
-
 		// create opacity slider
 		opacitySlider = new JSlider(0, 100);
 		opacitySlider.setMajorTickSpacing(25);
@@ -122,6 +121,8 @@ class ColorPanel extends JPanel
 		btnClearBackground.addActionListener(this);
 
 		// panel to hold color chooser
+		AbstractColorChooserPanel colorChooserPanel = colChooser
+				.getChooserPanels()[0];
 		colorChooserContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		colorChooserContainer.add(colorChooserPanel);
 
@@ -185,11 +186,10 @@ class ColorPanel extends JPanel
 		/**
 		 * Sets the preview colors.
 		 * 
-		 * @param color
-		 * @param alpha
+		 * @param color color
+		 * @param alpha opacity between 0 and 1
 		 */
 		public void setPreview(Color color, double alpha) {
-
 			if (color == null) {
 				alphaFillColor = getBackground();
 				setForeground(getBackground());
@@ -291,7 +291,7 @@ class ColorPanel extends JPanel
 	}
 
 	private void setOpacitySliderForChart(GeoElement geo, double alpha0) {
-		ChartStyleAlgo algo= (ChartStyleAlgo) geo.getParentAlgorithm();
+		ChartStyleAlgo algo = (ChartStyleAlgo) geo.getParentAlgorithm();
 		double alpha = alpha0;
 		if (selectedBarButton != 0 && algo.getStyle().getBarAlpha(selectedBarButton) > -1) {
 			alpha = algo.getStyle().getBarAlpha(selectedBarButton);
@@ -477,14 +477,6 @@ class ColorPanel extends JPanel
 			label = (JLabel) en.nextElement();
 			label.setFont(this.propertiesPanelD.app.getSmallFont());
 		}
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		if (model.getGeos() == null) {
-			return;
-		}
-		update();
 	}
 
 	@Override

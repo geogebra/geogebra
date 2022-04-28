@@ -28,7 +28,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	// panels
 	private BasicStatTableW statTable;
 	private OneVarInferencePanelW oneVarInferencePanel;
-//	private LinearRegressionPanelW regressionPanel;
 	private TwoVarInferencePanelW twoVarInferencePanel;
 	private ANOVATableW anovaTable;
 	private MultiVarStatPanelW minMVStatPanel;
@@ -91,7 +90,7 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		}
 
 		inferencePanel.clear();
-		
+
 		switch (model.getSelectedMode()) {
 
 		case StatisticsModel.INFER_TTEST:
@@ -192,7 +191,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		statTable.updatePanel();
 		model.update();
-//		this.setMinimumSize(this.getPreferredSize());
 		statDialog.updateStatDataPanelVisibility();
 	}
 
@@ -227,7 +225,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 				return;
 			}
 		}
-		
 		lbInferenceMode.setSelectedIndex(0);
 	}
 

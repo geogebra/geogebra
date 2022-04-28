@@ -4,8 +4,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PropertiesDockPanelW extends DockPanelW {
@@ -18,8 +18,8 @@ public class PropertiesDockPanelW extends DockPanelW {
 	 */
 	public PropertiesDockPanelW(AppW app) {
 		super(
-			App.VIEW_PROPERTIES, 	// view id
-			null,	// toolbar string
+			App.VIEW_PROPERTIES, // view id
+			null, // toolbar string
 			false // style bar?
 		);
 		

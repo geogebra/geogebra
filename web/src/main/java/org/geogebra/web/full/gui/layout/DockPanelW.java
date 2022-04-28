@@ -24,10 +24,10 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -1117,12 +1117,13 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Add reset icon to the stylebar
 	 */
 	public void showResetIcon() {
-		StandardButton resetIcon = new StandardButton(
+		StandardButton resetBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
-		resetIcon.addFastClickHandler(source -> app.reset());
+		resetBtn.addFastClickHandler(source -> app.reset());
+		resetBtn.addStyleName("graphicsResetIcon");
 		if (!app.allowStylebar()) {
 			dockControlPanel.clear();
-			dockControlPanel.add(resetIcon);
+			dockControlPanel.add(resetBtn);
 		}
 	}
 

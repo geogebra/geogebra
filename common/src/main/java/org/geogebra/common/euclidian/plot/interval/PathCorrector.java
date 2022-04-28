@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.IntervalTuple;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class to correct interval path at limits
@@ -28,7 +27,7 @@ public class PathCorrector {
 	}
 
 	/**
-	 * Coplete inverted interval on demand.
+	 * Complete inverted interval on demand.
 	 *
 	 * @param idx tuple index in model
 	 * @param y inverted value to handle.
@@ -38,97 +37,115 @@ public class PathCorrector {
 			Interval y) {
 		lastY = y;
 		IntervalTuple tuple = model.pointAt(idx);
-		if (this.lastY.isUndefined()) {
+		if (lastY.isUndefined() || tuple.y().isWhole()) {
 			this.lastY.setUndefined();
-		} else if (tuple.y().isWhole()) {
-			this.lastY.setUndefined();
-		} else if (isInvertedAround(idx)) {
-			handleFill(tuple);
-		} else if (bounds.isOnView(tuple.y())) {
-			completePathAt(idx);
 		} else {
-			this.lastY.setUndefined();
+			drawInvertedInterval(idx);
 		}
+
 		return this.lastY;
 	}
 
-	private void handleFill(IntervalTuple tuple) {
-		Interval sx = toScreenX(tuple);
-		Interval sy = toScreenY(tuple);
-		gp.moveTo(sx.getLow(), 0);
-		gp.lineTo(sx.getHigh(), sy.getLow());
-		Interval y = tuple.y();
-		if (y.containsExclusive(0)) {
-			gp.moveTo(sx.getLow(), bounds.getHeight());
-			gp.lineTo(sx.getLow(), sy.getHigh());
-		}
-		lastY.set(sy);
-	}
-
-	private boolean isInvertedAround(int idx) {
-		return model.isInvertedAt(idx - 1) && model.isInvertedAt(idx + 1);
-	}
-
-	private void completePathAt(int idx) {
-		IntervalTuple tuple = model.pointAt(idx);
-		boolean before = model.isAscendingBefore(idx);
-		boolean after = model.isAscendingAfter(idx);
-		completePathFromLeft(tuple, before);
-		if (hasPointNextTo(idx) && before == after) {
-			Interval other = completePathFromRight(tuple, model.isAscendingBefore(idx));
-			lastY.set(other);
-		} else {
-			lastY.setUndefined();
+	/**
+	 * Complete inverted interval independently from last y value.
+	 *
+	 * @param idx tuple index in model
+	 */
+	public void handleInvertedInterval(int idx) {
+		drawInvertedInterval(idx);
+		if (!isInvertedNextTo(idx)) {
+			lastY.set(IntervalConstants.undefined());
 		}
 	}
 
-	private boolean hasPointNextTo(int idx) {
-		return !model.isEmptyAt(idx + 1);
-	}
+	/**
+	 * Draws union of two disjunct intervals, comleting it to +/- infinity.
+	 *
+	 * @param idx index of the inverted tuple in model to draw.
+	 */
+	public void drawInvertedInterval(int idx) {
+		Interval y = model.pointAt(idx).y();
+		double low = y.getLow();
+		double high = y.getHigh();
 
-	private void completePathFromLeft(IntervalTuple point, boolean ascending) {
-		Interval x = toScreenX(point);
-		Interval y = toScreenY(point);
-		double xMiddle = x.getLow() + (x .getWidth() / 2);
-		double yLow = y.getLow() < bounds.getHeight()
-				? Math.max(0, y.getLow())
-				: bounds.getHeight();
+		if (Double.isFinite(low)) {
 
-		if (ascending && yLow >= 0) {
-			gp.lineTo(xMiddle, 0);
-		} else if (lastY.isInverted()) {
-			gp.lineTo(xMiddle, lastY.getLow());
-		} else if (!DoubleUtil.isEqual(lastY.getLow(), yLow) && yLow < bounds.getHeight()) {
-			gp.lineTo(xMiddle, bounds.getHeight());
-		}
-	}
-
-	private Interval toScreenY(IntervalTuple point) {
-		return bounds.toScreenIntervalY(point.y());
-	}
-
-	private Interval toScreenX(IntervalTuple point) {
-		return bounds.toScreenIntervalX(point.x());
-	}
-
-	private Interval completePathFromRight(IntervalTuple point, boolean ascending) {
-		Interval x = toScreenX(point);
-		Interval y = toScreenY(point);
-		double xMiddle = x.getLow() + (x.getWidth() / 2);
-		double yLow = y.getLow() < bounds.getHeight()
-				? Math.max(0, y.getLow())
-				: bounds.getHeight();
-		if (ascending) {
-			if (y.getHigh() > 0) {
-				gp.moveTo(xMiddle, bounds.getHeight());
-				return new Interval(bounds.getHeight());
+			if (Double.isFinite(high)) {
+				drawFromNegativeInfinity(idx, low);
+				drawFromPositiveInfinity(idx, high);
+				lastY.setUndefined();
+			} else {
+				drawFromNegativeInfinityOnly(idx, low);
 			}
-		} else if (yLow < bounds.getHeight()) {
-			gp.moveTo(xMiddle, 0);
-			gp.lineTo(x.getHigh(), yLow);
-			return new Interval(yLow);
+		} else {
+			drawFromPositiveInfinityOnly(idx);
 		}
-		return IntervalConstants.undefined();
+	}
+
+	private boolean isInvertedNextTo(int idx) {
+		return model.pointCount() > idx && model.isInvertedAt(idx + 1);
+	}
+
+	private void drawFromNegativeInfinity(int idx, double value) {
+		if (value < bounds.getYmax()) {
+			boolean ascendingAfter = model.isAscendingAfter(idx);
+			double sValue = bounds.toScreenCoordYd(value);
+			if (ascendingAfter) {
+				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx + 1).x());
+				gp.moveTo(sx.getHigh(), bounds.getHeight());
+				gp.lineTo(sx.getHigh(), sValue);
+			} else if (model.pointAt(idx - 1) != null) {
+				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx - 1).x());
+				gp.moveTo(sx.getLow(), bounds.getHeight());
+				gp.lineTo(sx.getHigh(), sValue);
+			}
+			lastY.set(sValue, bounds.getHeight());
+		}
+	}
+
+	private void drawFromPositiveInfinity(int idx, double value) {
+		if (value > bounds.getYmin()) {
+			boolean ascendingAfter = model.isAscendingAfter(idx);
+			double sValue = bounds.toScreenCoordYd(value);
+			if (ascendingAfter) {
+				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx).x());
+				gp.moveTo(sx.getLow(), 0);
+				gp.lineTo(sx.getLow(), sValue);
+			} else if (model.pointAt(idx + 1) != null) {
+				Interval sx = bounds.toScreenIntervalX(model.pointAt(idx + 1).x());
+				gp.moveTo(sx.getLow(), 0);
+				gp.lineTo(sx.getHigh(), sValue);
+			}
+			lastY.set(0, sValue);
+		}
+	}
+
+	private void drawFromPositiveInfinityOnly(int idx) {
+		IntervalTuple tuple = model.pointAt(idx);
+		Interval sx = bounds.toScreenIntervalX(tuple.x());
+		Interval sy = bounds.toScreenIntervalY(tuple.y());
+		if (sy.getLow() > 0) {
+			gp.moveTo(sx.getHigh(), 0);
+			double nextXLow = sx.getHigh() + sx.getLength();
+			gp.lineTo(nextXLow, sy.getLow());
+			lastY.set(0, sy.getLow());
+		}
+		lastY.setUndefined();
+	}
+
+	private void drawFromNegativeInfinityOnly(int idx, double value) {
+		if (value < bounds.getYmax()) {
+			double sValue = bounds.toScreenCoordYd(value);
+			IntervalTuple current = model.pointAt(idx);
+			IntervalTuple next = model.pointAt(idx + 1);
+			Interval sx = bounds.toScreenIntervalX(
+					next != null && !next.y().isUndefined()
+							? next.x()
+							: current.x());
+			gp.moveTo(sx.getLow(), bounds.getHeight());
+			gp.lineTo(sx.getLow(), sValue);
+			lastY.set(sValue, bounds.getHeight());
+		}
 	}
 
 	/**
@@ -145,7 +162,7 @@ public class PathCorrector {
 			return IntervalConstants.undefined();
 		}
 
-		Interval nextY = toScreenY(model.pointAt(index + 1));
+		Interval nextY = bounds.toScreenIntervalY(model.pointAt(index + 1).y());
 		if (model.isAscendingAfter(index)) {
 			completeToNegativeInfinity(x, nextY);
 		} else {

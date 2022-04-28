@@ -3,6 +3,7 @@ package org.geogebra.common.main.undo;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * String based undo manager
@@ -43,16 +44,16 @@ public class DefaultUndoManager extends UndoManager {
         onStoreUndo();
     }
 
-    protected UndoCommand createUndoCommand(AppState appState) {
-    	return new UndoCommand(appState);
-    }
+	protected UndoCommand createUndoCommand(AppState appState) {
+		return new UndoCommand(appState);
+	}
 
-    @Override
+	@Override
 	protected void loadUndoInfo(AppState state, String slideID) {
-        try {
+		try {
 			processXML(state.getXml(), false, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			Log.debug(e);
+		}
+	}
 }

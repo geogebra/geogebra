@@ -19,7 +19,6 @@ package org.geogebra.web.html5.gui.util;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -62,30 +61,6 @@ public class GToggleButton extends GCustomButton
 	}
 
 	/**
-	 * Constructor for <code>ToggleButton</code>. The supplied image is used to
-	 * construct the default face.
-	 * 
-	 * @param upImage
-	 *            image for the default face of the button
-	 */
-	public GToggleButton(Image upImage) {
-		super(upImage);
-	}
-
-	/**
-	 * Constructor for <code>ToggleButton</code>. The supplied image is used to
-	 * construct the default face of the button.
-	 * 
-	 * @param upImage
-	 *            image for the default (up) face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GToggleButton(Image upImage, ClickHandler handler) {
-		super(upImage, handler);
-	}
-
-	/**
 	 * Constructor for <code>ToggleButton</code>.
 	 * 
 	 * @param upImage
@@ -95,70 +70,6 @@ public class GToggleButton extends GCustomButton
 	 */
 	public GToggleButton(Image upImage, Image downImage) {
 		super(upImage, downImage);
-	}
-
-	/**
-	 * Constructor for <code>ToggleButton</code>.
-	 * 
-	 * @param upImage
-	 *            image for the default(up) face of the button
-	 * @param downImage
-	 *            image for the down face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GToggleButton(Image upImage, Image downImage, ClickHandler handler) {
-		super(upImage, downImage, handler);
-	}
-
-	/**
-	 * Constructor for <code>ToggleButton</code>. The supplied text is used to
-	 * construct the default face of the button.
-	 * 
-	 * @param upText
-	 *            the text for the default (up) face of the button.
-	 */
-	public GToggleButton(String upText) {
-		super(upText);
-	}
-
-	/**
-	 * Constructor for <code>ToggleButton</code>. The supplied text is used to
-	 * construct the default face of the button.
-	 * 
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GToggleButton(String upText, ClickHandler handler) {
-		super(upText, handler);
-	}
-
-	/**
-	 * Constructor for <code>ToggleButton</code>.
-	 * 
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param downText
-	 *            the text for down face of the button
-	 */
-	public GToggleButton(String upText, String downText) {
-		super(upText, downText);
-	}
-
-	/**
-	 * Constructor for <code>ToggleButton</code>.
-	 * 
-	 * @param upText
-	 *            the text for the default (up) face of the button
-	 * @param downText
-	 *            the text for down face of the button
-	 * @param handler
-	 *            the click handler
-	 */
-	public GToggleButton(String upText, String downText, ClickHandler handler) {
-		super(upText, downText, handler);
 	}
 
 	public HandlerRegistration addValueChangeHandler(

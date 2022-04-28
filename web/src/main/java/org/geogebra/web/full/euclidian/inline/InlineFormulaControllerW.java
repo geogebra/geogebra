@@ -86,6 +86,11 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	}
 
 	@Override
+	public void setMinHeight(int minHeight) {
+		mathFieldEditor.getMathField().setMinHeight(minHeight);
+	}
+
+	@Override
 	public void setAngle(double angle) {
 		style.setProperty("transform", "rotate(" + angle + "rad)");
 	}
@@ -176,7 +181,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 				int width = (int) ((mathFieldEditor.getMathField().asWidget().getOffsetWidth()
 						- DrawFormula.PADDING) * formula.getWidth() / formula
 							.getContentWidth());
-				int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
+				int height = (int) mathFieldEditor.getMathField().getHeightWithMargin();
 
 				formula.setSize(Math.max(formula.getWidth(), width),
 						Math.max(formula.getHeight(), height));
@@ -189,18 +194,8 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onCursorMove() {
-			// do nothing
-		}
-
-		@Override
-		public void onUpKeyPressed() {
-			// do nothing
-		}
-
-		@Override
-		public void onDownKeyPressed() {
-			// do nothing
+		public boolean onArrowKeyPressed(int keyCode) {
+			return false;
 		}
 
 		@Override

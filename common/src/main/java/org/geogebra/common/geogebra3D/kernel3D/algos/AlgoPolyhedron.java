@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.settings.LabelVisibility;
 
 /**
  * @author ggb3D
@@ -247,7 +248,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				}
 			} else { // no element yet
 				visible = isFirstInputPointVisible();
-				labelVisible = isFirstInputPointLabelVisible();
+				labelVisible = isFirstInputPointLabelVisible() && labelsAllowed();
 			}
 
 			p.setEuclidianVisible(visible);
@@ -273,6 +274,11 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		}
 	}
 
+	protected boolean labelsAllowed() {
+		return kernel.getApplication().getSettings().getLabelSettings().getLabelVisibility()
+				!= LabelVisibility.AlwaysOff;
+	}
+
 	@Override
 	protected void getOutputXML(StringBuilder sb) {
 		super.getOutputXML(sb);
@@ -289,6 +295,24 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 				((GeoElement) segment).getXML(false, sb);
 			}
 		}
+	}
+
+	/**
+	 * set the labels
+	 *
+	 * @param labels labels for all outputs
+	 */
+	protected void setLabels(String[] labels) {
+		kernel.batchAddStarted();
+		if (labels == null || labels.length <= 1) {
+			polyhedron.initLabels(labels);
+		} else {
+			polyhedron.setAllLabelsAreSet(true);
+			for (int i = 0; i < labels.length; i++) {
+				getOutput(i).setLabel(labels[i]);
+			}
+		}
+		kernel.batchAddComplete();
 	}
 
 }

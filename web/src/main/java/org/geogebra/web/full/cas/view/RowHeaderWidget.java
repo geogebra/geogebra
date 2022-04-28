@@ -35,7 +35,7 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		this.casTable = casTable;
 		Label label = new Label();
 		label.setText(n + "");
-		marble = new Image(AppResources.INSTANCE.hidden());
+		marble = new Image(AppResources.INSTANCE.hidden().getSafeUri().asString());
 		oldValue = false;
 		add(label);
 		add(marble);
@@ -80,8 +80,8 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		if (value == oldValue) {
 			return;
 		}
-		marble.setUrl(value ? AppResources.INSTANCE.shown().getSafeUri()
-				: AppResources.INSTANCE.hidden().getSafeUri());
+		marble.setUrl(value ? AppResources.INSTANCE.shown().getSafeUri().asString()
+				: AppResources.INSTANCE.hidden().getSafeUri().asString());
 		oldValue = value;
 
 	}

@@ -474,15 +474,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(x));
-		sbToString.append(" ");
-		sbToString.append(regrFormat(y));
-		return sbToString.toString();
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
@@ -576,11 +567,11 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	/**
-	 * returns all class-specific xml tags for saveXML
+	 * returns class-specific style xml tags for saveXML
 	 */
 	@Override
-	protected void getXMLtags(StringBuilder xmlsb) {
-		super.getXMLtags(xmlsb);
+	protected void getStyleXML(StringBuilder xmlsb) {
+		super.getStyleXML(xmlsb);
 		// line thickness and type
 		getLineStyleXML(xmlsb);
 

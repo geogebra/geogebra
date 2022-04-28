@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
+import org.geogebra.common.euclidian.plot.interval.IntervalPathPlotter;
 import org.geogebra.common.euclidian.plot.interval.IntervalPlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
@@ -106,7 +107,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	}
 
 	private void createIntervalPlotter() {
-		intervalPlotter = new IntervalPlotter(new EuclidianViewBoundsImp(view), gp);
+		IntervalPathPlotter plotter = view.createIntervalPathPlotter(gp);
+		intervalPlotter = new IntervalPlotter(new EuclidianViewBoundsImp(view), plotter);
 		if (this.geo != null && this.geo.isGeoFunction()) {
 			if (isIntervalPlotterPreferred()) {
 				GeoFunction function = (GeoFunction) this.geo;

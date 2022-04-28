@@ -358,17 +358,6 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * Returns .out representation for regression testing.
-	 * 
-	 * @return .out representation for regression testing.
-	 */
-	public String getConstructionRegressionOut() {
-		StringBuilder sb = new StringBuilder();
-		cons.getConstructionRegressionOut(sb);
-		return sb.toString();
-	}
-
-	/**
 	 * @param str
 	 *            XML string
 	 * @param clearAll
@@ -453,6 +442,7 @@ public abstract class MyXMLio {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
 				kernel.updateConstruction(randomize, 1);
+				cons.updateCasCellTwinVisibility();
 				kernel.setNotifyViewsActive(oldVal);
 			}
 
@@ -514,7 +504,7 @@ public abstract class MyXMLio {
 			MyXMLHandler h = getGGBHandler();
 			parseXML(h, createXMLStreamString(perspectiveXML));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

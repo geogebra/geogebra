@@ -4,9 +4,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
+import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -72,7 +72,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 			String feedback, ButtonHandler handler, Localization loc,
 			String altText) {
 		super(handler);
-		this.image = new Image(image);
+		this.image = new Image(image.getSafeUri().asString());
 		this.image.setAltText(loc.getMenu(altText));
 		this.feedback = feedback;
 		add(this.image);

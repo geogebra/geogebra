@@ -57,7 +57,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 		}
 
 		for (int i = 0; i < ageo2.size(); i++) {
-			GeoElement trans = null;
+			GeoElement trans;
 			if (i < bgeo2.size()) {
 				setTransformedObject(ageo2.get(i), bgeo2.get(i));
 				compute();
@@ -132,9 +132,12 @@ public abstract class AlgoTransformation extends AlgoElement {
 		if (a instanceof GeoConicPartND) {
 			double p = ((GeoConicPartND) a).getParameterStart();
 			double q = ((GeoConicPartND) a).getParameterEnd();
-			// Application.debug(p+","+q);
-			((GeoConicPartND) b).setParameters(p, q,
-					swapOrientation((GeoConicPartND) a));
+			boolean orientation = swapOrientation((GeoConicPartND) a);
+			if (orientation) {
+				((GeoConicPartND) b).setParameters(p, q, true);
+			} else {
+				((GeoConicPartND) b).setParameters(q, p, false);
+			}
 		}
 	}
 

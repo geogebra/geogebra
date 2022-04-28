@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Returns the name of a GeoElement as a GeoText.
@@ -77,9 +78,9 @@ public class AlgoText extends AlgoElement {
 	 * @param latex
 	 *            whether to use LaTeX output
 	 * @param horizontalAlign
-	 * 	     	  horizontal alignment for text [-1|0|1]
+	 *            horizontal alignment for text [-1|0|1]
 	 * @param verticalAlign
-	 * 			  vertical alignment for text [-1|0|1]
+	 *            vertical alignment for text [-1|0|1]
 	 */
 	public AlgoText(Construction cons, String label, GeoElement geo,
 			GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex,
@@ -120,9 +121,9 @@ public class AlgoText extends AlgoElement {
 	 * @param latex
 	 *            whether to use LaTeX output
 	 * @param horizontalAlign
-	 * 			  horizontal alignment for text [-1|0|1]
+	 *            horizontal alignment for text [-1|0|1]
 	 * @param verticalAlign
-	 * 			  vertical alignment for text [-1|0|1]
+	 *            vertical alignment for text [-1|0|1]
 	 */
 	public AlgoText(Construction cons, GeoElement geo, GeoPointND p,
 			GeoBoolean substituteVars, GeoBoolean latex,
@@ -153,7 +154,7 @@ public class AlgoText extends AlgoElement {
 			try {
 				text.setStartPoint(startPointCopy);
 			} catch (CircularDefinitionException e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 			text.setAlwaysFixed(true); // disable dragging if p != null
 		}

@@ -189,7 +189,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			corner.setCoords(zeroX, zeroY, 1.0);
 			break;
 		case 5: // return size of Graphics View in pixels
-			corner.setCoords(ev.getWidth(), ev.getHeight(), 1.0);
+			corner.setCoords(getWidth(ev), getHeight(ev), 1.0);
 			break;
 		case 6: // return size of Window in pixels
 			// (to help with sizing for export to applet)
@@ -202,6 +202,16 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			corner.setUndefined();
 			break;
 		}
+	}
+
+	private double getWidth(EuclidianViewInterfaceSlim ev) {
+		int width = ev.getWidth();
+		return width >= 1 || ev.getSettings() == null ? width : ev.getSettings().getFileWidth();
+	}
+
+	private double getHeight(EuclidianViewInterfaceSlim ev) {
+		int height = ev.getHeight();
+		return height >= 1 || ev.getSettings() == null ? height : ev.getSettings().getFileHeight();
 	}
 
 	@Override

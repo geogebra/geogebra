@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
 import org.geogebra.common.kernel.interval.IntervalTuple;
@@ -20,15 +19,6 @@ public class IntervalPlotter {
 	private IntervalPlotModel model = null;
 	private boolean updateAll = true;
 	private IntervalPlotController controller;
-
-	/**
-	 * Creates a disabled plotter
-	 */
-	public IntervalPlotter(EuclidianViewBounds bounds, GeneralPathClipped gp) {
-		this.evBounds = bounds;
-		this.gp = new IntervalPathPlotterImpl(gp);
-		this.enabled = false;
-	}
 
 	/**
 	 * Creates a disabled plotter

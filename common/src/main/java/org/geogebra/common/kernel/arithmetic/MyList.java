@@ -1306,4 +1306,20 @@ public class MyList extends ValidExpression
 				? ((ListValue) xEval).getListElement(idx) : xEval;
 	}
 
+	/**
+	 * @param other other list
+	 * @return whether this and the other list have equal elements
+	 */
+	public boolean isEqual(ListValue other) {
+		if (size() != other.size()) {
+			return false;
+		}
+		for (int i = 0; i < size(); i++) {
+			if (!ExpressionNode.isEqual(getListElement(i).evaluate(StringTemplate.maxDecimals),
+					other.getListElement(i).evaluate(StringTemplate.maxDecimals))) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

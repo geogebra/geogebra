@@ -12,7 +12,6 @@ package org.geogebra.common.kernel.statistics;
 
  */
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -28,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**************
@@ -144,41 +144,57 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	public final void compute() {
 		size = geolist.size();
 		error = false; // General flag
-		if (!geolist.isDefined() || (size < 4)) { // Direction-algo needs two
+		if (!geolist.isDefined() || size < 2 || size == 3) { // Direction-algo needs two
 													// flanks, 3 in each.
 			geofunction.setUndefined();
 			Log.debug(
 					"List not properly defined or too small (4 points needed).");
 			return;
 		}
-		// if error in parameters :
-		try {
-			getPoints(); // Sorts the points while getting them
-			doReg();
-		} catch (Exception all) {
-			error = true;
-		} // try-catch
-		if (!error) { // Make function
-			MyDouble A = new MyDouble(kernel, a);
-			MyDouble B = new MyDouble(kernel, b);
-			MyDouble C = new MyDouble(kernel, c);
-			MyDouble D = new MyDouble(kernel, d);
-			FunctionVariable X = new FunctionVariable(kernel);
-			ExpressionValue expr = new ExpressionNode(kernel, C,
-					Operation.MULTIPLY, X);
-			expr = new ExpressionNode(kernel, expr, Operation.PLUS, D);
-			expr = new ExpressionNode(kernel, expr, Operation.SIN, null);
-			expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, expr);
-
-			ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS,
-					expr);
-			Function f = new Function(node, X);
-			geofunction.setFunction(f);
-			geofunction.setDefined(true);
+		getPoints();
+		if (size == 2) {
+			c = Math.PI / (xd[1] - xd[0]);
+			a = (yd[1] + yd[0]) / 2;
+			b = (yd[1] - yd[0]) / 2;
+			if (b == 0) {
+				d = 0;
+			} else {
+				// y=a+b*sin(cx+d), clamp needed to avoid asin(1.00000001)
+				double sin = MyMath.clamp((yd[0] - a) / b, -1, 1);
+				d = Math.asin(sin) - c * xd[0];
+			}
+		} else {
+			try {
+				doReg();
+			} catch (Exception all) {
+				error = true;
+			}
+		}
+		if (!error) {
+			buildFunction();
 		} else {
 			geofunction.setUndefined();
-			return;
-		} // if error in regression
+		}
+	}
+
+	private void buildFunction() {
+		MyDouble A = new MyDouble(kernel, a);
+		MyDouble B = new MyDouble(kernel, b);
+		MyDouble C = new MyDouble(kernel, c);
+		MyDouble D = new MyDouble(kernel, d);
+		FunctionVariable X = new FunctionVariable(kernel);
+		ExpressionValue expr = new ExpressionNode(kernel, C,
+				Operation.MULTIPLY, X);
+		expr = new ExpressionNode(kernel, expr, Operation.PLUS, D);
+		expr = new ExpressionNode(kernel, expr, Operation.SIN, null);
+		expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, expr);
+
+		ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS,
+				expr);
+		Function f = new Function(node, X);
+		geofunction.setFunction(f);
+		geofunction.setDefined(MyDouble.isFinite(a) && MyDouble.isFinite(b)
+				&& MyDouble.isFinite(c) && MyDouble.isFinite(d));
 	}
 
 	// / ============= IMPLEMENTATION
@@ -310,13 +326,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			err = beta(xd, yd, a, b, c, d); // Without squaring is ok...
 			if (err < old_err) {
 				old_err = err;
-				bestd = d; // System.out.println("d-iteration: error= "+error+"
-							// d: "+d);
-			} // if new min
-		} // for: d-iteration
-		d = bestd; // System.out.println("old routine gave d= "+d);
-					// debug("Parameters: a= "+a+" b= "+b+" c= "+c+" d "+d);
-
+				bestd = d;
+			}
+		}
+		d = bestd;
 	}
 
 	/** Doing LM iteration */
@@ -365,7 +378,6 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		double startfaktor = Math.max(Math.max(Math.max(m11, m22), m33), m44);
 		lambda = startfaktor * 0.001; // Heuristic, suggested by several
 										// articles
-										// debug("Startlambda: "+lambda);
 		while (Math.abs(da) + Math.abs(db) + Math.abs(dc)
 				+ Math.abs(dd) > EPSILON) {
 
@@ -467,19 +479,14 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			}
 			if (d < -Math.PI) {
 				d += reduction;
-			} // debug("justifying: "+d);
-		} // while not in i <-pi,pi>
+			}
+		}
 
-		// Not wanted in log:
-		// System.out.println("AlgoFitSin: Sum Errors Squared=
-		// "+beta2(xd,yd,a,b,c,d));
-		// //Info
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)
-				|| Double.isNaN(d)) {
+				|| Double.isNaN(d) || error) {
+			a = b = c = d = Double.NaN;
 			error = true;
-			Log.debug("findParameters(): a,b or c undefined (NaN).");
-			return;
-		} // 20.11:if one is undefined, everything is undefined
+		}
 	}
 
 	/* sin(Cx+D) */
@@ -562,8 +569,6 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// that is done in findParameters() which is better for testing only
 	// mathematical functionality.)
 	private final void getPoints() {
-		// Problem bothering the gui: GeoList
-		// newlist=k.Sort("tmp_{FitSin}",geolist);
 		double[] xlist = null, ylist = null;
 		double[] xy = new double[2];
 		GeoElement geoelement;
@@ -577,20 +582,18 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				sortedSet.add((GeoPoint) geoelement);
 			} else {
 				error = true;
-			} // if point
-		} // for all points
-		Iterator<GeoPoint> iter = sortedSet.iterator();
+			}
+		}
+
 		int i = 0;
 		xlist = new double[size];
 		ylist = new double[size];
-		GeoPoint gp;
-		while (iter.hasNext()) {
-			gp = iter.next();
+		for (GeoPoint gp: sortedSet) {
 			gp.getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
 			i++;
-		} // while iterating
+		}
 		xd = xlist;
 		yd = ylist;
 		if (error) {
@@ -613,7 +616,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			return false;
 		} else {
 			return false; // Should not happen...
-		} // if
+		}
 	}
 
 	// Is distance between abs max and abx min 1,3,5,... halfperiodes?
@@ -625,7 +628,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		double error1;
 		double period, c1;
 		int n = 0, best = 0;
-		for (int i = 1; i <= k; i++) {
+		for (int i = 1; i <= k; i++) { // for all actual frequencies
 			n = 2 * i - 1; // number of halfperiods
 			period = Math.abs(xd[xmax] - xd[xmin]) * 2.0 / n;
 			c1 = TWO_PI / period;
@@ -633,18 +636,14 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			if (error1 < min_error) {
 				min_error = error1;
 				best = n;
-			} // if better
-		} // for all actual frequencies
+			}
+		}
 		return best;
 	}
 
-	// / =============== To comment out when final
-	// =============================================== ///
-
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = { a, b, c, d };
-		return ret;
+		return new double[]{ a, b, c, d };
 	}
 
 }

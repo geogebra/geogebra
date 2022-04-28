@@ -21,7 +21,7 @@ public class WebcamInputDialog extends ComponentDialog
 	 * @param app
 	 *            application
 	 * @param data
-	 * 			  dialog transkeys
+	 *            dialog transkeys
 	 */
 	public WebcamInputDialog(AppW app, DialogData data) {
 		super(app, data, false, true);
@@ -80,7 +80,7 @@ public class WebcamInputDialog extends ComponentDialog
 	}
 
 	@Override
-	public void onCameraError() {
+	public void onCameraError(String title, String msg) {
 		// not used
 	}
 

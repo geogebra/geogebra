@@ -86,6 +86,7 @@ import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
+import org.geogebra.web.full.gui.menubar.action.SaveExamAction;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -538,7 +539,7 @@ public class GuiManagerW extends GuiManager
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}
@@ -1022,7 +1023,12 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean save() {
-		return getApp().getFileManager().save(getApp());
+		if (getApp().isExam()) {
+			SaveExamAction.showExamSaveDialog(getApp());
+			return true;
+		} else {
+			return getApp().getFileManager().save(getApp());
+		}
 	}
 
 	@Override
@@ -1227,7 +1233,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	protected void openHelp(final String page, final Help type) {
+	public void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
 			getApp().getFileManager().open(helpURL);
@@ -1882,6 +1888,23 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
+	 * Download macro file (.ggt)
+	 * @param filename file name
+	 */
+	public void exportMacros(String filename) {
+		getApp().dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\"ggt\"]"));
+
+		if (NavigatorUtil.isFirefox()) {
+			getApp().getGgbApi().getMacrosBase64(true,
+					getBase64DownloadCallback(filename));
+		} else {
+			getApp().getGgbApi().getZippedMacrosAsync(
+					getDownloadCallback(filename));
+		}
+	}
+
+	/**
 	 * @param title
 	 *            construction title
 	 * @return local file saving callback for binary file
@@ -2047,7 +2070,7 @@ public class GuiManagerW extends GuiManager
 				.getInputTreeItem() != null) {
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
-			input.autocomplete(string);
+			input.insertMath(string);
 			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
@@ -2199,8 +2222,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void addGeoToTV(GeoElement geo) {
-		getTableValuesView().add(geo);
-		getTableValuesView().showColumn((GeoEvaluatable) geo);
+		getTableValuesView().addAndShow(geo);
 	}
 
 	@Override

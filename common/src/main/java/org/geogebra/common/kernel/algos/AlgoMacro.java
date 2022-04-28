@@ -203,7 +203,7 @@ public class AlgoMacro extends AlgoElement
 		} catch (Exception e) {
 			Log.debug("AlgoMacro compute():\n");
 			this.locked = false;
-			e.printStackTrace();
+			Log.debug(e);
 			for (int i = 0; i < getOutputLength(); i++) {
 				getOutput(i).setUndefined();
 			}
@@ -486,7 +486,7 @@ public class AlgoMacro extends AlgoElement
 			}
 		} catch (Exception e) {
 			Log.debug("AlgoMacro.initLocateable:");
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

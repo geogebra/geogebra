@@ -13,6 +13,8 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
@@ -645,6 +647,17 @@ public class Construction {
 
 		// less than n casCell
 		return null;
+	}
+
+	/**
+	 * Hide all CAS twin geos that were not loaded from a file
+	 */
+	public void updateCasCellTwinVisibility() {
+		for (GeoElement ce : geoSetWithCasCells) {
+			if (ce.getCorrespondingCasCell() != null) {
+				ce.getCorrespondingCasCell().updateTwinGeoVisibility();
+			}
+		}
 	}
 
 	/***
@@ -1351,7 +1364,7 @@ public class Construction {
 
 			sb.append("</construction>\n");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -1408,44 +1421,6 @@ public class Construction {
 	}
 
 	/**
-	 * Returns this construction in regression file .out format.
-	 * 
-	 * @author Zoltan Kovacs
-	 * 
-	 * @param sb
-	 *            string builder
-	 */
-	public void getConstructionRegressionOut(StringBuilder sb) {
-
-		// change kernel settings temporarily
-		StringTemplate tpl = StringTemplate.regression;
-		try {
-			ConstructionElement ce;
-			int size = ceList.size();
-			for (int i = 0; i < size; ++i) {
-				ce = ceList.get(i);
-				sb.append(ce.getNameDescription());
-				sb.append(" = ");
-
-				if (ce instanceof GeoElement) {
-					// sb.append(((GeoElement) ce).toValueString());
-					((GeoElement) ce).getXMLtagsMinimal(sb, tpl);
-
-				} else if (ce instanceof AlgoElement) {
-					sb.append(((AlgoElement) ce).getDefinition(tpl));
-					sb.append(" == ");
-					sb.append(((AlgoElement) ce)
-							.getAlgebraDescriptionRegrOut(tpl));
-				}
-				sb.append("\n");
-			}
-		} catch (Exception e) {
-			sb.append(e.getMessage());
-		}
-
-	}
-
-	/**
 	 * @return true if undo is enabled
 	 */
 	public boolean isUndoEnabled() {
@@ -1458,7 +1433,6 @@ public class Construction {
 	 */
 	public void setUndoEnabled(boolean b) {
 		undoEnabled = b;
-
 	}
 
 	/*
@@ -1629,6 +1603,8 @@ public class Construction {
 			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
 			isRemovingGeoToReplaceIt = true;
+			final Group grp = oldGeo.getParentGroup();
+			oldGeo.setParentGroup(null);
 			oldGeo.remove();
 			isRemovingGeoToReplaceIt = false;
 
@@ -1649,6 +1625,11 @@ public class Construction {
 			// hidden objects also get the label, see #379
 			newGeo.setLoadedLabel(oldGeoLabel);
 			layerManager.replace(oldGeo.getOrdering(), newGeo);
+			if (grp != null) {
+				newGeo.setParentGroup(grp);
+				grp.getGroupedGeos().remove(oldGeo);
+				grp.getGroupedGeos().add(newGeo);
+			}
 			if (newGeo.isGeoText()) {
 				newGeo.updateRepaint();
 			}
@@ -2303,7 +2284,7 @@ public class Construction {
 				try {
 					cell = Integer.parseInt(labelWithoutDollar.toString());
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 				if (cell > 0) {
 					return this.getCasCell(cell - 1);
@@ -2742,6 +2723,17 @@ public class Construction {
 			pref = "a";
 		}
 
+		return buildIndexedLabel(pref, includeDummies);
+	}
+
+	/**
+	 * Please note that we do not check here for valid label
+	 * (see {@link #getIndexLabel(String, boolean)})
+	 * @param pref - prefix
+	 * @param includeDummies - to include cas dummy variables
+	 * @return indexed label, e.g. "y_{2}"
+	 */
+	public String buildIndexedLabel(String pref, boolean includeDummies) {
 		String longIndexLabel;
 		boolean freeLabelFound;
 		int n = 0;
@@ -3181,7 +3173,7 @@ public class Construction {
 		try {
 			undoManager.processXML(xml.toString(), false);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -3362,14 +3354,15 @@ public class Construction {
 	 */
 
 	/**
-	 * set the algo set currently updated by GeoElement.updateDependentObjects()
+	 * Updates all algos in the set. Guards against double updates if location is involved.
 	 * 
-	 * @param algoSetCurrentlyUpdated
+	 * @param algoSet
 	 *            algo set
 	 */
-	public void setAlgoSetCurrentlyUpdated(
-			AlgorithmSet algoSetCurrentlyUpdated) {
-		this.algoSetCurrentlyUpdated = algoSetCurrentlyUpdated;
+	public void updateAllAlgosInSet(@Nonnull AlgorithmSet algoSet) {
+		this.algoSetCurrentlyUpdated = algoSet;
+		algoSet.updateAll();
+		this.algoSetCurrentlyUpdated = null;
 	}
 
 	/**
@@ -3777,26 +3770,6 @@ public class Construction {
 		return null;
 	}
 
-	/**
-	 * adds an object to a group
-	 * @param object
-	 *            label of object to be added to the group
-	 * @param objectsInGroup
-	 *            list of labels of objects in the group the given object has to be added to
-	 */
-	public void addToGroup(String object, String[] objectsInGroup) {
-		GeoElement geo = geoTable.get(object);
-		for (String i : objectsInGroup) {
-			Group parentGroup = getParentGroup(i);
-			if (parentGroup != null) {
-				parentGroup.setFixed(geo.isLocked());
-				parentGroup.getGroupedGeos().add(geo);
-				geo.setParentGroup(parentGroup);
-				return;
-			}
-		}
-	}
-
 	private Group getParentGroup(String object) {
 		GeoElement geoInGroup = geoTable.get(object);
 		return geoInGroup.getParentGroup();
@@ -3805,21 +3778,25 @@ public class Construction {
 	private ArrayList<GeoElement> getGeosByLabel(String[] list) {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		for (String g : list) {
-			geos.add(geoTable.get(g));
+			if (geoTable.containsKey(g)) {
+				geos.add(geoTable.get(g));
+			}
 		}
 		return geos;
 	}
 
 	/**
-	 * @param label
-	 *            label of object
+	 * @param geo
+	 *            construction element
 	 * @return whether object has unlabeled predecessors
 	 */
-	public boolean hasUnlabeledPredecessors(String label) {
-		final TreeSet<GeoElement> set = geoTable.get(label).getAllPredecessors();
-		for (GeoElement el : set) {
-			if (el.getLabelSimple() == null) {
-				return true;
+	public boolean hasUnlabeledPredecessors(GeoElement geo) {
+		final AlgoElement algo = geo.getParentAlgorithm();
+		if (algo != null) {
+			for (GeoElement el : algo.getInput()) {
+				if (el.getLabelSimple() == null) {
+					return true;
+				}
 			}
 		}
 		return false;

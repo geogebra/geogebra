@@ -5,8 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.config.AppConfigGeometry;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.test.UndoRedoTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +21,8 @@ public class SliderTest extends BaseUnitTest {
 	@Before
 	public void setUp() {
 		info = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
+		getApp().setConfig(new AppConfigUnrestrictedGraphing());
+		getConstruction().getConstructionDefaults().createDefaultGeoElements();
 	}
 
 	@Test
@@ -82,5 +87,28 @@ public class SliderTest extends BaseUnitTest {
 
 		slider = undoRedo.getAfterUndo("a");
 		assertThat(slider.isEuclidianVisible(), is(true));
+	}
+
+	@Test
+	public void autocreateSliderShouldHaveCorrectRangeGeometry() {
+		getApp().setConfig(new AppConfigGeometry());
+		getConstruction().getConstructionDefaults().createDefaultGeoElements();
+		GeoAngle slider = autocreateAngle();
+		assertThat(slider.getAngleStyle(), is(GeoAngle.AngleStyle.NOTREFLEX));
+		assertThat(slider.getIntervalMax(), is(Math.PI));
+	}
+
+	@Test
+	public void autocreateSliderShouldHaveCorrectRangeGraphing() {
+		GeoAngle slider = autocreateAngle();
+		assertThat(slider.getAngleStyle(), is(GeoAngle.AngleStyle.ANTICLOCKWISE));
+		assertThat(slider.getIntervalMax(), is(Kernel.PI_2));
+	}
+
+	private GeoAngle autocreateAngle() {
+		add("A=(0,0)");
+		add("B=(1,0)");
+		add("Rotate(A,a,B)", info);
+		return (GeoAngle) lookup("a");
 	}
 }

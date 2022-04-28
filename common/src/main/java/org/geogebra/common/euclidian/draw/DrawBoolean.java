@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
@@ -46,14 +45,14 @@ public final class DrawBoolean extends Drawable {
 	public static final int LABEL_MARGIN_TEXT = 9;
 	public static final int LABEL_MARGIN_LATEX = 5;
 
-	private GeoBoolean geoBool;
+	private final GeoBoolean geoBool;
 
 	private boolean isVisible;
 	private String oldCaption;
 
-	private final GPoint textSize = new GPoint(0, 0);
+	private int textWidth = 0;
 
-	private CheckBoxIcon checkBoxIcon;
+	private final CheckBoxIcon checkBoxIcon;
 
 	/**
 	 * Creates new DrawBoolean
@@ -112,7 +111,7 @@ public final class DrawBoolean extends Drawable {
 		int size = view.getBooleanSize();
 		int prefSize = size + 12;
 		labelRectangle.setBounds(xLabel, yLabel,
-				prefSize + textSize.x, prefSize);
+				prefSize + textWidth, prefSize);
 	}
 
 	@Override
@@ -127,13 +126,13 @@ public final class DrawBoolean extends Drawable {
 
 			if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 				getDynamicCaption().draw(g2);
+				textWidth = getDynamicCaption().getWidth();
 			} else if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
 						view.getApplication(), geoBool, g2.getFont(),
 						labelDesc);
 
-				textSize.x = d.getWidth();
-				textSize.y = d.getHeight();
+				textWidth = d.getWidth();
 
 				int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth()
 						+ LABEL_MARGIN_LATEX + LEGACY_OFFSET;
@@ -160,7 +159,7 @@ public final class DrawBoolean extends Drawable {
 					int width = (int) Math.round(layout.getBounds().getWidth());
 					int height = (int) Math
 							.round(layout.getBounds().getHeight());
-					textSize.x = width;
+					textWidth = width;
 					int left = geoBool.labelOffsetX
 							+ checkBoxIcon.getIconWidth() + LABEL_MARGIN_TEXT + LEGACY_OFFSET;
 					int top = getCaptionY(false, height);
@@ -220,7 +219,7 @@ public final class DrawBoolean extends Drawable {
 	 */
 	public static class CheckBoxIcon {
 
-		private EuclidianView ev;
+		private final EuclidianView ev;
 		private static GBasicStroke stroke13 = null;
 		private static GBasicStroke stroke26 = null;
 
@@ -231,7 +230,7 @@ public final class DrawBoolean extends Drawable {
 				255, 128);
 
 		// highlight circle
-		private static GEllipse2DDouble highlightCircle = AwtFactory
+		private static final GEllipse2DDouble highlightCircle = AwtFactory
 				.getPrototype().newEllipse2DDouble();
 
 		/**

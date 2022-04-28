@@ -16,7 +16,6 @@ import org.geogebra.web.html5.util.ImageManagerW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
@@ -101,8 +100,8 @@ public class ToolNameIconPanelW extends FlowPanel {
 		iconPanel.add(icon);
 		iconPanel.add(labelIcon);
 
-		Label checkboxLabel = new Label(loc.getMenu("ShowInToolBar"));
-		showTool = new ComponentCheckbox(false, checkboxLabel, this::showToolChanged);
+		showTool = new ComponentCheckbox(app.getLocalization(), false,
+				"ShowInToolBar", this::showToolChanged);
 		showTool.setSelected(true);
 		showTool.addStyleName("accented");
 

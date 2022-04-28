@@ -1,18 +1,17 @@
 package org.geogebra.keyboard.web;
 
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
+import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.ImageResource;
+import org.gwtproject.resources.client.Resource;
 
 /**
  * image and style resources of keyboard
  */
-@SuppressWarnings("javadoc")
+@Resource
 public interface KeyboardResources extends ClientBundle {
 
-	KeyboardResources INSTANCE = GWT.create(KeyboardResources.class);
+	KeyboardResources INSTANCE = new KeyboardResourcesImpl();
 
 	// ONSCREENKEYBOARD
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_black_24px.svg")

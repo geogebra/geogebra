@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
-
-import com.google.gwt.resources.client.ResourcePrototype;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 /**
  * Contains the real views and also the "extensions"

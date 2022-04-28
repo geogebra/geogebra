@@ -1,41 +1,57 @@
 package org.geogebra.web.html5.gui.accessibility;
 
-import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App;
 
 public class AltGeoTabber implements MayHaveFocus {
-	private final EuclidianView view;
-	private static final String ALT_TEXT_ID = "altText";
-	private final Kernel kernel;
-	private GeoElement altGeo;
+	private final ScreenReaderAdapter screenReader;
 	private boolean focus = false;
+	private int viewIndex = 0;
+	private final ViewAltTexts altTexts;
 
 	/**
-	 * @param view used to determine which altText object to read
+	 * @param app the application
 	 */
-	public AltGeoTabber(EuclidianView view) {
-		this.view = view;
-		kernel = view.getKernel();
+	public AltGeoTabber(App app, ViewAltTexts altTexts) {
+		screenReader = app.getActiveEuclidianView().getScreenReader();
+		this.altTexts = altTexts;
 	}
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
-		altGeo = getAltGeo();
-		if (hasInvisibleAltGeo()) {
-			GeoText altText = (GeoText) altGeo;
-			view.getScreenReader().readText(altText.getText().getTextString());
-			focus = true;
+		altTexts.updateVisibleViews();
+		viewIndex = reverse ? altTexts.viewCount() - 1 : 0;
+		if (readNextView())  {
+			return focus;
+		}
+		return false;
+	}
+
+	private boolean readNextView() {
+		if (viewIndex < altTexts.viewCount()) {
+			readAltTextForView();
 			return true;
 		}
 		return false;
 	}
 
-	private boolean hasInvisibleAltGeo() {
-		return altGeo != null && !altGeo.isEuclidianVisible();
+	private void readAltTextForView() {
+		GeoElement altGeo = altTexts.getAltGeo(viewIndex);
+		if (altGeo != null) {
+			readText(screenReader, altGeo);
+			focus = true;
+		}
+	}
+
+	private void readText(ScreenReaderAdapter screenReader, GeoElement altGeo) {
+		if (!altGeo.isGeoText()) {
+			return;
+		}
+		screenReader.readText(((GeoText) altGeo).getAuralText());
 	}
 
 	@Override
@@ -45,13 +61,23 @@ public class AltGeoTabber implements MayHaveFocus {
 
 	@Override
 	public boolean focusNext() {
-		focus = false;
-		return false;
+		viewIndex++;
+		focus = readNextView();
+		return focus;
 	}
 
 	@Override
 	public boolean focusPrevious() {
-		focus = false;
+		viewIndex--;
+		focus = readPreviousView();
+		return focus;
+	}
+
+	private boolean readPreviousView() {
+		if (viewIndex >= 0) {
+			readAltTextForView();
+			return true;
+		}
 		return false;
 	}
 
@@ -65,15 +91,4 @@ public class AltGeoTabber implements MayHaveFocus {
 		return AccessibilityGroup.ViewControlId.ALT_GEO;
 	}
 
-	/**
-	 * @return the element with the name ("altText" + viewNumber), or "altText",
-	 * if it exists
-	 */
-	public GeoElement getAltGeo() {
-		int viewNo = view.getEuclidianViewNo();
-		GeoElement altGeoForView = kernel.lookupLabel(ALT_TEXT_ID + viewNo);
-		return altGeoForView == null
-				? kernel.lookupLabel(ALT_TEXT_ID)
-				: altGeoForView;
-	}
 }

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -36,6 +37,7 @@ import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -53,7 +55,6 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JsRunnable;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
-import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArrayString;
@@ -302,7 +303,7 @@ public class GgbAPIW extends GgbAPI {
 				mergeFiles(f, jso, GgbFile.SLIDE_PREFIX + i + "/",
 						usage);
 			}
-			jso.put(GgbFile.STRUCTURE_JSON,	pageController.getStructureJSON());
+			jso.put(GgbFile.STRUCTURE_JSON, pageController.getStructureJSON());
 			mergeFiles(shared, jso, GgbFile.SHARED_PREFIX, null);
 			return jso;
 		}
@@ -586,6 +587,14 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public void getZippedGgbAsync(final boolean includeThumbnail, final FileConsumer clb) {
 		final GgbFile arch = getFile(includeThumbnail);
+		getCompressed(arch, clb);
+	}
+
+	public void getZippedMacrosAsync(final FileConsumer clb) {
+		getCompressed(createMacrosArchive(), clb);
+	}
+
+	private void getCompressed(GgbFile arch, FileConsumer clb) {
 		JsPropertyMap<Object> fflatePrepared = prepareFileForFFlate(arch);
 
 		FFlate.get().zip(fflatePrepared, (err, data) -> {
@@ -778,7 +787,7 @@ public class GgbAPIW extends GgbAPI {
 			url = Browser.encodeSVG(urlOrSvgContent);
 		}
 		imageManager.addExternalImage(filename, url);
-		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
+		imageManager.triggerSingleImageLoading(filename, kernel);
 	}
 
 	private static String checkCorner(String cornerExp) {
@@ -808,22 +817,24 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * Add a multiuser interaction
-	 * @param user tooltip content
+	 * @param clientId id of the client that triggered the selection
+	 * @param userName tooltip content
 	 * @param label label of an object to use as anchor
 	 * @param color color CSS string
 	 * @param newGeo if the geo was added
 	 */
-	public void addMultiuserSelection(String user, String color, String label, boolean newGeo) {
-		MultiuserManager.INSTANCE.addSelection(app, user, GColor.parseHexColor(color),
+	public void addMultiuserSelection(String clientId, String userName, String color,
+			String label, boolean newGeo) {
+		MultiuserManager.INSTANCE.addSelection(app, clientId, userName, GColor.parseHexColor(color),
 				label, newGeo);
 	}
 
 	/**
 	 * Remove a multiuser interaction
-	 * @param user tooltip content
+	 * @param clientId the id of the client
 	 */
-	public void removeMultiuserSelections(String user) {
-		MultiuserManager.INSTANCE.deselect(app, user);
+	public void removeMultiuserSelections(String clientId) {
+		MultiuserManager.INSTANCE.deselect(app, clientId);
 	}
 
 	public void asyncEvalCommand(String command, ResolveCallbackFn<String> onSuccess,
@@ -1086,6 +1097,31 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
+	 * @param label - inputbox label
+	 * @return content of the inputbox
+	 */
+	public String getInputBoxState(String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			return ((GeoInputBox) geo).getInputBoxState();
+		}
+		return getEditorState();
+	}
+
+	/**
+	 * @param state - content of inputbox
+	 * @param label - label of inputbox
+	 */
+	public void setInputBoxState(String state, String label) {
+		GeoElement geo = StringUtil.empty(label) ? null
+				: kernel.lookupLabel(label);
+		if (geo instanceof GeoInputBox) {
+			((GeoInputBox) geo).setInputBoxState(state);
+		}
+	}
+
+	/**
 	 *
 	 * @return then embedded calculator apis.
 	 */
@@ -1169,17 +1205,6 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param label label of the embed
-	 * @param base64 applet content as base64
-	 */
-	public void setEmbedContent(String label, String base64) {
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			embedManager.setContentSync(label, base64);
-		}
-	}
-
-	/**
 	 * @param label name of the function
 	 */
 	public void addGeoToTV(String label) {
@@ -1257,6 +1282,11 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public JsObjectWrapper getWrapper(Object options) {
 		return new JsObjectWrapperW(options);
+	}
+
+	@Override
+	protected JsObjectWrapper createWrapper() {
+		return new JsObjectWrapperW(JsPropertyMap.of());
 	}
 
 	public void switchCalculator(String appCode) {

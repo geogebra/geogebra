@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Collection of static methods to find intersection of implicit with line, function, conic and
@@ -100,7 +101,7 @@ public final class ImplicitIntersectionFinder {
 			intersections(f, params, guess, outputs, vals);
 			return;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			if (derivative) {
 				// Log.debug("Derivative exists, but failed to find intersection
 				// using Newton's method");

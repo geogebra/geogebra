@@ -18,9 +18,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
-import org.gwtproject.regexp.shared.RegExp;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -134,7 +134,7 @@ public class StringTemplateTest {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, TestErrorHandler.INSTANCE,
-				new EvalInfo(true).withFractions(true).addDegree(true), null);
+				new EvalInfo(true).withSymbolic(true).addDegree(true), null);
 		return result[0];
 	}
 

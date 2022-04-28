@@ -1,11 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -66,6 +68,38 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 				assertIsVector(symbolic);
 			}
 		}
+	}
+
+	@Test
+	public void testVectorOfListsToListOfVectors() {
+		add("l1 = {1,2,pi}");
+		add("l2 = {3,4,5}");
+		GeoSymbolic list = add("L3 = (l1, l2)");
+		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("\\left\\{\\left(1, 3 \\right), "
+						+ "\\left(2, 4 \\right), "
+						+ "\\left(\\pi , 5 \\right)\\right\\}"));
+		list.setSymbolicMode(false, false);
+		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("\\left\\{\\left(1, 3 \\right), "
+						+ "\\left(2, 4 \\right), "
+						+ "\\left(3.1415926536, 5 \\right)\\right\\}"));
+	}
+
+	@Test
+	public void testVectorOfListsToListOfVectorsWithLowercaseLabel() {
+		add("l1 = {1,2,pi}");
+		add("l2 = {3,4,5}");
+		GeoSymbolic list = add("l3 = (l1, l2)");
+		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("\\left\\{\\left(1, 3 \\right), "
+						+ "\\left(2, 4 \\right), "
+						+ "\\left(\\pi , 5 \\right)\\right\\}"));
+		list.setSymbolicMode(false, false);
+		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+				equalTo("\\left\\{\\left(1, 3 \\right), "
+						+ "\\left(2, 4 \\right), "
+						+ "\\left(3.1415926536, 5 \\right)\\right\\}"));
 	}
 
 	@Test

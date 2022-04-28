@@ -9,6 +9,7 @@ import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.menubar.MainMenu;
@@ -21,8 +22,8 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -456,7 +457,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			// zoomYaxis(Double.parseDouble(e.getActionCommand()));
 			zoomYaxis(Double.parseDouble(command));
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 	}
 

@@ -53,8 +53,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		startPanel.add(description);
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
-			Label casCheckBoxLbl = new Label(loc.getMenu("Perspective.CAS"));
-			ComponentCheckbox cas = new ComponentCheckbox(true, casCheckBoxLbl, null);
+			ComponentCheckbox cas = new ComponentCheckbox(app.getLocalization(), true,
+					"Perspective.CAS");
 			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
 
 			startPanel.add(cas);
@@ -70,8 +70,8 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		}
 
 		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
-			Label allow3DLbl = new Label(loc.getMenu("Perspective.3DGraphics"));
-			final ComponentCheckbox allow3D = new ComponentCheckbox(true, allow3DLbl, null);
+			final ComponentCheckbox allow3D = new ComponentCheckbox(app.getLocalization(), true,
+					"Perspective.3DGraphics");
 			app.getSettings().getEuclidian(-1).setEnabled(true);
 
 			startPanel.add(allow3D);

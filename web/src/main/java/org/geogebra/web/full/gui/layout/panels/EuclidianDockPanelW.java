@@ -6,9 +6,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
+import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract

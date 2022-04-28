@@ -6,6 +6,7 @@ $purple-dark: #4C42A1;
 $purple-dark-26: rgba($purple-dark, 0.26);
 $purple-dark-87: rgba($purple-dark, 0.87);
 $purple-default-12: rgba($purple-default, 0.12);
+$purple-default-20: rgba($purple-default, 0.2);
 
 // CARROT
 $carrot-light: #EA9143;
@@ -26,7 +27,7 @@ $exam-red: #D32F2F;
 $exam-lock: #007AFF;
 
 $black: #000000;
-$transparent: rgba(255,255,255,0);
+$transparent-white: rgba(255,255,255,0); // transparent white != transparent black when used in shadow
 $toolbar-header: #6161ff;
 $toolbar-header-dark10: #4848e6;
 $toolbar-header-light5: #6e6eff;
@@ -68,12 +69,14 @@ $white-80: rgba(255, 255, 255, 0.8);
 $white-87: rgba(255, 255, 255, 0.87);
 $white-90: rgba(255, 255, 255, 0.9);
 $white-95: rgba(255, 255, 255, 0.95);
+
 $black-87: rgba(0,0,0,0.87);
 $black-60: rgba(0,0,0,0.60);
 $black-54: rgba(0,0,0,0.54);
 $black-50: rgba(0,0,0,0.50);
 $black-42: rgba(0,0,0,0.42);
 $black-38: rgba(0,0,0,0.38);
+$black-36: rgba(0,0,0,0.36);
 $black-30: rgba(0,0,0,0.3);
 $black-28: rgba(0,0,0,0.28);
 $black-24: rgba(0,0,0,0.24);
@@ -90,7 +93,7 @@ $preview-border: rgba(51,51,51,.2);
 
 $text-primary: $black-87;
 $text-secondary: $black-54;
-$text-disabled: rgba(0,0,0,0.38);
+$text-disabled: rgba(0,0,0,0.36);
 
 $text-light-primary: $white;
 $text-light-secondary: $white-70;
@@ -110,12 +113,14 @@ $slider-track-focus: rgba(0, 0, 0, 0.6);
  --ggb-primary-variant-color: #{$purple-light};
  --ggb-dark-color: #{$purple-dark};
  --ggb-light-color: #{$purple-light};
+ --ggb-selection-color: #{$purple-default-20};
 }
 
 $mow_primary: var(--ggb-primary-color);
 $mow_primary_variant:  var(--ggb-primary-variant-color);
 $mow_dark: var(--ggb-dark-color);
 $mow_light: var(--ggb-light-color);
+$mow_selection_color: var(--ggb-selection-color);
 
 $mow_grey_button: #f5f5f5;
 $mow_card_background: #fafafa;
@@ -130,4 +135,7 @@ $mow_material_card_bgd: $mow_card_background;
 $mow_white_hover: #f5f5f5;
 $teal-default-hover: #3DA196;
 $teal-default-20: rgba(0, 132, 117, 0.2);
-$tableview-row: rgba(216, 216, 216, 0.2);
+$tableview-header: #f5f5f5;
+$tableview-error: #b00020;
+$tableview-toast: #616161;
+$input-field-border: #d7d7d7;

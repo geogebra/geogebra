@@ -314,6 +314,9 @@ public abstract class CanvasDrawable extends Drawable {
 	 * @return if label rectangle was hit by (x, y) pointer.
 	 */
 	protected boolean hitLabelBounds(int x, int y) {
+		if (!geo.isLabelVisible()) {
+			return false;
+		}
 		double top = getLabelTop();
 		return x > xLabel && x < xLabel + labelSize.x && y > top
 				&& y < top + getLabelHeight();

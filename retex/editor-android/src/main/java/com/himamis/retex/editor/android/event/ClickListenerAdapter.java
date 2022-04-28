@@ -23,6 +23,9 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (!v.isClickable()) {
+            return false;
+        }
         if(v instanceof FormulaEditor){
             shiftX = ((FormulaEditor) v).getShiftX();
         }

@@ -31,14 +31,20 @@ evaluationDependsOn ':renderer-base'
 evaluationDependsOn ':gwtutil'
 
 dependencies {
-	compile project(':renderer-base')
-	compile project(':gwtutil')
-	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
-	compile files(project(':gwtutil').sourceSets.main.java.srcDirs)
-	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"
-	compile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	compile project(':renderer-base'),
+			project(':gwtutil'),
+			files(project(':renderer-base').sourceSets.main.java.srcDirs),
+			files(project(':gwtutil').sourceSets.main.java.srcDirs),
+			files(file("build/generated/sources/annotationProcessor/java/main/")),
+			"com.google.gwt:gwt-dev:$gwtCompilerVersion",
+			"com.google.gwt:gwt-user:$gwtCompilerVersion"
 	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+
+	annotationProcessor project(":gwtutil"),
+			'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
 }
+
+compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
 task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 	description 'Starts a codeserver, and a simple webserver for development'

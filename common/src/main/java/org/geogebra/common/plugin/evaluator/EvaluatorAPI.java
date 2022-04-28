@@ -11,8 +11,10 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.stepbystep.StepSolver;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -40,6 +42,7 @@ public class EvaluatorAPI {
 	private final AlgebraProcessor algebraProcessor;
 	private final Parser parser;
 	private final EvalInfo evalInfo;
+	private StepSolver stepSolver;
 
 	/**
 	 * Create a new Evaluator API
@@ -55,6 +58,10 @@ public class EvaluatorAPI {
 		this.latexSerializer = new TeXSerializer();
 		this.evalInfo = createEvalInfo();
 		expressionReader = ScreenReader.getExpressionReader(kernel.getApplication());
+		stepSolver = (text, type, parser) -> {
+			Log.error("Step solver not loaded");
+			return null;
+		};
 	}
 
 	private EvalInfo createEvalInfo() {
@@ -154,5 +161,21 @@ public class EvaluatorAPI {
 	public void evalLaTeX(String formula) {
 		String plainText = new SyntaxAdapterImpl(parser.getKernel()).convert(formula);
 		mathFieldInternal.parse(plainText);
+	}
+
+	public String getText() {
+		return mathFieldInternal.getText();
+	}
+
+	/**
+	 * @param type operation type
+	 * @return JSON describing the steps
+	 */
+	public String getSteps(String type) {
+		return stepSolver.getSteps(mathFieldInternal.getText(), type, parser);
+	}
+
+	public void setSolver(StepSolver stepSolver) {
+		this.stepSolver = stepSolver;
 	}
 }

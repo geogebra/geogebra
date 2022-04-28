@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
@@ -77,7 +78,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, GeoLineND, MatrixTransformable,
 		GeoFunctionable, Transformable, GeoEvaluatable, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo, EquationValue, Lineable2D {
+		SymbolicParametersBotanaAlgo, EquationValue, Lineable2D, Functional {
 
 	// modes
 	/** implicit equation */
@@ -1074,13 +1075,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
-	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		StringBuilder sbToStr = getSbToString();
-		getXMLtagsMinimal(sbToStr, tpl);
-		return sbToStr.toString();
-	}
-
 	private String buildImplicitEquation(double[] g, StringTemplate tpl) {
 		g[0] = x;
 		g[1] = y;
@@ -1114,16 +1108,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		sb.append(sbToStringLHS);
 	}
 
-	/**
-	 * returns all class-specific xml tags for saveXML GeoGebra File Format
-	 */
 	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
+	protected void getStyleXML(StringBuilder sb) {
+		super.getStyleXML(sb);
 		// line thickness and type
 		getLineStyleXML(sb);
-
-		// prametric, explicit or implicit mode
 		XMLBuilder.appendEquationTypeLine(sb, getToStringMode(), parameter);
 	}
 

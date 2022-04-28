@@ -129,6 +129,11 @@ public class IntervalPlotModel {
 		return path.getLabelPoint();
 	}
 
+	/**
+	 *
+	 * @param index to get point at
+	 * @return corresponding point if index is valid, null otherwise.
+	 */
 	public IntervalTuple pointAt(int index) {
 		return points.get(index);
 	}
@@ -156,7 +161,7 @@ public class IntervalPlotModel {
 	 */
 	public boolean isEmptyAt(int index) {
 		return index >= points.count()
-				|| pointAt(index).isEmpty();
+				|| pointAt(index).isUndefined();
 	}
 
 	public boolean isInvertedAt(int index) {
@@ -190,5 +195,13 @@ public class IntervalPlotModel {
 
 	public GeoFunction getGeoFunction() {
 		return sampler.getGeoFunction();
+	}
+
+	public boolean hasValidData() {
+		return countDefined() > 1;
+	}
+
+	private long countDefined() {
+		return points.stream().filter(t -> !t.y().isUndefined()).count();
 	}
 }

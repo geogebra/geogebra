@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -84,7 +85,7 @@ public class PolygonFactory {
 				// points[i].setEuclidianVisible(false);
 				points[i].update();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				return null;
 			}
 		}
@@ -182,7 +183,6 @@ public class PolygonFactory {
 	 */
 	final public GeoElement[] rigidPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
-
 		cons.setSuppressLabelCreation(true);
 		GeoConicND circle = kernel.getAlgoDispatcher().circle(null, points[0],
 				new GeoNumeric(cons, points[0].distance(points[1])));
@@ -194,7 +194,7 @@ public class PolygonFactory {
 			cons.replace((GeoElement) points[1], (GeoElement) p);
 			points[1] = p;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return null;
 		}
 
@@ -261,7 +261,7 @@ public class PolygonFactory {
 				points[i].setEuclidianVisible(false);
 				points[i].update();
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 				return null;
 			}
 		}
