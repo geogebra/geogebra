@@ -98,6 +98,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			btnSymbolic.setSelected(false);
 		} else {
 			btnSymbolic.setSelected(true);
+			btnSymbolic.updateImage();
 			btnSymbolic.addStyleName("btn-prefix");
 		}
 
