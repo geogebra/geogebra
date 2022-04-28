@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.euclidian.profiler.coords.Coordinate;
 import org.geogebra.web.html5.euclidian.profiler.coords.CoordinatesParser;
@@ -52,7 +53,7 @@ public class DrawingEmulator {
 					coordinates = CoordinatesParser.parseCoordinates(fileContent);
 					drawWithFpsProfiling();
 				} catch (JSONException e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 			}
 		};

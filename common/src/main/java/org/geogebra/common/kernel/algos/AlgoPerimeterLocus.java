@@ -75,8 +75,13 @@ public class AlgoPerimeterLocus extends AlgoElement {
 
 		ArrayList<? extends MyPoint> points = locus.getPoints();
 
-		if (points.size() < 2) {
+		if (points.isEmpty()) {
 			circum.setUndefined();
+			return;
+		}
+
+		if (points.size() == 1) {
+			circum.setValue(0);
 			return;
 		}
 

@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepTransformable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class StepHelper {
 
@@ -436,7 +437,7 @@ public class StepHelper {
 
 			return solutions;
 		} catch (ParseException e) {
-			e.printStackTrace();
+			Log.debug(e);
 			return new ArrayList<>();
 		}
 	}

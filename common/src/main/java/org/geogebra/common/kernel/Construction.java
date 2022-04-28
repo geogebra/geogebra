@@ -1364,7 +1364,7 @@ public class Construction {
 
 			sb.append("</construction>\n");
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -2284,7 +2284,7 @@ public class Construction {
 				try {
 					cell = Integer.parseInt(labelWithoutDollar.toString());
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.debug(e);
 				}
 				if (cell > 0) {
 					return this.getCasCell(cell - 1);
@@ -3173,7 +3173,7 @@ public class Construction {
 		try {
 			undoManager.processXML(xml.toString(), false);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 

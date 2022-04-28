@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Take objects from the middle of a list adapted from AlgoKeepIf
@@ -113,7 +114,7 @@ public class AlgoCountIf3 extends AlgoElement {
 				}
 			} catch (MyError e) {
 				// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3),1}]
-				e.printStackTrace();
+				Log.debug(e);
 				result.setUndefined();
 				return;
 			}

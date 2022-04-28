@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -235,18 +236,18 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 	}
 
 	private void updateStyleBar() {
-		for (int i = 0; i < popupBtnList.length; i++) {
+		for (PopupMenuButtonW popupButton : popupBtnList) {
 			try {
-				popupBtnList[i].update(selectedRows);
+				popupButton.update(selectedRows);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
-		for (int i = 0; i < toggleBtnList.length; i++) {
+		for (ToggleButton toggleButton : toggleBtnList) {
 			try {
-				toggleBtnList[i].update(selectedRows);
+				toggleButton.update(selectedRows);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.debug(e);
 			}
 		}
 	}

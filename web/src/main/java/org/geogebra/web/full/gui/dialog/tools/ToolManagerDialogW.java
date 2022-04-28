@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -271,9 +270,6 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 		addStyledButton(MaterialDesignResources.INSTANCE.save_black(), toolButtonPanel,
 				loc.getMenu("Save"), w -> this.saveTools());
-		addStyledButton(MaterialDesignResources.INSTANCE.share_black(), toolButtonPanel,
-				loc.getMenu("Share"),
-				w -> model.uploadToGeoGebraTube(toolList.getSelectedMacros().toArray()));
 
 		// name & icon
 		macroPanel = new ToolNameIconPanelW(appw);
@@ -318,10 +314,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	 */
 	private void saveTools() {
 		applyChanges();
-		SaveDialogI dlg = ((DialogManagerW) appw.getDialogManager())
-				.getSaveDialog(false, true);
-		dlg.setSaveType(MaterialType.ggt);
-		dlg.show();
+		((GuiManagerW) app.getGuiManager()).exportMacros(app.getExportTitle() + ".ggt");
 	}
 
 	@Override
@@ -333,13 +326,6 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	public void refreshCustomToolsInToolBar() {
 		appw.getGuiManager().refreshCustomToolsInToolBar();
 		appw.getGuiManager().updateToolbar();
-	}
-
-	@Override
-	public void uploadWorksheet(ArrayList<Macro> macros) {
-		GeoGebraTubeExportW exporter = new GeoGebraTubeExportW(appw);
-
-		exporter.uploadWorksheet(macros);
 	}
 
 	@Override

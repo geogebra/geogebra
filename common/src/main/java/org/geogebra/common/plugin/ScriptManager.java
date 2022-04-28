@@ -18,7 +18,6 @@ public abstract class ScriptManager implements EventListener {
 
 	@Weak
 	protected App app;
-	protected boolean listenersEnabled = true;
 	protected boolean jsEnabled = true;
 	// maps between GeoElement and JavaScript function names
 	protected HashMap<GeoElement, JsReference> updateListenerMap;
@@ -57,10 +56,6 @@ public abstract class ScriptManager implements EventListener {
 
 	@Override
 	public void sendEvent(Event evt) {
-		if (!listenersEnabled) {
-			return;
-		}
-
 		switch (evt.type) {
 		case CLICK:
 			callListeners(clickListeners, evt);
@@ -144,14 +139,6 @@ public abstract class ScriptManager implements EventListener {
 		// implemented in web and desktop
 	}
 
-	public void disableListeners() {
-		listenersEnabled = false;
-	}
-
-	public void enableListeners() {
-		listenersEnabled = true;
-	}
-
 	/*
 	 * needed for eg File -> New
 	 */
@@ -170,7 +157,7 @@ public abstract class ScriptManager implements EventListener {
 		}
 
 		// If undo clicked, mustn't clear the global listeners
-		if (!listenersEnabled) {
+		if (!app.getEventDispatcher().listenersEnabled) {
 			return;
 		}
 

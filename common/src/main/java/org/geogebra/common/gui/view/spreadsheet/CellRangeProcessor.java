@@ -1098,7 +1098,7 @@ public class CellRangeProcessor {
 					.processAlgebraCommandNoExceptions(expr, false);
 		} catch (Exception ex) {
 			Log.debug("creating matrix failed " + expr);
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 
 		if (geos != null) {
@@ -1149,7 +1149,7 @@ public class CellRangeProcessor {
 
 		} catch (Exception ex) {
 			Log.debug("creating TableText failed " + text);
-			ex.printStackTrace();
+			Log.debug(ex);
 		}
 
 		if (geos != null) {

@@ -299,7 +299,7 @@ public abstract class FunctionInspector
 			updateXYTable();
 			updateTestPoint();
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			Log.debug(e1);
 		}
 
 	}

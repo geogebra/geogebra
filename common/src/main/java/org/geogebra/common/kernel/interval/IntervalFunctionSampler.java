@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to provide samples of the given function as a
@@ -55,7 +56,7 @@ public class IntervalFunctionSampler {
 		try {
 			return evaluateOnSpace(space);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		return new IntervalTupleList();
 	}
@@ -86,7 +87,7 @@ public class IntervalFunctionSampler {
 						IntervalTuple tuple = new IntervalTuple(x, y);
 						samples.add(tuple);
 					} catch (Exception e) {
-						e.printStackTrace();
+						Log.debug(e);
 					}
 				});
 	}

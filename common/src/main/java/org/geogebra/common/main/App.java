@@ -407,7 +407,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
 	private final Object commandDictLock = new Object();
-	private String scriptingLanguage;
 	/**
 	 * flag for current state
 	 */
@@ -1406,25 +1405,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return the scriptingLanguage
-	 */
-	public String getScriptingLanguage() {
-		// in some files we stored language="null" accidentally
-		if ("null".equals(scriptingLanguage)) {
-			scriptingLanguage = null;
-		}
-		return scriptingLanguage;
-	}
-
-	/**
-	 * @param scriptingLanguage
-	 *            the scriptingLanguage to set
-	 */
-	public void setScriptingLanguage(String scriptingLanguage) {
-		this.scriptingLanguage = scriptingLanguage;
-	}
-
-	/**
 	 * @param v
 	 *            version parts
 	 * @return whether given version is newer than this code
@@ -1743,7 +1723,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param e exception
 	 */
 	public final void showGenericError(Exception e) {
-		e.printStackTrace();
+		Log.debug(e);
 		showError(getLocalization().getInvalidInputError());
 	}
 
@@ -1872,13 +1852,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	private void getScriptingXML(StringBuilder sb, boolean asPreference) {
-		sb.append("<scripting");
-		if (getScriptingLanguage() != null) {
-			sb.append(" language=\"");
-			sb.append(getScriptingLanguage());
-			sb.append("\"");
-		}
-		sb.append(" blocked=\"");
+		sb.append("<scripting blocked=\"");
 		sb.append(isBlockUpdateScripts());
 
 		if (!asPreference) {
@@ -1951,18 +1925,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return the scriptingDisabled
+	 * @return whether GGBScript scripting is disabled via file XML (UI option no longer exists)
 	 */
 	public boolean isScriptingDisabled() {
 		return scriptingDisabled;
 	}
 
 	/**
-	 * @param sd
-	 *            the scriptingDisabled to set
+	 * @param disabled
+	 *            see {@link #isScriptingDisabled()}
 	 */
-	public void setScriptingDisabled(boolean sd) {
-		this.scriptingDisabled = sd;
+	public void setScriptingDisabled(boolean disabled) {
+		this.scriptingDisabled = disabled;
 	}
 
 	/**
@@ -2027,7 +2001,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			getGuiManager().updateToolbar();
 			updateKeyboard();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -3655,11 +3629,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 							+ "\">" + xml + "</geogebra>",
 					false, true);
 		} catch (MyError err) {
-			err.printStackTrace();
+			Log.debug(err);
 			showError(err);
 			ok = false;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			ok = false;
 			showError(Errors.LoadFileFailed);
 		}
@@ -4229,7 +4203,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return true;
 		} catch (Exception err) {
 			resetCurrentFile();
-			err.printStackTrace();
+			Log.debug(err);
 			return false;
 		}
 	}
@@ -4350,7 +4324,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * @return relation tool dialog
 	 */
-	public RelationPane getRelationDialog() {
+	public RelationPane getRelationDialog(String subTitle) {
 		// overridden in web
 		return null;
 	}

@@ -547,7 +547,7 @@ public class Socket {
 					reader.close();
 				}
 			} catch (IOException ioe) {
-				ioe.printStackTrace();
+				Log.debug(ioe);
 				throw new Input3DException(Input3DExceptionType.INSTALL,
 						"RealSense: No key for camera in registry");
 			}

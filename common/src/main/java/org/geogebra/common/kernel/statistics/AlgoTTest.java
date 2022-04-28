@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a one sample t-test of a mean.
@@ -210,7 +211,7 @@ public class AlgoTTest extends AlgoElement {
 			} catch (RuntimeException e) {
 				// catches ArithmeticException, IllegalStateException and
 				// ArithmeticException
-				e.printStackTrace();
+				Log.debug(e);
 			}
 
 			// sample statistics input
@@ -241,14 +242,14 @@ public class AlgoTTest extends AlgoElement {
 				result.addNumber(testStat, null);
 
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				Log.debug(e);
 				result.setUndefined();
 				return;
 
 			} catch (RuntimeException e) {
 				// catches ArithmeticException, IllegalStateException and
 				// ArithmeticException
-				e.printStackTrace();
+				Log.debug(e);
 				result.setUndefined();
 				return;
 			}

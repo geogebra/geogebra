@@ -1,14 +1,16 @@
 package org.geogebra.web.shared;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -44,8 +46,8 @@ public class ShareDialogMow extends ComponentDialog
 	private StandardButton copyBtn;
 	private Material material;
 	private MaterialCallbackI callback;
-	private java.util.HashMap<String, Boolean> changedGroups = new java.util.HashMap<>();
-	private List<String> sharedGroups = new ArrayList<>();
+	private HashMap<GroupIdentifier, Boolean> changedGroups = new HashMap<>();
+	private List<GroupIdentifier> sharedGroups = new ArrayList<>();
 
 	/**
 	 * @param app
@@ -102,23 +104,23 @@ public class ShareDialogMow extends ComponentDialog
 	 * @param sharedGroupList
 	 *            list of group with which the material was shared
 	 */
-	public void updateOnSharedGroups(List<String> sharedGroupList) {
+	public void updateOnSharedGroups(List<GroupIdentifier> sharedGroupList) {
 		if (sharedGroupList == null) {
 			return;
 		}
 		this.sharedGroups = sharedGroupList;
-		ArrayList<String> groupNames = app.getLoginOperation().getModel()
+		ArrayList<GroupIdentifier> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		scrollPanel.clear();
 		FlowPanel groups = new FlowPanel();
 		// first add button for groups with which material was already shared
-		for (String sharedGroup : sharedGroups) {
+		for (GroupIdentifier sharedGroup : sharedGroups) {
 			addGroup(groups, sharedGroup, true);
 		}
 
 		// then add other existent groups of user
-		for (String group : groupNames) {
-			if (!containsSharedGroupList(group)) {
+		for (GroupIdentifier group : groupNames) {
+			if (!sharedGroups.contains(group)) {
 				addGroup(groups, group, false);
 			}
 		}
@@ -126,9 +128,8 @@ public class ShareDialogMow extends ComponentDialog
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
-	private void addGroup(FlowPanel groupsPanel, String groupStr,
-			boolean selected) {
-		groupsPanel.add(new GroupButtonMow((AppW) app, groupStr, selected,
+	private void addGroup(FlowPanel groupsPanel, GroupIdentifier groupDesc, boolean shared) {
+		groupsPanel.add(new GroupButtonMow(groupDesc, shared,
 				this::updateChangedGroupList));
 	}
 
@@ -143,14 +144,12 @@ public class ShareDialogMow extends ComponentDialog
 		FlowPanel dialogContent = new FlowPanel();
 		getGroupsSharedWith();
 		// get list of groups of user
-		ArrayList<String> groupNames = app.getLoginOperation().getModel()
+		ArrayList<GroupIdentifier> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
 		// user has no groups
 		if (groupNames.isEmpty()) {
 			buildNoGroupPanel(dialogContent);
-		}
-		// show groups of user
-		else {
+		} else { // show groups of user
 			buildGroupPanel(dialogContent);
 		}
 		buildShareByLinkPanel(dialogContent, shareURL);
@@ -186,23 +185,13 @@ public class ShareDialogMow extends ComponentDialog
 		groupPanel.add(scrollPanel);
 		dialogContent.add(groupPanel);
 	}
-	
-	private boolean containsSharedGroupList(String group) {
-		for (String str: sharedGroups) {
-			if (str.equals(group)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	/**
-	 * @param obj
-	 *            pair containing
-	 * 
-	 */
-	public void updateChangedGroupList(SimpleEntry<String, Boolean> obj) {
-		changedGroups.put(obj.getKey(), obj.getValue());
+	protected void updateChangedGroupList(GroupIdentifier groupID, Boolean shared) {
+		if (changedGroups.containsKey(groupID)) {
+			changedGroups.remove(groupID);
+		} else {
+			changedGroups.put(groupID, shared);
+		}
 	}
 
 	private void buildShareByLinkPanel(FlowPanel dialogContent,
@@ -317,19 +306,34 @@ public class ShareDialogMow extends ComponentDialog
 	 *            callback for share with group
 	 */
 	protected void shareWithGroups(AsyncOperation<Boolean> groupCallback) {
-		for (Entry<String, Boolean> group : changedGroups.entrySet()) {
+		for (Map.Entry<GroupIdentifier, Boolean> group : changedGroups.entrySet()) {
 			app.getLoginOperation().getGeoGebraTubeAPI().setShared(material,
 					group.getKey(), group.getValue(), groupCallback);
 		}
 	}
 
-	/**
-	 * 
-	 */
 	protected void getGroupsSharedWith() {
-		app.getLoginOperation().getGeoGebraTubeAPI()
-				.getGroups(material.getSharingKeyOrId(),
-								this::updateOnSharedGroups);
+		final AsyncOperation<List<GroupIdentifier>> partial =
+				new AsyncOperation<List<GroupIdentifier>>() {
+					private int counter = 2;
+					private List<GroupIdentifier> all = new ArrayList<>();
+
+					@Override
+					public void callback(List<GroupIdentifier> obj) {
+						counter--;
+						if (obj == null) {
+							all = null;
+						} else if (all != null) {
+							all.addAll(obj);
+						}
+						if (counter == 0) {
+							updateOnSharedGroups(all);
+						}
+					}
+				};
+		BackendAPI api = app.getLoginOperation().getGeoGebraTubeAPI();
+		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.CLASS, partial);
+		api.getGroups(material.getSharingKeyOrId(), GroupIdentifier.GroupCategory.COURSE, partial);
 	}
 
 	/**

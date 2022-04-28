@@ -159,7 +159,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			// depth = ret[2];
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			// Application.debug("LaTeX parse exception:
 			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
@@ -188,9 +188,7 @@ public abstract class DrawEquation implements DrawEquationI {
 				Log.error(
 						"serious latex error\n" + text + "\n"
 								+ StringUtil.toJavaString(e.getMessage()));
-
-				e2.printStackTrace();
-
+				Log.debug(e2);
 			}
 		}
 
@@ -243,7 +241,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			// TeXLength.Unit.CM, lineSpace.doubleValue());
 			// }
 		} catch (final Error e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.debug("MyError LaTeX parse exception:" + e.getMessage() + "\n"
 					+ text);
 			// Write error message to Graphics View
@@ -259,7 +257,7 @@ public abstract class DrawEquation implements DrawEquationI {
 					TeXConstants.Align.LEFT);
 
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			Log.debug(
 					"LaTeX parse exception1: " + e.getMessage() + "\n" + text);
 			// Write error message to Graphics View

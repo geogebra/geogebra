@@ -172,6 +172,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -3606,10 +3607,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					this.kernel.getConstruction().replace(
 							(GeoElement) movedGeoPoint,
 							hits.getFirstHit(TestGeo.GEOPOINTND));
-				} catch (Exception e) {
-					e.printStackTrace();
-				} catch (MyError e) {
-					e.printStackTrace();
+				} catch (Exception | MyError e) {
+					Log.debug(e);
 				}
 
 			} else {
@@ -6926,7 +6925,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					try {
 						movedGeoText.setStartPoint(loc);
 					} catch (Exception ex) {
-						ex.printStackTrace();
+						Log.debug(ex);
 					}
 					setStartPointLocation();
 				} else {
@@ -7000,7 +6999,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						try {
 							movedGeoVector.setStartPoint(sP);
 						} catch (Exception ex) {
-							ex.printStackTrace();
+							Log.debug(ex);
 						}
 					}
 				} else {
@@ -12362,5 +12361,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	boolean isLockedForMultiuser(GeoElement geo) {
 		return geo instanceof GeoInline && ((GeoInline) geo).isLockedForMultiuser();
+	}
+
+	protected App getApp() {
+		return app;
 	}
 }

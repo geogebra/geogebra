@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -1349,7 +1350,7 @@ public abstract class AlgoElement extends ConstructionElement
 				getOutputXML(sb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -1394,7 +1395,7 @@ public abstract class AlgoElement extends ConstructionElement
 				getOutputXML(sb);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 
 	}

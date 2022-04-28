@@ -88,13 +88,9 @@ public class SymbolicPolyFunction extends PolyFunction {
 				coeffs[i] = coeff; // set polynomial coefficient
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (Exception | Error e) {
 			Log.warn("updateCoeffValues: " + e.getMessage());
-			e.printStackTrace();
-			return false;
-		} catch (Error err) {
-			Log.warn("updateCoeffValues: " + err.getMessage());
-			err.printStackTrace();
+			Log.debug(e);
 			return false;
 		}
 	}

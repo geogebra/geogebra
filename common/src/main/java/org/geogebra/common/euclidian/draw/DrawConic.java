@@ -1277,7 +1277,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		try {
 			inverse = conicTransform.createInverse();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		if (inverse == null) {
 			return;

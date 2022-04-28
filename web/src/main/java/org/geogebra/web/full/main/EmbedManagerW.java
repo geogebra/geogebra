@@ -1,5 +1,7 @@
 package org.geogebra.web.full.main;
 
+import static org.geogebra.common.GeoGebraConstants.SUITE_APPCODE;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,7 +187,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
 					.setJsonArgument(jsonArgument));
 		}));
-		if ("suite".equals(drawEmbed.getGeoEmbed().getAppName())) {
+		if (SUITE_APPCODE.equals(drawEmbed.getGeoEmbed().getAppName())) {
 			parameters.setAttribute("showAppsPicker", "true");
 			parameters.setAttribute("preventFocus", "true");
 		}
@@ -199,7 +201,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		if (currentBase64 != null) {
 			appEmbedded.registerOpenFileListener(
 					getListener(drawEmbed, parameters, appEmbedded));
-			appEmbedded.getScriptManager().disableListeners();
+			appEmbedded.getEventDispatcher().disableListeners();
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			appEmbedded.getGgbApi().setFileJSON(
@@ -323,7 +325,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		return () -> {
 			drawEmbed.getGeoEmbed()
 					.setAppName(parameters.getDataParamAppName());
-			fr.getScriptManager().enableListeners();
+			fr.getEventDispatcher().enableListeners();
 			return true;
 		};
 	}

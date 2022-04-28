@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,10 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import org.geogebra.common.export.GeoGebraTubeExport;
-import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.dialog.Dialog;
@@ -36,11 +35,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportD extends GeoGebraTubeExport {
-
-	public GeoGebraTubeExportD(App app) {
-		super(app);
-	}
+public class GeoGebraTubeExportD {
 
 	/**
 	 * Progress bar dialog.
@@ -62,46 +57,78 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	 */
 	private JButton abortButton;
 
-	@Override
-	protected void setMaximum(int i) {
-		progressBar.setMaximum(i);
-	}
+	/**
+	 * Application instance.
+	 */
+	public App app;
+	private Localization loc;
 
-	@Override
-	protected void setMinimum(int i) {
-		progressBar.setMinimum(i);
+	/**
+	 * Storage container for uploading results.
+	 *
+	 * @author Florian Sonner
+	 */
+	public static class UploadResults {
+		private String status;
+		private String uid;
+		private String errorMessage;
 
-	}
+		/**
+		 * Parse upload result string.
+		 *
+		 * @param string0
+		 *            server response
+		 */
+		public UploadResults(String string0) {
+			String string = string0;
+			status = uid = errorMessage = "";
+			if (string.indexOf("status:") > 0) {
+				string = string.substring(string.indexOf("status:"));
+			}
+			for (String line : string.split(",")) {
+				int delimiterPos = line.indexOf(':');
+				String key = line.substring(0, delimiterPos).toLowerCase();
+				String value = line.substring(delimiterPos + 1).toLowerCase();
 
-	@Override
-	protected void setIndeterminate(boolean b) {
-		progressBar.setIndeterminate(b);
+				if ("status".equals(key)) {
+					status = value;
+				} else if ("uid".equals(key)) {
+					uid = value;
+				} else if ("error".equals(key)) {
+					errorMessage = value;
+				}
+			}
+		}
 
-	}
+		public boolean hasError() {
+			return !"ok".equals(status);
+		}
 
-	@Override
-	protected void setValue(int end) {
-		progressBar.setValue(end);
+		public String getStatus() {
+			return status;
+		}
 
-	}
+		public String getUID() {
+			return uid;
+		}
 
-	@Override
-	protected void setEnabled(boolean b) {
-		progressBar.setEnabled(b);
-
+		public String getErrorMessage() {
+			return errorMessage;
+		}
 	}
 
 	/**
-	 * Upload the current worksheet to GeoGebraTube.
-	 * 
-	 * @param macrosIn
-	 *            null to upload current construction, otherwise upload just
-	 *            tools
+	 * @param app application
 	 */
-	public void uploadWorksheet(ArrayList<Macro> macrosIn) {
+	public GeoGebraTubeExportD(App app) {
+		this.app = app;
+		this.setLoc(app.getLocalization());
+	}
 
-		this.setMacros(macrosIn);
-
+	/**
+	 * Upload the current worksheet to geogebra.org.
+	 */
+	public void uploadWorksheet() {
 		showDialog();
 
 		try {
@@ -110,7 +137,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 			DataOutputStream printout;
 			BufferedReader input;
 
-			setIndeterminate(true);
+			progressBar.setIndeterminate(true);
 
 			url = new URL(getUploadURL(app));
 
@@ -137,9 +164,9 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 				 * urlConn.connect();
 				 */
 
-				setIndeterminate(false);
-				setMinimum(0);
-				setMaximum(requestLength);
+				progressBar.setIndeterminate(false);
+				progressBar.setMinimum(0);
+				progressBar.setMaximum(requestLength);
 
 				// send data in chunks
 				int start = 0;
@@ -159,7 +186,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					printout.flush();
 
 					// track progress
-					setValue(end);
+					progressBar.setValue(end);
 				}
 
 				printout.close();
@@ -200,7 +227,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					if (results.hasError()) {
 						statusLabelSetText(getLoc().getPlain("UploadError",
 								results.getErrorMessage()));
-						setEnabled(false);
+						progressBar.setEnabled(false);
 
 						Log.debug("Upload failed. Response: "
 								+ output.toString());
@@ -248,13 +275,13 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 					statusLabelSetText(getLoc().getPlain("UploadError",
 							Integer.toString(responseCode)));
-					setEnabled(false);
+					progressBar.setEnabled(false);
 					pack();
 				}
 			} catch (IOException e) {
 				statusLabelSetText(
 						getLoc().getPlain("UploadError", Integer.toString(500)));
-				setEnabled(false);
+				progressBar.setEnabled(false);
 				pack();
 
 				Log.debug(e.getMessage());
@@ -262,7 +289,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		} catch (IOException e) {
 			statusLabelSetText(
 					getLoc().getPlain("UploadError", Integer.toString(400)));
-			setEnabled(false);
+			progressBar.setEnabled(false);
 			pack();
 
 			Log.debug(e.getMessage());
@@ -309,7 +336,6 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		progressDialog.setLocationRelativeTo(null); // center
 	}
 
-	@Override
 	protected void pack() {
 		progressDialog.pack();
 	}
@@ -321,12 +347,10 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		progressDialog.setVisible(false);
 	}
 
-	@Override
 	protected void statusLabelSetText(String plain) {
 		statusLabel.setText(plain);
 	}
 
-	@Override
 	protected String encode(String str) {
 		try {
 			return URLEncoder.encode(str, Charsets.UTF_8);
@@ -336,12 +360,59 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		}
 	}
 
-	@Override
-	protected String getBase64Tools(ArrayList<Macro> macros)
-			throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		((AppD) app).getXMLio().writeMacroStream(baos, macros);
-		return Base64.encodeToString(baos.toByteArray(), false);
+	/**
+	 * returns a base64 encoded .ggb file
+	 */
+	protected String getBase64String() {
+		return app.getGgbApi().getBase64(true);
+	}
+
+	protected StringBuilder getPostData() throws IOException {
+		Construction cons = app.getKernel().getConstruction();
+
+		// build post query
+		StringBuilder sb = new StringBuilder();
+		sb.append("data=");
+		sb.append(encode(
+				getBase64String()));
+
+		sb.append("&type=");
+		sb.append("ggb");
+
+		sb.append("&title=");
+		sb.append(encode(cons.getTitle()));
+
+		sb.append("&pretext=");
+		sb.append(encode(cons.getWorksheetText(0)));
+
+		sb.append("&posttext=");
+		sb.append(encode(cons.getWorksheetText(1)));
+
+		sb.append("&version=");
+		sb.append(encode(GeoGebraConstants.VERSION_STRING));
+
+		return sb;
+	}
+
+	/**
+	 * @param app0
+	 *            determines whether we need TUBE_BETA flag
+	 * @return base upload URL for GeoGebraTube
+	 */
+	public String getUploadURL(App app0) {
+		if (app0.has(Feature.TUBE_BETA)) {
+			return GeoGebraConstants.uploadURLBeta;
+		}
+
+		return GeoGebraConstants.uploadURL;
+	}
+
+	public Localization getLoc() {
+		return loc;
+	}
+
+	public void setLoc(Localization loc) {
+		this.loc = loc;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.move.ggtapi.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -142,7 +143,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 							// GeoGebraTubeAPID.this.available = false;
 						} catch (Exception e) {
-							e.printStackTrace();
+							Log.debug(e);
 						}
 
 					}
@@ -244,7 +245,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 					});
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 	}
 
@@ -532,13 +533,14 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public void setShared(Material m, String groupID, boolean shared,
+	public void setShared(Material m, GroupIdentifier groupID, boolean shared,
 			AsyncOperation<Boolean> callback) {
 		// no group sharing for old materials
 	}
 
 	@Override
-	public void getGroups(String materialID, AsyncOperation<List<String>> asyncOperation) {
+	public void getGroups(String materialID, GroupIdentifier.GroupCategory category,
+			AsyncOperation<List<GroupIdentifier>> asyncOperation) {
 		// no group sharing for old materials
 	}
 

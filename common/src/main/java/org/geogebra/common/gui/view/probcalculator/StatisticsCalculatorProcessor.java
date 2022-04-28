@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.statistics.AlgoZProportionTest;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author G.Sturr
@@ -412,7 +413,7 @@ public class StatisticsCalculatorProcessor {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 			sc.P = Double.NaN;
 		}
 
@@ -473,7 +474,7 @@ public class StatisticsCalculatorProcessor {
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
 			// ArithmeticException
-			e.printStackTrace();
+			Log.debug(e);
 			sc.P = Double.NaN;
 		}
 	}

@@ -503,10 +503,10 @@ public class Macro {
 		} catch (MyError e) {
 			String msg = e.getLocalizedMessage();
 			Log.debug(msg);
-			e.printStackTrace();
+			Log.debug(e);
 			throw new Exception(msg);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.debug(e);
 			throw new Exception(e.getMessage());
 		}
 

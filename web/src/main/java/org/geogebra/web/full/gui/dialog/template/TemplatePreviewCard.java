@@ -139,11 +139,6 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public void setShare(String groupID, boolean share, AsyncOperation<Boolean> callback) {
-        // nothing to do here
-    }
-
-    @Override
     public String getMaterialID() {
         return null;
     }

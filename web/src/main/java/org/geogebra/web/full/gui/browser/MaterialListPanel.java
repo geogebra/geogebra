@@ -86,8 +86,7 @@ public class MaterialListPanel extends FlowPanel
 			@Override
 			public void onError(final Throwable exception) {
 				// FIXME implement Error Handling!
-				exception.printStackTrace();
-				Log.debug(exception.getMessage());
+				Log.debug(exception);
 			}
 
 			@Override

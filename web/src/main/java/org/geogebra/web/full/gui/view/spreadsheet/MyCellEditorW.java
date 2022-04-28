@@ -327,7 +327,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		} catch (Exception ex) {
 			// show GeoGebra error dialog
 			// kernel.getApplication().showError(ex.getMessage());
-			ex.printStackTrace();
+			Log.debug(ex);
 			// TODO super.stopCellEditing();
 			editing = false;
 			return false;

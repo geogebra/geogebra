@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Take objects from the middle of a list
@@ -130,7 +131,7 @@ public class AlgoKeepIf extends AlgoElement {
 			}
 		} catch (MyError e) {
 			// eg KeepIf[x<3,{1,2,(4,4)}]
-			e.printStackTrace();
+			Log.debug(e);
 			outputList.setUndefined();
 			return;
 		}

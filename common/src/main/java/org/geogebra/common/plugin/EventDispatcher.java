@@ -1,9 +1,12 @@
 package org.geogebra.common.plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.ClientView;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -31,6 +34,7 @@ public class EventDispatcher implements ClientView {
 	@Weak
 	private App app;
 	private ArrayList<EventListener> listeners = new ArrayList<>();
+	protected boolean listenersEnabled = true;
 
 	/**
 	 * @param app
@@ -76,17 +80,27 @@ public class EventDispatcher implements ClientView {
 	 *            the event to be dispatched
 	 */
 	public void dispatchEvent(Event evt) {
-		boolean affectsSelfGeo = app.getKernel().getConstruction() != null
-				&& evt.target != null;
-		if (affectsSelfGeo) {
-			app.getKernel().getConstruction().setSelfGeo(evt.target);
+		if (listenersEnabled) {
+			boolean affectsSelfGeo = app.getKernel().getConstruction() != null
+					&& evt.target != null;
+			if (affectsSelfGeo) {
+				app.getKernel().getConstruction().setSelfGeo(evt.target);
+			}
+			for (EventListener listener : listeners) {
+				listener.sendEvent(evt);
+			}
+			if (affectsSelfGeo) {
+				app.getKernel().getConstruction().restoreSelfGeo();
+			}
 		}
-		for (EventListener listener : listeners) {
-			listener.sendEvent(evt);
-		}
-		if (affectsSelfGeo) {
-			app.getKernel().getConstruction().restoreSelfGeo();
-		}
+	}
+
+	public void disableListeners() {
+		listenersEnabled = false;
+	}
+
+	public void enableListeners() {
+		listenersEnabled = true;
 	}
 
 	/**
@@ -303,6 +317,25 @@ public class EventDispatcher implements ClientView {
 	public boolean suggestRepaint() {
 		return false;
 		// not used for this view
+	}
+
+	/**
+	 * Notify update listeners about update of a geo and all of its descendants
+	 * @param root cascade root
+	 */
+	public void notifyListenersUpdateCascade(GeoElementND root) {
+		TreeSet<GeoElement> updated = new TreeSet<>();
+		updated.add(root.toGeoElement());
+		if (root.hasAlgoUpdateSet()) {
+			for (AlgoElement algo : root.getAlgoUpdateSet()) {
+				updated.addAll(Arrays.asList(algo.getOutput()));
+			}
+		}
+		for (GeoElement el: updated) {
+			if (el.isLabelSet()) {
+				dispatchEvent(new Event(EventType.UPDATE, el));
+			}
+		}
 	}
 
 }

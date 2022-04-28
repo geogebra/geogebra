@@ -222,7 +222,7 @@ public abstract class CasTestJsonCommon {
 				return;
 			} catch (Throwable t) {
 				// if (!(t instanceof AssertionError)) {
-				t.printStackTrace();
+				Log.debug(t);
 				// }
 				if (i == expectedResult.length - 1) {
 					failures[0].append(expectedResult[0] == null ? "null"

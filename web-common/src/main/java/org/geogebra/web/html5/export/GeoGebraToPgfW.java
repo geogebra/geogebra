@@ -5,6 +5,7 @@ import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 public class GeoGebraToPgfW extends GeoGebraToPgf {
@@ -19,7 +20,7 @@ public class GeoGebraToPgfW extends GeoGebraToPgf {
 		try {
 			return new MyGraphicsPgfW(ef, inequality);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			Log.debug(ex);
 			return null;
 		}
 	}
