@@ -100,6 +100,7 @@ public class MathFieldInternal
 	private boolean selectionMode = false;
 
 	private SyntaxController syntaxController;
+	private Runnable syntaxTooltipUpdater;
 
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
@@ -272,6 +273,17 @@ public class MathFieldInternal
 
 	private void updateSyntax() {
 		syntaxController.update(editorState);
+		if (syntaxTooltipUpdater != null) {
+			syntaxTooltipUpdater.run();
+		}
+	}
+
+	/**
+	 * callback to update the syntax help tooltip
+	 * @param syntaxTooltipUpdater - callback
+	 */
+	public void setSyntaxTooltipUpdater(Runnable syntaxTooltipUpdater) {
+		this.syntaxTooltipUpdater = syntaxTooltipUpdater;
 	}
 
 	/**
