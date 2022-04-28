@@ -158,8 +158,7 @@ public class IntervalAlgebra {
 		}
 
 		if (!other.isSingleton()) {
-			interval.setUndefined();
-			return interval;
+			// implement me for non-singleton power;
 		}
 
 		return pow(interval, other.getLow());
