@@ -1985,7 +1985,6 @@ public class AlgebraProcessor {
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		boolean oldRedefine = isRedefining;
 		if (replaceable != null) {
 			evalInfo = evalInfo.withRedefinition(true);
             cons.setSuppressLabelCreation(true);
