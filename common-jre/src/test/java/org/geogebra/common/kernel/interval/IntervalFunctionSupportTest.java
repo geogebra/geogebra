@@ -59,6 +59,8 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		assertTrue(isSupported(add("x^(-2)")));
 		assertTrue(isSupported(add("sin(e^x)")));
 		assertTrue(isSupported(add("2^sin(x)")));
+		assertTrue(isSupported(add("2^x")));
+		assertTrue(isSupported(add("2^(1/x)")));
 	}
 
 	@Test

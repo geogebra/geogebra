@@ -158,9 +158,17 @@ public class IntervalAlgebra {
 		}
 
 		if (!other.isSingleton()) {
-			// implement me for non-singleton power;
+			return powerOfInterval(interval, other);
 		}
 
 		return pow(interval, other.getLow());
+	}
+
+	private Interval powerOfInterval(Interval interval, Interval other) {
+		if (!interval.isUndefined()) {
+			interval.set(RMath.powLow(interval.getLow(), other.getLow()),
+					RMath.powHigh(interval.getHigh(), other.getHigh()));
+			}
+			return interval;
 	}
 }
