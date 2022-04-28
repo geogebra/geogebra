@@ -12,7 +12,7 @@ public class FactoryW extends Factory {
 	}
 
 	@Override
-	public RelationPane newRelationPane() {
-		return app.getRelationDialog();
+	public RelationPane newRelationPane(String subTitle) {
+		return app.getRelationDialog(subTitle);
 	}
 }

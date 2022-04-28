@@ -681,9 +681,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public RelationPaneW getRelationDialog() {
-		DialogData data = new DialogData(getLocalization().getCommand("Relation"),
-			null, "OK");
+	public RelationPaneW getRelationDialog(String subTitle) {
+		DialogData data = new DialogData(getLocalization().getCommand("Relation"), subTitle,
+				null, "OK");
 		return new RelationPaneW(this, data);
 	}
 

@@ -3906,15 +3906,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	final public String getColoredLabel() {
 		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
-		StringBuilder sb = new StringBuilder();
-		final GColor colorAdapter = GColor.newColor(getAlgebraColor().getRed(),
-				getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
-		sb.append("<b><font color=\"#");
-		sb.append(StringUtil.toHexString(colorAdapter));
-		sb.append("\">");
-		sb.append(indicesToHTML(formatedLabel, false));
-		sb.append("</font></b>");
-		return sb.toString();
+		return "<b><font color=\"#"
+				+ StringUtil.toHexString(getAlgebraColor())
+				+ "\">"
+				+ indicesToHTML(formatedLabel, false)
+				+ "</font></b>";
 	}
 
 	/**

@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.javax.swing.RelationPane;
@@ -24,6 +28,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -73,8 +78,17 @@ public class Relation {
 	 * Show relation dialog. Shouldn't be here, but shouldn't be in App either.
 	 */
 	public void showDialog() {
-		RelationPane tablePane = app.getFactory().newRelationPane();
+		RelationPane tablePane = app.getFactory().newRelationPane(getSubTitle());
 		tablePane.showDialog(app.getLocalization().getCommand("Relation"), getRows(), app);
+	}
+
+	private String getSubTitle() {
+		List<String> labels = Stream.of(ra, rb, rc, rd).filter(Objects::nonNull)
+				.map(geo -> GeoElement.indicesToHTML(geo.getLabelSimple(), false))
+				.collect(Collectors.toList());
+		String first = StringUtil.join(", ", labels.subList(0, labels.size() - 1));
+		return app.getLocalization().getPlainDefault("AandB", "%0 and %1",
+					first, labels.get(labels.size() - 1));
 	}
 
 	/**
@@ -87,7 +101,8 @@ public class Relation {
 		try {
 			cas.getCurrentCAS().evaluateRaw("1");
 		} catch (Throwable e) {
-			Log.debug(e);
+			// input is valid, CAS not loaded doesn't throw, only timeout can get here
+			Log.warn(e);
 		}
 		// Computing numerical results and collecting them alphabetically:
 		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
@@ -100,18 +115,26 @@ public class Relation {
 		final RelationRow[] rr = new RelationRow[rels];
 		int i = 0;
 		for (Report r : relInfosAll) {
-			relInfos[i] = r.stringResult.replace("\n", "<br>");
+			if (app.isDesktop()) {
+				relInfos[i] = r.stringResult.replace("\n", "<br>");
+			} else {
+				relInfos[i] = r.stringResult;
+			}
 			relAlgos[i] = r.symbolicCheck;
 			Boolean result = r.boolResult;
 			rr[i] = new RelationRow();
 			final String relInfo = relInfos[i];
 			// First information shown (result of numerical checks):
-			rr[i].setInfo(
-					"<html>" + relInfo + "<br>"
-							+ app.getLocalization().getMenuDefault(
-									"CheckedNumerically",
-									"(checked numerically)")
-							+ "</html>");
+			if (app.isDesktop()) {
+				rr[i].setInfo(
+						"<html>" + relInfo + "<br>"
+								+ app.getLocalization().getMenuDefault(
+								"CheckedNumerically",
+								"(checked numerically)")
+								+ "</html>");
+			} else {
+				rr[i].setInfo(relInfo);
+			}
 			if (result != null && result && relAlgos[i] != null) {
 				rr[i].setCallback(this);
 			}

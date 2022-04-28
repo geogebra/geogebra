@@ -7,7 +7,7 @@ import org.geogebra.desktop.javax.swing.RelationPaneD;
 public class FactoryD extends Factory {
 
 	@Override
-	public RelationPane newRelationPane() {
+	public RelationPane newRelationPane(String subTitle) {
 		return new RelationPaneD();
 	}
 
