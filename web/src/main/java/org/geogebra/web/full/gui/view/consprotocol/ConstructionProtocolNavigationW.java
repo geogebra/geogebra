@@ -6,8 +6,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
@@ -16,15 +16,12 @@ import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolNavigationW
-		extends ConstructionProtocolNavigation implements FastClickHandler, ClickHandler {
+		extends ConstructionProtocolNavigation implements FastClickHandler {
 
 	private final Label lbSteps;
 	private final FlowPanel implPanel;
@@ -32,22 +29,11 @@ public class ConstructionProtocolNavigationW
 	private StandardButton btLast;
 	private StandardButton btPrev;
 	private StandardButton btNext;
-	private GToggleButton btPlay;
+	private ToggleButton btPlay;
 	private final GSpinnerW spDelay;
 	private AutomaticPlayer player;
 	private StandardButton btOpenWindow;
 	private FlowPanel playPanel;
-
-	private static final String hoverColor = GeoGebraColorConstants.GEOGEBRA_ACCENT.toString();
-
-	private final Image playIcon
-			= getIcon(GuiResourcesSimple.INSTANCE.play_circle());
-	private final Image playIconHover
-			= getFilledIcon(GuiResourcesSimple.INSTANCE.play_circle());
-	private final Image pauseIcon
-			= getIcon(GuiResourcesSimple.INSTANCE.pause_circle());
-	private final Image pauseIconHover
-			= getFilledIcon(GuiResourcesSimple.INSTANCE.pause_circle());
 
 	/**
 	 * @param app
@@ -58,18 +44,8 @@ public class ConstructionProtocolNavigationW
 	public ConstructionProtocolNavigationW(AppW app, int viewID) {
 		super(app, viewID);
 		implPanel = new FlowPanel();
-
 		spDelay = new GSpinnerW();
-
 		lbSteps = new Label();
-	}
-
-	private static Image getIcon(SVGResource resource) {
-		return new Image(resource.getSafeUri().asString(), 0, 0, 24, 24);
-	}
-
-	private static Image getFilledIcon(SVGResource resource) {
-		return new Image(resource.withFill(hoverColor).getSafeUri().asString(), 0, 0, 24, 24);
 	}
 
 	private StandardButton createButton(SVGResource icon) {
@@ -96,13 +72,10 @@ public class ConstructionProtocolNavigationW
 		playPanel = new FlowPanel();
 		playPanel.setVisible(showPlayButton);
 
-		btPlay = new GToggleButton();
-		btPlay.getUpFace().setImage(playIcon);
-		btPlay.getUpHoveringFace().setImage(playIconHover);
-		btPlay.getDownFace().setImage(pauseIcon);
-		btPlay.getDownHoveringFace().setImage(pauseIconHover);
-
-		btPlay.addClickHandler(this);
+		btPlay = new ToggleButton(GuiResourcesSimple.INSTANCE.play_circle(),
+				GuiResourcesSimple.INSTANCE.pause_circle());
+		btPlay.removeStyleName("MyToggleButton");
+		btPlay.addFastClickHandler(this);
 
 		spDelay.addChangeHandler(event -> {
 			try {
@@ -190,9 +163,6 @@ public class ConstructionProtocolNavigationW
 
 	@Override
     public void setLabels() {
-		if (btPlay != null) {
-			btPlay.setDown(!isPlaying());
-		}
 		if (btOpenWindow != null) {
 			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
 		}
@@ -210,19 +180,6 @@ public class ConstructionProtocolNavigationW
 		return implPanel;
 	}
 
-	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource();
-		if (source == btPlay) {
-			if (isPlaying()) {
-				player.stopAnimation();
-			} else {
-				player = new AutomaticPlayer();
-				player.startAnimation();
-			}
-		}
-	}
-
 	/**
 	 * Make all components enabled / disabled
 	 * @param flag whether components should be enabled
@@ -237,12 +194,12 @@ public class ConstructionProtocolNavigationW
 
 	@Override
 	public void setButtonPlay() {
-		btPlay.setDown(false);
+		btPlay.setSelected(false);
 	}
 
 	@Override
 	public void setButtonPause() {
-		btPlay.setDown(true);
+		btPlay.setSelected(true);
 	}
 
 	@Override
@@ -257,6 +214,13 @@ public class ConstructionProtocolNavigationW
 		} else if (source == btNext) {
 			stepper.nextStep();
 			return;
+		} else if (source == btPlay) {
+			if (isPlaying()) {
+				player.stopAnimation();
+			} else {
+				player = new AutomaticPlayer();
+				player.startAnimation();
+			}
 		}
 
 		if (prot != null) {
@@ -310,6 +274,7 @@ public class ConstructionProtocolNavigationW
 			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
+			btPlay.updateImage();
 		}
 	}
 

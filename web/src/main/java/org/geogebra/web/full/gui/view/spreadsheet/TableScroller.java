@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;

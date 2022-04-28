@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.function.Consumer;
 
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import elemental2.dom.CanvasRenderingContext2D;
 import elemental2.dom.DomGlobal;

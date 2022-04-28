@@ -25,7 +25,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.gui.view.button.StandardButton;

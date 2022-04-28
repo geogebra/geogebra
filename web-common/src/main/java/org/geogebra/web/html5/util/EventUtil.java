@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import org.apache.commons.collections15.Predicate;
 import org.geogebra.gwtutil.NativePointerEvent;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;

@@ -68,14 +68,14 @@ import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
-import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -131,7 +131,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private ToggleButton btnFixObject;
 
 	private ToggleButton[] toggleBtnList;
-	private final ToggleButton[] btnDeleteSizes = new ToggleButton[3];
+	private ToggleButton[] btnDeleteSizes = new ToggleButton[3];
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
