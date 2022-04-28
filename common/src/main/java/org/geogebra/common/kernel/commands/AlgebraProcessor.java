@@ -1124,6 +1124,7 @@ public class AlgebraProcessor {
 		if (element instanceof GeoSymbolic && isVectorLabel(label)) {
 			setVectorPrintingModeFor((GeoSymbolic) element);
 		}
+		element.notifyUpdate();
 	}
 
 	private void setVectorPrintingModeFor(GeoSymbolic element) {
