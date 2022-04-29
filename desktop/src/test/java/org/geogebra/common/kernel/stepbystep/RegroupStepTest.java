@@ -168,6 +168,13 @@ public class RegroupStepTest {
 	}
 
 	@Test
+	public void exponentialOfLogarithm() {
+		r("2^log(2,x)", "x");
+		r("a^log(a,x)", "x");
+		r("e^ln(x)", "x");
+	}
+
+	@Test
 	public void decimalFractionTest() {
 		r("0.125 + 0.25", "0.375");
 		r("1/2 + 0.25", "(3)/(4)");

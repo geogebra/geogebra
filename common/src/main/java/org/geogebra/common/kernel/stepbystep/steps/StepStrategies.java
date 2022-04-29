@@ -83,6 +83,7 @@ public class StepStrategies {
 			tracker.resetTracker();
 			for (SimplificationStepGenerator simplificationStep : strategy) {
 				current = simplificationStep.apply(old, changes, tracker);
+				Log.debug(simplificationStep);
 
 				if (tracker.stepAdded()) {
 					if (printDebug) {
