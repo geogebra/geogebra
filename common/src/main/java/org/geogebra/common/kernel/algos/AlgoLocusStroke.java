@@ -169,4 +169,9 @@ public class AlgoLocusStroke extends AlgoElement {
 		sbAE.append(tpl.rightSquareBracket());
 		return sbAE.toString();
 	}
+
+	@Override
+	public boolean isCompatible(AlgoElement other) {
+		return false;
+	}
 }

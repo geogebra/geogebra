@@ -1285,7 +1285,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void setColorVisualStyle(final GeoElement geo) {
 		if (geo.isAutoColor()) {
 			setObjColor(geo.getAutoColorScheme()
-					.getNext(!cons.getKernel().isSilentMode()));
+					.getNext(!cons.getKernel().isSilentMode()
+							&& !cons.getKernel().getAlgebraProcessor().isRedefining()));
 		} else {
 			objColor = geo.objColor;
 			selColor = geo.selColor;
