@@ -75,7 +75,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		buildSpeedPanel();
 		add(speedPanel);
 		add(btnPlay);
-		ClickStartHandler.initDefaults(btnPlay, true, true);
+		ClickStartHandler.initDefaults(btnPlay, false, true);
 	}
 
 	private void buildSpeedPanel() {
