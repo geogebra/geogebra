@@ -136,4 +136,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/ruler_protractor/protractor.svg")
 	SVGResource protractor();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/alpha.svg")
+	SVGResource alpha();
 }

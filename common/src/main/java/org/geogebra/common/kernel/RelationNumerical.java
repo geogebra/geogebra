@@ -214,15 +214,15 @@ public class RelationNumerical {
 		// check defined state
 		if (!a.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", a.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(a)));
 			return reports;
 		} else if (!b.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", b.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(b)));
 			return reports;
 		} else if (!c.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", c.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(c)));
 			return reports;
 		}
 		// decide what relation method can be used
@@ -244,6 +244,15 @@ public class RelationNumerical {
 
 		register(null, null, loc.getMenu("ComparisonNotPossible"));
 		return reports;
+	}
+
+	private String getColoredLabel(GeoElement geo) {
+		if (app.isDesktop()) {
+			return geo.getColoredLabel();
+		} else {
+			String formattedLabel = geo.getLabel(StringTemplate.defaultTemplate);
+			return "<strong>" + GeoElement.indicesToHTML(formattedLabel, false) + "</strong>";
+		}
 	}
 
 	/**
@@ -271,19 +280,19 @@ public class RelationNumerical {
 		// check defined state
 		if (!a.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", a.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(a)));
 			return reports;
 		} else if (!b.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", b.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(b)));
 			return reports;
 		} else if (!c.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", c.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(c)));
 			return reports;
 		} else if (!d.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", d.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(d)));
 			return reports;
 		}
 
@@ -314,11 +323,11 @@ public class RelationNumerical {
 		// check defined state
 		if (!a.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", a.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(a)));
 			return reports;
 		} else if (!b.isDefined()) {
 			register(null, null,
-					loc.getPlain("AisNotDefined", b.getColoredLabel()));
+					loc.getPlain("AisNotDefined", getColoredLabel(b)));
 			return reports;
 		}
 
@@ -359,7 +368,7 @@ public class RelationNumerical {
 			return relation((GeoList) a, (GeoList) b);
 		} else {
 			register(null, null, loc.getPlain("AandBcannotBeCompared",
-					a.getColoredLabel(), b.getColoredLabel()));
+					getColoredLabel(a), getColoredLabel(b)));
 			return reports;
 		}
 	}
@@ -786,14 +795,14 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final static public String equalityString(GeoElement a, GeoElement b,
+	final public String equalityString(GeoElement a, GeoElement b,
 			boolean equal, Localization loc) {
 		if (equal) {
-			return loc.getPlain("AandBareEqual", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AandBareEqual", getColoredLabel(a),
+					getColoredLabel(b));
 		}
-		return loc.getPlain("AandBareNotEqual", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AandBareNotEqual", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	/**
@@ -813,8 +822,8 @@ public class RelationNumerical {
 	final public String equalityString(GeoElement a, GeoElement b,
 			GeoElement c, boolean equal) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
-				+ and + " " + c.getColoredLabel();
+		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
+				+ and + " " + getColoredLabel(c);
 
 		if (equal) {
 			return loc.getPlain("TheFollowingAreEqualA", pars);
@@ -837,8 +846,8 @@ public class RelationNumerical {
 	final public String congruentSegmentString(GeoElement a, GeoElement b,
 			GeoElement c) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
-				+ and + " " + c.getColoredLabel();
+		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
+				+ and + " " + getColoredLabel(c);
 		return loc.getPlain("TheFollowingAreCongruentA", pars);
 	}
 
@@ -861,8 +870,8 @@ public class RelationNumerical {
 	final public String equalityString(GeoElement a, GeoElement b, GeoElement c,
 			GeoElement d, boolean equal) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + ", "
-				+ c.getColoredLabel() + " " + and + " " + d.getColoredLabel();
+		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + ", "
+				+ getColoredLabel(c) + " " + and + " " + getColoredLabel(d);
 
 		if (equal) {
 			return loc.getPlain("TheFollowingAreEqualA", pars);
@@ -883,14 +892,14 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final static public String congruentSegmentString(GeoElement a,
+	final public String congruentSegmentString(GeoElement a,
 			GeoElement b, boolean equal, Localization loc) {
 		if (equal) {
-			return loc.getPlain("AhasTheSameLengthAsB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AhasTheSameLengthAsB", getColoredLabel(a),
+					getColoredLabel(b));
 		}
-		return loc.getPlain("AdoesNothaveTheSameLengthAsB", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AdoesNothaveTheSameLengthAsB", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	/**
@@ -906,14 +915,14 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final static public String equalAreaString(GeoElement a, GeoElement b,
+	final public String equalAreaString(GeoElement a, GeoElement b,
 			boolean equal, Localization loc) {
 		if (equal) {
-			return loc.getPlain("AhasTheSameAreaAsB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AhasTheSameAreaAsB", getColoredLabel(a),
+					getColoredLabel(b));
 		}
-		return loc.getPlain("AdoesNothaveTheSameAreaAsB", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AdoesNothaveTheSameAreaAsB", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	/**
@@ -931,8 +940,8 @@ public class RelationNumerical {
 	final public String collinearityString(GeoElement A, GeoElement B,
 			GeoElement C) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = A.getColoredLabel() + ", " + B.getColoredLabel() + " "
-				+ and + " " + C.getColoredLabel();
+		String pars = getColoredLabel(A) + ", " + getColoredLabel(B) + " "
+				+ and + " " + getColoredLabel(C);
 		return loc.getPlain("TheFollowingAreCollinearA", pars);
 	}
 
@@ -953,8 +962,8 @@ public class RelationNumerical {
 	final public String collinearityString(GeoElement A, GeoElement B,
 			GeoElement C, GeoElement D) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = A.getColoredLabel() + ", " + B.getColoredLabel() + ", "
-				+ C.getColoredLabel() + " " + and + " " + D.getColoredLabel();
+		String pars = getColoredLabel(A) + ", " + getColoredLabel(B) + ", "
+				+ getColoredLabel(C) + " " + and + " " + getColoredLabel(D);
 		return loc.getPlain("TheFollowingAreCollinearA", pars);
 	}
 
@@ -973,8 +982,8 @@ public class RelationNumerical {
 	final public String concurrentString(GeoElement a, GeoElement b,
 			GeoElement c) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
-				+ and + " " + c.getColoredLabel();
+		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
+				+ and + " " + getColoredLabel(c);
 		return loc.getPlain("TheFollowingAreConcurrentA", pars);
 	}
 
@@ -995,8 +1004,8 @@ public class RelationNumerical {
 	final public String concyclicityString(GeoElement A, GeoElement B,
 			GeoElement C, GeoElement D) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = A.getColoredLabel() + ", " + B.getColoredLabel() + ", "
-				+ C.getColoredLabel() + " " + and + " " + D.getColoredLabel();
+		String pars = getColoredLabel(A) + ", " + getColoredLabel(B) + ", "
+				+ getColoredLabel(C) + " " + and + " " + getColoredLabel(D);
 		return loc.getPlain("TheFollowingAreConcyclicA", pars);
 	}
 
@@ -1006,10 +1015,10 @@ public class RelationNumerical {
 			boolean dependent) {
 		if (dependent) {
 			return loc.getPlain("AandBareLinearlyDependent",
-					a.getColoredLabel(), b.getColoredLabel());
+					getColoredLabel(a), getColoredLabel(b));
 		}
-		return loc.getPlain("AandBareLinearlyIndependent", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AandBareLinearlyIndependent", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	// "a lies on b"
@@ -1017,11 +1026,11 @@ public class RelationNumerical {
 	final private String incidenceString(GeoPoint a, GeoElement b,
 			boolean incident) {
 		if (incident) {
-			return loc.getPlain("AliesOnB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AliesOnB", getColoredLabel(a),
+					getColoredLabel(b));
 		}
-		return loc.getPlain("AdoesNotLieOnB", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AdoesNotLieOnB", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	// "a lies on the perimeter of b"
@@ -1029,11 +1038,11 @@ public class RelationNumerical {
 	final private String incidencePerimeterString(GeoPoint a, GeoElement b,
 			boolean incident) {
 		if (incident) {
-			return loc.getPlain("AliesOnThePerimeterOfB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AliesOnThePerimeterOfB", getColoredLabel(a),
+					getColoredLabel(b));
 		}
-		return loc.getPlain("AdoesNotLieOnThePerimeterOfB", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AdoesNotLieOnThePerimeterOfB", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	// "Relation of a and b: parallel"
@@ -1057,10 +1066,10 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final public static String parallelString(GeoLine a, GeoLine b,
+	final public String parallelString(GeoLine a, GeoLine b,
 			Localization loc) {
-		return loc.getPlain("AandBareParallel", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AandBareParallel", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	/**
@@ -1076,11 +1085,11 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final public static String parallelString(GeoLine a, GeoLine b, GeoLine c,
+	final public String parallelString(GeoLine a, GeoLine b, GeoLine c,
 			Localization loc) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
-				+ and + " " + c.getColoredLabel();
+		String pars = getColoredLabel(a) + ", " + getColoredLabel(b) + " "
+				+ and + " " + getColoredLabel(c);
 		return loc.getPlain("TheFollowingAreParallelA", pars);
 
 	}
@@ -1107,10 +1116,10 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final public static String triangleNonDegenerateString(GeoPoint A,
+	final public String triangleNonDegenerateString(GeoPoint A,
 			GeoPoint B, GeoPoint C, Localization loc) {
-		return loc.getPlain("TriangleABCnonDegenerate", A.getColoredLabel()
-				+ B.getColoredLabel() + C.getColoredLabel());
+		return loc.getPlain("TriangleABCnonDegenerate", getColoredLabel(A)
+				+ getColoredLabel(B) + getColoredLabel(C));
 	}
 
 	final private String perpendicularString(GeoLine a, GeoLine b,
@@ -1131,14 +1140,14 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final static public String perpendicularString(GeoLine a, GeoLine b,
+	final public String perpendicularString(GeoLine a, GeoLine b,
 			boolean perp, Localization loc) {
 		if (perp) {
-			return loc.getPlain("AandBarePerpendicular", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AandBarePerpendicular", getColoredLabel(a),
+					getColoredLabel(b));
 		}
-		return loc.getPlain("AandBareNotPerpendicular", a.getColoredLabel(),
-				b.getColoredLabel());
+		return loc.getPlain("AandBareNotPerpendicular", getColoredLabel(a),
+				getColoredLabel(b));
 	}
 
 	// "a intersects with b"
@@ -1160,17 +1169,17 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final public static String intersectString(GeoElement a, GeoElement b,
+	final public String intersectString(GeoElement a, GeoElement b,
 			boolean intersects, Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		// Michael Borcherds 2008-05-14
 		// updated for better translation
 		if (intersects) {
-			sb.append(loc.getPlain("AIntersectsWithB", a.getColoredLabel(),
-					b.getColoredLabel()));
+			sb.append(loc.getPlain("AIntersectsWithB", getColoredLabel(a),
+					getColoredLabel(b)));
 		} else {
 			sb.append(loc.getPlain("ADoesNotIntersectWithB",
-					a.getColoredLabel(), b.getColoredLabel()));
+					getColoredLabel(a), getColoredLabel(b)));
 		}
 		return sb.toString();
 	}
@@ -1194,15 +1203,15 @@ public class RelationNumerical {
 	 *            locale
 	 * @return internationalized string
 	 */
-	final public static String touchString(GeoElement a, GeoElement b,
+	final public String touchString(GeoElement a, GeoElement b,
 			boolean touches, Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		if (touches) {
-			sb.append(loc.getPlain("ATouchesB", a.getColoredLabel(),
-					b.getColoredLabel()));
+			sb.append(loc.getPlain("ATouchesB", getColoredLabel(a),
+					getColoredLabel(b)));
 		} else {
 			sb.append(loc.getPlain("ADoesNotIntersectWithB",
-					a.getColoredLabel(), b.getColoredLabel()));
+					getColoredLabel(a), getColoredLabel(b)));
 		}
 		return sb.toString();
 	}
@@ -1214,39 +1223,39 @@ public class RelationNumerical {
 		switch (type) {
 		case AlgoIntersectLineConic.INTERSECTION_PRODUCING_LINE:
 			// strType = getPlain("producingLine");
-			return loc.getPlain("AisaDegenerateBranchOfB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AisaDegenerateBranchOfB", getColoredLabel(a),
+					getColoredLabel(b));
 		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE:
 			// strType = getPlain("asymptoticLine");
-			return loc.getPlain("AisAnAsymptoteToB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AisAnAsymptoteToB", getColoredLabel(a),
+					getColoredLabel(b));
 		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE:
 			// strType = getPlain("meetingLine");
-			return loc.getPlain("AintersectsWithBOnce", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AintersectsWithBOnce", getColoredLabel(a),
+					getColoredLabel(b));
 		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE:
 			// strType = getPlain("tangentLine");
-			return loc.getPlain("AisaTangentToB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AisaTangentToB", getColoredLabel(a),
+					getColoredLabel(b));
 		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE:
 			// strType = getPlain("secantLine");
-			return loc.getPlain("AintersectsWithBTwice", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("AintersectsWithBTwice", getColoredLabel(a),
+					getColoredLabel(b));
 		// break;
 
 		default:
 			// case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
 			// strType = getPlain("passingLine");
-			return loc.getPlain("ADoesNotIntersectWithB", a.getColoredLabel(),
-					b.getColoredLabel());
+			return loc.getPlain("ADoesNotIntersectWithB", getColoredLabel(a),
+					getColoredLabel(b));
 		// break;
 		}
 	}

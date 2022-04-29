@@ -5,7 +5,8 @@ import java.util.Map;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.ui.FlowPanel;

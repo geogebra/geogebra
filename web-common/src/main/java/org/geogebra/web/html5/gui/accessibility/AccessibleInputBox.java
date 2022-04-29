@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
