@@ -76,7 +76,6 @@ public class ZoomController {
 		this.fullScreenActive = fullScreenActive;
 		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
 			fullscreenBtn.setSelected(fullScreenActive);
-			fullscreenBtn.updateImage();
 		}
 	}
 

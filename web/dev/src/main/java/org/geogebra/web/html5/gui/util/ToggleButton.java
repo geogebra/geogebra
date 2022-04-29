@@ -72,21 +72,6 @@ public class ToggleButton extends FocusWidget {
 	}
 
 	/**
-	 * toggle button with two faces
-	 * @param svgUp - up image
-	 * @param svgDown - down image
-	 */
-	public ToggleButton(ResourcePrototype svgUp, ResourcePrototype svgDown, GColor hoverIconColor) {
-		this(svgUp, svgDown);
-		if (hoverIconColor != null) {
-			SVGResource curIcon = (SVGResource) (isSelected ? svgDown : svgUp);
-			setMouseOverHandler(() ->
-					setIcon(curIcon.withFill(hoverIconColor.toString())));
-			setMouseOutHandler(() -> setIcon(curIcon));
-		}
-	}
-
-	/**
 	 * @param image - resource
 	 */
 	public void setIcon(final ResourcePrototype image) {
@@ -124,6 +109,8 @@ public class ToggleButton extends FocusWidget {
 		this.isSelected = isSelected;
 		if (svgDown == null) {
 			Dom.toggleClass(this, "selected", isSelected);
+		} else {
+			setIcon(isSelected ? svgDown : svgUp);
 		}
 	}
 
@@ -147,9 +134,6 @@ public class ToggleButton extends FocusWidget {
 	public void addFastClickHandler(FastClickHandler handler) {
 		Dom.addEventListener(this.getElement(), "click", (e) -> {
 			setSelected(!isSelected);
-			if (svgDown != null) {
-				setIcon(isSelected ? svgDown : svgUp);
-			}
 			handler.onClick(this);
 			e.stopPropagation();
 		});
@@ -184,12 +168,6 @@ public class ToggleButton extends FocusWidget {
 			focusImpl.focus(getElement());
 		} else {
 			focusImpl.blur(getElement());
-		}
-	}
-
-	public void updateImage() {
-		if (svgDown != null) {
-			setIcon(isSelected ? svgDown : svgUp);
 		}
 	}
 
