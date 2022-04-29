@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.table.dialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -11,7 +12,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.statistics.Stat;
@@ -44,38 +47,30 @@ public class StatsBuilder {
 	 * @return single variable statistics
 	 */
 	public List<StatisticGroup> getStatistics1Var(String varName) {
+		GeoList cleanList = getCleanList1Var(lists[0]);
 		List<StatisticGroup> stats = new ArrayList<>();
-		try {
-			// use command strings, not algos, to make sure code splitting works in Web
-			addStats(stats, ONE_VAR_STATS, varName, lists[0]);
-			addStats(stats, ONE_VAR_EXTRA, varName, lists[0]);
-			return stats;
-		} catch (Exception e) {
-			return stats;
+		// use command strings, not algos, to make sure code splitting works in Web
+		addStats(stats, ONE_VAR_STATS, varName, cleanList);
+		addStats(stats, ONE_VAR_EXTRA, varName, cleanList);
+		return stats;
+	}
+
+	private GeoList getCleanList1Var(GeoEvaluatable list) {
+		GeoList cleanList = new GeoList(list.getKernel().getConstruction());
+		if (list instanceof GeoList && ((GeoList) list).size() >= 2) {
+			List<GeoElement> nrVals = ((GeoList) list).elements().filter(
+					(GeoElementND geo) -> geo instanceof GeoNumeric).collect(Collectors.toList());
+			for (GeoElementND listElem : nrVals) {
+				cleanList.add(listElem);
+			}
 		}
+		return cleanList;
 	}
 
 	/**
 	 * @return two variable statistics
 	 */
 	public List<StatisticGroup> getStatistics2Var(String varName, String varName2) {
-		List<StatisticGroup> stats = new ArrayList<>();
-		try {
-			// use command strings, not algos, to make sure code splitting works in Web
-			addStats(stats, ONE_VAR_STATS, varName, lists[0]);
-			addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
-			addStats(stats, TWO_VAR_STATS, varName + varName2, lists);
-			addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
-			addStats(stats, MIN_MAX, varName, lists[0]);
-			addStats(stats, MIN_MAX, varName2, lists[1]);
-			return stats;
-		} catch (Exception e) {
-			return stats;
-		}
-	}
-
-	private void addStats(List<StatisticGroup> stats, List<Stat> statAlgos, String varName,
-			GeoEvaluatable... lists) throws Exception {
 		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
 				false);
 		MyVecNode points = new MyVecNode(kernel, this.lists[0], this.lists[1]);
@@ -85,23 +80,34 @@ public class StatsBuilder {
 		ExpressionNode yCoordExpr =
 				new ExpressionNode(kernel, cleanData.wrap(), Operation.YCOORD, null);
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
-		GeoElementND resultX = algebraProcessor.processValidExpressionSilent(xCoordExpr)[0];
-		GeoElementND resultY = algebraProcessor.processValidExpressionSilent(yCoordExpr)[0];
+		List<StatisticGroup> stats = new ArrayList<>();
+		try {
+			GeoElementND resultX = algebraProcessor.processValidExpressionSilent(xCoordExpr)[0];
+			GeoElementND resultY = algebraProcessor.processValidExpressionSilent(yCoordExpr)[0];
+			// use command strings, not algos, to make sure code splitting works in Web
+			addStats(stats, ONE_VAR_STATS, varName, resultX);
+			addStats(stats, ONE_VAR_STATS, varName2, resultY);
+			addStats(stats, TWO_VAR_STATS, varName + varName2, resultX, resultY);
+			addStats(stats, Arrays.asList(Stat.LENGTH), varName, resultX);
+			addStats(stats, MIN_MAX, varName, resultX);
+			addStats(stats, MIN_MAX, varName2, resultY);
+			return stats;
+		} catch (Exception e) {
+			return stats;
+		}
+	}
 
-		if (resultX.isGeoList() && ((GeoList) resultX).size() >= 2) {
+	private void addStats(List<StatisticGroup> stats, List<Stat> statAlgos, String varName,
+			GeoElementND... lists) {
+		if (lists[0].isGeoList() && ((GeoList) lists[0]).size() >= 2) {
 			for (Stat cmd : statAlgos) {
 				Command exec = new Command(kernel, cmd.getCommandName(), false);
-				if (lists[0] == this.lists[0]) {
-					exec.addArgument(resultX.wrap());
-					if (lists[1] == this.lists[1]) {
-						exec.addArgument(resultY.wrap());
-					}
-				}
-				if (lists[0] == this.lists[1]) {
-					exec.addArgument(resultY.wrap());
+				for (GeoElementND list : lists) {
+					exec.addArgument(list.wrap());
 				}
 
 				try {
+					AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 					GeoElementND r = algebraProcessor.processValidExpressionSilent(exec)[0];
 					String heading =
 							kernel.getLocalization().getMenu("Stats." + cmd.getCommandName());
