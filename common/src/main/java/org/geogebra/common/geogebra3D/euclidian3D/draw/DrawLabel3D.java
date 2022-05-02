@@ -293,6 +293,10 @@ public class DrawLabel3D {
 
 		if (cpt.isLaTeX()) {
 			GeoElement geo = cpt.getGeoElement();
+			boolean serif = true;
+			if (geo.isGeoText()) {
+				serif = cpt.isSerifFont();
+			}
 
 			// make sure LaTeX labels
 			// don't go off bottom of screen
@@ -305,7 +309,7 @@ public class DrawLabel3D {
 			App app = view.getApplication();
 			app.getDrawEquation().drawEquation(geo.getKernel().getApplication(),
 					geo, g2d, 0, -offsetY, cpt.textToDraw(),
-					cpt.font(), cpt.isSerifFont(), cpt.foregroundColor(),
+					cpt.font(), serif, cpt.foregroundColor(),
 					cpt.backgroundColor(),
 					true, false, getCallBack());
 			return bimg;
