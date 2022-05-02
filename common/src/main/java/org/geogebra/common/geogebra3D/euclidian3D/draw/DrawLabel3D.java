@@ -294,7 +294,7 @@ public class DrawLabel3D {
 		if (cpt.isLaTeX()) {
 			GeoElement geo = cpt.getGeoElement();
 			boolean serif = true;
-			if (geo.isGeoText()) {
+			if (geo != null && geo.isGeoText()) {
 				serif = cpt.isSerifFont();
 			}
 
@@ -307,7 +307,7 @@ public class DrawLabel3D {
 			g2d = createGraphics2D(bimg, cpt);
 
 			App app = view.getApplication();
-			app.getDrawEquation().drawEquation(geo.getKernel().getApplication(),
+			app.getDrawEquation().drawEquation(app,
 					geo, g2d, 0, -offsetY, cpt.textToDraw(),
 					cpt.font(), serif, cpt.foregroundColor(),
 					cpt.backgroundColor(),
