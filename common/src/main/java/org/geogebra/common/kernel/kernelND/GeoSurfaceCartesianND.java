@@ -995,4 +995,14 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	public FunctionVariable getComplexVariable() {
 		return complexVariable;
 	}
+
+	@Override
+	public boolean showLineProperties() {
+		return true;
+	}
+
+	@Override
+	public boolean hasLineOpacity() {
+		return true;
+	}
 }
