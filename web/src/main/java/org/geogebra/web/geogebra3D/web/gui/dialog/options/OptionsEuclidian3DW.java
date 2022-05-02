@@ -194,6 +194,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		}
 
+
 		@Override
 		public void setLabels() {
 			super.setLabels();

@@ -13,6 +13,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -27,7 +29,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import com.himamis.retex.renderer.web.graphics.JLMContextHelper;
@@ -472,32 +473,33 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class BackgroundColorPanel extends FlowPanel {
-		RadioButton backgroundButton;
-		RadioButton foregroundButton;
+		RadioButtonPanel colorRadioBtnPanel;
 		StandardButton btnClearBackground;
 
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
-			backgroundButton = new RadioButton("bg");
-			foregroundButton = new RadioButton("fg");
-			backgroundButton.setName("bgfg");
-			foregroundButton.setName("bgfg");
+			colorRadioBtnPanel = new RadioButtonPanel(app.getLocalization(),
+					Arrays.asList(newColorButtonData("ForegroundColor", true,
+							false),
+							newColorButtonData("BackgroundColor", false,
+									true)));
+			colorRadioBtnPanel.setValueOfNthRadioButton(0, true);
 
 			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
 					.delete_black(), 24, null);
 			btnClearBackground.setStyleName("clearBackgroundButton");
 
-			updateBackgroundButtons(false);
-
-			add(foregroundButton);
-			add(backgroundButton);
+			add(colorRadioBtnPanel);
 			add(btnClearBackground);
 
 			btnClearBackground.setVisible(false);
-			foregroundButton.addClickHandler(event -> setBackground(false));
-			backgroundButton.addClickHandler(event -> setBackground(true));
 			btnClearBackground.addFastClickHandler(event -> changeHandler.onClearBackground());
+		}
 
+		private RadioButtonData newColorButtonData(String label, boolean selected,
+				boolean isBackground) {
+			return new RadioButtonData(label, selected,
+					() -> setBackground(isBackground));
 		}
 
 		protected void setBackground(boolean background) {
@@ -507,18 +509,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				changeHandler.onForegroundSelected();
 			}
 			btnClearBackground.setVisible(background);
-			updateBackgroundButtons(background);
-		}
-
-		private void updateBackgroundButtons(boolean background) {
-			foregroundButton.setValue(!background);
-			backgroundButton.setValue(background);
-
-		}
-
-		public void setLabels(String bgLabel, String fgLabel) {
-			backgroundButton.setText(bgLabel);
-			foregroundButton.setText(fgLabel);
 		}
 	}
 
@@ -729,12 +719,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		otherTable.setTitle(loc.getMenu("Other"), 0, 0);
 		previewPanel.setLabels(loc.getMenu("Preview"));
 		opacityPanel.setLabels(loc.getMenu("Opacity"));
-		setBgFgTitles(loc.getMenu("BackgroundColor"),
-				loc.getMenu("ForegroundColor"));
-	}
-
-	private void setBgFgTitles(String bg, String fg) {
-		backgroundColorPanel.setLabels(bg, fg);
+		backgroundColorPanel.colorRadioBtnPanel.setLabels();
 		update();
 	}
 
@@ -784,7 +769,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	public boolean isBackgroundColorSelected() {
 		return backgroundColorPanel.isVisible()
-				&& backgroundColorPanel.backgroundButton.getValue();
+				&& backgroundColorPanel.colorRadioBtnPanel.isNthRadioButtonSelected(1);
 	}
 
 	/**
