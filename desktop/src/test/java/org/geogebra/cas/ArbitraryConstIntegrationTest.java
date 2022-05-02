@@ -5,6 +5,7 @@ import static org.geogebra.test.matcher.IsEqualStringIgnoreWhitespaces.equalToIg
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -18,6 +19,7 @@ import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -88,22 +90,7 @@ public class ArbitraryConstIntegrationTest {
 	 */
 	private static void ta(String input, String expectedResult,
 			String... validResults) {
-		String result;
-
-		try {
-			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-			kernel.getConstruction().addToConstructionList(f, false);
-
-			f.setInput(input);
-
-			f.computeOutput();
-
-			result = getOutput(f);
-		} catch (Throwable t) {
-			String sts = CasTestJsonCommon.stacktrace(t);
-
-			result = t.getClass().getName() + ":" + t.getMessage() + sts;
-		}
+		String result = getOutput(cellFromInput(input));
 
 		assertThat(result, equalToIgnoreWhitespaces(logger, input,
 				expectedResult, validResults));
@@ -197,6 +184,14 @@ public class ArbitraryConstIntegrationTest {
 		ta("SolveODE[y''=2y]",
 				"y = c_{1} * " + Unicode.EULER_STRING + "^(sqrt(2) * x) + c_{2} * "
 						+ Unicode.EULER_STRING + "^(-sqrt(2) * x)");
+	}
+
+	@Test
+	public void arbIntShouldHaveIncrement1() {
+		cellFromInput("Invert(sin(x))");
+		GeoNumeric k1 = (GeoNumeric) kernel.lookupLabel("k_{1}");
+		assertEquals(1.0, k1.getAnimationStep(), 0.0);
+		assertFalse(k1.isAutoStep());
 	}
 
 	/**
@@ -508,6 +503,16 @@ public class ArbitraryConstIntegrationTest {
 		assertArrayEquals(new String[]{"F"}, app.getGgbApi().getAllObjectNames());
 		assertThat(f[0], hasValue("tan(0π - x + tan"
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 1)"));
+	}
+
+	@Test
+	public void shouldKeepValueAfterReload() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		ap.processAlgebraCommand("f:=SolveODE(x)", false);
+		ap.processAlgebraCommand("SetValue(c_1,3)", false);
+		app.setXML(app.getXML(), true);
+		assertThat(kernel.lookupLabel("f"), hasValue("3 + 1 / 2 x"
+				+ Unicode.SUPERSCRIPT_2));
 	}
 
 }
