@@ -148,6 +148,10 @@ public class SymbolicProcessor {
 			sym = new GeoSymbolic(cons);
 			sym.setArbitraryConstant(info.getArbitraryConstant());
 			sym.setDefinition(replaced);
+			if (info.isLabelOutput()) {
+				// add to cons before computing: arbitrary constant should be *after* this in XML
+				cons.addToConstructionList(sym, false);
+			}
 			sym.computeOutput();
 		}
 		return sym;
@@ -171,7 +175,8 @@ public class SymbolicProcessor {
 				return doEvalSymbolicNoLabel(ve.wrap(), info);
 			}
 		}
-		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
+		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant())
+				.withLabels(false);
 		SubExpressionEvaluator evaluator = new SubExpressionEvaluator(this, ve, subInfo);
 		ExpressionNode replaced = ve.traverse(evaluator).wrap();
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {

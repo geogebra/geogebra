@@ -42,7 +42,7 @@ if(hasProperty("eclipse")){
 }
 
 compileJavacc {
-	arguments = [static: 'false', JAVA_TEMPLATE_TYPE: 'modern']
+	arguments = [static: 'false', JAVA_TEMPLATE_TYPE: 'modern', LEGACY_EXCEPTION_HANDLING: 'false']
 }
 
 compileJava {

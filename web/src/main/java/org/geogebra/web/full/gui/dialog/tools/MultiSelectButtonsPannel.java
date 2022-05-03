@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.dialog.tools;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 

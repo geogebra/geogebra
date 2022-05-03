@@ -3,8 +3,8 @@ package org.geogebra.web.shared;
 import java.util.function.BiConsumer;
 
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;

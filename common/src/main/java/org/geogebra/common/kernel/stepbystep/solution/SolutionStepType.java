@@ -274,6 +274,8 @@ public enum SolutionStepType {
 
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
+	EXPONENTIAL_OF_LOG("ExponentialOfLog", "Exponential of logarithm"),
+
 	ZERO_IN_ADDITION("AddingOrSubtractionZero",
 			"When adding or subtracting zero, the quantity does not change"),
 

@@ -63,7 +63,7 @@ public class MyArbitraryConstant {
 	 * @return real constant
 	 */
 	public GeoNumeric nextConst(double myDouble, double initialValue) {
-		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble, initialValue);
+		return nextConst(consts, ce.getConstruction().constsM, "c", myDouble, initialValue, 0);
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class MyArbitraryConstant {
 	 * @return integer constant
 	 */
 	public GeoNumeric nextInt(double myDouble) {
-		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble, 0);
+		return nextConst(ints, ce.getConstruction().intsM, "k", myDouble, 0, 1);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class MyArbitraryConstant {
 	 */
 	public GeoNumeric nextComplex(double myDouble) {
 		return nextConst(complexNumbers, ce.getConstruction().complexNumbersM,
-				"c", myDouble, 0);
+				"c", myDouble, 0, 0);
 	}
 
 	/**
@@ -95,6 +95,7 @@ public class MyArbitraryConstant {
 	 * always refer to the same number eg
 	 * {x+arbonst(10),2x+arbconst(10)+arbconst(9)}
 	 * @param initialValue initial value of the constant, set only if the constant
+	 * @param increment slider increment
 	 * does not yet exist and has to be created, used only for numeric constants
 	 * @return element of consts2; if one with a given index already exists in
 	 * map take that one, otherwise pick the next one from consts2 (or
@@ -102,14 +103,14 @@ public class MyArbitraryConstant {
 	 */
 	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, double index,
-			double initialValue) {
+			double initialValue, double increment) {
 		int indexInt = (int) Math.round(index);
 		GeoNumeric found = map.get(indexInt);
 		if (found != null) {
 			return found;
 		}
 		if (position >= consts2.size() || consts2.get(position) == null) {
-			return createConstant(consts2, map, prefix, indexInt, initialValue);
+			return createConstant(consts2, map, prefix, indexInt, initialValue, increment);
 		}
 		GeoNumeric ret = consts2.get(position);
 		map.put(indexInt, ret);
@@ -128,14 +129,14 @@ public class MyArbitraryConstant {
 
 	private GeoNumeric createConstant(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, int index,
-			double initialValue) {
+			double initialValue, double increment) {
 		Construction construction = ce.getConstruction();
 		String label = construction.getIndexLabel(prefix, true);
 		GeoNumeric constant;
 		if (symbolic) {
 			constant = createSymbolicConstant(construction, label);
 		} else {
-			constant = createNumericConstant(construction, label, initialValue);
+			constant = createNumericConstant(construction, label, initialValue, increment);
 		}
 
 		consts2.add(position, constant);
@@ -146,9 +147,17 @@ public class MyArbitraryConstant {
 	}
 
 	private GeoNumeric createNumericConstant(Construction cons,
-			String label, double initialValue) {
+			String label, double initialValue, double increment) {
 		GeoNumeric numeric = new GeoNumeric(cons, initialValue);
 		numeric.setSendValueToCas(false);
+		if (!getKernel().getApplication().showAutoCreatedSlidersInEV()
+				&& !getKernel().getConstruction().isFileLoading()) {
+			numeric.initAlgebraSlider();
+		}
+		if (increment > 0) {
+			numeric.setAnimationStep(increment);
+			numeric.setAutoStep(false);
+		}
 		boolean oldLabeling = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(false);
 		// let construction know that we need new constant

@@ -144,6 +144,27 @@ enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	EXPONENTIAL_OF_LOG {
+		@Override
+		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
+				RegroupTracker tracker) {
+
+			if (sn.isOperation(Operation.POWER)) {
+				StepExpression base = ((StepOperation) sn).getOperand(0);
+				StepExpression exponent = ((StepOperation) sn).getOperand(1);
+				if ((exponent.isOperation(Operation.LOG))
+						&& ((StepOperation) exponent).getOperand(0).equals(base)) {
+					sb.add(SolutionStepType.EXPONENTIAL_OF_LOG, tracker.incColorTracker());
+					StepExpression argument = ((StepOperation) exponent).getOperand(1);
+					argument.setColor(tracker.getColorTracker());
+					return argument;
+				}
+			}
+
+			return sn.iterateThrough(this, sb, tracker);
+		};
+	},
+
 	EXPAND_ROOT {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
@@ -1587,6 +1608,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.DISTRIBUTE_MINUS,
 					RegroupSteps.REGROUP_SUMS,
 					RegroupSteps.REGROUP_PRODUCTS,
+					RegroupSteps.EXPONENTIAL_OF_LOG,
 			};
 
 			return StepStrategies.implementCachedGroup(cache, sn, null, weakStrategy,
@@ -1643,6 +1665,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					ExpandSteps.WEAK_EXPAND_PRODUCTS,
 					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
+					RegroupSteps.EXPONENTIAL_OF_LOG,
 			};
 
 			return StepStrategies.implementCachedGroup(cache, sn, null, defaultStrategy,
@@ -1673,6 +1696,7 @@ enum RegroupSteps implements SimplificationStepGenerator {
 					FractionSteps.ADD_INTEGER_FRACTIONS,
 					TrigonometricSteps.SIMPLIFY_TRIGONOMETRIC,
 					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
+					RegroupSteps.EXPONENTIAL_OF_LOG,
 			};
 
 			return StepStrategies.implementCachedGroup(cache, sn, null, defaultStrategy,

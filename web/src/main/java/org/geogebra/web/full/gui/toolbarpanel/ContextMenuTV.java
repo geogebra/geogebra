@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -114,26 +113,26 @@ public class ContextMenuTV {
 		String headerHTMLName = TableUtil.getHeaderHtml(view.getTableValuesModel(),
 				getColumnIdx());
 		DialogData oneVarStat = new DialogData("1VariableStatistics",
-				getColumnTransKey(headerHTMLName), "Close", null);
-		addStats(getStatisticsTransKey(headerHTMLName), view::getStatistics1Var, oneVarStat);
+				getColumnTitleHTML(headerHTMLName), "Close", null);
+		addStats(getStatisticsTitleHTML(headerHTMLName), view::getStatistics1Var, oneVarStat);
 
 		DialogData twoVarStat = new DialogData("2VariableStatistics",
-				getColumnTransKey("x " + headerHTMLName), "Close", null);
-		addStats(getStatisticsTransKey("x " + headerHTMLName),
+				getColumnTitleHTML("x " + headerHTMLName), "Close", null);
+		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
 				view::getStatistics2Var, twoVarStat);
 
 		DialogData regressionData = new DialogData("Regression",
-				getColumnTransKey(headerHTMLName), "Close", "Plot");
+				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
 		addCommand(() -> showRegression(regressionData, rows), "Regression",
 				"regression");
 	}
 
-	private String getStatisticsTransKey(String argument) {
+	private String getStatisticsTitleHTML(String argument) {
 		return app.getLocalization().getPlainDefault("AStatistics",
 				"%0 Statistics", argument);
 	}
 
-	private String getColumnTransKey(String argument) {
+	private String getColumnTitleHTML(String argument) {
 		return app.getLocalization().getPlainDefault("ColumnA",
 				"Column %0", argument);
 	}
@@ -148,9 +147,9 @@ public class ContextMenuTV {
 		addDelete();
 	}
 
-	private void addStats(String transKey, Function<Integer, List<StatisticGroup>> statFunction,
+	private void addStats(String title, Function<Integer, List<StatisticGroup>> statFunction,
 			DialogData data) {
-		addCommand(() -> showStats(statFunction, data), transKey, transKey.toLowerCase(Locale.US));
+		addCommandLocalized(() -> showStats(statFunction, data), title, "stats");
 	}
 
 	private void showRegression(DialogData data, int rows) {
@@ -165,7 +164,7 @@ public class ContextMenuTV {
 
 	private void showErrorDialog(DialogData dialogData) {
 		DialogData errorDialogData = new DialogData(dialogData.getTitleTransKey(),
-				dialogData.getSubTitleTransKey(), "Close", null);
+				dialogData.getSubTitleHTML(), "Close", null);
 		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
 		dialog.addStyleName("statistics error");
 		InfoErrorData errorData = new InfoErrorData(app.getLocalization()
@@ -204,13 +203,16 @@ public class ContextMenuTV {
 		app.dispatchEvent(new Event(EventType.SHOW_POINTS_TV).setJsonArgument(showPointsJson));
 	}
 
-	private void addCommand(Command pointCommand, String transKey, String title) {
+	private void addCommand(Command command, String transKey, String testTitle) {
+		addCommandLocalized(command, app.getLocalization().getMenu(transKey), testTitle);
+	}
+
+	private void addCommandLocalized(Command command, String title, String testTitle) {
 		AriaMenuItem mi = new AriaMenuItem(
-				MainMenu.getMenuBarHtml((SVGResource) null,
-						app.getLocalization().getMenu(transKey)),
-				true, pointCommand);
+				MainMenu.getMenuBarHtml((SVGResource) null, title),
+				true, command);
 		mi.addStyleName("no-image");
-		TestHarness.setAttr(mi, "menu_" + title);
+		TestHarness.setAttr(mi, "menu_" + testTitle);
 		wrappedPopup.addItem(mi);
 	}
 

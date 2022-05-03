@@ -710,13 +710,6 @@ public class GeoNumeric extends GeoElement
 		}
 	}
 
-	@Override
-	public void getXML(boolean getListenersToo, StringBuilder sb) {
-		if (!isDependentConst()) {
-			super.getXML(getListenersToo, sb);
-		}
-	}
-
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
