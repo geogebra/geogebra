@@ -21,7 +21,7 @@ public class StaticCaption3D extends StaticText3D {
 
 	@Override
 	public boolean isSerifFont() {
-		return false;
+		return isLaTeX();
 	}
 
 	@Override
