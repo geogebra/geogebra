@@ -15,15 +15,13 @@ import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RequiresResize;
 
 /**
  * context menu
  */
 public class ContextMenuPopup extends StandardButton
-		implements CloseHandler<GPopupPanel>, ResizeHandler {
+		implements CloseHandler<GPopupPanel>, RequiresResize {
 
 	private final GPoint location;
 	private final AppW app;
@@ -44,11 +42,11 @@ public class ContextMenuPopup extends StandardButton
 		initPopup();
 		addStyleName("MyCanvasButton");
 		addStyleName("MyCanvasButton-borderless");
-		Window.addResizeHandler(this);
+		app.addWindowResizeListener(this);
 	}
 
 	@Override
-	public void onResize(ResizeEvent event) {
+	public void onResize() {
 		if (!popup.isMenuShown()) {
 			return;
 		}

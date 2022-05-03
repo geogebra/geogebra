@@ -7,8 +7,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.google.gwt.user.client.Window;
+import org.geogebra.gwtutil.NavigatorUtil;
 
 /**
  *
@@ -366,7 +365,7 @@ public class AppletParameters {
 	 */
 	public boolean getDataParamShowLogging() {
 		return getBoolDataParam("showLogging", false)
-				|| (Window.Location.getParameter("GeoGebraDebug") != null);
+				|| (NavigatorUtil.getUrlParameter("GeoGebraDebug") != null);
 	}
 
 	/**

@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
@@ -18,7 +19,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -388,8 +388,8 @@ public class DockGlassPaneW extends AbsolutePanel
 	public void onMouseMove(MouseMoveEvent event) {
 		if (dragInProgress) {
 			// Use getClientX rather than getX, see #4049
-			mouseDragged(event.getClientX() + Window.getScrollLeft(),
-					event.getClientY() + Window.getScrollTop());
+			mouseDragged(event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
+					event.getClientY() + NavigatorUtil.getWindowScrollTop());
 		}
 	}
 
@@ -400,9 +400,9 @@ public class DockGlassPaneW extends AbsolutePanel
 				event.preventDefault();
 				mouseDragged(
 						event.getTouches().get(0).getClientX()
-								+ Window.getScrollLeft(), event.getTouches()
+								+ NavigatorUtil.getWindowScrollLeft(), event.getTouches()
 								.get(0).getClientY()
-								+ Window.getScrollTop());
+								+ NavigatorUtil.getWindowScrollTop());
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package org.geogebra.gwtutil;
 import java.util.Locale;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.URLSearchParams;
 import jsinterop.base.Js;
 
 public class NavigatorUtil {
@@ -63,5 +64,32 @@ public class NavigatorUtil {
 	public static boolean isMacOS() {
 		return DomGlobal.navigator.userAgent.contains("Macintosh")
 				|| DomGlobal.navigator.userAgent.contains("Mac OS");
+	}
+
+	/**
+	 * @param name parameter name
+	 * @return parameter value; null if not present
+	 */
+	public static String getUrlParameter(String name) {
+		if ("".equals(DomGlobal.location.search)) {
+			return null;
+		}
+		return new URLSearchParams(DomGlobal.location.search).get(name);
+	}
+
+	public static int getWindowWidth() {
+		return DomGlobal.document.documentElement.clientWidth;
+	}
+
+	public static int getWindowHeight() {
+		return DomGlobal.document.documentElement.clientHeight;
+	}
+
+	public static int getWindowScrollLeft() {
+		return (int) DomGlobal.document.documentElement.scrollLeft;
+	}
+
+	public static int getWindowScrollTop() {
+		return (int) DomGlobal.document.documentElement.scrollLeft;
 	}
 }

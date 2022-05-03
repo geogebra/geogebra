@@ -1,12 +1,12 @@
 package org.geogebra.web.full.cas.view;
 
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.Window;
 
 /**
  * Handles mouse events in row headers
@@ -50,8 +50,8 @@ public class RowHeaderHandler implements MouseUpHandler {
 				// when a newer popup will be shown.
 				RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
 						.getGuiManager()).getCASContextMenu(table);
-				popupMenu.show(event.getClientX() + Window.getScrollLeft(),
-						event.getClientY() + Window.getScrollTop());
+				popupMenu.show(event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
+						event.getClientY() + NavigatorUtil.getWindowScrollTop());
 			}
 		}
 	}

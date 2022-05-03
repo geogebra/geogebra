@@ -26,7 +26,8 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
+
+import elemental2.dom.DomGlobal;
 
 public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallbackI {
 	private URLChecker urlChecker;
@@ -53,8 +54,8 @@ public class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCallback
 	}
 
 	private void initURLChecker() {
-		if (Window.Location.getHost() != null
-				&& Window.Location.getHost().contains("geogebra")) {
+		if (DomGlobal.location.host != null
+				&& DomGlobal.location.host.contains("geogebra")) {
 			urlChecker = new EmbedURLChecker(app.getAppletParameters().getParamBackendURL());
 		} else {
 			urlChecker = new MarvlURLChecker();

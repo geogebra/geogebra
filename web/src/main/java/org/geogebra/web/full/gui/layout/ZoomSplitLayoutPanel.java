@@ -16,7 +16,6 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -245,9 +244,9 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			 * Resize glassElem to take up the entire scrollable window area,
 			 * which is the greater of the scroll size and the client size.
 			 */
-			int width = Math.max(Window.getClientWidth(),
+			int width = Math.max(NavigatorUtil.getWindowWidth(),
 					Document.get().getScrollWidth());
-			int height = Math.max(Window.getClientHeight(),
+			int height = Math.max(NavigatorUtil.getWindowHeight(),
 					Document.get().getScrollHeight());
 			Element glass = getGlassElem();
 			glass.getStyle().setHeight(height, Unit.PX);

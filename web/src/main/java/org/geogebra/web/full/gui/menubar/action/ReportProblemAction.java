@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
 
 /**
  * Opens the bug report page.
@@ -13,6 +13,6 @@ public class ReportProblemAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		Window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
+		DomGlobal.window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
 	}
 }

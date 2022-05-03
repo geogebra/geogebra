@@ -19,7 +19,7 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
 
 /**
  * Dialog manager for solver
@@ -150,6 +150,6 @@ public class DialogManagerSolver extends DialogManager {
 
 	@Override
 	public void showPrintPreview() {
-		Window.print();
+		DomGlobal.window.print();
 	}
 }

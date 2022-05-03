@@ -70,7 +70,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -995,7 +994,7 @@ public class GeoGebraFrameFull
 	@Override
 	public void onPanelHidden() {
 		if (app.getAppletParameters().getDataParamFitToScreen()) {
-			setSize(Window.getClientWidth(), computeHeight());
+			setSize(NavigatorUtil.getWindowWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();
 		}

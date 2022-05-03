@@ -13,7 +13,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Window.Location;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.core.Function;
@@ -144,7 +143,7 @@ public class Browser {
 	 * @return whether we are running on geogebra.org
 	 */
 	public static boolean isGeoGebraOrg() {
-		String host = Location.getHost();
+		String host = DomGlobal.location.host;
 		return host != null && host.contains("geogebra.org");
 	}
 
@@ -153,7 +152,7 @@ public class Browser {
 	 * development hosts
 	 */
 	public static boolean isGraspableMathEnabled() {
-		String host = Location.getHost();
+		String host = DomGlobal.location.host;
 		return host != null
 				&& (host.contains("geogebra.org")
 					|| host.contains("localhost")
@@ -361,10 +360,10 @@ public class Browser {
 	}
 
 	private static boolean isAppsServer() {
-		String host = Location.getHost();
+		String host = DomGlobal.location.host;
 		return host != null
 				&& (host.contains("geogebra.org") || host.equals("localhost"))
-				&& !Location.getPath().contains(".html");
+				&& !DomGlobal.location.pathname.contains(".html");
 	}
 
 	/**
