@@ -1825,13 +1825,20 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!sh.isEmpty()) {
 			String hintHtml = sh.getPrefix() + "<strong>"
 					+ sh.getActivePlacehorder() + "</strong>" + sh.getSuffix();
+
+			int leftAVCell = (int) (marblePanel.getAbsoluteLeft() - app.getAbsLeft()
+					+ marblePanel.getOffsetWidth());
+			int topAVCell = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
+			int bottomAVCell = topAVCell + marblePanel.getOffsetHeight();
 			if (toast == null) {
 				toast = new ComponentToast(app, hintHtml);
-				toast.show();
+				toast.show(leftAVCell, topAVCell, bottomAVCell,
+						getItemWidth() - marblePanel.getOffsetWidth());
 			} else {
 				toast.updateContent(hintHtml);
 				if (!toast.isShowing()) {
-					toast.show();
+					toast.show(leftAVCell, topAVCell, bottomAVCell,
+							getItemWidth() - marblePanel.getOffsetWidth());
 				}
 			}
 		} else {
