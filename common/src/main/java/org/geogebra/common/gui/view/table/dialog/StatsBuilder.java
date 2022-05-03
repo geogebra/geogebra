@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.table.dialog;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -12,7 +11,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -58,11 +56,8 @@ public class StatsBuilder {
 	private GeoList getCleanList1Var(GeoEvaluatable list) {
 		GeoList cleanList = new GeoList(list.getKernel().getConstruction());
 		if (list instanceof GeoList && ((GeoList) list).size() >= 2) {
-			List<GeoElement> nrVals = ((GeoList) list).elements().filter(
-					(GeoElementND geo) -> geo instanceof GeoNumeric).collect(Collectors.toList());
-			for (GeoElementND listElem : nrVals) {
-				cleanList.add(listElem);
-			}
+			((GeoList) list).elements().filter(
+					(GeoElementND geo) -> geo instanceof GeoNumeric).forEach(cleanList::add);
 		}
 		return cleanList;
 	}
