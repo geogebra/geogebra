@@ -84,10 +84,15 @@ public class ModelEventCollector implements TableValuesListener {
 	 */
 	public void endCollection(SimpleTableValuesModel model) {
 		if (event.counter == 1) {
+			event.counter--;
 			fireModificationEvents(model);
 		} else {
 			event.counter--;
 		}
+	}
+
+	public boolean isCollecting() {
+		return event.counter > 0;
 	}
 
 	private void fireModificationEvents(SimpleTableValuesModel model) {

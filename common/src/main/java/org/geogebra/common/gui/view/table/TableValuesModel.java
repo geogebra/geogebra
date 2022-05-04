@@ -76,6 +76,8 @@ public interface TableValuesModel {
 	 */
 	void endBatchUpdate(boolean notifyDatasetChanged);
 
+	boolean isBatchUpdate();
+
 	/**
 	 * @param element element
 	 * @return whether the element contains only an empty string
