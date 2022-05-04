@@ -14,10 +14,10 @@ import org.geogebra.web.full.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarLis
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.ImageResourceConverter;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.dom.client.Element;

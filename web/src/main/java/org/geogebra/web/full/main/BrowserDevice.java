@@ -6,11 +6,11 @@ import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
+import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.ImageResourceConverter;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;

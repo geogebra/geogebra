@@ -1,4 +1,4 @@
-package org.geogebra.web.resources;
+package org.geogebra.web.full.gui.util;
 
 import com.google.gwt.safehtml.shared.UriUtils;
 
