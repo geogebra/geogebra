@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -21,7 +22,6 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.resources.StyleInjector;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -72,7 +72,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
 	 */
-	private JavaScriptObject onLoadCallback = null;
+	private JsConsumer<Object> onLoadCallback = null;
 
 	private GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
 		super(mainTag ? "main" : DivElement.TAG);
@@ -336,11 +336,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	@Override
-	public JavaScriptObject getOnLoadCallback() {
+	public JsConsumer<Object> getOnLoadCallback() {
 		return onLoadCallback;
 	}
 
-	public void setOnLoadCallback(JavaScriptObject onLoadCallback) {
+	public void setOnLoadCallback(JsConsumer<Object> onLoadCallback) {
 		this.onLoadCallback = onLoadCallback;
 	}
 
@@ -637,7 +637,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            load callback
 	 */
 	public void renderArticleElementWithFrame(GeoGebraElement element,
-			JavaScriptObject onLoadCallback) {
+			JsConsumer<Object> onLoadCallback) {
 		element.clear();
 		element.initID(0);
 		if (Log.getLogger() == null) {

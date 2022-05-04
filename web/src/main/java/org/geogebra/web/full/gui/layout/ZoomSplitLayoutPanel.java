@@ -7,7 +7,6 @@ package org.geogebra.web.full.gui.layout;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
-import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
@@ -208,7 +207,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			// Handle double-clicks.
 			// Fake them since the double-click event aren't fired.
 			if (this.toggleDisplayAllowed) {
-				double now = Duration.currentTimeMillis();
+				double now = System.currentTimeMillis();
 				if (now - this.lastClick < DOUBLE_CLICK_TIMEOUT) {
 					now = 0;
 					LayoutData layout = (LayoutData) target.getLayoutData();

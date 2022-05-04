@@ -6,8 +6,6 @@ import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.main.ScriptManagerW;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 import elemental2.core.Global;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsIgnore;
@@ -53,7 +51,7 @@ public class EvaluatorExportedApi implements ExportedApi {
 	}
 
 	public Object getEditorState() {
-		JavaScriptObject jsObject = JavaScriptObject.createObject();
+		JsPropertyMap<Object> jsObject = JsPropertyMap.of();
 		ScriptManagerW
 				.addToJsObject(jsObject, evaluatorActivity.getEditorAPI().getEvaluatorValue());
 

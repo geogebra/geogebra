@@ -2,7 +2,6 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
@@ -50,7 +49,7 @@ public final class Dom {
 	 *            selector
 	 * @return first Element found by selector className
 	 */
-	public static Element querySelectorForElement(JavaScriptObject elem,
+	public static Element querySelectorForElement(Object elem,
 			String selector) {
 		elemental2.dom.Element parent = Js.uncheckedCast(elem);
 		return Js.uncheckedCast(parent.querySelector(selector));

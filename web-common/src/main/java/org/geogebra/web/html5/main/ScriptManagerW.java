@@ -14,9 +14,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.util.JsRunnable;
 
-import com.google.gwt.core.client.JsArrayString;
-
 import elemental2.core.Function;
+import elemental2.core.JsArray;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
@@ -130,13 +129,13 @@ public class ScriptManagerW extends ScriptManager {
 		// The array elements are for compatibility purposes only,
 		// only the named parameters are documented. Maybe if
 		// you are reading this years in the future, you can remove them
-		JsArrayString args = JsArrayString.createArray().cast();
+		JsArray<String> args = JsArray.of();
 		JsPropertyMap asMap = Js.asPropertyMap(args);
 		args.push(evt.type.getName());
 		asMap.set("type", evt.type.getName());
 
 		if (evt.targets != null) {
-			JsArrayString targets = JsArrayString.createArray().cast();
+			JsArray<String> targets = JsArray.of();
 
 			for (GeoElement geo : evt.targets) {
 				args.push(geo.getLabelSimple());
@@ -157,7 +156,7 @@ public class ScriptManagerW extends ScriptManager {
 		}
 
 		if (evt.jsonArgument != null) {
-			addToJsObject(args, evt.jsonArgument);
+			addToJsObject(asMap, evt.jsonArgument);
 		}
 
 		for (JsReference listener : listeners) {
@@ -166,12 +165,11 @@ public class ScriptManagerW extends ScriptManager {
 	}
 
 	/**
-	 * @param jsObject jsObject to be filled with data from map
+	 * @param jsMap js map object to be filled with data from Java map
 	 * @param map (String, Object) map to be converted to JavaScript,
 	 *            Object can be Integer, Double, String or String[],
 	 */
-	public static void addToJsObject(Object jsObject, Map<String, Object> map) {
-		JsPropertyMap<Object> jsMap = Js.asPropertyMap(jsObject);
+	public static void addToJsObject(JsPropertyMap<Object> jsMap, Map<String, Object> map) {
 		for (Entry<String, Object> entry : map.entrySet()) {
 			Object object = entry.getValue();
 			if (object instanceof Integer) {
