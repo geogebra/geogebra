@@ -42,7 +42,7 @@ public class SyntaxHint {
 		}
 
 		return (index < placeholders.size() - 1 ? ", " : "")
-				+ placeholders.stream().skip(index + 1).collect(Collectors.joining(",")) + ")";
+				+ placeholders.stream().skip(index + 1).collect(Collectors.joining(", ")) + ")";
 	}
 
 	/**
