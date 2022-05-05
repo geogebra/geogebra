@@ -248,14 +248,22 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
+		if (isTransparent()) {
+			((GGraphics2DWI) g2).clearAll();
+		}
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
 				|| kernel.needToShowAnimationButton()
 				|| getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
-		} else {
+		} else if (!isTransparent()) {
 			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
 		}
+	}
+
+	@Override
+	public boolean isTransparent() {
+		return ((AppW) app).getAppletParameters().getDataParamTransparentGraphics();
 	}
 
 	/**

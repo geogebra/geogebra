@@ -711,4 +711,12 @@ public class AppletParameters {
 	public String getParamDetachKeyboard() {
 		return getStringDataParam("detachKeyboard", "undef");
 	}
+
+	/**
+	 * @return whether to use app mode (forces fit to screen and most UIs
+	 *         visible)
+	 */
+	public boolean getDataParamTransparentGraphics() {
+		return getBoolDataParam("transparentGraphics", false);
+	}
 }

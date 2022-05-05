@@ -9,6 +9,9 @@
 
 .GeoGebraFrame {
 	background-color: colors.$white;
+	&.transparent {
+		background-color: transparent;
+	}
 	color: colors.$text-primary;
 	font-size: 16px;
 

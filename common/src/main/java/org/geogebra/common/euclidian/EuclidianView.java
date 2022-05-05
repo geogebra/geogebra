@@ -3604,11 +3604,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	protected void clearBackground(GGraphics2D g) {
-		g.setColor(getBackgroundCommon());
-		g.updateCanvasColor();
-		g.fillRect(getMinXScreen(), getMinYScreen(),
-				getMaxXScreen() - getMinXScreen(),
-				getMaxYScreen() - getMinYScreen());
+		if (isTransparent()) {
+			g.clearRect(getMinXScreen(), getMinYScreen(),
+					getMaxXScreen() - getMinXScreen(),
+					getMaxYScreen() - getMinYScreen());
+		} else {
+			g.setColor(getBackgroundCommon());
+			g.updateCanvasColor();
+			g.fillRect(getMinXScreen(), getMinYScreen(),
+					getMaxXScreen() - getMinXScreen(),
+					getMaxYScreen() - getMinYScreen());
+		}
 	}
 
 	/**
@@ -3738,6 +3744,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (bgGraphics != null) {
 			drawBackgroundWithImages(bgGraphics, false);
 		}
+	}
+
+	protected boolean isTransparent() {
+		return false;
 	}
 
 	/**
