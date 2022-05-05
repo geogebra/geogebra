@@ -165,6 +165,9 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 	}
 
+	/**
+	 * update distribution combo-box
+	 */
 	public void setDistributionComboBoxMenu() {
 		comboDistributionHandler.removeHandler();
 		comboDistribution.clear();
