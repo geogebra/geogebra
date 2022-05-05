@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import elemental2.core.Function;
+import jsinterop.base.Js;
 
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
@@ -106,7 +107,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void addFocusHandlers(Element e) {
-		Dom.addEventListener(e, "focusin", evt -> useFocusedBorder());
+		Dom.addEventListener(e, "focusin", evt -> {
+			useFocusedBorder();
+			elemental2.dom.Element target = Js.uncheckedCast(evt.target);
+			if (!target.classList.contains("screenReaderStyle")) {
+				getApp().getGlobalKeyDispatcher().setEscPressed(false);
+			}
+		});
 		Dom.addEventListener(e, "focusout", evt -> useDataParamBorder());
 	}
 
@@ -434,7 +441,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if ("none".equals(dpBorder)) {
 			setBorder("transparent", thickness);
 		}
-		getApp().getGlobalKeyDispatcher().setEscPressed(false);
 	}
 
 	/**

@@ -1256,6 +1256,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (((AppW) app).getPanel().getElement().getParentElement() != null) {
 			((AppW) app).getPanel().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
+			((AppW) app).setLastFocusableWidget(screenReaderWidget);
 		}
 	}
 
