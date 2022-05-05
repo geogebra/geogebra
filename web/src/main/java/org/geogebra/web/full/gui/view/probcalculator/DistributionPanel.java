@@ -22,14 +22,13 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
 public class DistributionPanel extends FlowPanel implements ChangeHandler, InsertHandler {
 	private ProbabilityCalculatorViewW view;
 	private Localization loc;
 	private ListBox comboDistribution;
 	private HandlerRegistration comboDistributionHandler;
-	private Widget cumulativeWidget;
+	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
 	private ProbabilityModeGroup modeGroup;
@@ -61,6 +60,10 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		resultPanel = new ResultPanelW(view.getApp(), this);
 		buildParameterPanel(comboParamPanel);
 		buildModeGroupWithResult();
+	}
+
+	public ProbabilityCalculatorViewW getView() {
+		return view;
 	}
 
 	private void buildModeGroupWithResult() {
@@ -138,8 +141,8 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	 */
 	public void initCumulativeWidget() {
 		cumulativeWidget = new ToggleButton(GuiResources.INSTANCE.cumulative_distribution());
-		((ToggleButton) cumulativeWidget).addFastClickHandler((e) ->
-				view.setCumulative(((ToggleButton) cumulativeWidget).isSelected()));
+		cumulativeWidget.addFastClickHandler((e) ->
+				view.setCumulative(cumulativeWidget.isSelected()));
 	}
 
 	/**
@@ -162,7 +165,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 	}
 
-	private void setDistributionComboBoxMenu() {
+	public void setDistributionComboBoxMenu() {
 		comboDistributionHandler.removeHandler();
 		comboDistribution.clear();
 		comboDistribution.addItem(getDistribution(ProbabilityCalculatorSettings.Dist.NORMAL));
