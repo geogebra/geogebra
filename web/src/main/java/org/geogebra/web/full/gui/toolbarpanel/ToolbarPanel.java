@@ -1171,6 +1171,9 @@ public class ToolbarPanel extends FlowPanel
 		if (tabAlgebra != null) {
 			tabAlgebra.setLabels();
 		}
+		if (tabDist != null) {
+			tabDist.setLabels();
+		}
 	}
 
 	/**

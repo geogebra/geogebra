@@ -1,7 +1,22 @@
-
+@use 'colors';
 
 .GeoGebraFrame {
 	.suiteDistrTab {
 		padding: 16px 0 0 16px;
+
+		.row {
+			margin-top: 20px;
+
+			.gwt-Label {
+				height: 48px;
+				line-height: 48px;
+				display: inline-block;
+				color: colors.$text-primary;
+			}
+
+			.switch {
+				margin: 12px 0;
+			}
+		}
 	}
 }

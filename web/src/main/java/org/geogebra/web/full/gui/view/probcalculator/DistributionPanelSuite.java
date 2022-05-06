@@ -1,8 +1,14 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.shared.components.ComponentSwitch;
+
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 public class DistributionPanelSuite extends DistributionPanel {
+	private ComponentSwitch cumulativeWidget;
+	private Label cumulativeLbl;
 
 	/**
 	 * constructor
@@ -17,10 +23,26 @@ public class DistributionPanelSuite extends DistributionPanel {
 	@Override
 	public void buildGUI() {
 		buildDistrComboBox(this);
+		initCumulativeWidget();
 	}
 
 	@Override
 	public void initCumulativeWidget() {
-		// todo APPS-3712
+		FlowPanel cumulativeRow = new FlowPanel();
+		cumulativeRow.addStyleName("row");
+		cumulativeWidget = new ComponentSwitch(false, (source) ->
+				getView().setCumulative(cumulativeWidget.isSwitchOn()));
+		cumulativeLbl = new Label(getView().getApp().getLocalization().getMenu("Cumulative"));
+		cumulativeRow.add(cumulativeLbl);
+		cumulativeRow.add(cumulativeWidget);
+		add(cumulativeRow);
+	}
+
+	@Override
+	public void setLabels() {
+		Localization loc = getView().getApp().getLocalization();
+		super.setDistributionComboBoxMenu();
+		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
+		cumulativeLbl.setText(loc.getMenu("Cumulative"));
 	}
 }
