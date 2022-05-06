@@ -148,7 +148,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** first half-axis */
 	protected double a;
 	private double b;
-	private double y;
 	/** number of points used for hyperbola path */
 	protected int points = PLOT_POINTS;
 	private GeneralPathClipped hypLeft;
@@ -566,6 +565,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 				fillShape = null;
 			}
 		}
+
+		setShape(null);
 	}
 
 	private boolean negativeColored() {
@@ -1048,11 +1049,12 @@ public class DrawConic extends SetDrawable implements Previewable {
 		int i = 1;
 		int index0 = points; // points ... 2*points - 2
 		int index1 = points - 2; // points-2 ... 0
+		double x = 0, y = 0;
 		while (index1 >= 0) {
 			double tsq = t * t;
 			double denom = 1.0 - tsq;
 			// calc coords of first quadrant
-			double x = a * (1.0 + tsq) / denom;
+			x = a * (1.0 + tsq) / denom;
 			y = 2.0 * b * t / denom;
 
 			// first and second quadrants
@@ -1066,7 +1068,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 			t = i * step;
 		}
 
-		updateHyperbolaClosePaths();
+		updateHyperbolaClosePaths(x, y);
 
 		// set transform for Graphics2D
 		transform.setTransform(view.getCoordTransform());
@@ -1142,15 +1144,16 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/**
 	 * close hyperbola branchs
 	 */
-	protected void updateHyperbolaClosePaths() {
+	protected void updateHyperbolaClosePaths(double x, double y) {
 
 		// we have drawn the hyperbola from x=a to x=x0
 		// ensure correct filling by adding points at (2*x0, y)
 		if (conic.isFilled()) {
-			hypRight.lineTo(Float.MAX_VALUE, y);
-			hypRight.lineTo(Float.MAX_VALUE, -y);
-			hypLeft.lineTo(-Float.MAX_VALUE, y);
-			hypLeft.lineTo(-Float.MAX_VALUE, -y);
+			double farX = Math.abs(x) + Math.abs(y);
+			hypRight.lineTo(farX, y);
+			hypRight.lineTo(farX, -y);
+			hypLeft.lineTo(-farX, y);
+			hypLeft.lineTo(-farX, -y);
 		}
 	}
 

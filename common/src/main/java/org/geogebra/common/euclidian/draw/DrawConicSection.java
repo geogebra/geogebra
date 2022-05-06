@@ -574,8 +574,7 @@ public class DrawConicSection extends DrawConic {
 	}
 
 	@Override
-	protected void updateHyperbolaClosePaths() {
-
+	protected void updateHyperbolaClosePaths(double x, double y) {
 		hyp.closePath();
 	}
 
