@@ -99,7 +99,7 @@ public class ModelEventCollector implements TableValuesListener {
 		} else {
 			fireAllModificationEvents(model);
 		}
-		clearModificationEvents();
+		clearModificationEvents(model);
 	}
 
 	private void fireAllModificationEvents(SimpleTableValuesModel model) {
@@ -127,8 +127,9 @@ public class ModelEventCollector implements TableValuesListener {
 		}
 	}
 
-	private void clearModificationEvents() {
+	private void clearModificationEvents(SimpleTableValuesModel model) {
 		event = new ModelEvent();
+		event.initialRowCount = model.getRowCount();
 	}
 
 	private static class ModelEvent {
