@@ -308,7 +308,6 @@ public class MathFieldInternal
 					&& listener.onArrowKeyPressed(keyEvent.getKeyCode())) {
 				return true;
 			}
-			fireCursorChangedEvent();
 		}
 		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_CONTROL) {
 			return false;
@@ -983,12 +982,6 @@ public class MathFieldInternal
 	private void fireInputChangedEvent() {
 		for (MathFieldInternalListener listener: mathFieldInternalListeners) {
 			listener.inputChanged(this);
-		}
-	}
-
-	private void fireCursorChangedEvent() {
-		for (MathFieldInternalListener listener: mathFieldInternalListeners) {
-			listener.cursorChanged(this);
 		}
 	}
 

@@ -10,10 +10,4 @@ public interface MathFieldInternalListener {
 	 * @param mathFieldInternal internal
 	 */
 	void inputChanged(MathFieldInternal mathFieldInternal);
-
-	/**
-	 * Called when the cursor changes its position
-	 * @param mathFieldInternal internal
-	 */
-	void cursorChanged(MathFieldInternal mathFieldInternal);
 }

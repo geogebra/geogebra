@@ -43,11 +43,6 @@ public class SyntaxController implements MathFieldInternalListener {
 		update(mathFieldInternal);
 	}
 
-	@Override
-	public void cursorChanged(MathFieldInternal mathFieldInternal) {
-		update(mathFieldInternal);
-	}
-
 	private void update(MathFieldInternal mathFieldInternal) {
 		EditorState editorState = mathFieldInternal.getEditorState();
 		updateHint(editorState);
