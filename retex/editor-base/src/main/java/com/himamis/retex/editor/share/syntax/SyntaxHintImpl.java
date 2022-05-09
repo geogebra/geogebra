@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.himamis.retex.editor.share.syntax.SyntaxHint;
-
 public class SyntaxHintImpl implements SyntaxHint {
 
 	private String command = null;
