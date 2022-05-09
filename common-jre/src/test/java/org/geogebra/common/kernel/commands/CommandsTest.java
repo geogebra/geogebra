@@ -2529,6 +2529,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdMod() {
+		t("Mod[ -1, 1/3]", "0");
 		t("Mod[ 4, 4 ]", "0");
 		t("Mod[ x^4+4, x^2 ] ", "4");
 	}
