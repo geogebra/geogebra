@@ -8,13 +8,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -22,7 +18,6 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,22 +26,19 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	public static final String SEPARATOR = "--------------------";
-	private Label lblMeanSigma;
 	/** export action */
 	ScheduledCommand exportToEVAction;
 	/** plot panel */
 	FlowPanel plotPanelPlus;
-	protected FlowPanel plotSplitPane;
-	protected FlowPanel mainSplitPane;
+
 	protected FlowPanel probCalcPanel;
-	protected final StatisticsCalculatorW statCalculator;
-	private GPopupMenuW btnExport;
 	private ToggleButton btnNormalOverlay;
 	private ToggleButton btnLineGraph;
 	private ToggleButton btnStepGraph;
 	private ToggleButton btnBarGraph;
 
 	private DistributionPanel distrPanel;
+	protected FlowPanel plotPanelOptions;
 
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -56,10 +48,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		createGUIElements();
 		createExportToEvAction();
 		createLayoutPanels();
-		buildProbCalcPanel();
-		isIniting = false;
-
-		statCalculator = new StatisticsCalculatorW(app);
 	}
 
 	/**
@@ -69,16 +57,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 */
 	public static ProbabilityCalculatorViewW create(AppW app) {
 		ProbabilityCalculatorViewW view = new ProbabilityCalculatorViewW(app);
+		view.isIniting = false;
 		view.init();
 		return view;
 	}
 
 	@Override
 	public void setLabels() {
-		statCalculator.setLabels();
 		setLabelArrays();
-
-		distrPanel.setLabels();
+		if (distrPanel != null) {
+			distrPanel.setLabels();
+		}
 
 		if (getTable() != null) {
 			getTable().setLabels();
@@ -110,43 +99,23 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		};
 	}
 
-	private void buildProbCalcPanel() {
-		distrPanel = new DistributionPanel(this, loc);
-		plotSplitPane = new FlowPanel();
-		plotSplitPane.add(plotPanelPlus);
-		plotSplitPane.add(distrPanel);
-		plotSplitPane.addStyleName("plotSplitPane");
-		mainSplitPane = new FlowPanel();
-		mainSplitPane.addStyleName("mainSplitPanel");
-		mainSplitPane.add(plotSplitPane);
-
-		probCalcPanel = new FlowPanel();
-		probCalcPanel.addStyleName("ProbCalcPanel");
-		probCalcPanel.add(mainSplitPane);
-	}
-
 	private void createLayoutPanels() {
 		setPlotPanel(new PlotPanelEuclidianViewW(kernel));
 
-		FlowPanel plotPanelOptions = new FlowPanel();
+		plotPanelOptions = new FlowPanel();
 		plotPanelOptions.setStyleName("plotPanelOptions");
-		if (!app.getConfig().hasDistributionView()) {
-			plotPanelOptions.add(lblMeanSigma);
-		}
-		if (!getApp().isExam() && app.getConfig().getAppCode().equals("classic")) {
-			plotPanelOptions.add(btnExport.getPopupMenu());
-		}
+
 		plotPanelOptions.add(btnNormalOverlay);
 		plotPanelOptions.add(btnBarGraph);
 		plotPanelOptions.add(btnStepGraph);
 		plotPanelOptions.add(btnLineGraph);
 		updateGraphButtons();
-		
+
 		plotPanelPlus = new FlowPanel();
 		plotPanelPlus.addStyleName("PlotPanelPlus");
 		plotPanelPlus.add(plotPanelOptions);
 		plotPanelPlus.add(getPlotPanel().getComponent());
-		
+
 		//table panel
 		setTable(new ProbabilityTableW(app, this));
 	}
@@ -159,11 +128,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	private void createGUIElements() {
 		setLabelArrays();
-
-		lblMeanSigma = new Label();
-		lblMeanSigma.addStyleName("lblMeanSigma");
-
-		createExportMenu();
 
 		btnNormalOverlay = new ToggleButton(GuiResources.INSTANCE.normal_overlay());
 		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
@@ -199,7 +163,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	@Override
 	public ResultPanelW getResultPanel() {
-		return distrPanel.getResultPanel();
+		return distrPanel == null ? null : distrPanel.getResultPanel();
 	}
 
 	@Override
@@ -215,7 +179,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	protected void changeProbabilityType() {
 		if (isCumulative) {
 			probMode = PROB_LEFT;
-		} else {
+		} else if (distrPanel != null) {
 			int oldProbMode = probMode;
 			if (oldProbMode == PROB_TWO_TAILED) {
 				removeTwoTailedGraph();
@@ -233,20 +197,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	@Override
 	protected void onDistributionUpdate() {
 		btnNormalOverlay.setVisible(isOverlayDefined());
-		lblMeanSigma.setText(getMeanSigma());
 		getPlotPanel().repaintView();
 	}
 
 	@Override
 	protected void addRemoveTable(boolean showTable) {
-		if (showTable) {
-			mainSplitPane
-					.add(((ProbabilityTableW) getTable()).getWrappedPanel());
-		} else {
-			mainSplitPane
-					.remove(((ProbabilityTableW) getTable()).getWrappedPanel());
-		}
-		tabResized();
+		// TODO APPS-3708
 	}
 
 	@Override
@@ -274,7 +230,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	@Override
 	protected void updateGUI() {
 		updateLowHighResult();
-		distrPanel.updateGUI();
+		if (distrPanel != null) {
+			distrPanel.updateGUI();
+		}
 		updateGraphButtons();
 		btnNormalOverlay.setSelected(isShowNormalOverlay());
 	}
@@ -309,7 +267,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 */
 	public void updateLowHighResult() {
 		Scheduler.get().scheduleDeferred(this::tabResized);
-		updateResult(getResultPanel());
+		if (getResultPanel() != null) {
+			updateResult(getResultPanel());
+		}
 	}
 
 	/**
@@ -398,53 +358,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 						PlotPanelEuclidianViewW.DEFAULT_HEIGHT)));
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
-		plotSplitPane.setWidth(width + "px");
-	}
-
-	private void createExportMenu() {
-		btnExport = new GPopupMenuW((AppW) app, true) {
-			@Override
-			public int getPopupLeft() {
-				return getPopupMenu().getAbsoluteLeft();
-			}
-		};
-		btnExport.getPopupMenu().addStyleName("probCalcStylbarBtn");
-
-		AriaMenuBar menu = new AriaMenuBar();
-
-		if (!getApp().isApplet()) {
-			AriaMenuItem miToGraphich = new AriaMenuItem(
-					loc.getMenu("CopyToGraphics"), false,
-					() -> exportToEVAction.execute());
-
-			menu.addItem(miToGraphich);
-		}
-		if (((AppW) app).getLAF().copyToClipboardSupported()) {
-			AriaMenuItem miAsPicture = new AriaMenuItem(
-					loc.getMenu("ExportAsPicture"), false, () -> {
-						String url = getPlotPanel()
-								.getExportImageDataUrl(3, true, false);
-						((AppW) getApp()).getFileManager()
-								.showExportAsPictureDialog(url,
-										getApp().getExportTitle(),
-										"png", "ExportAsPicture", getApp());
-					});
-			menu.addItem(miAsPicture);
-		}
-
-		String image = "<img src=\""
-				+ MaterialDesignResources.INSTANCE.prob_calc_export().getSafeUri()
-						.asString()
-				+ "\" >";
-		btnExport.addItem(new AriaMenuItem(image, true, menu));
-		btnExport.getPopupMenu().removeStyleName("gwt-MenuBar");
-		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
-		btnExport.getPopupMenu().addStyleName("MyToggleButton");
 	}
 
 	@Override
 	public StatisticsCalculator getStatCalculator() {
-		return statCalculator;
+		return null;
 	}
 
 	/**
@@ -456,5 +374,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	public GeoNumberValue[] getParameters() {
 		return parameters;
+	}
+
+	public void setDistributionPanel(DistributionPanel widgets) {
+		this.distrPanel = widgets;
 	}
 }

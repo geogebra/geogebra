@@ -1925,16 +1925,17 @@
 		display: grid;
 	}
 
-	.comboParamPanel, .intervalPanel {
-		padding: 5px 0;
-		float: left;
-		white-space: nowrap;
+	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
+	}
+
+	.comboParamPanel, .intervalPanel {
+		padding: 8px 0;
+		float: left;
+		white-space: nowrap;
+		flex-wrap: wrap;
 		align-items: center;
-		& > * {
-			margin-top: 8px;
-		}
 	}
 
 	.parameterPanel, .resultPanel {
@@ -1942,13 +1943,9 @@
 		align-items: center;
 	}
 
-	.comboParamPanel .gwt-ToggleButton, .comboParamPanel .gwt-ListBox {
+	.comboParamPanel .MyToggleButton, .comboParamPanel .gwt-ListBox {
 		display: inline-block;
 		margin-right: 10px;
-	}
-
-	.comboParamPanel .gwt-ToggleButton {
-		float: left;
 	}
 
 	.parameterPanel > *, .resultPanel > * {

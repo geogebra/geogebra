@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 public class DistributionPanelSuite extends DistributionPanel {
 	private ComponentSwitch cumulativeWidget;
 	private Label cumulativeLbl;
+	private Label intervalsLbl;
 
 	/**
 	 * constructor
@@ -24,6 +25,11 @@ public class DistributionPanelSuite extends DistributionPanel {
 	public void buildGUI() {
 		buildDistrComboBox(this);
 		initCumulativeWidget();
+		resultPanel = new ResultPanelW(getView().getApp(), this);
+		intervalsLbl = new Label();
+		intervalsLbl.setStyleName("intervalsLbl");
+		add(intervalsLbl);
+		buildModeGroupWithResult();
 	}
 
 	@Override
@@ -42,7 +48,19 @@ public class DistributionPanelSuite extends DistributionPanel {
 	public void setLabels() {
 		Localization loc = getView().getApp().getLocalization();
 		super.setDistributionComboBoxMenu();
+		resultPanel.setLabels();
 		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		cumulativeLbl.setText(loc.getMenu("Cumulative"));
+		intervalsLbl.setText(loc.getMenu("Intervals"));
+	}
+
+	@Override
+	protected void updateCumulative() {
+		cumulativeWidget.setSwitchOn(getView().isCumulative());
+	}
+
+	@Override
+	public void updateParameters() {
+		// TODO APPS-3750
 	}
 }

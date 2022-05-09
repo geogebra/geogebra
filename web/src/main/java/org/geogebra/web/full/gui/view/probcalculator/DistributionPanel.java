@@ -32,7 +32,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
 	private ProbabilityModeGroup modeGroup;
-	private ResultPanelW resultPanel;
+	protected ResultPanelW resultPanel;
 
 	/**
 	 * costructor
@@ -60,13 +60,14 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		resultPanel = new ResultPanelW(view.getApp(), this);
 		buildParameterPanel(comboParamPanel);
 		buildModeGroupWithResult();
+		add(resultPanel);
 	}
 
 	public ProbabilityCalculatorViewW getView() {
 		return view;
 	}
 
-	private void buildModeGroupWithResult() {
+	protected void buildModeGroupWithResult() {
 		modeGroup = new ProbabilityModeGroup(loc);
 		modeGroup.add(ProbabilityCalculatorView.PROB_LEFT, GuiResources.INSTANCE.interval_left(),
 				"LeftProb");
@@ -81,11 +82,10 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			if (modeGroup.handle(source) && !view.isCumulative()) {
 				view.changeProbabilityType();
 				view.updateProbabilityType(resultPanel);
-				updateGUI();
+				view.updateGUI();
 			}
 		});
 
-		modeGroup.add(resultPanel);
 		add(modeGroup);
 	}
 
@@ -207,9 +207,13 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	 */
 	public void updateGUI() {
 		setDistributionComboBoxMenu();
-		((ToggleButton) cumulativeWidget).setSelected(view.isCumulative());
+		updateCumulative();
 		updateParameters();
 		modeGroup.setMode(view.getProbMode());
+	}
+
+	protected void updateCumulative() {
+		cumulativeWidget.setSelected(view.isCumulative());
 	}
 
 	/**

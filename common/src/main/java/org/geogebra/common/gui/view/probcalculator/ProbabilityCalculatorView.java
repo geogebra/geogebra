@@ -396,7 +396,9 @@ public abstract class ProbabilityCalculatorView
 		if (setDefaultBounds && !isIniting) {
 			setDefaultBounds();
 		}
-		updateProbabilityType(getResultPanel());
+		if (getResultPanel() != null) {
+			updateProbabilityType(getResultPanel());
+		}
 		updateGUI();
 		updateStylebar();
 	}
