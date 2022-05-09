@@ -1285,7 +1285,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void setColorVisualStyle(final GeoElement geo) {
 		if (geo.isAutoColor()) {
 			setObjColor(geo.getAutoColorScheme()
-					.getNext(!cons.getKernel().isSilentMode()));
+					.getNext(!cons.getKernel().isSilentMode()
+							&& !cons.getKernel().getAlgebraProcessor().isRedefining()));
 		} else {
 			objColor = geo.objColor;
 			selColor = geo.selColor;
@@ -3906,15 +3907,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	final public String getColoredLabel() {
 		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
-		StringBuilder sb = new StringBuilder();
-		final GColor colorAdapter = GColor.newColor(getAlgebraColor().getRed(),
-				getAlgebraColor().getGreen(), getAlgebraColor().getBlue());
-		sb.append("<b><font color=\"#");
-		sb.append(StringUtil.toHexString(colorAdapter));
-		sb.append("\">");
-		sb.append(indicesToHTML(formatedLabel, false));
-		sb.append("</font></b>");
-		return sb.toString();
+		return "<b><font color=\"#"
+				+ StringUtil.toHexString(getAlgebraColor())
+				+ "\">"
+				+ indicesToHTML(formatedLabel, false)
+				+ "</font></b>";
 	}
 
 	/**
@@ -6737,6 +6734,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	        return DescriptionMode.DEFINITION;
         }
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
+		if ((isGeoPoint() || isGeoVector())
+				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
+				&& !"".equals(def0)) {
+			def0 = label + def0.replaceAll(",", " |");
+		}
 		if ("".equals(def0) || (!isDefined() && isIndependent())) {
 			return DescriptionMode.VALUE;
 		}
@@ -6744,7 +6746,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return DescriptionMode.VALUE;
 		}
 
-		String def = addLabelText(def0);
+		String def = (isGeoPoint() || isGeoVector())
+				&& kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN
+				? def0 : addLabelText(def0);
 		String val = getAlgebraDescriptionDefault();
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;

@@ -2302,7 +2302,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		for (Drawable d : allDrawableList) {
 			if (d.hitLabel(p.x, p.y)) {
 				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible()) {
+				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)
+						&& geo.isLabelVisible()) {
 					return geo;
 				}
 			}

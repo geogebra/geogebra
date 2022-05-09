@@ -271,6 +271,6 @@ PVariable variable(HashMap < String, PVariable > variables) :
   variable = < VARIABLE >
   {
     if ((var = variables.get(variable.toString())) != null) return var;
-    throw new ParseException();
+      throw new ParseException();
   }
 }

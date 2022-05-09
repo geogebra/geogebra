@@ -3,16 +3,18 @@ package org.geogebra.keyboard.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GCustomButton;
-import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KeyboardSwitcher extends FlowPanel {
@@ -21,7 +23,7 @@ public class KeyboardSwitcher extends FlowPanel {
 
 	private FlowPanel contents;
 	private Map<KeyboardType, SwitcherButton> switches;
-	private GToggleButton moreButton;
+	private ToggleButton moreButton;
 
 	public class SwitcherButton extends Button {
 
@@ -105,23 +107,16 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	protected void addCloseButton() {
-		Image img = new Image(KeyboardResources.INSTANCE
-				.keyboard_close_black().getSafeUri().asString());
-		img.setAltText(tabbedkeyboard.locale.getMenu("Close"));
-		Image hoverImg = new Image(KeyboardResources.INSTANCE
-				.keyboard_close_purple().getSafeUri().asString());
-		hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
-		GCustomButton closeButton = new GCustomButton() {
+		ToggleButton closeButton = new ToggleButton(KeyboardResources.INSTANCE
+				.keyboard_close_black(), GeoGebraColorConstants.GEOGEBRA_ACCENT) {
 			@Override
 			public void setFocus(boolean focused) {
 				// Do not focus the button
 			}
 		};
+		closeButton.removeStyleName("MyToggleButton");
 		closeButton.getElement().setAttribute("aria-label",
 				tabbedkeyboard.locale.getMenu("Close"));
-
-		closeButton.getUpFace().setImage(img);
-		closeButton.getUpHoveringFace().setImage(hoverImg);
 		closeButton.addStyleName("closeTabbedKeyboardButton");
 		closeButton.getElement().setAttribute("data-test", "closeKeyboardButton");
 		ClickStartHandler.init(closeButton, new ClickStartHandler() {
@@ -129,7 +124,7 @@ public class KeyboardSwitcher extends FlowPanel {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				tabbedkeyboard.closeButtonClicked();
-				DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
+				DOM.setCapture(null);
 			}
 		});
 		add(closeButton);
@@ -143,32 +138,35 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	private void createMoreButton() {
-		Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
-				.getSafeUri().asString());
-		img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
-		Image hoverImg = new Image(KeyboardResources.INSTANCE
-				.keyboard_more_purple().getSafeUri().asString());
-		hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
-		moreButton = new GToggleButton(img, hoverImg);
+		moreButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_more(),
+				KeyboardResources.INSTANCE.keyboard_more());
+		moreButton.setMouseOverHandler(() -> switchIcon(true));
+		moreButton.setMouseOutHandler(() -> switchIcon(moreButton.isSelected()));
 		moreButton.getElement().setAttribute("aria-label",
 				tabbedkeyboard.locale.getMenu("Commands"));
 
-		moreButton.getUpHoveringFace().setImage(hoverImg);
+		moreButton.removeStyleName("MyToggleButton");
 		moreButton.addStyleName("moreKeyboardButton");
-		ClickStartHandler.init(moreButton, new ClickStartHandler() {
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				tabbedkeyboard.showHelp(moreButton.getAbsoluteLeft()
-								+ moreButton.getOffsetWidth(),
-						moreButton.getAbsoluteTop());
-			}
-		});
+		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(moreButton
+						.getAbsoluteLeft() + moreButton.getOffsetWidth(),
+				moreButton.getAbsoluteTop()));
+	}
+
+	/**
+	 * switch img on open/close popup
+	 * @param isActive - popup is open
+	 */
+	public void switchIcon(boolean isActive) {
+		Dom.toggleClass(this, "noOpacity", isActive);
+		moreButton.setIcon(((SVGResource) moreButton.getIcon()).withFill(isActive
+				? GeoGebraColorConstants.GEOGEBRA_ACCENT.toString()
+				: GColor.BLACK.toString()));
 	}
 
 	protected void reset() {
 		if (moreButton != null) {
-			moreButton.setValue(false);
+			moreButton.setSelected(false);
 		}
 	}
 

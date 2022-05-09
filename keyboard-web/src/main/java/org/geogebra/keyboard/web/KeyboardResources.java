@@ -17,9 +17,6 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_black_24px.svg")
 	SVGResource keyboard_more();
 
-	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_purple_24px.svg")
-	SVGResource keyboard_more_purple();
-
 	// close button for new keyboard
 	@Source("org/geogebra/common/icons/svg/common/close.svg")
 	SVGResource keyboard_close_black();

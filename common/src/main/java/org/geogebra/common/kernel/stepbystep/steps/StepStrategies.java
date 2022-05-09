@@ -83,6 +83,7 @@ public class StepStrategies {
 			tracker.resetTracker();
 			for (SimplificationStepGenerator simplificationStep : strategy) {
 				current = simplificationStep.apply(old, changes, tracker);
+				Log.debug(simplificationStep);
 
 				if (tracker.stepAdded()) {
 					if (printDebug) {
@@ -202,8 +203,8 @@ public class StepStrategies {
 				InequalitySteps.POSITIVE_AND_ZERO,
 				InequalitySteps.POSITIVE_AND_NEGATIVE,
 				SolveSteps.SUBTRACT_COMMON,
-				SolveSteps.FACTOR, 
 				InequalitySteps.RATIONAL_INEQUALITY,
+				SolveSteps.FACTOR,
 				SolveSteps.COMMON_DENOMINATOR,
 				SolveSteps.DIFF,
 				SolveSteps.COMPLETE_THE_SQUARE,

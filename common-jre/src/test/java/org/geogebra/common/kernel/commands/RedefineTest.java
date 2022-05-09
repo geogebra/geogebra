@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -473,6 +474,16 @@ public class RedefineTest extends BaseUnitTest {
 		add("m2=Transpose(m1)");
 		add("m1={{1,2},{3,4}}");
 		assertThat(lookup("m2"), hasValue("{{1, 3}, {2, 4}}"));
+	}
+
+	@Test
+	public void simpleRedefinitionsShouldBeSoft() {
+		add("A=(1,1)");
+		GeoElement m = add("m=Line(A,(1,3))");
+		GeoElement redefinedM = add("m=Line(A,(1,3))");
+		assertEquals(m, redefinedM);
+		redefinedM = add("m=Line(A,Vector((1,3)))");
+		assertNotEquals(m, redefinedM);
 	}
 
 	/**

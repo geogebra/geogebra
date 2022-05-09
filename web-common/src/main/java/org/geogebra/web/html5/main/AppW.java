@@ -119,6 +119,7 @@ import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LightBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -139,7 +140,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
 import org.geogebra.web.html5.util.Base64;
 import org.geogebra.web.html5.util.CopyPasteW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -784,11 +784,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					"File is corrupt: No GeoGebra data found");
 		}
 
-		if (def.hasConstruction()) {
-			// ggb file: remove all macros from kernel before processing
-			kernel.removeAllMacros();
-		}
-
 		// Library JavaScript (optional)
 		if (libraryJS == null) { // TODO: && !isGGTfile)
 			kernel.resetLibraryJavaScript();
@@ -815,7 +810,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getGuiManager().updateToolbar();
 			return;
 		}
-
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
 				() -> getAsyncManager().scheduleCallback(
 						() -> runAfterLoadImages(def, asSlide)));
@@ -823,6 +817,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void runAfterLoadImages(GgbArchive def, boolean asSlide) {
+		if (def.hasConstruction()) {
+			// ggb file: remove all macros from kernel before processing
+			kernel.removeAllMacros();
+		}
 		try {
 			setHideConstructionProtocolNavigation();
 			Log.debug("images loaded");
