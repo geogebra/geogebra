@@ -81,8 +81,10 @@ import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.editor.SyntaxHint;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.editor.share.syntax.SyntaxController;
+import com.himamis.retex.editor.share.syntax.SyntaxHint;
+import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -100,7 +102,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
  * definitionPanel -> canvas | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
-		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels {
+		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
@@ -168,6 +170,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
 	private ComponentToast toast;
+	private final SyntaxController syntaxController;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -189,6 +192,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		content = new FlowPanel();
 		definitionValuePanel = new FlowPanel();
 		inputControl = createInputControl();
+		syntaxController = new SyntaxController();
+		syntaxController.setUpdater(this);
 		setWidget(main);
 		setController(createController());
 
@@ -1619,14 +1624,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
+		mf.getInternal().setSyntaxController(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getGeoGebraElement().getScaleX());
 		mf.setOnBlur(getLatexController());
-		mf.getInternal().setSyntaxTooltipUpdater(() ->
-				showHint(getMathField().getInternal().getSyntaxHint()));
 		mf.setOnFocus(focusEvent -> {
 			setFocusedStyle(true);
-			showHint(mf.getInternal().getSyntaxHint());
 		});
 	}
 
@@ -1658,7 +1661,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				MinMaxPanel.closeMinMaxPanel();
 				getAV().restoreWidth(true);
 				setFocusedStyle(true);
-				showHint(mf.getInternal().getSyntaxHint());
 			}
 		} else {
 			if (isInputTreeItem()) {
@@ -1821,10 +1823,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				app.getParserFunctions().toEditorAutocomplete(text, loc));
 	}
 
-	private void showHint(SyntaxHint sh) {
+	@Override
+	public void updateSyntaxTooltip(SyntaxHint sh) {
 		if (!sh.isEmpty()) {
 			String hintHtml = sh.getPrefix() + "<strong>"
-					+ sh.getActivePlacehorder() + "</strong>" + sh.getSuffix();
+					+ sh.getActivePlaceholder() + "</strong>" + sh.getSuffix();
 
 			int leftAVCell = (int) (marblePanel.getAbsoluteLeft() - app.getAbsLeft()
 					+ marblePanel.getOffsetWidth());

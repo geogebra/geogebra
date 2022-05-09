@@ -1,10 +1,12 @@
-package com.himamis.retex.editor.share.editor;
+package com.himamis.retex.editor.share.syntax;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SyntaxHint {
+import com.himamis.retex.editor.share.syntax.SyntaxHint;
+
+public class SyntaxHintImpl implements SyntaxHint {
 
 	private String command = null;
 	private List<String> placeholders;
@@ -21,9 +23,7 @@ public class SyntaxHint {
 		this.index = index;
 	}
 
-	/**
-	 * @return parts before the active placeholder
-	 */
+	@Override
 	public String getPrefix() {
 		if (placeholders.isEmpty()) {
 			return "";
@@ -33,9 +33,7 @@ public class SyntaxHint {
 				.collect(Collectors.joining(", ")) + (index > 0 ? ", " : "");
 	}
 
-	/**
-	 * @return parts after the active placeholder
-	 */
+	@Override
 	public String getSuffix() {
 		if (placeholders.isEmpty()) {
 			return "";
@@ -45,10 +43,8 @@ public class SyntaxHint {
 				+ placeholders.stream().skip(index + 1).collect(Collectors.joining(", ")) + ")";
 	}
 
-	/**
-	 * @return active placeholder
-	 */
-	public String getActivePlacehorder() {
+	@Override
+	public String getActivePlaceholder() {
 		return placeholders.isEmpty() ? "" : placeholders.get(index);
 	}
 
@@ -61,10 +57,7 @@ public class SyntaxHint {
 		index = -1;
 	}
 
-	/**
-	 *
-	 * @return if hint is empty.
-	 */
+	@Override
 	public boolean isEmpty() {
 		return "".equals(command) && Collections.emptyList().equals(placeholders);
 	}

@@ -16,6 +16,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
+import com.himamis.retex.editor.share.syntax.SyntaxController;
 import com.himamis.retex.editor.share.util.CommandParser;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -133,10 +134,13 @@ public class KeyboardInputAdapter {
 		commandAdapter = new KeyboardAdapter() {
 			@Override
 			public void commit(MathFieldInternal mfi, String commandString) {
+				SyntaxController controller = mfi.getSyntaxController();
 				List<String> splitCommand = CommandParser.parseCommand(commandString);
 
 				String input = splitCommand.get(0);
-				mfi.setCommandForSyntax(input);
+				if (controller != null) {
+					controller.setCommand(input);
+				}
 				type(mfi, input);
 				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
 				mfi.notifyAndUpdate("(");
