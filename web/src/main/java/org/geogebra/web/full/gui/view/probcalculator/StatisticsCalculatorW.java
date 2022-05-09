@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 import org.geogebra.common.gui.view.probcalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
@@ -505,7 +506,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		textField.setWidthInEm(fieldWidth);
 		textField.addKeyUpHandler(this);
 		textField.addBlurHandler(this);
-		addInsertHandler(textField);
+		addInsertHandler(textField, this::doTextFieldActionPerformed);
 		addNextTabIndex(textField);
 		return textField;
 	}
@@ -560,12 +561,17 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		return !"".equals(value) && !"-".equals(value) && last != '.';
 	}
 
-	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+	/**
+	 * use ggb keyboard and add input handler for text field
+	 * @param field - text field
+	 * @param handler - on input
+	 */
+	public static void addInsertHandler(final AutoCompleteTextFieldW field,
+			Consumer<Boolean> handler) {
 		field.enableGGBKeyboard();
 		field.addInsertHandler(text -> {
 			field.removeDummyCursor();
-			doTextFieldActionPerformed(false);
-
+			handler.accept(false);
 			if (Browser.isTabletBrowser()) {
 				field.addDummyCursor(field.getCaretPosition());
 			}
