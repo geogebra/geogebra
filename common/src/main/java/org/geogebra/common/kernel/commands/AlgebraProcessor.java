@@ -110,7 +110,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
-import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -187,7 +186,11 @@ public class AlgebraProcessor {
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
 	private CommandSyntax englishCommandSyntax;
-	private SqrtMinusOneReplacer sqrtMinusOneReplacer;
+	private final SqrtMinusOneReplacer sqrtMinusOneReplacer;
+
+	// Somewhat duplicates EvalInfo.isRedefinition but propagating EvalInfo to constructors of
+	// all geos would be an overkill (needed for autocolor)
+	private boolean isRedefining;
 
 	/**
 	 * @param kernel
@@ -895,9 +898,6 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
-		} catch (TokenMgrError e) {
-			// Sometimes TokenManagerError comes from parser
-			ErrorHelper.handleException(new Exception(e), app, handler);
 		}
 		if (callback0 != null) {
 			callback0.callback(null);
@@ -1379,7 +1379,7 @@ public class AlgebraProcessor {
 	public double convertToDouble(String string) throws NumberFormatException {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
-		} catch (MyError | TokenMgrError | RuntimeException | ParseException e) {
+		} catch (MyError | RuntimeException | ParseException e) {
 			throw new NumberFormatException(e.getMessage());
 		}
 	}
@@ -1981,6 +1981,7 @@ public class AlgebraProcessor {
 		if (replaceable != null) {
 			evalInfo = evalInfo.withRedefinition(true);
             cons.setSuppressLabelCreation(true);
+			isRedefining = true;
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
 			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
@@ -2000,6 +2001,7 @@ public class AlgebraProcessor {
 						loc.getInvalidInputError() + ":\n" + expression);
 			}
 		} finally {
+			isRedefining = false;
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 		if (!info.getKeepDefinition()) {
@@ -2193,6 +2195,10 @@ public class AlgebraProcessor {
 				}
 			}
 		}
+	}
+
+	public boolean isRedefining() {
+		return this.isRedefining;
 	}
 
 	private static boolean isFunctionIneq(GeoElement geo) {
@@ -2901,7 +2907,6 @@ public class AlgebraProcessor {
 	 */
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -2909,9 +2914,9 @@ public class AlgebraProcessor {
 		boolean isIndependent = lhs.isConstant(info);
 		if (isIndependent) {
 			// get coefficients
-			a = lhs.getCoeffValue("x");
-			b = lhs.getCoeffValue("y");
-			c = lhs.getCoeffValue("");
+			double a = lhs.getCoeffValue("x");
+			double b = lhs.getCoeffValue("y");
+			double c = lhs.getCoeffValue("");
 			line = new GeoLine(cons, a, b, c);
 		} else {
 			line = dependentLine(equ);

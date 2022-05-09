@@ -8,6 +8,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

@@ -74,8 +74,8 @@ public class StatsBuilder {
 				GeoElementND result = algebraProcessor.processValidExpressionSilent(exec)[0];
 				String heading = kernel.getLocalization().getMenu("Stats." + cmd.getCommandName());
 				String lhs = cmd.getLHS(kernel.getLocalization(), varName);
-				stats.add(StatisticGroup.withLaTeX(heading,
-						lhs + " = " + result.toValueString(StringTemplate.defaultTemplate)));
+				String formula = lhs + " = " + result.toValueString(StringTemplate.defaultTemplate);
+				stats.add(new StatisticGroup(true, heading, formula));
 			} catch (Exception e) {
 				Log.debug(e);
 			}

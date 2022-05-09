@@ -3618,4 +3618,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			appendOptionalSpace(sb);
 		}
 	}
+
+	public boolean isForEditorParser() {
+		return forEditorParser;
+	}
 }
