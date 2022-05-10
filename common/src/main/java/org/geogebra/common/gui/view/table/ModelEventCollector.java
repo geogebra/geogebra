@@ -94,15 +94,27 @@ public class ModelEventCollector implements TableValuesListener {
 	}
 
 	private void fireModificationEvents(SimpleTableValuesModel model) {
-		if (event.datasetChanged) {
+		ModelEvent eventClone = event.copy();
+		clearModificationEvents();
+
+		if (eventClone.datasetChanged && changeEventReceived(eventClone, model)) {
 			model.notifyDatasetChanged();
 		} else {
-			fireAllModificationEvents(model);
+			fireAllModificationEvents(model, eventClone);
 		}
-		clearModificationEvents(model);
 	}
 
-	private void fireAllModificationEvents(SimpleTableValuesModel model) {
+	private boolean changeEventReceived(ModelEvent event, SimpleTableValuesModel model) {
+		if (event.cellsChanged.isEmpty() && event.columnsChanged.isEmpty()
+				&& event.columnsRemoved.isEmpty() && event.columnsAdded.isEmpty()
+				&& event.rowsChanged.isEmpty()) {
+			int newRowCount = model.getRowCount();
+			return newRowCount != event.initialRowCount;
+		}
+		return false;
+	}
+
+	private void fireAllModificationEvents(SimpleTableValuesModel model, ModelEvent event) {
 		for (ColumnEvent columnEvent : event.columnsRemoved) {
 			model.notifyColumnRemoved(columnEvent.evaluatable, columnEvent.columnIndex);
 		}
@@ -127,9 +139,8 @@ public class ModelEventCollector implements TableValuesListener {
 		}
 	}
 
-	private void clearModificationEvents(SimpleTableValuesModel model) {
+	private void clearModificationEvents() {
 		event = new ModelEvent();
-		event.initialRowCount = model.getRowCount();
 	}
 
 	private static class ModelEvent {
@@ -141,6 +152,19 @@ public class ModelEventCollector implements TableValuesListener {
 		private int initialRowCount;
 		private boolean datasetChanged = false;
 		private int counter = 0;
+
+		public ModelEvent copy() {
+			ModelEvent event = new ModelEvent();
+			event.columnsRemoved.addAll(columnsRemoved);
+			event.columnsChanged.addAll(columnsChanged);
+			event.columnsAdded.addAll(columnsAdded);
+			event.cellsChanged.addAll(cellsChanged);
+			event.rowsChanged.addAll(rowsChanged);
+			event.initialRowCount = initialRowCount;
+			event.datasetChanged = datasetChanged;
+			event.counter = counter;
+			return event;
+		}
 	}
 
 	private static class ColumnEvent {
