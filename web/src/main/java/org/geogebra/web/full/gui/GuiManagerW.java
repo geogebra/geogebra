@@ -2231,6 +2231,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void showTableValuesView(GeoElement geo) {
 		if (getTableValuesView().isEmpty()) {
+			// hide keyboard to ensure to reopen above the dimmed area.
+			getApp().getAppletFrame().showKeyBoard(false, null, true);
 			app.getDialogManager().openTableViewDialog(geo);
 		} else {
 			addGeoToTableValuesView(geo);

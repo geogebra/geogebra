@@ -15,5 +15,4 @@ public interface InputKeyboardButton {
 	void hide();
 
 	void attach(AutoCompleteTextField textField);
-	void detach(AutoCompleteTextField textField);
 }

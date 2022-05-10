@@ -50,7 +50,7 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	@Override
 	public void hide() {
 		Dom.toggleClass(textField, "kbdInput", false);
-		detach(textField);
+		button.removeFromParent();
 	}
 
 	@Override
@@ -64,11 +64,6 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 		}
 
 		show();
-	}
-
-	@Override
-	public void detach(AutoCompleteTextField textField) {
-		button.removeFromParent();
 	}
 
 	@Override

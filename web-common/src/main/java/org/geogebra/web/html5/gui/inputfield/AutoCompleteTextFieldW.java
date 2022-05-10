@@ -289,7 +289,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			event.stopPropagation();
 		});
 		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {
-			showKeyboardButton(true);
+			attachKeyboardButton();
 		});
 
 		addContent(textField);
@@ -1264,9 +1264,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		keyboardButton = app.getGuiManager().getInputKeyboardButton();
 		keyboardButton.attach(this);
 	}
-	public void detachKeyboardButton() {
-		keyboardButton.detach(this);
-	}
 
 	@Override
 	public boolean hasFocus() {
@@ -1379,14 +1376,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void setFocus(boolean focus) {
 		isFocused = focus;
 		textField.setFocus(focus);
-	}
-
-	private void showKeyboardButton(boolean show) {
-		if (show) {
-			attachKeyboardButton();
-		} else {
-			detachKeyboardButton();
-		}
 	}
 
 	public void addInsertHandler(InsertHandler newInsertHandler) {
