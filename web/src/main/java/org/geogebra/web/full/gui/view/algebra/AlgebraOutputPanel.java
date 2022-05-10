@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -7,6 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -90,7 +92,12 @@ public class AlgebraOutputPanel extends FlowPanel {
 			btnSymbolic = new ToggleButton(activity.getNumericIcon(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
 			final ToggleButton btn = btnSymbolic;
-			btn.addFastClickHandler((e) -> AlgebraItem.toggleSymbolic(geo));
+			ClickStartHandler.init(btnSymbolic, new ClickStartHandler(true, true) {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					btn.setSelected(AlgebraItem.toggleSymbolic(geo));
+				}
+			});
 		}
 		btnSymbolic.addStyleName("symbolicButton");
 		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
