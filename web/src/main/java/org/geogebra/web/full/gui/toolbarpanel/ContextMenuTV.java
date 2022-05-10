@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -87,7 +89,7 @@ public class ContextMenuTV {
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 			addShowHidePoints();
 			if (column instanceof GeoList) {
-				buildYColumnMenu(((GeoList) column).size());
+				buildYColumnMenu();
 			} else {
 				buildFunctionColumnMenu();
 			}
@@ -106,7 +108,7 @@ public class ContextMenuTV {
 		addCommand(view::clearValues, "ClearColumn", "clear");
 	}
 
-	private void buildYColumnMenu(int rows) {
+	private void buildYColumnMenu() {
 		addDelete();
 		wrappedPopup.addVerticalSeparator();
 
@@ -123,7 +125,7 @@ public class ContextMenuTV {
 
 		DialogData regressionData = new DialogData("Regression",
 				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
-		addCommand(() -> showRegression(regressionData, rows), "Regression",
+		addCommand(() -> showRegression(regressionData), "Regression",
 				"regression");
 	}
 
@@ -152,14 +154,21 @@ public class ContextMenuTV {
 		addCommandLocalized(() -> showStats(statFunction, data), title, "stats");
 	}
 
-	private void showRegression(DialogData data, int rows) {
-		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-		boolean hasError = dialog.addRegressionChooserHasError(rows);
-		if (!hasError) {
-			dialog.show();
-		} else {
+	private void showRegression(DialogData data) {
+		GeoList[] cleanLists = new StatsBuilder(view.getEvaluatable(0),
+				view.getEvaluatable(columnIdx)).getCleanLists2Var();
+		final List<RegressionSpecification> availableRegressions =
+				RegressionSpecification.getForListSize(cleanLists[0].size());
+		if (availableRegressions.isEmpty()) {
 			showErrorDialog(data, "StatsDialog.NoDataMsgRegression");
+			return;
 		}
+		app.getAsyncManager().scheduleCallback(() -> {
+			List<StatisticGroup> regression = view.getRegression(getColumnIdx(),
+					availableRegressions.get(0));
+			StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
+			dialog.addRegressionChooserHasError(availableRegressions, regression);
+		});
 	}
 
 	private void showErrorDialog(DialogData dialogData, String msgKey) {
@@ -178,12 +187,15 @@ public class ContextMenuTV {
 
 	private void showStats(Function<Integer, List<StatisticGroup>> statFunction,
 			DialogData data) {
-		if (!statFunction.apply(getColumnIdx()).isEmpty()) {
-			StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-			dialog.updateContent(statFunction);
-		} else {
-			showErrorDialog(data, "StatsDialog.NoDataMsg2VarStats");
-		}
+		app.getAsyncManager().scheduleCallback(() -> {
+			List<StatisticGroup> rowData = statFunction.apply(getColumnIdx());
+			if (!rowData.isEmpty()) {
+				StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
+				dialog.setRowsAndShow(rowData);
+			} else {
+				showErrorDialog(data, "StatsDialog.NoDataMsg2VarStats");
+			}
+		});
 	}
 
 	private void addShowHidePoints() {

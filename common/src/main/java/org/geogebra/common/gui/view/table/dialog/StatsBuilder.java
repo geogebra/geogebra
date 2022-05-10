@@ -66,6 +66,22 @@ public class StatsBuilder {
 	 * @return two variable statistics
 	 */
 	public List<StatisticGroup> getStatistics2Var(String varName, String varName2) {
+		List<StatisticGroup> stats = new ArrayList<>();
+		GeoElementND[] cleanLists = getCleanLists2Var();
+		addStats(stats, ONE_VAR_STATS, varName, cleanLists[0]);
+		addStats(stats, ONE_VAR_STATS, varName2, cleanLists[1]);
+		addStats(stats, TWO_VAR_STATS, varName + varName2, cleanLists);
+		addStats(stats, Arrays.asList(Stat.LENGTH), varName, cleanLists[0]);
+		addStats(stats, MIN_MAX, varName, cleanLists[0]);
+		addStats(stats, MIN_MAX, varName2, cleanLists[1]);
+		return stats;
+	}
+
+	/**
+	 * Filter both lists, keep only items where both lists have a number at given index
+	 * @return filtered lists
+	 */
+	public GeoList[] getCleanLists2Var() {
 		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
 				false);
 		MyVecNode points = new MyVecNode(kernel, this.lists[0], this.lists[1]);
@@ -75,20 +91,15 @@ public class StatsBuilder {
 		ExpressionNode yCoordExpr =
 				new ExpressionNode(kernel, cleanData.wrap(), Operation.YCOORD, null);
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
-		List<StatisticGroup> stats = new ArrayList<>();
+
 		try {
 			GeoElementND resultX = algebraProcessor.processValidExpressionSilent(xCoordExpr)[0];
 			GeoElementND resultY = algebraProcessor.processValidExpressionSilent(yCoordExpr)[0];
 			// use command strings, not algos, to make sure code splitting works in Web
-			addStats(stats, ONE_VAR_STATS, varName, resultX);
-			addStats(stats, ONE_VAR_STATS, varName2, resultY);
-			addStats(stats, TWO_VAR_STATS, varName + varName2, resultX, resultY);
-			addStats(stats, Arrays.asList(Stat.LENGTH), varName, resultX);
-			addStats(stats, MIN_MAX, varName, resultX);
-			addStats(stats, MIN_MAX, varName2, resultY);
-			return stats;
+			return new GeoList[] {(GeoList) resultX, (GeoList) resultY};
 		} catch (Exception e) {
-			return stats;
+			return new GeoList[] {
+					new GeoList(kernel.getConstruction()), new GeoList(kernel.getConstruction())};
 		}
 	}
 
