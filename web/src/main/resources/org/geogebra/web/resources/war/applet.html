@@ -261,15 +261,15 @@
 			document.body.appendChild(w3d);
 			var resizer = document.getElementById("resizer");
 			var glasspane = document.getElementById("glasspane");
-			resizer.addEventListener("mousedown", function () {
+			resizer.addEventListener("pointerdown", function () {
 				resizer.dragging = true;
 				glasspane.style.visibility = "visible";
 			});
-			glasspane.addEventListener("mouseup", function () {
+			glasspane.addEventListener("pointerup", function () {
 				resizer.dragging = false;
 				glasspane.style.visibility = "hidden";
 			});
-			glasspane.addEventListener("mousemove", function (e) {
+			glasspane.addEventListener("pointermove", function (e) {
 				if (resizer.dragging) {
 					var x = e.x - 100;
 					var y = e.y - 100;
