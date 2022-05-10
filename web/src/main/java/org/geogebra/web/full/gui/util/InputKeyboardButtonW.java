@@ -27,7 +27,6 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	public InputKeyboardButtonW(AppWFull app) {
 		button = new ToggleButton(KeyboardResources.INSTANCE.keyboard_show_material());
 		button.setStyleName("matKeyboardOpenBtn");
-		button.setTabIndex(-1);
 		UpdateKeyBoardListener listener = app.getAppletFrame();
 		ClickStartHandler.init(button,
 				new ClickStartHandler(true, true) {
@@ -51,22 +50,25 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	@Override
 	public void hide() {
 		Dom.toggleClass(textField, "kbdInput", false);
+		detach(textField);
 	}
 
 	@Override
 	public void attach(AutoCompleteTextField textField) {
-		this.textField = (AutoCompleteTextFieldW) textField;
-		this.textField.addFocusHandler(event -> show());
-		this.textField.addBlurHandler(event -> hide());
-		this.textField.addContent(button);
+		if (button.getParent() != textField) {
+			this.textField = (AutoCompleteTextFieldW) textField;
+			this.textField.addFocusHandler(event -> show());
+			this.textField.addBlurHandler(event -> hide());
+			this.textField.addContent(button);
+			button.getElement().setTabIndex(-1);
+		}
+
 		show();
 	}
 
 	@Override
 	public void detach(AutoCompleteTextField textField) {
-		if (this.textField == textField) {
-			button.removeFromParent();
-		}
+		button.removeFromParent();
 	}
 
 	@Override

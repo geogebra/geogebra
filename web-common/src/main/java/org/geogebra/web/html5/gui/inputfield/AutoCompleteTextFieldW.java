@@ -288,6 +288,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			requestFocus();
 			event.stopPropagation();
 		});
+		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {
+			showKeyboardButton(true);
+		});
 
 		addContent(textField);
 		add(main);
@@ -763,6 +766,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			e.preventDefault();
 
 		}
+
 		if (keyCode == GWTKeycodes.KEY_TAB && moveToNextArgument(true, false)) {
 			e.preventDefault();
 		}
@@ -1245,9 +1249,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void requestFocus() {
-		attachKeyboard();
 		textField.setFocus(true);
-		keyboardButton.show();
 		if (geoUsedForInputBox != null) {
 			Dom.toggleClass(this, "errorStyle", geoUsedForInputBox.hasError());
 		}
@@ -1258,11 +1260,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 	}
 
-	public void attachKeyboard() {
+	public void attachKeyboardButton() {
 		keyboardButton = app.getGuiManager().getInputKeyboardButton();
 		keyboardButton.attach(this);
 	}
-	public void detachKeyboard() {
+	public void detachKeyboardButton() {
 		keyboardButton.detach(this);
 	}
 
@@ -1375,13 +1377,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setFocus(boolean focus) {
-		if (focus) {
-			attachKeyboard();
-		} else {
-			detachKeyboard();
-		}
 		isFocused = focus;
 		textField.setFocus(focus);
+	}
+
+	private void showKeyboardButton(boolean show) {
+		if (show) {
+			attachKeyboardButton();
+		} else {
+			detachKeyboardButton();
+		}
 	}
 
 	public void addInsertHandler(InsertHandler newInsertHandler) {
