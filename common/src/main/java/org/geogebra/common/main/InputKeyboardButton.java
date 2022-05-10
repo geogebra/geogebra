@@ -14,10 +14,6 @@ public interface InputKeyboardButton {
 	 */
 	void hide();
 
-	/**
-	 * Specify the text field that keyboard button should appear in.
-	 *
-	 * @param textField which is about to use the keyboard button.
-	 */
-	void setTextField(AutoCompleteTextField textField);
+	void attach(AutoCompleteTextField textField);
+	void detach(AutoCompleteTextField textField);
 }

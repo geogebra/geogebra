@@ -9,7 +9,8 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -26,6 +27,7 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	public InputKeyboardButtonW(AppWFull app) {
 		button = new ToggleButton(KeyboardResources.INSTANCE.keyboard_show_material());
 		button.setStyleName("matKeyboardOpenBtn");
+		button.setTabIndex(-1);
 		UpdateKeyBoardListener listener = app.getAppletFrame();
 		ClickStartHandler.init(button,
 				new ClickStartHandler(true, true) {
@@ -45,19 +47,30 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	@Override
 	public void show() {
 		Dom.toggleClass(textField, "kbdInput", true);
+		Dom.toggleClass(textField.getTextField().getValueBox(), "long",
+				textField.hasFullLength());
 	}
-
 	@Override
 	public void hide() {
 		Dom.toggleClass(textField, "kbdInput", false);
+		Dom.toggleClass(textField.getTextField().getValueBox(), "long",
+				false);
 	}
 
 	@Override
-	public void setTextField(AutoCompleteTextField autoCompleteTextField) {
-		this.textField = (AutoCompleteTextFieldW) autoCompleteTextField;
-		textField.addFocusHandler(event -> show());
-		textField.addBlurHandler(event -> hide());
-		textField.addContent(this);
+	public void attach(AutoCompleteTextField textField) {
+		this.textField = (AutoCompleteTextFieldW) textField;
+		this.textField.addFocusHandler(event -> show());
+		this.textField.addBlurHandler(event -> hide());
+		this.textField.addContent(button);
+		show();
+	}
+
+	@Override
+	public void detach(AutoCompleteTextField textField) {
+		if (this.textField == textField) {
+			button.removeFromParent();
+		}
 	}
 
 	@Override

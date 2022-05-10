@@ -163,10 +163,11 @@ $keyboard_button_transition: opacity .3s ease;
 
 		@extend .matOpenKeyboardBtn !optional;
 		input[type=text].gwt-SuggestBox {
-			// as width is often overridden from code,
-			// !important is necessary here.
-			width: calc(100% - 32px) !important;
 			border: 0px;
+		}
+
+		input[type=text].gwt-SuggestBox.long {
+			width: calc(100% - 32px) !important;
 		}
 
 		button {

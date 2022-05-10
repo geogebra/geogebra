@@ -133,19 +133,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private final AutocompleteProviderClassic inputSuggestions;
 	private FlowPanel main = new FlowPanel();
 
-	/**
-	 * Attaches the keyboard button to the current text field.
-	 * @param keyboardButton to attach.
-	 */
-	public void attachKeyboardButton(InputKeyboardButton keyboardButton) {
-		if (keyboardButton == null) {
-			return;
-		}
-
-		this.keyboardButton = keyboardButton;
-		this.keyboardButton.setTextField(this);
-	}
-
 	public interface InsertHandler {
 		void onInsert(String text);
 	}
@@ -1258,6 +1245,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void requestFocus() {
+		attachKeyboard();
 		textField.setFocus(true);
 		keyboardButton.show();
 		if (geoUsedForInputBox != null) {
@@ -1268,6 +1256,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
+	}
+
+	public void attachKeyboard() {
+		keyboardButton = app.getGuiManager().getInputKeyboardButton();
+		keyboardButton.attach(this);
+	}
+	public void detachKeyboard() {
+		keyboardButton.detach(this);
 	}
 
 	@Override
@@ -1339,7 +1335,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public void enableGGBKeyboard() {
 		dummyCursor.enableGGBKeyboard();
-		attachKeyboardButton(app.getGuiManager().getInputKeyboardButton());
 	}
 
 	/**
@@ -1380,6 +1375,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setFocus(boolean focus) {
+		if (focus) {
+			attachKeyboard();
+		} else {
+			detachKeyboard();
+		}
 		isFocused = focus;
 		textField.setFocus(focus);
 	}
@@ -1510,6 +1510,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		getInputElement().getStyle().setTextAlign(textAlignToCssAlign(alignment));
 	}
 
+
 	private Style.TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
 			case LEFT:
@@ -1520,5 +1521,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					return Style.TextAlign.RIGHT;
 		}
 		return null;
+	}
+
+	/**
+	 *
+	 * @return if input fills its place.
+	 */
+	public boolean hasFullLength() {
+		return getOffsetWidth() - textField.getValueBox().getOffsetWidth() == 0;
 	}
 }
