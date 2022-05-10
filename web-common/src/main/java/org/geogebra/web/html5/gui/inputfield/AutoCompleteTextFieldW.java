@@ -1522,12 +1522,4 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		return null;
 	}
-
-	/**
-	 *
-	 * @return if input fills its place.
-	 */
-	public boolean hasFullLength() {
-		return getOffsetWidth() - textField.getValueBox().getOffsetWidth() == 0;
-	}
 }

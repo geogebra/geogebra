@@ -47,14 +47,10 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	@Override
 	public void show() {
 		Dom.toggleClass(textField, "kbdInput", true);
-		Dom.toggleClass(textField.getTextField().getValueBox(), "long",
-				textField.hasFullLength());
 	}
 	@Override
 	public void hide() {
 		Dom.toggleClass(textField, "kbdInput", false);
-		Dom.toggleClass(textField.getTextField().getValueBox(), "long",
-				false);
 	}
 
 	@Override
