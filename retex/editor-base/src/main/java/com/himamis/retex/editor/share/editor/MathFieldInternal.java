@@ -473,8 +473,7 @@ public class MathFieldInternal
 			/*
 			 * if (!editorState.hasSelection()){ mathField.hideCopyButton(); }
 			 */
-
-			mathFieldController.update(mathFormula, editorState, false);
+			update(false);
 
 			mathField.showKeyboard();
 			mathField.requestViewFocus();
