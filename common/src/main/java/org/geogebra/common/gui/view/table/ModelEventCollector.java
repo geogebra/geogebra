@@ -105,13 +105,7 @@ public class ModelEventCollector implements TableValuesListener {
 	}
 
 	private boolean changeEventReceived(ModelEvent event, SimpleTableValuesModel model) {
-		if (event.cellsChanged.isEmpty() && event.columnsChanged.isEmpty()
-				&& event.columnsRemoved.isEmpty() && event.columnsAdded.isEmpty()
-				&& event.rowsChanged.isEmpty()) {
-			int newRowCount = model.getRowCount();
-			return newRowCount != event.initialRowCount;
-		}
-		return false;
+		return model.getRowCount() != event.initialRowCount;
 	}
 
 	private void fireAllModificationEvents(SimpleTableValuesModel model, ModelEvent event) {
