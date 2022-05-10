@@ -68,7 +68,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoNumeric extends GeoElement
 		implements GeoNumberValue, AbsoluteScreenLocateable, GeoFunctionable,
 		Animatable, HasExtendedAV, SymbolicParametersBotanaAlgo,
-		HasSymbolicMode, AnimationExportSlider, Evaluate2Var {
+		HasSymbolicMode, AnimationExportSlider, Evaluate2Var, HasAuralText {
 
 	private PVariable[] botanaVars;
 
@@ -2052,7 +2052,8 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @return the current value as readable, aural text.
 	 */
-	public String getAuralCurrentValue() {
+	@Override
+	public String getAuralText() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 		addAuralSliderValue(sb);
 		return sb.toString().trim();

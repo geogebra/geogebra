@@ -34,7 +34,7 @@ public class AltTextCollector {
 		if (!views.isValid(altText)) {
 			return;
 		}
-		timer.feed(altText.getAuralText(), altText);
+		timer.feed(altText);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class AltTextCollector {
 	 * @param geo changed slider
 	 */
 	public void readSliderUpdate(GeoNumeric geo) {
-		timer.feed(geo.getAuralCurrentValue(), geo);
+		timer.feed(geo);
 	}
 
 	/**
