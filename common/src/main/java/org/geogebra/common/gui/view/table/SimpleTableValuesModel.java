@@ -362,8 +362,8 @@ class SimpleTableValuesModel implements TableValuesModel {
 	}
 
 	private void handleEmptyValue(GeoList column, int columnIndex, int rowIndex) {
-		if (rowIndex == column.size() - 1 && isLastRowEmpty()) {
-			removeEmptyRowsFromBottom();
+		if (rowIndex == column.size() - 1) {
+			removeEmptyRows(columnIndex);
 		} else if (column == getValueList()) {
 			collector.notifyRowChanged(this, rowIndex);
 		} else if (isColumnEmpty(column)) {
@@ -383,48 +383,22 @@ class SimpleTableValuesModel implements TableValuesModel {
 		return true;
 	}
 
-	private void removeEmptyRowsFromBottom() {
-		while (getRowCount() > 0 && isLastRowEmpty()) {
-			removeLastRow();
+	private void removeEmptyRows(int columnIndex) {
+		TableValuesColumn tableValuesColumn = columns.get(columnIndex);
+		GeoEvaluatable evaluatable = tableValuesColumn.getEvaluatable();
+		if (!(evaluatable instanceof GeoList)) {
+			return;
 		}
-	}
+		GeoList column = (GeoList) evaluatable;
+		while (column.size() > 0 && isEmptyValue(column.get(column.size() - 1))) {
+			int row = column.size() - 1;
+			column.remove(row);
+			if (columnIndex == 0) {
+				collector.notifyRowChanged(this, row);
+			}
+		}
 
-	private boolean isLastRowEmpty() {
-		int lastRowIndex = getRowCount() - 1;
-		for (TableValuesColumn column : columns) {
-			GeoEvaluatable element = column.getEvaluatable();
-			if (!(element instanceof GeoList)) {
-				continue;
-			}
-			GeoList list = (GeoList) element;
-			if (list.size() <= lastRowIndex) {
-				continue;
-			}
-			if (!isEmptyValue(list.get(lastRowIndex))) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private void removeLastRow() {
-		int lastRowIndex = getRowCount() - 1;
-		List<GeoList> columnsToRemove = new ArrayList<>();
-		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
-			TableValuesColumn tableValuesColumn = columns.get(columnIndex);
-			GeoEvaluatable evaluatable = tableValuesColumn.getEvaluatable();
-			if (!(evaluatable instanceof GeoList)) {
-				continue;
-			}
-			GeoList column = (GeoList) evaluatable;
-			if (lastRowIndex < column.size()) {
-				column.remove(lastRowIndex);
-			}
-			if (columnIndex != 0 && isColumnEmpty(column)) {
-				columnsToRemove.add(column);
-			}
-		}
-		for (GeoList column : columnsToRemove) {
+		if (columnIndex != 0 && isColumnEmpty(column)) {
 			column.remove();
 		}
 	}
