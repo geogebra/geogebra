@@ -1248,7 +1248,8 @@ public class InputController {
 
 	private boolean preventDimensionChange(EditorState editorState) {
 		MathContainer parent = editorState.getCurrentField().getParent();
-		return MathArray.isLocked(parent) && ((MathArray) parent).getOpenKey() == '(';
+		return MathArray.isLocked(parent) && (((MathArray) parent).getOpenKey() == '('
+				|| ((MathArray) parent).getOpenKey() == '{');
 	}
 
 	private boolean shouldMoveCursor(EditorState editorState) {

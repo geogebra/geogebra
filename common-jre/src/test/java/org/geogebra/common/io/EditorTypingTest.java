@@ -645,6 +645,13 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testCommaInMatrixEditor() {
+		checker.insert("{{1,2},{3,4}}").protect().left(42) // go to the left of protected editor
+				.type(",").type(",")
+				.checkAsciiMath("{{1,2},{3,4}}");
+	}
+
+	@Test
 	public void testSqrtInPointEditor() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.setForceBracketsAfterFunction();
