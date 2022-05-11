@@ -537,6 +537,12 @@ public class GeoFunctionNVar extends GeoElement
 			return false;
 		}
 
+		if (isBooleanFunction() != ((GeoFunctionNVar) geo).isBooleanFunction()) {
+			return false;
+		}
+		if (isBooleanFunction()) {
+			return isEqualBooleanFunction((GeoFunctionNVar) geo);
+		}
 		// try for polynomials first
 		// (avoid loading the CAS if at all possible)
 		if (equalityChecker == null) {
@@ -583,6 +589,16 @@ public class GeoFunctionNVar extends GeoElement
 
 		// poly && all coefficients zero
 		return true;
+	}
+
+	private boolean isEqualBooleanFunction(GeoFunctionNVar geoFun) {
+		IneqTree ours = getIneqs();
+		IneqTree theirs = geoFun.getIneqs();
+		if (!isInequality || !geoFun.isInequality
+				|| ours.getIneq() == null || theirs.getIneq() == null) {
+			return false;
+		}
+		return ours.getIneq().isEqual(theirs.getIneq());
 	}
 
 	/**

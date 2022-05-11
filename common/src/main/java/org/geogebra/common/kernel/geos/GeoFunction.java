@@ -1428,11 +1428,17 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return ((GeoLine) geo).isEqual(this);
 		}
 
-		if (!geo.isGeoFunction()) {
+		if (!(geo instanceof GeoFunction)) {
 			return false;
 		}
 
 		GeoFunction geoFun = (GeoFunction) geo;
+		if (isBooleanFunction() != geoFun.isBooleanFunction()) {
+			return false;
+		}
+		if (isBooleanFunction()) {
+			return isEqualBooleanFunction(geoFun);
+		}
 		// check equality in two points; avoid discontinuities of common functions (1/x, tan(x))
 		if (differAt(this, geoFun, 0.31) || differAt(this, geoFun, 10.89)
 				|| !isDefined() || !geoFun.isDefined()) {
@@ -1454,6 +1460,33 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// eg x^2 + 0*sin(x) == x^2
 		// so check with CAS (SLOW)
 		return isDifferenceZeroInCAS(geo);
+	}
+
+	private boolean isEqualBooleanFunction(GeoFunction geoFun) {
+		IneqTree ours = getIneqs();
+		IneqTree theirs = geoFun.getIneqs();
+		if (!isInequality || !geoFun.isInequality) {
+			return false;
+		}
+		TreeSet<Double> zeros = new TreeSet<>();
+		ours.getZeros(zeros);
+		theirs.getZeros(zeros);
+		if (zeros.isEmpty()) {
+			zeros.add(0d);
+		}
+		double last = Double.NaN;
+		for (double x: zeros) {
+			if (Double.isNaN(last)) {
+				last = x - 1;
+			}
+			double midpoint = (x + last) / 2;
+			if (evaluateBoolean(x) != geoFun.evaluateBoolean(x)
+					|| evaluateBoolean(midpoint) != geoFun.evaluateBoolean(midpoint)) {
+				return false;
+			}
+			last = x;
+		}
+		return evaluateBoolean(last + 1) == geoFun.evaluateBoolean(last + 1);
 	}
 
 	protected static boolean isFunctionDefined(FunctionNVar fun) {

@@ -458,4 +458,13 @@ public class Inequality {
 		}
 	}
 
+	/**
+	 * @param ineq other inequality
+	 * @return whether these inequalities represent the same set of points in R^2
+	 */
+	public boolean isEqual(Inequality ineq) {
+		return isAboveBorder == ineq.isAboveBorder && isStrict() == ineq.isStrict()
+				&& border != null && ineq.border != null && border.isEqual(ineq.border);
+	}
+
 }

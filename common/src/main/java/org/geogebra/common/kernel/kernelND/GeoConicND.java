@@ -3312,6 +3312,9 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		GeoConicND conic = (GeoConicND) geo;
 		double[] B = conic.matrix;
+		if (type == GeoConicND.CONIC_EMPTY && conic.type == GeoConicND.CONIC_EMPTY) {
+			return true;
+		}
 
 		double lambda1 = 0.0;
 		boolean aZero, bZero, equal = true;
