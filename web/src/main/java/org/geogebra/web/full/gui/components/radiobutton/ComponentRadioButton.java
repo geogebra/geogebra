@@ -46,7 +46,6 @@ public class ComponentRadioButton extends FlowPanel implements SetLabels {
 
 		Dom.addEventListener(this.getElement(), "click", evt -> {
 			if (!disabled) {
-				setSelected(!isSelected());
 				if (callback != null) {
 					callback.run();
 				}
