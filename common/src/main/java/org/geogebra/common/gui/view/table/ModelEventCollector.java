@@ -105,7 +105,7 @@ public class ModelEventCollector implements TableValuesListener {
 	}
 
 	private boolean changeEventReceived(ModelEvent event, SimpleTableValuesModel model) {
-		return model.getRowCount() != event.initialRowCount;
+		return model.getRowCount() == 0 || model.getRowCount() != event.initialRowCount;
 	}
 
 	private void fireAllModificationEvents(SimpleTableValuesModel model, ModelEvent event) {
