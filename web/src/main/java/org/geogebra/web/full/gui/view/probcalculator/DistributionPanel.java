@@ -31,7 +31,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	private ToggleButton cumulativeWidget;
 	private Label[] lblParameterArray;
 	private MathTextFieldW[] fldParameterArray;
-	private ProbabilityModeGroup modeGroup;
+	protected ProbabilityModeGroup modeGroup;
 	protected ResultPanelW resultPanel;
 
 	/**

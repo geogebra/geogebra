@@ -49,6 +49,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		Localization loc = getView().getApp().getLocalization();
 		super.setDistributionComboBoxMenu();
 		resultPanel.setLabels();
+		modeGroup.setLabels();
 		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		cumulativeLbl.setText(loc.getMenu("Cumulative"));
 		intervalsLbl.setText(loc.getMenu("Intervals"));
