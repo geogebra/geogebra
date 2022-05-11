@@ -89,6 +89,12 @@ public class ModelEventCollector implements TableValuesListener {
 		}
 	}
 
+	/**
+	 * @return True, if it's called between
+	 * {@link ModelEventCollector#startCollection(TableValuesModel)} and
+	 * {@link ModelEventCollector#endCollection(SimpleTableValuesModel)} calls.
+	 * Otherwise, false.
+	 */
 	public boolean isCollecting() {
 		return event.counter > 0;
 	}
