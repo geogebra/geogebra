@@ -19,4 +19,24 @@
 			}
 		}
 	}
+
+	.probCalcStylbarBtn.suite {
+		margin-top: 16px;
+		margin-right: 16px;
+		height: 24px;
+		padding: 6px;
+		border-radius: 50%;
+		transition: background-color 150ms ease 0ms;
+
+		&.selected, &:hover {
+			background-color: colors.$hover-calc-btn-bg;
+			img {
+				opacity: 0.84;
+			}
+		}
+
+		img {
+			opacity: 0.54;
+		}
+	}
 }
