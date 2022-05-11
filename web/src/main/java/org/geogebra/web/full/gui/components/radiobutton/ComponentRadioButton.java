@@ -14,14 +14,14 @@ public class ComponentRadioButton extends FlowPanel implements SetLabels {
 	private Label radioLabel;
 	private String ggbTransKey;
 	private Localization loc;
+	private Runnable callback;
 
 	/**
 	 * default constructor
 	 * @param loc - localization
 	 * @param data - data
-	 * @param callback - callback on click
 	 */
-	public ComponentRadioButton(Localization loc, RadioButtonData data, Runnable callback) {
+	public ComponentRadioButton(Localization loc, RadioButtonData data) {
 		setSelected(data.isSelected());
 		setDisabled(data.isDisabled());
 		this.ggbTransKey = data.getLabel();
@@ -46,12 +46,21 @@ public class ComponentRadioButton extends FlowPanel implements SetLabels {
 
 		Dom.addEventListener(this.getElement(), "click", evt -> {
 			if (!disabled) {
+				setSelected(!isSelected());
 				if (callback != null) {
 					callback.run();
 				}
-				setSelected(!isSelected());
+
 			}
 		});
+	}
+
+	/**
+	 * callback on click
+	 * @param callback - callback
+	 */
+	public void setCallback(Runnable callback) {
+		this.callback = callback;
 	}
 
 	/**
