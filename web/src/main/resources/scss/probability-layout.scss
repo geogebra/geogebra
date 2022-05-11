@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'z-index';
 
 .GeoGebraFrame {
 	.suiteDistrTab {
@@ -21,6 +22,9 @@
 	}
 
 	.probCalcStylbarBtn.suite {
+		position: absolute;
+		right: 0px;
+		z-index: z-index.$z-on-top-of-graphics;
 		margin-top: 16px;
 		margin-right: 16px;
 		height: 24px;
