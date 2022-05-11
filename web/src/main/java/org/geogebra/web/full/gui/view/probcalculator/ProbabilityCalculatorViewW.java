@@ -13,11 +13,13 @@ import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -87,7 +89,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
 		btnStepGraph.setTitle(loc.getMenu("StepGraph"));
 		btnBarGraph.setTitle(loc.getMenu("BarChart"));
-		btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
+		if (app.getConfig().hasDistributionView()) {
+			AriaHelper.setTitle(btnNormalOverlay, loc.getMenu("OverlayNormalCurve"));
+		} else {
+			btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
+		}
 	}
 
 	/**
@@ -165,9 +171,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 		createExportMenu();
 
-		btnNormalOverlay = new ToggleButton(GuiResources.INSTANCE.normal_overlay());
+		btnNormalOverlay = new ToggleButton(app.getConfig().hasDistributionView()
+				? GuiResources.INSTANCE.normal_overlay_black()
+				: GuiResources.INSTANCE.normal_overlay());
 		btnNormalOverlay.addStyleName("probCalcStylbarBtn");
-		btnNormalOverlay.addFastClickHandler(event -> onOverlayClicked());
+		if (app.getConfig().hasDistributionView()) {
+			btnNormalOverlay.removeStyleName("MyToggleButton");
+			btnNormalOverlay.addStyleName("suite");
+		}
+		btnNormalOverlay.addFastClickHandler(event -> {
+			Dom.toggleClass(btnNormalOverlay, "selected", btnNormalOverlay.isSelected());
+			onOverlayClicked();
+		});
 
 		btnLineGraph = new ToggleButton(GuiResources.INSTANCE.line_graph());
 		btnLineGraph.addStyleName("probCalcStylbarBtn");
