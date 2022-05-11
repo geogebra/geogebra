@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.debug.Log;
 
 public class AutocompleteProvider {
@@ -112,7 +113,7 @@ public class AutocompleteProvider {
 				.map(function -> new Completion(function.split("\\(")[0],
 						Collections.singletonList(function), App.WIKI_OPERATORS,
 						GuiManagerInterface.Help.GENERIC));
-		List<String> cmdDict = app.getCommandDictionary()
+		List<String> cmdDict = getDictionary()
 				.getCompletions(curWord.toLowerCase());
 		if (cmdDict != null) {
 			Stream<Completion> commands = cmdDict.stream()
@@ -121,6 +122,11 @@ public class AutocompleteProvider {
 			completions = Stream.concat(completions, commands);
 		}
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
+	}
+
+	private LowerCaseDictionary getDictionary() {
+		return app.getConfig().isCASEnabled() ? app.getCommandDictionaryCAS()
+				: app.getCommandDictionary();
 	}
 
 	public static class Completion {
