@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -108,7 +107,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 
 		setInputOutput();
 
-		setLabels(labels);
+		outputPoints.setLabelsMulti(labels);
 
 		update();
 	}
@@ -176,27 +175,6 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 				return p;
 			}
 		});
-	}
-
-	/**
-	 * if only one label (e.g. "A") for more than one output, new labels will be
-	 * A_1, A_2, ...
-	 * 
-	 * @param labels
-	 *            output labels
-	 */
-	protected void setLabels(String[] labels) {
-		// if only one label (e.g. "A") for more than one output, new labels
-		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 && labels[0] != null
-				&& !labels[0].equals("")) {
-			this.outputPoints.setIndexLabels(labels[0]);
-		} else {
-
-			this.outputPoints.setLabels(labels);
-			this.outputPoints.setIndexLabels(this.outputPoints.getElement(0)
-					.getLabel(StringTemplate.defaultTemplate));
-		}
 	}
 
 	/**
