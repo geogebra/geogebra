@@ -2,11 +2,15 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CustomScrollbar;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 /**
  * Tab of Table Values View.
@@ -17,6 +21,7 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 
 	private final StickyValuesTable table;
 	private final ToolbarPanel toolbarPanel;
+	private ComponentInfoErrorPanel emptyPanel;
 
 	/**
 	 * @param toolbarPanel
@@ -31,12 +36,26 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
 		CustomScrollbar.apply(this);
+		buildEmptyTablePanel();
+	}
+
+	private void buildEmptyTablePanel() {
+		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
+				"TableValuesEmptyDescription");
+		emptyPanel = new ComponentInfoErrorPanel(toolbarPanel.getApp().getLocalization(),
+				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
 	}
 
 	@Override
 	protected void onActive() {
-		setWidget(table);
-		table.setHeight(toolbarPanel.getTabHeight());
+		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
+				.getGuiManager().getProbabilityCalculator();
+		if (view != null && view.hasTableView()) {
+			setWidget(table);
+			table.setHeight(toolbarPanel.getTabHeight());
+		} else {
+			setWidget(emptyPanel);
+		}
 	}
 
 	@Override
