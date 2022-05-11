@@ -90,18 +90,13 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 
 	@Override
 	protected boolean checkUndefined() {
-
 		if (super.checkUndefined()) {
 			return true;
 		}
 
 		direction3D = g.getDirectionInD3();
 		direction = c.getCoordSys().getNormalProjection(direction3D)[1];
-		if (!DoubleUtil.isZero(direction.getZ())) {
-			return true;
-		}
-
-		return false;
+		return !DoubleUtil.isZero(direction.getZ());
 	}
 
 	@Override

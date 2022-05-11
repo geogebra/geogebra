@@ -91,14 +91,9 @@ public class ImageCornerModel extends MultipleGeosModel {
 		Object geo = getObjectAt(index);
 		if (geo instanceof GeoImage) {
 			GeoImage img = (GeoImage) geo;
-			if ((img.isAbsoluteScreenLocActive() || !img.isIndependent())
-					|| (!img.isCentered() && isCenter())
-					|| (img.isCentered() && !isCenter())) {
-				return false;
-			}
-
-			return true;
-
+			return !img.isAbsoluteScreenLocActive()
+					&& img.isIndependent()
+					&& (img.isCentered() == isCenter());
 		}
 
 		return false;

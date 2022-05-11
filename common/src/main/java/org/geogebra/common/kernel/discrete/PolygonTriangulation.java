@@ -2008,10 +2008,7 @@ public class PolygonTriangulation {
 		// (seg1.orientation*180/Math.PI)) + Unicode.degreeChar +
 		// ")"+","+seg2+"("+((int)
 		// (seg2.orientation*180/Math.PI)) + Unicode.degreeChar + ")");
-		if (seg1.orientation < seg2.orientation) {
-			return true;
-		}
-		return false;
+		return seg1.orientation < seg2.orientation;
 	}
 
 	/**

@@ -352,12 +352,7 @@ public class AdjustScreen {
 
 		double w = viewApp.getWidth();
 		double h = viewApp.getHeight();
-		Log.debug("[AS] app: " + w + "x" + h);
-		if ((w == fileWidth && h == fileHeight) || w == 0 || h == 0) {
-			return false;
-		}
-
-		return true;
+		return !(w == fileWidth && h == fileHeight) && (w != 0) && (h != 0);
 	}
 
 	/**

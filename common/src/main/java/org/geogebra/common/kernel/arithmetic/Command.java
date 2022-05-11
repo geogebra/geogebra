@@ -758,10 +758,7 @@ public class Command extends ValidExpression
 
 	@Override
 	public boolean hasCoords() {
-		if ("x".equals(name) || "y".equals(name) || "z".equals(name)) {
-			return false;
-		}
-		return true;
+		return !("x".equals(name) || "y".equals(name) || "z".equals(name));
 	}
 
 	/**

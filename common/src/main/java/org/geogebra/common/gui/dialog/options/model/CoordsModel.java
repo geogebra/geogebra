@@ -66,13 +66,7 @@ public class CoordsModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean applyChanges(int value) {
-		if (super.applyChanges(value)) {
-			// e.g. u*v can create number (dot product) or complex number
-			// (complex product)
-			return true;
-		}
-
-		return false;
+		return super.applyChanges(value);
 	}
 
 	@Override

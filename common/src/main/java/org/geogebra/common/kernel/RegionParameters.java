@@ -114,11 +114,7 @@ public class RegionParameters {
 	}
 
 	private final static boolean isNaN(double t) {
-		if (Double.isNaN(t)) {
-			// isDefined=false; TODO unused
-			return true;
-		}
-		return false;
+		return Double.isNaN(t);
 	}
 
 	/**

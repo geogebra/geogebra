@@ -565,11 +565,7 @@ public class MyList extends ValidExpression
 	}
 
 	private static boolean isEquation(ExpressionValue ex) {
-		if (ex instanceof Equation || (ex instanceof ExpressionNode
-				&& ((ExpressionNode) ex).getLeft() instanceof Equation)) {
-			return true;
-		}
-		return false;
+		return ex != null && (ex.unwrap() instanceof Equation);
 	}
 
 	private boolean isMatrix(MyList LHlist) {
