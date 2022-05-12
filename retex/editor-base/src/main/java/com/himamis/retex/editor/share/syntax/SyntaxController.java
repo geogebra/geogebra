@@ -1,8 +1,8 @@
 package com.himamis.retex.editor.share.syntax;
 
 import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.editor.MathFieldInternalListener;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.MathFieldInternalListener;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
@@ -11,7 +11,6 @@ public class SyntaxController implements MathFieldInternalListener {
 
 	private SyntaxHintImpl hint = new SyntaxHintImpl();
 	private SyntaxTooltipUpdater updater;
-	private String command;
 
 	/**
 	 * Set the syntax tooltip updater, called when the syntax hint changes.
@@ -19,15 +18,6 @@ public class SyntaxController implements MathFieldInternalListener {
 	 */
 	public void setUpdater(SyntaxTooltipUpdater updater) {
 		this.updater = updater;
-	}
-
-	/**
-	 * Set the actual command inserted.
-	 * Syntax hint will only be shown for this command.
-	 * @param command command
-	 */
-	public void setCommand(String command) {
-		this.command = command;
 	}
 
 	/**
@@ -60,7 +50,7 @@ public class SyntaxController implements MathFieldInternalListener {
 			int commas = editorState.countCommasBeforeCurrent();
 			if (commas < fn.getPlaceholders().size()) {
 				String serializedCommand = GeoGebraSerializer.serialize(fn.getArgument(0));
-				if (command.equals(serializedCommand)) {
+				if (serializedCommand.equals(fn.getCommandForSyntax())) {
 					hint.update(serializedCommand, fn.getPlaceholders(), commas);
 				}
 			}

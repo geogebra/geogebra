@@ -31,7 +31,9 @@ package com.himamis.retex.editor.share.editor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -101,7 +103,7 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
-	private List<MathFieldInternalListener> mathFieldInternalListeners;
+	private Set<MathFieldInternalListener> mathFieldInternalListeners;
 
 	private SyntaxController syntaxController;
 
@@ -119,7 +121,7 @@ public class MathFieldInternal
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
-		mathFieldInternalListeners = new ArrayList<>();
+		mathFieldInternalListeners = new HashSet<>();
 		setupMathField();
 	}
 
@@ -964,41 +966,14 @@ public class MathFieldInternal
 	 * Register math field internal listener.
 	 * @param mathFieldInternalListener listener
 	 */
-	protected void registerMathFieldInternalListener(
+	public void registerMathFieldInternalListener(
 			MathFieldInternalListener mathFieldInternalListener) {
 		mathFieldInternalListeners.add(mathFieldInternalListener);
-	}
-
-	/**
-	 * Deregister math field internal listener.
-	 * @param mathFieldInternalListener listener
-	 */
-	protected void deregisterMathFieldInternalListener(
-			MathFieldInternalListener mathFieldInternalListener) {
-		mathFieldInternalListeners.remove(mathFieldInternalListener);
 	}
 
 	private void fireInputChangedEvent() {
 		for (MathFieldInternalListener listener: mathFieldInternalListeners) {
 			listener.inputChanged(this);
 		}
-	}
-
-	/**
-	 * Set the syntax controller.
-	 * @param controller controller, may be null
-	 */
-	public void setSyntaxController(SyntaxController controller) {
-		deregisterMathFieldInternalListener(syntaxController);
-		syntaxController = controller;
-		registerMathFieldInternalListener(syntaxController);
-	}
-
-	/**
-	 * Get syntax controller.
-	 * @return controller, may be null
-	 */
-	public SyntaxController getSyntaxController() {
-		return syntaxController;
 	}
 }

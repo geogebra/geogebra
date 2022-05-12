@@ -1624,7 +1624,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
-		mf.getInternal().setSyntaxController(syntaxController);
+		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getGeoGebraElement().getScaleX());
 		mf.setOnBlur(getLatexController());

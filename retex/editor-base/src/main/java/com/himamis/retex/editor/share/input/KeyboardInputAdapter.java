@@ -16,7 +16,6 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
-import com.himamis.retex.editor.share.syntax.SyntaxController;
 import com.himamis.retex.editor.share.util.CommandParser;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -134,16 +133,16 @@ public class KeyboardInputAdapter {
 		commandAdapter = new KeyboardAdapter() {
 			@Override
 			public void commit(MathFieldInternal mfi, String commandString) {
-				SyntaxController controller = mfi.getSyntaxController();
 				List<String> splitCommand = CommandParser.parseCommand(commandString);
 
 				String input = splitCommand.get(0);
-				if (controller != null) {
-					controller.setCommand(input);
-				}
 				type(mfi, input);
 				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
 				mfi.notifyAndUpdate("(");
+				MathContainer parent = mfi.getEditorState().getCurrentField().getParent();
+				if (parent instanceof MathFunction) {
+					((MathFunction) parent).setCommandForSyntax(input);
+				}
 
 				MetaModel metaModel = mfi.getEditorState().getMetaModel();
 				for (int i = 1; i < splitCommand.size(); i++) {
@@ -152,7 +151,6 @@ public class KeyboardInputAdapter {
 						mfi.getEditorState().addArgument(comma);
 					}
 					mfi.getEditorState().addArgument(new MathPlaceholder(splitCommand.get(i)));
-					MathContainer parent = mfi.getEditorState().getCurrentField().getParent();
 
 					if (parent instanceof MathFunction) {
 						((MathFunction) parent).getPlaceholders().add(splitCommand.get(i));
@@ -191,10 +189,8 @@ public class KeyboardInputAdapter {
 	}
 
 	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param input
-	 *            input
+	 * @param mathFieldInternal editor
+	 * @param input input
 	 */
 	public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
 		if (input == null) {
@@ -214,10 +210,8 @@ public class KeyboardInputAdapter {
 	}
 
 	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param commandName
-	 *            command name
+	 * @param mathFieldInternal editor
+	 * @param commandName command name
 	 */
 	public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
 		commandAdapter.commit(mathFieldInternal, commandName);
