@@ -33,7 +33,7 @@ public class SyntaxHintCheck {
 	public void setUp() {
 		controller = new SyntaxController();
 		mathField = new MathFieldCommon(new MetaModel(), null);
-		mathField.getInternal().setSyntaxController(controller);
+		mathField.getInternal().registerMathFieldInternalListener(controller);
 	}
 
 	@Test
