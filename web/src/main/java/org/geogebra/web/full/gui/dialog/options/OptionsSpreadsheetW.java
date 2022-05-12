@@ -2,15 +2,12 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -18,29 +15,26 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Spreadsheet settings
  */
-public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
-        SetLabels {
-
+public class OptionsSpreadsheetW implements OptionPanelW, SetLabels {
 	private AppW app;
 	private FlowPanel optionsPanel;
 	private AlgebraStyleListBox description;
 	private Label descriptionLabel;
 
-	private CheckBox cbShowFormulaBar;
-	private CheckBox cbShowGrid;
-	private CheckBox cbShowRowHeader;
-	private CheckBox cbShowColumnHeader;
-	private CheckBox cbShowHScrollbar;
-	private CheckBox cbShowVScrollbar;
-	private CheckBox cbAllowSpecialEditor;
-	private CheckBox cbAllowToolTips;
-	private CheckBox cbPrependCommands;
-	private CheckBox cbEnableAutoComplete;
-	private CheckBox cbShowNavigation;
+	private ComponentCheckbox  cbShowFormulaBar;
+	private ComponentCheckbox  cbShowGrid;
+	private ComponentCheckbox cbShowRowHeader;
+	private ComponentCheckbox  cbShowColumnHeader;
+	private ComponentCheckbox  cbShowHScrollbar;
+	private ComponentCheckbox  cbShowVScrollbar;
+	private ComponentCheckbox  cbAllowSpecialEditor;
+	private ComponentCheckbox  cbAllowToolTips;
+	private ComponentCheckbox  cbPrependCommands;
+	private ComponentCheckbox  cbEnableAutoComplete;
+	private ComponentCheckbox  cbShowNavigation;
 
 	/**
-	 * @param app
-	 *            app
+	 * @param app - app
 	 */
 	public OptionsSpreadsheetW(AppW app) {
 		this.app = app;
@@ -54,23 +48,32 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 	@Override
 	public void onResize(int height, int width) {
-		// TODO Auto-generated method stub
-
+		// nothing to do here
 	}
 
 	private void createGUI() {
-
-		cbShowFormulaBar = newCheckBox();
-		cbShowGrid = newCheckBox();
-		cbShowRowHeader = newCheckBox();
-		cbShowColumnHeader = newCheckBox();
-		cbShowHScrollbar = newCheckBox();
-		cbShowVScrollbar = newCheckBox();
-		cbAllowSpecialEditor = newCheckBox();
-		cbAllowToolTips = newCheckBox();
-		cbPrependCommands = newCheckBox();
-		cbEnableAutoComplete = newCheckBox();
-		cbShowNavigation = newCheckBox();
+		cbShowFormulaBar = newCheckBox("ShowInputField", ()
+				-> settings().setShowFormulaBar(cbShowFormulaBar.isSelected()));
+		cbShowGrid = newCheckBox("ShowGridlines", ()
+				-> settings().setShowGrid(cbShowGrid.isSelected()));
+		cbShowRowHeader = newCheckBox("ShowRowHeader", ()
+				-> settings().setShowRowHeader(cbShowRowHeader.isSelected()));
+		cbShowColumnHeader = newCheckBox("ShowColumnHeader", ()
+				-> settings().setShowColumnHeader(cbShowColumnHeader.isSelected()));
+		cbShowHScrollbar = newCheckBox("ShowHorizontalScrollbars", ()
+				-> settings().setShowHScrollBar(cbShowHScrollbar.isSelected()));
+		cbShowVScrollbar = newCheckBox("ShowVerticalScrollbars", ()
+				-> settings().setShowVScrollBar(cbShowVScrollbar.isSelected()));
+		cbAllowSpecialEditor = newCheckBox("UseButtonsAndCheckboxes", ()
+				-> settings().setAllowSpecialEditor(cbAllowSpecialEditor.isSelected()));
+		cbAllowToolTips = newCheckBox("AllowTooltips", ()
+				-> settings().setAllowToolTips(cbAllowToolTips.isSelected()));
+		cbPrependCommands = newCheckBox("RequireEquals", ()
+				-> settings().setEqualsRequired(cbPrependCommands.isSelected()));
+		cbEnableAutoComplete = newCheckBox("UseAutoComplete", ()
+				-> settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected()));
+		cbShowNavigation = newCheckBox("NavigationBar", ()
+				-> app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET));
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.addStyleName("propertiesPanel");
@@ -95,10 +98,12 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		updateGUI();
 	}
 
-	private CheckBox newCheckBox() {
-		CheckBox cb = new CheckBox();
-		cb.addClickHandler(this);
-		cb.setStyleName("checkBoxPanel");
+	private ComponentCheckbox newCheckBox(String label, Runnable handler) {
+		ComponentCheckbox cb = new ComponentCheckbox(app.getLocalization(),
+				false, label, () -> {
+			handler.run();
+			description.update();
+		});
 		return cb;
 	}
 
@@ -119,8 +124,8 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		description.update();
 	}
 
-	private static void updateCheckBox(CheckBox cb, boolean value) {
-		cb.setValue(value);
+	private static void updateCheckBox(ComponentCheckbox cb, boolean value) {
+		cb.setSelected(value);
 	}
 
 	/**
@@ -129,77 +134,19 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	 */
 	@Override
 	public void setLabels() {
-		Localization loc = app.getLocalization();
-		cbShowFormulaBar.setText(loc.getMenu("ShowInputField"));
-		cbShowGrid.setText(loc.getMenu("ShowGridlines"));
-		cbShowColumnHeader.setText(loc.getMenu("ShowColumnHeader"));
-		cbShowRowHeader.setText(loc.getMenu("ShowRowHeader"));
-		cbShowHScrollbar.setText(loc.getMenu("ShowHorizontalScrollbars"));
-		cbShowVScrollbar.setText(loc.getMenu("ShowVerticalScrollbars"));
-		cbAllowSpecialEditor.setText(loc.getMenu("UseButtonsAndCheckboxes"));
-		cbAllowToolTips.setText(loc.getMenu("AllowTooltips"));
-		cbPrependCommands.setText(loc.getMenu("RequireEquals"));
-		cbEnableAutoComplete.setText(loc.getMenu("UseAutoComplete"));
-		cbShowNavigation.setText(loc.getMenu("NavigationBar"));
+		cbShowFormulaBar.setLabels();
+		cbShowGrid.setLabels();
+		cbShowColumnHeader.setLabels();
+		cbShowRowHeader.setLabels();
+		cbShowHScrollbar.setLabels();
+		cbShowVScrollbar.setLabels();
+		cbAllowSpecialEditor.setLabels();
+		cbAllowToolTips.setLabels();
+		cbPrependCommands.setLabels();
+		cbEnableAutoComplete.setLabels();
+		cbShowNavigation.setLabels();
 		description.update();
-		descriptionLabel.setText(loc.getMenu("AlgebraDescriptions"));
-	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		doActionPerformed(event.getSource());
-	}
-
-	private void doActionPerformed(Object source) {
-
-		// ========================================
-		// layout options
-
-		if (source == cbShowFormulaBar) {
-			settings().setShowFormulaBar(cbShowFormulaBar.getValue());
-		}
-
-		if (source == cbShowGrid) {
-			settings().setShowGrid(cbShowGrid.getValue());
-		}
-
-		else if (source == cbShowRowHeader) {
-			settings().setShowRowHeader(cbShowRowHeader.getValue());
-		}
-
-		else if (source == cbShowColumnHeader) {
-			settings().setShowColumnHeader(cbShowColumnHeader.getValue());
-		}
-
-		else if (source == cbShowHScrollbar) {
-			settings().setShowHScrollBar(cbShowHScrollbar.getValue());
-		}
-
-		else if (source == cbShowVScrollbar) {
-			settings().setShowVScrollBar(cbShowVScrollbar.getValue());
-		}
-
-		else if (source == cbAllowSpecialEditor) {
-			settings().setAllowSpecialEditor(cbAllowSpecialEditor.getValue());
-		}
-
-		else if (source == cbAllowToolTips) {
-			settings().setAllowToolTips(cbAllowToolTips.getValue());
-		}
-
-		else if (source == cbPrependCommands) {
-			settings().setEqualsRequired(cbPrependCommands.getValue());
-		}
-
-		else if (source == cbEnableAutoComplete) {
-			settings().setEnableAutoComplete(cbEnableAutoComplete.getValue());
-		}
-
-		else if (source == cbShowNavigation) {
-			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
-		}
-
-		updateGUI();
+		descriptionLabel.setText(app.getLocalization().getMenu("AlgebraDescriptions"));
 	}
 
 	private SpreadsheetSettings settings() {
@@ -208,7 +155,6 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 	@Override
 	public MultiRowsTabPanel getTabPanel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
