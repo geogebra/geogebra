@@ -147,7 +147,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		FlowPanel panel = new FlowPanel();
 		panel.add(fillTypePanel);
 
-		unicodePanel = new InputPanelW(null, app, 1, -1, true);
+		unicodePanel = new InputPanelW(null, app, 1, -1, false);
 		// buildInsertUnicodeButton();
 		unicodePanel.setVisible(false);
 		tfInsertUnicode = unicodePanel.getTextComponent();

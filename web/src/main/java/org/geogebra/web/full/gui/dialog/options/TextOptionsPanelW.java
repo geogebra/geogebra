@@ -102,7 +102,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 				DialogData data = new DialogData("EnterPercentage", "Cancel", "OK");
 				ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
 				ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
-						currentSize, -1, 1, false, "");
+						currentSize, -1, 1, "");
 				dialog.addDialogContent(inputTextField);
 				dialog.setOnPositiveAction(() ->
 						model.applyFontSizeFromString(inputTextField.getText()));

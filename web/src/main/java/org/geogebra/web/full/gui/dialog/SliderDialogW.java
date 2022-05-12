@@ -139,7 +139,8 @@ public class SliderDialogW extends ComponentDialog implements
 		nameWidget.add(nameLabel);
 		
 		tfLabel = new AutoCompleteTextFieldW(-1, app);
-		tfLabel.enableGGBKeyboard();
+		tfLabel.enableGGBKeyboardWithOpenButton();
+
 		nameWidget.add(tfLabel);
 		
 		contentWidget.add(sliderPanel.getWidget());

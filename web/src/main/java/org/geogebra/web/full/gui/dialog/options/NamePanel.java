@@ -65,7 +65,7 @@ class NamePanel extends OptionPanel
 		setModel(model);
 
 		// name field: no auto-completion
-		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW inputPanelName = new InputPanelW(null, app, 1, -1, false);
 		tfName = inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addBlurHandler(event -> {
@@ -81,7 +81,7 @@ class NamePanel extends OptionPanel
 		});
 
 		// definition field: non auto complete input panel
-		InputPanelW inputPanelDef = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW inputPanelDef = new InputPanelW(null, app, 1, -1, false);
 		tfDefinition = inputPanelDef.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 
@@ -95,7 +95,7 @@ class NamePanel extends OptionPanel
 		});
 
 		// caption field: non auto complete input panel
-		InputPanelW inputPanelCap = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW inputPanelCap = new InputPanelW(null, app, 1, -1, false);
 		tfCaption = inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 

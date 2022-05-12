@@ -47,6 +47,7 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	public void show() {
 		Dom.toggleClass(textField, "kbdInput", true);
 	}
+
 	@Override
 	public void hide() {
 		Dom.toggleClass(textField, "kbdInput", false);

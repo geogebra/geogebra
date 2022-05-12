@@ -32,7 +32,7 @@ public class ComponentInputDialog extends ComponentDialog
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
 			String initText, boolean showSymbolPopupIcon) {
 		this(app, dialogData, autoHide, hasScrim, inputHandler);
-		createGUI(labelText, initText, showSymbolPopupIcon);
+		createGUI(labelText, initText);
 	}
 
 	/**
@@ -59,11 +59,10 @@ public class ComponentInputDialog extends ComponentDialog
 		});
 	}
 
-	private void createGUI(String labelText, String initText,
-			boolean showSymbolPopupIcon) {
+	private void createGUI(String labelText, String initText) {
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, -1, 1,
-				showSymbolPopupIcon, "");
+				"");
 		addDialogContent(inputTextField);
 	}
 

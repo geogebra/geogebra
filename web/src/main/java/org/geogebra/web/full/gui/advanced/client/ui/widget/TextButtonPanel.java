@@ -202,6 +202,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 		AutoCompleteTextFieldW selValue = getSelectedValue();
 		selValue.setEditable(!isCustomTextAllowed());
 		selValue.setStyleName("selected-value");
+		selValue.enableGGBKeyboard();
 
 		if (getHeight() != null) {
 			getLayout().setHeight("100%");
