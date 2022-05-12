@@ -22,6 +22,9 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
 		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp().getLocalization());
+		distrPanel.setLabels();
+		view.setDistributionPanel(distrPanel);
+		distrPanel.updateGUI(); // make sure the correct interval is selected
 		add(distrPanel);
 	}
 

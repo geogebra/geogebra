@@ -19,6 +19,24 @@
 				margin: 12px 0;
 			}
 		}
+
+		.intervalsLbl {
+			color: colors.$text-secondary;
+			font-size: 75%;
+			margin-top: 12px;
+		}
+
+		.intervalPanel {
+			padding: 0;
+		}
+
+		.MyToggleButton {
+			padding: 7px;
+			border-radius: 2px;
+			margin-left: 0;
+			margin-right: 8px;
+			margin-bottom: 12px;
+		}
 	}
 
 	.probCalcStylbarBtn.suite {
