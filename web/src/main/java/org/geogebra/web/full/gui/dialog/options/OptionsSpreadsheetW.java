@@ -102,7 +102,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, SetLabels {
 		ComponentCheckbox cb = new ComponentCheckbox(app.getLocalization(),
 				false, label, () -> {
 			handler.run();
-			description.update();
+			updateGUI();
 		});
 		return cb;
 	}
