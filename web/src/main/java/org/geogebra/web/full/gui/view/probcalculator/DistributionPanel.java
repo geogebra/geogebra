@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.full.gui.util.ToggleButton;
@@ -344,11 +343,5 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 
 	public ResultPanelW getResultPanel() {
 		return resultPanel;
-	}
-
-	public boolean hasTableView() {
-		Log.debug("SELECTED INDEX: " + comboDistribution.getSelectedIndex());
-		return comboDistribution.getSelectedIndex() <= 14
-				&& comboDistribution.getSelectedIndex() >= 11;
 	}
 }

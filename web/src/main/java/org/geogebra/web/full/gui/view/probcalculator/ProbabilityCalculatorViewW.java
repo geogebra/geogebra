@@ -395,7 +395,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		this.distrPanel = widgets;
 	}
 
+	/** table only for discrete distribution
+	 * @return whether the selected distribution discrete is
+	 */
 	public boolean hasTableView() {
-		return distrPanel != null && distrPanel.hasTableView();
+		return getProbManager().isDiscrete(getSelectedDist());
 	}
 }

@@ -12,6 +12,8 @@ import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
+import com.google.gwt.dom.client.Style;
+
 /**
  * Tab of Table Values View.
  * 
@@ -36,12 +38,13 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
 		CustomScrollbar.apply(this);
+		this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 		buildEmptyTablePanel();
 	}
 
 	private void buildEmptyTablePanel() {
 		InfoErrorData data = new InfoErrorData("TableValuesEmptyTitle",
-				"TableValuesEmptyDescription");
+				"TableDiscreteDistribution");
 		emptyPanel = new ComponentInfoErrorPanel(toolbarPanel.getApp().getLocalization(),
 				data, MaterialDesignResources.INSTANCE.toolbar_table_view_black(), null);
 	}
@@ -50,17 +53,18 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 	protected void onActive() {
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
-		if (view != null && view.hasTableView()) {
+		if (view != null && view.hasTableView()
+			|| !toolbarPanel.getApp().getConfig().hasDistributionView()) {
 			setWidget(table);
 			table.setHeight(toolbarPanel.getTabHeight());
-		} else {
+		} else if (toolbarPanel.getApp().getConfig().hasDistributionView()) {
 			setWidget(emptyPanel);
 		}
 	}
 
 	@Override
 	public void setLabels() {
-		// nothing to do
+		buildEmptyTablePanel();
 	}
 
 	@Override
