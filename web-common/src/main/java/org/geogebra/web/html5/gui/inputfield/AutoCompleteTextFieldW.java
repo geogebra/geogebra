@@ -132,12 +132,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private boolean leftAltDown;
 	private final AutocompleteProviderClassic inputSuggestions;
 	private FlowPanel main = new FlowPanel();
-
 	public interface InsertHandler {
 
 		void onInsert(String text);
 	}
-
 	public interface OnBackSpaceHandler {
 
 		void onBackspace();
