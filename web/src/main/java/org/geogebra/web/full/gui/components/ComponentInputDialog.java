@@ -63,7 +63,7 @@ public class ComponentInputDialog extends ComponentDialog
 			boolean showSymbolPopupIcon) {
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, -1, 1,
-				showSymbolPopupIcon, "");
+				"");
 		addDialogContent(inputTextField);
 	}
 

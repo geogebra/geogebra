@@ -136,24 +136,6 @@ $keyboard_button_transition: opacity .3s ease;
 		height: 100%;
 	}
 
-	.numberInput {
-		button {
-    			visibility: hidden;
-    			position: absolute;
-    			float: right;
-    			right: 0px;
-    			opacity: 1;
-    		 	margin-left: 8px;
-    			img {
-    				opacity: 0.54;
-    				transition: $keyboard_button_transition;
-    	   			&:hover, &:active {
-    	   				opacity: 1;
-    		  		}
-    			}
-    		}
-    	}
-
 	.AutoCompleteTextFieldW {
 		input {
 			width: 100%;
@@ -176,13 +158,6 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 	}
 
-
-	.selected-value.AutoCompleteTextFieldW.kbdInput,
-	.numberInput.kbdInput {
-		button {
-    			visibility: hidden;
-    	}
-	}
 
 	.AutoCompleteTextFieldW.kbdInput {
 		// !optional is a suggestion from SASS preprocesor avoid error would thrown here.

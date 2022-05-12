@@ -46,7 +46,7 @@ public class ViewTextFieldW extends ViewTextField {
 		((EuclidianViewW) euclidianView).doRepaint();
 		DomGlobal.cancelAnimationFrame(hideRequest);
 		if (isVisible) {
-			textField.enableGGBKeyboard();
+			textField.enableGGBKeyboardWithOpenButton();
 			box.setVisible(true);
 		} else {
 			// deferred so that the canvas version can be drawn

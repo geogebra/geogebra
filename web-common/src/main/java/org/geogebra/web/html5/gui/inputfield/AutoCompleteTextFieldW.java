@@ -128,16 +128,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private DummyCursor dummyCursor;
 
-    private boolean rightAltDown;
+	private boolean rightAltDown;
 	private boolean leftAltDown;
 	private final AutocompleteProviderClassic inputSuggestions;
 	private FlowPanel main = new FlowPanel();
-
 	public interface InsertHandler {
+
 		void onInsert(String text);
 	}
-
 	public interface OnBackSpaceHandler {
+
 		void onBackspace();
 	}
 
@@ -288,9 +288,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			requestFocus();
 			event.stopPropagation();
 		});
-		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {
-			attachKeyboardButton();
-		});
+
 
 		addContent(textField);
 		add(main);
@@ -1334,6 +1332,20 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 */
 	public void enableGGBKeyboard() {
 		dummyCursor.enableGGBKeyboard();
+	}
+
+	/**
+	 * Enables using GGB keyboard with open button at the end of the textfield.
+	 */
+	public void enableGGBKeyboardWithOpenButton() {
+		enableGGBKeyboard();
+		enableKeyboardButton();
+	}
+
+	private void enableKeyboardButton() {
+		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {
+			attachKeyboardButton();
+		});
 	}
 
 	/**
