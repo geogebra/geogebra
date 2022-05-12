@@ -30,8 +30,8 @@ public class StyleInjector {
 
 	public static final String CLASSNAME = "ggw_resource";
 
-	private static List<String> stylesInLoading = new ArrayList<>();
-	private static List<Runnable> onStylesReady = new ArrayList<>();
+	private static final List<String> stylesInLoading = new ArrayList<>();
+	private static final List<Runnable> onStylesReady = new ArrayList<>();
 	private final String moduleBaseUrl;
 
 	public StyleInjector(String moduleBaseURL) {
@@ -41,6 +41,7 @@ public class StyleInjector {
 	/**
 	 * @param baseUrl (relative or absolute) base url of css file
 	 * @param name name of the css file, without extension
+	 * @return this for chaining
 	 */
 	public StyleInjector inject(String baseUrl, String name) {
 		// to avoid conflicts with other elements on the page with this id

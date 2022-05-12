@@ -70,7 +70,7 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	protected HasKeyboard hasKeyboard;
 	private ArrayList<Keyboard> layouts = new ArrayList<>(4);
-	private Object keyboardLocale;
+	private String keyboardLocale;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	protected KeyboardListener processField;
 	private FlowPanel tabs;
@@ -403,8 +403,8 @@ public class TabbedKeyboard extends FlowPanel
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
 				return new KeyBoardButtonBase(
-						Language.getCurrency(keyboardLocale.toString()),
-						Language.getCurrency(keyboardLocale.toString()), b);
+						Language.getCurrency(keyboardLocale),
+						Language.getCurrency(keyboardLocale), b);
 			}
 
 			final String name = wb.getPrimaryActionName();
@@ -729,8 +729,8 @@ public class TabbedKeyboard extends FlowPanel
 
 		// TODO validate?
 		String newKeyboardLocale = hasKeyboard.getLocalization().getLocaleStr();
-		if (newKeyboardLocale != null
-				&& newKeyboardLocale.equals(keyboardLocale)) {
+		if ((newKeyboardLocale != null
+				&& newKeyboardLocale.equals(keyboardLocale)) || factory == null) {
 			return;
 		}
 
