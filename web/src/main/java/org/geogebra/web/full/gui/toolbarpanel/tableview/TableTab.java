@@ -51,20 +51,29 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 
 	@Override
 	protected void onActive() {
-		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
-				.getGuiManager().getProbabilityCalculator();
-		if (view != null && view.hasTableView()
-			|| !toolbarPanel.getApp().getConfig().hasDistributionView()) {
+		if (toolbarPanel.getApp().getConfig().hasDistributionView()
+				&& isEmptyProbabilityTable()) {
+			setWidget(emptyPanel);
+		} else  {
 			setWidget(table);
 			table.setHeight(toolbarPanel.getTabHeight());
-		} else if (toolbarPanel.getApp().getConfig().hasDistributionView()) {
-			setWidget(emptyPanel);
 		}
+	}
+
+	private boolean isEmptyProbabilityTable() {
+		if (toolbarPanel.getApp().getConfig().hasDistributionView()) {
+			ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
+					.getGuiManager().getProbabilityCalculator();
+			return !view.hasTableView();
+		}
+		return true;
 	}
 
 	@Override
 	public void setLabels() {
-		buildEmptyTablePanel();
+		if (emptyPanel != null) {
+			buildEmptyTablePanel();
+		}
 	}
 
 	@Override
