@@ -47,6 +47,7 @@ public class MathFunction extends MathContainer {
 	private static final long serialVersionUID = 1L;
 	private MetaFunction meta;
 	private List<String> placeholders = new ArrayList<>();
+	private String commandForSyntax;
 
 	/**
 	 * Use MathFormula.newFunction(...)
@@ -176,5 +177,13 @@ public class MathFunction extends MathContainer {
 
 	public List<String> getPlaceholders() {
 		return placeholders;
+	}
+
+	public void setCommandForSyntax(String command) {
+		this.commandForSyntax = command;
+	}
+
+	public String getCommandForSyntax() {
+		return this.commandForSyntax;
 	}
 }

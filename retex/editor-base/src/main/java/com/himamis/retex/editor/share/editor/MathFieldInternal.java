@@ -982,7 +982,4 @@ public class MathFieldInternal
 		return syntaxController.getHint();
 	}
 
-	public void setCommandForSyntax(String command) {
-		syntaxController.setCommand(command);
-	}
 }

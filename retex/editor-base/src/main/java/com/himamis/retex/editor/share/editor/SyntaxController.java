@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 public class SyntaxController {
 	private SyntaxHint hint = new SyntaxHint();
 	private EditorState editorState;
-	private String command = "";
 
 	public SyntaxHint getHint() {
 		return hint;
@@ -31,7 +30,7 @@ public class SyntaxController {
 			int commas = editorState.countCommasBeforeCurrent();
 			if (commas < fn.getPlaceholders().size()) {
 				String serializedCommand = GeoGebraSerializer.serialize(fn.getArgument(0));
-				if (!command.equals(serializedCommand)) {
+				if (!serializedCommand.equals(fn.getCommandForSyntax())) {
 					hint.clear();
 					return;
 				}
@@ -55,9 +54,5 @@ public class SyntaxController {
 
 	private boolean isMathFunction() {
 		return editorState.getCurrentField().getParent() instanceof MathFunction;
-	}
-
-	public void setCommand(String command) {
-		this.command = command;
 	}
 }

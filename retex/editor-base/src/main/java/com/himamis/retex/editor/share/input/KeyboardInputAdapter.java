@@ -136,10 +136,13 @@ public class KeyboardInputAdapter {
 				List<String> splitCommand = CommandParser.parseCommand(commandString);
 
 				String input = splitCommand.get(0);
-				mfi.setCommandForSyntax(input);
 				type(mfi, input);
 				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
 				mfi.notifyAndUpdate("(");
+				MathContainer parent = mfi.getEditorState().getCurrentField().getParent();
+				if (parent instanceof MathFunction) {
+					((MathFunction) parent).setCommandForSyntax(input);
+				}
 
 				MetaModel metaModel = mfi.getEditorState().getMetaModel();
 				for (int i = 1; i < splitCommand.size(); i++) {
@@ -148,7 +151,6 @@ public class KeyboardInputAdapter {
 						mfi.getEditorState().addArgument(comma);
 					}
 					mfi.getEditorState().addArgument(new MathPlaceholder(splitCommand.get(i)));
-					MathContainer parent = mfi.getEditorState().getCurrentField().getParent();
 
 					if (parent instanceof MathFunction) {
 						((MathFunction) parent).getPlaceholders().add(splitCommand.get(i));
