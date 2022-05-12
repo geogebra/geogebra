@@ -47,6 +47,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -1622,31 +1623,32 @@ public class ExpressionNode extends ValidExpression
 	 *            second value to compare
 	 * @return true iff ev1 and ev2 are equal
 	 */
-	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
+	public static ExtendedBoolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
+		boolean ret = false;
 		if (ev1 instanceof NumberValue && ev2 instanceof NumberValue) {
-			return DoubleUtil.isEqual(ev1.evaluateDouble(),
+			ret = DoubleUtil.isEqual(ev1.evaluateDouble(),
 					ev2.evaluateDouble(), Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
-			return ev1
+			ret = ev1
 					.toValueString(StringTemplate.defaultTemplate)
 					.equals(ev2.toValueString(StringTemplate.defaultTemplate));
 		} else if (ev1 instanceof VectorNDValue && ev2 instanceof VectorNDValue) {
-			return ((VectorNDValue) ev1).getVector()
+			ret = ((VectorNDValue) ev1).getVector()
 					.isEqual(((VectorNDValue) ev2).getVector());
 		} else if (ev1 instanceof BooleanValue && ev2 instanceof BooleanValue) {
-			return ((BooleanValue) ev1)
+			ret = ((BooleanValue) ev1)
 					.getBoolean() == ((BooleanValue) ev2)
 							.getBoolean();
 		} else if (ev1 instanceof ListValue && ev2 instanceof ListValue) {
-			return ((ListValue) ev1).getMyList().isEqual((ListValue) ev2);
+			ret = ((ListValue) ev1).getMyList().isEqual((ListValue) ev2);
 		} else if (ev1.isGeoElement() && ev2.isGeoElement()) {
-			return ((GeoElement) ev1).isEqual((GeoElement) ev2);
+			return ((GeoElement) ev1).isEqualExtended((GeoElement) ev2);
 		} else if (ev1 instanceof Functional && ev2 instanceof Functional) {
 			return ((Functional) ev1).getGeoFunction()
-					.isEqual(((Functional) ev2).getGeoFunction());
+					.isEqualExtended(((Functional) ev2).getGeoFunction());
 		}
 
-		return false;
+		return ExtendedBoolean.newExtendedBoolean(ret);
 	}
 
 	/**

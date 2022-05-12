@@ -3305,15 +3305,15 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * c).
 	 */
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isGeoConic()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		GeoConicND conic = (GeoConicND) geo;
 		double[] B = conic.matrix;
 		if (type == GeoConicND.CONIC_EMPTY && conic.type == GeoConicND.CONIC_EMPTY) {
-			return true;
+			return ExtendedBoolean.TRUE;
 		}
 
 		double lambda1 = 0.0;
@@ -3341,7 +3341,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				break;
 			}
 		}
-		return equal;
+		return ExtendedBoolean.newExtendedBoolean(equal);
 	}
 
 	/**

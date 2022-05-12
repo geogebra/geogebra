@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1041,16 +1042,16 @@ public class GeoList extends GeoElement
 	 * return whether this list equals GeoList list
 	 */
 	@Override
-	final public boolean isEqual(final GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(final GeoElementND geo) {
 		if (!geo.isGeoList()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		final GeoList list = (GeoList) geo;
 
 		// check sizes
 		if (elements.size() != list.size()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		// check each element
@@ -1058,13 +1059,14 @@ public class GeoList extends GeoElement
 			final GeoElement geoA = elements.get(i);
 			final GeoElement geoB = list.get(i);
 
-			if (!geoA.isEqual(geoB)) {
-				return false;
+			ExtendedBoolean equal = geoA.isEqualExtended(geoB);
+			if (equal != ExtendedBoolean.TRUE) {
+				return equal;
 			}
 		}
 
 		// all list elements equal
-		return true;
+		return ExtendedBoolean.TRUE;
 	}
 
 	@Override

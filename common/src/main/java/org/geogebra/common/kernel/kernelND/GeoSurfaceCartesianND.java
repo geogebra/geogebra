@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Abstract class for cartesian curves in any dimension
@@ -951,14 +952,17 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND other) {
+	public ExtendedBoolean isEqualExtended(GeoElementND other) {
 		if (other instanceof GeoSurfaceCartesianND) {
 			GeoSurfaceCartesianND otherSurface = (GeoSurfaceCartesianND) other;
 			if (point != null && otherSurface.point != null) {
 				return isDifferenceZeroInCAS(other);
+			} else {
+				return fun.length == otherSurface.fun.length ? ExtendedBoolean.UNKNOWN
+						: ExtendedBoolean.FALSE;
 			}
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override

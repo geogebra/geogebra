@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
@@ -958,7 +959,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * polygon p.
 	 */
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// Log.debug("Entree 3D");
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
@@ -1021,12 +1022,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 							j = j % gLength;
 							i++;
 						}
-						return pointOK;
+						return ExtendedBoolean.newExtendedBoolean(pointOK);
 					}
 				}
 			}
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override

@@ -69,6 +69,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1420,21 +1421,21 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return true;
 	}
 
-	// Michael Borcherds 2009-02-15
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// support c==f for Line, Function
 		if (geo.isGeoLine()) {
-			return ((GeoLine) geo).isEqual(this);
+			return ((GeoLine) geo).isEqualExtended(this);
 		}
 
 		if (!(geo instanceof GeoFunction)) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		GeoFunction geoFun = (GeoFunction) geo;
-		if (isBooleanFunction() != geoFun.isBooleanFunction()) {
-			return false;
+		if (isBooleanFunction() != geoFun.isBooleanFunction()
+				|| isFunctionOfY() != geoFun.isFunctionOfY()) {
+			return ExtendedBoolean.FALSE;
 		}
 		if (isBooleanFunction()) {
 			return isEqualBooleanFunction(geoFun);
@@ -1442,7 +1443,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// check equality in two points; avoid discontinuities of common functions (1/x, tan(x))
 		if (differAt(this, geoFun, 0.31) || differAt(this, geoFun, 10.89)
 				|| !isDefined() || !geoFun.isDefined()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		PolyFunction poly1 = getFunction()
 				.expandToPolyFunction(getFunctionExpression(), false, true);
@@ -1451,7 +1452,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					geoFun.getFunctionExpression(), false, true);
 
 			if (poly2 != null) {
-				return geoFun.isDefined() && poly1.isEqual(poly2);
+				return ExtendedBoolean.newExtendedBoolean(
+						geoFun.isDefined() && poly1.isEqual(poly2));
 			}
 		}
 
@@ -1462,11 +1464,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return isDifferenceZeroInCAS(geo);
 	}
 
-	private boolean isEqualBooleanFunction(GeoFunction geoFun) {
+	private ExtendedBoolean isEqualBooleanFunction(GeoFunction geoFun) {
 		IneqTree ours = getIneqs();
 		IneqTree theirs = geoFun.getIneqs();
 		if (!isInequality || !geoFun.isInequality) {
-			return false;
+			return ExtendedBoolean.UNKNOWN;
 		}
 		TreeSet<Double> zeros = new TreeSet<>();
 		ours.getZeros(zeros);
@@ -1482,11 +1484,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			double midpoint = (x + last) / 2;
 			if (evaluateBoolean(x) != geoFun.evaluateBoolean(x)
 					|| evaluateBoolean(midpoint) != geoFun.evaluateBoolean(midpoint)) {
-				return false;
+				return ExtendedBoolean.FALSE;
 			}
 			last = x;
 		}
-		return evaluateBoolean(last + 1) == geoFun.evaluateBoolean(last + 1);
+		return ExtendedBoolean.newExtendedBoolean(evaluateBoolean(last + 1)
+				== geoFun.evaluateBoolean(last + 1));
 	}
 
 	protected static boolean isFunctionDefined(FunctionNVar fun) {
