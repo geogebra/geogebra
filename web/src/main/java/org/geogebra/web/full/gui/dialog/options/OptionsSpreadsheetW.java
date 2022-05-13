@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
@@ -52,28 +54,28 @@ public class OptionsSpreadsheetW implements OptionPanelW, SetLabels {
 	}
 
 	private void createGUI() {
-		cbShowFormulaBar = newCheckBox("ShowInputField", ()
-				-> settings().setShowFormulaBar(cbShowFormulaBar.isSelected()));
-		cbShowGrid = newCheckBox("ShowGridlines", ()
-				-> settings().setShowGrid(cbShowGrid.isSelected()));
-		cbShowRowHeader = newCheckBox("ShowRowHeader", ()
-				-> settings().setShowRowHeader(cbShowRowHeader.isSelected()));
-		cbShowColumnHeader = newCheckBox("ShowColumnHeader", ()
-				-> settings().setShowColumnHeader(cbShowColumnHeader.isSelected()));
-		cbShowHScrollbar = newCheckBox("ShowHorizontalScrollbars", ()
-				-> settings().setShowHScrollBar(cbShowHScrollbar.isSelected()));
-		cbShowVScrollbar = newCheckBox("ShowVerticalScrollbars", ()
-				-> settings().setShowVScrollBar(cbShowVScrollbar.isSelected()));
-		cbAllowSpecialEditor = newCheckBox("UseButtonsAndCheckboxes", ()
-				-> settings().setAllowSpecialEditor(cbAllowSpecialEditor.isSelected()));
-		cbAllowToolTips = newCheckBox("AllowTooltips", ()
-				-> settings().setAllowToolTips(cbAllowToolTips.isSelected()));
-		cbPrependCommands = newCheckBox("RequireEquals", ()
-				-> settings().setEqualsRequired(cbPrependCommands.isSelected()));
-		cbEnableAutoComplete = newCheckBox("UseAutoComplete", ()
-				-> settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected()));
-		cbShowNavigation = newCheckBox("NavigationBar", ()
-				-> app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET));
+		cbShowFormulaBar = newCheckBox("ShowInputField",
+				settings()::setShowFormulaBar);
+		cbShowGrid = newCheckBox("ShowGridlines",
+				settings()::setShowGrid);
+		cbShowRowHeader = newCheckBox("ShowRowHeader",
+				settings()::setShowRowHeader);
+		cbShowColumnHeader = newCheckBox("ShowColumnHeader",
+				settings()::setShowColumnHeader);
+		cbShowHScrollbar = newCheckBox("ShowHorizontalScrollbars",
+				settings()::setShowHScrollBar);
+		cbShowVScrollbar = newCheckBox("ShowVerticalScrollbars",
+				settings()::setShowVScrollBar);
+		cbAllowSpecialEditor = newCheckBox("UseButtonsAndCheckboxes",
+				settings()::setAllowSpecialEditor);
+		cbAllowToolTips = newCheckBox("AllowTooltips",
+				settings()::setAllowToolTips);
+		cbPrependCommands = newCheckBox("RequireEquals",
+				settings()::setEqualsRequired);
+		cbEnableAutoComplete = newCheckBox("UseAutoComplete",
+				settings()::setEnableAutoComplete);
+		cbShowNavigation = newCheckBox("NavigationBar",
+				selected -> app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET));
 
 		optionsPanel = new FlowPanel();
 		optionsPanel.addStyleName("propertiesPanel");
@@ -98,10 +100,10 @@ public class OptionsSpreadsheetW implements OptionPanelW, SetLabels {
 		updateGUI();
 	}
 
-	private ComponentCheckbox newCheckBox(String label, Runnable handler) {
+	private ComponentCheckbox newCheckBox(String label, Consumer<Boolean> handler) {
 		ComponentCheckbox cb = new ComponentCheckbox(app.getLocalization(),
-				false, label, () -> {
-			handler.run();
+				false, label, selected -> {
+			handler.accept(selected);
 			updateGUI();
 		});
 		return cb;

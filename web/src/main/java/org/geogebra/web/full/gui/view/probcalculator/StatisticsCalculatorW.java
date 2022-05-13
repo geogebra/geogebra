@@ -444,8 +444,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 		bodyText = new StringBuilder();
 
-		ckPooled = new ComponentCheckbox(loc, false, "Pooled", () -> {
-					sc.pooled = ckPooled.isSelected();
+		ckPooled = new ComponentCheckbox(loc, false, "Pooled", selected -> {
+					sc.pooled = selected;
 					updateResult(true);
 				});
 		ckPooled.addStyleName("ckPooled");

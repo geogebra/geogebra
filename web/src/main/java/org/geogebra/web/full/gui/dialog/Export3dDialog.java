@@ -318,8 +318,8 @@ public class Export3dDialog extends ComponentDialog
 		root.add(thicknessPanel);
 	}
 
-	private void onFilledSolidAction() {
-		if (filledSolid.isSelected()) {
+	private void onFilledSolidAction(boolean filled) {
+		if (filled) {
 			oldLineThicknessValue = lineThicknessValue.getText();
 			lineThicknessValue.setInputText("");
 		} else {
