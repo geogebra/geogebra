@@ -158,16 +158,12 @@ $keyboard_button_transition: opacity .3s ease;
 		}
 	}
 
-
 	.AutoCompleteTextFieldW.kbdInput {
 		// !optional is a suggestion from SASS preprocesor avoid error would thrown here.
 
 		@extend .matOpenKeyboardBtn !optional;
 		input[type=text].gwt-SuggestBox {
 			border: 0px;
-		}
-
-		input[type=text].gwt-SuggestBox {
 			width: calc(100% - 32px) !important;
 		}
 

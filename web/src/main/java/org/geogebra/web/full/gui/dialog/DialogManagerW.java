@@ -168,8 +168,8 @@ public class DialogManagerW extends DialogManager
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		DialogData data = new DialogData("Redefine");
 		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
-				false, false, handler, geo.getNameDescription(), str,
-				true);
+				false, false, handler, geo.getNameDescription(), str
+		);
 		redefineInputDialog.show();
 	}
 

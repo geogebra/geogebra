@@ -22,8 +22,8 @@ public class NumberInputDialog extends ComponentInputDialog {
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler,
 			String labelText, String initText,
 			boolean showSymbolPopupIcon) {
-		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText,
-				showSymbolPopupIcon);
+		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText
+		);
 	}
 
 	@Override

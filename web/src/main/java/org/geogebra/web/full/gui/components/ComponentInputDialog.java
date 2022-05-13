@@ -30,7 +30,7 @@ public class ComponentInputDialog extends ComponentDialog
 	 */
 	public ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
-			String initText, boolean showSymbolPopupIcon) {
+			String initText) {
 		this(app, dialogData, autoHide, hasScrim, inputHandler);
 		createGUI(labelText, initText);
 	}
