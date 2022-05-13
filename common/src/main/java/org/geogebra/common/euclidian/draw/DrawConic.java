@@ -171,6 +171,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** eigenvectors */
 	protected Coords[] ev;
 	private GeoLine diameter;
+	private GPoint2D transformPoint;
 
 	@Override
 	public GArea getShape() {
@@ -1038,6 +1039,10 @@ public class DrawConic extends SetDrawable implements Previewable {
 			points = Math.min(n, MAX_PLOT_POINTS);
 		}
 
+		// set transform for Graphics2D
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+
 		// hyperbola is visible on screen
 		double step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
 
@@ -1069,12 +1074,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 
 		updateHyperbolaClosePaths(x, y);
-
-		// set transform for Graphics2D
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
-
-		updateHyperboalSetTransformToPaths();
 
 		updateHyperbolaLabelCoords();
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
@@ -1131,14 +1130,17 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 *            y coord
 	 */
 	protected void updateHyperbolaAddPoint(int index, double x1, double y1) {
-		hypRight.addPoint(index, x1, y1);
-		hypLeft.addPoint(index, -x1, y1);
+		addTransformedPoint(hypRight, index, x1, y1);
+		addTransformedPoint(hypLeft, index, -x1, y1);
 	}
 
-	/** build general paths of hyperbola wings and transform them */
-	protected void updateHyperboalSetTransformToPaths() {
-		hypLeft.transform(transform);
-		hypRight.transform(transform);
+	private void addTransformedPoint(GeneralPathClipped path, int index, double x, double y) {
+		if (this.transformPoint == null) {
+			this.transformPoint = new GPoint2D();
+		}
+		transformPoint.setLocation(x, y);
+		transform.transform(transformPoint, transformPoint);
+		path.addPoint(index, transformPoint.x, transformPoint.y);
 	}
 
 	/**
@@ -1150,10 +1152,10 @@ public class DrawConic extends SetDrawable implements Previewable {
 		// ensure correct filling by adding points at (2*x0, y)
 		if (conic.isFilled()) {
 			double farX = Math.abs(x) + Math.abs(y);
-			hypRight.lineTo(farX, y);
-			hypRight.lineTo(farX, -y);
-			hypLeft.lineTo(-farX, y);
-			hypLeft.lineTo(-farX, -y);
+			addTransformedPoint(hypRight, hypRight.size(), farX, y);
+			addTransformedPoint(hypRight, hypRight.size(), farX, -y);
+			addTransformedPoint(hypLeft, hypLeft.size(), -farX, y);
+			addTransformedPoint(hypLeft, hypLeft.size(), -farX, -y);
 		}
 	}
 

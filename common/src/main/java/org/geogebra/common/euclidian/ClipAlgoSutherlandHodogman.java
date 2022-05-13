@@ -3,16 +3,12 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.util.DoubleUtil;
 
 public class ClipAlgoSutherlandHodogman {
 
 	public static final int EDGE_COUNT = 4;
 	public static final double Y_LIMIT = 1E6;
-
-	private double maxValue = Double.MAX_VALUE;
 
 	static class Edge {
 		private final MyPoint start;
@@ -22,14 +18,6 @@ public class ClipAlgoSutherlandHodogman {
 			this.start = start;
 			this.end = end;
 		}
-	}
-
-	/**
-	 * Max value used when calculations produce Infinity or NaN values.
-	 * @param maxValue value
-	 */
-	public void setMaxValue(double maxValue) {
-		this.maxValue = maxValue;
 	}
 
 	/**
@@ -122,10 +110,6 @@ public class ClipAlgoSutherlandHodogman {
 	}
 
 	private double getSafeNumber(double value) {
-		if (DoubleUtil.isEqual(value, 0)) {
-			return Kernel.STANDARD_PRECISION;
-		}
-
 		return Math.abs(value) > Y_LIMIT ? Math.signum(value) * Y_LIMIT : value;
 	}
 }
