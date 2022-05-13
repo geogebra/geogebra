@@ -7,15 +7,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.himamis.retex.editor.share.editor.SyntaxHint;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.syntax.SyntaxController;
+import com.himamis.retex.editor.share.syntax.SyntaxHint;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class SyntaxHintCheck {
 
-	private static MathFieldCommon mfc;
+	private MathFieldCommon mathField;
+	private SyntaxController controller;
 
 	/**
 	 * Reset LaTeX factory
@@ -29,82 +31,86 @@ public class SyntaxHintCheck {
 
 	@Before
 	public void setUp() {
-		mfc = new MathFieldCommon(new MetaModel(), null);
+		controller = new SyntaxController();
+		mathField = new MathFieldCommon(new MetaModel(), null);
+		mathField.getInternal().registerMathFieldInternalListener(controller);
 	}
 
 	@Test
 	public void readPlaceholdersInitial() {
-		KeyboardInputAdapter.onKeyboardInput(mfc.getInternal(), "FitPoly(<Points>, <Degree>)");
-		SyntaxHint hint = mfc.getInternal().getSyntaxHint();
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(),
+				"FitPoly(<Points>, <Degree>)");
+		SyntaxHint hint = controller.getSyntaxHint();
 		assertEquals("FitPoly(", hint.getPrefix());
-		assertEquals("Points", hint.getActivePlacehorder());
+		assertEquals("Points", hint.getActivePlaceholder());
 		assertEquals(", Degree)", hint.getSuffix());
 	}
 
 	@Test
 	public void readPlaceholdersAfterComma() {
-		KeyboardInputAdapter.onKeyboardInput(mfc.getInternal(), "FitPoly(<Points>, <Degree>)");
-		EditorTyper typer = new EditorTyper(mfc);
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(),
+				"FitPoly(<Points>, <Degree>)");
+		EditorTyper typer = new EditorTyper(mathField);
 		typer.type("{(1,1)},");
-		SyntaxHint hint = mfc.getInternal().getSyntaxHint();
+		SyntaxHint hint = controller.getSyntaxHint();
 		assertEquals("FitPoly(Points, ", hint.getPrefix());
-		assertEquals("Degree", hint.getActivePlacehorder());
+		assertEquals("Degree", hint.getActivePlaceholder());
 		assertEquals(")", hint.getSuffix());
 	}
 
 	@Test
 	public void nonCommandInput() {
-		KeyboardInputAdapter.onKeyboardInput(mfc.getInternal(), "\"Hello, there!\"");
-		EditorTyper typer = new EditorTyper(mfc);
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), "\"Hello, there!\"");
+		EditorTyper typer = new EditorTyper(mathField);
 		typer.type("{(1,1)},");
-		SyntaxHint hint = mfc.getInternal().getSyntaxHint();
+		SyntaxHint hint = controller.getSyntaxHint();
 		assertTrue(hint.isEmpty());
 	}
 
 	@Test
 	public void changeFunctionName() {
 		String input = "FitPoly(<Points>, <Degree>)";
-		KeyboardInputAdapter.onKeyboardInput(mfc.getInternal(), input);
-		SyntaxHint hint = mfc.getInternal().getSyntaxHint();
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), input);
+		SyntaxHint hint = controller.getSyntaxHint();
 		assertEquals("FitPoly(", hint.getPrefix());
-		assertEquals("Points", hint.getActivePlacehorder());
+		assertEquals("Points", hint.getActivePlaceholder());
 		assertEquals(", Degree)", hint.getSuffix());
-		EditorTyper typer = new EditorTyper(mfc);
+		EditorTyper typer = new EditorTyper(mathField);
 		typer.repeatKey(JavaKeyCodes.VK_LEFT, input.length() - 3);
 		typer.typeKey(JavaKeyCodes.VK_DELETE);
-		assertTrue(mfc.getInternal().getSyntaxHint().isEmpty());
+		assertTrue(controller.getSyntaxHint().isEmpty());
 	}
 
 	@Test
 	public void changeFunctionNameAppending() {
 		String input = "FitPoly(<Points>, <Degree>)";
-		KeyboardInputAdapter.onKeyboardInput(mfc.getInternal(), input);
-		SyntaxHint hint = mfc.getInternal().getSyntaxHint();
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), input);
+		SyntaxHint hint = controller.getSyntaxHint();
 		assertEquals("FitPoly(", hint.getPrefix());
-		assertEquals("Points", hint.getActivePlacehorder());
+		assertEquals("Points", hint.getActivePlaceholder());
 		assertEquals(", Degree)", hint.getSuffix());
-		EditorTyper typer = new EditorTyper(mfc);
+		EditorTyper typer = new EditorTyper(mathField);
 		typer.typeKey(JavaKeyCodes.VK_LEFT);
 		typer.type("XY");
 		typer.typeKey(JavaKeyCodes.VK_RIGHT);
-		SyntaxHint syntaxHint = mfc.getInternal().getSyntaxHint();
+		SyntaxHint syntaxHint = controller.getSyntaxHint();
 		assertTrue(syntaxHint.toString(), syntaxHint.isEmpty());
 	}
 
 	@Test
 	public void steppingOutAndIn() {
 		String input = "FitPoly(<Points>, <Degree>)";
-		KeyboardInputAdapter.onKeyboardInput(mfc.getInternal(), input);
-		SyntaxHint hint = mfc.getInternal().getSyntaxHint();
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), input);
+		SyntaxHint hint = controller.getSyntaxHint();
 		assertEquals("FitPoly(", hint.getPrefix());
-		assertEquals("Points", hint.getActivePlacehorder());
+		assertEquals("Points", hint.getActivePlaceholder());
 		assertEquals(", Degree)", hint.getSuffix());
-		EditorTyper typer = new EditorTyper(mfc);
+		EditorTyper typer = new EditorTyper(mathField);
 		typer.typeKey(JavaKeyCodes.VK_LEFT);
 		assertTrue(hint.isEmpty());
 		typer.typeKey(JavaKeyCodes.VK_RIGHT);
 		assertEquals("FitPoly(", hint.getPrefix());
-		assertEquals("Points", hint.getActivePlacehorder());
+		assertEquals("Points", hint.getActivePlaceholder());
 		assertEquals(", Degree)", hint.getSuffix());
 	}
 

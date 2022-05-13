@@ -31,6 +31,8 @@ package com.himamis.retex.editor.share.editor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -99,8 +101,7 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
-	private SyntaxController syntaxController;
-	private Runnable syntaxTooltipUpdater;
+	private Set<MathFieldInternalListener> mathFieldInternalListeners;
 
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
@@ -116,7 +117,7 @@ public class MathFieldInternal
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
-		syntaxController = new SyntaxController();
+		mathFieldInternalListeners = new HashSet<>();
 		setupMathField();
 	}
 
@@ -205,7 +206,7 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
-		updateSyntax();
+		fireInputChangedEvent();
 
 	}
 
@@ -225,7 +226,7 @@ public class MathFieldInternal
 		editorState.setRootComponent(formula.getRootComponent());
 		CursorController.setPath(path, getEditorState());
 		mathFieldController.update(mathFormula, editorState, false);
-		updateSyntax();
+		fireInputChangedEvent();
 	}
 
 	/**
@@ -268,22 +269,7 @@ public class MathFieldInternal
 
 	private void update(boolean focusEvent) {
 		mathFieldController.update(mathFormula, editorState, focusEvent);
-		updateSyntax();
-	}
-
-	private void updateSyntax() {
-		syntaxController.update(editorState);
-		if (syntaxTooltipUpdater != null) {
-			syntaxTooltipUpdater.run();
-		}
-	}
-
-	/**
-	 * callback to update the syntax help tooltip
-	 * @param syntaxTooltipUpdater - callback
-	 */
-	public void setSyntaxTooltipUpdater(Runnable syntaxTooltipUpdater) {
-		this.syntaxTooltipUpdater = syntaxTooltipUpdater;
+		fireInputChangedEvent();
 	}
 
 	/**
@@ -320,8 +306,6 @@ public class MathFieldInternal
 					&& listener.onArrowKeyPressed(keyEvent.getKeyCode())) {
 				return true;
 			}
-
-			updateSyntax();
 		}
 		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_CONTROL) {
 			return false;
@@ -487,8 +471,7 @@ public class MathFieldInternal
 			/*
 			 * if (!editorState.hasSelection()){ mathField.hideCopyButton(); }
 			 */
-
-			mathFieldController.update(mathFormula, editorState, false);
+			update(false);
 
 			mathField.showKeyboard();
 			mathField.requestViewFocus();
@@ -976,10 +959,17 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * @return syntax hint for current cursor position
+	 * Register math field internal listener.
+	 * @param mathFieldInternalListener listener
 	 */
-	public SyntaxHint getSyntaxHint() {
-		return syntaxController.getHint();
+	public void registerMathFieldInternalListener(
+			MathFieldInternalListener mathFieldInternalListener) {
+		mathFieldInternalListeners.add(mathFieldInternalListener);
 	}
 
+	private void fireInputChangedEvent() {
+		for (MathFieldInternalListener listener: mathFieldInternalListeners) {
+			listener.inputChanged(this);
+		}
+	}
 }
