@@ -54,7 +54,7 @@ public class SingularWSSettings {
 	 */
 	public static void setCachingFromText(String s) {
 		synchronized (lock) {
-			if ("auto".equals(s.toLowerCase())) {
+			if ("auto".equalsIgnoreCase(s)) {
 				useCaching = null;
 			}
 			useCaching = Boolean.parseBoolean(s);

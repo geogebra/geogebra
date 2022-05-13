@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import java.util.HashMap;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawPoint;
@@ -76,7 +74,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 	 */
 	public static MOWPointStyleButton create(AppW app) {
 
-		pointStyleMap = new HashMap<>();
+		pointStyleMap.clear();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 		}

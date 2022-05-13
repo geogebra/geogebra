@@ -129,7 +129,8 @@ public class ScreenReaderBuilder {
 			count++;
 			apostropheIdx--;
 		}
-		sb.append(label, 0, label.length() - count);
+		int end = label.length() - count;
+		sb.append(label, 0, end);
 
 		if (count < MANY_PRIMES) {
 			appendNamedPrime(sb, count, loc);

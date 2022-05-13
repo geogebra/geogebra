@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'checkstyle'
     id 'pmd'
     id 'org.wisepersist.gwt' version '1.1.18'
@@ -11,7 +11,7 @@ targetCompatibility = 1.8
 def murokVersion = "1.0.202204010637"
 
 dependencies {
-    compile 'com.google.elemental2:elemental2-core:1.1.0',
+    api 'com.google.elemental2:elemental2-core:1.1.0',
             'com.google.elemental2:elemental2-dom:1.1.0',
             "org.murok:editor:$murokVersion",
             "org.murok:editor:$murokVersion:sources",

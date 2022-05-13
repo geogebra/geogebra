@@ -187,7 +187,7 @@ public class CompatibilityLayout {
 	 * 
 	 * @param attrs
 	 *            split attributes
-	 * @return
+	 * @return success
 	 */
 	boolean handleSplitDivider(LinkedHashMap<String, String> attrs) {
 		try {

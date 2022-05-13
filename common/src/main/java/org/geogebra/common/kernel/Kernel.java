@@ -1936,10 +1936,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		p4 = -c / a;
 		k = b * b / (4 * a * c) - d / c;
 
-		sbBuildConicformEquation.append(formatCoeff(p4, tpl) + "(" + var2 + " "
-				+ sign(-k) + " " + format(Math.abs(k), tpl) + ") = " + "("
-				+ var1 + " " + sign(-h) + " " + format(Math.abs(h), tpl) + ")"
-				+ tpl.squared());
+		sbBuildConicformEquation.append(formatCoeff(p4, tpl)).append("(").append(var2)
+				.append(" ").append(sign(-k)).append(" ").append(format(Math.abs(k), tpl))
+				.append(") = (").append(var1).append(" ").append(sign(-h)).append(" ")
+				.append(format(Math.abs(h), tpl)).append(")").append(tpl.squared());
 		return sbBuildConicformEquation;
 	}
 
@@ -2103,7 +2103,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				String absStr = format(abs, tpl);
 				if (!"0".equals(absStr)) {
 					sbBuildExplicitLineEquation
-							.append(sign + " " + absStr);
+							.append(sign).append(" ").append(absStr);
 				}
 			}
 

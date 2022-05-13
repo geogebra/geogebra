@@ -44,7 +44,7 @@ ext.getGeogebraVersion = { root = ".."->
 }
 
 ext.gwtCompilerVersion = '2.9.0'
-ext.gradleVersionGGB = "6.7.1"
+ext.gradleVersionGGB = "7.3.3"
 ext.joglVersion = '2.2.0'
 ext.junitVersion = '4.13.2'
 ext.mockitoVersion = '4.5.1'
