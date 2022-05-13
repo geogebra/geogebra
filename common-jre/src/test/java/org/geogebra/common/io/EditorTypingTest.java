@@ -715,4 +715,12 @@ public class EditorTypingTest {
 				.type("]")
 				.checkAsciiMath("(2,[3],3+4)");
 	}
+
+	@Test
+	public void testEditorBackspace() {
+		checker.type("a b(")
+				.left(2)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("ab()");
+	}
 }
