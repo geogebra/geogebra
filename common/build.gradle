@@ -2,7 +2,7 @@ plugins {
     id 'java-library'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '4.8.0'
+    id 'com.github.spotbugs' version '5.0.7'
     id 'ca.coglinc.javacc' version '2.4.0'
 }
 
