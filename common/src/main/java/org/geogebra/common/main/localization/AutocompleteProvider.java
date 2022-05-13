@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
@@ -64,7 +65,7 @@ public class AutocompleteProvider {
 			cmdInt = app.englishToInternal(cmd);
 		}
 		String syntaxString;
-		if (forCAS) {
+		if (app.getConfig().getVersion() == GeoGebraConstants.Version.CAS) {
 			syntaxString = app.getLocalization()
 					.getCommandSyntaxCAS(cmdInt);
 		} else {
