@@ -135,7 +135,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
-				initText, false);
+				initText);
 		inputDialog.show();
 	}
 
