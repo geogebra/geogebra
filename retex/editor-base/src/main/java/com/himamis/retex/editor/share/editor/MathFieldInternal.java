@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.google.j2objc.annotations.Weak;
@@ -59,7 +58,6 @@ import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
-import com.himamis.retex.editor.share.syntax.SyntaxController;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -104,8 +102,6 @@ public class MathFieldInternal
 	private boolean selectionMode = false;
 
 	private Set<MathFieldInternalListener> mathFieldInternalListeners;
-
-	private SyntaxController syntaxController;
 
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
