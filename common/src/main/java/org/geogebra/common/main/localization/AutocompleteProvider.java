@@ -65,7 +65,7 @@ public class AutocompleteProvider {
 			cmdInt = app.englishToInternal(cmd);
 		}
 		String syntaxString;
-		if (app.getConfig().getVersion() == GeoGebraConstants.Version.CAS) {
+		if (isCas()) {
 			syntaxString = app.getLocalization()
 					.getCommandSyntaxCAS(cmdInt);
 		} else {
@@ -125,9 +125,11 @@ public class AutocompleteProvider {
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
 	}
 
+	private boolean isCas() {
+		return forCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
+	}
 	private LowerCaseDictionary getDictionary() {
-		return app.getConfig().isCASEnabled() ? app.getCommandDictionaryCAS()
-				: app.getCommandDictionary();
+		return isCas() ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 	}
 
 	public static class Completion {
