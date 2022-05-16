@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -26,10 +27,13 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -91,6 +95,7 @@ public class ToolbarPanel extends FlowPanel
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
+	private StickyTable table = null;
 
 	/**
 	 * @param app application
@@ -286,14 +291,19 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			tabTools = null;
 		}
+
 		if (app.getConfig().hasDistributionView()) {
-			tabDist = new DistributionTab(this);
+			table = new StickyProbabilityTable();
+			tabDist = new DistributionTab(this, (StickyProbabilityTable) table);
+			app.getKernel().detach(app.getGuiManager().getTableValuesView());
 			addTab(tabDist, false);
 		} else {
 			tabDist = null;
 		}
 		if (isTableTabExpected()) {
-			tabTable = new TableTab(this);
+			tabTable = new TableTab(this,
+					table == null ? new StickyValuesTable(app,
+							(TableValuesView) app.getGuiManager().getTableValuesView()) : table);
 			addTab(tabTable, false);
 		} else {
 			tabTable = null;
@@ -1065,7 +1075,7 @@ public class ToolbarPanel extends FlowPanel
 			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 		}
 		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
-			return tabTable.getKeyboardListener();
+			return tabTable.getKeyboardListener(fallback);
 		}
 		return fallback.get();
 	}
@@ -1466,6 +1476,7 @@ public class ToolbarPanel extends FlowPanel
 		public boolean isActive() {
 			return getElement().hasClassName("tab");
 		}
+
 	}
 
 	public void setAVIconNonSelect(boolean exam) {

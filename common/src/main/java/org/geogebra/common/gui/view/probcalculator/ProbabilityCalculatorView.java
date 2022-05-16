@@ -2016,7 +2016,7 @@ public abstract class ProbabilityCalculatorView
 		return table;
 	}
 
-	protected void setTable(ProbabilityTable table) {
+	public void setTable(ProbabilityTable table) {
 		this.table = table;
 	}
 

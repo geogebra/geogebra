@@ -47,7 +47,7 @@ public class GgbAPIWTest {
 		when(toolbarPanel.getAlgebraTab()).thenReturn(algebraTab);
 		final ToolsTab toolsTab = spy(new ToolsTab(toolbarPanel));
 		when(toolbarPanel.getToolsTab()).thenReturn(toolsTab);
-		final TableTab tableTab = spy(new TableTab(toolbarPanel));
+		final TableTab tableTab = spy(new TableTab(toolbarPanel, null));
 		when(toolbarPanel.getTableTab()).thenReturn(tableTab);
 		final TabContainer tabContainer = spy(new TabContainer(toolbarPanel));
 		when(toolbarPanel.getTabContainer()).thenReturn(tabContainer);

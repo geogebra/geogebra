@@ -121,9 +121,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		plotPanelPlus.addStyleName("PlotPanelPlus");
 		plotPanelPlus.add(plotPanelOptions);
 		plotPanelPlus.add(getPlotPanel().getComponent());
-
-		//table panel
-		setTable(new ProbabilityTableW(app, this));
 	}
 
 	protected void init() {

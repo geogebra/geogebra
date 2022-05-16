@@ -65,12 +65,13 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 */
 		HeaderCell() {
 			FlowPanel p = new FlowPanel();
+			p.setStyleName("content");
 			p.add(new Label("%s"));
 			StandardButton btn = new StandardButton(MaterialDesignResources.INSTANCE
 					.more_vert_black(), 24);
 			TestHarness.setAttr(btn, "btn_tvHeader3dot");
 			p.add(btn);
-			value = p.getElement().getInnerHTML();
+			value = p.getElement().getString();
 		}
 
 		/**
@@ -81,8 +82,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		 */
 		SafeHtmlHeader getHtmlHeader(String content) {
 			String stringHtmlContent = value.replace("%s", content);
-			TableCell headerCell = new TableCell(stringHtmlContent);
-			return new SafeHtmlHeader(headerCell.getHTML());
+			return new SafeHtmlHeader(() -> stringHtmlContent);
 		}
 	}
 
@@ -91,6 +91,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 * @param view to feed table with data.
 	 */
 	public StickyValuesTable(AppW app, TableValuesView view) {
+		getTable().addStyleName("shaded");
 		this.app = app;
 		this.view = view;
 		this.tableModel = view.getTableValuesModel();
@@ -205,9 +206,18 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		el.removeClassName(styleName);
 	}
 
-	@Override
 	protected void addColumn() {
 		addColumn(tableModel.getColumnCount() - 1);
+	}
+
+	/**
+	 * Decreases the number of columns by removing the last column.
+	 */
+	protected void decreaseColumnNumber() {
+		// In AbstractCellTable model each column remembers its index
+		// so deleting last column and let dataProvider do the rest we need.
+		getTable().removeColumn(getTable().getColumnCount() - 1);
+		reset();
 	}
 
 	private void addColumn(int column) {
@@ -320,6 +330,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	 * Sets height of the values to be able to scroll.
 	 * @param height - to set.
 	 */
+	@Override
 	public void setHeight(int height) {
 		setBodyHeight(height);
 		if (contextMenu != null) {
@@ -392,7 +403,11 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	public void notifyColumnAdded(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		columnsChange = 1;
-		onColumnAdded();
+		addColumn();
+
+		// Safest way to keep integrity at load.
+		// Note that CellTable is highly optimized so no heavy overload.
+		reset();
 	}
 
 	@Override
