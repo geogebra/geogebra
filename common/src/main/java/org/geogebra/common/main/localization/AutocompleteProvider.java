@@ -128,6 +128,7 @@ public class AutocompleteProvider {
 	private boolean isCas() {
 		return forCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
 	}
+
 	private LowerCaseDictionary getDictionary() {
 		return isCas() ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 	}
