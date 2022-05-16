@@ -305,7 +305,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	/**
-	 * @return wheter distribution tab is open
+	 * @return whether distribution tab is open
 	 */
 	@Override
 	public boolean isDistributionTabOpen() {
@@ -393,5 +393,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	public void setDistributionPanel(DistributionPanel widgets) {
 		this.distrPanel = widgets;
+	}
+
+	/** table only for discrete distribution
+	 * @return whether the selected distribution discrete is
+	 */
+	public boolean hasTableView() {
+		return getProbManager().isDiscrete(getSelectedDist());
 	}
 }

@@ -363,4 +363,11 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 			width: 100%;
 		}
 	}
+
+	.tab .infoErrorPanel {
+		width: 100%;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+	}
 }

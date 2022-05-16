@@ -17,6 +17,7 @@ import org.geogebra.web.resources.StyleInjector;
 import org.junit.runners.model.InitializationError;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.SelectElement;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -96,6 +97,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelector", Void.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
         StubGenerator.replaceMethodWithMock(CSSEvents.class, "runOnAnimation", Void.class);
+        StubGenerator.replaceMethodWithMock(SelectElement.class, "as", SelectElement.class);
     }
 
     @Override
