@@ -1,11 +1,10 @@
 package org.geogebra.web.full.gui.browser;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
@@ -37,12 +36,12 @@ public class EmbeddedMaterialElement extends MaterialListElement {
 
 	@Override
 	public void onView() {
-		app.getLoginOperation().getGeoGebraTubeAPI()
+		app.getLoginOperation().getResourcesAPI()
 				.getItem(getMaterial().getId() + "", new MaterialCallback() {
 
 					@Override
 					public void onLoaded(List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						loadNative(parseResponse.get(0).toJson().toString());
 					}
 				});

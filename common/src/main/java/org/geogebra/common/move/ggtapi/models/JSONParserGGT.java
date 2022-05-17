@@ -106,7 +106,6 @@ public class JSONParserGGT {
 		material.setAllowStylebar(getBoolean(obj, "stylebar", false));
 		material.setShowMenu(getBoolean(obj, "menubar", false));
 		material.setShowInputbar(getBoolean(obj, "inputbar", false));
-		material.setFavorite(getBoolean(obj, "favorite", false));
 		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
 		material.setRightClick(getBoolean(obj, "rightclick", false));
 		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
@@ -172,31 +171,15 @@ public class JSONParserGGT {
 	}
 
 	private static String getString(JSONObject obj, String string) {
-		if (!obj.has(string)) {
-			return "";
-		}
-		Object str = null;
-		try {
-			str = obj.get(string);
-		} catch (Exception e) {
-			// ignore
-		}
-		if (str == null) {
+		Object str = obj.opt(string);
+		if (str == null || str == Boolean.FALSE) {
 			return "";
 		}
 		return str.toString();
 	}
 
 	private static int getInt(JSONObject obj, String string, int def) {
-		if (!obj.has(string)) {
-			return def;
-		}
-		Object str = null;
-		try {
-			str = obj.get(string);
-		} catch (Exception e) {
-			// ignore
-		}
+		Object str = obj.opt(string);
 		if (str == null || "".equals(str)) {
 			return def;
 		}
@@ -225,12 +208,10 @@ public class JSONParserGGT {
 	 *            JSON list of materials
 	 * @param result
 	 *            output array
-	 * @return book metadata
 	 */
-	public ArrayList<Chapter> parseResponse(String response,
+	public void parseResponse(String response,
 			ArrayList<Material> result) {
 		Object materialsArray = null;
-		ArrayList<Chapter> meta = null;
 
 		if (response != null) {
 			JSONObject responseObject = new JSONObject();
@@ -240,12 +221,6 @@ public class JSONParserGGT {
 				if (responseObject.has("responses")) {
 					JSONObject materialsObject = (JSONObject) ((JSONObject) responseObject
 							.get("responses")).get("response");
-					if (materialsObject.has("meta")) {
-						String content = ((JSONObject) materialsObject
-								.get("meta")).get("-content").toString();
-						meta = parseMeta(content);
-
-					}
 
 					if (materialsObject.has("item")) {
 						materialsArray = materialsObject.get("item");
@@ -265,7 +240,7 @@ public class JSONParserGGT {
 		}
 		// 0 materials
 		if (materialsArray == null) {
-			return meta;
+			return;
 		}
 		// >1 materials
 		if (materialsArray instanceof JSONArray) {
@@ -284,30 +259,6 @@ public class JSONParserGGT {
 		else if (materialsArray instanceof JSONObject) {
 			addToArray(result, materialsArray);
 		}
-		return meta;
-	}
-
-	private static ArrayList<Chapter> parseMeta(String s) {
-		ArrayList<Chapter> ret = new ArrayList<>();
-		try {
-			JSONTokener tokener = new JSONTokener(s);
-			JSONArray parsed = new JSONArray(tokener);
-
-			for (int i = 0; i < parsed.length(); i++) {
-				String title = ((JSONObject) parsed.get(i)).get("title")
-						.toString();
-				JSONArray materials = (JSONArray) ((JSONObject) parsed.get(i))
-						.get("materials");
-				int[] mats = new int[materials.length()];
-				for (int m = 0; m < materials.length(); m++) {
-					mats[m] = (int) ((Double) materials.get(m)).doubleValue();
-				}
-				ret.add(new Chapter(title, mats));
-			}
-		} catch (Throwable t) {
-			// ignore
-		}
-		return ret;
 	}
 
 	private void addToArray(List<Material> result, Object obj) {

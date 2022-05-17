@@ -19,10 +19,6 @@ public abstract class HttpRequest {
 	private int timeout = DEFAULT_TIMEOUT;
 
 	/**
-	 * stores if the HTTP request is already processed
-	 */
-	public boolean processed = false;
-	/**
 	 * the textual content of the result (or the error message)
 	 */
 	protected String responseText;
@@ -62,13 +58,6 @@ public abstract class HttpRequest {
 	}
 
 	/**
-	 * @return if the HTTP request has been processed by the remote server
-	 */
-	public boolean isProcessed() {
-		return processed;
-	}
-
-	/**
 	 * @return current timeout for HTTP requests
 	 */
 	protected int getTimeout() {
@@ -81,14 +70,6 @@ public abstract class HttpRequest {
 	 */
 	protected void setResponseText(String responseText) {
 		this.responseText = responseText;
-	}
-
-	/**
-	 * @param processed
-	 *     set processed
-	 */
-	protected void setProcessed(boolean processed) {
-		this.processed = processed;
 	}
 
 	/**

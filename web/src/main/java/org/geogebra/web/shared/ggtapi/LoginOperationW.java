@@ -3,6 +3,7 @@ package org.geogebra.web.shared.ggtapi;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
@@ -101,6 +102,14 @@ public class LoginOperationW extends LogInOperation {
 			apiFactory = new BackendAPIFactory(app);
 		}
 		return apiFactory.get();
+	}
+
+	@Override
+	public MaterialRestAPI getResourcesAPI() {
+		if (apiFactory == null) {
+			apiFactory = new BackendAPIFactory(app);
+		}
+		return apiFactory.getRest();
 	}
 
 	@Override

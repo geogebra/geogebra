@@ -4,22 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.MaterialsManager;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * contains all available materials
@@ -91,7 +89,7 @@ public class MaterialListPanel extends FlowPanel
 
 			@Override
 			public void onLoaded(final List<Material> response,
-					ArrayList<Chapter> meta) {
+					Pagination meta) {
 				addGGTMaterials(response, meta);
 			}
 		};
@@ -102,7 +100,7 @@ public class MaterialListPanel extends FlowPanel
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
-					ArrayList<Chapter> meta) {
+					Pagination meta) {
 				addUsersMaterials(parseResponse);
 
 			}
@@ -135,10 +133,10 @@ public class MaterialListPanel extends FlowPanel
 		clearMaterials();
 		loadLocal();
 		if (this.app.getLoginOperation().isLoggedIn()) {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			app.getLoginOperation().getResourcesAPI()
 					.getUsersMaterials(this.userMaterialsCB, Order.timestamp);
 		} else {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			app.getLoginOperation().getResourcesAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
@@ -147,7 +145,7 @@ public class MaterialListPanel extends FlowPanel
 	 * loads users materials from ggt
 	 */
 	public void loadUsersMaterials() {
-		app.getLoginOperation().getGeoGebraTubeAPI()
+		app.getLoginOperation().getResourcesAPI()
 				.getUsersMaterials(this.userMaterialsCB, Order.timestamp);
 	}
 
@@ -167,12 +165,8 @@ public class MaterialListPanel extends FlowPanel
 	 *            list of book chapters
 	 */
 	public final void addGGTMaterials(final List<Material> matList,
-			final ArrayList<Chapter> chapters) {
-		if (chapters == null || chapters.size() < 2) {
-			addMaterials(matList);
-		} else {
-			addChapters(matList, chapters);
-		}
+			final Pagination chapters) {
+		addMaterials(matList);
 	}
 
 	private void addMaterials(List<Material> matList) {
@@ -198,32 +192,6 @@ public class MaterialListPanel extends FlowPanel
 		}
 
 		return result;
-	}
-
-	private void addChapters(List<Material> matList, final ArrayList<Chapter> chapters) {
-		for (int i = 0; i < chapters.size(); i++) {
-			addHeading(chapters.get(i).getTitle());
-			int[] materialIDs = chapters.get(i).getMaterials();
-			for (int j = 0; j < materialIDs.length; j++) {
-				addMaterial(findMaterial(matList, materialIDs[j]), true,
-						false);
-			}
-		}
-	}
-
-	private static Material findMaterial(List<Material> matList, int id) {
-		for (int i = 0; i < matList.size(); i++) {
-			if (matList.get(i).getId() == id) {
-				return matList.get(i);
-			}
-		}
-		return null;
-	}
-
-	private void addHeading(String title) {
-		Label chapterLabel = new Label(title);
-		chapterLabel.addStyleName("ggbChapterName");
-		add(chapterLabel);
 	}
 
 	/**
@@ -377,7 +345,7 @@ public class MaterialListPanel extends FlowPanel
 	 *            String
 	 */
 	protected void searchGgt(final String query) {
-		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI())
+		this.app.getLoginOperation().getResourcesAPI()
 				.search(query, this.ggtMaterialsCB);
 	}
 

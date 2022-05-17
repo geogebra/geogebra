@@ -21,6 +21,7 @@ public class BackendAPIFactory {
 	private AppW app;
 	private AppletParameters articleElement;
 	private BackendAPI api = null;
+	private MaterialRestAPI restApi = null;
 
 	/**
 	 * @param app The application.
@@ -37,6 +38,14 @@ public class BackendAPIFactory {
 		createApiIfNeeded();
 		api.setClient(app.getClientInfo());
 		return this.api;
+	}
+
+	public MaterialRestAPI getRest() {
+		if (restApi == null) {
+			restApi = newMaterialRestAPI();
+		}
+		restApi.setClient(app.getClientInfo());
+		return this.restApi;
 	}
 
 	private void createApiIfNeeded() {

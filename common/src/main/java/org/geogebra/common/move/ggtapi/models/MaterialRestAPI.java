@@ -45,7 +45,10 @@ public class MaterialRestAPI implements BackendAPI {
 		this.service = service;
 	}
 
-	@Override
+	/**
+	 * @param id item ID
+	 * @param callback callback
+	 */
 	public void getItem(String id, MaterialCallbackI callback) {
 		performRequest("GET", "/materials/" + id, null, callback);
 	}
@@ -183,11 +186,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public void favorite(int id, boolean favorite) {
-		// not supported
-	}
-
-	@Override
 	public String getUrl() {
 		return this.baseURL;
 	}
@@ -213,22 +211,18 @@ public class MaterialRestAPI implements BackendAPI {
 		performCookieLogin(op);
 	}
 
-	@Override
 	public void getUsersMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order) {
 		getUsersOwnMaterials(userMaterialsCB, order);
 	}
 
-	private ArrayList<Chapter> parseMaterialCount(String responseStr) throws JSONException {
-		ArrayList<Chapter> ret = new ArrayList<>();
-		int[] counts = new int[3];
+	private Pagination parseMaterialCount(String responseStr) throws JSONException {
 		JSONTokener jst = new JSONTokener(responseStr);
 		Object parsed = jst.nextValue();
 		if (parsed instanceof JSONObject && ((JSONObject) parsed).has("from")) {
-			counts[0] = ((JSONObject) parsed).getInt("from");
-			counts[1] = (((JSONObject) parsed).getInt("to"));
-			counts[2] = (((JSONObject) parsed).getInt("total"));
-			ret.add(new Chapter(null, counts));
-			return ret;
+			int from = ((JSONObject) parsed).getInt("from");
+			int to = ((JSONObject) parsed).getInt("to");
+			int total = ((JSONObject) parsed).getInt("total");
+			return new Pagination(from, to, total);
 		}
 		return null;
 	}
@@ -247,25 +241,32 @@ public class MaterialRestAPI implements BackendAPI {
 		if (parsed instanceof JSONObject) {
 			if (((JSONObject) parsed).has("materials")) {
 				JSONArray materials = ((JSONObject) parsed).getJSONArray("materials");
-				for (int i = 0; i < materials.length(); i++) {
-					Material mat = JSONParserGGT.prototype.toMaterial(materials.getJSONObject(i));
-					ret.add(mat);
-				}
+				addAll(materials, ret);
+			} else if (((JSONObject) parsed).has("hits")) {
+				JSONArray materials = ((JSONObject) parsed).getJSONArray("hits");
+				addAll(materials, ret);
 			} else {
 				Material mat = JSONParserGGT.prototype.toMaterial((JSONObject) parsed);
 				ret.add(mat);
 			}
+		} else if (parsed instanceof JSONArray) {
+			addAll((JSONArray) parsed, ret);
 		}
 		return ret;
 	}
 
-	@Override
-	public void getFeaturedMaterials(MaterialCallbackI userMaterialsCB) {
-		// no public materials
-		userMaterialsCB.onLoaded(new ArrayList<>(), null);
+	private void addAll(JSONArray materials, ArrayList<Material> ret) throws JSONException {
+		for (int i = 0; i < materials.length(); i++) {
+			Material mat = JSONParserGGT.prototype.toMaterial(materials.getJSONObject(i));
+			ret.add(mat);
+		}
 	}
 
-	@Override
+	public void getFeaturedMaterials(MaterialCallbackI callback) {
+		// no public materials
+		performRequest("GET", "/search/applets", null, callback);
+	}
+
 	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB,
 			MaterialRequest.Order order) {
 		if (model == null) {
@@ -280,7 +281,6 @@ public class MaterialRestAPI implements BackendAPI {
 				null, userMaterialsCB);
 	}
 
-	@Override
 	public void getUsersAndSharedMaterials(MaterialCallbackI allMaterialsCB, Order order,
 			int offset) {
 		if (model == null) {
@@ -356,7 +356,10 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	@Override
+	/**
+	 * @param material renamed material
+	 * @param materialCallback callback
+	 */
 	public void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback) {
 		JSONObject request = new JSONObject();
 		try {
@@ -368,14 +371,23 @@ public class MaterialRestAPI implements BackendAPI {
 				request.toString(), materialCallback);
 	}
 
-	@Override
+	/**
+	 * Copy existing material.
+	 *
+	 * @param material
+	 *            Current material
+	 * @param title
+	 *            copy title
+	 * @param materialCallback
+	 *            callback
+	 */
 	public void copy(Material material, final String title,
 			final MaterialCallbackI materialCallback) {
 		performRequest("POST", "/materials/" + material.getSharingKeyOrId(), null,
 				new MaterialCallbackI() {
 
 					@Override
-					public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+					public void onLoaded(List<Material> result, Pagination meta) {
 						if (result.size() == 1) {
 							result.get(0).setTitle(title);
 							uploadRenameMaterial(result.get(0), materialCallback);
@@ -414,7 +426,12 @@ public class MaterialRestAPI implements BackendAPI {
 		return localization.getPlain("CopyOfA", title);
 	}
 
-	@Override
+	/**
+	 * @param m material
+	 * @param groupID group ID
+	 * @param shared whether to share
+	 * @param callback callback
+	 */
 	public void setShared(Material m, GroupIdentifier groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
 		HttpRequest request = service.createRequest(model);
@@ -434,7 +451,11 @@ public class MaterialRestAPI implements BackendAPI {
 				});
 	}
 
-	@Override
+	/**
+	 * @param materialID material ID
+	 * @param category group category
+	 * @param callback get list of groups in given category the material is shared with
+	 */
 	public void getGroups(String materialID, GroupIdentifier.GroupCategory category,
 			AsyncOperation<List<GroupIdentifier>> callback) {
 		HttpRequest request = service.createRequest(model);
@@ -480,7 +501,9 @@ public class MaterialRestAPI implements BackendAPI {
 		return false;
 	}
 
-	@Override
+	/**
+	 * @param templateMaterialsCB template callback
+	 */
 	public void getTemplateMaterials(final MaterialCallbackI templateMaterialsCB) {
 		if (model == null || !model.isLoggedIn()) {
 			templateMaterialsCB.onLoaded(new ArrayList<>(), null);
@@ -505,5 +528,57 @@ public class MaterialRestAPI implements BackendAPI {
 		String json = "{\"file\":\"" + base64 + "\"}";
 		request.sendRequestPost("POST", baseURL + "/media/h5p",
 				json, callback);
+	}
+
+	/**
+	 * Search for materials containing the String query
+	 *
+	 * @param query
+	 *            search String
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
+	public void search(String query, MaterialCallbackI callback) {
+		performRequest("GET", "/search/applets?size=30&query=" + query, null, callback);
+	}
+
+	/**
+	 * Get all ggb elements from a worksheet.
+	 *
+	 * @param parent
+	 *            worksheet
+	 * @param materialCallback
+	 *            callback
+	 */
+	public void getWorksheetItems(Material parent, MaterialCallbackI materialCallback) {
+		HttpRequest request = service.createRequest(model);
+		request.setContentTypeJson();
+
+		request.sendRequestPost("GET", baseURL + "/materials/"
+				+ parent.getSharingKeyOrId(), null, new AjaxCallback() {
+			@Override
+			public void onSuccess(String responseStr) {
+				try {
+					JSONObject json = new JSONObject(new JSONTokener(responseStr));
+					JSONArray elements = json.getJSONArray("elements");
+					ArrayList<Material> materials = new ArrayList<>();
+					for (int i = 0; i < elements.length(); i++) {
+						Material mat = new Material(parent);
+						mat.setThumbnailUrl(elements.getJSONObject(i).getString("thumbUrl"));
+						mat.setURL(elements.getJSONObject(i).getString("url"));
+						materials.add(mat);
+					}
+					materialCallback
+							.onLoaded(materials, null);
+				} catch (Exception e) {
+					materialCallback.onError(e);
+				}
+			}
+
+			@Override
+			public void onError(String error) {
+				materialCallback.onError(new Exception(error));
+			}
+		});
 	}
 }

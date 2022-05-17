@@ -8,7 +8,9 @@ public class MarvlService implements Service {
 	@Override
 	public HttpRequest createRequest(AuthenticationModel model) {
 		HttpRequest httpRequest = UtilFactory.getPrototype().newHttpRequest();
-		httpRequest.setAuth(model.getEncoded());
+		if (model != null) {
+			httpRequest.setAuth(model.getEncoded());
+		}
 		return httpRequest;
 	}
 }
