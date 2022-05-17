@@ -99,7 +99,8 @@ public class RemoveContainer {
 		for (MathCharacter character : components) {
 			name.addArgument(0, character);
 		}
-		editorState.setCurrentOffset(currentOffset + 1);
+		editorState.setCurrentField(name);
+		editorState.setCurrentOffset(components.size());
 	}
 
 	private static boolean isGeneral(Tag name) {
