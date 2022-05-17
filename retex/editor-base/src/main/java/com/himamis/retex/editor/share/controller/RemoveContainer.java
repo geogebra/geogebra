@@ -74,23 +74,32 @@ public class RemoveContainer {
 			} else if (CursorController.prevCharacter(editorState)) {
 				new InputController(editorState.getMetaModel())
 						.bkspCharacter(editorState);
-				ArrayList<MathCharacter> components = new ArrayList<>();
-				MathSequence parent = editorState.getCurrentField();
-				int currentOffset = editorState.getCurrentOffset() - 1;
-				while (currentOffset >= 0 && parent.getArgument(
-						currentOffset) instanceof MathCharacter) {
-					MathCharacter character = (MathCharacter) parent.getArgument(currentOffset);
-					parent.removeArgument(currentOffset);
-					currentOffset -= 1;
-					components.add(character);
-				}
-				MathSequence name = function.getArgument(0);
-				for (MathCharacter character : components) {
-					name.addArgument(0, character);
-				}
-				editorState.setCurrentOffset(currentOffset + 1);
+				fuseMathFunction(editorState, function);
 			}
 		}
+	}
+
+	/**
+	 * Fuses math function with previous characters
+	 * @param editorState editor state
+	 * @param mathFunction function
+	 */
+	public static void fuseMathFunction(EditorState editorState, MathFunction mathFunction) {
+		ArrayList<MathCharacter> components = new ArrayList<>();
+		MathSequence parent = editorState.getCurrentField();
+		int currentOffset = editorState.getCurrentOffset() - 1;
+		while (currentOffset >= 0 && parent.getArgument(
+				currentOffset) instanceof MathCharacter) {
+			MathCharacter character = (MathCharacter) parent.getArgument(currentOffset);
+			parent.removeArgument(currentOffset);
+			currentOffset -= 1;
+			components.add(character);
+		}
+		MathSequence name = mathFunction.getArgument(0);
+		for (MathCharacter character : components) {
+			name.addArgument(0, character);
+		}
+		editorState.setCurrentOffset(currentOffset + 1);
 	}
 
 	private static boolean isGeneral(Tag name) {

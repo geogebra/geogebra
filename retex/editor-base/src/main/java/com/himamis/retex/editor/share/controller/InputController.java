@@ -871,6 +871,12 @@ public class InputController {
 		if (!editorState.getCurrentField().isArgumentProtected(currentOffset - 1)) {
 			editorState.getCurrentField().delArgument(currentOffset - 1);
 			editorState.decCurrentOffset();
+			MathSequence currentField = editorState.getCurrentField();
+			int offset = editorState.getCurrentOffset();
+			if (currentField.getArgument(offset) instanceof MathFunction) {
+				RemoveContainer.fuseMathFunction(editorState,
+						(MathFunction) currentField.getArgument(offset));
+			}
 		}
 	}
 
