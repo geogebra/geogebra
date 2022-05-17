@@ -1,7 +1,10 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -68,6 +71,24 @@ public class RemoveContainer {
 				function.removeArgument(currentField.getParentIndex());
 				editorState.setCurrentField(prev);
 				editorState.setCurrentOffset(len);
+			} else if (CursorController.prevCharacter(editorState)) {
+				new InputController(editorState.getMetaModel())
+						.bkspCharacter(editorState);
+				ArrayList<MathCharacter> components = new ArrayList<>();
+				MathSequence parent = editorState.getCurrentField();
+				int currentOffset = editorState.getCurrentOffset() - 1;
+				while (currentOffset >= 0 && parent.getArgument(
+						currentOffset) instanceof MathCharacter) {
+					MathCharacter character = (MathCharacter) parent.getArgument(currentOffset);
+					parent.removeArgument(currentOffset);
+					currentOffset -= 1;
+					components.add(character);
+				}
+				MathSequence name = function.getArgument(0);
+				for (MathCharacter character : components) {
+					name.addArgument(0, character);
+				}
+				editorState.setCurrentOffset(currentOffset + 1);
 			}
 		}
 	}

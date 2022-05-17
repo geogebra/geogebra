@@ -718,9 +718,14 @@ public class EditorTypingTest {
 
 	@Test
 	public void testEditorBackspace() {
-		checker.type("a b(")
-				.left(2)
+		checker.type("ab cd(")
+				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("ab()");
+				.checkAsciiMath("abcd()");
+
+		checker.type("1 + N Solve(")
+				.left(6)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("1 + NSolve()");
 	}
 }
