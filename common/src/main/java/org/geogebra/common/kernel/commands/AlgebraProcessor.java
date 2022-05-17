@@ -593,28 +593,21 @@ public class AlgebraProcessor {
 		// make sure that points stay points and vectors stay vectors
 		updateTypePreservingFlags(newValue, geo, info.isPreventingTypeChange());
 		if (sameLabel(newLabel, oldLabel)) {
-			// try to overwrite
-			final boolean listeners = app.getScriptManager().hasListeners();
 			app.getEventDispatcher().disableListeners();
-			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
-
-				@Override
-				public void callback(GeoElementND[] obj) {
-					if (obj != null) {
-						app.getEventDispatcher().enableListeners();
-						if (listeners && obj.length > 0) {
-							app.getEventDispatcher().notifyListenersUpdateCascade(obj[0]);
-							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
-						}
-						app.getCompanion().recallViewCreators();
-						if (storeUndoInfo) {
-							app.storeUndoInfo();
-						}
-						if (callback != null) {
-							callback.callback(obj.length > 0 ? obj[0] : null);
-						}
+			AsyncOperation<GeoElementND[]> changeCallback = obj -> {
+				if (obj != null) {
+					app.getEventDispatcher().enableListeners();
+					if (obj.length > 0) {
+						app.getEventDispatcher().notifyListenersUpdateCascade(obj[0]);
+						app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
 					}
-
+					app.getCompanion().recallViewCreators();
+					if (storeUndoInfo) {
+						app.storeUndoInfo();
+					}
+					if (callback != null) {
+						callback.callback(obj.length > 0 ? obj[0] : null);
+					}
 				}
 			};
 
