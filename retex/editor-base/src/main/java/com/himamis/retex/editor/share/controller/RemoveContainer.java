@@ -86,12 +86,12 @@ public class RemoveContainer {
 	 */
 	public static void fuseMathFunction(EditorState editorState, MathFunction mathFunction) {
 		ArrayList<MathCharacter> components = new ArrayList<>();
-		MathSequence parent = editorState.getCurrentField();
+		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset() - 1;
-		while (currentOffset >= 0 && parent.getArgument(
+		while (currentOffset >= 0 && currentField.getArgument(
 				currentOffset) instanceof MathCharacter) {
-			MathCharacter character = (MathCharacter) parent.getArgument(currentOffset);
-			parent.removeArgument(currentOffset);
+			MathCharacter character = (MathCharacter) currentField.getArgument(currentOffset);
+			currentField.removeArgument(currentOffset);
 			currentOffset -= 1;
 			components.add(character);
 		}
