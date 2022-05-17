@@ -37,7 +37,8 @@ public class AxisCaptionText implements CaptionText {
 
 	@Override
 	public boolean isLaTeX() {
-		return false;
+		return text != null && text.length() > 1 && (text.charAt(0) == '$')
+				&& text.endsWith("$");
 	}
 
 	@Override
