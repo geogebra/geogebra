@@ -165,10 +165,19 @@ public class IntervalAlgebra {
 	}
 
 	private Interval powerOfInterval(Interval interval, Interval other) {
-		if (!interval.isUndefined()) {
-			interval.set(RMath.powLow(interval.getLow(), other.getLow()),
-					RMath.powHigh(interval.getHigh(), other.getHigh()));
-			}
-			return interval;
+		if (interval.isUndefined()) {
+			return IntervalConstants.undefined();
+		}
+
+		double low = powLow(interval.getLow(), other.getLow());
+		double high = powHigh(interval.getHigh(), other.getHigh());
+
+		if (interval.getLow() > - 1 && interval.getHigh() < 1) {
+			interval.set(high, low);
+		} else {
+			interval.set(low, high);
+		}
+
+		return interval;
 	}
 }
