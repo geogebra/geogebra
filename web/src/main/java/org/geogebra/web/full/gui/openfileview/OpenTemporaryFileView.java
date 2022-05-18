@@ -6,7 +6,7 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -34,7 +34,7 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	}
 
 	@Override
-	public MyHeaderPanel getPanel() {
+	public AnimatingPanel getPanel() {
 		return common;
 	}
 
