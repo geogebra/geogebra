@@ -251,6 +251,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	};
 	private final GlobalHandlerRegistry dropHandlers = new GlobalHandlerRegistry();
+	private Widget lastFocusableWidget;
 
 	/**
 	 * @param geoGebraElement
@@ -3512,5 +3513,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void switchToSubapp(String appCode) {
 		// only with UI
+	}
+
+	public void setLastFocusableWidget(Widget lastFocusableWidget) {
+		this.lastFocusableWidget = lastFocusableWidget;
+	}
+
+	/**
+	 * Move focus to the last element
+	 */
+	public void moveFocusToLastWidget() {
+		if (lastFocusableWidget != null) {
+			lastFocusableWidget.getElement().setInnerText("");
+			lastFocusableWidget.getElement().focus();
+		}
 	}
 }
