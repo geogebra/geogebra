@@ -15,6 +15,7 @@ public class XInPowerTest extends SamplerTest {
 		TuplesQuery query = new TuplesQuery(tuples);
 		assertFalse(query.noDefinedTuples());
 	}
+
 	@Test
 	public void sinEPowerX() {
 		IntervalTupleList tuples = functionValues("sin(e^x)", -5, 5, -5, 5);
