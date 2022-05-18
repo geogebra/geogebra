@@ -14,12 +14,15 @@ public class OpenFileView extends HeaderFileView
 
 	private final FileViewCommon common;
 	private final AppW app;
+	private final BrowserDevice.FileOpenButton openFileBtn;
+
 	/**
 	 * @param app - application
 	 * @param openFileButton - button to open file picker
 	 */
 	public OpenFileView(AppW app, BrowserDevice.FileOpenButton openFileButton) {
 		this.app = app;
+		this.openFileBtn = openFileButton;
 		common = new FileViewCommon(app, "Open");
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app));
@@ -30,6 +33,7 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void initGUI() {
+		// fill
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void renderEvent(BaseEvent event) {
-
+		// fill
 	}
 
 	@Override
@@ -49,16 +53,16 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void loadAllMaterials(int offset) {
-
+		// fill
 	}
 
 	@Override
 	public void setLabels() {
-
+		// fill
 	}
 
 	@Override
 	public void addMaterial(Material material) {
-
+		// fill
 	}
 }

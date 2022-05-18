@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.openfileview.HeaderFileView;
 import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
@@ -62,7 +61,7 @@ public class OpenSearch {
 
 	private void showBrowserView(String query) {
 		BrowseViewI browseView = guiManager.getBrowseView(query);
-		if (browseView instanceof BrowseGUI) {
+		if (browseView instanceof AnimatingPanel) {
 			showBrowser((AnimatingPanel) browseView);
 		} else {
 			showBrowser((HeaderFileView) browseView);
