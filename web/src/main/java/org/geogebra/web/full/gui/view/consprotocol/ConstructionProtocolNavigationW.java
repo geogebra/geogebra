@@ -274,7 +274,6 @@ public class ConstructionProtocolNavigationW
 			setPlaying(false);
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
-			btPlay.updateImage();
 		}
 	}
 

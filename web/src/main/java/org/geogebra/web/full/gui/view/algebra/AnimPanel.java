@@ -75,7 +75,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		buildSpeedPanel();
 		add(speedPanel);
 		add(btnPlay);
-		ClickStartHandler.initDefaults(btnPlay, true, true);
+		ClickStartHandler.initDefaults(btnPlay, false, true);
 	}
 
 	private void buildSpeedPanel() {
@@ -91,11 +91,11 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 		btnSpeedDown.addFastClickHandler((e) -> {
 			radioTreeItem.getController().stopEdit();
-			speedUp();
+			speedDown();
 		});
 		btnSpeedUp.addFastClickHandler((e) -> {
 			radioTreeItem.getController().stopEdit();
-			speedDown();
+			speedUp();
 		});
 		lblSpeedValue = new Label("");
 		lblSpeedValue.addStyleName("value");

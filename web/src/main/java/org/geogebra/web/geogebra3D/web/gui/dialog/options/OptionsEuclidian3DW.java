@@ -191,7 +191,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					flag == GeoClippingCube3D.REDUCTION_MEDIUM);
 			clippingRadioBtnPanel.setValueOfNthRadioButton(2,
 					flag == GeoClippingCube3D.REDUCTION_LARGE);
-
 		}
 
 		@Override

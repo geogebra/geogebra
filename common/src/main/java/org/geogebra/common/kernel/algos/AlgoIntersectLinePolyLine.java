@@ -85,22 +85,9 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 
 		setInputOutput(); // for AlgoElement
 
-		setLabels(labels);
+		outputPoints.setLabelsMulti(labels);
 
 		update();
-	}
-
-	protected void setLabels(String[] labels) {
-		// if only one label (e.g. "A") for more than one output, new labels
-		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 && labels[0] != null
-				&& !labels[0].equals("")) {
-			outputPoints.setIndexLabels(labels[0]);
-		} else {
-			outputPoints.setLabels(labels);
-			outputPoints.setIndexLabels(outputPoints.getElement(0)
-					.getLabel(StringTemplate.defaultTemplate));
-		}
 	}
 
 	/**

@@ -123,6 +123,7 @@ public class DrawSurface extends Drawable {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		}
 		gp.resetWithThickness(geo.getLineThickness());
+		updateStrokes(geo);
 		if (!geo.isEuclidianVisible() || !geo.isDefined()) {
 			return;
 		}
@@ -147,6 +148,7 @@ public class DrawSurface extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
+		g2.setStroke(objStroke);
 		if (gp != null) {
 			g2.draw(gp);
 		}

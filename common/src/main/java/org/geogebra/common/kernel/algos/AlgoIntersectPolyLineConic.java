@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -85,13 +84,11 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 		this(cons, conic, poly, isPolyClosed);
 
 		if (!cons.isSuppressLabelsActive()) {
-			setLabels(labels);
+			intersectingPoints.setLabelsMulti(labels);
 			hasLabels = true;
 		}
-		setLabels(labels);
 
 		update();
-
 	}
 
 	/**
@@ -295,27 +292,6 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_INTERSECT;
-	}
-
-	/**
-	 * if only one label (e.g. "A") for more than one output, new labels will be
-	 * A_1, A_2, ...
-	 * 
-	 * @param labels
-	 *            labels
-	 */
-	protected void setLabels(String[] labels) {
-		// if only one label (e.g. "A") for more than one output, new labels
-		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 && labels[0] != null
-				&& !labels[0].equals("")) {
-			this.intersectingPoints.setIndexLabels(labels[0]);
-		} else {
-
-			this.intersectingPoints.setLabels(labels);
-			this.intersectingPoints.setIndexLabels(this.intersectingPoints
-					.getElement(0).getLabel(StringTemplate.defaultTemplate));
-		}
 	}
 
 	/**

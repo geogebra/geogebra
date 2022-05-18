@@ -784,11 +784,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 					"File is corrupt: No GeoGebra data found");
 		}
 
-		if (def.hasConstruction()) {
-			// ggb file: remove all macros from kernel before processing
-			kernel.removeAllMacros();
-		}
-
 		// Library JavaScript (optional)
 		if (libraryJS == null) { // TODO: && !isGGTfile)
 			kernel.resetLibraryJavaScript();
@@ -815,7 +810,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getGuiManager().updateToolbar();
 			return;
 		}
-
 		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
 				() -> getAsyncManager().scheduleCallback(
 						() -> runAfterLoadImages(def, asSlide)));
@@ -823,6 +817,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	private void runAfterLoadImages(GgbArchive def, boolean asSlide) {
+		if (def.hasConstruction()) {
+			// ggb file: remove all macros from kernel before processing
+			kernel.removeAllMacros();
+		}
 		try {
 			setHideConstructionProtocolNavigation();
 			Log.debug("images loaded");
