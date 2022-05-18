@@ -474,6 +474,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			if (app.isPerspectivesPopupVisible()) {
 				app.showPerspectivesPopupIfNeeded();
 			}
+			if (app.getAppletParameters().getDataParamTransparentGraphics()) {
+				addStyleName("transparent");
+			}
 			// need to call setLabels here
 			// to print DockPanels' titles
 			app.setLabels();
