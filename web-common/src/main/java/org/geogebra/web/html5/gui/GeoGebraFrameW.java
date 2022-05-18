@@ -220,8 +220,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @return True if the frame is shown in a small window or if it has a compact header.
 	 */
 	public boolean hasSmallWindowOrCompactHeader() {
-		boolean isClassic = app != null && "classic".equals(app.getConfig().getAppCode());
-		if (isClassic) {
+		boolean isClassicOrMebis = app != null
+				&& ("classic".equals(app.getConfig().getAppCode()) || app.isMebis());
+		if (isClassicOrMebis) {
 			return hasSmallWindow();
 		}
 		return hasSmallWindow() || isExternalHeaderHidden();

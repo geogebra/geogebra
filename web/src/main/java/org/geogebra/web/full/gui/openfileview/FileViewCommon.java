@@ -40,6 +40,7 @@ public class FileViewCommon extends AnimatingPanel {
 
 	private void initGUI() {
 		this.setStyleName("openFileView");
+		addStyleName("panelFadeIn");
 		initHeader();
 		initContentPanel();
 		initMaterialPanel();
