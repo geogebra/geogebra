@@ -383,6 +383,13 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	@Override
+	public List<RegressionSpecification> getRegressionSpecifications(int column) {
+		GeoList[] cleanLists = new StatsBuilder(getEvaluatable(0),
+				getEvaluatable(column)).getCleanLists2Var();
+		return RegressionSpecification.getForListSize(cleanLists[0].size());
+	}
+
+	@Override
 	public List<StatisticGroup> getRegression(int column, RegressionSpecification regression) {
 		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
 				.getRegression(regression);

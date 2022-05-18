@@ -9,15 +9,21 @@ public interface StatisticsView {
 
 	/**
 	 * @param column column
-	 * @return one variable stats
+	 * @return one variable stats. The list if empty, if there is not enough data.
 	 */
 	public List<StatisticGroup> getStatistics1Var(int column);
 
 	/**
 	 * @param column column
-	 * @return two variable stats for first and given column
+	 * @return two variable stats for first and given column. The list if empty, if there is not enough data.
 	 */
 	public List<StatisticGroup> getStatistics2Var(int column);
+
+	/**
+	 * @param column column
+	 * @return list of regression specifications. The list if empty, if there is not enough data.
+	 */
+	public List<RegressionSpecification> getRegressionSpecifications(int column);
 
 	/**
 	 * @param column column
