@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -64,23 +63,9 @@ public class AlgoVertexIneq extends AlgoElement {
 			GeoFunctionNVar p) {
 		this(cons, p);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
-		setLabels(labels);
+		outputPoints.setLabelsMulti(labels);
 
 		update();
-	}
-
-	private void setLabels(String[] labels) {
-		// if only one label (e.g. "A") for more than one output, new labels
-		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 && labels[0] != null
-				&& !labels[0].equals("")) {
-			outputPoints.setIndexLabels(labels[0]);
-		} else {
-
-			outputPoints.setLabels(labels);
-			outputPoints.setIndexLabels(outputPoints.getElement(0)
-					.getLabel(StringTemplate.defaultTemplate));
-		}
 	}
 
 	@Override

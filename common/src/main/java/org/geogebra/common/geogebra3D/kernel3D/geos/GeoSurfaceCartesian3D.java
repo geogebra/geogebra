@@ -650,11 +650,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public boolean showLineProperties() {
-		return true;
-	}
-
-	@Override
 	public int getMinimumLineThickness() {
 		return 0;
 	}

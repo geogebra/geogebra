@@ -49,7 +49,7 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 			GeoPolygon poly, boolean internalAngle) {
 		this(cons, poly, internalAngle);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
-		setLabels(labels);
+		outputAngles.setLabelsMulti(labels);
 
 		update();
 	}

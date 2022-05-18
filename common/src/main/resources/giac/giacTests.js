@@ -1703,6 +1703,7 @@ var __giac = [
 { cat:"Extremum", cmd:"Extremum[x^10]", result:"{(0, 0)}" },
 { cat:"Extremum", cmd:"Extremum[x^4-x^2]", result:"{((-sqrt(2)) / 2, -1 / 4), (0, 0), (sqrt(2) / 2, -1 / 4)}|OR|{(-1 / sqrt(2), -1 / 4), (0, 0), (1 / sqrt(2), -1 / 4)}" },
 { cat:"Extremum", cmd:"Extremum[4x^3-2x]", result:"{((-sqrt(6)) / 6, 2sqrt(6) / 9), (sqrt(6) / 6, -2sqrt(6) / 9)}|OR|{(-1 / sqrt(6), 2sqrt(6) / 9), (1 / sqrt(6), -2 sqrt(6) / 9)}" },
+{ cat:"Extremum", cmd:"Extremum(exp(-x) sqrt(x))", result:"{(1 / 2, sqrt(2) * 1 / sqrt(ℯ) / 2)}"},
 { cat:"Evaluate", cmd:"Evaluate[(11>10)*3]", result:"true" },
 { cat:"Evaluate", cmd:"Evaluate[(11<10)*3]", result:"false" },
 { cat:"Evaluate", cmd:"Evaluate[(11>10)+3]", result:"4" },
