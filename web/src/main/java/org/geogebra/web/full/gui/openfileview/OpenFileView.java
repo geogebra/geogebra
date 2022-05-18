@@ -76,8 +76,9 @@ public class OpenFileView extends HeaderFileView
 	@Override
 	public void onClick(Widget source) {
 		if (source == common.getHeader().getBackButton()) {
-			common.addStyleName("panelFadeOut");
-			CSSEvents.runOnAnimation(this::close, common.getElement(), "panelFadeOut");
+			common.updateAnimateOutStyle();
+			CSSEvents.runOnAnimation(this::close, common.getElement(),
+					common.getAnimateOutStyle());
 		}
 	}
 }
