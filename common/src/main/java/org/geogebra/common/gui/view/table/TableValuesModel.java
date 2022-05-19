@@ -70,11 +70,19 @@ public interface TableValuesModel {
 	void startBatchUpdate();
 
 	/**
-	 * Ends the batch update. If {@code notifyDatasetChanged} is true calls
+	 * Ends the batch update. If {@code notifyDatasetChanged} is true, calls
 	 * TableValuesListener.notifyDatasetChanged(TableValuesModel).
-	 * @param notifyDatasetChanged wether to call notifyDatasetChanged
+	 * @param notifyDatasetChanged whether to call notifyDatasetChanged
 	 */
 	void endBatchUpdate(boolean notifyDatasetChanged);
+
+	/**
+	 * @return True, if it's called between
+	 * {@link TableValuesModel#startBatchUpdate()} and
+	 * {@link TableValuesModel#endBatchUpdate(boolean)} calls.
+	 * Otherwise, false.
+	 */
+	boolean isBatchUpdate();
 
 	/**
 	 * @param element element
