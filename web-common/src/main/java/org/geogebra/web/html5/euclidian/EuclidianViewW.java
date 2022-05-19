@@ -74,7 +74,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -1156,7 +1155,7 @@ public class EuclidianViewW extends EuclidianView implements
 		pPanel.clear();
 		Scheduler.get().scheduleDeferred(() -> {
 			pPanel.add(prevImg);
-			Window.print();
+			DomGlobal.window.print();
 
 			// PrintPreviewW.removePrintPanelFromDOM();
 			HTMLCollection<elemental2.dom.Element> pp = Dom

@@ -7,10 +7,10 @@ import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.gui.util.InvalidToolFilter;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CustomScrollbar;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
 

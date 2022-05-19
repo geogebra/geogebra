@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.timer.client.Timer;
@@ -47,7 +48,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasAnimation;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -56,6 +56,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.EventListener;
 import jsinterop.base.Js;
 
 /**
@@ -265,7 +267,7 @@ public class GPopupPanel extends SimplePanel implements
 		 */
 		private boolean glassShowing;
 
-		private HandlerRegistration resizeRegistration;
+		private EventListener resizeRegistration;
 
 		private final Panel animationRoot;
 
@@ -434,8 +436,9 @@ public class GPopupPanel extends SimplePanel implements
 				if (curPanel.isGlassEnabled) {
 					getRootPanel().getElement().appendChild(curPanel.glass);
 
-					resizeRegistration = Window
-							.addResizeHandler(curPanel.glassResizer);
+					resizeRegistration = evt -> curPanel.glassResizer.onResize(null);
+					((AppW) app).getGlobalHandlers().addEventListener(
+							DomGlobal.window, "resize", resizeRegistration);
 					curPanel.glassResizer.onResize(null);
 
 					glassShowing = true;
@@ -443,7 +446,7 @@ public class GPopupPanel extends SimplePanel implements
 			} else if (glassShowing) {
 				getRootPanel().getElement().removeChild(curPanel.glass);
 
-				resizeRegistration.removeHandler();
+				DomGlobal.window.removeEventListener("resize", resizeRegistration);
 				resizeRegistration = null;
 
 				glassShowing = false;
@@ -1259,8 +1262,8 @@ public class GPopupPanel extends SimplePanel implements
 
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
-		int windowTop = Window.getScrollTop();
-		int windowBottom = Window.getScrollTop() + Window.getClientHeight();
+		int windowTop = NavigatorUtil.getWindowScrollTop();
+		int windowBottom = NavigatorUtil.getWindowScrollTop() + NavigatorUtil.getWindowHeight();
 
 		// Distance from the top edge of the window to the top edge of the
 		// text box

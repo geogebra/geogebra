@@ -180,7 +180,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth());
 		fr.setComputedHeight(parameters.getDataParamHeight());
-		fr.setOnLoadCallback(Js.uncheckedCast((JsConsumer<Object>) exportedApi -> {
+		fr.setOnLoadCallback((JsConsumer<Object>) (exportedApi -> {
 			Map<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("api", exportedApi);
 			jsonArgument.put("loadedWithFile", currentBase64 != null);

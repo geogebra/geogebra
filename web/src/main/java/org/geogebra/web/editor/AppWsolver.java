@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.inputbox.InputBoxType;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.factories.NoCASFactory;
@@ -26,11 +27,11 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
 
 /**
  * App for solver
@@ -75,7 +76,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
 	private void addShareButton() {
 		GlobalHeader.INSTANCE.initShareButton(share -> {
-			String url = Location.getHref().replaceAll("\\?.*", "")
+			String url = DomGlobal.location.href.replaceAll("\\?.*", "")
 					+ getRelativeURLforEqn(getMathField().getText());
 			DialogData data = new DialogData("Share", null, null);
 			ShareLinkDialog sd = new ShareLinkDialog(this, data, url,
@@ -86,7 +87,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	}
 
 	public static String getRelativeURLforEqn(String text) {
-		return "?i=" + URL.encodePathSegment(text);
+		return "?i=" + Global.encodeURIComponent(text);
 	}
 
 	/**
@@ -164,7 +165,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
 	@Override
 	public double getWidth() {
-		return Window.getClientWidth();
+		return NavigatorUtil.getWindowWidth();
 	}
 
 	@Override
@@ -174,7 +175,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
 	@Override
 	public double getInnerWidth() {
-		int width = Window.getClientWidth();
+		int width = NavigatorUtil.getWindowWidth();
 		if (width > 1300) {
 			return width / 2.0;
 		} else if (width > 650) {

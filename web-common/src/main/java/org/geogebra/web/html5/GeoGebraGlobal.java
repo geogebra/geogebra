@@ -3,7 +3,6 @@ package org.geogebra.web.html5;
 import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.gwtutil.JsConsumer;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -54,6 +53,6 @@ public class GeoGebraGlobal {
 
 	@JsFunction
 	public interface RenderGgbElementFunction {
-		void render(Element el, JavaScriptObject callback);
+		void render(Element el, JsConsumer<Object> callback);
 	}
 }

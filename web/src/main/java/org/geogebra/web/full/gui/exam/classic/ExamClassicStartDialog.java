@@ -15,6 +15,7 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -166,7 +167,7 @@ public class ExamClassicStartDialog extends ComponentDialog {
 		if (examStyle) {
 			return;
 		}
-		StyleInjector.inject("css", "exam");
+		new StyleInjector(GWT.getModuleBaseURL()).inject("css", "exam");
 		examStyle = true;
 	}
 

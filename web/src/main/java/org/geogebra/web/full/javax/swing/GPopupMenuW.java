@@ -6,6 +6,7 @@ import java.util.Map;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -22,7 +23,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -137,15 +137,15 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 				+ app.getPanel().getOffsetHeight();
 		if ((x + popupPanel.getOffsetWidth())
 				* getScaleX() > leftMargin
-						+ Window.getScrollLeft()) {
-			left = (int) ((leftMargin + Window.getScrollLeft())
+						+ NavigatorUtil.getWindowScrollLeft()) {
+			left = (int) ((leftMargin + NavigatorUtil.getWindowScrollLeft())
 					/ getScaleX() - xOffset - popupPanel.getOffsetWidth());
 			newPoz = true;
 		}
 		if ((y + popupPanel.getOffsetHeight())
 				* getScaleY() > bottomMargin
-						+ Window.getScrollTop()) {
-			top = (int) ((bottomMargin + Window.getScrollTop())
+						+ NavigatorUtil.getWindowScrollTop()) {
+			top = (int) ((bottomMargin + NavigatorUtil.getWindowScrollTop())
 					/ getScaleY() - yOffset - popupPanel.getOffsetHeight());
 			newPoz = true;
 		}
@@ -373,7 +373,7 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 
 	private int alignPopupToBottom() {
 		int absTop = Math.max(SUBMENU_VERTICAL_PADDING,
-				Window.getClientHeight() + Window.getScrollTop()
+				NavigatorUtil.getWindowHeight() + NavigatorUtil.getWindowScrollTop()
 				- getSubPopupHeight() - SUBMENU_VERTICAL_PADDING);
 
 		return getRelativeTop(absTop);

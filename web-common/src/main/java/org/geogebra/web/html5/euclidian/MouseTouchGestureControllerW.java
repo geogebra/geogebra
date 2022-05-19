@@ -20,8 +20,7 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Window;
-
+import elemental2.dom.DomGlobal;
 import elemental2.dom.WheelEvent;
 
 public class MouseTouchGestureControllerW extends MouseTouchGestureController
@@ -66,7 +65,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		super(app, ec);
 		this.app = app;
 
-		app.getGlobalHandlers().add(Window.addWindowScrollHandler(e -> calculateEnvironment()));
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "scroll",
+				e -> calculateEnvironment());
 		app.addWindowResizeListener(this::calculateEnvironment);
 		longTouchManager = LongTouchManager.getInstance();
 	}

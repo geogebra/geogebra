@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-    <inherits name='com.google.gwt.user.User'/>
     <source path='gwtutil' />
     <inherits name="elemental2.dom.Dom"/>
     <inherits name="elemental2.core.Core"/>

@@ -85,6 +85,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.client.NativeRegExpFactory;
 import org.geogebra.regexp.shared.RegExpFactory;
 import org.geogebra.web.html5.Browser;
@@ -156,8 +157,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -279,11 +278,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getTimerSystem();
 		this.showInputTop = InputPosition.algebraView;
-		dropHandlers.add(Window.addResizeHandler(event -> {
+		dropHandlers.addEventListener(DomGlobal.window, "resize", event -> {
 			fitSizeToScreen();
 			windowResized();
 			closePopupsInRegistry();
-		}));
+		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
@@ -330,11 +329,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			// only apply right border if left border is nonzero: important for
 			// iframes
 			if (this.getAbsLeft() > 0) {
-				border = Window.getClientWidth() > SCREEN_WIDTH_THRESHOLD
+				border = NavigatorUtil.getWindowWidth() > SCREEN_WIDTH_THRESHOLD
 					? BIG_SCREEN_MARGIN : SMALL_SCREEN_MARGIN;
 			}
-			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
-			scaleTo(width, Window.getClientHeight());
+			int width = NavigatorUtil.getWindowWidth() - (int) getAbsLeft() - border;
+			scaleTo(width, NavigatorUtil.getWindowHeight());
 			resizeContainer();
 		} else {
 			scaleWithRatio(getAppletParameters().getDataParamScale());
@@ -1143,7 +1142,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
 					openMacro(macroName);
-					Window.setTitle(macroName);
+					DomGlobal.document.title = macroName;
 					setToolLoadedFromStorage(true);
 					return true;
 				} catch (Exception e) {
@@ -1628,13 +1627,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 		}
 
-		String disableCAS = Window.Location.getParameter("disableCAS");
+		String disableCAS = NavigatorUtil.getUrlParameter("disableCAS");
 		if ("".equals(disableCAS) || "true".equals(disableCAS)) {
 			kernel.getAlgebraProcessor()
 					.addCommandFilter(CommandFilterFactory.createNoCasCommandFilter());
 			enableCAS(false);
 		}
-		String disable3D = Window.Location.getParameter("disable3D");
+		String disable3D = NavigatorUtil.getUrlParameter("disable3D");
 		if ("".equals(disable3D) || "true".equals(disable3D)) {
 			getSettings().getEuclidian(-1).setEnabled(false);
 		}
@@ -1937,10 +1936,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	protected void translateHeader() {
-		Element header = Dom.querySelector(".GeoGebraHeader");
-		if (header != null) {
-			UserPreferredLanguage.translate(this, header);
-		}
+		UserPreferredLanguage.translate(this, ".GeoGebraHeader");
 	}
 
 	@Override
@@ -2863,7 +2859,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				|| getAppletParameters().getDataParamTubeID().length() > 0
 				|| this.getAppletParameters().getDataParamJSON().length() > 0
 				|| (getAppletParameters().getDataParamApp()
-						&& Location.getParameter("state") != null);
+						&& NavigatorUtil.getUrlParameter("state") != null);
 	}
 
 	@Override

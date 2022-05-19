@@ -3,9 +3,9 @@ package org.geogebra.web.full.gui.components.dropdown.grid;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.ImageResourceConverter;
 import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;

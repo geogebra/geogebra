@@ -20,6 +20,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.RendererWnoWebGL;
@@ -44,7 +45,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -622,7 +622,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @return whether the frame we are running in is visible
 	 */
 	private static boolean isParentWindowVisible() {
-		return Window.getClientWidth() > 0;
+		return NavigatorUtil.getWindowWidth() > 0;
 	}
 
 	private void addScreenReader() {

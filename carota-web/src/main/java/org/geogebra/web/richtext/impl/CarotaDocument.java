@@ -1,7 +1,5 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -49,7 +47,7 @@ public class CarotaDocument implements HasContent {
 	public native void contentChanged(EditorCallback editorCallback);
 
 	@Override
-	public native JavaScriptObject save();
+	public native Object save();
 
 	@JsProperty
 	public native void setExternalScale(double sx);
