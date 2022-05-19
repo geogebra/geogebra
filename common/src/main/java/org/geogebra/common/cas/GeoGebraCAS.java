@@ -296,13 +296,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, SymbolicMode mode) {
-		return getCASCommand(name, args, symbolic, tpl, true, mode);
-	}
-
-	final synchronized private String getCASCommand(final String name,
-			final ArrayList<ExpressionNode> args, boolean symbolic,
-			StringTemplate tpl, boolean allowOutsourcing,
-			SymbolicMode symbolicMode) {
 		// check if completion of variable list is needed
 		boolean paramEquExists = checkForParamEquExistance(args, name);
 		// check if list of vars needs completion
@@ -522,8 +515,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		else if (sbCASCommand.toString().equals("Solve.")) {
 			sbCASCommand.append(args.size());
 		}
-
-		boolean outsourced = false;
 
 		// get translation ggb -> Giac
 		String translation = translateCommandSignature(sbCASCommand.toString());
