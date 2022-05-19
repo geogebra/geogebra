@@ -524,22 +524,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		boolean outsourced = false;
-		String translation = null;
-		// check if there is support in the outsourced CAS (now SingularWS) for
-		// this command:
-		if (allowOutsourcing && app.getSingularWS() != null
-				&& app.singularWSisAvailable()) {
-			translation = app
-					.singularWSgetTranslatedCASCommand(sbCASCommand.toString());
-			if (translation != null) {
-				outsourced = true;
-			}
-		}
 
 		// get translation ggb -> Giac
-		if (!outsourced) {
-			translation = translateCommandSignature(sbCASCommand.toString());
-		}
+		String translation = translateCommandSignature(sbCASCommand.toString());
 
 		// Try .N translation
 		if (translation == null) {
@@ -739,23 +726,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				} else {
 					sbCASCommand.append(ch);
 				}
-			}
-		}
-
-		if (outsourced) {
-			try {
-				String retval = app
-						.singularWSdirectCommand(sbCASCommand.toString());
-				if (retval == null || "".equals(retval)) {
-					// if there was a problem, try again without using Singular:
-					return getCASCommand(name, args, symbolic, tpl, false,
-							symbolicMode);
-				}
-				return retval;
-			} catch (Throwable e) {
-				// try again without Singular:
-				return getCASCommand(name, args, symbolic, tpl, false,
-						symbolicMode);
 			}
 		}
 

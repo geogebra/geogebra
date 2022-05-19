@@ -147,7 +147,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.ProverSettings;
-import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -365,7 +364,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private CopyPasteD copyPaste;
 	private int centerX;
 	private int centerY;
-	private String regressionFileName = null;
 
 	/*************************************************************
 	 * Construct application within JFrame
@@ -507,11 +505,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
-
-		// here we initialize SingularWS
-		// for a better approach see [22746] --- but it would break file loading
-		// at the moment
-		initializeSingularWSD();
 
 		boolean fileLoaded = handleFileArg(args);
 
@@ -757,24 +750,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 							+ "] (Botana only)\n"
 							+ "  Example: --prover=engine:Botana,timeout:10,"
 							+ "fpnevercoll:true,usefixcoords:43\n");
-			AppD.exit(0);
-		}
-		if (args.containsArg("singularWShelp")) {
-			// help message for singularWS
-			System.out.println(
-					" --singularWS=OPTIONS\tset options for SingularWS\n"
-							+ "   where OPTIONS is a comma separated list, formed with the "
-							+ "following available settings (defaults in brackets):\n"
-							+ "      enable:BOOLEAN\tuse Singular WebService when possible ["
-							+ SingularWSSettings.useSingularWebService() + "]\n"
-							+ "      remoteURL:URL\tset the remote server URL ["
-							+ SingularWSSettings
-									.getSingularWebServiceRemoteURL()
-							+ "]\n" + "      timeout:SECS\tset the timeout ["
-							+ SingularWSSettings.getTimeout() + "]\n"
-							+ "      caching:BOOLEAN\tset server side caching ["
-							+ SingularWSSettings.getCachingText() + "]\n"
-							+ "  Example: singularWS=timeout:3\n");
 			AppD.exit(0);
 		}
 		if (args.containsArg("v")) {
@@ -1146,29 +1121,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		Log.warn("Prover option not recognized: ".concat(option));
 	}
 
-	private static void setSingularWSOption(String option) {
-		String[] str = option.split(":", 2);
-		if ("enable".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.setUseSingularWebService(
-					Boolean.valueOf(str[1]).booleanValue());
-			return;
-		}
-		if ("remoteURL".equalsIgnoreCase(str[0])) {
-			SingularWSSettings
-					.setSingularWebServiceRemoteURL(str[1].toLowerCase());
-			return;
-		}
-		if ("timeout".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.setTimeout(Integer.parseInt(str[1]));
-			return;
-		}
-		if ("caching".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.setCachingFromText(str[1]);
-			return;
-		}
-		Log.warn("Prover option not recognized: ".concat(option));
-	}
-
 	/**
 	 * Reports if GeoGebra version check is allowed. The version_check_allowed
 	 * preference is read to decide this, which can be set by the command line
@@ -1212,20 +1164,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				setLocale(getLocale(language));
 			}
 		}
-		if (args.containsArg("regressionFile")) {
-			this.regressionFileName = args.getStringValue("regressionFile");
-		}
 		if (args.containsArg("prover")) {
 			String[] proverOptions = args.getStringValue("prover").split(",");
 			for (int i = 0; i < proverOptions.length; i++) {
 				setProverOption(proverOptions[i]);
-			}
-		}
-		if (args.containsArg("singularWS")) {
-			String[] singularWSOptions = args.getStringValue("singularWS")
-					.split(",");
-			for (int i = 0; i < singularWSOptions.length; i++) {
-				setSingularWSOption(singularWSOptions[i]);
 			}
 		}
 	}
@@ -4511,45 +4453,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		} else {
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		}
-	}
-
-	// **************************************************************************
-	// SINGULAR
-	// **************************************************************************
-
-	private class InitializeSingularWSThread implements Runnable {
-		protected InitializeSingularWSThread() {
-		}
-
-		@Override
-		public void run() {
-			// Display info about this particular thread
-			Log.debug(Thread.currentThread() + " running");
-			initializeSingularWS();
-		}
-	}
-
-	private void initializeSingularWSD() {
-		Thread t = new Thread(new InitializeSingularWSThread(), "compute");
-		long startTime = System.currentTimeMillis();
-		t.start();
-		int i = 0;
-		while (t.isAlive()) {
-			Log.debug("Waiting for the initialization: " + i++);
-			try {
-				t.join(250);
-			} catch (InterruptedException e) {
-				return;
-			}
-			if (((System.currentTimeMillis() - startTime) > SingularWSSettings
-					.getTimeout() * 1000L) && t.isAlive()) {
-				Log.debug("SingularWS startup timeout");
-				t.interrupt();
-				// t.join(); //
-				// http://docs.oracle.com/javase/tutorial/essential/concurrency/simple.html
-				return;
-			}
 		}
 	}
 

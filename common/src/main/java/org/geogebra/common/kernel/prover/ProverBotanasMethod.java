@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -49,7 +48,6 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
 import org.geogebra.common.util.Prover.ProofResult;
@@ -1464,11 +1462,7 @@ public class ProverBotanasMethod {
 		}
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
-		SingularWebService singularWS = prover.getConstruction()
-				.getApplication().getSingularWS();
-		if (singularWS == null || (!singularWS.isAvailable())) {
-			proverSettings.transcext = false;
-		}
+		proverSettings.transcext = false;
 
 		/* The NDG conditions (automatically created): */
 		if (proverSettings.freePointsNeverCollinear == null) {
@@ -1508,351 +1502,242 @@ public class ProverBotanasMethod {
 			Log.debug("substitutions: " + substitutions);
 		}
 
-		if (prover.isReturnExtraNDGs() ||
-				!prover.getConstruction().getApplication()
-						.singularWSisAvailable()) {
-			/* START OF PROVEDETAILS. */
-			Set<Set<PPolynomial>> eliminationIdeal;
-			NDGDetector ndgd = new NDGDetector(prover, substitutions,
-					as.freeVariables);
+		/* START OF PROVEDETAILS. */
+		Set<Set<PPolynomial>> eliminationIdeal;
+		NDGDetector ndgd = new NDGDetector(prover, substitutions,
+				as.freeVariables);
 
-			boolean found = false;
-			int permutation = 0;
-			int MAX_PERMUTATIONS = 1; /*
-			 * Giac cannot permute the variables at
-			 * the moment.
-			 */
-			if (prover.getConstruction().getApplication()
-					.singularWSisAvailable()) {
-				/*
-				 * TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)! to
-				 * prevent unneeded computations:
-				 */
-				MAX_PERMUTATIONS = 8; /*
-				 * intuitively set, see Polynomial.java
-				 * for more on info (Pappus6 will work
-				 * with 7, too)
-				 */
-				/* Pappus6 is at https://www.geogebra.org/m/TEQGgRKe */
-			}
-			while (!found && permutation < MAX_PERMUTATIONS) {
+		boolean found = false;
+		int permutation = 0;
+		int MAX_PERMUTATIONS = 1; /*
+		 * Giac cannot permute the variables at
+		 * the moment.
+		 */
+		while (!found && permutation < MAX_PERMUTATIONS) {
 
-				eliminationIdeal = PPolynomial.eliminate(
-						as.getPolynomials()
-								.toArray(new PPolynomial[as.getPolynomials()
-										.size()]),
-						substitutions, k, permutation++, true, false,
-						as.freeVariables);
-				if (eliminationIdeal == null) {
-					return ProofResult.UNKNOWN;
-				}
-
-				Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
-
-				List<HashSet<GeoPoint>> xEqualSet = new ArrayList<>();
-				// xEqualSet.add(new HashSet<GeoPoint>());
-				List<HashSet<GeoPoint>> yEqualSet = new ArrayList<>();
-				// yEqualSet.add(new HashSet<GeoPoint>());
-				boolean xyRewrite = (eliminationIdeal.size() == 2);
-
-				List<NDGCondition> bestNdgSet = new ArrayList<>();
-				double bestScore = Double.POSITIVE_INFINITY;
-				int ndgI = 0;
-				while (ndgSet.hasNext()) {
-					ndgI++;
-					Log.debug("Considering NDG " + ndgI + "...");
-					List<NDGCondition> ndgcl = new ArrayList<>();
-					double score = 0.0;
-					/*
-					 * All NDGs must be translatable into human readable form.
-					 */
-					boolean readable = true;
-					Set<PPolynomial> thisNdgSet = ndgSet.next();
-					Iterator<PPolynomial> ndg = thisNdgSet.iterator();
-					while (ndg.hasNext() && readable) {
-						PPolynomial poly = ndg.next();
-						if (poly.isZero()) {
-
-							/*
-							 * Here we know that the statement is reported to be
-							 * not generally true.
-							 */
-							Log.debug("Statement is NOT GENERALLY TRUE");
-
-							/*
-							 * It is possible that the statement is not
-							 * generally false, either.
-							 *
-							 */
-							as.removeThesis();
-							as.addNegatedThesis();
-							eliminationIdeal = PPolynomial.eliminate(
-									as.getPolynomials()
-											.toArray(new PPolynomial[as
-													.getPolynomials().size()]),
-									substitutions, k, permutation++, true,
-									false, as.freeVariables);
-							ndgSet = eliminationIdeal.iterator();
-							while (ndgSet.hasNext()) {
-								thisNdgSet = ndgSet.next();
-								ndg = thisNdgSet.iterator();
-								while (ndg.hasNext()) {
-									poly = ndg.next();
-									if (poly.isZero()) {
-										/*
-										 * Here we know that the statement is
-										 * may be not generally false if we
-										 * are working with a maximal independent
-										 * set of variables.
-										 */
-										as.removeThesis();
-										int naivDim = as.getFreeVariables()
-												.size()
-												- substitutions.keySet().size();
-										Log.debug(
-												"Naive dimension = " + naivDim);
-										if (!HilbertDimension.isDimGreaterThan2(
-												as, substitutions, naivDim)) {
-											Log.debug(
-													"Statement is NOT GENERALLY FALSE");
-											return ProofResult.TRUE_ON_COMPONENTS;
-										}
-										if (!investigateNonGeometricMaximalIndependentSet) {
-											return ProofResult.UNKNOWN;
-										}
-										/* Check again if the statement is generally
-										 * false by using a maximum independent set
-										 * of variables.
-										 */
-										as.addNegatedThesis();
-										eliminationIdeal = PPolynomial.eliminate(
-												as.getPolynomials()
-														.toArray(new PPolynomial[as
-																.getPolynomials().size()]),
-												substitutions, k, permutation++, true,
-												false, HilbertDimension.getAMaximalSet());
-										ndgSet = eliminationIdeal.iterator();
-										while (ndgSet.hasNext()) {
-											thisNdgSet = ndgSet.next();
-											ndg = thisNdgSet.iterator();
-											while (ndg.hasNext()) {
-												poly = ndg.next();
-												if (poly.isZero()) {
-													Log.debug(
-															"Statement is NOT GENERALLY FALSE");
-													return ProofResult.TRUE_ON_COMPONENTS;
-												}
-											}
-										}
-										return ProofResult.FALSE;
-									}
-								}
-							}
-							/*
-							 * End of checking if the statement is not generally
-							 * false.
-							 */
-
-							if (as.interpretFalseAsUndefined) {
-								Log.debug("Interpreting FALSE as UNKNOWN");
-								return ProofResult.UNKNOWN;
-							}
-							return ProofResult.FALSE;
-						}
-
-						/*
-						 * Here we know that the statement is reported to be
-						 * generally true with some NDGs.
-						 */
-						if (!poly.isConstant()) {
-							if (as.interpretTrueAsUndefined) {
-								Log.debug("Interpreting TRUE as UNKNOWN");
-								return ProofResult.UNKNOWN;
-							}
-							NDGCondition ndgc = ndgd.detect(poly);
-							if (ndgc == null) {
-								readable = false;
-							} else {
-								/*
-								 * Check if this elimination ideal equals to
-								 * {xM-xN,yM-yN}:
-								 */
-								xyRewrite = (xyRewrite
-										&& thisNdgSet.size() == 1);
-								/*
-								 * Note that in some cases the CAS may return
-								 * (xM-xN)*(-1) which consists of two factors,
-								 * so thisNdgSet.size() == 1 will fail. Until
-								 * now there is no experience of such behavior
-								 * for such simple ideals, so maybe this check
-								 * is OK.
-								 */
-								if (xyRewrite) {
-									if (ndgc.getCondition()
-											.equals("xAreEqual")) {
-										HashSet<GeoPoint> points = new HashSet<>();
-										points.add(
-												(GeoPoint) ndgc.getGeos()[0]);
-										points.add(
-												(GeoPoint) ndgc.getGeos()[1]);
-										xEqualSet.add(points);
-									}
-									if (ndgc.getCondition()
-											.equals("yAreEqual")) {
-										HashSet<GeoPoint> points = new HashSet<>();
-										points.add(
-												(GeoPoint) ndgc.getGeos()[0]);
-										points.add(
-												(GeoPoint) ndgc.getGeos()[1]);
-										yEqualSet.add(points);
-									}
-									if (xEqualSet.size() == 1
-											&& xEqualSet.equals(yEqualSet)) {
-										/*
-										 * If yes, set the condition to
-										 * AreEqual(M,N) and readable enough:
-										 */
-										ndgc.setCondition("AreEqual");
-										ndgc.setReadability(0.5);
-									}
-								}
-
-								ndgcl.add(ndgc);
-								score += ndgc.getReadability();
-							}
-						}
-					}
-					/*
-					 * Now we take the set if the conditions are readable and
-					 * the set is the current best. TODO: Here we should
-					 * simplify the NDGs, i.e. if one of them is a logical
-					 * consequence of others, then it should be eliminated.
-					 */
-					if (readable && score < bestScore) {
-						Log.debug("Found a better NDG score (" + score
-								+ ") than " + bestScore);
-						bestScore = score;
-						bestNdgSet = ndgcl;
-						found = true;
-					} else {
-						if (readable) {
-							Log.debug("Not better than previous NDG score ("
-									+ bestScore + "), this is " + score);
-						} else {
-							Log.debug("...unreadable");
-						}
-					}
-				}
-				if (found) {
-					for (NDGCondition aBestNdgSet : bestNdgSet) {
-						prover.addNDGcondition(aBestNdgSet);
-					}
-				}
-			}
-			/*
-			 * No readable NDGs was found, search for another prover to make a
-			 * better job:
-			 */
-			if (!found) {
-				Log.debug("Statement is TRUE but NDGs are UNREADABLE");
-				return ProofResult.TRUE_NDG_UNREADABLE;
-			}
-			/* END OF PROVEDETAILS. */
-
-			/* START OF PROVE. */
-		} else {
-			ExtendedBoolean solvable = PPolynomial.solvable(
+			eliminationIdeal = PPolynomial.eliminate(
 					as.getPolynomials()
 							.toArray(new PPolynomial[as.getPolynomials()
 									.size()]),
-					substitutions, statement.getKernel(),
-					proverSettings.transcext, as.freeVariables);
-			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
-				/*
-				 * Prover returned with no success, search for another prover:
-				 */
-				Log.debug(
-						"Unsuccessful run, statement is UNKNOWN at the moment");
+					substitutions, k, permutation++, true, false,
+					as.freeVariables);
+			if (eliminationIdeal == null) {
 				return ProofResult.UNKNOWN;
 			}
-			if (solvable.boolVal()) {
-				if (!proverSettings.transcext) {
-					/*
-					 * We cannot reliably tell if the statement is really false:
-					 */
-					Log.debug(
-							"No transcext support, system is solvable, statement is UNKNOWN");
-					return ProofResult.UNKNOWN;
-				}
-				/* Here we know that the statement is not generally true. */
-				Log.debug("Statement is NOT GENERALLY TRUE");
 
+			Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
+
+			List<HashSet<GeoPoint>> xEqualSet = new ArrayList<>();
+			// xEqualSet.add(new HashSet<GeoPoint>());
+			List<HashSet<GeoPoint>> yEqualSet = new ArrayList<>();
+			// yEqualSet.add(new HashSet<GeoPoint>());
+			boolean xyRewrite = (eliminationIdeal.size() == 2);
+
+			List<NDGCondition> bestNdgSet = new ArrayList<>();
+			double bestScore = Double.POSITIVE_INFINITY;
+			int ndgI = 0;
+			while (ndgSet.hasNext()) {
+				ndgI++;
+				Log.debug("Considering NDG " + ndgI + "...");
+				List<NDGCondition> ndgcl = new ArrayList<>();
+				double score = 0.0;
 				/*
-				 * It is possible that the statement is not generally false,
-				 * either.
+				 * All NDGs must be translatable into human readable form.
 				 */
-				as.removeThesis();
-				as.addNegatedThesis();
-				solvable = PPolynomial
-						.solvable(
+				boolean readable = true;
+				Set<PPolynomial> thisNdgSet = ndgSet.next();
+				Iterator<PPolynomial> ndg = thisNdgSet.iterator();
+				while (ndg.hasNext() && readable) {
+					PPolynomial poly = ndg.next();
+					if (poly.isZero()) {
+
+						/*
+						 * Here we know that the statement is reported to be
+						 * not generally true.
+						 */
+						Log.debug("Statement is NOT GENERALLY TRUE");
+
+						/*
+						 * It is possible that the statement is not
+						 * generally false, either.
+						 *
+						 */
+						as.removeThesis();
+						as.addNegatedThesis();
+						eliminationIdeal = PPolynomial.eliminate(
 								as.getPolynomials()
 										.toArray(new PPolynomial[as
 												.getPolynomials().size()]),
-								substitutions, statement.getKernel(),
-								proverSettings.transcext, as.freeVariables);
-				if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
-					/*
-					 * Prover returned with no success, search for another
-					 * prover:
-					 */
-					Log.debug(
-							"Unsuccessful run on negated statement, statement is UNKNOWN at the moment");
-					return ProofResult.UNKNOWN;
-				}
-				if (solvable.boolVal()) {
-					/*
-					 * Here we know that the statement is not generally false.
-					 */
-					as.removeThesis();
-					int naivDim = as.getFreeVariables().size()
-							- substitutions.keySet().size();
-					Log.debug("Naive dimension = " + naivDim);
-					if (!HilbertDimension.isDimGreaterThan2(as, substitutions,
-							naivDim)) {
-						Log.debug("Statement is NOT GENERALLY FALSE");
-						return ProofResult.TRUE_ON_COMPONENTS;
-					}
-					if (!investigateNonGeometricMaximalIndependentSet) {
-						return ProofResult.UNKNOWN;
-					}
-					/*
-					 * Check again if the statement is generally false by using
-					 * a maximum independent set of variables.
-					 */
-					as.addNegatedThesis();
-					solvable = PPolynomial.solvable(
-							as.getPolynomials()
-									.toArray(new PPolynomial[as.getPolynomials()
-											.size()]),
-							substitutions, statement.getKernel(),
-							proverSettings.transcext,
-							HilbertDimension.getAMaximalSet());
-					if (solvable.boolVal()) {
-						Log.debug("Statement is NOT GENERALLY FALSE");
-						return ProofResult.TRUE_ON_COMPONENTS;
-					}
-					return ProofResult.FALSE;
-				}
-				/* End of checking if the statement is not generally false. */
+								substitutions, k, permutation++, true,
+								false, as.freeVariables);
+						ndgSet = eliminationIdeal.iterator();
+						while (ndgSet.hasNext()) {
+							thisNdgSet = ndgSet.next();
+							ndg = thisNdgSet.iterator();
+							while (ndg.hasNext()) {
+								poly = ndg.next();
+								if (poly.isZero()) {
+									/*
+									 * Here we know that the statement is
+									 * may be not generally false if we
+									 * are working with a maximal independent
+									 * set of variables.
+									 */
+									as.removeThesis();
+									int naivDim = as.getFreeVariables()
+											.size()
+											- substitutions.keySet().size();
+									Log.debug(
+											"Naive dimension = " + naivDim);
+									if (!HilbertDimension.isDimGreaterThan2(
+											as, substitutions, naivDim)) {
+										Log.debug(
+												"Statement is NOT GENERALLY FALSE");
+										return ProofResult.TRUE_ON_COMPONENTS;
+									}
+									if (!investigateNonGeometricMaximalIndependentSet) {
+										return ProofResult.UNKNOWN;
+									}
+									/* Check again if the statement is generally
+									 * false by using a maximum independent set
+									 * of variables.
+									 */
+									as.addNegatedThesis();
+									eliminationIdeal = PPolynomial.eliminate(
+											as.getPolynomials()
+													.toArray(new PPolynomial[as
+															.getPolynomials().size()]),
+											substitutions, k, permutation++, true,
+											false, HilbertDimension.getAMaximalSet());
+									ndgSet = eliminationIdeal.iterator();
+									while (ndgSet.hasNext()) {
+										thisNdgSet = ndgSet.next();
+										ndg = thisNdgSet.iterator();
+										while (ndg.hasNext()) {
+											poly = ndg.next();
+											if (poly.isZero()) {
+												Log.debug(
+														"Statement is NOT GENERALLY FALSE");
+												return ProofResult.TRUE_ON_COMPONENTS;
+											}
+										}
+									}
+									return ProofResult.FALSE;
+								}
+							}
+						}
+						/*
+						 * End of checking if the statement is not generally
+						 * false.
+						 */
 
-				if (as.interpretFalseAsUndefined
-						&& !as.interpretTrueAsUndefined) {
-					Log.debug("Interpreting FALSE as UNKNOWN");
-					return ProofResult.UNKNOWN;
+						if (as.interpretFalseAsUndefined) {
+							Log.debug("Interpreting FALSE as UNKNOWN");
+							return ProofResult.UNKNOWN;
+						}
+						return ProofResult.FALSE;
+					}
+
+					/*
+					 * Here we know that the statement is reported to be
+					 * generally true with some NDGs.
+					 */
+					if (!poly.isConstant()) {
+						if (as.interpretTrueAsUndefined) {
+							Log.debug("Interpreting TRUE as UNKNOWN");
+							return ProofResult.UNKNOWN;
+						}
+						NDGCondition ndgc = ndgd.detect(poly);
+						if (ndgc == null) {
+							readable = false;
+						} else {
+							/*
+							 * Check if this elimination ideal equals to
+							 * {xM-xN,yM-yN}:
+							 */
+							xyRewrite = (xyRewrite
+									&& thisNdgSet.size() == 1);
+							/*
+							 * Note that in some cases the CAS may return
+							 * (xM-xN)*(-1) which consists of two factors,
+							 * so thisNdgSet.size() == 1 will fail. Until
+							 * now there is no experience of such behavior
+							 * for such simple ideals, so maybe this check
+							 * is OK.
+							 */
+							if (xyRewrite) {
+								if (ndgc.getCondition()
+										.equals("xAreEqual")) {
+									HashSet<GeoPoint> points = new HashSet<>();
+									points.add(
+											(GeoPoint) ndgc.getGeos()[0]);
+									points.add(
+											(GeoPoint) ndgc.getGeos()[1]);
+									xEqualSet.add(points);
+								}
+								if (ndgc.getCondition()
+										.equals("yAreEqual")) {
+									HashSet<GeoPoint> points = new HashSet<>();
+									points.add(
+											(GeoPoint) ndgc.getGeos()[0]);
+									points.add(
+											(GeoPoint) ndgc.getGeos()[1]);
+									yEqualSet.add(points);
+								}
+								if (xEqualSet.size() == 1
+										&& xEqualSet.equals(yEqualSet)) {
+									/*
+									 * If yes, set the condition to
+									 * AreEqual(M,N) and readable enough:
+									 */
+									ndgc.setCondition("AreEqual");
+									ndgc.setReadability(0.5);
+								}
+							}
+
+							ndgcl.add(ndgc);
+							score += ndgc.getReadability();
+						}
+					}
 				}
-				return ProofResult.FALSE;
+				/*
+				 * Now we take the set if the conditions are readable and
+				 * the set is the current best. TODO: Here we should
+				 * simplify the NDGs, i.e. if one of them is a logical
+				 * consequence of others, then it should be eliminated.
+				 */
+				if (readable && score < bestScore) {
+					Log.debug("Found a better NDG score (" + score
+							+ ") than " + bestScore);
+					bestScore = score;
+					bestNdgSet = ndgcl;
+					found = true;
+				} else {
+					if (readable) {
+						Log.debug("Not better than previous NDG score ("
+								+ bestScore + "), this is " + score);
+					} else {
+						Log.debug("...unreadable");
+					}
+				}
+			}
+			if (found) {
+				for (NDGCondition aBestNdgSet : bestNdgSet) {
+					prover.addNDGcondition(aBestNdgSet);
+				}
 			}
 		}
+		/*
+		 * No readable NDGs was found, search for another prover to make a
+		 * better job:
+		 */
+		if (!found) {
+			Log.debug("Statement is TRUE but NDGs are UNREADABLE");
+			return ProofResult.TRUE_NDG_UNREADABLE;
+		}
+		/* END OF PROVEDETAILS. */
+
+		/* START OF PROVE. */
 		if (as.interpretTrueAsUndefined) {
 			Log.debug("Interpreting TRUE as UNKNOWN");
 			return ProofResult.UNKNOWN;
@@ -2002,19 +1887,12 @@ public class ProverBotanasMethod {
 			return null;
 		}
 
-		boolean autoNdg = false;
-		SingularWebService singularWS = mover.getConstruction()
-				.getApplication().getSingularWS();
-		if (singularWS == null || (!singularWS.isAvailable())) {
-			autoNdg = true;
-		}
-
 		/* Create mover direct dependencies for Pech's idea (see below).
 		 * This set contains all points that should be avoided to
 		 * coincide with the mover.
 		 */
 		HashSet<GeoElementND> moverDirectDependencies = new HashSet<>();
-		if (autoNdg && !implicit) {
+		if (!implicit) {
 			AlgoPointOnPath apop = (AlgoPointOnPath) mover.getParentAlgorithm();
 			GeoElement i0 = apop.input[0];
 			if (i0 instanceof GeoLine) {
@@ -2071,7 +1949,7 @@ public class ProverBotanasMethod {
 				condition &= !tracer.equals(freePoint);
 			}
 
-			if (autoNdg && condition
+			if (condition
 					&& moverDirectDependencies.contains(freePoint)
 					&& vars != null) {
 				/* add non-degeneracy condition for the points to be avoided (Pech's idea) */
