@@ -1124,7 +1124,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			Set<PVariable> freeVariablesInput) {
 
 		TreeSet<PVariable> dependentVariables = new TreeSet<>();
-		TreeSet<PVariable> freeVariables = new TreeSet<>();
 		TreeSet<PVariable> variables = new TreeSet<>(getVars(eqSystem));
 		Iterator<PVariable> variablesIterator = variables.iterator();
 		while (variablesIterator.hasNext()) {
@@ -1132,15 +1131,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			if (substitutions == null || !substitutions.containsKey(variable)) {
 				if (!freeVariablesInput.contains(variable)) {
 					dependentVariables.add(variable);
-				} else {
-					freeVariables.add(variable);
 				}
 			}
 		}
-		/*
-		 * Maybe the freeVariables will be the same as the freeVariablesInput.
-		 * If this is always so, then the above code is redundant. TODO: check.
-		 */
 		PPolynomial[] eqSystemSubstituted;
 		if (substitutions != null) {
 			eqSystemSubstituted = new PPolynomial[eqSystem.length];
