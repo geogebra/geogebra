@@ -40,6 +40,7 @@ public class UnsupportedOperatorChecker implements Inspecting {
 		case LOG2:
 		case IF:
 		case IF_ELSE:
+		case IF_LIST:
 		case NO_OPERATION:
 			return false;
 		case MULTIPLY:

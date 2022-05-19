@@ -437,6 +437,19 @@ public class Interval {
 	}
 
 	/**
+	 *
+	 * @param other to compare with.
+	 * @return if this interval is less than the other.
+	 */
+	public boolean isLessThan(Interval other) {
+		if (isUndefined() || other == null || other.isUndefined()) {
+			return false;
+		}
+
+		return high < other.low;
+	}
+
+	/**
 	 * Evaluate interval with given operation and param.
 	 *
 	 * @param operation to execute.

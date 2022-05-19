@@ -14,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Class to evaluate expressions on an interval that has power in it.
  */
-public class IntervalPowerEvaluator {
+public class IntervalPowerEvaluator implements IntervalEvaluator {
 	private final ExpressionNode node;
 
 	/**
@@ -29,6 +29,7 @@ public class IntervalPowerEvaluator {
 	 *
 	 * @return if this class can handle the expression.
 	 */
+	@Override
 	public boolean isAccepted() {
 		return node.getOperation().equals(Operation.POWER);
 	}
@@ -38,7 +39,8 @@ public class IntervalPowerEvaluator {
 	 * @param x interval
 	 * @return power expression evaluated on x.
 	 */
-	public Interval handle(Interval x) {
+	@Override
+	public Interval evaluate(Interval x) {
 		Interval leftEvaluated = IntervalFunction.evaluate(x, node.getLeft());
 		ExpressionValue right = node.getRight();
 		Interval rightEvaluated = IntervalFunction.evaluate(x, right);

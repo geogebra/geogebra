@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalOperands.abs;
 import static org.geogebra.common.kernel.interval.IntervalOperands.acos;
 import static org.geogebra.common.kernel.interval.IntervalOperands.asin;
@@ -26,6 +27,7 @@ import static org.geogebra.common.kernel.interval.IntervalOperands.tanh;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
@@ -40,8 +42,8 @@ import org.geogebra.common.util.debug.Log;
  public class IntervalFunction {
 	private static final UnsupportedOperatorChecker
 			operatorChecker = new UnsupportedOperatorChecker();
-	private static final Interval EMPTY = IntervalConstants.undefined();
 	private final GeoFunction function;
+	private static final ConditionalEvaluator conditionalEvaluator = new ConditionalEvaluator();
 
 	/**
 	 * Constructor
@@ -65,7 +67,7 @@ import org.geogebra.common.util.debug.Log;
 
 	static Interval evaluate(Interval x, ExpressionValue ev) {
 		if (ev == null) {
-			return EMPTY;
+			return undefined();
 		}
 		if (ev instanceof FunctionVariable) {
 			return new Interval(x);
@@ -78,8 +80,14 @@ import org.geogebra.common.util.debug.Log;
 
 		IntervalPowerEvaluator power = new IntervalPowerEvaluator(node);
 		if (power.isAccepted()) {
-			return power.handle(x);
+			return power.evaluate(x);
 		}
+
+		conditionalEvaluator.setNode(node);
+		if (conditionalEvaluator.isAccepted()) {
+			return conditionalEvaluator.evaluate(x);
+		}
+
 
 		if (!node.containsFreeFunctionVariable(null)) {
 			return evaluateDouble(ev);
@@ -94,7 +102,7 @@ import org.geogebra.common.util.debug.Log;
 	private static Interval evaluateDouble(ExpressionValue ev) {
 		double value = ev.evaluateDouble();
 		return Double.isNaN(value)
-				? IntervalConstants.undefined()
+				? undefined()
 				: new Interval(value);
 	}
 
@@ -154,10 +162,9 @@ import org.geogebra.common.util.debug.Log;
 				return log10(left);
 			case LOG2:
 				return log2(left);
-
 			default:
 				Log.warn("No interval operation for " + operation);
-				return IntervalConstants.undefined();
+				return undefined();
 			}
 		}
 
@@ -175,29 +182,49 @@ import org.geogebra.common.util.debug.Log;
 		if (!(geo instanceof GeoFunction)) {
 			return false;
 		}
-		GeoFunction function = (GeoFunction) geo;
-		boolean operationSupported = isOperationSupported(function);
-		boolean moreVariables = hasMoreVariables(function);
-		return operationSupported && !moreVariables;
+
+		return isOperationSupported(((GeoFunction) geo).getFunctionExpression());
 	}
 
-	private static boolean isOperationSupported(GeoFunction function) {
-		ExpressionNode expression = function.getFunctionExpression();
-		if (expression == null) {
+	private static boolean isOperationSupported(ExpressionNode node) {
+		if (node == null) {
 			return false;
 		}
-		return !expression.inspect(operatorChecker);
+
+		if (isSupportedIf(node)) {
+			return true;
+		}
+
+		return !hasMoreVariables(node) && !node.inspect(operatorChecker);
 	}
 
-	private static boolean hasMoreVariables(GeoFunction function) {
-		ExpressionNode expression = function.getFunctionExpression();
-		if (expression == null) {
+	private static boolean isSupportedIf(ExpressionNode node) {
+		if (node.getOperation() == Operation.IF_ELSE) {
+			boolean rightSupported = isOperationSupported(node.getRightTree());
+			boolean rightOneValiable = !hasMoreVariables(node.getRightTree());
+			ExpressionNode leftTree = node.getLeftTree();
+			ExpressionValue left = leftTree.unwrap();
+			if (left instanceof MyNumberPair) {
+				MyNumberPair pair = (MyNumberPair) left;
+				ExpressionNode ifExpr = pair.getY().wrap();
+				return isOperationSupported(ifExpr) && rightSupported
+						&& !hasMoreVariables(ifExpr)
+						&& rightOneValiable;
+			}
+			return rightSupported && rightOneValiable;
+		}
+ 		return false;
+	}
+
+	private static boolean hasMoreVariables(ExpressionNode node) {
+		if (node == null) {
 			return false;
 		}
-		return expression.inspect(new MultipleVariableChecker());
+		return node.inspect(new MultipleVariableChecker());
 	}
 
 	public GeoFunction getFunction() {
 		return function;
 	}
+
 }
