@@ -295,7 +295,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	@Override
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
-			StringTemplate tpl, SymbolicMode mode) {
+			StringTemplate tpl, SymbolicMode symbolicMode) {
 		// check if completion of variable list is needed
 		boolean paramEquExists = checkForParamEquExistance(args, name);
 		// check if list of vars needs completion
