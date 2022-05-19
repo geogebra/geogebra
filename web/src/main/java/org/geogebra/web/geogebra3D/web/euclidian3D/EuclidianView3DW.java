@@ -15,8 +15,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -574,28 +572,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			Log.debug("Problem with the parent element of the canvas");
-		}
-	}
-
-	@Override
-	public void setAltText(GeoText altText) {
-		String altStr = appW.getLocalization().getMenu("GraphicsView3D");
-		GeoElement alt = app.getKernel().lookupLabel("altText3D1");
-		if (alt == null) {
-			alt = app.getKernel().lookupLabel("altText3D");
-		}
-		if (alt == null) {
-			alt = app.getKernel().lookupLabel("altText");
-		}
-		if (alt instanceof GeoText) {
-			altStr = ((GeoText) alt).getAuralText();
-		}
-		setAltText(altStr);
-	}
-
-	private void setAltText(String text) {
-		if (renderer != null && renderer.getCanvas() != null) {
-			((Canvas) renderer.getCanvas()).getElement().setInnerText(text);
 		}
 	}
 

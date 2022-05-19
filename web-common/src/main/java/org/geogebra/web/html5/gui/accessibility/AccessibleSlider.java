@@ -53,7 +53,7 @@ public class AccessibleSlider implements AccessibleWidget, HasSliders {
 	}
 
 	private void updateValueText() {
-		slider.getElement().setAttribute("aria-valuetext", numeric.getAuralCurrentValue());
+		slider.getElement().setAttribute("aria-valuetext", numeric.getAuralText());
 	}
 
 	@Override

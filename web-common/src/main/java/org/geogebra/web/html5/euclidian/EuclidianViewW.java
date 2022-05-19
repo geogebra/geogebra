@@ -30,9 +30,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -141,7 +139,6 @@ public class EuclidianViewW extends EuclidianView implements
 	private GDimension preferredSize;
 
 	private ReaderWidget screenReader;
-	private String currentAltText;
 
 	/**
 	 * cache state
@@ -1106,25 +1103,6 @@ public class EuclidianViewW extends EuclidianView implements
 			view.repaintView();
 			view.suggestRepaint();
 		}
-	}
-
-	@Override
-	public void setAltText(GeoText altGeo) {
-		if (altGeo == null) {
-			return;
-		}
-		String content = getAltTextFrom(altGeo);
-
-		if (content != null && !content.equals(currentAltText)) {
-			getScreenReader().readText(content);
-			currentAltText = content;
-		}
-	}
-
-	private String getAltTextFrom(GeoElement altGeo) {
-		return altGeo.isGeoText()
-				? ((GeoText) altGeo).getAuralText()
-				: appW.getLocalization().getMenu("DrawingPad");
 	}
 
 	@Override
