@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,15 +51,18 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 	public Interval evaluate(Interval x) {
 		switch (operation) {
 		case IF:
-			return evaluateIf(x);
+			return evaluateIf(x, node);
 		case IF_ELSE:
 			return evaluateIfElse(x);
 		}
 		return null;
 	}
 
-	private Interval evaluateIf(Interval x) {
-		return null;
+	private Interval evaluateIf(Interval x, ExpressionNode node) {
+		if (evaluateBoolean(x, node.getLeftTree())) {
+			return IntervalFunction.evaluate(x, node.getRight());
+		}
+		return undefined();
 	}
 
 	private Interval evaluateIfElse(Interval x) {
@@ -77,13 +82,14 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 	}
 
 	private boolean evaluateBoolean(Interval x, ExpressionNode condition) {
+		Interval left = IntervalFunction.evaluate(x, condition.getLeft());
 		Operation operation = condition.getOperation();
 		ExpressionValue value = condition.getRight();
 		switch (operation) {
 		case LESS:
-			return x.isLessThan(IntervalFunction.evaluate(x, value));
+			return left.isLessThan(IntervalFunction.evaluate(x, value));
 		case GREATER:
-			return x.isGreaterThan(IntervalFunction.evaluate(x, value));
+			return left.isGreaterThan(IntervalFunction.evaluate(x, value));
 		}
 		return true;
 	}

@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.aroundZero;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
@@ -43,5 +45,15 @@ public class ConditionalEvaluatorTest extends BaseUnitTest {
 	public void testIf() {
 		IntervalFunction function = new IntervalFunction(add("If(x < 0, x)"));
 		assertEquals(interval(-2), function.evaluate(interval(-2)));
+		assertEquals(undefined(), function.evaluate(aroundZero()));
+		assertEquals(undefined(), function.evaluate(interval(2)));
+	}
+
+	@Test
+	public void testIfWithCompoundConditional() {
+		IntervalFunction function = new IntervalFunction(add("If(x^2 + 1 < 17, x^2)"));
+		assertEquals(interval(4), function.evaluate(interval(2)));
+		assertEquals(interval(9), function.evaluate(interval(-3)));
+		assertEquals(undefined(), function.evaluate(interval(5)));
 	}
 }

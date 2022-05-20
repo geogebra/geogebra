@@ -199,7 +199,9 @@ import org.geogebra.common.util.debug.Log;
 	}
 
 	private static boolean isSupportedIf(ExpressionNode node) {
-		if (node.getOperation() == Operation.IF_ELSE) {
+		if (node.getOperation() == Operation.IF) {
+			return isOperationSupported(node.getRightTree());
+		} else if (node.getOperation() == Operation.IF_ELSE) {
 			boolean rightSupported = isOperationSupported(node.getRightTree());
 			boolean rightOneValiable = !hasMoreVariables(node.getRightTree());
 			ExpressionNode leftTree = node.getLeftTree();
