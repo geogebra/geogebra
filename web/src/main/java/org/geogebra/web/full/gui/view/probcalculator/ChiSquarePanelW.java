@@ -65,7 +65,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		p.add(pnlCount);
 		wrappedPanel.add(pnlControl);
 		wrappedPanel.add(p);
-
 	}
 
 	private void createControlPanel() {
@@ -307,6 +306,7 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			fldInput = new AutoCompleteTextFieldW(getStatCalc().getApp());
 			fldInput.addKeyUpHandler(this);
 			fldInput.addFocusHandler(this);
+			StatisticsCalculatorW.addInsertHandler(fldInput, this::handleInput);
 			wrappedCellPanel.add(fldInput);
 
 			label = new Label[5];
@@ -378,10 +378,8 @@ public class ChiSquarePanelW extends ChiSquarePanel
 				setLabelVisible(0, true);
 
 			} else if (isHeaderCell()) {
-
 				fldInput.setVisible(true);
 				wrappedCellPanel.addStyleName("headercell");
-
 			} else if (isInputCell) {
 				fldInput.setVisible(true);
 				wrappedCellPanel.addStyleName("inputcell");
@@ -404,9 +402,12 @@ public class ChiSquarePanelW extends ChiSquarePanel
 
 		@Override
 		public void onKeyUp(KeyUpEvent e) {
+			handleInput(e.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+		}
+
+		private void handleInput(boolean isEnter) {
 			updateCellData();
-			getStatCalc()
-					.updateResult(e.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+			getStatCalc().updateResult(isEnter);
 			updateCellContent();
 		}
 
