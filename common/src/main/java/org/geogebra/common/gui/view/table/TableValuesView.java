@@ -395,18 +395,16 @@ public class TableValuesView implements TableValues, SettingListener {
 				.getRegression(regression);
 	}
 
-	/**
-	 * @param regression regression type + degree
-	 * @param column column
-	 * @return plot element
-	 */
+	@Override
 	public GeoElement plotRegression(int column, RegressionSpecification regression) {
 		GeoEvaluatable xVal = model.getEvaluatable(0);
 		GeoEvaluatable yVal = model.getEvaluatable(column);
 		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
 		Command cmd = regression.buildCommand(kernel, points);
 		try {
-			return kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
+			GeoElement element = kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
+			app.storeUndoInfo();
+			return element;
 		} catch (Exception e) {
 			Log.error(e);
 		}
