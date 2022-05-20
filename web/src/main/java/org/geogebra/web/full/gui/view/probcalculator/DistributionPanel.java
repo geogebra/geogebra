@@ -89,7 +89,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		add(modeGroup);
 	}
 
-	private void buildParameterPanel(FlowPanel parent) {
+	public void buildParameterPanel(FlowPanel parent) {
 		initParamFields();
 
 		FlowPanel parameterPanel = new FlowPanel();
@@ -109,7 +109,6 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		for (int i = 0; i < view.maxParameterCount; i++) {
 			lblParameterArray[i] = new Label();
 			fldParameterArray[i] = new MathTextFieldW(view.getApp());
-			fldParameterArray[i].setPxWidth(64);
 			resultPanel.addInsertHandler(fldParameterArray[i]);
 		}
 	}
@@ -128,8 +127,12 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			if (hasParm) {
 				// set label
 				lblParameterArray[i].setVisible(true);
-				lblParameterArray[i].setText(view.getParameterLabels()[view.getSelectedDist()
-						.ordinal()][i]);
+				String paramName = view.getParameterLabels()[view.getSelectedDist()
+						.ordinal()][i];
+				String paramLbl = getView().getApp().getConfig().hasDistributionView()
+						? view.getApp().getLocalization().getPlainDefault("Parameter%0",
+						"Parameter %0", paramName) : paramName;
+				lblParameterArray[i].setText(paramLbl);
 				// set field
 				fldParameterArray[i].setText(view.format(view.getParameters()[i]));
 			}

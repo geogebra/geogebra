@@ -1941,6 +1941,11 @@
 	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;
+
+		.mathTextField {
+			min-width: 64px;
+			width: 64px;
+		}
 	}
 
 	.comboParamPanel .MyToggleButton, .comboParamPanel .gwt-ListBox {

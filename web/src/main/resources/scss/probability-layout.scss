@@ -37,6 +37,25 @@
 			margin-right: 8px;
 			margin-bottom: 12px;
 		}
+
+		.parameterPanel {
+			display: inherit;
+
+			.gwt-Label {
+				margin: 8px 0 0 0;
+				font-size: 75%;
+				color: colors.$text-secondary;
+			}
+
+			.mathTextField {
+				border: none;
+				border-bottom: 1px #dcdcdc solid;
+				margin: 8px 0 20px 0;
+				border-radius: 0;
+				width: 100%;
+				cursor: pointer;
+			}
+		}
 	}
 
 	.probCalcStylbarBtn.suite {

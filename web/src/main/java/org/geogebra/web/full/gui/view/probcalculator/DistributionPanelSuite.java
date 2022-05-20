@@ -30,6 +30,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		intervalsLbl.setStyleName("intervalsLbl");
 		add(intervalsLbl);
 		buildModeGroupWithResult();
+		super.buildParameterPanel(this);
 	}
 
 	@Override
@@ -58,10 +59,5 @@ public class DistributionPanelSuite extends DistributionPanel {
 	@Override
 	protected void updateCumulative() {
 		cumulativeWidget.setSwitchOn(getView().isCumulative());
-	}
-
-	@Override
-	public void updateParameters() {
-		// TODO APPS-3750
 	}
 }
