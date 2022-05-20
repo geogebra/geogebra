@@ -49,13 +49,13 @@ public class InputPanelW extends FlowPanel {
 	 *            number of columns
 	 * @param rows
 	 *            number of rows
-	 * @param showSymbolPopupIcon
-	 *            whether to show symbol icon
+	 * @param hasKeyboardButton
+	 *            whether to have keyboard button.
 	 */
 	public InputPanelW(String initText, App app, int rows, int columns,
-			boolean showSymbolPopupIcon) {
+			boolean hasKeyboardButton) {
 
-		this.showSymbolPopup = showSymbolPopupIcon;
+		this.showSymbolPopup = hasKeyboardButton;
 
 		// set up the text component:
 		// either a textfield or HTML textpane
@@ -79,7 +79,11 @@ public class InputPanelW extends FlowPanel {
 			atf.setAutoComplete(false);
 
 			if (!app.isWhiteboardActive()) {
-				atf.enableGGBKeyboard();
+				if (hasKeyboardButton) {
+					atf.enableGGBKeyboardWithOpenButton();
+				} else {
+					atf.enableGGBKeyboard();
+				}
 			}
 		}
 	}

@@ -212,7 +212,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			mainPanel.setStyleName("optionsInput");
 			// non auto complete input panel
 			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1,
-					true);
+					false);
 			tfCondition = inputPanel.getTextComponent();
 
 			title = new FormLabel().setFor(tfCondition);
@@ -412,12 +412,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			setModel(model);
 			// non auto complete input panel
 			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), 1, -1,
-					true);
+					false);
 			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1,
-					true);
+					false);
 			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1,
-					true);
-			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
+					false);
+			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, false);
 			tfRed = inputPanelR.getTextComponent();
 			tfGreen = inputPanelG.getTextComponent();
 			tfBlue = inputPanelB.getTextComponent();

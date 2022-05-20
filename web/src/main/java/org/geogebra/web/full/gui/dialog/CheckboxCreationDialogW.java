@@ -203,7 +203,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		}
 		String initString = geoBoolean == null ? ""
 				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
-		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
+		InputPanelW ip = new InputPanelW(initString, app, 1, 15, false);
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		FlowPanel captionPanel = new FlowPanel();

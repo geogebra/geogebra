@@ -30,8 +30,8 @@ public class NumberChangeSignInputDialogW extends ComponentInputDialog {
 	public NumberChangeSignInputDialogW(AppW app, String message, DialogData data,
 			String initString, NumberChangeSignInputHandler handler,
 			boolean changingSign, String checkBoxText) {
-		super(app, data, false, false, handler, message, initString,
-				false);
+		super(app, data, false, false, handler, message, initString
+		);
 		this.checkBox = new CheckBox(checkBoxText, true);
 		this.changingSign = changingSign;
 	}

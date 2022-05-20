@@ -49,16 +49,6 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		addStyleName("SymbolTable");
 	}
 
-	/**
-	 * Constructs a SymbolTable
-	 * 
-	 * @param symbolStrings
-	 *            symbols
-	 */
-	public SymbolTableW(String[] symbolStrings) {
-		this(symbolStrings, false, 10, null, null);
-	}
-
 	private void buildSymbolTable(App app, GColor[] colors) {
 
 		for (int i = 0; i < symbolStrings.length; i++) {

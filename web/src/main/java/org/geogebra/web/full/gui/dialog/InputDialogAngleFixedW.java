@@ -90,7 +90,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
-		getTextComponent().hideTablePopup();
 	}
 
 	/*

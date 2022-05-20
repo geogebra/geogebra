@@ -150,7 +150,8 @@ public class AxisPanel extends FlowPanel
 
 		// cross at and stick to edge
 
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW input = new InputPanelW(null, app, 1, -1,
+				false);
 		tfCross = input.getTextComponent();
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();

@@ -588,7 +588,6 @@ public class DrawInputBox extends CanvasDrawable {
 				* getGeoInputBox().getFontSizeMultiplier()));
 
 		updateStyle(tf);
-
 		tf.showPopupSymbolButton(false);
 		tf.prepareShowSymbolButton(geoInputBox.needsSymbolButton());
 	}

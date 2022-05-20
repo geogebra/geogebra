@@ -815,7 +815,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	protected AutoCompleteTextFieldW getTextField() {
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW input = new InputPanelW(null, app, 1, -1, false);
 		AutoCompleteTextFieldW tf = input.getTextComponent();
 		tf.setStyleName("numberInput");
 		return tf;

@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OptionType;
@@ -92,6 +93,7 @@ import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ShowableTab;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.InputKeyboardButtonW;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -185,6 +187,7 @@ public class GuiManagerW extends GuiManager
 	private TemplateChooserController templateController;
 
 	private Runnable runAfterLogin;
+	private InputKeyboardButtonW inputKeyboardButton = null;
 
 	/**
 	 *
@@ -1846,7 +1849,7 @@ public class GuiManagerW extends GuiManager
 			ComponentDialog dialog = new ComponentDialog((AppW) app, data, false, true);
 			ComponentInputField inputTextField = new ComponentInputField((AppW) app,
 					"", "", "", getApp().getExportTitle() + extension, -1, 1,
-					false, "");
+					"");
 			dialog.addDialogContent(inputTextField);
 			dialog.setOnPositiveAction(() -> {
 				String filename = inputTextField.getText();
@@ -2228,6 +2231,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void showTableValuesView(GeoElement geo) {
 		if (getTableValuesView().isEmpty()) {
+			// hide keyboard to ensure to reopen above the dimmed area.
+			getApp().getAppletFrame().showKeyBoard(false, null, true);
 			app.getDialogManager().openTableViewDialog(geo);
 		} else {
 			addGeoToTableValuesView(geo);
@@ -2291,5 +2296,13 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public boolean isAlgebraViewActive() {
 		return getUnbundledToolbar().getAlgebraTab().isActive();
+	}
+
+	@Override
+	public InputKeyboardButton getInputKeyboardButton() {
+		if (inputKeyboardButton == null) {
+			inputKeyboardButton = new InputKeyboardButtonW(getApp());
+		}
+		return inputKeyboardButton;
 	}
 }
