@@ -95,6 +95,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(SVGResourcePrototype.class, "withFill",
                 SafeUri.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelector", Void.class);
+        StubGenerator.replaceMethodWithMock(Dom.class, "createDiv", Void.class);
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
         StubGenerator.replaceMethodWithMock(CSSEvents.class, "runOnAnimation", Void.class);
         StubGenerator.replaceMethodWithMock(SelectElement.class, "as", SelectElement.class);

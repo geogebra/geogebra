@@ -224,13 +224,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	@Override
-	protected void updateDiscreteTable() {
+	public void updateDiscreteTable() {
 		if (!isDiscreteProbability()) {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
 		getTable().setTable(selectedDist, parameters,
 				firstXLastX[0], firstXLastX[1]);
+		selectProbabilityTableRows();
 		tabResized();
 	}
 

@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -143,5 +144,23 @@ public abstract class ProbabilityTable {
 		this.parms = parms1;
 		setColumnNames();
 	}
+
+	protected void fillRows(ProbabilityCalculatorSettings.Dist distType,
+			GeoNumberValue[] params, int xMin, int xMax) {
+		double prob;
+		int x = xMin;
+		int row = 0;
+		while (x <= xMax) {
+
+			if (distType != null) {
+				prob = getProbManager().probability(x, params, distType, isCumulative());
+				setRowValues(row, "" + x, "" + getProbCalc().format(prob));
+			}
+			x++;
+			row++;
+		}
+	}
+
+	protected abstract void setRowValues(int row, String k, String prob);
 
 }

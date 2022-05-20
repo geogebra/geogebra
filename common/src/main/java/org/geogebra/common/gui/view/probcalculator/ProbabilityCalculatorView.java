@@ -616,18 +616,18 @@ public abstract class ProbabilityCalculatorView
 		GeoNumberValue xLow;
 		GeoNumberValue xMin;
 		GeoNumberValue xMax;
-		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons,
-				highPlusOffset, false);
-		cons.removeFromConstructionList(xHigh);
+		AlgoDependentNumber xHigh = getDependentNumber(highPlusOffset);
 		if (isCumulative) {
 			// for cumulative bar graphs we only show a single bar
-			xLow = new AlgoDependentNumber(cons, highPlusOffset, false).getNumber();
+			xLow = getDependentNumber(highPlusOffset).getNumber();
 			xMin = xLow;
 			xMax = xLow;
 		} else {
-			xLow = new AlgoDependentNumber(cons, lowPlusOffset, false).getNumber();
+			xLow = getDependentNumber(lowPlusOffset).getNumber();
 			xMin = new AlgoMin(cons, xLow, xHigh.getNumber()).getResult();
 			xMax = new AlgoMax(cons, xLow, xHigh.getNumber()).getResult();
+			cons.removeFromConstructionList(xMax.getParentAlgorithm());
+			cons.removeFromConstructionList(xMin.getParentAlgorithm());
 		}
 
 		if (isTwoTailedMode()) {
@@ -638,15 +638,17 @@ public abstract class ProbabilityCalculatorView
 							new ExpressionNode(kernel,
 									xLow, Operation.EQUAL_BOOLEAN, xHigh.getNumber()),
 							xminPlusOne), Operation.IF_ELSE, xMax);
-			AlgoDependentNumber adn = new AlgoDependentNumber(kernel.getConstruction(),
-					ex, false);
-
-			cons.removeFromConstructionList(adn);
+			AlgoDependentNumber adn = getDependentNumber(ex);
 			createTwoTailedDiscreteGraph(xMin, adn.getNumber());
 		} else {
 			createSimpleDiscreteGraph(xMin, xMax);
 		}
 		createAxis();
+	}
+
+	protected AlgoDependentNumber getDependentNumber(ExpressionNode expr) {
+		return new AlgoDependentNumber(cons,
+				expr, false, null, false);
 	}
 
 	private void createSimpleDiscreteGraph(GeoNumberValue xMin, GeoNumberValue xMax) {
@@ -1445,7 +1447,7 @@ public abstract class ProbabilityCalculatorView
 		updateRounding();
 	}
 
-	private void selectProbabilityTableRows() {
+	protected void selectProbabilityTableRows() {
 		int start = (int) getLow();
 		int end = (int) getHigh();
 		if (isTwoTailedMode()) {

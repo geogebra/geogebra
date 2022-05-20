@@ -112,7 +112,7 @@ public class TableEditor implements UnhandledArrowListener {
 	private void ensureMathTextFieldExists() {
 		if (mathTextField == null) {
 			mathTextField = new MathTextFieldW(app);
-			mathTextField.setRightMargin(26);
+			mathTextField.setRightMargin(22);
 			mathTextField.addChangeHandler(this::stopEditing);
 			mathTextField.setTextMode(true);
 			mathTextField.asWidget().setStyleName("tableEditor");

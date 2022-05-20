@@ -26,6 +26,7 @@ public class ProbabilityTableAdapter extends ProbabilityTable {
 			ProbabilityCalculatorView probCalc) {
 		super(app, probCalc);
 		this.table = table;
+		setColumnNames();
 		table.setAdapter(this);
 	}
 
@@ -45,30 +46,30 @@ public class ProbabilityTableAdapter extends ProbabilityTable {
 	public void setTable(ProbabilityCalculatorSettings.Dist distType, GeoNumberValue[] parms,
 			int xMin, int xMax) {
 		rows.clear();
-		double prob;
-		int x = xMin;
-		int row = 0;
-		while (x <= xMax) {
-
-			if (distType != null) {
-				prob = getProbManager().probability(x, parms, distType, isCumulative());
-				setValueAt("" + x, "" + getProbCalc().format(prob), row);
-			}
-			x++;
-			row++;
-		}
+		setTableModel(distType, parms, xMin, xMax);
+		fillRows(distType, parms, xMin, xMax);
 		table.refresh();
 	}
 
-	private void setValueAt(String k, String p, int row) {
-		rows.add(row, Arrays.asList(k, p));
+	@Override
+	protected void setRowValues(int row, String k, String prob) {
+		rows.add(row, Arrays.asList(k, prob));
 	}
 
+	/**
+	 * Clears data and fills it from currently selected distribution
+	 * @param data output list
+	 */
 	public void fillValues(List<List<String>> data) {
+		data.clear();
 		data.addAll(rows);
 	}
 
 	public boolean isHighligheted(int rowIndex) {
 		return highlighted.test(rowIndex);
+	}
+
+	public String getColumnName(int col) {
+		return getColumnNames()[col];
 	}
 }

@@ -25,8 +25,10 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp().getLocalization());
 		distrPanel.setLabels();
 		view.setDistributionPanel(distrPanel);
-		view.setTable(new ProbabilityTableAdapter(table,
-				toolbarPanel.getApp(), view));
+		ProbabilityTableAdapter probTable = new ProbabilityTableAdapter(table,
+				toolbarPanel.getApp(), view);
+		view.setTable(probTable);
+		view.updateDiscreteTable();
 		distrPanel.updateGUI(); // make sure the correct interval is selected
 		add(distrPanel);
 	}

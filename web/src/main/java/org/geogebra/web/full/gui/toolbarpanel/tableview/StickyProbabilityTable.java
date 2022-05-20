@@ -9,7 +9,6 @@ import org.geogebra.web.html5.gui.util.Dom;
 import com.google.gwt.cell.client.SafeHtmlCell;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.RowStyles;
 
 import elemental2.dom.HTMLElement;
 
@@ -22,31 +21,27 @@ public class StickyProbabilityTable extends StickyTable<List<String>> {
 	 */
 	public StickyProbabilityTable() {
 		getTable().addStyleName("fullWidth");
-		addColumn(0, "k");
-		addColumn(1, "P(X=k)");
-		getTable().setRowStyles(new RowStyles<List<String>>() {
-			@Override
-			public String getStyleNames(List<String> row, int rowIndex) {
-				return adapter.isHighligheted(rowIndex) ? "highlighted" : "";
-			}
-		});
+		getTable().setRowStyles(
+				(row, rowIndex) -> adapter.isHighligheted(rowIndex) ? "highlighted" : "");
 	}
 
-	private void addColumn(final int col, String caption) {
+	private void addColumn(final int col) {
 		getTable().addColumn(new Column<List<String>, SafeHtml>(new SafeHtmlCell()) {
 			@Override
 			public SafeHtml getValue(List<String> row) {
 				return new TableCell(row.get(col), false).getHTML();
 			}
-		}, getHeaderHTML(caption));
+		}, getHeaderHTML(col));
 	}
 
-	private SafeHtml getHeaderHTML(String k) {
+	private SafeHtml getHeaderHTML(int col) {
 		HTMLElement content = Dom.createDiv("content");
 		HTMLElement label = Dom.createDiv("gwt-Label noMenu");
 		content.appendChild(label);
-		label.innerHTML = k;
-		return () -> content.outerHTML;
+		return () -> {
+			label.innerHTML = adapter.getColumnName(col);
+			return content.outerHTML;
+		};
 	}
 
 	@Override
@@ -59,7 +54,13 @@ public class StickyProbabilityTable extends StickyTable<List<String>> {
 		adapter.fillValues(data);
 	}
 
+	/**
+	 * Sets adapter and initialized GUI
+	 * @param adapter adapter to probability data
+	 */
 	public void setAdapter(ProbabilityTableAdapter adapter) {
 		this.adapter = adapter;
+		addColumn(0);
+		addColumn(1);
 	}
 }

@@ -62,23 +62,7 @@ public class ProbabilityTableD extends ProbabilityTable
 
 		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
-		DefaultTableModel model = statTable.getModel();
-		int x = xMin;
-		int row = 0;
-
-		// set the table model with the prob. values for this distribution
-		double prob;
-		while (x <= xMax) {
-
-			model.setValueAt("" + x, row, 0);
-			if (distType != null) {
-				prob = getProbManager().probability(x, parms, distType,
-						isCumulative());
-				model.setValueAt("" + getProbCalc().format(prob), row, 1);
-			}
-			x++;
-			row++;
-		}
+		fillRows(distType, parms, xMin, xMax);
 
 		updateFonts(((AppD) getApp()).getPlainFont());
 
@@ -86,6 +70,13 @@ public class ProbabilityTableD extends ProbabilityTable
 		// sure why)
 		statTable.getTable().requestFocus();
 		setIniting(false);
+	}
+
+	@Override
+	protected void setRowValues(int row, String k, String prob) {
+		DefaultTableModel model = statTable.getModel();
+		model.setValueAt(k, row, 0);
+		model.setValueAt(prob, row, 1);
 	}
 
 	public void updateFonts(Font font) {
@@ -99,10 +90,7 @@ public class ProbabilityTableD extends ProbabilityTable
 		statTable.getTable()
 				.setPreferredScrollableViewportSize(new Dimension(w + 10, 10));
 		wrappedPanel.setMinimumSize(statTable.getPreferredSize());
-
 	}
-
-
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {

@@ -239,10 +239,10 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 					color: colors.$text-primary;
 					text-align: right;
 					float: left;
-					padding: 16px 12px 16px 16px;
+					padding: 16px 8px 16px 16px;
 					text-overflow: ellipsis;
 					overflow: hidden;
-					width: calc(100% - 12px);
+					width: calc(100% - 16px);
 					box-sizing: border-box;
 				}
 
@@ -376,7 +376,7 @@ $deleteAddTransition: cubic-bezier(0.4, 0.0, 0.2, 1);
 		}
 	}
 
-	.tab .infoErrorPanel {
+	.toolbar .infoErrorPanel {
 		width: 100%;
 		position: absolute;
 		top: 50%;

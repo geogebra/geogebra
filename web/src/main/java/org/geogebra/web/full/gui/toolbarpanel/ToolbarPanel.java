@@ -33,7 +33,6 @@ import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.SideBarAccessibilityAdapter;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -95,7 +94,6 @@ public class ToolbarPanel extends FlowPanel
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
-	private StickyTable table = null;
 
 	/**
 	 * @param app application
@@ -106,6 +104,7 @@ public class ToolbarPanel extends FlowPanel
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		initGUI();
+		doOpen(); // should not be part of initGUI to allow app switching with closed AV
 		initClickStartHandler();
 		((AccessibilityManagerW) app.getAccessibilityManager())
 				.setMenuContainer(this);
@@ -292,9 +291,10 @@ public class ToolbarPanel extends FlowPanel
 			tabTools = null;
 		}
 
+		StickyProbabilityTable table = null;
 		if (app.getConfig().hasDistributionView()) {
 			table = new StickyProbabilityTable();
-			tabDist = new DistributionTab(this, (StickyProbabilityTable) table);
+			tabDist = new DistributionTab(this, table);
 			app.getKernel().detach(app.getGuiManager().getTableValuesView());
 			addTab(tabDist, false);
 		} else {
@@ -316,7 +316,6 @@ public class ToolbarPanel extends FlowPanel
 		add(heading);
 		add(main);
 		hideDragger();
-		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
 			if (app.getAppletParameters().getParamLockExam()) {
 				setHeaderStyle("examLock");
