@@ -133,13 +133,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 		public LabelPanel() {
 			mainWidget = new FlowPanel();
+			model = new ShowLabelModel(app, this);
 			showLabelCB = new ComponentCheckbox(loc, true, localize("ShowLabel") + ":",
-					this::onShowLabelCBClick);
+					model::applyShowChanges);
 			mainWidget.add(showLabelCB);
 			mainWidget.setStyleName("checkboxHolder");
 			setWidget(mainWidget);
 
-			model = new ShowLabelModel(app, this);
 			setModel(model);
 
 			updateShowLabel();
@@ -151,10 +151,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 					model.fromDropdown(labelMode.getSelectedIndex()),
 					true));
 			mainWidget.add(labelMode);
-		}
-
-		private void onShowLabelCBClick() {
-			model.applyShowChanges(showLabelCB.isSelected());
 		}
 
 		private void updateShowLabel() {
@@ -628,15 +624,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			title = new Label();
 			cbGraphicsView = new ComponentCheckbox(loc, false, "DrawingPad",
-					() -> model.applyToEuclidianView1(cbGraphicsView.isSelected()));
+					model::applyToEuclidianView1);
 			cbGraphicsView2 = new ComponentCheckbox(loc, false, "DrawingPad2",
-					() -> model.applyToEuclidianView2(cbGraphicsView2.isSelected()));
+					model::applyToEuclidianView2);
 			cbGraphicsView3D = new ComponentCheckbox(loc, false, "GraphicsView3D",
-					() -> model.applyToEuclidianView3D(cbGraphicsView3D.isSelected()));
+					model::applyToEuclidianView3D);
 			cbGraphicsViewForPlane = new ComponentCheckbox(loc, false, "ExtraViews",
-					() -> model.applyToEuclidianViewForPlane(cbGraphicsViewForPlane.isSelected()));
+					model::applyToEuclidianViewForPlane);
 			cbAlgebraView = new ComponentCheckbox(loc, false, "Algebra",
-					() -> model.applyToAlgebraView(cbAlgebraView.isSelected()));
+					model::applyToAlgebraView);
 
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();

@@ -81,8 +81,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		@Override
 		protected void addMiscPanel() {
 			cbUseLight = new ComponentCheckbox(loc, true, "UseLighting",
-					() -> {
-						get3dview().getSettings().setUseLight(cbUseLight.isSelected());
+					selected -> {
+						get3dview().getSettings().setUseLight(selected);
 						repaintView();
 					});
 
@@ -97,14 +97,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		@Override
 		protected void addAxesOptionsPanel() {
 			cbYAxisVertical = new ComponentCheckbox(loc, false, "YAxisVertical",
-					() -> {
-				get3dview().setYAxisVertical(cbYAxisVertical.isSelected());
+					selected -> {
+				get3dview().setYAxisVertical(selected);
 				repaintView();
 			});
 
 			cbAxesColored = new ComponentCheckbox(loc, true, "AxesColored",
-				() -> {
-				get3dview().getSettings().setHasColoredAxes(cbAxesColored.isSelected());
+				selected -> {
+				get3dview().getSettings().setHasColoredAxes(selected);
 				repaintView();
 			});
 
@@ -126,14 +126,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			clippingOptionsTitle.setStyleName("panelTitle");
 			clippingOptionsPanel = new FlowPanel();
 			cbUseClipping = new ComponentCheckbox(loc, false, "UseClipping",
-					() -> {
-						get3dview().setUseClippingCube(cbUseClipping.isSelected());
+					selected -> {
+						get3dview().setUseClippingCube(selected);
 						repaintView();
 					});
 			clippingOptionsPanel.add(cbUseClipping);
 			cbShowClipping = new ComponentCheckbox(loc, false, "ShowClipping",
-					() -> {
-						get3dview().setShowClippingCube(cbShowClipping.isSelected());
+					selected -> {
+						get3dview().setShowClippingCube(selected);
 						repaintView();
 					});
 			clippingOptionsPanel.add(cbShowClipping);
@@ -392,13 +392,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			});
 			tfGlassesEyeSep.addBlurHandler(event -> processGlassesEyeSepText());
 			cbGlassesGray = new ComponentCheckbox(loc, false, "GrayScale",
-					() -> {
-						get3dview().setGlassesGrayScaled(cbGlassesGray.isSelected());
+					selected -> {
+						get3dview().setGlassesGrayScaled(selected);
 						repaintView();
 					});
 			cbGlassesShutDownGreen = new ComponentCheckbox(loc, false, "ShutDownGreen",
-					() -> {
-						get3dview().setGlassesShutDownGreen(cbGlassesShutDownGreen.isSelected());
+					selected -> {
+						get3dview().setGlassesShutDownGreen(selected);
 						repaintView();
 					});
 			FlowPanel tfGlassesPanel = new FlowPanel();
