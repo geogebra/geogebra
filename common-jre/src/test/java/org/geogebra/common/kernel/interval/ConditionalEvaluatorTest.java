@@ -56,4 +56,11 @@ public class ConditionalEvaluatorTest extends BaseUnitTest {
 		assertEquals(interval(9), function.evaluate(interval(-3)));
 		assertEquals(undefined(), function.evaluate(interval(5)));
 	}
+
+	@Test
+	public void testIfElseWithCompoundConditional() {
+		IntervalFunction function = new IntervalFunction(add("If(x^2 + 1 < 17, x^2, 4x)"));
+		assertEquals(interval(4), function.evaluate(interval(2)));
+		assertEquals(interval(36), function.evaluate(interval(9)));
+	}
 }

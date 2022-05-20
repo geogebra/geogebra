@@ -67,6 +67,7 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 
 	private Interval evaluateIfElse(Interval x) {
 		ExpressionValue left = node.getLeft();
+		ExpressionValue right = node.getRight();
 		if (left instanceof MyNumberPair) {
 			MyNumberPair pair = (MyNumberPair) left;
 			ExpressionValue condition = pair.getX();
@@ -74,7 +75,7 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 				ExpressionNode ifExpr = pair.getY().wrap();
 				return IntervalFunction.evaluate(x, ifExpr);
 			} else {
-				return IntervalFunction.evaluate(x, node.getRight());
+				return IntervalFunction.evaluate(x, right);
 			}
 		}
 
