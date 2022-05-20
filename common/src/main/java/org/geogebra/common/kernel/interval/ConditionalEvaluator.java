@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
@@ -9,6 +12,25 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 	private ExpressionNode node;
 	private Operation operation;
 
+	private List<Operation> acceptedOperations = Arrays.asList(Operation.IF, Operation.IF_ELSE,
+			Operation.IF_LIST);
+
+	/**
+	 * Default constructor.
+	 */
+	public ConditionalEvaluator() {
+		// default
+	}
+
+	/**
+	 * Constructor to test isAccepted()
+	 *
+	 * @param operation to test.
+	 */
+	ConditionalEvaluator(Operation operation) {
+		this.operation = operation;
+	}
+
 	public void setNode(ExpressionNode node) {
 		this.node = node;
 		operation = node.getOperation();
@@ -16,18 +38,25 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 
 	@Override
 	public boolean isAccepted() {
-		return isIfElse();
+		return acceptedOperations.contains(operation);
 	}
 
 	private boolean isIfElse() {
-		return Operation.IF_ELSE.equals(operation);
+		return Operation.IF_ELSE.equals(operation)  ;
 	}
 
 	@Override
 	public Interval evaluate(Interval x) {
-		if (isIfElse()) {
+		switch (operation) {
+		case IF:
+			return evaluateIf(x);
+		case IF_ELSE:
 			return evaluateIfElse(x);
 		}
+		return null;
+	}
+
+	private Interval evaluateIf(Interval x) {
 		return null;
 	}
 
