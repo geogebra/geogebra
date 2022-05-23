@@ -62,7 +62,7 @@ public class DelayedCasLoadingTest {
 		GeoElementND equalCheck = add("f==g");
 		GeoElementND equalCommand = add("AreEqual(f, g)");
 		assertEquals("?", equalCheck.toValueString(StringTemplate.testTemplate));
-		assertEquals("?", equalCommand.toValueString(StringTemplate.testTemplate));
+		assertEquals("false", equalCommand.toValueString(StringTemplate.testTemplate));
 		active = true;
 		app.getKernel().refreshCASCommands();
 		assertEquals("true", equalCheck.toValueString(StringTemplate.testTemplate));
