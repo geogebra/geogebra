@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
@@ -1117,16 +1118,17 @@ public class AlgebraProcessor {
 		if (element instanceof GeoSymbolic && isVectorLabel(label)) {
 			setVectorPrintingModeFor((GeoSymbolic) element);
 		}
+		element.notifyUpdate();
 	}
 
 	private void setVectorPrintingModeFor(GeoSymbolic element) {
 		ExpressionValue unwrappedDefinition = element.getDefinition().unwrap();
-		if (unwrappedDefinition instanceof MyVecNode) {
-			((MyVecNode) unwrappedDefinition).setupCASVector();
+		if (unwrappedDefinition instanceof MyVecNDNode) {
+			((MyVecNDNode) unwrappedDefinition).setupCASVector();
 		}
 		ExpressionValue unwrappedValue = element.getValue().unwrap();
-		if (unwrappedValue instanceof MyVecNode) {
-			((MyVecNode) unwrappedValue).setupCASVector();
+		if (unwrappedValue instanceof MyVecNDNode) {
+			((MyVecNDNode) unwrappedValue).setupCASVector();
 		}
 	}
 
