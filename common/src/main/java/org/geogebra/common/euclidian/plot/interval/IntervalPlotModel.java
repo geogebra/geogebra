@@ -198,7 +198,7 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return countDefined() > 1;
+		return points != null && countDefined() > 1;
 	}
 
 	private long countDefined() {

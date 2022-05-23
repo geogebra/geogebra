@@ -18,7 +18,6 @@ public interface IntervalFunctionSampler {
 	 * @return tuples evaluated on [low, high].
 	 */
 	IntervalTupleList evaluateOn(double low, double high);
-	void evaluate();
 
 	/**
 	 * Gets the samples with the predefined range and sample rate

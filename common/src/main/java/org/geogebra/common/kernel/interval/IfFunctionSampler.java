@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
 
@@ -17,8 +15,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	private IntervalTuple range;
 	private EuclidianViewBounds evBounds;
 	private final DiscreteSpace space;
-
-	private ConditionalSampler acceptedSampler = null;
+	private List<IntervalTupleList> results = new ArrayList<>();
 
 	public IfFunctionSampler(GeoFunction function, IntervalTuple range,
 			EuclidianViewBounds evBounds) {
@@ -31,23 +28,34 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 
 	private void extractConditions(GeoFunction function) {
 		ExpressionNode node = function.getFunctionExpression();
-		if (Operation.IF_ELSE.equals(node.getOperation())) {
-			addIfElseCondition(node);
+		Operation operation = node.getOperation();
+		switch (operation) {
+		case IF:
+			addSingleIfSampler(node);
+			break;
+		case IF_ELSE:
+			addIfElseSamplers(node);
+			break;
 		}
 	}
 
-	private void addIfElseCondition(ExpressionNode node) {
-		MyNumberPair pair = (MyNumberPair) node.getLeft();
-		samplers.add(new ConditionalSampler(function, pair, space));
+	private void addIfElseSamplers(ExpressionNode node) {
+
+	}
+
+	private void addSingleIfSampler(ExpressionNode node) {
+		samplers.add(new ConditionalSampler(function, node.getLeftTree(), node.getRightTree(),
+				space));
 	}
 
 	@Override
 	public IntervalTupleList result() {
-		return getAcceptedSampler().result();
-	}
-
-	private IntervalFunctionSampler getAcceptedSampler() {
-		return acceptedSampler == null ? samplers.get(0) : acceptedSampler;
+		if (samplers.isEmpty()) {
+			return IntervalTupleList.emptyList();
+		}
+		results.clear();
+		samplers.forEach(sampler -> results.add(sampler.result()));
+		return evaluateOn(range.x());
 	}
 
 	@Override
@@ -60,15 +68,10 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		for (ConditionalSampler sampler: samplers) {
 			Interval x = new Interval(low, high);
 			if (sampler.isAccepted(x)) {
-				return acceptedSampler.result();
+				return sampler.result();
 			}
 		}
 		return IntervalTupleList.emptyList();
-	}
-
-	@Override
-	public void evaluate() {
-
 	}
 
 	@Override
@@ -95,18 +98,4 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	public GeoFunction getGeoFunction() {
 		return function;
 	}
-
-	private boolean evaluateBoolean(Interval x, ExpressionNode condition) {
-		Interval left = IntervalFunction.evaluate(x, condition.getLeft());
-		Operation operation = condition.getOperation();
-		ExpressionValue value = condition.getRight();
-		switch (operation) {
-		case LESS:
-			return left.isLessThan(IntervalFunction.evaluate(x, value));
-		case GREATER:
-			return left.isGreaterThan(IntervalFunction.evaluate(x, value));
-		}
-		return true;
-	}
-
 }

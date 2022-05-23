@@ -48,8 +48,7 @@ import org.geogebra.common.util.debug.Log;
 	private final GeoFunction function;
 
 	private static final List<IntervalEvaluator> evaluators
-			= Arrays.asList(new IntervalPowerEvaluator(),
-				new ConditionalEvaluator());
+			= Arrays.asList(new IntervalPowerEvaluator());
 	/**
 	 * Constructor
 	 *
