@@ -134,16 +134,19 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			if (hasParm) {
 				// set label
 				lblParameterArray[i].setVisible(true);
-				String paramName = view.getParameterLabels()[view.getSelectedDist()
-						.ordinal()][i];
-				String paramLbl = getView().getApp().getConfig().hasDistributionView()
-						? view.getApp().getLocalization().getPlainDefault("Parameter%0",
-						"Parameter %0", paramName) : paramName;
-				lblParameterArray[i].setText(paramLbl);
+				lblParameterArray[i].setText(getParamLabel(i));
 				// set field
 				fldParameterArray[i].setText(view.format(view.getParameters()[i]));
 			}
 		}
+	}
+
+	private String getParamLabel(int index) {
+		String paramName = view.getParameterLabels()[view.getSelectedDist()
+				.ordinal()][index];
+		return view.getApp().getConfig().hasDistributionView()
+				? view.getApp().getLocalization().getPlainDefault("Parameter%0",
+				"Parameter %0", paramName) : paramName;
 	}
 
 	/**
@@ -231,10 +234,12 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	 */
 	public void setLabels() {
 		setDistributionComboBoxMenu();
-		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
+		if (cumulativeWidget != null) {
+			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
+		}
 		for (int i = 0; i < ProbabilityManager.getParmCount(view.getSelectedDist()); i++) {
 			lblParameterArray[i]
-					.setText(view.getParameterLabels()[view.getSelectedDist().ordinal()][i]);
+					.setText(getParamLabel(i));
 		}
 		modeGroup.setLabels();
 		resultPanel.setLabels();
