@@ -49,12 +49,21 @@
 
 			.mathTextField {
 				border: none;
-				border-bottom: 1px #dcdcdc solid;
+				border-bottom: 1px colors.$black-42 solid;
 				margin: 8px 0 20px 0;
 				border-radius: 0;
 				width: 100%;
 				cursor: pointer;
-			}
+
+				&:hover {
+					border-bottom-color: colors.$black-87;
+				}
+
+				&.focusState {
+					margin-bottom: 19px;
+					border-bottom: 2px solid colors.$purple-default;
+				}
+ 			}
 		}
 	}
 

@@ -95,8 +95,10 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
 		for (int i = 0; i < view.maxParameterCount; i++) {
-			parameterPanel.add(lblParameterArray[i]);
-			parameterPanel.add(fldParameterArray[i]);
+			FlowPanel holderPanel = new FlowPanel();
+			holderPanel.add(lblParameterArray[i]);
+			holderPanel.add(fldParameterArray[i]);
+			parameterPanel.add(holderPanel);
 		}
 
 		parent.add(parameterPanel);
