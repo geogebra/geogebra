@@ -89,6 +89,10 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		add(modeGroup);
 	}
 
+	/**
+	 * add parameter label and input field to UI
+	 * @param parent - parent holder div
+	 */
 	public void buildParameterPanel(FlowPanel parent) {
 		initParamFields();
 
