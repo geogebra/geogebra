@@ -10,8 +10,8 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
-import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.OptionElement;
