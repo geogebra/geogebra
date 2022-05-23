@@ -2,8 +2,8 @@ package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.gwtproject.timer.client.Timer;
 
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 

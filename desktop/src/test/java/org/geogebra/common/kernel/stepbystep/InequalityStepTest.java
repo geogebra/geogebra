@@ -81,6 +81,12 @@ public class InequalityStepTest {
 	}
 
     @Test
+    public void oneOverXtest() {
+        i("1/x", "<", "x", "x", "x in (-1, 0)", "x in (1, inf)");
+        i("1/x", ">", "x", "x", "x in (-inf, -1)", "x in (0, 1)");
+    }
+
+    @Test
     public void quadraticInequality() {
         i("x^2+4x+5", ">", "0", "x", "x in R");
         i("2*x^2+5x+6", ">", "0", "x", "x in R");

@@ -8,14 +8,15 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ColorMask;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Window;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLImageElement;
 import elemental2.webgl.WebGLRenderingContext;
@@ -54,7 +55,7 @@ public class RendererWithImplW extends Renderer implements
 		createGLContext(false);
 
 		// when window is unload, dispose openGL stuff
-		Window.addCloseHandler(event -> dispose());
+		DomGlobal.window.addEventListener("unload", event -> dispose());
 
 	}
 
@@ -212,7 +213,7 @@ public class RendererWithImplW extends Renderer implements
 			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
 		if (glContext == null) {
-			Window.alert("Sorry, Your Browser doesn't support WebGL!");
+			Log.error("Sorry, Your Browser doesn't support WebGL!");
 		}
 	}
 

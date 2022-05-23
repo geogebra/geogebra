@@ -19,9 +19,6 @@ package org.geogebra.web.resources;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.DOM;
-
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLLinkElement;
 import elemental2.dom.HTMLStyleElement;
@@ -33,17 +30,23 @@ public class StyleInjector {
 
 	public static final String CLASSNAME = "ggw_resource";
 
-	private static List<String> stylesInLoading = new ArrayList<>();
-	private static List<Runnable> onStylesReady = new ArrayList<>();
+	private static final List<String> stylesInLoading = new ArrayList<>();
+	private static final List<Runnable> onStylesReady = new ArrayList<>();
+	private final String moduleBaseUrl;
+
+	public StyleInjector(String moduleBaseURL) {
+		this.moduleBaseUrl = devModeFix(moduleBaseURL);
+	}
 
 	/**
 	 * @param baseUrl (relative or absolute) base url of css file
 	 * @param name name of the css file, without extension
+	 * @return this for chaining
 	 */
-	public static void inject(String baseUrl, String name) {
+	public StyleInjector inject(String baseUrl, String name) {
 		// to avoid conflicts with other elements on the page with this id
 		String prefixedName = "ggbstyle_" + name;
-		if (DOM.getElementById(prefixedName) == null) {
+		if (DomGlobal.document.getElementById(prefixedName) == null) {
 			HTMLLinkElement element
 					= (HTMLLinkElement) DomGlobal.document.createElement("link");
 
@@ -57,9 +60,10 @@ public class StyleInjector {
 			element.id = prefixedName;
 			element.rel = "stylesheet";
 			element.type = "text/css";
-			element.href = devModeFix(GWT.getModuleBaseURL()) + "../" + baseUrl + "/" + name + ".css";
+			element.href = moduleBaseUrl + "../" + baseUrl + "/" + name + ".css";
 			DomGlobal.document.head.appendChild(element);
 		}
+		return this;
 	}
 
 	private static String devModeFix(String moduleBaseURL) {

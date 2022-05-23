@@ -63,22 +63,22 @@ public class AxisPanel extends FlowPanel
 
 		// show axis
 		cbShowAxis = new ComponentCheckbox(loc, true, "Show" + strAxisEn,
-				() -> model.showAxis(cbShowAxis.isSelected()));
+				model::showAxis);
 		cbShowAxis.addStyleName("block");
 
 		// show numbers
 		cbAxisNumber = new ComponentCheckbox(loc, true, "ShowAxisNumbers",
-				() -> model.showAxisNumbers(cbAxisNumber.isSelected()));
+				model::showAxisNumbers);
 		cbAxisNumber.addStyleName("block");
 
 		// show positive axis only
 		cbPositiveAxis = new ComponentCheckbox(loc, false, "PositiveDirectionOnly",
-				() -> model.applyPositiveAxis(cbPositiveAxis.isSelected()));
+				model::applyPositiveAxis);
 		cbPositiveAxis.addStyleName("block");
 
 		// allow axis selection
 		cbAllowSelection = new ComponentCheckbox(loc, false, "SelectionAllowed",
-				() -> model.applyAllowSelection(cbAllowSelection.isSelected()));
+				model::applyAllowSelection);
 
 		// ticks
 		lbTickStyle = new ListBox();
@@ -150,7 +150,8 @@ public class AxisPanel extends FlowPanel
 
 		// cross at and stick to edge
 
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		InputPanelW input = new InputPanelW(null, app, 1, -1,
+				false);
 		tfCross = input.getTextComponent();
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();
@@ -165,7 +166,7 @@ public class AxisPanel extends FlowPanel
 
 		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
 		cbDrawAtBorder = new ComponentCheckbox(loc, false, "StickToEdge",
-				() -> model.applyDrawAtBorder(cbDrawAtBorder.isSelected()));
+				model::applyDrawAtBorder);
 
 		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
 				cbDrawAtBorder);
@@ -191,8 +192,7 @@ public class AxisPanel extends FlowPanel
 		updatePanel();
 	}
 
-	private void onDistanceSelected() {
-		boolean isTickDistanceOn = cbManualTicks.isSelected();
+	private void onDistanceSelected(boolean isTickDistanceOn) {
 		model.applyTickDistance(isTickDistanceOn);
 		ncbTickDist.setEnabled(isTickDistanceOn);
 		if (isTickDistanceOn) {

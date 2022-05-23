@@ -36,8 +36,8 @@ public class AngleInputDialogW extends ComponentInputDialog {
 	public AngleInputDialogW(AppW app, String message, DialogData data,
 			String initString, InputHandler handler, boolean modal) {
 		super(app, data, false, false, handler,
-				app.getLocalization().getMenu(message), initString,
-				false);
+				app.getLocalization().getMenu(message), initString
+		);
 		addStyleName("angleInputDialog");
 		super.setModal(modal);
 		setInputHandler(handler);
@@ -79,7 +79,6 @@ public class AngleInputDialogW extends ComponentInputDialog {
 	@Override
 	public void processInput() {
 		String inputTextWithSign = getInputText();
-		getTextComponent().hideTablePopup();
 
 		// negative orientation ?
 		if (rbClockWise.getValue()) {

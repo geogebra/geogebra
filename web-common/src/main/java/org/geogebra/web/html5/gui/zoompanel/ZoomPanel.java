@@ -9,14 +9,13 @@ import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.GToggleButton;
-import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
@@ -33,14 +32,13 @@ import elemental2.dom.DomGlobal;
  *
  */
 public class ZoomPanel extends FlowPanel implements CoordSystemListener {
-
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
 	private StandardButton zoomOutBtn;
 	/**
 	 * enter/exit fullscreen mode
 	 */
-	private GToggleButton fullscreenBtn;
+	private ToggleButton fullscreenBtn;
 
 	/** application */
 	private AppW app;
@@ -120,20 +118,17 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * add fullscreen button
 	 */
 	public void addFullscreenButton() {
-		fullscreenBtn = new GToggleButton(
-				new NoDragImage(ZoomPanelResources.INSTANCE.fullscreen_black18(), 24),
-				new NoDragImage(ZoomPanelResources.INSTANCE.fullscreen_exit_black18(), 24)
-		);
-
+		fullscreenBtn = new ToggleButton(ZoomPanelResources.INSTANCE.fullscreen_black18(),
+				ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
+		fullscreenBtn.setStyleName("zoomPanelBtn");
 		registerFocusable(fullscreenBtn, AccessibilityGroup.ViewControlId.FULL_SCREEN);
 
-		fullscreenBtn.setStyleName("zoomPanelBtn");
-
-		fullscreenBtn.addValueChangeHandler(source -> {
+		fullscreenBtn.addFastClickHandler(source -> {
 			getZoomController().onFullscreenPressed(getPanelElement(),
 					fullscreenBtn);
 			setFullScreenAuralText();
 		});
+		fullscreenBtn.setSelected(Browser.isFullscreen());
 
 		app.getGlobalHandlers().addEventListener(DomGlobal.document,
 		Browser.getFullscreenEventName(), event -> {
@@ -172,13 +167,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
 		getZoomController().hideHomeButton(homeBtn);
-		FastClickHandler handlerHome = new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				getZoomController().onHomePressed();
-			}
-		};
+		FastClickHandler handlerHome = source -> getZoomController().onHomePressed();
 		homeBtn.addFastClickHandler(handlerHome);
 		add(homeBtn);
 		registerFocusable(homeBtn, AccessibilityGroup.ViewControlId.ZOOM_PANEL_HOME);
@@ -200,12 +189,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 
-		FastClickHandler handlerZoomOut = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				getZoomController().onZoomOutPressed();
-			}
-		};
+		FastClickHandler handlerZoomOut = source -> getZoomController().onZoomOutPressed();
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
 		add(zoomOutBtn);
 	}
@@ -216,12 +200,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 
-		FastClickHandler handlerZoomIn = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				getZoomController().onZoomInPressed();
-			}
-		};
+		FastClickHandler handlerZoomIn = source -> getZoomController().onZoomInPressed();
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
 		add(zoomInBtn);
 	}
@@ -413,6 +392,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public boolean isFullScreen() {
 		return getZoomController().isFullScreenActive();
+	}
+
+	/**
+	 * @param isFullscreen whether fullscreen should be active
+	 */
+	public void setFullScreen(boolean isFullscreen) {
+		getZoomController().setFullScreenActive(isFullscreen, fullscreenBtn);
 	}
 
 	/**

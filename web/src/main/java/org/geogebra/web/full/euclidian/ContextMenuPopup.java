@@ -8,22 +8,20 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RequiresResize;
 
 /**
  * context menu
  */
 public class ContextMenuPopup extends StandardButton
-		implements CloseHandler<GPopupPanel>, ResizeHandler {
+		implements CloseHandler<GPopupPanel>, RequiresResize {
 
 	private final GPoint location;
 	private final AppW app;
@@ -44,11 +42,11 @@ public class ContextMenuPopup extends StandardButton
 		initPopup();
 		addStyleName("MyCanvasButton");
 		addStyleName("MyCanvasButton-borderless");
-		Window.addResizeHandler(this);
+		app.addWindowResizeListener(this);
 	}
 
 	@Override
-	public void onResize(ResizeEvent event) {
+	public void onResize() {
 		if (!popup.isMenuShown()) {
 			return;
 		}

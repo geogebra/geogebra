@@ -1,10 +1,9 @@
 package org.geogebra.web.tablet.gui.browser;
 
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.browser.MaterialListPanel;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.Window;
 
 /**
  * Material list panel for tablets
@@ -18,10 +17,10 @@ public class TabletMaterialListPanel extends MaterialListPanel {
 	public TabletMaterialListPanel(final AppW app) {
 		super(app);
 		if (app.getConfig().isSimpleMaterialPicker()) {
-			this.setPixelSize(Window.getClientWidth(),
-					Window.getClientHeight());
+			this.setPixelSize(NavigatorUtil.getWindowWidth(),
+					NavigatorUtil.getWindowHeight());
 		} else {
-			this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
+			this.setPixelSize(NavigatorUtil.getWindowWidth(), NavigatorUtil.getWindowHeight()
 					- GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		}
 	}

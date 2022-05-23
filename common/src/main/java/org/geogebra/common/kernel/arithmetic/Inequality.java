@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -436,4 +437,25 @@ public class Inequality {
 		return normal;
 	}
 
-} // end of class Equation
+	/**
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @return value (TRUE/FALSE) in neighborhood of (x,y) if it's constant in the area,
+	 *         UNKNOWN otherwise
+	 */
+	public ExtendedBoolean valueAround(double x, double y) {
+		fv[0].set(x);
+		if (fv.length > 1) {
+			fv[1].set(y);
+		}
+		double val = normal.evaluateDouble();
+		if (DoubleUtil.isZero(val)) {
+			return ExtendedBoolean.UNKNOWN;
+		} else if (val > 0) {
+			return ExtendedBoolean.TRUE;
+		} else {
+			return ExtendedBoolean.FALSE;
+		}
+	}
+
+}

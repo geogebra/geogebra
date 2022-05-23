@@ -4,21 +4,19 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RequiresResize;
 
 /**
  * Calculator chooser for suite
  */
-public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable, ResizeHandler {
+public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable, RequiresResize {
 
 	/**
 	 * constructor
@@ -31,7 +29,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 		app.registerPopup(this);
 		buildGUI();
-		Window.addResizeHandler(this);
+		app.addWindowResizeListener(this);
 	}
 
 	private void buildGUI() {
@@ -81,7 +79,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	}
 
 	@Override
-	public void onResize(ResizeEvent event) {
+	public void onResize() {
 		if (isShowing()) {
 			Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 			super.centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());

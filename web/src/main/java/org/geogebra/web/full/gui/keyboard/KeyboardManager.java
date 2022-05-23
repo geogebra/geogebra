@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
@@ -16,20 +17,17 @@ import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import elemental2.dom.DomGlobal;
 
 /**
  * Handles creating, showing and updating the keyboard
@@ -108,7 +106,7 @@ public class KeyboardManager
 	 */
 	public double getKeyboarWidth() {
 		return shouldDetach()
-				? Window.getClientWidth()
+				? NavigatorUtil.getWindowWidth()
 				: app.getWidth();
 	}
 
@@ -155,8 +153,7 @@ public class KeyboardManager
 		container.appendChild(detachedKeyboardParent);
 		String keyboardParentId = app.getAppletId() + "keyboard";
 		detachedKeyboardParent.setId(keyboardParentId);
-		app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize",
-				e -> onResize());
+		app.addWindowResizeListener(this);
 		return RootPanel.get(keyboardParentId);
 	}
 
@@ -267,7 +264,7 @@ public class KeyboardManager
 	private boolean extraSpaceNeededForKeyboard() {
 		if (shouldDetach()) {
 			double appletBottom = app.getFrameElement().getAbsoluteBottom();
-			return Window.getClientHeight() - appletBottom < estimateKeyboardHeight();
+			return NavigatorUtil.getWindowHeight() - appletBottom < estimateKeyboardHeight();
 		}
 
 		return false;

@@ -1,15 +1,28 @@
 package org.geogebra.common.gui.view.table.dialog;
 
 public class StatisticGroup {
+
 	private final String heading;
 	private final String[] values;
 	private boolean isLaTeX;
 
 	/**
+	 * Creates a non-latex StatisticsGroup
 	 * @param heading heading row
 	 * @param values values row
 	 */
 	public StatisticGroup(String heading, String... values) {
+		this(false, heading, values);
+	}
+
+	/**
+	 * Creates a statistics group
+	 * @param isLaTeX is latex
+	 * @param heading heading row
+	 * @param values values row
+	 */
+	public StatisticGroup(boolean isLaTeX, String heading, String... values) {
+		this.isLaTeX = isLaTeX;
 		this.values = values;
 		this.heading = heading;
 	}
@@ -26,17 +39,6 @@ public class StatisticGroup {
 	 */
 	public String[] getValues() {
 		return values;
-	}
-
-	/**
-	 * @param heading heading row
-	 * @param formula LaTeX formula (value row)
-	 * @return stats dialog entry
-	 */
-	public static StatisticGroup withLaTeX(String heading, String formula) {
-		StatisticGroup row = new StatisticGroup(heading, formula);
-		row.isLaTeX = true;
-		return row;
 	}
 
 	/**

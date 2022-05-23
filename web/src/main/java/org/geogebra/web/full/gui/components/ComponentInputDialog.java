@@ -6,8 +6,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.dialog.ProcessInput;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
@@ -30,9 +30,9 @@ public class ComponentInputDialog extends ComponentDialog
 	 */
 	public ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
-			String initText, boolean showSymbolPopupIcon) {
+			String initText) {
 		this(app, dialogData, autoHide, hasScrim, inputHandler);
-		createGUI(labelText, initText, showSymbolPopupIcon);
+		createGUI(labelText, initText);
 	}
 
 	/**
@@ -59,11 +59,10 @@ public class ComponentInputDialog extends ComponentDialog
 		});
 	}
 
-	private void createGUI(String labelText, String initText,
-			boolean showSymbolPopupIcon) {
+	private void createGUI(String labelText, String initText) {
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, -1, 1,
-				showSymbolPopupIcon, "");
+				"");
 		addDialogContent(inputTextField);
 	}
 
@@ -98,14 +97,6 @@ public class ComponentInputDialog extends ComponentDialog
 		super.show();
 		if (inputTextField != null) {
 			inputTextField.focusDeferred();
-		}
-	}
-
-	@Override
-	public void hide() {
-		super.hide();
-		if (getTextComponent() != null) {
-			getTextComponent().hideTablePopup();
 		}
 	}
 

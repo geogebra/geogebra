@@ -1,5 +1,6 @@
 package org.geogebra.web.tablet;
 
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.GeoGebraGlobal;
@@ -9,7 +10,6 @@ import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -60,7 +60,7 @@ public class Tablet implements EntryPoint {
 	 *            rendering finished callback
 	 */
 	public void renderArticleElement(final Element el,
-	        JavaScriptObject clb) {
+			JsConsumer<Object> clb) {
 		GeoGebraFrameFull.renderArticleElement(el,
 				new AppletFactory3D(), new TabletLookAndFeel(), clb);
 	}

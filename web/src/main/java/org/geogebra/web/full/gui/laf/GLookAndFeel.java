@@ -16,8 +16,10 @@ import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.Event;
+import elemental2.dom.EventListener;
+import jsinterop.base.Js;
 
 /**
  * Represents different designs/platforms of GeoGebra deployment
@@ -35,8 +37,8 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public static final int TOOLBAR_HEIGHT = 53;
 	/** size of icons in view submenu of stylebar */
 	public static final int VIEW_ICON_SIZE = 20;
-	private HandlerRegistration windowClosingHandler;
-	private HandlerRegistration windowCloseHandler;
+	private EventListener windowClosingHandler;
+	private EventListener windowCloseHandler;
 
 	@Override
 	public boolean undoRedoSupported() {
@@ -65,27 +67,32 @@ public class GLookAndFeel implements GLookAndFeelI {
 		}
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
-			this.windowClosingHandler = Window
-					.addWindowClosingHandler(event -> event.setMessage(
-							app.getLocalization().getMenu("CloseApplicationLoseUnsavedData")));
+			this.windowClosingHandler = this::askForSave;
+			DomGlobal.window.addEventListener("beforeunload", windowClosingHandler);
 		}
 
 		if (this.windowCloseHandler == null) {
 			// onClose is called, if user leaves the page correct
 			// not called if browser crashes
-			this.windowCloseHandler = Window
-					.addCloseHandler(event -> app.getFileManager().deleteAutoSavedFile());
+			this.windowCloseHandler = event -> app.getFileManager().deleteAutoSavedFile();
+			DomGlobal.window.addEventListener("unload", windowCloseHandler);
 		}
 	}
 
+	private void askForSave(Event evt) {
+		// Message set by browser https://developer.chrome.com/blog/chrome-51-deprecations/
+		Js.asPropertyMap(evt).set("returnValue", 1);
+		evt.preventDefault();
+	}
+
 	/**
-	 * removes the {@link com.google.gwt.user.client.Window.ClosingHandler}
+	 * removes the 'beforeunload' handler
 	 * overridden for SMART and TOUCH - they don't use a windowClosingHandler
 	 */
 	@Override
 	public void removeWindowClosingHandler() {
 		if (windowClosingHandler != null) {
-			windowClosingHandler.removeHandler();
+			DomGlobal.window.removeEventListener("beforeunload", windowClosingHandler);
 			windowClosingHandler = null;
 		}
 	}
@@ -187,7 +194,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public void storeLanguage(String lang) {
 		if (Browser.isGeoGebraOrg()) {
 			Date exp = new Date(
-					System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
+					System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
 			Cookies.setCookie("GeoGebraLangUI",
 					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
 					"geogebra.org", "/");

@@ -117,6 +117,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
 					escPressed = true;
+					((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
 					handled = true;
 				}
 
@@ -319,10 +320,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	public void setEscPressed(boolean escPressed) {
 		this.escPressed = escPressed;
-	}
-
-	public boolean isEscPressed() {
-		return escPressed;
 	}
 
 	/**

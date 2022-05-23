@@ -645,6 +645,13 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testCommaInMatrixEditor() {
+		checker.insert("{{1,2},{3,4}}").protect().left(42) // go to the left of protected editor
+				.type(",").type(",")
+				.checkAsciiMath("{{1,2},{3,4}}");
+	}
+
+	@Test
 	public void testSqrtInPointEditor() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.setForceBracketsAfterFunction();
@@ -714,5 +721,23 @@ public class EditorTypingTest {
 				.left(5)
 				.type("]")
 				.checkAsciiMath("(2,[3],3+4)");
+	}
+
+	@Test
+	public void testEditorBackspace() {
+		checker.type("ab cd(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("abcd()");
+
+		checker.type("a b(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("ab()");
+
+		checker.type("1 + N Solve(")
+				.left(6)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("1 + NSolve()");
 	}
 }

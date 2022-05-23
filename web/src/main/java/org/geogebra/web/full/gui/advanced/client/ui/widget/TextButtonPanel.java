@@ -18,9 +18,9 @@ package org.geogebra.web.full.gui.advanced.client.ui.widget;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.advanced.client.ui.AdvancedWidget;
-import org.geogebra.web.full.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -202,6 +202,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 		AutoCompleteTextFieldW selValue = getSelectedValue();
 		selValue.setEditable(!isCustomTextAllowed());
 		selValue.setStyleName("selected-value");
+		selValue.enableGGBKeyboard();
 
 		if (getHeight() != null) {
 			getLayout().setHeight("100%");
@@ -250,7 +251,6 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	protected AutoCompleteTextFieldW getSelectedValue() {
 		if (selectedValue == null) {
 			selectedValue = new AutoCompleteTextFieldW(6, getApp());
-			selectedValue.requestToShowSymbolButton();
 			selectedValue.setAutoComplete(false);
 		}
 		return selectedValue;

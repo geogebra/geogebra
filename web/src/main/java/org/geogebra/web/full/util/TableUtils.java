@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.web.full.util;
 
 import com.google.gwt.user.cellview.client.CellTable;
 

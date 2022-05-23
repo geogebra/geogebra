@@ -6,19 +6,19 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 import elemental2.dom.CanvasRenderingContext2D;
@@ -428,7 +428,7 @@ class NavigationRail extends FlowPanel {
 			if (!isOpen()) {
 				int width = app.getAppletParameters().getDataParamWidth();
 				if (app.getAppletParameters().getDataParamFitToScreen()) {
-					width = Window.getClientWidth();
+					width = NavigatorUtil.getWindowWidth();
 				}
 				toolbarPanel.setLastOpenWidth((int) (width
 						* PerspectiveDecoder.landscapeRatio(app, width)));

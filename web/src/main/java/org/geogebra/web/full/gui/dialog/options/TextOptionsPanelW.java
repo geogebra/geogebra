@@ -17,13 +17,13 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentInputField;
 import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
-import org.geogebra.web.full.gui.dialog.TextPreviewPanelW;
+import org.geogebra.web.full.gui.dialog.text.GeoTextEditor;
+import org.geogebra.web.full.gui.dialog.text.ITextEditPanel;
+import org.geogebra.web.full.gui.dialog.text.TextPreviewPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.InlineTextFormatter;
-import org.geogebra.web.full.gui.util.ToggleButton;
-import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
-import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -102,7 +102,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 				DialogData data = new DialogData("EnterPercentage", "Cancel", "OK");
 				ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
 				ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
-						currentSize, -1, 1, false, "");
+						currentSize, -1, 1, "");
 				dialog.addDialogContent(inputTextField);
 				dialog.setOnPositiveAction(() ->
 						model.applyFontSizeFromString(inputTextField.getText()));

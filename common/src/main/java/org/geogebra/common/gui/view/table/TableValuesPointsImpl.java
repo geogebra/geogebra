@@ -35,6 +35,19 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		this.model = model;
 	}
 
+	/**
+	 * Construct and register a new object of Table Values Points.
+	 * @param construction the construction to add points to
+	 * @param model model
+	 * @return points model
+	 */
+	public static TableValuesPointsImpl create(Construction construction, TableValues view,
+			TableValuesModel model) {
+		TableValuesPointsImpl instance = new TableValuesPointsImpl(construction, view, model);
+		model.registerListener(instance);
+		return instance;
+	}
+
 	@Override
 	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
 			int column) {

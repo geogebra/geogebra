@@ -1,9 +1,9 @@
 package org.geogebra.web.shared.components.dialog;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.Scheduler;
@@ -13,8 +13,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
-
-import elemental2.dom.DomGlobal;
 
 /**
  * Base dialog material design component
@@ -40,7 +38,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
 		buildDialog(dialogData);
-		app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize", e -> onResize());
+		app.addWindowResizeListener(this::onResize);
 	}
 
 	private void  buildDialog(DialogData dialogData) {
@@ -48,7 +46,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		dialogMainPanel.addStyleName("dialogMainPanel");
 
 		addTitleOfDialog(dialogMainPanel, dialogData.getTitleTransKey(),
-				dialogData.getSubTitleTransKey());
+				dialogData.getSubTitleHTML());
 		createEmptyDialogContent(dialogMainPanel);
 		if (dialogData.getNegativeBtnTransKey() != null
 				|| dialogData.getPositiveBtnTransKey() != null) {
@@ -59,7 +57,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	}
 
 	private void addTitleOfDialog(FlowPanel dialogMainPanel, String titleTransKey,
-			String subTitleTransKey) {
+			String subTitleHTML) {
 		if (titleTransKey == null) {
 			return;
 		}
@@ -68,10 +66,10 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		title.setStyleName("dialogTitle");
 		dialogMainPanel.add(title);
 
-		if (subTitleTransKey != null) {
+		if (subTitleHTML != null) {
 			addStyleName("withSubtitle");
 			Label subTitle = new Label();
-			subTitle.getElement().setInnerHTML(subTitleTransKey);
+			subTitle.getElement().setInnerHTML(subTitleHTML);
 			subTitle.setStyleName("dialogSubTitle");
 			dialogMainPanel.add(subTitle);
 		}

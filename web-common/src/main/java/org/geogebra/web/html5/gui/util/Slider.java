@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

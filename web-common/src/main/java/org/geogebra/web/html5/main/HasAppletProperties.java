@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.main;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import org.geogebra.gwtutil.JsConsumer;
 
 /**
  * Interface for GeoGebra applet frame
@@ -47,7 +47,7 @@ public interface HasAppletProperties {
 	/**
 	 * @return callback passed to renderArticleElementWithFrame
 	 */
-	JavaScriptObject getOnLoadCallback();
+	JsConsumer<Object> getOnLoadCallback();
 
 	/**
 	 * @return whether keyboard is visible

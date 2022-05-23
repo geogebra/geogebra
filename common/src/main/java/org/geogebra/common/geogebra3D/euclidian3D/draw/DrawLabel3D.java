@@ -303,7 +303,7 @@ public class DrawLabel3D {
 			g2d = createGraphics2D(bimg, cpt);
 
 			App app = view.getApplication();
-			app.getDrawEquation().drawEquation(geo.getKernel().getApplication(),
+			app.getDrawEquation().drawEquation(app,
 					geo, g2d, 0, -offsetY, cpt.textToDraw(),
 					cpt.font(), cpt.isSerifFont(), cpt.foregroundColor(),
 					cpt.backgroundColor(),

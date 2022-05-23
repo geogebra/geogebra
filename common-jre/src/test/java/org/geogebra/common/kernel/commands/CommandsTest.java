@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
@@ -103,6 +104,7 @@ public class CommandsTest {
 		resetSyntaxCounter();
 		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN);
+		GeoImplicitCurve.setFastDrawThreshold(10000);
 	}
 
 	public static void resetSyntaxCounter() {
@@ -1982,6 +1984,8 @@ public class CommandsTest {
 				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
 		intersect("-x^4+2 x^2+0.25 x+5", "0.1x - 0.96y=-3.9156",
 				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
+		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y",
+				false, "(1, 1)");
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
@@ -4231,9 +4235,7 @@ public class CommandsTest {
 		t("Vertex[ x^2/9+y^2/4 =1 ]",
 				"(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)");
 		tRound("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
-				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421),"
-						+ " (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189),"
-						+ " (1.30208, 0.55189)}");
+				"{(0, 0), (1, 1), (1.30208, 0.55189)}");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
 				"(0, 0)", "(1, 0)", "(0, 1)");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]", "(1, 0)");

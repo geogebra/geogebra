@@ -3710,7 +3710,9 @@ public class ExpressionNode extends ValidExpression
 	 * @param newNode node that should receive the attributes
 	 */
 	public void copyAttributesTo(ExpressionNode newNode) {
-		newNode.forceVector = forceVector;
+		if (forceVector) {
+			newNode.setForceVector();
+		}
 		newNode.forcePoint = forcePoint;
 		newNode.forceFunction = forceFunction;
 		newNode.forceInequality = forceInequality;

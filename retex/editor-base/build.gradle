@@ -31,7 +31,8 @@ dependencies {
 sourceSets.main.java.srcDirs += [compileJavacc.outputDirectory, compileJavacc.inputDirectory]
 
 compileJavacc {
-	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern']
+	arguments = [static: 'false', grammar_encoding: 'UTF-8', unicode_input : 'true',  JAVA_TEMPLATE_TYPE: 'modern',
+                 LEGACY_EXCEPTION_HANDLING: 'false']
 }
 
 compileJava {

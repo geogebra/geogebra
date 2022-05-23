@@ -1,8 +1,10 @@
 package org.geogebra.web.full.gui.components;
 
+import java.util.function.Consumer;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -26,7 +28,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	 * @param callback - on click action
 	 */
 	public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt,
-			Runnable callback) {
+			Consumer<Boolean> callback) {
 		this.loc = loc;
 		this.selected = setSelected;
 		this.checkboxTxt = templateTxt;
@@ -62,7 +64,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 			if (!disabled) {
 				setSelected(!isSelected());
 				if (callback != null) {
-					callback.run();
+					callback.accept(isSelected());
 				}
 			}
 		});

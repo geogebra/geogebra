@@ -140,14 +140,14 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillTypePanel.add(lbFillType);
 
 		cbFillInverse = new ComponentCheckbox(app.getLocalization(), false, "InverseFilling",
-				() -> model.applyFillingInverse(cbFillInverse.isSelected()));
+				model::applyFillingInverse);
 		fillTypePanel.add(cbFillInverse);
 		lbFillType.addChangeHandler(event -> model.applyFillType(lbFillType.getSelectedIndex()));
 
 		FlowPanel panel = new FlowPanel();
 		panel.add(fillTypePanel);
 
-		unicodePanel = new InputPanelW(null, app, 1, -1, true);
+		unicodePanel = new InputPanelW(null, app, 1, -1, false);
 		// buildInsertUnicodeButton();
 		unicodePanel.setVisible(false);
 		tfInsertUnicode = unicodePanel.getTextComponent();

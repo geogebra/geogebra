@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.web.full.util;
 
 import elemental2.dom.Event;
 

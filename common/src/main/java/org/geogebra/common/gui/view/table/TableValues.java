@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 /**
  * Interface for the table of values view.
  */
-public interface TableValues extends View {
+public interface TableValues extends View, StatisticsView {
 
 	/**
 	 * Show the column for the Evaluatable object.
@@ -137,4 +137,6 @@ public interface TableValues extends View {
 	 * @return processor
 	 */
 	TableValuesProcessor getProcessor();
+
+	void addAndShow(GeoElement geo);
 }

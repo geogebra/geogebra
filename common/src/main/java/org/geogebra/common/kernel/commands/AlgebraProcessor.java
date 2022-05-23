@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
@@ -110,7 +111,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
-import org.geogebra.common.kernel.parser.TokenMgrError;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -187,7 +187,11 @@ public class AlgebraProcessor {
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
 	private CommandSyntax englishCommandSyntax;
-	private SqrtMinusOneReplacer sqrtMinusOneReplacer;
+	private final SqrtMinusOneReplacer sqrtMinusOneReplacer;
+
+	// Somewhat duplicates EvalInfo.isRedefinition but propagating EvalInfo to constructors of
+	// all geos would be an overkill (needed for autocolor)
+	private boolean isRedefining;
 
 	/**
 	 * @param kernel
@@ -356,10 +360,10 @@ public class AlgebraProcessor {
 			try {
 				// update construction order and
 				// rebuild construction using XML
-				app.getScriptManager().disableListeners();
+				app.getEventDispatcher().disableListeners();
 				cons.changeCasCell(casCell);
-				app.getScriptManager().enableListeners();
-				app.dispatchEvent(new Event(EventType.UPDATE, casCell));
+				app.getEventDispatcher().enableListeners();
+				app.getEventDispatcher().notifyListenersUpdateCascade(casCell);
 				// the changeCasCell command computes the output
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
@@ -367,15 +371,12 @@ public class AlgebraProcessor {
 				// casCell.computeOutput();
 				// casCell.updateCascade();
 			} catch (Exception e) {
-				app.getScriptManager().enableListeners();
+				app.getEventDispatcher().enableListeners();
 				Log.debug(e);
 				casCell.setError("ReplaceFailed");
-				// app.showError(e.getMessage());
-			} catch (CommandNotLoadedError e) {
+			} catch (Error e) { // including CommandNotFoundError
+				app.getEventDispatcher().enableListeners();
 				throw e;
-			} catch (Error er) {
-				app.getScriptManager().enableListeners();
-				throw er;
 			}
 		} else {
 			casCell.notifyAdd();
@@ -593,35 +594,28 @@ public class AlgebraProcessor {
 		// make sure that points stay points and vectors stay vectors
 		updateTypePreservingFlags(newValue, geo, info.isPreventingTypeChange());
 		if (sameLabel(newLabel, oldLabel)) {
-			// try to overwrite
-			final boolean listeners = app.getScriptManager().hasListeners();
-			app.getScriptManager().disableListeners();
-			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
-
-				@Override
-				public void callback(GeoElementND[] obj) {
-					if (obj != null) {
-						app.getScriptManager().enableListeners();
-						if (listeners && obj.length > 0) {
-							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
-							obj[0].updateCascade();
-						}
-						app.getCompanion().recallViewCreators();
-						if (storeUndoInfo) {
-							app.storeUndoInfo();
-						}
-						if (callback != null) {
-							callback.callback(obj.length > 0 ? obj[0] : null);
-						}
+			app.getEventDispatcher().disableListeners();
+			AsyncOperation<GeoElementND[]> changeCallback = obj -> {
+				if (obj != null) {
+					app.getEventDispatcher().enableListeners();
+					if (obj.length > 0) {
+						app.getEventDispatcher().notifyListenersUpdateCascade(obj[0]);
+						app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
 					}
-
+					app.getCompanion().recallViewCreators();
+					if (storeUndoInfo) {
+						app.storeUndoInfo();
+					}
+					if (callback != null) {
+						callback.callback(obj.length > 0 ? obj[0] : null);
+					}
 				}
 			};
 
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
 					changeCallback, info);
 			// make sure listeneres are enabled if redefinition failed
-			app.getScriptManager().enableListeners();
+			app.getEventDispatcher().enableListeners();
 			cons.registerFunctionVariable(null);
 			return;
 		} else if (cons.isFreeLabel(newLabel)) {
@@ -898,9 +892,6 @@ public class AlgebraProcessor {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
-		} catch (TokenMgrError e) {
-			// Sometimes TokenManagerError comes from parser
-			ErrorHelper.handleException(new Exception(e), app, handler);
 		}
 		if (callback0 != null) {
 			callback0.callback(null);
@@ -1127,16 +1118,17 @@ public class AlgebraProcessor {
 		if (element instanceof GeoSymbolic && isVectorLabel(label)) {
 			setVectorPrintingModeFor((GeoSymbolic) element);
 		}
+		element.notifyUpdate();
 	}
 
 	private void setVectorPrintingModeFor(GeoSymbolic element) {
 		ExpressionValue unwrappedDefinition = element.getDefinition().unwrap();
-		if (unwrappedDefinition instanceof MyVecNode) {
-			((MyVecNode) unwrappedDefinition).setupCASVector();
+		if (unwrappedDefinition instanceof MyVecNDNode) {
+			((MyVecNDNode) unwrappedDefinition).setupCASVector();
 		}
 		ExpressionValue unwrappedValue = element.getValue().unwrap();
-		if (unwrappedValue instanceof MyVecNode) {
-			((MyVecNode) unwrappedValue).setupCASVector();
+		if (unwrappedValue instanceof MyVecNDNode) {
+			((MyVecNDNode) unwrappedValue).setupCASVector();
 		}
 	}
 
@@ -1382,7 +1374,7 @@ public class AlgebraProcessor {
 	public double convertToDouble(String string) throws NumberFormatException {
 		try {
 			return evaluateToNumberValue(parser.parseExpression(string)).getDouble();
-		} catch (MyError | TokenMgrError | RuntimeException | ParseException e) {
+		} catch (MyError | RuntimeException | ParseException e) {
 			throw new NumberFormatException(e.getMessage());
 		}
 	}
@@ -1984,6 +1976,7 @@ public class AlgebraProcessor {
 		if (replaceable != null) {
 			evalInfo = evalInfo.withRedefinition(true);
             cons.setSuppressLabelCreation(true);
+			isRedefining = true;
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
 			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
@@ -2003,6 +1996,7 @@ public class AlgebraProcessor {
 						loc.getInvalidInputError() + ":\n" + expression);
 			}
 		} finally {
+			isRedefining = false;
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 		if (!info.getKeepDefinition()) {
@@ -2196,6 +2190,10 @@ public class AlgebraProcessor {
 				}
 			}
 		}
+	}
+
+	public boolean isRedefining() {
+		return this.isRedefining;
 	}
 
 	private static boolean isFunctionIneq(GeoElement geo) {
@@ -2904,7 +2902,6 @@ public class AlgebraProcessor {
 	 */
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
 			EvalInfo info) {
-		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -2912,9 +2909,9 @@ public class AlgebraProcessor {
 		boolean isIndependent = lhs.isConstant(info);
 		if (isIndependent) {
 			// get coefficients
-			a = lhs.getCoeffValue("x");
-			b = lhs.getCoeffValue("y");
-			c = lhs.getCoeffValue("");
+			double a = lhs.getCoeffValue("x");
+			double b = lhs.getCoeffValue("y");
+			double c = lhs.getCoeffValue("");
 			line = new GeoLine(cons, a, b, c);
 		} else {
 			line = dependentLine(equ);

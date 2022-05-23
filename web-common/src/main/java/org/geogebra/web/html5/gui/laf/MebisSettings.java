@@ -9,7 +9,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
-import com.google.gwt.user.client.Window.Location;
+import elemental2.dom.DomGlobal;
 
 /**
  * Mebis specific settings
@@ -20,7 +20,7 @@ public class MebisSettings implements VendorSettings {
 
 	@Override
 	public String getLicenseURL() {
-		if (!Location.getProtocol().startsWith("http")) {
+		if (!DomGlobal.location.protocol.startsWith("http")) {
 			return "https://tafel.mebis.bayern.de" + MEBIS_LICENSE_PATH;
 		}
 		return MEBIS_LICENSE_PATH;

@@ -9,11 +9,11 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.timer.client.Timer;
@@ -21,7 +21,6 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
@@ -67,15 +66,15 @@ public class ZoomController {
 
 	/**
 	 * @param fullScreenActive
-	 *            true if fillscreen
+	 *            true if fullscreen
 	 * @param fullscreenBtn
 	 *            button
 	 */
 	public void setFullScreenActive(boolean fullScreenActive,
-			GToggleButton fullscreenBtn) {
+			ToggleButton fullscreenBtn) {
 		this.fullScreenActive = fullScreenActive;
-		if (fullscreenBtn != null) {
-			fullscreenBtn.setDown(fullScreenActive);
+		if (fullscreenBtn != null && fullscreenBtn.isSelected() != fullScreenActive) {
+			fullscreenBtn.setSelected(fullScreenActive);
 		}
 	}
 
@@ -165,12 +164,12 @@ public class ZoomController {
 			Element elem) {
 		double scale = 1;
 		if (app.isUnbundled()) {
-			app.getGgbApi().setSize(Window.getClientWidth(),
-					Window.getClientHeight());
+			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(),
+					NavigatorUtil.getWindowHeight());
 			Browser.scale(scaler, 1, 0, 0);
 		} else {
-			double xscale = Window.getClientWidth() / app.getWidth();
-			double yscale = Window.getClientHeight() / app.getHeight();
+			double xscale = NavigatorUtil.getWindowWidth() / app.getWidth();
+			double yscale = NavigatorUtil.getWindowHeight() / app.getHeight();
 			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
@@ -179,10 +178,10 @@ public class ZoomController {
 			double marginLeft = 0;
 			double marginTop = 0;
 			if (xscale > yscale) {
-				marginLeft = (Window.getClientWidth() - app.getWidth() * scale)
+				marginLeft = (NavigatorUtil.getWindowWidth() - app.getWidth() * scale)
 						/ 2;
 			} else {
-				marginTop = (Window.getClientHeight() - app.getHeight() * scale)
+				marginTop = (NavigatorUtil.getWindowHeight() - app.getHeight() * scale)
 						/ 2;
 			}
 
@@ -213,7 +212,7 @@ public class ZoomController {
 	 *            fullscreen button
 	 */
 	public void onExitFullscreen(Element elem,
-			GToggleButton fullscreenButton) {
+			ToggleButton fullscreenButton) {
 		setFullScreenActive(false, fullscreenButton);
 		if (!app.getAppletParameters().getDataParamFitToScreen()) {
 			final Element scaler = app.getGeoGebraElement().getParentElement();
@@ -280,7 +279,7 @@ public class ZoomController {
 	 *            fullscreen button
 	 */
 	protected void onFullscreenPressed(final Element elem,
-			final GToggleButton fullscreenBtn) {
+			final ToggleButton fullscreenBtn) {
 		app.closeMenuHideKeyboard();
 		final Element container;
 		emulated = useEmulatedFullscreen(app);
@@ -352,7 +351,7 @@ public class ZoomController {
 		}
 	}
 
-	private void handleIframeFullscreen(GToggleButton fullscreenBtn) {
+	private void handleIframeFullscreen(ToggleButton fullscreenBtn) {
 		if (isRunningInIframe() && emulated) {
 			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
 			if (fullScreenHandler != null) {
@@ -401,7 +400,7 @@ public class ZoomController {
 	 * @param fullscreenBtn
 	 *            fullscreen button
 	 */
-	void onFullscreen(GToggleButton fullscreenBtn) {
+	void onFullscreen(ToggleButton fullscreenBtn) {
 		setFullScreenActive(true, fullscreenBtn);
 		fullscreenBtn.getElement().focus();
 	}

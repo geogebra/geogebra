@@ -166,14 +166,14 @@ public class UndoManagerD extends UndoManager {
 			}
 
 			// load undo info
-			app.getScriptManager().disableListeners();
+			app.getEventDispatcher().disableListeners();
 			((MyXMLioD) construction.getXMLio()).readZipFromMemory(is);
 			if (changed) {
 				listSelModel.setAnchorSelectionIndex(anchorIndex);
 				listSelModel.setLeadSelectionIndex(leadIndex);
 				listSelModel.setSelectionInterval(minIndex, maxIndex);
 			}
-			app.getScriptManager().enableListeners();
+			app.getEventDispatcher().enableListeners();
 
 
 		} catch (Exception e) {

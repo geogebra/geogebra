@@ -15,13 +15,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.RendererWnoWebGL;
@@ -35,10 +34,10 @@ import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -46,7 +45,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -578,28 +576,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void setAltText(GeoText altText) {
-		String altStr = appW.getLocalization().getMenu("GraphicsView3D");
-		GeoElement alt = app.getKernel().lookupLabel("altText3D1");
-		if (alt == null) {
-			alt = app.getKernel().lookupLabel("altText3D");
-		}
-		if (alt == null) {
-			alt = app.getKernel().lookupLabel("altText");
-		}
-		if (alt instanceof GeoText) {
-			altStr = ((GeoText) alt).getAuralText();
-		}
-		setAltText(altStr);
-	}
-
-	private void setAltText(String text) {
-		if (renderer != null && renderer.getCanvas() != null) {
-			((Canvas) renderer.getCanvas()).getElement().setInnerText(text);
-		}
-	}
-
-	@Override
 	public ScreenReaderAdapter getScreenReader() {
 		return screenReader;
 	}
@@ -646,7 +622,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @return whether the frame we are running in is visible
 	 */
 	private static boolean isParentWindowVisible() {
-		return Window.getClientWidth() > 0;
+		return NavigatorUtil.getWindowWidth() > 0;
 	}
 
 	private void addScreenReader() {

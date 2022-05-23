@@ -267,11 +267,4 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 */
 	public void setSafeAreaInsets(EdgeInsets safeAreaInsets);
 
-	/**
-	 * Maximum value that can be used with the current Graphics system.
-	 * @return max value
-	 */
-	default double getMaxCanvasCoordinate() {
-		return Double.MAX_VALUE;
-	}
 }

@@ -1030,7 +1030,7 @@
 	/*-------- SLIDER DIALOG ------------------------*/
 
 	.dialogContent .sliderIntervalPanel div,
-	.dialogContent .sliderWidthPanel div {
+	.dialogContent .sliderWidthPanel .AutoCompleteTextFieldW {
 		margin-right: 10px;
 		display: inline-block;
 		width: 30%;
@@ -1255,13 +1255,6 @@
 			padding: 0 8px;
 		}
 
-		.gwt-ToggleButton {
-			 opacity: 0.54;
-			 padding: 0 6px;
-			 display: inline-block;
-			 vertical-align: text-top;
-		}
-
 		img.gwt-Image {
 			vertical-align: middle;
 			draggable: false;
@@ -1291,7 +1284,15 @@
 	.navbar_playPanel {
 		text-align: center;
 		white-space: nowrap;
-		display: table-cell
+		display: table-cell;
+
+		.button img {
+			opacity: 0.54;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
 	}
 
 	.navbar_playPanel.navbar_playPanel_padding {

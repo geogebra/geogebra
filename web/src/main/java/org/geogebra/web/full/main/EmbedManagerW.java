@@ -43,12 +43,12 @@ import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
 import org.geogebra.web.full.main.embed.H5PEmbedElement;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArchiveEntry;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
@@ -180,7 +180,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth());
 		fr.setComputedHeight(parameters.getDataParamHeight());
-		fr.setOnLoadCallback(Js.uncheckedCast((JsConsumer<Object>) exportedApi -> {
+		fr.setOnLoadCallback((JsConsumer<Object>) (exportedApi -> {
 			Map<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("api", exportedApi);
 			jsonArgument.put("loadedWithFile", currentBase64 != null);
@@ -201,7 +201,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		if (currentBase64 != null) {
 			appEmbedded.registerOpenFileListener(
 					getListener(drawEmbed, parameters, appEmbedded));
-			appEmbedded.getScriptManager().disableListeners();
+			appEmbedded.getEventDispatcher().disableListeners();
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			appEmbedded.getGgbApi().setFileJSON(
@@ -325,7 +325,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		return () -> {
 			drawEmbed.getGeoEmbed()
 					.setAppName(parameters.getDataParamAppName());
-			fr.getScriptManager().enableListeners();
+			fr.getEventDispatcher().enableListeners();
 			return true;
 		};
 	}

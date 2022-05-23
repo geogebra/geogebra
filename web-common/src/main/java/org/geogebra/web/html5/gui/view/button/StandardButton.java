@@ -1,12 +1,12 @@
 package org.geogebra.web.html5.gui.view.button;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
@@ -14,11 +14,11 @@ import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class StandardButton extends FocusWidget implements HasResource {
+public class StandardButton extends Widget implements HasResource {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
@@ -264,7 +264,6 @@ public class StandardButton extends FocusWidget implements HasResource {
 	 * Changes "disabled" property in DOM, so use :disabled in css
 	 * @param enabled whether to add or remove the "disabled" property
 	 */
-	@Override
 	public void setEnabled(boolean enabled) {
 		if (enabled) {
 			getElement().removeAttribute("disabled");
@@ -296,10 +295,6 @@ public class StandardButton extends FocusWidget implements HasResource {
 		});
 	}
 
-	public NoDragImage getImage() {
-		return btnImage;
-	}
-
 	/**
 	 * @param mouseOverHandler - mouse over handler
 	 */
@@ -314,5 +309,13 @@ public class StandardButton extends FocusWidget implements HasResource {
 	public void setMouseOutHandler(Runnable mouseOutHandler) {
 		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
 				mouseOutHandler.run());
+	}
+
+	public NoDragImage getImage() {
+		return btnImage;
+	}
+
+	public void setTabIndex(int i) {
+		getElement().setTabIndex(i);
 	}
 }

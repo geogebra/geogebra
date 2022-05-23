@@ -12,9 +12,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
@@ -209,18 +207,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @return the product
 	 */
 	public PPolynomial multiply(final PPolynomial poly) {
-
-		/*
-		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
-			if (poly.toString().length()>100 && this.toString().length()>100) {
-				String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
-				AbstractApplication.trace(singularMultiplicationProgram.length() + " bytes -> singular");
-				String singularMultiplication = AbstractApplication.singularWS.directCommand(singularMultiplicationProgram);
-				return new Polynomial(singularMultiplication);
-			}
-		}
-		*/
-		
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>();
 		TreeMap<PTerm, BigInteger> terms2 = poly.getTerms();
 		Iterator<Entry<PTerm, BigInteger>> it1 = terms.entrySet().iterator();
@@ -1053,37 +1039,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars,
 				false, freeVariables);
 		String solvableResult, solvableProgram;
-		
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
-
-		if (singularWS != null && singularWS.isAvailable()) {
-			
-			solvableProgram = createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString, 
-					freeVars, dependantVars, transcext);
- 		
-			if (solvableProgram.length() > SingularWSSettings.debugMaxProgramSize)
-				Log.trace(solvableProgram.length() + " bytes -> singular");
-			else
-				Log.trace(solvableProgram + " -> singular");
-			try {
-				solvableResult = singularWS.directCommand(solvableProgram);
-				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
-					Log.trace("singular -> " + solvableResult.length()
-							+ " bytes");
-				else
-					Log.trace("singular -> " + solvableResult);
-				if ("0".equals(solvableResult)) {
-					return ExtendedBoolean.FALSE; // no solution
-				}
-				if ("".equals(solvableResult)) {
-					return ExtendedBoolean.UNKNOWN; // maybe timeout (no answer)
-				}
-			} catch (Throwable e) {
-				Log.debug("Could not compute solvability with SingularWS");
-				return ExtendedBoolean.UNKNOWN;
-			}
-			return ExtendedBoolean.TRUE; // at least one solution exists
-		}
 
 		// If SingularWS is not applicable, then we try to use the internal CAS:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
@@ -1169,7 +1124,6 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			Set<PVariable> freeVariablesInput) {
 
 		TreeSet<PVariable> dependentVariables = new TreeSet<>();
-		TreeSet<PVariable> freeVariables = new TreeSet<>();
 		TreeSet<PVariable> variables = new TreeSet<>(getVars(eqSystem));
 		Iterator<PVariable> variablesIterator = variables.iterator();
 		while (variablesIterator.hasNext()) {
@@ -1177,15 +1131,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			if (substitutions == null || !substitutions.containsKey(variable)) {
 				if (!freeVariablesInput.contains(variable)) {
 					dependentVariables.add(variable);
-				} else {
-					freeVariables.add(variable);
 				}
 			}
 		}
-		/*
-		 * Maybe the freeVariables will be the same as the freeVariablesInput.
-		 * If this is always so, then the above code is redundant. TODO: check.
-		 */
 		PPolynomial[] eqSystemSubstituted;
 		if (substitutions != null) {
 			eqSystemSubstituted = new PPolynomial[eqSystem.length];
@@ -1200,123 +1148,42 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		
 		String elimResult, elimProgram;
 		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
-		
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
 
-		if (singularWS != null && singularWS.isAvailable() && factorized) {
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 
-			/*
-			 * In most cases the revlex permutation gives good (readable) result, but not always.
-			 * So we try to permute the last four non-substituted free variables here.
-			 * All the 24 possibilities here may be a bit slow, so we sketch up a priority for
-			 * checking.  
-			 */
-			int vSize = freeVariables.size();
-			PVariable[] aVariables = new PVariable[vSize];
-			Iterator<PVariable> it = freeVariables.iterator();
-			int ai = 0;
-			while (it.hasNext()) {
-				aVariables[ai++] = it.next();
-			}
-			int[] indices = new int[vSize];
-			for (int i = 0; i < vSize; ++i) {
-				indices[i] = i;
-			}
-			
-			if (vSize >= 4) { // Don't permute if there are not enough free variables.
-				// Suggested permutations in priority. The first one is revlex, the last one is lex.
-				int[][] perms = { { 3, 2, 1, 0 }, { 3, 2, 0, 1 },
-						{ 3, 1, 2, 0 }, { 3, 1, 0, 2 }, { 3, 0, 1, 2 },
-						{ 3, 0, 2, 1 }, { 2, 3, 1, 0 }, { 2, 3, 0, 1 },
-						{ 2, 1, 0, 3 }, { 2, 1, 3, 0 }, { 2, 0, 1, 3 },
-						{ 2, 0, 3, 1 }, { 1, 3, 2, 0 }, { 1, 3, 0, 2 },
-						{ 1, 2, 3, 0 }, { 1, 2, 0, 3 }, { 1, 0, 3, 2 },
-						{ 1, 0, 2, 3 }, { 0, 3, 2, 1 }, { 0, 3, 1, 2 },
-						{ 0, 2, 3, 1 }, { 0, 2, 1, 3 }, { 0, 1, 3, 2 },
-						{ 0, 1, 2, 3 } };
+		String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
+		String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
+				null, false, freeVariablesInput);
+		String freeVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
+				null, true, freeVariablesInput);
+		Log.trace("gbt polys = " + polys);
+		Log.trace("gbt vars = " + elimVars + "," + freeVars);
+		// Consider uncomment this if Giac cannot find a readable NDG:
+		// elimVars = dependentVariables.toString().replaceAll(" ", "");
+		// elimVars = elimVars.substring(1, elimVars.length()-1);
 
-				for (int j = 0; j < 4; ++j) {
-					indices[j + vSize - 4] = 3 - perms[permutation][j] + vSize - 4;
-				}
-			}
-			PVariable[] pVariables = new PVariable[variables.size()];
-			StringBuilder debug = new StringBuilder();
-			for (int j = 0; j < vSize; ++j) {
-				pVariables[j] = aVariables[indices[j]];
-				debug.append(aVariables[indices[j]]);
-				if (j < vSize - 1) {
-					debug.append(",");
-				}
-			}
-
-			Log.debug("Checking variable permutation #" + permutation + ": " + debug);
-			it = dependentVariables.iterator();
-			for (int j = vSize; j < variables.size(); ++j) {
-				pVariables[j] = it.next();
-			}
-			/* End of permutation. */
-			
-			elimProgram = createEliminateFactorizedScript(
-					eqSystemSubstituted, pVariables, dependentVariables);
-			
-			if (elimProgram.length() > SingularWSSettings.debugMaxProgramSize)
-				Log.trace(elimProgram.length()
-						+ " bytes -> singular");
-			else
-				Log.trace(elimProgram + " -> singular");
-			try {
-				elimResult = singularWS.directCommand(elimProgram);
-				if (elimResult == null) {
-					return null;
-				}
-				if (elimResult.length() > SingularWSSettings.debugMaxProgramSize)
-					Log.trace("singular -> " + elimResult.length() + " bytes");
-				else
-					Log.trace("singular -> " + elimResult);
-			} catch (Throwable e) {
-				Log.debug("Could not compute elimination with SingularWS");
-				return null;
-			}
+		if (factorized) {
+			elimProgram = cas.getCurrentCAS()
+					.createEliminateFactorizedScript(polys, elimVars);
 		} else {
-			
-			// If SingularWS is not applicable or don't need factorization, then
-			// we try to use the internal CAS:
-			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-			
-			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
-			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
-					null, false, freeVariablesInput);
-			String freeVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
-					null, true, freeVariablesInput);
-			Log.trace("gbt polys = " + polys);
-			Log.trace("gbt vars = " + elimVars + "," + freeVars);
-			// Consider uncomment this if Giac cannot find a readable NDG:
-			// elimVars = dependentVariables.toString().replaceAll(" ", "");
-			// elimVars = elimVars.substring(1, elimVars.length()-1);
+			elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
+					elimVars, oneCurve, kernel.precision());
+		}
+		if (elimProgram == null) {
+			Log.info("Not implemented (yet)");
+			return null; // cannot decide
+		}
 
-			if (factorized) {
-				elimProgram = cas.getCurrentCAS()
-						.createEliminateFactorizedScript(polys, elimVars);
-			} else {
-				elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
-						elimVars, oneCurve, kernel.precision());
-			}
-			if (elimProgram == null) {
-				Log.info("Not implemented (yet)");
-				return null; // cannot decide
-			}
+		elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_")
+				.replace("unicode91u", "[");
 
-			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_")
-					.replace("unicode91u", "[");
+		if (!factorized) {
 
-			if (!factorized) {
-
-				elimResult = elimResult.replace(".0", "");
-				elimResult = elimResult.substring(1, elimResult.length() - 1);
-				elimResult = "[1]: [1]: _[1]=1 _[2]=" + elimResult
-						+ " [2]: 1,1";
-				Log.trace("Rewritten: " + elimResult);
-			}
+			elimResult = elimResult.replace(".0", "");
+			elimResult = elimResult.substring(1, elimResult.length() - 1);
+			elimResult = "[1]: [1]: _[1]=1 _[2]=" + elimResult
+					+ " [2]: 1,1";
+			Log.trace("Rewritten: " + elimResult);
 		}
 
 		// Singular returns "empty list", Giac "{0}" when the statement is
@@ -1325,9 +1192,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			// If we get an empty list from Singular, it means
 			// the answer is false, so we artificially create the {{0}} answer.
 			Set<Set<PPolynomial>> ret = new HashSet<>();
-			HashSet<PPolynomial> polys = new HashSet<>();
-			polys.add(new PPolynomial(BigInteger.ZERO)); // this might be Polynomial() as well
-			ret.add(polys);
+			HashSet<PPolynomial> polysSet = new HashSet<>();
+			polysSet.add(new PPolynomial(BigInteger.ZERO)); // this might be Polynomial() as well
+			ret.add(polysSet);
 			return ret;
 		}
 		/*

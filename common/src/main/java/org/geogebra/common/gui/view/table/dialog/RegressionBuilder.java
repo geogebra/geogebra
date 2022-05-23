@@ -45,7 +45,7 @@ public class RegressionBuilder {
 			GeoElementND geo = algebraProcessor.processValidExpressionSilent(cmd)[0];
 			FitAlgo fitAlgo = (FitAlgo) geo.getParentAlgorithm();
 			double[] coeffs = fitAlgo.getCoeffs();
-			stats.add(StatisticGroup.withLaTeX(kernel.getLocalization().getMenu("Stats.Formula"),
+			stats.add(new StatisticGroup(true, kernel.getLocalization().getMenu("Stats.Formula"),
 					regression.getFormula()));
 			String[] parameters = new String[coeffs.length];
 			for (int i = 0; i < coeffs.length; i++) {

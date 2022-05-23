@@ -1,6 +1,8 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.web.full.util;
 
 import java.util.List;
+
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;

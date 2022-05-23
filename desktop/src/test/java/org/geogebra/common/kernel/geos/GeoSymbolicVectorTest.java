@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -22,6 +23,7 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		for (String input: inputs) {
 			GeoSymbolic symbolic = add(input);
 			assertIsVector(symbolic);
+			assertIsVector(symbolic.getDefinition());
 		}
 	}
 
@@ -139,7 +141,11 @@ public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	private void assertIsVector(GeoSymbolic symbolic) {
 		assertThat(symbolic.getTwinGeo(),
 				anyOf(nullValue(), instanceOf(GeoVectorND.class)));
-		ExpressionValue value = symbolic.getValue().unwrap();
+		assertIsVector(symbolic.getValue());
+	}
+
+	private void assertIsVector(ExpressionValue node) {
+		ExpressionValue value = node.unwrap();
 		assertThat(value, instanceOf(MyVecNDNode.class));
 		assertThat(((MyVecNDNode) value).isCASVector(), is(true));
 	}

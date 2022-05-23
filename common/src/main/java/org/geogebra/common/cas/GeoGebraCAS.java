@@ -295,14 +295,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	@Override
 	final synchronized public String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
-			StringTemplate tpl, SymbolicMode mode) {
-		return getCASCommand(name, args, symbolic, tpl, true, mode);
-	}
-
-	final synchronized private String getCASCommand(final String name,
-			final ArrayList<ExpressionNode> args, boolean symbolic,
-			StringTemplate tpl, boolean allowOutsourcing,
-			SymbolicMode symbolicMode) {
+			StringTemplate tpl, SymbolicMode symbolicMode) {
 		// check if completion of variable list is needed
 		boolean paramEquExists = checkForParamEquExistance(args, name);
 		// check if list of vars needs completion
@@ -523,23 +516,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			sbCASCommand.append(args.size());
 		}
 
-		boolean outsourced = false;
-		String translation = null;
-		// check if there is support in the outsourced CAS (now SingularWS) for
-		// this command:
-		if (allowOutsourcing && app.getSingularWS() != null
-				&& app.singularWSisAvailable()) {
-			translation = app
-					.singularWSgetTranslatedCASCommand(sbCASCommand.toString());
-			if (translation != null) {
-				outsourced = true;
-			}
-		}
-
 		// get translation ggb -> Giac
-		if (!outsourced) {
-			translation = translateCommandSignature(sbCASCommand.toString());
-		}
+		String translation = translateCommandSignature(sbCASCommand.toString());
 
 		// Try .N translation
 		if (translation == null) {
@@ -739,23 +717,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				} else {
 					sbCASCommand.append(ch);
 				}
-			}
-		}
-
-		if (outsourced) {
-			try {
-				String retval = app
-						.singularWSdirectCommand(sbCASCommand.toString());
-				if (retval == null || "".equals(retval)) {
-					// if there was a problem, try again without using Singular:
-					return getCASCommand(name, args, symbolic, tpl, false,
-							symbolicMode);
-				}
-				return retval;
-			} catch (Throwable e) {
-				// try again without Singular:
-				return getCASCommand(name, args, symbolic, tpl, false,
-						symbolicMode);
 			}
 		}
 
