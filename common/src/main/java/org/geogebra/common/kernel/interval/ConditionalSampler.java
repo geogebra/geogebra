@@ -12,6 +12,7 @@ public class ConditionalSampler {
 	private Interval x = IntervalConstants.undefined();
 	private DiscreteSpace space;
 	private IntervalTupleList samples;
+	private boolean negated = false;
 
 	public ConditionalSampler(GeoFunction function,
 			ExpressionNode condition, ExpressionNode conditionBody, DiscreteSpace space) {
@@ -21,9 +22,17 @@ public class ConditionalSampler {
 		this.space = space;
 	}
 
+	public static ConditionalSampler createNegated(GeoFunction function, ExpressionNode conditional,
+			ExpressionNode rightTree, DiscreteSpace space) {
+		ConditionalSampler sampler =
+				new ConditionalSampler(function, conditional, rightTree, space);
+		sampler.negate();
+		return sampler;
+	}
+
 	public boolean isAccepted(Interval x) {
 		this.x = x;
-		if (isConditionTrue(x)) {
+		if (!negated == isConditionTrue(x)) {
 			return true;
 		}
 
@@ -53,21 +62,34 @@ public class ConditionalSampler {
 
 	public void evaluate() {
 		samples = new IntervalTupleList();
+		if (negated) {
+			evaluateNormal();
+		} else {
+			evaluateNegated();
+		}
+	}
+	private void evaluateNormal() {
 		space.values().filter(x -> isConditionTrue(x)).forEach(x -> {
-			IntervalTuple tuple = new IntervalTuple(x, evaluatedValue(x));
-			samples.add(tuple);
+			addEvaluatedToSamples(x);
 		});
 	}
 
-	public void evaluateNegated() {
-		samples = new IntervalTupleList();
+	private void addEvaluatedToSamples(Interval x) {
+		IntervalTuple tuple = new IntervalTuple(x, evaluatedValue(x));
+		samples.add(tuple);
+	}
+
+	private void evaluateNegated() {
 		space.values().filter(x -> !isConditionTrue(x)).forEach(x -> {
-			IntervalTuple tuple = new IntervalTuple(x, evaluatedValue(x));
-			samples.add(tuple);
+			addEvaluatedToSamples(x);
 		});
 	}
 
 	private Interval evaluatedValue(Interval x) {
 		return IntervalFunction.evaluate(x, conditionBody);
+	}
+
+	public void negate() {
+		negated = true;
 	}
 }

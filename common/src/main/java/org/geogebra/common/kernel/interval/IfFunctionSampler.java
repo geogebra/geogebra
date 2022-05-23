@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
 
 public class IfFunctionSampler implements IntervalFunctionSampler {
 
+	private final ExpressionNode node;
 	private List<ConditionalSampler> samplers = new ArrayList<>();
 	private GeoFunction function;
 	private IntervalTuple range;
@@ -23,11 +25,11 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		this.range = range;
 		this.evBounds = evBounds;
 		space = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
+		node = function.getFunctionExpression();
 		extractConditions(function);
 	}
 
 	private void extractConditions(GeoFunction function) {
-		ExpressionNode node = function.getFunctionExpression();
 		Operation operation = node.getOperation();
 		switch (operation) {
 		case IF:
@@ -40,7 +42,14 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	}
 
 	private void addIfElseSamplers(ExpressionNode node) {
-
+		MyNumberPair pair = (MyNumberPair) node.getLeft();
+		ExpressionNode conditional = pair.getX().wrap();
+		ConditionalSampler ifSampler = new ConditionalSampler(function, conditional,
+				pair.getY().wrap(), space);
+		ConditionalSampler elseSampler =
+				ConditionalSampler.createNegated(function, conditional, node.getRightTree(), space);
+		samplers.add(ifSampler);
+		samplers.add(elseSampler);
 	}
 
 	private void addSingleIfSampler(ExpressionNode node) {
@@ -50,12 +59,14 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList result() {
-		if (samplers.isEmpty()) {
-			return IntervalTupleList.emptyList();
-		}
+		return results.isEmpty() ? IntervalTupleList.emptyList(): results().get(0);
+	}
+
+	@Override
+	public List<IntervalTupleList> results() {
 		results.clear();
 		samplers.forEach(sampler -> results.add(sampler.result()));
-		return evaluateOn(range.x());
+		return results;
 	}
 
 	@Override
