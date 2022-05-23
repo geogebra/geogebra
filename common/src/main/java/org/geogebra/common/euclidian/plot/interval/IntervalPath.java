@@ -19,6 +19,8 @@ public class IntervalPath {
 	private final LabelPositionCalculator labelPositionCalculator;
 	private GPoint labelPoint = null;
 
+	private int lastPiece = 0;
+
 	/**
 	 * Constructor.
 	 * @param gp {@link IntervalPathPlotter}
@@ -119,8 +121,21 @@ public class IntervalPath {
 	}
 
 	private boolean shouldSkip(IntervalTuple tuple) {
+		if (isPieceChanged(tuple)) {
+			return true;
+		}
+
 		return tuple.isUndefined()
 				|| tuple.y().isPositiveInfinity();
+	}
+
+	private boolean isPieceChanged(IntervalTuple tuple) {
+		if (tuple.piece() != lastPiece) {
+			lastPiece = tuple.piece();
+			return true;
+		}
+
+		return false;
 	}
 
 	private void line(Interval x, Interval y) {

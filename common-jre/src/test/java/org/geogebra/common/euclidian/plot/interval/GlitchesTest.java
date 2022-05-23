@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -52,6 +53,14 @@ public class GlitchesTest extends BaseUnitTest {
 		withDefaultScreen();
 		withFunction("1/x");
 		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y)).count());
+	}
+
+	@Test
+	public void testSignum() {
+		withDefaultScreen();
+		withFunction("If(x < 0, -1, 1)");
+		assertNotEquals(0, gp.getLog().size());
+
 	}
 
 	IntervalPathPlotterMock gp;

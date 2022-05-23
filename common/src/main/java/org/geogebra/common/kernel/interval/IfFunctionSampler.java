@@ -87,7 +87,8 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void update(IntervalTuple range) {
-
+		DiscreteSpaceImp aSpace = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
+		samplers.forEach(sampler -> sampler.setSpace(aSpace));
 	}
 
 	@Override

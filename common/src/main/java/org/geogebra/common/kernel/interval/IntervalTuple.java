@@ -10,6 +10,7 @@ import org.geogebra.common.util.DoubleUtil;
 public class IntervalTuple {
 	private final Interval x;
 	private final Interval y;
+	private int piece = 0;
 
 	/**
 	 *
@@ -88,5 +89,13 @@ public class IntervalTuple {
 	@Override
 	public String toString() {
 		return "{x: " + x().toShortString() + ": " + y().toShortString() + "}";
+	}
+
+	public void setPiece(int piece) {
+		this.piece = piece;
+	}
+
+	public int piece() {
+		return piece;
 	}
 }

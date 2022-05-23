@@ -198,4 +198,10 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	public boolean removeAll(IntervalTupleList other) {
 		return list.removeAll(other.list);
 	}
+
+	public void setPiece(int piece) {
+		for (IntervalTuple tuple: list) {
+			tuple.setPiece(piece);
+		};
+	}
 }

@@ -53,9 +53,6 @@ public class ConditionalSampler {
 	}
 
 	public IntervalTupleList result() {
-		if (x.isUndefined()) {
-			return IntervalTupleList.emptyList();
-		}
 		evaluate();
 		return samples;
 	}
@@ -91,5 +88,9 @@ public class ConditionalSampler {
 
 	public void negate() {
 		negated = true;
+	}
+
+	public void setSpace(DiscreteSpaceImp aSpace) {
+		space = aSpace;
 	}
 }
