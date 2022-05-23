@@ -37,4 +37,16 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		allEquals(-1, results.get(0));
 		allEquals(1, results.get(1));
 	}
+
+	@Test
+	public void testIfList() {
+		GeoFunction function = add("a=If(x < -2, 1, 2 < x < 0, 2, x > 0, 3)");
+		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
+				PlotterUtils.newRange(-20, 20, -5, 5),
+				new EuclidianViewBoundsMock(-15, 15, -10, 10));
+		List<IntervalTupleList> results = sampler.results();
+		allEquals(1, results.get(0));
+		allEquals(2, results.get(1));
+		allEquals(3, results.get(2));
+	}
 }

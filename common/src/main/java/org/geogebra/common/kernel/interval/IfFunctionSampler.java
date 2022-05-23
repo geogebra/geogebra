@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
@@ -33,15 +34,26 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		Operation operation = node.getOperation();
 		switch (operation) {
 		case IF:
-			addSingleIfSampler(node);
+			addSingleIfSampler();
 			break;
 		case IF_ELSE:
-			addIfElseSamplers(node);
+			addIfElseSamplers();
 			break;
+		case IF_LIST:
+			addIfListSamplers();
 		}
 	}
 
-	private void addIfElseSamplers(ExpressionNode node) {
+	private void addIfListSamplers() {
+		MyList conditions = (MyList) node.getLeft();
+		MyList conditionBodies = (MyList) node.getRight();
+		for (int i = 0; i < conditions.size(); i++) {
+			samplers.add(new ConditionalSampler(function, conditions.getItem(i).wrap(),
+					conditionBodies.getItem(i).wrap(), space));
+		}
+	}
+
+	private void addIfElseSamplers() {
 		MyNumberPair pair = (MyNumberPair) node.getLeft();
 		ExpressionNode conditional = pair.getX().wrap();
 		ConditionalSampler ifSampler = new ConditionalSampler(function, conditional,
@@ -52,7 +64,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		samplers.add(elseSampler);
 	}
 
-	private void addSingleIfSampler(ExpressionNode node) {
+	private void addSingleIfSampler() {
 		samplers.add(new ConditionalSampler(function, node.getLeftTree(), node.getRightTree(),
 				space));
 	}
