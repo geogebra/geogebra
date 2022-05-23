@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -135,8 +134,7 @@ public class MarblePanel extends FlowPanel
 	 */
 	public void initPlus() {
 		if (btnPlus == null) {
-			btnPlus = new StandardButton(MaterialDesignResources.INSTANCE.add_black(),
-					24, GeoGebraColorConstants.GEOGEBRA_ACCENT);
+			btnPlus = new StandardButton(MaterialDesignResources.INSTANCE.add_black(), 24);
 			add(btnPlus);
 			if (item.app.isUnbundled()) {
 				btnPlus.addStyleName("flatButton");
