@@ -58,12 +58,28 @@
 				&:hover {
 					border-bottom-color: colors.$black-87;
 				}
+			}
 
-				&.focusState {
+			.holder.focusState {
+				 .mathTextField {
 					margin-bottom: 19px;
 					border-bottom: 2px solid colors.$purple-default;
 				}
- 			}
+
+				.gwt-Label {
+					color: colors.$purple-default;
+				}
+			}
+
+			.holder:hover:not(.focusState) {
+				.mathTextField {
+					border-bottom-color: colors.$black-87;
+				}
+
+				.gwt-Label {
+					color: colors.$black-87;
+				}
+			}
 		}
 	}
 
