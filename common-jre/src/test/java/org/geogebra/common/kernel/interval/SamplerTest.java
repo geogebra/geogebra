@@ -10,7 +10,7 @@ public class SamplerTest extends BaseUnitTest {
 			double xmin, double xmax, double ymin, double ymax) {
 		GeoFunction function = add(functionDescription);
 		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
-		IntervalFunctionSampler sampler = PlotterUtils.newSampler(function, range,
+		FunctionSampler sampler = PlotterUtils.newSampler(function, range,
 				100);
 		return sampler.result();
 	}

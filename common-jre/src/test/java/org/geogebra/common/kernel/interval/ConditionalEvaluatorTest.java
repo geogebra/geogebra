@@ -63,4 +63,14 @@ public class ConditionalEvaluatorTest extends BaseUnitTest {
 		assertEquals(interval(4), function.evaluate(interval(2)));
 		assertEquals(interval(36), function.evaluate(interval(9)));
 	}
+
+	@Test
+	public void testIfList() {
+		IntervalFunction function =
+				new IntervalFunction(add("If(x < -2, 0, -2 < x < 0, 1, x > 0, 2)"));
+		assertEquals(interval(0), function.evaluate(interval(-21, -4)));
+		assertEquals(interval(1), function.evaluate(interval(-1, 0)));
+		assertEquals(interval(2), function.evaluate(interval(1, 4)));
+
+	}
 }

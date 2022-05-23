@@ -1,8 +1,8 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.FunctionSampler;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
 import org.geogebra.common.kernel.interval.IntervalTuple;
 
 /**
@@ -35,8 +35,8 @@ public class PlotterUtils {
 	 * @param numberOfSamples max samples will take.
 	 * @return the function sampler object.
 	 */
-	public static IntervalFunctionSampler newSampler(GeoFunction function, IntervalTuple range,
+	public static FunctionSampler newSampler(GeoFunction function, IntervalTuple range,
 			int numberOfSamples) {
-		return new IntervalFunctionSampler(function, range, numberOfSamples);
+		return new FunctionSampler(function, range, numberOfSamples);
 	}
 }

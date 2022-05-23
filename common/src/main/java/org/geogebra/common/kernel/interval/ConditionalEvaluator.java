@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.plugin.Operation;
 
@@ -14,8 +15,8 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 	private ExpressionNode node;
 	private Operation operation;
 
-	private List<Operation> acceptedOperations = Arrays.asList(Operation.IF, Operation.IF_ELSE,
-			Operation.IF_LIST);
+	private List<Operation> acceptedOperations = Arrays.asList(Operation.IF, Operation.IF_SHORT,
+			Operation.IF_ELSE, Operation.IF_LIST);
 
 	/**
 	 * Default constructor.
@@ -43,10 +44,6 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 		return acceptedOperations.contains(operation);
 	}
 
-	private boolean isIfElse() {
-		return Operation.IF_ELSE.equals(operation)  ;
-	}
-
 	@Override
 	public Interval evaluate(Interval x) {
 		switch (operation) {
@@ -54,8 +51,21 @@ public class ConditionalEvaluator implements IntervalEvaluator {
 			return evaluateIf(x, node);
 		case IF_ELSE:
 			return evaluateIfElse(x);
+		case IF_LIST:
+			return evaluateIfList(x);
 		}
 		return null;
+	}
+
+	private Interval evaluateIfList(Interval x) {
+		MyList conditions = (MyList) node.getLeft();
+		MyList values = (MyList) node.getRight();
+		for (int i = 0; i < conditions.size(); i++) {
+			if (evaluateBoolean(x, conditions.getItem(i).wrap())) {
+				return IntervalFunction.evaluate(x, values.getItem(i));
+			}
+		}
+		return undefined();
 	}
 
 	private Interval evaluateIf(Interval x, ExpressionNode node) {

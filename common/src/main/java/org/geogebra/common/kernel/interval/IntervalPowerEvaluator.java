@@ -15,13 +15,25 @@ import org.geogebra.common.util.debug.Log;
  * Class to evaluate expressions on an interval that has power in it.
  */
 public class IntervalPowerEvaluator implements IntervalEvaluator {
-	private final ExpressionNode node;
+	private ExpressionNode node;
 
 	/**
 	 *
 	 * @param node expression to evaluate.
 	 */
 	public IntervalPowerEvaluator(ExpressionNode node) {
+		this.node = node;
+	}
+
+	/**
+	 * Default constructor
+	 */
+	public IntervalPowerEvaluator() {
+		// default
+	}
+
+	@Override
+	public void setNode(ExpressionNode node) {
 		this.node = node;
 	}
 

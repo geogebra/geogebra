@@ -15,12 +15,21 @@ import javax.annotation.Nonnull;
  */
 public class IntervalTupleList implements Iterable<IntervalTuple> {
 	private List<IntervalTuple> list;
+	private static IntervalTupleList emptyList = null;
 
 	/**
 	 * Constructor.
 	 */
 	public IntervalTupleList() {
 		this.list = new ArrayList<>();
+	}
+
+	public static IntervalTupleList emptyList() {
+		if (emptyList == null) {
+			emptyList = new IntervalTupleList();
+		}
+
+		return emptyList;
 	}
 
 	/**
