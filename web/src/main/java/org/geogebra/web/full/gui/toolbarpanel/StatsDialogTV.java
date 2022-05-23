@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.List;
-import java.util.function.Function;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
@@ -37,13 +36,11 @@ public class StatsDialogTV extends ComponentDialog {
 	}
 
 	/**
-	 * @param statFunction row data producer
+	 * @param rowData row data
 	 */
-	public void updateContent(Function<Integer, List<StatisticGroup>> statFunction) {
-		((AppW) app).getAsyncManager().scheduleCallback(() -> {
-				setRows(statFunction.apply(column));
-				show();
-		});
+	public void setRowsAndShow(List<StatisticGroup> rowData) {
+		setRows(rowData);
+		show();
 	}
 
 	private void setRows(List<StatisticGroup> statistics) {
@@ -77,22 +74,21 @@ public class StatsDialogTV extends ComponentDialog {
 
 	/**
 	 * Add regression UI and show
-	 * @return if data has error or not
+	 * @param initialRegression pre-selected (linear) regression
 	 */
-	public boolean addRegressionChooserHasError(int rows) {
+	public void addRegressionChooserHasError(List<RegressionSpecification> available,
+			List<StatisticGroup> initialRegression) {
 		ListBox regressionChooser = new ListBox();
-		List<RegressionSpecification> available = RegressionSpecification.getForListSize(rows);
-		if (available.size() > 0) {
-			available.forEach(spec ->
-					regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
-							spec.getLabel())
-			);
-			regressionChooser.addChangeHandler((change) -> {
-				RegressionSpecification regression = available
-						.get(regressionChooser.getSelectedIndex());
-				setRows(view.getRegression(column, regression));
-			});
-			addDialogContent(regressionChooser);
+		available.forEach(spec ->
+				regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
+						spec.getLabel())
+		);
+		regressionChooser.addChangeHandler((change) -> {
+			RegressionSpecification regression = available
+					.get(regressionChooser.getSelectedIndex());
+			setRows(view.getRegression(column, regression));
+		});
+		addDialogContent(regressionChooser);
 
 		setOnPositiveAction(() -> {
 			RegressionSpecification regression = available
@@ -100,9 +96,6 @@ public class StatsDialogTV extends ComponentDialog {
 			view.plotRegression(column, regression);
 			app.storeUndoInfo();
 		});
-			updateContent(c -> view.getRegression(c, available.get(0)));
-			return false;
-		}
-		return true;
+		setRowsAndShow(initialRegression);
 	}
 }
