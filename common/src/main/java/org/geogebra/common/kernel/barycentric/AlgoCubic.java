@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.util.DoubleUtil;
@@ -136,6 +137,12 @@ public class AlgoCubic extends AlgoElement {
 							new EvalInfo(false))[0]);
 			result.remove();
 			poly.setCoeff(result.getCoeff());
+			if (result instanceof GeoImplicitCurve && poly instanceof GeoImplicitCurve) {
+				((GeoImplicitCurve) poly).setDerivatives(
+						((GeoImplicitCurve) result).getDerivativeX(),
+						((GeoImplicitCurve) result).getDerivativeY(),
+						((GeoImplicitCurve) result).getDerivativeXY());
+			}
 			poly.setDefined();
 		} catch (ParseException e) {
 			poly.setUndefined();
