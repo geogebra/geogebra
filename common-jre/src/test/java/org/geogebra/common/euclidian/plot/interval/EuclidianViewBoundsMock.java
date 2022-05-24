@@ -24,6 +24,8 @@ public class EuclidianViewBoundsMock
 		this.xmax = xmax;
 		this.ymin = ymin;
 		this.ymax = ymax;
+		width = (int) Math.round(xmax - xmin);
+		height = (int) Math.round(ymax - ymin);
 	}
 
 	@Override

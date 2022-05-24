@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class ConditionalSampler {
 	private final GeoFunction function;
@@ -53,16 +54,16 @@ public class ConditionalSampler {
 	}
 
 	public IntervalTupleList result() {
-		evaluate();
+ 		evaluate();
 		return samples;
 	}
 
 	public void evaluate() {
 		samples = new IntervalTupleList();
 		if (negated) {
-			evaluateNormal();
-		} else {
 			evaluateNegated();
+		} else {
+			evaluateNormal();
 		}
 	}
 	private void evaluateNormal() {
@@ -74,6 +75,7 @@ public class ConditionalSampler {
 	private void addEvaluatedToSamples(Interval x) {
 		IntervalTuple tuple = new IntervalTuple(x, evaluatedValue(x));
 		samples.add(tuple);
+		Log.debug("Tuple added: " + tuple);
 	}
 
 	private void evaluateNegated() {

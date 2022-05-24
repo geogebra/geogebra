@@ -27,7 +27,6 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		this.evBounds = evBounds;
 		space = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
 		node = function.getFunctionExpression();
-		extractConditions(function);
 	}
 
 	private void extractConditions(GeoFunction function) {
@@ -71,12 +70,16 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList result() {
+		results = results();
 		return results.isEmpty() ? IntervalTupleList.emptyList(): results().get(0);
 	}
 
 	@Override
 	public List<IntervalTupleList> results() {
 		results.clear();
+		if (samplers.isEmpty()) {
+			update(range);
+		}
 		samplers.forEach(sampler -> results.add(sampler.result()));
 		return results;
 	}
@@ -100,7 +103,8 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	@Override
 	public void update(IntervalTuple range) {
 		DiscreteSpaceImp aSpace = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
-		samplers.forEach(sampler -> sampler.setSpace(aSpace));
+		samplers.clear();
+		extractConditions(function);
 	}
 
 	@Override
