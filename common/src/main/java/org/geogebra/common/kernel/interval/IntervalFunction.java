@@ -30,6 +30,7 @@ import java.util.List;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -216,8 +217,22 @@ import org.geogebra.common.util.debug.Log;
 						&& rightOneValiable;
 			}
 			return rightSupported && rightOneValiable;
+		} else if (node.getOperation() == Operation.IF_LIST) {
+			return isIfListSupported(node);
 		}
- 		return false;
+		return false;
+	}
+
+	private static boolean isIfListSupported(ExpressionNode node) {
+		MyList conditions = (MyList) node.getLeft();
+		MyList conditionBodies = (MyList) node.getRight();
+		for (int i = 0; i < conditionBodies.size(); i++) {
+			ExpressionValue body = conditionBodies.getItem(i);
+			if(!isOperationSupported(body.wrap())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static boolean hasMoreVariables(ExpressionNode node) {

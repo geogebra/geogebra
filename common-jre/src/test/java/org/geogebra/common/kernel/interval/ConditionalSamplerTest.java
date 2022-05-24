@@ -31,6 +31,24 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testIfOnInterval() {
+		GeoFunction function = add("a=If(x < 0, 1, -1)");
+		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(
+				function.getFunctionExpression()).getLeft();
+		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
+		ConditionalSampler sampler = new ConditionalSampler(function, pair.getX().wrap(),
+				pair.getY().wrap(), discreteSpace);
+		sampler.evaluate();
+		IntervalTupleList tuples = sampler.isAccepted(interval(-5, -1))
+			? sampler.evaluateOn(interval(-2, -1))
+			: IntervalTupleList.emptyList();
+
+		assertEquals(tuples.count(),
+				tuples.stream().filter(tuple -> tuple.y().almostEqual(one())).count());
+
+	}
+
+	@Test
 	public void testIfNegated() {
 		GeoFunction function = add("a=If(x < 0, 1, -1)");
 		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(

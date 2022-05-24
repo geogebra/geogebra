@@ -20,6 +20,7 @@ public class ConditionalSampler {
 		this.condition = condition;
 		this.conditionBody = conditionBody;
 		this.space = space;
+		samples = new IntervalTupleList();
 	}
 
 	public static ConditionalSampler createNegated(GeoFunction function, ExpressionNode conditional,
@@ -53,32 +54,36 @@ public class ConditionalSampler {
 	}
 
 	public IntervalTupleList result() {
- 		evaluate();
+		evaluate();
 		return samples;
 	}
 
 	public void evaluate() {
-		samples = new IntervalTupleList();
-		if (negated) {
-			evaluateNegated();
-		} else {
-			evaluateNormal();
-		}
+		samples = evaluateOnSpace(space);
 	}
-	private void evaluateNormal() {
+
+	public IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
+		IntervalTupleList list = new IntervalTupleList();
+		if (negated) {
+			evaluateNegated(space, list);
+		} else {
+			evaluateNormal(space, list);
+		}
+		return list;
+	}
+	private void evaluateNormal(DiscreteSpace space, IntervalTupleList list) {
 		space.values().filter(x -> isConditionTrue(x)).forEach(x -> {
-			addEvaluatedToSamples(x);
+			list.add(evaluatedTuple(x));
 		});
 	}
 
-	private void addEvaluatedToSamples(Interval x) {
-		IntervalTuple tuple = new IntervalTuple(x, evaluatedValue(x));
-		samples.add(tuple);
+	private IntervalTuple evaluatedTuple(Interval x) {
+		return new IntervalTuple(x, evaluatedValue(x));
 	}
 
-	private void evaluateNegated() {
+	private void evaluateNegated(DiscreteSpace space, IntervalTupleList list) {
 		space.values().filter(x -> !isConditionTrue(x)).forEach(x -> {
-			addEvaluatedToSamples(x);
+			list.add(evaluatedTuple(x));
 		});
 	}
 
@@ -92,5 +97,10 @@ public class ConditionalSampler {
 
 	public void setSpace(DiscreteSpaceImp aSpace) {
 		space = aSpace;
+	}
+
+	public IntervalTupleList evaluateOn(Interval x) {
+		DiscreteSpaceImp diffSpace = new DiscreteSpaceImp(x.getLow(), x.getHigh(), space.getStep());
+		return evaluateOnSpace(diffSpace);
 	}
 }

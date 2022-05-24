@@ -12,7 +12,7 @@ import org.geogebra.common.plugin.Operation;
 
 public class IfFunctionSampler implements IntervalFunctionSampler {
 
-	private final ExpressionNode node;
+	private ExpressionNode node;
 	private List<ConditionalSampler> samplers = new ArrayList<>();
 	private GeoFunction function;
 	private IntervalTuple range;
@@ -92,7 +92,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		for (ConditionalSampler sampler: samplers) {
 			Interval x = new Interval(low, high);
 			if (sampler.isAccepted(x)) {
-				return sampler.result();
+				return sampler.evaluateOn(x);
 			}
 		}
 		return IntervalTupleList.emptyList();
@@ -102,6 +102,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	public void update(IntervalTuple range) {
 		DiscreteSpaceImp aSpace = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
 		samplers.clear();
+		node = function.getFunctionExpression();
 		extractConditions(function);
 		samplers.forEach(sampler -> sampler.setSpace(aSpace));
 	}
