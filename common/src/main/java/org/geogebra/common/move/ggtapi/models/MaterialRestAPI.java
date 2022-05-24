@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -25,6 +26,7 @@ import org.geogebra.common.util.debug.Log;
  * API connector for the MARVL restful API
  */
 public class MaterialRestAPI implements BackendAPI {
+	private static final int SEARCH_COUNT = 30;
 	/** whether API is available */
 	protected boolean available = true;
 	/** whether availability check request was sent */
@@ -49,8 +51,8 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param id item ID
 	 * @param callback callback
 	 */
-	public void getItem(String id, MaterialCallbackI callback) {
-		performRequest("GET", "/materials/" + id, null, callback);
+	public HttpRequest getItem(String id, MaterialCallbackI callback) {
+		return performRequest("GET", "/materials/" + id, null, callback);
 	}
 
 	@Override
@@ -211,8 +213,43 @@ public class MaterialRestAPI implements BackendAPI {
 		performCookieLogin(op);
 	}
 
-	public void getUsersMaterials(MaterialCallbackI userMaterialsCB, MaterialRequest.Order order) {
-		getUsersOwnMaterials(userMaterialsCB, order);
+	/**
+	 * Combines user's own resources with featured ones (if there's not enough own)
+	 * @param callback callback
+	 * @param order ordering
+	 * @return request that can be canceled
+	 */
+	public HttpRequest getUsersMaterials(MaterialCallbackI callback, MaterialRequest.Order order) {
+		return getUsersOwnMaterials(new MaterialCallbackI() {
+			@Override
+			public void onLoaded(List<Material> result, Pagination meta) {
+				if (result.size() >= SEARCH_COUNT) {
+					callback.onLoaded(result, meta);
+				} else {
+					getFeaturedMaterials(addTo(result, callback));
+				}
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				getFeaturedMaterials(callback);
+			}
+		}, order);
+	}
+
+	private MaterialCallbackI addTo(List<Material> result, MaterialCallbackI userMaterialsCB) {
+		return new MaterialCallbackI() {
+			@Override
+			public void onLoaded(List<Material> res, Pagination meta) {
+				result.addAll(res);
+				userMaterialsCB.onLoaded(result, meta);
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				userMaterialsCB.onError(exception);
+			}
+		};
 	}
 
 	private Pagination parseMaterialCount(String responseStr) throws JSONException {
@@ -262,19 +299,19 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	public void getFeaturedMaterials(MaterialCallbackI callback) {
-		// no public materials
-		performRequest("GET", "/search/applets", null, callback);
+	public HttpRequest getFeaturedMaterials(MaterialCallbackI callback) {
+		return performRequest("GET", "/search/applets?size=" + SEARCH_COUNT,
+				null, callback);
 	}
 
-	public void getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB,
+	public HttpRequest getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB,
 			MaterialRequest.Order order) {
 		if (model == null) {
 			userMaterialsCB.onError(new Exception("No user signed in"));
-			return;
+			return UtilFactory.getPrototype().newHttpRequest();
 		}
 
-		performRequest("GET",
+		return performRequest("GET",
 				"/users/" + model.getUserId()
 						+ "/materials?limit=50&embed=creator&order="
 						+ orderStr(order),
@@ -310,7 +347,7 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
-	private void performRequest(final String method, String endpoint, String json,
+	private HttpRequest performRequest(final String method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
@@ -331,6 +368,7 @@ public class MaterialRestAPI implements BackendAPI {
 				userMaterialsCB.onError(new Exception(error));
 			}
 		});
+		return request;
 	}
 
 	@Override
@@ -538,8 +576,9 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param callback
 	 *            {@link MaterialCallbackI}
 	 */
-	public void search(String query, MaterialCallbackI callback) {
-		performRequest("GET", "/search/applets?size=30&query=" + query, null, callback);
+	public HttpRequest search(String query, MaterialCallbackI callback) {
+		return performRequest("GET", "/search/applets?size="
+				+ SEARCH_COUNT + "&query=" + query, null, callback);
 	}
 
 	/**
@@ -563,10 +602,13 @@ public class MaterialRestAPI implements BackendAPI {
 					JSONArray elements = json.getJSONArray("elements");
 					ArrayList<Material> materials = new ArrayList<>();
 					for (int i = 0; i < elements.length(); i++) {
-						Material mat = new Material(parent);
-						mat.setThumbnailUrl(elements.getJSONObject(i).getString("thumbUrl"));
-						mat.setURL(elements.getJSONObject(i).getString("url"));
-						materials.add(mat);
+						JSONObject jsonObject = elements.getJSONObject(i);
+						if ("G".equals(jsonObject.optString("type"))) {
+							Material mat = new Material(parent);
+							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
+							mat.setURL(jsonObject.getString("url"));
+							materials.add(mat);
+						}
 					}
 					materialCallback
 							.onLoaded(materials, null);
