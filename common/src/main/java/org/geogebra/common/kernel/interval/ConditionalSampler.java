@@ -95,8 +95,8 @@ public class ConditionalSampler {
 		negated = true;
 	}
 
-	public void setSpace(DiscreteSpaceImp aSpace) {
-		space = aSpace;
+	public void setSpace(DiscreteSpace space) {
+		this.space = space;
 	}
 
 	public IntervalTupleList evaluateOn(Interval x) {

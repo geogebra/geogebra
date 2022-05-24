@@ -80,14 +80,9 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private void evaluateOnEach(DiscreteSpace space, IntervalTupleList samples) {
 		space.values().forEach(x -> {
-			IntervalTuple tuple = new IntervalTuple(x, evaluatedValue(x));
+			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
 			samples.add(tuple);
 		});
-	}
-
-	@Override
-	public Interval evaluatedValue(Interval x) {
-		return function.evaluate(x);
 	}
 
 	/**

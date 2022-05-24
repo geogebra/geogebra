@@ -57,7 +57,7 @@ public class IntervalPlotModel {
 		updatePath();
 	}
 
-	private void updateRanges() {
+	private void  updateRanges() {
 		range.set(bounds.domain(), bounds.range());
 		oldDomain = bounds.domain();
 	}

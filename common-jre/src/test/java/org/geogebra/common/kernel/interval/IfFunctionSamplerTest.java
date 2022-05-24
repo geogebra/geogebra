@@ -55,4 +55,16 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		allEquals(2, results.get(1));
 		allEquals(3, results.get(2));
 	}
+
+	@Test
+	public void evaluateIfElseOnSamplerEdge() {
+		GeoFunction function = add("a=If(x < 0, -1, 1)");
+		IntervalTuple range = PlotterUtils.newRange(-2, 2, -5, 5);
+		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
+				range,
+				new EuclidianViewBoundsMock(-2, 2, -10, 10));
+		sampler.update(range);
+		IntervalTupleList diffTuples = sampler.evaluateOn(interval(-1, 1));
+		allEquals(1, diffTuples);
+	}
 }

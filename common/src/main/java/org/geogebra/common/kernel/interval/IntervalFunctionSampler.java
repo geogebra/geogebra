@@ -31,13 +31,6 @@ public interface IntervalFunctionSampler {
 
 	void update(IntervalTuple range);
 
-	/**
-	 *
-	 * @param x to evaluate on.
-	 * @return the evaluated value.
-	 */
-	Interval evaluatedValue(Interval x);
-
 	IntervalTupleList extendDomain(double min, double max);
 
 	void setInterval(double low, double high);

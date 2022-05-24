@@ -43,7 +43,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 			? sampler.evaluateOn(interval(-2, -1))
 			: IntervalTupleList.emptyList();
 
-		assertEquals(tuples.count(),
+		assertEquals(5,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(one())).count());
 
 	}
