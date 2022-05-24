@@ -137,12 +137,10 @@ public class AlgoCubic extends AlgoElement {
 							new EvalInfo(false))[0]);
 			result.remove();
 			poly.setCoeff(result.getCoeff());
-			if (result instanceof GeoImplicitCurve && poly instanceof GeoImplicitCurve) {
-				((GeoImplicitCurve) poly).setDerivatives(
+			poly.setDerivatives(
 						((GeoImplicitCurve) result).getDerivativeX(),
 						((GeoImplicitCurve) result).getDerivativeY(),
 						((GeoImplicitCurve) result).getDerivativeXY());
-			}
 			poly.setDefined();
 		} catch (ParseException e) {
 			poly.setUndefined();

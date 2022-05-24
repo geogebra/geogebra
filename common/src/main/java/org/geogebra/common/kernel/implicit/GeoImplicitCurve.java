@@ -390,12 +390,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 	}
 
-	/**
-	 * copy derivatives
-	 * @param x - x derivative
-	 * @param y - y derivative
-	 * @param xy - xy derivative
-	 */
+	@Override
 	public void setDerivatives(FunctionNVar x, FunctionNVar y, FunctionNVar xy) {
 		diffExp[0] = x;
 		diffExp[1] = y;
