@@ -36,7 +36,6 @@ public class ContextMenuPopup extends StandardButton
 		initPopup();
 		addStyleName("MyCanvasButton");
 		addStyleName("MyCanvasButton-borderless");
-		addStyleName("moreBtn");
 		app.addWindowResizeListener(this);
 	}
 

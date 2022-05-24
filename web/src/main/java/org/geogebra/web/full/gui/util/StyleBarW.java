@@ -165,6 +165,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		}
 
 		viewButton = new ContextMenuPopup(app, popup);
+		viewButton.addStyleName("matDynStyleContextButton");
 		add(viewButton);
 	}
 
