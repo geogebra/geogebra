@@ -30,9 +30,9 @@ public class ComponentInputDialog extends ComponentDialog
 	 */
 	public ComponentInputDialog(AppW app, DialogData dialogData,
 			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
-			String initText) {
+			String initText, boolean showSymbolPopupIcon) {
 		this(app, dialogData, autoHide, hasScrim, inputHandler);
-		createGUI(labelText, initText);
+		createGUI(labelText, initText, showSymbolPopupIcon);
 	}
 
 	/**
@@ -59,10 +59,11 @@ public class ComponentInputDialog extends ComponentDialog
 		});
 	}
 
-	private void createGUI(String labelText, String initText) {
+	private void createGUI(String labelText, String initText,
+			boolean showSymbolPopupIcon) {
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, -1, 1,
-				"");
+				showSymbolPopupIcon, "");
 		addDialogContent(inputTextField);
 	}
 
@@ -97,6 +98,14 @@ public class ComponentInputDialog extends ComponentDialog
 		super.show();
 		if (inputTextField != null) {
 			inputTextField.focusDeferred();
+		}
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		if (getTextComponent() != null) {
+			getTextComponent().hideTablePopup();
 		}
 	}
 

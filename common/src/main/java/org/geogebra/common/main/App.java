@@ -5077,5 +5077,4 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public MyImage getInternalImageAdapter(String filename, int width, int height) {
 		return null;
 	}
-
 }

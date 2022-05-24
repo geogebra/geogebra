@@ -72,6 +72,7 @@ public class AlgebraInputW extends FlowPanel
 		inputPanel = new InputPanelW(app, 0, true);
 
 		inputField = inputPanel.getTextComponent();
+		inputField.requestToShowSymbolButton();
 
 		inputField.getTextBox().addKeyUpHandler(this);
 		inputField.getTextBox().addFocusHandler(this);
