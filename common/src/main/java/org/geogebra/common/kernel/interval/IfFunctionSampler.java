@@ -77,9 +77,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	@Override
 	public List<IntervalTupleList> results() {
 		results.clear();
-		if (samplers.isEmpty()) {
-			update(range);
-		}
+		update(range);
 		samplers.forEach(sampler -> results.add(sampler.result()));
 		return results;
 	}
@@ -105,6 +103,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		DiscreteSpaceImp aSpace = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
 		samplers.clear();
 		extractConditions(function);
+		samplers.forEach(sampler -> sampler.setSpace(aSpace));
 	}
 
 	@Override
