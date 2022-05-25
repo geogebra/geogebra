@@ -112,10 +112,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		plotPanelOptions.setStyleName("plotPanelOptions");
 
 		plotPanelOptions.add(btnNormalOverlay);
-		plotPanelOptions.add(btnBarGraph);
-		plotPanelOptions.add(btnStepGraph);
-		plotPanelOptions.add(btnLineGraph);
-		updateGraphButtons();
+		if (!app.getConfig().hasDistributionView()) {
+			plotPanelOptions.add(btnBarGraph);
+			plotPanelOptions.add(btnStepGraph);
+			plotPanelOptions.add(btnLineGraph);
+			updateGraphButtons();
+		}
 
 		plotPanelPlus = new FlowPanel();
 		plotPanelPlus.addStyleName("PlotPanelPlus");
