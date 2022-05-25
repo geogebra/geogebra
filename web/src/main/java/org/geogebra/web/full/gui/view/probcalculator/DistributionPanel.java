@@ -89,14 +89,21 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		add(modeGroup);
 	}
 
-	private void buildParameterPanel(FlowPanel parent) {
+	/**
+	 * add parameter label and input field to UI
+	 * @param parent - parent holder div
+	 */
+	public void buildParameterPanel(FlowPanel parent) {
 		initParamFields();
 
 		FlowPanel parameterPanel = new FlowPanel();
 		parameterPanel.addStyleName("parameterPanel");
 		for (int i = 0; i < view.maxParameterCount; i++) {
-			parameterPanel.add(lblParameterArray[i]);
-			parameterPanel.add(fldParameterArray[i]);
+			FlowPanel holderPanel = new FlowPanel();
+			holderPanel.addStyleName("holder");
+			holderPanel.add(lblParameterArray[i]);
+			holderPanel.add(fldParameterArray[i]);
+			parameterPanel.add(holderPanel);
 		}
 
 		parent.add(parameterPanel);
@@ -109,7 +116,6 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		for (int i = 0; i < view.maxParameterCount; i++) {
 			lblParameterArray[i] = new Label();
 			fldParameterArray[i] = new MathTextFieldW(view.getApp());
-			fldParameterArray[i].setPxWidth(64);
 			resultPanel.addInsertHandler(fldParameterArray[i]);
 		}
 	}
@@ -128,12 +134,19 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			if (hasParm) {
 				// set label
 				lblParameterArray[i].setVisible(true);
-				lblParameterArray[i].setText(view.getParameterLabels()[view.getSelectedDist()
-						.ordinal()][i]);
+				lblParameterArray[i].setText(getParamLabel(i));
 				// set field
 				fldParameterArray[i].setText(view.format(view.getParameters()[i]));
 			}
 		}
+	}
+
+	private String getParamLabel(int index) {
+		String paramName = view.getParameterLabels()[view.getSelectedDist()
+				.ordinal()][index];
+		return view.getApp().getConfig().hasDistributionView()
+				? view.getApp().getLocalization().getPlainDefault("Parameter%0",
+				"Parameter %0", paramName) : paramName;
 	}
 
 	/**
@@ -221,10 +234,12 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	 */
 	public void setLabels() {
 		setDistributionComboBoxMenu();
-		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
+		if (cumulativeWidget != null) {
+			cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
+		}
 		for (int i = 0; i < ProbabilityManager.getParmCount(view.getSelectedDist()); i++) {
 			lblParameterArray[i]
-					.setText(view.getParameterLabels()[view.getSelectedDist().ordinal()][i]);
+					.setText(getParamLabel(i));
 		}
 		modeGroup.setLabels();
 		resultPanel.setLabels();

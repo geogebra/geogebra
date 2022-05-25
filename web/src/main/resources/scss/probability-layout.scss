@@ -37,6 +37,56 @@
 			margin-right: 8px;
 			margin-bottom: 12px;
 		}
+
+		.parameterPanel {
+			display: inherit;
+
+			.holder {
+				margin: 0;
+			}
+
+			.gwt-Label {
+				margin: 8px 0 0 0;
+				font-size: 75%;
+				color: colors.$text-secondary;
+				line-height: unset;
+			}
+
+			.mathTextField {
+				border: none;
+				border-bottom: 1px colors.$black-42 solid;
+				margin: 8px 0 20px 0;
+				border-radius: 0;
+				width: 100%;
+				cursor: pointer;
+				padding-top: 0;
+
+				&:hover {
+					border-bottom-color: colors.$black-87;
+				}
+			}
+
+			.holder.focusState {
+				 .mathTextField {
+					margin-bottom: 19px;
+					border-bottom: 2px solid colors.$purple-default;
+				}
+
+				.gwt-Label {
+					color: colors.$purple-default;
+				}
+			}
+
+			.holder:hover:not(.focusState) {
+				.mathTextField {
+					border-bottom-color: colors.$black-87;
+				}
+
+				.gwt-Label {
+					color: colors.$black-87;
+				}
+			}
+		}
 	}
 
 	.probCalcStylbarBtn.suite {

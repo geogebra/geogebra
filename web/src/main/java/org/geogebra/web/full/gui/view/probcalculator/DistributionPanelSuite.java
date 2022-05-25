@@ -30,6 +30,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		intervalsLbl.setStyleName("intervalsLbl");
 		add(intervalsLbl);
 		buildModeGroupWithResult();
+		super.buildParameterPanel(this);
 	}
 
 	@Override
@@ -46,10 +47,8 @@ public class DistributionPanelSuite extends DistributionPanel {
 
 	@Override
 	public void setLabels() {
+		super.setLabels();
 		Localization loc = getView().getApp().getLocalization();
-		super.setDistributionComboBoxMenu();
-		resultPanel.setLabels();
-		modeGroup.setLabels();
 		cumulativeWidget.setTitle(loc.getMenu("Cumulative"));
 		cumulativeLbl.setText(loc.getMenu("Cumulative"));
 		intervalsLbl.setText(loc.getMenu("Intervals"));
@@ -58,10 +57,5 @@ public class DistributionPanelSuite extends DistributionPanel {
 	@Override
 	protected void updateCumulative() {
 		cumulativeWidget.setSwitchOn(getView().isCumulative());
-	}
-
-	@Override
-	public void updateParameters() {
-		// TODO APPS-3750
 	}
 }

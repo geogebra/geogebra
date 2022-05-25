@@ -115,6 +115,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 					@Override
 					public void onClickStart(int x, int y,
 											 PointerEventType type) {
+						main.getParent().addStyleName("focusState");
 						editorClicked();
 					}
 				});
