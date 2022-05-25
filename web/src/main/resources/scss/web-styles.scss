@@ -1946,6 +1946,10 @@
 			min-width: 64px;
 			width: 64px;
 		}
+
+		.holder .gwt-Label {
+			line-height: 36px;
+		}
 	}
 
 	.comboParamPanel .MyToggleButton, .comboParamPanel .gwt-ListBox {
@@ -1953,7 +1957,7 @@
 		margin-right: 10px;
 	}
 
-	.parameterPanel > *, .resultPanel > * {
+	.parameterPanel > *, .resultPanel > *, .parameterPanel .holder > * {
 		display: inline-block;
 		margin: 0 5px;
 	}
