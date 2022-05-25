@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -827,6 +828,12 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	 */
 	protected DistanceFunction createDistanceFunction() {
 		return new ParametricCurveDistanceFunction(this);
+	}
+
+	@Override
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+		// TODO check for equality?
+		return geo.isGeoCurveCartesian() ? ExtendedBoolean.UNKNOWN : ExtendedBoolean.FALSE;
 	}
 
 }

@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -143,25 +144,23 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isGeoVector()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		GeoVectorND v1 = (GeoVectorND) geo;
 
 		if (!(isFinite() && v1.isFinite())) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		Coords c1 = getCoords();
 		Coords c2 = v1.getCoordsInD3();
 
-		return DoubleUtil.isEqual(c1.getX(), c2.getX())
+		return ExtendedBoolean.newExtendedBoolean(DoubleUtil.isEqual(c1.getX(), c2.getX())
 				&& DoubleUtil.isEqual(c1.getY(), c2.getY())
-				&& DoubleUtil.isEqual(c1.getZ(), c2.getZ());
-
+				&& DoubleUtil.isEqual(c1.getZ(), c2.getZ()));
 	}
 
 	@Override

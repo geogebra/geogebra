@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.matrix.CoordsDouble3;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -532,11 +533,17 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!(geo instanceof GeoFunctionNVar) || !isDefined() || !geo.isDefined()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
+		if (isBooleanFunction() != ((GeoFunctionNVar) geo).isBooleanFunction()) {
+			return ExtendedBoolean.FALSE;
+		}
+		if (isBooleanFunction()) {
+			return isEqualBooleanFunction((GeoFunctionNVar) geo);
+		}
 		// try for polynomials first
 		// (avoid loading the CAS if at all possible)
 		if (equalityChecker == null) {
@@ -575,14 +582,24 @@ public class GeoFunctionNVar extends GeoElement
 					if (!DoubleUtil.isZero(coeffVal)) {
 						// one coefficient different -> definitely not equal
 						// polynomials
-						return false;
+						return ExtendedBoolean.FALSE;
 					}
 				}
 			}
 		}
 
 		// poly && all coefficients zero
-		return true;
+		return ExtendedBoolean.TRUE;
+	}
+
+	private ExtendedBoolean isEqualBooleanFunction(GeoFunctionNVar geoFun) {
+		IneqTree ours = getIneqs();
+		IneqTree theirs = geoFun.getIneqs();
+		if (!isInequality || !geoFun.isInequality
+				|| ours.getIneq() == null || theirs.getIneq() == null) {
+			return ExtendedBoolean.UNKNOWN;
+		}
+		return ours.getIneq().isEqual(theirs.getIneq());
 	}
 
 	/**

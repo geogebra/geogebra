@@ -699,9 +699,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 */
 	// Michael Borcherds 2008-04-30
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isDefined() || !isDefined()) {
-			return false;
+			return ExtendedBoolean.newExtendedBoolean(isDegenerate() && geo instanceof GeoLine
+					&& ((GeoLine) geo).isDegenerate());
 		}
 
 		// support c==f for Line, Function
@@ -713,42 +714,46 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 			if (poly == null) {
 				// (probably) not a polynomial
-				return false;
+				return ExtendedBoolean.FALSE;
 			}
 
 			int degree = poly.getDegree();
 
 			if (degree > 1) {
 				// not linear
-				return false;
+				return ExtendedBoolean.FALSE;
 			}
 
 			double[] coeffs = poly.getCoeffs();
 
 			if (degree == 0) {
 				if (DoubleUtil.isEqual(x, 0) && DoubleUtil.isEqual(-z / y, coeffs[0])) {
-					return true;
+					return ExtendedBoolean.FALSE;
 				}
 
 			} else {
 				// f(x_var) = -x/y x_var - z/y
 				if (DoubleUtil.isEqual(-x / y, coeffs[1])
 						&& DoubleUtil.isEqual(-z / y, coeffs[0])) {
-					return true;
+					return ExtendedBoolean.TRUE;
 				}
 			}
 
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoRay() || geo.isGeoSegment()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		if (geo.isGeoLine()) {
-			return linDep((GeoLine) geo);
+			return ExtendedBoolean.newExtendedBoolean(linDep((GeoLine) geo));
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
+	}
+
+	private boolean isDegenerate() {
+		return x == 0 && y == 0 && MyDouble.isFinite(z);
 	}
 
 	/**

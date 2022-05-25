@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -1058,18 +1059,18 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type
 		if (!geo.isGeoImage()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		// check sizes
 		if (((GeoImage) geo).pixelWidth != this.pixelWidth) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		if (((GeoImage) geo).pixelHeight != this.pixelHeight) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		String imageFileName = this.getGraphicsAdapter().getImageFileName();
@@ -1078,7 +1079,7 @@ public class GeoImage extends GeoElement implements Locateable,
 				.getImageFileName();
 		String md5B = imageFileName2.substring(0, MD5_FOLDER_LENGTH);
 		// MD5 checksums equal, so images almost certainly identical
-		return md5A.equals(md5B);
+		return ExtendedBoolean.newExtendedBoolean(md5A.equals(md5B));
 	}
 
 	@Override
