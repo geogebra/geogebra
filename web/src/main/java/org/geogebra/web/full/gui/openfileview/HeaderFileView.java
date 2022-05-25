@@ -6,14 +6,14 @@ import java.util.List;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 
 import elemental2.dom.File;
 
 public abstract class HeaderFileView implements BrowseViewI {
-	public abstract MyHeaderPanel getPanel();
+	public abstract AnimatingPanel getPanel();
 
 	@Override
 	public void setMaterialsDefaultStyle() {
