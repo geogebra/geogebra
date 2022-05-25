@@ -161,6 +161,7 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	protected void buildProbCalcPanel() {
 		DistributionPanel distrPanel = new DistributionPanel(this, loc);
+		distrPanel.addStyleName("distrPanelClassic");
 		setDistributionPanel(distrPanel);
 		plotSplitPane = new FlowPanel();
 		plotSplitPane.add(plotPanelPlus);

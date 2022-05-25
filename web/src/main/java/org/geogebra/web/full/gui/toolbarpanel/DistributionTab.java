@@ -25,6 +25,8 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 		distrPanel.setLabels();
 		view.setDistributionPanel(distrPanel);
 		distrPanel.updateGUI(); // make sure the correct interval is selected
+		view.updateProbabilityType(distrPanel.getResultPanel());
+		view.updateLowHighResult();
 		add(distrPanel);
 	}
 

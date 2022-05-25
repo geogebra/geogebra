@@ -1929,6 +1929,7 @@
 	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
+		line-height: 52px;
 	}
 
 	.comboParamPanel, .intervalPanel {
@@ -1959,8 +1960,11 @@
 	}
 
 	.parameterPanel > *, .resultPanel > *, .parameterPanel .holder > * {
-		display: inline-block;
 		margin: 0 5px;
+	}
+
+	.distrPanelClassic .holder {
+		display: flex;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */

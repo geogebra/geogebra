@@ -17,7 +17,7 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class ResultPanelD extends JPanel implements ResultPanel {
+class ResultPanelD extends JPanel implements ResultPanel {
 	private final LocalizationD loc;
 	JLabel lblProb;
 	JLabel lblProbOf;
@@ -120,7 +120,6 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 		revalidate();
 	}
 
-
 	private JComponent lessThanEqual() {
 		return new JLabel(SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X);
 	}
@@ -140,7 +139,6 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 
 	}
 
-	@Override
 	public void setLabels() {
 		lblProb.setText(loc.getMenu("Probability") + ": ");
 
@@ -168,6 +166,7 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 		fldResult.setText(text);
 		fldResult.setCaretPosition(0);
 	}
+
 	@Override
 	public void updateResultSum(String text) {
 		lblResultSum.setText(text);
