@@ -13,6 +13,7 @@ $button_hover_transition: background-color 0.15s;
 .GeoGebraFrame {
 
 	.headerView {
+		display: flex;
 	    height: $header_height;
 	    line-height: $header_height;
 	    position: relative;

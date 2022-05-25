@@ -785,4 +785,36 @@
 	.radioButtonPanel {
 		display: inline-grid;
 	}
+
+	.searchBar {
+		display: inline-flex;
+		height: 44px;
+		width: 100%;
+		background-color: #f5f5f5;
+		margin: 10px 32px;
+		border-radius: 24px;
+
+		.flatButtonHeader {
+			margin: 4px;
+		}
+
+		.searchInputField {
+			width: 100%;
+
+			.TextField {
+				margin: 12px 0 12px 14px;
+				padding: 0px;
+				width: calc(100% - 14px) !important;
+				border: none;
+				box-shadow: unset;
+				background-color: transparent;
+				height: 20px;
+				display: flex;
+			}
+
+			input[type=text]:focus:not([readonly]) {
+				border: none;
+			}
+		}
+	}
 }

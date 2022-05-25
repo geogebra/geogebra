@@ -7,6 +7,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 public class OpenFileView extends HeaderFileView
@@ -33,7 +34,8 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void initGUI() {
-		// fill
+		ComponentSearchBar searchBar = new ComponentSearchBar(app);
+		common.getHeader().add(searchBar);
 	}
 
 	@Override
