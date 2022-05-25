@@ -142,10 +142,15 @@ public class VariableReplacerAlgorithm {
 
 	private ExpressionValue getDerivative(String expressionString) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-		return expressionString.endsWith("'")
+		return expEndsWithDerivativeChar(expressionString)
 				&& kernel.getAlgebraProcessor().enableStructures()
 				? derivativeCreator.getDerivative(expressionString)
 				: null;
+	}
+
+	private boolean expEndsWithDerivativeChar(String expressionString) {
+		return expressionString.endsWith("'") || expressionString.endsWith("‘")
+				|| expressionString.endsWith("’");
 	}
 
 	private MySpecialDouble consumeConstant(String expressionString) {
