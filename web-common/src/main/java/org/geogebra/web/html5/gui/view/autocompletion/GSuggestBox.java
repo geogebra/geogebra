@@ -13,9 +13,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.editor.client.IsEditor;
-import com.google.gwt.editor.client.LeafValueEditor;
-import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.event.dom.client.HasAllKeyHandlers;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -110,14 +107,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class GSuggestBox extends Composite
 		implements HasText, Focusable, HasAnimation, HasEnabled,
 		HasAllKeyHandlers, HasValue<String>,
-		HasSelectionHandlers<Suggestion>, IsEditor<LeafValueEditor<String>> {
+		HasSelectionHandlers<Suggestion> {
 
 	private static final String STYLENAME_DEFAULT = "gwt-SuggestBox";
 	private int limit = 20;
 	private boolean selectsFirstItem = true;
 	private SuggestOracle oracle;
 	private String currentText;
-	private LeafValueEditor<String> editor;
 	private final SuggestionDisplay display;
 	private final ValueBoxBase<String> box;
 	private final Callback callback = new Callback() {
@@ -340,7 +336,7 @@ public class GSuggestBox extends Composite
 		private GSuggestBox lastSuggestBox = null;
 
 		/**
-		 * Sub-classes making use of {@link decorateSuggestionList} to add
+		 * Sub-classes making use of decorateSuggestionList to add
 		 * elements to the suggestion popup _may_ want those elements to show
 		 * even when there are 0 suggestions. An example would be showing a "No
 		 * matches" message.
@@ -769,17 +765,6 @@ public class GSuggestBox extends Composite
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<String> handler) {
 		return addHandler(handler, ValueChangeEvent.getType());
-	}
-
-	/**
-	 * Returns a {@link TakesValueEditor} backed by the SuggestBox.
-	 */
-	@Override
-	public LeafValueEditor<String> asEditor() {
-		if (editor == null) {
-			editor = TakesValueEditor.of(this);
-		}
-		return editor;
 	}
 
 	/**

@@ -3,17 +3,14 @@ package org.geogebra.gwtutil;
 import org.geogebra.web.resources.StyleInjector;
 import org.gwtproject.resources.client.TextResource;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.HeadElement;
-import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.user.client.DOM;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLScriptElement;
+import jsinterop.base.Js;
 
 /**
  * Injects scripts into parent document
  */
 public class JavaScriptInjector {
-	private static HeadElement head;
 
 	/**
 	 * @param scriptResource
@@ -31,32 +28,23 @@ public class JavaScriptInjector {
 	 */
 	public static void inject(TextResource scriptResource, boolean noDefine) {
 		String name = scriptResource.getName();
-		if (DOM.getElementById(name) == null) {
-			ScriptElement element = createScriptElement(name);
+		if (DomGlobal.document.getElementById(name) == null) {
+			HTMLScriptElement element = createScriptElement(name);
 			if (noDefine) {
-				element.setText("(function(define){" + scriptResource.getText() + "})()");
+				element.text = "(function(define){" + scriptResource.getText() + "})()";
 			} else {
-				element.setText(scriptResource.getText());
+				element.text = scriptResource.getText();
 			}
-			getHead().appendChild(element);
+			DomGlobal.document.head.appendChild(element);
 		}
 	}
 
-	private static ScriptElement createScriptElement(String id) {
-		ScriptElement script = Document.get().createScriptElement();
-		script.setAttribute("id", id);
-		script.setClassName(StyleInjector.CLASSNAME);
+	private static HTMLScriptElement createScriptElement(String id) {
+		HTMLScriptElement script = Js.uncheckedCast(DomGlobal.document
+				.createElement("script"));
+		script.id = id;
+		script.className = StyleInjector.CLASSNAME;
 		return script;
-	}
-
-	private static HeadElement getHead() {
-		if (JavaScriptInjector.head == null) {
-			Element element = Document.get().getElementsByTagName("head")
-			        .getItem(0);
-			assert element != null : "HTML Head element required";
-			JavaScriptInjector.head = HeadElement.as(element);
-		}
-		return JavaScriptInjector.head;
 	}
 
 	/**
@@ -66,6 +54,6 @@ public class JavaScriptInjector {
 	 *         injection, but can be useful.
 	 */
 	public static boolean injected(TextResource js) {
-		return DOM.getElementById(js.getName()) != null;
+		return DomGlobal.document.getElementById(js.getName()) != null;
 	}
 }

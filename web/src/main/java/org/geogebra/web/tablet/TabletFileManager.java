@@ -15,8 +15,6 @@ import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.FileManagerT;
 
-import com.google.gwt.core.client.Callback;
-
 import jsinterop.annotations.JsIgnore;
 import jsinterop.annotations.JsType;
 
@@ -28,12 +26,16 @@ public class TabletFileManager extends FileManagerT {
 	private TreeMap<Integer, MyCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
 
-	private abstract class MyCallback implements Callback<Object, Object> {
+	private abstract static class MyCallback {
 		private int id;
 
 		protected MyCallback() {
 			// protected
 		}
+
+		abstract void onSuccess(Object result);
+
+		abstract void onFailure(Object exception);
 
 		public void setId(int id) {
 			this.id = id;

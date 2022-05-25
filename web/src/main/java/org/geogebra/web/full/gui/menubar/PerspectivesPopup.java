@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -35,7 +34,7 @@ public class PerspectivesPopup {
 
 	private void addResizeHandler() {
 		if (wrappedPopup.isMenuShown()) {
-			Window.addResizeHandler(event ->
+			app.addWindowResizeListener(() ->
 					wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
 							(int) ((app.getHeight() - 426) / 2)));
 		}

@@ -88,6 +88,9 @@ public abstract class LocalizationJre extends Localization {
 
 	@Override
 	final public String getMenu(String key) {
+		if (key == null) {
+			return "";
+		}
 
 		if (tooltipFlag) {
 			return getMenuTooltip(key);

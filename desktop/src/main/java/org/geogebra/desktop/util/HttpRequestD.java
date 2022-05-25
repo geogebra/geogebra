@@ -26,6 +26,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class HttpRequestD extends HttpRequest {
 	private String answer;
+	/**
+	 * current timeout for HTTP requests
+	 */
+	private int timeout = -1;
 
 	@Override
 	public void sendRequestPost(final String method, final String url,
@@ -66,6 +70,9 @@ public class HttpRequestD extends HttpRequest {
 			// Borrowed from
 			// http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
 			huc.setRequestMethod(method);
+			if (timeout > 0) {
+				huc.setConnectTimeout(timeout * 1000);
+			}
 			if (getAuth() != null) {
 				huc.setRequestProperty("Authorization", "Basic " + getAuth());
 			}
@@ -88,14 +95,10 @@ public class HttpRequestD extends HttpRequest {
 				answer = readOutput(huc.getInputStream());
 			}
 
-
-			setResponseText(answer);
-			processed = true;
 			if (callback != null) {
 				callback.onSuccess(getResponse());
 			}
 		} catch (Exception ex) {
-			processed = true;
 			String err = "(No error)";
 			try {
 				if (huc != null && huc.getErrorStream() != null) {
@@ -115,6 +118,21 @@ public class HttpRequestD extends HttpRequest {
 		}
 	}
 
+	/**
+	 * Gets a response from a remote HTTP server
+	 *
+	 * @return the full textual content of the result after the request
+	 *         processed (the output page itself)
+	 */
+	public String getResponse() {
+		return answer;
+	}
+
+	/**
+	 * @param inputStream input stream
+	 * @return content of stream as string
+	 * @throws IOException if an I/O error occurs
+	 */
 	public static String readOutput(InputStream inputStream)
 			throws IOException {
 		BufferedReader in = null;
@@ -195,6 +213,15 @@ public class HttpRequestD extends HttpRequest {
 		} catch (Exception e) {
 			// and ignore exceptions
 		}
+	}
 
+	/**
+	 * @param timeout_secs
+	 *            HTTP request timeout in seconds Modify the default timeout for
+	 *            HTTP requests Warning: the desktop version currently ignores
+	 *            this setting
+	 */
+	public void setTimeout(Integer timeout_secs) {
+		timeout = timeout_secs;
 	}
 }

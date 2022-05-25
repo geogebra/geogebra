@@ -29,13 +29,13 @@ public class OptionsCASW implements OptionPanelW {
 
 	private void createGUI() {
 		showRoots = new ComponentCheckbox(app.getLocalization(), false,
-				"CASShowRationalExponentsAsRoots", () -> {
-			app.getSettings().getCasSettings().setShowExpAsRoots(showRoots.isSelected());
+				"CASShowRationalExponentsAsRoots", selected -> {
+			app.getSettings().getCasSettings().setShowExpAsRoots(selected);
 			updateGUI();
 		});
 
 		showNavigation = new ComponentCheckbox(app.getLocalization(), false, "NavigationBar",
-				() -> {
+				selected -> {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
 			updateGUI();
 		});

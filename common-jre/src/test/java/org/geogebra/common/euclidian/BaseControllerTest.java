@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -46,8 +47,11 @@ public class BaseControllerTest {
 	 *            screen y-coordinate
 	 */
 	protected void click(int x, int y) {
-		TestEvent evt = new TestEvent(x, y);
+		click(x, y, null);
+	}
 
+	protected void click(int x, int y, PointerEventType type) {
+		TestEvent evt = new TestEvent(x, y, type);
 		ec.wrapMousePressed(evt);
 		ec.wrapMouseReleased(evt);
 	}

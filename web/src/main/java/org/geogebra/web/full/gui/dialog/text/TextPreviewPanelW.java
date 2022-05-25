@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.dialog;
+package org.geogebra.web.full.gui.dialog.text;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;

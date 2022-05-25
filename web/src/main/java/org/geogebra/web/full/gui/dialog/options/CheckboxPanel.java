@@ -52,9 +52,8 @@ public class CheckboxPanel extends OptionPanel implements
 		return checkbox;
 	}
 
-	private void onClick() {
-		((BooleanOptionModel) getModel()).applyChanges(getCheckbox()
-				.isSelected());
+	private void onClick(boolean checked) {
+		((BooleanOptionModel) getModel()).applyChanges(checked);
 		onChecked();
 	}
 

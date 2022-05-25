@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.factories.CASFactory;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
@@ -10,7 +11,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -61,7 +61,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            callback
 	 * @param factory CAS factory
 	 */
-	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb,
+	public static void renderArticleElement(GeoGebraElement el, JsConsumer<Object> clb,
 			CASFactory factory) {
 		AppletParameters parameters = new AppletParameters(el);
 		new GeoGebraFrameSimple(el, parameters, factory).renderArticleElementWithFrame(el, clb);

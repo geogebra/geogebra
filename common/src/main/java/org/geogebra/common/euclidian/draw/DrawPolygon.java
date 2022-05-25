@@ -26,6 +26,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -44,6 +45,7 @@ import org.geogebra.common.util.MyMath;
  * @author Markus Hohenwarter
  */
 public class DrawPolygon extends Drawable implements Previewable {
+	private static final double MIN_HITTING_SIZE = 20;
 	private GeoPolygon poly;
 	private boolean isVisible;
 	private boolean labelVisible;
@@ -342,17 +344,27 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
 		GShape t = geo.isInverseFill() ? getShape() : gp;
-		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
+		int eps = getFillingHitThreshold(hitThreshold, getBounds());
+		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - eps,
+				y - eps, 2 * eps, 2 * eps));
 
 		if (geo.isFilled() && contains) {
 			return true;
 		}
 
-		boolean intersects = t.intersects(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		boolean intersects = t.intersects(x - eps,
+				y - eps, 2 * eps, 2 * eps);
 
 		return intersects && !contains;
+	}
+
+	private int getFillingHitThreshold(int hitThreshold, GRectangle bounds) {
+		// polygon is big enough: don't use dynamic threshold
+		if (geo.isFilled() && bounds != null && bounds.getWidth() > MIN_HITTING_SIZE) {
+			return view.getApplication().getCapturingThreshold(PointerEventType.MOUSE);
+		} else {
+			return hitThreshold;
+		}
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
@@ -29,13 +30,14 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.himamis.retex.editor.web.MathFieldW;
+
+import elemental2.dom.DomGlobal;
 
 public class Solver {
 
@@ -109,7 +111,7 @@ public class Solver {
 			keyboard.setProcessing(new MathFieldProcessing(mathField));
 			keyboard.clearAndUpdate();
 
-			String parameter = Window.Location.getParameter("i");
+			String parameter = NavigatorUtil.getUrlParameter("i");
 			if (parameter != null && !"".equals(parameter)) {
 				compute(parameter);
 			} else {
@@ -117,7 +119,7 @@ public class Solver {
 			}
 		});
 
-		Window.addResizeHandler(event -> resize());
+		DomGlobal.window.addEventListener("resize", event -> resize());
 
 		Scheduler.get().scheduleDeferred(this::resize);
 	}

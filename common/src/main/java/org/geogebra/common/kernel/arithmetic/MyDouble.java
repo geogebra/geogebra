@@ -107,11 +107,11 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * @param x
+	 * @param val
 	 *            new value
 	 */
-	public void set(double x) {
-		val = x;
+	public void set(double val) {
+		this.val = val;
 	}
 
 	@Override

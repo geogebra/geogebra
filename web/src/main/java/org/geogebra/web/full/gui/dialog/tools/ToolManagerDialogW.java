@@ -35,10 +35,11 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+
+import elemental2.dom.DomGlobal;
 
 public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
 		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPannel.ButtonsListener {
@@ -287,7 +288,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 	private void openTools() {
 		appw.setWaitCursor();
 		appw.storeMacro(toolList.getSelectedMacro(), false);
-		appw.getFileManager().open(Window.Location.getHref(), "");
+		appw.getFileManager().open(DomGlobal.location.href, "");
 
 		appw.setDefaultCursor();
 		hide();

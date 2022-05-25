@@ -5,7 +5,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -101,7 +100,7 @@ public class GraspableEmbedElement extends EmbedElement {
 	}
 
 	@Override
-	public JavaScriptObject getApi() {
+	public Object getApi() {
 		return Js.cast(api);
 	}
 

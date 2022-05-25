@@ -61,7 +61,6 @@ public class GeneralPathClipped implements GShape {
 		this.view = view;
 		pathPoints = new ArrayList<>();
 		clipAlgoSutherlandHodogman = new ClipAlgoSutherlandHodogman();
-		clipAlgoSutherlandHodogman.setMaxValue(view.getMaxCanvasCoordinate());
 		gp = AwtFactory.getPrototype().newGeneralPath();
 	}
 
@@ -436,5 +435,9 @@ public class GeneralPathClipped implements GShape {
 	public boolean intersects(int x, int y, int radius) {
 		return getGeneralPath().intersects(x - radius, y - radius, 2 * radius,
 				2 * radius);
+	}
+
+	public int size() {
+		return pathPoints.size();
 	}
 }

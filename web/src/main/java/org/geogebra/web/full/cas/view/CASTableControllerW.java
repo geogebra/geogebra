@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -31,7 +32,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -158,8 +158,8 @@ public class CASTableControllerW extends CASTableCellController implements
 			// CASTableCellEditor tableCellEditor = table.getEditor();
 			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
 					.getCASContextMenu(table);
-			popupMenu.show(event.getClientX() + Window.getScrollLeft(),
-							event.getClientY() + Window.getScrollTop());
+			popupMenu.show(event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
+							event.getClientY() + NavigatorUtil.getWindowScrollTop());
 		} else {
 			onPointerUp(event);
 		}

@@ -13,6 +13,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -21,6 +22,7 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
+import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -40,8 +42,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 
 import elemental2.dom.MouseEvent;
 import jsinterop.base.Js;
@@ -112,8 +112,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	 * @return event x-coord in window
 	 */
 	public static int getAbsoluteX(DomEvent<?> e, AppW app) {
-		return (int) ((EventUtil.getTouchOrClickClientX(e) + Window
-		        .getScrollLeft()) / app.getGeoGebraElement().getScaleX());
+		return (int) ((EventUtil.getTouchOrClickClientX(e) + NavigatorUtil
+		        .getWindowScrollLeft()) / app.getGeoGebraElement().getScaleX());
 	}
 
 	public int getAbsoluteX(DomEvent<?> e) {
@@ -128,8 +128,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	 * @return event y-coord in window
 	 */
 	public static int getAbsoluteY(DomEvent<?> e, AppW app) {
-		return (int) ((EventUtil.getTouchOrClickClientY(e) + Window
-		        .getScrollTop()) / app.getGeoGebraElement().getScaleY());
+		return (int) ((EventUtil.getTouchOrClickClientY(e) + NavigatorUtil
+		        .getWindowScrollTop()) / app.getGeoGebraElement().getScaleY());
 	}
 
 	public int getAbsoluteY(DomEvent<?> e) {

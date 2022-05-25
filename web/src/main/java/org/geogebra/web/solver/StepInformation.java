@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -100,7 +100,7 @@ class StepInformation extends DockPanel {
 
     public void resize() {
 	    if (steps != null) {
-            if (Window.getClientWidth() < 500) {
+            if (NavigatorUtil.getWindowWidth() < 500) {
                 add(container, DockPanel.NORTH);
                 add(stepsButton, DockPanel.SOUTH);
             } else {

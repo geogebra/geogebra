@@ -9,15 +9,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.PersistablePanel;
 import org.geogebra.web.html5.util.TestHarness;
 
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Undo/redo panel for unbundled apps
  */
-public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
+public class UndoRedoPanel extends PersistablePanel {
 	protected FocusableWidget redoAnchor;
 	StandardButton btnUndo;
 	StandardButton btnRedo;
@@ -41,7 +38,6 @@ public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addStyleName("undo");
 		btnUndo.addFastClickHandler(event -> onUndoPressed());
-		btnUndo.addKeyDownHandler(this);
 		add(btnUndo);
 	}
 
@@ -52,7 +48,6 @@ public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 		btnRedo.addStyleName("buttonActive");
 		btnRedo.addStyleName("redo");
 		btnRedo.addFastClickHandler(event -> onRedoPressed());
-		btnRedo.addKeyDownHandler(this);
 		add(btnRedo);
 	}
 
@@ -72,20 +67,6 @@ public class UndoRedoPanel extends PersistablePanel implements KeyDownHandler {
 		app.getAccessibilityManager().setAnchor(redoAnchor);
 		app.getGuiManager().redo();
 		app.getAccessibilityManager().cancelAnchor();
-	}
-
-	@Override
-	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
-		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-			return;
-		}
-		Object source = event.getSource();
-		if (source == btnUndo) {
-			onUndoPressed();
-		} else if (source == btnRedo) {
-			onRedoPressed();
-		}
 	}
 
 	protected void updateUndoActions() {
