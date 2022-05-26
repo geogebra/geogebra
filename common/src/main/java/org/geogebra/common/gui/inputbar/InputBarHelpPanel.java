@@ -29,7 +29,7 @@ public class InputBarHelpPanel {
 	private Collection<String> mMathFunc;
 	private LowerCaseDictionary[] mSubDict;
 	private TreeMap<String, Integer> mCategoryNameToTableIndex;
-	private ArrayList<Collection<String>> mCommands;
+	private Map<Integer, Collection<String>> mCommands;
 	private StringBuilder mStringBuilder;
 
 	/**
@@ -133,7 +133,7 @@ public class InputBarHelpPanel {
 		mSubDict = mApp.getSubCommandDictionary();
 
 		int n = getCategoriesCount();
-		mCommands = new ArrayList<>(n);
+		mCommands = new HashMap<>(n);
 		mCategoryNameToTableIndex = new TreeMap<>();
 
 		for (int i = 0; i < n; i++) {
@@ -141,7 +141,7 @@ public class InputBarHelpPanel {
 			Collection<String> list = getSubDictionary(i).getAllCommands();
 			if (list != null) {
 				mCategoryNameToTableIndex.put(categoryName, i);
-				mCommands.add(list);
+				mCommands.put(i, list);
 			}
 		}
 
