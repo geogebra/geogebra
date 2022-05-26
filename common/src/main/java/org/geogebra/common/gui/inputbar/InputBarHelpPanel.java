@@ -148,7 +148,7 @@ public class InputBarHelpPanel {
 	}
 
 	public Collection<String> getCommands(int i) {
-		return mCommands.get(i < mCommands.size() ? i : 0);
+		return mCommands.get(i);
 	}
 
 	public Collection<String> getAllCommands() {
