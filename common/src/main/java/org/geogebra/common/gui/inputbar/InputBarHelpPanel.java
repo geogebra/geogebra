@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.inputbar;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
