@@ -1084,15 +1084,15 @@ public class GeoText extends GeoElement
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type
 		if (str == null) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		if (geo.isGeoText()) {
-			return str.equals(((GeoText) geo).str);
+			return ExtendedBoolean.newExtendedBoolean(str.equals(((GeoText) geo).str));
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override

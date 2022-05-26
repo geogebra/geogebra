@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * @author Markus Hohenwarter
@@ -364,16 +365,18 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type, otherwise check direction and
 		// start point
 		if (!geo.isGeoRay()) {
-			return false;
+			return ExtendedBoolean.FALSE;
+		}
+		if (geo.isGeoElement3D()) {
+			return geo.isEqualExtended(this);
 		}
 
-		return isSameDirection((GeoLine) geo)
-				&& ((GeoRay) geo).getStartPoint().isEqual(getStartPoint());
-
+		return ExtendedBoolean.newExtendedBoolean(isSameDirection((GeoLine) geo)
+				&& ((GeoRay) geo).getStartPoint().isEqual(getStartPoint()));
 	}
 
 	@Override
