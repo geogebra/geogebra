@@ -104,7 +104,7 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	public void showLeft() {
 		clear();
 		wrapProbabilityOf(xLessThanEqual(), fldHigh, "", lblEquals);
-		add(fldResult);
+		add(wrapInFocusHolder(fldResult));
 	}
 
 	private String xLessThanEqual() {
@@ -115,7 +115,7 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	public void showRight() {
 		clear();
 		wrapProbabilityOf("", fldLow, lessThanEqual(), lblEquals);
-		add(fldResult);
+		add(wrapInFocusHolder(fldResult));
 	}
 
 	private String lessThanEqual() {
