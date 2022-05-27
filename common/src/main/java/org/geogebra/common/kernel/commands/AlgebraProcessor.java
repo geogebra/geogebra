@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
@@ -593,28 +594,21 @@ public class AlgebraProcessor {
 		// make sure that points stay points and vectors stay vectors
 		updateTypePreservingFlags(newValue, geo, info.isPreventingTypeChange());
 		if (sameLabel(newLabel, oldLabel)) {
-			// try to overwrite
-			final boolean listeners = app.getScriptManager().hasListeners();
 			app.getEventDispatcher().disableListeners();
-			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
-
-				@Override
-				public void callback(GeoElementND[] obj) {
-					if (obj != null) {
-						app.getEventDispatcher().enableListeners();
-						if (listeners && obj.length > 0) {
-							app.getEventDispatcher().notifyListenersUpdateCascade(obj[0]);
-							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
-						}
-						app.getCompanion().recallViewCreators();
-						if (storeUndoInfo) {
-							app.storeUndoInfo();
-						}
-						if (callback != null) {
-							callback.callback(obj.length > 0 ? obj[0] : null);
-						}
+			AsyncOperation<GeoElementND[]> changeCallback = obj -> {
+				if (obj != null) {
+					app.getEventDispatcher().enableListeners();
+					if (obj.length > 0) {
+						app.getEventDispatcher().notifyListenersUpdateCascade(obj[0]);
+						app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
 					}
-
+					app.getCompanion().recallViewCreators();
+					if (storeUndoInfo) {
+						app.storeUndoInfo();
+					}
+					if (callback != null) {
+						callback.callback(obj.length > 0 ? obj[0] : null);
+					}
 				}
 			};
 
@@ -1124,16 +1118,17 @@ public class AlgebraProcessor {
 		if (element instanceof GeoSymbolic && isVectorLabel(label)) {
 			setVectorPrintingModeFor((GeoSymbolic) element);
 		}
+		element.notifyUpdate();
 	}
 
 	private void setVectorPrintingModeFor(GeoSymbolic element) {
 		ExpressionValue unwrappedDefinition = element.getDefinition().unwrap();
-		if (unwrappedDefinition instanceof MyVecNode) {
-			((MyVecNode) unwrappedDefinition).setupCASVector();
+		if (unwrappedDefinition instanceof MyVecNDNode) {
+			((MyVecNDNode) unwrappedDefinition).setupCASVector();
 		}
 		ExpressionValue unwrappedValue = element.getValue().unwrap();
-		if (unwrappedValue instanceof MyVecNode) {
-			((MyVecNode) unwrappedValue).setupCASVector();
+		if (unwrappedValue instanceof MyVecNDNode) {
+			((MyVecNDNode) unwrappedValue).setupCASVector();
 		}
 	}
 

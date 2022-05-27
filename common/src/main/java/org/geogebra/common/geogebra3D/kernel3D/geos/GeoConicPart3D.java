@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordNearest;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * GeoCirclePart for
@@ -188,17 +189,17 @@ public class GeoConicPart3D extends GeoConic3D
 	/**
 	 * Returns wheter c is equal to this conic part
 	 */
-	// Michael Borcherds 2008-05-01
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 
 		if (!geo.isGeoConicPart()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		GeoConicPart3D other = (GeoConicPart3D) geo;
 
-		return parameters.isEqual(other.parameters) && super.isEqual(other);
+		return parameters.isEqual(other.parameters) ? super.isEqualExtended(other)
+				: ExtendedBoolean.FALSE;
 	}
 
 	/**

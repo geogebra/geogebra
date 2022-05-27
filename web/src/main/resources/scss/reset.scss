@@ -3,6 +3,8 @@ $slider-diameter: 15px;
 
 .GeoGebraFrame {
 	box-sizing: content-box;
+	/* if set explicitly by parent style, text-size-adjust may break applet scaling on iOS */
+	-webkit-text-size-adjust: auto;
 
 	* {
 		margin: initial;

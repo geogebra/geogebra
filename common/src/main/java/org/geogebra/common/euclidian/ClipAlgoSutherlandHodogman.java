@@ -12,7 +12,7 @@ public class ClipAlgoSutherlandHodogman {
 	public static final int EDGE_COUNT = 4;
 	public static final double Y_LIMIT = 1E6;
 
-	private double maxValue = Double.MAX_VALUE;
+	private double maxValue = Float.MAX_VALUE;
 
 	static class Edge {
 		private final MyPoint start;

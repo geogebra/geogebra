@@ -1166,7 +1166,7 @@ public class OptionsTab extends FlowPanel {
 			labelPixelW = new Label();
 			labelPixelH = new Label();
 			cbUseFixedSize = new ComponentCheckbox(loc, false, "fixed",
-					() -> getModel().applyChanges(getCbUseFixedSize().isSelected()));
+					getModel()::applyChanges);
 			setLabels();
 
 			ipButtonWidth = new InputPanelW(null, app, 1, -1, false);

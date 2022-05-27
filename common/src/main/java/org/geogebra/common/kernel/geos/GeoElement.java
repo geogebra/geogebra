@@ -5477,8 +5477,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return geo == this;
+	public final boolean isEqual(GeoElementND geo) {
+		return isEqualExtended(geo).boolVal();
+	}
+
+	@Override
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+		return ExtendedBoolean.newExtendedBoolean(this == geo);
 	}
 
 	/**
@@ -5488,21 +5493,26 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            other geo
 	 * @return whether this - f gives 0 in the CAS.
 	 */
-	final public boolean isDifferenceZeroInCAS(final GeoElementND f) {
+	final public ExtendedBoolean isDifferenceZeroInCAS(final GeoElementND f) {
 		// use CAS to check f - g = 0
 		String myFormula = getFormulaString(StringTemplate.casCompare,
 				true);
 		String otherFormula = f.getFormulaString(StringTemplate.casCompare,
 				true);
 		if (myFormula.equals(otherFormula)) {
-			return true;
+			return ExtendedBoolean.TRUE;
 		}
 		try {
 			String diffSb = "Simplify[" + myFormula + "-(" + otherFormula + ")]";
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb, null);
-			return Double.parseDouble(diff) == 0d;
+			if ("?".equals(diff)) {
+				return ExtendedBoolean.UNKNOWN;
+			}
+			return ExtendedBoolean.newExtendedBoolean(Double.parseDouble(diff) == 0d);
+		} catch (final NumberFormatException e) {
+			return ExtendedBoolean.FALSE;
 		} catch (final Throwable e) {
-			return false;
+			return ExtendedBoolean.UNKNOWN;
 		}
 	}
 
@@ -6649,7 +6659,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether this and geo are congruent
 	 */
 	public ExtendedBoolean isCongruent(GeoElement geo) {
-		return isEqual(geo) ? ExtendedBoolean.TRUE : ExtendedBoolean.UNKNOWN;
+		return isEqualExtended(geo);
 	}
 
 	@Override

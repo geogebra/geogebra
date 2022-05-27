@@ -1,10 +1,9 @@
 package org.geogebra.web.html5.util.debug;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.AppletParameters;
-
-import com.google.gwt.user.client.Window;
 
 import elemental2.dom.Console;
 import elemental2.dom.DomGlobal;
@@ -66,7 +65,7 @@ public class LoggerW extends Log {
 		if (article.getDataParamShowLogging()) {
 			Log.setLogger(new LoggerW());
 			Log.setLogDestination(LogDestination.CONSOLE);
-			Log.setLogLevel(Window.Location.getParameter("logLevel"));
+			Log.setLogLevel(NavigatorUtil.getUrlParameter("logLevel"));
 		}
 	}
 

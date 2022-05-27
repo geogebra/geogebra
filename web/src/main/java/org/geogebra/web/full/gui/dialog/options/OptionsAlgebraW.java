@@ -80,8 +80,8 @@ public class OptionsAlgebraW
 			lblShow = new Label();
 			lblShow.addStyleName("panelTitle");
 			showAuxiliaryObjects = new ComponentCheckbox(app.getLocalization(),
-					false, "AuxiliaryObjects", () ->
-					getApp().setShowAuxiliaryObjects(showAuxiliaryObjects.isSelected()));
+					false, "AuxiliaryObjects",
+					getApp()::setShowAuxiliaryObjects);
 
 			sortMode = new ListBox();
 			lblSortMode = new FormLabel().setFor(sortMode);

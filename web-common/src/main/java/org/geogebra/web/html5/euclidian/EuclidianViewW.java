@@ -30,9 +30,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -76,7 +74,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -141,7 +138,6 @@ public class EuclidianViewW extends EuclidianView implements
 	private GDimension preferredSize;
 
 	private ReaderWidget screenReader;
-	private String currentAltText;
 
 	/**
 	 * cache state
@@ -248,14 +244,22 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public final void paintBackground(GGraphics2D g2) {
+		if (isTransparent()) {
+			((GGraphics2DWI) g2).clearAll();
+		}
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
 				|| kernel.needToShowAnimationButton()
 				|| getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
-		} else {
+		} else if (!isTransparent()) {
 			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
 		}
+	}
+
+	@Override
+	public boolean isTransparent() {
+		return ((AppW) app).getAppletParameters().getDataParamTransparentGraphics();
 	}
 
 	/**
@@ -1101,25 +1105,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void setAltText(GeoText altGeo) {
-		if (altGeo == null) {
-			return;
-		}
-		String content = getAltTextFrom(altGeo);
-
-		if (content != null && !content.equals(currentAltText)) {
-			getScreenReader().readText(content);
-			currentAltText = content;
-		}
-	}
-
-	private String getAltTextFrom(GeoElement altGeo) {
-		return altGeo.isGeoText()
-				? ((GeoText) altGeo).getAuralText()
-				: appW.getLocalization().getMenu("DrawingPad");
-	}
-
-	@Override
 	public ReaderWidget getScreenReader() {
 		return screenReader;
 	}
@@ -1170,7 +1155,7 @@ public class EuclidianViewW extends EuclidianView implements
 		pPanel.clear();
 		Scheduler.get().scheduleDeferred(() -> {
 			pPanel.add(prevImg);
-			Window.print();
+			DomGlobal.window.print();
 
 			// PrintPreviewW.removePrintPanelFromDOM();
 			HTMLCollection<elemental2.dom.Element> pp = Dom
@@ -1256,6 +1241,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (((AppW) app).getPanel().getElement().getParentElement() != null) {
 			((AppW) app).getPanel().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
+			((AppW) app).setLastFocusableWidget(screenReaderWidget);
 		}
 	}
 

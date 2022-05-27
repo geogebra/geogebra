@@ -385,6 +385,61 @@ public class ArithmeticTest extends Assert {
 		t("f!=-g", "false");
 	}
 
+	@Test
+	public void testEqualityOfIneqs() {
+		assertAreEqual("x>1", "2x>2", true);
+		assertAreEqual("x>1", "2x<2", false);
+		assertAreEqual("x>1", "x>=1", false);
+		assertAreEqual("x>1", "x^3>1", true);
+		assertAreEqual("x>1", "x^2>1", false);
+		assertAreEqual("x>1", "y>1", false);
+	}
+
+	@Test
+	public void testEqualityOfIneqsNVar() {
+		assertAreEqual("x > y", "2y < 2x", true);
+		assertAreEqual("x > y", "2y <= 2x", false);
+		assertAreEqual("x > y", "2y > 2x", false);
+		assertAreEqual("2x^2 + 2y^2 > 2", "x^2 + x + y^2 + y > x + y + 1", true);
+		assertAreEqual("2x^2 + 2y^2 > 2", "x^2 + x + y^2 + 2y > x + y + 1", false);
+		assertAreEqual("y > sin(x)", "y > sin(x)", true);
+		assertAreEqual("y > sin(x)", "y > cos(x)", false);
+	}
+
+	@Test
+	public void emptySetsShouldBeEqual() {
+		assertAreEqual("0x + 0y > 0", "0x + 0y > 1", true);
+		assertAreEqual("x^2 + y^2 <= -1", "x^2 + y^2 < -2", true);
+	}
+
+	@Test
+	public void emptyAndFullSetsShouldDiffer() {
+		assertAreEqual("0x + 0y > 0", "0x + 0y < 1", false);
+		assertAreEqual("0x + 0y >= 1", "0x + 0y < 1", false);
+		assertAreEqual("x^2 + y^2 <= -1", "x^2 + y^2 > -1", false);
+	}
+
+	@Test
+	public void fullSetsShouldBeEqual() {
+		assertAreEqual("0x + 0y >= 0", "0x + 0y < 1", true);
+		assertAreEqual("0x + 0y >= 0", "0x + 0y <= 0", true);
+		assertAreEqual("x^2 + y^2 >= -1", "x^2 + y^2 > -2", true);
+	}
+
+	@Test
+	public void testEqualityOfIneqsUndefined() {
+		assertAreEqual("x > y", "x^3 > y^3", "?");
+		// needs CAS
+		assertAreEqual("y > sin(x)", "y > sin(x + 2pi)", "?");
+	}
+
+	private void assertAreEqual(String first, String second, Object areEqual) {
+		app.getKernel().clearConstruction(false);
+		ap.processAlgebraCommand("f:" + first, false);
+		ap.processAlgebraCommand("g:" + second, false);
+		t("f==g", String.valueOf(areEqual));
+	}
+
 	private GeoElement lookup(String g) {
 		return app.getKernel().lookupLabel(g);
 	}

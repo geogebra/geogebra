@@ -81,6 +81,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.cas.giac.CASFactoryW;
@@ -174,8 +175,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -365,7 +364,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			activity = new EvaluatorActivity();
 			break;
 		case SUITE_APPCODE:
-			String disableCAS = Window.Location.getParameter("disableCAS");
+			String disableCAS = NavigatorUtil.getUrlParameter("disableCAS");
 			activity = new SuiteActivity(GeoGebraConstants.GRAPHING_APPCODE,
 					"".equals(disableCAS) || "true".equals(disableCAS));
 			break;
@@ -787,7 +786,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	protected final void initGoogleDriveEventFlow() {
 		googleDriveOperation = new GoogleDriveOperationW(this);
-		String state = Location.getParameter("state");
+		String state = NavigatorUtil.getUrlParameter("state");
 		if (getNetworkOperation().isOnline() && state != null
 				&& !"".equals(state)) {
 			googleDriveOperation.initGoogleDriveApi();
@@ -924,8 +923,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void showPerspectivesPopupIfNeeded() {
-		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
-				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
+		boolean smallScreen = NavigatorUtil.getWindowWidth() < MIN_SIZE_FOR_PICKER
+				|| NavigatorUtil.getWindowHeight() < MIN_SIZE_FOR_PICKER;
 		if (isUnbundledOrWhiteboard() || smallScreen
 				|| isAppletWithoutAppsPicker() || getExam() != null
 				|| !StringUtil.empty(getAppletParameters().getDataParamPerspective())) {
@@ -951,7 +950,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void appSplashCanNowHide() {
-		String commands = Location.getParameter("command");
+		String commands = NavigatorUtil.getUrlParameter("command");
 		if (commands != null) {
 			executeCommands(commands);
 		}

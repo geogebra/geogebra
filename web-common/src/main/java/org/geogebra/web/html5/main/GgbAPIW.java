@@ -57,7 +57,6 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
@@ -1045,19 +1044,6 @@ public class GgbAPIW extends GgbAPI {
 	private static AsyncOperation<String> asyncOperation(
 			final StringConsumer callback) {
 		return callback::consume;
-	}
-
-	/**
-	 * @param columnNamesJS
-	 *            JS string array
-	 * @return exported construction
-	 */
-	public String exportConstruction(JsArrayString columnNamesJS) {
-		String[] columnNames = new String[columnNamesJS.length()];
-		for (int i = 0; i < columnNames.length; i++) {
-			columnNames[i] = columnNamesJS.get(i);
-		}
-		return this.exportConstruction(columnNames);
 	}
 
 	/**

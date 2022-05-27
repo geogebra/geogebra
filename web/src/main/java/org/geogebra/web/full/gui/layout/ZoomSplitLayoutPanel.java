@@ -7,7 +7,6 @@ package org.geogebra.web.full.gui.layout;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
-import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
@@ -16,7 +15,6 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -209,7 +207,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			// Handle double-clicks.
 			// Fake them since the double-click event aren't fired.
 			if (this.toggleDisplayAllowed) {
-				double now = Duration.currentTimeMillis();
+				double now = System.currentTimeMillis();
 				if (now - this.lastClick < DOUBLE_CLICK_TIMEOUT) {
 					now = 0;
 					LayoutData layout = (LayoutData) target.getLayoutData();
@@ -245,9 +243,9 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			 * Resize glassElem to take up the entire scrollable window area,
 			 * which is the greater of the scroll size and the client size.
 			 */
-			int width = Math.max(Window.getClientWidth(),
+			int width = Math.max(NavigatorUtil.getWindowWidth(),
 					Document.get().getScrollWidth());
-			int height = Math.max(Window.getClientHeight(),
+			int height = Math.max(NavigatorUtil.getWindowHeight(),
 					Document.get().getScrollHeight());
 			Element glass = getGlassElem();
 			glass.getStyle().setHeight(height, Unit.PX);

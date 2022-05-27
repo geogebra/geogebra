@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -197,7 +198,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * polyline p.
 	 */
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		boolean pointsOK = false;
 		if (geo.isGeoPolyLine()) {
 			GeoPolyLine g = (GeoPolyLine) geo;
@@ -213,7 +214,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 			}
 		}
-		return pointsOK;
+		return ExtendedBoolean.newExtendedBoolean(pointsOK);
 	}
 
 	@Override

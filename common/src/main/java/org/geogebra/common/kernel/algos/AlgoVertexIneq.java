@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoVertexIneq extends AlgoElement {
@@ -71,9 +72,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[] { p };
-
 		setDependencies();
-
 	}
 
 	@Override
@@ -240,12 +239,8 @@ public class AlgoVertexIneq extends AlgoElement {
 		ArrayList<Double> bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
 		for (double bRoot : bz) {
-			ensurePoint();
-			vertices.get(validVertices).setCoords(bRoot,
-					af.value(bRoot), 1);
-			validVertices++;
+			addPoint(bRoot, af.value(bRoot));
 		}
-
 	}
 
 	private void intParamYLinear(Inequality a, Inequality b, int i, int j) {
@@ -293,12 +288,15 @@ public class AlgoVertexIneq extends AlgoElement {
 		ArrayList<Double> bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
 		for (double bRoot : bz) {
-			ensurePoint();
-			vertices.get(validVertices).setCoords(af.value(bRoot),
-					bRoot, 1);
-			validVertices++;
+			addPoint(af.value(bRoot), bRoot);
 		}
 
+	}
+
+	private void addPoint(double x, double y) {
+		ensurePoint();
+		vertices.get(validVertices).setCoords(x, y, 1);
+		validateLast();
 	}
 
 	private void intParamConic(Inequality a, Inequality b, int i, int j,
@@ -390,12 +388,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			GeoPoint pt = (GeoPoint) output[k];
 			double x = pt.getX() / pt.getZ();
 			pt.setCoords(x, b.getFunBorder().value(x), 1);
-			if (vertices.size() <= validVertices) {
-				vertices.add(pt);
-			} else {
-				vertices.set(validVertices, pt);
-			}
-			validVertices++;
+			addVertex(pt);
 		}
 	}
 
@@ -404,10 +397,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		ArrayList<Double> bz = b.getZeros();
 		for (double aRoot : az) {
 			for (double bRoot : bz) {
-				ensurePoint();
-				vertices.get(validVertices).setCoords(aRoot, bRoot, 1);
-				validVertices++;
-				Log.debug(aRoot + "," + bRoot);
+				addPoint(aRoot, bRoot);
 			}
 		}
 
@@ -425,9 +415,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			int n = EquationSolver.solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
-				ensurePoint();
-				vertices.get(validVertices).setCoords(co[k], bRoot, 1);
-				validVertices++;
+				addPoint(co[k], bRoot);
 			}
 		}
 	}
@@ -444,9 +432,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			int n = EquationSolver.solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
-				ensurePoint();
-				vertices.get(validVertices).setCoords(bRoot, co[k], 1);
-				validVertices++;
+				addPoint(bRoot, co[k]);
 			}
 		}
 
@@ -471,11 +457,9 @@ public class AlgoVertexIneq extends AlgoElement {
 			return;
 		}
 		for (double bRoot : bz) {
-			ensurePoint();
-			vertices.get(validVertices).setCoords(
-					(-af.getY() * bRoot - af.getZ()) / af.getX(), bRoot,
-					1);
-			validVertices++;
+			addPoint(
+					(-af.getY() * bRoot - af.getZ()) / af.getX(), bRoot
+			);
 		}
 
 	}
@@ -487,10 +471,8 @@ public class AlgoVertexIneq extends AlgoElement {
 			return;
 		}
 		for (double bRoot : bz) {
-			ensurePoint();
-			vertices.get(validVertices).setCoords(bRoot,
-					(-af.getX() * bRoot - af.getZ()) / af.getY(), 1);
-			validVertices++;
+			addPoint(bRoot,
+					(-af.getX() * bRoot - af.getZ()) / af.getY());
 		}
 
 	}
@@ -534,14 +516,25 @@ public class AlgoVertexIneq extends AlgoElement {
 				double y = pt.getY() / pt.getZ();
 				pt.setCoords(y, x, 1);
 			}
-			if (vertices.size() <= validVertices) {
-				vertices.add(pt);
-			} else {
-				vertices.set(validVertices, pt);
-			}
+			addVertex(pt);
+		}
+	}
+
+	private void addVertex(GeoPoint pt) {
+		if (vertices.size() <= validVertices) {
+			vertices.add(pt);
+		} else {
+			vertices.set(validVertices, pt);
+		}
+		validateLast();
+	}
+
+	private void validateLast() {
+		GeoPoint last = vertices.get(validVertices);
+		ExtendedBoolean value = p.getIneqs().valueAround(last.getInhomX(), last.getInhomY());
+		if (value == ExtendedBoolean.UNKNOWN) {
 			validVertices++;
 		}
-
 	}
 
 	private void addVertices(AlgoElement algoElement, boolean transpose) {
@@ -552,7 +545,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		ensurePoint();
 		GeoVec3D.cross(a.getLineBorder(), b.getLineBorder(),
 				vertices.get(validVertices));
-		validVertices++;
+		validateLast();
 	}
 
 	private void initHelpers() {

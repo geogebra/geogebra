@@ -14,8 +14,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 
-import elemental2.dom.DomGlobal;
-
 /**
  * Base dialog material design component
  */
@@ -40,7 +38,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		setGlassEnabled(hasScrim);
 		this.setStyleName("dialogComponent");
 		buildDialog(dialogData);
-		app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize", e -> onResize());
+		app.addWindowResizeListener(this::onResize);
 	}
 
 	private void  buildDialog(DialogData dialogData) {

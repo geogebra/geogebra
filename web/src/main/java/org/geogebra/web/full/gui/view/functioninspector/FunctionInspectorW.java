@@ -23,7 +23,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabBar;
@@ -78,8 +77,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	 */
 	public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
-		Window.addResizeHandler(event -> onResize());
-		Scheduler.get().scheduleDeferred(() -> onResize());
+		app.addWindowResizeListener(this::onResize);
+		Scheduler.get().scheduleDeferred(this::onResize);
 	}
 
 	@Override

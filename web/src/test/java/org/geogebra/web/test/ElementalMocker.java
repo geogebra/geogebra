@@ -14,6 +14,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLBodyElement;
 import elemental2.dom.HTMLDocument;
 import elemental2.dom.HTMLHtmlElement;
+import elemental2.dom.Location;
 import elemental2.dom.Navigator;
 import elemental2.webstorage.WebStorageWindow;
 import jsinterop.base.JsPropertyMap;
@@ -27,6 +28,9 @@ public class ElementalMocker {
 		try {
 			DomGlobal.console = new Console();
 			DomGlobal.window = new WebStorageWindow();
+			Location location = new Location();
+			location.search = "";
+			setFinalStatic(DomGlobal.class.getField("location"), location);
 			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
 			Navigator newValue = new Navigator();
 			newValue.platform = "SunOS";

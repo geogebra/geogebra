@@ -1,8 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -11,7 +8,6 @@ import org.geogebra.web.html5.gui.accessibility.ViewAltTexts;
 public class AltTextCollector {
 	private final AltTextTimer timer;
 	private final ViewAltTexts views;
-	private final List<GeoNumeric> dependencies;
 
 	/**
 	 *
@@ -22,7 +18,6 @@ public class AltTextCollector {
 		this.views = views;
 		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(),
 				app.getLocalization());
-		dependencies = new ArrayList<>();
 	}
 
 	/**
@@ -34,17 +29,7 @@ public class AltTextCollector {
 		if (!views.isValid(altText)) {
 			return;
 		}
-		timer.feed(altText.getAuralText(), altText);
-	}
-
-	/**
-	 * Add a GeoNumeric dependent to views' altText
-	 * @param geo to add
-	 */
-	public void addDependency(GeoNumeric geo) {
-		if (!dependencies.contains(geo)) {
-			dependencies.add(geo);
-		}
+		timer.feed(altText);
 	}
 
 	/**
@@ -52,7 +37,7 @@ public class AltTextCollector {
 	 * @param geo changed slider
 	 */
 	public void readSliderUpdate(GeoNumeric geo) {
-		timer.feed(geo.getAuralCurrentValue(), geo);
+		timer.feed(geo);
 	}
 
 	/**

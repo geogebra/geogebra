@@ -14,11 +14,11 @@ import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class StandardButton extends FocusWidget implements HasResource {
+public class StandardButton extends Widget implements HasResource {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
@@ -264,7 +264,6 @@ public class StandardButton extends FocusWidget implements HasResource {
 	 * Changes "disabled" property in DOM, so use :disabled in css
 	 * @param enabled whether to add or remove the "disabled" property
 	 */
-	@Override
 	public void setEnabled(boolean enabled) {
 		if (enabled) {
 			getElement().removeAttribute("disabled");
@@ -314,5 +313,9 @@ public class StandardButton extends FocusWidget implements HasResource {
 
 	public NoDragImage getImage() {
 		return btnImage;
+	}
+
+	public void setTabIndex(int i) {
+		getElement().setTabIndex(i);
 	}
 }

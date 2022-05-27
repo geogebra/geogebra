@@ -148,7 +148,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** first half-axis */
 	protected double a;
 	private double b;
-	private double y;
 	/** number of points used for hyperbola path */
 	protected int points = PLOT_POINTS;
 	private GeneralPathClipped hypLeft;
@@ -172,6 +171,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** eigenvectors */
 	protected Coords[] ev;
 	private GeoLine diameter;
+	private GPoint2D transformPoint;
 
 	@Override
 	public GArea getShape() {
@@ -566,6 +566,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 				fillShape = null;
 			}
 		}
+
+		setShape(null);
 	}
 
 	private boolean negativeColored() {
@@ -1037,6 +1039,10 @@ public class DrawConic extends SetDrawable implements Previewable {
 			points = Math.min(n, MAX_PLOT_POINTS);
 		}
 
+		// set transform for Graphics2D
+		transform.setTransform(view.getCoordTransform());
+		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
+
 		// hyperbola is visible on screen
 		double step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
 
@@ -1048,11 +1054,12 @@ public class DrawConic extends SetDrawable implements Previewable {
 		int i = 1;
 		int index0 = points; // points ... 2*points - 2
 		int index1 = points - 2; // points-2 ... 0
+		double x = 0, y = 0;
 		while (index1 >= 0) {
 			double tsq = t * t;
 			double denom = 1.0 - tsq;
 			// calc coords of first quadrant
-			double x = a * (1.0 + tsq) / denom;
+			x = a * (1.0 + tsq) / denom;
 			y = 2.0 * b * t / denom;
 
 			// first and second quadrants
@@ -1066,13 +1073,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 			t = i * step;
 		}
 
-		updateHyperbolaClosePaths();
-
-		// set transform for Graphics2D
-		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(conic, M, ev));
-
-		updateHyperboalSetTransformToPaths();
+		updateHyperbolaClosePaths(x, y);
 
 		updateHyperbolaLabelCoords();
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
@@ -1129,28 +1130,32 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 *            y coord
 	 */
 	protected void updateHyperbolaAddPoint(int index, double x1, double y1) {
-		hypRight.addPoint(index, x1, y1);
-		hypLeft.addPoint(index, -x1, y1);
+		addTransformedPoint(hypRight, index, x1, y1);
+		addTransformedPoint(hypLeft, index, -x1, y1);
 	}
 
-	/** build general paths of hyperbola wings and transform them */
-	protected void updateHyperboalSetTransformToPaths() {
-		hypLeft.transform(transform);
-		hypRight.transform(transform);
+	private void addTransformedPoint(GeneralPathClipped path, int index, double x, double y) {
+		if (this.transformPoint == null) {
+			this.transformPoint = new GPoint2D();
+		}
+		transformPoint.setLocation(x, y);
+		transform.transform(transformPoint, transformPoint);
+		path.addPoint(index, transformPoint.x, transformPoint.y);
 	}
 
 	/**
 	 * close hyperbola branchs
 	 */
-	protected void updateHyperbolaClosePaths() {
+	protected void updateHyperbolaClosePaths(double x, double y) {
 
 		// we have drawn the hyperbola from x=a to x=x0
 		// ensure correct filling by adding points at (2*x0, y)
 		if (conic.isFilled()) {
-			hypRight.lineTo(Float.MAX_VALUE, y);
-			hypRight.lineTo(Float.MAX_VALUE, -y);
-			hypLeft.lineTo(-Float.MAX_VALUE, y);
-			hypLeft.lineTo(-Float.MAX_VALUE, -y);
+			double farX = Math.abs(x) + Math.abs(y);
+			addTransformedPoint(hypRight, hypRight.size(), farX, y);
+			addTransformedPoint(hypRight, hypRight.size(), farX, -y);
+			addTransformedPoint(hypLeft, hypLeft.size(), -farX, y);
+			addTransformedPoint(hypLeft, hypLeft.size(), -farX, -y);
 		}
 	}
 

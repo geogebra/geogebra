@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -973,10 +974,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * polygon p.
 	 */
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// test 3D is geo is 3D
 		if (geo.isGeoElement3D()) {
-			return geo.isEqual(this);
+			return geo.isEqualExtended(this);
 		}
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
@@ -1036,12 +1037,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 								i++;
 							}
 						}
-						return pointOK;
+						return ExtendedBoolean.newExtendedBoolean(pointOK);
 					}
 				}
 			}
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**
@@ -1061,156 +1062,27 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			int nrSidesPoly2 = polygon.getSegments().length;
 			// two polygon can be congruent when their number of sides are equal
 			// and have the same area
-			if (nrSidesPoly1 == nrSidesPoly2 && (this).hasSameArea(polygon)) {
-				GeoSegmentND[] segmentsPoly1 = this.getSegments();
-				GeoSegmentND[] segmentsPoly2 = polygon.getSegments();
-				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, this);
-				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, polygon);
-				GeoElement[] anglesPoly1 = algo1.getAngles();
-				GeoElement[] anglesPoly2 = algo2.getAngles();
-				int nrOfShifts = 0;
-				while (nrOfShifts <= segmentsPoly2.length) {
-					// first two segments from segmentsPoly1 and segmentsPoly2
-					// are
-					// congruent
-					if (ExpressionNode
-							.isEqual(segmentsPoly1[0],
-									segmentsPoly2[0])
-							&& ExpressionNode.isEqual(
-									segmentsPoly1[1], segmentsPoly2[1])) {
-						break;
-					}
-					// first two segment from segmentPoly1 are congruent with
-					// the
-					// last two segment from segmentPoly2
-					if (ExpressionNode
-							.isEqual(segmentsPoly1[0],
-									segmentsPoly2[segmentsPoly2.length - 1])
-							&& ExpressionNode.isEqual(
-									segmentsPoly1[1],
-									segmentsPoly2[segmentsPoly2.length - 2])) {
-						break;
-					}
-					segmentsPoly2 = shiftSegments(segmentsPoly2);
-					nrOfShifts++;
-				}
-				nrOfShifts = 0;
-				while (nrOfShifts <= anglesPoly2.length) {
-					// we have the external angles
-					if (((GeoAngle) anglesPoly1[0]).getValue() >= Math.PI
-							&& ((GeoAngle) anglesPoly2[0])
-									.getValue() >= Math.PI) {
-						double d1 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly1[0]).getDouble();
-						double d2 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[0]).getDouble();
-						double d3 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly1[1]).getDouble();
-						double d4 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[1]).getDouble();
-						// first two angle values are congruent
-						if (DoubleUtil.isEqual(d1, d2) && DoubleUtil.isEqual(d3, d4)) {
-							break;
+			if (nrSidesPoly1 == nrSidesPoly2 && this.hasSameArea(polygon)) {
+				Double[] segmentsPoly1 = Arrays.stream(this.getSegments())
+						.map(GeoSegmentND::getLength).toArray(Double[]::new);
+				Double[] segmentsPoly2 = Arrays.stream(polygon.getSegments())
+						.map(GeoSegmentND::getLength).toArray(Double[]::new);
+				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, this, true);
+				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, polygon, true);
+				Double[] anglesPoly1 = Arrays.stream(algo1.getAngles())
+						.map(GeoElementND::evaluateDouble).toArray(Double[]::new);
+				Double[] anglesPoly2 = Arrays.stream(algo2.getAngles())
+						.map(GeoElementND::evaluateDouble).toArray(Double[]::new);
+				for (int direction: new int[]{1, -1}) {
+					for (int shift = 0; shift < nrSidesPoly1; shift++) {
+						int angleShift = direction == 1 ? shift : shift + 1;
+						if (isSameValue(segmentsPoly1, segmentsPoly2, shift, direction)
+								&& isSameValue(anglesPoly1, anglesPoly2, angleShift, direction)) {
+							return ExtendedBoolean.TRUE;
 						}
-						double d5 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[anglesPoly2.length
-										- 1]).getDouble();
-						double d6 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[anglesPoly2.length
-										- 2]).getDouble();
-						// first two angle values from anglesPoly1 equals to
-						// last
-						// two angle values from anglesPoly2
-						if (DoubleUtil.isEqual(d1, d5) && DoubleUtil.isEqual(d3, d6)) {
-							break;
-						}
-						anglesPoly2 = shiftAngles(anglesPoly2);
-						nrOfShifts++;
-					}
-					// we have the internal angles of first polygon and external
-					// angles of second polygon
-					else if (((GeoAngle) anglesPoly1[0]).getValue() < Math.PI
-							&& ((GeoAngle) anglesPoly2[0])
-									.getValue() >= Math.PI) {
-						double d1 = ((GeoAngle) anglesPoly1[0]).getDouble();
-						double d2 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[0]).getDouble();
-						double d3 = ((GeoAngle) anglesPoly1[1]).getDouble();
-						double d4 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[1]).getDouble();
-						// first two angle values are congruent
-						if (DoubleUtil.isEqual(d1, d2) && DoubleUtil.isEqual(d3, d4)) {
-							break;
-						}
-						double d5 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[anglesPoly2.length
-										- 1]).getDouble();
-						double d6 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly2[anglesPoly2.length
-										- 2]).getDouble();
-						// first two angle values from anglesPoly1 equals to
-						// last
-						// two angle values from anglesPoly2
-						if (DoubleUtil.isEqual(d1, d5) && DoubleUtil.isEqual(d3, d6)) {
-							break;
-						}
-						anglesPoly2 = shiftAngles(anglesPoly2);
-						nrOfShifts++;
-					}
-					// we have the external angles of first polygon and internal
-					// angles of second polygon
-					else if (((GeoAngle) anglesPoly1[0]).getValue() >= Math.PI
-							&& ((GeoAngle) anglesPoly2[0])
-									.getValue() < Math.PI) {
-						double d1 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly1[0]).getDouble();
-						double d2 = ((GeoAngle) anglesPoly2[0]).getDouble();
-						double d3 = 2 * Math.PI
-								- ((GeoAngle) anglesPoly1[1]).getDouble();
-						double d4 = ((GeoAngle) anglesPoly2[1]).getDouble();
-						// first two angle values are congruent
-						if (DoubleUtil.isEqual(d1, d2) && DoubleUtil.isEqual(d3, d4)) {
-							break;
-						}
-						double d5 = ((GeoAngle) anglesPoly2[anglesPoly2.length
-								- 1]).getDouble();
-						double d6 = ((GeoAngle) anglesPoly2[anglesPoly2.length
-								- 2]).getDouble();
-						// first two angle values from anglesPoly1 equals to
-						// last
-						// two angle values from anglesPoly2
-						if (DoubleUtil.isEqual(d1, d5) && DoubleUtil.isEqual(d3, d6)) {
-							break;
-						}
-						anglesPoly2 = shiftAngles(anglesPoly2);
-						nrOfShifts++;
-					}
-					// we have the internal angles of first and second polygon
-					else {
-						// first two angles from both angelPolys are congruent
-						if (ExpressionNode.isEqual(anglesPoly1[0], anglesPoly2[0])
-								&& ExpressionNode.isEqual(
-										anglesPoly1[1], anglesPoly2[1])) {
-							break;
-						}
-						// first two angles from anglesPoly1 equals to last two
-						// angles from anglesPoly2
-						if (ExpressionNode.isEqual(anglesPoly1[0],
-										anglesPoly2[anglesPoly2.length - 1])
-								&& ExpressionNode.isEqual(anglesPoly1[1],
-										anglesPoly2[anglesPoly2.length - 2])) {
-							break;
-						}
-						anglesPoly2 = shiftAngles(anglesPoly2);
-						nrOfShifts++;
 					}
 				}
-
-				boolean result = checkInBothDirection(segmentsPoly1,
-						segmentsPoly2, anglesPoly1, anglesPoly2);
-				algo1.remove();
-				algo2.remove();
-				return ExtendedBoolean.newExtendedBoolean(result);
+				return ExtendedBoolean.FALSE;
 			}
 		}
 		// case the geo is a GeoNumeric, e.g. area using formula
@@ -1223,156 +1095,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return ExtendedBoolean.FALSE;
 	}
 
-	// shift angles to left
-	// e.g. [alpha,beta,gamma,delta] -> [beta,gamma,delta,alpha]
-	private static GeoElement[] shiftAngles(GeoElement[] angles) {
-		GeoElement p = angles[0];
-		for (int i = 0; i < angles.length - 1; i++) {
-			angles[i] = angles[i + 1];
-		}
-		angles[angles.length - 1] = p;
-		return angles;
-	}
-
-	// shift segments to left
-	// e.g. [a,b,c,d] -> [b,c,d,a]
-	private static GeoSegmentND[] shiftSegments(GeoSegmentND[] segments) {
-		GeoSegmentND p = segments[0];
-		for (int i = 0; i < segments.length - 1; i++) {
-			segments[i] = segments[i + 1];
-		}
-		segments[segments.length - 1] = p;
-		return segments;
-	}
-
-	private boolean checkInBothDirection(GeoElementND[] segmentsPoly1,
-			GeoElementND[] segmentsPoly2, GeoElement[] anglesPoly1,
-			GeoElement[] anglesPoly2) {
-		boolean rightDirection = true;
-		boolean leftDirection = true;
-		// check in right direction
-		for (int i = 0; i < segmentsPoly1.length; i++) {
-			if (!ExpressionNode.isEqual(segmentsPoly1[i], segmentsPoly2[i])) {
-				rightDirection = false;
-				break;
+	private boolean isSameValue(Double[] a, Double[] b, int shift, int direction) {
+		for (int i = 0; i < a.length; i++) {
+			if (!DoubleUtil.isEqual(a[i], b[(i * direction + shift + a.length) % a.length])) {
+				return false;
 			}
 		}
-		// the angles must be checked in same direction
-		if (rightDirection) {
-			// we have the external angles
-			if (((GeoAngle) anglesPoly1[0]).getDouble() >= Math.PI
-					&& ((GeoAngle) anglesPoly2[0]).getDouble() >= Math.PI) {
-				for (int i = 0; i < anglesPoly1.length; i++) {
-					double d1 = 2 * Math.PI
-							- ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = 2 * Math.PI
-							- ((GeoAngle) anglesPoly2[i]).getDouble();
-					if (!DoubleUtil.isEqual(d1, d2)) {
-						return false;
-					}
-				}
-			}
-			// we have the internal angles of first polygon and external
-			// angles of second polygon
-			else if (((GeoAngle) anglesPoly1[0]).getDouble() < Math.PI
-					&& ((GeoAngle) anglesPoly2[0]).getDouble() >= Math.PI) {
-				for (int i = 0; i < anglesPoly1.length; i++) {
-					double d1 = ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = 2 * Math.PI
-							- ((GeoAngle) anglesPoly2[i]).getDouble();
-					if (!DoubleUtil.isEqual(d1, d2)) {
-						return false;
-					}
-				}
-			}
-			// we have the external angles of first polygon and internal
-			// angles of second polygon
-			else if (((GeoAngle) anglesPoly1[0]).getDouble() >= Math.PI
-					&& ((GeoAngle) anglesPoly2[0]).getDouble() < Math.PI) {
-				for (int i = 0; i < anglesPoly1.length; i++) {
-					double d1 = 2 * Math.PI
-							- ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = ((GeoAngle) anglesPoly2[i]).getDouble();
-					if (!DoubleUtil.isEqual(d1, d2)) {
-						return false;
-					}
-				}
-			}
-			// we have the internal angles
-			else {
-				for (int i = 0; i < anglesPoly1.length; i++) {
-					if (!ExpressionNode.isEqual(anglesPoly1[i], anglesPoly2[i])) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		// check if segmentsPoly2 is the mirror of segmentsPoly1
-		for (int i = segmentsPoly1.length - 1; i >= 0; i--) {
-			if (!ExpressionNode.isEqual(segmentsPoly2[segmentsPoly2.length - i - 1],
-					segmentsPoly1[i])) {
-				leftDirection = false;
-				break;
-			}
-		}
-		// the angles must be checked in same direction
-		if (leftDirection) {
-			if (((GeoAngle) anglesPoly1[0]).getDouble() >= Math.PI
-					&& ((GeoAngle) anglesPoly2[0]).getDouble() >= Math.PI) {
-				for (int i = anglesPoly2.length - 1; i >= 0; i--) {
-					double d1 = 360 * Math.PI / 180
-							- ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = 360 * Math.PI / 180
-							- ((GeoAngle) anglesPoly2[anglesPoly2.length - i
-									- 1]).getDouble();
-					if (!DoubleUtil.isEqual(d1, d2)) {
-						return false;
-					}
-				}
-			}
-			// case we have the internal angles
-			else if (((GeoAngle) anglesPoly1[0]).getDouble() < Math.PI
-					&& ((GeoAngle) anglesPoly2[0]).getDouble() >= Math.PI) {
-				for (int i = anglesPoly2.length - 1; i >= 0; i--) {
-					double d1 = ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = 360 * Math.PI / 180
-							- ((GeoAngle) anglesPoly2[anglesPoly2.length - i
-									- 1]).getDouble();
-					if (!DoubleUtil.isEqual(d1, d2)) {
-						return false;
-					}
-				}
-			}
-			// case we have the external angles
-			else if (((GeoAngle) anglesPoly1[0]).getDouble() >= Math.PI
-					&& ((GeoAngle) anglesPoly2[0]).getDouble() < Math.PI) {
-				for (int i = anglesPoly2.length - 1; i >= 0; i--) {
-					double d1 = 360 * Math.PI / 180
-							- ((GeoAngle) anglesPoly1[i]).getDouble();
-					double d2 = ((GeoAngle) anglesPoly2[anglesPoly2.length - i
-							- 1]).getDouble();
-					if (!DoubleUtil.isEqual(d1, d2)) {
-						return false;
-					}
-				}
-			} else {
-				for (int i = segmentsPoly1.length - 1; i >= 0; i--) {
-					if (!ExpressionNode.isEqual(anglesPoly2[anglesPoly2.length - i - 1],
-							anglesPoly1[i])) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
 		setEuclidianVisible(visible, true);
-
 	}
 
 	/**

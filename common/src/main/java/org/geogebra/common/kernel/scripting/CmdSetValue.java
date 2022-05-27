@@ -166,9 +166,10 @@ public class CmdSetValue extends CmdScripting {
 	public static void setValue2(GeoElement arg0, GeoElement arg1) {
 		if (arg0.isGeoList() && arg1.isNumberValue()
 				&& !Double.isNaN(arg1.evaluateDouble())) {
-			((GeoList) arg0).setSelectedIndex(
-					(int) Math.round(arg1.evaluateDouble()) - 1, true);
-
+			int selectIdx = (int) Math.round(arg1.evaluateDouble()) - 1;
+			if (((GeoList) arg0).getSelectedIndex() != selectIdx) {
+				((GeoList) arg0).setSelectedIndex(selectIdx, true);
+			}
 		} else if (arg0.isIndependent() || arg0.isMoveable()) {
 			setValueIndependent(arg0, arg1);
 		} else if (arg0.getParentAlgorithm() instanceof SetRandomValue) {
