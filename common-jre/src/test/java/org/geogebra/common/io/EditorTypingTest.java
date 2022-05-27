@@ -63,8 +63,8 @@ public class EditorTypingTest {
 	@Test
 	public void unicodeShouldMerge() {
 		checker.type("\uD835\uDC65"
-				+ "\uD83D\uDD96\uD83C\uDFFD"
-				+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
+						+ "\uD83D\uDD96\uD83C\uDFFD"
+						+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
 				.checkLength(3);
 	}
 
@@ -739,5 +739,14 @@ public class EditorTypingTest {
 				.left(6)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("1 + NSolve()");
+	}
+
+	@Test
+	public void testBackspaceLeavesIndexUnchanged() {
+		checker.type("x^3/2")
+				.left(5)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("y")
+				.checkAsciiMath("y^(((3)/(2)))");
 	}
 }

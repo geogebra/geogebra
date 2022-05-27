@@ -95,6 +95,9 @@ public class RemoveContainer {
 			currentOffset -= 1;
 			components.add(character);
 		}
+		if (components.isEmpty()) {
+			return;
+		}
 		MathSequence name = mathFunction.getArgument(0);
 		for (MathCharacter character : components) {
 			name.addArgument(0, character);
