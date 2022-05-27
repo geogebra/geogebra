@@ -295,7 +295,6 @@ public class ToolbarPanel extends FlowPanel
 		if (app.getConfig().hasDistributionView()) {
 			table = new StickyProbabilityTable();
 			tabDist = new DistributionTab(this, table);
-			app.getKernel().detach(app.getGuiManager().getTableValuesView());
 			addTab(tabDist, false);
 		} else {
 			tabDist = null;
