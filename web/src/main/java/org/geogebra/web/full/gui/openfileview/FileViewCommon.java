@@ -32,19 +32,20 @@ public class FileViewCommon extends AnimatingPanel {
 	/**
 	 * @param app the application
 	 * @param title the header title key.
+	 * @param withSearch true if searchbar should be added to header
 	 */
-	public FileViewCommon(AppW app, String title) {
+	public FileViewCommon(AppW app, String title, boolean withSearch) {
 		loc = app.getLocalization();
 		this.app = app;
 		this.title = title;
 		setAnimator(new SettingsAnimator(app.getAppletFrame(), this));
-		initGUI();
+		initGUI(withSearch);
 	}
 
-	private void initGUI() {
+	private void initGUI(boolean withSearch) {
 		this.setStyleName("openFileView");
 		addStyleName("panelFadeIn");
-		initHeader();
+		initHeader(withSearch);
 		initContentPanel();
 		initMaterialPanel();
 		setLabels();
@@ -55,7 +56,7 @@ public class FileViewCommon extends AnimatingPanel {
 		materialPanel.addStyleName("materialPanel");
 	}
 
-	private void initHeader() {
+	private void initHeader(boolean withSearch) {
 		headerView = new HeaderView();
 		headerView.setCaption(title);
 		StandardButton backButton = headerView.getBackButton();
@@ -64,7 +65,9 @@ public class FileViewCommon extends AnimatingPanel {
 			CSSEvents.runOnAnimation(this::close, getElement(), getAnimateOutStyle());
 		});
 
-		addSearchBar();
+		if (withSearch) {
+			addSearchBar();
+		}
 		this.setHeaderWidget(headerView);
 	}
 
@@ -130,7 +133,9 @@ public class FileViewCommon extends AnimatingPanel {
 		boolean smallScreen = app.getAppletFrame()
 				.hasSmallWindowOrCompactHeader();
 		headerView.resizeTo(smallScreen);
-		Dom.toggleClass(searchBar, "compact", smallScreen);
+		if (searchBar != null) {
+			Dom.toggleClass(searchBar, "compact", smallScreen);
+		}
 	}
 
 	/**

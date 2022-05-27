@@ -23,7 +23,7 @@ public class OpenFileView extends HeaderFileView
 	public OpenFileView(AppW app, BrowserDevice.FileOpenButton openFileButton) {
 		this.app = app;
 		this.openFileBtn = openFileButton;
-		common = new FileViewCommon(app, "Open");
+		common = new FileViewCommon(app, "Open", true);
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}

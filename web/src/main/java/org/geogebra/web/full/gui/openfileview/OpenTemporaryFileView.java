@@ -21,14 +21,12 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	private final AppW app;
 
 	/**
-	 * @param app
-	 *            application
-	 *
+	 * @param app - application
 	 */
 	public OpenTemporaryFileView(AppW app) {
 		this.app = app;
 		app.registerOpenFileListener(this);
-		common = new FileViewCommon(app, "Open");
+		common = new FileViewCommon(app, "Open", false);
 		common.addStyleName("examTemporaryFiles");
 		tempStorage = app.getExam().getTempStorage();
 	}
