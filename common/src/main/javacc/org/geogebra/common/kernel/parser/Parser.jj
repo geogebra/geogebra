@@ -373,7 +373,7 @@ TOKEN :  {
   | < ANGLE_SECONDS:   ( "\u2033" | "\u2032\u2032" | "''") >
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
-  | < DERIVATIVE: ("'" | "\u2019" | "\u2018") >
+  | < DERIVATIVE: ("'" | "\u2018" | "\u2019" | "‘" | "’") >
   | < TRUE:     ( "true" | "True" ) >
   | < FALSE:    ( "false" | "False" ) >
   | < DECIMAL_POINT:    ( "." | "\u066b" ) > // Arabic decimal point
@@ -423,7 +423,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" )*))>
+    <LETTER> ( <LETTER> | <DIGIT> | "'" | "‘" | "’" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" | "‘" | "’")*))>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
