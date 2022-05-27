@@ -790,19 +790,27 @@
 		display: inline-flex;
 		height: 44px;
 		width: 100%;
+		max-width: 720px;
 		background-color: #f5f5f5;
-		margin: 10px 32px;
-		border-radius: 24px;
+		margin: 10px auto;
+		box-sizing: border-box;
+		border-radius: 22px;
+		border: 2px solid transparent;
 
 		.flatButtonHeader {
-			margin: 4px;
+			margin: auto 2px;
+
+			&:hover img {
+				opacity: 1;
+			}
 		}
 
 		.searchInputField {
 			width: 100%;
+			margin-right: 10px;
 
 			.TextField {
-				margin: 12px 0 12px 14px;
+				margin: 10px 0 10px 14px;
 				padding: 0px;
 				width: calc(100% - 14px) !important;
 				border: none;
@@ -810,11 +818,34 @@
 				background-color: transparent;
 				height: 20px;
 				display: flex;
+				color: colors.$text-primary;
 			}
 
 			input[type=text]:focus:not([readonly]) {
 				border: none;
 			}
+		}
+
+		&.focusState {
+			border-sizing: box;
+			border: solid 2px colors.$mow_dark;
+			background-color: white;
+		}
+	}
+
+	.searchBar.compact {
+		max-width: 488px;
+		height: 36px;
+		margin: 6px 0;
+
+		.flatButtonHeader {
+			height: 32px;
+			padding: 4px;
+			margin: 0px;
+		}
+
+		.TextField {
+			margin: 6px 0 6px 14px;
 		}
 	}
 }

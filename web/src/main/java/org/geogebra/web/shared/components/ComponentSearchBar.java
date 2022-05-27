@@ -25,9 +25,32 @@ public class ComponentSearchBar extends FlowPanel {
 				"placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
 		inputTextField.addStyleName("searchInputField");
 		add(inputTextField);
+		addFocusBlurHandlers();
 
 		addClearButton();
 	}
+
+	private void addFocusBlurHandlers() {
+		inputTextField.getTextComponent().getTextBox()
+				.addFocusHandler(event -> setFocusState());
+		inputTextField.getTextComponent().getTextBox()
+				.addBlurHandler(event -> resetInputField());
+	}
+
+	/**
+	 * sets the style of InputPanel to focus state
+	 */
+	protected void setFocusState() {
+		addStyleName("focusState");
+	}
+
+	/**
+	 * Resets input style on blur
+	 */
+	public void resetInputField() {
+		removeStyleName("focusState");
+	}
+
 
 	private void addClearButton() {
 		StandardButton clearButton = new StandardButton(

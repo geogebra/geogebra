@@ -44,6 +44,7 @@ $button_hover_transition: background-color 0.15s;
         	vertical-align: middle;
         	color: colors.$text-primary;
         	letter-spacing: 0.25px;
+        	margin-right: 32px;
         }
         > .headerCaption:first-child {
             margin-left: 16px;
@@ -57,7 +58,7 @@ $button_hover_transition: background-color 0.15s;
             margin: auto 4px;
         }
         .headerCaption {
-            margin: 0px;
+            margin: 0 8px 0 0;
         }
     }
 

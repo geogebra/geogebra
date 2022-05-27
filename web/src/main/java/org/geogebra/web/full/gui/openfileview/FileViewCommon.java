@@ -3,10 +3,12 @@ package org.geogebra.web.full.gui.openfileview;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
@@ -19,6 +21,7 @@ public class FileViewCommon extends AnimatingPanel {
 	private final String title;
 	// header
 	private HeaderView headerView;
+	private ComponentSearchBar searchBar;
 
 	// content panel
 	private FlowPanel contentPanel;
@@ -61,7 +64,13 @@ public class FileViewCommon extends AnimatingPanel {
 			CSSEvents.runOnAnimation(this::close, getElement(), getAnimateOutStyle());
 		});
 
+		addSearchBar();
 		this.setHeaderWidget(headerView);
+	}
+
+	private void addSearchBar() {
+		searchBar = new ComponentSearchBar(app);
+		getHeader().add(searchBar);
 	}
 
 	private void initContentPanel() {
@@ -121,6 +130,7 @@ public class FileViewCommon extends AnimatingPanel {
 		boolean smallScreen = app.getAppletFrame()
 				.hasSmallWindowOrCompactHeader();
 		headerView.resizeTo(smallScreen);
+		Dom.toggleClass(searchBar, "compact", smallScreen);
 	}
 
 	/**
