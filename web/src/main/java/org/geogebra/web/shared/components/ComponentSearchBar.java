@@ -11,6 +11,9 @@ public class ComponentSearchBar extends FlowPanel {
 	private final AppW app;
 	private InputPanelW inputTextField;
 
+	/**
+	 * @param app - application
+	 */
 	public ComponentSearchBar(AppW app) {
 		this.app = app;
 		addStyleName("searchBar");
@@ -50,7 +53,6 @@ public class ComponentSearchBar extends FlowPanel {
 	public void resetInputField() {
 		removeStyleName("focusState");
 	}
-
 
 	private void addClearButton() {
 		StandardButton clearButton = new StandardButton(
