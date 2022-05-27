@@ -15,6 +15,12 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	private final DiscreteSpace space;
 	private List<IntervalTupleList> results = new ArrayList<>();
 
+	/**
+	 *
+	 * @param function to sample.
+	 * @param range (x, y) range to sample on.
+	 * @param evBounds {@link EuclidianViewBounds}
+	 */
 	public IfFunctionSampler(GeoFunction function, IntervalTuple range,
 			EuclidianViewBounds evBounds) {
 		this.function = function;
@@ -24,14 +30,10 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 		space = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
 	}
 
-	private void extractConditions(GeoFunction function) {
-		samplers.process(function);
-	}
-
 	@Override
 	public IntervalTupleList result() {
 		results = results();
-		return results.isEmpty() ? IntervalTupleList.emptyList(): results().get(0);
+		return results.isEmpty() ? IntervalTupleList.emptyList() : results().get(0);
 	}
 
 	@Override
@@ -43,13 +45,13 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public IntervalTupleList evaluateOn(Interval x) {
-		return evaluateOn(x.getLow(), x.getHigh());
+	public IntervalTupleList evaluate(Interval x) {
+		return evaluate(x.getLow(), x.getHigh());
 	}
 
 	@Override
-	public IntervalTupleList evaluateOn(double low, double high) {
-		return samplers.evaluateBetween(low, high);
+	public IntervalTupleList evaluate(double low, double high) {
+		return samplers.evaluate(low, high);
 	}
 
 	@Override
@@ -60,11 +62,12 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	@Override
 	public IntervalTupleList extendDomain(double min, double max) {
 		setInterval(min, max);
-		return evaluateOnSpace(space);
+		return evaluate(space);
 	}
 
-	private IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
-		return samplers.evaluateOnSpace(space);
+	@Override
+	public IntervalTupleList evaluate(DiscreteSpace space) {
+		return samplers.evaluate(space);
 	}
 
 	@Override

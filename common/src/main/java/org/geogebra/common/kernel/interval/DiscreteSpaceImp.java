@@ -24,6 +24,7 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	public DiscreteSpaceImp() {
 		// nothing to do
 	}
+
 	public DiscreteSpaceImp(Interval interval, int count) {
 		update(interval, count);
 	}

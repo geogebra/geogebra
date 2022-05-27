@@ -51,7 +51,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList result() {
-		return evaluateOnSpace(space);
+		return evaluate(space);
 	}
 
 	@Override
@@ -60,17 +60,18 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public IntervalTupleList evaluateOn(Interval x) {
-		return evaluateOn(x.getLow(), x.getHigh());
+	public IntervalTupleList evaluate(Interval x) {
+		return evaluate(x.getLow(), x.getHigh());
 	}
 
 	@Override
-	public IntervalTupleList evaluateOn(double low, double high) {
+	public IntervalTupleList evaluate(double low, double high) {
 		DiscreteSpaceImp diffSpace = new DiscreteSpaceImp(low, high, space.getStep());
-		return evaluateOnSpace(diffSpace);
+		return evaluate(diffSpace);
 	}
 
-	private IntervalTupleList evaluateOnSpace(DiscreteSpace space) {
+	@Override
+	public IntervalTupleList evaluate(DiscreteSpace space) {
 		IntervalTupleList samples = new IntervalTupleList();
 		evaluateOnEach(space, samples);
 		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
@@ -108,7 +109,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	@Override
 	public IntervalTupleList extendDomain(double min, double max) {
 		setInterval(min, max);
-		return evaluateOnSpace(space);
+		return evaluate(space);
 	}
 
 	/**

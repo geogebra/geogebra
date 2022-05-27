@@ -15,7 +15,7 @@ public class ConditionalSamplerListTest extends BaseUnitTest {
 		GeoFunction function = add("if(x < 2, 1, x < 3, 3)");
 		ConditionalSamplerList samplers = new ConditionalSamplerList(function,
 				interval(-10, 10), 100);
-		allEquals(1, samplers.evaluateBetween(-10, 2));
-		allEquals(2, samplers.evaluateBetween(2, 3));
+		allEquals(1, samplers.evaluate(-10, 2));
+		allEquals(2, samplers.evaluate(2, 3));
 	}
 }

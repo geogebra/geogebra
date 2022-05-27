@@ -50,6 +50,7 @@ import org.geogebra.common.util.debug.Log;
 
 	private static final List<IntervalEvaluator> evaluators
 			= Arrays.asList(new IntervalPowerEvaluator());
+
 	/**
 	 * Constructor
 	 *
@@ -90,7 +91,6 @@ import org.geogebra.common.util.debug.Log;
 				return evaluator.evaluate(x);
 			}
 		}
-
 
 		if (!node.containsFreeFunctionVariable(null)) {
 			return evaluateDouble(ev);
@@ -224,11 +224,10 @@ import org.geogebra.common.util.debug.Log;
 	}
 
 	private static boolean isIfListSupported(ExpressionNode node) {
-		MyList conditions = (MyList) node.getLeft();
 		MyList conditionBodies = (MyList) node.getRight();
 		for (int i = 0; i < conditionBodies.size(); i++) {
 			ExpressionValue body = conditionBodies.getItem(i);
-			if(!isOperationSupported(body.wrap())) {
+			if (!isOperationSupported(body.wrap())) {
 				return false;
 			}
 		}

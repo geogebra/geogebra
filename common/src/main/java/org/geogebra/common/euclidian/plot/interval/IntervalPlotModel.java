@@ -70,7 +70,7 @@ public class IntervalPlotModel {
 			IntervalTupleList newPoints = results.get(i);
 			newPoints.setPiece(i);
 			points.append(newPoints);
-		};
+		}
 	}
 
 	public boolean isEmpty() {
@@ -107,7 +107,7 @@ public class IntervalPlotModel {
 			return;
 		}
 
-		IntervalTupleList newPoints = sampler.evaluateOn(bounds.getXmin(),
+		IntervalTupleList newPoints = sampler.evaluate(bounds.getXmin(),
 				points.get(0).x().getLow());
 		points.prepend(newPoints);
 		points.cutFrom(bounds.getXmax());
@@ -118,7 +118,7 @@ public class IntervalPlotModel {
 			return;
 		}
 
-		IntervalTupleList newPoints = sampler.evaluateOn(
+		IntervalTupleList newPoints = sampler.evaluate(
 				points.get(points.count() - 1).x().getHigh(),
 				bounds.getXmax());
 		points.append(newPoints);
