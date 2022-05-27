@@ -140,7 +140,7 @@ public class BrowserDevice implements GDevice {
 			return openFileView;
 		}
 
-		FileOpenButton mb = new FileOpenButton();
+		FileOpenButton mb = new FileOpenButton("containedButton");
 		BrowseViewI openFileView = new OpenFileView(app, mb);
 		mb.setOpenFileView(openFileView);
 		return openFileView;

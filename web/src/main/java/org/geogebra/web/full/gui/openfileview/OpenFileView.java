@@ -4,10 +4,15 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
+
+import com.google.gwt.user.client.ui.FlowPanel;
+
+import elemental2.dom.File;
 
 public class OpenFileView extends HeaderFileView
 		implements OpenFileListener, EventRenderable {
@@ -33,12 +38,32 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void initGUI() {
-		// fill
+		initButtonPanel();
+	}
+
+	private void initButtonPanel() {
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("fileViewButtonPanel");
+
+		openFileBtn.setImageAndText(
+				MaterialDesignResources.INSTANCE.open_local_file()
+						.getSafeUri().asString(),
+				app.getLocalization().getMenu("OpenFileView.LocalFile"));
+		openFileBtn.setAcceptedFileType(".ggb");
+		buttonPanel.add(openFileBtn);
+
+		common.addToContent(buttonPanel);
 	}
 
 	@Override
 	public boolean onOpenFile() {
 		return false;
+	}
+
+	@Override
+	public void openFile(final File fileToHandle) {
+		app.openFile(fileToHandle);
+		close();
 	}
 
 	@Override
