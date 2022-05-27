@@ -2040,7 +2040,7 @@ public abstract class ProbabilityCalculatorView
 	 * @param resultPanel - panel of results
 	 */
 	public void updateProbabilityType(ResultPanel resultPanel) {
-		if (isIniting) {
+		if (isIniting || parameters == null) {
 			return;
 		}
 

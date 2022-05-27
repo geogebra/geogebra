@@ -242,7 +242,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 					.setText(getParamLabel(i));
 		}
 		modeGroup.setLabels();
-		resultPanel.setLabels();
+		view.updateProbabilityType(resultPanel);
 	}
 
 	public int getModeGroupValue() {

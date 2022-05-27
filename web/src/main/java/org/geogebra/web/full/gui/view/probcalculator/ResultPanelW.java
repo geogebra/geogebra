@@ -6,29 +6,27 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel to edit and display probability bounds and results
  */
 public class ResultPanelW extends FlowPanel implements ResultPanel {
-	Label lblProb;
-	Label lblProbOf;
-	private Label lblBetween;
-	private Label lblEndProbOf;
-	private Label lblEquals;
-	private Label lblPlus;
+
+	private String lblEquals;
+	private String lblPlus;
 	private Label lblTwoTailedResult;
 	private Label lblResultSum;
 	private MathTextFieldW fldLow;
 	private MathTextFieldW fldResult;
+	private Label lblResult;
 	private MathTextFieldW fldHigh;
 	private final Localization loc;
 	private final InsertHandler insertHandler;
 	private final App app;
-	private Label lblXGreater;
-	private Label lblXSign;
+	private String lblXGreater;
+	private String lblXSign;
 
 	/**
 	 * Constructor
@@ -45,18 +43,15 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 
 	private void initGUI() {
 		addStyleName("resultPanel");
-		lblProb = new Label();
-		lblProbOf = new Label();
-		lblBetween = new Label();
-		lblEndProbOf = new Label();
 		lblResultSum = new Label();
 		lblTwoTailedResult = new Label();
-		lblEquals = new Label(" = ");
-		lblPlus = new Label(" + ");
-		lblXGreater = new Label("X >");
+		lblEquals = " = ";
+		lblPlus = " + ";
+		lblXGreater = "X >";
 		fldLow = createField(80);
 		fldHigh = createField(80);
 		fldResult = createField(96);
+		lblResult = new Label();
 	}
 
 	private MathTextFieldW createField(int width) {
@@ -78,13 +73,12 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	@Override
 	public void showInterval() {
 		clear();
-		add(lblProbOf);
-		add(fldLow);
-		add(lblBetween);
-		add(fldHigh);
-		add(lblEndProbOf);
-		add(fldResult);
-		lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN);
+		add(new Label(loc.getMenu("ProbabilityOf")));
+		add(wrapInFocusHolder(fldLow));
+		add(new Label(SpreadsheetViewInterface.X_BETWEEN));
+		add(wrapInFocusHolder(fldHigh));
+		add(new Label(loc.getMenu("EndProbabilityOf") + " = "));
+		add(lblResult);
 	}
 
 	@Override
@@ -92,15 +86,13 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 		showTwoTailed(greaterThanEqual());
 	}
 
-	private void showTwoTailed(Label greaterSign) {
+	private void showTwoTailed(String greaterSign) {
 		clear();
 		lblXSign = greaterSign;
-		wrapProbabilityOf(xLessThanEqual(), fldLow.asWidget());
-		add(lblPlus);
-		wrapProbabilityOf(lblXSign, fldHigh.asWidget());
+		wrapProbabilityOf(xLessThanEqual(), fldLow, "", lblPlus);
+		wrapProbabilityOf(lblXSign, fldHigh, "", lblEquals);
 		add(lblTwoTailedResult);
-		add(lblEquals);
-		add(fldResult);
+		add(lblResult);
 	}
 
 	@Override
@@ -111,47 +103,43 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	@Override
 	public void showLeft() {
 		clear();
-		wrapProbabilityOf(xLessThanEqual(), fldHigh.asWidget());
-		add(lblEquals);
-		add(fldResult);
+		wrapProbabilityOf(xLessThanEqual(), fldHigh, "", lblEquals);
+		add(wrapInFocusHolder(fldResult));
 	}
 
-	private Widget xLessThanEqual() {
-		return new Label(loc.getMenu("XLessThanOrEqual"));
+	private String xLessThanEqual() {
+		return loc.getMenu("XLessThanOrEqual");
 	}
 
 	@Override
 	public void showRight() {
 		clear();
-		wrapProbabilityOf(fldLow.asWidget(), lessThanEqual());
-		add(lblEquals);
-		add(fldResult);
+		wrapProbabilityOf("", fldLow, lessThanEqual(), lblEquals);
+		add(wrapInFocusHolder(fldResult));
 	}
 
-	private Widget lessThanEqual() {
-		return new Label(SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X);
+	private String lessThanEqual() {
+		return SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X;
 	}
 
-	private Label greaterThanEqual() {
-		return new Label(SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X);
+	private String greaterThanEqual() {
+		return SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
 	}
 
-	private void wrapProbabilityOf(Widget... widgets) {
-		Label begin = new Label(loc.getMenu("ProbabilityOf"));
-		Label end = new Label(loc.getMenu("EndProbabilityOf"));
+	private void wrapProbabilityOf(String before, MathTextFieldW widget,
+			String after, String sign) {
+		Label begin = new Label(loc.getMenu("ProbabilityOf") + " " + before);
+		Label end = new Label(after + " " + loc.getMenu("EndProbabilityOf") + sign);
 		add(begin);
-		for (Widget widget: widgets) {
-			add(widget);
-		}
+		add(wrapInFocusHolder(widget));
 		add(end);
 	}
 
-	@Override
-	public void setLabels() {
-		lblProb.setText(loc.getMenu("Probability") + ": ");
-
-		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
-		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
+	private IsWidget wrapInFocusHolder(MathTextFieldW widget) {
+		FlowPanel holder = new FlowPanel();
+		holder.setStyleName("holder");
+		holder.add(widget);
+		return holder;
 	}
 
 	@Override
@@ -162,6 +150,7 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	@Override
 	public void updateResult(String text) {
 		fldResult.setText(text);
+		lblResult.setText(text);
 	}
 
 	@Override
@@ -177,7 +166,7 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 
 	@Override
 	public void updateTwoTailedResult(String low, String high) {
-		lblTwoTailedResult.setText("= " + low + " + " + high);
+		lblTwoTailedResult.setText(low + " + " + high + " =");
 	}
 
 	@Override
@@ -197,11 +186,11 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 
 	@Override
 	public void setGreaterThan() {
-		lblXSign.setText("X >");
+		lblXSign = "X >";
 	}
 
 	@Override
 	public void setGreaterOrEqualThan() {
-		lblXSign.setText(SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X);
+		lblXSign = SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
 	}
 }

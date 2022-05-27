@@ -31,6 +31,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		add(intervalsLbl);
 		buildModeGroupWithResult();
 		super.buildParameterPanel(this);
+		add(resultPanel);
 	}
 
 	@Override
