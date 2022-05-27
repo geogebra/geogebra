@@ -564,18 +564,10 @@ public class DrawConicSection extends DrawConic {
 		} else {
 			hyp.addPoint(index, -x, y);
 		}
-
 	}
 
 	@Override
-	protected void updateHyperboalSetTransformToPaths() {
-
-		hyp.transform(transform);
-	}
-
-	@Override
-	protected void updateHyperbolaClosePaths() {
-
+	protected void updateHyperbolaClosePaths(double x, double y) {
 		hyp.closePath();
 	}
 

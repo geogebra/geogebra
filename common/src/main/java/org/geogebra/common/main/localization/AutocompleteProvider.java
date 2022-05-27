@@ -5,11 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.debug.Log;
 
 public class AutocompleteProvider {
@@ -63,7 +65,7 @@ public class AutocompleteProvider {
 			cmdInt = app.englishToInternal(cmd);
 		}
 		String syntaxString;
-		if (forCAS) {
+		if (isCas()) {
 			syntaxString = app.getLocalization()
 					.getCommandSyntaxCAS(cmdInt);
 		} else {
@@ -112,7 +114,7 @@ public class AutocompleteProvider {
 				.map(function -> new Completion(function.split("\\(")[0],
 						Collections.singletonList(function), App.WIKI_OPERATORS,
 						GuiManagerInterface.Help.GENERIC));
-		List<String> cmdDict = app.getCommandDictionary()
+		List<String> cmdDict = getDictionary()
 				.getCompletions(curWord.toLowerCase());
 		if (cmdDict != null) {
 			Stream<Completion> commands = cmdDict.stream()
@@ -121,6 +123,14 @@ public class AutocompleteProvider {
 			completions = Stream.concat(completions, commands);
 		}
 		return completions.filter(completion -> !completion.syntaxes.isEmpty());
+	}
+
+	private boolean isCas() {
+		return forCAS || app.getConfig().getVersion() == GeoGebraConstants.Version.CAS;
+	}
+
+	private LowerCaseDictionary getDictionary() {
+		return isCas() ? app.getCommandDictionaryCAS() : app.getCommandDictionary();
 	}
 
 	public static class Completion {

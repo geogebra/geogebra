@@ -6,18 +6,18 @@ import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
+import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.ImageResourceConverter;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.File;
 import elemental2.dom.HTMLInputElement;
 import jsinterop.base.Js;
@@ -157,10 +157,10 @@ public class BrowserDevice implements GDevice {
 				|| height0 > Browser.getScreenHeight()) {
 			int width = Browser.getScreenWidth();
 			int height = Browser.getScreenHeight();
-			Window.moveTo(0, 0);
-			Window.resizeTo(width, height);
+			DomGlobal.window.moveTo(0, 0);
+			DomGlobal.window.resizeTo(width, height);
 		} else {
-			Window.resizeTo(width0, height0);
+			DomGlobal.window.resizeTo(width0, height0);
 		}
 
 	}

@@ -7,6 +7,7 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.resources.StyleInjector;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.LinkElement;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -20,11 +21,12 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 	protected void injectResourcesGUI(AppletParameters parameters) {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
-		StyleInjector.inject("css/bundles", "simple-bundle");
-		StyleInjector.inject("css/bundles", "bundle");
-		StyleInjector.inject("css", "keyboard-styles");
-		StyleInjector.inject("css", "fonts");
-		StyleInjector.inject("css", "greek-font");
+		new StyleInjector(GWT.getModuleBaseURL())
+				.inject("css/bundles", "simple-bundle")
+				.inject("css/bundles", "bundle")
+				.inject("css", "keyboard-styles")
+				.inject("css", "fonts")
+				.inject("css", "greek-font");
 	}
 
 	@Override

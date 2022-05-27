@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsConsumer;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -20,7 +22,6 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.resources.StyleInjector;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -31,7 +32,6 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -73,7 +73,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
 	 */
-	private JavaScriptObject onLoadCallback = null;
+	private JsConsumer<Object> onLoadCallback = null;
 
 	private GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
 		super(mainTag ? "main" : DivElement.TAG);
@@ -238,7 +238,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private static boolean hasSmallWindow() {
-		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
+		return NavigatorUtil.getWindowWidth() < 600 || NavigatorUtil.getWindowHeight() < 600;
 	}
 
 	public boolean hasCompactNavigationRail() {
@@ -270,7 +270,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (appletParameters.getDataParamFitToScreen()) {
 			Element focusBefore = Dom.getActiveElement();
 			updateHeaderSize();
-			app.getGgbApi().setSize(Window.getClientWidth(), computeHeight());
+			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(), computeHeight());
 			if (focusBefore != null) {
 				focusBefore.focus();
 			}
@@ -336,18 +336,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			else {
 				margin = appletParameters.getDataParamMarginTop();
 			}
-			height = Window.getClientHeight() - margin;
+			height = NavigatorUtil.getWindowHeight() - margin;
 		}
 
 		return Math.max(height, 0);
 	}
 
 	@Override
-	public JavaScriptObject getOnLoadCallback() {
+	public JsConsumer<Object> getOnLoadCallback() {
 		return onLoadCallback;
 	}
 
-	public void setOnLoadCallback(JavaScriptObject onLoadCallback) {
+	public void setOnLoadCallback(JsConsumer<Object> onLoadCallback) {
 		this.onLoadCallback = onLoadCallback;
 	}
 
@@ -646,7 +646,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            load callback
 	 */
 	public void renderArticleElementWithFrame(GeoGebraElement element,
-			JavaScriptObject onLoadCallback) {
+			JsConsumer<Object> onLoadCallback) {
 		element.clear();
 		element.initID(0);
 		if (Log.getLogger() == null) {

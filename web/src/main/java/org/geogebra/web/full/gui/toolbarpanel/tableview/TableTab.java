@@ -3,9 +3,9 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.CustomScrollbar;
 import org.geogebra.web.html5.util.TestHarness;
 
 /**

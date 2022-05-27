@@ -122,8 +122,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			mainPanel = new FlowPanel();
 			if (gridOptions) {
 				cbShowGrid = new ComponentCheckbox(app.getLocalization(), true, "ShowGrid",
-				() -> {
-					enableGrid(cbShowGrid.isSelected());
+				selected -> {
+					enableGrid(selected);
 					app.storeUndoInfo();
 				});
 
@@ -258,8 +258,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// tick intervals
 
 			cbGridManualTick = new ComponentCheckbox(app.getLocalization(), false, "TickDistance",
-				() -> {
-					model.applyGridManualTick(cbGridManualTick.isSelected());
+				selected -> {
+					model.applyGridManualTick(selected);
 					updateView();
 				});
 			ncbGridTickX = new NumberListBox(app) {
@@ -424,11 +424,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			});
 			// bold
 			cbBoldGrid = new ComponentCheckbox(app.getLocalization(), false, "Bold",
-					() -> {
+					selected -> {
 						if (gridOptions) {
-							model.applyBoldGrid(cbBoldGrid.isSelected());
+							model.applyBoldGrid(selected);
 						} else {
-							model.applyBoldRuler(cbBoldGrid.isSelected());
+							model.applyBoldRuler(selected);
 						}
 						updateView();
 				});

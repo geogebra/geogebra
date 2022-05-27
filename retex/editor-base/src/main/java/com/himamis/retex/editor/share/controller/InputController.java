@@ -31,7 +31,6 @@ public class InputController {
 	private static final List<Character> ignoreChars = Arrays.asList('{', '}');
 
 	private final MetaModel metaModel;
-	private final RemoveContainer removeContainer;
 
 	@Weak
 	private MathField mathField;
@@ -45,7 +44,6 @@ public class InputController {
 	 */
 	public InputController(MetaModel metaModel) {
 		this.metaModel = metaModel;
-		removeContainer = new RemoveContainer();
 	}
 
 	public MathField getMathField() {
@@ -842,7 +840,7 @@ public class InputController {
 				deleteSingleArg(editorState);
 			}
 		} else {
-			removeContainer.withBackspace(editorState);
+			RemoveContainer.withBackspace(editorState);
 		}
 	}
 
@@ -873,6 +871,12 @@ public class InputController {
 		if (!editorState.getCurrentField().isArgumentProtected(currentOffset - 1)) {
 			editorState.getCurrentField().delArgument(currentOffset - 1);
 			editorState.decCurrentOffset();
+			MathSequence currentField = editorState.getCurrentField();
+			int offset = editorState.getCurrentOffset();
+			if (currentField.getArgument(offset) instanceof MathFunction) {
+				RemoveContainer.fuseMathFunction(editorState,
+						(MathFunction) currentField.getArgument(offset));
+			}
 		}
 	}
 
@@ -915,7 +919,7 @@ public class InputController {
 				extendBrackets((MathArray) currentField.getParent(),
 						editorState);
 			} else {
-				removeContainer.delContainer(editorState);
+				RemoveContainer.deleteContainer(editorState);
 			}
 		}
 	}
@@ -960,7 +964,7 @@ public class InputController {
 			editorState.decCurrentOffset();
 			if (editorState.getCurrentOffset() < 0
 					|| editorState.getCurrentOffset() >= seq.size()) {
-				removeContainer.withBackspace(editorState);
+				RemoveContainer.withBackspace(editorState);
 				return;
 			}
 			seq.delArgument(editorState.getCurrentOffset());

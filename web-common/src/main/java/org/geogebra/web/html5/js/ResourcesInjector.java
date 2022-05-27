@@ -6,6 +6,8 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.StyleInjector;
 
+import com.google.gwt.core.client.GWT;
+
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
 import elemental2.dom.NodeList;
@@ -47,7 +49,8 @@ public class ResourcesInjector {
 	 * @param parameters applet parameters (for determining vendor)
 	 */
 	protected void injectResourcesGUI(AppletParameters parameters) {
-		StyleInjector.inject("css/bundles", "simple-bundle");
+		new StyleInjector(GWT.getModuleBaseURL())
+				.inject("css/bundles", "simple-bundle");
 	}
 
 	/**

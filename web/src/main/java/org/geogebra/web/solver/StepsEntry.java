@@ -11,6 +11,7 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.simple.Stub3DFragment;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -28,11 +29,12 @@ public class StepsEntry implements EntryPoint {
 
 		parameters.setAttribute("marginTop", "64");
 
-		StyleInjector.inject("css", "solver");
-		StyleInjector.inject("css", "shared");
-		StyleInjector.inject("css", "step-tree");
-		StyleInjector.inject("css", "dialog-styles");
-		StyleInjector.inject("css", "keyboard-styles");
+		new StyleInjector(GWT.getModuleBaseURL())
+				.inject("css", "solver")
+				.inject("css", "shared")
+				.inject("css", "step-tree")
+				.inject("css", "dialog-styles")
+				.inject("css", "keyboard-styles");
 
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());

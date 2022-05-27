@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Locus of points
@@ -387,13 +388,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return true;
 	}
 
-	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type, otherwise use equals() method
-		return false;
-		// TODO?
-		// if (geo.isGeoLocus()) return xxx else return false;
+		return ExtendedBoolean.newExtendedBoolean(this == geo); // TODO?
 	}
 
 	/**

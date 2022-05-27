@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
+import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -11,11 +12,11 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
+import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.StickyTable;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.cell.client.Cell;
@@ -144,7 +145,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private void onHeaderClick(Element source, int column) {
-		contextMenu = new ContextMenuTV(app, this, view,
+		contextMenu = new ContextMenuTV(app, view,
 				view.getEvaluatable(column).toGeoElement(), column);
 		contextMenu.show(source.getAbsoluteLeft(), source.getAbsoluteTop()
 						+ source.getClientHeight() + CONTEXT_MENU_OFFSET);
@@ -218,26 +219,8 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	}
 
 	private Header<SafeHtml> getHeaderFor(int columnIndex) {
-		String headerHTMLName = getHeaderNameHTML(columnIndex);
+		String headerHTMLName = TableUtil.getHeaderHtml(tableModel, columnIndex);
 		return headerCell.getHtmlHeader(headerHTMLName);
-	}
-
-	/**
-	 * returns html string of indexed label
-	 * @param columnIndex index of column
-	 * @return html string of indexed label
-	 */
-	public String getHeaderNameHTML(int columnIndex) {
-		String content = tableModel.getHeaderAt(columnIndex);
-		if (content.contains("_")) {
-			String[] labelParts = content.split("_");
-			if (labelParts.length == 2) {
-				String index = labelParts[1].replaceAll("\\{", "")
-						.replaceAll("\\}", "");
-				return labelParts[0] + "<sub>" + index + "</sub>";
-			}
-		}
-		return content;
 	}
 
 	@Override

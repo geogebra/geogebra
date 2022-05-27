@@ -3,6 +3,7 @@ package org.geogebra.web.full.move.googledrive.operations;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.move.googledrive.api.GoogleApi;
 import org.geogebra.web.full.move.googledrive.api.GoogleAuthorization;
@@ -24,7 +25,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Label;
 
 import elemental2.core.ArrayBuffer;
@@ -347,7 +347,7 @@ public class GoogleDriveOperationW implements GoogleDriveOperation {
 	}
 
 	private void checkIfOpenedFromGoogleDrive() {
-		String state = Location.getParameter("state");
+		String state = NavigatorUtil.getUrlParameter("state");
 		if (state != null && !"".equals(state)) {
 			googleDriveURL = Js.uncheckedCast(Global.JSON.parse(state));
 			if (!this.loggedIn) {

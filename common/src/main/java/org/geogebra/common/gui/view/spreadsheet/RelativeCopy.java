@@ -1142,7 +1142,7 @@ public class RelativeCopy {
 			boolean possibleString = text.startsWith("\"")
 					&& text.endsWith("\"");
 
-			if (!possibleString && !isNumber(text)) {
+			if (text.charAt(0) != '=' && !possibleString && !isNumber(text)) {
 				text = "\"" + text + "\"";
 			}
 		}

@@ -21,7 +21,6 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
@@ -165,12 +164,12 @@ public class ZoomController {
 			Element elem) {
 		double scale = 1;
 		if (app.isUnbundled()) {
-			app.getGgbApi().setSize(Window.getClientWidth(),
-					Window.getClientHeight());
+			app.getGgbApi().setSize(NavigatorUtil.getWindowWidth(),
+					NavigatorUtil.getWindowHeight());
 			Browser.scale(scaler, 1, 0, 0);
 		} else {
-			double xscale = Window.getClientWidth() / app.getWidth();
-			double yscale = Window.getClientHeight() / app.getHeight();
+			double xscale = NavigatorUtil.getWindowWidth() / app.getWidth();
+			double yscale = NavigatorUtil.getWindowHeight() / app.getHeight();
 			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
@@ -179,10 +178,10 @@ public class ZoomController {
 			double marginLeft = 0;
 			double marginTop = 0;
 			if (xscale > yscale) {
-				marginLeft = (Window.getClientWidth() - app.getWidth() * scale)
+				marginLeft = (NavigatorUtil.getWindowWidth() - app.getWidth() * scale)
 						/ 2;
 			} else {
-				marginTop = (Window.getClientHeight() - app.getHeight() * scale)
+				marginTop = (NavigatorUtil.getWindowHeight() - app.getHeight() * scale)
 						/ 2;
 			}
 

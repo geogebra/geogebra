@@ -57,6 +57,7 @@ import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -68,7 +69,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoNumeric extends GeoElement
 		implements GeoNumberValue, AbsoluteScreenLocateable, GeoFunctionable,
 		Animatable, HasExtendedAV, SymbolicParametersBotanaAlgo,
-		HasSymbolicMode, AnimationExportSlider, Evaluate2Var {
+		HasSymbolicMode, AnimationExportSlider, Evaluate2Var, HasAuralText {
 
 	private PVariable[] botanaVars;
 
@@ -453,12 +454,13 @@ public class GeoNumeric extends GeoElement
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoNumeric()) {
-			return DoubleUtil.isEqual(value, ((GeoNumeric) geo).value);
+			return ExtendedBoolean.newExtendedBoolean(DoubleUtil.isEqual(value,
+					((GeoNumeric) geo).value));
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override
@@ -2052,7 +2054,8 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @return the current value as readable, aural text.
 	 */
-	public String getAuralCurrentValue() {
+	@Override
+	public String getAuralText() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 		addAuralSliderValue(sb);
 		return sb.toString().trim();

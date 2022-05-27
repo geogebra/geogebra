@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.resources.ImageResourceConverter;
+import org.geogebra.web.full.gui.util.ImageResourceConverter;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Tree;

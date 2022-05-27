@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
 
 /**
  * Shows license.
@@ -26,7 +26,8 @@ public class ShowLicenseAction extends DefaultMenuAction<Void> {
 							+ app.getVersionString() + "&date="
 							+ GeoGebraConstants.BUILD_DATE, ABOUT_WINDOW_PARAMS);
 		} else {
-			Window.open(GeoGebraConstants.GGB_LICENSE_URL, "_blank", "");
+			DomGlobal.window.open(GeoGebraConstants.GGB_LICENSE_URL,
+					"_blank", "");
 		}
 	}
 }

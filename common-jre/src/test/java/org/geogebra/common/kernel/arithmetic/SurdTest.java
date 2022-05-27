@@ -11,6 +11,11 @@ public class SurdTest extends SymbolicArithmeticTest {
 	}
 
 	@Test
+	public void testOne() {
+		t("sqrt(1)", "1");
+	}
+
+	@Test
 	public void testNegativeNumbers() {
 		t("sqrt(-3)", "?");
 	}

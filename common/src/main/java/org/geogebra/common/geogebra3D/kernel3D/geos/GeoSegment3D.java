@@ -131,17 +131,18 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 */
 
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isGeoSegment()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		GeoSegmentND s = (GeoSegmentND) geo;
 
-		return (getStartInhomCoords().equalsForKernel(s.getStartInhomCoords())
+		boolean ret = (getStartInhomCoords().equalsForKernel(s.getStartInhomCoords())
 				&& getEndInhomCoords().equalsForKernel(s.getEndInhomCoords()))
 				|| (getStartInhomCoords().equalsForKernel(s.getEndInhomCoords())
 						&& getEndInhomCoords()
 								.equalsForKernel(s.getStartInhomCoords()));
+		return ExtendedBoolean.newExtendedBoolean(ret);
 	}
 
 	/**

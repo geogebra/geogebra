@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.inputfield;
+package org.geogebra.web.full.gui.dialog.text;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;

@@ -747,6 +747,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (app.isWhiteboardActive()) {
 					app.setMode(EuclidianConstants.MODE_SELECT_MOW,
 							ModeSetter.DOCK_PANEL);
+				} else {
+					app.setMode(EuclidianConstants.MODE_SELECT,
+							ModeSetter.DOCK_PANEL);
 				}
 				return;
 			}

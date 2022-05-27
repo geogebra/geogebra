@@ -796,6 +796,10 @@ public class CommandsTest {
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
+		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+				+ "Polygon((1,4),(-1,4),(0,0),(2,0),(2,3)))", "true");
+		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+				+ "Polygon((2,3),(2,0),(0,0),(-1,4),(1,4)))", "true");
 	}
 
 	@Test

@@ -667,14 +667,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		return false;
 	}
 
-	// Michael Borcherds 2008-04-30
-	@Override
-	final public boolean isEqual(GeoElementND geo) {
-		// TODO check for equality?
-		return false;
-		// if (geo.isGeoCurveCartesian()) return xxx; else return false;
-	}
-
 	@Override
 	public boolean isFillable() {
 		return true;

@@ -722,4 +722,22 @@ public class EditorTypingTest {
 				.type("]")
 				.checkAsciiMath("(2,[3],3+4)");
 	}
+
+	@Test
+	public void testEditorBackspace() {
+		checker.type("ab cd(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("abcd()");
+
+		checker.type("a b(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("ab()");
+
+		checker.type("1 + N Solve(")
+				.left(6)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("1 + NSolve()");
+	}
 }

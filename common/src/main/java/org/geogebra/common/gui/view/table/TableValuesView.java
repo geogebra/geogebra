@@ -379,7 +379,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	public List<StatisticGroup> getStatistics2Var(int column) {
 		return new StatsBuilder(model.getEvaluatable(0),
 				model.getEvaluatable(column)).getStatistics2Var(model.getHeaderAt(0),
-				model.getHeaderAt(1));
+				model.getHeaderAt(column));
 	}
 
 	@Override

@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.geogebra.common.gui.view.table.RegressionSpecification;
+import org.geogebra.common.gui.view.table.TableUtil;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.common.gui.view.table.dialog.StatsBuilder;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -16,7 +19,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -38,7 +40,6 @@ import com.google.gwt.user.client.Command;
  */
 public class ContextMenuTV {
 	private final TableValuesView view;
-	private final StickyValuesTable stickyValuesTable;
 	/**
 	 * popup for the context menu
 	 */
@@ -55,15 +56,12 @@ public class ContextMenuTV {
 	 *            see {@link AppW}
 	 * @param geo
 	 *            label of geo
-	 * @param stickyValuesTable
-	 *            sticky values table
 	 * @param column
 	 *            index of column
 	 */
-	public ContextMenuTV(AppW app, StickyValuesTable stickyValuesTable, TableValuesView view,
+	public ContextMenuTV(AppW app, TableValuesView view,
 			GeoElement geo, int column) {
 		this.app = app;
-		this.stickyValuesTable = stickyValuesTable;
 		this.view = view;
 		this.columnIdx = column;
 		this.geo = geo;
@@ -91,7 +89,7 @@ public class ContextMenuTV {
 			GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 			addShowHidePoints();
 			if (column instanceof GeoList) {
-				buildYColumnMenu(((GeoList) column).size());
+				buildYColumnMenu();
 			} else {
 				buildFunctionColumnMenu();
 			}
@@ -110,11 +108,12 @@ public class ContextMenuTV {
 		addCommand(view::clearValues, "ClearColumn", "clear");
 	}
 
-	private void buildYColumnMenu(int rows) {
+	private void buildYColumnMenu() {
 		addDelete();
 		wrappedPopup.addVerticalSeparator();
 
-		String headerHTMLName = stickyValuesTable.getHeaderNameHTML(getColumnIdx());
+		String headerHTMLName = TableUtil.getHeaderHtml(view.getTableValuesModel(),
+				getColumnIdx());
 		DialogData oneVarStat = new DialogData("1VariableStatistics",
 				getColumnTitleHTML(headerHTMLName), "Close", null);
 		addStats(getStatisticsTitleHTML(headerHTMLName), view::getStatistics1Var, oneVarStat);
@@ -126,7 +125,7 @@ public class ContextMenuTV {
 
 		DialogData regressionData = new DialogData("Regression",
 				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
-		addCommand(() -> showRegression(regressionData, rows), "Regression",
+		addCommand(() -> showRegression(regressionData), "Regression",
 				"regression");
 	}
 
@@ -155,24 +154,31 @@ public class ContextMenuTV {
 		addCommandLocalized(() -> showStats(statFunction, data), title, "stats");
 	}
 
-	private void showRegression(DialogData data, int rows) {
-		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-		boolean hasError = dialog.addRegressionChooserHasError(rows);
-		if (!hasError) {
-			dialog.show();
-		} else {
-			showErrorDialog(data);
+	private void showRegression(DialogData data) {
+		GeoList[] cleanLists = new StatsBuilder(view.getEvaluatable(0),
+				view.getEvaluatable(columnIdx)).getCleanLists2Var();
+		final List<RegressionSpecification> availableRegressions =
+				RegressionSpecification.getForListSize(cleanLists[0].size());
+		if (availableRegressions.isEmpty()) {
+			showErrorDialog(data, "StatsDialog.NoDataMsgRegression");
+			return;
 		}
+		app.getAsyncManager().scheduleCallback(() -> {
+			List<StatisticGroup> regression = view.getRegression(getColumnIdx(),
+					availableRegressions.get(0));
+			StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
+			dialog.addRegressionChooserHasError(availableRegressions, regression);
+		});
 	}
 
-	private void showErrorDialog(DialogData dialogData) {
+	private void showErrorDialog(DialogData dialogData, String msgKey) {
 		DialogData errorDialogData = new DialogData(dialogData.getTitleTransKey(),
 				dialogData.getSubTitleHTML(), "Close", null);
 		ComponentDialog dialog = new ComponentDialog(app, errorDialogData, true, true);
 		dialog.addStyleName("statistics error");
 		InfoErrorData errorData = new InfoErrorData(app.getLocalization()
 				.getMenu("StatsDialog.NoData"), app.getLocalization()
-				.getMenu("StatsDialog.NoDataMsg"), null);
+				.getMenu(msgKey), null);
 		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				errorData, MaterialDesignResources.INSTANCE.bar_chart_black(), null);
 		dialog.addDialogContent(infoPanel);
@@ -181,8 +187,15 @@ public class ContextMenuTV {
 
 	private void showStats(Function<Integer, List<StatisticGroup>> statFunction,
 			DialogData data) {
-		StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
-		dialog.updateContent(statFunction);
+		app.getAsyncManager().scheduleCallback(() -> {
+			List<StatisticGroup> rowData = statFunction.apply(getColumnIdx());
+			if (!rowData.isEmpty()) {
+				StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
+				dialog.setRowsAndShow(rowData);
+			} else {
+				showErrorDialog(data, "StatsDialog.NoDataMsg2VarStats");
+			}
+		});
 	}
 
 	private void addShowHidePoints() {

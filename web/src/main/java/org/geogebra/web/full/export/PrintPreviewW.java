@@ -11,14 +11,15 @@ import org.geogebra.web.resources.StyleInjector;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCollection;
 
 /**
@@ -44,7 +45,7 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 	}
 
 	private void createGUI() {
-		StyleInjector.inject("css", "print");
+		new StyleInjector(GWT.getModuleBaseURL()).inject("css", "print");
 		// Maybe there is older print panel, because after open pdf in preview
 		// the previous print panel hasn't been removed
 		removePrintPanelFromDOM();
@@ -116,7 +117,7 @@ public class PrintPreviewW extends ComponentDialog implements ChangeHandler {
 				.equals(App.VIEW_EUCLIDIAN2 + ""))) {
 			createPreview(cbView.getSelectedValue());
 		} else {
-			Window.print();
+			DomGlobal.window.print();
 			removePrintPanelFromDOM();
 		}
 	}
