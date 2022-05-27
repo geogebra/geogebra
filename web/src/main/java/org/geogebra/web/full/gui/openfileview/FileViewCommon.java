@@ -1,17 +1,19 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.web.full.gui.HeaderView;
-import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
+import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FileViewCommon extends MyHeaderPanel {
+public class FileViewCommon extends AnimatingPanel {
 
 	private final AppW app;
 	private final String title;
@@ -32,11 +34,13 @@ public class FileViewCommon extends MyHeaderPanel {
 		loc = app.getLocalization();
 		this.app = app;
 		this.title = title;
+		setAnimator(new SettingsAnimator(app.getAppletFrame(), this));
 		initGUI();
 	}
 
 	private void initGUI() {
 		this.setStyleName("openFileView");
+		addStyleName("panelFadeIn");
 		initHeader();
 		initContentPanel();
 		initMaterialPanel();
@@ -52,7 +56,10 @@ public class FileViewCommon extends MyHeaderPanel {
 		headerView = new HeaderView();
 		headerView.setCaption(title);
 		StandardButton backButton = headerView.getBackButton();
-		backButton.addFastClickHandler(source -> close());
+		backButton.addFastClickHandler(source -> {
+			updateAnimateOutStyle();
+			CSSEvents.runOnAnimation(this::close, getElement(), getAnimateOutStyle());
+		});
 
 		this.setHeaderWidget(headerView);
 	}
@@ -98,7 +105,22 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	@Override
 	public void resizeTo(int width, int height) {
-		// not used
+		resizeHeader();
+	}
+
+	@Override
+	public void onResize() {
+		super.onResize();
+		resizeHeader();
+	}
+
+	/**
+	 * update header style on resize
+	 */
+	public void resizeHeader() {
+		boolean smallScreen = app.getAppletFrame()
+				.hasSmallWindowOrCompactHeader();
+		headerView.resizeTo(smallScreen);
 	}
 
 	/**
@@ -162,5 +184,9 @@ public class FileViewCommon extends MyHeaderPanel {
 
 	public void insertMaterial(Widget widget, int idx) {
 		materialPanel.insert(widget, idx);
+	}
+
+	public HeaderView getHeader() {
+		return headerView;
 	}
 }
