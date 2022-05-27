@@ -747,4 +747,7 @@ public class Interval {
 		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();
 	}
 
+	public boolean isLessThanOrEqual(Interval y2) {
+		return isLessThan(y2) || almostEqual(y2);
+	}
 }

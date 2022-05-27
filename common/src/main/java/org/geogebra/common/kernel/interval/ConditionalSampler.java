@@ -6,17 +6,14 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
 
 public class ConditionalSampler {
-	private final GeoFunction function;
 	private final ExpressionNode condition;
 	private final ExpressionNode conditionBody;
-	private Interval x = IntervalConstants.undefined();
 	private DiscreteSpace space;
 	private IntervalTupleList samples;
 	private boolean negated = false;
 
-	public ConditionalSampler(GeoFunction function,
-			ExpressionNode condition, ExpressionNode conditionBody, DiscreteSpace space) {
-		this.function = function;
+	public ConditionalSampler(ExpressionNode condition, ExpressionNode conditionBody,
+			DiscreteSpace space) {
 		this.condition = condition;
 		this.conditionBody = conditionBody;
 		this.space = space;
@@ -26,29 +23,44 @@ public class ConditionalSampler {
 	public static ConditionalSampler createNegated(GeoFunction function, ExpressionNode conditional,
 			ExpressionNode rightTree, DiscreteSpace space) {
 		ConditionalSampler sampler =
-				new ConditionalSampler(function, conditional, rightTree, space);
+				new ConditionalSampler(conditional, rightTree, space);
 		sampler.negate();
 		return sampler;
 	}
 
 	public boolean isAccepted(Interval x) {
-		this.x = x;
-		if (!negated == isConditionTrue(x)) {
-			return true;
-		}
-
-		return false;
+		return !negated && isConditionTrue(x);
 	}
 
-	private boolean isConditionTrue(Interval x) {
-		Interval left = IntervalFunction.evaluate(x, condition.getLeft());
-		Operation operation = condition.getOperation();
-		ExpressionValue value = condition.getRight();
+	boolean isConditionTrue(Interval x) {
+		return isExpressionTrue(x, condition.getLeft(), condition.getOperation(), condition.getRight());
+	}
+
+	private boolean isExpressionTrue(Interval x, ExpressionValue left, Operation operation,
+			ExpressionValue right) {
+		if (operation.equals(Operation.AND_INTERVAL)) {
+			ExpressionNode nodeLeft = left.wrap();
+			ExpressionNode nodeRight = right.wrap();
+			return isExpressionTrue(x, nodeLeft.getLeft(), nodeLeft.getOperation(), nodeLeft.getRight())
+					&& isExpressionTrue(x, nodeRight.getLeft(), nodeRight.getOperation(), nodeRight.getRight());
+		}
+
+		return evaluateBoolean(IntervalFunction.evaluate(x, left), operation,
+				IntervalFunction.evaluate(x, right));
+	}
+
+	private boolean evaluateBoolean(Interval y1, Operation operation, Interval y2) {
 		switch (operation) {
+		case EQUAL_BOOLEAN:
+			return y1.contains(y2);
 		case LESS:
-			return left.isLessThan(IntervalFunction.evaluate(x, value));
+			return y1.isLessThan(y2);
+		case LESS_EQUAL:
+			return y1.isLessThanOrEqual(y2);
 		case GREATER:
-			return left.isGreaterThan(IntervalFunction.evaluate(x, value));
+			return y1.isGreaterThan(y2);
+		case GREATER_EQUAL:
+			return y2.isLessThanOrEqual(y1);
 		}
 		return false;
 	}

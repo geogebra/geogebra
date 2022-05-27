@@ -33,5 +33,6 @@ public class IntervalFunctionTest extends BaseUnitTest {
 		assertTrue(isSupported(add("if(x < -2, -2, x > 0, 4)")));
 		assertTrue(isSupported(add("if(x < -2, x + 1, x > 0, x^4)")));
 		assertFalse(isSupported(add("if(x < -2, x * (ln(x)), x > 0, x^4)")));
+		assertFalse(isSupported(add("if(-4 < x < -2, 3x, 2 < x < 4, 4x)")));
 	}
 }

@@ -22,8 +22,18 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		IntervalTupleList tuples = sampler.result();
 		allEquals(-1, tuples);
 	}
+	@Test
+	public void testSingleIfWithCompoundCondition() {
+		GeoFunction function = add("a=If(-2 < x < 0, -1)");
+		IntervalTuple range = PlotterUtils.newRange(-20, 20, -5, 5);
+		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
+				range,
+				new EuclidianViewBoundsMock(-15, 15, -10, 10));
+		IntervalTupleList tuples = sampler.result();
+		allEquals(-1, tuples);
+	}
 
-	private void allEquals(int singleton, IntervalTupleList tuples) {
+	static void allEquals(int singleton, IntervalTupleList tuples) {
 		int count = tuples.count();
 		long filteredCount = tuples.stream().filter(tuple -> tuple.y().almostEqual(
 				interval(singleton))).count();
@@ -46,7 +56,7 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 
 	@Test
 	public void testIfList() {
-		GeoFunction function = add("a=If(x < -2, 1, 2 < x < 0, 2, x > 0, 3)");
+		GeoFunction function = add("a=If(x < -2, 1, -2 < x < 0, 2, x > 0, 3)");
 		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
@@ -54,6 +64,25 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		allEquals(1, results.get(0));
 		allEquals(2, results.get(1));
 		allEquals(3, results.get(2));
+	}
+
+	@Test
+	public void testIfListEquals() {
+		GeoFunction function = add("a=If(x <= -2, 1, x == 0, 2, x >= 1, 3)");
+		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
+				PlotterUtils.newRange(-20, 20, -5, 5),
+				new EuclidianViewBoundsMock(-15, 15, -10, 10));
+		IntervalTupleList result1 = sampler.evaluateOn(-10, -2);
+		allEquals(1, result1);
+	}
+
+	@Test
+	public void testIfListOverLapped() {
+		GeoFunction function = add("a=If(x < -3, 1, x < -4, 2, x > 0, 3)");
+		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
+				PlotterUtils.newRange(-20, 20, -5, 5),
+				new EuclidianViewBoundsMock(-15, 15, -10, 10));
+		allEquals(1, sampler.evaluateOn(-4, -3));
 	}
 
 	@Test

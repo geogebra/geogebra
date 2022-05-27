@@ -49,7 +49,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList evaluateOn(double low, double high) {
-		return samplers.evaluateOn(low, high);
+		return samplers.evaluateBetween(low, high);
 	}
 
 	@Override
