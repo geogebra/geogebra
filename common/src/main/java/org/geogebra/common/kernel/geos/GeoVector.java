@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -385,18 +386,19 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 
 		if (!geo.isGeoVector()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		GeoVector v = (GeoVector) geo;
 
 		if (!(isFinite() && v.isFinite())) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
-		return DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y);
+		return ExtendedBoolean.newExtendedBoolean(DoubleUtil.isEqual(x, v.x)
+				&& DoubleUtil.isEqual(y, v.y));
 	}
 
 	/**

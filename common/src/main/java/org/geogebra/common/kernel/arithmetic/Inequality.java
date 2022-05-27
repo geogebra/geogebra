@@ -27,7 +27,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
@@ -199,17 +198,11 @@ public class Inequality {
 				}
 				// if we got here coefX and coefY are null #5315
 				ExpressionValue[][] evs = equ.getNormalForm().getCoeff();
-				lineBorder.setCoords(coefX = GeoConic.evalCoeff(evs, 1, 0),
-						coefY = GeoConic.evalCoeff(evs, 0, 1),
-						GeoConic.evalCoeff(evs, 0, 0));
-				type = IneqType.INEQUALITY_LINEAR;
-				border = lineBorder;
-				isAboveBorder = coefY < 0 || coefY == 0.0 && coefX > 0;
+				updateLinear(evs);
 			} else if (newBorder.degree() == 2) {
 				if (conicBorder == null) {
 					conicBorder = new GeoConic(kernel.getConstruction());
 				}
-				// conicBorder.setLabel("res");
 				conicBorder.setCoeffs(equ.getNormalForm().getCoeff());
 				type = IneqType.INEQUALITY_CONIC;
 				border = conicBorder;
@@ -225,7 +218,6 @@ public class Inequality {
 			 * GeoConic(kernel.getConstruction()); border = conicBorder; }}
 			 */
 		}
-		Log.trace(type + ":" + coefX + "," + coefY);
 		if (type == IneqType.INEQUALITY_PARAMETRIC_X
 				|| type == IneqType.INEQUALITY_PARAMETRIC_Y) {
 			funBorder = new GeoFunction(kernel.getConstruction());
@@ -241,6 +233,21 @@ public class Inequality {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		} else {
 			border.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
+		}
+	}
+
+	private void updateLinear(ExpressionValue[][] evs) {
+		double coefX, coefY;
+		double coeffConst = GeoConic.evalCoeff(evs, 0, 0);
+		lineBorder.setCoords(coefX = GeoConic.evalCoeff(evs, 1, 0),
+				coefY = GeoConic.evalCoeff(evs, 0, 1),
+				coeffConst);
+		type = IneqType.INEQUALITY_LINEAR;
+		border = lineBorder;
+		if (coefX == 0 && coefY == 0) {
+			isAboveBorder = isStrict() ? coeffConst > 0 : coeffConst > -Kernel.STANDARD_PRECISION;
+		} else {
+			isAboveBorder = coefY < 0 || coefY == 0.0 && coefX > 0;
 		}
 	}
 
@@ -456,6 +463,38 @@ public class Inequality {
 		} else {
 			return ExtendedBoolean.FALSE;
 		}
+	}
+
+	/**
+	 * @param ineq other inequality
+	 * @return whether these inequalities represent the same set of points in R^2
+	 */
+	public ExtendedBoolean isEqual(Inequality ineq) {
+		if (border == null || ineq.border == null || !compatibleTypes(type, ineq.type)) {
+			return ExtendedBoolean.UNKNOWN;
+		}
+		if (isAboveBorder == ineq.isAboveBorder && (isUnbounded() || isStrict()
+				== ineq.isStrict())) {
+			return border.isEqualExtended(ineq.border);
+		}
+		return ExtendedBoolean.FALSE;
+	}
+
+	private boolean isUnbounded() {
+		return (border == lineBorder && !lineBorder.isDefined())
+				|| (border == conicBorder
+				&& conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY);
+	}
+
+	private boolean compatibleTypes(IneqType t1, IneqType t2) {
+		if (t1 == t2) {
+			return true;
+		}
+		if (t1.ordinal() > t2.ordinal()) {
+			return compatibleTypes(t2, t1);
+		}
+		return (t1 == IneqType.INEQUALITY_LINEAR && t2 == IneqType.INEQUALITY_CONIC)
+				|| (t1 == IneqType.INEQUALITY_PARAMETRIC_X && t2 == IneqType.INEQUALITY_LINEAR);
 	}
 
 }

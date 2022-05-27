@@ -96,11 +96,15 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		ExpressionNode root = bool.getDefinition();
 		if (ev instanceof BooleanValue) {
 			bool.setValue(((BooleanValue) ev).getBoolean());
+			if (!((BooleanValue) ev).isDefined()) {
+				bool.setUndefinedProverOnly();
+			} else {
+				bool.setDefined();
+			}
 		} else {
 			bool.setUndefined();
 		}
 		bool.setDefinition(root);
-
 	}
 
 	@Override

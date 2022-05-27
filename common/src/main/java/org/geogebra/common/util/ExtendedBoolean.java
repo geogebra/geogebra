@@ -7,13 +7,7 @@ public enum ExtendedBoolean {
 	 * @return boolean value, default false
 	 */
 	final public boolean boolVal() {
-		switch (this) {
-		case TRUE:
-			return true;
-		default:
-			return false;
-		}
-
+		return this == TRUE;
 	}
 
 	/**
@@ -51,5 +45,9 @@ public enum ExtendedBoolean {
 
 	public ExtendedBoolean or(ExtendedBoolean other) {
 		return negate().and(other.negate()).negate();
+	}
+
+	public boolean isDefined() {
+		return this != UNKNOWN;
 	}
 }
