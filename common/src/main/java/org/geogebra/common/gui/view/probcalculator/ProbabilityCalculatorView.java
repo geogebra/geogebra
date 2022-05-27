@@ -70,9 +70,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author gabor
- * 
- *         Commmon view for ProbabilityCalculator
  *
+ * Commmon view for ProbabilityCalculator
  */
 public abstract class ProbabilityCalculatorView
 		implements View, SettingListener, SetLabels {
@@ -109,7 +108,7 @@ public abstract class ProbabilityCalculatorView
 
 	/** selected distribution mode */
 	protected Dist selectedDist = Dist.NORMAL; // default: startup with normal
-												// distribution
+	// distribution
 
 	// distribution fields
 	private String[][] parameterLabels;
@@ -172,7 +171,7 @@ public abstract class ProbabilityCalculatorView
 	private static final double opacityIntegral = 0.5f;
 	private static final double opacityDiscrete = 0.0f; // entire bar chart
 	private static final double opacityDiscreteInterval = 0.5f; // bar chart
-																	// interval
+	// interval
 	private static final int thicknessCurve = 4;
 	private static final int thicknessBarChart = 3;
 
@@ -196,8 +195,7 @@ public abstract class ProbabilityCalculatorView
 	private DiscreteTwoTailedGraph discreteTwoTailedGraph;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
 	public ProbabilityCalculatorView(App app) {
 		isIniting = true;
@@ -231,7 +229,6 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns the maximum value in the discrete value list.
-	 *
 	 * @return maximum value in the discrete value list.
 	 */
 	public int getDiscreteXMax() {
@@ -245,7 +242,6 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns the minimum value in the discrete value list.
-	 *
 	 * @return minimum value in the discrete value list.
 	 */
 	public int getDiscreteXMin() {
@@ -257,8 +253,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @param type
-	 *            one of GRAPH_BAR, GRAPH_STEP, GRAPH_LINE
+	 * @param type one of GRAPH_BAR, GRAPH_STEP, GRAPH_LINE
 	 */
 	public void setGraphType(int type) {
 		if (graphType == type) {
@@ -276,8 +271,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @param isCumulative
-	 *            whether to show cumulative distribution
+	 * @param isCumulative whether to show cumulative distribution
 	 */
 	public final void setCumulative(boolean isCumulative) {
 		if (this.isCumulative == isCumulative) {
@@ -340,12 +334,9 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @param distributionType
-	 *            distribution type
-	 * @param parameters
-	 *            distribution parameters
-	 * @param isCumulative
-	 *            whether it's cumulative
+	 * @param distributionType distribution type
+	 * @param parameters distribution parameters
+	 * @param isCumulative whether it's cumulative
 	 */
 	public void setProbabilityCalculator(Dist distributionType,
 			GeoNumberValue[] parameters, boolean isCumulative) {
@@ -372,8 +363,7 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @param plotSettings
-	 *            plot settings
+	 * @param plotSettings plot settings
 	 */
 	public void setPlotSettings(PlotSettings plotSettings) {
 		this.plotSettings = plotSettings;
@@ -703,9 +693,7 @@ public abstract class ProbabilityCalculatorView
 			cons.removeFromConstructionList(algoStickGraph);
 			graph = algoStickGraph.getOutput(0);
 
-		}
-
-		else if (graphType == GRAPH_STEP) {
+		} else if (graphType == GRAPH_STEP) {
 			GeoBoolean t = new GeoBoolean(cons);
 			t.setValue(true);
 			AlgoStepGraph algoStepGraph2 = new AlgoStepGraph(cons, values, probabilities, t);
@@ -835,6 +823,27 @@ public abstract class ProbabilityCalculatorView
 		plotGeoList.add(integral);
 	}
 
+	/**
+	 * Set probability mode
+	 * @param mode mode
+	 */
+	public void setProbabilityMode(int mode) {
+		if (isCumulative) {
+			probMode = PROB_LEFT;
+		} else {
+			int oldProbMode = probMode;
+			if (oldProbMode == PROB_TWO_TAILED) {
+				removeTwoTailedGraph();
+			}
+			probMode = mode;
+
+			if (probMode == PROB_TWO_TAILED) {
+				addTwoTailedGraph();
+			}
+			validateLowHigh(oldProbMode);
+		}
+	}
+
 	private GeoElement createIntegral(GeoNumberValue low, GeoNumberValue high) {
 		GeoBoolean f = new GeoBoolean(cons);
 		f.setValue(false);
@@ -859,7 +868,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoDependentNumber x = new AlgoDependentNumber(cons, node,
 				false);
 		cons.removeFromConstructionList(x);
-		return  (GeoNumberValue) x.getOutput(0);
+		return (GeoNumberValue) x.getOutput(0);
 	}
 
 	// =================================================
@@ -921,11 +930,8 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Creates a step function for a discrete distribution.
-	 *
-	 * @param xList
-	 *            list with x values
-	 * @param probList
-	 *            list with y = P(x) values
+	 * @param xList list with x values
+	 * @param probList list with y = P(x) values
 	 * @return AlgoPolyLine implementation of a step function
 	 */
 	public AlgoPolyLine createStepFunction(GeoList xList, GeoList probList) {
@@ -968,10 +974,8 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 * @param mean
-	 *            mean
-	 * @param sigma
-	 *            standard deviation
+	 * @param mean mean
+	 * @param sigma standard deviation
 	 * @return normal curve overlay
 	 */
 	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
@@ -994,7 +998,6 @@ public abstract class ProbabilityCalculatorView
 	 * Returns the appropriate plot dimensions for a given distribution and
 	 * parameter set. Plot dimensions are returned as an array of double: {xMin,
 	 * xMax, yMin, yMax}
-	 *
 	 * @return plot width and height
 	 */
 	protected double[] getPlotDimensions() {
@@ -1009,9 +1012,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Formats a number string using local format settings.
-	 *
-	 * @param x
-	 *            number
+	 * @param x number
 	 * @return formatted number
 	 */
 	public String format(double x) {
@@ -1089,9 +1090,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * updates plot panel in subclasses
-	 *
-	 * @param settings
-	 *            plot settings
+	 * @param settings plot settings
 	 */
 	protected abstract void plotPanelUpdateSettings(PlotSettings settings);
 
@@ -1117,7 +1116,6 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
-	 *
 	 * @return true if mode is ][
 	 */
 	public boolean isTwoTailedMode() {
@@ -1176,9 +1174,7 @@ public abstract class ProbabilityCalculatorView
 	/**
 	 * Exports all GeoElements that are currently displayed in this panel to a
 	 * target EuclidianView.
-	 *
-	 * @param euclidianViewID
-	 *            viewID of the target EuclidianView
+	 * @param euclidianViewID viewID of the target EuclidianView
 	 */
 	public void exportGeosToEV(int euclidianViewID) {
 
@@ -1224,23 +1220,23 @@ public abstract class ProbabilityCalculatorView
 				if (graphType == GRAPH_LINE) {
 					expr = "BarChart["
 							+ discreteValueListCopy
-									.getLabel(StringTemplate.maxPrecision)
+							.getLabel(StringTemplate.maxPrecision)
 							+ "," + discreteProbListCopy.getLabel(
-									StringTemplate.maxPrecision)
+							StringTemplate.maxPrecision)
 							+ ",0]";
 				} else if (graphType == GRAPH_BAR) {
 					expr = "BarChart["
 							+ discreteValueListCopy
-									.getLabel(StringTemplate.maxPrecision)
+							.getLabel(StringTemplate.maxPrecision)
 							+ "," + discreteProbListCopy.getLabel(
-									StringTemplate.maxPrecision)
+							StringTemplate.maxPrecision)
 							+ ",1]";
 				} else if (graphType == GRAPH_STEP) {
 					expr = "StepGraph["
 							+ discreteValueListCopy
-									.getLabel(StringTemplate.maxPrecision)
+							.getLabel(StringTemplate.maxPrecision)
 							+ "," + discreteProbListCopy.getLabel(
-									StringTemplate.maxPrecision)
+							StringTemplate.maxPrecision)
 							+ ",true]";
 				}
 
@@ -1469,7 +1465,6 @@ public abstract class ProbabilityCalculatorView
 	 * and probability mode. If mode == PROB_INTERVAL then P(low <= X <= high)
 	 * is returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode
 	 * == PROB_RIGHT then P(X <= high) is returned.
-	 *
 	 * @return probability of selected interval
 	 */
 	protected double intervalProbability() {
@@ -1487,9 +1482,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Returns an inverse probability for a selected distribution.
-	 *
-	 * @param prob
-	 *            cumulative probability
+	 * @param prob cumulative probability
 	 * @return inverse probability
 	 */
 	public double inverseProbability(double prob) {
@@ -1795,11 +1788,8 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * Builds a GeoFunction representation of a given density curve.
-	 *
-	 * @param type
-	 *            distribution type
-	 * @param cumulative
-	 *            whether it's cumulative
+	 * @param type distribution type
+	 * @param cumulative whether it's cumulative
 	 * @return function
 	 */
 	private GeoFunction buildDensityCurveExpression(Dist type,
@@ -1872,9 +1862,7 @@ public abstract class ProbabilityCalculatorView
 
 	/**
 	 * returns settings in XML format
-	 *
-	 * @param sb
-	 *            XML builder
+	 * @param sb XML builder
 	 */
 	public void getXML(StringBuilder sb) {
 
