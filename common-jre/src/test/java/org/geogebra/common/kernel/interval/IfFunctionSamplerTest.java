@@ -72,7 +72,7 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		IntervalTupleList result1 = sampler.evaluateOn(-10, -2);
+		IntervalTupleList result1 = sampler.evaluate(-10, -2);
 		allEquals(1, result1);
 	}
 
@@ -82,7 +82,7 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		allEquals(1, sampler.evaluateOn(-4, -3));
+		allEquals(1, sampler.evaluate(-4, -3));
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(-2, 2, -10, 10));
 		sampler.update(range);
-		IntervalTupleList diffTuples = sampler.evaluateOn(interval(-1, 1));
+		IntervalTupleList diffTuples = sampler.evaluate(interval(-1, 1));
 		allEquals(1, diffTuples);
 	}
 }
