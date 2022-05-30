@@ -326,11 +326,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public void set(GeoElement element, GeoList column, int rowIndex) {
-		collector.startCollection(this);
 		int columnIndex = getEvaluatableIndex(column);
 		if (columnIndex == -1) {
 			return;
 		}
+		collector.startCollection(this);
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
 import org.geogebra.web.full.gui.view.probcalculator.DistributionPanelSuite;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 
@@ -12,18 +13,22 @@ public class DistributionTab extends ToolbarPanel.ToolbarTab {
 	 * Constructor
 	 * @param toolbarPanel - parent toolbar panel
 	 */
-	public DistributionTab(ToolbarPanel toolbarPanel) {
+	public DistributionTab(ToolbarPanel toolbarPanel, StickyProbabilityTable table) {
 		super(toolbarPanel);
 		this.toolbarPanel = toolbarPanel;
-		createContent();
+		createContent(toolbarPanel, table);
 	}
 
-	private void createContent() {
+	private void createContent(ToolbarPanel toolbarPanel, StickyProbabilityTable table) {
 		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
 				.getGuiManager().getProbabilityCalculator();
 		distrPanel = new DistributionPanelSuite(view, toolbarPanel.getApp().getLocalization());
 		distrPanel.setLabels();
 		view.setDistributionPanel(distrPanel);
+		ProbabilityTableAdapter probTable = new ProbabilityTableAdapter(table,
+				toolbarPanel.getApp(), view);
+		view.setTable(probTable);
+		view.updateDiscreteTable();
 		distrPanel.updateGUI(); // make sure the correct interval is selected
 		view.updateProbabilityType(distrPanel.getResultPanel());
 		view.updateLowHighResult();

@@ -29,6 +29,8 @@ public class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	 */
 	public TabbedProbCalcView(AppW app) {
 		super(app);
+		//table panel
+		setTable(new ProbabilityTableW(app, this));
 		buildButtons();
 		buildProbCalcPanel();
 		isIniting = false;
