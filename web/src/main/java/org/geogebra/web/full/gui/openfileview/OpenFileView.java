@@ -65,22 +65,20 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private void addGoogleDriveButton(FlowPanel parent) {
-		if (loggedInUserHasGoogleDrive()) {
-			googleDriveBtn = new StandardButton(
-					MaterialDesignResources.INSTANCE.google_drive(),
-					app.getLocalization().getMenu("GoogleDrive"), 18);
-			googleDriveBtn.addStyleName("containedButton");
-			googleDriveBtn.addStyleName("buttonMargin16");
+		googleDriveBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.google_drive(),
+				app.getLocalization().getMenu("GoogleDrive"), 18);
+		googleDriveBtn.addStyleName("containedButton");
+		googleDriveBtn.addStyleName("buttonMargin16");
 
-			googleDriveBtn.addFastClickHandler(source -> {
-				if (app.getGoogleDriveOperation() != null) {
-					app.getFileManager().setFileProvider(Material.Provider.GOOGLE);
-					app.getGoogleDriveOperation()
-							.requestPicker();
-				}
-			});
-			parent.add(googleDriveBtn);
-		}
+		googleDriveBtn.addFastClickHandler(source -> {
+			if (app.getGoogleDriveOperation() != null) {
+				app.getFileManager().setFileProvider(Material.Provider.GOOGLE);
+				app.getGoogleDriveOperation().requestPicker();
+			}
+		});
+		googleDriveBtn.setVisible(loggedInUserHasGoogleDrive());
+		parent.add(googleDriveBtn);
 	}
 
 	private boolean loggedInUserHasGoogleDrive() {
