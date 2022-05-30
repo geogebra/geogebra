@@ -10,4 +10,9 @@ public class MowService implements Service {
 		model.restartSession();
 		return UtilFactory.getPrototype().newHttpRequest();
 	}
+
+	@Override
+	public String getDeletionJson(Material.MaterialType materialType) {
+		return null;
+	}
 }

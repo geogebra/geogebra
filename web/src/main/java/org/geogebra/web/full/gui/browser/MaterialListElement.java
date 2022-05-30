@@ -63,7 +63,6 @@ public class MaterialListElement extends FlowPanel
 	private StandardButton confirm;
 	private StandardButton cancel;
 	private StandardButton deleteButton;
-	private StandardButton favoriteButton;
 
 	private ShowDetailsListener showListener;
 

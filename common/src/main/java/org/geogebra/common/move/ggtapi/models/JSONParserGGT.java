@@ -172,7 +172,7 @@ public class JSONParserGGT {
 
 	private static String getString(JSONObject obj, String string) {
 		Object str = obj.opt(string);
-		if (str == null || str == Boolean.FALSE) {
+		if (str == null || "false".equals(str.toString())) {
 			return "";
 		}
 		return str.toString();

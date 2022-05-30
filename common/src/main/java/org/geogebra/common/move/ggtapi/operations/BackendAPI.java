@@ -37,14 +37,6 @@ public interface BackendAPI {
 	boolean parseUserDataFromResponse(GeoGebraTubeUser user, String loadLastUser);
 
 	/**
-	 * @param mat
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallbackI}
-	 */
-	void deleteMaterial(Material mat, MaterialCallbackI cb);
-
-	/**
 	 * Sends a request to the GeoGebraTube API to check if the login token which
 	 * is defined in the specified GeoGebraTubeUser is valid.
 	 *

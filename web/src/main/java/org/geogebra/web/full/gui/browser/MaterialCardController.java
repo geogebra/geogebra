@@ -135,7 +135,7 @@ public class MaterialCardController implements OpenFileListener {
 		final Material toDelete = this.getMaterial();
 
 		if (app.getNetworkOperation().isOnline() && onlineFile(toDelete)) {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			app.getLoginOperation().getResourcesAPI()
 					.deleteMaterial(toDelete, new MaterialCallback() {
 
 						@Override

@@ -109,7 +109,7 @@ public class LoginOperationW extends LogInOperation {
 		if (apiFactory == null) {
 			apiFactory = new BackendAPIFactory(app);
 		}
-		return apiFactory.getRest();
+		return apiFactory.getResourcesApi();
 	}
 
 	@Override

@@ -8,7 +8,6 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.HttpRequest;
@@ -292,16 +291,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				UploadRequest.getRequestElement(mat).toJSONString(client), cb);
 	}
 
-	@Override
-	public void deleteMaterial(Material material, final MaterialCallbackI cb) {
-		if (material.getType() == MaterialType.ggsTemplate) {
-			getMaterialRestAPI().deleteMaterial(material, cb);
-		} else {
-			performRequest(
-					DeleteRequest.getRequestElement(material).toJSONString(client), cb);
-		}
-	}
-
 	/**
 	 * @param requestString
 	 *            json string representing the request
@@ -372,7 +361,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 				.getRequestElement(tubeID, visibility, filename, base64, type,
 						parent)
 				.toJSONString(client), cb);
-
 	}
 
 	@Override

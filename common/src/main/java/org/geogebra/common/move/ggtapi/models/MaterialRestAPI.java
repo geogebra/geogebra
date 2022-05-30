@@ -50,6 +50,7 @@ public class MaterialRestAPI implements BackendAPI {
 	/**
 	 * @param id item ID
 	 * @param callback callback
+	 * @return HTTP request
 	 */
 	public HttpRequest getItem(String id, MaterialCallbackI callback) {
 		return performRequest("GET", "/materials/" + id, null, callback);
@@ -115,11 +116,17 @@ public class MaterialRestAPI implements BackendAPI {
 		return groups;
 	}
 
-	@Override
+	/**
+	 * @param mat
+	 *            {@link Material}
+	 * @param callback
+	 *            {@link MaterialCallbackI}
+	 */
 	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
-
+		String json = service.getDeletionJson(mat.getType());
+		String method = json == null ? "DELETE" : "PATCH";
 		HttpRequest request = service.createRequest(model);
-		request.sendRequestPost("DELETE", baseURL + "/materials/" + mat.getSharingKeyOrId(), null,
+		request.sendRequestPost(method, baseURL + "/materials/" + mat.getSharingKeyOrId(), json,
 				new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
@@ -299,15 +306,26 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 	}
 
+	/**
+	 * Get featured materials
+	 * @param callback callback
+	 * @return HTTP request
+	 */
 	public HttpRequest getFeaturedMaterials(MaterialCallbackI callback) {
 		return performRequest("GET", "/search/applets?size=" + SEARCH_COUNT,
 				null, callback);
 	}
 
-	public HttpRequest getUsersOwnMaterials(final MaterialCallbackI userMaterialsCB,
+	/**
+	 * Get materials created by user
+	 * @param callback callback
+	 * @param order order
+	 * @return HTTP request
+	 */
+	public HttpRequest getUsersOwnMaterials(final MaterialCallbackI callback,
 			MaterialRequest.Order order) {
 		if (model == null) {
-			userMaterialsCB.onError(new Exception("No user signed in"));
+			callback.onError(new Exception("No user signed in"));
 			return UtilFactory.getPrototype().newHttpRequest();
 		}
 
@@ -315,13 +333,18 @@ public class MaterialRestAPI implements BackendAPI {
 				"/users/" + model.getUserId()
 						+ "/materials?limit=50&embed=creator&order="
 						+ orderStr(order),
-				null, userMaterialsCB);
+				null, callback);
 	}
 
-	public void getUsersAndSharedMaterials(MaterialCallbackI allMaterialsCB, Order order,
+	/**
+	 * Get materials created by user + shared with user's group
+	 * @param callback callback
+	 * @param order order
+	 */
+	public void getUsersAndSharedMaterials(MaterialCallbackI callback, Order order,
 			int offset) {
 		if (model == null) {
-			allMaterialsCB.onError(new Exception("No user signed in"));
+			callback.onError(new Exception("No user signed in"));
 			return;
 		}
 
@@ -330,7 +353,7 @@ public class MaterialRestAPI implements BackendAPI {
 						+ "/materials?format=page&type=all&limit=50&offset=" + offset
 						+ "&embed=creator&order="
 						+ orderStr(order),
-				null, allMaterialsCB);
+				null, callback);
 	}
 
 	private static String orderStr(Order order) {
@@ -575,6 +598,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 *            search String
 	 * @param callback
 	 *            {@link MaterialCallbackI}
+	 * @return HTTP request
 	 */
 	public HttpRequest search(String query, MaterialCallbackI callback) {
 		return performRequest("GET", "/search/applets?size="
