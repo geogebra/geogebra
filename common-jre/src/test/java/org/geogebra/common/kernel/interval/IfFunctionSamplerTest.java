@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -91,9 +92,25 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 		IntervalTuple range = PlotterUtils.newRange(-2, 2, -5, 5);
 		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
 				range,
-				new EuclidianViewBoundsMock(-2, 2, -10, 10));
+				new EuclidianViewBoundsMock(-20, 20, -10, 10));
 		sampler.update(range);
-		IntervalTupleList diffTuples = sampler.evaluate(interval(-1, 1));
-		allEquals(1, diffTuples);
+		IntervalTupleList diffTuples = sampler.evaluate(interval(-1, -0.001));
+		allEquals(-1, diffTuples);
+	}
+
+	@Test
+	public void evaluateIfElseExtending() {
+		GeoFunction function = add("a=If(x < 0, -1, 1)");
+		IntervalTuple range = PlotterUtils.newRange(-12.4, 12.4, -15.0, 15.0);
+		EuclidianViewBoundsMock evBounds = new EuclidianViewBoundsMock(range,
+				1920, 1280);
+		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
+				range,
+				evBounds);
+		sampler.update(range);
+		IntervalTupleList diff = sampler.extendDomain(-12.6, 12.6);
+		assertNotEquals(IntervalTupleList.emptyList(), diff);
+		IntervalTupleList diffMax = sampler.extendDomain(-12.4, 12.6);
+		assertNotEquals(IntervalTupleList.emptyList(), diffMax);
 	}
 }

@@ -114,10 +114,12 @@ public class ConditionalSamplerList implements IntervalEvaluatable {
 		IntervalTupleList tuples = new IntervalTupleList();
 		for (int i = 0; i < samplers.size(); i++) {
 			ConditionalSampler sampler = samplers.get(i);
-			IntervalTupleList newPoints =
-					sampler.isAccepted(x) ? sampler.evaluate(x) : IntervalTupleList.emptyList();
-			newPoints.setPiece(i);
-			tuples.append(newPoints);
+			IntervalTupleList newPoints = new IntervalTupleList();
+			if (sampler.isAccepted(x)) {
+				newPoints = sampler.evaluate(x);
+				newPoints.setPiece(i);
+				tuples.append(newPoints);
+			}
 		}
 		return tuples;
 	}

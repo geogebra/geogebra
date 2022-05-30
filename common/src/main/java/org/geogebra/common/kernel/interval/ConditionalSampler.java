@@ -63,7 +63,7 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	}
 
 	public boolean isAccepted(Interval x) {
-		return !negated && isConditionTrue(x);
+		return negated ? !isConditionTrue(x) : isConditionTrue(x);
 	}
 
 	boolean isConditionTrue(Interval x) {

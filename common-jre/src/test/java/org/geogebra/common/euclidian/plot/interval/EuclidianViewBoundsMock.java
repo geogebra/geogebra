@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalTuple;
 
 public class EuclidianViewBoundsMock
 		implements EuclidianViewBounds {
@@ -26,6 +27,12 @@ public class EuclidianViewBoundsMock
 		this.ymax = ymax;
 		width = (int) Math.round(xmax - xmin);
 		height = (int) Math.round(ymax - ymin);
+	}
+
+	public EuclidianViewBoundsMock(IntervalTuple range, int width, int height) {
+		this(range.x().getLow(), range.x().getHigh(), range.y().getLow(), range.y().getHigh());
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
@@ -118,5 +125,17 @@ public class EuclidianViewBoundsMock
 	public boolean isOnView(Interval y) {
 		return (y.getLow() >= getYmin() && y.getLow() <= getXmax())
 				|| (y.getHigh() >= getYmin() && y.getHigh() <= getXmax());
+	}
+
+	@Override
+	public String toString() {
+		return "EuclidianViewBoundsMock{" +
+				"xmin=" + xmin +
+				", xmax=" + xmax +
+				", ymin=" + ymin +
+				", ymax=" + ymax +
+				", width=" + width +
+				", height=" + height +
+				'}';
 	}
 }

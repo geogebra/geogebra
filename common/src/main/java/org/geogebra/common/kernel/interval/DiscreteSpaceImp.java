@@ -18,7 +18,7 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	public DiscreteSpaceImp(double low, double high, double step) {
 		interval = new Interval(low, high);
 		this.step = step;
-		count = step != 0 ? (int) Math.floor(interval.getLength() / step) : 0;
+		count = step != 0 ? (int) Math.max(1, Math.floor(interval.getLength() / step)) : 0;
 	}
 
 	public DiscreteSpaceImp() {
