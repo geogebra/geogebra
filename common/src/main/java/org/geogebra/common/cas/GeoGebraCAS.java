@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.MaxSizeHashMap;
@@ -560,6 +561,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					handled = true;
 				}
 			} else {
+				if ("Iteration".equals(name) && args.size() > 3) {
+					throw MyError.forCommand(app.getLocalization(), Errors.IllegalArgumentNumber.getKey(), name, null, Errors.IllegalArgumentNumber);
+				}
 				GeoElementND ggbResult = computeWithGGB(kern, name, args);
 				if (ggbResult != null) {
 					return ggbResult.toValueString(tpl);
