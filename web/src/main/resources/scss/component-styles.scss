@@ -833,6 +833,23 @@
 		}
 	}
 
+	.flatButtonHeader {
+        padding: 6px;
+        cursor: pointer;
+        height: 36px;
+        float: left;
+        box-sizing: border-box;
+        border-radius: 50%;
+
+        img {
+        	opacity: 0.54;
+        }
+
+        &:focus, &:hover, &.selected {
+            background-color: colors.$hover-calc-btn-bg;
+        }
+     }
+
 	.searchBar.compact {
 		max-width: 488px;
 		height: 36px;
