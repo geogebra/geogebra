@@ -842,6 +842,7 @@ public abstract class ProbabilityCalculatorView
 			}
 			validateLowHigh(oldProbMode);
 		}
+		updateProbabilityType(getResultPanel());
 	}
 
 	private GeoElement createIntegral(GeoNumberValue low, GeoNumberValue high) {
