@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.distribution.CumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
+import org.geogebra.common.properties.impl.distribution.IntervalProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 
 public class DistributionPropertiesFactory implements PropertiesFactory {
@@ -28,7 +29,8 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
-				new CumulativeProperty(localization, probabilityCalculatorView));
+				new CumulativeProperty(localization, probabilityCalculatorView),
+				new IntervalProperty(localization, probabilityCalculatorView));
 		return Arrays.asList(array);
 	}
 }
