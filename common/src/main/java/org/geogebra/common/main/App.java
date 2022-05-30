@@ -104,7 +104,6 @@ import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
-import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
@@ -370,8 +369,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * whether shift, drag and zoom features are enabled
 	 */
 	protected boolean shiftDragZoomEnabled = true;
-	protected int appletWidth = 0;
-	protected int appletHeight = 0;
 	protected boolean useFullGui = false;
 	protected boolean needsSpreadsheetTableModel = false;
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
@@ -3126,22 +3123,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return needsSpreadsheetTableModel;
 	}
 
-	public final int getAppletWidth() {
-		return appletWidth;
-	}
-
-	public void setAppletWidth(int width) {
-		this.appletWidth = width;
-	}
-
-	public int getAppletHeight() {
-		return appletHeight;
-	}
-
-	public void setAppletHeight(int height) {
-		this.appletHeight = height;
-	}
-
 	/**
 	 * @return selction manager
 	 */
@@ -4421,16 +4402,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public CopyPaste getCopyPaste() {
 		return null;
-	}
-
-	/**
-	 * Update view settings with size from XML
-	 *
-	 * @param evSet
-	 *            view settings
-	 */
-	public void ensureEvSizeSet(EuclidianSettings evSet) {
-		// only for applets
 	}
 
 	/**
