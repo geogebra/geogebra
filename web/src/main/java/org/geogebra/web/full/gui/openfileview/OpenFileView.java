@@ -57,7 +57,7 @@ public class OpenFileView extends HeaderFileView
 				MaterialDesignResources.INSTANCE.open_local_file()
 						.getSafeUri().asString(),
 				app.getLocalization().getMenu("OpenFileView.LocalFile"));
-		openFileBtn.setAcceptedFileType(".ggb");
+		openFileBtn.setAcceptedFileType(app.getFileExtension());
 		buttonPanel.add(openFileBtn);
 
 		addGoogleDriveButton(buttonPanel);
