@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -1653,9 +1654,8 @@ public class Construction {
 				newGeo.remove();
 				return;
 
-			} else if (oldGeo.isIndependent() && (oldGeo.isGeoPoint()
-					|| oldGeo.isGeoVector() || oldGeo.isGeoBoolean())) {
-
+			} else if (oldGeo.isIndependent() && !(oldGeo instanceof GeoSymbolic) && (
+					oldGeo.isGeoPoint() || oldGeo.isGeoVector() || oldGeo.isGeoBoolean())) {
 				oldGeo.set(newGeo);
 				oldGeo.setDefinition(null);
 				oldGeo.updateRepaint();
