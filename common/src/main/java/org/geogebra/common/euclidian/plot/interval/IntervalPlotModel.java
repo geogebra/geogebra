@@ -53,7 +53,7 @@ public class IntervalPlotModel {
 	 */
 	public void updateAll() {
 		updateRanges();
-		updateSampler();
+		updateSampledData();
 		updatePath();
 	}
 
@@ -62,7 +62,7 @@ public class IntervalPlotModel {
 		oldDomain = bounds.domain();
 	}
 
-	void updateSampler() {
+	void updateSampledData() {
 		sampler.update(range);
 		points = new IntervalTupleList();
 		List<IntervalTupleList> results = sampler.results();
@@ -144,14 +144,6 @@ public class IntervalPlotModel {
 	 */
 	public IntervalTuple pointAt(int index) {
 		return points.get(index);
-	}
-
-	/**
-	 * @param index of the point to check around
-	 * @return if the function is ascending from point to the left.
-	 */
-	public boolean isAscendingBefore(int index) {
-		return points.isAscendingBefore(index);
 	}
 
 	/**

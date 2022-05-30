@@ -11,7 +11,6 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class ConditionalSamplerTest extends BaseUnitTest {
@@ -60,20 +59,21 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(one())).count());
 	}
 
-	@Ignore
 	@Test
 	public void testSignumElse() {
-		GeoFunction function = add("a=If(x < 0, 1, -1)");
+		GeoFunction function = add("a=If(x < 0, -1, 1)");
 		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(
 				function.getFunctionExpression()).getLeft();
+		ExpressionNode condition = pair.getX().wrap();
+		ExpressionNode elseBody = function.getFunctionExpression().getRightTree();
 		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
-		ConditionalSampler sampler = ConditionalSampler.createNegated(function, pair.getX().wrap(),
-				pair.getY().wrap(), discreteSpace);
+		ConditionalSampler sampler = ConditionalSampler.createNegated(function, condition,
+				elseBody, discreteSpace);
 
 		sampler.evaluate();
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(tuples.count(),
-				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(-1))).count());
+				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 
 	}
 
@@ -81,8 +81,10 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 	public void testCompoundCondition() {
 		GeoFunction function = add("a=If(0 < x < 5, 1)");
 		ExpressionNode node = function.getFunctionExpression();
+		ExpressionNode condition = Objects.requireNonNull(node).getLeftTree();
+		ExpressionNode conditionBody = node.getRightTree();
 		ConditionalSampler sampler =
-				new ConditionalSampler(node.getLeftTree(), node.getRightTree(), null);
+				new ConditionalSampler(condition, conditionBody, null);
 		assertTrue(sampler.isConditionTrue(interval(1, 3)));
 	}
 	@Test
