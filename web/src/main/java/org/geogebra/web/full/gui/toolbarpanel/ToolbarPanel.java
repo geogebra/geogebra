@@ -858,6 +858,10 @@ public class ToolbarPanel extends FlowPanel
 	 * @param fade decides if tab should fade during animation.
 	 */
 	public void openAlgebra(boolean fade) {
+		if (!app.getConfig().hasAlgebraView()) {
+			// maybe SetPerspective was called through API
+			return;
+		}
 		switchTab(TabIds.ALGEBRA, fade);
 		setMoveMode();
 		dispatchEvent(EventType.ALGEBRA_PANEL_SELECTED);
