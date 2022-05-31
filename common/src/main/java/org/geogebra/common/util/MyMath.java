@@ -350,12 +350,12 @@ public final class MyMath {
 	 *            y-coord of the point
 	 * @param x
 	 *            x-coord on function
-	 * @return D(x) = sqrt((x - a)^2+(f(x) - b)^2)
+	 * @return D(x) = (x - a)^2+(f(x) - b)^2
 	 */
-	public static double distancePointFunctionAt(final UnivariateFunction fun,
+	public static double distanceSquaredToFunctionAt(final UnivariateFunction fun,
 			final double px, final double py, double x) {
-		//
-		return MyMath.length(x - px, fun.value(x) - py);
+		double dy = fun.value(x) - py;
+		return (x - px) * (x - px) + dy * dy ;
 	}
 
 	/**
