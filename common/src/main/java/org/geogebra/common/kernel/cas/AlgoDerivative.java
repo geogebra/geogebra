@@ -167,8 +167,11 @@ public class AlgoDerivative extends AlgoCasBase {
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
-
 		int orderInt = order == null ? 1 : (int) Math.round(order.getDouble());
+		if (orderInt < 0) {
+			g.setUndefined();
+			return;
+		}
 		// secret is not the same as fast: preview is fast but not secret
 		boolean secret = getClassName() == Commands.NDerivative;
 		if (f instanceof GeoFunction) {
