@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
 
 public class ConditionalSampler implements IntervalEvaluatable {
@@ -41,20 +40,18 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	 * @param conditionBody to evaluate with, when condition is false
 	 * @return a negated conditional sampler with no space specified.
 	 */
-	public static ConditionalSampler createNegated(GeoFunction function, ExpressionNode condition,
+	public static ConditionalSampler createNegated(ExpressionNode condition,
 			ExpressionNode conditionBody) {
-		return createNegated(function, condition, conditionBody, null);
+		return createNegated(condition, conditionBody, null);
 	}
 
 	/**
-	 *
-	 * @param function of the conditional sampler
 	 * @param condition of the sampler
 	 * @param conditionBody to evaluate with, when condition is false
 	 * @param space to evaluate on
 	 * @return a negated conditional sampler.
 	 */
-	public static ConditionalSampler createNegated(GeoFunction function, ExpressionNode condition,
+	public static ConditionalSampler createNegated(ExpressionNode condition,
 			ExpressionNode conditionBody, DiscreteSpace space) {
 		ConditionalSampler sampler =
 				new ConditionalSampler(condition, conditionBody, space);

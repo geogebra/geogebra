@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -80,10 +81,12 @@ public class IfFunctionSamplerTest extends BaseUnitTest {
 	@Test
 	public void testIfListOverLapped() {
 		GeoFunction function = add("a=If(x < -3, 1, x < -4, 2, x > 0, 3)");
+		IntervalTuple range = PlotterUtils.newRange(-20, 20, -5, 5);
 		IntervalFunctionSampler sampler = new IfFunctionSampler(function,
-				PlotterUtils.newRange(-20, 20, -5, 5),
-				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		allEquals(1, sampler.evaluate(-4, -3));
+				range,
+				new EuclidianViewBoundsMock(range, 100, 100));
+		IntervalTupleList tuples = sampler.evaluate(-20, 20);
+		assertEquals(null, tuples);
 	}
 
 	@Test

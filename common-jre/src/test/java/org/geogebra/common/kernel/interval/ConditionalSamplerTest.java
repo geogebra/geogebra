@@ -51,7 +51,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(
 				function.getFunctionExpression()).getLeft();
 		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
-		ConditionalSampler sampler = ConditionalSampler.createNegated(function, pair.getX().wrap(),
+		ConditionalSampler sampler = ConditionalSampler.createNegated(pair.getX().wrap(),
 				pair.getY().wrap(), discreteSpace);
 		sampler.evaluate();
 		IntervalTupleList tuples = sampler.result();
@@ -67,7 +67,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		ExpressionNode condition = pair.getX().wrap();
 		ExpressionNode elseBody = function.getFunctionExpression().getRightTree();
 		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
-		ConditionalSampler sampler = ConditionalSampler.createNegated(function, condition,
+		ConditionalSampler sampler = ConditionalSampler.createNegated(condition,
 				elseBody, discreteSpace);
 
 		sampler.evaluate();
