@@ -72,7 +72,7 @@ public class OpenFileViewMebis extends HeaderFileView
 	public OpenFileViewMebis(AppW app, FileOpenButton openFileButton) {
 		this.app = app;
 		this.openFileBtn = openFileButton;
-		common = new FileViewCommon(app, "mow.openFileViewTitle");
+		common = new FileViewCommon(app, "mow.openFileViewTitle", false);
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}

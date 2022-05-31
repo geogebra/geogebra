@@ -77,29 +77,6 @@
     min-height: 48px;
 }
 
-.GeoGebraFrame .flatButtonHeader {
-	padding: 6px;
-	cursor: pointer;
-	height: 36px;
-	float: left;
-	box-sizing: border-box;
-	border-radius: 50%;
-}
-
-.GeoGebraFrame .flatButtonHeader img {
-	opacity: 0.54;	
-}
-
-.GeoGebraFrame .flatButtonHeader:focus,
-.GeoGebraFrame .flatButtonHeader:hover, .GeoGebraFrame .flatButtonHeader.selected {
-	background-color: #e5e5e5;	
-}
-
-.GeoGebraFrame .flatButtonHeader img {
-	width: 24px;
-	height: 24px;
-}
-
 .GeoGebraFrame button {
     border: initial;
     background: initial;
