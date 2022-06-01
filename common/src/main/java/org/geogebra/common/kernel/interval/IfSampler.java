@@ -8,14 +8,21 @@ import org.geogebra.common.plugin.Operation;
 
 public class IfSampler implements ExpressionSampler {
 
+
 	@Override
 	public boolean isAccepted(ExpressionNode node) {
 		return node != null && Operation.IF.equals(node.getOperation());
 	}
 
 	@Override
-	public List<ConditionalSampler> create(ExpressionNode node) {
-		return Collections.singletonList(
-				new ConditionalSampler(node.getLeftTree(), node.getRightTree()));
+	public MultiSampler create(ExpressionNode node) {
+		IntervalConditionalExpression expression =
+				new IntervalConditionalExpression(node.getLeftTree(), node.getRightTree());
+		List<ConditionalSampler> samplers =
+				Collections.singletonList(new ConditionalSampler(expression));
+		IntervalEvaluatable evaluator =
+				new DefaultConditionalEvaluator(samplers);
+		return new MultiSampler(evaluator, samplers);
 	}
+
 }

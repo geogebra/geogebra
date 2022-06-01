@@ -6,7 +6,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
-public class IfFunctionSampler implements IntervalFunctionSampler {
+public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 
 	private ConditionalSamplerList samplers;
 	private GeoFunction function;
@@ -21,7 +21,7 @@ public class IfFunctionSampler implements IntervalFunctionSampler {
 	 * @param range (x, y) range to sample on.
 	 * @param evBounds {@link EuclidianViewBounds}
 	 */
-	public IfFunctionSampler(GeoFunction function, IntervalTuple range,
+	public ConditionalFunctionSampler(GeoFunction function, IntervalTuple range,
 			EuclidianViewBounds evBounds) {
 		this.function = function;
 		samplers = new ConditionalSamplerList(function);

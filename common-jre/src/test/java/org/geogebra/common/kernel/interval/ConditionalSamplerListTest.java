@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 
-import static org.geogebra.common.kernel.interval.IfFunctionSamplerTest.allEquals;
+import static org.geogebra.common.kernel.interval.ConditionalFunctionSamplerTest.allEquals;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 
@@ -19,6 +19,7 @@ public class ConditionalSamplerListTest extends BaseUnitTest {
 		allEquals(1, samplers.evaluate(-10, 1.9));
 		assertEquals(IntervalTupleList.emptyList(), samplers.evaluate(3, 9000));
 	}
+
 	@Test
 	public void testIfElse() {
 		GeoFunction function = add("if(x < 2, 1, 3)");

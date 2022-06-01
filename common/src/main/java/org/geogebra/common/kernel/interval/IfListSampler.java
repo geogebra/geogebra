@@ -14,18 +14,20 @@ public class IfListSampler implements ExpressionSampler {
 	}
 
 	@Override
-	public List<ConditionalSampler> create(ExpressionNode node) {
+	public MultiSampler create(ExpressionNode node) {
 		List<ConditionalSampler> list = new ArrayList<>();
 		MyList conditions = (MyList) node.getLeft();
 		MyList conditionBodies = (MyList) node.getRight();
 		for (int i = 0; i < conditions.size(); i++) {
 			list.add(createItem(conditions, conditionBodies, i));
 		}
-		return list;
+		return new MultiSampler(null, list);
 	}
 
+
 	private ConditionalSampler createItem(MyList conditions, MyList conditionBodies, int index) {
-		return new ConditionalSampler(conditions.getItem(index).wrap(),
-				conditionBodies.getItem(index).wrap());
+		return new ConditionalSampler(new IntervalConditionalExpression(
+				conditions.getItem(index).wrap(),
+				conditionBodies.getItem(index).wrap()));
 	}
 }

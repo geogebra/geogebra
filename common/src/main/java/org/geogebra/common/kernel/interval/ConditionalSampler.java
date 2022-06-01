@@ -1,102 +1,27 @@
 package org.geogebra.common.kernel.interval;
 
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.plugin.Operation;
-
 public class ConditionalSampler implements IntervalEvaluatable {
-	private final ExpressionNode condition;
-	private final ExpressionNode conditionBody;
+	private IntervalConditionalExpression conditionalExpression;
 	private DiscreteSpace space;
 	private IntervalTupleList samples;
-	private boolean negated = false;
 
 	/**
 	 *
-	 * @param condition of the sampler.
-	 * @param conditionBody to evaluate with, when condition is true
+	 * @param conditionalExpression to evaluate.
 	 * @param space to evaluate on.
 	 */
-	public ConditionalSampler(ExpressionNode condition, ExpressionNode conditionBody,
+	public ConditionalSampler(IntervalConditionalExpression conditionalExpression,
 			DiscreteSpace space) {
-		this.condition = condition;
-		this.conditionBody = conditionBody;
+		this(conditionalExpression);
 		this.space = space;
+	}
+
+	/**
+	 * @param conditionalExpression to evaluate.
+	 */
+	public ConditionalSampler(IntervalConditionalExpression conditionalExpression) {
+		this.conditionalExpression = conditionalExpression;
 		samples = new IntervalTupleList();
-	}
-
-	/**
-	 * @param condition of the sampler
-	 * @param conditionBody to evaluate with, when condition is false
-	 */
-	public ConditionalSampler(ExpressionNode condition, ExpressionNode conditionBody) {
-		this(condition, conditionBody, null);
-	}
-
-	/**
-	 *
-	 * @param function of the conditional sampler
-	 * @param condition of the sampler
-	 * @param conditionBody to evaluate with, when condition is false
-	 * @return a negated conditional sampler with no space specified.
-	 */
-	public static ConditionalSampler createNegated(ExpressionNode condition,
-			ExpressionNode conditionBody) {
-		return createNegated(condition, conditionBody, null);
-	}
-
-	/**
-	 * @param condition of the sampler
-	 * @param conditionBody to evaluate with, when condition is false
-	 * @param space to evaluate on
-	 * @return a negated conditional sampler.
-	 */
-	public static ConditionalSampler createNegated(ExpressionNode condition,
-			ExpressionNode conditionBody, DiscreteSpace space) {
-		ConditionalSampler sampler =
-				new ConditionalSampler(condition, conditionBody, space);
-		sampler.negate();
-		return sampler;
-	}
-
-	public boolean isAccepted(Interval x) {
-		return negated ? !isConditionTrue(x) : isConditionTrue(x);
-	}
-
-	boolean isConditionTrue(Interval x) {
-		return isExpressionTrue(x, condition.getLeft(),
-				condition.getOperation(), condition.getRight());
-	}
-
-	private boolean isExpressionTrue(Interval x, ExpressionValue left, Operation operation,
-			ExpressionValue right) {
-		if (operation.equals(Operation.AND_INTERVAL)) {
-			ExpressionNode nodeLeft = left.wrap();
-			ExpressionNode nodeRight = right.wrap();
-			return isExpressionTrue(x, nodeLeft.getLeft(),
-						nodeLeft.getOperation(), nodeLeft.getRight())
-					&& isExpressionTrue(x, nodeRight.getLeft(),
-						nodeRight.getOperation(), nodeRight.getRight());
-		}
-
-		return evaluateBoolean(IntervalFunction.evaluate(x, left), operation,
-				IntervalFunction.evaluate(x, right));
-	}
-
-	private boolean evaluateBoolean(Interval y1, Operation operation, Interval y2) {
-		switch (operation) {
-		case EQUAL_BOOLEAN:
-			return y1.contains(y2);
-		case LESS:
-			return y1.isLessThan(y2);
-		case LESS_EQUAL:
-			return y1.isLessThanOrEqual(y2);
-		case GREATER:
-			return y1.isGreaterThan(y2);
-		case GREATER_EQUAL:
-			return y2.isLessThanOrEqual(y1);
-		}
-		return false;
 	}
 
 	/**
@@ -129,16 +54,12 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	@Override
 	public IntervalTupleList evaluate(DiscreteSpace space) {
 		IntervalTupleList list = new IntervalTupleList();
-		if (negated) {
-			evaluateNegated(space, list);
-		} else {
-			evaluateNormal(space, list);
-		}
+		evaluateNormal(space, list);
 		return list;
 	}
 
 	private void evaluateNormal(DiscreteSpace space, IntervalTupleList list) {
-		space.values().filter(x -> isConditionTrue(x)).forEach(x -> {
+		space.values().filter(x -> conditionalExpression.isTrue(x)).forEach(x -> {
 			list.add(evaluatedTuple(x));
 		});
 	}
@@ -147,21 +68,10 @@ public class ConditionalSampler implements IntervalEvaluatable {
 		return new IntervalTuple(x, evaluatedValue(x));
 	}
 
-	private void evaluateNegated(DiscreteSpace space, IntervalTupleList list) {
-		space.values().filter(x -> !isConditionTrue(x)).forEach(x -> {
-			list.add(evaluatedTuple(x));
-		});
-	}
 
 	private Interval evaluatedValue(Interval x) {
-		return IntervalFunction.evaluate(x, conditionBody);
-	}
-
-	/**
-	 * negate the condition (for else part)
-	 */
-	public void negate() {
-		negated = true;
+		return IntervalFunction.evaluate(x,
+				conditionalExpression.getBody());
 	}
 
 	/**
