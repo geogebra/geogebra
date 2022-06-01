@@ -1010,8 +1010,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
-		return isEqual(geo, Kernel.STANDARD_PRECISION);
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+		return ExtendedBoolean.newExtendedBoolean(isEqual(geo, Kernel.STANDARD_PRECISION));
 	}
 
 	/**

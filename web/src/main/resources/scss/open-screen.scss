@@ -347,34 +347,6 @@
 				margin: 80px 0 40px 0;
 			}
 
-			.fileViewButtonPanel {
-				margin-left: 24px;
-				.containedButton {
-					form {
-						height: 0;
-						
-						input {
-							cursor: pointer;
-							position: relative;
-							top: -48px;
-							right: 0px; 
-							width: 100%; 
-							height: header.$button_height;
-							font-size: 0px;
-							opacity: 0; 
-						}
-					}	
-				}
-				.buttonMargin16 {
-					margin-left: 16px;
-				}
-				.buttonMargin24 {
-					margin-left: 24px;
-				}
-				.hover {
-					background-color: colors.$mow_card_background_hover;
-				}
-			}
 			.center {
 				margin: 0px auto;
 			}
@@ -555,7 +527,6 @@
 				.fileViewButtonPanel {
 					display: table;
 					border-collapse: separate;
-					//border-spacing: 24px 0px;
 				}
 				.extendedFAB {
 					cursor: pointer;
@@ -634,6 +605,37 @@
 			.materialCard {
 				height: 174px; // 206px - 32px
 			}
+		}
+	}
+
+	.fileViewButtonPanel {
+		margin-left: 24px;
+		.containedButton {
+			form {
+				height: 0;
+				input {
+					cursor: pointer;
+					position: relative;
+					top: -48px;
+					right: 0px;
+					width: 100%;
+					height: header.$button_height;
+					font-size: 0px;
+					opacity: 0;
+				}
+			}
+		}
+
+		.buttonMargin16 {
+			margin-left: 16px;
+		}
+
+		.buttonMargin24 {
+			margin-left: 24px;
+		}
+
+		.hover {
+			background-color: colors.$mow_card_background_hover;
 		}
 	}
 }
