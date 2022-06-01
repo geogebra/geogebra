@@ -561,9 +561,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					handled = true;
 				}
 			} else {
-				if ("Iteration".equals(name) && args.size() > 3) {
-					throw MyError.forCommand(app.getLocalization(), Errors.IllegalArgumentNumber.getKey(), name, null, Errors.IllegalArgumentNumber);
-				}
 				GeoElementND ggbResult = computeWithGGB(kern, name, args);
 				if (ggbResult != null) {
 					return ggbResult.toValueString(tpl);
