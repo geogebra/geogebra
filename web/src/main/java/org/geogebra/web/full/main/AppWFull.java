@@ -1701,17 +1701,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		int algebra = findDockPanelData(dockPanelData, App.VIEW_ALGEBRA);
 		int euclidian = findDockPanelData(dockPanelData,
 				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
-		int probability = findDockPanelData(dockPanelData, App.VIEW_PROBABILITY_CALCULATOR);
 
 		boolean isAvVisible = algebra != -1 && dockPanelData[algebra].isVisible();
 		boolean isEvVisible = euclidian != -1 && dockPanelData[euclidian].isVisible();
-		boolean isProbVisible = probability != -1 && dockPanelData[probability].isVisible();
 
 		ToolbarPanel toolbarPanel = getGuiManager().getUnbundledToolbar();
-		if (!isAvVisible && !isProbVisible) {
+		if (!isAvVisible) {
 			toolbarPanel.hideToolbarImmediate();
 			toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
-		} else if (isEvVisible || isProbVisible) {
+		} else if (isEvVisible) {
 			invokeLater(() -> {
 				toolbarPanel.setLastOpenWidth(ToolbarPanel.OPEN_START_WIDTH_LANDSCAPE);
 				toolbarPanel.open();
@@ -2453,8 +2451,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.getPanel(VIEW_ALGEBRA);
 			if (avPanel instanceof ToolbarDockPanelW) {
 				hideKeyboard();
-				((ToolbarDockPanelW) avPanel).getToolbar().close(true, 0);
-				((ToolbarDockPanelW) avPanel).getToolbar().setAVIconNonSelect(isExam());
 			}
 		}
 	}
