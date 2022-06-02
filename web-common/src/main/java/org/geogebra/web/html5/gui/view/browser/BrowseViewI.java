@@ -1,9 +1,6 @@
 package org.geogebra.web.html5.gui.view.browser;
 
-import java.util.List;
-
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.AsyncOperation;
 
 import elemental2.dom.File;
@@ -17,9 +14,6 @@ public interface BrowseViewI {
 	void clearMaterials();
 
 	void disableMaterials();
-
-	void onSearchResults(final List<Material> response,
-	        final Pagination chapters);
 
 	void close();
 

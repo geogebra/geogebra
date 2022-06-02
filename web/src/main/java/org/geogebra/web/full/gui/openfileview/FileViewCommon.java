@@ -86,7 +86,6 @@ public class FileViewCommon extends AnimatingPanel {
 	 * adds content if available
 	 */
 	public void addContent() {
-		contentPanel.clear();
 		contentPanel.add(materialPanel);
 	}
 

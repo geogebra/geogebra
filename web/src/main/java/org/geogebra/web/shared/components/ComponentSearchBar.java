@@ -70,7 +70,7 @@ public class ComponentSearchBar extends FlowPanel {
 		searchButton.addStyleName("searchBtn");
 		searchButton.addStyleName("flatButtonHeader");
 		searchButton.addFastClickHandler((event) -> {
-			// TODO handle search
+			app.getGuiManager().getBrowseView().displaySearchResults(inputTextField.getText());
 		});
 
 		add(searchButton);

@@ -1,9 +1,6 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import java.util.List;
-
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
@@ -27,12 +24,6 @@ public abstract class HeaderFileView implements BrowseViewI {
 
 	@Override
 	public void disableMaterials() {
-		// not used
-
-	}
-
-	@Override
-	public void onSearchResults(List<Material> response, Pagination chapters) {
 		// not used
 
 	}
