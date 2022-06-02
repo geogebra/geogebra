@@ -285,8 +285,8 @@ public abstract class Layout implements SettingListener {
 				InputPosition.algebraView);
 	}
 
-	private static Perspective createProbabilityPerspective(App app, double avPercent, String defToolbar,
-			boolean needAV) {
+	private static Perspective createProbabilityPerspective(App app, double avPercent,
+			String defToolbar, boolean needAV) {
 		DockPanelData[] dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
 				false,
