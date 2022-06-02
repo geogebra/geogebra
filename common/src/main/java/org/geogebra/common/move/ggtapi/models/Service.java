@@ -7,4 +7,6 @@ public interface Service {
 	HttpRequest createRequest(AuthenticationModel model);
 
 	String getDeletionJson(Material.MaterialType materialType);
+
+	String getGgsTemplateEndpoint(int userId);
 }

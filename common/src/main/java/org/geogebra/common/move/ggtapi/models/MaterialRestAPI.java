@@ -53,7 +53,21 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @return HTTP request
 	 */
 	public HttpRequest getItem(String id, MaterialCallbackI callback) {
-		return performRequest("GET", "/materials/" + id, null, callback);
+		return performRequest("GET", "/materials/" + id, null, new MaterialCallbackI() {
+			@Override
+			public void onLoaded(List<Material> result, Pagination meta) {
+				if (result.size() == 1 && result.get(0).getType() == MaterialType.ws) {
+					getWorksheetItems(result.get(0), callback);
+				} else {
+					callback.onLoaded(result, meta);
+				}
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				callback.onError(exception);
+			}
+		});
 	}
 
 	@Override
@@ -126,6 +140,7 @@ public class MaterialRestAPI implements BackendAPI {
 		String json = service.getDeletionJson(mat.getType());
 		String method = json == null ? "DELETE" : "PATCH";
 		HttpRequest request = service.createRequest(model);
+		request.setContentTypeJson();
 		request.sendRequestPost(method, baseURL + "/materials/" + mat.getSharingKeyOrId(), json,
 				new AjaxCallback() {
 					@Override
@@ -572,9 +587,7 @@ public class MaterialRestAPI implements BackendAPI {
 		}
 
 		performRequest("GET",
-				"/users/" + model.getUserId()
-						+ "/materials?format=page&filter="
-						+ "ggs-template",
+				service.getGgsTemplateEndpoint(model.getUserId()),
 				null, templateMaterialsCB);
 	}
 
@@ -630,7 +643,7 @@ public class MaterialRestAPI implements BackendAPI {
 						if ("G".equals(jsonObject.optString("type"))) {
 							Material mat = new Material(parent);
 							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
-							mat.setURL(jsonObject.getString("url"));
+							mat.setFileName(jsonObject.getString("url"));
 							materials.add(mat);
 						}
 					}
