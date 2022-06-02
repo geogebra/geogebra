@@ -538,22 +538,7 @@ var GGBApplet = function() {
             GGBAppletUtils.responsiveResize(appletElem, parameters);
         };
 
-        if (typeof jQuery === "function") {
-            jQuery(window).resize(function() {
-                applet.resize();
-            });
-        } else {
-            var oldOnResize = null;
-            if (window.onresize !== undefined && typeof window.onresize === "function") {
-                oldOnResize = window.onresize;
-            }
-            window.onresize = function() {
-                applet.resize();
-                if (typeof oldOnResize === "function") {
-                    oldOnResize();
-                }
-            };
-        }
+        window.addEventListener('resize', function(evt) {applet.resize()});
 
     var oriAppletOnload = (typeof parameters.appletOnLoad === "function") ?
                       parameters.appletOnLoad : function(){};
@@ -600,8 +585,6 @@ var GGBApplet = function() {
                     }
                     if (window.GGBT_wsf_view) {
                         $(window).trigger("resize");
-                    } else {
-                        window.onresize();
                     }
 
                     oriAppletOnload(api);
@@ -777,27 +760,11 @@ var GGBApplet = function() {
             resizeScreenshot(appletElem, previewContainer, previewPositioner, showPlayButton);
         };
 
-        if (typeof jQuery === "function") {
-            jQuery(window).resize(function() {
-                applet.resize();
-            });
-        } else {
-            var oldOnResize = null;
-            // Resize the preview when the window is resized
-            if (window.onresize !== undefined && typeof window.onresize === "function") {
-                oldOnResize = window.onresize;
-            }
-            window.onresize = function() {
-                applet.resize();
-                if (typeof oldOnResize === "function") {
-                    oldOnResize();
-                }
-            };
-        }
+        window.addEventListener('resize', function(evt) {applet.resize()});
         applet.resize();
     };
 
-    function resizeScreenshot(appletElem, previewContainer, previewPositioner, showPlayButton, oldOnResize) {
+    function resizeScreenshot(appletElem, previewContainer, previewPositioner, showPlayButton) {
         if (!appletElem.contains(previewContainer)) { // Don't resize the screenshot if it is not visible (anymore)
             return;
         }
@@ -831,11 +798,6 @@ var GGBApplet = function() {
         if (typeof window.GGBT_ws_header_footer === "object") {
             window.GGBT_ws_header_footer.setWsScrollerHeight();
         }
-
-        if (typeof oldOnResize === "function") {
-            oldOnResize();
-        }
-
     }
 
     applet.onExitFullscreen = function(fullscreenContainer, appletElem) {
@@ -862,7 +824,7 @@ var GGBApplet = function() {
                     content.remove();
                     oldcontent.attr("id", "fullscreencontent").show();
                     jQuery(container).append(oldcontent);
-                    window.onresize();
+                    window.dispatchEvent(new Event("resize"));
                 } else {
                     // Render a new applet
                     injectHTML5Applet(content, parameters, false);
