@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelLabel;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -104,7 +105,7 @@ public class CASTableCellW extends VerticalPanel {
 						.parse(casCell.getInput(StringTemplate.defaultTemplate));
 				return new TeXSerializer().serialize(mf);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				Log.debug("Cannot parse cas call input");
 			}
 		}
 		return ret == null ? "" : ret;
