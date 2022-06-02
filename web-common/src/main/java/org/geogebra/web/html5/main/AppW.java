@@ -828,15 +828,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Log.debug("images loaded");
 			// Macros (optional)
 			if (def.hasMacros()) {
-				// macros = DataUtil.utf8Decode(macros);
-				// //DataUtil.utf8Decode(macros);
 				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
 			int seed = getAppletParameters().getParamRandomSeed();
 			if (seed != -1) {
 				setRandomSeed(seed);
 			}
-			Log.debug(def.getConstruction());
 			getXMLio().processXMLString(def.getConstruction(), true, false,
 					getAppletParameters().getParamRandomize());
 			// defaults (optional)

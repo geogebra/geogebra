@@ -1242,7 +1242,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			if (!isPreferencesXML) {
 				// border excluded in getAppletWidth
-				int width =	Integer.parseInt(attrs.get("width"));
+				int width = Integer.parseInt(attrs.get("width"));
 				int height = Integer.parseInt(attrs.get("height"));
 				if (width > 0 && height > 0) {
 					ev.setPreferredSize(
