@@ -71,7 +71,7 @@ public class CmdIteration extends CommandProcessor {
 			throw argErr(c, getBadArg(ok, arg));
 		default:
 			if (GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getAppCode())
-					|| GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getSubAppCode()) ) {
+					|| GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getSubAppCode())) {
 				throw argNumErr(c);
 			}
 			GeoElement arg1 = null;
