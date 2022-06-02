@@ -10,12 +10,6 @@ the Free Software Foundation.
 
  */
 
-/*
- * AlgoRadius.java
- *
- * Created on 30. August 2001, 21:37
- */
-
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;

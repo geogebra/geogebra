@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Radius[ &lt;GeoConic or Quadric> ]
+ * Type[ &lt;GeoConic or Quadric> ]
  */
 public class CmdType extends CommandProcessor {
 
