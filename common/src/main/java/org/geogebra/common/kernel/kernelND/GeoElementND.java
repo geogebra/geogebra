@@ -47,6 +47,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.LaTeXCache;
 
 /**
@@ -1666,4 +1667,6 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 * @return style-related XML (no value)
 	 */
 	String getStyleXML();
+
+	ExtendedBoolean isEqualExtended(GeoElementND geoPolygon);
 }

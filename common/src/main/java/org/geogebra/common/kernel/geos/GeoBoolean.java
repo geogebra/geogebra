@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -211,7 +212,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 */
 	final public void setUndefinedProverOnly() {
 		// Needed for prover's yes/no/undefined trichotomy
+		// Reset value => boolean arithmetic is predictable without checking for ? everywhere
 		isDefined = false;
+		value = false;
 	}
 
 	/**
@@ -355,12 +358,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type, otherwise check
-		if (geo.isGeoBoolean()) {
-			return value == ((GeoBoolean) geo).getBoolean();
-		}
-		return false;
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoBoolean()
+				&& value == ((GeoBoolean) geo).getBoolean());
 	}
 
 	@Override

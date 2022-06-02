@@ -212,6 +212,8 @@ public class GeoGebraFrameFull
 	 * @param panel Shows this full-screen panel.
 	 */
 	public void showPanel(MyHeaderPanel panel) {
+		forceHeaderHidden(true);
+		getApp().setCloseBrowserCallback(() -> forceHeaderHidden(false));
 		panelTransitioner.showPanel(panel);
 	}
 

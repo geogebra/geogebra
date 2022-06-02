@@ -1,10 +1,10 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
+import org.geogebra.web.full.gui.openfileview.OpenFileViewMebis;
 import org.geogebra.web.full.gui.openfileview.OpenTemporaryFileView;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -135,15 +135,15 @@ public class BrowserDevice implements GDevice {
 			return new OpenTemporaryFileView(app);
 		} else if (app.isMebis()) {
 			FileOpenButton fileOpenButton = new FileOpenButton("containedButton");
-			BrowseViewI openFileView = new OpenFileView(app, fileOpenButton);
+			BrowseViewI openFileView = new OpenFileViewMebis(app, fileOpenButton);
 			fileOpenButton.setOpenFileView(openFileView);
 			return openFileView;
 		}
 
-		FileOpenButton mb = new FileOpenButton();
-		BrowseGUI bg = new BrowseGUI(app, mb);
-		mb.setOpenFileView(bg);
-		return bg;
+		FileOpenButton mb = new FileOpenButton("containedButton");
+		BrowseViewI openFileView = new OpenFileView(app, mb);
+		mb.setOpenFileView(openFileView);
+		return openFileView;
 	}
 
 	@Override

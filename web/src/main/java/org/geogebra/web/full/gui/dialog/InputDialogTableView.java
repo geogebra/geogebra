@@ -83,7 +83,8 @@ public class InputDialogTableView extends ComponentDialog
 
 	private ComponentInputField addTextField(String labelText, FlowPanel root) {
 		final ComponentInputField field = new ComponentInputField((AppW) app,
-				null, labelText, null, "", 20, 1);
+				null, labelText, null, "", 20, 1,
+				false);
 		root.add(field);
 		return field;
 	}

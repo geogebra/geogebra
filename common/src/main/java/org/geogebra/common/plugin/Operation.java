@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.kernel.statistics.AlgoNpR;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
 @SuppressWarnings("javadoc")
@@ -219,7 +220,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyBoolean(ev.getKernel(), !ExpressionNode.isEqual(lt, rt));
+			ExtendedBoolean equal = ExpressionNode.isEqual(lt, rt);
+			return new MyBoolean(ev.getKernel(), !equal.boolVal(), equal.isDefined());
 		}
 	},
 	EQUAL_BOOLEAN {
@@ -227,7 +229,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyBoolean(ev.getKernel(), ExpressionNode.isEqual(lt, rt));
+			ExtendedBoolean equal = ExpressionNode.isEqual(lt, rt);
+			return new MyBoolean(ev.getKernel(), equal.boolVal(), equal.isDefined());
 		}
 	},
 	LESS {
@@ -380,8 +383,9 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof ListValue) {
+				ExtendedBoolean elementOf = MyList.isElementOf(lt, ((ListValue) rt).getMyList());
 				return new MyBoolean(ev.getKernel(),
-						MyList.isElementOf(lt, ((ListValue) rt).getMyList()));
+						elementOf.boolVal(), elementOf.isDefined());
 			}
 
 			// checks for 2D or 3D point

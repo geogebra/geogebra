@@ -6,7 +6,7 @@ import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.exam.TempStorage;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.MyHeaderPanel;
+import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -21,20 +21,18 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	private final AppW app;
 
 	/**
-	 * @param app
-	 *            application
-	 *
+	 * @param app - application
 	 */
 	public OpenTemporaryFileView(AppW app) {
 		this.app = app;
 		app.registerOpenFileListener(this);
-		common = new FileViewCommon(app, "Open");
+		common = new FileViewCommon(app, "Open", false);
 		common.addStyleName("examTemporaryFiles");
 		tempStorage = app.getExam().getTempStorage();
 	}
 
 	@Override
-	public MyHeaderPanel getPanel() {
+	public AnimatingPanel getPanel() {
 		return common;
 	}
 
