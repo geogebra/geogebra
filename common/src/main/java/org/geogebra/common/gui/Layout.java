@@ -83,7 +83,7 @@ public abstract class Layout implements SettingListener {
 		perspectives.add(graphing3D);
 
 		boolean needAV = app.isSuite();
-		Perspective probability = createProbabilityPerspective(avPercent, defToolbar, needAV);
+		Perspective probability = createProbabilityPerspective(app, avPercent, defToolbar, needAV);
 		perspectives.add(probability);
 
 		if (app.isWhiteboardActive()) {
@@ -175,6 +175,11 @@ public abstract class Layout implements SettingListener {
 
 	private static DockPanelData.TabIds getGeometryTabId(App app) {
 		return app.isUnbundled() ? DockPanelData.TabIds.TOOLS : DockPanelData.TabIds.ALGEBRA;
+	}
+
+	private static DockPanelData.TabIds getProbabilityTabId(App app) {
+		return app.isUnbundled() ? DockPanelData.TabIds.DISTRIBUTION
+				: DockPanelData.TabIds.ALGEBRA;
 	}
 
 	private static Perspective createSpreadsheetPerspective(String defToolbar) {
@@ -280,8 +285,8 @@ public abstract class Layout implements SettingListener {
 				InputPosition.algebraView);
 	}
 
-	private static Perspective createProbabilityPerspective(double avPercent, String defToolbar,
-			boolean needAV) {
+	private static Perspective createProbabilityPerspective(App app, double avPercent,
+			String defToolbar, boolean needAV) {
 		DockPanelData[] dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
 				false,
@@ -290,7 +295,7 @@ public abstract class Layout implements SettingListener {
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, needAV, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-				"1,3", 200);
+				"1,3", 200).setTabId(getProbabilityTabId(app));
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),

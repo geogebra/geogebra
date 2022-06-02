@@ -17,6 +17,7 @@ public class AppConfigProbability extends AppConfigGraphing {
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
+			dp.setTabId(DockPanelData.TabIds.DISTRIBUTION);
 		} else if (dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
 			dp.setLocation("1");
 		}
