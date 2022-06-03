@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.euclidian.EuclidianStatic;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.Composite;
@@ -18,31 +21,21 @@ public abstract class StylePreview extends Composite {
 	protected GGraphics2DWI g2;
 	private int marginX = 0;
 	private int marginY;
-	protected AppW app;
 
 	/**
-	 * @param app
-	 *            application
 	 * @param width
 	 *            width
 	 * @param height
 	 *            height
 	 */
-	public StylePreview(AppW app, int width, int height) {
-		this.app = app;
+	public StylePreview(int width, int height) {
 		Canvas canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceWidth(width);
 		canvas.setCoordinateSpaceHeight(height);
 		initWidget(canvas);
 		g2 = new GGraphics2DW(canvas);
-		createPreviewGeo();
 		setMarginY(height / 2 - 1);
 	}
-
-	/**
-	 * Creates a geo used for preview only.
-	 */
-	protected abstract void createPreviewGeo();
 
 	/**
 	 * Clears the preview.
@@ -65,5 +58,16 @@ public abstract class StylePreview extends Composite {
 
 	public void setMarginY(int marginY) {
 		this.marginY = marginY;
+	}
+
+	protected void drawStylePreview(GColor color, int thickness, int style, int width) {
+		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
+		g2.setStroke(EuclidianStatic.getStroke(thickness,
+				style));
+		g2.setColor(color);
+		gp.reset();
+		gp.moveTo(marginX, marginY);
+		gp.lineTo(marginX + width, marginY);
+		g2.draw(gp);
 	}
 }
