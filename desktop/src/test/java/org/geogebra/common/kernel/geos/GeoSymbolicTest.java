@@ -1688,4 +1688,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Length(\"hello\")", "5");
 		t("Length(x-y^2=0)", "?");
 	}
+
+	@Test
+	public void testIterationOutput() {
+		app.setCasConfig();
+		GeoSymbolic geo4args = add("Iteration(1,2,3,4)");
+
+		assertEquals(geo4args.toValueString(StringTemplate.defaultTemplate), "Iteration(1, 2, 3, 4)");
+		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
+	}
 }
