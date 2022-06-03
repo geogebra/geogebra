@@ -31,8 +31,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	private NetworkOperation op;
 
 	private FlowPanel signInPanel;
-	private Button signInButton;
-
+	private Button signInTextButton;
 	private ProfilePanel profilePanel;
 
 	private LogInOperation login;
@@ -106,14 +105,15 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 	}
 
 	private void onLogout() {
-		if (this.signInButton == null) {
-			this.signInButton = ((GLookAndFeel) app.getLAF())
-					.getSignInController(app).getButton();
+		if (signInTextButton == null) {
+			signInTextButton = ((GLookAndFeel) app.getLAF())
+					.getSignInController(app).getLoginTextButton();
+			signInPanel.add(signInTextButton);
 
-			this.signInPanel.add(this.signInButton);
+
 		}
-		this.rightPanel.clear();
-		this.rightPanel.add(this.signInPanel);
+		rightPanel.clear();
+		rightPanel.add(signInPanel);
 	}
 
 	private void onLogin(boolean successful, GeoGebraTubeUser user) {
@@ -149,7 +149,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 		}
 		int rightPanelWidth;
 		if (this.rightPanel.getOffsetWidth() == 0) {
-			if (this.signInButton != null && this.signInButton.isVisible()) {
+			if (this.signInTextButton != null && this.signInTextButton.isVisible()) {
 				rightPanelWidth = 150;
 			} else {
 				rightPanelWidth = 60;
@@ -163,16 +163,16 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 
 	@Override
 	public void render(boolean b) {
-		if (this.signInButton != null) {
-			this.signInButton.setEnabled(b);
+		if (this.signInTextButton != null) {
+			this.signInTextButton.setEnabled(b);
 		}
 	}
 
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		if (this.signInButton != null) {
-			this.signInButton.setText(loc.getMenu("SignIn"));
+		if (this.signInTextButton != null) {
+			this.signInTextButton.setText(loc.getMenu("SignIn"));
 		}
 		if (profilePanel != null) {
 			profilePanel.setLabels();

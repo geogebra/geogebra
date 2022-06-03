@@ -62,8 +62,19 @@ $button_hover_transition: background-color 0.15s;
             opacity: 0.87;
 
             &:hover{
-            	opacity: 1;
+            	opacity: 0.87;
             	background-color: colors.$hover-calc-btn-bg;
+            }
+        }
+
+        .signInIcon {
+            opacity: 0.54;
+            margin-left: 8px;
+            padding: 12px;
+            cursor: pointer;
+
+            &:hover{
+            	opacity: 1;
             }
         }
 
@@ -92,6 +103,17 @@ $button_hover_transition: background-color 0.15s;
         .headerBackButton {
             margin-left: 8px;
             margin-right: 24px;
+        }
+
+        .profilePanel {
+			height: 36px;
+			margin: 0 0 0 8px;
+			padding: 6px;
+
+        	.profileImage {
+        		width: 36px;
+        		height: 36px !important;
+        	}
         }
     }
 

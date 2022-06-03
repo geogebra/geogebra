@@ -33,7 +33,8 @@ public class FileViewCommon extends AnimatingPanel {
 	// material panel
 	private FlowPanel materialPanel;
 	private final LocalizationW loc;
-	private Button signInButton;
+	private Button signInTextButton;
+	private StandardButton signInIconButton;
 	private ProfilePanel profilePanel;
 
 	/**
@@ -74,16 +75,21 @@ public class FileViewCommon extends AnimatingPanel {
 
 		if (withSearch) {
 			addSearchBar();
-			addSignInBtn();
+			buildSingInPanel();
 		}
 		this.setHeaderWidget(headerView);
 	}
 
-	private void addSignInBtn() {
-		signInButton = ((GLookAndFeel) app.getLAF())
-				.getSignInController(app).getButton();
-		signInButton.setStyleName("signIn");
-		getHeader().add(signInButton);
+	private void buildSingInPanel() {
+		signInTextButton = ((GLookAndFeel) app.getLAF())
+				.getSignInController(app).getLoginTextButton();
+		signInTextButton.setStyleName("signIn");
+		getHeader().add(signInTextButton);
+
+		signInIconButton = ((GLookAndFeel) app.getLAF())
+				.getSignInController(app).getLoginIconButton();
+		signInIconButton.setStyleName("signInIcon");
+		getHeader().add(signInIconButton);
 
 		profilePanel = new ProfilePanel(app);
 		getHeader().add(profilePanel);
@@ -94,7 +100,17 @@ public class FileViewCommon extends AnimatingPanel {
 			profilePanel.setVisible(false);
 		} else {
 			profilePanel.update(user);
-			signInButton.setVisible(false);
+			signInTextButton.setVisible(false);
+			signInIconButton.setVisible(false);
+		}
+	}
+
+	private void updateSignInButtonsVisibility(boolean smallScreen) {
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
+				.getLoggedInUser();
+		if (user == null) {
+			signInIconButton.setVisible(smallScreen);
+			signInTextButton.setVisible(!smallScreen);
 		}
 	}
 
@@ -135,8 +151,8 @@ public class FileViewCommon extends AnimatingPanel {
 				((MaterialCard) widget).setLabels();
 			}
 		}
-		if (signInButton != null) {
-			signInButton.setText(loc.getMenu("SignIn"));
+		if (signInTextButton != null) {
+			signInTextButton.setText(loc.getMenu("SignIn"));
 		}
 		if (profilePanel != null) {
 			profilePanel.setLabels();
@@ -169,6 +185,7 @@ public class FileViewCommon extends AnimatingPanel {
 		if (searchBar != null) {
 			Dom.toggleClass(searchBar, "compact", smallScreen);
 		}
+		updateSignInButtonsVisibility(smallScreen);
 	}
 
 	/**
@@ -243,7 +260,8 @@ public class FileViewCommon extends AnimatingPanel {
 	 * @param event - login event
 	 */
 	public void onLogin(LoginEvent event) {
-		signInButton.setVisible(false);
+		signInTextButton.setVisible(false);
+		signInIconButton.setVisible(false);
 		profilePanel.setVisible(true);
 		profilePanel.update(event.getUser());
 		headerView.add(profilePanel);
@@ -254,6 +272,8 @@ public class FileViewCommon extends AnimatingPanel {
 	 */
 	public void onLogout() {
 		profilePanel.setVisible(false);
-		signInButton.setVisible(true);
+		boolean isSmallScreen = app.getAppletFrame()
+				.hasSmallWindowOrCompactHeader();
+		updateSignInButtonsVisibility(isSmallScreen);
 	}
 }
