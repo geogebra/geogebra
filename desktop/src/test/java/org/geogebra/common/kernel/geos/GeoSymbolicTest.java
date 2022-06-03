@@ -1692,9 +1692,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testIterationOutput() {
 		app.setCasConfig();
-		GeoSymbolic geo4args = add("Iteration(1,2,3,4)");
+		GeoSymbolic geo4args = add("Iteration(2u + 1, u, {0}, 64)");
 
-		assertEquals(geo4args.toValueString(StringTemplate.defaultTemplate), "Iteration(1, 2, 3, 4)");
+		assertEquals(geo4args.toValueString(StringTemplate.defaultTemplate), "Iteration(2u + 1, u, {0}, 64)");
 		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
 	}
 }
