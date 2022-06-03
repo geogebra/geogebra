@@ -1,6 +1,9 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -8,10 +11,12 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.shared.ProfilePanel;
 import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,6 +33,8 @@ public class FileViewCommon extends AnimatingPanel {
 	// material panel
 	private FlowPanel materialPanel;
 	private final LocalizationW loc;
+	private Button signInButton;
+	private ProfilePanel profilePanel;
 
 	/**
 	 * @param app the application
@@ -67,8 +74,28 @@ public class FileViewCommon extends AnimatingPanel {
 
 		if (withSearch) {
 			addSearchBar();
+			addSignInBtn();
 		}
 		this.setHeaderWidget(headerView);
+	}
+
+	private void addSignInBtn() {
+		signInButton = ((GLookAndFeel) app.getLAF())
+				.getSignInController(app).getButton();
+		signInButton.setStyleName("signIn");
+		getHeader().add(signInButton);
+
+		profilePanel = new ProfilePanel(app);
+		getHeader().add(profilePanel);
+
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
+				.getLoggedInUser();
+		if (user == null) {
+			profilePanel.setVisible(false);
+		} else {
+			profilePanel.update(user);
+			signInButton.setVisible(false);
+		}
 	}
 
 	private void addSearchBar() {
@@ -107,6 +134,12 @@ public class FileViewCommon extends AnimatingPanel {
 			if (widget instanceof MaterialCard) {
 				((MaterialCard) widget).setLabels();
 			}
+		}
+		if (signInButton != null) {
+			signInButton.setText(loc.getMenu("SignIn"));
+		}
+		if (profilePanel != null) {
+			profilePanel.setLabels();
 		}
 	}
 
@@ -203,5 +236,24 @@ public class FileViewCommon extends AnimatingPanel {
 
 	public HeaderView getHeader() {
 		return headerView;
+	}
+
+	/**
+	 * hide sign in button, show profile avatar
+	 * @param event - login event
+	 */
+	public void onLogin(LoginEvent event) {
+		signInButton.setVisible(false);
+		profilePanel.setVisible(true);
+		profilePanel.update(event.getUser());
+		headerView.add(profilePanel);
+	}
+
+	/**
+	 * hide avatar, show sign in button
+	 */
+	public void onLogout() {
+		profilePanel.setVisible(false);
+		signInButton.setVisible(true);
 	}
 }
