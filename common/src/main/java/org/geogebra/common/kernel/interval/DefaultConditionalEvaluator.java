@@ -17,28 +17,30 @@ public class DefaultConditionalEvaluator implements IntervalEvaluatable {
 
 	@Override
 	public IntervalTupleList evaluate(Interval x) {
+		IntervalTupleList result = new IntervalTupleList();
 		for (int i = 0; i < samplers.size(); i++) {
 			ConditionalSampler sampler = samplers.get(i);
 			IntervalTupleList newPoints = sampler.evaluate(x);
 			if (!newPoints.isEmpty()) {
 				newPoints.setPiece(i);
-				return newPoints;
+				result.append(newPoints);
 			}
 		}
-		return IntervalTupleList.emptyList();
+		return result;
 	}
 
 	@Override
 	public IntervalTupleList evaluate(DiscreteSpace space) {
+		IntervalTupleList result = new IntervalTupleList();
 		for (int i = 0; i < samplers.size(); i++) {
 			ConditionalSampler sampler = samplers.get(i);
 			IntervalTupleList newPoints = sampler.evaluate(space);
 			if (!newPoints.isEmpty()) {
 				newPoints.setPiece(i);
-				return newPoints;
+				result.append(newPoints);
 			}
 		}
 
-		return IntervalTupleList.emptyList();
+		return result;
 	}
 }

@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -52,11 +49,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	@Override
 	public IntervalTupleList result() {
 		return evaluate(space);
-	}
-
-	@Override
-	public List<IntervalTupleList> results() {
-		return Collections.singletonList(result());
 	}
 
 	@Override

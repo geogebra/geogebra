@@ -3,9 +3,7 @@ package org.geogebra.common.kernel.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBoundsMock;
@@ -16,13 +14,14 @@ import org.junit.Test;
 public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 	@Test
 	public void testSingleIf() {
-		GeoFunction function = add("a=If(x < 0, -1)");
+		GeoFunction function = add("a=If(x < 0, 1)");
 		IntervalTuple range = PlotterUtils.newRange(-20, 20, -5, 5);
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		allEquals(-1, tuples);
+		assertEquals(tuples.count(), countPieceByValue(tuples, interval(1), 0));
+
 	}
 	@Test
 	public void testSingleIfWithCompoundCondition() {
@@ -32,16 +31,14 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		allEquals(-1, tuples);
+		assertEquals(tuples.count(), countPieceByValue(tuples, interval(-1), 0));
 	}
 
-	static void allEquals(int singleton, IntervalTupleList tuples) {
-		int count = tuples.count();
-		long filteredCount = tuples.stream().filter(tuple -> tuple.y().almostEqual(
-				interval(singleton))).count();
-		assertTrue("filtered: " + filteredCount + " all: " + count,
-				count > 0 && count == filteredCount);
+	private long countPieceByValue(IntervalTupleList tuples, Interval y, int piece) {
+		return tuples.stream().filter(tuple -> tuple.y().equals(y) && tuple.piece() == piece)
+				.count();
 	}
+
 
 	@Test
 	public void testIfElse() {
@@ -50,10 +47,9 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		sampler.update(range);
-		List<IntervalTupleList> results = sampler.results();
-		allEquals(-1, results.get(0));
-		allEquals(1, results.get(1));
+		IntervalTupleList tuples = sampler.result();
+		assertEquals(15, countPieceByValue(tuples, interval(-1), 0));
+		assertEquals(14, countPieceByValue(tuples, interval(1), 1));
 	}
 
 	@Test
@@ -62,10 +58,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		List<IntervalTupleList> results = sampler.results();
-		allEquals(1, results.get(0));
-		allEquals(2, results.get(1));
-		allEquals(3, results.get(2));
+		fail();
 	}
 
 	@Test
@@ -74,8 +67,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		IntervalTupleList result1 = sampler.evaluate(-10, -2);
-		allEquals(1, result1);
+		fail();
 	}
 
 	@Test
@@ -85,8 +77,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				range,
 				new EuclidianViewBoundsMock(range, 100, 100));
-		IntervalTupleList tuples = sampler.evaluate(-20, 20);
-		assertEquals(null, tuples);
+		fail();
 	}
 
 	@Test
@@ -96,9 +87,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				range,
 				new EuclidianViewBoundsMock(-20, 20, -10, 10));
-		sampler.update(range);
-		IntervalTupleList diffTuples = sampler.evaluate(interval(-1, -0.001));
-		allEquals(-1, diffTuples);
+		fail();
 	}
 
 	@Test

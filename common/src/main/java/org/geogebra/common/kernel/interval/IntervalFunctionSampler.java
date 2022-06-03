@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import java.util.List;
-
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 public interface IntervalFunctionSampler extends IntervalEvaluatable {
@@ -12,8 +10,6 @@ public interface IntervalFunctionSampler extends IntervalEvaluatable {
 	 * @return the sample list
 	 */
 	IntervalTupleList result();
-
-	List<IntervalTupleList> results();
 
 	void update(IntervalTuple range);
 

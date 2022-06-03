@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian.plot.interval;
 
-import java.util.List;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -65,13 +63,7 @@ public class IntervalPlotModel {
 
 	void updateSampledData() {
 		sampler.update(range);
-		points = new IntervalTupleList();
-		List<IntervalTupleList> results = sampler.results();
-		for (int i = 0; i < results.size(); i++) {
-			IntervalTupleList newPoints = results.get(i);
-			newPoints.setPiece(i);
-			points.append(newPoints);
-		}
+		points = sampler.result();
 	}
 
 	public boolean isEmpty() {

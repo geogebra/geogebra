@@ -32,16 +32,8 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList result() {
-		results = results();
-		return results.isEmpty() ? IntervalTupleList.emptyList() : results().get(0);
-	}
-
-	@Override
-	public List<IntervalTupleList> results() {
-		results.clear();
 		update(range);
-		samplers.forEach(sampler -> results.add(sampler.result()));
-		return results;
+		return evaluate(space);
 	}
 
 	@Override
