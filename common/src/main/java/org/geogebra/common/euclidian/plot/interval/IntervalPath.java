@@ -45,13 +45,14 @@ public class IntervalPath {
 	}
 
 	private void drawAt(int index) {
-		if (model.isUndefinedAt(index)) {
+		IntervalTuple tuple = model.at(index);
+		if (tuple.isUndefined() || isPieceChanged(tuple)) {
 			noJoinForNextTuple();
 		} else {
 			drawTupleAt(index);
 		}
-		drawInterval.setJoinToPrevious(!model.isUndefinedAt(index)
-				&& !isPieceChanged(model.at(index)));
+		drawInterval.setJoinToPrevious(!tuple.isUndefined()
+				&& !isPieceChanged(tuple));
 	}
 
 	private void noJoinForNextTuple() {

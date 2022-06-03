@@ -71,6 +71,10 @@ public class ConditionalSampler implements IntervalEvaluatable {
 		this.space = space;
 	}
 
+	boolean isAccepted(Interval x) {
+		return conditionalExpression.isTrue(x);
+	}
+
 	public void setIndex(int index) {
 		this.index = index;
 	}

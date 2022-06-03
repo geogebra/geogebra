@@ -21,7 +21,7 @@ public class IfListSampler implements ExpressionSampler {
 		for (int i = 0; i < conditions.size(); i++) {
 			list.add(createItem(conditions, conditionBodies, i));
 		}
-		return new MultiSampler(null, list);
+		return new MultiSampler(new IfListEvaluator(list), list);
 	}
 
 
