@@ -506,7 +506,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			double c = a / value;
 			double m = c * c - b / value;
 			if (DoubleUtil.isZero(m)) {
-				parallelPlanes(0, c);
+				getPlanes();
+				buildPlane(0, -c);
+				type = QUADRIC_PLANE;
 			} else if (m > 0) {
 				parallelPlanes(Math.sqrt(m), c);
 			} else { // m < 0
@@ -518,35 +520,24 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	private void parallelPlanes(double shift, double c) {
-
-		// update planes
 		getPlanes();
-
-		CoordSys cs = planes[0].getCoordSys();
-		cs.resetCoordSys();
-		tmpCoords.setMul(eigenvecND[2], -shift - c);
-		tmpCoords.setW(1);
-		cs.setOrigin(tmpCoords);
-		cs.setVx(eigenvecND[0]);
-		cs.setVy(eigenvecND[1]);
-		cs.setVz(eigenvecND[2]);
-		cs.setMatrixOrthonormalAndDrawingMatrix();
-		cs.setMadeCoordSys();
-		cs.makeEquationVector();
-
-		cs = planes[1].getCoordSys();
-		cs.resetCoordSys();
-		tmpCoords.setMul(eigenvecND[2], shift - c);
-		tmpCoords.setW(1);
-		cs.setOrigin(tmpCoords);
-		cs.setVx(eigenvecND[0]);
-		cs.setVy(eigenvecND[1]);
-		cs.setVz(eigenvecND[2]);
-		cs.setMatrixOrthonormalAndDrawingMatrix();
-		cs.setMadeCoordSys();
-		cs.makeEquationVector();
-
+		buildPlane(0, -shift - c);
+		buildPlane(1, shift - c);
 		type = GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES;
+	}
+
+	private void buildPlane(int i, double v) {
+		CoordSys cs = planes[i].getCoordSys();
+		cs.resetCoordSys();
+		tmpCoords.setMul(eigenvecND[2], v);
+		tmpCoords.setW(1);
+		cs.setOrigin(tmpCoords);
+		cs.setVx(eigenvecND[0]);
+		cs.setVy(eigenvecND[1]);
+		cs.setVz(eigenvecND[2]);
+		cs.setMatrixOrthonormalAndDrawingMatrix();
+		cs.setMadeCoordSys();
+		cs.makeEquationVector();
 	}
 
 	private void parabolicCylinder(double value) {
