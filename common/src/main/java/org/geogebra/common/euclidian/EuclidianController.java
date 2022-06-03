@@ -9330,7 +9330,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				return false;
 			}
 		}
-		return true;
+		return view.getLabelHitCheckRefresh(event.getPoint(), event.getType()) == null;
 	}
 
 	private boolean needsAxisZoom(Hits hits, AbstractEvent event) {
