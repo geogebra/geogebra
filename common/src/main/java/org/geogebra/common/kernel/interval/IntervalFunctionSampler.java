@@ -85,11 +85,17 @@ public class IntervalFunctionSampler {
 					try {
 						Interval y = function.evaluate(x);
 						IntervalTuple tuple = new IntervalTuple(x, y);
-						samples.add(tuple);
+						if (isNonDegeneratedValue(tuple.y())) {
+							samples.add(tuple);
+						}
 					} catch (Exception e) {
 						Log.debug(e);
 					}
 				});
+	}
+
+	private boolean isNonDegeneratedValue(Interval y) {
+		return !(y.isPositiveInfinity() && y.isInverted());
 	}
 
 	/**
