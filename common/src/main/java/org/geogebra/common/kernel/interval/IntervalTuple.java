@@ -22,6 +22,11 @@ public class IntervalTuple {
 		this.y = y;
 	}
 
+	public IntervalTuple(Interval x, Interval y, int piece) {
+		this(x, y);
+		this.piece = piece;
+	}
+
 	/**
 	 * Sets the tuple as (x, y) interval pair.
 	 *

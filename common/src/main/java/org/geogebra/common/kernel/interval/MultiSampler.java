@@ -10,6 +10,13 @@ public class MultiSampler implements IntervalEvaluatable {
 	public MultiSampler(IntervalEvaluatable evaluator, List<ConditionalSampler> samplers) {
 		this.evaluator = evaluator;
 		this.samplers = samplers;
+		setSamplerIndices();
+	}
+
+	private void setSamplerIndices() {
+		for (int i = 0; i < samplers.size(); i++) {
+			samplers.get(i).setIndex(i);
+		}
 	}
 
 	@Override

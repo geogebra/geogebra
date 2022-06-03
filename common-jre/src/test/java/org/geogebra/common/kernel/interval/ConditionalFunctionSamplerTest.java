@@ -39,7 +39,6 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				.count();
 	}
 
-
 	@Test
 	public void testIfElse() {
 		GeoFunction function = add("a=If(x < 0, -1, 1)");

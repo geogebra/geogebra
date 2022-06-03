@@ -4,6 +4,7 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	private IntervalConditionalExpression conditionalExpression;
 	private DiscreteSpace space;
 	private IntervalTupleList samples;
+	private int index = 0;
 
 	/**
 	 *
@@ -29,15 +30,7 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	 * @return the evaluated result.
 	 */
 	public IntervalTupleList result() {
-		evaluate();
-		return samples;
-	}
-
-	/**
-	 * Evaluate on space that is currently set.
-	 */
-	public void evaluate() {
-		samples = evaluate(space);
+		return evaluate(space);
 	}
 
 	@Override
@@ -54,18 +47,14 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	@Override
 	public IntervalTupleList evaluate(DiscreteSpace space) {
 		IntervalTupleList list = new IntervalTupleList();
-		evaluateNormal(space, list);
-		return list;
-	}
-
-	private void evaluateNormal(DiscreteSpace space, IntervalTupleList list) {
 		space.values().filter(x -> conditionalExpression.isTrue(x)).forEach(x -> {
 			list.add(evaluatedTuple(x));
 		});
+		return list;
 	}
 
 	private IntervalTuple evaluatedTuple(Interval x) {
-		return new IntervalTuple(x, evaluatedValue(x));
+		return new IntervalTuple(x, evaluatedValue(x), index);
 	}
 
 
@@ -80,5 +69,9 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	 */
 	public void setSpace(DiscreteSpace space) {
 		this.space = space;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 	}
 }
