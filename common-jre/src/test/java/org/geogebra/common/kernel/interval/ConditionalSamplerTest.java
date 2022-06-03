@@ -22,7 +22,6 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
 		ConditionalSampler sampler = newConditionalSampler(pair.getX().wrap(),
 				pair.getY().wrap(), discreteSpace);
-		sampler.evaluate();
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(tuples.count(),
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(one())).count());
@@ -57,7 +56,6 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
 		ConditionalSampler sampler = newConditionalSampler(pair.getX().wrap().negation(),
 				pair.getY().wrap(), discreteSpace);
-		sampler.evaluate();
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(tuples.count(),
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(one())).count());
@@ -74,7 +72,6 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		ConditionalSampler sampler = newConditionalSampler(condition.negation(),
 				elseBody, discreteSpace);
 
-		sampler.evaluate();
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(tuples.count(),
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());

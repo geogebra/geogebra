@@ -92,4 +92,13 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
+
+
+
+	@Test
+	public void ifCommandShouldNotBeEmpty() {
+		withHiResFunction("If(x< 0, 1)");
+		assertNotEquals(0, gp.getLog().size());
+	}
+
 }

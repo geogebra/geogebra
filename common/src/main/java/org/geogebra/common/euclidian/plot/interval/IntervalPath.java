@@ -50,7 +50,8 @@ public class IntervalPath {
 		} else {
 			drawTupleAt(index);
 		}
-		drawInterval.setJoinToPrevious(!model.isUndefinedAt(index));
+		drawInterval.setJoinToPrevious(!model.isUndefinedAt(index)
+				&& !isPieceChanged(model.at(index)));
 	}
 
 	private void noJoinForNextTuple() {
@@ -58,15 +59,24 @@ public class IntervalPath {
 	}
 
 	private void drawTupleAt(int index) {
-		if (isJoinNeeded()) {
+		if (isJoinNeeded(index)) {
 			drawTupleJoined(index);
 		} else {
 			drawTupleIndependent(index);
 		}
 	}
 
-	private boolean isJoinNeeded() {
-		return !lastY.isUndefined();
+	private boolean isPieceChanged(IntervalTuple tuple) {
+		if (tuple.piece() != lastPiece) {
+			lastPiece = tuple.piece();
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean isJoinNeeded(int index) {
+		return !(lastY.isUndefined() || isPieceChanged(model.at(index)));
 	}
 
 	private void drawTupleJoined(int index) {
@@ -90,7 +100,7 @@ public class IntervalPath {
 	}
 
 	private void drawInvertedJoined(int index) {
-		if (!isJoinNeeded() || model.isWholeAt(index)) {
+		if (!isJoinNeeded(index) || model.isWholeAt(index)) {
 			noJoinForNextTuple();
 		} else {
 			lastY = drawInvertedInterval.drawJoined(index, lastY);
