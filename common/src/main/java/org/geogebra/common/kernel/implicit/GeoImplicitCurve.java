@@ -125,23 +125,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	/**
-	 * Constructs an implicit curve object with given equation containing
-	 * variables as x and y.
-	 * 
-	 * @param c
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param equation
-	 *            equation of the implicit curve
-	 */
-	public GeoImplicitCurve(Construction c, String label, Equation equation) {
-		this(c);
-		fromEquation(equation, null);
-		setLabel(label);
-	}
-
-	/**
 	 * Create an {@link GeoImplicitCurve} object for given equation containing
 	 * variables as x and y
 	 * 
@@ -406,6 +389,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						&& (DoubleUtil.isZero(coeff[i][j]) || (i == 0 && j == 0));
 			}
 		}
+	}
+
+	@Override
+	public void setDerivatives(FunctionNVar x, FunctionNVar y, FunctionNVar xy) {
+		diffExp[0] = x;
+		diffExp[1] = y;
+		diffExp[2] = xy;
 	}
 
 	/**
