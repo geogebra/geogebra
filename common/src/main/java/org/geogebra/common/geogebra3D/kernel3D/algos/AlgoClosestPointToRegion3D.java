@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -102,7 +103,7 @@ public class AlgoClosestPointToRegion3D extends AlgoElement3D
 	}
 
 	@Override
-	public boolean isChangeable(GeoElement out) {
+	public boolean isChangeable(GeoElementND out) {
 		return false;
 	}
 

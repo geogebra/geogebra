@@ -9,6 +9,7 @@ import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.EuclidianSettings;
 
 public class CompatibilityLayout {
 	/**
@@ -82,12 +83,11 @@ public class CompatibilityLayout {
 			}
 		}
 
-		GDimension evSize = app.getSettings().getEuclidian(1)
-				.getPreferredSize();
+		EuclidianSettings euclidian = app.getSettings().getEuclidian(1);
 
-		// calculate window dimensions
-		int width = evSize.getWidth();
-		int height = evSize.getHeight();
+		// calculate graphics dimensions
+		int width = euclidian.getFileWidth();
+		int height = euclidian.getFileHeight();
 
 		// minimal size for documents, necessary for GeoGebra < 3
 		if (width <= 100 || height <= 100) {

@@ -24,16 +24,6 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	void setAutocomplete(boolean b);
 
 	/**
-	 * Editor callback to update text/latex
-	 * 
-	 * @param plain
-	 *            input in GGB CAS syntax
-	 * @param latex
-	 *            input in LaTeX syntax
-	 */
-	void setLaTeX(String plain, String latex);
-
-	/**
 	 * @return LaTeX content
 	 */
 	String getLaTeX();

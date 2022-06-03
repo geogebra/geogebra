@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
 import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
@@ -131,11 +133,6 @@ public class IntervalAlgebraTest {
 	}
 
 	@Test
-	public void testPowerOfNotSingletonInterval() {
-		assertTrue(pow(interval(2, 5), interval(1, 5)).isUndefined());
-	}
-
-	@Test
 	public void testPowerOfNegatives() {
 		assertTrue(interval(1 / 4.0, 1 / 4.0).almostEqual(
 				pow(interval(2, 2), -2)));
@@ -183,5 +180,21 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testPowerOnPositiveFraction() {
 		assertEquals(sqrt(interval(1, 2)), pow(interval(1, 2), 0.5));
+	}
+
+	@Test
+	public void testBaseLessThanOne() {
+		assertEquals(interval(0.5), pow(interval(0.5), one()));
+		assertEquals(interval(0.25, 0.5), pow(interval(0.5), interval(1, 2)));
+	}
+
+	@Test
+	public void testTwoOnXInverse() {
+		assertEquals(undefined(), pow(interval(2),
+				IntervalConstants.aroundZero().multiplicativeInverse()));
+
+		assertEquals(undefined(), pow(interval(2),
+				interval(-2.9351521213527576E-15, 0.019999999999997065)
+						.multiplicativeInverse()));
 	}
 }

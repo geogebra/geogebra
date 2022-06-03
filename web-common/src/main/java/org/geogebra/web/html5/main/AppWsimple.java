@@ -75,12 +75,9 @@ public class AppWsimple extends AppW {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget) getEuclidianViewpanel());
-			getEuclidianViewpanel()
-			        .setPixelSize(
-			                getSettings().getEuclidian(1).getPreferredSize()
-			                        .getWidth(),
-			                getSettings().getEuclidian(1).getPreferredSize()
-			                        .getHeight());
+			getEuclidianViewpanel().setPixelSize(
+					getInnerAppletWidth(),
+					getInnerAppletHeight());
 			updateVoiceover();
 		}
 	}

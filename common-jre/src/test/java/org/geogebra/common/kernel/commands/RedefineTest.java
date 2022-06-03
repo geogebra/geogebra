@@ -486,6 +486,16 @@ public class RedefineTest extends BaseUnitTest {
 		assertNotEquals(m, redefinedM);
 	}
 
+	@Test
+	public void pointsOnLocusShouldReload() {
+		add("stroke1=PolyLine((0,0), (1,0), (2,0), true)");
+		add("pts=Sequence(Point(stroke1, i), i, 0, 1, 0.5)");
+		// only testing that it reloads OK, actual values seem a bit off
+		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
+		reload();
+		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */

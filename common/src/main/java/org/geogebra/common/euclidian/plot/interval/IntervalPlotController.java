@@ -33,12 +33,16 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 	@Override
 	public void onZoomStop(CoordSystemInfo info) {
 		info.setXAxisZoom(false);
-		model.updateAll();
+		if (IntervalPlotSettings.isUpdateEnabled()) {
+			model.updateAll();
+		}
 	}
 
 	@Override
 	public void onMoveStop() {
-		model.updateAll();
+		if (IntervalPlotSettings.isUpdateEnabled()) {
+			model.updateAll();
+		}
 	}
 
 	@Override
@@ -46,7 +50,10 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 		if (info.isXAxisZoom() || info.isCenterVew()) {
 			return;
 		}
-		model.updateDomain();
+
+		if (IntervalPlotSettings.isUpdateEnabled()) {
+			model.updateDomain();
+		}
 	}
 
 	/**
