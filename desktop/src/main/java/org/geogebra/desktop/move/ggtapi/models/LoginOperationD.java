@@ -9,6 +9,7 @@ import org.geogebra.common.move.events.GenericEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.util.URLEncoderD;
@@ -68,6 +69,11 @@ public class LoginOperationD extends LogInOperation {
 		URLEncoderD enc = new URLEncoderD();
 		return enc.encode("GeoGebra Desktop Application V"
 				+ GeoGebraConstants.VERSION_STRING);
+	}
+
+	@Override
+	public MaterialRestAPI getResourcesAPI() {
+		return null;
 	}
 
 	@Override

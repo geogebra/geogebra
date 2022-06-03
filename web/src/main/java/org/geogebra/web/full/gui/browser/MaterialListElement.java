@@ -1,15 +1,13 @@
 package org.geogebra.web.full.gui.browser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -20,7 +18,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,7 +63,6 @@ public class MaterialListElement extends FlowPanel
 	private StandardButton confirm;
 	private StandardButton cancel;
 	private StandardButton deleteButton;
-	private StandardButton favoriteButton;
 
 	private ShowDetailsListener showListener;
 
@@ -268,9 +264,6 @@ public class MaterialListElement extends FlowPanel
 			deco.setStyleName("syncDecoration");
 			background.add(deco);
 		}
-		if (this.app.getLoginOperation().isLoggedIn()) {
-			addFavoriteButton();
-		}
 
 	}
 
@@ -292,32 +285,6 @@ public class MaterialListElement extends FlowPanel
 		this.infoPanel.add(this.deleteButton);
 		this.deleteButton.addFastClickHandler(source -> onDelete());
 		initConfirmDeletePanel();
-	}
-
-	private void addFavoriteButton() {
-		this.favoriteButton = new StandardButton(
-				this.getMaterial().isFavorite() ? BrowseResources.INSTANCE.favorite()
-						: BrowseResources.INSTANCE.not_favorite()
-		);
-		this.favoriteButton.addStyleName("ggbFavorite");
-		this.background.add(this.favoriteButton);
-		this.favoriteButton.addFastClickHandler(source -> onFavorite());
-	}
-
-	void onFavorite() {
-		app.getLoginOperation().getGeoGebraTubeAPI()
-				.favorite(this.getMaterial().getId(), !this.getMaterial().isFavorite());
-		this.getMaterial().setFavorite(!this.getMaterial().isFavorite());
-		updateFavoriteText();
-		if (this.getMaterial().isFavorite()) {
-			if (app.getFileManager().shouldKeep(this.getMaterial().getId())) {
-				this.app.getFileManager().getFromTube(this.getMaterial().getId(),
-						this.getMaterial().isFromAnotherDevice());
-			}
-		} else if (this.getMaterial().isFromAnotherDevice()) {
-			this.app.getFileManager().delete(this.getMaterial(), true,
-					this.controller.getDeleteCallback());
-		}
 	}
 
 	@Override
@@ -390,44 +357,25 @@ public class MaterialListElement extends FlowPanel
 	 */
 	protected void onEdit() {
 		if (!localMaterial) {
-			Log.debug(getMaterial().getType().toString());
-			if (getMaterial().getType() == MaterialType.book) {
-				((GeoGebraTubeAPIW) app.getLoginOperation()
-						.getGeoGebraTubeAPI()).getBookItems(getMaterial().getId(),
-								new MaterialCallback() {
-
-									@Override
-									public void onLoaded(
-											final List<Material> response,
-											final ArrayList<Chapter> chapters) {
-										guiManager.getBrowseView()
-												.clearMaterials();
-										guiManager.getBrowseView()
-												.onSearchResults(response,
-														chapters);
-									}
-								});
-				return;
-			}
+			Log.debug("Opening material of type " + getMaterial().getType().toString());
 			final long synced = getMaterial().getSyncStamp();
 			if (getMaterial().getType() == MaterialType.ws) {
-				((GeoGebraTubeAPIW) app.getLoginOperation()
-						.getGeoGebraTubeAPI()).getWorksheetItems(
-								getMaterial().getId(), new MaterialCallback() {
+				app.getLoginOperation()
+						.getResourcesAPI().getWorksheetItems(
+								getMaterial(), new MaterialCallback() {
 
 									@Override
 									public void onLoaded(
 											final List<Material> response,
-											ArrayList<Chapter> meta) {
-										if (response.size() != 1 || StringUtil
-												.empty(getMaterial().getBase64())) {
+											Pagination meta) {
+										if (response.size() != 1) {
 											Browser.openWindow(
 													getMaterial().getEditUrl());
 										} else {
 											setMaterialSimple(response.get(0));
 											getMaterial().setSyncStamp(synced);
-											app.getGgbApi().setBase64(
-													getMaterial().getBase64());
+											app.getViewW().processFileName(
+													response.get(0).getFileName());
 											app.setActiveMaterial(getMaterial());
 										}
 									}
@@ -517,12 +465,6 @@ public class MaterialListElement extends FlowPanel
 		if (this.renameButton != null) {
 			this.renameButton.setText(loc.getMenu("Rename"));
 		}
-	}
-
-	private void updateFavoriteText() {
-		this.favoriteButton.setIcon(
-				getMaterial().isFavorite() ? BrowseResources.INSTANCE.favorite()
-						: BrowseResources.INSTANCE.not_favorite());
 	}
 
 	/**

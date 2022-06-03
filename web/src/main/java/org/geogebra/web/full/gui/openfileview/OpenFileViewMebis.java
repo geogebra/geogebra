@@ -1,15 +1,14 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
@@ -216,11 +215,11 @@ public class OpenFileViewMebis extends HeaderFileView
 		}
 		LogInOperation loginOperation = app.getLoginOperation();
 		if (loginOperation.isLoggedIn()) {
-			loginOperation.getGeoGebraTubeAPI()
+			loginOperation.getResourcesAPI()
 					.getUsersAndSharedMaterials(this.allMaterialsCB,
 							order, offset);
 		} else if (!loginOperation.getModel().isLoginStarted()) {
-			loginOperation.getGeoGebraTubeAPI()
+			loginOperation.getResourcesAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
@@ -312,7 +311,7 @@ public class OpenFileViewMebis extends HeaderFileView
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
-					ArrayList<Chapter> meta) {
+					Pagination meta) {
 				clearLoadingMoreFilesButton();
 				addUsersMaterials(parseResponse);
 				addContent();
@@ -345,8 +344,8 @@ public class OpenFileViewMebis extends HeaderFileView
 
 			@Override
 			public void onLoaded(final List<Material> response,
-					ArrayList<Chapter> meta) {
-				addGGTMaterials(response, meta);
+					Pagination meta) {
+				addGGTMaterials(response);
 				addContent();
 				spinner.hide();
 			}
@@ -358,16 +357,11 @@ public class OpenFileViewMebis extends HeaderFileView
 	 * 
 	 * @param matList
 	 *            List of materials
-	 * @param chapters
-	 *            list of book chapters
 	 */
-	public final void addGGTMaterials(final List<Material> matList,
-			final ArrayList<Chapter> chapters) {
+	public final void addGGTMaterials(final List<Material> matList) {
 		materialListEmpty = matList.isEmpty();
-		if (chapters == null || chapters.size() < 2) {
-			for (final Material mat : matList) {
-				addMaterial(mat);
-			}
+		for (final Material mat : matList) {
+			addMaterial(mat);
 		}
 	}
 
@@ -387,16 +381,15 @@ public class OpenFileViewMebis extends HeaderFileView
 		}
 	}
 
-	private void initLoadingMoreFilesButton(ArrayList<Chapter> meta) {
-		int[] counts = meta.get(0).getMaterials();
-		materialCount = counts[1];
-		if (counts[1] < counts[2]) {
+	private void initLoadingMoreFilesButton(Pagination meta) {
+		materialCount = meta.to;
+		if (meta.to < meta.total) {
 			loadMoreFilesPanel = new FlowPanel();
 			Label loadMoreFilesText = new Label();
 			loadMoreFilesText.setStyleName("loadMoreFilesLabel");
 			loadMoreFilesText.setText(app.getLocalization()
 					.getPlainDefault("ShowXofYfiles.Mebis", "Showing %0 of %1 files",
-							String.valueOf(counts[1]), String.valueOf(counts[2])));
+							String.valueOf(meta.to), String.valueOf(meta.total)));
 			loadMoreFilesPanel.add(loadMoreFilesText);
 			addLoadMoreFilesButton();
 			loadMoreFilesPanel.setStyleName("loadMoreFilesPanel");

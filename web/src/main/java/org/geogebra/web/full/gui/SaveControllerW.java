@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
@@ -9,11 +8,11 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SaveController;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -251,12 +250,12 @@ public class SaveControllerW implements SaveController {
 	 *            "P" - private / "O" - public / "S" - shared
 	 */
 	void handleSync(final String base64, final String visibility) {
-		app.getLoginOperation().getGeoGebraTubeAPI().getItem(app.getTubeId() + "",
+		app.getLoginOperation().getResourcesAPI().getItem(app.getTubeId() + "",
 				new MaterialCallback() {
 
 					@Override
 					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
+							Pagination meta) {
 						MaterialCallbackI materialCallback;
 						if (parseResponse.size() == 1) {
 							if (parseResponse.get(0).getModified() > getAppW()
@@ -350,7 +349,7 @@ public class SaveControllerW implements SaveController {
 		return new MaterialCallback() {
 
 			@Override
-			public void onLoaded(final List<Material> parseResponse, ArrayList<Chapter> meta) {
+			public void onLoaded(final List<Material> parseResponse, Pagination meta) {
 				if (isWorksheet() || savedAsTemplate()) {
 					if (parseResponse.size() == 1) {
 						Material newMat = parseResponse.get(0);

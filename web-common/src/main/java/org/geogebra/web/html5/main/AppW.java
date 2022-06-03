@@ -63,10 +63,10 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.undo.UndoManager;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.NetworkOperation;
@@ -1065,10 +1065,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void tryLoadTemplatesOnFileNew() {
 		if (isWhiteboardActive() && getLoginOperation() != null) {
-			getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+			getLoginOperation().getResourcesAPI().getTemplateMaterials(
 					new MaterialCallbackI() {
 						@Override
-						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+						public void onLoaded(List<Material> result, Pagination meta) {
 							if (result.isEmpty()) {
 								resetOnFileNew();
 							} else {

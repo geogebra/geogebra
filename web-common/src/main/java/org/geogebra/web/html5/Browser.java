@@ -87,7 +87,9 @@ public class Browser {
 	 * @return URL using appropriate protocol (data or https)
 	 */
 	public static String normalizeURL(String thumb) {
-		if (thumb.startsWith("data:")) {
+		// plain http needed in MOW test environment
+		if (thumb.startsWith("data:") || (thumb.startsWith("http://")
+				&& "http:".equals(DomGlobal.location.protocol))) {
 			return thumb;
 		}
 		String url;

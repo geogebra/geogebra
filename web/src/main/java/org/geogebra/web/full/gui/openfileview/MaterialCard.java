@@ -139,7 +139,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				app.getLocalization().getMenu("Public"));
 		switch (visibility) {
 		case "P":
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			app.getLoginOperation().getResourcesAPI()
 					.getGroups(getMaterial().getSharingKeyOrId(), null,
 							this::showSharedIcon);
 			visibiltyImg = new NoDragImage(

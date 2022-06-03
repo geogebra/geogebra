@@ -3,7 +3,6 @@ package org.geogebra.cloud;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
@@ -23,6 +21,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -180,7 +179,7 @@ public class MaterialRestAPITest {
 
 			@Override
 			public void onLoaded(List<Material> result,
-					ArrayList<Chapter> meta) {
+					Pagination meta) {
 				deleteCallback.setExpectedCount(result.size());
 				for (int i = 0; i < result.size(); i++) {
 					api.deleteMaterial(result.get(i), deleteCallback);

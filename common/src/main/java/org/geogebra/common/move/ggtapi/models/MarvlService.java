@@ -8,7 +8,19 @@ public class MarvlService implements Service {
 	@Override
 	public HttpRequest createRequest(AuthenticationModel model) {
 		HttpRequest httpRequest = UtilFactory.getPrototype().newHttpRequest();
-		httpRequest.setAuth(model.getEncoded());
+		if (model != null) {
+			httpRequest.setAuth(model.getEncoded());
+		}
 		return httpRequest;
+	}
+
+	@Override
+	public String getDeletionJson(Material.MaterialType materialType) {
+		return materialType == Material.MaterialType.ggsTemplate ? null : "{\"deleted\":true}";
+	}
+
+	@Override
+	public String getGgsTemplateEndpoint(int userId) {
+		return "/users/" + userId + "/materials?filter=ggs-template";
 	}
 }

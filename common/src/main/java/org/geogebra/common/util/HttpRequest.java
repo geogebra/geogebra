@@ -8,7 +8,7 @@ import org.geogebra.common.move.ggtapi.models.AjaxCallback;
  *
  * @author Zoltan Kovacs
  */
-public abstract class HttpRequest {
+public abstract class HttpRequest implements Cancelable {
 	/**
 	 * the default HTTP request timeout in seconds
 	 */
@@ -18,10 +18,6 @@ public abstract class HttpRequest {
 	 */
 	private int timeout = DEFAULT_TIMEOUT;
 
-	/**
-	 * stores if the HTTP request is already processed
-	 */
-	public boolean processed = false;
 	/**
 	 * the textual content of the result (or the error message)
 	 */
@@ -62,13 +58,6 @@ public abstract class HttpRequest {
 	}
 
 	/**
-	 * @return if the HTTP request has been processed by the remote server
-	 */
-	public boolean isProcessed() {
-		return processed;
-	}
-
-	/**
 	 * @return current timeout for HTTP requests
 	 */
 	protected int getTimeout() {
@@ -81,14 +70,6 @@ public abstract class HttpRequest {
 	 */
 	protected void setResponseText(String responseText) {
 		this.responseText = responseText;
-	}
-
-	/**
-	 * @param processed
-	 *     set processed
-	 */
-	protected void setProcessed(boolean processed) {
-		this.processed = processed;
 	}
 
 	/**
@@ -108,5 +89,10 @@ public abstract class HttpRequest {
 
 	protected String getAuth() {
 		return auth;
+	}
+
+	@Override
+	public void cancel() {
+		// for now Android only
 	}
 }

@@ -117,7 +117,6 @@ public class Material implements Comparable<Material>, Serializable {
 	private int localID;
 	private boolean deleted;
 	private boolean fromAnotherDevice;
-	private boolean favorite;
 	private boolean undoRedo;
 	private boolean showZoomButtons;
 
@@ -222,7 +221,6 @@ public class Material implements Comparable<Material>, Serializable {
 		localID = material.localID;
 		deleted = material.deleted;
 		fromAnotherDevice = material.fromAnotherDevice;
-		favorite = material.favorite;
 		undoRedo = material.undoRedo;
 		showZoomButtons = material.showZoomButtons;
 		is3d = material.is3d;
@@ -303,7 +301,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getEditUrl() {
-		return GeoGebraConstants.EDIT_URL_BASE + this.id;
+		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeyOrId();
 	}
 
 	/**
@@ -590,7 +588,6 @@ public class Material implements Comparable<Material>, Serializable {
 		putString(ret, "likes", likes + "");
 		putString(ret, "ggbBase64", base64);
 		putBoolean(ret, "deleted", deleted);
-		putBoolean(ret, "favorite", favorite);
 		putString(ret, "height", height + "");
 		putString(ret, "width", width + "");
 		putString(ret, "instructions_pre", this.instructionsPre);
@@ -763,14 +760,6 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public int getAuthorID() {
 		return this.authorID;
-	}
-
-	public boolean isFavorite() {
-		return this.favorite;
-	}
-
-	public void setFavorite(boolean favorite) {
-		this.favorite = favorite;
 	}
 
 	public boolean has3d() {

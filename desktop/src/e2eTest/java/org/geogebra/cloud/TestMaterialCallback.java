@@ -3,8 +3,8 @@ package org.geogebra.cloud;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Pagination;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -17,7 +17,7 @@ public class TestMaterialCallback implements MaterialCallbackI {
 	private boolean loaded;
 
 	@Override
-	public final void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+	public final void onLoaded(List<Material> result, Pagination meta) {
 		loaded = true;
 		for (int i = 0; i < result.size(); i++) {
 			String title = result.get(i).getTitle();
