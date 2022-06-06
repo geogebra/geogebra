@@ -749,4 +749,30 @@ public class EditorTypingTest {
 				.type("y")
 				.checkAsciiMath("y^(((3)/(2)))");
 	}
+
+	@Test
+	public void testBackspaceLeavesFraction() {
+		checker.type("1-1/4")
+				.left(4)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("+")
+				.checkAsciiMath("1+((1)/(4))");
+	}
+
+	@Test
+	public void testBackspaceLeavesPower() {
+		checker.type("12^34")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("1^(34)");
+	}
+
+	@Test
+	public void testBackspaceLeavesSqrt() {
+		checker.type("12-sqrt(45")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("+")
+				.checkAsciiMath("12+sqrt(45)");
+	}
 }

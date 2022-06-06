@@ -91,6 +91,9 @@ public class RemoveContainer {
 		while (currentOffset >= 0 && currentField.getArgument(
 				currentOffset) instanceof MathCharacter) {
 			MathCharacter character = (MathCharacter) currentField.getArgument(currentOffset);
+			if (!character.isLetter()) {
+				break;
+			}
 			currentField.removeArgument(currentOffset);
 			currentOffset -= 1;
 			components.add(character);
