@@ -55,6 +55,8 @@ public class SpecialPointPopupHelper {
 			return localization.getCommand("Intersect");
         } else if (cmd == Commands.Roots) {
             return localization.getCommand("Root");
+        } else if (cmd == Commands.RemovableDiscontinuity) {
+            return localization.getMenu("RemovableDiscontinuity");
         }
         return localization.getCommand(cmd.getCommand());
     }

@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelLabel;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -16,6 +17,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
  * Graphical representation of CAS cells in Web
@@ -50,8 +56,7 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null) {
 			inputPanel
 			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
-			inputPanel.setLaTeX(casCell
-					.getLaTeXInput(StringTemplate.latexTemplate));
+			inputPanel.setLaTeX(getLaTeXInputFromCell());
 		}
 		add(inputPanel);
 
@@ -92,6 +97,20 @@ public class CASTableCellW extends VerticalPanel {
 		add(outputPanel);
 	}
 
+	private String getLaTeXInputFromCell() {
+		String ret = casCell.getLaTeXInput(StringTemplate.latexTemplate);
+		if (ret == null) {
+			try {
+				MathFormula mf = new Parser(new MetaModel())
+						.parse(casCell.getInput(StringTemplate.defaultTemplate));
+				return new TeXSerializer().serialize(mf);
+			} catch (ParseException e) {
+				Log.debug("Cannot parse cas call input");
+			}
+		}
+		return ret == null ? "" : ret;
+	}
+
 	private Label renderPlain() {
 		Label outputLabel = new Label();
 		if (casCell.isError()) {
@@ -117,12 +136,6 @@ public class CASTableCellW extends VerticalPanel {
 		add(textField.toWidget());
 		textBeforeEdit = inputPanel.getText();
 
-		if (newText == null) {
-			casEditorW.setLaTeX(
-					textBeforeEdit,
-					getCASCell()
-							.getLaTeXInput(StringTemplate.latexTemplateJLM));
-		}
 		textField.setEditAsText(asText);
 		textField.setText(newText == null ? textBeforeEdit : newText);
 		casEditorW.ensureEditing();
