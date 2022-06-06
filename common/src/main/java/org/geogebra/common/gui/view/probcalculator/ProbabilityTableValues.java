@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+import java.util.function.Predicate;
+
 import org.geogebra.common.gui.view.table.TableValues;
 import org.geogebra.common.gui.view.table.TableValuesModel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
@@ -14,6 +14,7 @@ public class ProbabilityTableValues extends ProbabilityTable {
 	private final TableValues view;
 	private final TableValuesModel model;
 	private GeoList probabilityList;
+	private Predicate<Integer> highlighted = row -> false;
 
 	/**
 	 * @param app application
@@ -29,12 +30,12 @@ public class ProbabilityTableValues extends ProbabilityTable {
 
 	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue) {
-		// ToDo
+		highlighted = row -> row >= lowValue && row <= highValue;
 	}
 
 	@Override
 	public void setTwoTailedSelection(int lowValue, int highValue) {
-		// ToDo
+		highlighted = row -> row <= lowValue || row >= highValue;
 	}
 
 	@Override
@@ -58,5 +59,14 @@ public class ProbabilityTableValues extends ProbabilityTable {
 	protected void setRowValues(int row, String k, String prob) {
 		view.getProcessor().processInput(k, view.getValues(), row);
 		view.getProcessor().processInput(prob, probabilityList, row);
+	}
+
+	/**
+	 * Returns true if row should be highlighted
+	 * @param row row
+	 * @return true to highlight row
+	 */
+	public boolean isRowHighlighted(int row) {
+		return highlighted.test(row);
 	}
 }
