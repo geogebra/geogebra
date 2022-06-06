@@ -50,7 +50,7 @@ public class ProbabilityTableValues extends ProbabilityTable {
 
 	@Override
 	protected void setRowValues(int row, String k, String prob) {
-		view.getProcessor().processInput(k, null, row);
+		view.getProcessor().processInput(k, view.getValues(), row);
 		view.getProcessor().processInput(k, probabilityList, row);
 	}
 }
