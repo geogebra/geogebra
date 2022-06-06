@@ -37,10 +37,7 @@ public class ProbabilityTableValues extends ProbabilityTable {
 	@Override
 	public void setTable(ProbabilityCalculatorSettings.Dist distType2, GeoNumberValue[] parms2,
 			int xMin2, int xMax2) {
-		GeoElement evaluatable = (GeoElement) view.getEvaluatable(1);
-		if (evaluatable != null) {
-			view.remove(evaluatable);
-		}
+		view.clearView();
 		probabilityList = new GeoList(view.getValues().cons);
 		view.addAndShow(probabilityList);
 
@@ -51,6 +48,6 @@ public class ProbabilityTableValues extends ProbabilityTable {
 	@Override
 	protected void setRowValues(int row, String k, String prob) {
 		view.getProcessor().processInput(k, view.getValues(), row);
-		view.getProcessor().processInput(k, probabilityList, row);
+		view.getProcessor().processInput(prob, probabilityList, row);
 	}
 }
