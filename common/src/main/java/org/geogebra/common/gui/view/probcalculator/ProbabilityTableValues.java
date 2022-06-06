@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.table.TableValues;
+import org.geogebra.common.gui.view.table.TableValuesModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -11,6 +12,7 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 public class ProbabilityTableValues extends ProbabilityTable {
 
 	private final TableValues view;
+	private final TableValuesModel model;
 	private GeoList probabilityList;
 
 	/**
@@ -22,6 +24,7 @@ public class ProbabilityTableValues extends ProbabilityTable {
 			ProbabilityCalculatorView probCalc, TableValues view) {
 		super(app, probCalc);
 		this.view = view;
+		this.model = view.getTableValuesModel();
 	}
 
 	@Override
@@ -35,14 +38,20 @@ public class ProbabilityTableValues extends ProbabilityTable {
 	}
 
 	@Override
-	public void setTable(ProbabilityCalculatorSettings.Dist distType2, GeoNumberValue[] parms2,
-			int xMin2, int xMax2) {
+	public void setTable(ProbabilityCalculatorSettings.Dist dist, GeoNumberValue[] params,
+			int xMin, int xMax) {
 		view.clearView();
-		probabilityList = new GeoList(view.getValues().cons);
-		view.addAndShow(probabilityList);
+		setTableModel(dist, params, xMin, xMax);
+		if (getProbManager().isDiscrete(dist)) {
+			String[] columnNames = getColumnNames();
+			model.setValuesHeader(columnNames[0]);
 
-		setTableModel(distType2, parms2, xMin2, xMax2);
-		fillRows(distType2, parms2, xMin2, xMax2);
+			probabilityList = new GeoList(view.getValues().cons);
+			probabilityList.setLabel(columnNames[1]);
+			view.addAndShow(probabilityList);
+
+			fillRows(dist, params, xMin, xMax);
+		}
 	}
 
 	@Override

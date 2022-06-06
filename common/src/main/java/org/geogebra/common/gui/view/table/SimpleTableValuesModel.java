@@ -31,6 +31,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
+	private String valuesHeader = "x";
 
 	/**
 	 * Construct a SimpleTableValuesModel.
@@ -87,9 +88,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public String getHeaderAt(int column) {
 		if (column == 0) {
-			return "x";
+			return valuesHeader;
 		}
 		return columns.get(column).getHeader();
+	}
+
+	@Override
+	public void setValuesHeader(String valuesHeader) {
+		this.valuesHeader = valuesHeader;
 	}
 
 	/**
