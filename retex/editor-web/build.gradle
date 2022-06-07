@@ -32,7 +32,7 @@ gwt {
 }
 
 dependencies {
-	implementation project(':renderer-web'),
+	api project(':renderer-web'),
 		project(':editor-base'),
 		files(project(':editor-base').sourceSets.main.allSource.srcDirs),
 		files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
