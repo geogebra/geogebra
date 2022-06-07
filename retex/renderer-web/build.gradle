@@ -48,6 +48,8 @@ compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(
 
 task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
 	war = file('war')
+	cacheDir = file('build/gwt/devModeCache')
+	maxHeapSize = '4096m'
 	description 'Starts a codeserver, and a simple webserver for development'
 }
 
