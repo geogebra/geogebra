@@ -433,6 +433,19 @@ public class ArithmeticTest extends Assert {
 		assertAreEqual("y > sin(x)", "y > sin(x + 2pi)", "?");
 	}
 
+	@Test
+	public void undefinedComparisonShouldReturnFalse() {
+		t("a = 1", "1");
+		t("? < 1", "false");
+		t("? < a", "false");
+	}
+
+	@Test
+	public void undefinedComparisonInFunctionShouldBeUndefined() {
+		t("f(x) = If(x/abs(x)<0,1,2)", "If[x / abs(x) < 0, 1, 2]");
+		t("f(0)", "NaN");
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		app.getKernel().clearConstruction(false);
 		ap.processAlgebraCommand("f:" + first, false);
