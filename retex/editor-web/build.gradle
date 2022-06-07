@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+	id 'java-library'
 	id 'eclipse'
 	id 'pmd'
 	id 'checkstyle'
@@ -32,32 +32,20 @@ gwt {
 }
 
 dependencies {
-	compile project(':renderer-web')
-	compile project(':editor-base')
-	compile files(project(':editor-base').sourceSets.main.java.srcDirs)
-	compile files(project(':renderer-web').sourceSets.main.java.srcDirs)
-	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"
-	compile "com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	api project(':renderer-web')
+	api project(':editor-base')
+	api files(project(':editor-base').sourceSets.main.java.srcDirs)
+	api files(project(':renderer-web').sourceSets.main.java.srcDirs)
+	api "com.google.gwt:gwt-dev:$gwtCompilerVersion"
+	api "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 
-task runSuperDev(type: JavaExec, dependsOn: 'jar') {
+task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
+	war = file('war')
 	description 'Starts a codeserver, and a simple webserver for development'
-	main 'com.google.gwt.dev.DevMode'
-	maxHeapSize '2048m'
-	classpath ((configurations.compile as Set<String>) 
-		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
-		+ (jar.archivePath as String))
-	workingDir file('war')
-	args '-logLevel', 'INFO',
-		'-codeServerPort', '9997',
-		'-port', '8888',
-		'-superDevMode',
-		'-war', file('war'),
-		'-generateJsInteropExports',
-		'com.himamis.retex.editor.JLMEditorExportedLibrary'
-	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
+
 task jarAll(type: Jar) {
 	classifier = 'all'
 	from project.sourceSets.main.java

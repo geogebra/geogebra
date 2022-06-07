@@ -13,13 +13,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
-import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverPureSymbolicMethod;
@@ -286,40 +284,6 @@ public abstract class Prover {
 			line.updateVisualStyle(GProperty.COMBINED); // visibility and style
 			cons.setSuppressLabelCreation(oldMacroMode);
 			return line;
-		}
-
-		/* TODO: Unify this code with line(). */
-		private static GeoSegment segment(GeoPoint P1, GeoPoint P2,
-				Construction cons) {
-			TreeSet<GeoElement> ges = cons.getGeoSetConstructionOrder();
-			Iterator<GeoElement> it = ges.iterator();
-			// TODO: Maybe there is a better way here to lookup the appropriate
-			// line
-			// if it already exists (by using kernel).
-			while (it.hasNext()) {
-				GeoElement ge = it.next();
-				if (ge instanceof GeoSegment) {
-					GeoPoint Q1 = ((GeoSegment) ge).getStartPoint();
-					GeoPoint Q2 = ((GeoSegment) ge).getEndPoint();
-					if ((Q1 != null && Q2 != null)
-							&& ((Q1.equals(P1) && Q2.equals(P2))
-									|| (Q1.equals(P2) && Q2.equals(P1)))) {
-						return (GeoSegment) ge;
-					}
-				}
-			}
-			// If there is no such line, we simply create one.
-			boolean oldMacroMode = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(false);
-			AlgoJoinPointsSegment ajp = new AlgoJoinPointsSegment(cons,
-					P1, P2);
-			GeoSegment segment = ajp.getSegment();
-			segment.setEuclidianVisible(true);
-			segment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
-			segment.setLabelVisible(true);
-			segment.setLabel(null);
-			cons.setSuppressLabelCreation(oldMacroMode);
-			return segment;
 		}
 
 		private void sortGeos() {

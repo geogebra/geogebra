@@ -287,7 +287,7 @@ public class StatisticsCalculatorHTML {
 			for (int r = 0; r < s.length; r++) {
 				sb.append("<tr>");
 				for (int c = 0; c < s[r].length; c++) {
-					sb.append("<td>" + s[r][c] + "</td>");
+					sb.append("<td>").append(s[r][c]).append("</td>");
 				}
 				sb.append("</tr>");
 			}
@@ -295,7 +295,7 @@ public class StatisticsCalculatorHTML {
 			for (int r = 0; r < s[0].length; r++) {
 				sb.append("<tr>");
 				for (int c = 0; c < s.length; c++) {
-					sb.append("<td>" + s[c][r] + "</td>");
+					sb.append("<td>").append(s[c][r]).append("</td>");
 				}
 				sb.append("</tr>");
 			}

@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'org.wisepersist.gwt' version '1.1.18'
     id 'pmd'
     id 'checkstyle'
@@ -14,22 +14,21 @@ targetCompatibility = 1.8
 evaluationDependsOn(':common')
 evaluationDependsOn(':ggbjdk')
 evaluationDependsOn(':editor-web')
-evaluationDependsOn(':keyboard-web')
 
 dependencies {
-    compile project(':common'),
+    api project(':common'),
             project(':gwtutil'),
             project(':renderer-base'),
             project(':editor-base'),
             project(':renderer-web'),
             project(':editor-web'),
             project(':ggbjdk'),
-            project(':web:dev'),
+            project(':web-dev'),
             files(project(':gwtutil').sourceSets.main.java.srcDirs),
             files(project(':common').sourceSets.main.allSource.srcDirs),
             files(project(':ggbjdk').sourceSets.main.java.srcDirs),
             files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-            files(project(':web:dev').sourceSets.main.allSource.srcDirs),
+            files(project(':web-dev').sourceSets.main.allSource.srcDirs),
             files(file("build/generated/sources/annotationProcessor/java/main/")),
             files(file("build/generated/sources/webjars/java/main/")),
             'org.webjars.npm:fflate:0.7.3',
