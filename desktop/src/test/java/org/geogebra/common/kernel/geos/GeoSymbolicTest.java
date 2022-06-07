@@ -1694,7 +1694,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		app.setCasConfig();
 		GeoSymbolic geo4args = add("Iteration(2u + 1, u, {0}, 64)");
 
-		assertEquals("Iteration(2u + 1, u, {0}, 64)", geo4args.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("Iteration(2u + 1, u, {0}, 64)",
+				geo4args.toValueString(StringTemplate.defaultTemplate));
 		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
 	}
 }
