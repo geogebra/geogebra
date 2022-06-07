@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,8 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.jre.headless.ScreenReaderAccumulator;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
@@ -46,6 +48,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -3134,10 +3137,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdReadText() {
+		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
+		((EuclidianViewNoGui) app.getActiveEuclidianView())
+				.setScreenReader(screenReader);
 		t("SetActiveView(1)");
 		t("ReadText(\"Can anybody hear me?\")");
-		assertTrue(((ScreenReaderAccumulator) app.getActiveEuclidianView()
-				.getScreenReader()).hasRead("Can anybody hear me?"));
+		verify(screenReader).readDelayed("Can anybody hear me?");
 	}
 
 	@Test
