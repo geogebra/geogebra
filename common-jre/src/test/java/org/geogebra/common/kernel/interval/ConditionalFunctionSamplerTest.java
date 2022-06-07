@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBoundsMock;
@@ -57,7 +56,10 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		fail();
+		IntervalTupleList tuples = sampler.result();
+		assertEquals(13, countPieceByValue(tuples, interval(1), 0));
+		assertEquals(1, countPieceByValue(tuples, interval(2), 1));
+		assertEquals(15, countPieceByValue(tuples, interval(3), 2));
 	}
 
 	@Test
@@ -65,8 +67,11 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		GeoFunction function = add("a=If(x <= -2, 1, x == 0, 2, x >= 1, 3)");
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				PlotterUtils.newRange(-20, 20, -5, 5),
-				new EuclidianViewBoundsMock(-15, 15, -10, 10));
-		fail();
+				new EuclidianViewBoundsMock(-150, 150, -10, 10));
+		IntervalTupleList tuples = sampler.result();
+		assertEquals(135, countPieceByValue(tuples, interval(1), 0));
+		assertEquals(1, countPieceByValue(tuples, interval(2), 1));
+		assertEquals(142, countPieceByValue(tuples, interval(3), 2));
 	}
 
 	@Test
@@ -76,17 +81,10 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
 				range,
 				new EuclidianViewBoundsMock(range, 100, 100));
-		fail();
-	}
-
-	@Test
-	public void evaluateIfElseOnSamplerEdge() {
-		GeoFunction function = add("a=If(x < 0, -1, 1)");
-		IntervalTuple range = PlotterUtils.newRange(-2, 2, -5, 5);
-		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
-				range,
-				new EuclidianViewBoundsMock(-20, 20, -10, 10));
-		fail();
+		IntervalTupleList tuples = sampler.result();
+		assertEquals(42, countPieceByValue(tuples, interval(1), 0));
+		assertEquals(0, countPieceByValue(tuples, interval(2), 1));
+		assertEquals(50, countPieceByValue(tuples, interval(3), 2));
 	}
 
 	@Test

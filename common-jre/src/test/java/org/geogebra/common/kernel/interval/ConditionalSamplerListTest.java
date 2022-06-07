@@ -1,60 +1,97 @@
 package org.geogebra.common.kernel.interval;
 
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.junit.Test;
 
 public class ConditionalSamplerListTest extends BaseUnitTest {
 
+	private ConditionalSamplerList samplers;
+
+	class SampledData {
+		Interval x;
+		Interval expected;
+
+		public SampledData(Interval x) {
+			this.x = x;
+		}
+
+		public SampledData() {
+		}
+
+		SampledData shouldEqual(Interval value) {
+			expected = value;
+			return this;
+		}
+
+		Interval evaluate() {
+			IntervalTupleList list = samplers.evaluate(x);
+			return list.count() > 0 ? list.get(0).y() : undefined();
+		}
+		void checkThat(SampledData... sampledData) {
+			for (SampledData data: sampledData) {
+				assertEquals(data.expected, data.evaluate());
+			}
+		}
+	}
 	@Test
 	public void testIf() {
-		GeoFunction function = add("if(x < 2, 1)");
-		ConditionalSamplerList samplers = new ConditionalSamplerList(function,
-				interval(-10, 10), 100);
-		allEquals(1, samplers.evaluate(-10, 1.9));
-		assertEquals(IntervalTupleList.emptyList(), samplers.evaluate(3, 9000));
+		withSampler("if(x < 2, 1)")
+				.checkThat(
+					onInterval(-10, 1.9).shouldEqual(interval(1)),
+					onInterval(3, 9000).shouldEqual(undefined()));
 	}
 
-
-	static void allEquals(int singleton, IntervalTupleList tuples) {
-		int count = tuples.count();
-		long filteredCount = tuples.stream().filter(tuple -> tuple.y().almostEqual(
-				interval(singleton))).count();
-		assertTrue("filtered: " + filteredCount + " all: " + count,
-				count > 0 && count == filteredCount);
+	private SampledData onInterval(double low, double high) {
+		return new SampledData(new Interval(low, high));
 	}
 
 	@Test
 	public void testIfElse() {
-		GeoFunction function = add("if(x < 2, 1, 3)");
-		ConditionalSamplerList samplers = new ConditionalSamplerList(function,
-				interval(-10, 10), 100);
-		allEquals(1, samplers.evaluate(-10, 1.9));
-		allEquals(3, samplers.evaluate(2, 3));
+		withSampler("if(x < 2, 1, 3)")
+				.checkThat(
+						onInterval(-10, 1.9).shouldEqual(one()),
+						onInterval(2, 3).shouldEqual(interval(3)));
+	}
+
+	private SampledData withSampler(String command) {
+		samplers = new ConditionalSamplerList(add(command), interval(-10, 10), 100);
+		return new SampledData();
+
+	}
+
+	@Test
+	public void testIfShort() {
+		withSampler("2, -2 < x < 2")
+				.checkThat(onInterval(0, 1.9).shouldEqual(interval(2)),
+						onInterval(-1000, -2).shouldEqual(undefined()),
+						onInterval(2, 1000).shouldEqual(undefined())
+				);
+
 	}
 
 	@Test
 	public void testIfList() {
-		GeoFunction function = add("if(x < -2, 0, -2 < x < 2, 1, x > 2, 2)");
-		ConditionalSamplerList samplers = new ConditionalSamplerList(function,
-				interval(-10, 10), 100);
-		allEquals(0, samplers.evaluate(-10, -1.9));
-		allEquals(1, samplers.evaluate(-2.1, 1.9));
-		allEquals(2, samplers.evaluate(2, 3000));
+		withSampler("if(x < -2, 0, -2 < x < 2, 1, x > 2, 2)")
+				.checkThat(
+						onInterval(-100, -2.1).shouldEqual(zero()),
+						onInterval(-1.99, 1.99).shouldEqual(one()),
+						onInterval(2, 20000).shouldEqual(interval(2))
+				);
 	}
 
 	@Test
 	public void testIfListWithOverlappingConditions() {
-		GeoFunction function = add("if(x < 2, 0, -2 < x < 2, 1, x > 2, 2)");
-		ConditionalSamplerList samplers = new ConditionalSamplerList(function,
-				interval(-10, 10), 100);
-		allEquals(0, samplers.evaluate(-10, -1.9));
-		allEquals(0, samplers.evaluate(-11, 1.9));
-		allEquals(2, samplers.evaluate(2, 3000));
+		withSampler("if(x < 2, 0, -2 < x < 2, 1, x > 2, 2)")
+				.checkThat(onInterval(-10, -1.9).shouldEqual(zero()),
+						onInterval(-11, 1.9).shouldEqual(zero()),
+						onInterval(2, 3000).shouldEqual(interval(2))
+				);
 	}
 }

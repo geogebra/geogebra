@@ -13,7 +13,8 @@ public class ConditionalSamplerList implements IntervalEvaluatable {
 	private GeoFunction function;
 	private Operation operation;
 	private List<ExpressionSampler> expressionSamplers = Arrays.asList(new IfSampler(),
-			new IfElseSampler(), new IfListSampler());
+			new IfElseSampler(),
+			new IfListSampler());
 
 	public ConditionalSamplerList(GeoFunction function) {
 		this.function = function;
