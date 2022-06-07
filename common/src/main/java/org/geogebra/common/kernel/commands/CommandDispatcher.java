@@ -565,6 +565,7 @@ public abstract class CommandDispatcher {
 			case Intersect:
 			case Distance:
 			case Radius:
+			case Type:
 			case Arc:
 			case Sector:
 

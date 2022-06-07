@@ -1850,7 +1850,7 @@ public class GuiManagerW extends GuiManager
 			dialog.addDialogContent(inputTextField);
 			dialog.setOnPositiveAction(() -> {
 				String filename = inputTextField.getText();
-				if (filename == null || filename.trim().isEmpty()) {
+				if (StringUtil.emptyTrim(filename)) {
 					filename = getApp().getExportTitle();
 				}
 

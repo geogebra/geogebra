@@ -2457,4 +2457,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public static void setFastDrawThreshold(int threshold) {
 		fastDrawThreshold = threshold;
 	}
+
+	@Override
+	public void doRemove() {
+		super.doRemove();
+		cons.unregisterEuclidianViewCE(this);
+	}
 }

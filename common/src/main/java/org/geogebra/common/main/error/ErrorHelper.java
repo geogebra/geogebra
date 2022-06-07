@@ -1,7 +1,7 @@
 package org.geogebra.common.main.error;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
-import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -25,11 +25,6 @@ public class ErrorHelper {
 	 */
 	public static void handleException(Exception e, App app,
 			ErrorHandler handler) {
-		if (e instanceof ParseException) {
-			Log.error(e.getMessage());
-		} else {
-			Log.debug(e);
-		}
 
 		if (handler == null) {
 			return;
@@ -37,6 +32,10 @@ public class ErrorHelper {
 
 		if (handler instanceof ErrorLogger) {
 			((ErrorLogger) handler).log(e);
+		} else if (e instanceof GParser.GParseException) {
+			Log.warn("Parse exception: " + ((GParser.GParseException) e).getDetails());
+		} else {
+			Log.debug(e);
 		}
 		Localization loc = app.getLocalization();
 
@@ -131,38 +130,40 @@ public class ErrorHelper {
 	 * @return instance of ErrorHandler that ignores all errors
 	 */
 	public static ErrorHandler silent() {
-		return new ErrorHandler() {
-
-			@Override
-			public void showError(String msg) {
-				Log.trace(msg);
-
-			}
-
-			@Override
-			public void resetError() {
-				// do nothing
-			}
-
-			@Override
-			public void showCommandError(String command, String message) {
-				Log.warn(command + ":" + message);
-
-			}
-
-			@Override
-			public String getCurrentCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public boolean onUndefinedVariables(String string,
-					AsyncOperation<String[]> callback) {
-				return false;
-			}
-
-		};
+		return new SilentErrorHandler();
 	}
 
+	private static class SilentErrorHandler implements ErrorHandler, ErrorLogger {
+
+		@Override
+		public void showError(String msg) {
+			Log.trace(msg);
+		}
+
+		@Override
+		public void resetError() {
+			// do nothing
+		}
+
+		@Override
+		public void showCommandError(String command, String message) {
+			Log.warn(command + ":" + message);
+		}
+
+		@Override
+		public String getCurrentCommand() {
+			return null;
+		}
+
+		@Override
+		public boolean onUndefinedVariables(String string,
+				AsyncOperation<String[]> callback) {
+			return false;
+		}
+
+		@Override
+		public void log(Throwable e) {
+			Log.warn(e.getMessage());
+		}
+	}
 }

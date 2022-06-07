@@ -4092,6 +4092,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdType() {
+		t("Type(x^2+y^2+z^2=1)", "4");
+		t("Type(x^2+y^2=1)", "4");
+	}
+
+	@Test
 	public void cmdPieChart() {
 		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");

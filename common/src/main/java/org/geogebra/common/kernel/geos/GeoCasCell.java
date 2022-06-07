@@ -1479,8 +1479,7 @@ public class GeoCasCell extends GeoElement
 
 		// includesNumericCommand = includesNumericCommand || evalCmd != null
 		// && "Numeric".equals(evalCmd);
-		setKeepInputUsed(
-				evalCmd != null && evalCmd.toLowerCase().equals("keepinput"));
+		setKeepInputUsed("keepinput".equalsIgnoreCase(evalCmd));
 	}
 
 	/**

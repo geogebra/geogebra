@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'checkstyle'
     id 'pmd'
 }
@@ -7,19 +7,19 @@ plugins {
 project.setDescription('Developer tools required to compile web platforms')
 
 dependencies {
-    compile "com.google.gwt:gwt-dev:$gwtCompilerVersion",
+    api "com.google.gwt:gwt-dev:$gwtCompilerVersion",
             "com.google.gwt:gwt-user:$gwtCompilerVersion",
             project(':common')
 
-    compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'
-    compile group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.1.0'
-    compile group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.1.0'
-    compile group: 'com.google.elemental2', name: 'elemental2-media', version: '1.1.0'
-    compile group: 'com.google.elemental2', name: 'elemental2-webgl', version: '1.2.0'
+    api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'
+    api group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.1.0'
+    api group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.1.0'
+    api group: 'com.google.elemental2', name: 'elemental2-media', version: '1.1.0'
+    api group: 'com.google.elemental2', name: 'elemental2-webgl', version: '1.2.0'
 
-    compile group: 'org.gwtproject.resources', name: 'gwt-resources-api', version: 'HEAD-SNAPSHOT'
-    compile group: 'org.gwtproject.resources', name: 'gwt-resources-processor', version: 'HEAD-SNAPSHOT'
-    compile 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
+    api group: 'org.gwtproject.resources', name: 'gwt-resources-api', version: 'HEAD-SNAPSHOT'
+    api group: 'org.gwtproject.resources', name: 'gwt-resources-processor', version: 'HEAD-SNAPSHOT'
+    api 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
 
 // https://mvnrepository.com/artifact/com.google.auto.service/auto-service
     implementation group: 'com.google.auto.service', name: 'auto-service', version: '1.0.1'

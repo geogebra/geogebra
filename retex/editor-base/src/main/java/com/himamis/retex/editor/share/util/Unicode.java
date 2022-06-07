@@ -223,7 +223,7 @@ public class Unicode {
 	public static final char CENTER_DOT = '\u00b7';
 	public static final char BULLET = '\u2022';
 	public static final String ASSIGN_STRING = "\u2254";
-	public static String currencyList = CURRENCY_BAHT + "" + CURRENCY_DOLLAR
+	public static final String currencyList = CURRENCY_BAHT + "" + CURRENCY_DOLLAR
 			+ "" + CURRENCY_DONG + "" + CURRENCY_EURO + ""
 			+ CURRENCY_INDIAN_RUPEE + "" + CURRENCY_POUND + "" + CURRENCY_RUPEE
 			+ "" + CURRENCY_SHEKEL + "" + CURRENCY_TUGHRIK + "" + CURRENCY_WON

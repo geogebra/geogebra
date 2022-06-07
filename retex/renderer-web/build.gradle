@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+	id 'java-library'
 	id 'eclipse'
 	id 'org.wisepersist.gwt' version '1.1.16'
 }
@@ -31,14 +31,14 @@ evaluationDependsOn ':renderer-base'
 evaluationDependsOn ':gwtutil'
 
 dependencies {
-	compile project(':renderer-base'),
+	api project(':renderer-base'),
 			project(':gwtutil'),
 			files(project(':renderer-base').sourceSets.main.java.srcDirs),
 			files(project(':gwtutil').sourceSets.main.java.srcDirs),
 			files(file("build/generated/sources/annotationProcessor/java/main/")),
 			"com.google.gwt:gwt-dev:$gwtCompilerVersion",
 			"com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion"
 
 	annotationProcessor project(":gwtutil"),
 			'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
@@ -46,23 +46,11 @@ dependencies {
 
 compileJava.options.sourcepath = files(processResources.destinationDir).builtBy(processResources)
 
-task runSuperDev(type: JavaExec, dependsOn: 'jar') {
+task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
+	war = file('war')
 	description 'Starts a codeserver, and a simple webserver for development'
-	main 'com.google.gwt.dev.DevMode'
-	maxHeapSize '2048m'
-	classpath ((configurations.compile as Set<String>) 
-		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
-		+ (jar.archivePath as String))
-	workingDir file('war')
-	args '-logLevel', 'INFO',
-		'-codeServerPort', '9997',
-		'-port', '8888',
-		'-superDevMode',
-		'-war', file('war'),
-		'-generateJsInteropExports',
-		'com.himamis.retex.renderer.JLaTeXMathGWTDev'
-	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
+
 task jarAll(type: Jar) {
 	classifier = 'all'
 	from project.sourceSets.main.java
