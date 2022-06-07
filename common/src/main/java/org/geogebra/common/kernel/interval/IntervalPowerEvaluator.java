@@ -60,6 +60,10 @@ public class IntervalPowerEvaluator implements IntervalEvaluator {
 	}
 
 	private Interval handle(Interval base, Interval exponent, ExpressionValue right) {
+		if (exponent.isUndefined()) {
+			return undefined();
+		}
+
 		if (MyDouble.exactEqual(base.getLow(), Math.E)) {
 			return IntervalOperands.exp(exponent);
 		}
