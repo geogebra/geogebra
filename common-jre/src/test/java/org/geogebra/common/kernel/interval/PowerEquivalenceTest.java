@@ -18,7 +18,7 @@ public class PowerEquivalenceTest extends SamplerTest {
 
 	@Test
 	public void nrootOfXInverseAndXOnPowMinus1ShouldBeEqual() {
-		shouldBeEquivalent("nroot(1/x, 9))^2", "nroot(x^-1, 9))^2");
+		shouldBeEquivalent("nroot(1/x, 9)^2", "nroot(x^-1, 9)^2");
 	}
 
 	@Test

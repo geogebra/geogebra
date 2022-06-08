@@ -24,9 +24,6 @@ import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalOperands.tan;
 import static org.geogebra.common.kernel.interval.IntervalOperands.tanh;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -47,9 +44,6 @@ import org.geogebra.common.util.debug.Log;
 	private static final UnsupportedOperatorChecker
 			operatorChecker = new UnsupportedOperatorChecker();
 	private final GeoFunction function;
-
-	private static final List<IntervalEvaluator> evaluators
-			= Arrays.asList(new IntervalPowerEvaluator());
 
 	/**
 	 * Constructor
@@ -84,12 +78,9 @@ import org.geogebra.common.util.debug.Log;
 		}
 
 		ExpressionNode node = ev.wrap();
-
-		for (IntervalEvaluator evaluator: evaluators) {
-			evaluator.setNode(node);
-			if (evaluator.isAccepted()) {
-				return evaluator.evaluate(x);
-			}
+		IntervalPowerEvaluator evaluator = new IntervalPowerEvaluator(node);
+		if (evaluator.isAccepted()) {
+			return evaluator.evaluate(x);
 		}
 
 		if (!node.containsFreeFunctionVariable(null)) {
