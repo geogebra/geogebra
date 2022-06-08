@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.euclidian.EuclidianPen;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -21,11 +22,7 @@ public class PenPreview extends StylePreview {
 	 *            pixel height
 	 */
 	public PenPreview(AppW app, int width, int height) {
-		super(app, width, height);
-	}
-
-	@Override
-	protected void createPreviewGeo() {
+		super(width, height);
 		pen = app.getActiveEuclidianView().getEuclidianController().getPen();
 	}
 
@@ -34,8 +31,8 @@ public class PenPreview extends StylePreview {
 	 */
 	public void update() {
 		clear();
-		pen.drawStylePreview(g2, pen.getPenColor(), pen.getPenSize(),
-				getMarginX(), getMarginY(), 30);
+		drawStylePreview(pen.getPenColor(), pen.getPenSize(),
+				EuclidianStyleConstants.LINE_TYPE_FULL, 30);
 	}
 
 }

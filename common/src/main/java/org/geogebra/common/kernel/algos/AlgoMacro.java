@@ -597,7 +597,7 @@ public class AlgoMacro extends AlgoElement
 	}
 
 	@Override
-	public boolean isChangeable(GeoElement out) {
+	public boolean isChangeable(GeoElementND out) {
 		for (int i = 0; i < macroOutput.length; i++) {
 			if (getOutput(i) == out && macroOutput[i].isPointerChangeable()) {
 				return true;

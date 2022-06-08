@@ -1347,7 +1347,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				}
 
 				if (row == 0) {
-					sb.append("<td style='width:" + widthPercent + "%'>");
+					sb.append("<td style='width:").append(widthPercent).append("%'>");
 				} else {
 					sb.append("<td>");
 				}

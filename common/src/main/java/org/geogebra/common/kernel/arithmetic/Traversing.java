@@ -64,7 +64,7 @@ public interface Traversing {
 	public class Replacer implements Traversing {
 		private ExpressionValue oldObj;
 		private ExpressionValue newObj;
-		private static Replacer replacer = new Replacer();
+		private static Replacer replacerInstance = new Replacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -85,9 +85,9 @@ public interface Traversing {
 		 */
 		public static Replacer getReplacer(ExpressionValue original,
 				ExpressionValue replacement) {
-			replacer.oldObj = original;
-			replacer.newObj = replacement;
-			return replacer;
+			replacerInstance.oldObj = original;
+			replacerInstance.newObj = replacement;
+			return replacerInstance;
 		}
 	}
 

@@ -4,6 +4,7 @@ import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -21,6 +22,8 @@ import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.BracketsError;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.junit.Assert;
@@ -65,11 +68,11 @@ public class ParserTest {
 
 	@Test
 	public void testExceptions() {
-		shouldBeException("1.2.3", "MyError");
-		shouldBeException("1+", "ParseException");
-		shouldBeException("-", "ParseException");
-		shouldBeException("(", "BracketsError");
-		shouldBeException("{-", "BracketsError");
+		assertThrows(MyError.class, () -> parseExpression("1.2.3"));
+		assertThrows(ParseException.class, () -> parseExpression("1+"));
+		assertThrows(ParseException.class, () -> parseExpression("-"));
+		assertThrows(BracketsError.class, () -> parseExpression("("));
+		assertThrows(BracketsError.class, () -> parseExpression("{-"));
 	}
 
 	@Test
@@ -158,17 +161,6 @@ public class ParserTest {
 			fail(e.getMessage());
 		}
 		return reparse1;
-	}
-
-	private void shouldBeException(String string,
-			String exceptionClass) {
-		Throwable p = null;
-		try {
-			parseExpression(string);
-		} catch (Throwable e) {
-			p = e;
-		}
-		Assert.assertEquals(exceptionClass, p.getClass().getSimpleName());
 	}
 
 	/**

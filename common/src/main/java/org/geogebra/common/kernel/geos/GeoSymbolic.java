@@ -539,6 +539,9 @@ public class GeoSymbolic extends GeoElement
 		if (newTwin instanceof GeoList) {
 			newTwin.setEuclidianVisible(true);
 		}
+		if (twinGeo != null) {
+			twinGeo.remove();
+		}
 
 		if (twinGeo != null && newTwin != null) {
 			newTwin.setVisualStyle(this);

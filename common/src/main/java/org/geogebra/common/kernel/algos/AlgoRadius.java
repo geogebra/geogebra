@@ -57,11 +57,8 @@ public class AlgoRadius extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[1];
-		input[0] = c;
-
-		super.setOutputLength(1);
-		super.setOutput(0, num);
+		input = new GeoElement[]{c};
+		setOnlyOutput(c);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -2,13 +2,22 @@ package org.geogebra.common.kernel.parser;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Faster exceptions
  */
 public class GParser extends Parser {
-	private boolean silent;
+	public static class GParseException extends ParseException {
+		private String details;
+
+		public GParseException(String message) {
+			super(message);
+		}
+
+		public String getDetails() {
+			return details;
+		}
+	}
 
 	/**
 	 * 
@@ -39,26 +48,16 @@ public class GParser extends Parser {
 
 	@Override
 	public ParseException generateParseException() {
-		if (!silent) {
-			if (jj_nt != null && jj_nt.image != null) {
-				Log.error("Unexpected next token: " + jj_nt.image);
-			} else if (token.image != null) {
-				Log.error("Unexpected token: " + token.image);
-			} else {
-				Log.error("Generic parse error");
-			}
-		}
-		return new ParseException(getKernel().getLocalization()
+		GParseException ex = new GParseException(getKernel().getLocalization()
 				.getInvalidInputError());
-
-	}
-
-	/**
-	 * @param silent
-	 *            whether to suppress console errors
-	 */
-	public void setSilent(boolean silent) {
-		this.silent = silent;
+		if (jj_nt != null && jj_nt.image != null) {
+			ex.details = "Unexpected next token: " + jj_nt.image;
+		} else if (token.image != null) {
+			ex.details = "Unexpected token: " + token.image;
+		} else {
+			ex.details = "Generic parse error";
+		}
+		return ex;
 	}
 
 }

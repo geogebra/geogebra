@@ -210,11 +210,6 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void setLaTeX(String plain, String latex) {
-		// not needed
-	}
-
-	@Override
 	public void ensureEditing() {
 		final GuiManagerInterfaceW gui = app.getGuiManager();
 		app.showKeyboard(retexListener, true);

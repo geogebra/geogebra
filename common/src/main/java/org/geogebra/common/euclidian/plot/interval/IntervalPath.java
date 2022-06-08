@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalTuple;
-import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalPath {
 	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
@@ -12,9 +11,8 @@ public class IntervalPath {
 	private final EuclidianViewBounds bounds;
 	private final IntervalPlotModel model;
 	private Interval lastY;
-	private Interval lastValidY;
-	private boolean moveTo;
-	private final PathCorrector corrector;
+	private final DrawInterval drawInterval;
+	private final DrawInvertedInterval drawInvertedInterval;
 
 	private final LabelPositionCalculator labelPositionCalculator;
 	private GPoint labelPoint = null;
@@ -32,101 +30,104 @@ public class IntervalPath {
 		this.model = model;
 		labelPositionCalculator = new LabelPositionCalculator(bounds);
 		lastY = new Interval();
-		lastValidY = new Interval();
-		corrector = new PathCorrector(gp, model, bounds);
+		drawInterval = new DrawInterval(gp, bounds);
+		drawInvertedInterval = new DrawInvertedInterval(gp, model, bounds);
 	}
 
 	/**
 	 * Update the path based on the model.
 	 */
 	public synchronized void update() {
-		if (model.hasValidData()) {
-			reset();
-			plotAll();
-		}
+		reset();
+		model.forEach(index -> drawAt(index));
 	}
 
-	private void plotAll() {
-		for (int i = 0; i < model.pointCount(); i++) {
-			handleTuple(i);
-			if (!lastY.isUndefined()) {
-				lastValidY.set(lastY);
-			}
-		}
-	}
-
-	private void handleTuple(int i) {
-		IntervalTuple tuple = model.pointAt(i);
-		boolean shouldSkip = shouldSkip(tuple);
-		if (shouldSkip) {
-			if (tuple.isInverted()) {
-				return;
-			}
-			skip();
-		} else if (lastY.isUndefined()) {
-			if (tuple.isInverted()) {
-				corrector.handleInvertedInterval(i);
-			} else {
-				moveToFirst(i, tuple);
-			}
+	private void drawAt(int index) {
+		if (model.isUndefinedAt(index)) {
+			noJoinForNextTuple();
 		} else {
-			drawTuple(i, tuple);
-			calculateLabelPoint(tuple);
+			drawTupleAt(index);
 		}
-		moveTo = shouldSkip;
+		drawInterval.setJoinToPrevious(!model.isUndefinedAt(index));
 	}
 
-	private void drawTuple(int i, IntervalTuple tuple) {
-		if (tuple.isInverted()) {
-			lastY = corrector.handleInvertedInterval(i, lastY);
-		} else if (tuple.y().isWhole()) {
-			drawWhole(tuple);
-		} else {
-			plotInterval(lastY, tuple);
-			storeY(tuple);
-		}
-	}
-
-	private void drawWhole(IntervalTuple tuple) {
-		Interval x = bounds.toScreenIntervalX(tuple.x());
-		moveTo(x.getLow(), 0);
-		lineTo(x.getLow(), bounds.getHeight());
-		skip();
-	}
-
-	private void moveToFirst(int i, IntervalTuple point) {
-		Interval x = bounds.toScreenIntervalX(point.x());
-		Interval y = bounds.toScreenIntervalY(point.y());
-
-		if (y.isUndefined()) {
-			lastY.setUndefined();
-			return;
-		}
-
-		if (point.y().isInverted() && !model.isInvertedAt(i + 1)) {
-			lastY.set(corrector.beginFromInfinity(i, x, y));
-		} else {
-			line(x, y);
-		}
-	}
-
-	private void storeY(IntervalTuple tuple) {
-		lastY.set(bounds.toScreenIntervalY(tuple.y()));
-	}
-
-	private void skip() {
+	private void noJoinForNextTuple() {
 		lastY.setUndefined();
 	}
 
-	private boolean shouldSkip(IntervalTuple tuple) {
-		return tuple.isUndefined()
-				|| tuple.y().isPositiveInfinity();
+	private void drawTupleAt(int index) {
+		if (isJoinNeeded()) {
+			drawTupleJoined(index);
+		} else {
+			drawTupleIndependent(index);
+		}
 	}
 
-	private void line(Interval x, Interval y) {
-		moveTo(x.getHigh(), y.getLow());
-		lineTo(x.getHigh(), y.getHigh());
-		lastY.set(y);
+	private boolean isJoinNeeded() {
+		return !lastY.isUndefined();
+	}
+
+	private void drawTupleJoined(int index) {
+		IntervalTuple tuple = model.at(index);
+		if (tuple.isInverted()) {
+			drawInvertedJoined(index);
+		} else if (tuple.y().isWhole()) {
+			drawWhole(tuple.x());
+		} else if (!lastY.isUndefined()) {
+			drawNonInverted(tuple);
+		}
+		calculateLabelPoint(model.at(index));
+	}
+
+	private void drawNonInverted(IntervalTuple tuple) {
+		if (tuple.y().hasInfinity()) {
+			drawNormalInfinity(tuple);
+		} else {
+			drawNormalJoined(tuple);
+		}
+	}
+
+	private void drawInvertedJoined(int index) {
+		if (!isJoinNeeded() || model.isWholeAt(index)) {
+			noJoinForNextTuple();
+		} else {
+			lastY = drawInvertedInterval.drawJoined(index, lastY);
+		}
+	}
+
+	private void drawNormalJoined(IntervalTuple tuple) {
+		Interval screenY = bounds.toScreenIntervalY(tuple.y());
+
+		drawInterval.drawJoined(lastY,
+				bounds.toScreenIntervalX(tuple.x()),
+				screenY);
+		lastY.set(screenY);
+	}
+
+	private void drawNormalInfinity(IntervalTuple tuple) {
+		Interval x = tuple.x();
+		Interval y = tuple.y();
+		if (Double.isInfinite(y.getHigh())) {
+			gp.leftToTop(bounds, x, y);
+			lastY.set(0);
+		} else {
+			gp.leftToBottom(bounds, x, y);
+			lastY.set(bounds.getHeight());
+		}
+	}
+
+	private void drawWhole(Interval x) {
+		drawInterval.drawWhole(x);
+		noJoinForNextTuple();
+	}
+
+	private void drawTupleIndependent(int index) {
+		if (model.isInvertedAt(index)) {
+			drawInvertedInterval.draw(index);
+		} else {
+			Interval lastValue = drawInterval.drawIndependent(model.at(index));
+			lastY.set(lastValue);
+		}
 	}
 
 	/**
@@ -135,17 +136,7 @@ public class IntervalPath {
 	void reset() {
 		gp.reset();
 		labelPoint = null;
-		lastY.setUndefined();
-	}
-
-	private void plotInterval(Interval lastY, IntervalTuple tuple) {
-		Interval x = bounds.toScreenIntervalX(tuple.x());
-		Interval y = bounds.toScreenIntervalY(tuple.y());
-		if (y.isGreaterThan(lastY)) {
-			plotHigh(x, y);
-		} else {
-			plotLow(x, y);
-		}
+		noJoinForNextTuple();
 	}
 
 	private void calculateLabelPoint(IntervalTuple tuple) {
@@ -153,45 +144,6 @@ public class IntervalPath {
 			this.labelPoint = labelPositionCalculator.calculate(tuple.x().getLow(),
 					tuple.y().getLow());
 		}
-	}
-
-	private void plotHigh(Interval x, Interval y) {
-		if (moveTo) {
-			moveTo(x.getLow(), y.getLow());
-		} else {
-			lineTo(x.getLow(), y.getLow());
-		}
-
-		lineTo(x.getHigh(), y.getHigh());
-	}
-
-	private void plotLow(Interval x, Interval y) {
-		if (moveTo) {
-			moveTo(x.getLow(), y.getHigh());
-		} else {
-			lineTo(x.getLow(), y.getHigh());
-		}
-
-		lineTo(x.getHigh(), y.getLow());
-	}
-
-	private void moveTo(double low, double high) {
-		gp.moveTo(clamp(low), clamp(high));
-	}
-
-	void lineTo(double low, double high) {
-		gp.lineTo(clamp(low), clamp(high));
-	}
-
-	private double clamp(double value) {
-		if (DoubleUtil.isEqual(value, Double.POSITIVE_INFINITY)) {
-			return CLAMPED_INFINITY;
-		}
-
-		if (DoubleUtil.isEqual(value, Double.NEGATIVE_INFINITY)) {
-			return -CLAMPED_INFINITY;
-		}
-		return value;
 	}
 
 	public GPoint getLabelPoint() {

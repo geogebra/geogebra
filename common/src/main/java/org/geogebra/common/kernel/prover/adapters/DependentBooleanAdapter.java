@@ -478,7 +478,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				labelsStr.append(",");
 				labelsStr.append(labels[i]);
 			}
-			strForGiac.append("," + labels[i] + "=" + botanaVars[i]);
+			strForGiac.append(",").append(labels[i]).append("=").append(botanaVars[i]);
 		}
 		strForGiac.append("],[");
 		strForGiac.append(labelsStr);

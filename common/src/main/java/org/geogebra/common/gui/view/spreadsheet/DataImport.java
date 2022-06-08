@@ -15,8 +15,8 @@ import org.geogebra.regexp.shared.RegExp;
 
 public class DataImport {
 
-	static CSVParser commaParser;
-	static CSVParser tabParser;
+	private static CSVParser commaParser;
+	private static CSVParser tabParser;
 
 	/*
 	 * disabled option to change as we don't want commas when pasting from

@@ -9,9 +9,9 @@ public interface PDFResources extends ClientBundle {
 
 	PDFResources INSTANCE = new PDFResourcesImpl();
 
-	@Source("pdfjs_dist/pdf.min.js")
+	@Source("pdfjs_dist/build/pdf.min.js")
 	TextResource pdfJs();
 
-	@Source("pdfjs_dist/pdf.worker.min.js")
+	@Source("pdfjs_dist/build/pdf.worker.min.js")
 	TextResource pdfWorkerJs();
 }

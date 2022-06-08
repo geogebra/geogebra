@@ -1,12 +1,12 @@
 plugins {
-	id 'java'
+	id 'java-library'
 }
 
 description 'Developer tools required to compile web platforms'
 
 dependencies {
-	compile project(":gwtutil")
-	compile files(project(':gwtutil').sourceSets.main.java.srcDirs)
+	api project(":gwtutil")
+	api files(project(':gwtutil').sourceSets.main.java.srcDirs)
 }
 
 sourceCompatibility = 1.8
