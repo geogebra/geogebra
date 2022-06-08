@@ -21,7 +21,6 @@ import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.panel.PanelTransitioner;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -884,20 +883,6 @@ public class GeoGebraFrameFull
 		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
 		}
-	}
-
-	/**
-	 * Can be called to handle the back button event.
-	 */
-	public void onBackPressed() {
-		if (isSubPanelOpen() && app != null) {
-			GuiManagerW guiManager = getGuiManager();
-			hidePanel((BrowseGUI) guiManager.getBrowseView());
-		}
-	}
-
-	private boolean isSubPanelOpen() {
-		return panelTransitioner.getCurrentPanel() != null;
 	}
 
 	/**

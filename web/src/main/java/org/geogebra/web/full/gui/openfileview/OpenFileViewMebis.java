@@ -13,7 +13,6 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
@@ -49,8 +48,6 @@ public class OpenFileViewMebis extends HeaderFileView
 	private FlowPanel loadMoreFilesPanel;
 
 	private ListBox sortDropDown;
-
-	private MaterialCallbackI ggtMaterialsCB;
 	private MaterialCallbackI allMaterialsCB;
 	private LoadSpinner spinner;
 
@@ -82,7 +79,6 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private void initGUI() {
 		this.allMaterialsCB = getUserMaterialsCB();
-		this.ggtMaterialsCB = getGgtMaterialsCB();
 		initSpinner();
 		initButtonPanel();
 		initSortDropdown();
@@ -218,9 +214,6 @@ public class OpenFileViewMebis extends HeaderFileView
 			loginOperation.getResourcesAPI()
 					.getUsersAndSharedMaterials(this.allMaterialsCB,
 							order, offset);
-		} else if (!loginOperation.getModel().isLoginStarted()) {
-			loginOperation.getResourcesAPI()
-					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
 
@@ -332,37 +325,6 @@ public class OpenFileViewMebis extends HeaderFileView
 			addMaterial(material);
 		}
 		spinner.hide();
-	}
-
-	private MaterialCallback getGgtMaterialsCB() {
-		return new MaterialCallback() {
-			@Override
-			public void onError(final Throwable exception) {
-				Log.warn(exception);
-				spinner.hide();
-			}
-
-			@Override
-			public void onLoaded(final List<Material> response,
-					Pagination meta) {
-				addGGTMaterials(response);
-				addContent();
-				spinner.hide();
-			}
-		};
-	}
-
-	/**
-	 * adds the new materials (matList) - GeoGebraTube only
-	 * 
-	 * @param matList
-	 *            List of materials
-	 */
-	public final void addGGTMaterials(final List<Material> matList) {
-		materialListEmpty = matList.isEmpty();
-		for (final Material mat : matList) {
-			addMaterial(mat);
-		}
 	}
 
 	@Override

@@ -1,18 +1,26 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import java.util.List;
+
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.MaterialRequest;
+import org.geogebra.common.move.ggtapi.models.Pagination;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -102,6 +110,7 @@ public class OpenFileView extends HeaderFileView
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			googleDriveBtn.setVisible(event instanceof LoginEvent && loggedInUserHasGoogleDrive());
+			loadAllMaterials(0);
 		}
 	}
 
@@ -112,7 +121,29 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void loadAllMaterials(int offset) {
-		// fill
+		LogInOperation loginOperation = app.getLoginOperation();
+		common.addContent();
+		if (loginOperation.isLoggedIn()) {
+			loginOperation.getResourcesAPI().getUsersMaterials(getCallback(),
+					MaterialRequest.Order.created);
+		} else if (!loginOperation.getModel().isLoginStarted()) {
+			loginOperation.getResourcesAPI()
+					.getFeaturedMaterials(getCallback());
+		}
+	}
+
+	private MaterialCallbackI getCallback() {
+		return new MaterialCallback() {
+
+			@Override
+			public void onLoaded(final List<Material> matList,
+					Pagination meta) {
+				common.clearMaterials();
+				for (Material material : matList) {
+					addMaterial(material);
+				}
+			}
+		};
 	}
 
 	@Override
@@ -122,6 +153,15 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void addMaterial(Material material) {
-		// fill
+		common.addMaterialCard(new MaterialCard(material, app));
+	}
+
+	@Override
+	public void displaySearchResults(String query) {
+		if (StringUtil.emptyTrim(query)) {
+			loadAllMaterials(0);
+		} else {
+			app.getLoginOperation().getResourcesAPI().search(query, getCallback());
+		}
 	}
 }
