@@ -22,6 +22,14 @@ public class IntervalConditionalExpression {
 		return isTrue(x);
 	}
 
+	boolean isTrueBetween(Interval x) {
+		return isTrue(x.getLow()) ^ isTrue(x.getHigh());
+	}
+
+	private boolean isTrue(double value) {
+		return isTrue(new Interval(value));
+	}
+
 	boolean isTrue(Interval x) {
 		return isExpressionTrue(x, condition.getLeft(),
 				condition.getOperation(), condition.getRight());
@@ -60,5 +68,9 @@ public class IntervalConditionalExpression {
 
 	public ExpressionValue getBody() {
 		return body;
+	}
+
+	public double getSplitValue() {
+		return condition.getRight().evaluateDouble();
 	}
 }
