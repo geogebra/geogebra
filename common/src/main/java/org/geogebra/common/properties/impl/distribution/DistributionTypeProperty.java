@@ -72,7 +72,7 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 		if (index >= 0) {
 			return index;
 		}
-		index = DISCRETE_DISTRIBUTIONS.indexOf(selected);
+		index = CONTINUOUS_DISTRIBUTIONS.size() + DISCRETE_DISTRIBUTIONS.indexOf(selected);
 		return index + 1; // Divider
 	}
 
