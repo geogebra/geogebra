@@ -243,8 +243,7 @@ public class FileManagerW extends FileManager {
 				.parseMaterial(materialJSON);
 		// maybe another user restores the file, so reset
 		// sensitive data
-		autoSaved.setAuthor("");
-		autoSaved.setAuthorId(0);
+		autoSaved.setCreator(null);
 		autoSaved.setId(0);
 		autoSaved.setGoogleID("");
 		openMaterial(autoSaved);

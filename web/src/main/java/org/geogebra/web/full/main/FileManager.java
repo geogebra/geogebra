@@ -7,6 +7,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
+import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -111,8 +112,9 @@ public abstract class FileManager extends MaterialsManager {
 		        .getActiveEuclidianView())
 		        .getCanvasBase64WithTypeString());
 		if (app.getLoginOperation() != null) {
-			mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
-			mat.setAuthor(app.getLoginOperation().getUserName());
+			UserPublic user = new UserPublic(app.getLoginOperation().getModel().getUserId(),
+					app.getLoginOperation().getUserName());
+			mat.setCreator(user);
 		}
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial != null) {

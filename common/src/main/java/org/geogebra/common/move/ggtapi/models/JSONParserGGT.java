@@ -85,11 +85,7 @@ public class JSONParserGGT {
 		material.setVisibility(getString(obj, "visibility"));
 		material.setFileName(getString(obj, "fileUrl"));
 		material.setSharingKey(sharingKey);
-		material.setAuthor(getString(obj, "author"));
-		material.setAuthorId(
-				getInt(obj, "author_id", getInt(obj, "creator_id", -1)));
 		material.setURL(getString(obj, "url"));
-		material.setURLdirect(getString(obj, "url_direct"));
 		String thumbUrl = getString(obj, "thumbUrl");
 		material.setThumbnailUrl(
 				StringUtil.empty(thumbUrl) ? getString(obj, "thumbnail")
@@ -132,6 +128,10 @@ public class JSONParserGGT {
 		}
 		if (obj.has("creator")) {
 			setCreator(material, obj);
+		} else {
+			String displayName = getString(obj, "author");
+			int userId = getInt(obj, "author_id", getInt(obj, "creator_id", -1));
+			material.setCreator(new UserPublic(userId, displayName));
 		}
 		return material;
 	}
@@ -143,11 +143,9 @@ public class JSONParserGGT {
 	private static void setCreator(Material material, JSONObject obj) {
 		try {
 			JSONObject creatorObj = obj.getJSONObject("creator");
-
-			String username = getString(creatorObj, "username");
 			int id = getInt(creatorObj, "id", -1);
-			String displayname = getString(creatorObj, "displayname");
-			material.setCreator(new UserPublic(username, id, displayname));
+			String displayName = getString(creatorObj, "displayname");
+			material.setCreator(new UserPublic(id, displayName));
 		} catch (Throwable t) {
 			Log.debug(t.getMessage());
 		}
@@ -214,10 +212,9 @@ public class JSONParserGGT {
 		Object materialsArray = null;
 
 		if (response != null) {
-			JSONObject responseObject = new JSONObject();
 			try {
 				JSONTokener tokener = new JSONTokener(response);
-				responseObject = new JSONObject(tokener);
+				JSONObject responseObject = new JSONObject(tokener);
 				if (responseObject.has("responses")) {
 					JSONObject materialsObject = (JSONObject) ((JSONObject) responseObject
 							.get("responses")).get("response");

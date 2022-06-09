@@ -119,32 +119,8 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public void rename(String title) {
-        // nothing to do here
-    }
-
-    @Override
-    public void copy() {
-        // nothing to do here
-    }
-
-    @Override
     public void onDelete() {
         // TODO handle delete here
     }
 
-    @Override
-    public String getCardTitle() {
-        return null;
-    }
-
-    @Override
-    public String getMaterialID() {
-        return null;
-    }
-
-    @Override
-    public void updateVisibility(String visibility) {
-        // nothing to do here
-    }
 }

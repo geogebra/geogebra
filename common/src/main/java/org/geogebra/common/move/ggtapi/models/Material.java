@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
 @SuppressWarnings("serial")
 public class Material implements Comparable<Material>, Serializable {
 
-	public enum Provider {
+    public enum Provider {
 		TUBE, GOOGLE, LOCAL
 	}
 
@@ -52,12 +52,6 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	private long autoSaveTimestamp;
 
-	private String author;
-
-	/**
-	 * URL to the author's profile in GeoGebraTube.
-	 */
-	private int authorID;
 	/**
 	 * Id of the person who stored material to local device
 	 */
@@ -67,12 +61,6 @@ public class Material implements Comparable<Material>, Serializable {
 	 * URL to the overview page of the material.
 	 */
 	private String url;
-
-	/**
-	 * URL to the material itself (link to student page for materials of type
-	 * ggb, download link for ggt, or external link for link).
-	 */
-	private String urlDirect;
 
 	/**
 	 * Two letter language code of the material.
@@ -151,11 +139,8 @@ public class Material implements Comparable<Material>, Serializable {
 		this.title = "";
 		this.timestamp = -1;
 		this.autoSaveTimestamp = -1;
-		this.author = "";
-		this.authorID = -1;
 		this.creator = new UserPublic();
 		this.url = "";
-		this.urlDirect = "";
 		this.language = "";
 		this.featured = false;
 		this.likes = -1;
@@ -190,11 +175,8 @@ public class Material implements Comparable<Material>, Serializable {
 		description = material.description;
 		timestamp = material.timestamp;
 		autoSaveTimestamp = material.autoSaveTimestamp;
-		author = material.author;
-		authorID = material.authorID;
 		viewerID = material.viewerID;
 		url = material.url;
-		urlDirect = material.urlDirect;
 		language = material.language;
 		thumbnail = material.thumbnail;
 		thumbnailIsBase64 = material.thumbnailIsBase64;
@@ -290,7 +272,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getAuthor() {
-		return this.author;
+		return creator == null ? "" : this.creator.getDisplayName();
 	}
 
 	/**
@@ -302,15 +284,6 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public String getEditUrl() {
 		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeyOrId();
-	}
-
-	/**
-	 * @return the URL to the material itself (link to student page for
-	 *         materials of type ggb, download link for ggt, or external link
-	 *         for link).
-	 */
-	public String getURLdirect() {
-		return this.urlDirect;
 	}
 
 	public String getLanguage() {
@@ -414,20 +387,8 @@ public class Material implements Comparable<Material>, Serializable {
 		return autoSaveTimestamp * 1000;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public void setAuthorId(int author_id) {
-		this.authorID = author_id;
-	}
-
 	public void setURL(String url) {
 		this.url = url;
-	}
-
-	public void setURLdirect(String url_direct) {
-		this.urlDirect = url_direct;
 	}
 
 	public void setPreviewURL(String preview_url) {
@@ -529,10 +490,9 @@ public class Material implements Comparable<Material>, Serializable {
 		sb.append(this.title);
 		sb.append(" ");
 		sb.append("by ");
-		sb.append(this.author);
 		sb.append(", ");
 		sb.append("Date: ");
-		sb.append(this.getDate());
+		sb.append(this.timestamp);
 		sb.append("\n");
 		sb.append("Description: ");
 		sb.append(this.description);
@@ -543,8 +503,6 @@ public class Material implements Comparable<Material>, Serializable {
 		sb.append("URL: ");
 		sb.append(this.url);
 		sb.append("\n");
-		sb.append("URL_DIRECT: ");
-		sb.append(this.urlDirect);
 		sb.append("\n");
 		sb.append("preview URL: ");
 		sb.append(this.previewUrl);
@@ -573,11 +531,10 @@ public class Material implements Comparable<Material>, Serializable {
 		JSONObject ret = new JSONObject();
 		putString(ret, "thumbnail", thumbnail);
 		// putString(ret,"-type", TODO);
-		putString(ret, "author_id", authorID + "");
+		putString(ret, "author_id", getAuthorID() + "");
 		putString(ret, "language", language);
-		putString(ret, "author", author);
+		putString(ret, "author", getAuthor());
 		putString(ret, "description", description);
-		putString(ret, "url_direct", urlDirect);
 		putString(ret, "featured", featured + "");
 		putString(ret, "timestamp", timestamp + "");
 		putString(ret, "url", url);
@@ -759,7 +716,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public int getAuthorID() {
-		return this.authorID;
+		return creator == null ? -1 : creator.getId();
 	}
 
 	public boolean has3d() {
@@ -900,12 +857,16 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	public void setCreator(UserPublic creator) {
 		this.creator = creator;
-		setCreatorAsAuthor();
 	}
 
-	private void setCreatorAsAuthor() {
-		author = creator.getUsername();
-		authorID = creator.getId();
+	/**
+	 * @param userId user ID
+	 * @deprecated use setCreator instead; this method will be removed
+	 * when upload works with new API
+	 */
+	@Deprecated
+	public void setAuthorId(int userId) {
+		setCreator(new UserPublic(userId, getAuthor()));
 	}
 
 	public boolean getAllowStylebar() {

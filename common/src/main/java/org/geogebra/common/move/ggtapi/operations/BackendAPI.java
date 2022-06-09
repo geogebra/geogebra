@@ -131,13 +131,6 @@ public interface BackendAPI {
 			MaterialCallbackI cb, MaterialType type);
 
 	/**
-	 * @param mat
-	 *            material
-	 * @return true if user owns the given material
-	 */
-	boolean owns(Material mat);
-
-	/**
 	 * @param student
 	 *            whether user is a student
 	 * @return whether user can share files

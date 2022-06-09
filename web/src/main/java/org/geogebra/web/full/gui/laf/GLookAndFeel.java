@@ -5,10 +5,9 @@ import java.util.Date;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.gwtutil.Cookies;
-import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -120,19 +119,6 @@ public class GLookAndFeel implements GLookAndFeelI {
 	    return false;
     }
 
-	/**
-	 * @param m
-	 *            material
-	 * @param app
-	 *            app
-	 * @param isLocal
-	 *            whether his is a local file
-	 * @return panel with material preview + actions
-	 */
-	public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
-	    return new MaterialListElement(m, app, isLocal);
-    }
-
 	@Override
 	public SignInController getSignInController(App app) {
 		return new SignInController(app, 0, null);
@@ -146,6 +132,11 @@ public class GLookAndFeel implements GLookAndFeelI {
 	@Override
 	public boolean isExternalLoginAllowed() {
 		return true;
+	}
+
+	@Override
+	public ResourceAction getDisplayAction(ResourceAction action) {
+		return action;
 	}
 
 	@Override
