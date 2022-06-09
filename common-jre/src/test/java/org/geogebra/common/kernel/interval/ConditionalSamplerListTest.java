@@ -71,8 +71,8 @@ public class ConditionalSamplerListTest extends BaseUnitTest {
 	public void testIfShort() {
 		withSampler("2, -2 < x < 2")
 				.checkThat(onInterval(0, 1.9).shouldEqual(interval(2)),
-						onInterval(-1000, -2).shouldEqual(undefined()),
-						onInterval(2, 1000).shouldEqual(undefined())
+						onInterval(-1000, -3).shouldEqual(undefined()),
+						onInterval(2.1, 1000).shouldEqual(undefined())
 				);
 
 	}

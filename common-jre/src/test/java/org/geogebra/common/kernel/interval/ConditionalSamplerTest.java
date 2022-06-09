@@ -112,7 +112,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		DiscreteSpace space = new DiscreteSpaceImp(interval(-10, 10), 100);
 		ConditionalSampler sampler =
 				newConditionalSampler(node.getLeftTree(), node.getRightTree(), space);
-		IntervalTupleList tuples = sampler.evaluate(interval(-10, 0.002));
+		IntervalTupleList tuples = sampler.evaluate(interval(-10, -0.002));
 		assertEquals(0,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 		tuples = sampler.evaluate(interval(0, 10));

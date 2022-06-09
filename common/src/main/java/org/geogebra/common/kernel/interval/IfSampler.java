@@ -10,11 +10,9 @@ public class IfSampler implements ExpressionSampler {
 
 	@Override
 	public boolean isAccepted(ExpressionNode node) {
-		if (node == null) {
-			return false;
-		}
-
-		return Operation.IF.equals(node.getOperation())	|| isIfShort(node);
+		return node != null
+				? Operation.IF.equals(node.getOperation())	|| isIfShort(node)
+				: false;
 	}
 
 	private boolean isIfShort(ExpressionNode node) {

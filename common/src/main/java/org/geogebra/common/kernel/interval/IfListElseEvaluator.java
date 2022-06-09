@@ -10,12 +10,19 @@ public class IfListElseEvaluator implements IntervalEvaluatable {
 	private final ExpressionNode elseNode;
 	private int piece;
 
+	/**
+	 *
+	 * @param samplers the ConditionSampler list.
+	 * @param elseNode the else body block.
+	 * @param piece that the tuples evaluated as else case will belong to.
+	 */
 	public IfListElseEvaluator(List<ConditionalSampler> samplers, ExpressionNode elseNode,
 			int piece) {
 		evaluator = new IfListEvaluator(samplers);
 		this.elseNode = elseNode;
 		this.piece = piece;
 	}
+
 	@Override
 	public IntervalTupleList evaluate(Interval x) {
 		IntervalTupleList tuples = evaluator.evaluate(x);
