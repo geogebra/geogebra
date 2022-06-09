@@ -9,7 +9,6 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.Browser;
@@ -134,7 +133,7 @@ public abstract class FileManager extends MaterialsManager {
 	}
 
 	/**
-	 * adds the files from the current user to the {@link BrowseGUI}
+	 * adds the files from the current user to the {@link org.geogebra.web.full.gui.openfileview.OpenFileView}
 	 */
 	@Override
 	public void getUsersMaterials() {

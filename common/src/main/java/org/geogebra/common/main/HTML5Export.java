@@ -47,19 +47,19 @@ public class HTML5Export {
 
 		sb.append("var parameters = {\n");
 		sb.append("\"id\": \"ggbApplet\",\n");
-		sb.append("\"width\":" + (int) app.getWidth() + ",\n");
-		sb.append("\"height\":" + (int) app.getHeight() + ",\n");
-		sb.append("\"showMenuBar\":" + app.showMenuBar + ",\n");
-		sb.append("\"showAlgebraInput\":" + app.showAlgebraInput + ",\n");
+		sb.append("\"width\":").append((int) app.getWidth()).append(",\n");
+		sb.append("\"height\":").append((int) app.getHeight()).append(",\n");
+		sb.append("\"showMenuBar\":").append(app.showMenuBar).append(",\n");
+		sb.append("\"showAlgebraInput\":").append(app.showAlgebraInput).append(",\n");
 
-		sb.append("\"showToolBar\":" + app.showToolBar + ",\n");
+		sb.append("\"showToolBar\":").append(app.showToolBar).append(",\n");
 		if (app.showToolBar) {
 			if (gui != null) {
 				sb.append("\"customToolBar\":\"");
 				sb.append(gui.getToolbarDefinition());
 				sb.append("\",\n");
 			}
-			sb.append("\"showToolBarHelp\":" + app.showToolBarHelp + ",\n");
+			sb.append("\"showToolBarHelp\":").append(app.showToolBarHelp).append(",\n");
 
 		}
 		sb.append("\"showResetIcon\":false,\n");
@@ -82,12 +82,12 @@ public class HTML5Export {
 		sb.append("\"disableAutoScale\":false,\n");
 		sb.append("\"allowUpscale\":false,\n");
 		sb.append("\"clickToLoad\":false,\n");
-		sb.append("\"appName\":\"" + app.getConfig().getAppCode() + "\",\n");
+		sb.append("\"appName\":\"").append(app.getConfig().getAppCode()).append("\",\n");
 		sb.append("\"buttonRounding\":0.7,\n");
 		sb.append("\"buttonShadows\":false,\n");
 		sb.append(
-				"\"language\":\"" + app.getLocalization().getLanguage()
-						+ "\",\n");
+				"\"language\":\"").append(app.getLocalization().getLanguage())
+				.append("\",\n");
 
 		sb.append(
 				"// use this instead of ggbBase64 to load a material from geogebra.org\n");

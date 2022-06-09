@@ -15,4 +15,10 @@ public class MowService implements Service {
 	public String getDeletionJson(Material.MaterialType materialType) {
 		return null;
 	}
+
+	@Override
+	public String getGgsTemplateEndpoint(int userId) {
+		return "/users/" + userId
+				+ "/materials?format=page&filter=ggs-template";
+	}
 }

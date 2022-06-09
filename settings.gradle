@@ -12,7 +12,7 @@ include 'input3D:impl'
 
 include 'web-common'
 include 'web'
-include 'web:dev'
+include 'web-dev'
 
 include 'renderer-base'
 include 'renderer-desktop'

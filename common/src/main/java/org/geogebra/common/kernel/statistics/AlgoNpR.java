@@ -58,10 +58,10 @@ public class AlgoNpR {
 		// rr=BigInteger.valueOf((long)r);
 
 		// need a long-winded conversion in case n>10^18
-		Double nnn = new Double(n);
-		Double rrr = new Double(n - r);
-		nn = (new BigDecimal(nnn.toString())).toBigInteger();
-		nr = (new BigDecimal(rrr.toString())).toBigInteger();
+		String nnn = Double.toString(n);
+		String rrr = Double.toString(n - r);
+		nn = (new BigDecimal(nnn)).toBigInteger();
+		nr = (new BigDecimal(rrr)).toBigInteger();
 		nr = nr.add(BigInteger.ONE);
 
 		while (nr.compareTo(nn) <= 0) {

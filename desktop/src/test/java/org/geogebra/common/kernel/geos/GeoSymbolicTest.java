@@ -19,13 +19,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
@@ -1687,5 +1690,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Length((1,2,x))", "sqrt(x^(2) + 5)");
 		t("Length(\"hello\")", "5");
 		t("Length(x-y^2=0)", "?");
+	}
+
+	@Test
+	public void testThrowsCircularDefinitionException() {
+		GeoElement element = add("c(0,0)");
+		AlgebraProcessor processor = kernel.getAlgebraProcessor();
+		EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, element, true);
+		processor.changeGeoElementNoExceptionHandling(element, "C=(0,0)", info, false, null,
+				ErrorHelper.silent());
+		info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, element, true);
+		processor.changeGeoElementNoExceptionHandling(element, "C(0,0)", info, false, null,
+				ErrorHelper.silent());
+		assertThat(element.getDefinition(), is(notNullValue()));
 	}
 }

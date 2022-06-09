@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
@@ -71,8 +72,11 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void setLocation(int x, int y) {
-		style.setLeft(x, Style.Unit.PX);
-		style.setTop(y, Style.Unit.PX);
+		// clamp forces the  editor to be in visible area, may still be behind keyboard
+		style.setLeft(MyMath.clamp(x, 0,
+				widget.getParent().getOffsetWidth() - formula.getMinWidth()), Style.Unit.PX);
+		style.setTop(MyMath.clamp(y, 0,
+				widget.getParent().getOffsetHeight() - formula.getMinHeight()), Style.Unit.PX);
 	}
 
 	@Override

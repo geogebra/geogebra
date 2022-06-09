@@ -744,8 +744,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 			Integer col = entry.getKey();
 			int colWidth = entry.getValue();
 			if (colWidth != preferredColumnWidth()) {
-				sb.append("\t<spreadsheetColumn id=\"" + col + "\" width=\""
-						+ colWidth + "\"/>\n");
+				sb.append("\t<spreadsheetColumn id=\"").append(col)
+						.append("\" width=\"").append(colWidth).append("\"/>\n");
 			}
 		}
 
@@ -755,8 +755,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 			Integer row = entry.getKey();
 			int rowHeight = entry.getValue();
 			if (rowHeight != preferredRowHeight()) {
-				sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
-						+ rowHeight + "\"/>\n");
+				sb.append("\t<spreadsheetRow id=\"").append(row)
+						.append("\" height=\"").append(rowHeight).append("\"/>\n");
 			}
 		}
 

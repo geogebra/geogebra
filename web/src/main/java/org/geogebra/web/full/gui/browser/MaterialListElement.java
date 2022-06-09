@@ -375,7 +375,7 @@ public class MaterialListElement extends FlowPanel
 											setMaterialSimple(response.get(0));
 											getMaterial().setSyncStamp(synced);
 											app.getViewW().processFileName(
-													response.get(0).getURL());
+													response.get(0).getFileName());
 											app.setActiveMaterial(getMaterial());
 										}
 									}

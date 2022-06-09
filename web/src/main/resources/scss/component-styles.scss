@@ -796,6 +796,7 @@
 		box-sizing: border-box;
 		border-radius: 22px;
 		border: 2px solid transparent;
+		transition: border 200ms ease-in-out, background-color 200ms ease-in-out;
 
 		.flatButtonHeader {
 			margin: auto 2px;
@@ -840,6 +841,7 @@
         float: left;
         box-sizing: border-box;
         border-radius: 50%;
+        transition: background-color 150ms ease 0ms;
 
         img {
         	opacity: 0.54;

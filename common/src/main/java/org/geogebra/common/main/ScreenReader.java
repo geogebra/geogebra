@@ -230,7 +230,6 @@ public class ScreenReader {
 	public static ExpressionReader getExpressionReader(final App app) {
 		final Localization loc = app.getLocalization();
 		final GParser parser = new GParser(app.getKernel(), app.getKernel().getConstruction());
-		parser.setSilent(true);
 		return new ExpressionReader() {
 
 			@Override

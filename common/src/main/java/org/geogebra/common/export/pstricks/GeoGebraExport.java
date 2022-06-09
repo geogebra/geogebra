@@ -1300,7 +1300,7 @@ public abstract class GeoGebraExport {
 
 	protected void startBeamer(StringBuilder sb) {
 		if (isBeamer) {
-			sb.append("\\onslide<" + beamerSlideNumber + "->{\n  ");
+			sb.append("\\onslide<").append(beamerSlideNumber).append("->{\n  ");
 		}
 	}
 
@@ -1525,7 +1525,7 @@ public abstract class GeoGebraExport {
 		}
 		if (packages.length() != 0) {
 			packages.delete(packages.length() - 1, packages.length());
-			codePreamble.append("\\usepackage{" + packages.toString() + "}\n");
+			codePreamble.append("\\usepackage{").append(packages.toString()).append("}\n");
 		}
 	}
 

@@ -18,4 +18,9 @@ public class MarvlService implements Service {
 	public String getDeletionJson(Material.MaterialType materialType) {
 		return materialType == Material.MaterialType.ggsTemplate ? null : "{\"deleted\":true}";
 	}
+
+	@Override
+	public String getGgsTemplateEndpoint(int userId) {
+		return "/users/" + userId + "/materials?filter=ggs-template";
+	}
 }

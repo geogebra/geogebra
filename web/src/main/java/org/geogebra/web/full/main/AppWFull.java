@@ -1332,12 +1332,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getEuclidianView1().invalidateBackground();
 			DockPanelW euclidianDockPanel = (DockPanelW) getEuclidianViewpanel();
 			euclidianDockPanel.setVisible(true);
-			euclidianDockPanel.setEmbeddedSize(getSettings()
-					.getEuclidian(1).getPreferredSize().getWidth());
+
+			euclidianDockPanel.setEmbeddedSize(getInnerAppletWidth());
 			getEuclidianViewpanel().setPixelSize(
-					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
-					getSettings().getEuclidian(1).getPreferredSize()
-							.getHeight());
+					getInnerAppletWidth(),
+					getInnerAppletHeight());
 			euclidianDockPanel.updatePanel(false);
 
 			oldSplitLayoutPanel = null;
@@ -1433,7 +1432,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		updateSplitPanelHeight();
 
 		getGuiManager().getAlgebraInput()
-				.setInputFieldWidth(this.appletWidth);
+				.setInputFieldWidth(this.getAppletWidth());
 	}
 
 	@Override

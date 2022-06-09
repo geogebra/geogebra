@@ -221,6 +221,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private boolean keyboardNeeded;
 	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
+	private int appletWidth = 0;
+	private int appletHeight = 0;
 	private NetworkOperation networkOperation;
 	private PageListControllerInterface pageController;
 
@@ -826,8 +828,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Log.debug("images loaded");
 			// Macros (optional)
 			if (def.hasMacros()) {
-				// macros = DataUtil.utf8Decode(macros);
-				// //DataUtil.utf8Decode(macros);
 				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
 			int seed = getAppletParameters().getParamRandomSeed();
@@ -2225,13 +2225,41 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				|| this.appletParameters.getDataParamApp();
 	}
 
+	public final int getAppletWidth() {
+		return appletWidth;
+	}
+
+	public void setAppletWidth(int width) {
+		this.appletWidth = width;
+	}
+
+	public int getAppletHeight() {
+		return appletHeight;
+	}
+
+	public void setAppletHeight(int height) {
+		this.appletHeight = height;
+	}
+
+	protected int getInnerAppletWidth() {
+		int border = getAppletParameters().getBorderThickness();
+		return getAppletWidth() - border <= 0 && (getPreferredSize() != null)
+				? getPreferredSize().getWidth() : getAppletWidth() - border;
+	}
+
+	protected int getInnerAppletHeight() {
+		int border = getAppletParameters().getBorderThickness();
+		return getAppletHeight() - border <= 0 && (getPreferredSize() != null)
+				? getPreferredSize().getHeight() : getAppletHeight() - border;
+	}
+
 	/**
 	 * @param fallback
 	 *            fallback when computation gives 0
 	 * @return width of central pane
 	 */
 	public int getWidthForSplitPanel(int fallback) {
-		int ret = getAppletWidth(); // border already excluded
+		int ret = getAppletWidth() - getAppletParameters().getBorderThickness();
 
 		// if it is not 0, there will be some scaling later
 		if (ret <= 0) {
@@ -2253,7 +2281,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public int getHeightForSplitPanel(int fallback) {
 		// border excluded
-		int windowHeight = getAppletHeight();
+		int windowHeight = getAppletHeight() - getAppletParameters().getBorderThickness();
 		// but we want to know the available height for the rootPane
 		// so we either use the above as a heuristic,
 		// or we should substract the height(s) of
@@ -2969,26 +2997,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            perspective to be forced after settings
 	 */
 	public void loadPreferences(Perspective p) {
-		// GeoGebraPreferencesW.getPref().loadForApp(app, p);
-	}
-
-	@Override
-	public void ensureEvSizeSet(EuclidianSettings evSet) {
-		GDimension gd = evSet.getPreferredSize();
-		if (gd.getWidth() == 0 || gd.getHeight() == 0) {
-			// border already excluded
-			int width = getAppletWidth();
-			int height = getAppletHeight();
-			if (width == 0 || height == 0) {
-				// setting a standard size, like in
-				// compabilityLayout
-				// fixing a real bug of height 0
-				width = 598; // 2: border
-				height = 438; // 2: border
-			}
-			evSet.setPreferredSize(
-					AwtFactory.getPrototype().newDimension(width, height));
-		}
+		// only in full app
 	}
 
 	/**

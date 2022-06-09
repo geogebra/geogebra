@@ -1,7 +1,11 @@
 package org.geogebra.common.euclidian.plot.interval;
 
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
@@ -20,6 +24,7 @@ public class IntervalPlotModel {
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
 	private Interval oldDomain;
+	private TupleNeighbours neighbours = new TupleNeighbours();
 
 	/**
 	 * Constructor
@@ -70,7 +75,9 @@ public class IntervalPlotModel {
 	}
 
 	private void updatePath() {
-		path.update();
+		if (hasValidData()) {
+			path.update();
+		}
 	}
 
 	/**
@@ -134,8 +141,12 @@ public class IntervalPlotModel {
 	 * @param index to get point at
 	 * @return corresponding point if index is valid, null otherwise.
 	 */
-	public IntervalTuple pointAt(int index) {
+	public IntervalTuple at(int index) {
 		return points.get(index);
+	}
+
+	public boolean hasNext(int index) {
+		return index < pointCount();
 	}
 
 	/**
@@ -159,13 +170,13 @@ public class IntervalPlotModel {
 	 * @param index of the tuple.
 	 * @return if the tuple of a given index is empty or not.
 	 */
-	public boolean isEmptyAt(int index) {
+	public boolean isUndefinedAt(int index) {
 		return index >= points.count()
-				|| pointAt(index).isUndefined();
+				|| at(index).isUndefined();
 	}
 
 	public boolean isInvertedAt(int index) {
-		return index >= points.count() || pointAt(index).isInverted();
+		return index >= points.count() || at(index).isInverted();
 	}
 
 	/**
@@ -182,7 +193,7 @@ public class IntervalPlotModel {
 	 * @return if the tuple value of a given index is whole or not.
 	 */
 	public boolean isWholeAt(int index) {
-		return index >= points.count() || pointAt(index).y().isWhole();
+		return index >= points.count() || at(index).y().isWhole();
 	}
 
 	/**
@@ -203,5 +214,47 @@ public class IntervalPlotModel {
 
 	private long countDefined() {
 		return points.stream().filter(t -> !t.y().isUndefined()).count();
+	}
+
+	private boolean isValidIndex(int index) {
+		return index < points.count();
+	}
+
+	public boolean nonDegenerated(int index) {
+		return !isInvertedPositiveInfinity(index);
+	}
+
+	private boolean isInvertedPositiveInfinity(int index) {
+		return isValidIndex(index)
+				&& at(index).y().isPositiveInfinity()
+				&& isInvertedAt(index);
+	}
+
+	/**
+	 * Iterates through and calls the given action on every tuple in model.
+	 *
+	 * @param action to call on.
+	 */
+	public void forEach(IntConsumer action) {
+		Interval xRange = IntervalPlotSettings.visisbleXRange();
+		if (xRange.isUndefined()) {
+			allIndexes().forEach(action);
+		} else {
+			allIndexes().filter(index -> xRange.contains(at(index).x()))
+					.forEach(action);
+		}
+	}
+
+	private IntStream allIndexes() {
+		return IntStream.range(0, pointCount());
+	}
+
+	/**
+	 * @param index to get the neighbours at.
+	 * @return the neighbours around tuple given by index (including itself)
+	 */
+	public TupleNeighbours neighboursAt(int index) {
+		neighbours.set(at(index - 1), at(index), at(index + 1));
+		return neighbours;
 	}
 }
