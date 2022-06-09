@@ -32,12 +32,13 @@ gwt {
 }
 
 dependencies {
-	api project(':renderer-web')
-	api project(':editor-base')
-	api files(project(':editor-base').sourceSets.main.java.srcDirs)
-	api files(project(':renderer-web').sourceSets.main.java.srcDirs)
-	api "com.google.gwt:gwt-dev:$gwtCompilerVersion"
-	api "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	api project(':renderer-web'),
+		project(':editor-base'),
+		files(project(':editor-base').sourceSets.main.allSource.srcDirs),
+		files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
+		files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
+		"com.google.gwt:gwt-dev:$gwtCompilerVersion",
+		"com.google.gwt:gwt-user:$gwtCompilerVersion"
 	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 

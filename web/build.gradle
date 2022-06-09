@@ -316,11 +316,13 @@ task mergeDeploy(){
 }
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
-// As now this task doesn't finish until the java process exits.
-// This causes some problems as the IDE cannot run any other tasks.
-// https://issues.gradle.org/browse/GRADLE-1254
+
 task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
     war = file(warDirRel)
+    maxHeapSize = '4096m'
+    logLevel = 'TRACE'
+    cacheDir = gwtGlobalCache
+    extraJvmArgs = ["-Djava.io.tmpdir=${gwtGlobalCache.absolutePath}"]
     description 'Starts a codeserver, and a simple webserver for development'
     Process sassCompilation
     doFirst {
