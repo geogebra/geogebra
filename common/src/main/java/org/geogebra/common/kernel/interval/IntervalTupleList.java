@@ -24,6 +24,11 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		this.list = new ArrayList<>();
 	}
 
+	public IntervalTupleList(IntervalTuple tuple) {
+		this();
+		list.add(tuple);
+	}
+
 	/**
 	 *
 	 * @return the empty list.

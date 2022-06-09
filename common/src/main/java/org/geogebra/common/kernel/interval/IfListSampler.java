@@ -21,6 +21,11 @@ public class IfListSampler implements ExpressionSampler {
 		for (int i = 0; i < conditions.size(); i++) {
 			list.add(createItem(conditions, conditionBodies, i));
 		}
+		int bodiesSize = conditionBodies.size();
+		if (conditions.size() < bodiesSize) {
+			return new MultiSampler(new IfListElseEvaluator(list,
+					conditionBodies.getItem(bodiesSize - 1).wrap(), bodiesSize), list);
+		}
 		return new MultiSampler(new IfListEvaluator(list), list);
 	}
 
