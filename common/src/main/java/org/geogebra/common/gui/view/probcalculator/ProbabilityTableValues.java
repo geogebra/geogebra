@@ -51,7 +51,11 @@ public class ProbabilityTableValues extends ProbabilityTable {
 		boolean isUndoActive = kernel.isUndoActive();
 		kernel.setUndoActive(false);
 
+		if (probabilityList != null) {
+			probabilityList.remove();
+		}
 		view.clearView();
+
 		setTableModel(dist, params, xMin, xMax);
 		if (getProbManager().isDiscrete(dist)) {
 			String[] columnNames = getColumnNames();
