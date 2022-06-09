@@ -109,8 +109,6 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel
 			signInTextButton = ((GLookAndFeel) app.getLAF())
 					.getSignInController(app).getLoginTextButton();
 			signInPanel.add(signInTextButton);
-
-
 		}
 		rightPanel.clear();
 		rightPanel.add(signInPanel);
