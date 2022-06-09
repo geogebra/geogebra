@@ -8,11 +8,13 @@ import org.geogebra.common.plugin.Operation;
 
 public class IfSampler implements ExpressionSampler {
 
-
 	@Override
 	public boolean isAccepted(ExpressionNode node) {
-		return node != null && Operation.IF.equals(node.getOperation())
-				|| isIfShort(node);
+		if (node == null) {
+			return false;
+		}
+
+		return Operation.IF.equals(node.getOperation())	|| isIfShort(node);
 	}
 
 	private boolean isIfShort(ExpressionNode node) {

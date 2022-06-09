@@ -26,10 +26,13 @@ public class IfElseSampler implements ExpressionSampler {
 				samplers);
 	}
 
-	private IntervalConditionalExpression ifExpression(ExpressionNode conditional, ExpressionNode body) {
+	private IntervalConditionalExpression ifExpression(ExpressionNode conditional,
+			ExpressionNode body) {
 		return new IntervalConditionalExpression(conditional, body);
 	}
-	private IntervalConditionalExpression elseExpression(ExpressionNode conditional, ExpressionNode elseBody) {
+
+	private IntervalConditionalExpression elseExpression(ExpressionNode conditional,
+			ExpressionNode elseBody) {
 		return ifExpression(conditional.negation(), elseBody);
 	}
 }

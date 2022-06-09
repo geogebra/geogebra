@@ -7,6 +7,11 @@ public class MultiSampler implements IntervalEvaluatable {
 	IntervalEvaluatable evaluator;
 	List<ConditionalSampler> samplers;
 
+	/**
+	 *
+	 * @param evaluator for this compound, multi-conditional sampler (Ifs)
+	 * @param samplers the samplers for each condition
+	 */
 	public MultiSampler(IntervalEvaluatable evaluator, List<ConditionalSampler> samplers) {
 		this.evaluator = evaluator;
 		this.samplers = samplers;

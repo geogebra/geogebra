@@ -22,6 +22,12 @@ public class IntervalTuple {
 		this.y = y;
 	}
 
+	/**
+	 *
+	 * @param x interval of x coordinates.
+	 * @param y interval of y coordinates.
+	 * @param piece where the tuple belongs (for different If() command parts)
+	 */
 	public IntervalTuple(Interval x, Interval y, int piece) {
 		this(x, y);
 		this.piece = piece;

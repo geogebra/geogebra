@@ -119,13 +119,9 @@ public class IntervalPlotModel {
 			return;
 		}
 
-		Interval x = new Interval(points.get(points.count() - 1).x().getHigh(),
-				bounds.getXmax());
 		IntervalTupleList newPoints = sampler.evaluate(
 				points.get(points.count() - 1).x().getHigh(),
 				bounds.getXmax());
-		Log.debug("extendMax: " + x +
-				 " count: " + newPoints.count());
 		points.append(newPoints);
 		points.cutTo(bounds.getXmin());
 	}

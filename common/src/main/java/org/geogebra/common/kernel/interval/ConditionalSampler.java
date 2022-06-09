@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.interval;
 public class ConditionalSampler implements IntervalEvaluatable {
 	private IntervalConditionalExpression conditionalExpression;
 	private DiscreteSpace space;
-	private IntervalTupleList samples;
 	private int index = 0;
 
 	/**
@@ -22,7 +21,6 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	 */
 	public ConditionalSampler(IntervalConditionalExpression conditionalExpression) {
 		this.conditionalExpression = conditionalExpression;
-		samples = new IntervalTupleList();
 	}
 
 	/**
@@ -64,7 +62,6 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	private IntervalTuple evaluatedTuple(Interval x) {
 		return new IntervalTuple(x, evaluatedValue(x), index);
 	}
-
 
 	private Interval evaluatedValue(Interval x) {
 		return IntervalFunction.evaluate(x,

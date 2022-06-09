@@ -24,7 +24,6 @@ public class IfListSampler implements ExpressionSampler {
 		return new MultiSampler(new IfListEvaluator(list), list);
 	}
 
-
 	private ConditionalSampler createItem(MyList conditions, MyList conditionBodies, int index) {
 		return new ConditionalSampler(new IntervalConditionalExpression(
 				conditions.getItem(index).wrap(),

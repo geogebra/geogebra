@@ -750,6 +750,7 @@ public class Interval {
 	public boolean isLessThanOrEqual(Interval y2) {
 		return isLessThan(y2) || almostEqual(y2);
 	}
+
 	public double middle() {
 		return low + getLength() / 2;
 	}

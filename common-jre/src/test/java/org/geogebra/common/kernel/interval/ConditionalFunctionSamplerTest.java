@@ -46,8 +46,8 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(15, countPieceByValue(tuples, interval(-1), 0));
-		assertEquals(14, countPieceByValue(tuples, interval(1), 1));
+		assertEquals(17, countPieceByValue(tuples, interval(-1), 0));
+		assertEquals(16, countPieceByValue(tuples, interval(1), 1));
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(13, countPieceByValue(tuples, interval(1), 0));
 		assertEquals(1, countPieceByValue(tuples, interval(2), 1));
-		assertEquals(15, countPieceByValue(tuples, interval(3), 2));
+		assertEquals(16, countPieceByValue(tuples, interval(3), 2));
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(42, countPieceByValue(tuples, interval(1), 0));
 		assertEquals(0, countPieceByValue(tuples, interval(2), 1));
-		assertEquals(50, countPieceByValue(tuples, interval(3), 2));
+		assertEquals(51, countPieceByValue(tuples, interval(3), 2));
 	}
 
 	@Test

@@ -18,7 +18,7 @@ public class DefaultConditionalEvaluator implements IntervalEvaluatable {
 	@Override
 	public IntervalTupleList evaluate(Interval x) {
 		IntervalTupleList result = new IntervalTupleList();
- 		samplers.forEach(sampler -> result.append(sampler.evaluate(x)));
+		samplers.forEach(sampler -> result.append(sampler.evaluate(x)));
 		return result;
 	}
 

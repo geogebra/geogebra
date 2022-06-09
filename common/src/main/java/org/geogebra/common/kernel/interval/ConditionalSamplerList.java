@@ -6,12 +6,10 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.plugin.Operation;
 
 public class ConditionalSamplerList implements IntervalEvaluatable {
 	private MultiSampler samplers;
 	private GeoFunction function;
-	private Operation operation;
 	private List<ExpressionSampler> expressionSamplers = Arrays.asList(new IfSampler(),
 			new IfElseSampler(),
 			new IfListSampler());

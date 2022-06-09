@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
@@ -13,7 +10,6 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 	private IntervalTuple range;
 	private EuclidianViewBounds evBounds;
 	private final DiscreteSpace space;
-	private List<IntervalTupleList> results = new ArrayList<>();
 
 	/**
 	 *
