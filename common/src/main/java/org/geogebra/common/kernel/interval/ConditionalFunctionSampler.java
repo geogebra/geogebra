@@ -48,6 +48,7 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void update(IntervalTuple range) {
+		space.update(range.x(), evBounds.getWidth());
 		samplers.update(range.x(), evBounds.getWidth());
 	}
 
