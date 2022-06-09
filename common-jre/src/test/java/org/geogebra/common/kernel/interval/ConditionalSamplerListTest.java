@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.interval;
 
-
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
@@ -34,12 +33,14 @@ public class ConditionalSamplerListTest extends BaseUnitTest {
 			IntervalTupleList list = samplers.evaluate(x);
 			return list.count() > 0 ? list.get(0).y() : undefined();
 		}
+
 		void checkThat(SampledData... sampledData) {
 			for (SampledData data: sampledData) {
 				assertEquals(data.expected, data.evaluate());
 			}
 		}
 	}
+
 	@Test
 	public void testIf() {
 		withSampler("if(x < 2, 1)")

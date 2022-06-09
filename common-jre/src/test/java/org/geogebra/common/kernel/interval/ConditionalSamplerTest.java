@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.interval;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Objects;
 
@@ -78,17 +79,17 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 
 	}
 
-//	@Test
-//	public void testCompoundCondition() {
-//		GeoFunction function = add("a=If(0 < x < 5, 1)");
-//		ExpressionNode node = function.getFunctionExpression();
-//		ExpressionNode condition = Objects.requireNonNull(node).getLeftTree();
-//		ExpressionNode conditionBody = node.getRightTree();
-//		ConditionalSampler sampler =
-//				new ConditionalSampler(condition, conditionBody, null);
-//		assertTrue(sampler.isConditionTrue(interval(1, 3)));
-//	}
-//
+	@Test
+	public void testCompoundCondition() {
+		GeoFunction function = add("a=If(0 < x < 5, 1)");
+		ExpressionNode node = function.getFunctionExpression();
+		ExpressionNode condition = Objects.requireNonNull(node).getLeftTree();
+		ExpressionNode conditionBody = node.getRightTree();
+		ConditionalSampler sampler =
+				new ConditionalSampler(new IntervalConditionalExpression(condition, conditionBody));
+		assertTrue(sampler.isAccepted(interval(1, 3)));
+	}
+
 	@Test
 	public void testLessThanOrEqual() {
 		GeoFunction function = add("a=If(x <= 0, 1)");
@@ -131,7 +132,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 
 		double step = space.getStep();
-		tuples = sampler.evaluate(interval(0 - step/2, 0 + step/2));
+		tuples = sampler.evaluate(interval(0 - step / 2, 0 + step / 2));
 		assertEquals(1,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 	}

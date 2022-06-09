@@ -29,6 +29,11 @@ public class EuclidianViewBoundsMock
 		height = (int) Math.round(ymax - ymin);
 	}
 
+	/**
+	 * @param range of the view
+	 * @param width in pixels
+	 * @param height in pixels
+	 */
 	public EuclidianViewBoundsMock(IntervalTuple range, int width, int height) {
 		this(range.x().getLow(), range.x().getHigh(), range.y().getLow(), range.y().getHigh());
 		this.width = width;
@@ -129,13 +134,13 @@ public class EuclidianViewBoundsMock
 
 	@Override
 	public String toString() {
-		return "EuclidianViewBoundsMock{" +
-				"xmin=" + xmin +
-				", xmax=" + xmax +
-				", ymin=" + ymin +
-				", ymax=" + ymax +
-				", width=" + width +
-				", height=" + height +
-				'}';
+		return "EuclidianViewBoundsMock{"
+				+ "xmin=" + xmin
+				+ ", xmax=" + xmax
+				+ ", ymin=" + ymin
+				+ ", ymax=" + ymax
+				+ ", width=" + width
+				+ ", height=" + height
+				+ '}';
 	}
 }

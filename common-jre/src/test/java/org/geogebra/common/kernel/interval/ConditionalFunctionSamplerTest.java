@@ -22,6 +22,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		assertEquals(tuples.count(), countPieceByValue(tuples, interval(1), 0));
 
 	}
+
 	@Test
 	public void testSingleIfWithCompoundCondition() {
 		GeoFunction function = add("a=If(-2 < x < 0, -1)");

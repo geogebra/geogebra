@@ -93,8 +93,6 @@ public class GlitchesTest extends BaseUnitTest {
 		withFunction(description);
 	}
 
-
-
 	@Test
 	public void ifCommandShouldNotBeEmpty() {
 		withHiResFunction("If(x< 0, 1)");
