@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.view.consprotocol;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.ConstructionStepper;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
@@ -49,8 +48,7 @@ public class ConstructionProtocolNavigationW
 	}
 
 	private StandardButton createButton(SVGResource icon) {
-		StandardButton btn = new StandardButton(icon, 24,
-				GeoGebraColorConstants.GEOGEBRA_ACCENT);
+		StandardButton btn = new StandardButton(icon, 24);
 		btn.addFastClickHandler(this);
 		return btn;
 	}

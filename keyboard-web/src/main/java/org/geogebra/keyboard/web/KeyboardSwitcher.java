@@ -3,14 +3,10 @@ package org.geogebra.keyboard.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.ToggleButton;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
@@ -108,7 +104,7 @@ public class KeyboardSwitcher extends FlowPanel {
 
 	protected void addCloseButton() {
 		ToggleButton closeButton = new ToggleButton(KeyboardResources.INSTANCE
-				.keyboard_close_black(), GeoGebraColorConstants.GEOGEBRA_ACCENT) {
+				.keyboard_close_black()) {
 			@Override
 			public void setFocus(boolean focused) {
 				// Do not focus the button
@@ -140,8 +136,6 @@ public class KeyboardSwitcher extends FlowPanel {
 	private void createMoreButton() {
 		moreButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_more(),
 				KeyboardResources.INSTANCE.keyboard_more());
-		moreButton.setMouseOverHandler(() -> switchIcon(true));
-		moreButton.setMouseOutHandler(() -> switchIcon(moreButton.isSelected()));
 		moreButton.getElement().setAttribute("aria-label",
 				tabbedkeyboard.locale.getMenu("Commands"));
 
@@ -151,17 +145,6 @@ public class KeyboardSwitcher extends FlowPanel {
 		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(moreButton
 						.getAbsoluteLeft() + moreButton.getOffsetWidth(),
 				moreButton.getAbsoluteTop()));
-	}
-
-	/**
-	 * switch img on open/close popup
-	 * @param isActive - popup is open
-	 */
-	public void switchIcon(boolean isActive) {
-		Dom.toggleClass(this, "noOpacity", isActive);
-		moreButton.setIcon(((SVGResource) moreButton.getIcon()).withFill(isActive
-				? GeoGebraColorConstants.GEOGEBRA_ACCENT.toString()
-				: GColor.BLACK.toString()));
 	}
 
 	protected void reset() {
