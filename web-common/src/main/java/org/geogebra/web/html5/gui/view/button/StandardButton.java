@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.view.button;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
@@ -8,7 +7,6 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
@@ -75,21 +73,6 @@ public class StandardButton extends Widget implements HasResource {
 	public StandardButton(final ResourcePrototype icon, final String label,
 			int width) {
 		this(icon, label, width, -1);
-	}
-
-	/**
-	 * @param icon - img of button
-	 * @param width - width
-	 * @param hoverIconColor - color of icon on hover
-	 */
-	public StandardButton(final ResourcePrototype icon, int width, GColor hoverIconColor) {
-		this(icon, null, width, -1);
-		if (hoverIconColor != null) {
-			setMouseOverHandler(() ->
-					setIcon(((SVGResource) getIcon()).withFill(hoverIconColor.toString())));
-			setMouseOutHandler(() ->
-					setIcon(((SVGResource) getIcon()).withFill(GColor.BLACK.toString())));
-		}
 	}
 
 	/**
@@ -293,22 +276,6 @@ public class StandardButton extends Widget implements HasResource {
 			handler.onClick(this);
 			e.stopPropagation();
 		});
-	}
-
-	/**
-	 * @param mouseOverHandler - mouse over handler
-	 */
-	public void setMouseOverHandler(Runnable mouseOverHandler) {
-		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
-				mouseOverHandler.run());
-	}
-
-	/**
-	 * @param mouseOutHandler - mouse out handler
-	 */
-	public void setMouseOutHandler(Runnable mouseOutHandler) {
-		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
-				mouseOutHandler.run());
 	}
 
 	public NoDragImage getImage() {

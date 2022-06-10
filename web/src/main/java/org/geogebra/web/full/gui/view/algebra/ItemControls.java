@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
@@ -59,8 +58,7 @@ public class ItemControls extends FlowPanel
 	 */
 	public StandardButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(),
-					24, GeoGebraColorConstants.GEOGEBRA_ACCENT);
+			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 			btnMore.addStyleName("more");
 			TestHarness.setAttr(btnMore, "avItemMoreButton");
 			btnMore.addFastClickHandler((event) -> {
@@ -363,14 +361,7 @@ public class ItemControls extends FlowPanel
 		if (btnMore == null) {
 			return;
 		}
-		if (show) {
-			btnMore.removeStyleName("more");
-			btnMore.addStyleName("more-hidden");
-		} else {
-			btnMore.removeStyleName("more-hidden");
-			btnMore.addStyleName("more");
-		}
-
+		Dom.toggleClass(btnMore, "more-hidden", "more", show);
 	}
 
 	@Override
