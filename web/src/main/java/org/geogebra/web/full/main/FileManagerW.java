@@ -245,7 +245,6 @@ public class FileManagerW extends FileManager {
 		// sensitive data
 		autoSaved.setCreator(null);
 		autoSaved.setId(0);
-		autoSaved.setGoogleID("");
 		openMaterial(autoSaved);
 	}
 

@@ -90,14 +90,9 @@ public class JSONParserGGT {
 		material.setThumbnailUrl(
 				StringUtil.empty(thumbUrl) ? getString(obj, "thumbnail")
 						: thumbUrl.replace("$1", ""));
-		material.setPreviewURL(getString(obj, "previewUrl"));
 		material.setLanguage(getString(obj, "language"));
-		material.setFeatured(Boolean.parseBoolean(getString(obj, "featured")));
-		material.setLikes(getInt(obj, "likes", -1));
 		material.setHeight(getInt(obj, "height", 600));
 		material.setWidth(getInt(obj, "width", 800));
-		material.setInstructionsPost(getString(obj, "instructions_post"));
-		material.setInstructionsPre(getString(obj, "instructions_pre"));
 		material.setShowToolbar(getBoolean(obj, "toolbar", false));
 		material.setAllowStylebar(getBoolean(obj, "stylebar", false));
 		material.setShowMenu(getBoolean(obj, "menubar", false));

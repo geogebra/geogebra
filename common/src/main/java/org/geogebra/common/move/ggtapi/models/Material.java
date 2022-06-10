@@ -73,22 +73,9 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	private String thumbnail;
 	private boolean thumbnailIsBase64 = false;
-
 	private String previewUrl;
-
-	/**
-	 * true if a material is featured, false otherwise.
-	 */
-	private boolean featured;
-
-	/**
-	 * Number of likes for this material
-	 */
-	private int likes;
 	private int width;
 	private int height;
-	private String instructionsPre;
-	private String instructionsPost;
 	private boolean showMenu;
 	private boolean showToolbar;
 	private boolean allowStylebar;
@@ -98,7 +85,6 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean rightClick;
 	private boolean labelDrags;
 	private String base64;
-	private String googleID;
 	private long syncStamp;
 	private long modified;
 	private String visibility;
@@ -142,11 +128,7 @@ public class Material implements Comparable<Material>, Serializable {
 		this.creator = new UserPublic();
 		this.url = "";
 		this.language = "";
-		this.featured = false;
-		this.likes = -1;
 		this.description = "";
-		this.instructionsPre = "";
-		this.instructionsPost = "";
 		this.visibility = "P";
 		this.width = 800;
 		this.height = 600;
@@ -181,12 +163,8 @@ public class Material implements Comparable<Material>, Serializable {
 		thumbnail = material.thumbnail;
 		thumbnailIsBase64 = material.thumbnailIsBase64;
 		previewUrl = material.previewUrl;
-		featured = material.featured;
-		likes = material.likes;
 		width = material.width;
 		height = material.height;
-		instructionsPre = material.instructionsPre;
-		instructionsPost = material.instructionsPost;
 		showMenu = material.showMenu;
 		showToolbar = material.showToolbar;
 		allowStylebar = material.allowStylebar;
@@ -196,7 +174,6 @@ public class Material implements Comparable<Material>, Serializable {
 		rightClick = material.rightClick;
 		labelDrags = material.labelDrags;
 		base64 = material.base64;
-		googleID = material.googleID;
 		syncStamp = material.syncStamp;
 		modified = material.modified;
 		visibility = material.visibility;
@@ -292,14 +269,6 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public String getThumbnail() {
 		return this.thumbnail;
-	}
-
-	public boolean isFeatured() {
-		return this.featured;
-	}
-
-	public int getLikes() {
-		return this.likes;
 	}
 
 	public Date getDate() {
@@ -436,14 +405,6 @@ public class Material implements Comparable<Material>, Serializable {
 		thumbnailIsBase64 = flag;
 	}
 
-	public void setFeatured(boolean featured) {
-		this.featured = featured;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
 	public void setSyncStamp(long stamp) {
 		this.syncStamp = stamp;
 	}
@@ -483,39 +444,32 @@ public class Material implements Comparable<Material>, Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("ID: ").append(this.id).append(": (").append(this.type)
-				.append(") (local ").append(localID).append(") ");
-		sb.append("Title: ");
-		sb.append(this.title);
-		sb.append(" ");
-		sb.append("by ");
-		sb.append(", ");
-		sb.append("Date: ");
-		sb.append(this.timestamp);
-		sb.append("\n");
-		sb.append("Description: ");
-		sb.append(this.description);
-		sb.append("\n");
-		sb.append("Language: ");
-		sb.append(this.language);
-		sb.append("\n");
-		sb.append("URL: ");
-		sb.append(this.url);
-		sb.append("\n");
-		sb.append("\n");
-		sb.append("preview URL: ");
-		sb.append(this.previewUrl);
-		sb.append("\n");
-		sb.append("Thumbnail: ");
-		sb.append(this.thumbnail);
-		sb.append("\n");
-		sb.append("Featured: ");
-		sb.append(this.isFeatured());
-		sb.append(" ");
-		sb.append("Likes: ");
-		sb.append(this.likes);
-		return sb.toString();
+		return "ID: " + getSharingKeyOrId() + ": (" + this.type
+				+ ") (local " + localID + ") "
+				+ "Title: "
+				+ this.title
+				+ " by " + getAuthor()
+				+ ", "
+				+ "Date: "
+				+ this.timestamp
+				+ "\n"
+				+ "Description: "
+				+ this.description
+				+ "\n"
+				+ "Language: "
+				+ this.language
+				+ "\n"
+				+ "URL: "
+				+ this.url
+				+ "\n"
+				+ "File: "
+				+ this.fileName
+				+ "\n"
+				+ "Preview: "
+				+ this.previewUrl
+				+ "\n"
+				+ "Thumbnail: "
+				+ this.thumbnail;
 	}
 
 	public JSONObject toJson() {
@@ -535,20 +489,16 @@ public class Material implements Comparable<Material>, Serializable {
 		putString(ret, "language", language);
 		putString(ret, "author", getAuthor());
 		putString(ret, "description", description);
-		putString(ret, "featured", featured + "");
 		putString(ret, "timestamp", timestamp + "");
 		putString(ret, "url", url);
 		putString(ret, "type", type.toString());
 		putString(ret, "title", title);
 		putString(ret, "visibility", visibility);
 		putString(ret, "id", id + "");
-		putString(ret, "likes", likes + "");
 		putString(ret, "ggbBase64", base64);
 		putBoolean(ret, "deleted", deleted);
 		putString(ret, "height", height + "");
 		putString(ret, "width", width + "");
-		putString(ret, "instructions_pre", this.instructionsPre);
-		putString(ret, "instructions_post", this.instructionsPost);
 		putString(ret, "syncstamp", syncStamp + "");
 		putString(ret, "modified", this.modified + "");
 		putBoolean(ret, "toolbar", this.showToolbar);
@@ -607,14 +557,6 @@ public class Material implements Comparable<Material>, Serializable {
 		return height;
 	}
 
-	public String getInstructionsPre() {
-		return instructionsPre;
-	}
-
-	public String getInstructionsPost() {
-		return instructionsPost;
-	}
-
 	/**
 	 * @param height
 	 *            applet height in px
@@ -633,14 +575,6 @@ public class Material implements Comparable<Material>, Serializable {
 		if (width > 0) {
 			this.width = width;
 		}
-	}
-
-	public void setInstructionsPre(String instructionsPre) {
-		this.instructionsPre = instructionsPre;
-	}
-
-	public void setInstructionsPost(String instructionsPost) {
-		this.instructionsPost = instructionsPost;
 	}
 
 	public boolean getShiftDragZoom() {
@@ -677,14 +611,6 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public String getBase64() {
 		return this.base64;
-	}
-
-	public String getGoogleID() {
-		return this.googleID;
-	}
-
-	public void setGoogleID(String googleID) {
-		this.googleID = googleID;
 	}
 
 	public void setModified(long parseLong) {
