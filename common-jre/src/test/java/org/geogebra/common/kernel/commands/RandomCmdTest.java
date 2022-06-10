@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -57,6 +58,17 @@ public class RandomCmdTest extends BaseUnitTest {
 	public void sampleShouldBeStable() {
 		shouldBeStable("Sample(1..10,5)");
 		shouldBeStable("Sample(1..10,5,true)");
+	}
+
+	@Test
+	public void sampleShouldBeUniqueAfterSetValue() {
+		add("l1=Sample({2,3,4,5,6,7,8,9,10,12,14},RandomBetween(2,3),false)");
+		GeoBoolean check = add("check=Length(l1)==Length(Unique(l1))");
+		add("SetValue(l1,{7,9})");
+		for (int i = 0; i < 20; i++) {
+			assertTrue("Should be unique on iteration " + i, check.getBoolean());
+			getApp().getGgbApi().updateConstruction();
+		}
 	}
 
 	@Test
