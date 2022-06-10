@@ -107,7 +107,7 @@
 
 .GeoGebraHeader .profilePanel {
     margin: 12px 24px 12px 12px;
-    padding: 0px !important;
+    padding: 0px;
 }
 
 img.profileImage {
@@ -360,8 +360,37 @@ svg.icon.left {
     display: none;
 }
 
-.compact.GeoGebraFrame .buttons {
+.GeoGebraHeader .signInIcon {
+	display: none;
+}
+
+.compact.GeoGebraFrame .shareBtn,
+.compact.GeoGebraFrame .appsBtn,
+.compact.GeoGebraFrame .signIn {
     display: none;
+}
+
+.compact.GeoGebraFrame .signInIcon {
+	display: initial;
+	opacity: 0.54;
+	margin-left: 8px;
+	padding: 12px;
+	cursor: pointer;
+}
+
+.compact.GeoGebraFrame .signInIcon:hover{
+ 	opacity: 1;
+}
+
+.compact.GeoGebraFrame .profilePanel {
+	height: 36px;
+	margin: 0 0 0 8px;
+	padding: 6px;
+}
+
+.compact.GeoGebraFrame .profilePanel .profileImage {
+	width: 36px;
+	height: 36px !important;
 }
 
 .compact.GeoGebraFrame .menuBtn {
@@ -386,5 +415,4 @@ svg.icon.left {
 
 .compact.GeoGebraFrame .headerLogo {
     padding: 6px;
-
 }
