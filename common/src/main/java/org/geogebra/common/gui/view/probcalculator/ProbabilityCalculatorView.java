@@ -334,6 +334,13 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
+	 * @return parameters
+	 */
+	public GeoNumberValue[] getParameters() {
+		return parameters;
+	}
+
+	/**
 	 * @param distributionType distribution type
 	 * @param parameters distribution parameters
 	 * @param isCumulative whether it's cumulative
