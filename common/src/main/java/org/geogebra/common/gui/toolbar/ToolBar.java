@@ -799,7 +799,7 @@ public class ToolBar {
 	public static String getAllTools(App app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
+		sb.append(ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(), app));
 
 		// macros
 		Kernel kernel = app.getKernel();

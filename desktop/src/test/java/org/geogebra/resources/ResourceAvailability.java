@@ -67,7 +67,6 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_PDF:
 			case EuclidianConstants.MODE_GRASPABLE_MATH:
 			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
-			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			case EuclidianConstants.MODE_MASK:
 			case EuclidianConstants.MODE_MIND_MAP:
 			case EuclidianConstants.MODE_RULER:
@@ -78,12 +77,12 @@ public class ResourceAvailability {
 				URL url = ResourceAvailability.class.getResource(res
 						.getFilename());
 				if (url == null) {
-					missing.append(modeText + ",");
+					missing.append(res.getFilename()).append(",");
 				}
 			}
 
 		}
 
-		Assert.assertEquals(missing.toString(), missing.toString(), "");
+		Assert.assertEquals(missing.toString(), 0, missing.length());
 	}
 }

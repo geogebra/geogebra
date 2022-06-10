@@ -23,8 +23,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
@@ -178,9 +176,7 @@ public class ToolbarD extends JToolBar {
 	 * mode numbers, "," adds a separator within a menu, "|" starts a new menu
 	 * and "||" adds a separator before starting a new menu.
 	 * 
-	 * @param modes
-	 * @param tb
-	 * @param bg
+	 * @param bg button group
 	 */
 	private void addCustomModesToToolbar(ModeToggleButtonGroup bg) {
 		Vector<ToolbarItem> toolbarVec;
@@ -300,46 +296,7 @@ public class ToolbarD extends JToolBar {
 		if (dockPanel != null) {
 			return dockPanel.getDefaultToolbarString();
 		}
-		return ToolbarD.getAllTools(app);
-	}
-
-	/**
-	 * @param app
-	 *            application
-	 * @return All tools as a toolbar definition string
-	 */
-	public static String getAllTools(AppD app) {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(ToolBar.getAllToolsNoMacros(false, false, app));
-
-		// macros
-		Kernel kernel = app.getKernel();
-		int macroNumber = kernel.getMacroNumber();
-
-		// check if at least one macro is shown
-		// to avoid strange GUI
-		boolean at_least_one_shown = false;
-		for (int i = 0; i < macroNumber; i++) {
-			Macro macro = kernel.getMacro(i);
-			if (macro.isShowInToolBar()) {
-				at_least_one_shown = true;
-				break;
-			}
-		}
-
-		if (macroNumber > 0 && at_least_one_shown) {
-			sb.append(" || ");
-			for (int i = 0; i < macroNumber; i++) {
-				Macro macro = kernel.getMacro(i);
-				if (macro.isShowInToolBar()) {
-					sb.append(i + EuclidianConstants.MACRO_MODE_ID_OFFSET);
-					sb.append(" ");
-				}
-			}
-		}
-
-		return sb.toString();
+		return ToolBar.getAllTools(app);
 	}
 
 	/**

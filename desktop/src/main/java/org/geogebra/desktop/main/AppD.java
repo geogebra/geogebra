@@ -123,6 +123,7 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -204,7 +205,6 @@ import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
-import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -548,7 +548,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		if (isUsingFullGui() && ggtloading) {
-			getGuiManager().setToolBarDefinition(ToolbarD.getAllTools(this));
+			getGuiManager().setToolBarDefinition(ToolBar.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);

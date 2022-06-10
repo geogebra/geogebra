@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.Vector;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.CustomizeToolbarModel;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -796,6 +797,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private void updateAllTools() {
 		allTools = CustomizeToolbarModel.generateToolsVector(ToolBar
 		        .getAllTools(app));
+		allTools.add(EuclidianConstants.MODE_FREEHAND_FUNCTION);
 
 		allToolsPanelContent.clear();
 
