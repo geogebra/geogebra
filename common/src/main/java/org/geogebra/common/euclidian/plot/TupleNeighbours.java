@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 public class TupleNeighbours {
 	private IntervalTuple left;

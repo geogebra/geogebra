@@ -7,7 +7,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
-import static org.geogebra.common.kernel.interval.IntervalOperands.abs;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.abs;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.interval;
 
-import static org.geogebra.common.kernel.interval.IntervalFunction.isSupported;
+import static org.geogebra.common.kernel.interval.function.IntervalFunction.isSupported;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

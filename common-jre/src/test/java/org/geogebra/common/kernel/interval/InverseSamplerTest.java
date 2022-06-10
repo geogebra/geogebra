@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.function.Predicate;
 
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.Test;
 
 public class InverseSamplerTest extends SamplerTest {

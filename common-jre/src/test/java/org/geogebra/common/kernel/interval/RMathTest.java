@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.interval.operators.RMath;
 import org.junit.Test;
 
 public class RMathTest {

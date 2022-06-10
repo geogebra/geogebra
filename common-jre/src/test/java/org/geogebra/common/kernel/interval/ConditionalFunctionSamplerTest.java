@@ -8,6 +8,10 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBoundsMock;
 import org.geogebra.common.euclidian.plot.interval.PlotterUtils;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.geogebra.common.kernel.interval.samplers.ConditionalFunctionSampler;
+import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 import org.junit.Test;
 
 public class ConditionalFunctionSamplerTest extends BaseUnitTest {

@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Objects;
 
+import org.geogebra.common.kernel.interval.operators.RMath;
 import org.junit.Test;
 
 public class IntervalTest {

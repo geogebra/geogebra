@@ -4,10 +4,10 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.ConditionalFunctionSampler;
-import org.geogebra.common.kernel.interval.FunctionSampler;
-import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.samplers.ConditionalFunctionSampler;
+import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
+import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 
 /**
  * Function plotter based on interval arithmetic

@@ -1,15 +1,16 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
-import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.nthRoot;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.junit.Test;
 
 public class IntervalPowerEvaluatorTest extends BaseUnitTest {

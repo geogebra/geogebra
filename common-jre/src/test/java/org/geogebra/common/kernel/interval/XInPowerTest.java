@@ -5,6 +5,8 @@ import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import org.geogebra.common.kernel.interval.function.IntervalFunction;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.Test;
 
 public class XInPowerTest extends SamplerTest {

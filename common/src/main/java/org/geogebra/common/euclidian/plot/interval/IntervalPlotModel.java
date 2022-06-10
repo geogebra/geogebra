@@ -8,9 +8,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
-import org.geogebra.common.kernel.interval.IntervalTuple;
-import org.geogebra.common.kernel.interval.IntervalTupleList;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 import org.geogebra.common.util.debug.Log;
 
 /**

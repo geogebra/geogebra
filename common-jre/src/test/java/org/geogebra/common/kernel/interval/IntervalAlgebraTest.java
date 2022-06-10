@@ -4,12 +4,12 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.PRECISION;
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.IntervalOperands.fmod;
-import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.fmod;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sin;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

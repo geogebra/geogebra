@@ -5,13 +5,15 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfi
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.IntervalDivide.next;
-import static org.geogebra.common.kernel.interval.IntervalDivide.prev;
-import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
+import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
+import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.kernel.interval.operators.IntervalOperands;
+import org.geogebra.common.kernel.interval.operators.RMath;
 import org.junit.Test;
 
 /**

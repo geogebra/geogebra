@@ -2,10 +2,10 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
-import static org.geogebra.common.kernel.interval.IntervalDivide.next;
-import static org.geogebra.common.kernel.interval.IntervalDivide.prev;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
+import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
+import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

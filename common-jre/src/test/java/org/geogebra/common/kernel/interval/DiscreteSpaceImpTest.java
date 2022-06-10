@@ -5,6 +5,8 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
+import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
 import org.junit.Assert;
 import org.junit.Test;
 

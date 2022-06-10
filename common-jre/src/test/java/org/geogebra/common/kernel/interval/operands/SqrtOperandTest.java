@@ -4,14 +4,14 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
-import static org.geogebra.common.kernel.interval.IntervalOperands.csc;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sec;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
-import static org.geogebra.common.kernel.interval.IntervalOperands.tan;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.csc;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sec;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.tan;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalOperands;
+import org.geogebra.common.kernel.interval.operators.IntervalOperands;
 import org.junit.Test;
 
 public class SqrtOperandTest {

@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
-import static org.geogebra.common.kernel.interval.IntervalOperands.multiply;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

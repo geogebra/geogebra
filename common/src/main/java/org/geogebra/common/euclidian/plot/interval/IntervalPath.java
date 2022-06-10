@@ -3,7 +3,7 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 public class IntervalPath {
 	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;

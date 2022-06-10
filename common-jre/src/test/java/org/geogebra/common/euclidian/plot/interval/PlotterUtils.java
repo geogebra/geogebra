@@ -1,9 +1,9 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.FunctionSampler;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
 
 /**
  * Helper class to build dependencies for plotter related tests.

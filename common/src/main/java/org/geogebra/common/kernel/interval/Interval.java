@@ -6,6 +6,9 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import java.util.Objects;
 
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.interval.function.IntervalEvaluate;
+import org.geogebra.common.kernel.interval.operators.IntervalOperands;
+import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -283,7 +286,10 @@ public class Interval {
 
 	}
 
-	void setWhole() {
+	/**
+	 * Make interval as whole.
+	 */
+	public void setWhole() {
 		set(IntervalConstants.whole());
 	}
 

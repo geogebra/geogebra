@@ -7,6 +7,8 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.geogebra.common.kernel.interval.samplers.ConditionalSamplerList;
 import org.junit.Test;
 
 public class ConditionalSamplerListTest extends BaseUnitTest {

@@ -2,11 +2,11 @@ package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.IntervalOperands.nthRoot;
-import static org.geogebra.common.kernel.interval.IntervalOperands.pow;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sin;
-import static org.geogebra.common.kernel.interval.IntervalOperands.sqrt;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.nthRoot;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sin;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
