@@ -14,6 +14,7 @@ import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCard;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -136,21 +137,21 @@ public class MaterialCardController implements OpenFileListener {
 						@Override
 						public void onLoaded(List<Material> parseResponse,
 								Pagination meta) {
-							Log.debug("DELETE local");
 							card.remove();
 							MaterialCardController.this.app.getFileManager()
 									.delete(toDelete, true,
 											MaterialCardController.this.deleteCallback);
+							showSnackbar(app.getLocalization().getPlain(
+									"ContextMenu.ConfirmDeleteA", toDelete.getTitle()));
 						}
 
 						@Override
 						public void onError(Throwable exception) {
-							Log.debug("DELETE backup");
 							MaterialCardController.this.app.getFileManager()
 									.delete(toDelete, false,
 											MaterialCardController.this.deleteCallback);
 							card.setVisible(true);
-							app.showError(Errors.DeleteFailed);
+							showSnackbar(app.getLocalization().getMenu("ContextMenu.DeleteError"));
 						}
 					});
 		} else {
@@ -158,7 +159,10 @@ public class MaterialCardController implements OpenFileListener {
 			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
 					this.deleteCallback);
 		}
+	}
 
+	private void showSnackbar(String message) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(message, app);
 	}
 
 	private static boolean onlineFile(Material toDelete) {
@@ -225,7 +229,6 @@ public class MaterialCardController implements OpenFileListener {
 							getMaterial().getSyncStamp() + 1));
 			this.app.getFileManager().rename(text, this.getMaterial());
 		}
-
 	}
 
 	/**
