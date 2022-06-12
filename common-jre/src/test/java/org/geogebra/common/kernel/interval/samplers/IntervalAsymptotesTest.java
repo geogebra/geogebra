@@ -1,10 +1,10 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.samplers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.geogebra.common.kernel.interval.samplers.IntervalAsymptotes;
 import org.junit.Test;
 
 public class IntervalAsymptotesTest extends SamplerTest {

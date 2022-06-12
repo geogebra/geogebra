@@ -1,9 +1,10 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.samplers;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.function.Predicate;
 
+import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.operators;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -25,6 +25,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.junit.Test;
 
 public class IntervalTrigonometricTest {

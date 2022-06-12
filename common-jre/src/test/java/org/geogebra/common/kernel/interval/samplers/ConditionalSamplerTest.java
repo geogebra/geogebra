@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.samplers;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
@@ -14,8 +14,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.geogebra.common.kernel.interval.samplers.ConditionalSampler;
-import org.geogebra.common.kernel.interval.samplers.IntervalConditionalExpression;
 import org.junit.Test;
 
 public class ConditionalSamplerTest extends BaseUnitTest {

@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
@@ -10,6 +10,7 @@ import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqr
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.kernel.interval.Interval;
 import org.junit.Ignore;
 import org.junit.Test;
 

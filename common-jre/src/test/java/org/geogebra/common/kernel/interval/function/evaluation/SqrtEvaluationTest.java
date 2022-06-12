@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval.evaluation;
+package org.geogebra.common.kernel.interval.function.evaluation;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;

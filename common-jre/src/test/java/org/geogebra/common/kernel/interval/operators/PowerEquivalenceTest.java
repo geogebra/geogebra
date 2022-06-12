@@ -1,7 +1,8 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.operators;
 
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.kernel.interval.SamplerTest;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.Test;
 

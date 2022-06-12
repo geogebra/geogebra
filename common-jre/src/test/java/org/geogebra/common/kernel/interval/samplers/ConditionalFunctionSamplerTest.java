@@ -1,6 +1,5 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.samplers;
 
-import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -8,10 +7,10 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBoundsMock;
 import org.geogebra.common.euclidian.plot.interval.PlotterUtils;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalTest;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.geogebra.common.kernel.interval.samplers.ConditionalFunctionSampler;
-import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 import org.junit.Test;
 
 public class ConditionalFunctionSamplerTest extends BaseUnitTest {
@@ -23,7 +22,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(tuples.count(), countPieceByValue(tuples, interval(1), 0));
+		assertEquals(tuples.count(), countPieceByValue(tuples, IntervalTest.interval(1), 0));
 
 	}
 
@@ -35,7 +34,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(tuples.count(), countPieceByValue(tuples, interval(-1), 0));
+		assertEquals(tuples.count(), countPieceByValue(tuples, IntervalTest.interval(-1), 0));
 	}
 
 	private long countPieceByValue(IntervalTupleList tuples, Interval y, int piece) {
@@ -51,8 +50,8 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(17, countPieceByValue(tuples, interval(-1), 0));
-		assertEquals(16, countPieceByValue(tuples, interval(1), 1));
+		assertEquals(17, countPieceByValue(tuples, IntervalTest.interval(-1), 0));
+		assertEquals(16, countPieceByValue(tuples, IntervalTest.interval(1), 1));
 	}
 
 	@Test
@@ -62,9 +61,9 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-15, 15, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(13, countPieceByValue(tuples, interval(1), 0));
-		assertEquals(1, countPieceByValue(tuples, interval(2), 1));
-		assertEquals(16, countPieceByValue(tuples, interval(3), 2));
+		assertEquals(13, countPieceByValue(tuples, IntervalTest.interval(1), 0));
+		assertEquals(1, countPieceByValue(tuples, IntervalTest.interval(2), 1));
+		assertEquals(16, countPieceByValue(tuples, IntervalTest.interval(3), 2));
 	}
 
 	@Test
@@ -74,9 +73,9 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				PlotterUtils.newRange(-20, 20, -5, 5),
 				new EuclidianViewBoundsMock(-150, 150, -10, 10));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(135, countPieceByValue(tuples, interval(1), 0));
-		assertEquals(1, countPieceByValue(tuples, interval(2), 1));
-		assertEquals(142, countPieceByValue(tuples, interval(3), 2));
+		assertEquals(135, countPieceByValue(tuples, IntervalTest.interval(1), 0));
+		assertEquals(1, countPieceByValue(tuples, IntervalTest.interval(2), 1));
+		assertEquals(142, countPieceByValue(tuples, IntervalTest.interval(3), 2));
 	}
 
 	@Test
@@ -87,9 +86,9 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 				range,
 				new EuclidianViewBoundsMock(range, 100, 100));
 		IntervalTupleList tuples = sampler.result();
-		assertEquals(42, countPieceByValue(tuples, interval(1), 0));
-		assertEquals(0, countPieceByValue(tuples, interval(2), 1));
-		assertEquals(51, countPieceByValue(tuples, interval(3), 2));
+		assertEquals(42, countPieceByValue(tuples, IntervalTest.interval(1), 0));
+		assertEquals(0, countPieceByValue(tuples, IntervalTest.interval(2), 1));
+		assertEquals(51, countPieceByValue(tuples, IntervalTest.interval(3), 2));
 	}
 
 	@Test

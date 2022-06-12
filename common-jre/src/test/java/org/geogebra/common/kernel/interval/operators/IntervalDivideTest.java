@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.negativeInfinity;
 import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfinity;
@@ -12,8 +12,8 @@ import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
 import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
 import static org.junit.Assert.assertEquals;
 
-import org.geogebra.common.kernel.interval.operators.IntervalOperands;
-import org.geogebra.common.kernel.interval.operators.RMath;
+import org.geogebra.common.kernel.interval.Interval;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -26,12 +26,12 @@ public class IntervalDivideTest {
 		// Table 1 Case 1.
 		assertEquals(whole(), divide(interval(0), interval(-1, 0)));
 		assertEquals(whole(), divide(interval(0), interval(-1, 1)));
-		assertEquals(whole(), div(-2, 0, -1, 0));
-		assertEquals(whole(), div(-2, 0, -1, 1));
-		assertEquals(whole(), div(0, 2, -1, 0));
-		assertEquals(whole(), div(0, 2, -1, 1));
-		assertEquals(whole(), div(-2, 2, -1, 0));
-		assertEquals(whole(), div(-2, 2, -1, 1));
+		Assert.assertEquals(whole(), div(-2, 0, -1, 0));
+		Assert.assertEquals(whole(), div(-2, 0, -1, 1));
+		Assert.assertEquals(whole(), div(0, 2, -1, 0));
+		Assert.assertEquals(whole(), div(0, 2, -1, 1));
+		Assert.assertEquals(whole(), div(-2, 2, -1, 0));
+		Assert.assertEquals(whole(), div(-2, 2, -1, 1));
 	}
 
 	@Test
@@ -44,51 +44,51 @@ public class IntervalDivideTest {
 	@Test
 	public void negativeByNegativeIncludingZeroAsHigh() {
 		//  Table 1 Case 3.
-		assertEquals(interval(1, Double.POSITIVE_INFINITY),
+		Assert.assertEquals(interval(1, Double.POSITIVE_INFINITY),
 				div(-4, -2, -2, 0));
-		assertEquals(interval(2, Double.POSITIVE_INFINITY),
+		Assert.assertEquals(interval(2, Double.POSITIVE_INFINITY),
 				div(-4, -2, -1, 0));
 	}
 
 	@Test
 	public void negativeByMixed() {
 		//  Table 1 Case 4.
-		assertEquals(invertedInterval(RMath.next(-2.0 / 2), RMath.next(-2.0 / -2)),
+		Assert.assertEquals(invertedInterval(RMath.next(-2.0 / 2), RMath.next(-2.0 / -2)),
 				div(-3, -2, -2, 2));
 	}
 
 	@Test
 	public void negativeByNegativeIncludingZeroAsLow() {
 		//  Table 1 Case 5.
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
+		Assert.assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
 				div(-2, -2, 0, 4));
 
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
+		Assert.assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
 				div(-2, -2, 0, 4));
 	}
 
 	@Test
 	public void positiveByNegativeIncludingZeroAsHigh() {
 		//  Table 1 Case 6
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
+		Assert.assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
 				div(2, 4, -2, 0));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
+		Assert.assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
 				div(2, 4, -2, 0));
 	}
 
 	@Test
 	public void positiveByMixed() {
 		// Table 1 Case 7
-		assertEquals(invertedInterval(2.0 / -1.0, 1.0),
+		Assert.assertEquals(invertedInterval(2.0 / -1.0, 1.0),
 				div(2, 4, -1, 2));
 	}
 
 	@Test
 	public void positiveByPositiveIncludingZeroAsLow() {
 		// Table 1 Case 8
-		assertEquals(interval(0.5, Double.POSITIVE_INFINITY),
+		Assert.assertEquals(interval(0.5, Double.POSITIVE_INFINITY),
 				div(2, 4, 0, 4));
-		assertEquals(interval(1, Double.POSITIVE_INFINITY),
+		Assert.assertEquals(interval(1, Double.POSITIVE_INFINITY),
 				div(2, 4, 0, 2));
 	}
 
@@ -96,9 +96,9 @@ public class IntervalDivideTest {
 	public void negativeByNegative() {
 		// Table 7, row 1 column 1
 		// [a1, a2] a2 <= 0, [b1, b2] b2 < 0
-		assertEquals(interval(1, 4),
+		Assert.assertEquals(interval(1, 4),
 				div(-100, -50, -50, -25));
-		assertEquals(interval(0, -4 / -3.0), div(-4, -2, Double.NEGATIVE_INFINITY, -3));
+		Assert.assertEquals(interval(0, -4 / -3.0), div(-4, -2, Double.NEGATIVE_INFINITY, -3));
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class IntervalDivideTest {
 	}
 
 	private void divNegativeByPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 / b1), next(a2 / b2)),
+		Assert.assertEquals(interval(prev(a1 / b1), next(a2 / b2)),
 				div(a1, a2, b1, b2));
 	}
 

@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.evaluators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -10,7 +10,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class IntervalPowerEvaluatorTest extends BaseUnitTest {
@@ -119,7 +122,7 @@ public class IntervalPowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	private void shouldBeXPowerOnMinusThird(IntervalFunction function) throws Exception {
-		assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.one()));
+		Assert.assertEquals(IntervalConstants.one(), function.evaluate(IntervalConstants.one()));
 		assertEquals(IntervalConstants.one().negative(),
 				function.evaluate(IntervalConstants.one().negative()));
 	}

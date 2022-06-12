@@ -151,24 +151,6 @@ public class IntervalPlotModel {
 		return index < pointCount();
 	}
 
-	/**
-	 * @param index of the point to check around
-	 * @return if the function is ascending from point to the right.
-	 */
-	public boolean isAscendingAfter(int index) {
-		return points.isAscendingAfter(index);
-	}
-
-	/**
-	 *
-	 * @param index of the tuple.
-	 * @return if the tuple of a given index is empty or not.
-	 */
-	public boolean isUndefinedAt(int index) {
-		return index >= points.count()
-				|| at(index).isUndefined();
-	}
-
 	public boolean isInvertedAt(int index) {
 		return index >= points.count() || at(index).isInverted();
 	}

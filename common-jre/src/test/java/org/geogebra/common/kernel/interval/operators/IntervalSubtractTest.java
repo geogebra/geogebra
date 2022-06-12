@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.interval;
+package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
@@ -6,6 +6,7 @@ import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.kernel.interval.Interval;
 import org.junit.Test;
 
 public class IntervalSubtractTest {
