@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Model for Interval plotter.
@@ -93,35 +92,27 @@ public class IntervalPlotModel {
 		oldDomain = bounds.domain();
 		double min = bounds.domain().getLow();
 		double max = bounds.domain().getHigh();
+
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
 		} else if (oldMax < max) {
-			extendMax();
+			extendMax(oldMax);
 		} else if (oldMin > min) {
-			extendMin();
+			extendMin(oldMin);
 		}
 	}
 
-	private void extendMin() {
-		if (points.isEmpty()) {
-			return;
-		}
-
-		IntervalTupleList newPoints = sampler.evaluate(bounds.getXmin(),
-				points.get(0).x().getLow());
-		Log.debug("extendMin: " + newPoints.count());
+	private void extendMin(double oldMin) {
+		double min = points.isEmpty() ? oldMin : points.get(0).x().getLow();
+		IntervalTupleList newPoints = sampler.evaluate(bounds.getXmin(), min);
 		points.prepend(newPoints);
 		points.cutFrom(bounds.getXmax());
 	}
 
-	private void extendMax() {
-		if (points.isEmpty()) {
-			return;
-		}
-
-		IntervalTupleList newPoints = sampler.evaluate(
-				points.get(points.count() - 1).x().getHigh(),
-				bounds.getXmax());
+	private void extendMax(double oldMax) {
+		double max = points.isEmpty() ? oldMax : points.get(points.count() - 1).x()
+				.getHigh();
+		IntervalTupleList newPoints = sampler.evaluate(max,	bounds.getXmax());
 		points.append(newPoints);
 		points.cutTo(bounds.getXmin());
 	}

@@ -112,4 +112,19 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalTupleList diffMax = sampler.extendDomain(-12.4, 12.6);
 		assertNotEquals(IntervalTupleList.emptyList(), diffMax);
 	}
+
+	@Test
+	public void evaluateIfExtendingFromOffscreen() {
+		GeoFunction function = add("a=If(x > 0, 1)");
+		IntervalTuple range = PlotterUtils.newRange(-9.0, -1.0, -15.0, 15.0);
+		EuclidianViewBoundsMock evBounds = new EuclidianViewBoundsMock(range,
+				1920, 1280);
+		IntervalFunctionSampler sampler = new ConditionalFunctionSampler(function,
+				range,
+				evBounds);
+		sampler.update(range);
+		assertEquals(IntervalTupleList.emptyList(), sampler.result());
+		IntervalTupleList diff = sampler.extendDomain(-7.0, 1.0);
+		assertNotEquals(IntervalTupleList.emptyList(), diff);
+	}
 }
