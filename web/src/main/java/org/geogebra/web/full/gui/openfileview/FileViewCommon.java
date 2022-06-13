@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ProfilePanel;
 import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
@@ -77,6 +78,10 @@ public class FileViewCommon extends AnimatingPanel {
 			addSearchBar();
 			buildSingInPanel();
 		}
+		if (app.isExam()) {
+			headerView.add(GlobalHeader.INSTANCE.getTimer());
+			headerView.add(GlobalHeader.INSTANCE.getExamInfoBtn());
+		}
 		this.setHeaderWidget(headerView);
 	}
 
@@ -108,7 +113,7 @@ public class FileViewCommon extends AnimatingPanel {
 	private void updateSignInButtonsVisibility(boolean smallScreen) {
 		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
 				.getLoggedInUser();
-		if (user == null) {
+		if (user == null && signInIconButton != null && signInTextButton != null) {
 			signInIconButton.setVisible(smallScreen);
 			signInTextButton.setVisible(!smallScreen);
 		}
