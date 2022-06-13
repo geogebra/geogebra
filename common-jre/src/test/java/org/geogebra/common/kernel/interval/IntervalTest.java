@@ -33,10 +33,22 @@ public class IntervalTest {
 						.add(interval(4, 7)));
 	}
 
+	/**
+	 * Makes an interval.
+	 * @param low limit.
+	 * @param high limit.
+	 * @return the new interval.
+	 */
 	public static Interval interval(double low, double high) {
 		return new Interval(low, high);
 	}
 
+	/**
+	 * Makes a inverted interval.
+	 * @param low limit.
+	 * @param high limit.
+	 * @return the new, inverted interval.
+	 */
 	public static Interval invertedInterval(double low, double high) {
 		Interval interval = interval(low, high);
 		interval.setInverted(true);

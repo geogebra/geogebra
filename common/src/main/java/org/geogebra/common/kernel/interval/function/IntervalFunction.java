@@ -68,6 +68,12 @@ import org.geogebra.common.util.debug.Log;
 		return evaluate(new Interval(x), node);
 	}
 
+	/**
+	 * Evaluates an ExpressionValue on interval x.
+	 * @param x to evaluate on.
+	 * @param ev the expression to evaluate.
+	 * @return the result of the evaluation.
+	 */
 	public static Interval evaluate(Interval x, ExpressionValue ev) {
 		if (ev == null) {
 			return undefined();
