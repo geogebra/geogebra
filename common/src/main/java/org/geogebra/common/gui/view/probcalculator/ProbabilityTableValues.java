@@ -13,7 +13,7 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 public class ProbabilityTableValues extends ProbabilityTable {
 
-	private final TableValues view;
+	protected final TableValues view;
 	private final TableValuesModel model;
 	private final TableValuesProcessor processor;
 	private final Kernel kernel;
