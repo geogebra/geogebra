@@ -112,8 +112,7 @@ public class IntervalPlotModel {
 	private void extendMax(double oldMax) {
 		double max = points.isEmpty() ? oldMax : points.get(points.count() - 1).x()
 				.getHigh();
-		IntervalTupleList newPoints = sampler.evaluate(max,	bounds.getXmax());
-		points.append(newPoints);
+		points.append(sampler.evaluate(max,	bounds.getXmax()));
 		points.cutTo(bounds.getXmin());
 	}
 
