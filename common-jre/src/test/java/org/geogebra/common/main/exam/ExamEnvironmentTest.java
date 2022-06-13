@@ -10,6 +10,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.UserPublic;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,7 +65,7 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 		TempStorage tempStorage = examEnvironment.getTempStorage();
 
 		Material material = tempStorage.newMaterial();
-		material.setAuthor("author");
+		material.setCreator(new UserPublic(1, "author"));
 		material.setTitle("a");
 		tempStorage.saveTempMaterial(material);
 		material.setTitle("b");
@@ -73,7 +74,7 @@ public class ExamEnvironmentTest extends BaseUnitTest {
 		tempStorage.saveTempMaterial(material);
 
 		Material aFirstOpened = tempStorage.collectTempMaterials().iterator().next();
-		aFirstOpened.setAuthor("anotherAuthor");
+		aFirstOpened.setCreator(new UserPublic(1, "anotherAuthor"));
 		tempStorage.saveTempMaterial(aFirstOpened);
 
 		Iterator<Material> iterator = tempStorage.collectTempMaterials().iterator();

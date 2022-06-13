@@ -13,15 +13,11 @@ public interface BrowseViewI {
 
 	void clearMaterials();
 
-	void disableMaterials();
-
 	void close();
 
 	void displaySearchResults(final String query);
 
 	void refreshMaterial(final Material material, final boolean isLocal);
-
-	void rememberSelected(final MaterialListElementI materialElement);
 
 	void setLabels();
 

@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
 @SuppressWarnings("serial")
 public class Material implements Comparable<Material>, Serializable {
 
-	public enum Provider {
+    public enum Provider {
 		TUBE, GOOGLE, LOCAL
 	}
 
@@ -52,12 +52,6 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	private long autoSaveTimestamp;
 
-	private String author;
-
-	/**
-	 * URL to the author's profile in GeoGebraTube.
-	 */
-	private int authorID;
 	/**
 	 * Id of the person who stored material to local device
 	 */
@@ -67,12 +61,6 @@ public class Material implements Comparable<Material>, Serializable {
 	 * URL to the overview page of the material.
 	 */
 	private String url;
-
-	/**
-	 * URL to the material itself (link to student page for materials of type
-	 * ggb, download link for ggt, or external link for link).
-	 */
-	private String urlDirect;
 
 	/**
 	 * Two letter language code of the material.
@@ -85,22 +73,9 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	private String thumbnail;
 	private boolean thumbnailIsBase64 = false;
-
 	private String previewUrl;
-
-	/**
-	 * true if a material is featured, false otherwise.
-	 */
-	private boolean featured;
-
-	/**
-	 * Number of likes for this material
-	 */
-	private int likes;
 	private int width;
 	private int height;
-	private String instructionsPre;
-	private String instructionsPost;
 	private boolean showMenu;
 	private boolean showToolbar;
 	private boolean allowStylebar;
@@ -110,7 +85,6 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean rightClick;
 	private boolean labelDrags;
 	private String base64;
-	private String googleID;
 	private long syncStamp;
 	private long modified;
 	private String visibility;
@@ -151,17 +125,10 @@ public class Material implements Comparable<Material>, Serializable {
 		this.title = "";
 		this.timestamp = -1;
 		this.autoSaveTimestamp = -1;
-		this.author = "";
-		this.authorID = -1;
 		this.creator = new UserPublic();
 		this.url = "";
-		this.urlDirect = "";
 		this.language = "";
-		this.featured = false;
-		this.likes = -1;
 		this.description = "";
-		this.instructionsPre = "";
-		this.instructionsPost = "";
 		this.visibility = "P";
 		this.width = 800;
 		this.height = 600;
@@ -190,21 +157,14 @@ public class Material implements Comparable<Material>, Serializable {
 		description = material.description;
 		timestamp = material.timestamp;
 		autoSaveTimestamp = material.autoSaveTimestamp;
-		author = material.author;
-		authorID = material.authorID;
 		viewerID = material.viewerID;
 		url = material.url;
-		urlDirect = material.urlDirect;
 		language = material.language;
 		thumbnail = material.thumbnail;
 		thumbnailIsBase64 = material.thumbnailIsBase64;
 		previewUrl = material.previewUrl;
-		featured = material.featured;
-		likes = material.likes;
 		width = material.width;
 		height = material.height;
-		instructionsPre = material.instructionsPre;
-		instructionsPost = material.instructionsPost;
 		showMenu = material.showMenu;
 		showToolbar = material.showToolbar;
 		allowStylebar = material.allowStylebar;
@@ -214,7 +174,6 @@ public class Material implements Comparable<Material>, Serializable {
 		rightClick = material.rightClick;
 		labelDrags = material.labelDrags;
 		base64 = material.base64;
-		googleID = material.googleID;
 		syncStamp = material.syncStamp;
 		modified = material.modified;
 		visibility = material.visibility;
@@ -290,7 +249,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getAuthor() {
-		return this.author;
+		return creator == null ? "" : this.creator.getDisplayName();
 	}
 
 	/**
@@ -304,29 +263,12 @@ public class Material implements Comparable<Material>, Serializable {
 		return GeoGebraConstants.EDIT_URL_BASE + getSharingKeyOrId();
 	}
 
-	/**
-	 * @return the URL to the material itself (link to student page for
-	 *         materials of type ggb, download link for ggt, or external link
-	 *         for link).
-	 */
-	public String getURLdirect() {
-		return this.urlDirect;
-	}
-
 	public String getLanguage() {
 		return this.language;
 	}
 
 	public String getThumbnail() {
 		return this.thumbnail;
-	}
-
-	public boolean isFeatured() {
-		return this.featured;
-	}
-
-	public int getLikes() {
-		return this.likes;
 	}
 
 	public Date getDate() {
@@ -414,20 +356,8 @@ public class Material implements Comparable<Material>, Serializable {
 		return autoSaveTimestamp * 1000;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public void setAuthorId(int author_id) {
-		this.authorID = author_id;
-	}
-
 	public void setURL(String url) {
 		this.url = url;
-	}
-
-	public void setURLdirect(String url_direct) {
-		this.urlDirect = url_direct;
 	}
 
 	public void setPreviewURL(String preview_url) {
@@ -475,14 +405,6 @@ public class Material implements Comparable<Material>, Serializable {
 		thumbnailIsBase64 = flag;
 	}
 
-	public void setFeatured(boolean featured) {
-		this.featured = featured;
-	}
-
-	public void setLikes(int likes) {
-		this.likes = likes;
-	}
-
 	public void setSyncStamp(long stamp) {
 		this.syncStamp = stamp;
 	}
@@ -522,42 +444,32 @@ public class Material implements Comparable<Material>, Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("ID: ").append(this.id).append(": (").append(this.type)
-				.append(") (local ").append(localID).append(") ");
-		sb.append("Title: ");
-		sb.append(this.title);
-		sb.append(" ");
-		sb.append("by ");
-		sb.append(this.author);
-		sb.append(", ");
-		sb.append("Date: ");
-		sb.append(this.getDate());
-		sb.append("\n");
-		sb.append("Description: ");
-		sb.append(this.description);
-		sb.append("\n");
-		sb.append("Language: ");
-		sb.append(this.language);
-		sb.append("\n");
-		sb.append("URL: ");
-		sb.append(this.url);
-		sb.append("\n");
-		sb.append("URL_DIRECT: ");
-		sb.append(this.urlDirect);
-		sb.append("\n");
-		sb.append("preview URL: ");
-		sb.append(this.previewUrl);
-		sb.append("\n");
-		sb.append("Thumbnail: ");
-		sb.append(this.thumbnail);
-		sb.append("\n");
-		sb.append("Featured: ");
-		sb.append(this.isFeatured());
-		sb.append(" ");
-		sb.append("Likes: ");
-		sb.append(this.likes);
-		return sb.toString();
+		return "ID: " + getSharingKeyOrId() + ": (" + this.type
+				+ ") (local " + localID + ") "
+				+ "Title: "
+				+ this.title
+				+ " by " + getAuthor()
+				+ ", "
+				+ "Date: "
+				+ this.timestamp
+				+ "\n"
+				+ "Description: "
+				+ this.description
+				+ "\n"
+				+ "Language: "
+				+ this.language
+				+ "\n"
+				+ "URL: "
+				+ this.url
+				+ "\n"
+				+ "File: "
+				+ this.fileName
+				+ "\n"
+				+ "Preview: "
+				+ this.previewUrl
+				+ "\n"
+				+ "Thumbnail: "
+				+ this.thumbnail;
 	}
 
 	public JSONObject toJson() {
@@ -573,25 +485,20 @@ public class Material implements Comparable<Material>, Serializable {
 		JSONObject ret = new JSONObject();
 		putString(ret, "thumbnail", thumbnail);
 		// putString(ret,"-type", TODO);
-		putString(ret, "author_id", authorID + "");
+		putString(ret, "author_id", getAuthorID() + "");
 		putString(ret, "language", language);
-		putString(ret, "author", author);
+		putString(ret, "author", getAuthor());
 		putString(ret, "description", description);
-		putString(ret, "url_direct", urlDirect);
-		putString(ret, "featured", featured + "");
 		putString(ret, "timestamp", timestamp + "");
 		putString(ret, "url", url);
 		putString(ret, "type", type.toString());
 		putString(ret, "title", title);
 		putString(ret, "visibility", visibility);
 		putString(ret, "id", id + "");
-		putString(ret, "likes", likes + "");
 		putString(ret, "ggbBase64", base64);
 		putBoolean(ret, "deleted", deleted);
 		putString(ret, "height", height + "");
 		putString(ret, "width", width + "");
-		putString(ret, "instructions_pre", this.instructionsPre);
-		putString(ret, "instructions_post", this.instructionsPost);
 		putString(ret, "syncstamp", syncStamp + "");
 		putString(ret, "modified", this.modified + "");
 		putBoolean(ret, "toolbar", this.showToolbar);
@@ -650,14 +557,6 @@ public class Material implements Comparable<Material>, Serializable {
 		return height;
 	}
 
-	public String getInstructionsPre() {
-		return instructionsPre;
-	}
-
-	public String getInstructionsPost() {
-		return instructionsPost;
-	}
-
 	/**
 	 * @param height
 	 *            applet height in px
@@ -676,14 +575,6 @@ public class Material implements Comparable<Material>, Serializable {
 		if (width > 0) {
 			this.width = width;
 		}
-	}
-
-	public void setInstructionsPre(String instructionsPre) {
-		this.instructionsPre = instructionsPre;
-	}
-
-	public void setInstructionsPost(String instructionsPost) {
-		this.instructionsPost = instructionsPost;
 	}
 
 	public boolean getShiftDragZoom() {
@@ -722,14 +613,6 @@ public class Material implements Comparable<Material>, Serializable {
 		return this.base64;
 	}
 
-	public String getGoogleID() {
-		return this.googleID;
-	}
-
-	public void setGoogleID(String googleID) {
-		this.googleID = googleID;
-	}
-
 	public void setModified(long parseLong) {
 		this.modified = parseLong;
 	}
@@ -759,7 +642,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public int getAuthorID() {
-		return this.authorID;
+		return creator == null ? -1 : creator.getId();
 	}
 
 	public boolean has3d() {
@@ -900,12 +783,16 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	public void setCreator(UserPublic creator) {
 		this.creator = creator;
-		setCreatorAsAuthor();
 	}
 
-	private void setCreatorAsAuthor() {
-		author = creator.getUsername();
-		authorID = creator.getId();
+	/**
+	 * @param userId user ID
+	 * @deprecated use setCreator instead; this method will be removed
+	 * when upload works with new API
+	 */
+	@Deprecated
+	public void setAuthorId(int userId) {
+		setCreator(new UserPublic(userId, getAuthor()));
 	}
 
 	public boolean getAllowStylebar() {

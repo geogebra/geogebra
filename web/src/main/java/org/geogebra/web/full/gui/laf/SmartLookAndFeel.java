@@ -2,9 +2,7 @@ package org.geogebra.web.full.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.full.gui.browser.EmbeddedMaterialElement;
-import org.geogebra.web.full.gui.browser.MaterialListElement;
+import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.full.gui.browser.SmartSignInController;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -67,11 +65,6 @@ public class SmartLookAndFeel extends GLookAndFeel {
     public SignInController getSignInController(App app) {
 	    return new SmartSignInController(app);
     }
-	
-	@Override
-    public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
-	    return new EmbeddedMaterialElement(m, app, isLocal);
-    }
 
 	@Override
     public boolean autosaveSupported() {
@@ -101,5 +94,11 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	@Override
 	public void toggleFullscreen(boolean full) {
 		// nothing to do
+	}
+
+	@Override
+	public ResourceAction getDisplayAction(ResourceAction action) {
+		return action == ResourceAction.EDIT
+				? ResourceAction.INSERT_ACTIVITY : super.getDisplayAction(action);
 	}
 }

@@ -8,11 +8,12 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest;
 import org.geogebra.common.move.ggtapi.models.Pagination;
+import org.geogebra.common.move.ggtapi.models.ResourceOrdering;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
@@ -132,7 +133,7 @@ public class OpenFileView extends HeaderFileView
 		common.addContent();
 		if (loginOperation.isLoggedIn()) {
 			loginOperation.getResourcesAPI().getUsersMaterials(getCallback(),
-					MaterialRequest.Order.created);
+					ResourceOrdering.created);
 		} else if (!loginOperation.getModel().isLoginStarted()) {
 			loginOperation.getResourcesAPI()
 					.getFeaturedMaterials(getCallback());
@@ -170,5 +171,11 @@ public class OpenFileView extends HeaderFileView
 		} else {
 			app.getLoginOperation().getResourcesAPI().search(query, getCallback());
 		}
+	}
+
+	@Override
+	public void closeAndSave(AsyncOperation<Boolean> callback) {
+		close();
+		app.checkSaved(callback);
 	}
 }

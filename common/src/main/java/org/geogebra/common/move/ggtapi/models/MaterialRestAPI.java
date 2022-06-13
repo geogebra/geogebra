@@ -1,6 +1,7 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -9,7 +10,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -241,7 +241,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param order ordering
 	 * @return request that can be canceled
 	 */
-	public HttpRequest getUsersMaterials(MaterialCallbackI callback, MaterialRequest.Order order) {
+	public HttpRequest getUsersMaterials(MaterialCallbackI callback, ResourceOrdering order) {
 		return getUsersOwnMaterials(new MaterialCallbackI() {
 			@Override
 			public void onLoaded(List<Material> result, Pagination meta) {
@@ -338,7 +338,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @return HTTP request
 	 */
 	public HttpRequest getUsersOwnMaterials(final MaterialCallbackI callback,
-			MaterialRequest.Order order) {
+			ResourceOrdering order) {
 		if (model == null) {
 			callback.onError(new Exception("No user signed in"));
 			return UtilFactory.getPrototype().newHttpRequest();
@@ -356,7 +356,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param callback callback
 	 * @param order order
 	 */
-	public void getUsersAndSharedMaterials(MaterialCallbackI callback, Order order,
+	public void getUsersAndSharedMaterials(MaterialCallbackI callback, ResourceOrdering order,
 			int offset) {
 		if (model == null) {
 			callback.onError(new Exception("No user signed in"));
@@ -371,17 +371,14 @@ public class MaterialRestAPI implements BackendAPI {
 				null, callback);
 	}
 
-	private static String orderStr(Order order) {
+	private static String orderStr(ResourceOrdering order) {
 		switch (order) {
-		case timestamp:
-			return "-modified";
+		case modified:
 		case created:
 			return "-" + order.name();
-		case title:
-		case privacy:
-			return order.name();
 		default:
-			return "title";
+		case title:
+			return order.name();
 		}
 	}
 
@@ -561,8 +558,15 @@ public class MaterialRestAPI implements BackendAPI {
 				});
 	}
 
-	@Override
+	/**
+	 * @param mat
+	 *            material
+	 * @return true if user owns the given material
+	 */
 	public boolean owns(Material mat) {
+		if (model == null || !model.isLoggedIn()) {
+			return false;
+		}
 		return mat.getCreator().getId() <= 0
 				|| mat.getCreator().getId() == model.getUserId();
 	}
@@ -659,5 +663,14 @@ public class MaterialRestAPI implements BackendAPI {
 				materialCallback.onError(new Exception(error));
 			}
 		});
+	}
+
+	/**
+	 * @param material resource
+	 * @return actions available for given resource
+	 */
+	public Collection<ResourceAction> getActions(Material material) {
+		return service.getActions(owns(material), model.getLoggedInUser() != null
+				&& !model.getLoggedInUser().isStudent());
 	}
 }

@@ -72,14 +72,13 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	}
 
 	private boolean isOwnMaterial() {
-		return app.getLoginOperation().getGeoGebraTubeAPI().owns(getMaterial());
+		return app.getLoginOperation().getResourcesAPI().owns(getMaterial());
 	}
 
 	private String getCardAuthor() {
-		return "".equals(getMaterial().getAuthor())
-				&& getMaterial().getCreator() != null
-				? getMaterial().getCreator().getDisplayname()
-				: getMaterial().getAuthor();
+		return getMaterial().getCreator() != null
+				? getMaterial().getCreator().getDisplayName()
+				: "";
 	}
 
 	/**
@@ -101,14 +100,19 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		controller.onConfirmDelete(this);
 	}
 
-	@Override
+	/**
+	 * Change name on card and rename via API
+	 * @param text new name
+	 */
 	public void rename(String text) {
 		String oldTitle = infoPanel.getCardId();
 		infoPanel.setCardId(text);
 		controller.rename(text, this, oldTitle);
 	}
 
-	@Override
+	/**
+	 * Call API to copy yhe material.
+	 */
 	public void copy() {
 		controller.copy();
 	}
@@ -121,17 +125,17 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		removeDialog.setOnPositiveAction(this::onConfirmDelete);
 	}
 
-	@Override
+	/**
+	 * @return card title
+	 */
 	public String getCardTitle() {
 		return getMaterial().getTitle();
 	}
 
-	@Override
-	public String getMaterialID() {
-		return getMaterial().getSharingKeyOrId();
-	}
-
-	@Override
+	/**
+	 * @param visibility
+	 *            material visibility
+	 */
 	public void updateVisibility(String visibility) {
 		NoDragImage visibiltyImg = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_card_public(), 24);

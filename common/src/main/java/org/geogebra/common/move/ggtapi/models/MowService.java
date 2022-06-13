@@ -1,5 +1,8 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.util.HttpRequest;
 
@@ -21,4 +24,22 @@ public class MowService implements Service {
 		return "/users/" + userId
 				+ "/materials?format=page&filter=ggs-template";
 	}
+
+	@Override
+	public Collection<ResourceAction> getActions(
+			boolean owns, boolean isTeacher) {
+		ArrayList<ResourceAction> actions = new ArrayList<>();
+		if (owns) {
+			if (isTeacher) {
+				actions.add(ResourceAction.SHARE);
+			}
+			actions.add(ResourceAction.RENAME);
+		}
+		actions.add(ResourceAction.COPY);
+		if (owns) {
+			actions.add(ResourceAction.DELETE);
+		}
+		return actions;
+	}
+
 }

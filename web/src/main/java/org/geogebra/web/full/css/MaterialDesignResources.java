@@ -687,4 +687,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/login_black_24dp.svg")
 	SVGResource login();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/visibility_black_24dp.svg")
+	SVGResource visibility();
 }

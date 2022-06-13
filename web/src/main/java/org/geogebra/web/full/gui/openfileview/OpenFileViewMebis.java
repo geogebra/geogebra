@@ -7,8 +7,8 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.Pagination;
+import org.geogebra.common.move.ggtapi.models.ResourceOrdering;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
@@ -53,9 +53,8 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private boolean materialListEmpty = true;
 
-	private Order order = Order.timestamp;
-	private static final Order[] map = new Order[] { Order.title, Order.created,
-			Order.timestamp };
+	private ResourceOrdering order = ResourceOrdering.modified;
+	private static final ResourceOrdering[] map = ResourceOrdering.values();
 
 	private int materialCount = 0;
 
@@ -127,18 +126,18 @@ public class OpenFileViewMebis extends HeaderFileView
 		sortDropDown.addItem(localize("SortBy"));
 		sortDropDown.getElement().getFirstChildElement()
 				.setAttribute("disabled", "disabled");
-		for (Order value : map) {
+		for (ResourceOrdering value : map) {
 			sortDropDown.addItem(localize(labelFor(value)));
 		}
 		sortDropDown.setSelectedIndex(3);
 		sortDropDown.addChangeHandler(event -> updateOrder());
 	}
 
-	private static String labelFor(Order order2) {
+	private static String labelFor(ResourceOrdering order2) {
 		switch (order2) {
 		case created:
 			return "sort_date_created";
-		case timestamp:
+		case modified:
 			return "sort_last_modified";
 		default:
 		case title:
@@ -277,7 +276,7 @@ public class OpenFileViewMebis extends HeaderFileView
 			return material.getTitle().compareTo(material2.getTitle()) <= 0;
 		case created:
 			return material.getDateCreated() >= material2.getDateCreated();
-		case timestamp:
+		case modified:
 			return material.getTimestamp() >= material2.getTimestamp();
 		default:
 			return false;

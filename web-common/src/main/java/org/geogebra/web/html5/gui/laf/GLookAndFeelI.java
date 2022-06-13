@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
+import org.geogebra.common.move.ggtapi.models.ResourceAction;
 import org.geogebra.web.html5.main.AppW;
 
 public interface GLookAndFeelI {
@@ -68,4 +69,6 @@ public interface GLookAndFeelI {
 	String getClientId();
 
 	boolean isExternalLoginAllowed();
+
+	ResourceAction getDisplayAction(ResourceAction action);
 }
