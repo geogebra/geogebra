@@ -980,8 +980,8 @@ public abstract class GlobalKeyDispatcher {
 	/**
 	 * enableRightClick also enables/disables some keyboard shortcuts eg Delete
 	 * and Ctrl + R
-	 * 
-	 * @return
+	 *
+	 * @return whether keyboard shortcuts are enabled
 	 */
 	private boolean keyboardShortcutsEnabled() {
 		return app.isRightClickEnabled();

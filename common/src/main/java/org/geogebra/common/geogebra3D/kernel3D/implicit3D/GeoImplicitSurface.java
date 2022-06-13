@@ -31,6 +31,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -395,8 +396,8 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return false;
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo == this); // TODO compare expressions
 	}
 
 	@Override

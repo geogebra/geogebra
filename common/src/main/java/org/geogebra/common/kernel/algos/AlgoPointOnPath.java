@@ -219,7 +219,7 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public boolean isChangeable(GeoElement out) {
+	public boolean isChangeable(GeoElementND out) {
 		return param == null;
 	}
 

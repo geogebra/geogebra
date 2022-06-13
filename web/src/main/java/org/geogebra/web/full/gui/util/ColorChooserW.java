@@ -486,7 +486,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			colorRadioBtnPanel.setValueOfNthRadioButton(0, true);
 
 			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
-					.delete_black(), 24, null);
+					.delete_black(), 24);
 			btnClearBackground.setStyleName("clearBackgroundButton");
 
 			add(colorRadioBtnPanel);

@@ -480,9 +480,9 @@ public class TwoVarInferenceModel {
 		listener.addAltHypItem(nullHypName, tail_right, hypMean);
 		listener.addAltHypItem(nullHypName, tail_left, hypMean);
 		listener.addAltHypItem(nullHypName, tail_two, hypMean);
-		if (tail == tail_right) {
+		if (tail_right.equals(tail)) {
 			listener.selectAltHyp(0);
-		} else if (tail == tail_left) {
+		} else if (tail_left.equals(tail)) {
 			listener.selectAltHyp(0);
 		} else {
 			listener.selectAltHyp(2);

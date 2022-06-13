@@ -32,7 +32,7 @@ public class PlotterCompletingCursor {
 	private static float[] u;
 	private static float[] v;
 
-	static int longitude = 32;
+	private static final int longitude = 32;
 	private Coords p = new Coords(3);
 
 	static {

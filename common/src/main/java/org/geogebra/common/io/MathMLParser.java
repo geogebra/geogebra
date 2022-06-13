@@ -5,6 +5,7 @@
 package org.geogebra.common.io;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import org.geogebra.common.util.debug.Log;
 
@@ -911,7 +912,7 @@ public class MathMLParser {
 				i++;
 			}
 
-			if ((startTag != endTag) && (i > blockEnd)) {
+			if (!Objects.equals(startTag, endTag) && (i > blockEnd)) {
 
 				// if sure to be at the end of the block hierarchy (inside),
 				// append block content to result

@@ -246,11 +246,15 @@ public class GgbAPIW extends GgbAPI {
 		String str;
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
+		} else if (geo instanceof  GeoCasCell) {
+			str = ((GeoCasCell) geo).getLaTeXInput(StringTemplate.latexTemplate);
+			if (str == null) {
+				// regexp should be good enough in most cases, avoids dependency on ReTeX
+				str = ((GeoCasCell) geo).getInput(StringTemplate.defaultTemplate)
+						.replaceAll("([{}$])", "\\\\$1");
+			}
 		} else {
-			str = geo instanceof GeoCasCell
-					? ((GeoCasCell) geo)
-							.getLaTeXInput(StringTemplate.latexTemplate)
-					: geo.toString(StringTemplate.latexTemplate);
+			str = geo.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSize());
 		return StringUtil.removePngMarker(c.toDataUrl());

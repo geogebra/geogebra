@@ -489,9 +489,6 @@ public class MyXMLHandler implements DocHandler {
 			Log.debug("missing case " + mode);
 			break;
 		case MODE_EUCLIDIAN_VIEW:
-			// we should set the EV sizes if they were not yet set
-			app.ensureEvSizeSet(evSet);
-
 			if ("euclidianView".equals(eName)) {
 				evSet = null;
 				mode = MODE_GEOGEBRA;
@@ -1243,23 +1240,16 @@ public class MyXMLHandler implements DocHandler {
 		// return true;
 
 		try {
-			int width;
-			int height;
 			if (!isPreferencesXML) {
 				// border excluded in getAppletWidth
-				width = (app.getAppletWidth() > 0 && !app.getUseFullGui())
-						? app.getAppletWidth()
-						: Integer.parseInt(attrs.get("width"));
-				height = (app.getAppletHeight() > 0
-						&& !app.getUseFullGui())
-								? app.getAppletHeight()
-						: Integer.parseInt(attrs.get("height"));
-
-				ev.setPreferredSize(
-						AwtFactory.getPrototype().newDimension(width, height));
+				int width = Integer.parseInt(attrs.get("width"));
+				int height = Integer.parseInt(attrs.get("height"));
+				if (width > 0 && height > 0) {
+					ev.setPreferredSize(
+							AwtFactory.getPrototype().newDimension(width, height));
+				}
 				ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
-						Integer.parseInt(attrs.get("width")),
-						Integer.parseInt(attrs.get("height"))));
+						width, height));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -2077,7 +2067,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            app
 	 * @param attrs
 	 *            settings tag attributes
-	 * @return
+	 * @return success
 	 */
 	private static boolean handleGuiSettings(App app,
 			LinkedHashMap<String, String> attrs) {
@@ -2191,7 +2181,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            app
 	 * @param attrs
 	 *            window tag attributes
-	 * @return
+	 * @return success
 	 */
 	private static boolean handleWindowSize(App app,
 			LinkedHashMap<String, String> attrs) {
@@ -2311,7 +2301,7 @@ public class MyXMLHandler implements DocHandler {
 	 * 
 	 * @param attrs
 	 *            perspective attributes
-	 * @return
+	 * @return success
 	 */
 	private boolean handlePerspective(LinkedHashMap<String, String> attrs) {
 		try {
@@ -3472,7 +3462,7 @@ public class MyXMLHandler implements DocHandler {
 	 * 
 	 * @param attrs
 	 *            ttribute map
-	 * @return
+	 * @return success
 	 */
 	private static String[] getAttributeStrings(
 			LinkedHashMap<String, String> attrs) {

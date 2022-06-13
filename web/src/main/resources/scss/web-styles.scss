@@ -755,6 +755,14 @@
 		margin-left: -4px;
 	}
 
+	.button.MyCanvasButton.MyCanvasButton-borderless.matDynStyleContextButton img {
+		opacity: 0.54;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
 	.DynamicStyleBar {
 		position: absolute;
 		border-radius: 2px;

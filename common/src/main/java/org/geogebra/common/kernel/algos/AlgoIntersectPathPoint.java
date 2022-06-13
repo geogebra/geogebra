@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 
@@ -159,7 +160,7 @@ public class AlgoIntersectPathPoint extends AlgoElement
 	}
 
 	@Override
-	public boolean isChangeable(GeoElement out) {
+	public boolean isChangeable(GeoElementND out) {
 		return false;
 	}
 

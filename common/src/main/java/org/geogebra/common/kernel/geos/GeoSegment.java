@@ -268,19 +268,19 @@ final public class GeoSegment extends GeoLine
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// test 3D is geo is 3D
 		if (geo.isGeoElement3D()) {
-			return geo.isEqual(this);
+			return geo.isEqualExtended(this);
 		}
 		if (!geo.isGeoSegment()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		GeoSegmentND s = (GeoSegmentND) geo;
-		return (startPoint.isEqualPointND(s.getStartPoint())
+		return ExtendedBoolean.newExtendedBoolean((startPoint.isEqualPointND(s.getStartPoint())
 				&& endPoint.isEqualPointND(s.getEndPoint()))
 				|| (startPoint.isEqualPointND(s.getEndPoint())
-						&& endPoint.isEqualPointND(s.getStartPoint()));
+						&& endPoint.isEqualPointND(s.getStartPoint())));
 	}
 
 	@Override

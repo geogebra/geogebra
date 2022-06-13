@@ -185,7 +185,7 @@ public class CalcEmbedElement extends EmbedElement {
 			embedManager.createUndoAction(embedId);
 		}
 
-		private void executeAction(EventType action) {
+		protected void executeAction(EventType action) {
 			if (EventType.UNDO.equals(action)) {
 				undo();
 			} else if (EventType.REDO.equals(action)) {

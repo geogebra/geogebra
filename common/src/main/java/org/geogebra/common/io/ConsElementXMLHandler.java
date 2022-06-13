@@ -2508,11 +2508,11 @@ public class ConsElementXMLHandler {
 		try {
 			for (GeoExpPair pair : dynamicCaptionList) {
 				GeoElement caption = xmlHandler.kernel.lookupLabel(pair.exp);
-				if (caption.isGeoText()) {
+				if (caption != null && caption.isGeoText()) {
 					GeoElementND text = pair.geoElement;
 					text.setDynamicCaption((GeoText) caption);
 				} else {
-					Log.error("dynamicCaption is not a GeoText");
+					Log.warn("dynamicCaption is not a GeoText:" + pair.exp);
 					break;
 				}
 			}

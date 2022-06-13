@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * List of GeoElements
@@ -104,11 +105,9 @@ public class GeoScriptAction extends GeoElement {
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		if (!(geo instanceof GeoScriptAction)) {
-			return false;
-		}
-		return action == ((GeoScriptAction) geo).action;
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo instanceof GeoScriptAction
+				&& action == ((GeoScriptAction) geo).action);
 	}
 
 	/**

@@ -93,15 +93,15 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (geo instanceof GeoLineND) {
 			Coords diff = ((GeoLineND) geo).getDirectionInD3()
 					.crossProduct(getDirectionInD3().normalize());
-			return diff.isZero() && getCoordSys().getOrigin()
+			return ExtendedBoolean.newExtendedBoolean(diff.isZero() && getCoordSys().getOrigin()
 					.sub(((GeoLineND) geo).getOrigin())
-					.crossProduct(getDirectionInD3()).isZero();
+					.crossProduct(getDirectionInD3()).isZero());
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**
