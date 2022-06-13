@@ -36,6 +36,7 @@ public class FileViewCommon extends AnimatingPanel {
 	private Button signInTextButton;
 	private StandardButton signInIconButton;
 	private ProfilePanel profilePanel;
+	private FlowPanel emptyListNotificationPanel;
 
 	/**
 	 * @param app the application
@@ -108,7 +109,7 @@ public class FileViewCommon extends AnimatingPanel {
 	private void updateSignInButtonsVisibility(boolean smallScreen) {
 		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
 				.getLoggedInUser();
-		if (user == null) {
+		if (user == null && signInIconButton != null) {
 			signInIconButton.setVisible(smallScreen);
 			signInTextButton.setVisible(!smallScreen);
 		}
@@ -129,6 +130,9 @@ public class FileViewCommon extends AnimatingPanel {
 	 * adds content if available
 	 */
 	public void addContent() {
+		if (emptyListNotificationPanel != null) {
+			emptyListNotificationPanel.removeFromParent();
+		}
 		contentPanel.add(materialPanel);
 	}
 
@@ -165,7 +169,7 @@ public class FileViewCommon extends AnimatingPanel {
 
 	@Override
 	public void resizeTo(int width, int height) {
-		resizeHeader();
+		onResize();
 	}
 
 	@Override
@@ -187,27 +191,23 @@ public class FileViewCommon extends AnimatingPanel {
 		updateSignInButtonsVisibility(smallScreen);
 	}
 
-	/**
-	 * adds MaterialPanel
-	 */
-	void addMaterialPanel() {
-		contentPanel.add(materialPanel);
-	}
-
 	public void clearMaterials() {
 		materialPanel.clear();
 	}
 
-	void showEmptyListNotification() {
-		contentPanel.clear();
-		contentPanel.add(getEmptyListNotificationPanel());
+	void showEmptyListNotification(InfoErrorData data) {
+		if (materialPanel != null) {
+			materialPanel.removeFromParent();
+		}
+		if (emptyListNotificationPanel != null) {
+			emptyListNotificationPanel.removeFromParent();
+		}
+		emptyListNotificationPanel = getEmptyListNotificationPanel(data);
+		contentPanel.add(emptyListNotificationPanel);
 	}
 
-	private FlowPanel getEmptyListNotificationPanel() {
-		InfoErrorData data = new InfoErrorData("emptyMaterialList.caption.mow",
-				"emptyMaterialList.info.mow");
-		ComponentInfoErrorPanel noMaterials = new ComponentInfoErrorPanel(loc, data);
-		return noMaterials;
+	private FlowPanel getEmptyListNotificationPanel(InfoErrorData data) {
+		return new ComponentInfoErrorPanel(loc, data, null);
 	}
 
 	String localize(String key) {

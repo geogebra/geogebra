@@ -11,7 +11,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.analytics.LoginAnalytics;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 import elemental2.core.Global;
@@ -119,8 +118,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	protected String getURLClientInfo() {
-		URLEncoderW enc = new URLEncoderW();
-		return enc.encode("GeoGebra Web Application V"
+		return Global.encodeURIComponent("GeoGebra Web Application V"
 				+ GeoGebraConstants.VERSION_STRING);
 	}
 

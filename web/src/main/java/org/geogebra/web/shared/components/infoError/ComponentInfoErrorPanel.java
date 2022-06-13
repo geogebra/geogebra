@@ -1,10 +1,8 @@
 package org.geogebra.web.shared.components.infoError;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,15 +13,14 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	/**
 	 * info/error panel constructor
 	 * @param loc - localization
-	 * @param data - data of the panel including title, subtext and button text
-	 * @param img - image
+	 * @param data - data of the panel including title, subtext, icon and button text
 	 * @param buttonAction - handler for the button
 	 */
-	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data, SVGResource img,
+	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data,
 			 Runnable buttonAction) {
 		this.loc = loc;
 		addStyleName("infoErrorPanel");
-		buildGUI(data, img, buttonAction);
+		buildGUI(data, buttonAction);
 	}
 
 	/**
@@ -32,11 +29,11 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	 * @param data - data of the panel including title, subtext and button text
 	 */
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data) {
-		this(loc, data,  MaterialDesignResources.INSTANCE.mow_lightbulb(), null);
+		this(loc, data, null);
 	}
 
-	private void buildGUI(InfoErrorData data, SVGResource img, Runnable buttonAction) {
-		NoDragImage infoImage = new NoDragImage(img, 56, 56);
+	private void buildGUI(InfoErrorData data, Runnable buttonAction) {
+		NoDragImage infoImage = new NoDragImage(data.getImage(), 56, 56);
 		add(infoImage);
 
 		if (data.getTitle() != null) {

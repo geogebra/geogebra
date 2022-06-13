@@ -3,6 +3,7 @@ package org.geogebra.desktop.move.ggtapi.models;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.GenericEvent;
@@ -12,7 +13,6 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.desktop.util.URLEncoderD;
 
 /**
  * The desktop version of the login operation. uses an own AuthenticationModel
@@ -66,8 +66,8 @@ public class LoginOperationD extends LogInOperation {
 
 	@Override
 	protected String getURLClientInfo() {
-		URLEncoderD enc = new URLEncoderD();
-		return enc.encode("GeoGebra Desktop Application V"
+		return UtilFactory.getPrototype().newURLEncoder()
+				.encode("GeoGebra Desktop Application V"
 				+ GeoGebraConstants.VERSION_STRING);
 	}
 

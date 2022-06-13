@@ -989,7 +989,7 @@ public class GeoGebraFrameFull
 
 	@Override
 	protected int getSmallScreenHeaderHeight() {
-		if (isExternalHeaderHidden()) {
+		if (shouldHideHeader()) {
 			return 0;
 		}
 		return getHeaderResizer().getSmallScreenHeight();

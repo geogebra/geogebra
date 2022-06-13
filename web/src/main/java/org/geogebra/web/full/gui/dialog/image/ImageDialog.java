@@ -45,10 +45,9 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 				});
 
 		InfoErrorData uploadData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
-				"ImageDialog.Browse");
+				"ImageDialog.Browse", MaterialDesignResources.INSTANCE.upload());
 		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				uploadData, MaterialDesignResources.INSTANCE.upload(),
-				uploadImage::click);
+				uploadData, uploadImage::click);
 		TabData uploadTab = new TabData("Upload", uploadPanel);
 
 		cameraPanel = new FlowPanel();
@@ -62,10 +61,10 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 	}
 
 	private FlowPanel getErrorPanel(String title, String msg) {
-		InfoErrorData cameraData = new InfoErrorData(title, msg, null);
-		ComponentInfoErrorPanel cameraPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				cameraData, MaterialDesignResources.INSTANCE.no_camera(), null);
-		return cameraPanel;
+		InfoErrorData cameraData = new InfoErrorData(title, msg, null,
+				MaterialDesignResources.INSTANCE.no_camera());
+		return new ComponentInfoErrorPanel(app.getLocalization(),
+				cameraData, null);
 	}
 
 	private void loadCameraPanel() {

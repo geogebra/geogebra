@@ -618,8 +618,9 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @return HTTP request
 	 */
 	public HttpRequest search(String query, MaterialCallbackI callback) {
+		String encodedQuery = UtilFactory.getPrototype().newURLEncoder().encode(query);
 		return performRequest("GET", "/search/applets?size="
-				+ SEARCH_COUNT + "&query=" + query, null, callback);
+				+ SEARCH_COUNT + "&query=" + encodedQuery, null, callback);
 	}
 
 	/**
