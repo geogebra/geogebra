@@ -1,6 +1,9 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -8,10 +11,12 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.shared.ProfilePanel;
 import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -28,6 +33,9 @@ public class FileViewCommon extends AnimatingPanel {
 	// material panel
 	private FlowPanel materialPanel;
 	private final LocalizationW loc;
+	private Button signInTextButton;
+	private StandardButton signInIconButton;
+	private ProfilePanel profilePanel;
 
 	/**
 	 * @param app the application
@@ -67,8 +75,43 @@ public class FileViewCommon extends AnimatingPanel {
 
 		if (withSearch) {
 			addSearchBar();
+			buildSingInPanel();
 		}
 		this.setHeaderWidget(headerView);
+	}
+
+	private void buildSingInPanel() {
+		signInTextButton = ((GLookAndFeel) app.getLAF())
+				.getSignInController(app).getLoginTextButton();
+		signInTextButton.setStyleName("signIn");
+		getHeader().add(signInTextButton);
+
+		signInIconButton = ((GLookAndFeel) app.getLAF())
+				.getSignInController(app).getLoginIconButton();
+		signInIconButton.setStyleName("signInIcon");
+		getHeader().add(signInIconButton);
+
+		profilePanel = new ProfilePanel(app);
+		getHeader().add(profilePanel);
+
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
+				.getLoggedInUser();
+		if (user == null) {
+			profilePanel.setVisible(false);
+		} else {
+			profilePanel.update(user);
+			signInTextButton.setVisible(false);
+			signInIconButton.setVisible(false);
+		}
+	}
+
+	private void updateSignInButtonsVisibility(boolean smallScreen) {
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
+				.getLoggedInUser();
+		if (user == null) {
+			signInIconButton.setVisible(smallScreen);
+			signInTextButton.setVisible(!smallScreen);
+		}
 	}
 
 	private void addSearchBar() {
@@ -107,6 +150,12 @@ public class FileViewCommon extends AnimatingPanel {
 				((MaterialCard) widget).setLabels();
 			}
 		}
+		if (signInTextButton != null) {
+			signInTextButton.setText(loc.getMenu("SignIn"));
+		}
+		if (profilePanel != null) {
+			profilePanel.setLabels();
+		}
 	}
 
 	@Override
@@ -135,6 +184,7 @@ public class FileViewCommon extends AnimatingPanel {
 		if (searchBar != null) {
 			Dom.toggleClass(searchBar, "compact", smallScreen);
 		}
+		updateSignInButtonsVisibility(smallScreen);
 	}
 
 	/**
@@ -202,5 +252,27 @@ public class FileViewCommon extends AnimatingPanel {
 
 	public HeaderView getHeader() {
 		return headerView;
+	}
+
+	/**
+	 * hide sign in button, show profile avatar
+	 * @param event - login event
+	 */
+	public void onLogin(LoginEvent event) {
+		signInTextButton.setVisible(false);
+		signInIconButton.setVisible(false);
+		profilePanel.setVisible(true);
+		profilePanel.update(event.getUser());
+		headerView.add(profilePanel);
+	}
+
+	/**
+	 * hide avatar, show sign in button
+	 */
+	public void onLogout() {
+		profilePanel.setVisible(false);
+		boolean isSmallScreen = app.getAppletFrame()
+				.hasSmallWindowOrCompactHeader();
+		updateSignInButtonsVisibility(isSmallScreen);
 	}
 }

@@ -91,7 +91,7 @@ public class OpenFileView extends HeaderFileView
 	}
 
 	private boolean loggedInUserHasGoogleDrive() {
-		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
 				.getLoggedInUser();
 		return user != null && user.hasGoogleDrive() && app.getLAF().supportsGoogleDrive();
 	}
@@ -112,6 +112,13 @@ public class OpenFileView extends HeaderFileView
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			googleDriveBtn.setVisible(event instanceof LoginEvent && loggedInUserHasGoogleDrive());
 			loadAllMaterials(0);
+		}
+		if (event instanceof LoginEvent
+				&& ((LoginEvent) event).isSuccessful()) {
+			common.onLogin((LoginEvent) event);
+		}
+		if (event instanceof LogOutEvent) {
+			common.onLogout();
 		}
 	}
 

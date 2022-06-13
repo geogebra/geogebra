@@ -305,11 +305,11 @@
 	.more {
 		background: colors.$white;
 		margin-top: 12px;
-		opacity: 0.54 !important;
+		opacity: 0.54;
 		transition: 0.3s ease;
 
 		&:hover {
-			opacity: 1 !important;
+			opacity: 1;
 		}
 	}
 
