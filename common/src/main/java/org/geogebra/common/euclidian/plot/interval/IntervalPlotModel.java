@@ -103,19 +103,33 @@ public class IntervalPlotModel {
 	}
 
 	private void extendMin(double oldMin) {
-		double min = points.isEmpty() ? oldMin : points.get(0).x().getLow();
-		IntervalTupleList newPoints = sampler.evaluate(bounds.getXmin(), min);
-		points.prepend(newPoints);
+		points.prepend(sampler.evaluate(bounds.getXmin(), getMinToExtend(oldMin)));
 		points.cutFrom(bounds.getXmax());
 	}
 
+	private double getMinToExtend(double oldMin) {
+		if (points.isEmpty()) {
+			return oldMin;
+		}
+
+		Interval x = points.get(0).x();
+		return  Math.min(oldMin, x.getLow());
+	}
+
 	private void extendMax(double oldMax) {
-		double max = points.isEmpty() ? oldMax : points.get(points.count() - 1).x()
-				.getHigh();
-		points.append(sampler.evaluate(max,	bounds.getXmax()));
+		points.append(sampler.evaluate(getMaxToExtend(oldMax),	bounds.getXmax()));
 		points.cutTo(bounds.getXmin());
 	}
 
+
+	private double getMaxToExtend(double oldMax) {
+		if (points.isEmpty()) {
+			return oldMax;
+		}
+
+		Interval x = points.get(pointCount() - 1).x();
+		return  Math.max(x.getHigh(), oldMax);
+	}
 	/**
 	 * Clears the entire model.
 	 */
