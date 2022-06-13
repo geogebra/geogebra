@@ -127,6 +127,7 @@ public class ConditionalFunctionSamplerTest extends BaseUnitTest {
 		IntervalTupleList diff = sampler.extendDomain(-7.0, 1.0);
 		assertNotEquals(IntervalTupleList.emptyList(), diff);
 	}
+
 	@Test
 	public void evaluateIfListExtendingFromOffscreen() {
 		GeoFunction function = add("a=If(x < 0, 1, x > 3, 4)");

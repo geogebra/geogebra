@@ -121,7 +121,6 @@ public class IntervalPlotModel {
 		points.cutTo(bounds.getXmin());
 	}
 
-
 	private double getMaxToExtend(double oldMax) {
 		if (points.isEmpty()) {
 			return oldMax;
@@ -130,6 +129,7 @@ public class IntervalPlotModel {
 		Interval x = points.get(pointCount() - 1).x();
 		return  Math.max(x.getHigh(), oldMax);
 	}
+
 	/**
 	 * Clears the entire model.
 	 */
