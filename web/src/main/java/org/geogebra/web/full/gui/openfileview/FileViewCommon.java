@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.openfileview;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
@@ -13,12 +14,15 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ProfilePanel;
+import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FileViewCommon extends AnimatingPanel {
@@ -37,6 +41,8 @@ public class FileViewCommon extends AnimatingPanel {
 	private Button signInTextButton;
 	private StandardButton signInIconButton;
 	private ProfilePanel profilePanel;
+	private StandardButton examInfoBtn;
+	private Label timer;
 
 	/**
 	 * @param app the application
@@ -79,10 +85,44 @@ public class FileViewCommon extends AnimatingPanel {
 			buildSingInPanel();
 		}
 		if (app.isExam()) {
-			headerView.add(GlobalHeader.INSTANCE.getTimer());
-			headerView.add(GlobalHeader.INSTANCE.getExamInfoBtn());
+			addExamPanel();
 		}
 		this.setHeaderWidget(headerView);
+	}
+
+	private void addExamPanel() {
+		addExamTimeLabel();
+		addExamInfoButton();
+	}
+
+	private void addExamTimeLabel() {
+		timer = new Label("0:00");
+		timer.setStyleName("examTimer");
+		// run timer
+		AnimationScheduler.get().requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				if (getApp().getExam() != null) {
+					timer.setText(
+							getApp().getExam().getElapsedTimeLocalized());
+					AnimationScheduler.get().requestAnimationFrame(this);
+				}
+			}
+		});
+		headerView.add(timer);
+	}
+
+	private void addExamInfoButton() {
+		examInfoBtn = new StandardButton(
+				SharedResources.INSTANCE.info_black(), null, 24);
+		examInfoBtn.addStyleName("flatButtonHeader");
+		examInfoBtn.addStyleName("examInfoBtn");
+		examInfoBtn.addFastClickHandler(source -> showExamDialog(examInfoBtn));
+		headerView.add(examInfoBtn);
+	}
+
+	private void showExamDialog(StandardButton examInfoBtn) {
+		new ExamLogAndExitDialog(app, true, examInfoBtn).show();
 	}
 
 	private void buildSingInPanel() {
