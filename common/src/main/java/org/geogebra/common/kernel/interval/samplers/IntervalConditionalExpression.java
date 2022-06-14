@@ -67,6 +67,9 @@ public class IntervalConditionalExpression {
 			return y1.isGreaterThan(y2);
 		case GREATER_EQUAL:
 			return y2.isLessThanOrEqual(y1);
+		case NOT_EQUAL:
+			return !y1.contains(y2);
+
 		}
 		return false;
 	}

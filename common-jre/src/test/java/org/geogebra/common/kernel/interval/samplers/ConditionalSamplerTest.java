@@ -139,4 +139,15 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		assertEquals(1,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 	}
+	@Test
+	public void testNotEqual() {
+		GeoFunction function = add("a=If(x != 0, 1)");
+		ExpressionNode node = function.getFunctionExpression();
+		DiscreteSpace space = new DiscreteSpaceImp(interval(-10, 10), 1920);
+		ConditionalSampler sampler =
+				newConditionalSampler(node.getLeftTree(), node.getRightTree(), space);
+		IntervalTupleList tuples = sampler.evaluate(interval(-10, 10));
+		assertEquals(1919,
+				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
+	}
 }

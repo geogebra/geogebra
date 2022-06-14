@@ -27,8 +27,6 @@ import static org.geogebra.common.kernel.interval.operators.IntervalOperands.tan
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
@@ -189,52 +187,20 @@ import org.geogebra.common.util.debug.Log;
 		return isOperationSupported(((GeoFunction) geo).getFunctionExpression());
 	}
 
-	private static boolean isOperationSupported(ExpressionNode node) {
+	static boolean isOperationSupported(ExpressionNode node) {
 		if (node == null) {
 			return false;
 		}
 
-		if (isSupportedIf(node)) {
+		if (ConditionalSupport.isSupportedIf(node)) {
 			return true;
 		}
 
 		return !hasMoreVariables(node) && !node.inspect(operatorChecker);
 	}
 
-	private static boolean isSupportedIf(ExpressionNode node) {
-		if (node.getOperation() == Operation.IF) {
-			return isOperationSupported(node.getRightTree());
-		} else if (node.getOperation() == Operation.IF_ELSE) {
-			boolean rightSupported = isOperationSupported(node.getRightTree());
-			boolean rightOneValiable = !hasMoreVariables(node.getRightTree());
-			ExpressionNode leftTree = node.getLeftTree();
-			ExpressionValue left = leftTree.unwrap();
-			if (left instanceof MyNumberPair) {
-				MyNumberPair pair = (MyNumberPair) left;
-				ExpressionNode ifExpr = pair.getY().wrap();
-				return isOperationSupported(ifExpr) && rightSupported
-						&& !hasMoreVariables(ifExpr)
-						&& rightOneValiable;
-			}
-			return rightSupported && rightOneValiable;
-		} else if (node.getOperation() == Operation.IF_LIST) {
-			return isIfListSupported(node);
-		}
-		return false;
-	}
 
-	private static boolean isIfListSupported(ExpressionNode node) {
-		MyList conditionBodies = (MyList) node.getRight();
-		for (int i = 0; i < conditionBodies.size(); i++) {
-			ExpressionValue body = conditionBodies.getItem(i);
-			if (!isOperationSupported(body.wrap())) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static boolean hasMoreVariables(ExpressionNode node) {
+	static boolean hasMoreVariables(ExpressionNode node) {
 		if (node == null) {
 			return false;
 		}
