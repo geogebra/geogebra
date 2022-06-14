@@ -119,8 +119,9 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 		compute();
 	}
 
-	public AlgoElement getExpressionParentAlgo() {
-		return expressionParentAlgo;
+	@Override
+	public boolean canSetRandomValue() {
+		return expressionParentAlgo instanceof SetRandomValue;
 	}
 
 	@Override

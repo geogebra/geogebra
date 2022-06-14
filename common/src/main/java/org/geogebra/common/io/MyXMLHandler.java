@@ -47,7 +47,6 @@ import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoSequence;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -3385,9 +3384,8 @@ public class MyXMLHandler implements DocHandler {
 					&& cmdOutput[0].getParentAlgorithm() instanceof SetRandomValue) {
 				SetRandomValue randomizableAlgo =
 						(SetRandomValue) cmdOutput[0].getParentAlgorithm();
-				if ((randomizableAlgo instanceof AlgoSequence
-						&& ((AlgoSequence) randomizableAlgo).getExpressionParentAlgo()
-						instanceof SetRandomValue) || !(randomizableAlgo instanceof AlgoSequence)) {
+				// canSetRandomValue should be checked on saving, but for old files it wasn't
+				if (randomizableAlgo.canSetRandomValue()) {
 					GeoElementND randomResult = getAlgProcessor()
 							.evaluateToGeoElement(randomVal, false);
 					if (randomResult != null) {

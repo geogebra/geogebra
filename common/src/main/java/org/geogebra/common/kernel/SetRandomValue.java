@@ -15,5 +15,12 @@ public interface SetRandomValue {
 	 *            random value
 	 * @return whether setting was successful (argument in range)
 	 */
-	public boolean setRandomValue(GeoElementND d);
+	boolean setRandomValue(GeoElementND d);
+
+	/**
+	 * @return whether the value is actually random
+	 */
+	default boolean canSetRandomValue() {
+		return true;
+	}
 }
