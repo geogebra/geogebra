@@ -117,7 +117,7 @@ public class IntervalPlotModel {
 	}
 
 	private void extendMax(double oldMax) {
-		points.append(sampler.evaluate(getMaxToExtend(oldMax),	bounds.getXmax()));
+		points.append(sampler.evaluate(getMaxToExtend(oldMax), bounds.getXmax()));
 		points.cutTo(bounds.getXmin());
 	}
 
