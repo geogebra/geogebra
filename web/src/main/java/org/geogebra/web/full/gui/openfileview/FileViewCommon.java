@@ -12,7 +12,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
-import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ProfilePanel;
 import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.components.ComponentSearchBar;
