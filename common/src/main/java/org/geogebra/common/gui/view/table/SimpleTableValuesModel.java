@@ -275,6 +275,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.endCollection(this);
 	}
 
+	@Override
+	public boolean isBatchUpdate() {
+		return collector.isCollecting();
+	}
+
 	void notifyColumnRemoved(GeoEvaluatable evaluatable, int column) {
 		forEachListener(listener -> listener.notifyColumnRemoved(this, evaluatable, column));
 	}

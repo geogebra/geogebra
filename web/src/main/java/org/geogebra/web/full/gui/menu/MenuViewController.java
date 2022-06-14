@@ -37,17 +37,15 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for the main menu in the apps.
  */
-public class MenuViewController implements ResizeHandler, EventRenderable, SetLabels {
+public class MenuViewController implements EventRenderable, SetLabels, RequiresResize {
 
 	private static final String MENU_PANEL_GLASS = "menuPanelGlass";
 	private static final String MENU_PANEL_CONTAINER_STYLE = "menuPanelContainer";
@@ -89,7 +87,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		createFactories(app);
 		setDefaultMenu();
 		registerListeners(app);
-		onResize(null);
+		onResize();
 	}
 
 	private void createObjects(AppWFull app) {
@@ -204,7 +202,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	private void registerListeners(AppW app) {
-		Window.addResizeHandler(this);
+		app.addWindowResizeListener(this);
 		app.getLoginOperation().getView().add(this);
 		localization.registerLocalizedUI(this);
 	}
@@ -357,7 +355,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	@Override
-	public void onResize(ResizeEvent event) {
+	public void onResize() {
 		headerView.setVisible(frame.hasSmallWindowOrCompactHeader()
 				&& activeMenu.getTitle() != null);
 	}

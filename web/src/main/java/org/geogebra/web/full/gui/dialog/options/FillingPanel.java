@@ -140,7 +140,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillTypePanel.add(lbFillType);
 
 		cbFillInverse = new ComponentCheckbox(app.getLocalization(), false, "InverseFilling",
-				() -> model.applyFillingInverse(cbFillInverse.isSelected()));
+				model::applyFillingInverse);
 		fillTypePanel.add(cbFillInverse);
 		lbFillType.addChangeHandler(event -> model.applyFillType(lbFillType.getSelectedIndex()));
 
@@ -340,7 +340,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
 		btnClearImage = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(),
-				24, null);
+				24);
 		btnClearImage.addFastClickHandler(event -> model.applyImage(""));
 		btnOpenFile = new Button();
 		btnOpenFile.addStyleName("openFileBtn");

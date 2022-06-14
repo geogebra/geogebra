@@ -61,7 +61,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		}
 		long start = System.currentTimeMillis();
 		try {
-
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(input);
 			if (ve != null) {

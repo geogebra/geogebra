@@ -16,4 +16,8 @@ public class TuplesQuery {
 	public Stream<IntervalTuple> emptyTuples() {
 		return tuples.stream().filter(t -> t.y().isUndefined());
 	}
+
+	public boolean noDefinedTuples() {
+		return tuples.count() == emptyTuples().count();
+	}
 }

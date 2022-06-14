@@ -77,6 +77,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1018,13 +1019,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isGeoPoint()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
-		return isEqualPointND((GeoPointND) geo);
-
+		return ExtendedBoolean.newExtendedBoolean(isEqualPointND((GeoPointND) geo));
 	}
 
 	@Override

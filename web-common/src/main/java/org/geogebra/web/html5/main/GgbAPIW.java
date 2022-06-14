@@ -57,7 +57,6 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.html5.util.ViewW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
@@ -247,11 +246,15 @@ public class GgbAPIW extends GgbAPI {
 		String str;
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
+		} else if (geo instanceof  GeoCasCell) {
+			str = ((GeoCasCell) geo).getLaTeXInput(StringTemplate.latexTemplate);
+			if (str == null) {
+				// regexp should be good enough in most cases, avoids dependency on ReTeX
+				str = ((GeoCasCell) geo).getInput(StringTemplate.defaultTemplate)
+						.replaceAll("([{}$])", "\\\\$1");
+			}
 		} else {
-			str = geo instanceof GeoCasCell
-					? ((GeoCasCell) geo)
-							.getLaTeXInput(StringTemplate.latexTemplate)
-					: geo.toString(StringTemplate.latexTemplate);
+			str = geo.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSize());
 		return StringUtil.removePngMarker(c.toDataUrl());
@@ -1045,19 +1048,6 @@ public class GgbAPIW extends GgbAPI {
 	private static AsyncOperation<String> asyncOperation(
 			final StringConsumer callback) {
 		return callback::consume;
-	}
-
-	/**
-	 * @param columnNamesJS
-	 *            JS string array
-	 * @return exported construction
-	 */
-	public String exportConstruction(JsArrayString columnNamesJS) {
-		String[] columnNames = new String[columnNamesJS.length()];
-		for (int i = 0; i < columnNames.length; i++) {
-			columnNames[i] = columnNamesJS.get(i);
-		}
-		return this.exportConstruction(columnNames);
 	}
 
 	/**

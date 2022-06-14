@@ -18,13 +18,13 @@ public final class Cookies {
 	/**
 	 * Cached copy of cookies.
 	 */
-	static HashMap<String, String> cachedCookies = null;
+	private static HashMap<String, String> cachedCookies = null;
 
 	/**
 	 * Raw cookie string stored to allow cached cookies to be invalidated on
 	 * write.
 	 */
-	static String rawCookies;
+	private static String rawCookies;
 
 	private Cookies() {
 		// utility class

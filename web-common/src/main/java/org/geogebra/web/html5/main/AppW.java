@@ -85,6 +85,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.regexp.client.NativeRegExpFactory;
 import org.geogebra.regexp.shared.RegExpFactory;
 import org.geogebra.web.html5.Browser;
@@ -156,8 +157,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -222,6 +221,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private boolean keyboardNeeded;
 	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
+	private int appletWidth = 0;
+	private int appletHeight = 0;
 	private NetworkOperation networkOperation;
 	private PageListControllerInterface pageController;
 
@@ -251,6 +252,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	};
 	private final GlobalHandlerRegistry dropHandlers = new GlobalHandlerRegistry();
+	private Widget lastFocusableWidget;
 
 	/**
 	 * @param geoGebraElement
@@ -278,11 +280,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		getTimerSystem();
 		this.showInputTop = InputPosition.algebraView;
-		dropHandlers.add(Window.addResizeHandler(event -> {
+		dropHandlers.addEventListener(DomGlobal.window, "resize", event -> {
 			fitSizeToScreen();
 			windowResized();
 			closePopupsInRegistry();
-		}));
+		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
 			Browser.addMutationObserver(getParent(
@@ -329,11 +331,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			// only apply right border if left border is nonzero: important for
 			// iframes
 			if (this.getAbsLeft() > 0) {
-				border = Window.getClientWidth() > SCREEN_WIDTH_THRESHOLD
+				border = NavigatorUtil.getWindowWidth() > SCREEN_WIDTH_THRESHOLD
 					? BIG_SCREEN_MARGIN : SMALL_SCREEN_MARGIN;
 			}
-			int width = Window.getClientWidth() - (int) getAbsLeft() - border;
-			scaleTo(width, Window.getClientHeight());
+			int width = NavigatorUtil.getWindowWidth() - (int) getAbsLeft() - border;
+			scaleTo(width, NavigatorUtil.getWindowHeight());
 			resizeContainer();
 		} else {
 			scaleWithRatio(getAppletParameters().getDataParamScale());
@@ -826,8 +828,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Log.debug("images loaded");
 			// Macros (optional)
 			if (def.hasMacros()) {
-				// macros = DataUtil.utf8Decode(macros);
-				// //DataUtil.utf8Decode(macros);
 				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
 			int seed = getAppletParameters().getParamRandomSeed();
@@ -1142,7 +1142,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
 					openMacro(macroName);
-					Window.setTitle(macroName);
+					DomGlobal.document.title = macroName;
 					setToolLoadedFromStorage(true);
 					return true;
 				} catch (Exception e) {
@@ -1627,13 +1627,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 		}
 
-		String disableCAS = Window.Location.getParameter("disableCAS");
+		String disableCAS = NavigatorUtil.getUrlParameter("disableCAS");
 		if ("".equals(disableCAS) || "true".equals(disableCAS)) {
 			kernel.getAlgebraProcessor()
 					.addCommandFilter(CommandFilterFactory.createNoCasCommandFilter());
 			enableCAS(false);
 		}
-		String disable3D = Window.Location.getParameter("disable3D");
+		String disable3D = NavigatorUtil.getUrlParameter("disable3D");
 		if ("".equals(disable3D) || "true".equals(disable3D)) {
 			getSettings().getEuclidian(-1).setEnabled(false);
 		}
@@ -1936,10 +1936,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	protected void translateHeader() {
-		Element header = Dom.querySelector(".GeoGebraHeader");
-		if (header != null) {
-			UserPreferredLanguage.translate(this, header);
-		}
+		UserPreferredLanguage.translate(this, ".GeoGebraHeader");
 	}
 
 	@Override
@@ -2228,13 +2225,41 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				|| this.appletParameters.getDataParamApp();
 	}
 
+	public final int getAppletWidth() {
+		return appletWidth;
+	}
+
+	public void setAppletWidth(int width) {
+		this.appletWidth = width;
+	}
+
+	public int getAppletHeight() {
+		return appletHeight;
+	}
+
+	public void setAppletHeight(int height) {
+		this.appletHeight = height;
+	}
+
+	protected int getInnerAppletWidth() {
+		int border = getAppletParameters().getBorderThickness();
+		return getAppletWidth() - border <= 0 && (getPreferredSize() != null)
+				? getPreferredSize().getWidth() : getAppletWidth() - border;
+	}
+
+	protected int getInnerAppletHeight() {
+		int border = getAppletParameters().getBorderThickness();
+		return getAppletHeight() - border <= 0 && (getPreferredSize() != null)
+				? getPreferredSize().getHeight() : getAppletHeight() - border;
+	}
+
 	/**
 	 * @param fallback
 	 *            fallback when computation gives 0
 	 * @return width of central pane
 	 */
 	public int getWidthForSplitPanel(int fallback) {
-		int ret = getAppletWidth(); // border already excluded
+		int ret = getAppletWidth() - getAppletParameters().getBorderThickness();
 
 		// if it is not 0, there will be some scaling later
 		if (ret <= 0) {
@@ -2256,7 +2281,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public int getHeightForSplitPanel(int fallback) {
 		// border excluded
-		int windowHeight = getAppletHeight();
+		int windowHeight = getAppletHeight() - getAppletParameters().getBorderThickness();
 		// but we want to know the available height for the rootPane
 		// so we either use the above as a heuristic,
 		// or we should substract the height(s) of
@@ -2862,7 +2887,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				|| getAppletParameters().getDataParamTubeID().length() > 0
 				|| this.getAppletParameters().getDataParamJSON().length() > 0
 				|| (getAppletParameters().getDataParamApp()
-						&& Location.getParameter("state") != null);
+						&& NavigatorUtil.getUrlParameter("state") != null);
 	}
 
 	@Override
@@ -2972,26 +2997,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            perspective to be forced after settings
 	 */
 	public void loadPreferences(Perspective p) {
-		// GeoGebraPreferencesW.getPref().loadForApp(app, p);
-	}
-
-	@Override
-	public void ensureEvSizeSet(EuclidianSettings evSet) {
-		GDimension gd = evSet.getPreferredSize();
-		if (gd.getWidth() == 0 || gd.getHeight() == 0) {
-			// border already excluded
-			int width = getAppletWidth();
-			int height = getAppletHeight();
-			if (width == 0 || height == 0) {
-				// setting a standard size, like in
-				// compabilityLayout
-				// fixing a real bug of height 0
-				width = 598; // 2: border
-				height = 438; // 2: border
-			}
-			evSet.setPreferredSize(
-					AwtFactory.getPrototype().newDimension(width, height));
-		}
+		// only in full app
 	}
 
 	/**
@@ -3512,5 +3518,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void switchToSubapp(String appCode) {
 		// only with UI
+	}
+
+	public void setLastFocusableWidget(Widget lastFocusableWidget) {
+		this.lastFocusableWidget = lastFocusableWidget;
+	}
+
+	/**
+	 * Move focus to the last element
+	 */
+	public void moveFocusToLastWidget() {
+		if (lastFocusableWidget != null) {
+			lastFocusableWidget.getElement().setInnerText("");
+			lastFocusableWidget.getElement().focus();
+		}
 	}
 }

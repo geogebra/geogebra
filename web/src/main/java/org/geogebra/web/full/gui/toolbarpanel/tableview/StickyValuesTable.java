@@ -12,11 +12,11 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbarpanel.ContextMenuTV;
 import org.geogebra.web.full.gui.toolbarpanel.TVRowData;
+import org.geogebra.web.full.util.StickyTable;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.StickyTable;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.cell.client.Cell;

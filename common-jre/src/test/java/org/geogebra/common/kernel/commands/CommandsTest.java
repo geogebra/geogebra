@@ -796,6 +796,10 @@ public class CommandsTest {
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
+		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+				+ "Polygon((1,4),(-1,4),(0,0),(2,0),(2,3)))", "true");
+		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+				+ "Polygon((2,3),(2,0),(0,0),(-1,4),(1,4)))", "true");
 	}
 
 	@Test
@@ -2529,6 +2533,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdMod() {
+		t("Mod[ -1, 1/3]", "0");
 		t("Mod[ 4, 4 ]", "0");
 		t("Mod[ x^4+4, x^2 ] ", "4");
 	}
@@ -4088,6 +4093,12 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdType() {
+		t("Type(x^2+y^2+z^2=1)", "4");
+		t("Type(x^2+y^2=1)", "4");
+	}
+
+	@Test
 	public void cmdPieChart() {
 		t("p1=PieChart({1,2,3})", "PieChart[{1, 2, 3}, (0, 0)]");
 		t("p2=PieChart({1,2,3}, (1,1), 2)", "PieChart[{1, 2, 3}, (1, 1), 2]");
@@ -4235,9 +4246,7 @@ public class CommandsTest {
 		t("Vertex[ x^2/9+y^2/4 =1 ]",
 				"(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)");
 		tRound("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
-				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421),"
-						+ " (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189),"
-						+ " (1.30208, 0.55189)}");
+				"{(0, 0), (1, 1), (1.30208, 0.55189)}");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
 				"(0, 0)", "(1, 0)", "(0, 1)");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]", "(1, 0)");

@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.geogebra.common.kernel.CasAlgoChecker;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
@@ -42,8 +43,9 @@ import org.geogebra.common.plugin.Operation;
 public class AlgoDependentBoolean extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
 
-	private GeoBoolean bool; // output
+	private final GeoBoolean bool; // output
 	private DependentBooleanAdapter proverAdapter;
+	private final static CasAlgoChecker casAlgoChecker = new CasAlgoChecker();
 
 	/**
 	 * @param cons
@@ -96,11 +98,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		ExpressionNode root = bool.getDefinition();
 		if (ev instanceof BooleanValue) {
 			bool.setValue(((BooleanValue) ev).getBoolean());
+
+			if (!((BooleanValue) ev).isDefined() && casAlgoChecker.check(root)) {
+				bool.setUndefinedProverOnly();
+			} else {
+				bool.setDefined();
+			}
 		} else {
 			bool.setUndefined();
 		}
 		bool.setDefinition(root);
-
 	}
 
 	@Override

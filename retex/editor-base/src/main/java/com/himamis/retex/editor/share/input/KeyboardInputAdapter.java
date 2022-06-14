@@ -6,14 +6,12 @@ import java.util.List;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.KeyListenerImpl;
+import com.himamis.retex.editor.share.controller.PlaceholderController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathCharacter;
-import com.himamis.retex.editor.share.model.MathPlaceholder;
 import com.himamis.retex.editor.share.util.CommandParser;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -133,22 +131,12 @@ public class KeyboardInputAdapter {
 			public void commit(MathFieldInternal mfi, String commandString) {
 				List<String> splitCommand = CommandParser.parseCommand(commandString);
 
+				EditorState editorState = mfi.getEditorState();
 				type(mfi, splitCommand.get(0));
-				mfi.getInputController().newBraces(mfi.getEditorState(), '(');
+				mfi.getInputController().newBraces(editorState, '(');
 				mfi.notifyAndUpdate("(");
-
-				MetaModel metaModel = mfi.getEditorState().getMetaModel();
-				for (int i = 1; i < splitCommand.size(); i++) {
-					if (i != 1) {
-						MathCharacter comma = new MathCharacter(metaModel.getCharacter(","));
-						mfi.getEditorState().addArgument(comma);
-					}
-					mfi.getEditorState().addArgument(new MathPlaceholder(splitCommand.get(i)));
-				}
-
-				for (int i = 0; i < 2 * splitCommand.size() - 3; i++) {
-					CursorController.prevCharacter(mfi.getEditorState());
-				}
+				PlaceholderController.insertPlaceholders(editorState,
+						splitCommand.subList(1, splitCommand.size()));
 			}
 
 			@Override

@@ -41,7 +41,6 @@ public class AlgebraItem {
 	 * @return whether it's symbolic after toggle
 	 */
 	public static boolean toggleSymbolic(GeoElement geo) {
-
 		if (geo instanceof HasSymbolicMode) {
 			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
 				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();

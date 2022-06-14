@@ -63,8 +63,8 @@ public class EditorTypingTest {
 	@Test
 	public void unicodeShouldMerge() {
 		checker.type("\uD835\uDC65"
-				+ "\uD83D\uDD96\uD83C\uDFFD"
-				+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
+						+ "\uD83D\uDD96\uD83C\uDFFD"
+						+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
 				.checkLength(3);
 	}
 
@@ -645,6 +645,13 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testCommaInMatrixEditor() {
+		checker.insert("{{1,2},{3,4}}").protect().left(42) // go to the left of protected editor
+				.type(",").type(",")
+				.checkAsciiMath("{{1,2},{3,4}}");
+	}
+
+	@Test
 	public void testSqrtInPointEditor() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.setForceBracketsAfterFunction();
@@ -714,5 +721,58 @@ public class EditorTypingTest {
 				.left(5)
 				.type("]")
 				.checkAsciiMath("(2,[3],3+4)");
+	}
+
+	@Test
+	public void testEditorBackspace() {
+		checker.type("ab cd(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("abcd()");
+
+		checker.type("a b(")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("ab()");
+
+		checker.type("1 + N Solve(")
+				.left(6)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("1 + NSolve()");
+	}
+
+	@Test
+	public void testBackspaceLeavesIndexUnchanged() {
+		checker.type("x^3/2")
+				.left(5)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("y")
+				.checkAsciiMath("y^(((3)/(2)))");
+	}
+
+	@Test
+	public void testBackspaceLeavesFraction() {
+		checker.type("1-1/4")
+				.left(4)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("+")
+				.checkAsciiMath("1+((1)/(4))");
+	}
+
+	@Test
+	public void testBackspaceLeavesPower() {
+		checker.type("12^34")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("1^(34)");
+	}
+
+	@Test
+	public void testBackspaceLeavesSqrt() {
+		checker.type("12-sqrt(45")
+				.left(3)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("+")
+				.checkAsciiMath("12+sqrt(45)");
 	}
 }

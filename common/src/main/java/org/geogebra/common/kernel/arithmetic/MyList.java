@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.debug.Log;
 
@@ -963,9 +964,7 @@ public class MyList extends ValidExpression
 	 *            haystack
 	 * @return true iff myList contains a
 	 */
-	public static boolean isElementOf(ExpressionValue a, MyList myList) {
-		// Application.debug(a.getClass()+"");
-
+	public static ExtendedBoolean isElementOf(ExpressionValue a, MyList myList) {
 		for (int i = 0; i < myList.size(); i++) {
 			ExpressionValue ev = myList.getListElement(i)
 					.evaluate(StringTemplate.defaultTemplate);
@@ -976,13 +975,13 @@ public class MyList extends ValidExpression
 				Log.warn(myList.getListElement(i) + " cannot be evaluated");
 				continue;
 			}
-
-			if (ExpressionNode.isEqual(a, ev)) {
-				return true;
+			ExtendedBoolean found = ExpressionNode.isEqual(a, ev);
+			if (found != ExtendedBoolean.FALSE) {
+				return found;
 			}
 		}
 
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**
@@ -1011,7 +1010,7 @@ public class MyList extends ValidExpression
 			for (int j = 0; j < list1.size(); j++) {
 				ExpressionValue ev1 = list1.getListElement(j).evaluate(tpl);
 
-				if (ExpressionNode.isEqual(ev1, ev2)) {
+				if (ExpressionNode.isEqual(ev1, ev2).boolVal()) {
 					hasEqualMember = true;
 					break;
 				}
@@ -1054,7 +1053,7 @@ public class MyList extends ValidExpression
 			for (int j = 0; j < list1.size(); j++) {
 				ExpressionValue ev1 = list1.getListElement(j).evaluate(tpl);
 
-				if (ExpressionNode.isEqual(ev1, ev2)) {
+				if (ExpressionNode.isEqual(ev1, ev2).boolVal()) {
 					hasEqualMember = true;
 					break;
 				}
@@ -1075,7 +1074,7 @@ public class MyList extends ValidExpression
 			for (int j = 0; j < list2.size(); j++) {
 				ExpressionValue ev2 = list2.getListElement(j)
 						.evaluate(StringTemplate.defaultTemplate);
-				if (ExpressionNode.isEqual(ev1, ev2)) {
+				if (ExpressionNode.isEqual(ev1, ev2).boolVal()) {
 					hasEqualMember = true;
 					break;
 				}
@@ -1120,7 +1119,7 @@ public class MyList extends ValidExpression
 			for (int j = 0; j < list2.size(); j++) {
 				ExpressionValue ev2 = list2.getListElement(j)
 						.evaluate(StringTemplate.defaultTemplate);
-				if (ExpressionNode.isEqual(ev1, ev2)) {
+				if (ExpressionNode.isEqual(ev1, ev2).boolVal()) {
 					addToList = false;
 					break;
 				}
@@ -1316,7 +1315,7 @@ public class MyList extends ValidExpression
 		}
 		for (int i = 0; i < size(); i++) {
 			if (!ExpressionNode.isEqual(getListElement(i).evaluate(StringTemplate.maxDecimals),
-					other.getListElement(i).evaluate(StringTemplate.maxDecimals))) {
+					other.getListElement(i).evaluate(StringTemplate.maxDecimals)).boolVal()) {
 				return false;
 			}
 		}

@@ -30,7 +30,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -318,13 +317,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("MB, ");
 		sb.append(App.getCASVersionString());
 
-		String v;
-		SingularWebService singularWS = app.getSingularWS();
-
-		if (singularWS != null
-				&& (v = singularWS.getSingularVersionString()) != null) {
-			sb.append(",<br>" + v);
-		}
 		sb.append(")<br>");
 
 		sb.append(GeoGebraConstants.BUILD_DATE);
@@ -376,7 +368,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		dialog.setVisible(true);
 	}
 
-	public static void appendVersion(StringBuilder sb, App app) {
+	private static void appendVersion(StringBuilder sb, App app) {
 		sb.append(GeoGebraConstants.APPLICATION_NAME);
 		sb.append(" Classic ");
 		sb.append(app.getVersionString());

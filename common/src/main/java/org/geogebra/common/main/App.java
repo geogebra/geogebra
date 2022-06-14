@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -105,7 +104,6 @@ import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
-import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
@@ -239,9 +237,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			"5 decimals", "10 decimals", "13 decimals", "15 decimals", "",
 			"3 figures", "5 figures", "10 figures", "15 figures" };
 
-	/** Singular web service (CAS) */
-	private SingularWebService singularWS;
-
 	private static String CASVersionString = "";
 	private static boolean CASViewEnabled = true;
 	private static boolean _3DViewEnabled = true;
@@ -374,8 +369,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * whether shift, drag and zoom features are enabled
 	 */
 	protected boolean shiftDragZoomEnabled = true;
-	protected int appletWidth = 0;
-	protected int appletHeight = 0;
 	protected boolean useFullGui = false;
 	protected boolean needsSpreadsheetTableModel = false;
 	protected HashMap<Integer, Boolean> showConstProtNavigationNeedsUpdate = null;
@@ -519,28 +512,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public static final void setCASVersionString(String string) {
 		CASVersionString = string;
-
-	}
-
-	/**
-	 * Initializes SingularWS
-	 */
-	public void initializeSingularWS() {
-		singularWS = new SingularWebService();
-		singularWS.enable();
-		if (singularWS.isAvailable()) {
-			Log.info("SingularWS is available at "
-					+ singularWS.getConnectionSite());
-			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal
-			// I=x^2,x;groebner(I);"));
-		} else {
-			Log.info("No SingularWS is available at "
-					+ singularWS.getConnectionSite() + " (yet)");
-		}
-	}
-
-	public SingularWebService getSingularWS() {
-		return singularWS;
 	}
 
 	/* selection handling */
@@ -3152,22 +3123,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return needsSpreadsheetTableModel;
 	}
 
-	public final int getAppletWidth() {
-		return appletWidth;
-	}
-
-	public void setAppletWidth(int width) {
-		this.appletWidth = width;
-	}
-
-	public int getAppletHeight() {
-		return appletHeight;
-	}
-
-	public void setAppletHeight(int height) {
-		this.appletHeight = height;
-	}
-
 	/**
 	 * @return selction manager
 	 */
@@ -4450,16 +4405,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * Update view settings with size from XML
-	 *
-	 * @param evSet
-	 *            view settings
-	 */
-	public void ensureEvSizeSet(EuclidianSettings evSet) {
-		// only for applets
-	}
-
-	/**
 	 *
 	 * @return 9999 (or 200 in web)
 	 */
@@ -4473,39 +4418,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public int getMaxSpreadsheetColumnsVisible() {
 		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
-	}
-
-	/**
-	 * @return whether Singular web service was initialized properly
-	 */
-	public boolean singularWSisAvailable() {
-		return singularWS != null && singularWS.isAvailable();
-	}
-
-	/**
-	 * @param s
-	 *            CAS command
-	 * @return command translated to Singular
-	 */
-	public String singularWSgetTranslatedCASCommand(String s) {
-		if (singularWS == null) {
-			return null;
-		}
-		return singularWS.getTranslatedCASCommand(s);
-	}
-
-	/**
-	 * @param s
-	 *            singular command
-	 * @return singular answer
-	 * @throws Throwable
-	 *             when command invalid or problem with Singular occurs
-	 */
-	public String singularWSdirectCommand(String s) throws Throwable {
-		if (singularWS == null) {
-			return null;
-		}
-		return singularWS.directCommand(s);
 	}
 
 	/**

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.modes.RulerTransformer;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
@@ -262,34 +260,6 @@ public class EuclidianPen implements GTimerListener {
 			view.cacheGraphics();
 			addPointPenMode(e);
 		}
-	}
-
-	/**
-	 * Method to repaint the whole preview line from (x, y) with a given width.
-	 * 
-	 * @param g2D
-	 *            graphics for pen
-	 * @param color
-	 *            of the pen preview
-	 * @param thickness
-	 *            of the pen preview
-	 * @param x
-	 *            Start x coordinate
-	 * @param y
-	 *            Start y coordinate
-	 * @param width
-	 *            of the preview
-	 */
-	public void drawStylePreview(GGraphics2D g2D, GColor color, int thickness,
-			int x, int y, int width) {
-		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
-		g2D.setStroke(EuclidianStatic.getStroke(thickness,
-				EuclidianStyleConstants.LINE_TYPE_FULL));
-		g2D.setColor(color);
-		gp.reset();
-		gp.moveTo(x, y);
-		gp.lineTo(x + width, y);
-		g2D.draw(gp);
 	}
 
 	/**

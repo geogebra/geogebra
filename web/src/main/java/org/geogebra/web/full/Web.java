@@ -2,6 +2,7 @@ package org.geogebra.web.full;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.BundleLookAndFeel;
@@ -17,7 +18,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -87,7 +87,7 @@ public abstract class Web implements EntryPoint {
 	 * @param clb
 	 *            callback
 	 */
-	public void renderArticleElement(Element el, JavaScriptObject clb) {
+	public void renderArticleElement(Element el, JsConsumer<Object> clb) {
 		GeoGebraFrameFull.renderArticleElement(el, getAppletFactory(),
 				getLAF(), clb);
 	}

@@ -61,7 +61,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  */
 public class GeoText extends GeoElement
 		implements Locateable, AbsoluteScreenLocateable, TextValue,
-		TextProperties, SpreadsheetTraceable, HasSymbolicMode {
+		TextProperties, SpreadsheetTraceable, HasSymbolicMode, HasAuralText {
 	public static final String NEW_LINE = "\\\\n";
 	private static Comparator<GeoText> comparator;
 
@@ -1084,15 +1084,15 @@ public class GeoText extends GeoElement
 
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type
 		if (str == null) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		if (geo.isGeoText()) {
-			return str.equals(((GeoText) geo).str);
+			return ExtendedBoolean.newExtendedBoolean(str.equals(((GeoText) geo).str));
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override
@@ -1518,6 +1518,7 @@ public class GeoText extends GeoElement
 	 * 
 	 * @return text to read out (LaTeX is converted to "nice" form)
 	 */
+	@Override
 	public String getAuralText() {
 		String ret;
 		if (isLaTeX()) {

@@ -289,6 +289,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	@Override
 	public void clearView() {
 		model.clearModel();
+		settings.setValueList(null);
 		setSettingsValues(0, 0, 0);
 	}
 

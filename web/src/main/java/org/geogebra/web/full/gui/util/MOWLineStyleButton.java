@@ -34,7 +34,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.clear();
 		panel.add(getMyTable());
 		panel.add(sliderPanel);
-		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
+		preview = new LineStylePreview(CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
 
 		addSliderTitle();

@@ -320,22 +320,15 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	}
 
 	/**
-	 * This method returns a selected item ID.
-	 *
-	 * @return is a selected item ID.
-	 */
-	public String getSelectedId() {
-		return getModel().getSelectedId();
-	}
-
-	/**
-	 * This method sets the selected item ID.
+	 * This method sets the selected item ID and text field content.
+	 * Assumes that IDs and values are the same.
 	 *
 	 * @param id
 	 *            is an item ID to select.
 	 */
-	public void setSelectedId(String id) {
+	public void setSelected(String id) {
 		getModel().setSelectedId(id);
+		setValue(id);
 	}
 
 	/**

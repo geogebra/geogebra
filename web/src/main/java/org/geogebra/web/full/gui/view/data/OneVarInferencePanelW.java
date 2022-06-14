@@ -339,9 +339,9 @@ public class OneVarInferencePanelW extends FlowPanel
 				+ OneVarModel.tail_two + " "
 				+ statDialog.format(model.hypMean));
 
-		if (model.tail == OneVarModel.tail_right) {
+		if (OneVarModel.tail_right.equals(model.tail)) {
 			lbAltHyp.setSelectedIndex(0);
-		} else if (model.tail == OneVarModel.tail_left) {
+		} else if (OneVarModel.tail_left.equals(model.tail)) {
 			lbAltHyp.setSelectedIndex(1);
 		} else {
 			lbAltHyp.setSelectedIndex(2);

@@ -24,6 +24,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -56,7 +57,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -559,8 +559,8 @@ public class RadioTreeItemController implements ClickHandler,
 
 		GeoElement geo = item.geo;
 		SelectionManager selection = app.getSelectionManager();
-		GPoint point = new GPoint(x + Window.getScrollLeft(),
-				y + Window.getScrollTop());
+		GPoint point = new GPoint(x + NavigatorUtil.getWindowScrollLeft(),
+				y + NavigatorUtil.getWindowScrollTop());
 		if (geo != null) {
 			if (selection.containsSelectedGeo(geo)) {
 				// popup menu for current selection

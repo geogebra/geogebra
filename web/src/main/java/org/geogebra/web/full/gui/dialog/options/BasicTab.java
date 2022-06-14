@@ -224,14 +224,14 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				optionsEuclidianW.loc.getMenu("LabelStyle") + ":");
 		// show axis label bold checkbox
 		cbAxisLabelBold = new ComponentCheckbox(optionsEuclidianW.loc, false, "Bold",
-				() -> model.setAxisFontBold(cbAxisLabelBold.isSelected()));
+				model::setAxisFontBold);
 
 		cbAxisLabelSerif = new ComponentCheckbox(optionsEuclidianW.loc, false, "Serif",
-				() -> model.setAxesLabelsSerif(cbAxisLabelSerif.isSelected()));
+				model::setAxesLabelsSerif);
 
 		// show axis label italic checkbox
 		cbAxisLabelItalic = new ComponentCheckbox(optionsEuclidianW.loc, false, "Italic",
-				() -> model.setAxisFontItalic(cbAxisLabelItalic.isSelected()));
+				model::setAxisFontItalic);
 
 		btAxesColor = new StandardButton(24);
 
@@ -313,14 +313,14 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		indent(axesOptionsPanel);
 	}
 
-	private void onShowAxes() {
-		setShowAxes(cbShowAxes.isSelected());
+	private void onShowAxes(boolean selected) {
+		setShowAxes(selected);
 		optionsEuclidianW.updateView();
 		optionsEuclidianW.app.storeUndoInfo();
 	}
 
-	private void onBoldAxes() {
-		model.applyBoldAxes(cbBoldAxes.isSelected(),
+	private void onBoldAxes(boolean selected) {
+		model.applyBoldAxes(selected,
 				cbShowAxes.isSelected());
 		optionsEuclidianW.updateView();
 	}
@@ -370,11 +370,11 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		consProtocolPanel.add(cbShowNavbar);
 
 		cbNavPlay = new ComponentCheckbox(optionsEuclidianW.loc, true, "PlayButton",
-				() -> togglePlayButton());
+				selected -> togglePlayButton());
 
 		cbOpenConsProtocol = new ComponentCheckbox(optionsEuclidianW.loc, true,
 				"ConstructionProtocolButton",
-				() -> toggleConsProtButton());
+				selected -> toggleConsProtButton());
 
 		ConstructionProtocolNavigation cpn = optionsEuclidianW.app
 				.getGuiManager().getCPNavigationIfExists();
@@ -397,13 +397,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		indent(consProtocolPanel);
 	}
 
-	private void onShowNavBar() {
+	private void onShowNavBar(boolean selected) {
 		optionsEuclidianW.app
 				.toggleShowConstructionProtocolNavigation(
 						optionsEuclidianW.view
 								.getViewID());
-		cbNavPlay.setDisabled(!cbShowNavbar.isSelected());
-		cbOpenConsProtocol.setDisabled(!cbShowNavbar.isSelected());
+		cbNavPlay.setDisabled(!selected);
+		cbOpenConsProtocol.setDisabled(!selected);
 	}
 
 	protected void applyBackgroundColor(GColor color) {
@@ -434,8 +434,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		// show mouse coords
 		cbShowMouseCoords = new ComponentCheckbox(optionsEuclidianW.loc, false,
-				"ShowMouseCoordinates",
-				() -> model.applyMouseCoords(cbShowMouseCoords.isSelected()));
+				"ShowMouseCoordinates", model::applyMouseCoords);
 		// show tooltips
 		lbTooltips = new ListBox();
 		fillTooltipCombo();

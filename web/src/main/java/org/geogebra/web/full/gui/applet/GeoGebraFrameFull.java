@@ -11,6 +11,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.gwtutil.SecureBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -60,7 +61,6 @@ import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.timer.client.Timer;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -70,7 +70,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -186,7 +185,7 @@ public class GeoGebraFrameFull
 	 *            call this after rendering
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory,
-			GLookAndFeel laf, JavaScriptObject clb) {
+			GLookAndFeel laf, JsConsumer<Object> clb) {
 		GeoGebraElement element = GeoGebraElement.as(el);
 		AppletParameters parameters = new AppletParameters(element);
 		new GeoGebraFrameFull(factory, laf, null, element, parameters)
@@ -978,7 +977,7 @@ public class GeoGebraFrameFull
 		if (event.getTypeInt() == Event.ONMOUSEDOWN
 				|| event.getTypeInt() == Event.ONTOUCHSTART) {
 
-			JavaScriptObject js = event.getNativeEvent().getEventTarget();
+			Object js = event.getNativeEvent().getEventTarget();
 			JsEval.callNativeGlobalFunction("hideAppPicker", js);
 		}
 	}
@@ -995,7 +994,7 @@ public class GeoGebraFrameFull
 	@Override
 	public void onPanelHidden() {
 		if (app.getAppletParameters().getDataParamFitToScreen()) {
-			setSize(Window.getClientWidth(), computeHeight());
+			setSize(NavigatorUtil.getWindowWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();
 		}

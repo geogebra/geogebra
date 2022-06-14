@@ -16,8 +16,9 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+
+import elemental2.dom.DomGlobal;
 
 public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		SaveController.SaveListener, SaveDialogI {
@@ -93,7 +94,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		});
 		titleField.getTextComponent().addKeyUpHandler(event ->
 				setPosBtnDisabled(titleField.getText().isEmpty()));
-		Window.addCloseHandler(event -> app.getSaveController().cancel());
+		DomGlobal.window.addEventListener("unload", event -> app.getSaveController().cancel());
 	}
 
 	private void onSave() {

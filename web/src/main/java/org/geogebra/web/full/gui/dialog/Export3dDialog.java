@@ -311,15 +311,14 @@ public class Export3dDialog extends ComponentDialog
 		thicknessPanel.setStyleName("panelRow");
 		lineThicknessValue = addTextField("STL.Thickness", "mm",
 				thicknessPanel);
-
 		filledSolid = new ComponentCheckbox(app.getLocalization(), false,
 				"STL.FilledSolid", this::onFilledSolidAction);
 		thicknessPanel.add(filledSolid);
 		root.add(thicknessPanel);
 	}
 
-	private void onFilledSolidAction() {
-		if (filledSolid.isSelected()) {
+	private void onFilledSolidAction(boolean filled) {
+		if (filled) {
 			oldLineThicknessValue = lineThicknessValue.getText();
 			lineThicknessValue.setInputText("");
 		} else {

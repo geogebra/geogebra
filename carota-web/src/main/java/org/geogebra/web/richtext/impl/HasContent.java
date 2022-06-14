@@ -1,7 +1,5 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 import elemental2.dom.CanvasRenderingContext2D;
 import jsinterop.annotations.JsType;
 
@@ -12,7 +10,7 @@ public interface HasContent {
 
 	void contentChanged(EditorCallback editorCallback);
 
-	JavaScriptObject save();
+	Object save();
 
 	void load(Object content);
 

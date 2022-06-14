@@ -119,7 +119,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	}
 
 	@Override
-	public boolean isChangeable(GeoElement out) {
+	public boolean isChangeable(GeoElementND out) {
 		return true;
 	}
 

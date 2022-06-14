@@ -5,7 +5,7 @@ import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 /**
  * Common abstract class for HttpRequest, implemented by different ways in
  * desktop and web
- * 
+ *
  * @author Zoltan Kovacs
  */
 public abstract class HttpRequest {
@@ -31,7 +31,7 @@ public abstract class HttpRequest {
 
 	/**
 	 * Gets a response from a remote HTTP server
-	 * 
+	 *
 	 * @return the full textual content of the result after the request
 	 *         processed (the output page itself)
 	 */
@@ -97,7 +97,7 @@ public abstract class HttpRequest {
 	public void setContentTypeJson() {
 		this.type = "application/json";
 	}
-	
+
 	protected String getType() {
 		return type;
 	}

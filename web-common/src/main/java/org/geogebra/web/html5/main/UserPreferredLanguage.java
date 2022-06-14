@@ -3,15 +3,16 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.gwtutil.Cookies;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window.Location;
-
 import elemental2.dom.DomGlobal;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.Node;
+import elemental2.dom.URLSearchParams;
+import jsinterop.base.Js;
 
 public class UserPreferredLanguage {
 	private static final String DATA_TRANS_KEY = "data-trans-key";
@@ -43,7 +44,7 @@ public class UserPreferredLanguage {
 		}
 
 		String urlLang = app.getAppletParameters().getDataParamApp()
-				? Location.getParameter("lang") : "";
+				? new URLSearchParams(DomGlobal.location.search).get("lang") : "";
 
 		if (!StringUtil.empty(urlLang) && !loggedIn) {
 			return urlLang;
@@ -61,17 +62,26 @@ public class UserPreferredLanguage {
 	 * Translates an element recursively using data-trans-key attribute.
 	 * 
 	 * @param app  {@link AppW}
-	 * @param elem HTML element to translate.
+	 * @param selector HTML element to translate.
 	 */
-	public static void translate(App app, Element elem) {
-		for (int i = 0; i < elem.getChildCount(); i++) {
-			Node child = elem.getChild(i);
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				Element e = (Element) child;
-				if (e.hasAttribute(DATA_TRANS_KEY)) {
-					e.setInnerText(app.getLocalization().getMenu(e.getAttribute(DATA_TRANS_KEY)));
+	public static void translate(App app, String selector) {
+		Element elem = DomGlobal.document.querySelector(selector);
+		// childNodes can be null in GwtMockito ...
+		if (Js.isTruthy(elem) && elem.childNodes != null) {
+			translate(app, elem);
+		}
+	}
+
+	private static void translate(App app, Element elem) {
+		for (int i = 0; i < elem.childNodes.length; i++) {
+			Node child = elem.childNodes.item(i);
+			if (child.nodeType == Node.ELEMENT_NODE) {
+				HTMLElement childEl = Js.uncheckedCast(child);
+				if (childEl.hasAttribute(DATA_TRANS_KEY)) {
+					Js.asPropertyMap(childEl).set("innerText",
+							app.getLocalization().getMenu(childEl.getAttribute(DATA_TRANS_KEY)));
 				} else {
-					translate(app, e);
+					translate(app, childEl);
 				}
 			}
 		}

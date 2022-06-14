@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 import elemental2.dom.EventListener;
@@ -36,7 +35,7 @@ public class GlobalHandlerRegistry {
 	 * @param type event type
 	 * @param listener listener
 	 */
-	public void addEventListener(JavaScriptObject target, String type, EventListener listener) {
+	public void addEventListener(Object target, String type, EventListener listener) {
 		EventTarget el = Js.uncheckedCast(target);
 		addEventListener(el, type, listener);
 	}

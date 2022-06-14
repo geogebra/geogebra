@@ -7,12 +7,10 @@ import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.UserPreferredLanguage;
 import org.geogebra.web.shared.GlobalHeader;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -98,9 +96,6 @@ public class AppSwitcherPopup extends GPopupPanel {
 	}
 
 	private void updateLanguage(App app) {
-		Element suitePopup = Dom.querySelector(".popupPanelForTranslation");
-		if (suitePopup != null) {
-			UserPreferredLanguage.translate(app, suitePopup);
-		}
+		UserPreferredLanguage.translate(app, ".popupPanelForTranslation");
 	}
 }

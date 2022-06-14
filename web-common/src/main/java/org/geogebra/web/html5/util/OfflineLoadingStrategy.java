@@ -6,7 +6,8 @@ import org.geogebra.web.html5.main.FragmentPrefetcher;
 import com.google.gwt.core.client.impl.LoadingStrategyBase;
 import com.google.gwt.core.client.impl.ScriptTagLoadingStrategy.ScriptTagDownloadStrategy;
 import com.google.gwt.core.client.impl.XhrLoadingStrategy.XhrDownloadStrategy;
-import com.google.gwt.user.client.Window.Location;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * Download strategy that works with appcache / service worker over HTTP and
@@ -24,7 +25,7 @@ public class OfflineLoadingStrategy extends LoadingStrategyBase {
 	}
 
 	private static DownloadStrategy makeDownloadStrategy() {
-		return Location.getProtocol().startsWith("http")
+		return DomGlobal.location.protocol.startsWith("http")
 				? new XhrDownloadStrategy() {
 					@Override
 					public void tryDownload(RequestData request) {

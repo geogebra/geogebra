@@ -18,7 +18,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
 
 /**
  * Manager for local file saving
@@ -237,7 +237,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	public void open(String url, String features) {
-		Window.open(url, "_blank", features);
+		DomGlobal.window.open(url, "_blank", features);
 	}
 
 	/**

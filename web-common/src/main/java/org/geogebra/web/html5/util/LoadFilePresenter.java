@@ -8,11 +8,9 @@ import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.Location;
 
 /**
  * File loader for Web
@@ -150,7 +148,7 @@ public class LoadFilePresenter {
 		}
 		if (perspective.length() == 0) {
 			// Location param may be null
-			perspective = Location.getParameter("GeoGebraPerspective");
+			perspective = NavigatorUtil.getUrlParameter("GeoGebraPerspective");
 			if (perspective == null) {
 				perspective = "";
 			}
@@ -220,7 +218,7 @@ public class LoadFilePresenter {
 			if (app.isPortrait()) {
 				int height = app.getAppletParameters().getDataParamHeight();
 				if (app.getAppletParameters().getDataParamFitToScreen()) {
-					height = Window.getClientHeight();
+					height = NavigatorUtil.getWindowHeight();
 				}
 				if (height > 0) {
 					double ratio = PerspectiveDecoder.portraitRatio(height,
@@ -231,7 +229,7 @@ public class LoadFilePresenter {
 			} else {
 				int width = app.getAppletParameters().getDataParamWidth();
 				if (app.getAppletParameters().getDataParamFitToScreen()) {
-					width = Window.getClientWidth();
+					width = NavigatorUtil.getWindowHeight();
 				}
 				if (width > 0) {
 					double ratio = PerspectiveDecoder.landscapeRatio(app,

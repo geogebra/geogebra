@@ -16,6 +16,7 @@
 
 package org.geogebra.web.full.gui.advanced.client.ui.widget;
 
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.advanced.client.datamodel.ListDataModel;
 import org.geogebra.web.full.gui.advanced.client.ui.AdvancedWidget;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent;
@@ -37,11 +38,8 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -88,8 +86,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	/** enables or disables lazy rendering of the items list */
 	private boolean lazyRenderingEnabled;
 	/**
-	 * registration of the
-	 * {@link org.gwt.advanced.client.ui.widget.ListPopupPanel.ClickSpyHandler}
+	 * registration of the click spy handler
 	 */
 	private HandlerRegistration clickSpyRegistration;
 	/** drop down list position */
@@ -112,8 +109,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		setWidget(getScrollPanel());
 
 		getList().setStyleName("list");
-
-		Window.addResizeHandler(new ListWindowResizeHandler());
+		app.addWindowResizeListener(this::onResize);
 	}
 
 	/**
@@ -355,11 +351,11 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		if (rowsVisible <= 0) {
 			table.setHeight("");
 			int spaceAbove = getComboBox().getAbsoluteTop();
-			int spaceUnder = Window.getClientHeight()
+			int spaceUnder = NavigatorUtil.getWindowHeight()
 					- getComboBox().getAbsoluteTop()
 					- getComboBox().getOffsetHeight();
 			setStyleAttribute(table.getElement(), "maxHeight",
-					Math.min(Window.getClientHeight() * 0.3,
+					Math.min(NavigatorUtil.getWindowHeight() * 0.3,
 							Math.max(spaceAbove, spaceUnder)) + "px");
 		} else if (getComboBox().getModel().getCount() > rowsVisible) {
 			int index = getStartItemIndex();
@@ -404,7 +400,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 				/ ((AppW) app).getGeoGebraElement().getScaleX());
 		if (getDropDownPosition() == DropDownPosition.ABOVE
 				|| getDropDownPosition() == DropDownPosition.AUTO
-						&& Window.getClientHeight()
+						&& NavigatorUtil.getWindowHeight()
 								- absTop
 								- getComboBox()
 										.getOffsetHeight() < getComboBox()
@@ -517,8 +513,8 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 								|| isLazyRenderingEnabled()
 										&& getVisibleRows() <= 0
 										&& getList().getOffsetHeight()
-												- previousHeight >= Window
-														.getClientHeight() * 0.6
+												- previousHeight
+										>= NavigatorUtil.getWindowHeight() * 0.6
 								// OR visible rows number is limited and there
 								// was a new page rendered excepting the first
 								// page
@@ -732,20 +728,16 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	 * This handler is invoked on window resize and changes opened list popup
 	 * panel position according to new coordinates of the {@link ComboBox}.
 	 */
-	protected class ListWindowResizeHandler implements ResizeHandler {
-		/** See class docs */
-		@Override
-		public void onResize(ResizeEvent resizeEvent) {
-			if (!isShowing()) {
-				return;
-			}
-
-			int delta = getElement().getOffsetWidth()
-					- getElement().getClientWidth();
-			getScrollPanel()
-					.setWidth((getComboBox().getOffsetWidth() - delta) + "px");
-			adjustSize();
+	protected void onResize() {
+		if (!isShowing()) {
+			return;
 		}
+
+		int delta = getElement().getOffsetWidth()
+				- getElement().getClientWidth();
+		getScrollPanel()
+				.setWidth((getComboBox().getOffsetWidth() - delta) + "px");
+		adjustSize();
 	}
 
 	/**
