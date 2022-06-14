@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import org.geogebra.common.gui.view.probcalculator.ResultPanel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.AbstractResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractProperty;
 
@@ -48,7 +49,8 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void showTwoTailed() {
-
+		model = getOrCreateModel(
+				TwoTailedResultModel.class, () -> new TwoTailedResultModel(getLocalization()));
 	}
 
 	@Override
@@ -83,9 +85,9 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void updateLowHigh(String low, String high) {
-		IntervalResultModel model = (IntervalResultModel) getModel();
-		model.setLow(low);
-		model.setHigh(high);
+		AbstractResultModel model = getModel();
+		model.updateLow(low);
+		model.updateHigh(high);
 	}
 
 	@Override
@@ -110,11 +112,13 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void setGreaterThan() {
-
+		TwoTailedResultModel model = (TwoTailedResultModel) getModel();
+		model.setGreaterThan();
 	}
 
 	@Override
 	public void setGreaterOrEqualThan() {
-
+		TwoTailedResultModel model = (TwoTailedResultModel) getModel();
+		model.setGreaterThanOrEqualTo();
 	}
 }

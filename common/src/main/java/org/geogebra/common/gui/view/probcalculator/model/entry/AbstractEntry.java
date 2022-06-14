@@ -20,4 +20,9 @@ public abstract class AbstractEntry {
 	public @Nonnull String getText() {
 		return text;
 	}
+
+	@Override
+	public String toString() {
+		return text;
+	}
 }

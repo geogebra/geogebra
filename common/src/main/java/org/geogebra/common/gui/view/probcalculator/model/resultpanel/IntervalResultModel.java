@@ -23,6 +23,16 @@ public class IntervalResultModel extends AbstractResultModel {
 	}
 
 	@Override
+	public void updateLow(String low) {
+		this.low.setText(low);
+	}
+
+	@Override
+	public void updateHigh(String high) {
+		this.high.setText(high);
+	}
+
+	@Override
 	public void updateResult(String result) {
 		this.result.setText(result);
 	}
@@ -37,13 +47,5 @@ public class IntervalResultModel extends AbstractResultModel {
 				new StaticTextEntry(getLocalization().getMenu("EndProbabilityOf") + " = "),
 				result
 		);
-	}
-
-	public void setLow(String low) {
-		this.low.setText(low);
-	}
-
-	public void setHigh(String high) {
-		this.high.setText(high);
 	}
 }

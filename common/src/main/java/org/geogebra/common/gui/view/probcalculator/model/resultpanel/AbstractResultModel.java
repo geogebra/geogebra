@@ -18,6 +18,10 @@ public abstract class AbstractResultModel {
 		this.localization = localization;
 	}
 
+	public abstract void updateLow(String low);
+
+	public abstract void updateHigh(String high);
+
 	public abstract void updateResult(String result);
 
 	abstract List<AbstractEntry> createEntries();

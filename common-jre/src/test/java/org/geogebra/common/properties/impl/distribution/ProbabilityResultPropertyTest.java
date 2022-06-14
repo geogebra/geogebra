@@ -6,6 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,5 +36,25 @@ public class ProbabilityResultPropertyTest {
 		probabilityResultProperty.updateResult("1");
 		AbstractEntry result = probabilityResultProperty.getModel().getEntries().get(5);
 		assertThat(result.getText(), equalTo("1"));
+	}
+
+	@Test
+	public void testShowTwoTailed() {
+		probabilityResultProperty.showTwoTailed();
+		assertThat(probabilityResultProperty.getModel(), instanceOf(TwoTailedResultModel.class));
+
+		final String greaterThanOrEqualTo = SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
+		final String greaterThan = "X > ";
+		AbstractEntry greaterSign = probabilityResultProperty.getModel().getEntries().get(5);
+
+		assertThat(greaterSign.getText(), equalTo(greaterThanOrEqualTo));
+		probabilityResultProperty.setGreaterThan();
+		assertThat(greaterSign.getText(), equalTo(greaterThan));
+		probabilityResultProperty.setGreaterOrEqualThan();
+		assertThat(greaterSign.getText(), equalTo(greaterThanOrEqualTo));
+
+		probabilityResultProperty.updateLowHigh("-2", "2");
+		AbstractEntry twoTailedResult = probabilityResultProperty.getModel().getEntries().get(8);
+		assertThat(twoTailedResult.getText(), equalTo("-2 + 2 = "));
 	}
 }
