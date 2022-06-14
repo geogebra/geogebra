@@ -83,6 +83,21 @@ $button_hover_transition: background-color 0.15s;
 			margin: 0 12px 0 32px;
 			width: 64px;
 		}
+
+		.examInfoBtn {
+			right: 0;
+			position: absolute;
+			margin: 14px 18px;
+		}
+
+		.examTimer {
+			right: 72px;
+			position: absolute;
+			font-size: 24px;
+			font-weight: normal;
+			margin: 20px 0px;
+			line-height: 1;
+		}
 	}
 
 	%compactHeaderViewShared {
