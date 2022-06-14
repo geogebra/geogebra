@@ -203,7 +203,8 @@ import org.geogebra.common.util.debug.Log;
 
 	private static boolean isSupportedIf(ExpressionNode node) {
 		if (node.getOperation() == Operation.IF) {
-			return isOperationSupported(node.getRightTree());
+			return hasLogicalOnly(node.getLeftTree().getLeftTree())
+					&& isOperationSupported(node.getRightTree());
 		} else if (node.getOperation() == Operation.IF_ELSE) {
 			boolean rightSupported = isOperationSupported(node.getRightTree());
 			boolean rightOneValiable = !hasMoreVariables(node.getRightTree());
@@ -211,8 +212,10 @@ import org.geogebra.common.util.debug.Log;
 			ExpressionValue left = leftTree.unwrap();
 			if (left instanceof MyNumberPair) {
 				MyNumberPair pair = (MyNumberPair) left;
+				ExpressionNode ifCondition = pair.getX().wrap();
 				ExpressionNode ifExpr = pair.getY().wrap();
-				return isOperationSupported(ifExpr) && rightSupported
+				return hasLogicalOnly(ifCondition.getLeftTree())
+						&& isOperationSupported(ifExpr) && rightSupported
 						&& !hasMoreVariables(ifExpr)
 						&& rightOneValiable;
 			}
@@ -224,14 +227,22 @@ import org.geogebra.common.util.debug.Log;
 	}
 
 	private static boolean isIfListSupported(ExpressionNode node) {
+		MyList conditions = (MyList) node.getLeft();
 		MyList conditionBodies = (MyList) node.getRight();
 		for (int i = 0; i < conditionBodies.size(); i++) {
+			ExpressionValue condition = conditions.getItem(i);
 			ExpressionValue body = conditionBodies.getItem(i);
-			if (!isOperationSupported(body.wrap())) {
+			if (!(hasLogicalOnly(condition.wrap().getLeftTree())
+					&& isOperationSupported(body.wrap()))) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	private static boolean hasLogicalOnly(ExpressionNode node) {
+		Operation operation = node.getOperation();
+		return Operation.NO_OPERATION.equals(operation) || operation.isInequality();
 	}
 
 	private static boolean hasMoreVariables(ExpressionNode node) {

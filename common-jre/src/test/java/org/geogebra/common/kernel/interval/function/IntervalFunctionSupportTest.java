@@ -78,14 +78,16 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		assertTrue(isSupported(add("If[x < 1, 0]")));
 		assertTrue(isSupported(add("If[x < 1, 2x]")));
 		assertTrue(isSupported(add("If[x < 1, x + 1]")));
-		assertTrue(isSupported(add("If[sin(x) < 0, x + 1]")));
+		assertTrue(isSupported(add("If[0 < x < 1, x + 1]")));
+		assertFalse(isSupported(add("If[sin(x) < 0, x + 1]")));
 		assertFalse(isSupported(add("If[x < 1, 2x + x^3")));
 	}
 
 	@Test
 	public void supportIfElse() {
 		assertTrue(isSupported(add("If[x < 1, x, x + 1]")));
-		assertTrue(isSupported(add("If[sin(x) < 0, x, x^2 + 1]")));
+		assertTrue(isSupported(add("If[-1 < x < 1, x, x + 1]")));
+		assertFalse(isSupported(add("If[sin(x) < 0, 0, 1]")));
 		assertFalse(isSupported(add("If[x < 1, x * sin(x), x + 1]")));
 		assertFalse(isSupported(add("If[x < 1, x, x * sin(x)]")));
 		assertFalse(isSupported(add("If[x < 1, x/tan(x), x * sin(x)]")));
@@ -98,5 +100,6 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		assertTrue(isSupported(add("if(x < -2, x + 1, x > 0, x^4)")));
 		assertTrue(isSupported(add("if(-4 < x < -2, 3x, 2 < x < 4, 4x)")));
 		assertFalse(isSupported(add("if(x < -2, x * (ln(x)), x > 0, x^4)")));
+		assertFalse(isSupported(add("if(sin(x) < 0, 1, cos(x) > 0, x^4)")));
 	}
 }
