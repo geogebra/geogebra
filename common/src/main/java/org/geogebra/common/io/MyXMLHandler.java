@@ -3384,11 +3384,13 @@ public class MyXMLHandler implements DocHandler {
 					&& cmdOutput[0].getParentAlgorithm() instanceof SetRandomValue) {
 				SetRandomValue randomizableAlgo =
 						(SetRandomValue) cmdOutput[0].getParentAlgorithm();
-
-				GeoElementND randomResult = getAlgProcessor()
-						.evaluateToGeoElement(randomVal, false);
-				if (randomResult != null) {
-					randomizableAlgo.setRandomValue(randomResult);
+				// canSetRandomValue should be checked on saving, but for old files it wasn't
+				if (randomizableAlgo.canSetRandomValue()) {
+					GeoElementND randomResult = getAlgProcessor()
+							.evaluateToGeoElement(randomVal, false);
+					if (randomResult != null) {
+						randomizableAlgo.setRandomValue(randomResult);
+					}
 				}
 			}
 
