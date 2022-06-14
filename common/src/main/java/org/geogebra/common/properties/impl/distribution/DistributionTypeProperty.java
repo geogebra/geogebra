@@ -83,6 +83,8 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 		} else {
 			selectedDist = DISCRETE_DISTRIBUTIONS.get(index - CONTINUOUS_DISTRIBUTIONS.size() - 1);
 		}
-		view.setProbabilityCalculator(selectedDist, view.getParameters(), view.isCumulative());
+		if (selectedDist != view.getSelectedDist()) {
+			view.setProbabilityCalculator(selectedDist, null, view.isCumulative());
+		}
 	}
 }
