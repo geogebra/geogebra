@@ -903,18 +903,9 @@ public class Function extends FunctionNVar
 
 			// NB keepFractions ignored, so different answer given for f(x) =
 			// 3x^2 / 5, f'(x)
-			boolean factor = getExpression().inspect(v -> {
-				if (v instanceof ExpressionNode && ((ExpressionNode) v)
-						.getOperation() == Operation.POWER) {
-					if (((ExpressionNode) v).getLeft().unwrap()
-							.isExpressionNode()
-							&& ((ExpressionNode) v).getRight()
-									.evaluateDouble() > Function.MAX_EXPAND_DEGREE) {
-						return true;
-					}
-				}
-				return false;
-			});
+			boolean factor = getExpression().inspect(v ->
+				v.isOperation(Operation.POWER) && isMaxExpandDegreeReached(v.wrap())
+			);
 			if (factor) {
 				return getDerivativeNoCAS(n);
 			}
@@ -949,6 +940,11 @@ public class Function extends FunctionNVar
 		sb.append("]");
 		// we don't need arbconst for derivative
 		return (Function) evalCasCommand(sb.toString(), true, null);
+	}
+
+	private boolean isMaxExpandDegreeReached(ExpressionNode exp) {
+		return exp.getLeft().unwrap().isExpressionNode()
+				&& exp.getRight().evaluateDouble() > Function.MAX_EXPAND_DEGREE;
 	}
 
 	/**

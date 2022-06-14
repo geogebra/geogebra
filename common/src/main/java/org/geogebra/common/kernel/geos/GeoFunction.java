@@ -2609,7 +2609,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				ret = toValueString(tpl);
 			} else {
 
-				if (getFunction() == null) {
+				if (!isDefined()) {
 					ret = "?";
 				} else {
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
