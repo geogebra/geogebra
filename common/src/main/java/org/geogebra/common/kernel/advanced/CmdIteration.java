@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIteration;
@@ -69,6 +70,10 @@ public class CmdIteration extends CommandProcessor {
 
 			throw argErr(c, getBadArg(ok, arg));
 		default:
+			if (GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getAppCode())
+					|| GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getSubAppCode())) {
+				throw argNumErr(c);
+			}
 			GeoElement arg1 = null;
 			GeoElement[] vars = new GeoElement[n - 3]; // exp, list and limit
 														// not included
