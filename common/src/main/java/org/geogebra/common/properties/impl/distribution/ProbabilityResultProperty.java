@@ -1,0 +1,120 @@
+package org.geogebra.common.properties.impl.distribution;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import org.geogebra.common.gui.view.probcalculator.ResultPanel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.AbstractResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.AbstractProperty;
+
+public class ProbabilityResultProperty extends AbstractProperty implements ResultPanel {
+
+	private AbstractResultModel model;
+
+	private Map<Class, AbstractResultModel> modelMap;
+
+	/**
+	 * Constructs an abstract property.
+	 * @param localization this is used to localize the name
+	 * @param name the name to be localized
+	 */
+	public ProbabilityResultProperty(Localization localization, String name) {
+		super(localization, name);
+		modelMap = new HashMap<>();
+	}
+
+	public AbstractResultModel getModel() {
+		return model;
+	}
+
+	@Override
+	public void showInterval() {
+		model = getOrCreateModel(
+				IntervalResultModel.class, () -> new IntervalResultModel(getLocalization()));
+	}
+
+	private <T extends AbstractResultModel> T getOrCreateModel(
+			Class<T> modelClass, Supplier<T> modelSupplier) {
+
+		T model = (T) modelMap.get(modelClass);
+		if (model == null) {
+			model = modelSupplier.get();
+		}
+		return model;
+	}
+
+	@Override
+	public void showTwoTailed() {
+
+	}
+
+	@Override
+	public void showTwoTailedOnePoint() {
+
+	}
+
+	@Override
+	public void showLeft() {
+
+	}
+
+	@Override
+	public void showRight() {
+
+	}
+
+	@Override
+	public void setResultEditable(boolean value) {
+
+	}
+
+	@Override
+	public void updateResult(String text) {
+		getModel().updateResult(text);
+	}
+
+	@Override
+	public void updateResultSum(String text) {
+
+	}
+
+	@Override
+	public void updateLowHigh(String low, String high) {
+		IntervalResultModel model = (IntervalResultModel) getModel();
+		model.setLow(low);
+		model.setHigh(high);
+	}
+
+	@Override
+	public void updateTwoTailedResult(String low, String high) {
+
+	}
+
+	@Override
+	public boolean isFieldLow(Object source) {
+		return false;
+	}
+
+	@Override
+	public boolean isFieldHigh(Object source) {
+		return false;
+	}
+
+	@Override
+	public boolean isFieldResult(Object source) {
+		return false;
+	}
+
+	@Override
+	public void setGreaterThan() {
+
+	}
+
+	@Override
+	public void setGreaterOrEqualThan() {
+
+	}
+}
