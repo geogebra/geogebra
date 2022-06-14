@@ -119,6 +119,10 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 		compute();
 	}
 
+	public AlgoElement getExpressionParentAlgo() {
+		return expressionParentAlgo;
+	}
+
 	@Override
 	public Commands getClassName() {
 		return Commands.Sequence;
