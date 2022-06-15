@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * @author ggb3D
@@ -318,9 +319,9 @@ public class GeoConic3D extends GeoConicND
 	 */
 
 	@Override
-	public boolean isEqual(GeoElementND Geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND Geo) {
 		// TODO Auto-generated method stub
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override

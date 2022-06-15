@@ -18,7 +18,7 @@ public class PointStylePopup extends PopupMenuButtonW
 		implements IComboListener, SetLabels {
 
 	private static final int DEFAULT_SIZE = 4;
-	static HashMap<Integer, Integer> pointStyleMap;
+	static final HashMap<Integer, Integer> pointStyleMap = new HashMap<>();
 	int mode;
 	private PointStyleModel model;
 	private boolean euclidian3D;
@@ -37,7 +37,7 @@ public class PointStylePopup extends PopupMenuButtonW
 	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
 			PointStyleModel model) {
 		
-		pointStyleMap = new HashMap<>();
+		pointStyleMap.clear();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 		}

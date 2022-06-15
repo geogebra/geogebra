@@ -135,7 +135,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
-				initText);
+				initText, false);
 		inputDialog.show();
 	}
 
@@ -168,8 +168,8 @@ public class DialogManagerW extends DialogManager
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		DialogData data = new DialogData("Redefine");
 		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
-				false, false, handler, geo.getNameDescription(), str
-		);
+				false, false, handler, geo.getNameDescription(), str,
+				true);
 		redefineInputDialog.show();
 	}
 

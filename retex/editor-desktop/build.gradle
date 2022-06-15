@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+	id 'java-library'
 	id 'application'
 }
 
@@ -7,8 +7,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile project(':renderer-desktop')
-	compile project(':editor-base')
+	api project(':renderer-desktop')
+	api project(':editor-base')
 }
 
 mainClassName = 'com.himamis.retex.editor.desktop.Test'

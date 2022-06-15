@@ -92,11 +92,6 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return geo == this;
-	}
-
-	@Override
 	public int getFontStyle() {
 		return GeoInlineText.getFontStyle(getFormatter());
 	}

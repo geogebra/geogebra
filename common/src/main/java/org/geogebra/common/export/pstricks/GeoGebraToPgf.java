@@ -138,7 +138,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeBeginDoc.append("cm]\n");
 		} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 			codePreamble
-					.append("\\setupbodyfont[" + frame.getFontSize() + "pt]\n");
+					.append("\\setupbodyfont[").append(frame.getFontSize()).append("pt]\n");
 			codePreamble.append("\\usemodule[tikz]\n");
 			codePreamble.append(
 					"\\usetikzlibrary[arrows]\n\\setuppagenumbering[location=]\n");
@@ -150,9 +150,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeBeginDoc.append(yunit);
 			codeBeginDoc.append("cm]\n");
 		} else if (format == GeoGebraToPgf.FORMAT_BEAMER) {
-			codePreamble.append("\\documentclass[" + frame.getFontSize()
-					+ "pt]{beamer}\n"
-					+ "\\usepackage{tikz}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
+			codePreamble.append("\\documentclass[").append(frame.getFontSize())
+					.append("pt]{beamer}\n")
+					.append("\\usepackage{tikz}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append("\\begin{frame}\n");
 			codeBeginDoc.append(
 					"\\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=");
@@ -344,7 +344,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append("\\draw");
 			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
-				codeFilledObject.append("[" + s + "] ");
+				codeFilledObject.append("[").append(s).append("] ");
 			}
 			writePoint(x[i], 0, codeFilledObject);
 			codeFilledObject.append(" -- ");
@@ -374,7 +374,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append("\\draw");
 			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
-				codeFilledObject.append("[" + s + "] ");
+				codeFilledObject.append("[").append(s).append("] ");
 			}
 			writePoint(x[i], 0, codeFilledObject);
 			codeFilledObject.append(" rectangle ");
@@ -408,7 +408,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		codeFilledObject.append("\\draw");
 		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
-			codeFilledObject.append("[" + s + "] ");
+			codeFilledObject.append("[").append(s).append("] ");
 		}
 		codeFilledObject.append("{");
 		// between a and b
@@ -592,7 +592,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		codeFilledObject.append("\\draw");
 		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
-			codeFilledObject.append("[" + s + "] ");
+			codeFilledObject.append("[").append(s).append("] ");
 		}
 		writePoint(x, y, codeFilledObject);
 		codeFilledObject.append(" -- ");
@@ -726,7 +726,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append("\\draw");
 			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
-				codeFilledObject.append("[" + s + "] ");
+				codeFilledObject.append("[").append(s).append("] ");
 			}
 			for (int i = 0; i < 4; i++) {
 				writePoint(x[2 * i], x[2 * i + 1], codeFilledObject);
@@ -749,7 +749,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append("}");
 			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
-				codeFilledObject.append("," + s + "] ");
+				codeFilledObject.append(",").append(s).append("] ");
 			} else {
 				codeFilledObject.append("] ");
 			}
@@ -780,7 +780,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				code.append("\\fill");
 				s = lineOptionCode(geo, true);
 				if (s.length() != 0) {
-					code.append("[" + s + "] ");
+					code.append("[").append(s).append("] ");
 				}
 				writePoint(x1, x2, code);
 				code.append(" circle (");
@@ -815,7 +815,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 		String s = lineOptionCode(geo, false);
 		if (s.length() != 0) {
-			code.append("," + s + "] ");
+			code.append(",").append(s).append("] ");
 		} else {
 			code.append("] ");
 		}
@@ -848,7 +848,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append("}");
 		String s = lineOptionCode(geo, false);
 		if (s.length() != 0) {
-			code.append("," + s + "] ");
+			code.append(",").append(s).append("] ");
 		} else {
 			code.append("] ");
 		}
@@ -885,7 +885,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append("\\draw");
 		String s = lineOptionCode(geo, false);
 		if (s.length() != 0) {
-			code.append("[" + s + "] ");
+			code.append("[").append(s).append("] ");
 		}
 		writePoint(x1, y1, code);
 		code.append(" -- ");
@@ -1474,7 +1474,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (integral) {
 			close = "(" + format(geo.getIntervalMax()) + ",0) -- ("
 					+ format(geo.getIntervalMin()) + ",0) -- ";
-			sb.append("\\draw[" + lineOptionCode(geo1, true) + "]");
+			sb.append("\\draw[").append(lineOptionCode(geo1, true)).append("]");
 			template = " (%0,%1) -- (%2,%3) --";
 			cycle = "cycle;\n";
 		}
@@ -2559,7 +2559,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// ignore y-axis setting (assume same as x)
 		String position = euclidianView.getDrawBorderAxes()[0] ? "edge"
 				: "middle";
-		codeBeginDoc.append(",\naxis lines=" + position + ",\n");
+		codeBeginDoc.append(",\naxis lines=").append(position).append(",\n");
 
 		// codeBeginDoc.append(",\ngrid=both,\n");
 
@@ -2952,7 +2952,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append("\\draw");
 			String s = lineOptionCode(g, true);
 			if (s.length() != 0) {
-				codeFilledObject.append("[" + s + "] ");
+				codeFilledObject.append("[").append(s).append("] ");
 			}
 			writePoint(x[0] + width / 2, 0, codeFilledObject);
 			codeFilledObject.append(" -- ");
@@ -2962,7 +2962,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codeFilledObject.append("\\draw");
 				s = lineOptionCode(g, true);
 				if (s.length() != 0) {
-					codeFilledObject.append("[" + s + "] ");
+					codeFilledObject.append("[").append(s).append("] ");
 				}
 				writePoint(x[i] + width / 2, y[i], codeFilledObject);
 				codeFilledObject.append(" -- ");
@@ -2971,7 +2971,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codeFilledObject.append("\\draw");
 				s = lineOptionCode(g, true);
 				if (s.length() != 0) {
-					codeFilledObject.append("[" + s + "] ");
+					codeFilledObject.append("[").append(s).append("] ");
 				}
 				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
 				codeFilledObject.append(" -- ");
@@ -2984,7 +2984,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codeFilledObject.append("\\draw");
 				String s = lineOptionCode(g, true);
 				if (s.length() != 0) {
-					codeFilledObject.append("[" + s + "] ");
+					codeFilledObject.append("[").append(s).append("] ");
 				}
 				writePoint(x[i], 0, codeFilledObject);
 				codeFilledObject.append(" rectangle ");
@@ -3018,7 +3018,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 		double xprec = curves[0].getFunX().value(curves[0].getMinParameter());
 		double x = xprec;
-		fill.append("\\pgfmoveto{\\pgfxy(" + x + "," + y + ")}");
+		fill.append("\\pgfmoveto{\\pgfxy(").append(x).append(",").append(y).append(")}");
 		for (int i = 0; i < curves.length; i++) {
 			p = curves[i].getMinParameter();
 			y = curves[i].getFunY().value(curves[i].getMinParameter());
@@ -3044,7 +3044,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				xprec = x;
 			}
 		}
-		fill.append("\\draw" + liopco + "(" + x + "," + y + ") circle(0pt);\n");
+		fill.append("\\draw").append(liopco).append("(").append(x).append(",")
+				.append(y).append(") circle(0pt);\n");
 		code.append(fill);
 		return true;
 	}

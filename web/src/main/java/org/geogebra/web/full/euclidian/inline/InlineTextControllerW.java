@@ -21,6 +21,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.richtext.Editor;
@@ -45,6 +46,7 @@ public class InlineTextControllerW implements InlineTextController {
 	private Style style;
 
 	private int contentDefaultSize;
+	private Element textareaWrapper;
 
 	/**
 	 * @param geo
@@ -140,7 +142,11 @@ public class InlineTextControllerW implements InlineTextController {
 		EventUtil.stopPointerEvents(widget.getElement(), btn -> btn <= 0);
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
-		parent.appendChild(editor.getWidget().getElement());
+		Element editorElement = editor.getWidget().getElement();
+		parent.appendChild(editorElement);
+		// re-parent the textarea to make sure focus stays in view (MOW-1330)
+		textareaWrapper = Dom.querySelectorForElement(editorElement, ".murokTextArea");
+		parent.appendChild(textareaWrapper);
 
 		updateContent();
 		editor.setListener(new EditorChangeListener() {
@@ -172,6 +178,7 @@ public class InlineTextControllerW implements InlineTextController {
 			@Override
 			public void onSelectionChanged() {
 				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.TEXT_SELECTION);
+				geo.getKernel().notifyRepaint();
 			}
 		});
 	}
@@ -183,6 +190,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void discard() {
 		editor.getWidget().getElement().removeFromParent();
+		textareaWrapper.removeFromParent();
 	}
 
 	@Override

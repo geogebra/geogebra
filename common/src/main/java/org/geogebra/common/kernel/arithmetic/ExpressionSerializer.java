@@ -112,7 +112,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<eq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.OGP)) {
-				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
+				sb.append("AreEqual[").append(leftStr).append(",").append(rightStr).append("]");
 			} else {
 
 				if (tpl.getStringType().isGiac()) {
@@ -283,7 +283,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case PARALLEL:
 			if (stringType.equals(StringType.OGP)) {
-				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
+				sb.append("AreParallel[").append(leftStr).append(",").append(rightStr).append("]");
 				break;
 			}
 			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl.parallelSign());
@@ -291,7 +291,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case PERPENDICULAR:
 			if (stringType.equals(StringType.OGP)) {
-				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
+				sb.append("ArePerpendicular[").append(leftStr).append(",")
+						.append(rightStr).append("]");
 				break;
 			}
 			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl.perpSign());
@@ -2103,7 +2104,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append("(");
 			}
 			if (needDegrees && tpl.hasType(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
+				sb.append("(").append(leftStr).append(") 180/pi");
 			} else {
 				sb.append(leftStr);
 			}

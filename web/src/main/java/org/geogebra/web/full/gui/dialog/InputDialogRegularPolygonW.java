@@ -38,8 +38,8 @@ public class InputDialogRegularPolygonW extends ComponentInputDialog {
 			InputHandler handler, GeoPointND point1, GeoPointND point2,
 			GeoCoordSys2D direction) {
 		super(app, data, false, false, handler,
-				app.getLocalization().getMenu("Points"), "4"
-		);
+				app.getLocalization().getMenu("Points"), "4",
+				false);
 		geoPoint1 = point1;
 		geoPoint2 = point2;
 		this.direction = direction;

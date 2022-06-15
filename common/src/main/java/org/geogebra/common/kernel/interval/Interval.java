@@ -734,4 +734,7 @@ public class Interval {
 		return isInverted() ? new Interval(high, Double.POSITIVE_INFINITY) : undefined();
 	}
 
+	public double middle() {
+		return low + getLength() / 2;
+	}
 }

@@ -162,4 +162,12 @@ public interface GeoImplicit extends Path, EquationValue {
 	 */
 	public double getTranslateZ();
 
+	/**
+	 * copy derivatives
+	 * @param x - x derivative
+	 * @param y - y derivative
+	 * @param xy - xy derivative
+	 */
+	void setDerivatives(FunctionNVar x, FunctionNVar y, FunctionNVar xy);
+
 }

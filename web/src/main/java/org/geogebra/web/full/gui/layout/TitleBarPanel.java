@@ -44,7 +44,7 @@ public class TitleBarPanel extends FlowPanel implements DockControlPanel {
 		updateStyles();
 		add(titleBarPanelContent);
 		StandardButton closeButton = new StandardButton(MaterialDesignResources.INSTANCE.clear(),
-				24, null);
+				24);
 		closeButton.addFastClickHandler(event ->
 				app.getGuiManager().setShowView(false, dockPanel.id));
 		closeButtonPanel = new FlowPanel();

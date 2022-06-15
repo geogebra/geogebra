@@ -221,8 +221,7 @@ public class AlgoSolveODE extends AlgoElement {
 
 		@Override
 		public void init(double t0, double[] y0, double t) {
-			Log.error("unimplemented");
-
+			//Log.error("unimplemented");
 		}
 	};
 

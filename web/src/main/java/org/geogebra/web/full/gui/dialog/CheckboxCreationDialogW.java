@@ -203,7 +203,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		}
 		String initString = geoBoolean == null ? ""
 				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
-		InputPanelW ip = new InputPanelW(initString, app, 1, 15, false);
+		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		FlowPanel captionPanel = new FlowPanel();
@@ -218,7 +218,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
 		StandardButton btnRemove = new StandardButton(MaterialDesignResources
-				.INSTANCE.delete_black(), 20, null);
+				.INSTANCE.delete_black(), 20);
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		

@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Iteration[ f(x), x0, n ]
@@ -235,7 +234,6 @@ public class AlgoIteration extends AlgoElement {
 			computeDouble();
 			return;
 		}
-		Log.debug(nGeo.isLabelSet() + "label");
 		if (updateRunning) {
 			return;
 		}

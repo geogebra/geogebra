@@ -112,11 +112,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic = new StringBuilder();
 		customColor = new HashMap<>();
 		if (format == GeoGebraToPstricks.FORMAT_BEAMER) {
-			codePreamble.append(
-					"\\documentclass[" + frame.getFontSize() + "pt]{beamer}\n");
+			codePreamble.append("\\documentclass[")
+					.append(frame.getFontSize()).append("pt]{beamer}\n");
 		} else {
-			codePreamble.append("\\documentclass[" + frame.getFontSize()
-					+ "pt]{article}\n");
+			codePreamble.append("\\documentclass[").append(frame.getFontSize())
+					.append("pt]{article}\n");
 		}
 		codePreamble.append("\\usepackage{pstricks-add}\n\\pagestyle{empty}\n");
 		codeBeginDoc.append("\\begin{document}\n");
@@ -1864,7 +1864,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			styleAx = "linewidth=1.4pt,";
 		}
 		codeBeginPic.append(
-				"\\psaxes[" + styleAx + "labelFontSize=\\scriptstyle,xAxis=");
+				"\\psaxes[").append(styleAx).append("labelFontSize=\\scriptstyle,xAxis=");
 		codeBeginPic.append(xAxis);
 		codeBeginPic.append(",yAxis=");
 		codeBeginPic.append(yAxis);
@@ -2461,7 +2461,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				codeFilledObject.append(lineOptionCode(g, true));
 				codeFilledObject.append("(");
 				codeFilledObject.append(format(x[i] + width / 2));
-				codeFilledObject.append("," + format(y[i]) + ")(");
+				codeFilledObject.append(",").append(format(y[i])).append(")(");
 				codeFilledObject.append(format(x[i + 1] + width / 2));
 				codeFilledObject.append(",");
 				codeFilledObject.append(format(y[i]));
