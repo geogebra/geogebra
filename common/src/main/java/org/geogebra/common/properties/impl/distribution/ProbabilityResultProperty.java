@@ -43,6 +43,7 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 		T model = (T) modelMap.get(modelClass);
 		if (model == null) {
 			model = modelSupplier.get();
+			modelMap.put(modelClass, model);
 		}
 		return model;
 	}

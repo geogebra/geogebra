@@ -14,6 +14,10 @@ import org.junit.Test;
 
 public class ProbabilityResultPropertyTest {
 
+	private static final String GREATER_THAN_OR_EQUAL_TO =
+			SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
+	private static final String GREATER_THAN = "X > ";
+
 	private ProbabilityResultProperty probabilityResultProperty;
 
 	@Before
@@ -43,18 +47,27 @@ public class ProbabilityResultPropertyTest {
 		probabilityResultProperty.showTwoTailed();
 		assertThat(probabilityResultProperty.getModel(), instanceOf(TwoTailedResultModel.class));
 
-		final String greaterThanOrEqualTo = SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
-		final String greaterThan = "X > ";
 		AbstractEntry greaterSign = probabilityResultProperty.getModel().getEntries().get(5);
-
-		assertThat(greaterSign.getText(), equalTo(greaterThanOrEqualTo));
+		assertThat(greaterSign.getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
 		probabilityResultProperty.setGreaterThan();
-		assertThat(greaterSign.getText(), equalTo(greaterThan));
+		assertThat(greaterSign.getText(), equalTo(GREATER_THAN));
 		probabilityResultProperty.setGreaterOrEqualThan();
-		assertThat(greaterSign.getText(), equalTo(greaterThanOrEqualTo));
+		assertThat(greaterSign.getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
 
 		probabilityResultProperty.updateLowHigh("-2", "2");
 		AbstractEntry twoTailedResult = probabilityResultProperty.getModel().getEntries().get(8);
 		assertThat(twoTailedResult.getText(), equalTo("-2 + 2 = "));
+	}
+
+	@Test
+	public void testStoringOldValues() {
+		probabilityResultProperty.showTwoTailed();
+		probabilityResultProperty.setGreaterThan();
+
+		probabilityResultProperty.showInterval();
+		probabilityResultProperty.showTwoTailed();
+
+		AbstractEntry greaterSign = probabilityResultProperty.getModel().getEntries().get(5);
+		assertThat(greaterSign.getText(), equalTo(GREATER_THAN));
 	}
 }
