@@ -11,6 +11,7 @@ import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.aria.client.Roles;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -25,7 +26,9 @@ public class StandardButton extends Widget implements HasResource {
 	private Label colorLbl;
 
 	protected StandardButton() {
-		setElement(DOM.createButton());
+		Element btn = DOM.createButton();
+		btn.setAttribute("type", "button");
+		setElement(btn);
 		// for cursor: pointer
 		addStyleName("button");
 	}
