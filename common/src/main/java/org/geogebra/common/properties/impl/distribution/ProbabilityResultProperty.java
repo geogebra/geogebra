@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import org.geogebra.common.gui.view.probcalculator.ResultPanel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.AbstractResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.LeftResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractProperty;
@@ -56,12 +57,15 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void showTwoTailedOnePoint() {
-
+		showTwoTailed();
+		TwoTailedResultModel model = (TwoTailedResultModel) this.model;
+		model.setGreaterThan();
 	}
 
 	@Override
 	public void showLeft() {
-
+		model = getOrCreateModel(
+				LeftResultModel.class, () -> new LeftResultModel(getLocalization()));
 	}
 
 	@Override

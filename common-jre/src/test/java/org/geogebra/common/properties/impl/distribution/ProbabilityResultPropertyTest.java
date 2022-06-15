@@ -5,7 +5,9 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
+import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.LeftResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -47,16 +49,19 @@ public class ProbabilityResultPropertyTest {
 		probabilityResultProperty.showTwoTailed();
 		assertThat(probabilityResultProperty.getModel(), instanceOf(TwoTailedResultModel.class));
 
-		AbstractEntry greaterSign = probabilityResultProperty.getModel().getEntries().get(5);
-		assertThat(greaterSign.getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
+		assertThat(getGreaterSign().getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
 		probabilityResultProperty.setGreaterThan();
-		assertThat(greaterSign.getText(), equalTo(GREATER_THAN));
+		assertThat(getGreaterSign().getText(), equalTo(GREATER_THAN));
 		probabilityResultProperty.setGreaterOrEqualThan();
-		assertThat(greaterSign.getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
+		assertThat(getGreaterSign().getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
 
 		probabilityResultProperty.updateLowHigh("-2", "2");
-		AbstractEntry twoTailedResult = probabilityResultProperty.getModel().getEntries().get(8);
+		AbstractEntry twoTailedResult = probabilityResultProperty.getModel().getEntries().get(7);
 		assertThat(twoTailedResult.getText(), equalTo("-2 + 2 = "));
+	}
+
+	private StaticTextEntry getGreaterSign() {
+		return (StaticTextEntry) probabilityResultProperty.getModel().getEntries().get(4);
 	}
 
 	@Test
@@ -66,8 +71,18 @@ public class ProbabilityResultPropertyTest {
 
 		probabilityResultProperty.showInterval();
 		probabilityResultProperty.showTwoTailed();
+		assertThat(getGreaterSign().getText(), equalTo(GREATER_THAN));
+	}
 
-		AbstractEntry greaterSign = probabilityResultProperty.getModel().getEntries().get(5);
-		assertThat(greaterSign.getText(), equalTo(GREATER_THAN));
+	@Test
+	public void testShowTwoTailedOnePoint() {
+		probabilityResultProperty.showTwoTailedOnePoint();
+		assertThat(getGreaterSign().getText(), equalTo(GREATER_THAN));
+	}
+
+	@Test
+	public void testShowLeft() {
+		probabilityResultProperty.showLeft();
+		assertThat(probabilityResultProperty.getModel(), instanceOf(LeftResultModel.class));
 	}
 }

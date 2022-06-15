@@ -57,8 +57,7 @@ public class TwoTailedResultModel extends AbstractResultModel {
 		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");
 
 		return Arrays.asList(
-				new StaticTextEntry(probabilityOf + " "),
-				new StaticTextEntry(xLessThanOrEqual),
+				new StaticTextEntry(probabilityOf + " " + xLessThanOrEqual),
 				low,
 				new StaticTextEntry(" " + endProbabilityOf + PLUS_SIGN),
 
