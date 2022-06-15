@@ -3,7 +3,7 @@ plugins {
     id 'org.wisepersist.gwt' version '1.1.18'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.0.7'
+    id 'com.github.spotbugs' version '5.0.8'
 }
 
 description 'Web platform code which does not use the GWT Widgets library'
