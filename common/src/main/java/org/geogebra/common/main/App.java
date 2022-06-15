@@ -101,6 +101,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.exam.restriction.ExamRestrictionFactory;
 import org.geogebra.common.main.exam.restriction.RestrictExam;
 import org.geogebra.common.main.exam.restriction.Restrictable;
@@ -3952,12 +3953,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		this.exam = exam;
 	}
 
+	public void setNewExam() {
+		setNewExam(null);
+	}
+
 	/**
 	 * Initializes a new ExamEnvironment instance.
 	 */
-	public void setNewExam() {
+	public void setNewExam(ExamRegion region) {
 		ExamEnvironment examEnvironment = newExamEnvironment();
-		initRestrictions();
+		initRestrictions(region);
 		setExam(examEnvironment);
 		examEnvironment.setAppNameWith(getConfig());
 		CommandDispatcher commandDispatcher =
@@ -3966,9 +3971,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		updateExam(examEnvironment);
 	}
 
-	private void initRestrictions() {
-		if (restrictions == null) {
-			restrictions = ExamRestrictionFactory.create(getLocalization());
+	private void initRestrictions(ExamRegion region) {
+		RestrictExam oldRestrictions = restrictions;
+		restrictions = ExamRestrictionFactory.create(region);
+		if (oldRestrictions != null) {
+			oldRestrictions.getRestrictables().forEach(restrictions::register);
 		}
 	}
 
@@ -5071,7 +5078,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param restrictable the component to restrict.
 	 */
 	public void registerRestrictable(Restrictable restrictable) {
-		initRestrictions();
+		initRestrictions(null);
 		restrictions.register(restrictable);
 	}
 }

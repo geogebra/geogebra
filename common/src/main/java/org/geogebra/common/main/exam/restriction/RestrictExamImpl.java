@@ -2,6 +2,7 @@ package org.geogebra.common.main.exam.restriction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class RestrictExamImpl implements RestrictExam {
 
@@ -36,5 +37,10 @@ public class RestrictExamImpl implements RestrictExam {
 	@Override
 	public void register(Restrictable item) {
 		restrictables.add(item);
+	}
+
+	@Override
+	public Stream<Restrictable> getRestrictables() {
+		return restrictables.stream();
 	}
 }
