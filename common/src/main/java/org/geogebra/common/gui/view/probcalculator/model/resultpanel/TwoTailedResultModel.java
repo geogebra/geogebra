@@ -12,9 +12,9 @@ import org.geogebra.common.main.Localization;
 
 public class TwoTailedResultModel extends AbstractResultModel {
 
-	private static final String GREATER_THAN_OR_EQUAL_TO =
+	private static final String GREATER_THAN_OR_EQUAL_TO_X =
 			SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
-	private static final String GREATER_THAN = "X > ";
+	private static final String X_GREATER_THAN = "X >";
 
 	private InputEntry low;
 	private InputEntry high;
@@ -26,7 +26,7 @@ public class TwoTailedResultModel extends AbstractResultModel {
 		super(localization);
 		low = new InputEntry();
 		high = new InputEntry();
-		greaterSign = new StaticTextEntry(GREATER_THAN_OR_EQUAL_TO);
+		greaterSign = new StaticTextEntry(GREATER_THAN_OR_EQUAL_TO_X);
 		twoTailedResult = new StaticTextEntry();
 		result = new StaticTextEntry();
 	}
@@ -61,10 +61,10 @@ public class TwoTailedResultModel extends AbstractResultModel {
 				low,
 				new StaticTextEntry(" " + endProbabilityOf + PLUS_SIGN),
 
-				new StaticTextEntry(probabilityOf + " "),
+				new StaticTextEntry(probabilityOf),
 				greaterSign,
 				high,
-				new StaticTextEntry(" " + endProbabilityOf + EQUALS_SIGN),
+				new StaticTextEntry(endProbabilityOf + EQUALS_SIGN),
 
 				twoTailedResult,
 				result
@@ -72,10 +72,10 @@ public class TwoTailedResultModel extends AbstractResultModel {
 	}
 
 	public void setGreaterThan() {
-		greaterSign.setText(GREATER_THAN);
+		greaterSign.setText(X_GREATER_THAN);
 	}
 
 	public void setGreaterThanOrEqualTo() {
-		greaterSign.setText(GREATER_THAN_OR_EQUAL_TO);
+		greaterSign.setText(GREATER_THAN_OR_EQUAL_TO_X);
 	}
 }

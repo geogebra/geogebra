@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.LeftResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.RightResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -18,7 +19,7 @@ public class ProbabilityResultPropertyTest {
 
 	private static final String GREATER_THAN_OR_EQUAL_TO =
 			SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
-	private static final String GREATER_THAN = "X > ";
+	private static final String GREATER_THAN = "X >";
 
 	private ProbabilityResultProperty probabilityResultProperty;
 
@@ -84,5 +85,11 @@ public class ProbabilityResultPropertyTest {
 	public void testShowLeft() {
 		probabilityResultProperty.showLeft();
 		assertThat(probabilityResultProperty.getModel(), instanceOf(LeftResultModel.class));
+	}
+
+	@Test
+	public void testShowRight() {
+		probabilityResultProperty.showRight();
+		assertThat(probabilityResultProperty.getModel(), instanceOf(RightResultModel.class));
 	}
 }

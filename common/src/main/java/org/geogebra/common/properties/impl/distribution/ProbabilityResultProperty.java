@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.probcalculator.ResultPanel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.AbstractResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.LeftResultModel;
+import org.geogebra.common.gui.view.probcalculator.model.resultpanel.RightResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractProperty;
@@ -70,7 +71,8 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void showRight() {
-
+		model = getOrCreateModel(
+				RightResultModel.class, () -> new RightResultModel(getLocalization()));
 	}
 
 	@Override

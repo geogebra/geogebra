@@ -39,12 +39,15 @@ public class IntervalResultModel extends AbstractResultModel {
 
 	@Override
 	List<AbstractEntry> createEntries() {
+		String probabilityOf = getLocalization().getMenu("ProbabilityOf");
+		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");
+
 		return Arrays.asList(
-				new StaticTextEntry(getLocalization().getMenu("ProbabilityOf")),
+				new StaticTextEntry(probabilityOf),
 				low,
 				new StaticTextEntry(SpreadsheetViewInterface.X_BETWEEN),
 				high,
-				new StaticTextEntry(getLocalization().getMenu("EndProbabilityOf") + " = "),
+				new StaticTextEntry(endProbabilityOf + EQUALS_SIGN),
 				result
 		);
 	}

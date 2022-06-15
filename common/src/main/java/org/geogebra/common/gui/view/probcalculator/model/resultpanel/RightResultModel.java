@@ -6,27 +6,31 @@ import java.util.List;
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.gui.view.probcalculator.model.entry.InputEntry;
 import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
 
-public class LeftResultModel extends AbstractResultModel {
+public class RightResultModel extends AbstractResultModel {
 
-	private InputEntry high;
+	private static final String LESS_THAN_OR_EQUAL_TO_X =
+			SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X;
+
+	private InputEntry low;
 	private InputEntry result;
 
-	public LeftResultModel(Localization localization) {
+	public RightResultModel(Localization localization) {
 		super(localization);
-		high = new InputEntry();
+		low = new InputEntry();
 		result = new InputEntry();
 	}
 
 	@Override
 	public void updateLow(String low) {
-		// no-op
+		this.low.setText(low);
 	}
 
 	@Override
 	public void updateHigh(String high) {
-		this.high.setText(high);
+		// no-op
 	}
 
 	@Override
@@ -37,13 +41,12 @@ public class LeftResultModel extends AbstractResultModel {
 	@Override
 	List<AbstractEntry> createEntries() {
 		String probabilityOf = getLocalization().getMenu("ProbabilityOf");
-		String xLessThanOrEqual = getLocalization().getMenu("XLessThanOrEqual");
 		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");
 
 		return Arrays.asList(
-				new StaticTextEntry(probabilityOf + " " + xLessThanOrEqual),
-				high,
-				new StaticTextEntry(endProbabilityOf + EQUALS_SIGN),
+				new StaticTextEntry(probabilityOf),
+				low,
+				new StaticTextEntry(LESS_THAN_OR_EQUAL_TO_X + endProbabilityOf + EQUALS_SIGN),
 				result
 		);
 	}
