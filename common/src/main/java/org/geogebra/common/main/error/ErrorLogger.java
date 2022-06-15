@@ -11,6 +11,6 @@ public interface ErrorLogger extends ErrorHandler {
 	 * @param e
 	 *            exception or error
 	 */
-	public void log(Throwable e);
+	void log(Throwable e);
 
 }

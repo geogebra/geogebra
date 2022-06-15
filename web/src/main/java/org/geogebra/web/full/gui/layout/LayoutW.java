@@ -31,7 +31,7 @@ public class LayoutW extends Layout {
 	 * @param app
 	 *            application
 	 */
-	public LayoutW(App app) {
+	public LayoutW(AppW app) {
 		initializeDefaultPerspectives(app,
 				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth() < 50
 						? 700 : app.getAppletWidth()));

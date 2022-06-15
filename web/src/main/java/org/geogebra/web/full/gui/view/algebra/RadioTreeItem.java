@@ -1417,7 +1417,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public boolean hasFocus() {
-		return getMathField().hasFocus();
+		return getMathField() != null && getMathField().hasFocus();
 	}
 
 	@Override

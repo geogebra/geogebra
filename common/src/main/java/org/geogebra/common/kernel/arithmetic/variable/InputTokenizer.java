@@ -135,7 +135,7 @@ public class InputTokenizer {
 			return false;
 		}
 
-		return "pi".equals(input.substring(0, 2).toLowerCase());
+		return "pi".equalsIgnoreCase(input.substring(0, 2));
 	}
 
 	private String getNumberToken() {

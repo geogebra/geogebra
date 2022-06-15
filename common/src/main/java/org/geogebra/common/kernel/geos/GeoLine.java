@@ -1399,11 +1399,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * returns inhom coords in dimension
+	 * @return inhom coords in dimension
 	 * 
 	 * @param dimension
 	 *            2 or 3
-	 * @return
 	 */
 	private Coords getStartCoordsInD(int dimension) {
 

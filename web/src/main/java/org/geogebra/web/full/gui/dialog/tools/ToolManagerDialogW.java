@@ -170,14 +170,13 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		for (int j = 0; j < selIndexesTemp.size(); j++) {
 			int i = selIndexesTemp.get(j);
 			if (toolList.getMacro(i).isUsed()) {
-				macroNamesNoDel.append("\n"
-						+ toolList.getMacro(i).getToolOrCommandName() + ": "
-						+ toolList.getMacro(i).getNeededTypesString());
+				macroNamesNoDel.append("\n")
+						.append(toolList.getMacro(i).getToolOrCommandName())
+						.append(": ").append(toolList.getMacro(i).getNeededTypesString());
 				toolList.setItemSelected(j, false);
 			} else {
-				macroNamesDel.append("\n"
-						+ toolList.getMacro(i).getToolOrCommandName() + ": "
-						+ toolList.getMacro(i).getNeededTypesString());
+				macroNamesDel.append("\n").append(toolList.getMacro(i).getToolOrCommandName())
+						.append(": ").append(toolList.getMacro(i).getNeededTypesString());
 			}
 		}
 		if (macroNamesDel.length() == 0) {

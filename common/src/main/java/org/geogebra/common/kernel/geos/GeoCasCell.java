@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -1477,8 +1479,7 @@ public class GeoCasCell extends GeoElement
 
 		// includesNumericCommand = includesNumericCommand || evalCmd != null
 		// && "Numeric".equals(evalCmd);
-		setKeepInputUsed(
-				evalCmd != null && evalCmd.toLowerCase().equals("keepinput"));
+		setKeepInputUsed("keepinput".equalsIgnoreCase(evalCmd));
 	}
 
 	/**
@@ -3600,16 +3601,15 @@ public class GeoCasCell extends GeoElement
 	/**
 	 * @param tpl
 	 *            string template (might be MathQuill or JLM)
-	 * @return input in LaTeX form
+	 * @return input in LaTeX form or null if only plain input present
 	 */
-	public String getLaTeXInput(StringTemplate tpl) {
+	public @CheckForNull String getLaTeXInput(StringTemplate tpl) {
 
 		if (useAsText) {
 			return "\\text{" + this.commentText.getTextString() + "}";
 		}
-
 		return latexInput == null
-				? (inputVE == null ? input
+				? (inputVE == null ? null
 						: inputVE.toAssignmentString(tpl, getAssignmentType()))
 				: latexInput;
 	}

@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+	id 'java-library'
 }
 
 project.setDescription('Parts of GeoGebra related to Java OpenGL')
@@ -8,6 +8,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile "com.jogamp:gluegen-rt:$joglVersion"
-	compile "com.jogamp:jogl-all:$joglVersion"
+	api "com.jogamp:gluegen-rt:$joglVersion"
+	api "com.jogamp:jogl-all:$joglVersion"
 }

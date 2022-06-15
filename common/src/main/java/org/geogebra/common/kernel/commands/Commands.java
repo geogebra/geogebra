@@ -115,6 +115,8 @@ public enum Commands implements CommandsConstants,
 
 	Radius(TABLE_GEOMETRY),
 
+	Type(TABLE_GEOMETRY),
+
 	CircleArc(TABLE_GEOMETRY),
 
 	Arc(TABLE_GEOMETRY),

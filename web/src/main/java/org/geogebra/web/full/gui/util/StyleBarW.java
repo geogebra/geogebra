@@ -69,7 +69,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	}
 
 	/**
-	 * adds a {@link MyCJButton button} to show properties dialog
+	 * adds a {@link StandardButton button} to show properties dialog
 	 */
 	protected void addMenuButton() {
 		if (!app.letShowPropertiesDialog()) {
@@ -165,6 +165,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		}
 
 		viewButton = new ContextMenuPopup(app, popup);
+		viewButton.addStyleName("matDynStyleContextButton");
 		add(viewButton);
 	}
 

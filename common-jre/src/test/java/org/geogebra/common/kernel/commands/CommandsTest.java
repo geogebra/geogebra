@@ -2533,6 +2533,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdMod() {
+		t("Mod[ -1, 1/3]", "0");
 		t("Mod[ 4, 4 ]", "0");
 		t("Mod[ x^4+4, x^2 ] ", "4");
 	}
@@ -4089,6 +4090,12 @@ public class CommandsTest {
 	@Test
 	public void cmdTurningPoint() {
 		t("InflectionPoint[ x^3 ]", "(0, 0)");
+	}
+
+	@Test
+	public void cmdType() {
+		t("Type(x^2+y^2+z^2=1)", "4");
+		t("Type(x^2+y^2=1)", "4");
 	}
 
 	@Test

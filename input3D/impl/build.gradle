@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'eclipse'
 }
 
@@ -16,11 +16,11 @@ compileTestJava {
 }
 
 dependencies {
-    compile project(':common'),
+    api project(':common'),
         project(':common-jre'),
         'intel.rssdk:libpxcclr:20150901',
         'com.zspace:zspace:20180405a'
-    runtime 'intel.rssdk:libpxcclr:20150901:natives-windows-amd64',
+    implementation 'intel.rssdk:libpxcclr:20150901:natives-windows-amd64',
         'intel.rssdk:libpxcclr:20150901:natives-windows-i586',
         'com.zspace:zspace:20180405a:natives-windows-i586',
         'com.zspace:zspace:20180405a:natives-windows-amd64'

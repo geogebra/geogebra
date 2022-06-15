@@ -325,9 +325,9 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 		Link cur = getHead();
 		while (cur != null) {
 			sb.append("\n\t");
-			sb.append(cur.algo + ", constIndex: "
-					+ cur.algo.getConstructionIndex() + ", ceID: "
-					+ cur.algo.getID());
+			sb.append(cur.algo).append(", constIndex: ")
+					.append(cur.algo.getConstructionIndex()).append(", ceID: ")
+					.append(cur.algo.getID());
 			cur = cur.next;
 		}
 		sb.append("]");
