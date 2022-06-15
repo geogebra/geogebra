@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.exam.classic;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -8,7 +7,6 @@ import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.StyleInjector;
@@ -55,35 +53,23 @@ public class ExamClassicStartDialog extends ComponentDialog {
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
 			ComponentCheckbox cas = new ComponentCheckbox(app.getLocalization(), true,
-					"Perspective.CAS");
-			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
-
-			startPanel.add(cas);
-			ClickStartHandler.init(cas, new ClickStartHandler(true, true) {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					app.getExam().setCasEnabled(cas.isSelected(),
-							app.getSettings().getCasSettings());
-					app.getGuiManager().updateToolbarActions();
-				}
+					"Perspective.CAS", selected -> {
+				app.getExam().setCasEnabled(selected,
+						app.getSettings().getCasSettings());
+				app.getGuiManager().updateToolbarActions();
 			});
+			app.getExam().setCasEnabled(true, app.getSettings().getCasSettings());
+			startPanel.add(cas);
 		}
 
 		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
 			final ComponentCheckbox allow3D = new ComponentCheckbox(app.getLocalization(), true,
-					"Perspective.3DGraphics");
-			app.getSettings().getEuclidian(-1).setEnabled(true);
-
-			startPanel.add(allow3D);
-			ClickStartHandler.init(allow3D, new ClickStartHandler(true, true) {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					app.getSettings().getEuclidian(-1).setEnabled(allow3D.isSelected());
-					guiManager.updateToolbarActions();
-				}
+					"Perspective.3DGraphics", selected -> {
+				app.getSettings().getEuclidian(-1).setEnabled(selected);
+				guiManager.updateToolbarActions();
 			});
+			app.getSettings().getEuclidian(-1).setEnabled(true);
+			startPanel.add(allow3D);
 		}
 		guiManager.updateToolbarActions();
 

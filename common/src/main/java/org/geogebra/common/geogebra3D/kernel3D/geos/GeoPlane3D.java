@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Plane
@@ -387,16 +388,16 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isDefined() || !isDefined()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		if (geo.isGeoPlane()) {
 			Coords ev1 = getCoordSys().getEquationVector();
 			Coords ev2 = ((GeoPlane3D) geo).getCoordSys().getEquationVector();
-			return !ev1.isLinearIndependentAllCoords(ev2);
+			return ExtendedBoolean.newExtendedBoolean(!ev1.isLinearIndependentAllCoords(ev2));
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**

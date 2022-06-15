@@ -1769,7 +1769,6 @@ public class AlgebraProcessor {
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
-			Log.debug(e);
 			ErrorHelper.handleError(e, str, loc, handler);
 		} catch (CommandNotLoadedError e) {
 			throw e;

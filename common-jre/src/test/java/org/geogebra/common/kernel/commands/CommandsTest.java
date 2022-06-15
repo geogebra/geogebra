@@ -796,6 +796,10 @@ public class CommandsTest {
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
+		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+				+ "Polygon((1,4),(-1,4),(0,0),(2,0),(2,3)))", "true");
+		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+				+ "Polygon((2,3),(2,0),(0,0),(-1,4),(1,4)))", "true");
 	}
 
 	@Test
@@ -2529,6 +2533,7 @@ public class CommandsTest {
 
 	@Test
 	public void cmdMod() {
+		t("Mod[ -1, 1/3]", "0");
 		t("Mod[ 4, 4 ]", "0");
 		t("Mod[ x^4+4, x^2 ] ", "4");
 	}
@@ -4085,6 +4090,12 @@ public class CommandsTest {
 	@Test
 	public void cmdTurningPoint() {
 		t("InflectionPoint[ x^3 ]", "(0, 0)");
+	}
+
+	@Test
+	public void cmdType() {
+		t("Type(x^2+y^2+z^2=1)", "4");
+		t("Type(x^2+y^2=1)", "4");
 	}
 
 	@Test

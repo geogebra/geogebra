@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -121,23 +122,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		cons.removeFromConstructionList(locus);
 		c.registerEuclidianViewCE(this);
 		setConstructionDefaults();
-	}
-
-	/**
-	 * Constructs an implicit curve object with given equation containing
-	 * variables as x and y.
-	 * 
-	 * @param c
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param equation
-	 *            equation of the implicit curve
-	 */
-	public GeoImplicitCurve(Construction c, String label, Equation equation) {
-		this(c);
-		fromEquation(equation, null);
-		setLabel(label);
 	}
 
 	/**
@@ -407,6 +391,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 	}
 
+	@Override
+	public void setDerivatives(FunctionNVar x, FunctionNVar y, FunctionNVar xy) {
+		diffExp[0] = x;
+		diffExp[1] = y;
+		diffExp[2] = xy;
+	}
+
 	/**
 	 * Initialize the coeff arrays for the factors. They contain the
 	 * coefficients of the squarefree factors of the implicit curve. If there
@@ -670,8 +661,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return false;
+	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo == this); // TODO compare expressions
 	}
 
 	/**
@@ -2465,5 +2456,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public static void setFastDrawThreshold(int threshold) {
 		fastDrawThreshold = threshold;
+	}
+
+	@Override
+	public void doRemove() {
+		super.doRemove();
+		cons.unregisterEuclidianViewCE(this);
 	}
 }

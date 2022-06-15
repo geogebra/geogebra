@@ -226,7 +226,7 @@ public class EuclidianStyleBarStatic {
 				FillType oldType = geo.getFillType();
 				if (oldType != fillType) {
 					geo.setFillType(fillType);
-					geo.updateVisualStyle(GProperty.HATCHING);
+					geo.updateVisualStyleRepaint(GProperty.HATCHING);
 					changed = true;
 				}
 			}

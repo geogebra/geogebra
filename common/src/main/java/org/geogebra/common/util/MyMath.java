@@ -539,10 +539,10 @@ public final class MyMath {
 		// rr=BigInteger.valueOf((long)r);
 
 		// need a long-winded conversion in case n>10^18
-		Double nnn = new Double(n);
-		Double rrr = new Double(r);
-		nn = (new BigDecimal(nnn.toString())).toBigInteger();
-		rr = (new BigDecimal(rrr.toString())).toBigInteger();
+		String nnn = Double.toString(n);
+		String rrr = Double.toString(r);
+		nn = (new BigDecimal(nnn)).toBigInteger();
+		rr = (new BigDecimal(rrr)).toBigInteger();
 
 		while (dd.compareTo(rr) <= 0) {
 			ncr = ncr.multiply(nn);

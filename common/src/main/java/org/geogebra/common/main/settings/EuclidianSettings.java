@@ -960,7 +960,6 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setPreferredSize(GDimension dimension) {
 		preferredSize = dimension;
 		settingChanged();
-
 	}
 
 	public GDimension getPreferredSize() {

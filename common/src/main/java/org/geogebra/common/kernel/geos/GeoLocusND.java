@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -22,12 +23,14 @@ import org.geogebra.common.kernel.PathMoverLocus;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Locus of points
@@ -319,10 +322,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		// #4405 if segment number changed during file loading (EV viewport)
-		// also don't use the new path update method
+		// TRAC-4261 if segment number changed during file loading (EV viewport)
+		// and parameter is not set by parent (APPS-3931) also don't use the new path update method
 		if (!getKernel().usePathAndRegionParameters(P)
-				|| cons.isFileLoading()) {
+				|| (cons.isFileLoading() && isChangeableParam(P))) {
 			pointChanged(P);
 			return;
 		}
@@ -359,6 +362,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		P.set(t, 1 - t, locusPoint, locusPoint2);
 	}
 
+	protected boolean isChangeableParam(GeoPointND p) {
+		AlgoElement parentAlgorithm = p.getParentAlgorithm();
+		return !(parentAlgorithm instanceof FixedPathRegionAlgo)
+				|| ((FixedPathRegionAlgo) parentAlgorithm).isChangeable(p);
+	}
+
 	/**
 	 * @param P
 	 *            point
@@ -387,13 +396,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return true;
 	}
 
-	// Michael Borcherds 2008-04-30
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type, otherwise use equals() method
-		return false;
-		// TODO?
-		// if (geo.isGeoLocus()) return xxx else return false;
+		return ExtendedBoolean.newExtendedBoolean(this == geo); // TODO?
 	}
 
 	/**

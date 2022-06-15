@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
+import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalOperands.computeInverted;
 import static org.geogebra.common.kernel.interval.IntervalOperands.divide;
 import static org.geogebra.common.kernel.interval.IntervalOperands.exp;
@@ -158,10 +159,39 @@ public class IntervalAlgebra {
 		}
 
 		if (!other.isSingleton()) {
-			interval.setUndefined();
-			return interval;
+			return powerOfInterval(interval, other);
 		}
 
 		return pow(interval, other.getLow());
+	}
+
+	private Interval powerOfInterval(Interval interval, Interval other) {
+		if (interval.isUndefined() || other.isUndefined()) {
+			return IntervalConstants.undefined();
+		}
+
+		if (other.isInverted()) {
+			Interval extractedLow = pow(interval, other.extractLow());
+			Interval extractedHigh = pow(interval, other.extractHigh());
+			if (extractedHigh.isUndefined()) {
+				return undefined();
+			}
+			return computeInverted(extractedLow, extractedHigh);
+		}
+
+		double low = powLow(interval.getLow(), other.getLow());
+		double high = powHigh(interval.getHigh(), other.getHigh());
+
+		if (Double.isNaN(low) || Double.isNaN(high)) {
+			return undefined();
+		}
+
+		if (interval.getLow() > - 1 && interval.getHigh() < 1) {
+			interval.set(high, low);
+		} else {
+			interval.set(low, high);
+		}
+
+		return interval;
 	}
 }

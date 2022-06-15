@@ -189,7 +189,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected GRectangle deletionRectangle;
 
 	/** label outlines from 5.0.416.0 */
-	protected static int[] LABEL_OUTLINES_FROM = new int[] { 5, 0, 416, 0 };
+	protected static final int[] LABEL_OUTLINES_FROM = new int[] { 5, 0, 416, 0 };
 
 	/**
 	 * bounding box
@@ -239,12 +239,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * default axes stroke
 	 */
-	static GBasicStroke defAxesStroke = AwtFactory.getPrototype()
+	static final GBasicStroke defAxesStroke = AwtFactory.getPrototype()
 			.newBasicStroke(1.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER);
 
 	// changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
-	static GBasicStroke boldAxesStroke = AwtFactory.getPrototype()
+	static final GBasicStroke boldAxesStroke = AwtFactory.getPrototype()
 			.newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER);
 
@@ -2302,8 +2302,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		for (Drawable d : allDrawableList) {
 			if (d.hitLabel(p.x, p.y)) {
 				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)
-						&& geo.isLabelVisible()) {
+				if (geo.isEuclidianVisible() && geo.isLabelVisible()) {
 					return geo;
 				}
 			}

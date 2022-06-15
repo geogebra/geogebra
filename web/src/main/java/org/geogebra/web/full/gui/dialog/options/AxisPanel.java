@@ -150,8 +150,7 @@ public class AxisPanel extends FlowPanel
 
 		// cross at and stick to edge
 
-		InputPanelW input = new InputPanelW(null, app, 1, -1,
-				false);
+		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
 		tfCross = input.getTextComponent();
 		tfCross.setAutoComplete(false);
 		tfCross.removeSymbolTable();
@@ -217,11 +216,11 @@ public class AxisPanel extends FlowPanel
 		cbAxisNumber.setSelected(view.getShowAxesNumbers()[axis]);
 
 		cbManualTicks.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
-		ncbTickDist.setSelectedId(model.getAxisDistance());
+		ncbTickDist.setSelected(model.getAxisDistance());
 		ncbTickDist.setEnabled(cbManualTicks.isSelected());
 
-		comboAxisLabel.setSelectedId(view.getAxesLabels(true)[axis]);
-		comboUnitLabel.setSelectedId(view.getAxesUnitLabels()[axis]);
+		comboAxisLabel.setSelected(view.getAxesLabels(true)[axis]);
+		comboUnitLabel.setSelected(view.getAxesUnitLabels()[axis]);
 
 		int type = view.getAxesTickStyles()[axis];
 		lbTickStyle.setSelectedIndex(type);

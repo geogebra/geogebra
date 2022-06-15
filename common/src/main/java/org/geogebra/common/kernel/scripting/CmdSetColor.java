@@ -94,7 +94,7 @@ public class CmdSetColor extends CmdScripting {
 				if (background) {
 					target.setBackgroundColor(col);
 				} else {
-					target.setObjColor(col);
+					target.setObjColor(col.deriveWithAlpha(255));
 					if (col.getAlpha() > 0 && col.getAlpha() < 255) {
 						target.setAlphaValue(col.getAlpha() / 255.0);
 					}
