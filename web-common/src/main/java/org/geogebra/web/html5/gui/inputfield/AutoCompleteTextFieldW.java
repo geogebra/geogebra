@@ -188,7 +188,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			Drawable drawTextField) {
 		this(columns, (AppW) app, true, null, false);
 		this.drawTextField = (DrawInputBox) drawTextField;
-		addStyleName("FromDrawTextFieldNew");
+		if (canHaveGGBKeyboard()) {
+			addStyleName("FromDrawTextFieldNew");
+		}
+	}
+
+	private boolean canHaveGGBKeyboard() {
+		return app.getGuiManager() != null;
 	}
 
 	/**
@@ -1345,8 +1351,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * tablet.
 	 */
 	public void enableGGBKeyboard() {
-		dummyCursor.enableGGBKeyboard();
-		attachKeyboardButton(app.getGuiManager().getInputKeyboardButton());
+		if (canHaveGGBKeyboard()) {
+			dummyCursor.enableGGBKeyboard();
+			attachKeyboardButton(app.getGuiManager().getInputKeyboardButton());
+		}
 	}
 
 	/**
