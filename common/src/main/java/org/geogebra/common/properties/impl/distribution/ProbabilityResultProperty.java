@@ -94,7 +94,7 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void updateTwoTailedResult(String low, String high) {
-
+		// the model updates the two tailed result when values change
 	}
 
 	@Override
