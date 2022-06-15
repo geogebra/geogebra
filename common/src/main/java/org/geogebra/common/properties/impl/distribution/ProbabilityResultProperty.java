@@ -77,17 +77,12 @@ public class ProbabilityResultProperty extends AbstractProperty implements Resul
 
 	@Override
 	public void setResultEditable(boolean value) {
-
+		// models know whether they should have editable results
 	}
 
 	@Override
 	public void updateResult(String text) {
 		getModel().updateResult(text);
-	}
-
-	@Override
-	public void updateResultSum(String text) {
-
 	}
 
 	@Override

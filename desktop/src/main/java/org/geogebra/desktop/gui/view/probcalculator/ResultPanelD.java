@@ -26,7 +26,6 @@ class ResultPanelD extends JPanel implements ResultPanel {
 	private JLabel lblEquals;
 	private JLabel lblPlus;
 	private JLabel lblTwoTailedResult;
-	private JLabel lblResultSum;
 	private JLabel lblXGreater;
 	private JLabel lblXSign;
 	private final AppD app;
@@ -47,7 +46,6 @@ class ResultPanelD extends JPanel implements ResultPanel {
 		lblProbOf = new JLabel();
 		lblBetween = new JLabel();
 		lblEndProbOf = new JLabel();
-		lblResultSum = new JLabel();
 		lblTwoTailedResult = new JLabel();
 		lblEquals = new JLabel(" = ");
 		lblPlus = new JLabel(" + ");
@@ -165,11 +163,6 @@ class ResultPanelD extends JPanel implements ResultPanel {
 	public void updateResult(String text) {
 		fldResult.setText(text);
 		fldResult.setCaretPosition(0);
-	}
-
-	@Override
-	public void updateResultSum(String text) {
-		lblResultSum.setText(text);
 	}
 
 	@Override

@@ -15,8 +15,6 @@ public interface ResultPanel {
 
 	void updateResult(String text);
 
-	void updateResultSum(String text);
-
 	void updateLowHigh(String low, String high);
 
 	void updateTwoTailedResult(String low, String high);

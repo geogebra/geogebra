@@ -17,7 +17,6 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	private String lblEquals;
 	private String lblPlus;
 	private Label lblTwoTailedResult;
-	private Label lblResultSum;
 	private MathTextFieldW fldLow;
 	private MathTextFieldW fldResult;
 	private Label lblResult;
@@ -43,7 +42,6 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 
 	private void initGUI() {
 		addStyleName("resultPanel");
-		lblResultSum = new Label();
 		lblTwoTailedResult = new Label();
 		lblEquals = " = ";
 		lblPlus = " + ";
@@ -151,11 +149,6 @@ public class ResultPanelW extends FlowPanel implements ResultPanel {
 	public void updateResult(String text) {
 		fldResult.setText(text);
 		lblResult.setText(text);
-	}
-
-	@Override
-	public void updateResultSum(String text) {
-		lblResultSum.setText(text);
 	}
 
 	@Override
