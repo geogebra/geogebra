@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.probcalculator.model.resultpanel;
 import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
-import org.geogebra.common.gui.view.probcalculator.model.entry.InputEntry;
 import org.geogebra.common.main.Localization;
 
 public abstract class AbstractResultModel {
@@ -26,6 +25,10 @@ public abstract class AbstractResultModel {
 
 	abstract List<AbstractEntry> createEntries();
 
+	/**
+	 * @return returns the entries.
+	 * If it's null, then first calls createEntries() and assigns the result to the entries.
+	 */
 	public List<AbstractEntry> getEntries() {
 		if (entries == null) {
 			entries = createEntries();

@@ -7,7 +7,7 @@ public abstract class AbstractEntry {
 	public enum EntryType {
 		PlaceHolder,
 		Input
-	};
+	}
 
 	String text = "";
 

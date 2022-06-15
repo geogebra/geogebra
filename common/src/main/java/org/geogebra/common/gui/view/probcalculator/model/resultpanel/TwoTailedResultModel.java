@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.probcalculator.model.resultpanel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +21,9 @@ public class TwoTailedResultModel extends AbstractResultModel {
 	private StaticTextEntry twoTailedResult;
 	private StaticTextEntry result;
 
+	/**
+	 * @param localization localization
+	 */
 	public TwoTailedResultModel(Localization localization) {
 		super(localization);
 		low = new InputEntry();
@@ -50,8 +52,6 @@ public class TwoTailedResultModel extends AbstractResultModel {
 
 	@Override
 	List<AbstractEntry> createEntries() {
-		List<AbstractEntry> entries = new ArrayList<>();
-
 		String probabilityOf = getLocalization().getMenu("ProbabilityOf");
 		String xLessThanOrEqual = getLocalization().getMenu("XLessThanOrEqual");
 		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");

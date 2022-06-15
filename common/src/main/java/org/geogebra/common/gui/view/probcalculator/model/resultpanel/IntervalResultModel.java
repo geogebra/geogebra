@@ -15,6 +15,9 @@ public class IntervalResultModel extends AbstractResultModel {
 	private InputEntry high;
 	private StaticTextEntry result;
 
+	/**
+	 * @param localization localization
+	 */
 	public IntervalResultModel(Localization localization) {
 		super(localization);
 		low = new InputEntry();

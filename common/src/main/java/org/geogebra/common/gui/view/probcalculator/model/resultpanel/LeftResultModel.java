@@ -13,6 +13,9 @@ public class LeftResultModel extends AbstractResultModel {
 	private InputEntry high;
 	private InputEntry result;
 
+	/**
+	 * @param localization localization
+	 */
 	public LeftResultModel(Localization localization) {
 		super(localization);
 		high = new InputEntry();
