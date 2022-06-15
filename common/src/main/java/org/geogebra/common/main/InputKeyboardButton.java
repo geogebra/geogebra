@@ -20,4 +20,11 @@ public interface InputKeyboardButton {
 	 * @param textField which is about to use the keyboard button.
 	 */
 	void setTextField(AutoCompleteTextField textField);
+
+	/**
+	 * Removes keyboard button from the current input field.
+	 */
+	void detach();
+
+	void setEnabled(boolean enabled);
 }

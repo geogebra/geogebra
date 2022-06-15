@@ -133,6 +133,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private boolean leftAltDown;
 	private final AutocompleteProviderClassic inputSuggestions;
 	private FlowPanel main = new FlowPanel();
+	private boolean keyboardButtonEnabled = true;
 
 	/**
 	 * Attaches the keyboard button to the current text field.
@@ -145,6 +146,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		this.keyboardButton = keyboardButton;
 		this.keyboardButton.setTextField(this);
+		keyboardButton.setEnabled(keyboardButtonEnabled);
+	}
+
+	public void removeContent(IsWidget widget) {
+		main.remove(widget);
 	}
 
 	public interface InsertHandler {
@@ -1376,7 +1382,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void prepareShowSymbolButton(boolean show) {
-		// desktop only
+		keyboardButtonEnabled = show;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	private final ToggleButton button;
 	private AutoCompleteTextFieldW textField;
+	private boolean enabled = true;
 
 	/**
 	 *
@@ -44,6 +45,10 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 
 	@Override
 	public void show() {
+		if (!enabled) {
+			return;
+		}
+
 		Dom.toggleClass(textField, "kbdInput", true);
 	}
 
@@ -58,6 +63,20 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 		textField.addFocusHandler(event -> show());
 		textField.addBlurHandler(event -> hide());
 		textField.addContent(this);
+	}
+
+	@Override
+	public void detach() {
+		hide();
+		textField.removeContent(button);
+	}
+
+	@Override
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		if (!enabled) {
+			hide();
+		}
 	}
 
 	@Override
