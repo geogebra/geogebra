@@ -13,19 +13,28 @@ import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedRe
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractProperty;
 
+/**
+ * The result property on the distribution view.
+ * Every probability interval type has a different result model.
+ * This class handles all the result models.
+ */
 public class ProbabilityResultProperty extends AbstractProperty implements ResultPanel {
 
+	/**
+	 * The selected result model.
+	 */
 	private AbstractResultModel model;
 
+	/**
+	 * Caches the state of each model.
+	 */
 	private Map<Class, AbstractResultModel> modelMap;
 
 	/**
-	 * Constructs an abstract property.
-	 * @param localization this is used to localize the name
-	 * @param name the name to be localized
+	 * @param localization localization
 	 */
-	public ProbabilityResultProperty(Localization localization, String name) {
-		super(localization, name);
+	public ProbabilityResultProperty(Localization localization) {
+		super(localization, "");
 		modelMap = new HashMap<>();
 	}
 

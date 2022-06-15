@@ -32,7 +32,7 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new CumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView),
-				new ProbabilityResultProperty(localization, "")
+				new ProbabilityResultProperty(localization)
 		);
 		return Arrays.asList(array);
 	}

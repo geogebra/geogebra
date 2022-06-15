@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
-import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
+import org.geogebra.common.gui.view.probcalculator.model.entry.TextEntry;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.LeftResultModel;
 import org.geogebra.common.gui.view.probcalculator.model.resultpanel.RightResultModel;
@@ -25,8 +25,7 @@ public class ProbabilityResultPropertyTest {
 
 	@Before
 	public void setUp() {
-		probabilityResultProperty = new ProbabilityResultProperty(
-				new LocalizationCommon(2), "probabilityResult");
+		probabilityResultProperty = new ProbabilityResultProperty(new LocalizationCommon(2));
 	}
 
 	@Test
@@ -61,8 +60,8 @@ public class ProbabilityResultPropertyTest {
 		assertThat(twoTailedResult.getText(), equalTo("-2 + 2 = "));
 	}
 
-	private StaticTextEntry getGreaterSign() {
-		return (StaticTextEntry) probabilityResultProperty.getModel().getEntries().get(4);
+	private TextEntry getGreaterSign() {
+		return (TextEntry) probabilityResultProperty.getModel().getEntries().get(4);
 	}
 
 	@Test

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.gui.view.probcalculator.model.entry.InputEntry;
-import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
+import org.geogebra.common.gui.view.probcalculator.model.entry.TextEntry;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
 
@@ -44,9 +44,9 @@ public class RightResultModel extends AbstractResultModel {
 		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");
 
 		return Arrays.asList(
-				new StaticTextEntry(probabilityOf),
+				new TextEntry(probabilityOf),
 				low,
-				new StaticTextEntry(LESS_THAN_OR_EQUAL_TO_X + endProbabilityOf + EQUALS_SIGN),
+				new TextEntry(LESS_THAN_OR_EQUAL_TO_X + endProbabilityOf + EQUALS_SIGN),
 				result
 		);
 	}

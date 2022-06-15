@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.gui.view.probcalculator.model.entry.InputEntry;
-import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
+import org.geogebra.common.gui.view.probcalculator.model.entry.TextEntry;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
 
@@ -13,7 +13,7 @@ public class IntervalResultModel extends AbstractResultModel {
 
 	private InputEntry low;
 	private InputEntry high;
-	private StaticTextEntry result;
+	private TextEntry result;
 
 	/**
 	 * @param localization localization
@@ -22,7 +22,7 @@ public class IntervalResultModel extends AbstractResultModel {
 		super(localization);
 		low = new InputEntry();
 		high = new InputEntry();
-		result = new StaticTextEntry();
+		result = new TextEntry();
 	}
 
 	@Override
@@ -46,11 +46,11 @@ public class IntervalResultModel extends AbstractResultModel {
 		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");
 
 		return Arrays.asList(
-				new StaticTextEntry(probabilityOf),
+				new TextEntry(probabilityOf),
 				low,
-				new StaticTextEntry(SpreadsheetViewInterface.X_BETWEEN),
+				new TextEntry(SpreadsheetViewInterface.X_BETWEEN),
 				high,
-				new StaticTextEntry(endProbabilityOf + EQUALS_SIGN),
+				new TextEntry(endProbabilityOf + EQUALS_SIGN),
 				result
 		);
 	}

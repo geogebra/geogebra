@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.gui.view.probcalculator.model.entry.InputEntry;
-import org.geogebra.common.gui.view.probcalculator.model.entry.StaticTextEntry;
+import org.geogebra.common.gui.view.probcalculator.model.entry.TextEntry;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
 
@@ -17,9 +17,9 @@ public class TwoTailedResultModel extends AbstractResultModel {
 
 	private InputEntry low;
 	private InputEntry high;
-	private StaticTextEntry greaterSign;
-	private StaticTextEntry twoTailedResult;
-	private StaticTextEntry result;
+	private TextEntry greaterSign;
+	private TextEntry twoTailedResult;
+	private TextEntry result;
 
 	/**
 	 * @param localization localization
@@ -28,9 +28,9 @@ public class TwoTailedResultModel extends AbstractResultModel {
 		super(localization);
 		low = new InputEntry();
 		high = new InputEntry();
-		greaterSign = new StaticTextEntry(GREATER_THAN_OR_EQUAL_TO_X);
-		twoTailedResult = new StaticTextEntry();
-		result = new StaticTextEntry();
+		greaterSign = new TextEntry(GREATER_THAN_OR_EQUAL_TO_X);
+		twoTailedResult = new TextEntry();
+		result = new TextEntry();
 	}
 
 	@Override
@@ -57,14 +57,14 @@ public class TwoTailedResultModel extends AbstractResultModel {
 		String endProbabilityOf = getLocalization().getMenu("EndProbabilityOf");
 
 		return Arrays.asList(
-				new StaticTextEntry(probabilityOf + " " + xLessThanOrEqual),
+				new TextEntry(probabilityOf + " " + xLessThanOrEqual),
 				low,
-				new StaticTextEntry(" " + endProbabilityOf + PLUS_SIGN),
+				new TextEntry(" " + endProbabilityOf + PLUS_SIGN),
 
-				new StaticTextEntry(probabilityOf),
+				new TextEntry(probabilityOf),
 				greaterSign,
 				high,
-				new StaticTextEntry(endProbabilityOf + EQUALS_SIGN),
+				new TextEntry(endProbabilityOf + EQUALS_SIGN),
 
 				twoTailedResult,
 				result

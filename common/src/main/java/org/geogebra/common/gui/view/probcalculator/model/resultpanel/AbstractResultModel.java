@@ -5,6 +5,10 @@ import java.util.List;
 import org.geogebra.common.gui.view.probcalculator.model.entry.AbstractEntry;
 import org.geogebra.common.main.Localization;
 
+/**
+ * Every probability interval type has a different result model.
+ * This class represents a result model.
+ */
 public abstract class AbstractResultModel {
 
 	static final String PLUS_SIGN = " + ";
@@ -23,6 +27,9 @@ public abstract class AbstractResultModel {
 
 	public abstract void updateResult(String result);
 
+	/**
+	 * @return The list of UI element representations (entries) of the result panel.
+	 */
 	abstract List<AbstractEntry> createEntries();
 
 	/**
