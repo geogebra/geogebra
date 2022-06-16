@@ -39,8 +39,7 @@ public class ParameterProperty extends AbstractNumericProperty {
 		if (view.isValidParameterChange(value.getDouble(), parameterIndex)) {
 			GeoNumberValue[] parameters = view.getParameters();
 			parameters[parameterIndex] = value;
-			view.setProbabilityCalculator(view.getSelectedDist(), parameters, view.isCumulative());
-			view.updateResult();
+			view.onParameterUpdate();
 		}
 	}
 

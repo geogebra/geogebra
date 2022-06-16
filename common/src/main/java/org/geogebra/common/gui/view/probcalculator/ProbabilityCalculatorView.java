@@ -2257,4 +2257,12 @@ public abstract class ProbabilityCalculatorView
 	public double getProbability() {
 		return probability;
 	}
+
+	/**
+	 * Call this when parameters change.
+	 */
+	public void onParameterUpdate() {
+		updateOutput();
+		updateResult();
+	}
 }
