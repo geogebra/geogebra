@@ -1,135 +1,48 @@
 package org.geogebra.common.properties.impl.distribution;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
-import org.geogebra.common.gui.view.probcalculator.ResultPanel;
-import org.geogebra.common.gui.view.probcalculator.model.resultpanel.AbstractResultModel;
-import org.geogebra.common.gui.view.probcalculator.model.resultpanel.IntervalResultModel;
-import org.geogebra.common.gui.view.probcalculator.model.resultpanel.LeftResultModel;
-import org.geogebra.common.gui.view.probcalculator.model.resultpanel.RightResultModel;
-import org.geogebra.common.gui.view.probcalculator.model.resultpanel.TwoTailedResultModel;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
+import org.geogebra.common.gui.view.probcalculator.result.EditableResultEntry;
+import org.geogebra.common.gui.view.probcalculator.result.ResultModel;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.NumericPropertyUtil;
 
 /**
  * The result property on the distribution view.
- * Every probability interval type has a different result model.
- * This class handles all the result models.
  */
-public class ProbabilityResultProperty extends AbstractProperty implements ResultPanel {
+public class ProbabilityResultProperty implements Property {
 
 	/**
 	 * The selected result model.
 	 */
-	private AbstractResultModel model;
-
-	/**
-	 * Caches the state of each model.
-	 */
-	private Map<Class, AbstractResultModel> modelMap;
+	private PropertyResultPanel resultPanel;
+	private NumericPropertyUtil util;
 
 	/**
 	 * @param localization localization
 	 */
-	public ProbabilityResultProperty(Localization localization) {
-		super(localization, "");
-		modelMap = new HashMap<>();
+	public ProbabilityResultProperty(AlgebraProcessor processor, PropertyResultPanel resultPanel) {
+		this.resultPanel = resultPanel;
+		this.util = new NumericPropertyUtil(processor);
 	}
 
-	public AbstractResultModel getModel() {
-		return model;
+	public ResultModel getModel() {
+		return resultPanel.getModel();
 	}
 
-	@Override
-	public void showInterval() {
-		model = getOrCreateModel(
-				IntervalResultModel.class, () -> new IntervalResultModel(getLocalization()));
-	}
-
-	private <T extends AbstractResultModel> T getOrCreateModel(
-			Class<T> modelClass, Supplier<T> modelSupplier) {
-
-		T model = (T) modelMap.get(modelClass);
-		if (model == null) {
-			model = modelSupplier.get();
-			modelMap.put(modelClass, model);
-		}
-		return model;
+	public void setValue(EditableResultEntry entry, String text) {
+		GeoNumberValue value = util.parseInputString(text);
+		resultPanel.setValue(entry, value);
 	}
 
 	@Override
-	public void showTwoTailed() {
-		model = getOrCreateModel(
-				TwoTailedResultModel.class, () -> new TwoTailedResultModel(getLocalization()));
+	public String getName() {
+		return null;
 	}
 
 	@Override
-	public void showTwoTailedOnePoint() {
-		showTwoTailed();
-		TwoTailedResultModel model = (TwoTailedResultModel) this.model;
-		model.setGreaterThan();
-	}
-
-	@Override
-	public void showLeft() {
-		model = getOrCreateModel(
-				LeftResultModel.class, () -> new LeftResultModel(getLocalization()));
-	}
-
-	@Override
-	public void showRight() {
-		model = getOrCreateModel(
-				RightResultModel.class, () -> new RightResultModel(getLocalization()));
-	}
-
-	@Override
-	public void setResultEditable(boolean value) {
-		// models know whether they should have editable results
-	}
-
-	@Override
-	public void updateResult(String text) {
-		getModel().updateResult(text);
-	}
-
-	@Override
-	public void updateLowHigh(String low, String high) {
-		AbstractResultModel model = getModel();
-		model.updateLow(low);
-		model.updateHigh(high);
-	}
-
-	@Override
-	public void updateTwoTailedResult(String low, String high) {
-		// the model updates the two tailed result when values change
-	}
-
-	@Override
-	public boolean isFieldLow(Object source) {
-		return false;
-	}
-
-	@Override
-	public boolean isFieldHigh(Object source) {
-		return false;
-	}
-
-	@Override
-	public boolean isFieldResult(Object source) {
-		return false;
-	}
-
-	@Override
-	public void setGreaterThan() {
-		TwoTailedResultModel model = (TwoTailedResultModel) getModel();
-		model.setGreaterThan();
-	}
-
-	@Override
-	public void setGreaterOrEqualThan() {
-		TwoTailedResultModel model = (TwoTailedResultModel) getModel();
-		model.setGreaterThanOrEqualTo();
+	public boolean isEnabled() {
+		return true;
 	}
 }
