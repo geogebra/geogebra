@@ -398,7 +398,7 @@ public abstract class Drawable extends DrawableND {
 		// Fit label in safe area
 		EdgeInsets insets = view.getSafeAreaInsets();
 		if (widthEstimate > screenWidth - insets.getLeft() - insets.getRight()) {
-			xLabel = (screenWidth - insets.getLeft() - insets.getRight() - widthEstimate) / 2;
+			xLabel = (screenWidth - widthEstimate) / 2;
 		} else if (xLabel < insets.getLeft()) {
 			xLabel = insets.getLeft();
 		} else if (xLabel + widthEstimate > screenWidth - insets.getRight()) {
