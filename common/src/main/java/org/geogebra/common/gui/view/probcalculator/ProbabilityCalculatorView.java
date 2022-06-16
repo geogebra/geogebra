@@ -2164,6 +2164,15 @@ public abstract class ProbabilityCalculatorView
 		updateGreaterSign(resultPanel);
 	}
 
+	/**
+	 * Updates result panel if it exists
+	 */
+	public void updateResult() {
+		if (getResultPanel() != null) {
+			updateResult(getResultPanel());
+		}
+	}
+
 	protected void updateResult(ResultPanel resultPanel) {
 		updateLowHigh(resultPanel);
 		if (probMode == PROB_TWO_TAILED) {
