@@ -229,6 +229,7 @@ public class FileViewCommon extends AnimatingPanel {
 			Dom.toggleClass(searchBar, "compact", smallScreen);
 		}
 		updateSignInButtonsVisibility(smallScreen);
+		Dom.toggleClass(contentPanel, "compact", smallScreen);
 	}
 
 	/**

@@ -390,7 +390,6 @@
 					}
 
 					.cardImgPanel {
-						width: 232px;
 						height: 120px;
 						margin: 0px;
 						background-repeat: no-repeat;
@@ -427,7 +426,7 @@
 							font-weight: 400;
 							overflow: hidden;
 							white-space: nowrap;
-							width: 178px;
+							width: 182px;
 						}
 						
 						.mowMoreButton {
@@ -592,6 +591,55 @@
 						color: colors.$text-secondary;
 					}
 				}
+		}
+	}
+
+	.openFileView .fileViewContentPanel.compact {
+		.materialPanel {
+			padding-left: 8px;
+		}
+
+		.materialCard {
+			width: 168px;
+			height: 174px;
+			margin: 0 8px 8px 0;
+
+			.cardImgPanel {
+				height: 94px;
+			}
+
+			.cardInfoPanel {
+				height: 80px;
+
+				.cardTitle {
+					height: 36px;
+					padding: 8px 12px 0 12px;
+					margin-bottom: 4px;
+					font-size: 100%;
+					line-height: 18px;
+				}
+
+				.cardAuthor {
+					height: 20px;
+					line-height: 20px;
+					padding: 0px 0px 12px 12px;
+					width: 122px;
+				}
+
+				.visibilityPanel {
+					img {
+						margin: 0 4px 8px 12px;
+					}
+					.gwt-Label {
+						line-height: 20px;
+						margin: 2px 0 10px 0;
+					}
+				}
+
+				.mowMoreButton {
+					padding: 0px 6px 8px 4px;
+				}
+			}
 		}
 	}
 
