@@ -648,7 +648,15 @@
 			top: 16px;
 
 			.materialCard {
-				height: 174px; // 206px - 32px
+				height: 188px;
+
+				.cardInfoPanel {
+					height: 68px;
+
+					.cardTitle {
+						margin-bottom: 12px;
+					}
+				}
 			}
 		}
 	}
