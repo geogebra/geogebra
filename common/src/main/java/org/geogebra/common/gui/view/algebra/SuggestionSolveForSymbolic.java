@@ -100,7 +100,7 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	public static boolean isValid(GeoElementND geo) {
-		return  isEquation(geo);
+		return isEquation(geo);
 	}
 
 	/**
@@ -157,7 +157,8 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 		if (!(geo instanceof GeoSymbolic)) {
 			return false;
 		}
-		return ((GeoSymbolic) geo).getValue().unwrap() instanceof Equation;
+		ExpressionValue value = ((GeoSymbolic) geo).getValue();
+		return value != null && value.unwrap() instanceof Equation;
 	}
 
 	private static Suggestion getMulti(GeoElement geo) {
