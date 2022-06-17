@@ -449,24 +449,19 @@
 						}
 					
 						.visibilityPanel {
-							position: absolute;
-							top: 48px; 
-
 							.gwt-Label {
 								font-size: 88%;
 								color: colors.$text-secondary;
-								line-height: 20px;
+								line-height: 24px;
 								letter-spacing: 0.25px;
 								text-overflow: ellipsis;
 								font-weight: 400;
-								padding-top: 2px;
-								padding-bottom: 2px;
-								margin: 5px 0px 9px 0px;
+								margin: 0 0px 12px 0px;
 							}
 
 							img {
 								opacity: 0.54;
-								margin: 4px 8px 10px 16px;
+								margin: 0 8px 12px 16px;
 							}
 						}
 					}
