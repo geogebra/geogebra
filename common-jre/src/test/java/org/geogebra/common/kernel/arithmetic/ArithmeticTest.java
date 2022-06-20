@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
@@ -15,21 +17,17 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class ArithmeticTest extends Assert {
+public class ArithmeticTest extends BaseUnitTest {
 
-	private AlgebraProcessor ap;
-	private AppCommon3D app;
-
-	@Before
-	public void setup() {
-		app = AppCommonFactory.create3D();
-		ap = app.getKernel().getAlgebraProcessor();
+	@Override
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create3D();
 	}
 
 	@Before
 	public void clean() {
-		app.getSettings().getCasSettings().setEnabled(true);
-		app.getKernel().clearConstruction(true);
+		getApp().getSettings().getCasSettings().setEnabled(true);
+		getApp().getKernel().clearConstruction(true);
 	}
 
 	private void t(String input, String expected) {
@@ -37,8 +35,8 @@ public class ArithmeticTest extends Assert {
 	}
 
 	private void t(String input, String expected, StringTemplate tpl) {
-		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
-				tpl);
+		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected },
+				getApp().getKernel().getAlgebraProcessor(), tpl);
 	}
 
 	@Test
@@ -145,9 +143,9 @@ public class ArithmeticTest extends Assert {
 
 	@Test
 	public void testRounding() {
-		final int angleUnit = app.getKernel().getAngleUnit();
+		final int angleUnit = getKernel().getAngleUnit();
 
-		app.getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
+		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 
 		t("round(6740340335894, 5)", "6740340335894");
 		t("round(6.740340335894E12, 5.0)", "6740340335894");
@@ -163,7 +161,7 @@ public class ArithmeticTest extends Assert {
 		t("round(6.740340335894E8, 7.0)", "6.740340335894E8");
 		t("round(6.740340335894E7, 8.0)", "6.740340335894E7");
 
-		app.getKernel().setAngleUnit(angleUnit);
+		getKernel().setAngleUnit(angleUnit);
 	}
 
 	@Test
@@ -180,8 +178,8 @@ public class ArithmeticTest extends Assert {
 		t("a+x", "x + y + x");
 		t("a+y", "x + y + y");
 		t("a+a", "x + y + x + y");
-		AlgebraTestHelper.shouldFail("f+y", "Please check your input", app);
-		AlgebraTestHelper.shouldFail("y+f", "Please check your input", app);
+		AlgebraTestHelper.shouldFail("f+y", "Please check your input", getApp());
+		AlgebraTestHelper.shouldFail("y+f", "Please check your input", getApp());
 	}
 
 	@Test
@@ -233,7 +231,7 @@ public class ArithmeticTest extends Assert {
 
 	@Test
 	public void absFunction() {
-		AlgebraTestHelper.enableCAS(app, false);
+		AlgebraTestHelper.enableCAS(getApp(), false);
 		t("f:abs(x+2)", "abs(x + 2)");
 		Assert.assertTrue(((GeoFunction) lookup("f"))
 				.isPolynomialFunction(true));
@@ -249,7 +247,7 @@ public class ArithmeticTest extends Assert {
 
 	@Test
 	public void derivativeShouldBeHiddenWithNoCas() {
-		app.getSettings().getCasSettings().setEnabled(false);
+		getApp().getSettings().getCasSettings().setEnabled(false);
 		t("f(x)=x", "x");
 		t("f'", "NDerivative[f]");
 		t("f'(7)", "1");
@@ -278,7 +276,7 @@ public class ArithmeticTest extends Assert {
 
 	@Test
 	public void absFunctionBugFix() {
-		app.getSettings().getCasSettings().setEnabled(true);
+		getApp().getSettings().getCasSettings().setEnabled(true);
 		t("eq1:abs(x-3) = -2", "abs(x - 3) = -2");
 		t("eq2:abs(x-3) = 2", "x^2 - 6x = -5");
 	}
@@ -377,12 +375,24 @@ public class ArithmeticTest extends Assert {
 	@Test
 	public void testEqualityCheck() {
 		// in common-jre this will only work correctly for polynomials
-		t("f(x)=x^3", "x^(3)");
-		t("g(x)=-x^3", "(-x^(3))");
+		add("f(x)=x^3");
+		add("g(x)=-x^3");
 		t("f==g", "false");
 		t("f!=g", "true");
 		t("f==-g", "true");
 		t("f!=-g", "false");
+	}
+
+	@Test
+	public void testEqualityFunctionLine() {
+		add("f(x)=3x+2");
+		add("g(x)=1");
+		add("ff:y=3x+2");
+		add("gg:y=1");
+		t("ff==f", "true");
+		t("gg==g", "true");
+		t("ff==g", "false");
+		t("gg==f", "false");
 	}
 
 	@Test
@@ -447,13 +457,9 @@ public class ArithmeticTest extends Assert {
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {
-		app.getKernel().clearConstruction(false);
-		ap.processAlgebraCommand("f:" + first, false);
-		ap.processAlgebraCommand("g:" + second, false);
+		getKernel().clearConstruction(false);
+		add("f:" + first);
+		add("g:" + second);
 		t("f==g", String.valueOf(areEqual));
-	}
-
-	private GeoElement lookup(String g) {
-		return app.getKernel().lookupLabel(g);
 	}
 }

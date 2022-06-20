@@ -1425,7 +1425,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// support c==f for Line, Function
 		if (geo.isGeoLine()) {
-			return ((GeoLine) geo).isEqualExtended(this);
+			return geo.isEqualExtended(this);
 		}
 
 		if (!(geo instanceof GeoFunction)) {
