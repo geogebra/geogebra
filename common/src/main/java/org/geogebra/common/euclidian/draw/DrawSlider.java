@@ -125,7 +125,7 @@ public class DrawSlider extends Drawable {
 			if (horizontal) {
 				updatePoint(coordsRW[0] + widthRW * param, coordsRW[1]);
 				if (labelVisible) {
-					this.xLabel -= 15;
+					this.xLabel -= getHorizontalOffsetX();
 					this.yLabel -= 5;
 				}
 				// horizontal line
@@ -147,6 +147,11 @@ public class DrawSlider extends Drawable {
 			lineThickness = number.getLineThickness();
 			updateStrokes(number, number.getLineThickness());
 		}
+	}
+
+	private double getHorizontalOffsetX() {
+		EdgeInsets safeArea = view.getSafeAreaInsets();
+		return Math.max(Math.min(xLabel - safeArea.getLeft(), 15), 0);
 	}
 
 	/**
