@@ -12,6 +12,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.ProfilePanel;
 import org.geogebra.web.shared.SharedResources;
 import org.geogebra.web.shared.components.ComponentSearchBar;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FileViewCommon extends AnimatingPanel {
+public class FileViewCommon extends AnimatingPanel implements Persistable {
 
 	private final AppW app;
 	private final String title;
@@ -42,6 +43,7 @@ public class FileViewCommon extends AnimatingPanel {
 	private ProfilePanel profilePanel;
 	private StandardButton examInfoBtn;
 	private Label timer;
+	private FlowPanel emptyListNotificationPanel;
 
 	/**
 	 * @param app the application
@@ -173,6 +175,9 @@ public class FileViewCommon extends AnimatingPanel {
 	 * adds content if available
 	 */
 	public void addContent() {
+		if (emptyListNotificationPanel != null) {
+			emptyListNotificationPanel.removeFromParent();
+		}
 		contentPanel.add(materialPanel);
 	}
 
@@ -209,7 +214,7 @@ public class FileViewCommon extends AnimatingPanel {
 
 	@Override
 	public void resizeTo(int width, int height) {
-		resizeHeader();
+		onResize();
 	}
 
 	@Override
@@ -231,27 +236,23 @@ public class FileViewCommon extends AnimatingPanel {
 		updateSignInButtonsVisibility(smallScreen);
 	}
 
-	/**
-	 * adds MaterialPanel
-	 */
-	void addMaterialPanel() {
-		contentPanel.add(materialPanel);
-	}
-
 	public void clearMaterials() {
 		materialPanel.clear();
 	}
 
-	void showEmptyListNotification() {
-		contentPanel.clear();
-		contentPanel.add(getEmptyListNotificationPanel());
+	void showEmptyListNotification(InfoErrorData data) {
+		if (materialPanel != null) {
+			materialPanel.removeFromParent();
+		}
+		if (emptyListNotificationPanel != null) {
+			emptyListNotificationPanel.removeFromParent();
+		}
+		emptyListNotificationPanel = getEmptyListNotificationPanel(data);
+		contentPanel.add(emptyListNotificationPanel);
 	}
 
-	private FlowPanel getEmptyListNotificationPanel() {
-		InfoErrorData data = new InfoErrorData("emptyMaterialList.caption.mow",
-				"emptyMaterialList.info.mow");
-		ComponentInfoErrorPanel noMaterials = new ComponentInfoErrorPanel(loc, data);
-		return noMaterials;
+	private FlowPanel getEmptyListNotificationPanel(InfoErrorData data) {
+		return new ComponentInfoErrorPanel(loc, data, null);
 	}
 
 	String localize(String key) {

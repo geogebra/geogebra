@@ -27,6 +27,12 @@ public class ComponentSearchBar extends FlowPanel {
 		inputTextField.getTextComponent().getTextBox().getElement().setAttribute(
 				"placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
 		inputTextField.addStyleName("searchInputField");
+		inputTextField.getTextComponent().addKeyHandler(evt -> {
+			if (evt.isEnterKey()) {
+				startSearch();
+				inputTextField.getTextComponent().getTextBox().setFocus(false);
+			}
+		});
 		add(inputTextField);
 		addFocusBlurHandlers();
 
@@ -70,9 +76,13 @@ public class ComponentSearchBar extends FlowPanel {
 		searchButton.addStyleName("searchBtn");
 		searchButton.addStyleName("flatButtonHeader");
 		searchButton.addFastClickHandler((event) -> {
-			app.getGuiManager().getBrowseView().displaySearchResults(inputTextField.getText());
+			startSearch();
 		});
 
 		add(searchButton);
+	}
+
+	private void startSearch() {
+		app.getGuiManager().getBrowseView().displaySearchResults(inputTextField.getText());
 	}
 }

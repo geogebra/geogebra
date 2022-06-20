@@ -342,9 +342,15 @@
 			padding-top: 24px;
 			overflow-y: auto;
 			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
 
 			.infoErrorPanel {
-				margin: 80px 0 40px 0;
+				margin-bottom: 60px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				flex-grow: 1;
 			}
 
 			.center {

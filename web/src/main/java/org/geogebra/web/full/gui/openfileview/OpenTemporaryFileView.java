@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 
 /**
  * View for browsing materials
@@ -44,12 +45,17 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 	public void loadAllMaterials(int offset) {
 		clearMaterials();
 		if (tempStorage.isEmpty()) {
-			common.showEmptyListNotification();
+			common.showEmptyListNotification(getInfoErrorData());
 		} else {
 			common.clearContents();
 			common.addContent();
 			addTemporaryMaterials();
 		}
+	}
+
+	private InfoErrorData getInfoErrorData() {
+		return new InfoErrorData("emptyMaterialList.caption.mow",
+				"emptyMaterialList.info.mow");
 	}
 
 	@Override
@@ -62,7 +68,7 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 		for (Material material : getMaterials()) {
 			addMaterial(material);
 		}
-		common.addMaterialPanel();
+		common.addContent();
 	}
 
 	@Override

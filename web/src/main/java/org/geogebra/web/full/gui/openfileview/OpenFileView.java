@@ -20,8 +20,8 @@ import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
-import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -130,7 +130,7 @@ public class OpenFileView extends HeaderFileView
 	@Override
 	public void loadAllMaterials(int offset) {
 		LogInOperation loginOperation = app.getLoginOperation();
-		common.addContent();
+		common.showEmptyListNotification(getInfoErrorData());
 		if (loginOperation.isLoggedIn()) {
 			loginOperation.getResourcesAPI().getUsersMaterials(getCallback(),
 					ResourceOrdering.created);
@@ -140,16 +140,31 @@ public class OpenFileView extends HeaderFileView
 		}
 	}
 
+	private InfoErrorData getInfoErrorData() {
+		return new InfoErrorData("emptyMaterialList.caption",
+				"emptyMaterialList.info", null, MaterialDesignResources.INSTANCE.search_black());
+	}
+
 	private MaterialCallbackI getCallback() {
-		return new MaterialCallback() {
+		return new MaterialCallbackI() {
 
 			@Override
 			public void onLoaded(final List<Material> matList,
 					Pagination meta) {
-				common.clearMaterials();
-				for (Material material : matList) {
-					addMaterial(material);
+				if (matList.isEmpty()) {
+					common.showEmptyListNotification(getInfoErrorData());
+				} else {
+					common.addContent();
+					common.clearMaterials();
+					for (Material material : matList) {
+						addMaterial(material);
+					}
 				}
+			}
+
+			@Override
+			public void onError(Throwable exception) {
+				common.showEmptyListNotification(getInfoErrorData());
 			}
 		};
 	}
@@ -166,10 +181,12 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void displaySearchResults(String query) {
-		if (StringUtil.emptyTrim(query)) {
+		// protect backend from very long queries (would result in error anyway)
+		if (StringUtil.emptyTrim(query) || query.length() > 300) {
 			loadAllMaterials(0);
 		} else {
-			app.getLoginOperation().getResourcesAPI().search(query, getCallback());
+			app.getLoginOperation().getResourcesAPI().search(
+					query, getCallback());
 		}
 	}
 

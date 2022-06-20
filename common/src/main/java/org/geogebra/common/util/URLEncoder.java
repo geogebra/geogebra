@@ -6,13 +6,13 @@ package org.geogebra.common.util;
  * 
  * @author Zoltan Kovacs
  */
-public abstract class URLEncoder {
+public interface URLEncoder {
 	/**
-	 * Encodes a string to be forwarded to a web server as an URL
+	 * Encodes a string to be forwarded to a web server as URL parameter
 	 * 
-	 * @param decodedURL
+	 * @param urlComponent
 	 *            the unencoded string to be encoded
 	 * @return the encoded string
 	 */
-	public abstract String encode(String decodedURL);
+	String encode(String urlComponent);
 }

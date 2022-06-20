@@ -19,6 +19,7 @@ import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.infoError.InfoErrorData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -94,15 +95,20 @@ public class OpenFileViewMebis extends HeaderFileView
 	protected void addContent() {
 		common.clearContents();
 		if (materialListEmpty) {
-			common.showEmptyListNotification();
+			common.showEmptyListNotification(getInfoErrorData());
 			setExtendedButtonStyle();
 			common.addToContent(buttonPanel);
 		} else {
 			setSmallButtonStyle();
 			common.addToContent(buttonPanel);
 			common.addToContent(sortDropDown);
-			common.addMaterialPanel();
+			common.addContent();
 		}
+	}
+
+	private InfoErrorData getInfoErrorData() {
+		return new InfoErrorData("emptyMaterialList.caption.mow",
+				"emptyMaterialList.info.mow");
 	}
 
 	private void initButtonPanel() {
