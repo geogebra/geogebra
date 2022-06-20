@@ -16,62 +16,63 @@ public class TwoTailedResultModel extends AbstractResultModel {
 			SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X;
 	private static final String X_GREATER_THAN = "X >";
 
-	private TextEntry probabilityOfEntry;
+	private TextEntry probabilityOf;
 	private TextEntry probabilityOfLessThanOrEqual;
 	private TextEntry greaterSign;
 	private TextEntry twoTailedResult;
-	private TextEntry resultEntry;
+	private TextEntry result;
 	private TextEntry endProbabilityOf;
 	private TextEntry endProbabilityEquals;
 
-	private InputEntry lowEntry;
-	private InputEntry highEntry;
+	private InputEntry low;
+	private InputEntry high;
 
 	/**
 	 * @param localization localization
 	 */
 	public TwoTailedResultModel(Localization localization) {
-		String probabilityOf = localization.getMenu("ProbabilityOf");
-		String xLessThanOrEqual = localization.getMenu("XLessThanOrEqual");
-		String endProbability = localization.getMenu("EndProbabilityOf");
+		String probabilityOfText = localization.getMenu("ProbabilityOf");
+		String xLessThanOrEqualText = localization.getMenu("XLessThanOrEqual");
+		String endProbabilityOfText = localization.getMenu("EndProbabilityOf");
 
-		probabilityOfLessThanOrEqual = new TextEntry(probabilityOf + " " + xLessThanOrEqual);
-		probabilityOfEntry = new TextEntry(probabilityOf);
-		endProbabilityOf = new TextEntry(" " + endProbabilityOf + PLUS_SIGN);
-		endProbabilityEquals = new TextEntry(endProbabilityOf + EQUALS_SIGN);
+		probabilityOfLessThanOrEqual =
+				new TextEntry(probabilityOfText + " " + xLessThanOrEqualText);
+		probabilityOf = new TextEntry(probabilityOfText);
+		endProbabilityOf = new TextEntry(" " + endProbabilityOfText + PLUS_SIGN);
+		endProbabilityEquals = new TextEntry(endProbabilityOfText + EQUALS_SIGN);
 
-		lowEntry = new InputEntry("");
-		highEntry = new InputEntry("");
+		low = new InputEntry("");
+		high = new InputEntry("");
 		greaterSign = new TextEntry(GREATER_THAN_OR_EQUAL_TO_X);
 		twoTailedResult = new TextEntry("");
-		resultEntry = new TextEntry("");
+		result = new TextEntry("");
 	}
 
 	@Override
 	public void setLow(String low) {
-		lowEntry = new InputEntry(low);
-		twoTailedResult = new TextEntry(low + PLUS_SIGN + highEntry + EQUALS_SIGN);
+		this.low = new InputEntry(low);
+		twoTailedResult = new TextEntry(low + PLUS_SIGN + high + EQUALS_SIGN);
 	}
 
 	@Override
 	public void setHigh(String high) {
-		highEntry = new InputEntry(high);
-		twoTailedResult = new TextEntry(lowEntry + PLUS_SIGN + high + EQUALS_SIGN);
+		this.high = new InputEntry(high);
+		twoTailedResult = new TextEntry(low + PLUS_SIGN + high + EQUALS_SIGN);
 	}
 
 	@Override
 	public void setResult(String result) {
-		resultEntry = new TextEntry(result);
+		this.result = new TextEntry(result);
 	}
 
 	@Override
 	public EditableResultEntry getLow() {
-		return lowEntry;
+		return low;
 	}
 
 	@Override
 	public EditableResultEntry getHigh() {
-		return highEntry;
+		return high;
 	}
 
 	@Override
@@ -81,9 +82,10 @@ public class TwoTailedResultModel extends AbstractResultModel {
 
 	@Override
 	public List<ResultEntry> getEntries() {
-		return Arrays.asList(probabilityOfLessThanOrEqual, lowEntry, endProbabilityOf,
-				probabilityOfEntry, greaterSign, highEntry, endProbabilityEquals, twoTailedResult,
-				resultEntry);
+		return Arrays.asList(probabilityOfLessThanOrEqual, low, endProbabilityOf,
+				probabilityOf, greaterSign, high, endProbabilityEquals,
+				twoTailedResult,
+				result);
 	}
 
 	public void setGreaterThan() {

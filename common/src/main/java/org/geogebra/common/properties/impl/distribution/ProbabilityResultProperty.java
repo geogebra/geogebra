@@ -20,8 +20,8 @@ public class ProbabilityResultProperty implements Property {
 	private NumericPropertyUtil util;
 
 	/**
-	 * @param processor
-	 * @param resultPanel
+	 * @param processor algebra processor
+	 * @param resultPanel result panel
 	 */
 	public ProbabilityResultProperty(AlgebraProcessor processor, PropertyResultPanel resultPanel) {
 		this.resultPanel = resultPanel;
