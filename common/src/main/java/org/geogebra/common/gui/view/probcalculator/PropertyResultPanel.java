@@ -24,6 +24,10 @@ public class PropertyResultPanel implements ResultPanel {
 	private TwoTailedResultModel twoTailedResultModel;
 	private IntervalResultModel intervalResultModel;
 
+	/**
+	 * @param view probability calculator view model
+	 * @param localization localization
+	 */
 	public PropertyResultPanel(ProbabilityCalculatorView view, Localization localization) {
 		this.view = view;
 		leftResultModel = new LeftResultModel(localization);
@@ -110,6 +114,11 @@ public class PropertyResultPanel implements ResultPanel {
 		twoTailedResultModel.setGreaterThanOrEqualTo();
 	}
 
+	/**
+	 * Notifies the ProbabilityCalculatorView about a value change.
+	 * @param entry input field
+	 * @param value value
+	 */
 	public void setValue(EditableResultEntry entry, GeoNumberValue value) {
 		double numberValue = value.getDouble();
 		if (currentModel.getLow() == entry) {

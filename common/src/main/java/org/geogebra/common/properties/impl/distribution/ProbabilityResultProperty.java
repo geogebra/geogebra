@@ -20,7 +20,8 @@ public class ProbabilityResultProperty implements Property {
 	private NumericPropertyUtil util;
 
 	/**
-	 * @param localization localization
+	 * @param processor
+	 * @param resultPanel
 	 */
 	public ProbabilityResultProperty(AlgebraProcessor processor, PropertyResultPanel resultPanel) {
 		this.resultPanel = resultPanel;
@@ -31,6 +32,11 @@ public class ProbabilityResultProperty implements Property {
 		return resultPanel.getModel();
 	}
 
+	/**
+	 * Parses the text and passes it to the ResultPanel as the value of the entry.
+	 * @param entry input field
+	 * @param text value of the input field
+	 */
 	public void setValue(EditableResultEntry entry, String text) {
 		GeoNumberValue value = util.parseInputString(text);
 		resultPanel.setValue(entry, value);

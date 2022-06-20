@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator.result.impl.models;
 
 import org.geogebra.common.gui.view.probcalculator.result.EditableResultEntry;
-import org.geogebra.common.gui.view.probcalculator.result.ResultEntry;
 import org.geogebra.common.gui.view.probcalculator.result.ResultModel;
 
 public abstract class AbstractResultModel implements ResultModel {

@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.result.EditableResultEntry;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.gui.view.probcalculator.result.ResultEntry;
 import org.geogebra.common.gui.view.probcalculator.result.impl.entries.InputEntry;
 import org.geogebra.common.gui.view.probcalculator.result.impl.entries.TextEntry;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.main.Localization;
 
 public class RightResultModel extends AbstractResultModel {
 
@@ -21,6 +21,9 @@ public class RightResultModel extends AbstractResultModel {
 	private InputEntry lowEntry;
 	private InputEntry resultEntry;
 
+	/**
+	 * @param localization localization
+	 */
 	public RightResultModel(Localization localization) {
 		String endProbabilityOf = localization.getMenu("EndProbabilityOf");
 

@@ -6,8 +6,7 @@ package org.geogebra.common.gui.view.probcalculator.result;
 public interface ResultEntry {
 
 	/**
-	 * Text of the entry.
-	 * @return
+	 * @return Text of the entry.
 	 */
 	String getText();
 }

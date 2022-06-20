@@ -10,6 +10,7 @@ public abstract class AbstractEntry implements ResultEntry {
 		this.text = text;
 	}
 
+	@Override
 	public String getText() {
 		return text;
 	}

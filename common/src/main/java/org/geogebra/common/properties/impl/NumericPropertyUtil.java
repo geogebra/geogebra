@@ -14,11 +14,18 @@ public class NumericPropertyUtil {
 	private final AlgebraProcessor algebraProcessor;
 	private final NumberFormatAdapter numberFormatter;
 
+	/**
+	 * @param algebraProcessor algebra processor
+	 */
 	public NumericPropertyUtil(AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
 		this.numberFormatter = FormatFactory.getPrototype().getNumberFormat(2);
 	}
 
+	/**
+	 * @param value text to be evaluated
+	 * @return number result of the evaluation
+	 */
 	public GeoNumberValue parseInputString(String value) {
 		String trimmedValue = value.trim();
 		if ("".equals(trimmedValue)) {
@@ -27,19 +34,23 @@ public class NumericPropertyUtil {
 		return algebraProcessor.evaluateToNumeric(trimmedValue, true);
 	}
 
-	public String getFormatted(double distance) {
-		if (equals(distance, 0)) {
+	/**
+	 * @param number number to be formatted
+	 * @return formatted number as text
+	 */
+	public String getFormatted(double number) {
+		if (equals(number, 0)) {
 			return numberFormatter.format(0);
-		} else if (equals(distance, Math.PI)) {
+		} else if (equals(number, Math.PI)) {
 			return Unicode.PI_STRING;
-		} else if (distance % Math.PI == 0) {
-			return numberFormatter.format(distance / Math.PI) + Unicode.PI_STRING;
-		} else if (equals(distance, Math.PI / 2)) {
+		} else if (number % Math.PI == 0) {
+			return numberFormatter.format(number / Math.PI) + Unicode.PI_STRING;
+		} else if (equals(number, Math.PI / 2)) {
 			return Unicode.PI_STRING + "/2";
-		} else if (equals(distance, Math.PI / 4)) {
+		} else if (equals(number, Math.PI / 4)) {
 			return Unicode.PI_STRING + "/4";
 		} else {
-			return numberFormatter.format(distance);
+			return numberFormatter.format(number);
 		}
 	}
 

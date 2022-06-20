@@ -4,14 +4,14 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.gui.view.probcalculator.result.ResultEntry;
 import org.geogebra.common.gui.view.probcalculator.result.impl.entries.TextEntry;
 import org.geogebra.common.gui.view.probcalculator.result.impl.models.IntervalResultModel;
 import org.geogebra.common.gui.view.probcalculator.result.impl.models.LeftResultModel;
 import org.geogebra.common.gui.view.probcalculator.result.impl.models.RightResultModel;
 import org.geogebra.common.gui.view.probcalculator.result.impl.models.TwoTailedResultModel;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.junit.Before;
 import org.junit.Test;
 
