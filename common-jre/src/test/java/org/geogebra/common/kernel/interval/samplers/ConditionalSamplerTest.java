@@ -139,6 +139,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		assertEquals(1,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 	}
+
 	@Test
 	public void testNotEqual() {
 		GeoFunction function = add("a=If(x != 0, 1)");

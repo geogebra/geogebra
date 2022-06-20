@@ -138,6 +138,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 	@Test
 	public void supportIfList() {
 		shouldBeSupported("if(x < -2, -2, x > 0, 4)");
+		shouldBeSupported("if(x < -2, -2, x > 0, 4, 2)");
 		shouldBeSupported("if(x < -2, x + 1, x > 0, x^4)");
 		shouldBeSupported("if(-4 < x < -2, 3x, 2 < x < 4, 4x)");
 	}

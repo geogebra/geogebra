@@ -37,7 +37,7 @@ public class ConditionalSupport {
 	}
 
 	private static boolean isConditionSupported(ExpressionNode node) {
- 		boolean operationSupported = isOperationForConditionals(node.getOperation());
+        boolean operationSupported = isOperationForConditionals(node.getOperation());
 		if (!operationSupported) {
 			return false;
 		}
@@ -79,7 +79,7 @@ public class ConditionalSupport {
 	private static boolean isIfListSupported(ExpressionNode node) {
 		MyList conditions = (MyList) node.getLeft();
 		MyList conditionBodies = (MyList) node.getRight();
-		for (int i = 0; i < conditionBodies.size(); i++) {
+		for (int i = 0; i < conditions.size(); i++) {
 			ExpressionValue condition = conditions.getItem(i);
 			ExpressionValue body = conditionBodies.getItem(i);
 			if (!(isConditionSupported(condition.wrap())
