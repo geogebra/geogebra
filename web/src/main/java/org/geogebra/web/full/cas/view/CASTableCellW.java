@@ -9,6 +9,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.full.cas.view.InputPanel.InputPanelLabel;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -32,6 +33,7 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 public class CASTableCellW extends VerticalPanel {
 	private GeoCasCell casCell;
 	private final InputPanel inputPanel;
+	private final FlowPanel inputWrapper;
 	private FlowPanel outputPanel;
 	private String textBeforeEdit;
 	private CASEditorW textField;
@@ -58,7 +60,11 @@ public class CASTableCellW extends VerticalPanel {
 			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
 			inputPanel.setLaTeX(getLaTeXInputFromCell());
 		}
-		add(inputPanel);
+		inputWrapper = new FlowPanel();
+		inputWrapper.add(inputPanel);
+		// only sink events, don't prevent them
+		ClickEndHandler.initDefaults(inputWrapper, false, false);
+		add(inputWrapper);
 
 		Label outputLabel = null;
 		outputText = "";
@@ -156,7 +162,7 @@ public class CASTableCellW extends VerticalPanel {
 			inputPanel.setLaTeX(textField.getLaTeX());
 		}
 		clear();
-		add(inputPanel);
+		add(inputWrapper);
 		add(outputPanel);
 	}
 
@@ -165,7 +171,7 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public void cancelEditing() {
 		clear();
-		add(inputPanel);
+		add(inputWrapper);
 		add(outputPanel);
 	}
 
