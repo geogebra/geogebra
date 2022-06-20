@@ -199,7 +199,6 @@ import org.geogebra.common.util.debug.Log;
 		return !hasMoreVariables(node) && !node.inspect(operatorChecker);
 	}
 
-
 	static boolean hasMoreVariables(ExpressionNode node) {
 		if (node == null) {
 			return false;
