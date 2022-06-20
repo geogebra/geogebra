@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
+import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.distribution.CumulativeProperty;
@@ -32,7 +33,8 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new CumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView),
-				new ProbabilityResultProperty(localization)
+				new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
+						(PropertyResultPanel) probabilityCalculatorView.getResultPanel())
 		);
 		return Arrays.asList(array);
 	}
