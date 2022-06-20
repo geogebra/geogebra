@@ -108,8 +108,7 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private InfoErrorData getInfoErrorData() {
 		return new InfoErrorData("emptyMaterialList.caption.mow",
-				"emptyMaterialList.info.mow", null,
-				MaterialDesignResources.INSTANCE.mow_lightbulb());
+				"emptyMaterialList.info.mow");
 	}
 
 	private void initButtonPanel() {

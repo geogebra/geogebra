@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.CSSEvents;
+import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.ProfilePanel;
 import org.geogebra.web.shared.components.ComponentSearchBar;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FileViewCommon extends AnimatingPanel {
+public class FileViewCommon extends AnimatingPanel implements Persistable {
 
 	private final AppW app;
 	private final String title;
