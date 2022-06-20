@@ -1915,7 +1915,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            preferred size
 	 */
 	public void setPreferredSize(GDimension size) {
-		// TODO Auto-generated method stub
+		// implemented per platform
+	}
+
+	public GDimension getPreferredSize() {
+		return null;
 	}
 
 	/**
@@ -2672,10 +2676,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void enableUseFullGui() {
 		useFullGui = true;
-	}
-
-	public boolean getUseFullGui() {
-		return useFullGui;
 	}
 
 	/**

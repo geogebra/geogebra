@@ -20,7 +20,6 @@ import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -319,7 +318,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
-	private Dimension preferredSize = new Dimension();
+	private GDimension preferredSize;
 
 	/** Horizontal page margin in cm */
 	public static final double PAGE_MARGIN_X = (1.8 * 72) / 2.54;
@@ -465,7 +464,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
 
-		preferredSize = new Dimension(800, 600);
+		preferredSize = new GDimensionD(800, 600);
 
 		fontManager = new FontManagerD();
 		initImageManager(mainComp);
@@ -2705,13 +2704,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return mainComp;
 	}
 
-	public Dimension getPreferredSize() {
+	public GDimension getPreferredSize() {
 		return preferredSize;
 	}
 
 	@Override
 	public void setPreferredSize(GDimension size) {
-		preferredSize = GDimensionD.getAWTDimension(size);
+		preferredSize = size;
 	}
 
 	public Container getContentPane() {
