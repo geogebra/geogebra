@@ -1141,7 +1141,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (storage.getItem(STORAGE_MACRO_KEY) != null) {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
-					openMacro(macroName);
+					Macro editMacro = getKernel().getMacro(macroName);
+					openMacro(editMacro);
 					DomGlobal.document.title = macroName;
 					setToolLoadedFromStorage(true);
 					return true;
