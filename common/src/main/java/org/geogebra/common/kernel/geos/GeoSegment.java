@@ -916,4 +916,15 @@ final public class GeoSegment extends GeoLine
 	public boolean hasSegmentStyle() {
 		return !(startStyle.isDefault() && endStyle.isDefault());
 	}
+
+	@Override
+	public Coords getPointInD(int dimension, double lambda) {
+		if (endPoint != null && endPoint.isFinite()
+				&& startPoint != null && startPoint.isFinite()) {
+			return startPoint.getCoordsInD(dimension).mul(lambda)
+					.addInsideMul(endPoint.getCoordsInD(dimension), 1 - lambda);
+		} else {
+			return super.getPointInD(dimension, lambda);
+		}
+	}
 }

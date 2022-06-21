@@ -2039,6 +2039,13 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdIntersectPathHomogeneousCoords() {
+		t("A=Intersect(100x = -300, 100y = 200)", "(-3, 2)");
+		tRound("t1=Polygon(A, (-3,-2), (3,-2))", "12", "4", "6", "7.2111");
+		tRound("IntersectPath(t1,-3x+2y=10)", "1.24808");
+	}
+
+	@Test
 	public void cmdIntersectPoly() {
 		t("ZoomIn(-5,-5,5,5)");
 		intersect("x^2+x", "x^2+x", false, "(?, ?)");
