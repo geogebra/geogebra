@@ -1172,6 +1172,8 @@ public class CommandsTest {
 				"(0.547622890963136, 0.12372237646614026)");
 		t("ClosestPoint[ Polygon[(1,1),(2,1/2),(3,1/3)], (1,1) ]", "(1, 1)");
 		t("ClosestPoint[ xAxis, yAxis ]", "(0, 0)");
+		tRound("ClosestPoint[ sqrt(1/x), (-1,3) ]", "(0.1, 3.16228)");
+		tRound("ClosestPoint[ sqrt(sin(x)), (-1,0) ]", "(0, 0)");
 	}
 
 	@Test
