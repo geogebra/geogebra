@@ -3300,7 +3300,7 @@ public class AlgebraProcessor {
 			EvalInfo info) {
 		String label = n.getLabel();
 
-		GeoElement ret;
+		GeoList ret;
 
 		// no operations or no variables are present, e.g.
 		// { a, b, 7 } or { 2, 3, 5 } + {1, 2, 4}
@@ -3341,7 +3341,7 @@ public class AlgebraProcessor {
 			if (info.isSymbolic()) {
 				((HasSymbolicMode) ret).initSymbolicMode();
 			}
-			if (!evalList.isDefined()) {
+			if (!evalList.isDefined() || (isIndependent && ret.isUndefinedMatrix())) {
 				ret.setUndefined();
 				ret.updateRepaint();
 			}
