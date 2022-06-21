@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.properties.impl.AbstractGroupedEnumerableProperty;
@@ -84,9 +83,8 @@ public class DistributionTypeProperty extends AbstractGroupedEnumerableProperty 
 		} else {
 			selectedDist = DISCRETE_DISTRIBUTIONS.get(index - CONTINUOUS_DISTRIBUTIONS.size() - 1);
 		}
-		GeoNumeric[] parameters = ProbabilityManager
-				.getDefaultParameters(selectedDist, view
-						.getPlotPanel().getKernel().getConstruction());
-		view.setProbabilityCalculator(selectedDist, parameters, view.isCumulative());
+		if (selectedDist != view.getSelectedDist()) {
+			view.setProbabilityCalculator(selectedDist, null, view.isCumulative());
+		}
 	}
 }

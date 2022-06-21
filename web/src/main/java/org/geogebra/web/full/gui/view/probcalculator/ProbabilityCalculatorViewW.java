@@ -4,7 +4,6 @@ import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
@@ -385,10 +384,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 */
 	protected App getApp() {
 		return app;
-	}
-
-	public GeoNumberValue[] getParameters() {
-		return parameters;
 	}
 
 	public void setDistributionPanel(DistributionPanel widgets) {
