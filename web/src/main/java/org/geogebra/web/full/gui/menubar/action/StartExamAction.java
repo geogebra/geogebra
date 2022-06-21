@@ -44,7 +44,7 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 			});
 			examStartDialog.setOnPositiveAction(() -> {
 				ExamClassicStartDialog.blockEscTab(app);
-				app.setNewExam();
+				app.setNewExam(examStartDialog.getSelectedRegion());
 				app.startExam();
 			});
 			examStartDialog.show();

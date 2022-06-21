@@ -1,5 +1,7 @@
 package org.geogebra.common.main.exam.restriction;
 
+import java.util.stream.Stream;
+
 /**
  * Class to manage restrictions at exam start and clear them at exam end..
  */
@@ -21,4 +23,9 @@ public interface RestrictExam {
 	 * @param item to register as a Restrictable-
 	 */
 	void register(Restrictable item);
+
+	/**
+	 * @return all restrictable objects
+	 */
+	Stream<Restrictable> getRestrictables();
 }

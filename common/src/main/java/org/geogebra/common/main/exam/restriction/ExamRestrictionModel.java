@@ -1,13 +1,14 @@
 package org.geogebra.common.main.exam.restriction;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Model containing the exam restrictions.
  */
 public class ExamRestrictionModel {
-	private List<String> subAppCodes;
+	private List<String> subAppCodes = Collections.emptyList();
 
 	void setSubAppCodes(String... list) {
 		subAppCodes = Arrays.asList(list);
