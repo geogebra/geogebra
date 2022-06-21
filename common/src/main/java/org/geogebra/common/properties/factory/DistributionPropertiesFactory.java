@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
@@ -13,6 +14,7 @@ import org.geogebra.common.properties.impl.distribution.CumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.common.properties.impl.distribution.IntervalProperty;
 import org.geogebra.common.properties.impl.distribution.ParameterProperty;
+import org.geogebra.common.properties.impl.distribution.ProbabilityResultProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 
 public class DistributionPropertiesFactory implements PropertiesFactory {
@@ -35,7 +37,10 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new CumulativeProperty(localization, probabilityCalculatorView),
-				new IntervalProperty(localization, probabilityCalculatorView));
+				new IntervalProperty(localization, probabilityCalculatorView),
+				new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
+						(PropertyResultPanel) probabilityCalculatorView.getResultPanel())
+		);
 		return Arrays.asList(array);
 	}
 

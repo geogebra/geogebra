@@ -400,7 +400,7 @@ public abstract class ProbabilityCalculatorView
 		updateStylebar();
 	}
 
-	protected abstract ResultPanel getResultPanel();
+	public abstract ResultPanel getResultPanel();
 
 	protected abstract void updateOutput();
 
