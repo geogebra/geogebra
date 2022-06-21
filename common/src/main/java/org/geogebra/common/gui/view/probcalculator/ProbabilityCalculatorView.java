@@ -334,6 +334,13 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	/**
+	 * @return parameters
+	 */
+	public GeoNumberValue[] getParameters() {
+		return parameters;
+	}
+
+	/**
 	 * @param distributionType distribution type
 	 * @param parameters distribution parameters
 	 * @param isCumulative whether it's cumulative
@@ -2157,6 +2164,15 @@ public abstract class ProbabilityCalculatorView
 		updateGreaterSign(resultPanel);
 	}
 
+	/**
+	 * Updates result panel if it exists
+	 */
+	public void updateResult() {
+		if (getResultPanel() != null) {
+			updateResult(getResultPanel());
+		}
+	}
+
 	protected void updateResult(ResultPanel resultPanel) {
 		updateLowHigh(resultPanel);
 		if (probMode == PROB_TWO_TAILED) {
@@ -2240,5 +2256,13 @@ public abstract class ProbabilityCalculatorView
 
 	public double getProbability() {
 		return probability;
+	}
+
+	/**
+	 * Call this when parameters change.
+	 */
+	public void onParameterUpdate() {
+		updateOutput();
+		updateResult();
 	}
 }

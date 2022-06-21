@@ -51,9 +51,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Class to handle probability calculations and to maintain the fields
  * associated with the various probability distribution used by
  * ProbabilityCalculator.
- * 
+ *
  * @author G Sturr
- * 
+ *
  */
 public class ProbabilityManager {
 
@@ -75,7 +75,7 @@ public class ProbabilityManager {
 
 	/**
 	 * Returns true of the given distribution type is discrete
-	 * 
+	 *
 	 * @param distType
 	 *            distribution type
 	 * @return whether distribution is discrete
@@ -90,7 +90,7 @@ public class ProbabilityManager {
 	 * Creates a hash map that can return a JComboBox menu string for
 	 * distribution type constant Key = display type constant Value = menu item
 	 * string
-	 * 
+	 *
 	 * @return map distribution -&gt; localized name
 	 */
 	public HashMap<Dist, String> getDistributionMap() {
@@ -121,7 +121,7 @@ public class ProbabilityManager {
 	 * Creates a reverse hash map that can return a distribution constant for a
 	 * string selected in a JComboBox distribution menu Key = menu item string
 	 * Value = display type constant
-	 * 
+	 *
 	 * @return map localized name -&gt; distribution
 	 */
 	public HashMap<String, Dist> getReverseDistributionMap() {
@@ -138,7 +138,7 @@ public class ProbabilityManager {
 	/**
 	 * Returns a 2D array of strings used to label the parameter fields for each
 	 * type of distribution
-	 * 
+	 *
 	 * @param loc
 	 *            localization
 	 * @return matrix of strings
@@ -215,8 +215,88 @@ public class ProbabilityManager {
 	}
 
 	/**
+	 * Returns a 2D array of strings used to label the parameter fields for each
+	 * type of distribution. It uses the Parameter prefix where necessary.
+	 * @param loc localization
+	 * @return matrix of strings
+	 */
+	public static String[][] getParameterLabelArrayPrefixed(Localization loc) {
+		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][3];
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.NORMAL
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.NORMAL
+				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("StandardDeviation.short"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.STUDENT
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom.short"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.CHISQUARE
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom.short"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.F.ordinal()][0] =
+				parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom1.short"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.F.ordinal()][1] =
+				parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom2.short"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.EXPONENTIAL
+				.ordinal()][0] = parameterPrefixed(loc, Unicode.lambda + "");
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.CAUCHY
+				.ordinal()][0] = loc.getMenu("Median");
+		parameterLabels[ProbabilityCalculatorSettings.Dist.CAUCHY
+				.ordinal()][1] = loc.getMenu("Distribution.Scale");
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.WEIBULL
+				.ordinal()][0] = loc.getMenu("Distribution.Shape");
+		parameterLabels[ProbabilityCalculatorSettings.Dist.WEIBULL
+				.ordinal()][1] = loc.getMenu("Distribution.Scale");
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGISTIC
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGISTIC
+				.ordinal()][1] = loc.getMenu("Distribution.Scale");
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGNORMAL
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGNORMAL
+				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("StandardDeviation.short"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.GAMMA
+				.ordinal()][0] = parameterPrefixed(loc, Unicode.alpha + "");
+		parameterLabels[ProbabilityCalculatorSettings.Dist.GAMMA
+				.ordinal()][1] = parameterPrefixed(loc, Unicode.beta + "");
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.BINOMIAL
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Binomial.number"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.BINOMIAL
+				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("Binomial.probability"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.PASCAL
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Binomial.number"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.PASCAL
+				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("Binomial.probability"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.POISSON
+				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
+
+		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
+				.ordinal()][0] = loc.getMenu("Hypergeometric.population");
+		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
+				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("Hypergeometric.number"));
+		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
+				.ordinal()][2] = loc.getMenu("Hypergeometric.sample");
+
+		return parameterLabels;
+	}
+
+	private static String parameterPrefixed(Localization localization, String label) {
+		return localization.getPlainDefault("ParameterA", "Parameter $0", label);
+	}
+
+	/**
 	 * Returns a GeoGebra inverse probability distribution command
-	 * 
+	 *
 	 * @param dist
 	 *            distribution
 	 * @param cons
@@ -229,7 +309,7 @@ public class ProbabilityManager {
 	 *            distribution parameter 3
 	 * @param x
 	 *            variable value
-	 * 
+	 *
 	 * @return AlgoDistribution
 	 */
 	protected static AlgoDistribution getInverseCommand(Dist dist,
@@ -299,7 +379,7 @@ public class ProbabilityManager {
 
 	/**
 	 * Returns a GeoGebra probability distribution command
-	 * 
+	 *
 	 * @param dist
 	 *            distribution
 	 * @param cons
@@ -387,10 +467,10 @@ public class ProbabilityManager {
 	/**
 	 * Returns an array of the required number of parameters needed for each
 	 * distribution type. The array is indexed by distribution type.
-	 * 
+	 *
 	 * @param dist
 	 *            distribution
-	 * 
+	 *
 	 * @return number of parameters
 	 */
 	public static int getParmCount(Dist dist) {
@@ -426,7 +506,7 @@ public class ProbabilityManager {
 	 * Creates a map that returns default parameter values for each distribution
 	 * type. /* Key = distribution type constant /* Value = default parameter
 	 * values for the distribution type
-	 * 
+	 *
 	 * @param dist
 	 *            distribution
 	 * @return default parameters
@@ -485,7 +565,7 @@ public class ProbabilityManager {
 	 * Returns the appropriate plot dimensions for a given distribution and
 	 * parameter set. Plot dimensions are returned as an array of double: {xMin,
 	 * xMax, yMin, yMax}
-	 * 
+	 *
 	 * @param selectedDist
 	 *            distribution
 	 * @param parms
@@ -729,7 +809,7 @@ public class ProbabilityManager {
 
 	/**
 	 * Returns numerical measures of the given distribution
-	 * 
+	 *
 	 * @param selectedDist
 	 *            distribution
 	 * @param parms
@@ -879,7 +959,7 @@ public class ProbabilityManager {
 	/**
 	 * If isCumulative = true, returns P(X <= value) for the given distribution
 	 * If isCumulative = false, returns P(X = value) for the given distribution
-	 * 
+	 *
 	 * @param value
 	 *            variable value
 	 * @param parms
@@ -919,7 +999,7 @@ public class ProbabilityManager {
 	 * probability mode. If mode == PROB_INTERVAL then P(low <= X <= high) is
 	 * returned. If mode == PROB_LEFT then P(low <= X) is returned. If mode ==
 	 * PROB_RIGHT then P(X <= high) is returned.
-	 * 
+	 *
 	 * @param low
 	 *            interval start
 	 * @param high
@@ -966,7 +1046,7 @@ public class ProbabilityManager {
 	/**
 	 * Returns an inverse probability for a selected distribution and a given
 	 * cumulative (left area) probability.
-	 * 
+	 *
 	 * @param distType
 	 *            distribution type
 	 * @param prob
