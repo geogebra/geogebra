@@ -1639,9 +1639,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	/**
-	 * @return preferred size
-	 */
+	@Override
 	public GDimension getPreferredSize() {
 		if (preferredSize == null) {
 			return new Dimension(800, 600);
@@ -2241,13 +2239,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		this.appletHeight = height;
 	}
 
-	protected int getInnerAppletWidth() {
+	/**
+	 * @return app width excluding border
+	 */
+	public int getInnerAppletWidth() {
 		int border = getAppletParameters().getBorderThickness();
 		return getAppletWidth() - border <= 0 && (getPreferredSize() != null)
 				? getPreferredSize().getWidth() : getAppletWidth() - border;
 	}
 
-	protected int getInnerAppletHeight() {
+	/**
+	 * @return app height excluding border
+	 */
+	public int getInnerAppletHeight() {
 		int border = getAppletParameters().getBorderThickness();
 		return getAppletHeight() - border <= 0 && (getPreferredSize() != null)
 				? getPreferredSize().getHeight() : getAppletHeight() - border;
