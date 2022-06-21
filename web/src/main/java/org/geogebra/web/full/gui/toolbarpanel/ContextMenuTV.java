@@ -106,6 +106,8 @@ public class ContextMenuTV {
 			}
 		});
 		addCommand(view::clearValues, "ClearColumn", "clear");
+		wrappedPopup.addVerticalSeparator();
+		addOneVarStats("x");
 	}
 
 	private void buildYColumnMenu() {
@@ -114,19 +116,24 @@ public class ContextMenuTV {
 
 		String headerHTMLName = TableUtil.getHeaderHtml(view.getTableValuesModel(),
 				getColumnIdx());
-		DialogData oneVarStat = new DialogData("1VariableStatistics",
-				getColumnTitleHTML(headerHTMLName), "Close", null);
-		addStats(getStatisticsTitleHTML(headerHTMLName), view::getStatistics1Var, oneVarStat);
+		addOneVarStats(headerHTMLName);
 
 		DialogData twoVarStat = new DialogData("2VariableStatistics",
 				getColumnTitleHTML("x " + headerHTMLName), "Close", null);
 		addStats(getStatisticsTitleHTML("x " + headerHTMLName),
-				view::getStatistics2Var, twoVarStat);
+				view::getStatistics2Var, twoVarStat, "StatsDialog.NoDataMsg2VarStats");
 
 		DialogData regressionData = new DialogData("Regression",
 				getColumnTitleHTML(headerHTMLName), "Close", "Plot");
 		addCommand(() -> showRegression(regressionData), "Regression",
 				"regression");
+	}
+
+	private void addOneVarStats(String headerHTMLName) {
+		DialogData oneVarStat = new DialogData("1VariableStatistics",
+				getColumnTitleHTML(headerHTMLName), "Close", null);
+		addStats(getStatisticsTitleHTML(headerHTMLName), view::getStatistics1Var, oneVarStat,
+				"StatsDialog.NoDataMsg1VarStats");
 	}
 
 	private String getStatisticsTitleHTML(String argument) {
@@ -150,8 +157,8 @@ public class ContextMenuTV {
 	}
 
 	private void addStats(String title, Function<Integer, List<StatisticGroup>> statFunction,
-			DialogData data) {
-		addCommandLocalized(() -> showStats(statFunction, data), title, "stats");
+			DialogData data, String noDataMsg) {
+		addCommandLocalized(() -> showStats(statFunction, data, noDataMsg), title, "stats");
 	}
 
 	private void showRegression(DialogData data) {
@@ -186,14 +193,14 @@ public class ContextMenuTV {
 	}
 
 	private void showStats(Function<Integer, List<StatisticGroup>> statFunction,
-			DialogData data) {
+			DialogData data, String noDataMsg) {
 		app.getAsyncManager().scheduleCallback(() -> {
 			List<StatisticGroup> rowData = statFunction.apply(getColumnIdx());
 			if (!rowData.isEmpty()) {
 				StatsDialogTV dialog = new StatsDialogTV(app, view, getColumnIdx(), data);
 				dialog.setRowsAndShow(rowData);
 			} else {
-				showErrorDialog(data, "StatsDialog.NoDataMsg2VarStats");
+				showErrorDialog(data, noDataMsg);
 			}
 		});
 	}
