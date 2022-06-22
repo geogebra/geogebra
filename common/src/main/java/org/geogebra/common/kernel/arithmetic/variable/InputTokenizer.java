@@ -164,7 +164,8 @@ public class InputTokenizer {
 				return getTokenWithIndexLength(input.indexOf('}', offset) + 1);
 			}
 			return getTokenWithIndexLength(offset + 2);
-		} else if (input.charAt(offset) == '\'') {
+		} else if (input.charAt(offset) == '\'' || input.charAt(offset) == '‘'
+			|| input.charAt(offset) == '’') {
 			return getTokenWithIndexLength(offset + 1);
 		}
 		return offset;
