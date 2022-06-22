@@ -47,11 +47,13 @@ public class SyntaxController implements MathFieldInternalListener {
 
 		MathFunction fn = getMathFunction(editorState);
 		if (fn.getName() == Tag.APPLY && !fn.getPlaceholders().isEmpty()) {
-			int commas = editorState.countCommasBeforeCurrent();
-			if (commas < fn.getPlaceholders().size()) {
+			int commasBefore = editorState.countCommasBeforeCurrent();
+			int commasAfter = editorState.countCommasAfterCurrent();
+			if (commasBefore < fn.getPlaceholders().size()
+					&& (commasBefore + commasAfter + 1 == fn.getPlaceholders().size())) {
 				String serializedCommand = GeoGebraSerializer.serialize(fn.getArgument(0));
 				if (serializedCommand.equals(fn.getCommandForSyntax())) {
-					hint.update(serializedCommand, fn.getPlaceholders(), commas);
+					hint.update(serializedCommand, fn.getPlaceholders(), commasBefore);
 				}
 			}
 		}
