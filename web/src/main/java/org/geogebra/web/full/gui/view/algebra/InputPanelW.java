@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class InputPanelW extends FlowPanel {
 
+	private static final int SHOW_KEYBOARD_BUTTON_LIMIT = 8;
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;
 	private TextEditPanel textAreaComponent;
@@ -38,6 +39,7 @@ public class InputPanelW extends FlowPanel {
 		textComponent = new AutoCompleteTextFieldW(columns, app);
 		textComponent.setAutoComplete(autoComplete);
 		add(textComponent);
+		enableGGBKeyboard(app, columns, textComponent);
 	}
 
 	/**
@@ -78,10 +80,19 @@ public class InputPanelW extends FlowPanel {
 			AutoCompleteTextFieldW atf = textComponent;
 			atf.setAutoComplete(false);
 
-			if (!app.isWhiteboardActive()) {
-				atf.enableGGBKeyboard();
-			}
+			enableGGBKeyboard(app, columns, atf);
 		}
+	}
+
+	private void enableGGBKeyboard(App app, int columns, AutoCompleteTextFieldW atf) {
+		if (!app.isWhiteboardActive()) {
+			atf.prepareShowSymbolButton(canHaveKeyboard(columns));
+			atf.enableGGBKeyboard();
+		}
+	}
+
+	private boolean canHaveKeyboard(int columns) {
+		return columns == -1 || columns > SHOW_KEYBOARD_BUTTON_LIMIT;
 	}
 
 	/**

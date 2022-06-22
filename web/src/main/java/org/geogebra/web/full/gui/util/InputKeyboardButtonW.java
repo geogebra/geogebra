@@ -50,6 +50,7 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 			return;
 		}
 
+		button.getElement().setTabIndex(-1);
 		Dom.toggleClass(textField, "kbdInput", true);
 	}
 
@@ -75,7 +76,9 @@ public class InputKeyboardButtonW implements InputKeyboardButton, IsWidget {
 	@Override
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-		if (!enabled) {
+		if (enabled) {
+			show();
+		} else {
 			hide();
 		}
 	}

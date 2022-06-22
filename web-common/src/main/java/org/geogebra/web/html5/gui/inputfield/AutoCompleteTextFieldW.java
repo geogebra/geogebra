@@ -32,7 +32,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
@@ -40,7 +39,6 @@ import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
-import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
@@ -313,6 +311,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
 			requestFocus();
 			event.stopPropagation();
+		});
+
+		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {
+			attachKeyboardButton(keyboardButton);
 		});
 
 		addContent(textField);
@@ -1272,7 +1274,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void requestFocus() {
 		textField.setFocus(true);
-		keyboardButton.show();
 		if (geoUsedForInputBox != null) {
 			Dom.toggleClass(this, "errorStyle", geoUsedForInputBox.hasError());
 		}
@@ -1391,6 +1392,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void prepareShowSymbolButton(boolean show) {
 		keyboardButtonEnabled = show;
+		Dom.toggleClass(this, "noKeyboard", !keyboardButtonEnabled);
 	}
 
 	@Override
