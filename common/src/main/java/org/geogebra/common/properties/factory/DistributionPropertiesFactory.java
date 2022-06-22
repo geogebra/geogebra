@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.probcalculator.PropertyResultPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.distribution.CumulativeProperty;
 import org.geogebra.common.properties.impl.distribution.DistributionTypeProperty;
 import org.geogebra.common.properties.impl.distribution.IntervalProperty;
@@ -33,31 +34,17 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 	@Override
 	public List<PropertiesArray> createProperties(App app, Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-
-		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
-				new DistributionTypeProperty(localization, probabilityCalculatorView),
-				new CumulativeProperty(localization, probabilityCalculatorView),
-				new IntervalProperty(localization, probabilityCalculatorView),
-				new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
-						(PropertyResultPanel) probabilityCalculatorView.getResultPanel())
-		);
-		return Arrays.asList(array);
-	}
-
-	/**
-	 * Creates parameter properties list
-	 * @param app app
-	 * @param localization localization
-	 * @return a list that contains the relevant parameter properties
-	 */
-	public List<ParameterProperty> createParameterProperties(App app, Localization localization) {
 		ensureLabelsExist(localization);
 
-		ArrayList<ParameterProperty> parameters = new ArrayList<>();
+		ArrayList<Property> properties = new ArrayList<>(Arrays.asList(
+				new DistributionTypeProperty(localization, probabilityCalculatorView),
+				new CumulativeProperty(localization, probabilityCalculatorView),
+				new IntervalProperty(localization, probabilityCalculatorView)
+		));
+
 		ProbabilityCalculatorSettings.Dist distribution =
 				probabilityCalculatorView.getSelectedDist();
 		int count = ProbabilityManager.getParmCount(distribution);
-
 		for (int parameterIndex = 0; parameterIndex < count; parameterIndex++) {
 			ParameterProperty property = new ParameterProperty(
 					app.kernel.getAlgebraProcessor(),
@@ -65,10 +52,15 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 					parameterIndex,
 					labels[distribution.ordinal()][parameterIndex]
 			);
-			parameters.add(property);
+			properties.add(property);
 		}
+		properties.add(new ProbabilityResultProperty(app.getKernel().getAlgebraProcessor(),
+				(PropertyResultPanel) probabilityCalculatorView.getResultPanel()));
 
-		return parameters;
+		PropertiesArray array = new PropertiesArray(localization.getMenu("Distribution"),
+				properties.toArray(new Property[]{})
+		);
+		return Arrays.asList(array);
 	}
 
 	private void ensureLabelsExist(Localization localization) {
