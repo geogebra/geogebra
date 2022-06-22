@@ -654,7 +654,28 @@
 					height: 68px;
 
 					.cardTitle {
-						margin-bottom: 12px;
+                        padding: 8px 16px 16px 16px;
+                        margin-bottom: 0;
+                    }
+
+					.cardAuthor {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	.openFileView.examTemporaryFiles .compact {
+		.materialPanel {
+			.materialCard {
+				height: 146px;
+
+				.cardInfoPanel {
+					height: 52px;
+
+					.cardTitle {
+						padding: 8px 12px;
 					}
 				}
 			}

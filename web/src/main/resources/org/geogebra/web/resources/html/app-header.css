@@ -127,11 +127,19 @@ img.profileImage {
     margin: 14px 18px;
 }
 
+.GeoGebraHeader.compact .examInfoBtn {
+	margin: 6px 18px;
+}
+
 .GeoGebraHeader .examTimer {
     font-size: 24px;
     font-weight: normal;
     margin: 20px 0px;
     line-height: 1;
+}
+
+.GeoGebraHeader.compact .examTimer {
+	margin: 12px 0;
 }
 
 .GeoGebraFrame .headerStyle {
