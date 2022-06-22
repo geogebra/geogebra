@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.main.App;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.RegexpMatch;
@@ -803,5 +804,19 @@ public class TableValuesViewTest extends BaseUnitTest {
 		model.registerListener(listener);
 		view.clearValues();
 		verify(listener).notifyRowsRemoved(model, 1, 4);
+	}
+
+	@Test
+	public void testRegressionApps3867() {
+		App app = getApp();
+
+		processor.processInput("1", view.getValues(), 0);
+		String xmlWithXValues = app.getXML();
+
+		app.clearConstruction();
+		processor.processInput("1", view.getValues(), 0);
+		String xml = app.getXML();
+
+		assertEquals(xmlWithXValues, xml);
 	}
 }

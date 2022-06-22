@@ -120,6 +120,11 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 	}
 
 	@Override
+	public boolean canSetRandomValue() {
+		return expressionParentAlgo instanceof SetRandomValue;
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Sequence;
 	}

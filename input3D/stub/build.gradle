@@ -1,5 +1,5 @@
 plugins {
-	id 'java'
+	id 'java-library'
 }
 
 project.setDescription('Parts of GeoGebra related to input devices (standard)')
@@ -8,5 +8,5 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	compile project(':common')
+	implementation project(':common')
 }

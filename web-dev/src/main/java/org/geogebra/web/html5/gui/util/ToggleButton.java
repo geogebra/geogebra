@@ -2,9 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import java.util.List;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import com.google.gwt.user.client.DOM;
@@ -38,15 +36,6 @@ public class ToggleButton extends FocusWidget {
 		addStyleName("MyToggleButton");
 		setSelected(false);
 		setIcon(svgRes);
-	}
-
-	public ToggleButton(ResourcePrototype svgRes, GColor hoverIconColor) {
-		this(svgRes);
-		if (hoverIconColor != null) {
-			setMouseOverHandler(() ->
-					setIcon(((SVGResource) svgRes).withFill(hoverIconColor.toString())));
-			setMouseOutHandler(() -> setIcon(svgRes));
-		}
 	}
 
 	/**
@@ -171,19 +160,4 @@ public class ToggleButton extends FocusWidget {
 		}
 	}
 
-	/**
-	 * @param mouseOverHandler - mouse over handler
-	 */
-	public void setMouseOverHandler(Runnable mouseOverHandler) {
-		Dom.addEventListener(this.getElement(), "mouseover", (e) ->
-				mouseOverHandler.run());
-	}
-
-	/**
-	 * @param mouseOutHandler - mouse out handler
-	 */
-	public void setMouseOutHandler(Runnable mouseOutHandler) {
-		Dom.addEventListener(this.getElement(), "mouseout", (e) ->
-				mouseOutHandler.run());
-	}
 }

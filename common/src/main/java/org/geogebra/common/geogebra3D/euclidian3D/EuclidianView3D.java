@@ -183,7 +183,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private static final double MAX_ANGLE_SPEED_SURFACE = 20; // degrees
 	private static final double MAX_BEND_SPEED_SURFACE = Math
 			.tan(MAX_ANGLE_SPEED_SURFACE * Kernel.PI_180);
-	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 
     static public final int CURSOR_DELAY_IN_MILLISECONDS = 1000;
 

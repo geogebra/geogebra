@@ -59,22 +59,6 @@ $purple-default: #6557D2;
 		}
 	}
 
-	.keyBoardClosePanel {
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 30px;
-		height: 30px;
-		cursor: pointer;
-		text-align: center;
-		background-color: $old-keyboard-background;
-		border-top-left-radius: 5px;
-	}
-
-	.keyBoardClosePanel .closeIcon {
-		padding-top: 6px;
-	}
-
 	.closeTabbedKeyboardButton {
 		position: relative;
 		float: right;
@@ -85,6 +69,11 @@ $purple-default: #6557D2;
 		margin: 4px 4px 4px 5px;
 		right: 0px;
 		cursor: pointer !important;
+		opacity: 0.54;
+
+		&:hover {
+			opacity: 1;
+		}
 	}
 
 	/* special css for Springboard */
@@ -434,6 +423,11 @@ $purple-default: #6557D2;
 		padding: 4px;
 		margin: 4px 0px 4px 4px;
 		cursor: pointer !important;
+		opacity: 0.54;
+
+		&:hover {
+			opacity: 1;
+		}
 	}
 
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {

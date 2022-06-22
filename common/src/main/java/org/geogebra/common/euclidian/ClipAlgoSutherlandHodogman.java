@@ -3,12 +3,16 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.util.DoubleUtil;
 
 public class ClipAlgoSutherlandHodogman {
 
 	public static final int EDGE_COUNT = 4;
 	public static final double Y_LIMIT = 1E6;
+
+	private double maxValue = Float.MAX_VALUE;
 
 	static class Edge {
 		private final MyPoint start;
@@ -21,24 +25,31 @@ public class ClipAlgoSutherlandHodogman {
 	}
 
 	/**
+	 * Max value used when calculations produce Infinity or NaN values.
+	 * @param maxValue value
+	 */
+	public void setMaxValue(double maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	/**
 	 * @param input input points
 	 * @param clipPoints vertices of clipping polygon
 	 * @return clipped points
 	 */
 	public List<MyPoint> process(List<MyPoint> input, double[][] clipPoints) {
 		List<MyPoint> output = input;
+		limitYValues(output);
 		for (int i = 0; i < EDGE_COUNT; i++) {
 			output = clipWithEdge(createEdge(clipPoints, i), output);
 		}
-		limitXYValues(output);
+
 		return output;
 	}
 
-	private void limitXYValues(List<MyPoint> input) {
-		input.forEach(pt -> {
-			pt.x = getSafeNumber(pt.x);
-			pt.y = getSafeNumber(pt.y);
-		});
+	private void limitYValues(List<MyPoint> input) {
+		input.stream().filter(pt -> pt.y > Y_LIMIT)
+				.forEach(pt -> pt.y = Math.signum(pt.y) * Y_LIMIT);
 	}
 
 	private Edge createEdge(double[][] clipPoints, int i) {
@@ -93,23 +104,45 @@ public class ClipAlgoSutherlandHodogman {
 
 	private MyPoint intersection(Edge edge, MyPoint p,
 			MyPoint q) {
-		double x, y;
-		if (edge.start.x == edge.end.x) {
-			x = edge.start.x;
-			y = intersectVal(p.x, p.y, q.x, q.y, x);
-		} else {
-			y = edge.start.y;
-			x = intersectVal(p.y, p.x, q.y, q.x, y);
-		}
-		return Double.isNaN(x) || Double.isNaN(y) ? null : new MyPoint(x, y);
-	}
+		double a1 = edge.end.y - edge.start.y;
+		double b1 = edge.start.x - edge.end.x;
+		double c1 = a1 * edge.start.x + b1 * edge.start.y;
 
-	private double intersectVal(double p1, double p2, double q1, double q2, double at) {
-		double slope = (q2 - p2) / (q1 - p1);
-		return Math.abs(p2) < Math.abs(q2) ? p2 + slope * (at - p1) : q2 + slope * (at - q1);
+		double a2 = q.y - p.y;
+		double b2 = p.x - q.x;
+		double c2 = getSafeNumber(a2 * p.x + b2 * p.y);
+
+		double det = a1 * b2 - a2 * b1;
+
+		double n1 = b2 * c1 - b1 * c2;
+		double x = getSafeNumber(n1 / det);
+
+		double n2 = a1 * c2 - a2 * c1;
+
+		double y = getSafeNumber(n2 / det);
+
+		if (Double.isNaN(x) || Double.isNaN(y))  {
+			return null;
+		}
+
+		// add 0.0 to avoid -0.0 problem.
+		return new MyPoint(x + 0.0, y + 0.0, q.getSegmentType());
 	}
 
 	private double getSafeNumber(double value) {
-		return Math.abs(value) > Y_LIMIT ? Math.signum(value) * Y_LIMIT : value;
+		if (DoubleUtil.isEqual(value, 0)) {
+			return Kernel.STANDARD_PRECISION;
+		}
+
+		if (DoubleUtil.isEqual(value, Double.POSITIVE_INFINITY)) {
+			return maxValue;
+		}
+
+		if (DoubleUtil.isEqual(value, Double.NEGATIVE_INFINITY)) {
+			return -maxValue;
+		}
+
+		return value;
+
 	}
 }

@@ -15,8 +15,6 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.annotation.CheckForNull;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -364,7 +362,4 @@ public interface GuiManagerInterface extends SettingListener {
 	void getViewsXML(StringBuilder sb, boolean asPreference);
 
 	void closeFullscreenView();
-
-	@CheckForNull
-	InputKeyboardButton getInputKeyboardButton();
 }

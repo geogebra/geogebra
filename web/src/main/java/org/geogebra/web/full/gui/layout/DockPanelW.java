@@ -8,6 +8,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
@@ -936,17 +937,9 @@ public abstract class DockPanelW extends ResizeComposite
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
 		case App.VIEW_EUCLIDIAN:
-			return new Dimension(
-					app.getSettings().getEuclidian(1).getPreferredSize()
-							.getWidth(),
-					app.getSettings().getEuclidian(1).getPreferredSize()
-							.getHeight());
+			return getPreferredEvSize(1);
 		case App.VIEW_EUCLIDIAN2:
-			return new Dimension(
-					app.getSettings().getEuclidian(2).getPreferredSize()
-							.getWidth(),
-					app.getSettings().getEuclidian(2).getPreferredSize()
-							.getHeight());
+			return getPreferredEvSize(2);
 		case App.VIEW_SPREADSHEET:
 			return new Dimension(
 					app.getSettings().getSpreadsheet().preferredSize()
@@ -957,6 +950,12 @@ public abstract class DockPanelW extends ResizeComposite
 
 		// probably won't work
 		return new Dimension(getOffsetWidth(), getOffsetHeight());
+	}
+
+	private GDimension getPreferredEvSize(int evId) {
+		EuclidianSettings evs = app.getSettings().getEuclidian(evId);
+		GDimension dim = evs.getPreferredSize();
+		return dim == null ? new Dimension(evs.getFileWidth(), evs.getFileHeight()) : dim;
 	}
 
 	/**

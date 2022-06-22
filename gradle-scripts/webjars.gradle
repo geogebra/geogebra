@@ -3,7 +3,7 @@ import java.nio.file.Paths
 ext.extractWebjars = { ->
     file("build/generated/sources/webjars/java/main/").mkdirs()
 
-    configurations.compile.each { jarFile ->
+    configurations.runtimeClasspath.each { jarFile ->
         // relative path: avoid problems when Dependabot branch name is used as workspace
         def jarPath = Paths.get(file(".").getAbsolutePath()).relativize(Paths.get("${jarFile}"))
 
@@ -12,7 +12,7 @@ ext.extractWebjars = { ->
                 from zipTree(jarFile).matching { include "**/*.js" }
                 into file("build/generated/sources/webjars/java/main/")
                 eachFile {
-                    path = "${jarFile.name.replaceAll("-[0-9].*", "").replace("-", "_")}/${name}"
+                    path = "${jarFile.name.replaceAll("-[0-9].*", "").replace("-", "_")}/${path.split('/')[5..-1].join('/')}"
                 }
             }
         }

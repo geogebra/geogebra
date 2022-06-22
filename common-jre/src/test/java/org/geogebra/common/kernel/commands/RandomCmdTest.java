@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
@@ -74,6 +78,31 @@ public class RandomCmdTest extends BaseUnitTest {
 		add("SetValue(l2,{\"\\log x\", \"\\log y\"})");
 		GeoText firstElement = (GeoText) l2.get(0);
 		assertTrue("List element should be LaTeX", firstElement.isLaTeX());
+	}
+
+	@Test
+	public void randomSequenceShouldStoreValueInXML() {
+		GeoElement list = add("Sequence(RandomUniform(1,3),k,1,5)");
+		assertNotNull(list.getParentAlgorithm());
+		assertThat(list.getParentAlgorithm().getXML(),
+				containsString("randomResult"));
+	}
+
+	@Test
+	public void genericSequenceShouldNotStoreValueInXML() {
+		GeoElement list = add("Sequence(SolveODE(x^2, k, k+1, 10, 0.01), k, 1, 10)");
+		assertNotNull(list.getParentAlgorithm());
+		assertThat(list.getParentAlgorithm().getXML(),
+				not(containsString("randomResult")));
+	}
+
+	@Test
+	public void numberShouldNotStoreValueInCommandXML() {
+		// simple numbers should store value in <element>, not command's <output>
+		GeoElement num = add("RandomUniform(1,2)");
+		assertNotNull(num.getParentAlgorithm());
+		assertThat(num.getParentAlgorithm().getXML(),
+				not(containsString("randomResult")));
 	}
 
 	private void addLatex(String label, String latex) {

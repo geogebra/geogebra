@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.CoordNearest;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * GeoCirclePart for
@@ -187,15 +188,17 @@ public class GeoConicPart extends GeoConic
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
-
+	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (!geo.isGeoConicPart()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 
 		GeoConicPartND other = (GeoConicPartND) geo;
 
-		return parameters.isEqual(other.getParameters()) && super.isEqual(geo);
+		if (parameters.isEqual(other.getParameters())) {
+			return super.isEqualExtended(geo);
+		}
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**

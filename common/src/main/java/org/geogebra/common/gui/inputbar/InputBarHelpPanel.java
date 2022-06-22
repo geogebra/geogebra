@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.inputbar;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class InputBarHelpPanel {
 	private Collection<String> mMathFunc;
 	private LowerCaseDictionary[] mSubDict;
 	private TreeMap<String, Integer> mCategoryNameToTableIndex;
-	private ArrayList<Collection<String>> mCommands;
+	private Map<Integer, Collection<String>> mCommands;
 	private StringBuilder mStringBuilder;
 
 	/**
@@ -133,7 +132,7 @@ public class InputBarHelpPanel {
 		mSubDict = mApp.getSubCommandDictionary();
 
 		int n = getCategoriesCount();
-		mCommands = new ArrayList<>(n);
+		mCommands = new HashMap<>(n);
 		mCategoryNameToTableIndex = new TreeMap<>();
 
 		for (int i = 0; i < n; i++) {
@@ -141,14 +140,14 @@ public class InputBarHelpPanel {
 			Collection<String> list = getSubDictionary(i).getAllCommands();
 			if (list != null) {
 				mCategoryNameToTableIndex.put(categoryName, i);
-				mCommands.add(list);
+				mCommands.put(i, list);
 			}
 		}
 
 	}
 
 	public Collection<String> getCommands(int i) {
-		return mCommands.get(i < mCommands.size() ? i : 0);
+		return mCommands.get(i);
 	}
 
 	public Collection<String> getAllCommands() {

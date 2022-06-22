@@ -92,6 +92,7 @@
         <exclude name="AvoidThrowingRawExceptionTypes"/>
         <exclude name="SingularField"/>
         <exclude name="UselessOverridingMethod"/>
+        <exclude name="CognitiveComplexity"/>
         <exclude name="CyclomaticComplexity"/>
         <exclude name="NPathComplexity"/>
         <exclude name="NcssCount"/>
@@ -108,6 +109,7 @@
         <exclude name="AbstractClassWithoutAnyMethod"/>
         <exclude name="DoNotExtendJavaLangError"/>
         <exclude name="AvoidUncheckedExceptionsInSignatures"/>
+        <exclude name="MutableStaticState"/>
     </rule>
     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
         <properties>
@@ -121,11 +123,11 @@
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="MissingSerialVersionUID"/>
-        <exclude name="ReturnEmptyArrayRatherThanNull"/>
+        <exclude name="ReturnEmptyCollectionRatherThanNull"/>
         <exclude name="CompareObjectsWithEquals"/>
         <exclude name="AvoidDuplicateLiterals"/>
         <exclude name="AvoidCatchingThrowable"/>
-        <exclude name="MissingBreakInSwitch"/>
+        <exclude name="ImplicitSwitchFallThrough"/>
         <exclude name="ConstructorCallsOverridableMethod"/>
         <exclude name="UseLocaleWithCaseConversions"/>
         <exclude name="DataflowAnomalyAnalysis"/>

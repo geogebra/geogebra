@@ -20,6 +20,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.FontLoader;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.richtext.EditorChangeListener;
@@ -407,6 +408,9 @@ public class InlineTableControllerW implements InlineTableController {
 		tableImpl = Carota.get().getTable().create(tableElement);
 		tableImpl.setExternalPaint(true);
 		tableImpl.init(2, 2);
+		// re-parent the textarea to make sure focus stays in view (MOW-1330)
+		Element textareaWrapper = Dom.querySelectorForElement(tableElement, ".murokTextArea");
+		parent.appendChild(textareaWrapper);
 
 		updateContent();
 		new EventThrottle(tableImpl).setListener(new EditorChangeListener() {

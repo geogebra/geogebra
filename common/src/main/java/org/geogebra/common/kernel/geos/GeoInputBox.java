@@ -266,14 +266,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
-			sb.append("\t<contentSerif val=\"" + serifContent + "\" />\n");
+			sb.append("\t<contentSerif val=\"").append(serifContent).append("\" />\n");
 		}
 
 		if (getLength() != defaultLength) {
 			sb.append("\t<length val=\"");
 			sb.append(getLength());
-			sb.append("\"");
-			sb.append("/>\n");
+			sb.append("\"/>\n");
 		}
 		if (getAlignment() != HorizontalAlignment.LEFT) {
 			sb.append("\t<textAlign val=\"");

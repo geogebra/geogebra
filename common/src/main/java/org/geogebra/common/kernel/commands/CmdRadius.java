@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Radius[ &lt;GeoConic> ]
+ * Radius[ &lt;GeoConic or Quadric> ]
  */
 public class CmdRadius extends CommandProcessor {
 
@@ -27,23 +27,18 @@ public class CmdRadius extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
-		switch (n) {
-		case 1:
+		if (n == 1) {
 			arg = resArgs(c);
 
 			// asymptotes to conic
 			if (arg[0] instanceof GeoQuadricND) {
-
 				AlgoRadius algo = new AlgoRadius(cons,
 						(GeoQuadricND) arg[0]);
 				algo.getRadius().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRadius() };
-				return ret;
+				return new GeoElement[]{algo.getRadius()};
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
 		}
+		throw argNumErr(c);
 	}
 }

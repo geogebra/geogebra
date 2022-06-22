@@ -57,8 +57,9 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 			}
 		});
 
-		tfAnimSpeed.enableGGBKeyboardWithOpenButton();
+		tfAnimSpeed.enableGGBKeyboard();
 		tfAnimSpeed.addBlurHandler(event -> doActionPerformed());
+		tfAnimSpeed.requestToShowSymbolButton();
 	}
 
 	private void doActionPerformed() {
