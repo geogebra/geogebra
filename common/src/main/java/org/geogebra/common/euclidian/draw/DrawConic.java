@@ -1636,7 +1636,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			if (objStroke.getLineWidth() > 0) {
-				if (strokedShape == null) {
+				if (strokedShape == null && fillShape != null) {
 					// AND-547, initial buffer size
 					try {
 						// org.geogebra.ggbjdk.java.awt.geom.IllegalPathStateException:
@@ -1649,9 +1649,11 @@ public class DrawConic extends SetDrawable implements Previewable {
 						return false;
 					}
 				}
-				isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
-						hitY - hitThreshold, 2 * hitThreshold,
-						2 * hitThreshold);
+				if (strokedShape != null) {
+					isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
+							hitY - hitThreshold, 2 * hitThreshold,
+							2 * hitThreshold);
+				}
 			}
 			break;
 

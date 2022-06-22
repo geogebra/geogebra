@@ -921,8 +921,8 @@ final public class GeoSegment extends GeoLine
 	public Coords getPointInD(int dimension, double lambda) {
 		if (endPoint != null && endPoint.isFinite()
 				&& startPoint != null && startPoint.isFinite()) {
-			return startPoint.getCoordsInD(dimension).mul(lambda)
-					.addInsideMul(endPoint.getCoordsInD(dimension), 1 - lambda);
+			return startPoint.getCoordsInD(dimension).mul(1 - lambda)
+					.addInsideMul(endPoint.getCoordsInD(dimension), lambda);
 		} else {
 			return super.getPointInD(dimension, lambda);
 		}

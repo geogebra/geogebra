@@ -1995,6 +1995,8 @@ public class CommandsTest {
 				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
 		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y",
 				false, "(1, 1)");
+		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
+				false, "(?, ?, ?)", "(0, 2, 0)");
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
