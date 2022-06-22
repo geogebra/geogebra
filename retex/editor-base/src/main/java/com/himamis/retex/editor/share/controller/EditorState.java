@@ -384,6 +384,19 @@ public class EditorState {
 		return commas;
 	}
 
+	/**
+	 * @return number of comma symbols after cursor
+	 */
+	public int countCommasAfterCurrent() {
+		int commas = 0;
+		for (int i = currentOffset; i < currentField.size(); i++) {
+			if (currentField.isComma(i)) {
+				commas++;
+			}
+		}
+		return commas;
+	}
+
 	private boolean endOfFunctionName() {
 		return currentField.getParent() instanceof MathFunction
 				&& currentField.getParent().hasTag(Tag.APPLY)
