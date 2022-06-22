@@ -709,6 +709,9 @@ public class CommandsTest {
 		((FunctionalNVar) get("F")).setSecret(null);
 		Assert.assertEquals("-cos(x) - (-cos(t - x))",
 				get("F").toValueString(StringTemplate.testTemplate));
+		t("G(x)=NIntegral(x/x^2, 1, 0, 10)",
+				"NIntegral[x / x^(2), 1, 0, 10]");
+		tRound("G(4)-ln(4)", "0");
 	}
 
 	@Test
