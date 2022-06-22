@@ -701,7 +701,7 @@ public class MathFieldInternal
 				if (allSelected && isMatrixWithSameDimension(rootBefore, root)) {
 					replaceRoot(rootBefore, root);
 				} else {
-					addToMathField(root);
+					addToMathField(root, rootProtected);
 				}
 			} catch (ParseException parseException) {
 				KeyboardInputAdapter.type(this, text);
@@ -718,9 +718,13 @@ public class MathFieldInternal
 		}
 	}
 
-	private void addToMathField(MathSequence root) {
+	private void addToMathField(MathSequence root, boolean filterCommas) {
 		for (int i = 0; i < root.getArgumentCount(); i++) {
-			getEditorState().addArgument(root.getArgument(i));
+			MathComponent argument = root.getArgument(i);
+			if (!filterCommas || (!",".equals(argument.toString())
+					&& !argument.hasTag(Tag.CURLY))) {
+				getEditorState().addArgument(argument);
+			}
 		}
 	}
 

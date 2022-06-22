@@ -344,4 +344,9 @@ public class MathArray extends MathContainer {
 
 		return rows == other.rows && columns == other.columns;
 	}
+
+	@Override
+	public boolean hasTag(Tag tag) {
+		return meta.getName() == tag;
+	}
 }

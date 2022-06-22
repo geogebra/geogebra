@@ -675,7 +675,7 @@ public class EditorTypingTest {
 		checker.insert("(2,3,3+4)")
 				.left(7)
 				.type(")")
-				.checkAsciiMath("(2,3,3+4)");
+				.checkAsciiMath("(2),3,3+4");
 
 		checker.insert("(2,3,3+4)").protect()
 				.left(7)
@@ -690,7 +690,7 @@ public class EditorTypingTest {
 		checker.insert("(2,3,3+4)")
 				.left(5)
 				.type(")")
-				.checkAsciiMath("(2,3,3+4)");
+				.checkAsciiMath("(2,3),3+4");
 
 		checker.insert("(2,3,3+4)").protect()
 				.left(5)
@@ -774,5 +774,31 @@ public class EditorTypingTest {
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("+")
 				.checkAsciiMath("12+sqrt(45)");
+	}
+
+	@Test
+	public void noCommasPastedInProtectedField() {
+		checker.insert("(2,3,3+4)").protect()
+				.left(3)
+				.insert("5,6")
+				.checkAsciiMath("(2,3,356+4)");
+	}
+
+	@Test
+	public void noCurlyBracesPastedInProtectedField() {
+		checker.insert("(2,3,3+4)").protect()
+				.left(3)
+				.insert("{}")
+				.checkAsciiMath("(2,3,3+4)");
+	}
+
+	@Test
+	public void closeBracketShouldMoveCharactersOut() {
+		checker.insert("123456789")
+				.left(6)
+				.type("(")
+				.right(2)
+				.type(")")
+				.checkAsciiMath("123(45)6789");
 	}
 }
