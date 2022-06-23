@@ -193,6 +193,15 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		}
 	}
 
+	/**
+	 * remove empty notification panel
+	 */
+	public void removeEmptyInfoPanel() {
+		if (emptyListNotificationPanel != null) {
+			emptyListNotificationPanel.removeFromParent();
+		}
+	}
+
 	@Override
 	public void setLabels() {
 		headerView.setCaption(localize(title));
