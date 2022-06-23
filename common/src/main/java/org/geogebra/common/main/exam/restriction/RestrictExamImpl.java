@@ -31,7 +31,6 @@ public class RestrictExamImpl implements RestrictExam {
 	@Override
 	public void disable() {
 		restrictables.forEach(Restrictable::cancelExamRestrictions);
-
 	}
 
 	@Override
