@@ -86,7 +86,7 @@ public class InputPanelW extends FlowPanel {
 
 	private void enableGGBKeyboard(App app, int columns, AutoCompleteTextFieldW atf) {
 		if (!app.isWhiteboardActive()) {
-			atf.prepareShowSymbolButton(canHaveKeyboard(columns));
+			atf.prepareShowSymbolButton(false);
 			atf.enableGGBKeyboard();
 		}
 	}

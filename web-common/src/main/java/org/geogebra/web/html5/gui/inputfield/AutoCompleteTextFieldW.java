@@ -1392,7 +1392,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void prepareShowSymbolButton(boolean show) {
 		keyboardButtonEnabled = show;
-		Dom.toggleClass(this, "noKeyboard", !keyboardButtonEnabled);
+		if (usedForInputBox()) {
+			Dom.toggleClass(this, "noKeyboard", !keyboardButtonEnabled);
+		}
 	}
 
 	@Override
