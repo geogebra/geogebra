@@ -38,7 +38,7 @@ public class ExamStartDialog extends ComponentDialog {
 		Log.error(ExamRegion.values());
 		for (ExamRegion region: ExamRegion.values()) {
 			String displayName = region.getDisplayName(app.getLocalization());
-			data.add(new RadioButtonData(displayName, false,
+			data.add(new RadioButtonData(displayName, region == ExamRegion.GENERIC,
 					() -> selectedRegion = region));
 		}
 		RadioButtonPanel regionPicker = new RadioButtonPanel(app.getLocalization(),

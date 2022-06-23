@@ -39,9 +39,7 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 			DialogData data = new DialogData("exam_menu_enter", cancel,
 					"exam_start_button");
 			ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
-			examStartDialog.setOnNegativeAction(() -> {
-				app.getLAF().toggleFullscreen(false);
-			});
+			examStartDialog.setOnNegativeAction(() -> app.getLAF().toggleFullscreen(false));
 			examStartDialog.setOnPositiveAction(() -> {
 				ExamClassicStartDialog.blockEscTab(app);
 				app.setNewExam(examStartDialog.getSelectedRegion());
