@@ -14,7 +14,7 @@ public enum ExamRegion {
 
 		@Override
 		public String getDisplayName(Localization loc) {
-			return loc.getMenu("Exam");
+			return loc.getMenu("GeoGebraCalculatorSuite");
 		}
 	},
 	NIEDERSACHSEN("Abitur Niedersachsen") {
