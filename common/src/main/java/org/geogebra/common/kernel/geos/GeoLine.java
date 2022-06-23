@@ -728,7 +728,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 			if (degree == 0) {
 				if (DoubleUtil.isEqual(x, 0) && DoubleUtil.isEqual(-z / y, coeffs[0])) {
-					return ExtendedBoolean.FALSE;
+					return ExtendedBoolean.TRUE;
 				}
 
 			} else {
