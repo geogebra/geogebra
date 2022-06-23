@@ -1,11 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  * Common interface for CAS cells and symbolic geos in AV
- * 
+ *
  * @author Zbynek
  *
  */
@@ -32,6 +34,7 @@ public interface GeoSymbolicI {
 	/**
 	 * @return computed expression
 	 */
-	public ExpressionValue getValue();
+	@Nullable
+	ExpressionValue getValue();
 
 }
