@@ -50,7 +50,6 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private ListBox sortDropDown;
 	private MaterialCallbackI allMaterialsCB;
-	private LoadSpinner spinner;
 
 	private boolean materialListEmpty = true;
 
@@ -79,14 +78,8 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	private void initGUI() {
 		this.allMaterialsCB = getUserMaterialsCB();
-		initSpinner();
 		initButtonPanel();
 		initSortDropdown();
-	}
-
-	private void initSpinner() {
-		spinner = new LoadSpinner();
-		common.addToContent(spinner);
 	}
 
 	/**
@@ -210,7 +203,7 @@ public class OpenFileViewMebis extends HeaderFileView
 
 	@Override
 	public void loadAllMaterials(int offset) {
-		spinner.show();
+		common.showSpinner();
 		if (offset == 0) {
 			clearMaterials();
 		}
@@ -329,7 +322,7 @@ public class OpenFileViewMebis extends HeaderFileView
 		for (Material material : matList) {
 			addMaterial(material);
 		}
-		spinner.hide();
+		common.hideSpinner();
 	}
 
 	@Override

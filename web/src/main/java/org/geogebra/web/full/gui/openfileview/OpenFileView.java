@@ -129,8 +129,8 @@ public class OpenFileView extends HeaderFileView
 
 	@Override
 	public void loadAllMaterials(int offset) {
+		common.showSpinner();
 		LogInOperation loginOperation = app.getLoginOperation();
-		common.showEmptyListNotification(getInfoErrorData());
 		if (loginOperation.isLoggedIn()) {
 			loginOperation.getResourcesAPI().getUsersMaterials(getCallback(),
 					ResourceOrdering.created);
@@ -160,11 +160,13 @@ public class OpenFileView extends HeaderFileView
 						addMaterial(material);
 					}
 				}
+				common.hideSpinner();
 			}
 
 			@Override
 			public void onError(Throwable exception) {
 				common.showEmptyListNotification(getInfoErrorData());
+				common.hideSpinner();
 			}
 		};
 	}
@@ -185,6 +187,7 @@ public class OpenFileView extends HeaderFileView
 		if (StringUtil.emptyTrim(query) || query.length() > 300) {
 			loadAllMaterials(0);
 		} else {
+			common.showSpinner();
 			app.getLoginOperation().getResourcesAPI().search(
 					query, getCallback());
 		}
