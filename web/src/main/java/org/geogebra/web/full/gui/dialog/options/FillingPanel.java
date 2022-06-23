@@ -10,7 +10,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-import org.geogebra.web.full.gui.dialog.FileInputDialog;
+import org.geogebra.web.full.gui.dialog.image.UploadImagePanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.BarList;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
@@ -26,14 +26,9 @@ import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-
-import elemental2.dom.File;
-import elemental2.dom.FileReader;
-import jsinterop.base.Js;
 
 public class FillingPanel extends OptionPanel implements IFillingListener {
 	FillingModel model;
@@ -50,7 +45,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private FlowPanel anglePanel;
 	private Label lblSelectedSymbol;
 	private Label lblMsgSelected;
-	private Button btnOpenFile;
+	private StandardButton btnOpenFile;
 
 	private PopupMenuButtonW btnImage;
 	// button for removing turtle's image
@@ -68,56 +63,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private InputPanelW unicodePanel;
 	private AppW app;
 	private BarList lbBars;
-
-	private class MyImageFileInputDialog extends FileInputDialog {
-
-		public MyImageFileInputDialog(AppW app) {
-			super(app);
-			createGUI();
-		}
-
-		@Override
-		protected void createGUI() {
-			super.createGUI();
-			addGgbChangeHandler(Js.uncheckedCast(getInputWidget().getElement()));
-		}
-
-		public void addGgbChangeHandler(elemental2.dom.HTMLInputElement el) {
-			el.setAttribute("accept", "image/*");
-			el.onchange = (event) -> {
-				for (int i = 0; i < el.files.length; ++i) {
-					if (el.files.getAt(i).type.matches("^image.*$")) {
-						openFileAsImage(el.files.getAt(i));
-						break;
-					}
-				}
-
-				return null;
-			};
-		}
-
-		public void openFileAsImage(File fileToHandle) {
-			String imageRegEx = ".*\\.(png|jpg|jpeg|gif|bmp|svg)$";
-			if (!fileToHandle.name.toLowerCase().matches(imageRegEx)) {
-				return;
-			}
-
-			FileReader reader = new FileReader();
-
-			reader.addEventListener("load", (ev) -> {
-				if (reader.readyState == FileReader.DONE) {
-					applyFillImage(fileToHandle.name, reader.result.asString());
-					hideAndFocus();
-				}
-			});
-
-			reader.readAsDataURL(fileToHandle);
-		}
-
-		public void applyFillImage(String name, String url) {
-			applyImage(name, url);
-		}
-	}
 
 	/**
 	 * @param model0
@@ -342,10 +287,11 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnClearImage = new StandardButton(MaterialDesignResources.INSTANCE.delete_black(),
 				24);
 		btnClearImage.addFastClickHandler(event -> model.applyImage(""));
-		btnOpenFile = new Button();
+		btnOpenFile = new StandardButton("");
 		btnOpenFile.addStyleName("openFileBtn");
 		btnClearImage.addStyleName("clearImgBtn");
-		btnOpenFile.addClickHandler(event -> new MyImageFileInputDialog(app).center());
+		btnOpenFile.addFastClickHandler(event ->
+				UploadImagePanel.getUploadButton((AppW) app, this::applyImage).click());
 
 		btnPanel.add(btnImage);
 		btnPanel.add(btnClearImage);
