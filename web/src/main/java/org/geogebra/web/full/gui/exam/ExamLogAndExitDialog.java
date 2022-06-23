@@ -94,8 +94,13 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	private FlowPanel buildTitlePanel() {
 		FlowPanel titlePanel = new FlowPanel();
 		titlePanel.setStyleName("titlePanel");
-		String calcStr = app.isUnbundled() ? app.getConfig().getAppTransKey()
-				: "CreateYourOwn";
+		String calcStr;
+		if (app.isExam()) {
+			calcStr = app.getExam().getExamRegion().getDisplayName(app.getLocalization());
+		} else {
+			calcStr = app.isUnbundled() ? app.getConfig().getAppTransKey()
+					: "CreateYourOwn";
+		}
 		Label calcType = new Label(app.getLocalization().getMenu(calcStr));
 		calcType.setStyleName("calcType");
 		Label examTitle = new Label(ExamUtil.status((AppW) app));
