@@ -267,7 +267,7 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
-	private boolean isDerivativeChar(char ch) {
+	public static boolean isDerivativeChar(char ch) {
 		return ch == '\'' || ch == '‘' || ch == '’';
 	}
 

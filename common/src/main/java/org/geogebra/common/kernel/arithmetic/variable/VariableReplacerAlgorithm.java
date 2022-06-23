@@ -149,8 +149,9 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private boolean expEndsWithDerivativeChar(String expressionString) {
-		return expressionString.endsWith("'") || expressionString.endsWith("‘")
-				|| expressionString.endsWith("’");
+		return !expressionString.isEmpty()
+				&& FunctionParser.isDerivativeChar(expressionString.charAt(
+						expressionString.length() - 1));
 	}
 
 	private MySpecialDouble consumeConstant(String expressionString) {
