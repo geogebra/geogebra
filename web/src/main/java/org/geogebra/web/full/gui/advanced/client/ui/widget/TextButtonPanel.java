@@ -251,6 +251,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 		if (selectedValue == null) {
 			selectedValue = new AutoCompleteTextFieldW(6, getApp());
 			selectedValue.setAutoComplete(false);
+			selectedValue.prepareShowSymbolButton(false);
 		}
 		return selectedValue;
 	}
