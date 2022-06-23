@@ -16,7 +16,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
-import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.infoError.InfoErrorData;

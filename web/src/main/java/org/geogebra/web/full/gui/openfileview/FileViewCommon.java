@@ -47,7 +47,6 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private FlowPanel emptyListNotificationPanel;
 	private LoadSpinner spinner;
 
-
 	/**
 	 * @param app the application
 	 * @param title the header title key.
