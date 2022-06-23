@@ -234,6 +234,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 			Dom.toggleClass(searchBar, "compact", smallScreen);
 		}
 		updateSignInButtonsVisibility(smallScreen);
+		Dom.toggleClass(contentPanel, "compact", smallScreen);
 	}
 
 	public void clearMaterials() {
