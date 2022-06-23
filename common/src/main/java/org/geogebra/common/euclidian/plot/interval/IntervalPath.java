@@ -3,7 +3,7 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.plot.LabelPositionCalculator;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 public class IntervalPath {
 	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
@@ -16,6 +16,8 @@ public class IntervalPath {
 
 	private final LabelPositionCalculator labelPositionCalculator;
 	private GPoint labelPoint = null;
+
+	private int lastPiece = 0;
 
 	/**
 	 * Constructor.
@@ -43,12 +45,14 @@ public class IntervalPath {
 	}
 
 	private void drawAt(int index) {
-		if (model.isUndefinedAt(index)) {
+		IntervalTuple tuple = model.at(index);
+		if (tuple.isUndefined() || isPieceChanged(tuple)) {
 			noJoinForNextTuple();
 		} else {
 			drawTupleAt(index);
 		}
-		drawInterval.setJoinToPrevious(!model.isUndefinedAt(index));
+		drawInterval.setJoinToPrevious(!tuple.isUndefined()
+				&& !isPieceChanged(tuple));
 	}
 
 	private void noJoinForNextTuple() {
@@ -56,15 +60,24 @@ public class IntervalPath {
 	}
 
 	private void drawTupleAt(int index) {
-		if (isJoinNeeded()) {
+		if (isJoinNeeded(index)) {
 			drawTupleJoined(index);
 		} else {
 			drawTupleIndependent(index);
 		}
 	}
 
-	private boolean isJoinNeeded() {
-		return !lastY.isUndefined();
+	private boolean isPieceChanged(IntervalTuple tuple) {
+		if (tuple.piece() != lastPiece) {
+			lastPiece = tuple.piece();
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean isJoinNeeded(int index) {
+		return !(lastY.isUndefined() || isPieceChanged(model.at(index)));
 	}
 
 	private void drawTupleJoined(int index) {
@@ -88,7 +101,7 @@ public class IntervalPath {
 	}
 
 	private void drawInvertedJoined(int index) {
-		if (!isJoinNeeded() || model.isWholeAt(index)) {
+		if (!isJoinNeeded(index) || model.isWholeAt(index)) {
 			noJoinForNextTuple();
 		} else {
 			lastY = drawInvertedInterval.drawJoined(index, lastY);
