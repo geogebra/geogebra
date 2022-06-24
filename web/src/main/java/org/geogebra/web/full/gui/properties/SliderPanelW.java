@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.gui.AngleTextFieldW;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.CheckboxPanel;
 import org.geogebra.web.full.gui.dialog.options.model.ExtendedAVModel;
@@ -56,8 +57,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private Label maxLabel;
 	private Label widthLabel;
 	private Label widthUnitLabel;
-	private CheckBox cbSliderFixed;
-	private CheckBox cbRandom;
+	private ComponentCheckbox cbSliderFixed;
+	private ComponentCheckbox cbRandom;
 	private ListBox lbSliderHorizontal;
 
 	private AnimationStepPanelW stepPanel;
@@ -103,13 +104,12 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
 				app.getLocalization(), new ExtendedAVModel(null, app));
 
-		cbSliderFixed = new CheckBox();
-		cbSliderFixed.addClickHandler(event -> getModel()
-				.applyFixed(getCbSliderFixed().getValue()));
+		cbSliderFixed = new ComponentCheckbox(loc, false, "fixed",
+				(event) -> getModel().applyFixed(cbSliderFixed.isSelected()));
 		positionPanel.add(cbSliderFixed);
 
-		cbRandom = new CheckBox();
-		cbRandom.addClickHandler(event -> getModel().applyRandom(getCbRandom().getValue()));
+		cbRandom = new ComponentCheckbox(loc, false, "Random",
+				(event) -> getModel().applyRandom(cbRandom.isSelected()));
 		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
@@ -497,20 +497,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	/**
-	 * @return slider fixed check box
-	 */
-	public CheckBox getCbSliderFixed() {
-		return cbSliderFixed;
-	}
-
-	/**
-	 * @return slider random check box
-	 */
-	public CheckBox getCbRandom() {
-		return cbRandom;
-	}
-
-	/**
 	 * @return slider for transparency
 	 */
 	public SliderPanel getSliderTransparency() {
@@ -521,8 +507,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public void setLabels() {
 		pointStyleTitleLbl.setText(loc.getMenu("PointStyle"));
 		lineStyleTitleLbl.setText(loc.getMenu("LineStyle"));
-		cbSliderFixed.setText(loc.getMenu("fixed"));
-		cbRandom.setText(loc.getMenu("Random"));
+		cbSliderFixed.setLabels();
+		cbRandom.setLabels();
 		String[] comboStr = { loc.getMenu("horizontal"),
 				loc.getMenu("vertical") };
 		int selectedIndex = lbSliderHorizontal.getSelectedIndex();
@@ -584,12 +570,12 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	@Override
 	public void selectFixed(boolean value) {
-		cbSliderFixed.setValue(value);
+		cbSliderFixed.setSelected(value);
 	}
 
 	@Override
 	public void selectRandom(boolean value) {
-		cbRandom.setValue(value);
+		cbRandom.setSelected(value);
 	}
 
 	@Override
@@ -614,8 +600,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public void applyAll(GeoElement geoResult) {
 		Object[] geos = { geoResult };
 		model.setGeos(geos);
-		model.applyFixed(cbSliderFixed.getValue());
-		model.applyRandom(cbRandom.getValue());
+		model.applyFixed(cbSliderFixed.isSelected());
+		model.applyRandom(cbRandom.isSelected());
 		model.applyDirection(lbSliderHorizontal.getSelectedIndex());
 		applyMin();
 		applyMax();
