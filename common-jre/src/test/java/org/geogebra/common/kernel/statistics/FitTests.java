@@ -41,7 +41,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitCommand =
                 addAvInput("Fit({(-2, 3), (0, 1), (2, 1), (2, 3)}, a + x^2)");
         String outputString = fitCommand.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("-0.99999 + x²"));
+        assertThat(outputString, equalTo("-0.9999900000095 + x²"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitCommand.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitCommand.getToStringMode());
     }
@@ -52,7 +52,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitExp =
                 addAvInput("FitExp({(0, 1), (2, 4)})");
         String outputString = fitExp.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("1ℯ^(0.69315x)"));
+        assertThat(outputString, equalTo("1ℯ^(0.6931471805599x)"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitExp.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitExp.getToStringMode());
     }
@@ -63,7 +63,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitGrowth =
                 addAvInput("FitGrowth({(0, 1), (2, 3), (4, 3), (6, 4)})");
         String outputString = fitGrowth.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("1.31265 * 1.23114^x"));
+        assertThat(outputString, equalTo("1.3126490515349 * 1.2311444133449^x"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitGrowth.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitGrowth.getToStringMode());
     }
@@ -107,7 +107,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitLineX =
                 addAvInput("FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
         String outputString = fitLineX.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("y = 0.56667x + 1.66667"));
+        assertThat(outputString, equalTo("y = 0.5666666666667x + 1.6666666666667"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineX.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLineX.getToStringMode());
     }
@@ -121,7 +121,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement loadedFitLine = lookup("f");
 
         String outputString = loadedFitLine.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("y = 0.56667x + 1.66667"));
+        assertThat(outputString, equalTo("y = 0.5666666666667x + 1.6666666666667"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, loadedFitLine.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, loadedFitLine.getToStringMode());
     }
@@ -143,7 +143,8 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitLogistic =
                 addAvInput("FitLogistic({(-6, 2), (0, 2), (3, 4), (3.4, 8)})");
         String outputString = fitLogistic.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("1.97587 / (1 - 0.02551ℯ^(0.99561x))"));
+        assertThat(outputString,
+                equalTo("1.9758703744321 / (1 - 0.0255090128073ℯ^(0.9956097809388x))"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLogistic.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitLogistic.getToStringMode());
     }
@@ -165,7 +166,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitPow =
                 addAvInput("FitPow({(1, 1), (3, 2), (7, 4)})");
         String outputString = fitPow.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("0.97449x^0.70848"));
+        assertThat(outputString, equalTo("0.9744885773743x^0.708475312856"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitPow.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitPow.getToStringMode());
     }
@@ -176,7 +177,7 @@ public class FitTests extends BaseUnitTest {
         GeoElement fitSin =
                 addAvInput("FitSin({(1, 1), (2, 2), (3, 1), (4, 0), (5, 1), (6, 2)})");
         String outputString = fitSin.toOutputValueString(StringTemplate.editTemplate);
-        assertThat(outputString, equalTo("1 + 1sin(1.5708x - 1.5708)"));
+        assertThat(outputString, equalTo("1 + 1sin(1.5707963267949x - 1.5707963267949)"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitSin.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitSin.getToStringMode());
     }
