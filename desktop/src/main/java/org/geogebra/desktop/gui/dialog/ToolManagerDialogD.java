@@ -285,7 +285,7 @@ public class ToolManagerDialogD extends Dialog
 							GeoGebraFrame newframe = ((GeoGebraFrame) app
 									.getFrame()).createNewWindow(null, macro);
 							newframe.setTitle(macro.getCommandName());
-							byte[] byteArray = app.getMacroFileAsByteArray();
+							byte[] byteArray = app.getMacrosBefore(macro);
 							newframe.getApplication()
 									.loadMacroFileFromByteArray(byteArray,
 											false);

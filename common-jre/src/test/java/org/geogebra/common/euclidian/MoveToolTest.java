@@ -1,6 +1,11 @@
 package org.geogebra.common.euclidian;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class MoveToolTest extends BaseControllerTest {
 
@@ -42,5 +47,15 @@ public class MoveToolTest extends BaseControllerTest {
 		dragEnd(100, 150);
 		checkContent("A = (0, 0)", "q = 1", "f = 1", "g = 1", "B = (1, -1)",
 				"C = (1, 0)", "h = 1", "i = 1");
+	}
+
+	@Test
+	public void selectionReadByScreenReaderOnce() {
+		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
+		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setScreenReader(screenReader);
+		add("A = (1, -1)");
+		dragStart(50, 50);
+		dragEnd(50, 50);
+		verify(screenReader).readText(anyString());
 	}
 }

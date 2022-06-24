@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.Vector;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.CustomizeToolbarModel;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -17,6 +18,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SharedResources;
 
@@ -32,7 +34,6 @@ import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -72,8 +73,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	ToolTree toolTree;
 	/** element for dragging **/
 	static DraggableTool draggingTool = null;
-	private Button btDefalutToolbar;
-	private Button btApply;
+	private StandardButton btDefalutToolbar;
+	private StandardButton btApply;
 	private String oldToolbarString;
 	private DockPanelW dockPanel;
 	private int toolbarId;
@@ -587,15 +588,15 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	private void addFooter() {
-		btDefalutToolbar = new Button();
-		btDefalutToolbar.addClickHandler(event -> {
+		btDefalutToolbar = new StandardButton("");
+		btDefalutToolbar.addFastClickHandler(event -> {
 			Log.debug("[Customize] reset");
 			resetDefaultToolbar();
 
 		});
 
-		btApply = new Button();
-		btApply.addClickHandler(event -> {
+		btApply = new StandardButton("");
+		btApply.addFastClickHandler(event -> {
 			Log.debug("[Customize] apply");
 			apply();
 		});
@@ -796,6 +797,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private void updateAllTools() {
 		allTools = CustomizeToolbarModel.generateToolsVector(ToolBar
 		        .getAllTools(app));
+		allTools.add(EuclidianConstants.MODE_FREEHAND_FUNCTION);
 
 		allToolsPanelContent.clear();
 

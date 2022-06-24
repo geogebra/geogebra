@@ -1575,16 +1575,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @param editMacro
 	 *            Tool to be edited
-	 * @author Zbynek Konecny
-	 * @version 2010-05-26
 	 */
 	public void openMacro(Macro editMacro) {
-		for (int i = 0; i < editMacro.getKernel().getMacroNumber(); i++) {
-			if (editMacro.getKernel().getMacro(i) == editMacro) {
-				break;
-			}
-			kernel.addMacro(editMacro.getKernel().getMacro(i));
-		}
 		String allXml = getXML();
 		String header = allXml.substring(0, allXml.indexOf("<construction"));
 		String footer = allXml.substring(allXml.indexOf("</construction>")
@@ -1598,19 +1590,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 				+ footer;
 		this.macro = editMacro;
 		setXML(newXml, true);
-	}
-
-	/**
-	 * Open macro with given name in a new window.
-	 *
-	 * @param macroName
-	 *            macro name
-	 */
-	public void openMacro(String macroName) {
-		Macro editMacro = getKernel().getMacro(macroName);
-		Log.debug("[STORAGE] nr: " + getKernel().getMacroNumber()
-				+ " macro for open is " + editMacro.getToolName());
-		openMacro(editMacro);
 	}
 
 	/**
@@ -1920,7 +1899,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            preferred size
 	 */
 	public void setPreferredSize(GDimension size) {
-		// TODO Auto-generated method stub
+		// implemented per platform
+	}
+
+	public GDimension getPreferredSize() {
+		return null;
 	}
 
 	/**
@@ -2677,10 +2660,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void enableUseFullGui() {
 		useFullGui = true;
-	}
-
-	public boolean getUseFullGui() {
-		return useFullGui;
 	}
 
 	/**
