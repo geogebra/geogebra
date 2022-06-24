@@ -613,12 +613,11 @@ public class AlgebraItem {
 			return element.getAlgebraDescription(stringTemplate);
 		} else if (element.isPenStroke()) {
 			return element.getLabelSimple();
-		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle
-				|| AlgebraStyle.VALUE == algebraStyle
-				|| Kernel.COORD_STYLE_AUSTRIAN == coordStyle)
+		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle || AlgebraStyle.VALUE == algebraStyle)
 				&& !isTextItem(element)) {
-			return getDescriptionString(element, algebraStyle,
-					stringTemplate);
+			return getDescriptionString(element, algebraStyle, stringTemplate);
+		} else if (Kernel.COORD_STYLE_AUSTRIAN == coordStyle && element.isGeoPoint()) {
+			return getDescriptionString(element, algebraStyle, stringTemplate);
 		} else {
 			return null;
 		}
