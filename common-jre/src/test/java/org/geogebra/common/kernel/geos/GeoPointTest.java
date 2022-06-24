@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
@@ -21,6 +21,6 @@ public class GeoPointTest  extends BaseUnitTest {
 	public void testDefinitionForEditorAustrianCoords() {
 		getKernel().setCoordStyle(Kernel.COORD_STYLE_AUSTRIAN);
 		GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
-		assertThat(point.getDefinitionForEditor().endsWith("(1,2)"), is(true));
+		assertThat(point.getDefinitionForEditor(), endsWith("(1,2)"));
 	}
 }
