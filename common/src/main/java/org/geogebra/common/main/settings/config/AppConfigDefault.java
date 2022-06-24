@@ -252,7 +252,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 
 	@Override
 	public GeoGebraConstants.Version getVersion() {
-		return GeoGebraConstants.Version.GRAPHING;
+		return GeoGebraConstants.Version.CLASSIC;
 	}
 
 	@Override

@@ -61,7 +61,7 @@ public class ExamEnvironment {
 	private Boolean wasCasEnabled;
 
 	private TempStorage tempStorage;
-	private ExamRegion region;
+	private ExamRegion region = ExamRegion.GENERIC;
 
 	/**
 	 * @param localization localization

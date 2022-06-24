@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.exam;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.exam.restriction.ExamRegion;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.main.AppWFull;
@@ -18,7 +17,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class ExamStartDialog extends ComponentDialog {
 
-	private ExamRegion selectedRegion;
+	private ExamRegion selectedRegion = ExamRegion.GENERIC;
 
 	/**
 	 * @param app application
@@ -31,13 +30,14 @@ public class ExamStartDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label startText = new Label(app.getLocalization().getMenu("exam_start_dialog_text"));
+		Label startText = new Label(app.getLocalization().getMenu("ExamDialog.Subtitle"));
 		startText.addStyleName("examStartText");
 		addDialogContent(startText);
 		if (app.isSuite()) {
 			ArrayList<RadioButtonData> data = new ArrayList<>();
 			for (ExamRegion region : ExamRegion.values()) {
-				String displayName = region.getDisplayName(app.getLocalization());
+				String displayName = region.getDisplayName(app.getLocalization(),
+						app.getConfig());
 				data.add(new RadioButtonData(displayName, region == ExamRegion.GENERIC,
 						() -> selectedRegion = region));
 			}

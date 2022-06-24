@@ -3,6 +3,7 @@ package org.geogebra.common.main.exam.restriction;
 import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
 
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 
 public enum ExamRegion {
@@ -13,8 +14,8 @@ public enum ExamRegion {
 		}
 
 		@Override
-		public String getDisplayName(Localization loc) {
-			return loc.getMenu("GeoGebraCalculatorSuite");
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return loc.getMenu(config.getAppTransKey());
 		}
 	},
 	NIEDERSACHSEN("Abitur Niedersachsen") {
@@ -30,7 +31,7 @@ public enum ExamRegion {
 		this.displayName = displayName;
 	}
 
-	public String getDisplayName(Localization loc) {
+	public String getDisplayName(Localization loc, AppConfig config) {
 		return displayName;
 	}
 

@@ -3933,7 +3933,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void setNewExam() {
-		setNewExam(null);
+		setNewExam(ExamRegion.GENERIC);
 	}
 
 	/**
