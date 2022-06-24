@@ -3962,6 +3962,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void setNewExam(ExamRegion region) {
 		ExamEnvironment examEnvironment = newExamEnvironment();
+		examEnvironment.setExamRegion(region);
 		initRestrictions(region);
 		setExam(examEnvironment);
 		examEnvironment.setAppNameWith(getConfig());

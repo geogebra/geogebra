@@ -18,6 +18,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -60,6 +61,7 @@ public class ExamEnvironment {
 	private Boolean wasCasEnabled;
 
 	private TempStorage tempStorage;
+	private ExamRegion region;
 
 	/**
 	 * @param localization localization
@@ -84,6 +86,14 @@ public class ExamEnvironment {
 
 	protected CopyPaste getCopyPaste() {
 		return copyPaste;
+	}
+
+	public void setExamRegion(ExamRegion region) {
+		this.region = region;
+	}
+
+	public ExamRegion getExamRegion() {
+		return region;
 	}
 
 	/**
