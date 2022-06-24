@@ -300,8 +300,8 @@ public class OptionsPanelW extends FlowPanel
 					firePropertyChange();
 				});
 
-		ckOverlayPolygon = new ComponentCheckbox(loc, settings.isHasOverlayPolygon(), "FrequencyPolygon",
-				(source) -> {
+		ckOverlayPolygon = new ComponentCheckbox(loc, settings.isHasOverlayPolygon(),
+				"FrequencyPolygon", (source) -> {
 					settings.setHasOverlayPolygon(ckOverlayPolygon.isSelected());
 					firePropertyChange();
 				});
@@ -381,7 +381,6 @@ public class OptionsPanelW extends FlowPanel
 		}
 		barChartPanel.clear();
 		barChartPanel.add(barChartWidthPanel);
-		// barChartPanel.add(freqPanel);
 		barChartPanel.add(showPanel);
 	}
 
