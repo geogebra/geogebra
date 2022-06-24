@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.junit.Test;
 
 public class GeoPointTest  extends BaseUnitTest {
@@ -19,7 +19,7 @@ public class GeoPointTest  extends BaseUnitTest {
 
 	@Test
 	public void testDefinitionForEditorAustrianCoords() {
-		getKernel().setCoordStyle(Kernel.COORD_STYLE_AUSTRIAN);
+		getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
 		GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
 		assertThat(point.getDefinitionForEditor(), endsWith("(1,2)"));
 	}

@@ -22,6 +22,8 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.common.main.settings.CoordinatesFormat;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
@@ -278,15 +280,16 @@ public class AlgebraItem {
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
 		App app = geo1.getApp();
-		int avStyle = app.getSettings().getAlgebra().getStyle();
-		int coordStyle = app.getKernel().getCoordStyle();
+		Settings settings = app.getSettings();
+		int avStyle = settings.getAlgebra().getStyle();
+		int coordsFormat = settings.getGeneral().getCoordFormat();
 
 		if (geo1.isIndependent() && geo1.isGeoPoint()) {
 			if (AlgebraStyle.DESCRIPTION == avStyle) {
 				builder.clear();
 				builder.append(((GeoPointND) geo1).toStringDescription(stringTemplate));
 				return true;
-			} else if (Kernel.COORD_STYLE_AUSTRIAN == coordStyle) {
+			} else if (CoordinatesFormat.COORD_FORMAT_AUSTRIAN == coordsFormat) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 				return true;
 			}
@@ -606,8 +609,9 @@ public class AlgebraItem {
 	 */
 	public static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
-		int algebraStyle = element.getApp().getSettings().getAlgebra().getStyle();
-		int coordStyle = element.getKernel().getCoordStyle();
+		Settings settings = element.getApp().getSettings();
+		int algebraStyle = settings.getAlgebra().getStyle();
+		int coordsFormat = settings.getGeneral().getCoordFormat();
 
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
@@ -616,7 +620,8 @@ public class AlgebraItem {
 		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle || AlgebraStyle.VALUE == algebraStyle)
 				&& !isTextItem(element)) {
 			return getDescriptionString(element, algebraStyle, stringTemplate);
-		} else if (Kernel.COORD_STYLE_AUSTRIAN == coordStyle && element.isGeoPoint()) {
+		} else if (CoordinatesFormat.COORD_FORMAT_AUSTRIAN == coordsFormat
+				&& element.isGeoPoint()) {
 			return getDescriptionString(element, algebraStyle, stringTemplate);
 		} else {
 			return null;
