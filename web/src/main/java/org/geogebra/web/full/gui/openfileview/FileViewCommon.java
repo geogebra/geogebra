@@ -7,6 +7,7 @@ import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.scientific.SettingsAnimator;
+import org.geogebra.web.html5.gui.laf.LoadSpinner;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -44,6 +45,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	private StandardButton examInfoBtn;
 	private Label timer;
 	private FlowPanel emptyListNotificationPanel;
+	private LoadSpinner spinner;
 
 	/**
 	 * @param app the application
@@ -63,6 +65,7 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		addStyleName("panelFadeIn");
 		initHeader(withSearch);
 		initContentPanel();
+		initSpinner();
 		initMaterialPanel();
 		setLabels();
 	}
@@ -187,6 +190,15 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 	public void clearPanels() {
 		if (contentPanel != null) {
 			contentPanel.clear();
+		}
+	}
+
+	/**
+	 * remove empty notification panel
+	 */
+	public void removeEmptyInfoPanel() {
+		if (emptyListNotificationPanel != null) {
+			emptyListNotificationPanel.removeFromParent();
 		}
 	}
 
@@ -320,5 +332,24 @@ public class FileViewCommon extends AnimatingPanel implements Persistable {
 		boolean isSmallScreen = app.getAppletFrame()
 				.hasSmallWindowOrCompactHeader();
 		updateSignInButtonsVisibility(isSmallScreen);
+	}
+
+	private void initSpinner() {
+		spinner = new LoadSpinner();
+		addToContent(spinner);
+	}
+
+	/**
+	 * show loading wheel
+	 */
+	public void showSpinner() {
+		spinner.show();
+	}
+
+	/**
+	 * hide loading wheel
+	 */
+	public void hideSpinner() {
+		spinner.hide();
 	}
 }
