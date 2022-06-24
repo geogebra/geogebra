@@ -277,19 +277,27 @@ public class AlgebraItem {
 	 */
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
-		int avStyle = geo1.getKernel().getAlgebraStyle();
-		boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
-		if (geo1.isIndependent() && geo1.isGeoPoint()
-				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
-			builder.clear();
-			builder.append(
-					((GeoPointND) geo1).toStringDescription(stringTemplate));
-			return true;
+		App app = geo1.getApp();
+		int avStyle = app.getSettings().getAlgebra().getStyle();
+		int coordStyle = app.getKernel().getCoordStyle();
+
+		if (geo1.isIndependent() && geo1.isGeoPoint()) {
+			if (AlgebraStyle.DESCRIPTION == avStyle) {
+				builder.clear();
+				builder.append(((GeoPointND) geo1).toStringDescription(stringTemplate));
+				return true;
+			} else if (Kernel.COORD_STYLE_AUSTRIAN == coordStyle) {
+				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+				return true;
+			}
 		}
+
 		if (geo1.isIndependent() && geo1.getDefinition() == null) {
 			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			return true;
 		}
+
+		boolean showLabel =  app.getConfig().hasLabelForDescription();
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
 			if (geo1.isAllowedToShowValue()) {
@@ -598,13 +606,16 @@ public class AlgebraItem {
 	 */
 	public static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
-		int algebraStyle = element.getKernel().getAlgebraStyle();
+		int algebraStyle = element.getApp().getSettings().getAlgebra().getStyle();
+		int coordStyle = element.getKernel().getCoordStyle();
+
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
 		} else if (element.isPenStroke()) {
 			return element.getLabelSimple();
-		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
-				|| algebraStyle == Kernel.ALGEBRA_STYLE_VALUE)
+		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle
+				|| AlgebraStyle.VALUE == algebraStyle
+				|| Kernel.COORD_STYLE_AUSTRIAN == coordStyle)
 				&& !isTextItem(element)) {
 			return getDescriptionString(element, algebraStyle,
 					stringTemplate);

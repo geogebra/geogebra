@@ -8,10 +8,12 @@ import java.util.Collections;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.test.EventAcumulator;
@@ -124,5 +126,15 @@ public class AlgebraItemTest extends BaseUnitTest {
         InputHelper.updateProperties(new GeoElement[]{geo}, getApp().getActiveEuclidianView(),
                 getKernel().getConstructionStep());
         assertThat(Collections.singletonList("ADD a"), is(eventAcumulator.getEvents()));
+    }
+
+    @Test
+    public void testCoordStyleAustrianPreview() {
+        getApp().setGraphingConfig();
+        Kernel kernel = getKernel();
+        kernel.setCoordStyle(Kernel.COORD_STYLE_AUSTRIAN);
+        GeoPoint point = kernel.getAlgoDispatcher().point(1, 2, false);
+        assertThat(AlgebraItem.getPreviewFormula(point, StringTemplate.latexTemplate),
+                equalTo("\\text{(1 | 2)}"));
     }
 }
