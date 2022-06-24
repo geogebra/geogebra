@@ -19,4 +19,9 @@ public abstract class AbstractResultModel implements ResultModel {
 	public abstract void setHigh(String high);
 
 	public abstract void setResult(String result);
+
+	@Override
+	public String getName() {
+		return getClass().getSimpleName();
+	}
 }

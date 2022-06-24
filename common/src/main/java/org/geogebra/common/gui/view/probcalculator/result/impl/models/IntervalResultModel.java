@@ -25,7 +25,7 @@ public class IntervalResultModel extends AbstractResultModel {
 	 */
 	public IntervalResultModel(Localization localization) {
 		probabilityOf = new TextEntry(localization.getMenu("ProbabilityOf"));
-		endProbabilityOf = new TextEntry(localization.getMenu("EndProbabilityOf"));
+		endProbabilityOf = new TextEntry(localization.getMenu("EndProbabilityOf") + " = ");
 		between = new TextEntry(SpreadsheetViewInterface.X_BETWEEN);
 		lowEntry = new InputEntry("");
 		highEntry = new InputEntry("");

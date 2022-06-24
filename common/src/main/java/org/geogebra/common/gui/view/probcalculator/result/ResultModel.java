@@ -12,4 +12,10 @@ public interface ResultModel {
 	 * @return entries
 	 */
 	List<ResultEntry> getEntries();
+
+	/**
+	 * Returns the name of the model.
+	 * @return name
+	 */
+	String getName();
 }
