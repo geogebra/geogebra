@@ -2,6 +2,7 @@ package org.geogebra.web.shared.components;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -65,7 +66,14 @@ public class ComponentSearchBar extends FlowPanel {
 				MaterialDesignResources.INSTANCE.clear(), 24);
 		clearButton.addStyleName("clearBtn");
 		clearButton.addStyleName("flatButtonHeader");
-		clearButton.addFastClickHandler((event) -> inputTextField.getTextComponent().setText(""));
+		Dom.addEventListener(clearButton.getElement(), "pointerdown", (event) -> {
+			inputTextField.getTextComponent().setText("");
+			if (!getElement().isOrHasChild(Dom.getActiveElement())) {
+				startSearch();
+			} else {
+				event.preventDefault(); // do not lose focus
+			}
+		});
 
 		add(clearButton);
 	}
