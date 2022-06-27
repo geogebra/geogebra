@@ -105,11 +105,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				app.getLocalization(), new ExtendedAVModel(null, app));
 
 		cbSliderFixed = new ComponentCheckbox(loc, false, "fixed",
-				(event) -> getModel().applyFixed(cbSliderFixed.isSelected()));
+				(selected) -> getModel().applyFixed(selected));
 		positionPanel.add(cbSliderFixed);
 
 		cbRandom = new ComponentCheckbox(loc, false, "Random",
-				(event) -> getModel().applyRandom(cbRandom.isSelected()));
+				(selected) -> getModel().applyRandom(selected));
 		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
