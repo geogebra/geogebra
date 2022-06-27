@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class ComponentSearchBar extends FlowPanel {
 	private final AppW app;
 	private InputPanelW inputTextField;
+	private StandardButton clearButton;
 
 	/**
 	 * @param app - application
@@ -23,6 +24,9 @@ public class ComponentSearchBar extends FlowPanel {
 	private void buildGUI() {
 		addSearchButton();
 
+		clearButton = new StandardButton(MaterialDesignResources.INSTANCE.clear(), 24);
+		clearButton.setVisible(false);
+
 		inputTextField = new InputPanelW("", app, -1, 1, false);
 		inputTextField.getTextComponent().getTextBox().getElement().setAttribute(
 				"placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
@@ -32,6 +36,9 @@ public class ComponentSearchBar extends FlowPanel {
 				startSearch();
 				inputTextField.getTextComponent().getTextBox().setFocus(false);
 			}
+		});
+		inputTextField.getTextComponent().getTextBox().addKeyUpHandler(evt -> {
+			clearButton.setVisible(!inputTextField.getText().isEmpty());
 		});
 		add(inputTextField);
 		addFocusBlurHandlers();
@@ -61,11 +68,12 @@ public class ComponentSearchBar extends FlowPanel {
 	}
 
 	private void addClearButton() {
-		StandardButton clearButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.clear(), 24);
 		clearButton.addStyleName("clearBtn");
 		clearButton.addStyleName("flatButtonHeader");
-		clearButton.addFastClickHandler((event) -> inputTextField.getTextComponent().setText(""));
+		clearButton.addFastClickHandler((event) -> {
+			inputTextField.getTextComponent().setText("");
+			clearButton.setVisible(false);
+		});
 
 		add(clearButton);
 	}
