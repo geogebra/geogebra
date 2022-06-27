@@ -33,6 +33,7 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		addStyleName("calcChooser");
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
 		app.registerPopup(this);
+		app.registerRestrictable(this);
 		buildGUI();
 		app.addWindowResizeListener(this);
 	}
@@ -44,10 +45,10 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		title.addStyleName("title");
 		contentPanel.add(title);
 
-		updateGUI();
+		addButtons();
 	}
 
-	public void updateGUI() {
+	private void addButtons() {
 		buildAndAddCalcButton(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
 		if (app.getSettings().getEuclidian(-1).isEnabled()) {
 			buildAndAddCalcButton(GeoGebraConstants.G3D_APPCODE, contentPanel);

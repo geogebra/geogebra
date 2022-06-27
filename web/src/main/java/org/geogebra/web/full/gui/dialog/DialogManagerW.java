@@ -223,7 +223,6 @@ public class DialogManagerW extends DialogManager
 		hideCalcChooser(); // remove any previous chooser
 		if (calcSwitcher == null) {
 			calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
-			app.registerRestrictable(calcSwitcher);
 		}
 		calcSwitcher.buildGUI();
 		calcSwitcher.show();
