@@ -84,7 +84,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lblTitle2 = new Label();
 
 		ckPooled = new ComponentCheckbox(loc, false, "Pooled",
-				(source) -> model.setPooled(ckPooled.isSelected()));
+				(selected) -> model.setPooled(selected));
 		ckPooled.addStyleName("ckPooled");
 
 		lbAltHyp = new ListBox();

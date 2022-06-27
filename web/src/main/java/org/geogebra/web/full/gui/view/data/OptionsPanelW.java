@@ -269,8 +269,8 @@ public class OptionsPanelW extends FlowPanel
 		histogramPanel = new FlowPanel();
 		// create components
 		ckCumulative = new ComponentCheckbox(loc, settings.isCumulative(), "Cumulative",
-				(source) -> {
-					settings.setCumulative(ckCumulative.isSelected());
+				(selected) -> {
+					settings.setCumulative(selected);
 					firePropertyChange();
 				});
 
@@ -295,32 +295,32 @@ public class OptionsPanelW extends FlowPanel
 		rbRelative = new RadioButton("group1");
 		lblOverlay = new Label();
 		ckOverlayNormal = new ComponentCheckbox(loc, settings.isHasOverlayNormal(), "NormalCurve",
-				(source) -> {
-					settings.setHasOverlayNormal(ckOverlayNormal.isSelected());
+				(selected) -> {
+					settings.setHasOverlayNormal(selected);
 					firePropertyChange();
 				});
 
 		ckOverlayPolygon = new ComponentCheckbox(loc, settings.isHasOverlayPolygon(),
-				"FrequencyPolygon", (source) -> {
-					settings.setHasOverlayPolygon(ckOverlayPolygon.isSelected());
+				"FrequencyPolygon", (selected) -> {
+					settings.setHasOverlayPolygon(selected);
 					firePropertyChange();
 				});
 
 		ckShowFrequencyTable = new ComponentCheckbox(loc, false, "FrequencyTable",
-				(source) -> {
-					settings.setShowFrequencyTable(ckShowFrequencyTable.isSelected());
+				(selected) -> {
+					settings.setShowFrequencyTable(selected);
 					firePropertyChange();
 				});
 
 		ckShowHistogram = new ComponentCheckbox(loc, settings.isShowHistogram(), "Histogram",
-				(source) -> {
-					settings.setShowHistogram(ckShowHistogram.isSelected());
+				(selected) -> {
+					settings.setShowHistogram(selected);
 					firePropertyChange();
 				});
 
 		ckManual = new ComponentCheckbox(loc, settings.isUseManualClasses(), "SetClasssesManually",
-				(souce) -> {
-					settings.setUseManualClasses(ckManual.isSelected());
+				(selected) -> {
+					settings.setUseManualClasses(selected);
 					firePropertyChange();
 				});
 
@@ -386,8 +386,8 @@ public class OptionsPanelW extends FlowPanel
 
 	private void createBarChartPanel() {
 		ckAutoBarWidth = new ComponentCheckbox(loc, true, "AutoDimension",
-				(source) -> {
-					settings.setAutomaticBarWidth(ckAutoBarWidth.isSelected());
+				(selected) -> {
+					settings.setAutomaticBarWidth(selected);
 					firePropertyChange();
 				});
 		lblBarWidth = new Label();
@@ -410,8 +410,8 @@ public class OptionsPanelW extends FlowPanel
 
 		// create components
 		ckShowOutliers = new ComponentCheckbox(loc, settings.isShowOutliers(), "ShowOutliers",
-				(source) -> {
-					settings.setShowOutliers(ckShowOutliers.isSelected());
+				(selected) -> {
+					settings.setShowOutliers(selected);
 					firePropertyChange();
 				});
 
@@ -424,8 +424,8 @@ public class OptionsPanelW extends FlowPanel
 
 	private void createScatterplotPanel() {
 		ckShowLines = new ComponentCheckbox(loc, settings.isShowScatterplotLine(), "LineGraph",
-				(source) -> {
-					settings.setShowScatterplotLine(ckShowLines.isSelected());
+				(selected) -> {
+					settings.setShowScatterplotLine(selected);
 					firePropertyChange();
 				});
 
@@ -435,16 +435,16 @@ public class OptionsPanelW extends FlowPanel
 
 	private void createGraphPanel() {
 		ckAutoWindow = new ComponentCheckbox(loc, settings.isAutomaticWindow(), "AutoDimension",
-				(source) -> {
-					settings.setAutomaticWindow(ckAutoWindow.isSelected());
-					settings.xAxesIntervalAuto = ckAutoWindow.isSelected();
-					settings.yAxesIntervalAuto = ckAutoWindow.isSelected();
+				(selected) -> {
+					settings.setAutomaticWindow(selected);
+					settings.xAxesIntervalAuto = selected;
+					settings.yAxesIntervalAuto = selected;
 					firePropertyChange();
 				});
 
 		ckShowGrid = new ComponentCheckbox(loc, settings.showGrid, "ShowGrid",
-				(source) -> {
-					settings.showGrid = ckShowGrid.isSelected();
+				(selected) -> {
+					settings.showGrid = selected;
 					firePropertyChange();
 				});
 
