@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -134,6 +135,6 @@ public class AlgebraItemTest extends BaseUnitTest {
         getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
         GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
         assertThat(AlgebraItem.getPreviewFormula(point, StringTemplate.latexTemplate),
-                equalTo("\\text{(1 | 2)}"));
+                endsWith("\\left(1 | 2 \\right)"));
     }
 }

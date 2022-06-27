@@ -279,28 +279,19 @@ public class AlgebraItem {
 	 */
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
-		App app = geo1.getApp();
-		Settings settings = app.getSettings();
-		int avStyle = settings.getAlgebra().getStyle();
-		int coordsFormat = settings.getGeneral().getCoordFormat();
-
-		if (geo1.isIndependent() && geo1.isGeoPoint()) {
-			if (AlgebraStyle.DESCRIPTION == avStyle) {
-				builder.clear();
-				builder.append(((GeoPointND) geo1).toStringDescription(stringTemplate));
-				return true;
-			} else if (CoordinatesFormat.COORD_FORMAT_AUSTRIAN == coordsFormat) {
-				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
-				return true;
-			}
+		int avStyle = geo1.getKernel().getAlgebraStyle();
+		boolean showLabel =  geo1.getApp().getConfig().hasLabelForDescription();
+		if (geo1.isIndependent() && geo1.isGeoPoint()
+				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+			builder.clear();
+			builder.append(
+					((GeoPointND) geo1).toStringDescription(stringTemplate));
+			return true;
 		}
-
 		if (geo1.isIndependent() && geo1.getDefinition() == null) {
 			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			return true;
 		}
-
-		boolean showLabel =  app.getConfig().hasLabelForDescription();
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
 			if (geo1.isAllowedToShowValue()) {
@@ -622,7 +613,7 @@ public class AlgebraItem {
 			return getDescriptionString(element, algebraStyle, stringTemplate);
 		} else if (CoordinatesFormat.COORD_FORMAT_AUSTRIAN == coordsFormat
 				&& element.isGeoPoint()) {
-			return getDescriptionString(element, algebraStyle, stringTemplate);
+			return element.toString(stringTemplate);
 		} else {
 			return null;
 		}
