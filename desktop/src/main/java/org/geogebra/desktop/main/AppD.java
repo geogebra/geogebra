@@ -20,7 +20,6 @@ import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -123,6 +122,7 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.io.OFFHandler;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -204,7 +204,6 @@ import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
-import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.headless.GFileHandler;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -319,7 +318,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
-	private Dimension preferredSize = new Dimension();
+	private GDimension preferredSize;
 
 	/** Horizontal page margin in cm */
 	public static final double PAGE_MARGIN_X = (1.8 * 72) / 2.54;
@@ -465,7 +464,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
 
-		preferredSize = new Dimension(800, 600);
+		preferredSize = new GDimensionD(800, 600);
 
 		fontManager = new FontManagerD();
 		initImageManager(mainComp);
@@ -548,7 +547,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		if (isUsingFullGui() && ggtloading) {
-			getGuiManager().setToolBarDefinition(ToolbarD.getAllTools(this));
+			getGuiManager().setToolBarDefinition(ToolBar.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);
@@ -2705,13 +2704,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return mainComp;
 	}
 
-	public Dimension getPreferredSize() {
+	public GDimension getPreferredSize() {
 		return preferredSize;
 	}
 
 	@Override
 	public void setPreferredSize(GDimension size) {
-		preferredSize = GDimensionD.getAWTDimension(size);
+		preferredSize = size;
 	}
 
 	public Container getContentPane() {
@@ -3318,9 +3317,28 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public byte[] getMacroFileAsByteArray() {
+		return getMacroFileAsByteArray(kernel.getAllMacros());
+	}
+
+	/**
+	 * @param untilMacro first macro not to be serialized (null to serialize all)
+	 * @return first several macros serialized to byte array, until given macro
+	 */
+	public byte[] getMacrosBefore(Macro untilMacro) {
+		ArrayList<Macro> previousMacros = new ArrayList<>();
+		for (Macro macro: kernel.getAllMacros()) {
+			if (macro == untilMacro) {
+				break;
+			}
+			previousMacros.add(macro);
+		}
+		return getMacroFileAsByteArray(previousMacros);
+	}
+
+	private byte[] getMacroFileAsByteArray(ArrayList<Macro> macros) {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			getXMLio().writeMacroStream(os, kernel.getAllMacros());
+			getXMLio().writeMacroStream(os, macros, kernel.getAllMacros());
 			os.flush();
 			return os.toByteArray();
 		} catch (Exception e) {

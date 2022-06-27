@@ -24,11 +24,11 @@ import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.html5.gui.util.ToggleButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -52,8 +52,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	private FlowPanel editorPanel;
 	private FlowPanel btnPanel;
-	private Button btnOk;
-	private Button btnCancel;
+	private StandardButton btnOk;
+	private StandardButton btnCancel;
 
 	GeoTextEditor editor;
 	private TextEditAdvancedPanel advancedPanel;
@@ -191,20 +191,20 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		btnPanel = new FlowPanel();
 		btnPanel.setStyleName("optionsPanel");
-		btnOk = new Button();
+		btnOk = new StandardButton("");
 		btnPanel.add(btnOk);
-		btnOk.addClickHandler(event -> {
+		btnOk.addFastClickHandler(event -> {
 			model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
 					isSerif(), appw.getDefaultErrorHandler());
 			((PropertiesViewW) appw.getGuiManager().getPropertiesView())
 					.getOptionPanel(OptionType.OBJECTS, 1);
 		});
 
-		btnCancel = new Button();
+		btnCancel = new StandardButton("");
 		btnPanel.add(btnCancel);
 		btnOk.addStyleName("okBtn");
 		btnCancel.addStyleName("cancelBtn");
-		btnCancel.addClickHandler(event -> model.cancelEditGeo());
+		btnCancel.addFastClickHandler(event -> model.cancelEditGeo());
 
 		mainPanel.add(btnPanel);
 		setWidget(mainPanel);

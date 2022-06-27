@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.util.FastClickHandler;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Dropdown which opens a grid of images and text.
  */
-public class GridDropdown extends SimplePanel implements ClickHandler {
+public class GridDropdown extends SimplePanel implements FastClickHandler {
 
 	private static final int COLUMNS = 3;
 	private static final int UNSELECTED_INDEX = -1;
@@ -31,7 +31,7 @@ public class GridDropdown extends SimplePanel implements ClickHandler {
 
 	private AppW app;
 
-	private Button button;
+	private StandardButton button;
 	private Grid view;
 	private GPopupPanel popup;
 
@@ -82,9 +82,9 @@ public class GridDropdown extends SimplePanel implements ClickHandler {
 	}
 
 	private void createButton() {
-		button = new Button();
+		button = new StandardButton("");
 		button.addStyleName("dropdownButton");
-		button.addClickHandler(this);
+		button.addFastClickHandler(this);
 		add(button);
 	}
 
@@ -147,18 +147,13 @@ public class GridDropdown extends SimplePanel implements ClickHandler {
 	}
 
 	@Override
-	public void onClick(ClickEvent event) {
-		if (event.getSource() == button) {
-			showGridPopup();
-		} else {
-			handleGridClick(event);
-		}
-
+	public void onClick(Widget event) {
+		showGridPopup();
 	}
 
 	private void showGridPopup() {
 		view = createGridView();
-		view.addClickHandler(this);
+		view.addClickHandler(this::handleGridClick);
 		popup = new GPopupPanel(true, true, app.getPanel(), app);
 		popup.addStyleName("materialPopupPanel");
 		popup.add(view);

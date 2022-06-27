@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -133,14 +134,13 @@ public class AriaStackPanel extends ComplexPanel
 		Element li = DOM.createElement("LI");
 		getElement().appendChild(li);
 
-		Element button = DOM.createElement("button");
+		Element button = Dom.createDefaultButton();
 
 		if (!(Browser.isIPad())) {
 			li.setAttribute("role", "menuitem");
 		}
 
 		button.setAttribute("role", "menuitem");
-		button.setAttribute("type", "button");
 
 		li.setAttribute("hasPopup", "true");
 		li.appendChild(button);

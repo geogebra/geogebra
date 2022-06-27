@@ -1242,15 +1242,20 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			if (!isPreferencesXML) {
-				// border excluded in getAppletWidth
 				int width = Integer.parseInt(attrs.get("width"));
 				int height = Integer.parseInt(attrs.get("height"));
 				if (width > 0 && height > 0) {
-					ev.setPreferredSize(
-							AwtFactory.getPrototype().newDimension(width, height));
+					GDimension evSize = AwtFactory.getPrototype().newDimension(width, height);
+					ev.setPreferredSize(evSize);
+					// inconsistent files may store window size < EV size; we prefer the bigger one
+					if (app.getPreferredSize() != null
+							&& app.getPreferredSize().getWidth() <= width
+							&& app.getPreferredSize().getHeight() <= height) {
+						app.setPreferredSize(evSize);
+					}
+					ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
+							width, height));
 				}
-				ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
-						width, height));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -3385,11 +3390,13 @@ public class MyXMLHandler implements DocHandler {
 					&& cmdOutput[0].getParentAlgorithm() instanceof SetRandomValue) {
 				SetRandomValue randomizableAlgo =
 						(SetRandomValue) cmdOutput[0].getParentAlgorithm();
-
-				GeoElementND randomResult = getAlgProcessor()
-						.evaluateToGeoElement(randomVal, false);
-				if (randomResult != null) {
-					randomizableAlgo.setRandomValue(randomResult);
+				// canSetRandomValue should be checked on saving, but for old files it wasn't
+				if (randomizableAlgo.canSetRandomValue()) {
+					GeoElementND randomResult = getAlgProcessor()
+							.evaluateToGeoElement(randomVal, false);
+					if (randomResult != null) {
+						randomizableAlgo.setRandomValue(randomResult);
+					}
 				}
 			}
 

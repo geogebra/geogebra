@@ -98,7 +98,7 @@ public class AccessibilityView implements View {
 		} else if (geo instanceof GeoInputBox) {
 			control = new AccessibleInputBox((GeoInputBox) geo, app);
 		} else if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
-			control = new AccessibleDropDown((GeoList) geo, app, this);
+			control = new AccessibleDropDown((GeoList) geo, app, this, sliderFactory);
 		} else  {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}

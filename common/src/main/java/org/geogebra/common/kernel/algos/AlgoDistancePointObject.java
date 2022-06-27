@@ -46,9 +46,9 @@ import org.geogebra.common.util.MyMath;
 public class AlgoDistancePointObject extends AlgoElement
 		implements DistanceAlgo {
 
-	private static final double INTERVAL_START = 30;
-	private static final double INTERVAL_GROWTH = 2;
 	private static final double MAX_INTERVAL = 10000;
+	private static final double MIN_INTERVAL = 200;
+	private static final int FINE_TUNE_STEPS = 15;
 
 	private GeoPointND P; // input
 	private GeoElementND g; // input
@@ -159,6 +159,16 @@ public class AlgoDistancePointObject extends AlgoElement
 		if (polyFunction != null) {
 			return closestValPoly(polyFunction, x, y, kernel);
 		}
+		if (!Double.isFinite(function.value(x))) {
+			double xLeft = getClosestDefined(function, x, y, -1);
+			double xRight = getClosestDefined(function, x, y, 1);
+			if (MyMath.distanceSquaredToFunctionAt(function, x, y, xLeft)
+				< MyMath.distanceSquaredToFunctionAt(function, x, y, xRight)) {
+					return xLeft;
+			} else {
+				return xRight;
+			}
+		}
 		// non polynomial case
 		FunctionVariable fVar = function.getFunctionVariable();
 		Function deriv = function.getDerivative(1, true);
@@ -177,32 +187,55 @@ public class AlgoDistancePointObject extends AlgoElement
 		expr2 = expr2.multiplyR(deriv.getExpression());
 		expr2 = expr2.multiply(2);
 		expr = expr.plus(expr2);
-		// calculate root
 		Function func = new Function(expr, fVar);
 		func.initFunction();
-		double[] roots;
-		double left = INTERVAL_START;
-		double right = INTERVAL_START;
-		while ((roots = AlgoRoots.findRoots(func, x - left, y + right,
-				(int) ((left + right) * 10))) == null
-				&& DoubleUtil.isGreater(MAX_INTERVAL, left)) {
-			left *= INTERVAL_GROWTH;
-			right *= INTERVAL_GROWTH;
-		}
+		// upper estimate: distance to point (x,f(x))
+		double minSq = MyMath.distanceSquaredToFunctionAt(function, x, y, x);
+		double minAt = x;
+		double min = Math.sqrt(minSq);
+		// calculate root; can only yield better distance than min if it's in [x-min, x+min]
+		double[] roots = AlgoRoots.findRoots(func, x - min, x + min,
+				(int) MyMath.clamp(20 * min, MIN_INTERVAL, MAX_INTERVAL));
 		if (roots == null || roots.length == 0) {
-			return Double.NaN;
+			return minAt;
 		}
-		int k = 0;
-		double min = MyMath.distancePointFunctionAt(function, x, y, roots[0]);
-		for (int i = 1; i < roots.length; i++) {
-			double val = MyMath.distancePointFunctionAt(function, x, y,
-					roots[i]);
-			if (DoubleUtil.isGreater(min, val)) {
-				min = val;
-				k = i;
+		for (double root : roots) {
+			double val = MyMath.distanceSquaredToFunctionAt(function, x, y,
+					root);
+			if (DoubleUtil.isGreater(minSq, val)) {
+				minSq = val;
+				minAt = root;
 			}
 		}
-		return roots[k];
+		return minAt;
+	}
+
+	private static double getClosestDefined(Function function,
+			double x, double y, double direction) {
+		for (double offset = direction * 0.1; Math.abs(offset) < Kernel.INV_MAX_DOUBLE_PRECISION;
+			 offset *= 2) {
+			if (!Double.isNaN(function.value(x + offset))) {
+				return fineTuneClosestDefined(function, x + offset / 2, x + offset, x, y);
+			}
+		}
+		return Double.NaN;
+	}
+
+	private static double fineTuneClosestDefined(Function function,
+			double from, double to, double x, double y) {
+		double x1 = from;
+		double x2 = to;
+		for (int i = 0; i < FINE_TUNE_STEPS; i++) {
+			double d1 = MyMath.distanceSquaredToFunctionAt(function, x, y, x2);
+			double midpoint = (x1 + x2) / 2;
+			double d2 = MyMath.distanceSquaredToFunctionAt(function, x, y, midpoint);
+			if (d1 < d2 || Double.isNaN(d2)) {
+				x1 = midpoint;
+			} else {
+				x2 = midpoint;
+			}
+		}
+		return x2;
 	}
 
 	/**
@@ -250,9 +283,9 @@ public class AlgoDistancePointObject extends AlgoElement
 			return Double.NaN;
 		}
 		int k = 0;
-		double min = MyMath.distancePointFunctionAt(polyFunction, x, y, eq[0]);
+		double min = MyMath.distanceSquaredToFunctionAt(polyFunction, x, y, eq[0]);
 		for (int i = 1; i < nrOfRoots; i++) {
-			double val = MyMath.distancePointFunctionAt(polyFunction, x, y,
+			double val = MyMath.distanceSquaredToFunctionAt(polyFunction, x, y,
 					eq[i]);
 			if (DoubleUtil.isGreater(min, val)) {
 				min = val;
