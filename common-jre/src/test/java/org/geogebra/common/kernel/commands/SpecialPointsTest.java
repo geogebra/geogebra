@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -73,6 +74,15 @@ public class SpecialPointsTest extends BaseUnitTest {
 		add("f(x)=x^2+a");
 		updateSpecialPoints("f");
 		assertEquals(4, numberOfSpecialPoints());
+	}
+
+	@Test
+	public void specialPointsParentAlgoRemovedFromUpdateSet() {
+		add("eq1: x^4+y^2=2");
+		GeoElement element = add("eq2: x*y=3");
+		updateSpecialPoints("eq2");
+		assertTrue(element.getAlgorithmList().isEmpty());
+		assertTrue(element.getAlgoUpdateSet().isEmpty());
 	}
 
 	private int numberOfSpecialPoints() {
