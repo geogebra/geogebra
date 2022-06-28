@@ -6,7 +6,6 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -331,7 +330,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * check that all points are on coord sys, and calc their 2D coords
 	 *
 	 * @param precision
-	 * 			precision
+	 *            precision
 	 *
 	 * @return true if all points lie on coord sys
 	 */
@@ -352,7 +351,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * @param tmpCoords
 	 *            temporary coords, must have length 4
 	 * @param precision
-	 *			  precision
+	 *            precision
 	 * 
 	 * @return true if all points lie on coord system
 	 */
@@ -438,7 +437,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * @param tmpCoords
 	 *            temporary coordinates, must have length 4
 	 * @param precision
-	 * 			  precision
+	 *            precision
 	 *
 	 * @return true if it has worked
 	 */
