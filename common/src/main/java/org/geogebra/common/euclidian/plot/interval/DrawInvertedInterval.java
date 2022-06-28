@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 /**
  * Class to correct interval path at limits

@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.toolbar;
 
+import static org.geogebra.common.gui.CustomizeToolbarModel.generateToolsVector;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.SystemColor;
@@ -33,7 +35,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -42,6 +43,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -397,7 +399,8 @@ public class ToolbarConfigPanel extends JPanel
 		tree.setRowHeight(-1);
 
 		Vector<Integer> allTools = generateToolsVector(
-				ToolbarD.getAllTools(app));
+				ToolBar.getAllTools(app));
+		allTools.add(EuclidianConstants.MODE_FREEHAND_FUNCTION);
 		Vector<Integer> usedTools = generateToolsVector(toolbarDefinition);
 
 		toolListModel.clear();
@@ -414,7 +417,7 @@ public class ToolbarConfigPanel extends JPanel
 		}
 	}
 
-	public void apply() {
+	protected void apply() {
 		if (dockPanel != null) {
 			String current = getToolBarString();
 			dockPanel.setToolbarString(current);
@@ -485,47 +488,6 @@ public class ToolbarConfigPanel extends JPanel
 		for (int i = z; i > 0; i--) {
 			tree.collapseRow(i);
 		}
-	}
-
-	/**
-	 * @param toolbarDefinition
-	 *            toolbar definition string (see EuclidianConstants)
-	 * @return vector of menus (vectors of ints) and separators (ints)
-	 * 
-	 */
-	public Vector<Integer> generateToolsVector(String toolbarDefinition) {
-		Vector<Integer> vector = new Vector<>();
-		// separator
-		vector.add(ToolBar.SEPARATOR);
-
-		// get default toolbar as nested vectors
-		Vector<ToolbarItem> defTools = null;
-		try {
-			defTools = ToolBar.parseToolbarString(toolbarDefinition);
-		} catch (Exception e) {
-			return new Vector<>();
-		}
-		for (int i = 0; i < defTools.size(); i++) {
-			ToolbarItem element = defTools.get(i);
-
-			if (element.getMenu() != null) {
-				Vector<Integer> menu = element.getMenu();
-				for (int j = 0; j < menu.size(); j++) {
-					Integer modeInt = menu.get(j);
-					int mode = modeInt.intValue();
-					if (mode != -1) {
-						vector.add(modeInt);
-					}
-				}
-			} else {
-				Integer modeInt = element.getMode();
-				int mode = modeInt.intValue();
-				if (mode != -1) {
-					vector.add(modeInt);
-				}
-			}
-		}
-		return vector;
 	}
 
 	/**
@@ -606,13 +568,9 @@ public class ToolbarConfigPanel extends JPanel
 		 */
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public void treeCollapsed(TreeExpansionEvent event) {/*
-															 * do nothing
-															 */
+	public void treeCollapsed(TreeExpansionEvent event) {
+		// do nothing
 	}
 
 	/**
@@ -623,15 +581,6 @@ public class ToolbarConfigPanel extends JPanel
 		/*
 		 * tabbed.invalidate(); tabbed.validateTree();
 		 */
-	}
-
-	/**
-	 * @param e
-	 *            list selection event
-	 */
-	public void valueChanged(ListSelectionEvent e) {/*
-													 * do nothing
-													 */
 	}
 
 }

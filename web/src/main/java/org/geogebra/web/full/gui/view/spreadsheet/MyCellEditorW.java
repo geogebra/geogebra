@@ -19,8 +19,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.editor.web.MathFieldW;
 
-//import geogebra.web.gui.virtualkeyboard.VirtualKeyboard;
-
 /**
  * Default cell editor for the spreadsheet, extends
  * DefaultCellEditor(JTextField)
@@ -76,7 +74,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		        (AppW) kernel.getApplication(), false, keyListener, false, false);
 		autoCompleteTextField.addInsertHandler(text -> {
 			if (!editing) {
-			((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
+				((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
 					.letterOrDigitTyped();
 				autoCompleteTextField.setText(text);
 			}
@@ -419,6 +417,8 @@ public class MyCellEditorW implements BaseCellEditor {
 			
 			// stopping propagation is needed to prevent
 			// the prevention of the default action at another place
+			// but call the autocomplete textfield handler exolicitly
+			autoCompleteTextField.onKeyPress(e);
 			e.stopPropagation();
 		}
 

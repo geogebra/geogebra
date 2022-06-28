@@ -9,6 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,8 @@ import java.util.List;
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.jre.headless.ScreenReaderAccumulator;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
@@ -46,6 +48,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -1169,6 +1172,8 @@ public class CommandsTest {
 				"(0.547622890963136, 0.12372237646614026)");
 		t("ClosestPoint[ Polygon[(1,1),(2,1/2),(3,1/3)], (1,1) ]", "(1, 1)");
 		t("ClosestPoint[ xAxis, yAxis ]", "(0, 0)");
+		tRound("ClosestPoint[ sqrt(1/x), (-1,3) ]", "(0.1, 3.16228)");
+		tRound("ClosestPoint[ sqrt(sin(x)), (-1,0) ]", "(0, 0)");
 	}
 
 	@Test
@@ -1990,6 +1995,8 @@ public class CommandsTest {
 				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
 		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y",
 				false, "(1, 1)");
+		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
+				false, "(?, ?, ?)", "(0, 2, 0)");
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y", false, "(-1, -1, 0)",
@@ -2036,6 +2043,13 @@ public class CommandsTest {
 		tRound("IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
 				"1.73205", "(1.41421, 0, 0)", "(0, 1.41421, 0)",
 				"(0, 0, 1.41421)", "2", "2", "2");
+	}
+
+	@Test
+	public void cmdIntersectPathHomogeneousCoords() {
+		t("A=Intersect(100x = -300, 100y = 200)", "(-3, 2)");
+		tRound("t1=Polygon(A, (-3,-2), (3,-2))", "12", "4", "6", "7.2111");
+		tRound("IntersectPath(t1,-3x+2y=10)", "1.24808");
 	}
 
 	@Test
@@ -3135,10 +3149,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdReadText() {
+		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
+		((EuclidianViewNoGui) app.getActiveEuclidianView())
+				.setScreenReader(screenReader);
 		t("SetActiveView(1)");
 		t("ReadText(\"Can anybody hear me?\")");
-		assertTrue(((ScreenReaderAccumulator) app.getActiveEuclidianView()
-				.getScreenReader()).hasRead("Can anybody hear me?"));
+		verify(screenReader).readDelayed("Can anybody hear me?");
 	}
 
 	@Test
