@@ -38,6 +38,9 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 		app.addWindowResizeListener(this);
 	}
 
+	/**
+	 * build switcher dialog
+	 */
 	public void buildGUI() {
 		clear();
 		contentPanel = new FlowPanel();
