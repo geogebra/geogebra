@@ -3,7 +3,7 @@ package org.geogebra.common.euclidian.plot;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.junit.Test;
 
 public class TupleNeighboursTest {

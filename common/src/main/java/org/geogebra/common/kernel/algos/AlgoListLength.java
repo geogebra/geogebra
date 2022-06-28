@@ -67,7 +67,7 @@ public class AlgoListLength extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (geoList.isDefined()) {
+		if (geoList.isDefined() || geoList.isUndefinedMatrix()) {
 			length.setValue(geoList.size());
 		} else {
 			length.setUndefined();

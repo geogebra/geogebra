@@ -853,32 +853,22 @@ public class GeoList extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		StringBuilder sbToString = new StringBuilder(50);
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(buildValueString(tpl).toString());
-		return sbToString.toString();
+		return label
+				+ tpl.getEqualsWithSpace()
+				+ toValueString(tpl);
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return buildValueString(tpl).toString();
+		return isDefined ? buildValueString(tpl).toString() : "?";
 	}
 
+	// ignores isDefined on purpose
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
-		if (!isDefined) {
-			sbBuildValueString.append("?");
-			return sbBuildValueString;
-		}
-
 		tpl.leftCurlyBracket(sbBuildValueString);
-
 		appendElements(sbBuildValueString, tpl);
-
 		tpl.rightCurlyBracket(sbBuildValueString);
-
 		return sbBuildValueString;
 	}
 
@@ -916,11 +906,19 @@ public class GeoList extends GeoElement
 		// an independent list needs to add
 		// its expression itself
 		// e.g. {1,2,3}
-		if (isDefined() && isIndependent() && (getDefaultGeoType() < 0)) {
+		if ((isDefined() || isUndefinedMatrix()) && isIndependent() && (getDefaultGeoType() < 0)) {
 			sb.append("<expression label=\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
-			if (getDefinition() != null) {
+			if (isUndefinedMatrix()) {
+				sb.append('{');
+				for (GeoElement geo: elements) {
+					sb.append(((GeoList) geo).buildValueString(StringTemplate.xmlTemplate));
+					sb.append(',');
+				}
+				sb.setLength(sb.length() - 1); // remove extra comma
+				sb.append('}');
+			} else if (getDefinition() != null) {
 				getDefinitionXML(sb);
 			} else {
 				StringUtil.encodeXML(sb,
@@ -3048,7 +3046,11 @@ public class GeoList extends GeoElement
 	public void resetDefinition() {
 		super.resetDefinition();
 		for (int i = 0; i < size(); i++) {
-			this.elements.get(i).resetDefinition();
+			if (elements.get(i).isLabelSet()) {
+				elements.set(i, elements.get(i).copyInternal(cons));
+			} else {
+				this.elements.get(i).resetDefinition();
+			}
 		}
 	}
 
@@ -3366,19 +3368,14 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * @return replace all entries with undefined numbers
+	 * @return whether this is a list of lists of undefined elements
 	 */
-	public ExpressionValue makeEntriesUndefined() {
-		MyList list = new MyList(kernel);
-		for (int i = 0; i < size(); i++) {
-			GeoElement geo = get(i);
-			if (geo.isGeoList()) {
-				((GeoList) geo).makeEntriesUndefined();
-				((GeoList) geo).resetDefinition();
-			} else {
-				elements.set(i, new GeoNumeric(cons, Double.NaN));
-			}
-		}
-		return list;
+	public boolean isUndefinedMatrix() {
+		return !elements.isEmpty() && elements().allMatch(row
+				-> row.isGeoList() && ((GeoList) row).isUndefinedList());
+	}
+
+	private boolean isUndefinedList() {
+		return !elements.isEmpty() && elements().noneMatch(GeoElement::isDefined);
 	}
 }

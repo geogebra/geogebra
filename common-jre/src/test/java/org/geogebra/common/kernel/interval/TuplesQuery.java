@@ -2,6 +2,9 @@ package org.geogebra.common.kernel.interval;
 
 import java.util.stream.Stream;
 
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+
 public class TuplesQuery {
 	private final IntervalTupleList tuples;
 

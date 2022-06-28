@@ -1339,8 +1339,10 @@ public class SelectionManager {
 	 * @param geo single selection within group
 	 */
 	public void setFocusedGroupElement(GeoElement geo) {
-		this.focusedGroupElement = geo;
-		updateSelection();
+		if (focusedGroupElement != geo) {
+			this.focusedGroupElement = geo;
+			updateSelection();
+		}
 	}
 
 	/**

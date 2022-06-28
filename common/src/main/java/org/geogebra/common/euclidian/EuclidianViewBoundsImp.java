@@ -117,4 +117,16 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 		return (y.getLow() >= getYmin() && y.getLow() <= getXmax())
 			|| (y.getHigh() >= getYmin() && y.getHigh() <= getXmax());
 	}
+
+	@Override
+	public String toString() {
+		return "EuclidianViewBoundsImp{"
+				+ "xmin=" + getXmin()
+				+ ", xmax=" + getXmax()
+				+ ", ymin=" + getYmin()
+				+ ", ymax=" + getYmax()
+				+ ", width=" + getWidth()
+				+ ", height=" + getHeight()
+				+ '}';
+	}
 }

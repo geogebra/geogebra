@@ -875,7 +875,7 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (app == null || !app.getUseFullGui()) {
+		if (app == null || !app.isUsingFullGui()) {
 			return;
 		}
 		final int eventType = DOM.eventGetType(event);

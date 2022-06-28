@@ -5,7 +5,6 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -23,7 +22,7 @@ public class ToggleButton extends FocusWidget {
 	 * constructor
 	 */
 	public ToggleButton() {
-		setElement(DOM.createButton());
+		setElement(Dom.createDefaultButton());
 		addStyleName("button");
 	}
 

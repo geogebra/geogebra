@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.interval.operators.RMath;
 
 public final class IntervalConstants {
 	public static final double PI_LOW = Math.PI - 1E-16;

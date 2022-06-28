@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -649,9 +650,9 @@ public class CommandDispatcherGiac {
 				break;
 
 			case diff:
+				double deg = args.getLength() == 3 ? args.getItem(2).evaluateDouble() : 1;
 
-				if (args.getLength() == 3 && !"1".equals(args.getItem(2)
-						.toString(StringTemplate.giacTemplate))) {
+				if (deg > 1 && DoubleUtil.isInteger(deg)) {
 					return new ExpressionNode(kernel,
 							new MyNumberPair(kernel, args.getItem(0),
 									args.getItem(1)),
@@ -659,6 +660,9 @@ public class CommandDispatcherGiac {
 				}
 				if (ExpressionNode.isConstantDouble(args.getItem(0), 0)) {
 					return new ExpressionNode(kernel, 0);
+				}
+				if (deg != 1) {
+					return new ExpressionNode(kernel, Double.NaN);
 				}
 				ret = new ExpressionNode(kernel, args.getItem(0),
 						Operation.DIFF, args.getItem(1));
