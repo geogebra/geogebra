@@ -18,7 +18,7 @@ public enum ExamRegion {
 			return loc.getMenu(config.getAppTransKey());
 		}
 	},
-	NIEDERSACHSEN("Abitur Niedersachsen") {
+	NIEDERSACHSEN("Niedersachsen Abitur") {
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setSubAppCodes(CAS_APPCODE, G3D_APPCODE);
