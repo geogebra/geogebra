@@ -243,7 +243,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		Coords v2 = projectCoords.sub(o);
 		double d2 = pointCoords.distLine(o, vs);
 		double angle;
-		if (DoubleUtil.isEqual(dist, d2)) {
+		if (DoubleUtil.isEqual(dist, d2, kernel.getStandardPrecision())) {
 			angle = Math.PI / 2;
 		} else {
 			angle = Math.asin(dist / d2);
@@ -325,8 +325,8 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		}
 
 		double f = v.getDouble();
-
-		if (DoubleUtil.isGreater(f, 1) || DoubleUtil.isGreater(0, f)) {
+		double precision = kernel.getStandardPrecision();
+		if (DoubleUtil.isGreater(f, 1, precision) || DoubleUtil.isGreater(0, f, precision)) {
 			setUndefined();
 			return;
 		}

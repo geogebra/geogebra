@@ -5203,4 +5203,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 	}
 
+	/**
+	 * get standard precision
+	 *
+	 * @return standard precision
+	 */
+	public double getStandardPrecision() {
+		// overiden in Hololens
+		return STANDARD_PRECISION;
+	}
 }
