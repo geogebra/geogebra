@@ -73,7 +73,8 @@ public class DistributionPropertiesFactory implements PropertiesFactory {
 
 	private void ensureLabelsExist(Localization localization) {
 		if (labels == null) {
-			labels = ProbabilityManager.getParameterLabelArrayPrefixed(localization);
+			labels = probabilityCalculatorView.getProbManager()
+					.getParameterLabelArrayPrefixed(localization);
 		}
 	}
 }
