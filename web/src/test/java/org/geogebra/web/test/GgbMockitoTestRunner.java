@@ -6,12 +6,12 @@ import org.geogebra.regexp.client.NativeRegExp;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.FileDropHandlerW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-import org.geogebra.web.html5.util.MyNumberFormat;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.geogebra.web.resources.StyleInjector;
 import org.junit.runners.model.InitializationError;
@@ -79,7 +79,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(CopyPasteW.class, "installCutCopyPaste",
                 Void.class);
-        StubGenerator.replaceMethodWithMock(MyNumberFormat.class, "toPrecision",
+        StubGenerator.replaceMethodWithMock(FormatFactoryW.class, "toPrecision",
                 String.class);
         StubGenerator.replaceMethodWithMock(NativeRegExp.class, "exec",
                 String.class);
