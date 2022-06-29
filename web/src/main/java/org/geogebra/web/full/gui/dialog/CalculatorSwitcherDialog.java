@@ -121,10 +121,4 @@ public class CalculatorSwitcherDialog extends GPopupPanel implements Persistable
 	public void applyExamRestrictions() {
 		buildGUI();
 	}
-
-	@Override
-	public void cancelExamRestrictions() {
-		restrictionModel = null;
-		buildGUI();
-	}
 }
