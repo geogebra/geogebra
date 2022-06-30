@@ -242,9 +242,17 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	public GeoList getValueList() {
 		if (settings.getValueList() == null) {
-			settings.setValueList(new GeoList(kernel.getConstruction()));
+			GeoList xValues = setupXValues(new GeoList(kernel.getConstruction()));
+			settings.setValueList(xValues);
 		}
 		return settings.getValueList();
+	}
+
+	@Override
+	public GeoList setupXValues(GeoList xValues) {
+		xValues.setAuxiliaryObject(true);
+		xValues.setCanBeRemovedAsInput(false);
+		return xValues;
 	}
 
 	private void initializeModel() {
