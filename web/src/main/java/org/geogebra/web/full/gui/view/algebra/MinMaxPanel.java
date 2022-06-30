@@ -292,9 +292,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		event.stopPropagation();
 
-		if (!(selectAllOnFocus(tfMin, event)
-				|| selectAllOnFocus(tfMax, event)
-				|| selectAllOnFocus(tfStep, event))) {
+		if (!(handleInputFieldMouseEvent(tfMin, event)
+				|| handleInputFieldMouseEvent(tfMax, event)
+				|| handleInputFieldMouseEvent(tfStep, event))) {
 			apply();
 		}
 
@@ -308,18 +308,19 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		event.stopPropagation();
 
-		selectAllOnFocus(tfMin, event);
-		selectAllOnFocus(tfMax, event);
-		selectAllOnFocus(tfStep, event);
+		handleInputFieldMouseEvent(tfMin, event);
+		handleInputFieldMouseEvent(tfMax, event);
+		handleInputFieldMouseEvent(tfStep, event);
 
 	}
 
-	private static boolean selectAllOnFocus(AVField avField,
+	private static boolean handleInputFieldMouseEvent(AVField avField,
 			MouseEvent<?> event) {
 		if (RadioTreeItemController.isWidgetHit(avField, event)) {
-			avField.removeDummyCursor();
-			avField.selectAll();
-			avField.addDummyCursor();
+			if (Browser.isAndroid()) {
+				avField.removeDummyCursor();
+				avField.addDummyCursor();
+			}
 			return true;
 		}
 		return false;
