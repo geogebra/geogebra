@@ -84,15 +84,12 @@ public class InputPanelW extends FlowPanel {
 		}
 	}
 
-	private void enableGGBKeyboard(App app, boolean showKeyboardButton, AutoCompleteTextFieldW atf) {
+	private void enableGGBKeyboard(App app, boolean showKeyboardButton,
+			AutoCompleteTextFieldW atf) {
 		if (!app.isWhiteboardActive()) {
 			atf.prepareShowSymbolButton(showKeyboardButton);
 			atf.enableGGBKeyboard();
 		}
-	}
-
-	private boolean canHaveKeyboard(int columns) {
-		return columns == -1 || columns > SHOW_KEYBOARD_BUTTON_LIMIT;
 	}
 
 	/**

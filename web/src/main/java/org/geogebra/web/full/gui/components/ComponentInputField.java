@@ -56,7 +56,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, showSymbolPopup, app);
+		buildGui(width, height, app);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -96,7 +96,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return contentPanel;
 	}
 
-	private void buildGui(int width, int height, boolean showSymbolPopup, AppW app) {
+	private void buildGui(int width, int height, AppW app) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
