@@ -32,7 +32,7 @@ public abstract class InputDialogRadiusW extends ComponentInputDialog {
 	public InputDialogRadiusW(AppW app, DialogData data, InputHandler handler,
 			Kernel kernel) {
 		super(app, data, false, false, handler, "Radius",
-				"", false);
+				"");
 		this.kernel = kernel;
 	}
 
