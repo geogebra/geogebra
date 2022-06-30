@@ -297,6 +297,11 @@
 		&.subMenuLeftSidePopup {
 			box-shadow: none;
 		}
+
+		&.optionsPopup {
+			margin-top: 5px;
+			padding: 0px;
+		}
 	}
 
 	.gwt-DecoratedPopupPanel .popupMiddleCenter {
@@ -2123,12 +2128,6 @@
 		z-index: z-index.$z-open-screen-header-bar;
 		width: 100%;
 		margin-bottom: 1px;
-	}
-
-	.optionsPopup {
-		float: right;
-		background: none;
-		box-shadow: none;
 	}
 
 	.headerFirst {
