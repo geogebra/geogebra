@@ -71,9 +71,16 @@ public class AlgoIntegralNumericInterval extends AlgoElement {
 
 	@Override
 	public void compute() {
+		if (!f.isDefined()) {
+			g.setUndefined();
+			return;
+		}
+		g.setDefined(true);
 		Function inFun = f.getFunction();
 		FunctionVariable[] fVars = inFun.getFunctionVariables();
-		boolean skipIntegration = inFun.getExpression().includesFreehandOrData();
+		// for conditional expressions the symbolic integral may not be continuous
+		boolean skipIntegration = inFun.getExpression().includesFreehandOrData()
+				|| inFun.getExpression().isConditional();
 		ExpressionNode integral = skipIntegration
 				? null : inFun.integral(fVars[0], kernel);
 		if (isInvalid(integral)) {
@@ -98,8 +105,8 @@ public class AlgoIntegralNumericInterval extends AlgoElement {
 	}
 
 	private boolean isInvalid(ExpressionNode integral) {
-		return integral == null || (integral.isConstant()
-				&& Double.isNaN(integral.evaluateDouble()));
+		return integral == null || integral.inspect(v -> v instanceof MyDouble
+				&& Double.isNaN(((MyDouble) v).getDouble()));
 	}
 
 	private ExpressionNode numericIntegral(Function inFun) {
