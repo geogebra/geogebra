@@ -223,7 +223,11 @@ public abstract class ProbabilityCalculatorView
 	protected void setLabelArrays() {
 		distributionMap = probManager.getDistributionMap();
 		reverseDistributionMap = probManager.getReverseDistributionMap();
-		parameterLabels = probManager.getParameterLabelArray(app.getLocalization());
+		if (app.getConfig().hasDistributionView()) {
+			parameterLabels = probManager.getParameterLabelArrayPrefixed(app.getLocalization());
+		} else {
+			parameterLabels = probManager.getParameterLabelArray(app.getLocalization());
+		}
 	}
 
 	/**
