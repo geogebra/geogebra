@@ -100,7 +100,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", app, height, width, showSymbolPopup);
+		inputTextField = new InputPanelW("", app, height, width, true);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
