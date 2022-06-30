@@ -60,6 +60,9 @@ public class ProbabilityManager {
 	private final App app;
 	private final Localization loc;
 	private ProbabilityCalculatorView probCalc;
+	private HashMap<Dist, String> distributionMap;
+	private HashMap<String, Dist> reverseDistributionMap;
+	private HashMap<Dist, String[]> distributionParameterTransKeys;
 
 	/**
 	 * @param app
@@ -94,27 +97,27 @@ public class ProbabilityManager {
 	 * @return map distribution -&gt; localized name
 	 */
 	public HashMap<Dist, String> getDistributionMap() {
+		if (distributionMap == null) {
+			distributionMap = new HashMap<>();
 
-		HashMap<Dist, String> plotMap = new HashMap<>();
+			distributionMap.put(Dist.NORMAL, loc.getMenu("Distribution.Normal"));
+			distributionMap.put(Dist.STUDENT, loc.getMenu("Distribution.StudentT"));
+			distributionMap.put(Dist.CHISQUARE, loc.getMenu("Distribution.ChiSquare"));
+			distributionMap.put(Dist.F, loc.getMenu("Distribution.F"));
+			distributionMap.put(Dist.EXPONENTIAL, loc.getMenu("Distribution.Exponential"));
+			distributionMap.put(Dist.CAUCHY, loc.getMenu("Distribution.Cauchy"));
+			distributionMap.put(Dist.WEIBULL, loc.getMenu("Distribution.Weibull"));
+			distributionMap.put(Dist.LOGISTIC, loc.getCommand("Logistic"));
+			distributionMap.put(Dist.LOGNORMAL, loc.getCommand("LogNormal"));
 
-		plotMap.put(Dist.NORMAL, loc.getMenu("Distribution.Normal"));
-		plotMap.put(Dist.STUDENT, loc.getMenu("Distribution.StudentT"));
-		plotMap.put(Dist.CHISQUARE, loc.getMenu("Distribution.ChiSquare"));
-		plotMap.put(Dist.F, loc.getMenu("Distribution.F"));
-		plotMap.put(Dist.EXPONENTIAL, loc.getMenu("Distribution.Exponential"));
-		plotMap.put(Dist.CAUCHY, loc.getMenu("Distribution.Cauchy"));
-		plotMap.put(Dist.WEIBULL, loc.getMenu("Distribution.Weibull"));
-		plotMap.put(Dist.LOGISTIC, loc.getCommand("Logistic"));
-		plotMap.put(Dist.LOGNORMAL, loc.getCommand("LogNormal"));
-
-		plotMap.put(Dist.GAMMA, loc.getMenu("Distribution.Gamma"));
-		plotMap.put(Dist.BINOMIAL, loc.getMenu("Distribution.Binomial"));
-		plotMap.put(Dist.PASCAL, loc.getMenu("Distribution.Pascal"));
-		plotMap.put(Dist.POISSON, loc.getMenu("Distribution.Poisson"));
-		plotMap.put(Dist.HYPERGEOMETRIC,
-				loc.getMenu("Distribution.Hypergeometric"));
-
-		return plotMap;
+			distributionMap.put(Dist.GAMMA, loc.getMenu("Distribution.Gamma"));
+			distributionMap.put(Dist.BINOMIAL, loc.getMenu("Distribution.Binomial"));
+			distributionMap.put(Dist.PASCAL, loc.getMenu("Distribution.Pascal"));
+			distributionMap.put(Dist.POISSON, loc.getMenu("Distribution.Poisson"));
+			distributionMap.put(Dist.HYPERGEOMETRIC,
+					loc.getMenu("Distribution.Hypergeometric"));
+		}
+		return distributionMap;
 	}
 
 	/**
@@ -125,14 +128,88 @@ public class ProbabilityManager {
 	 * @return map localized name -&gt; distribution
 	 */
 	public HashMap<String, Dist> getReverseDistributionMap() {
-
-		HashMap<Dist, String> plotMap = getDistributionMap();
-		HashMap<String, Dist> plotMapReverse = new HashMap<>();
-		for (Entry<Dist, String> entry : plotMap.entrySet()) {
-			plotMapReverse.put(entry.getValue(), entry.getKey());
+		if (reverseDistributionMap == null) {
+			reverseDistributionMap = new HashMap<>();
+			for (Entry<Dist, String> entry : getDistributionMap().entrySet()) {
+				reverseDistributionMap.put(entry.getValue(), entry.getKey());
+			}
 		}
+		return reverseDistributionMap;
+	}
 
-		return plotMapReverse;
+	/**
+	 * Creates a hash map that contains the transKeys of the different distribution parameters
+	 *
+	 * @return map with the transKeys
+	 */
+	public HashMap<Dist, String[]> getDistributionParameterTransKeys() {
+		if (distributionParameterTransKeys == null) {
+			distributionParameterTransKeys = new HashMap<>();
+
+			boolean isProbCalc = app.getConfig().hasDistributionView();
+
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.NORMAL,
+				new String[]{"Mean.short", "StandardDeviation.short"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.STUDENT,
+				new String[]{"DegreesOfFreedom.short"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.CHISQUARE,
+				new String[]{"DegreesOfFreedom.short"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.F,
+				new String[]{"DegreesOfFreedom1.short", "DegreesOfFreedom2.short"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.EXPONENTIAL,
+				new String[]{Unicode.lambda + ""}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.CAUCHY,
+				new String[]{"Median", isProbCalc ? "Scale" : "Distribution.Scale"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.WEIBULL,
+				new String[]{"Distribution.Shape", isProbCalc ? "Scale" : "Distribution.Scale"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.LOGISTIC,
+				new String[]{"Mean.short", isProbCalc ? "Scale" : "Distribution.Scale"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.LOGNORMAL,
+				new String[]{"Mean.short", "StandardDeviation.short"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.GAMMA,
+				new String[]{Unicode.alpha + "", Unicode.beta + ""}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.BINOMIAL,
+				new String[]{"Binomial.number", "Binomial.probability"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.PASCAL,
+				new String[]{"Binomial.number", "Binomial.probability"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.POISSON,
+				new String[]{"Mean.short"}
+			);
+			distributionParameterTransKeys.put(
+				ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC,
+				new String[]{
+						isProbCalc ? "Distribution.Population" : "Hypergeometric.population",
+						"Hypergeometric.number",
+						isProbCalc ? "Sample" : "Hypergeometric.sample"
+				}
+			);
+		}
+		return distributionParameterTransKeys;
 	}
 
 	/**
@@ -143,73 +220,14 @@ public class ProbabilityManager {
 	 *            localization
 	 * @return matrix of strings
 	 */
-	public static String[][] getParameterLabelArray(Localization loc) {
-
+	public String[][] getParameterLabelArray(Localization loc) {
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
-		parameterLabels[ProbabilityCalculatorSettings.Dist.NORMAL
-				.ordinal()][0] = loc.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.NORMAL
-				.ordinal()][1] = loc.getMenu("StandardDeviation.short");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.STUDENT
-				.ordinal()][0] = loc.getMenu("DegreesOfFreedom.short");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.CHISQUARE
-				.ordinal()][0] = loc.getMenu("DegreesOfFreedom.short");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.F.ordinal()][0] = loc
-				.getMenu("DegreesOfFreedom1.short");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.F.ordinal()][1] = loc
-				.getMenu("DegreesOfFreedom2.short");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.EXPONENTIAL
-				.ordinal()][0] = Unicode.lambda + "";
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.CAUCHY
-				.ordinal()][0] = loc.getMenu("Median");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.CAUCHY
-				.ordinal()][1] = loc.getMenu("Distribution.Scale");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.WEIBULL
-				.ordinal()][0] = loc.getMenu("Distribution.Shape");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.WEIBULL
-				.ordinal()][1] = loc.getMenu("Distribution.Scale");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGISTIC
-				.ordinal()][0] = loc.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGISTIC
-				.ordinal()][1] = loc.getMenu("Distribution.Scale");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGNORMAL
-				.ordinal()][0] = loc.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGNORMAL
-				.ordinal()][1] = loc.getMenu("StandardDeviation.short");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.GAMMA
-				.ordinal()][0] = Unicode.alpha + "";
-		parameterLabels[ProbabilityCalculatorSettings.Dist.GAMMA
-				.ordinal()][1] = Unicode.beta + "";
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.BINOMIAL
-				.ordinal()][0] = loc.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.BINOMIAL
-				.ordinal()][1] = loc.getMenu("Binomial.probability");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.PASCAL
-				.ordinal()][0] = loc.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.PASCAL
-				.ordinal()][1] = loc.getMenu("Binomial.probability");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.POISSON
-				.ordinal()][0] = loc.getMenu("Mean.short");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
-				.ordinal()][0] = loc.getMenu("Hypergeometric.population");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
-				.ordinal()][1] = loc.getMenu("Hypergeometric.number");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
-				.ordinal()][2] = loc.getMenu("Hypergeometric.sample");
+		getDistributionParameterTransKeys().forEach((dist, keys) -> {
+			for (int i = 0; i < keys.length; i++) {
+				parameterLabels[dist.ordinal()][i] = loc.getMenu(keys[i]);
+			}
+		});
 
 		return parameterLabels;
 	}
@@ -220,72 +238,14 @@ public class ProbabilityManager {
 	 * @param loc localization
 	 * @return matrix of strings
 	 */
-	public static String[][] getParameterLabelArrayPrefixed(Localization loc) {
+	public String[][] getParameterLabelArrayPrefixed(Localization loc) {
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][3];
 
-		parameterLabels[ProbabilityCalculatorSettings.Dist.NORMAL
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.NORMAL
-				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("StandardDeviation.short"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.STUDENT
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom.short"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.CHISQUARE
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom.short"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.F.ordinal()][0] =
-				parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom1.short"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.F.ordinal()][1] =
-				parameterPrefixed(loc, loc.getMenu("DegreesOfFreedom2.short"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.EXPONENTIAL
-				.ordinal()][0] = parameterPrefixed(loc, Unicode.lambda + "");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.CAUCHY
-				.ordinal()][0] = loc.getMenu("Median");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.CAUCHY
-				.ordinal()][1] = loc.getMenu("Distribution.Scale");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.WEIBULL
-				.ordinal()][0] = loc.getMenu("Distribution.Shape");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.WEIBULL
-				.ordinal()][1] = loc.getMenu("Distribution.Scale");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGISTIC
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGISTIC
-				.ordinal()][1] = loc.getMenu("Distribution.Scale");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGNORMAL
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.LOGNORMAL
-				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("StandardDeviation.short"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.GAMMA
-				.ordinal()][0] = parameterPrefixed(loc, Unicode.alpha + "");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.GAMMA
-				.ordinal()][1] = parameterPrefixed(loc, Unicode.beta + "");
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.BINOMIAL
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Binomial.number"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.BINOMIAL
-				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("Binomial.probability"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.PASCAL
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Binomial.number"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.PASCAL
-				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("Binomial.probability"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.POISSON
-				.ordinal()][0] = parameterPrefixed(loc, loc.getMenu("Mean.short"));
-
-		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
-				.ordinal()][0] = loc.getMenu("Hypergeometric.population");
-		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
-				.ordinal()][1] = parameterPrefixed(loc, loc.getMenu("Hypergeometric.number"));
-		parameterLabels[ProbabilityCalculatorSettings.Dist.HYPERGEOMETRIC
-				.ordinal()][2] = loc.getMenu("Hypergeometric.sample");
+		getDistributionParameterTransKeys().forEach((dist, keys) -> {
+			for (int i = 0; i < keys.length; i++) {
+				parameterLabels[dist.ordinal()][i] = parameterPrefixed(loc, loc.getMenu(keys[i]));
+			}
+		});
 
 		return parameterLabels;
 	}
