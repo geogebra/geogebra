@@ -1,6 +1,9 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.Construction;
@@ -243,7 +246,7 @@ public class ProbabilityManager {
 
 		getDistributionParameterTransKeys().forEach((dist, keys) -> {
 			for (int i = 0; i < keys.length; i++) {
-				parameterLabels[dist.ordinal()][i] = parameterPrefixed(loc, loc.getMenu(keys[i]));
+				parameterLabels[dist.ordinal()][i] = parameterMaybePrefixed(loc, keys[i]);
 			}
 		});
 
@@ -251,7 +254,17 @@ public class ProbabilityManager {
 	}
 
 	private static String parameterPrefixed(Localization localization, String label) {
-		return localization.getPlainDefault("ParameterA", "Parameter $0", label);
+		return localization.getPlainDefault("ParameterA", "Hahaha $0", label);
+	}
+
+	private static String parameterMaybePrefixed(Localization loc, String key) {
+		return needsPrefix(key) ? parameterPrefixed(loc, loc.getMenu(key)) : loc.getMenu(key);
+	}
+
+	private static boolean needsPrefix(String key) {
+		List<String> noPrefix = Arrays.asList("Median", "Scale", "Distribution.Shape",
+				"Distribution.Population", "Sample");
+		return !noPrefix.contains(key);
 	}
 
 	/**
