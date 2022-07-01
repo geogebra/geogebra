@@ -4,11 +4,11 @@ import org.geogebra.common.gui.view.data.TwoVarInferenceModel;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.TwoVarInferenceListener;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -32,7 +32,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private Label lblResultHeader;
 	private AutoCompleteTextFieldW fldNullHyp;
 	private FlowPanel resultPanel;
-	private CheckBox ckEqualVariances;
 	private AutoCompleteTextFieldW fldConfLevel;
 
 	private boolean isIniting;
@@ -43,7 +42,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private TwoVarStatPanelW twoStatPanel;
 	private TwoVarInferenceModel model;
 	private boolean enablePooled;
-	private CheckBox ckPooled;
+	private ComponentCheckbox ckPooled;
 	private Localization loc;
 
 	/**
@@ -84,11 +83,9 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		lblTitle1 = new Label();
 		lblTitle2 = new Label();
 
-		ckPooled = new CheckBox();
+		ckPooled = new ComponentCheckbox(loc, false, "Pooled",
+				(selected) -> model.setPooled(selected));
 		ckPooled.addStyleName("ckPooled");
-		ckPooled.setValue(false);
-		ckPooled.addValueChangeHandler(event -> model.setPooled(ckPooled.getValue()));
-		ckEqualVariances = new CheckBox();
 
 		lbAltHyp = new ListBox();
 
@@ -162,24 +159,14 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		}
 
 		mainPanel.add(samplePanel);
-		// mainPanel.add(ckEqualVariances,c);
 		mainPanel.add(resultPanel);
 	}
-
-	// ============================================================
-	// Updates and Event Handlers
-	// ============================================================
 
 	private void updateGUI() {
 
 		if (model.isTest()) {
 			lblHypParameter.setText(model.getNullHypName() + " = 0");
 		}
-
-		// ckEqualVariances.setVisible(
-		// selectedPlot == StatisticsModel.INFER_TINT_2MEANS
-		// || selectedPlot == StatisticsModel.INFER_TTEST_2MEANS);
-		ckEqualVariances.setValue(model.isPooled());
 
 		updateNumberField(fldNullHyp, model.getHypMean());
 		updateNumberField(fldConfLevel, model.getConfLevel());
@@ -217,22 +204,13 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	@Override
 	public void setLabels() {
-
 		lblResultHeader.setText(loc.getMenu("Result") + ": ");
-
 		lblTitle1.setText(loc.getMenu("Sample1") + ": ");
 		lblTitle2.setText(loc.getMenu("Sample2") + ": ");
-
 		lblNull.setText(loc.getMenu("NullHypothesis") + ": ");
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis") + ": ");
-
-		// lblCI.setText("Interval Estimate");
 		lblConfLevel.setText(loc.getMenu("ConfidenceLevel") + ": ");
-
-		// btnCalc.setText(loc.getMenu("Calculate"));
-
-		ckEqualVariances.setText(loc.getMenu("EqualVariance"));
-		ckPooled.setText(loc.getMenu("Pooled"));
+		ckPooled.setLabels();
 	}
 
 	@Override
@@ -250,18 +228,10 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	public void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
-		}
-
-		else if (source == lbAltHyp) {
+		} else if (source == lbAltHyp) {
 			model.applyTail(lbAltHyp.getSelectedIndex());
-		}
-
-		else if (source == lbTitle1 || source == lbTitle2) {
+		} else if (source == lbTitle1 || source == lbTitle2) {
 			model.updateResults();
-		}
-
-		else if (source == ckEqualVariances) {
-			model.setPooled(ckEqualVariances.getValue());
 		}
 	}
 
