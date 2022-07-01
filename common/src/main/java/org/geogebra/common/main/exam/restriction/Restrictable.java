@@ -23,13 +23,8 @@ public interface Restrictable {
 
 	/**
 	 * Restrict component due to the model.
-	 * Apply restriction rules that the model contains..
+	 * Apply restriction rules that the model contains.
 	 */
 	void applyExamRestrictions();
-
-	/**
-	 * Clear all restrictions that applyExamRestrictions(model) has made.
-	 */
-	void cancelExamRestrictions();
 
 }

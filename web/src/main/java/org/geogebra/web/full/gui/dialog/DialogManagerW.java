@@ -221,7 +221,10 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showCalcChooser(boolean autoHide) {
 		hideCalcChooser(); // remove any previous chooser
-		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		if (calcSwitcher == null) {
+			calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		}
+		calcSwitcher.buildGUI();
 		calcSwitcher.show();
 	}
 

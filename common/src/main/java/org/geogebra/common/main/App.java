@@ -5058,7 +5058,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @param restrictable the component to restrict.
 	 */
 	public void registerRestrictable(Restrictable restrictable) {
-		initRestrictions(null);
+		if (restrictions == null) {
+			restrictions = ExamRestrictionFactory.create(null);
+		}
 		restrictions.register(restrictable);
 	}
 }

@@ -1,6 +1,5 @@
 package org.geogebra.common.main.exam.restriction;
 
-import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
 
 import org.geogebra.common.main.AppConfig;
@@ -21,7 +20,7 @@ public enum ExamRegion {
 	NIEDERSACHSEN("Niedersachsen Abitur") {
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
-			model.setSubAppCodes(CAS_APPCODE, G3D_APPCODE);
+			model.setSubAppCodes(G3D_APPCODE);
 		}
 	};
 

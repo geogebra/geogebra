@@ -6,8 +6,9 @@ import java.util.stream.Stream;
 
 public class RestrictExamImpl implements RestrictExam {
 
-	private ExamRestrictionModel model;
-	private List<Restrictable> restrictables;
+	private final ExamRestrictionModel model;
+	private final List<Restrictable> restrictables;
+	private boolean enabled;
 
 	/**
 	 *
@@ -20,9 +21,15 @@ public class RestrictExamImpl implements RestrictExam {
 
 	@Override
 	public void enable() {
+		enabled = true;
+		applyExamRestrictions(model);
+	}
+
+	private void applyExamRestrictions(ExamRestrictionModel restrictionModel) {
 		restrictables.forEach(restrictable -> {
-			if (restrictable.isExamRestrictionModelAccepted(model)) {
-				restrictable.setExamRestrictionModel(model);
+			if (restrictionModel == null
+					|| restrictable.isExamRestrictionModelAccepted(restrictionModel)) {
+				restrictable.setExamRestrictionModel(restrictionModel);
 				restrictable.applyExamRestrictions();
 			}
 		});
@@ -30,13 +37,14 @@ public class RestrictExamImpl implements RestrictExam {
 
 	@Override
 	public void disable() {
-		restrictables.forEach(Restrictable::cancelExamRestrictions);
-
+		enabled = false;
+		applyExamRestrictions(null);
 	}
 
 	@Override
 	public void register(Restrictable item) {
 		restrictables.add(item);
+		item.setExamRestrictionModel(enabled ? model : null);
 	}
 
 	@Override

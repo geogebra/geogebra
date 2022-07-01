@@ -27,7 +27,6 @@ public class SuiteHeaderAppPicker extends StandardButton {
 	public SuiteHeaderAppPicker(AppW app) {
 		this.appW = app;
 		createAppPickerButton(app);
-
 	}
 
 	/**
