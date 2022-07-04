@@ -117,7 +117,11 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
 					escPressed = true;
-					((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
+					if (app.isApplet() && !app.showToolBar()) {
+						((AppW) GlobalKeyDispatcherW.this.app).moveFocusToLastWidget();
+					} else {
+						app.setMoveMode();
+					}
 					handled = true;
 				}
 
