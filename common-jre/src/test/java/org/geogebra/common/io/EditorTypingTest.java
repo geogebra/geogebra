@@ -637,6 +637,14 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testCommaInPointEditorWithSelection() {
+		checker.insert("(123,456)").protect()
+				.left(42).setModifiers(KeyEvent.SHIFT_MASK).right(42) // select as far as possible
+				.type("7")
+				.checkAsciiMath("(7,456)");
+	}
+
+	@Test
 	public void testCommaInPointEditor() {
 		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
 				.type("3").right(1) // cursor in front of comma
