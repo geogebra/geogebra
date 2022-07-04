@@ -238,6 +238,11 @@ public class IntervalPlotModel {
 		return neighbours;
 	}
 
+	/**
+	 *
+	 * @return the first invisible tuple on the left
+	 * to draw (join if needed) the first tuple to.
+	 */
 	public Interval getAnchorValue() {
 		IntervalTuple tuple = at(0);
 		double length = tuple.x().getLength();
