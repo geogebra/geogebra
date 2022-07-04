@@ -3317,9 +3317,28 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public byte[] getMacroFileAsByteArray() {
+		return getMacroFileAsByteArray(kernel.getAllMacros());
+	}
+
+	/**
+	 * @param untilMacro first macro not to be serialized (null to serialize all)
+	 * @return first several macros serialized to byte array, until given macro
+	 */
+	public byte[] getMacrosBefore(Macro untilMacro) {
+		ArrayList<Macro> previousMacros = new ArrayList<>();
+		for (Macro macro: kernel.getAllMacros()) {
+			if (macro == untilMacro) {
+				break;
+			}
+			previousMacros.add(macro);
+		}
+		return getMacroFileAsByteArray(previousMacros);
+	}
+
+	private byte[] getMacroFileAsByteArray(ArrayList<Macro> macros) {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			getXMLio().writeMacroStream(os, kernel.getAllMacros());
+			getXMLio().writeMacroStream(os, macros, kernel.getAllMacros());
 			os.flush();
 			return os.toByteArray();
 		} catch (Exception e) {

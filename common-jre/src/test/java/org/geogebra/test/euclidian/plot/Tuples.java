@@ -2,7 +2,7 @@ package org.geogebra.test.euclidian.plot;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.geogebra.common.kernel.interval.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
 /**
  * Class for creating tuples

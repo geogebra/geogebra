@@ -457,4 +457,16 @@ public class ParserTest {
 			throws ParseException {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
 	}
+
+	@Test
+	public void testDifferentDerivativeCharsAccepted() {
+		shouldReparseAs("f(x) = x*x", "x x");
+		try {
+			parseExpression("f'");
+			parseExpression("f‘");
+			parseExpression("f’");
+		} catch (ParseException e) {
+			assertNull(e);
+		}
+	}
 }

@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Objects;
 
+import org.geogebra.common.kernel.interval.operators.RMath;
 import org.junit.Test;
 
 public class IntervalTest {
@@ -32,17 +33,29 @@ public class IntervalTest {
 						.add(interval(4, 7)));
 	}
 
-	static Interval interval(double low, double high) {
+	/**
+	 * Makes an interval.
+	 * @param low limit.
+	 * @param high limit.
+	 * @return the new interval.
+	 */
+	public static Interval interval(double low, double high) {
 		return new Interval(low, high);
 	}
 
-	static Interval invertedInterval(double low, double high) {
+	/**
+	 * Makes a inverted interval.
+	 * @param low limit.
+	 * @param high limit.
+	 * @return the new, inverted interval.
+	 */
+	public static Interval invertedInterval(double low, double high) {
 		Interval interval = interval(low, high);
 		interval.setInverted(true);
 		return interval;
 	}
 
-	static Interval interval(double singleton) {
+	public static Interval interval(double singleton) {
 		return new Interval(singleton);
 	}
 
