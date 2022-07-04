@@ -237,4 +237,12 @@ public class IntervalPlotModel {
 		neighbours.set(at(index - 1), at(index), at(index + 1));
 		return neighbours;
 	}
+
+	public Interval getAnchorValue() {
+		IntervalTuple tuple = at(0);
+		double length = tuple.x().getLength();
+		Interval x = new Interval(tuple.x().getLow() - length, tuple.x().getLow());
+		IntervalTuple tuple1 = sampler.evaluate(x).get(0);
+		return tuple1.y();
+	}
 }

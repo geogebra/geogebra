@@ -41,6 +41,7 @@ public class IntervalPath {
 	 */
 	public synchronized void update() {
 		reset();
+		lastY = model.getAnchorValue();
 		model.forEach(index -> drawAt(index));
 	}
 
