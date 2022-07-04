@@ -2204,7 +2204,7 @@ public abstract class ProbabilityCalculatorView
 		}
 	}
 
-	private void updateLowHigh(ResultPanel resultPanel) {
+	protected void updateLowHigh(ResultPanel resultPanel) {
 		resultPanel.updateLowHigh(format(low), format(high));
 	}
 
