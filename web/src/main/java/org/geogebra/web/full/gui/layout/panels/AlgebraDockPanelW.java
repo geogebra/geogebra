@@ -126,6 +126,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		}
 		if (getOffsetHeight() > 0 && aview != null) {
 			aview.resize(0);
+			scrollToActiveItem();
 		}
 		if (decorator != null && aview != null) {
 			decorator.onResize(aview, getOffsetHeight());
