@@ -10,6 +10,8 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
+import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.euclidian.ScreenReaderSilent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -21,8 +23,8 @@ public class EuclidianViewNoGui extends EuclidianView {
 	private GDimension dim;
 	private final GGraphics2D g2Dtemp;
 	private final GGraphics2D g2;
-	private GFont font;
-	private ScreenReaderAccumulator screenReader = new ScreenReaderAccumulator();
+	private final GFont font;
+	private ScreenReaderAdapter screenReader = ScreenReaderSilent.INSTANCE;
 
 	/**
 	 * @param ec
@@ -224,8 +226,12 @@ public class EuclidianViewNoGui extends EuclidianView {
 	}
 
 	@Override
-	public ScreenReaderAccumulator getScreenReader() {
+	public ScreenReaderAdapter getScreenReader() {
 		return screenReader;
+	}
+
+	public void setScreenReader(ScreenReaderAdapter screenReader) {
+		this.screenReader = screenReader;
 	}
 
 	@Override

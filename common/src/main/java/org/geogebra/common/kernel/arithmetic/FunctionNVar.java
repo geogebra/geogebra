@@ -1403,7 +1403,7 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	public final ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
+	public final ExpressionNode integral(FunctionVariable fv, Kernel kernel0) {
 		return expression.integral(fv, kernel0);
 	}
 

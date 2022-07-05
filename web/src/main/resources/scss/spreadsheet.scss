@@ -81,18 +81,21 @@
 		z-index: z-index.$z-spreadsheet-popup;
 	}
  
-	.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {
+	.buttonSpreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {
 		position: relative;
 		z-index: z-index.$z-spreadsheet-button;
 	}
 
-	 .geogebraweb-button-spreadsheet {
+	 .buttonSpreadsheet {
 		text-align: center;
 		width: 100%;
 		height: 100%;
 		padding: 0px !important;
 		margin: 0px !important;
+		.gwt-Label {
+			text-align:center;
 		}
+	}
 	
 	.geogebraweb-checkbox-spreadsheet {
 		display: -moz-inline-box;

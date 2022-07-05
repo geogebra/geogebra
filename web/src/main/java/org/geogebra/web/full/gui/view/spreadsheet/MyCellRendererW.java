@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -21,7 +22,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -497,7 +497,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 		if (cellGeo.isGeoButton()) {
 			final GeoButton gb = (GeoButton) cellGeo;
-			final Button button = new Button();
+			final StandardButton button = new StandardButton("");
 			button.getElement()
 			        .getStyle()
 			        .setBackgroundColor(
@@ -505,9 +505,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			button.setText(cellGeo.getCaption(StringTemplate.defaultTemplate));
 			button.getElement().getStyle()
 			        .setColor(cellGeo.getObjectColor().toString());
-			button.getElement().addClassName("geogebraweb-button-spreadsheet");
+			button.getElement().addClassName("buttonSpreadsheet");
 
-			button.addClickHandler(ce -> {
+			button.addFastClickHandler(ce -> {
 				gb.runClickScripts(null);
 			});
 

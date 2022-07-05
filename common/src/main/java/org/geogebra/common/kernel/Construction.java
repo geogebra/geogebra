@@ -2255,7 +2255,7 @@ public class Construction {
 	 */
 	protected GeoElement lookupLabel(String label, boolean allowAutoCreate) {
 		String label1 = label;
-		if (label1 == null) {
+		if (label1 == null || label1.isEmpty()) {
 			return null;
 		}
 
@@ -2309,7 +2309,8 @@ public class Construction {
 				// geo found for name that includes $ signs
 				return checkConstructionStep(geo);
 			}
-			if (labelString.charAt(0) >= '0' && labelString.charAt(0) <= '9') {
+			if (!labelString.isEmpty() && labelString.charAt(0) >= '0'
+					&& labelString.charAt(0) <= '9') {
 				int cell = 0;
 				try {
 					cell = Integer.parseInt(labelWithoutDollar.toString());

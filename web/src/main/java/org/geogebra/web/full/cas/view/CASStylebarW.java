@@ -230,9 +230,11 @@ public class CASStylebarW extends StyleBarW implements FastClickHandler,
 	 * @param geo - selected cell
 	 */
 	public void setSelectedRow(GeoElement geo) {
-		selectedRows.clear();
-		selectedRows.add(geo);
-		updateStyleBar();
+		if (geo != null) {
+			selectedRows.clear();
+			selectedRows.add(geo);
+			updateStyleBar();
+		}
 	}
 
 	private void updateStyleBar() {

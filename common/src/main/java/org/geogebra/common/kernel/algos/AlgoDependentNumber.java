@@ -205,7 +205,8 @@ public class AlgoDependentNumber extends AlgoElement
 	final public String toString(StringTemplate tpl) {
 		// was defined as e.g. r = 5a - 3b
 		// return 5a - 3b
-		return number.getDefinition().toString(tpl);
+		return number.getDefinition() == null ? number.toValueString(tpl)
+				: number.getDefinition().toString(tpl);
 	}
 
 	@Override
