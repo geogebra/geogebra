@@ -243,11 +243,10 @@ public class IntervalPlotModel {
 	 * @return the first invisible tuple on the left
 	 * to draw (join if needed) the first tuple to.
 	 */
-	public Interval getAnchorValue() {
+	public IntervalTuple getAnchor() {
 		IntervalTuple tuple = at(0);
 		double length = tuple.x().getLength();
 		Interval x = new Interval(tuple.x().getLow() - length, tuple.x().getLow());
-		IntervalTuple tuple1 = sampler.evaluate(x).get(0);
-		return tuple1.y();
+		return sampler.evaluate(x).get(0);
 	}
 }
