@@ -2850,6 +2850,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
+	 * @return root panel of the applet
 	 * @deprecated use getAppletFrame instead
 	 */
 	@Deprecated
