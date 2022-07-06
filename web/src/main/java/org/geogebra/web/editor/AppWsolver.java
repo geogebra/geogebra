@@ -27,7 +27,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Global;
@@ -131,19 +130,14 @@ public class AppWsolver extends AppW implements HasKeyboard {
     }
 
 	@Override
-    public void setLanguage(final String browserLang) {
-        // no localization support needed in webSimple
-    }
+	public void setLanguage(final String browserLang) {
+		// not needed in solver for now
+	}
 
-    @Override
-    public Panel getPanel() {
-        return frame;
-    }
-
-    @Override
-    public void copyGraphicsViewToClipboard() {
-        Log.debug("unimplemented");
-    }
+	@Override
+	public void copyGraphicsViewToClipboard() {
+		// not needed in solver
+	}
 
 	/**
 	 * @param mathField

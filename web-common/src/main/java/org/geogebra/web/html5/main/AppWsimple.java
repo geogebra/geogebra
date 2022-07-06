@@ -14,7 +14,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -66,7 +65,7 @@ public class AppWsimple extends AppW {
 		if (ZoomPanel.neededFor(this)) {
 			ZoomPanel zp = new ZoomPanel(getEuclidianView1(), this, true, true);
 			setZoomPanel(zp);
-			euclidianViewPanel.getAbsolutePanel().add(zp);
+			frame.add(zp);
 		}
 	}
 
@@ -75,6 +74,9 @@ public class AppWsimple extends AppW {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget) getEuclidianViewpanel());
+			if (getZoomPanel() != null) {
+				frame.add(getZoomPanel());
+			}
 			getEuclidianViewpanel().setPixelSize(
 					getInnerAppletWidth(),
 					getInnerAppletHeight());
@@ -138,11 +140,6 @@ public class AppWsimple extends AppW {
 	@Override
 	public void setLanguage(final String browserLang) {
 		// no localization support needed in webSimple
-	}
-
-	@Override
-	public Panel getPanel() {
-		return frame;
 	}
 
 	@Override
