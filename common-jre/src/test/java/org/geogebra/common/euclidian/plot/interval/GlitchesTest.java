@@ -28,7 +28,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
 		withFunction("0(1/x)");
-		assertEquals(101, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
+		assertEquals(102, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
 				.count());
 	}
 
@@ -45,7 +45,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1E15, 1E15, -1E15, -1E15);
 		withScreenSize(50, 50);
 		withFunction("tan(x)");
-		assertEquals(101, gp.getLog().size());
+		assertEquals(102, gp.getLog().size());
 	}
 
 	@Test
