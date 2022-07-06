@@ -90,6 +90,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			aview.setUserWidth(tabWidth);
 			aview.resize(tabWidth - SCROLLBAR_WIDTH);
 			logo.onResize(aview, toolbarPanel.getTabHeight());
+			scrollToActiveItem();
 		}
 	}
 
