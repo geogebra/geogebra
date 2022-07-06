@@ -86,7 +86,9 @@ public class PropertyResultPanel implements ResultPanel {
 
 	@Override
 	public void updateTwoTailedResult(String low, String high) {
-		// the model updates the two tailed result when values change
+		if (currentModel == twoTailedResultModel) {
+			((TwoTailedResultModel) currentModel).setTwoTailedResult(low, high);
+		}
 	}
 
 	@Override

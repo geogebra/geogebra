@@ -51,13 +51,15 @@ public class TwoTailedResultModel extends AbstractResultModel {
 	@Override
 	public void setLow(String low) {
 		this.low = new InputEntry(low);
-		twoTailedResult = new TextEntry(low + PLUS_SIGN + high + EQUALS_SIGN);
 	}
 
 	@Override
 	public void setHigh(String high) {
 		this.high = new InputEntry(high);
-		twoTailedResult = new TextEntry(low + PLUS_SIGN + high + EQUALS_SIGN);
+	}
+
+	public void setTwoTailedResult(String leftResult, String rightResult) {
+		twoTailedResult = new TextEntry(leftResult + PLUS_SIGN + rightResult + EQUALS_SIGN);
 	}
 
 	@Override
