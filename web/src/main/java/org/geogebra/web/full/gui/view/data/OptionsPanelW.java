@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -25,7 +26,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -45,12 +45,12 @@ public class OptionsPanelW extends FlowPanel
 	private StatPanelSettings settings;
 
 	// histogram panel GUI
-	private CheckBox ckCumulative;
-	private CheckBox ckManual;
-	private CheckBox ckOverlayNormal;
-	private CheckBox ckOverlayPolygon;
-	private CheckBox ckShowFrequencyTable;
-	private CheckBox ckShowHistogram;
+	private ComponentCheckbox ckCumulative;
+	private ComponentCheckbox ckManual;
+	private ComponentCheckbox ckOverlayNormal;
+	private ComponentCheckbox ckOverlayPolygon;
+	private ComponentCheckbox ckShowFrequencyTable;
+	private ComponentCheckbox ckShowHistogram;
 	private RadioButtonPanel freqRadioButtonPanel;
 	private RadioButtonPanel classRadioButtonPanel;
 	private Label lblFreqType;
@@ -63,8 +63,8 @@ public class OptionsPanelW extends FlowPanel
 	private Label lbShowTitle;
 	private Label lbDimTitle;
 	// graph panel GUI
-	private CheckBox ckAutoWindow;
-	private CheckBox ckShowGrid;
+	private ComponentCheckbox ckAutoWindow;
+	private ComponentCheckbox ckShowGrid;
 	private Label lblXMin;
 	private Label lblXMax;
 	private Label lblYMin;
@@ -83,14 +83,14 @@ public class OptionsPanelW extends FlowPanel
 	// bar chart panel GUI
 	private Label lblBarWidth;
 	private AutoCompleteTextFieldW fldBarWidth;
-	private CheckBox ckAutoBarWidth;
+	private ComponentCheckbox ckAutoBarWidth;
 	private FlowPanel barChartWidthPanel;
 
 	// box plot panel GUI
-	private CheckBox ckShowOutliers;
+	private ComponentCheckbox ckShowOutliers;
 
 	// scatterplot panel GUI
-	private CheckBox ckShowLines;
+	private ComponentCheckbox ckShowLines;
 
 	// panels
 	private FlowPanel histogramPanel;
@@ -267,7 +267,11 @@ public class OptionsPanelW extends FlowPanel
 	private void createHistogramPanel() {
 		histogramPanel = new FlowPanel();
 		// create components
-		ckCumulative = new CheckBox();
+		ckCumulative = new ComponentCheckbox(loc, settings.isCumulative(), "Cumulative",
+				(selected) -> {
+					settings.setCumulative(selected);
+					firePropertyChange();
+				});
 
 		lblFreqType = new Label();
 
@@ -302,11 +306,35 @@ public class OptionsPanelW extends FlowPanel
 				Arrays.asList(freqData, relData, normData));
 
 		lblOverlay = new Label();
-		ckOverlayNormal = new CheckBox();
-		ckOverlayPolygon = new CheckBox();
-		ckShowFrequencyTable = new CheckBox();
-		ckShowHistogram = new CheckBox();
-		ckManual = new CheckBox();
+		ckOverlayNormal = new ComponentCheckbox(loc, settings.isHasOverlayNormal(), "NormalCurve",
+				(selected) -> {
+					settings.setHasOverlayNormal(selected);
+					firePropertyChange();
+				});
+
+		ckOverlayPolygon = new ComponentCheckbox(loc, settings.isHasOverlayPolygon(),
+				"FrequencyPolygon", (selected) -> {
+					settings.setHasOverlayPolygon(selected);
+					firePropertyChange();
+				});
+
+		ckShowFrequencyTable = new ComponentCheckbox(loc, false, "FrequencyTable",
+				(selected) -> {
+					settings.setShowFrequencyTable(selected);
+					firePropertyChange();
+				});
+
+		ckShowHistogram = new ComponentCheckbox(loc, settings.isShowHistogram(), "Histogram",
+				(selected) -> {
+					settings.setShowHistogram(selected);
+					firePropertyChange();
+				});
+
+		ckManual = new ComponentCheckbox(loc, settings.isUseManualClasses(), "SetClasssesManually",
+				(selected) -> {
+					settings.setUseManualClasses(selected);
+					firePropertyChange();
+				});
 
 		lblClassRule = new Label();
 		RadioButtonData rightData = new RadioButtonData(SpreadsheetViewInterface.RIGHT_CLASS_RULE,
@@ -344,14 +372,6 @@ public class OptionsPanelW extends FlowPanel
 		classesPanel.add(lblClassRule);
 		classesPanel.add(classRadioButtonPanel);
 		layoutHistogramPanel();
-
-		PropertyChangeHandler handler = new PropertyChangeHandler();
-		ckManual.addClickHandler(handler);
-		ckCumulative.addClickHandler(handler);
-		ckShowHistogram.addClickHandler(handler);
-		ckOverlayPolygon.addClickHandler(handler);
-		ckOverlayNormal.addClickHandler(handler);
-		ckShowFrequencyTable.addClickHandler(handler);
 	}
 
 	private void layoutHistogramPanel() {
@@ -376,9 +396,11 @@ public class OptionsPanelW extends FlowPanel
 	}
 
 	private void createBarChartPanel() {
-		// create components
-		ckAutoBarWidth = new CheckBox();
-		ckAutoBarWidth.addClickHandler(this);
+		ckAutoBarWidth = new ComponentCheckbox(loc, true, "AutoDimension",
+				(selected) -> {
+					settings.setAutomaticBarWidth(selected);
+					firePropertyChange();
+				});
 		lblBarWidth = new Label();
 		fldBarWidth = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
 		fldBarWidth.setEditable(true);
@@ -396,29 +418,41 @@ public class OptionsPanelW extends FlowPanel
 	}
 
 	private void createBoxPlotPanel() {
-		ckShowOutliers = new CheckBox();
-		ckShowOutliers.addClickHandler(this);
+		ckShowOutliers = new ComponentCheckbox(loc, settings.isShowOutliers(), "ShowOutliers",
+				(selected) -> {
+					settings.setShowOutliers(selected);
+					firePropertyChange();
+				});
 
 		boxPlotPanel = new FlowPanel();
 		boxPlotPanel.add(ckShowOutliers);
 	}
 
 	private void createScatterplotPanel() {
-		ckShowLines = new CheckBox();
-		ckShowLines.addClickHandler(this);
+		ckShowLines = new ComponentCheckbox(loc, settings.isShowScatterplotLine(), "LineGraph",
+				(selected) -> {
+					settings.setShowScatterplotLine(selected);
+					firePropertyChange();
+				});
 
 		scatterplotPanel = new FlowPanel();
 		scatterplotPanel.add(ckShowLines);
 	}
 
 	private void createGraphPanel() {
+		ckAutoWindow = new ComponentCheckbox(loc, settings.isAutomaticWindow(), "AutoDimension",
+				(selected) -> {
+					settings.setAutomaticWindow(selected);
+					settings.xAxesIntervalAuto = selected;
+					settings.yAxesIntervalAuto = selected;
+					firePropertyChange();
+				});
 
-		// create components
-		ckAutoWindow = new CheckBox();
-		ckAutoWindow.addClickHandler(this);
-
-		ckShowGrid = new CheckBox();
-		ckShowGrid.addClickHandler(this);
+		ckShowGrid = new ComponentCheckbox(loc, settings.showGrid, "ShowGrid",
+				(selected) -> {
+					settings.showGrid = selected;
+					firePropertyChange();
+				});
 
 		lblXMin = new Label();
 		fldXMin = InputPanelW.newTextComponent(app);
@@ -483,7 +517,6 @@ public class OptionsPanelW extends FlowPanel
 
 		cbLogAxes = new ListBox();
 
-		ckAutoWindow.addClickHandler(this);
 		// put the sub-panels together
 		graphPanel = new FlowPanel();
 		graphPanel.add(graphOptionsPanel);
@@ -516,28 +549,28 @@ public class OptionsPanelW extends FlowPanel
 		lbDimTitle.setText(loc.getMenu("Dimensions"));
 
 		// histogram options
-		ckManual.setText(loc.getMenu("SetClasssesManually"));
+		ckManual.setLabels();
 		lblFreqType.setText(loc.getMenu("FrequencyType") + ":");
 
 		freqRadioButtonPanel.setLabels();
 		classRadioButtonPanel.setLabels();
 
-		ckCumulative.setText(loc.getMenu("Cumulative"));
+		ckCumulative.setLabels();
 		lblOverlay.setText(loc.getMenu("Overlay"));
-		ckOverlayNormal.setText(loc.getMenu("NormalCurve"));
-		ckOverlayPolygon.setText(loc.getMenu("FrequencyPolygon"));
-		ckShowFrequencyTable.setText(loc.getMenu("FrequencyTable"));
-		ckShowHistogram.setText(loc.getMenu("Histogram"));
+		ckOverlayNormal.setLabels();
+		ckOverlayPolygon.setLabels();
+		ckShowFrequencyTable.setLabels();
+		ckShowHistogram.setLabels();
 
 		lblClassRule.setText(loc.getMenu("ClassRule") + ":");
 
 		// bar chart
 		lblBarWidth.setText(loc.getMenu("Width"));
-		ckAutoBarWidth.setText(loc.getMenu("AutoDimension"));
+		ckAutoBarWidth.setLabels();
 
 		// graph options
-		ckAutoWindow.setText(loc.getMenu("AutoDimension"));
-		ckShowGrid.setText(loc.getMenu("ShowGrid"));
+		ckAutoWindow.setLabels();
+		ckShowGrid.setLabels();
 		lblXMin.setText(loc.getMenu("xmin") + ":");
 		lblXMax.setText(loc.getMenu("xmax") + ":");
 		lblYMin.setText(loc.getMenu("ymin") + ":");
@@ -547,10 +580,10 @@ public class OptionsPanelW extends FlowPanel
 		lblYInterval.setText(loc.getMenu("ystep") + ":");
 
 		// scatterplot options
-		ckShowLines.setText(loc.getMenu("LineGraph"));
+		ckShowLines.setLabels();
 
 		// boxplot options
-		ckShowOutliers.setText(loc.getMenu("ShowOutliers"));
+		ckShowOutliers.setLabels();
 	}
 
 	private void updateGUI() {
@@ -558,14 +591,14 @@ public class OptionsPanelW extends FlowPanel
 		isUpdating = true;
 
 		// histogram/barchart
-		ckManual.setValue(settings.isUseManualClasses());
-		ckCumulative.setValue(settings.isCumulative());
-		ckOverlayNormal.setValue(settings.isHasOverlayNormal());
-		ckOverlayPolygon.setValue(settings.isHasOverlayPolygon());
-		ckShowGrid.setValue(settings.showGrid);
-		ckAutoWindow.setValue(settings.isAutomaticWindow());
-		ckShowFrequencyTable.setValue(settings.isShowFrequencyTable());
-		ckShowHistogram.setValue(settings.isShowHistogram());
+		ckManual.setSelected(settings.isUseManualClasses());
+		ckCumulative.setSelected(settings.isCumulative());
+		ckOverlayNormal.setSelected(settings.isHasOverlayNormal());
+		ckOverlayPolygon.setSelected(settings.isHasOverlayPolygon());
+		ckShowGrid.setSelected(settings.showGrid);
+		ckAutoWindow.setSelected(settings.isAutomaticWindow());
+		ckShowFrequencyTable.setSelected(settings.isShowFrequencyTable());
+		ckShowHistogram.setSelected(settings.isShowHistogram());
 
 		if (settings.dataSource != null) {
 			ckManual.setVisible(
@@ -574,13 +607,13 @@ public class OptionsPanelW extends FlowPanel
 					.getGroupType() == GroupType.RAWDATA);
 		}
 		// normal overlay
-		ckOverlayNormal.setEnabled(settings
-				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		ckOverlayNormal.setDisabled(settings
+				.getFrequencyType() != StatPanelSettings.TYPE_NORMALIZED);
 
 		// bar chart width
-		ckAutoBarWidth.setValue(settings.isAutomaticBarWidth());
+		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
 		fldBarWidth.setText("" + settings.getBarWidth());
-		fldBarWidth.setEditable(!ckAutoBarWidth.getValue());
+		fldBarWidth.setEditable(!ckAutoBarWidth.isSelected());
 
 		// window dimension
 		lblYMin.setVisible(showYAxisSettings);
@@ -590,12 +623,12 @@ public class OptionsPanelW extends FlowPanel
 		lblYInterval.setVisible(showYAxisSettings);
 		fldYInterval.setVisible(showYAxisSettings);
 
-		fldXMin.setEditable(!ckAutoWindow.getValue());
-		fldXMax.setEditable(!ckAutoWindow.getValue());
-		fldXInterval.setEditable(!ckAutoWindow.getValue());
-		fldYMin.setEditable(!ckAutoWindow.getValue());
-		fldYMax.setEditable(!ckAutoWindow.getValue());
-		fldYInterval.setEditable(!ckAutoWindow.getValue());
+		fldXMin.setEditable(!ckAutoWindow.isSelected());
+		fldXMax.setEditable(!ckAutoWindow.isSelected());
+		fldXInterval.setEditable(!ckAutoWindow.isSelected());
+		fldYMin.setEditable(!ckAutoWindow.isSelected());
+		fldYMax.setEditable(!ckAutoWindow.isSelected());
+		fldYInterval.setEditable(!ckAutoWindow.isSelected());
 
 		// update automatic dimensions
 		fldXMin.setText("" + daModel.format(settings.xMin));
@@ -607,7 +640,7 @@ public class OptionsPanelW extends FlowPanel
 		fldYInterval.setText("" + daModel.format(settings.yAxesInterval));
 
 		// show outliers
-		ckShowOutliers.setValue(settings.isShowOutliers());
+		ckShowOutliers.setSelected(settings.isShowOutliers());
 
 		isUpdating = false;
 	}
@@ -624,43 +657,6 @@ public class OptionsPanelW extends FlowPanel
 
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
-		}
-
-		else if (source == ckManual) {
-			settings.setUseManualClasses(ckManual.getValue());
-			firePropertyChange();
-		} else if (source == ckCumulative) {
-			settings.setCumulative(ckCumulative.getValue());
-			firePropertyChange();
-		} else if (source == ckOverlayNormal) {
-			settings.setHasOverlayNormal(ckOverlayNormal.getValue());
-			firePropertyChange();
-		} else if (source == ckOverlayPolygon) {
-			settings.setHasOverlayPolygon(ckOverlayPolygon.getValue());
-			firePropertyChange();
-		} else if (source == ckShowGrid) {
-			settings.showGrid = ckShowGrid.getValue();
-			firePropertyChange();
-		} else if (source == ckAutoWindow) {
-			settings.setAutomaticWindow(ckAutoWindow.getValue());
-			settings.xAxesIntervalAuto = ckAutoWindow.getValue();
-			settings.yAxesIntervalAuto = ckAutoWindow.getValue();
-			firePropertyChange();
-		} else if (source == ckShowFrequencyTable) {
-			settings.setShowFrequencyTable(ckShowFrequencyTable.getValue());
-			firePropertyChange();
-		} else if (source == ckShowHistogram) {
-			settings.setShowHistogram(ckShowHistogram.getValue());
-			firePropertyChange();
-		} else if (source == ckShowLines) {
-			settings.setShowScatterplotLine(ckShowLines.getValue());
-			firePropertyChange();
-		} else if (source == ckShowOutliers) {
-			settings.setShowOutliers(ckShowOutliers.getValue());
-			firePropertyChange();
-		} else if (source == ckAutoBarWidth) {
-			settings.setAutomaticBarWidth(ckAutoBarWidth.getValue());
-			firePropertyChange();
 		} else {
 			firePropertyChange();
 		}

@@ -423,7 +423,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" )*))>
+    <LETTER> ( <LETTER> | <DIGIT> | "'" | "‘" | "’" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" | "‘" | "’")*))>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
