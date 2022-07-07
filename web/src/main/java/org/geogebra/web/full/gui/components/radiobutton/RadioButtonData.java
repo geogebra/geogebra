@@ -1,10 +1,12 @@
 package org.geogebra.web.full.gui.components.radiobutton;
 
+import java.util.function.Consumer;
+
 public class RadioButtonData {
 	private String label;
 	private boolean selected;
 	private boolean disabled;
-	private Runnable callback;
+	private Consumer<Boolean> callback;
 
 	/**
 	 * radio button data
@@ -14,7 +16,7 @@ public class RadioButtonData {
 	 * @param callback - callback on click
 	 */
 	public RadioButtonData(String label, boolean selected, boolean disabled,
-			Runnable callback) {
+			Consumer<Boolean> callback) {
 		this.label = label;
 		this.selected = selected;
 		this.disabled = disabled;
@@ -27,7 +29,7 @@ public class RadioButtonData {
 	 * @param selected - whether is selected
 	 * @param callback - callback on click
 	 */
-	public RadioButtonData(String label, boolean selected, Runnable callback) {
+	public RadioButtonData(String label, boolean selected, Consumer<Boolean> callback) {
 		this(label, selected, false, callback);
 	}
 
@@ -43,7 +45,7 @@ public class RadioButtonData {
 		return disabled;
 	}
 
-	public Runnable getCallback() {
+	public Consumer<Boolean> getCallback() {
 		return callback;
 	}
 }

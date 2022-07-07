@@ -163,7 +163,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private RadioButtonData newClippingButtonData(String label, boolean selected,
 				int value) {
 			return new RadioButtonData(label, selected,
-					() -> setClippingAndRepaint(value));
+					(isSelected) -> setClippingAndRepaint(value));
 		}
 
 		private void setClippingAndRepaint(int clippingType) {

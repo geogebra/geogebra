@@ -26,7 +26,7 @@ public class RadioButtonPanel extends FlowPanel implements SetLabels {
 				}
 				radioBtn.setSelected(!radioBtn.isSelected());
 				if (buttonData.getCallback() != null) {
-					buttonData.getCallback().run();
+					buttonData.getCallback().accept(radioBtn.isSelected());
 				}
 			});
 			radioButtonList.add(radioBtn);
@@ -72,5 +72,16 @@ public class RadioButtonPanel extends FlowPanel implements SetLabels {
 			return false;
 		}
 		return radioButtonList.get(idx).isSelected();
+	}
+
+	/**
+	 * @param idx - index of radio button in the panel
+	 * @param disabled - true if should disable the idx-th radio button
+	 */
+	public void disableNthRadioButton(int idx, boolean disabled) {
+		if (radioButtonList.size() <= idx) {
+			return;
+		}
+		radioButtonList.get(idx).setDisabled(disabled);
 	}
 }

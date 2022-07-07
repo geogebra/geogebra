@@ -498,7 +498,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		private RadioButtonData newColorButtonData(String label, boolean selected,
 				boolean isBackground) {
 			return new RadioButtonData(label, selected,
-					() -> setBackground(isBackground));
+					(isSelected) -> setBackground(isBackground));
 		}
 
 		protected void setBackground(boolean background) {

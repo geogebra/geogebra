@@ -487,7 +487,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	private RadioButtonData newRadioButtonData(String label) {
-		return new RadioButtonData(label, false, () -> updateResult(true));
+		return new RadioButtonData(label, false, (isSelected) -> updateResult(true));
 	}
 
 	private TextObject buildTextField() {
