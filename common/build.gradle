@@ -12,7 +12,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    javacc 'net.java.dev.javacc:javacc:7.0.10'
+    javacc 'net.java.dev.javacc:javacc:7.0.12'
     api project(':editor-base')
     api project(':renderer-base')
     api 'com.google.j2objc:annotations:2.8'
