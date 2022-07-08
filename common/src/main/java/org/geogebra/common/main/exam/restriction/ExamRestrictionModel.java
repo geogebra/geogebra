@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.GeoGebraConstants;
+
 /**
  * Model containing the exam restrictions.
  */
@@ -29,7 +31,7 @@ public class ExamRestrictionModel {
 	 * (before starting exam) is restricted
 	 */
 	public String getDefaultAppCode() {
-		return subAppCodes.get(0);
+		return GeoGebraConstants.GRAPHING_APPCODE;
 	}
 
 	/**
