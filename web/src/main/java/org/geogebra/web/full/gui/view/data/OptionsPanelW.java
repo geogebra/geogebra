@@ -51,8 +51,8 @@ public class OptionsPanelW extends FlowPanel
 	private ComponentCheckbox ckOverlayPolygon;
 	private ComponentCheckbox ckShowFrequencyTable;
 	private ComponentCheckbox ckShowHistogram;
-	private RadioButtonPanel freqRadioButtonPanel;
-	private RadioButtonPanel classRadioButtonPanel;
+	private RadioButtonPanel<Integer> freqRadioButtonPanel;
+	private RadioButtonPanel<Boolean> classRadioButtonPanel;
 	private Label lblFreqType;
 	private Label lblOverlay;
 	private Label lblClassRule;
@@ -115,14 +115,6 @@ public class OptionsPanelW extends FlowPanel
 	private Localization loc;
 
 	private final static int FIELD_WIDTH = 8;
-
-	private class PropertyChangeHandler implements ClickHandler {
-		@Override
-		public void onClick(ClickEvent event) {
-			actionPerformed(event.getSource());
-		}
-
-	}
 
 	private class PropertyKeyHandler implements KeyHandler {
 		private Object source;
@@ -287,23 +279,19 @@ public class OptionsPanelW extends FlowPanel
 		lbDimTitle = new Label();
 		lbDimTitle.setStyleName("panelTitle");
 
-		RadioButtonData freqData = new RadioButtonData("Count",
-				true, (isSelected) -> {
-			settings.setFrequencyType(StatPanelSettings.TYPE_COUNT);
-			firePropertyChange();
-		});
-		RadioButtonData relData = new RadioButtonData("Relative",
-				false, (isSelected) -> {
-			settings.setFrequencyType(StatPanelSettings.TYPE_RELATIVE);
-			firePropertyChange();
-		});
-		RadioButtonData normData = new RadioButtonData("Normalized",
-				false, (isSelected) -> {
-			settings.setFrequencyType(StatPanelSettings.TYPE_NORMALIZED);
-			firePropertyChange();
-		});
-		freqRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(freqData, relData, normData));
+		RadioButtonData<Integer> freqData = new RadioButtonData<>("Count",
+				StatPanelSettings.TYPE_COUNT);
+		RadioButtonData<Integer> relData = new RadioButtonData<>("Relative",
+				StatPanelSettings.TYPE_RELATIVE);
+		RadioButtonData<Integer> normData = new RadioButtonData<>("Normalized",
+				StatPanelSettings.TYPE_NORMALIZED);
+		freqRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(freqData, relData, normData), StatPanelSettings.TYPE_COUNT,
+				(value) -> {
+					settings.setFrequencyType(value);
+					firePropertyChange();
+				}
+		);
 
 		lblOverlay = new Label();
 		ckOverlayNormal = new ComponentCheckbox(loc, settings.isHasOverlayNormal(), "NormalCurve",
@@ -337,18 +325,15 @@ public class OptionsPanelW extends FlowPanel
 				});
 
 		lblClassRule = new Label();
-		RadioButtonData rightData = new RadioButtonData(SpreadsheetViewInterface.RIGHT_CLASS_RULE,
-				true, (isSelected) -> {
-					settings.setLeftRule(isSelected);
-					firePropertyChange();
-				});
-		RadioButtonData leftData = new RadioButtonData(SpreadsheetViewInterface.LEFT_CLASS_RULE,
-				false, (isSelected) -> {
-					settings.setLeftRule(!isSelected);
-					firePropertyChange();
-				});
-		classRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(rightData, leftData));
+		RadioButtonData<Boolean> rightData = new RadioButtonData<>(
+				SpreadsheetViewInterface.RIGHT_CLASS_RULE, false);
+		RadioButtonData<Boolean> leftData = new RadioButtonData<>(
+				SpreadsheetViewInterface.LEFT_CLASS_RULE, true);
+		classRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(rightData, leftData), settings.isLeftRule(), (isLeft) -> {
+			settings.setLeftRule(isLeft);
+			firePropertyChange();
+		});
 
 		// create frequency type panel
 		freqPanel = new FlowPanel();
