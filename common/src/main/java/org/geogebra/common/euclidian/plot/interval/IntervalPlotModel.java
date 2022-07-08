@@ -237,4 +237,16 @@ public class IntervalPlotModel {
 		neighbours.set(at(index - 1), at(index), at(index + 1));
 		return neighbours;
 	}
+
+	/**
+	 *
+	 * @return the first invisible tuple on the left
+	 * to draw (join if needed) the first tuple to.
+	 */
+	public IntervalTuple getAnchor() {
+		IntervalTuple tuple = at(0);
+		double length = tuple.x().getLength();
+		Interval x = new Interval(tuple.x().getLow() - length, tuple.x().getLow());
+		return sampler.evaluate(x).get(0);
+	}
 }
