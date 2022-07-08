@@ -12,23 +12,23 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.dialog;
 
+import java.util.Arrays;
+
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.ComponentInputDialog;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends ComponentInputDialog {
 
-	protected RadioButton rbCounterClockWise;
-	protected RadioButton rbClockWise;
+	protected RadioButtonPanel clockWiseRadioButtonPanel;
 
 	/**
 	 * Input Dialog for a GeoAngle object.
@@ -46,18 +46,11 @@ public class AngleInputDialogW extends ComponentInputDialog {
 
 	private void extendGUI() {
 		Localization loc = app.getLocalization();
-		// create radio buttons for "clockwise" and "counter clockwise"
-		String id = DOM.createUniqueId();
-		rbCounterClockWise = new RadioButton(id,
-				loc.getMenu("counterClockwise"));
-		rbClockWise = new RadioButton(id, loc.getMenu("clockwise"));
-		rbCounterClockWise.setValue(true);
-
-		FlowPanel rbPanel = new FlowPanel();
-		rbPanel.setStyleName("DialogRbPanel");
-		rbPanel.add(rbCounterClockWise);
-		rbPanel.add(rbClockWise);
-		addDialogContent(rbPanel);
+		RadioButtonData counterClockwise = new RadioButtonData("counterClockwise", true, null);
+		RadioButtonData clockwise = new RadioButtonData("clockwise", false, null);
+		clockWiseRadioButtonPanel = new RadioButtonPanel(loc,
+				Arrays.asList(counterClockwise, clockwise));
+		addDialogContent(clockWiseRadioButtonPanel);
 		getTextComponent().setFocus(true);
 
 		getTextComponent().addInsertHandler(t -> insertDegreeSymbolIfNeeded());
@@ -72,8 +65,8 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		});
 	}
 
-	public boolean isCounterClockWise() {
-		return rbCounterClockWise.getValue();
+	public boolean isClockWise() {
+		return clockWiseRadioButtonPanel.isNthRadioButtonSelected(1);
 	}
 
 	@Override
@@ -82,7 +75,7 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		getTextComponent().hideTablePopup();
 
 		// negative orientation ?
-		if (rbClockWise.getValue()) {
+		if (isClockWise()) {
 			inputTextWithSign = "-(" + inputTextWithSign + ")";
 		}
 

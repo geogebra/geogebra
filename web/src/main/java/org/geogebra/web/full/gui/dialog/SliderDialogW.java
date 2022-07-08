@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.dialog;
 
+import java.util.Arrays;
+
 import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -21,6 +23,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -28,30 +32,22 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web dialog for slider creation
  */
-public class SliderDialogW extends ComponentDialog implements
-		ValueChangeHandler<Boolean>, HasKeyboardPopup {
+public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 	private AutoCompleteTextFieldW tfLabel;
-	private RadioButton rbNumber;
-	private RadioButton rbAngle;
-	private RadioButton rbInteger;
+	private RadioButtonPanel angleRadioButtonPanel;
 	private SliderPanelW sliderPanel;
-	
+
 	private GeoElement geoResult;
 	private GeoNumeric number;
 	private GeoAngle angle;
-			
+
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
 	 *
@@ -99,10 +95,14 @@ public class SliderDialogW extends ComponentDialog implements
 
 		geoResult = null;
 
-		GeoElement selGeo = rbAngle.getValue() ? angle : number;
-		Object [] geos = { selGeo };
+		Object [] geos = { getSelGeo() };
 		sliderPanelUpdate(geos);
 		updateLabelField(number, false);
+	}
+
+	private GeoElement getSelGeo() {
+		return angleRadioButtonPanel.isNthRadioButtonSelected(1)
+				? angle : number;
 	}
 
 	private void buildContent() {
@@ -113,23 +113,34 @@ public class SliderDialogW extends ComponentDialog implements
 
 		VerticalPanel nameWidget = new VerticalPanel();
 		contentWidget.add(nameWidget);
-		HorizontalPanel radioButtonWidget = new HorizontalPanel();
-		contentWidget.add(radioButtonWidget);
-		radioButtonWidget.setStyleName("DialogRbPanel");
 
-		// radio buttons for number or angle
-		String id = DOM.createUniqueId();
-		rbNumber = new RadioButton(id, loc.getMenu("Numeric"));
-		rbNumber.addValueChangeHandler(this);
-		rbNumber.setValue(true);
-		rbAngle = new RadioButton(id, loc.getMenu("Angle"));
-		rbAngle.addValueChangeHandler(this);
-		rbInteger = new RadioButton(id, loc.getMenu("Integer"));
-		rbInteger.addValueChangeHandler(this);
-
-		radioButtonWidget.add(rbNumber);
-		radioButtonWidget.add(rbAngle);
-		radioButtonWidget.add(rbInteger);
+		RadioButtonData numberData = new RadioButtonData("Numeric", true,
+				() -> {
+					GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
+					number.setAutoStep(num.isAutoStep());
+					number.setAnimationStep(num.getAnimationStep());
+					number.setIntervalMin(num.getIntervalMin());
+					number.setIntervalMax(num.getIntervalMax());
+					updateLabelField(number, false);
+					sliderPanelUpdate(new GeoElement[] { number });
+				});
+		RadioButtonData angleData = new RadioButtonData("Angle", false,
+				() -> {
+					updateLabelField(angle, false);
+					sliderPanelUpdate(new GeoElement[] { angle });
+				});
+		RadioButtonData integerData = new RadioButtonData("Integer", false,
+				() -> {
+					number.setAutoStep(false);
+					number.setAnimationStep(1);
+					number.setIntervalMin(1);
+					number.setIntervalMax(30);
+					updateLabelField(number, true);
+					sliderPanelUpdate(new GeoElement[] { number });
+				});
+		angleRadioButtonPanel = new RadioButtonPanel(loc,
+				Arrays.asList(numberData, angleData, integerData));
+		contentWidget.add(angleRadioButtonPanel);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
 		sliderPanel.getWidget().setStyleName("sliderPanelWidget");
@@ -207,13 +218,13 @@ public class SliderDialogW extends ComponentDialog implements
 	}
 
 	private void createSlider() {
-		geoResult = rbAngle.getValue() ? angle : number;
+		geoResult = getSelGeo();
 		getResult();
 		geoResult.setLabelMode(GeoElementND.LABEL_NAME_VALUE);
 		geoResult.setLabelVisible(true);
 		sliderPanel.applyAll(geoResult);
 		geoResult.update();
-		if (!rbAngle.getValue()) {
+		if (!angleRadioButtonPanel.isNthRadioButtonSelected(1)) {
 			AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
 					app.getActiveEuclidianView());
 		}
@@ -222,30 +233,6 @@ public class SliderDialogW extends ComponentDialog implements
 
 		app.storeUndoInfo();
 		app.getKernel().notifyRepaint();
-	}
-
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> vc) {
-		GeoElement selGeo = rbAngle.getValue() ? angle : number;
-		if (vc.getSource() == rbInteger) {
-			number.setAutoStep(false);
-			number.setAnimationStep(1);
-			number.setIntervalMin(1);
-			number.setIntervalMax(30);
-			updateLabelField(number, true);
-		} else if (vc.getSource() == rbNumber) {
-			GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
-			number.setAutoStep(num.isAutoStep());
-			number.setAnimationStep(num.getAnimationStep());
-			number.setIntervalMin(num.getIntervalMin());
-			number.setIntervalMax(num.getIntervalMax());
-			updateLabelField(number, false);
-		} else {
-			updateLabelField(angle, false);
-		}
-		GeoElement [] geos = { selGeo };
-
-		sliderPanelUpdate(geos);
 	}
 
 	private void sliderPanelUpdate(Object[] geos) {
