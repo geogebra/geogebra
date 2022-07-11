@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -164,7 +165,7 @@ public class InputTokenizer {
 				return getTokenWithIndexLength(input.indexOf('}', offset) + 1);
 			}
 			return getTokenWithIndexLength(offset + 2);
-		} else if (input.charAt(offset) == '\'') {
+		} else if (FunctionParser.isDerivativeChar(input.charAt(offset))) {
 			return getTokenWithIndexLength(offset + 1);
 		}
 		return offset;

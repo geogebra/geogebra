@@ -2851,8 +2851,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * @return root panel of the applet
+	 * @deprecated use getAppletFrame instead
 	 */
-	public abstract Panel getPanel();
+	@Deprecated
+	public final Panel getPanel() {
+		return getAppletFrame();
+	}
 
 	@Override
 	public void setAltText(GeoText altText) {

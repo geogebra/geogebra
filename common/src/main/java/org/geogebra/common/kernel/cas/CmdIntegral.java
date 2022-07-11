@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.advanced.AlgoIntegralNumericInterval;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandNotFoundError;
@@ -58,7 +59,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 			if (arg[0].isRealValuedFunction()) {
 				GeoElement[] ret = {
 						integral(((GeoFunctionable) arg[0]).getGeoFunction(),
-								null, info) };
+								 null, info) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
@@ -100,7 +101,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue
 							&& !(arg[3] instanceof BooleanValue)))
-					&& !"NIntegral".equals(internalCommandName)) {
+					&& !isNIntegral()) {
 
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,
 						c.getLabel(),
@@ -123,6 +124,16 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						(GeoBoolean) arg[3]);
 
 				return  algo.getIntegral().asArray();
+			} else if ((ok[0] = (arg[0].isRealValuedFunction()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
+				AlgoIntegralNumericInterval algo = new AlgoIntegralNumericInterval(cons,
+						(GeoFunctionable) arg[0], // function
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
+				GeoElement integral = algo.getOutput(0);
+				integral.setLabel(c.getLabel());
+				return integral.asArray();
 			} else {
 				throw argErr(c, getBadArg(ok, arg));
 			}
@@ -151,6 +162,10 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 		}
 	}
 
+	private boolean isNIntegral() {
+		return "NIntegral".equals(internalCommandName);
+	}
+
 	/**
 	 * Integral of function f
 	 * 
@@ -162,10 +177,9 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	 *            variable
 	 * @return integral of given function wrt given variable
 	 */
-	final public GeoElement integral(CasEvaluableFunction f, GeoNumeric var,
-			EvalInfo info) {
+	final public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
 		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info,
-				"NIntegral".equals(internalCommandName));
+				isNIntegral());
 		return algo.getResult();
 	}
 }
