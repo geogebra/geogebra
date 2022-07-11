@@ -384,23 +384,28 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	@Override
+	public List<RegressionSpecification> getRegressionSpecifications(int column) {
+		GeoList[] cleanLists = new StatsBuilder(getEvaluatable(0),
+				getEvaluatable(column)).getCleanLists2Var();
+		return RegressionSpecification.getForListSize(cleanLists[0].size());
+	}
+
+	@Override
 	public List<StatisticGroup> getRegression(int column, RegressionSpecification regression) {
 		return new RegressionBuilder(model.getEvaluatable(0), model.getEvaluatable(column))
 				.getRegression(regression);
 	}
 
-	/**
-	 * @param regression regression type + degree
-	 * @param column column
-	 * @return plot element
-	 */
+	@Override
 	public GeoElement plotRegression(int column, RegressionSpecification regression) {
 		GeoEvaluatable xVal = model.getEvaluatable(0);
 		GeoEvaluatable yVal = model.getEvaluatable(column);
 		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
 		Command cmd = regression.buildCommand(kernel, points);
 		try {
-			return kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
+			GeoElement element = kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
+			app.storeUndoInfo();
+			return element;
 		} catch (Exception e) {
 			Log.error(e);
 		}
