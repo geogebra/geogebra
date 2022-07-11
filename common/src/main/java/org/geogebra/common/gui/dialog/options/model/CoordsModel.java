@@ -61,12 +61,6 @@ public class CoordsModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		getCoordStyleAt(index).setMode(coordValues.get(value));
 		getGeoAt(index).updateRepaint();
-
-	}
-
-	@Override
-	public boolean applyChanges(int value) {
-		return super.applyChanges(value);
 	}
 
 	@Override
