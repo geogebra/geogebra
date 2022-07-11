@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,8 +13,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.test.EventAcumulator;
 import org.junit.Test;
 
@@ -124,5 +127,14 @@ public class AlgebraItemTest extends BaseUnitTest {
         InputHelper.updateProperties(new GeoElement[]{geo}, getApp().getActiveEuclidianView(),
                 getKernel().getConstructionStep());
         assertThat(Collections.singletonList("ADD a"), is(eventAcumulator.getEvents()));
+    }
+
+    @Test
+    public void testCoordStyleAustrianPreview() {
+        getApp().setGraphingConfig();
+        getSettings().getGeneral().setCoordFormat(CoordinatesFormat.COORD_FORMAT_AUSTRIAN);
+        GeoPoint point = getKernel().getAlgoDispatcher().point(1, 2, false);
+        assertThat(AlgebraItem.getPreviewFormula(point, StringTemplate.latexTemplate),
+                endsWith("\\left(1 | 2 \\right)"));
     }
 }

@@ -22,6 +22,8 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.common.main.settings.CoordinatesFormat;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
@@ -598,16 +600,20 @@ public class AlgebraItem {
 	 */
 	public static String getPreviewFormula(GeoElement element,
 			StringTemplate stringTemplate) {
-		int algebraStyle = element.getKernel().getAlgebraStyle();
+		Settings settings = element.getApp().getSettings();
+		int algebraStyle = settings.getAlgebra().getStyle();
+		int coordsFormat = settings.getGeneral().getCoordFormat();
+
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
 		} else if (element.isPenStroke()) {
 			return element.getLabelSimple();
-		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
-				|| algebraStyle == Kernel.ALGEBRA_STYLE_VALUE)
+		} else if ((AlgebraStyle.DESCRIPTION == algebraStyle || AlgebraStyle.VALUE == algebraStyle)
 				&& !isTextItem(element)) {
-			return getDescriptionString(element, algebraStyle,
-					stringTemplate);
+			return getDescriptionString(element, algebraStyle, stringTemplate);
+		} else if (CoordinatesFormat.COORD_FORMAT_AUSTRIAN == coordsFormat
+				&& element.isGeoPoint()) {
+			return element.toString(stringTemplate);
 		} else {
 			return null;
 		}
