@@ -15,7 +15,25 @@ public class IntervalPlotSettings {
 	 * @return if model shoud check its x range and re-evaluate them.
 	 * Set it to false to debug line joins.
 	 */
-	static boolean isUpdateEnabled() {
+	static boolean isUpdateOnMoveEnabled() {
+		return true;
+	}
+
+	/**
+	 *
+	 * @return if model shoud check its x range and re-evaluate them.
+	 * Set it to false to debug line joins.
+	 */
+	static boolean isUpdateOnMoveStopEnabled() {
+		return false;
+	}
+
+	/**
+	 *
+	 * @return if model shoud check its x range and re-evaluate them.
+	 * Set it to false to debug line joins.
+	 */
+	static boolean isUpdateOnZoomStopEnabled() {
 		return true;
 	}
 

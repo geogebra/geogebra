@@ -33,6 +33,11 @@ public class JoinLines {
 		double rightDiff = neighbours.hasRight()
 				? Math.abs(neighbours.currentYHigh() - neighbours.rightYHigh())
 				: Double.POSITIVE_INFINITY;
+		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
+			toStraightTop1(neighbours);
+		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
+			toStraightTop2(neighbours);
+		} else
 		if (leftDiff < rightDiff) {
 			toTopLeft(neighbours);
 		} else {
@@ -90,6 +95,17 @@ public class JoinLines {
 	private void toStraightBottom2(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
+
+	}
+	private void toStraightTop1(TupleNeighbours neighbours) {
+		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
+				neighbours.currentXLow(), bounds.getYmax());
+
+	}
+
+	private void toStraightTop2(TupleNeighbours neighbours) {
+		gp.segment(bounds, neighbours.rightXHigh(), neighbours.rightYHigh(),
+				neighbours.currentXHigh(), bounds.getYmax());
 
 	}
 
