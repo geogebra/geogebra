@@ -137,8 +137,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	 *            material visibility
 	 */
 	public void updateVisibility(String visibility) {
+		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
 		NoDragImage visibiltyImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_card_public(), 24);
+				res.mow_card_public(), 24);
 		Label visibilityTxt = new Label(
 				app.getLocalization().getMenu("Public"));
 		switch (visibility) {
@@ -146,18 +147,19 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 			app.getLoginOperation().getResourcesAPI()
 					.getGroups(getMaterial().getSharingKeyOrId(), null,
 							this::showSharedIcon);
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
+			visibiltyImg = new NoDragImage(res.mow_card_private(), 24);
 			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 			break;
 		case "S":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_shared(), 24);
+			if (app.isMebis()) {
+				visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+			} else {
+				visibiltyImg = new NoDragImage(res.resource_card_shared(), 24);
+			}
 			visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 			break;
 		case "O":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_public(), 24);
+			visibiltyImg = new NoDragImage(res.mow_card_public(), 24);
 			visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
 			break;
 		default:

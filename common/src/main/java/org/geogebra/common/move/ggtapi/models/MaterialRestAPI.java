@@ -3,7 +3,6 @@ package org.geogebra.common.move.ggtapi.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.Localization;
@@ -531,11 +530,12 @@ public class MaterialRestAPI implements BackendAPI {
 	 */
 	public void getGroups(String materialID, GroupIdentifier.GroupCategory category,
 			AsyncOperation<List<GroupIdentifier>> callback) {
-		HttpRequest request = service.createRequest(model);
-		String path = "/materials/" + materialID + "/groups?type=isShared";
-		if (category != null) {
-			path += "&category=" + category.name().toLowerCase(Locale.ROOT);
+		String path = service.getGroupsEndpoint(materialID, category);
+		if (path == null) {
+			return;
 		}
+		HttpRequest request = service.createRequest(model);
+
 		request.sendRequestPost("GET",
 				baseURL + path, null,
 				new AjaxCallback() {

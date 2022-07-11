@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.util.HttpRequest;
 
 public class MarvlService implements Service {
@@ -38,5 +39,10 @@ public class MarvlService implements Service {
 			actions.add(ResourceAction.DELETE);
 		}
 		return actions;
+	}
+
+	@Override
+	public String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category) {
+		return null;
 	}
 }
