@@ -262,7 +262,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public static final int COORD_STYLE_AUSTRIAN = 1;
 	/** A: (3, 2) and B: (3; 90^o) */
 	public static final int COORD_STYLE_FRENCH = 2;
-	private int coordStyle = 0;
 
 	/** standard precision */
 	public final static double STANDARD_PRECISION = 1E-8;
@@ -3219,7 +3218,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return coordinate style
 	 */
 	final public int getCoordStyle() {
-		return coordStyle;
+		return getApplication().getSettings().getGeneral().getCoordFormat();
 	}
 
 	/**
@@ -3227,7 +3226,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            coordinate style
 	 */
 	public void setCoordStyle(int coordStlye) {
-		coordStyle = coordStlye;
+		getApplication().getSettings().getGeneral().setCoordFormat(coordStlye);
 	}
 
 	/**

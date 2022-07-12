@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -3556,12 +3557,14 @@ public class MyXMLHandler implements DocHandler {
 					}
 				}
 			}
+			boolean isTableXValues = label != null && xValuesLabel != null
+					&& label.equals(xValuesLabel);
+			SymbolicMode mode = isTableXValues ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
-									.withSymbolicMode(
-											kernel.getSymbolicMode()));
+									.withSymbolicMode(mode));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
