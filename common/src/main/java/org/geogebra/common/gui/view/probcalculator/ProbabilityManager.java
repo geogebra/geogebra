@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -66,6 +67,8 @@ public class ProbabilityManager {
 	private HashMap<Dist, String> distributionMap;
 	private HashMap<String, Dist> reverseDistributionMap;
 	private HashMap<Dist, String[]> distributionParameterTransKeys;
+	private static HashSet<String> parameterNoPrefix = new HashSet<>(Arrays.asList(
+			"Median", "Scale", "Distribution.Shape", "Distribution.Population", "Sample"));
 
 	/**
 	 * @param app
@@ -254,7 +257,7 @@ public class ProbabilityManager {
 	}
 
 	private static String parameterPrefixed(Localization localization, String label) {
-		return localization.getPlainDefault("ParameterA", "Hahaha $0", label);
+		return localization.getPlainDefault("ParameterA", "Parameter $0", label);
 	}
 
 	private static String parameterMaybePrefixed(Localization loc, String key) {
@@ -262,9 +265,7 @@ public class ProbabilityManager {
 	}
 
 	private static boolean needsPrefix(String key) {
-		List<String> noPrefix = Arrays.asList("Median", "Scale", "Distribution.Shape",
-				"Distribution.Population", "Sample");
-		return !noPrefix.contains(key);
+		return !parameterNoPrefix.contains(key);
 	}
 
 	/**

@@ -401,7 +401,7 @@ public abstract class ProbabilityCalculatorView
 
 	public abstract ResultPanel getResultPanel();
 
-	protected abstract void updateOutput(boolean updateFragment);
+	protected abstract void updateOutput(boolean updateDistributionView);
 
 	protected void updateStylebar() {
 		// desktop only
