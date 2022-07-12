@@ -386,7 +386,8 @@ public final class DrawPoint extends SetDrawable {
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.fill(circleHighlight);
-				g2.setStroke(borderStroke);
+				g2.setStroke(selStroke);
+				g2.setPaint(geo.getObjectColor());
 				g2.draw(circleHighlight);
 			}
 

@@ -59,6 +59,9 @@ import com.google.j2objc.annotations.Weak;
  */
 public abstract class Drawable extends DrawableND {
 
+	public static final double UI_ELEMENT_HIGHLIGHT_WIDTH = 5;
+	protected static final int HIGHLIGHT_OFFSET = 4;
+
 	private boolean forceNoFill;
 
 	/**
@@ -1001,5 +1004,12 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public boolean isInteractiveEditor() {
 		return false;
+	}
+
+	protected void drawHighlightRect(GGraphics2D g2) {
+		g2.drawRoundRect((int) labelRectangle.getX() - HIGHLIGHT_OFFSET / 2,
+				(int) labelRectangle.getY() - HIGHLIGHT_OFFSET / 2,
+				(int) labelRectangle.getWidth() + HIGHLIGHT_OFFSET,
+				(int) labelRectangle.getHeight() + HIGHLIGHT_OFFSET,  4,  4);
 	}
 }

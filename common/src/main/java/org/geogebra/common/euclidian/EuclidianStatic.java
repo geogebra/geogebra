@@ -35,7 +35,7 @@ public class EuclidianStatic {
 			.getPrototype().newMyBasicStroke(1.0f);
 	/** stroke for selected geos */
 	protected static final GBasicStroke selStroke = AwtFactory.getPrototype()
-			.newMyBasicStroke(1.0f + EuclidianStyleConstants.SELECTION_ADD);
+			.newMyBasicStroke(2);
 
 	/**
 	 * @return default stroke
