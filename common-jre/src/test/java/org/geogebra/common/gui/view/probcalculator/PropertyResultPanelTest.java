@@ -55,7 +55,7 @@ public class PropertyResultPanelTest {
 		propertyResultPanel.setGreaterOrEqualThan();
 		assertThat(getGreaterSign().getText(), equalTo(GREATER_THAN_OR_EQUAL_TO));
 
-		propertyResultPanel.updateLowHigh("-2", "2");
+		propertyResultPanel.updateTwoTailedResult("-2", "2");
 		ResultEntry twoTailedResult = propertyResultPanel.getModel().getEntries().get(7);
 		assertThat(twoTailedResult.getText(), equalTo("-2 + 2 = "));
 	}
