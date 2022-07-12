@@ -180,7 +180,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	@Override
-	protected void updateOutput() {
+	protected void updateOutput(boolean updateDistributionView) {
 		updateDistribution();
 		updatePlotSettings();
 		updateIntervalProbability();
