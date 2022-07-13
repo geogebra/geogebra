@@ -135,7 +135,7 @@ public class SuggestionRootExtremum extends Suggestion {
 	 *         line or conic)
 	 */
 	private static boolean mayHaveSpecialPoints(GeoElement geo) {
-		return geo.isRealValuedFunction() && !geo.isNumberValue();
+		return geo.isRealValuedFunction() && !geo.unwrapSymbolic().isNumberValue();
 	}
 
 	@Override
