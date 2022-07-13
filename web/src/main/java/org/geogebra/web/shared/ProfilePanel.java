@@ -23,6 +23,7 @@ public class ProfilePanel extends FlowPanel {
 	private LocalizationW loc;
 	private Anchor username;
 	private Anchor editProfile;
+	private String editProfileHref = "https://accounts.geogebra.org/";
 
 	/**
 	 * @param app
@@ -57,6 +58,7 @@ public class ProfilePanel extends FlowPanel {
 		logoutButton.addStyleName("gwt-Button");
 		username = addLink("username");
 		editProfile = addLink("editButton");
+		editProfile.setHref(editProfileHref);
 		optionsPanelContent.add(editProfile);
 		optionsPanelContent.add(logoutButton);
 
