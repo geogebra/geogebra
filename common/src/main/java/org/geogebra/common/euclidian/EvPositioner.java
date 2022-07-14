@@ -9,13 +9,6 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public abstract class EvPositioner {
 
-    protected class ViewDestroyedException extends IllegalStateException {
-
-        public ViewDestroyedException() {
-            super("The view is destroyed.");
-        }
-    }
-
     private EuclidianView euclidianView;
     private EuclidianSettings settings;
     private int moveToX;
@@ -197,5 +190,12 @@ public abstract class EvPositioner {
 
     protected EuclidianView getEuclidianView() {
         return euclidianView;
+    }
+
+    protected class ViewDestroyedException extends IllegalStateException {
+
+        public ViewDestroyedException() {
+            super("The view is destroyed.");
+        }
     }
 }
