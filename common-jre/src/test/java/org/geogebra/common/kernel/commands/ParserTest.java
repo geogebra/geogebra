@@ -17,13 +17,17 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.junit.Assert;
@@ -468,5 +472,18 @@ public class ParserTest {
 		} catch (ParseException e) {
 			assertNull(e);
 		}
+	}
+
+	@Test
+	public void testAutomaticObjectCreationGraphing() {
+		app.setConfig(new AppConfigGraphing());
+		GeoElement geo = app.getKernel().lookupLabel("O", true, SymbolicMode.NONE);
+		assertEquals("(0, 0)", geo.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void testAutomaticObjectCreationScientific() {
+		app.setConfig(new AppConfigScientific());
+		assertNull(app.getKernel().lookupLabel("O", true, SymbolicMode.NONE));
 	}
 }

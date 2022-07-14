@@ -417,7 +417,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			
 			// stopping propagation is needed to prevent
 			// the prevention of the default action at another place
-			// but call the autocomplete textfield handler exolicitly
+			// but call the autocomplete textfield handler explicitly
 			autoCompleteTextField.onKeyPress(e);
 			e.stopPropagation();
 		}
