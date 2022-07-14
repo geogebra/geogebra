@@ -1,22 +1,20 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
-import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.controller.ExpressionReader;
+import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
+import com.himamis.retex.renderer.share.serialize.DefaultSerializationAdapter;
+import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
 /**
  * Utility class for reading GeoElement descriptions
@@ -108,7 +106,7 @@ public class ScreenReader {
 	 *            selected item text to read
 	 */
 	public static void readDropDownSelectorMoved(App app, GeoList text, int index) {
-		readText(text.getItemDisplayString(index, StringTemplate.screenReader) + " "
+		readText(text.getItemDisplayString(index, app.getScreenReaderTemplate()) + " "
 				+ text.getIndexDescription(index), app);
 	}
 
@@ -229,7 +227,6 @@ public class ScreenReader {
 	 */
 	public static ExpressionReader getExpressionReader(final App app) {
 		final Localization loc = app.getLocalization();
-		final GParser parser = new GParser(app.getKernel(), app.getKernel().getConstruction());
 		return new ExpressionReader() {
 
 			@Override
@@ -242,57 +239,27 @@ public class ScreenReader {
 			}
 
 			@Override
-			public String mathExpression(String serialize) {
-				try {
-					ValidExpression expr = parser.parseGeoGebraCAS(serialize, null);
-					expr.inspect(new Inspecting() {
-						@Override
-						public boolean check(ExpressionValue v) {
-							if (v instanceof Command) {
-								((Command) v).setAllowEvaluationForTypeCheck(false);
-							}
-
-							return false;
-						}
-					});
-					return expr.toString(StringTemplate.screenReader);
-				} catch (org.geogebra.common.kernel.parser.ParseException | Error e) {
-					throw new RuntimeException(e);
-				}
-			}
-
-			@Override
 			public String power(String base, String exponent) {
 				return ScreenReader.power(base, exponent, loc);
 			}
 
 			@Override
-			public String fraction(String numerator, String denominator) {
-				StringBuilder sb = new StringBuilder();
-				ScreenReader.fraction(sb, numerator, denominator, loc);
-				return sb.toString();
+			public void debug(String label) {
+				ScreenReader.debug(label);
 			}
 
 			@Override
-			public String squareRoot(String arg) {
-				return ScreenReader.getStartSqrt(loc) + arg
-						+ ScreenReader.getEndSqrt(loc);
-			}
-
-			@Override
-			public String nroot(String radicand, String index) {
-				return ScreenReader.nroot(radicand, index, loc);
-			}
-
-			@Override
-			public String inParentheses(String content) {
-				if (StringUtil.emptyTrim(content)) {
-					return localize("empty %0", "parentheses");
-				}
-				return ScreenReader.getOpenParenthesis() + content
-						+ ScreenReader.getCloseParenthesis();
+			public SerializationAdapter getAdapter() {
+				return getSerializationAdapter(app);
 			}
 		};
+	}
+
+	private static SerializationAdapter getSerializationAdapter(App app) {
+		return app.getScreenReaderTemplate().getStringType()
+				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII
+				? new ScreenReaderSerializationAdapter(app.getLocalization())
+				: new DefaultSerializationAdapter();
 	}
 
 	/**
@@ -306,18 +273,17 @@ public class ScreenReader {
 	 * @return the full aural representation of the expression with its preview if
 	 *         any.
 	 */
-	public static String getAriaExpression(App app, String exp, String ariaPreview) {
-		StringBuilder sb = new StringBuilder();
+	public static String getAriaExpression(App app, MathFormula exp, String ariaPreview) {
 		try {
-			sb.append(ScreenReader.getExpressionReader(app).mathExpression(exp));
+			String expr = ScreenReaderSerializer.fullDescription(exp.getRootComponent(),
+					getSerializationAdapter(app));
 			if (ariaPreview != null) {
-				sb.append(" = ");
-				sb.append(ariaPreview);
+				return expr + " = " + ariaPreview;
 			}
+			return expr;
 		} catch (Exception e) {
 			return ""; // fallback to MathField serialization handled elsewhere
 		}
-		return sb.toString();
 	}
 
 	public static String getOpenParenthesis() {
@@ -411,7 +377,7 @@ public class ScreenReader {
 	}
 
 	private static String asRootIndex(String rightStr, Localization loc) {
-		if ("2".equals(rightStr)) {
+		if ("2".equals(rightStr) || rightStr.isEmpty()) {
 			return "square";
 		}
 		if ("3".equals(rightStr)) {

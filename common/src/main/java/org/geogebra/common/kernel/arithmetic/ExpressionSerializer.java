@@ -928,7 +928,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.nroot(leftStr, rightStr, loc));
 				break;
 			case GEOGEBRA_XML:
@@ -987,7 +987,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.getStartSqrt(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndSqrt(loc));
@@ -1021,7 +1021,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case CBRT:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.getStartCbrt(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndCbrt(loc));
@@ -1056,7 +1056,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case ABS:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 				sb.append(ScreenReader.getStartAbs(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndAbs(loc));
@@ -2050,7 +2050,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
 			switch (tpl.getStringType()) {
-			case SCREEN_READER:
+			case SCREEN_READER_ASCII:
 
 				if (altText == null) {
 					sb.append(loc.getFunction(key));

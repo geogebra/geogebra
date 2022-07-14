@@ -29,7 +29,7 @@ public class ScreenReaderTest {
 	private static void tsc(String string, String string2) {
 		GeoElementND geo = eval(string);
 		Assert.assertEquals(string2,
-				geo.toValueString(StringTemplate.screenReader).trim().replaceAll(" +", " "));
+				geo.toValueString(StringTemplate.screenReaderAscii).trim().replaceAll(" +", " "));
 	}
 
 	private static GeoElementND eval(String string) {

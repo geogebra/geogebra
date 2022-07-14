@@ -3186,13 +3186,13 @@ public class GeoList extends GeoElement
 		} else {
 			displayString = geoItem.toValueString(tpl);
 		}
-		if (tpl.hasType(StringType.SCREEN_READER) && geoItem.isGeoText()
+		if (tpl.hasType(StringType.SCREEN_READER_ASCII) && geoItem.isGeoText()
 				&& CanvasDrawable.isLatexString(displayString)) {
 			displayString = ((GeoText) geoItem).getAuralTextLaTeX();
 		}
 
 		if (StringUtil.empty(displayString)
-				&& tpl.getStringType() == StringType.SCREEN_READER) {
+				&& tpl.getStringType() == StringType.SCREEN_READER_ASCII) {
 			return kernel.getLocalization().getMenuDefault("EmptyItem", "empty element");
 		}
 
@@ -3224,7 +3224,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
 		if (drawAsComboBox && size() > 0) {
-			String item = getSelectedItemDisplayString(StringTemplate.screenReader);
+			String item = getSelectedItemDisplayString(getApp().getScreenReaderTemplate());
 			sb.append(loc.getPlainDefault("ElementASelected",
 					"element %0 selected", item));
 		}
@@ -3280,7 +3280,7 @@ public class GeoList extends GeoElement
 	public String getAuralTextAsOpened() {
 		Localization loc = kernel.getLocalization();
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		sb.append(getSelectedItemDisplayString(StringTemplate.screenReader));
+		sb.append(getSelectedItemDisplayString(getApp().getScreenReaderTemplate()));
 		sb.appendSpace();
 		sb.append(getIndexDescription(getSelectedIndex()));
 		sb.endSentence();

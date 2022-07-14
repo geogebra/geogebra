@@ -22,4 +22,8 @@ public interface SerializationAdapter {
 	String fraction(String numerator, String denominator);
 
 	String nroot(String serialize, String serialize1);
+
+	String parenthesis(String paren);
+
+	String getLigature(String toString);
 }

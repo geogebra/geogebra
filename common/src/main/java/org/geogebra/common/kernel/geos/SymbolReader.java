@@ -31,6 +31,7 @@ public class SymbolReader {
 		map.put('+', " plus ");
 		map.put('-', " minus ");
 		map.put('=', " equals ");
+		map.put('\u00b7', " times ");
 		map.put(',', ScreenReader.getComma());
 		map.put('(', ScreenReader.getOpenParenthesis());
 		map.put(')', ScreenReader.getCloseParenthesis());
@@ -39,7 +40,7 @@ public class SymbolReader {
 		map.put('[', " open bracket ");
 		map.put(']', " close bracket ");
 		map.put(';', " semicolon ");
-		map.put('\'', "");
+		//map.put('\'', "");
 	}
 
 	private void addGreekLowerLetters(Localization loc) {

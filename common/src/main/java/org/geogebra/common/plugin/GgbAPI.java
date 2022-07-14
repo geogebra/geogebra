@@ -2245,7 +2245,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String getScreenReaderOutput(String label) {
 		GeoElement geo = kernel.lookupLabel(label);
-		return geo.toValueString(StringTemplate.screenReader);
+		return geo.toValueString(StringTemplate.screenReaderAscii);
 	}
 
 	/**

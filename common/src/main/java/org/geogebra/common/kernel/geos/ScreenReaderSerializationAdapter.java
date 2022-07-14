@@ -44,6 +44,13 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String transformBrackets(String left, String base, String right) {
+		if ("|".equals(left) && "|".equals(right)) {
+			return "start absolute value " + base + " end absolute value";
+		}
+		if (base.isEmpty() && ScreenReader.getOpenParenthesis().equals(left)
+				&& ScreenReader.getCloseParenthesis().equals(right)) {
+			return "empty parentheses";
+		}
 		return readBracket(left) + base + readBracket(right);
 	}
 
@@ -74,5 +81,20 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 	@Override
 	public String nroot(String base, String root) {
 		return ScreenReader.nroot(base, root, loc);
+	}
+
+	@Override
+	public String parenthesis(String paren) {
+		return "parenthesis";
+	}
+
+	@Override
+	public String getLigature(String toString) {
+		switch (toString) {
+		case "``":
+		case "''":
+			return "\"";
+		default: return toString;
+		}
 	}
 }

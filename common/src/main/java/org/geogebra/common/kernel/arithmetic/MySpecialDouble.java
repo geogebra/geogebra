@@ -163,7 +163,7 @@ public class MySpecialDouble extends MyDouble {
 		StringType printForm = tpl.getStringType();
 		char ch;
 		switch (printForm) {
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:

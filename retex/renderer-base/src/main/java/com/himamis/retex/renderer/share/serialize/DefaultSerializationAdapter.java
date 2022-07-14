@@ -7,9 +7,9 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 		StringBuilder sb = new StringBuilder(base);
 		if (sub != null) {
 			if (sub.length() > 1) {
-				sb.append("_{" + sub + "}");
+				sb.append("_{").append(sub).append("}");
 			} else {
-				sb.append("_" + sub);
+				sb.append("_").append(sub);
 			}
 		}
 		if (sup != null) {
@@ -27,8 +27,12 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 		return "sqrt(" + base + ")";
 	}
 
+	@Override
 	public String convertCharacter(char character) {
-		return character + "";
+		if ('\u00b7' == character) {
+			return "\u00d7";
+		}
+		return String.valueOf(character);
 	}
 
 	@Override
@@ -41,5 +45,15 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	public String nroot(String base, String root) {
 		return "nroot(" + base + ","
 				+ root + ")";
+	}
+
+	@Override
+	public String parenthesis(String paren) {
+		return paren;
+	}
+
+	@Override
+	public String getLigature(String toString) {
+		return toString;
 	}
 }

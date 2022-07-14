@@ -98,11 +98,8 @@ public class TeXAtomSerializer {
 		if (root instanceof SymbolAtom) {
 
 			SymbolAtom ch = (SymbolAtom) root;
-			String out = adapter.convertCharacter(ch.getUnicode());
-			if ("\u00b7".equals(out)) {
-				return "*";
-			}
-			return out;
+
+			return adapter.convertCharacter(ch.getUnicode());
 
 		}
 		if (root instanceof RowAtom) {
@@ -111,7 +108,7 @@ public class TeXAtomSerializer {
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
 			}
-			return sb.toString();
+			return adapter.getLigature(sb.toString());
 		}
 		if (root instanceof AccentedAtom) {
 			SymbolAtom accent = ((AccentedAtom) root).getAccent();

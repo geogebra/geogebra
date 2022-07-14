@@ -708,7 +708,7 @@ public class AppletParameters {
 	}
 
 	public String getParamDetachKeyboard() {
-		return getStringDataParam("detachKeyboard", "undef");
+		return getStringDataParam("detachKeyboard", "auto");
 	}
 
 	/**
@@ -717,5 +717,20 @@ public class AppletParameters {
 	 */
 	public boolean getDataParamTransparentGraphics() {
 		return getBoolDataParam("transparentGraphics", false);
+	}
+
+	/**
+	 * @param mobile whether we're on a mobile device
+	 * @return whether to use ASCII
+	 */
+	public boolean getParamScreenReaderMode(boolean mobile) {
+		String mode = getStringDataParam("screenReaderMode", "");
+		if ("ascii".equalsIgnoreCase(mode)) {
+			return true;
+		} else if ("unicode".equalsIgnoreCase(mode)) {
+			return false;
+		} else {
+			return mobile;
+		}
 	}
 }

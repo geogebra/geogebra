@@ -376,12 +376,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	/**
 	 * GGB-2454
 	 */
-	public static final StringTemplate screenReader = new StringTemplate(
+	public static final StringTemplate screenReaderAscii = new StringTemplate(
 			"screenReader");
 
 	static {
-		screenReader.setType(StringType.SCREEN_READER);
-		screenReader.localizeCmds = true;
+		screenReaderAscii.setType(StringType.SCREEN_READER_ASCII);
+		screenReaderAscii.localizeCmds = true;
 	}
 
 	/**
@@ -629,7 +629,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			printFormImaginary = "i";
 			break;
 
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			printFormPI = " pi ";
 			printFormImaginary = " i ";
 			break;
@@ -1355,7 +1355,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param loc localization
 	 */
 	public void getPlus(StringBuilder sb, Localization loc) {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getPlus(loc));
 		} else {
 			appendOptionalSpace(sb);
@@ -1370,7 +1370,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param loc localization
 	 */
 	public void getMinus(StringBuilder sb, Localization loc) {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			sb.append(ScreenReader.getMinus(loc));
 		} else {
 			appendOptionalSpace(sb);
@@ -1383,7 +1383,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ( or \left(
 	 */
 	public String leftBracket() {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			return ScreenReader.getOpenParenthesis();
 		}
 		return left() + "(";
@@ -1393,7 +1393,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ) or \right)
 	 */
 	public String rightBracket() {
-		if (stringType == StringType.SCREEN_READER) {
+		if (stringType == StringType.SCREEN_READER_ASCII) {
 			return ScreenReader.getCloseParenthesis();
 		}
 		return right() + ")";
@@ -1866,7 +1866,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case SCREEN_READER:
+					case SCREEN_READER_ASCII:
 						showMultiplicationSign = true;
 						break;
 
@@ -1962,7 +1962,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					case PSTRICKS:
 					case GEOGEBRA_XML:
 					case GIAC:
-					case SCREEN_READER:
+					case SCREEN_READER_ASCII:
 						sb.append(multiplicationSign(loc));
 						break;
 
@@ -2137,7 +2137,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// space for multiplication
 			return !forEditorParser ? " * " : "*";
 
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return ScreenReader.getTimes(loc);
 
 		default:
@@ -2227,7 +2227,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			ScreenReader.fraction(sb, leftStr, rightStr, loc);
 
 			break;
@@ -2796,7 +2796,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			StringBuilder sb = new StringBuilder();
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
 			return sb.toString();
-		} else if (stringType.equals(StringType.SCREEN_READER)) {
+		} else if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
 			return ScreenReader.power(leftStr, rightStr, loc);
 
 		} else {
@@ -3229,7 +3229,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void leftCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\left\\{");
-		} else if (hasType(StringType.SCREEN_READER)) {
+		} else if (hasType(StringType.SCREEN_READER_ASCII)) {
 			sb.append(ScreenReader.getOpenBrace());
 		} else {
 			sb.append("{");
@@ -3245,7 +3245,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void rightCurlyBracket(StringBuilder sb) {
 		if (hasType(StringType.LATEX)) {
 			sb.append("\\right\\}");
-		} else if (hasType(StringType.SCREEN_READER)) {
+		} else if (hasType(StringType.SCREEN_READER_ASCII)) {
 			sb.append(ScreenReader.getCloseBrace());
 		} else {
 			sb.append("}");
@@ -3507,7 +3507,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "pi/180";
 		case LATEX:
 			return "^{\\circ}";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return "degree";
 		}
 		return Unicode.DEGREE_STRING;
@@ -3522,7 +3522,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "euler\\_gamma";
 		case LATEX:
 			return "\\mathit{e_{\\gamma}}";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return "euler gamme";
 		}
 		return Unicode.EULER_GAMMA_STRING;
@@ -3537,7 +3537,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "e";
 		case LATEX:
 			return "\\textit{e}";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return "euler number";
 		}
 		return Unicode.EULER_STRING;
@@ -3567,7 +3567,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		switch (stringType) {
 		case LATEX:
 			return "\\, = \\,";
-		case SCREEN_READER:
+		case SCREEN_READER_ASCII:
 			return " equals ";
 		default:
 			return " = ";
@@ -3611,7 +3611,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param localization localization
 	 */
 	public void getCommaOptionalSpace(StringBuilder sb, Localization localization) {
-		if (hasType(StringType.SCREEN_READER)) {
+		if (hasType(StringType.SCREEN_READER_ASCII)) {
 			sb.append(ScreenReader.getComma());
 		} else {
 			sb.append(localization.getComma());

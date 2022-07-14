@@ -1128,7 +1128,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	final public void formatSigned(double x, StringBuilder sb,
 			StringTemplate tpl) {
-		boolean screenReader = tpl.hasType(StringType.SCREEN_READER);
+		boolean screenReader = tpl.hasType(StringType.SCREEN_READER_ASCII);
 		if (x >= 0.0d) {
 			sb.append(screenReader ? " plus " : "+ ");
 			sb.append(format(x, tpl));

@@ -6930,7 +6930,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				String myCaption = getCaption(StringTemplate.latexTemplate);
 				sb.appendLatexDegreeIfNeeded(this, myCaption);
 			} else {
-				String myCaption = getCaption(StringTemplate.screenReader);
+				String myCaption = getCaption(app.getScreenReaderTemplate());
 				String convertedCaption = ScreenReader.convertToReadable(myCaption, getLoc());
 				sb.appendDegreeIfNeeded(this, convertedCaption);
 			}
@@ -7034,7 +7034,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public String getAuralExpression() {
-		return toValueString(StringTemplate.screenReader);
+		return toValueString(getApp().getScreenReaderTemplate());
 	}
 
 	/**

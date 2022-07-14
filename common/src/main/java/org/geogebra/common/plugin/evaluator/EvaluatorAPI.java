@@ -9,14 +9,14 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.StepSolver;
-import org.geogebra.common.main.ScreenReader;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
@@ -34,7 +34,6 @@ public class EvaluatorAPI {
 	private static final String EVAL_KEY = "eval";
 	private static final String ALT_TEXT_KEY = "altText";
 	private static final String NAN = "NaN";
-	private final ExpressionReader expressionReader;
 
 	private final MathFieldInternal mathFieldInternal;
 	private final Serializer flatSerializer;
@@ -42,6 +41,7 @@ public class EvaluatorAPI {
 	private final AlgebraProcessor algebraProcessor;
 	private final Parser parser;
 	private final EvalInfo evalInfo;
+	private final Localization loc;
 	private StepSolver stepSolver;
 
 	/**
@@ -57,7 +57,7 @@ public class EvaluatorAPI {
 		this.flatSerializer = new GeoGebraSerializer();
 		this.latexSerializer = new TeXSerializer();
 		this.evalInfo = createEvalInfo();
-		expressionReader = ScreenReader.getExpressionReader(kernel.getApplication());
+		this.loc = kernel.getLocalization();
 		stepSolver = (text, type, parser) -> {
 			Log.error("Step solver not loaded");
 			return null;
@@ -93,8 +93,8 @@ public class EvaluatorAPI {
 	}
 
 	private String getAltTextString() {
-		return ScreenReaderSerializer.fullDescription(expressionReader,
-				getMathFormula().getRootComponent());
+		return ScreenReaderSerializer.fullDescription(
+				getMathFormula().getRootComponent(), new ScreenReaderSerializationAdapter(loc));
 	}
 
 	private MathFormula getMathFormula() {

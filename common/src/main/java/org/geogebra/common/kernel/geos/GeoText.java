@@ -435,7 +435,7 @@ public class GeoText extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
-		if (tpl1.hasType(StringType.SCREEN_READER)) {
+		if (tpl1.hasType(StringType.SCREEN_READER_ASCII)) {
 			return getAuralText();
 		}
 		return getTextStringSafe();

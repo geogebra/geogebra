@@ -1977,7 +1977,7 @@ public class GeoNumeric extends GeoElement
 		}
 
 		if (!getRawCaption().contains("%v")) {
-			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
+			sb.append(getLabelDelimiterWithSpace(getApp().getScreenReaderTemplate()));
 			String valueString = toValueString(StringTemplate.defaultTemplate);
 			sb.appendDegreeIfNeeded(this, valueString);
 		}
