@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class InputPanelW extends FlowPanel {
 
-	private static final int SHOW_KEYBOARD_BUTTON_LIMIT = 8;
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;
 	private TextEditPanel textAreaComponent;
