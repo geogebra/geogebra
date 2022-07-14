@@ -140,6 +140,9 @@ public class JSONParserGGT {
 			JSONObject creatorObj = obj.getJSONObject("creator");
 			int id = getInt(creatorObj, "id", -1);
 			String displayName = getString(creatorObj, "displayname");
+			if (StringUtil.empty(displayName)) {
+				displayName = getString(creatorObj, "name");
+			}
 			material.setCreator(new UserPublic(id, displayName));
 		} catch (Throwable t) {
 			Log.debug(t.getMessage());
