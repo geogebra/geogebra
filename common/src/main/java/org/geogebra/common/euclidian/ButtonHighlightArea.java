@@ -5,7 +5,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 
 /**
- * Paints highligted area around a button
+ * Paints highlighted area around a button
  */
 public class ButtonHighlightArea {
 

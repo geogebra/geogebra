@@ -82,7 +82,7 @@ public class DrawImage extends Drawable {
 		tempAT = AwtFactory.getPrototype().newAffineTransform();
 		classicBoundingBox = AwtFactory.getPrototype().newRectangle();
 
-		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5d);
+		selStroke = AwtFactory.getPrototype().newMyBasicStroke(2);
 	}
 	
 	@Override
@@ -322,45 +322,11 @@ public class DrawImage extends Drawable {
 					// transformed
 					// g2.draw(labelRectangle);
 
-					// draw parallelogram around edge
-					double offX = HIGHLIGHT_OFFSET
-							* Math.abs(atInverse.getScaleX() + atInverse.getShearX());
-					double minX = labelRectangle.getMinX();
-					double offY = HIGHLIGHT_OFFSET
-							* Math.abs(atInverse.getScaleY() + atInverse.getShearY());
-					double minY = labelRectangle.getMinY();
-					double maxX = labelRectangle.getMaxX();
-					double maxY = labelRectangle.getMaxY();
-					double rx = offX / 2;
-					double ry = offY / 2;
 					App app = geoImage.getKernel().getApplication();
 
-					// show highlighting only if toolbar showing
-					// needed for eg Reflect tool
 					// no highlight if we have bounding box for mow
-					if (!app.isWhiteboardActive() && app.showToolBar()) {
-						if (highlighting == null) {
-							highlighting = AwtFactory.getPrototype()
-									.newGeneralPath();
-						} else {
-							highlighting.reset();
-						}
-						highlighting.moveTo(minX, minY - offY);
-						highlighting.lineTo(maxX, minY - offY); // bottom edge
-						highlighting.curveTo(maxX + offX - rx, minY - offY,
-								maxX + offX, minY - offY + ry, maxX + offX, minY);
-						highlighting.lineTo(maxX + offX, maxY); // right edge
-						highlighting.curveTo(maxX + offX, maxY + offY - ry,
-								maxX + offX - rx, maxY + offY, maxX, maxY + offY);
-						highlighting.lineTo(minX, maxY + offY); // top edge
-						highlighting.curveTo(minX - offX + rx, maxY + offY,
-								minX - offX, maxY + offY - ry, minX - offX, maxY);
-						highlighting.lineTo(minX - offX, minY); // left edge
-						highlighting.curveTo(minX - offX, minY - offY + ry,
-								minX - offX + rx, minY - offY, minX, minY - offY);
-						highlighting.closePath();
-						GShape shape = highlighting.createTransformedShape(at);
-						g3.draw(shape);
+					if (!app.isWhiteboardActive()) {
+						drawHighlighting(g3);
 					}
 
 				}
@@ -371,6 +337,42 @@ public class DrawImage extends Drawable {
 
 			g3.setComposite(oldComp);
 		}
+	}
+
+	private void drawHighlighting(GGraphics2D g3) {
+		// draw parallelogram around edge
+		double offX = HIGHLIGHT_OFFSET
+				* Math.abs(atInverse.getScaleX() + atInverse.getShearX());
+		double minX = labelRectangle.getMinX();
+		double offY = HIGHLIGHT_OFFSET
+				* Math.abs(atInverse.getScaleY() + atInverse.getShearY());
+		double minY = labelRectangle.getMinY();
+		double maxX = labelRectangle.getMaxX();
+		double maxY = labelRectangle.getMaxY();
+		double rx = offX / 2;
+		double ry = offY / 2;
+		if (highlighting == null) {
+			highlighting = AwtFactory.getPrototype()
+					.newGeneralPath();
+		} else {
+			highlighting.reset();
+		}
+		highlighting.moveTo(minX, minY - offY);
+		highlighting.lineTo(maxX, minY - offY); // bottom edge
+		highlighting.curveTo(maxX + offX - rx, minY - offY,
+				maxX + offX, minY - offY + ry, maxX + offX, minY);
+		highlighting.lineTo(maxX + offX, maxY); // right edge
+		highlighting.curveTo(maxX + offX, maxY + offY - ry,
+				maxX + offX - rx, maxY + offY, maxX, maxY + offY);
+		highlighting.lineTo(minX, maxY + offY); // top edge
+		highlighting.curveTo(minX - offX + rx, maxY + offY,
+				minX - offX, maxY + offY - ry, minX - offX, maxY);
+		highlighting.lineTo(minX - offX, minY); // left edge
+		highlighting.curveTo(minX - offX, minY - offY + ry,
+				minX - offX + rx, minY - offY, minX, minY - offY);
+		highlighting.closePath();
+		GShape shape = highlighting.createTransformedShape(at);
+		g3.draw(shape);
 	}
 
 	/**
