@@ -97,13 +97,9 @@ public class LineAndPointUtils {
 		Double minX = Math.min(x1, x2);
 		Double minY = Math.min(y1, y2);
 
-		if ((x0 - minX >= -errorTolerance) && (x0 - maxX <= errorTolerance)
+		return (x0 - minX >= -errorTolerance) && (x0 - maxX <= errorTolerance)
 				&& (y0 - minY >= -errorTolerance)
-				&& (y0 - maxY <= errorTolerance)) {
-			return true;
-		}
-		return false;
-
+				&& (y0 - maxY <= errorTolerance);
 	}
 
 	/**
@@ -197,11 +193,8 @@ public class LineAndPointUtils {
 		double x2 = p2.getX();
 		double y2 = p2.getY();
 
-		if ((Math.abs(y2 - y1) <= errorTolerance)
-				&& (Math.abs(x2 - x1) <= errorTolerance)) {
-			return true;
-		}
-		return false;
+		return (Math.abs(y2 - y1) <= errorTolerance)
+				&& (Math.abs(x2 - x1) <= errorTolerance);
 	}
 
 }

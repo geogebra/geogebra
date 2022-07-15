@@ -293,11 +293,8 @@ public class InputBarHelpPanel {
 	 * @return whether it's a function or geo
 	 */
 	public boolean checkWordAroundCursorIsUsable(String word) {
-		if (word.length() > 0 && (mApp.getParserFunctions().isReserved(word)
-				|| mApp.getKernel().lookupLabel(word) != null)) {
-			return false;
-		}
-		return true;
+		return word.isEmpty() || !(mApp.getParserFunctions().isReserved(word)
+				|| mApp.getKernel().lookupLabel(word) != null);
 	}
 
 	/**

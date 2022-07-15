@@ -149,10 +149,7 @@ public class CellRangeProcessor {
 	 * @return whether matrix can be created
 	 */
 	public boolean isCreateMatrixPossible(ArrayList<CellRange> rangeList) {
-		if (rangeList.size() == 1 && !rangeList.get(0).hasEmptyCells()) {
-			return true;
-		}
-		return false;
+		return rangeList.size() == 1 && !rangeList.get(0).hasEmptyCells();
 	}
 
 	/**

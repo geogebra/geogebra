@@ -2220,16 +2220,12 @@ public class AlgebraProcessor {
 				&& type2.getGeoClassType().equals(GeoClass.ANGLE)) {
 			return true;
 		}
-        if (type2.getGeoClassType().equals(GeoClass.LIST)
+		if (type2.getGeoClassType().equals(GeoClass.LIST)
 				&& type.getGeoClassType().equals(GeoClass.VECTOR)) {
-            return true;
-        }
-        if (type.getGeoClassType().equals(GeoClass.LIST)
-				&& type2.getGeoClassType().equals(GeoClass.VECTOR)) {
-            return true;
-        }
-
-        return false;
+			return true;
+		}
+		return type.getGeoClassType().equals(GeoClass.LIST)
+				&& type2.getGeoClassType().equals(GeoClass.VECTOR);
 	}
 
 	/**

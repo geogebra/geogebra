@@ -2011,11 +2011,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return false;
 		}
 		// polygon[list]
-		if (getParentAlgorithm() == null
-				|| getParentAlgorithm().getInput().length < 3) {
-			return false;
-		}
-		return true;
+		return getParentAlgorithm() != null
+				&& getParentAlgorithm().getInput().length >= 3;
 	}
 
 	@Override

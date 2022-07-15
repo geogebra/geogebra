@@ -203,12 +203,7 @@ public class CASparser implements CASParserInterface {
 	 * @return string representation of ev in given syntax
 	 */
 	public String toString(ExpressionValue ev, StringTemplate tpl) {
-		ExpressionNode expr;
-		if (!ev.isExpressionNode()) {
-			expr = ev.wrap();
-		} else {
-			expr = (ExpressionNode) ev;
-		}
+		ExpressionNode expr = ev.wrap();
 		String casString = expr.getCASstring(tpl, true);
 		if (casString.startsWith("?")) {
 			return "?";
