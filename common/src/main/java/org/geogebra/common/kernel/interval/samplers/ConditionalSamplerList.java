@@ -18,6 +18,7 @@ public class ConditionalSamplerList implements IntervalEvaluatable {
 	private List<ExpressionSampler> expressionSamplers = Arrays.asList(new IfSampler(),
 			new IfElseSampler(),
 			new IfListSampler());
+	private double step;
 
 	public ConditionalSamplerList(GeoFunction function) {
 		this.function = function;
@@ -56,6 +57,7 @@ public class ConditionalSamplerList implements IntervalEvaluatable {
 
 	private void updateSpace(DiscreteSpace space) {
 		samplers.updateSpace(space);
+		step = space.getStep();
 	}
 
 	public void forEach(Consumer<? super ConditionalSampler> action) {
@@ -75,5 +77,13 @@ public class ConditionalSamplerList implements IntervalEvaluatable {
 	@Override
 	public IntervalTupleList evaluate(DiscreteSpace space) {
 		return samplers.evaluate(space);
+	}
+
+	/**
+	 *
+	 * @return x step of the sampler
+	 */
+	public double step() {
+		return step;
 	}
 }

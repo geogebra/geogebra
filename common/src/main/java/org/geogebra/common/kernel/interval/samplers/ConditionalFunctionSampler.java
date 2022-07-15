@@ -73,4 +73,9 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 	public GeoFunction getGeoFunction() {
 		return function;
 	}
+
+	@Override
+	public double step() {
+		return samplers.step();
+	}
 }

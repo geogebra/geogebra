@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Model for Interval plotter.
@@ -103,8 +104,23 @@ public class IntervalPlotModel {
 	}
 
 	private void extendMin(double oldMin) {
-		points.prepend(sampler.evaluate(bounds.getXmin(), getMinToExtend(oldMin)));
+		double minToExtend = getMinToExtend(oldMin);
+		Interval extended = new Interval(minToExtend, oldMin);
+		Log.debug("extend: " + extended);
+		IntervalTupleList newPoints = sampler.evaluate(extended);
+		pointToString(newPoints);
+		points.prepend(newPoints);
 		points.cutFrom(bounds.getXmax());
+	}
+
+	private String pointToString(IntervalTupleList list) {
+		StringBuilder sb = new StringBuilder();
+		for (IntervalTuple point: list) {
+			if (!point.isUndefined()) {
+				sb.append(point.toString());
+			}
+		}
+		return sb.toString();
 	}
 
 	private double getMinToExtend(double oldMin) {
@@ -112,8 +128,15 @@ public class IntervalPlotModel {
 			return oldMin;
 		}
 
-		Interval x = points.get(0).x();
-		return  Math.min(oldMin, x.getLow());
+		double step = sampler.step();
+		double newMin = oldMin;
+		int i = 0;
+		while (newMin > bounds.getXmin()) {
+			newMin -= step;
+			i++;
+		}
+		double diff = (i+2) * step;
+		return oldMin - diff;
 	}
 
 	private void extendMax(double oldMax) {
@@ -126,8 +149,7 @@ public class IntervalPlotModel {
 			return oldMax;
 		}
 
-		Interval x = points.get(pointCount() - 1).x();
-		return  Math.max(x.getHigh(), oldMax);
+		return oldMax;
 	}
 
 	/**

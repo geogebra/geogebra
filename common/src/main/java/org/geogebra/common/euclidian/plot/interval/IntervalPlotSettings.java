@@ -25,7 +25,7 @@ public class IntervalPlotSettings {
 	 * Set it to false to debug line joins.
 	 */
 	static boolean isUpdateOnMoveStopEnabled() {
-		return false;
+		return true;
 	}
 
 	/**

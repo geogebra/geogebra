@@ -124,4 +124,9 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public GeoFunction getGeoFunction() {
 		return function.getFunction();
 	}
+
+	@Override
+	public double step() {
+		return space.getStep();
+	}
 }
