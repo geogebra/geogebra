@@ -360,16 +360,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	 */
 	public void tabResized() {
 		int width = plotPanelPlus.getOffsetWidth() - 5;
-		int height = plotPanelPlus.getOffsetHeight() - 20;
+		int height = plotPanelPlus.getOffsetHeight();
 		if (width > 0) {
 			resizePlotPanel(width, height);
 		}
 	}
 
-	void resizePlotPanel(int width, int height) {
-		getPlotPanel().setPreferredSize(new Dimension(width,
-				Math.min(Math.max(100, height),
-						PlotPanelEuclidianViewW.DEFAULT_HEIGHT)));
+	void resizePlotPanel(int width, int maxHeight) {
+		int height = maxHeight > PlotPanelEuclidianViewW.DEFAULT_HEIGHT
+				? Math.max(PlotPanelEuclidianViewW.DEFAULT_HEIGHT, maxHeight / 2)
+				: Math.max(maxHeight, 40);
+		getPlotPanel().setPreferredSize(new Dimension(width, height));
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();
 	}
