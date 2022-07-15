@@ -51,4 +51,9 @@ public class RestrictExamImpl implements RestrictExam {
 	public Stream<Restrictable> getRestrictables() {
 		return restrictables.stream();
 	}
+
+	@Override
+	public ExamRestrictionModel getModel() {
+		return model;
+	}
 }

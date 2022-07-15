@@ -28,4 +28,9 @@ public interface RestrictExam {
 	 * @return all restrictable objects
 	 */
 	Stream<Restrictable> getRestrictables();
+
+	/**
+	 * @return all restriction model
+	 */
+	ExamRestrictionModel getModel();
 }
