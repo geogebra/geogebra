@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -151,9 +152,12 @@ public abstract class CasTestJsonCommon {
 		if (testcases.get(name) == null) {
 			Assert.fail("No testcase for " + name);
 		}
-		ArrayList<CasTest> cases = testcases.get(name);
+		ArrayList<CasTest> cases = testcases.remove(name);
+		runCases(cases);
+	}
+
+	protected void runCases(ArrayList<CasTest> cases) {
 		Assert.assertNotEquals(0, cases.size());
-		testcases.remove(name);
 		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
 				new StringBuilder() };
 		for (CasTest cmd : cases) {
@@ -721,6 +725,17 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testNSolve() {
 		testCat("NSolve");
+	}
+
+	@Test
+	public void testNSolveFlaky() {
+		// 50 is a tradeoff between speed and probability of spotting the bug
+		// increase to 5000 for deterministic but slow test
+		for (int i = 0; i < 50; i++) {
+			runCases(testcases.get("NSolveFlaky"));
+			((CASgiac) app.getKernel().getGeoGebraCAS().getCurrentCAS()).clearCache();
+		}
+		testcases.remove("NSolveFlaky");
 	}
 
 	@Test
