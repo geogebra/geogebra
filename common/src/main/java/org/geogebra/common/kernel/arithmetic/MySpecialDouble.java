@@ -14,9 +14,10 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
@@ -38,6 +39,22 @@ public class MySpecialDouble extends MyDouble {
 	private final boolean isLetterConstant; // for Pi, Euler, or Degree constant
 	private final boolean scientificNotation;
 	private boolean setFromOutside;
+	BigDecimal bd;
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param val
+	 *            value
+	 */
+	public MySpecialDouble(Kernel kernel, double val) {
+		super(kernel, val);
+		setFromOutside = true;
+		keepOriginalString = false;
+		isLetterConstant = false;
+		scientificNotation = false;
+		originalString = "";
+	}
 
 	/**
 	 * @param kernel
@@ -113,6 +130,11 @@ public class MySpecialDouble extends MyDouble {
 		return ret;
 	}
 
+	@Override
+	public MyDouble getNumber() {
+		return new MySpecialDouble(this);
+	}
+
 	/**
 	 * @return true if this equals E (no tolerance)
 	 */
@@ -160,56 +182,17 @@ public class MySpecialDouble extends MyDouble {
 		}
 
 		// letter constants for pi, e, or degree character
-		StringType printForm = tpl.getStringType();
-		char ch;
-		switch (printForm) {
-		case SCREEN_READER:
-			ch = strToString.charAt(0);
-			switch (ch) {
-			case Unicode.pi:
-				return tpl.getPi();
-			case Unicode.DEGREE_CHAR:
-				return tpl.getDegree();
-			case Unicode.EULER_CHAR:
-				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
-					return tpl.getEulerGamma();
-				}
-				return tpl.getEulerNumber();
+		char ch = strToString.charAt(0);
+		switch (ch) {
+		case Unicode.pi:
+			return tpl.getPi();
+		case Unicode.DEGREE_CHAR:
+			return tpl.getDegree();
+		case Unicode.EULER_CHAR:
+			if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
+				return tpl.getEulerGamma();
 			}
-			break;
-		case GIAC:
-			ch = strToString.charAt(0);
-			switch (ch) {
-			case Unicode.pi:
-				return "pi";
-			case Unicode.DEGREE_CHAR:
-				return "pi/180";
-			case Unicode.EULER_CHAR:
-				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
-					return "euler\\_gamma";
-				}
-				return "e";
-			}
-			break;
-
-		case LATEX:
-			ch = strToString.charAt(0);
-			switch (ch) {
-			case Unicode.pi:
-				return "\\pi ";
-			case Unicode.DEGREE_CHAR:
-				return "^{\\circ}";
-			case Unicode.EULER_CHAR:
-				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
-					// approx value
-					return "\\mathit{e_{\\gamma}}";
-				}
-				return "\\textit{e}";
-			// return Unicode.EULER_STRING;
-			}
-			break;
-		default:
-			break;
+			return tpl.getEulerNumber();
 		}
 
 		return strToString;
@@ -219,6 +202,18 @@ public class MySpecialDouble extends MyDouble {
 	public void set(double val) {
 		super.set(val);
 		setFromOutside = true;
+		bd = null;
+	}
+
+	/**
+	 * Set precise value
+	 * @param val value as BigDecimal
+	 */
+	public void set(BigDecimal val) {
+		super.set(val.doubleValue());
+		setFromOutside = true;
+		strToString = val.toPlainString();
+		bd = val;
 	}
 
 	@Override
@@ -255,5 +250,27 @@ public class MySpecialDouble extends MyDouble {
 
 	public boolean isAngleUnit() {
 		return isAngle() || Unicode.PI_STRING.equals(strToString);
+	}
+
+	public void setString(String toString) {
+		this.strToString = toString;
+	}
+
+	@Override
+	public @CheckForNull BigDecimal toDecimal() {
+		if (!Double.isFinite(getDouble())) {
+			return null;
+		}
+		if (bd == null) {
+			if (isLetterConstant || setFromOutside) {
+				bd = BigDecimal.valueOf(getDouble());
+			} else if (isPercentage()) {
+				bd = new BigDecimal(strToString.substring(0, strToString.length() - 1))
+						.multiply(BigDecimal.valueOf(0.01));
+			} else {
+				bd = new BigDecimal(strToString);
+			}
+		}
+		return bd;
 	}
 }

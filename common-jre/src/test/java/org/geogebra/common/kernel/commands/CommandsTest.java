@@ -441,14 +441,14 @@ public class CommandsTest {
 		t("pi1a", "12.566370614359172");
 		t("pie", "8.539734222673566");
 		t("pii", "3.141592653589793ί");
-		t("pix", "(" + PI_STRING + " * x)");
+		t("pix", "(pi * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
 		t("f(" + theta_STRING + ")=sin " + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(" + theta_STRING + ")=sin" + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
-		t("x" + PI_STRING, "(x * " + PI_STRING + ")");
+		t("x" + PI_STRING, "(x * pi)");
 		t("xdeg", "x" + DEGREE_STRING);
 		t("sinxdeg", "sin(x" + DEGREE_STRING + ")");
 	}

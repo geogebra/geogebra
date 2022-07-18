@@ -18,6 +18,7 @@
 
 package org.geogebra.common.kernel.geos;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -43,6 +44,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -144,6 +146,7 @@ public class GeoNumeric extends GeoElement
 
 	private boolean showExtendedAV = true;
 	private static volatile Comparator<GeoNumberValue> comparator;
+	private BigDecimal exactValue;
 
 	/**
 	 * Creates new GeoNumeric
@@ -405,6 +408,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	final public void setUndefined() {
 		value = Double.NaN;
+		exactValue = null;
 	}
 
 	@Override
@@ -580,6 +584,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	public synchronized void setValue(double x, boolean changeAnimationValue) {
 		setDefinition(null);
+		exactValue = null;
 		if (Double.isNaN(x)) {
 			value = Double.NaN;
 		} else if (isIntervalMinActive() && x < getIntervalMin()) {
@@ -681,7 +686,22 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public MyDouble getNumber() {
-		return new MyDouble(kernel, value);
+		if (toDecimal() == null) {
+			return new MyDouble(kernel, value);
+		} else {
+			MySpecialDouble val = new MySpecialDouble(kernel, value);
+			val.set(toDecimal());
+			return val;
+		}
+	}
+
+	@Override
+	public BigDecimal toDecimal() {
+		return exactValue;
+	}
+	
+	public void setExactValue(BigDecimal val) {
+		this.exactValue = val;
 	}
 
 	@Override
@@ -1276,10 +1296,8 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void updateRandomNoCascade() {
 		if (randomSlider && isIntervalMaxActive() && isIntervalMinActive()) {
-			// update all algorithms in the algorithm set of this GeoElement
 			value = getRandom();
 		}
-
 	}
 
 	/*
@@ -1801,6 +1819,7 @@ public class GeoNumeric extends GeoElement
 					&& isChangeable(getIntervalMinObject())) {
 				setMinFrom(this);
 			}
+			exactValue = null;
 		}
 
 	}

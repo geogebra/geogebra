@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -3258,8 +3259,10 @@ public class AlgebraProcessor {
 			} else {
 				ret = new GeoNumeric(cons, value);
 			}
+			if (val instanceof MySpecialDouble) {
+				((GeoNumeric) ret).setExactValue(val.toDecimal());
+			}
 			ret.setDefinition(n);
-
 		} else {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}

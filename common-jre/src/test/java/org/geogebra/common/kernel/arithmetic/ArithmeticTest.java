@@ -456,6 +456,22 @@ public class ArithmeticTest extends BaseUnitTest {
 		t("f(0)", "NaN");
 	}
 
+	@Test
+	public void sufficientPrecisionForMultiplication() {
+		t("3 * 325.94", "977.82", StringTemplate.maxDecimals);
+		t("325.94 * 3", "977.82", StringTemplate.maxDecimals);
+	}
+
+	@Test
+	public void sufficientPrecisionForRepeatedMultiplication() {
+		t("a=1000/999", "1.001", StringTemplate.editTemplate);
+		StringBuilder power = new StringBuilder("a");
+		for (int i = 0; i < 999; i++) {
+			power.append("*a");
+		}
+		t(power.toString(), "2.719642216442848", StringTemplate.maxDecimals);
+	}
+
 	private void assertAreEqual(String first, String second, Object areEqual) {
 		getKernel().clearConstruction(false);
 		add("f:" + first);

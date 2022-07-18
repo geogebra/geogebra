@@ -487,7 +487,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			"numericLatex");
 
 	static {
-		numericLatex.stringType = StringType.LATEX;
+		numericLatex.setType(StringType.LATEX);
 		numericLatex.allowMoreDigits = true;
 		numericLatex.allowPiHack = false;
 		numericLatex.useRealLabels = true;
@@ -500,6 +500,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		testTemplate.internationalizeDigits = false;
 		testTemplate.setType(StringType.GEOGEBRA_XML);
+		testTemplate.printFormPI = Unicode.PI_STRING;
 		// testTemplate.localizeCmds = false;
 		testTemplate.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
@@ -610,7 +611,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		switch (t) {
 		case GIAC:
-			printFormPI = "%pi";
+			printFormPI = "pi";
 			printFormImaginary = "i";
 			break;
 
