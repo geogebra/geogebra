@@ -127,7 +127,7 @@ public class ViewMenuW extends Submenu {
 						timer.schedule(0);
 					}
 				}, true, app);
-		inputBarItem.setForceCheckbox(true);
+		//inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
 		consProtNav = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("NavigationBar")),
@@ -146,7 +146,7 @@ public class ViewMenuW extends Submenu {
 				}
 			}
 				}, true, app);
-		consProtNav.setForceCheckbox(true);
+		//consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
 
 		addSeparator();
@@ -177,7 +177,7 @@ public class ViewMenuW extends Submenu {
 				app.setActivePerspective(null);
 			}
 		});
-		newItem.setForceCheckbox(true);
+	//	newItem.setForceCheckbox(true);
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());
 	}
