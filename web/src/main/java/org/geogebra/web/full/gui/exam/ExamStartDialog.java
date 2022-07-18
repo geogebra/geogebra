@@ -38,11 +38,11 @@ public class ExamStartDialog extends ComponentDialog {
 			for (ExamRegion region : ExamRegion.values()) {
 				String displayName = region.getDisplayName(app.getLocalization(),
 						app.getConfig());
-				data.add(new RadioButtonData(displayName, region == ExamRegion.GENERIC,
-						() -> selectedRegion = region));
+				data.add(new RadioButtonData(displayName, region));
 			}
-			RadioButtonPanel regionPicker = new RadioButtonPanel(app.getLocalization(),
-					data);
+			RadioButtonPanel<ExamRegion> regionPicker = new RadioButtonPanel(app.getLocalization(),
+					data, ExamRegion.GENERIC, (selectedRegion) ->
+				this.selectedRegion = (ExamRegion) selectedRegion);
 			addDialogContent(regionPicker);
 		}
 	}
