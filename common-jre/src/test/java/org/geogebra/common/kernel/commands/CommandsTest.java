@@ -3657,15 +3657,27 @@ public class CommandsTest {
 	@Test
 	public void cmdShowAxes() {
 		t("ShowAxes[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertTrue(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertFalse(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowAxis(1));
+		t("ShowAxes[2,false]");
+		assertFalse(app.getSettings().getEuclidian(2).getShowAxis(1));
 	}
 
 	@Test
 	public void cmdShowGrid() {
 		t("ShowGrid[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowGrid());
+		assertTrue(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowGrid());
+		assertFalse(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowGrid());
 	}
 
 	@Test
