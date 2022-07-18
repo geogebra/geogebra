@@ -117,13 +117,13 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 		VerticalPanel nameWidget = new VerticalPanel();
 		contentWidget.add(nameWidget);
 
-		RadioButtonData numberData = new RadioButtonData("Numeric", NUMERIC);
-		RadioButtonData angleData = new RadioButtonData("Angle", ANGLE);
-		RadioButtonData integerData = new RadioButtonData("Integer", INTEGER);
+		RadioButtonData<Integer> numberData = new RadioButtonData<>("Numeric", NUMERIC);
+		RadioButtonData<Integer> angleData = new RadioButtonData<>("Angle", ANGLE);
+		RadioButtonData<Integer> integerData = new RadioButtonData<>("Integer", INTEGER);
 
-		angleRadioButtonPanel = new RadioButtonPanel(loc,
+		angleRadioButtonPanel = new RadioButtonPanel<>(loc,
 				Arrays.asList(numberData, angleData, integerData), NUMERIC,
-				(value) -> onSliderTypeChange((Integer) value));
+				this::onSliderTypeChange);
 		contentWidget.add(angleRadioButtonPanel);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
@@ -195,7 +195,7 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 			if (strLabel != null && text.indexOf('=') > -1
 					&& text.indexOf('=') == text.lastIndexOf('=')) {
 				try {
-					double val = 0;
+					double val;
 					if (text.indexOf(Unicode.DEGREE_CHAR) > text.indexOf('=')) {
 						val = Double.parseDouble(text.substring(
 								text.indexOf('=') + 1,

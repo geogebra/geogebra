@@ -46,10 +46,11 @@ public class AngleInputDialogW extends ComponentInputDialog {
 
 	private void extendGUI() {
 		Localization loc = app.getLocalization();
-		RadioButtonData counterClockwise = new RadioButtonData("counterClockwise", true);
-		RadioButtonData clockwise = new RadioButtonData("clockwise", false);
-		clockWiseRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(counterClockwise, clockwise), true, null);
+		RadioButtonData<Boolean> counterClockwise =
+				new RadioButtonData<>("counterClockwise", false);
+		RadioButtonData<Boolean> clockwise = new RadioButtonData<>("clockwise", true);
+		clockWiseRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(counterClockwise, clockwise), false, null);
 		addDialogContent(clockWiseRadioButtonPanel);
 		getTextComponent().setFocus(true);
 

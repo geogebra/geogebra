@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CreateObjectDialogW extends ComponentDialog implements ICreateObjectListener {
 
-	private CreateObjectModel coModel;
+	private final CreateObjectModel coModel;
 	private Label lblObject;
 	private Label lblName;
 
@@ -45,7 +45,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 
 	private boolean isIniting = true;
 	private FlowPanel optionsPanel;
-	private FlowPanel typePanel;
 	/** name input */
 	AutoCompleteTextFieldW fldName;
 
@@ -59,8 +58,8 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	private ListBox typeList;
 	private Label lblPreviewHeader;
 	private Label lblOptions;
-	private FlowPanel centerPanel = new FlowPanel();
-	private Localization loc;
+	private final FlowPanel centerPanel = new FlowPanel();
+	private final Localization loc;
 	
 	/**
 	 * @param app
@@ -90,8 +89,8 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		objectTypeChanged();
 
 		updateGUI();
-		setOnNegativeAction(() -> coModel.cancel());
-		setOnPositiveAction(() -> coModel.ok());
+		setOnNegativeAction(coModel::cancel);
+		setOnPositiveAction(coModel::ok);
 	}
 
 	/**
@@ -140,10 +139,11 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		cbLeftRightOrder = new ListBox();
 		cbLeftRightOrder.addChangeHandler(event -> apply(cbLeftRightOrder));
 
-		RadioButtonData objRadioButtonData = new RadioButtonData("DependentObjects", true);
-		RadioButtonData valRadioButtonData = new RadioButtonData("FreeObjects", false);
-		objValRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(objRadioButtonData, valRadioButtonData), true,
+		RadioButtonData<Boolean> objRadioButtonData =
+				new RadioButtonData<>("DependentObjects", false);
+		RadioButtonData<Boolean> valRadioButtonData = new RadioButtonData<>("FreeObjects", true);
+		objValRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(objRadioButtonData, valRadioButtonData), false,
 				ignore -> coModel.createNewGeo(fldName.getText()));
 		
 		ckSort = new CheckBox();
@@ -158,7 +158,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		
 		if (coModel.getObjectType() < 0) {
 			coModel.setListType();
-			typePanel = new FlowPanel();
+			FlowPanel typePanel = new FlowPanel();
 			typePanel.add(lblObject);
 			typePanel.add(typeList);
 			optionPane.add(typePanel);
