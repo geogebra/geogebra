@@ -2,31 +2,34 @@ package org.geogebra.web.full.gui.components.radiobutton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class RadioButtonPanel extends FlowPanel implements SetLabels {
-	private List<ComponentRadioButton> radioButtonList = new ArrayList<>();
+public class RadioButtonPanel<T> extends FlowPanel implements SetLabels {
+	private List<ComponentRadioButton<T>> radioButtonList = new ArrayList<>();
 
 	/**
 	 * constructor for panel holding multiple radio buttons
 	 * @param loc - localization
 	 * @param data - radio button list data
 	 */
-	public RadioButtonPanel(Localization loc, List<RadioButtonData> data) {
+	public RadioButtonPanel(Localization loc, List<RadioButtonData<T>> data, T defaultValue,
+			Consumer<T> callabck) {
 		addStyleName("radioButtonPanel");
-		for (RadioButtonData buttonData : data) {
-			ComponentRadioButton radioBtn = new ComponentRadioButton(loc, buttonData);
+		for (RadioButtonData<T> buttonData : data) {
+			ComponentRadioButton<T> radioBtn = new ComponentRadioButton<>(loc, buttonData);
+			radioBtn.setSelected(Objects.equals(defaultValue, buttonData.getValue()));
 			radioBtn.setCallback(() -> {
-				for (ComponentRadioButton radioButton : radioButtonList) {
-					radioButton.setSelected(false);
+				for (ComponentRadioButton<T> radioButton : radioButtonList) {
+					radioButton.setSelected(radioBtn == radioButton);
 				}
-				radioBtn.setSelected(!radioBtn.isSelected());
-				if (buttonData.getCallback() != null) {
-					buttonData.getCallback().run();
+				if (callabck != null && radioBtn.isSelected()) {
+					callabck.accept(buttonData.getValue());
 				}
 			});
 			radioButtonList.add(radioBtn);
@@ -34,43 +37,43 @@ public class RadioButtonPanel extends FlowPanel implements SetLabels {
 		}
 	}
 
-	/**
-	 * constructor for panel holding multiple radio buttons
-	 * @param loc - localization
-	 * @param data - radio button list data
-	 * @param defaultIdx - selected radio button at the start
-	 */
-	public RadioButtonPanel(Localization loc, List<RadioButtonData> data, int defaultIdx) {
-		this(loc, data);
-		setValueOfNthRadioButton(defaultIdx, true);
-	}
-
 	@Override
 	public void setLabels() {
-		for (ComponentRadioButton radioButton : radioButtonList) {
+		for (ComponentRadioButton<T> radioButton : radioButtonList) {
 			radioButton.setLabels();
 		}
 	}
 
 	/**
-	 * @param idx - index of radio button in the panel
-	 * @param selected - true if should set idx-th radio button to selected
+	 * @param value - selected value
 	 */
-	public void setValueOfNthRadioButton(int idx, boolean selected) {
-		if (radioButtonList.size() <= idx) {
-			return;
+	public void setValue(T value) {
+		for (ComponentRadioButton<T> btn : radioButtonList) {
+			btn.setSelected(Objects.equals(value, btn.getValue()));
 		}
-		radioButtonList.get(idx).setSelected(selected);
+	}
+
+	/**
+	 * @return selected value
+	 */
+	public T getValue() {
+		for (ComponentRadioButton<T> btn: radioButtonList) {
+			if (btn.isSelected()) {
+				return btn.getValue();
+			}
+		}
+		// should not be possible to have none selected, avoid NPE anyway
+		return radioButtonList.get(0).getValue();
 	}
 
 	/**
 	 * @param idx - index of radio button in the panel
-	 * @return true if idx-th radio button is selected
+	 * @param disabled - true if should disable the idx-th radio button
 	 */
-	public boolean isNthRadioButtonSelected(int idx) {
-		if (radioButtonList.size() <= idx && idx >= 0) {
-			return false;
+	public void disableNthRadioButton(int idx, boolean disabled) {
+		if (radioButtonList.size() <= idx) {
+			return;
 		}
-		return radioButtonList.get(idx).isSelected();
+		radioButtonList.get(idx).setDisabled(disabled);
 	}
 }
