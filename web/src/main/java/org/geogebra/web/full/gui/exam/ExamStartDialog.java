@@ -34,15 +34,15 @@ public class ExamStartDialog extends ComponentDialog {
 		startText.addStyleName("examStartText");
 		addDialogContent(startText);
 		if (app.isSuite()) {
-			ArrayList<RadioButtonData> data = new ArrayList<>();
+			ArrayList<RadioButtonData<ExamRegion>> data = new ArrayList<>();
 			for (ExamRegion region : ExamRegion.values()) {
 				String displayName = region.getDisplayName(app.getLocalization(),
 						app.getConfig());
-				data.add(new RadioButtonData(displayName, region));
+				data.add(new RadioButtonData<>(displayName, region));
 			}
-			RadioButtonPanel<ExamRegion> regionPicker = new RadioButtonPanel(app.getLocalization(),
-					data, ExamRegion.GENERIC, (selectedRegion) ->
-				this.selectedRegion = (ExamRegion) selectedRegion);
+			RadioButtonPanel<ExamRegion> regionPicker = new RadioButtonPanel<>(
+					app.getLocalization(), data, ExamRegion.GENERIC, (selectedRegion) ->
+				this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
 		}
 	}
