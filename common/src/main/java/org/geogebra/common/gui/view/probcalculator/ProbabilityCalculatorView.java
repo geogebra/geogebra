@@ -76,6 +76,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class ProbabilityCalculatorView
 		implements View, SettingListener, SetLabels {
 
+	public static final double PADDING_TOP_PX = 20.0;
 	private final DiscreteDistributionFactory discreteDistributionFactory;
 	/**
 	 * Application
@@ -1058,15 +1059,12 @@ public abstract class ProbabilityCalculatorView
 	 * capture style for the the currently selected distribution.
 	 */
 	public void updatePlotSettings() {
-
 		// get the plot window dimensions
 		double[] d = getPlotDimensions();
 		double xMin = d[0];
 		double xMax = d[1];
 		double yMin = d[2];
-		double yMax = d[3];
-
-		// System.out.println(d[0] + "," + d[1] + "," + d[2] + "," + d[3]);
+		double yMax = d[3] + (d[3] - d[2]) * PADDING_TOP_PX / plotPanel.getHeight() ;
 
 		if (plotSettings == null) {
 			plotSettings = new PlotSettings();
