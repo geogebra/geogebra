@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.interval.samplers;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
-import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
 import org.geogebra.common.kernel.interval.evaluators.IntervalEvaluatable;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
@@ -46,7 +45,7 @@ public class ConditionalSampler implements IntervalEvaluatable {
 
 	@Override
 	public IntervalTupleList evaluate(double low, double high) {
-		DiscreteSpaceImp diffSpace = new DiscreteSpaceImp(low, high, space.getStep());
+		DiscreteSpace diffSpace = space.difference(low, high);
 		return evaluate(diffSpace);
 	}
 

@@ -43,24 +43,30 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	}
 
 	@Override
+	public DiscreteSpace difference(double low, double high) {
+		if (low < interval.getLow()) {
+			return diffMin(low);
+		}
+		return diffMax(high);
+	}
+
+	private DiscreteSpace diffMin(double min) {
+		double d = Math.ceil((interval.getLow() - min) / step);
+		double start = interval.getLow() - d * step;
+		return new DiscreteSpaceImp(start, interval.getLow() - step, step);
+	}
+
+	private DiscreteSpace diffMax(double max) {
+		return new DiscreteSpaceImp(interval.getHigh() + step, max, step);
+	}
+
+	@Override
 	public void setInterval(double min, double max) {
 		if (count == 0) {
 			return;
 		}
 		interval.set(min, max);
 		step = interval.getLength() / count;
-	}
-
-	@Override
-	public DiscreteSpace diffMax(double max) {
-		return new DiscreteSpaceImp(interval.getHigh() + step, max, step);
-	}
-
-	@Override
-	public DiscreteSpace diffMin(double min) {
-		double d = Math.ceil((interval.getLow() - min) / step);
-		double start = interval.getLow() - d * step;
-		return new DiscreteSpaceImp(start, interval.getLow() - step, step);
 	}
 
 	@Override
