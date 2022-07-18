@@ -156,6 +156,6 @@ public class PropertyResultPanel implements ResultPanel {
 		} else {
 			updateResult(view.getProbabilityText(view.probability));
 		}
-		updateLowHigh(""+view.low, ""+view.high);
+		updateLowHigh("" + view.low, "" + view.high);
 	}
 }
