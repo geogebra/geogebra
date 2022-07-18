@@ -39,7 +39,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	private CheckBox ckSort;
 	/** transpose checkbox */
 	CheckBox ckTranspose;
-	private RadioButtonPanel objValRadioButtonPanel;
+	private RadioButtonPanel<Boolean> objValRadioButtonPanel;
 	/** switch scan between rows and columns */
 	ListBox cbScanOrder;
 
@@ -140,12 +140,11 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		cbLeftRightOrder = new ListBox();
 		cbLeftRightOrder.addChangeHandler(event -> apply(cbLeftRightOrder));
 
-		RadioButtonData objRadioButtonData = new RadioButtonData("DependentObjects", true,
-				() -> coModel.createNewGeo(fldName.getText()));
-		RadioButtonData valRadioButtonData = new RadioButtonData("FreeObjects", false,
-				() -> coModel.createNewGeo(fldName.getText()));
+		RadioButtonData objRadioButtonData = new RadioButtonData("DependentObjects", true);
+		RadioButtonData valRadioButtonData = new RadioButtonData("FreeObjects", false);
 		objValRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(objRadioButtonData, valRadioButtonData));
+				Arrays.asList(objRadioButtonData, valRadioButtonData), true,
+				ignore -> coModel.createNewGeo(fldName.getText()));
 		
 		ckSort = new CheckBox();
 		ckSort.setValue(false);
@@ -331,7 +330,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 
 	@Override
 	public boolean isCopiedByValue() {
-		return objValRadioButtonPanel.isNthRadioButtonSelected(1);
+		return objValRadioButtonPanel.getValue();
 	}
 
 	@Override

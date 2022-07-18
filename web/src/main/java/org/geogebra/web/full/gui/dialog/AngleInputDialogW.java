@@ -28,7 +28,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends ComponentInputDialog {
 
-	protected RadioButtonPanel clockWiseRadioButtonPanel;
+	protected RadioButtonPanel<Boolean> clockWiseRadioButtonPanel;
 
 	/**
 	 * Input Dialog for a GeoAngle object.
@@ -46,10 +46,10 @@ public class AngleInputDialogW extends ComponentInputDialog {
 
 	private void extendGUI() {
 		Localization loc = app.getLocalization();
-		RadioButtonData counterClockwise = new RadioButtonData("counterClockwise", true, null);
-		RadioButtonData clockwise = new RadioButtonData("clockwise", false, null);
+		RadioButtonData counterClockwise = new RadioButtonData("counterClockwise", true);
+		RadioButtonData clockwise = new RadioButtonData("clockwise", false);
 		clockWiseRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(counterClockwise, clockwise));
+				Arrays.asList(counterClockwise, clockwise), true, null);
 		addDialogContent(clockWiseRadioButtonPanel);
 		getTextComponent().setFocus(true);
 
@@ -66,7 +66,7 @@ public class AngleInputDialogW extends ComponentInputDialog {
 	}
 
 	public boolean isClockWise() {
-		return clockWiseRadioButtonPanel.isNthRadioButtonSelected(1);
+		return clockWiseRadioButtonPanel.getValue();
 	}
 
 	@Override

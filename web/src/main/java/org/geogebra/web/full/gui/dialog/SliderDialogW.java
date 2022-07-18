@@ -40,8 +40,11 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Web dialog for slider creation
  */
 public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
+	final static public int NUMERIC = 0;
+	final static public int ANGLE = 1;
+	final static public int INTEGER = 2;
 	private AutoCompleteTextFieldW tfLabel;
-	private RadioButtonPanel angleRadioButtonPanel;
+	private RadioButtonPanel<Integer> angleRadioButtonPanel;
 	private SliderPanelW sliderPanel;
 
 	private GeoElement geoResult;
@@ -101,7 +104,7 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 	}
 
 	private GeoElement getSelGeo() {
-		return angleRadioButtonPanel.isNthRadioButtonSelected(1)
+		return angleRadioButtonPanel.getValue() == ANGLE
 				? angle : number;
 	}
 
@@ -114,32 +117,13 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 		VerticalPanel nameWidget = new VerticalPanel();
 		contentWidget.add(nameWidget);
 
-		RadioButtonData numberData = new RadioButtonData("Numeric", true,
-				() -> {
-					GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
-					number.setAutoStep(num.isAutoStep());
-					number.setAnimationStep(num.getAnimationStep());
-					number.setIntervalMin(num.getIntervalMin());
-					number.setIntervalMax(num.getIntervalMax());
-					updateLabelField(number, false);
-					sliderPanelUpdate(new GeoElement[] { number });
-				});
-		RadioButtonData angleData = new RadioButtonData("Angle", false,
-				() -> {
-					updateLabelField(angle, false);
-					sliderPanelUpdate(new GeoElement[] { angle });
-				});
-		RadioButtonData integerData = new RadioButtonData("Integer", false,
-				() -> {
-					number.setAutoStep(false);
-					number.setAnimationStep(1);
-					number.setIntervalMin(1);
-					number.setIntervalMax(30);
-					updateLabelField(number, true);
-					sliderPanelUpdate(new GeoElement[] { number });
-				});
+		RadioButtonData numberData = new RadioButtonData("Numeric", NUMERIC);
+		RadioButtonData angleData = new RadioButtonData("Angle", ANGLE);
+		RadioButtonData integerData = new RadioButtonData("Integer", INTEGER);
+
 		angleRadioButtonPanel = new RadioButtonPanel(loc,
-				Arrays.asList(numberData, angleData, integerData));
+				Arrays.asList(numberData, angleData, integerData), NUMERIC,
+				(value) -> onSliderTypeChange((Integer) value));
 		contentWidget.add(angleRadioButtonPanel);
 
 		sliderPanel = new SliderPanelW((AppW) app, true, true);
@@ -157,6 +141,28 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 		contentWidget.add(sliderPanel.getWidget());
 
 		addDialogContent(mainWidget);
+	}
+
+	private void onSliderTypeChange(int value) {
+		if (value == NUMERIC) {
+			GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
+			number.setAutoStep(num.isAutoStep());
+			number.setAnimationStep(num.getAnimationStep());
+			number.setIntervalMin(num.getIntervalMin());
+			number.setIntervalMax(num.getIntervalMax());
+			updateLabelField(number, false);
+			sliderPanelUpdate(new GeoElement[] { number });
+		} else if (value == ANGLE) {
+			updateLabelField(angle, false);
+			sliderPanelUpdate(new GeoElement[] { angle });
+		} else {
+			number.setAutoStep(false);
+			number.setAnimationStep(1);
+			number.setIntervalMin(1);
+			number.setIntervalMax(30);
+			updateLabelField(number, true);
+			sliderPanelUpdate(new GeoElement[] { number });
+		}
 	}
 
 	private void updateLabelField(GeoNumeric geo, boolean isInteger) {
@@ -224,7 +230,7 @@ public class SliderDialogW extends ComponentDialog implements HasKeyboardPopup {
 		geoResult.setLabelVisible(true);
 		sliderPanel.applyAll(geoResult);
 		geoResult.update();
-		if (!angleRadioButtonPanel.isNthRadioButtonSelected(1)) {
+		if (angleRadioButtonPanel.getValue() != ANGLE) {
 			AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
 					app.getActiveEuclidianView());
 		}
