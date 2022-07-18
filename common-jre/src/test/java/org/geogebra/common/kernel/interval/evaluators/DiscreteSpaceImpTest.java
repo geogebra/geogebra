@@ -44,6 +44,20 @@ public class DiscreteSpaceImpTest {
 				),
 				subSpace.values().collect(Collectors.toList()));
 	}
+	@Test
+	public void testDiffMaxFractional() {
+		DiscreteSpaceImp space = new DiscreteSpaceImp();
+		space.update(new Interval(0, 5), 10);
+		DiscreteSpace subSpace = space.diffMax(7.4);
+		Assert.assertEquals(
+				Arrays.asList(
+						interval(5.5, 6.0),
+						interval(6.0, 6.5),
+						interval(6.5, 7.0),
+						interval(7.0, 7.5)
+				),
+				subSpace.values().collect(Collectors.toList()));
+	}
 
 	@Test
 	public void testDiffMin() {
@@ -52,6 +66,21 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpace subSpace = space.diffMin(-2.0);
 		Assert.assertEquals(
 				Arrays.asList(
+						interval(-2.0, -1.5),
+						interval(-1.5, -1.0),
+						interval(-1.0, -0.5)
+				),
+				subSpace.values().collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testDiffMinFractional() {
+		DiscreteSpaceImp space = new DiscreteSpaceImp();
+		space.update(new Interval(0, 5), 10);
+		DiscreteSpace subSpace = space.diffMin(-2.3);
+		Assert.assertEquals(
+				Arrays.asList(
+						interval(-2.5, -2.0),
 						interval(-2.0, -1.5),
 						interval(-1.5, -1.0),
 						interval(-1.0, -0.5)
