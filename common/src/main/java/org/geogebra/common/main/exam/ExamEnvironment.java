@@ -19,6 +19,7 @@ import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
 import org.geogebra.common.main.exam.restriction.ExamRegion;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -62,6 +63,7 @@ public class ExamEnvironment {
 
 	private TempStorage tempStorage;
 	private ExamRegion region = ExamRegion.GENERIC;
+	private ExamRestrictionModel model;
 
 	/**
 	 * @param localization localization
@@ -706,5 +708,13 @@ public class ExamEnvironment {
 
 	public TempStorage getTempStorage() {
 		return tempStorage;
+	}
+
+	public void setRestrictionModel(ExamRestrictionModel model) {
+		this.model = model;
+	}
+
+	public ExamRestrictionModel getRestrictionModel() {
+		return model;
 	}
 }
