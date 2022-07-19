@@ -41,7 +41,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 	@Override
 	public void onMoveStop() {
 		if (IntervalPlotSettings.isUpdateOnMoveStopEnabled()) {
-			model.updateAll();
+//			model.updateAll();
 		}
 	}
 

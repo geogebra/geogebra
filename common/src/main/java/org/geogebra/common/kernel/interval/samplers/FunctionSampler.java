@@ -64,8 +64,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList evaluate(double low, double high) {
-		DiscreteSpaceImp diffSpace = new DiscreteSpaceImp(low, high, space.getStep());
-		return evaluate(diffSpace);
+		return evaluate(space.difference(low, high));
 	}
 
 	@Override

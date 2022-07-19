@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * List to hold IntervalTuples
@@ -96,10 +95,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		if (newPoints.isEmpty() || newPoints.isAllUndefined()) {
 			return;
 		}
-		if (newPoints.stream().filter(t -> t.x().isUndefined()).count() > 0) {
-			Log.debug("");
-		}
-		this.list.addAll(newPoints.list);
+		list.addAll(newPoints.list);
 	}
 
 	private boolean isAllUndefined() {
@@ -124,7 +120,6 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		if (newPoints.isEmpty() || newPoints.isAllUndefined()) {
 			return;
 		}
-
 		list.addAll(0, newPoints.list);
 	}
 
@@ -245,5 +240,13 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		for (IntervalTuple tuple: list) {
 			tuple.setPiece(piece);
 		}
+	}
+
+	/**
+	 *
+	 * @return the last tuple in the list.
+	 */
+	public IntervalTuple last() {
+		return list.get(count() - 1);
 	}
 }

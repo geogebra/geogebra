@@ -38,6 +38,7 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpace subSpace = space.difference(5, 7);
 		Assert.assertEquals(
 				Arrays.asList(
+						interval(5.0, 5.5),
 						interval(5.5, 6.0),
 						interval(6.0, 6.5),
 						interval(6.5, 7.0)
@@ -52,6 +53,7 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpace subSpace = space.difference(5, 7.4);
 		Assert.assertEquals(
 				Arrays.asList(
+						interval(5.0, 5.5),
 						interval(5.5, 6.0),
 						interval(6.0, 6.5),
 						interval(6.5, 7.0),
@@ -69,7 +71,8 @@ public class DiscreteSpaceImpTest {
 				Arrays.asList(
 						interval(-2.0, -1.5),
 						interval(-1.5, -1.0),
-						interval(-1.0, -0.5)
+						interval(-1.0, -0.5),
+						interval(-0.5, 0)
 				),
 				subSpace.values().collect(Collectors.toList()));
 	}
@@ -84,7 +87,8 @@ public class DiscreteSpaceImpTest {
 						interval(-2.5, -2.0),
 						interval(-2.0, -1.5),
 						interval(-1.5, -1.0),
-						interval(-1.0, -0.5)
+						interval(-1.0, -0.5),
+						interval(-0.5, 0)
 				),
 				subSpace.values().collect(Collectors.toList()));
 	}

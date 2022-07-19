@@ -85,71 +85,44 @@ public class IntervalPlotModel {
 	 * update function domain to plot due to the visible x range.
 	 */
 	public void updateDomain() {
-		if (bounds.domain().equals(oldDomain)) {
+		updateDomain(bounds.domain(), oldDomain);
+		oldDomain = bounds.domain();
+	}
+	/**
+	 * update function domain to plot due to the visible x range.
+	 */
+	public void updateDomain(Interval xRange, Interval oldXRange) {
+		if (xRange.equals(oldDomain)) {
 			return;
 		}
-		double oldMin = oldDomain.getLow();
-		double oldMax = oldDomain.getHigh();
-		oldDomain = bounds.domain();
-		double min = bounds.domain().getLow();
-		double max = bounds.domain().getHigh();
+		double oldMin = oldXRange.getLow();
+		double oldMax = oldXRange.getHigh();
+		double min = xRange.getLow();
+		double max = xRange.getHigh();
 
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
 		} else if (oldMax < max) {
-			extendMax(oldMax);
+			extendMax(oldMax, xRange);
 		} else if (oldMin > min) {
-			extendMin(oldMin);
+			extendMin(oldMin, xRange);
 		}
 	}
 
-	private void extendMin(double oldMin) {
-		double minToExtend = getMinToExtend(oldMin);
-		Interval extended = new Interval(minToExtend, oldMin);
-		Log.debug("extend: " + extended);
-		IntervalTupleList newPoints = sampler.evaluate(extended);
-		pointToString(newPoints);
+	private void extendMin(double oldMin, Interval xRange) {
+		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(), oldMin);
+		Log.debug("extendMin - new: " + newPoints.count() + " points: " + points.count());
 		points.prepend(newPoints);
-		points.cutFrom(bounds.getXmax());
+		sampler.setInterval(xRange.getLow(), points.last().x().getHigh());
+		points.cutFrom(xRange.getHigh());
 	}
 
-	private String pointToString(IntervalTupleList list) {
-		StringBuilder sb = new StringBuilder();
-		for (IntervalTuple point: list) {
-			if (!point.isUndefined()) {
-				sb.append(point.toString());
-			}
-		}
-		return sb.toString();
-	}
-
-	private double getMinToExtend(double oldMin) {
-		if (points.isEmpty()) {
-			return oldMin;
-		}
-
-		double step = sampler.step();
-		double newMin = oldMin;
-		int i = 0;
-		while (newMin > bounds.getXmin()) {
-			newMin -= step;
-			i++;
-		}
-		double diff = (i+2) * step;
-		return oldMin - diff;
-	}
-
-	private void extendMax(double oldMax) {
-		points.append(sampler.evaluate(getMaxToExtend(oldMax), bounds.getXmax()));
-		points.cutTo(bounds.getXmin());
-	}
-
-	private double getMaxToExtend(double oldMax) {
-		if (points.isEmpty()) {
-			return oldMax;
-		}
-
-		return oldMax;
+	private void extendMax(double oldMax, Interval xRange) {
+		IntervalTupleList newPoints = sampler.evaluate(oldMax, xRange.getHigh());
+		points.append(newPoints);
+		Log.debug("extendMax - new: " + newPoints.count() + " points: " + points.count());
+		sampler.setInterval(points.get(0).x().getLow(), xRange.getHigh());
+		points.cutTo(xRange.getLow());
 	}
 
 	/**
