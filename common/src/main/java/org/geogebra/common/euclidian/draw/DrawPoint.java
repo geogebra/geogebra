@@ -52,7 +52,7 @@ public final class DrawPoint extends SetDrawable {
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
-	private GeoPointND P;
+	private final GeoPointND P;
 
 	private int diameter;
 	private int hightlightDiameter;
@@ -60,9 +60,9 @@ public final class DrawPoint extends SetDrawable {
 	private boolean isVisible;
 	private boolean labelVisible;
 	// for dot and selection
-	private GEllipse2DDouble circle = AwtFactory.getPrototype()
+	private final GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
-	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
+	private final GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
 
 	private GLine2D line1; // for cross
@@ -71,15 +71,16 @@ public final class DrawPoint extends SetDrawable {
 	private GLine2D line4;
 	private GGeneralPath gp = null;
 
-	private static GBasicStroke borderStroke = EuclidianStatic
+	private static final GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static GBasicStroke[] fillStrokes = new GBasicStroke[10];
-	private static GBasicStroke[] emptyStrokes = new GBasicStroke[10];
+	private static final GBasicStroke highlightStroke = AwtFactory.getPrototype().newBasicStroke(2);
+	private static final GBasicStroke[] fillStrokes = new GBasicStroke[10];
+	private static final GBasicStroke[] emptyStrokes = new GBasicStroke[10];
 
 	private boolean isPreview;
 
 	private double[] coords;
-	private double[] coords1 = new double[2];
+	private final double[] coords1 = new double[2];
 
 	/**
 	 * 
@@ -120,8 +121,6 @@ public final class DrawPoint extends SetDrawable {
 
 		this.isPreview = isPreview;
 		this.coords = new double[2];
-
-		// crossStrokes[1] = new BasicStroke(1f);
 
 		update();
 	}
@@ -386,7 +385,7 @@ public final class DrawPoint extends SetDrawable {
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.fill(circleHighlight);
-				g2.setStroke(selStroke);
+				g2.setStroke(highlightStroke);
 				g2.setPaint(geo.getObjectColor());
 				g2.draw(circleHighlight);
 			}
