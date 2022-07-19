@@ -113,7 +113,7 @@ public class IntervalPlotModel {
 		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(), oldMin);
 		Log.debug("extendMin - new: " + newPoints.count() + " points: " + points.count());
 		points.prepend(newPoints);
-		sampler.setInterval(xRange.getLow(), points.last().x().getHigh());
+		sampler.setInterval(xRange.getLow(), points.last().x().getLow());
 		points.cutFrom(xRange.getHigh());
 	}
 

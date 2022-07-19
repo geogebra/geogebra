@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class DiscreteSpaceImpTest {
@@ -15,7 +15,7 @@ public class DiscreteSpaceImpTest {
 	public void testValues() {
 		DiscreteSpaceImp space = new DiscreteSpaceImp();
 		space.update(new Interval(0, 5), 10);
-		Assert.assertEquals(
+		assertEquals(
 				Arrays.asList(
 						interval(0, 0.5),
 						interval(0.5, 1.0),
@@ -36,7 +36,7 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpaceImp space = new DiscreteSpaceImp();
 		space.update(new Interval(0, 5), 10);
 		DiscreteSpace subSpace = space.difference(5, 7);
-		Assert.assertEquals(
+		assertEquals(
 				Arrays.asList(
 						interval(5.0, 5.5),
 						interval(5.5, 6.0),
@@ -51,7 +51,7 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpaceImp space = new DiscreteSpaceImp();
 		space.update(new Interval(0, 5), 10);
 		DiscreteSpace subSpace = space.difference(5, 7.4);
-		Assert.assertEquals(
+		assertEquals(
 				Arrays.asList(
 						interval(5.0, 5.5),
 						interval(5.5, 6.0),
@@ -67,7 +67,7 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpaceImp space = new DiscreteSpaceImp();
 		space.update(new Interval(0, 5), 10);
 		DiscreteSpace subSpace = space.difference(-2.0, 5);
-		Assert.assertEquals(
+		assertEquals(
 				Arrays.asList(
 						interval(-2.0, -1.5),
 						interval(-1.5, -1.0),
@@ -82,7 +82,7 @@ public class DiscreteSpaceImpTest {
 		DiscreteSpaceImp space = new DiscreteSpaceImp();
 		space.update(new Interval(0, 5), 10);
 		DiscreteSpace subSpace = space.difference(-2.3, 5);
-		Assert.assertEquals(
+		assertEquals(
 				Arrays.asList(
 						interval(-2.5, -2.0),
 						interval(-2.0, -1.5),
@@ -91,5 +91,37 @@ public class DiscreteSpaceImpTest {
 						interval(-0.5, 0)
 				),
 				subSpace.values().collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testExtendFromLeft() {
+		DiscreteSpace space = newSpace(100, 110, 10);
+		space.extend(newSpace(95, 100, 5));
+		assertEquals(newSpace(95, 105, 10), space);
+	}
+
+	@Test
+	public void testExtendFromLeftNegative() {
+		DiscreteSpace space = newSpace(0, 10, 10);
+		space.extend(newSpace(-5, 0, 5));
+		assertEquals(newSpace(-5, 5, 10), space);
+	}
+
+	@Test
+	public void testExtendFromRight() {
+		DiscreteSpace space = newSpace(10, 20, 10);
+		space.extend(newSpace(20, 25, 5));
+		assertEquals(newSpace(15, 25, 10), space);
+	}
+
+	@Test
+	public void testExtendFromRightNegative() {
+		DiscreteSpace space = newSpace(-20, -10, 10);
+		space.extend(newSpace(-10, -5, 5));
+		assertEquals(newSpace(-15, -5, 10), space);
+	}
+
+	private DiscreteSpaceImp newSpace(int low, int high, int count) {
+		return new DiscreteSpaceImp(interval(low, high), count);
 	}
 }

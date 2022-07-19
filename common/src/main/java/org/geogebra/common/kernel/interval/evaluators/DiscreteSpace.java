@@ -11,6 +11,8 @@ public interface DiscreteSpace {
 
 	DiscreteSpace difference(double low, double high);
 
+	void extend(DiscreteSpace subspace);
+
 	void setInterval(double min, double max);
 
 	double getStep();

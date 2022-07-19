@@ -1,9 +1,13 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.util.DoubleUtil;
 
 public class DiscreteSpaceImp implements DiscreteSpace {
 	private Interval interval;
@@ -50,6 +54,23 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 		return diffMax(high);
 	}
 
+	@Override
+	public void extend(DiscreteSpace subspace) {
+		List<Interval> list = subspace.values().collect(Collectors.toList());
+		double valueToExtend = list.get(list.size() - 1 ).getHigh();
+
+		if (DoubleUtil.isEqual(valueToExtend, interval.getLow())) {
+			double low = list.get(0).getLow();
+			interval.set(low, interval.getHigh() - list.size() * step);
+		} else {
+			double extendHigh = list.get(0).getLow();
+			if (DoubleUtil.isEqual(extendHigh, interval.getHigh())) {
+				interval.set(interval.getLow() + list.size() * step,
+						valueToExtend);
+			}
+		}
+	}
+
 	private DiscreteSpace diffMin(double min) {
 		double d = Math.ceil(Math.abs(interval.getLow() - min) / step);
 		double start = interval.getLow() - d * step;
@@ -83,5 +104,28 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	@Override
 	public double getStep() {
 		return step;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof DiscreteSpaceImp)) return false;
+		DiscreteSpaceImp that = (DiscreteSpaceImp) o;
+		return count == that.count && Double.compare(that.step, step) == 0
+				&& Objects.equals(interval, that.interval);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(interval, count, step);
+	}
+
+	@Override
+	public String toString() {
+		return "DiscreteSpaceImp{" +
+				"interval=" + interval +
+				", count=" + count +
+				", step=" + step +
+				'}';
 	}
 }
