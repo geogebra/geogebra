@@ -469,4 +469,25 @@ public class ParserTest {
 			assertNull(e);
 		}
 	}
+
+	@Test
+	public void testVariableNameContainingOnlyDollarSigns() {
+		String expression = "";
+		for (int i = 0; i < 10; i++) {
+			expression += "$";
+
+			try {
+				parseExpression(app, expression);
+				fail();
+			} catch (MyError | ParseException ignored) {
+				// nothing to do here
+			}
+			try {
+				parseExpression(app, expression + "=1");
+				fail();
+			} catch (MyError | ParseException ignored) {
+				// nothing to do here
+			}
+		}
+	}
 }

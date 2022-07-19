@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
@@ -62,6 +63,9 @@ public class Variable extends ValidExpression {
 	 *            variable name
 	 **/
 	public Variable(Kernel kernel, String name) {
+		if (name != null && !name.isEmpty() && name.replace("$", "").isEmpty()) {
+			throw new MyError(kernel.getLocalization(), Errors.IllegalAssignment);
+		}
 		this.name = name;
 		this.kernel = kernel;
 		variableReplacerAlgorithm = new VariableReplacerAlgorithm(kernel);
