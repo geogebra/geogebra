@@ -445,13 +445,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	@Override
 	public void onMouseDown(MouseDownEvent e) {
 		// TODO: maybe use CancelEvents.instance?
-		//e.stopPropagation();
+		e.stopPropagation();
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent e) {
 		// TODO: maybe use CancelEvents.instance?
-		//e.stopPropagation();
+		e.stopPropagation();
 	}
 	
 	private boolean useSpecialEditor() {
@@ -469,7 +469,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			FlowPanel fp = new FlowPanel();
 			final GeoBoolean geoBoolean = (GeoBoolean) cellGeo;
 			ComponentCheckbox checkbox = new ComponentCheckbox(app.getLocalization(),
-					true, "", ce -> {
+					true, "");
+			checkbox.addDomHandler(event -> {
+				event.stopPropagation();
 				if (view.allowSpecialEditor()) {
 					geoBoolean.setValue(!geoBoolean.getBoolean());
 
@@ -477,7 +479,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 					// kernel.updateConstruction();
 					geoBoolean.updateRepaint();
 				}
-			} );
+			}, MouseDownEvent.getType());
+
 			fp.add(checkbox);
 			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
 

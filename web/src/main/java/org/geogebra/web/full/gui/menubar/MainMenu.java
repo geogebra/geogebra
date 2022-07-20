@@ -397,6 +397,11 @@ public class MainMenu extends FlowPanel
 		w.getElement().appendChild(arrowSubmenu.getElement());
 	}
 
+	public static Element getImage(ResourcePrototype icon) {
+		NoDragImage img = new NoDragImage(icon, 20, 20);
+		return img.getElement();
+	}
+
 	/**
 	 * @param url
 	 *            image URL

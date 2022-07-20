@@ -7,11 +7,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.view.Views;
 import org.geogebra.web.full.gui.view.Views.ViewType;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.timer.client.Timer;
@@ -89,8 +89,8 @@ public class ViewMenuW extends Submenu {
 			addToMenu(e);
 		}
 		Localization loc = app.getLocalization();
-		inputBarItem = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("InputField")),
+		inputBarItem = new GCheckBoxMenuItem(AppResources.INSTANCE.empty(),
+				"InputField",
 				new MenuCommand(app) {
 
 					@Override
@@ -126,11 +126,10 @@ public class ViewMenuW extends Submenu {
 						};
 						timer.schedule(0);
 					}
-				}, true, app);
+				}, app);
 		//inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
-		consProtNav = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("NavigationBar")),
+		consProtNav = new GCheckBoxMenuItem(AppResources.INSTANCE.empty(), "NavigationBar",
 				new MenuCommand(app) {
 
 			@Override
@@ -145,7 +144,7 @@ public class ViewMenuW extends Submenu {
 									id);
 				}
 			}
-				}, true, app);
+				}, app);
 		//consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
 
@@ -155,10 +154,7 @@ public class ViewMenuW extends Submenu {
 	}
 
 	private void addToMenu(final ViewType e) {
-		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtmlClassic(ImgResourceHelper.safeURI(e.getIcon()),
-						app.getLocalization().getMenu(e.getKey())),
-				true, app);
+		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(e.getIcon(), e.getKey(), app);
 		newItem.setCommand(new MenuCommand(app) {
 
 			@Override
