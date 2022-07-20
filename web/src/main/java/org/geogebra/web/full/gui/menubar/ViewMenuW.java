@@ -114,8 +114,7 @@ public class ViewMenuW extends Submenu {
 									.resizePanels();
 						}
 						inputBarItem.setSelected(app
-								.getInputPosition() != InputPosition.algebraView,
-								ViewMenuW.this);
+								.getInputPosition() != InputPosition.algebraView);
 
 						Timer timer = new Timer() {
 							@Override
@@ -127,7 +126,6 @@ public class ViewMenuW extends Submenu {
 						timer.schedule(0);
 					}
 				}, app);
-		//inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
 		consProtNav = new GCheckBoxMenuItem(AppResources.INSTANCE.empty(), "NavigationBar",
 				new MenuCommand(app) {
@@ -145,7 +143,6 @@ public class ViewMenuW extends Submenu {
 				}
 			}
 				}, app);
-		//consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
 
 		addSeparator();
@@ -166,14 +163,12 @@ public class ViewMenuW extends Submenu {
 					((AlgebraViewW) app.getAlgebraView()).setDefaultUserWidth();
 				}
 				app.getGuiManager().setShowView(!shown, e.getID());
-				newItem.setSelected(app.getGuiManager().showView(e.getID()),
-						ViewMenuW.this);
+				newItem.setSelected(app.getGuiManager().showView(e.getID()));
 				// reset activePerspective so that no perspective is
 				// highlighted in apps picker when view is customized
 				app.setActivePerspective(null);
 			}
 		});
-	//	newItem.setForceCheckbox(true);
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());
 	}
@@ -186,12 +181,12 @@ public class ViewMenuW extends Submenu {
 		for (Entry<Integer, GCheckBoxMenuItem> entry : this.items.entrySet()) {
 			int viewID = entry.getKey();
 			entry.getValue().setSelected(
-					app.getGuiManager().showView(viewID), this);
+					app.getGuiManager().showView(viewID));
 		}
 		boolean linearInput = app.showAlgebraInput()
 				&& app.getInputPosition() != InputPosition.algebraView;
-		inputBarItem.setSelected(linearInput, this);
-		consProtNav.setSelected(app.showConsProtNavigation(), this);
+		inputBarItem.setSelected(linearInput);
+		consProtNav.setSelected(app.showConsProtNavigation());
 	}
 
 	@Override

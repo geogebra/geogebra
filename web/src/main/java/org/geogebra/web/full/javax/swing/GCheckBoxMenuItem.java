@@ -3,7 +3,6 @@ package org.geogebra.web.full.javax.swing;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.gwtproject.resources.client.ResourcePrototype;
 
@@ -18,9 +17,6 @@ public class GCheckBoxMenuItem {
 	private ComponentCheckbox checkBox;
 	private AriaMenuItem menuItem;
 	private FlowPanel itemPanel;
-	private boolean selected;
-	private App app;
-	private String text;
 
 	/**
 	 * @param icon - icon
@@ -28,9 +24,6 @@ public class GCheckBoxMenuItem {
 	 * @param app - application
 	 */
 	public GCheckBoxMenuItem(ResourcePrototype icon, String text, App app) {
-		this.text = text;
-		this.app = app;
-
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("checkboxItem");
 		itemPanel.getElement().appendChild(MainMenu.getImage(icon));
@@ -60,13 +53,9 @@ public class GCheckBoxMenuItem {
 	}
 
 	/**
-	 * @param sel
-	 *            whether this should be selected
-	 * @param menu
-	 *            parent menu to update
+	 * @param sel - whether this should be selected
 	 */
-	public void setSelected(boolean sel, AriaMenuBar menu) {
-		selected = sel;
+	public void setSelected(boolean sel) {
 		checkBox.setSelected(sel);
 		String html = itemPanel.toString();
 		menuItem.setHTML(html);
