@@ -1164,9 +1164,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void setAllVisualPropertiesExceptEuclidianVisible(
 			final GeoElement geo, final boolean keepAdvanced, boolean setAuxiliaryProperty) {
 		if (keepAdvanced) {
-			setVisualStyle(geo, setAuxiliaryProperty);
+			setBasicVisualStyle(geo);
+			setFixedAndSelectionAllowedFrom(geo);
 		} else {
-			setAdvancedVisualStyle(geo, setAuxiliaryProperty);
+			setAdvancedVisualStyleNoAuxiliary(geo);
+		}
+		if (setAuxiliaryProperty) {
+			// set whether it's an auxilliary object
+			setAuxiliaryObject(geo.isAuxiliaryObject());
 		}
 
 		algebraVisible = geo.algebraVisible;
@@ -1212,32 +1217,31 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public final void setVisualStyleForTransformations(final GeoElement geo) {
-		setVisualStyle(geo);
-		setFixed(false);
+		setBasicVisualStyle(geo);
+		setAuxiliaryObject(geo.isAuxiliaryObject());
 		updateVisualStyle(GProperty.COMBINED);
 	}
 
 	@Override
 	final public void setVisualStyle(final GeoElement geo) {
-		setVisualStyle(geo, true);
+		setBasicVisualStyle(geo);
+		setAuxiliaryObject(geo.isAuxiliaryObject());
+		setFixedAndSelectionAllowedFrom(geo);
 	}
 
 	/**
-	 * set visual style to geo
-	 * 
-	 * @param geo
-	 *            geo
-	 * @param setAuxiliaryProperty
-	 *            if setting auxiliary property
+	 * set visual style to geo, except for
+	 *  * auxiliary flag
+	 *  * fixed flag
+	 *  * selection allowed flag
+	 *
+	 *  @param geo geo
 	 */
-	public void setVisualStyle(final GeoElement geo,
-			boolean setAuxiliaryProperty) {
-
+	public void setBasicVisualStyle(final GeoElement geo) {
 		// label style
 		labelVisible = geo.getLabelVisible();
 		setLabelMode(geo.getLabelMode());
 		tooltipMode = geo.getTooltipMode();
-		selectionAllowed = geo.selectionAllowed;
 
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()
@@ -1258,15 +1262,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		setLineTypeHidden(geo.getLineTypeHidden());
 		setDecorationType(geo.getDecorationType());
 		setLineOpacity(geo.getLineOpacity());
-
-		if (setAuxiliaryProperty) {
-			// set whether it's an auxilliary object
-			setAuxiliaryObject(geo.isAuxiliaryObject());
-		}
 		setAnimationStep(geo.getAnimationStep());
 		setAnimationType(geo.getAnimationType());
-		// set fixed
-		setFixedFrom(geo);
 
 		// if layer is not zero (eg a new object has layer set to
 		// ev.getMaxLayerUsed())
@@ -1367,7 +1364,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void setAdvancedVisualStyle(final GeoElement geo) {
-		setAdvancedVisualStyle(geo, true);
+		setAdvancedVisualStyleNoAuxiliary(geo);
+		// set whether it's an auxilliary object
+		setAuxiliaryObject(geo.isAuxiliaryObject());
 	}
 
 	/**
@@ -1375,13 +1374,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *
 	 * @param geo
 	 *            source geo
-	 * @param setAuxiliaryProperty
-	 *            if setting auxiliary property
 	 */
-	public void setAdvancedVisualStyle(final GeoElement geo,
-			boolean setAuxiliaryProperty) {
-		setVisualStyle(geo, setAuxiliaryProperty);
-
+	public void setAdvancedVisualStyleNoAuxiliary(final GeoElement geo) {
+		setBasicVisualStyle(geo);
+		setFixedAndSelectionAllowedFrom(geo);
 		// set layer
 		setLayer(geo.getLayer());
 
@@ -1536,13 +1532,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return fixed;
 	}
 
-	private void setFixedFrom(GeoElement geo) {
+	private void setFixedAndSelectionAllowedFrom(GeoElement geo) {
 		boolean flag = geo.isLocked();
 		if (geo.isDefaultGeo() && !flag) {
 			fixed = false;
 		} else {
 			setFixed(flag);
 		}
+		selectionAllowed = geo.selectionAllowed;
 	}
 
 	@Override
