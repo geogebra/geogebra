@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -18,10 +19,14 @@ import org.geogebra.web.html5.main.MyImageW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -440,13 +445,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	@Override
 	public void onMouseDown(MouseDownEvent e) {
 		// TODO: maybe use CancelEvents.instance?
-		e.stopPropagation();
+		//e.stopPropagation();
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent e) {
 		// TODO: maybe use CancelEvents.instance?
-		e.stopPropagation();
+		//e.stopPropagation();
 	}
 	
 	private boolean useSpecialEditor() {
@@ -462,26 +467,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 		if (cellGeo.isGeoBoolean()) {
 			FlowPanel fp = new FlowPanel();
-			final CheckBox checkbox = new CheckBox();
-			fp.add(checkbox);
-			checkbox.getElement()
-			        .getStyle()
-			        .setBackgroundColor(
-			                grid.getElement().getStyle().getBackgroundColor());
-			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
-			checkbox.setEnabled(cellGeo.isIndependent());
-
-			checkbox.getElement().addClassName(
-			        "geogebraweb-checkbox-spreadsheet");
-
-			if (cellGeo.isLabelVisible()) {
-				// checkBox.setText(geo.getCaption());
-			}
-			checkbox.setValue(((GeoBoolean) cellGeo).getBoolean());
-
 			final GeoBoolean geoBoolean = (GeoBoolean) cellGeo;
-
-			checkbox.addClickHandler(ce -> {
+			ComponentCheckbox checkbox = new ComponentCheckbox(app.getLocalization(),
+					true, "", ce -> {
 				if (view.allowSpecialEditor()) {
 					geoBoolean.setValue(!geoBoolean.getBoolean());
 
@@ -489,7 +477,12 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 					// kernel.updateConstruction();
 					geoBoolean.updateRepaint();
 				}
-			});
+			} );
+			fp.add(checkbox);
+			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+
+			checkbox.setDisabled(!cellGeo.isIndependent());
+			checkbox.setSelected(((GeoBoolean) cellGeo).getBoolean());
 
 			grid.setWidget(row, column, fp);
 			return;

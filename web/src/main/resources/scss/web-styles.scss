@@ -2355,6 +2355,10 @@
 		max-width: 100px;
 		border: 1px solid;
 		border-collapse: collapse;
+
+		.checkboxPanel .checkboxLbl {
+			margin-left: 0;
+		}
 	}
 
 	.daRegressionData table {

@@ -84,7 +84,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -384,7 +383,6 @@ public class OptionsTab extends FlowPanel {
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW;
 		private GColor selectedColor;
-		private CheckBox sequential;
 		private InlineTextFormatter inlineTextFormatter;
 
 		/**
@@ -451,14 +449,6 @@ public class OptionsTab extends FlowPanel {
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
 
-			if (isDefaults) {
-				sequential = new CheckBox("Sequential");
-				mainPanel.add(sequential);
-				sequential.addClickHandler(event -> {
-					// TODO we may need to update the GUI here
-					getModel().setSequential(getSequential().getValue());
-				});
-			}
 			setWidget(mainPanel);
 		}
 
@@ -618,13 +608,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public ColorObjectModel getModel() {
 			return model;
-		}
-
-		/**
-		 * @return sequential check box
-		 */
-		public CheckBox getSequential() {
-			return sequential;
 		}
 	}
 
