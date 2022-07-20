@@ -1,10 +1,8 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.Construction;
