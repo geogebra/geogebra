@@ -3796,12 +3796,12 @@ public class AlgebraProcessor {
 	}
 
 	private void maybeLogCommandValidatedEvent(Command command, EvalInfo info, boolean validated) {
-		if (kernel.isSilentMode()) {
+		if (kernel.isSilentMode() || info == null || !info.useAnalytics()) {
 			return;
 		}
 		String commandName = command.getName();
 		String validatedParam = validated ? Analytics.Param.OK : Analytics.Param.ERROR;
-		boolean isRedefinition = info != null && info.isRedefinition();
+		boolean isRedefinition = info.isRedefinition();
 		String objectCreation = isRedefinition ? Analytics.Param.REDEFINED : Analytics.Param.NEW;
 
 		Map<String, Object> params = new HashMap<>();
