@@ -12,15 +12,12 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
 
 /**
  * An implementation of a radio button menu bar.
  */
 public class RadioButtonMenuBarW extends AriaMenuBar
 		implements RadioButtonMenuBar {
-
-	final private String menubarID;
 	private ArrayList<ComponentRadioButton> radioButtons;
 	private String[] texts;
 	/** item commands */
@@ -38,7 +35,6 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 	public RadioButtonMenuBarW(Localization loc) {
 		super();
 
-		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<>();
 		this.loc = loc;
 	}
