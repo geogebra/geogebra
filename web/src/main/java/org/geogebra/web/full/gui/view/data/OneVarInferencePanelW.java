@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 
 /**
  * Extended JPanel that contains interactive sub-panels for performing one
@@ -48,9 +47,6 @@ public class OneVarInferencePanelW extends FlowPanel
 	private AutoCompleteTextFieldW fldNullHyp;
 	private AutoCompleteTextFieldW fldConfLevel;
 	private AutoCompleteTextFieldW fldSigma;
-	private RadioButton btnLeft;
-	private RadioButton btnRight;
-	private RadioButton btnTwo;
 	private ListBox lbAltHyp;
 	private FlowPanel testPanel;
 	private FlowPanel intPanel;
@@ -130,19 +126,6 @@ public class OneVarInferencePanelW extends FlowPanel
 	// ============================================================
 
 	private void createGUIElements() {
-
-		btnLeft = new RadioButton(OneVarModel.tail_left);
-		btnRight = new RadioButton(OneVarModel.tail_right);
-		btnTwo = new RadioButton(OneVarModel.tail_two);
-		FlowPanel group = new FlowPanel();
-		group.add(btnLeft);
-		group.add(btnRight);
-		group.add(btnTwo);
-		btnLeft.addClickHandler(this);
-		btnRight.addClickHandler(this);
-		btnTwo.addClickHandler(this);
-		btnTwo.setValue(true);
-
 		lbAltHyp = new ListBox();
 		lbAltHyp.addChangeHandler(event -> actionPerformed(lbAltHyp));
 
@@ -175,18 +158,17 @@ public class OneVarInferencePanelW extends FlowPanel
 
 		sigmaPanel = new FlowPanel();
 		sigmaPanel.add(LayoutUtilW.panelRowIndent(lblSigma, fldSigma));
-		// // test panel
+
 		testPanel = new FlowPanel();
 		testPanel.add(lblNull);
 		testPanel.add(LayoutUtilW.panelRowIndent(lblHypParameter, fldNullHyp));
 		testPanel.add(lblTailType);
 		testPanel.add(LayoutUtilW.panelRowIndent(lbAltHyp));
-		// // CI panel
+
 		intPanel = new FlowPanel();
 		intPanel.add(lblConfLevel);
 		intPanel.add(fldConfLevel);
-		//
-		// // result panel
+
 		resultTable = new StatTableW();
 		resultTable.setStyleName("daStatistics");
 		setResultTable();
@@ -194,10 +176,7 @@ public class OneVarInferencePanelW extends FlowPanel
 		resultPanel = new FlowPanel();
 		resultPanel.add(lblResultHeader);
 		resultPanel.add(resultTable);
-		//
-		//
-		//
-		// main panel
+
 		mainPanel = new FlowPanel();
 		add(mainPanel);
 		add(resultPanel);
@@ -221,17 +200,14 @@ public class OneVarInferencePanelW extends FlowPanel
 	}
 
 	private void setResultTable() {
-
 		ArrayList<String> nameList = model.getNameList(loc);
 
 		String[] rowNames = new String[nameList.size()];
 		nameList.toArray(rowNames);
 		resultTable.setStatTable(rowNames.length, rowNames, 2, null);
-
 	}
 
 	private void updateResultTable() {
-
 		evaluate();
 		String cInt = statDialog.format(model.getMean()) + " \u00B1 "
 				+ statDialog.format(model.getMe());
@@ -282,16 +258,10 @@ public class OneVarInferencePanelW extends FlowPanel
 			resultTable.setValueAt(statDialog.format(model.getMean()), 8, 1);
 			break;
 		}
-
 	}
-
-	// ============================================================
-	// Updates and Event Handlers
-	// ============================================================
 
 	@Override
 	public void setLabels() {
-
 		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = ");
 		lblNull.setText(loc.getMenu("NullHypothesis") + ": ");
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis") + ": ");
@@ -303,11 +273,9 @@ public class OneVarInferencePanelW extends FlowPanel
 	/** Helper method for updateGUI() */
 	private void updateNumberField(AutoCompleteTextFieldW fld, double n) {
 		fld.setText(statDialog.format(n));
-		// fld.setCaretPosition(0);
 	}
 
 	private void updateGUI() {
-
 		isTest = (model.selectedPlot == StatisticsModel.INFER_ZTEST
 				|| model.selectedPlot == StatisticsModel.INFER_TTEST);
 
@@ -342,7 +310,6 @@ public class OneVarInferencePanelW extends FlowPanel
 		} else {
 			lbAltHyp.setSelectedIndex(2);
 		}
-
 	}
 
 	/**
@@ -387,15 +354,11 @@ public class OneVarInferencePanelW extends FlowPanel
 			model.confLevel = value;
 			evaluate();
 			updateGUI();
-		}
-
-		else if (source == fldNullHyp) {
+		} else if (source == fldNullHyp) {
 			model.hypMean = value;
 			evaluate();
 			updateGUI();
-		}
-
-		else if (source == fldSigma) {
+		} else if (source == fldSigma) {
 			model.sigma = value;
 			evaluate();
 			updateGUI();
@@ -418,20 +381,12 @@ public class OneVarInferencePanelW extends FlowPanel
 		updateResultTable();
 	}
 
-	// ============================================================
-	// Computation
-	// ============================================================
-
 	private void evaluate() {
 		GeoList dataList = statDialog.getController().getDataSelected();
 		double[] sample = statDialog.getController().getValueArray(dataList);
 
 		model.evaluate(sample);
 	}
-
-	// ============================================================
-	// GUI Utilities
-	// ============================================================
 
 	@Override
 	public void onClick(ClickEvent event) {
@@ -440,7 +395,6 @@ public class OneVarInferencePanelW extends FlowPanel
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		// TODO Auto-generated method stub
 		doTextFieldActionPerformed(
 				(AutoCompleteTextFieldW) (event.getSource()));
 
