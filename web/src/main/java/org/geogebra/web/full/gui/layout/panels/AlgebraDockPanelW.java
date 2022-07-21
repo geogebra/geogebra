@@ -33,7 +33,6 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	private AlgebraViewScroller scroller = null;
 
-
 	/**
 	 * Create new dockapanel for algebra
 	 *
@@ -141,7 +140,6 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_algebra();
 	}
-
 
 	@Override
 	public void scrollAVToBottom() {

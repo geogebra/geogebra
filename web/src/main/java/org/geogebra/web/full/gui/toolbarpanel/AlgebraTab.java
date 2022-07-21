@@ -109,7 +109,6 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		scroller.save();
 	}
 
-
 	/**
 	 * Give focus to AV Input.
 	 * 
