@@ -967,8 +967,9 @@ public class PolygonTriangulation {
 		// check if (angle sum) == (n-2)*pi
 		debug((deltaSum * 180 / Math.PI) + " , "
 				+ (pointLengthMinus2 - 2) * 180);
+		double precision = polygon.kernel.getStandardPrecision();
 		convex = convex && DoubleUtil.isEqual(Math.abs(deltaSum),
-				pointLengthMinus2 * Math.PI);
+				pointLengthMinus2 * Math.PI, precision);
 
 		if (convex) {
 			if (positive) {
