@@ -5,7 +5,6 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -21,7 +20,8 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	/** Algebra view **/
 	AlgebraViewW aview = null;
 	private final LogoAndName logo;
-	private int savedScrollPosition;
+
+	private final AlgebraViewScroller scroller;
 
 	/**
 	 * @param toolbarPanel
@@ -34,6 +34,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		logo = new LogoAndName(app);
 		setAlgebraView((AlgebraViewW) app.getAlgebraView());
 		aview.setInputPanel();
+		scroller = new AlgebraViewScroller(this, aview);
 	}
 
 	/**
@@ -98,42 +99,16 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 * Scroll to make active item visible
 	 */
 	public void scrollToActiveItem() {
-
-		final RadioTreeItem item = aview == null ? null
-				: aview.getActiveTreeItem();
-		if (item == null) {
-			return;
-		}
-
-		if (item.isInputTreeItem()) {
-			Scheduler.get().scheduleDeferred(this::scrollToBottom);
-		} else {
-			Scheduler.get().scheduleDeferred(this::doScrollToActiveItem);
-
-		}
+		scroller.toActiveItem();
 	}
 
 	/**
 	 * Save scroll position
 	 */
 	public void saveScrollPosition() {
-		savedScrollPosition = getVerticalScrollPosition();
+		scroller.save();
 	}
 
-	private void doScrollToActiveItem() {
-		final RadioTreeItem item = aview.getActiveTreeItem();
-
-		int spH = getOffsetHeight();
-
-		int top = item.getElement().getOffsetTop();
-
-		int relTop = top - savedScrollPosition;
-
-		int pos = spH < relTop + item.getOffsetHeight()
-				? top + item.getOffsetHeight() - spH
-				: top;
-		setVerticalScrollPosition(pos);
-	}
 
 	/**
 	 * Give focus to AV Input.
