@@ -1044,6 +1044,11 @@
 		width: 30%;
 	}
 
+	.dialogContent .sliderWidthPanel .AutoCompleteTextFieldW .fieldContainer {
+		@extends .dialogContent .sliderWidthPanel div;
+		width: 100%;
+	}
+
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
 	}
