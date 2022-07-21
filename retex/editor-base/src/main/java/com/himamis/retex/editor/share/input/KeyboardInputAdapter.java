@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.controller.PlaceholderController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
+import com.himamis.retex.editor.share.input.adapter.PlainStringInput;
 import com.himamis.retex.editor.share.input.adapter.StringAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
 import com.himamis.retex.editor.share.util.CommandParser;
@@ -30,7 +31,7 @@ public class KeyboardInputAdapter {
 
 		adapters.add(new StringAdapter(times, "*"));
 		adapters.add(new StringAdapter(minus, "-"));
-		adapters.add(new StringAdapter(divide, "/"));
+		adapters.add(new PlainStringInput(divide + "", "/"));
 		adapters.add(new StringAdapter("10^", "10^"));
 		adapters.add(new StringAdapter("a_n", "_"));
 		adapters.add(new StringAdapter(e + "^", e + "^"));

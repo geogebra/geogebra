@@ -196,7 +196,7 @@ public class TabbedKeyboard extends FlowPanel
 		String middleRow = locale.getKeyboardRow(2);
 		String lastRow = locale.getKeyboardRow(3);
 		KeyPanelBase keyboard = buildPanel(factory.createLettersKeyboard(
-				filter(firstRow.replace("'", "")),
+				filter(firstRow),
 				filter(middleRow),
 				filter(lastRow), upperKeys, withGreek),
 				this);
@@ -258,7 +258,8 @@ public class TabbedKeyboard extends FlowPanel
 		switcher.addSwitch(keyboard, KeyboardType.OPERATORS, "f(x)");
 		upperKeys = new HashMap<>();
 		ScientificLettersKeyboardFactory letterFactory = new ScientificLettersKeyboardFactory();
-		letterFactory.setKeyboardDefinition(filter(locale.getKeyboardRow(1).replace("'", "")),
+		letterFactory.setUpperKeys(upperKeys);
+		letterFactory.setKeyboardDefinition(filter(locale.getKeyboardRow(1)),
 				filter(locale.getKeyboardRow(2)),
 				filter(locale.getKeyboardRow(3)), ",'",
 				LetterKeyboardFactory.ACTION_SHIFT, null);
@@ -288,8 +289,7 @@ public class TabbedKeyboard extends FlowPanel
 				upperKeys.put(keys.charAt(i) + "", keys.charAt(i + 1) + "");
 			}
 		}
-		// TODO remove the replace once ggbtrans is fixed
-		return sb.toString().replace("'", "");
+		return sb.toString();
 	}
 
 	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
@@ -458,7 +458,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		if ("/".equals(name)) {
 			// division button in graphing
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
+			return new KeyBoardButtonBase(wb.getResourceName(), "/", b);
 		}
 		if ("|".equals(name)) {
 			return new KeyBoardButtonBase("abs", "abs", b);
