@@ -197,11 +197,12 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	private void doScrollToActiveItem() {
 		final RadioTreeItem item = aview.getActiveTreeItem();
-		int spH = algebrap.getOffsetHeight();
-		int top = item.getElement().getOffsetTop();
-		int relTop = top - savedScrollPosition;
-		if (spH < relTop + item.getOffsetHeight()) {
-			int pos = top + item.getOffsetHeight() - spH;
+		int splitterHeight = algebrap.getOffsetHeight();
+		int itemTop = item.getElement().getOffsetTop();
+		int relativeItemTop = itemTop - savedScrollPosition;
+
+		if (splitterHeight < relativeItemTop + item.getOffsetHeight()) {
+			int pos = itemTop + item.getOffsetHeight() - splitterHeight;
 			algebrap.setVerticalScrollPosition(pos);
 		}
 	}

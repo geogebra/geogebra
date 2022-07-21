@@ -107,9 +107,10 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 		if (item.isInputTreeItem()) {
 			Scheduler.get().scheduleDeferred(this::scrollToBottom);
-			return;
+		} else {
+			Scheduler.get().scheduleDeferred(this::doScrollToActiveItem);
+
 		}
-		doScrollToActiveItem();
 	}
 
 	/**
@@ -128,10 +129,10 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 		int relTop = top - savedScrollPosition;
 
-		if (spH < relTop + item.getOffsetHeight()) {
-			int pos = top + item.getOffsetHeight() - spH;
-			setVerticalScrollPosition(pos);
-		}
+		int pos = spH < relTop + item.getOffsetHeight()
+				? top + item.getOffsetHeight() - spH
+				: top;
+		setVerticalScrollPosition(pos);
 	}
 
 	/**
