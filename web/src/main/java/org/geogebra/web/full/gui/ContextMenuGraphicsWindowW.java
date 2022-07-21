@@ -109,10 +109,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			wrappedPopup.addItem(mi);
 		}
 		if (!app.getActiveEuclidianView().isZoomable()) {
-			yaxisMenu.setEnabled(false);
+			mi.setEnabled(false);
 		}
 		if (app.getActiveEuclidianView().isLockedAxesRatio()) {
-			yaxisMenu.setEnabled(false);
+			mi.setEnabled(false);
 		}
 	}
 
