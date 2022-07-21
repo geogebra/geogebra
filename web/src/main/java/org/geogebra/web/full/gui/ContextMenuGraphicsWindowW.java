@@ -101,8 +101,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		addAxesMenuItem();
 		addGridMenuItem();
 		addNavigationBar();
-		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW((AppW) this.app,
-				false);
+		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(app.getLocalization());
 		addAxesRatioItems(yaxisMenu);
 		AriaMenuItem mi = new AriaMenuItem(
 				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,

@@ -4,62 +4,48 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
+import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.radiobutton.ComponentRadioButton;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.RadioButton;
 
 /**
- * An implementation of a radio button menu bar. 
- * @author judit
+ * An implementation of a radio button menu bar.
  */
 public class RadioButtonMenuBarW extends AriaMenuBar
 		implements RadioButtonMenuBar {
 
 	final private String menubarID;
-	private ArrayList<RadioButton> radioButtons;
+	private ArrayList<ComponentRadioButton> radioButtons;
 	private String[] texts;
 	/** item commands */
 	String[] commands;
 	/** listener */
 	MyActionListener listener;
-	private AppW app;
+	private Localization loc;
 	/** action side effect */
 	Scheduler.ScheduledCommand itemSideEffect = null;
 
 	/**
 	 * Creates a RadioButtonMenuBarW instance
-	 * 
-	 * @param application
-	 *            Application instance
-	 * @param arrow
-	 *            {@code true} if menu needs an arrow for a submenu
+	 * @param loc - localization
 	 */
-	public RadioButtonMenuBarW(AppW application, boolean arrow) {
+	public RadioButtonMenuBarW(Localization loc) {
 		super();
 
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<>();
-		app = application;
-
-		if (app.isUnbundled()) {
-			addStyleName("floating-Popup");
-		}
-
-		if (arrow) {
-			MainMenu.addSubmenuArrow(this,
-					app.isUnbundledOrWhiteboard());
-		}
-
+		this.loc = loc;
 	}
 
 	private AriaMenuItem addItem(String text, Command com, boolean selected) {
-		RadioButton radioButton = new RadioButton(menubarID, text, true);
-		radioButton.setValue(selected);
+		RadioButtonData data = new RadioButtonData(text, selected, () -> com.execute());
+		ComponentRadioButton radioButton = new ComponentRadioButton(loc, data);
 		radioButton.addStyleName("RadioButtonMenuItem");
 		return super.addItem(radioButton.toString(), true, com);
 	}
@@ -70,7 +56,8 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 		texts = items;
 		if (changeText) {
 			for (int i = 0; i < items.length; i++) {
-				texts[i] = app.getLocalization().getMenu(items[i]);
+				texts[i] = loc
+						.getMenu(items[i]);
 			}
 		}
 		commands = actionCommands;
@@ -100,8 +87,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 	}
 
 	/**
-	 * @param sc
-	 *            side effect
+	 * @param sc - side effect
 	 */
 	public void registerItemSideEffect(Scheduler.ScheduledCommand sc) {
 		itemSideEffect = sc;
@@ -114,9 +100,9 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 
 	@Override
 	public void setEnabled(boolean value) {
-		for (RadioButton button: radioButtons) {
+		for (ComponentRadioButton button: radioButtons) {
 			if (button != null) {
-				button.setEnabled(value);
+				button.setDisabled(!value);
 			}
 		}
 	}
