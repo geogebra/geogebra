@@ -42,6 +42,7 @@ public class ExamEnvironment {
 	private final Localization localization;
 	private String localizedAppName;
 	private CommandDispatcher commandDispatcher;
+	private AppConfig appConfig;
 
 	@CheckForNull
 	private CopyPaste copyPaste;
@@ -109,6 +110,7 @@ public class ExamEnvironment {
 				config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
 						? GeoGebraConstants.SUITE_SHORT_NAME
 						: config.getAppNameShort();
+		this.appConfig = config;
 		this.localizedAppName = localization.getMenu(appNameShort);
 	}
 
@@ -501,7 +503,7 @@ public class ExamEnvironment {
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return localizedAppName;
+		return getExamRegion().getDisplayName(localization, appConfig);
 	}
 
 	/**
