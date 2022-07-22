@@ -1575,7 +1575,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		sb.append(ev.getHeight());
 		sb.append(",\"left\":");
 		sb.append(ev.getAbsoluteLeft());
-		sb.append("Number of registered views,\"top\":");
+		sb.append(",\"top\":");
 		sb.append(ev.getAbsoluteTop());
 		sb.append("}");
 		return sb.toString();
