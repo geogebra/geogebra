@@ -1962,7 +1962,7 @@ var __giac = [
 { cat:"Solve", cmd:"floor(abs(10^8*RightSide[NSolve[x^4 exp(-x) = 0, x=1],1]))", result:"?|OR|0", notes:"#4661" },
 { cat:"NSolve", cmd:"NSolve[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)},{x=1,y=1}]", result:"{x = 3.14159265359, y = 1.570796326795}", round:"{x = 3.14, y = 1.57}" },
 { cat:"NSolveFlaky", cmd:"NSolve[{85=u +27,82=u exp(2 p)+27},{u=1,p=1}]", result:"{p = -0.02655491265697, u = 58}", round:"{p = -0.03, u = 58}", notes:"#4745, also timeout doesn't work with giac.js for this one" },
-{ cat:"NSolveFlaky", cmd:"NSolve({(N)/(((a)(exp((-30)(k))))+(1))=(11)/(50), (N)/(((a)(exp((-40)(k))))+(1))=(11)/(25), (N)/((a)+(1))=(3)/(200)},{N=1, a=1, k=1})", round:"{N = 1.16, a = 76.04, k = 0.1}"},
+{ cat:"NSolveFlaky", cmd:"NSolve({(N)/(((a)(exp((-30)(k))))+(1))=(11)/(50), (N)/(((a)(exp((-40)(k))))+(1))=(11)/(25), (N)/((a)+(1))=(3)/(200)},{N=1, a=1, k=1})", result:"{N = 1.16, a = 76.04, k = 0.1}"},
 { cat:"SolveUnderdetermined", cmd:"Solve[{(x + y - z = k),(2x - y + z = 12),(x + y - 3z = 23)}]", result:"{{x = 1 / 3 k + 4, y = 7 / 6 k - 31 / 2, z = 1 / 2 k - 23 / 2, k = k}}|OR|{{x = 1 / 3 k + 4, y = 7 / 6 k - 31 / 2, z = 1 / 2 k - 23 / 2}}", notes:"used to give 'k = k' as a 4th answer" },
 { cat:"Substitute", cmd:"Substitute[Integral[x (r+x) sqrt(r^2-x^2) h/r,x,-r,r],r=1]", result:"h \u03C0 / 8|OR|1 / 8 h \u03C0" },
 { cat:"Substitute", cmd:"Substitute[Integral[x (r+x) sqrt(r^2-x^2) h/r,x,-r,r],r=-1]", result:"h \u03C0 / 8|OR|1 / 8 h \u03C0", notes:"wrong in Reduce<br>http://www.wolframalpha.com/input/?i=Integral+of+x+%28-1%2Bx%29+sqrt%281-x%5E2%29+h%2F%28-1%29+from+x%3D1+to+x%3D-1" },
