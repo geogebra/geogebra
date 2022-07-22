@@ -1657,7 +1657,7 @@ public class DockManagerW extends DockManager {
 	private double getMinHeight(DockPanelW toolbar, boolean orientationChanged) {
 		double minHeight = toolbar.getMinVHeight(app.getAppletFrame().isKeyboardShowing());
 		KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
-		if (!orientationChanged || keyboardManager == null) {
+		if (keyboardManager == null) {
 			return minHeight;
 		}
 		int draggerOffset = app.isUnbundled() ? 16 : 0;
