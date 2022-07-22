@@ -1561,23 +1561,23 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianView ev = view == 2 ? app.getEuclidianView2(1)
 				: app.getEuclidianView1();
 		StringBuilder sb = new StringBuilder(100);
-			sb.append("{\"invXscale\":");
-			sb.append(ev.getInvXscale());
-			sb.append(",\"invYscale\":");
-			sb.append(ev.getInvYscale());
-			sb.append(",\"xMin\":");
-			sb.append(ev.getXmin());
-			sb.append(",\"yMin\":");
-			sb.append(ev.getYmin());
-			sb.append(",\"width\":");
-			sb.append(ev.getWidth());
-			sb.append(",\"height\":");
-			sb.append(ev.getHeight());
-			sb.append(",\"left\":");
-			sb.append(ev.getAbsoluteLeft());
-			//sb.append(Number of registered views",\"top\":");
-			sb.append(ev.getAbsoluteTop());
-			sb.append("}");
+		sb.append("{\"invXscale\":");
+		sb.append(ev.getInvXscale());
+		sb.append(",\"invYscale\":");
+		sb.append(ev.getInvYscale());
+		sb.append(",\"xMin\":");
+		sb.append(ev.getXmin());
+		sb.append(",\"yMin\":");
+		sb.append(ev.getYmin());
+		sb.append(",\"width\":");
+		sb.append(ev.getWidth());
+		sb.append(",\"height\":");
+		sb.append(ev.getHeight());
+		sb.append(",\"left\":");
+		sb.append(ev.getAbsoluteLeft());
+		sb.append("Number of registered views,\"top\":");
+		sb.append(ev.getAbsoluteTop());
+		sb.append("}");
 		return sb.toString();
 	}
 
