@@ -33,6 +33,7 @@ public class KeyboardSwitcher extends FlowPanel {
 		 */
 		public SwitcherButton(String label, KeyPanelBase keyboard) {
 			super(label);
+			getElement().setAttribute("type", "button");
 			this.keyboard = keyboard;
 
 			ClickStartHandler.init(this, new ClickStartHandler(true, true) {

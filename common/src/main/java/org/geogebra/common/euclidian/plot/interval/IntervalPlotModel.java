@@ -8,9 +8,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalFunctionSampler;
-import org.geogebra.common.kernel.interval.IntervalTuple;
-import org.geogebra.common.kernel.interval.IntervalTupleList;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 
 /**
  * Model for Interval plotter.
@@ -56,16 +56,16 @@ public class IntervalPlotModel {
 	 */
 	public void updateAll() {
 		updateRanges();
-		updateSampler();
+		updateSampledData();
 		updatePath();
 	}
 
-	private void updateRanges() {
+	private void  updateRanges() {
 		range.set(bounds.domain(), bounds.range());
 		oldDomain = bounds.domain();
 	}
 
-	void updateSampler() {
+	void updateSampledData() {
 		sampler.update(range);
 		points = sampler.result();
 	}
@@ -92,36 +92,42 @@ public class IntervalPlotModel {
 		oldDomain = bounds.domain();
 		double min = bounds.domain().getLow();
 		double max = bounds.domain().getHigh();
+
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
 		} else if (oldMax < max) {
-			extendMax();
+			extendMax(oldMax);
 		} else if (oldMin > min) {
-			extendMin();
+			extendMin(oldMin);
 		}
 	}
 
-	private void extendMin() {
-		if (points.isEmpty()) {
-			return;
-		}
-
-		IntervalTupleList newPoints = sampler.evaluateOn(bounds.getXmin(),
-				points.get(0).x().getLow());
-		points.prepend(newPoints);
+	private void extendMin(double oldMin) {
+		points.prepend(sampler.evaluate(bounds.getXmin(), getMinToExtend(oldMin)));
 		points.cutFrom(bounds.getXmax());
 	}
 
-	private void extendMax() {
+	private double getMinToExtend(double oldMin) {
 		if (points.isEmpty()) {
-			return;
+			return oldMin;
 		}
 
-		IntervalTupleList newPoints = sampler.evaluateOn(
-				points.get(points.count() - 1).x().getHigh(),
-				bounds.getXmax());
-		points.append(newPoints);
+		Interval x = points.get(0).x();
+		return  Math.min(oldMin, x.getLow());
+	}
+
+	private void extendMax(double oldMax) {
+		points.append(sampler.evaluate(getMaxToExtend(oldMax), bounds.getXmax()));
 		points.cutTo(bounds.getXmin());
+	}
+
+	private double getMaxToExtend(double oldMax) {
+		if (points.isEmpty()) {
+			return oldMax;
+		}
+
+		Interval x = points.get(pointCount() - 1).x();
+		return  Math.max(x.getHigh(), oldMax);
 	}
 
 	/**
@@ -147,32 +153,6 @@ public class IntervalPlotModel {
 
 	public boolean hasNext(int index) {
 		return index < pointCount();
-	}
-
-	/**
-	 * @param index of the point to check around
-	 * @return if the function is ascending from point to the left.
-	 */
-	public boolean isAscendingBefore(int index) {
-		return points.isAscendingBefore(index);
-	}
-
-	/**
-	 * @param index of the point to check around
-	 * @return if the function is ascending from point to the right.
-	 */
-	public boolean isAscendingAfter(int index) {
-		return points.isAscendingAfter(index);
-	}
-
-	/**
-	 *
-	 * @param index of the tuple.
-	 * @return if the tuple of a given index is empty or not.
-	 */
-	public boolean isUndefinedAt(int index) {
-		return index >= points.count()
-				|| at(index).isUndefined();
 	}
 
 	public boolean isInvertedAt(int index) {
@@ -209,7 +189,7 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return countDefined() > 1;
+		return points != null && countDefined() > 1;
 	}
 
 	private long countDefined() {

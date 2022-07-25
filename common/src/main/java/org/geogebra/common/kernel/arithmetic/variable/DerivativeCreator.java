@@ -14,10 +14,14 @@ class DerivativeCreator {
 		this.kernel = kernel;
 	}
 
+	private boolean isDerivativeChar(char ch) {
+		return ch == '\'' || ch == '‘' || ch == '’';
+	}
+
 	ExpressionValue getDerivative(String funcName) {
 		int index = funcName.length() - 1;
 		int order = 0;
-		while (index >= 0 && funcName.charAt(index) == '\'') {
+		while (index >= 0 && isDerivativeChar(funcName.charAt(index))) {
 			order++;
 			index--;
 		}

@@ -180,33 +180,6 @@ public class CASTableControllerW extends CASTableCellController implements
 		return false;
 	}
 
-	/**
-	 * @param event
-	 *            mouse event
-	 * @return whether input of a cell was clicked
-	 */
-	public boolean checkQuestionClick(HumanInputEvent<?> event) {
-		CASTableW cw = view.getConsoleTable();
-		GPoint gp = cw.getPointForEvent(event);
-		if (gp == null || gp.x == 0) {
-			return false;
-		}
-		CASTableCellW ctw = cw.getCasCellForEvent(event);
-		Widget output = ctw.getOutputWidget();
-		int x = event.getNativeEvent().getClientX();
-		int y = event.getNativeEvent().getClientY();
-		if ((output.getAbsoluteLeft() <= x)
-				&& (output.getAbsoluteLeft() + output.getOffsetWidth() >= x)
-				&& (output.getAbsoluteTop() <= y)
-				&& (output.getAbsoluteTop() + output.getOffsetHeight() >= y)) {
-			// this is an "answer" click!
-			return false;
-		}
-		// supposing there is nothing else just the
-		// "header" click, "answer" click or "question" click
-		return true;
-	}
-
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();

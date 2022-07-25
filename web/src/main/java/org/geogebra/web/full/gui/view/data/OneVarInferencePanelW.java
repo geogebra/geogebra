@@ -18,7 +18,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -46,7 +45,6 @@ public class OneVarInferencePanelW extends FlowPanel
 	private Label lblConfLevel;
 	private Label lblSigma;
 	private Label lblResultHeader;
-	private Button btnCalculate;
 	private AutoCompleteTextFieldW fldNullHyp;
 	private AutoCompleteTextFieldW fldConfLevel;
 	private AutoCompleteTextFieldW fldSigma;
@@ -172,7 +170,6 @@ public class OneVarInferencePanelW extends FlowPanel
 		fldSigma.addKeyHandler(new ParamKeyHandler(fldSigma));
 		fldSigma.addBlurHandler(new ParamBlurHandler(fldSigma));
 
-		btnCalculate = new Button();
 		lblResultHeader = new Label();
 		lblResultHeader.setStyleName("panelTitle");
 
@@ -301,7 +298,6 @@ public class OneVarInferencePanelW extends FlowPanel
 		lblConfLevel.setText(loc.getMenu("ConfidenceLevel") + ": ");
 		lblResultHeader.setText(loc.getMenu("Result") + ": ");
 		lblSigma.setText(loc.getMenu("StandardDeviation.short") + " = ");
-		btnCalculate.setText(loc.getMenu("Calculate"));
 	}
 
 	/** Helper method for updateGUI() */

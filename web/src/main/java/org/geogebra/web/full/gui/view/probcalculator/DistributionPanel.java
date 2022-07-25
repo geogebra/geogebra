@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.view.probcalculator;
 
-import java.util.stream.Stream;
-
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.kernel.Kernel;
@@ -10,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -145,20 +142,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 	}
 
 	private String getParamLabel(int index) {
-		String transKey = view.getProbManager().getDistributionParameterTransKeys()
-				.get(view.getSelectedDist())[index];
-		String paramName = view.getApp().getLocalization().getMenu(transKey);
-
-		String[] customValues = {
-				"Median", "Scale", "Shape", "Population", "population", "Sample", "sample"
-		};
-		// If transKey contains any of the predefined custom values
-		if (Stream.of(customValues).anyMatch(transKey::contains)) {
-			paramName = StringUtil.capitalize(paramName);
-		} else {
-			paramName = "Parameter " + paramName;
-		}
-		return paramName;
+		return view.getParameterLabels()[view.getSelectedDist().ordinal()][index];
 	}
 
 	/**
