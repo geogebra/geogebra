@@ -393,7 +393,7 @@ public abstract class ProbabilityCalculatorView
 	 * @param setDefaultBounds whether to reset low/high to default too
 	 */
 	public void updateAll(boolean setDefaultBounds) {
-		updateOutput();
+		updateOutput(true);
 		if (setDefaultBounds && !isIniting) {
 			setDefaultBounds();
 		}
@@ -406,7 +406,7 @@ public abstract class ProbabilityCalculatorView
 
 	public abstract ResultPanel getResultPanel();
 
-	protected abstract void updateOutput();
+	protected abstract void updateOutput(boolean updateDistributionView);
 
 	protected void updateStylebar() {
 		// desktop only
@@ -2263,7 +2263,7 @@ public abstract class ProbabilityCalculatorView
 	 * Call this when parameters change.
 	 */
 	public void onParameterUpdate() {
-		updateOutput();
+		updateOutput(false);
 		updateResult();
 	}
 }

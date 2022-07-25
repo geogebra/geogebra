@@ -299,7 +299,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 							if (intervalCheck) {
 								view.updateAll(true);
 							} else {
-								view.updateOutput();
+								view.updateOutput(false);
 								view.updateLowHighResult();
 							}
 						}
