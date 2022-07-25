@@ -57,11 +57,7 @@ public class LabelManager {
 		}
 
 		// $1 is a valid label for CAS cells, not other geos
-		if (name.charAt(0) == '$' && (geo == null || !geo.isGeoCasCell())) {
-			return false;
-		}
-
-		return true;
+		return name.charAt(0) != '$' || (geo != null && geo.isGeoCasCell());
 	}
 
 	/**

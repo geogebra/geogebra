@@ -277,15 +277,8 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 		// check if coords respect limits
 		super.getNormalProjectionParameters(coords, tmpDouble2);
-		if (tmpDouble2[1] < getMinParameter(1)) {
-			return false;
-		}
-		if (tmpDouble2[1] > getMaxParameter(1)) {
-			return false;
-		}
-
-		// all ok
-		return true;
+		return tmpDouble2[1] >= getMinParameter(1)
+				&& tmpDouble2[1] <= getMaxParameter(1);
 	}
 
 	@Override

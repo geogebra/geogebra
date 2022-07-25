@@ -1302,7 +1302,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic function = add("Solve(eq1, x)");
 		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
 		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
-				equalTo("{x = 1.2168714889}"));
+				equalTo("{x = 1.216871488876}"));
 	}
 
 	@Test
@@ -1380,7 +1380,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("sin⁻¹(2 / 5)"));
 		assertThat(
 				sin.getTwinGeo(),
-				hasValue("0.4115168461"));
+				hasValue("0.4115168460675"));
 	}
 
 	@Test
@@ -1394,7 +1394,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("sin⁻¹(2 / 5)"));
 		assertThat(
 				asind.getTwinGeo(),
-				hasValue("0.4115168461"));
+				hasValue("0.4115168460675"));
 	}
 
 	@Test
@@ -1410,7 +1410,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		asind.setSymbolicMode(false, false);
 		assertThat(
 				asind.getValueForInputBar(),
-				equalTo("23.5781784782°"));
+				equalTo("23.5781784782018°"));
 	}
 
 	@Test
@@ -1423,7 +1423,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		asind.setSymbolicMode(false, false);
 		assertThat(
 				asind.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("11.5369590328°"));
+				equalTo("11.5369590328155°"));
 
 		GeoSymbolic acosd = add("acosd(1/5)");
 		assertThat(
@@ -1433,7 +1433,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		acosd.setSymbolicMode(false, false);
 		assertThat(
 				acosd.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("78.4630409672°"));
+				equalTo("78.4630409671845°"));
 
 		GeoSymbolic atand = add("atand(1/5)");
 		assertThat(
@@ -1443,7 +1443,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		atand.setSymbolicMode(false, false);
 		assertThat(
 				atand.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
-				equalTo("11.309932474°"));
+				equalTo("11.3099324740202°"));
 	}
 
 	@Test
@@ -1655,7 +1655,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(binomialDist.toValueString(StringTemplate.defaultTemplate),
 				matchesPattern("[0-9]+ / [0-9]+"));
 		AlgebraItem.toggleSymbolic(binomialDist);
-		assertEquals(binomialDist.toValueString(StringTemplate.defaultTemplate), "0.0132819219");
+		assertThat(binomialDist.toValueString(StringTemplate.defaultTemplate),
+				equalTo("0.013281921892"));
 	}
 
 	@Test

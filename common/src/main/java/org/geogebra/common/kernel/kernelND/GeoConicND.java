@@ -720,15 +720,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private boolean compatibleType(int t) {
-		if (type == t) {
-			return true;
-		}
 		// the conic type change temporarily to point or empty conic --
 		// once the conic returns back, we want the old parameter to be used
-		if (t == CONIC_EMPTY || t == CONIC_SINGLE_POINT) {
-			return true;
-		}
-		return false;
+		return t == type || t == CONIC_EMPTY || t == CONIC_SINGLE_POINT;
 	}
 
 	/**
@@ -1444,12 +1438,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		// directrix parallel with yAxis
-		if (!DoubleUtil.isZero(matrix[1]) && !DoubleUtil.isZero(matrix[4])
-				&& DoubleUtil.isZero(matrix[0]) && DoubleUtil.isZero(matrix[3])) {
-			return true;
-		}
-
-		return false;
+		return !DoubleUtil.isZero(matrix[1]) && !DoubleUtil.isZero(matrix[4])
+				&& DoubleUtil.isZero(matrix[0]) && DoubleUtil.isZero(matrix[3]);
 	}
 
 	/**
@@ -3938,10 +3928,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
 			return false;
 		}
-		if (getParentAlgorithm() instanceof AlgoEllipseFociLength) {
-			return false;
-		}
-		return true;
+		return !(getParentAlgorithm() instanceof AlgoEllipseFociLength);
 	}
 
 	/**
@@ -4466,11 +4453,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private boolean isEquationFormEnforced() {
-		if (cons.getApplication().getConfig().getEnforcedConicEquationForm() == -1) {
-			return false;
-		} else {
-			return true;
-		}
+		return cons.getApplication().getConfig().getEnforcedConicEquationForm() != -1;
 	}
 
 	private void setModeWithImplicitEquationAsDefault(int mode) {

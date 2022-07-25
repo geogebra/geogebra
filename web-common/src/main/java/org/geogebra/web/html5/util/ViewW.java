@@ -54,7 +54,7 @@ public class ViewW {
 		}
 
 		// reiniting of navigation bar, to show the correct numbers on the label
-		if (app.getGuiManager() != null && app.getUseFullGui()) {
+		if (app.getGuiManager() != null && app.isUsingFullGui()) {
 			ConstructionProtocolNavigation cpNav = this.getApplication()
 					.getGuiManager()
 					.getCPNavigationIfExists();

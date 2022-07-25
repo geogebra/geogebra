@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -1241,15 +1242,20 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			if (!isPreferencesXML) {
-				// border excluded in getAppletWidth
 				int width = Integer.parseInt(attrs.get("width"));
 				int height = Integer.parseInt(attrs.get("height"));
 				if (width > 0 && height > 0) {
-					ev.setPreferredSize(
-							AwtFactory.getPrototype().newDimension(width, height));
+					GDimension evSize = AwtFactory.getPrototype().newDimension(width, height);
+					ev.setPreferredSize(evSize);
+					// inconsistent files may store window size < EV size; we prefer the bigger one
+					if (app.getPreferredSize() != null
+							&& app.getPreferredSize().getWidth() <= width
+							&& app.getPreferredSize().getHeight() <= height) {
+						app.setPreferredSize(evSize);
+					}
+					ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
+							width, height));
 				}
-				ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
-						width, height));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -3551,12 +3557,14 @@ public class MyXMLHandler implements DocHandler {
 					}
 				}
 			}
+			boolean isTableXValues = label != null && xValuesLabel != null
+					&& label.equals(xValuesLabel);
+			SymbolicMode mode = isTableXValues ? SymbolicMode.NONE : kernel.getSymbolicMode();
 
 			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve,
 							new EvalInfo(!cons.isSuppressLabelsActive(), true)
-									.withSymbolicMode(
-											kernel.getSymbolicMode()));
+									.withSymbolicMode(mode));
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {

@@ -90,6 +90,6 @@ public class NavigatorUtil {
 	}
 
 	public static int getWindowScrollTop() {
-		return (int) DomGlobal.document.documentElement.scrollLeft;
+		return (int) DomGlobal.document.documentElement.scrollTop;
 	}
 }

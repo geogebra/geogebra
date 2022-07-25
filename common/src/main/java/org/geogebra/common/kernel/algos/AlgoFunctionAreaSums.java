@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -1264,10 +1265,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 		}
 		double val = f.value(bd);
-		if (Double.isNaN(val) || Double.isInfinite(val)) {
-			return false;
-		}
-		return true;
+		return MyDouble.isFinite(val);
 	}
 
 	/**

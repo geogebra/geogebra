@@ -121,7 +121,7 @@ public class FunctionParser {
 			if (cell == null && (geo == null || !hasDerivative(geo))) {
 
 				int index = funcName.length() - 1;
-				while (index >= 0 && cimage.charAt(index) == '\''
+				while (index >= 0 && isDerivativeChar(cimage.charAt(index))
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					order++;
 					index--;
@@ -265,6 +265,10 @@ public class FunctionParser {
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	public static boolean isDerivativeChar(char ch) {
+		return ch == '\'' || ch == '‘' || ch == '’';
 	}
 
 	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,

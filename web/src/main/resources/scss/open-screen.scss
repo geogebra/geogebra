@@ -290,13 +290,10 @@
 
 	.profileOptionsPanel .profileOptionsContent {
 		position: relative;
-		margin-left: 5px;
 		z-index: z-index.$z-profile-options-panel;
-		top: -5px;
 		border-radius: 2px;
 		padding: 5px;
 		background-color: colors.$white;
-		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);		
 	
 		.username {
 			display: block;

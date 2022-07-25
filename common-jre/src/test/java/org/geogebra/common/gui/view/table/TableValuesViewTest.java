@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.table;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -818,5 +819,20 @@ public class TableValuesViewTest extends BaseUnitTest {
 		String xml = app.getXML();
 
 		assertEquals(xmlWithXValues, xml);
+	}
+
+	@Test
+	public void testRemoveColumnAfterStatsShown() {
+		setValuesSafe(-2, 2, 1);
+
+		processor.processInput("1", null, 0);
+		GeoList column_1 = (GeoList) view.getEvaluatable(1);
+		processor.processInput("2", column_1, 1);
+
+		view.getStatistics2Var(1);
+		view.hideColumn(column_1);
+
+		assertThat(model.getColumnCount(), equalTo(1));
+		assertThat(model.getRowCount(), equalTo(5));
 	}
 }

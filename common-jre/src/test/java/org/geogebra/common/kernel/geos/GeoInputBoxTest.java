@@ -143,6 +143,35 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void emptyMatrixEntriesOneColumn() {
+		GeoList m1 = add("m1 = {{1},{2}}");
+		GeoInputBox inputBox = add("B = Inputbox(m1)");
+
+		inputBox.updateLinkedGeo("{{},{}}", "\\begin{matrix}", "", "");
+
+		assertTrue("List should remain a matrix", m1.isMatrix());
+		String texMatrix = "\\left(\\begin{array}{r}?\\\\?\\\\ \\end{array}\\right)";
+		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
+	}
+
+	@Test
+	public void emptyMatrixEntriesTwoColumns() {
+		GeoList m1 = add("m1 = {{1,5},{2,3}}");
+		GeoInputBox inputBox = add("B = Inputbox(m1)");
+
+		inputBox.updateLinkedGeo("{{,},{,}}", "\\begin{matrix}",
+				"", "", "", "");
+
+		assertTrue("List should remain a matrix", m1.isMatrix());
+		String texMatrix = "\\left(\\begin{array}{rr}?&?\\\\"
+				+ "?&?\\\\ \\end{array}\\right)";
+		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
+		reload();
+		m1 = (GeoList) lookup("m1");
+		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
+	}
+
+	@Test
 	public void inputBoxCorrectlySavedAndLoaded() {
 		GeoText text = add("FormulaText(\"\\sqrt{n}\")");
 		add("a = 1");

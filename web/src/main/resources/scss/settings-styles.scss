@@ -284,7 +284,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		.settingsBtn, .textButton, .openFileBtn,
 		.okBtn, .cancelBtn {
 			height: 36px !important;
-			width: 136px !important;
+			width: 136px;
 			padding: 0px 16px;
 			text-align: center;
 			text-transform: uppercase;
@@ -323,11 +323,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 
 		.openFileBtn {
-			width: 150px !important;
+			width: 150px;
 			color: colors.$black;
 			margin-top: 0px;
 			margin-left: 16px;
-			font-size: 90%;
 
 			&:hover {
 				text-decoration: none;

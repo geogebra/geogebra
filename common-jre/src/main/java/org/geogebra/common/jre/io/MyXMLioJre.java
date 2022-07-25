@@ -325,13 +325,31 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 */
 	final public void writeMacroStream(OutputStream os, ArrayList<Macro> macros)
 			throws IOException {
+		writeMacroStream(os, macros, macros);
+	}
+
+	/**
+	 * Writes a zipped file containing the given macros in xml format plus all
+	 * their external images (e.g. icons) to the specified output stream.
+	 *
+	 * @param os
+	 *            output stream
+	 * @param macros
+	 *            list of macros
+	 * @param macrosWithImages macros with images
+	 * @throws IOException
+	 *             write error
+	 */
+	final public void writeMacroStream(OutputStream os, ArrayList<Macro> macros,
+				ArrayList<Macro> macrosWithImages)
+			throws IOException {
 		// zip stream
 		ZipOutputStream zip = new ZipOutputStream(os);
 		OutputStreamWriter osw = new OutputStreamWriter(zip,
 				Charsets.getUtf8());
 
 		// write images
-		writeMacroImages(macros, zip);
+		writeMacroImages(macrosWithImages, zip);
 
 		// write macro XML file
 		zip.putNextEntry(new ZipEntry(XML_FILE_MACRO));
