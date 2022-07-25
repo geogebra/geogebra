@@ -691,6 +691,16 @@ public interface EuclidianViewInterfaceCommon
 	public EuclidianStyleBar getDynamicStyleBar();
 
 	/**
+	 * @return whether style bar exists
+	 */
+	public boolean hasStyleBar();
+
+	/**
+	 * @return whether dynamic style bar exists
+	 */
+	public boolean hasDynamicStyleBar();
+
+	/**
 	 * Updates highlighting of animation buttons.
 	 * 
 	 * @param b
