@@ -15,7 +15,7 @@ public enum ExamRegion {
 
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
-            String shortAppName = config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
+			String shortAppName = config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
 					? GeoGebraConstants.SUITE_SHORT_NAME
 					: config.getAppNameShort();
 			return loc.getMenu(shortAppName);
