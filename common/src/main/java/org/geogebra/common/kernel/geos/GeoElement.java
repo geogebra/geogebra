@@ -2399,9 +2399,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		// don't want any '$'s in actual labels
 		if (newLabel != null && newLabel.indexOf('$') > -1) {
 			newLabel = newLabel.replaceAll("\\$", "");
-		}
-		if (newLabel != null && (newLabel.isEmpty() || !isLetter(newLabel.charAt(0)))) {
-			throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalAssignment);
+			// test for invalid labels only in case we've replaced something
+			if (newLabel.isEmpty() || !isLetter(newLabel.charAt(0))) {
+				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalAssignment);
+			}
 		}
 
 		labelWanted = true;

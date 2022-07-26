@@ -483,16 +483,15 @@ public class ParserTest {
 
 	@Test
 	public void testVariableNameStartingWithNumber() {
-		AlgebraTestHelper.shouldFail("$1", "", app);
-		AlgebraTestHelper.shouldFail("$$1", "", app);
+		AlgebraTestHelper.shouldFail("$1", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$$1", "Undefined variable", app);
 
 		AlgebraTestHelper.shouldPass("$1=2", app);
-
-		AlgebraTestHelper.shouldFail("$$1=2", "", app);
-		AlgebraTestHelper.shouldFail("$1a", "", app);
-		AlgebraTestHelper.shouldFail("$$1a", "", app);
-		AlgebraTestHelper.shouldFail("$1a=2", "", app);
-		AlgebraTestHelper.shouldFail("$$1a=2", "", app);
+		AlgebraTestHelper.shouldFail("$$1=2", "Redefinition", app);
+		AlgebraTestHelper.shouldFail("$1a", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$$1a", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$1a=2", "assignment", app);
+		AlgebraTestHelper.shouldFail("$$1a=2", "assignment", app);
 
 		AlgebraTestHelper.shouldPass("$a1=2", app);
 		AlgebraTestHelper.shouldPass("$$a1=2", app);

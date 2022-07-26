@@ -185,7 +185,7 @@ public class GgbApiTest {
 		assertFalse(api.renameObject("a", "1b"));
 
 		assertTrue(api.renameObject("a", "b"));
-		assertTrue(api.renameObject("b", Unicode.Alpha+""));
+		assertTrue(api.renameObject("b", Unicode.Alpha + ""));
 	}
 
 	@Test
