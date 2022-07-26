@@ -86,7 +86,9 @@ public class PropertyResultPanel implements ResultPanel {
 
 	@Override
 	public void updateTwoTailedResult(String low, String high) {
-		// the model updates the two tailed result when values change
+		if (currentModel == twoTailedResultModel) {
+			((TwoTailedResultModel) currentModel).setTwoTailedResult(low, high);
+		}
 	}
 
 	@Override
@@ -125,20 +127,14 @@ public class PropertyResultPanel implements ResultPanel {
 			if (view.isValidInterval(numberValue, view.getHigh())) {
 				view.setLow(value);
 				view.setXAxisPoints();
-			} else {
-				view.updateGUI();
 			}
 		} else if (currentModel.getHigh() == entry) {
 			if (view.isValidInterval(view.getLow(), numberValue)) {
 				view.setHigh(value);
 				view.setXAxisPoints();
-			} else {
-				view.updateGUI();
 			}
 		} else if (currentModel.getResult() == entry) {
-			if (numberValue < 0 || numberValue > 1) {
-				view.updateGUI();
-			} else {
+			if (numberValue >= 0 && numberValue <= 1) {
 				int probMode = view.getProbMode();
 				if (probMode == PROB_LEFT) {
 					view.setHigh(view.inverseProbability(numberValue));
@@ -151,5 +147,15 @@ public class PropertyResultPanel implements ResultPanel {
 		} else {
 			Log.warn("Unknown result entry, ignoring.");
 		}
+		view.updateIntervalProbability();
+		if (view.isTwoTailedMode()) {
+			updateTwoTailedResult(view.getProbabilityText(view.leftProbability),
+					view.getProbabilityText(view.rightProbability));
+			updateResult(view.getProbabilityText(view.leftProbability + view.rightProbability));
+			view.updateGreaterSign(this);
+		} else {
+			updateResult(view.getProbabilityText(view.probability));
+		}
+		updateLowHigh("" + view.low, "" + view.high);
 	}
 }

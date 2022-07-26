@@ -856,6 +856,7 @@ public abstract class ProbabilityCalculatorView
 			validateLowHigh(oldProbMode);
 		}
 		updateProbabilityType(getResultPanel());
+		updateResult(getResultPanel());
 	}
 
 	private GeoElement createIntegral(GeoNumberValue low, GeoNumberValue high) {
@@ -2205,7 +2206,7 @@ public abstract class ProbabilityCalculatorView
 		}
 	}
 
-	private void updateLowHigh(ResultPanel resultPanel) {
+	protected void updateLowHigh(ResultPanel resultPanel) {
 		resultPanel.updateLowHigh(format(low), format(high));
 	}
 
