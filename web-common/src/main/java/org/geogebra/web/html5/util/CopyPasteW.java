@@ -8,8 +8,10 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -19,6 +21,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.InternalClipboard;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -61,6 +64,44 @@ public class CopyPasteW extends CopyPaste {
 	public static String asBlobURL(String data) {
 		return URL.createObjectURL(new Blob(
 				new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data))));
+	}
+
+	/**
+	 * @param app app
+	 * @param formula LaTeX or MathML
+	 */
+	public static void pasteFormula(AppW app, String formula) {
+		if (app.isWhiteboardActive()) {
+			final EuclidianView ev = app.getActiveEuclidianView();
+
+			final GeoFormula txt = new GeoFormula(app.getKernel().getConstruction(),
+					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
+			txt.setLabel(null);
+			app.getDrawEquation().checkFirstCall(app);
+			String plain = new SyntaxAdapterImpl(app.getKernel()).convertMath(formula);
+			txt.setContent(plain);
+			center(txt, ev, app);
+		}
+	}
+
+	private static void center(GeoInline txt, EuclidianView ev, App app) {
+		final DrawableND drawText =  app.getActiveEuclidianView()
+				.getDrawableFor(txt);
+		if (drawText != null) {
+			drawText.update();
+			((DrawInline) drawText).updateContent();
+			Scheduler.get().scheduleDeferred(() -> {
+				int x = (int) ((ev.getWidth() - txt.getWidth()) / 2);
+				int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
+				txt.setLocation(new GPoint2D(
+						ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
+				));
+				drawText.update();
+
+				ev.getEuclidianController().selectAndShowSelectionUI(txt);
+				app.storeUndoInfo();
+			});
+		}
 	}
 
 	@Override
@@ -252,7 +293,12 @@ public class CopyPasteW extends CopyPaste {
 		((AppW) app).urlDropHappened(encodedImage, null, null, null);
 	}
 
-	private static void pastePlainText(final App app, String plainText) {
+	/**
+	 * Currently only works
+	 * @param app application
+	 * @param plainText plain text
+	 */
+	public static void pastePlainText(final App app, String plainText) {
 		if (app.isWhiteboardActive()) {
 			final EuclidianView ev = app.getActiveEuclidianView();
 
@@ -270,26 +316,8 @@ public class CopyPasteW extends CopyPaste {
 				return;
 			}
 			array.put(object);
-
 			txt.setContent(array.toString());
-
-			final DrawableND drawText =  app.getActiveEuclidianView()
-					.getDrawableFor(txt);
-			if (drawText != null) {
-				drawText.update();
-				((DrawInlineText) drawText).updateContent();
-				Scheduler.get().scheduleDeferred(() -> {
-					int x = (ev.getWidth() - defaultTextWidth) / 2;
-					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
-					txt.setLocation(new GPoint2D(
-							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
-					));
-					drawText.update();
-
-					ev.getEuclidianController().selectAndShowSelectionUI(txt);
-					app.storeUndoInfo();
-				});
-			}
+			center(txt, ev, app);
 		}
 	}
 
