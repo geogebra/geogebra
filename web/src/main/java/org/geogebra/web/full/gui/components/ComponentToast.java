@@ -19,7 +19,6 @@ public class ComponentToast extends GPopupPanel {
 		super(app.getPanel(), app);
 		addStyleName("toast");
 		buildGUI(contentStr);
-		app.getPanel().add(this);
 	}
 
 	private void buildGUI(String contentStr) {
@@ -41,6 +40,7 @@ public class ComponentToast extends GPopupPanel {
 	 * @param width - width of av input panel
 	 */
 	public void show(int left, int top, int bottom, int width) {
+		getRootPanel().add(this);
 		addStyleName("fadeIn");
 		int toastWidth = app.isPortrait() ? width - 16 : width;
 		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Style.Unit.PX);
