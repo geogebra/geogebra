@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -31,7 +33,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	private final DockPanelDecorator decorator;
 
-	private AlgebraViewScroller scroller = null;
+	private @CheckForNull AlgebraViewScroller scroller = null;
 
 	/**
 	 * Create new dockapanel for algebra
@@ -168,7 +170,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public void scrollToActiveItem() {
-		scroller.toActiveItem();
+		if (scroller != null) {
+			scroller.toActiveItem();
+		}
 	}
 
 	/**
@@ -176,7 +180,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	 */
 	@Override
 	public void saveAVScrollPosition() {
-		scroller.save();
+		if (scroller != null) {
+			scroller.save();
+		}
 	}
 
 	@Override
@@ -228,7 +234,11 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public double getMinVHeight(boolean keyboard) {
-		return Math.max(aview.getInputTreeItem().getOffsetHeight(), 120);
+		RadioTreeItem inputTreeItem = aview.getInputTreeItem();
+		if (inputTreeItem == null) {
+			return 120;
+		}
+		return Math.max(inputTreeItem.getOffsetHeight(), 120);
 	}
 
 	@Override
