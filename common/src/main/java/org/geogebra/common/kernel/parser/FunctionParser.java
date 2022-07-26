@@ -162,7 +162,8 @@ public class FunctionParser {
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
 				if (topLevelExpression && !isCommand(funcName)
-						&& !forceCommand && funcName.length() == 1) {
+						&& !forceCommand && funcName.length() == 1
+						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (myList.size() == 2) {
 						ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
 								myList.getListElement(0), myList.getListElement(1)));

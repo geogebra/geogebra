@@ -17,10 +17,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
@@ -477,13 +475,53 @@ public class ParserTest {
 	@Test
 	public void testAutomaticObjectCreationGraphing() {
 		app.setConfig(new AppConfigGraphing());
-		GeoElement geo = app.getKernel().lookupLabel("O", true, SymbolicMode.NONE);
-		assertEquals("(0, 0)", geo.toValueString(StringTemplate.defaultTemplate));
+		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
+
+		assertEquals("(0, 0)",
+				processor.processAlgebraCommand("O", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(1, 1)",
+				processor.processAlgebraCommand("O+1", false)[0]
+						.toValueString(StringTemplate.defaultTemplate)); // Creates A
+		assertEquals("(1, 1)",
+				processor.processAlgebraCommand("1+O", false)[0]
+						.toValueString(StringTemplate.defaultTemplate)); // Creates B
+		assertEquals("(1, 2)",
+				processor.processAlgebraCommand("C(1,2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("5",
+				processor.processAlgebraCommand("C(1,2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(2, 4)",
+				processor.processAlgebraCommand("C(2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate)); // Creates D
+		assertEquals("(1, 2, 3)",
+				processor.processAlgebraCommand("E(1,2,3)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	public void testAutomaticObjectCreationScientific() {
 		app.setConfig(new AppConfigScientific());
-		assertNull(app.getKernel().lookupLabel("O", true, SymbolicMode.NONE));
+		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
+
+		assertNull(processor.processAlgebraCommand("O", false));
+		assertNull(processor.processAlgebraCommand("O+1", false));
+		assertNull(processor.processAlgebraCommand("1+O", false));
+		assertNull(processor.processAlgebraCommand("A(0,0)", false));
+		assertNull(processor.processAlgebraCommand("A(1,1,1)", false));
+		assertNull(processor.processAlgebraCommand("O(1,1)", false));
+		assertNull(processor.processAlgebraCommand("1+O(1,1)", false));
+
+		assertEquals("1.5",
+				processor.processAlgebraCommand("mean(1,2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("1",
+				processor.processAlgebraCommand("sin(pi/2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		processor.processAlgebraCommand("b=4", false);
+		assertEquals("-4",
+				processor.processAlgebraCommand("bsin(3pi/2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
 	}
 }

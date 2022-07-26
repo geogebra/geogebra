@@ -15,7 +15,6 @@ import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
@@ -2369,8 +2368,8 @@ public class Construction {
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
-		if (allowAutoCreate && !getApplication().getConfig().getVersion()
-				.equals(GeoGebraConstants.Version.SCIENTIFIC)) {
+		if (allowAutoCreate && getApplication().getKernel()
+				.getAlgebraProcessor().enableStructures()) {
 			return autoCreateGeoElement(label1);
 		}
 		return null;
