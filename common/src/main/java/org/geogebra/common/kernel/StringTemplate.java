@@ -2790,188 +2790,188 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return leftStr || rightStr for this string type
 	 */
 	public String powerString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm,
-			Localization loc) {
-		if (stringType.equals(StringType.CONTENT_MATHML)) {
-			StringBuilder sb = new StringBuilder();
+		String leftStr, String rightStr, boolean valueForm,
+		Localization loc) {
+		StringBuilder sb;
+		switch (stringType) {
+		case CONTENT_MATHML:
+			sb = new StringBuilder();
 			MathmlTemplate.mathml(sb, "<power/>", leftStr, rightStr);
 			return sb.toString();
-		} else if (stringType.equals(StringType.SCREEN_READER_ASCII)) {
+		case SCREEN_READER_ASCII:
 			return ScreenReader.power(leftStr, rightStr, loc);
+		case GIAC:
+			return powerStringGiac(leftStr, rightStr, left, right, valueForm);
 
-		} else {
-			StringBuilder sb = new StringBuilder();
-
+		case LATEX:
+		case LIBRE_OFFICE:
+		default:
 			// support for sin^2(x)
 			if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
 					&& left.isExpressionNode() && isTrigFunction((ExpressionNode) left)
 					&& right.isConstant()) {
-				boolean latex = stringType.equals(StringType.LATEX);
-
 				double indexD = right.evaluateDouble();
 
 				// only positive integers
 				// sin^-1(x) is arcsin
 				// sin^-2(x) not standard notation
 				if (indexD > 0 && DoubleUtil.isInteger(indexD)) {
-					int index = (int) Math.round(indexD);
-					String leftStrTrimmed = leftStr.trim();
-
-					int spaceIndex = leftStrTrimmed.indexOf(latex ? ' ' : '(');
-					sb.append(leftStrTrimmed, 0, spaceIndex);
-
-					if (latex) {
-						sb.append(" ^{");
-						sb.append(rightStr);
-						sb.append("}");
-					} else {
-						// alternative using Unicode
-						sb.append(StringUtil.numberToIndex(index));
-					}
-					// everything except the "\\sin " or "sin"
-					sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
-
-					return sb.toString();
+					return trigPowerString(leftStr, rightStr, indexD);
 				}
 			}
+			sb = new StringBuilder();
 
-			switch (stringType) {
+			// left wing
+			if ((leftStr.charAt(0) != '-') && // no unary
+					isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
+					|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
+				// e^x
 
-			case GIAC:
+				// we might need more brackets here #4764
+				sb.append(leftStr);
+			} else {
+				appendWithBrackets(sb, leftStr);
+			}
+			break;
+		}
 
-				// if user types e^(ln(4.93)/1.14)
-				// ie not Unicode.EULER_STRING
-				// then it's ggbtmpvare here
-				// Unicode.EULER_STRING is changed to just e
-
-				// check for Unicode.EULER_STRING just in case
-
-				if ("e".equals(leftStr)
-						|| Unicode.EULER_STRING.equals(leftStr)) {
-					sb.append("exp(");
-					sb.append(rightStr);
-					sb.append(")");
-					break;
-				}
-
-				if (right.isExpressionNode() && ((ExpressionNode) right)
-						.getOperation() == Operation.DIVIDE
-						&& right.isConstant()) {
-					ExpressionNode enR = (ExpressionNode) right;
-
-					// was simplify(surd, causes problems
-					// GGB-321
-					sb.append("surd(");
-					sb.append(leftStr);
-					sb.append(',');
-					// #4186: make sure we send value string to CAS
-					sb.append(expToString(enR.getRight(), valueForm));
-					sb.append(")");
-					sb.append("^(");
-					sb.append(expToString(enR.getLeft(), valueForm));
-					sb.append(")");
-
-				} else {
-
-					sb.append("(");
-					sb.append(leftStr);
-
-					// if list && !matrix
-					if (left.evaluatesToList()
-							&& left.getListDepth() != 2) {
-						// make sure {1,2,3}^2 gives {1,4,9} rather than 14
-						sb.append(").^(");
-					} else {
-						sb.append(")^(");
-					}
-
-					sb.append(rightStr);
-					sb.append(")");
-				}
-
-				break;
-
-			case LATEX:
-			case LIBRE_OFFICE:
-			default:
-
-				/*
-				 * removed Michael Borcherds 2009-02-08 doesn't work eg m=1 g(x)
-				 * = (x - 1)^m (x - 3)
-				 *
-				 *
-				 * // check for 1 in exponent if (isEqualString(right, 1,
-				 * !valueForm)) { sb.append(leftStr); break; } //
-				 */
-
-				// left wing
-				if ((leftStr.charAt(0) != '-') && // no unary
-						isSinglePowerArg(left) || left.isOperation(Operation.NROOT)
-						|| left.isOperation(Operation.CBRT)) { // not +, -, *, /, ^,
-					// e^x
-
-					// we might need more brackets here #4764
-					sb.append(leftStr);
-				} else {
-					appendWithBrackets(sb, leftStr);
-				}
+		// right wing
+		switch (stringType) {
+		case LATEX:
+		case LIBRE_OFFICE:
+			// print x^1 as x
+			if ("1".equals(rightStr)) {
 				break;
 			}
+			sb.append('^');
 
-			// right wing
-			switch (stringType) {
-			case LATEX:
-			case LIBRE_OFFICE:
-				// print x^1 as x
-				if ("1".equals(rightStr)) {
-					break;
-				}
-				sb.append('^');
+			// add brackets for eg a^b^c -> a^(b^c)
+			boolean addParentheses = right.isOperation(Operation.POWER);
 
-				// add brackets for eg a^b^c -> a^(b^c)
-				boolean addParentheses = right.isOperation(Operation.POWER);
+			sb.append('{');
+			if (addParentheses) {
+				appendWithBrackets(sb, rightStr);
+			} else {
+				sb.append(rightStr);
+			}
+			sb.append('}');
+			break;
+		// rightStr already done in Giac
+		case GIAC:
+			break;
+		case PSTRICKS:
+		case PGF:
+		case GEOGEBRA_XML:
+			sb.append('^');
+			appendWithBrackets(sb, rightStr);
+			break;
 
-				sb.append('{');
-				if (addParentheses) {
-					appendWithBrackets(sb, rightStr);
-				} else {
+		default:
+			if ((isSinglePowerArg(right) && !isFraction(right))
+					|| ((ExpressionNode
+					.opID(right) > Operation.POWER.ordinal())
+					&& (ExpressionNode.opID(right) != Operation.EXP
+							.ordinal()))) {
+				// not +, -, *, /, ^, e^x
+				try {
+					// display integer powers as unicode superscript
+					int i = Integer.parseInt(rightStr);
+					StringUtil.numberToIndex(i, sb);
+				} catch (RuntimeException e) {
+					sb.append('^');
 					sb.append(rightStr);
 				}
-				sb.append('}');
-				break;
-			// rightStr already done in Giac
-			case GIAC:
-				break;
-			case PSTRICKS:
-			case PGF:
-			case GEOGEBRA_XML:
+
+			} else {
 				sb.append('^');
 				appendWithBrackets(sb, rightStr);
-				break;
-
-			default:
-				if ((isSinglePowerArg(right) && !isFraction(right))
-						|| ((ExpressionNode
-						.opID(right) > Operation.POWER.ordinal())
-						&& (ExpressionNode.opID(right) != Operation.EXP
-								.ordinal()))) {
-					// not +, -, *, /, ^, e^x
-					try {
-						// display integer powers as unicode superscript
-						int i = Integer.parseInt(rightStr);
-						StringUtil.numberToIndex(i, sb);
-					} catch (RuntimeException e) {
-						sb.append('^');
-						sb.append(rightStr);
-					}
-
-				} else {
-					sb.append('^');
-					appendWithBrackets(sb, rightStr);
-				}
 			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Assumes that the string type is LaTeX or GGB, will not work for other types.
+	 * @param leftStr base
+	 * @param rightStr power
+	 * @param indexD power as double (for unicode transform)
+	 * @return e.g. sin^2(x)
+	 */
+	private String trigPowerString(String leftStr, String rightStr, double indexD) {
+		boolean latex = stringType.equals(StringType.LATEX);
+		int index = (int) Math.round(indexD);
+		String leftStrTrimmed = leftStr.trim();
+		StringBuilder sb = new StringBuilder();
+		int spaceIndex = leftStrTrimmed.indexOf(latex ? ' ' : '(');
+		sb.append(leftStrTrimmed, 0, spaceIndex);
+
+		if (latex) {
+			sb.append(" ^{");
+			sb.append(rightStr);
+			sb.append("}");
+		} else {
+			// alternative using Unicode
+			sb.append(StringUtil.numberToIndex(index));
+		}
+		// everything except the "\\sin " or "sin"
+		sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
+
+		return sb.toString();
+	}
+
+	private String powerStringGiac(String leftStr, String rightStr,
+			ExpressionValue left, ExpressionValue right, boolean valueForm) {
+		StringBuilder sb = new StringBuilder();
+		// if user types e^(ln(4.93)/1.14)
+		// ie not Unicode.EULER_STRING
+		// then it's ggbtmpvare here
+		// Unicode.EULER_STRING is changed to just e
+
+		// check for Unicode.EULER_STRING just in case
+
+		if ("e".equals(leftStr)
+				|| Unicode.EULER_STRING.equals(leftStr)) {
+			sb.append("exp(");
+			sb.append(rightStr);
+			sb.append(")");
 			return sb.toString();
 		}
+
+		if (right.isExpressionNode() && ((ExpressionNode) right)
+				.getOperation() == Operation.DIVIDE
+				&& right.isConstant()) {
+			ExpressionNode enR = (ExpressionNode) right;
+
+			// was simplify(surd, causes problems
+			// GGB-321
+			sb.append("surd(");
+			sb.append(leftStr);
+			sb.append(',');
+			// #4186: make sure we send value string to CAS
+			sb.append(expToString(enR.getRight(), valueForm));
+			sb.append(")");
+			sb.append("^(");
+			sb.append(expToString(enR.getLeft(), valueForm));
+			sb.append(")");
+
+		} else {
+
+			sb.append("(");
+			sb.append(leftStr);
+
+			// if list && !matrix
+			if (left.evaluatesToList()
+					&& left.getListDepth() != 2) {
+				// make sure {1,2,3}^2 gives {1,4,9} rather than 14
+				sb.append(").^(");
+			} else {
+				sb.append(")^(");
+			}
+
+			sb.append(rightStr);
+			sb.append(")");
+		}
+		return sb.toString();
 	}
 
 	/**

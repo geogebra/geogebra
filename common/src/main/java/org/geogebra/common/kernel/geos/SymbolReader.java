@@ -40,7 +40,6 @@ public class SymbolReader {
 		map.put('[', " open bracket ");
 		map.put(']', " close bracket ");
 		map.put(';', " semicolon ");
-		//map.put('\'', "");
 	}
 
 	private void addGreekLowerLetters(Localization loc) {
