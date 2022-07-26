@@ -26,6 +26,7 @@ import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -475,19 +476,25 @@ public class ParserTest {
 		String expression = "";
 		for (int i = 0; i < 10; i++) {
 			expression += "$";
-
-			try {
-				parseExpression(app, expression);
-				fail();
-			} catch (MyError | ParseException ignored) {
-				// nothing to do here
-			}
-			try {
-				parseExpression(app, expression + "=1");
-				fail();
-			} catch (MyError | ParseException ignored) {
-				// nothing to do here
-			}
+			AlgebraTestHelper.shouldFail(expression, "", app);
+			AlgebraTestHelper.shouldFail(expression + "=1", "", app);
 		}
+	}
+
+	@Test
+	public void testVariableNameStartingWithNumber() {
+		AlgebraTestHelper.shouldFail("$1", "", app);
+		AlgebraTestHelper.shouldFail("$$1", "", app);
+
+		AlgebraTestHelper.shouldPass("$1=2", app);
+
+		AlgebraTestHelper.shouldFail("$$1=2", "", app);
+		AlgebraTestHelper.shouldFail("$1a", "", app);
+		AlgebraTestHelper.shouldFail("$$1a", "", app);
+		AlgebraTestHelper.shouldFail("$1a=2", "", app);
+		AlgebraTestHelper.shouldFail("$$1a=2", "", app);
+
+		AlgebraTestHelper.shouldPass("$a1=2", app);
+		AlgebraTestHelper.shouldPass("$$a1=2", app);
 	}
 }
