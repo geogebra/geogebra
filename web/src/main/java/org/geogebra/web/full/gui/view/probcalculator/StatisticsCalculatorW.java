@@ -20,14 +20,9 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -37,8 +32,7 @@ import com.google.gwt.user.client.ui.TextBox;
  *  Statistics calculator for web
  */
 public class StatisticsCalculatorW extends StatisticsCalculator
-		implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>,
-		BlurHandler, KeyUpHandler {
+		implements ChangeHandler, BlurHandler, KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
 	private FlowPanel resultPane;
@@ -47,7 +41,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	private Label lblSampleHeader2;
 	private ComponentCheckbox ckPooled;
 	private ListBox cbProcedure;
-	private Button btnCalculate;
 	private RadioButtonPanel tailRadioButtonPanel;
 	private Label lblNull;
 	private Label lblHypParameter;
@@ -125,7 +118,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis"));
 		lblConfLevel.setText(loc.getMenu("ConfidenceLevel"));
 		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
-		btnCalculate.setText(loc.getMenu("Calculate"));
 
 		switch (sc.getSelectedProcedure()) {
 
@@ -454,9 +446,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		cbProcedure = new ListBox();
 		cbProcedure.addChangeHandler(this);
 
-		btnCalculate = new Button();
-		btnCalculate.addClickHandler(this);
-
 		tailRadioButtonPanel = new RadioButtonPanel(loc,
 				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
 						newRadioButtonData(StatisticsCollection.tail_right),
@@ -529,36 +518,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	@Override
-	public void onClick(ClickEvent event) {
-		updateResult(true);
-	}
-
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-
-		if (source == btnCalculate) {
-			updateResult(true);
-		}
-	}
-
-	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT
 				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
 			doTextFieldActionPerformed(
 					event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
 		}
-	}
-
-	/**
-	 * @param value
-	 *            current value in textfield
-	 * @return whether we can handle the key
-	 */
-	static boolean keyUpNeeded(String value) {
-		char last = value.charAt(value.length() - 1);
-		return !"".equals(value) && !"-".equals(value) && last != '.';
 	}
 
 	/**

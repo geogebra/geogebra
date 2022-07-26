@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
@@ -36,13 +37,15 @@ public class AccessibleDropDown implements AccessibleWidget {
 	 * @param geo list
 	 * @param app application
 	 * @param view view
+	 * @param widgetFactory widget factory
 	 */
-	public AccessibleDropDown(GeoList geo, AppW app, AccessibilityView view) {
+	public AccessibleDropDown(GeoList geo, AppW app, AccessibilityView view,
+			BaseWidgetFactory widgetFactory) {
 		this.list = geo;
 		this.app = app;
 		this.view = view;
 
-		button = new Button();
+		button = widgetFactory.newButton();
 		button.getElement().setAttribute("aria-haspopup", "listbox");
 		options = new UnorderedList();
 		options.getElement().setAttribute("role", "listbox");

@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -63,6 +64,9 @@ public class ProbabilityManager {
 	private HashMap<Dist, String> distributionMap;
 	private HashMap<String, Dist> reverseDistributionMap;
 	private HashMap<Dist, String[]> distributionParameterTransKeys;
+	private String[] customValues = {
+			"Median", "Scale", "Shape", "Population", "population", "Sample", "sample"
+	};
 
 	/**
 	 * @param app
@@ -213,6 +217,15 @@ public class ProbabilityManager {
 	}
 
 	/**
+	 * Checks if transKey contains any of the predefined custom values
+	 * @param transKey - the transKey
+	 * @return true if transKey contains any of the custom values
+	 */
+	private boolean isCustom(String transKey) {
+		return Stream.of(customValues).anyMatch(transKey::contains);
+	}
+
+	/**
 	 * Returns a 2D array of strings used to label the parameter fields for each
 	 * type of distribution
 	 *
@@ -223,9 +236,9 @@ public class ProbabilityManager {
 	public String[][] getParameterLabelArray(Localization loc) {
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
-		getDistributionParameterTransKeys().forEach((dist, keys) -> {
-			for (int i = 0; i < keys.length; i++) {
-				parameterLabels[dist.ordinal()][i] = loc.getMenu(keys[i]);
+		getDistributionParameterTransKeys().forEach((dist, transKeys) -> {
+			for (int i = 0; i < transKeys.length; i++) {
+				parameterLabels[dist.ordinal()][i] = loc.getMenu(transKeys[i]);
 			}
 		});
 
@@ -241,9 +254,11 @@ public class ProbabilityManager {
 	public String[][] getParameterLabelArrayPrefixed(Localization loc) {
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][3];
 
-		getDistributionParameterTransKeys().forEach((dist, keys) -> {
-			for (int i = 0; i < keys.length; i++) {
-				parameterLabels[dist.ordinal()][i] = parameterPrefixed(loc, loc.getMenu(keys[i]));
+		getDistributionParameterTransKeys().forEach((dist, transKeys) -> {
+			for (int i = 0; i < transKeys.length; i++) {
+				parameterLabels[dist.ordinal()][i] = isCustom(transKeys[i])
+						? loc.getMenu(transKeys[i])
+						: ProbabilityManager.parameterPrefixed(loc, loc.getMenu(transKeys[i]));
 			}
 		});
 
@@ -553,14 +568,14 @@ public class ProbabilityManager {
 			xMin = mean - 5 * sigma;
 			xMax = mean + 5 * sigma;
 			yMin = 0;
-			yMax = 1.2 * ((GeoFunction) densityCurve).value(mean);
+			yMax = ((GeoFunction) densityCurve).value(mean);
 			break;
 
 		case STUDENT:
 			xMin = -5;
 			xMax = 5;
 			yMin = 0;
-			yMax = 1.2 * ((GeoFunction) densityCurve).value(0);
+			yMax = ((GeoFunction) densityCurve).value(0);
 			break;
 
 		case CHISQUARE:
@@ -570,10 +585,10 @@ public class ProbabilityManager {
 			yMin = 0;
 			if (k > 2) {
 				// mode occurs when x = k-2; add 0.1 to handle k near 2
-				yMax = 1.2 * ((GeoFunction) densityCurve).value(k - 2 + 0.1);
+				yMax = ((GeoFunction) densityCurve).value(k - 2 + 0.1);
 			} else {
 				// mode occurs at x = 0, but we only use x near zero
-				yMax = 1.2 * ((GeoFunction) densityCurve).value(0.1);
+				yMax = ((GeoFunction) densityCurve).value(0.1);
 			}
 			break;
 
@@ -589,10 +604,10 @@ public class ProbabilityManager {
 
 			yMin = 0;
 			if (v > 2) {
-				yMax = 1.2 * ((GeoFunction) densityCurve).value(mode);
+				yMax = ((GeoFunction) densityCurve).value(mode);
 			} else {
 				// yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
-				yMax = 2.5;
+				yMax = 2;
 			}
 
 			break;
@@ -604,7 +619,7 @@ public class ProbabilityManager {
 			xMin = median - 6 * scale;
 			xMax = median + 6 * scale;
 			yMin = 0;
-			yMax = 1.2 * (1 / (Math.PI * scale)); // Cauchy amplitude =
+			yMax = (1 / (Math.PI * scale)); // Cauchy amplitude =
 													// 1/(pi*scale)
 
 			break;
@@ -615,7 +630,7 @@ public class ProbabilityManager {
 			// xMax = 4 * (1 / lambda); // st dev = 1/lambda
 			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
 			yMin = 0;
-			yMax = 1.2 * lambda;
+			yMax = lambda;
 			break;
 
 		case GAMMA:
@@ -628,9 +643,9 @@ public class ProbabilityManager {
 			xMax = mean + 5 * sd;
 			yMin = 0;
 			if (alpha > 1) {
-				yMax = 1.2 * ((GeoFunction) densityCurve).value(mode);
+				yMax = ((GeoFunction) densityCurve).value(mode);
 			} else {
-				yMax = 1.2 * ((GeoFunction) densityCurve).value(0);
+				yMax = ((GeoFunction) densityCurve).value(0);
 			}
 			break;
 
@@ -644,9 +659,9 @@ public class ProbabilityManager {
 			// mode for shape >1
 			if (shape > 1) {
 				mode = scale * Math.pow(1 - 1 / shape, 1 / shape);
-				yMax = 1.2 * ((GeoFunction) densityCurve).value(mode);
+				yMax = ((GeoFunction) densityCurve).value(mode);
 			} else {
-				yMax = 4;
+				yMax = 3.3;
 			}
 
 			break;
@@ -667,7 +682,7 @@ public class ProbabilityManager {
 			xMax = mean + 5 * sigma;
 
 			yMin = 0;
-			yMax = 1.2 * ((GeoFunction) densityCurve).value(mode);
+			yMax = ((GeoFunction) densityCurve).value(mode);
 			break;
 
 		case LOGISTIC:
@@ -677,7 +692,7 @@ public class ProbabilityManager {
 			xMin = mean - 5 * sd;
 			xMax = mean + 5 * sd;
 			yMin = 0;
-			yMax = 1.2 * ((GeoFunction) densityCurve).value(mean);
+			yMax = ((GeoFunction) densityCurve).value(mean);
 			break;
 
 		case POISSON:
@@ -686,7 +701,7 @@ public class ProbabilityManager {
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 * probability(mode, parms, Dist.POISSON, false);
+			yMax = probability(mode, parms, Dist.POISSON, false);
 			xMin -= 1;
 
 			break;
@@ -706,7 +721,7 @@ public class ProbabilityManager {
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 * probability(mode, parms, Dist.PASCAL, false);
+			yMax = probability(mode, parms, Dist.PASCAL, false);
 			xMin -= 1;
 
 			break;
@@ -720,7 +735,7 @@ public class ProbabilityManager {
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 * probability(mode, parms, Dist.BINOMIAL, false);
+			yMax = probability(mode, parms, Dist.BINOMIAL, false);
 			xMin -= 1;
 			xMax += 1;
 			break;
@@ -736,7 +751,7 @@ public class ProbabilityManager {
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 * probability(mode, parms, Dist.HYPERGEOMETRIC, false);
+			yMax = probability(mode, parms, Dist.HYPERGEOMETRIC, false);
 			xMin -= 1;
 			xMax += 1;
 			break;
@@ -745,10 +760,9 @@ public class ProbabilityManager {
 
 		if (isCumulative) {
 			yMin = 0;
-			yMax = 1.2;
+			yMax = 1;
 		}
-		double[] d = { xMin, xMax, yMin, yMax };
-		return d;
+		return new double[]{ xMin, xMax, yMin, yMax};
 	}
 
 	private static double getContXMax(GeoFunction densityCurve, double startX,

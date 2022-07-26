@@ -127,8 +127,7 @@ public class AlgoSample extends AlgoElement implements SetRandomValue {
 				int pos = (int) Math
 						.floor(cons.getApplication().getRandomNumber()
 								* (inputListSize - i));
-				outputList.add(list.get(pos));
-				list.remove(pos);
+				setListElement(i, list.remove(pos));
 			}
 
 		}

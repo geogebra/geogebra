@@ -98,42 +98,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 */
 		PROBA_EPSILON(null, "proba_epsilon:=0;"),
-		/**
-		 * used for sorting output of Solve/Solutions/NSolve/NSolutions sort()
-		 * doesn't work for list of lists null -> always sent (used by other
-		 * definitions)
-		 * 
-		 * now implemented natively in Giac. This is just for reference /
-		 * testing
-		 */
-		// SORT(null,
-		// "ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)))"),
-
-		/**
-		 * these both give 3 // @size(point(1,2,3)[1]) gives 3
-		 * // @size(point((-(5))+(ggbtmpvark),(-(5))+(ggbtmpvark))[1]) gives 3
-		 * // so need to check subtype(x[1])==20 to distinguish 2D and 3D
-		 * 
-		 * null -> always sent (used by other definitions)
-		 */
-		// IS_3D_POINT(null,
-		// "is_3dpoint(x):=when(size(x[1])==3 &&
-		// subtype(x[1])==20,true,false)"),
-		/**
-		 * check whether a is polynomial special cases like y^2=1 also handled
-		 * now implemented natively in Giac. This is just for reference /
-		 * testing
-		 */
-		// IS_POLYNOMIAL("ispolynomial",
-		// "ispolynomial(a):=when(a[0] == '=' ,is_polynomial(a[1]) &&
-		// is_polynomial(a[2]),"
-		// + "when (is_polynomial(a) == 1, true, false ) )"),
-
-		/**
-		 * 
-		 */
-		// IS_POLYNOMIAL2("ispolynomial2",
-		// "ispolynomial2(a,b):= is_polynomial(a) && is_polynomial(b)"),
 
 		/**
 		 * NOTE: works for max 2 variable
@@ -141,16 +105,16 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGBIS_POLYNOMIAL("ggbisPolynomial", "ggbisPolynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
 
 		/**
-		 * test if "=" or "%=" or ">" or ">=" - needed for eg
+		 * test if "=" or "%=" - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
-		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a=='='||a=='%=',true,false)"),
+		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a==equal||a=='%=',true,false)"),
 
 		/**
 		 * test if "=" or "%=" or ">" or ">=" - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
-		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a=='='||a=='%=',true,false)"),
+		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a==equal||a=='%=',true,false)"),
 
 		/**
 		 * wrap factor() in eg with_sqrt(0), with_sqrt(1)
@@ -222,16 +186,16 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * gives DOM_RAT
 		 * 
 		 */
-		XCOORD("xcoord", "xcoord(a):=when(type(evalf(a))==DOM_COMPLEX, real(a), when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0]))))"),
+		XCOORD("xcoord", "xcoord(a):=when(type(evalf(a))==DOM_COMPLEX, real(a), when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][0],real(a[1])),when(a[0]==equal,coeff(a[1]-a[2],x,1),a[0]))))"),
 		/**
 		 * altsymb(P) converted back to alt(P) in CommandDispatcherGiac
 		 */
-		YCOORD("ycoord", "ycoord(a):=when(type(evalf(a))==DOM_COMPLEX, im(a), when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1]))))"),
+		YCOORD("ycoord", "ycoord(a):=when(type(evalf(a))==DOM_COMPLEX, im(a), when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][1],im(a[1])),when(a[0]==equal,coeff(a[1]-a[2],y,1),a[1]))))"),
 
 		/**
 		 * make sure z((1,2)) = 0
 		 */
-		ZCOORD("zcoord", "zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
+		ZCOORD("zcoord", "zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is_3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != equal,0,when(a[0]==equal,coeff(a[1]-a[2],z,1),a[2]))))"),
 
 		/**
 		 * unicode0176u passes unaltered through Giac then gets decoded to
@@ -290,7 +254,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * eg sin(x)^2+cos(x)^2==1
 		 */
-		IS_ZERO("ggbIsZero", "ggbIsZero(ggbx):=when(ggbx==0 || simplify(texpand(ggbx))==0 || exp2pow(lin(pow2exp(ggbx)))==0,true,when(type(ggbx)=='DOM_LIST',max(flatten({ggbx,0}))==min(flatten({ggbx,0}))&&min(flatten({ggbx,0}))==0,when(ggbx[0]=='=',lhs(ggbx)==0&&rhs(ggbx)==0,ggbx[0]=='pnt' && ggbx[1] == ggbvect[0,0,0])))"),
+		IS_ZERO("ggbIsZero", "ggbIsZero(ggbx):=when(ggbx==0 || simplify(texpand(ggbx))==0 || exp2pow(lin(pow2exp(ggbx)))==0,true,when(type(ggbx)=='DOM_LIST',max(flatten({ggbx,0}))==min(flatten({ggbx,0}))&&min(flatten({ggbx,0}))==0,when(ggbx[0]==equal,lhs(ggbx)==0&&rhs(ggbx)==0,ggbx[0]=='pnt' && ggbx[1] == ggbvect[0,0,0])))"),
 		/**
 		 * Convert the polys into primitive polys in the input list (contains
 		 * temporary fix for primpart also):

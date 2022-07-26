@@ -14,11 +14,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -43,8 +43,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private AppW app;
 	private Tree indexTree;
 	private VerticalPanel syntaxPanel;
-	private Button btnOnlineHelp;
-	private Button btnClose;
+	private StandardButton btnOnlineHelp;
+	private StandardButton btnClose;
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
@@ -82,16 +82,16 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
 
 		// create help button
-		btnOnlineHelp = new Button(app.getLocalization().getMenu("ShowOnlineHelp"));
-			btnOnlineHelp.addClickHandler(event -> openOnlineHelp());
+		btnOnlineHelp = new StandardButton(app.getLocalization().getMenu("ShowOnlineHelp"));
+		btnOnlineHelp.addFastClickHandler(event -> openOnlineHelp());
 		render(app.getNetworkOperation().isOnline());
 		app.getNetworkOperation().getView().add(this);
 		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
 		pnlButton.add(btnOnlineHelp);
 
 		// create close button
-		btnClose = new Button(app.getLocalization().getMenu("Close"));
-		btnClose.addClickHandler(event -> hide());
+		btnClose = new StandardButton(app.getLocalization().getMenu("Close"));
+		btnClose.addFastClickHandler(event -> hide());
 		btnClose.setStyleName("inputHelp-CancelBtn");
 		pnlButton.add(btnClose);
 

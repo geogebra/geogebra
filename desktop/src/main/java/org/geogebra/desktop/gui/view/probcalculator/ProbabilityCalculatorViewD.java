@@ -543,7 +543,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updateOutput() {
+	public void updateOutput(boolean updateDistributionView) {
 		updateFonts();
 		updateDistribution();
 		updatePlotSettings();

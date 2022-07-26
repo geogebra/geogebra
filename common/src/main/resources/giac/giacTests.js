@@ -397,6 +397,8 @@ var __giac = [
 { cat:"Derivative", cmd:"Derivative[x*betaRegularized(a,b,x)]", result:"gamma(a+b)beta(a,b,x)/(gamma(a)gamma(b))+x^a(-x+1)^(b-1)gamma(a+b)/(gamma(a)gamma(b))|OR|beta(a,b,x)gamma(a+b)/(gamma(a)gamma(b))+x^a(-x+1)^(b-1)gamma(a+b)/(gamma(a)gamma(b))|OR|gamma(a+b)beta(a,b,x)/(gamma(a)gamma(b))+x^agamma(a+b)(-x+1)^(b-1)/(gamma(a)gamma(b))|OR|beta(a, b, x) gamma(a + b) / (gamma(a) gamma(b)) + x^a gamma(a + b) (-x + 1)^(b - 1) / (gamma(a) gamma(b))|OR|gamma(a + b) beta(a, b, x) / (gamma(a) gamma(b)) + x^(1 + a - 1) gamma(a + b) (-x + 1)^(b - 1) / (gamma(a) gamma(b))" },
 { cat:"Derivative", cmd:"Derivative[x*gamma(a,x)]", result:"x^a \u212f^(-x)+gamma(a,x)|OR|gamma(a, x) + x^a \u212f^(-x)|OR|x^(1 + a - 1) \u212f^(-x) + gamma(a, x)|OR|gamma(a,x)+x^(1+a-1)\u212f^(-x)" },
 { cat:"Derivative", cmd:"Derivative[x*gammaRegularized(a,x)]", result:"x^a \u212f^(-x)/gamma(a)+gammaRegularized(a,x)|OR|gammaRegularized(a, x) + x^a \u212f^(-x) / gamma(a)|OR|x^(1 + a - 1) \u212f^(-x) / gamma(a) + gammaRegularized(a, x)|OR|gammaRegularized(a, x) + x^(1 + a - 1) \u212f^(-x) / gamma(a)" },
+{ cat:"Derivative", cmd:"Derivative[x^3-3x, 0]", result:"x³ - 3x" },
+{ cat:"Derivative", cmd:"Derivative[x^3-3x, -1]", result:"?" },
 { cat:"Root", cmd:"Root[x^4-x-1]", result:"{x = -0.7244919590005, x = 1.220744084606}",round:"{x = -0.72, x = 1.22}", notes:"{x = (sqrt(sqrt(4sinh(asinh((3sqrt(3)) / 16) / 3)\u00B2 + 3) - sinh(asinh((3sqrt(3)) / 16) / 3)) + sqrt(sinh(asinh((3sqrt(3)) / 16) / 3))) / nroot(3,4), x = (-sqrt(sqrt(4sinh(asinh((3sqrt(3)) / 16) / 3)\u00B2 + 3) - sinh(asinh((3sqrt(3)) / 16) / 3)) + sqrt(sinh(asinh((3sqrt(3)) / 16) / 3))) / nroot(3,4)}" },
 { cat:"assignment", cmd:"a", result:"a" },
 { cat:"assignment", cmd:"a := 1", result:"1" },

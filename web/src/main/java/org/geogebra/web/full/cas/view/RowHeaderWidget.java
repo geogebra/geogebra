@@ -4,6 +4,7 @@ import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.MarbleRenderer;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,7 +45,7 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		}
 		addStyleName("casRowHeader");
 		marble.addClickHandler(new MarbleClickHandler(cell, this));
-
+		ClickStartHandler.initDefaults(marble, false, true);
 		// instead of here, from now on the whole of header areas should
 		// handle this event, so this is moved to CASTableCellControllerW
 		// but still, create the RowHeaderHandler for quick implementation

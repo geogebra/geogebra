@@ -1657,7 +1657,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(col, row));
 
 					if (Browser.isTabletBrowser()) {
-						textField.setEnabled(false);
+						textField.enableGGBKeyboard();
 						textField.addDummyCursor(textField.getCaretPosition());
 					}
 				} else if (!app.isWhiteboardActive()) {

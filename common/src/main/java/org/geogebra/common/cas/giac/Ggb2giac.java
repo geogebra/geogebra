@@ -120,9 +120,9 @@ public class Ggb2giac {
 		// Coefficients(x^2 + 2*y^2 + 3 + 4*x * y + 5*x + 6*y)
 		String coeffsString = "[[coeffsarg:=%0],"
 				// rearrange equation to LHS-(RHS)
-				+ "[coeffsarg:=when(coeffsarg[0]=='=',left(coeffsarg)-right(coeffsarg),coeffsarg)]"
+				+ "[coeffsarg:=when(coeffsarg[0]==equal,left(coeffsarg)-right(coeffsarg),coeffsarg)]"
 
-				+ ",when(coeffsarg[0]=='=',?,when(is_polynomial(coeffsarg),when(degree(coeffsarg,x)==2&&degree(coeffsarg,y)==2,"
+				+ ",when(coeffsarg[0]==equal,?,when(is_polynomial(coeffsarg),when(degree(coeffsarg,x)==2&&degree(coeffsarg,y)==2,"
 				// special syntax for conics / quadrics
 				// in x,y only (parameter ignored)
 				+ "when(length(lname(coeffsarg))==2,ggbcoeffconic(coeffsarg),ggbcoeffquadric(coeffsarg))"
@@ -261,7 +261,7 @@ public class Ggb2giac {
 		// GeoGebra indexes lists from 1,giac from 0
 
 		// equations:
-		// (4x-3y=2x+1)[0] ='='
+		// (4x-3y=2x+1)[0] =equal
 		// (4x-3y=2x+1)[1] = left side
 		// (4x-3y=2x+1)[2] = right side
 
@@ -272,7 +272,7 @@ public class Ggb2giac {
 		// (4x+3y-1)[3] = -1
 		p("Element.2", ELEMENT_2);
 
-		// if %0[0]=='=' then %0[%1] else when(...) fi;
+		// if %0[0]==equal then %0[%1] else when(...) fi;
 
 		// GeoGebra indexes lists from 1,giac from 0
 		p("Element.3", "(%0)[%1-1,%2-1]");
@@ -295,7 +295,7 @@ public class Ggb2giac {
 
 		// Extrema / Turning Points (UK)
 		p("Extremum.1",
-				"[[[ggbextremumfun:=when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0)],[ggbextans:=extrema(when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0))],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
+				"[[[ggbextremumfun:=when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)],[ggbextans:=extrema(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0))],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
 
 		// InflectionPoint (internal name in XML wrong for historical reasons)
 		p("TurningPoint.1",
@@ -411,8 +411,8 @@ public class Ggb2giac {
 		p("ImplicitDerivative.3", "normal(regroup(-diff(%0,%2)/diff(%0,%1)))");
 		p("ImplicitDerivative.1", "normal(regroup(-diff(%0,x)/diff(%0,y)))");
 
-		p("Integral.1", "regroup(integrate(when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0)))");
-		p("Integral.2", "regroup(integrate(when((%0)[0]=='='&&(%0)[1]=='y',(%0)[2],%0),%1))");
+		p("Integral.1", "regroup(integrate(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0)))");
+		p("Integral.2", "regroup(integrate(when((%0)[0]==equal&&(%0)[1]=='y',(%0)[2],%0),%1))");
 
 		// The symbolic value of the integral is checked against a numeric
 		// evaluation of the integral
@@ -516,7 +516,7 @@ public class Ggb2giac {
 						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
 						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0])))))),"
 						// Intersect[Plane,Cas3dLine]
-						+ "when((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='ggbtmpvarX',"
+						+ "when((ggbinarg1)[0]==equal&&(ggbinarg1)[1]=='ggbtmpvarX',"
 						+ "inter(ggbinarg0,"
 						+ "line(point((ggbinarg1)[2][1][0][1],"
 						+ "(ggbinarg1)[2][1][1][1],"
@@ -547,7 +547,7 @@ public class Ggb2giac {
 						+ ")," + "ggbinarg0),"
 
 						// Intersect[Plane,3dLine]
-						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
+						+ "when((xcoord(ggbinarg1))[0]==equal&&string((xcoord(ggbinarg1))[1])==string(X),"
 						+ "line_inter(ggbinarg0,"
 						+ "line(point((ggbinarg1)[0][2],(ggbinarg1)[1][2],(ggbinarg1)[2][2][1]),"
 						+ "point((ggbinarg1[2][2][2])[2][0]+(ggbinarg1)[0][2],"
@@ -586,7 +586,7 @@ public class Ggb2giac {
 
 						+ ")," + "ggbinarg1),"
 						// Intersect[Cmd3dLine,Cas3dLine]
-						+ "when((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='ggbtmpvarX',"
+						+ "when((ggbinarg1)[0]==equal&&(ggbinarg1)[1]=='ggbtmpvarX',"
 						+ "inter(line(point(expr(ggbinarg0)[0][2][1],"
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1]),"
@@ -636,7 +636,7 @@ public class Ggb2giac {
 						+ ")),"
 
 						// Intersect[Cmd3dLine,3dLine]
-						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
+						+ "when((xcoord(ggbinarg1))[0]==equal&&string((xcoord(ggbinarg1))[1])==string(X),"
 						+ "line_inter(line(point(expr(ggbinarg0)[0][2][1],"
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1]),"
@@ -680,7 +680,7 @@ public class Ggb2giac {
 						+ " ?))))),"
 
 						// Intersect[3dLine,Plane]
-						+ "when((xcoord(ggbinarg0))[0]=='='&&string((xcoord(ggbinarg0))[1])==string(X),"
+						+ "when((xcoord(ggbinarg0))[0]==equal&&string((xcoord(ggbinarg0))[1])==string(X),"
 						+ "when((ggbinarg1)[0]=='pnt',"
 						+ "line_inter(line(point((ggbinarg0)[0][2],(ggbinarg0)[1][2],(ggbinarg0)[2][2][1]),"
 						+ "point((ggbinarg0[2][2][2])[2][0]+(ggbinarg0)[0][2],"
@@ -688,7 +688,7 @@ public class Ggb2giac {
 						+ " (ggbinarg0[2][2][2])[2][2]+(ggbinarg0)[2][2][1])),"
 						+ "ggbinarg1),"
 						// Intersect[3dLine,Cas3dLine]
-						+ "when((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='ggbtmpvarX',"
+						+ "when((ggbinarg1)[0]==equal&&(ggbinarg1)[1]=='ggbtmpvarX',"
 						+ "inter(line(point((ggbinarg0)[0][2],(ggbinarg0)[1][2],(ggbinarg0)[2][2][1]),"
 						+ "point((ggbinarg0[2][2][2])[2][0]+(ggbinarg0)[0][2],"
 						+ "(ggbinarg0[2][2][2])[2][1]+ (ggbinarg0)[1][2],"
@@ -720,7 +720,7 @@ public class Ggb2giac {
 						// Intersect[3dLine,2dLine]
 						+ "when((type(xcoord(ggbinarg1))==DOM_INT&&type(grad(ggbinarg1,x)[1])==DOM_INT) "
 						// Intersect[3dLine,Cmd2dLine]
-						+ "|| ((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='y'),"
+						+ "|| ((ggbinarg1)[0]==equal&&(ggbinarg1)[1]=='y'),"
 						+ "line_inter(line(point((ggbinarg0)[0][2],(ggbinarg0)[1][2],(ggbinarg0)[2][2][1]),"
 						+ "point((ggbinarg0[2][2][2])[2][0]+(ggbinarg0)[0][2],"
 						+ "(ggbinarg0[2][2][2])[2][1]+ (ggbinarg0)[1][2],"
@@ -730,7 +730,7 @@ public class Ggb2giac {
 						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
 						+ "im(subst(parameq(line(ggbinarg1),u),u=2)),0))),"
 						// Intersect[3dLine,3dLine]
-						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
+						+ "when((xcoord(ggbinarg1))[0]==equal&&string((xcoord(ggbinarg1))[1])==string(X),"
 						+ " line_inter(line(point((ggbinarg0)[0][2],(ggbinarg0)[1][2],(ggbinarg0)[2][2][1]),"
 						+ "point((ggbinarg0[2][2][2])[2][0]+(ggbinarg0)[0][2],"
 						+ "(ggbinarg0[2][2][2])[2][1]+ (ggbinarg0)[1][2],"
@@ -740,8 +740,8 @@ public class Ggb2giac {
 						+ "(ggbinarg1[2][2][2])[2][1]+ (ggbinarg1)[1][2],"
 						+ " (ggbinarg1[2][2][2])[2][2]+(ggbinarg1)[2][2][1]))) ,?))))),"
 						// Intersect[Cas3dLine,Cas3dLine]
-						+ "when((ggbinarg0)[0]=='='&&(ggbinarg0)[1]=='ggbtmpvarX',"
-						+ "when((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='ggbtmpvarX',"
+						+ "when((ggbinarg0)[0]==equal&&(ggbinarg0)[1]=='ggbtmpvarX',"
+						+ "when((ggbinarg1)[0]==equal&&(ggbinarg1)[1]=='ggbtmpvarX',"
 						+ "inter(line(point((ggbinarg0)[2][1][0][1],"
 						+ "(ggbinarg0)[2][1][1][1],"
 						+ "(ggbinarg0)[2][1][2][1]),"
@@ -858,11 +858,11 @@ public class Ggb2giac {
 						+ "|| (type(xcoord(ggbinarg0))==DOM_INT&&type(grad(ggbinarg0,x)[1])==DOM_INT)"
 						// Intersect[2dLine,Cmd2dLine]
 						// Intersect[Cmd2dLine,Cmd2dLine]
-						+ "|| ((ggbinarg1)[0]=='='&&(ggbinarg1)[1]=='y'),"
+						+ "|| ((ggbinarg1)[0]==equal&&(ggbinarg1)[1]=='y'),"
 						+ "normal(inter(ggbinarg0,ggbinarg1)),"
 						// Intersect[2dLine,3dLine]
 						// Intersect[Cmd2dLine,3dLine]
-						+ "when((xcoord(ggbinarg1))[0]=='='&&string((xcoord(ggbinarg1))[1])==string(X),"
+						+ "when((xcoord(ggbinarg1))[0]==equal&&string((xcoord(ggbinarg1))[1])==string(X),"
 						+ "line_inter(line(point(re(subst(parameq(line(ggbinarg0),u),u=1)),"
 						+ "im(subst(parameq(line(ggbinarg0),u),u=1)),0),"
 						+ "point(re(subst(parameq(line(ggbinarg0),u),u=2)),"
@@ -872,8 +872,8 @@ public class Ggb2giac {
 						+ "(ggbinarg1[2][2][2])[2][1]+ (ggbinarg1)[1][2],"
 						+ " (ggbinarg1[2][2][2])[2][2]+(ggbinarg1)[2][2][1]))),?)))),"
 						// Intersect[Cmd2dLine,2dLine]
-						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),"
-						+ "when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) "
+						+ "normal(inter(when(ggbinarg0[0]==equal,ggbinarg0,y=ggbinarg0),"
+						+ "when(ggbinarg1[0]==equal,ggbinarg1,y=ggbinarg1))) "
 						+ ")))]," + "ggbinterans][6]");
 
 		// Giac currently uses approximation for this
@@ -944,7 +944,7 @@ public class Ggb2giac {
 		String pointList = // solution is 3D
 				"[[ggbplarg:=%0],[when(size((ggbplarg)[0])==3,"
 						// result of Solve,eg {{x=7,y=7,z=7}}
-						+ " flatten1(coordinates(map(ggbplarg,t->when((flatten1(t))[0][0]=='='&&type((flatten1(t))[0][2])=='DOM_INT',"
+						+ " flatten1(coordinates(map(ggbplarg,t->when((flatten1(t))[0][0]==equal&&type((flatten1(t))[0][2])=='DOM_INT',"
 						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]),"
 						+ "when(type(flatten1(t)[0])==DOM_INT,"
 						// result of Solution,eg (7 7 7)
@@ -953,7 +953,7 @@ public class Ggb2giac {
 						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2])))))),"
 						+ "when(type((ggbplarg)[0])==DOM_COMPLEX||(type((ggbplarg)[0])==DOM_SYMBOLIC&&(ggbplarg)[0][0]=='*'"
 						+ "&& (ggbplarg)[0][1]==i),ggbplarg,"
-						+ "flatten1(coordinates(map(ggbplarg,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t))))))]][-1][0]";
+						+ "flatten1(coordinates(map(ggbplarg,t->when(t[0]==equal,point(re(t[2]),im(t[2])),t))))))]][-1][0]";
 		p("PointList.1", pointList);
 		p("RootList.1", "apply(x->convert([x,0],25),%0)");
 		p("Invert.1",
@@ -1282,7 +1282,7 @@ public class Ggb2giac {
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
 		p("SolveODE.1",
-				"[[solveodeans:=?],[solveodeans:=when((%0)[0]=='=',"
+				"[[solveodeans:=?],[solveodeans:=when((%0)[0]==equal,"
 						// case the equation contains only y and other variable
 						// as x,by default use for variable list y,x
 						// #5099
@@ -1304,7 +1304,7 @@ public class Ggb2giac {
 				"desolve([%0,y(xcoord(%1[0]))=ycoord(%1[0]),y(xcoord(%1[1]))=ycoord(%1[1])],x,y)"
 				+ "," +
 				// one point
-				"desolve(when((%0)[0]=='=',%0,y'=%0),x,y,%1)" + ")" + ""
+				"desolve(when((%0)[0]==equal,%0,y'=%0),x,y,%1)" + ")" + ""
 				+ "[0])");
 
 		// used by AlgoSolveODECAS.java
@@ -1317,13 +1317,13 @@ public class Ggb2giac {
 				+ "][-1]))][-1]");
 
 		p("SolveODE.3",
-				"when((%0)[0]=='=',"
+				"when((%0)[0]==equal,"
 						+ "normal(map(desolve(%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
 						+ ","
 						// add y'= if it's missing
 						+ "normal(map(desolve(y'=%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
 						+ ")");
-		p("SolveODE.4", "when((%0)[0]=='=',"
+		p("SolveODE.4", "when((%0)[0]==equal,"
 				+ "normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])" + ","
 				// add y'= if it's missing
 				+ "normal(map(desolve(y'=%0,%2,%1,%3),x->%1=x)[0])" + ")");
@@ -1513,7 +1513,7 @@ public class Ggb2giac {
 		// adapted from xcas example by Bernard Parisse
 		p("SolveCubic.1",
 				"[" + "[j:=exp(2*i*pi/3)]," + "[ggbcub:=%0],"
-						+ "[V:=symb2poly(when(ggbcub[0]=='=',left(ggbcub)-right(ggbcub),ggbcub),x)],"
+						+ "[V:=symb2poly(when(ggbcub[0]==equal,left(ggbcub)-right(ggbcub),ggbcub),x)],"
 						+ "[n:=size(V)]," +
 
 						// if (n!=4){
@@ -1696,29 +1696,29 @@ public class Ggb2giac {
 				+ "point(ggbangarg1[1][1][0],ggbangarg1[1][1][1],ggbangarg1[1][1][2])))),"
 				// line defined from inputBar and plane defined with
 				// command
-				+ "when((xcoord(ggbangarg0))[0]=='='&&string((xcoord(ggbangarg0))[1])==string(X)&&string(xcoord(ggbangarg1[1]))==string(hyperplan),"
+				+ "when((xcoord(ggbangarg0))[0]==equal&&string((xcoord(ggbangarg0))[1])==string(X)&&string(xcoord(ggbangarg1[1]))==string(hyperplan),"
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
 				+ "point((ggbangarg1)[1][1][0],(ggbangarg1)[1][1][1],(ggbangarg1)[1][1][2])))),"
 				// functions without y or f(x)
 				// e.g. Angle[x+1,-x+3]
-				+ "when((ggbangarg0)[0] <> '='&&(ggbangarg0)[0] <> 'pnt'&&"
-				+ "xcoord(ggbangarg0) <> string(X)&&(xcoord(ggbangarg0))[0] <> '='&&"
-				+ "(ggbangarg1)[0] <> '='&&(ggbangarg1)[0] <> 'pnt' &&"
-				+ " xcoord(ggbangarg1) <> string(X)&&(xcoord(ggbangarg1))[0] <> '='&&"
+				+ "when((ggbangarg0)[0] <> equal&&(ggbangarg0)[0] <> 'pnt'&&"
+				+ "xcoord(ggbangarg0) <> string(X)&&(xcoord(ggbangarg0))[0] <> equal&&"
+				+ "(ggbangarg1)[0] <> equal&&(ggbangarg1)[0] <> 'pnt' &&"
+				+ " xcoord(ggbangarg1) <> string(X)&&(xcoord(ggbangarg1))[0] <> equal&&"
 				+ "subtype(ggbangarg0) <> " + GGBVECT_TYPE
 				+ "&&subtype(ggbangarg1) <> " + GGBVECT_TYPE + ","
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point(coeff(ggbangarg0,x,1),1," + "coeff(ggbangarg0,z,1)),"
 				+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
 				// case lines defined as functions
-				+ "when((ggbangarg0)[0]=='='&&(ggbangarg0)[1][0]=='of'&&(ggbangarg0)[1][2]=='x' &&"
-				+ "(ggbangarg1)[0]=='='&&(ggbangarg1)[1][0]=='of'&&(ggbangarg1)[1][2]=='x',"
+				+ "when((ggbangarg0)[0]==equal&&(ggbangarg0)[1][0]=='of'&&(ggbangarg0)[1][2]=='x' &&"
+				+ "(ggbangarg1)[0]==equal&&(ggbangarg1)[1][0]=='of'&&(ggbangarg1)[1][2]=='x',"
 				+ " normal(regroup(angle(point(0,0,0),"
 				+ "point(xcoord(ggbangarg0),1,zcoord(ggbangarg0)),"
 				+ "point(xcoord(ggbangarg1),1,zcoord(ggbangarg1))))),"
 				// case line from inputBar and plane by lin. equation
-				+ "when((xcoord(ggbangarg0))[0]=='='&&string((xcoord(ggbangarg0))[1])==string(X)&&type(xcoord(ggbangarg1))==DOM_INT,"
+				+ "when((xcoord(ggbangarg0))[0]==equal&&string((xcoord(ggbangarg0))[1])==string(X)&&type(xcoord(ggbangarg1))==DOM_INT,"
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
@@ -1740,7 +1740,7 @@ public class Ggb2giac {
 				+ ",1),coeff(expr(ggbangarg1)[2][2]," + Unicode.lambda
 				+ ",1))))),"
 				// case 3D lines defined from inputBar
-				+ "when((xcoord(ggbangarg0))[0]=='='&&string((xcoord(ggbangarg0))[1])==string(X)&&(xcoord(ggbangarg1))[0]=='='&&string((xcoord(ggbangarg1))[1])==string(X),"
+				+ "when((xcoord(ggbangarg0))[0]==equal&&string((xcoord(ggbangarg0))[1])==string(X)&&(xcoord(ggbangarg1))[0]==equal&&string((xcoord(ggbangarg1))[1])==string(X),"
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point(ggbangarg0[2][2][2][0],ggbangarg0[2][2][2][1],ggbangarg0[2][2][2][2]),"
 				+ "point(ggbangarg1[2][2][2][0],ggbangarg1[2][2][2][1],ggbangarg1[2][2][2][2])))),"
@@ -1754,7 +1754,7 @@ public class Ggb2giac {
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
 				// case 3D line from inputBar and plane with linear
 				// equation
-				+ "when((xcoord(ggbangarg0))[0]=='='&&string((xcoord(ggbangarg0))[1])==string(X)&&type(xcoord(ggbangarg1))==DOM_INT,"
+				+ "when((xcoord(ggbangarg0))[0]==equal&&string((xcoord(ggbangarg0))[1])==string(X)&&type(xcoord(ggbangarg1))==DOM_INT,"
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point(ggbangarg0[2][2][2][0],ggbangarg0[2][2][2][1],ggbangarg0[2][2][2][2]),"
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) ,"
@@ -1784,7 +1784,7 @@ public class Ggb2giac {
 				"[[[ggbdisans:=0/0],[ggbdisarg0:=%0],[ggbdisarg1:=%1],[ggbdisans:=when(ggbdisarg0[0]!='pnt',undef,when(type(evalf(ggbdisarg1))==DOM_FLOAT,undef,regroup(distance(ggbdisarg0,"
 						+
 						// #3907 add "y=" for functions but not points
-						"when(ggbdisarg1[0]!='pnt'&&ggbdisarg1[0]!='=',y=ggbdisarg1,"
+						"when(ggbdisarg1[0]!='pnt'&&ggbdisarg1[0]!=equal,y=ggbdisarg1,"
 						+
 						// if variable list contains 'z',wrap in plane()
 						"when(count_eq(z,lname(ggbdisarg1))==0,ggbdisarg1,plane(ggbdisarg1))"
@@ -1827,9 +1827,9 @@ public class Ggb2giac {
 		p("Tangent.2",
 				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],"
 						// convert y=x^2 into x^2 but leave x^2+y^2=1 and x^3+y^3=1 alone
-						+ "[ggbtanarg1:=when(ggbtanarg1[0]=='='&&length(zeros(ggbtanarg1,y))==1&&degree(ggbtanarg1[1])<3&&degree(ggbtanarg1[2])<3,zeros(ggbtanarg1,y)[0],ggbtanarg1)],"
+						+ "[ggbtanarg1:=when(ggbtanarg1[0]==equal&&length(zeros(ggbtanarg1,y))==1&&degree(ggbtanarg1[1])<3&&degree(ggbtanarg1[2])<3,zeros(ggbtanarg1,y)[0],ggbtanarg1)],"
 						+ "[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x])==0,lname(ggbtanarg1)[0],x)]],"
-						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]=='='," +
+						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]==equal," +
 						// Tangent[conic/implicit,point on curve]
 						"when(type(equation(tangent(ggbtanarg1,ggbtanarg0)))==DOM_LIST,"
 						+ "equation(tangent(ggbtanarg1,ggbtanarg0)),"
@@ -1849,9 +1849,9 @@ public class Ggb2giac {
 
 
 		// p("TangentThroughPoint.2",
-		// "[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
+		// "[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]==equal,%1,y=%1),%0))],"
 		// +
-		// "[ggbans:=when(((ggbans)[0])=='='&&lhs(ggbans)==1 &&
+		// "[ggbans:=when(((ggbans)[0])==equal&&lhs(ggbans)==1 &&
 		// rhs(ggbans)==0,?,ggbans)],"
 		// +
 		// "[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,{ggbans})],ggbans][4]");
@@ -1912,7 +1912,7 @@ public class Ggb2giac {
 				// old code
 				+ "when(type(orthvecarg)==DOM_LIST,when(size(orthvecarg)!=2,?,ggbvect[-ycoord(orthvecarg),xcoord(orthvecarg)]),"
 				+ "when(is_3dpoint(orthvecarg),?,"
-				+ "when((orthvecarg)[0]=='=',when(count_eq(z,lname(orthvecarg))==0,ggbvect[xcoord(orthvecarg),ycoord(orthvecarg)],ggbvect[xcoord(orthvecarg),ycoord(orthvecarg),zcoord(orthvecarg)]),"
+				+ "when((orthvecarg)[0]==equal,when(count_eq(z,lname(orthvecarg))==0,ggbvect[xcoord(orthvecarg),ycoord(orthvecarg)],ggbvect[xcoord(orthvecarg),ycoord(orthvecarg),zcoord(orthvecarg)]),"
 				+ "ggbvect[-ycoord(orthvecarg),xcoord(orthvecarg)])))"
 
 				+"))]"
@@ -1941,7 +1941,7 @@ public class Ggb2giac {
 						// unitV(ggin) should work but doesn't
 						+ ",(ggin)/norm(ggin),"
 
-						+ "normalize(ggin)),when((ggin)[0]=='=',"
+						+ "normalize(ggin)),when((ggin)[0]==equal,"
 						+ "(ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))]),"
 						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]))");
 

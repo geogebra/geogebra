@@ -76,6 +76,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public abstract class ProbabilityCalculatorView
 		implements View, SettingListener, SetLabels {
 
+	public static final double PADDING_TOP_PX = 20.0;
 	private final DiscreteDistributionFactory discreteDistributionFactory;
 	/**
 	 * Application
@@ -223,7 +224,11 @@ public abstract class ProbabilityCalculatorView
 	protected void setLabelArrays() {
 		distributionMap = probManager.getDistributionMap();
 		reverseDistributionMap = probManager.getReverseDistributionMap();
-		parameterLabels = probManager.getParameterLabelArray(app.getLocalization());
+		if (app.getConfig().hasDistributionView()) {
+			parameterLabels = probManager.getParameterLabelArrayPrefixed(app.getLocalization());
+		} else {
+			parameterLabels = probManager.getParameterLabelArray(app.getLocalization());
+		}
 	}
 
 	/**
@@ -388,7 +393,7 @@ public abstract class ProbabilityCalculatorView
 	 * @param setDefaultBounds whether to reset low/high to default too
 	 */
 	public void updateAll(boolean setDefaultBounds) {
-		updateOutput();
+		updateOutput(true);
 		if (setDefaultBounds && !isIniting) {
 			setDefaultBounds();
 		}
@@ -401,7 +406,7 @@ public abstract class ProbabilityCalculatorView
 
 	public abstract ResultPanel getResultPanel();
 
-	protected abstract void updateOutput();
+	protected abstract void updateOutput(boolean updateDistributionView);
 
 	protected void updateStylebar() {
 		// desktop only
@@ -1055,15 +1060,12 @@ public abstract class ProbabilityCalculatorView
 	 * capture style for the the currently selected distribution.
 	 */
 	public void updatePlotSettings() {
-
 		// get the plot window dimensions
 		double[] d = getPlotDimensions();
 		double xMin = d[0];
 		double xMax = d[1];
 		double yMin = d[2];
-		double yMax = d[3];
-
-		// System.out.println(d[0] + "," + d[1] + "," + d[2] + "," + d[3]);
+		double yMax = d[3] + (d[3] - d[2]) * PADDING_TOP_PX / plotPanel.getHeight() ;
 
 		if (plotSettings == null) {
 			plotSettings = new PlotSettings();
@@ -2262,7 +2264,7 @@ public abstract class ProbabilityCalculatorView
 	 * Call this when parameters change.
 	 */
 	public void onParameterUpdate() {
-		updateOutput();
+		updateOutput(false);
 		updateResult();
 	}
 }
