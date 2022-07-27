@@ -92,4 +92,9 @@ public class AppConfigProbability extends AppConfigGraphing {
 	public boolean hasAlgebraView() {
 		return false;
 	}
+
+	@Override
+	public int getMainGraphicsViewId() {
+		return App.VIEW_PROBABILITY_CALCULATOR;
+	}
 }

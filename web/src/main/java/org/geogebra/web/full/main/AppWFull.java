@@ -1668,10 +1668,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		DockPanelData[] dockPanelData = forcedPerspective.getDockPanelData();
 
 		int oldAlgebra = findDockPanelData(oldDockPanelData, App.VIEW_ALGEBRA);
-		int oldEuclidian = findDockPanelData(oldDockPanelData,
-				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
-		int euclidian = findDockPanelData(dockPanelData,
-				isUnbundled3D() ? App.VIEW_EUCLIDIAN3D : App.VIEW_EUCLIDIAN);
+		int viewId = getConfig().getMainGraphicsViewId();
+		int oldEuclidian = findDockPanelData(oldDockPanelData, viewId);
+		int euclidian = findDockPanelData(dockPanelData, viewId);
 
 		double algebraWidth = 0;
 		double euclidianWidth = 0;
@@ -1684,7 +1683,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		} else {
 			dockPanelData[euclidian].setVisible(false);
 		}
-
 		if (algebraWidth != 0 || euclidianWidth != 0) {
 			forcedPerspective.getSplitPaneData()[0]
 					.setDivider(algebraWidth / (algebraWidth + euclidianWidth));
