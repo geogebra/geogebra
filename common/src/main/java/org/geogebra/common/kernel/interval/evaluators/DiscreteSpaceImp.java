@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 public class DiscreteSpaceImp implements DiscreteSpace {
 	private Interval interval;
@@ -96,9 +98,19 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 			return Stream.empty();
 		}
 
-		return DoubleStream.iterate(interval.getLow(), d -> d + step)
+		return DoubleStream.iterate(interval.getLow(), d -> myRound(d + step))
 				.limit(count)
-				.mapToObj(value -> new Interval(value, value + step));
+				.mapToObj(value -> new Interval(value, myRound(value + step)));
+	}
+
+	private double myRound(double value) {
+		try {
+			BigDecimal bigDecimal = BigDecimal.valueOf(value);
+			return bigDecimal.setScale(12, BigDecimal.ROUND_CEILING).doubleValue();
+		} catch (Exception e) {
+			Log.debug("Bad value: " + value);
+		}
+		return 0;
 	}
 
 	@Override

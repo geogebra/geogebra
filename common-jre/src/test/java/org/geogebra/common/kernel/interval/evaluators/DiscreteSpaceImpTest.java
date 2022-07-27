@@ -4,6 +4,7 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.interval.Interval;
@@ -75,6 +76,16 @@ public class DiscreteSpaceImpTest {
 						interval(-0.5, 0)
 				),
 				subSpace.values().collect(Collectors.toList()));
+	}
+
+	@Test
+	public void testDiffMinJoin() {
+		DiscreteSpaceImp space = new DiscreteSpaceImp();
+		space.update(new Interval(0, 5), 100);
+		List<Interval> original = space.values().collect(Collectors.toList());
+		DiscreteSpace subSpace = space.difference(-4.4112444, 0);
+		List<Interval> list = subSpace.values().collect(Collectors.toList());
+		assertEquals(original.get(0).getLow(), list.get(list.size() -1).getHigh(), 0);
 	}
 
 	@Test
