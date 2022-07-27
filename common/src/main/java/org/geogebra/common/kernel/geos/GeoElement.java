@@ -6923,6 +6923,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (hasDynamicCaption()) {
 			sb.append(dynamicCaption.getAuralText());
+			sb.endSentence();
 			return true;
 		}
 		if (!StringUtil.empty(getCaptionSimple())) {
