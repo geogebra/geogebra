@@ -3945,7 +3945,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		initRestrictions(region);
 		examEnvironment.setRestrictionModel(restrictions.getModel());
 		setExam(examEnvironment);
-		examEnvironment.setAppNameWith(getConfig());
+		examEnvironment.setConfig(getConfig());
 		CommandDispatcher commandDispatcher =
 				getKernel().getAlgebraProcessor().getCommandDispatcher();
 		examEnvironment.setCommandDispatcher(commandDispatcher);

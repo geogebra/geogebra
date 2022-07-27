@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -40,7 +39,6 @@ public class ExamEnvironment {
 	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
 	private final Localization localization;
-	private String localizedAppName;
 	private CommandDispatcher commandDispatcher;
 	private AppConfig appConfig;
 
@@ -100,18 +98,10 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * Gets the short app name key based on the app config's app code
-	 * and stores the translated short app name in the localizedAppName field.
-	 *
 	 * @param config config
 	 */
-	public void setAppNameWith(AppConfig config) {
-		String appNameShort =
-				config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
-						? GeoGebraConstants.SUITE_SHORT_NAME
-						: config.getAppNameShort();
+	public void setConfig(AppConfig config) {
 		this.appConfig = config;
-		this.localizedAppName = localization.getMenu(appNameShort);
 	}
 
 	/**
@@ -496,7 +486,7 @@ public class ExamEnvironment {
 	 * @return calculator name for status bar
 	 */
 	public String getCalculatorNameForStatusBar() {
-		return localizedAppName;
+		return getExamRegion().getShortDisplayName(localization, appConfig);
 	}
 
 	/**
