@@ -126,8 +126,8 @@ public class GeoConicPart3D extends GeoConic3D
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 
 		if (geo.isGeoConicPart()) {
 			GeoConicPartND cp = (GeoConicPartND) geo;

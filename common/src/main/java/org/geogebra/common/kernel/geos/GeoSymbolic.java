@@ -691,8 +691,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	final public void setVisualStyle(final GeoElement geo, boolean copyAux) {
-		super.setVisualStyle(geo, copyAux);
+	final public void setBasicVisualStyle(final GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
 			setPointStyle(((PointProperties) geo).getPointStyle());
