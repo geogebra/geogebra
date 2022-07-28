@@ -498,18 +498,24 @@ public class ParserTest {
 		assertEquals("(1, 2, 3)",
 				processor.processAlgebraCommand("E(1,2,3)", false)[0]
 						.toValueString(StringTemplate.defaultTemplate));
+		processor.processAlgebraCommand("b=4", false);
+		assertEquals("(4, 8, 12)",
+				processor.processAlgebraCommand("b(1,2,3)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	public void testAutomaticObjectCreationScientific() {
 		app.setConfig(new AppConfigScientific());
 		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
-
+		processor.processAlgebraCommand("b=4", false);
 		assertNull(processor.processAlgebraCommand("O", false));
 		assertNull(processor.processAlgebraCommand("O+1", false));
 		assertNull(processor.processAlgebraCommand("1+O", false));
 		assertNull(processor.processAlgebraCommand("A(0,0)", false));
 		assertNull(processor.processAlgebraCommand("A(1,1,1)", false));
+		assertNull(processor.processAlgebraCommand("b(0,0)", false));
+		assertNull(processor.processAlgebraCommand("b(1,1,1)", false));
 		assertNull(processor.processAlgebraCommand("O(1,1)", false));
 		assertNull(processor.processAlgebraCommand("1+O(1,1)", false));
 
@@ -519,7 +525,6 @@ public class ParserTest {
 		assertEquals("1",
 				processor.processAlgebraCommand("sin(pi/2)", false)[0]
 						.toValueString(StringTemplate.defaultTemplate));
-		processor.processAlgebraCommand("b=4", false);
 		assertEquals("-4",
 				processor.processAlgebraCommand("bsin(3pi/2)", false)[0]
 						.toValueString(StringTemplate.defaultTemplate));
