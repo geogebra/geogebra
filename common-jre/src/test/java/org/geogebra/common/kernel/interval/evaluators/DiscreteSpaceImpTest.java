@@ -89,6 +89,26 @@ public class DiscreteSpaceImpTest {
 	}
 
 	@Test
+	public void testDiffMinJoinHighRes() {
+		DiscreteSpaceImp space = new DiscreteSpaceImp();
+		space.update(new Interval(-10, 10), 1028);
+		List<Interval> original = space.values().collect(Collectors.toList());
+		DiscreteSpace subSpace = space.difference(-11, -10);
+		List<Interval> list = subSpace.values().collect(Collectors.toList());
+		assertEquals(original.get(0).getLow(), list.get(list.size() -1).getHigh(), 0);
+	}
+
+	@Test
+	public void testDiffMaxJoinHighRes() {
+		DiscreteSpaceImp space = new DiscreteSpaceImp();
+		space.update(new Interval(-10, 10), 1028);
+		List<Interval> original = space.values().collect(Collectors.toList());
+		DiscreteSpace subSpace = space.difference(10, 11);
+		List<Interval> list = subSpace.values().collect(Collectors.toList());
+		assertEquals(original.get(original.size() - 1).getHigh(), list.get(0).getLow(), 0);
+	}
+
+	@Test
 	public void testDiffMinFractional() {
 		DiscreteSpaceImp space = new DiscreteSpaceImp();
 		space.update(new Interval(0, 5), 10);
