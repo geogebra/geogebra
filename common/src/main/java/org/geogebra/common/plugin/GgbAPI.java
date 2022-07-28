@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -946,7 +947,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			String suggestedName,
 			boolean forceRename) {
 		GeoElement geo = kernel.lookupLabel(oldName);
-		if (geo == null) {
+		if (geo == null || !LabelManager.isValidLabel(suggestedName, kernel, geo)) {
 			return false;
 		}
 		String newName = forceRename

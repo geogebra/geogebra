@@ -278,7 +278,8 @@ public class FunctionParser {
 				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			replacer.setMultipleUnassignedAllowed(inputBoxParsing);
-			ExpressionNode exprWithDummyArg = replacer.replace(funcName + "$").wrap();
+			String dummyArgName = Unicode.CURRENCY_EURO + "";
+			ExpressionNode exprWithDummyArg = replacer.replace(funcName + dummyArgName).wrap();
 			if (exprWithDummyArg.getOperation() == Operation.MULTIPLY
 					&& (Operation.isSimpleFunction(exprWithDummyArg.getRightTree().getOperation())
 					|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
@@ -288,7 +289,7 @@ public class FunctionParser {
 					multiplyOrFunctionNodes.add(exprWithDummyArg);
 				}
 				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
-						.getReplacer("$", arg, kernel);
+						.getReplacer(dummyArgName, arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
 			}
 		}

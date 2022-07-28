@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import static com.himamis.retex.editor.share.input.Character.isLetter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -2392,8 +2394,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		// don't want any '$'s in actual labels
-		if ((newLabel != null) && (newLabel.indexOf('$') > -1)) {
+		if (newLabel != null && newLabel.indexOf('$') > -1) {
 			newLabel = newLabel.replaceAll("\\$", "");
+			// test for invalid labels only in case we've replaced something
+			if (newLabel.isEmpty() || !isLetter(newLabel.charAt(0))) {
+				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalAssignment);
+			}
 		}
 
 		labelWanted = true;
@@ -2601,8 +2607,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private void updateSpreadsheetCoordinates() {
 		// starts with letter and ends with digit
 		if (isLabelSet() && (label.length() > 0)
-				&& com.himamis.retex.editor.share.input.Character
-						.isLetter(label.charAt(0))
+				&& isLetter(label.charAt(0))
 				&& StringUtil.isDigit(label.charAt(label.length() - 1))) {
 
 			// init old and current spreadsheet coords
