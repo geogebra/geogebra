@@ -1141,7 +1141,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (storage.getItem(STORAGE_MACRO_KEY) != null) {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
-					openMacro(macroName);
+					Macro editMacro = getKernel().getMacro(macroName);
+					openMacro(editMacro);
 					DomGlobal.document.title = macroName;
 					setToolLoadedFromStorage(true);
 					return true;
@@ -1639,9 +1640,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	/**
-	 * @return preferred size
-	 */
+	@Override
 	public GDimension getPreferredSize() {
 		if (preferredSize == null) {
 			return new Dimension(800, 600);
@@ -2241,13 +2240,19 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		this.appletHeight = height;
 	}
 
-	protected int getInnerAppletWidth() {
+	/**
+	 * @return app width excluding border
+	 */
+	public int getInnerAppletWidth() {
 		int border = getAppletParameters().getBorderThickness();
 		return getAppletWidth() - border <= 0 && (getPreferredSize() != null)
 				? getPreferredSize().getWidth() : getAppletWidth() - border;
 	}
 
-	protected int getInnerAppletHeight() {
+	/**
+	 * @return app height excluding border
+	 */
+	public int getInnerAppletHeight() {
 		int border = getAppletParameters().getBorderThickness();
 		return getAppletHeight() - border <= 0 && (getPreferredSize() != null)
 				? getPreferredSize().getHeight() : getAppletHeight() - border;
@@ -2846,8 +2851,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * @return root panel of the applet
+	 * @deprecated use getAppletFrame instead
 	 */
-	public abstract Panel getPanel();
+	@Deprecated
+	public final Panel getPanel() {
+		return getAppletFrame();
+	}
 
 	@Override
 	public void setAltText(GeoText altText) {

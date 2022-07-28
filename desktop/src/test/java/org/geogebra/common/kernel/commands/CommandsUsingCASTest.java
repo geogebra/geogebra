@@ -193,6 +193,14 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdDerivativeDegenerate() {
+		t("Derivative(x^3-3x, 0)", "x^(3) - (3 * x)");
+		t("Derivative(x^3-3x, -1)", "?");
+		t("Derivative(sin(x), 0)", "sin(x)");
+		t("Derivative(sin(x), -1)", "?");
+	}
+
+	@Test
 	public void randomDerivatives() {
 		add("f(x)=1/(x+RandomBetween(1,100))");
 		add("g=Derivative(2*f)");

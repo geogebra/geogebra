@@ -56,12 +56,9 @@ public class AdjustSlider extends AdjustWidget {
 			return true;
 		}
 
-		if (DoubleUtil.isEqual(x, origX) && origX + origWidth < view.getWidth()
+		return DoubleUtil.isEqual(x, origX) && origX + origWidth < view.getWidth()
 				&& DoubleUtil.isEqual(origWidth, width) && DoubleUtil.isEqual(y, origY)
-				&& origY < view.getHeight()) {
-			return true;
-		}
-		return false;
+				&& origY < view.getHeight();
 	}
 
 	private boolean isVSliderOnScreen() {

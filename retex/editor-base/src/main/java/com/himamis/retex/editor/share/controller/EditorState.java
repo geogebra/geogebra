@@ -151,6 +151,10 @@ public class EditorState {
 	 */
 	public void extendSelection(MathComponent cursorField) {
 		if (selectionAnchor == null) {
+			if (isGrandparentProtected(cursorField.getParent())
+					&& ",".equals(cursorField.toString())) {
+				return;
+			}
 			currentSelStart = cursorField;
 			currentSelEnd = cursorField;
 			anchor(true);
@@ -188,11 +192,39 @@ public class EditorState {
 		int to = commonParent.indexOf(currentSelEnd);
 		int from = commonParent.indexOf(currentSelStart);
 		if (from > to) {
+			int swapIdx = from;
+			from = to;
+			to = swapIdx;
 			MathComponent swap = currentSelStart;
 			currentSelStart = currentSelEnd;
 			currentSelEnd = swap;
 		}
+		if (isGrandparentProtected(commonParent)) {
+			terminateSelectionAtComma(commonParent, from, to);
+		}
 
+	}
+
+	private void terminateSelectionAtComma(MathContainer commonParent, int from, int to) {
+		for (int j = from; j <= to; j++) {
+			if (commonParent.isComma(j)) {
+				if (j == from) {
+					currentSelEnd = currentSelStart = null;
+				} else {
+					currentSelEnd = commonParent.getArgument(j - 1);
+				}
+				if (commonParent == currentField) {
+					currentOffset = j;
+				}
+			}
+		}
+	}
+
+	private boolean isGrandparentProtected(MathContainer commonParent) {
+		return commonParent != null
+				&& commonParent.getParent() != null
+				&& commonParent.getParent().getParent() != null
+				&& commonParent.getParent().getParent().isProtected();
 	}
 
 	/**

@@ -59,8 +59,8 @@ public class AlgoLineGraph extends AlgoElement {
 		}
 		xValuesCopy.clear();
 		yValuesCopy.clear();
-		xValues.copyListElements(xValuesCopy);
-		yValues.copyListElements(yValuesCopy);
+		xValues.deepCopyListElements(xValuesCopy);
+		yValues.deepCopyListElements(yValuesCopy);
 		graph.setDefined(true);
 		graph.setInterval(xValues.get(0).evaluateDouble(),
 				xValues.get(xValues.size() - 1).evaluateDouble());

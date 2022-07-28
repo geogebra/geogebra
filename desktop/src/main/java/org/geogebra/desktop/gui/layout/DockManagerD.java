@@ -77,7 +77,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	private List<ShowDockPanelListener> showDockPanelListener;
 
 	/**
-	 * @param layout
+	 * @param layout layout
 	 */
 	public DockManagerD(LayoutD layout) {
 		this.layout = layout;
@@ -103,7 +103,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * Register a new dock panel. Use Layout::registerPanel() as public
 	 * interface.
 	 * 
-	 * @param dockPanel
+	 * @param dockPanel panel
 	 */
 	public void registerPanel(DockPanelD dockPanel) {
 		dockPanels.add(dockPanel);
@@ -129,10 +129,10 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * Apply a certain perspective by arranging the dock panels in the requested
 	 * order.
 	 * 
-	 * @param spData
-	 * @param dpData
+	 * @param spData split pane data
+	 * @param dpData dockpanel data
 	 * 
-	 * @see LayoutD#applyPerspective(geogebra.io.layout.Perspective)
+	 * @see LayoutD#applyPerspective(Perspective)
 	 */
 	public void applyPerspective(DockSplitPaneData[] spData,
 			DockPanelData[] dpData) {
@@ -286,8 +286,8 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 			// views
 			updateSplitPanesResizeWeight();
 
-			int windowWidth = app.getPreferredSize().width;
-			int windowHeight = app.getPreferredSize().height;
+			int windowWidth = app.getPreferredSize().getWidth();
+			int windowHeight = app.getPreferredSize().getHeight();
 
 			// set the dividers of the split panes
 			for (int i = 0; i < spData.length; ++i) {
@@ -345,7 +345,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	/**
 	 * Start the drag'n'drop process of a DockPanel.
 	 * 
-	 * @param panel
+	 * @param panel panel
 	 */
 	public void drag(DockPanelD panel) {
 		// Do not allow docking in case this is the last view
@@ -362,7 +362,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * Stop the drag'n'drop procedure and drop the component to the the defined
 	 * location.
 	 * 
-	 * @param dndState
+	 * @param dndState state
 	 */
 	public void drop(DnDState dndState) {
 		DockPanelD source = dndState.getSource();
@@ -516,7 +516,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	/**
 	 * Show a DockPanel identified by its ID.
 	 * 
-	 * @param viewId
+	 * @param viewId view ID
 	 */
 	public void show(int viewId) {
 		show(getPanel(viewId));
@@ -551,7 +551,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * will continue with "2" and will insert the DockPanel at the bottom of the
 	 * top container of the root pane.
 	 * 
-	 * @param panel
+	 * @param panel panel
 	 */
 	public void show(DockPanelD panel) {
 
@@ -579,8 +579,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 
 				locations[i] = Integer.parseInt(def[i]);
 
-				if (locations[i] > 3 || locations[i] < 0)
-				 {
+				if (locations[i] > 3 || locations[i] < 0) {
 					locations[i] = 3; // left as default direction
 				}
 			}
@@ -754,7 +753,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	/**
 	 * Hide a dock panel identified by the view ID.
 	 * 
-	 * @param viewId
+	 * @param viewId view ID
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(int viewId, boolean isPermanent) {
@@ -764,7 +763,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	/**
 	 * Hide a dock panel permanently.
 	 * 
-	 * @param panela
+	 * @param panel panel to hide
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(DockPanelD panel) {
@@ -813,7 +812,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	/**
 	 * Hide a dock panel.
 	 * 
-	 * @param panel
+	 * @param panel panel
 	 * @param isPermanent
 	 *            If this change is permanent.
 	 * @return true if it succeeded to hide the panel
@@ -1040,7 +1039,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * {@link DockManagerD#setFocusedPanel(DockPanelD)} internally but adds some
 	 * validation checks.
 	 * 
-	 * @param viewId
+	 * @param viewId view ID
 	 * @return true if focus was changed, false if the requested dock panel does
 	 *         not exist or is invisible at the moment
 	 */
@@ -1293,7 +1292,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	/**
 	 * Change the toolbar mode for all toolbars in external frames.
 	 * 
-	 * @param mode
+	 * @param mode app mode
 	 */
 	public void setToolbarMode(int mode) {
 		for (DockPanelD panel : dockPanels) {
@@ -1319,8 +1318,8 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * keep relative dimensions of the split panes if the user is switching
 	 * between applet and frame mode.
 	 * 
-	 * @param scaleX
-	 * @param scaleY
+	 * @param scaleX horizontal scale
+	 * @param scaleY vertical scale
 	 */
 	public void scale(float scaleX, float scaleY) {
 		scale(scaleX, scaleY, rootPane);
@@ -1389,7 +1388,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	 * 
 	 * Use the constants VIEW_EUCLIDIAN, VIEW_ALGEBRA etc. as viewId.
 	 * 
-	 * @param viewId
+	 * @param  viewId view ID
 	 * @return The panel associated to the viewId
 	 */
 	@Override
@@ -1428,15 +1427,6 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 	public boolean hasFullFocusSystem() {
 		return hasFullFocusSystem;
 	}
-
-	
-
-	// ===================================================================
-	//
-	// Temporary code for developing a maximize feature
-	// G. Sturr 4/4/2012
-	//
-	// ===================================================================
 
 	/**
 	 * Perspective that stores the configuration just before a dock panel is
@@ -1511,6 +1501,9 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 		return num;
 	}
 
+	/**
+	 * Close all panels for current app
+	 */
 	public void exitAllCurrent() {
 		Log.debug("closing panels");
 		for (DockPanelD d : this.dockPanels) {

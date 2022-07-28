@@ -141,10 +141,7 @@ public class Variable extends ValidExpression {
 		}
 		// single letter followed by apostrophes
 		String noApostrophes = name.replaceAll("'", "");
-		if (noApostrophes.length() == 1) {
-			return true;
-		}
-		return false;
+		return noApostrophes.length() == 1;
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -72,7 +73,7 @@ public class InputTokenizer {
 		}
 
 		int minLength = getTokenWithIndexLength(1);
-		if (input.startsWith("deg")) {
+		if (input.startsWith("deg") && isNoUnderscoreAt(3)) {
 			return "deg";
 		}
 
@@ -112,7 +113,11 @@ public class InputTokenizer {
 	}
 
 	private boolean isImaginaryNext() {
-		return input.charAt(0) == 'i';
+		return input.charAt(0) == 'i' && isNoUnderscoreAt(1);
+	}
+
+	private boolean isNoUnderscoreAt(int i) {
+		return input.length() <= i || input.charAt(i) != '_';
 	}
 
 	private String getGeoLabelOrVariable(int minLength) {
@@ -135,7 +140,7 @@ public class InputTokenizer {
 			return false;
 		}
 
-		return "pi".equalsIgnoreCase(input.substring(0, 2));
+		return "pi".equalsIgnoreCase(input.substring(0, 2)) && isNoUnderscoreAt(2);
 	}
 
 	private String getNumberToken() {
@@ -164,7 +169,7 @@ public class InputTokenizer {
 				return getTokenWithIndexLength(input.indexOf('}', offset) + 1);
 			}
 			return getTokenWithIndexLength(offset + 2);
-		} else if (input.charAt(offset) == '\'') {
+		} else if (FunctionParser.isDerivativeChar(input.charAt(offset))) {
 			return getTokenWithIndexLength(offset + 1);
 		}
 		return offset;

@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -644,6 +645,16 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public long getLastRepaintTime() {
 		return lastRepaint;
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		if (!app.isUsingFullGui()) {
+			AppW appW = (AppW) app;
+			((EuclidianSettings) settings).setPreferredSizeNoFire(
+					new Dimension(appW.getInnerAppletWidth(), appW.getInnerAppletHeight()));
+		}
+		super.settingsChanged(settings);
 	}
 
 	/**

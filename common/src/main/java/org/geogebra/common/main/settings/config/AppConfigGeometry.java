@@ -140,7 +140,7 @@ public class AppConfigGeometry extends AbstractAppConfig {
 
 	@Override
 	public boolean isCASEnabled() {
-		return false;
+		return getSubAppCode() != null;
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class CmdSetFilling extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				geo.setAlphaValue(arg[1].evaluateDouble());
-				geo.updateVisualStyleRepaint(GProperty.HATCHING);
+				geo.updateVisualStyleRepaint(GProperty.COLOR);
 
 				return arg;
 			}

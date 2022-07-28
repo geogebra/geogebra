@@ -38,6 +38,10 @@ public class EditorContent {
 		int columns = cells / rows;
 		for (int cell = 0; cell < cells; cell++) {
 			sb.append(entries[cell]);
+			// ensure the row dimension does not change; for >1 column already ensured by commas
+			if (columns == 1 && entries[cell].isEmpty()) {
+				sb.append('?');
+			}
 			if (cell == cells - 1) {
 				sb.append("}}");
 			} else if ((cell + 1) % columns == 0) {

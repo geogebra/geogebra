@@ -99,29 +99,11 @@ public class DrawSurface3DElements extends DrawSurface3D {
 	}
 
 	final private static boolean checkIdsAreShort(int id1, int id2, int id3) {
-		if (checkIdIsNotShort(id1)) {
-			return false;
-		}
-
-		if (checkIdIsNotShort(id2)) {
-			return false;
-		}
-
-		if (checkIdIsNotShort(id3)) {
-			return false;
-		}
-
-		return true;
-
+		return checkIdIsShort(id1) && checkIdIsShort(id2) && checkIdIsShort(id3);
 	}
 
-	final private static boolean checkIdIsNotShort(int id) {
-
-		if (id > Short.MAX_VALUE) {
-			return true;
-		}
-
-		return false;
+	final private static boolean checkIdIsShort(int id) {
+		return id <= Short.MAX_VALUE;
 	}
 
 	@Override

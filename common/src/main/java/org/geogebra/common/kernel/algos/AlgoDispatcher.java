@@ -1694,11 +1694,8 @@ public class AlgoDispatcher {
 	 * @return whether Locus(P,Q) is possible
 	 */
 	final public static boolean locusCheck(GeoPointND P, GeoPointND Q) {
-		if (P.getPath() == null || Q.getPath() != null
-				|| !((GeoElement) P).isParentOf(Q)) {
-			return false;
-		}
-		return true;
+		return P.getPath() != null && Q.getPath() == null
+				&& ((GeoElement) P).isParentOf(Q);
 	}
 
 	/**

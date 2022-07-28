@@ -661,6 +661,7 @@ public class InputController {
 			} else if (ch == parent.getCloseKey() && !MathArray.isLocked(parent)) {
 				// in non-protected containers when the closing key is pressed
 				// move out of the container
+				moveOutOfArray(currentField, currentOffset);
 				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
 			} else {
@@ -734,6 +735,20 @@ public class InputController {
 		}
 		editorState.setCurrentField(currentField);
 		editorState.setCurrentOffset(currentOffset);
+	}
+
+	private void moveOutOfArray(MathSequence currentField, int currentOffset) {
+		MathComponent parent = currentField.getParent();
+		if (parent.getParent() instanceof MathSequence) {
+			int counter = 1;
+			while (currentField.size() > currentOffset) {
+				MathComponent component = currentField
+						.getArgument(currentOffset);
+				currentField.delArgument(currentOffset);
+				parent.getParent().addArgument(parent.getParentIndex() + counter, component);
+				counter++;
+			}
+		}
 	}
 
 	private static void insertReverse(MathContainer parent, int parentIndex,

@@ -15,6 +15,7 @@
  *
  * @author Markus Hohenwarter
  */
+
 package org.geogebra.desktop.gui.app;
 
 import java.awt.Component;
@@ -27,8 +28,6 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.dnd.DropTarget;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
@@ -69,6 +68,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -111,22 +111,15 @@ public class GeoGebraFrame extends JFrame
 	private Timer timer;
 	private long born;
 
+	/**
+	 * New frame
+	 */
 	public GeoGebraFrame() {
 		instances.add(this);
 		setActiveInstance(this);
 		born = System.currentTimeMillis();
 		this.addComponentListener(this);
 	}
-
-	// public static void printInstances() {
-	// System.out.println("FRAMES: " + instances.size());
-	// for (int i=0; i < instances.size(); i++) {
-	// GeoGebraFrame frame = (GeoGebraFrame) instances.get(i);
-	// System.out.println(" " + (i+1) + ", applet: " + frame.app.isApplet() +
-	// ", "
-	// + frame);
-	// }
-	// }
 
 	/**
 	 * Disposes this frame and removes it from the static instance list.
@@ -147,6 +140,9 @@ public class GeoGebraFrame extends JFrame
 		this.app = app;
 	}
 
+	/**
+	 * @return number of instances
+	 */
 	public int getInstanceNumber() {
 		for (int i = 0; i < instances.size(); i++) {
 			if (this == instances.get(i)) {
@@ -242,20 +238,10 @@ public class GeoGebraFrame extends JFrame
 				+ (int) getSize().getHeight());
 
 		if (timer == null) {
-			timer = new Timer(3000, new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e1) {
-					String title = getPreferredTitle();
-					setTitle(title);
-
-				}
-
-			});
+			timer = new Timer(3000, e1 -> setTitle(getPreferredTitle()));
 		}
 		timer.setRepeats(false);
 		timer.restart();
-
 	}
 
 	String getPreferredTitle() {
@@ -263,9 +249,12 @@ public class GeoGebraFrame extends JFrame
 				: app.getCurrentFile().getName();
 	}
 
+	/**
+	 * Set actual size from preferred size (e.g. loaded from file)
+	 */
 	public void updateSize() {
 		// get frame size from layout manager
-		Dimension size = app.getPreferredSize();
+		Dimension size = GDimensionD.getAWTDimension(app.getPreferredSize());
 
 		// check if frame fits on screen
 		Rectangle screenSize = AppD.getScreenSize();
@@ -290,7 +279,7 @@ public class GeoGebraFrame extends JFrame
 		init(args, new GeoGebraFrame());
 	}
 
-	public static synchronized void init(CommandLineArguments args,
+	protected static synchronized void init(CommandLineArguments args,
 			GeoGebraFrame wnd) {
 
 		// Fixing #3772. TODO: This could be moved to somewhat later (to have
@@ -350,13 +339,7 @@ public class GeoGebraFrame extends JFrame
 		}
 	}
 
-	/**
-	 * adds a NewInstanceListener, fired whenever a new Instance of
-	 * GeoGebraFrame is created.
-	 * 
-	 * @param l
-	 */
-	public static void addNewInstanceListener(NewInstanceListener l) {
+	private static void addNewInstanceListener(NewInstanceListener l) {
 		instanceListener.add(l);
 	}
 
@@ -395,8 +378,8 @@ public class GeoGebraFrame extends JFrame
 	/**
 	 * return the application running geogebra
 	 * 
-	 * @param args
-	 * @param frame
+	 * @param args command line args
+	 * @param frame frame
 	 * @return the application running geogebra
 	 */
 	protected AppD createApplication(CommandLineArguments args, JFrame frame) {
@@ -417,7 +400,7 @@ public class GeoGebraFrame extends JFrame
 	 * 
 	 * @param args
 	 *            Command line arguments
-	 * @param wnd
+	 * @param wnd frame
 	 * @return the new window
 	 */
 	public static synchronized GeoGebraFrame createNewWindow(
@@ -514,7 +497,7 @@ public class GeoGebraFrame extends JFrame
 		 * Downloads newest GeoGebra .jar files and puts them into the user's
 		 * AppData directory. Also downloads license.txt.
 		 * 
-		 * @throws IOException
+		 * @throws IOException for I/O errors
 		 */
 		private static void downloadGeoGebraJars() throws IOException {
 			ZipInputStream zis = null;
@@ -690,8 +673,10 @@ public class GeoGebraFrame extends JFrame
 					downloadGeoGebraJars();
 				}
 				if (AppD.MAC_OS) {
-					if (currentVersionL < newestVersionL &&
-							GeoGebraPreferencesD.getLastShownNotificationVersion() < newestVersionL) {
+					long lastShownNotificationVersion =
+							GeoGebraPreferencesD.getLastShownNotificationVersion();
+					if (currentVersionL < newestVersionL
+							&& lastShownNotificationVersion < newestVersionL) {
 						showDownloadDialog(newestVersion);
 					}
 					GeoGebraPreferencesD.setLastVersionNotification(newestVersionL);
@@ -752,7 +737,7 @@ public class GeoGebraFrame extends JFrame
 		return instances.get(i);
 	}
 
-	public static void updateAllTitles() {
+	private static void updateAllTitles() {
 		for (int i = 0; i < instances.size(); i++) {
 			AppD app = instances.get(i).app;
 			app.updateTitle();
@@ -763,7 +748,7 @@ public class GeoGebraFrame extends JFrame
 	 * Checks all opened GeoGebra instances if their current file is the given
 	 * file.
 	 * 
-	 * @param file
+	 * @param file ggb file
 	 * @return GeoGebra instance with file open or null
 	 */
 	public static GeoGebraFrame getInstanceWithFile(File file) {
@@ -825,7 +810,7 @@ public class GeoGebraFrame extends JFrame
 
 	}
 
-	public static void checkCommandLineExport(final AppD app) {
+	private static void checkCommandLineExport(final AppD app) {
 
 		final CommandLineArguments args = app.getCommandLineArgs();
 
@@ -1116,22 +1101,25 @@ public class GeoGebraFrame extends JFrame
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
+		// we only care about resize
 	}
 
 	@Override
 	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
+		// we only care about resize
 	}
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-
+		// we only care about resize
 	}
 
+	/**
+	 * If app exists, call listener now. Otherwise, wait until app is
+	 * created and call listener after.
+	 *
+	 * @param listener instance listener
+	 */
 	public static void doWithActiveInstance(NewInstanceListener listener) {
 		if (activeInstance == null || activeInstance.getApplication() == null) {
 			addNewInstanceListener(listener);

@@ -719,15 +719,10 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	}
 
 	private boolean inCullingBox(Coords3 p) {
-
 		// check point is in culling box
-		if ((p.getXd() > cullingBox[0]) && (p.getXd() < cullingBox[1])
+		return (p.getXd() > cullingBox[0]) && (p.getXd() < cullingBox[1])
 				&& (p.getYd() > cullingBox[2]) && (p.getYd() < cullingBox[3])
-				&& (p.getZd() > cullingBox[4]) && (p.getZd() < cullingBox[5])) {
-			return true;
-		}
-
-		return false;
+				&& (p.getZd() > cullingBox[4]) && (p.getZd() < cullingBox[5]);
 	}
 
 	private void initBounds() {

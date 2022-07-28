@@ -3,8 +3,10 @@ package org.geogebra.common.kernel.geos;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -47,5 +49,12 @@ public class GeoFunctionTest extends BaseUnitTest {
 		double[] bounds = new double[2];
 		GeoIntervalUtil.updateBoundaries(interval, bounds);
 		assertArrayEquals(new double[]{3, 4}, bounds, .01);
+	}
+
+	@Test
+	public void formulaShouldBeUndefinedForUndefinedFunctions() {
+		GeoFunction fn = add("h(x)=Element({x^(3)-3 x},2)");
+		assertEquals("?", fn.getFormulaString(StringTemplate.latexTemplate, false));
+		assertEquals("?", fn.getFormulaString(StringTemplate.latexTemplate, true));
 	}
 }

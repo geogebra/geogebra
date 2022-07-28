@@ -2462,13 +2462,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			es.setAutomaticGridDistance(true, true);
 			return;
 		}
-		Double x = getDoubleIf(distanceOptions, "x", Double.valueOf(0));
-		Double y = getDoubleIf(distanceOptions, "y", Double.valueOf(0));
-		Double theta = getDoubleIf(distanceOptions, "theta", null);
 
-		double[] distances = theta != null
-				? new double[]{x, y, theta}
-				: new double[]{x, y};
+		double[] distances = new double[]{
+			getDistanceOption(distanceOptions, "x", 0),
+			getDistanceOption(distanceOptions, "y", 0),
+			getDistanceOption(distanceOptions, "theta", Math.PI / 6)
+		};
 
 		if (distances[0] > 0 && distances[1] > 0) {
 			es.setGridDistances(distances);
@@ -2476,9 +2475,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
-	private Double getDoubleIf(JsObjectWrapper distanceOptions, String x, Double defaultValue) {
-		return distanceOptions.getValue(x) != null
-				? (Double) distanceOptions.getValue(x)
+	private double getDistanceOption(JsObjectWrapper distanceOptions, String name,
+			double defaultValue) {
+		Object xValue = distanceOptions.getValue(name);
+		return xValue != null
+				? ((Number) xValue).doubleValue()
 				: defaultValue;
 	}
 

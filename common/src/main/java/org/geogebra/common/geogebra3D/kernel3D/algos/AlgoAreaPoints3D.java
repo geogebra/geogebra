@@ -62,7 +62,8 @@ public class AlgoAreaPoints3D extends AlgoAreaPoints {
 
 	@Override
 	public final void compute() {
-		if (GeoPolygon3D.updateCoordSys(coordSys, P, points2D, tmpCoords)) {
+		if (GeoPolygon3D.updateCoordSys(coordSys, P, points2D, tmpCoords,
+				kernel.getStandardPrecision())) {
 			area.setValue(Math.abs(AlgoPolygon.calcAreaWithSign(points2D)));
 		} else {
 			area.setUndefined();

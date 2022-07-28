@@ -248,7 +248,8 @@ public class CmdSetValue extends CmdScripting {
 				((GeoList) arg0).clear();
 				arg0.setDefinition(new MyList(kernel).wrap());
 			} else {
-				((GeoList) arg0).makeEntriesUndefined();
+				arg0.resetDefinition();
+				arg0.setUndefined();
 				arg0.setDefinition(arg0.toValidExpression().wrap());
 			}
 		} else if (arg0.isGeoFunction() || arg0.isGeoFunctionNVar()) {

@@ -178,7 +178,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -1974,11 +1973,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			height += GLookAndFeel.TOOLBAR_HEIGHT;
 		}
 		return height;
-	}
-
-	@Override
-	public Panel getPanel() {
-		return frame;
 	}
 
 	@Override

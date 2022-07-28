@@ -68,6 +68,7 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	 */
 	public Button getLoginTextButton() {
 		Button button = new Button(app.getLocalization().getMenu("SignIn"));
+		button.getElement().setAttribute("type", "button");
 		button.addStyleName("signInButton");
 		button.addClickHandler(event -> {
 			login();

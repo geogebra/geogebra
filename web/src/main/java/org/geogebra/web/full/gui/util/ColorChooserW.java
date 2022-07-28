@@ -26,7 +26,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -66,7 +65,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
-	private Button btnCustomColor;
+	private StandardButton btnCustomColor;
 	App app;
 	private CustomColorDialog dialog;
 	BarList lbBars;
@@ -585,9 +584,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		setLabels();
 
-		btnCustomColor = new Button("+");
+		btnCustomColor = new StandardButton("+");
 		btnCustomColor.setStyleName("CustomColorButton");
-		btnCustomColor.addClickHandler(event -> showCustomColorDialog());
+		btnCustomColor.addFastClickHandler(event -> showCustomColorDialog());
 		SimplePanel sp = new SimplePanel(btnCustomColor);
 		sp.addStyleName("CustomColorButtonParent");
 

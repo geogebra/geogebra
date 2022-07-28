@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.plot.interval;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -27,7 +28,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1, 1, -8, -8);
 		withScreenSize(50, 50);
 		withFunction("0(1/x)");
-		assertEquals(101, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
+		assertEquals(102, gp.getLog().stream().filter(e -> DoubleUtil.isEqual(e.y, 0))
 				.count());
 	}
 
@@ -44,7 +45,7 @@ public class GlitchesTest extends BaseUnitTest {
 		withBounds(-1E15, 1E15, -1E15, -1E15);
 		withScreenSize(50, 50);
 		withFunction("tan(x)");
-		assertEquals(101, gp.getLog().size());
+		assertEquals(102, gp.getLog().size());
 	}
 
 	@Test
@@ -52,6 +53,14 @@ public class GlitchesTest extends BaseUnitTest {
 		withDefaultScreen();
 		withFunction("1/x");
 		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y)).count());
+	}
+
+	@Test
+	public void testSignum() {
+		withDefaultScreen();
+		withFunction("If(x < 0, -1, 1)");
+		assertNotEquals(0, gp.getLog().size());
+
 	}
 
 	IntervalPathPlotterMock gp;
@@ -83,4 +92,11 @@ public class GlitchesTest extends BaseUnitTest {
 		withScreenSize(1920, 1280);
 		withFunction(description);
 	}
+
+	@Test
+	public void ifCommandShouldNotBeEmpty() {
+		withHiResFunction("If(x< 0, 1)");
+		assertNotEquals(0, gp.getLog().size());
+	}
+
 }
