@@ -3,7 +3,7 @@ plugins {
 	id 'eclipse'
 	id 'pmd'
 	id 'checkstyle'
-	id 'org.wisepersist.gwt' version '1.1.16'
+	id 'org.wisepersist.gwt' version '1.1.19'
 }
 
 sourceCompatibility = 1.8
@@ -37,9 +37,9 @@ dependencies {
 		files(project(':editor-base').sourceSets.main.allSource.srcDirs),
 		files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
 		files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
-		"com.google.gwt:gwt-dev:$gwtCompilerVersion",
-		"com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion"
+		"org.gwtproject:gwt-dev:$gwtCompilerVersion",
+		"org.gwtproject:gwt-user:$gwtCompilerVersion"
+	testImplementation "org.gwtproject:gwt-user:$gwtCompilerVersion"
 }
 
 task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar']) {
