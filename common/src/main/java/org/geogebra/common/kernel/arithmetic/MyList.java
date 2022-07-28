@@ -52,6 +52,7 @@ public class MyList extends ValidExpression
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
 									// matrix
 	private int matrixCols = -1; //
+	private boolean isAllLists; // whether all elements are lists
 
 	// list for list elements
 	private ArrayList<ExpressionValue> listElements;
@@ -633,6 +634,8 @@ public class MyList extends ValidExpression
 			if (isMatrix) {
 				matrixCols = LHcols;
 				matrixRows = LHrows;
+				isAllLists = listElements.stream().map(ExpressionValue::unwrap)
+						.allMatch(ex -> ex instanceof ListValue);
 			} else {
 				matrixCols = 0;
 				matrixRows = 0;
@@ -772,7 +775,7 @@ public class MyList extends ValidExpression
 	public String toString(StringTemplate tpl, boolean valueMode,
 			boolean printBrackets) {
 		if (tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX
-				&& isMatrix() && printBrackets) {
+				&& isMatrix() && printBrackets && isAllLists) {
 			return toMatrixString(tpl);
 		} else {
 			return toFlatString(tpl, valueMode, printBrackets);
@@ -808,7 +811,7 @@ public class MyList extends ValidExpression
 
 	private String toMatrixString(StringTemplate tpl) {
 		ExpressionValue e0 = listElements.get(0).unwrap();
-		final int cols = e0 instanceof ListValue ? ((ListValue) e0).size() : 1;
+		final int cols = ((ListValue) e0).size();
 
 		final StringBuilder sb = new StringBuilder();
 
