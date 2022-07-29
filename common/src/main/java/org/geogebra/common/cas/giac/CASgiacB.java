@@ -138,7 +138,7 @@ public abstract class CASgiacB extends CASgiac {
 				.eval(1, context);
 
 		// make sure we don't always get the same value!
-		int seed = rand.nextInt(Integer.MAX_VALUE);
+		int seed = getSeed(exp);
 		g = binding.createGen("srand(" + seed + ")", context);
 		g.eval(1, context);
 	}
