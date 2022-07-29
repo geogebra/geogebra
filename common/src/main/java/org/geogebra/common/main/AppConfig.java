@@ -332,4 +332,9 @@ public interface AppConfig extends Serializable {
 	 * (always thed key of suite if in a subApp)
 	 */
 	String getAppTransKey();
+
+	/**
+	 * @return ID of the main graphics view (EV, EV 3D or probability)
+	 */
+	int getMainGraphicsViewId();
 }
