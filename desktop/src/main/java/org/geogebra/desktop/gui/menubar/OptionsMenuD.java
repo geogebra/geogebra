@@ -15,10 +15,8 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
-import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -341,7 +339,7 @@ public class OptionsMenuD extends BaseMenu
 			optionsMenu = new OptionsMenuController(app, new MenuFactory() {
 
 				@Override
-				public RadioButtonMenuBar newSubmenu() {
+				public RadioButtonMenuBarD newSubmenu() {
 					return new RadioButtonMenuBarD(app);
 				}
 
