@@ -7,10 +7,10 @@ import java.util.stream.Stream;
 import org.geogebra.common.kernel.interval.Interval;
 
 public class DiscreteSpaceCentered implements DiscreteSpace {
-	private final double start;
-	private final double countLeft;
-	private final double countRight;
-	private final double step;
+	private double start;
+	private double countLeft;
+	private double countRight;
+	private double step;
 
 	public DiscreteSpaceCentered(double start, double countLeft, double countRight, double step) {
 		this.start = start;
@@ -19,9 +19,15 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 		this.step = step;
 	}
 
+	public DiscreteSpaceCentered(double step) {
+		this.step = step;
+	}
+
 	@Override
 	public void update(Interval interval, int count) {
-
+		start = interval.middle();
+		countLeft = Math.ceil((start - interval.getLow()) / step);
+		countRight = Math.ceil((interval.getHigh() - start) / step);
 	}
 
 	@Override
@@ -36,7 +42,16 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 	@Override
 	public DiscreteSpace difference(double low, double high) {
-		return null;
+		double oldLow = start - countLeft * step;
+		int count = 0;
+		if (low < oldLow) {
+			double l = low;
+			while (l < oldLow) {
+				l += step;
+				count++;
+			}
+		}
+		return new DiscreteSpaceCentered(oldLow, count, 0, step);
 	}
 
 	@Override
@@ -51,6 +66,6 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 	@Override
 	public double getStep() {
-		return 0;
+		return step;
 	}
 }

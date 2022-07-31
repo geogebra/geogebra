@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
+import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
@@ -21,7 +22,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private final IntervalFunction function;
 	private EuclidianViewBounds bounds;
 	private int numberOfSamples;
-	private final DiscreteSpace space;
+	private DiscreteSpace space;
 
 	/**
 	 * @param geoFunction function to get sampled
@@ -32,7 +33,12 @@ public class FunctionSampler implements IntervalFunctionSampler {
 			int numberOfSamples) {
 		this(geoFunction);
 		this.numberOfSamples = numberOfSamples;
+		createSpace();
 		update(range);
+	}
+
+	private void createSpace() {
+		space = new DiscreteSpaceCentered(bounds.range().getLength() / numberOfSamples);
 	}
 
 	/**
@@ -44,12 +50,13 @@ public class FunctionSampler implements IntervalFunctionSampler {
 			EuclidianViewBounds bounds) {
 		this(geoFunction);
 		this.bounds = bounds;
+		numberOfSamples = bounds.getWidth();
+		createSpace();
 		update(range);
 	}
 
 	FunctionSampler(GeoFunction geoFunction) {
 		this.function = new IntervalFunction(geoFunction);
-		space = new DiscreteSpaceImp();
 	}
 
 	@Override
