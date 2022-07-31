@@ -1,18 +1,17 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.interval.Interval;
 
 public class DiscreteSpaceCentered implements DiscreteSpace {
 	private double start;
-	private double countLeft;
-	private double countRight;
-	private double step;
+	private int countLeft;
+	private int countRight;
+	private final double step;
 
-	public DiscreteSpaceCentered(double start, double countLeft, double countRight, double step) {
+	public DiscreteSpaceCentered(double start, int countLeft, int countRight, double step) {
 		this.start = start;
 		this.countLeft = countLeft;
 		this.countRight = countRight;
@@ -26,18 +25,20 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	@Override
 	public void update(Interval interval, int count) {
 		start = interval.middle();
-		countLeft = Math.ceil((start - interval.getLow()) / step);
-		countRight = Math.ceil((interval.getHigh() - start) / step);
+		countLeft = computeCountTo(interval.getLow());
+		countRight = computeCountTo(interval.getHigh());
+	}
+
+	private int computeCountTo(double limit) {
+		return (int) Math.ceil(Math.abs(start - limit) / step);
 	}
 
 	@Override
 	public Stream<Interval> values() {
-		List<Interval> list = new ArrayList<>();
-		for (double i = -countLeft; i < countRight; i++) {
-			double low = start + i * step;
-			list.add(new Interval(low, low + step));
-		}
-		return list.stream();
+		int allCount = countLeft + countRight;
+		return DoubleStream.iterate(-countLeft, index -> index + 1)
+				.limit(allCount)
+				.mapToObj(index -> new Interval(index * step, (index + 1) * step));
 	}
 
 	@Override
