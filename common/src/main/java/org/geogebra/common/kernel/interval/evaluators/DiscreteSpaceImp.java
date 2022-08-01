@@ -102,6 +102,11 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	}
 
 	@Override
+	public Stream<Interval> values(double low, double high) {
+		return null;
+	}
+
+	@Override
 	public double getStep() {
 		return step;
 	}

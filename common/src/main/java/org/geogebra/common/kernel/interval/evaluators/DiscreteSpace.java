@@ -9,6 +9,8 @@ public interface DiscreteSpace {
 
 	Stream<Interval> values();
 
+	Stream<Interval> values(double low, double high);
+
 	DiscreteSpace difference(double low, double high);
 
 	void extend(DiscreteSpace subspace);

@@ -35,24 +35,39 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 	@Override
 	public Stream<Interval> values() {
-		int allCount = countLeft + countRight;
-		return DoubleStream.iterate(-countLeft, index -> index + 1)
-				.limit(allCount)
-				.mapToObj(index -> new Interval(index * step, (index + 1) * step));
+		return createStream(start, -countLeft, countLeft + countRight);
+	}
+
+	@Override
+	public Stream<Interval> values(double low, double high) {
+		double length = high - low;
+		int diffCount = (int) Math.floor(length / step);
+		return createStream(low, 0, diffCount);
+	}
+
+	private double minValue() {
+		return start - countLeft * step;
+	}
+
+	private Stream<Interval> createStream(double start, int fromIndex, int toIndex) {
+		return DoubleStream.iterate(fromIndex, index -> index + 1)
+				.limit(toIndex)
+				.mapToObj(index -> new Interval(start + index * step,
+						start + (index + 1) * step));
 	}
 
 	@Override
 	public DiscreteSpace difference(double low, double high) {
-		double oldLow = start - countLeft * step;
-		int count = 0;
-		if (low < oldLow) {
-			double l = low;
-			while (l < oldLow) {
-				l += step;
-				count++;
-			}
+		if (low < minValue()) {
+			double length = Math.abs(minValue() - low);
+			int diffCount = (int) Math.floor(length / step);
+			DiscreteSpaceCentered diffSpace = new DiscreteSpaceCentered(low,
+					diffCount, 0, step);
+			countLeft += diffCount;
+			countRight -= diffCount;
+			return diffSpace;
 		}
-		return new DiscreteSpaceCentered(oldLow, count, 0, step);
+		return null;
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Model for Interval plotter.
@@ -25,7 +24,7 @@ public class IntervalPlotModel {
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
 	private Interval oldDomain;
-	private TupleNeighbours neighbours = new TupleNeighbours();
+	private final TupleNeighbours neighbours = new TupleNeighbours();
 
 	/**
 	 * Constructor
@@ -110,9 +109,7 @@ public class IntervalPlotModel {
 	}
 
 	private void extendMin(double oldMin, Interval xRange) {
-		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(), points.get(0).x().getLow());
-		Log.debug("extendMin - new: " + newPoints.get(newPoints.count()-1).x().getHigh()
-		+ " join to " + points.get(0).x().getLow());
+		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(), oldMin);
 		points.prepend(newPoints);
 		sampler.setInterval(xRange.getLow(), points.last().x().getHigh());
 		points.cutFrom(xRange.getHigh());
@@ -121,7 +118,6 @@ public class IntervalPlotModel {
 	private void extendMax(double oldMax, Interval xRange) {
 		IntervalTupleList newPoints = sampler.evaluate(oldMax, xRange.getHigh());
 		points.append(newPoints);
-		Log.debug("extendMax - new: " + newPoints.count() + " points: " + points.count());
 		sampler.setInterval(points.get(0).x().getLow(), xRange.getHigh());
 		points.cutTo(xRange.getLow());
 	}

@@ -1,12 +1,13 @@
 package org.geogebra.common.kernel.interval.samplers;
 
+import java.util.stream.Stream;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
-import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
@@ -71,24 +72,27 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList evaluate(double low, double high) {
-		DiscreteSpace difference = space.difference(low, high);
-		return evaluate(difference);
+		return processAsymptotes(evaluateOnStream(space.values(low, high)));
 	}
 
 	@Override
 	public IntervalTupleList evaluate(DiscreteSpace space) {
-		IntervalTupleList samples = new IntervalTupleList();
-		evaluateOnEach(space, samples);
+		return processAsymptotes(evaluateOnStream(space.values()));
+	}
+
+	private static IntervalTupleList processAsymptotes(IntervalTupleList samples) {
 		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
 		asymptotes.process();
 		return samples;
 	}
 
-	private void evaluateOnEach(DiscreteSpace space, IntervalTupleList samples) {
-		space.values().forEach(x -> {
+	private IntervalTupleList evaluateOnStream(Stream<Interval> values) {
+		IntervalTupleList tuples = new IntervalTupleList();
+		values.forEach(x -> {
 			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
-			samples.add(tuple);
+			tuples.add(tuple);
 		});
+		return tuples;
 	}
 
 	/**
