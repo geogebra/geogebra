@@ -45,6 +45,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.full.gui.components.ComponentToast;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.HasHelpButton;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
@@ -81,6 +82,9 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.editor.share.syntax.SyntaxController;
+import com.himamis.retex.editor.share.syntax.SyntaxHint;
+import com.himamis.retex.editor.share.syntax.SyntaxTooltipUpdater;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -98,7 +102,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
  * definitionPanel -> canvas | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
-		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels {
+		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SyntaxTooltipUpdater {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
@@ -165,6 +169,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private String ariaPreview;
 	private Label ariaLabel = null;
 	InputItemControl inputControl;
+	private ComponentToast toast;
+	private final SyntaxController syntaxController;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -186,6 +192,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		content = new FlowPanel();
 		definitionValuePanel = new FlowPanel();
 		inputControl = createInputControl();
+		syntaxController = new SyntaxController();
+		syntaxController.setUpdater(this);
 		setWidget(main);
 		setController(createController());
 
@@ -1616,10 +1624,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
+		mf.getInternal().registerMathFieldInternalListener(syntaxController);
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getGeoGebraElement().getScaleX());
 		mf.setOnBlur(getLatexController());
-		mf.setOnFocus(focusEvent -> setFocusedStyle(true));
+		mf.setOnFocus(focusEvent -> {
+			setFocusedStyle(true);
+		});
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -1654,6 +1665,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			if (isInputTreeItem()) {
 				setItemWidth(getAV().getFullWidth());
+				if (toast != null) {
+					toast.hide();
+				}
 			} else {
 				content.removeStyleName("scrollableTextBox");
 			}
@@ -1807,6 +1821,34 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void insertString(String text) {
 		new MathFieldProcessing(mf).autocomplete(
 				app.getParserFunctions().toEditorAutocomplete(text, loc));
+	}
+
+	@Override
+	public void updateSyntaxTooltip(SyntaxHint sh) {
+		if (!sh.isEmpty()) {
+			String hintHtml = sh.getPrefix() + "<strong>"
+					+ sh.getActivePlaceholder() + "</strong>" + sh.getSuffix();
+
+			int leftAVCell = (int) (marblePanel.getAbsoluteLeft() - app.getAbsLeft()
+					+ marblePanel.getOffsetWidth());
+			int topAVCell = (int) (marblePanel.getAbsoluteTop() - app.getAbsTop());
+			int bottomAVCell = topAVCell + marblePanel.getOffsetHeight();
+			if (toast == null) {
+				toast = new ComponentToast(app, hintHtml);
+				toast.show(leftAVCell, topAVCell, bottomAVCell,
+						getItemWidth() - marblePanel.getOffsetWidth());
+			} else {
+				toast.updateContent(hintHtml);
+				if (!toast.isShowing()) {
+					toast.show(leftAVCell, topAVCell, bottomAVCell,
+							getItemWidth() - marblePanel.getOffsetWidth());
+				}
+			}
+		} else {
+			if (toast != null) {
+				toast.hide();
+			}
+		}
 	}
 
 	/**

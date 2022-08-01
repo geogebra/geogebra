@@ -1368,7 +1368,7 @@ public class InputController {
 		}
 	}
 
-	private static class FunctionPower {
+	public static class FunctionPower {
 		/** subscript or superscript*/
 		public MathFunction script;
 		public String name;
