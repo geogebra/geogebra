@@ -785,4 +785,30 @@
 	.radioButtonPanel {
 		display: inline-grid;
 	}
+
+	.toast {
+		position: absolute;
+		background-color: colors.$toast-background;
+		max-width: fit-content;
+		border-radius: 4px;
+		padding: 8px 12px;
+		box-shadow: 0 3px 5px -1px colors.$black-20,0 6px 10px 0 colors.$black-14,0 1px 18px 0 colors.$black-12;
+		transition: opacity 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms,transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms,-webkit-transform 0.1s cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transform: scale(.8);
+		opacity: 0;
+
+		.content {
+			color: white;
+			min-height: 20px;
+			line-height: 20px;
+			text-align: center;
+			font-size: 87%;
+			letter-spacing: 0.25px;
+		}
+
+		&.fadeIn {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
 }

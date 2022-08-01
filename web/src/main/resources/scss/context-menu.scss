@@ -119,4 +119,42 @@
 		color: colors.$black;
 		opacity: 0.38;
 	}
+
+	.radioButton.RadioButtonMenuItem {
+		display: flex;
+		.radioBg {
+			width: 32px;
+			height: 32px;
+			background-color: transparent;
+
+			.outerCircle {
+				width: 14px;
+				height: 14px;
+				margin: 7px;
+			}
+
+			.innerCircle {
+				width: 8px;
+				height: 8px;
+				bottom: 20px;
+				left: 12px;
+			}
+		}
+
+		.gwt-Label {
+			line-height: 32px;
+		}
+
+		&:hover {
+			.radioBg {
+				background-color: transparent;
+			}
+		}
+
+		&.selected:hover {
+			.radioBg {
+				background-color: transparent;
+			}
+		}
+	}
 }

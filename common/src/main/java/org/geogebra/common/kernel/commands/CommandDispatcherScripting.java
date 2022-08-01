@@ -42,8 +42,7 @@ import org.geogebra.common.kernel.scripting.CmdSetTooltipMode;
 import org.geogebra.common.kernel.scripting.CmdSetTrace;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.kernel.scripting.CmdSetVisibleInView;
-import org.geogebra.common.kernel.scripting.CmdShowAxes;
-import org.geogebra.common.kernel.scripting.CmdShowGrid;
+import org.geogebra.common.kernel.scripting.CmdShowAxesOrGrid;
 import org.geogebra.common.kernel.scripting.CmdShowHideLayer;
 import org.geogebra.common.kernel.scripting.CmdShowLabel;
 import org.geogebra.common.kernel.scripting.CmdSlider;
@@ -175,9 +174,9 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 		case SetVisibleInView:
 			return new CmdSetVisibleInView(kernel);
 		case ShowAxes:
-			return new CmdShowAxes(kernel);
+			return new CmdShowAxesOrGrid(kernel, Commands.ShowAxes);
 		case ShowGrid:
-			return new CmdShowGrid(kernel);
+			return new CmdShowAxesOrGrid(kernel, Commands.ShowGrid);
 		case SlowPlot:
 			return new CmdSlowPlot(kernel);
 		case ToolImage:

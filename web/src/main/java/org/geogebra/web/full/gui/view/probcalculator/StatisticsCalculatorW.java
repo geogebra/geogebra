@@ -41,7 +41,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	private Label lblSampleHeader2;
 	private ComponentCheckbox ckPooled;
 	private ListBox cbProcedure;
-	private RadioButtonPanel tailRadioButtonPanel;
+	private RadioButtonPanel<String> tailRadioButtonPanel;
 	private Label lblNull;
 	private Label lblHypParameter;
 	private Label lblTailType;
@@ -446,10 +446,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		cbProcedure = new ListBox();
 		cbProcedure.addChangeHandler(this);
 
-		tailRadioButtonPanel = new RadioButtonPanel(loc,
+		tailRadioButtonPanel = new RadioButtonPanel<>(loc,
 				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
 						newRadioButtonData(StatisticsCollection.tail_right),
-						newRadioButtonData(StatisticsCollection.tail_two)), 2);
+						newRadioButtonData(StatisticsCollection.tail_two)),
+				StatisticsCollection.tail_two,
+				ignore -> updateResult(true));
 
 		lblNull = new Label();
 		lblHypParameter = new Label();
@@ -486,8 +488,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		}
 	}
 
-	private RadioButtonData newRadioButtonData(String label) {
-		return new RadioButtonData(label, false, () -> updateResult(true));
+	private RadioButtonData<String> newRadioButtonData(String label) {
+		return new RadioButtonData<>(label, label);
 	}
 
 	private TextObject buildTextField() {
@@ -570,18 +572,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	@Override
-	protected boolean btnRightIsSelected() {
-		return tailRadioButtonPanel.isNthRadioButtonSelected(1);
+	protected String getSelectedTail() {
+		return tailRadioButtonPanel.getValue();
 	}
 
 	@Override
-	protected boolean btnLeftIsSelected() {
-		return tailRadioButtonPanel.isNthRadioButtonSelected(0);
-	}
-
-	@Override
-	protected void updateTailCheckboxes(boolean left, boolean right) {
-		// nothing to do here
+	protected void updateTailCheckboxes(String tail) {
+		tailRadioButtonPanel.setValue(tail);
 	}
 
 	@Override
