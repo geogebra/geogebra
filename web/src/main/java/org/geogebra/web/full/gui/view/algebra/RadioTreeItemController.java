@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.Event;
@@ -328,8 +327,9 @@ public class RadioTreeItemController implements ClickHandler,
 			event.preventDefault();
 			getAV().resetItems(false);
 		} else {
-			if (getAV().getInputTreeItem() != null) {
-				getAV().getInputTreeItem().getController().stopEdit();
+			RadioTreeItem inputTreeItem = getAV().getInputTreeItem();
+			if (inputTreeItem != null) {
+				inputTreeItem.getController().stopEdit();
 			}
 		}
 
@@ -394,7 +394,7 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param event
 	 *            mouse move event
 	 */
@@ -654,15 +654,6 @@ public class RadioTreeItemController implements ClickHandler,
 		return app;
 	}
 
-	/**
-	 * Remove edited geo from construction and clear editor.
-	 */
-	public void removeGeo() {
-		item.geo.remove();
-		item.setText(""); // make sure the text is not resubmitted on focus lost
-		getAV().setActiveTreeItem(null);
-	}
-
 	public int getEditHeigth() {
 		return editHeigth;
 	}
@@ -689,16 +680,12 @@ public class RadioTreeItemController implements ClickHandler,
 		item.setInputAsText(value);
 	}
 
-	public void forceInputAsText() {
-		setInputAsText(true);
-	}
-
 	/**
 	 * @return if input should be treated as text item.
 	 */
 	public boolean isInputAsText() {
 		return inputAsText || (item.geo != null && item.geo.isGeoText()
-				&& !((GeoText) item.geo).isTextCommand());
+				&& !item.geo.isTextCommand());
 	}
 
 	/**

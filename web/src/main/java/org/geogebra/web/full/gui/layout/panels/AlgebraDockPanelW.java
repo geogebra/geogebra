@@ -1,18 +1,20 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
+import org.geogebra.web.full.gui.toolbarpanel.AlgebraViewScroller;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.gwtproject.resources.client.ResourcePrototype;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -28,8 +30,10 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	private ScrollPanel algebrap;
 	private FlowPanel wrapper;
 	private AlgebraViewW aview = null;
-	private int savedScrollPosition;
+
 	private final DockPanelDecorator decorator;
+
+	private @CheckForNull AlgebraViewScroller scroller = null;
 
 	/**
 	 * Create new dockapanel for algebra
@@ -89,6 +93,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 			algebrap.add(wrapper);
 			algebrap.addStyleName("algebraPanel");
 			algebrap.addDomHandler(event -> algebraPanelClicked(av, event), ClickEvent.getType());
+			scroller = new AlgebraViewScroller(algebrap, aview);
 		}
 	}
 
@@ -126,6 +131,7 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		}
 		if (getOffsetHeight() > 0 && aview != null) {
 			aview.resize(0);
+			scrollToActiveItem();
 		}
 		if (decorator != null && aview != null) {
 			decorator.onResize(aview, getOffsetHeight());
@@ -137,20 +143,10 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		return getResources().menu_icon_algebra();
 	}
 
-	/**
-	 * @param position
-	 *            distance from top
-	 */
-	public void scrollTo(int position) {
-		if (this.algebrap != null) {
-			this.algebrap.setVerticalScrollPosition(position);
-		}
-	}
-
 	@Override
 	public void scrollAVToBottom() {
-		if (this.algebrap != null) {
-			this.algebrap.scrollToBottom();
+		if (scroller != null) {
+			scroller.toBottom();
 		}
 	}
 
@@ -174,16 +170,9 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public void scrollToActiveItem() {
-		final RadioTreeItem item = aview == null ? null
-				: aview.getActiveTreeItem();
-		if (item == null) {
-			return;
+		if (scroller != null) {
+			scroller.toActiveItem();
 		}
-		if (item.isInputTreeItem()) {
-			Scheduler.get().scheduleDeferred(this::scrollAVToBottom);
-			return;
-		}
-		doScrollToActiveItem();
 	}
 
 	/**
@@ -191,17 +180,8 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	 */
 	@Override
 	public void saveAVScrollPosition() {
-		savedScrollPosition = algebrap.getVerticalScrollPosition();
-	}
-
-	private void doScrollToActiveItem() {
-		final RadioTreeItem item = aview.getActiveTreeItem();
-		int spH = algebrap.getOffsetHeight();
-		int top = item.getElement().getOffsetTop();
-		int relTop = top - savedScrollPosition;
-		if (spH < relTop + item.getOffsetHeight()) {
-			int pos = top + item.getOffsetHeight() - spH;
-			algebrap.setVerticalScrollPosition(pos);
+		if (scroller != null) {
+			scroller.save();
 		}
 	}
 
@@ -254,7 +234,11 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 
 	@Override
 	public double getMinVHeight(boolean keyboard) {
-		return Math.max(aview.getInputTreeItem().getOffsetHeight(), 120);
+		RadioTreeItem inputTreeItem = aview.getInputTreeItem();
+		if (inputTreeItem == null) {
+			return 120;
+		}
+		return Math.max(inputTreeItem.getOffsetHeight(), 120);
 	}
 
 	@Override

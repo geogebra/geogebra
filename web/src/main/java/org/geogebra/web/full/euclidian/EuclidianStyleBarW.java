@@ -78,8 +78,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -87,7 +85,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EuclidianStyleBarW extends StyleBarW2
 		implements org.geogebra.common.euclidian.EuclidianStyleBar,
-		ValueChangeHandler<Boolean>, FastClickHandler {
+		FastClickHandler {
 
 	private enum StyleBarMethod {
 		NONE, UPDATE, UPDATE_STYLE
@@ -1425,13 +1423,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-		handleEventHandlers(source);
-	}
-
-	@Override
-	protected void handleEventHandlers(Object source) {
+	public void fireActionPerformed(PopupMenuButtonW source) {
 		needUndo = false;
 
 		ArrayList<GeoElement> targetGeos = selection.getGeos();
@@ -1490,11 +1482,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 *            selected objects
 	 */
 	@Override
-	protected boolean processSource(Object source,
+	protected boolean processSource(Widget source,
 			ArrayList<GeoElement> targetGeos) {
-		if ((source instanceof Widget)
-				&& (EuclidianStyleBarStatic.processSourceCommon(
-						getActionCommand((Widget) source), targetGeos, ev))) {
+		if (EuclidianStyleBarStatic.processSourceCommon(
+						getActionCommand(source), targetGeos, ev)) {
 			return true;
 		}
 

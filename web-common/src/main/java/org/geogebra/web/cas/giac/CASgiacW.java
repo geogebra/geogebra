@@ -134,7 +134,7 @@ public class CASgiacW extends CASgiac {
 		evaluateRaw("caseval(\"ckevery 20\")", externalCAS);
 
 		// make sure we don't always get the same value!
-		int seed = rand.nextInt(Integer.MAX_VALUE);
+		int seed = getSeed(exp);
 		evaluateRaw("srand(" + seed + ")", externalCAS);
 
 		// set to radians mode

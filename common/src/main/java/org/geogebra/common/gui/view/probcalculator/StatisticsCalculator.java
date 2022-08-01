@@ -164,13 +164,7 @@ public abstract class StatisticsCalculator {
 			sc.sd = parseStringData(fldSigma.getText(), errorHandler);
 			sc.nullHyp = parseStringData(fldNullHyp.getText(), errorHandler);
 
-			if (btnLeftIsSelected()) {
-				sc.setTail(StatisticsCollection.tail_left);
-			} else if (btnRightIsSelected()) {
-				sc.setTail(StatisticsCollection.tail_right);
-			} else {
-				sc.setTail(StatisticsCollection.tail_two);
-			}
+			sc.setTail(getSelectedTail());
 
 			for (int i = 0; i < s1.length; i++) {
 				s1[i] = parseStringData(fldSampleStat1[i].getText(),
@@ -247,11 +241,10 @@ public abstract class StatisticsCalculator {
 
 		fldConfLevel.setText(format(sc.level));
 		fldNullHyp.setText(format(sc.nullHyp));
-		updateTailCheckboxes(StatisticsCollection.tail_left.equals(sc.getTail()),
-				StatisticsCollection.tail_right.equals(sc.getTail()));
+		updateTailCheckboxes(sc.getTail());
 	}
 
-	protected abstract void updateTailCheckboxes(boolean left, boolean right);
+	protected abstract void updateTailCheckboxes(String tail);
 
 	final protected boolean forceZeroHypothesis() {
 		return sc.getSelectedProcedure() == Procedure.ZPROP2_TEST
@@ -274,18 +267,12 @@ public abstract class StatisticsCalculator {
 	 */
 	protected void removeActionListener(TextObject textObject) {
 		// not needed in web
-
 	}
 
 	/**
-	 * @return whether right tail radio button is pressed
+	 * @return tail value
 	 */
-	abstract protected boolean btnRightIsSelected();
-
-	/**
-	 * @return whether left tail radio button is pressed
-	 */
-	abstract protected boolean btnLeftIsSelected();
+	abstract protected String getSelectedTail();
 
 	/**
 	 * Prevent auto scrolling

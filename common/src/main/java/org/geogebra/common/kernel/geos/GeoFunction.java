@@ -294,8 +294,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement g, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(g, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement g) {
+		super.setBasicVisualStyle(g);
 		if (g instanceof GeoFunction) {
 			setShowOnAxis(((GeoFunction) g).showOnAxis);
 		}

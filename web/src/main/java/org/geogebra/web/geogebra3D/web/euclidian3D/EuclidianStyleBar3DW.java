@@ -19,6 +19,8 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * style bar for 3D view
  */
@@ -242,13 +244,11 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void updateAxesAndGridGUI() {
 		btnShowGrid3D.setSelected(ev.getShowGrid());
-		btnShowGrid3D.addFastClickHandler(this);
-
 		btnShowAxesAndPlane.setIndexFromEV();
 	}
 
 	@Override
-	protected boolean processSource(Object source,
+	protected boolean processSource(Widget source,
 			ArrayList<GeoElement> targetGeos) {
 		if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();

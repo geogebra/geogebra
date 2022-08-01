@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -870,7 +871,8 @@ public interface Traversing {
 						&& !variable
                             .getKernel()
                             .getConstruction()
-                            .isRegisteredFunctionVariable(variableName)) {
+                            .isRegisteredFunctionVariable(variableName)
+						&& LabelManager.checkName(null, variableName)) {
 					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
 				}

@@ -1474,4 +1474,18 @@ public abstract class CASgiac implements CASGenericInterface {
 	public int getCasGiacCacheSize() {
 		return casGiacCache.size();
 	}
+
+	public void clearCache() {
+		casGiacCache.clear();
+	}
+
+	/**
+	 * Use a constant for "fsolve" (needed for reproducible results of NSolve and NSolutions).
+	 * For other commands use a random seed to make sure random results from Giac are not repeated.
+	 * @param exp expression to be evaluated after
+	 * @return RNG seed
+	 */
+	protected int getSeed(String exp) {
+		return exp.contains("fsolve(") ? 9 : rand.nextInt(Integer.MAX_VALUE);
+	}
 }

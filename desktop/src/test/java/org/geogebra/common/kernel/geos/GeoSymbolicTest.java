@@ -976,6 +976,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testCASSpecialPointsForNumbers() {
+		Assert.assertNull(SuggestionRootExtremum.get(add("1+2")));
+	}
+
+	@Test
 	public void handlePreviewPointsTest() {
 		add("f:x^2 - 2");
 		add("g:x^3 - 1");
