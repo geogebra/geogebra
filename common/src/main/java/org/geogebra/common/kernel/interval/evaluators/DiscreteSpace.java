@@ -5,15 +5,11 @@ import java.util.stream.Stream;
 import org.geogebra.common.kernel.interval.Interval;
 
 public interface DiscreteSpace {
-	void update(Interval interval, int count);
-
 	Stream<Interval> values();
 
-	DiscreteSpace difference(double low, double high);
+	Stream<Interval> values(double low, double high);
 
-	void extend(DiscreteSpace subspace);
+	void update(Interval interval, int count);
 
 	void setInterval(double min, double max);
-
-	double getStep();
 }

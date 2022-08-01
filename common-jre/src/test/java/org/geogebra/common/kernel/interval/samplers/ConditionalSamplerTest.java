@@ -134,7 +134,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		assertEquals(0,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());
 
-		double step = space.getStep();
+		double step = 0.2;
 		tuples = sampler.evaluate(interval(0 - step / 2, 0 + step / 2));
 		assertEquals(1,
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(interval(1))).count());

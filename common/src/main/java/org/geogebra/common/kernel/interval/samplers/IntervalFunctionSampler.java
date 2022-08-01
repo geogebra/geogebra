@@ -16,6 +16,4 @@ public interface IntervalFunctionSampler extends IntervalEvaluatable {
 	void setInterval(double low, double high);
 
 	GeoFunction getGeoFunction();
-
-	double step();
 }

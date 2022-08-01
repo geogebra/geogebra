@@ -10,10 +10,10 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
 public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 
-	private ConditionalSamplerList samplers;
-	private GeoFunction function;
-	private IntervalTuple range;
-	private EuclidianViewBounds evBounds;
+	private final ConditionalSamplerList samplers;
+	private final GeoFunction function;
+	private final IntervalTuple range;
+	private final EuclidianViewBounds evBounds;
 	private final DiscreteSpace space;
 
 	/**
@@ -74,8 +74,4 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 		return function;
 	}
 
-	@Override
-	public double step() {
-		return samplers.step();
-	}
 }

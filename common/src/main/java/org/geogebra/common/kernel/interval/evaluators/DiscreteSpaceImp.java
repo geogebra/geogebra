@@ -1,13 +1,10 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.util.DoubleUtil;
 
 public class DiscreteSpaceImp implements DiscreteSpace {
 	private Interval interval;
@@ -46,30 +43,6 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 		step = interval.getLength() / count;
 	}
 
-	@Override
-	public DiscreteSpace difference(double low, double high) {
-		if (low < interval.getLow()) {
-			return diffMin(low);
-		}
-		return diffMax(high);
-	}
-
-	@Override
-	public void extend(DiscreteSpace subspace) {
-		List<Interval> list = subspace.values().collect(Collectors.toList());
-		double valueToExtend = list.get(list.size() - 1 ).getHigh();
-
-		if (DoubleUtil.isEqual(valueToExtend, interval.getLow())) {
-			double low = list.get(0).getLow();
-			interval.set(low, interval.getHigh() - list.size() * step);
-		} else {
-			double extendHigh = list.get(0).getLow();
-			if (DoubleUtil.isEqual(extendHigh, interval.getHigh())) {
-				interval.set(interval.getLow() + list.size() * step,
-						valueToExtend);
-			}
-		}
-	}
 
 	private DiscreteSpace diffMin(double min) {
 		double d = Math.ceil(Math.abs(interval.getLow() - min) / step);
@@ -102,8 +75,8 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	}
 
 	@Override
-	public double getStep() {
-		return step;
+	public Stream<Interval> values(double low, double high) {
+		return null;
 	}
 
 	@Override

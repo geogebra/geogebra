@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
 public class ConditionalSampler implements IntervalEvaluatable {
-	private IntervalConditionalExpression conditionalExpression;
+	private final IntervalConditionalExpression conditionalExpression;
 	private DiscreteSpace space;
 	private int index = 0;
 
@@ -45,8 +45,10 @@ public class ConditionalSampler implements IntervalEvaluatable {
 
 	@Override
 	public IntervalTupleList evaluate(double low, double high) {
-		DiscreteSpace diffSpace = space.difference(low, high);
-		return evaluate(diffSpace);
+		IntervalTupleList list = new IntervalTupleList();
+		space.values(low, high).filter(x -> conditionalExpression.isTrue(x))
+				.forEach(x -> list.add(evaluatedTuple(x)));
+		return list;
 	}
 
 	@Override

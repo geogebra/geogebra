@@ -4,7 +4,6 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,37 +16,35 @@ public class DiscreteSpaceCenteredTest {
 		double step = 0.05;
 		DiscreteSpaceCentered space = new DiscreteSpaceCentered(0,
 				10, 10, step);
-		List<Interval> expected = new ArrayList<>();
-		for (int i = 0; i < 20; i++) {
-			double start = -0.5;
-			expected.add(interval(start + i * step, start + (i + 1) * step));
+		List<Interval> expected = createIntervalList(-0.5, step, 20);
+
+		List<Interval> list = space.values().collect(Collectors.toList());
+		assertEquals(expected, list);
+	}
+
+	private List<Interval> createIntervalList(double start, double step, int count) {
+		List<Interval> list = new ArrayList<>();
+		for (int i = 0; i < count; i++) {
+			list.add(interval(start + i * step, start + (i + 1) * step));
 		}
-
-		List<Interval> list = space.values().collect(Collectors.toList());
-		assertEquals(expected, list);
+		return list;
 	}
 
 	@Test
-	public void testUpdate() {
-		DiscreteSpaceCentered space = new DiscreteSpaceCentered(0,
-				0, 0, 0.05);
-		space.update(new Interval(-0.5, 0.5), 20);
-		List<Interval> list = space.values().collect(Collectors.toList());
-
-		DiscreteSpaceCentered reference = new DiscreteSpaceCentered(0,
+	public void testValuesWithBoundsLeft() {
+		DiscreteSpaceCentered space = new DiscreteSpaceCentered(10,
 				10, 10, 0.05);
-		List<Interval> expected = reference.values().collect(Collectors.toList());
-		assertEquals(expected, list);
+		List<Interval> actual = space.values(9.5, 10).collect(Collectors.toList());
+		assertEquals(createIntervalList(9.5, 0.05, 10), actual);
 	}
 
-
 	@Test
-	public void testDifference() {
+	public void testValuesWithBoundsRight() {
 		DiscreteSpaceCentered space = new DiscreteSpaceCentered(0,
 				10, 10, 0.05);
-		DiscreteSpace difference = space.difference(-7, 5);
-		List<Interval> actual = difference.values().collect(Collectors.toList());
-		assertEquals(Collections.emptyList(), actual);
+		List<Interval> actual = space.values(0.5, 1).collect(Collectors.toList());
+
+		assertEquals(createIntervalList(0.5, 0.05, 10), actual);
 	}
 
 }
