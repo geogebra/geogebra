@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.view.data;
 
+import java.util.Arrays;
+
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
@@ -13,6 +15,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -25,7 +29,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
@@ -48,11 +51,8 @@ public class OptionsPanelW extends FlowPanel
 	private ComponentCheckbox ckOverlayPolygon;
 	private ComponentCheckbox ckShowFrequencyTable;
 	private ComponentCheckbox ckShowHistogram;
-	private RadioButton rbRelative;
-	private RadioButton rbNormalized;
-	private RadioButton rbFreq;
-	private RadioButton rbLeftRule;
-	private RadioButton rbRightRule;
+	private RadioButtonPanel<Integer> freqRadioButtonPanel;
+	private RadioButtonPanel<Boolean> classRadioButtonPanel;
 	private Label lblFreqType;
 	private Label lblOverlay;
 	private Label lblClassRule;
@@ -115,14 +115,6 @@ public class OptionsPanelW extends FlowPanel
 	private Localization loc;
 
 	private final static int FIELD_WIDTH = 8;
-
-	private class PropertyChangeHandler implements ClickHandler {
-		@Override
-		public void onClick(ClickEvent event) {
-			actionPerformed(event.getSource());
-		}
-
-	}
 
 	private class PropertyKeyHandler implements KeyHandler {
 		private Object source;
@@ -187,7 +179,6 @@ public class OptionsPanelW extends FlowPanel
 	 *            plot type
 	 */
 	public void setPanel(PlotType plotType) {
-
 		tabPanel.clear();
 		this.setVisible(true);
 
@@ -203,7 +194,7 @@ public class OptionsPanelW extends FlowPanel
 		barChartPanel.setVisible(false);
 		boxPlotPanel.setVisible(false);
 
-		rbNormalized.setVisible(false);
+		freqRadioButtonPanel.disableNthRadioButton(2, true);
 		ckOverlayNormal.setVisible(false);
 		ckShowHistogram.setVisible(false);
 		ckCumulative.setVisible(false);
@@ -223,7 +214,7 @@ public class OptionsPanelW extends FlowPanel
 		case HISTOGRAM:
 			classesPanel.setVisible(true);
 			histogramPanel.setVisible(true);
-			rbNormalized.setVisible(true);
+			freqRadioButtonPanel.disableNthRadioButton(2, false);
 			ckOverlayNormal.setVisible(true);
 			ckShowHistogram.setVisible(true);
 			ckCumulative.setVisible(true);
@@ -288,11 +279,20 @@ public class OptionsPanelW extends FlowPanel
 		lbDimTitle = new Label();
 		lbDimTitle.setStyleName("panelTitle");
 
-		rbFreq = new RadioButton("group1");
+		RadioButtonData<Integer> freqData = new RadioButtonData<>("Count",
+				StatPanelSettings.TYPE_COUNT);
+		RadioButtonData<Integer> relData = new RadioButtonData<>("Relative",
+				StatPanelSettings.TYPE_RELATIVE);
+		RadioButtonData<Integer> normData = new RadioButtonData<>("Normalized",
+				StatPanelSettings.TYPE_NORMALIZED);
+		freqRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(freqData, relData, normData), StatPanelSettings.TYPE_COUNT,
+				(value) -> {
+					settings.setFrequencyType(value);
+					firePropertyChange();
+				}
+		);
 
-		rbNormalized = new RadioButton("group1");
-
-		rbRelative = new RadioButton("group1");
 		lblOverlay = new Label();
 		ckOverlayNormal = new ComponentCheckbox(loc, settings.isHasOverlayNormal(), "NormalCurve",
 				(selected) -> {
@@ -325,16 +325,21 @@ public class OptionsPanelW extends FlowPanel
 				});
 
 		lblClassRule = new Label();
-		rbLeftRule = new RadioButton("rule");
-		rbRightRule = new RadioButton("rule");
+		RadioButtonData<Boolean> rightData = new RadioButtonData<>(
+				SpreadsheetViewInterface.RIGHT_CLASS_RULE, false);
+		RadioButtonData<Boolean> leftData = new RadioButtonData<>(
+				SpreadsheetViewInterface.LEFT_CLASS_RULE, true);
+		classRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(rightData, leftData), settings.isLeftRule(), (isLeft) -> {
+			settings.setLeftRule(isLeft);
+			firePropertyChange();
+		});
 
 		// create frequency type panel
 		freqPanel = new FlowPanel();
 		freqPanel.add(lbFreqTitle);
 		freqPanel.add(ckCumulative);
-		freqPanel.add(LayoutUtilW.panelRowIndent(rbFreq));
-		freqPanel.add(LayoutUtilW.panelRowIndent(rbRelative));
-		freqPanel.add(LayoutUtilW.panelRowIndent(rbNormalized));
+		freqPanel.add(LayoutUtilW.panelRowIndent(freqRadioButtonPanel));
 
 		// create show panel
 		showPanel = new FlowPanel();
@@ -350,17 +355,8 @@ public class OptionsPanelW extends FlowPanel
 		classesPanel.add(lbClassTitle);
 		classesPanel.add(LayoutUtilW.panelRowIndent(ckManual));
 		classesPanel.add(lblClassRule);
-		classesPanel.add(LayoutUtilW.panelRowIndent(rbLeftRule));
-		classesPanel.add(LayoutUtilW.panelRowIndent(rbRightRule));
+		classesPanel.add(classRadioButtonPanel);
 		layoutHistogramPanel();
-
-		PropertyChangeHandler handler = new PropertyChangeHandler();
-		rbFreq.addClickHandler(handler);
-		rbRelative.addClickHandler(handler);
-		rbNormalized.addClickHandler(handler);
-		rbLeftRule.addClickHandler(handler);
-		rbRightRule.addClickHandler(handler);
-
 	}
 
 	private void layoutHistogramPanel() {
@@ -407,19 +403,14 @@ public class OptionsPanelW extends FlowPanel
 	}
 
 	private void createBoxPlotPanel() {
-
-		// create components
 		ckShowOutliers = new ComponentCheckbox(loc, settings.isShowOutliers(), "ShowOutliers",
 				(selected) -> {
 					settings.setShowOutliers(selected);
 					firePropertyChange();
 				});
 
-		// layout
-
 		boxPlotPanel = new FlowPanel();
 		boxPlotPanel.add(ckShowOutliers);
-
 	}
 
 	private void createScatterplotPanel() {
@@ -532,7 +523,6 @@ public class OptionsPanelW extends FlowPanel
 		settings.setCoordMode(StatPanelSettings.CoordMode.values()[index]);
 		this.firePropertyChange();
 		updateGUI();
-
 	}
 
 	@Override
@@ -547,9 +537,8 @@ public class OptionsPanelW extends FlowPanel
 		ckManual.setLabels();
 		lblFreqType.setText(loc.getMenu("FrequencyType") + ":");
 
-		rbFreq.setText(loc.getMenu("Count"));
-		rbNormalized.setText(loc.getMenu("Normalized"));
-		rbRelative.setText(loc.getMenu("Relative"));
+		freqRadioButtonPanel.setLabels();
+		classRadioButtonPanel.setLabels();
 
 		ckCumulative.setLabels();
 		lblOverlay.setText(loc.getMenu("Overlay"));
@@ -559,8 +548,6 @@ public class OptionsPanelW extends FlowPanel
 		ckShowHistogram.setLabels();
 
 		lblClassRule.setText(loc.getMenu("ClassRule") + ":");
-		rbRightRule.setText(SpreadsheetViewInterface.RIGHT_CLASS_RULE);
-		rbLeftRule.setText(SpreadsheetViewInterface.LEFT_CLASS_RULE);
 
 		// bar chart
 		lblBarWidth.setText(loc.getMenu("Width"));
@@ -582,7 +569,6 @@ public class OptionsPanelW extends FlowPanel
 
 		// boxplot options
 		ckShowOutliers.setLabels();
-
 	}
 
 	private void updateGUI() {
@@ -591,13 +577,6 @@ public class OptionsPanelW extends FlowPanel
 
 		// histogram/barchart
 		ckManual.setSelected(settings.isUseManualClasses());
-		rbFreq.setValue(
-				settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
-		rbRelative.setValue(
-				settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
-		rbNormalized.setValue(settings
-				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
-		rbLeftRule.setValue(settings.isLeftRule());
 		ckCumulative.setSelected(settings.isCumulative());
 		ckOverlayNormal.setSelected(settings.isHasOverlayNormal());
 		ckOverlayPolygon.setSelected(settings.isHasOverlayPolygon());
@@ -663,18 +642,6 @@ public class OptionsPanelW extends FlowPanel
 
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
-		} else if (source == rbFreq) {
-			settings.setFrequencyType(StatPanelSettings.TYPE_COUNT);
-			firePropertyChange();
-		} else if (source == rbRelative) {
-			settings.setFrequencyType(StatPanelSettings.TYPE_RELATIVE);
-			firePropertyChange();
-		} else if (source == rbNormalized) {
-			settings.setFrequencyType(StatPanelSettings.TYPE_NORMALIZED);
-			firePropertyChange();
-		} else if (source == rbLeftRule || source == rbRightRule) {
-			settings.setLeftRule(rbLeftRule.getValue());
-			firePropertyChange();
 		} else {
 			firePropertyChange();
 		}

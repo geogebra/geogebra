@@ -7,8 +7,8 @@ plugins {
 project.setDescription('Developer tools required to compile web platforms')
 
 dependencies {
-    api "com.google.gwt:gwt-dev:$gwtCompilerVersion",
-            "com.google.gwt:gwt-user:$gwtCompilerVersion",
+    api "org.gwtproject:gwt-dev:$gwtCompilerVersion",
+            "org.gwtproject:gwt-user:$gwtCompilerVersion",
             project(':common')
 
     api group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'

@@ -43,7 +43,7 @@ public class InputDialogRotatePointW extends InputDialogRotateW {
 	@Override
 	protected void processInput(AsyncOperation<String> callback) {
 		DialogManager.rotateObject(app, getInputText(),
-				rbClockWise.getValue(), polys,
+				isClockWise(), polys,
 				new DialogManager.CreateGeoForRotatePoint(points[0]), selGeos,
 				ec, this,
 				callback);

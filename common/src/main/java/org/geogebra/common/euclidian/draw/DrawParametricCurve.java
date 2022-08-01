@@ -473,6 +473,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		intervalPlotter.draw(g2);
+
 	}
 
 	private void drawParametric(GGraphics2D g2) {

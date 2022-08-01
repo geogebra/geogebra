@@ -459,8 +459,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 		}
-		if (getInputTreeItem() != null) {
-			getInputTreeItem().setPixelRatio(app.getPixelRatio());
+		if (inputPanelLatex != null) {
+			inputPanelLatex.setPixelRatio(app.getPixelRatio());
 		}
 	}
 
@@ -1493,7 +1493,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */
-	public RadioTreeItem getInputTreeItem() {
+	public @CheckForNull RadioTreeItem getInputTreeItem() {
 		return inputPanelLatex;
 	}
 
@@ -1944,8 +1944,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void updateFonts() {
 		if (mqFontSize != getFontSizeWeb()) {
 			mqFontSize = getFontSizeWeb();
-			if (getInputTreeItem() != null) {
-				getInputTreeItem().updateFonts();
+			if (inputPanelLatex != null) {
+				inputPanelLatex.updateFonts();
 			}
 		}
 	}
@@ -2042,9 +2042,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void setWidths(int width) {
-		if (this.getInputTreeItem() != null) {
-			getInputTreeItem().setItemWidth(width);
-			getInputTreeItem().reposition();
+		if (inputPanelLatex != null) {
+			inputPanelLatex.setItemWidth(width);
+			inputPanelLatex.reposition();
 		}
 
 		for (int i = 0; i < getItemCount(); i++) {
