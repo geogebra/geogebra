@@ -128,7 +128,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	 */
 	@Override
 	public void setInterval(double low, double high) {
-		space.setInterval(low, high);
+		space.update(low, high);
 	}
 
 	@Override

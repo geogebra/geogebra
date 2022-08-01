@@ -54,7 +54,9 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 
 	@Override
-	public void setInterval(double min, double max) {
-
+	public void update(double min, double max) {
+		start = (max - min) / 2;
+		countLeft = computeCountTo(min);
+		countLeft = computeCountTo(max);
 	}
 }

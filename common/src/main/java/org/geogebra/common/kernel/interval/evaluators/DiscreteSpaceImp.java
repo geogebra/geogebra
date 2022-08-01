@@ -55,7 +55,7 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	}
 
 	@Override
-	public void setInterval(double min, double max) {
+	public void update(double min, double max) {
 		if (count == 0) {
 			return;
 		}

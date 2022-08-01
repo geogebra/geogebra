@@ -111,14 +111,12 @@ public class IntervalPlotModel {
 	private void extendMin(double oldMin, Interval xRange) {
 		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(), oldMin);
 		points.prepend(newPoints);
-		sampler.setInterval(xRange.getLow(), points.last().x().getHigh());
 		points.cutFrom(xRange.getHigh());
 	}
 
 	private void extendMax(double oldMax, Interval xRange) {
 		IntervalTupleList newPoints = sampler.evaluate(oldMax, xRange.getHigh());
 		points.append(newPoints);
-		sampler.setInterval(points.get(0).x().getLow(), xRange.getHigh());
 		points.cutTo(xRange.getLow());
 	}
 
