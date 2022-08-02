@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -34,6 +35,7 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
@@ -162,7 +164,8 @@ public class FunctionParser {
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
 				if (topLevelExpression && !isCommand(funcName)
-						&& !forceCommand && funcName.length() == 1) {
+						&& !forceCommand && funcName.length() == 1
+						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (myList.size() == 2) {
 						ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
 								myList.getListElement(0), myList.getListElement(1)));
@@ -326,8 +329,12 @@ public class FunctionParser {
 
 	private ExpressionNode multiplication(ExpressionValue geoExp,
 			ArrayList<ExpressionNode> undecided, MyList myList, String funcName) {
+		ExpressionValue right = toFunctionArgument(myList, funcName);
 		ExpressionNode expr = new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION,
-				toFunctionArgument(myList, funcName));
+				right);
+		if (!kernel.getAlgebraProcessor().enableStructures() && right instanceof MyVecNDNode) {
+			throw new MyError(kernel.getLocalization(), Errors.InvalidInput);
+		}
 		undecided.add(expr);
 		return expr;
 	}
