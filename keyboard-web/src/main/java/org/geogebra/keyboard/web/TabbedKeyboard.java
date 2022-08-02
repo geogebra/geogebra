@@ -261,7 +261,7 @@ public class TabbedKeyboard extends FlowPanel
 		Keyboard letterKeyboard = factory.createLettersKeyboard(lowerKeys[0],
 				lowerKeys[1],
 				lowerKeys[2], krp.getUpperKeys());
-		keyboard = buildPanel(letterKeyboard,this);
+		keyboard = buildPanel(letterKeyboard, this);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.ABC, "ABC");
