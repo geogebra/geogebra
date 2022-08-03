@@ -47,4 +47,21 @@ public class DiscreteSpaceCenteredTest {
 		assertEquals(createIntervalList(0.5, 0.05, 10), actual);
 	}
 
+
+	@Test
+	public void testValuesWithBoundsLeftFraction() {
+		DiscreteSpaceCentered space = new DiscreteSpaceCentered(0,
+				10, 10, 0.5);
+		List<Interval> actual = space.values(-10.1, -5.0).collect(Collectors.toList());
+		assertEquals(createIntervalList(-10.5, 0.5, 11), actual);
+	}
+
+	@Test
+	public void testValuesWithBoundsRightFraction() {
+		DiscreteSpaceCentered space = new DiscreteSpaceCentered(0,
+				10, 10, 0.5);
+		List<Interval> actual = space.values(5.0, 10.2).collect(Collectors.toList());
+		assertEquals(createIntervalList(5, 0.5, 11), actual);
+	}
+
 }

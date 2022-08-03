@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -248,7 +250,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @return the first tuple in the list.
 	 */
 	public IntervalTuple first() {
-		return list.get(count() - 1);
+		return list.get(0);
 	}
 
 	/**
@@ -265,8 +267,10 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		}
 
 		double length = get(0).x().getLength();
-		stream().filter(t -> t.x().getLength() != length)
+		stream().filter(t -> !DoubleUtil.isEqual(t.x().getLength(), length,
+						IntervalConstants.PRECISION))
 				.forEach(t -> Log.debug(t.x().getLength() + " != " + length));
-		return stream().allMatch(t -> t.x().getLength() == length);
+		return stream().allMatch(t -> DoubleUtil.isEqual(t.x().getLength(), length,
+				IntervalConstants.PRECISION));
 	}
 }
