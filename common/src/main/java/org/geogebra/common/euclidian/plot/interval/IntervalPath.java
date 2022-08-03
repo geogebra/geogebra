@@ -41,7 +41,7 @@ public class IntervalPath {
 	 */
 	public synchronized void update() {
 		reset();
-		model.forEach(index -> drawAt(index));
+		model.forEach(this::drawAt);
 	}
 
 	private void drawAt(int index) {

@@ -55,7 +55,7 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList extendDomain(double min, double max) {
-		setInterval(min, max);
+		space.update(min, max, calculateStep());
 		return evaluate(space);
 	}
 
@@ -64,9 +64,8 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 		return samplers.evaluate(space);
 	}
 
-	@Override
-	public void setInterval(double low, double high) {
-		space.update(low, high);
+	private double calculateStep() {
+		return range.x().getLength() / evBounds.getWidth();
 	}
 
 	@Override

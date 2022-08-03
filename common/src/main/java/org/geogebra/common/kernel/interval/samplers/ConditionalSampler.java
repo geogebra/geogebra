@@ -46,7 +46,7 @@ public class ConditionalSampler implements IntervalEvaluatable {
 	@Override
 	public IntervalTupleList evaluate(double low, double high) {
 		IntervalTupleList list = new IntervalTupleList();
-		space.values(low, high).filter(x -> conditionalExpression.isTrue(x))
+		space.values(low, high ).filter(x -> conditionalExpression.isTrue(x))
 				.forEach(x -> list.add(evaluatedTuple(x)));
 		return list;
 	}

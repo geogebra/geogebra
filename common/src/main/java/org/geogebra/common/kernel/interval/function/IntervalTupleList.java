@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * List to hold IntervalTuples
@@ -244,9 +245,28 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	/**
 	 *
+	 * @return the first tuple in the list.
+	 */
+	public IntervalTuple first() {
+		return list.get(count() - 1);
+	}
+
+	/**
+	 *
 	 * @return the last tuple in the list.
 	 */
 	public IntervalTuple last() {
 		return list.get(count() - 1);
+	}
+
+	public boolean checkXStep() {
+		if (count() < 1) {
+			return true;
+		}
+
+		double length = get(0).x().getLength();
+		stream().filter(t -> t.x().getLength() != length)
+				.forEach(t -> Log.debug(t.x().getLength() + " != " + length));
+		return stream().allMatch(t -> t.x().getLength() == length);
 	}
 }

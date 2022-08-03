@@ -40,7 +40,7 @@ public class ConditionalSamplerList implements IntervalEvaluatable {
 	 * @param width in pixels.
 	 */
 	public void update(Interval x, int width) {
-		DiscreteSpaceImp aSpace = new DiscreteSpaceImp(x, width);
+		DiscreteSpace aSpace = new DiscreteSpaceImp(x, width);
 		samplers = createSamplers(function.getFunctionExpression());
 		updateSpace(aSpace);
 	}

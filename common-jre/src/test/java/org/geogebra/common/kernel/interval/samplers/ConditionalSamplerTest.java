@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
+import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.Test;
@@ -23,13 +24,17 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		GeoFunction function = add("a=If(x < 0, 1, -1)");
 		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(
 				function.getFunctionExpression()).getLeft();
-		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
+		DiscreteSpace discreteSpace = newSpace();
 		ConditionalSampler sampler = newConditionalSampler(pair.getX().wrap(),
 				pair.getY().wrap(), discreteSpace);
 		IntervalTupleList tuples = sampler.result();
 		assertEquals(tuples.count(),
 				tuples.stream().filter(tuple -> tuple.y().almostEqual(one())).count());
 
+	}
+
+	private static DiscreteSpaceCentered newSpace() {
+		return new DiscreteSpaceCentered(-10, 10, 10, 1);
 	}
 
 	private ConditionalSampler newConditionalSampler(ExpressionNode condition, ExpressionNode body,
@@ -42,7 +47,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		GeoFunction function = add("a=If(x < 0, 1, -1)");
 		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(
 				function.getFunctionExpression()).getLeft();
-		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
+		DiscreteSpace discreteSpace = newSpace();
 		ConditionalSampler sampler = newConditionalSampler(pair.getX().wrap(),
 				pair.getY().wrap(), discreteSpace);
 		IntervalTupleList tuples = sampler.evaluate(interval(-2, -1));
@@ -57,7 +62,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 		GeoFunction function = add("a=If(x < 0, 1, -1)");
 		MyNumberPair pair = (MyNumberPair) Objects.requireNonNull(
 				function.getFunctionExpression()).getLeft();
-		DiscreteSpace discreteSpace = new DiscreteSpaceImp(interval(-10, 10), 100);
+		DiscreteSpace discreteSpace = newSpace();
 		ConditionalSampler sampler = newConditionalSampler(pair.getX().wrap().negation(),
 				pair.getY().wrap(), discreteSpace);
 		IntervalTupleList tuples = sampler.result();
@@ -97,7 +102,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 	public void testLessThanOrEqual() {
 		GeoFunction function = add("a=If(x <= 0, 1)");
 		ExpressionNode node = function.getFunctionExpression();
-		DiscreteSpace space = new DiscreteSpaceImp(interval(-10, 10), 100);
+		DiscreteSpace space = newSpace();
 		ConditionalSampler sampler =
 				newConditionalSampler(node.getLeftTree(), node.getRightTree(), space);
 		IntervalTupleList tuples = sampler.evaluate(interval(-2, 0));
@@ -112,7 +117,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 	public void testGreaterThanOrEqual() {
 		GeoFunction function = add("a=If(x >= 0, 1)");
 		ExpressionNode node = function.getFunctionExpression();
-		DiscreteSpace space = new DiscreteSpaceImp(interval(-10, 10), 100);
+		DiscreteSpace space = newSpace();
 		ConditionalSampler sampler =
 				newConditionalSampler(node.getLeftTree(), node.getRightTree(), space);
 		IntervalTupleList tuples = sampler.evaluate(interval(-10, -0.002));
@@ -127,7 +132,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 	public void testEqual() {
 		GeoFunction function = add("a=If(x == 0, 1)");
 		ExpressionNode node = function.getFunctionExpression();
-		DiscreteSpace space = new DiscreteSpaceImp(interval(-10, 10), 100);
+		DiscreteSpace space = newSpace();
 		ConditionalSampler sampler =
 				newConditionalSampler(node.getLeftTree(), node.getRightTree(), space);
 		IntervalTupleList tuples = sampler.evaluate(interval(-10, -0 - 1E-15));
@@ -144,7 +149,7 @@ public class ConditionalSamplerTest extends BaseUnitTest {
 	public void testNotEqual() {
 		GeoFunction function = add("a=If(x != 0, 1)");
 		ExpressionNode node = function.getFunctionExpression();
-		DiscreteSpace space = new DiscreteSpaceImp(interval(-10, 10), 1920);
+		DiscreteSpace space = newSpace();
 		ConditionalSampler sampler =
 				newConditionalSampler(node.getLeftTree(), node.getRightTree(), space);
 		IntervalTupleList tuples = sampler.evaluate(interval(-10, 10));

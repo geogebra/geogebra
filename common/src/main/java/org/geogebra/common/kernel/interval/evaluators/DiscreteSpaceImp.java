@@ -55,12 +55,12 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	}
 
 	@Override
-	public void update(double min, double max) {
+	public void update(double min, double max, double step) {
 		if (count == 0) {
 			return;
 		}
 		interval.set(min, max);
-		step = interval.getLength() / count;
+		this.step = interval.getLength() / count;
 	}
 
 	@Override

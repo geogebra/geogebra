@@ -45,8 +45,8 @@ public class PowerEquivalenceTest extends SamplerTest {
 
 	private void shouldBeEquivalent(String description1, String description2) {
 		IntervalTupleList samples = samplesOf(description1);
-		samples.removeAll(samplesOf(description2));
-		assertEquals(0, samples.count());
+		IntervalTupleList other = samplesOf(description2);
+		assertEquals(other, samples);
 	}
 
 	private IntervalTupleList samplesOf(String description) {

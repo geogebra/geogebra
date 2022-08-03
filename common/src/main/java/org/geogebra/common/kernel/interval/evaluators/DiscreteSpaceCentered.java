@@ -9,7 +9,7 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	private double start;
 	private int countLeft;
 	private int countRight;
-	private final double step;
+	private double step;
 
 	public DiscreteSpaceCentered(double start, int countLeft, int countRight, double step) {
 		this.start = start;
@@ -54,9 +54,10 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 
 	@Override
-	public void update(double min, double max) {
-		start = (max - min) / 2;
+	public void update(double min, double max, double step) {
+		start = min + (max - min) / 2;
+		this.step = step;
 		countLeft = computeCountTo(min);
-		countLeft = computeCountTo(max);
+		countRight = computeCountTo(max);
 	}
 }

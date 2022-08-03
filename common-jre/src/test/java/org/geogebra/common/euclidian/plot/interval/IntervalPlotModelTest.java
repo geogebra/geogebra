@@ -40,8 +40,8 @@ public class IntervalPlotModelTest extends BaseUnitTest {
 	public void updateDomainTestMoveRight() {
 		IntervalTuple range = newRange(-50, 50, -1, 20);
 		withModel(range);
-		model.updateDomain(new Interval(-44.5, 45), range.x());
-		assertEquals(Arrays.asList(interval(-44, -44), interval(44.5, 45)),
+		model.updateDomain(new Interval(-55, 55), range.x());
+		assertEquals(Arrays.asList(interval(-55, -54), interval(54, 55)),
 				Arrays.asList(model.at(0).x(), model.at(model.getCount() - 1).x()));
 	}
 

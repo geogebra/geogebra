@@ -13,7 +13,5 @@ public interface IntervalFunctionSampler extends IntervalEvaluatable {
 
 	IntervalTupleList extendDomain(double min, double max);
 
-	void setInterval(double low, double high);
-
 	GeoFunction getGeoFunction();
 }

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Model for Interval plotter.
@@ -110,8 +111,14 @@ public class IntervalPlotModel {
 
 	private void extendMin(double oldMin, Interval xRange) {
 		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(), oldMin);
+		newPoints.checkXStep();
 		points.prepend(newPoints);
 		points.cutFrom(xRange.getHigh());
+		if (!newPoints.isEmpty()) {
+			Log.debug(newPoints.first().x().getLength() + " "
+					+ points.last().x().getLength());
+		}
+
 	}
 
 	private void extendMax(double oldMax, Interval xRange) {
@@ -206,7 +213,7 @@ public class IntervalPlotModel {
 	 * @param action to call on.
 	 */
 	public void forEach(IntConsumer action) {
-		Interval xRange = IntervalPlotSettings.visisbleXRange();
+		Interval xRange = IntervalPlotSettings.visibleXRange();
 		if (xRange.isUndefined()) {
 			allIndexes().forEach(action);
 		} else {

@@ -19,11 +19,11 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  * @author Laszlo
  */
 public class FunctionSampler implements IntervalFunctionSampler {
-
 	private final IntervalFunction function;
 	private EuclidianViewBounds bounds;
 	private int numberOfSamples;
 	private DiscreteSpace space;
+	private Interval xRange;
 
 	/**
 	 * @param geoFunction function to get sampled
@@ -33,13 +33,19 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public FunctionSampler(GeoFunction geoFunction, IntervalTuple range,
 			int numberOfSamples) {
 		this(geoFunction);
+		xRange = range.x();
 		this.numberOfSamples = numberOfSamples;
 		createSpace();
 		update(range);
 	}
 
 	private void createSpace() {
-		space = new DiscreteSpaceCentered(bounds.range().getLength() / numberOfSamples);
+		space = new DiscreteSpaceCentered(calculateStep());
+	}
+
+	private double calculateStep() {
+		return (bounds != null ? bounds.domain().getLength()
+			: xRange.getLength() ) / numberOfSamples;
 	}
 
 	/**
@@ -71,19 +77,8 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public IntervalTupleList evaluate(double low, double high) {
-		return processAsymptotes(evaluateOnStream(space.values(low, high)));
-	}
-
-	@Override
 	public IntervalTupleList evaluate(DiscreteSpace space) {
-		return processAsymptotes(evaluateOnStream(space.values()));
-	}
-
-	private static IntervalTupleList processAsymptotes(IntervalTupleList samples) {
-		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
-		asymptotes.process();
-		return samples;
+		return evaluateOnStream(space.values());
 	}
 
 	private IntervalTupleList evaluateOnStream(Stream<Interval> values) {
@@ -92,7 +87,18 @@ public class FunctionSampler implements IntervalFunctionSampler {
 			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
 			tuples.add(tuple);
 		});
-		return tuples;
+		return processAsymptotes(tuples);
+	}
+
+	@Override
+	public IntervalTupleList evaluate(double low, double high) {
+		return evaluateOnStream(space.values(low, high));
+	}
+
+	private static IntervalTupleList processAsymptotes(IntervalTupleList samples) {
+		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
+		asymptotes.process();
+		return samples;
 	}
 
 	/**
@@ -117,18 +123,8 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	 */
 	@Override
 	public IntervalTupleList extendDomain(double min, double max) {
-		setInterval(min, max);
+		space.update(min, max, calculateStep());
 		return evaluate(space);
-	}
-
-	/**
-	 * Sets plot interval without evaluation
-	 * @param low bound.
-	 * @param high bound.
-	 */
-	@Override
-	public void setInterval(double low, double high) {
-		space.update(low, high);
 	}
 
 	@Override
