@@ -905,7 +905,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				this.updateBoundObjects();
 			}
 
-			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+			if (evNo != 2 || (evNo == 2 && app.hasEuclidianView2EitherShowingOrNot(1))) {
 				app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
 						.setJsonArgument(getCoordinates()));
 			}
