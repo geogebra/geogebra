@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -63,7 +65,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * panel to select the filling of a polygon or conic section
- * 
  * @author Markus Hohenwarter
  */
 @SuppressWarnings("rawtypes")
@@ -72,7 +73,7 @@ class FillingPanelD extends JPanel
 		UpdateablePropertiesPanel, ActionListener, IFillingListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	/** filling model */
@@ -85,7 +86,7 @@ class FillingPanelD extends JPanel
 	private JCheckBox cbFillInverse;
 
 	private JPanel transparencyPanel;
-	private JPanel  hatchFillPanel;
+	private JPanel hatchFillPanel;
 	private JPanel imagePanel;
 	private JPanel anglePanel;
 	private JPanel distancePanel;
@@ -114,9 +115,7 @@ class FillingPanelD extends JPanel
 
 	/**
 	 * New filling panel
-	 * 
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
 	public FillingPanelD(AppD app) {
 		this.app = app;
@@ -256,8 +255,7 @@ class FillingPanelD extends JPanel
 	}
 
 	/**
-	 * @param enabled
-	 *            enabled flag
+	 * @param enabled enabled flag
 	 */
 	public void setAllEnabled(boolean enabled) {
 		Component[] c = this.getComponents();
@@ -293,15 +291,11 @@ class FillingPanelD extends JPanel
 		// fill type combobox
 		lblFillType.setText(loc.getMenu("Filling") + ":");
 
-		int selectedIndex = cbFillType.getSelectedIndex();
 		cbFillType.removeActionListener(this);
 		cbFillType.removeAllItems();
-
 		model.fillModes(loc);
 
-		cbFillType.setSelectedIndex(selectedIndex);
 		cbFillType.addActionListener(this);
-
 	}
 
 	private JPanel createImagePanel() {
@@ -487,8 +481,7 @@ class FillingPanelD extends JPanel
 	}
 
 	/**
-	 * @param geos
-	 *            selected geos
+	 * @param geos selected geos
 	 * @return this or null (if geos can't be edited via this panel)
 	 */
 	public JPanel update(Object[] geos) {
@@ -504,7 +497,67 @@ class FillingPanelD extends JPanel
 		angleSlider.removeChangeListener(this);
 		distanceSlider.removeChangeListener(this);
 
+		int cbFillTypeSelectedIndex = -1;
+		int geosWithSameFillType = 0;
+
+		//used to figure out if all the geos have the same FilLType or not
+		int firstIndex = 0;
+		boolean firstLoopIteration = true;
+
+		//iterate through the selected geos
+		GeoElement geo;
+		for (Object object : geos) {
+			geo = (GeoElement) object;
+
+			switch (geo.getFillType()) {
+			case STANDARD:
+				cbFillTypeSelectedIndex = 0;
+				break;
+			case HATCH:
+				cbFillTypeSelectedIndex = 1;
+				break;
+			case CROSSHATCHED:
+				cbFillTypeSelectedIndex = 2;
+				break;
+			case CHESSBOARD:
+				cbFillTypeSelectedIndex = 3;
+				break;
+			case DOTTED:
+				cbFillTypeSelectedIndex = 4;
+				break;
+			case HONEYCOMB:
+				cbFillTypeSelectedIndex = 5;
+				break;
+			case BRICK:
+				cbFillTypeSelectedIndex = 6;
+				break;
+			case WEAVING:
+				cbFillTypeSelectedIndex = 7;
+				break;
+			case SYMBOLS:
+				cbFillTypeSelectedIndex = 8;
+				break;
+			case IMAGE:
+				cbFillTypeSelectedIndex = 9;
+				break;
+			}
+
+			if (firstLoopIteration) {
+				firstIndex = cbFillTypeSelectedIndex;
+				firstLoopIteration = false;
+			}
+			if (firstIndex == cbFillTypeSelectedIndex)
+				geosWithSameFillType++;
+		}
+
 		model.updateProperties();
+
+		//set the selected Index so the description doesn't get changed randomly
+		//if all selected geos have the same FillType, display it - otherwise not
+		if (geos.length > 1 && geosWithSameFillType != geos.length)
+			cbFillType.setSelectedIndex(-1);
+		else
+			cbFillType.setSelectedIndex(cbFillTypeSelectedIndex);
 
 		cbFillType.addActionListener(this);
 		cbFillInverse.addActionListener(this);
@@ -639,7 +692,7 @@ class FillingPanelD extends JPanel
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
 			barsPanel.setBorder(new TitledBorder(loc.getMenu(
-					isPie ?	"SelectedSlice" : "SelectedBar")));
+					isPie ? "SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
 						loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
@@ -714,30 +767,23 @@ class FillingPanelD extends JPanel
 
 	/**
 	 * Latex table for filling symbols
-	 *
 	 */
 	class LatexTableFill extends SelectionTableD implements MenuElement {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private Object[] latexArray;
 		private PopupMenuButtonD popupButton;
 
 		/**
-		 * @param app
-		 *            application
-		 * @param panel
-		 *            panel
-		 * @param popupButton
-		 *            popup
-		 * @param data
-		 *            icons
-		 * @param rows
-		 *            numer of rows
-		 * @param columns
-		 *            number of columns
+		 * @param app application
+		 * @param panel panel
+		 * @param popupButton popup
+		 * @param data icons
+		 * @param rows numer of rows
+		 * @param columns number of columns
 		 */
 		public LatexTableFill(AppD app, FillingPanelD panel,
 				PopupMenuButtonD popupButton, Object[] data, int rows,
