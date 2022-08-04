@@ -73,4 +73,9 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 		return function;
 	}
 
+	@Override
+	public Interval getDomain() {
+		return null;
+	}
+
 }

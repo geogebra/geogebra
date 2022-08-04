@@ -64,6 +64,11 @@ public class DiscreteSpaceImp implements DiscreteSpace {
 	}
 
 	@Override
+	public Interval getDomain() {
+		return null;
+	}
+
+	@Override
 	public Stream<Interval> values() {
 		if (interval == null) {
 			return Stream.empty();

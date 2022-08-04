@@ -12,4 +12,6 @@ public interface DiscreteSpace {
 	void update(Interval interval, int count);
 
 	void update(double min, double max, double step);
+
+	Interval getDomain();
 }

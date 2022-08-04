@@ -131,4 +131,9 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public GeoFunction getGeoFunction() {
 		return function.getFunction();
 	}
+
+	@Override
+	public Interval getDomain() {
+		return space.getDomain();
+	}
 }

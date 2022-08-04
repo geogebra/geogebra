@@ -64,4 +64,11 @@ public class DiscreteSpaceCenteredTest {
 		assertEquals(createIntervalList(5, 0.5, 11), actual);
 	}
 
+
+	@Test
+	public void testGetDomain() {
+		DiscreteSpaceCentered space = new DiscreteSpaceCentered(0,
+				10, 10, 0.5);
+		assertEquals(interval(-5, 5), space.getDomain());
+	}
 }

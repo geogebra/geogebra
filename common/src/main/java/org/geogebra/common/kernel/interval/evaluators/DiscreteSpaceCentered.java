@@ -41,18 +41,26 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	@Override
 	public Stream<Interval> values(double low, double high) {
 		if (low < start) {
-			double mostLeftValue = start - countLeft * step;
+			double mostLeftValue = getMostLeftValue();
 			double length = mostLeftValue - low;
 			int diffCount = (int) Math.floor(length / step);
 			countLeft += diffCount;
 			return createStream(mostLeftValue - diffCount * step, 0, diffCount);
 		}
-		double mostRightValue = start + countRight * step;
+		double mostRightValue = getMostRightValue();
 		double length = high - mostRightValue;
 		int diffCount = (int) Math.floor(length / step);
 		countRight += diffCount;
 		return createStream(mostRightValue, 0, diffCount);
 
+	}
+
+	private double getMostRightValue() {
+		return start + countRight * step;
+	}
+
+	private double getMostLeftValue() {
+		return start - countLeft * step;
 	}
 
 	private Stream<Interval> createStream(double start, int fromIndex, int toIndex) {
@@ -72,5 +80,10 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 		this.step = step;
 		countLeft = computeCountTo(min);
 		countRight = computeCountTo(max);
+	}
+
+	@Override
+	public Interval getDomain() {
+		return new Interval(getMostLeftValue(), getMostRightValue());
 	}
 }

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Model for Interval plotter.
@@ -62,7 +63,7 @@ public class IntervalPlotModel {
 
 	private void  updateRanges() {
 		range.set(bounds.domain(), bounds.range());
-		oldDomain = bounds.domain();
+		oldDomain = sampler.getDomain();
 	}
 
 	void updateSampledData() {
@@ -84,45 +85,61 @@ public class IntervalPlotModel {
 	 * update function domain to plot due to the visible x range.
 	 */
 	public void updateDomain() {
-		updateDomain(bounds.domain(), oldDomain);
-		oldDomain = bounds.domain();
+		if (updateDomain(bounds.domain(), oldDomain)) {
+			oldDomain = bounds.domain();
+		}
 	}
 	/**
 	 * update function domain to plot due to the visible x range.
 	 */
-	public void updateDomain(Interval xRange, Interval oldXRange) {
+	public boolean updateDomain(Interval xRange, Interval oldXRange) {
 		if (xRange.equals(oldDomain)) {
-			return;
+			return false;
 		}
 		double oldMin = oldXRange.getLow();
 		double oldMax = oldXRange.getHigh();
 		double min = xRange.getLow();
 		double max = xRange.getHigh();
-
+		int newCount = 0;
+		String msg = "-";
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
+			newCount = points.count();
+			msg = "extendDomain";
 		} else if (oldMax < max) {
-			extendMax(oldMax, xRange);
+			newCount = extendMax(oldMax, xRange);
+			msg = "extendMax";
 		} else if (oldMin > min) {
-			extendMin(oldMin, xRange);
+			newCount = extendMin(oldMin, xRange);
+			msg = "extendMin";
 		}
+		Log.debug(msg + " points: " + points.count() + " new: " + newCount);
+		return newCount > 0;
 	}
 
-	private void extendMin(double oldMin, Interval xRange) {
+	private int extendMin(double oldMin, Interval xRange) {
 		IntervalTupleList newPoints = sampler.evaluate(xRange.getLow(),
-				points.get(0).x().getLow());
-		newPoints.checkXStep();
-		double high = points.last().x().getHigh();
-		points.prepend(newPoints);
-		points.cutFrom(high);
+				oldMin);
+		if (newPoints.count() == 0) {
+			return 0;
+		}
 
+		newPoints.checkXStep();
+		points.prepend(newPoints);
+		points.cutFrom(xRange.getHigh() + points.first().x().getLength());
+		return newPoints.count();
 	}
 
-	private void extendMax(double oldMax, Interval xRange) {
+	private int extendMax(double oldMax, Interval xRange) {
 		IntervalTupleList newPoints = sampler.evaluate(points.last().x().getHigh(), xRange.getHigh());
-		double low = points.first().x().getLow();
+		if (newPoints.count() == 0) {
+			return 0;
+		}
+
+		double low = xRange.getLow() - points.first().x().getLength();
 		points.append(newPoints);
 		points.cutTo(low);
+		return newPoints.count();
 	}
 
 	/**
