@@ -291,10 +291,13 @@ class FillingPanelD extends JPanel
 		// fill type combobox
 		lblFillType.setText(loc.getMenu("Filling") + ":");
 
+		int cbFillTypeSelectedIndex = cbFillType.getSelectedIndex();
+
 		cbFillType.removeActionListener(this);
 		cbFillType.removeAllItems();
 		model.fillModes(loc);
 
+		cbFillType.setSelectedIndex(cbFillTypeSelectedIndex);
 		cbFillType.addActionListener(this);
 	}
 
@@ -497,67 +500,7 @@ class FillingPanelD extends JPanel
 		angleSlider.removeChangeListener(this);
 		distanceSlider.removeChangeListener(this);
 
-		int cbFillTypeSelectedIndex = -1;
-		int geosWithSameFillType = 0;
-
-		//used to figure out if all the geos have the same FilLType or not
-		int firstIndex = 0;
-		boolean firstLoopIteration = true;
-
-		//iterate through the selected geos
-		GeoElement geo;
-		for (Object object : geos) {
-			geo = (GeoElement) object;
-
-			switch (geo.getFillType()) {
-			case STANDARD:
-				cbFillTypeSelectedIndex = 0;
-				break;
-			case HATCH:
-				cbFillTypeSelectedIndex = 1;
-				break;
-			case CROSSHATCHED:
-				cbFillTypeSelectedIndex = 2;
-				break;
-			case CHESSBOARD:
-				cbFillTypeSelectedIndex = 3;
-				break;
-			case DOTTED:
-				cbFillTypeSelectedIndex = 4;
-				break;
-			case HONEYCOMB:
-				cbFillTypeSelectedIndex = 5;
-				break;
-			case BRICK:
-				cbFillTypeSelectedIndex = 6;
-				break;
-			case WEAVING:
-				cbFillTypeSelectedIndex = 7;
-				break;
-			case SYMBOLS:
-				cbFillTypeSelectedIndex = 8;
-				break;
-			case IMAGE:
-				cbFillTypeSelectedIndex = 9;
-				break;
-			}
-
-			if (firstLoopIteration) {
-				firstIndex = cbFillTypeSelectedIndex;
-				firstLoopIteration = false;
-			}
-			if (firstIndex == cbFillTypeSelectedIndex)
-				geosWithSameFillType++;
-		}
-
 		model.updateProperties();
-
-		//set the selected Index so the description doesn't get changed randomly
-		//if all selected geos have the same FillType, display it - otherwise not
-		if (geos.length > 1 && geosWithSameFillType != geos.length)
-			cbFillType.setSelectedIndex(-1);
-		else
-			cbFillType.setSelectedIndex(cbFillTypeSelectedIndex);
 
 		cbFillType.addActionListener(this);
 		cbFillInverse.addActionListener(this);
