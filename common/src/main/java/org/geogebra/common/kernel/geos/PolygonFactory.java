@@ -168,17 +168,7 @@ public class PolygonFactory {
 		firstPoint.updateRepaint();
 
 		//Copy the (most important) attributes to the newly created polygon
-		ret[0].setLineThickness(poly.getLineThickness());
-		ret[0].setLineOpacity(poly.getLineOpacity());
-		ret[0].setLineType(poly.getLineType());
-		ret[0].setLineTypeHidden(poly.getLineTypeHidden());
-		ret[0].setFillType(poly.getFillType());
-		ret[0].setInverseFill(poly.isInverseFill());
-
-		ret[0].setBackgroundColor(poly.getBackgroundColor());
-		ret[0].setObjColor(poly.getObjectColor());
-		ret[0].setHatchingAngle((int) poly.getHatchingAngle());
-		ret[0].setHatchingDistance(poly.getHatchingDistance());
+		ret[0].setBasicVisualStyle(poly);
 
 		return ret;
 	}
