@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -80,38 +78,37 @@ class FillingPanelD extends JPanel
 	FillingModel model;
 	/** opacity */
 	JSlider opacitySlider;
-	private JSlider angleSlider;
-	private JSlider distanceSlider;
-	private JComboBox cbFillType;
-	private JCheckBox cbFillInverse;
+	private final JSlider angleSlider;
+	private final JSlider distanceSlider;
+	private final JComboBox cbFillType;
+	private final JCheckBox cbFillInverse;
 
-	private JPanel transparencyPanel;
-	private JPanel hatchFillPanel;
+	private final JPanel transparencyPanel;
+	private final JPanel hatchFillPanel;
 	private JPanel imagePanel;
-	private JPanel anglePanel;
-	private JPanel distancePanel;
-	private JLabel lblFillType;
+	private final JPanel anglePanel;
+	private final JPanel distancePanel;
+	private final JLabel lblFillType;
 	/** symbol used for filling */
 	JLabel lblSelectedSymbol;
-	private JLabel lblMsgSelected;
+	private final JLabel lblMsgSelected;
 	private JButton btnOpenFile;
 
 	private PopupMenuButtonD btnImage;
 	// button for removing turtle's image
 	private JButton btnClearImage;
-	private JLabel lblFillInverse;
-	private JLabel lblSymbols;
+	private final JLabel lblFillInverse;
+	private final JLabel lblSymbols;
 	private ArrayList<ImageResourceD> imgFileNameList;
-	private PopupMenuButtonD btInsertUnicode;
+	private final PopupMenuButtonD btInsertUnicode;
 
 	// For handle single bar
 	private JPanel barsPanel;
-	private JToggleButton[] selectionBarButtons;
 	/** selected button */
 	int selectedBarButton;
 	/** application */
 	AppD app;
-	private Localization loc;
+	private final Localization loc;
 
 	/**
 	 * New filling panel
@@ -152,12 +149,12 @@ class FillingPanelD extends JPanel
 
 		// Create the label table
 		Hashtable<Integer, JLabel> labelHash = new Hashtable<>();
-		labelHash.put(Integer.valueOf(0), new JLabel("0" + Unicode.DEGREE_STRING));
-		labelHash.put(Integer.valueOf(45),
+		labelHash.put(0, new JLabel("0" + Unicode.DEGREE_STRING));
+		labelHash.put(45,
 				new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
-		labelHash.put(Integer.valueOf(90), new JLabel("90" + Unicode.DEGREE_STRING));
-		labelHash.put(Integer.valueOf(135), new JLabel("135" + Unicode.DEGREE_STRING));
-		labelHash.put(Integer.valueOf(180), new JLabel("180" + Unicode.DEGREE_STRING));
+		labelHash.put(90, new JLabel("90" + Unicode.DEGREE_STRING));
+		labelHash.put(135, new JLabel("135" + Unicode.DEGREE_STRING));
+		labelHash.put(180, new JLabel("180" + Unicode.DEGREE_STRING));
 		angleSlider.setLabelTable(labelHash);
 
 		distanceSlider = new JSlider(5, 50);
@@ -259,10 +256,10 @@ class FillingPanelD extends JPanel
 	 */
 	public void setAllEnabled(boolean enabled) {
 		Component[] c = this.getComponents();
-		for (int i = 0; i < c.length; i++) {
-			Component[] subc = ((JPanel) c[i]).getComponents();
-			for (int j = 0; j < subc.length; j++) {
-				subc[j].setEnabled(enabled);
+		for (Component panel : c) {
+			Component[] subc = ((JPanel) panel).getComponents();
+			for (Component component : subc) {
+				component.setEnabled(enabled);
 			}
 		}
 	}
@@ -509,12 +506,12 @@ class FillingPanelD extends JPanel
 		distanceSlider.addChangeListener(this);
 
 		if (model.hasGeoButton()) {
-
 			int index = 0;
 			String imageFileName = model.getGeoAt(0).getImageFileName();
 
 			for (int i = imgFileNameList.size() - 1; i >= 0; i--) {
-				if (imageFileName.equals(imgFileNameList.get(i))) {
+				if (imgFileNameList.get(i) != null
+						&& imageFileName.equals(imgFileNameList.get(i).getFilename())) {
 					index = i;
 					break;
 				}
@@ -582,7 +579,7 @@ class FillingPanelD extends JPanel
 		}
 		// handle image button selection
 		else if (source == this.btnImage) {
-			String fileName = null;
+			String fileName;
 			if (btnImage.getSelectedIndex() == 0) {
 				fileName = "";
 			} else {
@@ -631,7 +628,7 @@ class FillingPanelD extends JPanel
 		if (algo instanceof ChartStyleAlgo) {
 			int numBar = ((ChartStyleAlgo) algo).getIntervals();
 			boolean isPie = algo instanceof AlgoPieChart;
-			selectionBarButtons = new JToggleButton[numBar + 1];
+			JToggleButton[] selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
 			barsPanel.setBorder(new TitledBorder(loc.getMenu(
@@ -641,16 +638,11 @@ class FillingPanelD extends JPanel
 						loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
-				selectionBarButtons[i].addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						selectedBarButton = Integer
-								.parseInt(((JToggleButton) arg0.getSource())
-										.getActionCommand());
-						FillingPanelD.this.update(model.getGeos());
-					}
-
+				selectionBarButtons[i].addActionListener(arg0 -> {
+					selectedBarButton = Integer
+							.parseInt(((JToggleButton) arg0.getSource())
+									.getActionCommand());
+					FillingPanelD.this.update(model.getGeos());
 				});
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);
@@ -670,11 +662,11 @@ class FillingPanelD extends JPanel
 
 		// Suits and music
 		String[] fancy = StringUtil.getSetOfSymbols(0x2660, 16);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy));
 
 		// Chess
 		fancy = StringUtil.getSetOfSymbols(0x2654, 12);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy));
 
 		// Stars
 		fancy = StringUtil.getSetOfSymbols(0x2725, 3);
@@ -682,14 +674,14 @@ class FillingPanelD extends JPanel
 		String[] union = new String[26];
 		System.arraycopy(fancy, 0, union, 0, 3);
 		System.arraycopy(fancy2, 0, union, 3, 23);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(union, -1, 4));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(union));
 
 		// Squares
 		fancy = StringUtil.getSetOfSymbols(0x2b12, 8);
-		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy));
 	}
 
-	private JMenu createMenuItem(String[] table, int rows, int columns) {
+	private JMenu createMenuItem(String[] table) {
 
 		StringBuilder sb = new StringBuilder(7);
 		sb.append(table[0]);
@@ -700,8 +692,7 @@ class FillingPanelD extends JPanel
 		sb.append("  ");
 
 		JMenu menu = new JMenu(sb.toString());
-		menu.add(new LatexTableFill(app, this, btInsertUnicode, table, rows,
-				columns));
+		menu.add(new LatexTableFill(app, btInsertUnicode, table));
 
 		menu.setFont(app.getFontCanDisplayAwt(sb.toString()));
 
@@ -717,21 +708,16 @@ class FillingPanelD extends JPanel
 		 *
 		 */
 		private static final long serialVersionUID = 1L;
-		private Object[] latexArray;
-		private PopupMenuButtonD popupButton;
+		private final Object[] latexArray;
+		private final PopupMenuButtonD popupButton;
 
 		/**
 		 * @param app application
-		 * @param panel panel
 		 * @param popupButton popup
 		 * @param data icons
-		 * @param rows numer of rows
-		 * @param columns number of columns
 		 */
-		public LatexTableFill(AppD app, FillingPanelD panel,
-				PopupMenuButtonD popupButton, Object[] data, int rows,
-				int columns) {
-			super(app, data, rows, columns, new Dimension(24, 24),
+		public LatexTableFill(AppD app, PopupMenuButtonD popupButton, Object[] data) {
+			super(app, data, -1, 4, new Dimension(24, 24),
 					SelectionTable.MODE_TEXT);
 			this.latexArray = data;
 			this.popupButton = popupButton;
@@ -832,7 +818,8 @@ class FillingPanelD extends JPanel
 			int idx = 0;
 
 			for (int i = imgFileNameList.size() - 1; i >= 0; i--) {
-				if (imageFileName.equals(imgFileNameList.get(i))) {
+				if (imgFileNameList.get(i) != null
+						&& imageFileName.equals(imgFileNameList.get(i).getFilename())) {
 					idx = i;
 					break;
 				}
