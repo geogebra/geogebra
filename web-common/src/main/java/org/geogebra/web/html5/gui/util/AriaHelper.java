@@ -69,4 +69,41 @@ public class AriaHelper {
 	public static void setAttribute(UIObject uiObject, String attribute, String value) {
 		uiObject.getElement().setAttribute(attribute, value);
 	}
+
+	/**
+	 * @param uiObject - element
+	 * @param role - role, e.g. radio or checkbox
+	 */
+	public static void setRole(UIObject uiObject, String role) {
+		uiObject.getElement().setAttribute("role", role);
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param checked - true or false
+	 */
+	public static void setChecked(UIObject uiObject, String checked) {
+		uiObject.getElement().setAttribute("aria-checked", checked);
+	}
+
+	/**
+	 * We need this for radio buttons, in order to have the screen reader say radio button 2 of 3
+	 * (where the radio panel containing 3 radio buttons and the second is focused)
+	 *
+	 * @param uiObject - element
+	 * @param position - position of radio button
+	 * @param size - size of radio panel
+	 */
+	public static void setPositionInfo(UIObject uiObject, String position, String size) {
+		uiObject.getElement().setAttribute("aria-posinset", position);
+		uiObject.getElement().setAttribute("aria-setsize", size);
+	}
+
+	/**
+	 * @param uiObject - element
+	 * @param tabIndex - tab index
+	 */
+	public static void setTabIndex(UIObject uiObject, int tabIndex) {
+		uiObject.getElement().setAttribute("tabindex", tabIndex + "");
+	}
 }

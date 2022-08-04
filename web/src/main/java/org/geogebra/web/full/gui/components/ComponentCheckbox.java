@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -70,6 +71,13 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		});
 
 		setLabels();
+		addAccessibilityInfo();
+	}
+
+	private void addAccessibilityInfo() {
+		AriaHelper.setLabel(this, loc.getMenu(checkboxTxt));
+		AriaHelper.setTabIndex(this, 0);
+		AriaHelper.setRole(this, "checkbox");
 	}
 
 	/**
@@ -95,6 +103,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 		updateCheckboxStyle();
+		AriaHelper.setChecked(this, selected + "");
 	}
 
 	/**
@@ -117,5 +126,6 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	@Override
 	public void setLabels() {
 		checkboxLbl.setText(loc.getMenu(checkboxTxt));
+		AriaHelper.setLabel(this, loc.getMenu(checkboxTxt));
 	}
 }
