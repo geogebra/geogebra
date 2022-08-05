@@ -472,17 +472,15 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class BackgroundColorPanel extends FlowPanel {
-		RadioButtonPanel colorRadioBtnPanel;
+		RadioButtonPanel<Boolean> colorRadioBtnPanel;
 		StandardButton btnClearBackground;
 
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
-			colorRadioBtnPanel = new RadioButtonPanel(app.getLocalization(),
-					Arrays.asList(newColorButtonData("ForegroundColor", true,
-							false),
-							newColorButtonData("BackgroundColor", false,
-									true)));
-			colorRadioBtnPanel.setValueOfNthRadioButton(0, true);
+			colorRadioBtnPanel = new RadioButtonPanel<>(app.getLocalization(),
+					Arrays.asList(new RadioButtonData<>("ForegroundColor", false),
+							new RadioButtonData<>("BackgroundColor", true)),
+					false, this::setBackground);
 
 			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
 					.delete_black(), 24);
@@ -493,12 +491,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			btnClearBackground.setVisible(false);
 			btnClearBackground.addFastClickHandler(event -> changeHandler.onClearBackground());
-		}
-
-		private RadioButtonData newColorButtonData(String label, boolean selected,
-				boolean isBackground) {
-			return new RadioButtonData(label, selected,
-					() -> setBackground(isBackground));
 		}
 
 		protected void setBackground(boolean background) {
@@ -768,7 +760,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	public boolean isBackgroundColorSelected() {
 		return backgroundColorPanel.isVisible()
-				&& backgroundColorPanel.colorRadioBtnPanel.isNthRadioButtonSelected(1);
+				&& backgroundColorPanel.colorRadioBtnPanel.getValue();
 	}
 
 	/**

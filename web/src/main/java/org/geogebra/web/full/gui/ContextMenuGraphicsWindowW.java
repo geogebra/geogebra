@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.menubar.MyActionListener;
-import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -101,20 +100,19 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		addAxesMenuItem();
 		addGridMenuItem();
 		addNavigationBar();
-		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW((AppW) this.app,
-				false);
+		RadioButtonMenuBarW yaxisMenu = new RadioButtonMenuBarW(app.getLocalization());
 		addAxesRatioItems(yaxisMenu);
 		AriaMenuItem mi = new AriaMenuItem(
 				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
-				(AriaMenuBar) yaxisMenu);
+				yaxisMenu);
 		if (!app.isUnbundled()) {
 			wrappedPopup.addItem(mi);
 		}
 		if (!app.getActiveEuclidianView().isZoomable()) {
-			yaxisMenu.setEnabled(false);
+			mi.setEnabled(false);
 		}
 		if (app.getActiveEuclidianView().isLockedAxesRatio()) {
-			yaxisMenu.setEnabled(false);
+			mi.setEnabled(false);
 		}
 	}
 
@@ -330,7 +328,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		app.setViewShowAllObjects(keepRatio);
 	}
 
-	private void addAxesRatioItems(RadioButtonMenuBar menu) {
+	private void addAxesRatioItems(RadioButtonMenuBarW menu) {
 		double scaleRatio = app.getActiveEuclidianView()
 		        .getScaleRatio();
 		String[] items = new String[axesRatios.length + 2];
@@ -367,7 +365,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		                scaleRatio)) {
 			selPos++;
 		}
-		menu.addRadioButtonMenuItems(this, items, actionCommands, selPos, false);
+		menu.addRadioButtonMenuItems(this, items, actionCommands, selPos);
 	}
 
 	/**

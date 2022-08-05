@@ -62,10 +62,7 @@ public class SliderModel extends OptionsModel {
 	@Override
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		if (!(geo.isIndependent() && geo.isGeoNumeric())) {
-			return false;
-		}
-		return true;
+		return geo.isIndependent() && geo.isGeoNumeric();
 	}
 
 	protected GeoNumeric getNumericAt(int index) {

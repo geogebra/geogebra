@@ -89,7 +89,7 @@ public class RegionParameters {
 	 *            new first parameter
 	 */
 	public final void setT1(double t1) {
-		if (isNaN(t1)) {
+		if (Double.isNaN(t1)) {
 			return;
 		}
 		this.t1 = t1;
@@ -107,18 +107,10 @@ public class RegionParameters {
 	 *            new second parameter
 	 */
 	public final void setT2(double t2) {
-		if (isNaN(t2)) {
+		if (Double.isNaN(t2)) {
 			return;
 		}
 		this.t2 = t2;
-	}
-
-	private final static boolean isNaN(double t) {
-		if (Double.isNaN(t)) {
-			// isDefined=false; TODO unused
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -164,7 +156,7 @@ public class RegionParameters {
 	 * @return true if at least one of the parameters is NaN
 	 */
 	public boolean isNaN() {
-		return isNaN(t1) || isNaN(t2);
+		return Double.isNaN(t1) || Double.isNaN(t2);
 	}
 
 	/**

@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import static com.himamis.retex.editor.share.input.Character.isLetter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1164,9 +1166,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void setAllVisualPropertiesExceptEuclidianVisible(
 			final GeoElement geo, final boolean keepAdvanced, boolean setAuxiliaryProperty) {
 		if (keepAdvanced) {
-			setVisualStyle(geo, setAuxiliaryProperty);
+			setBasicVisualStyle(geo);
+			setFixedAndSelectionAllowedFrom(geo);
 		} else {
-			setAdvancedVisualStyle(geo, setAuxiliaryProperty);
+			setAdvancedVisualStyleNoAuxiliary(geo);
+		}
+		if (setAuxiliaryProperty) {
+			// set whether it's an auxilliary object
+			setAuxiliaryObject(geo.isAuxiliaryObject());
 		}
 
 		algebraVisible = geo.algebraVisible;
@@ -1212,32 +1219,31 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public final void setVisualStyleForTransformations(final GeoElement geo) {
-		setVisualStyle(geo);
-		setFixed(false);
+		setBasicVisualStyle(geo);
+		setAuxiliaryObject(geo.isAuxiliaryObject());
 		updateVisualStyle(GProperty.COMBINED);
 	}
 
 	@Override
 	final public void setVisualStyle(final GeoElement geo) {
-		setVisualStyle(geo, true);
+		setBasicVisualStyle(geo);
+		setAuxiliaryObject(geo.isAuxiliaryObject());
+		setFixedAndSelectionAllowedFrom(geo);
 	}
 
 	/**
-	 * set visual style to geo
-	 * 
-	 * @param geo
-	 *            geo
-	 * @param setAuxiliaryProperty
-	 *            if setting auxiliary property
+	 * set visual style to geo, except for
+	 *  * auxiliary flag
+	 *  * fixed flag
+	 *  * selection allowed flag
+	 *
+	 *  @param geo geo
 	 */
-	public void setVisualStyle(final GeoElement geo,
-			boolean setAuxiliaryProperty) {
-
+	public void setBasicVisualStyle(final GeoElement geo) {
 		// label style
 		labelVisible = geo.getLabelVisible();
 		setLabelMode(geo.getLabelMode());
 		tooltipMode = geo.getTooltipMode();
-		selectionAllowed = geo.selectionAllowed;
 
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()
@@ -1258,15 +1264,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		setLineTypeHidden(geo.getLineTypeHidden());
 		setDecorationType(geo.getDecorationType());
 		setLineOpacity(geo.getLineOpacity());
-
-		if (setAuxiliaryProperty) {
-			// set whether it's an auxilliary object
-			setAuxiliaryObject(geo.isAuxiliaryObject());
-		}
 		setAnimationStep(geo.getAnimationStep());
 		setAnimationType(geo.getAnimationType());
-		// set fixed
-		setFixedFrom(geo);
 
 		// if layer is not zero (eg a new object has layer set to
 		// ev.getMaxLayerUsed())
@@ -1367,7 +1366,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void setAdvancedVisualStyle(final GeoElement geo) {
-		setAdvancedVisualStyle(geo, true);
+		setAdvancedVisualStyleNoAuxiliary(geo);
+		// set whether it's an auxilliary object
+		setAuxiliaryObject(geo.isAuxiliaryObject());
 	}
 
 	/**
@@ -1375,13 +1376,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *
 	 * @param geo
 	 *            source geo
-	 * @param setAuxiliaryProperty
-	 *            if setting auxiliary property
 	 */
-	public void setAdvancedVisualStyle(final GeoElement geo,
-			boolean setAuxiliaryProperty) {
-		setVisualStyle(geo, setAuxiliaryProperty);
-
+	public void setAdvancedVisualStyleNoAuxiliary(final GeoElement geo) {
+		setBasicVisualStyle(geo);
+		setFixedAndSelectionAllowedFrom(geo);
 		// set layer
 		setLayer(geo.getLayer());
 
@@ -1536,13 +1534,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return fixed;
 	}
 
-	private void setFixedFrom(GeoElement geo) {
+	private void setFixedAndSelectionAllowedFrom(GeoElement geo) {
 		boolean flag = geo.isLocked();
 		if (geo.isDefaultGeo() && !flag) {
 			fixed = false;
 		} else {
 			setFixed(flag);
 		}
+		selectionAllowed = geo.selectionAllowed;
 	}
 
 	@Override
@@ -2395,8 +2394,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		// don't want any '$'s in actual labels
-		if ((newLabel != null) && (newLabel.indexOf('$') > -1)) {
+		if (newLabel != null && newLabel.indexOf('$') > -1) {
 			newLabel = newLabel.replaceAll("\\$", "");
+			// test for invalid labels only in case we've replaced something
+			if (newLabel.isEmpty() || !isLetter(newLabel.charAt(0))) {
+				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalAssignment);
+			}
 		}
 
 		labelWanted = true;
@@ -2604,8 +2607,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private void updateSpreadsheetCoordinates() {
 		// starts with letter and ends with digit
 		if (isLabelSet() && (label.length() > 0)
-				&& com.himamis.retex.editor.share.input.Character
-						.isLetter(label.charAt(0))
+				&& isLetter(label.charAt(0))
 				&& StringUtil.isDigit(label.charAt(label.length() - 1))) {
 
 			// init old and current spreadsheet coords
@@ -6922,7 +6924,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public boolean addAuralCaption(ScreenReaderBuilder sb) {
 		if (hasDynamicCaption()) {
-			sb.append(dynamicCaption.getTextString());
+			sb.append(dynamicCaption.getAuralText());
+			sb.endSentence();
 			return true;
 		}
 		if (!StringUtil.empty(getCaptionSimple())) {

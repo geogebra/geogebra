@@ -107,34 +107,34 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	 */
 	@Override
 	public String format(double d) {
-		return format(d, sigDigit);
+		// Delegate the hard part to toExponential; fractional digits = sig. digits - 1
+		String preliminaryResult = toExponential(d, sigDigit - 1);
+		return prettyPrint(preliminaryResult);
 	}
 
-	private String format(double d, int sigDig) {
-		// Delegate the hard part to toExponential; fractional digits = sig. digits - 1
-		String preliminaryResult = toExponential(d, sigDigit - 1)
-				.replace('e', 'E');
+	// visible for tests
+	protected String prettyPrint(String preliminaryResult) {
 		if (sciNote) {
-			return preliminaryResult;
+			return preliminaryResult
+					.replace('e', 'E').replace("+", "");
 		}
 
-		int ePos = preliminaryResult.indexOf('E');
+		int ePos = preliminaryResult.indexOf('e');
 		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1)) + 1;
-		if (exponent > maxWidth) {
-			return preliminaryResult;
-		}
-		if (exponent < -maxWidth + sigDig + 1) {
-			return preliminaryResult;
+		if (exponent > maxWidth || exponent < -maxWidth + sigDigit + 1) {
+			return preliminaryResult
+					.replace('e', 'E').replace("+", "");
 		}
 
 		// We need to fix up the result
 
 		int sign = preliminaryResult.charAt(0) == '-' ? 1 : 0;
+		// remove the dot
 		StringBuilder result = new StringBuilder(preliminaryResult.charAt(
-		        sign) + preliminaryResult.substring(sign + 2, ePos));
+				sign) + preliminaryResult.substring(sign + 2, ePos));
 
-		if (exponent >= sigDig) {
-			for (int i = sigDig; i < exponent; i++) {
+		if (exponent >= sigDigit) {
+			for (int i = sigDigit; i < exponent; i++) {
 				result.append('0');
 			}
 		} else if (exponent < 0) {

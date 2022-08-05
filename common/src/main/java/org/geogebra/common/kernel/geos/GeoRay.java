@@ -135,8 +135,8 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 
 		if (geo.isGeoRay()) {
 			GeoRay ray = (GeoRay) geo;

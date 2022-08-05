@@ -1576,11 +1576,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.sliderDialog {
 		max-width: 504px;
 
-		.gwt-RadioButton [type="radio"]+label {
-			padding-left: 35px;
+		.radioButtonPanel {
+			display: flex;
 
-			&:after {
-				background-color: colors.$teal-default;
+			.radioButton {
+			 	margin-right: 20px;
 			}
 		}
 
@@ -1603,12 +1603,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.inputDialogComponent.angleInputDialog {
+		.radioButtonPanel {
+			display: flex;
 
-		.gwt-RadioButton {
-			margin-right: 20px;
-
-			label {
-				padding-left: 35px;
+			.radioButton {
+				margin-right: 20px;
 			}
 		}
 	}
@@ -1620,11 +1619,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			padding-right: 0px;
 		}
 
-		.gwt-RadioButton {
-			margin-right: 20px;
+		.radioButtonPanel {
+			display: flex;
 
-			label {
-				padding-left: 26px;
+			.radioButton {
+				margin-right: 20px;
 			}
 		}
 	}

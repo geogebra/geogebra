@@ -313,24 +313,17 @@ public class AlgoIntersectPlaneQuadricLimited
 		// check if min > parameter
 		if (DoubleUtil.isGreater(min, parameter)) {
 			// check if parameter is close to min in comparison to max - min
-			if (DoubleUtil.isEpsilonToX(min - parameter, max - min)) {
-				return false;
-			}
-			return true;
+			return !DoubleUtil.isEpsilonToX(min - parameter, max - min);
 		}
 
 		// check if max < parameter
 		if (DoubleUtil.isGreater(parameter, max)) {
 			// check if parameter is close to max in comparison to max - min
-			if (DoubleUtil.isEpsilonToX(parameter - max, max - min)) {
-				return false;
-			}
-			return true;
+			return !DoubleUtil.isEpsilonToX(parameter - max, max - min);
 		}
 
 		// min < parameter < max
 		return false;
-
 	}
 
 	/**

@@ -216,11 +216,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		// eg 1 + sqrt(2)
 		// or -1 + sqrt(2)
 		// -sqrt(2) gets brackets, 
-		if (str.contains("+") || str.contains("-")) {
-			return true;
-		}
-
-		return false;
+		return str.contains("+") || str.contains("-");
 	}
 
 	private void append(double value) {

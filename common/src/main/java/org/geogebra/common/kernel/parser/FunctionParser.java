@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -34,6 +35,7 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
@@ -121,7 +123,7 @@ public class FunctionParser {
 			if (cell == null && (geo == null || !hasDerivative(geo))) {
 
 				int index = funcName.length() - 1;
-				while (index >= 0 && cimage.charAt(index) == '\''
+				while (index >= 0 && isDerivativeChar(cimage.charAt(index))
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					order++;
 					index--;
@@ -162,7 +164,8 @@ public class FunctionParser {
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
 				if (topLevelExpression && !isCommand(funcName)
-						&& !forceCommand && funcName.length() == 1) {
+						&& !forceCommand && funcName.length() == 1
+						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (myList.size() == 2) {
 						ExpressionNode ret = new ExpressionNode(kernel, new MyVecNode(kernel,
 								myList.getListElement(0), myList.getListElement(1)));
@@ -267,6 +270,10 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
+	public static boolean isDerivativeChar(char ch) {
+		return ch == '\'' || ch == '‘' || ch == '’';
+	}
+
 	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,
 			boolean casParsing) {
 		if (!casParsing
@@ -274,7 +281,8 @@ public class FunctionParser {
 				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			replacer.setMultipleUnassignedAllowed(inputBoxParsing);
-			ExpressionNode exprWithDummyArg = replacer.replace(funcName + "$").wrap();
+			String dummyArgName = Unicode.CURRENCY_EURO + "";
+			ExpressionNode exprWithDummyArg = replacer.replace(funcName + dummyArgName).wrap();
 			if (exprWithDummyArg.getOperation() == Operation.MULTIPLY
 					&& (Operation.isSimpleFunction(exprWithDummyArg.getRightTree().getOperation())
 					|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
@@ -284,7 +292,7 @@ public class FunctionParser {
 					multiplyOrFunctionNodes.add(exprWithDummyArg);
 				}
 				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
-						.getReplacer("$", arg, kernel);
+						.getReplacer(dummyArgName, arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
 			}
 		}
@@ -321,8 +329,12 @@ public class FunctionParser {
 
 	private ExpressionNode multiplication(ExpressionValue geoExp,
 			ArrayList<ExpressionNode> undecided, MyList myList, String funcName) {
+		ExpressionValue right = toFunctionArgument(myList, funcName);
 		ExpressionNode expr = new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION,
-				toFunctionArgument(myList, funcName));
+				right);
+		if (!kernel.getAlgebraProcessor().enableStructures() && right instanceof MyVecNDNode) {
+			throw new MyError(kernel.getLocalization(), Errors.InvalidInput);
+		}
 		undecided.add(expr);
 		return expr;
 	}

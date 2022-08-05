@@ -658,13 +658,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		ExpressionValue right = exp.getRight();
 		Operation op = exp.getOperation();
 
-		if (op == Operation.VEC_FUNCTION && left instanceof GeoCurveCartesian
+		return op == Operation.VEC_FUNCTION && left instanceof GeoCurveCartesian
 				&& right instanceof GeoNumeric
-				&& ((GeoNumeric) right).isSlider()) {
-			return true;
-		}
-
-		return false;
+				&& ((GeoNumeric) right).isSlider();
 	}
 
 	/**
@@ -1875,8 +1871,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		if (geo.isGeoPoint()) {
 			setPointSize(((GeoPointND) geo).getPointSize());
 			pointStyle = ((GeoPointND) geo).getPointStyle();

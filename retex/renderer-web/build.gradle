@@ -1,10 +1,10 @@
 plugins {
 	id 'java-library'
 	id 'eclipse'
-	id 'org.wisepersist.gwt' version '1.1.16'
+	id 'org.wisepersist.gwt' version '1.1.19'
 }
 
-ext.gwtCompilerVersion = '2.9.0'
+ext.gwtCompilerVersion = '2.10.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -36,9 +36,9 @@ dependencies {
 			files(project(':renderer-base').sourceSets.main.java.srcDirs),
 			files(project(':gwtutil').sourceSets.main.java.srcDirs),
 			files(file("build/generated/sources/annotationProcessor/java/main/")),
-			"com.google.gwt:gwt-dev:$gwtCompilerVersion",
-			"com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testImplementation "com.google.gwt:gwt-user:$gwtCompilerVersion"
+			"org.gwtproject:gwt-dev:$gwtCompilerVersion",
+			"org.gwtproject:gwt-user:$gwtCompilerVersion"
+	testImplementation "org.gwtproject:gwt-user:$gwtCompilerVersion"
 
 	annotationProcessor project(":gwtutil"),
 			'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'

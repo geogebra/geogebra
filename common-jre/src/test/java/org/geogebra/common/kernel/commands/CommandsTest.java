@@ -2591,6 +2591,12 @@ public class CommandsTest {
 	public void cmdNIntegral() {
 		t("NIntegral[x^2,-1,1]", "0.6666666666666666");
 		t("NIntegral[x^2]", "NIntegral[x^(2)]");
+		t("G(x)=NIntegral(x/x^2, 1, 0, 10)",
+				"NIntegral[x / x^(2), 1, 0, 10]");
+		tRound("G(4)-ln(4)", "0");
+		t("G1(x)=NIntegral(If(x==0,0,sin(x^2)/x^2), 0, 0, 10)",
+				"NIntegral[If[x ≟ 0, 0, sin(x^(2)) / x^(2)], 0, 0, 10]");
+		tRound("G1(4)", "1.2609");
 		AlgebraTestHelper.shouldFail("Nintegral[exp(x),x,0,1]", "x", app);
 	}
 
@@ -3651,15 +3657,27 @@ public class CommandsTest {
 	@Test
 	public void cmdShowAxes() {
 		t("ShowAxes[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertTrue(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertFalse(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowAxis(1));
+		t("ShowAxes[2,false]");
+		assertFalse(app.getSettings().getEuclidian(2).getShowAxis(1));
 	}
 
 	@Test
 	public void cmdShowGrid() {
 		t("ShowGrid[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowGrid());
+		assertTrue(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowGrid());
+		assertFalse(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowGrid());
 	}
 
 	@Test

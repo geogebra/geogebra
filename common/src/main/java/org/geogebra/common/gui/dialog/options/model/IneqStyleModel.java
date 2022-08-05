@@ -60,12 +60,8 @@ public class IneqStyleModel extends BooleanOptionModel {
 		}
 
 		GeoFunction gfun = (GeoFunction) geo;
-		if (!gfun.isBooleanFunction() || gfun
-				.getVarString(StringTemplate.defaultTemplate).equals("y")) {
-			return false;
-		}
-
-		return true;
+		return gfun.isBooleanFunction() && !gfun
+				.getVarString(StringTemplate.defaultTemplate).equals("y");
 	}
 
 	@Override

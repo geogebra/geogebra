@@ -33,7 +33,7 @@ public class Settings {
 
 	private LayoutSettings layoutSettings;
 
-	private ApplicationSettings applicationSettings;
+	private GeneralSettings generalSettings;
 
 	private AbstractSettings keyboardSettings;
 
@@ -120,11 +120,11 @@ public class Settings {
 			layoutSettings = new LayoutSettings(layoutSettings.getListeners());
 		}
 
-		if (applicationSettings == null) {
-			applicationSettings = new ApplicationSettings();
+		if (generalSettings == null) {
+			generalSettings = new GeneralSettings();
 		} else {
-			applicationSettings = new ApplicationSettings(
-					applicationSettings.getListeners());
+			generalSettings = new GeneralSettings(
+					generalSettings.getListeners());
 		}
 
 		if (keyboardSettings == null) {
@@ -174,7 +174,7 @@ public class Settings {
 		spreadsheetSettings.beginBatch();
 		consProtSettings.beginBatch();
 		layoutSettings.beginBatch();
-		applicationSettings.beginBatch();
+		generalSettings.beginBatch();
 		keyboardSettings.beginBatch();
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
@@ -200,7 +200,7 @@ public class Settings {
 		spreadsheetSettings.endBatch();
 		consProtSettings.endBatch();
 		layoutSettings.endBatch();
-		applicationSettings.endBatch();
+		generalSettings.endBatch();
 		keyboardSettings.endBatch();
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
@@ -331,8 +331,8 @@ public class Settings {
 	/**
 	 * @return General settings of the application.
 	 */
-	public final ApplicationSettings getApplication() {
-		return applicationSettings;
+	public final GeneralSettings getGeneral() {
+		return generalSettings;
 	}
 
 	/**

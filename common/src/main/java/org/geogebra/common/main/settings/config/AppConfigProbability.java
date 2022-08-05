@@ -74,4 +74,9 @@ public class AppConfigProbability extends AppConfigGraphing {
 	public boolean hasEuclidianView() {
 		return false;
 	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return getSubAppCode() != null;
+	}
 }

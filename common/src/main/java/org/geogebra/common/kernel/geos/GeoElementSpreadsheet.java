@@ -139,12 +139,8 @@ public class GeoElementSpreadsheet {
 		}
 
 		// check not outside range, eg A10000
-		if (getSpreadsheetColumn(matcher) == -1
-				|| getSpreadsheetRow(matcher) == -1) {
-			return false;
-		}
-
-		return true;
+		return getSpreadsheetColumn(matcher) != -1
+				&& getSpreadsheetRow(matcher) != -1;
 	}
 
 	/**

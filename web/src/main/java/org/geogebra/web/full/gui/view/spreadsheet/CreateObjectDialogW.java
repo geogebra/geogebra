@@ -1,10 +1,14 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
+import java.util.Arrays;
+
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
+import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.view.algebra.DOMIndexHTMLBuilder;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -19,7 +23,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,19 +32,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CreateObjectDialogW extends ComponentDialog implements ICreateObjectListener {
 
-	private CreateObjectModel coModel;
+	private final CreateObjectModel coModel;
 	private Label lblObject;
 	private Label lblName;
 
 	private ComponentCheckbox ckTranspose;
-	private RadioButton btnValue;
-	private RadioButton btnObject;
+	private RadioButtonPanel<Boolean> objValRadioButtonPanel;
 	/** switch scan between rows and columns */
 	ListBox cbScanOrder;
 
 	private boolean isIniting = true;
 	private FlowPanel optionsPanel;
-	private FlowPanel typePanel;
 	/** name input */
 	AutoCompleteTextFieldW fldName;
 
@@ -55,8 +56,8 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	private ListBox typeList;
 	private Label lblPreviewHeader;
 	private Label lblOptions;
-	private FlowPanel centerPanel = new FlowPanel();
-	private Localization loc;
+	private final FlowPanel centerPanel = new FlowPanel();
+	private final Localization loc;
 	
 	/**
 	 * @param app
@@ -86,8 +87,8 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		objectTypeChanged();
 
 		updateGUI();
-		setOnNegativeAction(() -> coModel.cancel());
-		setOnPositiveAction(() -> coModel.ok());
+		setOnNegativeAction(coModel::cancel);
+		setOnPositiveAction(coModel::ok);
 	}
 
 	/**
@@ -135,10 +136,13 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		
 		cbLeftRightOrder = new ListBox();
 		cbLeftRightOrder.addChangeHandler(event -> apply(cbLeftRightOrder));
-	
-		btnObject = new RadioButton("group1", "");
-		btnValue = new RadioButton("group1", "");
-		btnObject.setValue(true);
+
+		RadioButtonData<Boolean> objRadioButtonData =
+				new RadioButtonData<>("DependentObjects", false);
+		RadioButtonData<Boolean> valRadioButtonData = new RadioButtonData<>("FreeObjects", true);
+		objValRadioButtonPanel = new RadioButtonPanel<>(loc,
+				Arrays.asList(objRadioButtonData, valRadioButtonData), false,
+				ignore -> coModel.createNewGeo(fldName.getText()));
 
 		ckTranspose = new ComponentCheckbox(loc, false, "Transpose",
 			(event) -> coModel.createNewGeo(fldName.getText()));
@@ -148,7 +152,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		
 		if (coModel.getObjectType() < 0) {
 			coModel.setListType();
-			typePanel = new FlowPanel();
+			FlowPanel typePanel = new FlowPanel();
 			typePanel.add(lblObject);
 			typePanel.add(typeList);
 			optionPane.add(typePanel);
@@ -190,11 +194,9 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		lblOptions = new Label();
 		lblOptions.setStyleName("panelTitle");
 		FlowPanel copyPanel = new FlowPanel();
-		copyPanel.add(btnObject);
-		copyPanel.add(btnValue);
+		copyPanel.add(objValRadioButtonPanel);
 
 		FlowPanel northPanel = new FlowPanel();
-		
 		northPanel.add(copyPanel);
 
 		FlowPanel orderPanel = new FlowPanel();
@@ -217,7 +219,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		optionsPanel = new FlowPanel();
 		optionsPanel.add(northPanel);
 		optionsPanel.add(lblOptions);
-		// app.borderWest());
 		optionsPanel.add(cards);
 	}
 
@@ -234,6 +235,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		btnValue.setText(loc.getMenu("FreeObjects"));
 
 		ckTranspose.setLabels();
+		objValRadioButtonPanel.setLabels();
 
 		lblName.setText(loc.getMenu("Name") + ": ");
 
@@ -286,12 +288,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();
-		} else if (source == btnObject) {
-			btnValue.setValue(!btnObject.getValue());
-			coModel.createNewGeo(fldName.getText());
-		} else if (source == btnValue) {
-			btnObject.setValue(!btnValue.getValue());
-			coModel.createNewGeo(fldName.getText());
 		} else if (source == cbScanOrder || source == cbLeftRightOrder) {
 			coModel.createNewGeo(fldName.getText());
 		}
@@ -328,7 +324,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 
 	@Override
 	public boolean isCopiedByValue() {
-		return btnValue.getValue();
+		return objValRadioButtonPanel.getValue();
 	}
 
 	@Override

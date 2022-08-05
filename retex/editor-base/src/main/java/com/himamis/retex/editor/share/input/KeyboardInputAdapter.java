@@ -136,7 +136,8 @@ public class KeyboardInputAdapter {
 				mfi.getInputController().newBraces(editorState, '(');
 				mfi.notifyAndUpdate("(");
 				PlaceholderController.insertPlaceholders(editorState,
-						splitCommand.subList(1, splitCommand.size()));
+						splitCommand.subList(1, splitCommand.size()),
+						splitCommand.get(0));
 			}
 
 			@Override
@@ -166,10 +167,8 @@ public class KeyboardInputAdapter {
 	}
 
 	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param input
-	 *            input
+	 * @param mathFieldInternal editor
+	 * @param input input
 	 */
 	public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
 		if (input == null) {
@@ -189,10 +188,8 @@ public class KeyboardInputAdapter {
 	}
 
 	/**
-	 * @param mathFieldInternal
-	 *            editor
-	 * @param commandName
-	 *            command name
+	 * @param mathFieldInternal editor
+	 * @param commandName command name
 	 */
 	public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
 		commandAdapter.commit(mathFieldInternal, commandName);

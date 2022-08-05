@@ -204,11 +204,6 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 *            real world view max
 	 */
 	public void zoomRW(Coords boundsMin2, Coords boundsMax2);
-
-	/**
-	 * @return whether stylebar exists
-	 */
-	public boolean hasStyleBar();
 	
 	/**
 	 * set export will be done on next 3D frame

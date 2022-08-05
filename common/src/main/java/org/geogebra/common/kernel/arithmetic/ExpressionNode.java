@@ -608,24 +608,10 @@ public class ExpressionNode extends ValidExpression
 	 * Returns true if this tree includes Freehand or DataFunction
 	 * 
 	 * 
-	 * @return true iff contains abs(), If[] etc
+	 * @return true iff contains Freehand or DataFunction
 	 */
 	final public boolean includesFreehandOrData() {
-		if (Operation.includesFreehandOrData(operation)) {
-			return true;
-		}
-
-		if (left.isExpressionNode()
-				&& ((ExpressionNode) left).includesFreehandOrData()) {
-			return true;
-		}
-
-		if ((right != null) && right.isExpressionNode()
-				&& ((ExpressionNode) right).includesFreehandOrData()) {
-			return true;
-		}
-
-		return false;
+		return inspect(v -> v.isOperation(Operation.DATA) || v.isOperation(Operation.FREEHAND));
 	}
 
 	/**
@@ -874,12 +860,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).containsCasEvaluableFunction()) {
 			return true;
 		}
-		if ((right instanceof ExpressionNode)
-				&& ((ExpressionNode) right).containsCasEvaluableFunction()) {
-			return true;
-		}
-
-		return false;
+		return (right instanceof ExpressionNode)
+				&& ((ExpressionNode) right).containsCasEvaluableFunction();
 	}
 
 	/**
@@ -895,12 +877,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).containsGeoFunctionNVar()) {
 			return true;
 		}
-		if ((right instanceof ExpressionNode)
-				&& ((ExpressionNode) right).containsGeoFunctionNVar()) {
-			return true;
-		}
-
-		return false;
+		return (right instanceof ExpressionNode)
+				&& ((ExpressionNode) right).containsGeoFunctionNVar();
 	}
 
 	/**
@@ -1192,10 +1170,8 @@ public class ExpressionNode extends ValidExpression
 		if (leaf) {
 			if (left.isExpressionNode()) {
 				return ((ExpressionNode) left).hasOperations();
-			} else if (left instanceof MyVecNDNode) {
-				return true;
 			} else {
-				return false;
+				return left instanceof MyVecNDNode;
 			}
 		}
 
@@ -3410,11 +3386,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).isStringAddition()) {
 			return true;
 		}
-		if (right instanceof ExpressionNode
-				&& ((ExpressionNode) right).isStringAddition()) {
-			return true;
-		}
-		return false;
+		return right instanceof ExpressionNode
+				&& ((ExpressionNode) right).isStringAddition();
 	}
 
 	/**

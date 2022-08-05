@@ -52,7 +52,7 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private void ensureXColumnLabel(GeoList list) {
 		if (tableValues.getValues() == list && !list.isLabelSet()) {
-			list.setAuxiliaryObject(true);
+			model.setupXValues(list);
 			list.setLabel(cons.buildIndexedLabel("x", false));
 		}
 	}

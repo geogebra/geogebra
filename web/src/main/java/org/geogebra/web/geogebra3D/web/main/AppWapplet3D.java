@@ -129,8 +129,16 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public void updateStyleBars() {
 		super.updateStyleBars();
-		if (showView(App.VIEW_EUCLIDIAN3D)) {
+		if (showView(App.VIEW_EUCLIDIAN3D) && getEuclidianView3D().hasStyleBar()) {
 			getEuclidianView3D().getStyleBar().updateStyleBar();
+		}
+	}
+
+	@Override
+	public void updateDynamicStyleBars() {
+		super.updateDynamicStyleBars();
+		if (showView(App.VIEW_EUCLIDIAN3D) && getEuclidianView3D().hasDynamicStyleBar()) {
+			getEuclidianView3D().getDynamicStyleBar().updateStyleBar();
 		}
 	}
 

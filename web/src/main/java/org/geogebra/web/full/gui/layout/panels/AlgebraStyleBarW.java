@@ -206,7 +206,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 	}
 
 	@Override
-	protected void handleEventHandlers(Object source) {
+	public void fireActionPerformed(PopupMenuButtonW source) {
 		needUndo = false;
 
 		ArrayList<GeoElement> targetGeos = new ArrayList<>();

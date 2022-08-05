@@ -1,5 +1,7 @@
 package org.geogebra.test.commands;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -50,6 +52,25 @@ public class AlgebraTestHelper {
 			fail(string + ":" + errorStore.getErrors() + "," + errorMsg
 					+ " expected");
 		}
+	}
+
+	/**
+	 * Checks that command does not fail
+	 * @param cmd command
+	 * @param app app
+	 */
+	public static void shouldPass(String cmd, App app) {
+		ErrorAccumulator errorStore = new ErrorAccumulator();
+		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+		EvalInfo info = algebraProcessor
+				.getEvalInfo(false, false)
+				.withNoRedefinitionAllowed();
+		GeoElementND[] elements = algebraProcessor
+				.processAlgebraCommandNoExceptionHandling(
+						cmd, false, errorStore, info, null
+				);
+		assertNotNull(elements);
+		assertEquals("", errorStore.getErrors());
 	}
 
 	/**
