@@ -1732,11 +1732,16 @@ public class Construction {
 					}
 				}
 			}
+			if (updateInputIdx.isEmpty()) {
+				// since we only get there if definition did change and command name is the same
+				// at least one input must have changed, but better to avoid OutOfBounds.
+				return false;
+			}
 			for (Integer i: updateInputIdx) {
 				oldParent.getInput(i).set(newParent.getInput(i));
 			}
-			oldParent.compute();
-			oldGeo.updateRepaint();
+			// start cascade from the ancestor to make sure siblings are updated too
+			oldParent.getInput(updateInputIdx.get(0)).updateRepaint();
 			return true;
 		}
 		return false;
