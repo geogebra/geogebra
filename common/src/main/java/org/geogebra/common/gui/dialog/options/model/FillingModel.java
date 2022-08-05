@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
@@ -85,7 +86,7 @@ public class FillingModel extends MultipleOptionsModel {
 		Set<FillType> types = new HashSet<>(Arrays.asList(FillType.values()));
 		Set<FillType> availableFillTypes = app.getConfig().getAvailableFillTypes();
 		types.retainAll(availableFillTypes);
-		fillTypes = new ArrayList<>(types);
+		fillTypes = types.stream().sorted().collect(Collectors.toList());
 	}
 
 	private IFillingListener getFillingListener() {
@@ -109,7 +110,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 	private String getFillTypeTranslationKey(FillType fillType) {
 		switch (fillType) {
-			case HATCH:
+				case HATCH:
 				return "Filling.Hatch";
 			case CROSSHATCHED:
 				return "Filling.Crosshatch";
