@@ -441,21 +441,21 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @param doYouWantSaveChanges true if doYooWantToSaveYourChangesDialog
+	 * @param doYouWantToSaveChanges true if doYooWantToSaveYourChangesDialog
 	 *        should be shown
 	 * @param addTempCheckBox
 	 *        true if checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
-	public SaveDialogI getSaveDialog(boolean doYouWantSaveChanges, boolean addTempCheckBox) {
+	public SaveDialogI getSaveDialog(boolean doYouWantToSaveChanges, boolean addTempCheckBox) {
 		if (app.isMebis()) {
-			DialogData data = doYouWantSaveChanges
+			DialogData data = doYouWantToSaveChanges
 					? new DialogData("DoYouWantToSaveYourChanges",
 					"Discard", "Save")
 					:  new DialogData("Save",
 					"Cancel", "Save");
 
-			saveDialog = doYouWantSaveChanges
+			saveDialog = doYouWantToSaveChanges
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {

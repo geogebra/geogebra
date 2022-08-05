@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -67,7 +68,7 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 
 		CoordSys cs = conic.getCoordSys();
 
-		if (GeoPolygon3D.updateCoordSys(cs, inputP, P, tmpCoords)) {
+		if (GeoPolygon3D.updateCoordSys(cs, inputP, P, tmpCoords, Kernel.STANDARD_PRECISION)) {
 			conic.setDefined();
 			super.compute();
 		} else {

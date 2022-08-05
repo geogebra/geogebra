@@ -65,13 +65,8 @@ public class SegmentsIntersection extends Intersection {
 		if (o instanceof SegmentsIntersection) {
 			SegmentsIntersection s = (SegmentsIntersection) o;
 			if (this.getPoint().equals(s.getPoint())) {
-				if (s1.equals(s.s1) && s2.equals(s.s2)) {
-					return true;
-				} else if (s1.equals(s.s2) && s2.equals(s.s1)) {
-					return true;
-				} else {
-					return false;
-				}
+				return (s1.equals(s.s1) && s2.equals(s.s2))
+						|| (s1.equals(s.s2) && s2.equals(s.s1));
 			}
 		}
 		return false;

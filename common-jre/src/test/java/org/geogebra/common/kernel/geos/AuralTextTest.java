@@ -158,6 +158,10 @@ public class AuralTextTest {
 		GeoElementND[] pointB = add("B = (2,2)");
 		pointB[0].setCaption(" $ \\text{this is my nice caption}$");
 		auralWhichContainsTheOutput("B", "this is my nice caption");
+		GeoElementND[] pointC = add("C = (3,3)");
+		GeoElementND[] text = add("LaTeX(\"\\text{I am dynamic }\\it{text}\")");
+		pointC[0].setDynamicCaption((GeoText) text[0]);
+		auralWhichContainsTheOutput("C", "I am dynamic text");
 	}
 
 	@Test

@@ -1,6 +1,8 @@
 
 package org.geogebra.common.kernel.interval;
 
+import org.geogebra.common.kernel.interval.operators.RMath;
+
 public class IntervalHelper {
 
 	public static Interval interval(double singleton) {

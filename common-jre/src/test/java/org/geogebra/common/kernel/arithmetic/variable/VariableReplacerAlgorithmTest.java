@@ -38,10 +38,27 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		add("a_{1} = 4");
 		add("b = 2");
 		add("b_{1} = 4");
+		add("i_{1} = 7");
 		shouldReplaceAs("a_{1}b", "a_{1} * b");
 		shouldReplaceAs("ba_{1}", "b * a_{1}");
 		shouldReplaceAs("a_{1}b_{1}", "a_{1} * b_{1}");
 		shouldReplaceAs("c_{1}'a''", "c_{1}' * a''");
+		shouldReplaceAs("bi_{1}", "b * i_{1}");
+		shouldReplaceAs("2i_{1}", "2 * i_{1}");
+	}
+
+	@Test
+	public void testIndexProductInputBar() {
+		add("b=3");
+		add("i_{1} = 7");
+		shouldReplaceAs("2i_{1}", "2 * i_{1}");
+		shouldReplaceAs("bi_{1}", "b * i_{1}");
+		shouldReplaceAs("2i_{2}", "2 * i_{2}");
+		shouldReplaceAs("bi_{2}", "b * i_{2}");
+		shouldReplaceAs("2pi_{2}", "2 * pi_{2}");
+		shouldReplaceAs("bpi_{2}", "b * pi_{2}");
+		shouldReplaceAs("2deg_{2}", "2 * deg_{2}");
+		shouldReplaceAs("bdeg_{2}", "b * deg_{2}");
 	}
 
 	@Test

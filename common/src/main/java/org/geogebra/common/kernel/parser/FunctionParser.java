@@ -121,7 +121,7 @@ public class FunctionParser {
 			if (cell == null && (geo == null || !hasDerivative(geo))) {
 
 				int index = funcName.length() - 1;
-				while (index >= 0 && cimage.charAt(index) == '\''
+				while (index >= 0 && isDerivativeChar(cimage.charAt(index))
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					order++;
 					index--;
@@ -267,6 +267,10 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
+	public static boolean isDerivativeChar(char ch) {
+		return ch == '\'' || ch == '‘' || ch == '’';
+	}
+
 	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,
 			boolean casParsing) {
 		if (!casParsing
@@ -274,7 +278,8 @@ public class FunctionParser {
 				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			replacer.setMultipleUnassignedAllowed(inputBoxParsing);
-			ExpressionNode exprWithDummyArg = replacer.replace(funcName + "$").wrap();
+			String dummyArgName = Unicode.CURRENCY_EURO + "";
+			ExpressionNode exprWithDummyArg = replacer.replace(funcName + dummyArgName).wrap();
 			if (exprWithDummyArg.getOperation() == Operation.MULTIPLY
 					&& (Operation.isSimpleFunction(exprWithDummyArg.getRightTree().getOperation())
 					|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
@@ -284,7 +289,7 @@ public class FunctionParser {
 					multiplyOrFunctionNodes.add(exprWithDummyArg);
 				}
 				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
-						.getReplacer("$", arg, kernel);
+						.getReplacer(dummyArgName, arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
 			}
 		}

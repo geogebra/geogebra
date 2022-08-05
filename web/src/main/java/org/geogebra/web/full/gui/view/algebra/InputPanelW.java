@@ -122,13 +122,6 @@ public class InputPanelW extends FlowPanel {
 	}
 
 	/**
-	 * adds InsertHandler to TextComponent
-	 */
-	public void addTextComponentInsertHandler(AutoCompleteTextFieldW.InsertHandler t) {
-		getTextComponent().addInsertHandler(t);
-	}
-
-	/**
 	 * Focus text component
 	 */
 	public void setTextComponentFocus() {

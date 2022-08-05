@@ -105,7 +105,6 @@
         <exclude name="LawOfDemeter"/>
         <exclude name="SwitchDensity"/>
         <exclude name="UseUtilityClass"/>
-        <exclude name="SimplifyBooleanReturns"/>
         <exclude name="AbstractClassWithoutAnyMethod"/>
         <exclude name="DoNotExtendJavaLangError"/>
         <exclude name="AvoidUncheckedExceptionsInSignatures"/>

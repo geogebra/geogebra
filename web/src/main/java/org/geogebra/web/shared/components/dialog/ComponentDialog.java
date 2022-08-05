@@ -130,7 +130,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		setBtnDisabled(posButton, disabled);
 	}
 
-	public void setNedBtnDisabled(boolean disabled) {
+	public void setNegBtnDisabled(boolean disabled) {
 		setBtnDisabled(negButton, disabled);
 	}
 

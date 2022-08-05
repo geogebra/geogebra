@@ -2255,7 +2255,7 @@ public class Construction {
 	 */
 	protected GeoElement lookupLabel(String label, boolean allowAutoCreate) {
 		String label1 = label;
-		if (label1 == null) {
+		if (label1 == null || label1.isEmpty()) {
 			return null;
 		}
 
@@ -2281,6 +2281,9 @@ public class Construction {
 		 * CAS VARIABLE HANDLING e.g. ggbtmpvara for a
 		 */
 		label1 = Kernel.removeCASVariablePrefix(label1);
+		if (label1 == null || label1.isEmpty()) {
+			return null;
+		}
 		geo = geoTableVarLookup(label1);
 		if (geo != null) {
 			// geo found for name that starts with TMP_VARIABLE_PREFIX or
@@ -2293,7 +2296,7 @@ public class Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label1.indexOf('$') > -1 && label1.length() > 1) {
+		if (label1.indexOf('$') > -1) {
 			StringBuilder labelWithoutDollar = new StringBuilder(
 					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
@@ -2303,6 +2306,9 @@ public class Construction {
 				}
 			}
 			String labelString = labelWithoutDollar.toString();
+			if (labelString.isEmpty()) {
+				return null;
+			}
 			// allow automatic creation of elements
 			geo = lookupLabel(labelString, allowAutoCreate);
 			if (geo != null) {
@@ -2312,7 +2318,7 @@ public class Construction {
 			if (labelString.charAt(0) >= '0' && labelString.charAt(0) <= '9') {
 				int cell = 0;
 				try {
-					cell = Integer.parseInt(labelWithoutDollar.toString());
+					cell = Integer.parseInt(labelString);
 				} catch (Exception e) {
 					Log.debug(e);
 				}
@@ -2477,11 +2483,7 @@ public class Construction {
 			return false;
 		}
 
-		if (includeDummies && casDummies.contains(label)) {
-			return false;
-		}
-
-		return true;
+		return !includeDummies || !casDummies.contains(label);
 	}
 
 	/**

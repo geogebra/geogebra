@@ -30,6 +30,8 @@ import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * a version of StyleBarW that also includes the buttons for color, line style
  * and point style and (parts of) their handling.
@@ -103,7 +105,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 *            selected objects
 	 * @return processed successfully
 	 */
-	protected boolean processSource(Object source,
+	protected boolean processSource(Widget source,
 			ArrayList<GeoElement> targetGeos) {
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
@@ -212,9 +214,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 *            runs programatically the action performed event.
 	 */
 	@Override
-	public void fireActionPerformed(PopupMenuButtonW actionButton) {
-		handleEventHandlers(actionButton);
-	}
+	public abstract void fireActionPerformed(PopupMenuButtonW actionButton);
 
 	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
 			double alpha) {
@@ -224,8 +224,6 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
 				|| ret;
 	}
-
-	protected abstract void handleEventHandlers(Object source);
 
 	protected void createColorBtn() {
 		Localization loc = app.getLocalization();

@@ -20,14 +20,9 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -37,8 +32,7 @@ import com.google.gwt.user.client.ui.TextBox;
  *  Statistics calculator for web
  */
 public class StatisticsCalculatorW extends StatisticsCalculator
-		implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>,
-		BlurHandler, KeyUpHandler {
+		implements ChangeHandler, BlurHandler, KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
 	private FlowPanel resultPane;
@@ -47,8 +41,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	private Label lblSampleHeader2;
 	private ComponentCheckbox ckPooled;
 	private ListBox cbProcedure;
-	private Button btnCalculate;
-	private RadioButtonPanel tailRadioButtonPanel;
+	private RadioButtonPanel<String> tailRadioButtonPanel;
 	private Label lblNull;
 	private Label lblHypParameter;
 	private Label lblTailType;
@@ -125,7 +118,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis"));
 		lblConfLevel.setText(loc.getMenu("ConfidenceLevel"));
 		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
-		btnCalculate.setText(loc.getMenu("Calculate"));
 
 		switch (sc.getSelectedProcedure()) {
 
@@ -454,13 +446,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		cbProcedure = new ListBox();
 		cbProcedure.addChangeHandler(this);
 
-		btnCalculate = new Button();
-		btnCalculate.addClickHandler(this);
-
-		tailRadioButtonPanel = new RadioButtonPanel(loc,
+		tailRadioButtonPanel = new RadioButtonPanel<>(loc,
 				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
 						newRadioButtonData(StatisticsCollection.tail_right),
-						newRadioButtonData(StatisticsCollection.tail_two)), 2);
+						newRadioButtonData(StatisticsCollection.tail_two)),
+				StatisticsCollection.tail_two,
+				ignore -> updateResult(true));
 
 		lblNull = new Label();
 		lblHypParameter = new Label();
@@ -497,8 +488,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		}
 	}
 
-	private RadioButtonData newRadioButtonData(String label) {
-		return new RadioButtonData(label, false, () -> updateResult(true));
+	private RadioButtonData<String> newRadioButtonData(String label) {
+		return new RadioButtonData<>(label, label);
 	}
 
 	private TextObject buildTextField() {
@@ -529,36 +520,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	@Override
-	public void onClick(ClickEvent event) {
-		updateResult(true);
-	}
-
-	@Override
-	public void onValueChange(ValueChangeEvent<Boolean> event) {
-		Object source = event.getSource();
-
-		if (source == btnCalculate) {
-			updateResult(true);
-		}
-	}
-
-	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT
 				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
 			doTextFieldActionPerformed(
 					event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
 		}
-	}
-
-	/**
-	 * @param value
-	 *            current value in textfield
-	 * @return whether we can handle the key
-	 */
-	static boolean keyUpNeeded(String value) {
-		char last = value.charAt(value.length() - 1);
-		return !"".equals(value) && !"-".equals(value) && last != '.';
 	}
 
 	/**
@@ -605,18 +572,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	@Override
-	protected boolean btnRightIsSelected() {
-		return tailRadioButtonPanel.isNthRadioButtonSelected(1);
+	protected String getSelectedTail() {
+		return tailRadioButtonPanel.getValue();
 	}
 
 	@Override
-	protected boolean btnLeftIsSelected() {
-		return tailRadioButtonPanel.isNthRadioButtonSelected(0);
-	}
-
-	@Override
-	protected void updateTailCheckboxes(boolean left, boolean right) {
-		// nothing to do here
+	protected void updateTailCheckboxes(String tail) {
+		tailRadioButtonPanel.setValue(tail);
 	}
 
 	@Override

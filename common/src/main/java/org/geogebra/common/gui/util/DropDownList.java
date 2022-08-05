@@ -108,11 +108,7 @@ public class DropDownList {
 	 */
 	public boolean isClickTimerRunning() {
 		// might be null eg Android, iOS
-		if (clickTimer != null) {
-			return clickTimer.isRunning();
-		}
-
-		return false;
+		return clickTimer != null && clickTimer.isRunning();
 	}
 
 	/**
@@ -120,10 +116,6 @@ public class DropDownList {
 	 */
 	public boolean isScrollTimerRunning() {
 		// might be null eg Android, iOS
-		if (scrollTimer != null) {
-			return scrollTimer.isRunning();
-		}
-
-		return false;
+		return scrollTimer != null && scrollTimer.isRunning();
 	}
 }

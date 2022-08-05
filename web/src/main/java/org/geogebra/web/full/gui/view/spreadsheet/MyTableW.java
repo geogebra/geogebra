@@ -1657,7 +1657,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(col, row));
 
 					if (Browser.isTabletBrowser()) {
-						textField.setEnabled(false);
+						textField.enableGGBKeyboard();
 						textField.addDummyCursor(textField.getCaretPosition());
 					}
 				} else if (!app.isWhiteboardActive()) {
@@ -1749,15 +1749,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		// prevent editing fixed geos when allowEditing == true
 		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
-		if (geo != null && geo.isProtected(EventType.UPDATE)) {
-			return false;
-		}
-
-		// return true when editing is allowed (mostly for blank cells). This
-		// lets
-		// the JTable mousePressed listener catch double clicks and invoke the
-		// editor
-		return true;
+		return geo == null || !geo.isProtected(EventType.UPDATE);
 	}
 
 	/**

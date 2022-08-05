@@ -141,14 +141,11 @@ public interface Inspecting {
 						}
 						isOtherVar = true;
 						GeoElement subst = gdv.getElementWithSameName();
-						if (subst != null && (!subst.getSendValueToCas()
+						return subst == null || (subst.getSendValueToCas()
 								// skip constants
 								// needed for GGB-810
-								|| (subst.getLabelSimple() != null && subst
-										.getLabelSimple().startsWith("c_")))) {
-							return false;
-						}
-						return true;
+								&& (subst.getLabelSimple() == null || !subst
+								.getLabelSimple().startsWith("c_")));
 					}
 					if ("x".equals(varString) || "z".equals(varString)) {
 						isOtherVar = true;
@@ -162,14 +159,11 @@ public interface Inspecting {
 				if (v instanceof GeoDummyVariable) {
 					GeoElement subst = ((GeoDummyVariable) v)
 							.getElementWithSameName();
-					if (subst != null && (!subst.getSendValueToCas()
+					return subst == null || (subst.getSendValueToCas()
 							// skip constants
 							// needed for GGB-810
-							|| (subst.getLabelSimple() != null && subst
-									.getLabelSimple().startsWith("c_")))) {
-						return false;
-					}
-					return true;
+							&& (subst.getLabelSimple() == null || !subst
+							.getLabelSimple().startsWith("c_")));
 				}
 				return false;
 			// MyBoolean
@@ -231,10 +225,7 @@ public interface Inspecting {
 				type = 8;
 				return false;
 			} else if (v instanceof Variable || v instanceof GeoDummyVariable) {
-				if (v.toString(StringTemplate.defaultTemplate).equals("x")) {
-					return false;
-				}
-				return true;
+				return !v.toString(StringTemplate.defaultTemplate).equals("x");
 			} else if (v instanceof ExpressionNode) {
 				type = 11;
 				return false;

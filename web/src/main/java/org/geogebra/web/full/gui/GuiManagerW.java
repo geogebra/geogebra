@@ -2090,9 +2090,11 @@ public class GuiManagerW extends GuiManager
 				.getInputTreeItem() != null) {
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
-			input.insertMath(string);
-			input.setFocus(true);
-			input.ensureEditing();
+			if (input != null) {
+				input.insertMath(string);
+				input.setFocus(true);
+				input.ensureEditing();
+			}
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().getTextField().autocomplete(string);
 			getAlgebraInput().getTextField().setFocus(true);
@@ -2107,9 +2109,11 @@ public class GuiManagerW extends GuiManager
 				&& getApp().getInputPosition() == InputPosition.algebraView) {
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
-			input.setText(string);
-			input.setFocus(true);
-			input.ensureEditing();
+			if (input != null) {
+				input.setText(string);
+				input.setFocus(true);
+				input.ensureEditing();
+			}
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().setText(string);
 			getAlgebraInput().getTextField().setFocus(true);

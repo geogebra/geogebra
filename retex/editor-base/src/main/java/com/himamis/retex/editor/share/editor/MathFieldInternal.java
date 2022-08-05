@@ -31,6 +31,8 @@ package com.himamis.retex.editor.share.editor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -99,6 +101,8 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
+	private Set<MathFieldInternalListener> mathFieldInternalListeners;
+
 	private static final ArrayList<Integer> LOCKED_CARET_PATH
 			= new ArrayList<>(Arrays.asList(0, 0, 0));
 
@@ -113,6 +117,7 @@ public class MathFieldInternal
 		mathFormula = MathFormula.newFormula(mathField.getMetaModel());
 		mathFieldController = new MathFieldController(mathField);
 		inputController.setMathField(mathField);
+		mathFieldInternalListeners = new HashSet<>();
 		setupMathField();
 	}
 
@@ -201,6 +206,8 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
+		fireInputChangedEvent();
+
 	}
 
 	public void setLockedCaretPath() {
@@ -219,6 +226,7 @@ public class MathFieldInternal
 		editorState.setRootComponent(formula.getRootComponent());
 		CursorController.setPath(path, getEditorState());
 		mathFieldController.update(mathFormula, editorState, false);
+		fireInputChangedEvent();
 	}
 
 	/**
@@ -261,6 +269,7 @@ public class MathFieldInternal
 
 	private void update(boolean focusEvent) {
 		mathFieldController.update(mathFormula, editorState, focusEvent);
+		fireInputChangedEvent();
 	}
 
 	/**
@@ -462,8 +471,7 @@ public class MathFieldInternal
 			/*
 			 * if (!editorState.hasSelection()){ mathField.hideCopyButton(); }
 			 */
-
-			mathFieldController.update(mathFormula, editorState, false);
+			update(false);
 
 			mathField.showKeyboard();
 			mathField.requestViewFocus();
@@ -701,7 +709,7 @@ public class MathFieldInternal
 				if (allSelected && isMatrixWithSameDimension(rootBefore, root)) {
 					replaceRoot(rootBefore, root);
 				} else {
-					addToMathField(root);
+					addToMathField(root, rootProtected);
 				}
 			} catch (ParseException parseException) {
 				KeyboardInputAdapter.type(this, text);
@@ -718,9 +726,13 @@ public class MathFieldInternal
 		}
 	}
 
-	private void addToMathField(MathSequence root) {
+	private void addToMathField(MathSequence root, boolean filterCommas) {
 		for (int i = 0; i < root.getArgumentCount(); i++) {
-			getEditorState().addArgument(root.getArgument(i));
+			MathComponent argument = root.getArgument(i);
+			if (!filterCommas || (!",".equals(argument.toString())
+					&& !argument.hasTag(Tag.CURLY))) {
+				getEditorState().addArgument(argument);
+			}
 		}
 	}
 
@@ -948,5 +960,20 @@ public class MathFieldInternal
 		}
 
 		return -1;
+	}
+
+	/**
+	 * Register math field internal listener.
+	 * @param mathFieldInternalListener listener
+	 */
+	public void registerMathFieldInternalListener(
+			MathFieldInternalListener mathFieldInternalListener) {
+		mathFieldInternalListeners.add(mathFieldInternalListener);
+	}
+
+	private void fireInputChangedEvent() {
+		for (MathFieldInternalListener listener: mathFieldInternalListeners) {
+			listener.inputChanged(this);
+		}
 	}
 }

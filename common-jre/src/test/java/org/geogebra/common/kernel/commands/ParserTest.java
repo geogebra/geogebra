@@ -26,6 +26,7 @@ import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -456,5 +457,43 @@ public class ParserTest {
 	private static ValidExpression parseExpression(App app, String string)
 			throws ParseException {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
+	}
+
+	@Test
+	public void testDifferentDerivativeCharsAccepted() {
+		shouldReparseAs("f(x) = x*x", "x x");
+		try {
+			parseExpression("f'");
+			parseExpression("f‘");
+			parseExpression("f’");
+		} catch (ParseException e) {
+			assertNull(e);
+		}
+	}
+
+	@Test
+	public void testVariableNameContainingOnlyDollarSigns() {
+		String expression = "";
+		for (int i = 0; i < 10; i++) {
+			expression += "$";
+			AlgebraTestHelper.shouldFail(expression, "", app);
+			AlgebraTestHelper.shouldFail(expression + "=1", "", app);
+		}
+	}
+
+	@Test
+	public void testVariableNameStartingWithNumber() {
+		AlgebraTestHelper.shouldFail("$1", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$$1", "Undefined variable", app);
+
+		AlgebraTestHelper.shouldPass("$1=2", app);
+		AlgebraTestHelper.shouldFail("$$1=2", "Redefinition", app);
+		AlgebraTestHelper.shouldFail("$1a", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$$1a", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$1a=2", "assignment", app);
+		AlgebraTestHelper.shouldFail("$$1a=2", "assignment", app);
+
+		AlgebraTestHelper.shouldPass("$a1=2", app);
+		AlgebraTestHelper.shouldPass("$$a1=2", app);
 	}
 }

@@ -5674,6 +5674,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return whether stylebar of this view exists
 	 */
+	@Override
 	public final boolean hasStyleBar() {
 		return styleBar != null;
 	}
@@ -5816,6 +5817,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return whether dynamic stylebar exists
 	 */
+	@Override
 	public final boolean hasDynamicStyleBar() {
 		return dynamicStyleBar != null;
 	}
@@ -6242,6 +6244,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (d != null) {
 			app.getAccessibilityManager().cancelReadCollectedAltTexts();
 			DrawInputBox drawInputBox = (DrawInputBox) d;
+			ScreenReader.debug(inputBox.getAuralText() + " [editable]");
 			if (inputBox.isSymbolicMode()) {
 				drawInputBox.attachMathField();
 			} else if (viewTextField != null) {

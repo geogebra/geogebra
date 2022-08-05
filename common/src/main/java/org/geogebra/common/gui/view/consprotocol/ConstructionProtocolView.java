@@ -670,11 +670,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		 * @return whether it's editable
 		 */
 		public boolean isCellEditable(int nCol) {
-			if ((this.columns[nCol].getTitle())
-					.equals(Columns.CAPTION.translationKey)) {
-				return true;
-			}
-			return false;
+			return this.columns[nCol].getTitle()
+					.equals(Columns.CAPTION.translationKey);
 		}
 
 		/***********************

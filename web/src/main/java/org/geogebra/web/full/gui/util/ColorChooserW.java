@@ -26,7 +26,6 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -66,7 +65,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
-	private Button btnCustomColor;
+	private StandardButton btnCustomColor;
 	App app;
 	private CustomColorDialog dialog;
 	BarList lbBars;
@@ -473,17 +472,15 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class BackgroundColorPanel extends FlowPanel {
-		RadioButtonPanel colorRadioBtnPanel;
+		RadioButtonPanel<Boolean> colorRadioBtnPanel;
 		StandardButton btnClearBackground;
 
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
-			colorRadioBtnPanel = new RadioButtonPanel(app.getLocalization(),
-					Arrays.asList(newColorButtonData("ForegroundColor", true,
-							false),
-							newColorButtonData("BackgroundColor", false,
-									true)));
-			colorRadioBtnPanel.setValueOfNthRadioButton(0, true);
+			colorRadioBtnPanel = new RadioButtonPanel<>(app.getLocalization(),
+					Arrays.asList(new RadioButtonData<>("ForegroundColor", false),
+							new RadioButtonData<>("BackgroundColor", true)),
+					false, this::setBackground);
 
 			btnClearBackground = new StandardButton(MaterialDesignResources.INSTANCE
 					.delete_black(), 24);
@@ -494,12 +491,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			btnClearBackground.setVisible(false);
 			btnClearBackground.addFastClickHandler(event -> changeHandler.onClearBackground());
-		}
-
-		private RadioButtonData newColorButtonData(String label, boolean selected,
-				boolean isBackground) {
-			return new RadioButtonData(label, selected,
-					() -> setBackground(isBackground));
 		}
 
 		protected void setBackground(boolean background) {
@@ -585,9 +576,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		setLabels();
 
-		btnCustomColor = new Button("+");
+		btnCustomColor = new StandardButton("+");
 		btnCustomColor.setStyleName("CustomColorButton");
-		btnCustomColor.addClickHandler(event -> showCustomColorDialog());
+		btnCustomColor.addFastClickHandler(event -> showCustomColorDialog());
 		SimplePanel sp = new SimplePanel(btnCustomColor);
 		sp.addStyleName("CustomColorButtonParent");
 
@@ -769,7 +760,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 */
 	public boolean isBackgroundColorSelected() {
 		return backgroundColorPanel.isVisible()
-				&& backgroundColorPanel.colorRadioBtnPanel.isNthRadioButtonSelected(1);
+				&& backgroundColorPanel.colorRadioBtnPanel.getValue();
 	}
 
 	/**

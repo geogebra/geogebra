@@ -152,10 +152,7 @@ public class FileManagerW extends FileManager {
 		if (freeBytes == -1) {
 			countFreeBytes();
 		}
-		if (freeBytes > 10e6) {
-			return true;
-		}
-		return false;
+		return freeBytes > 10e6;
 	}
 
 	private void countFreeBytes() {

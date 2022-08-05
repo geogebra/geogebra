@@ -20,28 +20,23 @@ public class CustomizeToolbarModel {
 		vector.add(ToolBar.SEPARATOR);
 
 		// get default toolbar as nested vectors
-		Vector<ToolbarItem> defTools = null;
+		Vector<ToolbarItem> defTools;
 		try {
 			defTools = ToolBar.parseToolbarString(toolbarDefinition);
 		} catch (Exception e) {
 			return new Vector<>();
 		}
-		for (int i = 0; i < defTools.size(); i++) {
-			ToolbarItem element = defTools.get(i);
-
+		for (ToolbarItem element : defTools) {
 			if (element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
-				for (int j = 0; j < menu.size(); j++) {
-					Integer modeInt = menu.get(j);
-					int mode = modeInt.intValue();
-					if (mode != -1) {
+				for (Integer modeInt : menu) {
+					if (modeInt != -1) {
 						vector.add(modeInt);
 					}
 				}
 			} else {
 				Integer modeInt = element.getMode();
-				int mode = modeInt.intValue();
-				if (mode != -1) {
+				if (modeInt != -1) {
 					vector.add(modeInt);
 				}
 			}

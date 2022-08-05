@@ -2,8 +2,10 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.util.HttpRequest;
 
 public class MowService implements Service {
@@ -40,6 +42,15 @@ public class MowService implements Service {
 			actions.add(ResourceAction.DELETE);
 		}
 		return actions;
+	}
+
+	@Override
+	public String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category) {
+		String path = "/materials/" + materialId + "/groups?type=isShared";
+		if (category != null) {
+			path += "&category=" + category.name().toLowerCase(Locale.ROOT);
+		}
+		return path;
 	}
 
 }

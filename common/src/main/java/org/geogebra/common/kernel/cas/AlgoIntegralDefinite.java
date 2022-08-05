@@ -205,6 +205,38 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		this.evaluate = evaluate;
 	}
 
+	/**
+	 * Computes integral using two methods and returns result if they match
+	 * @param fun function
+	 * @param a left bound
+	 * @param b right bound
+	 * @param precision max allowed difference between methods
+	 * @return integral or NaN if it wasn't computed precisely
+	 */
+	public static double doGaussQuadSimple(Function fun, double a, double b,
+		double precision) {
+		initGaussQuad();
+		try {
+			double firstSum = firstGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
+			if (Double.isNaN(firstSum)) {
+				return Double.NaN;
+			}
+			double secondSum = secondGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
+			if (Double.isNaN(secondSum)) {
+				return Double.NaN;
+			}
+			boolean equal = DoubleUtil.isEqual(firstSum, secondSum, precision);
+
+			if (equal) {
+				// success
+				return secondSum;
+			}
+		} catch (RuntimeException ex) {
+			// return NaN
+		}
+		return Double.NaN;
+	}
+
 	@Override
 	public GetCommand getClassName() {
 		return numeric ? Commands.NIntegral : Commands.Integral;
@@ -907,14 +939,21 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			return 0;
 		}
 
-		adaptiveGaussQuadCounter = 0;
+		initGaussQuad();
 		if (a > b) {
 			return -doAdaptiveGaussQuad(ad, b, a, maxMultiplier);
 		}
 		return doAdaptiveGaussQuad(ad, a, b, maxMultiplier);
+	}
 
-		// System.out.println("calls: " + adaptiveGaussQuadCounter);
-
+	private static void initGaussQuad() {
+		adaptiveGaussQuadCounter = 0;
+		if (firstGauss == null) {
+			firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MIN_ITER,
+					MAX_ITER);
+			secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MIN_ITER,
+					MAX_ITER);
+		}
 	}
 
 	private static double doAdaptiveGaussQuad(UnivariateFunction fun, double a,
@@ -923,28 +962,21 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			return Double.NaN;
 		}
 
-		// init GaussQuad classes for numerical integration
-		if (firstGauss == null) {
-			firstGauss = new LegendreGaussIntegrator(FIRST_ORDER, MIN_ITER,
-					MAX_ITER);
-			secondGauss = new LegendreGaussIntegrator(SECOND_ORDER, MIN_ITER,
-					MAX_ITER);
-		}
-
-		double firstSum = 0;
-		double secondSum = 0;
-
-		boolean error = false;
-
 		// integrate using gauss quadrature
 		try {
-			firstSum = firstGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
+			double firstSum = firstGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
 			if (Double.isNaN(firstSum)) {
 				return Double.NaN;
 			}
-			secondSum = secondGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
+			double secondSum = secondGauss.integrate(MAX_GAUSS_QUAD_CALLS, fun, a, b);
 			if (Double.isNaN(secondSum)) {
 				return Double.NaN;
+			}
+			boolean equal = DoubleUtil.isEqual(firstSum, secondSum, Kernel.STANDARD_PRECISION);
+
+			if (equal) {
+				// success
+				return secondSum;
 			}
 		} catch (IllegalArgumentException e) {
 			return Double.NaN;
@@ -953,7 +985,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			// eg
 			// org.apache.commons.math3.exception.TooManyEvaluationsException:
 			// illegal state: maximal count ({0}) exceeded500: evaluations
-			error = true;
 		}
 
 		// if (!error) Application.debug(a+" "+b+" "+(firstSum - secondSum),
@@ -962,13 +993,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// else Application.debug(a+" "+b+" error",1);
 
 		// check if both results are equal
-		boolean equal = !error && DoubleUtil.isEqual(firstSum, secondSum,
-				Kernel.STANDARD_PRECISION);
 
-		if (equal) {
-			// success
-			return secondSum;
-		}
 		double mid = (a + b) / 2;
 		double left = doAdaptiveGaussQuad(fun, a, mid, maxMultiplier);
 		if (Double.isNaN(left)) {

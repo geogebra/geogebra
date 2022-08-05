@@ -171,6 +171,24 @@ public class GgbApiTest {
 	}
 
 	@Test
+	public void testRenameObject() {
+		api.evalCommand("a=1");
+
+		assertFalse(api.renameObject("a", "$"));
+		assertFalse(api.renameObject("a", "$$"));
+		assertFalse(api.renameObject("a", "$1"));
+		assertFalse(api.renameObject("a", "$$1"));
+		assertFalse(api.renameObject("a", "$b"));
+		assertFalse(api.renameObject("a", "$b=2"));
+		assertFalse(api.renameObject("a", "b=2"));
+		assertFalse(api.renameObject("a", "1"));
+		assertFalse(api.renameObject("a", "1b"));
+
+		assertTrue(api.renameObject("a", "b"));
+		assertTrue(api.renameObject("b", Unicode.Alpha + ""));
+	}
+
+	@Test
 	public void testGrid() {
 		api.setGridVisible(false);
 		assertFalse(api.getGridVisible());
@@ -391,7 +409,7 @@ public class GgbApiTest {
 
 		JSONObject jso = new JSONObject(new JSONTokener(json));
 		api.setGraphicsOptions(1, jso);
-		assertArrayEquals(new double[]{1.5, 0.5},
+		assertArrayEquals(new double[]{1.5, 0.5, Math.PI / 6},
 				app.getActiveEuclidianView().getGridDistances(), 0);
 	}
 
@@ -417,7 +435,7 @@ public class GgbApiTest {
 	@Test
 	public void testDistanceOptionsWithNegativeValues() throws JSONException {
 		EuclidianSettings es = app.getSettings().getEuclidian(1);
-		double[] distances = {1.5, 0.5};
+		double[] distances = {1.5, 0.5, 0};
 		es.setGridDistances(distances);
 		String json = "{gridDistance: {\"x\": -1.0, \"y\":-1.0}}";
 		JSONObject jso = new JSONObject(new JSONTokener(json));

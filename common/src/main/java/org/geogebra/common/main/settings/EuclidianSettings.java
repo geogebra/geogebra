@@ -962,6 +962,10 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 	}
 
+	public void setPreferredSizeNoFire(GDimension dimension) {
+		preferredSize = dimension;
+	}
+
 	public GDimension getPreferredSize() {
 		return preferredSize;
 	}

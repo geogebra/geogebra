@@ -43,7 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.IntervalFunction;
+import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -473,6 +473,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		intervalPlotter.draw(g2);
+
 	}
 
 	private void drawParametric(GGraphics2D g2) {

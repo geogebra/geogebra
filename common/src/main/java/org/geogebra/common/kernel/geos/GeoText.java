@@ -231,8 +231,8 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement geo, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		if (!geo.isGeoText()) {
 			return;
 		}

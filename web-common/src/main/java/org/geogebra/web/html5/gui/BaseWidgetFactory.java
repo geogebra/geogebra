@@ -19,7 +19,9 @@ public class BaseWidgetFactory {
 	 * @return button, to be mocked
 	 */
 	public Button newButton() {
-		return new Button();
+		Button btn = new Button();
+		btn.getElement().setAttribute("type", "button");
+		return btn;
 	}
 
 	/**

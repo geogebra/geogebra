@@ -276,17 +276,23 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 										   ArrayList<GeoElement> retList) {
 		AlgoDispatcher dispatcher = kernel.getAlgoDispatcher();
 		boolean oldValue = dispatcher.isIntersectCacheEnabled();
+		dispatcher.setIntersectCacheEnabled(false);
+
+		List<AlgoElement> algoElements = element.getAlgorithmList();
+		List<AlgoElement> oldAlgoList = new ArrayList<>(algoElements);
 		try {
-			dispatcher.setIntersectCacheEnabled(false);
 			GeoElement[] elements = intersect
 					.intersect2(new GeoElement[] { element.toGeoElement(),
 							secondElement }, cmd);
-			for (GeoElement output : elements) {
-				AlgoElement parent = output.getParentAlgorithm();
-				element.removeAlgorithm(parent);
-				secondElement.removeAlgorithm(parent);
-				storeAlgo(parent);
-			}
+			List<AlgoElement> newAlgoList = new ArrayList<>(element.getAlgorithmList());
+			newAlgoList.stream()
+					.filter(algo -> !oldAlgoList.contains(algo))
+					.forEach(algo -> {
+				element.removeAlgorithm(algo);
+				secondElement.removeAlgorithm(algo);
+				storeAlgo(algo);
+			});
+
 			add(elements, retList);
 		} catch (Throwable exception) {
 			// ignore

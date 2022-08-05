@@ -323,14 +323,11 @@ public class StylebarPositioner {
 	public GPoint getPositionFor(GeoElement geo, int stylebarHeight,
 			int stylebarWidth, GRectangle canvasRect) {
 		DrawableND dr = euclidianView.getDrawableND(geo);
-		if (dr != null) {
-			return getStylebarPositionForDrawable(
-					dr.getBoundsForStylebarPosition(),
-					!(dr instanceof DrawLine), dr instanceof DrawPoint, dr.is3D(),
-					stylebarHeight, stylebarWidth, canvasRect);
-		}
 		// noinspection ReturnOfNull
-		return null;
+		return dr == null ? null : getStylebarPositionForDrawable(
+				dr.getBoundsForStylebarPosition(),
+				!(dr instanceof DrawLine), dr instanceof DrawPoint, dr.is3D(),
+				stylebarHeight, stylebarWidth, canvasRect);
 	}
 
 	private GPoint getPositionForFunction(GeoElement geo, int stylebarHeight,
