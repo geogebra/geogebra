@@ -60,7 +60,7 @@ public class IntervalPlotter {
 
 	private void createModel(GeoFunction function) {
 		IntervalTuple range = new IntervalTuple(evBounds.domain(), evBounds.range());
-		model = new IntervalPlotModel(range, getFactory(function).create(function, evBounds),
+		model = new IntervalPlotModel(getFactory(function).create(function, evBounds),
 				evBounds);
 		IntervalPath path = new IntervalPath(gp, evBounds, model);
 		model.setPath(path);

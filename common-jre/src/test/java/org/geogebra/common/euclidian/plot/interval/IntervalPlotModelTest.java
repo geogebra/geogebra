@@ -51,7 +51,7 @@ public class IntervalPlotModelTest extends BaseUnitTest {
 				100);
 		EuclidianViewBoundsMock bounds = new EuclidianViewBoundsMock(range, 100, 100);
 		model =
-				new IntervalPlotModel(range, sampler,
+				new IntervalPlotModel(sampler,
 						bounds);
 		IntervalPathPlotterMock plotter = new IntervalPathPlotterMock();
 		IntervalPath gp = new IntervalPath(plotter, bounds, model);

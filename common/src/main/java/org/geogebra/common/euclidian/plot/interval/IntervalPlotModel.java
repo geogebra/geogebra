@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
@@ -19,7 +20,6 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  */
 public class IntervalPlotModel {
-	private final IntervalTuple range;
 	private final IntervalFunctionSampler sampler;
 	private IntervalTupleList points;
 	private IntervalPath path;
@@ -29,14 +29,11 @@ public class IntervalPlotModel {
 
 	/**
 	 * Constructor
-	 * @param range to plot.
 	 * @param sampler to retrieve function data from.
 	 * @param bounds {@link EuclidianView}
 	 */
-	public IntervalPlotModel(IntervalTuple range,
-			IntervalFunctionSampler sampler,
+	public IntervalPlotModel(IntervalFunctionSampler sampler,
 			EuclidianViewBounds bounds) {
-		this.range = range;
 		this.sampler = sampler;
 		this.bounds = bounds;
 	}
@@ -62,12 +59,11 @@ public class IntervalPlotModel {
 	}
 
 	private void  updateRanges() {
-		range.set(bounds.domain(), bounds.range());
 		oldDomain = sampler.getDomain();
 	}
 
 	void updateSampledData() {
-		sampler.update(range);
+		sampler.update(bounds.domain());
 		points = sampler.result();
 	}
 
@@ -85,17 +81,15 @@ public class IntervalPlotModel {
 	 * update function domain to plot due to the visible x range.
 	 */
 	public void updateDomain() {
-		if (updateDomain(bounds.domain(), oldDomain)) {
-			oldDomain = bounds.domain();
+		if (!updateDomain(bounds.domain(), oldDomain)) {
+			sampler.update(bounds.domain());
 		}
+		oldDomain = sampler.getDomain();
 	}
 	/**
 	 * update function domain to plot due to the visible x range.
 	 */
 	public boolean updateDomain(Interval xRange, Interval oldXRange) {
-		if (xRange.equals(oldDomain)) {
-			return false;
-		}
 		double oldMin = oldXRange.getLow();
 		double oldMax = oldXRange.getHigh();
 		double min = xRange.getLow();
@@ -105,15 +99,13 @@ public class IntervalPlotModel {
 		if (oldMax < max && oldMin > min) {
 			points = sampler.extendDomain(min, max);
 			newCount = points.count();
-			msg = "extendDomain";
-		} else if (oldMax < max) {
+		} else if (oldMax < max + IntervalConstants.PRECISION) {
 			newCount = extendMax(oldMax, xRange);
-			msg = "extendMax";
-		} else if (oldMin > min) {
+		} else if (oldMin + IntervalConstants.PRECISION > min) {
 			newCount = extendMin(oldMin, xRange);
-			msg = "extendMin";
 		}
-		Log.debug(msg + " points: " + points.count() + " new: " + newCount);
+		Log.debug("old: (" + oldMin + ", " + oldMax + ") new (" + min + ", " + max + ")"
+				+ " points: " + points.count() + " new: " + newCount);
 		return newCount > 0;
 	}
 
@@ -131,7 +123,7 @@ public class IntervalPlotModel {
 	}
 
 	private int extendMax(double oldMax, Interval xRange) {
-		IntervalTupleList newPoints = sampler.evaluate(points.last().x().getHigh(), xRange.getHigh());
+		IntervalTupleList newPoints = sampler.evaluate(oldMax, xRange.getHigh());
 		if (newPoints.count() == 0) {
 			return 0;
 		}

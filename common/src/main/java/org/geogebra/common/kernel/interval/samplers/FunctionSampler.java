@@ -27,16 +27,16 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	/**
 	 * @param geoFunction function to get sampled
-	 * @param range (x, y) range.
 	 * @param numberOfSamples the sample rate.
+	 * @param domain
 	 */
-	public FunctionSampler(GeoFunction geoFunction, IntervalTuple range,
-			int numberOfSamples) {
+	public FunctionSampler(GeoFunction geoFunction,
+			Interval domain, int numberOfSamples) {
 		this(geoFunction);
-		xRange = range.x();
+		xRange = domain;
 		this.numberOfSamples = numberOfSamples;
 		createSpace();
-		update(range);
+		update(bounds.domain());
 	}
 
 	private void createSpace() {
@@ -50,16 +50,15 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	/**
 	 * @param geoFunction function to get sampled
-	 * @param range (x, y) range.
 	 * @param bounds {@link EuclidianView}
 	 */
-	public FunctionSampler(GeoFunction geoFunction, IntervalTuple range,
+	public FunctionSampler(GeoFunction geoFunction,
 			EuclidianViewBounds bounds) {
 		this(geoFunction);
 		this.bounds = bounds;
 		numberOfSamples = bounds.getWidth();
 		createSpace();
-		update(range);
+		update(bounds.domain());
 	}
 
 	FunctionSampler(GeoFunction geoFunction) {
@@ -101,14 +100,9 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		return samples;
 	}
 
-	/**
-	 * Updates the range on which sampler has to run.
-	 *
-	 * @param range the new (x, y) range
-	 */
 	@Override
-	public void update(IntervalTuple range) {
-		space.update(range.x(), calculateNumberOfSamples());
+	public void update(Interval domain) {
+		space.update(domain, calculateNumberOfSamples());
 	}
 
 	private int calculateNumberOfSamples() {

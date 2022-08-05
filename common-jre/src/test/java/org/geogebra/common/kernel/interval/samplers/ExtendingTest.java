@@ -19,7 +19,6 @@ public class ExtendingTest extends BaseUnitTest {
 		EuclidianViewBoundsMock evBounds = new EuclidianViewBoundsMock(range,
 				1920, 1280);
 		IntervalFunctionSampler sampler = new FunctionSampler(function,
-				range,
 				evBounds);
 		sampler.update(range);
 		IntervalTupleList result1 = sampler.result();

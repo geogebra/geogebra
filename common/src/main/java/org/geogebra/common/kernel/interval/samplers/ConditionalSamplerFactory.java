@@ -9,6 +9,6 @@ public class ConditionalSamplerFactory implements SamplerFactory {
 	@Override
 	public IntervalFunctionSampler create(GeoFunction function,	EuclidianViewBounds bounds) {
 		IntervalTuple range = new IntervalTuple(bounds.domain(), bounds.range());
-		return new ConditionalFunctionSampler(function, range, bounds);
+		return new ConditionalFunctionSampler(function, range.x(), bounds);
 	}
 }

@@ -9,6 +9,6 @@ public class DefaultSamplerFactory implements SamplerFactory {
 	@Override
 	public IntervalFunctionSampler create(GeoFunction function, EuclidianViewBounds bounds) {
 		IntervalTuple range = new IntervalTuple(bounds.domain(), bounds.range());
-		return new FunctionSampler(function, range, bounds);
+		return new FunctionSampler(function, bounds);
 	}
 }

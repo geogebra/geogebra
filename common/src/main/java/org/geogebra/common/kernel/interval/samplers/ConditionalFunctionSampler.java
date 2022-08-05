@@ -19,21 +19,21 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 	/**
 	 *
 	 * @param function to sample.
-	 * @param range (x, y) range to sample on.
+	 * @param domain x range to sample on.
 	 * @param evBounds {@link EuclidianViewBounds}
 	 */
-	public ConditionalFunctionSampler(GeoFunction function, IntervalTuple range,
+	public ConditionalFunctionSampler(GeoFunction function, Interval domain,
 			EuclidianViewBounds evBounds) {
 		this.function = function;
 		samplers = new ConditionalSamplerList(function);
-		this.range = range;
+		this.range = null;
 		this.evBounds = evBounds;
-		space = new DiscreteSpaceImp(range.x(), evBounds.getWidth());
+		space = new DiscreteSpaceImp(domain, evBounds.getWidth());
 	}
 
 	@Override
 	public IntervalTupleList result() {
-		update(range);
+		update(range.x());
 		return evaluate(space);
 	}
 
@@ -48,9 +48,9 @@ public class ConditionalFunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public void update(IntervalTuple range) {
-		space.update(range.x(), evBounds.getWidth());
-		samplers.update(range.x(), evBounds.getWidth());
+	public void update(Interval domain) {
+		space.update(domain, evBounds.getWidth());
+		samplers.update(domain, evBounds.getWidth());
 	}
 
 	@Override
