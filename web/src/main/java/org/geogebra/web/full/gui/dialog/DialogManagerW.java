@@ -377,8 +377,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
-				(AppW) app, message, data, initText, handler, changingSign,
-				checkBoxText);
+				(AppW) app, message, data, initText, handler, changingSign);
 		extrudeInputDialog.show();
 	}
 

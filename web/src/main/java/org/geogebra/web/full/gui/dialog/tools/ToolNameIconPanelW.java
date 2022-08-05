@@ -103,7 +103,6 @@ public class ToolNameIconPanelW extends FlowPanel {
 		showTool = new ComponentCheckbox(app.getLocalization(), false,
 				"ShowInToolBar", selected -> showToolChanged());
 		showTool.setSelected(true);
-		showTool.addStyleName("accented");
 
 		FlowPanel iconSelectShowPanel = new FlowPanel();
 		iconSelectShowPanel.addStyleName("iconSelectShowPanel");

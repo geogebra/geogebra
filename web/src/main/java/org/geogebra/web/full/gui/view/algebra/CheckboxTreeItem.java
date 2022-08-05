@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,7 +15,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 	/**
 	 * checkbox displaying boolean variables
 	 */
-	CheckBox checkBox = null;
+	ComponentCheckbox checkBox = null;
 
 	/**
 	 * @param geo0
@@ -32,8 +32,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 
 	@Override
 	protected void createAvexWidget() {
-		checkBox = new CheckBox();
-		checkBox.setValue(((GeoBoolean) geo).getBoolean());
+		checkBox = new ComponentCheckbox(loc, ((GeoBoolean) geo).getBoolean(), "");
 		content.addStyleName("noPadding");
 		main.addStyleName("checkboxElem");
 	}
@@ -62,7 +61,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		geo.getAlgebraDescriptionTextOrHTMLDefault(
 				new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
 		content.add(getDefinitionValuePanel());
-		checkBox.setValue(((GeoBoolean) geo).getBoolean());
+		checkBox.setSelected(((GeoBoolean) geo).getBoolean());
 	}
 
 	@Override
@@ -72,7 +71,6 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		if (checkBox != null) {
 			main.add(checkBox);
 		}
-		// main.add(buttonPanel);
 		main.add(content);
 		main.add(controls);
 	}

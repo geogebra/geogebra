@@ -357,6 +357,46 @@
 		text-align: left;
 	}
 
+	.menubarSMART .GeoGebraMenuBar .gwt-MenuItem.checkboxMenuItem {
+		padding: 0 4px;
+	}
+
+	.checkboxItem {
+		img {
+			margin-right: 8px;
+			padding: 4px 0px;
+		}
+
+		.checkboxPanel {
+			.checkbox {
+				width: 30px;
+				height: 30px;
+			}
+
+			.background {
+				top: 6px;
+				left: 6px;
+				width: 18px;
+				height: 18px;
+			}
+
+			.hoverBg {
+				display: none;
+			}
+
+			.checkmark {
+				left: 8px;
+				top: 6px;
+				width: 14px;
+				height: 14px;
+			}
+
+			.checkboxLbl {
+				margin: 6px 0 0 8px;
+			}
+		}
+	}
+
 	.gwt-StackPanel .gwt-StackPanelItem:hover {
 		background: #EFEFEF;
 	}
@@ -2370,6 +2410,10 @@
 		max-width: 100px;
 		border: 1px solid;
 		border-collapse: collapse;
+
+		.checkboxPanel .checkboxLbl {
+			margin-left: 0;
+		}
 	}
 
 	.daRegressionData table {

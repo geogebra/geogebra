@@ -55,11 +55,14 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		checkboxBg.addStyleName("hoverBg");
 		checkboxBg.addStyleName("ripple");
 		checkbox.add(checkboxBg);
-
-		checkboxLbl = new Label();
-		checkboxLbl.setStyleName("checkboxLbl");
 		add(checkbox);
-		add(checkboxLbl);
+
+		if (!templateTxt.isEmpty()) {
+			checkboxLbl = new Label();
+			checkboxLbl.setStyleName("checkboxLbl");
+			add(checkboxLbl);
+		}
+
 		Dom.addEventListener(this.getElement(), "click", evt -> {
 			if (!disabled) {
 				setSelected(!isSelected());
@@ -111,11 +114,15 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public void setDisabled(boolean isDisabled) {
 		disabled = isDisabled;
 		Dom.toggleClass(checkbox, "disabled", disabled);
-		Dom.toggleClass(checkboxLbl, "disabled", disabled);
+		if (checkboxLbl != null) {
+			Dom.toggleClass(checkboxLbl, "disabled", disabled);
+		}
 	}
 
 	@Override
 	public void setLabels() {
-		checkboxLbl.setText(loc.getMenu(checkboxTxt));
+		if (checkboxLbl != null) {
+			checkboxLbl.setText(loc.getMenu(checkboxTxt));
+		}
 	}
 }
