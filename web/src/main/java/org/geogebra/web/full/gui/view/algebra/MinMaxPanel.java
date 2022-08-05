@@ -8,23 +8,17 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -37,9 +31,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private SliderTreeItemRetex sliderTreeItem;
 	/** min width of the panel */
 	public static final int MINMAX_MIN_WIDHT = 326;
-	private AVField tfMin;
-	private AVField tfMax;
-	private AVField tfStep;
+	private MinMaxAVField tfMin;
+	private MinMaxAVField tfMax;
+	private MinMaxAVField tfStep;
 	private Label lblValue;
 	private Label lblStep;
 	private GeoNumeric num;
@@ -84,47 +78,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 	/**
-	 * Input field for MinMaxPanel
-	 */
-	private class AVField extends AutoCompleteTextFieldW {
-
-		/**
-		 * @param columns
-		 *            field width
-		 * @param app
-		 *            application
-		 */
-		public AVField(int columns, App app) {
-			super(columns, app);
-			enableGGBKeyboard();
-		}
-
-		@Override
-		public void onKeyPress(KeyPressEvent e) {
-			if (Browser.isTabletBrowser()) {
-				super.onKeyPress(e);
-			}
-			e.stopPropagation();
-		}
-
-		@Override
-		public void onKeyDown(KeyDownEvent e) {
-			if (Browser.isTabletBrowser()) {
-				super.onKeyDown(e);
-			}
-			e.stopPropagation();
-			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
-				hide();
-			}
-		}
-
-		@Override
-		public void onKeyUp(KeyUpEvent e) {
-			e.stopPropagation();
-		}
-	}
-
-	/**
 	 * @param item
 	 *            parent tree item
 	 */
@@ -134,9 +87,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		kernel = num.getKernel();
 		app = kernel.getApplication();
 
-		tfMin = new AVField(4, app);
-		tfMax = new AVField(4, app);
-		tfStep = new AVField(4, app);
+		tfMin = new MinMaxAVField(this, 4, app);
+		tfMax = new MinMaxAVField(this, 4, app);
+		tfStep = new MinMaxAVField(this, 4, app);
 		lblValue = new Label(Unicode.LESS_EQUAL + " "
 				+ num
 						.getCaption(StringTemplate.defaultTemplate)
@@ -200,7 +153,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		setAlt(tfStep, "Step");
 	}
 
-	private void setAlt(AVField fld, String key) {
+	private void setAlt(MinMaxAVField fld, String key) {
 		AriaHelper.setLabel(fld, app.getLocalization().getMenu(key));
 	}
 
@@ -314,7 +267,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 	}
 
-	private static boolean selectAllOnFocus(AVField avField,
+	private static boolean selectAllOnFocus(MinMaxAVField avField,
 			MouseEvent<?> event) {
 		if (RadioTreeItemController.isWidgetHit(avField, event)) {
 			avField.removeDummyCursor();

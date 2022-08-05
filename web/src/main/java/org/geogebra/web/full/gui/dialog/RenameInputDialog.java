@@ -21,7 +21,7 @@ public class RenameInputDialog extends ComponentInputDialog {
 			DialogData dialogData, boolean autoHide,
 			boolean hasScrim, InputHandler inputHandler,
 			String labelText, String initText) {
-		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText, false);
+		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText);
 	}
 
 	@Override

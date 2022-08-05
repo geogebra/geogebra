@@ -1050,6 +1050,11 @@
 		width: 30%;
 	}
 
+	.dialogContent .sliderWidthPanel .AutoCompleteTextFieldW .fieldContainer {
+		@extends .dialogContent .sliderWidthPanel div;
+		width: 100%;
+	}
+
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
 	}
@@ -1732,10 +1737,17 @@
 	.numberInput {
 		width: 70px;
 		margin-right: 20px;
-	}
+
+		.matKeyboardOpenBtn {
+			display: none;
+    	}
+    }
 
 	.optionsInput table {
 		display: inline-table;
+		button {
+				display: none;
+			}
 	}
 
 	.textOptionsToolBar {
@@ -1845,6 +1857,10 @@
 	.advanced-TextButtonPanel {
 		position: relative;
 		margin: 3px 0;
+
+		.matKeyboardOpenBtn {
+			display: none;
+		}
 	}
 
 	.advanced-TextButtonPanel input[disabled=""] {

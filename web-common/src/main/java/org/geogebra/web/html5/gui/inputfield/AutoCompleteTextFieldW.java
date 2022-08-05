@@ -9,12 +9,10 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -25,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.HorizontalAlignment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.InputKeyboardButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -33,16 +32,13 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.regexp.shared.MatchResult;
 import org.geogebra.regexp.shared.RegExp;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.DummyCursor;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
-import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
@@ -50,10 +46,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -72,6 +66,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.AltKeys;
@@ -101,10 +96,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	protected ScrollableSuggestBox textField = null;
 
 	private DrawInputBox drawTextField = null;
-
-	// symbol table popup fields
-	private ToggleButton showSymbolButton = null;
-	private SymbolTablePopupW tablePopup;
+	private InputKeyboardButton keyboardButton;
 
 	/**
 	 * Flag to determine if text must start with "=" to activate autoComplete;
@@ -138,6 +130,26 @@ public class AutoCompleteTextFieldW extends FlowPanel
     private boolean rightAltDown;
 	private boolean leftAltDown;
 	private final AutocompleteProviderClassic inputSuggestions;
+	private FlowPanel main = new FlowPanel();
+	private boolean keyboardButtonEnabled = true;
+
+	/**
+	 * Attaches the keyboard button to the current text field.
+	 * @param keyboardButton to attach.
+	 */
+	public void attachKeyboardButton(InputKeyboardButton keyboardButton) {
+		if (keyboardButton == null) {
+			return;
+		}
+
+		this.keyboardButton = keyboardButton;
+		this.keyboardButton.setTextField(this);
+		keyboardButton.setEnabled(keyboardButtonEnabled);
+	}
+
+	public void removeContent(IsWidget widget) {
+		main.remove(widget);
+	}
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -159,7 +171,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *
 	 */
 	public AutoCompleteTextFieldW(int columns, App app) {
-		this(columns, (AppW) app, true, null, false, false);
+		this(columns, (AppW) app, true, null, false);
 	}
 
 	/**
@@ -168,15 +180,19 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * @param app
 	 *            app
 	 * @param drawTextField
-	 *            associated input box
-	 * @param showSymbolButton
-	 *            whether to show alpha button
+	 *             associated input box
 	 */
 	public AutoCompleteTextFieldW(int columns, App app,
-			Drawable drawTextField, boolean showSymbolButton) {
-		this(columns, (AppW) app, true, null, false, showSymbolButton);
+			Drawable drawTextField) {
+		this(columns, (AppW) app, true, null, false);
 		this.drawTextField = (DrawInputBox) drawTextField;
-		addStyleName("FromDrawTextFieldNew");
+		if (canHaveGGBKeyboard()) {
+			addStyleName("FromDrawTextFieldNew");
+		}
+	}
+
+	private boolean canHaveGGBKeyboard() {
+		return app.getGuiManager() != null;
 	}
 
 	/**
@@ -190,12 +206,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            key handler
 	 * @param forCAS
 	 *            whether to use CAS autocompletion
-	 * @param showSymbolButton
-	 *            whether to show alpha button
 	 */
 	public AutoCompleteTextFieldW(int columns, final AppW app,
 			boolean handleEscapeKey, KeyEventsHandler keyHandler,
-			boolean forCAS, boolean showSymbolButton) {
+			boolean forCAS) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		setAutoComplete(true);
@@ -208,7 +222,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		inputSuggestions = new AutocompleteProviderClassic(app, forCAS);
 
 		addStyleName("AutoCompleteTextFieldW");
-
+		main.addStyleName("fieldContainer");
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		CompletionsPopup completionsPopup = new CompletionsPopup();
@@ -299,11 +313,16 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			event.stopPropagation();
 		});
 
-		add(textField);
+		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {
+			attachKeyboardButton(keyboardButton);
+		});
 
-		if (showSymbolButton) {
-			setupShowSymbolButton();
-		}
+		addContent(textField);
+		add(main);
+	}
+
+	public void addContent(IsWidget widget) {
+		main.add(widget);
 	}
 
 	@Override
@@ -315,42 +334,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void setInputMode(InputMode mode) {
 		Element element = textField.getElement();
 		element.setAttribute("inputmode", mode.name().toLowerCase());
-	}
-
-	private void setupShowSymbolButton() {
-		showSymbolButton = new ToggleButton(GuiResourcesSimple.INSTANCE.alpha());
-		showSymbolButton.addStyleName("SymbolToggleButton");
-		showSymbolButton.removeStyleName("MyToggleButton");
-
-		ClickStartHandler.init(showSymbolButton,
-				new ClickStartHandler(false, true) {
-
-					@Override
-					public void onClickStart(int x, int y,
-							PointerEventType type) {
-						// unfortunate repetition to make it work in all major
-						// browsers
-						app.getActiveEuclidianView().getViewTextField()
-								.setBoxVisible(true);
-						setFocus(true);
-
-						if (tablePopup != null && tablePopup.isShowing()) {
-							hideTablePopup();
-						} else {
-							showTablePopup();
-						}
-
-						Scheduler.get().scheduleDeferred(
-								() -> {
-									app.getActiveEuclidianView()
-											.getViewTextField()
-											.setBoxVisible(true);
-									setFocus(true);
-								});
-					}
-				});
-
-		add(showSymbolButton);
 	}
 
 	/**
@@ -425,13 +408,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void setFont(GFont font) {
 		Dom.setImportant(textField.getElement().getStyle(), "font-size",
 				font.getSize() + "px");
-
-		if (showSymbolButton != null) {
-			showSymbolButton.getElement().getStyle().setFontSize(font.getSize(),
-					Unit.PX);
-			showSymbolButton.getElement().getStyle()
-					.setLineHeight(font.getSize(), Unit.PX);
-		}
 	}
 
 	@Override
@@ -442,7 +418,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setBackground(GColor color) {
-		textField.getElement().getStyle()
+		main.getElement().getStyle()
 				.setBackgroundColor(GColor.getColorString(color));
 	}
 
@@ -453,8 +429,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setPrefSize(int width, int height) {
-		getTextBox().setWidth(width + "px");
-		getTextBox().setHeight(height + "px");
+		main.setWidth(width + "px");
+		main.setHeight(height + "px");
 	}
 
 	/**
@@ -466,13 +442,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *            width (in number of characters)
 	 */
 	public void setWidthInEm(int emWidth) {
-		if (showSymbolButton != null
-				&& (emWidth > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
-						|| emWidth == -1)) {
-			prepareShowSymbolButton(true);
-		}
-
-		getTextBox().setWidth(emWidth + "em");
+		main.setWidth(emWidth + "em");
 	}
 
 	private String getCurrentWord() {
@@ -1221,37 +1191,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void removeSymbolTable() {
-		if (showSymbolButton == null) {
-			return;
-		}
-		this.showSymbolButton.removeFromParent();
-		this.showSymbolButton = null;
-	}
-
-	/**
-	 * Show table popup next to an anchor widget
-	 *
-	 */
-	private void showTablePopup() {
-		if (tablePopup == null && this.showSymbolButton != null) {
-			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-			KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
-			if (keyboardManager != null) {
-				keyboardManager.addKeyboardAutoHidePartner(tablePopup);
-			}
-		}
-		if (this.tablePopup != null) {
-			tablePopup.showRelativeTo(showSymbolButton);
-		}
-	}
-
-	/**
-	 * Hide symbol popup.
-	 */
-	public void hideTablePopup() {
-		if (this.tablePopup != null) {
-			this.tablePopup.hide();
-		}
+		// not used
 	}
 
 	@Override
@@ -1412,7 +1352,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * tablet.
 	 */
 	public void enableGGBKeyboard() {
-		dummyCursor.enableGGBKeyboard();
+		if (canHaveGGBKeyboard()) {
+			dummyCursor.enableGGBKeyboard();
+			InputKeyboardButton button = app.getGuiManager().getInputKeyboardButton();
+			attachKeyboardButton(button);
+			button.hide();
+		}
 	}
 
 	/**
@@ -1446,22 +1391,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.tabEnabled = tabEnabled;
 	}
 
-	/**
-	 * use this, if no explicit length set, but symbolbutton must be shown.
-	 */
-	public void requestToShowSymbolButton() {
-		if (showSymbolButton == null) {
-			return;
-		}
-		prepareShowSymbolButton(true);
-	}
-
 	@Override
 	public void prepareShowSymbolButton(boolean show) {
-		if (showSymbolButton == null) {
-			return;
+		keyboardButtonEnabled = show;
+		if (usedForInputBox()) {
+			Dom.toggleClass(this, "noKeyboard", !keyboardButtonEnabled);
 		}
-		Dom.toggleClass(this, "SymbolCanBeShown", show);
 	}
 
 	@Override

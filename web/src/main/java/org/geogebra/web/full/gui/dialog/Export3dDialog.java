@@ -60,7 +60,7 @@ public class Export3dDialog extends ComponentDialog
 				String labelTxt, String errorTxt, String defaultValue,
 				int width, String suffixTxt) {
 			super(app, placeholder, labelTxt, errorTxt, defaultValue, width,
-					1, false, suffixTxt);
+					1, suffixTxt);
 			numberValidator = new NumberValidator(
 					app.getKernel().getAlgebraProcessor());
 			localization = app.getLocalization();

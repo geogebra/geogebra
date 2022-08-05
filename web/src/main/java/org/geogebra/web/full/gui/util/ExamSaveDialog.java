@@ -42,7 +42,7 @@ public class ExamSaveDialog {
 		}
 
 		examSave = new ComponentInputDialog(app, data, false,
-				true, null, "Title", initString, false);
+				true, null, "Title", initString);
 		examSave.setPreventHide(false);
 	}
 
