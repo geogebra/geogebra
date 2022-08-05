@@ -186,6 +186,16 @@ img.profileImage {
 	box-sizing: border-box;
 	border: 1px solid rgba(151, 151, 151, 0.52);
 	cursor: pointer;
+	transition: background-color 100ms ease-in-out;
+}
+
+.GeoGebraHeader .suiteAppPickerButton:hover,
+.GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] {
+	background-color: #e5e5e5;
+}
+
+.GeoGebraHeader .suiteAppPickerButton[aria-expanded=true] .dropDownImg {
+	transform: rotate(-180deg);
 }
 
 .GeoGebraHeader .suiteAppPickerButton .gwt-Label {
@@ -205,6 +215,7 @@ img.profileImage {
 .GeoGebraHeader .suiteAppPickerButton .dropDownImg {
 	margin: 5px 16px 5px 12px;
 	opacity: 54%;
+	transition: transform 200ms ease-in-out;
 }
 
 .GeoGebraHeader.mobile{
