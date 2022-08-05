@@ -1142,6 +1142,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	/**
 	 * Remove a character and move virtual caret.
 	 */
+	@Override
 	public void onBackSpace() {
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
