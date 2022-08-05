@@ -1555,6 +1555,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public String getViewProperties(int view) {
+		if (view == 2 && (app.getGuiManager() == null
+				|| !app.hasEuclidianView2EitherShowingOrNot(1))) {
+			return "{}";
+		}
 		EuclidianView ev = view == 2 ? app.getEuclidianView2(1)
 				: app.getEuclidianView1();
 		StringBuilder sb = new StringBuilder(100);
