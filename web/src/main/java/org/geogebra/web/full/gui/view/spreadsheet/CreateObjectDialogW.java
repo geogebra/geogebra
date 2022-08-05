@@ -230,10 +230,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 			return;
 		}
 
-		// object/value checkboxes
-		btnObject.setText(loc.getMenu("DependentObjects"));
-		btnValue.setText(loc.getMenu("FreeObjects"));
-
 		ckTranspose.setLabels();
 		objValRadioButtonPanel.setLabels();
 
