@@ -41,10 +41,7 @@ public final class DrawText extends Drawable {
 	 * minimum height of editor
 	 */
 	public static final int MIN_EDITOR_HEIGHT = 20;
-	/**
-	 * color used to draw rectangle around text when highlighted
-	 */
-	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
+
 	public static final int DEFAULT_MARGIN = 3;
 
 	private GeoText text;
@@ -245,8 +242,8 @@ public final class DrawText extends Drawable {
 			// draw label rectangle
 			if (isHighlighted()) {
 				g2.setStroke(rectangleStroke);
-				g2.setPaint(HIGHLIGHT_COLOR);
-				g2.draw(labelRectangle);
+				g2.setPaint(GColor.HIGHLIGHT_GRAY);
+				drawHighlightRect(g2);
 			}
 		}
 	}
