@@ -76,8 +76,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private ReaderWidget screenReader;
 
-	private final AppW appW = (AppW) super.app;
-
 	/**
 	 * constructor
 	 * 
@@ -277,7 +275,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		if (webGLcanvas == null) {
 			return new RendererWnoWebGL(this);
 		}
-		return new RendererWithImplW(this, webGLcanvas);
+		return new RendererWithImplW(this, webGLcanvas,
+				((AppW) app).getAppletParameters().getDataParamTransparentGraphics());
 	}
 
 	@Override
@@ -589,7 +588,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
 		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			if (((Widget) dynamicStylebar).getParent() == null) {
-				appW.getGuiManager().addStylebar(this, dynamicStylebar);
+				((AppW) app).getGuiManager().addStylebar(this, dynamicStylebar);
 			}
 		}
 	}
@@ -597,7 +596,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	protected EuclidianStyleBar newDynamicStyleBar() {
 		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
-			return appW.getGuiManager().newDynamicStylebar(this);
+			return ((AppW) app).getGuiManager().newDynamicStylebar(this);
 		}
 		return null;
 	}
