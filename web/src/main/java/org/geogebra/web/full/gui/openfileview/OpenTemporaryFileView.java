@@ -46,6 +46,7 @@ public class OpenTemporaryFileView extends HeaderFileView implements
 		clearMaterials();
 		if (tempStorage.isEmpty()) {
 			common.showEmptyListNotification(getInfoErrorData());
+			common.hideSpinner();
 		} else {
 			common.clearContents();
 			common.addContent();
