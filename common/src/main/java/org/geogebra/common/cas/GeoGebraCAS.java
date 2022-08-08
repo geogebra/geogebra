@@ -881,7 +881,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				GeoElementND[] ggbResult = null;
 				try {
 					ggbResult = processor.processAlgebraCommandNoExceptionHandling(command, false,
-							ErrorHelper.silent(), info, null);
+							kern.getApplication().getErrorHandler(), info, null);
 				} catch (Exception e) {
 					// ignore
 				}
