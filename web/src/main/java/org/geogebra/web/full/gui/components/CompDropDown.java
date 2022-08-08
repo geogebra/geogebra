@@ -1,5 +1,15 @@
 package org.geogebra.web.full.gui.components;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.Property;
+import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -9,12 +19,17 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class CompDropDown extends FlowPanel {
 	private final AppW app;
 	private Label selectedOption;
+	private ComponentDropDownPopup dropDown;
+	private List<AriaMenuItem> dropDownElementsList;
 
-	public CompDropDown(AppW app, String label) {
+	public CompDropDown(AppW app, String label, Property property) {
 		this.app = app;
 		addStyleName("dropDown");
 		buildGUI(label);
 		setSelectedOption(0);
+
+		createDropDownMenu(app);
+		setElements(Arrays.asList(((EnumerableProperty) property).getValues()));
 	}
 
 	private void buildGUI(String labelStr) {
@@ -38,7 +53,63 @@ public class CompDropDown extends FlowPanel {
 		add(arrowIcon);
 	}
 
+	private void createDropDownMenu(final AppW app) {
+		dropDown = new ComponentDropDownPopup(app, 24, selectedOption);
+		dropDown.addAutoHidePartner(getElement());
+
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				toggleExpanded();
+			}
+		});
+	}
+
+	/**
+	 * Expand/collapse the dropdown.
+	 */
+	protected void toggleExpanded() {
+		if (dropDown.isOpened()) {
+			dropDown.close();
+		} else {
+			dropDown.show();
+		}
+	}
+
 	public void setSelectedOption(int idx) {
 		selectedOption.setText("Selected option");
+	}
+
+
+	/**
+	 * Set the elements of the dropdown list
+	 *
+	 * @param dropDownList
+	 *            List of strings which will be shown in the dropdown list
+	 */
+	public void setElements(final List<String> dropDownList) {
+		dropDownElementsList = new ArrayList<>();
+
+		for (int i = 0; i < dropDownList.size(); ++i) {
+			final int currentIndex = i;
+			AriaMenuItem item = new AriaMenuItem(
+					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
+					() -> {
+						setSelectedOption(currentIndex);
+						// TODO CALLBACK
+						//fireSelected(currentIndex);
+					});
+
+			item.setStyleName("dropDownElement");
+			dropDownElementsList.add(item);
+		}
+		setupDropDownMenu(dropDownElementsList);
+	}
+
+	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
+		for (AriaMenuItem menuItem : menuItems) {
+			dropDown.addItem(menuItem);
+		}
 	}
 }

@@ -82,7 +82,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 				panel.add(cell);
 			}
 		}
-		CompDropDown dropDown = new CompDropDown(app, "Label");
+		CompDropDown dropDown = new CompDropDown(app, "Label", properties.getProperties()[0]);
 		panel.add(dropDown);
 	}
 
@@ -105,7 +105,6 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			selector.setSelected(enumerableProperty.getIndex());
 			selector.setDropDownSelectionCallback(enumerableProperty::setIndex);
 			return selector;
-
 		}
 
 		return null;
