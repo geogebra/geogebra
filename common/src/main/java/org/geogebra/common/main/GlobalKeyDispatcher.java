@@ -646,9 +646,6 @@ public abstract class GlobalKeyDispatcher {
 							App.VIEW_CONSTRUCTION_PROTOCOL);
 					consumed = true;
 				}
-			} else {
-				selection.selectAll(selection.getSelectedLayer());
-				consumed = true;
 			}
 			break;
 
