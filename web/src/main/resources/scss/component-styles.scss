@@ -811,4 +811,62 @@
 			transform: scale(1);
 		}
 	}
+
+	.dropDown {
+		height: 48px;
+		cursor: pointer;
+		display: inline-flex;
+		box-sizing: border-box;
+		border-bottom: 1px solid colors.$black-42;
+
+		.optionLabelHolder {
+			.label {
+				font-size: 75%;
+				color: colors.$text-secondary;
+				height: 12px;
+				line-height: 12px;
+			}
+
+			.selectedOption {
+				height: 20px;
+				margin: 8px 8px 0 0;
+				color: colors.$text-primary;
+			}
+		}
+
+		.arrow {
+			width: 24px;
+			height: 24px;
+			margin: 12px 0;
+			opacity: 0.54;
+		}
+
+		&:hover {
+			border-bottom: 2px solid colors.$text-primary;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$text-primary;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.active {
+			border-bottom: 2px solid colors.$mow_dark;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$mow_dark;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+	}
 }
