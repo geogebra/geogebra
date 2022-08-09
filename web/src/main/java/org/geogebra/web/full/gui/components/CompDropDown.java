@@ -25,7 +25,7 @@ public class CompDropDown extends FlowPanel {
 	private boolean isDisabled = false;
 
 	/**
-	 * constructor
+	 * Material rop-down component
 	 * @param app - see {@link AppW}
 	 * @param label - label of drop-down
 	 * @param property - popup elements
@@ -89,7 +89,7 @@ public class CompDropDown extends FlowPanel {
 		}
 	}
 
-	public void setSelectedOption(int idx) {
+	private void setSelectedOption(int idx) {
 		dropDown.setSelectedIndex(idx);
 		selectedOption.setText(dropDownElementsList.get(idx).getElement().getInnerText());
 	}
@@ -123,6 +123,10 @@ public class CompDropDown extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Disable drop-down component
+	 * @param disabled - true, if drop-down should be disabled
+	 */
 	public void setDisabled(boolean disabled) {
 		isDisabled = disabled;
 		Dom.toggleClass(this, "disabled", disabled);
