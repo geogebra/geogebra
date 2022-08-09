@@ -52,6 +52,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.shape.Point;
 
 /**
  * Draws graphs of parametric curves and functions
@@ -296,23 +297,43 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		}
 
 		if (operation == Operation.IF_LIST) {
-			double min1 = min;
+			double min1=0;
+			double max1=0;
 			MyList conditions = (MyList) expression.getLeft();
-			for (int i = 0; i < conditions.size() -1; i++) {
-				double max1 = conditions.getItem(i).evaluateDouble();
+			for (int i = 0; i < conditions.size(); i++) {
+				Point limits = evalConditional(conditions.getItem(i).wrap());
+				Log.debug("x: " + limits.getX() + " - y: " + limits.getY());
+				min1 = Double.isNaN(limits.getX()) ? min: limits.getX();
+				max1 = Double.isNaN(limits.getY()) ? max: limits.getY();
+
 				CurvePlotter.plotCurve(f, min1, max1, view, gp,
 						labelVisible, fillCurve ? Gap.CORNER
 								: Gap.MOVE_TO);
-				min1 = max1;
-				gp.reset();
 
 			}
-			CurvePlotter.plotCurve(f, min1, max, view, gp,
-					labelVisible, fillCurve ? Gap.CORNER
-							: Gap.MOVE_TO);
 			return true;
 		}
 		return false;
+	}
+
+	private Point evalConditional(ExpressionNode conditon) {
+		Operation operation = conditon.getOperation();
+		Log.debug(operation.toString());
+		if (Operation.GREATER.equals(operation) || Operation.GREATER_EQUAL.equals(operation)) {
+			return new Point(Double.NaN, conditon.evaluateDouble());
+		}
+
+		if (Operation.LESS.equals(operation) || Operation.LESS_EQUAL.equals(operation)) {
+			return new Point(conditon.evaluateDouble(), Double.NaN);
+		}
+
+		if (Operation.AND_INTERVAL.equals(operation)) {
+			return new Point(conditon.getLeftTree().getLeft().evaluateDouble(),
+					conditon.getRightTree().getRight().evaluateDouble());
+		}
+
+		// EQUAL
+		return new Point(conditon.getRight().evaluateDouble(), conditon.getRight().evaluateDouble());
 	}
 
 	private void updateTrace(boolean showTrace) {
