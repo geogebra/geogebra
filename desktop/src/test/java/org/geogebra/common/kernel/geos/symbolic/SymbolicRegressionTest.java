@@ -19,6 +19,8 @@ import org.geogebra.test.commands.ErrorAccumulator;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class SymbolicRegressionTest extends BaseUnitTest {
 
 	public AppCommon createAppCommon() {
@@ -50,10 +52,10 @@ public class SymbolicRegressionTest extends BaseUnitTest {
 		reload();
 		assertThat(lookup("f"), hasValue("x³ + 1"));
 		getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(lookup("f"),
-				"FitLogistic(RemoveUndefined((x_1,y_1)),3)+1", info, false,
+				"FitLogistic(RemoveUndefined((x_1,y_1)))+1", info, false,
 				null, handler);
-		assertThat(lookup("f"),
-				hasValue("FitLogistic({(1, 1), (2, 8), (3, 27), (4, 64)}, 3) + 1"));
+		assertThat(lookup("f"), hasValue("3049710531 / 29027569 / (116204432 / 448693 "
+						+ Unicode.EULER_CHAR + "^(-938501 / 625661 x) + 1) + 1"));
 		assertEquals("", handler.getErrors());
 	}
 
