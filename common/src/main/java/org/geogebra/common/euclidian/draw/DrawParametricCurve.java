@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
@@ -240,6 +241,11 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			if (max > maxView || Double.isInfinite(max)) {
 				max = maxView;
 			}
+			if (function.isGeoFunctionConditional()) {
+				if (drawConditional(function, min, max)) {
+					return;
+				}
+			}
 		}
 		GPoint labelPoint;
 		if (DoubleUtil.isEqual(min, max)) {
@@ -271,6 +277,42 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		}
 		// draw trace
 		updateTrace(curve.getTrace());
+	}
+
+	private boolean drawConditional(GeoFunction f, double min, double max) {
+		ExpressionNode expression = f.getFunctionExpression();
+		Operation operation = expression.getOperation();
+		if (operation == Operation.IF_ELSE) {
+			MyNumberPair pair = (MyNumberPair) expression.getLeft();
+			ExpressionNode conditional = pair.getX().wrap();
+			double tMax = conditional.evaluateDouble();
+			CurvePlotter.plotCurve(f, min, tMax, view, gp,
+					labelVisible, fillCurve ? Gap.CORNER
+							: Gap.MOVE_TO);
+			CurvePlotter.plotCurve(f, tMax, max, view, gp,
+					labelVisible, fillCurve ? Gap.CORNER
+									: Gap.MOVE_TO);
+			return true;
+		}
+
+		if (operation == Operation.IF_LIST) {
+			double min1 = min;
+			MyList conditions = (MyList) expression.getLeft();
+			for (int i = 0; i < conditions.size() -1; i++) {
+				double max1 = conditions.getItem(i).evaluateDouble();
+				CurvePlotter.plotCurve(f, min1, max1, view, gp,
+						labelVisible, fillCurve ? Gap.CORNER
+								: Gap.MOVE_TO);
+				min1 = max1;
+				gp.reset();
+
+			}
+			CurvePlotter.plotCurve(f, min1, max, view, gp,
+					labelVisible, fillCurve ? Gap.CORNER
+							: Gap.MOVE_TO);
+			return true;
+		}
+		return false;
 	}
 
 	private void updateTrace(boolean showTrace) {
