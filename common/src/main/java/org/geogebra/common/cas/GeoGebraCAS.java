@@ -729,7 +729,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
-	private boolean hasWrongArgumentNumber(String commandName, int argNum, LowerCaseDictionary commandDict) {
+	private boolean hasWrongArgumentNumber(String commandName, int argNum,
+			LowerCaseDictionary commandDict) {
 		String nameDotNumber = commandName + "." + argNum;
 		String nameDotN = commandName + ".N";
 		return commandDict.lookup(commandName) != null
