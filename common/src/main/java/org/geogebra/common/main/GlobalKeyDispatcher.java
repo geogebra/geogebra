@@ -307,6 +307,12 @@ public abstract class GlobalKeyDispatcher {
 				double radius = Math.hypot(posX, posY);
 
 				if (DoubleUtil.isZero(diff[0])) {
+					yGrid = xGrid;
+
+					if (diff[1] % 1 == 0) {
+						diff[1] = diff[1] / 10;
+					}
+
 					diff[0] = MyMath.signedNextMultiple(diff[1], xGrid * Math.cos(angle));
 					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * Math.sin(angle));
 				} else {
