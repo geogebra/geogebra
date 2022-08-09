@@ -813,6 +813,7 @@
 	}
 
 	.dropDown {
+		min-width: 64px;
 		height: 48px;
 		cursor: pointer;
 		display: inline-flex;
@@ -837,7 +838,7 @@
 		.arrow {
 			width: 20px;
 			height: 20px;
-			margin: 12px 0;
+			margin: 18px 0 10px auto;
 			opacity: 0.54;
 		}
 
@@ -866,6 +867,25 @@
 
 			.arrow {
 				opacity: 0.87;
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+			border-bottom: 1px solid colors.$black-36;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$black-36;
+				}
+
+				.selectedOption {
+					color: colors.$black-36;
+				}
+			}
+
+			.arrow {
+				opacity: 0.36;
 			}
 		}
 	}

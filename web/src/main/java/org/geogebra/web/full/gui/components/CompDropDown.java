@@ -10,6 +10,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -21,24 +22,33 @@ public class CompDropDown extends FlowPanel {
 	private Label selectedOption;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
+	private boolean isDisabled = false;
 
+	/**
+	 * constructor
+	 * @param app - see {@link AppW}
+	 * @param label - label of drop-down
+	 * @param property - popup elements
+	 */
 	public CompDropDown(AppW app, String label, Property property) {
 		this.app = app;
 		addStyleName("dropDown");
-		buildGUI(label);
-		setSelectedOption(0);
 
+		buildGUI(label);
 		createDropDownMenu(app);
 		setElements(Arrays.asList(((EnumerableProperty) property).getValues()));
+		setSelectedOption(0);
 	}
 
 	private void buildGUI(String labelStr) {
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
 
-		Label label = new Label(app.getLocalization().getMenu(labelStr));
-		label.addStyleName("label");
-		optionHolder.add(label);
+		if (labelStr != null && !labelStr.isEmpty()) {
+			Label label = new Label(app.getLocalization().getMenu(labelStr));
+			label.addStyleName("label");
+			optionHolder.add(label);
+		}
 
 		selectedOption = new Label();
 		selectedOption.addStyleName("selectedOption");
@@ -61,7 +71,9 @@ public class CompDropDown extends FlowPanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				toggleExpanded();
+				if (!isDisabled) {
+					toggleExpanded();
+				}
 			}
 		});
 	}
@@ -78,9 +90,9 @@ public class CompDropDown extends FlowPanel {
 	}
 
 	public void setSelectedOption(int idx) {
-		selectedOption.setText("Selected option");
+		dropDown.setSelectedIndex(idx);
+		selectedOption.setText(dropDownElementsList.get(idx).getElement().getInnerText());
 	}
-
 
 	/**
 	 * Set the elements of the dropdown list
@@ -97,8 +109,6 @@ public class CompDropDown extends FlowPanel {
 					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
 					() -> {
 						setSelectedOption(currentIndex);
-						// TODO CALLBACK
-						//fireSelected(currentIndex);
 					});
 
 			item.setStyleName("dropDownElement");
@@ -111,5 +121,10 @@ public class CompDropDown extends FlowPanel {
 		for (AriaMenuItem menuItem : menuItems) {
 			dropDown.addItem(menuItem);
 		}
+	}
+
+	public void setDisabled(boolean disabled) {
+		isDisabled = disabled;
+		Dom.toggleClass(this, "disabled", disabled);
 	}
 }
