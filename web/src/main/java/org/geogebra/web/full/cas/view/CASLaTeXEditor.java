@@ -306,7 +306,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		int top = getAbsoluteTop() - (int) app.getAbsTop();
 		getInputSuggestions().popupSuggestions(left,
 				top - 3, // extra padding of editor
-				top + getOffsetHeight() + 5); // extra padding of editor
+				getOffsetHeight() + 5); // extra padding of editor
 		mf.scrollParentHorizontally(this);
 	}
 
