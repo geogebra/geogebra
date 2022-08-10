@@ -193,4 +193,11 @@ public class ComponentDropDownPopup {
 	public void close() {
 		menu.hideMenu();
 	}
+
+	/**
+	 * clear menu
+	 */
+	public void clear() {
+		menu.clearItems();
+	}
 }

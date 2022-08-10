@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.Property;
+import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -17,9 +19,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class CompDropDown extends FlowPanel {
+public class CompDropDown extends FlowPanel implements SetLabels {
 	private final AppW app;
+	private Label label;
+	private String labelKey;
 	private Label selectedOption;
+	private EnumerableProperty property;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private boolean isDisabled = false;
@@ -32,6 +37,8 @@ public class CompDropDown extends FlowPanel {
 	 */
 	public CompDropDown(AppW app, String label, Property property) {
 		this.app = app;
+		labelKey = label;
+		this.property = (EnumerableProperty) property;
 		addStyleName("dropDown");
 
 		buildGUI(label);
@@ -45,7 +52,7 @@ public class CompDropDown extends FlowPanel {
 		optionHolder.addStyleName("optionLabelHolder");
 
 		if (labelStr != null && !labelStr.isEmpty()) {
-			Label label = new Label(app.getLocalization().getMenu(labelStr));
+			label = new Label(app.getLocalization().getMenu(labelStr));
 			label.addStyleName("label");
 			optionHolder.add(label);
 		}
@@ -57,9 +64,8 @@ public class CompDropDown extends FlowPanel {
 
 		SimplePanel arrowIcon = new SimplePanel();
 		arrowIcon.addStyleName("arrow");
-		arrowIcon.getElement().setInnerHTML("<svg xmlns=\"http://www.w3.org/2000/svg\" "
-				+ "width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path d=\"M7 10l5 5 5-5z\"/>"
-				+ "<path fill=\"none\" d=\"M0 0h24v24H0z\"/></svg>");
+		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
+				.arrow_drop_down().getSVG());
 		add(arrowIcon);
 	}
 
@@ -118,6 +124,7 @@ public class CompDropDown extends FlowPanel {
 	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
+		dropDown.clear();
 		for (AriaMenuItem menuItem : menuItems) {
 			dropDown.addItem(menuItem);
 		}
@@ -130,5 +137,14 @@ public class CompDropDown extends FlowPanel {
 	public void setDisabled(boolean disabled) {
 		isDisabled = disabled;
 		Dom.toggleClass(this, "disabled", disabled);
+	}
+
+	@Override
+	public void setLabels() {
+		if (label != null) {
+			label.setText(app.getLocalization().getMenu(labelKey));
+		}
+		setElements(Arrays.asList(property.getValues()));
+		selectedOption.setText(dropDownElementsList.get(dropDown.getSelectedIndex()).getText());
 	}
 }
