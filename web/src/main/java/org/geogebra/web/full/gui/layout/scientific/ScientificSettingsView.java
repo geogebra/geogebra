@@ -8,6 +8,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -81,6 +82,10 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 				panel.add(cell);
 			}
 		}
+		CompDropDown dropDown = new CompDropDown(app, "Label", properties.getProperties()[0]);
+		// change to test disabled state
+		// dropDown.setDisabled(true);
+		panel.add(dropDown);
 	}
 
 	private void updateGUI() {
@@ -102,7 +107,6 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			selector.setSelected(enumerableProperty.getIndex());
 			selector.setDropDownSelectionCallback(enumerableProperty::setIndex);
 			return selector;
-
 		}
 
 		return null;

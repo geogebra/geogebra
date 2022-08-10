@@ -80,7 +80,6 @@ public class ComponentDropDown extends FlowPanel {
 	protected void toggleExpanded() {
 		if (dropDown.isOpened()) {
 			dropDown.close();
-
 		} else {
 			dropDown.show();
 		}
