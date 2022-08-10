@@ -31,7 +31,6 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt,
 			Consumer<Boolean> callback) {
 		this.loc = loc;
-		this.selected = setSelected;
 		this.checkboxTxt = templateTxt;
 
 		addStyleName("checkboxPanel");
@@ -73,6 +72,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 			}
 		});
 
+		setSelected(setSelected);
 		setLabels();
 		addAccessibilityInfo();
 	}
