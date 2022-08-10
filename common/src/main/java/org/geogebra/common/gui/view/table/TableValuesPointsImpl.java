@@ -233,8 +233,10 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	}
 
 	private void removePointsFromList(int column) {
-		removePoints(column);
-		points.remove(column);
+		if (points.size() > column) {
+			removePoints(column);
+			points.remove(column);
+		}
 	}
 
 	@Override
