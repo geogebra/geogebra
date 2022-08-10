@@ -75,7 +75,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
 
-	private DrawConditionalFunction drawConditional;
+	private PlotConditionalFunction plotConditional;
 
 	private static final Inspecting containsLog = new Inspecting() {
 		@Override
@@ -104,7 +104,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		this.curve = curve;
 		geo = curve.toGeoElement();
 		createGeneralPath();
-		drawConditional = new DrawConditionalFunction(view, gp);
+		plotConditional = new PlotConditionalFunction(view, gp);
 		createIntervalPlotter();
 		update();
 	}
@@ -244,7 +244,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 				max = maxView;
 			}
 
-			if (drawConditional.draw(function, min, max, labelVisible, fillCurve)) {
+			if (plotConditional.update(function, min, max, labelVisible, fillCurve)) {
 				return;
 			}
 		}
