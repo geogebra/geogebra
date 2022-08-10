@@ -311,8 +311,8 @@ public abstract class GlobalKeyDispatcher {
 					double radiusIncrement = diff[1] > 0 ? xGrid : -xGrid;
 
 					if (DoubleUtil.isZero(radius)) {
-							diff[0] = radiusIncrement;
-							diff[1] = 0;
+						diff[0] = radiusIncrement;
+						diff[1] = 0;
 					} else {
 						diff[0] = radiusIncrement * Math.cos(angle);
 						diff[1] = radiusIncrement * Math.sin(angle);
