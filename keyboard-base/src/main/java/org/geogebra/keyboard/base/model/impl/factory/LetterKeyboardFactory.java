@@ -8,6 +8,8 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCust
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
+import java.util.Map;
+
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Background;
@@ -92,6 +94,13 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		this.controlActionLeft = controlActionLeft;
 	}
 
+	/**
+	 * @param upperKeys lower to upper kay mapping
+	 */
+	public void setUpperKeys(Map<String, String> upperKeys) {
+		// only needed in scientific
+	}
+
 	@Override
 	public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
 		int topRowLength = topRow.length();
@@ -102,7 +111,7 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 
 		// sanity checks
 		if (bottomRowLength > topRowLength && bottomRowLength > middleRowLength) {
-			throw new RuntimeException(EXCEPTION_MESSAGE);
+			throw new RuntimeException(EXCEPTION_MESSAGE + topRow + "," + bottomRow);
 		}
 		if (controlRowLength > MAX_CONTROL_ROW_LENGTH) {
 			throw new RuntimeException("Control row too long");
@@ -191,7 +200,11 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 */
 	public void addControlButtons(RowImpl rowImpl, ButtonFactory buttonFactory,
 			String definition) {
-		addButtons(rowImpl, buttonFactory, definition);
+		for (int i = 0; i < definition.length(); i++) {
+			String name = String.valueOf(definition.charAt(i));
+			addButton(rowImpl,
+					buttonFactory.createInputButton(name, name, name, 1.0f, false));
+		}
 	}
 
 	private void addActionButton(RowImpl rowImpl, ButtonFactory buttonFactory, Integer action,

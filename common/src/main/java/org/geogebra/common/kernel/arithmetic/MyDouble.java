@@ -252,7 +252,13 @@ public class MyDouble extends ValidExpression
 			c.set(Double.NaN);
 			return;
 		}
-
+		BigDecimal ba = a.toDecimal();
+		BigDecimal bb = b.toDecimal();
+		if (ba != null && bb != null) {
+			BigDecimal bc = ba.multiply(bb);
+			((MySpecialDouble) c).set(bc);
+			return;
+		}
 		c.set(a.val * bval);
 	}
 
@@ -870,7 +876,7 @@ public class MyDouble extends ValidExpression
 	 * interface NumberValue
 	 */
 	@Override
-	final public MyDouble getNumber() {
+	public MyDouble getNumber() {
 		return new MyDouble(this);
 
 		/*

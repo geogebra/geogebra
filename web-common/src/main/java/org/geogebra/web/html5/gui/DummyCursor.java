@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * handle dummy cursor on android
@@ -31,6 +33,50 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	public DummyCursor(HasKeyboardTF textField, AppW app) {
 		this.textField = textField;
 		this.app = app;
+	}
+
+	/**
+	 * Handle event coming from actual keyboard on tablet
+	 * @param e keyboard event
+	 */
+	public void handleTabletKeyboard(KeyDownEvent e) {
+		if (!Browser.isTabletBrowser() || app.isWhiteboardActive()) {
+			return;
+		}
+		int code = e.getNativeKeyCode();
+		if (code == 0 && Browser.isIPad()) {
+			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
+			if (arrowType != -1) {
+				code = arrowType;
+			}
+		}
+		switch (code) {
+		case GWTKeycodes.KEY_BACKSPACE:
+			textField.onBackSpace();
+			break;
+		case GWTKeycodes.KEY_LEFT:
+			onArrowLeft();
+			break;
+		case GWTKeycodes.KEY_RIGHT:
+			onArrowRight();
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void onArrowLeft() {
+		int caretPos = textField.getCursorPos();
+		if (caretPos > 0) {
+			textField.setCursorPos(caretPos - 1);
+		}
+	}
+
+	private void onArrowRight() {
+		int caretPos = textField.getCursorPos();
+		if (caretPos < textField.getText().length()) {
+			textField.setCursorPos(caretPos + 1);
+		}
 	}
 
 	/**

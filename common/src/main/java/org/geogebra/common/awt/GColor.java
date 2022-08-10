@@ -49,6 +49,8 @@ public final class GColor implements GPaint {
 	public static final GColor GRAY = newColor(128, 128, 128);
 	/** DARK_GRAY */
 	public static final GColor DARK_GRAY = newColor(68, 68, 68);
+	/** Highlight */
+	public static final GColor HIGHLIGHT_GRAY = newColor(114, 114, 114);
 	/** PURPLE */
 	public static final GColor PURPLE = newColor(102, 102, 255);
 	/** PURPLE A400 */

@@ -53,17 +53,17 @@ public class Util {
 
 	/**
 	 * Adds a button to the row created by
-	 * {@link ButtonFactory#createInputButton(String, String, float)}.
+	 * {@link ButtonFactory#createInputButton(String, String, String, float, boolean)}.
 	 */
 	public static void addInputButton(RowImpl row, ButtonFactory buttonFactory,
 			String name, float weight) {
 		addButton(row,
-				buttonFactory.createInputButton(name, name, name, weight));
+				buttonFactory.createInputButton(name, name, name, weight, true));
 	}
 
 	/**
 	 * Adds a button to the row created by
-	 * {@link ButtonFactory#createInputButton(String, String)}.
+	 * {@link ButtonFactory#createInputButton(String, String, String)}.
 	 */
 	public static void addInputButton(RowImpl row, ButtonFactory buttonFactory,
 			String name, String input) {

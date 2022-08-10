@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
 import org.geogebra.web.full.gui.view.algebra.DOMIndexHTMLBuilder;
@@ -19,7 +20,6 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -36,9 +36,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	private Label lblObject;
 	private Label lblName;
 
-	private CheckBox ckSort;
-	/** transpose checkbox */
-	CheckBox ckTranspose;
+	private ComponentCheckbox ckTranspose;
 	private RadioButtonPanel<Boolean> objValRadioButtonPanel;
 	/** switch scan between rows and columns */
 	ListBox cbScanOrder;
@@ -145,13 +143,9 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 		objValRadioButtonPanel = new RadioButtonPanel<>(loc,
 				Arrays.asList(objRadioButtonData, valRadioButtonData), false,
 				ignore -> coModel.createNewGeo(fldName.getText()));
-		
-		ckSort = new CheckBox();
-		ckSort.setValue(false);
 
-		ckTranspose = new CheckBox();
-		ckTranspose.setValue(false);
-		ckTranspose.addClickHandler(event -> apply(ckTranspose));
+		ckTranspose = new ComponentCheckbox(loc, false, "Transpose",
+			(event) -> coModel.createNewGeo(fldName.getText()));
 
 		lblObject = new Label();
 		lblObject.setStyleName("panelTitle");
@@ -236,11 +230,8 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 			return;
 		}
 
+		ckTranspose.setLabels();
 		objValRadioButtonPanel.setLabels();
-		
-		// transpose checkbox
-		ckTranspose.setText(loc.getMenu("Transpose"));
-		ckSort.setText(loc.getMenu("Sort"));
 
 		lblName.setText(loc.getMenu("Name") + ": ");
 
@@ -293,8 +284,7 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();
-		} else if (source == cbScanOrder || source == cbLeftRightOrder
-				|| source == ckTranspose) {
+		} else if (source == cbScanOrder || source == cbLeftRightOrder) {
 			coModel.createNewGeo(fldName.getText());
 		}
 	}
@@ -314,13 +304,13 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 	}
 
 	@Override
-	public void setName(String name) {
-		fldName.setText(name);
+	public void setSortVisible(boolean isVisible) {
+		// nothing to do here
 	}
 
 	@Override
-	public void setSortVisible(boolean isVisible) {
-		ckSort.setVisible(isVisible);
+	public void setName(String name) {
+		fldName.setText(name);
 	}
 
 	@Override
@@ -345,6 +335,6 @@ public class CreateObjectDialogW extends ComponentDialog implements ICreateObjec
 
 	@Override
 	public boolean isTranspose() {
-		return ckTranspose.getValue();
+		return ckTranspose.isSelected();
 	}
 }

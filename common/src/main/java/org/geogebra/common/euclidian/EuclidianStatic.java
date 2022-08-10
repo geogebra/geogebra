@@ -30,7 +30,7 @@ public class EuclidianStatic {
 	 */
 	public static final int CLIP_DISTANCE = 5;
 
-	/** standardstroke */
+	/** standard stroke */
 	protected static final GBasicStroke standardStroke = AwtFactory
 			.getPrototype().newMyBasicStroke(1.0f);
 	/** stroke for selected geos */

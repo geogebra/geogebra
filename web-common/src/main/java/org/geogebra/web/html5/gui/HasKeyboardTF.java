@@ -78,4 +78,5 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	 */
 	HandlerRegistration addBlurHandler(BlurHandler handler);
 
+	void onBackSpace();
 }

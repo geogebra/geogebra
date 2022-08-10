@@ -158,6 +158,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		for (int i = 0; i < fields.length; i++) {
 			dimLabel[i] = new FormLabel();
 			dimField[i] = optionsEuclidianW.getTextField();
+			dimField[i].prepareShowSymbolButton(false);
 			axisRangePanel[i] = new FlowPanel();
 			axisRangePanel[i].setStyleName("panelRowCell");
 			axisRangePanel[i].add(dimLabel[i].setFor(dimField[i]));

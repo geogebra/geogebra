@@ -43,20 +43,18 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            of input text field
 	 * @param height
 	 *            of input text field
-	 * @param showSymbolPopup
-	 *            if button for symbol popup should be shown
 	 * @param suffixTxt
 	 *            suffix at end of text field
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height,
-			boolean showSymbolPopup, String suffixTxt) {
+			String suffixTxt) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, showSymbolPopup, app);
+		buildGui(width, height, app);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -79,14 +77,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            of input text field
 	 * @param height
 	 *            of input text field
-	 * @param showSymbolPopup
-	 *            if button for symbol popup should be shown
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
-			String errorTxt, String defaultValue, int width, int height,
-			boolean showSymbolPopup) {
+			String errorTxt, String defaultValue, int width, int height) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue,
-				width, height, showSymbolPopup, null);
+				width, height, null);
 	}
 
 	/**
@@ -96,11 +91,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return contentPanel;
 	}
 
-	private void buildGui(int width, int height, boolean showSymbolPopup, AppW app) {
+	private void buildGui(int width, int height, AppW app) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", app, height, width, showSymbolPopup);
+		inputTextField = new InputPanelW("", app, height, width, true);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());

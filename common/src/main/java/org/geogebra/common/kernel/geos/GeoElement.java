@@ -3305,7 +3305,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            true to update cascade over dependent geos as well
 	 */
 	static public synchronized void updateCascade(
-			final ArrayList<? extends GeoElementND> geos,
+			final List<? extends GeoElementND> geos,
 			final TreeSet<AlgoElement> tempSet1,
 			final boolean updateCascadeAll) {
 

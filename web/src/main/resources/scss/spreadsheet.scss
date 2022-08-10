@@ -76,12 +76,37 @@
 		border-right: 1px solid #CCCCCC;
 		padding: 0px 0px;
 	}
+
+	.geogebraweb-table-spreadsheet .checkboxPanel {
+		.checkbox {
+			width: 12px;
+			height: 12px;
+
+			.background {
+				width:12px;
+				height: 12px;
+				top: 0;
+				left: 0;
+			}
+
+			.checkmark {
+				left: 1px;
+				top: -4px;
+				width: 10px;
+				height: 10px;
+			}
+
+			.hoverBg{
+				display: none;
+			}
+		}
+	}
 	
 	.geogebraweb-popup-spreadsheet {
 		z-index: z-index.$z-spreadsheet-popup;
 	}
  
-	.buttonSpreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet {
+	.buttonSpreadsheet,.geogebraweb-select-spreadsheet {
 		position: relative;
 		z-index: z-index.$z-spreadsheet-button;
 	}
@@ -96,12 +121,7 @@
 			text-align:center;
 		}
 	}
-	
-	.geogebraweb-checkbox-spreadsheet {
-		display: -moz-inline-box;
-		display: inline-block;
-	}
-	
+
 	.geogebraweb-select-spreadsheet {
 		width: 100%;
 	}
