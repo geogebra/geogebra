@@ -41,6 +41,7 @@ public class ShareDialogMow extends ComponentDialog
 	private Label linkShareOnOffLbl;
 	private Label linkShareHelpLbl;
 	private ComponentSwitch shareSwitch;
+	private ComponentSwitch multiuserSwitch;
 	private FlowPanel linkPanel;
 	private ComponentLinkBox linkBox;
 	private StandardButton copyBtn;
@@ -154,7 +155,36 @@ public class ShareDialogMow extends ComponentDialog
 		}
 		buildShareByLinkPanel(dialogContent, shareURL);
 		buildSharingAvailableInfo(dialogContent);
+		buildMultiuserPanel(dialogContent);
 		addDialogContent(dialogContent);
+	}
+
+	private void buildMultiuserPanel(FlowPanel dialogContent) {
+		FlowPanel shareByLinkPanel = new FlowPanel();
+		shareByLinkPanel.addStyleName("shareByLink");
+		multiuserSwitch = new ComponentSwitch(isMatShared(material), null);
+
+		FlowPanel switcherPanel = new FlowPanel();
+		switcherPanel.addStyleName("switcherPanel");
+
+		NoDragImage linkImg = new NoDragImage(
+				SharedResources.INSTANCE.groups(), 24);
+		linkImg.addStyleName("linkImg");
+		switcherPanel.add(linkImg);
+
+		FlowPanel textPanel = new FlowPanel();
+		textPanel.addStyleName("textPanel");
+		linkShareOnOffLbl = new Label(localization.getMenu("Mehrbenutzer"));
+		linkShareOnOffLbl.setStyleName("linkShareOnOff");
+		linkShareHelpLbl = new Label(localization.getMenu("Jeder mit Zugriff kann diese Datei bearbeiten."));
+		linkShareHelpLbl.setStyleName("linkShareHelp");
+		textPanel.add(linkShareOnOffLbl);
+		textPanel.add(linkShareHelpLbl);
+		switcherPanel.add(textPanel);
+		switcherPanel.add(multiuserSwitch);
+
+		shareByLinkPanel.add(switcherPanel);
+		dialogContent.add(shareByLinkPanel);
 	}
 
 	private void buildNoGroupPanel(FlowPanel dialogContent) {
