@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
@@ -52,7 +51,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.shape.Point;
 
 /**
  * Draws graphs of parametric curves and functions
@@ -76,6 +74,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private ExpressionNode dataExpression;
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
+
+	private DrawConditionalFunction drawConditional;
 
 	private static final Inspecting containsLog = new Inspecting() {
 		@Override
@@ -104,6 +104,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		this.curve = curve;
 		geo = curve.toGeoElement();
 		createGeneralPath();
+		drawConditional = new DrawConditionalFunction(view, gp);
 		createIntervalPlotter();
 		update();
 	}
@@ -242,10 +243,9 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			if (max > maxView || Double.isInfinite(max)) {
 				max = maxView;
 			}
-			if (function.isGeoFunctionConditional()) {
-				if (drawConditional(function, min, max)) {
-					return;
-				}
+
+			if (drawConditional.draw(function, min, max, labelVisible, fillCurve)) {
+				return;
 			}
 		}
 		GPoint labelPoint;
@@ -280,61 +280,6 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		updateTrace(curve.getTrace());
 	}
 
-	private boolean drawConditional(GeoFunction f, double min, double max) {
-		ExpressionNode expression = f.getFunctionExpression();
-		Operation operation = expression.getOperation();
-		if (operation == Operation.IF_ELSE) {
-			MyNumberPair pair = (MyNumberPair) expression.getLeft();
-			ExpressionNode conditional = pair.getX().wrap();
-			double tMax = conditional.evaluateDouble();
-			CurvePlotter.plotCurve(f, min, tMax, view, gp,
-					labelVisible, fillCurve ? Gap.CORNER
-							: Gap.MOVE_TO);
-			CurvePlotter.plotCurve(f, tMax, max, view, gp,
-					labelVisible, fillCurve ? Gap.CORNER
-									: Gap.MOVE_TO);
-			return true;
-		}
-
-		if (operation == Operation.IF_LIST) {
-			double min1=0;
-			double max1=0;
-			MyList conditions = (MyList) expression.getLeft();
-			for (int i = 0; i < conditions.size(); i++) {
-				Point limits = evalConditional(conditions.getItem(i).wrap());
-				Log.debug("x: " + limits.getX() + " - y: " + limits.getY());
-				min1 = Double.isNaN(limits.getX()) ? min: limits.getX();
-				max1 = Double.isNaN(limits.getY()) ? max: limits.getY();
-
-				CurvePlotter.plotCurve(f, min1, max1, view, gp,
-						labelVisible, fillCurve ? Gap.CORNER
-								: Gap.MOVE_TO);
-
-			}
-			return true;
-		}
-		return false;
-	}
-
-	private Point evalConditional(ExpressionNode conditon) {
-		Operation operation = conditon.getOperation();
-		Log.debug(operation.toString());
-		if (Operation.GREATER.equals(operation) || Operation.GREATER_EQUAL.equals(operation)) {
-			return new Point(Double.NaN, conditon.evaluateDouble());
-		}
-
-		if (Operation.LESS.equals(operation) || Operation.LESS_EQUAL.equals(operation)) {
-			return new Point(conditon.evaluateDouble(), Double.NaN);
-		}
-
-		if (Operation.AND_INTERVAL.equals(operation)) {
-			return new Point(conditon.getLeftTree().getLeft().evaluateDouble(),
-					conditon.getRightTree().getRight().evaluateDouble());
-		}
-
-		// EQUAL
-		return new Point(conditon.getRight().evaluateDouble(), conditon.getRight().evaluateDouble());
-	}
 
 	private void updateTrace(boolean showTrace) {
 		if (showTrace) {
