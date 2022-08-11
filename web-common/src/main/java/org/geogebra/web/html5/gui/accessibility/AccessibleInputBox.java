@@ -54,7 +54,7 @@ public class AccessibleInputBox implements AccessibleWidget {
 		// if it's shown, it blocks touch events
 		AccessibleDropDown.updatePosition(geo, inputBox, app);
 		formLabel.setText(geo.getAuralText() + getErrorText());
-		inputBox.setText(geo.getTextForEditor());
+		inputBox.setText(geo.toValueString(app.getScreenReaderTemplate()));
 	}
 
 	private String getErrorText() {
