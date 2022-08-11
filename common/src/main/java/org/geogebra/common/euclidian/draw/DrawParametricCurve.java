@@ -280,7 +280,6 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		updateTrace(curve.getTrace());
 	}
 
-
 	private void updateTrace(boolean showTrace) {
 		if (showTrace) {
 			isTracing = true;

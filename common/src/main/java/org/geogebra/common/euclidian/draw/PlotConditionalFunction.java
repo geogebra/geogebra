@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -13,12 +15,12 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.shape.Point;
 
 class PlotConditionalFunction {
 	private final EuclidianView view;
 	private final PathPlotter gp;
-	private List<Operation> supported = Arrays.asList(Operation.IF_ELSE, Operation.IF_LIST);
+	private static final List<Operation> supported = Arrays.asList(Operation.IF_ELSE,
+			Operation.IF_LIST);
 	private ExpressionNode node;
 	private Operation operation;
 	private GeoFunction geoFunction;
@@ -62,11 +64,33 @@ class PlotConditionalFunction {
 
 	private void plotIfList() {
 		MyList conditions = (MyList) node.getLeft();
+		List<Double> limits = new ArrayList<>();
+		limits.add(min);
 		for (int i = 0; i < conditions.size(); i++) {
-			Point limits = getConditionLimits(conditions.getItem(i));
-			CurvePlotter.plotCurve(geoFunction, limits.getX(), limits.getY(), view, gp,
+			getLimit(conditions.getItem(i), limits);
+		}
+		limits.add(max);
+		Collections.sort(limits);
+		for (int i = 0; i < limits.size() - 1; i++) {
+			CurvePlotter.plotCurve(geoFunction, limits.get(i), limits.get(i + 1), view, gp,
 					labelVisible, fillCurve ? Gap.CORNER
 							: Gap.MOVE_TO);
+		}
+	}
+
+	private void getLimit(ExpressionValue ev, List<Double> limits) {
+		ExpressionNode condition = ev.wrap();
+		Operation operation = condition.getOperation();
+
+		if (operation.isInequalityGreater()) {
+			limits.add(condition.evaluateDouble());
+		} else if (operation.isInequalityLess()) {
+			limits.add(condition.evaluateDouble());
+		} else if (Operation.AND_INTERVAL.equals(operation)) {
+			limits.add(condition.getLeftTree().getLeft().evaluateDouble());
+			limits.add(condition.getRightTree().getRight().evaluateDouble());
+		} else { // EQUAL
+			limits.add(condition.getRight().evaluateDouble());
 		}
 	}
 
@@ -80,27 +104,5 @@ class PlotConditionalFunction {
 		CurvePlotter.plotCurve(geoFunction, tMax, max, view, gp,
 				labelVisible, fillCurve ? Gap.CORNER
 						: Gap.MOVE_TO);
-	}
-
-	private Point getConditionLimits(ExpressionValue ev) {
-		ExpressionNode condition = ev.wrap();
-		Operation operation = condition.getOperation();
-		double x = Double.NaN;
-		double y = Double.NaN;
-
-		if (operation.isInequalityGreater()) {
-			y = condition.evaluateDouble();
-		} else if (operation.isInequalityLess()) {
-			x = condition.evaluateDouble();
-		} else if (Operation.AND_INTERVAL.equals(operation)) {
-			x = condition.getLeftTree().getLeft().evaluateDouble();
-			y =	condition.getRightTree().getRight().evaluateDouble();
-		} else {
-			x = condition.getRight().evaluateDouble();
-			y = condition.getRight().evaluateDouble();
-		}
-
-		return new Point(Double.isNaN(x) ? min : x,
-				Double.isNaN(y) ? max : y);
 	}
 }
