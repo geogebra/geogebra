@@ -106,7 +106,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 		updateCheckboxStyle();
-		AriaHelper.setChecked(this, selected + "");
+		AriaHelper.setChecked(this, selected);
 	}
 
 	/**

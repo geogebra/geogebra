@@ -29,7 +29,7 @@ public class GCheckBoxMenuItem {
 		itemPanel.addStyleName("checkboxItem");
 		itemPanel.getElement().appendChild(MainMenu.getImage(icon));
 		checkBox = new ComponentCheckbox(app.getLocalization(), false, text, null);
-		AriaHelper.setRole(checkBox, "menuitemcheckbox");
+
 		itemPanel.add(checkBox);
 	}
 
@@ -52,6 +52,7 @@ public class GCheckBoxMenuItem {
 	public void setCommand(ScheduledCommand cmd) {
 		menuItem = new AriaMenuItem(itemPanel.toString(), true, cmd);
 		menuItem.addStyleName("checkboxMenuItem");
+		AriaHelper.setRole(menuItem, "menuitemcheckbox");
 	}
 
 	/**
@@ -61,6 +62,7 @@ public class GCheckBoxMenuItem {
 		checkBox.setSelected(sel);
 		String html = itemPanel.toString();
 		menuItem.setHTML(html);
+		AriaHelper.setChecked(menuItem, sel);
 	}
 
 	/**
