@@ -54,8 +54,9 @@ public class SymbolicRegressionTest extends BaseUnitTest {
 		getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(lookup("f"),
 				"FitLogistic(RemoveUndefined((x_1,y_1)))+1", info, false,
 				null, handler);
-		assertThat(lookup("f"), hasValue("3049710531 / 29027569 / (116204432 / 448693 "
-						+ Unicode.EULER_CHAR + "^(-938501 / 625661 x) + 1) + 1"));
+		GeoElement numeric = add("Numeric(f,2)");
+		assertThat(numeric, hasValue("(260e^(-1.5 x) + 111) / (260e^(-1.5 x) + 1)"
+				.replace("e", Unicode.EULER_STRING)));
 		assertEquals("", handler.getErrors());
 	}
 
