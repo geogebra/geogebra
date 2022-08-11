@@ -4,6 +4,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.util.DoubleUtil;
 
 public class DiscreteSpaceCentered implements DiscreteSpace {
 	private double start;
@@ -46,13 +47,18 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 			int diffCount = (int) Math.floor(length / step);
 			countLeft += diffCount;
 			return createStream(mostLeftValue - diffCount * step, 0, diffCount);
+		} else if (DoubleUtil.isEqual(low, start)) {
+			countLeft = 0;
+		} else if (high > start) {
+			double mostRightValue = getMostRightValue();
+			double length = high - mostRightValue;
+			int diffCount = (int) Math.floor(length / step);
+			countRight += diffCount;
+			return createStream(mostRightValue, 0, diffCount);
+		} else {
+			countRight = 0;
 		}
-		double mostRightValue = getMostRightValue();
-		double length = high - mostRightValue;
-		int diffCount = (int) Math.floor(length / step);
-		countRight += diffCount;
-		return createStream(mostRightValue, 0, diffCount);
-
+		return Stream.empty();
 	}
 
 	private double getMostRightValue() {
