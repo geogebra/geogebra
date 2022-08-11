@@ -14,7 +14,7 @@ public interface ImagePreprocessor {
 	 * @param extension of the image.
 	 * @return if preprocessor should be applied.
 	 */
-	boolean match(FileExtensions extension);
+	boolean match(FileExtensions extension, int size);
 
 	/**
 	 * Do the pre-processing work.
