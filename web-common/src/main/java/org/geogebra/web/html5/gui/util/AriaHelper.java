@@ -72,8 +72,8 @@ public class AriaHelper {
 	 * @param uiObject - element
 	 * @param checked - true or false
 	 */
-	public static void setChecked(UIObject uiObject, String checked) {
-		uiObject.getElement().setAttribute("aria-checked", checked);
+	public static void setChecked(UIObject uiObject, boolean checked) {
+		uiObject.getElement().setAttribute("aria-checked", String.valueOf(checked));
 	}
 
 	/**

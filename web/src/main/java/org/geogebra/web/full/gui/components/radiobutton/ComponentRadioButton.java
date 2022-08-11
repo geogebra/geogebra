@@ -87,7 +87,7 @@ public class ComponentRadioButton<T> extends FlowPanel implements SetLabels {
 	 */
 	public void setSelected(boolean isSelected) {
 		selected = isSelected;
-		AriaHelper.setChecked(this, isSelected + "");
+		AriaHelper.setChecked(this, isSelected);
 		if (!this.getStyleName().contains("selected") && isSelected) {
 			addStyleName("selected");
 		}
