@@ -523,6 +523,17 @@ public class RedefineTest extends BaseUnitTest {
 				transformed.isSelectionAllowed(null));
 	}
 
+	@Test
+	public void eigenvectorsNotChangedOnReload() {
+		add("c:x^2+y^2=1");
+		add("c':Reflect(c, x+2y=5)");
+		GeoElement p = add("P=Point(c')");
+		assertThat(p, hasValue("(1.55, 3.11)"));
+		reload();
+		p = lookup("P");
+		assertThat(p, hasValue("(1.55, 3.11)"));
+	}
+
 	/**
 	 * @return matcher for inequalities
 	 */
