@@ -9,12 +9,14 @@ import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
+import com.himamis.retex.renderer.share.DBoxAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.HlineAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
@@ -42,6 +44,7 @@ public class TeXAtomSerializer {
 		Degree,
 		Degrees
 	}
+
 	/**
 	 * @param ad
 	 *            adapter
@@ -191,8 +194,13 @@ public class TeXAtomSerializer {
 			}
 			return serialize(trueBase);
 		}
+
 		if (root instanceof BigDelimiterAtom) {
 			return serialize(((BigDelimiterAtom) root).getDelimiter());
+		}
+
+		if (root instanceof OverlinedAtom) {
+			return "Segment " + serialize(((OverlinedAtom) root).getToBase());
 		}
 
 		FactoryProvider.debugS("Unhandled atom:"
