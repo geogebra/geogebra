@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -91,8 +92,8 @@ class PlotConditionalFunction {
 		List<Double> limits = new ArrayList<>();
 		limits.add(min);
 
-		for (int i = 0; i < conditions.size(); i++) {
-			getConditionLimit(conditions.get(i), limits);
+		for (ExpressionValue condition : conditions) {
+			getConditionLimit(condition, limits);
 		}
 
 		limits.add(max);
@@ -104,20 +105,19 @@ class PlotConditionalFunction {
 		ExpressionNode condition = ev.wrap();
 		Operation operation = condition.getOperation();
 
-		if (operation.isInequalityGreater() || operation.isInequalityLess()) {
-			limits.add(getDouble(condition));
+		if (operation.isInequality() || operation.equals(Operation.EQUAL_BOOLEAN)) {
+			getDouble(condition.getLeft(), condition.getRight(), limits);
+			getDouble(condition.getRight(), condition.getLeft(), limits);
 		} else if (Operation.AND_INTERVAL.equals(operation)) {
-			limits.add(condition.getLeftTree().getLeft().evaluateDouble());
-			limits.add(condition.getRightTree().getRight().evaluateDouble());
-		} else { // EQUAL
-			limits.add(condition.getRight().evaluateDouble());
+			getConditionLimit(condition.getLeft(), limits);
+			getConditionLimit(condition.getRight(), limits);
 		}
 	}
 
-	static double getDouble(ExpressionNode condition) {
-		ExpressionValue leaf = condition.getLeft().isConstant()
-				? condition.getLeft()
-				: condition.getRight();
-		return leaf.evaluateDouble();
+	static void getDouble(ExpressionValue from, ExpressionValue comp, List<Double> limits) {
+		if (from.unwrap() instanceof FunctionVariable
+				&& !comp.wrap().containsFreeFunctionVariable(null)) {
+			limits.add(comp.evaluateDouble());
+		}
 	}
 }
