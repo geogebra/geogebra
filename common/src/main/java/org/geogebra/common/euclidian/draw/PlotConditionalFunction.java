@@ -62,15 +62,24 @@ class PlotConditionalFunction {
 		return supported.contains(operation);
 	}
 
+	private void plotIfElse() {
+		MyNumberPair pair = (MyNumberPair) node.getLeft();
+		ExpressionNode conditional = pair.getX().wrap();
+		plotBetweenLimits(Collections.singletonList(conditional));
+	}
+
 	private void plotIfList() {
 		MyList conditions = (MyList) node.getLeft();
-		List<Double> limits = new ArrayList<>();
-		limits.add(min);
+		List<ExpressionValue> list = new ArrayList<>();
 		for (int i = 0; i < conditions.size(); i++) {
-			getLimit(conditions.getItem(i), limits);
+			list.add(conditions.getItem(i));
 		}
-		limits.add(max);
-		Collections.sort(limits);
+
+		plotBetweenLimits(list);
+	}
+
+	private void plotBetweenLimits(List<ExpressionValue> conditions) {
+		List<Double> limits = getLimits(conditions);
 		for (int i = 0; i < limits.size() - 1; i++) {
 			CurvePlotter.plotCurve(geoFunction, limits.get(i), limits.get(i + 1), view, gp,
 					labelVisible, fillCurve ? Gap.CORNER
@@ -78,14 +87,25 @@ class PlotConditionalFunction {
 		}
 	}
 
-	private void getLimit(ExpressionValue ev, List<Double> limits) {
+	private List<Double> getLimits(List<ExpressionValue> conditions) {
+		List<Double> limits = new ArrayList<>();
+		limits.add(min);
+
+		for (int i = 0; i < conditions.size(); i++) {
+			getConditionLimit(conditions.get(i), limits);
+		}
+
+		limits.add(max);
+		Collections.sort(limits);
+		return limits;
+	}
+
+	static void getConditionLimit(ExpressionValue ev, List<Double> limits) {
 		ExpressionNode condition = ev.wrap();
 		Operation operation = condition.getOperation();
 
-		if (operation.isInequalityGreater()) {
-			limits.add(condition.evaluateDouble());
-		} else if (operation.isInequalityLess()) {
-			limits.add(condition.evaluateDouble());
+		if (operation.isInequalityGreater() || operation.isInequalityLess()) {
+			limits.add(getDouble(condition));
 		} else if (Operation.AND_INTERVAL.equals(operation)) {
 			limits.add(condition.getLeftTree().getLeft().evaluateDouble());
 			limits.add(condition.getRightTree().getRight().evaluateDouble());
@@ -94,15 +114,10 @@ class PlotConditionalFunction {
 		}
 	}
 
-	private void plotIfElse() {
-		MyNumberPair pair = (MyNumberPair) node.getLeft();
-		ExpressionNode conditional = pair.getX().wrap();
-		double tMax = conditional.evaluateDouble();
-		CurvePlotter.plotCurve(geoFunction, min, tMax, view, gp,
-				labelVisible, fillCurve ? Gap.CORNER
-						: Gap.MOVE_TO);
-		CurvePlotter.plotCurve(geoFunction, tMax, max, view, gp,
-				labelVisible, fillCurve ? Gap.CORNER
-						: Gap.MOVE_TO);
+	static double getDouble(ExpressionNode condition) {
+		ExpressionValue leaf = condition.getLeft().isConstant()
+				? condition.getLeft()
+				: condition.getRight();
+		return leaf.evaluateDouble();
 	}
 }
