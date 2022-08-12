@@ -117,4 +117,7 @@ public class GeoFormula extends GeoInline {
 		this.minHeight = minHeight;
 	}
 
+	public void ensureMinSize() {
+		setSize(Math.max(getWidth(), minWidth), Math.max(getHeight(), minHeight));
+	}
 }

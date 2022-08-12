@@ -26,8 +26,9 @@ public class ViewTextFieldW extends ViewTextField {
 
 	private AutoCompleteTextFieldW newAutoCompleteTextField(int length,
 			Drawable drawTextField) {
-		return new AutoCompleteTextFieldW(length,
-				this.euclidianView.getApplication(), drawTextField, true);
+		AutoCompleteTextFieldW textFieldW = new AutoCompleteTextFieldW(length,
+				this.euclidianView.getApplication(), drawTextField);
+		return textFieldW;
 	}
 
 	private void ensureBoxExists() {
@@ -45,6 +46,7 @@ public class ViewTextFieldW extends ViewTextField {
 		((EuclidianViewW) euclidianView).doRepaint();
 		DomGlobal.cancelAnimationFrame(hideRequest);
 		if (isVisible) {
+			textField.enableGGBKeyboard();
 			box.setVisible(true);
 		} else {
 			// deferred so that the canvas version can be drawn

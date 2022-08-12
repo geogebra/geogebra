@@ -1,6 +1,8 @@
 package org.geogebra.keyboard.scientific.model;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Map;
 
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
@@ -9,6 +11,7 @@ public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 
 	private static final String DEFAULT_CONTROL_ROW = "=,'";
 	private StringBuilder builder = new StringBuilder();
+	private Map<String, String> upperKeys;
 
 	@Override
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
@@ -27,16 +30,20 @@ public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 		builder.setLength(0);
 		for (int i = 0; i < rows.length; i++) {
 			String row = rows[i];
-			builder.append(row.substring(
-					possibleAccents[i][0].length(),
-					row.length() - possibleAccents[i][1].length()));
+			builder.append(row, possibleAccents[i][0].length(),
+					row.length() - possibleAccents[i][1].length());
 		}
 
 		String allButtons = builder.toString();
-		char[] characters = allButtons.toCharArray();
-		Arrays.sort(characters);
-		int length = characters.length + allAccentsLength;
+		String[] characters = allButtons.split("");
+		if (upperKeys != null) {
+			Arrays.sort(characters, Comparator.comparing(s -> upperKeys.getOrDefault(s, s)));
+		} else {
+			Arrays.sort(characters);
+		}
+		int length = characters.length + allAccentsLength - 1;
 		int[] lengths = new int[rows.length + 1];
+		lengths[0] = 1;
 		int rowLength = (int) Math.ceil(length / 3.0f);
 		for (int i = 0; i < rows.length; i++) {
 			lengths[i + 1] = rowLength - accentsLength[i];
@@ -75,7 +82,12 @@ public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 		return new StringBuilder(string).reverse().toString();
 	}
 
-	private String subrangeToString(char[] chars, int from, int to) {
-		return String.valueOf(Arrays.copyOfRange(chars, from, to));
+	private String subrangeToString(String[] chars, int from, int to) {
+		return String.join("", Arrays.copyOfRange(chars, from, to));
+	}
+
+	@Override
+	public void setUpperKeys(Map<String, String> upperKeys) {
+		this.upperKeys = upperKeys;
 	}
 }

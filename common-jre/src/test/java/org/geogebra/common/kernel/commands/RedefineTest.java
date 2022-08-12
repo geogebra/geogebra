@@ -25,6 +25,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.test.EventAcumulator;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -482,9 +483,21 @@ public class RedefineTest extends BaseUnitTest {
 		add("A=(1,1)");
 		GeoElement m = add("m=Line(A,(1,3))");
 		GeoElement redefinedM = add("m=Line(A,(1,3))");
-		assertEquals(m, redefinedM);
+		assertEquals(m, redefinedM); // no-op redefinition
+		redefinedM = add("m=Line(A,(1,2))");
+		assertEquals(m, redefinedM); // soft redefinition
 		redefinedM = add("m=Line(A,Vector((1,3)))");
 		assertNotEquals(m, redefinedM);
+	}
+
+	@Test
+	public void softRedefineShouldUpdateSiblings() {
+		add("c=Cone((0,0,0),(0,0,1),2)");
+		EventAcumulator listener = new EventAcumulator();
+		getApp().getEventDispatcher().addEventListener(listener);
+		add("c=Cone((0,0,0),(0,0,1),4)");
+		assertEquals(Arrays.asList("UPDATE c", "UPDATE d", "UPDATE a"),
+				listener.getEvents());
 	}
 
 	@Test

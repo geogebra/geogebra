@@ -234,7 +234,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		addControls();
 
-		content.add(definitionValuePanel);
+		content.add(getDefinitionValuePanel());
 		doUpdate();
 		// if enabled, render with LaTeX
 		String ltx = getLatexString(null, true);

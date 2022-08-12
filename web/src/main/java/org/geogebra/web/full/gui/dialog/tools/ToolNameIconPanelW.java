@@ -71,20 +71,20 @@ public class ToolNameIconPanelW extends FlowPanel {
 		int n = app.getKernel().getMacroNumber() + 1;
 
 		tfToolName = new ComponentInputField((AppW) app,
-				null, loc.getMenu("ToolName"), null, "", 28, 1,
-				false);
+				null, loc.getMenu("ToolName"), null, "", 28, 1
+		);
 		tfToolName.setInputText(loc.getMenu("Tool") + n);
 		addHandlers(tfToolName);
 
 		tfCmdName = new ComponentInputField((AppW) app,
-				null, loc.getMenu("CommandName"), null, "", 28, 1,
-				false);
+				null, loc.getMenu("CommandName"), null, "", 28, 1
+		);
 		tfCmdName.setInputText(tfToolName.getText());
 		addHandlers(tfCmdName);
 
 		tfToolHelp =  new ComponentInputField((AppW) app,
-				null, loc.getMenu("ToolHelp"), null, "", 28, 1,
-				false);
+				null, loc.getMenu("ToolHelp"), null, "", 28, 1
+		);
 		addHandlers(tfToolHelp);
 
 		FlowPanel iconPanel = new FlowPanel();
@@ -103,7 +103,6 @@ public class ToolNameIconPanelW extends FlowPanel {
 		showTool = new ComponentCheckbox(app.getLocalization(), false,
 				"ShowInToolBar", selected -> showToolChanged());
 		showTool.setSelected(true);
-		showTool.addStyleName("accented");
 
 		FlowPanel iconSelectShowPanel = new FlowPanel();
 		iconSelectShowPanel.addStyleName("iconSelectShowPanel");

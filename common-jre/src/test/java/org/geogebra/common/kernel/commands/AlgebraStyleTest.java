@@ -72,7 +72,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 					null);
 			String res = val ? geo[0].toValueString(tpl)
 					: geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
-			assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
+			assertEquals(expect, res);
 			return this;
 		}
 	}
@@ -839,9 +839,10 @@ public class AlgebraStyleTest extends BaseUnitTest {
 				.checkVal("7 * 7 * 7 x").checkGiac("(((7)*(7))*(7))*(x)");
 		t("a1=pi");
 		new ExpressionChecker("3a1*x").checkEdit("3a1 x", "3 a1 x")
-				.checkVal("3%p x").checkGiac("((3)*(pi))*(x)");
+				.checkVal("3" + Unicode.pi + " x").checkGiac("((3)*(pi))*(x)");
 		new ExpressionChecker("a1*a1*a1*x").checkEdit("a1 a1 a1 x")
-				.checkVal("%p %p %p x").checkGiac("(((pi)*(pi))*(pi))*(x)");
+				.checkVal(Unicode.pi + " " + Unicode.pi + " " + Unicode.pi + " x")
+				.checkGiac("(((pi)*(pi))*(pi))*(x)");
 	}
 
 	@Test

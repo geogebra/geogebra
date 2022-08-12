@@ -140,7 +140,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	private void buildSpreadsheet() {
-
 		// Create the spreadsheet table model and the table
 		tableModel = (SpreadsheetTableModelSimple) app.getSpreadsheetTableModel();
 		table = new MyTableW(this, tableModel);

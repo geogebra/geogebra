@@ -3305,7 +3305,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            true to update cascade over dependent geos as well
 	 */
 	static public synchronized void updateCascade(
-			final ArrayList<? extends GeoElementND> geos,
+			final List<? extends GeoElementND> geos,
 			final TreeSet<AlgoElement> tempSet1,
 			final boolean updateCascadeAll) {
 
@@ -6997,7 +6997,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void addAuralAction(Localization loc, ScreenReaderBuilder sb) {
 		if (getScript(EventType.CLICK) != null
 				&& getScript(EventType.CLICK).getText().length() > 0 && !sb.isMobile()) {
-			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
+			sb.append(loc.getMenuDefault("PressSpaceToActivate", "Press space to activate"));
 			sb.endSentence();
 		}
 	}

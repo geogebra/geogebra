@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
@@ -3258,8 +3259,10 @@ public class AlgebraProcessor {
 			} else {
 				ret = new GeoNumeric(cons, value);
 			}
+			if (val instanceof MySpecialDouble) {
+				((GeoNumeric) ret).setExactValue(val.toDecimal());
+			}
 			ret.setDefinition(n);
-
 		} else {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
@@ -3796,12 +3799,12 @@ public class AlgebraProcessor {
 	}
 
 	private void maybeLogCommandValidatedEvent(Command command, EvalInfo info, boolean validated) {
-		if (kernel.isSilentMode()) {
+		if (kernel.isSilentMode() || info == null || !info.useAnalytics()) {
 			return;
 		}
 		String commandName = command.getName();
 		String validatedParam = validated ? Analytics.Param.OK : Analytics.Param.ERROR;
-		boolean isRedefinition = info != null && info.isRedefinition();
+		boolean isRedefinition = info.isRedefinition();
 		String objectCreation = isRedefinition ? Analytics.Param.REDEFINED : Analytics.Param.NEW;
 
 		Map<String, Object> params = new HashMap<>();

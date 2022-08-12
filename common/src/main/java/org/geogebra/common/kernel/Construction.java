@@ -1732,11 +1732,16 @@ public class Construction {
 					}
 				}
 			}
+			if (updateInputIdx.isEmpty()) {
+				// since we only get there if definition did change and command name is the same
+				// at least one input must have changed, but better to avoid OutOfBounds.
+				return false;
+			}
 			for (Integer i: updateInputIdx) {
 				oldParent.getInput(i).set(newParent.getInput(i));
 			}
-			oldParent.compute();
-			oldGeo.updateRepaint();
+			// start cascade from the ancestor to make sure siblings are updated too
+			oldParent.getInput(updateInputIdx.get(0)).updateRepaint();
 			return true;
 		}
 		return false;
@@ -2373,7 +2378,8 @@ public class Construction {
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
-		if (allowAutoCreate) {
+		if (allowAutoCreate && getApplication().getKernel()
+				.getAlgebraProcessor().enableStructures()) {
 			return autoCreateGeoElement(label1);
 		}
 		return null;
@@ -2780,7 +2786,7 @@ public class Construction {
 	protected GeoElement autoCreateGeoElement(String labelNew) {
 		GeoElementND createdGeo = null;
 		boolean fix = true;
-		boolean auxilliary = true;
+		boolean auxiliary = true;
 		String label = labelNew;
 		int length = label.length();
 		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
@@ -2811,7 +2817,7 @@ public class Construction {
 
 				createdGeo = new GeoPoint(this, 0d, 0d, 1d);
 				label = "O";
-				auxilliary = true;
+				auxiliary = true;
 				fix = true;
 			}
 		}
@@ -2824,7 +2830,7 @@ public class Construction {
 			// boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 			// setSuppressLabelCreation(false);
 
-			createdGeo.setAuxiliaryObject(auxilliary);
+			createdGeo.setAuxiliaryObject(auxiliary);
 			createdGeo.setLabel(label);
 			createdGeo.setFixed(fix);
 

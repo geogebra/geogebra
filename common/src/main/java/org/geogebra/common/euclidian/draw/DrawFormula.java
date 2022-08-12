@@ -151,6 +151,12 @@ public class DrawFormula extends Drawable implements DrawInline {
 				&& !formulaController.getText().equals(formula.getContent())) {
 			formulaController.updateContent(formula.getContent());
 		}
+		// formula created through API: update size
+		GGraphics2D off = view.getTempGraphics2D(view.getFont());
+		draw(off);
+		formula.setMinHeight(labelRectangle.getHeight() + PADDING);
+		formula.setMinWidth(labelRectangle.getWidth() + PADDING);
+		formula.ensureMinSize();
 	}
 
 	@Override

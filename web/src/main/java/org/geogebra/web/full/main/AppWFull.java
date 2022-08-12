@@ -46,6 +46,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -965,7 +966,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			Runnable r = () -> {
 				executeCommand(command, info, callback);
 			};
-			getAsyncManager().scheduleCallback(r);
+			getAsyncManager().runOrSchedule(r);
 		}
 	}
 
@@ -975,6 +976,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(command, false,
 							ErrorHelper.silent(), info, callback);
+		} catch (CommandNotLoadedError err) {
+			throw err;
 		} catch (Throwable throwable) {
 			Log.error("Error evaluating input: " + command);
 		}
