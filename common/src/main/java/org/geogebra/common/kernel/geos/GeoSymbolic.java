@@ -45,6 +45,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.NodeSortRecord;
+
 /**
  * Symbolic geo for CAS computations in AV
  * @author Zbynek
@@ -306,11 +308,21 @@ public class GeoSymbolic extends GeoElement
 			return result;
 		}
 
-		if (Commands.Solve.name().equals(casInput.getName())) {
-			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
-			Command input = getCasInput(getDefinition().deepCopy(kernel)
+		ExpressionNode alternativelDefinition = getDefinition();
+		if (isAnySolve(casInput)) {
+			Command other = getOtherSolve(casInput);
+			alternativelDefinition.getTopLevelCommand().setName(other.getName());
+			if (Commands.NSolve.name().equals(casInput.getName())) {
+				Command numericOfSolve = new Command(kernel, "Numeric", false);
+				numericOfSolve.addArgument(alternativelDefinition);
+				alternativelDefinition = numericOfSolve.wrap();
+			}
+			Command input = getCasInput(alternativelDefinition.deepCopy(kernel)
 					.traverse(FunctionExpander.newFunctionExpander(this)));
 			result = evaluateGeoGebraCAS(input, constant);
+			if (!GeoFunction.isUndefined(result)) {
+				setDefinition(alternativelDefinition);
+			}
 			return result;
 		}
 
@@ -323,6 +335,16 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		return result;
+	}
+
+	private boolean isAnySolve(Command command) {
+		return Commands.Solve.name().equals(command.getName())
+				|| Commands.NSolve.name().equals(command.getName());
+	}
+
+	private Command getOtherSolve(Command command) {
+		return new Command(kernel, Commands.NSolve.name().equals(command.getName())
+				? Commands.Solve.name() : Commands.NSolve.name(), false);
 	}
 
 	private boolean isTopLevelCommandNumeric() {
