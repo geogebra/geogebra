@@ -9,7 +9,6 @@ import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
-import com.himamis.retex.renderer.share.DBoxAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
@@ -183,7 +182,11 @@ public class TeXAtomSerializer {
 		if (root instanceof BigOperatorAtom) {
 			return serializeBigOperator((BigOperatorAtom) root);
 		}
-		
+
+		if (root instanceof OverlinedAtom) {
+			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
+		}
+
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
@@ -197,10 +200,6 @@ public class TeXAtomSerializer {
 
 		if (root instanceof BigDelimiterAtom) {
 			return serialize(((BigDelimiterAtom) root).getDelimiter());
-		}
-
-		if (root instanceof OverlinedAtom) {
-			return "Segment " + serialize(((OverlinedAtom) root).getToBase());
 		}
 
 		FactoryProvider.debugS("Unhandled atom:"

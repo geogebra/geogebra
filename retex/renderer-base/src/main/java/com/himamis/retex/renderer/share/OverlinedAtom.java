@@ -59,7 +59,7 @@ public class OverlinedAtom extends Atom {
 		type = TeXConstants.TYPE_ORDINARY;
 	}
 
-	public Atom getToBase() {
+	public Atom getTrueBase() {
 		return base;
 	}
 
