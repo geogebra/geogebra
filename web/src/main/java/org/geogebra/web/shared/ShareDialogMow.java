@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.tools.javac.comp.Flow;
 
 /**
  *  Joint share dialog for mow (group + link sharing)
@@ -53,6 +52,7 @@ public class ShareDialogMow extends ComponentDialog
 	private MaterialCallbackI callback;
 	private HashMap<GroupIdentifier, Boolean> changedGroups = new HashMap<>();
 	private List<GroupIdentifier> sharedGroups = new ArrayList<>();
+	private boolean isGroupShared = false;
 
 	/**
 	 * @param app
@@ -131,9 +131,6 @@ public class ShareDialogMow extends ComponentDialog
 		}
 		scrollPanel.add(groups);
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
-
-		Dom.toggleClass(multiuserSharePanel, "disabled",
-				!shareSwitch.isSwitchOn() && sharedGroups.isEmpty());
 	}
 
 	private void addGroup(FlowPanel groupsPanel, GroupIdentifier groupDesc, boolean shared) {
@@ -159,6 +156,7 @@ public class ShareDialogMow extends ComponentDialog
 			buildNoGroupPanel(dialogContent);
 		} else { // show groups of user
 			buildGroupPanel(dialogContent);
+			isGroupShared = true;
 		}
 		buildShareByLinkPanel(dialogContent, shareURL);
 		buildMultiuserPanel(dialogContent);
@@ -175,7 +173,13 @@ public class ShareDialogMow extends ComponentDialog
 		multiuserSharePanel = buildSwitcherPanel(dialogContent, multiuserSwitch,
 				SharedResources.INSTANCE.groups(), multiuserShareLbl, multiuserHelpLbl, null);
 		Dom.toggleClass(multiuserSharePanel, "disabled",
-				!shareSwitch.isSwitchOn() && sharedGroups.isEmpty());
+				!isSharedGroupOrLink() && !isGroupShared);
+	}
+
+	private boolean isSharedGroupOrLink() {
+		boolean isShareLink = isShareLinkOn();
+		boolean isChangeGroupTrue =  changedGroups.containsValue(Boolean.TRUE);
+		return isShareLinkOn() || changedGroups.containsValue(Boolean.TRUE);
 	}
 
 	private void buildShareByLinkPanel(FlowPanel dialogContent, String shareURL) {
@@ -254,6 +258,9 @@ public class ShareDialogMow extends ComponentDialog
 		} else {
 			changedGroups.put(groupID, shared);
 		}
+
+		Dom.toggleClass(multiuserSharePanel, "disabled", !isSharedGroupOrLink());
+
 	}
 
 	private void buildSharingAvailableInfo(FlowPanel dialogContent) {
@@ -302,7 +309,7 @@ public class ShareDialogMow extends ComponentDialog
 			});
 		}
 		Dom.toggleClass(multiuserSharePanel, "disabled",
-				!shareSwitch.isSwitchOn() && sharedGroups.isEmpty());
+				!isSharedGroupOrLink());
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
 	}
 
