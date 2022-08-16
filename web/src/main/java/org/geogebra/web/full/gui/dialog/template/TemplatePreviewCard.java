@@ -144,7 +144,7 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public void updateVisibility(String visibility) {
+    public void updateVisibility(Material visibility) {
         // nothing to do here
     }
 }
