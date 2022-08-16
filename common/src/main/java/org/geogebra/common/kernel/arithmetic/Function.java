@@ -642,7 +642,7 @@ public class Function extends FunctionNVar
 				}
 				break;
 			case NROOT:
-				if(!rootFindingSimplification) {
+				if (!rootFindingSimplification) {
 					break;
 				}
 				if (node.getRight().isConstant() && !ExpressionNode
