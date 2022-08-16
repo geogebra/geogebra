@@ -181,8 +181,6 @@ $keyboard_button_transition: opacity .3s ease;
 
 		input {
 			border: 0px;
-			background-color: rgba(0, 0, 0, 0);
-			line-height: 26px;
 		}
 	}
 
@@ -190,6 +188,11 @@ $keyboard_button_transition: opacity .3s ease;
 		.fieldContainer {
 			border: 1px solid colors.$input-border;
 			border-radius: 5px;
+		}
+
+		input {
+			background-color: rgba(0, 0, 0, 0);
+			line-height: 26px;
 		}
 
 		button {
