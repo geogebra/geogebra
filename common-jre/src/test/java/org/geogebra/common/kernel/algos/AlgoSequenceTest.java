@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.junit.Test;
 
 public class AlgoSequenceTest extends BaseUnitTest {
@@ -33,6 +34,15 @@ public class AlgoSequenceTest extends BaseUnitTest {
 				+ "y(Element(l1, k))), k, 1, Length(l1))");
 		assertThat(functionPoints(seq.get(0)), is("{0, 1, 2, 3}, {0, 0, 0, 0}"));
 		assertThat(functionPoints(seq.get(1)), is("{1, 2}, {1, 1}"));
+	}
+
+	@Test
+	public void implicitCurveBoundsInSequence() {
+		GeoList list = add("Sequence(sin(x)+sin(y)=-k,k,1,5)");
+		for (int i = 0; i < list.size(); i++) {
+			double val = ((GeoImplicitCurve) list.get(i)).evaluateImplicitCurve(0, 0, 0);
+			assertThat(val, is(i + 1.0));
+		}
 	}
 
 	private String functionPoints(GeoElement geoElement) {

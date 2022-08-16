@@ -170,7 +170,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * @return the yminObject
+	 * @return the zminObject
 	 */
 	public GeoNumeric getZminObject() {
 		return (GeoNumeric) zminObject;
@@ -190,7 +190,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * @return the ymaxObject
+	 * @return the zmaxObject
 	 */
 	public GeoNumeric getZmaxObject() {
 		return (GeoNumeric) zmaxObject;

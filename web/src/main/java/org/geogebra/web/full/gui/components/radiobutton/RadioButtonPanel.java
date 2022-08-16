@@ -21,15 +21,17 @@ public class RadioButtonPanel<T> extends FlowPanel implements SetLabels {
 	public RadioButtonPanel(Localization loc, List<RadioButtonData<T>> data, T defaultValue,
 			Consumer<T> callabck) {
 		addStyleName("radioButtonPanel");
-		for (RadioButtonData<T> buttonData : data) {
-			ComponentRadioButton<T> radioBtn = new ComponentRadioButton<>(loc, buttonData);
-			radioBtn.setSelected(Objects.equals(defaultValue, buttonData.getValue()));
+		for (int i = 0; i < data.size(); i++) {
+			RadioButtonData<T> curData = data.get(i);
+			ComponentRadioButton<T> radioBtn = new ComponentRadioButton<>(loc, curData,
+					i, data.size());
+			radioBtn.setSelected(Objects.equals(defaultValue, curData.getValue()));
 			radioBtn.setCallback(() -> {
 				for (ComponentRadioButton<T> radioButton : radioButtonList) {
 					radioButton.setSelected(radioBtn == radioButton);
 				}
 				if (callabck != null && radioBtn.isSelected()) {
-					callabck.accept(buttonData.getValue());
+					callabck.accept(curData.getValue());
 				}
 			});
 			radioButtonList.add(radioBtn);

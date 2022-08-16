@@ -101,4 +101,13 @@ public class TableValuesPointsImplTest extends MockedTableValuesUnitTest {
 		assertEquals(0.0, second.getX(), 0.001);
 		assertEquals(2.0, second.getY(), 0.001);
 	}
+
+	@Test
+	public void testNotifyMultipleRowRemoved() {
+		initTable(5, 3);
+		mockRowCount(5);
+		points.notifyRowsRemoved(model, 0, 4);
+
+		verify(mockedView, times(10)).remove(captor.capture());
+	}
 }
