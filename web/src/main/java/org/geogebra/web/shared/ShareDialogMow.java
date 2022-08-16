@@ -52,7 +52,7 @@ public class ShareDialogMow extends ComponentDialog
 	private MaterialCallbackI callback;
 	private HashMap<GroupIdentifier, Boolean> changedGroups = new HashMap<>();
 	private List<GroupIdentifier> sharedGroups = new ArrayList<>();
-	private boolean isGroupShared = false;
+	private int sharedWithGroupCounter = 0;
 
 	/**
 	 * @param app
@@ -121,6 +121,7 @@ public class ShareDialogMow extends ComponentDialog
 		// first add button for groups with which material was already shared
 		for (GroupIdentifier sharedGroup : sharedGroups) {
 			addGroup(groups, sharedGroup, true);
+			sharedWithGroupCounter++;
 		}
 
 		// then add other existent groups of user
@@ -131,6 +132,9 @@ public class ShareDialogMow extends ComponentDialog
 		}
 		scrollPanel.add(groups);
 		centerAndResize(((AppW) app).getAppletFrame().getKeyboardHeight());
+
+		Dom.toggleClass(multiuserSharePanel, "disabled",
+				!isSharedGroupOrLink());
 	}
 
 	private void addGroup(FlowPanel groupsPanel, GroupIdentifier groupDesc, boolean shared) {
@@ -156,7 +160,6 @@ public class ShareDialogMow extends ComponentDialog
 			buildNoGroupPanel(dialogContent);
 		} else { // show groups of user
 			buildGroupPanel(dialogContent);
-			isGroupShared = true;
 		}
 		buildShareByLinkPanel(dialogContent, shareURL);
 		buildMultiuserPanel(dialogContent);
@@ -172,14 +175,10 @@ public class ShareDialogMow extends ComponentDialog
 
 		multiuserSharePanel = buildSwitcherPanel(dialogContent, multiuserSwitch,
 				SharedResources.INSTANCE.groups(), multiuserShareLbl, multiuserHelpLbl, null);
-		Dom.toggleClass(multiuserSharePanel, "disabled",
-				!isSharedGroupOrLink() && !isGroupShared);
 	}
 
 	private boolean isSharedGroupOrLink() {
-		boolean isShareLink = isShareLinkOn();
-		boolean isChangeGroupTrue =  changedGroups.containsValue(Boolean.TRUE);
-		return isShareLinkOn() || changedGroups.containsValue(Boolean.TRUE);
+		return isShareLinkOn() || sharedWithGroupCounter > 0;
 	}
 
 	private void buildShareByLinkPanel(FlowPanel dialogContent, String shareURL) {
@@ -257,6 +256,12 @@ public class ShareDialogMow extends ComponentDialog
 			changedGroups.remove(groupID);
 		} else {
 			changedGroups.put(groupID, shared);
+		}
+
+		if (shared.booleanValue()) {
+			sharedWithGroupCounter++;
+		} else {
+			sharedWithGroupCounter--;
 		}
 
 		Dom.toggleClass(multiuserSharePanel, "disabled", !isSharedGroupOrLink());
