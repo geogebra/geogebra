@@ -179,11 +179,6 @@ $keyboard_button_transition: opacity .3s ease;
 			border: 0px;
 		}
 
-		.fieldContainer {
-			border: 1px solid colors.$input-border;
-			border-radius: 5px;
-		}
-
 		input {
 			border: 0px;
 			background-color: rgba(0, 0, 0, 0);
@@ -192,6 +187,11 @@ $keyboard_button_transition: opacity .3s ease;
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
+		.fieldContainer {
+			border: 1px solid colors.$input-border;
+			border-radius: 5px;
+		}
+
 		button {
 			top: 50%;
 			transform: translate(-50%, -50%);

@@ -558,13 +558,14 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		/*width: 100% !important;*/
 	}
 
-	.AutoCompleteTextFieldW.noKeyboard {
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
 		line-height: 70%;
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew input[type="text"].TextField {
 		padding-left: 2px;
 		padding-right: 2px;
+		height: inherit;
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew.errorStyle input[type="text"].TextField,
