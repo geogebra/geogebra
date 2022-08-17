@@ -184,7 +184,6 @@ public interface BackendAPI {
 	void uploadMaterial(String tubeID, String visibility, String filename, String base64,
 			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
 
-
 	/**
 	 * to rename materials on ggt; TODO no use of base64
 	 *
