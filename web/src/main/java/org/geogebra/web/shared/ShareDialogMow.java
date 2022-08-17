@@ -93,7 +93,8 @@ public class ShareDialogMow extends ComponentDialog
 	}
 
 	private void updateMaterial(String visibility) {
-		boolean isMultiuser = multiuserSwitch.isSwitchOn();
+		boolean isMultiuser = multiuserSwitch.isSwitchOn()
+				&& !multiuserSharePanel.getElement().hasClassName("disabled");
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
 				material.getSharingKeyOrId(), visibility,
 				material.getTitle(), null, callback,
