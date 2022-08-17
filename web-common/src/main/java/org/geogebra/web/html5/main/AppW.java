@@ -3548,6 +3548,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public StringTemplate getScreenReaderTemplate() {
 		return getAppletParameters().getParamScreenReaderMode(NavigatorUtil.isMobile())
 				? StringTemplate.screenReaderAscii
-				: StringTemplate.defaultTemplate;
+				: StringTemplate.screenReaderUnicode;
 	}
 }

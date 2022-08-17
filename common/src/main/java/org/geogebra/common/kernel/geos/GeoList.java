@@ -3186,13 +3186,13 @@ public class GeoList extends GeoElement
 		} else {
 			displayString = geoItem.toValueString(tpl);
 		}
-		if (tpl.hasType(StringType.SCREEN_READER_ASCII) && geoItem.isGeoText()
+		if (tpl.isScreenReader() && geoItem.isGeoText()
 				&& CanvasDrawable.isLatexString(displayString)) {
 			displayString = ((GeoText) geoItem).getAuralTextLaTeX();
 		}
 
 		if (StringUtil.empty(displayString)
-				&& tpl.getStringType() == StringType.SCREEN_READER_ASCII) {
+				&& tpl.isScreenReader()) {
 			return kernel.getLocalization().getMenuDefault("EmptyItem", "empty element");
 		}
 

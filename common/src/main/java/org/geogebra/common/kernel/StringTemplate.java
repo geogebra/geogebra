@@ -384,6 +384,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		screenReaderAscii.localizeCmds = true;
 	}
 
+	public static final StringTemplate screenReaderUnicode = new StringTemplate(
+			"screenReaderUnicode");
+
+	static {
+		screenReaderUnicode.setType(StringType.SCREEN_READER_ASCII);
+		screenReaderUnicode.localizeCmds = true;
+	}
+
 	/**
 	 * High precision, fixed decimal places (15)
 	 */
@@ -3621,5 +3629,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public boolean isForEditorParser() {
 		return forEditorParser;
+	}
+
+	/**
+	 * @return whether this is for one of the screenreaders (ASCII or Unicode)
+	 */
+	public boolean isScreenReader() {
+		return stringType == StringType.SCREEN_READER_ASCII
+				|| stringType == StringType.SCREEN_READER_UNICODE;
 	}
 }
