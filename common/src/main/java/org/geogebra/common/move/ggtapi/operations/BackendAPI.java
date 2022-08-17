@@ -191,6 +191,28 @@ public interface BackendAPI {
 			MaterialCallbackI cb, MaterialType type);
 
 	/**
+	 * Uploads the actual opened application to ggt
+	 *
+	 * @param tubeID
+	 *            tube id
+	 * @param visibility
+	 *            visibility string
+	 *
+	 * @param filename
+	 *            String
+	 * @param base64
+	 *            base64 string
+	 * @param cb
+	 *            MaterialCallback
+	 * @param type
+	 *            material type
+	 * @param isMultiuser
+	 * 			  should set to multiuser shared
+	 */
+	void uploadShareMaterial(String tubeID, String visibility, String filename, String base64,
+			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
+
+	/**
 	 * to rename materials on ggt; TODO no use of base64
 	 *
 	 * @param material

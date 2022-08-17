@@ -422,6 +422,12 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		}
 	}
 
+	@Override
+	public void uploadShareMaterial(String tubeID, String visibility, String filename,
+			String base64, MaterialCallbackI cb, MaterialType type, boolean isMultiuser) {
+		getMaterialRestAPI().uploadShareMaterial(tubeID, visibility, filename, base64, cb, type, isMultiuser);
+	}
+
 	/**
 	 * Uploads the actual opened application to ggt
 	 *

@@ -94,6 +94,26 @@ public class ShareDialogMow extends ComponentDialog
 					material.setVisibility("P");
 				}
 			}
+			if (multiuserSwitch.isSwitchOn()) {
+				if (material != null && !material.isMultiuser()
+						&& !multiuserSharePanel.getElement().hasClassName("disabled")) {
+					app.getLoginOperation().getGeoGebraTubeAPI().uploadShareMaterial(
+							material.getSharingKeyOrId(), material.getVisibility(),
+							material.getTitle(), null, callback,
+							material.getType(), true);
+					material.setMultiuser(true);
+				}
+			} else {
+				if (material != null && material.isMultiuser()
+						&& !multiuserSharePanel.getElement().hasClassName("disabled")) {
+					app.getLoginOperation().getGeoGebraTubeAPI().uploadShareMaterial(
+							material.getSharingKeyOrId(), material.getVisibility(),
+							material.getTitle(), null, callback,
+							material.getType(), false);
+					material.setMultiuser(false);
+				}
+			}
+
 			shareWithGroups(this::onGroupShareChanged);
 		});
 	}
@@ -168,8 +188,7 @@ public class ShareDialogMow extends ComponentDialog
 	}
 
 	private void buildMultiuserPanel(FlowPanel dialogContent) {
-		multiuserSwitch = new ComponentSwitch(isMatShared(material) || !sharedGroups.isEmpty(),
-				null);
+		multiuserSwitch = new ComponentSwitch(material.isMultiuser(), null);
 		Label multiuserShareLbl = new Label(localization.getMenu("shareDialog.multiUser"));
 		Label multiuserHelpLbl = new Label(localization.getMenu("shareDialog.multiUserHelp"));
 

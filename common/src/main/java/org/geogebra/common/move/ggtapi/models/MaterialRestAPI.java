@@ -357,6 +357,30 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
+	public void uploadShareMaterial(String tubeID, String visibility, String text, String base64,
+			MaterialCallbackI materialCallback, MaterialType type, boolean isMultiuser) {
+		JSONObject request = new JSONObject();
+		try {
+			request.put("visibility", visibility); // per docs "S" is the only
+			// supported visibility
+			request.put("title", text);
+			request.put("file", base64);
+			if (StringUtil.emptyOrZero(tubeID)) {
+				request.put("type", type.toString());
+			}
+			request.put("multiuser", isMultiuser);
+		} catch (JSONException e) {
+			materialCallback.onError(e);
+		}
+		if (!StringUtil.emptyOrZero(tubeID)) {
+			performRequest("PATCH", "/materials/" + tubeID, request.toString(),
+					materialCallback);
+		} else {
+			performRequest("POST", "/materials", request.toString(), materialCallback);
+		}
+	}
+
+	@Override
 	public void uploadRenameMaterial(Material material, MaterialCallbackI materialCallback) {
 		JSONObject request = new JSONObject();
 		try {
