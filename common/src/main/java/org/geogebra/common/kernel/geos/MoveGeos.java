@@ -70,6 +70,14 @@ public class MoveGeos {
 		// multiple updates of the same algorithm)
 		GeoElement.updateCascade(moveObjectsUpdateList, GeoElement.getTempSet(),
 				false);
+
+		//geoLists do not trigger the update of the cascade in the function call above
+		ArrayList<GeoElement> list = view.getEuclidianController().getAppSelectedGeos();
+		for (GeoElement geo : list) {
+			if (geo.isGeoList()) {
+				geo.updateCascade();
+			}
+		}
 		return moved;
 	}
 
