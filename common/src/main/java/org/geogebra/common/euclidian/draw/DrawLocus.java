@@ -69,7 +69,6 @@ public class DrawLocus extends Drawable {
 		this.locus = locus;
 		geo = locus;
 		this.transformSys = transformSys;
-		update();
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class DrawLocus extends Drawable {
 		if (!isVisible) {
 			return;
 		}
-
+		ensureLocusUpdated();
 		AlgoElement algo = geo.getParentAlgorithm();
 		if (algo instanceof AlgoLocusEquation) {
 			AlgoLocusEquation ale = (AlgoLocusEquation) geo.getParentAlgorithm();
@@ -141,6 +140,10 @@ public class DrawLocus extends Drawable {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
+	}
+
+	protected void ensureLocusUpdated() {
+		// only for implicit curves
 	}
 
 	@Override
