@@ -2014,12 +2014,15 @@ public enum Operation {
 	 * @return whether this is an inequality sign
 	 */
 	public boolean isInequality() {
-		return this.equals(GREATER_EQUAL) || this.equals(GREATER)
-				|| this.equals(LESS) || this.equals(LESS_EQUAL);
+		return isInequalityLess() || isInequalityGreater();
 	}
 
 	public boolean isInequalityLess() {
 		return this.equals(LESS) || this.equals(LESS_EQUAL);
+	}
+
+	public boolean isInequalityGreater() {
+		return this.equals(GREATER) || this.equals(GREATER_EQUAL);
 	}
 
 	/**
