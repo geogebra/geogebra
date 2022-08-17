@@ -177,7 +177,6 @@ public interface BackendAPI {
 	 *            tube id
 	 * @param visibility
 	 *            visibility string
-	 *
 	 * @param filename
 	 *            String
 	 * @param base64
@@ -193,21 +192,13 @@ public interface BackendAPI {
 	/**
 	 * Uploads the actual opened application to ggt
 	 *
-	 * @param tubeID
-	 *            tube id
-	 * @param visibility
-	 *            visibility string
-	 *
-	 * @param filename
-	 *            String
-	 * @param base64
-	 *            base64 string
-	 * @param cb
-	 *            MaterialCallback
-	 * @param type
-	 *            material type
-	 * @param isMultiuser
-	 * 			  should set to multiuser shared
+	 * @param tubeID - tube id
+	 * @param visibility - visibility string
+	 * @param filename - String
+	 * @param base64 - base64 string
+	 * @param cb - MaterialCallback
+	 * @param type - material type
+	 * @param isMultiuser - should set to multiuser shared
 	 */
 	void uploadShareMaterial(String tubeID, String visibility, String filename, String base64,
 			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
