@@ -78,44 +78,29 @@ public class ShareDialogMow extends ComponentDialog
 			if (isShareLinkOn()) {
 				// set from private -> shared
 				if (material != null && "P".equals(material.getVisibility())) {
-					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-							material.getSharingKeyOrId(), "S",
-							material.getTitle(), null, callback,
-							material.getType());
-					material.setVisibility("S");
+					updateMaterial("S");
+					return;
 				}
 			} else {
 				// set from shared -> private
 				if (material != null && "S".equals(material.getVisibility())) {
-					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-							material.getSharingKeyOrId(), "P",
-							material.getTitle(), null, callback,
-							material.getType());
-					material.setVisibility("P");
+					updateMaterial("P");
+					return;
 				}
 			}
-			if (multiuserSwitch.isSwitchOn()) {
-				if (material != null && !material.isMultiuser()
-						&& !multiuserSharePanel.getElement().hasClassName("disabled")) {
-					app.getLoginOperation().getGeoGebraTubeAPI().uploadShareMaterial(
-							material.getSharingKeyOrId(), material.getVisibility(),
-							material.getTitle(), null, callback,
-							material.getType(), true);
-					material.setMultiuser(true);
-				}
-			} else {
-				if (material != null && material.isMultiuser()
-						&& !multiuserSharePanel.getElement().hasClassName("disabled")) {
-					app.getLoginOperation().getGeoGebraTubeAPI().uploadShareMaterial(
-							material.getSharingKeyOrId(), material.getVisibility(),
-							material.getTitle(), null, callback,
-							material.getType(), false);
-					material.setMultiuser(false);
-				}
-			}
-
-			shareWithGroups(this::onGroupShareChanged);
+			updateMaterial(material.getVisibility());
 		});
+	}
+
+	private void updateMaterial(String visibility) {
+		boolean isMultiuser = multiuserSwitch.isSwitchOn();
+		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+				material.getSharingKeyOrId(), visibility,
+				material.getTitle(), null, callback,
+				material.getType(), isMultiuser);
+		material.setVisibility(visibility);
+		material.setMultiuser(isMultiuser);
+		shareWithGroups(this::onGroupShareChanged);
 	}
 
 	/**

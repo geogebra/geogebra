@@ -99,7 +99,7 @@ public class MaterialRestAPITest {
 		api.uploadMaterial("", "S", "This should fail",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
-				t, MaterialType.ggs);
+				t, MaterialType.ggs, false);
 		t.await(5);
 		t.verifyError(".*401.*");
 	}
@@ -139,7 +139,7 @@ public class MaterialRestAPITest {
 		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
-				testCallback, MaterialType.ggs);
+				testCallback, MaterialType.ggs, false);
 		testCallback.await(5);
 		testCallback.verify(title);
 	}
@@ -359,7 +359,7 @@ public class MaterialRestAPITest {
 								UtilD.loadFileIntoByteArray(
 										"src/test/resources/slides.ggs"),
 								false),
-						reuploadCallback, MaterialType.ggs);
+						reuploadCallback, MaterialType.ggs, false);
 				return true;
 			}
 		};

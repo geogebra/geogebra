@@ -306,7 +306,7 @@ public class SaveControllerW implements SaveController {
 	private void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback) {
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
-				fileName, base64, materialCallback, this.saveType);
+				fileName, base64, materialCallback, this.saveType, false);
 	}
 
 	@Override
