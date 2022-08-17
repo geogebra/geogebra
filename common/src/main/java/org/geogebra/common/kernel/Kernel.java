@@ -1381,7 +1381,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			// to get ROUND_HALF_UP like in schools: increase abs(x) slightly
 			// x = x * ROUND_HALF_UP_FACTOR;
 			// We don't do this for large numbers as
-			if (!isLongInteger && tpl.getPrecision(nf) > 1E-6) {
+			if (!isLongInteger && tpl.getPrecision(nf) > 5E-7) {
 				double abs = Math.abs(x);
 				// increase abs(x) slightly to round up
 				x = x * tpl.getRoundHalfUpFactor(abs, nf, sf, useSF);
@@ -1402,7 +1402,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		// should be rounded to -0.000000000000001 (15 d.p.)
 		// but nf.format(x) returns "-0"
 		double printPrecision = tpl.getPrecision(nf);
-		if (((-printPrecision / 2) < x) && (x < (printPrecision / 2))) {
+		if ((-printPrecision < x) && (x < printPrecision)) {
 			// avoid output of "-0" for eg -0.0004
 			return "0";
 		}
@@ -1674,8 +1674,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public final void appendConstant(StringBuilder sb, double coeff,
 			StringTemplate tpl) {
-		if ((Math.abs(coeff) >= tpl.getPrecision(nf))
-				|| useSignificantFigures) {
+		if (!isZeroFigure(coeff, tpl)) {
 			sb.append(' ');
 			sb.append(sign(coeff));
 			sb.append(' ');
@@ -1724,8 +1723,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (leadingNonZero == -1) {
 			if (setConstantIfNoLeading) {
 				double coeff = numbers[vars.length];
-				if ((Math.abs(coeff) >= tpl.getPrecision(nf))
-						|| useSignificantFigures) {
+				if (!isZeroFigure(coeff, tpl)) {
 					sbBuildImplicitVarPart.append(format(coeff, tpl));
 				} else {
 					sbBuildImplicitVarPart.append("0");
@@ -1744,10 +1742,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sbBuildImplicitVarPart.append(vars[leadingNonZero]);
 
 		// other coefficients on lhs
-		double abs;
 		for (int i = leadingNonZero + 1; i < vars.length; i++) {
-			abs = Math.abs(numbers[i]);
-			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures
+			if (!isZeroFigure(numbers[i], tpl)
 					|| (needsZ && i == 2)) {
 				sbBuildImplicitVarPart.append(' ');
 				formatSignedCoefficient(numbers[i], sbBuildImplicitVarPart, tpl);
@@ -1759,14 +1755,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * 
-	 * @param x
+	 * @param val
 	 *            value
 	 * @param tpl
-	 *            strin template
+	 *            string template
 	 * @return true if x is built as "0"
 	 */
-	private boolean isZeroFigure(double x, StringTemplate tpl) {
-		return !useSignificantFigures && (Math.abs(x) <= tpl.getPrecision(nf));
+	private boolean isZeroFigure(double val, StringTemplate tpl) {
+		return !useSignificantFigures && (Math.abs(val) <= tpl.getPrecision(nf));
+	}
+
+	/**
+	 * Because isZeroFigure is called a lot, we have an optimized version that does not call abs.
+	 * One should not call the other because they are oneliners anyway.
+	 */
+	private boolean isZeroFigurePositive(double val, StringTemplate tpl) {
+		return !useSignificantFigures && (val <= tpl.getPrecision(nf));
 	}
 
 	/**
@@ -1795,8 +1799,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		int i, leadingNonZero = numbers.length;
 		for (i = 0; i < numbers.length; i++) {
 			if ((i != pos) && // except y^2 coefficient
-					((Math.abs(numbers[i]) >= tpl.getPrecision(nf))
-							|| useSignificantFigures)) {
+					!isZeroFigure(numbers[i], tpl)) {
 				leadingNonZero = i;
 				break;
 			}
@@ -1826,8 +1829,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				if (i != pos) {
 					d = -numbers[i] / q;
 					dabs = Math.abs(d);
-					if ((dabs >= tpl.getPrecision(nf))
-							|| useSignificantFigures) {
+					if (!isZeroFigurePositive(dabs, tpl)) {
 						sbBuildExplicitConicEquation.append(' ');
 						sbBuildExplicitConicEquation.append(sign(d));
 						sbBuildExplicitConicEquation.append(' ');
@@ -1841,7 +1843,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			// constant coeff
 			d = -numbers[i] / q;
 			dabs = Math.abs(d);
-			if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
+			if (!isZeroFigurePositive(dabs, tpl)) {
 				sbBuildExplicitConicEquation.append(' ');
 				sbBuildExplicitConicEquation.append(sign(d));
 				sbBuildExplicitConicEquation.append(' ');
@@ -2142,8 +2144,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		// x coeff
 		d = -numbers[0] / q;
-		dabs = Math.abs(d);
-		if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
+		if (!isZeroFigure(d, tpl)) {
 			sbBuildExplicitLineEquation.append(formatCoeff(d, tpl));
 			if (tpl.hasType(StringType.LATEX)) {
 				sbBuildExplicitLineEquation.append(' ');
@@ -2153,7 +2154,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			// constant
 			d = -numbers[2] / q;
 			dabs = Math.abs(d);
-			if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
+			if (!isZeroFigurePositive(dabs, tpl)) {
 				sbBuildExplicitLineEquation.append(' ');
 				sbBuildExplicitLineEquation.append(sign(d));
 				sbBuildExplicitLineEquation.append(' ');
