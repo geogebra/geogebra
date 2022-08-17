@@ -335,7 +335,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 	@Override
 	public void uploadMaterial(String tubeID, String visibility, String text, String base64,
-			MaterialCallbackI materialCallback, MaterialType type) {
+			MaterialCallbackI materialCallback, MaterialType type, boolean isMultiuser) {
 		JSONObject request = new JSONObject();
 		try {
 			request.put("visibility", visibility); // per docs "S" is the only
@@ -345,6 +345,7 @@ public class MaterialRestAPI implements BackendAPI {
 			if (StringUtil.emptyOrZero(tubeID)) {
 				request.put("type", type.toString());
 			}
+			request.put("multiuser", isMultiuser);
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}

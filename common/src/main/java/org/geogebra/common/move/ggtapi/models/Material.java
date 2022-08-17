@@ -134,6 +134,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private int elemcntApplet;
 	private String fileName;
 	private String appName;
+	private boolean isMultiuser;
 
 	private long dateCreated;
 	private UserPublic creator;
@@ -178,6 +179,7 @@ public class Material implements Comparable<Material>, Serializable {
 		this.rightClick = true;
 		this.labelDrags = true;
 		this.appName = "";
+		this.isMultiuser = false;
 	}
 
 	/**
@@ -241,6 +243,7 @@ public class Material implements Comparable<Material>, Serializable {
 		dateCreated = material.dateCreated;
 		creator = material.creator;
 		fileContent = material.fileContent;
+		isMultiuser = material.isMultiuser;
 	}
 
 	public boolean isDeleted() {
@@ -945,5 +948,13 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public Object getContent() {
 		return this.fileContent;
+	}
+
+	public void setMultiuser(boolean isMultiuser) {
+		this.isMultiuser = isMultiuser;
+	}
+
+	public boolean isMultiuser() {
+		return isMultiuser;
 	}
 }

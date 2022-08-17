@@ -414,9 +414,10 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	@Override
 	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
-			MaterialType type) {
+			MaterialType type, boolean isMultiuser) {
 		if (type == MaterialType.ggsTemplate) {
-			getMaterialRestAPI().uploadMaterial(tubeID, visibility, filename, base64, cb, type);
+			getMaterialRestAPI().uploadMaterial(tubeID, visibility, filename, base64, cb, type,
+					isMultiuser);
 		} else {
 			uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
 		}
