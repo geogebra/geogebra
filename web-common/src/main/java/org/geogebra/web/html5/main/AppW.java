@@ -56,7 +56,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -2436,11 +2435,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (this.getErrorHandler() != null) {
 			this.getErrorHandler().showError(msg);
 		}
-	}
-
-	@Override
-	public ErrorHandler getDefaultErrorHandler() {
-		return new ErrorHandlerW(this);
 	}
 
 	@Override
