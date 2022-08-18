@@ -68,8 +68,7 @@ public class MaterialRestAPI implements BackendAPI {
 		try {
 			JSONTokener tokener = new JSONTokener(response);
 			JSONObject user = new JSONObject(tokener).getJSONObject("user");
-			guser.setRealName(user.getString("displayname"));
-			guser.setUserName(user.getString("username"));
+			guser.setUserName(user.getString("displayname"));
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
