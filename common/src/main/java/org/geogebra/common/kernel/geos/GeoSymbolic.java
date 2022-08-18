@@ -248,7 +248,7 @@ public class GeoSymbolic extends GeoElement
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
-		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
+		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput) && false) {
 			casResult = tryNumericCommand(casInput, casResult);
 		}
 
@@ -308,22 +308,22 @@ public class GeoSymbolic extends GeoElement
 			return result;
 		}
 
-		ExpressionNode alternativelDefinition = getDefinition();
+		ExpressionNode alternativeDefinition = getDefinition().deepCopy(kernel);
 		if (isAnySolve(casInput)) {
 			Command other = getOtherSolve(casInput);
-			alternativelDefinition.getTopLevelCommand().setName(other.getName());
+			alternativeDefinition.getTopLevelCommand().setName(other.getName());
 			if (Commands.NSolve.name().equals(casInput.getName())) {
 				Command numericOfSolve = new Command(kernel, "Numeric", false);
-				numericOfSolve.addArgument(alternativelDefinition);
-				alternativelDefinition = numericOfSolve.wrap();
+				numericOfSolve.addArgument(alternativeDefinition);
+				alternativeDefinition = numericOfSolve.wrap();
 			}
-			Command input = getCasInput(alternativelDefinition.deepCopy(kernel)
+			Command input = getCasInput(alternativeDefinition.deepCopy(kernel)
 					.traverse(FunctionExpander.newFunctionExpander(this)));
 			result = evaluateGeoGebraCAS(input, constant);
 			if (!GeoFunction.isUndefined(result)) {
-				setDefinition(alternativelDefinition);
+				setDefinition(alternativeDefinition);
+				return result;
 			}
-			return result;
 		}
 
 		Command numericVersion = new Command(kernel, "Numeric", false);

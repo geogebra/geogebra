@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -639,28 +640,37 @@ public class AlgebraItem {
 	}
 
 	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
-		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
-		Commands original = Commands.Solve.getCommand()
-				.equals(topLevelCommand.getName()) ? Commands.Solve : Commands.NSolve;
-
-		Commands opposite = original == Commands.Solve ? Commands.NSolve : Commands.Solve;
 
 		String textOriginal = symbolic.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 
-		topLevelCommand.setName(opposite.getCommand());
-		symbolic.computeOutput();
-		String textOpposite = symbolic.getLaTeXAlgebraDescription(true,
+		String textOpposite = getOpposite(symbolic).getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 
-		boolean isOppositeDefined = symbolic.getTwinGeo() != null
-				? symbolic.getTwinGeo().isDefined()
-				: symbolic.isDefined();
+		if (!isSymbolicDefined(symbolic) && isOppositeDefined(symbolic)) {
+			toggleNumeric(symbolic);
+		}
+		return isSymbolicDefined(symbolic) && isOppositeDefined(symbolic)
+				&& !textOriginal.equals(textOpposite);
+	}
 
-		topLevelCommand.setName(original.getCommand());
+	private static boolean isSymbolicDefined(GeoSymbolic symbolic) {
 		symbolic.computeOutput();
+		return !GeoFunction.isUndefined(symbolic.getValue()
+				.toValueString(StringTemplate.defaultTemplate));
+	}
 
-		return isOppositeDefined && !textOriginal.equals(textOpposite);
+	private static boolean isOppositeDefined(GeoSymbolic symbolic) {
+		toggleNumeric(symbolic);
+		boolean oppositeDefined = isSymbolicDefined(symbolic);
+		toggleNumeric(symbolic);
+		return oppositeDefined;
+	}
+
+	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
+		GeoSymbolic opposite = (GeoSymbolic) symbolic.copy();
+		toggleNumeric(opposite);
+		return opposite;
 	}
 
 	private static void toggleNumeric(GeoSymbolic symbolic) {
