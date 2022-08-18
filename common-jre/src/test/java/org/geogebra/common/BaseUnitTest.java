@@ -242,6 +242,12 @@ public class BaseUnitTest {
 			}
 
 			@Override
+			public void describeMismatchSafely(GeoElementND item, Description description) {
+				description.appendText("had value ").appendValue(item
+						.toValueString(StringTemplate.defaultTemplate));
+			}
+
+			@Override
 			public void describeTo(Description description) {
 				description.appendText("value " + val);
 			}

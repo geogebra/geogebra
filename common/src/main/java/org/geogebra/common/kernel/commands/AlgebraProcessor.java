@@ -496,7 +496,7 @@ public class AlgebraProcessor {
 			handler.showError(exception.getMessage());
 			callback.callback(geo);
 		} catch (Exception e) {
-			handler.showError(e.getMessage());
+			ErrorHelper.handleException(e, app, handler);
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error e) {
