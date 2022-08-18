@@ -134,11 +134,12 @@ public class Material implements Comparable<Material>, Serializable {
 	private int elemcntApplet;
 	private String fileName;
 	private String appName;
-	private boolean isMultiuser;
 
 	private long dateCreated;
 	private UserPublic creator;
 	private Object fileContent;
+	private boolean multiuser;
+	private boolean sharedWithGroup;
 
 	/**
 	 * @param id
@@ -179,7 +180,6 @@ public class Material implements Comparable<Material>, Serializable {
 		this.rightClick = true;
 		this.labelDrags = true;
 		this.appName = "";
-		this.isMultiuser = false;
 	}
 
 	/**
@@ -243,7 +243,8 @@ public class Material implements Comparable<Material>, Serializable {
 		dateCreated = material.dateCreated;
 		creator = material.creator;
 		fileContent = material.fileContent;
-		isMultiuser = material.isMultiuser;
+		sharedWithGroup = material.sharedWithGroup;
+		multiuser = material.multiuser;
 	}
 
 	public boolean isDeleted() {
@@ -502,6 +503,22 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public String getVisibility() {
 		return this.visibility;
+	}
+
+	public void setMultiuser(boolean multiuser) {
+		this.multiuser = multiuser;
+	}
+
+	public boolean isMultiuser() {
+		return multiuser;
+	}
+
+	public void setSharedWithGroup(boolean sharedWithGroup) {
+		this.sharedWithGroup = sharedWithGroup;
+	}
+
+	public boolean isSharedWithGroup() {
+		return sharedWithGroup;
 	}
 
 	@Override
@@ -948,13 +965,5 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public Object getContent() {
 		return this.fileContent;
-	}
-
-	public void setMultiuser(boolean isMultiuser) {
-		this.isMultiuser = isMultiuser;
-	}
-
-	public boolean isMultiuser() {
-		return isMultiuser;
 	}
 }

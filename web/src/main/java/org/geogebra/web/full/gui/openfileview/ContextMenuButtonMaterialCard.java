@@ -99,7 +99,7 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 *            single material after visibility change
 	 */
 	protected void updateCardVisibility(List<Material> result) {
-		card.updateVisibility(result.get(0).getVisibility());
+		card.updateVisibility(result.get(0));
 	}
 
 	/**

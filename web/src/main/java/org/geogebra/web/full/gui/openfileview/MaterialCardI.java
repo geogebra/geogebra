@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import org.geogebra.common.move.ggtapi.models.Material;
+
 /**
  * Common interface for material cards.
  */
@@ -32,10 +34,10 @@ public interface MaterialCardI {
 	String getMaterialID();
 
 	/**
-	 * @param visibility
-	 *            material visibility
+	 * @param material
+	 *            material
 	 */
-	void updateVisibility(String visibility);
+	void updateVisibility(Material material);
 
 	/**
 	 * Change name on card and rename via API
