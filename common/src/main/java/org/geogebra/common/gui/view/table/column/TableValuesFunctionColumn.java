@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.table.column;
 
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.util.DoubleUtil;
 
 public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 
@@ -24,7 +25,7 @@ public class TableValuesFunctionColumn extends AbstractTableValuesColumn {
 		if (values.size() <= row) {
 			return Double.NaN;
 		}
-		double xValue = values.get(row).evaluateDouble();
+		double xValue = DoubleUtil.checkDecimalFraction(values.get(row).evaluateDouble());
 		return evaluatable.value(xValue);
 	}
 
