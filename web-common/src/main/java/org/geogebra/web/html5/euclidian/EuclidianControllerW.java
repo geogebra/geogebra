@@ -271,11 +271,19 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onPointerEventMove(PointerEvent event) {
+		//disable pointer events for the zoom panel when dragging something over it
+		if (draggingOccured) {
+			((AppW) app).getZoomPanel().addStyleName("pointerEventsNoneWhenDragging");
+		}
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), true);
 	}
 
 	@Override
 	public void onPointerEventEnd(PointerEvent event) {
+		//enable pointer events for the zoom panel again after dragging something over it
+		if (draggingOccured) {
+			((AppW) app).getZoomPanel().removeStyleName("pointerEventsNoneWhenDragging");
+		}
 		mtg.onPointerEventEnd(event);
 	}
 
