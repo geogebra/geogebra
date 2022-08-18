@@ -30,8 +30,8 @@ class GiacPrinter implements Printer {
     private String getHead() {
         if (vector.isCASVector()) {
             return "ggbvect[";
-        } else if (GeoSymbolic.hasListTwin(vector.getX())
-                && GeoSymbolic.hasListTwin(vector.getY())) {
+        } else if (GeoSymbolic.isWrappedList(vector.getX())
+                && GeoSymbolic.isWrappedList(vector.getY())) {
             return "zip((x,y)->point(x,y),";
         } else {
             return "point(";
