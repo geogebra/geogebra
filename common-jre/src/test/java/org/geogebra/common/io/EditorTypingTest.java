@@ -809,4 +809,13 @@ public class EditorTypingTest {
 				.type(")")
 				.checkAsciiMath("123(45)6789");
 	}
+
+	@Test
+	public void noMathFunctionFuseForFractions() {
+		checker.type("x+π/2")
+				.left(4)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("-")
+				.checkAsciiMath("x-((π)/(2))");
+	}
 }
