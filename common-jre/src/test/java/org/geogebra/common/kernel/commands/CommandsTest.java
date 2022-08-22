@@ -3621,8 +3621,6 @@ public class CommandsTest {
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
 		t("Sequence[ i, i, 3, 5 ]", "{3, 4, 5}");
-		t("Sequence[ i, i, 4, 7.7 ]", "{4, 5, 6, 7, 8}");
-		t("Sequence[ i, i, 3.2, 7.49 ]", "{3, 4, 5, 6, 7}");
 		t("Sequence[ i, i, 3.6, 7.9, 1 ]", "{3.6, 4.6, 5.6, 6.6, 7.6}");
 		t("Sequence[ i, i, 3.2, 7.2, 1 ]", "{3.2, 4.2, 5.2, 6.2, 7.2}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
