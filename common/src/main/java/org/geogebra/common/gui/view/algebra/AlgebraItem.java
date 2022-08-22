@@ -28,6 +28,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -641,35 +642,25 @@ public class AlgebraItem {
 
 	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
 
-		String textOriginal = symbolic.toValueString(StringTemplate.latexTemplate);
+		String textOriginal = symbolic.toValueString(StringTemplate.defaultTemplate);
+		toggleNumeric(symbolic);
+		String textOpposite = symbolic.toValueString(StringTemplate.defaultTemplate);
 
-
-		String textOpposite = getOpposite(symbolic).toValueString(StringTemplate.latexTemplate);
-
-		if (!isSymbolicDefined(symbolic) && isOppositeDefined(symbolic)) {
+		if (isDefined(textOriginal)) {
 			toggleNumeric(symbolic);
+		} else if (isDefined(textOpposite) && Commands.Solve.name()
+				.equals(symbolic.getDefinition().getTopLevelCommand().getName()) ) {
+			symbolic.wrapInNumeric();
 		}
-		return isSymbolicDefined(symbolic) && isOppositeDefined(symbolic)
+		return isDefined(textOriginal) && isDefined(textOpposite)
 				&& !textOriginal.equals(textOpposite);
 	}
 
-	private static boolean isSymbolicDefined(GeoSymbolic symbolic) {
-		symbolic.computeOutput();
-		return !GeoFunction.isUndefined(symbolic.getValue()
-				.toValueString(StringTemplate.defaultTemplate));
+	private static boolean isDefined(String valueString) {
+		return !GeoFunction.isUndefined(valueString);
 	}
 
-	private static boolean isOppositeDefined(GeoSymbolic symbolic) {
-		return isSymbolicDefined(getOpposite(symbolic));
-	}
-
-	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
-		GeoSymbolic opposite = (GeoSymbolic) symbolic.copy();
-		toggleNumeric(opposite);
-		return opposite;
-	}
-
-	private static void toggleNumeric(GeoSymbolic symbolic) {
+	public static void toggleNumeric(GeoSymbolic symbolic) {
 		Commands opposite = Commands.NSolve.getCommand()
 				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
 				? Commands.Solve : Commands.NSolve;

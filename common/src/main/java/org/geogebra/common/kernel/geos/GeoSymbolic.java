@@ -247,6 +247,9 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
+		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
+			casResult = tryNumericCommand(casInput, casResult);
+		}
 
 		if (casInput.getName().equals(Commands.SolveODE.name())) {
 			return normalizeSolveODE(casResult, casInput);
@@ -304,24 +307,6 @@ public class GeoSymbolic extends GeoElement
 			return result;
 		}
 
-		ExpressionNode alternativeDefinition = getDefinition().deepCopy(kernel);
-		if (isAnySolve(casInput)) {
-			Command other = getOtherSolve(casInput);
-			alternativeDefinition.getTopLevelCommand().setName(other.getName());
-			if (Commands.NSolve.name().equals(casInput.getName())) {
-				Command numericOfSolve = new Command(kernel, "Numeric", false);
-				numericOfSolve.addArgument(alternativeDefinition);
-				alternativeDefinition = numericOfSolve.wrap();
-			}
-			Command input = getCasInput(alternativeDefinition.deepCopy(kernel)
-					.traverse(FunctionExpander.newFunctionExpander(this)));
-			result = evaluateGeoGebraCAS(input, constant);
-			if (!GeoFunction.isUndefined(result)) {
-				setDefinition(alternativeDefinition);
-				return result;
-			}
-		}
-
 		Command numericVersion = new Command(kernel, "Numeric", false);
 		numericVersion.addArgument(casInput.wrap());
 		String numResult = evaluateGeoGebraCAS(numericVersion, constant);
@@ -333,14 +318,11 @@ public class GeoSymbolic extends GeoElement
 		return result;
 	}
 
-	private boolean isAnySolve(Command command) {
-		return Commands.Solve.name().equals(command.getName())
-				|| Commands.NSolve.name().equals(command.getName());
-	}
-
-	private Command getOtherSolve(Command command) {
-		return new Command(kernel, Commands.NSolve.name().equals(command.getName())
-				? Commands.Solve.name() : Commands.NSolve.name(), false);
+	public void wrapInNumeric() {
+		Command numeric = new Command(kernel, "Numeric", false);
+		numeric.addArgument(getDefinition().deepCopy(kernel));
+		setDefinition(numeric.wrap());
+		computeOutput();
 	}
 
 	private boolean isTopLevelCommandNumeric() {
