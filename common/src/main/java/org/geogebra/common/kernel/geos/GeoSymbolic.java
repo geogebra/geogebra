@@ -248,10 +248,6 @@ public class GeoSymbolic extends GeoElement
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
 
-		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput) && false) {
-			casResult = tryNumericCommand(casInput, casResult);
-		}
-
 		if (casInput.getName().equals(Commands.SolveODE.name())) {
 			return normalizeSolveODE(casResult, casInput);
 		}

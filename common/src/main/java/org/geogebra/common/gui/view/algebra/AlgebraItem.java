@@ -641,11 +641,10 @@ public class AlgebraItem {
 
 	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
 
-		String textOriginal = symbolic.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
+		String textOriginal = symbolic.toValueString(StringTemplate.latexTemplate);
 
-		String textOpposite = getOpposite(symbolic).getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
+
+		String textOpposite = getOpposite(symbolic).toValueString(StringTemplate.latexTemplate);
 
 		if (!isSymbolicDefined(symbolic) && isOppositeDefined(symbolic)) {
 			toggleNumeric(symbolic);
@@ -661,10 +660,7 @@ public class AlgebraItem {
 	}
 
 	private static boolean isOppositeDefined(GeoSymbolic symbolic) {
-		toggleNumeric(symbolic);
-		boolean oppositeDefined = isSymbolicDefined(symbolic);
-		toggleNumeric(symbolic);
-		return oppositeDefined;
+		return isSymbolicDefined(getOpposite(symbolic));
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
