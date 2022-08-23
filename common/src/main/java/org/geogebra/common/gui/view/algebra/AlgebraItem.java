@@ -28,7 +28,6 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -649,7 +648,7 @@ public class AlgebraItem {
 		if (isDefined(textOriginal)) {
 			toggleNumeric(symbolic);
 		} else if (isDefined(textOpposite) && Commands.Solve.name()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName()) ) {
+				.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
 			symbolic.wrapInNumeric();
 		}
 		return isDefined(textOriginal) && isDefined(textOpposite)
@@ -660,7 +659,7 @@ public class AlgebraItem {
 		return !GeoFunction.isUndefined(valueString);
 	}
 
-	public static void toggleNumeric(GeoSymbolic symbolic) {
+	private static void toggleNumeric(GeoSymbolic symbolic) {
 		Commands opposite = Commands.NSolve.getCommand()
 				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
 				? Commands.Solve : Commands.NSolve;

@@ -45,8 +45,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.sun.org.apache.xalan.internal.xsltc.dom.NodeSortRecord;
-
 /**
  * Symbolic geo for CAS computations in AV
  * @author Zbynek
@@ -318,6 +316,9 @@ public class GeoSymbolic extends GeoElement
 		return result;
 	}
 
+	/**
+	 * wrap the current expression into a Numeric() command
+	 **/
 	public void wrapInNumeric() {
 		Command numeric = new Command(kernel, "Numeric", false);
 		numeric.addArgument(getDefinition().deepCopy(kernel));
