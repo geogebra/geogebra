@@ -32,6 +32,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -1305,6 +1306,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveNotReturnUndefined() {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
+		AlgebraItem.isSymbolicDiffers(function);
 		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
 		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
 				equalTo("{x = 1.216871488876}"));
@@ -1314,6 +1316,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveChangedToNSolve() {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
+		AlgebraItem.isSymbolicDiffers(function);
 		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(eq1, x)"));
 	}
