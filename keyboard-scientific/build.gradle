@@ -9,7 +9,8 @@ targetCompatibility = 1.8
 
 dependencies {
     api project(':keyboard-base')
-    implementation "junit:junit:$junitVersion"
+
+    testImplementation "junit:junit:$junitVersion"
 }
 
 pmd {
