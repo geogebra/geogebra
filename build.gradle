@@ -1,6 +1,7 @@
 project.description = 'GeoGebra'
 
 apply from: 'gradle-scripts/dependencies.gradle'
+apply from: 'ext.gradle'
 
 subprojects {
 	apply plugin: 'eclipse'
