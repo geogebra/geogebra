@@ -31,15 +31,14 @@ class ScientificLetterRowsBuilder {
         }
 
         String allButtons = builder.toString();
-        String[] characters = allButtons.split("");
+        String[] characters = split(allButtons);
         if (upperKeys != null) {
             Arrays.sort(characters, Comparator.comparing(s -> upperKeys.getOrDefault(s, s)));
         } else {
             Arrays.sort(characters);
         }
-        int length = characters.length + allAccentsLength - 1;
+        int length = characters.length + allAccentsLength;
         int[] lengths = new int[rows.length + 1];
-        lengths[0] = 1;
         int rowLength = (int) Math.ceil(length / 3.0f);
         for (int i = 0; i < rows.length; i++) {
             lengths[i + 1] = rowLength - accentsLength[i];
@@ -76,6 +75,16 @@ class ScientificLetterRowsBuilder {
 
     private String reverse(String string) {
         return new StringBuilder(string).reverse().toString();
+    }
+
+    private String[] split(String text) {
+        String[] characters = new String[text.length()];
+        int i = 0;
+        for (char c : text.toCharArray()) {
+            characters[i] = String.valueOf(c);
+            i++;
+        }
+        return characters;
     }
 
     private String subrangeToString(String[] chars, int from, int to) {
