@@ -117,7 +117,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue,
-				width, height, null, true);
+				width, height, null);
 	}
 
 	/**
