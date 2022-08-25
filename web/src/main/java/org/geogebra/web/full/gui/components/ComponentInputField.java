@@ -49,17 +49,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height,
 			String suffixTxt) {
-		this.loc = app.getLocalization();
-		this.labelTextKey = labelTxt;
-		this.errorTextKey = errorTxt;
-		this.placeholderTextKey = placeholder;
-		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, app, true);
-		if (!StringUtil.empty(defaultValue)) {
-			setInputText(defaultValue);
-		}
-		addFocusBlurHandlers();
-		addHoverHandlers();
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, width, height, suffixTxt, true);
 	}
 
 	/**
