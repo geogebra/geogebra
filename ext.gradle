@@ -1,3 +1,0 @@
-ext {
-    junitVersion = '4.13.2'
-}
