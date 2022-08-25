@@ -62,7 +62,7 @@ public class ComponentInputDialog extends ComponentDialog
 	private void createGUI(String labelText, String initText) {
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, -1, 1,
-				"");
+				"", true);
 		addDialogContent(inputTextField);
 	}
 

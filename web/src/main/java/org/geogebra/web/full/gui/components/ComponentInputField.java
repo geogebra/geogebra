@@ -45,16 +45,18 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            of input text field
 	 * @param suffixTxt
 	 *            suffix at end of text field
+	 * @param showSymbolPopupIcon
+	 *            whether to show keyboard button or not (disabled in Export3dDialog)
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height,
-			String suffixTxt) {
+			String suffixTxt, boolean showSymbolPopupIcon) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, app);
+		buildGui(width, height, app, showSymbolPopupIcon);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -81,7 +83,7 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height) {
 		this(app, placeholder, labelTxt, errorTxt, defaultValue,
-				width, height, null);
+				width, height, null, true);
 	}
 
 	/**
@@ -91,11 +93,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return contentPanel;
 	}
 
-	private void buildGui(int width, int height, AppW app) {
+	private void buildGui(int width, int height, AppW app, boolean showSymbolPopupIcon) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", app, height, width, true);
+		inputTextField = new InputPanelW("", app, height, width, showSymbolPopupIcon);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
