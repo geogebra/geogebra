@@ -117,11 +117,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return contentPanel;
 	}
 
-	private void buildGui(int width, int height, AppW app, boolean showSymbolPopupIcon) {
+	private void buildGui(int width, int height, AppW app, boolean hasKeyboardBtn) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", app, height, width, showSymbolPopupIcon);
+		inputTextField = new InputPanelW("", app, height, width, hasKeyboardBtn);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());
