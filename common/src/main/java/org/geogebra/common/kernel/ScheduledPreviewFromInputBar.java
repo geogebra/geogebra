@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -61,6 +62,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		}
 		long start = System.currentTimeMillis();
 		try {
+			GParser g = new GParser(kernel, kernel.getConstruction());
+			g.generateParseException();
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(input);
 			if (ve != null) {

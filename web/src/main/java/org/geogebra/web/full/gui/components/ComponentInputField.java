@@ -45,18 +45,52 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	 *            of input text field
 	 * @param suffixTxt
 	 *            suffix at end of text field
-	 * @param showSymbolPopupIcon
-	 *            whether to show keyboard button or not (disabled in Export3dDialog)
 	 */
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height,
-			String suffixTxt, boolean showSymbolPopupIcon) {
+			String suffixTxt) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, app, showSymbolPopupIcon);
+		buildGui(width, height, app, true);
+		if (!StringUtil.empty(defaultValue)) {
+			setInputText(defaultValue);
+		}
+		addFocusBlurHandlers();
+		addHoverHandlers();
+	}
+
+	/**
+	 * @param app
+	 *            see {@link AppW}
+	 * @param placeholder
+	 *            placeholder text (can be null)
+	 * @param labelTxt
+	 *            label of input field
+	 * @param errorTxt
+	 *            error label of input field
+	 * @param defaultValue
+	 *            default text of input text field
+	 * @param width
+	 *            of input text field
+	 * @param height
+	 *            of input text field
+	 * @param suffixTxt
+	 *            suffix at end of text field
+	 * @param hasKeyboardBtn
+	 *            whether to show keyboard button or not (disabled in Export3dDialog)
+	 */
+	public ComponentInputField(AppW app, String placeholder, String labelTxt,
+			String errorTxt, String defaultValue, int width, int height,
+			String suffixTxt, boolean hasKeyboardBtn) {
+		this.loc = app.getLocalization();
+		this.labelTextKey = labelTxt;
+		this.errorTextKey = errorTxt;
+		this.placeholderTextKey = placeholder;
+		this.suffixTextKey = suffixTxt;
+		buildGui(width, height, app, hasKeyboardBtn);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
