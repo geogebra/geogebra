@@ -29,6 +29,7 @@ allprojects {
     }
 }
 
+apply from: 'ext.gradle'
 
 ext.getGeogebraVersion = { root = ".."->
     def version = "undef"
