@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * CommandFilter interface implemented using HashSet&lt;Commands&gt;
@@ -37,4 +38,19 @@ class CommandNameFilterSet implements CommandFilter {
     public boolean isCommandAllowed(Commands command) {
 		return inverse ^ allowedCommands.contains(command);
     }
+
+	/**
+	 *
+	 * @param commands names that allowed
+	 */
+	public void addCommandsByName(String[] commands) {
+		for (String commandName: commands) {
+			try {
+				Commands command = Commands.valueOf(commandName);
+				allowedCommands.add(command);
+			} catch (Exception e) {
+				Log.debug("No such command: " + commandName);
+			}
+		}
+	}
 }

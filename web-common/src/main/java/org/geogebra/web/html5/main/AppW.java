@@ -108,6 +108,7 @@ import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
@@ -210,7 +211,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private final GLookAndFeelI laf;
 
-	protected ArrayList<Widget> popups = new ArrayList<>();
+	protected ArrayList<HasHide> popups = new ArrayList<>();
 	// protected GeoGebraFrame frame = null;
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
@@ -282,7 +283,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		dropHandlers.addEventListener(DomGlobal.window, "resize", event -> {
 			fitSizeToScreen();
 			windowResized();
-			closePopupsInRegistry();
 		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
@@ -2136,7 +2136,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param widget
 	 *            popup
 	 */
-	public void registerPopup(Widget widget) {
+	public void registerPopup(HasHide widget) {
 		popups.add(widget);
 	}
 
@@ -2164,8 +2164,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Close popups, keep tooltips
 	 */
 	public void closePopupsNoTooltips() {
-		for (Widget widget : popups) {
-			widget.setVisible(false);
+		for (HasHide widget : popups) {
+			widget.hide();
 		}
 		popups.clear();
 	}
@@ -2175,7 +2175,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            element that can be cliked without closingpopups
 	 */
 	public void addAsAutoHidePartnerForPopups(Element el) {
-		for (Widget popup : popups) {
+		for (HasHide popup : popups) {
 			if (popup instanceof GPopupPanel
 					&& ((GPopupPanel) popup).isModal()) {
 				((GPopupPanel) popup).addAutoHidePartner(el);

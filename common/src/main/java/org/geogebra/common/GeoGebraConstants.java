@@ -31,7 +31,8 @@ public interface GeoGebraConstants {
 		SUITE,
 		MIXED_REALITY,
 		NOTES,
-		PROBABILITY;
+		PROBABILITY,
+		CLASSIC;
 
 		public String getTransKey() {
 			switch (this) {
