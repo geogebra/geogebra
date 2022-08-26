@@ -20,7 +20,7 @@ public class ScientificLetterRowsBuilderTest {
 		String middleRow = "asdfghjkl";
 		String bottomRow = "zxcvbnm";
 		String[] rows = rowsBuilder.rowsFrom(topRow, middleRow, bottomRow);
-		assertEquals(rows[0], "abcdefghi");
+		assertEquals(rows[0], "bcdefghi");
 		assertEquals(rows[1], "jklmnopqr");
 		assertEquals(rows[2], "stuvwxyz");
 	}
