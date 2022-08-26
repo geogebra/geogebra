@@ -28,7 +28,7 @@ class VectorPrinter implements Printer {
     private Printer getPrinterFor(StringTemplate tpl) {
         // if the vector is actually a pair of lists
         // then on the definition panel it should be printed simply as (x, y)
-        if (GeoSymbolic.hasListTwin(vector.getX()) && GeoSymbolic.hasListTwin(vector.getY())) {
+        if (GeoSymbolic.isWrappedList(vector.getX()) && GeoSymbolic.isWrappedList(vector.getY())) {
             return defaultPrinter;
         } else if (tpl == StringTemplate.editorTemplate) {
             return editPrinter;

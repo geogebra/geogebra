@@ -147,13 +147,13 @@ $keyboard_button_transition: opacity .3s ease;
 			float: right;
 			right: 0px;
 			opacity: 1;
-		 	margin-left: 8px;
+			margin-left: 8px;
 			img {
 				opacity: 0.54;
 				transition: $keyboard_button_transition;
-	   			&:hover, &:active {
-	   				opacity: 1;
-		  		}
+				&:hover, &:active {
+					opacity: 1;
+				}
 			}
 		}
 	}
@@ -178,18 +178,21 @@ $keyboard_button_transition: opacity .3s ease;
 		input[type=text].gwt-SuggestBox {
 			border: 0px;
 		}
+
+		input {
+			border: 0px;
+		}
 	}
 
 	.AutoCompleteTextFieldW.FromDrawTextFieldNew {
-		input {
-			border: 0px;
-			background-color: rgba(0, 0, 0, 0);
-			line-height: 26px;
-		}
-
 		.fieldContainer {
 			border: 1px solid colors.$input-border;
 			border-radius: 5px;
+		}
+
+		input {
+			background-color: rgba(0, 0, 0, 0);
+			line-height: 26px;
 		}
 
 		button {

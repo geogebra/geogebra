@@ -67,4 +67,9 @@ public class DrawImplicitCurve extends DrawLocus {
 		return super.hit(x, y, hitThreshold);
 	}
 
+	@Override
+	protected void ensureLocusUpdated() {
+		implicitCurve.getLocus();
+	}
+
 }

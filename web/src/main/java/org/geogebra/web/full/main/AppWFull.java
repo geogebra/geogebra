@@ -62,6 +62,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
@@ -146,6 +147,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -174,11 +176,8 @@ import org.gwtproject.timer.client.Timer;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -663,20 +662,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void showErrorDialog(String title, String negBtn, String posBtn,
-			String message, Runnable posBtnAction) {
-		DialogData data = new DialogData(title, negBtn, posBtn);
-		ComponentDialog dialog = new ComponentDialog(this, data, false, true);
-		FlowPanel messagePanel = new FlowPanel();
-		String[] lines = message.split("\n");
-		for (String item : lines) {
-			messagePanel.add(new Label(item));
-		}
-		dialog.addDialogContent(messagePanel);
-		if (posBtnAction != null) {
-			dialog.setOnPositiveAction(posBtnAction::run);
-		}
-		dialog.show();
+	public ErrorHandler getDefaultErrorHandler() {
+		return new ErrorHandlerW(this);
 	}
 
 	@Override
@@ -1995,13 +1982,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void centerAndResizePopups() {
-		for (Widget w : popups) {
+		for (HasHide w : popups) {
 			if (w instanceof ComponentDialog) {
 					((GPopupPanel) w).centerAndResize(
 						this.getAppletFrame().getKeyboardHeight());
-			}
-			if (w instanceof ResizeHandler) {
-				((ResizeHandler) w).onResize(null);
 			}
 		}
 	}

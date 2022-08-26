@@ -28,7 +28,7 @@ public class AlgebraViewScroller {
 
 		final RadioTreeItem item = view == null ? null
 				: view.getActiveTreeItem();
-		if (item == null) {
+		if (item == null || !item.hasFocus()) {
 			return;
 		}
 
