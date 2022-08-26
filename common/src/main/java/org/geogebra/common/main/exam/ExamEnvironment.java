@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.annotation.CheckForNull;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -18,6 +17,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -38,8 +39,8 @@ public class ExamEnvironment {
 	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
 	private final Localization localization;
-	private String localizedAppName;
 	private CommandDispatcher commandDispatcher;
+	private AppConfig appConfig;
 
 	@CheckForNull
 	private CopyPaste copyPaste;
@@ -60,6 +61,8 @@ public class ExamEnvironment {
 	private Boolean wasCasEnabled;
 
 	private TempStorage tempStorage;
+	private ExamRegion region = ExamRegion.GENERIC;
+	private ExamRestrictionModel model;
 
 	/**
 	 * @param localization localization
@@ -86,18 +89,19 @@ public class ExamEnvironment {
 		return copyPaste;
 	}
 
+	public void setExamRegion(ExamRegion region) {
+		this.region = region;
+	}
+
+	public ExamRegion getExamRegion() {
+		return region;
+	}
+
 	/**
-	 * Gets the short app name key based on the app config's app code
-	 * and stores the translated short app name in the localizedAppName field.
-	 *
 	 * @param config config
 	 */
-	public void setAppNameWith(AppConfig config) {
-		String appNameShort =
-				config.getAppCode().equals(GeoGebraConstants.SUITE_APPCODE)
-						? GeoGebraConstants.SUITE_SHORT_NAME
-						: config.getAppNameShort();
-		this.localizedAppName = localization.getMenu(appNameShort);
+	public void setConfig(AppConfig config) {
+		this.appConfig = config;
 	}
 
 	/**
@@ -482,14 +486,14 @@ public class ExamEnvironment {
 	 * @return calculator name for status bar
 	 */
 	public String getCalculatorNameForStatusBar() {
-		return localizedAppName;
+		return getExamRegion().getShortDisplayName(localization, appConfig);
 	}
 
 	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return localizedAppName;
+		return getExamRegion().getDisplayName(localization, appConfig);
 	}
 
 	/**
@@ -698,4 +702,11 @@ public class ExamEnvironment {
 		return tempStorage;
 	}
 
+	public void setRestrictionModel(ExamRestrictionModel model) {
+		this.model = model;
+	}
+
+	public ExamRestrictionModel getRestrictionModel() {
+		return model;
+	}
 }
