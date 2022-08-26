@@ -1352,20 +1352,22 @@ public abstract class Localization {
 	public String getEnglishCommand(String internalName) {
 		Commands toTest = Commands.stringToCommand(internalName);
 
-        String mainCommandName = getMainCommandName(toTest);
-		if (mainCommandName != null) {
-			return mainCommandName;
-		}
+		if (toTest != null) {
+			String mainCommandName = getMainCommandName(toTest);
+			if (mainCommandName != null) {
+				return mainCommandName;
+			}
 
-		for (Commands c : Commands.values()) {
-			Commands cInternal = Commands.englishToInternal(c);
 
-			if (toTest.equals(cInternal)
-					&& !c.name().equals(cInternal.toString())) {
-				return c.name();
+			for (Commands c : Commands.values()) {
+				Commands cInternal = Commands.englishToInternal(c);
+
+				if (toTest.equals(cInternal)
+						&& !c.name().equals(cInternal.toString())) {
+					return c.name();
+				}
 			}
 		}
-
 		// nothing found, English name must be internalName
 		return internalName;
 	}
