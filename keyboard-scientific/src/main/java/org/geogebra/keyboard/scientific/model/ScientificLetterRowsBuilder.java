@@ -31,7 +31,7 @@ class ScientificLetterRowsBuilder {
         }
 
         String allButtons = builder.toString();
-        String[] characters = split(allButtons);
+        String[] characters = splitIntoCharacters(allButtons);
         if (upperKeys != null) {
             Arrays.sort(characters, Comparator.comparing(s -> upperKeys.getOrDefault(s, s)));
         } else {
@@ -77,7 +77,7 @@ class ScientificLetterRowsBuilder {
         return new StringBuilder(string).reverse().toString();
     }
 
-    private String[] split(String text) {
+    private String[] splitIntoCharacters(String text) {
         String[] characters = new String[text.length()];
         int i = 0;
         for (char c : text.toCharArray()) {
