@@ -219,6 +219,11 @@ public class TextPreviewPanelW extends TextPreviewer {
 			// not needed
 		}
 
+		@Override
+		public void enableZoomPanelEvents(boolean enable) {
+			// not needed
+		}
+
 	}
 
 }

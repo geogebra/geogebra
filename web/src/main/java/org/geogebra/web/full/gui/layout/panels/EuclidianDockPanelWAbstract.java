@@ -412,4 +412,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		callback.run();
 	}
+
+	/**
+	 * Enables / disables interaction with the zoom panel (dragging)
+	 * @param enable Wheter to enable or disable
+	 */
+	public void enableZoomPanelEvents(boolean enable) {
+		if (zoomPanel != null) {
+			zoomPanel.setStyleName("pointerEventsNoneWhenDragging", !enable);
+		}
+	}
+
 }
