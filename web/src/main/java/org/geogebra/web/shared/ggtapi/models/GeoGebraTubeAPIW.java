@@ -52,7 +52,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			JsPropertyMap<Object> userinfo = Js.asPropertyMap(response.get("userinfo"));
 
 			user.setUserId(Js.coerceToInt(userinfo.get("user_id")));
-			// TODO we may prefer "realname" here
+			// "username" is real name by default, uses login as fallback
 			user.setUserName(Js.asString(userinfo.get("username")));
 			user.setIdentifier(Js.asString(userinfo.get("identifier")));
 
