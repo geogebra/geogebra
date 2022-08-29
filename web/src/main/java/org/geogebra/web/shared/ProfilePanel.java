@@ -106,7 +106,7 @@ public class ProfilePanel extends FlowPanel {
 	 */
 	public void update(GeoGebraTubeUser user) {
 		username.setHref(user.getProfileURL());
-		username.setText(user.getRealName());
+		username.setText(user.getUserName());
 		if (user.getImageURL() != null) {
 			this.profileImage.setUrl(user.getImageURL());
 		} else {

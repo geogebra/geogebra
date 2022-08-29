@@ -12,12 +12,21 @@ import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.gwtutil.JavaScriptInjector;
+import org.geogebra.multiplayer.MultiplayerResources;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
+import org.geogebra.web.full.util.GGBMultiplayer;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
+
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Controller for material cards, common for new and old UI.
@@ -55,6 +64,8 @@ public class MaterialCardController implements OpenFileListener {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		if (material.getType() == MaterialType.ggsTemplate) {
 			app.registerOpenFileListener(this);
+		} else {
+			app.registerOpenFileListener(this::checkMultiuser);
 		}
 	}
 
@@ -269,6 +280,29 @@ public class MaterialCardController implements OpenFileListener {
 	public boolean onOpenFile() {
 		app.getKernel().getConstruction().setTitle(null);
 		app.setActiveMaterial(material);
+		return true; // one time only
+	}
+
+	private boolean checkMultiuser() {
+		String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
+		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)) {
+			GWT.runAsync(new RunAsyncCallback() {
+				@Override
+				public void onFailure(Throwable reason) {
+					Log.error("Multiplayer script failed to load");
+				}
+
+				@Override
+				public void onSuccess() {
+					JavaScriptInjector.inject(MultiplayerResources.INSTANCE.multiplayer());
+					JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
+					GGBMultiplayer multiplayer = new GGBMultiplayer(
+							((ScriptManagerW) app.getScriptManager()).getApi(), config);
+					multiplayer.start(material.getSharingKey(),
+							app.getLoginOperation().getUserName());
+				}
+			});
+		}
 		return true; // one time only
 	}
 }

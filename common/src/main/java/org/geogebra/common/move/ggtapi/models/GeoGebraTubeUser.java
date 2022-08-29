@@ -19,7 +19,6 @@ public class GeoGebraTubeUser {
 	private int userId = -1;
 	private String identifier = null;
 	private String profileURL;
-	private String realName = null;
 	private String cookie;
 	private String image;
 	private String language;
@@ -96,27 +95,10 @@ public class GeoGebraTubeUser {
 	}
 
 	/**
-	 * Sets the real name from GeoGeoGebraTube
-	 * 
-	 * @param realName
-	 *            The new real name of the user
-	 */
-	public void setRealName(String realName) {
-		this.realName = realName;
-	}
-
-	/**
 	 * @return the userid
 	 */
 	public int getUserId() {
 		return userId;
-	}
-
-	/**
-	 * @return the real name
-	 */
-	public String getRealName() {
-		return realName;
 	}
 
 	/**
