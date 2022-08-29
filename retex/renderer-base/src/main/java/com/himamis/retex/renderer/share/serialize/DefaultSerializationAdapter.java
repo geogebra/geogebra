@@ -5,14 +5,14 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	@Override
 	public String subscriptContent(String base, String sub, String sup) {
 		StringBuilder sb = new StringBuilder(base);
-		if (sub != null) {
+		if (sub != null && !sub.isEmpty()) {
 			if (sub.length() > 1) {
 				sb.append("_{").append(sub).append("}");
 			} else {
 				sb.append("_").append(sub);
 			}
 		}
-		if (sup != null) {
+		if (sup != null && !sup.isEmpty()) {
 			sb.append("^(").append(sup).append(')');
 		}
 		return sb.toString();
