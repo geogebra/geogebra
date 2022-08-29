@@ -2083,6 +2083,22 @@
 		margin: 3px 5px;
 	}
 
+	.StatisticsCalculatorW .AutoCompleteTextFieldW {
+		border-bottom: 1px solid colors.$black-36;
+
+		input[type=text].gwt-SuggestBox {
+			border: none;
+			box-shadow: none;
+			margin-bottom: 0px;
+			padding-left: 4px;
+			border-radius: 0px;
+		}
+
+		&.kbdInput {
+			border-color: colors.$teal-default;
+		}
+	}
+
 	.StatisticsCalculatorW .radioButtonPanel {
 		display: inline;
 		position: relative;
