@@ -600,8 +600,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					.updateContent();
 		}
 		getAppletFrame().setNotesMode(getMode());
-
-		updateToolbarClosedState(getConfig().getSubAppCode());
 	}
 
 	private void resetAllToolbars() {
@@ -2327,7 +2325,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			});
 		} else {
 			afterMaterialRestored();
-			updateToolbarClosedState(subAppCode);
 		}
 		getEventDispatcher().dispatchEvent(new Event(EventType.SWITCH_CALC, null, subAppCode));
 	}
@@ -2440,15 +2437,5 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void clearSubAppCons() {
 		constructionJson.clear();
-	}
-
-	private void updateToolbarClosedState(String subAppCode) {
-		if ("probability".equals(subAppCode)) {
-			DockPanel avPanel = getGuiManager().getLayout().getDockManager()
-					.getPanel(VIEW_ALGEBRA);
-			if (avPanel instanceof ToolbarDockPanelW) {
-				hideKeyboard();
-			}
-		}
 	}
 }
