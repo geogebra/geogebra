@@ -33,6 +33,22 @@ public class ProbabilityResultProperty implements Property {
 	}
 
 	/**
+	 * Checks if some text is a valid input for an editable entry.
+	 *
+	 * @param entry the entry for which to validate the input
+	 * @param text the input to validate
+	 * @return `true` if `text` is a valid input to `entry`, `false` otherwise.
+	 */
+	public boolean isValidInput(EditableResultEntry entry, String text) {
+		try {
+			GeoNumberValue value = util.parseInputString(text);
+			return value != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
 	 * Parses the text and passes it to the ResultPanel as the value of the entry.
 	 * @param entry input field
 	 * @param text value of the input field
