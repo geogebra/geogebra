@@ -2011,11 +2011,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return false;
 		}
 		// polygon[list]
-		if (getParentAlgorithm() == null
-				|| getParentAlgorithm().getInput().length < 3) {
-			return false;
-		}
-		return true;
+		return getParentAlgorithm() != null
+				&& getParentAlgorithm().getInput().length >= 3;
 	}
 
 	@Override
@@ -2298,9 +2295,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void setVisualStyle(final GeoElement geo,
-			boolean setAuxiliaryProperty) {
-		super.setVisualStyle(geo, setAuxiliaryProperty);
+	public void setBasicVisualStyle(final GeoElement geo) {
+		super.setBasicVisualStyle(geo);
 		isMask = geo.isMask();
 		if (segments == null) {
 			return;

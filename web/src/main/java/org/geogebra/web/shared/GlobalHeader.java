@@ -15,7 +15,6 @@ import org.geogebra.web.shared.view.button.DisappearingActionButton;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
-import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -41,8 +40,6 @@ public class GlobalHeader implements EventRenderable {
 	private AppW app;
 	private Label timer;
 	private StandardButton examInfoBtn;
-
-	private String oldHref;
 
 	private boolean shareButtonInitialized;
 
@@ -222,7 +219,6 @@ public class GlobalHeader implements EventRenderable {
 		}
 		getExamPanel().getElement().removeFromParent();
 		getButtonElement().getStyle().clearDisplay();
-		getHomeLink().setHref(oldHref);
 		onResize();
 	}
 
@@ -244,11 +240,11 @@ public class GlobalHeader implements EventRenderable {
 		examInfoBtn.addStyleName("flatButtonHeader");
 		examInfoBtn.addStyleName("examInfoBtn");
 		// add exam panel to
-		DivElement exam = DOM.createDiv().cast();
+		Element exam = DOM.createDiv();
 		exam.setId("examId");
 		getButtonElement().getParentElement().appendChild(exam);
-		oldHref = getHomeLink().getHref();
-		getHomeLink().setHref("#");
+		// The link should be disabled in all exam-capable apps since APPS-3289, but make sure
+		Dom.querySelector("#headerID a").setAttribute("href", "#");
 		RootPanel.get("examId").addStyleName("examPanel");
 		RootPanel.get("examId").add(timer);
 		RootPanel.get("examId").add(examInfoBtn);
@@ -278,11 +274,6 @@ public class GlobalHeader implements EventRenderable {
 		if (resize != null) {
 			resize.call();
 		}
-	}
-
-	private static AnchorElement getHomeLink() {
-		return RootPanel.get("headerID").getElement().getElementsByTagName("a")
-				.getItem(0).cast();
 	}
 
 	/**

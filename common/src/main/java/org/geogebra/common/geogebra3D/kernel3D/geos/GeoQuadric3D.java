@@ -1780,6 +1780,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return "Point";
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
 			return "Plane";
+		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+			return "IntersectingPlanes";
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
+			return "ParallelPlanes";
 		case GeoQuadricNDConstants.QUADRIC_LINE:
 			return "Line";
 		case GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED:
@@ -1799,7 +1803,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
-		return ExtendedBoolean.newExtendedBoolean(this == geo); // TODO
+		if (geo instanceof GeoQuadric3D) {
+			return ExtendedBoolean.newExtendedBoolean(hasEqualMatrix((GeoQuadric3D) geo));
+		}
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override

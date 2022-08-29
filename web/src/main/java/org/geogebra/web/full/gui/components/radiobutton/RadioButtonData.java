@@ -1,49 +1,40 @@
 package org.geogebra.web.full.gui.components.radiobutton;
 
-public class RadioButtonData {
+public class RadioButtonData<T> {
 	private String label;
-	private boolean selected;
 	private boolean disabled;
-	private Runnable callback;
+	private T value;
 
 	/**
 	 * radio button data
 	 * @param label - label
-	 * @param selected - whether is selected
 	 * @param disabled - whether is disabled
-	 * @param callback - callback on click
 	 */
-	public RadioButtonData(String label, boolean selected, boolean disabled,
-			Runnable callback) {
+	public RadioButtonData(String label, boolean disabled,
+			T value) {
 		this.label = label;
-		this.selected = selected;
 		this.disabled = disabled;
-		this.callback = callback;
+		this.value = value;
 	}
 
 	/**
 	 * not disabled radio button data
 	 * @param label - label
-	 * @param selected - whether is selected
-	 * @param callback - callback on click
+	 * @param value - value on click
 	 */
-	public RadioButtonData(String label, boolean selected, Runnable callback) {
-		this(label, selected, false, callback);
+	public RadioButtonData(String label, T value) {
+		this(label, false, value);
 	}
 
 	public String getLabel() {
 		return label;
 	}
 
-	public boolean isSelected() {
-		return selected;
-	}
-
 	public boolean isDisabled() {
 		return disabled;
 	}
 
-	public Runnable getCallback() {
-		return callback;
+	public T getValue() {
+		return value;
 	}
 }

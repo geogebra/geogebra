@@ -695,13 +695,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	@Override
-	protected boolean btnRightIsSelected() {
-		return btnRight.isSelected();
-	}
-
-	@Override
-	protected boolean btnLeftIsSelected() {
-		return btnLeft.isSelected();
+	protected String getSelectedTail() {
+		return btnLeft.isSelected() ? StatisticsCollection.tail_left
+				: btnRight.isSelected() ? StatisticsCollection.tail_right
+				: StatisticsCollection.tail_two;
 	}
 
 	@Override
@@ -717,7 +714,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	@Override
-	protected void updateTailCheckboxes(boolean left, boolean right) {
+	protected void updateTailCheckboxes(String tail) {
+		boolean left = StatisticsCollection.tail_left.equals(sc.getTail());
+		boolean right = StatisticsCollection.tail_right.equals(sc.getTail());
 		btnLeft.setSelected(left);
 		btnRight.setSelected(right);
 		btnTwo.setSelected(!left && !right);

@@ -59,7 +59,11 @@ public abstract class EvPositioner {
      * Centers the EV on app start or after orientation change
      */
     public void reCenter() {
-        centerWithAvSize(getAvWidth(), getAvHeight());
+        try {
+            centerWithAvSize(getAvWidth(), getAvHeight());
+        } catch (ViewDestroyedException ignored) {
+            // no AV to measure
+        }
     }
 
     /**
@@ -67,7 +71,13 @@ public abstract class EvPositioner {
      * @param overlappedHeight height hidden by another view
      */
     public void centerWithAvSize(int overlappedWidth, int overlappedHeight) {
-        boolean isPortrait = isPortrait();
+        boolean isPortrait;
+        try {
+            isPortrait = isPortrait();
+        } catch (ViewDestroyedException ignored) {
+            return;
+        }
+
         int newVisibleFromX = isPortrait ? 0 : translateToDp(overlappedWidth);
         int newVisibleUntilY =
                 isPortrait
@@ -105,10 +115,17 @@ public abstract class EvPositioner {
      * @param avHeight av height
      */
     public void onAvSizeChanged(int avWidth, int avHeight) {
+        boolean isPortrait;
+        try {
+            isPortrait = isPortrait();
+        } catch (ViewDestroyedException ignored) {
+            return;
+        }
+
         int x, y;
         int avWidthDp = translateToDp(avWidth);
         int avHeightDp = translateToDp(avHeight);
-        if (isPortrait()) {
+        if (isPortrait) {
             x = 0;
             y = euclidianView.getHeight() - avHeightDp;
         } else {
@@ -125,7 +142,13 @@ public abstract class EvPositioner {
     }
 
     private void updateEuclidianViewSafeAreaInsets(int avWidthDp, int avHeightDp) {
-        boolean isPortrait = isPortrait();
+        boolean isPortrait;
+        try {
+            isPortrait = isPortrait();
+        } catch (ViewDestroyedException ignored) {
+            return;
+        }
+
         int margin = EuclidianView.MINIMUM_SAFE_AREA;
         int leftInset = isPortrait ? 0 : avWidthDp;
         int topInset = translateToDp(getTopInset());
@@ -167,5 +190,12 @@ public abstract class EvPositioner {
 
     protected EuclidianView getEuclidianView() {
         return euclidianView;
+    }
+
+    protected class ViewDestroyedException extends IllegalStateException {
+
+        public ViewDestroyedException() {
+            super("The view is destroyed.");
+        }
     }
 }

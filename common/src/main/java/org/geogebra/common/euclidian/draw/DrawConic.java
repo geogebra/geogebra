@@ -453,10 +453,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		// hyperbola wings on screen?
 		hypLeftOnScreen = hypLeft.intersects(viewRect);
 		hypRightOnScreen = hypRight.intersects(viewRect);
-		if (!hypLeftOnScreen && !hypRightOnScreen) {
-			return false;
-		}
-		return true;
+		return hypLeftOnScreen || hypRightOnScreen;
 	}
 
 	final private void updateSinglePoint() {

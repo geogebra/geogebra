@@ -1,6 +1,6 @@
 plugins {
     id 'java-library'
-    id 'org.wisepersist.gwt' version '1.1.18'
+    id 'org.wisepersist.gwt' version '1.1.19'
     id 'pmd'
     id 'checkstyle'
     id 'com.github.spotbugs' version '5.0.9'
@@ -35,7 +35,7 @@ dependencies {
             'org.webjars.npm:fflate:0.7.3',
             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
             "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
-            "com.google.gwt:gwt-dev:$gwtCompilerVersion"
+            "org.gwtproject:gwt-dev:$gwtCompilerVersion"
 
     annotationProcessor project(":gwtutil"),
         'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'

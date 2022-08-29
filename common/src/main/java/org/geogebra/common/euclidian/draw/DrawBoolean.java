@@ -15,7 +15,6 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
@@ -118,7 +117,6 @@ public final class DrawBoolean extends Drawable {
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setFont(view.getFontPoint());
-			g2.setStroke(EuclidianStatic.getDefaultStroke());
 
 			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
 					isHighlighted(), g2, geoBool.labelOffsetX + LEGACY_OFFSET,
@@ -223,16 +221,6 @@ public final class DrawBoolean extends Drawable {
 		private static GBasicStroke stroke13 = null;
 		private static GBasicStroke stroke26 = null;
 
-		// colours for the highlight circle and outline
-		private static final GColor highlightBackground = GColor.newColor(0, 0,
-				0, 50);
-		private static final GColor highlightOutline = GColor.newColor(255, 255,
-				255, 128);
-
-		// highlight circle
-		private static final GEllipse2DDouble highlightCircle = AwtFactory
-				.getPrototype().newEllipse2DDouble();
-
 		/**
 		 * Creates new checkbox icon
 		 * 
@@ -266,35 +254,22 @@ public final class DrawBoolean extends Drawable {
 				GGraphics2D g, int x, int y, int csize) {
 
 			if (highlighted) {
-				// size of circle when checkbox has focus
-				int highlightSize = csize * 3 / 2;
-
-				// white border for so it works with all background colours
-				int outlineWidth = 4;
-
 				// outline
-				g.setColor(highlightOutline);
-				highlightCircle.setFrameFromCenter(x + csize / 2d, y + csize / 2d,
-						x + highlightSize + outlineWidth,
-						y + highlightSize + outlineWidth);
-				g.fill(highlightCircle);
+				g.setColor(GColor.HIGHLIGHT_GRAY);
+				g.setStroke(AwtFactory.getPrototype()
+						.newMyBasicStroke(Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
 
-				// fill
-				g.setColor(highlightBackground);
-				highlightCircle.setFrameFromCenter(x + csize / 2d, y + csize / 2d,
-						x + highlightSize, y + highlightSize);
-				g.fill(highlightCircle);
+				g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 			}
 
+			g.setStroke(EuclidianStatic.getDefaultStroke());
+			g.setColor(GColor.WHITE);
+			g.fillRoundRect(x, y, csize, csize, csize / 5,
+					csize / 5);
 			// outer bevel
 			// Draw rounded border
 			g.setColor(GColor.BLACK);
 			g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
-
-			g.setColor(GColor.WHITE);
-			g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize / 5,
-					csize / 5);
-
 			g.setColor(GColor.DARK_GRAY);
 
 			// paint check

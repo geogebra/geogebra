@@ -78,7 +78,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		if (geo.doHighlighting()) {
 			// draw bounds if highlighted
 			renderer.getRendererImpl().disableTextures();
-			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
+			renderer.setColor(GColor.HIGHLIGHT_GRAY);
 			renderer.getGeometryManager().draw(highLightIndex);
 			renderer.getRendererImpl().enableTextures();
 		}

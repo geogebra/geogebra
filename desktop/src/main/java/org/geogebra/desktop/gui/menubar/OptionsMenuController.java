@@ -1,10 +1,8 @@
 package org.geogebra.desktop.gui.menubar;
 
-import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
-import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.LabelVisibility;
@@ -12,8 +10,8 @@ import org.geogebra.common.util.Util;
 
 public class OptionsMenuController {
 
-	private RadioButtonMenuBar menuDecimalPlaces;
-	private RadioButtonMenuBar menuLabeling;
+	private RadioButtonMenuBarD menuDecimalPlaces;
+	private RadioButtonMenuBarD menuLabeling;
 	private App app;
 	Kernel kernel;
 	private MenuFactory menuFactory;
@@ -98,7 +96,7 @@ public class OptionsMenuController {
 	/**
 	 * @return newSubmenu
 	 */
-	public RadioButtonMenuBar newSubmenu() {
+	public RadioButtonMenuBarD newSubmenu() {
 		return this.menuFactory.newSubmenu();
 	}
 
@@ -150,7 +148,7 @@ public class OptionsMenuController {
 	}
 
 	public void addFontSizeMenu(MenuInterface menu) {
-		RadioButtonMenuBar submenu = newSubmenu();
+		RadioButtonMenuBarD submenu = newSubmenu();
 
 		// String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt",
 		// "24 pt",

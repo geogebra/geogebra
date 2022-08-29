@@ -441,14 +441,14 @@ public class CommandsTest {
 		t("pi1a", "12.566370614359172");
 		t("pie", "8.539734222673566");
 		t("pii", "3.141592653589793ί");
-		t("pix", "(" + PI_STRING + " * x)");
+		t("pix", "(pi * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
 		t("f(" + theta_STRING + ")=sin " + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(" + theta_STRING + ")=sin" + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
-		t("x" + PI_STRING, "(x * " + PI_STRING + ")");
+		t("x" + PI_STRING, "(x * pi)");
 		t("xdeg", "x" + DEGREE_STRING);
 		t("sinxdeg", "sin(x" + DEGREE_STRING + ")");
 	}
@@ -3657,15 +3657,27 @@ public class CommandsTest {
 	@Test
 	public void cmdShowAxes() {
 		t("ShowAxes[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertTrue(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowAxis(1));
+		assertFalse(app.getEuclidianView1().getShowAxis(1));
 		t("ShowAxes[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowAxis(1));
+		t("ShowAxes[2,false]");
+		assertFalse(app.getSettings().getEuclidian(2).getShowAxis(1));
 	}
 
 	@Test
 	public void cmdShowGrid() {
 		t("ShowGrid[]");
+		assertTrue(app.getSettings().getEuclidian(1).getShowGrid());
+		assertTrue(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[false]");
+		assertFalse(app.getSettings().getEuclidian(1).getShowGrid());
+		assertFalse(app.getEuclidianView1().getShowGrid());
 		t("ShowGrid[2,true]");
+		assertTrue(app.getSettings().getEuclidian(2).getShowGrid());
 	}
 
 	@Test

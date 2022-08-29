@@ -199,8 +199,7 @@ public class FormatCollada extends Format {
 	protected void appendLightInCollada(StringBuilder sb) {
 		sb.append("<node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
 		sb.append("<matrix sid=\"transform\">");
-		sb.append(
-				"-0.70711 0 0.70711 00 1 0 00.70711 0 0.70711 00 0 0 1</matrix>");
+		sb.append("-0.70711 0 0.70711 0 0 1 0 0 0.70711 0 0.70711 0 0 0 0 1</matrix>");
 		sb.append("<instance_light url=\"#L_dir\"/>");
 		sb.append("</node>");
 		sb.append("<node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");

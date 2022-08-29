@@ -77,14 +77,10 @@ public class AnimationStepModel extends OptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		if (!geo.isPointerChangeable() || geo.isGeoText() || geo.isGeoImage()
+		return !(!geo.isPointerChangeable() || geo.isGeoText() || geo.isGeoImage()
 				|| geo.isGeoList() || geo.isGeoBoolean() || geo.isGeoButton()
 				|| (!isPartOfSlider() && geo.isGeoNumeric()
-						&& geo.isIndependent()) // slider
-		) {
-			return false;
-		}
-		return true;
+						&& geo.isIndependent()));
 	}
 
 	public void applyChanges(String text) {

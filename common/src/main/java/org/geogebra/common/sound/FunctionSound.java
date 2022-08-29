@@ -118,11 +118,8 @@ public abstract class FunctionSound {
 		f = geoFunction;
 		this.tMin = min;
 		this.tMax = max;
-		if ((sampleRate != DEFAULT_SAMPLE_RATE || bitDepth != DEFAULT_BIT_RATE)
-				&& !initStreamingAudio(sampleRate, bitDepth)) {
-			return false;
-		}
-		return true;
+		return (sampleRate == DEFAULT_SAMPLE_RATE && bitDepth == DEFAULT_BIT_RATE)
+				|| initStreamingAudio(sampleRate, bitDepth);
 	}
 
 	/**

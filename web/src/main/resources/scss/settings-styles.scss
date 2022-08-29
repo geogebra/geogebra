@@ -597,7 +597,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		margin-left: 8px;
 	}
 
-	.propertiesPanel .checkboxPanel {
+	.propertiesPanel .checkboxPanel,
+	 .optionsPanel .checkboxPanel {
 		margin-right: 30px;
 
 		&.block {

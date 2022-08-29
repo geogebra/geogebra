@@ -19,7 +19,6 @@ import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
-import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificFunctionKeyboardFactory;
 import org.geogebra.keyboard.scientific.model.ScientificKeyboardFactory;
@@ -49,7 +48,6 @@ public class TabbedKeyboard extends FlowPanel
 	 */
 	public static final int BIG_HEIGHT = 186;
 
-	private HashMap<String, String> upperKeys;
 	/**
 	 * minimum width of the whole application to use normal font (small font
 	 * otherwise)
@@ -191,14 +189,14 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void createLocalizedAbcKeyboard(KeyboardFactory factory, boolean withGreek) {
-		upperKeys = new HashMap<>();
-		String firstRow = locale.getKeyboardRow(1);
-		String middleRow = locale.getKeyboardRow(2);
-		String lastRow = locale.getKeyboardRow(3);
-		KeyPanelBase keyboard = buildPanel(factory.createLettersKeyboard(
-				filter(firstRow.replace("'", "")),
-				filter(middleRow),
-				filter(lastRow), upperKeys, withGreek),
+		KeyboardRowDefinitionProvider krp = new KeyboardRowDefinitionProvider(locale);
+		String[] lowerKeys = krp.getLowerKeys();
+		factory.setLetterKeyboardFactory(new LetterKeyboardFactory());
+		Keyboard letterKeyboard = factory.createLettersKeyboard(lowerKeys[0],
+				lowerKeys[1],
+				lowerKeys[2], krp.getUpperKeys(), withGreek);
+
+		KeyPanelBase keyboard = buildPanel(letterKeyboard,
 				this);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
@@ -256,15 +254,14 @@ public class TabbedKeyboard extends FlowPanel
 		addTab(keyboard, KeyboardType.OPERATORS);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.OPERATORS, "f(x)");
-		upperKeys = new HashMap<>();
 		ScientificLettersKeyboardFactory letterFactory = new ScientificLettersKeyboardFactory();
-		letterFactory.setKeyboardDefinition(filter(locale.getKeyboardRow(1).replace("'", "")),
-				filter(locale.getKeyboardRow(2)),
-				filter(locale.getKeyboardRow(3)), ",'",
-				LetterKeyboardFactory.ACTION_SHIFT, null);
-		keyboard = buildPanel(
-				factory.getImpl(letterFactory, new CapsLockModifier(upperKeys)),
-				this);
+		factory.setLetterKeyboardFactory(letterFactory);
+		KeyboardRowDefinitionProvider krp = new KeyboardRowDefinitionProvider(locale);
+		String[] lowerKeys = krp.getLowerKeys();
+		Keyboard letterKeyboard = factory.createLettersKeyboard(lowerKeys[0],
+				lowerKeys[1],
+				lowerKeys[2], krp.getUpperKeys());
+		keyboard = buildPanel(letterKeyboard, this);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.ABC, "ABC");
@@ -278,18 +275,6 @@ public class TabbedKeyboard extends FlowPanel
 		addStyleName("KeyBoard");
 		addStyleName("TabbedKeyBoard");
 		addStyleName("gwt-PopupPanel");
-	}
-
-	private String filter(String keys) {
-		StringBuilder sb = new StringBuilder(11);
-		for (int i = 0; i < keys.length(); i += 2) {
-			sb.append(keys.charAt(i));
-			if (keys.length() > i + 1) {
-				upperKeys.put(keys.charAt(i) + "", keys.charAt(i + 1) + "");
-			}
-		}
-		// TODO remove the replace once ggbtrans is fixed
-		return sb.toString().replace("'", "");
 	}
 
 	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
@@ -458,7 +443,7 @@ public class TabbedKeyboard extends FlowPanel
 		}
 		if ("/".equals(name)) {
 			// division button in graphing
-			return new KeyBoardButtonBase(Unicode.DIVIDE + "", "/", b);
+			return new KeyBoardButtonBase(wb.getResourceName(), "/", b);
 		}
 		if ("|".equals(name)) {
 			return new KeyBoardButtonBase("abs", "abs", b);

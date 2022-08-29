@@ -706,23 +706,13 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			boolean orInsteadOfAnd);
 
 	boolean isVisibleInEV1() {
-		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
-			return false;
-		}
-		if (!kernel.getApplication().getEuclidianView1().isShowing()) {
-			return false;
-		}
-		return true;
+		return locus.isVisibleInView(App.VIEW_EUCLIDIAN)
+				&& kernel.getApplication().getEuclidianView1().isShowing();
 	}
 
 	boolean isVisibleInEV2() {
-		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
-			return false;
-		}
-		if (!kernel.getApplication().hasEuclidianView2(1)) {
-			return false;
-		}
-		return true;
+		return locus.isVisibleInView(App.VIEW_EUCLIDIAN2)
+				&& kernel.getApplication().hasEuclidianView2(1);
 	}
 
 	void updateScreenBordersIfNecessary() {

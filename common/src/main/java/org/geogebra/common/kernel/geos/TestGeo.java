@@ -493,11 +493,7 @@ public enum TestGeo {
 			if (!(ob instanceof GeoElement)) {
 				return false;
 			}
-			if (((GeoElement) ob).isMoveable()) {
-				return true;
-			}
-
-			return false;
+			return ((GeoElement) ob).isMoveable();
 		}
 	},
 
@@ -508,11 +504,7 @@ public enum TestGeo {
 			if (!(ob instanceof GeoElement)) {
 				return false;
 			}
-			if (((GeoElement) ob).isRotateMoveable()) {
-				return true;
-			}
-
-			return false;
+			return ((GeoElement) ob).isRotateMoveable();
 		}
 	},
 

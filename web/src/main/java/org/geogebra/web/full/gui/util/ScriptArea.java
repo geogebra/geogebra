@@ -130,7 +130,7 @@ public class ScriptArea extends TextArea
 				|| e.getNativeKeyCode() == GWTKeycodes.KEY_F1) {
 			e.preventDefault();
 		}
-		handleTabletKeyboard(e);
+		dummyCursor.handleTabletKeyboard(e);
 	}
 
 	@Override
@@ -214,47 +214,8 @@ public class ScriptArea extends TextArea
 		dummyCursor.enableGGBKeyboard();
 	}
 
-	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (!Browser.isTabletBrowser() || app.isWhiteboardActive()) {
-			return;
-		}
-		int keyCode = e.getNativeKeyCode();
-		if (keyCode == 0 && Browser.isIPad()) {
-			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
-			if (arrowType != -1) {
-				keyCode = arrowType;
-			}
-		}
-		switch (keyCode) {
-		case GWTKeycodes.KEY_BACKSPACE:
-			onBackSpace();
-			break;
-		case GWTKeycodes.KEY_LEFT:
-			onArrowLeft();
-			break;
-		case GWTKeycodes.KEY_RIGHT:
-			onArrowRight();
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void onArrowLeft() {
-		int caretPos = getCursorPos();
-		if (caretPos > 0) {
-			setCursorPos(caretPos - 1);
-		}
-	}
-
-	private void onArrowRight() {
-		int caretPos = getCursorPos();
-		if (caretPos < getText().length()) {
-			setCursorPos(caretPos + 1);
-		}
-	}
-
-	private void onBackSpace() {
+	@Override
+	public void onBackSpace() {
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
 

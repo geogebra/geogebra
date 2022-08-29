@@ -404,6 +404,32 @@ public class EditorState {
 		return sb.toString().trim();
 	}
 
+	/**
+	 * @return number of comma symbols before cursor
+	 */
+	public int countCommasBeforeCurrent() {
+		int commas = 0;
+		for (int i = 0; i < currentOffset; i++) {
+			if (currentField.isComma(i)) {
+				commas++;
+			}
+		}
+		return commas;
+	}
+
+	/**
+	 * @return number of comma symbols after cursor
+	 */
+	public int countCommasAfterCurrent() {
+		int commas = 0;
+		for (int i = currentOffset; i < currentField.size(); i++) {
+			if (currentField.isComma(i)) {
+				commas++;
+			}
+		}
+		return commas;
+	}
+
 	private boolean endOfFunctionName() {
 		return currentField.getParent() instanceof MathFunction
 				&& currentField.getParent().hasTag(Tag.APPLY)
@@ -532,5 +558,4 @@ public class EditorState {
 
 		return describe(pattern, parent, er);
 	}
-
 }

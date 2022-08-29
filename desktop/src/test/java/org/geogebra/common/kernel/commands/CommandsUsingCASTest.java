@@ -140,8 +140,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdIntegralInfinite() {
 		t("f=Normal(50,3,x,false)",
-				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((2 * "
-						+ Unicode.PI_STRING + "))))");
+				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((2 * pi))))");
 		tRound("norm:=Integral[f,-inf,50 ]", "0.5");
 		tRound("nnorm:=Integral[f,50,inf ]", "0.5");
 	}
@@ -494,7 +493,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdTrigCombine() {
 		t("TrigCombine[sin(x) cos(3x)]", "(1 / 2 * sin((4 * x))) - (1 / 2 * sin((2 * x)))");
-		t("TrigCombine[sin(x) + cos(x), sin(x)]", "(sqrt(2) * sin(x + (1 / 4 * π)))");
+		t("TrigCombine[sin(x) + cos(x), sin(x)]", "(sqrt(2) * sin(x + (1 / 4 * pi)))");
 	}
 
 	@Test

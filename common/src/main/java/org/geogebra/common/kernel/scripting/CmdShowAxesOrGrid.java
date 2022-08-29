@@ -12,23 +12,26 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.scripting;
 
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
- * ShowAxex[]
+ * ShowAxex[] / ShowGrid[]
  * 
- * ShowAxes[&lt;Boolean>]
+ * ShowAxes[Boolean] / ShowGrid[Boolean]
  * 
- * ShowAxes[&lt;View ID>, &lt;Boolean]
+ * ShowAxes[View ID, Boolean] / ShowGrid[View ID/Boolean]
  */
-public class CmdShowAxes extends CmdScripting {
+public class CmdShowAxesOrGrid extends CmdScripting {
+
+	private final Commands cmd;
 
 	/**
 	 * Create new command processor
@@ -36,22 +39,22 @@ public class CmdShowAxes extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdShowAxes(Kernel kernel) {
+	public CmdShowAxesOrGrid(Kernel kernel, Commands cmd) {
 		super(kernel);
+		this.cmd = cmd;
 	}
 
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		EuclidianViewInterfaceCommon ev = null;
+		EuclidianSettings evs;
 
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
 		case 0:
-			ev = app.getActiveEuclidianView();
-			ev.setShowAxis(true);
-			ev.repaintView();
+			evs = app.getActiveEuclidianView().getSettings();
+			setAndRepaint(true, evs);
 			break;
 		case 1:
 			if (!(arg[0] instanceof BooleanValue)) {
@@ -59,8 +62,8 @@ public class CmdShowAxes extends CmdScripting {
 			}
 
 			boolean show = ((BooleanValue) arg[0]).getBoolean();
-			ev = app.getActiveEuclidianView();
-			setAndRepaint(show, ev);
+			evs = app.getActiveEuclidianView().getSettings();
+			setAndRepaint(show, evs);
 
 			break;
 		case 2:
@@ -72,23 +75,12 @@ public class CmdShowAxes extends CmdScripting {
 			}
 
 			show = ((BooleanValue) arg[1]).getBoolean();
-
-			switch ((int) (arg[0].evaluateDouble())) {
-			case 2:
-				if (app.hasEuclidianView2(1)) {
-					ev = app.getEuclidianView2(1);
+			int evNo = (int) arg[0].evaluateDouble();
+			if (evNo >= 1 && evNo <= 3 || evNo == -1) {
+				evs = app.getSettings().getEuclidian(evNo);
+				if (evs != null) {
+					setAndRepaint(show, evs);
 				}
-				break;
-			case 3:
-				if (app.isEuclidianView3Dinited()) {
-					ev = app.getEuclidianView3D();
-				}
-				break;
-			default:
-				ev = app.getEuclidianView1();
-			}
-			if (ev != null) {
-				setAndRepaint(show, ev);
 			}
 			break;
 
@@ -98,14 +90,12 @@ public class CmdShowAxes extends CmdScripting {
 		return arg;
 	}
 
-	private static void setAndRepaint(boolean show,
-			EuclidianViewInterfaceCommon ev) {
-		if (ev.getSettings() != null) {
-			ev.getSettings().setShowAxes(show);
+	private void setAndRepaint(boolean show, EuclidianSettings evs) {
+		if (this.cmd == Commands.ShowAxes) {
+			evs.setShowAxes(show);
 		} else {
-			ev.setShowAxis(show);
+			evs.showGrid(show);
 		}
-		ev.repaintView();
-
+		kernel.notifyRepaint();
 	}
 }

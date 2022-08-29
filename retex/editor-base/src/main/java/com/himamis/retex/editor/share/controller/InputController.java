@@ -888,7 +888,10 @@ public class InputController {
 			editorState.decCurrentOffset();
 			MathSequence currentField = editorState.getCurrentField();
 			int offset = editorState.getCurrentOffset();
-			if (currentField.getArgument(offset) instanceof MathFunction) {
+			MathComponent component = currentField.getArgument(offset);
+
+			if (component instanceof MathFunction
+					&& ((MathFunction) component).getName() != Tag.FRAC) {
 				RemoveContainer.fuseMathFunction(editorState,
 						(MathFunction) currentField.getArgument(offset));
 			}
@@ -1368,7 +1371,7 @@ public class InputController {
 		}
 	}
 
-	private static class FunctionPower {
+	public static class FunctionPower {
 		/** subscript or superscript*/
 		public MathFunction script;
 		public String name;

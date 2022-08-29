@@ -5,14 +5,11 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
 
 /**
- * Paints highligted area around a button
+ * Paints highlighted area around a button
  */
 public class ButtonHighlightArea {
-	private static final int OUTLINE_WIDTH = 4;
-	/** distance between button border and middle of the outline stroke */
-	private static final int HALO_WIDTH = 4 + OUTLINE_WIDTH / 2;
 
-	private MyButton button;
+	private final MyButton button;
 
 	/**
 	 * @param button
@@ -31,15 +28,13 @@ public class ButtonHighlightArea {
 	 *            arc size
 	 */
 	public void draw(GGraphics2D g, double widthCorrection, int arcSize) {
-		g.setColor(GColor.newColor(0, 0, 0, 50));
-		g.setStroke(AwtFactory.getPrototype().newBasicStroke(OUTLINE_WIDTH));
-		int xStart = button.getX() - HALO_WIDTH;
-		int yStart = button.getY() - HALO_WIDTH;
-		int totalWidth = button.getWidth() + (int) widthCorrection + 2 * HALO_WIDTH;
-		int totalHeight = button.getHeight() + 2 * HALO_WIDTH;
-		g.fillRoundRect(xStart, yStart, totalWidth, totalHeight, arcSize,
-				arcSize);
-		g.setColor(GColor.newColor(255, 255, 255, 128));
+		g.setColor(GColor.HIGHLIGHT_GRAY);
+		g.setStroke(AwtFactory.getPrototype().newMyBasicStroke(
+				Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
+		int xStart = button.getX();
+		int yStart = button.getY();
+		int totalWidth = button.getWidth() + (int) widthCorrection - 1;
+		int totalHeight = button.getHeight() - 1;
 
 		g.drawRoundRect(xStart, yStart, totalWidth, totalHeight, arcSize,
 				arcSize);

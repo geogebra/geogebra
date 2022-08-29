@@ -73,7 +73,7 @@ public class InputTokenizer {
 		}
 
 		int minLength = getTokenWithIndexLength(1);
-		if (input.startsWith("deg")) {
+		if (input.startsWith("deg") && isNoUnderscoreAt(3)) {
 			return "deg";
 		}
 
@@ -113,7 +113,11 @@ public class InputTokenizer {
 	}
 
 	private boolean isImaginaryNext() {
-		return input.charAt(0) == 'i';
+		return input.charAt(0) == 'i' && isNoUnderscoreAt(1);
+	}
+
+	private boolean isNoUnderscoreAt(int i) {
+		return input.length() <= i || input.charAt(i) != '_';
 	}
 
 	private String getGeoLabelOrVariable(int minLength) {
@@ -136,7 +140,7 @@ public class InputTokenizer {
 			return false;
 		}
 
-		return "pi".equalsIgnoreCase(input.substring(0, 2));
+		return "pi".equalsIgnoreCase(input.substring(0, 2)) && isNoUnderscoreAt(2);
 	}
 
 	private String getNumberToken() {

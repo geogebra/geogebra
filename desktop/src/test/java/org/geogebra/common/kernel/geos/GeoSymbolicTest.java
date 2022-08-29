@@ -976,6 +976,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testCASSpecialPointsForNumbers() {
+		Assert.assertNull(SuggestionRootExtremum.get(add("1+2")));
+	}
+
+	@Test
 	public void handlePreviewPointsTest() {
 		add("f:x^2 - 2");
 		add("g:x^3 - 1");
@@ -1710,9 +1715,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testIterationOutput() {
 		app.setCasConfig();
 		GeoSymbolic geo4args = add("Iteration(2u + 1, u, {0}, 64)");
-
-		assertEquals("Iteration(2u + 1, u, {0}, 64)",
-				geo4args.toValueString(StringTemplate.defaultTemplate));
-		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
+		assertThat(geo4args, nullValue());
 	}
 }

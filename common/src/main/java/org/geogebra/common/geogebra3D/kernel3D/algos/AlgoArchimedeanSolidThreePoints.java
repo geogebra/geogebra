@@ -225,7 +225,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		// check C is third point
 		if (!cC.equalsForKernel(tmpCoords.setMul(matrix, coords[2]),
-				Kernel.STANDARD_PRECISION)) {
+				kernel.getStandardPrecision())) {
 			setUndefined();
 			return;
 		}

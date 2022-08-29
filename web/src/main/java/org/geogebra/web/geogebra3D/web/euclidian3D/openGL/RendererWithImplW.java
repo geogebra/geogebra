@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ColorMask;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
@@ -44,10 +43,11 @@ public class RendererWithImplW extends Renderer implements
 	 *            3D view
 	 * @param c
 	 *            canvas
+	 * @param transparent whether to use transparent background
 	 */
-	public RendererWithImplW(EuclidianView3D view, Canvas c) {
+	public RendererWithImplW(EuclidianView3D view, Canvas c, boolean transparent) {
 		super(view, RendererType.SHADER);
-
+		this.transparent = transparent;
 		webGLCanvas = c;
 
 		setRendererImpl(new RendererImplShadersW(this, view3D));
@@ -209,7 +209,7 @@ public class RendererWithImplW extends Renderer implements
 			glContext = getBufferedContext(webGLCanvas.getElement());
 
 		} else {
-			glContext = getWebGLContext(webGLCanvas);
+			glContext = getWebGLContext(webGLCanvas.getElement(), transparent);
 			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
 		if (glContext == null) {
@@ -217,9 +217,16 @@ public class RendererWithImplW extends Renderer implements
 		}
 	}
 
-	protected static WebGLRenderingContext getWebGLContext(Canvas webGLCanvas) {
-		return (WebGLRenderingContext) webGLCanvas
-				.getContext("experimental-webgl");
+	protected static WebGLRenderingContext getWebGLContext(Element element, boolean transparent) {
+		HTMLCanvasElement canvas = Js.uncheckedCast(element);
+
+		JsPropertyMap<Object> options = JsPropertyMap.of();
+		if (transparent) {
+			options.set("premultipliedAlpha", false);
+		} else {
+			options.set("alpha", 0);
+		}
+		return Js.uncheckedCast(canvas.getContext("experimental-webgl", options));
 	}
 
 	private static WebGLRenderingContext getBufferedContext(
@@ -276,17 +283,6 @@ public class RendererWithImplW extends Renderer implements
 		};
 		loopTimer.scheduleRepeating(CoordSystemAnimation.DELAY);
 
-	}
-
-	@Override
-	public void drawScene() {
-
-		super.drawScene();
-
-		// clear alpha channel to 1.0 to avoid transparency to html background
-		getRendererImpl().setColorMask(ColorMask.ALPHA);
-		clearColorBuffer();
-		getRendererImpl().setColorMask(ColorMask.ALL);
 	}
 
 	/**

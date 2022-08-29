@@ -200,6 +200,7 @@ public class KeyboardFactory {
 		CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
 		ButtonFactory buttonFactory = new ButtonFactory(
 				new KeyModifier[] { accentModifier, capsLockModifier });
+		letterKeyboardFactory.setUpperKeys(upperKeys);
 		letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow, withGreekSwitch);
 		KeyboardModel model = letterKeyboardFactory.createKeyboardModel(buttonFactory);
 		return new KeyboardImpl(model, capsLockModifier, accentModifier);

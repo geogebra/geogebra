@@ -40,8 +40,11 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
+import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
 
@@ -194,10 +197,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	@Override
 	final public String evaluateRaw(String exp) throws Throwable {
-		if (app.getSettings().getCasSettings().isEnabled()) {
-			return getCurrentCAS().evaluateRaw(exp);
-		}
-		return "?";
+		return app.getSettings().getCasSettings().isEnabled()
+				? getCurrentCAS().evaluateRaw(exp) : "?";
 	}
 
 	/**
@@ -207,10 +208,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
 	final public String evaluate(String exp) throws CASException {
-		if (app.getSettings().getCasSettings().isEnabled()) {
-			return getCurrentCAS().evaluateCAS(exp);
-		}
-		return "?";
+		return app.getSettings().getCasSettings().isEnabled()
+				? getCurrentCAS().evaluateCAS(exp) : "?";
 	}
 
 	@Override
@@ -252,12 +251,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				return null;
 			}
 			// invalid output -- don't cache
-			if (CASgiac.isUndefined(tmp)) {
-				return null;
-			}
-
 			// not a polynomial: result still includes the variable, e.g. "x"
-			if (tmp.indexOf(variable) >= 0) {
+			if (CASgiac.isUndefined(tmp) || tmp.indexOf(variable) >= 0) {
 				return null;
 			}
 
@@ -285,11 +280,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		 * previously this method also replaced f by f(x), but FunctionExpander
 		 * takes care of that now
 		 */
-		if (symbolic) {
-			return ExpressionNode.getLabelOrDefinition(ev, tpl);
-		}
-
-		return ev.toValueString(tpl);
+		return symbolic ? ExpressionNode.getLabelOrDefinition(ev, tpl) : ev.toValueString(tpl);
 	}
 
 	@Override
@@ -563,6 +554,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				GeoElementND ggbResult = computeWithGGB(kern, name, args);
 				if (ggbResult != null) {
 					return ggbResult.toValueString(tpl);
+				} else if (hasWrongArgumentNumber(name, args.size(),
+						app.getKernel().getApplication().getCommandDictionary())) {
+					CommandErrorMessageBuilder builder =
+							new CommandErrorMessageBuilder(app.getLocalization());
+					throw MyError.forCommand(app.getLocalization(),
+							builder.buildArgumentNumberError(name, args.size()), name,
+							null, Errors.IllegalArgumentNumber);
 				}
 			}
 
@@ -729,6 +727,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private boolean hasWrongArgumentNumber(String commandName, int argNum,
+			LowerCaseDictionary commandDict) {
+		String nameDotNumber = commandName + "." + argNum;
+		String nameDotN = commandName + ".N";
+		return commandDict.lookup(commandName) != null
+				&& casParser.getTranslatedCASCommand(nameDotNumber) == null
+				&& casParser.getTranslatedCASCommand(nameDotN) == null;
 	}
 
 	private String getVarargTranslation(StringBuilder builder, String name,
@@ -1020,10 +1027,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				expression.getVariables(SymbolicMode.SYMBOLIC);
 		for (int i = 0; i < listOfVariables.size(); i++) {
 			String labelOfVariableFromList = getLabel(listOfVariables.getListElement(i));
-			if (containsFunctionVariable(validExpression, labelOfVariableFromList)) {
-				return true;
-			}
-			if (containsVariable(variablesInExpression, labelOfVariableFromList)) {
+			if (containsFunctionVariable(validExpression, labelOfVariableFromList)
+					|| containsVariable(variablesInExpression, labelOfVariableFromList)) {
 				return true;
 			}
 		}
@@ -1114,10 +1119,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".N");
-		if (casParser.isCommandAvailable(sbCASCommand.toString())) {
-			return true;
-		}
-		return false;
+		return casParser.isCommandAvailable(sbCASCommand.toString());
 	}
 
 	@Override

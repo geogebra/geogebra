@@ -720,15 +720,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private boolean compatibleType(int t) {
-		if (type == t) {
-			return true;
-		}
 		// the conic type change temporarily to point or empty conic --
 		// once the conic returns back, we want the old parameter to be used
-		if (t == CONIC_EMPTY || t == CONIC_SINGLE_POINT) {
-			return true;
-		}
-		return false;
+		return t == type || t == CONIC_EMPTY || t == CONIC_SINGLE_POINT;
 	}
 
 	/**
@@ -1444,12 +1438,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		// directrix parallel with yAxis
-		if (!DoubleUtil.isZero(matrix[1]) && !DoubleUtil.isZero(matrix[4])
-				&& DoubleUtil.isZero(matrix[0]) && DoubleUtil.isZero(matrix[3])) {
-			return true;
-		}
-
-		return false;
+		return !DoubleUtil.isZero(matrix[1]) && !DoubleUtil.isZero(matrix[4])
+				&& DoubleUtil.isZero(matrix[0]) && DoubleUtil.isZero(matrix[3]);
 	}
 
 	/**
@@ -3311,37 +3301,11 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		GeoConicND conic = (GeoConicND) geo;
-		double[] B = conic.matrix;
 		if (type == GeoConicND.CONIC_EMPTY && conic.type == GeoConicND.CONIC_EMPTY) {
 			return ExtendedBoolean.TRUE;
 		}
 
-		double lambda1 = 0.0;
-		boolean aZero, bZero, equal = true;
-		for (int i = 0; i < 6; i++) {
-			aZero = DoubleUtil.isZero(matrix[i]);
-			bZero = DoubleUtil.isZero(B[i]);
-
-			// A[i] == 0 and B[i] != 0 => not equal
-			if (aZero && !bZero) {
-				equal = false;
-			} else if (bZero && !aZero) {
-				equal = false;
-			} else if (!aZero && !bZero) {
-				// init lambda?
-				if (lambda1 == 0.0) {
-					lambda1 = matrix[i] / B[i];
-				// check equality
-				} else {
-					equal = DoubleUtil.isEqual(matrix[i], lambda1 * B[i]);
-				}
-			}
-			// leaf loop
-			if (!equal) {
-				break;
-			}
-		}
-		return ExtendedBoolean.newExtendedBoolean(equal);
+		return ExtendedBoolean.newExtendedBoolean(hasEqualMatrix(conic));
 	}
 
 	/**
@@ -3938,10 +3902,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
 			return false;
 		}
-		if (getParentAlgorithm() instanceof AlgoEllipseFociLength) {
-			return false;
-		}
-		return true;
+		return !(getParentAlgorithm() instanceof AlgoEllipseFociLength);
 	}
 
 	/**
@@ -4466,11 +4427,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private boolean isEquationFormEnforced() {
-		if (cons.getApplication().getConfig().getEnforcedConicEquationForm() == -1) {
-			return false;
-		} else {
-			return true;
-		}
+		return cons.getApplication().getConfig().getEnforcedConicEquationForm() != -1;
 	}
 
 	private void setModeWithImplicitEquationAsDefault(int mode) {
@@ -4489,4 +4446,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
+	/**
+	 * Classify this conic if it wasn't done already
+	 */
+	public void ensureClassified() {
+		if (type == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
+			classifyConic();
+		}
+	}
 }

@@ -1732,11 +1732,16 @@ public class Construction {
 					}
 				}
 			}
+			if (updateInputIdx.isEmpty()) {
+				// since we only get there if definition did change and command name is the same
+				// at least one input must have changed, but better to avoid OutOfBounds.
+				return false;
+			}
 			for (Integer i: updateInputIdx) {
 				oldParent.getInput(i).set(newParent.getInput(i));
 			}
-			oldParent.compute();
-			oldGeo.updateRepaint();
+			// start cascade from the ancestor to make sure siblings are updated too
+			oldParent.getInput(updateInputIdx.get(0)).updateRepaint();
 			return true;
 		}
 		return false;
@@ -2281,6 +2286,9 @@ public class Construction {
 		 * CAS VARIABLE HANDLING e.g. ggbtmpvara for a
 		 */
 		label1 = Kernel.removeCASVariablePrefix(label1);
+		if (label1 == null || label1.isEmpty()) {
+			return null;
+		}
 		geo = geoTableVarLookup(label1);
 		if (geo != null) {
 			// geo found for name that starts with TMP_VARIABLE_PREFIX or
@@ -2293,7 +2301,7 @@ public class Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label1.indexOf('$') > -1 && label1.length() > 1) {
+		if (label1.indexOf('$') > -1) {
 			StringBuilder labelWithoutDollar = new StringBuilder(
 					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
@@ -2303,17 +2311,19 @@ public class Construction {
 				}
 			}
 			String labelString = labelWithoutDollar.toString();
+			if (labelString.isEmpty()) {
+				return null;
+			}
 			// allow automatic creation of elements
 			geo = lookupLabel(labelString, allowAutoCreate);
 			if (geo != null) {
 				// geo found for name that includes $ signs
 				return checkConstructionStep(geo);
 			}
-			if (!labelString.isEmpty() && labelString.charAt(0) >= '0'
-					&& labelString.charAt(0) <= '9') {
+			if (labelString.charAt(0) >= '0' && labelString.charAt(0) <= '9') {
 				int cell = 0;
 				try {
-					cell = Integer.parseInt(labelWithoutDollar.toString());
+					cell = Integer.parseInt(labelString);
 				} catch (Exception e) {
 					Log.debug(e);
 				}
@@ -2368,7 +2378,8 @@ public class Construction {
 
 		// if we get here, nothing worked:
 		// possibly auto-create new GeoElement with that name
-		if (allowAutoCreate) {
+		if (allowAutoCreate && getApplication().getKernel()
+				.getAlgebraProcessor().enableStructures()) {
 			return autoCreateGeoElement(label1);
 		}
 		return null;
@@ -2478,11 +2489,7 @@ public class Construction {
 			return false;
 		}
 
-		if (includeDummies && casDummies.contains(label)) {
-			return false;
-		}
-
-		return true;
+		return !includeDummies || !casDummies.contains(label);
 	}
 
 	/**
@@ -2779,7 +2786,7 @@ public class Construction {
 	protected GeoElement autoCreateGeoElement(String labelNew) {
 		GeoElementND createdGeo = null;
 		boolean fix = true;
-		boolean auxilliary = true;
+		boolean auxiliary = true;
 		String label = labelNew;
 		int length = label.length();
 		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
@@ -2810,7 +2817,7 @@ public class Construction {
 
 				createdGeo = new GeoPoint(this, 0d, 0d, 1d);
 				label = "O";
-				auxilliary = true;
+				auxiliary = true;
 				fix = true;
 			}
 		}
@@ -2823,7 +2830,7 @@ public class Construction {
 			// boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 			// setSuppressLabelCreation(false);
 
-			createdGeo.setAuxiliaryObject(auxilliary);
+			createdGeo.setAuxiliaryObject(auxiliary);
 			createdGeo.setLabel(label);
 			createdGeo.setFixed(fix);
 

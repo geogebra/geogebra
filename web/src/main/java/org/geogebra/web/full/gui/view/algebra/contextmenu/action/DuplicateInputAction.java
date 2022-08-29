@@ -23,8 +23,10 @@ public class DuplicateInputAction extends DefaultMenuAction<GeoElement> {
 		if (currentNode != null) {
 			currentNode.selectItem(false);
 		}
-		input.setText(dup);
-		input.setFocus(true);
+		if (input != null) {
+			input.setText(dup);
+			input.setFocus(true);
+		}
 	}
 
 	@Override

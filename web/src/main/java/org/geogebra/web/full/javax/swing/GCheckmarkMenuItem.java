@@ -1,6 +1,7 @@
 package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -72,7 +73,7 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	@Override
 	public void setChecked(boolean value) {
 		super.setChecked(value);
-		menuItem.getElement().setAttribute("aria-checked", isChecked() + "");
+		AriaHelper.setChecked(menuItem, isChecked());
 	}
 
 }

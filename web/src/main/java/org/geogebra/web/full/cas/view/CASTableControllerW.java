@@ -174,10 +174,7 @@ public class CASTableControllerW extends CASTableCellController implements
 	public boolean checkHeaderClick(HumanInputEvent<?> event) {
 		CASTableW cw = view.getConsoleTable();
 		GPoint gp = cw.getPointForEvent(event);
-		if (gp != null && gp.x == 0) {
-			return true;
-		}
-		return false;
+		return gp != null && gp.x == 0;
 	}
 
 	@Override

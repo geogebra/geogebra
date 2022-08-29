@@ -733,4 +733,8 @@ public class AppletParameters {
 			return mobile;
 		}
 	}
+
+	public int getParamMaxImageSize() {
+		return getIntDataParam("maxImageSize", 0);
+	}
 }

@@ -40,9 +40,9 @@ public class ButtonFactory {
 	 * @return a button
 	 */
 	public WeightedButton createInputButton(String name, String altText,
-			String input, float weight) {
+			String input, float weight, boolean modify) {
 		return new WeightedButtonImpl(name, ResourceType.TEXT, input,
-				ActionType.INPUT, Background.STANDARD, modifiers, weight,
+				ActionType.INPUT, Background.STANDARD, modify ? modifiers : null, weight,
 				altText);
 	}
 
@@ -62,7 +62,7 @@ public class ButtonFactory {
 	 */
 	public WeightedButton createInputButton(String name, String altText,
 			String input) {
-		return createInputButton(name, altText, input, 1.0f);
+		return createInputButton(name, altText, input, 1.0f, true);
 	}
 
 	/**
