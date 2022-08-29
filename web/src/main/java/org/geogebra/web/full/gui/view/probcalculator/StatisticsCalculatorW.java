@@ -80,7 +80,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 
 		// prepare result panel
 		FlowPanel resultPanel = new FlowPanel();
-		resultPanel.setStyleName("resultPanel");
 		resultPanel.add(lblResult);
 		resultPanel.add(resultPane);
 
