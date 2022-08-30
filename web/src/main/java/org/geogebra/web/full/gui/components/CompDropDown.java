@@ -70,7 +70,7 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, 24, selectedOption);
+		dropDown = new ComponentDropDownPopup(app, 24, selectedOption, null);
 		dropDown.addAutoHidePartner(getElement());
 
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
