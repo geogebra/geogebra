@@ -39,7 +39,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 	private static final int TAB_INTERVAL_IDX = 0;
 	private static final String[] DEFAULT_XY_HEADERS = { "x", "y(x)" };
-	private static final String PREFIX = "[FUNC_ISPECTOR]";
 	private static final int HEADER_PADDING = 44;
 
 	private FlowPanel mainPanel;
@@ -102,10 +101,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		// TODO Auto-generated method stub
 	}
 
-	private static void debug(String msg) {
-		Log.debug(PREFIX + " " + msg);
-	}
-
 	@Override
 	public void updateXYTable(boolean isTable) {
 		// reset table model and update the XYtable
@@ -114,8 +109,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		if (isTable) {
 			int row = pointCount / 2;
 			modelXY.setRowCount(pointCount);
-			Log.debug("[updateXYTable] pointCount: " + pointCount + " row: "
-			        + row);
 			tableXY.setCellEditable(row, 0);
 			tableXY.setSelectedRow(row);
 		} else {
@@ -125,33 +118,27 @@ public class FunctionInspectorW extends FunctionInspector {
 		}
 
 		updateXYTable();
-		Log.debug(modelXY.toString());
 		updateTestPoint();
 	}
 
 	@Override
 	public void updateInterval(ArrayList<String> property,
 	        ArrayList<String> value) {
-		debug("updateInterval");
 		modelInterval.removeAll();
 		modelInterval.setHeaders(getModel().getIntervalColumnNames());
 		for (int i = 0; i < property.size(); i++) {
 			modelInterval
 			        .addAsRow(Arrays.asList(property.get(i), value.get(i)));
 		}
-		debug("updateInterval ended");
 	}
 
 	@Override
 	public void setXYValueAt(Double value, int row, int col) {
-		debug("[XY] setData");
 		modelXY.setData(row, col, getModel().format(value));
-		debug("setData ended");
 	}
 
 	@Override
 	public Object getXYValueAt(int row, int col) {
-		Log.debug("GETDATA row: " + row + " col: " + col);
 		return modelXY.getData(row, col);
 	}
 
@@ -221,8 +208,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	public int getSelectedXYRow() {
-		int row = tableXY.getSelectedRow() - 1;
-		return row;
+		return tableXY.getSelectedRow() - 1;
 	}
 
 	@Override
@@ -273,7 +259,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void createTabPointPanel() {
-		debug("createTabPointPanel()");
 		pointsTab = new FlowPanel();
 		pointsTab.setStyleName("propertiesTab");
 
@@ -296,8 +281,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		FlowPanel btnPanel = createBtnPanel();
 		pointsTab.add(btnPanel);
-
-		debug("createTabPointPanel() ENDED");
 	}
 
 	/**
@@ -540,7 +523,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	public void setLabels() {
-		debug("setLabels");
 		Localization loc = app.getLocalization();
 		lblStep.setText(loc.getMenu("Step") + ":");
 		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=

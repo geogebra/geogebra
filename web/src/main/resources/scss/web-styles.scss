@@ -2083,7 +2083,7 @@
 		margin: 3px 5px;
 	}
 
-	.StatisticsCalculatorW .AutoCompleteTextFieldW {
+	.StatisticsCalculatorW .AutoCompleteTextFieldW, .daRegressionPanel .AutoCompleteTextFieldW{
 		border-bottom: 1px solid colors.$black-36;
 
 		input[type=text].gwt-SuggestBox {
