@@ -34,13 +34,13 @@ public class ComponentDropDownPopup {
 	 * @param itemHeight Height of an item in list
 	 * @param anchor     to align the selected item.
 	 */
-	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor) {
+	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, Runnable onClose) {
 		this.app = app;
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("dropDownPopup");
-		app.registerAutoclosePopup(menu.getPopupPanel());
+		menu.getPopupPanel().addCloseHandler(event -> onClose.run());
 	}
 
 	/**
@@ -199,5 +199,9 @@ public class ComponentDropDownPopup {
 	 */
 	public void clear() {
 		menu.clearItems();
+	}
+
+	public void showAtPoint(int x, int y) {
+		menu.showAtPoint(x, y);
 	}
 }

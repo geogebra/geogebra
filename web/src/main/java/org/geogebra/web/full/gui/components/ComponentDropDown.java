@@ -63,7 +63,7 @@ public class ComponentDropDown extends FlowPanel {
 	}
 
 	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, ITEM_HEIGHT, selectedOptionLabel);
+		dropDown = new ComponentDropDownPopup(app, ITEM_HEIGHT, selectedOptionLabel, null);
 		dropDown.addAutoHidePartner(getElement());
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
