@@ -59,6 +59,10 @@
         }
         return false;
     }
+
+    function ggbMultiplayerChange(users) {
+       window.parent && window.parent.multiplayerChange && window.parent.multiplayerChange(users);
+    }
 </script>
 <style>
 body {
