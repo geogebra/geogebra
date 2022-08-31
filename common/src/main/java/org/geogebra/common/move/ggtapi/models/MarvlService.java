@@ -11,4 +11,9 @@ public class MarvlService implements Service {
 		httpRequest.setAuth(model.getEncoded());
 		return httpRequest;
 	}
+
+	@Override
+	public boolean hasMultiuser() {
+		return false;
+	}
 }

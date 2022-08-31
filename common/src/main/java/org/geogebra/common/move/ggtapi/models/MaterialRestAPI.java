@@ -343,8 +343,9 @@ public class MaterialRestAPI implements BackendAPI {
 			request.put("file", base64);
 			if (StringUtil.emptyOrZero(tubeID)) {
 				request.put("type", type.toString());
+			} else if (service.hasMultiuser()) {
+				request.put("multiuser", isMultiuser);
 			}
-			request.put("multiuser", isMultiuser);
 		} catch (JSONException e) {
 			materialCallback.onError(e);
 		}
