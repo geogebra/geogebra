@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.factories.FormatFactory;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -20,6 +21,11 @@ public class NumericPropertyUtil {
 	public NumericPropertyUtil(AlgebraProcessor algebraProcessor) {
 		this.algebraProcessor = algebraProcessor;
 		this.numberFormatter = FormatFactory.getPrototype().getNumberFormat(2);
+	}
+
+	public boolean isNumber(String text) {
+		NumberValue numberValue = parseInputString(text);
+		return numberValue != null && !Double.isNaN(numberValue.getDouble());
 	}
 
 	/**

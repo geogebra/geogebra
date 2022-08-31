@@ -25,4 +25,11 @@ public interface StringProperty extends Property {
      * @return a boolean whether the value is valid or not
      */
     boolean isValid(String value);
+
+    /**
+     * Returns the error message translation key for invalid input.
+     *
+     * @return the translation key of the error message for invalid input
+     */
+    String getInvalidInputErrorMessageKey();
 }

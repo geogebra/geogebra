@@ -40,12 +40,7 @@ public class ProbabilityResultProperty implements Property {
 	 * @return `true` if `text` is a valid input to `entry`, `false` otherwise.
 	 */
 	public boolean isValidInput(EditableResultEntry entry, String text) {
-		try {
-			GeoNumberValue value = util.parseInputString(text);
-			return value != null;
-		} catch (Exception e) {
-			return false;
-		}
+		return util.isNumber(text);
 	}
 
 	/**
