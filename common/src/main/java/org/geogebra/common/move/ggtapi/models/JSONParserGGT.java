@@ -78,10 +78,6 @@ public class JSONParserGGT {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));
 		}
 
-		if (!"".equals(getAppName(obj))) {
-			material.setAppName(getAppName(obj));
-		}
-
 		material.setVisibility(getString(obj, "visibility"));
 		material.setFileName(getString(obj, "fileUrl"));
 		material.setSharingKey(sharingKey);
@@ -91,17 +87,7 @@ public class JSONParserGGT {
 				StringUtil.empty(thumbUrl) ? getString(obj, "thumbnail")
 						: thumbUrl.replace("$1", ""));
 		material.setLanguage(getString(obj, "language"));
-		material.setHeight(getInt(obj, "height", 600));
-		material.setWidth(getInt(obj, "width", 800));
-		material.setShowToolbar(getBoolean(obj, "toolbar", false));
-		material.setAllowStylebar(getBoolean(obj, "stylebar", false));
-		material.setShowMenu(getBoolean(obj, "menubar", false));
-		material.setShowInputbar(getBoolean(obj, "inputbar", false));
-		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
-		material.setRightClick(getBoolean(obj, "rightclick", false));
-		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
-		material.setUndoRedo(getBoolean(obj, "undoredo", false));
-		material.setShowZoomButtons(getBoolean(obj, "zoombuttons", false));
+
 		material.setBase64(getString(obj, "ggbBase64"));
 		material.setDeleted(getBoolean(obj, "deleted", false));
 		material.setFromAnotherDevice(
@@ -129,6 +115,28 @@ public class JSONParserGGT {
 			material.setCreator(new UserPublic(userId, displayName));
 		}
 		return material;
+	}
+
+	/**
+	 * Copy settings from JSON to material
+	 * @param settings ggb worksheet element settings
+	 * @param material material
+	 */
+	public static void copySettings(JSONObject settings, Material material) {
+		if (!"".equals(getAppName(settings))) {
+			material.setAppName(getAppName(settings));
+		}
+		material.setHeight(getInt(settings, "height", 600));
+		material.setWidth(getInt(settings, "width", 800));
+		material.setShowToolbar(getBoolean(settings, "showToolBar", false));
+		material.setAllowStylebar(getBoolean(settings, "allowStyleBar", false));
+		material.setShowMenu(getBoolean(settings, "showMenuBar", false));
+		material.setShowInputbar(getBoolean(settings, "showAlgebraInput", false));
+		material.setShiftDragZoom(getBoolean(settings, "enableShiftDragZoom", false));
+		material.setRightClick(getBoolean(settings, "enableRightClick", false));
+		material.setShowResetIcon(getBoolean(settings, "showResetIcon", false));
+		material.setUndoRedo(getBoolean(settings, "enableUndoRedo", false));
+		material.setShowZoomButtons(getBoolean(settings, "showZoomButtons", false));
 	}
 
 	private static String getAppName(JSONObject obj) {
