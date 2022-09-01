@@ -2,6 +2,7 @@ package org.geogebra.common.kernel;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -63,6 +64,12 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		try {
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(input);
+
+			if (kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV
+					&& ve.inspect(Inspecting.vectorDivisionFinder)) {
+				throw new MyError(kernel.getLocalization(), "IllegalDivision");
+			}
+
 			if (ve != null) {
 				validInput = input;
 			}
