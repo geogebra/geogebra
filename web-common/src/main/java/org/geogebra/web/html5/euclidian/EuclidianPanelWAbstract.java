@@ -34,4 +34,7 @@ public interface EuclidianPanelWAbstract {
 	void reset();
 
 	boolean isAttached();
+
+	void enableZoomPanelEvents(boolean enable);
+
 }

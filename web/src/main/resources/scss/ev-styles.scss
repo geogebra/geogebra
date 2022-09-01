@@ -307,6 +307,10 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 	}
 
+	.pointerEventsNoneWhenDragging {
+		pointer-events: none;
+	}
+
 	.zoomPanel {
 		position: absolute;
 		cursor: default;
