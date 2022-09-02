@@ -1306,7 +1306,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveNotReturnUndefined() {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
-		AlgebraItem.isSymbolicDiffers(function);
 		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
 		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
 				equalTo("{x = 1.216871488876}"));
@@ -1316,10 +1315,60 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveChangedToNSolve() {
 		add("eq1: (x^2)(e^x)= 5");
 		GeoSymbolic function = add("Solve(eq1, x)");
-		AlgebraItem.isSymbolicDiffers(function);
 		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(eq1, x)"));
 	}
+
+	@Test
+	public void testSolveNSolveCase1() {
+		// Solve and NSolve give identical answers
+		GeoSymbolic symbolic = add("Solve(x^2=1)");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+	}
+
+	@Test
+	public void testSolveNSolveCase2() {
+		// Solve and NSolve both work and give answers in a different form
+		GeoSymbolic symbolic = add("Solve(x^2=2)");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = -sqrt(2), x = sqrt(2)}"));
+		AlgebraItem.toggleSymbolic(symbolic);
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = -1.414213562373, x = 1.414213562373}"));
+	}
+
+	@Test
+	public void testSolveNSolveCase3() {
+		// Solve gives {} or {?} or {x=?} or ? and NSolve gives an answer
+		GeoSymbolic symbolic = add("Solve(x=cos(x))");
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve(x = cos(x))"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = 0.7390851332152}"));
+	}
+
+	@Test
+	public void testSolveNSolveCase3a() {
+		// NSolve gives {} or {?} or {x=?} or ? and Solve gives an answer
+		GeoSymbolic symbolic = add("NSolve(20=100*x^1000)");
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("Numeric(Solve(20 = 100x¹⁰⁰⁰))"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = -0.9983918565382, x = 0.9983918565382}"));
+	}
+
+	@Test
+	public void testSolveNSolveCase4() {
+		// Solve and NSolve both give {} or {?} or {x=?} or ?
+		GeoSymbolic symbolic = add("Solve(2^x=-3)");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("{}"));
+		symbolic = add("NSolve(2^x=-3)");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
+	}
+
+
 
 	@Test
 	public void testQuartiles() {
