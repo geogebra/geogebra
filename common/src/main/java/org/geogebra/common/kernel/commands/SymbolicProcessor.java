@@ -154,9 +154,8 @@ public class SymbolicProcessor {
 				cons.addToConstructionList(sym, false);
 			}
 			sym.computeOutput();
-			AlgebraItem.checkSolveNSolve(sym);
-
 		}
+		AlgebraItem.checkSolveNSolve(sym);
 		return sym;
 	}
 
