@@ -26,6 +26,7 @@ public class GeoGebraTubeUser {
 	private ArrayList<GroupIdentifier> groups;
 	private boolean shibbolethAuth;
 	private boolean student = false;
+	private String jwtToken;
 
 	/**
 	 * Creates a new user with the specified login token
@@ -231,5 +232,13 @@ public class GeoGebraTubeUser {
 
 	public void setStudent(boolean student) {
 		this.student = student;
+	}
+
+	public void setJWTToken(String jwtToken) {
+		this.jwtToken = jwtToken;
+	}
+
+	public String getJWTToken() {
+		return jwtToken;
 	}
 }

@@ -10,7 +10,7 @@ public class GGBMultiplayer {
 
 	@JsConstructor
 	@SuppressWarnings("unused")
-	public GGBMultiplayer(Object api, JsPropertyMap<?> config) {
+	public GGBMultiplayer(Object api, String teamId, JsPropertyMap<?> config, String token) {
 		// native constructor
 	}
 
