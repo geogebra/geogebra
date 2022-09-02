@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -153,6 +154,8 @@ public class SymbolicProcessor {
 				cons.addToConstructionList(sym, false);
 			}
 			sym.computeOutput();
+			AlgebraItem.checkSolveNSolve(sym);
+
 		}
 		return sym;
 	}

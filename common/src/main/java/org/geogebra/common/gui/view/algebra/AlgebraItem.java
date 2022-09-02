@@ -640,19 +640,36 @@ public class AlgebraItem {
 	}
 
 	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
-
-		String textOriginal = symbolic.toValueString(StringTemplate.defaultTemplate);
-		toggleNumeric(symbolic);
-		String textOpposite = symbolic.toValueString(StringTemplate.defaultTemplate);
-
-		if (isDefined(textOriginal)) {
-			toggleNumeric(symbolic);
-		} else if (isDefined(textOpposite) && Commands.Solve.name()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
-			symbolic.wrapInNumeric();
-		}
+		String textOriginal = getValueString(symbolic);
+		String textOpposite = getOppositeValueString(symbolic);
 		return isDefined(textOriginal) && isDefined(textOpposite)
 				&& !textOriginal.equals(textOpposite);
+	}
+
+	private static String getValueString(GeoSymbolic symbolic) {
+		return symbolic.toValueString(StringTemplate.defaultTemplate);
+	}
+
+	private static String getOppositeValueString(GeoSymbolic symbolic) {
+		return getValueString(getOpposite(symbolic));
+	}
+
+	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
+		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction());
+		opposite.setDefinition(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
+		toggleNumeric(opposite);
+		return opposite;
+	}
+
+	public static void checkSolveNSolve(GeoSymbolic symbolic) {
+		if (isSymbolicSolve(symbolic)) {
+			if (!isDefined(getValueString(symbolic)) && isDefined(getOppositeValueString(symbolic))) {
+				toggleNumeric(symbolic);
+				if (Commands.Solve.name().equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
+					symbolic.wrapInNumeric();
+				}
+			}
+		}
 	}
 
 	private static boolean isDefined(String valueString) {
