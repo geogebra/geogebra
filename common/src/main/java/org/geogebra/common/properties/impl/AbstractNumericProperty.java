@@ -38,11 +38,15 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 
 	@Override
 	public boolean isValid(String value) {
-		NumberValue numberValue = util.parseInputString(value);
-		return numberValue != null && !Double.isNaN(numberValue.getDouble());
+		return util.isNumber(value);
 	}
 
 	protected abstract void setNumberValue(GeoNumberValue value);
 
 	protected abstract NumberValue getNumberValue();
+
+	@Override
+	public String getInvalidInputErrorMessage() {
+		return getLocalization().getError("InvalidInput");
+	}
 }

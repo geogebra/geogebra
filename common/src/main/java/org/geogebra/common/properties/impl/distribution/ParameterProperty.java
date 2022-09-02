@@ -47,4 +47,9 @@ public class ParameterProperty extends AbstractNumericProperty {
 	protected NumberValue getNumberValue() {
 		return view.getParameters()[parameterIndex];
 	}
+
+	@Override
+	public String getInvalidInputErrorMessage() {
+		return "";
+	}
 }
