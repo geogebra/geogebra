@@ -92,7 +92,7 @@ public class MaterialRestAPI implements BackendAPI {
 			guser.setUserId(user.getInt("id"));
 			guser.setIdentifier("");
 			guser.setStudent(!"1".equals(user.getString("isTeacher")));
-			guser.setLanguage(user.getString("lang_ui"));
+			guser.setLanguage(user.optString("langUi"));
 			ArrayList<GroupIdentifier> allGroups = new ArrayList<>();
 			addGroups(user, "allClasses", allGroups, GroupIdentifier.GroupCategory.CLASS);
 			addGroups(user, "allCourses", allGroups, GroupIdentifier.GroupCategory.COURSE);
