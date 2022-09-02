@@ -49,8 +49,8 @@ public class AxisLabelProperty extends AbstractProperty
     }
 
     @Override
-    public String getInvalidInputErrorMessageKey() {
-        return "InvalidInput";
+    public String getInvalidInputErrorMessage() {
+        return getLocalization().getError("InvalidInput");
     }
 
     @Override

@@ -46,7 +46,7 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 	protected abstract NumberValue getNumberValue();
 
 	@Override
-	public String getInvalidInputErrorMessageKey() {
-		return "InvalidInput";
+	public String getInvalidInputErrorMessage() {
+		return getLocalization().getError("InvalidInput");
 	}
 }

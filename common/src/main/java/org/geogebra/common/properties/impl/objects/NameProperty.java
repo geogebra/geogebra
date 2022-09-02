@@ -60,7 +60,7 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	}
 
 	@Override
-	public String getInvalidInputErrorMessageKey() {
-		return "InvalidInput";
+	public String getInvalidInputErrorMessage() {
+		return getLocalization().getError("InvalidInput");
 	}
 }

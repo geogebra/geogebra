@@ -49,7 +49,7 @@ public class ParameterProperty extends AbstractNumericProperty {
 	}
 
 	@Override
-	public String getInvalidInputErrorMessageKey() {
+	public String getInvalidInputErrorMessage() {
 		return "";
 	}
 }

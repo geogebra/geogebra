@@ -35,12 +35,12 @@ public class StringPropertyCollection<T extends StringProperty>
 	}
 
 	@Override
-	public String getInvalidInputErrorMessageKey() {
+	public String getInvalidInputErrorMessage() {
 		StringProperty first = getFirstProperty();
 		if (first != null) {
-			return first.getInvalidInputErrorMessageKey();
+			return first.getInvalidInputErrorMessage();
 		}
-		return "InvalidInput";
+		return "";
 	}
 
 	@Override
