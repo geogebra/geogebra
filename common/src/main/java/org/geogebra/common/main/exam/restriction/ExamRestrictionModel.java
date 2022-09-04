@@ -11,6 +11,7 @@ import org.geogebra.common.GeoGebraConstants;
  */
 public class ExamRestrictionModel {
 	private List<String> subAppCodes = Collections.emptyList();
+	private String defaultAppCode;
 
 	void setSubAppCodes(String... list) {
 		subAppCodes = Arrays.asList(list);
@@ -31,7 +32,15 @@ public class ExamRestrictionModel {
 	 * (before starting exam) is restricted
 	 */
 	public String getDefaultAppCode() {
-		return GeoGebraConstants.GRAPHING_APPCODE;
+		return defaultAppCode;
+	}
+
+	/**
+	 * define default sub application code on exam mode start
+	 * @param subAppCode - default sub app code
+	 */
+	public void setDefaultAppCode(String subAppCode) {
+		defaultAppCode = subAppCode;
 	}
 
 	/**
