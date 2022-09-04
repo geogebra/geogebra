@@ -23,6 +23,10 @@ public class NumericPropertyUtil {
 		this.numberFormatter = FormatFactory.getPrototype().getNumberFormat(2);
 	}
 
+	/**
+	 * @param text Text to check if it can be converted into a number.
+	 * @return Whether the parameter can be converted into number or not.
+	 */
 	public boolean isNumber(String text) {
 		NumberValue numberValue = parseInputString(text);
 		return numberValue != null && !Double.isNaN(numberValue.getDouble());
