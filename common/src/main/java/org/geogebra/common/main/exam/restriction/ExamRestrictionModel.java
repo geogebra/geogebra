@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.geogebra.common.GeoGebraConstants;
-
 /**
  * Model containing the exam restrictions.
  */
