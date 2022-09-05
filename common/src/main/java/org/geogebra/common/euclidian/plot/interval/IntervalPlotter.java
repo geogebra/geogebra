@@ -4,10 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.interval.function.IntervalTuple;
-import org.geogebra.common.kernel.interval.samplers.ConditionalSamplerFactory;
-import org.geogebra.common.kernel.interval.samplers.DefaultSamplerFactory;
-import org.geogebra.common.kernel.interval.samplers.SamplerFactory;
+import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
 
 /**
  * Function plotter based on interval arithmetic
@@ -59,17 +56,11 @@ public class IntervalPlotter {
 	}
 
 	private void createModel(GeoFunction function) {
-		IntervalTuple range = new IntervalTuple(evBounds.domain(), evBounds.range());
-		model = new IntervalPlotModel(getFactory(function).create(function, evBounds),
-				evBounds);
+		IntervalFunctionData data = new IntervalFunctionData(evBounds);
+		FunctionSampler sampler = new FunctionSampler(function, evBounds, data);
+		model = new IntervalPlotModel(sampler, evBounds);
 		IntervalPath path = new IntervalPath(gp, evBounds, model);
 		model.setPath(path);
-	}
-
-	private static SamplerFactory getFactory(GeoFunction function) {
-		return function.isGeoFunctionConditional()
-				? new ConditionalSamplerFactory()
-				: new DefaultSamplerFactory();
 	}
 
 	/**

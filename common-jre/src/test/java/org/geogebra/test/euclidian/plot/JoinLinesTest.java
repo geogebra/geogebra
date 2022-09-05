@@ -44,8 +44,8 @@ public class JoinLinesTest {
 					Double.NEGATIVE_INFINITY, 1.8628940248860604),
 				Tuples.undefined(3.1599999999998065, 3.1799999999998065));
 
-		gpExpected.moveTo(neighbours.rightXHigh(), bounds.getYmax());
-		gpExpected.lineTo(neighbours.currentXLow(), neighbours.leftYHigh());
+		gpExpected.moveTo(neighbours.currentXLow(), neighbours.leftYHigh());
+		gpExpected.lineTo(neighbours.rightXHigh(), bounds.getYmax());
 
 		join.toTop(neighbours);
 		assertSamePlot();
