@@ -31,19 +31,19 @@ public class DiscreteSpaceCenteredTest {
 		valuesShouldBe(space, -5, 0.25, 40);
 	}
 	@Test
-	public void testExpandLeftWith4Steps() {
+	public void testMoveLeftWith4Steps() {
 		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
 				0.25);
-		space.expandLeft(4);
-		valuesShouldBe(space, -6, 0.25, 44);
+		space.moveLeft(4);
+		valuesShouldBe(space, -6, 0.25, 40);
 	}
 
 	@Test
-	public void testExpandRightWith4Steps() {
+	public void testMoveRightWith4Steps() {
 		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
 				0.25);
-		space.expandRight(4);
-		valuesShouldBe(space, -5, 0.25, 44);
+		space.moveRight(4);
+		valuesShouldBe(space, -4, 0.25, 40);
 	}
 
 	private void valuesShouldBe(DiscreteSpace space, double start, double step, int limit) {

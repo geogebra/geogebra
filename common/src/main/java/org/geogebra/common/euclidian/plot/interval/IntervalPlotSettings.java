@@ -48,4 +48,8 @@ public class IntervalPlotSettings {
 	private IntervalPlotSettings() {
 		throw new IllegalArgumentException("Should be not initialized");
 	}
+
+	public static boolean isUpdateOnSettingsChangeEnabled() {
+		return true;
+	}
 }

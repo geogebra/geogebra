@@ -12,7 +12,14 @@ public interface DiscreteSpace {
 
 	void forEach(Consumer<Interval> action);
 
-	void expandLeft(int count);
+	void moveLeft(int count);
+	void moveRight(int count);
 
 	void expandRight(int count);
+
+	double getStep();
+
+	Interval getMostLeftInterval();
+
+	Interval getMostRightInterval();
 }

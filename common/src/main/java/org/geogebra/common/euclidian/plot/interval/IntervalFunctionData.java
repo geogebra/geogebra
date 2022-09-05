@@ -27,4 +27,22 @@ public class IntervalFunctionData {
 	public void clear() {
 		tuples.clear();
 	}
+
+	public void extendLeft(IntervalTuple tuple) {
+		tuples.add(0, tuple);
+		if (tuples.last().x().getLow() > bounds.getXmax()) {
+			tuples.removeLast();
+		}
+	}
+
+	public void extendRight(IntervalTuple tuple) {
+		tuples.add(tuple);
+		if (tuples.first().x().getHigh() < bounds.getXmin()) {
+			tuples.removeFirst();
+		}
+	}
+
+	public int count() {
+		return tuples.count();
+	}
 }

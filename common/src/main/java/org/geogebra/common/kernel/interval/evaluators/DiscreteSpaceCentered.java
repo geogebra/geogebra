@@ -24,9 +24,9 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	@Override
-	public void update(Interval interval, int step) {
+	public void update(Interval interval, int numberOfSteps) {
 		start = interval.middle();
-		this.step = interval.getLength() / step;
+		this.step = interval.getLength() / numberOfSteps;
 		countLeft = computeCountTo(interval.getLow());
 		countRight = computeCountTo(interval.getHigh());
 	}
@@ -35,7 +35,7 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 		return (int) Math.ceil(Math.abs(start - limit) / step);
 	}
 
-	private double getMostRightValue() {
+	public double getMostRightValue() {
 		return start + countRight * step;
 	}
 
@@ -54,13 +54,37 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	@Override
-	public void expandLeft(int count) {
+	public void moveLeft(int count) {
 		countLeft += count;
+		countRight -= count;
+	}
+
+	@Override
+	public void moveRight(int count) {
+		countLeft -= count;
+		countRight += count;
 	}
 
 	@Override
 	public void expandRight(int count) {
 		countRight += count;
+	}
+
+	@Override
+	public double getStep() {
+		return step;
+	}
+
+	@Override
+	public Interval getMostLeftInterval() {
+		double value = getMostLeftValue();
+		return new Interval(value, value + step);
+	}
+
+	@Override
+	public Interval getMostRightInterval() {
+		double value = getMostRightValue();
+		return new Interval(value - step, value);
 	}
 
 	private Stream<Interval> values() {

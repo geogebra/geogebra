@@ -9,9 +9,6 @@ import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * List to hold IntervalTuples
@@ -55,7 +52,9 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @param tuple to add
 	 */
 	public void add(IntervalTuple tuple) {
-		list.add(tuple);
+		if (!list.contains(tuple)) {
+			list.add(tuple);
+		}
 	}
 
 	/**
@@ -261,16 +260,15 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return list.get(count() - 1);
 	}
 
-	public boolean checkXStep() {
-		if (count() < 1) {
-			return true;
-		}
+	public void add(int index, IntervalTuple tuple) {
+		list.add(0, tuple);
+	}
 
-		double length = get(0).x().getLength();
-		stream().filter(t -> !DoubleUtil.isEqual(t.x().getLength(), length,
-						IntervalConstants.PRECISION))
-				.forEach(t -> Log.debug(t.x().getLength() + " != " + length));
-		return stream().allMatch(t -> DoubleUtil.isEqual(t.x().getLength(), length,
-				IntervalConstants.PRECISION));
+	public void removeLast() {
+		list.remove(list.size() - 1);
+	}
+
+	public void removeFirst() {
+		list.remove(0);
 	}
 }

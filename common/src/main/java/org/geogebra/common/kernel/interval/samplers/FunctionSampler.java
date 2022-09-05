@@ -20,6 +20,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Laszlo
  */
 public class FunctionSampler implements IntervalFunctionSampler {
+	public static final int SPACE_MARGIN = 0;
 	private final IntervalFunction function;
 	private EuclidianViewBounds bounds;
 	private int numberOfSamples;
@@ -49,7 +50,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private double calculateStep() {
 		return (bounds != null ? bounds.domain().getLength()
-			: xRange.getLength() ) / numberOfSamples;
+			: xRange.getLength() ) / calculateNumberOfSamples();
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 			EuclidianViewBounds bounds, IntervalFunctionData data) {
 		this(geoFunction);
 		this.bounds = bounds;
-		numberOfSamples = bounds.getWidth();
+		numberOfSamples = -1;
 		this.data = data;
 		createSpace();
 		update(bounds.domain());
@@ -100,18 +101,49 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	@Override
 	public void update(Interval domain) {
 		if (hasZoomed(domain)) {
-			space.update(domain, calculateNumberOfSamples());
-			evaluateAll();
-			Log.debug("Zoomed - space: " + space);
+			zoom(domain);
 		} else if (hasPannedLeft(domain)) {
-			Log.debug("Panned left - space: " + space);
-
+			panLeft(domain);
 		} else if (hasPannedRight(domain)) {
-			Log.debug("Panned right - space: " + space);
-
+			panRight(domain);
 		}
 
 		domainBefore = domain;
+	}
+
+	private void zoom(Interval domain) {
+		space.update(domain, calculateNumberOfSamples());
+		evaluateAll();
+		Log.debug("Zoomed - space: " + space);
+	}
+
+	private void panLeft(Interval domain) {
+		double step = space.getStep();
+		double toEvaluate = domain.getLow() - SPACE_MARGIN * step;
+		Interval x = space.getMostLeftInterval();
+		while (x.getLow() > toEvaluate) {
+			space.moveLeft(1);
+			x = space.getMostLeftInterval();
+			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
+			data.extendLeft(tuple);
+
+		}
+
+		Log.debug("Panned left - data: " + data.count() + " space: " + space);
+	}
+
+	private void panRight(Interval domain) {
+		double step = space.getStep();
+		double toEvaluate = domain.getHigh() + SPACE_MARGIN * step;
+		Interval x = space.getMostRightInterval();
+		while (x.getHigh() < toEvaluate) {
+			space.moveRight(1);
+			x = space.getMostRightInterval();
+			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
+			data.extendRight(tuple);
+		}
+
+		Log.debug("Panned left - data: " + data.count() + " space: " + space);
 	}
 
 	private boolean hasZoomed(Interval domain) {
@@ -127,7 +159,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		return isMaxHigher(domain);
 	}
 
-		private boolean isMinHigher(Interval domain) {
+	private boolean isMinHigher(Interval domain) {
 		return domain.getLow() > domainBefore.getLow() ;
 	}
 
