@@ -44,45 +44,30 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	@Override
-	public Interval getDomain() {
-		return new Interval(getMostLeftValue(), getMostRightValue());
-	}
-
-	@Override
 	public void forEach(Consumer<Interval> action) {
 		values().forEach(action);
 	}
 
 	@Override
-	public void moveLeft(int count) {
-		countLeft += count;
-		countRight -= count;
+	public void moveLeft() {
+		countLeft++;
+		countRight--;
 	}
 
 	@Override
-	public void moveRight(int count) {
-		countLeft -= count;
-		countRight += count;
+	public void moveRight() {
+		countLeft--;
+		countRight++;
 	}
 
 	@Override
-	public void expandRight(int count) {
-		countRight += count;
-	}
-
-	@Override
-	public double getStep() {
-		return step;
-	}
-
-	@Override
-	public Interval getMostLeftInterval() {
+	public Interval head() {
 		double value = getMostLeftValue();
 		return new Interval(value, value + step);
 	}
 
 	@Override
-	public Interval getMostRightInterval() {
+	public Interval tail() {
 		double value = getMostRightValue();
 		return new Interval(value - step, value);
 	}

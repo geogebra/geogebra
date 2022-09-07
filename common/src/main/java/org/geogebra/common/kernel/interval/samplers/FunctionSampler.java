@@ -19,7 +19,6 @@ import org.geogebra.common.util.debug.Log;
  * @author Laszlo
  */
 public class FunctionSampler implements IntervalFunctionSampler {
-	public static final int SPACE_MARGIN = 0;
 	private final IntervalFunction function;
 
 	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
@@ -27,7 +26,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private int numberOfSamples;
 	private IntervalFunctionData data;
 	private DiscreteSpace space;
-	private Interval xRange;
+
 	/**
 	 * @param geoFunction function to get sampled
 	 * @param numberOfSamples the sample rate.
@@ -36,20 +35,18 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public FunctionSampler(GeoFunction geoFunction,
 			Interval domain, int numberOfSamples, IntervalFunctionData data) {
 		this(geoFunction);
-		xRange = domain;
 		this.numberOfSamples = numberOfSamples;
 		this.data = data;
-		createSpace();
-		update(xRange);
+		createSpace(calculateStep(domain));
+		update(domain);
 	}
 
-	private void createSpace() {
-		space = new DiscreteSpaceCentered(calculateStep());
+	private void createSpace(double step) {
+		space = new DiscreteSpaceCentered(step);
 	}
 
-	private double calculateStep() {
-		return (bounds != null ? bounds.domain().getLength()
-			: xRange.getLength() ) / calculateNumberOfSamples();
+	private double calculateStep(Interval domain) {
+		return domain.getLength() / calculateNumberOfSamples();
 	}
 
 	/**
@@ -63,7 +60,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		this.bounds = bounds;
 		numberOfSamples = -1;
 		this.data = data;
-		createSpace();
+		createSpace(calculateStep(bounds.domain()));
 		update(bounds.domain());
 	}
 
@@ -84,11 +81,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private IntervalTupleList evaluateAll() {
 		data.clear();
-
-		space.forEach(x -> {
-			data.append(x, function.evaluate(x));
-		});
-
+		space.forEach(x -> data.append(x, function.evaluate(x)));
 		processAsymptotes(data.tuples());
 		return data.tuples();
 	}
@@ -116,12 +109,11 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	private void panLeft(Interval domain) {
-		double step = space.getStep();
-		double toEvaluate = domain.getLow() - SPACE_MARGIN * step;
-		Interval x = space.getMostLeftInterval();
-		while (x.getLow() > toEvaluate) {
-			space.moveLeft(1);
-			x = space.getMostLeftInterval();
+		double evaluateTo = domain.getLow();
+		Interval x = space.head();
+		while (x.getLow() > evaluateTo) {
+			space.moveLeft();
+			x = space.head();
 			data.extendLeft(x, function.evaluate(x));
 
 		}
@@ -129,12 +121,11 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	private void panRight(Interval domain) {
-		double step = space.getStep();
-		double toEvaluate = domain.getHigh() + SPACE_MARGIN * step;
-		Interval x = space.getMostRightInterval();
-		while (x.getHigh() < toEvaluate) {
-			space.moveRight(1);
-			x = space.getMostRightInterval();
+		double evaluateTo = domain.getHigh();
+		Interval x = space.tail();
+		while (x.getHigh() < evaluateTo) {
+			space.moveRight();
+			x = space.tail();
 			data.extendRight(x, function.evaluate(x));
 		}
 

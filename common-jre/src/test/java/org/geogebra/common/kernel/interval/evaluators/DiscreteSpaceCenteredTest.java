@@ -34,7 +34,10 @@ public class DiscreteSpaceCenteredTest {
 	public void testMoveLeftWith4Steps() {
 		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
 				0.25);
-		space.moveLeft(4);
+		space.moveLeft();
+		space.moveLeft();
+		space.moveLeft();
+		space.moveLeft();
 		valuesShouldBe(space, -6, 0.25, 40);
 	}
 
@@ -42,7 +45,10 @@ public class DiscreteSpaceCenteredTest {
 	public void testMoveRightWith4Steps() {
 		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
 				0.25);
-		space.moveRight(4);
+		space.moveRight();
+		space.moveRight();
+		space.moveRight();
+		space.moveRight();
 		valuesShouldBe(space, -4, 0.25, 40);
 	}
 
