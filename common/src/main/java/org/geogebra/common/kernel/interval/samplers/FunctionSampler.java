@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.euclidian.plot.interval.IntervalFunctionData;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
@@ -22,13 +21,13 @@ import org.geogebra.common.util.debug.Log;
 public class FunctionSampler implements IntervalFunctionSampler {
 	public static final int SPACE_MARGIN = 0;
 	private final IntervalFunction function;
+
+	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
 	private EuclidianViewBounds bounds;
 	private int numberOfSamples;
 	private IntervalFunctionData data;
 	private DiscreteSpace space;
 	private Interval xRange;
-	private Interval domainBefore = IntervalConstants.undefined();
-
 	/**
 	 * @param geoFunction function to get sampled
 	 * @param numberOfSamples the sample rate.
@@ -85,10 +84,11 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private IntervalTupleList evaluateAll() {
 		data.clear();
+
 		space.forEach(x -> {
-			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
-			data.append(tuple);
+			data.append(x, function.evaluate(x));
 		});
+
 		processAsymptotes(data.tuples());
 		return data.tuples();
 	}
@@ -100,21 +100,19 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void update(Interval domain) {
-		if (hasZoomed(domain)) {
+		if (domainInfo.hasZoomed(domain)) {
 			zoom(domain);
-		} else if (hasPannedLeft(domain)) {
+		} else if (domainInfo.hasPannedLeft(domain)) {
 			panLeft(domain);
-		} else if (hasPannedRight(domain)) {
+		} else if (domainInfo.hasPannedRight(domain)) {
 			panRight(domain);
 		}
-
-		domainBefore = domain;
+		domainInfo.update(domain);
 	}
 
 	private void zoom(Interval domain) {
 		space.update(domain, calculateNumberOfSamples());
 		evaluateAll();
-		Log.debug("Zoomed - space: " + space);
 	}
 
 	private void panLeft(Interval domain) {
@@ -124,12 +122,10 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		while (x.getLow() > toEvaluate) {
 			space.moveLeft(1);
 			x = space.getMostLeftInterval();
-			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
-			data.extendLeft(tuple);
+			data.extendLeft(x, function.evaluate(x));
 
 		}
-
-		Log.debug("Panned left - data: " + data.count() + " space: " + space);
+		Log.debug("Panned left - count: " + data.count());
 	}
 
 	private void panRight(Interval domain) {
@@ -139,47 +135,15 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		while (x.getHigh() < toEvaluate) {
 			space.moveRight(1);
 			x = space.getMostRightInterval();
-			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
-			data.extendRight(tuple);
+			data.extendRight(x, function.evaluate(x));
 		}
 
-		Log.debug("Panned left - data: " + data.count() + " space: " + space);
-	}
-
-	private boolean hasZoomed(Interval domain) {
-		return (isMinLower(domain) && isMaxHigher(domain))
-				|| (isMinHigher(domain) && isMaxLower(domain));
-	}
-
-	private boolean hasPannedLeft(Interval domain) {
-		return isMinLower(domain);
-	}
-
-	private boolean hasPannedRight(Interval domain) {
-		return isMaxHigher(domain);
-	}
-
-	private boolean isMinHigher(Interval domain) {
-		return domain.getLow() > domainBefore.getLow() ;
-	}
-
-
-	private boolean isMaxLower(Interval domain) {
-		return domain.getHigh() < domainBefore.getHigh();
-	}
-
-	private boolean isMaxHigher(Interval domain) {
-		return domain.getHigh() > domainBefore.getHigh();
-	}
-
-	private boolean isMinLower(Interval domain) {
-		return domain.getLow() < domainBefore.getLow();
+		Log.debug("Panned right - count: " + data.count());
 	}
 
 	private int calculateNumberOfSamples() {
 		return numberOfSamples > 0 ? numberOfSamples : bounds.getWidth();
 	}
-
 
 	@Override
 	public GeoFunction getGeoFunction() {

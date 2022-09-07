@@ -4,8 +4,8 @@ import org.geogebra.common.euclidian.CoordSystemAnimationListener;
 import org.geogebra.common.euclidian.CoordSystemInfo;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Controller for Interval Plotter to handle zoom and moving the view.
@@ -16,6 +16,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 
 	private final IntervalPlotModel model;
 	private EuclidianController euclidianController;
+	private EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructor.
@@ -31,7 +32,8 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	public void attachEuclidianController(EuclidianController controller) {
 		euclidianController = controller;
 		euclidianController.addZoomerAnimationListener(this, model.getGeoFunction());
-		euclidianController.getView().getSettings().addListener(this);
+		euclidianSettings = euclidianController.getView().getSettings();
+		euclidianSettings.addListener(this);
 	}
 
 	@Override
@@ -65,13 +67,12 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	 */
 	public void detach() {
 		euclidianController.removeZoomerAnimationListener(model.getGeoFunction());
-		euclidianController.getView().getSettings().removeListener(this);
+		euclidianSettings.removeListener(this);
 	}
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		if (IntervalPlotSettings.isUpdateOnSettingsChangeEnabled()) {
-			Log.debug("IPC: SettingsChanged - update all");
 			model.updateAll();
 		}
 	}

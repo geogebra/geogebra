@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.plot.interval;
 
+import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
@@ -20,23 +21,23 @@ public class IntervalFunctionData {
 		return tuples;
 	}
 
-	public void append(IntervalTuple tuple) {
-		tuples.add(tuple);
+	public void append(Interval x, Interval y) {
+		tuples.add(new IntervalTuple(x, y));
 	}
 
 	public void clear() {
 		tuples.clear();
 	}
 
-	public void extendLeft(IntervalTuple tuple) {
-		tuples.add(0, tuple);
+	public void extendLeft(Interval x, Interval y) {
+		tuples.add(0, new IntervalTuple(x, y));
 		if (tuples.last().x().getLow() > bounds.getXmax()) {
 			tuples.removeLast();
 		}
 	}
 
-	public void extendRight(IntervalTuple tuple) {
-		tuples.add(tuple);
+	public void extendRight(Interval x, Interval y) {
+		append(x, y);
 		if (tuples.first().x().getHigh() < bounds.getXmin()) {
 			tuples.removeFirst();
 		}
