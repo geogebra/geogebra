@@ -661,11 +661,17 @@ public class AlgebraItem {
 		return opposite;
 	}
 
-	public static void checkSolveNSolve(GeoSymbolic symbolic) {
+	/**
+	 * @param symbolic GeoSymbolic input
+	 * handles the showing/hiding of Solve/NSolve variants
+	 */
+	public static void handleSolveNSolve(GeoSymbolic symbolic) {
 		if (isSymbolicSolve(symbolic)) {
-			if (!isDefined(getValueString(symbolic)) && isDefined(getOppositeValueString(symbolic))) {
+			if (!isDefined(getValueString(symbolic))
+					&& isDefined(getOppositeValueString(symbolic))) {
 				toggleNumeric(symbolic);
-				if (Commands.Solve.name().equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
+				if (Commands.Solve.name()
+						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
 					symbolic.wrapInNumeric();
 				}
 			}

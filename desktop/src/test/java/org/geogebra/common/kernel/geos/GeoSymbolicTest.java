@@ -1368,8 +1368,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
 	}
 
-
-
 	@Test
 	public void testQuartiles() {
 		add("l1 = {-2, 12, -23, 17, 15}");

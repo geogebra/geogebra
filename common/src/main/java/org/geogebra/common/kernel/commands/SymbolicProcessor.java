@@ -155,7 +155,7 @@ public class SymbolicProcessor {
 			}
 			sym.computeOutput();
 		}
-		AlgebraItem.checkSolveNSolve(sym);
+		AlgebraItem.handleSolveNSolve(sym);
 		return sym;
 	}
 
