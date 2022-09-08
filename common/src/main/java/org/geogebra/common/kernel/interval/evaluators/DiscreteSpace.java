@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.interval.Interval;
 
 public interface DiscreteSpace {
 
-	void update(Interval interval, int count);
+	void reset(Interval interval, int count);
 
 	void extendLeft(Interval domain, ExtendSpace cb);
 

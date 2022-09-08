@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
+import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
@@ -18,9 +19,13 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  */
 public class FunctionSampler implements IntervalFunctionSampler {
 	private final EuclidianViewBounds bounds;
+	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
+	private IntervalFunction function;
+	private DiscreteSpace space;
 	private int numberOfSamples;
 	private final IntervalFunctionData data;
-	private final UpdateFunctionData updateFunctionData;
+	
+	
 
 	/**
 	 * @param data where the sampled data of the function will be stored.
@@ -28,11 +33,17 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	 * @param numberOfSamples to take on the domain.
 	 */
 	public FunctionSampler(IntervalFunctionData data, Interval domain, int numberOfSamples) {
-		bounds = null;
+		this(data, null, domain, numberOfSamples);
+	}
+	private FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds, Interval domain,
+			int numberOfSamples) {
+		this.bounds = bounds;
 		this.numberOfSamples = numberOfSamples;
 		this.data = data;
-		updateFunctionData = new UpdateFunctionData(this, data, createSpaceOn(domain));
+		this.function = new IntervalFunction(data.getGeoFunction());
+		this.space = createSpaceOn(domain);
 		pan(domain);
+
 	}
 
 	private DiscreteSpace createSpaceOn(Interval domain) {
@@ -44,10 +55,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	 * @param bounds {@link EuclidianView} to calculate domain and number of samples.
 	 */
 	public FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds) {
-		this.bounds = bounds;
-		this.data = data;
-		updateFunctionData = new UpdateFunctionData(this, data, createSpaceOn(bounds.domain()));
-		pan(bounds.domain());
+		this(data, bounds, bounds.domain(), -1);
 	}
 
 	@Override
@@ -57,12 +65,44 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void pan(Interval domain) {
-		updateFunctionData.completeDataOn(domain);
+		completeDataOn(domain);
 	}
 
-	@Override
+	public void completeDataOn(Interval domain) {
+		if (domainInfo.hasZoomedOut(domain)) {
+			extendDataToLeft(domain);
+			extendDataToRight(domain);
+		} else if (domainInfo.hasPannedLeft(domain)) {
+			extendDataToLeft(domain);
+		} else if (domainInfo.hasPannedRight(domain)) {
+			extendDataToRight(domain);
+		}
+		domainInfo.update(domain);
+	}
+
 	public void zoom(Interval domain) {
-		updateFunctionData.zoom(domain);
+		space.reset(domain, calculateNumberOfSamples());
+		evaluateAll();
+		domainInfo.update(domain);
+	}
+
+	private void evaluateAll() {
+		data.clear();
+		space.forEach(x -> data.append(x, function.evaluate(x)));
+		processAsymptotes(data.tuples());
+	}
+
+	private static void processAsymptotes(IntervalTupleList samples) {
+		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
+		asymptotes.process();
+	}
+
+	private void extendDataToLeft(Interval domain) {
+		space.extendLeft(domain, x -> data.extendLeft(x, function.evaluate(x)));
+	}
+
+	private void extendDataToRight(Interval domain) {
+		space.extendRight(domain, x -> data.extendRight(x, function.evaluate(x)));
 	}
 
 	int calculateNumberOfSamples() {
@@ -87,4 +127,5 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public boolean isEmpty() {
 		return data.isEmpty();
 	}
+	
 }
