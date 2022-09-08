@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
 public class IntervalFunctionData {
-	private IntervalTupleList tuples;
+	private final IntervalTupleList tuples;
 	private EuclidianViewBounds bounds;
 	private final GeoFunction geoFunction;
 
@@ -33,7 +33,7 @@ public class IntervalFunctionData {
 	}
 
 	public void extendLeft(Interval x, Interval y) {
-		tuples.add(0, new IntervalTuple(x, y));
+		tuples.prepend(new IntervalTuple(x, y));
 		if (tuples.last().x().getLow() > bounds.getXmax()) {
 			tuples.removeLast();
 		}

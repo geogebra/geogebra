@@ -49,25 +49,43 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	@Override
-	public void moveLeft() {
+	public void extendLeft(Interval domain, ExtendSpace cb) {
+		double evaluateTo = domain.getLow();
+		Interval x = head();
+		while (x.getLow() > evaluateTo) {
+			moveLeft();
+			x = head();
+			cb.extend(x);
+		}
+	}
+
+	private void moveLeft() {
 		countLeft++;
 		countRight--;
 	}
 
-	@Override
-	public void moveRight() {
-		countLeft--;
-		countRight++;
-	}
-
-	@Override
-	public Interval head() {
+	private Interval head() {
 		double value = getMostLeftValue();
 		return new Interval(value, value + step);
 	}
 
 	@Override
-	public Interval tail() {
+	public void extendRight(Interval domain, ExtendSpace extendSpace) {
+		double evaluateTo = domain.getHigh();
+		Interval x = tail();
+		while (x.getHigh() < evaluateTo) {
+			moveRight();
+			x = tail();
+			extendSpace.extend(x);
+		}
+	}
+
+	private void moveRight() {
+		countLeft--;
+		countRight++;
+	}
+
+	private Interval tail() {
 		double value = getMostRightValue();
 		return new Interval(value - step, value);
 	}

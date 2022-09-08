@@ -7,9 +7,8 @@ public class IntervalFunctionDomainInfo {
 
 	private Interval domainBefore = IntervalConstants.undefined();
 
-	public boolean hasZoomed(Interval domain) {
-		return (isMinLower(domain) && isMaxHigher(domain))
-				|| (isMinHigher(domain) && isMaxLower(domain));
+	public boolean hasZoomedOut(Interval domain) {
+		return isMinLower(domain) && isMaxHigher(domain);
 	}
 
 	public boolean hasPannedLeft(Interval domain) {
@@ -40,4 +39,5 @@ public class IntervalFunctionDomainInfo {
 	public void update(Interval domain) {
 		domainBefore = domain;
 	}
+
 }

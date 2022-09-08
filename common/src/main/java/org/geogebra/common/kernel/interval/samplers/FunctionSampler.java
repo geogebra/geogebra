@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
-import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
@@ -18,24 +17,22 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  * @author Laszlo
  */
 public class FunctionSampler implements IntervalFunctionSampler {
-	final IntervalFunction function;
-
-	private EuclidianViewBounds bounds;
+	private final EuclidianViewBounds bounds;
 	private int numberOfSamples;
-	private IntervalFunctionData data;
-	private UpdateFunctionData updateFunctionData;
+	private final IntervalFunctionData data;
+	private final UpdateFunctionData updateFunctionData;
 
 	/**
-	 * @param geoFunction function to get sampled
-	 * @param numberOfSamples the sample rate.
-	 * @param domain
+	 * @param data where the sampled data of the function will be stored.
+	 * @param domain an interval of x to sample.
+	 * @param numberOfSamples to take on the domain.
 	 */
 	public FunctionSampler(IntervalFunctionData data, Interval domain, int numberOfSamples) {
-		this(data.getGeoFunction());
+		bounds = null;
 		this.numberOfSamples = numberOfSamples;
 		this.data = data;
 		updateFunctionData = new UpdateFunctionData(this, data, createSpaceOn(domain));
-		update(domain);
+		pan(domain);
 	}
 
 	private DiscreteSpace createSpaceOn(Interval domain) {
@@ -43,21 +40,14 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	/**
-	 * @param geoFunction function to get sampled
-	 * @param bounds {@link EuclidianView}
-	 * @param data
+	 * @param data where the sampled function data will be stored.
+	 * @param bounds {@link EuclidianView} to calculate domain and number of samples.
 	 */
 	public FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds) {
-		this(data.getGeoFunction());
 		this.bounds = bounds;
-		numberOfSamples = -1;
 		this.data = data;
 		updateFunctionData = new UpdateFunctionData(this, data, createSpaceOn(bounds.domain()));
-		update(bounds.domain());
-	}
-
-	FunctionSampler(GeoFunction geoFunction) {
-		this.function = new IntervalFunction(geoFunction);
+		pan(bounds.domain());
 	}
 
 	@Override
@@ -66,18 +56,26 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public void update(Interval domain) {
-		updateFunctionData.update(domain);
+	public void pan(Interval domain) {
+		updateFunctionData.completeDataOn(domain);
 	}
 
+	@Override
+	public void zoom(Interval domain) {
+		updateFunctionData.zoom(domain);
+	}
 
 	int calculateNumberOfSamples() {
-		return numberOfSamples > 0 ? numberOfSamples : bounds.getWidth();
+		return hasBounds() ? bounds.getWidth() : numberOfSamples;
+	}
+
+	private boolean hasBounds() {
+		return bounds != null;
 	}
 
 	@Override
 	public GeoFunction getGeoFunction() {
-		return function.getFunction();
+		return data.getGeoFunction();
 	}
 
 	@Override

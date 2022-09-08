@@ -6,15 +6,12 @@ import org.geogebra.common.kernel.interval.Interval;
 
 public interface DiscreteSpace {
 
-	Interval head();
-
-	Interval tail();
-
 	void update(Interval interval, int count);
 
-	void moveLeft();
+	void extendLeft(Interval domain, ExtendSpace cb);
 
-	void moveRight();
+	void extendRight(Interval domain, ExtendSpace cb);
 
 	void forEach(Consumer<Interval> action);
+
 }

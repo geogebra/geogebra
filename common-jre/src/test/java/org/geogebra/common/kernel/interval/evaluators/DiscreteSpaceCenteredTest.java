@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,25 +33,13 @@ public class DiscreteSpaceCenteredTest {
 	}
 
 	@Test
-	public void testMoveLeftWith4Steps() {
-		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
-				0.25);
-		space.moveLeft();
-		space.moveLeft();
-		space.moveLeft();
-		space.moveLeft();
-		valuesShouldBe(space, -6, 0.25, 40);
+	public void testExtendLeft() {
+		fail();
 	}
 
 	@Test
-	public void testMoveRightWith4Steps() {
-		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
-				0.25);
-		space.moveRight();
-		space.moveRight();
-		space.moveRight();
-		space.moveRight();
-		valuesShouldBe(space, -4, 0.25, 40);
+	public void testExtendRight() {
+		fail();
 	}
 
 	private void valuesShouldBe(DiscreteSpace space, double start, double step, int limit) {

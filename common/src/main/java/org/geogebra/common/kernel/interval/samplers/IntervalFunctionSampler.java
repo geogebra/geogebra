@@ -9,11 +9,13 @@ public interface IntervalFunctionSampler {
 
 	IntervalTupleList tuples();
 
-	void update(Interval domain);
+	void pan(Interval domain);
 
 	GeoFunction getGeoFunction();
 
 	IntervalTuple at(int index);
 
 	boolean isEmpty();
+
+	void zoom(Interval domain);
 }

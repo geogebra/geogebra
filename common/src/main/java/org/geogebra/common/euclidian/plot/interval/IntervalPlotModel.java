@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
  * @author laszlo
  */
 public class IntervalPlotModel {
+	private final IntervalFunctionData data;
 	private final IntervalFunctionSampler sampler;
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
@@ -26,11 +27,13 @@ public class IntervalPlotModel {
 
 	/**
 	 * Constructor
+	 * @param data of the function sampled.
 	 * @param sampler to retrieve function data from.
 	 * @param bounds {@link EuclidianView}
 	 */
-	public IntervalPlotModel(IntervalFunctionSampler sampler,
+	public IntervalPlotModel(IntervalFunctionData data, IntervalFunctionSampler sampler,
 			EuclidianViewBounds bounds) {
+		this.data = data;
 		this.sampler = sampler;
 		this.bounds = bounds;
 	}
@@ -50,16 +53,12 @@ public class IntervalPlotModel {
 	 * Updates the entire model.
 	 */
 	public void updateAll() {
-		updateSampledData();
+		sampler.zoom(bounds.domain());
 		updatePath();
 	}
 
-	void updateSampledData() {
-		sampler.update(bounds.domain());
-	}
-
 	public boolean isEmpty() {
-		return sampler.isEmpty();
+		return data.isEmpty();
 	}
 
 	private void updatePath() {
@@ -72,7 +71,8 @@ public class IntervalPlotModel {
 	 * update function domain to plot due to the visible x range.
 	 */
 	public void updateDomain() {
-		sampler.update(bounds.domain());
+		sampler.pan(bounds.domain());
+		updatePath();
 	}
 
 	/**
@@ -80,6 +80,7 @@ public class IntervalPlotModel {
 	 */
 	public void clear() {
 		path.reset();
+		data.clear();
 	}
 
 	GPoint getLabelPoint() {
@@ -92,7 +93,7 @@ public class IntervalPlotModel {
 	 * @return corresponding point if index is valid, null otherwise.
 	 */
 	public IntervalTuple at(int index) {
-		return sampler.at(index);
+		return data.at(index);
 	}
 
 	public boolean hasNext(int index) {
@@ -104,7 +105,7 @@ public class IntervalPlotModel {
 	}
 
 	private IntervalTupleList points() {
-		return sampler.tuples();
+		return data.tuples();
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class IntervalPlotModel {
 	}
 
 	public GeoFunction getGeoFunction() {
-		return sampler.getGeoFunction();
+		return data.getGeoFunction();
 	}
 
 	public boolean hasValidData() {

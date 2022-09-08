@@ -50,6 +50,6 @@ public class IntervalPlotSettings {
 	}
 
 	public static boolean isUpdateOnSettingsChangeEnabled() {
-		return true;
+		return false;
 	}
 }

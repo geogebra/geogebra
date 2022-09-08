@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.geogebra.common.util.debug.Log;
 
 public class UpdateFunctionData {
 	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
@@ -16,26 +15,28 @@ public class UpdateFunctionData {
 
 	public UpdateFunctionData(FunctionSampler sampler, IntervalFunctionData data,
 			DiscreteSpace space) {
-		this.function = sampler.function;
+		this.function = new IntervalFunction(data.getGeoFunction());
 		this.sampler = sampler;
 		this.data = data;
 		this.space = space;
 	}
 
-	public void update(Interval domain) {
-		if (domainInfo.hasZoomed(domain)) {
-			zoom(domain);
+	public void completeDataOn(Interval domain) {
+		if (domainInfo.hasZoomedOut(domain)) {
+			extendDataToLeft(domain);
+			extendDataToRight(domain);
 		} else if (domainInfo.hasPannedLeft(domain)) {
-			panLeft(domain);
+			extendDataToLeft(domain);
 		} else if (domainInfo.hasPannedRight(domain)) {
-			panRight(domain);
+			extendDataToRight(domain);
 		}
 		domainInfo.update(domain);
 	}
 
-	private void zoom(Interval domain) {
+	public void zoom(Interval domain) {
 		space.update(domain, sampler.calculateNumberOfSamples());
 		evaluateAll();
+		domainInfo.update(domain);
 	}
 
 	private void evaluateAll() {
@@ -49,27 +50,11 @@ public class UpdateFunctionData {
 		asymptotes.process();
 	}
 
-	private void panLeft(Interval domain) {
-		double evaluateTo = domain.getLow();
-		Interval x = space.head();
-		while (x.getLow() > evaluateTo) {
-			space.moveLeft();
-			x = space.head();
-			data.extendLeft(x, function.evaluate(x));
-
-		}
-		Log.debug("Panned left - count: " + data.count());
+	private void extendDataToLeft(Interval domain) {
+		space.extendLeft(domain, x -> data.extendLeft(x, function.evaluate(x)));
 	}
 
-	private void panRight(Interval domain) {
-		double evaluateTo = domain.getHigh();
-		Interval x = space.tail();
-		while (x.getHigh() < evaluateTo) {
-			space.moveRight();
-			x = space.tail();
-			data.extendRight(x, function.evaluate(x));
-		}
-
-		Log.debug("Panned right - count: " + data.count());
+	private void extendDataToRight(Interval domain) {
+		space.extendRight(domain, x -> data.extendRight(x, function.evaluate(x)));
 	}
 }

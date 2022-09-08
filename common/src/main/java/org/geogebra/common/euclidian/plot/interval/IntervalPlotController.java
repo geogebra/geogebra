@@ -3,9 +3,11 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.euclidian.CoordSystemAnimationListener;
 import org.geogebra.common.euclidian.CoordSystemInfo;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Controller for Interval Plotter to handle zoom and moving the view.
@@ -17,6 +19,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	private final IntervalPlotModel model;
 	private EuclidianController euclidianController;
 	private EuclidianSettings euclidianSettings;
+	private FunctionSampler sampler;
 
 	/**
 	 * Constructor.
@@ -73,6 +76,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		if (IntervalPlotSettings.isUpdateOnSettingsChangeEnabled()) {
+			Log.debug("Settings changed");
 			model.updateAll();
 		}
 	}
