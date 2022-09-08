@@ -37,7 +37,7 @@ public class PlotterUtils {
 	 */
 	public static FunctionSampler newSampler(GeoFunction function, IntervalTuple range,
 			int numberOfSamples) {
-		IntervalFunctionData data = new IntervalFunctionData();
-		return new FunctionSampler(function, range.x(), numberOfSamples, data);
+		IntervalFunctionData data = new IntervalFunctionData(function);
+		return new FunctionSampler(data, range.x(), numberOfSamples);
 	}
 }

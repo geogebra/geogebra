@@ -15,7 +15,7 @@ public class SamplerTest extends BaseUnitTest {
 		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
 		FunctionSampler sampler = PlotterUtils.newSampler(function, range,
 				100);
-		return sampler.result();
+		return sampler.tuples();
 	}
 
 }

@@ -56,8 +56,8 @@ public class IntervalPlotter {
 	}
 
 	private void createModel(GeoFunction function) {
-		IntervalFunctionData data = new IntervalFunctionData(evBounds);
-		FunctionSampler sampler = new FunctionSampler(function, evBounds, data);
+		IntervalFunctionData data = new IntervalFunctionData(function, evBounds);
+		FunctionSampler sampler = new FunctionSampler(data, evBounds);
 		model = new IntervalPlotModel(sampler, evBounds);
 		IntervalPath path = new IntervalPath(gp, evBounds, model);
 		model.setPath(path);

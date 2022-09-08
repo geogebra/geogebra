@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.plot.interval;
 
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
@@ -7,13 +8,15 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 public class IntervalFunctionData {
 	private IntervalTupleList tuples;
 	private EuclidianViewBounds bounds;
+	private final GeoFunction geoFunction;
 
-	public IntervalFunctionData(EuclidianViewBounds bounds) {
-		this();
+	public IntervalFunctionData(GeoFunction geoFunction, EuclidianViewBounds bounds) {
+		this(geoFunction);
 		this.bounds = bounds;
 	}
 
-	public IntervalFunctionData() {
+	public IntervalFunctionData(GeoFunction geoFunction) {
+		this.geoFunction = geoFunction;
 		this.tuples = new IntervalTupleList();
 	}
 
@@ -45,5 +48,17 @@ public class IntervalFunctionData {
 
 	public int count() {
 		return tuples.count();
+	}
+
+	public IntervalTuple at(int index) {
+		return tuples.get(index);
+	}
+
+	public boolean isEmpty() {
+		return tuples.isEmpty();
+	}
+
+	public GeoFunction getGeoFunction() {
+		return geoFunction;
 	}
 }

@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
  */
 public class IntervalPlotModel {
 	private final IntervalFunctionSampler sampler;
-	private IntervalTupleList points;
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
 
@@ -57,11 +56,10 @@ public class IntervalPlotModel {
 
 	void updateSampledData() {
 		sampler.update(bounds.domain());
-		points = sampler.result();
 	}
 
 	public boolean isEmpty() {
-		return points.isEmpty();
+		return sampler.isEmpty();
 	}
 
 	private void updatePath() {
@@ -81,7 +79,6 @@ public class IntervalPlotModel {
 	 * Clears the entire model.
 	 */
 	public void clear() {
-		points.clear();
 		path.reset();
 	}
 
@@ -103,7 +100,11 @@ public class IntervalPlotModel {
 	}
 
 	public boolean isInvertedAt(int index) {
-		return index >= points.count() || at(index).isInverted();
+		return index >= points().count() || at(index).isInverted();
+	}
+
+	private IntervalTupleList points() {
+		return sampler.tuples();
 	}
 
 	/**
@@ -111,7 +112,7 @@ public class IntervalPlotModel {
 	 * @return count of points in model
 	 */
 	public int getCount() {
-		return points.count();
+		return points().count();
 	}
 
 	/**
@@ -120,15 +121,15 @@ public class IntervalPlotModel {
 	 * @return if the tuple value of a given index is whole or not.
 	 */
 	public boolean isWholeAt(int index) {
-		return index >= points.count() || at(index).y().isWhole();
+		return index >= points().count() || at(index).y().isWhole();
 	}
 
 	/**
 	 *
-	 * @return the number of interval tuples aka points.
+	 * @return the number of interval tuples aka points().
 	 */
 	public int pointCount() {
-		return points.count();
+		return points().count();
 	}
 
 	public GeoFunction getGeoFunction() {
@@ -136,15 +137,15 @@ public class IntervalPlotModel {
 	}
 
 	public boolean hasValidData() {
-		return points != null && countDefined() > 1;
+		return points() != null && countDefined() > 1;
 	}
 
 	private long countDefined() {
-		return points.stream().filter(t -> !t.y().isUndefined()).count();
+		return points().stream().filter(t -> !t.y().isUndefined()).count();
 	}
 
 	private boolean isValidIndex(int index) {
-		return index < points.count();
+		return index < points().count();
 	}
 
 	public boolean nonDegenerated(int index) {

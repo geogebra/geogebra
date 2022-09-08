@@ -30,6 +30,7 @@ public class DiscreteSpaceCenteredTest {
 				0.25);
 		valuesShouldBe(space, -5, 0.25, 40);
 	}
+
 	@Test
 	public void testMoveLeftWith4Steps() {
 		DiscreteSpace space = new DiscreteSpaceCentered(0, 20, 20,
