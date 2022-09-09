@@ -23,8 +23,6 @@ public class IntervalPlotModel {
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
 
-	private final TupleNeighbours neighbours = new TupleNeighbours();
-
 	/**
 	 * Constructor
 	 * @param data of the function sampled.
@@ -183,8 +181,7 @@ public class IntervalPlotModel {
 	 * @return the neighbours around tuple given by index (including itself)
 	 */
 	public TupleNeighbours neighboursAt(int index) {
-		neighbours.set(at(index - 1), at(index), at(index + 1));
-		return neighbours;
+		return data.neighboursAt(index);
 	}
 
 }

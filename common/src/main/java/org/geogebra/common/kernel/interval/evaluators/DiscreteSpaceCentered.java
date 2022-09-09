@@ -70,6 +70,26 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	@Override
+	public void extend(Interval domain, ExtendSpace cbLeft, ExtendSpace cbRight) {
+		double evaluateTo = domain.getLow();
+		Interval x = head();
+		while (x.getLow() > evaluateTo) {
+			countLeft++;
+			x = head();
+			cbLeft.extend(x);
+		}
+
+		evaluateTo = domain.getHigh();
+		x = tail();
+		while (x.getHigh() < evaluateTo) {
+			countRight++;
+			x = tail();
+			cbRight.extend(x);
+		}
+
+	}
+
+	@Override
 	public void extendRight(Interval domain, ExtendSpace extendSpace) {
 		double evaluateTo = domain.getHigh();
 		Interval x = tail();

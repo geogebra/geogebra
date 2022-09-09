@@ -12,6 +12,8 @@ public interface DiscreteSpace {
 
 	void extendRight(Interval domain, ExtendSpace cb);
 
+	void extend(Interval domain, ExtendSpace cbLeft, ExtendSpace cbRight);
+
 	void forEach(Consumer<Interval> action);
 
 }

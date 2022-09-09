@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to provide samples of the given function as a
@@ -70,14 +71,20 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	public void completeDataOn(Interval domain) {
 		if (domainInfo.hasZoomedOut(domain)) {
-			extendDataToLeft(domain);
-			extendDataToRight(domain);
+			extendDataBothSide(domain);
 		} else if (domainInfo.hasPannedLeft(domain)) {
 			extendDataToLeft(domain);
 		} else if (domainInfo.hasPannedRight(domain)) {
 			extendDataToRight(domain);
 		}
+		Log.debug("count: " + data.count());
 		domainInfo.update(domain);
+	}
+
+	private void extendDataBothSide(Interval domain) {
+		space.extend(domain, x -> data.prepend(x, function.evaluate(x)),
+				x -> data.append(x, function.evaluate(x)));
+		Log.debug("pack");
 	}
 
 	public void zoom(Interval domain) {
