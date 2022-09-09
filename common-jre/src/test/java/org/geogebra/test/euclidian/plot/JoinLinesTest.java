@@ -71,7 +71,7 @@ public class JoinLinesTest {
 	}
 
 	@Test
-	public void toBottomStraight() {
+ 	public void toBottomStraight() {
 		// -2/(9+tan(x)) around 1.65
 		JoinLines join = createJoinLines(1.6, 3);
 		TupleNeighbours neighbours = new TupleNeighbours(

@@ -134,7 +134,9 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	}
 
 	public void prepend(IntervalTuple tuple) {
-		list.add(0, tuple);
+		if (!list.contains(tuple)) {
+			list.add(0, tuple);
+		}
 	}
 
 	public void removeLast() {

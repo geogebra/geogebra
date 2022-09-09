@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
+import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +33,42 @@ public class DiscreteSpaceCenteredTest {
 	}
 
 	@Test
-	public void testExtendLeft() {
-		fail();
+	public void testExtendLeftRight() {
+		DiscreteSpace space = new DiscreteSpaceCentered(0, 2, 2,
+				0.5);
+		List<Interval> expected = new ArrayList<>();
+		List<Interval> left = new ArrayList<>();
+		List<Interval> rigth = new ArrayList<>();
+		space.forEach(expected::add);
+		space.extendLeft(interval(-1.2, 0.8), left::add);
+		space.extendRight(interval(-1.1, 0.9), rigth::add);
+
+		List<Interval> actual = new ArrayList<>();
+		space.forEach(actual::add);
+		assertEquals(expected, actual);
+	}
+
+
+	@Test
+	public void testExtendLeftBetweenStep() {
+		DiscreteSpace space = new DiscreteSpaceCentered(0, 2, 2,
+				2);
+		List<Interval> expected = createIntervals(-4, 2, 4);
+		List<Interval> actual = new ArrayList<>();
+		space.extendLeft(interval(-5, 3),  x -> {});
+		space.forEach(actual::add);
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testExtendRight() {
-		fail();
+	public void testExtendRightBetweenStep() {
+		DiscreteSpace space = new DiscreteSpaceCentered(0, 2, 2,
+				2);
+		List<Interval> expected = createIntervals(-4, 2, 4);
+		List<Interval> actual = new ArrayList<>();
+		space.extendRight(interval(-3, 5),  x -> {});
+		space.forEach(actual::add);
+		assertEquals(expected, actual);
 	}
 
 	private void valuesShouldBe(DiscreteSpace space, double start, double step, int limit) {

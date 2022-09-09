@@ -51,6 +51,9 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	@Override
 	public void extendLeft(Interval domain, ExtendSpace cb) {
 		double evaluateTo = domain.getLow();
+		if (evaluateTo > getMostLeftValue() - step) {
+			return;
+		}
 		Interval x = head();
 		while (x.getLow() > evaluateTo) {
 			moveLeft();
@@ -92,6 +95,10 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	@Override
 	public void extendRight(Interval domain, ExtendSpace extendSpace) {
 		double evaluateTo = domain.getHigh();
+		if (evaluateTo < getMostRightValue() + step) {
+			return;
+		}
+
 		Interval x = tail();
 		while (x.getHigh() < evaluateTo) {
 			moveRight();

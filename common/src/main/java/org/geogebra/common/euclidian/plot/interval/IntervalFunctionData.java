@@ -42,14 +42,15 @@ public class IntervalFunctionData {
 
 	public void extendLeft(Interval x, Interval y) {
 		prepend(x, y);
-		if (tuples.last().x().getLow() > bounds.getXmax()) {
+		double low = tuples.last().x().getLow();
+		if (low >= bounds.getXmax()) {
 			tuples.removeLast();
 		}
 	}
 
 	public void extendRight(Interval x, Interval y) {
 		append(x, y);
-		if (tuples.first().x().getHigh() < bounds.getXmin()) {
+		if (tuples.first().x().getHigh() <= bounds.getXmin()) {
 			tuples.removeFirst();
 		}
 	}
@@ -71,7 +72,7 @@ public class IntervalFunctionData {
 	}
 
 	/**
-	 * @param index to get the neighbours at.
+	 * @param index to get the neighbours at.íy
 	 * @return the neighbours around tuple given by index (including itself)
 	 */
 	public TupleNeighbours neighboursAt(int index) {
