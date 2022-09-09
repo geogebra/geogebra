@@ -1,6 +1,9 @@
 package org.geogebra.common.main.exam.restriction;
 
+import static org.geogebra.common.GeoGebraConstants.CAS_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.G3D_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
+import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfig;
@@ -25,6 +28,11 @@ public enum ExamRegion {
 		public void applyRestrictions(ExamRestrictionModel model) {
 			// no specific restrictions
 		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			// no restrictions -> no default needed
+		}
 	},
 	NIEDERSACHSEN() {
 		@Override
@@ -41,6 +49,32 @@ public enum ExamRegion {
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setSubAppCodes(G3D_APPCODE);
 		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			model.setDefaultAppCode(GRAPHING_APPCODE);
+		}
+	},
+	MMS() {
+		@Override
+		public String getDisplayName(Localization loc, AppConfig config) {
+			return "Deutschland IQB MMS Abitur";
+		}
+
+		@Override
+		public String getShortDisplayName(Localization loc, AppConfig config) {
+			return "Deutschland IQB MMS Abitur";
+		}
+
+		@Override
+		public void applyRestrictions(ExamRestrictionModel model) {
+			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE);
+		}
+
+		@Override
+		public void setDefaultSubAppCode(ExamRestrictionModel model) {
+			model.setDefaultAppCode(CAS_APPCODE);
+		}
 	};
 
 	public abstract String getDisplayName(Localization loc, AppConfig config);
@@ -48,4 +82,6 @@ public enum ExamRegion {
 	public abstract String getShortDisplayName(Localization loc, AppConfig config);
 
 	public abstract void applyRestrictions(ExamRestrictionModel model);
+
+	public abstract void setDefaultSubAppCode(ExamRestrictionModel model);
 }
