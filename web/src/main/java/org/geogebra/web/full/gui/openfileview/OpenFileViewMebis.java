@@ -90,6 +90,7 @@ public class OpenFileViewMebis extends HeaderFileView
 			common.showEmptyListNotification(getInfoErrorData());
 			setExtendedButtonStyle();
 			common.addToContent(buttonPanel);
+			buttonPanel.getParent().addStyleName("mebisEmptyFileView");
 		} else {
 			setSmallButtonStyle();
 			common.addToContent(buttonPanel);

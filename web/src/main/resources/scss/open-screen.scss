@@ -597,6 +597,11 @@
 		}
 	}
 
+	.openFileView .fileViewContentPanel.mebisEmptyFileView {
+		display: inline;
+		top: calc(50% - 166px); // 284 / 2 + 24
+	}
+
 	.openFileView .fileViewContentPanel.compact {
 		.materialPanel {
 			padding-left: 8px;
