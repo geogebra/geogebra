@@ -74,6 +74,16 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return list.isEmpty();
 	}
 
+
+
+	public boolean isValid() {
+		return countDefined() > 1;
+	}
+
+	private long countDefined() {
+		return stream().filter(t -> !t.y().isUndefined()).count();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof IntervalTupleList) {

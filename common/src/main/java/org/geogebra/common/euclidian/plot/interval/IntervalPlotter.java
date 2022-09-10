@@ -56,7 +56,8 @@ public class IntervalPlotter {
 		IntervalFunctionData data = new IntervalFunctionData(function, evBounds, tuples);
 		FunctionSampler sampler = new FunctionSampler(data, evBounds);
 		model = new IntervalPlotModel(data, sampler, evBounds);
-		IntervalPath path = new IntervalPath(gp, evBounds, model);
+		QueryFunctionData query = new QueryFunctionDataImpl(tuples);
+		IntervalPath path = new IntervalPath(gp, evBounds, query);
 		model.setPath(path);
 		this.controller = new IntervalPlotController(model);
 	}

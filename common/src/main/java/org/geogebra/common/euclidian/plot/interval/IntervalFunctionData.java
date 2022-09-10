@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.plot.interval;
 
-import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
@@ -10,9 +9,6 @@ public class IntervalFunctionData {
 	private final IntervalTupleList tuples;
 	private EuclidianViewBounds bounds;
 	private final GeoFunction geoFunction;
-
-
-	private final TupleNeighbours neighbours = new TupleNeighbours();
 
 	public IntervalFunctionData(GeoFunction geoFunction, EuclidianViewBounds bounds,
 			IntervalTupleList tuples) {
@@ -72,12 +68,7 @@ public class IntervalFunctionData {
 		return geoFunction;
 	}
 
-	/**
-	 * @param index to get the neighbours at.íy
-	 * @return the neighbours around tuple given by index (including itself)
-	 */
-	public TupleNeighbours neighboursAt(int index) {
-		neighbours.set(at(index - 1), at(index), at(index + 1));
-		return neighbours;
+	public boolean isValid() {
+		return tuples.isValid();
 	}
 }

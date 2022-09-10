@@ -3,12 +3,10 @@ package org.geogebra.common.kernel.interval.samplers;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
 import org.geogebra.common.euclidian.plot.interval.IntervalFunctionData;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
-import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.util.debug.Log;
 
@@ -43,7 +41,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		this.data = data;
 		this.function = new IntervalFunction(data.getGeoFunction());
 		this.space = createSpaceOn(domain);
-		pan(domain);
+		extend(domain);
 
 	}
 
@@ -65,7 +63,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public void pan(Interval domain) {
+	public void extend(Interval domain) {
 		completeDataOn(domain);
 	}
 
@@ -119,19 +117,4 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		return bounds != null;
 	}
 
-	@Override
-	public GeoFunction getGeoFunction() {
-		return data.getGeoFunction();
-	}
-
-	@Override
-	public IntervalTuple at(int index) {
-		return data.at(index);
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return data.isEmpty();
-	}
-	
 }
