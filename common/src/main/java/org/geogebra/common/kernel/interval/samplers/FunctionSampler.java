@@ -21,9 +21,9 @@ import org.geogebra.common.util.debug.Log;
 public class FunctionSampler implements IntervalFunctionSampler {
 	private final EuclidianViewBounds bounds;
 	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
-	private IntervalFunction function;
-	private DiscreteSpace space;
-	private int numberOfSamples;
+	private final IntervalFunction function;
+	private final DiscreteSpace space;
+	private final int numberOfSamples;
 	private final IntervalFunctionData data;
 	
 	
@@ -84,11 +84,10 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private void extendDataBothSide(Interval domain) {
 		space.extend(domain, x -> data.prepend(x, function.evaluate(x)),
 				x -> data.append(x, function.evaluate(x)));
-		Log.debug("pack");
 	}
 
-	public void zoom(Interval domain) {
-		space.reset(domain, calculateNumberOfSamples());
+	public void resample(Interval domain) {
+		space.rescale(domain, calculateNumberOfSamples());
 		evaluateAll();
 		domainInfo.update(domain);
 	}

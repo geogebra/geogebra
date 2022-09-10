@@ -22,7 +22,7 @@ public class IntervalPlotModel {
 	private final IntervalFunctionSampler sampler;
 	private IntervalPath path;
 	private final EuclidianViewBounds bounds;
-
+	private boolean resampleNeeded = true;
 	/**
 	 * Constructor
 	 * @param data of the function sampled.
@@ -44,15 +44,19 @@ public class IntervalPlotModel {
 	 * Updates what's necessary.
 	 */
 	public void update() {
-		updatePath();
+		if (resampleNeeded) {
+			resample();
+		}
+
+		path.update();
 	}
 
 	/**
 	 * Updates the entire model.
 	 */
-	public void updateAll() {
-		sampler.zoom(bounds.domain());
-		updatePath();
+	public void resample() {
+		sampler.resample(bounds.domain());
+		resampleNeeded = false;
 	}
 
 	public boolean isEmpty() {
@@ -184,4 +188,7 @@ public class IntervalPlotModel {
 		return data.neighboursAt(index);
 	}
 
+	public void needsResampling() {
+		resampleNeeded = true;
+	}
 }

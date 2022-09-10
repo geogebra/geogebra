@@ -17,5 +17,5 @@ public interface IntervalFunctionSampler {
 
 	boolean isEmpty();
 
-	void zoom(Interval domain);
+	void resample(Interval domain);
 }

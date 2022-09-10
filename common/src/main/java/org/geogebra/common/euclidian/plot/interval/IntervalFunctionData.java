@@ -14,14 +14,15 @@ public class IntervalFunctionData {
 
 	private final TupleNeighbours neighbours = new TupleNeighbours();
 
-	public IntervalFunctionData(GeoFunction geoFunction, EuclidianViewBounds bounds) {
-		this(geoFunction);
+	public IntervalFunctionData(GeoFunction geoFunction, EuclidianViewBounds bounds,
+			IntervalTupleList tuples) {
+		this(geoFunction, tuples);
 		this.bounds = bounds;
 	}
 
-	public IntervalFunctionData(GeoFunction geoFunction) {
+	public IntervalFunctionData(GeoFunction geoFunction, IntervalTupleList tuples) {
 		this.geoFunction = geoFunction;
-		this.tuples = new IntervalTupleList();
+		this.tuples = tuples;
 	}
 
 	public IntervalTupleList tuples() {
@@ -78,17 +79,5 @@ public class IntervalFunctionData {
 	public TupleNeighbours neighboursAt(int index) {
 		neighbours.set(at(index - 1), at(index), at(index + 1));
 		return neighbours;
-	}
-
-	public void pack(Interval domain) {
-		while (tuples.first().x().getHigh() < domain.getLow()
-			&& !tuples.isEmpty()) {
-			tuples.removeFirst();
-		}
-
-		while (tuples.last().x().getLow() > domain.getHigh()
-			&& !tuples.isEmpty()) {
-			tuples.removeLast();
-		}
 	}
 }

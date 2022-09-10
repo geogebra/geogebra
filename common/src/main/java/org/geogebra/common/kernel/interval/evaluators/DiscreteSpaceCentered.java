@@ -24,7 +24,7 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	@Override
-	public void reset(Interval interval, int numberOfSteps) {
+	public void rescale(Interval interval, int numberOfSteps) {
 		start = interval.middle();
 		this.step = interval.getLength() / numberOfSteps;
 		countLeft = computeCountTo(interval.getLow());

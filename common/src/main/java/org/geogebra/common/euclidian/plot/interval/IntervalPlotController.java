@@ -43,14 +43,14 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	public void onZoomStop(CoordSystemInfo info) {
 		info.setXAxisZoom(false);
 		if (IntervalPlotSettings.isUpdateOnZoomStopEnabled()) {
-			model.updateAll();
+			model.resample();
 		}
 	}
 
 	@Override
 	public void onMoveStop() {
 		if (IntervalPlotSettings.isUpdateOnMoveStopEnabled()) {
-			model.updateAll();
+			model.resample();
 		}
 	}
 
@@ -77,7 +77,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	public void settingsChanged(AbstractSettings settings) {
 		if (IntervalPlotSettings.isUpdateOnSettingsChangeEnabled()) {
 			Log.debug("Settings changed");
-			model.updateAll();
+			model.resample();
 		}
 	}
 }

@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
 
 /**
@@ -16,7 +17,7 @@ public class IntervalPlotter {
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
 	private IntervalPlotModel model = null;
-	private boolean updateAll = true;
+
 	private IntervalPlotController controller;
 
 	/**
@@ -32,47 +33,39 @@ public class IntervalPlotter {
 	 * Enables plotter without controller
 	 */
 	public void enableFor(GeoFunction function) {
+		build(function);
+		enable();
+	}
+
+	private void enable() {
 		enabled = true;
-		createModel(function);
-		createController();
-		needsUpdateAll();
-		update();
+		model.resample();
 	}
 
 	/**
 	 * Enables plotter
 	 */
 	public void enableFor(GeoFunction function, EuclidianController euclidianController) {
-		enabled = true;
-		createModel(function);
-		createController();
+		build(function);
 		this.controller.attachEuclidianController(euclidianController);
-		needsUpdateAll();
-		update();
+		enable();
 	}
 
-	private void createController() {
-		this.controller = new IntervalPlotController(model);
-	}
-
-	private void createModel(GeoFunction function) {
-		IntervalFunctionData data = new IntervalFunctionData(function, evBounds);
+	private void build(GeoFunction function) {
+		IntervalTupleList tuples = new IntervalTupleList();
+		IntervalFunctionData data = new IntervalFunctionData(function, evBounds, tuples);
 		FunctionSampler sampler = new FunctionSampler(data, evBounds);
 		model = new IntervalPlotModel(data, sampler, evBounds);
 		IntervalPath path = new IntervalPath(gp, evBounds, model);
 		model.setPath(path);
+		this.controller = new IntervalPlotController(model);
 	}
 
 	/**
 	 * Update path to draw.
 	 */
 	public void update() {
-		if (updateAll) {
-			model.updateAll();
-			updateAll = false;
-		} else {
-			model.update();
-		}
+		model.update();
 	}
 
 	/**
@@ -117,6 +110,6 @@ public class IntervalPlotter {
 	 * Call it when plotter needs a full update
 	 */
 	public void needsUpdateAll() {
-		updateAll = true;
+		model.needsResampling();
 	}
 }
