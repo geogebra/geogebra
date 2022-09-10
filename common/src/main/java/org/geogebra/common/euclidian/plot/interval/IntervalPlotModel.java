@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
  *
  * @author laszlo
  */
-public class IntervalPlotModel {
+public class IntervalPlotModel implements QueryFunctionData {
 	private final IntervalFunctionData data;
 	private final IntervalFunctionSampler sampler;
 	private IntervalPath path;
@@ -94,14 +94,17 @@ public class IntervalPlotModel {
 	 * @param index to get point at
 	 * @return corresponding point if index is valid, null otherwise.
 	 */
+	@Override
 	public IntervalTuple at(int index) {
 		return data.at(index);
 	}
 
+	@Override
 	public boolean hasNext(int index) {
 		return index < pointCount();
 	}
 
+	@Override
 	public boolean isInvertedAt(int index) {
 		return index >= points().count() || at(index).isInverted();
 	}
@@ -114,6 +117,7 @@ public class IntervalPlotModel {
 	 *
 	 * @return count of points in model
 	 */
+	@Override
 	public int getCount() {
 		return points().count();
 	}
@@ -123,6 +127,7 @@ public class IntervalPlotModel {
 	 * @param index of the tuple.
 	 * @return if the tuple value of a given index is whole or not.
 	 */
+	@Override
 	public boolean isWholeAt(int index) {
 		return index >= points().count() || at(index).y().isWhole();
 	}
@@ -139,6 +144,7 @@ public class IntervalPlotModel {
 		return data.getGeoFunction();
 	}
 
+	@Override
 	public boolean hasValidData() {
 		return points() != null && countDefined() > 1;
 	}
@@ -151,6 +157,7 @@ public class IntervalPlotModel {
 		return index < points().count();
 	}
 
+	@Override
 	public boolean nonDegenerated(int index) {
 		return !isInvertedPositiveInfinity(index);
 	}
@@ -166,6 +173,7 @@ public class IntervalPlotModel {
 	 *
 	 * @param action to call on.
 	 */
+	@Override
 	public void forEach(IntConsumer action) {
 		Interval xRange = IntervalPlotSettings.visibleXRange();
 		if (xRange.isUndefined()) {
@@ -184,6 +192,7 @@ public class IntervalPlotModel {
 	 * @param index to get the neighbours at.
 	 * @return the neighbours around tuple given by index (including itself)
 	 */
+	@Override
 	public TupleNeighbours neighboursAt(int index) {
 		return data.neighboursAt(index);
 	}
