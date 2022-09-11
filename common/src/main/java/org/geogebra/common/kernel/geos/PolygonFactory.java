@@ -167,6 +167,9 @@ public class PolygonFactory {
 		firstPoint.setCoords(firstPoint.getX2D() + offsetX, firstPoint.getY2D() + offsetY, 1.0);
 		firstPoint.updateRepaint();
 
+		//Copy the (most important) attributes to the newly created polygon
+		ret[0].setBasicVisualStyle(poly);
+
 		return ret;
 	}
 

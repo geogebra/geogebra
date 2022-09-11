@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -50,9 +51,7 @@ class StatementFeatures {
 		AlgoElement ae = node.getParentAlgorithm();
 		if (ae != null) {
 			for (GeoElement dependency : ae.getInput()) {
-				ArrayList<GeoElement> item = new ArrayList<>();
-				item.add(dependency);
-				item.add(node);
+				ArrayList<GeoElement> item = new ArrayList<>(Arrays.asList(dependency, node));
 				deps.add(item);
 				computeNodeLongestPath(dependency, set + 1);
 			}

@@ -173,7 +173,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		willingCoords.projectPlaneInPlaneCoords(transformCoordSys.getVx(),
 				transformCoordSys.getVy(), willingDirection,
 				transformCoordSys.getOrigin(), tmpCoords);
-		locus.pointChanged(tmpCoords, PI.getPathParameter());
+		getLocus().pointChanged(tmpCoords, PI.getPathParameter());
 		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
 		PI.setCoords(tmpCoords3d, false);
 
@@ -188,7 +188,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 				transformCoordSys.getVx(), transformCoordSys.getVy(),
 				transformCoordSys.getVz(), transformCoordSys.getOrigin(),
 				tmpCoords);
-		locus.pathChanged(tmpCoords, PI.getPathParameter());
+		getLocus().pathChanged(tmpCoords, PI.getPathParameter());
 		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
 		PI.setCoords(tmpCoords3d, false);
 	}

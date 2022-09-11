@@ -38,6 +38,7 @@ public class InputPanelW extends FlowPanel {
 		textComponent = new AutoCompleteTextFieldW(columns, app);
 		textComponent.setAutoComplete(autoComplete);
 		add(textComponent);
+		enableGGBKeyboard(app, false, textComponent);
 	}
 
 	/**
@@ -78,9 +79,15 @@ public class InputPanelW extends FlowPanel {
 			AutoCompleteTextFieldW atf = textComponent;
 			atf.setAutoComplete(false);
 
-			if (!app.isWhiteboardActive()) {
-				atf.enableGGBKeyboard();
-			}
+			enableGGBKeyboard(app, showSymbolPopupIcon, atf);
+		}
+	}
+
+	private void enableGGBKeyboard(App app, boolean showKeyboardButton,
+			AutoCompleteTextFieldW atf) {
+		if (!app.isWhiteboardActive()) {
+			atf.prepareShowSymbolButton(showKeyboardButton);
+			atf.enableGGBKeyboard();
 		}
 	}
 

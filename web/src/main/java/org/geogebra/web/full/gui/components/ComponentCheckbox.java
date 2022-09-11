@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -30,7 +31,6 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public ComponentCheckbox(Localization loc, boolean setSelected, String templateTxt,
 			Consumer<Boolean> callback) {
 		this.loc = loc;
-		this.selected = setSelected;
 		this.checkboxTxt = templateTxt;
 
 		addStyleName("checkboxPanel");
@@ -55,11 +55,14 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 		checkboxBg.addStyleName("hoverBg");
 		checkboxBg.addStyleName("ripple");
 		checkbox.add(checkboxBg);
-
-		checkboxLbl = new Label();
-		checkboxLbl.setStyleName("checkboxLbl");
 		add(checkbox);
-		add(checkboxLbl);
+
+		if (!templateTxt.isEmpty()) {
+			checkboxLbl = new Label();
+			checkboxLbl.setStyleName("checkboxLbl");
+			add(checkboxLbl);
+		}
+
 		Dom.addEventListener(this.getElement(), "click", evt -> {
 			if (!disabled) {
 				setSelected(!isSelected());
@@ -69,7 +72,15 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 			}
 		});
 
+		setSelected(setSelected);
 		setLabels();
+		addAccessibilityInfo();
+	}
+
+	private void addAccessibilityInfo() {
+		AriaHelper.setLabel(this, loc.getMenu(checkboxTxt));
+		AriaHelper.setTabIndex(this, 0);
+		AriaHelper.setRole(this, "checkbox");
 	}
 
 	/**
@@ -95,6 +106,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 		updateCheckboxStyle();
+		AriaHelper.setChecked(this, selected);
 	}
 
 	/**
@@ -111,11 +123,16 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 	public void setDisabled(boolean isDisabled) {
 		disabled = isDisabled;
 		Dom.toggleClass(checkbox, "disabled", disabled);
-		Dom.toggleClass(checkboxLbl, "disabled", disabled);
+		if (checkboxLbl != null) {
+			Dom.toggleClass(checkboxLbl, "disabled", disabled);
+		}
 	}
 
 	@Override
 	public void setLabels() {
-		checkboxLbl.setText(loc.getMenu(checkboxTxt));
+		if (checkboxLbl != null) {
+			checkboxLbl.setText(loc.getMenu(checkboxTxt));
+			AriaHelper.setLabel(this, loc.getMenu(checkboxTxt));
+		}
 	}
 }

@@ -75,6 +75,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
 
+	private PlotConditionalFunction plotConditional;
+
 	private static final Inspecting containsLog = new Inspecting() {
 		@Override
 		public boolean check(ExpressionValue v) {
@@ -102,6 +104,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		this.curve = curve;
 		geo = curve.toGeoElement();
 		createGeneralPath();
+		plotConditional = new PlotConditionalFunction(view, gp);
 		createIntervalPlotter();
 		update();
 	}
@@ -239,6 +242,10 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 			}
 			if (max > maxView || Double.isInfinite(max)) {
 				max = maxView;
+			}
+
+			if (plotConditional.update(function, min, max, labelVisible, fillCurve)) {
+				return;
 			}
 		}
 		GPoint labelPoint;
@@ -473,6 +480,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		intervalPlotter.draw(g2);
+
 	}
 
 	private void drawParametric(GGraphics2D g2) {

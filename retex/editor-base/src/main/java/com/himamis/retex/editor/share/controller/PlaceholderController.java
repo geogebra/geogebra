@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathCharacter;
+import com.himamis.retex.editor.share.model.MathContainer;
+import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathPlaceholder;
 
 public class PlaceholderController {
@@ -13,8 +15,13 @@ public class PlaceholderController {
 	 * @param editorState editor state
 	 * @param placeholders the list of placeholders to insert
 	 */
-	public static void insertPlaceholders(EditorState editorState, List<String> placeholders) {
+	public static void insertPlaceholders(EditorState editorState, List<String> placeholders,
+			String command) {
 		MetaModel metaModel = editorState.getMetaModel();
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (parent instanceof MathFunction) {
+			((MathFunction) parent).setCommandForSyntax(command);
+		}
 		int firstPlaceholderOffset = -1;
 		for (int i = 0; i < placeholders.size(); i++) {
 			if (i != 0) {
@@ -23,6 +30,9 @@ public class PlaceholderController {
 			}
 			int currentOffset = editorState.getCurrentOffset();
 			int currentSize = editorState.getCurrentField().size();
+			if (parent instanceof MathFunction) {
+				((MathFunction) parent).getPlaceholders().add(placeholders.get(i));
+			}
 			if (currentOffset < currentSize) {
 				editorState.setCurrentOffset(currentSize);
 			} else {

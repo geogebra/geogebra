@@ -287,18 +287,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (suppressLabel || isBooleanFunction() || isForceInequality()) {
 			return true;
 		}
-		if ((this.isFunctionOfY()
+		return !(this.isFunctionOfY()
 						// needed for GGB-1028
 						&& this.getCorrespondingCasCell() == null)
-				|| (autoLabel && this.isFunctionOfZ())) {
-			return false;
-		}
-		return true;
+				&& !(autoLabel && this.isFunctionOfZ());
 	}
 
 	@Override
-	public void setVisualStyle(GeoElement g, boolean setAuxiliaryProperty) {
-		super.setVisualStyle(g, setAuxiliaryProperty);
+	public void setBasicVisualStyle(GeoElement g) {
+		super.setBasicVisualStyle(g);
 		if (g instanceof GeoFunction) {
 			setShowOnAxis(((GeoFunction) g).showOnAxis);
 		}
@@ -2342,10 +2339,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (str.charAt(0) == '\'') {
 			return true; // maxima error eg 'diff(
 		}
-		if (str.indexOf(Unicode.INFINITY) > -1) {
-			return true;
-		}
-		return false;
+		return str.indexOf(Unicode.INFINITY) > -1;
 	}
 
 	/**

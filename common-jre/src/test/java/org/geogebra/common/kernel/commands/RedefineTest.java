@@ -18,12 +18,14 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.test.EventAcumulator;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -481,9 +483,21 @@ public class RedefineTest extends BaseUnitTest {
 		add("A=(1,1)");
 		GeoElement m = add("m=Line(A,(1,3))");
 		GeoElement redefinedM = add("m=Line(A,(1,3))");
-		assertEquals(m, redefinedM);
+		assertEquals(m, redefinedM); // no-op redefinition
+		redefinedM = add("m=Line(A,(1,2))");
+		assertEquals(m, redefinedM); // soft redefinition
 		redefinedM = add("m=Line(A,Vector((1,3)))");
 		assertNotEquals(m, redefinedM);
+	}
+
+	@Test
+	public void softRedefineShouldUpdateSiblings() {
+		add("c=Cone((0,0,0),(0,0,1),2)");
+		EventAcumulator listener = new EventAcumulator();
+		getApp().getEventDispatcher().addEventListener(listener);
+		add("c=Cone((0,0,0),(0,0,1),4)");
+		assertEquals(Arrays.asList("UPDATE c", "UPDATE d", "UPDATE a"),
+				listener.getEvents());
 	}
 
 	@Test
@@ -494,6 +508,30 @@ public class RedefineTest extends BaseUnitTest {
 		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
 		reload();
 		assertThat(lookup("pts"), hasValue("{(0, 0), (1.5, 0), (?, ?)}"));
+	}
+
+	@Test
+	public void selectionAllowedShouldStay() {
+		GeoPoint pt = add("A=(1,2)");
+		pt.setSelectionAllowed(false);
+		GeoElement redefined = add("A:x=y");
+		assertEquals("A", redefined.getLabelSimple());
+		assertFalse("Selection should stay disabled",
+				redefined.isSelectionAllowed(null));
+		GeoElement transformed = add("Rotate(A,90deg)");
+		assertTrue("Selection should not be copied",
+				transformed.isSelectionAllowed(null));
+	}
+
+	@Test
+	public void eigenvectorsNotChangedOnReload() {
+		add("c:x^2+y^2=1");
+		add("c':Reflect(c, x+2y=5)");
+		GeoElement p = add("P=Point(c')");
+		assertThat(p, hasValue("(1.55, 3.11)"));
+		reload();
+		p = lookup("P");
+		assertThat(p, hasValue("(1.55, 3.11)"));
 	}
 
 	/**

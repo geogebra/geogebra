@@ -26,12 +26,8 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 		if (LineEqnModel.forceInputForm(app, geo)) {
 			return false;
 		}
-		if (!(geo instanceof GeoPlaneND)
-				|| geo.getDefinition() == null) {
-			return false;
-		}
-
-		return true;
+		return (geo instanceof GeoPlaneND)
+				&& (geo.getDefinition() != null);
 	}
 
 	private GeoPlaneND getLineAt(int index) {

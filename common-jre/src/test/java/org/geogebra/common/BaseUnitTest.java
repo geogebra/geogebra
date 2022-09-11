@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.hamcrest.Description;
@@ -77,6 +78,10 @@ public class BaseUnitTest {
     protected AppCommon getApp() {
         return app;
     }
+
+	protected Settings getSettings() {
+		return app.getSettings();
+	}
 
     /**
      * Get the geo element factory. Use this class to create GeoElements.
@@ -234,6 +239,12 @@ public class BaseUnitTest {
 			@Override
 			protected boolean matchesSafely(GeoElementND item) {
 				return val.equals(item.toValueString(StringTemplate.defaultTemplate));
+			}
+
+			@Override
+			public void describeMismatchSafely(GeoElementND item, Description description) {
+				description.appendText("had value ").appendValue(item
+						.toValueString(StringTemplate.defaultTemplate));
 			}
 
 			@Override

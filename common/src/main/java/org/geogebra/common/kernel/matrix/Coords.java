@@ -738,12 +738,7 @@ public class Coords implements AnimatableValue<Coords> {
 			return true;
 		}
 		value = val[0] * v.val[1] - val[1] * v.val[0];
-		if (!DoubleUtil.isZero(value)) {
-			return true;
-		}
-
-		return false;
-
+		return !DoubleUtil.isZero(value);
 	}
 
 	/**

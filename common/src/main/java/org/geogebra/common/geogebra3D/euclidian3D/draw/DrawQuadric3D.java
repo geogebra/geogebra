@@ -1494,13 +1494,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
         if (minmax == null) {
             return false;
         }
-        if (value < minmax[0]) {
-            return false;
-        }
-        if (value > minmax[1]) {
-            return false;
-        }
-        return true;
+        return value >= minmax[0] && value <= minmax[1];
     }
 
 	@Override

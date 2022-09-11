@@ -41,7 +41,18 @@ public class IntervalPath {
 	 */
 	public synchronized void update() {
 		reset();
+		moveToAnchor();
 		data.forEach(this::drawAt);
+	}
+
+	private void moveToAnchor() {
+		IntervalTuple anchor = model.getAnchor();
+		if (anchor.isUndefined() || anchor.isInverted()) {
+			return;
+		}
+		gp.moveTo(bounds.toScreenCoordXd(anchor.x().getHigh()),
+				bounds.toScreenCoordYd(anchor.y().getHigh()));
+		lastY = bounds.toScreenIntervalY(anchor.y());
 	}
 
 	private void drawAt(int index) {

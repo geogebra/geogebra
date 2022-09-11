@@ -46,10 +46,7 @@ public class ConditionalSupport {
 			return true;
 		}
 
-		if (isConstantAndLeaf(node.getLeftTree(), node.getRightTree())) {
-			return true;
-		}
-		return false;
+		return isConstantAndLeaf(node.getLeftTree(), node.getRightTree());
 	}
 
 	private static boolean isSupportedAndInterval(ExpressionNode node) {
@@ -61,8 +58,8 @@ public class ConditionalSupport {
 		ExpressionValue targetValue = node.getLeftTree().getRight();
 		ExpressionValue lessValue = node.getRightTree().getRight();
 		return greaterValue.isConstant()
-			     && !targetValue.isConstant() && targetValue.isLeaf()
-				 && lessValue.isConstant();
+					&& !targetValue.isConstant() && targetValue.isLeaf()
+					&& lessValue.isConstant();
 	}
 
 	private static boolean isConstantAndLeaf(ExpressionNode node1, ExpressionNode node2) {

@@ -66,26 +66,10 @@ public class DoubleUtil {
 	 */
 	final public static boolean isEpsilon(double e, double x, double y,
 			double z) {
-	
 		double eAbs = Math.abs(e);
-	
-		if (eAbs > Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(z) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		return true;
+		return !(eAbs > Kernel.STANDARD_PRECISION || eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION
+				|| eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION
+				|| eAbs > Math.abs(z) * Kernel.STANDARD_PRECISION);
 	}
 
 	/**
@@ -101,22 +85,9 @@ public class DoubleUtil {
 	 * @return whether x and y are both zero
 	 */
 	final public static boolean isEpsilon(double e, double x, double y) {
-	
 		double eAbs = Math.abs(e);
-	
-		if (eAbs > Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION) {
-			return false;
-		}
-	
-		return true;
+		return !(eAbs > Kernel.STANDARD_PRECISION || eAbs > Math.abs(x) * Kernel.STANDARD_PRECISION
+				|| eAbs > Math.abs(y) * Kernel.STANDARD_PRECISION);
 	}
 
 	/** @return is abs(x) &lt; epsilon ? */
@@ -153,10 +124,7 @@ public class DoubleUtil {
 	 * @return whether the x-eps &lt; y &lt; x+eps
 	 */
 	final public static boolean isEqual(double x, double y, double eps) {
-		if (x == y) {
-			return true;
-		}
-		return ((x - eps) < y) && (y < (x + eps));
+		return x == y || ((x - eps) < y) && (y < (x + eps));
 	}
 
 	/**
@@ -289,16 +257,7 @@ public class DoubleUtil {
 	 */
 	final public static boolean isEpsilonWithPrecision(double e, double x, double eps) {
 		double eAbs = Math.abs(e);
-	
-		if (eAbs > eps) {
-			return false;
-		}
-	
-		if (eAbs > Math.abs(x) * eps) {
-			return false;
-		}
-	
-		return true;
+		return !(eAbs > eps || eAbs > Math.abs(x) * eps);
 	}
 
 	/**
@@ -544,6 +503,7 @@ public class DoubleUtil {
 	 *       {min, min + step, min + 2*step, ..., min + i*step, max}
 	 *       otherwise, where min + i*step is the greatest such number
 	 *       that is smaller than max
+	 * @throws OutOfMemoryError if the range is too big
 	 */
 	public static double[] range(double min, double max, double step) throws OutOfMemoryError {
 		// To any future developer who wants to simplify this code:

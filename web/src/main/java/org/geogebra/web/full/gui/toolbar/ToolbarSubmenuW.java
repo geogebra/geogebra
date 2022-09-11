@@ -7,6 +7,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.util.ImageResourceConverter;
+import org.geogebra.web.html5.gui.HasHide;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.Label;
  * 
  * @author bencze
  */
-public class ToolbarSubmenuW extends FlowPanel {
+public class ToolbarSubmenuW extends FlowPanel implements HasHide {
 
 	/**
 	 * Application
@@ -156,5 +157,10 @@ public class ToolbarSubmenuW extends FlowPanel {
 
 	public void setMaxHeight(int d) {
 		itemList.getElement().getStyle().setProperty("maxHeight", d + "px");
+	}
+
+	@Override
+	public void hide() {
+		setVisible(false);
 	}
 }

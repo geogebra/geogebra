@@ -131,4 +131,12 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		oldWidth = 0;
 		oldHeight = 0;
 	}
+
+	@Override
+	public void enableZoomPanelEvents(boolean enable) {
+		if (app.getZoomPanel() != null) {
+			app.getZoomPanel().setStyleName("pointerEventsNoneWhenDragging", !enable);
+		}
+	}
+
 }

@@ -96,6 +96,14 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	FILLING_FAST_REWIND("/org/geogebra/common/icons/svg/common/fast_rewind.svg"),
 
+	FILLING_ZOOM_TO_FIT("/org/geogebra/common/icons/svg/common/zoom_to_fit.svg"),
+
+	FILLING_CENTER_VIEW("/org/geogebra/common/icons/svg/common/center_view.svg"),
+
+	FILLING_HELP("/org/geogebra/common/icons/svg/common/help.svg"),
+
+	FILLING_SETTINGS("/org/geogebra/common/icons/svg/common/settings.svg"),
+
 	NAV_FASTFORWARD64("/gui/images/64px/nav_fastforward.png"),
 
 	NAV_REWIND64("/gui/images/64px/nav_rewind.png"),

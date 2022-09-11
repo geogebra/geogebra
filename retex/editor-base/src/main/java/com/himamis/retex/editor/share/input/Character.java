@@ -23,6 +23,7 @@ public class Character {
                 (c >= '\u0490' && c <= '\u04f9') || // Cyrillic
                 (c >= '\u0531' && c <= '\u1ffc') || // a lot of signs (Arabic,
                 // accentuated, ...)
+                (c == '\u212f') || // Euler number
                 (c >= '\u3041' && c <= '\u3357') || // Asian letters
                 (c >= '\u4e00' && c <= '\ud7a3') || // Asian letters
                 (c >= '\uf71d' && c <= '\ufa2d') || // Asian letters

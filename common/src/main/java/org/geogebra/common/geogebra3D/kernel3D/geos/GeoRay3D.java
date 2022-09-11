@@ -97,11 +97,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			return false;
 		}
 		double d = p.sub(getStartInhomCoords()).dotproduct(getDirectionInD3());
-		if (d < -eps) {
-			return false;
-		}
-
-		return true;
+		return d >= -eps;
 	}
 
 	// ///////////////////////////////////////

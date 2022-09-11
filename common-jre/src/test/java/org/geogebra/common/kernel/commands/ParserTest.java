@@ -24,8 +24,11 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -468,5 +471,89 @@ public class ParserTest {
 		} catch (ParseException e) {
 			assertNull(e);
 		}
+	}
+
+	@Test
+	public void testAutomaticObjectCreationGraphing() {
+		app.setConfig(new AppConfigGraphing());
+		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
+
+		assertEquals("(0, 0)",
+				processor.processAlgebraCommand("O", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(1, 1)",
+				processor.processAlgebraCommand("O+1", false)[0]
+						.toValueString(StringTemplate.defaultTemplate)); // Creates A
+		assertEquals("(1, 1)",
+				processor.processAlgebraCommand("1+O", false)[0]
+						.toValueString(StringTemplate.defaultTemplate)); // Creates B
+		assertEquals("(1, 2)",
+				processor.processAlgebraCommand("C(1,2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("5",
+				processor.processAlgebraCommand("C(1,2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(2, 4)",
+				processor.processAlgebraCommand("C(2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate)); // Creates D
+		assertEquals("(1, 2, 3)",
+				processor.processAlgebraCommand("E(1,2,3)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		processor.processAlgebraCommand("b=4", false);
+		assertEquals("(4, 8, 12)",
+				processor.processAlgebraCommand("b(1,2,3)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void testAutomaticObjectCreationScientific() {
+		app.setConfig(new AppConfigScientific());
+		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
+		processor.processAlgebraCommand("b=4", false);
+		assertNull(processor.processAlgebraCommand("O", false));
+		assertNull(processor.processAlgebraCommand("O+1", false));
+		assertNull(processor.processAlgebraCommand("1+O", false));
+		assertNull(processor.processAlgebraCommand("A(0,0)", false));
+		assertNull(processor.processAlgebraCommand("A(1,1,1)", false));
+		assertNull(processor.processAlgebraCommand("b(0,0)", false));
+		assertNull(processor.processAlgebraCommand("b(1,1,1)", false));
+		assertNull(processor.processAlgebraCommand("O(1,1)", false));
+		assertNull(processor.processAlgebraCommand("1+O(1,1)", false));
+
+		assertEquals("1.5",
+				processor.processAlgebraCommand("mean(1,2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("1",
+				processor.processAlgebraCommand("sin(pi/2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("-4",
+				processor.processAlgebraCommand("bsin(3pi/2)", false)[0]
+						.toValueString(StringTemplate.defaultTemplate));
+	}
+
+	@Test
+	public void testVariableNameContainingOnlyDollarSigns() {
+		String expression = "";
+		for (int i = 0; i < 10; i++) {
+			expression += "$";
+			AlgebraTestHelper.shouldFail(expression, "", app);
+			AlgebraTestHelper.shouldFail(expression + "=1", "", app);
+		}
+	}
+
+	@Test
+	public void testVariableNameStartingWithNumber() {
+		AlgebraTestHelper.shouldFail("$1", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$$1", "Undefined variable", app);
+
+		AlgebraTestHelper.shouldPass("$1=2", app);
+		AlgebraTestHelper.shouldFail("$$1=2", "Redefinition", app);
+		AlgebraTestHelper.shouldFail("$1a", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$$1a", "Undefined variable", app);
+		AlgebraTestHelper.shouldFail("$1a=2", "assignment", app);
+		AlgebraTestHelper.shouldFail("$$1a=2", "assignment", app);
+
+		AlgebraTestHelper.shouldPass("$a1=2", app);
+		AlgebraTestHelper.shouldPass("$$a1=2", app);
 	}
 }

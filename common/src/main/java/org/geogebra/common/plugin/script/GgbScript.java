@@ -108,10 +108,7 @@ public class GgbScript extends Script {
 		if (i >= starr.length - 1 || starr[i + 1].startsWith("[")) {
 			return false;
 		}
-		if (app.getKernel().lookupLabel(starr[i]) != null) {
-			return true;
-		}
-		return false;
+		return app.getKernel().lookupLabel(starr[i]) != null;
 	}
 
 	/**

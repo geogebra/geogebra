@@ -661,6 +661,7 @@ public class InputController {
 			} else if (ch == parent.getCloseKey() && !MathArray.isLocked(parent)) {
 				// in non-protected containers when the closing key is pressed
 				// move out of the container
+				moveOutOfArray(currentField, currentOffset);
 				currentOffset = parent.getParentIndex() + 1;
 				currentField = (MathSequence) parent.getParent();
 			} else {
@@ -734,6 +735,20 @@ public class InputController {
 		}
 		editorState.setCurrentField(currentField);
 		editorState.setCurrentOffset(currentOffset);
+	}
+
+	private void moveOutOfArray(MathSequence currentField, int currentOffset) {
+		MathComponent parent = currentField.getParent();
+		if (parent.getParent() instanceof MathSequence) {
+			int counter = 1;
+			while (currentField.size() > currentOffset) {
+				MathComponent component = currentField
+						.getArgument(currentOffset);
+				currentField.delArgument(currentOffset);
+				parent.getParent().addArgument(parent.getParentIndex() + counter, component);
+				counter++;
+			}
+		}
 	}
 
 	private static void insertReverse(MathContainer parent, int parentIndex,
@@ -873,7 +888,10 @@ public class InputController {
 			editorState.decCurrentOffset();
 			MathSequence currentField = editorState.getCurrentField();
 			int offset = editorState.getCurrentOffset();
-			if (currentField.getArgument(offset) instanceof MathFunction) {
+			MathComponent component = currentField.getArgument(offset);
+
+			if (component instanceof MathFunction
+					&& ((MathFunction) component).getName() != Tag.FRAC) {
 				RemoveContainer.fuseMathFunction(editorState,
 						(MathFunction) currentField.getArgument(offset));
 			}
@@ -1353,7 +1371,7 @@ public class InputController {
 		}
 	}
 
-	private static class FunctionPower {
+	public static class FunctionPower {
 		/** subscript or superscript*/
 		public MathFunction script;
 		public String name;

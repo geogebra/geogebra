@@ -905,8 +905,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				this.updateBoundObjects();
 			}
 
-			app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
-					.setJsonArgument(getCoordinates()));
+			if (evNo != 2 || (evNo == 2 && app.hasEuclidianView2EitherShowingOrNot(1))) {
+				app.dispatchEvent(new Event(EventType.VIEW_CHANGED_2D)
+						.setJsonArgument(getCoordinates()));
+			}
 		}
 		// tell kernel
 		if (evNo != EVNO_GENERAL) {
@@ -5674,6 +5676,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return whether stylebar of this view exists
 	 */
+	@Override
 	public final boolean hasStyleBar() {
 		return styleBar != null;
 	}
@@ -5816,6 +5819,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return whether dynamic stylebar exists
 	 */
+	@Override
 	public final boolean hasDynamicStyleBar() {
 		return dynamicStyleBar != null;
 	}
