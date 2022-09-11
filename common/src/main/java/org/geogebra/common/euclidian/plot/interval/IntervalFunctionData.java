@@ -52,18 +52,6 @@ public class IntervalFunctionData {
 		}
 	}
 
-	public int count() {
-		return tuples.count();
-	}
-
-	public IntervalTuple at(int index) {
-		return tuples.get(index);
-	}
-
-	public boolean isEmpty() {
-		return tuples.isEmpty();
-	}
-
 	public GeoFunction getGeoFunction() {
 		return geoFunction;
 	}

@@ -16,9 +16,10 @@ public class IntervalPlotter {
 	private final EuclidianViewBounds evBounds;
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
-	private IntervalPlotModel model = null;
+	private IntervalFunctionModel model = null;
 
 	private IntervalPlotController controller;
+	private IntervalPath path;
 
 	/**
 	 * Creates a disabled plotter
@@ -39,7 +40,7 @@ public class IntervalPlotter {
 
 	private void enable() {
 		enabled = true;
-		model.resample();
+		model.update();
 	}
 
 	/**
@@ -55,11 +56,10 @@ public class IntervalPlotter {
 		IntervalTupleList tuples = new IntervalTupleList();
 		IntervalFunctionData data = new IntervalFunctionData(function, evBounds, tuples);
 		FunctionSampler sampler = new FunctionSampler(data, evBounds);
-		model = new IntervalPlotModel(data, sampler, evBounds);
 		QueryFunctionData query = new QueryFunctionDataImpl(tuples);
-		IntervalPath path = new IntervalPath(gp, evBounds, query);
-		model.setPath(path);
-		this.controller = new IntervalPlotController(model);
+		path = new IntervalPath(gp, evBounds, query);
+		model = new IntervalFunctionModelImpl(data, sampler, evBounds, path);
+		this.controller = new IntervalPlotController(model, function);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class IntervalPlotter {
 	 * @return point of label
 	 */
 	public GPoint getLabelPoint() {
-		return model.getLabelPoint();
+		return path.getLabelPoint();
 	}
 
 	/**

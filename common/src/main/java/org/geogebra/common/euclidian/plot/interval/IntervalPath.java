@@ -23,7 +23,7 @@ public class IntervalPath {
 	 * Constructor.
 	 * @param gp {@link IntervalPathPlotter}
 	 * @param bounds {@link EuclidianViewBounds}
-	 * @param data {@link IntervalPlotModel}
+	 * @param data {@link IntervalFunctionModelImpl}
 	 */
 	public IntervalPath(IntervalPathPlotter gp, EuclidianViewBounds bounds,
 			QueryFunctionData data) {

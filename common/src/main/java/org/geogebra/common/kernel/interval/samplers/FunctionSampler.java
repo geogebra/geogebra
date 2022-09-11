@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to provide samples of the given function as a
@@ -75,7 +74,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		} else if (domainInfo.hasPannedRight(domain)) {
 			extendDataToRight(domain);
 		}
-		Log.debug("count: " + data.count());
 		domainInfo.update(domain);
 	}
 

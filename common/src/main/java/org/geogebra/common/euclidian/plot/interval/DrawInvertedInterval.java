@@ -18,7 +18,7 @@ public class DrawInvertedInterval {
 	 * Constructor.
 	 * @param gp {@link IntervalPathPlotter}
 	 * @param bounds {@link EuclidianViewBounds}
-	 * @param data {@link IntervalPlotModel}
+	 * @param data {@link IntervalFunctionModelImpl}
 	 */
 	public DrawInvertedInterval(IntervalPathPlotter gp, QueryFunctionData data,
 			EuclidianViewBounds bounds) {

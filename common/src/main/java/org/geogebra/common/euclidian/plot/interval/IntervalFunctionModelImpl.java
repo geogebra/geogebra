@@ -1,8 +1,6 @@
 package org.geogebra.common.euclidian.plot.interval;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 
 /**
@@ -10,32 +8,31 @@ import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
  *
  * @author laszlo
  */
-public class IntervalPlotModel {
+public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 	private final IntervalFunctionData data;
 	private final IntervalFunctionSampler sampler;
-	private IntervalPath path;
+	private final IntervalPath path;
 	private final EuclidianViewBounds bounds;
 	private boolean resampleNeeded = true;
+
 	/**
 	 * Constructor
 	 * @param data of the function sampled.
 	 * @param sampler to retrieve function data from.
 	 * @param bounds {@link EuclidianView}
 	 */
-	public IntervalPlotModel(IntervalFunctionData data, IntervalFunctionSampler sampler,
-			EuclidianViewBounds bounds) {
+	public IntervalFunctionModelImpl(IntervalFunctionData data, IntervalFunctionSampler sampler,
+			EuclidianViewBounds bounds, IntervalPath path) {
 		this.data = data;
 		this.sampler = sampler;
 		this.bounds = bounds;
-	}
-
-	public void setPath(IntervalPath path) {
 		this.path = path;
 	}
 
 	/**
 	 * Updates what's necessary.
 	 */
+	@Override
 	public void update() {
 		if (resampleNeeded) {
 			resample();
@@ -47,9 +44,20 @@ public class IntervalPlotModel {
 	/**
 	 * Updates the entire model.
 	 */
+	@Override
 	public void resample() {
 		sampler.resample(bounds.domain());
 		resampleNeeded = false;
+	}
+
+	/**
+	 *
+	 * update function domain to plot due to the visible x range.
+	 */
+	@Override
+	public void updateDomain() {
+		sampler.extend(bounds.domain());
+		updatePath();
 	}
 
 	private void updatePath() {
@@ -59,30 +67,15 @@ public class IntervalPlotModel {
 	}
 
 	/**
-	 *
-	 * update function domain to plot due to the visible x range.
-	 */
-	public void updateDomain() {
-		sampler.extend(bounds.domain());
-		updatePath();
-	}
-
-	/**
 	 * Clears the entire model.
 	 */
+	@Override
 	public void clear() {
 		path.reset();
 		data.clear();
 	}
 
-	GPoint getLabelPoint() {
-		return path.getLabelPoint();
-	}
-
-	public GeoFunction getGeoFunction() {
-		return data.getGeoFunction();
-	}
-
+	@Override
 	public void needsResampling() {
 		resampleNeeded = true;
 	}

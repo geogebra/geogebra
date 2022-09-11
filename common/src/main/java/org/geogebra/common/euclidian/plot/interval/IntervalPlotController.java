@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.euclidian.CoordSystemAnimationListener;
 import org.geogebra.common.euclidian.CoordSystemInfo;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -14,16 +15,19 @@ import org.geogebra.common.main.settings.SettingListener;
  */
 public class IntervalPlotController implements CoordSystemAnimationListener, SettingListener {
 
-	private final IntervalPlotModel model;
+	private final IntervalFunctionModel model;
+	private GeoFunction function;
 	private EuclidianController euclidianController;
 	private EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructor.
-	 * @param model {@link IntervalPlotModel}
+	 * @param model {@link IntervalFunctionModelImpl}
+	 * @param function
 	 */
-	public IntervalPlotController(IntervalPlotModel model) {
+	public IntervalPlotController(IntervalFunctionModel model, GeoFunction function) {
 		this.model = model;
+		this.function = function;
 	}
 
 	/**
@@ -31,7 +35,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	 */
 	public void attachEuclidianController(EuclidianController controller) {
 		euclidianController = controller;
-		euclidianController.addZoomerAnimationListener(this, model.getGeoFunction());
+		euclidianController.addZoomerAnimationListener(this, function);
 		euclidianSettings = euclidianController.getView().getSettings();
 		euclidianSettings.addListener(this);
 	}
@@ -66,7 +70,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	 * Remove controller as zoomer animation listener.
 	 */
 	public void detach() {
-		euclidianController.removeZoomerAnimationListener(model.getGeoFunction());
+		euclidianController.removeZoomerAnimationListener(function);
 		euclidianSettings.removeListener(this);
 	}
 
