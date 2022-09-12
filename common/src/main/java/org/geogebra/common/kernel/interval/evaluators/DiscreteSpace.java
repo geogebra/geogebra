@@ -16,6 +16,4 @@ public interface DiscreteSpace {
 
 	void forEach(Consumer<Interval> action);
 
-	Interval anchor();
-
 }

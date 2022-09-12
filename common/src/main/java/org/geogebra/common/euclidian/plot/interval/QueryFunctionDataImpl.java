@@ -107,9 +107,4 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 		neighbours.set(at(index - 1), at(index), at(index + 1));
 		return neighbours;
 	}
-
-	@Override
-	public IntervalTuple getAnchor() {
-		return tuples.getAnchor();
-	}
 }

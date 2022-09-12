@@ -49,7 +49,6 @@ public class IntervalFunctionData {
 		append(x, y);
 		IntervalTuple first = tuples.first();
 		if (first.x().getHigh() <= bounds.getXmin()) {
-			tuples.setAnchor(first.x(), first.y());
 			tuples.removeFirst();
 		}
 	}
@@ -60,9 +59,5 @@ public class IntervalFunctionData {
 
 	public boolean isValid() {
 		return tuples.isValid();
-	}
-
- 	public void setAnchor(Interval x, Interval y) {
-		tuples.setAnchor(x, y);
 	}
 }

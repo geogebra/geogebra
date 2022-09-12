@@ -93,12 +93,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		data.clear();
 		space.forEach(x -> data.append(x, function.evaluate(x)));
 		processAsymptotes(data.tuples());
-		setAnchor();
-	}
-
-	private void setAnchor() {
-		Interval x = space.anchor();
-		data.setAnchor(x, function.evaluate(x));
 	}
 
 	private static void processAsymptotes(IntervalTupleList samples) {

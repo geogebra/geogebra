@@ -35,12 +35,6 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 		return (int) Math.ceil(Math.abs(start - limit) / step);
 	}
 
-	@Override
-	public Interval anchor() {
-		double high = getMostLeftValue();
-		return new Interval(high - step, high);
-	}
-
 	public double getMostRightValue() {
 		return start + countRight * step;
 	}
