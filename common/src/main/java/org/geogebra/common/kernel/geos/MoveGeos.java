@@ -82,7 +82,6 @@ public class MoveGeos {
 		for (GeoElement geo : geosToMove) {
 			if (geo.isGeoList()) {
 				if (geo.isIndependent()) {
-					//geo.updateCascade();
 					geo.resetDefinition();
 				} else {
 					((GeoList) geo).resetDefinitionDependentList();
