@@ -20,8 +20,8 @@ public class JoinLinesTest {
 		// ln(ln(csc(x))) data around x 0.
 		TupleNeighbours neighbours = new TupleNeighbours(
 				Tuples.undefined(-0.02, 0) ,
-				Tuples.inverted(0, 0.02, -Double.POSITIVE_INFINITY, 1.3640716744517118) ,
-				Tuples.normal(0.02, 0.04, 1.1691150215320325, 1.3640716744517118) );
+				Tuples.inverted(0, 0.02, -Double.POSITIVE_INFINITY, 1.3640716744517118),
+				Tuples.normal(0.02, 0.04, 1.1691150215320325, 1.3640716744517118));
 		gpExpected.moveTo(neighbours.rightXHigh(), neighbours.currentYHigh());
 		gpExpected.lineTo(neighbours.currentXHigh(), bounds.getYmax());
 
@@ -38,7 +38,7 @@ public class JoinLinesTest {
 						1.3442945487781361, 1.8628940249049313) ,
 				Tuples.inverted(3.14, 3.16,
 						-Double.POSITIVE_INFINITY, 1.862894024904931) ,
-				Tuples.undefined(3.16, 3.18) );
+				Tuples.undefined(3.16, 3.18));
 		gpExpected.moveTo(neighbours.currentXLow(), neighbours.leftYHigh());
 		gpExpected.lineTo(neighbours.currentXLow(), bounds.getYmax());
 
@@ -56,7 +56,7 @@ public class JoinLinesTest {
 				Tuples.inverted(4.816197980612419, 4.83085778160562,
 						-3.3417675710690236, 3.3419766656147036) ,
 				Tuples.normal(4.83085778160562, 4.845517582598822,
-						-3.3417675710690435, -1.3047209026151207) );
+						-3.3417675710690435, -1.3047209026151207));
 		gpExpected.moveTo(neighbours.currentXLow(), neighbours.currentYHigh());
 		gpExpected.lineTo(neighbours.currentXLow(), bounds.getYmax());
 
