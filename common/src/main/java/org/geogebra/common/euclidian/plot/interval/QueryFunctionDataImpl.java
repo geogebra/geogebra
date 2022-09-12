@@ -12,6 +12,10 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	private final IntervalTupleList tuples;
 	private final TupleNeighbours neighbours = new TupleNeighbours();
 
+	/**
+	 *
+	 * @param tuples (x, y) list to query.
+	 */
 	public QueryFunctionDataImpl(IntervalTupleList tuples) {
 		this.tuples = tuples;
 	}
@@ -71,18 +75,10 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 				&& isInvertedAt(index);
 	}
 
-
 	private boolean isValidIndex(int index) {
 		return index < tuples.count();
 	}
 
-
-
-	/**
-	 * Iterates through and calls the given action on every tuple in model.
-	 *
-	 * @param action to call on.
-	 */
 	@Override
 	public void forEach(IntConsumer action) {
 		Interval xRange = IntervalPlotSettings.visibleXRange();
@@ -98,10 +94,6 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 		return IntStream.range(0, tuples.count());
 	}
 
-	/**
-	 * @param index to get the neighbours at.
-	 * @return the neighbours around tuple given by index (including itself)
-	 */
 	@Override
 	public TupleNeighbours neighboursAt(int index) {
 		neighbours.set(at(index - 1), at(index), at(index + 1));

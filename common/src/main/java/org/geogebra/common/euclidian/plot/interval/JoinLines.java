@@ -97,6 +97,7 @@ public class JoinLines {
 				neighbours.currentXHigh(), bounds.getYmin());
 
 	}
+
 	private void toStraightTop1(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
 				neighbours.currentXLow(), bounds.getYmax());

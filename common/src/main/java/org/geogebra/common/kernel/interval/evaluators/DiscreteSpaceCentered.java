@@ -7,40 +7,51 @@ import java.util.stream.Stream;
 import org.geogebra.common.kernel.interval.Interval;
 
 public class DiscreteSpaceCentered implements DiscreteSpace {
-	private double start;
+	private double center;
 	private int countLeft;
 	private int countRight;
 	private double step;
 
-	public DiscreteSpaceCentered(double start, int countLeft, int countRight, double step) {
-		this.start = start;
+	/**
+	 *
+	 * @param center of the space.
+	 * @param countLeft number of steps from center to the most left value.
+	 * @param countRight number of steps from center to the most right value.
+	 * @param step of the values in space.
+	 */
+	public DiscreteSpaceCentered(double center, int countLeft, int countRight, double step) {
+		this.center = center;
 		this.countLeft = countLeft;
 		this.countRight = countRight;
 		this.step = step;
 	}
 
+	/**
+	 *
+	 * @param step of the values in space.
+	 */
 	public DiscreteSpaceCentered(double step) {
 		this.step = step;
 	}
 
 	@Override
 	public void rescale(Interval interval, int numberOfSteps) {
-		start = interval.middle();
+		center = interval.middle();
 		this.step = interval.getLength() / numberOfSteps;
 		countLeft = computeCountTo(interval.getLow());
 		countRight = computeCountTo(interval.getHigh());
 	}
 
 	private int computeCountTo(double limit) {
-		return (int) Math.ceil(Math.abs(start - limit) / step);
+		return (int) Math.ceil(Math.abs(center - limit) / step);
 	}
 
-	public double getMostRightValue() {
-		return start + countRight * step;
+	private double getMostRightValue() {
+		return center + countRight * step;
 	}
 
 	private double getMostLeftValue() {
-		return start - countLeft * step;
+		return center - countLeft * step;
 	}
 
 	@Override
@@ -118,7 +129,7 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	}
 
 	private Stream<Interval> values() {
-		return createStream(start, -countLeft, countLeft + countRight);
+		return createStream(center, -countLeft, countLeft + countRight);
 	}
 
 	private Stream<Interval> createStream(double start, int fromIndex, int toIndex) {
@@ -135,7 +146,7 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 	@Override
 	public String toString() {
 		return "DiscreteSpaceCentered{" +
-				"start=" + start +
+				"start=" + center +
 				", countLeft=" + countLeft +
 				", countRight=" + countRight +
 				", step=" + step +

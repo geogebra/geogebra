@@ -49,9 +49,11 @@ public final class IntervalPlotSettings {
 		throw new IllegalArgumentException("Should be not initialized");
 	}
 
+	/**
+	 *
+	 * @return if data should resampled on view settings (practically: width) change
+	 */
 	public static boolean isUpdateOnSettingsChangeEnabled() {
 		return false;
 	}
-
-
 }

@@ -48,7 +48,6 @@ public class DiscreteSpaceCenteredTest {
 		assertEquals(expected, actual);
 	}
 
-
 	@Test
 	public void testExtendLeftBetweenStep() {
 		DiscreteSpace space = new DiscreteSpaceCentered(0, 2, 2,
