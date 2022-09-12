@@ -47,6 +47,7 @@ public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 	@Override
 	public void resample() {
 		sampler.resample(bounds.domain());
+		updatePath();
 		resampleNeeded = false;
 	}
 
