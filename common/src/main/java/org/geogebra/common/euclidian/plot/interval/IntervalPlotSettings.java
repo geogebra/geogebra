@@ -54,6 +54,6 @@ public final class IntervalPlotSettings {
 	 * @return if data should resampled on view settings (practically: width) change
 	 */
 	public static boolean isUpdateOnSettingsChangeEnabled() {
-		return false;
+		return true;
 	}
 }

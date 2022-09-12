@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
+import org.geogebra.common.kernel.interval.samplers.IntervalAsymptotes;
 
 public class SamplerTest extends BaseUnitTest {
 
@@ -15,6 +16,9 @@ public class SamplerTest extends BaseUnitTest {
 		IntervalTuple range = PlotterUtils.newRange(xmin, xmax, ymin, ymax);
 		FunctionSampler sampler = PlotterUtils.newSampler(function, range,
 				100);
+		IntervalAsymptotes asymptotes = new IntervalAsymptotes(sampler.tuples());
+		asymptotes.process();
+
 		return sampler.tuples();
 	}
 

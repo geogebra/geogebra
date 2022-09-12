@@ -1,6 +1,6 @@
 package org.geogebra.cloud;
 
-import org.geogebra.common.factories6gbo.UtilFactory;
+import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.desktop.factories.UtilFactoryD;

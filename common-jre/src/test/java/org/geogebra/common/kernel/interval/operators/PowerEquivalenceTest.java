@@ -1,8 +1,9 @@
 package org.geogebra.common.kernel.interval.operators;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.interval.SamplerTest;
+import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.junit.Test;
 
@@ -46,7 +47,13 @@ public class PowerEquivalenceTest extends SamplerTest {
 	private void shouldBeEquivalent(String description1, String description2) {
 		IntervalTupleList samples = samplesOf(description1);
 		IntervalTupleList other = samplesOf(description2);
-		assertEquals(other, samples);
+		boolean ok = true;
+		for (int i = 0; i < samples.count(); i++) {
+			IntervalTuple tuple1 = samples.get(i);
+			IntervalTuple tuple2 = other.get(i);
+			ok = ok && (tuple1.x().equals(tuple2.x()) && tuple1.y().almostEqual(tuple2.y(), 1E-7));
+		}
+		assertTrue(ok);
 	}
 
 	private IntervalTupleList samplesOf(String description) {
