@@ -82,7 +82,6 @@ public class IntervalFunctionData {
 		}
 	}
 
-
 	/**
 	 * Adds (x, y) interval pair to the end of the list and removes the first one,
 	 * if it is offscreen (preserves list length)

@@ -23,8 +23,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private final int numberOfSamples;
 	private final IntervalFunctionData data;
 	
-	
-
 	/**
 	 * @param data where the sampled data of the function will be stored.
 	 * @param domain an interval of x to sample.
@@ -33,6 +31,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public FunctionSampler(IntervalFunctionData data, Interval domain, int numberOfSamples) {
 		this(data, null, domain, numberOfSamples);
 	}
+
 	private FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds, Interval domain,
 			int numberOfSamples) {
 		this.bounds = bounds;
@@ -63,10 +62,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public void extend(Interval domain) {
-		completeDataOn(domain);
-	}
-
-	public void completeDataOn(Interval domain) {
 		if (domainInfo.hasZoomedOut(domain)) {
 			extendDataBothSide(domain);
 		} else if (domainInfo.hasPannedLeft(domain)) {

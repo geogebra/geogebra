@@ -36,7 +36,6 @@ public interface QueryFunctionData {
 	 */
 	int getCount();
 
-
 	/**
 	 *
 	 * @param index to check
@@ -53,10 +52,9 @@ public interface QueryFunctionData {
 	/**
 	 *
 	 * @param index to check
-	 * @return if function value is the whole interval at index.
+	 * @return if function value is not inverted positive infinity.
 	 */
 	boolean nonDegenerated(int index);
-
 
 	/**
 	 * Iterates through and calls the given action on every tuple of the function data.

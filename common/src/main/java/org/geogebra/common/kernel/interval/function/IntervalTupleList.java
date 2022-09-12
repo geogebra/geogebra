@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.interval.Interval;
  */
 public class IntervalTupleList implements Iterable<IntervalTuple> {
 	private final List<IntervalTuple> list;
+
 	/**
 	 * Constructor.
 	 */
@@ -63,8 +64,6 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	public boolean isEmpty() {
 		return list.isEmpty();
 	}
-
-
 
 	public boolean isValid() {
 		return countDefined() > 1;
@@ -133,16 +132,26 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 		return list.get(count() - 1);
 	}
 
+	/**
+	 * Add tuple to the beginning of the list.
+	 * @param tuple to prepend.
+	 */
 	public void prepend(IntervalTuple tuple) {
 		if (!list.contains(tuple)) {
 			list.add(0, tuple);
 		}
 	}
 
+	/**
+	 * Removes the last item.
+	 */
 	public void removeLast() {
 		list.remove(list.size() - 1);
 	}
 
+	/**
+	 * Removes the first item.
+	 */
 	public void removeFirst() {
 		list.remove(0);
 	}

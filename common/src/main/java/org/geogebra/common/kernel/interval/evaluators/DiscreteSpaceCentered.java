@@ -145,11 +145,11 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 	@Override
 	public String toString() {
-		return "DiscreteSpaceCentered{" +
-				"start=" + center +
-				", countLeft=" + countLeft +
-				", countRight=" + countRight +
-				", step=" + step +
-				'}';
+		return "DiscreteSpaceCentered{"
+				+ "start=" + center
+				+ ", countLeft=" + countLeft
+				+ ", countRight=" + countRight
+				+ ", step=" + step
+				+ '}';
 	}
 }
