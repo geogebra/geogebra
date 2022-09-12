@@ -16,14 +16,14 @@ import org.geogebra.common.main.settings.SettingListener;
 public class IntervalPlotController implements CoordSystemAnimationListener, SettingListener {
 
 	private final IntervalFunctionModel model;
-	private GeoFunction function;
+	private final GeoFunction function;
 	private EuclidianController euclidianController;
 	private EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructor.
 	 * @param model {@link IntervalFunctionModelImpl}
-	 * @param function
+	 * @param function {@link GeoFunction}
 	 */
 	public IntervalPlotController(IntervalFunctionModel model, GeoFunction function) {
 		this.model = model;

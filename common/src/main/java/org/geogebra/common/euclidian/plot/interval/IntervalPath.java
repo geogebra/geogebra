@@ -9,7 +9,7 @@ public class IntervalPath {
 	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
-	private final  QueryFunctionData data;
+	private final QueryFunctionData data;
 	private Interval lastY;
 	private final DrawInterval drawInterval;
 	private final DrawInvertedInterval drawInvertedInterval;
@@ -46,7 +46,7 @@ public class IntervalPath {
 	}
 
 	private void moveToAnchor() {
-		IntervalTuple anchor = model.getAnchor();
+		IntervalTuple anchor = data.getAnchor();
 		if (anchor.isUndefined() || anchor.isInverted()) {
 			return;
 		}

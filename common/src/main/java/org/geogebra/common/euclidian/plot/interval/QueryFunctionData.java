@@ -23,4 +23,6 @@ public interface QueryFunctionData {
 	void forEach(IntConsumer action);
 
 	TupleNeighbours neighboursAt(int index);
+
+	IntervalTuple getAnchor();
 }

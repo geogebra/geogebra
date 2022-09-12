@@ -26,15 +26,6 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	/**
 	 *
-	 * @param tuple to add as the only element of the list.
-	 */
-	public IntervalTupleList(IntervalTuple tuple) {
-		this();
-		list.add(tuple);
-	}
-
-	/**
-	 *
 	 * @param tuple to add
 	 */
 	public void add(IntervalTuple tuple) {
