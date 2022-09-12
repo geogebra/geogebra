@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.geogebra.common.util.SymbolicUtil.isSymbolicSolve;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -28,6 +30,8 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SymbolicUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -54,7 +58,7 @@ public class AlgebraItem {
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
 				if (isSymbolicSolve(symbolic)) {
-					toggleNumeric(symbolic);
+					SymbolicUtil.toggleNumeric(symbolic);
 					symbolic.setDescriptionNeedsUpdateInAV(true);
 				}
 			}
@@ -97,8 +101,8 @@ public class AlgebraItem {
 		}
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			if (isSymbolicSolve(symbolic)) {
-				return isSymbolicSolveDiffers(symbolic);
+			if (SymbolicUtil.isSymbolicSolve(symbolic)) {
+				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
 			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
 				return false;
 			}
@@ -630,64 +634,5 @@ public class AlgebraItem {
 		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
-	}
-
-	private static boolean isSymbolicSolve(GeoSymbolic symbolic) {
-		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
-		return topLevelCommand != null
-				&& (Commands.Solve.getCommand().equals(topLevelCommand.getName())
-				|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
-	}
-
-	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
-		String textOriginal = getValueString(symbolic);
-		String textOpposite = getOppositeValueString(symbolic);
-		return isDefined(textOriginal) && isDefined(textOpposite)
-				&& !textOriginal.equals(textOpposite);
-	}
-
-	private static String getValueString(GeoSymbolic symbolic) {
-		return symbolic.toValueString(StringTemplate.defaultTemplate);
-	}
-
-	private static String getOppositeValueString(GeoSymbolic symbolic) {
-		return getValueString(getOpposite(symbolic));
-	}
-
-	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
-		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction());
-		opposite.setDefinition(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
-		toggleNumeric(opposite);
-		return opposite;
-	}
-
-	/**
-	 * @param symbolic GeoSymbolic input
-	 * handles the showing/hiding of Solve/NSolve variants
-	 */
-	public static void handleSolveNSolve(GeoSymbolic symbolic) {
-		if (isSymbolicSolve(symbolic)) {
-			if (!isDefined(getValueString(symbolic))
-					&& isDefined(getOppositeValueString(symbolic))) {
-				toggleNumeric(symbolic);
-				if (Commands.Solve.name()
-						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
-					symbolic.wrapInNumeric();
-				}
-			}
-		}
-	}
-
-	private static boolean isDefined(String valueString) {
-		return !GeoFunction.isUndefined(valueString);
-	}
-
-	private static void toggleNumeric(GeoSymbolic symbolic) {
-		Commands opposite = Commands.NSolve.getCommand()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
-				? Commands.Solve : Commands.NSolve;
-
-		symbolic.getDefinition().getTopLevelCommand().setName(opposite.getCommand());
-		symbolic.computeOutput();
 	}
 }

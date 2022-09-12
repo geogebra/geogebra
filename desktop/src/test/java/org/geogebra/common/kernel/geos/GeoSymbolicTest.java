@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.matchesPattern;
@@ -1324,11 +1325,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		// Solve and NSolve give identical answers
 		GeoSymbolic symbolic = add("Solve(x^2=1)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+
+		symbolic = add("NSolve(x^2=1)");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+
 	}
 
 	@Test
 	public void testSolveNSolveCase2() {
 		// Solve and NSolve both work and give answers in a different form
+		// 1 variable
 		GeoSymbolic symbolic = add("Solve(x^2=2)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
@@ -1336,16 +1342,55 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		AlgebraItem.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -1.414213562373, x = 1.414213562373}"));
+
+		// 2 variables
+		symbolic = add("Solve({x+2y=5,x-3y=7},{x,y})");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{{x = 29 / 5, y = -2 / 5}}"));
+		AlgebraItem.toggleSymbolic(symbolic);
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = 5.8, y = -0.4}"));
+	}
+
+	@Test
+	public void testSolveNSolveCase2a() {
+		GeoSymbolic symbolic = add("Solve({x²+y=10, x²-y=8},{x,y})");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{{x = 3, y = 1}, {x = -3, y = 1}}"));
+		AlgebraItem.toggleSymbolic(symbolic);
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = 3, y = 1}"));
 	}
 
 	@Test
 	public void testSolveNSolveCase3() {
 		// Solve gives {} or {?} or {x=?} or ? and NSolve gives an answer
+		// 1 variable
 		GeoSymbolic symbolic = add("Solve(x=cos(x))");
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(x = cos(x))"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 0.7390851332152}"));
+
+		symbolic = add("Solve({x^y=5, x-y=3},{x,y})");
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve({x^y = 5, x - y = 3}, {x, y})"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = 4.134008006438, y = 1.134008006438}"));
+
+		symbolic = add("Solve(exp(|sin(x)|)=2)");
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve(ℯ^(abs(sin(x))) = 2)"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				startsWith("{x = -333.7746674752, x = -303.9686412028, x = -208.1109613315, "
+						+ "x = -168.880157099, x = -123.2879596848, x = -102.9067113736, "
+						+ "x = -98.15521845604, x = -93.48193341286, x = -69.88088457379, "
+						+ "x = -65.20759953054, x = -63.59769926661, x = -62.06600687697, "
+						+ "x = -60.45610661301, x = -58.92441422337, x = -54.17292130584, "
+						+ "x = -52.64122891619, x = -51.03132865224, x = -49.49963626261, "));
+
+		// 2 variables
+
 	}
 
 	@Test
@@ -1356,6 +1401,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("Numeric(Solve(20 = 100x¹⁰⁰⁰))"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -0.9983918565382, x = 0.9983918565382}"));
+
+		symbolic = add("NSolve(sqrt(x)=sqrt(-2-x),x=1)");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = -1}"));
 	}
 
 	@Test
