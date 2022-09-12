@@ -1545,9 +1545,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdExtremum() {
+		t("ZoomIn[-5,-5,5,5]");
 		tRound("Extremum[ sin(x), 1, 7 ]",
 				"(1.5708, 1)", "(4.71239, -1)");
 		tRound("Extremum[ x^3-3x ]", "(-1, 2)", "(1, -2)");
+		tRound("Extremum[ nroot(x^(3) - 3x, 3) ]",
+				"(-1, 1.25992)", "(1, -1.25992)");
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
