@@ -19,15 +19,6 @@ public class IntervalFunctionDomainInfo {
 		return isMaxHigher(domain);
 	}
 
-	private boolean isMinHigher(Interval domain) {
-		return domain.getLow() > domainBefore.getLow() ;
-	}
-
-
-	private boolean isMaxLower(Interval domain) {
-		return domain.getHigh() < domainBefore.getHigh();
-	}
-
 	private boolean isMaxHigher(Interval domain) {
 		return domain.getHigh() > domainBefore.getHigh();
 	}

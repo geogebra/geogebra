@@ -16,12 +16,13 @@ import org.geogebra.common.kernel.interval.Interval;
  */
 public class IntervalTupleList implements Iterable<IntervalTuple> {
 	private final List<IntervalTuple> list;
-
+	private final IntervalTuple anchor;
 	/**
 	 * Constructor.
 	 */
 	public IntervalTupleList() {
 		this.list = new ArrayList<>();
+		anchor = new IntervalTuple();
 	}
 
 	/**
@@ -146,5 +147,13 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	public void removeFirst() {
 		list.remove(0);
+	}
+
+	public IntervalTuple getAnchor() {
+		return anchor;
+	}
+
+	public void setAnchor(Interval x, Interval y) {
+		anchor.set(x, y);
 	}
 }

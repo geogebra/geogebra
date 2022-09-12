@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.interval.IntervalConstants;
  *
  */
 
-public class IntervalPlotSettings {
+public final class IntervalPlotSettings {
 
 	/**
 	 *
@@ -52,4 +52,6 @@ public class IntervalPlotSettings {
 	public static boolean isUpdateOnSettingsChangeEnabled() {
 		return false;
 	}
+
+
 }

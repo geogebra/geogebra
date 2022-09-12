@@ -110,6 +110,6 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 
 	@Override
 	public IntervalTuple getAnchor() {
-		return null;
+		return tuples.getAnchor();
 	}
 }
