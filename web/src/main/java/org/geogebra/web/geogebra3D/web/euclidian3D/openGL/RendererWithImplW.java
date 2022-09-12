@@ -59,10 +59,8 @@ public class RendererWithImplW extends Renderer implements
 
 	}
 
-	/**
-	 * Dispose context when tab closed
-	 */
-	protected void dispose() {
+	@Override
+	public void dispose() {
 		getRendererImpl().dispose();
 	}
 
