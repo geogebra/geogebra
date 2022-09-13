@@ -18,6 +18,7 @@ import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.util.GGBMultiplayer;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
@@ -298,6 +299,9 @@ public class MaterialCardController implements OpenFileListener {
 					JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
 					GGBMultiplayer multiplayer = new GGBMultiplayer(
 							((ScriptManagerW) app.getScriptManager()).getApi(), config);
+					if (GeoGebraGlobal.getGgbMultiplayerChange() != null) {
+						multiplayer.addUserChangeListener(GeoGebraGlobal.getGgbMultiplayerChange());
+					}
 					multiplayer.start(material.getSharingKey(),
 							app.getLoginOperation().getUserName());
 				}
