@@ -6,5 +6,7 @@ public interface Service {
 
 	HttpRequest createRequest(AuthenticationModel model);
 
-	boolean hasMultiuser();
+	default boolean hasMultiuser() {
+		return false;
+	}
 }
