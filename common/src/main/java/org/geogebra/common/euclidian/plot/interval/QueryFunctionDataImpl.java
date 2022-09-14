@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
-import org.geogebra.common.util.debug.Log;
 
 public class QueryFunctionDataImpl implements QueryFunctionData {
 	private final IntervalTupleList tuples;
@@ -98,7 +97,6 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	@Override
 	public TupleNeighbours neighboursAt(int index) {
 		neighbours.set(at(index - 1), at(index), at(index + 1));
-		Log.debug(neighbours.toString());
 		return neighbours;
 	}
 }

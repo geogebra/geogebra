@@ -34,9 +34,9 @@ public class JoinLines {
 				? Math.abs(neighbours.currentYHigh() - neighbours.rightYHigh())
 				: Double.POSITIVE_INFINITY;
 		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
-			toStraightTop1(neighbours);
+			toTopCurrentXLow(neighbours);
 		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
-			toStraightTop2(neighbours);
+			toTopCurrentXHigh(neighbours);
 		} else
 		if (leftDiff < rightDiff) {
 			toTopLeft(neighbours);
@@ -75,9 +75,9 @@ public class JoinLines {
 				? Math.abs(neighbours.currentYLow() - neighbours.rightYLow())
 				: Double.NEGATIVE_INFINITY;
 		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
-			toStraightBottom1(neighbours);
+			toBottomCurrentXLow(neighbours);
 		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
-			toStraightBottom2(neighbours);
+			toBottomCurrentXHigh(neighbours);
 		} else
 			if (leftDiff < rightDiff) {
 			toBottomLeft(neighbours);
@@ -86,25 +86,25 @@ public class JoinLines {
 		}
 	}
 
-	private void toStraightBottom1(TupleNeighbours neighbours) {
+	private void toBottomCurrentXLow(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
 				neighbours.currentXLow(), bounds.getYmin());
 
 	}
 
-	private void toStraightBottom2(TupleNeighbours neighbours) {
+	private void toBottomCurrentXHigh(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
 
 	}
 
-	private void toStraightTop1(TupleNeighbours neighbours) {
+	private void toTopCurrentXLow(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
 				neighbours.currentXLow(), bounds.getYmax());
 
 	}
 
-	private void toStraightTop2(TupleNeighbours neighbours) {
+	private void toTopCurrentXHigh(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.rightYHigh(),
 				neighbours.currentXHigh(), bounds.getYmax());
 
@@ -135,7 +135,6 @@ public class JoinLines {
 			if (neighbours.isRightInfinite()) {
 				gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYLow(),
 						neighbours.currentXLow(), bounds.getYmin());
-
 			} else {
 				toBottom(neighbours);
 			}
