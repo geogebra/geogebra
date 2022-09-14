@@ -2192,6 +2192,10 @@ public abstract class Renderer {
 		// only needed for some platforms
 	}
 
+	public boolean isReadyToRender() {
+		return true;
+	}
+
 	/**
 	 * reset 3D view scale if AR has changed it
 	 */

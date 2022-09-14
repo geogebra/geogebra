@@ -34,6 +34,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Function;
 import jsinterop.base.Js;
@@ -693,7 +694,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		removeFromParent();
 		clear();
 		GeoGebraFrameW.instances.remove(this);
+		if (instances.isEmpty()) {
+			MathFieldW.removeAll();
+		}
 		app.getGlobalHandlers().removeAllListeners();
+		app.getTimerSystem().cancel();
 		Event.setEventListener(geoGebraElement, null);
 		geoGebraElement = null;
 		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();
