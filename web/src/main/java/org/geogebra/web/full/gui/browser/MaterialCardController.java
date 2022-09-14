@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
@@ -286,7 +287,10 @@ public class MaterialCardController implements OpenFileListener {
 
 	private boolean checkMultiuser() {
 		String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
-		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)) {
+		GeoGebraTubeUser loggedInUser =
+				app.getLoginOperation().getModel().getLoggedInUser();
+		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)
+				&& loggedInUser != null) {
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onFailure(Throwable reason) {
@@ -297,7 +301,10 @@ public class MaterialCardController implements OpenFileListener {
 				public void onSuccess() {
 					JavaScriptInjector.inject(MultiplayerResources.INSTANCE.multiplayer());
 					JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
+
 					GGBMultiplayer multiplayer = new GGBMultiplayer(
+							((ScriptManagerW) app.getScriptManager()).getApi(),
+							material.getSharingKeyOrId(), config, loggedInUser.getJWTToken());
 							((ScriptManagerW) app.getScriptManager()).getApi(), config);
 					if (GeoGebraGlobal.getGgbMultiplayerChange() != null) {
 						multiplayer.addUserChangeListener(GeoGebraGlobal.getGgbMultiplayerChange());

@@ -148,7 +148,8 @@ public class MaterialRestAPI implements BackendAPI {
 						op.onEvent(new LoginEvent(user, false, automatic, responseStr));
 						return;
 					}
-
+					String auth = request.getResponseHeader("Authorization");
+					user.setJWTToken(auth.replace("Bearer ", ""));
 					op.onEvent(new LoginEvent(user, true, automatic, responseStr));
 				} catch (Exception e) {
 					Log.error(e.getMessage());

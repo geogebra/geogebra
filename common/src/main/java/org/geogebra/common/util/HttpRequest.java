@@ -109,4 +109,8 @@ public abstract class HttpRequest {
 	protected String getAuth() {
 		return auth;
 	}
+
+	public String getResponseHeader(String name) {
+		return null;
+	}
 }
