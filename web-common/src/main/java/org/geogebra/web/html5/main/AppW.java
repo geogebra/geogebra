@@ -3536,4 +3536,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			lastFocusableWidget.getElement().focus();
 		}
 	}
+
+	@Override
+	public void resetCommandDict() {
+		super.resetCommandDict();
+		setLabels(); // rebuilds input help panel
+	}
 }

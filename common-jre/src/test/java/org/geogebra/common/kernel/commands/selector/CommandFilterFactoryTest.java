@@ -1,8 +1,9 @@
 package org.geogebra.common.kernel.commands.selector;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class CommandFilterFactoryTest {
@@ -33,18 +34,19 @@ public class CommandFilterFactoryTest {
 			Commands.OsculatingCircle, Commands.CommonDenominator, Commands.CompleteSquare,
 			Commands.Div, Commands.Mod, Commands.Division
 	};
+	private CommandFilter filter;
 
 	@Test
 	public void testGraphingCommandFilter() {
-		CommandFilter filter = CommandFilterFactory.createGraphingCommandFilter();
+		filter = CommandFilterFactory.createGraphingCommandFilter();
 		for (Commands command : FILTERED) {
-			Assert.assertFalse(filter.isCommandAllowed(command));
+			assertAllowed(false, command);
 		}
 		for (Commands command : Commands.values()) {
 			int table = command.getTable();
 			if (table == CommandsConstants.TABLE_TRANSFORMATION
 					|| table == CommandsConstants.TABLE_CONIC) {
-				Assert.assertFalse(filter.isCommandAllowed(command));
+				assertAllowed(false, command);
 			}
 		}
 	}
@@ -53,9 +55,22 @@ public class CommandFilterFactoryTest {
 	public void testCasCommandFilterForVectorCommands() {
 		Commands[] allowedVectorCommands = {Commands.PerpendicularVector,
 				Commands.UnitPerpendicularVector, Commands.UnitVector};
-		CommandFilter filter = CommandFilterFactory.createCasCommandFilter();
+		filter = CommandFilterFactory.createCasCommandFilter();
 		for (Commands command : allowedVectorCommands) {
-			Assert.assertTrue(filter.isCommandAllowed(command));
+			assertAllowed(true, command);
 		}
+	}
+
+	@Test
+	public void testMmsCommandFilter() {
+		filter = CommandFilterFactory.createMmsFilter();
+		assertAllowed(false, Commands.AreEqual);
+		assertAllowed(false, Commands.Hyperbola);
+		assertAllowed(true, Commands.Slope);
+	}
+
+	private void assertAllowed(boolean shouldAllow, Commands command) {
+		assertEquals(command + (shouldAllow ? " should" : " should not") + " be allowed",
+				shouldAllow, filter.isCommandAllowed(command));
 	}
 }
