@@ -305,7 +305,6 @@ public class MaterialCardController implements OpenFileListener {
 					GGBMultiplayer multiplayer = new GGBMultiplayer(
 							((ScriptManagerW) app.getScriptManager()).getApi(),
 							material.getSharingKeyOrId(), config, loggedInUser.getJWTToken());
-							((ScriptManagerW) app.getScriptManager()).getApi(), config);
 					if (GeoGebraGlobal.getGgbMultiplayerChange() != null) {
 						multiplayer.addUserChangeListener(GeoGebraGlobal.getGgbMultiplayerChange());
 					}
