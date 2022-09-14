@@ -318,6 +318,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("NSolutions[ 5x=4 ]", "{0.8}");
 		tRound("NSolutions[ sin(x)=1/2 ]", "{30" + Unicode.DEGREE_CHAR + ", 150"
 				+ Unicode.DEGREE_CHAR + "}");
+		tRound("NSolutions(4 sin(x)^3 cos(x) - 6 cos(x)^2 sin(x))",
+				"{-90" + Unicode.DEGREE_CHAR + ", -60" + Unicode.DEGREE_CHAR
+						+ ", 0" + Unicode.DEGREE_CHAR + ", 60"
+						+ Unicode.DEGREE_CHAR + ", 90" + Unicode.DEGREE_CHAR
+						+ ", 180" + Unicode.DEGREE_CHAR + "}");
 	}
 
 	@Test
