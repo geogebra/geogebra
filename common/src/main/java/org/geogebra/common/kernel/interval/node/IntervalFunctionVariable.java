@@ -20,8 +20,8 @@ public class IntervalFunctionVariable implements IntervalExpressionValue {
 	}
 
 	@Override
-	public void set(Interval interval) {
-		interval.set(interval);
+	public void set(Interval other) {
+		interval.set(other);
 	}
 
 	@Override
