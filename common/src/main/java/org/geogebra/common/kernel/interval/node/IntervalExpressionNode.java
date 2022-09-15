@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval.node;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 
 public class IntervalExpressionNode implements IntervalExpression {
 	IntervalExpression left;
@@ -69,7 +70,7 @@ public class IntervalExpressionNode implements IntervalExpression {
 	}
 
 	public boolean isLeaf() {
-		return IntervalOperation.NO_OPERATION.equals(operation) && left.isLeaf();
+		return IntervalOperation.NO_OPERATION.equals(operation) && hasLeft() && left.isLeaf();
 	}
 
 	@Override
@@ -89,7 +90,8 @@ public class IntervalExpressionNode implements IntervalExpression {
 
 	@Override
 	public Interval value() {
-		return evaluate().value();
+		IntervalExpression expression = evaluate();
+		return expression == null ? IntervalConstants.undefined() : expression.value();
 	}
 
 	@Override

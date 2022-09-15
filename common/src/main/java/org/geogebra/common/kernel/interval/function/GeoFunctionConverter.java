@@ -16,12 +16,16 @@ import org.geogebra.common.kernel.interval.node.IntervalOperation;
 import org.geogebra.common.plugin.Operation;
 
 public class GeoFunctionConverter {
-	private static Map<Operation, IntervalOperation> operationMap = new HashMap<>();
-	static {
+	private final Map<Operation, IntervalOperation> operationMap = new HashMap<>();
+
+	public GeoFunctionConverter() {
 		for (IntervalOperation operation: IntervalOperation.values()) {
-			operationMap.put(Operation.valueOf(operation.toString()), operation);
+			if (operation != IntervalOperation.UNSUPPORTED) {
+				operationMap.put(operation.op(), operation);
+			}
 		}
 	}
+
 	public IntervalNodeFunction convert(GeoFunction geoFunction) {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalExpression expression = convert(geoFunction.getFunctionExpression(),
@@ -46,7 +50,8 @@ public class GeoFunctionConverter {
 			}
 		}
 
-		node.setOperation(operationMap.get(expressionNode.getOperation()));
+		node.setOperation(operationMap.getOrDefault(expressionNode.getOperation(),
+				 IntervalOperation.UNSUPPORTED));
 
 		if (right != null) {
 			if (right.isLeaf()) {

@@ -6,7 +6,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
-import org.geogebra.common.kernel.interval.function.IntervalFunction;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
+import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
@@ -18,10 +19,12 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  */
 public class FunctionSampler implements IntervalFunctionSampler {
 
-	private final IntervalFunction function;
+	private final IntervalNodeFunction function;
 	private EuclidianViewBounds bounds;
+	private GeoFunction geoFunction;
 	private int numberOfSamples;
 	private final DiscreteSpace space;
+	private static GeoFunctionConverter converter = null;
 
 	/**
 	 * @param geoFunction function to get sampled
@@ -48,8 +51,16 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	FunctionSampler(GeoFunction geoFunction) {
-		this.function = new IntervalFunction(geoFunction);
+		this.geoFunction = geoFunction;
+		this.function = getFunctionConverter().convert(geoFunction);
 		space = new DiscreteSpaceImp();
+	}
+
+	private GeoFunctionConverter getFunctionConverter() {
+		if (converter == null) {
+			converter = new GeoFunctionConverter();
+		}
+		return converter;
 	}
 
 	@Override
@@ -79,7 +90,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private void evaluateOnEach(DiscreteSpace space, IntervalTupleList samples) {
 		space.values().forEach(x -> {
-			IntervalTuple tuple = new IntervalTuple(x, function.evaluate(x));
+			IntervalTuple tuple = new IntervalTuple(x, new Interval(function.value(x)));
 			samples.add(tuple);
 		});
 	}
@@ -122,6 +133,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public GeoFunction getGeoFunction() {
-		return function.getFunction();
+		return geoFunction;
 	}
 }
