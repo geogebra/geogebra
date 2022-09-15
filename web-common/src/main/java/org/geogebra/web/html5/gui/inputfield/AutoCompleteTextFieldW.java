@@ -1354,8 +1354,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (canHaveGGBKeyboard()) {
 			dummyCursor.enableGGBKeyboard();
 			InputKeyboardButton button = app.getGuiManager().getInputKeyboardButton();
-			attachKeyboardButton(button);
-			button.hide();
+			if (keyboardButtonEnabled && button != null) {
+				attachKeyboardButton(button);
+				button.hide();
+			}
 		}
 	}
 
