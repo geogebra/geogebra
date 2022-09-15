@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.interval.node;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.interval.IntervalConstants;
@@ -24,5 +26,23 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 		IntervalFunctionValue constant = new IntervalFunctionValue(one());
 		IntervalExpressionNode node = new IntervalExpressionNode(constant);
 		assertEquals(one(), node.value());
+	}
+
+	@Test
+	public void testNoFunctionVariable() {
+		IntervalFunctionValue constant = new IntervalFunctionValue(one());
+		IntervalExpressionNode node = new IntervalExpressionNode(constant);
+		assertFalse(node.hasFunctionVariable());
+	}
+	@Test
+	public void testHasFunctionVariable() {
+		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
+		IntervalFunctionValue constant = new IntervalFunctionValue(one());
+		IntervalExpressionNode inner =
+				new IntervalExpressionNode(functionVariable, IntervalOperation.PLUS,
+						constant);
+		IntervalExpressionNode node = new IntervalExpressionNode(inner, IntervalOperation.SIN);
+		assertTrue(node.hasFunctionVariable());
+		assertFalse(node.getRight().hasFunctionVariable());
 	}
 }

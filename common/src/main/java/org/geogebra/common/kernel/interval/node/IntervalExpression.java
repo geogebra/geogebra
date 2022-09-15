@@ -10,4 +10,5 @@ public interface IntervalExpression {
 	IntervalExpression unwrap();
 	Interval value();
 
+	boolean hasFunctionVariable();
 }

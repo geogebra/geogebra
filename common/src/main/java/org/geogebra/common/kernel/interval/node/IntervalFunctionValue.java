@@ -44,4 +44,9 @@ public class IntervalFunctionValue implements IntervalExpressionValue {
 	public Interval value() {
 		return interval;
 	}
+
+	@Override
+	public boolean hasFunctionVariable() {
+		return false;
+	}
 }

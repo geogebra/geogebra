@@ -252,4 +252,12 @@ public final class IntervalOperands {
 	private IntervalOperands() {
 		throw new IllegalStateException("Utility class");
 	}
+
+	public static Interval plus(Interval value1, Interval value2) {
+		return new Interval(value1).add(value2);
+	}
+
+	public static Interval minus(Interval value1, Interval value2) {
+		return new Interval(value1).subtract(value2);
+	}
 }

@@ -31,6 +31,11 @@ public class IntervalFunctionVariable implements IntervalExpressionValue {
 	}
 
 	@Override
+	public boolean hasFunctionVariable() {
+		return true;
+	}
+
+	@Override
 	public boolean isNode() {
 		return false;
 	}

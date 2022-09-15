@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
@@ -30,7 +31,7 @@ public class IntervalNodeFunctionTest {
 
 	@Test
 	public void testEvalConstant() {
-		IntervalFunctionValue constant = new IntervalFunctionValue(one());
+		IntervalFunctionValue constant = newValue(one());
 		IntervalExpressionNode node = new IntervalExpressionNode(constant);
 		IntervalNodeFunction function =
 				new IntervalNodeFunction(node, functionVariable);
@@ -38,5 +39,32 @@ public class IntervalNodeFunctionTest {
 		assertEquals(one(), function.value(new Interval(-12.34, 5678.967)));
 		assertEquals(one(), function.value(whole()));
 
+	}
+
+	private IntervalFunctionValue newValue(Interval interval) {
+		return new IntervalFunctionValue(interval);
+	}
+
+	@Test
+	public void testEvalXPlusOne() {
+		IntervalExpressionNode node = new IntervalExpressionNode(functionVariable,
+				IntervalOperation.PLUS, newValue(one()));
+		IntervalNodeFunction function =
+				new IntervalNodeFunction(node, functionVariable);
+		assertEquals(one(), function.value(zero()));
+		assertEquals(interval(-10.34, 56.78),
+				function.value(interval(-11.34, 55.78)));
+	}
+	@Test
+	public void testEvalXPlusOnePlusOne() {
+		IntervalExpressionNode node1 = new IntervalExpressionNode(functionVariable,
+				IntervalOperation.PLUS, newValue(one()));
+		IntervalExpressionNode node = new IntervalExpressionNode(node1,
+				IntervalOperation.PLUS, newValue(one()));
+		IntervalNodeFunction function =
+				new IntervalNodeFunction(node, functionVariable);
+		assertEquals(interval(2), function.value(zero()));
+		assertEquals(interval(2, 3),
+				function.value(interval(0, 1)));
 	}
 }

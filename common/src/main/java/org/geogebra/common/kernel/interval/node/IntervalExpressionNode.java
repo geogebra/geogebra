@@ -3,26 +3,64 @@ package org.geogebra.common.kernel.interval.node;
 import org.geogebra.common.kernel.interval.Interval;
 
 public class IntervalExpressionNode implements IntervalExpression {
-	IntervalExpressionValue left;
+	IntervalExpression left;
 	IntervalOperation operation;
-	IntervalExpressionValue right;
+	IntervalExpression right;
+
+	public IntervalExpressionNode() {
+		this(null, IntervalOperation.NO_OPERATION, null);
+	}
 
 	public IntervalExpressionNode(IntervalFunctionValue value) {
 		this(value, IntervalOperation.NO_OPERATION);
 	}
 
-	public IntervalExpressionNode(IntervalExpressionValue left, IntervalOperation operation) {
+	public IntervalExpressionNode(IntervalExpression left, IntervalOperation operation) {
 		this(left, operation, null);
 	}
 
-	public IntervalExpressionNode(IntervalExpressionValue left, IntervalOperation operation,
-			IntervalExpressionValue right) {
+	public IntervalExpressionNode(IntervalExpression left, IntervalOperation operation,
+			IntervalExpression right) {
 		this.left = left;
 		this.operation = operation;
 		this.right = right;
 	}
 
-	public IntervalExpressionValue evaluate() {
+	public void simplify() {
+		left = simplifyTree(left);
+		right = simplifyTree(right);
+	}
+
+	private IntervalExpression simplifyTree(IntervalExpression tree) {
+		if (tree == null || tree.isLeaf()) {
+			return tree;
+		}
+
+		IntervalExpressionNode node = tree.wrap();
+
+		IntervalExpression left = node.getLeft();
+		if (node.hasLeft()) {
+			if (left.hasFunctionVariable()) {
+				left.wrap().setLeft(simplifyTree(left.wrap().getLeft()));
+				left.wrap().setRight(simplifyTree(left.wrap().getRight()));
+			} else {
+				left.wrap().setLeft(new IntervalFunctionValue(left.value()));
+			}
+		}
+
+		IntervalExpression right = node.getRight();
+		if (node.hasRight()) {
+			if (right.hasFunctionVariable()) {
+				right.wrap().setLeft(simplifyTree(right.wrap().getLeft()));
+				right.wrap().setRight(simplifyTree(right.wrap().getRight()));
+			} else {
+				left.wrap().setRight(new IntervalFunctionValue(right.value()));
+			}
+		}
+		return node;
+	}
+
+	public IntervalExpression evaluate() {
 		if (isLeaf()) {
 			return left;
 		}
@@ -52,5 +90,43 @@ public class IntervalExpressionNode implements IntervalExpression {
 	@Override
 	public Interval value() {
 		return evaluate().value();
+	}
+
+	@Override
+	public boolean hasFunctionVariable() {
+		return hasLeft() && left.hasFunctionVariable()
+				|| hasRight() && right.hasFunctionVariable();
+	}
+
+	public void setLeft(IntervalExpression left) {
+		this.left = left;
+	}
+
+	public void setOperation(IntervalOperation operation) {
+		this.operation = operation;
+	}
+
+	public void setRight(IntervalExpression right) {
+		this.right = right;
+	}
+
+	public IntervalExpression getLeft() {
+		return left;
+	}
+
+	public IntervalOperation getOperation() {
+		return operation;
+	}
+
+	public IntervalExpression getRight() {
+		return right;
+	}
+
+	public boolean hasLeft() {
+		return left != null;
+	}
+
+	public boolean hasRight() {
+		return right != null;
 	}
 }

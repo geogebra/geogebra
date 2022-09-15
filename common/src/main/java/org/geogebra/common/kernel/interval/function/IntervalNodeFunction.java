@@ -18,4 +18,8 @@ public class IntervalNodeFunction {
 		functionVariable.set(x);
 		return expression.evaluate().value();
 	}
+
+	public IntervalExpressionNode getExpression() {
+		return expression;
+	}
 }
