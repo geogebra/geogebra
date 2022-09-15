@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.interval.node;
 
-public class IntervalExpressionNode {
+import org.geogebra.common.kernel.interval.Interval;
+
+public class IntervalExpressionNode implements IntervalExpression {
 	IntervalExpressionValue left;
 	IntervalOperation operation;
 	IntervalExpressionValue right;
@@ -30,5 +32,25 @@ public class IntervalExpressionNode {
 
 	public boolean isLeaf() {
 		return IntervalOperation.NO_OPERATION.equals(operation) && left.isLeaf();
+	}
+
+	@Override
+	public boolean isNode() {
+		return true;
+	}
+
+	@Override
+	public IntervalExpressionNode wrap() {
+		return this;
+	}
+
+	@Override
+	public IntervalExpression unwrap() {
+		return this;
+	}
+
+	@Override
+	public Interval value() {
+		return evaluate().value();
 	}
 }

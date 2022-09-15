@@ -19,15 +19,6 @@ public class IntervalFunctionValue implements IntervalExpressionValue {
 		this.interval.set(value, value);
 	}
 
-	@Override
-	public boolean isVariable() {
-		return false;
-	}
-
-	@Override
-	public boolean isConstant() {
-		return true;
-	}
 
 	@Override
 	public boolean isLeaf() {

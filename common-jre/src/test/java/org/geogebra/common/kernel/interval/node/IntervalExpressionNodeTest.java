@@ -16,13 +16,13 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 		functionVariable.set(Math.PI);
 		assertEquals(IntervalConstants.zero(), node.evaluate().value());
 		functionVariable.set(Math.PI/2);
-		assertEquals(one(), node.evaluate().value());
+		assertEquals(one(), node.value());
 	}
 
 	@Test
 	public void testConstant() {
 		IntervalFunctionValue constant = new IntervalFunctionValue(one());
 		IntervalExpressionNode node = new IntervalExpressionNode(constant);
-		assertEquals(one(), node.evaluate().value());
+		assertEquals(one(), node.value());
 	}
 }

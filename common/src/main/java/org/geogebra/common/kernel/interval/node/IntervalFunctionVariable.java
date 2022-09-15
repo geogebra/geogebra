@@ -3,16 +3,7 @@ package org.geogebra.common.kernel.interval.node;
 import org.geogebra.common.kernel.interval.Interval;
 
 public class IntervalFunctionVariable implements IntervalExpressionValue {
-	private Interval interval = new Interval();
-	@Override
-	public boolean isVariable() {
-		return true;
-	}
-
-	@Override
-	public boolean isConstant() {
-		return false;
-	}
+	private final Interval interval = new Interval();
 
 	@Override
 	public boolean isLeaf() {
