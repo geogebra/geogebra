@@ -5,6 +5,10 @@ public class IntervalExpressionNode {
 	IntervalOperation operation;
 	IntervalExpressionValue right;
 
+	public IntervalExpressionNode(IntervalFunctionValue value) {
+		this(value, IntervalOperation.NO_OPERATION);
+	}
+
 	public IntervalExpressionNode(IntervalExpressionValue left, IntervalOperation operation) {
 		this(left, operation, null);
 	}
@@ -17,6 +21,14 @@ public class IntervalExpressionNode {
 	}
 
 	public IntervalExpressionValue evaluate() {
+		if (isLeaf()) {
+			return left;
+		}
+
 		return operation.handle(null, left, right);
+	}
+
+	public boolean isLeaf() {
+		return IntervalOperation.NO_OPERATION.equals(operation) && left.isLeaf();
 	}
 }

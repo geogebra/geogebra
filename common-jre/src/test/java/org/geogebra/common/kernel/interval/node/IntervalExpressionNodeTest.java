@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.interval.node;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -13,9 +14,15 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 		IntervalExpressionNode node = new IntervalExpressionNode(functionVariable,
 				IntervalOperation.SIN);
 		functionVariable.set(Math.PI);
-		assertEquals(IntervalConstants.zero(), node.evaluate().evaluate());
+		assertEquals(IntervalConstants.zero(), node.evaluate().value());
 		functionVariable.set(Math.PI/2);
-		assertEquals(IntervalConstants.one(), node.evaluate().evaluate());
+		assertEquals(one(), node.evaluate().value());
+	}
 
+	@Test
+	public void testConstant() {
+		IntervalFunctionValue constant = new IntervalFunctionValue(one());
+		IntervalExpressionNode node = new IntervalExpressionNode(constant);
+		assertEquals(one(), node.evaluate().value());
 	}
 }

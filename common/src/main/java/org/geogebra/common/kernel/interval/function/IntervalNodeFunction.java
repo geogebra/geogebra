@@ -16,6 +16,6 @@ public class IntervalNodeFunction {
 
 	public Interval value(Interval x) {
 		functionVariable.set(x);
-		return expression.evaluate().evaluate();
+		return expression.evaluate().value();
 	}
 }

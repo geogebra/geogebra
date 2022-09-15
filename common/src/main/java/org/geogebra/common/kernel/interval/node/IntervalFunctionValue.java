@@ -35,7 +35,22 @@ public class IntervalFunctionValue implements IntervalExpressionValue {
 	}
 
 	@Override
-	public Interval evaluate() {
+	public IntervalExpressionNode wrap() {
+		return null;
+	}
+
+	@Override
+	public boolean isNode() {
+		return false;
+	}
+
+	@Override
+	public IntervalExpressionValue unwrap() {
+		return this;
+	}
+
+	@Override
+	public Interval value() {
 		return interval;
 	}
 }

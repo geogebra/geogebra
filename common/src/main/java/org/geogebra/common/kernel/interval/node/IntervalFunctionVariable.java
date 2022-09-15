@@ -20,6 +20,11 @@ public class IntervalFunctionVariable implements IntervalExpressionValue {
 	}
 
 	@Override
+	public IntervalExpressionNode wrap() {
+		return null;
+	}
+
+	@Override
 	public void set(Interval other) {
 		interval.set(other);
 	}
@@ -30,7 +35,17 @@ public class IntervalFunctionVariable implements IntervalExpressionValue {
 	}
 
 	@Override
-	public Interval evaluate() {
+	public Interval value() {
 		return interval;
+	}
+
+	@Override
+	public boolean isNode() {
+		return false;
+	}
+
+	@Override
+	public IntervalExpressionValue unwrap() {
+		return this;
 	}
 }
