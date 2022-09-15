@@ -6,6 +6,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.util.SymbolicUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class SymbolicRoundingTest extends BaseSymbolicTest {
 	public void testRounding() {
 		kernel.setPrintFigures(20);
 		GeoSymbolic number = add("11.3 * 1.5");
-		AlgebraItem.toggleSymbolic(number);
+		SymbolicUtil.toggleSymbolic(number);
 		String output = AlgebraItem.getOutputTextForGeoElement(number);
 		assertThat(output, equalTo("16.95"));
 	}

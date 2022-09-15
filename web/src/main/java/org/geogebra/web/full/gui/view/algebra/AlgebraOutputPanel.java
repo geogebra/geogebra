@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -95,7 +96,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			ClickStartHandler.init(btnSymbolic, new ClickStartHandler(true, true) {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					btn.setSelected(AlgebraItem.toggleSymbolic(geo));
+					btn.setSelected(SymbolicUtil.toggleSymbolic(geo));
 				}
 			});
 		}

@@ -34,6 +34,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -1244,8 +1245,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic solveX = add("Solve(2x=5)");
 		GeoSymbolic solveA = add("NSolve(a*a=5)");
 
-		AlgebraItem.toggleSymbolic(solveX);
-		AlgebraItem.toggleSymbolic(solveA);
+		SymbolicUtil.toggleSymbolic(solveX);
+		SymbolicUtil.toggleSymbolic(solveA);
 
 		assertThat(Commands.NSolve.getCommand(),
 				is(solveX.getDefinition().getTopLevelCommand().getName()));
@@ -1329,6 +1330,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		symbolic = add("NSolve(x^2=1)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
+		// 2 variables
+		symbolic = add("Solve({x+y=5, 2x+y=7},{x,y})");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
+
+		symbolic = add("NSolve({x+y=5, 2x+y=7},{x,y})");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
+
 	}
 
 	@Test
@@ -1339,7 +1347,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -sqrt(2), x = sqrt(2)}"));
-		AlgebraItem.toggleSymbolic(symbolic);
+		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -1.414213562373, x = 1.414213562373}"));
 
@@ -1347,7 +1355,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		symbolic = add("Solve({x+2y=5,x-3y=7},{x,y})");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{{x = 29 / 5, y = -2 / 5}}"));
-		AlgebraItem.toggleSymbolic(symbolic);
+		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 5.8, y = -0.4}"));
 	}
@@ -1357,7 +1365,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic symbolic = add("Solve({x²+y=10, x²-y=8},{x,y})");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{{x = 3, y = 1}, {x = -3, y = 1}}"));
-		AlgebraItem.toggleSymbolic(symbolic);
+		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 3, y = 1}"));
 	}
@@ -1390,6 +1398,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 						+ "x = -52.64122891619, x = -51.03132865224, x = -49.49963626261, "));
 
 		// 2 variables
+		symbolic = add("Solve({x^y=2, x-y=1},{x,y})");
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve({x^y = 2, x - y = 1}, {x, y})"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = 2, y = 1}"));
 
 	}
 
@@ -1414,6 +1427,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("{}"));
 		symbolic = add("NSolve(2^x=-3)");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
+
+		// 2 variables
+		symbolic = add("Solve(x^2+y^2=-1, x+y=3)");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
+		symbolic = add("NSolve(x^2+y^2=-1, x+y=3)");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
 	}
 
@@ -1758,7 +1777,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic binomialDist = add("BinomialDist(230,0.68,140,true)");
 		assertThat(binomialDist.toValueString(StringTemplate.defaultTemplate),
 				matchesPattern("[0-9]+ / [0-9]+"));
-		AlgebraItem.toggleSymbolic(binomialDist);
+		SymbolicUtil.toggleSymbolic(binomialDist);
 		assertThat(binomialDist.toValueString(StringTemplate.defaultTemplate),
 				equalTo("0.013281921892"));
 	}

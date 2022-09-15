@@ -6,14 +6,12 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -30,7 +28,6 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.SymbolicUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -39,36 +36,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Utitlity class for AV items
  */
 public class AlgebraItem {
-
-	/**
-	 * Changes the symbolic flag of a geo or its parent algo
-	 *
-	 * @param geo
-	 *            element that we want to change
-	 * @return whether it's symbolic after toggle
-	 */
-	public static boolean toggleSymbolic(GeoElement geo) {
-		if (geo instanceof HasSymbolicMode) {
-			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
-				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
-			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
-
-			if (geo instanceof GeoSymbolic) {
-				GeoSymbolic symbolic = (GeoSymbolic) geo;
-				if (isSymbolicSolve(symbolic)) {
-					SymbolicUtil.toggleNumeric(symbolic);
-					symbolic.setDescriptionNeedsUpdateInAV(true);
-				}
-			}
-
-			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
-
-		}
-		return false;
-	}
 
 	/**
 	 * @param geo
