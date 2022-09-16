@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  */
 public class FunctionSampler implements IntervalFunctionSampler {
 
-	private final IntervalNodeFunction function;
+	private IntervalNodeFunction function;
 	private EuclidianViewBounds bounds;
 	private GeoFunction geoFunction;
 	private int numberOfSamples;
@@ -52,7 +52,6 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	FunctionSampler(GeoFunction geoFunction) {
 		this.geoFunction = geoFunction;
-		this.function = getFunctionConverter().convert(geoFunction);
 		space = new DiscreteSpaceImp();
 	}
 
@@ -65,6 +64,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	@Override
 	public IntervalTupleList result() {
+		this.function = getFunctionConverter().convert(geoFunction);
 		return evaluate(space);
 	}
 
