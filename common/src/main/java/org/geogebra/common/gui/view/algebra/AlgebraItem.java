@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
+import org.geogebra.common.kernel.algos.AlgoTakeString;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -399,6 +400,10 @@ public class AlgebraItem {
 				&& !((GeoText) geo).isTextCommand();
 	}
 
+	private static boolean shouldShowBothRowsForTextCommand(GeoElementND geo) {
+		return geo instanceof GeoText && geo.getParentAlgorithm() instanceof AlgoTakeString;
+	}
+
 	/**
 	 * @param geo
 	 *            element
@@ -487,7 +492,7 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowBothRows(GeoElement element) {
 		return (hasDefinitionAndValueMode(element) || isDependentText(element)
-				|| isSymbolicDiffers(element))
+				|| isSymbolicDiffers(element) || shouldShowBothRowsForTextCommand(element))
 				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
 	}
 
