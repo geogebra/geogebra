@@ -1389,13 +1389,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		symbolic = add("Solve(exp(|sin(x)|)=2)");
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve(ℯ^(abs(sin(x))) = 2)"));
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), anyOf(
 				startsWith("{x = -333.7746674752, x = -303.9686412028, x = -208.1109613315, "
 						+ "x = -168.880157099, x = -123.2879596848, x = -102.9067113736, "
 						+ "x = -98.15521845604, x = -93.48193341286, x = -69.88088457379, "
 						+ "x = -65.20759953054, x = -63.59769926661, x = -62.06600687697, "
 						+ "x = -60.45610661301, x = -58.92441422337, x = -54.17292130584, "
-						+ "x = -52.64122891619, x = -51.03132865224, x = -49.49963626261, "));
+						+ "x = -52.64122891619, x = -51.03132865224, x = -49.49963626261, "),
+				startsWith("{x = -333.7746674754, x = -303.9686412034, x = -208.1109613317,"
+						+ " x = -168.880157099, x = -123.2879596848, x = -102.9067113736, "
+						+ "x = -98.1552184561, x = -93.48193341287, x = -69.88088457379, "
+						+ "x = -65.20759953057, x = -63.59769926661, x = -62.06600687698, "
+						+ "x = -60.45610661303, x = -58.92441422339, x = -54.17292130585, "
+						+ "x = -52.64122891621, x = -51.03132865226, x = -49.49963626262, ")));
 
 		// 2 variables
 		symbolic = add("Solve({x^y=2, x-y=1},{x,y})");

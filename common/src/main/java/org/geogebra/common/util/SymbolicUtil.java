@@ -15,6 +15,7 @@ public class SymbolicUtil {
 	 * Check if symbolic is Solve/NSolve command
 	 *
 	 * @param symbolic
+	 *        GeoSymbolic input
 	 * @return true if symbolic is solve command
 	 */
 	public static boolean isSymbolicSolve(GeoSymbolic symbolic) {
@@ -28,6 +29,7 @@ public class SymbolicUtil {
 	 * Check if Solve and NSolve give different outputs
 	 *
 	 * @param symbolic
+	 *        GeoSymbolic input
 	 * @return true if outputs of symbolic are different
 	 *
 	 */
@@ -58,8 +60,9 @@ public class SymbolicUtil {
 	}
 
 	/**
+	 * Handles the showing/hiding of Solve/NSolve variants
 	 * @param symbolic GeoSymbolic input
-	 * handles the showing/hiding of Solve/NSolve variants
+	 *
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
 		if (isSymbolicSolve(symbolic)) {

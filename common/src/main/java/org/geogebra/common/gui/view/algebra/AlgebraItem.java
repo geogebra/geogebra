@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.view.algebra;
 
-import static org.geogebra.common.util.SymbolicUtil.isSymbolicSolve;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
