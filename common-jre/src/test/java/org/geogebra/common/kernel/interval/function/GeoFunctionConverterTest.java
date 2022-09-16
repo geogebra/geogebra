@@ -49,6 +49,21 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		assertEquals(zero(), function.value(pi()));
 	}
 
+	@Test
+	public void testConvertX() {
+		IntervalNodeFunction function = converter.convert(add("x"));
+		assertEquals(zero(), function.value(zero()));
+		assertEquals(one(), function.value(one()));
+		Interval interval = interval(-12.34, 56.78);
+		assertEquals(interval, function.value(interval));
+	}
+
+	@Test
+	public void testConvertInverse() {
+		IntervalNodeFunction function = converter.convert(add("1/x"));
+		assertEquals(one(), function.value(one()));
+	}
+
 	private IntervalExpressionNode convert(String functionString) {
 		GeoFunction geoFunction = add(functionString);
 		IntervalNodeFunction nodeFunction = converter.convert(geoFunction);

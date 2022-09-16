@@ -55,7 +55,7 @@ public class GeoFunctionConverter {
 
 		if (right != null) {
 			if (right.isLeaf()) {
-				if (right.isVariable()) {
+				if (right instanceof FunctionVariable) {
 					node.setRight(functionVariable);
 				} else {
 					node.setRight(newSingletonValue(right.evaluateDouble()));
