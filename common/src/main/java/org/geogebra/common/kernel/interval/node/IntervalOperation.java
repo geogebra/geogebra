@@ -320,11 +320,7 @@ public enum IntervalOperation {
 		public Operation op() {
 			return Operation.TANH;
 		}
-	},
-
-
-
-	;
+	};
 
 	public abstract IntervalExpressionValue handle(IntervalExpression left, IntervalExpression right);
 

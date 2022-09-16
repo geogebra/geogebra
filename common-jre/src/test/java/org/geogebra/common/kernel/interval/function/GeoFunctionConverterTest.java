@@ -67,7 +67,7 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	private IntervalExpressionNode convert(String functionString) {
 		GeoFunction geoFunction = add(functionString);
 		IntervalNodeFunction nodeFunction = converter.convert(geoFunction);
-		IntervalExpressionNode expression = nodeFunction.getExpression();
+		IntervalExpressionNode expression = nodeFunction.getNode();
 		return expression;
 	}
 }

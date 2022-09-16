@@ -7,22 +7,22 @@ import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 
 public class IntervalNodeFunction {
-	IntervalExpressionNode expression;
+	IntervalExpressionNode node;
 	private final IntervalFunctionVariable functionVariable;
 
-	public IntervalNodeFunction(IntervalExpressionNode expression,
+	public IntervalNodeFunction(IntervalExpressionNode node,
 			IntervalFunctionVariable functionVariable) {
-		this.expression = expression;
+		this.node = node;
 		this.functionVariable = functionVariable;
 	}
 
 	public Interval value(Interval x) {
 		functionVariable.set(x);
-		IntervalExpression expression1 = expression.evaluate();
-		return expression1 == null ? IntervalConstants.undefined() : expression1.value();
+		IntervalExpression expression = node.evaluate();
+		return expression == null ? IntervalConstants.undefined() : expression.value();
 	}
 
-	public IntervalExpressionNode getExpression() {
-		return expression;
+	public IntervalExpressionNode getNode() {
+		return node;
 	}
 }
