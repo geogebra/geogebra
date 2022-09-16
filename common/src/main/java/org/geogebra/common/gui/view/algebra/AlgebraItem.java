@@ -400,10 +400,6 @@ public class AlgebraItem {
 				&& !((GeoText) geo).isTextCommand();
 	}
 
-	private static boolean shouldShowBothRowsForTextCommand(GeoElementND geo) {
-		return geo instanceof GeoText && geo.getParentAlgorithm() instanceof AlgoTakeString;
-	}
-
 	/**
 	 * @param geo
 	 *            element
@@ -492,7 +488,7 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowBothRows(GeoElement element) {
 		return (hasDefinitionAndValueMode(element) || isDependentText(element)
-				|| isSymbolicDiffers(element) || shouldShowBothRowsForTextCommand(element))
+				|| isSymbolicDiffers(element))
 				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
 	}
 
