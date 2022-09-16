@@ -248,7 +248,7 @@ public enum IntervalOperation {
 		@Override
 		public IntervalExpressionValue handle(IntervalExpression left,
 				IntervalExpression right) {
-			return toValue(IntervalOperationImpl.tan(left.value()));
+			return toValue(IntervalOperationImpl.sec(left.value()));
 		}
 
 		@Override
