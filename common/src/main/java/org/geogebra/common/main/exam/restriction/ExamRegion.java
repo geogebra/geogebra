@@ -6,6 +6,7 @@ import static org.geogebra.common.GeoGebraConstants.GEOMETRY_APPCODE;
 import static org.geogebra.common.GeoGebraConstants.GRAPHING_APPCODE;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 
@@ -69,6 +70,7 @@ public enum ExamRegion {
 		@Override
 		public void applyRestrictions(ExamRestrictionModel model) {
 			model.setSubAppCodes(GRAPHING_APPCODE, GEOMETRY_APPCODE, G3D_APPCODE);
+			model.setCommandFilter(CommandFilterFactory.createMmsFilter());
 		}
 
 		@Override

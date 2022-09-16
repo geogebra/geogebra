@@ -730,6 +730,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Force rebuilding of standard and CAS dictionaries
+	 */
+	public void resetCommandDict() {
+		commandDict = null;
+		commandDictCAS = null;
+		getCommandDictionaryCAS();
+	}
+
+	/**
 	 * Returns an array of command dictionaries corresponding to the categorized
 	 * sub command sets created in CommandDispatcher.
 	 *
