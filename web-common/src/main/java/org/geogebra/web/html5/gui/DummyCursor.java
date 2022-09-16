@@ -105,7 +105,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (dummyActive || Browser.isIPad()) {
 			return;
 		}
-		String text = textField.getValue();
+		String text = textField.getText();
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 		textField.setValue(text);
 		textField.setCursorPos(caretPos);
@@ -121,7 +121,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 		if (!dummyActive || Browser.isIPad()) {
 			return -1;
 		}
-		String text = textField.getValue();
+		String text = textField.getText();
 		int cpos = textField.getCursorPos();
 		text = text.substring(0, cpos) + text.substring(cpos + 1);
 		textField.setValue(text);

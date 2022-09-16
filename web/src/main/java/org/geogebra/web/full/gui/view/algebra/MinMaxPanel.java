@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 
@@ -271,10 +270,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private static boolean handleInputFieldMouseEvent(MinMaxAVField avField,
 			MouseEvent<?> event) {
 		if (RadioTreeItemController.isWidgetHit(avField, event)) {
-			if (Browser.isAndroid()) {
-				avField.removeDummyCursor();
-				avField.addDummyCursor();
-			}
+			avField.updateCursorOverlay();
 			return true;
 		}
 		return false;

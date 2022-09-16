@@ -32,6 +32,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -1646,13 +1647,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					}
 					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(col, row));
 
-					if (Browser.isTabletBrowser()) {
+					if (NavigatorUtil.isMobile()) {
 						textField.prepareShowSymbolButton(false);
 						textField.enableGGBKeyboard();
-						textField.addDummyCursor(textField.getCaretPosition());
+						textField.addDummyCursor();
 					}
 				} else if (!app.isWhiteboardActive()) {
-					// if keyboard doesn't enabled, inserts openkeyboard button
+					// if keyboard isn't enabled, inserts openkeyboard button
 					// if there is no in the SV yet
 					app.showKeyboard(textField, false);
 				}

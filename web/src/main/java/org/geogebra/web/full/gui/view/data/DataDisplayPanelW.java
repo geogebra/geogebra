@@ -17,7 +17,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -374,13 +373,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		field.enableGGBKeyboard();
-		field.addInsertHandler(text -> {
-			int cursorPos = field.removeDummyCursor();
-			actionPerformed(field);
-			if (Browser.isTabletBrowser()) {
-				field.addDummyCursor(cursorPos);
-			}
-		});
+		field.addInsertHandler(text -> actionPerformed(field));
 	}
 
 	private void createExportMenu() {

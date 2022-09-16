@@ -150,6 +150,11 @@
 			border: 2px var(--ggb-primary-color) solid;
 		}
 	}
+
+	.SpreadsheetEditorCell .cursorOverlay {
+		height: 100%;
+		padding: 4px;
+	}
 	
 	.SpreadsheetStyleBar td:last-child {
 		width: 100%;
