@@ -9,7 +9,7 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.divide;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
@@ -560,7 +560,7 @@ public class IntervalDivideTest {
 		Interval res1 = divide(interval(a1, a2), u1);
 		Interval res2 = divide(interval(a1, a2), u2);
 		Interval actual = divide(interval(a1, a2), invertedInterval(b1, b2));
-		assertEquals(IntervalOperands.union(res1, res2), actual);
+		assertEquals(IntervalOperationImpl.union(res1, res2), actual);
 	}
 
 	@Test

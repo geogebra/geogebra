@@ -4,10 +4,10 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.inverse;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.tan;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.inverse;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.multiply;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sqrt;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.tan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

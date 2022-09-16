@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.function.IntervalEvaluate;
-import org.geogebra.common.kernel.interval.operators.IntervalOperands;
+import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
 import org.geogebra.common.kernel.interval.operators.RMath;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -277,7 +277,7 @@ public class Interval {
 			setUndefined();
 			return this;
 		}
-		return IntervalOperands.divide(IntervalConstants.one(), this);
+		return IntervalOperationImpl.divide(IntervalConstants.one(), this);
 	}
 
 	private boolean isZeroWithDelta(double delta) {

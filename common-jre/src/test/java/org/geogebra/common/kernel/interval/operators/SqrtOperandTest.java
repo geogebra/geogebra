@@ -4,10 +4,10 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.csc;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sec;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.tan;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.csc;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sec;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sqrt;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.tan;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
@@ -55,7 +55,7 @@ public class SqrtOperandTest {
 	@Test
 	public void minusSqrtInverseShouldBeUndefinedAtZero() {
 		assertEquals(undefined(),
-				IntervalOperands.multiply(sqrt(zero()).multiplicativeInverse(),
+				IntervalOperationImpl.multiply(sqrt(zero()).multiplicativeInverse(),
 						interval(-1)));
 	}
 
@@ -65,7 +65,7 @@ public class SqrtOperandTest {
 		Interval multiplicativeInverse = sqrt
 				.multiplicativeInverse();
 		assertEquals(Double.NEGATIVE_INFINITY,
-				IntervalOperands.multiply(multiplicativeInverse,
+				IntervalOperationImpl.multiply(multiplicativeInverse,
 						interval(-1)).getLow(), 0);
 	}
 
@@ -76,7 +76,7 @@ public class SqrtOperandTest {
 		Interval multiplicativeInverse = sqrt
 				.multiplicativeInverse();
 		assertEquals(interval(-0.01, 0),
-				IntervalOperands.multiply(multiplicativeInverse,
+				IntervalOperationImpl.multiply(multiplicativeInverse,
 						interval(-1)));
 	}
 

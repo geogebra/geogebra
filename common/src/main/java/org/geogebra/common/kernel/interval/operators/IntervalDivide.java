@@ -5,7 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfi
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.union;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.union;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;

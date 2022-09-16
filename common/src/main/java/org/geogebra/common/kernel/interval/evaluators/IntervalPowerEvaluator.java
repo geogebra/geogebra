@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.pow;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MinusOne;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalFunction;
-import org.geogebra.common.kernel.interval.operators.IntervalOperands;
+import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -68,7 +68,7 @@ public class IntervalPowerEvaluator implements IntervalEvaluator {
 		}
 
 		if (MyDouble.exactEqual(base.getLow(), Math.E)) {
-			return IntervalOperands.exp(exponent);
+			return IntervalOperationImpl.exp(exponent);
 		}
 
 		if (!base.isPositive() && right.isExpressionNode()) {

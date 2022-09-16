@@ -3,10 +3,10 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.nthRoot;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sin;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.nthRoot;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sin;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

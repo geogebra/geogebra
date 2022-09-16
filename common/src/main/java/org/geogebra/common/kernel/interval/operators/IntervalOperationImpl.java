@@ -5,7 +5,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
-public final class IntervalOperands {
+public final class IntervalOperationImpl {
 	private static final IntervalAlgebra algebra;
 	private static final IntervalMultiply multiply;
 	private static final IntervalRoot nroot;
@@ -249,7 +249,7 @@ public final class IntervalOperands {
 		return interval.isNegative() || interval.isUndefined();
 	}
 
-	private IntervalOperands() {
+	private IntervalOperationImpl() {
 		throw new IllegalStateException("Utility class");
 	}
 

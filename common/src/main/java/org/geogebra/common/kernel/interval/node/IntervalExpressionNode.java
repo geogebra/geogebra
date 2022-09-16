@@ -66,7 +66,7 @@ public class IntervalExpressionNode implements IntervalExpression {
 			return left;
 		}
 
-		return operation.handle(null, left, right);
+		return operation.handle(left, right);
 	}
 
 	public boolean isLeaf() {

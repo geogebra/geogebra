@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.computeInverted;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.computeInverted;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.pow;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;

@@ -1,28 +1,28 @@
 package org.geogebra.common.kernel.interval.function;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.abs;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.acos;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.asin;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.atan;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.cos;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.cosh;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.cot;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.csc;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.difference;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.exp;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.log;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.log10;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.log2;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.nthRoot;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sec;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sin;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sinh;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.sqrt;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.tan;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.tanh;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.abs;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.acos;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.asin;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.atan;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.cos;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.cosh;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.cot;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.csc;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.difference;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.exp;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.log;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.log10;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.log2;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.multiply;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.nthRoot;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.pow;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sec;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sin;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sinh;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sqrt;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.tan;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.tanh;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.IntervalPowerEvaluator;
-import org.geogebra.common.kernel.interval.operators.IntervalOperands;
+import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -170,7 +170,7 @@ import org.geogebra.common.util.debug.Log;
 		}
 
 	private static Interval divide(Interval left, Interval right) {
-		return IntervalOperands.divide(left, right);
+		return IntervalOperationImpl.divide(left, right);
 	}
 
 	/**

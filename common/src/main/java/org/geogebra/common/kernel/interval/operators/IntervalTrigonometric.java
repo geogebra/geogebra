@@ -4,7 +4,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HALF_HIGH
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_HIGH;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_LOW;
 import static org.geogebra.common.kernel.interval.IntervalConstants.PI_TWICE_LOW;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.fmod;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.fmod;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
@@ -15,7 +15,7 @@ public class IntervalTrigonometric {
 		if (interval.isInverted()) {
 			Interval result1 = cos(interval.extractLow());
 			Interval result2 = cos(interval.extractHigh());
-			Interval result = IntervalOperands.computeInverted(result1, result2);
+			Interval result = IntervalOperationImpl.computeInverted(result1, result2);
 			return result.isUndefined() ? new Interval(-1, 1) : result;
 		}
 		return cos0(interval);
@@ -43,7 +43,7 @@ public class IntervalTrigonometric {
 		}
 
 		if (cache.getLow() >= PI_HIGH) {
-			IntervalOperands.cos(cache.subtract(pi));
+			IntervalOperationImpl.cos(cache.subtract(pi));
 			cache.negative();
 			interval.set(cache);
 			return interval;
@@ -98,7 +98,7 @@ public class IntervalTrigonometric {
 		} else if (interval.isUndefined() || interval.isInfiniteSingleton()) {
 			interval.setUndefined();
 		} else {
-			IntervalOperands.cos(interval.subtract(IntervalConstants.piHalf()));
+			IntervalOperationImpl.cos(interval.subtract(IntervalConstants.piHalf()));
 		}
 		return interval;
 	}

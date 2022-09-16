@@ -2,11 +2,11 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.computeInverted;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.exp;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.log;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.computeInverted;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.divide;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.exp;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.log;
+import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.multiply;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
 
