@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.interval.node.IntervalNode;
 import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
 
 public class GeoFunctionConverter {
-	private IntervalOperationSupport operationSupport;
+	private final IntervalOperationSupport operationSupport;
 	private final UnsupportedOperatorChecker
 			operatorChecker = new UnsupportedOperatorChecker();
 
@@ -33,37 +33,42 @@ public class GeoFunctionConverter {
 
 	private IntervalNode convert(ExpressionNode expressionNode,
 			IntervalFunctionVariable functionVariable) {
-		ExpressionValue left = expressionNode.getLeft();
-		ExpressionValue right = expressionNode.getRight();
 		IntervalExpressionNode node = new IntervalExpressionNode();
-		if (left != null) {
-			if (left.isLeaf()) {
-				if (left instanceof FunctionVariable) {
-					node.setLeft(functionVariable);
-				} else {
-					node.setLeft(newSingletonValue(left.evaluateDouble()));
-				}
-			} else {
-				node.setLeft(convert(left.wrap(), functionVariable));
-			}
-		}
-
+		convertLeft(functionVariable, expressionNode.getLeft(), node);
 		node.setOperation(operationSupport.convert(expressionNode.getOperation()));
+		convertRight(functionVariable, expressionNode.getRight(), node);
+		return node;
+	}
 
-		if (right != null) {
-			if (right.isLeaf()) {
-				if (right instanceof FunctionVariable) {
-					node.setRight(functionVariable);
-				} else {
-					node.setRight(newSingletonValue(right.evaluateDouble()));
-				}
-			} else {
-				node.setRight(convert(right.wrap(), functionVariable));
-			}
+	private void convertLeft(IntervalFunctionVariable functionVariable, ExpressionValue left,
+			IntervalExpressionNode node) {
+		if (left == null) {
+			return;
 		}
 
+		node.setLeft(nodeValue(functionVariable, left));
 
-		return node;
+	}
+
+	private IntervalNode nodeValue(IntervalFunctionVariable functionVariable,
+			ExpressionValue value) {
+		return value.isLeaf() ? newLeafValue(value, functionVariable) :
+				convert(value.wrap(), functionVariable);
+	}
+
+	private IntervalNode newLeafValue(ExpressionValue value,
+			IntervalFunctionVariable functionVariable) {
+		return value instanceof FunctionVariable
+				? functionVariable : newSingletonValue(value.evaluateDouble());
+	}
+
+	private void convertRight(IntervalFunctionVariable functionVariable, ExpressionValue right,
+			IntervalExpressionNode node) {
+		if (right == null) {
+			return;
+		}
+
+		node.setRight(nodeValue(functionVariable, right));
 	}
 
 	private IntervalNode newSingletonValue(double value) {
