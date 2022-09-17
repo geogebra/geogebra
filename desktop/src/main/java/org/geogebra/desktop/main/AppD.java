@@ -1300,8 +1300,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		resetAllToolbars();
 
+		// store current location of the window
+		storeFrameCenter();
+
 		// reload the saved/(default) preferences
 		GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
+
+		getGuiManager().updateGUIafterLoadFile(true,false);
+
 		resetUniqueId();
 	}
 
