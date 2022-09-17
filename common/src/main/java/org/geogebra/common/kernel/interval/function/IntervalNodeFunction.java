@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.interval.function;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
-import org.geogebra.common.kernel.interval.node.IntervalExpression;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
+import org.geogebra.common.kernel.interval.node.IntervalNode;
 
 public class IntervalNodeFunction {
 	IntervalExpressionNode node;
@@ -18,11 +18,13 @@ public class IntervalNodeFunction {
 
 	public Interval value(Interval x) {
 		functionVariable.set(x);
-		IntervalExpression expression = node.evaluate();
+		IntervalNode expression = node.evaluate();
 		return expression == null ? IntervalConstants.undefined() : expression.value();
 	}
 
 	public IntervalExpressionNode getNode() {
 		return node;
 	}
+
+
 }

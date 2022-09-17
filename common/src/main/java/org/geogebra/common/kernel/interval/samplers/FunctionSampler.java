@@ -24,16 +24,17 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private GeoFunction geoFunction;
 	private int numberOfSamples;
 	private final DiscreteSpace space;
-	private static GeoFunctionConverter converter = null;
+	private GeoFunctionConverter converter;
 
 	/**
 	 * @param geoFunction function to get sampled
+	 * @param converter
 	 * @param range (x, y) range.
 	 * @param numberOfSamples the sample rate.
 	 */
-	public FunctionSampler(GeoFunction geoFunction, IntervalTuple range,
+	public FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter, IntervalTuple range,
 			int numberOfSamples) {
-		this(geoFunction);
+		this(geoFunction, converter);
 		this.numberOfSamples = numberOfSamples;
 		update(range);
 	}
@@ -43,28 +44,22 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	 * @param range (x, y) range.
 	 * @param bounds {@link EuclidianView}
 	 */
-	public FunctionSampler(GeoFunction geoFunction, IntervalTuple range,
-			EuclidianViewBounds bounds) {
-		this(geoFunction);
+	public FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter,
+			IntervalTuple range, EuclidianViewBounds bounds) {
+		this(geoFunction, converter);
 		this.bounds = bounds;
 		update(range);
 	}
 
-	FunctionSampler(GeoFunction geoFunction) {
+	FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter) {
 		this.geoFunction = geoFunction;
+		this.converter = converter;
 		space = new DiscreteSpaceImp();
-	}
-
-	private GeoFunctionConverter getFunctionConverter() {
-		if (converter == null) {
-			converter = new GeoFunctionConverter();
-		}
-		return converter;
 	}
 
 	@Override
 	public IntervalTupleList result() {
-		this.function = getFunctionConverter().convert(geoFunction);
+		this.function = converter.convert(geoFunction);
 		return evaluate(space);
 	}
 

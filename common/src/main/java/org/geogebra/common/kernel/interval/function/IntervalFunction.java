@@ -180,26 +180,18 @@ import org.geogebra.common.util.debug.Log;
 	 * and supported by our interval arithmetic implementation.
 	 */
 	public static boolean isSupported(GeoElement geo) {
-		if (!(geo instanceof GeoFunction)) {
-			return false;
-		}
-
-		return isOperationSupported(((GeoFunction) geo).getFunctionExpression());
+		// moved
+		return false;
 	}
 
 	static boolean isOperationSupported(ExpressionNode node) {
-		if (node == null) {
-			return false;
-		}
-
-		return !hasMoreVariables(node) && !node.inspect(operatorChecker);
+		// moved
+		return false;
 	}
 
 	static boolean hasMoreVariables(ExpressionNode node) {
-		if (node == null) {
-			return false;
-		}
-		return node.inspect(new MultipleVariableChecker());
+		// moved
+		return false;
 	}
 
 	public GeoFunction getFunction() {

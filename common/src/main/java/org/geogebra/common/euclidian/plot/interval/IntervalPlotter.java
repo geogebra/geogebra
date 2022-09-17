@@ -3,7 +3,9 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.samplers.ConditionalFunctionSampler;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
@@ -21,6 +23,7 @@ public class IntervalPlotter {
 	private IntervalPlotModel model = null;
 	private boolean updateAll = true;
 	private IntervalPlotController controller;
+	private static final GeoFunctionConverter converter = new GeoFunctionConverter();
 
 	/**
 	 * Creates a disabled plotter
@@ -29,6 +32,10 @@ public class IntervalPlotter {
 		this.evBounds = bounds;
 		this.gp = pathPlotter;
 		this.enabled = false;
+	}
+
+	public boolean isSupported(GeoElement geo) {
+		return converter.isSupported(geo);
 	}
 
 	/**
@@ -69,7 +76,7 @@ public class IntervalPlotter {
 	private IntervalFunctionSampler createSampler(GeoFunction function, IntervalTuple range) {
 		return function.isGeoFunctionConditional()
 				? new ConditionalFunctionSampler(function, range, evBounds)
-				: new FunctionSampler(function, range, evBounds);
+				: new FunctionSampler(function, converter, range, evBounds);
 	}
 
 	/**

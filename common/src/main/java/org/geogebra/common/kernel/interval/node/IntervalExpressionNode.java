@@ -3,10 +3,10 @@ package org.geogebra.common.kernel.interval.node;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
-public class IntervalExpressionNode implements IntervalExpression {
-	IntervalExpression left;
+public class IntervalExpressionNode implements IntervalNode {
+	IntervalNode left;
 	IntervalOperation operation;
-	IntervalExpression right;
+	IntervalNode right;
 
 	public IntervalExpressionNode() {
 		this(null, IntervalOperation.NO_OPERATION, null);
@@ -16,52 +16,18 @@ public class IntervalExpressionNode implements IntervalExpression {
 		this(value, IntervalOperation.NO_OPERATION);
 	}
 
-	public IntervalExpressionNode(IntervalExpression left, IntervalOperation operation) {
+	public IntervalExpressionNode(IntervalNode left, IntervalOperation operation) {
 		this(left, operation, null);
 	}
 
-	public IntervalExpressionNode(IntervalExpression left, IntervalOperation operation,
-			IntervalExpression right) {
+	public IntervalExpressionNode(IntervalNode left, IntervalOperation operation,
+			IntervalNode right) {
 		this.left = left;
 		this.operation = operation;
 		this.right = right;
 	}
 
-	public void simplify() {
-		left = simplifyTree(left);
-		right = simplifyTree(right);
-	}
-
-	private IntervalExpression simplifyTree(IntervalExpression tree) {
-		if (tree == null || tree.isLeaf()) {
-			return tree;
-		}
-
-		IntervalExpressionNode node = tree.wrap();
-
-		IntervalExpression left = node.getLeft();
-		if (node.hasLeft()) {
-			if (left.hasFunctionVariable()) {
-				left.wrap().setLeft(simplifyTree(left.wrap().getLeft()));
-				left.wrap().setRight(simplifyTree(left.wrap().getRight()));
-			} else {
-				left.wrap().setLeft(new IntervalFunctionValue(left.value()));
-			}
-		}
-
-		IntervalExpression right = node.getRight();
-		if (node.hasRight()) {
-			if (right.hasFunctionVariable()) {
-				right.wrap().setLeft(simplifyTree(right.wrap().getLeft()));
-				right.wrap().setRight(simplifyTree(right.wrap().getRight()));
-			} else {
-				left.wrap().setRight(new IntervalFunctionValue(right.value()));
-			}
-		}
-		return node;
-	}
-
-	public IntervalExpression evaluate() {
+	public IntervalNode evaluate() {
 		if (isLeaf()) {
 			return left;
 		}
@@ -75,24 +41,14 @@ public class IntervalExpressionNode implements IntervalExpression {
 	}
 
 	@Override
-	public boolean isNode() {
-		return true;
-	}
-
-	@Override
-	public IntervalExpressionNode wrap() {
-		return this;
-	}
-
-	@Override
-	public IntervalExpression unwrap() {
+	public IntervalExpressionNode asExpressionNode() {
 		return this;
 	}
 
 	@Override
 	public Interval value() {
-		IntervalExpression expression = evaluate();
-		return expression == null ? IntervalConstants.undefined() : expression.value();
+		IntervalNode node = evaluate();
+		return node == null ? IntervalConstants.undefined() : node.value();
 	}
 
 	@Override
@@ -101,7 +57,7 @@ public class IntervalExpressionNode implements IntervalExpression {
 				|| hasRight() && right.hasFunctionVariable();
 	}
 
-	public void setLeft(IntervalExpression left) {
+	public void setLeft(IntervalNode left) {
 		this.left = left;
 	}
 
@@ -109,11 +65,11 @@ public class IntervalExpressionNode implements IntervalExpression {
 		this.operation = operation;
 	}
 
-	public void setRight(IntervalExpression right) {
+	public void setRight(IntervalNode right) {
 		this.right = right;
 	}
 
-	public IntervalExpression getLeft() {
+	public IntervalNode getLeft() {
 		return left;
 	}
 
@@ -121,7 +77,7 @@ public class IntervalExpressionNode implements IntervalExpression {
 		return operation;
 	}
 
-	public IntervalExpression getRight() {
+	public IntervalNode getRight() {
 		return right;
 	}
 

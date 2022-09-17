@@ -43,6 +43,6 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 						constant);
 		IntervalExpressionNode node = new IntervalExpressionNode(inner, IntervalOperation.SIN);
 		assertTrue(node.hasFunctionVariable());
-		assertFalse(node.getLeft().wrap().getRight().hasFunctionVariable());
+		assertFalse(node.getLeft().asExpressionNode().getRight().hasFunctionVariable());
 	}
 }
