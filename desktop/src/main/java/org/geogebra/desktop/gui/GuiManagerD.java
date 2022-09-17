@@ -1601,6 +1601,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				img.load(imageFile);
 			}
 
+			getApp().setDefaultCursor();
 			return getApp().createImage(img, fileName);
 
 		} catch (Exception e) {
