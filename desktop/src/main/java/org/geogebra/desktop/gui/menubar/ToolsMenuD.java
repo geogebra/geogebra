@@ -15,8 +15,9 @@ import org.geogebra.desktop.util.GuiResourcesD;
 class ToolsMenuD extends BaseMenu {
 	private static final long serialVersionUID = -2012951866084095682L;
 
-	private AbstractAction toolbarConfigAction, showCreateToolsAction,
-			showManageToolsAction;
+	private AbstractAction toolbarConfigAction;
+	private AbstractAction showCreateToolsAction;
+	private AbstractAction showManageToolsAction;
 
 	/**
 	 * Creates tools menu

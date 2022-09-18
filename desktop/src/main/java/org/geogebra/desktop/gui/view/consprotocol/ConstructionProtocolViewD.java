@@ -108,11 +108,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	// public ConstructionProtocolNavigationD protNavBar; // navigation bar of
 	// protocol window
-	private ConstructionProtocolViewD view = this;
+	private final ConstructionProtocolViewD view = this;
 	public JScrollPane scrollPane;
 	private ConstructionProtocolStyleBar helperBar;
-	private AbstractAction exportHtmlAction, printPreviewAction;
-	private LocalizationD loc;
+	private AbstractAction exportHtmlAction;
+	private AbstractAction printPreviewAction;
+	private final LocalizationD loc;
 
 	public ConstructionProtocolViewD(final AppD app) {
 		// cpPanel = new JPanel(new BorderLayout());
@@ -484,7 +485,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			implements MouseListener, MouseMotionListener {
 
 		// smallest and larges possible construction index for dragging
-		private int minIndex, maxIndex;
+		private int minIndex;
+		private int maxIndex;
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -994,11 +996,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// (this is still better than 1 lines of text in a row)
 				if (row.getIncludesIndex()) {
 					table.setRowHeight(i,
-							Math.max((table.getFont().getSize() * 2 + 16),
+							Math.max(table.getFont().getSize() * 2 + 16,
 									toolbarIconHeight));
 				} else {
 					table.setRowHeight(i,
-							Math.max((table.getFont().getSize() * 2 + 12),
+							Math.max(table.getFont().getSize() * 2 + 12,
 									toolbarIconHeight));
 				}
 			}
@@ -1260,7 +1262,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
 
-		boolean gcv[] = cps.getColsVisibility();
+		boolean[] gcv = cps.getColsVisibility();
 		if (gcv != null) {
 			if (gcv.length > 0) {
 				setColsVisibility(gcv);

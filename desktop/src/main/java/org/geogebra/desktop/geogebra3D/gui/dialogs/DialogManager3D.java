@@ -122,7 +122,7 @@ public class DialogManager3D extends DialogManagerD {
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogRotateAxis(((AppD) app), title,
+		InputDialogD id = new InputDialogRotateAxis((AppD) app, title,
 				handler, polys, selectedLines, selGeos, ec);
 		id.setVisible(true);
 

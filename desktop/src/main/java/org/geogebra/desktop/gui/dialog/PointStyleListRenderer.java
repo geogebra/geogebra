@@ -30,7 +30,10 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	// for drawing
 	private int pointSize = 4;
 	private Ellipse2D.Double circle = new Ellipse2D.Double();
-	private Line2D.Double line1, line2, line3, line4;
+	private Line2D.Double line1;
+	private Line2D.Double line2;
+	private Line2D.Double line3;
+	private Line2D.Double line4;
 	private GeneralPath gp = null;
 	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
 	private static BasicStroke[] crossStrokes = new BasicStroke[10];

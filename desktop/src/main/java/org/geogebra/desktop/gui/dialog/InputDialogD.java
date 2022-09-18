@@ -68,10 +68,17 @@ public class InputDialogD extends InputDialog
 	public static final int DEFAULT_ROWS = 10;
 
 	protected InputPanelD inputPanel;
-	protected JPanel optionPane, buttonsPanel, btPanel, btPanel2;
+	protected JPanel optionPane;
+	protected JPanel buttonsPanel;
+	protected JPanel btPanel;
+	protected JPanel btPanel2;
 
 	protected JLabel msgLabel;
-	protected JButton btApply, btCancel, btProperties, btOK, btHelp;
+	protected JButton btApply;
+	protected JButton btCancel;
+	protected JButton btProperties;
+	protected JButton btOK;
+	protected JButton btHelp;
 
 	protected JCheckBox checkBox;
 
@@ -454,7 +461,6 @@ public class InputDialogD extends InputDialog
 		}
 		// setVisible(!finished);
 	}
-
 
 	protected void cancel() {
 		setVisible(false);

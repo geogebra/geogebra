@@ -41,18 +41,7 @@ public class AlgebraContextMenuD extends JPopupMenu {
 	 * Initialize the menu items.
 	 */
 	private void initItems() {
-		// actions
 		Localization loc = app.getLocalization();
-		AbstractAction showAuxiliaryAction = new AbstractAction(
-				loc.getMenu("AuxiliaryObjects"),
-				app.getScaledIcon(GuiResourcesD.AUXILIARY)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
-			}
-		};
 
 		// title for menu
 		JLabel title = new JLabel(loc.getMenu("AlgebraWindow"));
@@ -73,6 +62,16 @@ public class AlgebraContextMenuD extends JPopupMenu {
 		});
 
 		// menu items
+		AbstractAction showAuxiliaryAction = new AbstractAction(
+				loc.getMenu("AuxiliaryObjects"),
+				app.getScaledIcon(GuiResourcesD.AUXILIARY)) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
+			}
+		};
 		JCheckBoxMenuItem cbShowAuxiliary = new JCheckBoxMenuItem(
 				showAuxiliaryAction);
 		cbShowAuxiliary.setSelected(app.showAuxiliaryObjects());

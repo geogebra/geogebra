@@ -34,8 +34,8 @@ import org.geogebra.desktop.main.AppD;
 public class FileDropTargetListener implements DropTargetListener {
 
 	static DataFlavor urlFlavor;
-	static {
 
+	static {
 		try {
 			urlFlavor = new DataFlavor(
 					"application/x-java-url; class=java.net.URL");
@@ -92,11 +92,10 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * Determines if a transferable contains ggb/ggt files and attempts to open
 	 * them.
 	 * 
-	 * @param t
-	 * @return
+	 * @param t trnaferable
+	 * @return whether ggb/ggt files were found
 	 */
 	public boolean handleFileDrop(Transferable t) {
-
 		ArrayList<File> al = getGGBfiles(t);
 
 		if (al.size() == 0) {
@@ -112,7 +111,6 @@ public class FileDropTargetListener implements DropTargetListener {
 				if (!isGGTFile(al.get(i).getName())) {
 					allGGT = false;
 				}
-
 			}
 		}
 
@@ -134,8 +132,8 @@ public class FileDropTargetListener implements DropTargetListener {
 	/**
 	 * Tests if a file has the GeoGebra ggb extension
 	 * 
-	 * @param fileName
-	 * @return
+	 * @param fileName filename
+	 * @return whether it has .ggb extension
 	 */
 	private static boolean isGGBFile(String fileName) {
 		return StringUtil.getFileExtension(fileName)
@@ -145,8 +143,8 @@ public class FileDropTargetListener implements DropTargetListener {
 	/**
 	 * Tests if a file has the GeoGebra ggt extension
 	 * 
-	 * @param fileName
-	 * @return
+	 * @param fileName filename
+	 * @return whether it has .ggt extension
 	 */
 	private static boolean isGGTFile(String fileName) {
 		FileExtensions ext = StringUtil.getFileExtension(fileName);

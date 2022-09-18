@@ -191,8 +191,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			"text/uri-list; class=java.lang.String");
 
 	// Actions
-	private AbstractAction showAxesAction, showGridAction, undoAction,
-			redoAction;
+	private AbstractAction showAxesAction;
+	private AbstractAction showGridAction;
+	private AbstractAction undoAction;
+	private AbstractAction redoAction;
 	private LocalizationD loc;
 
 	public GuiManagerD(AppD app) {
@@ -391,8 +393,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	/**
-	 * 
-	 * @param algc
+	 * @param algc algebra controller
 	 * @return new algebra view
 	 */
 	protected AlgebraViewD newAlgebraView(AlgebraControllerD algc) {
@@ -696,7 +697,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public Container getToolbarPanelContainer() {
-
 		return getToolbarPanel();
 	}
 
@@ -1131,7 +1131,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	/**
-	 * gets String from clipboard
+	 * @return String from clipboard
 	 */
 	public String getStringFromClipboard() {
 		String selection = null;
@@ -1181,7 +1181,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * (if transfer is null). If an image is found, then it is loaded and stored
 	 * in this application's imageManager.
 	 * 
-	 * @param transfer0
+	 * @param transfer0 transferable
 	 * @return fileName of image stored in imageManager
 	 */
 	@SuppressWarnings("unchecked")
@@ -1358,11 +1358,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					if (currentPath != null) {
 						fd.setDirectory(currentPath.toString());
 					}
-					fd.setFilenameFilter((dir, name) -> (name.endsWith(".jpg")
+					fd.setFilenameFilter((dir, name) -> name.endsWith(".jpg")
 							|| name.endsWith(".jpeg")
 							|| name.endsWith(".png")
 							|| name.endsWith(".bmp")
-							|| name.endsWith(".gif")));
+							|| name.endsWith(".gif"));
 					fd.setTitle(loc.getMenu("Load"));
 
 					fd.toFront();
@@ -1455,8 +1455,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		try {
 			getApp().setWaitCursor();
-
-
 			if (getApp().macsandbox) {
 				// Mac OS X related code to work around JFileChooser problem on
 				// sandboxing. See http://intransitione.com/blog/take-java-to-app-store/
@@ -1468,8 +1466,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					fd.setDirectory(currentPath.toString());
 				}
 				fd.setFilenameFilter((dir, name) ->
-						(name.endsWith(".txt") || name.endsWith(".csv")
-						|| name.endsWith(".dat")));
+						name.endsWith(".txt") || name.endsWith(".csv")
+						|| name.endsWith(".dat"));
 
 				fd.setTitle(loc.getMenu("Load"));
 
@@ -1772,7 +1770,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return addExtension(file, fileExtension.toString());
 	}
 
-	public static File addExtension(File file, String fileExtension) {
+	private static File addExtension(File file, String fileExtension) {
 		if (file == null) {
 			return null;
 		}
@@ -1784,7 +1782,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				file.getName() + '.' + fileExtension); // filename
 	}
 
-	public static File removeExtension(File file) {
+	private static File removeExtension(File file) {
 		if (file == null) {
 			return null;
 		}
@@ -1883,10 +1881,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * Points to the given file in the file dialog popup window and offers to
 	 * choose that file --- or a different one.
 	 * 
-	 * @param file
+	 * @param file file to open
 	 */
 	public void openFile(File file) {
-
 		if ((getApp()).isSaved() || saveCurrentFile()) {
 			getApp().setWaitCursor();
 
@@ -2063,7 +2060,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		doOpenFiles(files, allowOpeningInThisInstance, FileExtensions.GEOGEBRA);
 	}
 
-	public synchronized void doOpenFiles(File[] files,
+	private synchronized void doOpenFiles(File[] files,
 			boolean allowOpeningInThisInstance, FileExtensions extension) {
 		// there are selected files
 		if (files != null) {
@@ -2174,8 +2171,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * method for component transfer handlers that need to pass potential ggb
 	 * file drops on to the top level drop handler.
 	 * 
-	 * @param t
-	 * @return
+	 * @param t transferable
+	 * @return whether ggb/ggt files were found in transferable
 	 */
 	public boolean handleGGBFileDrop(Transferable t) {
 		FileDropTargetListener dtl = ((GeoGebraFrame) getApp().getFrame())
@@ -2194,7 +2191,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	// See http://stackoverflow.com/questions/6198894/java-encode-url for an
 	// explanation
-	public static URL getEscapedUrl(String url0) throws Exception {
+	private static URL getEscapedUrl(String url0) throws Exception {
 		String url;
 		if (url0.startsWith("www")) {
 			url = "http://" + url0;
@@ -2235,8 +2232,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					.updateComponentTreeUI(getLayout().getRootComponent());
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
-				if (getApp().needsSpreadsheetTableModel())
-				 {
+				if (getApp().needsSpreadsheetTableModel()) {
 					(getApp()).getSpreadsheetTableModel(); // ensure create one if
 														// not already done
 				}
@@ -2563,7 +2559,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (virtualKeyboard == null) {
 			KeyboardSettings settings = (KeyboardSettings) getApp()
 					.getSettings().getKeyboard();
-			virtualKeyboard = new VirtualKeyboardD((getApp()),
+			virtualKeyboard = new VirtualKeyboardD(getApp(),
 					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
 					(float) settings.getKeyboardOpacity());
 			settings.addListener(virtualKeyboard);
@@ -2640,7 +2636,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return inputHelpPanel;
 	}
 
-	public void setFocusedPanel(MouseEventND event,
+	private void setFocusedPanel(MouseEventND event,
 			boolean updatePropertiesView) {
 		// determine parent panel to change focus
 		EuclidianDockPanelAbstract panel = (EuclidianDockPanelAbstract) SwingUtilities
@@ -2657,7 +2653,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
-	public void setFocusedPanel(DockPanelD panel,
+	private void setFocusedPanel(DockPanelD panel,
 			boolean updatePropertiesView) {
 
 		if (panel != null) {

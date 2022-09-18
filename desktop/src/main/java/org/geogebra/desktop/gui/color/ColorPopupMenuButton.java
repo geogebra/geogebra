@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.color;
 
 import java.awt.Dimension;
@@ -55,9 +56,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		colorSet = getColorArray(colorSetType);
 		defaultColor = colorSet[0];
 
-		lookupMap = new HashMap<GColor, Integer>();
+		lookupMap = new HashMap<>();
 		for (int i = 0; i < colorSet.length; i++) {
-			lookupMap.put((colorSet[i]), i);
+			lookupMap.put(colorSet[i], i);
 		}
 
 		setToolTipArray(getToolTipArray());

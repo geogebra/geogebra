@@ -87,10 +87,12 @@ public class DataAnalysisViewD extends JPanel
 	private DataPanelD dataPanel;
 	private StatisticsPanel statisticsPanel;
 	private RegressionPanelD regressionPanel;
-	private DataDisplayPanelD dataDisplayPanel1, dataDisplayPanel2;
+	private final DataDisplayPanelD dataDisplayPanel1;
+	private final DataDisplayPanelD dataDisplayPanel2;
 
-	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
-	private JPanel mainPanel;
+	private JSplitPane statDataPanel;
+	private JSplitPane displayPanel;
+	private JSplitPane comboPanelSplit;
 
 	private int defaultDividerSize;
 
@@ -291,7 +293,7 @@ public class DataAnalysisViewD extends JPanel
 
 		// main panel
 		// ============================================
-		mainPanel = new JPanel(new BorderLayout());
+		JPanel mainPanel = new JPanel(new BorderLayout());
 		// mainPanel.add(getStyleBar(), BorderLayout.NORTH);
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
 
@@ -675,10 +677,10 @@ public class DataAnalysisViewD extends JPanel
 
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
-		int pageIndex = ((AppD)kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
+		int pageIndex = ((AppD) kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
 
 		if (pageIndex > 0) {
-			return (NO_SUCH_PAGE);
+			return NO_SUCH_PAGE;
 		}
 
 		Graphics2D g2d = (Graphics2D) g;
@@ -734,7 +736,7 @@ public class DataAnalysisViewD extends JPanel
 
 		this.paint(g2d, scale);
 
-		return (PAGE_EXISTS);
+		return PAGE_EXISTS;
 	}
 
 	/**

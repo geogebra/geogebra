@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -107,9 +108,14 @@ public class TextInputDialogD extends InputDialogD
 	// GUI
 	private JCheckBox cbLaTeX;
 	private JToolBar toolBar;
-	private JPanel previewPanel, editPanel, toolPanel;
-	private PopupMenuButtonD btInsertLaTeX, btInsertUnicode, btInsertGeo;
-	private JLabel previewHeader, editHeader;
+	private JPanel previewPanel;
+	private JPanel editPanel;
+	private JPanel toolPanel;
+	private PopupMenuButtonD btInsertLaTeX;
+	private PopupMenuButtonD btInsertUnicode;
+	private PopupMenuButtonD btInsertGeo;
+	private JLabel previewHeader;
+	private JLabel editHeader;
 
 	// text handling fields
 	private GeoText editGeo;
@@ -854,7 +860,7 @@ public class TextInputDialogD extends InputDialogD
 				}
 			}
 
-			if ((e.isAltDown() || AppD.isAltDown(e))) {
+			if (e.isAltDown() || AppD.isAltDown(e)) {
 				switch (e.getKeyCode()) {
 				default:
 					// do nothing
@@ -1010,16 +1016,9 @@ public class TextInputDialogD extends InputDialogD
 	 */
 	public void applyModifications() {
 		if (editOccurred) {
-			editOccurred = false;// do this first to ensure no circular call
+			editOccurred = false; // do this first to ensure no circular call
 			getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX), this,
-					new AsyncOperation<Boolean>() {
-
-						@Override
-						public void callback(Boolean obj) {
-							editOccurred = false;
-
-						}
-					});
+					obj -> editOccurred = false);
 		}
 	}
 

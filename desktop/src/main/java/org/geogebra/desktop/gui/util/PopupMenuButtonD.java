@@ -51,8 +51,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private JSlider mySlider;
 
-
-
 	public void setFgColor(GColor fgColor) {
 		if (myTable != null) {
 			myTable.setFgColor(fgColor);
@@ -221,7 +219,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		}
 		Point locButton = getLocation();
 		final int clicDownArrowWidth = (int) Math
-				.round((CLICK_DOWN_ARROW_WIDTH * (app.getScaledIconSize() / 16.0)));
+				.round(CLICK_DOWN_ARROW_WIDTH * (app.getScaledIconSize() / 16.0));
 		// trigger popup
 		// default: trigger only when the mouse is over the right side
 		// of the button

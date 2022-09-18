@@ -45,8 +45,6 @@ public class FormulaBar extends JToolBar
 
 	private MyCellEditorSpreadsheet editor;
 
-	private int row, column;
-
 	public FormulaBar(AppD app, SpreadsheetViewD view) {
 
 		this.app = app;
@@ -143,8 +141,8 @@ public class FormulaBar extends JToolBar
 			return;
 		}
 
-		row = table.minSelectionRow;
-		column = table.minSelectionColumn;
+		int row = table.minSelectionRow;
+		int column = table.minSelectionColumn;
 
 		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column,
 				row);
@@ -159,14 +157,11 @@ public class FormulaBar extends JToolBar
 			// column);
 			cellContents = cellGeo.getRedefineString(true, false);
 			int index = cellContents.indexOf("=");
-			if ((!cellGeo.isGeoText())) {
+			if (!cellGeo.isGeoText()) {
 				if (index == -1) {
 					cellContents = "=" + cellContents;
 				}
 			}
-		} else {
-			// Application.debug("empty cell selected at: " + row + " ," +
-			// column);
 		}
 
 		fldFormula.removeActionListener(this);

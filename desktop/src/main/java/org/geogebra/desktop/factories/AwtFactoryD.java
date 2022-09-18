@@ -87,8 +87,8 @@ public class AwtFactoryD extends AwtFactory {
 			GraphicsDevice gs = ge.getDefaultScreenDevice();
 			GraphicsConfiguration gc = gs.getDefaultConfiguration();
 			BufferedImage bufImg = gc.createCompatibleImage(width, height,
-					(transparency ? Transparency.TRANSLUCENT
-							: Transparency.BITMASK));
+					transparency ? Transparency.TRANSLUCENT
+							: Transparency.BITMASK);
 			// Graphics2D g = (Graphics2D)bufImg.getGraphics();
 			// g.setBackground(new Color(0,0,0,0));
 			// g.clearRect(0,0,width,height);

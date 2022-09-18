@@ -65,6 +65,7 @@ public class JavascriptContext extends ViewContext {
 	private List<Integer> typeToDefault = new ArrayList<>();
 
 	private static final Map<String, Color> colorMap = new HashMap<>();
+
 	static {
 		colorMap.put("Default", Color.decode("#000000"));
 		colorMap.put("Operator", Color.decode("#000000"));
@@ -87,6 +88,7 @@ public class JavascriptContext extends ViewContext {
 	}
 
 	private static final Map<String, Integer> attribMap = new HashMap<>();
+
 	static {
 		attribMap.put("Default", 0);
 		attribMap.put("Operator", 0);

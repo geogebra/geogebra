@@ -39,33 +39,43 @@ public class OptionsLayoutD
 	private AppD app;
 	private Settings settings;
 
-	private JPanel sideBarPanel, inputBarPanel, toolbarPanel,
-			perspectivesPanel;
+	private JPanel sideBarPanel;
+	private JPanel inputBarPanel;
+	private JPanel toolbarPanel;
+	private JPanel perspectivesPanel;
 
-	private JCheckBox ckShowInputHelp, ckShowTitleBar, ckAllowStyleBar,
-			ckShowInputBar, ckShowToolbar, ckShowToolHelp, ckShowMenuBar,
-			ckShowSideBar;
+	private JCheckBox ckShowInputHelp;
+	private JCheckBox ckShowTitleBar;
+	private JCheckBox ckAllowStyleBar;
+	private JCheckBox ckShowInputBar;
+	private JCheckBox ckShowToolbar;
+	private JCheckBox ckShowToolHelp;
+	private JCheckBox ckShowMenuBar;
+	private JCheckBox ckShowSideBar;
 
-	private JToggleButton rbToolbarNorth, rbToolbarSouth, rbToolbarEast,
-			rbToolbarWest, rbSidebarWest, rbSidebarEast;
+	private JToggleButton rbToolbarNorth;
+	private JToggleButton rbToolbarSouth;
+	private JToggleButton rbToolbarEast;
+	private JToggleButton rbToolbarWest;
+	private JToggleButton rbSidebarWest;
+	private JToggleButton rbSidebarEast;
 
-	private JRadioButton rbPespectiveSidebar, rbButtonSidebar;
+	private JRadioButton rbPespectiveSidebar;
+	private JRadioButton rbButtonSidebar;
 
-	private JToggleButton rbInputBarSouth, rbInputBarNorth;
+	private JToggleButton rbInputBarSouth;
+	private JToggleButton rbInputBarNorth;
 
 	private JLabel lblInputBarPosition;
 
-	/** */
-	private ButtonGroup inputbarPosGroup, toolBarPosGroup;
-
 	private TitlePanel menuBarPanel;
 
-	private JPanel wrappedPanel;
+	private final JPanel wrappedPanel;
 
 	/**
 	 * Construct layout option panel.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsLayoutD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
@@ -150,9 +160,7 @@ public class OptionsLayoutD
 		ckShowInputBar = new JCheckBox();
 		ckShowInputBar.addActionListener(this);
 
-		int tab = 20;
-
-		inputbarPosGroup = new ButtonGroup();
+		ButtonGroup inputbarPosGroup = new ButtonGroup();
 
 		rbInputBarNorth = new JToggleButton(
 				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
@@ -172,8 +180,9 @@ public class OptionsLayoutD
 
 		ckShowInputHelp = new JCheckBox();
 		ckShowInputHelp.addActionListener(this);
-		inputBarPanel.add(LayoutUtil.flowPanel(tab, ckShowInputHelp));
 
+		int tab = 20;
+		inputBarPanel.add(LayoutUtil.flowPanel(tab, ckShowInputHelp));
 	}
 
 	/**
@@ -245,9 +254,7 @@ public class OptionsLayoutD
 		// manager
 		ckShowToolHelp.setSelected(true);
 
-		int tab = 20;
-
-		toolBarPosGroup = new ButtonGroup();
+		ButtonGroup toolBarPosGroup = new ButtonGroup();
 
 		rbToolbarNorth = new JToggleButton(
 				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
@@ -275,6 +282,7 @@ public class OptionsLayoutD
 				Box.createHorizontalStrut(5), rbToolbarSouth,
 				Box.createHorizontalStrut(5), rbToolbarWest,
 				Box.createHorizontalStrut(5), rbToolbarEast));
+		int tab = 20;
 		toolbarPanel.add(LayoutUtil.flowPanel(tab, ckShowToolHelp));
 
 	}

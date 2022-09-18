@@ -49,6 +49,7 @@ public class SpreadsheetViewDnD
 	boolean allowDrop = true;
 
 	static DataFlavor HTMLflavor;
+
 	static {
 		try {
 			HTMLflavor = new DataFlavor("text/html;class=java.lang.String");
@@ -317,12 +318,9 @@ public class SpreadsheetViewDnD
 						}
 					}
 					dataList.add(currentRow);
-				}
-
-				// matrix geo
-				else if ((geoArray[geoIndex].isGeoList()
-						&& ((GeoList) geoArray[geoIndex]).isMatrix())) {
-
+				} else if (geoArray[geoIndex].isGeoList()
+						&& geoArray[geoIndex].isMatrix()) {
+					// matrix geo
 					tempMatrix = (GeoList) geoArray[geoIndex];
 					rowCount += tempMatrix.size() - 1;
 					for (int row = 0; row < tempMatrix.size(); row++) {
@@ -420,7 +418,7 @@ public class SpreadsheetViewDnD
 
 		public final DataFlavor algebraViewFlavor = new DataFlavor(
 				AlgebraViewD.class, "geoLabel list");
-		private final DataFlavor supportedFlavors[] = { algebraViewFlavor };
+		private final DataFlavor[] supportedFlavors = { algebraViewFlavor };
 
 		private ArrayList<String> geoLabelList;
 

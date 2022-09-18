@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -32,7 +33,8 @@ import org.geogebra.desktop.main.AppD;
  */
 public class AngleInputDialogD extends InputDialogD {
 
-	protected JRadioButton rbCounterClockWise, rbClockWise;
+	protected JRadioButton rbCounterClockWise;
+	protected JRadioButton rbClockWise;
 
 	/**
 	 * Input Dialog for a GeoAngle object.

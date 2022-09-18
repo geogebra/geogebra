@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package org.geogebra.desktop.gui.view.algebra;
 
 import java.awt.Component;

@@ -32,13 +32,19 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 	private AxisModel model;
 
-	protected JCheckBox cbShowAxis, cbAxisNumber, cbManualTicks, cbPositiveAxis,
-			cbDrawAtBorder, cbAllowSelection;
+	protected JCheckBox cbShowAxis;
+	protected JCheckBox cbAxisNumber;
+	protected JCheckBox cbManualTicks;
+	protected JCheckBox cbPositiveAxis;
+	protected JCheckBox cbDrawAtBorder;
+	protected JCheckBox cbAllowSelection;
 	protected NumberComboBox ncbTickDist;
-	protected JComboBox cbTickStyle, cbAxisLabel, cbUnitLabel;
+	protected JComboBox cbTickStyle;
+	protected JComboBox cbAxisLabel;
+	protected JComboBox cbUnitLabel;
 	protected JTextField tfCross;
 
-	private JLabel crossAt;
+	private final JLabel crossAt;
 
 	private JLabel axisTicks;
 
@@ -53,10 +59,10 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 	private LocalizationD loc;
 
-	/******************************************************
-	 * @param app
-	 * @param view
-	 * @param axis
+	/**
+	 * @param app application
+	 * @param view graphics view
+	 * @param axis axis index
 	 */
 	public AxisPanel(AppD app, EuclidianView view, int axis) {
 
@@ -73,22 +79,18 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		// show axis
 		cbShowAxis = new JCheckBox(loc.getMenu("Show" + strAxisEn));
 		cbShowAxis.addActionListener(this);
-		JPanel showAxisPanel = LayoutUtil.flowPanel(cbShowAxis);
 
 		// show numbers
 		cbAxisNumber = new JCheckBox(loc.getMenu("ShowAxisNumbers"));
 		cbAxisNumber.addActionListener(this);
-		JPanel numberPanel = LayoutUtil.flowPanel(cbAxisNumber);
 
 		// show positive axis only
 		cbPositiveAxis = new JCheckBox(loc.getMenu("PositiveDirectionOnly"));
 		cbPositiveAxis.addActionListener(this);
-		JPanel showPosPanel = LayoutUtil.flowPanel(cbPositiveAxis);
 
 		// allow selection
 		cbAllowSelection = new JCheckBox(loc.getMenu("SelectionAllowed"));
 		cbAllowSelection.addActionListener(this);
-		JPanel allowSelectionPanel = LayoutUtil.flowPanel(cbAllowSelection);
 
 		// ticks
 		axisTicks = new JLabel(loc.getMenu("AxisTicks") + ":");
@@ -98,14 +100,12 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		cbTickStyle.addActionListener(this);
 		cbTickStyle.setEditable(false);
-		JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks, cbTickStyle);
 
 		// distance
 		cbManualTicks = new JCheckBox(loc.getMenu("TickDistance") + ":");
 		cbManualTicks.addActionListener(this);
 		ncbTickDist = new NumberComboBox(app);
 		ncbTickDist.addItemListener(this);
-		JPanel distancePanel = LayoutUtil.flowPanel(cbManualTicks, ncbTickDist);
 
 		// axis and unit label
 		cbAxisLabel = new JComboBox();
@@ -120,9 +120,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		model.fillUnitLabel();
 		cbUnitLabel.addActionListener(this);
 
-		JPanel labelPanel = LayoutUtil.flowPanel(axisLabel, cbAxisLabel,
-				axisUnitLabel, cbUnitLabel);
-
 		// cross at and stick to edge
 		tfCross = new MyTextFieldD(app, 6);
 		tfCross.addActionListener(this);
@@ -131,17 +128,24 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbDrawAtBorder.addActionListener(this);
 		stickToEdge = new JLabel(loc.getMenu("StickToEdge"));
 
+		// add all panels
+		JPanel showAxisPanel = LayoutUtil.flowPanel(cbShowAxis);
+		add(showAxisPanel);
+		JPanel numberPanel = LayoutUtil.flowPanel(cbAxisNumber);
+		add(numberPanel);
+		JPanel showPosPanel = LayoutUtil.flowPanel(cbPositiveAxis);
+		add(showPosPanel);
+		JPanel distancePanel = LayoutUtil.flowPanel(cbManualTicks, ncbTickDist);
+		add(distancePanel);
+		JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks, cbTickStyle);
+		add(showTicksPanel);
+		JPanel labelPanel = LayoutUtil.flowPanel(axisLabel, cbAxisLabel,
+				axisUnitLabel, cbUnitLabel);
+		add(labelPanel);
 		JPanel crossPanel = LayoutUtil.flowPanel(crossAt, tfCross,
 				cbDrawAtBorder, stickToEdge);
-
-		// add all panels
-		add(showAxisPanel);
-		add(numberPanel);
-		add(showPosPanel);
-		add(distancePanel);
-		add(showTicksPanel);
-		add(labelPanel);
 		addCrossPanel(crossPanel);
+		JPanel allowSelectionPanel = LayoutUtil.flowPanel(cbAllowSelection);
 		add(allowSelectionPanel);
 
 		updatePanel();
