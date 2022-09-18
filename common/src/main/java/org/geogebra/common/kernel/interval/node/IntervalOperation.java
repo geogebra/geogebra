@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.interval.node;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
 import org.geogebra.common.plugin.Operation;
@@ -48,6 +51,27 @@ public enum IntervalOperation {
 		public Operation op() {
 			return Operation.ARCCOS;
 		}
+
+		@Override
+		public List<Operation> aliases() {
+			return Collections.singletonList(Operation.ARCCOS);
+		}
+	},
+	ASIN {
+		@Override
+		public IntervalExpressionValue handle(IntervalNode left, IntervalNode right) {
+			return toValue(IntervalOperationImpl.asin(left.value()));
+		}
+
+		@Override
+		public Operation op() {
+			return Operation.ARCSIN;
+		}
+
+		@Override
+		public List<Operation> aliases() {
+			return Collections.singletonList(Operation.ARCCOS);
+		}
 	},
 	ATAN {
 		@Override
@@ -58,6 +82,12 @@ public enum IntervalOperation {
 		@Override
 		public Operation op() {
 			return Operation.ARCTAN;
+		}
+
+
+		@Override
+		public List<Operation> aliases() {
+			return Collections.singletonList(Operation.ARCTAN);
 		}
 	},
 	COS {
@@ -324,7 +354,7 @@ public enum IntervalOperation {
 
 	public static boolean hasEquivalent(Operation operation) {
 		for (IntervalOperation iop: values()) {
-			if (iop.op().equals(operation)) {
+			if (iop.op().equals(operation) || iop.aliases().contains(operation)) {
 				return true;
 			}
 		}
@@ -334,6 +364,10 @@ public enum IntervalOperation {
 	public abstract IntervalExpressionValue handle(IntervalNode left, IntervalNode right);
 
 	public abstract Operation op();
+
+	public List<Operation> aliases() {
+		return Collections.emptyList();
+	}
 
 	static IntervalExpressionValue toValue(Interval interval) {
 		return new IntervalFunctionValue(interval);

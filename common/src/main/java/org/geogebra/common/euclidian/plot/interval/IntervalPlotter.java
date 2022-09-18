@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
@@ -32,10 +31,6 @@ public class IntervalPlotter {
 		this.evBounds = bounds;
 		this.gp = pathPlotter;
 		this.enabled = false;
-	}
-
-	public boolean isSupported(GeoElement geo) {
-		return converter.isSupported(geo);
 	}
 
 	/**

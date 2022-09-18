@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.IntervalFunctionSupport;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -148,7 +149,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	}
 
 	private boolean isIntervalPlotterPreferred() {
-		return intervalPlotter.isSupported(geo) && !view.isPlotPanel();
+		return IntervalFunctionSupport.isSupported(geo) && !view.isPlotPanel();
 	}
 
 	private boolean isIntervalPlotterActive() {

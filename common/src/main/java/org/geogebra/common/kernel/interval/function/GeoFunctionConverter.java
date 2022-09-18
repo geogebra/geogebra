@@ -5,7 +5,6 @@ import java.util.Objects;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
@@ -16,8 +15,6 @@ import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
 
 public class GeoFunctionConverter {
 	private final IntervalOperationSupport operationSupport;
-	private final UnsupportedOperatorChecker
-			operatorChecker = new UnsupportedOperatorChecker();
 
 	public GeoFunctionConverter() {
 		operationSupport = new IntervalOperationSupport();
@@ -73,35 +70,5 @@ public class GeoFunctionConverter {
 
 	private IntervalNode newSingletonValue(double value) {
 		return Double.isNaN(value) ? null: new IntervalFunctionValue(new Interval(value));
-	}
-
-
-	/**
-	 *
-	 * @param geo to check.
-	 * @return true if the geo is a function
-	 * and supported by our interval arithmetic implementation.
-	 */
-	public boolean isSupported(GeoElement geo) {
-		if (!(geo instanceof GeoFunction)) {
-			return false;
-		}
-
-		return isOperationSupported(((GeoFunction) geo).getFunctionExpression());
-	}
-
-	boolean isOperationSupported(ExpressionNode node) {
-		if (node == null) {
-			return false;
-		}
-
-		return !hasMoreVariables(node) && !node.inspect(operatorChecker);
-	}
-
-	private boolean hasMoreVariables(ExpressionNode node) {
-		if (node == null) {
-			return false;
-		}
-		return node.inspect(new MultipleVariableChecker());
 	}
 }
