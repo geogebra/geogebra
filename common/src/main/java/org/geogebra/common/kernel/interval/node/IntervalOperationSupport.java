@@ -11,7 +11,7 @@ public class IntervalOperationSupport {
 	public IntervalOperationSupport() {
 		for (IntervalOperation operation: IntervalOperation.values()) {
 			if (operation != IntervalOperation.UNSUPPORTED) {
-				operationMap.put(operation.op(), operation);
+				operationMap.put(operation.mappedOperation(), operation);
 			}
 		}
 	}

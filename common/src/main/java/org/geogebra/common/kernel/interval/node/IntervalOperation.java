@@ -1,8 +1,5 @@
 package org.geogebra.common.kernel.interval.node;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
 import org.geogebra.common.plugin.Operation;
@@ -15,7 +12,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.NO_OPERATION;
 		}
 	},
@@ -26,7 +23,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.NO_OPERATION;
 		}
 	},
@@ -37,7 +34,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.ABS;
 		}
 	},
@@ -48,13 +45,8 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.ARCCOS;
-		}
-
-		@Override
-		public List<Operation> aliases() {
-			return Collections.singletonList(Operation.ARCCOS);
 		}
 	},
 	ASIN {
@@ -64,13 +56,8 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.ARCSIN;
-		}
-
-		@Override
-		public List<Operation> aliases() {
-			return Collections.singletonList(Operation.ARCCOS);
 		}
 	},
 	ATAN {
@@ -80,15 +67,10 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.ARCTAN;
 		}
 
-
-		@Override
-		public List<Operation> aliases() {
-			return Collections.singletonList(Operation.ARCTAN);
-		}
 	},
 	COS {
 		@Override
@@ -99,7 +81,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.COS;
 		}
 	},
@@ -112,7 +94,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.COSH;
 		}
 	},
@@ -125,7 +107,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.COT;
 		}
 	},
@@ -137,7 +119,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.CSC;
 		}
 	},
@@ -150,7 +132,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.DIVIDE;
 		}
 	},
@@ -162,7 +144,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.EXP;
 		}
 	},
@@ -174,7 +156,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.LOG;
 		}
 	},
@@ -186,7 +168,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.LOG2;
 		}
 	},
@@ -198,7 +180,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.LOG10;
 		}
 	},
@@ -213,7 +195,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.MINUS;
 		}
 	},
@@ -227,7 +209,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.MULTIPLY;
 		}
 	},
@@ -241,7 +223,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.NROOT;
 		}
 	},
@@ -255,7 +237,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.PLUS;
 		}
 	},
@@ -268,7 +250,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.POWER;
 		}
 	},
@@ -282,7 +264,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.SEC;
 		}
 	},
@@ -294,7 +276,7 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.SIN;
 		}
 	},
@@ -308,7 +290,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.SINH;
 		}
 	},
@@ -321,7 +303,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.SQRT;
 		}
 	},
@@ -334,7 +316,7 @@ public enum IntervalOperation {
 
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.TAN;
 		}
 	},
@@ -347,14 +329,14 @@ public enum IntervalOperation {
 		}
 
 		@Override
-		public Operation op() {
+		public Operation mappedOperation() {
 			return Operation.TANH;
 		}
 	};
 
 	public static boolean hasEquivalent(Operation operation) {
 		for (IntervalOperation iop: values()) {
-			if (iop.op().equals(operation) || iop.aliases().contains(operation)) {
+			if (iop.mappedOperation().equals(operation)) {
 				return true;
 			}
 		}
@@ -363,11 +345,8 @@ public enum IntervalOperation {
 
 	public abstract IntervalExpressionValue handle(IntervalNode left, IntervalNode right);
 
-	public abstract Operation op();
+	public abstract Operation mappedOperation();
 
-	public List<Operation> aliases() {
-		return Collections.emptyList();
-	}
 
 	static IntervalExpressionValue toValue(Interval interval) {
 		return new IntervalFunctionValue(interval);
