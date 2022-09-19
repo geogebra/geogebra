@@ -174,14 +174,12 @@ public class UndoManagerD extends UndoManager {
 				listSelModel.setSelectionInterval(minIndex, maxIndex);
 			}
 			app.getEventDispatcher().enableListeners();
-
-
 		} catch (Exception e) {
-			Log.error("setUndoInfo: " + e.toString());
+			Log.error("setUndoInfo: " + e);
 			e.printStackTrace();
 			restoreCurrentUndoInfo();
 		} catch (java.lang.OutOfMemoryError err) {
-			Log.error("UndoManager.loadUndoInfo: " + err.toString());
+			Log.error("UndoManager.loadUndoInfo: " + err);
 		} finally {
 			StreamUtil.closeSilent(is);
 		}

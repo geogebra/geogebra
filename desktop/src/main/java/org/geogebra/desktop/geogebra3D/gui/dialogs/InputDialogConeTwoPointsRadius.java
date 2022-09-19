@@ -14,7 +14,8 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogConeTwoPointsRadius extends InputDialogRadiusD {
 
-	private GeoPointND a, b;
+	private final GeoPointND a;
+	private final GeoPointND b;
 
 	/**
 	 * 

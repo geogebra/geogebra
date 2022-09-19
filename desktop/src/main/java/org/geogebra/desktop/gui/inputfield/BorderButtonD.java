@@ -44,7 +44,7 @@ public class BorderButtonD extends AbstractBorder
 	/**************************************
 	 * Constructs a BorderButton
 	 * 
-	 * @param borderOwner
+	 * @param borderOwner target component
 	 */
 	public BorderButtonD(Component borderOwner) {
 

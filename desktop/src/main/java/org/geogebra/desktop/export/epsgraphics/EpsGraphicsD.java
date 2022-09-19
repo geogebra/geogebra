@@ -80,7 +80,7 @@ public class EpsGraphicsD extends EpsGraphics {
 				}
 				buffer.append(ch);
 			}
-			append("(" + buffer.toString() + ") show");
+			append("(" + buffer + ") show");
 		}
 	}
 
@@ -145,7 +145,7 @@ public class EpsGraphicsD extends EpsGraphics {
 			// TODO Should really use imagemask.
 			append("{currentfile " + width + " string readhexstring pop} bind");
 			append("image");
-		} else {// TODO: no difference between RGB and CMYK
+		} else { // TODO: no difference between RGB and CMYK
 			append("{currentfile 3 " + width
 					+ " mul string readhexstring pop} bind");
 			append("false 3 colorimage");
@@ -164,10 +164,10 @@ public class EpsGraphicsD extends EpsGraphics {
 				} else if (this.colorMode.equals(ColorMode.GRAYSCALE)) {
 					line.append(toHexString((color.getRed() + color.getGreen()
 							+ color.getBlue()) / 3));
-				} else {// TODO: no difference between RGB and CMYK
-					line.append(toHexString(color.getRed())
-							+ toHexString(color.getGreen())
-							+ toHexString(color.getBlue()));
+				} else { // TODO: no difference between RGB and CMYK
+					line.append(toHexString(color.getRed()))
+							.append(toHexString(color.getGreen()))
+							.append(toHexString(color.getBlue()));
 				}
 				if (line.length() > 64) {
 					append(line.toString());

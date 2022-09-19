@@ -315,7 +315,7 @@ public class AlgebraTree extends JTree {
 		DefaultMutableTreeNode node = nodeTable.get(geo);
 
 		if (node != null) {
-			removeFromModel(node, ((DefaultTreeModel) getModel()));
+			removeFromModel(node, (DefaultTreeModel) getModel());
 		}
 	}
 
@@ -514,7 +514,7 @@ public class AlgebraTree extends JTree {
 
 			DefaultMutableTreeNode root = getRoot();
 
-			if (p1 == p2) {// same category
+			if (p1 == p2) { // same category
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
 						.getChildAt(p1);
 				ArrayList<GeoElement> ret = new ArrayList<>();
@@ -612,8 +612,7 @@ public class AlgebraTree extends JTree {
 		// bigger then last?
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
 				.getLastChild();
-		// String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
-		GeoElement geo2 = ((GeoElement) node.getUserObject());
+		GeoElement geo2 = (GeoElement) node.getUserObject();
 		if (compare(newGeo, geo2, mode)) {
 			return right;
 		}
@@ -623,7 +622,7 @@ public class AlgebraTree extends JTree {
 			int middle = (left + right) / 2;
 			node = (DefaultMutableTreeNode) parent.getChildAt(middle);
 			// nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
-			geo2 = ((GeoElement) node.getUserObject());
+			geo2 = (GeoElement) node.getUserObject();
 
 			if (!compare(newGeo, geo2, mode)) {
 				right = middle;

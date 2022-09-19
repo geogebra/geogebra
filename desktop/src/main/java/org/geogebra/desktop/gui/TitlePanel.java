@@ -52,7 +52,8 @@ public class TitlePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private JTextField titleField, authorField;
+	private JTextField titleField;
+	private JTextField authorField;
 
 	private JFormattedTextField dateField;
 

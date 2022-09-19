@@ -29,8 +29,9 @@ import javax.swing.SwingUtilities;
 public class GlassPaneListener
 		implements MouseListener, MouseMotionListener, KeyEventDispatcher {
 
-	private Component glassPane, destComp;
-	private Container contentPane;
+	private final Component glassPane;
+	private final Component destComp;
+	private final Container contentPane;
 
 	/**
 	 * @param glassPane

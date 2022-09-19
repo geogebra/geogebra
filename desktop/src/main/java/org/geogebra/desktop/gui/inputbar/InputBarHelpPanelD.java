@@ -68,30 +68,28 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private static final long serialVersionUID = 1L;
 	/** application */
 	AppD app;
-	private InputBarHelpPanelD thisPanel;
-	private Color bgColor = Color.WHITE;
+	private final InputBarHelpPanelD thisPanel;
+	private final Color bgColor;
 
 	private MyJTree cmdTree;
-	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
-			rootAllCommands;
+	private DefaultMutableTreeNode functionTitleNode;
+	private DefaultMutableTreeNode rootSubCommands;
+	private DefaultMutableTreeNode rootAllCommands;
 	private DefaultTreeModel cmdTreeModel;
 
 	private String selectedCommand;
 	String rollOverCommand;
 
-	public String getSelectedCommand() {
-		return selectedCommand;
-	}
-
 	private String selectedFunction;
 
 	private JTextPane helpTextPane;
-	private JButton btnOnlineHelp, btnRefresh;
+	private JButton btnOnlineHelp;
+	private JButton btnRefresh;
 	private SelectionTableD functionTable;
 	private JScrollPane tablePanel;
 	private JPanel syntaxHelpPanel;
-	private JSplitPane cmdSplitPane;
-	private JLabel titleLabel;
+	private final JSplitPane cmdSplitPane;
+	private final JLabel titleLabel;
 	private JLabel syntaxLabel;
 	private JButton btnPaste;
 	private JScrollPane scroller;
@@ -491,8 +489,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) cmdTree
 				.getLastSelectedPathComponent();
 
-		if (node == null)
-		 {
+		if (node == null) {
 			return; // Nothing is selected.
 		}
 
@@ -554,18 +551,11 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 					// get the help text for this node
 					TreePath tp = tree.getPathForRow(row);
-					DefaultMutableTreeNode node = ((DefaultMutableTreeNode) tp
-							.getLastPathComponent());
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
+							.getLastPathComponent();
 					if (node.isLeaf()) {
 						Object nodeInfo = node.getUserObject();
-						String cmd = (String) nodeInfo;
-						rollOverCommand = cmd;
-						// StringBuilder sb = new StringBuilder();
-						// cmd = app.getReverseCommand(cmd); // internal name
-						// CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
-						// sb.append(app.getLocalization().getCommandSyntax(cmd));
-						// helpTextArea.setText(sb.toString());
-
+						rollOverCommand = (String) nodeInfo;
 					}
 				}
 
@@ -668,7 +658,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		private static final long serialVersionUID = 1L;
 
-		private Color selectionColor, rollOverColor;
+		private final Color selectionColor;
+		private final Color rollOverColor;
 
 		public MyRenderer() {
 			update();
@@ -747,13 +738,11 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		else if (e.getSource() == btnOnlineHelp) {
 			if (selectedCommand != null) {
-				((GuiManagerD) app.getGuiManager())
-						.openCommandHelp(selectedCommand);
+				app.getGuiManager().openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null) {
-				((GuiManagerD) app.getGuiManager())
-						.openHelp(App.WIKI_OPERATORS);
+				app.getGuiManager().openHelp(App.WIKI_OPERATORS);
 			} else {
-				((GuiManagerD) app.getGuiManager()).openHelp("InputBar");
+				app.getGuiManager().openHelp("InputBar");
 			}
 		}
 
@@ -813,16 +802,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		public MyJTree(TreeModel tm) {
 			super(tm);
 		}
-	}
-
-	public void showError(String message) {
-		// if (message == null) {
-		// errorLabel.setVisible(false);
-		// } else {
-		// errorLabel.setVisible(true);
-		// errorLabel.setText(message);
-		// }
-
 	}
 
 	public void focusCommand(String command) {

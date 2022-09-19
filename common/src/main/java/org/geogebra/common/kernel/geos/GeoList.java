@@ -3059,6 +3059,16 @@ public class GeoList extends GeoElement
 		}
 	}
 
+	/**
+	 * resets definition for dependent GeoLists
+	 */
+	public void resetDefinitionDependentList() {
+		super.resetDefinition();
+		for (int i = 0; i < size(); i++) {
+			this.elements.get(i).resetDefinition();
+		}
+	}
+
 	@Override
 	public GeoElementND doAnimationStep(double frameRate, GeoList parent) {
 		if (size() > selectedIndex) {

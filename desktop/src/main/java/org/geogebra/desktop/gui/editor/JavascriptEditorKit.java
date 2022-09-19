@@ -234,7 +234,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 				for (int i = 0; i < removed.length; i++) {
 					comment = handleElement(removed[i], comment);
 				}
-			} else {// the event occured in one line
+			} else { // the event occured in one line
 				int index = root.getElementIndex(ev.getOffset());
 				Element elem = root.getElement(index);
 				boolean com = isCommented(elem);

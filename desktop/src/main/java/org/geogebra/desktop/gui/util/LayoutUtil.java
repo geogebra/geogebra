@@ -118,7 +118,7 @@ public class LayoutUtil {
 		}
 
 		public TitlePanel(String title) {
-			setLayout((new BoxLayout(this, BoxLayout.Y_AXIS)));
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			setBorder(titleBorder(title));
 		}
 

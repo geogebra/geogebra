@@ -341,7 +341,8 @@ public class GPopupMenuW implements AttachedToDOM, MenuHoverListener {
 	}
 
 	private int alignPopupToOpenItem() {
-		return Math.max(SUBMENU_VERTICAL_PADDING, getRelativeTop(openItem.getAbsoluteTop()));
+		int absoluteTop = (int) (openItem.getAbsoluteTop() / getScaleY());
+		return Math.max(SUBMENU_VERTICAL_PADDING, getRelativeTop(absoluteTop));
 	}
 
 	/**

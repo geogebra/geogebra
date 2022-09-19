@@ -30,7 +30,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	protected Input3D input3D;
 
 	protected Robot robot;
-	protected int robotX, robotY;
+	protected int robotX;
+	protected int robotY;
 
 	/**
 	 * constructor
@@ -168,7 +169,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		setRotContinueAnimation();
 	}
 
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (input3D.currentlyUseMouse2D()) {
@@ -224,8 +224,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		return input3D.getMouseLoc();
 	}
-
-
 
 	@Override
 	protected int getModeForShallMoveView(AbstractEvent event) {

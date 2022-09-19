@@ -13,7 +13,7 @@ public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public ConstructionProtocolDockPanel(AppD app) {
 		super(App.VIEW_CONSTRUCTION_PROTOCOL, // view id

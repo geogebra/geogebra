@@ -386,9 +386,9 @@ public class EuclidianViewD extends EuclidianView
 
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
-		int pageIndex = ((AppD)kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
+		int pageIndex = ((AppD) kernel.getApplication()).getPrintPreview().adjustIndex(pageIndex0);
 		if (pageIndex > 0) {
-			return (NO_SUCH_PAGE);
+			return NO_SUCH_PAGE;
 		}
 		Graphics2D g2d = (Graphics2D) g;
 		AffineTransform oldTransform = g2d.getTransform();
@@ -415,7 +415,7 @@ public class EuclidianViewD extends EuclidianView
 		rect.setFrame(pagewidth - xmargin, 0, xmargin, pageheight);
 		g2d.fill(rect);
 
-		return (PAGE_EXISTS);
+		return PAGE_EXISTS;
 
 	}
 

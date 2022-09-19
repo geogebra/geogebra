@@ -47,7 +47,9 @@ public class ConstructionProtocolStyleBar extends JToolBar
 	PopupMenuButtonD btnColumns;
 	/** Options button */
 	PopupMenuButtonD btnOptions;
-	private JButton btnExport, btnPrint, btnHelp;
+	private JButton btnExport;
+	private JButton btnPrint;
+	private JButton btnHelp;
 	/** Item for Show only breakpoints option */
 	JCheckBoxMenuItem miShowOnlyBreakpoints;
 	/** Item for Colorful protocol option */

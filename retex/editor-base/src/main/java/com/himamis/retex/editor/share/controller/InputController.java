@@ -883,17 +883,13 @@ public class InputController {
 
 	private void deleteSingleArg(EditorState editorState) {
 		int currentOffset = editorState.getCurrentOffsetOrSelection();
-		if (!editorState.getCurrentField().isArgumentProtected(currentOffset - 1)) {
-			editorState.getCurrentField().delArgument(currentOffset - 1);
+		MathSequence currentField = editorState.getCurrentField();
+		if (!currentField.isArgumentProtected(currentOffset - 1)) {
+			currentField.delArgument(currentOffset - 1);
 			editorState.decCurrentOffset();
-			MathSequence currentField = editorState.getCurrentField();
-			int offset = editorState.getCurrentOffset();
-			MathComponent component = currentField.getArgument(offset);
-
-			if (component instanceof MathFunction
-					&& ((MathFunction) component).getName() != Tag.FRAC) {
-				RemoveContainer.fuseMathFunction(editorState,
-						(MathFunction) currentField.getArgument(offset));
+			MathComponent component = currentField.getArgument(editorState.getCurrentOffset());
+			if (component instanceof MathFunction) {
+				RemoveContainer.fuseMathFunction(editorState, (MathFunction) component);
 			}
 		}
 	}

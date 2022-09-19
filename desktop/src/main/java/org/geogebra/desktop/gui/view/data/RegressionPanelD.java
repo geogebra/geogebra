@@ -43,9 +43,11 @@ public class RegressionPanelD extends JPanel
 	private DataAnalysisViewD statDialog;
 
 	// regression panel objects
-	private JLabel lblRegEquation, lblEqn;
+	private JLabel lblRegEquation;
+	private JLabel lblEqn;
 
-	private JComboBox<String> cbRegression, cbPolyOrder;
+	private JComboBox<String> cbRegression;
+	private JComboBox<String> cbPolyOrder;
 	private JLabel lblEvaluate;
 	private MyTextFieldD fldInputX;
 	private JLabel lblOutputY;
@@ -250,13 +252,9 @@ public class RegressionPanelD extends JPanel
 				eqn = "y = " + statDialog.getRegressionModel()
 						.getFormulaString(highPrecision, true);
 			}
-
-		}
-
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			eqn = "\\text{" + loc.getMenu("NotAvailable") + "}";
-
 		}
 
 		// create an icon with the LaTeX string

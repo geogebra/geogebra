@@ -15,6 +15,7 @@ import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.HlineAtom;
 import com.himamis.retex.renderer.share.JavaFontRenderingAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.OverlinedAtom;
 import com.himamis.retex.renderer.share.PhantomAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
@@ -42,6 +43,7 @@ public class TeXAtomSerializer {
 		Degree,
 		Degrees
 	}
+
 	/**
 	 * @param ad
 	 *            adapter
@@ -180,7 +182,11 @@ public class TeXAtomSerializer {
 		if (root instanceof BigOperatorAtom) {
 			return serializeBigOperator((BigOperatorAtom) root);
 		}
-		
+
+		if (root instanceof OverlinedAtom) {
+			return "Segment " + serialize(((OverlinedAtom) root).getTrueBase());
+		}
+
 		// BoldAtom, ItAtom, TextStyleAtom, StyleAtom, RomanAtom
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
@@ -191,6 +197,7 @@ public class TeXAtomSerializer {
 			}
 			return serialize(trueBase);
 		}
+
 		if (root instanceof BigDelimiterAtom) {
 			return serialize(((BigDelimiterAtom) root).getDelimiter());
 		}

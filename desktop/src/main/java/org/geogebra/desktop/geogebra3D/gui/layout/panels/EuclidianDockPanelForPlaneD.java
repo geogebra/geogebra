@@ -17,7 +17,6 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
 	private EuclidianViewForPlaneD view;
 
-
 	/**
 	 * @param app
 	 *            application

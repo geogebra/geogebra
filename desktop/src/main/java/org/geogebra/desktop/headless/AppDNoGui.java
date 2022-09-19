@@ -46,7 +46,6 @@ import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
 
-
 /**
  * App for testing: does not use Swing
  *

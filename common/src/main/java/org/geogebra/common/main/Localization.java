@@ -1352,7 +1352,11 @@ public abstract class Localization {
 	public String getEnglishCommand(String internalName) {
 		Commands toTest = Commands.stringToCommand(internalName);
 
-        String mainCommandName = getMainCommandName(toTest);
+		if (toTest == null) {
+			return internalName;
+		}
+
+		String mainCommandName = getMainCommandName(toTest);
 		if (mainCommandName != null) {
 			return mainCommandName;
 		}

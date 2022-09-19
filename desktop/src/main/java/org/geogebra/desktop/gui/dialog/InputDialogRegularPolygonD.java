@@ -8,14 +8,14 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
 public class InputDialogRegularPolygonD extends InputDialogD {
-	private GeoPointND geoPoint1, geoPoint2;
-	private GeoCoordSys2D direction;
-	private EuclidianController ec;
+	private final GeoPointND geoPoint1;
+	private final GeoPointND geoPoint2;
+	private final GeoCoordSys2D direction;
+	private final EuclidianController ec;
 
 	public InputDialogRegularPolygonD(AppD app, EuclidianController ec,
 			String title, InputHandler handler, GeoPointND point1,
@@ -50,17 +50,9 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 	}
 
 	private void processInput() {
-
 		DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
 				geoPoint1, geoPoint2, direction, this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisibleForTools(!ok);
-
-					}
-				});
+				ok -> setVisibleForTools(!ok));
 	}
 
 	@Override

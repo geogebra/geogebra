@@ -27,6 +27,7 @@ import org.geogebra.desktop.main.AppD;
 public class DataImportD extends DataImport {
 
 	static DataFlavor HTMLflavor;
+
 	static {
 		try {
 			HTMLflavor = new DataFlavor("text/html;class=java.lang.String");
@@ -45,8 +46,8 @@ public class DataImportD extends DataImport {
 	 * convert the transferable object into a CSV string (e.g. data transferred
 	 * from Excel)
 	 * 
-	 * @param contents
-	 * @return
+	 * @param contents clipboard contents
+	 * @return contents as string
 	 */
 	public static String convertTransferableToString(Transferable contents) {
 
@@ -55,11 +56,6 @@ public class DataImportD extends DataImport {
 		// exit if no content
 		if (contents == null) {
 			return null;
-		}
-
-		// print available data formats in Transferable contents
-		for (int i = 0; i < contents.getTransferDataFlavors().length; i++) {
-			// System.out.println(contents.getTransferDataFlavors()[i]);
 		}
 
 		// try to extract a string from the Transferable
@@ -71,13 +67,9 @@ public class DataImportD extends DataImport {
 			if (hasHTMLFlavor(contents)) {
 				transferString = DataImportD.convertHTMLTableToCSV(
 						(String) contents.getTransferData(HTMLflavor));
-				// transferString = (String) contents
-				// .getTransferData(DataFlavor.stringFlavor);
 			}
 
-		} catch (UnsupportedFlavorException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
 		}
 
@@ -185,9 +177,7 @@ public class DataImportD extends DataImport {
 			// parse the text
 			Reader reader = new StringReader(HTMLTableString);
 			new ParserDelegator().parse(reader, callback, true);
-		}
-
-		catch (Exception e) {
+		} catch (Exception e) {
 			Log.debug("clipboard: no HTML");
 		}
 
