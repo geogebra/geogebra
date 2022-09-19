@@ -52,7 +52,7 @@ public class IntervalExpressionNode implements IntervalNode {
 
 	/**
 	 *
- 	 * @return the evaluated value of this node as root.
+	 * @return @return the evaluated value of this node as root.
 	 */
 	public IntervalNode evaluate() {
 		if (isLeaf()) {

@@ -26,7 +26,6 @@ public class IntervalFunctionValue implements IntervalExpressionValue {
 		this.interval.set(value, value);
 	}
 
-
 	@Override
 	public boolean isLeaf() {
 		return true;

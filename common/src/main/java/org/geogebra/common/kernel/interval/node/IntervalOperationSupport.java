@@ -8,6 +8,9 @@ import org.geogebra.common.plugin.Operation;
 public class IntervalOperationSupport {
 	private final Map<Operation, IntervalOperation> operationMap = new HashMap<>();
 
+	/**
+	 * Constructor
+	 */
 	public IntervalOperationSupport() {
 		for (IntervalOperation operation: IntervalOperation.values()) {
 			if (operation != IntervalOperation.UNSUPPORTED) {
@@ -16,10 +19,24 @@ public class IntervalOperationSupport {
 		}
 	}
 
+	/**
+	 *
+	 * @param operation supported by ExpressionNode.
+	 *
+	 * @return if an equivalent operation is supported by IntervalExpressionNode.
+	 * .
+	 */
 	public boolean isSupported(Operation operation) {
 		return operationMap.containsKey(operation);
 	}
 
+	/**
+	 *
+	 * @param operation supported by ExpressionNode.
+	 *
+	 * @return the equivalent operation that is supported by IntervalExpressionNode.
+	 * .
+	 */
 	public IntervalOperation convert(Operation operation) {
 		return operationMap.getOrDefault(operation, IntervalOperation.UNSUPPORTED);
 	}

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class IntervalFunctionSupport {
 	private static final UnsupportedOperatorChecker
 			operatorChecker = new UnsupportedOperatorChecker();
+
 	/**
 	 *
 	 * @param geo to check.

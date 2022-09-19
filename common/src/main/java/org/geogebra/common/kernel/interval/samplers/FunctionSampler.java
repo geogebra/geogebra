@@ -21,19 +21,19 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private IntervalNodeFunction function;
 	private EuclidianViewBounds bounds;
-	private GeoFunction geoFunction;
+	private final GeoFunction geoFunction;
 	private int numberOfSamples;
 	private final DiscreteSpace space;
-	private GeoFunctionConverter converter;
+	private final GeoFunctionConverter converter;
 
 	/**
 	 * @param geoFunction function to get sampled
-	 * @param converter
+	 * @param converter from GeoFunction to IntervalNodeFunction.
 	 * @param range (x, y) range.
 	 * @param numberOfSamples the sample rate.
 	 */
-	public FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter, IntervalTuple range,
-			int numberOfSamples) {
+	public FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter,
+			IntervalTuple range, int numberOfSamples) {
 		this(geoFunction, converter);
 		this.numberOfSamples = numberOfSamples;
 		update(range);

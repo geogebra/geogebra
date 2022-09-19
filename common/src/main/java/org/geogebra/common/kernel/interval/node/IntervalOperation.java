@@ -54,6 +54,7 @@ public enum IntervalOperation {
 		public IntervalExpressionValue handle(IntervalNode left, IntervalNode right) {
 			return toValue(IntervalOperationImpl.asin(left.value()));
 		}
+
 		@Override
 		public Operation mappedOperation() {
 			return Operation.ARCSIN;
@@ -317,6 +318,11 @@ public enum IntervalOperation {
 		}
 	};
 
+	/**
+	 *
+	 * @param operation supported by ExpressionNode.
+	 * @return if operation has an equivalent one on intervals.
+	 */
 	public static boolean hasEquivalent(Operation operation) {
 		for (IntervalOperation iop: values()) {
 			if (iop.mappedOperation().equals(operation)) {
@@ -326,6 +332,13 @@ public enum IntervalOperation {
 		return false;
 	}
 
+	/**
+	 * Executes the operation.
+	 *
+	 * @param left {@link IntervalNode} as operand.
+	 * @param right {@link IntervalNode} as operand.
+	 * @return the value of the operation.
+	 */
 	public abstract IntervalExpressionValue handle(IntervalNode left, IntervalNode right);
 
 	public abstract Operation mappedOperation();

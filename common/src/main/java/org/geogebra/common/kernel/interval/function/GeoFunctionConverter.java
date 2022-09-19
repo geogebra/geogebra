@@ -47,24 +47,19 @@ public class GeoFunctionConverter {
 	private IntervalNode convert(ExpressionNode expressionNode,
 			IntervalFunctionVariable functionVariable) {
 		IntervalExpressionNode node = new IntervalExpressionNode();
-		convertLeft(functionVariable, expressionNode.getLeft(), node);
+
+		node.setLeft(nodeValue(functionVariable, expressionNode.getLeft()));
 		node.setOperation(operationSupport.convert(expressionNode.getOperation()));
-		convertRight(functionVariable, expressionNode.getRight(), node);
+		node.setRight(nodeValue(functionVariable, expressionNode.getRight()));
 		return node;
-	}
-
-	private void convertLeft(IntervalFunctionVariable functionVariable, ExpressionValue left,
-			IntervalExpressionNode node) {
-		if (left == null) {
-			return;
-		}
-
-		node.setLeft(nodeValue(functionVariable, left));
-
 	}
 
 	private IntervalNode nodeValue(IntervalFunctionVariable functionVariable,
 			ExpressionValue value) {
+		if (value == null) {
+			return null;
+		}
+
 		return value.isLeaf()
 				? newLeafValue(value, functionVariable)
 				: convert(value.wrap(), functionVariable);
@@ -74,15 +69,6 @@ public class GeoFunctionConverter {
 			IntervalFunctionVariable functionVariable) {
 		return value instanceof FunctionVariable
 				? functionVariable : newSingletonValue(value.evaluateDouble());
-	}
-
-	private void convertRight(IntervalFunctionVariable functionVariable, ExpressionValue right,
-			IntervalExpressionNode node) {
-		if (right == null) {
-			return;
-		}
-
-		node.setRight(nodeValue(functionVariable, right));
 	}
 
 	private IntervalNode newSingletonValue(double value) {
