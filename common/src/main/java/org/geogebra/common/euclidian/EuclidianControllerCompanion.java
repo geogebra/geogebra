@@ -539,6 +539,7 @@ public class EuclidianControllerCompanion {
 	 *            mouse move event
 	 */
 	public void movePoint(boolean repaint, AbstractEvent event) {
+		Coords oldCoords = ec.movedGeoPoint.getCoordsInD3();
 		ec.movedGeoPoint.setCoords(DoubleUtil.checkDecimalFraction(ec.xRW),
 				DoubleUtil.checkDecimalFraction(ec.yRW), 1.0);
 
@@ -552,7 +553,7 @@ public class EuclidianControllerCompanion {
 			}
 
 			if (ec.movedGeoPoint.isPointOnPath()) {
-				double dist = Double.MAX_VALUE;
+				double minDist = Double.MAX_VALUE;
 
 				Path path = ec.movedGeoPoint.getPath();
 
@@ -567,9 +568,10 @@ public class EuclidianControllerCompanion {
 				// find closest parameter
 				// avoid rounding errors by using an int & multiplier
 				for (int i = 0; i < n; i++) {
-					if (Math.abs(t - i * multiplier) < dist) {
+					double dist = Math.abs(t - i * multiplier);
+					if (dist < minDist) {
 						t_1 = i * multiplier;
-						dist = Math.abs(t - i * multiplier);
+						minDist = dist;
 					}
 				}
 
@@ -582,7 +584,9 @@ public class EuclidianControllerCompanion {
 			}
 		}
 
-		ec.movedGeoPoint.updateCascade();
+		if (!oldCoords.isEqual(ec.movedGeoPoint.getCoordsInD3())) {
+			ec.movedGeoPoint.updateCascade();
+		}
 
 		if (repaint) {
 			ec.kernel.notifyRepaint();
