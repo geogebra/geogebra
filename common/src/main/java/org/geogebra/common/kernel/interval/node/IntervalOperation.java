@@ -54,7 +54,6 @@ public enum IntervalOperation {
 		public IntervalExpressionValue handle(IntervalNode left, IntervalNode right) {
 			return toValue(IntervalOperationImpl.asin(left.value()));
 		}
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.ARCSIN;
@@ -70,7 +69,6 @@ public enum IntervalOperation {
 		public Operation mappedOperation() {
 			return Operation.ARCTAN;
 		}
-
 	},
 	COS {
 		@Override
@@ -78,7 +76,6 @@ public enum IntervalOperation {
 				IntervalNode right) {
 			return toValue(IntervalOperationImpl.cos(left.value()));
 		}
-
 
 		@Override
 		public Operation mappedOperation() {
@@ -92,7 +89,6 @@ public enum IntervalOperation {
 			return toValue(IntervalOperationImpl.cosh(left.value()));
 		}
 
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.COSH;
@@ -104,7 +100,6 @@ public enum IntervalOperation {
 				IntervalNode right) {
 			return toValue(IntervalOperationImpl.cot(left.value()));
 		}
-
 
 		@Override
 		public Operation mappedOperation() {
@@ -184,7 +179,6 @@ public enum IntervalOperation {
 			return Operation.LOG10;
 		}
 	},
-
 	MINUS {
 		@Override
 		public IntervalExpressionValue handle(IntervalNode left,
@@ -192,7 +186,6 @@ public enum IntervalOperation {
 			return toValue(IntervalOperationImpl.minus(left.value(),
 					right.value()));
 		}
-
 
 		@Override
 		public Operation mappedOperation() {
@@ -207,7 +200,6 @@ public enum IntervalOperation {
 					right.value()));
 		}
 
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.MULTIPLY;
@@ -220,7 +212,6 @@ public enum IntervalOperation {
 			return toValue(IntervalOperationImpl.nthRoot(left.value(),
 					right.value()));
 		}
-
 
 		@Override
 		public Operation mappedOperation() {
@@ -235,7 +226,6 @@ public enum IntervalOperation {
 					right.value()));
 		}
 
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.PLUS;
@@ -248,13 +238,11 @@ public enum IntervalOperation {
 			return toValue(IntervalOperationImpl.pow(left.value(), right.value()));
 		}
 
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.POWER;
 		}
 	},
-
 
 	SEC {
 		@Override
@@ -280,14 +268,12 @@ public enum IntervalOperation {
 			return Operation.SIN;
 		}
 	},
-
 	SINH {
 		@Override
 		public IntervalExpressionValue handle(IntervalNode left,
 				IntervalNode right) {
 			return toValue(IntervalOperationImpl.sinh(left.value()));
 		}
-
 
 		@Override
 		public Operation mappedOperation() {
@@ -301,7 +287,6 @@ public enum IntervalOperation {
 			return toValue(IntervalOperationImpl.sqrt(left.value()));
 		}
 
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.SQRT;
@@ -314,13 +299,11 @@ public enum IntervalOperation {
 			return toValue(IntervalOperationImpl.tan(left.value()));
 		}
 
-
 		@Override
 		public Operation mappedOperation() {
 			return Operation.TAN;
 		}
 	},
-
 	TANH {
 		@Override
 		public IntervalExpressionValue handle(IntervalNode left,
@@ -346,7 +329,6 @@ public enum IntervalOperation {
 	public abstract IntervalExpressionValue handle(IntervalNode left, IntervalNode right);
 
 	public abstract Operation mappedOperation();
-
 
 	static IntervalExpressionValue toValue(Interval interval) {
 		return new IntervalFunctionValue(interval);

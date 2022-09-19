@@ -2,9 +2,16 @@ package org.geogebra.common.kernel.interval.node;
 
 import org.geogebra.common.kernel.interval.Interval;
 
+/**
+ * Function value (an interval) in the tree as leaf.
+ */
 public class IntervalFunctionValue implements IntervalExpressionValue {
 	private final Interval interval;
 
+	/**
+	 *
+	 * @param interval the value.
+	 */
 	public IntervalFunctionValue(Interval interval) {
 		this.interval = interval;
 	}

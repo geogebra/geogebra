@@ -6,25 +6,45 @@ import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
 
+/**
+ * Represents a function that is built from IntervalNodes
+ * thus for interval x, y, y = f(x) can easily be evaluated.
+ */
 public class IntervalNodeFunction {
-	IntervalExpressionNode node;
+	IntervalExpressionNode root;
 	private final IntervalFunctionVariable functionVariable;
 
-	public IntervalNodeFunction(IntervalExpressionNode node,
+	/**
+	 *
+	 * @param root node of the function tree.
+	 * @param functionVariable the variable (usually called "x").
+	 *
+	 * Note that each IntervalFunction has exactly one function variable "x",
+	 * because of the "Dependency Problem".
+	 */
+	public IntervalNodeFunction(IntervalExpressionNode root,
 			IntervalFunctionVariable functionVariable) {
-		this.node = node;
+		this.root = root;
 		this.functionVariable = functionVariable;
 	}
 
+	/**
+	 * Evaluates the function for interval x.
+	 *
+	 * @param x the interval to get the function value.
+	 * @return the interval representing the function value at x.
+	 */
 	public Interval value(Interval x) {
 		functionVariable.set(x);
-		IntervalNode expression = node.evaluate();
+		IntervalNode expression = root.evaluate();
 		return expression == null ? IntervalConstants.undefined() : expression.value();
 	}
 
-	public IntervalExpressionNode getNode() {
-		return node;
+	/**
+	 *
+	 * @return root node of the function tree.
+	 */
+	public IntervalExpressionNode getRoot() {
+		return root;
 	}
-
-
 }

@@ -3,23 +3,46 @@ package org.geogebra.common.kernel.interval.node;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
+/**
+ * IntervalNode with operation and siblings - inner node of the tree.
+ */
 public class IntervalExpressionNode implements IntervalNode {
 	IntervalNode left;
 	IntervalOperation operation;
 	IntervalNode right;
 
+	/**
+	 * Constructor of an empty node.
+	 */
 	public IntervalExpressionNode() {
 		this(null, IntervalOperation.NO_OPERATION, null);
 	}
 
+	/**
+	 * Constructor of a node with one leaf.
+	 *
+	 * @param value as leaf.
+	 */
 	public IntervalExpressionNode(IntervalFunctionValue value) {
 		this(value, IntervalOperation.NO_OPERATION);
 	}
 
+	/**
+	 * Constructor of a node with left subtree and its operation.
+	 *
+	 * @param left subtree.
+	 * @param operation on left.
+	 */
 	public IntervalExpressionNode(IntervalNode left, IntervalOperation operation) {
 		this(left, operation, null);
 	}
 
+	/**
+	 * Constructor of a node with both left and right subtrees and their operation.
+	 *
+	 * @param left subtree.
+	 * @param operation on left.
+	 */
 	public IntervalExpressionNode(IntervalNode left, IntervalOperation operation,
 			IntervalNode right) {
 		this.left = left;
@@ -27,6 +50,10 @@ public class IntervalExpressionNode implements IntervalNode {
 		this.right = right;
 	}
 
+	/**
+	 *
+ 	 * @return the evaluated value of this node as root.
+	 */
 	public IntervalNode evaluate() {
 		if (isLeaf()) {
 			return left;

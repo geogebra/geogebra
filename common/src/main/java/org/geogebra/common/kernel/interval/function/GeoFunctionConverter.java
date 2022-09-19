@@ -13,13 +13,29 @@ import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
 import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
 
+/**
+ * Converts GeoFunction as parameter to IntervalNodeFunction.
+ * It builds up an IntervalNode tree of the function from the ExpressionNode tree of the
+ * original GeoFunction.
+ *
+ * Thus, the converted function will be optimized for interval evaluation for further use.
+ *
+ */
 public class GeoFunctionConverter {
 	private final IntervalOperationSupport operationSupport;
 
+	/**
+	 * Constructor.
+	 */
 	public GeoFunctionConverter() {
 		operationSupport = new IntervalOperationSupport();
 	}
 
+	/**
+	 * Converts GeoFunction as parameter to IntervalNodeFunction.
+	 * @param geoFunction to convert.
+	 * @return the converted IntervalNodeFunction.
+	 */
 	public IntervalNodeFunction convert(GeoFunction geoFunction) {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalNode expression = convert(
@@ -49,8 +65,9 @@ public class GeoFunctionConverter {
 
 	private IntervalNode nodeValue(IntervalFunctionVariable functionVariable,
 			ExpressionValue value) {
-		return value.isLeaf() ? newLeafValue(value, functionVariable) :
-				convert(value.wrap(), functionVariable);
+		return value.isLeaf()
+				? newLeafValue(value, functionVariable)
+				: convert(value.wrap(), functionVariable);
 	}
 
 	private IntervalNode newLeafValue(ExpressionValue value,
@@ -69,6 +86,8 @@ public class GeoFunctionConverter {
 	}
 
 	private IntervalNode newSingletonValue(double value) {
-		return Double.isNaN(value) ? null: new IntervalFunctionValue(new Interval(value));
+		return Double.isNaN(value)
+				? null
+				: new IntervalFunctionValue(new Interval(value));
 	}
 }
