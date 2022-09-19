@@ -127,6 +127,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void updateVisibility(Material material) {
+		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
 		String visibility = material.getVisibility();
 		if (material.isSharedWithGroup()) {
 			visibility = "S";
@@ -140,28 +141,24 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 			} else {
 				visibilityTxt = new Label(getCardAuthor());
 			}
+		} else if (!isOwnMaterial()) {
+			visibiltyImg = null;
+			visibilityTxt = new Label(getCardAuthor());
 		} else {
 			switch (visibility) {
 			case "P":
 				visibiltyImg = new NoDragImage(
-						MaterialDesignResources.INSTANCE.mow_card_private(), 24);
+						res.mow_card_private(), 24);
 				visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 				break;
 			case "S":
-				visibiltyImg = new NoDragImage(
-						MaterialDesignResources.INSTANCE.mow_card_shared(), 24);
+				visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
 				visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 				break;
 			case "O":
 			default:
-				if (isOwnMaterial()) {
-					visibiltyImg = new NoDragImage(
-							MaterialDesignResources.INSTANCE.mow_card_public(), 24);
-					visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
-				} else {
-					visibiltyImg = null;
-					visibilityTxt = new Label(getCardAuthor());
-				}
+				visibiltyImg = new NoDragImage(res.mow_card_public(), 24);
+				visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
 				break;
 			}
 		}
