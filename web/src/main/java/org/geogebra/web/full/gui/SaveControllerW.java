@@ -107,6 +107,7 @@ public class SaveControllerW implements SaveController {
 				.getSaveDialog(true, addTempCheckBox);
 		showDialogIfNeeded(examCallback, !app.isSaved(), null,
 				true, addTempCheckBox);
+		app.getShareController().disconnectMultiuser();
 		if (!addTempCheckBox) {
 			saveDialog.setDiscardMode();
 		}

@@ -13,22 +13,12 @@ import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.gwtutil.JavaScriptInjector;
-import org.geogebra.multiplayer.MultiplayerResources;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
-import org.geogebra.web.full.util.GGBMultiplayer;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-
-import jsinterop.base.JsPropertyMap;
 
 /**
  * Controller for material cards, common for new and old UI.
@@ -291,28 +281,9 @@ public class MaterialCardController implements OpenFileListener {
 				app.getLoginOperation().getModel().getLoggedInUser();
 		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)
 				&& loggedInUser != null) {
-			GWT.runAsync(new RunAsyncCallback() {
-				@Override
-				public void onFailure(Throwable reason) {
-					Log.error("Multiplayer script failed to load");
-				}
-
-				@Override
-				public void onSuccess() {
-					JavaScriptInjector.inject(MultiplayerResources.INSTANCE.multiplayer());
-					JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
-
-					GGBMultiplayer multiplayer = new GGBMultiplayer(
-							((ScriptManagerW) app.getScriptManager()).getApi(),
-							material.getSharingKeyOrId(), config, loggedInUser.getJWTToken());
-					if (GeoGebraGlobal.getGgbMultiplayerChange() != null) {
-						multiplayer.addUserChangeListener(GeoGebraGlobal.getGgbMultiplayerChange());
-					}
-					multiplayer.start(material.getSharingKey(),
-							app.getLoginOperation().getUserName());
-				}
-			});
+			app.getShareController().startMultiuser(material.getSharingKeyOrId());
 		}
 		return true; // one time only
 	}
+
 }
