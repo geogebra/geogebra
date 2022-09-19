@@ -1353,6 +1353,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 		// 2 variables
 		symbolic = add("Solve({x+2y=5,x-3y=7},{x,y})");
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{{x = 29 / 5, y = -2 / 5}}"));
 		SymbolicUtil.toggleSymbolic(symbolic);
@@ -1379,12 +1380,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("NSolve(x = cos(x))"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 0.7390851332152}"));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
 		symbolic = add("Solve({x^y=5, x-y=3},{x,y})");
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("NSolve({x^y = 5, x - y = 3}, {x, y})"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 4.134008006438, y = 1.134008006438}"));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
 		symbolic = add("Solve(exp(|sin(x)|)=2)");
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
@@ -1402,6 +1405,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 						+ "x = -65.20759953057, x = -63.59769926661, x = -62.06600687698, "
 						+ "x = -60.45610661303, x = -58.92441422339, x = -54.17292130585, "
 						+ "x = -52.64122891621, x = -51.03132865226, x = -49.49963626262, ")));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
 		// 2 variables
 		symbolic = add("Solve({x^y=2, x-y=1},{x,y})");
@@ -1409,6 +1413,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("NSolve({x^y = 2, x - y = 1}, {x, y})"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 2, y = 1}"));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
 	}
 
@@ -1420,10 +1425,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("Numeric(Solve(20 = 100x¹⁰⁰⁰))"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -0.9983918565382, x = 0.9983918565382}"));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
 		symbolic = add("NSolve(sqrt(x)=sqrt(-2-x),x=1)");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -1}"));
+
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 	}
 
 	@Test
