@@ -17,7 +17,7 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 				IntervalOperation.SIN);
 		functionVariable.set(Math.PI);
 		assertEquals(IntervalConstants.zero(), node.evaluate().value());
-		functionVariable.set(Math.PI/2);
+		functionVariable.set(Math.PI / 2);
 		assertEquals(one(), node.value());
 	}
 
@@ -34,6 +34,7 @@ public class IntervalExpressionNodeTest extends BaseUnitTest {
 		IntervalExpressionNode node = new IntervalExpressionNode(constant);
 		assertFalse(node.hasFunctionVariable());
 	}
+
 	@Test
 	public void testHasFunctionVariable() {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();

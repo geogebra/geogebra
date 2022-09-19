@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.interval.node;
 
-
 import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.plugin.Operation;

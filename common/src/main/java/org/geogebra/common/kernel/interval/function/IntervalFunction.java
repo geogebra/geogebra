@@ -42,8 +42,6 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  */
  public class IntervalFunction {
-	private static final UnsupportedOperatorChecker
-			operatorChecker = new UnsupportedOperatorChecker();
 	private final GeoFunction function;
 
 	/**

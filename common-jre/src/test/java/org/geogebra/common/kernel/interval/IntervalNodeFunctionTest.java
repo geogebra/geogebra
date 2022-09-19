@@ -55,6 +55,7 @@ public class IntervalNodeFunctionTest {
 		assertEquals(interval(-10.34, 56.78),
 				function.value(interval(-11.34, 55.78)));
 	}
+
 	@Test
 	public void testEvalXPlusOnePlusOne() {
 		IntervalExpressionNode node1 = new IntervalExpressionNode(functionVariable,

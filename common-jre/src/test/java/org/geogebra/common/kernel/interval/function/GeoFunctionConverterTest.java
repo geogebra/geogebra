@@ -27,17 +27,16 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		assertEquals(IntervalOperation.SIN, expression.getOperation());
 		assertFalse(expression.hasRight());
 	}
-
 	@Test
 	public void testConvertSinXPlus1() {
- 		IntervalNodeFunction function = converter.convert(add("sin(x)+1"));
+		IntervalNodeFunction function = converter.convert(add("sin(x)+1"));
 		assertEquals(one(), function.value(pi()));
 		assertEquals(new Interval(2), function.value(piHalf()));
 	}
 
 	@Test
 	public void testConvertDivide() {
- 		IntervalNodeFunction function = converter.convert(add("x/2"));
+		IntervalNodeFunction function = converter.convert(add("x/2"));
 		assertEquals(one(), function.value(interval(2)));
 		assertEquals(interval(2, 4), function.value(interval(4, 8)));
 	}
