@@ -17,6 +17,14 @@ import org.geogebra.common.util.debug.Log;
  */
 public class IntervalNodePowerEvaluator {
 
+	/**
+	 * Handles the power computation.
+	 *
+	 * @param base of the power.
+	 * @param exponent of the power.
+	 * @param right node to compute.
+	 * @return the value of the power.
+	 */
 	public Interval handle(Interval base, Interval exponent, IntervalNode right) {
 		if (exponent.isUndefined()) {
 			return undefined();

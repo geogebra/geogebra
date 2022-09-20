@@ -27,6 +27,7 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		assertEquals(IntervalOperation.SIN, expression.getOperation());
 		assertFalse(expression.hasRight());
 	}
+
 	@Test
 	public void testConvertSinXPlus1() {
 		IntervalNodeFunction function = converter.convert(add("sin(x)+1"));

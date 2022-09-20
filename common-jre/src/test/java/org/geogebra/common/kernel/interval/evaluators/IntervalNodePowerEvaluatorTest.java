@@ -50,7 +50,6 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 				valueOnInterval("x^(1/2)", 1, 16));
 	}
 
-
 	@Test
 	public void evaluateXPowerForth()  {
 		assertEquals(nthRoot(interval(1, 16), 4),
