@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.interval.node;
 
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.evaluators.IntervalNodePowerEvaluator;
 import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
 import org.geogebra.common.plugin.Operation;
 
@@ -232,11 +233,11 @@ public enum IntervalOperation {
 			return Operation.PLUS;
 		}
 	},
-	POW {
+	POWER {
 		@Override
 		public IntervalExpressionValue handle(IntervalNode left,
 				IntervalNode right) {
-			return toValue(IntervalOperationImpl.pow(left.value(), right.value()));
+			return toValue(power.handle(left.value(), right.value(), right));
 		}
 
 		@Override
@@ -317,6 +318,8 @@ public enum IntervalOperation {
 			return Operation.TANH;
 		}
 	};
+
+	private static final IntervalNodePowerEvaluator power = new IntervalNodePowerEvaluator();
 
 	/**
 	 *

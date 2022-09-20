@@ -47,4 +47,8 @@ public class IntervalNodeFunction {
 	public IntervalExpressionNode getRoot() {
 		return root;
 	}
+
+	public void setRoot(IntervalExpressionNode root) {
+		this.root = root;
+	}
 }

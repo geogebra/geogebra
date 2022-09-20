@@ -115,4 +115,8 @@ public class IntervalExpressionNode implements IntervalNode {
 	public boolean hasRight() {
 		return right != null;
 	}
+
+	public boolean isOperation(IntervalOperation operation) {
+		return this.operation.equals(operation);
+	}
 }

@@ -29,4 +29,5 @@ public interface IntervalNode {
 	 * @return if node or its subtrees have function variable.
 	 */
 	boolean hasFunctionVariable();
+
 }
