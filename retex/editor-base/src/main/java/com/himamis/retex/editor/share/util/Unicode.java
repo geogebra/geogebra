@@ -196,7 +196,6 @@ public class Unicode {
 	public static final char CURLY_BRACKET_LEFT = '\u007B';
 	public static final char CURLY_BRACKET_RIGHT = '\u007D';
 
-
 	// http://www.xe.com/symbols.php
 	public static final char CURRENCY_POUND = '\u00a3';
 	public static final char CURRENCY_EURO = '\u20ac';
