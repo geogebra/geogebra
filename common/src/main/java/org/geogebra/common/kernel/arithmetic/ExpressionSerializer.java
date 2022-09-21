@@ -215,9 +215,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<setdiff/>", leftStr, rightStr);
 			} else if (stringType.isGiac()) {
-				sb.append('(');
+				sb.append("ggbListDifference(");
 				sb.append(leftStr);
-				sb.append(" minus ");
+				sb.append(",");
 				sb.append(rightStr);
 				sb.append(')');
 			} else {
