@@ -894,6 +894,7 @@
 		margin-top: 40px;
 		width: fit-content;
 		min-width: 64px;
+		height: 50px;
 
 		.inputLabel {
 			font-size: 75%;
@@ -994,6 +995,7 @@
 			}
 
 			.arrow {
+				cursor: default;
 				opacity: 0.36;
 			}
 		}
