@@ -9,7 +9,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -70,7 +69,7 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, 24, selectedOption);
+		dropDown = new ComponentDropDownPopup(app, 32, selectedOption);
 		dropDown.addAutoHidePartner(getElement());
 
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -96,8 +95,17 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	}
 
 	private void setSelectedOption(int idx) {
+		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
 		selectedOption.setText(dropDownElementsList.get(idx).getElement().getInnerText());
+	}
+
+	private void highlightSelectedElement(int previousSelectedIndex,
+			int currentSelectedIndex) {
+		dropDownElementsList.get(previousSelectedIndex)
+				.removeStyleName("selectedDropDownElement");
+		dropDownElementsList.get(currentSelectedIndex)
+				.addStyleName("selectedDropDownElement");
 	}
 
 	/**
@@ -111,11 +119,8 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(
-					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
-					() -> {
-						setSelectedOption(currentIndex);
-					});
+			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
+					() -> setSelectedOption(currentIndex));
 
 			item.setStyleName("dropDownElement");
 			dropDownElementsList.add(item);
