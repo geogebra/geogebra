@@ -22,6 +22,7 @@ import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
+import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -150,6 +151,9 @@ public class ShareControllerW implements ShareController {
 					shareDialogMow = new ShareDialogMow(getAppW(), data,
 							getAppW().getCurrentURL(sharingKey, true),
 							null);
+					shareDialogMow.setCallback(new MaterialCallback() {
+						// empty callback, just to avoid NPEs
+					});
 					shareDialogMow.show();
 				} else {
 					DialogData data = new DialogData("Share",
@@ -227,15 +231,22 @@ public class ShareControllerW implements ShareController {
 	public void disconnectMultiuser() {
 		if (multiplayer != null) {
 			multiplayer.disconnect();
+			updateUserChips(JsArray.of());
 			multiplayer = null;
 		}
 	}
 
 	private void handleMultiuserChange(JsArray<Object> users) {
-		if (users.length == 0) {
+		if (users.length == 0
+				&& app.getActiveMaterial() != null
+				&& !app.getLoginOperation().getGeoGebraTubeAPI().owns(app.getActiveMaterial())) {
 			CollaborationStoppedDialog dialog = new CollaborationStoppedDialog(app);
 			dialog.show();
 		}
+		updateUserChips(users);
+	}
+
+	private void updateUserChips(JsArray<Object> users) {
 		if (GeoGebraGlobal.getGgbMultiplayerChange() != null) {
 			GeoGebraGlobal.getGgbMultiplayerChange().call(DomGlobal.window, users);
 		}
