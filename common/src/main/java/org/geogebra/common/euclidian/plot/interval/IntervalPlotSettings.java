@@ -23,7 +23,7 @@ public class IntervalPlotSettings {
 	 * Limit the data to the given x range to plot.
 	 * Useful to debug glitches.
 	 */
-	static Interval visisbleXRange() {
+	static Interval visibleXRange() {
 		return IntervalConstants.undefined();
 	}
 }

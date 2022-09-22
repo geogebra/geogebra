@@ -216,7 +216,7 @@ public class IntervalPlotModel {
 	 * @param action to call on.
 	 */
 	public void forEach(IntConsumer action) {
-		Interval xRange = IntervalPlotSettings.visisbleXRange();
+		Interval xRange = IntervalPlotSettings.visibleXRange();
 		if (xRange.isUndefined()) {
 			allIndexes().forEach(action);
 		} else {

@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.euclidian.plot.TupleNeighbours;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Joining lines based on tuples in the correct way
@@ -65,40 +66,47 @@ public class JoinLines {
 	public void toBottom(TupleNeighbours neighbours) {
 		double leftDiff = neighbours.hasLeft()
 				? Math.abs(neighbours.currentYLow() - neighbours.leftYLow())
-				: Double.NEGATIVE_INFINITY;
+				: Double.POSITIVE_INFINITY;
 		double rightDiff = neighbours.hasRight()
 				? Math.abs(neighbours.currentYLow() - neighbours.rightYLow())
-				: Double.NEGATIVE_INFINITY;
-		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
+				: Double.POSITIVE_INFINITY;
+		double eps = 2*neighbours.current().x().getLength();
+		Log.debug("n: " + neighbours + " leftDiff: " + leftDiff + " rightDiff: " + rightDiff
+				+ "eps: " + eps);
+		if (DoubleUtil.isEqual(0, leftDiff, eps)) {
 			toStraightBottom1(neighbours);
-		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
+		} else if (DoubleUtil.isEqual(0, rightDiff, eps)) {
 			toStraightBottom2(neighbours);
-		} else
-			if (leftDiff < rightDiff) {
+		} else if (leftDiff < rightDiff) {
 			toBottomLeft(neighbours);
 		} else {
+			Log.debug(neighbours.toString());
 			toBottomRight(neighbours);
 		}
 	}
 
 	private void toStraightBottom1(TupleNeighbours neighbours) {
+		Log.debug("bottom1");
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
 				neighbours.currentXLow(), bounds.getYmin());
 
 	}
 
 	private void toStraightBottom2(TupleNeighbours neighbours) {
+		Log.debug("bottom2");
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
 
 	}
 
 	private void toBottomLeft(TupleNeighbours neighbours) {
+		Log.debug("bottomLeft");
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
 	}
 
 	private void toBottomRight(TupleNeighbours neighbours) {
+		Log.debug("bottomRight");
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
 	}
