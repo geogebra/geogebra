@@ -1,13 +1,10 @@
 package org.geogebra.web.full.gui.components;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.Property;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -23,26 +20,27 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	private Label label;
 	private String labelKey;
 	private Label selectedOption;
-	private EnumerableProperty property;
+	private List<String> items;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private boolean isDisabled = false;
+	private Runnable changeHandler;
 
 	/**
 	 * Material rop-down component
 	 * @param app - see {@link AppW}
 	 * @param label - label of drop-down
-	 * @param property - popup elements
+	 * @param items - popup elements
 	 */
-	public CompDropDown(AppW app, String label, Property property) {
+	public CompDropDown(AppW app, String label, List<String> items) {
 		this.app = app;
 		labelKey = label;
-		this.property = (EnumerableProperty) property;
+		this.items = items;
 		addStyleName("dropDown");
 
 		buildGUI(label);
 		createDropDownMenu(app);
-		setElements(Arrays.asList(((EnumerableProperty) property).getValues()));
+		setElements(items);
 		setSelectedOption(0);
 	}
 
@@ -91,6 +89,7 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 			dropDown.close();
 		} else {
 			dropDown.show();
+			dropDown.setWidthInPx(getStyleElement().getClientWidth());
 		}
 	}
 
@@ -98,6 +97,10 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
 		selectedOption.setText(dropDownElementsList.get(idx).getElement().getInnerText());
+	}
+
+	public int getSelectedIndex() {
+		return dropDown.getSelectedIndex();
 	}
 
 	private void highlightSelectedElement(int previousSelectedIndex,
@@ -120,7 +123,12 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
 			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
-					() -> setSelectedOption(currentIndex));
+					() -> {
+				setSelectedOption(currentIndex);
+				if (changeHandler != null) {
+					changeHandler.run();
+				}
+					});
 
 			item.setStyleName("dropDownElement");
 			dropDownElementsList.add(item);
@@ -149,7 +157,12 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		if (label != null) {
 			label.setText(app.getLocalization().getMenu(labelKey));
 		}
-		setElements(Arrays.asList(property.getValues()));
+
+		setElements(items);
 		selectedOption.setText(dropDownElementsList.get(dropDown.getSelectedIndex()).getText());
+	}
+
+	public void setChangeHandler(Runnable changeHandler) {
+		this.changeHandler = changeHandler;
 	}
 }

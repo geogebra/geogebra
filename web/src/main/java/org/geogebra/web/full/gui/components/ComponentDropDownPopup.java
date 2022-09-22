@@ -75,7 +75,7 @@ public class ComponentDropDownPopup {
 	 * center.
 	 */
 	void show() {
-		int popupTop = getAnchorTop() - getSelectedItemTop();
+		int popupTop = (int) (getAnchorTop() - getSelectedItemTop() - app.getAbsTop());
 		int popupTopWithMargin = Math.max(popupTop, MARGIN_FROM_SCREEN);
 		int appBottom = (int) (app.getAbsTop() + app.getHeight());
 
@@ -111,7 +111,7 @@ public class ComponentDropDownPopup {
 	}
 
 	private int getLeft() {
-		return anchor.getAbsoluteLeft() + OFFSET_X;
+		return (int) (anchor.getAbsoluteLeft() + OFFSET_X - app.getAbsLeft());
 	}
 
 	private int getAnchorTop() {
@@ -121,6 +121,13 @@ public class ComponentDropDownPopup {
 
 	private void setHeightInPx(int height) {
 		getStyle().setHeight(height, Unit.PX);
+	}
+
+	/**
+	 * @param width - of popup
+	 */
+	public void setWidthInPx(int width) {
+		getStyle().setWidth(width, Unit.PX);
 	}
 
 	private Style getStyle() {
