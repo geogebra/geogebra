@@ -424,9 +424,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		dummyTable.getElement().getStyle().setTop(0, Unit.PX);
 		dummyTable.getElement().getStyle().setLeft(0, Unit.PX);
 		dummyTable.getElement().addClassName("geogebraweb-table-spreadsheet");
-
-		editorPanel.addAttachHandler(evt -> Log.debug(evt.isAttached() + "att"));
-
 	}
 
 	private void createGUI() {
@@ -786,10 +783,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			updateColumnCount();
 			updateRowCount();
-
-			// Log.debug("ssGrid dim: " + ssGrid.getRowCount() + " x " +
-			// ssGrid.getColumnCount());
-		
 			repaintAll();
 		}
 

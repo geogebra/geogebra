@@ -138,7 +138,7 @@
 		box-shadow: 0 2px 6px 2px rgb(60 64 67 / 15%);
 	}
 
-	.SpreadsheetEditorCell,  .SpreadsheetEditorCell .fieldContainer {
+	.SpreadsheetEditorCell, .SpreadsheetEditorCell .fieldContainer {
 		height: 100%;
 	}
 
@@ -165,9 +165,9 @@
 	}
 
 	.spreadsheetDot {
-		z-index:7;
-    	borderTop: 1px solid white;
-    	borderLeft: 1px solid white;
-    	background-color: var(--ggb-primary-color);;
+		z-index: z-index.$z-spreadsheet-dot;
+		borderTop: 1px solid white;
+		borderLeft: 1px solid white;
+		background-color: var(--ggb-primary-color);
 	}
 }

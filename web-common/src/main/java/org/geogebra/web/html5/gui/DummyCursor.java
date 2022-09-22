@@ -1,9 +1,8 @@
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.inputfield.CursorOverlay;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -165,15 +164,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	public void onBlur(BlurEvent event) {
 		if (!app.isWhiteboardActive()) {
 			textField.endOnscreenKeyboardEditing();
-			if (CancelEventTimer.cancelKeyboardHide()) {
-				return;
-			}
-			KeyboardManagerInterface kbManager = app.getKeyboardManager();
-			if (app.hasPopup() && kbManager != null) {
-				kbManager.setOnScreenKeyboardTextField(null);
-				return;
-			}
-			app.hideKeyboard();
+			CursorOverlay.hideKeyboard(app);
 		}
 	}
 }
