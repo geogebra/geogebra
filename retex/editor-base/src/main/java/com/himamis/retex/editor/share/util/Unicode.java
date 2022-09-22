@@ -186,15 +186,12 @@ public class Unicode {
 			+ "\u00FDgjy\u03BE\u03B2\u03C8\u03B3\u03B7\u03C2\u0444\u0449\u0446\u0D71\u0D6C"
 			+ "\u0D6B\u0D33\u0D67\u0630\u0648\u0635\u0628\u0631\u064D\u0633\u062E\u064A\u064D";
 	public static final char N_DASH = '\u2013';
-	public static final String BACKSLASH = "\\"; //'\u005C' doesn't work
 	public static final char ARABIC_COMMA = '\u066b';
 	public static final char ELLIPSIS = '\u2026';
 	public static final char SECTION_SIGN = '\u00a7';
 	public static final char VECTOR_PRODUCT = '\u2297';
 	public static final char OPEN_DOUBLE_QUOTE = '\u201C';
 	public static final char CLOSE_DOUBLE_QUOTE = '\u201D';
-	public static final char CURLY_BRACKET_LEFT = '\u007B';
-	public static final char CURLY_BRACKET_RIGHT = '\u007D';
 
 	// http://www.xe.com/symbols.php
 	public static final char CURRENCY_POUND = '\u00a3';
