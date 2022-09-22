@@ -58,7 +58,7 @@ public class ShareDialogMow extends ComponentDialog
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
-	 *            dialog tanslation keys
+	 *            dialog translation keys
 	 * @param shareURL
 	 *            share URL
 	 * @param mat
@@ -99,8 +99,20 @@ public class ShareDialogMow extends ComponentDialog
 				material.getSharingKeyOrId(), visibility,
 				material.getTitle(), null, callback,
 				material.getType(), isMultiuser);
+		Material activeMaterial = app.getActiveMaterial();
+		boolean currentlyEditing = activeMaterial != null
+				&& material.getSharingKeyOrId().equals(activeMaterial.getSharingKeyOrId());
+		if (material.isMultiuser() && !isMultiuser) {
+			app.getShareController().terminateMultiuser(material.getSharingKeyOrId());
+		} else if (!material.isMultiuser() && isMultiuser && currentlyEditing) {
+			app.getShareController().startMultiuser(material.getSharingKeyOrId());
+		}
 		material.setVisibility(visibility);
 		material.setMultiuser(isMultiuser);
+		if (currentlyEditing) { // synchronize changes from Open view to active material
+			activeMaterial.setVisibility(visibility);
+			activeMaterial.setMultiuser(isMultiuser);
+		}
 		shareWithGroups(this::onGroupShareChanged);
 	}
 

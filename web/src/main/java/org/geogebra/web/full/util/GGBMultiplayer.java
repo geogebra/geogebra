@@ -1,6 +1,8 @@
 package org.geogebra.web.full.util;
 
-import elemental2.core.Function;
+import org.geogebra.gwtutil.JsConsumer;
+
+import elemental2.core.JsArray;
 import jsinterop.annotations.JsConstructor;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -15,7 +17,11 @@ public class GGBMultiplayer {
 		// native constructor
 	}
 
-	public native void start(String sharingKey, String userName);
+	public native void start(String userName);
 
-	public native void addUserChangeListener(Function userChangeListener);
+	public native void terminate();
+
+	public native void addUserChangeListener(JsConsumer<JsArray<Object>> userChangeListener);
+
+	public native void disconnect();
 }

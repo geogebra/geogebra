@@ -13,4 +13,10 @@ public interface ShareController {
 
 	/** Share natively */
 	void getBase64();
+
+	void startMultiuser(String sharingKey);
+
+	void terminateMultiuser(String sharingKey);
+
+	void disconnectMultiuser();
 }
