@@ -15,6 +15,7 @@ the Free Software Foundation.
  *
  * @author Markus Hohenwarter
  */
+
 package org.geogebra.desktop.geogebra3D;
 
 import java.awt.Color;
@@ -558,7 +559,7 @@ public class App3D extends AppD {
 	/**
 	 * set the show plane combo box selected if the plane is visible
 	 * 
-	 * @param cb
+	 * @param cb checkbox
 	 */
 	public void setShowPlaneSelected(JCheckBoxMenuItem cb) {
 		GeoPlane3D p = (GeoPlane3D) getKernel().getXOYPlane();
@@ -568,7 +569,7 @@ public class App3D extends AppD {
 	/**
 	 * set the show grid combo box selected if the plane is visible
 	 * 
-	 * @param cb
+	 * @param cb checkbox
 	 */
 	public void setShowGridSelected3D(JCheckBoxMenuItem cb) {
 		GeoPlane3D p = (GeoPlane3D) getKernel().getXOYPlane();

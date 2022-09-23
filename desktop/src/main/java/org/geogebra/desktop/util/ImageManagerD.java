@@ -63,7 +63,7 @@ public class ImageManagerD extends ImageManager {
 	private Toolkit toolKit;
 	private MediaTracker tracker;
 
-	private int maxIconSize = 64;// DEFAULT_ICON_SIZE;
+	private int maxIconSize = 64; // DEFAULT_ICON_SIZE;
 
 	/**
 	 * Creates a new ImageManager for the given JFrame.

@@ -179,6 +179,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				}
 				if (el instanceof GeoNumeric) {
 					GeoAngle copy = new GeoAngle(cons);
+					copy.setAngleStyle(GeoAngle.AngleStyle.UNBOUNDED);
 					copy.set(el);
 					solutions2.setListElement(i, copy);
 				}

@@ -48,29 +48,28 @@ public class OneVarInferencePanelD extends JPanel
 	private StatTable resultTable;
 
 	// GUI
-	private JLabel lblHypParameter, lblTailType, lblNull, lblConfLevel,
-			lblSigma, lblResultHeader;
+	private JLabel lblHypParameter;
+	private JLabel lblTailType;
+	private JLabel lblNull;
+	private JLabel lblConfLevel;
+	private JLabel lblSigma;
+	private JLabel lblResultHeader;
 	private JButton btnCalculate;
-	private MyTextFieldD fldNullHyp, fldConfLevel, fldSigma;
-	private JRadioButton btnLeft, btnRight, btnTwo;
+	private MyTextFieldD fldNullHyp;
+	private MyTextFieldD fldConfLevel;
+	private MyTextFieldD fldSigma;
 	private JComboBox cbAltHyp;
-	private JPanel testPanel, intPanel, mainPanel, resultPanel;
+	private JPanel testPanel;
+	private JPanel intPanel;
+	private JPanel mainPanel;
+	private JPanel resultPanel;
 	private Box sigmaPanel;
-	private int fieldWidth = 6;
-
-	// test type (tail)
-
-
-
-	// statistics
-
-
 	// flags
 	private boolean isIniting;
 	private boolean isTest = true;
 	private boolean isZProcedure;
 
-	private LocalizationD loc;
+	private final LocalizationD loc;
 	private final OneVarModel model;
 
 	/***************************************
@@ -99,9 +98,9 @@ public class OneVarInferencePanelD extends JPanel
 
 	private void createGUIElements() {
 
-		btnLeft = new JRadioButton(OneVarModel.tail_left);
-		btnRight = new JRadioButton(OneVarModel.tail_right);
-		btnTwo = new JRadioButton(OneVarModel.tail_two);
+		JRadioButton btnLeft = new JRadioButton(OneVarModel.tail_left);
+		JRadioButton btnRight = new JRadioButton(OneVarModel.tail_right);
+		JRadioButton btnTwo = new JRadioButton(OneVarModel.tail_two);
 		ButtonGroup group = new ButtonGroup();
 		group.add(btnLeft);
 		group.add(btnRight);
@@ -119,6 +118,7 @@ public class OneVarInferencePanelD extends JPanel
 		lblTailType = new JLabel();
 
 		fldNullHyp = new MyTextFieldD(app);
+		int fieldWidth = 6;
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.setText("" + 0);
 		fldNullHyp.addActionListener(this);
@@ -216,18 +216,14 @@ public class OneVarInferencePanelD extends JPanel
 		c.weightx = 0;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		mainPanel.add(resultPanel, c);
-
-
 	}
 
 	private void setResultTable() {
-
 		ArrayList<String> nameList = model.getNameList(loc);
 
 		String[] rowNames = new String[nameList.size()];
 		nameList.toArray(rowNames);
 		resultTable.setStatTable(rowNames.length, rowNames, 1, null);
-
 	}
 
 	private void updateResultTable() {

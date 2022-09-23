@@ -2,13 +2,11 @@ package org.geogebra.common.kernel.interval.samplers;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.interval.EuclidianViewBounds;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.euclidian.plot.interval.IntervalFunctionData;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
-import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceImp;
-import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
-import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
-import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
+import org.geogebra.common.kernel.interval.function.IntervalFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
 /**
@@ -18,45 +16,45 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  * @author Laszlo
  */
 public class FunctionSampler implements IntervalFunctionSampler {
-
-	private IntervalNodeFunction function;
-	private EuclidianViewBounds bounds;
-	private final GeoFunction geoFunction;
-	private int numberOfSamples;
+	private final EuclidianViewBounds bounds;
+	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
+	private final IntervalFunction function;
 	private final DiscreteSpace space;
 	private final GeoFunctionConverter converter;
 
-	/**
-	 * @param geoFunction function to get sampled
-	 * @param converter from GeoFunction to IntervalNodeFunction.
-	 * @param range (x, y) range.
-	 * @param numberOfSamples the sample rate.
-	 */
-	public FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter,
-			IntervalTuple range, int numberOfSamples) {
-		this(geoFunction, converter);
-		this.numberOfSamples = numberOfSamples;
-		update(range);
-	}
+	private final int numberOfSamples;
+	private final IntervalFunctionData data;
 
 	/**
-	 * @param geoFunction function to get sampled
-	 * @param range (x, y) range.
-	 * @param bounds {@link EuclidianView}
+	 * @param data where the sampled data of the function will be stored.
+	 * @param domain an interval of x to sample.
+	 * @param numberOfSamples to take on the domain.
 	 */
-	public FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter,
-			IntervalTuple range, EuclidianViewBounds bounds) {
-		this(geoFunction, converter);
+	public FunctionSampler(IntervalFunctionData data, Interval domain, int numberOfSamples) {
+		this(data, null, domain, numberOfSamples);
+	}
+
+	private FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds, Interval domain,
+			int numberOfSamples) {
 		this.bounds = bounds;
-		update(range);
+		this.numberOfSamples = numberOfSamples;
+		this.data = data;
+		this.function = new IntervalFunction(data.getGeoFunction());
+		this.space = createSpaceOn(domain);
+		extend(domain);
+
 	}
 
-	FunctionSampler(GeoFunction geoFunction, GeoFunctionConverter converter) {
-		this.geoFunction = geoFunction;
-		this.converter = converter;
-		space = new DiscreteSpaceImp();
+	private DiscreteSpace createSpaceOn(Interval domain) {
+		return new DiscreteSpaceCentered(domain.getLength() / calculateNumberOfSamples());
 	}
 
+	/**
+	 * @param data where the sampled function data will be stored.
+	 * @param bounds {@link EuclidianView} to calculate domain and number of samples.
+	 */
+	public FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds) {
+		this(data, bounds, bounds.domain(), -1);
 	@Override
 	public IntervalTupleList result() {
 		this.function = converter.convert(geoFunction);
@@ -64,70 +62,59 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	@Override
-	public IntervalTupleList evaluate(Interval x) {
-		return evaluate(x.getLow(), x.getHigh());
+	public IntervalTupleList tuples() {
+		return data.tuples();
 	}
 
 	@Override
-	public IntervalTupleList evaluate(double low, double high) {
-		DiscreteSpaceImp diffSpace = new DiscreteSpaceImp(low, high, space.getStep());
-		return evaluate(diffSpace);
+	public void extend(Interval domain) {
+		if (domainInfo.hasZoomedOut(domain)) {
+			extendDataBothSide(domain);
+		} else if (domainInfo.hasPannedLeft(domain)) {
+			extendDataToLeft(domain);
+		} else if (domainInfo.hasPannedRight(domain)) {
+			extendDataToRight(domain);
+		}
+		domainInfo.update(domain);
+	}
+
+	private void extendDataBothSide(Interval domain) {
+		space.extend(domain, x -> data.prepend(x, function.evaluate(x)),
+				x -> data.append(x, function.evaluate(x)));
 	}
 
 	@Override
-	public IntervalTupleList evaluate(DiscreteSpace space) {
-		IntervalTupleList samples = new IntervalTupleList();
-		evaluateOnEach(space, samples);
+	public void resample(Interval domain) {
+		space.rescale(domain, calculateNumberOfSamples());
+		evaluateAll();
+		domainInfo.update(domain);
+	}
+
+	private void evaluateAll() {
+		data.clear();
+		space.forEach(x -> data.append(x, function.evaluate(x)));
+		processAsymptotes(data.tuples());
+	}
+
+	private static void processAsymptotes(IntervalTupleList samples) {
 		IntervalAsymptotes asymptotes = new IntervalAsymptotes(samples);
 		asymptotes.process();
-		return samples;
 	}
 
-	private void evaluateOnEach(DiscreteSpace space, IntervalTupleList samples) {
-		space.values().forEach(x -> {
-			IntervalTuple tuple = new IntervalTuple(x, new Interval(function.value(x)));
-			samples.add(tuple);
-		});
+	private void extendDataToLeft(Interval domain) {
+		space.extendLeft(domain, x -> data.extendLeft(x, function.evaluate(x)));
 	}
 
-	/**
-	 * Updates the range on which sampler has to run.
-	 *
-	 * @param range the new (x, y) range
-	 */
-	@Override
-	public void update(IntervalTuple range) {
-		space.update(range.x(), calculateNumberOfSamples());
+	private void extendDataToRight(Interval domain) {
+		space.extendRight(domain, x -> data.extendRight(x, function.evaluate(x)));
 	}
 
-	private int calculateNumberOfSamples() {
-		return numberOfSamples > 0 ? numberOfSamples : bounds.getWidth();
+	int calculateNumberOfSamples() {
+		return hasBounds() ? bounds.getWidth() : numberOfSamples;
 	}
 
-	/**
-	 * Extend and evaluate on interval [min, max]
-	 * @param min lower bound
-	 * @param max higher bound
-	 * @return tuples evaluated on [min, max].
-	 */
-	@Override
-	public IntervalTupleList extendDomain(double min, double max) {
-		setInterval(min, max);
-		return evaluate(space);
+	private boolean hasBounds() {
+		return bounds != null;
 	}
 
-	/**
-	 * Sets plot interval without evaluation
-	 * @param low bound.
-	 * @param high bound.
-	 */
-	@Override
-	public void setInterval(double low, double high) {
-		space.setInterval(low, high);
-	}
-
-	@Override
-	public GeoFunction getGeoFunction() {
-		return geoFunction;
-	}
 }

@@ -51,18 +51,18 @@ public class ButtonDialogD extends Dialog
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextComponent tfCaption, tfScript;
-	private JPanel btPanel;
+	private JTextComponent tfCaption;
+	private JTextComponent tfScript;
 	// private DefaultListModel listModel;
 	private ButtonDialogModel model;
 	private DefaultComboBoxModel comboModel;
 
-	private JButton btOK, btCancel;
+	private JButton btOK;
+	private JButton btCancel;
 	private JPanel optionPane;
 
 	private AppD app;
 
-	InputPanelD inputPanel, inputPanel2;
 	private LocalizationD loc;
 
 	/**
@@ -215,7 +215,7 @@ public class ButtonDialogD extends Dialog
 		btCancel = new JButton(loc.getMenu("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
-		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
 

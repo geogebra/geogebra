@@ -67,14 +67,14 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	private JLabel inputLabel;
 	private JToggleButton btnHelpToggle;
 	private InputPanelD inputPanel;
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
 	private String autoInput;
 
-	/***********************************************************
+	/**
 	 * creates new AlgebraInput
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public AlgebraInputD(AppD app) {
 		this.app = app;
@@ -114,61 +114,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						inputField.setBackground(Color.WHITE);
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(inputField.getText(),
-										new ErrorLogger() {
-											@Override
-											public void resetError() {
-												showError(null);
-											}
-
-											@Override
-											public void showError(String msg) {
-												updateIcons(msg != null);
-												btnHelpToggle.setToolTipText(
-														msg == null
-																? loc.getMenu(
-																		"InputHelp")
-																: msg);
-
-											}
-
-											@Override
-											public void showCommandError(
-													String command,
-													String message) {
-												updateIcons(true);
-												if (((GuiManagerD) app
-														.getGuiManager())
-																.hasInputHelpPanel()) {
-													InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
-															.getGuiManager())
-																	.getInputHelpPanel();
-													helpPanel.focusCommand(app
-															.getLocalization()
-															.getCommand(command));
-													btnHelpToggle.setToolTipText(
-															loc.getInvalidInputError());
-												}
-											}
-
-											@Override
-											public String getCurrentCommand() {
-												return inputField.getCommand();
-											}
-
-											@Override
-											public boolean onUndefinedVariables(
-													String string,
-													AsyncOperation<String[]> callback) {
-												return false;
-											}
-
-											@Override
-											public void log(Throwable e) {
-												Log.debug("Preview:" + e
-														.getLocalizedMessage());
-											}
-
-										});
+										new AlgebraInputErrorLogger());
 					}
 				});
 	}
@@ -299,33 +245,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		// update the help panel
 		if (((GuiManagerD) app.getGuiManager()).hasInputHelpPanel()) {
-			InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
-					.getGuiManager()).getInputHelpPanel();
+			InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app
+					.getGuiManager().getInputHelpPanel();
 			helpPanel.updateFonts();
 		}
 
 		updateIcons(false);
-
-	}
-
-	// /**
-	// * Inserts string at current position of the input textfield and gives
-	// focus
-	// * to the input textfield.
-	// * @param str: inserted string
-	// */
-	// public void insertString(String str) {
-	// inputField.replaceSelection(str);
-	// }
-
-	/**
-	 * Sets the content of the input textfield and gives focus to the input
-	 * textfield.
-	 * 
-	 * @param str
-	 */
-	public void replaceString(String str) {
-		inputField.setText(str);
 	}
 
 	// see actionPerformed
@@ -379,8 +304,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			// =========================================
 
 			if (btnHelpToggle.isSelected()) {
-				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
-						.getGuiManager()).getInputHelpPanel();
+				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app
+						.getGuiManager().getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();
 				app.setShowInputHelpPanel(true);
@@ -447,11 +372,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());
 			app.showGenericError(ee);
-			return;
 		} catch (MyError ee) {
 			inputField.addToHistory(getTextField().getText());
 			inputField.showError(ee);
-			return;
 		}
 
 	}
@@ -572,6 +495,52 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	public void setAutoInput(String string) {
 		this.autoInput = string;
+
+	}
+
+	private class AlgebraInputErrorLogger implements ErrorLogger {
+		@Override
+		public void resetError() {
+			showError(null);
+		}
+
+		@Override
+		public void showError(String msg) {
+			updateIcons(msg != null);
+			btnHelpToggle.setToolTipText(msg == null ? loc.getMenu("InputHelp") : msg);
+		}
+
+		@Override
+		public void showCommandError(String command, String message) {
+			updateIcons(true);
+			if (((GuiManagerD) app
+					.getGuiManager())
+							.hasInputHelpPanel()) {
+				InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) app
+						.getGuiManager().getInputHelpPanel();
+				helpPanel.focusCommand(app.getLocalization()
+						.getCommand(command));
+				btnHelpToggle.setToolTipText(
+						loc.getInvalidInputError());
+			}
+		}
+
+		@Override
+		public String getCurrentCommand() {
+			return inputField.getCommand();
+		}
+
+		@Override
+		public boolean onUndefinedVariables(
+				String string,
+				AsyncOperation<String[]> callback) {
+			return false;
+		}
+
+		@Override
+		public void log(Throwable e) {
+			Log.debug("Preview:" + e.getLocalizedMessage());
+		}
 
 	}
 }

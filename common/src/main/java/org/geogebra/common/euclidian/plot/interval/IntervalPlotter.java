@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.samplers.ConditionalFunctionSampler;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
-import org.geogebra.common.kernel.interval.samplers.IntervalFunctionSampler;
 
 /**
  * Function plotter based on interval arithmetic
@@ -19,10 +19,11 @@ public class IntervalPlotter {
 	private final EuclidianViewBounds evBounds;
 	private final IntervalPathPlotter gp;
 	private boolean enabled;
-	private IntervalPlotModel model = null;
-	private boolean updateAll = true;
+	private IntervalFunctionModel model = null;
+
 	private IntervalPlotController controller;
 	private static final GeoFunctionConverter converter = new GeoFunctionConverter();
+	private IntervalPath path;
 
 	/**
 	 * Creates a disabled plotter
@@ -37,53 +38,39 @@ public class IntervalPlotter {
 	 * Enables plotter without controller
 	 */
 	public void enableFor(GeoFunction function) {
+		build(function);
+		enable();
+	}
+
+	private void enable() {
 		enabled = true;
-		createModel(function);
-		createController();
-		needsUpdateAll();
-		update();
+		model.update();
 	}
 
 	/**
 	 * Enables plotter
 	 */
 	public void enableFor(GeoFunction function, EuclidianController euclidianController) {
-		enabled = true;
-		createModel(function);
-		createController();
+		build(function);
 		this.controller.attachEuclidianController(euclidianController);
-		needsUpdateAll();
-		update();
+		enable();
 	}
 
-	private void createController() {
-		this.controller = new IntervalPlotController(model);
-	}
-
-	private void createModel(GeoFunction function) {
-		IntervalTuple range = new IntervalTuple(evBounds.domain(), evBounds.range());
-		IntervalFunctionSampler sampler = createSampler(function, range);
-		model = new IntervalPlotModel(range, sampler, evBounds);
-		IntervalPath path = new IntervalPath(gp, evBounds, model);
-		model.setPath(path);
-	}
-
-	private IntervalFunctionSampler createSampler(GeoFunction function, IntervalTuple range) {
-		return function.isGeoFunctionConditional()
-				? new ConditionalFunctionSampler(function, range, evBounds)
-				: new FunctionSampler(function, converter, range, evBounds);
+	private void build(GeoFunction function) {
+		IntervalTupleList tuples = new IntervalTupleList();
+		IntervalFunctionData data = new IntervalFunctionData(function, evBounds, tuples);
+		FunctionSampler sampler = new FunctionSampler(data, evBounds);
+		QueryFunctionData query = new QueryFunctionDataImpl(tuples);
+		path = new IntervalPath(gp, evBounds, query);
+		model = new IntervalFunctionModelImpl(data, sampler, evBounds, path);
+		this.controller = new IntervalPlotController(model, function);
 	}
 
 	/**
 	 * Update path to draw.
 	 */
 	public void update() {
-		if (updateAll) {
-			model.updateAll();
-			updateAll = false;
-		} else {
-			model.update();
-		}
+		model.update();
 	}
 
 	/**
@@ -121,13 +108,13 @@ public class IntervalPlotter {
 	 * @return point of label
 	 */
 	public GPoint getLabelPoint() {
-		return model.getLabelPoint();
+		return path.getLabelPoint();
 	}
 
 	/**
 	 * Call it when plotter needs a full update
 	 */
 	public void needsUpdateAll() {
-		updateAll = true;
+		model.needsResampling();
 	}
 }

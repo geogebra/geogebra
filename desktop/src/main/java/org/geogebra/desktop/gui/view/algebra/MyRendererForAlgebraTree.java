@@ -33,7 +33,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	protected AppD app;
 	protected final AlgebraTree view;
 	protected Kernel kernel;
-	private ImageIcon iconShown, iconHidden;
+	private ImageIcon iconShown;
+	private ImageIcon iconHidden;
 
 	private ImageIcon latexIcon;
 

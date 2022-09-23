@@ -28,8 +28,10 @@ public class DialogCopyToSpreadsheet extends Dialog implements ActionListener {
 	private SpreadsheetViewDnD dndHandler;
 	private AppD app;
 
-	private JButton btnCancel, btnCopy;
-	private JRadioButton rbFree, rbDependent;
+	private JButton btnCancel;
+	private JButton btnCopy;
+	private JRadioButton rbFree;
+	private JRadioButton rbDependent;
 
 	private JCheckBox ckTranspose;
 
@@ -133,9 +135,6 @@ public class DialogCopyToSpreadsheet extends Dialog implements ActionListener {
 
 	@Override
 	public void setVisible(boolean isVisible) {
-		if (!isVisible) {
-
-		}
 		super.setVisible(isVisible);
 	}
 

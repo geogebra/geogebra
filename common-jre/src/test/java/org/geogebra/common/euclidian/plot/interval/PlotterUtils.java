@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
+import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
 
 /**
@@ -39,5 +40,7 @@ public class PlotterUtils {
 	public static FunctionSampler newSampler(GeoFunction function, IntervalTuple range,
 			int numberOfSamples) {
 		return new FunctionSampler(function, new GeoFunctionConverter(), range, numberOfSamples);
+		IntervalFunctionData data = new IntervalFunctionData(function,  new IntervalTupleList());
+		return new FunctionSampler(data, range.x(), numberOfSamples);
 	}
 }

@@ -1,12 +1,15 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.junit.Test;
 
 public class MoveGeosTest extends BaseUnitTest {
@@ -30,5 +33,24 @@ public class MoveGeosTest extends BaseUnitTest {
 		ArrayList<GeoElement> toMove = new ArrayList<>();
 		MoveGeos.addWithSiblingsAndChildNodes(root, toMove, getApp().getActiveEuclidianView());
 		assertEquals(toMove.size(), 7);
+	}
+
+	@Test
+	public void testMovingFreeList() {
+		GeoList list = add("{(1, 1), (3, 4)}");
+		Coords dummyCoords = new Coords(7, 7, 7);
+		MoveGeos.moveObjects(Collections.singletonList(list), new Coords(1, 1, 0),
+				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
+		assertThat(list, hasValue("{(2, 2), (4, 5)}"));
+	}
+
+	@Test
+	public void testMovingDependentList() {
+		add("A=(5, 6)");
+		GeoList list = add("{(1, 1), (3, 4), A}");
+		Coords dummyCoords = new Coords(7, 7, 7);
+		MoveGeos.moveObjects(Collections.singletonList(list), new Coords(1, 1, 0),
+				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
+		assertThat(list, hasValue("{(2, 2), (4, 5), (6, 7)}"));
 	}
 }

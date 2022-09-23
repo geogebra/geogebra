@@ -167,7 +167,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * A button which brings the panel back to the main window.
 	 */
-	private JButton unwindowButton, unwindowButton2;
+	private JButton unwindowButton;
+	private JButton unwindowButton2;
 
 	/**
 	 * Button used to show / hide the style bar in the titlePanel.
@@ -530,8 +531,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	}
 
 	private void createButtons() {
-		int iconSize = 16;// app.getScaledIconSize();
-
 		int toggleSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 		// button to show/hide styling bar and the title panel buttons
 		toggleStyleBarButton = new JButton();
@@ -562,6 +561,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		unwindowButton.setFocusPainted(false);
 		unwindowButton.setContentAreaFilled(false);
 		unwindowButton.setBorderPainted(false);
+		int iconSize = 16; // app.getScaledIconSize();
 		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
@@ -1247,7 +1247,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 				return false;
 			}
 		}
-		return (showStyleBar || !titlePanel.isVisible());
+		return showStyleBar || !titlePanel.isVisible();
 	}
 
 	public void setFrameBounds(Rectangle frameBounds) {
@@ -1367,10 +1367,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 				}
 				setActiveToolBar();
 			}
-		}
-
-		else {
-
 		}
 
 		// call callback methods for focus changes

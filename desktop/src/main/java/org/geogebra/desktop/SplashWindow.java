@@ -55,9 +55,8 @@ import java.awt.event.MouseEvent;
  * 
  * <pre>
  * new SplashWindow(this,
- * 		getToolkit()
- * 				.createImage(getClass().getResource(GeoGebra.SPLASH_STRING)))
- * 						.show();
+ *         getToolkit().createImage(getClass().getResource(GeoGebra.SPLASH_STRING)))
+ *         .show();
  * </pre>
  * 
  * The splash window disposes itself when the user clicks on it.

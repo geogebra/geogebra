@@ -238,7 +238,7 @@ public class AlgebraTreeController extends AlgebraController
 		if (geo == null) {
 
 			ArrayList<GeoElement> childs = AlgebraTree.getGeoChildsForPath(tp);
-			if (childs == null || childs.size() == 0) {// if click on e.g.
+			if (childs == null || childs.size() == 0) { // if click on e.g.
 														// object type (like
 														// "Point"), then select
 														// all and popup menu
@@ -246,7 +246,7 @@ public class AlgebraTreeController extends AlgebraController
 				AlgebraContextMenuD contextMenu = new AlgebraContextMenuD(
 						(AppD) app);
 				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
-			} else {// popup algebra menu
+			} else { // popup algebra menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeos(childs, true);
 				((GuiManagerD) app.getGuiManager()).showPopupMenu(childs, tree,
@@ -254,12 +254,12 @@ public class AlgebraTreeController extends AlgebraController
 			}
 
 		} else {
-			if (selection.containsSelectedGeo(geo)) {// popup menu for current
+			if (selection.containsSelectedGeo(geo)) { // popup menu for current
 														// selection (including
 														// selected object)
 				((GuiManagerD) app.getGuiManager()).showPopupMenu(
 						selection.getSelectedGeos(), tree, mouseCoords);
-			} else {// select only this objet and popup menu
+			} else { // select only this objet and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
 				ArrayList<GeoElement> temp = new ArrayList<>();

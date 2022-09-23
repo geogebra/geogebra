@@ -36,11 +36,10 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	private boolean isEastOrientation = true;
 	private boolean showButtonBar = false;
 
-
-	/***************************************************
+	/**
 	 * Constructor
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public DockBar(AppD app) {
 

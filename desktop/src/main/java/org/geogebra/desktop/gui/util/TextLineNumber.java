@@ -355,11 +355,9 @@ public class TextLineNumber extends JPanel
 		// The text needs to be positioned above the bottom of the bounding
 		// rectangle based on the descent of the font(s) contained on the row.
 
-		if (r.height == lineHeight) // default font is being used
-		{
+		if (r.height == lineHeight) { // default font is being used
 			descent = fontMetrics.getDescent();
-		} else // We need to check all the attributes for font changes
-		{
+		} else { // We need to check all the attributes for font changes
 			if (fonts == null) {
 				fonts = new HashMap<>();
 			}

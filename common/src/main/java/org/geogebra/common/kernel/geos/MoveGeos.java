@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -44,6 +46,15 @@ public class MoveGeos {
 		}
 		final ArrayList<GeoElement> geos = new ArrayList<>();
 
+		// make sure list is not moved twice
+		for (GeoElement geo : geosToMove) {
+			if (geo.isGeoList()) {
+				for (int i = 0; i < ((GeoList) geo).size(); i++) {
+					geosToMove.remove(((GeoList) geo).get(i));
+				}
+			}
+		}
+
 		for (GeoElement geo: geosToMove) {
 			addWithSiblingsAndChildNodes(geo, geos, view); // also removes duplicates
 		}
@@ -54,10 +65,6 @@ public class MoveGeos {
 
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = geos.get(i);
-			if (geo.isGeoList()) {
-				moveObjectsUpdateList.add(geo);
-				continue;
-			}
 			final Coords position = (size == 1)
 					&& (geo.getParentAlgorithm() != null) ? endPosition : null;
 			moved = moveObject(geo, rwTransVec, position, viewDirection,
@@ -70,6 +77,17 @@ public class MoveGeos {
 		// multiple updates of the same algorithm)
 		GeoElement.updateCascade(moveObjectsUpdateList, GeoElement.getTempSet(),
 				false);
+
+		//geoLists do not trigger the update of the cascade in the function call above
+		for (GeoElement geo : geosToMove) {
+			if (geo.isGeoList()) {
+				if (geo.isIndependent()) {
+					geo.resetDefinition();
+				} else {
+					((GeoList) geo).resetDefinitionDependentList();
+				}
+			}
+		}
 		return moved;
 	}
 
@@ -77,7 +95,7 @@ public class MoveGeos {
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
-			if (!geo.isMoveable() && !isOutputOfTranslate(geo)) {
+			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
 				ArrayList<GeoPointND> freeInputs = geo.getFreeInputPoints(view);
 				if (freeInputs != null && !freeInputs.isEmpty()) {
 					for (GeoPointND point: freeInputs) {
@@ -109,12 +127,17 @@ public class MoveGeos {
 	 */
 	private static boolean moveObject(GeoElement geo1, final Coords rwTransVec,
 			final Coords endPosition, final Coords viewDirection,
-			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
-		boolean movedGeo = false;
+			final @Nonnull ArrayList<GeoElement> updateGeos, EuclidianView view) {
+		boolean movedGeo;
 
 		if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
 					updateGeos, view);
+		} else if (geo1.isGeoList()) {
+			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null,
+					updateGeos, view));
+			updateGeos.add(geo1);
+			movedGeo = true;
 		} else if (isOutputOfTranslate(geo1)) {
 			movedGeo = moveTranslateOutput(geo1, rwTransVec, endPosition, updateGeos);
 		} else {
@@ -166,7 +189,7 @@ public class MoveGeos {
 
 	private static boolean moveMoveableGeo(GeoElement geo1, final Coords rwTransVec,
 			final Coords endPosition,
-			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
+			final @Nonnull ArrayList<GeoElement> updateGeos, EuclidianView view) {
 		if (geo1.isLockedPosition()) {
 			return false;
 		}
@@ -238,11 +261,7 @@ public class MoveGeos {
 			}
 		}
 		if (movedGeo) {
-			if (updateGeos != null) {
-				updateGeos.add(geo);
-			} else {
-				geo.updateCascade();
-			}
+			updateGeos.add(geo);
 		}
 		return movedGeo;
 	}

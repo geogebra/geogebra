@@ -34,7 +34,8 @@ public class RowHeaderRenderer extends JPanel
 	private JLabel numLabel;
 	/** show hide option (also called plot tool) for this cell content */
 	protected JLabel showHideControl;
-	private ImageIcon iconShown, iconHidden;
+	private ImageIcon iconShown;
+	private ImageIcon iconHidden;
 	/** constraints */
 	protected GridBagConstraints c;
 	private AppD app;

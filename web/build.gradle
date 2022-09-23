@@ -317,7 +317,14 @@ task mergeDeploy(){
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
 
-task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
+class ReadableDev extends org.wisepersist.gradle.plugins.gwt.GwtDev {
+    protected void addArgs() {
+        super.addArgs();
+        args("-style", "PRETTY");
+    }
+}
+
+task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
     war = file(warDirRel)
     maxHeapSize = '4096m'
     logLevel = 'TRACE'

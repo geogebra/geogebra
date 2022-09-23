@@ -23,26 +23,39 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class EditMenuD extends BaseMenu {
 	private static final long serialVersionUID = -2649808771324470803L;
 	SelectionManager selection;
-	private AbstractAction deleteAction, invertAction, showhideAction,
-			showhideLabelsAction, propertiesAction, selectAllAction,
-			selectAllAncestorsAction, selectAllDescendantsAction,
-			selectCurrentLayerAction, copyToClipboardAction, copyAction,
-			pasteAction, insertImageFromClipboardAction,
-			insertImageFromFileAction;
+	private AbstractAction deleteAction;
+	private AbstractAction invertAction;
+	private AbstractAction showhideAction;
+	private AbstractAction showhideLabelsAction;
+	private AbstractAction propertiesAction;
+	private AbstractAction selectAllAction;
+	private AbstractAction selectAllAncestorsAction;
+	private AbstractAction selectAllDescendantsAction;
+	private AbstractAction selectCurrentLayerAction;
+	private AbstractAction copyToClipboardAction;
+	private AbstractAction copyAction;
+	private AbstractAction pasteAction;
+	private AbstractAction insertImageFromClipboardAction;
+	private AbstractAction insertImageFromFileAction;
 
-	private JMenuItem deleteItem, invertItem, showhideItem, showhideLabelsItem,
-			selectAllItem, selectAllAncestorsItem, selectAllDescendantsItem,
-			selectCurrentLayerItem, copyToClipboardItem, copyItem, pasteItem,
-			clipboardMenu;
+	private JMenuItem deleteItem;
+	private JMenuItem invertItem;
+	private JMenuItem showhideItem;
+	private JMenuItem showhideLabelsItem;
+	private JMenuItem selectAllAncestorsItem;
+	private JMenuItem selectAllDescendantsItem;
+	private JMenuItem selectCurrentLayerItem;
+	private JMenuItem clipboardMenu;
 
-	private JSeparator selectionSeparator, deleteSeparator;
+	private JSeparator selectionSeparator;
+	private JSeparator deleteSeparator;
 
 	public EditMenuD(AppD app) {
 		super(app, "Edit");
 		selection = app.getSelectionManager();
+
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
-
 	}
 
 	/**
@@ -70,13 +83,13 @@ public class EditMenuD extends BaseMenu {
 			addSeparator();
 		}
 
-		copyItem = add(copyAction);
+		JMenuItem copyItem = add(copyAction);
 		setMenuShortCutAccelerator(copyItem, 'C');
 
-		pasteItem = add(pasteAction);
+		JMenuItem pasteItem = add(pasteAction);
 		setMenuShortCutAccelerator(pasteItem, 'V');
 
-		copyToClipboardItem = add(copyToClipboardAction);
+		JMenuItem copyToClipboardItem = add(copyToClipboardAction);
 		// ctrl-shift-c is also handled in MyKeyListener
 		setMenuShortCutShiftAccelerator(copyToClipboardItem, 'C');
 
@@ -99,7 +112,7 @@ public class EditMenuD extends BaseMenu {
 			addSeparator();
 		}
 
-		selectAllItem = add(selectAllAction);
+		JMenuItem selectAllItem = add(selectAllAction);
 		setMenuShortCutAccelerator(selectAllItem, 'A');
 
 		selectCurrentLayerItem = add(selectCurrentLayerAction);
@@ -176,10 +189,8 @@ public class EditMenuD extends BaseMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				int layer = selection.getSelectedLayer();
-				if (layer != -1)
-				 {
+				if (layer != -1) {
 					selection.selectAll(layer); // select all objects in layer
 				}
 

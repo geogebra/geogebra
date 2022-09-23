@@ -8,6 +8,7 @@
  the Free Software Foundation.
  
  */
+
 package org.geogebra.desktop.gui.util;
 
 import java.awt.event.ActionEvent;

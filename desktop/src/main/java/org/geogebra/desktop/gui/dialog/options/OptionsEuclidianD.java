@@ -86,9 +86,11 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	protected T view;
 
 	// GUI containers
-	protected AxisPanel xAxisPanel, yAxisPanel;
+	protected AxisPanel xAxisPanel;
+	protected AxisPanel yAxisPanel;
 	protected JTabbedPane tabbedPane;
-	protected JPanel dimPanel, stylePanel;
+	protected JPanel dimPanel;
+	protected JPanel stylePanel;
 
 	protected JPanel typePanel;
 
@@ -121,21 +123,37 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	private JCheckBox ckNavPlay;
 
 	private JCheckBox ckOpenConsProtocol;
-	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle,
-			cbTooltips;
+	protected JComboBox cbAxesStyle;
+	protected JComboBox cbGridType;
+	protected JComboBox cbGridStyle;
+	protected JComboBox cbTooltips;
 
 	protected JLabel lblAxisLabelStyle;
-	protected JCheckBox cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic;
-	private JTextField tfAxesRatioX, tfAxesRatioY;
+	protected JCheckBox cbAxisLabelSerif;
+	protected JCheckBox cbAxisLabelBold;
+	protected JCheckBox cbAxisLabelItalic;
+	private JTextField tfAxesRatioX;
+	private JTextField tfAxesRatioY;
 
 	private NumberFormat nfAxesRatio;
-	protected NumberComboBox ncbGridTickX, ncbGridTickY, cbGridTickAngle;
+	protected NumberComboBox ncbGridTickX;
+	protected NumberComboBox ncbGridTickY;
+	protected NumberComboBox cbGridTickAngle;
 
-	protected JTextField tfMinX, tfMaxX, tfMinY, tfMaxY, tfMinZ, tfMaxZ;
+	protected JTextField tfMinX;
+	protected JTextField tfMaxX;
+	protected JTextField tfMinY;
+	protected JTextField tfMaxY;
+	protected JTextField tfMinZ;
+	protected JTextField tfMaxZ;
 
 	protected JLabel[] dimLabel;
-	private JLabel axesRatioLabel, gridLabel1, gridLabel2, gridLabel3, lblColor,
-			tooltips;
+	private JLabel axesRatioLabel;
+	private JLabel gridLabel1;
+	private JLabel gridLabel2;
+	private JLabel gridLabel3;
+	private JLabel lblColor;
+	private JLabel tooltips;
 
 	protected JLabel backgroundColor;
 

@@ -50,10 +50,13 @@ public class CreateObjectDialog extends InputDialogD
 
 	private MyTableD table;
 	private CreateObjectModel coModel;
-	private JLabel lblObject, lblName;
+	private JLabel lblObject;
+	private JLabel lblName;
 
-	private JCheckBox ckSort, ckTranspose;
-	private JRadioButton btnValue, btnObject;
+	private JCheckBox ckSort;
+	private JCheckBox ckTranspose;
+	private JRadioButton btnValue;
+	private JRadioButton btnObject;
 	private JComboBox cbScanOrder;
 
 	private boolean isIniting = true;
