@@ -53,20 +53,43 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	private StatPanelSettings settings;
 
 	// histogram panel GUI
-	private JCheckBox ckCumulative, ckManual, ckOverlayNormal, ckOverlayPolygon,
-			ckShowFrequencyTable, ckShowHistogram;
-	private JRadioButton rbRelative, rbNormalized, rbFreq, rbLeftRule,
-			rbRightRule;
-	private JLabel lblFreqType, lblOverlay, lblClassRule;
-	private JPanel freqPanel, showPanel, dimPanel;
+	private JCheckBox ckCumulative;
+	private JCheckBox ckManual;
+	private JCheckBox ckOverlayNormal;
+	private JCheckBox ckOverlayPolygon;
+	private JCheckBox ckShowFrequencyTable;
+	private JCheckBox ckShowHistogram;
+	private JRadioButton rbRelative;
+	private JRadioButton rbNormalized;
+	private JRadioButton rbFreq;
+	private JRadioButton rbLeftRule;
+	private JRadioButton rbRightRule;
+	private JLabel lblFreqType;
+	private JLabel lblOverlay;
+	private JLabel lblClassRule;
+	private JPanel freqPanel;
+	private JPanel showPanel;
+	private JPanel dimPanel;
 
 	// graph panel GUI
-	private JCheckBox ckAutoWindow, ckShowGrid;
-	private JLabel lblXMin, lblXMax, lblYMin, lblYMax, lblXInterval,
-			lblYInterval;
-	private MyTextFieldD fldXMin, fldXMax, fldYMin, fldYMax, fldXInterval,
-			fldYInterval;
-	private JRadioButton rbStandToStand, rbLogToStand, rbStandToLog, rbLogToLog; // coordinate
+	private JCheckBox ckAutoWindow;
+	private JCheckBox ckShowGrid;
+	private JLabel lblXMin;
+	private JLabel lblXMax;
+	private JLabel lblYMin;
+	private JLabel lblYMax;
+	private JLabel lblXInterval;
+	private JLabel lblYInterval;
+	private MyTextFieldD fldXMin;
+	private MyTextFieldD fldXMax;
+	private MyTextFieldD fldYMin;
+	private MyTextFieldD fldYMax;
+	private MyTextFieldD fldXInterval;
+	private MyTextFieldD fldYInterval;
+	private JRadioButton rbStandToStand;
+	private JRadioButton rbLogToStand;
+	private JRadioButton rbStandToLog;
+	private JRadioButton rbLogToLog; // coordinate
 																					// option
 	private JPanel coordPanel;
 	private boolean showYAxisSettings = true;
@@ -84,8 +107,12 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	private JCheckBox ckShowLines;
 
 	// panels
-	private JPanel histogramPanel, graphPanel, classesPanel, scatterplotPanel,
-			barChartPanel, boxPlotPanel;
+	private JPanel histogramPanel;
+	private JPanel graphPanel;
+	private JPanel classesPanel;
+	private JPanel scatterplotPanel;
+	private JPanel barChartPanel;
+	private JPanel boxPlotPanel;
 	private JPanel mainPanel;
 	private JTabbedPane tabbedPane;
 

@@ -34,14 +34,15 @@ public class DataSourceDialog extends Dialog
 	private int mode;
 
 	private DataSourcePanel dataSourcePanel;
-	private JButton btnCancel, btnOK;
+	private JButton btnCancel;
+	private JButton btnOK;
 	private JLabel lblTitle;
 
 	/*******************************************
 	 * Constructs the dialog
 	 * 
-	 * @param app
-	 * @param mode
+	 * @param app application
+	 * @param mode app mode
 	 */
 	public DataSourceDialog(AppD app, int mode) {
 

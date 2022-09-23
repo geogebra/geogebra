@@ -99,10 +99,7 @@ public class ProbabilityTableD extends ProbabilityTable
 		statTable.getTable()
 				.setPreferredScrollableViewportSize(new Dimension(w + 10, 10));
 		wrappedPanel.setMinimumSize(statTable.getPreferredSize());
-
 	}
-
-
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {

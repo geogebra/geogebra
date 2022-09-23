@@ -45,8 +45,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 			RendererJogl jogl) {
 		super(renderer, view);
 		this.jogl = jogl;
-		Log.debug(
-				"============== RendererImplShadersD: Renderer with shaders created (shaders checked ok)");
+		Log.debug("Renderer with shaders created (shaders checked ok)");
 
 	}
 
@@ -91,23 +90,23 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// System.out.println(vlines[i]);
 
 		int[] vlengths = new int[] { vlines[0].length() };
-		jogl.getGL2ES2().glShaderSource( vertShader, vlines.length,
+		jogl.getGL2ES2().glShaderSource(vertShader, vlines.length,
 				vlines, vlengths, 0);
-		jogl.getGL2ES2().glCompileShader( vertShader);
+		jogl.getGL2ES2().glCompileShader(vertShader);
 
 		// Check compile status.
 		int[] compiled = new int[1];
-		jogl.getGL2ES2().glGetShaderiv( vertShader,
+		jogl.getGL2ES2().glGetShaderiv(vertShader,
 				GL2ES2.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
-			jogl.getGL2ES2().glGetShaderiv( vertShader,
+			jogl.getGL2ES2().glGetShaderiv(vertShader,
 					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
-			jogl.getGL2ES2().glGetShaderInfoLog( vertShader,
+			jogl.getGL2ES2().glGetShaderInfoLog(vertShader,
 					logLength[0], (int[]) null, 0, log, 0);
 
 			Log.error("Error compiling the vertex shader: "

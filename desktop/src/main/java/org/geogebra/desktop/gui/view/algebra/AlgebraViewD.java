@@ -84,7 +84,8 @@ public class AlgebraViewD extends AlgebraTree
 	/**
 	 * Nodes for tree mode MODE_DEPENDENCY
 	 */
-	private DefaultMutableTreeNode depNode, indNode;
+	private DefaultMutableTreeNode depNode;
+	private DefaultMutableTreeNode indNode;
 
 	protected DefaultMutableTreeNode auxiliaryNode;
 
@@ -423,9 +424,8 @@ public class AlgebraViewD extends AlgebraTree
 		}
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
-			if (!geo.isIndependent() || !attached) // needed for F2 when Algebra
-			// View closed
-			{
+			if (!geo.isIndependent() || !attached) {
+				// needed for F2 when Algebra View closed
 				if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}
@@ -509,8 +509,7 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	/**
-	 * 
-	 * @param geo
+	 * @param geo construction element
 	 * @return parent node of this geo
 	 */
 	@Override
@@ -1005,36 +1004,6 @@ public class AlgebraViewD extends AlgebraTree
 
 		}
 	}
-
-	
-	// returns settings in XML format
-	// 
-	// public void getXML(StringBuilder sb) {
-	// 
-	// sb.append("<algebraView>\n");
-	// sb.append("\t<useLaTeX ");
-	// sb.append(" value=\""); 
-	// sb.append(isRenderLaTeX());
-	// sb.append("\"");
-	// sb.append("/>\n");
-	// sb.append("</algebraView>\n");
-
-
-	// temporary proxies for the temporary implementation of AlgebraController
-	// in common
-	public GeoElement getGeoElementForPath(Object tp) {
-		return getGeoElementForPath((TreePath) tp);
-	}
-
-	public GeoElement getGeoElementForLocation(Object tree, int x, int y) {
-		return getGeoElementForLocation((JTree) tree, x, y);
-	}
-
-	public Object getPathBounds(Object tp) {
-		return getPathBounds((TreePath) tp);
-	}
-
-	// temporary proxies end
 
 	@Override
 	protected boolean show(GeoElement geo) {

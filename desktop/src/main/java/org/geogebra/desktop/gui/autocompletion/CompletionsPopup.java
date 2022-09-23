@@ -81,7 +81,7 @@ public class CompletionsPopup {
 		popup.add(new JScrollPane(list));
 		popup.setBorder(BorderFactory.createEmptyBorder());
 		popup.setFocusable(false);
-		current_length = -1;// current length of sentence
+		current_length = -1; // current length of sentence
 		registerListeners();
 	}
 

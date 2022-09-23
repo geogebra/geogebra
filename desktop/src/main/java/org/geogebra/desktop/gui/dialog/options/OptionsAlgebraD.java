@@ -35,12 +35,12 @@ public class OptionsAlgebraD
 	private AppD app;
 	private LocalizationD loc;
 
-
 	private JPanel wrappedPanel;
 	private JCheckBox auxiliary;
 	private JComboBox<String> sortMode;
 	private JComboBox<String> description;
-	private JLabel descriptionLabel, sortLabel;
+	private JLabel descriptionLabel;
+	private JLabel sortLabel;
 	private boolean ignoreActions;
 
 	/**

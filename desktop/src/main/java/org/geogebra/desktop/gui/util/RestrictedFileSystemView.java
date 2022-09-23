@@ -15,8 +15,8 @@ import org.geogebra.desktop.util.UtilD;
 
 /* http://jython.svn.sourceforge.net/viewvc/jython/branches/Release_2_2maint/installer/src/java/org/python/util/install/RestrictedFileSystemView.java?view=markup&pathrev=4161
  * licence: http://www.jython.org/Project/license.html
- * This FileSystemView only provides basic functionality (and probably a poor look & feel), but it can be a life saver
- * if otherwise no dialog pops up in your application.
+ * This FileSystemView only provides basic functionality (and probably a poor look & feel),
+ * but it can be a life saver if otherwise no dialog pops up in your application.
  * <p>
  * The implementation does <strong>not</strong> use <code>sun.awt.shell.*</code> classes.
  * 

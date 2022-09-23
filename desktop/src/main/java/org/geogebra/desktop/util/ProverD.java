@@ -28,8 +28,8 @@ public class ProverD extends Prover {
 	 * Starts computation of the proof, based on the defined subsystem.
 	 */
 	/* This code works in JVM only. */
-	private class computeThread implements Runnable {
-		protected computeThread() {
+	private class ComputeThread implements Runnable {
+		protected ComputeThread() {
 		}
 
 		@Override
@@ -49,7 +49,7 @@ public class ProverD extends Prover {
 			return;
 		}
 		result = ProofResult.UNKNOWN;
-		Thread t = new Thread(new computeThread(), "compute");
+		Thread t = new Thread(new ComputeThread(), "compute");
 		long startTime = System.currentTimeMillis();
 		t.start();
 		int i = 0;
@@ -120,8 +120,8 @@ public class ProverD extends Prover {
 
 		// OGP API
 		GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();
-		GeoGebraOGPOutputProverProtocol outputObject = (GeoGebraOGPOutputProverProtocol) ogpInterface
-				.prove(inputObject); // safe cast
+		GeoGebraOGPOutputProverProtocol outputObject =
+				(GeoGebraOGPOutputProverProtocol) ogpInterface.prove(inputObject); // safe cast
 
 		Log.debug("Prover results");
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS + ": "

@@ -46,7 +46,8 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 	private MyTableInterface myTable;
 
 	// LaTeX
-	private ImageIcon latexIcon, emptyIcon;
+	private ImageIcon latexIcon;
+	private ImageIcon emptyIcon;
 	private String latexStr;
 
 	// Cell formats
@@ -58,7 +59,6 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 
 	// Borders (not implemented yet)
 	private Border cellPadding = BorderFactory.createEmptyBorder(2, 5, 2, 5);
-
 
 	// Rendering objects for lists, buttons and booleans
 	private JCheckBox checkBox;
@@ -178,10 +178,8 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 				GeoList list = (GeoList) geo;
 				comboBox.setBackground(table.getBackground());
 				cbModel.removeAllElements();
-				if (list.size() > 0)
-				 {
+				if (list.size() > 0) {
 					cbModel.addElement(list.get(list.getSelectedIndex()));
-				// comboBox.setSelected(((GeoBoolean)geo).getBoolean());
 				}
 
 				return comboBox;

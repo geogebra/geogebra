@@ -234,8 +234,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 		set(GeoGebraPreferences.XML_USER_PREFERENCES, xml);
 
-		if (!(app.is3D())) // TODO: implement it in Application3D!
-		{
+		if (!app.is3D()) { // TODO: implement it in Application3D!
 			StringBuilder sb = new StringBuilder();
 			app.getKernel().getConstruction().getConstructionDefaults()
 					.getDefaultsXML(sb);
@@ -279,8 +278,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			String xml = get(GeoGebraPreferences.XML_USER_PREFERENCES, factoryDefaultXml);
 			app.setXML(xml, true);
 
-			if (!(app.is3D())) // TODO: implement it in Application3D!
-			{
+			if (!app.is3D()) { // TODO: implement it in Application3D!
 				String xmlDef = get(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES,
 						factoryDefaultXml);
 				if (!xmlDef.equals(factoryDefaultXml)) {

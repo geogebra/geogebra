@@ -73,7 +73,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		this.app = app;
 		listSelModel = new DefaultListSelectionModel();
 
-
 		// CAS input/output cells
 		createCASTable();
 		// row header

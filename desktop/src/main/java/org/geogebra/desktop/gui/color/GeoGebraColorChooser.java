@@ -30,7 +30,7 @@ public class GeoGebraColorChooser extends JColorChooser {
 		setSelectionModel(new MyColorSelectionModel());
 
 		// remove default chooser panels and replace with our custom panel
-		AbstractColorChooserPanel panels[] = {
+		AbstractColorChooserPanel[] panels = {
 				new GeoGebraColorChooserPanel(app) };
 		setChooserPanels(panels);
 

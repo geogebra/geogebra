@@ -30,8 +30,11 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private AppD app;
 	private DataAnalysisViewD daView;
 	protected int iconHeight = 18;
-	private JButton btnRounding, btnPrint;
-	private MyToggleButtonD btnShowStatistics, btnShowPlot2, btnShowData;
+	private JButton btnRounding;
+	private JButton btnPrint;
+	private MyToggleButtonD btnShowStatistics;
+	private MyToggleButtonD btnShowPlot2;
+	private MyToggleButtonD btnShowData;
 	private MyToggleButtonD btnDataSource;
 	private MyTextFieldD fldDataSource;
 	private MyToggleButtonD btnExport;

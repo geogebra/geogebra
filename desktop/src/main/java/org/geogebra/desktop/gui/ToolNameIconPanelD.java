@@ -211,14 +211,12 @@ public class ToolNameIconPanelD extends JPanel {
 				updateMacro();
 
 				if (editHappens) {
-					int macroId = (macro.getKernel().getMacroID(macro)
-							+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+					int macroId = macro.getKernel().getMacroID(macro)
+							+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 					if (active) {
-						((GuiManagerD) app.getGuiManager())
-								.refreshCustomToolsInToolBar();
+						app.getGuiManager().refreshCustomToolsInToolBar();
 					} else {
-						((GuiManagerD) app.getGuiManager())
-								.removeFromToolbarDefinition(macroId);
+						app.getGuiManager().removeFromToolbarDefinition(macroId);
 					}
 					app.updateToolBar();
 					app.updateMenubar();
@@ -231,8 +229,8 @@ public class ToolNameIconPanelD extends JPanel {
 	/**
 	 * Uses the textfields in this dialog to set the currently shown macro.
 	 * 
-	 * @see #init()
-	 * 
+	 * @see #init(ToolManagerDialogD, Macro) 
+	 *
 	 */
 	private void updateMacro() {
 		if (macro == null) {
@@ -331,16 +329,6 @@ public class ToolNameIconPanelD extends JPanel {
 	}
 
 	/**
-	 * Sets command name
-	 * 
-	 * @param commandName
-	 *            command name
-	 */
-	public void setCommandName(String commandName) {
-		tfCmdName.setText(commandName);
-	}
-
-	/**
 	 * Gets tool name
 	 * 
 	 * @return tool name
@@ -352,7 +340,7 @@ public class ToolNameIconPanelD extends JPanel {
 	/**
 	 * Sets tool name
 	 * 
-	 * @param toolName
+	 * @param toolName tool name
 	 */
 	public void setToolName(String toolName) {
 		tfToolName.setText(toolName);

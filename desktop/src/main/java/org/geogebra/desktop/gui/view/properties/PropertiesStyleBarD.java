@@ -293,7 +293,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		public Point getToolTipLocation(MouseEvent event) {
 			Point p = new Point();
 			p.y = this.getY();
-			p.x = 0;// this.getX();
+			p.x = 0;
 			if (tip != null) {
 				p.y -= tip.getHeight();
 			} else {

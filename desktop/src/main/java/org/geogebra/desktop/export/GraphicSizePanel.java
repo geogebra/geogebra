@@ -48,11 +48,13 @@ public class GraphicSizePanel extends JPanel
 
 	private static final int MAX = 5000;
 
-	private int width, height;
+	private int width;
+	private int height;
 
 	private double ratio;
 
-	private JTextField tfWidth, tfHeight;
+	private final JTextField tfWidth;
+	private final JTextField tfHeight;
 
 	private boolean keepRatio;
 

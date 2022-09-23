@@ -412,7 +412,6 @@ public class GeoGebraIconD {
 		int h = iconSize.height;
 		int w = iconSize.width;
 		int offset = 2;
-		double thickness = 3;
 
 		// if fgColor is null then make it a transparent white
 		Color fgColor = fgColor0;
@@ -441,14 +440,12 @@ public class GeoGebraIconD {
 		g2.fillRect(offset, offset, w - 2 * offset, h - 2 * offset);
 
 		// border color with alpha = 1
+		float thickness = 3;
 		g2.setPaint(fgColor);
-		g2.setStroke(new BasicStroke((float) thickness));
+		g2.setStroke(new BasicStroke(thickness));
 		g2.drawRect(offset, offset, w - 2 * offset, h - 2 * offset);
 
-		ImageIcon ic = new ImageIcon(image);
-		// ensureIconSize(ic, iconSize);
-
-		return ic;
+		return new ImageIcon(image);
 	}
 
 	public static ImageIcon createLineStyleIcon(int dashStyle, int thickness,
@@ -577,7 +574,7 @@ public class GeoGebraIconD {
 		int symbolWidth = fm.stringWidth(str);
 		int ascent = fm.getMaxAscent();
 		int descent = fm.getMaxDescent();
-		int x = (isCentered) ? w / 2 - symbolWidth / 2 : 1;
+		int x = isCentered ? w / 2 - symbolWidth / 2 : 1;
 		int mid_y = h / 2 - descent / 2 + ascent / 2 - 1;
 
 		g2.drawString(str, x, mid_y);
@@ -664,13 +661,17 @@ public class GeoGebraIconD {
 		private int pointStyle = -1;
 
 		// for drawing
-		private int pointSize = 4;
-		private Ellipse2D.Double circle = new Ellipse2D.Double();
-		private Line2D.Double line1, line2, line3, line4;
+		private final int pointSize;
+		private final Ellipse2D.Double circle = new Ellipse2D.Double();
+		private Line2D.Double line1;
+		private Line2D.Double line2;
+		private Line2D.Double line3;
+		private Line2D.Double line4;
 		private GeneralPath gp = null;
-		private BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
-		private BasicStroke[] crossStrokes = new BasicStroke[10];
-		private int h, w;
+		private final BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
+		private final BasicStroke[] crossStrokes = new BasicStroke[10];
+		private final int h;
+		private final int w;
 
 		public PointStyleImage(Dimension d, int pointStyle, int pointSize,
 				Color fgColor, Color bgColor) {

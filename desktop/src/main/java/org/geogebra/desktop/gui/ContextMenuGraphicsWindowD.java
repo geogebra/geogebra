@@ -34,7 +34,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		implements ActionListener {
 
-	private double px, py;
+	private double px;
+	private double py;
 	// private JMenuItem miStandardView, miProperties;
 
 	private ImageIcon iconZoom;
@@ -46,9 +47,9 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	/**
 	 * Creates new ZoomMenu
 	 * 
-	 * @param app
-	 * @param px
-	 * @param py
+	 * @param app application
+	 * @param px horizontal position
+	 * @param py vertical position
 	 */
 	public ContextMenuGraphicsWindowD(AppD app, double px, double py) {
 		this(app);

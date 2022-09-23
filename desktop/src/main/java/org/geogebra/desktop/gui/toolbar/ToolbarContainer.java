@@ -28,7 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -92,16 +91,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private ToolbarPanel toolbarPanel;
 
-	public JToolBar getToolbarPanel() {
-		JToolBar tb = new JToolBar();
-		tb.add(toolbarPanel);
-		return tb;
-	}
-
 	/**
 	 * Toolbars added to this container.
 	 */
-	private ArrayList<ToolbarD> toolbars;
+	private final ArrayList<ToolbarD> toolbars;
 
 	/**
 	 * The active toolbar.
@@ -571,8 +564,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
 	private static int getViewId(ToolbarD toolbar) {
-		return (toolbar.getDockPanel() != null
-				? toolbar.getDockPanel().getViewId() : -1);
+		return toolbar.getDockPanel() != null
+				? toolbar.getDockPanel().getViewId() : -1;
 	}
 
 	/**
@@ -803,11 +796,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	@Override
-	public void componentHidden(ComponentEvent e) {/* do nothing */
+	public void componentHidden(ComponentEvent e) {
+		/* do nothing */
 	}
 
 	@Override
-	public void componentMoved(ComponentEvent e) { /* do nothing */
+	public void componentMoved(ComponentEvent e) {
+		/* do nothing */
 	}
 
 	/*************************************************************
@@ -873,11 +868,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		private void initMenu() {
 
 			for (final OptionType type : OptionType.values()) {
-
-				// if(type==OptionType.EUCLIDIAN3D){
-				// continue;
-				// }
-
 				String menuText = PropertiesView.getTypeStringSimple(loc, type);
 				ImageIcon ic = PropertiesViewD.getTypeIcon(app, type);
 				JMenuItem item = new JMenuItem(menuText, ic);
@@ -888,12 +878,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					item.setEnabled(false);
 				}
 
-				item.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						openPropertiesView(type);
-					}
-				});
+				item.addActionListener(arg0 -> openPropertiesView(type));
 				add(item);
 
 				item.setVisible(
@@ -904,9 +889,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		protected void openPropertiesView(OptionType type) {
 			int viewId = App.VIEW_PROPERTIES;
-			((PropertiesView) ((GuiManagerD) app.getGuiManager())
+			((PropertiesView) app.getGuiManager()
 					.getPropertiesView()).setOptionPanel(type);
-			((GuiManagerD) app.getGuiManager()).setShowView(true, viewId,
+			app.getGuiManager().setShowView(true, viewId,
 					false);
 		}
 
