@@ -97,7 +97,7 @@ public class IntervalAsymptotes {
 	}
 
 	private boolean areFinitelyEqual(Interval left, Interval right) {
-		return left.isFinite() && right.isFinite() && left.almostEqual(right);
+		return left.isFinite() && right.isFinite() && left.almostEqual(right, 1E-7);
 	}
 
 	private boolean isWholeButNotTheNeighbours(int index) {

@@ -47,6 +47,9 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 	}
 
 	private double rwY(double y) {
+		if (bounds == null) {
+			return 0;
+		}
 		double realWorldY = bounds.toRealWorldCoordY(y);
 		if (DoubleUtil.isEqual(realWorldY, bounds.getYmin())) {
 			return bounds.getXmin();
