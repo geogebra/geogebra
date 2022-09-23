@@ -33,6 +33,11 @@ public class JoinLines {
 		double rightDiff = neighbours.hasRight()
 				? Math.abs(neighbours.currentYHigh() - neighbours.rightYHigh())
 				: Double.POSITIVE_INFINITY;
+		if (DoubleUtil.isEqual(0, leftDiff, Kernel.MAX_PRECISION)) {
+			toTopCurrentXLow(neighbours);
+		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
+			toTopCurrentXHigh(neighbours);
+		} else
 		if (leftDiff < rightDiff) {
 			toTopLeft(neighbours);
 		} else {
@@ -73,9 +78,9 @@ public class JoinLines {
 		boolean zoomedOut = eps > 0.1; // refine me! Seems to work, but...
 		if (DoubleUtil.isEqual(0, leftDiff, eps)
 				|| (leftDiff < rightDiff && zoomedOut) ){
-			toStraightBottom1(neighbours);
+			toBottomCurrentXLow(neighbours);
 		} else if (DoubleUtil.isEqual(0, rightDiff, eps) || zoomedOut) {
-			toStraightBottom2(neighbours);
+			toBottomCurrentXHigh(neighbours);
 		} else if (leftDiff < rightDiff) {
 			toBottomLeft(neighbours);
 		} else {
@@ -83,15 +88,27 @@ public class JoinLines {
 		}
 	}
 
-	private void toStraightBottom1(TupleNeighbours neighbours) {
+	private void toBottomCurrentXLow(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
 				neighbours.currentXLow(), bounds.getYmin());
 
 	}
 
-	private void toStraightBottom2(TupleNeighbours neighbours) {
+	private void toBottomCurrentXHigh(TupleNeighbours neighbours) {
 		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
 				neighbours.currentXHigh(), bounds.getYmin());
+
+	}
+
+	private void toTopCurrentXLow(TupleNeighbours neighbours) {
+		gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYHigh(),
+				neighbours.currentXLow(), bounds.getYmax());
+
+	}
+
+	private void toTopCurrentXHigh(TupleNeighbours neighbours) {
+		gp.segment(bounds, neighbours.rightXHigh(), neighbours.rightYHigh(),
+				neighbours.currentXHigh(), bounds.getYmax());
 
 	}
 
@@ -120,7 +137,6 @@ public class JoinLines {
 			if (neighbours.isRightInfinite()) {
 				gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYLow(),
 						neighbours.currentXLow(), bounds.getYmin());
-
 			} else {
 				toBottom(neighbours);
 			}
