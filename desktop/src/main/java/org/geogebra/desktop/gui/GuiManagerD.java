@@ -2229,6 +2229,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			String toolbarDefinition = getApp().getTmpPerspective().getToolbarDefinition();
 			if (!StringUtil.empty(toolbarDefinition)) {
 				setToolBarDefinition(toolbarDefinition);
+				updateToolbar();
 			}
 		}
 	}
