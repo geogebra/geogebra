@@ -28,7 +28,7 @@ public class AlgebraViewTransferHandler extends TransferHandler
 	/** for transfering geos into AV */
 	public static final DataFlavor algebraViewFlavor = new DataFlavor(
 			AlgebraViewD.class, "algebraView");
-	private static final DataFlavor supportedFlavors[] = { algebraViewFlavor };
+	private static final DataFlavor[] supportedFlavors = { algebraViewFlavor };
 
 	private ArrayList<String> geoLabelList;
 
@@ -45,7 +45,7 @@ public class AlgebraViewTransferHandler extends TransferHandler
 	}
 
 	@Override
-	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
+	public boolean canImport(JComponent comp, DataFlavor[] flavor) {
 		return false;
 	}
 

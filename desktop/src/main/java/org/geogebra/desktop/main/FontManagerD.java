@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 
@@ -23,14 +22,21 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class FontManagerD extends FontManager {
 
-	private GFont boldFont, italicFont, smallFont, plainFont, serifFont,
-			serifFontBold, javaSans, javaSerif;
+	private GFont boldFont;
+	private GFont italicFont;
+	private GFont smallFont;
+	private GFont plainFont;
+	private GFont serifFont;
+	private GFont serifFontBold;
+	private GFont javaSans;
+	private GFont javaSerif;
 
 	private int fontSize;
-	private String sansName, serifName;
+	private String sansName;
+	private String serifName;
 
-	private HashMap fontMap = new HashMap();
-	private StringBuilder key = new StringBuilder();
+	private final HashMap<String, Font> fontMap = new HashMap<>();
+	private final StringBuilder key = new StringBuilder();
 
 	private static final String[] FONT_NAMES_SANSSERIF = { "SansSerif", // Java
 			"Arial Unicode MS", // Windows
@@ -54,8 +60,8 @@ public class FontManagerD extends FontManager {
 		final String lang = locale.getLanguage();
 
 		// new font names for language
-		String fontNameSansSerif = null;
-		String fontNameSerif = null;
+		String fontNameSansSerif;
+		String fontNameSerif;
 
 		// certain languages need special fonts to display its characters
 		final StringBuilder testCharacters = new StringBuilder();
@@ -184,9 +190,6 @@ public class FontManagerD extends FontManager {
 
 		// TODO: causes problems with multiple windows (File -> New Window)
 		setLAFFont(((GFontD) plainFont).getAwtFont());
-
-		// System.out.println("Fonts updated: sans: " + sans + ", serif: " +
-		// serif);
 	}
 
 	/**
@@ -215,7 +218,7 @@ public class FontManagerD extends FontManager {
 		key.append(size);
 
 		// look if we have this font already in the HashMap
-		Font f = (Font) fontMap.get(key.toString());
+		Font f = fontMap.get(key.toString());
 		if (f == null) {
 			// new font: create it and keep it in the HashMap
 			f = new Font(name, style, size);
@@ -289,10 +292,8 @@ public class FontManagerD extends FontManager {
 
 		// try given fonts
 		if (tryFontNames != null) {
-			final Iterator<String> it = tryFontNames.iterator();
-			while (it.hasNext()) {
+			for (String fontName : tryFontNames) {
 				// create font for name
-				final String fontName = it.next();
 				final GFont font = getFont(fontName, Font.PLAIN, 12);
 
 				// check if creating font worked

@@ -379,7 +379,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Sets the list of AbstractActions to be used in the popup context menu.
 	 * 
-	 * @param actionList
+	 * @param actionList action list
 	 */
 	public void setActionList(ArrayList<AbstractAction> actionList) {
 		this.actionList = actionList;
@@ -524,7 +524,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	public class TransferablePlotPanel implements Transferable {
 
-		private final DataFlavor supportedFlavors[] = { plotPanelFlavor,
+		private final DataFlavor[] supportedFlavors = { plotPanelFlavor,
 				DataFlavor.imageFlavor };
 
 		private final Image image;

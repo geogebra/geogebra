@@ -1,7 +1,13 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.web.full.main;
 
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.dialog.ComponentDialog;
+import org.geogebra.web.shared.components.dialog.DialogData;
+
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Default error handler
@@ -22,7 +28,7 @@ public class ErrorHandlerW implements ErrorHandler {
 		if (!app.isErrorDialogsActive()) {
 			return;
 		}
-		app.showErrorDialog("Error", null, "OK", msg, null);
+		showErrorDialog("Error", null, "OK", msg, null);
 	}
 
 	@Override
@@ -41,7 +47,7 @@ public class ErrorHandlerW implements ErrorHandler {
 		if (!app.isErrorDialogsActive()) {
 			return;
 		}
-		app.showErrorDialog(app.getLocalization().getError("Error"), "Close",
+		showErrorDialog(app.getLocalization().getError("Error"), "Close",
 				"ShowOnlineHelp", message, () -> openCommandHelp(command));
 	}
 
@@ -58,5 +64,21 @@ public class ErrorHandlerW implements ErrorHandler {
 	@Override
 	public String getCurrentCommand() {
 		return null;
+	}
+
+	private void showErrorDialog(String title, String negBtn, String posBtn,
+			String message, Runnable posBtnAction) {
+		DialogData data = new DialogData(title, negBtn, posBtn);
+		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
+		FlowPanel messagePanel = new FlowPanel();
+		String[] lines = message.split("\n");
+		for (String item : lines) {
+			messagePanel.add(new Label(item));
+		}
+		dialog.addDialogContent(messagePanel);
+		if (posBtnAction != null) {
+			dialog.setOnPositiveAction(posBtnAction);
+		}
+		dialog.show();
 	}
 }

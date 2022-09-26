@@ -44,7 +44,6 @@ import org.geogebra.desktop.main.AppD;
 public class StatisticsCalculatorD extends StatisticsCalculator
 		implements ActionListener, FocusListener, SetLabels {
 
-
 	// =========================================
 	// support classes
 	// =========================================
@@ -54,20 +53,31 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	// =========================================
 
 	// labels
-	private JLabel[] lblSampleStat1, lblSampleStat2;
-	private JLabel lblResult, lblHypParameter, lblTailType, lblNull,
-			lblConfLevel, lblSigma, lblSampleHeader1,
-			lblSampleHeader2;
+	private JLabel[] lblSampleStat1;
+	private JLabel[] lblSampleStat2;
+	private JLabel lblResult;
+	private JLabel lblHypParameter;
+	private JLabel lblTailType;
+	private JLabel lblNull;
+	private JLabel lblConfLevel;
+	private JLabel lblSigma;
+	private JLabel lblSampleHeader1;
+	private JLabel lblSampleHeader2;
 
 	// buttons and combo boxes
-	private JRadioButton btnLeft, btnRight, btnTwo;
+	private JRadioButton btnLeft;
+	private JRadioButton btnRight;
+	private JRadioButton btnTwo;
 	private JButton btnCalculate;
 	private JComboBox<String> cbProcedure;
 	private JCheckBox ckPooled;
 
 	// panels
-	private JPanel panelBasicProcedures, panelControl, panelSample1,
-			panelSample2, panelTestAndCI;
+	private JPanel panelBasicProcedures;
+	private JPanel panelControl;
+	private JPanel panelSample1;
+	private JPanel panelSample2;
+	private JPanel panelTestAndCI;
 	private ChiSquarePanelD panelChiSquare;
 	private JEditorPane resultPane;
 	private JScrollPane scroller;
@@ -536,7 +546,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 					.setVisible(isNotEmpty(lblSampleStat2[i].getText()));
 		}
 
-		lblSampleHeader2.setVisible((isNotEmpty(lblSampleStat2[0].getText())));
+		lblSampleHeader2.setVisible(isNotEmpty(lblSampleStat2[0].getText()));
 		setLabels();
 
 		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
@@ -668,7 +678,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
 		styleSheet.addRule(
-				"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
+				"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;"
+						+ "border-left-width: 1px;border-right-width: 1px;border-style:solid; "
+						+ "border-color:#00008B;"
 						+ padding + "}");
 
 	}

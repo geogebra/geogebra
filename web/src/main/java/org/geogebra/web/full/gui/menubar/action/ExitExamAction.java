@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
@@ -130,10 +131,12 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	 */
 	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		saveScreenshot(app.getLocalization().getMenu(app.getConfig()
-				.getAppName()), null);
+		ExamRegion examRegion = app.isExam() ? app.getExam().getExamRegion() : ExamRegion.GENERIC;
+		String title = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
+		saveScreenshot(title, null);
 		app.endExam();
 		app.fileNew();
 		app.clearSubAppCons();
+		app.clearRestictions();
 	}
 }

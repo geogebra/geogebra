@@ -188,7 +188,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void showToolbarConfigDialog() {
 		app.getActiveEuclidianView().resetMode();
-		ToolbarConfigDialog dialog = new ToolbarConfigDialog(((AppD) app));
+		ToolbarConfigDialog dialog = new ToolbarConfigDialog((AppD) app);
 		dialog.setVisible(true);
 	}
 
@@ -210,7 +210,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		// a Chinese friendly version
-		InputDialogD id = new InputDialogD(((AppD) app),
+		InputDialogD id = new InputDialogD((AppD) app,
 				"<html>" + app.getLocalization().getPlain("NewNameForA",
 						"<b>" + geo.getNameDescription() + "</b>") + // eg New
 																		// name
@@ -244,12 +244,13 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
-		InputDialogD id = new InputDialogD(((AppD) app),
+		InputDialogD id = new InputDialogD((AppD) app,
 				geo.getNameDescription(), getLocalization().getMenu("Redefine"),
 				str, true, handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
 	}
+
 	/**
 	 * Shows the function inspector dialog. If none exists, a new inspector is
 	 * created.
@@ -260,7 +261,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		try {
 			if (functionInspector == null) {
-				functionInspector = new FunctionInspectorD(((AppD) app),
+				functionInspector = new FunctionInspectorD((AppD) app,
 						function);
 			} else {
 				functionInspector.insertGeoElement(function);
@@ -281,7 +282,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void showDataSourceDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		if (dataSourceDialog == null) {
-			dataSourceDialog = new DataSourceDialog(((AppD) app), mode);
+			dataSourceDialog = new DataSourceDialog((AppD) app, mode);
 		} else {
 			dataSourceDialog.updateDialog(mode, doAutoLoadSelectedGeos);
 		}
@@ -294,7 +295,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
-		CheckboxCreationDialog d = new CheckboxCreationDialog(((AppD) app),
+		CheckboxCreationDialog d = new CheckboxCreationDialog((AppD) app,
 				location, bool);
 		d.setVisible(true);
 	}
@@ -307,7 +308,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app);
-		InputDialogD id = new InputDialogD(((AppD) app), message, title,
+		InputDialogD id = new InputDialogD((AppD) app, message, title,
 				initText, false, handler, true, false, null);
 		id.setVisible(true);
 	}
@@ -322,7 +323,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(
-				((AppD) app), message, title, initText, handler, changingSign,
+				(AppD) app, message, title, initText, handler, changingSign,
 				checkBoxText);
 		id.setVisible(true);
 	}
@@ -333,7 +334,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			GeoCoordSys2D direction) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogRegularPolygonD(((AppD) app), ec,
+		InputDialogD id = new InputDialogRegularPolygonD((AppD) app, ec,
 				title, handler, geoPoint1, geoPoint2, direction);
 		id.setVisible(true);
 	}
@@ -343,7 +344,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			GeoPointND geoPoint1, EuclidianView view) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogCirclePointRadius(((AppD) app), title,
+		InputDialogD id = new InputDialogCirclePointRadius((AppD) app, title,
 				handler, (GeoPoint) geoPoint1, app.getKernel());
 		id.setVisible(true);
 	}
@@ -353,7 +354,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogRotatePointD(((AppD) app), title,
+		InputDialogD id = new InputDialogRotatePointD((AppD) app, title,
 				handler, polys, points, selGeos, ec);
 		id.setVisible(true);
 	}
@@ -364,7 +365,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogAngleFixedD(((AppD) app), title,
+		InputDialogD id = new InputDialogAngleFixedD((AppD) app, title,
 				handler, segments, points, app.getKernel(), ec);
 		id.setVisible(true);
 	}
@@ -375,7 +376,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogDilateD(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogDilateD((AppD) app, title, handler,
 				points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 	}
@@ -385,7 +386,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			GeoPointND geoPoint1) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogSegmentFixedD(((AppD) app), title,
+		InputDialogD id = new InputDialogSegmentFixedD((AppD) app, title,
 				handler, geoPoint1, app.getKernel());
 		id.setVisible(true);
 	}
@@ -398,7 +399,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 			String initText, AsyncOperation<GeoNumberValue> callback) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app);
-		AngleInputDialogD id = new AngleInputDialogD(((AppD) app), message, title,
+		AngleInputDialogD id = new AngleInputDialogD((AppD) app, message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
 	}
@@ -424,7 +425,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
-		SliderDialogD dialog = new SliderDialogD(((AppD) app), x, y);
+		SliderDialogD dialog = new SliderDialogD((AppD) app, x, y);
 		dialog.setVisible(true);
 
 		app.setDefaultCursor();
@@ -458,7 +459,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 */
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		ButtonDialogD dialog = new ButtonDialogD(((AppD) app), x, y, textfield);
+		ButtonDialogD dialog = new ButtonDialogD((AppD) app, x, y, textfield);
 		dialog.setVisible(true);
 		return true;
 	}
@@ -466,7 +467,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public synchronized void initFileChooser() {
 		if (fileChooser == null) {
 			try {
-				setFileChooser(new GeoGebraFileChooser(((AppD) app),
+				setFileChooser(new GeoGebraFileChooser((AppD) app,
 						((AppD) app).getCurrentImagePath())); // non-restricted
 				fileChooser.addPropertyChangeListener(
 						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
@@ -478,7 +479,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
 				Log.debug(
 						"Error creating GeoGebraFileChooser - using fallback option");
-				setFileChooser(new GeoGebraFileChooser(((AppD) app),
+				setFileChooser(new GeoGebraFileChooser((AppD) app,
 						((AppD) app).getCurrentImagePath(), true)); // restricted
 																	// version
 			}
@@ -612,12 +613,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 	protected String prompt(String message, String def) {
 		Log.debug("Shouldn't ever be called");
 		return null;
-	}
-
-	@Override
-	protected boolean confirm(String string) {
-		Log.debug("Shouldn't ever be called");
-		return false;
 	}
 
 	@Override

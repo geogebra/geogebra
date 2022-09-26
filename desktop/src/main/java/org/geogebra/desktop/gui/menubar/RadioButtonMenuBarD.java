@@ -40,7 +40,7 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 			if ("---".equals(items[i])) {
 				addSeparator();
 			} else {
-				String text = (changeText)
+				String text = changeText
 						? app.getLocalization().getMenu(items[i]) : items[i];
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
@@ -79,8 +79,8 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 			if (item instanceof JRadioButtonMenuItem) {
 				((JRadioButtonMenuItem) item).setSelected(true);
 			} else {
-				Log.debug(
-						"Bad construction of radiobutton menu. All item must be an instance of JRadioButtonMenuItem.");
+				Log.debug("Bad construction of radiobutton menu. "
+						+ "All item must be an instance of JRadioButtonMenuItem.");
 			}
 		}
 	}

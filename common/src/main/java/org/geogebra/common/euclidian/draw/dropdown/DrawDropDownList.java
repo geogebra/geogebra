@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
@@ -441,8 +442,8 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * 
 	 */
 	public static @CheckForNull DrawDropDownList asDrawable(App app, GeoElement geo) {
-		return (DrawDropDownList) app.getActiveEuclidianView()
-				.getDrawableFor(geo);
+		DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
+		return draw instanceof DrawDropDownList ? (DrawDropDownList) draw : null;
 	}
 
 	/**

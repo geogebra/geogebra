@@ -8,7 +8,8 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
  */
 public class ExtrusionComputer {
     
-    private static int MIN_COMPUTATIONS_VALIDATING_DRAGGING = 1;
+    private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING = 1;
+	private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING_AR = 15;
 
 	private AlgoForExtrusion algo;
 	private int computed;
@@ -35,8 +36,8 @@ public class ExtrusionComputer {
 	 * 
 	 * @return if computed at least once
 	 */
-	public boolean getWasComputedByDragging() {
-		return computed > MIN_COMPUTATIONS_VALIDATING_DRAGGING;
+	public boolean getWasComputedByDragging(boolean isAREnabled) {
+		return computed > getComputationsThreshold(isAREnabled);
 	}
 
 	/**
@@ -44,6 +45,11 @@ public class ExtrusionComputer {
 	 */
 	public AlgoForExtrusion getAlgo() {
 		return algo;
+	}
+
+	private int getComputationsThreshold(boolean isAREnabled) {
+		return isAREnabled ? MIN_COMPUTATIONS_VALIDATING_DRAGGING_AR
+				: MIN_COMPUTATIONS_VALIDATING_DRAGGING;
 	}
 
 }

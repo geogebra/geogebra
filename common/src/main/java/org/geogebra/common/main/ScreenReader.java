@@ -519,6 +519,10 @@ public class ScreenReader {
 	 * @return converted String eg M subscript R minus a
 	 */
 	public static String convertToReadable(String s, Localization loc) {
+		if (s == null) {
+			return "";
+		}
+
 		StringBuilder sb = new StringBuilder();
 		ScreenReaderSerializationAdapter adapter = new ScreenReaderSerializationAdapter(loc);
 		for (int i = 0; i < s.length(); i++) {

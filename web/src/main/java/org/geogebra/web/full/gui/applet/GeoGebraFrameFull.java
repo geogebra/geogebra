@@ -278,6 +278,7 @@ public class GeoGebraFrameFull
 				getGuiManager().getLayout().getDockManager()
 						.adjustViews(true);
 			}
+			scrollToInputFieldDeferred();
 		} else if (keyboardShowing) {
 			showZoomPanel(true);
 			keyboardState = KeyboardState.ANIMATING_OUT;
@@ -285,8 +286,11 @@ public class GeoGebraFrameFull
 			showKeyboardButton(textField);
 			removeKeyboard();
 			keyboardState = KeyboardState.HIDDEN;
+			scrollToInputFieldDeferred();
 		}
+	}
 
+	private void scrollToInputFieldDeferred() {
 		Timer timer = new Timer() {
 			@Override
 			public void run() {

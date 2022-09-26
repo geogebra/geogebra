@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -402,8 +403,10 @@ public class TableValuesView implements TableValues, SettingListener {
 		GeoEvaluatable yVal = model.getEvaluatable(column);
 		MyVecNode points = new MyVecNode(kernel, xVal, yVal);
 		Command cmd = regression.buildCommand(kernel, points);
+		EvalInfo info = new EvalInfo(true, true)
+				.withSymbolicMode(kernel.getSymbolicMode());
 		try {
-			GeoElement element = kernel.getAlgebraProcessor().processValidExpression(cmd)[0];
+			GeoElement element = kernel.getAlgebraProcessor().processValidExpression(cmd, info)[0];
 			app.storeUndoInfo();
 			return element;
 		} catch (Exception e) {

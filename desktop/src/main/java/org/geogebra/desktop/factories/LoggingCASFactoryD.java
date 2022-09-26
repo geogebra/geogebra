@@ -18,7 +18,7 @@ public class LoggingCASFactoryD extends CASFactory {
 
 	@Override
 	public CASGenericInterface newGiac(CASparser parser, Kernel kernel) {
-		return new CASgiacD(parser){
+		return new CASgiacD(parser) {
 			private String lastInput;
 
 			@Override

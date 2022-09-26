@@ -187,11 +187,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 							.getContentWidth());
 				int height = (int) mathFieldEditor.getMathField().getHeightWithMargin();
 
-				formula.setSize(Math.max(formula.getWidth(), width),
-						Math.max(formula.getHeight(), height));
-
 				formula.setMinWidth(width);
 				formula.setMinHeight(height);
+				formula.ensureMinSize();
 
 				formula.updateRepaint();
 			});

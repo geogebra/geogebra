@@ -1212,7 +1212,7 @@ public class Ggb2giac {
 
 		p("Sequence.1", "when(round(%0)<1,{},seq(1,round(%0),1))");
 		p("Sequence.2", "seq(round(%0),round(%1),1)");
-		p("Sequence.4", "seq(%0,%1,%2,%3)");
+		p("Sequence.4", "seq(%0,%1,%2,%3,1)");
 		p("Sequence.5", "seq(%0,%1,%2,%3,%4)");
 
 		// strings are handled differently with giac.js

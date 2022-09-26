@@ -1,5 +1,6 @@
 package org.geogebra.desktop.gui.dialog;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
 import org.geogebra.desktop.gui.dialog.options.OptionsObjectD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
@@ -33,32 +36,27 @@ import org.geogebra.desktop.main.AppD;
  *
  * @author Markus Hohenwarter
  */
-class NamePanelD extends JPanel implements ActionListener, FocusListener,
+class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusListener,
 		UpdateablePropertiesPanel, SetLabels, UpdateFonts, ObjectNameModel.IObjectNameListener {
 
 	private static final long serialVersionUID = 1L;
 	/** name model */
 	ObjectNameModel model;
-	private AutoCompleteTextFieldD tfName;
-	private AutoCompleteTextFieldD tfDefinition;
-	private AutoCompleteTextFieldD tfCaption;
+	private final AutoCompleteTextFieldD tfName;
+	private final AutoCompleteTextFieldD tfDefinition;
+	private final AutoCompleteTextFieldD tfCaption;
 
-	private Runnable doActionStopped = new Runnable() {
-		@Override
-		public void run() {
-			model.setBusy(false);
-		}
-	};
-	private JLabel nameLabel;
-	private JLabel defLabel;
-	private JLabel captionLabel;
-	private InputPanelD inputPanelName;
-	private UpdateTabs tabs;
-	private InputPanelD inputPanelDef;
-	private InputPanelD inputPanelCap;
-	DynamicCaptionPanelD dynamicCaptionPanel;
-	private AppD app;
-	private Localization loc;
+	private final Runnable doActionStopped = () -> model.setBusy(false);
+	private final JLabel nameLabel;
+	private final JLabel defLabel;
+	private final JLabel errorLabel;
+	private final JLabel captionLabel;
+	private final InputPanelD inputPanelName;
+	private final InputPanelD inputPanelDef;
+	private final InputPanelD inputPanelCap;
+	private final DynamicCaptionPanelD dynamicCaptionPanel;
+	private final AppD app;
+	private final Localization loc;
 
 	/**
 	 * @param app
@@ -72,7 +70,6 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 
 		// non auto complete input panel
 		inputPanelName = new InputPanelD(null, app, 1, -1, true);
-		this.tabs = tabs;
 		tfName = (AutoCompleteTextFieldD) inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addActionListener(this);
@@ -100,6 +97,8 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 		// definition panel
 		defLabel = new JLabel();
 		defLabel.setLabelFor(inputPanelDef);
+		errorLabel = new JLabel();
+		errorLabel.setForeground(Color.RED);
 
 		dynamicCaptionPanel = new DynamicCaptionPanelD(app, tfCaption, tabs);
 		// caption panel
@@ -132,13 +131,17 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 		}
 
 		if (showDefinition) {
-			newRows++;
+			newRows += 2;
 			if (loc.isRightToLeftReadingOrder()) {
 				add(inputPanelDef);
 				add(defLabel);
+				add(errorLabel);
+				add(new JLabel());
 			} else {
 				add(defLabel);
 				add(inputPanelDef);
+				add(new JLabel());
+				add(errorLabel);
 			}
 		}
 
@@ -286,9 +289,11 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 					app.getDefaultErrorHandler());
 
 		} else if (source == tfDefinition) {
-
+			if (errorLabel.isVisible()) {
+				resetError();
+			}
 			model.applyDefinitionChange(tfDefinition.getText(),
-					app.getDefaultErrorHandler());
+					this);
 			tfDefinition.requestFocusInWindow();
 
 		} else if (source == tfCaption) {
@@ -302,7 +307,7 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 						.getPropertiesView())
 								.getOptionPanel(OptionType.OBJECTS);
 
-				if (op != null && op instanceof OptionsObjectD) {
+				if (op instanceof OptionsObjectD) {
 					PropertiesPanelD propPanel = ((OptionsObjectD) op)
 							.getPropPanel();
 					if (propPanel != null) {
@@ -341,11 +346,11 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 
 			if (model.getCurrentGeo() == currentGeoForFocusLost) {
 				model.applyDefinitionChange(tfDefinition.getText(),
-						app.getDefaultErrorHandler());
+						this);
 			} else {
 				model.redefineCurrentGeo(currentGeoForFocusLost,
 						tfDefinition.getText(), redefinitionForFocusLost,
-						app.getDefaultErrorHandler());
+						this);
 			}
 
 			SwingUtilities.invokeLater(doActionStopped);
@@ -419,5 +424,32 @@ class NamePanelD extends JPanel implements ActionListener, FocusListener,
 
 	public DynamicCaptionPanelD getDynamicCaptionPanel() {
 		return dynamicCaptionPanel;
+	}
+
+	@Override
+	public void showError(String msg) {
+		errorLabel.setText(msg);
+		errorLabel.setVisible(msg != null);
+		doLayout();
+	}
+
+	@Override
+	public void showCommandError(String command, String message) {
+		app.getDefaultErrorHandler().showCommandError(command, message);
+	}
+
+	@Override
+	public String getCurrentCommand() {
+		return null;
+	}
+
+	@Override
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+		return app.getGuiManager().checkAutoCreateSliders(string, callback);
+	}
+
+	@Override
+	public void resetError() {
+		showError(null);
 	}
 }

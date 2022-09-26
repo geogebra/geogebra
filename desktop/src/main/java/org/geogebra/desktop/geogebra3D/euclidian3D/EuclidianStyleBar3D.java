@@ -31,16 +31,18 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private PopupMenuButtonD btnRotateView, btnClipping;
+	private PopupMenuButtonD btnRotateView;
+	private PopupMenuButtonD btnClipping;
 
 	private MyToggleButtonD btnShowPlane;
 
-	private PopupMenuButtonD btnViewProjection, btnViewDirection;
+	private PopupMenuButtonD btnViewProjection;
+	private PopupMenuButtonD btnViewDirection;
 
 	/**
 	 * Common constructor.
 	 * 
-	 * @param ev
+	 * @param ev view
 	 */
 	public EuclidianStyleBar3D(EuclidianView3D ev) {
 		super(ev);
@@ -78,12 +80,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		if (source.equals(btnShowPlane)) {
 			getView().getSettings().togglePlane();
 		} else if (source.equals(btnRotateView)) {
-			if (btnRotateView.getMySlider().isShowing()) {// if slider is
+			if (btnRotateView.getMySlider().isShowing()) { // if slider is
 															// showing, start
 															// rotation
 				getView().setRotContinueAnimation(0,
 						(btnRotateView.getSliderValue()) * 0.01);
-			} else {// if button has been clicked, toggle rotation
+			} else { // if button has been clicked, toggle rotation
 				if (getView().isRotAnimatedContinue()) {
 					getView().stopAnimation();
 					btnRotateView.setSelected(false);
@@ -223,8 +225,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	}
 
-	private class ProjectionPopup extends PopupMenuButtonD {// implements
-															// ActionListener{
+	private class ProjectionPopup extends PopupMenuButtonD {
 		private static final long serialVersionUID = 1L;
 
 		public ProjectionPopup(AppD app, ImageIcon[] projectionIcons) {
@@ -240,11 +241,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			this.setVisible(
 					geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
 		}
-
-		/*
-		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
-		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-		 */
 
 	}
 

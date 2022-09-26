@@ -1545,9 +1545,12 @@ public class CommandsTest {
 
 	@Test
 	public void cmdExtremum() {
+		t("ZoomIn[-5,-5,5,5]");
 		tRound("Extremum[ sin(x), 1, 7 ]",
 				"(1.5708, 1)", "(4.71239, -1)");
 		tRound("Extremum[ x^3-3x ]", "(-1, 2)", "(1, -2)");
+		tRound("Extremum[ nroot(x^(3) - 3x, 3) ]",
+				"(-1, 1.25992)", "(1, -1.25992)");
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
@@ -3621,6 +3624,8 @@ public class CommandsTest {
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
 		t("Sequence[ i, i, 3, 5 ]", "{3, 4, 5}");
+		t("Sequence[ i, i, 3.6, 7.9, 1 ]", "{3.6, 4.6, 5.6, 6.6, 7.6}");
+		t("Sequence[ i, i, 3.2, 7.2, 1 ]", "{3.2, 4.2, 5.2, 6.2, 7.2}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
 		t("Sequence(Angle((0,1,0),(0,0,0),(1,0,0),Vector((0,0,1))),k,1,2)",
 				"{270*" + DEGREE_STRING + ", 270*" + DEGREE_STRING + "}");

@@ -41,12 +41,13 @@ import org.geogebra.desktop.main.AppD;
  */
 public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
-	private AppD app;
-	private CASViewD casView;
+	private final AppD app;
+	private final CASViewD casView;
 
-	private JButton btSub, btEval, btNumeric;
+	private JButton btSub;
+	private JButton btEval;
+	private JButton btNumeric;
 	private JScrollPane scrollPane;
-	private JPanel optionPane, btPanel, captionPanel;
 	private JTable replaceTable;
 	private JDialog dialog;
 
@@ -112,7 +113,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 						(int) (DEFAULT_TABLE_HEIGHT * fontFactor)));
 		scrollPane = new JScrollPane(replaceTable);
 
-		captionPanel = new JPanel(new BorderLayout(5, 0));
+		JPanel captionPanel = new JPanel(new BorderLayout(5, 0));
 
 		captionPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -147,14 +148,14 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		btSub.setActionCommand(ACTION_SUBSTITUTE);
 		btSub.addActionListener(this);
 
-		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
 		btPanel.add(btEval);
 		btPanel.add(btNumeric);
 		btPanel.add(btSub);
 
 		// Create the JOptionPane.
-		optionPane = new JPanel(new BorderLayout(5, 5));
+		JPanel optionPane = new JPanel(new BorderLayout(5, 5));
 
 		// create object list
 		optionPane.add(captionPanel, BorderLayout.CENTER);

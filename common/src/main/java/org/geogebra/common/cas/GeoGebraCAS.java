@@ -40,8 +40,11 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
+import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
 
@@ -551,6 +554,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				GeoElementND ggbResult = computeWithGGB(kern, name, args);
 				if (ggbResult != null) {
 					return ggbResult.toValueString(tpl);
+				} else if (hasWrongArgumentNumber(name, args.size(),
+						app.getKernel().getApplication().getCommandDictionary())) {
+					CommandErrorMessageBuilder builder =
+							new CommandErrorMessageBuilder(app.getLocalization());
+					throw MyError.forCommand(app.getLocalization(),
+							builder.buildArgumentNumberError(name, args.size()), name,
+							null, Errors.IllegalArgumentNumber);
 				}
 			}
 
@@ -717,6 +727,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private boolean hasWrongArgumentNumber(String commandName, int argNum,
+			LowerCaseDictionary commandDict) {
+		String nameDotNumber = commandName + "." + argNum;
+		String nameDotN = commandName + ".N";
+		return commandDict.lookup(commandName) != null
+				&& casParser.getTranslatedCASCommand(nameDotNumber) == null
+				&& casParser.getTranslatedCASCommand(nameDotN) == null;
 	}
 
 	private String getVarargTranslation(StringBuilder builder, String name,

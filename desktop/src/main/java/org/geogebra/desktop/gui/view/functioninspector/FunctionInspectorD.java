@@ -90,29 +90,43 @@ public class FunctionInspectorD extends FunctionInspector
 	private static final Color TABLE_GRID_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 	// table fields
-	private InspectorTable tableXY, tableInterval;
-	private DefaultTableModel modelXY, modelInterval;
+	private InspectorTable tableXY;
+	private InspectorTable tableInterval;
+	private DefaultTableModel modelXY;
+	private DefaultTableModel modelInterval;
 	private static final int minRows = 12;
 
 	// GUI
-	private JLabel lblGeoName, lblStep, lblInterval;
-	private MyTextFieldD fldStep, fldLow, fldHigh;
-	private JButton btnRemoveColumn, btnHelp;
-	private JToggleButton btnOscCircle, btnTangent, btnXYSegments, btnTable;
-	private PopupMenuButtonD btnAddColumn, btnOptions;
+	private JLabel lblGeoName;
+	private JLabel lblStep;
+	private JLabel lblInterval;
+	private MyTextFieldD fldStep;
+	private MyTextFieldD fldLow;
+	private MyTextFieldD fldHigh;
+	private JButton btnRemoveColumn;
+	private JButton btnHelp;
+	private JToggleButton btnOscCircle;
+	private JToggleButton btnTangent;
+	private JToggleButton btnXYSegments;
+	private JToggleButton btnTable;
+	private PopupMenuButtonD btnAddColumn;
+	private PopupMenuButtonD btnOptions;
 	private JTabbedPane tabPanel;
-	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
+	private JPanel intervalTabPanel;
+	private JPanel pointTabPanel;
+	private JPanel headerPanel;
+	private JPanel helpPanel;
 
 	private boolean isChangingValue;
 	private int pointCount = 9;
 
 	private SpecialNumberFormat nf;
 
-	/***************************************************************
+	/**
 	 * Constructs a FunctionInspecor
 	 * 
-	 * @param app
-	 * @param selectedGeo
+	 * @param app application
+	 * @param selectedGeo selected function
 	 */
 	public FunctionInspectorD(AppD app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
@@ -276,7 +290,6 @@ public class FunctionInspectorD extends FunctionInspector
 		btnTangent = new JToggleButton();
 		btnXYSegments = new JToggleButton();
 		btnTable = new JToggleButton();
-
 
 		btnOscCircle.addActionListener(this);
 		btnTangent.addActionListener(this);
@@ -585,11 +598,6 @@ public class FunctionInspectorD extends FunctionInspector
 	public void keyTyped(KeyEvent arg0) {
 		// only handle key pressed
 	}
-
-	// Mouse Listeners
-	// =========================================
-
-
 
 	@Override
 	public void updateFonts() {

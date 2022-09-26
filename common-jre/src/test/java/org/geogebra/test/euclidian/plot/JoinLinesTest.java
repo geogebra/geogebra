@@ -18,18 +18,14 @@ public class JoinLinesTest {
 		JoinLines join = createJoinLines(-0.5, 3.8);
 
 		// ln(ln(csc(x))) data around x 0.
-		TupleNeighbours data = new TupleNeighbours(
-				Tuples.undefined(-0.017313779261777358, -0.00619708088593479),
-				Tuples.inverted(
-						-0.00619708088593479, 0.004919617489907779,
-						Double.NEGATIVE_INFINITY, 1.6704443025404654),
-				Tuples.normal(0.004919617489907779, 0.01603631586575035,
-						1.4189895620576354, 1.6704443025404656));
+		TupleNeighbours neighbours = new TupleNeighbours(
+				Tuples.undefined(-0.02, 0) ,
+				Tuples.inverted(0, 0.02, -Double.POSITIVE_INFINITY, 1.3640716744517118),
+				Tuples.normal(0.02, 0.04, 1.1691150215320325, 1.3640716744517118));
+		gpExpected.moveTo(neighbours.rightXHigh(), neighbours.currentYHigh());
+		gpExpected.lineTo(neighbours.currentXHigh(), bounds.getYmax());
 
-		gpExpected.moveTo(data.rightXHigh(), bounds.getYmax());
-		gpExpected.lineTo(data.rightXHigh(), data.currentYHigh());
-
-		join.toTop(data);
+		join.toTop(neighbours);
 		assertSamePlot();
 	}
 
@@ -38,14 +34,13 @@ public class JoinLinesTest {
 		// ln(ln(csc(x))) sample around x 3.1.
 		JoinLines join = createJoinLines(-0.5, 3.8);
 		TupleNeighbours neighbours = new TupleNeighbours(
-				Tuples.normal(3.1199999999998065, 3.1399999999998065, 1.3442945487757987,
-						1.8628940248860604),
-				Tuples.inverted(3.1399999999998065, 3.1599999999998065,
-					Double.NEGATIVE_INFINITY, 1.8628940248860604),
-				Tuples.undefined(3.1599999999998065, 3.1799999999998065));
-
-		gpExpected.moveTo(neighbours.rightXHigh(), bounds.getYmax());
-		gpExpected.lineTo(neighbours.currentXLow(), neighbours.leftYHigh());
+				Tuples.normal(3.12, 3.14,
+						1.3442945487781361, 1.8628940249049313) ,
+				Tuples.inverted(3.14, 3.16,
+						-Double.POSITIVE_INFINITY, 1.862894024904931) ,
+				Tuples.undefined(3.16, 3.18));
+		gpExpected.moveTo(neighbours.currentXLow(), neighbours.leftYHigh());
+		gpExpected.lineTo(neighbours.currentXLow(), bounds.getYmax());
 
 		join.toTop(neighbours);
 		assertSamePlot();
@@ -56,15 +51,14 @@ public class JoinLinesTest {
 		// -2/(9+tan(x)) around 4.85
 		JoinLines join = createJoinLines(1.7, 4.85);
 		TupleNeighbours neighbours = new TupleNeighbours(
-				Tuples.normal(4.799999999999791, 4.819999999999791,
-						0.8386199043620873, 7.787235877787062) ,
-				Tuples.inverted(4.819999999999791, 4.83999999999979,
-						-1.6580044069143518, 7.7872358777869) ,
-				Tuples.normal(4.83999999999979, 4.85999999999979,
-						-1.6580044069143591, -0.8792316723432034));
-
-		gpExpected.moveTo(neighbours.rightXHigh(), bounds.getYmax());
-		gpExpected.lineTo(neighbours.currentXLow(), neighbours.currentYHigh());
+				Tuples.normal(4.801538179619217, 4.816197980612419,
+						0.914319773255793, 3.3419766656147036) ,
+				Tuples.inverted(4.816197980612419, 4.83085778160562,
+						-3.3417675710690236, 3.3419766656147036) ,
+				Tuples.normal(4.83085778160562, 4.845517582598822,
+						-3.3417675710690435, -1.3047209026151207));
+		gpExpected.moveTo(neighbours.currentXLow(), neighbours.currentYHigh());
+		gpExpected.lineTo(neighbours.currentXLow(), bounds.getYmax());
 
 		join.toTop(neighbours);
 		assertSamePlot();
@@ -131,22 +125,6 @@ public class JoinLinesTest {
 		gp.setBounds(bounds);
 		gpExpected.setBounds(bounds);
 		return new JoinLines(bounds, gp);
-	}
-
-	@Test
-	public void noBottomLineToSingletonInfinity() {
-		// csc(-4/ln(x)) sample around x 0.
-		JoinLines join = createJoinLines(-0.1, 0.24);
-		TupleNeighbours neighbours = new TupleNeighbours(
-				Tuples.undefined(-0.02000000000019567, -1.9566986919627993e-13) ,
-				Tuples.inverted(-1.9566986919627993e-13, 0.01999999999980433,
-						-1.6331239353195366E16, 1.1717725061486761) ,
-				Tuples.normal(0.01999999999980433, 0.03999999999980433,
-						1.0563590908668452, 1.1717725061486766));
-		gpExpected.moveTo(0.03999999999980433, 10.0);
-		gpExpected.lineTo(0.03999999999980433, 1.1717725061486761);
-		join.inverted(neighbours);
-		assertSamePlot();
 	}
 
 	@Test

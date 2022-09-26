@@ -74,16 +74,14 @@ public class ToolCreationDialogD extends Dialog
 
 	private OutputListModel outputList;
 	private InputListModel inputList;
-	private DefaultComboBoxModel cbInputAddList, cbOutputAddList;
-
+	private DefaultComboBoxModel cbInputAddList;
+	private DefaultComboBoxModel cbOutputAddList;
 
 	private Macro newTool;
 
 	/**
 	 * Creates new tool creation dialog, if in macro-editing mode,
-	 * 
-	 * @param app
-	 *            Aplication to which this dialog belongs
+	 * @param app Aplication to which this dialog belongs
 	 */
 	public ToolCreationDialogD(AppD app) {
 		super(app.getFrame());
@@ -211,7 +209,6 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Last change Zbynek Konecny
-	 * 
 	 * @version 2010-05-26
 	 */
 	private void finish() {
@@ -260,15 +257,13 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Overwrites a macro with current value of newTool
-	 * 
-	 * @param macro
-	 *            macro to overwrite
+	 * @param macro macro to overwrite
 	 * @author Zbynek Konecny
 	 * @version 2010-06-04
 	 */
 	private void overwriteMacro(Macro macro) {
-		Object[] options = { loc.getMenu("Tool.Replace"),
-				loc.getMenu("Tool.DontReplace") };
+		Object[] options = {loc.getMenu("Tool.Replace"),
+				loc.getMenu("Tool.DontReplace")};
 		int returnVal = JOptionPane.showOptionDialog(this,
 				app.getLocalization().getPlain("Tool.ReplaceQuestion",
 						macro.getToolName()),
@@ -406,7 +401,6 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Returns whether geo can be used as an input object.
-	 * 
 	 * @param geo
 	 * @return
 	 */
@@ -457,9 +451,7 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Sets the tabs according to a macro.
-	 * 
-	 * @param macro
-	 *            whose parameters should be copied to the inputs.
+	 * @param macro whose parameters should be copied to the inputs.
 	 * @author Zbynek Konecny
 	 * @version 2010-06-14
 	 */
@@ -559,16 +551,11 @@ public class ToolCreationDialogD extends Dialog
 	/**
 	 * Creates a panel with a list to choose input/output objects of the new
 	 * tool.
-	 * 
-	 * @param showUpDownButtons
-	 *            true if up and down butons should appear on the right
-	 * @param cbModel
-	 *            Combobox model with items than can be added to list (not
-	 *            displayed if null)
-	 * @param loc
-	 *            Application this dialog belongs to
-	 * @param listModel
-	 *            list model containing the input/output GeoElements
+	 * @param showUpDownButtons true if up and down butons should appear on the right
+	 * @param cbModel Combobox model with items than can be added to list (not
+	 * displayed if null)
+	 * @param loc Application this dialog belongs to
+	 * @param listModel list model containing the input/output GeoElements
 	 * @return Panel with the list, buttons and comboBox
 	 */
 	public static JPanel createInputOutputPanel(LocalizationD loc,
@@ -628,17 +615,12 @@ public class ToolCreationDialogD extends Dialog
 	/**
 	 * Creates a panel with a list on the left and buttons (up, down, remove) on
 	 * the right. If the combobox is not null it is added on top of the list.
-	 * 
-	 * @param loc
-	 *            Application this dialog belongs to
+	 * @param loc Application this dialog belongs to
 	 * @param list
-	 * @param showRemoveButton
-	 *            true if remove buton should appear on the right
-	 * @param showUpDownButtons
-	 *            true if up and down butons should appear on the right
-	 * @param cbAdd
-	 *            Combobox with items than can be added to list (not displayed
-	 *            if null)
+	 * @param showRemoveButton true if remove buton should appear on the right
+	 * @param showUpDownButtons true if up and down butons should appear on the right
+	 * @param cbAdd Combobox with items than can be added to list (not displayed
+	 * if null)
 	 * @return Panel with the list, buttons and comboBox
 	 */
 	public static JPanel createListUpDownRemovePanel(LocalizationD loc,
@@ -777,50 +759,49 @@ public class ToolCreationDialogD extends Dialog
 	}
 
 	public static boolean isMyCellRenderer(ListCellRenderer renderer) {
-		return (renderer instanceof MyCellRenderer);
+		return renderer instanceof MyCellRenderer;
 	}
-}
 
-class MyCellRenderer extends DefaultListCellRenderer {
-	private static final long serialVersionUID = 1L;
+	static class MyCellRenderer extends DefaultListCellRenderer {
+		private static final long serialVersionUID = 1L;
 
-
-	/*
-	 * This is the only method defined by ListCellRenderer. We just reconfigure
-	 * the Jlabel each time we're called.
-	 */
-	@Override
-	public Component getListCellRendererComponent(JList list, Object value, // value
-																			// to
-																			// display
-			int index, // cell index
-			boolean iss, // is the cell selected
-			boolean chf) // the list and the cell have the focus
-	{
 		/*
-		 * The DefaultListCellRenderer class will take care of the JLabels text
-		 * property, it's foreground and background colors, and so on.
+		 * This is the only method defined by ListCellRenderer. We just reconfigure
+		 * the Jlabel each time we're called.
 		 */
-		super.getListCellRendererComponent(list, value, index, iss, chf);
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, // value
+				// to
+				// display
+				int index, // cell index
+				boolean iss, // is the cell selected
+				boolean chf) { // the list and the cell have the focus
+			/*
+			 * The DefaultListCellRenderer class will take care of the JLabels text
+			 * property, it's foreground and background colors, and so on.
+			 */
+			super.getListCellRendererComponent(list, value, index, iss, chf);
 
-		if (value != null) {
-			if (value instanceof String) {
-				setText((String) value);
-			} else if (value instanceof Integer) {
-				setText(value + "");
-			} else {
-				GeoElement geo = (GeoElement) value;
-				String text = geo.getLongDescriptionHTML(true, true);
-				if (text.length() < 100) {
-					setText(text);
+			if (value != null) {
+				if (value instanceof String) {
+					setText((String) value);
+				} else if (value instanceof Integer) {
+					setText(value + "");
 				} else {
-					setText(geo.getNameDescriptionHTML(true, true));
+					GeoElement geo = (GeoElement) value;
+					String text = geo.getLongDescriptionHTML(true, true);
+					if (text.length() < 100) {
+						setText(text);
+					} else {
+						setText(geo.getNameDescriptionHTML(true, true));
+					}
 				}
+			} else {
+				setText(" ");
 			}
-		} else {
-			setText(" ");
-		}
 
-		return this;
+			return this;
+		}
 	}
+
 }

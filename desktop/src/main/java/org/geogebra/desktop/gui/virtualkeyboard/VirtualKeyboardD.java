@@ -103,14 +103,16 @@ public class VirtualKeyboardD extends JFrame
 	private int buttonCols = 14;
 	private int buttonRowsNum = 4;
 	private int buttonColsNum = 11;
-	private double buttonSizeX, buttonSizeY;
+	private double buttonSizeX;
+	private double buttonSizeY;
 
 	private double horizontalMultiplier = 1;
 	private double verticalMultiplier = 1;
 
 	JButton[][] Buttons = new JButton[buttonRows + 1][buttonCols];
 
-	private int windowWidth, windowHeight;
+	private int windowWidth;
+	private int windowHeight;
 
 	private Font currentFont;
 
@@ -261,7 +263,7 @@ public class VirtualKeyboardD extends JFrame
 			buttonSizeX = 0.15 + cpWidth / (buttonColsNum - 0.0);
 			buttonSizeY = 0.25 + cpHeight / (buttonRowsNum + 1.0);
 		} else {
-			buttonSizeX = 0.15 + (double) cpWidth / (double) (buttonCols);
+			buttonSizeX = 0.15 + (double) cpWidth / (double) buttonCols;
 			buttonSizeY = 0.25 + (double) cpHeight / (double) (buttonRows + 1);
 		}
 		// if (buttonSize < 20) buttonSize = 20;
@@ -354,7 +356,7 @@ public class VirtualKeyboardD extends JFrame
 			DummyButton.setMargin(new Insets(0, 0, 0, 0));
 		}
 		return DummyButton;
-	}// */
+	}
 
 	private void updateSpaceButton() {
 		SpaceButton.setSize(
@@ -367,7 +369,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private void updateCapsLockButton() {
 		CapsLockButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		CapsLockButton.setLocation(
 				new Point((int) (buttonSizeX / 2d), (int) (buttonSizeY * 4d)));
 
@@ -379,7 +381,7 @@ public class VirtualKeyboardD extends JFrame
 
 	void updateCtrlButton() {
 		CtrlButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		CtrlButton.setLocation(new Point((int) (buttonSizeX * 3d / 2d),
 				(int) (buttonSizeY * 4d)));
 
@@ -390,7 +392,7 @@ public class VirtualKeyboardD extends JFrame
 
 	void updateAltButton() {
 		AltButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		AltButton.setLocation(new Point((int) (buttonSizeX * 5d / 2d),
 				(int) (buttonSizeY * 4d)));
 
@@ -405,7 +407,7 @@ public class VirtualKeyboardD extends JFrame
 
 	void updateAltGrButton() {
 		AltGrButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		AltGrButton.setLocation(
 				new Point((int) (buttonSizeX * 9), (int) (buttonSizeY * 4d)));
 
@@ -417,7 +419,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private void updateMathButton() {
 		MathButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		MathButton.setLocation(
 				new Point((int) (buttonSizeX * 10), (int) (buttonSizeY * 4d)));
 
@@ -428,7 +430,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private void updateNumericButton() {
 		NumericButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		if (getKeyboardMode() != KEYBOARD_NUMERIC) {
 			NumericButton.setLocation(new Point((int) (buttonSizeX * 13),
 					(int) (buttonSizeY * 4d)));
@@ -452,7 +454,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private void updateGreekButton() {
 		GreekButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		if (getKeyboardMode() != KEYBOARD_NUMERIC) {
 			GreekButton.setLocation(new Point((int) (buttonSizeX * 12),
 					(int) (buttonSizeY * 4d)));
@@ -468,7 +470,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private void updateEnglishButton() {
 		EnglishButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
+				.setSize(new Dimension((int) buttonSizeX, (int) buttonSizeY));
 		if (getKeyboardMode() != KEYBOARD_NUMERIC) {
 			EnglishButton.setLocation(new Point((int) (buttonSizeX * 11),
 					(int) (buttonSizeY * 4d)));
@@ -896,7 +898,7 @@ public class VirtualKeyboardD extends JFrame
 
 	}
 
-	private boolean Upper() {
+	private boolean upper() {
 		return getCapsLockButton().isSelected();
 	}
 
@@ -905,7 +907,7 @@ public class VirtualKeyboardD extends JFrame
 	 * 
 	 */
 	private void insertKeyText(KeyboardKeys Keys) {
-		if (Upper()) {
+		if (upper()) {
 			insertText(Keys.getUpperCase());
 		} else {
 			insertText(Keys.getLowerCase());
@@ -918,16 +920,14 @@ public class VirtualKeyboardD extends JFrame
 
 		sb.setLength(0);
 		sb.append('B');
-		if (i < 10)
-		 {
+		if (i < 10) {
 			sb.append('0'); // pad from "1" to "01"
 		}
-		sb.append(i + "");
-		if (j < 10)
-		 {
+		sb.append(i);
+		if (j < 10) {
 			sb.append('0'); // pad from "1" to "01"
 		}
-		sb.append(j + "");
+		sb.append(j);
 
 		KeyboardKeys ret1 = myKeys.get(sb.toString());
 
@@ -956,7 +956,7 @@ public class VirtualKeyboardD extends JFrame
 			updateButton(i, j);
 			Insets Inset = new Insets(0, 0, 0, 0);
 			Buttons[i][j].setMargin(Inset);
-			String text = Upper() ? thisKeys.getUpperCase()
+			String text = upper() ? thisKeys.getUpperCase()
 					: thisKeys.getLowerCase();
 
 			Buttons[i][j].setText(processSpecialKeys(text));
@@ -1060,8 +1060,7 @@ public class VirtualKeyboardD extends JFrame
 		if ("<down>".equals(text)) {
 			return "\u2193";
 		}
-		if ("<E>".equals(text))
-		 {
+		if ("<E>".equals(text)) {
 			return "\u00D710\u207F"; // *10^n
 		}
 		if ("<multiply>".equals(text)) {
@@ -1088,7 +1087,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private void updateButton(int i, int j) {
 		KeyboardKeys k = getKey(i, j);
-		if (Upper()) {
+		if (upper()) {
 			Buttons[i][j].setText(processSpecialKeys(k.getUpperCase()));
 		} else {
 			Buttons[i][j].setText(processSpecialKeys(k.getLowerCase()));
@@ -1370,9 +1369,7 @@ public class VirtualKeyboardD extends JFrame
 		getCapsLockButton().setSelected(false);
 		setKEYBOARD_MODE(KEYBOARD_NORMAL);
 		updateButtons();
-
 	}
-
 
 	public WindowsUnicodeKeyboard getKeyboard() {
 		WindowsUnicodeKeyboard kb = null;

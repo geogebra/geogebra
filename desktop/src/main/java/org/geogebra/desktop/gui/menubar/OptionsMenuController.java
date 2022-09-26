@@ -12,10 +12,10 @@ public class OptionsMenuController {
 
 	private RadioButtonMenuBarD menuDecimalPlaces;
 	private RadioButtonMenuBarD menuLabeling;
-	private App app;
+	private final App app;
 	Kernel kernel;
-	private MenuFactory menuFactory;
-	private OptionsMenu optionsMenu;
+	private final MenuFactory menuFactory;
+	private final OptionsMenu optionsMenu;
 
 	public OptionsMenuController(App app, MenuFactory menuFactory) {
 		this.app = app;

@@ -37,9 +37,9 @@ public class OptionsMenuD extends BaseMenu
 		implements ActionListener, MyActionListener, MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
-	private AbstractAction
-	// drawingPadPropAction,
-	showOptionsAction, saveSettings, restoreDefaultSettings;
+	private AbstractAction showOptionsAction;
+	private AbstractAction saveSettings;
+	private AbstractAction restoreDefaultSettings;
 
 	private OptionsMenuController optionsMenu;
 
@@ -82,26 +82,18 @@ public class OptionsMenuD extends BaseMenu
 		// addSeparator();
 		// Language
 		if (app.getLocalization().propertiesFilesPresent()) {
-
-
-
 			LanguageActionListener langListener = new LanguageActionListener(
 					app);
 			final JMenu submenuLang = new JMenu(loc.getMenu("Language"));
 			submenuLang.setIcon(app.getMenuIcon(GuiResourcesD.LANGUAGE));
 			addLanguageMenuItems(app, submenuLang, langListener);
 			add(submenuLang);
-
-
-
 		}
 
 		addSeparator();
 
 		// advanced properties
 		add(showOptionsAction);
-
-		// doesn't work in applets
 
 		addSeparator();
 
@@ -326,7 +318,6 @@ public class OptionsMenuD extends BaseMenu
 		String cmd = event.getActionCommand();
 		getOptionsMenu().processActionPerformed(cmd);
 	}
-
 
 	@Override
 	public void actionPerformed(String command) {

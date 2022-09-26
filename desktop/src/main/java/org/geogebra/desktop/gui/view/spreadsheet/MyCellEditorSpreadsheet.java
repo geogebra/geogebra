@@ -141,7 +141,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		if (value != null) {
 			text = controller.getEditorInitString(value);
 			int index = text.indexOf("=");
-			if ((!value.isGeoText())) {
+			if (!value.isGeoText()) {
 				if (index == -1) {
 					text = "=" + text;
 				}
@@ -330,8 +330,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 	// =======================================================
 
 	/**
-	 * keep track of when <tab> was first pressed so we can return to that
-	 * column when <enter> pressed
+	 * keep track of when &lt;tab&gt; was first pressed so we can return to that
+	 * column when &lt;enter&gt; pressed
 	 */
 	public int tabReturnCol = -1;
 

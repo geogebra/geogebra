@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.exam.restriction.ExamRestrictionModel;
+import org.geogebra.common.main.exam.restriction.Restrictable;
 import org.geogebra.common.util.debug.Analytics;
 import org.geogebra.web.full.gui.util.SuiteHeaderAppPicker;
 import org.geogebra.web.full.main.AppWFull;
@@ -15,10 +17,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class AppSwitcherPopup extends GPopupPanel {
+public class AppSwitcherPopup extends GPopupPanel implements Restrictable {
 
 	SuiteHeaderAppPicker appPickerButton;
 	private final static int X_COORDINATE_OFFSET = 8;
+	private ExamRestrictionModel restrictionModel;
+	private FlowPanel contentPanel;
 
 	/**
 	 * @param app
@@ -51,22 +55,30 @@ public class AppSwitcherPopup extends GPopupPanel {
 	}
 
 	private void buildGUI() {
-		FlowPanel contentPanel = new FlowPanel();
+		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("popupPanelForTranslation");
-		addElement(GeoGebraConstants.GRAPHING_APPCODE, contentPanel);
-		if (app.getSettings().getEuclidian(-1).isEnabled()) {
-			addElement(GeoGebraConstants.G3D_APPCODE, contentPanel);
-		}
-		addElement(GeoGebraConstants.GEOMETRY_APPCODE, contentPanel);
-		if (app.getSettings().getCasSettings().isEnabled()) {
-			addElement(GeoGebraConstants.CAS_APPCODE, contentPanel);
-		}
-		addElement(GeoGebraConstants.PROBABILITY_APPCODE, contentPanel);
+		updateGUI();
 		add(contentPanel);
 	}
 
-	private void addElement(final String subAppCode,
-			FlowPanel contentPanel) {
+	private void updateGUI() {
+		contentPanel.clear();
+		addElement(GeoGebraConstants.GRAPHING_APPCODE);
+		if (app.getSettings().getEuclidian(-1).isEnabled()) {
+			addElement(GeoGebraConstants.G3D_APPCODE);
+		}
+		addElement(GeoGebraConstants.GEOMETRY_APPCODE);
+		if (app.getSettings().getCasSettings().isEnabled()) {
+			addElement(GeoGebraConstants.CAS_APPCODE);
+		}
+		addElement(GeoGebraConstants.PROBABILITY_APPCODE);
+	}
+
+	private void addElement(final String subAppCode) {
+		if (hasRestrictions() && restrictionModel.isAppRestricted(subAppCode)) {
+			return;
+		}
+
 		FlowPanel rowPanel = new FlowPanel();
 		AppDescription description = AppDescription.get(subAppCode);
 		NoDragImage img = new NoDragImage(description.getIcon(), 24, 24);
@@ -80,15 +92,23 @@ public class AppSwitcherPopup extends GPopupPanel {
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
 		rowPanel.addDomHandler(event -> {
-			hide();
-			appPickerButton.setIconAndLabel(subAppCode);
-			GlobalHeader.onResize();
-			app.hideMenu();
-			((AppWFull) app).switchToSubapp(subAppCode);
-			Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
-					Analytics.Param.convertToSubAppParam(subAppCode));
+			switchToSubApp(subAppCode);
 		}, ClickEvent.getType());
 		contentPanel.add(rowPanel);
+	}
+
+	private void switchToSubApp(String subAppCode) {
+		hide();
+		appPickerButton.setIconAndLabel(subAppCode);
+		GlobalHeader.onResize();
+		app.hideMenu();
+		((AppWFull) app).switchToSubapp(subAppCode);
+		Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
+				Analytics.Param.convertToSubAppParam(subAppCode));
+	}
+
+	private boolean hasRestrictions() {
+		return restrictionModel != null;
 	}
 
 	private int getLeft() {
@@ -97,5 +117,24 @@ public class AppSwitcherPopup extends GPopupPanel {
 
 	private void updateLanguage(App app) {
 		UserPreferredLanguage.translate(app, ".popupPanelForTranslation");
+	}
+
+	@Override
+	public boolean isExamRestrictionModelAccepted(ExamRestrictionModel model) {
+		return model.hasSubApps();
+	}
+
+	@Override
+	public void setExamRestrictionModel(ExamRestrictionModel model) {
+		restrictionModel = model;
+	}
+
+	@Override
+	public void applyExamRestrictions() {
+		updateGUI();
+		if (restrictionModel != null
+				&& restrictionModel.isAppRestricted(app.getConfig().getSubAppCode())) {
+			switchToSubApp(restrictionModel.getDefaultAppCode());
+		}
 	}
 }

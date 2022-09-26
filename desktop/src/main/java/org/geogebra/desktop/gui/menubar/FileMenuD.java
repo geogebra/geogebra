@@ -41,11 +41,22 @@ import com.himamis.retex.editor.share.util.Unicode;
 class FileMenuD extends BaseMenu implements EventRenderable {
 	private static final long serialVersionUID = -5154067739481481835L;
 
-	private AbstractAction newWindowAction, deleteAll, saveAction, saveAsAction,
-			loadAction, loadURLAction, exportWorksheet, shareAction,
-			exportGraphicAction, exportAnimationAction, exportPgfAction,
-			exportPSTricksAction, exportAsymptoteAction,
-			exportSTLaction, exportColladaAction, exportColladaHTMLAction;
+	private AbstractAction newWindowAction;
+	private AbstractAction deleteAll;
+	private AbstractAction saveAction;
+	private AbstractAction saveAsAction;
+	private AbstractAction loadAction;
+	private AbstractAction loadURLAction;
+	private AbstractAction exportWorksheet;
+	private AbstractAction shareAction;
+	private AbstractAction exportGraphicAction;
+	private AbstractAction exportAnimationAction;
+	private AbstractAction exportPgfAction;
+	private AbstractAction exportPSTricksAction;
+	private AbstractAction exportAsymptoteAction;
+	private AbstractAction exportSTLaction;
+	private AbstractAction exportColladaAction;
+	private AbstractAction exportColladaHTMLAction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
 	/** share item */
@@ -68,7 +79,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
-
 	}
 
 	/**
@@ -218,14 +228,11 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						app.createNewWindow();
-						app.setDefaultCursor();
-					}
-				};
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					app.createNewWindow();
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
@@ -323,15 +330,12 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getSelectionManager().clearSelectedGeos(true, false);
 				app.updateSelection(false);
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						// copy drawing pad to the system clipboard
-						app.copyGraphicsViewToClipboard();
-						app.setDefaultCursor();
-					}
-				};
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					// copy drawing pad to the system clipboard
+					app.copyGraphicsViewToClipboard();
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
@@ -344,23 +348,20 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						try {
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					try {
 
-							app.getGuiManager().showGraphicExport();
+						app.getGuiManager().showGraphicExport();
 
-						} catch (Exception e1) {
-							Log.debug(
-									"GraphicExportDialog not available for 3D view yet");
-							// for 3D View
-							app.copyGraphicsViewToClipboard();
-						}
-						app.setDefaultCursor();
+					} catch (Exception e1) {
+						Log.debug(
+								"GraphicExportDialog not available for 3D view yet");
+						// for 3D View
+						app.copyGraphicsViewToClipboard();
 					}
-				};
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
@@ -442,26 +443,23 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
+				Thread runner = new Thread(() -> {
 
-						app.setWaitCursor();
-						try {
-							app.getSelectionManager().clearSelectedGeos(true,
-									false);
-							app.updateSelection(false);
-							WorksheetExportDialog d = new WorksheetExportDialog(
-									app);
+					app.setWaitCursor();
+					try {
+						app.getSelectionManager().clearSelectedGeos(true,
+								false);
+						app.updateSelection(false);
+						WorksheetExportDialog d = new WorksheetExportDialog(
+								app);
 
-							d.setVisible(true);
-						} catch (Exception e1) {
-							Log.debug("WorksheetExportDialog not available");
-							e1.printStackTrace();
-						}
-						app.setDefaultCursor();
+						d.setVisible(true);
+					} catch (Exception e1) {
+						Log.debug("WorksheetExportDialog not available");
+						e1.printStackTrace();
 					}
-				};
+					app.setDefaultCursor();
+				});
 				runner.start();
 
 			}
@@ -475,26 +473,23 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
+				Thread runner = new Thread(() -> {
 
-						app.setWaitCursor();
-						try {
-							app.getSelectionManager().clearSelectedGeos(true,
-									false);
-							app.updateSelection(false);
+					app.setWaitCursor();
+					try {
+						app.getSelectionManager().clearSelectedGeos(true,
+								false);
+						app.updateSelection(false);
 
-							// callback for 3D
-							app.uploadToGeoGebraTubeOnCallback();
+						// callback for 3D
+						app.uploadToGeoGebraTubeOnCallback();
 
-						} catch (Exception e1) {
-							Log.debug("Uploading failed");
-							e1.printStackTrace();
-						}
-						app.setDefaultCursor();
+					} catch (Exception e1) {
+						Log.debug("Uploading failed");
+						e1.printStackTrace();
 					}
-				};
+					app.setDefaultCursor();
+				});
 				runner.start();
 
 			}
@@ -518,7 +513,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		}
 
 		if (app.is3D()) {
-			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
+			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS,
+					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -551,8 +547,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 	@Override
 	public void update() {
-		//
-
+		// not needed
 	}
 
 	@Override

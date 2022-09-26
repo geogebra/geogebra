@@ -81,10 +81,18 @@ public class DataSourcePanel extends JPanel
 	protected StatTable sourceTable;
 
 	// GUI elements
-	private JPanel mainPanel, classesPanel, controlPanel;
-	private JLabel lblTitle, lblStart, lblWidth;
-	private MyButton btnAdd, btnClear, btnDelete, btnOptions;
-	private MyTextFieldD fldStart, fldWidth;
+	private JPanel mainPanel;
+	private JPanel classesPanel;
+	private JPanel controlPanel;
+	private JLabel lblTitle;
+	private JLabel lblStart;
+	private JLabel lblWidth;
+	private MyButton btnAdd;
+	private MyButton btnClear;
+	private MyButton btnDelete;
+	private MyButton btnOptions;
+	private MyTextFieldD fldStart;
+	private MyTextFieldD fldWidth;
 
 	// flags and other fields
 	/** current mode */
@@ -254,9 +262,7 @@ public class DataSourcePanel extends JPanel
 
 	}
 
-
 	protected void updateGUI() {
-
 		lblTitle.setIcon(app.getModeIcon(mode));
 		classesPanel.setVisible(dataSource.getGroupType() == GroupType.CLASS);
 
@@ -699,13 +705,16 @@ public class DataSourcePanel extends JPanel
 
 		private static final long serialVersionUID = 1L;
 
-		private JLabel lblDataDescription, lblDataTitle, lblImportBtn;
+		private final JLabel lblDataDescription;
+		private final JLabel lblDataTitle;
+		private final JLabel lblImportBtn;
 
 		protected Border headerBorder = UIManager
 				.getBorder("TableHeader.cellBorder");
 
 		protected Font font = UIManager.getFont("TableHeader.font");
-		private ImageIcon importIcon, importIconRollover;
+		private ImageIcon importIcon;
+		private ImageIcon importIconRollover;
 
 		public MyTableHeaderRenderer() {
 			setLayout(new BorderLayout());
@@ -756,9 +765,7 @@ public class DataSourcePanel extends JPanel
 			// DataItem
 			lblDataTitle.setText(getColumnDataTitles()[vColIndex]);
 			lblDataTitle.setFont(app.getItalicFont());
-			if (!lblDataDescription.getText().equals(loc.getMenu("Classes")))
-			// && vColIndex == table.getSelectedColumn()) {
-			{
+			if (!lblDataDescription.getText().equals(loc.getMenu("Classes"))) {
 				if (btnHoverColumn == vColIndex) {
 					lblImportBtn.setIcon(importIconRollover);
 					setToolTipText(loc.getMenuTooltip("AddSelection"));
@@ -787,10 +794,8 @@ public class DataSourcePanel extends JPanel
 				setBackground(GColorD.getAwtColor(
 						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			}
-
 			return this;
 		}
-
 
 		/**
 		 * Returns true if the given mouse location (in local coordinates of the

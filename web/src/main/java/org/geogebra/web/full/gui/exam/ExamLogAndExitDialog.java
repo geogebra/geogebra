@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.main.exam.ExamLogBuilder;
+import org.geogebra.common.main.exam.restriction.ExamRegion;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -94,9 +95,9 @@ public class ExamLogAndExitDialog extends GPopupPanel {
 	private FlowPanel buildTitlePanel() {
 		FlowPanel titlePanel = new FlowPanel();
 		titlePanel.setStyleName("titlePanel");
-		String calcStr = app.isUnbundled() ? app.getConfig().getAppTransKey()
-				: "CreateYourOwn";
-		Label calcType = new Label(app.getLocalization().getMenu(calcStr));
+		ExamRegion examRegion = app.isExam() ? app.getExam().getExamRegion() : ExamRegion.GENERIC;
+		String calcStr = examRegion.getDisplayName(app.getLocalization(), app.getConfig());
+		Label calcType = new Label(calcStr);
 		calcType.setStyleName("calcType");
 		Label examTitle = new Label(ExamUtil.status((AppW) app));
 		examTitle.setStyleName("examTitle");

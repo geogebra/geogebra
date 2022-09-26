@@ -34,6 +34,7 @@ public class FileChooserCompletionListCellRenderer
 	// Most of these Icons are from the the tango! icon set:
 	// http://tango.freedesktop.org/
 	private static final Map<String, Icon> FILE_EXT_ICONS = new HashMap<>();
+
 	static {
 		Icon icon;
 		// ggb, ggt

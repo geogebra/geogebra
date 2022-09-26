@@ -317,9 +317,8 @@ public interface AppConfig extends Serializable {
 	boolean hasEuclidianView();
 
 	/**
-	 *
-	 * @return the traslation key of the application
-	 * (always thed key of suite if in a subApp)
+	 * @return the translation key of the application
+	 * (always the key of suite if in a subApp)
 	 */
 	String getAppTransKey();
 }

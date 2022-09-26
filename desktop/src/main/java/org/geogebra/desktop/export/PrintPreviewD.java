@@ -70,15 +70,16 @@ public class PrintPreviewD extends JDialog {
 	protected int m_scale;
 	protected List<Printable> m_target;
 	@SuppressWarnings("rawtypes")
-	protected JComboBox m_cbScale, m_cbOrientation, m_cbView;
+	protected JComboBox m_cbScale;
+	protected JComboBox m_cbOrientation;
+	protected JComboBox m_cbView;
 	// protected JCheckBox cbEVscalePanel;
 	protected JScrollPane ps;
 	protected PreviewContainer m_preview;
 	protected final AppD app;
-	protected JPanel tempPanel, panelForTitleAndScaling; // used for title and
-															// scaling of
-															// graphics view's
-															// print preview
+	protected JPanel tempPanel;
+	protected JPanel panelForTitleAndScaling; // used for title and scaling of
+											// graphics view's print preview
 	protected transient ActionListener lst;
 
 	protected boolean kernelChanged = false;
@@ -88,6 +89,7 @@ public class PrintPreviewD extends JDialog {
 	private Book book;
 
 	static Graphics tempGraphics;
+
 	static {
 		BufferedImage img = new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB);
 		tempGraphics = img.getGraphics();
@@ -105,11 +107,10 @@ public class PrintPreviewD extends JDialog {
 	static List<Printable> getPrintables(int viewID, AppD app) {
 		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 		if (viewID == App.VIEW_CAS) {
-
 			return wrap(gui.getCasView());
 		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
-			return (wrap((ConstructionProtocolViewD) app.getGuiManager()
-					.getConstructionProtocolView()));
+			return wrap((ConstructionProtocolViewD) app.getGuiManager()
+					.getConstructionProtocolView());
 		} else if (viewID == App.VIEW_SPREADSHEET) {
 			return wrap(gui.getSpreadsheetView());
 		} else if (viewID == App.VIEW_EUCLIDIAN2) {
@@ -158,7 +159,7 @@ public class PrintPreviewD extends JDialog {
 		loadPreferences();
 
 		setTitle(loc.getMenu("PrintPreview"));
-		Cursor oldCursor = app.getMainComponent().getCursor();
+		final Cursor oldCursor = app.getMainComponent().getCursor();
 		app.getMainComponent()
 				.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		getContentPane().setLayout(new BorderLayout());
@@ -297,14 +298,8 @@ public class PrintPreviewD extends JDialog {
 						// change view
 						if (selItem.equals(loc.getMenu("AllViews"))) {
 							final List<Printable> l = new ArrayList<>();
-							app.forEachView(new App.ViewCallback() {
-
-								@Override
-								public void run(int viewID, String viewName) {
-
-									l.addAll(getPrintables(viewID, app));// TODO
-
-								}
+							app.forEachView((viewID, viewName) -> {
+								l.addAll(getPrintables(viewID, app)); // TODO
 							});
 
 							m_target = l;
@@ -398,7 +393,6 @@ public class PrintPreviewD extends JDialog {
 
 		m_preview = new PreviewContainer();
 		ps = new JScrollPane(m_preview);
-		JPanel centerPanel = new JPanel(new BorderLayout());
 		panelForTitleAndScaling = new JPanel(new BorderLayout());
 
 		// show scale panel for euclidian view
@@ -417,6 +411,7 @@ public class PrintPreviewD extends JDialog {
 		// HACK: m_target gives no information about the current view
 		panelForTitleAndScaling.add(tempPanel, BorderLayout.SOUTH);
 		panelForTitleAndScaling.add(titlePanel, BorderLayout.CENTER);
+		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(panelForTitleAndScaling, BorderLayout.NORTH);
 
 		// preview in center
@@ -681,8 +676,8 @@ public class PrintPreviewD extends JDialog {
 		try {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
-			return (m_target.get(targetIndex).print(tempGraphics, pageFormat,
-					pageIndex) == Printable.PAGE_EXISTS);
+			return m_target.get(targetIndex).print(tempGraphics, pageFormat,
+					pageIndex) == Printable.PAGE_EXISTS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

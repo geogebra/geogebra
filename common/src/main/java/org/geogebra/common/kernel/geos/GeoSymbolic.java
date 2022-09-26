@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -1067,17 +1068,15 @@ public class GeoSymbolic extends GeoElement
 
 	/**
 	 * @param value value
-	 * @return True if the unwrapped value's twin is a GeoList.
-	 *        Returns false if the value is null
-	 *        or if the unwrapped value is not a GeoSymbolic
-	 *        or if the unwrapped value's twin is not a GeoList.
+	 * @return True iff the value can be unwrapped to a ListValue,
+	 *     using both unwrap and unwrapSymbolic
 	 */
-	public static boolean hasListTwin(ExpressionValue value) {
+	public static boolean isWrappedList(ExpressionValue value) {
 		if (value == null) {
 			return false;
 		}
 		ExpressionValue unwrapped = value.unwrap();
-		return unwrapped instanceof GeoSymbolic
-				&& ((GeoSymbolic) unwrapped).getTwinGeo().isGeoList();
+		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
+				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
 	}
 }

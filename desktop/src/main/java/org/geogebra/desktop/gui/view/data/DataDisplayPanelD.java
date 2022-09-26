@@ -75,7 +75,9 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	// data view mode
 	// display panels
 	private JPanel displayCardPanel;
-	private JPanel metaPlotPanel, plotPanelNorth, plotPanelSouth;
+	private JPanel metaPlotPanel;
+	private JPanel plotPanelNorth;
+	private JPanel plotPanelSouth;
 	private PlotPanelEuclidianViewD plotPanel;
 
 	private JLabel imageContainer;
@@ -111,8 +113,10 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	private JPanel imagePanel;
 
-	private JLabel lblTitleX, lblTitleY;
-	private MyTextFieldD fldTitleX, fldTitleY;
+	private JLabel lblTitleX;
+	private JLabel lblTitleY;
+	private MyTextFieldD fldTitleX;
+	private MyTextFieldD fldTitleY;
 	private FrequencyTablePanel frequencyTable;
 	private JToggleButton btnExport;
 	private JTextField fldNumClasses;
@@ -377,7 +381,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 				JSlider slider = (JSlider) evt.getSource();
 				getModel().getSettings().setNumClasses(slider.getValue());
 				fldNumClasses.setText(
-						("" + getModel().getSettings().getNumClasses()));
+						"" + getModel().getSettings().getNumClasses());
 				getModel().updatePlot(true);
 			}
 		});

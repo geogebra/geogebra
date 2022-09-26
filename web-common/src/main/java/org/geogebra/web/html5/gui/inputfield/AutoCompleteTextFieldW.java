@@ -186,9 +186,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			Drawable drawTextField) {
 		this(columns, (AppW) app, true, null, false);
 		this.drawTextField = (DrawInputBox) drawTextField;
-		if (canHaveGGBKeyboard()) {
-			addStyleName("FromDrawTextFieldNew");
-		}
+		addStyleName("FromDrawTextFieldNew");
 	}
 
 	private boolean canHaveGGBKeyboard() {
