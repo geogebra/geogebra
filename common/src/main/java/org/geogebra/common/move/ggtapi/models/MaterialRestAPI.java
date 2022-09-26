@@ -38,8 +38,8 @@ public class MaterialRestAPI implements BackendAPI {
 	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
 
 	public static class Tag {
-		public static final String PHONE_2D = "phone&#8211;2d";
-		public static final String PHONE_3D = "phone&#8211;3d";
+		public static final String PHONE_2D = "phone"; // TODO: change to ft.phone-2d when implemented
+		public static final String PHONE_3D = "3d"; // TODO: change to ft.phone-3d when implemented
 	}
 
 	/**
