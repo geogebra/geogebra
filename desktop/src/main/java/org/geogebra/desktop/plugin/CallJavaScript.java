@@ -99,18 +99,13 @@ public class CallJavaScript {
 		return newScope;
 	}
 
-
 	/**
-	 * 
 	 * Allow access only to whitelist of allowed Java classes
-	 *
 	 */
 	public static class SandboxClassShutter implements ClassShutter {
 
 		@Override
 		public boolean visibleToScripts(String fullClassName) {
-
-
 			Log.debug("Rhino attempting to use class " + fullClassName);
 			
 			return fullClassName.equals(org.geogebra.desktop.plugin.GgbAPID.class.getName())
@@ -122,10 +117,7 @@ public class CallJavaScript {
 					|| fullClassName.startsWith("java.lang")
 					// needed for TimerTask
 					|| fullClassName.equals("adapter1");
-
-
 		}
-
 	}
 
 }

@@ -40,7 +40,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 * Minimal implementation of DialogManager Potentially can be used in
 	 * applets without needing GuiManager
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public DialogManagerMinimal(App app) {
 		super(app);
@@ -62,7 +62,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 *            message
 	 * @return confirmation
 	 */
-	protected boolean confirm(String string) {
+	private boolean confirm(String string) {
 		return JOptionPane.showConfirmDialog(null,
 				string) == JOptionPane.OK_CANCEL_OPTION;
 	}
@@ -194,18 +194,13 @@ public class DialogManagerMinimal extends DialogManager {
 	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-		String inputString = prompt(menu + " " +
-				getLocalization().getMenu("Points"), "4");
+		String inputString = prompt(menu + " "
+				+ getLocalization().getMenu("Points"), "4");
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
 				direction,
-				app.getErrorHandler(), new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean obj) {
-						// TODO Auto-generated method stub
-
-					}
+				app.getErrorHandler(), obj -> {
+					// no callback needed
 				});
 
 	}
@@ -300,14 +295,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 		rotateObject(app, inputString, false, selectedPolygons,
 				new CreateGeoForRotatePoint(selectedPoints[0]), selGeos, ec,
-				app.getDefaultErrorHandler(), new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String obj) {
-						defaultAngle = obj;
-
-					}
-				});
+				app.getDefaultErrorHandler(), obj -> defaultAngle = obj);
 
 	}
 }

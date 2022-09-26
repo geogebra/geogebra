@@ -16,7 +16,8 @@ import org.geogebra.desktop.main.AppD;
 public class ViewMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1L;
 	protected final LayoutD layout;
-	protected AbstractAction refreshAction, recomputeAllViews;
+	protected AbstractAction refreshAction;
+	protected AbstractAction recomputeAllViews;
 
 	/**
 	 * @param app

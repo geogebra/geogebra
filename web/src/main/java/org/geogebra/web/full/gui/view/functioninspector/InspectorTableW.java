@@ -38,7 +38,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		rf.setStyleName(HEADER_ROW, "inspectorTableHeader");
 		InputPanelW input = new InputPanelW(app, -1, false);
 		cellEditor = input.getTextComponent();
-		cellEditor.setStyleName("inspectorTableEditor");
+		cellEditor.addStyleName("inspectorTableEditor");
 		keyHandler = null;
 		blurHandler = null;
 		

@@ -22,7 +22,7 @@ public class AlgebraDockPanel extends NavigableDockPanel {
 	private AppD app;
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public AlgebraDockPanel(AppD app) {
 		super(App.VIEW_ALGEBRA, // view id

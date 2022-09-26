@@ -20,9 +20,11 @@ import org.geogebra.desktop.util.GuiResourcesD;
 @SuppressWarnings("serial")
 public class ViewMenuApplicationD extends ViewMenuD {
 
-	private AbstractAction showKeyboardAction, showAlgebraInputAction;
+	private AbstractAction showKeyboardAction;
+	private AbstractAction showAlgebraInputAction;
 
-	private JCheckBoxMenuItem cbShowKeyboard, cbShowInputBar;
+	private JCheckBoxMenuItem cbShowKeyboard;
+	private JCheckBoxMenuItem cbShowInputBar;
 
 	private ShowViewAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
@@ -179,7 +181,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 	private class ShowViewAction extends AbstractAction {
 
 		private DockPanelD panel;
-		private int viewId;
+		private final int viewId;
 		private JCheckBoxMenuItem cb;
 
 		public ShowViewAction(DockPanelD panel) {
@@ -194,15 +196,13 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-
-			((GuiManagerD) app.getGuiManager()).setShowView(
-					!((GuiManagerD) app.getGuiManager()).showView(viewId),
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(viewId),
 					viewId);
 
 			// ensure check box is correctly selected/unselected for case where
 			// hide aborted
 			cb.setSelected(panel.isVisible());
-
 		}
 
 	}
@@ -220,16 +220,6 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		if (cbShowKeyboard != null) {
 			cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
 		}
-
-		// cbShowHandwriting.setSelected(Application.isHandwritingRecognitionActive());
-		// cbShowHandwritingAutoAdd.setSelected(Application.isHandwritingRecognitionAutoAdd());
-		// cbShowHandwritingTimedAdd.setSelected(Application.isHandwritingRecognitionTimedAdd());
-		// cbShowHandwritingTimedRecognise.setSelected(Application.isHandwritingRecognitionTimedRecognise());
-
-		// enable menus if necessary
-		// menuInput.setEnabled(app.showAlgebraInput());
-		// menuToolBar.setEnabled(app.showToolBar());
-
 	}
 
 	private void updateViews() {
@@ -255,7 +245,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 					return;
 				}
 
-				cbViews[i].setSelected(((GuiManagerD) app.getGuiManager())
+				cbViews[i].setSelected(app.getGuiManager()
 						.showView(panel.getViewId()));
 				++i;
 			}

@@ -47,8 +47,12 @@ import org.geogebra.desktop.main.LocalizationD;
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
 
-	private BaseMenu fileMenu, editMenu, optionsMenu, toolsMenu, windowMenu,
-			helpMenu;
+	private BaseMenu fileMenu;
+	private BaseMenu editMenu;
+	private BaseMenu optionsMenu;
+	private BaseMenu toolsMenu;
+	private BaseMenu windowMenu;
+	private BaseMenu helpMenu;
 
 	ViewMenuApplicationD viewMenu;
 
@@ -180,7 +184,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * Checkbox of Construction protocol view will be checked in view menu if
 	 * visible is true. Otherwise won't be checked.
 	 * 
-	 * @param visible
+	 * @param visible whether CP is showing
 	 */
 	public void updateCPView(boolean visible) {
 		viewMenu.updateCPView(visible);
@@ -233,8 +237,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	}
 
 	/**
-	 * @param m
-	 * @param font
+	 * @param m parent item
+	 * @param font font
 	 */
 	public static void setMenuFontRecursive(JMenuItem m, Font font) {
 		if (m instanceof JMenu) {
@@ -326,9 +330,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		// We may want to modify the window size when the license file changes:
 		JTextArea textArea = new JTextArea(26, 72); // window size fine tuning
 													// (rows, cols)
-		JScrollPane scrollPane = new JScrollPane(textArea,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		textArea.setEditable(false);
 		// not sure if Monospaced is installed everywhere:
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -355,6 +356,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 					}
 				}), loc.borderEast());
 
+		JScrollPane scrollPane = new JScrollPane(textArea,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.add(systemInfoPanel, BorderLayout.NORTH);
 		panel.add(scrollPane, BorderLayout.SOUTH);

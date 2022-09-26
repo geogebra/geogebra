@@ -48,7 +48,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	protected PopupMenuButtonD toggleTypeTreeMode;
 	protected PopupMenuButtonD toggleDescriptionMode;
 
-	private JPopupMenu treeModeMenu, descriptionMenu;
+	private JPopupMenu treeModeMenu;
+	private JPopupMenu descriptionMenu;
 
 	private LocalizationD loc;
 
@@ -60,8 +61,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/**
 	 * Helper bar.
 	 * 
-	 * @param algebraView
-	 * @param app
+	 * @param algebraView algebra view
+	 * @param app application
 	 */
 	public AlgebraHelperBar(AlgebraViewD algebraView, AppD app) {
 		this.algebraView = algebraView;

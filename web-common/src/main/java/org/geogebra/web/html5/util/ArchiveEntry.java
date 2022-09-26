@@ -37,6 +37,10 @@ public class ArchiveEntry {
 		this(fileName, string, null);
 	}
 
+	public static int dataUrlToBinarySizeKB(String data) {
+		return data.length() * 3 / 4 / 1024;
+	}
+
 	public ArchiveEntry copy(String fileName) {
 		return new ArchiveEntry(fileName, string, data);
 	}
@@ -76,5 +80,16 @@ public class ArchiveEntry {
 
 	public boolean isThumbnail() {
 		return MyXMLio.XML_FILE_THUMBNAIL.equalsIgnoreCase(fileName);
+	}
+
+	/**
+	 * @return size in kilobytes
+	 */
+	public int getSizeKB() {
+		if (data != null) {
+			return data.byteLength / 1024;
+		} else {
+			return dataUrlToBinarySizeKB(string);
+		}
 	}
 }

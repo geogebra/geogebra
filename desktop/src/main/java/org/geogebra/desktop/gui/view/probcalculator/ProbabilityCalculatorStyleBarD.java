@@ -30,8 +30,11 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 	JToolBar wrappedToolbar;
 
-	private MyToggleButtonD btnLineGraph, btnStepGraph,
-			btnBarGraph, btnExport, btnNormalOverlay;
+	private MyToggleButtonD btnLineGraph;
+	private MyToggleButtonD btnStepGraph;
+	private MyToggleButtonD btnBarGraph;
+	private MyToggleButtonD btnExport;
+	private MyToggleButtonD btnNormalOverlay;
 
 	private final LocalizationD loc;
 

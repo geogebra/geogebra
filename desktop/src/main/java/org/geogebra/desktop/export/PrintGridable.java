@@ -51,8 +51,6 @@ public class PrintGridable implements Printable {
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 
-		int pageIndex = gridable.getApplication().getPrintPreview().adjustIndex(pageIndex0);
-		
 		double pWidth = pageFormat.getImageableWidth();
 		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;
 
@@ -95,6 +93,7 @@ public class PrintGridable implements Printable {
 		boundsVer.add(sum);
 		int pagesHor = boundsHor.size() - 1;
 		int pagesVer = boundsVer.size() - 1;
+		int pageIndex = gridable.getApplication().getPrintPreview().adjustIndex(pageIndex0);
 
 		if (pageIndex >= pagesHor * pagesVer) {
 			return Printable.NO_SUCH_PAGE;

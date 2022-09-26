@@ -15,25 +15,13 @@ import org.geogebra.desktop.main.AppD;
  */
 public class GeoGebraComboBoxEditor implements ComboBoxEditor {
 
-	private MyTextFieldD tf;
-
-	/**
-	 * Constructor without a specified column width.
-	 * 
-	 * @param app
-	 */
-	public GeoGebraComboBoxEditor(AppD app) {
-		super();
-		tf = new MyTextFieldD(app);
-		tf.setShowSymbolTableIcon(true);
-		tf.enableColoring(false);
-	}
+	private final MyTextFieldD tf;
 
 	/**
 	 * Constructor with a specified column width.
 	 * 
-	 * @param app
-	 * @param columns
+	 * @param app application
+	 * @param columns width
 	 */
 	public GeoGebraComboBoxEditor(AppD app, int columns) {
 		super();

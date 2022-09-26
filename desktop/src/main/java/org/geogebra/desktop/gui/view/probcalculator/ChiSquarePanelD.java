@@ -41,11 +41,17 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	// ======================================
 	// GUI components
 	// ======================================
-	private JPanel pnlCount, pnlControl;
-	private JComboBox<String> cbRows, cbColumns;
+	private JPanel pnlCount;
+	private JPanel pnlControl;
+	private JComboBox<String> cbRows;
+	private JComboBox<String> cbColumns;
 	private ChiSquareCellD[][] cell;
-	private JCheckBox ckExpected, ckChiDiff, ckRowPercent, ckColPercent;
-	private JLabel lblRows, lblColumns;
+	private JCheckBox ckExpected;
+	private JCheckBox ckChiDiff;
+	private JCheckBox ckRowPercent;
+	private JCheckBox ckColPercent;
+	private JLabel lblRows;
+	private JLabel lblColumns;
 
 	private JPanel wrappedPanel;
 
@@ -251,19 +257,15 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	}
 
-	/*****************************************************************
-	 * 
+	/**
 	 * Class ChiSquareCell: extended JPanel to hold cell components
-	 * 
-	 ***************************************************************** 
 	 */
 	public class ChiSquareCellD extends ChiSquareCell
 			implements ActionListener, FocusListener {
 
+		private final JPanel wrappedCellPanel;
 
-		private JPanel wrappedCellPanel;
-
-		private MyTextFieldD fldInput;
+		private final MyTextFieldD fldInput;
 		private JLabel[] label;
 
 		/**

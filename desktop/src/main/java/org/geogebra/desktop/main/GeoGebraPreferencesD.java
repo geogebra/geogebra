@@ -86,7 +86,8 @@ public class GeoGebraPreferencesD {
 	public static final String USER_LOGIN_SKIP = "user_login_skip";
 
 	// preferences node name for GeoGebra
-	private Preferences ggbPrefs, ggbPrefsSystem;
+	private Preferences ggbPrefs;
+	private Preferences ggbPrefsSystem;
 
 	protected GeoGebraPreferencesD() {
 

@@ -39,8 +39,8 @@ public class MidiSoundD implements MetaEventListener {
 
 	private final AppD app;
 	private Synthesizer synthesizer;
-	private Instrument instruments[];
-	private MidiChannel channels[];
+	private Instrument[] instruments;
+	private MidiChannel[] channels;
 
 	private Sequencer sequencer;
 	private Sequence seq;
@@ -81,11 +81,6 @@ public class MidiSoundD implements MetaEventListener {
 
 				setChannels(synthesizer.getChannels());
 			}
-		}
-
-		catch (MidiUnavailableException e) {
-			e.printStackTrace();
-			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -364,11 +359,8 @@ public class MidiSoundD implements MetaEventListener {
 			}
 			// System.out.println(contents.toString());
 			this.playSequenceFromJFugueString(contents.toString(), 0);
-		}
-
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-
 		} finally {
 			try {
 				if (reader != null) {
@@ -385,7 +377,7 @@ public class MidiSoundD implements MetaEventListener {
 		return channels;
 	}
 
-	private void setChannels(MidiChannel channels[]) {
+	private void setChannels(MidiChannel[] channels) {
 		this.channels = channels;
 	}
 

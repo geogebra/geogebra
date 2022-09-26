@@ -82,4 +82,9 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		// not needed
 	}
 
+	@Override
+	public void enableZoomPanelEvents(boolean enable) {
+		// not needed
+	}
+
 }

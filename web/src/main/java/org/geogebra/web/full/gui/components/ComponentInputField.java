@@ -49,12 +49,38 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 	public ComponentInputField(AppW app, String placeholder, String labelTxt,
 			String errorTxt, String defaultValue, int width, int height,
 			String suffixTxt) {
+		this(app, placeholder, labelTxt, errorTxt, defaultValue, width, height, suffixTxt, true);
+	}
+
+	/**
+	 * @param app
+	 *            see {@link AppW}
+	 * @param placeholder
+	 *            placeholder text (can be null)
+	 * @param labelTxt
+	 *            label of input field
+	 * @param errorTxt
+	 *            error label of input field
+	 * @param defaultValue
+	 *            default text of input text field
+	 * @param width
+	 *            of input text field
+	 * @param height
+	 *            of input text field
+	 * @param suffixTxt
+	 *            suffix at end of text field
+	 * @param hasKeyboardBtn
+	 *            whether to show keyboard button or not (disabled in Export3dDialog)
+	 */
+	public ComponentInputField(AppW app, String placeholder, String labelTxt,
+			String errorTxt, String defaultValue, int width, int height,
+			String suffixTxt, boolean hasKeyboardBtn) {
 		this.loc = app.getLocalization();
 		this.labelTextKey = labelTxt;
 		this.errorTextKey = errorTxt;
 		this.placeholderTextKey = placeholder;
 		this.suffixTextKey = suffixTxt;
-		buildGui(width, height, app);
+		buildGui(width, height, app, hasKeyboardBtn);
 		if (!StringUtil.empty(defaultValue)) {
 			setInputText(defaultValue);
 		}
@@ -91,11 +117,11 @@ public class ComponentInputField extends FlowPanel implements SetLabels, Input {
 		return contentPanel;
 	}
 
-	private void buildGui(int width, int height, AppW app) {
+	private void buildGui(int width, int height, AppW app, boolean hasKeyboardBtn) {
 		contentPanel = new FlowPanel();
 		contentPanel.setStyleName("inputTextField");
 		// input text field
-		inputTextField = new InputPanelW("", app, height, width, true);
+		inputTextField = new InputPanelW("", app, height, width, hasKeyboardBtn);
 		inputTextField.addStyleName("textField");
 		// label of text field
 		labelText = new FormLabel().setFor(inputTextField.getTextComponent());

@@ -86,7 +86,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * 2D Point
- * 
+ *
  * @author Markus
  */
 public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
@@ -148,7 +148,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * create an undefined GeoPoint
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -196,7 +196,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Creates new GeoPoint
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param label
@@ -216,7 +216,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Creates new GeoPoint
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param x
@@ -235,7 +235,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Creates point on path
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param path
@@ -250,7 +250,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Creates point in region
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param region
@@ -320,7 +320,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param point
 	 *            point to copy
 	 */
@@ -435,7 +435,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * static method for used in GeoPoint3D
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @return true if point is Changeable
@@ -643,13 +643,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if we are a Point on a Curve defined like c(a) for Curve a,
 	 *         Slider a
 	 */
 	private boolean isPointOnCurveWithSlider() {
 		ExpressionNode exp = getDefinition();
-		
+
 		if (exp == null) {
 			return false;
 		}
@@ -668,9 +668,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * this point's coordinates. For point P = (a, b) the array [a, b] is
 	 * returned, for P = (x(A) + c, d + y(A)) the array [c, d] is returned, for
 	 * P = (x(A) + c, y(A)) the array [c, null] is returned.
-	 * 
+	 *
 	 * for (a,1), [GeoNumeric, MyDouble] is returned
-	 * 
+	 *
 	 * @return null if this point is not defined using two GeoNumeric objects
 	 */
 	final public ArrayList<NumberValue> getCoordParentNumbers() {
@@ -764,7 +764,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Increments path parameter
-	 * 
+	 *
 	 * @param a
 	 *            increment
 	 */
@@ -780,7 +780,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Returns true if this point's path is a circle or ellipse
-	 * 
+	 *
 	 * public boolean hasAnglePathParameter() { return (path != null) && (path
 	 * instanceof GeoConic) && (((GeoConic)path).isElliptic()); }
 	 */
@@ -834,7 +834,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -992,7 +992,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Sets coords to (x,y,1)
-	 * 
+	 *
 	 * @param v
 	 *            vector (x,y)
 	 */
@@ -1013,7 +1013,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * Checks whether geo is a point and whether it's same as this with given
 	 * precision
-	 * 
+	 *
 	 * @param geo
 	 *            element
 	 * @param eps
@@ -1076,7 +1076,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Gets polar coords of this point
-	 * 
+	 *
 	 * @param res
 	 *            array to store results
 	 */
@@ -1128,7 +1128,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x2
 	 *            x coord
 	 * @param y2
@@ -1141,7 +1141,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Convenience method to tell whether these two points are in the same place
-	 * 
+	 *
 	 * @param P
 	 *            first point
 	 * @param Q
@@ -1155,7 +1155,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * returns the square distance of this point and P (may return infinty or
 	 * NaN).
-	 * 
+	 *
 	 * @param P
 	 *            other point
 	 * @return square distance to other point
@@ -1168,7 +1168,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Returns if three points are collinear.
-	 * 
+	 *
 	 * @param A
 	 *            first point
 	 * @param B
@@ -1197,7 +1197,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * Decides if 4 points are lying on the same circle.
-	 * 
+	 *
 	 * @param inputPoint1
 	 *            first object
 	 * @param inputPoint2
@@ -1255,7 +1255,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * Calcs determinant of P and Q. Note: no test for defined or infinite is
 	 * done here.
-	 * 
+	 *
 	 * @param P
 	 *            first point
 	 * @param Q
@@ -1270,7 +1270,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * Returns the affine ratio for three collinear points A, B and C. The ratio
 	 * is lambda with C = A + lambda * AB, i.e. lambda = AC/AB. Note: the
 	 * collinearity is not checked in this method.
-	 * 
+	 *
 	 * @param A
 	 *            A
 	 * @param B
@@ -1302,7 +1302,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return (cC.getZ() - cA.getZ()) / ABz;
 	}
 
-	/***********************************************************
+	 /***********************************************************
 	 * MOVEMENTS
 	 ***********************************************************/
 
@@ -1331,7 +1331,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * dilate from O
-	 * 
+	 *
 	 * @param r
 	 *            ratio
 	 */
@@ -1560,6 +1560,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public static final void buildValueStringCoordCartesian3D(Kernel kernel,
 			StringTemplate tpl, double x, double y, double z,
 			StringBuilder sb) {
+
 		if (tpl.hasCASType()) {
 
 			sb.append("point(");
@@ -1627,10 +1628,35 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			StringBuilder sbBuildValueString) {
 
 		double lengthXY = MyMath.length(x, y);
+		String radius = kernel.format(MyMath.length(lengthXY, z), tpl);
+
+		if (tpl.hasCASType()) {
+			String theta = kernel.format(Math.atan2(y, x), tpl);
+			String phi = kernel.format(Math.atan2(z, lengthXY), tpl);
+
+			//x
+			sbBuildValueString.append("point((");
+			sbBuildValueString.append(radius).append(")");
+			sbBuildValueString.append("*cos(").append(theta).append(")");
+			sbBuildValueString.append("*cos(").append(phi).append(")");
+			sbBuildValueString.append(",");
+
+			//y
+			sbBuildValueString.append("(").append(radius).append(")");
+			sbBuildValueString.append("*sin(").append(theta).append(")");
+			sbBuildValueString.append("*cos(").append(phi).append(")");
+			sbBuildValueString.append(",");
+
+			//z
+			sbBuildValueString.append("(").append(radius).append(")");
+			sbBuildValueString.append("*sin(").append(phi).append(")");
+			sbBuildValueString.append(")");
+
+			return;
+		}
 
 		sbBuildValueString.append('(');
-		sbBuildValueString
-				.append(kernel.format(MyMath.length(lengthXY, z), tpl));
+		sbBuildValueString.append(radius);
 		sbBuildValueString.append("; ");
 		sbBuildValueString
 				.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
@@ -1895,7 +1921,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * Returns a comparator for GeoPoint objects. (sorts on X coordinate) If
 	 * equal, doesn't return zero (otherwise TreeSet deletes duplicates)
-	 * 
+	 *
 	 * @return comparator for GeoPoint objects.
 	 */
 	public static Comparator<GeoPoint> getComparatorX() {
@@ -2137,7 +2163,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	/**
 	 * do pointChanged for (x,y,z) 2D coords
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 * @param x
@@ -2278,7 +2304,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * Performs the next automatic animation step for this numbers. This changes
 	 * the value but will NOT call update() or updateCascade().
-	 * 
+	 *
 	 * @return whether the value of this number was changed
 	 */
 	@Override
@@ -2399,7 +2425,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * add geo to incidenceList of this, and also add this to pointsOnConic
 	 * (when geo is a conic) or to pointsOnLine (when geo is a line)
-	 * 
+	 *
 	 * @param geo
 	 *            incident object
 	 */
@@ -2801,7 +2827,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public void setChangeableParentIfNull(ChangeableParent ccp) {
 		// used for GeoPoint3D
 	}
-	
+
 	@Override
 	public double getZScale() {
 		return 1;

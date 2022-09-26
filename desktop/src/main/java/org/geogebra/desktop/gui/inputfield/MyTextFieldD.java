@@ -89,10 +89,10 @@ public class MyTextFieldD extends JTextField
 		initField();
 	}
 
-	/************************************
+	/**
 	 * Construct an instance of MyTextField with a fixed column width
 	 * 
-	 * @param columns
+	 * @param columns number of columns
 	 */
 	public MyTextFieldD(AppD app, int columns) {
 		super(columns);
@@ -129,18 +129,9 @@ public class MyTextFieldD extends JTextField
 	}
 
 	/**
-	 * returns true if bracket coloring is enabled
-	 * 
-	 * @return
-	 */
-	public boolean enableColoring() {
-		return enableColoring;
-	}
-
-	/**
 	 * sets the flag to enable bracket coloring
 	 * 
-	 * @param enableColoring
+	 * @param enableColoring whether to enable coloring
 	 */
 	public void enableColoring(boolean enableColoring) {
 		this.enableColoring = enableColoring;
@@ -149,7 +140,7 @@ public class MyTextFieldD extends JTextField
 	/**
 	 * enables coloring of labels
 	 * 
-	 * @param isCasInput
+	 * @param isCasInput whether it's for CAS
 	 */
 	public void enableLabelColoring(boolean isCasInput) {
 		if (ip == null) {
@@ -171,13 +162,8 @@ public class MyTextFieldD extends JTextField
 	// BorderButton
 	// ====================================================
 
-	public BorderButtonD getBorderButton() {
-		return borderBtn;
-	}
-
 	public void setDefaultBorder() {
-		super.setBorder(
-				BorderFactory.createCompoundBorder(defaultBorder, borderBtn));
+		super.setBorder(BorderFactory.createCompoundBorder(defaultBorder, borderBtn));
 	}
 
 	protected void setBorderButton(int index, ImageIcon icon,
@@ -212,14 +198,12 @@ public class MyTextFieldD extends JTextField
 	/**
 	 * Sets a flag to force all text to be selected on focus (helpful for tabbed
 	 * data entry)
-	 * 
-	 * @param selectAllOnFocus
+	 *
+	 * @param selectAllOnFocus whether to select all
 	 */
 	public void setSelectAllOnFocus(boolean selectAllOnFocus) {
 		this.selectAllOnFocus = selectAllOnFocus;
 	}
-
-	int oldStyle = Font.PLAIN;
 
 	@Override
 	public void focusGained(FocusEvent e) {
@@ -284,21 +268,19 @@ public class MyTextFieldD extends JTextField
 		// clear selection if there is one
 		if (start != end) {
 			String oldText = getText();
-			StringBuilder sb = new StringBuilder();
-			sb.append(oldText.substring(0, start));
-			sb.append(oldText.substring(end));
-			setText(sb.toString());
+			String sb = oldText.substring(0, start)
+					+ oldText.substring(end);
+			setText(sb);
 			setCaretPosition(start);
 		}
 
 		// insert the string
 		int pos1 = getCaretPosition();
 		String oldText = getText();
-		StringBuilder sb = new StringBuilder();
-		sb.append(oldText.substring(0, pos1));
-		sb.append(text);
-		sb.append(oldText.substring(pos1));
-		setText(sb.toString());
+		String sb = oldText.substring(0, pos1)
+				+ text
+				+ oldText.substring(pos1);
+		setText(sb);
 
 		// reset the caret position
 		setCaretPosition(pos1 + text.length());
@@ -309,13 +291,12 @@ public class MyTextFieldD extends JTextField
 			tf.updateCurrentWord(false);
 			tf.startAutoCompletion();
 		}
-
 	}
 
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
 	 * 
-	 * @param showSymbolTableIcon
+	 * @param showSymbolTableIcon whether to show symbol icon
 	 */
 	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
 		this.showSymbolTableIcon = showSymbolTableIcon;
@@ -362,9 +343,10 @@ public class MyTextFieldD extends JTextField
 
 	// fields for custom painting
 	private float pos = 0; // start position of text (not pixel location)
-	private int caret; // caret position
 	private int scrollOffset = 0;
-	private int width = 0, height = 0, textBottom, fontHeight;
+	private int width = 0;
+	private int textBottom;
+	private int fontHeight;
 	private FontRenderContext frc;
 	private Font font;
 	private Graphics2D g2;
@@ -396,7 +378,7 @@ public class MyTextFieldD extends JTextField
 		// get textField dimensions
 		insets = getInsets();
 		width = getWidth() - insets.right - insets.left;
-		height = getHeight() - insets.top - insets.bottom;
+		int height = getHeight() - insets.top - insets.bottom;
 
 		// get text position information
 		scrollOffset = getScrollOffset();
@@ -409,7 +391,8 @@ public class MyTextFieldD extends JTextField
 		int selEnd = getSelectionEnd();
 
 		// get caret position information
-		caret = getCaretPosition();
+		// caret position
+		int caret = getCaretPosition();
 		float caretPos = -1;
 		if (caret == 0) {
 			caretPos = pos;
@@ -449,8 +432,7 @@ public class MyTextFieldD extends JTextField
 			if (text.charAt(i) == '\"') {
 				textMode = !textMode;
 			}
-			if (i == wrong)
-			 {
+			if (i == wrong) {
 				fg = COLOR_UNMATCHED; // unmatched bracket
 			}
 			if (i == bracket1pos || i == bracket2pos) {
@@ -552,6 +534,5 @@ public class MyTextFieldD extends JTextField
 			setCaretPosition(pos2);
 		}
 	}
-
 
 }

@@ -57,16 +57,18 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	protected ArrayList<SwatchPanel> swatchPanelList;
 
 	private JButton btnCustomColor;
-	private JLabel lblRecent, lblCustom;
-	private JPanel recentPanel, customPanel;
+	private JLabel lblRecent;
+	private JLabel lblCustom;
+	private JPanel recentPanel;
+	private JPanel customPanel;
 
 	protected static final int largeSwatchSize = 16;
 	protected static final int smallSwatchSize = 14;
 
-	/**********************************************************
+	/**
 	 * Constructs a color chooser panel
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public GeoGebraColorChooserPanel(AppD app) {
 		super();
@@ -162,7 +164,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		primarySwatchPanel = new PrimarySwatchPanel();
 		customSwatchPanel = new CustomSwatchPanel();
 
-		swatchPanelList = new ArrayList<SwatchPanel>();
+		swatchPanelList = new ArrayList<>();
 		swatchPanelList.add(mainSwatchPanel);
 		swatchPanelList.add(primarySwatchPanel);
 		swatchPanelList.add(recentSwatchPanel);
@@ -216,7 +218,6 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		super.uninstallChooserPanel(enclosingChooser);
 		for (SwatchPanel sp : swatchPanelList) {
 			sp.removeMouseListener(swatchListener);
-			sp = null;
 		}
 		swatchListener = null;
 		removeAll(); // strip out all the sub-components
@@ -232,10 +233,9 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * Sets the visual feedback for the swatch panels so that the appropriate
 	 * panel shows the current selection.
 	 * 
-	 * @param color
-	 * @return
+	 * @param color color
 	 */
-	public boolean setSwatchPanelSelection(Color color) {
+	public void setSwatchPanelSelection(Color color) {
 
 		// clear visual feedback for swatch selection in the swatch panels
 		for (SwatchPanel panel : swatchPanelList) {
@@ -246,18 +246,14 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		// (JColorChooser doesn't handle null color ... see class
 		// GeoGebraColorChooser for workaround)
 		if (enclosingChooser != null && enclosingChooser.isNullSelection()) {
-			return true;
+			return;
 		}
 
 		// set the selected swatch visual feedback in the appropriate panel
-		if (primarySwatchPanel.setSelectionFromColor(color)) {
-			return true;
-		} else if (mainSwatchPanel.setSelectionFromColor(color)) {
-			return true;
-		} else {
-			return customSwatchPanel.setSelectionFromColor(color);
+		if (!primarySwatchPanel.setSelectionFromColor(color)
+				&& !mainSwatchPanel.setSelectionFromColor(color)) {
+			customSwatchPanel.setSelectionFromColor(color);
 		}
-
 	}
 
 	/**
@@ -323,7 +319,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			chooser = new JColorChooser();
 			chooser.setColor(myChooser.getColorFromModel());
 			DefaultRGBChooserPanel rgb = new DefaultRGBChooserPanel(app);
-			AbstractColorChooserPanel panels[] = { rgb };
+			AbstractColorChooserPanel[] panels = { rgb };
 			chooser.setChooserPanels(panels);
 			chooser.setPreviewPanel(rgb.getPreview());
 
@@ -570,7 +566,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				selectedSwatch = new Dimension();
 			}
 
-			boolean success = false;
+			boolean success;
 
 			if (color == null) {
 				selectedSwatch.width = -1;

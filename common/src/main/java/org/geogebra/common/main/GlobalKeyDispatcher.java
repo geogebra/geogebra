@@ -307,8 +307,17 @@ public abstract class GlobalKeyDispatcher {
 				double radius = Math.hypot(posX, posY);
 
 				if (DoubleUtil.isZero(diff[0])) {
-					diff[0] = MyMath.signedNextMultiple(diff[1], xGrid * Math.cos(angle));
-					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * Math.sin(angle));
+
+					double radiusIncrement = diff[1] > 0 ? xGrid : -xGrid;
+
+					if (DoubleUtil.isZero(radius)) {
+						diff[0] = radiusIncrement;
+						diff[1] = 0;
+					} else {
+						diff[0] = radiusIncrement * Math.cos(angle);
+						diff[1] = radiusIncrement * Math.sin(angle);
+					}
+
 				} else {
 					double angleIncrement = Math.signum(diff[0])
 							* app.getActiveEuclidianView().getGridDistances(2);

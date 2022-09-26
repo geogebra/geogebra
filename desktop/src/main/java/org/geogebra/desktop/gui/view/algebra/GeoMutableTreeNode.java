@@ -22,8 +22,8 @@ public class GeoMutableTreeNode extends DefaultMutableTreeNode {
 	 */
 	public String getAlgebraDescription() {
 		if (algebraDescription == null) {
-			algebraDescription = ((GeoElement) getUserObject()).getAlgebraDescriptionTextOrHTMLDefault(
-					new IndexHTMLBuilder(true));
+			algebraDescription = ((GeoElement) getUserObject())
+					.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(true));
 		}
 		return algebraDescription;
 	}

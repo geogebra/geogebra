@@ -102,7 +102,7 @@ public class CASDragGestureListener
 	 */
 	static class TransferableCAS implements Transferable {
 
-		private final DataFlavor supportedFlavors[] = {
+		private final DataFlavor[] supportedFlavors = {
 				AlgebraViewTransferHandler.algebraViewFlavor,
 				CASTransferHandler.casTableFlavor, };
 

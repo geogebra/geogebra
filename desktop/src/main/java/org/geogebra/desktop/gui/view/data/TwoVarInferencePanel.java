@@ -32,9 +32,16 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private DataAnalysisViewD daView;
 	private StatTable resultTable;
 
-	private JComboBox cbTitle1, cbTitle2, cbAltHyp;
-	private JLabel lblTitle1, lblTitle2, lblHypParameter, lblTailType, lblNull,
-			lblConfLevel, lblResultHeader;
+	private JComboBox cbTitle1;
+	private JComboBox cbTitle2;
+	private JComboBox cbAltHyp;
+	private JLabel lblTitle1;
+	private JLabel lblTitle2;
+	private JLabel lblHypParameter;
+	private JLabel lblTailType;
+	private JLabel lblNull;
+	private JLabel lblConfLevel;
+	private JLabel lblResultHeader;
 	private MyTextFieldD fldNullHyp;
 	private JPanel resultPanel;
 	private JCheckBox ckEqualVariances;
@@ -46,7 +53,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private JPanel mainPanel;
 	private JPanel samplePanel;
 	private TwoVarStatPanelD twoStatPanel;
-	private TwoVarInferenceModel model;
+	private final TwoVarInferenceModel model;
 	private boolean enablePooled;
 	private JCheckBox ckPooled;
 

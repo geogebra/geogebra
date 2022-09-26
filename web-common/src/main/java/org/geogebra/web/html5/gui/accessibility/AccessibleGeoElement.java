@@ -89,7 +89,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	/**
 	 * @param sel
 	 *            selected element associated with the action
-	 * @return action description (eg Run script)
+	 * @return action description (eg "press space to activate")
 	 */
 	private String getAction(GeoElement sel) {
 		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {

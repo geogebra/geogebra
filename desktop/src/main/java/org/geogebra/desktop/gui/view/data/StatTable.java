@@ -437,6 +437,7 @@ public class StatTable extends JScrollPane {
 	public class MyRowHeader extends JList {
 		private static final long serialVersionUID = 1L;
 		JTable table;
+
 		public MyRowHeader(JTable table, String[] rowNames,
 				StatTable statTable) {
 			super(rowNames);
@@ -530,7 +531,8 @@ public class StatTable extends JScrollPane {
 		private static final long serialVersionUID = 1L;
 		JComboBox comboBox;
 		JLabel label;
-		int row, column;
+		int row;
+		int column;
 
 		public MyComboBoxEditor(String[] items) {
 			super(new JComboBox(items));

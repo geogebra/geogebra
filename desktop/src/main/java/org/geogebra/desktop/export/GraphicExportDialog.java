@@ -100,8 +100,10 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	private JButton cancelButton;
 
 	private double exportScale;
-	private int pixelWidth, pixelHeight;
-	private double cmWidth, cmHeight;
+	private int pixelWidth;
+	private int pixelHeight;
+	private double cmWidth;
+	private double cmHeight;
 	private final NumberFormat sizeLabelFormat;
 
 	/** convert text to shapes (eps, pdf, svg) */
@@ -971,6 +973,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 
 	 * @param app
@@ -1139,7 +1142,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 				textAsShapes);
 		PDFGraphics2D.setDefaultProperties(props);
 
-		VectorGraphics g;
+		PDFGraphics2D g;
 		try {
 
 			double printingScale = view.getPrintingScale();
@@ -1165,10 +1168,10 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			// fe.includeFont(font, Lookup.getInstance().getTable("PDFLatin"),
 			// "F1");
 
-			((PDFGraphics2D) g).setPageSize(size);
+			g.setPageSize(size);
 
 			g.startExport();
-			((EuclidianViewD)view).exportPaint(g, printingScale / factor, textAsShapes
+			((EuclidianViewD) view).exportPaint(g, printingScale / factor, textAsShapes
 					? ExportType.PDF_TEXTASSHAPES : ExportType.PDF_EMBEDFONTS);
 			g.endExport();
 		} catch (FileNotFoundException e) {

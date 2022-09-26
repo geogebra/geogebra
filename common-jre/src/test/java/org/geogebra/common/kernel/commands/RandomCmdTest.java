@@ -7,7 +7,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -21,6 +23,10 @@ public class RandomCmdTest extends BaseUnitTest {
 	@Before
 	public void setSeed() {
 		getApp().setRandomSeed(42);
+	}
+
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create3D();
 	}
 
 	@Test
@@ -49,6 +55,7 @@ public class RandomCmdTest extends BaseUnitTest {
 		shouldBeStable("RandomElement((1..10, 2..11))");
 		shouldBeStable("RandomElement(2y=(1..10)x)");
 		shouldBeStable("RandomElement(2y=(1..10)x^2)");
+		shouldBeStable("RandomElement(l)");
 		shouldBeStable("RandomElement(y=(1..10)sin(x))");
 		shouldBeStable("RandomElement(Zip(UnicodeToLetter(A),A,65..75))");
 	}
@@ -124,6 +131,7 @@ public class RandomCmdTest extends BaseUnitTest {
 
 	private void shouldBeStable(String cmd) {
 		getApp().getKernel().getConstruction().clearConstruction();
+		add("l=Zip(2y=k*x^2+z^2,k,1..10)");
 		GeoElement a = add("a=" + cmd);
 		String old = a.toValueString(StringTemplate.editTemplate);
 		try {
