@@ -5,9 +5,9 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.0.9'
+    id 'com.github.spotbugs' version '5.0.12'
     id 'de.aaschmid.cpd' version '3.3'
-    id 'io.miret.etienne.sass' version '1.4.0'
+    id 'io.miret.etienne.sass' version '1.4.1'
     id 'org.wisepersist.gwt' version '1.1.19'
 }
 
@@ -317,7 +317,14 @@ task mergeDeploy(){
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
 
-task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
+class ReadableDev extends org.wisepersist.gradle.plugins.gwt.GwtDev {
+    protected void addArgs() {
+        super.addArgs();
+        args("-style", "PRETTY");
+    }
+}
+
+task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
     war = file(warDirRel)
     maxHeapSize = '4096m'
     logLevel = 'TRACE'

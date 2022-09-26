@@ -1803,7 +1803,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
-		return ExtendedBoolean.newExtendedBoolean(this == geo); // TODO
+		if (geo instanceof GeoQuadric3D) {
+			return ExtendedBoolean.newExtendedBoolean(hasEqualMatrix((GeoQuadric3D) geo));
+		}
+		return ExtendedBoolean.FALSE;
 	}
 
 	@Override

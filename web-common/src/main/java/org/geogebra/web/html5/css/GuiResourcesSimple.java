@@ -124,6 +124,18 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/common/fast_rewind.svg")
 	SVGResource fast_rewind();
 
+	@Source("org/geogebra/common/icons/svg/common/zoom_to_fit.svg")
+	SVGResource zoom_to_fit();
+
+	@Source("org/geogebra/common/icons/svg/common/center_view.svg")
+	SVGResource center_view();
+
+	@Source("org/geogebra/common/icons/svg/common/help.svg")
+	SVGResource help();
+
+	@Source("org/geogebra/common/icons/svg/common/settings.svg")
+	SVGResource settings();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_black_24px.svg")
 	SVGResource play_circle();
 

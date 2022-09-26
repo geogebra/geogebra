@@ -323,6 +323,10 @@ class FillingPanelD extends JPanel
 		imgFileNameList.add(GuiResourcesD.FILLING_ARROW_FORWARD);
 		imgFileNameList.add(GuiResourcesD.FILLING_FAST_FORWARD);
 		imgFileNameList.add(GuiResourcesD.FILLING_FAST_REWIND);
+		imgFileNameList.add(GuiResourcesD.FILLING_ZOOM_TO_FIT);
+		imgFileNameList.add(GuiResourcesD.FILLING_CENTER_VIEW);
+		imgFileNameList.add(GuiResourcesD.FILLING_HELP);
+		imgFileNameList.add(GuiResourcesD.FILLING_SETTINGS);
 
 		ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);

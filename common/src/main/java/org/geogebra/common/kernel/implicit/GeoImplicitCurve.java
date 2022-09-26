@@ -107,6 +107,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
+	private boolean updatePathNeeded = false;
 	private static long fastDrawThreshold = 10;
 
 	/**
@@ -706,6 +707,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	@Override
 	public GeoLocus getLocus() {
+		if (updatePathNeeded) {
+			doUpdatePath();
+		}
 		return locus;
 	}
 
@@ -720,10 +724,14 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	/**
 	 * Updates the path of the curve.
 	 */
-	synchronized public void updatePath() {
+	public void updatePath() {
 		if (!calcPath) {
 			return;
 		}
+		updatePathNeeded = true;
+	}
+
+	private synchronized void doUpdatePath() {
 		double[] viewBounds = getViewBounds();
 		if (viewBounds[0] == Double.POSITIVE_INFINITY) {
 			viewBounds = new double[] { -10, 10, -10, 10, 10, 10 };
@@ -789,7 +797,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private void updatePathQuadTree(double x, double y, double w, double h,
 			double scaleX, double scaleY) {
 		locus.getPoints().clear();
-		quadTree.updatePath(x, y - h, w, h, scaleX, scaleY);
+		quadTree.updatePath(x, y - h, w, h, scaleX, scaleY, locus);
 	}
 
 	/**
@@ -883,17 +891,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		this.defined = true;
 	}
 
-	/**
-	 * @param PI
-	 *            point
-	 */
-	protected void polishPointOnPath(GeoPointND PI) {
-		quadTree.polishPointOnPath(PI);
-	}
-
 	@Override
 	public void pointChanged(GeoPointND PI) {
-		if (locus.getPoints().size() > 0) {
+		if (getLocus().getPoints().size() > 0) {
 			locusPointChanged(PI);
 		}
 	}
@@ -905,8 +905,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            point on path
 	 */
 	protected void locusPointChanged(GeoPointND PI) {
-		locus.pointChanged(PI);
-		polishPointOnPath(PI);
+		getLocus().pointChanged(PI);
+		quadTree.polishPointOnPath(PI);
 	}
 
 	@Override
@@ -919,7 +919,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return;
 		}
 
-		if (locus.getPoints().size() > 0) {
+		if (getLocus().getPoints().size() > 0) {
 			locusPathChanged(PI);
 		}
 	}
@@ -931,8 +931,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            point on path
 	 */
 	protected void locusPathChanged(GeoPointND PI) {
-		locus.pathChanged(PI);
-		polishPointOnPath(PI);
+		getLocus().pathChanged(PI);
+		quadTree.polishPointOnPath(PI);
 	}
 
 	/**
@@ -980,22 +980,22 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public double getMinParameter() {
-		return locus.getMinParameter();
+		return getLocus().getMinParameter();
 	}
 
 	@Override
 	public double getMaxParameter() {
-		return locus.getMaxParameter();
+		return getLocus().getMaxParameter();
 	}
 
 	@Override
 	public boolean isClosedPath() {
-		return locus.isClosedPath();
+		return getLocus().isClosedPath();
 	}
 
 	@Override
 	public PathMover createPathMover() {
-		return locus.createPathMover();
+		return getLocus().createPathMover();
 	}
 
 	/*
@@ -1521,22 +1521,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	/**
 	 * 
-	 * @param c1
-	 *            first curve
-	 * @param c2
-	 *            second curve
-	 * @param n
-	 *            maximum number of samples in output
-	 * @return list of points which may be closer to the path of both implicit
-	 *         curves
-	 */
-	public static List<Coords> probableInitialPoints(GeoImplicitCurve c1,
-			GeoImplicitCurve c2, int n) {
-		return c1.quadTree.probablePoints(c2, n);
-	}
-
-	/**
-	 * 
 	 * @param f1
 	 *            First function
 	 * @param f2
@@ -1933,7 +1917,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isOnScreen() {
-		return defined && locus.isDefined() && locus.getPoints().size() > 0;
+		GeoLocus locusCurve = getLocus();
+		return defined && locusCurve.isDefined() && locusCurve.getPoints().size() > 0;
 	}
 
 	@Override
@@ -2452,6 +2437,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void replaceChildrenByValues(GeoElement var) {
 		this.expression.getFunctionExpression().replaceChildrenByValues(var);
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).replaceChildrenByValues(var);
+		}
 	}
 
 	public static void setFastDrawThreshold(int threshold) {
@@ -2462,5 +2450,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public void doRemove() {
 		super.doRemove();
 		cons.unregisterEuclidianViewCE(this);
+	}
+
+	@Override
+	public void setViewFlags(List<Integer> viewSet) {
+		super.setViewFlags(viewSet);
+		updatePath();
 	}
 }

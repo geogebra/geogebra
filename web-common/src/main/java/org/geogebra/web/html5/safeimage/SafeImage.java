@@ -32,7 +32,7 @@ public class SafeImage {
 	 */
 	public void process() {
 		for (ImagePreprocessor preprocessor : preprocessors) {
-			if (preprocessor.match(imageFile.getExtension())) {
+			if (preprocessor.match(imageFile.getExtension(), imageFile.getSizeKB())) {
 				preprocessor.process(imageFile, provider);
 				return;
 			}

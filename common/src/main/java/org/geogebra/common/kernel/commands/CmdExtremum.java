@@ -91,7 +91,7 @@ public class CmdExtremum extends CommandProcessor {
 		PolyFunction poly = f.expandToPolyFunction(
 				f.getFunctionExpression(), false,
 				true);
-		if (!gf.isPolynomialFunction(true)
+		if (!gf.isPolynomialFunction(false)
 				|| (poly != null && poly.isMaxDegreeReached())) {
 			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 					.getActiveEuclidianView();

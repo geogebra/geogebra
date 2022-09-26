@@ -688,4 +688,34 @@ public abstract class GeoQuadricND extends GeoElement
 	public final void setToSpecific() {
 		toStringMode = GeoConicND.EQUATION_SPECIFIC;
 	}
+
+	protected boolean hasEqualMatrix(GeoQuadricND conic) {
+		double[] B = conic.matrix;
+		double lambda1 = 0.0;
+		boolean aZero, bZero, equal = true;
+		for (int i = 0; i < 6; i++) {
+			aZero = DoubleUtil.isZero(matrix[i]);
+			bZero = DoubleUtil.isZero(B[i]);
+
+			// A[i] == 0 and B[i] != 0 => not equal
+			if (aZero && !bZero) {
+				equal = false;
+			} else if (bZero && !aZero) {
+				equal = false;
+			} else if (!aZero && !bZero) {
+				// init lambda?
+				if (lambda1 == 0.0) {
+					lambda1 = matrix[i] / B[i];
+					// check equality
+				} else {
+					equal = DoubleUtil.isEqual(matrix[i], lambda1 * B[i]);
+				}
+			}
+			// leaf loop
+			if (!equal) {
+				break;
+			}
+		}
+		return equal;
+	}
 }

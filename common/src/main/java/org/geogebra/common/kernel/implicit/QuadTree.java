@@ -2,13 +2,12 @@ package org.geogebra.common.kernel.implicit;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
+import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -284,14 +283,14 @@ abstract class QuadTree {
 	 *            scaleY
 	 */
 	public void updatePath(double startX, double startY, double width,
-			double height, double slX, double slY) {
+			double height, double slX, double slY, GeoLocus locus) {
 		this.x = startX;
 		this.y = startY;
 		this.w = width;
 		this.h = height;
 		this.scaleX = slX;
 		this.scaleY = slY;
-		this.locusPoints = this.geoImplicitCurve.getLocus().getPoints();
+		this.locusPoints = locus.getPoints();
 		this.updatePath();
 		this.abortList();
 	}
@@ -302,16 +301,6 @@ abstract class QuadTree {
 	 */
 	public void polishPointOnPath(GeoPointND pt) {
 		// pt.setUndefined();
-	}
-
-	public List<Coords> probablePoints(GeoImplicitCurve other, int n) {
-		double xMin = Math.max(x, other.quadTree.x);
-		double yMin = Math.max(y, other.quadTree.y);
-		double xMax = Math.min(x + w, other.quadTree.x + w);
-		double yMax = Math.min(y + h, other.quadTree.y + h);
-		return GeoImplicitCurve.probableInitialPoints(
-				this.geoImplicitCurve.getExpression(), other.getExpression(),
-				xMin, yMin, xMax, yMax, n);
 	}
 
 	public int edgeConfig(Rect r) {

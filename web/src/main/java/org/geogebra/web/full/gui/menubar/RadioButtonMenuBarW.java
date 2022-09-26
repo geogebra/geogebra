@@ -32,9 +32,10 @@ public class RadioButtonMenuBarW extends AriaMenuBar {
 		this.loc = loc;
 	}
 
-	private void addItem(String text, Command com, boolean selected) {
+	private void addItem(String text, Command com, boolean selected, int pos) {
 		RadioButtonData<String> data = new RadioButtonData<>(text, text);
-		ComponentRadioButton<String> radioButton = new ComponentRadioButton<>(loc, data);
+		ComponentRadioButton<String> radioButton = new ComponentRadioButton<>(loc, data,
+				pos, texts.length);
 		radioButton.setSelected(selected);
 		radioButton.addStyleName("RadioButtonMenuItem");
 		super.addItem(radioButton.toString(), true, com);
@@ -67,7 +68,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar {
 					if (itemSideEffect != null) {
 						itemSideEffect.execute();
 					}
-				}, i == selectedPos);
+				}, i == selectedPos, i);
 			}
 		}
 	}

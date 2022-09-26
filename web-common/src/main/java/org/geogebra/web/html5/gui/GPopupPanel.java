@@ -99,7 +99,7 @@ import jsinterop.base.Js;
  */
 @SuppressWarnings("deprecation")
 public class GPopupPanel extends SimplePanel implements
-		HasAnimation, HasCloseHandlers<GPopupPanel> {
+		HasAnimation, HasCloseHandlers<GPopupPanel>, HasHide {
 
 	/**
 	 * The duration of the animation.
@@ -680,6 +680,7 @@ public class GPopupPanel extends SimplePanel implements
 	 * Hides the popup and detaches it from the page. This has no effect if it
 	 * is not currently showing.
 	 */
+	@Override
 	public void hide() {
 		hide(false);
 	}

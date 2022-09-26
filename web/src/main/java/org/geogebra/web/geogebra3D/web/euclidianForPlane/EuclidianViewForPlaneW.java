@@ -73,6 +73,7 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 * 
 	 * @return dock panel
 	 */
+	@Override
 	public EuclidianDockPanelForPlaneW getDockPanel() {
 		return (EuclidianDockPanelForPlaneW) evPanel;
 	}
@@ -89,4 +90,5 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	public int getViewID() {
 		return panelID;
 	}
+
 }

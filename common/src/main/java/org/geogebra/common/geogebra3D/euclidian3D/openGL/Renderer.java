@@ -39,6 +39,7 @@ public abstract class Renderer {
 	 * used for showing depth instead of color (for testing)
 	 */
 	final public static boolean TEST_DRAW_DEPTH_TO_COLOR = false;
+	protected boolean transparent;
 
 	/**
 	 * renderer type (shader or not)
@@ -1014,8 +1015,11 @@ public abstract class Renderer {
 		waitForUpdateClearColor = true;
 	}
 
-	final private void updateClearColor() {
-
+	private void updateClearColor() {
+		if (transparent) {
+			rendererImpl.setClearColor(0, 0, 0, 0f);
+			return;
+		}
 		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
 		if (view3D

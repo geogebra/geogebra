@@ -718,4 +718,8 @@ public class AppletParameters {
 	public boolean getDataParamTransparentGraphics() {
 		return getBoolDataParam("transparentGraphics", false);
 	}
+
+	public int getParamMaxImageSize() {
+		return getIntDataParam("maxImageSize", 0);
+	}
 }
