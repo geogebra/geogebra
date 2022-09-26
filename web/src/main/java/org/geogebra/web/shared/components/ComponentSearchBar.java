@@ -28,7 +28,7 @@ public class ComponentSearchBar extends FlowPanel {
 		clearButton = new StandardButton(MaterialDesignResources.INSTANCE.clear(), 24);
 		clearButton.setVisible(false);
 
-		inputTextField = new InputPanelW("", app, -1, 1, false);
+		inputTextField = new InputPanelW("", app, -1, -1, false);
 		inputTextField.getTextComponent().getTextBox().getElement().setAttribute(
 				"placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
 		inputTextField.addStyleName("searchInputField");
