@@ -2,12 +2,15 @@ package org.geogebra.common.util;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.util.debug.Log;
 
 public class SymbolicUtil {
 
@@ -23,6 +26,16 @@ public class SymbolicUtil {
 		return topLevelCommand != null
 				&& (Commands.Solve.getCommand().equals(topLevelCommand.getName())
 				|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
+	}
+
+	public static boolean isNumericOfSolve(GeoSymbolic symbolic) {
+		boolean isNumeric = Commands.Numeric.getCommand()
+				.equals(symbolic.getDefinition().getTopLevelCommand().getName());
+		Command secondCommand = (Command)(((Command) symbolic.getDefinition()
+				.getLeft()).getArgument(0).getLeft());
+		boolean hasSolveArgument = Commands.Solve.getCommand()
+				.equals(secondCommand.getName());
+		return isNumeric && hasSolveArgument;
 	}
 
 	/**
@@ -71,7 +84,7 @@ public class SymbolicUtil {
 				toggleNumericSolve(symbolic);
 				if (Commands.Solve.name()
 						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
-					symbolic.wrapInNumeric();
+					symbolic.setWrapInNumeric(true);
 				}
 			}
 		}
@@ -92,6 +105,28 @@ public class SymbolicUtil {
 		symbolic.computeOutput();
 	}
 
+	public static void toggleNumericWrap(GeoSymbolic symbolic) {
+		boolean isNumeric = Commands.Numeric.getCommand()
+				.equals(symbolic.getDefinition().getTopLevelCommand().getName());
+		if (isNumeric) {
+			unwrapFromNumeric(symbolic);
+		} else {
+			wrapInNumeric(symbolic);
+		}
+	}
+
+	private static void wrapInNumeric(GeoSymbolic symbolic) {
+		Command numeric = new Command(symbolic.getKernel(), "Numeric", false);
+		numeric.addArgument(symbolic.getDefinition().deepCopy(symbolic.getKernel()));
+		symbolic.setDefinition(numeric.wrap());
+		symbolic.computeOutput();
+	}
+
+	private static void unwrapFromNumeric(GeoSymbolic symbolic) {
+		symbolic.setDefinition(((Command) (symbolic.getDefinition().getLeft())).getArgument(0));
+		symbolic.computeOutput();
+	}
+
 	/**
 	 * Changes the symbolic flag of a geo or its parent algo
 	 *
@@ -109,8 +144,12 @@ public class SymbolicUtil {
 
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
-				if (isSymbolicSolve(symbolic)) {
-					toggleNumericSolve(symbolic);
+				if (isSymbolicSolve(symbolic) || isNumericOfSolve(symbolic)) {
+					if (symbolic.shouldWrapInNumeric()) {
+						toggleNumericWrap(symbolic);
+					} else {
+						toggleNumericSolve(symbolic);
+					}
 					symbolic.setDescriptionNeedsUpdateInAV(true);
 				}
 			}

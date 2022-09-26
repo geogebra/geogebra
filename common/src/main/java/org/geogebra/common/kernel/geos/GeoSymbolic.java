@@ -65,6 +65,7 @@ public class GeoSymbolic extends GeoElement
 	private int pointSize;
 	private boolean symbolicMode;
 	private MyArbitraryConstant constant;
+	private boolean wrapInNumeric = false;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -317,14 +318,12 @@ public class GeoSymbolic extends GeoElement
 		return result;
 	}
 
-	/**
-	 * wrap the current expression into a Numeric() command
-	 **/
-	public void wrapInNumeric() {
-		Command numeric = new Command(kernel, "Numeric", false);
-		numeric.addArgument(getDefinition().deepCopy(kernel));
-		setDefinition(numeric.wrap());
-		computeOutput();
+	public void setWrapInNumeric(boolean input) {
+		wrapInNumeric = input;
+	}
+
+	public boolean shouldWrapInNumeric() {
+		return wrapInNumeric;
 	}
 
 	private boolean isTopLevelCommandNumeric() {
