@@ -1,3 +1,4 @@
+/*global cy*/
 describe('Sliders test', () => {
     beforeEach(() => {
         cy.visit('graphing.html');

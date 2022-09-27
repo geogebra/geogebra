@@ -1,3 +1,4 @@
+/*global cy*/
 describe('CASLoaded test', () => {
     beforeEach(() => {
         cy.visit('classic.html');

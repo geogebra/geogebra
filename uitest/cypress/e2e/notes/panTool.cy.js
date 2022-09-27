@@ -1,4 +1,5 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
+/*global cy,expect*/
 
 describe('Pan tool test', () => {
     beforeEach(() => {

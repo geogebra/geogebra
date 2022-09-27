@@ -1,3 +1,5 @@
+/*global cy*/
+
 describe.skip('Whats new dialog', () => {
     beforeEach(() => {
         cy.clearCookies();
