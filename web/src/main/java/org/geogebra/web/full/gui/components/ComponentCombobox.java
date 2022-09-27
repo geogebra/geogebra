@@ -137,7 +137,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 			resetTextField();
 			dropDown.close();
 		} else {
-			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
+			showPopup();
 			Scheduler.get().scheduleDeferred(() -> {
 				inputTextField.selectAll();
 			});
@@ -147,6 +147,28 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 				? GeoGebraColorConstants.GEOGEBRA_ACCENT : GColor.BLACK;
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE.arrow_drop_down()
 				.withFill(arrowCol.toString()).getSVG());
+	}
+
+	private void showPopup() {
+		int spaceBottom = (int) (appW.getHeight() - getElement().getAbsoluteBottom());
+		int spaceTop = getElement().getAbsoluteTop() - 32;
+		int minSpaceBottom = 3 * 32 + 32 + 8;
+		int popupHeight = dropDown.getPopupHeight();
+
+		if (spaceBottom < minSpaceBottom) {
+			int popupTop = getAbsoluteTop() - popupHeight;
+
+			if (popupHeight > spaceTop) {
+				popupTop = (int) appW.getAbsTop() + 32;
+				dropDown.setHeightInPx(spaceTop);
+			}
+			dropDown.showAtPoint(getAbsoluteLeft(), popupTop);
+		} else {
+			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
+			if (popupHeight > spaceBottom) {
+				dropDown.setHeightInPx(spaceBottom - 40);
+			}
+		}
 	}
 
 	private void resetTextField() {

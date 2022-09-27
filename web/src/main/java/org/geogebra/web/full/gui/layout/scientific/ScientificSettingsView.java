@@ -80,14 +80,10 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			}
 		}
 
-		ComponentCombobox combobox = new ComponentCombobox(app,
-				"Label", (EnumerableProperty) properties.getProperties()[0]);
+		ComponentCombobox combobox = new ComponentCombobox(app, "Label",
+				(EnumerableProperty) properties.getProperties()[properties
+						.getProperties().length - 1]);
 		panel.add(combobox);
-
-		ComponentCombobox comboboxDisabled = new ComponentCombobox(app,
-				"Label", (EnumerableProperty) properties.getProperties()[0]);
-		combobox.setDisabled(true);
-		panel.add(comboboxDisabled);
 	}
 
 	private void updateGUI() {

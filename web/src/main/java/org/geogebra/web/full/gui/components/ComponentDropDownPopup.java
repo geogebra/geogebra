@@ -124,7 +124,7 @@ public class ComponentDropDownPopup {
 		return anchor.getAbsoluteTop() - POPUP_PADDING - 6;
 	}
 
-	private void setHeightInPx(int height) {
+	public void setHeightInPx(int height) {
 		getStyle().setHeight(height, Unit.PX);
 	}
 
@@ -139,7 +139,7 @@ public class ComponentDropDownPopup {
 		return menu.getPopupPanel().getElement().getStyle();
 	}
 
-	private int getPopupHeight() {
+	public int getPopupHeight() {
 		return menu.getComponentCount() * itemHeight;
 	}
 
