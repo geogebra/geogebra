@@ -4,6 +4,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -34,7 +35,11 @@ public class ComponentDropDownPopup {
 		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("dropDownPopup");
-		menu.getPopupPanel().addCloseHandler(event -> onClose.run());
+		menu.getPopupPanel().addCloseHandler(event ->
+				{
+					menu.getPopupPanel().removeStyleName("show");
+					onClose.run();
+				});
 	}
 
 	/**
@@ -149,7 +154,8 @@ public class ComponentDropDownPopup {
 	 * Hide the material dropdown popup
 	 */
 	public void close() {
-		menu.hideMenu();
+		menu.getPopupPanel().removeStyleName("show");
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().hide());
 	}
 
 	/**
@@ -159,7 +165,8 @@ public class ComponentDropDownPopup {
 		menu.clearItems();
 	}
 
-	public void showAtPoint(int x, int y) {
+	public void showAtPoint(int x, int  y) {
 		menu.showAtPoint(x, y);
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
 	}
 }

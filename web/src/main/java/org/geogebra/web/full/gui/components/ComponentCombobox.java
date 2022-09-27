@@ -108,7 +108,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 	}
 
 	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, 24, inputTextField, this::onClose);
+		dropDown = new ComponentDropDownPopup(app, 32, inputTextField, this::onClose);
 		dropDown.addAutoHidePartner(getElement());
 
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -139,6 +139,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 			dropDown.close();
 		} else {
 			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
+			dropDown.setWidthInPx(getStyleElement().getClientWidth());
 			Scheduler.get().scheduleDeferred(() -> {
 				inputTextField.selectAll();
 			});
@@ -159,8 +160,17 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 
 	private void setSelectedOption(int idx) {
 		lastSelectedIdx = idx;
+		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
 		inputTextField.setText(dropDownElementsList.get(idx).getElement().getInnerText());
+	}
+
+	private void highlightSelectedElement(int previousSelectedIndex,
+			int currentSelectedIndex) {
+		dropDownElementsList.get(previousSelectedIndex)
+				.removeStyleName("selectedDropDownElement");
+		dropDownElementsList.get(currentSelectedIndex)
+				.addStyleName("selectedDropDownElement");
 	}
 
 	/**
@@ -174,8 +184,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(
-					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
+			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
 					() -> {
 						setSelectedOption(currentIndex);
 					});

@@ -353,6 +353,10 @@
 
 	.dropDownPopup {
 		overflow-y: auto;
+		opacity: 0;
+		transform: scale(0.8);
+		will-change: transform, opacity;
+		transition: opacity .03s linear,transform .12s cubic-bezier(0,0,.2,1);
 
 		.dropDownElement {
 			padding-left: 24px;
@@ -367,6 +371,11 @@
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
 			background: colors.$black-12;
+		}
+
+		&.show {
+			opacity: 1;
+			transform: scale(1);
 		}
 	}
 
