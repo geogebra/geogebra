@@ -226,8 +226,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	}
 
 	private void saveEditorChanges() {
-		model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
-				app.getDefaultErrorHandler());
+		if (model.isTextEditable()) {
+			model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
+					app.getDefaultErrorHandler());
+		}
 	}
 
 	protected void inlineFormat(String key, Object val) {
