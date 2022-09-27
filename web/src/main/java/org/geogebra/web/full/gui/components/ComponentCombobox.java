@@ -10,7 +10,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -139,7 +138,6 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 			dropDown.close();
 		} else {
 			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
-			dropDown.setWidthInPx(getStyleElement().getClientWidth());
 			Scheduler.get().scheduleDeferred(() -> {
 				inputTextField.selectAll();
 			});

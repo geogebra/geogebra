@@ -35,11 +35,10 @@ public class ComponentDropDownPopup {
 		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("dropDownPopup");
-		menu.getPopupPanel().addCloseHandler(event ->
-				{
-					menu.getPopupPanel().removeStyleName("show");
-					onClose.run();
-				});
+		menu.getPopupPanel().addCloseHandler(event -> {
+			menu.getPopupPanel().removeStyleName("show");
+			onClose.run();
+		});
 	}
 
 	/**
@@ -109,6 +108,7 @@ public class ComponentDropDownPopup {
 				}
 			}
 		}
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
 	}
 
 	private int getSelectedItemTop() {
@@ -165,6 +165,11 @@ public class ComponentDropDownPopup {
 		menu.clearItems();
 	}
 
+	/**
+	 * show popup at x,y position
+	 * @param x - horizontal pos
+	 * @param y - vertical pos
+	 */
 	public void showAtPoint(int x, int  y) {
 		menu.showAtPoint(x, y);
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
