@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.euclidian.CoordSystemAnimationListener;
 import org.geogebra.common.euclidian.CoordSystemInfo;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -36,8 +37,11 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	public void attachEuclidianController(EuclidianController controller) {
 		euclidianController = controller;
 		euclidianController.addZoomerAnimationListener(this, function);
-		euclidianSettings = euclidianController.getView().getSettings();
-		euclidianSettings.addListener(this);
+		EuclidianViewInterfaceSlim view = euclidianController.getView();
+		if (view != null) {
+			euclidianSettings = view.getSettings();
+			euclidianSettings.addListener(this);
+		}
 	}
 
 	@Override
@@ -71,7 +75,9 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 	 */
 	public void detach() {
 		euclidianController.removeZoomerAnimationListener(function);
-		euclidianSettings.removeListener(this);
+		if (euclidianSettings != null) {
+			euclidianSettings.removeListener(this);
+		}
 	}
 
 	@Override
