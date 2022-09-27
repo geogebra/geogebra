@@ -79,12 +79,4 @@ public class AuthenticationModelW extends AuthenticationModel  {
 	public String loadLastUser() {
 		return BrowserStorage.LOCAL.getItem(GGB_LAST_USER);
 	}
-
-	@Override
-	public String getEncoded() {
-		String secret = "ef1V8PNj";
-		String encrypted = MD5EncrypterGWTImpl
-				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
-		return DomGlobal.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
-	}
 }
