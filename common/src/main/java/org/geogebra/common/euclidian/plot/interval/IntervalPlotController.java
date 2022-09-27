@@ -43,7 +43,6 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 		}
 	}
 
-
 	@Override
 	public void onZoomStop(CoordSystemInfo info) {
 		info.setXAxisZoom(false);
