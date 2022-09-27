@@ -312,6 +312,10 @@ public class AnimatedGifEncoder {
 		return started = ok;
 	}
 
+	/**
+	 * @param file output file
+	 * @return whether successfully started
+	 */
 	public boolean start(File file) {
 		boolean ok = true;
 		try {
@@ -413,7 +417,7 @@ public class AnimatedGifEncoder {
 	/**
 	 * Writes Graphic Control Extension
 	 * 
-	 * @throws IOException
+	 * @throws IOException when export fails
 	 */
 	protected void writeGraphicCtrlExt() throws IOException {
 		out.write(0x21); // extension introducer
@@ -444,7 +448,7 @@ public class AnimatedGifEncoder {
 	/**
 	 * Writes Image Descriptor
 	 * 
-	 * @throws IOException
+	 * @throws IOException when export fails
 	 */
 	protected void writeImageDesc() throws IOException {
 		out.write(0x2c); // image separator
@@ -469,7 +473,7 @@ public class AnimatedGifEncoder {
 	/**
 	 * Writes Logical Screen Descriptor
 	 * 
-	 * @throws IOException
+	 * @throws IOException when export fails
 	 */
 	protected void writeLSD() throws IOException {
 		// logical screen size
@@ -488,7 +492,7 @@ public class AnimatedGifEncoder {
 	/**
 	 * Writes Netscape application extension to define repeat count.
 	 * 
-	 * @throws IOException
+	 * @throws IOException when export fails
 	 */
 	protected void writeNetscapeExt() throws IOException {
 		out.write(0x21); // extension introducer
@@ -504,7 +508,7 @@ public class AnimatedGifEncoder {
 	/**
 	 * Writes color table
 	 * 
-	 * @throws IOException
+	 * @throws IOException when export fails
 	 */
 	protected void writePalette() throws IOException {
 		out.write(colorTab, 0, colorTab.length);
@@ -517,7 +521,7 @@ public class AnimatedGifEncoder {
 	/**
 	 * Encodes and writes pixel data
 	 * 
-	 * @throws IOException
+	 * @throws IOException when export fails
 	 */
 	protected void writePixels() throws IOException {
 		LZWEncoder encoder = new LZWEncoder(width, height, indexedPixels,
@@ -528,8 +532,8 @@ public class AnimatedGifEncoder {
 	/**
 	 * Write 16-bit value to output stream, LSB first
 	 * 
-	 * @param value
-	 * @throws IOException
+	 * @param value short
+	 * @throws IOException when export fails
 	 */
 	protected void writeShort(int value) throws IOException {
 		out.write(value & 0xff);
@@ -539,8 +543,8 @@ public class AnimatedGifEncoder {
 	/**
 	 * Writes string to output stream
 	 * 
-	 * @param s
-	 * @throws IOException
+	 * @param s string
+	 * @throws IOException when export fails
 	 */
 	protected void writeString(String s) throws IOException {
 		for (int i = 0; i < s.length(); i++) {

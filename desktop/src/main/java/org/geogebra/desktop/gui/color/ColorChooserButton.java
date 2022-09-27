@@ -90,16 +90,15 @@ public class ColorChooserButton extends JButton {
 		setIcon(createIcon(selectedColor));
 	}
 
-	public void swatchClicked(Color color) {
+	protected void swatchClicked(Color color) {
 		selectedColor = color;
 		handlePopupEvent();
 		myPopup.setVisible(false);
 	}
 
-	public Color getSelectedColor() {
-		return selectedColor;
-	}
-
+	/**
+	 * Handle popup event
+	 */
 	public void handlePopupEvent() {
 		setIcon(createIcon(selectedColor));
 		repaint();

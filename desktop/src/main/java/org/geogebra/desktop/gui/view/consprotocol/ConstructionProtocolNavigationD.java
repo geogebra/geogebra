@@ -389,6 +389,9 @@ public class ConstructionProtocolNavigationD
 		getImpl().setVisible(visible);
 	}
 
+	/**
+	 * Update icons; TODO unused?
+	 */
 	public void updateIcons() {
 		if (btFirst == null) {
 			return;
@@ -404,7 +407,6 @@ public class ConstructionProtocolNavigationD
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		lbSteps.setFont(((AppD) app).getPlainFont());
 		update();
-
 	}
 
 	@Override
@@ -412,6 +414,5 @@ public class ConstructionProtocolNavigationD
 		if (playPanel != null) {
 			this.playPanel.setVisible(flag);
 		}
-
 	}
 }

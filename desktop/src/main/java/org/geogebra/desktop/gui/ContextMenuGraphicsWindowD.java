@@ -188,15 +188,14 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		// checkboxes for axes and grid
 		JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(
 				((GuiManagerD) app.getGuiManager()).getShowAxesAction());
-		// cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
-		((AppD) app).setShowAxesSelected(cbShowAxes);
+		EuclidianViewInterfaceCommon view = app.getGuiManager().getActiveEuclidianView();
+		cbShowAxes.setSelected(view.getShowXaxis() && view.getShowYaxis());
 		cbShowAxes.setBackground(wrappedPopup.getBackground());
 		wrappedPopup.add(cbShowAxes);
 
 		JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(
 				((GuiManagerD) app.getGuiManager()).getShowGridAction());
-		// cbShowGrid.setSelected(ev.getShowGrid());
-		((AppD) app).setShowGridSelected(cbShowGrid);
+		cbShowGrid.setSelected(view.getShowGrid());
 		cbShowGrid.setBackground(wrappedPopup.getBackground());
 		wrappedPopup.add(cbShowGrid);
 	}

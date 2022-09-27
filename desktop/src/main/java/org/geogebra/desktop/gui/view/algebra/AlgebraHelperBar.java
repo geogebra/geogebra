@@ -112,17 +112,17 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void update() {
 		removeAll();
 		addButtons();
 		updateLabels();
 	}
 
-	public void updateStates() {
-
+	private void updateStates() {
 		toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-		// toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
-		// toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
 	}
 
 	/**

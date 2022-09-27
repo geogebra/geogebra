@@ -884,7 +884,7 @@ public class FunctionInspectorD extends FunctionInspector
 		// only for web
 	}
 
-	public void updateIcons() {
+	protected void updateIcons() {
 		if (app == null || btnOscCircle == null) {
 			return;
 		}

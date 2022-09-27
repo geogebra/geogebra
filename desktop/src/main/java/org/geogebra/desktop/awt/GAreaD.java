@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.util.debug.Log;
 
 public class GAreaD implements GArea, GShapeD {
 	private Area impl;
@@ -30,16 +29,6 @@ public class GAreaD implements GArea, GShapeD {
 
 	public GAreaD(GShape shape) {
 		impl = new Area(GGenericShapeD.getAwtShape(shape));
-	}
-
-	public static Area getAWTArea(GArea a) {
-		if (!(a instanceof GAreaD)) {
-			if (a != null) {
-				Log.debug("other type");
-			}
-			return null;
-		}
-		return ((GAreaD) a).impl;
 	}
 
 	@Override
@@ -113,11 +102,6 @@ public class GAreaD implements GArea, GShapeD {
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
-	}
-
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	@Override
