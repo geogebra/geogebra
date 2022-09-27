@@ -1,13 +1,11 @@
 package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
-import java.util.Base64;
 
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
 
 /**
  * Base class for login logout operations
@@ -212,12 +210,7 @@ public abstract class AuthenticationModel {
 	}
 
 	public String getEncoded() {
-		String secret = "ef1V8PNj";
-		String encrypted = MD5EncrypterGWTImpl
-				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
-		byte[] tokenBytes = Base64.getEncoder().encode(getLoginToken().getBytes());
-		String tokenString = new String(tokenBytes);
-		return tokenString + "|T|" + "1581341456" + "|" + encrypted;
+		return null;
 	}
 
 	/**
