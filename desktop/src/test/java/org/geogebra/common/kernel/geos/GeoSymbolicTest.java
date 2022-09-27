@@ -1421,17 +1421,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testSolveNSolveCase3a() {
 		// NSolve gives {} or {?} or {x=?} or ? and Solve gives an answer
 		GeoSymbolic symbolic = add("NSolve(20=100*x^1000)");
+
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("Solve(20 = 100x¹⁰⁰⁰)"));
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = -(1 / 5)^(1 / 1000), x = (1 / 5)^(1 / 1000)}"));
+		SymbolicUtil.toggleSymbolic(symbolic);
 		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
 				equalTo("Numeric(Solve(20 = 100x¹⁰⁰⁰))"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -0.9983918565382, x = 0.9983918565382}"));
-		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 
 		symbolic = add("NSolve(sqrt(x)=sqrt(-2-x),x=1)");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -1}"));
 
-		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 	}
 
 	@Test

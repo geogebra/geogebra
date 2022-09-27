@@ -31,10 +31,12 @@ public class SymbolicUtil {
 	public static boolean isNumericOfSolve(GeoSymbolic symbolic) {
 		boolean isNumeric = Commands.Numeric.getCommand()
 				.equals(symbolic.getDefinition().getTopLevelCommand().getName());
-		Command secondCommand = (Command)(((Command) symbolic.getDefinition()
-				.getLeft()).getArgument(0).getLeft());
-		boolean hasSolveArgument = Commands.Solve.getCommand()
-				.equals(secondCommand.getName());
+		boolean hasSolveArgument = false;
+		Command firstCommand = ((Command) symbolic.getDefinition().getLeft());
+		if (firstCommand.getArgumentNumber() > 0) {
+			Command secondCommand = firstCommand.getArgument(0).getTopLevelCommand();
+			hasSolveArgument = Commands.Solve.getCommand().equals(secondCommand.getName());
+		}
 		return isNumeric && hasSolveArgument;
 	}
 
