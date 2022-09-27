@@ -114,8 +114,7 @@ public class AlgebraTree extends JTree {
 	}
 
 	/**
-	 * 
-	 * @param app
+	 * @param app application
 	 * @return new renderer of a cell
 	 */
 	protected MyRendererForAlgebraTree newMyRenderer(AppD app) {
@@ -319,6 +318,9 @@ public class AlgebraTree extends JTree {
 		}
 	}
 
+	/**
+	 * Clear view (implement View)
+	 */
 	public void clearView() {
 		nodeTable.clear();
 
@@ -398,6 +400,10 @@ public class AlgebraTree extends JTree {
 		update(geo);
 	}
 
+	/**
+	 * Update auxiliary object
+	 * @param geo element
+	 */
 	final public void updateAuxiliaryObject(GeoElement geo) {
 		remove(geo);
 		add(geo);
@@ -414,8 +420,8 @@ public class AlgebraTree extends JTree {
 	/**
 	 * Remove this node from the model.
 	 * 
-	 * @param node
-	 * @param model
+	 * @param node node
+	 * @param model model
 	 */
 	protected void removeFromModel(DefaultMutableTreeNode node,
 			DefaultTreeModel model) {
@@ -428,8 +434,8 @@ public class AlgebraTree extends JTree {
 	/**
 	 * Remove this node from the model.
 	 * 
-	 * @param node
-	 * @param model
+	 * @param node node
+	 * @param model model
 	 */
 	protected void removeFromModelForMode(DefaultMutableTreeNode node,
 			DefaultTreeModel model) {
@@ -496,9 +502,8 @@ public class AlgebraTree extends JTree {
 	}
 
 	/**
-	 * 
-	 * @param geo1
-	 * @param geo2
+	 * @param geo1 first geo
+	 * @param geo2 second geo
 	 * @return geos displayed in the tree between the two geos (included)
 	 */
 	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1,
@@ -595,9 +600,10 @@ public class AlgebraTree extends JTree {
 	 * parent node. Note: all children of parent must have instances of
 	 * GeoElement as user objects.
 	 * 
-	 * @param mode
+	 * @param mode parent node
+	 * @return insert position
 	 */
-	final public static int getInsertPosition(DefaultMutableTreeNode parent,
+	public static int getInsertPosition(DefaultMutableTreeNode parent,
 			GeoElement newGeo, SortMode mode) {
 		// label of inserted geo
 		// String newLabel = newGeo.getLabel();
@@ -637,9 +643,8 @@ public class AlgebraTree extends JTree {
 
 	private static boolean compare(GeoElement geo1, GeoElement geo2,
 			SortMode mode) {
-		switch (mode) {
-
-		case ORDER:
+		// alphabetical
+		if (mode == SortMode.ORDER) {
 			int geo1Index = -1;
 			int geo2index = -1;
 			// use index of twinGeo instead of corresponding geoCasCell
@@ -657,14 +662,10 @@ public class AlgebraTree extends JTree {
 				geo2index = geo2.getConstructionIndex();
 			}
 			return geo1Index > geo2index;
-
-		default: // alphabetical
-
-			return GeoElement.compareLabels(
-					geo1.getLabel(StringTemplate.defaultTemplate),
-					geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
-
 		}
+		return GeoElement.compareLabels(
+				geo1.getLabel(StringTemplate.defaultTemplate),
+				geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
 
 	}
 
@@ -676,6 +677,9 @@ public class AlgebraTree extends JTree {
 		return renderer.getOpenIcon().getIconHeight();
 	}
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		setFont(font);

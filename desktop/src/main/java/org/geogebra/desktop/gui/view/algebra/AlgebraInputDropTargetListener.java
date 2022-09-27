@@ -26,6 +26,10 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 	// supported data flavors
 	private String textImport;
 
+	/**
+	 * @param app application
+	 * @param textComp text component
+	 */
 	public AlgebraInputDropTargetListener(AppD app, JTextComponent textComp) {
 		this.app = app;
 		this.textComp = textComp;
@@ -34,24 +38,20 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void dragExit(DropTargetEvent dte) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void dragOver(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void drop(DropTargetDropEvent dropEvent) {
-
 		dropEvent.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
 		Transferable t = dropEvent.getTransferable();
 
@@ -112,15 +112,14 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 				((GuiManagerD) app.getGuiManager()).handleGGBFileDrop(t);
 			}
 
-		} catch (UnsupportedFlavorException ignored) {
-		} catch (IOException ignored) {
+		} catch (UnsupportedFlavorException | IOException ignored) {
+			// ignore
 		}
 	}
 
 	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

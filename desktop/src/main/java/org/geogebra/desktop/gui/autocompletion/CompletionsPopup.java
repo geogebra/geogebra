@@ -197,6 +197,9 @@ public class CompletionsPopup {
 		}
 	}
 
+	/**
+	 * Show completions
+	 */
 	public void showCompletions() {
 		if (!textField.getAutoComplete()) {
 			return;
@@ -239,7 +242,7 @@ public class CompletionsPopup {
 		// Reinstate textField's key listeners
 	}
 
-	public void handleSpecialKeys(KeyEvent keyEvent) {
+	protected void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isPopupVisible()) {
 			return;
 		}

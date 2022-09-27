@@ -1180,14 +1180,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return false;
 	}
 
-	public boolean onlyGraphicsViewShowing() {
-		if (!isUsingFullGui()) {
-			return true;
-		}
-
-		return getGuiManager().getLayout().isOnlyVisible(App.VIEW_EUCLIDIAN);
-	}
-
 	final static int MEMORY_CRITICAL = 100 * 1024;
 	static Runtime runtime = Runtime.getRuntime();
 
@@ -1214,7 +1206,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public static void setVirtualKeyboardActive(boolean active) {
 		virtualKeyboardActive = active;
-		// Application.debug("VK active:"+virtualKeyboardActive);
 	}
 
 	// **************************************************************************
@@ -1233,6 +1224,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		currentPath = file;
 	}
 
+	/**
+	 * @param file currently open file
+	 */
 	public void setCurrentFile(File file) {
 		if (currentFile == file) {
 			return;
@@ -1250,6 +1244,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
+	/**
+	 * Add to first position in the recent file list
+	 * @param file file
+	 */
 	public static void addToFileList(File file) {
 		if ((file == null) || !file.exists()) {
 			return;
@@ -1260,6 +1258,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		fileList.addFirst(file);
 	}
 
+	/**
+	 * @param i index
+	 * @return recent file with given index
+	 */
 	public static File getFromFileList(int i) {
 		if (fileList.size() > i) {
 			return fileList.get(i);
@@ -1709,12 +1711,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public void setShowAxesSelected(JCheckBoxMenuItem cb) {
-		cb.setSelected(getGuiManager().getActiveEuclidianView().getShowXaxis()
-				&& (getGuiManager().getActiveEuclidianView().getShowYaxis()));
+
 	}
 
 	public void setShowGridSelected(JCheckBoxMenuItem cb) {
-		cb.setSelected(getGuiManager().getActiveEuclidianView().getShowGrid());
+
 	}
 
 	// **************************************************************************
@@ -1754,7 +1755,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return getScaledIcon(res, null);
 	}
 
-	/*
+	/**
 	 * needed for padding in Windows XP or earlier without check, checkbox isn't
 	 * shown in Vista, Win 7
 	 */
@@ -1778,7 +1779,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return path;
 	}
 
-	public static int ptToPx(int points) {
+	private static int ptToPx(int points) {
 		int px = 0;
 		switch (points) {
 		case 12:
@@ -1806,16 +1807,30 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return ptToPx(getFontSize());
 	}
 
+	/**
+	 * @param res resource
+	 * @param borderColor border color
+	 * @return scaled icon
+	 */
 	public ImageIcon getScaledIcon(ImageResourceD res, Color borderColor) {
 		ImageIcon icon = imageManager.getImageIcon(res, borderColor);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
+	/**
+	 * @param res resource
+	 * @return scaled icon
+	 */
 	public ImageIcon getScaledIconCommon(ImageResourceD res) {
 		ImageIcon icon = imageManager.getImageIcon(res, null);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
+	/**
+	 * @param res resource
+	 * @param iconSize icon size
+	 * @return scaled icon
+	 */
 	public ImageIcon getScaledIcon(ImageResourceD res, int iconSize) {
 		ImageIcon icon = imageManager.getImageIcon(res, null);
 		return scaleIcon(icon, iconSize);
@@ -1831,12 +1846,22 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	}
 
+	/**
+	 * @param fileName filename
+	 * @return scaled image
+	 */
 	public Image getScaledInternalImage(ImageResourceD fileName) {
 		MyImageD img = imageManager.getInternalImage(fileName);
 		int iconSize = getScaledIconSize();
 		return img.getImage().getScaledInstance(iconSize, iconSize, 0);
 	}
 
+	/**
+	 *
+	 * @param modeText mode name
+	 * @param borderColor border color
+	 * @return tool icon
+	 */
 	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
@@ -1864,6 +1889,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return icon;
 	}
 
+	/**
+	 * @param border border color
+	 * @return tool icon
+	 */
 	public ImageIcon getToolIcon(Color border) {
 		ImageResourceD res;
 		if (imageManager.getMaxIconSize() <= 32) {
@@ -3654,35 +3683,25 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public static boolean isControlDown(InputEvent e) {
-
 		return isControlDown(e.isMetaDown(), e.isControlDown());
-
 	}
 
-	public static final boolean isControlDown(boolean isMetaDown,
+	/**
+	 * @param isMetaDown whether meta key is down
+	 * @param isControlDown whether ctrl key is down
+	 * @return whether to treat event as ctrl key down (depends on OS)
+	 */
+	public static boolean isControlDown(boolean isMetaDown,
 			boolean isControlDown) {
-
-		/*
-		 * debug("isMetaDown = "+e.isMetaDown()); debug("isControlDown =
-		 * "+e.isControlDown()); debug("isShiftDown = "+e.isShiftDown()); debug(
-		 * "isAltDown = "+e.isAltDown()); debug("isAltGrDown =
-		 * "+e.isAltGraphDown()); debug("fakeRightClick = "+fakeRightClick);
-		 */
 
 		if (fakeRightClick) {
 			return false;
 		}
 
-		boolean ret = (MAC_OS && isMetaDown) // Mac: meta down for
-				// multiple
-				// selection
-				|| (!MAC_OS && isControlDown); // non-Mac: Ctrl down for
 		// multiple selection
-
-		// debug("isPopupTrigger = "+e.isPopupTrigger());
-		// debug("ret = " + ret);
-		return ret;
-		// return e.isControlDown();
+		return (MAC_OS && isMetaDown) // Mac: meta down for
+				// multiple selection, Ctrl for other OS
+				|| (!MAC_OS && isControlDown);
 	}
 
 	private static boolean fakeRightClick = false;
@@ -3886,19 +3905,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return isErrorDialogShowing;
 	}
 
+	/**
+	 * @param message message to show in confirm dialog
+	 */
 	public void showMessage(final String message) {
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				JOptionPane.showConfirmDialog(mainComp, message,
-						GeoGebraConstants.APPLICATION_NAME + " - "
-								+ getLocalization().getMenu("Info"),
-						JOptionPane.DEFAULT_OPTION,
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
+		SwingUtilities.invokeLater(() -> JOptionPane.showConfirmDialog(mainComp, message,
+				GeoGebraConstants.APPLICATION_NAME + " - "
+						+ getLocalization().getMenu("Info"),
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE));
 	}
 
 	// **************************************************************************
@@ -4492,12 +4509,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			num.setValue(val);
 			num.updateRepaint();
 
-			Image img = GBufferedImageD.getAwtBufferedImage(
-					((EuclidianViewD) ev).getExportImage(1));
+			BufferedImage img = GBufferedImageD.getAwtBufferedImage(
+					ev.getExportImage(1));
 			if (img == null) {
 				Log.error("image null");
 			} else {
-				gifEncoder.addFrame((BufferedImage) img);
+				gifEncoder.addFrame(img);
 			}
 
 			val += step;
@@ -4555,6 +4572,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				.getFirstToolbar().getFirstMode());
 	}
 
+	/**
+	 * @param file file to insert
+	 */
 	final public void insertFile(File file) {
 
 		// using code from newWindowAction, combined with
@@ -4604,6 +4624,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return new AppD(new CommandLineArguments(null), new JPanel(), true);
 	}
 
+	/**
+	 * @param file template file
+	 */
 	final public void applyTemplate(File file) {
 
 		// using code from newWindowAction, combined with
@@ -4639,20 +4662,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if (!popupsDone) {
 				popupsDone = true;
 
-				EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						boolean showDockPopup = true;
+				EventQueue.invokeLater(() -> {
+					boolean showDockPopup = true;
 
-						LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
-						if (signInOp.isTubeAvailable()
-								&& !signInOp.isLoggedIn()) {
-							showDockPopup = showTubeLogin();
-						}
+					LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
+					if (signInOp.isTubeAvailable()
+							&& !signInOp.isLoggedIn()) {
+						showDockPopup = showTubeLogin();
+					}
 
-						if (showDockPopup && isShowDockBar()) {
-							showPerspectivePopup();
-						}
+					if (showDockPopup && isShowDockBar()) {
+						showPerspectivePopup();
 					}
 				});
 			}

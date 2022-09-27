@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -26,11 +27,11 @@ import org.geogebra.desktop.main.AppD;
  * 
  */
 public class DataSourceDialog extends Dialog
-		implements ActionListener, WindowFocusListener {
+		implements ActionListener, WindowFocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	private final AppD app;
 	private int mode;
 
 	private DataSourcePanel dataSourcePanel;
@@ -122,12 +123,16 @@ public class DataSourceDialog extends Dialog
 
 	}
 
+	/**
+	 * @param font app font
+	 */
 	public void updateFonts(Font font) {
 		setFont(font);
 		dataSourcePanel.updateFonts(font);
 		GuiManagerD.setFontRecursive(this, font);
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		setTitle(loc.getMenu("DataSource"));
@@ -140,13 +145,16 @@ public class DataSourceDialog extends Dialog
 		dataSourcePanel.setLabels();
 	}
 
+	/**
+	 * @param mode app mode
+	 * @param doAutoLoadSelectedGeos whether to load selected geos
+	 */
 	public void updateDialog(int mode, boolean doAutoLoadSelectedGeos) {
 		this.mode = mode;
 		dataSourcePanel.updatePanel(mode, doAutoLoadSelectedGeos);
 		setLabels();
 		// setLocation();
 		pack();
-
 	}
 
 	private void setLocation() {

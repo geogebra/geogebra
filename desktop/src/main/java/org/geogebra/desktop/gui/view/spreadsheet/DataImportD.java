@@ -92,6 +92,7 @@ public class DataImportD extends DataImport {
 
 	/**
 	 * Converts HTML table into CSV
+	 * @return CSV string
 	 */
 	public static String convertHTMLTableToCSV(String HTMLTableString) {
 

@@ -63,6 +63,9 @@ public class ConstructionProtocolExportDialogD extends Dialog
 	private final ConstructionProtocolViewD prot;
 	private final AppD app;
 
+	/**
+	 * @param prot construction protocol
+	 */
 	public ConstructionProtocolExportDialogD(ConstructionProtocolViewD prot) {
 		super(prot.getApplication().getFrame(), true);
 		this.prot = prot;

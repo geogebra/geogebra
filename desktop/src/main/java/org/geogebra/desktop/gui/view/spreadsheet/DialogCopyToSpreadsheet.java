@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.main.AppD;
@@ -23,7 +24,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class DialogCopyToSpreadsheet extends Dialog implements ActionListener {
+public class DialogCopyToSpreadsheet extends Dialog implements ActionListener, SetLabels {
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetViewDnD dndHandler;
 	private AppD app;
@@ -35,6 +36,10 @@ public class DialogCopyToSpreadsheet extends Dialog implements ActionListener {
 
 	private JCheckBox ckTranspose;
 
+	/**
+	 * @param app application
+	 * @param dndHandler drag and drop handler
+	 */
 	public DialogCopyToSpreadsheet(AppD app, SpreadsheetViewDnD dndHandler) {
 
 		super(app.getFrame(),
@@ -105,6 +110,7 @@ public class DialogCopyToSpreadsheet extends Dialog implements ActionListener {
 
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		btnCopy.setText(loc.getMenu("Copy"));
