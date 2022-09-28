@@ -289,7 +289,7 @@ public class ToolBar {
 	 * @return definition for MOW media toolbar
 	 */
 	public static List<Integer> getNotesMediaToolBar(boolean includeGraspableMath,
-			boolean includeH5P) {
+			boolean includeH5P, boolean fileFeaturesEnabled) {
 		List<Integer>tools = new ArrayList<>(Arrays.asList(
 				EuclidianConstants.MODE_MEDIA_TEXT,
 				EuclidianConstants.MODE_TABLE,
@@ -297,12 +297,16 @@ public class ToolBar {
 				EuclidianConstants.MODE_CALCULATOR,
 				EuclidianConstants.MODE_EXTENSION,
 				EuclidianConstants.MODE_MIND_MAP,
-				EuclidianConstants.MODE_IMAGE,
 				EuclidianConstants.MODE_CAMERA,
 				EuclidianConstants.MODE_VIDEO,
-				EuclidianConstants.MODE_AUDIO,
-				EuclidianConstants.MODE_PDF
+				EuclidianConstants.MODE_AUDIO
 		));
+
+		if (fileFeaturesEnabled) {
+			tools.add(EuclidianConstants.MODE_IMAGE);
+			tools.add(EuclidianConstants.MODE_PDF);
+		}
+
 		if (includeGraspableMath) {
 			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
 		}
