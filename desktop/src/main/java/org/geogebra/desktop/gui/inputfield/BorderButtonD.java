@@ -102,6 +102,11 @@ public class BorderButtonD extends AbstractBorder
 		}
 	}
 
+	/**
+	 * @param index icon index
+	 * @param icon icon
+	 * @param listener listener
+	 */
 	public void setBorderButton(int index, ImageIcon icon,
 			ActionListener listener) {
 		if (index < 0 || index > maxIconCount) {
@@ -111,6 +116,10 @@ public class BorderButtonD extends AbstractBorder
 		al[index] = listener;
 	}
 
+	/**
+	 * @param index icon index
+	 * @param isVisible whether it's visible
+	 */
 	public void setIconVisible(int index, boolean isVisible) {
 		if (index < 0 || index > maxIconCount) {
 			return;

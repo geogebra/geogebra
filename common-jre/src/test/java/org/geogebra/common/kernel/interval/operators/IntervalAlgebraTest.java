@@ -22,34 +22,34 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testFmod() {
 		Interval n = fmod(interval(5.3, 5.3), interval(2, 2));
-		assertTrue(n.almostEqual(interval(1.3, 1.3)));
+		assertTrue(n.almostEqual(interval(1.3, 1.3), 1E-7));
 
 		n = fmod(interval(5, 7), interval(2, 3));
-		assertTrue(n.almostEqual(interval(2, 5)));
+		assertTrue(n.almostEqual(interval(2, 5), 1E-7));
 
 		n = fmod(interval(18.5, 18.5), interval(4.2, 4.2));
-		assertTrue(n.almostEqual(interval(1.7, 1.7)));
+		assertTrue(n.almostEqual(interval(1.7, 1.7), 1E-7));
 
 		n = fmod(interval(-10, -10), interval(3, 3));
-		assertTrue(n.almostEqual(interval(-1, -1)));
+		assertTrue(n.almostEqual(interval(-1, -1), 1E-7));
 
 		n = fmod(new Interval(), IntervalConstants.undefined());
 		assertTrue(n.isUndefined());
 
 		n = fmod(interval(2, 2), interval(2, 2));
-		assertTrue(n.almostEqual(zero()));
+		assertTrue(n.almostEqual(zero(), 1E-7));
 	}
 
 	@Test
 	public void testMultiplicativeInverse() {
 		assertTrue(interval(1, 1).almostEqual(
-				interval(1, 1).multiplicativeInverse()));
+				interval(1, 1).multiplicativeInverse(), 1E-7));
 
 		assertTrue(interval(1 / 6.0, 1 / 2.0).almostEqual(
-				interval(2, 6).multiplicativeInverse()));
+				interval(2, 6).multiplicativeInverse(), 1E-7));
 
 		assertTrue(interval(-1 / 2.0, -1 / 6.0).almostEqual(
-				interval(-6, -2).multiplicativeInverse()));
+				interval(-6, -2).multiplicativeInverse(), 1E-7));
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testPowerOfZero() {
 		assertTrue(interval(1, 1).almostEqual(
-				pow(interval(-321, 123), 0)));
+				pow(interval(-321, 123), 0), 1E-7));
 	}
 
 	@Test
@@ -107,31 +107,31 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testNegativePowerOfOdd() {
 		assertTrue(interval(-8, -8).almostEqual(
-				pow(interval(-2, -2), 3)));
+				pow(interval(-2, -2), 3), 1E-7));
 	}
 
 	@Test
 	public void testMixedPowerOfEven() {
 		assertTrue(interval(0, 4).almostEqual(
-				pow(interval(-2, 2), 2)));
+				pow(interval(-2, 2), 2), 1E-7));
 	}
 
 	@Test
 	public void testMixedPowerOfOdd() {
 		assertTrue(interval(-2, 2).almostEqual(
-				pow(interval(-2, 2), 1)));
+				pow(interval(-2, 2), 1), 1E-7));
 	}
 
 	@Test
 	public void testPositivePowerOfs() {
 		assertTrue(interval(1, 1).almostEqual(
-				pow(interval(1, 1), 1)));
+				pow(interval(1, 1), 1), 1E-7));
 		assertTrue(interval(1, 1).almostEqual(
-				pow(interval(1, 1), 5)));
+				pow(interval(1, 1), 5), 1E-7));
 		assertTrue(interval(1, 25).almostEqual(
-				pow(interval(1, 5), 2)));
+				pow(interval(1, 5), 2), 1E-7));
 		assertTrue(interval(4, 25).almostEqual(
-				pow(interval(2, 5), 2)));
+				pow(interval(2, 5), 2), 1E-7));
 	}
 
 	@Test
@@ -142,25 +142,25 @@ public class IntervalAlgebraTest {
 	@Test
 	public void testPowerOfIntervals() {
 		assertTrue(interval(4, 25).almostEqual(
-				pow(interval(2, 5), interval(2, 2))));
+				pow(interval(2, 5), interval(2, 2)), 1E-7));
 	}
 
 	@Test
 	public void testPowerOfNegatives() {
 		assertTrue(interval(1 / 4.0, 1 / 4.0).almostEqual(
-				pow(interval(2, 2), -2)));
+				pow(interval(2, 2), -2), 1E-7));
 
 		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(
-				pow(interval(2, 3), -2)));
+				pow(interval(2, 3), -2), 1E-7));
 
 		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(
-				pow(interval(-3, -2), -2)));
+				pow(interval(-3, -2), -2), 1E-7));
 
 		assertTrue(interval(1 / 27.0, 1 / 8.0).almostEqual(
-				pow(interval(2, 3), -3)));
+				pow(interval(2, 3), -3), 1E-7));
 
 		assertTrue(interval(-1 / 8.0, -1 / 27.0).almostEqual(
-				pow(interval(-3, -2), -3)));
+				pow(interval(-3, -2), -3), 1E-7));
 	}
 
 	@Test
@@ -180,8 +180,8 @@ public class IntervalAlgebraTest {
 
 	@Test
 	public void testSqrt() {
-		assertTrue(interval(2, 3).almostEqual(sqrt(interval(4, 9))));
-		assertTrue(interval(0, 3).almostEqual(sqrt(interval(-4, 9))));
+		assertTrue(interval(2, 3).almostEqual(sqrt(interval(4, 9)), 1E-7));
+		assertTrue(interval(0, 3).almostEqual(sqrt(interval(-4, 9)), 1E-7));
 		assertTrue(sqrt(interval(-9, -4)).isUndefined());
 	}
 

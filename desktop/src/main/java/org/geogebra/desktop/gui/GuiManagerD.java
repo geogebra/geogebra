@@ -153,7 +153,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private AlgebraViewD algebraView;
 	private CASViewD casView;
 	private SpreadsheetViewD spreadsheetView;
-	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<>();
+	private final ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<>();
 	private ConstructionProtocolViewD constructionProtocolView;
 	private GeoGebraMenuBar menuBar;
 	private String strCustomToolbarDefinition;
@@ -195,7 +195,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private AbstractAction showGridAction;
 	private AbstractAction undoAction;
 	private AbstractAction redoAction;
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
 	public GuiManagerD(AppD app) {
 		super(app);
@@ -2221,6 +2221,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private void loadOffFile(final File file) {
 		boolean success = getApp().loadOffFile(file);
 		updateGUIafterLoadFile(success, false);
+	}
+
+	@Override
+	public void updateToolbarDefinition() {
+		if (getApp().getTmpPerspective() != null) {
+			String toolbarDefinition = getApp().getTmpPerspective().getToolbarDefinition();
+			if (!StringUtil.empty(toolbarDefinition)) {
+				setToolBarDefinition(toolbarDefinition);
+				updateToolbar();
+			}
+		}
 	}
 
 	@Override

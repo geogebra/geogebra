@@ -129,17 +129,31 @@
 	.geogebraweb-selectionframe-spreadsheet {
 		z-index: z-index.$z-spreadsheet-selection-frame;
 		border-style: solid;
-		/*border-width: 2px;*/
-		border-color: #0000FF;
+		border-width: 2px;
+		border-color: var(--ggb-primary-color);
 		-ms-touch-action: none; /* prevent scrolling on IE tablets */
 	}
-	
-	.SpreadsheetEditorCell input, .SpreadsheetEditorCell input[type="text"] {
-		border-radius: 0px;
-		box-sizing: content-box;
-		-webkit-box-sizing: content-box;
-		padding: 1px 1px;
-		margin: -3px;	
+
+	.editorPanel {
+		box-shadow: 0 2px 6px 2px rgb(60 64 67 / 15%);
+	}
+
+	.SpreadsheetEditorCell, .SpreadsheetEditorCell .fieldContainer {
+		height: 100%;
+	}
+
+	.SpreadsheetEditorCell input[type="text"].gwt-SuggestBox {
+		border-radius: 0;
+		border-width: 0;
+		height: 100%;
+		&:focus {
+			border: 2px var(--ggb-primary-color) solid;
+		}
+	}
+
+	.SpreadsheetEditorCell .cursorOverlay {
+		height: 100%;
+		padding: 4px;
 	}
 	
 	.SpreadsheetStyleBar td:last-child {
@@ -148,5 +162,12 @@
 	
 	.SpreadsheetWrapView {
 		background-color: #FFFFFF;
+	}
+
+	.spreadsheetDot {
+		z-index: z-index.$z-spreadsheet-dot;
+		borderTop: 1px solid white;
+		borderLeft: 1px solid white;
+		background-color: var(--ggb-primary-color);
 	}
 }

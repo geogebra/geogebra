@@ -10,12 +10,6 @@ the Free Software Foundation.
 
  */
 
-/**
- * GeoGebra Application
- *
- * @author Markus Hohenwarter
- */
-
 package org.geogebra.desktop.geogebra3D;
 
 import java.awt.Color;
@@ -85,26 +79,33 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.util.FrameCollector;
 
+/**
+ * GeoGebra Application
+ *
+ * @author Markus Hohenwarter
+ */
 public class App3D extends AppD {
 
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
 
-	public App3D(CommandLineArguments args,
-			boolean undoActive) {
-		this(args, null, undoActive);
-	}
+	/**
+	 * @param args arguments
+	 * @param frame frame
+	 */
+	public App3D(CommandLineArguments args, JFrame frame) {
 
-	public App3D(CommandLineArguments args, JFrame frame, boolean undoActive) {
-
-		super(args, frame, null, undoActive, new LocalizationD(3));
+		super(args, frame, null, true, new LocalizationD(3));
 
 		runThreadForCheckInput3D();
 	}
 
-	public App3D(CommandLineArguments args, Container comp,
-			boolean undoActive) {
-		super(args, null, comp, undoActive, new LocalizationD(3));
+	/**
+	 * @param args arguments
+	 * @param comp frame
+	 */
+	public App3D(CommandLineArguments args, Container comp) {
+		super(args, null, comp, true, new LocalizationD(3));
 
 		runThreadForCheckInput3D();
 	}
@@ -538,17 +539,14 @@ public class App3D extends AppD {
 	}
 
 	public void toggleAxis3D() {
-		// toggle axis
 		getEuclidianView3D().toggleAxis();
 	}
 
 	public void togglePlane() {
-		// toggle xOy plane
 		getEuclidianView3D().getSettings().togglePlane();
 	}
 
 	public void toggleGrid3D() {
-		// toggle xOy grid
 		getEuclidianView3D().toggleGrid();
 	}
 
@@ -772,7 +770,7 @@ public class App3D extends AppD {
 
 	@Override
 	protected AppD newAppForTemplateOrInsertFile() {
-		return new App3D(new CommandLineArguments(null), new JPanel(), true);
+		return new App3D(new CommandLineArguments(null), new JPanel());
 	}
 
 	@Override

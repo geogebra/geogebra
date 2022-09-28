@@ -3,45 +3,58 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.euclidian.CoordSystemAnimationListener;
 import org.geogebra.common.euclidian.CoordSystemInfo;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.SettingListener;
 
 /**
  * Controller for Interval Plotter to handle zoom and moving the view.
  *
  * @author laszlo
  */
-public class IntervalPlotController implements CoordSystemAnimationListener {
+public class IntervalPlotController implements CoordSystemAnimationListener, SettingListener {
 
-	private final IntervalPlotModel model;
+	private final IntervalFunctionModel model;
+	private final GeoFunction function;
 	private EuclidianController euclidianController;
+	private EuclidianSettings euclidianSettings;
 
 	/**
 	 * Constructor.
-	 * @param model {@link IntervalPlotModel}
+	 * @param model {@link IntervalFunctionModelImpl}
+	 * @param function {@link GeoFunction}
 	 */
-	public IntervalPlotController(IntervalPlotModel model) {
+	public IntervalPlotController(IntervalFunctionModel model, GeoFunction function) {
 		this.model = model;
+		this.function = function;
 	}
 
 	/**
-	 * @param controller {@link EuclidianController}
+	 * @param view view for the drawable
 	 */
-	public void attachEuclidianController(EuclidianController controller) {
-		euclidianController = controller;
-		euclidianController.addZoomerAnimationListener(this, model.getGeoFunction());
+	public void attachEuclidianView(EuclidianView view) {
+		euclidianController = view.getEuclidianController();
+		euclidianController.addZoomerAnimationListener(this, function);
+		euclidianSettings = view.getSettings();
+		if (euclidianSettings != null) {
+			euclidianSettings.addListener(this);
+		}
 	}
 
 	@Override
 	public void onZoomStop(CoordSystemInfo info) {
 		info.setXAxisZoom(false);
-		if (IntervalPlotSettings.isUpdateEnabled()) {
-			model.updateAll();
+		if (IntervalPlotSettings.isUpdateOnZoomStopEnabled()) {
+			model.resample();
 		}
 	}
 
 	@Override
 	public void onMoveStop() {
-		if (IntervalPlotSettings.isUpdateEnabled()) {
-			model.updateAll();
+		if (IntervalPlotSettings.isUpdateOnMoveStopEnabled()) {
+			model.resample();
 		}
 	}
 
@@ -51,7 +64,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 			return;
 		}
 
-		if (IntervalPlotSettings.isUpdateEnabled()) {
+		if (IntervalPlotSettings.isUpdateOnMoveEnabled()) {
 			model.updateDomain();
 		}
 	}
@@ -60,6 +73,16 @@ public class IntervalPlotController implements CoordSystemAnimationListener {
 	 * Remove controller as zoomer animation listener.
 	 */
 	public void detach() {
-		euclidianController.removeZoomerAnimationListener(model.getGeoFunction());
+		euclidianController.removeZoomerAnimationListener(function);
+		if (euclidianSettings != null) {
+			euclidianSettings.removeListener(this);
+		}
+	}
+
+	@Override
+	public void settingsChanged(AbstractSettings settings) {
+		if (IntervalPlotSettings.isUpdateOnSettingsChangeEnabled()) {
+			model.resample();
+		}
 	}
 }

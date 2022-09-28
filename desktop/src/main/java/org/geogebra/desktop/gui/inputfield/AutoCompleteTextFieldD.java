@@ -149,9 +149,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public AutoCompleteTextFieldD(int columns, AppD app,
 			KeyNavigation handleEscapeKey) {
 		this(columns, app, handleEscapeKey, true);
-		// setDictionary(app.getAllCommandsDictionary());
 	}
 
+	/**
+	 * @param columns collumns
+	 * @param app application
+	 * @param drawTextField associated input box drawable
+	 */
 	public AutoCompleteTextFieldD(int columns, App app,
 			Drawable drawTextField) {
 		this(columns, app);
@@ -795,6 +799,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return syntaxes;
 	}
 
+	/**
+	 * Start autocomplete
+	 */
 	public void startAutoCompletion() {
 
 		// don't show autocompletion popup if the current word

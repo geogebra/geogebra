@@ -244,9 +244,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	 * @return whether processing input was successful
 	 */
 	public boolean stopCellEditing() {
-		if (autoCompleteTextField.hasDummyCursor()) {
-			autoCompleteTextField.removeDummyCursor();
-		}
+		autoCompleteTextField.removeDummyCursor();
 
 		// try to redefine or create the cell geo with the current editing
 		// string

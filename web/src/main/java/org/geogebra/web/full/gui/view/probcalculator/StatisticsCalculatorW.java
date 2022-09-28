@@ -9,10 +9,10 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 
@@ -537,10 +537,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			Consumer<Boolean> handler) {
 		field.enableGGBKeyboard();
 		field.addInsertHandler(text -> {
-			field.removeDummyCursor();
 			handler.accept(false);
-			if (Browser.isTabletBrowser()) {
-				field.addDummyCursor(field.getCaretPosition());
+			if (NavigatorUtil.isMobile()) {
+				field.updateCursorOverlay();
 			}
 		});
 	}

@@ -122,6 +122,10 @@ public class TupleNeighbours {
 	}
 
 	private String tuple(IntervalTuple tuple) {
+		if (tuple == null) {
+			return "-";
+		}
+
 		String result = "Tuples.";
 		if (tuple.isUndefined()) {
 			result += "undefined(" + comma(tuple.x()) + ") ";

@@ -13,6 +13,10 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 
 	private DataAnalysisViewD view;
 
+	/**
+	 * @param app application
+	 * @param view DA dialog
+	 */
 	public DataAnalysisControllerD(AppD app, DataAnalysisViewD view) {
 		super(app);
 		this.view = view;

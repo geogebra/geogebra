@@ -119,6 +119,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				});
 	}
 
+	/**
+	 * Initialize the UI
+	 */
 	@SuppressWarnings("serial")
 	public void initGUI() {
 		removeAll();
@@ -238,6 +241,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		inputField.setLabels();
 	}
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		inputField.setFont(app.getBoldFont());
 		inputLabel.setFont(app.getPlainFont());
@@ -253,7 +259,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		updateIcons(false);
 	}
 
-	// see actionPerformed
+	/**
+	 * see actionPerformed
+	 * @param cmd command
+	 */
 	public void insertCommand(String cmd) {
 		if (cmd == null) {
 			return;
@@ -269,6 +278,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		inputField.requestFocus();
 	}
 
+	/**
+	 * @param str string to insert
+	 */
 	public void insertString(String str) {
 		if (str == null) {
 			return;
@@ -489,13 +501,11 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		//
-
+		// not needed
 	}
 
 	public void setAutoInput(String string) {
 		this.autoInput = string;
-
 	}
 
 	private class AlgebraInputErrorLogger implements ErrorLogger {

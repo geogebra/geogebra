@@ -724,6 +724,32 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		padding-top: 10px;
 		padding-right: 10px;
 	}
+
+	.cursorOverlay {
+		z-index: z-index.$z-on-top-of-graphics;
+		padding: 2px;
+		width: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		pointer-events: none;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		overflow: hidden;
+		.virtualCursor {
+			margin-left: -2px;
+			animation: blink 1s steps(2) infinite;
+		}
+	}
+
+	.withCursorOverlay input {
+		color: transparent;
+	}
+
+	@keyframes blink {
+		0% {opacity: 0}
+	}
 }
 
 /* Outside of GeoGebraFrame */
