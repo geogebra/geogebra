@@ -5,14 +5,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoIntersectCoordSysCurve;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -64,18 +62,15 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		if (DoubleUtil.isZero(coeffs.getW())) {
 			enx = new ExpressionNode(kernel, 0);
 			for (int i = 0; i < curve.getDimension(); i++) {
-				enx = enx.plus(new ExpressionNode(kernel,
-						new MyDouble(kernel, coeffs.get(i + 1)),
-						Operation.MULTIPLY, curve.getFun(i).getExpression()));
+				enx = enx.plus(curve.getFun(i).getExpression().multiply(coeffs.get(i + 1)));
 			}
 
 		} else {
 			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
 			enx = new ExpressionNode(kernel, 1);
 			for (int i = 0; i < curve.getDimension(); i++) {
-				enx = enx.plus(new ExpressionNode(kernel,
-						new MyDouble(kernel, coeffs.get(i + 1) / coeffs.getW()),
-						Operation.MULTIPLY, curve.getFun(i).getExpression()));
+				enx = enx.plus(curve.getFun(i).getExpression()
+						.multiply(coeffs.get(i + 1) / coeffs.getW()));
 			}
 
 		}
