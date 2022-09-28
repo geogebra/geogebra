@@ -1,4 +1,5 @@
 import '../../support/embed/commands.js'
+/*global cy*/
 
 describe('Evaluator test', () => {
     beforeEach(() => {

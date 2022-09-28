@@ -1,4 +1,5 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
+/*global cy,expect*/
 
 describe('Ruler and protractor tool test', () => {
     beforeEach(() => {
@@ -9,18 +10,18 @@ describe('Ruler and protractor tool test', () => {
     afterEach(cy.setSaved);
 
     it("Ruler and protractor tool should change graphics view", () => {
-    	let before;
-    	cy.document().then((doc) => {
-    		before = doc.querySelector("[data-test=euclidianView]").toDataURL();
-    		selectors.rulerButton.click();
+        let before;
+        cy.document().then((doc) => {
+            before = doc.querySelector("[data-test=euclidianView]").toDataURL();
+            selectors.rulerButton.click();
             selectors.protractorButton.click();
-    	});
+        });
 
         cy.wait(3000);
 
         cy.document().then((doc) => {
-            after =  doc.querySelector("[data-test=euclidianView]").toDataURL();
+            const after =  doc.querySelector("[data-test=euclidianView]").toDataURL();
             expect(before).not.to.equal(after);
-    	});
-   	});
+        });
+       });
 });

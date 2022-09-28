@@ -1,5 +1,5 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
-
+/*global cy*/
 describe('Context menu test', () => {
     beforeEach(() => {
         cy.visit('graphing.html');

@@ -1,3 +1,5 @@
+/*global cy*/
+
 describe('Reset test', () => {
     beforeEach(() => {
         cy.viewport("ipad-2");

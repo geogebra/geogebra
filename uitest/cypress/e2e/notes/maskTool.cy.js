@@ -1,4 +1,5 @@
 import {selectors} from '@geogebra/web-test-harness/selectors'
+/*global cy,expect*/
 
 describe('Mask tool test', () => {
     beforeEach(() => {
@@ -19,7 +20,7 @@ describe('Mask tool test', () => {
             .mouseEvent('down', 50, 150) // click outside to deselect
             .mouseEvent('up', 50, 150);
         cy.window().then((win) => {
-            before = win.ggbApplet.getPNGBase64(1);
+            const before = win.ggbApplet.getPNGBase64(1);
             win.ggbApplet.evalCommand("Polygon((3, 3), (4, 3), (4, 4), (3, 4))");
             expect(before).to.equal(win.ggbApplet.getPNGBase64(1));
         });

@@ -1,4 +1,5 @@
 import rounding from '../../../../common/src/main/resources/testData/rounding.json';
+/*global cy,expect*/
 
 describe('Sliders test', () => {
     beforeEach(() => {
