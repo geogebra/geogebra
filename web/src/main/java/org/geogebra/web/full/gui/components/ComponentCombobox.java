@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.MARGIN_FROM_SCREEN;
+import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.POPUP_PADDING;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -151,22 +154,22 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 
 	private void showPopup() {
 		int spaceBottom = (int) (appW.getHeight() - getElement().getAbsoluteBottom());
-		int spaceTop = getElement().getAbsoluteTop() - 32;
-		int minSpaceBottom = 3 * 32 + 32 + 8;
+		int spaceTop = getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
+		int minSpaceBottom = 3 * dropDown.getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
 		int popupHeight = dropDown.getPopupHeight();
 
 		if (spaceBottom < minSpaceBottom) {
 			int popupTop = getAbsoluteTop() - popupHeight;
 
 			if (popupHeight > spaceTop) {
-				popupTop = (int) appW.getAbsTop() + 32;
+				popupTop = (int) appW.getAbsTop() + MARGIN_FROM_SCREEN;
 				dropDown.setHeightInPx(spaceTop);
 			}
 			dropDown.showAtPoint(getAbsoluteLeft(), popupTop);
 		} else {
 			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
 			if (popupHeight > spaceBottom) {
-				dropDown.setHeightInPx(spaceBottom - 40);
+				dropDown.setHeightInPx(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
 			}
 		}
 	}

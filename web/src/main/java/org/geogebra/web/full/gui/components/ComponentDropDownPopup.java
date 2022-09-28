@@ -15,8 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ComponentDropDownPopup {
 	private static final int OFFSET_X = 0;
-	private static final int POPUP_PADDING = 8;
-	private static final int MARGIN_FROM_SCREEN = 32;
+	public static final int POPUP_PADDING = 8;
+	public static final int MARGIN_FROM_SCREEN = 32;
 	private GPopupMenuW menu;
 	private int selectedIndex;
 	private Widget anchor;
@@ -173,5 +173,9 @@ public class ComponentDropDownPopup {
 	public void showAtPoint(int x, int  y) {
 		menu.showAtPoint(x, y);
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
+	}
+
+	public int getItemHeight() {
+		return itemHeight;
 	}
 }
