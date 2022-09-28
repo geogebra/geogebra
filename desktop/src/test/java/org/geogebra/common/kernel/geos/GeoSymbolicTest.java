@@ -1330,6 +1330,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		symbolic = add("NSolve(x^2=1)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
 
+		symbolic = add("NSolve(sqrt(x)=sqrt(-2-x),x=1)");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
+				equalTo("{x = -1}"));
+		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
+
 		// 2 variables
 		symbolic = add("Solve({x+y=5, 2x+y=7},{x,y})");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
@@ -1431,12 +1436,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				equalTo("Numeric(Solve(20 = 100x¹⁰⁰⁰))"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = -0.9983918565382, x = 0.9983918565382}"));
-		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
-
-		symbolic = add("NSolve(sqrt(x)=sqrt(-2-x),x=1)");
+		SymbolicUtil.toggleSymbolic(symbolic);
+		assertThat(symbolic.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("Solve(20 = 100x¹⁰⁰⁰)"));
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
-				equalTo("{x = -1}"));
-
+				equalTo("{x = -(1 / 5)^(1 / 1000), x = (1 / 5)^(1 / 1000)}"));
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 	}
 

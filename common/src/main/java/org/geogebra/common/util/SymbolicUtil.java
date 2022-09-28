@@ -29,15 +29,20 @@ public class SymbolicUtil {
 	}
 
 	public static boolean isNumericOfSolve(GeoSymbolic symbolic) {
-		boolean isNumeric = Commands.Numeric.getCommand()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName());
-		boolean hasSolveArgument = false;
-		Command firstCommand = ((Command) symbolic.getDefinition().getLeft());
-		if (firstCommand.getArgumentNumber() > 0) {
-			Command secondCommand = firstCommand.getArgument(0).getTopLevelCommand();
-			hasSolveArgument = Commands.Solve.getCommand().equals(secondCommand.getName());
+		ExpressionNode definition = symbolic.getDefinition();
+		if (definition.getLeft() instanceof Command
+				&& Commands.Numeric.getCommand()
+				.equals(((Command) definition.getLeft()).getName())) {
+			Command firstCommand = (Command) definition.getLeft();
+			if (firstCommand.getArgumentNumber() > 0
+					&& firstCommand.getArgument(0).getLeft() instanceof Command) {
+				Command secondCommand = (Command) firstCommand.getArgument(0).getLeft();
+				if (Commands.Solve.getCommand().equals(secondCommand.getName())) {
+					return true;
+				}
+			}
 		}
-		return isNumeric && hasSolveArgument;
+		return false;
 	}
 
 	/**
