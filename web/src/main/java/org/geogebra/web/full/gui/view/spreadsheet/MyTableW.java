@@ -256,51 +256,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		selectionType = MyTableInterface.CELL_SELECT;
 
-		// add mouse and key listeners
-		// scc = new SpreadsheetColumnControllerW(app, this);
-		// srh = new SpreadsheetRowHeaderW(app, this);
-
-		// key listener - old solution
-		// KeyListener[] defaultKeyListeners = getKeyListeners();
-		// for (int i = 0; i < defaultKeyListeners.length; ++i) {
-		// removeKeyListener(defaultKeyListeners[i]);
-		// }
-		// addKeyListener(new SpreadsheetKeyListener(app, this));
-
-		// addDomHandler(new SpreadsheetKeyListener(app, this),
-		// KeyDownEvent.getType());
-
-		// setup selection listener
-		// TODO
-		// These listeners are no longer needed.
-		// getSelectionModel().addListSelectionListener(new
-		// RowSelectionListener());
-		// getColumnModel().getSelectionModel().addListSelectionListener(new
-		// ColumnSelectionListener());
-		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
-
 		// add table model listener
 		((SpreadsheetTableModelSimple) tableModel)
 		        .setChangeListener(new MyTableModelListener());
 
 		copyPasteCut = new CopyPasteCutW(app);
-
-		/*
-		 * // - see ticket #135 addFocusListener(this);
-		 * 
-		 * // editing putClientProperty("terminateEditOnFocusLost",
-		 * Boolean.TRUE);
-		 * 
-		 * columnModelListener = new MyTableColumnModelListener();
-		 * getColumnModel().addColumnModelListener(columnModelListener);
-		 * 
-		 * // set first cell active // needed in case spreadsheet selected with
-		 * ctrl-tab rather than mouse // click // changeSelection(0, 0, false,
-		 * false);
-		 */
-
-		// rowHeaderRenderer = srh.new RowHeaderRenderer();
-		// columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 
 		ssGrid.setCellPadding(0);
 		ssGrid.setCellSpacing(0);
@@ -1644,6 +1604,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						textField.prepareShowSymbolButton(false);
 						textField.enableGGBKeyboard();
 						textField.addDummyCursor();
+						textField.setCursorPos(textField.getText().length());
 					}
 				} else if (!app.isWhiteboardActive()) {
 					// if keyboard isn't enabled, inserts openkeyboard button
@@ -1687,14 +1648,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			controller = new SpreadsheetController(app);
 		}
 		return controller;
-	}
-
-	public int convertColumnIndexToModel(int viewColumnIndex) {
-		return viewColumnIndex;
-	}
-
-	public boolean isAllowEditing() {
-		return allowEditing;
 	}
 
 	public void setAllowEditing(boolean allowEditing) {
@@ -1761,21 +1714,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		editor.sendKeyDownEvent(e);
 	}
 
-	/*
-	 * public void focusGained(FocusEvent e) { if
-	 * (AppD.isVirtualKeyboardActive())
-	 * ((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
-	 * 
-	 * }
-	 * 
-	 * public void focusLost(FocusEvent e) { // avoid infinite loop! if
-	 * (e.getOppositeComponent() instanceof VirtualKeyboard) return; if
-	 * (AppD.isVirtualKeyboardActive())
-	 * ((GuiManagerD)app.getGuiManager()).toggleKeyboard(false);
-	 * 
-	 * }
-	 */
-
 	/**
 	 * Keep column widths of table and column header in sync.
 	 * 
@@ -1833,10 +1771,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (showColumnHeader) {
 					columnHeader.setColumnWidth(col, width2);
 				}
-			}
-
-			if (view != null) {
-				// view.updatePreferredRowHeight(rowHeight2);
 			}
 		});
 	}
@@ -1995,16 +1929,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		if (adjustHeight) {
-
 			int resultHeight = Math.max(ssGrid.getRowFormatter()
 			        .getElement(row).getOffsetHeight(),
 			        prefElement.getOffsetHeight());
-			int rowHeight2 = resultHeight;
-			// if (rowHeight2 < minimumRowHeight)
-			// rowHeight2 = minimumRowHeight;
-			setRowHeight(row, rowHeight2, false);
+			setRowHeight(row, resultHeight, false);
 		}
-
 	}
 
 	/**
@@ -2091,43 +2020,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
-	/**
-	 * Column model listener --- used to reset the preferred column width when
-	 * all columns have been selected.
-	 */
-	/*
-	 * public class MyTableColumnModelListener implements
-	 * TableColumnModelListener {
-	 * 
-	 * public void columnMarginChanged(ChangeEvent e) { if (isSelectAll() &&
-	 * minSelectionColumn >= 0) { preferredColumnWidth =
-	 * getColumnModel().getColumn( minSelectionColumn).getPreferredWidth(); //
-	 * view.updatePreferredColumnWidth(preferredColumnWidth); } // TODO: find
-	 * more efficient way to record column widths
-	 * view.updateAllColumnWidthSettings(); }
-	 * 
-	 * public void columnAdded(TableColumnModelEvent arg0) { }
-	 * 
-	 * public void columnMoved(TableColumnModelEvent arg0) { }
-	 * 
-	 * public void columnRemoved(TableColumnModelEvent arg0) { }
-	 * 
-	 * public void columnSelectionChanged(ListSelectionEvent arg0) { } }
-	 */
-
-	// When the spreadsheet is smaller than the viewport fill the extra space
-	// with
-	// the same background color as the spreadsheet.
-	// This gives a smoother look when the spreadsheet auto-adjusts to fill the
-	// space.
-
-	/*
-	 * @Override protected void configureEnclosingScrollPane() {
-	 * super.configureEnclosingScrollPane(); Container p = getParent(); if (p
-	 * instanceof JViewport) { ((JViewport) p).setBackground(getBackground()); }
-	 * }
-	 */
-
 	// ==================================================
 	// Table mode change
 	// ==================================================
@@ -2198,12 +2090,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			getSpreadsheetModeProcessor().initTargetCell(minSelectionColumn,
 					minSelectionRow);
 
-			// Set the targetcellFrame so the Paint method can use it to draw a
-			// dashed frame - will be implemented differently in the web version
-			// (TODO)
-			// targetcellFrame = this.getCellBlockRect(minSelectionColumn,
-			// minSelectionRow, minSelectionColumn, minSelectionRow, true);
-
 			// Change the selection frame color to gray
 			// and clear the current selection
 			setSelectionRectangleColor(GColor.GRAY);
@@ -2212,7 +2098,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			minSelectionRow = -1;
 			maxSelectionRow = -1;
 			app.getSelectionManager().clearSelectedGeos();
-
 		}
 
 		// try to create autoFunction cell(s) adjacent to the selection
@@ -2331,24 +2216,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
-	/*
-	 * private static Cursor createCursor(Image cursorImage, boolean center) {
-	 * Toolkit toolkit = Toolkit.getDefaultToolkit(); java.awt.Point
-	 * cursorHotSpot; if (center) { cursorHotSpot = new
-	 * java.awt.Point(cursorImage.getWidth(null) / 2,
-	 * cursorImage.getHeight(null) / 2); } else { cursorHotSpot = new
-	 * java.awt.Point(0, 0); } Cursor cursor =
-	 * toolkit.createCustomCursor(cursorImage, cursorHotSpot, null); return
-	 * cursor; }
-	 */
-
-	/**
-	 * Force repaint calls to update everything. (Useful for debugging.)
-	 */
-	public void setRepaintAll() {
-		repaintAll = true;
-	}
-
 	/**
 	 * Updates all cell formats and the current selection.
 	 */
@@ -2398,10 +2265,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				defaultTableCellRenderer.updateCellBorder(row, column);
 			}
 		}
-		// for (int column = 0; column < getColumnCount(); column++) {
-		// defaultTableCellRenderer.updateColumnBorder(column);
-		// }
-
 	}
 
 	/**
