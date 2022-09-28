@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
@@ -46,9 +46,9 @@ public class IntervalPlotter {
 	/**
 	 * Enables plotter
 	 */
-	public void enableFor(GeoFunction function, EuclidianController euclidianController) {
+	public void enableFor(GeoFunction function, EuclidianView view) {
 		build(function);
-		this.controller.attachEuclidianController(euclidianController);
+		this.controller.attachEuclidianView(view);
 		enable();
 	}
 
