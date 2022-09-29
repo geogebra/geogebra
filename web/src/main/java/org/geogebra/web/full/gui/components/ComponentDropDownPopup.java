@@ -37,7 +37,9 @@ public class ComponentDropDownPopup {
 		menu.getPopupPanel().addStyleName("dropDownPopup");
 		menu.getPopupPanel().addCloseHandler(event -> {
 			menu.getPopupPanel().removeStyleName("show");
-			onClose.run();
+			if (onClose != null) {
+				onClose.run();
+			}
 		});
 	}
 
@@ -103,15 +105,14 @@ public class ComponentDropDownPopup {
 				if (popupTop < MARGIN_FROM_SCREEN) {
 					// selected item not on screen, scroll popup
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
-					menu.getPopupPanel().getElement().setScrollTop(getSelectedItemTop()
-							- diffAnchorPopupTop);
+					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
 				}
 			}
 		}
 		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
 	}
 
-	private int getSelectedItemTop() {
+	public int getSelectedItemTop() {
 		return getSelectedIndex() * itemHeight;
 	}
 
@@ -177,5 +178,9 @@ public class ComponentDropDownPopup {
 
 	public int getItemHeight() {
 		return itemHeight;
+	}
+
+	public void setScrollTop(int scrollTop) {
+		menu.getPopupPanel().getElement().setScrollTop(scrollTop);
 	}
 }

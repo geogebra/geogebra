@@ -159,19 +159,24 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 		int popupHeight = dropDown.getPopupHeight();
 
 		if (spaceBottom < minSpaceBottom) {
-			int popupTop = getAbsoluteTop() - popupHeight;
+			int popupTop = popupHeight > spaceTop ? (int) appW.getAbsTop() + MARGIN_FROM_SCREEN
+				: getAbsoluteTop() - popupHeight;
+			dropDown.showAtPoint(getAbsoluteLeft(), popupTop);
 
 			if (popupHeight > spaceTop) {
-				popupTop = (int) appW.getAbsTop() + MARGIN_FROM_SCREEN;
-				dropDown.setHeightInPx(spaceTop);
+				setHeightAndScrollTop(spaceTop);
 			}
-			dropDown.showAtPoint(getAbsoluteLeft(), popupTop);
 		} else {
 			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
 			if (popupHeight > spaceBottom) {
-				dropDown.setHeightInPx(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
+				setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
 			}
 		}
+	}
+
+	private void setHeightAndScrollTop(int height) {
+		dropDown.setHeightInPx(height);
+		dropDown.setScrollTop(dropDown.getSelectedItemTop());
 	}
 
 	private void resetTextField() {
