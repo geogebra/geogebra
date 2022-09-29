@@ -3,14 +3,12 @@ package org.geogebra.common.util;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.util.debug.Log;
 
 public class SymbolicUtil {
 
@@ -28,7 +26,7 @@ public class SymbolicUtil {
 				|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
 	}
 
-	public static boolean isNumericOfSolve(GeoSymbolic symbolic) {
+	private static boolean isNumericOfSolve(GeoSymbolic symbolic) {
 		ExpressionNode definition = symbolic.getDefinition();
 		if (definition.getLeft() instanceof Command
 				&& Commands.Numeric.getCommand()
@@ -112,7 +110,7 @@ public class SymbolicUtil {
 		symbolic.computeOutput();
 	}
 
-	public static void toggleNumericWrap(GeoSymbolic symbolic) {
+	private static void toggleNumericWrap(GeoSymbolic symbolic) {
 		boolean isNumeric = Commands.Numeric.getCommand()
 				.equals(symbolic.getDefinition().getTopLevelCommand().getName());
 		if (isNumeric) {
