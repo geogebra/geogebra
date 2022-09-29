@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.components;
 
+import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.MARGIN_FROM_SCREEN;
+import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.POPUP_PADDING;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +13,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -108,7 +110,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 	}
 
 	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, 24, inputTextField, this::onClose);
+		dropDown = new ComponentDropDownPopup(app, 32, inputTextField, this::onClose);
 		dropDown.addAutoHidePartner(getElement());
 
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -138,7 +140,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 			resetTextField();
 			dropDown.close();
 		} else {
-			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
+			showPopup();
 			Scheduler.get().scheduleDeferred(() -> {
 				inputTextField.selectAll();
 			});
@@ -150,6 +152,33 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 				.withFill(arrowCol.toString()).getSVG());
 	}
 
+	private void showPopup() {
+		int spaceBottom = (int) (appW.getHeight() - getElement().getAbsoluteBottom());
+		int spaceTop = getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
+		int minSpaceBottom = 3 * dropDown.getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
+		int popupHeight = dropDown.getPopupHeight();
+
+		if (spaceBottom < minSpaceBottom) {
+			int popupTop = popupHeight > spaceTop ? (int) appW.getAbsTop() + MARGIN_FROM_SCREEN
+				: getAbsoluteTop() - popupHeight;
+			dropDown.showAtPoint(getAbsoluteLeft(), popupTop);
+
+			if (popupHeight > spaceTop) {
+				setHeightAndScrollTop(spaceTop);
+			}
+		} else {
+			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
+			if (popupHeight > spaceBottom) {
+				setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
+			}
+		}
+	}
+
+	private void setHeightAndScrollTop(int height) {
+		dropDown.setHeightInPx(height);
+		dropDown.setScrollTop(dropDown.getSelectedItemTop());
+	}
+
 	private void resetTextField() {
 		if (inputTextField.getText().isEmpty()) {
 			inputTextField.setText(dropDownElementsList.get(
@@ -159,8 +188,17 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 
 	private void setSelectedOption(int idx) {
 		lastSelectedIdx = idx;
+		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
 		inputTextField.setText(dropDownElementsList.get(idx).getElement().getInnerText());
+	}
+
+	private void highlightSelectedElement(int previousSelectedIndex,
+			int currentSelectedIndex) {
+		dropDownElementsList.get(previousSelectedIndex)
+				.removeStyleName("selectedDropDownElement");
+		dropDownElementsList.get(currentSelectedIndex)
+				.addStyleName("selectedDropDownElement");
 	}
 
 	/**
@@ -174,8 +212,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(
-					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
+			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
 					() -> {
 						setSelectedOption(currentIndex);
 					});
