@@ -1940,9 +1940,9 @@ public class GeoList extends GeoElement
 	 * 4)}
 	 */
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(
+	public ArrayList<GeoElementND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
-		final ArrayList<GeoPointND> al = new ArrayList<>();
+		final ArrayList<GeoElementND> al = new ArrayList<>();
 
 		for (int i = 0; i < elements.size(); i++) {
 			final GeoElement geo = elements.get(i);
@@ -1954,11 +1954,11 @@ public class GeoList extends GeoElement
 				}
 
 			} else {
-				final ArrayList<GeoPointND> al2 = geo.getFreeInputPoints(view);
+				final ArrayList<GeoElementND> al2 = geo.getFreeInputPoints(view);
 
 				if (al2 != null) {
 					for (int j = 0; j < al2.size(); j++) {
-						final GeoPointND p = al2.get(j);
+						final GeoElementND p = al2.get(j);
 						// make sure duplicates aren't added
 						if (!al.contains(p)) {
 							al.add(p);

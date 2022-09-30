@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -314,13 +315,18 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints() {
+	public ArrayList<GeoElementND> getFreeInputPoints() {
 		if (poly == null
 				|| !(poly.getParentAlgorithm() instanceof AlgoPolygonRegular)) {
 			return super.getFreeInputPoints();
 		}
 
 		return poly.getParentAlgorithm().getFreeInputPoints();
+	}
+
+	@Override
+	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
+		return view.getFreeInputPoints(this).size() == 2;
 	}
 
 }
