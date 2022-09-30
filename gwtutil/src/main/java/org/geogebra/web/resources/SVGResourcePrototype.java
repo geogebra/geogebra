@@ -62,6 +62,11 @@ public class SVGResourcePrototype implements SVGResource {
 		return serializer.serializeToString(doc);
 	}
 
+	@Override
+	public String getSVG() {
+		return svg;
+	}
+
 	public String getUrl() {
 		return "data:image/svg+xml;base64," + DomGlobal.btoa(svg);
 	}

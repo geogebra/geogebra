@@ -102,7 +102,6 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			selector.setSelected(enumerableProperty.getIndex());
 			selector.setDropDownSelectionCallback(enumerableProperty::setIndex);
 			return selector;
-
 		}
 
 		return null;
