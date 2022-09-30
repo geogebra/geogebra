@@ -36,7 +36,10 @@ final public class DockPanelData {
 		TOOLS,
 
 		/** tab three */
-		TABLE
+		TABLE,
+
+		/** tab four */
+		DISTRIBUTION
 	}
 
 	/**

@@ -13,6 +13,7 @@ import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLCollection;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
@@ -183,5 +184,15 @@ public final class Dom {
 		// avoid default "submit" behavior when GeoGebra is in a form
 		btn.setAttribute("type", "button");
 		return btn;
+	}
+
+	/**
+	 * @param cls CSS class name
+	 * @return div with given class
+	 */
+	public static HTMLElement createDiv(String cls) {
+		HTMLElement div = Js.uncheckedCast(DomGlobal.document.createElement("div"));
+		div.className = cls;
+		return div;
 	}
 }

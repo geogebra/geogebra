@@ -470,7 +470,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			double value = nv.getDouble();
 
 			if (resultPanel.isFieldLow(source)) {
-				if (isValidInterval(probMode, value, getHigh())) {
+				if (isValidInterval(value, getHigh())) {
 					setLow(value);
 					setXAxisPoints();
 				} else {
@@ -480,7 +480,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			}
 
 			else if (resultPanel.isFieldHigh(source)) {
-				if (isValidInterval(probMode, getLow(), value)) {
+				if (isValidInterval(getLow(), value)) {
 					setHigh(value);
 					setXAxisPoints();
 				} else {
@@ -545,7 +545,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updateOutput() {
+	public void updateOutput(boolean updateDistributionView) {
 		updateFonts();
 		updateDistribution();
 		updatePlotSettings();

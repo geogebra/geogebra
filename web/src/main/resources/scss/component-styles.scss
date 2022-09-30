@@ -160,12 +160,20 @@
 	}
 
 	/* SWITCHER COMPONENT */
+	@mixin switcherBg($colTrack, $colThumb) {
+    	.track {
+    		background-color: $colTrack;
+    	}
+    	.thumb {
+    		background-color: $colThumb;
+    	}
+    }
+
 	.switch {
 		width: 40px;
 		height: 24px;
 		margin-right: 16px;
 		position: relative;
-		top: 7px;
 		float: right;
 		cursor: pointer;
 
@@ -188,26 +196,23 @@
 			top: -18px;
 			border-radius: 50%;
 			display: block;
+			box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 			transition: left 0.3s ease, background 0.3s ease;
 		}
 
 		&.on {
-			.track {
-				background-color: #9ADAEC;
-			}
+			@include switcherBg(colors.$mow_light, colors.$mow_primary);
+
 			.thumb {
 				left: 16px;
-				background-color: #00A8D5;
 			}
 		}
 
 		&.off {
-			.track {
-				background-color: #c5c5c5;
-			}
+			@include switcherBg(colors.$switcher-off-track, colors.$switcher-off-thumb);
+
 			.thumb {
 				left: 0px;
-				background-color: #f1f1f1;
 			}
 		}
 	}
