@@ -246,11 +246,10 @@ public class ToolBar {
 		// objects with actions
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SLIDER);
-		// in exam mode text and image cannot be inserted
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TEXT);
+		// in exam mode image cannot be inserted
 		if (!exam) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_TEXT);
-
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_IMAGE);
 		}
