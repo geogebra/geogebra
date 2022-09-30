@@ -88,8 +88,10 @@ public class JSONParserGGT {
 		material.setFileName(getString(obj, "fileUrl"));
 		material.setSharingKey(sharingKey);
 		material.setAuthor(getString(obj, "author"));
+		// creatorId used in MOW, crator_id in Marvl, author_id in Tube
 		material.setAuthorId(
-				getInt(obj, "author_id", getInt(obj, "creator_id", -1)));
+				getInt(obj, "author_id", getInt(obj, "creator_id",
+						getInt(obj, "creatorId", -1))));
 		material.setURL(getString(obj, "url"));
 		material.setURLdirect(getString(obj, "url_direct"));
 		String thumbUrl = getString(obj, "thumbUrl");
@@ -135,6 +137,8 @@ public class JSONParserGGT {
 		}
 		if (obj.has("creator")) {
 			setCreator(material, obj);
+		} else {
+			material.setCreator(new UserPublic("", material.getAuthorID(), ""));
 		}
 		return material;
 	}

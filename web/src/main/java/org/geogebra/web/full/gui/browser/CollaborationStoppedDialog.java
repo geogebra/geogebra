@@ -3,10 +3,12 @@ package org.geogebra.web.full.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
@@ -33,12 +35,15 @@ public class CollaborationStoppedDialog extends ComponentDialog {
 
 	private void uploadACopy(String base64) {
 		Material mat = app.getActiveMaterial();
-		String copyTitle = MaterialRestAPI.getCopyTitle(app.getLocalization(), mat.getTitle());
+		Localization loc = app.getLocalization();
+		String copyTitle = MaterialRestAPI.getCopyTitle(loc, mat.getTitle());
 		MaterialCallback cb = new MaterialCallback() {
 			@Override
 			public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 				app.setActiveMaterial(result.get(0));
 				app.getKernel().getConstruction().setTitle(result.get(0).getTitle());
+				ToolTipManagerW.sharedInstance().showBottomMessage(
+						loc.getMenu("SavedSuccessfully"), (AppW) app);
 			}
 		};
 		app.getLoginOperation().getGeoGebraTubeAPI()
