@@ -1992,7 +1992,7 @@ public class GeoNumeric extends GeoElement
 		sb.appendSpace();
 
 		if (!addAuralCaption(sb)) {
-			sb.append(ScreenReader.convertToReadable(getLabelSimple(), getLoc()));
+			sb.append(ScreenReader.convertToReadable(getLabelSimple(), app));
 		}
 
 		if (!getRawCaption().contains("%v")) {

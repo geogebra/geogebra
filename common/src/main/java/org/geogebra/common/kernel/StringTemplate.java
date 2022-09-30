@@ -388,7 +388,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			"screenReaderUnicode");
 
 	static {
-		screenReaderUnicode.setType(StringType.SCREEN_READER_ASCII);
+		screenReaderUnicode.setType(StringType.SCREEN_READER_UNICODE);
 		screenReaderUnicode.localizeCmds = true;
 	}
 

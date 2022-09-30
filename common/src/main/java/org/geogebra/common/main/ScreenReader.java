@@ -255,7 +255,11 @@ public class ScreenReader {
 		};
 	}
 
-	private static SerializationAdapter getSerializationAdapter(App app) {
+	/**
+	 * @param app application
+	 * @return serialization adapter
+	 */
+	public static SerializationAdapter getSerializationAdapter(App app) {
 		return app.getScreenReaderTemplate().getStringType()
 				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII
 				? new ScreenReaderSerializationAdapter(app.getLocalization())
@@ -482,24 +486,10 @@ public class ScreenReader {
 	/**
 	 * @param s
 	 *            String to convert eg M_R-a
-	 * @return converted String eg M subscript R minus a
+	 * @return converted String; unchanged for desktop, eg "M subscript R minus a" for mobile
 	 */
-	public static String convertToReadable(String s, Localization loc) {
-		StringBuilder sb = new StringBuilder();
-		ScreenReaderSerializationAdapter adapter = new ScreenReaderSerializationAdapter(loc);
-		for (int i = 0; i < s.length(); i++) {
-			char character = s.charAt(i);
-			if (character == '_') {
-				sb.append(" subscript ");
-			} else {
-				String str = adapter.convertCharacter(character);
-				if (!"".equals(str)) {
-					sb.append(str);
-				}
-			}
-		}
-
-		return sb.toString();
+	public static String convertToReadable(String s, App app) {
+		return getSerializationAdapter(app).convertToReadable(s);
 	}
 
 	/**

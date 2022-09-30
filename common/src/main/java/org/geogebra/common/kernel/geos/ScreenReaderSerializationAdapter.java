@@ -97,4 +97,22 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		default: return toString;
 		}
 	}
+
+	@Override
+	public String convertToReadable(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			char character = s.charAt(i);
+			if (character == '_') {
+				sb.append(" subscript ");
+			} else {
+				String str = convertCharacter(character);
+				if (!"".equals(str)) {
+					sb.append(str);
+				}
+			}
+		}
+
+		return sb.toString();
+	}
 }

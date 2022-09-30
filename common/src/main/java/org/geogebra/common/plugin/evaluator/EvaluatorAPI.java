@@ -9,11 +9,10 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.ScreenReaderSerializationAdapter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.StepSolver;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 
@@ -23,6 +22,7 @@ import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 
 /**
  * API class for the Evaluator object.
@@ -41,8 +41,8 @@ public class EvaluatorAPI {
 	private final AlgebraProcessor algebraProcessor;
 	private final Parser parser;
 	private final EvalInfo evalInfo;
-	private final Localization loc;
 	private StepSolver stepSolver;
+	private final SerializationAdapter serializationAdapter;
 
 	/**
 	 * Create a new Evaluator API
@@ -57,7 +57,7 @@ public class EvaluatorAPI {
 		this.flatSerializer = new GeoGebraSerializer();
 		this.latexSerializer = new TeXSerializer();
 		this.evalInfo = createEvalInfo();
-		this.loc = kernel.getLocalization();
+		this.serializationAdapter = ScreenReader.getSerializationAdapter(kernel.getApplication());
 		stepSolver = (text, type, parser) -> {
 			Log.error("Step solver not loaded");
 			return null;
@@ -94,7 +94,7 @@ public class EvaluatorAPI {
 
 	private String getAltTextString() {
 		return ScreenReaderSerializer.fullDescription(
-				getMathFormula().getRootComponent(), new ScreenReaderSerializationAdapter(loc));
+				getMathFormula().getRootComponent(), serializationAdapter);
 	}
 
 	private MathFormula getMathFormula() {

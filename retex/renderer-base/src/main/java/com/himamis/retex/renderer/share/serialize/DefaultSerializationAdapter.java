@@ -56,4 +56,9 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 	public String getLigature(String toString) {
 		return toString;
 	}
+
+	@Override
+	public String convertToReadable(String s) {
+		return s;
+	}
 }

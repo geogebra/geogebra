@@ -53,6 +53,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.SerializationAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
@@ -1524,7 +1525,7 @@ public class GeoText extends GeoElement
 		if (isLaTeX()) {
 			ret = getAuralTextLaTeX();
 		} else {
-			ret = ScreenReader.convertToReadable(getTextString(), getLoc());
+			ret = ScreenReader.convertToReadable(getTextString(), app);
 		}
 		return ret;
 	}
@@ -1535,13 +1536,9 @@ public class GeoText extends GeoElement
 	public String getAuralTextLaTeX() {
 		kernel.getApplication().getDrawEquation()
 				.checkFirstCall(kernel.getApplication());
-		// TeXAtomSerializer makes formula human readable.
+		// TeXAtomSerializer makes formula human-readable.
 		TeXFormula tf = getTeXFormula();
-		ScreenReaderSerializationAdapter adapter = null;
-		if (kernel.getApplication().getScreenReaderTemplate().getStringType()
-				== StringType.SCREEN_READER_ASCII) {
-			adapter = new ScreenReaderSerializationAdapter(kernel.getLocalization());
-		}
+		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(app);
 		return new TeXAtomSerializer(adapter).serialize(tf.root);
 	}
 

@@ -26,4 +26,6 @@ public interface SerializationAdapter {
 	String parenthesis(String paren);
 
 	String getLigature(String toString);
+
+	String convertToReadable(String s);
 }

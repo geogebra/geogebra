@@ -6934,7 +6934,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				sb.appendLatexDegreeIfNeeded(this, myCaption);
 			} else {
 				String myCaption = getCaption(app.getScreenReaderTemplate());
-				String convertedCaption = ScreenReader.convertToReadable(myCaption, getLoc());
+				String convertedCaption = ScreenReader.convertToReadable(myCaption, app);
 				sb.appendDegreeIfNeeded(this, convertedCaption);
 			}
 			sb.endSentence();
@@ -6951,7 +6951,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public void addAuralLabel(ScreenReaderBuilder sb) {
-		sb.appendLabel(getLabelSimple());
+		sb.appendLabel(getLabelSimple(), app);
 		sb.endSentence();
 	}
 
