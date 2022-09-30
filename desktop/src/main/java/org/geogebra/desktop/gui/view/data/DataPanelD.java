@@ -362,11 +362,10 @@ public class DataPanelD extends JPanel
 
 			// set the column width
 			int size = font.getSize();
-			if (size < 12)
-			 {
+			if (size < 12) {
 				size = 12; // minimum size
 			}
-			double multiplier = (size) / 12.0;
+			double multiplier = size / 12.0;
 			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH
 					* multiplier);
 
@@ -496,7 +495,8 @@ public class DataPanelD extends JPanel
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 			private static final long serialVersionUID = 1L;
-			private ImageIcon iconChecked, iconUnChecked;
+			private ImageIcon iconChecked;
+			private ImageIcon iconUnChecked;
 
 			RowHeaderRenderer(JTable table) {
 
@@ -618,7 +618,7 @@ public class DataPanelD extends JPanel
 
 			DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
 			BufferedImage image = new BufferedImage(13, 13,
-					(BufferedImage.TYPE_INT_ARGB));
+					BufferedImage.TYPE_INT_ARGB);
 			ImageIcon icon = new ImageIcon(image);
 			Graphics2D g2d = image.createGraphics();
 

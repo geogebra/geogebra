@@ -95,7 +95,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		if (app.isWhiteboardActive()) {
 			contentPanel.add(getCheckboxPanel());
 		}
-		contentPanel.add(getVisibiltyPanel());
+		contentPanel.add(getVisibilityPanel());
 		addCancelButton(contentPanel);
 
 		addDialogContent(contentPanel);
@@ -131,7 +131,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		return templateCheckbox;
 	}
 
-	private FlowPanel getVisibiltyPanel() {
+	private FlowPanel getVisibilityPanel() {
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.addStyleName("visibilityPanel");
 
@@ -222,6 +222,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		super.show();
 
 		setTitle();
+		setPosBtnDisabled(false);
 		if (((AppW) app).isOffline()) {
 			this.providerPopup.setVisible(this.supportedProviders
 					.contains(Provider.LOCAL));

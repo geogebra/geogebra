@@ -81,7 +81,7 @@ public class CompletionsPopup {
 		popup.add(new JScrollPane(list));
 		popup.setBorder(BorderFactory.createEmptyBorder());
 		popup.setFocusable(false);
-		current_length = -1;// current length of sentence
+		current_length = -1; // current length of sentence
 		registerListeners();
 	}
 
@@ -197,6 +197,9 @@ public class CompletionsPopup {
 		}
 	}
 
+	/**
+	 * Show completions
+	 */
 	public void showCompletions() {
 		if (!textField.getAutoComplete()) {
 			return;
@@ -239,7 +242,7 @@ public class CompletionsPopup {
 		// Reinstate textField's key listeners
 	}
 
-	public void handleSpecialKeys(KeyEvent keyEvent) {
+	protected void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isPopupVisible()) {
 			return;
 		}

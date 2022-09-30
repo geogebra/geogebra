@@ -177,50 +177,11 @@ public class AngleTextFieldW extends GTextBox
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		handleTabletKeyboard(event);
+		dummyCursor.handleTabletKeyboard(event);
 	}
 
-	private void handleTabletKeyboard(KeyDownEvent e) {
-		if (!Browser.isTabletBrowser() || app.isWhiteboardActive()) {
-			return;
-		}
-		int code = e.getNativeKeyCode();
-		if (code == 0 && Browser.isIPad()) {
-			int arrowType = Browser.getIOSArrowKeys(e.getNativeEvent());
-			if (arrowType != -1) {
-				code = arrowType;
-			}
-		}
-		switch (code) {
-		case GWTKeycodes.KEY_BACKSPACE:
-			onBackSpace();
-			break;
-		case GWTKeycodes.KEY_LEFT:
-			onArrowLeft();
-			break;
-		case GWTKeycodes.KEY_RIGHT:
-			onArrowRight();
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void onArrowLeft() {
-		int caretPos = getCursorPos();
-		if (caretPos > 0) {
-			setCursorPos(caretPos - 1);
-		}
-	}
-
-	private void onArrowRight() {
-		int caretPos = getCursorPos();
-		if (caretPos < getText().length()) {
-			setCursorPos(caretPos + 1);
-		}
-	}
-
-	private void onBackSpace() {
+	@Override
+	public void onBackSpace() {
 		int start = getCursorPos();
 		int end = start + getSelectionLength();
 

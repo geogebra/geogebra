@@ -744,7 +744,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			for (OptionsTab tab : tabs) {
 				tab.setFocused(false);
 			}
-			tabs.get(event.getSelectedItem()).initGUI(isDefaults);
+			tabs.get(event.getSelectedItem()).initGUI();
 			onTabSelection.run();
 		});
 		((Widget) tabPanel).setStyleName("propertiesPanel");

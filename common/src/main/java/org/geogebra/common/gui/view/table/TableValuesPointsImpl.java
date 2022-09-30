@@ -96,7 +96,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void notifyRowsRemoved(TableValuesModel model, int firstRow, int lastRow) {
-		for (int row = firstRow; row <= lastRow; row++) {
+		for (int row = lastRow; row >= firstRow; row--) {
 			notifyRowRemoved(row);
 		}
 	}

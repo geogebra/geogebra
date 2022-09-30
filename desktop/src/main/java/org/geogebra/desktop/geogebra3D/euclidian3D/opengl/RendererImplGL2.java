@@ -231,7 +231,7 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setAlphaFunc() {
-		jogl.getGL2().glAlphaFunc(GL.GL_NOTEQUAL, 0);// pixels with alpha=0
+		jogl.getGL2().glAlphaFunc(GL.GL_NOTEQUAL, 0); // pixels with alpha=0
 															// are not drawn
 		// jogl.getGL2().glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with
 		// alpha=0 are not drawn
@@ -250,8 +250,12 @@ public class RendererImplGL2 extends RendererImpl
 		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 	}
 
-	private int orthoLeft, orthoRight, orthoBottom, orthoTop;
-	private double orthoFar, orthoNear;
+	private int orthoLeft;
+	private int orthoRight;
+	private int orthoBottom;
+	private int orthoTop;
+	private double orthoFar;
+	private double orthoNear;
 
 	/*
 	 * (non-Javadoc)
@@ -705,7 +709,7 @@ public class RendererImplGL2 extends RendererImpl
 	}
 	
 	@Override
-	public void setLayer(int layer){
+	public void setLayer(int layer) {
 		setPolygonOffset(-layer * 0.05f, -layer * 10);
 	}
 

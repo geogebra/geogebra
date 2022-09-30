@@ -9,10 +9,10 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonData;
 import org.geogebra.web.full.gui.components.radiobutton.RadioButtonPanel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 
@@ -41,7 +41,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	private Label lblSampleHeader2;
 	private ComponentCheckbox ckPooled;
 	private ListBox cbProcedure;
-	private RadioButtonPanel tailRadioButtonPanel;
+	private RadioButtonPanel<String> tailRadioButtonPanel;
 	private Label lblNull;
 	private Label lblHypParameter;
 	private Label lblTailType;
@@ -445,10 +445,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		cbProcedure = new ListBox();
 		cbProcedure.addChangeHandler(this);
 
-		tailRadioButtonPanel = new RadioButtonPanel(loc,
+		tailRadioButtonPanel = new RadioButtonPanel<>(loc,
 				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
 						newRadioButtonData(StatisticsCollection.tail_right),
-						newRadioButtonData(StatisticsCollection.tail_two)), 2);
+						newRadioButtonData(StatisticsCollection.tail_two)),
+				StatisticsCollection.tail_two,
+				ignore -> updateResult(true));
 
 		lblNull = new Label();
 		lblHypParameter = new Label();
@@ -485,8 +487,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 		}
 	}
 
-	private RadioButtonData newRadioButtonData(String label) {
-		return new RadioButtonData(label, false, () -> updateResult(true));
+	private RadioButtonData<String> newRadioButtonData(String label) {
+		return new RadioButtonData<>(label, label);
 	}
 
 	private TextObject buildTextField() {
@@ -534,10 +536,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 			Consumer<Boolean> handler) {
 		field.enableGGBKeyboard();
 		field.addInsertHandler(text -> {
-			field.removeDummyCursor();
 			handler.accept(false);
-			if (Browser.isTabletBrowser()) {
-				field.addDummyCursor(field.getCaretPosition());
+			if (NavigatorUtil.isMobile()) {
+				field.updateCursorOverlay();
 			}
 		});
 	}
@@ -569,18 +570,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	@Override
-	protected boolean btnRightIsSelected() {
-		return tailRadioButtonPanel.isNthRadioButtonSelected(1);
+	protected String getSelectedTail() {
+		return tailRadioButtonPanel.getValue();
 	}
 
 	@Override
-	protected boolean btnLeftIsSelected() {
-		return tailRadioButtonPanel.isNthRadioButtonSelected(0);
-	}
-
-	@Override
-	protected void updateTailCheckboxes(boolean left, boolean right) {
-		// nothing to do here
+	protected void updateTailCheckboxes(String tail) {
+		tailRadioButtonPanel.setValue(tail);
 	}
 
 	@Override

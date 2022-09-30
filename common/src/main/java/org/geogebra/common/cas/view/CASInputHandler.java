@@ -559,13 +559,7 @@ public class CASInputHandler {
 			return false;
 		}
 		String trimmed = text.trim();
-		if (trimmed.length() == 0) {
-			return false;
-		}
-		if (trimmed.length() == 1 && "]})".indexOf(trimmed) > -1) {
-			return false;
-		}
-		return true;
+		return !trimmed.isEmpty() && !(trimmed.length() == 1 && "]})".indexOf(trimmed) > -1);
 	}
 
 	/**

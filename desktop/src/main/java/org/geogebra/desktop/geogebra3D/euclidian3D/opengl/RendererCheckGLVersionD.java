@@ -129,7 +129,7 @@ public class RendererCheckGLVersionD extends Renderer
 	private void initCheckShaders(GLAutoDrawable drawable) {
 
 		// start init
-		String glInfo[] = RendererJogl.getGLInfos(drawable);
+		String[] glInfo = RendererJogl.getGLInfos(drawable);
 
 		String glCard = glInfo[6];
 		String glVersion = glInfo[7];
@@ -447,8 +447,8 @@ public class RendererCheckGLVersionD extends Renderer
 
 	@Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf) {
-		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE,
-				ByteBuffer.wrap(buf));
+		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_ALPHA, sizeX, sizeY,
+				0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, ByteBuffer.wrap(buf));
 	}
 
 	@Override
@@ -527,7 +527,7 @@ public class RendererCheckGLVersionD extends Renderer
 					int r = (int) (pixels[i] * 255);
 					int g = (int) (pixels[i + 1] * 255);
 					int b = (int) (pixels[i + 2] * 255);
-					bi.setRGB(x, y, ((r << 16) | (g << 8) | b));
+					bi.setRGB(x, y, (r << 16) | (g << 8) | b);
 					i += 3;
 				}
 			}
@@ -542,8 +542,6 @@ public class RendererCheckGLVersionD extends Renderer
 	public final GBufferedImage getExportImage() {
 		return new GBufferedImageD(bi);
 	}
-
-	private static final int INT_RGB_WHITE = ((255 << 16) | (255 << 8) | 255);
 
 	@Override
 	final public void enableTextures2D() {

@@ -135,7 +135,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
 			new DialogData(title), false, true, handler, message,
-				initText, false);
+				initText);
 		inputDialog.show();
 	}
 
@@ -168,8 +168,8 @@ public class DialogManagerW extends DialogManager
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		DialogData data = new DialogData("Redefine");
 		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
-				false, false, handler, geo.getNameDescription(), str,
-				true);
+				false, false, handler, geo.getNameDescription(), str
+		);
 		redefineInputDialog.show();
 	}
 
@@ -221,7 +221,10 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showCalcChooser(boolean autoHide) {
 		hideCalcChooser(); // remove any previous chooser
-		calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		if (calcSwitcher == null) {
+			calcSwitcher = new CalculatorSwitcherDialog((AppW) app, autoHide);
+		}
+		calcSwitcher.buildGUI();
 		calcSwitcher.show();
 	}
 
@@ -377,8 +380,7 @@ public class DialogManagerW extends DialogManager
 				app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
-				(AppW) app, message, data, initText, handler, changingSign,
-				checkBoxText);
+				(AppW) app, message, data, initText, handler, changingSign);
 		extrudeInputDialog.show();
 	}
 
@@ -441,21 +443,21 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
-	 * @param doYouWantSaveChanges true if doYooWantToSaveYourChangesDialog
+	 * @param doYouWantToSaveChanges true if doYooWantToSaveYourChangesDialog
 	 *        should be shown
 	 * @param addTempCheckBox
 	 *        true if checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
-	public SaveDialogI getSaveDialog(boolean doYouWantSaveChanges, boolean addTempCheckBox) {
+	public SaveDialogI getSaveDialog(boolean doYouWantToSaveChanges, boolean addTempCheckBox) {
 		if (app.isMebis()) {
-			DialogData data = doYouWantSaveChanges
+			DialogData data = doYouWantToSaveChanges
 					? new DialogData("DoYouWantToSaveYourChanges",
 					"Discard", "Save")
 					:  new DialogData("Save",
 					"Cancel", "Save");
 
-			saveDialog = doYouWantSaveChanges
+			saveDialog = doYouWantToSaveChanges
 					? new DoYouWantToSaveChangesDialog((AppW) app, data, true)
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {

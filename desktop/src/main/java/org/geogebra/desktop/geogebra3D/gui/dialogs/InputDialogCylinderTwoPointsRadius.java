@@ -14,7 +14,8 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogCylinderTwoPointsRadius extends InputDialogRadiusD {
 
-	private GeoPointND a, b;
+	private final GeoPointND a;
+	private final GeoPointND b;
 
 	/**
 	 * 

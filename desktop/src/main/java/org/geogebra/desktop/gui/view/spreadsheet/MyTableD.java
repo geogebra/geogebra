@@ -178,7 +178,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
 	protected Cursor handCursor = Cursor
 			.getPredefinedCursor(Cursor.HAND_CURSOR);
-	protected Cursor grabbingCursor, grabCursor;
+	protected Cursor grabbingCursor;
+	protected Cursor grabCursor;
 
 	private SpreadsheetController controller;
 
@@ -1123,7 +1124,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		this.targetcellFrame = targetcellFrame;
 	}
 
-	final static float dash1[] = { 2.0f };
+	final static float[] dash1 = { 2.0f };
 	final static BasicStroke dashed = new BasicStroke(3.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
@@ -1281,9 +1282,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				// Highlight the dragging dot if mouseover
 				if (isOverDot) {
 					graphics.setColor(Color.gray);
-				} else
-				// {graphics.setColor(Color.BLUE);}
-				{
+				} else {
 					graphics.setColor(selectionRectangleColor);
 				}
 

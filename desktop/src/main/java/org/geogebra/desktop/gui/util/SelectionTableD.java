@@ -58,8 +58,10 @@ public class SelectionTableD extends JTable {
 		this.horizontalAlignment = horizontalAlignment;
 	}
 
-	private Object[] data;
-	private int numRows, numColumns, rowHeight, columnWidth;
+	private final Object[] data;
+	private final int numRows;
+	private final int numColumns;
+	private int columnWidth;
 
 	public int getColumnWidth() {
 		return columnWidth;
@@ -68,7 +70,6 @@ public class SelectionTableD extends JTable {
 	private Dimension iconSize;
 
 	private SelectionTable mode;
-
 
 	public void setFgColor(GColor fgColor) {
 		repaint();
@@ -214,6 +215,7 @@ public class SelectionTableD extends JTable {
 
 		// match row height to specified icon height
 		// when mode=text then let font size adjust row height automatically
+		int rowHeight;
 		if (!(mode == SelectionTable.MODE_TEXT
 				|| mode == SelectionTable.MODE_LATEX)) {
 			rowHeight = iconSize.height + padding;
@@ -328,11 +330,8 @@ public class SelectionTableD extends JTable {
 	public ImageIcon getDataIcon(Object value) {
 
 		ImageIcon icon = null;
-		if (value == null)
-		 {
+		if (value == null) {
 			return GeoGebraIconD.createEmptyIcon(1, 1);
-		// GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true,
-		// false, true, iconSize , Color.GRAY, null);
 		}
 
 		switch (mode) {
@@ -358,9 +357,12 @@ public class SelectionTableD extends JTable {
 
 		private static final long serialVersionUID = 1L;
 
-		private Border normalBorder, selectedBorder, rollOverBorder,
-				paddingBorder;
-		private Color selectionColor, rollOverColor;
+		private final Border normalBorder;
+		private final Border selectedBorder;
+		private final Border rollOverBorder;
+		private final Border paddingBorder;
+		private final Color selectionColor;
+		private final Color rollOverColor;
 
 		public MyCellRenderer() {
 

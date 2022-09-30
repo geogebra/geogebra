@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import java.math.BigDecimal;
+
 import org.geogebra.common.kernel.GeoElementConvertable;
 import org.geogebra.common.kernel.StringTemplate;
 
@@ -57,4 +59,12 @@ public interface NumberValue extends ExpressionValue, GeoElementConvertable {
 	 */
 	public String getLabel(StringTemplate tpl);
 
+	/**
+	 * Might be null if this is a constant +-infinity or NaN,
+	 * also for results of imprecise computations
+	 * @return this as big decimal
+	 */
+	default BigDecimal toDecimal() {
+		return null;
+	}
 }

@@ -104,8 +104,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 *            last column of the target cell range
 	 * @param row2
 	 *            last row of the target cell range
-	 * @param contents
-	 * @return
+	 * @param contents clipboard contents
+	 * @return whether paste succeeded
 	 */
 	public boolean paste(int column1, int row1, int column2, int row2,
 			Transferable contents) {
@@ -211,7 +211,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 	/**
 	 * Return the extension portion of the file's name.
 	 * 
-	 * @param f
+	 * @param filename file name
 	 * @return "ext" for file "filename.ext"
 	 */
 	private static String getExtension(String filename) {

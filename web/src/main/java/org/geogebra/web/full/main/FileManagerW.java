@@ -152,10 +152,7 @@ public class FileManagerW extends FileManager {
 		if (freeBytes == -1) {
 			countFreeBytes();
 		}
-		if (freeBytes > 10e6) {
-			return true;
-		}
-		return false;
+		return freeBytes > 10e6;
 	}
 
 	private void countFreeBytes() {
@@ -316,7 +313,7 @@ public class FileManagerW extends FileManager {
 		DialogData data = new DialogData(titleKey, "Cancel", "Export");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
 		ComponentInputField inputTextField = new ComponentInputField(app, "", "", "",
-				filename + "." + extension, -1, 1, false, "");
+				filename + "." + extension, -1, 1, "");
 		dialog.addDialogContent(inputTextField);
 		dialog.setOnPositiveAction(() -> {
 			exportImage(url, inputTextField.getText(), extension2);

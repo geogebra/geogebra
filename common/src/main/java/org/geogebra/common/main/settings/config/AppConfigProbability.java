@@ -97,4 +97,9 @@ public class AppConfigProbability extends AppConfigGraphing {
 	public int getMainGraphicsViewId() {
 		return App.VIEW_PROBABILITY_CALCULATOR;
 	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return getSubAppCode() != null;
+	}
 }

@@ -59,7 +59,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	public void processInput() {
 		final String inputText = getInputText();
 		DialogManager.createAngleFixed(kernel, inputText,
-				rbClockWise.getValue(), this, segments, points,
+				isClockWise(), this, segments, points,
 				ok -> doProcessInput(ok, inputText), ec);
 	}
 
@@ -90,7 +90,6 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		}
-		getTextComponent().hideTablePopup();
 	}
 
 	/*

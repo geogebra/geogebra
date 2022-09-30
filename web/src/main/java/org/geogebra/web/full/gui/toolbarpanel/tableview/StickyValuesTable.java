@@ -350,8 +350,10 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 
 		Element headerElement = getHeaderElement(view.getColumn(geo));
 		if (headerElement != null) {
-			setHorizontalScrollPosition(headerElement.getParentElement().getAbsoluteLeft()
-					- getAbsoluteLeft());
+			Element headerCell = headerElement.getParentElement();
+			int offset = headerCell.getAbsoluteLeft() - getTable().getAbsoluteLeft();
+			int sx = headerCell.getOffsetWidth() + offset - getOffsetWidth();
+			setHorizontalScrollPosition(Math.max(0, sx));
 		}
 	}
 

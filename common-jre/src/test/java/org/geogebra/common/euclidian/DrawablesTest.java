@@ -1,14 +1,17 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.Objects;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GGraphicsCommon;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
@@ -21,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoMindMapNode;
+import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -72,8 +76,8 @@ public class DrawablesTest {
 				"PieChart({1,2,3})",
 				"audio", "video", "embed", "symbolic", "inlinetext",
 				"formula", "table", "mindMap" };
-		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);
+
+		add("toolPic=ToolImage[2]");
 		Construction construction = app.getKernel().getConstruction();
 		GeoAudio au = new GeoAudio(construction);
 		au.setLabel("audio");
@@ -94,9 +98,9 @@ public class DrawablesTest {
 		mindMap.setLabel("mindMap");
 		TreeSet<GeoClass> types = new TreeSet<>();
 		for (int i = 0; i < def.length; i++) {
-			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
+			GeoElementND geo = add(def[i]);
 			DrawableND draw = app.getEuclidianView1().newDrawable(geo);
-			Assert.assertEquals(geo.getDefinitionForInputBar(),
+			assertEquals(geo.getDefinitionForInputBar(),
 					expectDrawableFor(geo), draw != null);
 			types.add(geo.getGeoClassType());
 		}
@@ -114,13 +118,43 @@ public class DrawablesTest {
 
 	}
 
+	private GeoElementND add(String s) {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		GeoElementND[] ret = ap.processAlgebraCommand(s, false);
+		return ret.length > 0 ? ret[0] : new GeoScriptAction(app.getKernel().getConstruction());
+	}
+
 	@Test
 	public void testHatching() {
-		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-		GeoElementND poly = ap.processAlgebraCommand("Polygon(O,O+1,4)", false)[0];
+		GeoElementND poly = add("Polygon(O,O+1,4)");
 		poly.setFillType(FillType.HATCH);
 		poly.updateVisualStyleRepaint(GProperty.HATCHING);
 		verify(graphics, atLeastOnce()).fill(notNull());
+	}
+
+	@Test
+	public void testLabelPosition() {
+		GeoElementND f = add("f:y=100x");
+		GeoElementND g = add("g:x=100y");
+		f.setLabelVisible(true);
+		g.setLabelVisible(true);
+		f.update();
+		g.update();
+		app.getEuclidianView1().setRealWorldCoordSystem(-1,
+				1, -100, 100);
+		// f is diagonal, g close to x-axis
+		assertEquals(new GPoint(8, 583), getLabelPosition(f));
+		assertEquals(new GPoint(8, 292), getLabelPosition(g));
+		app.getEuclidianView1().setRealWorldCoordSystem(-120,
+				120, -1, 1);
+		// g is diagonal, f close to y-axis
+		assertEquals(new GPoint(407, 592), getLabelPosition(f));
+		assertEquals(new GPoint(83, 592), getLabelPosition(g));
+	}
+
+	private GPoint getLabelPosition(GeoElementND f) {
+		DrawableND draw = Objects.requireNonNull(app.getEuclidianView1().getDrawableFor(f));
+		return new GPoint((int) draw.getxLabel(), (int) draw.getyLabel());
 	}
 
 	private static boolean expectDrawableFor(GeoElementND type) {

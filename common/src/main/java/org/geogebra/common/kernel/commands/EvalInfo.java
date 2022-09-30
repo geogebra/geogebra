@@ -33,6 +33,7 @@ public class EvalInfo {
 	private RuleCollection redefinitionRule;
 	private MyArbitraryConstant constant;
 	private boolean isRedefinition = false;
+	private boolean useAnalytics;
 
 	/**
 	 * Creates a default evaluation info
@@ -163,6 +164,7 @@ public class EvalInfo {
 		ret.multipleUnassignedAllowed = this.multipleUnassignedAllowed;
 		ret.allowMultiLetterVariables = this.allowMultiLetterVariables;
 		ret.isRedefinition = this.isRedefinition;
+		ret.useAnalytics = this.useAnalytics;
 		return ret;
 	}
 
@@ -493,10 +495,24 @@ public class EvalInfo {
 	}
 
 	/**
+	 * @param useAnalytics whether to send commands to analytics
+	 * @return new eval info
+	 */
+	public EvalInfo withAnalytics(boolean useAnalytics) {
+		EvalInfo info = copy();
+		info.useAnalytics = useAnalytics;
+		return info;
+	}
+
+	/**
 	 * True if a redefinition is possibly happening.
 	 * @return true if redefinition is happening, false otherwise
 	 */
 	public boolean isRedefinition() {
 		return isRedefinition;
+	}
+
+	public boolean useAnalytics() {
+		return useAnalytics;
 	}
 }

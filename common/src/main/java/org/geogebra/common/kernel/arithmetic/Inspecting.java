@@ -21,7 +21,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public interface Inspecting {
 	/**
 	 * Do the local check
-	 * 
+	 *
 	 * @param v
 	 *            expression
 	 * @return whether this expression itself has given property (not the
@@ -88,10 +88,10 @@ public interface Inspecting {
 
 	/**
 	 * Checks if a ValidExpression is unplottable
-	 * 
+	 *
 	 * <em>Warning:</em> it always returns false for MyList, the checking has to
 	 * be done manually for each element
-	 * 
+	 *
 	 * @author bencze
 	 */
 	public class UnplottableChecker implements Inspecting {
@@ -141,14 +141,11 @@ public interface Inspecting {
 						}
 						isOtherVar = true;
 						GeoElement subst = gdv.getElementWithSameName();
-						if (subst != null && (!subst.getSendValueToCas()
+						return subst == null || (subst.getSendValueToCas()
 								// skip constants
 								// needed for GGB-810
-								|| (subst.getLabelSimple() != null && subst
-										.getLabelSimple().startsWith("c_")))) {
-							return false;
-						}
-						return true;
+								&& (subst.getLabelSimple() == null || !subst
+								.getLabelSimple().startsWith("c_")));
 					}
 					if ("x".equals(varString) || "z".equals(varString)) {
 						isOtherVar = true;
@@ -162,14 +159,11 @@ public interface Inspecting {
 				if (v instanceof GeoDummyVariable) {
 					GeoElement subst = ((GeoDummyVariable) v)
 							.getElementWithSameName();
-					if (subst != null && (!subst.getSendValueToCas()
+					return subst == null || (subst.getSendValueToCas()
 							// skip constants
 							// needed for GGB-810
-							|| (subst.getLabelSimple() != null && subst
-									.getLabelSimple().startsWith("c_")))) {
-						return false;
-					}
-					return true;
+							&& (subst.getLabelSimple() == null || !subst
+							.getLabelSimple().startsWith("c_")));
 				}
 				return false;
 			// MyBoolean
@@ -231,10 +225,7 @@ public interface Inspecting {
 				type = 8;
 				return false;
 			} else if (v instanceof Variable || v instanceof GeoDummyVariable) {
-				if (v.toString(StringTemplate.defaultTemplate).equals("x")) {
-					return false;
-				}
-				return true;
+				return !v.toString(StringTemplate.defaultTemplate).equals("x");
 			} else if (v instanceof ExpressionNode) {
 				type = 11;
 				return false;
@@ -257,6 +248,24 @@ public interface Inspecting {
 			return checker;
 		}
 	}
+
+	/**
+	 * Checks if a division of vectors is found or not
+	 */
+	public static Inspecting vectorDivisionFinder = new Inspecting() {
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			if (v.isExpressionNode()) {
+				ExpressionNode en = (ExpressionNode) v;
+				if (en.getOperation() == Operation.DIVIDE) {
+					return en.getRightTree().evaluatesToNDVector()
+							&& en.getLeftTree().evaluatesToNDVector();
+				}
+			}
+			return false;
+		}
+	};
 
 	/**
 	 * Instead of isConstant we sometimes (always?) want to check only for Geos
@@ -320,7 +329,7 @@ public interface Inspecting {
 		public boolean check(ExpressionValue v) {
 			return v instanceof MySpecialDouble;
 		}
-		
+
 	}
 
 	/**

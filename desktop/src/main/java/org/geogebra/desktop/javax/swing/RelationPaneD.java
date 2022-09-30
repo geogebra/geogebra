@@ -80,8 +80,6 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		frame = new JFrame(title);
 
-		JPanel panel = new JPanel(new BorderLayout(MARGIN, MARGIN));
-
 		ROWHEIGHT = ((double) ORIG_ROWHEIGHT) * app.getFontSize() / 12;
 		INFOWIDTH = (ORIG_INFOWIDTH * app.getFontSize() / 12);
 		MOREWIDTH = (ORIG_MOREWIDTH * app.getFontSize() / 12);
@@ -155,6 +153,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		table.setDragEnabled(false);
 		table.setSize(INFOWIDTH + morewidth, height);
 		table.setRowMargin(ROWMARGIN);
+		JPanel panel = new JPanel(new BorderLayout(MARGIN, MARGIN));
 		panel.add(table);
 
 		// Adding OK button:
@@ -198,8 +197,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				int r = relations.length;
 				int currentHeight = 0;
 				for (int i = 0; i < r; ++i) {
-					int thisHeight = (ORIG_ROWHEIGHT
-							* (countLines(table.getValueAt(i, 0).toString())));
+					int thisHeight = ORIG_ROWHEIGHT
+							* countLines(table.getValueAt(i, 0).toString());
 					currentHeight += thisHeight;
 				}
 				ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
@@ -340,11 +339,12 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 	private class ClientsTableRenderer extends DefaultCellEditor {
 		private static final long serialVersionUID = -4426618730428867967L;
-		private JButton button;
+		private final JButton button;
 		private String label;
 		private boolean clicked;
-		private int row, col;
-		private RelationPaneD pane;
+		private int row;
+		private int col;
+		private final RelationPaneD pane;
 
 		public ClientsTableRenderer(RelationPaneD p, JCheckBox checkBox) {
 			super(checkBox);

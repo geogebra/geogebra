@@ -94,7 +94,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	private FormulaBar formulaBar;
 	private JPanel spreadsheetPanel;
 
-
 	/******************************************************
 	 * Construct spreadsheet view.
 	 */
@@ -150,8 +149,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 		// Set column width
 		table.headerRenderer
-				.setPreferredSize(new Dimension((table.preferredColumnWidth),
-						(SpreadsheetSettings.TABLE_CELL_HEIGHT)));
+				.setPreferredSize(new Dimension(table.preferredColumnWidth,
+						SpreadsheetSettings.TABLE_CELL_HEIGHT));
 
 		// Put the table and the row header into a scroll plane
 		// The scrollPane is named as spreadsheet
@@ -542,7 +541,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	public boolean isTraceDialogVisible() {
-		return (traceDialog != null && traceDialog.isVisible());
+		return traceDialog != null && traceDialog.isVisible();
 	}
 
 	public CellRange getTraceSelectionRange(int anchorColumn, int anchorRow) {
@@ -639,7 +638,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		if (size < 12) {
 			size = 12; // minimum size
 		}
-		double multiplier = (size) / 12.0;
+		double multiplier = size / 12.0;
 		table.setPreferredColumnWidth(
 				(int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier));
 		for (int i = 0; i < table.getColumnCount(); ++i) {
@@ -766,9 +765,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		try {
 			url = f.toURI().toURL();
 			succ = loadSpreadsheetFromURL(url);
-		}
-
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 

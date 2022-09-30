@@ -52,13 +52,15 @@ public class SliderDialogD extends Dialog
 	 *  
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton btOK, btCancel;
-	private JRadioButton rbNumber, rbAngle, rbInteger;
+	private JButton btOK;
+	private JButton btCancel;
+	private JRadioButton rbNumber;
+	private JRadioButton rbAngle;
+	private JRadioButton rbInteger;
 	private InputPanelD tfLabel;
-	private JPanel optionPane;
 	private JCheckBox cbRandom;
 
-	private AppD app;
+	private final AppD app;
 	private SliderPanelD sliderPanel;
 
 	private GeoElement geoResult;
@@ -168,7 +170,7 @@ public class SliderDialogD extends Dialog
 		btPanel.add(btCancel);
 
 		// Create the JOptionPane.
-		optionPane = new JPanel(new BorderLayout(5, 5));
+		JPanel optionPane = new JPanel(new BorderLayout(5, 5));
 		optionPane.add(topPanel, BorderLayout.NORTH);
 		optionPane.add(slPanel, BorderLayout.CENTER);
 		optionPane.add(btPanel, BorderLayout.SOUTH);
@@ -207,7 +209,7 @@ public class SliderDialogD extends Dialog
 					double val = Double
 							.parseDouble(text.substring(text.indexOf('=') + 1));
 
-					GeoNumeric geoNum = ((GeoNumeric) geoResult);
+					GeoNumeric geoNum = (GeoNumeric) geoResult;
 
 					if (val > geoNum.getIntervalMax()) {
 						geoNum.setIntervalMax(val);

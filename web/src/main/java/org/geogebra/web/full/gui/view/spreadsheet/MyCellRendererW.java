@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -22,7 +23,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
@@ -462,26 +462,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 		if (cellGeo.isGeoBoolean()) {
 			FlowPanel fp = new FlowPanel();
-			final CheckBox checkbox = new CheckBox();
-			fp.add(checkbox);
-			checkbox.getElement()
-			        .getStyle()
-			        .setBackgroundColor(
-			                grid.getElement().getStyle().getBackgroundColor());
-			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
-			checkbox.setEnabled(cellGeo.isIndependent());
-
-			checkbox.getElement().addClassName(
-			        "geogebraweb-checkbox-spreadsheet");
-
-			if (cellGeo.isLabelVisible()) {
-				// checkBox.setText(geo.getCaption());
-			}
-			checkbox.setValue(((GeoBoolean) cellGeo).getBoolean());
-
 			final GeoBoolean geoBoolean = (GeoBoolean) cellGeo;
-
-			checkbox.addClickHandler(ce -> {
+			ComponentCheckbox checkbox = new ComponentCheckbox(app.getLocalization(),
+					true, "");
+			checkbox.addDomHandler(event -> {
+				event.stopPropagation();
 				if (view.allowSpecialEditor()) {
 					geoBoolean.setValue(!geoBoolean.getBoolean());
 
@@ -489,7 +474,13 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 					// kernel.updateConstruction();
 					geoBoolean.updateRepaint();
 				}
-			});
+			}, MouseDownEvent.getType());
+
+			fp.add(checkbox);
+			fp.getElement().getStyle().setTextAlign(Style.TextAlign.CENTER);
+
+			checkbox.setDisabled(!cellGeo.isIndependent());
+			checkbox.setSelected(((GeoBoolean) cellGeo).getBoolean());
 
 			grid.setWidget(row, column, fp);
 			return;

@@ -108,4 +108,11 @@ public interface TableValuesModel {
 	 * @return geo element
 	 */
 	GeoNumeric createValue(double value);
+
+	/**
+	 * Sets up the GeoList object so that it can become the x values column.
+	 * @param xValues The GeoList to become the x values column.
+	 * @return The x values column with all the necessary settings set.
+	 */
+	GeoList setupXValues(GeoList xValues);
 }

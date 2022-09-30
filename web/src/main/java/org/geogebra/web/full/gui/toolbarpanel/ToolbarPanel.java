@@ -197,11 +197,15 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void addUndoRedoButtons() {
+		getFrame().add(getUndoRedoPanel());
+		getUndoRedoPanel().setVisible(false);
+	}
+
+	private Widget getUndoRedoPanel() {
 		if (undoRedoPanel == null) {
 			undoRedoPanel = new UndoRedoPanel(app);
 		}
-		getFrame().add(undoRedoPanel);
-		undoRedoPanel.setVisible(false);
+		return undoRedoPanel;
 	}
 
 	/**
@@ -765,59 +769,6 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	/**
-	 * @param ttLeft - tooltip left
-	 * @param width - width
-	 * @param isSmall - is small tooltip
-	 * @return true if was moved
-	 */
-	public boolean moveMoveFloatingButtonUpWithTooltip(int ttLeft, int width,
-			boolean isSmall) {
-		if (moveBtn != null) {
-			int mLeft = moveBtn.getAbsoluteLeft()
-					- (int) app.getAbsLeft();
-			int mRight = mLeft + 48;
-			int ttRight = ttLeft + width;
-			if ((ttLeft < mRight && ttRight > mRight)
-					|| (ttRight > mLeft && ttLeft < mLeft)) {
-				if (isSmall) {
-					moveBtn.removeStyleName("moveMoveBtnDownSmall");
-					moveBtn.addStyleName("moveMoveBtnUpSmall");
-				} else {
-					if (heading.isVisible()) {
-						moveFullScreenButtonUpOrDown("zoomPanelForFullscreenAVMoveUp",
-								"zoomPanelForFullscreenAVMoveUpNoMoveBtn");
-					}
-					moveBtn.removeStyleName("moveMoveBtnDown");
-					moveBtn.addStyleName("moveMoveBtnUp");
-				}
-				return true; // button was moved
-			}
-		}
-		return false; // button was not moved
-	}
-
-	/**
-	 * @param isSmall - is small tooltip
-	 * @param wasMoved - true if was moved
-	 */
-	public void moveMoveFloatingButtonDownWithTooltip(boolean isSmall,
-			boolean wasMoved) {
-		if (moveBtn != null && wasMoved) {
-
-			if (isSmall) {
-				moveBtn.addStyleName("moveMoveBtnDownSmall");
-				moveBtn.removeStyleName("moveMoveBtnUpSmall");
-			} else {
-				if (heading.isVisible()) {
-					moveFullScreenButtonUpOrDown("zoomPanelForFullscreenAV", "zoomPanelPosition");
-				}
-				moveBtn.addStyleName("moveMoveBtnDown");
-				moveBtn.removeStyleName("moveMoveBtnUp");
-			}
-		}
-	}
-
-	/**
 	 * @return if toolbar is open or not.
 	 */
 	public boolean isOpen() {
@@ -926,6 +877,9 @@ public class ToolbarPanel extends FlowPanel
 
 		switchTab(TabIds.TABLE, fade);
 		setMoveMode();
+		if (tabTable != null) {
+			tabTable.scrollTo(geo);
+		}
 
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
 	}
@@ -1196,16 +1150,6 @@ public class ToolbarPanel extends FlowPanel
 				.getDockManager();
 		dm.closePortrait();
 		updatePanelVisibility(false);
-	}
-
-	/**
-	 * sets icons tab-able.
-	 */
-	public void setTabIndexes() {
-		navRail.setTabIndexes();
-		if (undoRedoPanel != null) {
-			undoRedoPanel.setTabIndexes();
-		}
 	}
 
 	/**

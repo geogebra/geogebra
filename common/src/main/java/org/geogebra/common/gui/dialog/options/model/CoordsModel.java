@@ -61,18 +61,6 @@ public class CoordsModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		getCoordStyleAt(index).setMode(coordValues.get(value));
 		getGeoAt(index).updateRepaint();
-
-	}
-
-	@Override
-	public boolean applyChanges(int value) {
-		if (super.applyChanges(value)) {
-			// e.g. u*v can create number (dot product) or complex number
-			// (complex product)
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override

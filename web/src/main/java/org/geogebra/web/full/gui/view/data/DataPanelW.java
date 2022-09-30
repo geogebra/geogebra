@@ -6,12 +6,12 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -23,16 +23,11 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		RequiresResize {
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;
-
-	private CheckBox cbEnableAll;
+	private ComponentCheckbox cbEnableAll;
 	private Boolean[] selectionList;
-
 	private Label lblHeader;
-
 	private LocalizationW loc;
-
 	private StatTableW dataTable;
-
 	private ScrollPanel scrollPane;
 
 	private class DataClickHandler implements ClickHandler {
@@ -62,8 +57,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		this.statController = statDialog.getController();
 
 		buildDataTable();
-		cbEnableAll = new CheckBox("");
-		cbEnableAll.addClickHandler(event -> enableAll());
+		cbEnableAll = new ComponentCheckbox(loc, true, "", ignore -> enableAll());
 
 		populateDataTable(statController.getDataArray());
 		createGUI();
@@ -96,7 +90,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	private Boolean[] updateSelectionList(ArrayList<GeoElement> dataArray) {
-
 		selectionList = new Boolean[dataArray.size()];
 		for (int i = 0; i < selectionList.length; ++i) {
 			selectionList[i] = true;
@@ -111,9 +104,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		String[] rowNames = new String[maxRows];
 		dataTable.setStatTable(maxRows, rowNames, 2, null);
 		for (int row = 0; row < maxRows - 1; row++) {
-			CheckBox cb = new CheckBox("" + (row + 1));
-			cb.addClickHandler(new DataClickHandler(row));
-			cb.setValue(true);
+			int finalRow = row;
+			ComponentCheckbox cb = new ComponentCheckbox(loc, true, "" + (row + 1),
+					ignore -> onDataClick(finalRow));
 			dataTable.getTable().setWidget(row + 1, 0, cb); 
 
 			dataTable.setValueAt(
@@ -141,10 +134,10 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		dataTable.setStatTable(maxRows, rowNames, 3, null);
 
 		for (int row = 0; row < maxRows - 1; ++row) {
-			CheckBox cb = new CheckBox("" + (row + 1));
-			cb.addClickHandler(new DataClickHandler(row));
-			cb.setValue(true);
-			dataTable.getTable().setWidget(row + 1, 0, cb); 
+			int finalRow = row;
+			ComponentCheckbox cb = new ComponentCheckbox(loc, true, "" + (row + 1),
+					ignore -> onDataClick(finalRow));
+			dataTable.getTable().setWidget(row + 1, 0, cb);
 			GeoPoint pt = (GeoPoint) dataArray.get(row);
 			dataTable.setValueAt(pt.getInhomX() + "", row + 1, 1);
 			dataTable.setValueAt(pt.getInhomY() + "", row + 1, 2);
@@ -166,7 +159,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	}
 
 	private void populateDataTable(ArrayList<GeoElement> dataArray) {
-
 		if (dataArray == null || dataArray.size() < 1) {
 			return;
 		}
@@ -187,8 +179,8 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		selectionList[index] = !selectionList[index];
 		statController.updateSelectedDataList(index,
 				selectionList[index]);
-		cbEnableAll.setValue(isAllEnabled());
-		cbEnableAll.setEnabled(true);
+		cbEnableAll.setSelected(isAllEnabled());
+		cbEnableAll.setDisabled(false);
 	}
 
 	/**
@@ -200,14 +192,14 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 				statController.updateSelectedDataList(i, true);
 				selectionList[i] = true;
 				Widget w = dataTable.getTable().getWidget(i + 1, 0);
-				if (w instanceof CheckBox) {
-					((CheckBox) w).setValue(true);
+				if (w instanceof ComponentCheckbox) {
+					((ComponentCheckbox) w).setSelected(true);
 				}
 			}
 		}
 
-		cbEnableAll.setValue(true);
-		cbEnableAll.setEnabled(false);
+		cbEnableAll.setSelected(true);
+		cbEnableAll.setDisabled(true);
 	}
 
 	/**

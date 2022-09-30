@@ -24,7 +24,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
@@ -83,7 +82,7 @@ public class DrawImage extends Drawable {
 		tempAT = AwtFactory.getPrototype().newAffineTransform();
 		classicBoundingBox = AwtFactory.getPrototype().newRectangle();
 
-		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5d);
+		selStroke = AwtFactory.getPrototype().newMyBasicStroke(2);
 	}
 	
 	@Override
@@ -287,8 +286,8 @@ public class DrawImage extends Drawable {
 				if (!isInBackground && isHighlighted()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(GColor.LIGHT_GRAY);
-					g3.draw(labelRectangle);
+					g3.setPaint(GColor.HIGHLIGHT_GRAY);
+					drawHighlightRect(g3);
 				}
 			} else {
 				g3.saveTransform();
@@ -317,45 +316,17 @@ public class DrawImage extends Drawable {
 				if (!isInBackground && isHighlighted()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(GColor.LIGHT_GRAY);
+					g3.setPaint(GColor.HIGHLIGHT_GRAY);
 
 					// changed to code below so that the line thicknesses aren't
 					// transformed
 					// g2.draw(labelRectangle);
 
-					// draw parallelogram around edge
-					GPoint2D corner1 = new GPoint2D(
-							labelRectangle.getMinX(), labelRectangle.getMinY());
-					GPoint2D corner2 = new GPoint2D(
-							labelRectangle.getMinX(), labelRectangle.getMaxY());
-					GPoint2D corner3 = new GPoint2D(
-							labelRectangle.getMaxX(), labelRectangle.getMaxY());
-					GPoint2D corner4 = new GPoint2D(
-							labelRectangle.getMaxX(), labelRectangle.getMinY());
-					at.transform(corner1, corner1);
-					at.transform(corner2, corner2);
-					at.transform(corner3, corner3);
-					at.transform(corner4, corner4);
-
 					App app = geoImage.getKernel().getApplication();
 
-					// show highlighting only if toolbar showing
-					// needed for eg Reflect tool
 					// no highlight if we have bounding box for mow
-					if (!app.isWhiteboardActive() && app.showToolBar()) {
-						if (highlighting == null) {
-							highlighting = AwtFactory.getPrototype()
-									.newGeneralPath();
-						} else {
-							highlighting.reset();
-						}
-						highlighting.moveTo(corner1.getX(), corner1.getY());
-						highlighting.lineTo(corner2.getX(), corner2.getY());
-						highlighting.lineTo(corner3.getX(), corner3.getY());
-						highlighting.lineTo(corner4.getX(), corner4.getY());
-						highlighting.lineTo(corner1.getX(), corner1.getY());
-
-						g3.draw(highlighting);
+					if (!app.isWhiteboardActive()) {
+						drawHighlighting(g3);
 					}
 
 				}
@@ -366,6 +337,42 @@ public class DrawImage extends Drawable {
 
 			g3.setComposite(oldComp);
 		}
+	}
+
+	private void drawHighlighting(GGraphics2D g3) {
+		// draw parallelogram around edge
+		double offX = HIGHLIGHT_OFFSET
+				* Math.abs(atInverse.getScaleX() + atInverse.getShearX());
+		double minX = labelRectangle.getMinX();
+		double offY = HIGHLIGHT_OFFSET
+				* Math.abs(atInverse.getScaleY() + atInverse.getShearY());
+		double minY = labelRectangle.getMinY();
+		double maxX = labelRectangle.getMaxX();
+		double maxY = labelRectangle.getMaxY();
+		double rx = offX / 2;
+		double ry = offY / 2;
+		if (highlighting == null) {
+			highlighting = AwtFactory.getPrototype()
+					.newGeneralPath();
+		} else {
+			highlighting.reset();
+		}
+		highlighting.moveTo(minX, minY - offY);
+		highlighting.lineTo(maxX, minY - offY); // bottom edge
+		highlighting.curveTo(maxX + offX - rx, minY - offY,
+				maxX + offX, minY - offY + ry, maxX + offX, minY);
+		highlighting.lineTo(maxX + offX, maxY); // right edge
+		highlighting.curveTo(maxX + offX, maxY + offY - ry,
+				maxX + offX - rx, maxY + offY, maxX, maxY + offY);
+		highlighting.lineTo(minX, maxY + offY); // top edge
+		highlighting.curveTo(minX - offX + rx, maxY + offY,
+				minX - offX, maxY + offY - ry, minX - offX, maxY);
+		highlighting.lineTo(minX - offX, minY); // left edge
+		highlighting.curveTo(minX - offX, minY - offY + ry,
+				minX - offX + rx, minY - offY, minX, minY - offY);
+		highlighting.closePath();
+		GShape shape = highlighting.createTransformedShape(at);
+		g3.draw(shape);
 	}
 
 	/**

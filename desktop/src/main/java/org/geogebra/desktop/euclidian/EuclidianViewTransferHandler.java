@@ -42,8 +42,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 	private AppD app;
 
 	static DataFlavor textReaderFlavor;
-	static {
 
+	static {
 		try {
 			textReaderFlavor = new DataFlavor(
 					"text/plain;class=java.io.Reader");
@@ -53,13 +53,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 	}
 
 	// supported data flavors
-	private static volatile DataFlavor supportedFlavors[] = null;// {
-
-	// null,//DataFlavor.imageFlavor,
-	// null,//DataFlavor.stringFlavor,
-	// null,//DataFlavor.javaFileListFlavor,
-	// null,//AlgebraViewTransferHandler.algebraViewFlavor,
-	// null};//PlotPanelEuclidianView.plotPanelFlavor};
+	private static volatile DataFlavor[] supportedFlavors = null;
 
 	private void setSupportedFlavours() {
 		if (supportedFlavors == null) {
@@ -107,7 +101,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 	 * supported flavor.
 	 */
 	@Override
-	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
+	public boolean canImport(JComponent comp, DataFlavor[] flavor) {
 
 		setSupportedFlavours();
 

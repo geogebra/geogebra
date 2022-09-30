@@ -398,6 +398,15 @@ public class MainMenu extends FlowPanel
 	}
 
 	/**
+	 * @param icon - icon
+	 * @return image of icon
+	 */
+	public static Element getImage(ResourcePrototype icon) {
+		NoDragImage img = new NoDragImage(icon, 20, 20);
+		return img.getElement();
+	}
+
+	/**
 	 * @param url
 	 *            image URL
 	 * @param str

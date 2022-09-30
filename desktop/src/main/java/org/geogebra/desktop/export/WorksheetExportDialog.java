@@ -57,13 +57,13 @@ public class WorksheetExportDialog extends Dialog {
 
 	AppD app;
 	Kernel kernel;
-	private InputPanelD textAboveUpload, textBelowUpload;
+	private InputPanelD textAboveUpload;
+	private InputPanelD textBelowUpload;
 
 	JButton uploadButton;
 
 	boolean kernelChanged = false;
 	MyTextFieldD titleField;
-
 
 	private LocalizationD loc;
 
@@ -76,8 +76,6 @@ public class WorksheetExportDialog extends Dialog {
 		this.app = app;
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
-
-
 		initGUI();
 	}
 

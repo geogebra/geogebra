@@ -297,6 +297,11 @@
 		&.subMenuLeftSidePopup {
 			box-shadow: none;
 		}
+
+		&.optionsPopup {
+			margin-top: 5px;
+			padding: 0px;
+		}
 	}
 
 	.gwt-DecoratedPopupPanel .popupMiddleCenter {
@@ -350,6 +355,46 @@
 		box-sizing: border-box;
 		line-height: normal;
 		text-align: left;
+	}
+
+	.menubarSMART .GeoGebraMenuBar .gwt-MenuItem.checkboxMenuItem {
+		padding: 0 4px;
+	}
+
+	.checkboxItem {
+		img {
+			margin-right: 8px;
+			padding: 4px 0px;
+		}
+
+		.checkboxPanel {
+			.checkbox {
+				width: 30px;
+				height: 30px;
+			}
+
+			.background {
+				top: 6px;
+				left: 6px;
+				width: 18px;
+				height: 18px;
+			}
+
+			.hoverBg {
+				display: none;
+			}
+
+			.checkmark {
+				left: 8px;
+				top: 6px;
+				width: 14px;
+				height: 14px;
+			}
+
+			.checkboxLbl {
+				margin: 6px 0 0 8px;
+			}
+		}
 	}
 
 	.gwt-StackPanel .gwt-StackPanelItem:hover {
@@ -878,11 +923,6 @@
 		text-align: left;
 	}
 
-	.editorPanel {
-		padding-top: 1px;
-		padding-left: 1px;
-	}
-
 	/**
 	 * The view buttons for these stylebars should take all the remaining place
 	 * so that they will be right aligned
@@ -1043,6 +1083,11 @@
 		margin-right: 10px;
 		display: inline-block;
 		width: 30%;
+	}
+
+	.dialogContent .sliderWidthPanel .AutoCompleteTextFieldW .fieldContainer {
+		@extends .dialogContent .sliderWidthPanel div;
+		width: 100%;
 	}
 
 	.dialogContent .sliderIntervalPanel .gwt-Label {
@@ -1727,10 +1772,17 @@
 	.numberInput {
 		width: 70px;
 		margin-right: 20px;
-	}
+
+		.matKeyboardOpenBtn {
+			display: none;
+    	}
+    }
 
 	.optionsInput table {
 		display: inline-table;
+		button {
+				display: none;
+			}
 	}
 
 	.textOptionsToolBar {
@@ -1840,6 +1892,10 @@
 	.advanced-TextButtonPanel {
 		position: relative;
 		margin: 3px 0;
+
+		.matKeyboardOpenBtn {
+			display: none;
+		}
 	}
 
 	.advanced-TextButtonPanel input[disabled=""] {
@@ -2020,6 +2076,21 @@
 		margin: 3px 5px;
 	}
 
+	.StatisticsCalculatorW .AutoCompleteTextFieldW, .daRegressionPanel .AutoCompleteTextFieldW{
+		border-bottom: 1px solid colors.$black-36;
+
+		input[type=text].gwt-SuggestBox {
+			border: none;
+			box-shadow: none;
+			padding-left: 4px;
+			border-radius: 0px;
+		}
+
+		&.kbdInput {
+			border-color: colors.$teal-default;
+		}
+	}
+
 	.StatisticsCalculatorW .radioButtonPanel {
 		display: inline;
 		position: relative;
@@ -2120,12 +2191,6 @@
 		z-index: z-index.$z-open-screen-header-bar;
 		width: 100%;
 		margin-bottom: 1px;
-	}
-
-	.optionsPopup {
-		float: right;
-		background: none;
-		box-shadow: none;
 	}
 
 	.headerFirst {
@@ -2352,6 +2417,10 @@
 		max-width: 100px;
 		border: 1px solid;
 		border-collapse: collapse;
+
+		.checkboxPanel .checkboxLbl {
+			margin-left: 0;
+		}
 	}
 
 	.daRegressionData table {

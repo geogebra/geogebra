@@ -656,14 +656,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return whether it's localized digit or underscore
 	 */
 	public static boolean isLetterOrDigitOrUnderscore(final char character) {
-		switch (character) {
-		case '_': // allow underscore as a valid letter in an autocompletion
-					// word
-			return true;
-
-		default:
-			return isLetterOrDigit(character);
-		}
+		return character == '_' || isLetterOrDigit(character);
 	}
 
 	/**
@@ -706,7 +699,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 		// TODO: Maybe this could be more efficient
 		// check roman first (most common)
-		if ((ch >= '\u0030' && ch <= '\u0039')
+		return (ch >= '\u0030' && ch <= '\u0039')
 				|| (ch >= '\u0660' && ch <= '\u0669')
 				|| (ch >= '\u06f0' && ch <= '\u06f9')
 				|| (ch >= '\u0966' && ch <= '\u096f')
@@ -738,18 +731,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				|| (ch >= '\u1c50' && ch <= '\u1c59') // not recognized by
 														// Java's version of
 														// Character.isDigit() !
-				|| (ch >= '\ua8d0' && ch <= '\ua8d9') // not recognized by
+				|| (ch >= '\ua8d0' && ch <= '\ua8d9'); // not recognized by
 														// Java's version of
 														// Character.isDigit() !
 		// following not handled by GeoGebra's parser
 		// || (ch >= 0x1369 && ch <= 0x1371) // Ethiopic
 		// || (ch >= 0x1946 && ch <= 0x194F) // Limbu
 		// || (ch >= 0xFF10 && ch <= 0xFF19) //"FULL WIDTH" digits
-		) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -1064,15 +1052,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			return "undef";
 		}
 
-		if (tpl.isNumeric()) {
-			return s;
-		}
-
-		if ("inf".equals(s)) {
-			return s;
-		}
-
-		if ("-inf".equals(s)) {
+		if (tpl.isNumeric() || "inf".equals(s) || "-inf".equals(s)) {
 			return s;
 		}
 
@@ -1444,11 +1424,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 */
 	public static String changeFileExtension(String fileName,
 			FileExtensions extension) {
-		if (fileName == null) {
-			return null;
-		}
-
-		return removeFileExtension(fileName) + "." + extension.toString();
+		return fileName == null ? null : removeFileExtension(fileName) + "." + extension.toString();
 	}
 
 	/**
@@ -1530,11 +1506,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			return false;
 		}
 
-		if (str.contains("\\") || str.contains("^{") || str.contains("_")) {
-			return true;
-		}
-
-		return false;
+		return str.contains("\\") || str.contains("^{") || str.contains("_");
 	}
 
 	/**

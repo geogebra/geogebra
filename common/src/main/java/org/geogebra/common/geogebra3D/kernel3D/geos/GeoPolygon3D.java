@@ -328,12 +328,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	/**
 	 * check that all points are on coord sys, and calc their 2D coords
-	 * 
+	 *
+	 * @param precision
+	 *            precision
+	 *
 	 * @return true if all points lie on coord sys
 	 */
-	public boolean checkPointsAreOnCoordSys() {
+	public boolean  checkPointsAreOnCoordSys(double precision) {
 		return checkPointsAreOnCoordSys(coordSys, points, points2D,
-				new double[4]);
+				new double[4], precision);
 	}
 
 	/**
@@ -347,11 +350,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 *            projections in 2D
 	 * @param tmpCoords
 	 *            temporary coords, must have length 4
+	 * @param precision
+	 *            precision
 	 * 
 	 * @return true if all points lie on coord system
 	 */
 	static final public boolean checkPointsAreOnCoordSys(CoordSys coordSys,
-			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords) {
+			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords, double precision) {
 
 		Coords o = coordSys.getOrigin();
 		Coords vn = coordSys.getVz();
@@ -372,7 +377,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			d2.setSub(p, o);
 
 			// check if the vertex lies on the coord sys
-			if (!DoubleUtil.isZero(vn.dotproduct3(d2))) {
+			if (!DoubleUtil.isZero(vn.dotproduct3(d2), precision)) {
 				coordSys.setUndefined();
 				return false;
 			}
@@ -417,8 +422,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * @return true if it has worked
 	 */
 	public boolean updateCoordSys() {
-		return updateCoordSys(coordSys, points, points2D, new double[4]);
-
+		return updateCoordSys(coordSys, points, points2D,
+				new double[4], kernel.getStandardPrecision());
 	}
 
 	/**
@@ -431,10 +436,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 *            2D coords of the points in coord sys (if possible)
 	 * @param tmpCoords
 	 *            temporary coordinates, must have length 4
+	 * @param precision
+	 *            precision
+	 *
 	 * @return true if it has worked
 	 */
 	static final public boolean updateCoordSys(CoordSys coordSys,
-			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords) {
+			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords, double precision) {
 		coordSys.resetCoordSys();
 		for (int i = 0; (!coordSys.isMadeCoordSys())
 				&& (i < points.length); i++) {
@@ -455,7 +463,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		if (coordSys.makeOrthoMatrix(false, false)) {
 			return checkPointsAreOnCoordSys(coordSys, points, points2D,
-					tmpCoords);
+					tmpCoords, precision);
 		}
 
 		return true;

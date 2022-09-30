@@ -223,10 +223,10 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		}
 
 		/**
-		 * Save a split pane into the splitPaneInfo array list
+		 * Save a split pane recursively into the splitPaneInfo array list
 		 * 
-		 * @param parentLocation
-		 * @param parent
+		 * @param parentLocation0 starting location
+		 * @param parent starting pane
 		 */
 		private void saveSplitPane(String parentLocation0,
 				DockSplitPane parent) {

@@ -104,7 +104,7 @@ public class AuralTextTest {
 		aural("plain", "List plain", "edit");
 		GeoList plainList = (GeoList) geos[0];
 		plainList.setScript(new GgbScript(app, "42"), EventType.CLICK);
-		aural("plain", "List plain", "run script", "edit");
+		aural("plain", "List plain", "activate", "edit");
 		assertNull(plainList.getAuralTextForSpace());
 	}
 
@@ -158,6 +158,10 @@ public class AuralTextTest {
 		GeoElementND[] pointB = add("B = (2,2)");
 		pointB[0].setCaption(" $ \\text{this is my nice caption}$");
 		auralWhichContainsTheOutput("B", "this is my nice caption");
+		GeoElementND[] pointC = add("C = (3,3)");
+		GeoElementND[] text = add("LaTeX(\"\\text{I am dynamic }\\it{text}\")");
+		pointC[0].setDynamicCaption((GeoText) text[0]);
+		auralWhichContainsTheOutput("C", "I am dynamic text");
 	}
 
 	@Test

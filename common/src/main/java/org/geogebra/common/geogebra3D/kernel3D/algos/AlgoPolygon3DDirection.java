@@ -85,7 +85,7 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 		coordsys.makeOrthoMatrix(false, false);
 
 		// check if a coord sys is possible
-		if (((GeoPolygon3D) poly).checkPointsAreOnCoordSys()) {
+		if (((GeoPolygon3D) poly).checkPointsAreOnCoordSys(kernel.getStandardPrecision())) {
 			super.compute();
 		}
 

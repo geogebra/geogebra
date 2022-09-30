@@ -9,6 +9,12 @@ import org.geogebra.common.main.App;
 
 public class EvalInfoFactory {
 
+	private static final EvalInfo baseAVInfo = new EvalInfo(true, true)
+			.withSymbolic(true)
+			.withUserEquation(true)
+			.withAnalytics(true)
+			.withCopyingPlainVariables(true);
+
 	/**
 	 * Used in web because of the create slider button.
 	 * @param app application
@@ -16,12 +22,11 @@ public class EvalInfoFactory {
 	 * @return evaluation flags for user input in AV
 	 */
 	public static EvalInfo getEvalInfoForAV(App app, boolean withSliders) {
-		return new EvalInfo(true, true).withSliders(withSliders)
-				.withSymbolic(true)
+		return baseAVInfo
+				.withSliders(withSliders)
 				.addDegree(app.getKernel().getAngleUnitUsesDegrees())
-				.withUserEquation(true)
 				.withSymbolicMode(app.getKernel().getSymbolicMode())
-				.withCopyingPlainVariables(true).withNoRedefinitionAllowed();
+				.withNoRedefinitionAllowed();
 	}
 
 	/**
@@ -36,7 +41,8 @@ public class EvalInfoFactory {
 				.withSymbolicMode(isSlider(geo) ? SymbolicMode.NONE : kernel.getSymbolicMode())
 				.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
 				.withSliders(true)
-				.withSymbolic(true);
+				.withSymbolic(true)
+				.withAnalytics(true);
 	}
 
 	private static boolean isSlider(GeoElement geo) {

@@ -66,14 +66,19 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private JTextField[] fldParameterArray;
 	private JLabel[] lblParameterArray;
 	private JLabel lblDist;
-	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
-			btnIntervalTwoTailed, btnIntervalRight;
+	private JToggleButton btnCumulative;
+	private JToggleButton btnIntervalLeft;
+	private JToggleButton btnIntervalBetween;
+	private JToggleButton btnIntervalTwoTailed;
+	private JToggleButton btnIntervalRight;
 
 	private ListSeparatorRenderer comboRenderer;
 
 	// GUI layout panels
-	private JPanel controlPanel, tablePanel;
-	private JSplitPane mainSplitPane, plotSplitPane;
+	private JPanel controlPanel;
+	private JPanel tablePanel;
+	private JSplitPane mainSplitPane;
+	private JSplitPane plotSplitPane;
 
 	private JToggleButton btnExport;
 
@@ -158,7 +163,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	public ProbabilityManager getProbManager() {
 		return probManager;
 	}
-
 
 	@Override
 	public boolean isDistributionTabOpen() {
@@ -306,9 +310,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			fldParameterArray[i].addFocusListener(this);
 		}
 
-
 		lblMeanSigma = new JLabel();
-
 	}
 
 	private void createControlPanel() {
@@ -731,7 +733,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		getPlotPanel().commonFields.updateSettings((getPlotPanel()),
+		getPlotPanel().commonFields.updateSettings(getPlotPanel(),
 				plotSettings);
 	}
 

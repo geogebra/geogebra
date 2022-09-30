@@ -46,11 +46,11 @@ public class SymbolTablePopupD {
 	private Locale locale;
 	private boolean openUpwards = true;
 
-	/******************************************************
+	/**
 	 * Constructs a symbol table popup.
 	 * 
-	 * @param app
-	 * @param textField
+	 * @param app application
+	 * @param textField textfield
 	 */
 	public SymbolTablePopupD(AppD app, MyTextFieldD textField) {
 

@@ -84,7 +84,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.resources.client.ImageResource;
 
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -223,10 +222,9 @@ public class OptionsTab extends FlowPanel {
     }
 
 	/**
-	 * @param isDefaults
-	 *            true if default
+	 * init GUI
 	 */
-	public void initGUI(boolean isDefaults) {
+	public void initGUI() {
 		this.focused = true;
 		if (inited) {
 			if (models.size() > 0 && !updated) {
@@ -236,7 +234,7 @@ public class OptionsTab extends FlowPanel {
 		}
 		inited = true;
 		for (OptionsModel m : models) {
-			IOptionPanel panel = buildPanel(m, isDefaults);
+			IOptionPanel panel = buildPanel(m);
 			if (panel != null) {
 				add(panel.getWidget());
 				// geos might be null in fome models because update only checks
@@ -246,10 +244,9 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-	private IOptionPanel buildPanel(OptionsModel m, boolean isDefaults) {
+	private IOptionPanel buildPanel(OptionsModel m) {
 		if (m instanceof ColorObjectModel) {
-			ColorPanel ret = new ColorPanel((ColorObjectModel) m, app,
-					isDefaults);
+			ColorPanel ret = new ColorPanel((ColorObjectModel) m, app);
 			((GuiManagerW) app.getGuiManager()).setColorTab(ret);
 			return ret;
 		}
@@ -384,7 +381,6 @@ public class OptionsTab extends FlowPanel {
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW;
 		private GColor selectedColor;
-		private CheckBox sequential;
 		private InlineTextFormatter inlineTextFormatter;
 
 		/**
@@ -392,11 +388,8 @@ public class OptionsTab extends FlowPanel {
 		 *            model
 		 * @param app
 		 *            application true if default
-		 * @param isDefaults
-		 *            whether this is for defaults: not used in web
 		 */
-		public ColorPanel(ColorObjectModel model0, App app,
-				boolean isDefaults) {
+		public ColorPanel(ColorObjectModel model0, App app) {
 			this.model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -451,14 +444,6 @@ public class OptionsTab extends FlowPanel {
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
 
-			if (isDefaults) {
-				sequential = new CheckBox("Sequential");
-				mainPanel.add(sequential);
-				sequential.addClickHandler(event -> {
-					// TODO we may need to update the GUI here
-					getModel().setSequential(getSequential().getValue());
-				});
-			}
 			setWidget(mainPanel);
 		}
 
@@ -618,13 +603,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public ColorObjectModel getModel() {
 			return model;
-		}
-
-		/**
-		 * @return sequential check box
-		 */
-		public CheckBox getSequential() {
-			return sequential;
 		}
 	}
 

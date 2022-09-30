@@ -109,7 +109,7 @@ public class CommandLineArguments {
 	 */
 	public String getStringValue(String name) {
 		String strValue = args.get(StringUtil.toLowerCaseUS(name));
-		return (strValue == null ? "" : strValue);
+		return strValue == null ? "" : strValue;
 	}
 
 	/**

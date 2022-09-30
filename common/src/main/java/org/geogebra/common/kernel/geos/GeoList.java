@@ -444,9 +444,8 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setVisualStyle(final GeoElement style,
-			boolean setAuxiliaryProperty) {
-		super.setVisualStyle(style, setAuxiliaryProperty);
+	public void setBasicVisualStyle(final GeoElement style) {
+		super.setBasicVisualStyle(style);
 
 		// set point style
 		if (style instanceof PointProperties) {
@@ -462,7 +461,7 @@ public class GeoList extends GeoElement
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = elements.get(i);
 			if (!geo.isLabelSet()) {
-				geo.setVisualStyle(style, setAuxiliaryProperty);
+				geo.setBasicVisualStyle(style);
 			}
 		}
 	}
@@ -587,14 +586,20 @@ public class GeoList extends GeoElement
 		return myList;
 	}
 
-	/**
-	 * @param myList list to copy into
-	 */
-	public void copyListElements(MyList myList) {
+	private void copyListElements(MyList myList) {
 		for (GeoElement element : elements) {
 			myList.addListElement(element.isGeoList()
 					? ((GeoList) element).getMyList()
 					: new ExpressionNode(kernel, element));
+		}
+	}
+
+	/**
+	 * @param myList list to copy into
+	 */
+	public void deepCopyListElements(MyList myList) {
+		for (GeoElement element : elements) {
+			myList.addListElement(new ExpressionNode(kernel, element.copy()));
 		}
 	}
 
@@ -3051,6 +3056,16 @@ public class GeoList extends GeoElement
 			} else {
 				this.elements.get(i).resetDefinition();
 			}
+		}
+	}
+
+	/**
+	 * resets definition for dependent GeoLists
+	 */
+	public void resetDefinitionDependentList() {
+		super.resetDefinition();
+		for (int i = 0; i < size(); i++) {
+			this.elements.get(i).resetDefinition();
 		}
 	}
 

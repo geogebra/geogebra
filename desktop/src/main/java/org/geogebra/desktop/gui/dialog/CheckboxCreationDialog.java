@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -51,13 +52,14 @@ public class CheckboxCreationDialog extends Dialog implements
 	private static final long serialVersionUID = 1L;
 
 	private JTextComponent tfCaption;
-	private JButton btApply, btCancel;
-	private JPanel optionPane, btPanel;
+	private JButton btApply;
+	private JButton btCancel;
+	private JPanel btPanel;
 	private DefaultListModel listModel;
 	private DefaultComboBoxModel comboModel;
 
-	private Point location;
-	private AppD app;
+	private final Point location;
+	private final AppD app;
 	private GeoBoolean geoBoolean;
 
 	private LocalizationD loc;
@@ -150,10 +152,6 @@ public class CheckboxCreationDialog extends Dialog implements
 		captionPanel.add(captionLabel);
 		captionPanel.add(ip);
 
-		// list panel
-		JPanel listPanel = ToolCreationDialogD.createInputOutputPanel(loc,
-				listModel, comboModel, false, false, null);
-
 		// buttons
 		btApply = new JButton(loc.getMenu("Apply"));
 		btApply.setActionCommand("Apply");
@@ -166,9 +164,12 @@ public class CheckboxCreationDialog extends Dialog implements
 		btPanel.add(btCancel);
 
 		// Create the JOptionPane.
-		optionPane = new JPanel(new BorderLayout(5, 5));
+		JPanel optionPane = new JPanel(new BorderLayout(5, 5));
 
 		// create object list
+		JPanel listPanel = ToolCreationDialogD.createInputOutputPanel(loc,
+				listModel, comboModel, false, false, null);
+
 		optionPane.add(captionPanel, BorderLayout.NORTH);
 		optionPane.add(listPanel, BorderLayout.CENTER);
 		optionPane.add(btPanel, BorderLayout.SOUTH);

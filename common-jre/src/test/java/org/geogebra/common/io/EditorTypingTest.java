@@ -683,7 +683,7 @@ public class EditorTypingTest {
 		checker.insert("(2,3,3+4)")
 				.left(7)
 				.type(")")
-				.checkAsciiMath("(2,3,3+4)");
+				.checkAsciiMath("(2),3,3+4");
 
 		checker.insert("(2,3,3+4)").protect()
 				.left(7)
@@ -698,7 +698,7 @@ public class EditorTypingTest {
 		checker.insert("(2,3,3+4)")
 				.left(5)
 				.type(")")
-				.checkAsciiMath("(2,3,3+4)");
+				.checkAsciiMath("(2,3),3+4");
 
 		checker.insert("(2,3,3+4)").protect()
 				.left(5)
@@ -776,11 +776,74 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testBackspaceLeavesPowerOfLetters() {
+		checker.type("e^t")
+				.left(2)
+				.type("-")
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e^(t)");
+
+		checker.type("ee^t")
+				.left(2)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e^(t)");
+	}
+
+	@Test
+	public void testBackspaceLeavesUnderscoreWithLetters() {
+		checker.type("e_t")
+				.left(2)
+				.type("-")
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e_{t}");
+
+		checker.type("ee_t")
+				.left(2)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e_{t}");
+	}
+
+	@Test
 	public void testBackspaceLeavesSqrt() {
 		checker.type("12-sqrt(45")
 				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("+")
 				.checkAsciiMath("12+sqrt(45)");
+	}
+
+	@Test
+	public void noCommasPastedInProtectedField() {
+		checker.insert("(2,3,3+4)").protect()
+				.left(3)
+				.insert("5,6")
+				.checkAsciiMath("(2,3,356+4)");
+	}
+
+	@Test
+	public void noCurlyBracesPastedInProtectedField() {
+		checker.insert("(2,3,3+4)").protect()
+				.left(3)
+				.insert("{}")
+				.checkAsciiMath("(2,3,3+4)");
+	}
+
+	@Test
+	public void closeBracketShouldMoveCharactersOut() {
+		checker.insert("123456789")
+				.left(6)
+				.type("(")
+				.right(2)
+				.type(")")
+				.checkAsciiMath("123(45)6789");
+	}
+
+	@Test
+	public void noMathFunctionFuseForFractions() {
+		checker.type("x+π/2")
+				.left(4)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.type("-")
+				.checkAsciiMath("x-((π)/(2))");
 	}
 }

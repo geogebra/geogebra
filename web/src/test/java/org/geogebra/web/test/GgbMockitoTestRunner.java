@@ -6,12 +6,12 @@ import org.geogebra.regexp.client.NativeRegExp;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.FileDropHandlerW;
 import org.geogebra.web.html5.util.CSSEvents;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.GlobalHandlerRegistry;
-import org.geogebra.web.html5.util.MyNumberFormat;
 import org.geogebra.web.resources.SVGResourcePrototype;
 import org.geogebra.web.resources.StyleInjector;
 import org.junit.runners.model.InitializationError;
@@ -23,6 +23,7 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.impl.StubGenerator;
@@ -80,7 +81,7 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
                 Void.class);
         StubGenerator.replaceMethodWithMock(CopyPasteW.class, "installCutCopyPaste",
                 Void.class);
-        StubGenerator.replaceMethodWithMock(MyNumberFormat.class, "toPrecision",
+        StubGenerator.replaceMethodWithMock(FormatFactoryW.class, "toPrecision",
                 String.class);
         StubGenerator.replaceMethodWithMock(NativeRegExp.class, "exec",
                 String.class);
@@ -99,6 +100,10 @@ public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
         StubGenerator.replaceMethodWithMock(Dom.class, "querySelectorForElement", Void.class);
         StubGenerator.replaceMethodWithMock(CSSEvents.class, "runOnAnimation", Void.class);
         StubGenerator.replaceMethodWithMock(SelectElement.class, "as", SelectElement.class);
+        StubGenerator.replaceMethodWithMock(CopyPasteW.class, "writeToExternalClipboard",
+                Object.class);
+        StubGenerator.replaceMethodWithMock(ResizeComposite.class, "onResize",
+                Void.class);
     }
 
     @Override

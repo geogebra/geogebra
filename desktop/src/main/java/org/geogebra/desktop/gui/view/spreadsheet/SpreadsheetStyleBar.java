@@ -39,9 +39,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private ArrayList<CellRange> selectedCells;
 
 	private MyToggleButtonD btnFormulaBar;
-	private MyToggleButtonD btnLeftAlign, btnCenterAlign, btnRightAlign;
+	private MyToggleButtonD btnLeftAlign;
+	private MyToggleButtonD btnCenterAlign;
+	private MyToggleButtonD btnRightAlign;
 	private ColorPopupMenuButton btnBgColor;
-	private MyToggleButtonD btnBold, btnItalic;
+	private MyToggleButtonD btnBold;
+	private MyToggleButtonD btnItalic;
 	private boolean allowActionPerformed = true;
 	private PopupMenuButtonD btnBorderStyle;
 
