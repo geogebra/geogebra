@@ -5,6 +5,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 public class ComponentInfoErrorPanel extends FlowPanel {
 	private Localization loc;
 	private StandardButton actionButton;
+	private AppW app;
 
 	/**
 	 * info/error panel constructor
@@ -22,8 +24,23 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	 * @param buttonAction - handler for the button
 	 */
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data, SVGResource img,
-			 Runnable buttonAction) {
+			Runnable buttonAction) {
 		this.loc = loc;
+		addStyleName("infoErrorPanel");
+		buildGUI(data, img, buttonAction);
+	}
+
+	/**
+	 * info/error panel constructor
+	 * @param app - app
+	 * @param data - data of the panel including title, subtext and button text
+	 * @param img - image
+	 * @param buttonAction - handler for the button
+	 */
+	public ComponentInfoErrorPanel(AppW app, InfoErrorData data, SVGResource img,
+			Runnable buttonAction) {
+		this.app = app;
+		this.loc = app.getLocalization();
 		addStyleName("infoErrorPanel");
 		buildGUI(data, img, buttonAction);
 	}
@@ -34,7 +51,7 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	 * @param data - data of the panel including title, subtext and button text
 	 */
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data) {
-		this(loc, data,  MaterialDesignResources.INSTANCE.mow_lightbulb(), null);
+		this(loc, data, MaterialDesignResources.INSTANCE.mow_lightbulb(), null);
 	}
 
 	private void buildGUI(InfoErrorData data, SVGResource img, Runnable buttonAction) {
@@ -57,9 +74,29 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 			actionButton =
 					new StandardButton(loc.getMenu(data.getActionButtonText()));
 			actionButton.addStyleName("dialogContainedButton");
-			actionButton.addFastClickHandler(source -> buttonAction.run());
+			actionButton.setEnabled(app.enableFileFeatures());
+			actionButton.addFastClickHandler(source ->
+					handleActionButton(buttonAction, app.enableFileFeatures())
+			);
 			add(actionButton);
 		}
+	}
+
+	/**
+	 *
+	 * @param buttonAction - handler for the button
+	 * @param enabled - whether the button should be enabled
+	 */
+	public void handleActionButton(Runnable buttonAction, boolean enabled) {
+		if (enabled) {
+			buttonAction.run();
+		} else {
+			disableActionButton();
+		}
+	}
+
+	public void disableActionButton() {
+		Dom.toggleClass(actionButton, "disabled", true);
 	}
 
 	public void disableActionButton(boolean disabled) {

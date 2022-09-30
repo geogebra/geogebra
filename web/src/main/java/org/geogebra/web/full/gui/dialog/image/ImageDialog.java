@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.webcam.WebcamDialogInterface;
@@ -44,18 +45,13 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 					hide();
 				});
 
-		boolean isEnabled = ((AppW) app).enableFileFeatures();
-
 		InfoErrorData uploadData = new InfoErrorData(null, "ImageDialog.UploadImageMsg",
 				"ImageDialog.Browse");
-		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel(app.getLocalization(),
+		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel((AppW) app,
 				uploadData, MaterialDesignResources.INSTANCE.upload(),
 				uploadImage::click);
 
-		if (!isEnabled) {
-			uploadImage.setEnabled(false);
-			uploadPanel.disableActionButton(true);
-		}
+		uploadImage.setEnabled(((AppW) app).enableFileFeatures());
 
 		TabData uploadTab = new TabData("Upload", uploadPanel);
 
