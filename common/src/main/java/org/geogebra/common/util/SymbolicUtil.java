@@ -19,7 +19,7 @@ public class SymbolicUtil {
 	 *        GeoSymbolic input
 	 * @return true if symbolic is solve command
 	 */
-	public static boolean isSymbolicSolve(GeoSymbolic symbolic) {
+	public static boolean isSolve(GeoSymbolic symbolic) {
 		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
 		return topLevelCommand != null
 				&& (Commands.Solve.getCommand().equals(topLevelCommand.getName())
@@ -83,7 +83,7 @@ public class SymbolicUtil {
 	 *
 	 */
 	public static void handleSolveNSolve(GeoSymbolic symbolic) {
-		if (isSymbolicSolve(symbolic)) {
+		if (isSolve(symbolic)) {
 			if (!isDefined(getValueString(symbolic))
 					&& isDefined(getOppositeValueString(symbolic))) {
 				toggleNumericSolve(symbolic);
@@ -149,7 +149,7 @@ public class SymbolicUtil {
 
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
-				if (isSymbolicSolve(symbolic) || isNumericOfSolve(symbolic)) {
+				if (isSolve(symbolic) || isNumericOfSolve(symbolic)) {
 					if (symbolic.shouldWrapInNumeric()) {
 						toggleNumericWrap(symbolic);
 					} else {

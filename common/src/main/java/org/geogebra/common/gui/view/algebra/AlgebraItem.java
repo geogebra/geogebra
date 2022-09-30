@@ -69,7 +69,7 @@ public class AlgebraItem {
 			if (symbolic.shouldWrapInNumeric()) {
 				return true;
 			}
-			if (SymbolicUtil.isSymbolicSolve(symbolic)) {
+			if (SymbolicUtil.isSolve(symbolic)) {
 				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
 			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
 				return false;
