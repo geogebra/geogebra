@@ -132,12 +132,15 @@ public class GeoGebraPreferencesD {
 
 	private static GeoGebraPreferencesD singleton;
 
-	/* Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
+	/** Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
 	public static void setPropertyFileName(String pfname) {
 		PROPERTY_FILEPATH = pfname;
 		Log.debug("Prferences in: " + PROPERTY_FILEPATH);
 	}
 
+	/**
+	 * @return preferences singleton
+	 */
 	public synchronized static GeoGebraPreferencesD getPref() {
 		if (singleton == null) {
 			if (PROPERTY_FILEPATH != null) {
@@ -154,6 +157,9 @@ public class GeoGebraPreferencesD {
 		getPref().savePreference(VERSION_LAST_NOTIFICATION_SHOWN, String.valueOf(newestVersion));
 	}
 
+	/**
+	 * @return last version shown in update notification
+	 */
 	public static long getLastShownNotificationVersion() {
 		try {
 			String lastVersion = getPref().loadPreference(VERSION_LAST_NOTIFICATION_SHOWN, "0");
@@ -168,6 +174,11 @@ public class GeoGebraPreferencesD {
 		return ggbPrefs.get(key, defaultValue);
 	}
 
+	/**
+	 * Save preference value
+	 * @param key key
+	 * @param value value
+	 */
 	public void savePreference(String key, String value) {
 		if (key != null && value != null) {
 			ggbPrefs.put(key, value);
@@ -231,7 +242,7 @@ public class GeoGebraPreferencesD {
 	}
 
 	/**
-	 * Returns the path of the first file in the file list
+	 * @return the path of the first file in the file list
 	 */
 	public File getDefaultFilePath() {
 		File file = new File(getPref().loadPreference(APP_FILE_ + "1", ""));
@@ -510,6 +521,9 @@ public class GeoGebraPreferencesD {
 		return def;
 	}
 
+	/**
+	 * @return XML preferences
+	 */
 	public String getXMLPreferences() {
 		return getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES,
 				factoryDefaultXml);

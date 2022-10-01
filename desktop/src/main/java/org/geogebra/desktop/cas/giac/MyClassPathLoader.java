@@ -75,10 +75,10 @@ public class MyClassPathLoader {
 	 * Write the content of the inputstream into a tempfile with the given
 	 * filename
 	 * 
-	 * @param ins
-	 * @param filename
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 * @param ins input stream
+	 * @param filename filename
+	 * @throws FileNotFoundException when file not found
+	 * @throws IOException when other I/O problem occurs
 	 */
 	private static File writeTmpFile(InputStream ins, String filename)
 			throws IOException {

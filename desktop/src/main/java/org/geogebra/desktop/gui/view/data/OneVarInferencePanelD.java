@@ -423,6 +423,9 @@ public class OneVarInferencePanelD extends JPanel
 		doTextFieldActionPerformed((JTextField) (e.getSource()));
 	}
 
+	/**
+	 * @param selectedPlot selected plot
+	 */
 	public void setSelectedPlot(int selectedPlot) {
 		model.selectedPlot = selectedPlot;
 		updateGUI();

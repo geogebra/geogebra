@@ -100,7 +100,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	 * 
 	 * Construct ProbabilityCalculator
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public ProbabilityCalculatorViewD(AppD app) {
 		super(app);
@@ -360,6 +360,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	// Event Handlers
 	// =================================================
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		Font font = ((AppD) app).getPlainFont();
 		wrapperPanel.setFont(font);

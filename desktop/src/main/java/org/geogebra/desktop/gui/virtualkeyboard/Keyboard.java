@@ -24,14 +24,12 @@ public class Keyboard {
 		this.robot = robot;
 	}
 
-	public void type(CharSequence characters) {
-		int length = characters.length();
-		for (int i = 0; i < length; i++) {
-			char character = characters.charAt(i);
-			type(character);
-		}
-	}
-
+	/**
+	 * @param altPressed alt
+	 * @param ctrlPressed ctrl
+	 * @param shiftPressed shift
+	 * @param characters character
+	 */
 	public void type(boolean altPressed, boolean ctrlPressed,
 			boolean shiftPressed, CharSequence characters) {
 
@@ -57,6 +55,9 @@ public class Keyboard {
 
 	}
 
+	/**
+	 * @param character character
+	 */
 	public void type(char character) {
 		switch (character) {
 		case 'a':
@@ -365,8 +366,8 @@ public class Keyboard {
 		}
 	}
 
-	/*
-	 * process strings such as <enter>
+	/**
+	 * process strings such as &lt;enter&gt;
 	 */
 	public void doType(boolean altPressed, boolean ctrlPressed,
 			boolean shiftPressed, String text) {
@@ -400,14 +401,18 @@ public class Keyboard {
 				break;
 			}
 		}
-
 	}
 
+	/**
+	 * @param altPressed alt
+	 * @param ctrlPressed ctrl
+	 * @param shiftPressed shift
+	 * @param keyCodes key codes
+	 */
 	public void doType(boolean altPressed, boolean ctrlPressed,
 			boolean shiftPressed, int... keyCodes) {
-
 		if (altPressed) {
-			robot.keyPress(KeyEvent.VK_ALT); // */
+			robot.keyPress(KeyEvent.VK_ALT);
 		}
 		if (ctrlPressed) {
 			robot.keyPress(KeyEvent.VK_CONTROL);

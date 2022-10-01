@@ -115,9 +115,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	private AbstractAction printPreviewAction;
 	private final LocalizationD loc;
 
+	/**
+	 * @param app application
+	 */
 	public ConstructionProtocolViewD(final AppD app) {
-		// cpPanel = new JPanel(new BorderLayout());
-
 		this.app = app;
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
@@ -215,17 +216,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return (AppD) app;
 	}
 
+	/**
+	 * Unregister navbar from step updates
+	 * @param nb navigation bar
+	 */
 	public void unregisterNavigationBar(ConstructionProtocolNavigationD nb) {
 		navigationBars.remove(nb);
-		((ConstructionTableDataD) data).detachView(); // only done if there are
-														// no more navigation
-														// bars
-	}
-
-	public void initProtocol() {
-		if (!isViewAttached) {
-			((ConstructionTableDataD) data).initView();
-		}
+		data.detachView(); // only done if there are no more navigation bars
 	}
 
 	protected void repaintScrollpane() {
@@ -236,9 +233,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * inits GUI with labels of current language
 	 */
 	public void initGUI() {
-		// setTitle(loc.getMenu("ConstructionProtocol"));
 		scrollPane.setFont(((AppD) app).getPlainFont());
-		// setMenuBar();
 		getStyleBar().setLabels();
 		// set header values (language may have changed)
 		for (int k = 0; k < tableColumns.length; k++) {
@@ -247,27 +242,20 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 		table.updateUI();
 		table.setFont(((AppD) app).getPlainFont());
-		((ConstructionTableDataD) data).updateAll();
+		data.updateAll();
 		getStyleBar().reinit();
-		// protNavBar.updateIcons();
 	}
 
+	/**
+	 * @param flag whether to use colors
+	 */
 	public void setUseColors(boolean flag) {
 		useColors = flag;
-		((ConstructionTableDataD) data).updateAll();
-	}
-
-	public void setAddIcons(boolean flag) {
-		addIcons = flag;
-		((ConstructionTableDataD) data).updateAll();
-	}
-
-	public boolean getAddIcons() {
-		return addIcons;
+		data.updateAll();
 	}
 
 	public void update() {
-		((ConstructionTableDataD) data).updateAll();
+		data.updateAll();
 	}
 
 	public TableColumn[] getTableColumns() {
@@ -278,6 +266,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return useColors;
 	}
 
+	/**
+	 * @param col column
+	 * @return whether column is in the model
+	 */
 	public boolean isColumnInModel(TableColumn col) {
 		boolean ret = false;
 		TableColumnModel model = table.getColumnModel();
@@ -296,9 +288,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 */
 	public void setVisible(boolean flag) {
 		if (flag) {
-			((ConstructionTableDataD) data).attachView();
+			data.attachView();
 		} else {
-			((ConstructionTableDataD) data).detachView();
+			data.detachView();
 		}
 		scrollPane.setVisible(flag);
 	}
@@ -651,8 +643,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		protected TableColumn column;
 		protected ColumnData colData;
 
-		private boolean isBreakPointColumn;
+		private final boolean isBreakPointColumn;
 
+		/**
+		 * @param column column
+		 * @param colData data
+		 */
 		public ColumnKeeper(TableColumn column, ColumnData colData) {
 			this.column = column;
 			this.colData = colData;
@@ -761,7 +757,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			boolean isImage = value instanceof ImageIcon;
 
-			Component comp = isBoolean ? cbTemp : (Component) this;
+			Component comp;
 
 			if (isBoolean) {
 				comp = cbTemp;
@@ -885,6 +881,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		protected MyGAbstractTableModel ctDataImpl;
 		protected ConstructionTableData ctData = this;
 
+		/**
+		 * @param gui UI
+		 */
 		public ConstructionTableDataD(SetLabels gui) {
 			super(gui);
 			ctDataImpl = new MyGAbstractTableModel();
@@ -920,18 +919,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			repaintScrollpane();
 		}
 
-		private Color getColorAt(int nRow, int nCol) {
-			try {
-				if (useColors) {
-					return GColorD.getAwtColor(
-							rowList.get(nRow).getGeo().getAlgebraColor());
-				}
-				return Color.black;
-			} catch (Exception e) {
-				return Color.black;
-			}
-		}
-
+		/**
+		 * @param nRow row
+		 * @param nCol column
+		 * @return value
+		 */
 		public Object getValueAt(int nRow, int nCol) {
 			if (nRow < 0 || nRow >= getRowCount()) {
 				return "";
@@ -952,7 +944,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			case 5:
 				return rowList.get(nRow).getAlgebra();
 			case 7:
-				return Boolean.valueOf(rowList.get(nRow).getCPVisible());
+				return rowList.get(nRow).getCPVisible();
 			case 6:
 				return rowList.get(nRow).getCaption();
 			}
@@ -1056,8 +1048,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			repaint();
 		}
 
+		/**
+		 * @param value new value
+		 * @param row row
+		 * @param col column
+		 */
 		public void setValueAt(Object value, int row, int col) {
-
 			if ((this.columns[col].getTitle()).equals("Caption")) {
 				data.getRow(row).getGeo().setCaption(value.toString());
 				data.getRow(row).getGeo().update();
@@ -1299,6 +1295,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		this.initGUI();
 	}
 
+	/**
+	 * @return columns
+	 */
 	public ArrayList<Columns> getColumns() {
 		int n = table.getColumnModel().getColumnCount();
 		ArrayList<Columns> columns = new ArrayList<>();

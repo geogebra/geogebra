@@ -27,6 +27,15 @@ public class InputDialogDilateD extends InputDialogD {
 
 	private EuclidianController ec;
 
+	/**
+	 * @param app app
+	 * @param title title
+	 * @param handler input handler
+	 * @param points points
+	 * @param selGeos selected geos
+	 * @param kernel kernel
+	 * @param ec controller
+	 */
 	public InputDialogDilateD(AppD app, String title, InputHandler handler,
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel,
 			EuclidianController ec) {

@@ -25,10 +25,16 @@ public class TwoVarStatPanelD extends StatTable
 	protected AppD app;
 	protected DataAnalysisViewD statDialog;
 	protected MyTable statTable;
-	private TwoVarStatModel model;
-	private ActionListener parentActionListener;
+	private final TwoVarStatModel model;
+	private final ActionListener parentActionListener;
 	private boolean isIniting;
 
+	/**
+	 * @param app application
+	 * @param statDialog stats dialog
+	 * @param isPairedData whether to use paired data
+	 * @param parentActionListener action listener
+	 */
 	public TwoVarStatPanelD(AppD app, DataAnalysisViewD statDialog,
 			boolean isPairedData, ActionListener parentActionListener) {
 		super(app);
@@ -42,10 +48,11 @@ public class TwoVarStatPanelD extends StatTable
 
 	}
 
+	/**
+	 * @param isPairedData whether to use paired data
+	 */
 	public void setTable(boolean isPairedData) {
-
 		isIniting = true;
-
 		model.setPairedData(isPairedData);
 		setStatTable(model.getRowCount(), model.getRowNames(),
 				model.getColumnCount(), model.getColumnNames());
@@ -80,12 +87,12 @@ public class TwoVarStatPanelD extends StatTable
 		isIniting = false;
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void updatePanel() {
-
 		model.update();
-
 		this.setMinimumSize(this.getPreferredSize());
-
 	}
 
 	@Override

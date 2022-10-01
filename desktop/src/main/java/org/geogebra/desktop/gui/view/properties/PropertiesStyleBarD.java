@@ -48,6 +48,10 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 
 	private AbstractButton objectButton;
 
+	/**
+	 * @param propertiesView properties view
+	 * @param app app
+	 */
 	public PropertiesStyleBarD(PropertiesView propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
@@ -153,6 +157,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		return btnOption;
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void updateGUI() {
 
 		OptionType seltype = propertiesView.getSelectedOptionType();
@@ -325,7 +332,6 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		public void mouseExited(MouseEvent e) {
 			ToolTipManager.sharedInstance()
 					.setInitialDelay(defaultInitialDelay);
-
 		}
 	}
 
@@ -333,6 +339,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		return wrappedPanel;
 	}
 
+	/**
+	 * Rebuild the stylebar
+	 */
 	public void reinit() {
 		wrappedPanel.removeAll();
 		buildGUI();

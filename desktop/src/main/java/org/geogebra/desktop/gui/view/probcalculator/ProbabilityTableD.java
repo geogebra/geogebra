@@ -22,10 +22,14 @@ import org.geogebra.desktop.main.AppD;
 public class ProbabilityTableD extends ProbabilityTable
 		implements ListSelectionListener {
 
-	private StatTable statTable;
+	private final StatTable statTable;
 
-	private JPanel wrappedPanel;
+	private final JPanel wrappedPanel;
 
+	/**
+	 * @param app application
+	 * @param probCalc probability calculator
+	 */
 	public ProbabilityTableD(AppD app, ProbabilityCalculatorViewD probCalc) {
 		super(app, probCalc);
 
@@ -79,6 +83,9 @@ public class ProbabilityTableD extends ProbabilityTable
 		model.setValueAt(prob, row, 1);
 	}
 
+	/**
+	 * @param font UI font
+	 */
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

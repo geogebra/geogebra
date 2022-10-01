@@ -27,6 +27,9 @@ public class ListSeparatorRenderer extends JLabel
 	public static final String SEPARATOR = "---";
 	JSeparator separator;
 
+	/**
+	 * Creates the renderer
+	 */
 	public ListSeparatorRenderer() {
 		setOpaque(true);
 		setBorder(new EmptyBorder(1, 1, 1, 1));
@@ -36,7 +39,7 @@ public class ListSeparatorRenderer extends JLabel
 	@Override
 	public Component getListCellRendererComponent(JList list, String value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		String str = (value == null) ? "" : value.toString();
+		String str = (value == null) ? "" : value;
 		if (SEPARATOR.equals(str)) {
 			return separator;
 		}

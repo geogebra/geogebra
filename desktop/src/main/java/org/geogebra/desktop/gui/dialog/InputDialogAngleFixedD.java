@@ -28,10 +28,19 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 	GeoSegmentND[] segments;
 	GeoPointND[] points;
 
-	private Kernel kernel;
+	private final Kernel kernel;
 
-	private EuclidianController ec;
+	private final EuclidianController ec;
 
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param segments selected segments
+	 * @param points selected points
+	 * @param kernel kernel
+	 * @param ec controller
+	 */
 	public InputDialogAngleFixedD(AppD app, String title, InputHandler handler,
 			GeoSegmentND[] segments, GeoPointND[] points, Kernel kernel,
 			EuclidianController ec) {

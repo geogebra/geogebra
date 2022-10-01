@@ -46,7 +46,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	/**
 	 * Construct CAS option panel.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsCASD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());

@@ -170,7 +170,7 @@ public class PrintScalePanel extends JPanel {
 	}
 
 	/**
-	 * @param b
+	 * @param b to allow pixel size
 	 */
 	@SuppressWarnings("unchecked")
 	public void enableAbsoluteSize(boolean b) {
@@ -179,15 +179,9 @@ public class PrintScalePanel extends JPanel {
 		}
 		pixelSizeEnabled = b;
 		exportMode.removeItem(jcbItemSizeInPixels);
-		// this.removeAll();
 		if (b) {
-			// this.add(exportMode);
 			exportMode.addItem(jcbItemSizeInPixels);
-		} else {
-			// this.add(scaleLabel);
 		}
-
-		// this.add(cmModePanel);
 	}
 
 	/**
@@ -395,7 +389,7 @@ public class PrintScalePanel extends JPanel {
 	}
 
 	/**
-	 * Height in pixels
+	 * @return Height in pixels
 	 */
 	public int getPixelHeight() {
 		try {

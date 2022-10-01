@@ -95,8 +95,13 @@ public class PrintPreviewD extends JDialog {
 		tempGraphics = img.getGraphics();
 	}
 
+	/**
+	 * @param app application
+	 * @param viewID view ID
+	 * @param orientation orientation
+	 * @return print preview
+	 */
 	public static PrintPreviewD get(AppD app, int viewID, int orientation) {
-
 		PrintPreviewD ret = new PrintPreviewD(app);
 		ret.m_target = getPrintables(viewID, app);
 		ret.m_orientation = orientation;
@@ -126,9 +131,11 @@ public class PrintPreviewD extends JDialog {
 		else {
 			return wrap(app.getEuclidianView1());
 		}
-
 	}
 
+	/**
+	 * @param app application
+	 */
 	public PrintPreviewD(AppD app) {
 		// modal=true: user shouldn't be able to
 		// change anything before actual print
@@ -434,14 +441,7 @@ public class PrintPreviewD extends JDialog {
 	private String[] getAvailableViews() {
 		final ArrayList<String> list = new ArrayList<>();
 		final Localization loc = app.getLocalization();
-		app.forEachView(new App.ViewCallback() {
-
-			@Override
-			public void run(int viewID, String viewName) {
-				list.add(loc.getMenu(viewName));
-
-			}
-		});
+		app.forEachView((viewID, viewName) -> list.add(loc.getMenu(viewName)));
 		list.add(loc.getMenu("AllViews"));
 
 		String[] s = new String[list.size()];
@@ -450,7 +450,7 @@ public class PrintPreviewD extends JDialog {
 		return s;
 	}
 
-	public JPanel createPanelForScaling(final EuclidianViewD view) {
+	private JPanel createPanelForScaling(final EuclidianViewD view) {
 		// checkbox to turn on/off printing of scale string
 		final JCheckBox cbEVscalePanel = new JCheckBox();
 		cbEVscalePanel.setSelected(view.isPrintScaleString());
@@ -601,7 +601,7 @@ public class PrintPreviewD extends JDialog {
 		}
 	}
 
-	public int computePageIndex(int pageIndex0) {
+	private int computePageIndex(int pageIndex0) {
 		int pageIndex = pageIndex0;
 		for (int i = 0; i < targetPages.length
 				&& targetPages[i] <= pageIndex; i++) {
@@ -672,7 +672,7 @@ public class PrintPreviewD extends JDialog {
 		}
 	}
 
-	public boolean pageExists(int targetIndex, int pageIndex) {
+	private boolean pageExists(int targetIndex, int pageIndex) {
 		try {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
@@ -829,6 +829,10 @@ public class PrintPreviewD extends JDialog {
 		}
 	}
 
+	/**
+	 * @param pageIndex0 initial page index
+	 * @return actual page index
+	 */
 	public int adjustIndex(int pageIndex0) {
 		if (!justPreview) {
 			return computePageIndex(pageIndex0);

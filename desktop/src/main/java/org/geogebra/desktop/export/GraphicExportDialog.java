@@ -932,6 +932,9 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		//
 	}
 
+	/**
+	 * @param file file to be copied
+	 */
 	public static void sendToClipboard(File file) {
 		FileTransferable ft = new FileTransferable(file);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ft, null);
@@ -1233,9 +1236,21 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		ev.exportImagePNG(exportScale, transparent, dpi, file,
 				exportToClipboard, exportType);
-
 	}
 
+	/**
+	 * @param extension file extension
+	 * @param ev view
+	 * @param file output file
+	 * @param transparent use alpha?
+	 * @param dpi DPI
+	 * @param exportScale scale
+	 * @param textAsShapes convert font to shapes?
+	 * @param useEMFplus whether to use EMF plus
+	 * @param pixelWidth width
+	 * @param pixelHeight height
+	 * @param app application
+	 */
 	public static void export(String extension, EuclidianViewInterfaceD ev,
 			File file, boolean transparent, int dpi, double exportScale,
 			boolean textAsShapes, boolean useEMFplus, int pixelWidth,
@@ -1266,9 +1281,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			GraphicExportDialog.exportSVG(app, (EuclidianViewD) ev, file,
 					textAsShapes, pixelWidth, pixelHeight, -1, -1, exportScale,
 					transparent);
-
 		}
-
 	}
 
 }

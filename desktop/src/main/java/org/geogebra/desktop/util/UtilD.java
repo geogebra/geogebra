@@ -51,24 +51,26 @@ import org.geogebra.common.util.debug.Log;
 public class UtilD {
 
 	/**
-	 * Adds keylistener recursively to all subcomponents of container.
+	 * Adds key listener recursively to all subcomponents of container.
 	 * 
-	 * @param l
+	 * @param listener listener
 	 */
-	public static void addKeyListenerToAll(Container cont, KeyListener l) {
-		cont.addKeyListener(l);
+	public static void addKeyListenerToAll(Container cont, KeyListener listener) {
+		cont.addKeyListener(listener);
 		Component[] comps = cont.getComponents();
-		for (int i = 0; i < comps.length; i++) {
-			if (comps[i] instanceof Container) {
-				addKeyListenerToAll((Container) comps[i], l);
+		for (Component comp : comps) {
+			if (comp instanceof Container) {
+				addKeyListenerToAll((Container) comp, listener);
 			} else {
-				comps[i].addKeyListener(l);
+				comp.addKeyListener(listener);
 			}
 		}
 	}
 
 	/**
 	 * Writes all contents of the given InputStream to a byte array.
+	 * @return bytes from the stream
+	 * @throws IOException if I/O problem occurs
 	 */
 	public static byte[] loadIntoMemory(InputStream is) throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -77,26 +79,29 @@ public class UtilD {
 		return bos.toByteArray();
 	}
 
+	/**
+	 * @param filename filename
+	 * @return file content
+	 */
 	public static String loadFileIntoString(String filename) {
-
 		InputStream ios = null;
 		try {
-			ios = new FileInputStream(new File(filename));
+			ios = new FileInputStream(filename);
 			return loadIntoString(ios);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
 		} finally {
 			StreamUtil.closeSilent(ios);
 		}
-
 		return null;
-
 	}
 
+	/**
+	 * @param filename filename
+	 * @return file content
+	 */
 	public static byte[] loadFileIntoByteArray(String filename) {
-
 		File file = new File(filename);
-
 		byte[] buffer = new byte[(int) file.length()];
 		InputStream ios = null;
 		try {
@@ -106,8 +111,6 @@ public class UtilD {
 				return null;
 			}
 			return buffer;
-		} catch (RuntimeException e) {
-			Log.error("problem loading " + filename);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
 		} finally {
@@ -120,21 +123,21 @@ public class UtilD {
 			}
 		}
 		return null;
-
 	}
 
 	/**
 	 * Writes all contents of the given InputStream to a String
+	 * @return stream content
 	 */
-	public static String loadIntoString(InputStream is) throws IOException {
+	public static String loadIntoString(InputStream is) {
 		BufferedReader reader = new BufferedReader(
 				new InputStreamReader(is, Charsets.getUtf8()));
 		StringBuilder sb = new StringBuilder();
 
-		String line = null;
+		String line;
 		try {
 			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
+				sb.append(line).append("\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,6 +146,11 @@ public class UtilD {
 		return sb.toString();
 	}
 
+	/**
+	 * @param in input stream
+	 * @param out output stream
+	 * @throws IOException if I/O error occurs
+	 */
 	public static void copyStream(InputStream in, OutputStream out)
 			throws IOException {
 		byte[] buf = new byte[4096];
@@ -170,6 +178,7 @@ public class UtilD {
 	/**
 	 * Removes all characters that are neither letters nor digits from the
 	 * filename and changes the given file accordingly.
+	 * @return processed name
 	 */
 	public static String keepOnlyLettersAndDigits(String name) {
 		int length = name != null ? name.length() : 0;
@@ -196,12 +205,12 @@ public class UtilD {
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
+	 * @return comparator
 	 */
 	public static Comparator<File> getFileComparator() {
 		if (comparator == null) {
 			comparator = Comparator.comparing(File::getName);
 		}
-
 		return comparator;
 	}
 

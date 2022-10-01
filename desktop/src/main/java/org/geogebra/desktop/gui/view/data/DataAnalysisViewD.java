@@ -12,7 +12,6 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -102,8 +101,8 @@ public class DataAnalysisViewD extends JPanel
 	/*************************************************
 	 * Constructs the view.
 	 * 
-	 * @param app
-	 * @param mode
+	 * @param app application
+	 * @param mode mode
 	 */
 	public DataAnalysisViewD(AppD app, int mode) {
 		this.app = app;
@@ -135,6 +134,9 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
+	/**
+	 * @return stylebar
+	 */
 	public JComponent getStyleBar() {
 		if (stylebar == null) {
 			stylebar = new DataAnalysisStyleBar(app, this);
@@ -316,15 +318,12 @@ public class DataAnalysisViewD extends JPanel
 
 	}
 
-	public void showSourcePanel() {
-		CardLayout c = (CardLayout) this.getLayout();
-		c.show(this, SourceCard);
-	}
-
+	/**
+	 * Show main panel
+	 */
 	public void showMainPanel() {
 		CardLayout c = (CardLayout) this.getLayout();
 		c.show(this, MainCard);
-
 	}
 
 	// ======================================
@@ -471,9 +470,10 @@ public class DataAnalysisViewD extends JPanel
 		displayPanel.resetToPreferredSizes();
 	}
 
+	/**
+	 * Print this view
+	 */
 	public void doPrint() {
-		List<Printable> l = new ArrayList<Printable>();
-		l.add(this);
 		PrintPreviewD.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
 				.setVisible(true);
 	}
@@ -492,13 +492,15 @@ public class DataAnalysisViewD extends JPanel
 		repaint();
 	}
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		setFont(font);
 		setFontRecursive(this, font);
 		if (stylebar != null) {
 			stylebar.reinit();
-
 		}
 
 		dataDisplayPanel1.updateFonts(font);
@@ -517,7 +519,7 @@ public class DataAnalysisViewD extends JPanel
 		setLabels();
 	}
 
-	public void setFontRecursive(Container c, Font font) {
+	private void setFontRecursive(Container c, Font font) {
 		Component[] components = c.getComponents();
 		for (Component com : components) {
 			com.setFont(font);
@@ -533,12 +535,9 @@ public class DataAnalysisViewD extends JPanel
 
 	@Override
 	public void setLabels() {
-
 		if (model.isIniting()) {
 			return;
 		}
-
-		// setTitle(app.getMenu("OneVariableStatistics"));
 
 		if (model.isRegressionMode() && regressionPanel != null) {
 			regressionPanel.setLabels();
@@ -550,11 +549,9 @@ public class DataAnalysisViewD extends JPanel
 
 		// call setLabels() for all child panels
 		setLabelsRecursive(this);
-
 	}
 
-	public void setLabelsRecursive(Container c) {
-
+	private void setLabelsRecursive(Container c) {
 		Component[] components = c.getComponents();
 		for (Component com : components) {
 			if (com instanceof StatPanelInterface) {
@@ -636,9 +633,10 @@ public class DataAnalysisViewD extends JPanel
 		// do nothing
 	}
 
+	/**
+	 * Attach this view
+	 */
 	public void attachView() {
-		// clearView();
-		// kernel.notifyAddAll(this);
 		model.updateFromSettings();
 		kernel.attach(this);
 
@@ -649,8 +647,10 @@ public class DataAnalysisViewD extends JPanel
 		}
 	}
 
+	/**
+	 * Detach this view
+	 */
 	public void detachView() {
-
 		dataDisplayPanel1.detachView();
 		if (dataDisplayPanel2 != null) {
 			dataDisplayPanel2.detachView();
@@ -825,6 +825,9 @@ public class DataAnalysisViewD extends JPanel
 		return GColor.newColor(c.getRed(), c.getGreen(), c.getBlue());
 	}
 
+	/**
+	 * @param display display panel
+	 */
 	public void updateOtherDataDisplay(DataDisplayPanelD display) {
 		if (!model.showDataDisplayPanel2()) {
 			return;

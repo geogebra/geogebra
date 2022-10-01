@@ -27,7 +27,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		this.loc = app.getLocalization();
 	}
 
-	public static void init(App app, Scriptable scope, boolean sealed) {
+	private static void init(App app, Scriptable scope, boolean sealed) {
 		GeoGebraGlobal obj = new GeoGebraGlobal(app);
 
 		for (int id = 1; id <= LAST_SCOPE_FUNCTION_ID; ++id) {
@@ -135,6 +135,12 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		return sb.toString();
 	}
 
+	/**
+	 * @param app application
+	 * @param scope scope
+	 * @param arg argument
+	 * @param sealed sealed?
+	 */
 	public static void initStandardObjects(App app, Scriptable scope,
 			String arg, boolean sealed) {
 		GgbAPI ggbApi = app.getGgbApi();

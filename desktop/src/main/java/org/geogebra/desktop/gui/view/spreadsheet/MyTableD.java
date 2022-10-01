@@ -374,18 +374,18 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	/**
-	 * Returns boolean editor (checkbox) for this table. If none exists, a new
+	 * @return boolean editor (checkbox) for this table. If none exists, a new
 	 * one is created.
 	 */
 	public MyCellEditorBoolean getEditorBoolean() {
 		if (editorBoolean == null) {
-			editorBoolean = new MyCellEditorBoolean(kernel);
+			editorBoolean = new MyCellEditorBoolean();
 		}
 		return editorBoolean;
 	}
 
 	/**
-	 * Returns button editor for this table. If none exists, a new one is
+	 * @return button editor for this table. If none exists, a new one is
 	 * created.
 	 */
 	public MyCellEditorButton getEditorButton() {
@@ -396,7 +396,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	/**
-	 * Returns list editor (comboBox) for this table. If none exists, a new one
+	 * @return list editor (comboBox) for this table. If none exists, a new one
 	 * is created.
 	 */
 	public MyCellEditorList getEditorList() {
@@ -455,10 +455,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return editor;
 	}
 
-	public boolean isEnableAutoComplete() {
-		return editor.isEnableAutoComplete();
-	}
-
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		editor.setEnableAutoComplete(enableAutoComplete);
 	}
@@ -468,14 +464,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 */
 	public void setEqualsRequired(boolean isEqualsRequired) {
 		editor.setEqualsRequired(isEqualsRequired);
-	}
-
-	/**
-	 * gets flag for requirement that commands entered into cells must start
-	 * with "="
-	 */
-	public boolean isEqualsRequired() {
-		return view.isEqualsRequired();
 	}
 
 	public void setLabels() {
@@ -754,43 +742,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				maxSelectionRow);
 	}
 
-	/*
-	 * public void setSelectionRectangle(CellRange cr){
-	 * 
-	 * if (cr == null){ this.minSelectionColumn = -1; this.minSelectionRow = -1;
-	 * this.maxSelectionColumn = -1; this.maxSelectionRow = -1; return; }
-	 * 
-	 * this.minSelectionColumn = cr.getMinColumn(); this.minSelectionRow =
-	 * cr.getMinRow(); this.maxSelectionColumn = cr.getMaxColumn();
-	 * this.maxSelectionRow = cr.getMaxRow(); this.repaint();
-	 * 
-	 * }
+	/**
+	 * @param cellName cell name
+	 * @return success
 	 */
-
-	/*
-	 * public void setTraceSelectionRectangle() {
-	 * 
-	 * if (view.getSelectedTrace() == null) { cellFrame = null; } else {
-	 * 
-	 * int c1 = view.getSelectedTrace().traceColumn1; int r1 =
-	 * view.getSelectedTrace().traceRow1; int c2 =
-	 * view.getSelectedTrace().traceColumn2; int r2 =
-	 * view.getSelectedTrace().doRowLimit ? view.getSelectedTrace().traceRow2 :
-	 * getRowCount();
-	 * 
-	 * Point point1 = getPixel(c1,r1, true); Point point2 = getPixel(c2,r2,
-	 * false);
-	 * 
-	 * cellFrame.setFrameFromDiagonal(point1, point2);
-	 * 
-	 * // scroll to upper left corner of rectangle
-	 * scrollRectToVisible(table.getCellRect(r1,c1, true));
-	 * 
-	 * } repaint();
-	 * 
-	 * }
-	 */
-
 	public boolean setSelection(String cellName) {
 
 		if (cellName == null) {
@@ -810,18 +765,20 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return setSelection(cr);
 	}
 
+	/**
+	 * @param c1 start column
+	 * @param r1 start row
+	 * @param c2 end column
+	 * @param r2 end row
+	 * @return success
+	 */
 	public boolean setSelection(int c1, int r1, int c2, int r2) {
-
 		CellRange cr = new CellRange(app, c1, r1, c2, r2);
 		if (!cr.isValid()) {
 			return false;
 		}
 
-		// ArrayList<CellRange> list = new ArrayList<CellRange>();
-		// list.add(cr);
-
 		return setSelection(cr);
-
 	}
 
 	@Override
@@ -873,53 +830,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return true;
 	}
 
-	// TODO Handle selection for a list of cell ranges
-
-	/*
-	 * public void setSelection(ArrayList<CellRange> selection){
-	 * 
-	 * selectionRectangleColor = (color == null) ? SELECTED_RECTANGLE_COLOR :
-	 * color;
-	 * 
-	 * // rectangle not drawn correctly without handle ... needs fix
-	 * this.doShowDragHandle = true; // doShowDragHandle;
-	 * 
-	 * if (selection == null) {
-	 * 
-	 * setSelectionType(COLUMN_SELECT);
-	 * 
-	 * // clear the selection visuals and the deselect geos from here //TODO:
-	 * this should be handled by the changeSelection() method
-	 * selectedColumnSet.clear(); selectedRowSet.clear();
-	 * this.minSelectionColumn = -1; this.minSelectionRow = -1;
-	 * this.maxSelectionColumn = -1; this.maxSelectionRow = -1;
-	 * app.setSelectedGeos(null); //setSelectionType(COLUMN_SELECT);
-	 * view.repaint(); setSelectionType(CELL_SELECT);
-	 * 
-	 * } else {
-	 * 
-	 * for (CellRange cr : selection) {
-	 * 
-	 * this.setAutoscrolls(false);
-	 * 
-	 * if (cr.isRow()) { setRowSelectionInterval(cr.getMinRow(),
-	 * cr.getMaxRow()); } else if (cr.isColumn()) {
-	 * setColumnSelectionInterval(cr.getMinColumn(), cr .getMaxColumn()); } else
-	 * { changeSelection(cr.getMinRow(), cr.getMinColumn(), false, false);
-	 * changeSelection(cr.getMaxRow(), cr.getMaxColumn(), false, true); }
-	 * 
-	 * // scroll to upper left corner of rectangle
-	 * 
-	 * this.setAutoscrolls(true);
-	 * scrollRectToVisible(getCellRect(cr.getMinRow(), cr.getMinColumn(),
-	 * true)); }
-	 * 
-	 * 
-	 * }
-	 * 
-	 * }
+	/**
+	 * @param selType0 selection type
 	 */
-
 	public void setSelectionType(int selType0) {
 		int selType = selType0;
 		if (view.isColumnSelect()) {
@@ -983,6 +896,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return isSelectNone;
 	}
 
+	/**
+	 * @param isSelectNone whether to empty selection
+	 */
 	public void setSelectNone(boolean isSelectNone) {
 
 		this.isSelectNone = isSelectNone;
@@ -1003,6 +919,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		this.isSelectAll = isSelectAll;
 	}
 
+	/**
+	 * @return list of selected columns
+	 */
 	public ArrayList<Integer> getSelectedColumnsList() {
 
 		ArrayList<Integer> columns = new ArrayList<>();
@@ -1027,14 +946,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		return ret;
-	}
-
-	// ===============================================================
-	// Selection Utilities
-	// ===============================================================
-
-	public Color getSelectionRectangleColor() {
-		return selectionRectangleColor;
 	}
 
 	public void setSelectionRectangleColor(Color color) {
@@ -1066,7 +977,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	/**
-	 * Returns Point(columnIndex, rowIndex), cell indices for the given pixel
+	 * @return Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
 	 */
 	public GPoint getIndexFromPixel(int x, int y) {
@@ -1098,6 +1009,14 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return new GPoint(indexX, indexY);
 	}
 
+	/**
+	 * @param column1 start column
+	 * @param row1 start row
+	 * @param column2 end column
+	 * @param row2 end row
+	 * @param includeSpacing whether to include spacing
+	 * @return rectangle
+	 */
 	public Rectangle getCellBlockRect(int column1, int row1, int column2,
 			int row2, boolean includeSpacing) {
 		Rectangle r1 = getCellRect(row1, column1, includeSpacing);
@@ -1107,9 +1026,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return r1;
 	}
 
-	public Rectangle getSelectionRect(boolean includeSpacing) {
+	/**
+	 * @return selection rectangle
+	 */
+	public Rectangle getSelectionRect() {
 		return getCellBlockRect(minSelectionColumn, minSelectionRow,
-				maxSelectionColumn, maxSelectionRow, includeSpacing);
+				maxSelectionColumn, maxSelectionRow, true);
 	}
 
 	// target selection frame
@@ -1128,6 +1050,10 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	final static BasicStroke dashed = new BasicStroke(3.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
+	/**
+	 * Checks selection state and fixed geos
+	 * @return whether dragging iis possible
+	 */
 	public boolean showCanDragBlueDot() {
 		boolean showBlueDot = !editor.isEditing()
 				&& !view.isTraceDialogVisible();
@@ -1529,7 +1455,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	}
 
-	// Reset the row heights --- used after addColumn destroys the row heights
+	/** Reset the row heights --- used after addColumn destroys the row heights */
 	public void resetRowHeights() {
 		doRecordRowHeights = false;
 		for (GPoint p : adjustedRowHeights) {
@@ -1741,7 +1667,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	/**
 	 * Sets the table mode
 	 * 
-	 * @param tableMode
+	 * @param tableMode table mode
 	 */
 	@Override
 	public void setTableMode(int tableMode) {
@@ -1842,21 +1768,37 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	//
 	// this is temporary code while cleaning up
 	// ===========================================
+	/**
+	 * Copy selection
+	 * @param altDown whether alt is pressed (skips copy to internal buffer)
+	 */
 	public void copy(boolean altDown) {
 		copyPasteCut.copy(minSelectionColumn, minSelectionRow,
 				maxSelectionColumn, maxSelectionRow, altDown);
 	}
 
+	/**
+	 * Paste into selection
+	 * @return success
+	 */
 	public boolean paste() {
 		return copyPasteCut.paste(minSelectionColumn, minSelectionRow,
 				maxSelectionColumn, maxSelectionRow);
 	}
 
+	/**
+	 * Cut selection
+	 * @return success
+	 */
 	public boolean cut() {
 		return copyPasteCut.cut(minSelectionColumn, minSelectionRow,
 				maxSelectionColumn, maxSelectionRow);
 	}
 
+	/**
+	 * Delete selection
+	 * @return success
+	 */
 	public boolean delete() {
 		return copyPasteCut.delete(minSelectionColumn, minSelectionRow,
 				maxSelectionColumn, maxSelectionRow);
@@ -1898,6 +1840,9 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// method for web, do nothing else here
 	}
 
+	/**
+	 * @return spreadsheet mode processor
+	 */
 	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {
 		if (this.spredsheetModeProcessor == null) {
 			this.spredsheetModeProcessor = new SpreadsheetModeProcessor(app,

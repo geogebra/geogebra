@@ -63,6 +63,10 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		return impl.intersects(GRectangleD.getAWTRectangle(viewRect));
 	}
 
+	/**
+	 * @param r2d cross-platform rectangle
+	 * @return native rectangle
+	 */
 	public static Rectangle2D getAWTRectangle2D(GRectangle2D r2d) {
 		if (r2d instanceof GGenericRectangle2DD) {
 			return ((GGenericRectangle2DD) r2d).impl;
@@ -109,11 +113,6 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
-	}
-
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	@Override

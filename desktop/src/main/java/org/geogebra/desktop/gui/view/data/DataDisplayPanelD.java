@@ -163,7 +163,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	}
 
-	public void updateIcons() {
+	private void updateIcons() {
 		btnOptions
 				.setIcon(app.getScaledIcon(GuiResourcesD.INPUTHELP_LEFT_18x18));
 		btnOptions.setSelectedIcon(
@@ -576,7 +576,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	public void attachView() {
 		plotPanel.attachView();
-
 	}
 
 	// ============================================================

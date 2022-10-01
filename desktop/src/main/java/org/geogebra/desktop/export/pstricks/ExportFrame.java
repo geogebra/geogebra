@@ -103,6 +103,11 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	// to be sure that everything is allright even though xmin is set
 	// to a higher value than xmax
 	// then the width is changed.
+
+	/**
+	 * @param ggb exported file generator
+	 * @param action action
+	 */
 	public ExportFrame(final GeoGebraExport ggb, String action) {
 		this.ggb = ggb;
 		this.app = (AppD) ggb.getApp();
@@ -227,12 +232,6 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 					FileOutputStream f = new FileOutputStream(currentFile);
 					BufferedOutputStream b = new BufferedOutputStream(f);
-					/*
-					 * java.util.Enumeration en=System.getProperties().keys();
-					 * while(en.hasMoreElements()){ String
-					 * s=en.nextElement().toString(); System.out.println(s+" "
-					 * +System.getProperty(s)); }
-					 */
 					OutputStreamWriter osw = new OutputStreamWriter(b,
 							Charsets.getUtf8());
 					StringBuilder sb = new StringBuilder(textarea.getText());

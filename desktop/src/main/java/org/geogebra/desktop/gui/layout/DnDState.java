@@ -83,6 +83,9 @@ public class DnDState {
 		return target;
 	}
 
+	/**
+	 * @param region region, one of the named int constants
+	 */
 	public void setRegion(int region) {
 		if (region < 0 || region > LEFT_OUT) {
 			throw new IllegalArgumentException();

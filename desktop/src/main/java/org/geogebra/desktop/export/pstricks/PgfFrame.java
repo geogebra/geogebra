@@ -18,6 +18,9 @@ public class PgfFrame extends ExportFrame {
 			"LaTeX (beamer class)" };
 	private JCheckBox forceGnuplot;
 
+	/**
+	 * @param ggb2pgf PGF converters
+	 */
 	public PgfFrame(final GeoGebraToPgf ggb2pgf) {
 		super(ggb2pgf, "GeneratePgf");
 		fileExtension = FileExtensions.TEX;

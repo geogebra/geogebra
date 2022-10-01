@@ -18,6 +18,9 @@ public class PstricksFrame extends ExportFrame {
 	private static final long serialVersionUID = 1L;
 	final String[] format = { "LaTeX (article class)", "LaTeX (beamer class)" };
 
+	/**
+	 * @param ggb2pst PSTricks converter
+	 */
 	public PstricksFrame(final GeoGebraToPstricks ggb2pst) {
 		super(ggb2pst, "GeneratePstricks");
 		initGui();

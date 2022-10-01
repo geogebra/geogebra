@@ -19,6 +19,10 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 		this.event = e;
 	}
 
+	/**
+	 * @param e native event
+	 * @return cross-platform (wrapped) evnt
+	 */
 	public static AbstractEvent wrapEvent(MouseEvent e) {
 		if (!pool.isEmpty()) {
 			MouseEventD wrap = pool.getLast();

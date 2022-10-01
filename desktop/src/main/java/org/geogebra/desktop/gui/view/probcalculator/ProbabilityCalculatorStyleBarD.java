@@ -57,6 +57,9 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		setLabels();
 	}
 
+	/**
+	 * Update icons for font size
+	 */
 	public void updateIcons() {
 		if (btnLineGraph == null) {
 			return;

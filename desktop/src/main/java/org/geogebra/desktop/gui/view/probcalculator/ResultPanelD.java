@@ -33,8 +33,14 @@ class ResultPanelD extends JPanel implements ResultPanel {
 	private JTextField fldHigh;
 	private JTextField fldResult;
 
-	public ResultPanelD(AppD app, int hgap, int vgap, int tab) {
-		super(new FlowLayout(FlowLayout.LEFT, hgap, vgap));
+	/**
+	 * @param app application
+	 * @param hGap horizontal gap
+	 * @param vGap vertical gap
+	 * @param tab left padding
+	 */
+	public ResultPanelD(AppD app, int hGap, int vGap, int tab) {
+		super(new FlowLayout(FlowLayout.LEFT, hGap, vGap));
 		this.app = app;
 		loc = app.getLocalization();
 		add(Box.createHorizontalStrut(tab));
@@ -203,12 +209,20 @@ class ResultPanelD extends JPanel implements ResultPanel {
 		lblXSign.setText(SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X);
 	}
 
+	/**
+	 * Remove listener from all fields
+	 * @param listener listener
+	 */
 	public void removeActionListener(ActionListener listener) {
 		fldLow.removeActionListener(listener);
 		fldHigh.removeActionListener(listener);
 		fldResult.removeActionListener(listener);
 	}
 
+	/**
+	 * Add listener to all fields
+	 * @param listener listener
+	 */
 	public void addActionListener(ActionListener listener) {
 		fldLow.addActionListener(listener);
 		fldHigh.addActionListener(listener);

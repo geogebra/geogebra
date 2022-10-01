@@ -128,7 +128,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		}
 	}
 
-	public void getPath() {
+	private void getPath() {
 		// clear old path
 		if (gp != null) {
 			gp.reset();

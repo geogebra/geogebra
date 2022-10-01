@@ -17,15 +17,12 @@ public class MyFormattedTextField extends JFormattedTextField
 
 	GuiManagerD guiManager;
 
-	public MyFormattedTextField(GuiManagerD guiManager) {
-		super();
-		this.guiManager = guiManager;
-		addFocusListener(this);
-
-	}
-
-	public MyFormattedTextField(GuiManagerD guiManager, DateFormat date) {
-		super(date);
+	/**
+	 * @param guiManager gui manager
+	 * @param format date format
+	 */
+	public MyFormattedTextField(GuiManagerD guiManager, DateFormat format) {
+		super(format);
 		this.guiManager = guiManager;
 		addFocusListener(this);
 	}

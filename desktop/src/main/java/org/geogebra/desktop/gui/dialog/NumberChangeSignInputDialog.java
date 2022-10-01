@@ -19,17 +19,15 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 
 	/**
 	 * 
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param handler
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial text
+	 * @param handler input handler
 	 * @param changingSign
 	 *            says if the sign has to be changed
 	 * @param checkBoxText
 	 *            text for sign change checkbox
-	 * @param basis
-	 *            TODO
 	 */
 	public NumberChangeSignInputDialog(AppD app, String message, String title,
 			String initString, NumberChangeSignInputHandler handler,

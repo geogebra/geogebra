@@ -25,21 +25,31 @@ import org.geogebra.desktop.gui.MyImageD;
 
 public class EpsGraphicsD extends EpsGraphics {
 
-	@Override
-	final protected GFontRenderContextD getNewFontRenderContext() {
-		return new GFontRenderContextD(
-				new FontRenderContext(null, false, true));
-	}
-
-	public EpsGraphicsD(String string, StringBuilder epsOutput, int i, int j,
-			int pixelWidth, int pixelHeight, ColorMode colorRgb,
+	/**
+	 * @param title title
+	 * @param epsOutput EPS output
+	 * @param minX x
+	 * @param minY y
+	 * @param pixelWidth width
+	 * @param pixelHeight height
+	 * @param colorMode color mode
+	 * @param bgColor background color
+	 */
+	public EpsGraphicsD(String title, StringBuilder epsOutput, int minX, int minY,
+			int pixelWidth, int pixelHeight, ColorMode colorMode,
 			GColor bgColor) {
-		super(string, epsOutput, i, j, pixelWidth, pixelHeight, colorRgb,
+		super(title, epsOutput, minX, minY, pixelWidth, pixelHeight, colorMode,
 				bgColor);
 	}
 
 	public EpsGraphicsD(EpsGraphicsD eps) {
 		super(eps);
+	}
+
+	@Override
+	final protected GFontRenderContextD getNewFontRenderContext() {
+		return new GFontRenderContextD(
+				new FontRenderContext(null, false, true));
 	}
 
 	@Override

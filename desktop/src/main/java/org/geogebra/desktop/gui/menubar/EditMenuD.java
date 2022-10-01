@@ -50,6 +50,9 @@ public class EditMenuD extends BaseMenu {
 	private JSeparator selectionSeparator;
 	private JSeparator deleteSeparator;
 
+	/**
+	 * @param app application
+	 */
 	public EditMenuD(AppD app) {
 		super(app, "Edit");
 		selection = app.getSelectionManager();

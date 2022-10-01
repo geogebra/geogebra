@@ -59,15 +59,10 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 	private SpreadsheetController controller;
 
-	public boolean isEnableAutoComplete() {
-		return enableAutoComplete;
-	}
-
-	public void setEnableAutoComplete(boolean enableAutoComplete) {
-		this.enableAutoComplete = enableAutoComplete;
-		textField.setAutoComplete(enableAutoComplete);
-	}
-
+	/**
+	 * @param kernel kernel
+	 * @param controller spreadsheet controller
+	 */
 	public MyCellEditorSpreadsheet(Kernel kernel,
 			SpreadsheetController controller) {
 
@@ -108,14 +103,23 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			}
 		};
 		textField.getDocument().addDocumentListener(documentListener);
-
 	}
 
+	/**
+	 * @param text text to edit
+	 */
 	public void setText(String text) {
 		if (!textField.hasFocus() && !table.isDragging2) {
 			textField.setText(text);
 		}
+	}
 
+	/**
+	 * @param enableAutoComplete enable autocomplete
+	 */
+	public void setEnableAutoComplete(boolean enableAutoComplete) {
+		this.enableAutoComplete = enableAutoComplete;
+		textField.setAutoComplete(enableAutoComplete);
 	}
 
 	@Override
@@ -164,23 +168,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		textField.setEqualsRequired(equalsRequired);
 	}
 
-	/**
-	 * returns flag that requires text start with "=" to activate autocomplete
-	 */
-	public boolean isEqualsRequired() {
-		return textField.isEqualsRequired();
-	}
-
 	public void setLabels() {
 		textField.setDictionary(true);
-	}
-
-	/**
-	 * 
-	 * @return true if the completion popup is open
-	 */
-	public boolean completionsPopupOpen() {
-		return textField.getCompletions() != null;
 	}
 
 	// =======================================================
@@ -205,6 +194,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		textField.replaceSelection(" " + label + " ");
 	}
 
+	/**
+	 * @param text cell value
+	 */
 	public void setLabel(String text) {
 		if (!editing) {
 			return;
@@ -367,7 +359,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 
 				// update the formula bar after escape
 				table.getView().updateFormulaBar();
-
 			}
 		}
 
@@ -376,12 +367,10 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			//
 		}
 
-		public void checkCursorKeys(KeyEvent e) {
-
+		protected void checkCursorKeys(KeyEvent e) {
 			String text = (String) delegate.getCellEditorValue();
 
 			int keyCode = e.getKeyCode();
-			// Application.debug(e+"");
 			switch (keyCode) {
 			default:
 				// do nothing
@@ -390,8 +379,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				if (isFormulaBarListener) {
 					return;
 				}
-
-				// Application.debug("UP");
 				stopCellEditing(0, -1);
 				editing = false;
 				e.consume();
@@ -403,7 +390,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 					return;
 				}
 				Log.debug(" tab");
-				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right
 				if (tabReturnCol == -1) {
@@ -452,7 +438,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 					e.consume();
 					return;
 				}
-				// Application.debug("DOWN");
 				stopCellEditing(0, 1);
 				editing = false;
 				tabReturnCol = -1;
@@ -462,7 +447,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				if (isFormulaBarListener) {
 					return;
 				}
-				// Application.debug("LEFT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == 0) {
 					stopCellEditing(-1, 0);
@@ -476,7 +460,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				if (isFormulaBarListener) {
 					return;
 				}
-				// Application.debug("RIGHT");
 				// Allow left/right keys to exit cell for easier data entry
 				if (getCaretPosition() == text.length()) {
 					stopCellEditing(1, 0);
@@ -499,11 +482,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			case KeyEvent.VK_F1:
 				editing = false;
 				break;
-
 			}
-
 		}
-
 	}
 
 	@Override
@@ -523,7 +503,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 		// only needed if eg columns resized
 		if (editing) {
 			if (!errorOnStopEditing) {
-
 				// Process the current edit, exit the editor and update the
 				// formula bar
 				setAllowProcessGeo(true);

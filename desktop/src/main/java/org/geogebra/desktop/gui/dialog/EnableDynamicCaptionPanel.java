@@ -8,9 +8,14 @@ public class EnableDynamicCaptionPanel extends CheckboxPanel {
 	private final AutoCompleteTextFieldD textField;
 	private final ComboPanel combo;
 
+	/**
+	 * @param app application
+	 * @param textField text input field
+	 * @param combo text selection combo-box
+	 * @param tabs parent tabbed view
+	 */
 	public EnableDynamicCaptionPanel(AppD app, AutoCompleteTextFieldD textField,
-			ComboPanel  combo,
-			UpdateTabs tabs) {
+			ComboPanel combo, UpdateTabs tabs) {
 		super(app, "UseTextAsCaption", tabs,
 				new EnableDynamicCaptionModel(null, app));
 		this.textField = textField;

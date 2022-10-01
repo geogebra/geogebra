@@ -239,8 +239,7 @@ public class FunctionInspectorD extends FunctionInspector
 	protected void createGUIElements() {
 
 		// create XY table
-		tableXY = new InspectorTable(getAppD(), this, minRows,
-				InspectorTable.TYPE_XY);
+		tableXY = new InspectorTable(getAppD(), this, minRows);
 		modelXY = new DefaultTableModel();
 		modelXY.addColumn("x");
 		modelXY.addColumn("y(x)");
@@ -253,8 +252,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tableXY.setMyCellEditor(0);
 
 		// create interval table
-		tableInterval = new InspectorTable(getAppD(), this, minRows,
-				InspectorTable.TYPE_INTERVAL);
+		tableInterval = new InspectorTable(getAppD(), this, minRows);
 		modelInterval = new DefaultTableModel();
 		modelInterval.setColumnCount(2);
 		modelInterval.setRowCount(pointCount);

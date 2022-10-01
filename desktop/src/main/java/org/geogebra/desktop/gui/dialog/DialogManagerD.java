@@ -247,7 +247,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 		InputDialogD id = new InputDialogD((AppD) app,
 				geo.getNameDescription(), getLocalization().getMenu("Redefine"),
 				str, true, handler, geo);
-		id.showSymbolTablePopup(true);
 		id.setVisible(true);
 	}
 
@@ -464,6 +463,9 @@ public class DialogManagerD extends DialogManagerMinimal {
 		return true;
 	}
 
+	/**
+	 * Init file chooser
+	 */
 	public synchronized void initFileChooser() {
 		if (fileChooser == null) {
 			try {
