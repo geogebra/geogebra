@@ -365,7 +365,7 @@ public class AppletParameters {
 	 */
 	public boolean getDataParamShowLogging() {
 		return getBoolDataParam("showLogging", false)
-				|| (NavigatorUtil.getUrlParameter("GeoGebraDebug") != null) || true;
+				|| (NavigatorUtil.getUrlParameter("GeoGebraDebug") != null);
 	}
 
 	/**
