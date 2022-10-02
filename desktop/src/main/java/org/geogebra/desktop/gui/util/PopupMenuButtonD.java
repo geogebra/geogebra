@@ -423,6 +423,33 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	}
 
 	/**
+	 * @param minimum slider minimum
+	 */
+	public void setSliderMinimum(int minimum) {
+		if (mySlider == null) {
+			initSlider();
+		}
+
+		mySlider.removeChangeListener(this);
+		mySlider.setMinimum(minimum);
+		mySlider.addChangeListener(this);
+	}
+
+	/**
+	 * @param maximum slider maximum
+	 */
+	public void setSliderMaximum(int maximum) {
+		if (mySlider == null) {
+			initSlider();
+		}
+
+		mySlider.removeChangeListener(this);
+		mySlider.setMaximum(maximum);
+		mySlider.addChangeListener(this);
+
+	}
+
+	/**
 	 * @return slider
 	 */
 	public JSlider getMySlider() {

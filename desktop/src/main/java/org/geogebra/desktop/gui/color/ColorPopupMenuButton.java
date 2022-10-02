@@ -70,8 +70,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		setToolTipArray(getToolTipArray());
 
 		getMyTable().setUseColorSwatchBorder(true);
-		getMySlider().setMinimum(0);
-		getMySlider().setMaximum(100);
+		setSliderMinimum(0);
+		setSliderMaximum(100);
 		getMySlider().setMajorTickSpacing(25);
 		getMySlider().setMinorTickSpacing(5);
 		setSliderValue(100);

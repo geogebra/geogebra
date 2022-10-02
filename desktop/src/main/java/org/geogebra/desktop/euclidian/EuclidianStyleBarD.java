@@ -603,7 +603,7 @@ public class EuclidianStyleBarD extends JToolBar
 				if (geosOK) {
 					removeThisActionListenerTo(this);
 					setFgColor(GColor.BLACK);
-					getMySlider().setMinimum(maxMinimumThickness);
+					setSliderMinimum(maxMinimumThickness);
 					setSliderValue(
 							((GeoElement) geos.get(0)).getLineThickness());
 
@@ -633,8 +633,8 @@ public class EuclidianStyleBarD extends JToolBar
 
 		};
 
-		btnLineStyle.getMySlider().setMinimum(1);
-		btnLineStyle.getMySlider().setMaximum(GeoElement.MAX_LINE_WIDTH);
+		btnLineStyle.setSliderMinimum(1);
+		btnLineStyle.setSliderMaximum(GeoElement.MAX_LINE_WIDTH);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
@@ -717,9 +717,8 @@ public class EuclidianStyleBarD extends JToolBar
 			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
 			 */
 		};
-		btnPointStyle.getMySlider().setMinimum(1);
-		btnPointStyle.getMySlider()
-				.setMaximum(EuclidianStyleConstants.MAX_POINT_SIZE);
+		btnPointStyle.setSliderMinimum(1);
+		btnPointStyle.setSliderMaximum(EuclidianStyleConstants.MAX_POINT_SIZE);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);

@@ -168,8 +168,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnRotateView = new PopupMenuButtonForView3D(app);
 		btnRotateView.setIcon(app.getScaledIcon(
 				GuiResources3D.STYLINGBAR_GRAPHICS3D_ROTATEVIEW_PLAY));
-		btnRotateView.getMySlider().setMinimum(-10);
-		btnRotateView.getMySlider().setMaximum(10);
+		btnRotateView.setSliderMinimum(-10);
+		btnRotateView.setSliderMaximum(10);
 		btnRotateView.getMySlider().setMajorTickSpacing(10);
 		btnRotateView.getMySlider().setMinorTickSpacing(1);
 		btnRotateView.getMySlider().setPaintTicks(true);
@@ -184,8 +184,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnClipping = new PopupMenuButtonForView3D(app);
 		btnClipping.setIcon(app.getScaledIcon(
 				GuiResources3D.STYLINGBAR_GRAPHICS3D_CLIPPING_MEDIUM));
-		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
-		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
+		btnClipping.setSliderMinimum(GeoClippingCube3D.REDUCTION_MIN);
+		btnClipping.setSliderMaximum(GeoClippingCube3D.REDUCTION_MAX);
 		btnClipping.getMySlider().setMajorTickSpacing(1);
 		btnClipping.getMySlider().setMinorTickSpacing(1);
 		btnClipping.getMySlider().setPaintTicks(true);
