@@ -1,23 +1,31 @@
 package org.geogebra.web.full.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.gwtutil.JavaScriptInjector;
 import org.geogebra.multiplayer.MultiplayerResources;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.browser.CollaborationStoppedDialog;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.util.SaveDialogI;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.util.GGBMultiplayer;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
+import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.StringConsumer;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
@@ -26,6 +34,8 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 
 import elemental2.core.JsArray;
@@ -214,7 +224,8 @@ public class ShareControllerW implements ShareController {
 	}
 
 	@Override
-	public void terminateMultiuser(String sharingKey) {
+	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
+		String sharingKey = mat.getSharingKeyOrId();
 		Material activeMaterial = app.getActiveMaterial();
 		if (multiplayer != null && activeMaterial != null
 				&& activeMaterial.getSharingKey().equals(sharingKey)) {
@@ -222,9 +233,46 @@ public class ShareControllerW implements ShareController {
 			multiplayer = null;
 		} else {
 			// temporary instance, do not store
-			onMultiplayerLoad(sharingKey, null,
-					mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
+			AppletParameters parameters = new AppletParameters(
+					app.getAppletParameters().getDataParamAppName());
+			AppWFull appF = (AppWFull) app;
+			Element el = DOM.createElement("div");
+			GeoGebraFrameFull fr = new GeoGebraFrameFull(
+					appF.getAppletFrame().getAppletFactory(), appF.getLAF(),
+					appF.getDevice(), GeoGebraElement.as(el), parameters);
+			fr.setOnLoadCallback(exportedApi -> {
+
+				onMultiplayerLoad(sharingKey, exportedApi,
+						mp -> saveAndTerminate(Js.uncheckedCast(mp), fr.getApp(), mat, after));
+			});
+			fr.runAsyncAfterSplash();
+
 		}
+	}
+
+	private void saveAndTerminate(GGBMultiplayer mp, AppW otherApp, Material mat,
+			MaterialCallbackI after) {
+		mp.addConnectionChangeListener(connected -> {
+			if (connected) {
+				MaterialCallback cb = new MaterialCallback() {
+					@Override
+					public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+						mat.setFileName(result.get(0).getFileName());
+						mp.terminate();
+						if (after != null) {
+							after.onLoaded(result, meta);
+						}
+					}
+				};
+				otherApp.getGgbApi().getBase64(true, base64 -> {
+					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
+							mat.getSharingKeyOrId(), mat.getVisibility(), mat.getTitle(),
+							base64, cb, mat.getType(), false);
+					mp.terminate();
+				});
+			}
+		});
+		mp.start(app.getLoginOperation().getUserName());
 	}
 
 	@Override

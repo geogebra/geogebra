@@ -160,7 +160,7 @@ public class MaterialCardController implements OpenFileListener {
 											MaterialCardController.this.deleteCallback);
 							if (toDelete.isMultiuser()) {
 								app.getShareController()
-										.terminateMultiuser(toDelete.getSharingKeyOrId());
+										.terminateMultiuser(toDelete, null);
 							}
 						}
 

@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private AppW app;
 	// image of material
-	private FlowPanel imgPanel;
+	private MaterialImagePanel imgPanel;
 	// material information
 	private CardInfoPanel infoPanel;
 	private ContextMenuButtonMaterialCard moreBtn;
@@ -180,5 +180,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	public void setLabels() {
 		updateVisibility(getMaterial());
+	}
+
+	public void setThumbnail(Material mat) {
+		imgPanel.setBackground(mat);
 	}
 }

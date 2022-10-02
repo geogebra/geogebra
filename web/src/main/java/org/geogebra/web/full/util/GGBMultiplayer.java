@@ -24,4 +24,6 @@ public class GGBMultiplayer {
 	public native void addUserChangeListener(JsConsumer<JsArray<Object>> userChangeListener);
 
 	public native void disconnect();
+
+	public native void addConnectionChangeListener(JsConsumer<Boolean> callback);
 }

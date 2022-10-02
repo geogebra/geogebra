@@ -103,7 +103,7 @@ public class ShareDialogMow extends ComponentDialog
 		boolean currentlyEditing = activeMaterial != null
 				&& material.getSharingKeyOrId().equals(activeMaterial.getSharingKeyOrId());
 		if (material.isMultiuser() && !isMultiuser) {
-			app.getShareController().terminateMultiuser(material.getSharingKeyOrId());
+			app.getShareController().terminateMultiuser(material, callback);
 		} else if (!material.isMultiuser() && isMultiuser && currentlyEditing) {
 			app.getShareController().startMultiuser(material.getSharingKeyOrId());
 		}
