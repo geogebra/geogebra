@@ -42,10 +42,10 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private static final int CLICK_DOWN_ARROW_WIDTH = 20;
 
-	private SelectionTable mode;
+	private final SelectionTable mode;
 	private Object[] data;
-	private AppD app;
-	private PopupMenuButtonD thisButton;
+	private final AppD app;
+	private final PopupMenuButtonD thisButton;
 
 	private JPopupMenu myPopup;
 
@@ -328,6 +328,21 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		mySlider.setPaintLabels(false);
 
 		mySlider.addChangeListener(this);
+		mySlider.addMouseListener(new MouseAdapter() {
+			int dragStartValue;
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (mySlider.getValue() != dragStartValue) {
+					app.storeUndoInfo();
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				dragStartValue = mySlider.getValue();
+			}
+		});
 
 		// set slider dimensions
 		Dimension d = mySlider.getPreferredSize();
@@ -372,7 +387,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		}
 		this.fireActionPerformed(new ActionEvent(this,
 				ActionEvent.ACTION_PERFORMED, getActionCommand()));
-		app.storeUndoInfo();
 		updateGUI();
 	}
 
