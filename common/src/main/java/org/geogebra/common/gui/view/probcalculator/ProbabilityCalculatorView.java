@@ -1388,6 +1388,7 @@ public abstract class ProbabilityCalculatorView
 			setLow(pcSettings.getLow());
 			setHigh(pcSettings.getHigh());
 		}
+		setShowNormalOverlay(((ProbabilityCalculatorSettings) settings).isOverlayActive());
 		updateAll(!pcSettings.isIntervalSet());
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
@@ -1891,6 +1892,10 @@ public abstract class ProbabilityCalculatorView
 
 		sb.append(" isCumulative=\"");
 		sb.append(isCumulative ? "true" : "false");
+		sb.append("\"");
+
+		sb.append(" isOverlayActive=\"");
+		sb.append(isShowNormalOverlay() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" parameters=\"");
