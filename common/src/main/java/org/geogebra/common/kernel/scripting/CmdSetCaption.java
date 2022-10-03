@@ -41,9 +41,11 @@ public class CmdSetCaption extends CmdScripting {
 							.setAxisLabel(((GeoAxis) geo).getType(), txt);
 					app.getActiveEuclidianView().repaintView();
 				} else {
-					geo.setCaption(txt);
-					geo.setLabelMode(GeoElementND.LABEL_CAPTION);
-					geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
+					if (!geo.getCaptionSimple().equals(txt)) {
+						geo.setCaption(txt);
+						geo.setLabelMode(GeoElementND.LABEL_CAPTION);
+						geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
+					}
 				}
 				return arg;
 			}
