@@ -41,7 +41,8 @@ public class CmdSetCaption extends CmdScripting {
 							.setAxisLabel(((GeoAxis) geo).getType(), txt);
 					app.getActiveEuclidianView().repaintView();
 				} else {
-					if (geo.getCaptionSimple() == null || !geo.getCaptionSimple().equals(txt)) {
+					if (geo.getCaptionSimple() == null || !geo.getCaptionSimple().equals(txt)
+							|| geo.getLabelMode() != GeoElementND.LABEL_CAPTION) {
 						geo.setCaption(txt);
 						geo.setLabelMode(GeoElementND.LABEL_CAPTION);
 						geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
