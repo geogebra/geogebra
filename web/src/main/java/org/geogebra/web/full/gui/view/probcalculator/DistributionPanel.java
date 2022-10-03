@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -252,7 +253,15 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 		String inputText = source.getText().trim();
 		boolean update = true;
+
+		if (!StringUtil.isNumber(inputText) && !"".equals(inputText)
+			&& source.asWidget().getParent() != null) {
+			source.asWidget().getParent().addStyleName("errorStyle");
+			return;
+		}
+
 		if (!"".equals(inputText)) {
+			source.asWidget().getParent().removeStyleName("errorStyle");
 			Kernel kernel = view.getApp().getKernel();
 			// allow input such as sqrt(2)
 			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
@@ -265,14 +274,9 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			}
 			if (getResultPanel().isFieldLow(source)) {
 				checkBounds(numericValue, intervalCheck, false);
-			}
-
-			else if (getResultPanel().isFieldHigh(source)) {
+			} else if (getResultPanel().isFieldHigh(source)) {
 				checkBounds(numericValue, intervalCheck, true);
-			}
-
-			// handle inverse probability
-			else if (getResultPanel().isFieldResult(source)) {
+			} else if (getResultPanel().isFieldResult(source)) {
 				update = false;
 				if (value < 0 || value > 1) {
 					if (!intervalCheck) {
