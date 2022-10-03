@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.interval.node;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 
 /**
  * IntervalNode with operation and siblings - inner node of the tree.
@@ -10,41 +11,46 @@ public class IntervalExpressionNode implements IntervalNode {
 	IntervalNode left;
 	IntervalOperation operation;
 	IntervalNode right;
+	private final IntervalNodeEvaluator evaluator;
 
 	/**
 	 * Constructor of an empty node.
+	 * @param evaluator of the node and its operations
 	 */
-	public IntervalExpressionNode() {
-		this(null, IntervalOperation.NO_OPERATION, null);
+	public IntervalExpressionNode(IntervalNodeEvaluator evaluator) {
+		this(evaluator, null, IntervalOperation.NO_OPERATION, null);
 	}
 
 	/**
 	 * Constructor of a node with one leaf.
-	 *
+	 * @param evaluator of the node and its operations
 	 * @param value as leaf.
 	 */
-	public IntervalExpressionNode(IntervalFunctionValue value) {
-		this(value, IntervalOperation.NO_OPERATION);
+	public IntervalExpressionNode(IntervalNodeEvaluator evaluator, IntervalFunctionValue value) {
+		this(evaluator, value, IntervalOperation.NO_OPERATION);
 	}
 
 	/**
 	 * Constructor of a node with left subtree and its operation.
-	 *
+	 * @param evaluator of the node and its operations
 	 * @param left subtree.
 	 * @param operation on left.
 	 */
-	public IntervalExpressionNode(IntervalNode left, IntervalOperation operation) {
-		this(left, operation, null);
+	public IntervalExpressionNode(IntervalNodeEvaluator evaluator, IntervalNode left,
+			IntervalOperation operation) {
+		this(evaluator, left, operation, null);
 	}
 
 	/**
 	 * Constructor of a node with both left and right subtrees and their operation.
-	 *
+	 * @param evaluator of the node and its operations
 	 * @param left subtree.
 	 * @param operation on left.
 	 */
-	public IntervalExpressionNode(IntervalNode left, IntervalOperation operation,
+	public IntervalExpressionNode(IntervalNodeEvaluator evaluator, IntervalNode left,
+			IntervalOperation operation,
 			IntervalNode right) {
+		this.evaluator = evaluator;
 		this.left = left;
 		this.operation = operation;
 		this.right = right;
@@ -59,7 +65,7 @@ public class IntervalExpressionNode implements IntervalNode {
 			return left;
 		}
 
-		return operation.handle(left, right);
+		return operation.handle(evaluator, left, right);
 	}
 
 	@Override

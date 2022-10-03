@@ -1,37 +1,55 @@
 package org.geogebra.common.kernel.interval.operators;
 
+import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 
 import org.geogebra.common.kernel.interval.Interval;
-import org.geogebra.common.kernel.interval.IntervalConstants;
+import org.geogebra.common.kernel.interval.evaluators.IntervalNodePowerEvaluator;
+import org.geogebra.common.kernel.interval.node.IntervalNode;
 
-public final class IntervalOperationImpl {
-	private static final IntervalAlgebra algebra;
-	private static final IntervalMultiply multiply;
-	private static final IntervalRoot nroot;
-	private static final IntervalTrigonometric trigonometric;
-	private static final IntervalMiscOperandsImpl misc;
-	private static final IntervalDivide divide;
+public class IntervalNodeEvaluator {
+	private final IntervalAlgebra algebra;
+	private final IntervalMultiply multiply;
+	private final IntervalRoot nroot;
+	private final IntervalTrigonometric trigonometric;
+	private final IntervalMiscOperandsImpl misc;
+	private final IntervalDivide divide;
 
-	static {
-		algebra = new IntervalAlgebra();
+	private final IntervalSinCos sinCos;
+	private final IntervalNodePowerEvaluator power;
+
+	/**
+	 * Constructor
+	 */
+	public IntervalNodeEvaluator() {
+		algebra = new IntervalAlgebra(this);
 		multiply = new IntervalMultiply();
+		nroot = new IntervalRoot(this);
 		trigonometric = new IntervalTrigonometric();
-		misc = new IntervalMiscOperandsImpl();
-		divide = new IntervalDivide();
-		nroot = new IntervalRoot();
+		misc = new IntervalMiscOperandsImpl(this);
+		power = new IntervalNodePowerEvaluator(this);
+		divide = new IntervalDivide(this);
+		sinCos = new IntervalSinCos(this);
 	}
 
-	public static Interval multiply(Interval interval, Interval other) {
+	public Interval multiply(Interval interval, Interval other) {
 		return multiply.compute(interval, other);
 	}
 
-	public static Interval divide(Interval interval, Interval other) {
+	public Interval divide(Interval interval, Interval other) {
 		return divide.compute(interval, other);
 	}
 
-	public static Interval inverse(Interval interval) {
-		return divide.compute(IntervalConstants.one(), interval);
+	/**
+	 * The multiplication inverse, 1 / interval.
+	 * @param interval to make the inverse from.
+	 * @return the multiplication inverse.
+	 */
+	public Interval inverse(Interval interval) {
+		if (interval.isZeroWithDelta(1E-6)) {
+			return undefined();
+		}
+		return divide.compute(one(), interval);
 	}
 
 	/**
@@ -39,7 +57,7 @@ public final class IntervalOperationImpl {
 	 * @param power of the interval
 	 * @return power of the interval
 	 */
-	public static Interval pow(Interval interval, double power) {
+	public Interval pow(Interval interval, double power) {
 		return algebra.pow(interval, power);
 	}
 
@@ -50,7 +68,7 @@ public final class IntervalOperationImpl {
 	 * @param other interval power.
 	 * @return this as result.
 	 */
-	public static Interval pow(Interval interval, Interval other) {
+	public Interval pow(Interval interval, Interval other) {
 		return algebra.pow(interval, other);
 	}
 
@@ -61,7 +79,7 @@ public final class IntervalOperationImpl {
 	 * @param other interval
 	 * @return nth root of the interval.
 	 */
-	public static Interval nthRoot(Interval interval, Interval other) {
+	public Interval nthRoot(Interval interval, Interval other) {
 		return nroot.compute(interval, other);
 	}
 
@@ -71,11 +89,11 @@ public final class IntervalOperationImpl {
 	 * @param n the root
 	 * @return nth root of the interval.
 	 */
-	public static Interval nthRoot(Interval interval, double n) {
+	public Interval nthRoot(Interval interval, double n) {
 		return nroot.compute(interval, n);
 	}
 
-	public static Interval difference(Interval interval, Interval other) {
+	public Interval difference(Interval interval, Interval other) {
 		return misc.difference(interval, other);
 	}
 
@@ -85,24 +103,23 @@ public final class IntervalOperationImpl {
 	 * @param other argument.
 	 * @return this as result
 	 */
-	public static Interval fmod(Interval interval, Interval other) {
-		algebra.fmod(interval, other);
-		return interval;
+	public Interval fmod(Interval interval, Interval other) {
+		return algebra.fmod(interval, other);
 	}
 
 	/**
 	 *
 	 * @return cosine of the interval.
 	 */
-	public static Interval cos(Interval interval) {
-		return trigonometric.cos(interval);
+	public Interval cos(Interval interval) {
+		return sinCos.cos(interval);
 	}
 
 	/**
 	 *
 	 * @return secant of the interval
 	 */
-	public static Interval sec(Interval interval) {
+	public Interval sec(Interval interval) {
 		return inverse(cos(interval));
 	}
 
@@ -110,7 +127,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return 1 / sin(x)
 	 */
-	public static Interval csc(Interval interval) {
+	public Interval csc(Interval interval) {
 		return inverse(sin(interval));
 	}
 
@@ -118,7 +135,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return cotangent of the interval
 	 */
-	public static Interval cot(Interval interval) {
+	public Interval cot(Interval interval) {
 		Interval copy = new Interval(interval);
 		return divide(cos(interval), sin(copy));
 	}
@@ -127,15 +144,15 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return sine of the interval.
 	 */
-	public static Interval sin(Interval interval) {
-		return trigonometric.sin(interval);
+	public Interval sin(Interval interval) {
+		return sinCos.sin(interval);
 	}
 
 	/**
 	 *
 	 * @return tangent of the interval.
 	 */
-	public static Interval tan(Interval interval) {
+	public Interval tan(Interval interval) {
 		Interval copy = new Interval(interval);
 		return divide(sin(interval), cos(copy));
 
@@ -145,7 +162,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return arc sine of the interval
 	 */
-	public static Interval asin(Interval interval) {
+	public Interval asin(Interval interval) {
 		return trigonometric.asin(interval);
 	}
 
@@ -153,7 +170,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return arc cosine of the interval
 	 */
-	public static Interval acos(Interval interval) {
+	public Interval acos(Interval interval) {
 		return trigonometric.acos(interval);
 	}
 
@@ -161,7 +178,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return arc tangent of the interval
 	 */
-	public static Interval atan(Interval interval) {
+	public Interval atan(Interval interval) {
 		return trigonometric.atan(interval);
 	}
 
@@ -169,7 +186,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return hyperbolic sine of the interval
 	 */
-	public static Interval sinh(Interval interval) {
+	public Interval sinh(Interval interval) {
 		return trigonometric.sinh(interval);
 	}
 
@@ -177,7 +194,7 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return hyperbolic cosine of the interval
 	 */
-	public static Interval cosh(Interval interval) {
+	public Interval cosh(Interval interval) {
 		return trigonometric.cosh(interval);
 	}
 
@@ -185,15 +202,15 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return hyperbolic tangent of the interval
 	 */
-	public static Interval tanh(Interval interval) {
+	public Interval tanh(Interval interval) {
 		return trigonometric.tanh(interval);
 	}
 
-	public static Interval exp(Interval interval) {
+	public Interval exp(Interval interval) {
 		return misc.exp(interval);
 	}
 
-	public static Interval log(Interval interval) {
+	public Interval log(Interval interval) {
 		return misc.log(interval);
 	}
 
@@ -201,35 +218,35 @@ public final class IntervalOperationImpl {
 	 *
 	 * @return square root of the interval.
 	 */
-	public static Interval sqrt(Interval interval) {
+	public Interval sqrt(Interval interval) {
 		return nroot.compute(interval, 2);
 	}
 
-	public static Interval abs(Interval interval) {
+	public Interval abs(Interval interval) {
 		return misc.abs(interval);
 	}
 
-	public static Interval log10(Interval interval) {
+	public Interval log10(Interval interval) {
 		return misc.log10(interval);
 	}
 
-	public static Interval log2(Interval interval) {
+	public Interval log2(Interval interval) {
 		return misc.log2(interval);
 	}
 
-	public static Interval hull(Interval interval, Interval other) {
+	public Interval hull(Interval interval, Interval other) {
 		return misc.hull(interval, other);
 	}
 
-	public static Interval intersect(Interval interval, Interval other) {
+	public Interval intersect(Interval interval, Interval other) {
 		return misc.intersect(interval, other);
 	}
 
-	public static Interval union(Interval interval, Interval other) {
+	public Interval union(Interval interval, Interval other) {
 		return misc.union(interval, other);
 	}
 
-	static Interval computeInverted(Interval result1, Interval result2) {
+	Interval computeInverted(Interval result1, Interval result2) {
 		if (result1.equals(result2) || result1.isPositive() && isNegativeOrEmpty(result2)) {
 			return result1;
 		}
@@ -245,19 +262,23 @@ public final class IntervalOperationImpl {
 		return new Interval(result1.getHigh(), result2.getLow()).invert();
 	}
 
-	private static boolean isNegativeOrEmpty(Interval interval) {
+	private boolean isNegativeOrEmpty(Interval interval) {
 		return interval.isNegative() || interval.isUndefined();
 	}
 
-	private IntervalOperationImpl() {
-		throw new IllegalStateException("Utility class");
-	}
-
-	public static Interval plus(Interval value1, Interval value2) {
+	public Interval plus(Interval value1, Interval value2) {
 		return new Interval(value1).add(value2);
 	}
 
-	public static Interval minus(Interval value1, Interval value2) {
+	public Interval minus(Interval value1, Interval value2) {
 		return new Interval(value1).subtract(value2);
+	}
+
+	public Interval handlePower(Interval leftValue, Interval rightValue, IntervalNode right) {
+		return power.handle(leftValue, rightValue, right);
+	}
+
+	public Interval multiplicativeInverse(Interval interval) {
+		return divide.compute(one(), interval);
 	}
 }

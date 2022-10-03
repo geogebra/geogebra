@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.interval.function;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.interval.node.IntervalOperation;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -11,16 +10,22 @@ import org.geogebra.common.plugin.Operation;
  */
 public class UnsupportedOperatorChecker implements Inspecting {
 
+	private GeoFunctionConverter converter = null;
+
 	@Override
 	public boolean check(ExpressionValue v) {
 		ExpressionNode wrap = v.wrap();
 		Operation operation = wrap.getOperation();
+
 		if (operation == Operation.MULTIPLY) {
 			return checkMultiply(wrap);
 		} else if (operation == Operation.POWER) {
 			return checkPower(wrap);
 		}
-		return !IntervalOperation.hasEquivalent(operation);
+		if (converter == null) {
+			converter = wrap.getKernel().getFunctionConverter();
+		}
+		return !converter.isSupportedOperation(operation);
 	}
 
 	private boolean checkMultiply(ExpressionNode node) {

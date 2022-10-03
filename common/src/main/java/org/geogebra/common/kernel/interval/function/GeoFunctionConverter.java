@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.interval.node.IntervalFunctionValue;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
 import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
+import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Converts GeoFunction as parameter to IntervalNodeFunction.
@@ -23,12 +25,14 @@ import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
  */
 public class GeoFunctionConverter {
 	private final IntervalOperationSupport operationSupport;
+	private final IntervalNodeEvaluator evaluator;
 
 	/**
 	 * Constructor.
 	 */
 	public GeoFunctionConverter() {
 		operationSupport = new IntervalOperationSupport();
+		evaluator = new IntervalNodeEvaluator();
 	}
 
 	/**
@@ -46,8 +50,7 @@ public class GeoFunctionConverter {
 
 	private IntervalNode convert(ExpressionNode expressionNode,
 			IntervalFunctionVariable functionVariable) {
-		IntervalExpressionNode node = new IntervalExpressionNode();
-
+		IntervalExpressionNode node = new IntervalExpressionNode(evaluator);
 		node.setLeft(nodeValue(functionVariable, expressionNode.getLeft()));
 		node.setOperation(operationSupport.convert(expressionNode.getOperation()));
 		node.setRight(nodeValue(functionVariable, expressionNode.getRight()));
@@ -75,5 +78,13 @@ public class GeoFunctionConverter {
 		return Double.isNaN(value)
 				? null
 				: new IntervalFunctionValue(new Interval(value));
+	}
+
+	/**
+	 * @param operation to check.
+	 * @return if operation has supported by interval arithmetic.
+	 */
+	public boolean isSupportedOperation(Operation operation) {
+		return operationSupport.isSupported(operation);
 	}
 }

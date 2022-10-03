@@ -7,36 +7,38 @@ import org.junit.Test;
 
 public class IntervalOperationTest {
 
+	private final IntervalOperationSupport support = new IntervalOperationSupport();
+	
 	@Test
-	public void testHasEquivalent() {
-		assertTrue(IntervalOperation.hasEquivalent(Operation.ABS));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.ARCCOS));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.ARCTAN));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.COS));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.COSH));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.COT));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.CSC));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.DIVIDE));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.EXP));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.LOG));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.LOG2));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.LOG10));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.MINUS));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.MULTIPLY));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.NROOT));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.PLUS));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.POWER));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.SEC));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.SIN));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.SINH));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.SQRT));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.TAN));
-		assertTrue(IntervalOperation.hasEquivalent(Operation.TANH));
+	public void testIsSupported() {
+		assertTrue(support.isSupported(Operation.ABS));
+		assertTrue(support.isSupported(Operation.ARCCOS));
+		assertTrue(support.isSupported(Operation.ARCTAN));
+		assertTrue(support.isSupported(Operation.COS));
+		assertTrue(support.isSupported(Operation.COSH));
+		assertTrue(support.isSupported(Operation.COT));
+		assertTrue(support.isSupported(Operation.CSC));
+		assertTrue(support.isSupported(Operation.DIVIDE));
+		assertTrue(support.isSupported(Operation.EXP));
+		assertTrue(support.isSupported(Operation.LOG));
+		assertTrue(support.isSupported(Operation.LOG2));
+		assertTrue(support.isSupported(Operation.LOG10));
+		assertTrue(support.isSupported(Operation.MINUS));
+		assertTrue(support.isSupported(Operation.MULTIPLY));
+		assertTrue(support.isSupported(Operation.NROOT));
+		assertTrue(support.isSupported(Operation.PLUS));
+		assertTrue(support.isSupported(Operation.POWER));
+		assertTrue(support.isSupported(Operation.SEC));
+		assertTrue(support.isSupported(Operation.SIN));
+		assertTrue(support.isSupported(Operation.SINH));
+		assertTrue(support.isSupported(Operation.SQRT));
+		assertTrue(support.isSupported(Operation.TAN));
+		assertTrue(support.isSupported(Operation.TANH));
 	}
 
 	@Test
 	public void testHasNotEquivalent() {
-		IntervalOperation.hasEquivalent(Operation.ALT);
-		IntervalOperation.hasEquivalent(Operation.GAMMA);
+		support.isSupported(Operation.ALT);
+		support.isSupported(Operation.GAMMA);
 	}
 }

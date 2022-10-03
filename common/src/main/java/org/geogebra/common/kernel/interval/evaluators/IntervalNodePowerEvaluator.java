@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.pow;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -9,13 +8,23 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
 import org.geogebra.common.kernel.interval.node.IntervalOperation;
-import org.geogebra.common.kernel.interval.operators.IntervalOperationImpl;
+import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to evaluate expressions on an interval that has power in it.
  */
 public class IntervalNodePowerEvaluator {
+
+	private final IntervalNodeEvaluator evaluator;
+
+	/**
+	 *
+	 * @param evaluator {@link IntervalNodeEvaluator}
+	 */
+	public IntervalNodePowerEvaluator(IntervalNodeEvaluator evaluator) {
+		this.evaluator = evaluator;
+	}
 
 	/**
 	 * Handles the power computation.
@@ -31,7 +40,7 @@ public class IntervalNodePowerEvaluator {
 		}
 
 		if (MyDouble.exactEqual(base.getLow(), Math.E)) {
-			return IntervalOperationImpl.exp(exponent);
+			return evaluator.exp(exponent);
 		}
 
 		if (!base.isPositive() && right.asExpressionNode() != null) {
@@ -45,15 +54,15 @@ public class IntervalNodePowerEvaluator {
 			}
 		}
 
-		return pow(base, exponent);
+		return evaluator.pow(base, exponent);
 	}
 
 	private Interval calculateNegPower(IntervalExpressionNode node, Interval base) {
 		if (isPositiveFraction(node)) {
 			return negativePower(base, node);
 		} else if (isNegativeFraction(node)) {
-			return negativePower(base, node.getRight().asExpressionNode())
-					.multiplicativeInverse();
+			return evaluator.inverse(negativePower(base,
+					node.getRight().asExpressionNode()));
 		}
 
 		return undefined();
@@ -92,7 +101,7 @@ public class IntervalNodePowerEvaluator {
 		Interval posPower = powerFractionPositive(x, Math.abs(a), Math.abs(b));
 		posPower.setInverted(x.isInverted());
 		if (a * b < 0) {
-			return posPower.multiplicativeInverse();
+			return evaluator.inverse(posPower);
 		} else {
 			return posPower;
 		}
@@ -109,10 +118,10 @@ public class IntervalNodePowerEvaluator {
 		Interval interval = new Interval(x);
 		Interval base = nominator == 1
 				? interval
-				: pow(interval, nominator);
+				: evaluator.pow(interval, nominator);
 
 		if (base.isPositiveWithZero()) {
-			return pow(base, 1d / denominator);
+			return evaluator.pow(base, 1d / denominator);
 		}
 		if (base.contains(0)) {
 			if (isOdd(denominator)) {
@@ -120,10 +129,10 @@ public class IntervalNodePowerEvaluator {
 						Math.pow(base.getHigh(), 1d / denominator));
 			}
 
-			return pow(new Interval(0, base.getHigh()), 1d / denominator);
+			return evaluator.pow(new Interval(0, base.getHigh()), 1d / denominator);
 		}
 		if (isOdd(denominator)) {
-			return pow(base.negative(), 1d / denominator).negative();
+			return evaluator.pow(base.negative(), 1d / denominator).negative();
 		}
 
 		return undefined();

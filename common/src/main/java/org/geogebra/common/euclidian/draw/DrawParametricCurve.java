@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalFunctionSupport;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -111,7 +112,8 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 
 	private void createIntervalPlotter() {
 		IntervalPathPlotter plotter = view.createIntervalPathPlotter(gp);
-		intervalPlotter = new IntervalPlotter(new EuclidianViewBoundsImp(view), plotter);
+		GeoFunctionConverter converter = view.getKernel().getFunctionConverter();
+		intervalPlotter = new IntervalPlotter(converter, new EuclidianViewBoundsImp(view), plotter);
 		if (this.geo != null && this.geo.isGeoFunction()) {
 			if (isIntervalPlotterPreferred()) {
 				GeoFunction function = (GeoFunction) this.geo;

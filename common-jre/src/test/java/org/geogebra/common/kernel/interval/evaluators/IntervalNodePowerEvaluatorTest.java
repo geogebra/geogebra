@@ -2,9 +2,6 @@ package org.geogebra.common.kernel.interval.evaluators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.nthRoot;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.pow;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperationImpl.sqrt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -13,10 +10,13 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
+import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
+
+	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 
 	public static final GeoFunctionConverter converter = new GeoFunctionConverter();
 	public static final Interval X_AROUND_ZERO =
@@ -25,53 +25,53 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void evaluateXSquared()  {
 		assertEquals(
-				pow(interval(1, 2), 2),
+				evaluator.pow(interval(1, 2), 2),
 				valueOnInterval("x^2", 1, 2));
 	}
 
 	@Test
 	public void evaluateXExponential()  {
 		assertEquals(
-				pow(interval(1, 2), Math.E),
+				evaluator.pow(interval(1, 2), Math.E),
 				valueOnInterval("x^e", 1, 2));
 	}
 
 	@Test
 	public void evaluateXOnNegativePower()  {
 		assertEquals(
-				pow(interval(1, 2), 2).multiplicativeInverse(),
+				evaluator.inverse(evaluator.pow(interval(1, 2), 2)),
 				valueOnInterval("x^-2", 1, 2));
 	}
 
 	@Test
 	public void evaluateXPowerHalf()  {
 		assertEquals(
-				nthRoot(interval(1, 16), 2),
+				evaluator.nthRoot(interval(1, 16), 2),
 				valueOnInterval("x^(1/2)", 1, 16));
 	}
 
 	@Test
 	public void evaluateXPowerForth()  {
-		assertEquals(nthRoot(interval(1, 16), 4),
+		assertEquals(evaluator.nthRoot(interval(1, 16), 4),
 				valueOnInterval("x^(1/4)", 1, 16));
 	}
 
 	@Test
 	public void evaluateXPowerTwoThird()  {
-		assertEquals(nthRoot(pow(interval(1, 16), 2), 3),
+		assertEquals(evaluator.nthRoot(evaluator.pow(interval(1, 16), 2), 3),
 				valueOnInterval("x^(2/3)", 1, 16));
 	}
 
 	@Test
 	public void evaluateXOnNegativeFractionPower()  {
 		assertEquals(
-				sqrt(pow(interval(9, 10), 3)).multiplicativeInverse(),
+				evaluator.sqrt(evaluator.pow(evaluator.inverse(interval(9, 10)), 3)),
 				valueOnInterval("x^(-3/2)", 9, 10));
 	}
 
 	@Test
 	public void evaluateXOnDoublePower()  {
-		assertEquals(sqrt(interval(9, 10)),
+		assertEquals(evaluator.sqrt(interval(9, 10)),
 				valueOnInterval("x^0.5", 9, 10));
 	}
 
@@ -153,8 +153,8 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	@Test
 	public void xInverseOnPowerOfMinus2ShouldBeXSquared() {
 		Interval x = interval(-2.0539125955565396E-15, 0.19999999999999796);
-		Interval inverse = x.multiplicativeInverse();
-		Interval pow = pow(inverse, -2);
+		Interval inverse = evaluator.inverse(x);
+		Interval pow = evaluator.pow(inverse, -2);
 		assertEquals(undefined().invert(), pow);
 	}
 
@@ -185,14 +185,14 @@ public class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 
 	@Test
 	public void xInverseAndPOWDoubleApply2() {
-		Interval pow1 = pow(X_AROUND_ZERO, -1);
-		Interval pow2 = pow(pow1, -1);
+		Interval pow1 = evaluator.pow(X_AROUND_ZERO, -1);
+		Interval pow2 = evaluator.pow(pow1, -1);
 		assertEquals(X_AROUND_ZERO, pow2);
 	}
 
 	@Test
 	public void inverseOfXInverse() {
 		assertEquals(X_AROUND_ZERO,
-				X_AROUND_ZERO.multiplicativeInverse().multiplicativeInverse());
+				evaluator.multiplicativeInverse(evaluator.multiplicativeInverse(X_AROUND_ZERO)));
 	}
 }
