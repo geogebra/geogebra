@@ -358,7 +358,8 @@ public abstract class ProbabilityCalculatorView
 	protected void setProbabilityCalculatorNoFire(Dist distributionType,
 			GeoNumberValue[] parameters, boolean isCumulative) {
 		this.selectedDist = distributionType;
-		this.isCumulative = isCumulative;
+		setCumulative(isCumulative);
+
 		this.parameters = parameters;
 		if (parameters == null || parameters.length == 0 || parameters[0] == null) {
 			this.parameters = ProbabilityManager

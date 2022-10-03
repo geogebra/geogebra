@@ -266,18 +266,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	}
 
 	/**
-	 *update distribution drop-down
-	 * @param comboDistribution - distribution drop-down
-	 */
-	public void updateDistributionCombo(ListBox comboDistribution) {
-		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
-				.equals(getDistributionMap().get(selectedDist))) {
-			ListBoxApi.select(
-					getDistributionMap().get(selectedDist), comboDistribution);
-		}
-	}
-
-	/**
 	 * update low and high
 	 */
 	public void updateLowHighResult() {

@@ -58,5 +58,6 @@ public class DistributionPanelSuite extends DistributionPanel {
 	@Override
 	protected void updateCumulative() {
 		cumulativeWidget.setSwitchOn(getView().isCumulative());
+		cumulativeWidget.updateSwitchStyle();
 	}
 }
