@@ -1479,16 +1479,18 @@ public class EuclidianStyleBarD extends JToolBar
 		} else if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			float alpha = btnColor.getSliderValue() / 100.0f;
+			boolean isSliderDragging = btnColor.getSliderStatus();
 			needUndo = EuclidianStyleBarStatic.applyColor(color,
-					alpha, app, targetGeos);
+					alpha, app, targetGeos) && !isSliderDragging;
 		}
 
 		else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				float alpha = btnBgColor.getSliderValue() / 100.0f;
+				boolean isSliderDragging = btnBgColor.getSliderStatus();
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
-						color, alpha);
+						color, alpha) && !isSliderDragging;
 			}
 		}
 
@@ -1502,15 +1504,17 @@ public class EuclidianStyleBarD extends JToolBar
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
+				boolean isSliderDragging = btnLineStyle.getSliderStatus();
 				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
-						lineSize, app, targetGeos);
+						lineSize, app, targetGeos) && !isSliderDragging;
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
 				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
 				int pointSize = btnPointStyle.getSliderValue();
+				boolean isSliderDragging = btnPointStyle.getSliderStatus();
 				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos,
-						pointStyleSelIndex, pointSize);
+						pointStyleSelIndex, pointSize) && !isSliderDragging;
 			}
 		} else if (source == btnBold) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,

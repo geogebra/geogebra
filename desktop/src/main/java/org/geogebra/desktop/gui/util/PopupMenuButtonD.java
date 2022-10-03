@@ -51,6 +51,10 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private JSlider mySlider;
 
+	private boolean isSliderDragging;
+
+	public boolean getSliderStatus() { return isSliderDragging; }
+
 	/**
 	 * @param fgColor color
 	 */
@@ -327,12 +331,15 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		mySlider.setPaintTicks(false);
 		mySlider.setPaintLabels(false);
 
+		isSliderDragging = false;
+
 		mySlider.addChangeListener(this);
 		mySlider.addMouseListener(new MouseAdapter() {
 			int dragStartValue;
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				isSliderDragging = false;
 				if (mySlider.getValue() != dragStartValue) {
 					app.storeUndoInfo();
 				}
@@ -340,6 +347,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
+				isSliderDragging = true;
 				dragStartValue = mySlider.getValue();
 			}
 		});
