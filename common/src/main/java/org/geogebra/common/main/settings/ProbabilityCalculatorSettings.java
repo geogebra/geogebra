@@ -141,6 +141,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		return isOverlayActive;
 	}
 
+	/**
+	 * @param isOverlayActive - whether overlay button was active
+	 */
 	public void setOverlayActive(boolean isOverlayActive) {
 		this.isOverlayActive = isOverlayActive;
 		settingChanged();
