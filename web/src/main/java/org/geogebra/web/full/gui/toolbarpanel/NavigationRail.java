@@ -143,7 +143,6 @@ class NavigationRail extends FlowPanel {
 			return;
 		}
 		toolbarPanel.openAlgebra(isOpen());
-		app.setKeyboardNeeded(true);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(true);
 	}
@@ -156,7 +155,6 @@ class NavigationRail extends FlowPanel {
 			onClosePressed(false);
 			return;
 		}
-		app.setKeyboardNeeded(false);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
 		toolbarPanel.openTools(isOpen());
@@ -170,7 +168,6 @@ class NavigationRail extends FlowPanel {
 			onClosePressed(false);
 			return;
 		}
-		app.setKeyboardNeeded(true);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(true);
 		toolbarPanel.openTableView(null, isOpen());
