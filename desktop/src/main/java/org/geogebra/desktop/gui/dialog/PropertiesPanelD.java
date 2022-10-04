@@ -27,7 +27,6 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -86,7 +85,6 @@ import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel;
-import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
@@ -121,10 +119,8 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -169,8 +165,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private static final long serialVersionUID = 1L;
 	private NamePanelD namePanel;
 	private ShowObjectPanel showObjectPanel;
-	private SelectionAllowedPanel selectionAllowed;
-	private ShowTrimmedIntersectionLines showTrimmedIntersectionLines;
+	private CheckboxPanel selectionAllowed;
+	private CheckboxPanel showTrimmedIntersectionLines;
 	private ColorPanel colorPanel;
 	private LabelPanel labelPanel;
 	private TooltipPanel tooltipPanel;
@@ -178,7 +174,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private CoordsPanel coordPanel;
 	private LineEqnPanel lineEqnPanel;
 	private PlaneEqnPanel planeEqnPanel;
-	private SymbolicPanel symbolicPanel;
+	private CheckboxPanel symbolicPanel;
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel;
@@ -186,7 +182,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private ArcSizePanel arcSizePanel;
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
-	private DrawArrowsPanel drawArrowsPanel;
+	private CheckboxPanel drawArrowsPanel;
 	private SegmentStartStylePanel segmentStartStylePanel;
 	private SegmentEndStylePanel segmentEndStylePanel;
 	// added by Loic BEGIN
@@ -199,15 +195,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	FillingPanelD fillingPanel;
 	private FadingPanel fadingPanel;
 	private LodPanel lodPanel;
-	private CheckBoxInterpolateImage checkBoxInterpolateImage;
-	private TracePanel tracePanel;
-	private AnimatingPanel animatingPanel;
-	private FixPanel fixPanel;
-	private IneqPanel ineqStylePanel;
-	private CheckBoxFixPanel checkBoxFixPanel;
+	private CheckboxPanel checkBoxInterpolateImage;
+	private CheckboxPanel tracePanel;
+	private CheckboxPanel animatingPanel;
+	private CheckboxPanel fixPanel;
+	private CheckboxPanel ineqStylePanel;
+	private CheckboxPanel checkBoxFixPanel;
 	private AllowReflexAnglePanel allowReflexAnglePanel;
-	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
-	private AuxiliaryObjectPanel auxPanel;
+	private CheckboxPanel allowOutlyingIntersectionsPanel;
+	private CheckboxPanel auxPanel;
 	private AnimationStepPanel animStepPanel;
 	private TextfieldSizePanel textFieldSizePanel;
 	private TextFieldAlignmentPanel textFieldAlignmentPanel;
@@ -218,18 +214,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private CornerPointsPanel cornerPointsPanel;
 	private TextEditPanel textEditPanel;
 	private ScriptEditPanel scriptEditPanel;
-	private BackgroundImagePanel bgImagePanel;
+	private CheckboxPanel bgImagePanel;
 	private AbsoluteScreenLocationPanel absScreenLocPanel;
-	private AbsoluteScreenLocationPanel centerImagePanel;
-	private ListsAsComboBoxPanel comboBoxPanel;
-	// private ShowView2D showView2D;
+	private CheckboxPanel centerImagePanel;
+	private CheckboxPanel comboBoxPanel;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
 
 	private GraphicsViewLocationPanel graphicsViewLocationPanel;
 	private ButtonSizePanel buttonSizePanel;
-	// private CoordinateFunctionPanel coordinateFunctionPanel;
-
 	private TabPanel basicTab;
 	private TabPanel colorTab;
 	private TabPanel styleTab;
@@ -271,12 +264,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			labelPanel = new LabelPanel();
 			tooltipPanel = new TooltipPanel();
 			layerPanel = new LayerPanel();
-			animatingPanel = new AnimatingPanel();
 			scriptEditPanel = new ScriptEditPanel();
 			textEditPanel = new TextEditPanel(this);
 			startPointPanel = new StartPointPanel();
 			cornerPointsPanel = new CornerPointsPanel();
-			bgImagePanel = new BackgroundImagePanel();
+			bgImagePanel = getCheckboxPanel(new BackgroundImageModel(null, app));
 			showConditionPanel = new ShowConditionPanel(app, this);
 			colorFunctionPanel = new ColorFunctionPanel(app, this);
 
@@ -288,8 +280,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		sliderPanel = new SliderPanelD(app, this, false, true);
 		showObjectPanel = new ShowObjectPanel();
-		selectionAllowed = new SelectionAllowedPanel();
-		showTrimmedIntersectionLines = new ShowTrimmedIntersectionLines();
+		selectionAllowed = getCheckboxPanel(new SelectionAllowedModel(null, app));
+		showTrimmedIntersectionLines = getCheckboxPanel(
+				new TrimmedIntersectionLinesModel(null, app));
 		colorPanel = new ColorPanel(this, colChooser);
 		coordPanel = new CoordsPanel();
 		lineEqnPanel = new LineEqnPanel();
@@ -303,7 +296,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		lineStylePanel = new LineStylePanel();
 		lineStylePanelHidden = new LineStyleHiddenPanel();
-		drawArrowsPanel = new DrawArrowsPanel();
+		drawArrowsPanel = getCheckboxPanel(new DrawArrowsModel(null, app));
 		segmentStartStylePanel = new SegmentStartStylePanel();
 		segmentEndStylePanel = new SegmentEndStylePanel();
 		// added by Loic BEGIN
@@ -314,24 +307,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		fillingPanel = new FillingPanelD(app);
 		fadingPanel = new FadingPanel();
 		lodPanel = new LodPanel();
-		checkBoxInterpolateImage = new CheckBoxInterpolateImage();
-		tracePanel = new TracePanel();
-		animatingPanel = new AnimatingPanel();
-		fixPanel = new FixPanel();
-		checkBoxFixPanel = new CheckBoxFixPanel();
-		absScreenLocPanel = new AbsoluteScreenLocationPanel(
-				"AbsoluteScreenLocation", new AbsoluteScreenLocationModel(app));
-		centerImagePanel = new AbsoluteScreenLocationPanel("CenterImage",
-				new CenterImageModel(app));
-		comboBoxPanel = new ListsAsComboBoxPanel();
+		checkBoxInterpolateImage = getCheckboxPanel(new InterpolateImageModel(app));
+		tracePanel = getCheckboxPanel(new TraceModel(null, app));
+		animatingPanel = getCheckboxPanel(new AnimatingModel(app, null));
+		fixPanel = getCheckboxPanel(new FixObjectModel(null, app));
+		checkBoxFixPanel = getCheckboxPanel(new FixCheckboxModel(null, app));
+		absScreenLocPanel = new AbsoluteScreenLocationPanel(new AbsoluteScreenLocationModel(app));
+		centerImagePanel = getCheckboxPanel(new CenterImageModel(app));
+		comboBoxPanel = getCheckboxPanel(new ListAsComboModel(app, null));
 		// showView2D = new ShowView2D();
-		auxPanel = new AuxiliaryObjectPanel();
+		auxPanel = getCheckboxPanel(new AuxObjectModel(null, app));
 		animStepPanel = new AnimationStepPanel(app);
-		symbolicPanel = new SymbolicPanel();
+		symbolicPanel = getCheckboxPanel(new SymbolicModel(app));
 		textFieldSizePanel = new TextfieldSizePanel(app);
 		textFieldAlignmentPanel = new TextFieldAlignmentPanel(app);
 		animSpeedPanel = new AnimationSpeedPanel(app);
-		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
+		allowOutlyingIntersectionsPanel = getCheckboxPanel(
+				new OutlyingIntersectionsModel(null, app));
 		buttonSizePanel = new ButtonSizePanel(app, loc);
 		// tabbed pane for properties
 		tabs = new JTabbedPane();
@@ -871,9 +863,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		private static final long serialVersionUID = 1L;
 
 		public ShowObjectPanel() {
-			super(app, "ShowObject", PropertiesPanelD.this);
-			setModel(new ShowObjectModel(this, app));
-			setLayout(new FlowLayout(FlowLayout.LEFT));
+			super(app, PropertiesPanelD.this, new ShowObjectModel(null, app));
 		}
 
 		@Override
@@ -884,59 +874,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	}
 
-	private class SelectionAllowedPanel extends CheckboxPanel {
-
-		private static final long serialVersionUID = 1L;
-
-		public SelectionAllowedPanel() {
-			super(app, "SelectionAllowed", PropertiesPanelD.this);
-			setModel(new SelectionAllowedModel(this, app));
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-		}
-
-	}
-
-	/**
-	 * panel with show/hide trimmed intersection lines
-	 */
-	private class ShowTrimmedIntersectionLines extends CheckboxPanel {
-
-		private static final long serialVersionUID = 1L;
-
-		public ShowTrimmedIntersectionLines() {
-			super(app, "ShowTrimmed", PropertiesPanelD.this);
-			setModel(new TrimmedIntersectionLinesModel(this, app));
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-		}
-
-	} // ShowTrimmedIntersectionLines
-
-	/**
-	 * panel to fix checkbox (boolean object)
-	 */
-	private class CheckBoxFixPanel extends CheckboxPanel {
-
-		private static final long serialVersionUID = 1L;
-
-		public CheckBoxFixPanel() {
-			super(app, "FixCheckbox", PropertiesPanelD.this);
-			setModel(new FixCheckboxModel(this, app));
-			app.setFlowLayoutOrientation(this);
-		}
-
-	} // CheckBoxFixPanel
-
 	private class IneqPanel extends CheckboxPanel
 			implements IIneqStyleListener {
 
 		private static final long serialVersionUID = 1L;
 
 		public IneqPanel() {
-			super(app, "ShowOnXAxis", PropertiesPanelD.this);
-			IneqStyleModel model = new IneqStyleModel(app);
-			model.setListener(this);
-			setModel(model);
-			app.setFlowLayoutOrientation(this);
+			super(app, PropertiesPanelD.this, new IneqStyleModel(app));
 		}
 
 		@Override
@@ -948,25 +892,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void apply(boolean value) {
 			super.apply(value);
 			enableFilling(value);
-		}
-
-	}
-
-	private class SymbolicPanel extends CheckboxPanel {
-
-		private static final long serialVersionUID = 1L;
-
-		public SymbolicPanel() {
-			super(app, "Symbolic", PropertiesPanelD.this);
-			SymbolicModel model = new SymbolicModel(app);
-			model.setListener(this);
-			setModel(model);
-			app.setFlowLayoutOrientation(this);
-		}
-
-		@Override
-		public void apply(boolean value) {
-			super.apply(value);
 		}
 
 	}
@@ -1155,79 +1080,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 	} // TooltipPanel
 
-	/**
-	 * panel for trace
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class TracePanel extends CheckboxPanel {
-		private static final long serialVersionUID = 1L;
-
-		public TracePanel() {
-			super(app, "ShowTrace", PropertiesPanelD.this);
-			setModel(new TraceModel(this, app));
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-		}
-
+    private CheckboxPanel getCheckboxPanel(BooleanOptionModel model) {
+		return new CheckboxPanel(app,  PropertiesPanelD.this, model);
 	}
-
-	/**
-	 * panel for trace
-	 * 
-	 * @author adapted from TracePanel
-	 */
-	private class AnimatingPanel extends CheckboxPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public AnimatingPanel() {
-			super(app, "Animating", PropertiesPanelD.this);
-			setModel(new AnimatingModel(app, this));
-			app.setFlowLayoutOrientation(this);
-		}
-
-	}
-
-	/**
-	 * panel to say if an image is to be interpolated
-	 */
-	private class CheckBoxInterpolateImage extends CheckboxPanel {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public CheckBoxInterpolateImage() {
-			super(app, "Interpolate", PropertiesPanelD.this);
-			InterpolateImageModel model = new InterpolateImageModel(app);
-			model.setListener(this);
-			setModel(model);
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-		}
-
-	}
-
-	/**
-	 * panel for fixing an object
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class FixPanel extends CheckboxPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public FixPanel() {
-			super(app, "FixObject", PropertiesPanelD.this);
-			setModel(new FixObjectModel(this, app));
-			app.setFlowLayoutOrientation(this);
-		}
-	}
-
 	/**
 	 * panel to set object's absoluteScreenLocation flag
 	 * 
@@ -1240,59 +1095,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public AbsoluteScreenLocationPanel(String key,
-				BooleanOptionModel model) {
-			super(app, key, PropertiesPanelD.this);
-			model.setListener(this);
-			setModel(model);
-			app.setFlowLayoutOrientation(this);
+		public AbsoluteScreenLocationPanel(BooleanOptionModel model) {
+			super(app,  PropertiesPanelD.this, model);
 		}
 
-	}
-
-	/**
-	 * panel to set whether GeoLists are drawn as ComboBoxes
-	 * 
-	 * @author Michael
-	 */
-	private class ListsAsComboBoxPanel extends CheckboxPanel
-			implements IListAsComboListener {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * 
-		 */
-
-		public ListsAsComboBoxPanel() {
-			super(app, "DrawAsDropDownList", PropertiesPanelD.this);
-			setModel(new ListAsComboModel(app, this));
-			app.setFlowLayoutOrientation(this);
-		}
-
-		@Override
-		public void drawListAsComboBox(GeoList geo, boolean value) {
-
-			if (geo.getViewSet() == null) {
-				app.getEuclidianView1().drawListAsComboBox(geo, value);
-				return;
-			}
-			Iterator<Integer> it = geo.getViewSet().iterator();
-
-			// #3929
-			while (it.hasNext()) {
-				Integer view = it.next();
-				if (view.intValue() == App.VIEW_EUCLIDIAN) {
-					app.getEuclidianView1().drawListAsComboBox(geo, value);
-				} else if (view.intValue() == App.VIEW_EUCLIDIAN2
-						&& app.hasEuclidianView2(1)) {
-					app.getEuclidianView2(1).drawListAsComboBox(geo, value);
-				}
-
-			}
-		}
 	}
 
 	/**
@@ -1407,65 +1213,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		@Override
 		public void clearItems() {
 			// TODO Auto-generated method stub
-		}
-
-	}
-
-	/**
-	 * panel for limted paths to set whether outlying intersection points are
-	 * allowed
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class AllowOutlyingIntersectionsPanel extends CheckboxPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public AllowOutlyingIntersectionsPanel() {
-			super(app, "allowOutlyingIntersections", PropertiesPanelD.this);
-			setModel(new OutlyingIntersectionsModel(this, app));
-			app.setFlowLayoutOrientation(this);
-
-			// super(new FlowLayout(FlowLayout.LEFT));
-
-		}
-	}
-
-	/**
-	 * panel to set a background image (only one checkbox)
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class BackgroundImagePanel extends CheckboxPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public BackgroundImagePanel() {
-			super(app, "BackgroundImage", PropertiesPanelD.this);
-			setModel(new BackgroundImageModel(this, app));
-			app.setFlowLayoutOrientation(this);
-		}
-	}
-
-	/**
-	 * panel for making an object auxiliary
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-	private class AuxiliaryObjectPanel extends CheckboxPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public AuxiliaryObjectPanel() {
-			super(app, "AuxiliaryObject", PropertiesPanelD.this);
-			setModel(new AuxObjectModel(this, app));
-			app.setFlowLayoutOrientation(this);
 		}
 
 	}
@@ -2646,18 +2393,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 	}
 
-	private class DrawArrowsPanel extends CheckboxPanel {
-
-		private static final long serialVersionUID = 1L;
-
-		public DrawArrowsPanel() {
-			super(app, "DrawArrows", PropertiesPanelD.this);
-			setModel(new DrawArrowsModel(this, app));
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-		}
-
-	}
-
 	/**
 	 * select dash style for hidden parts.
 	 * 
@@ -3331,9 +3066,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		RightAnglePanel() {
 
-			super(app, "EmphasizeRightAngle", PropertiesPanelD.this);
-			setModel(new RightAngleModel(this, app));
-			setLayout(new FlowLayout(FlowLayout.LEFT));
+			super(app, PropertiesPanelD.this, new RightAngleModel(null, app));
 		}
 	}
 

@@ -14,7 +14,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 	public AbsoluteScreenLocationModel(App app) {
 		super(null, app);
-		// TODO Auto-generated constructor stub
 	}
 
 	private AbsoluteScreenLocateable getAbsoluteScreenLocateable(int index) {
@@ -23,7 +22,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		// TODO Auto-generated method stub
 		return getGeoAt(index).isPinned();
 	}
 
@@ -43,6 +41,11 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 					app.getActiveEuclidianView());
 		}
 		storeUndoInfo();
+	}
+
+	@Override
+	public String getTitle() {
+		return "AbsoluteScreenLocation";
 	}
 
 	public static void setAbsolute(AbsoluteScreenLocateable geo,

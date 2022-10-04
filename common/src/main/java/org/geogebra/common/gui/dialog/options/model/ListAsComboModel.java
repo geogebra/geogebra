@@ -1,18 +1,13 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 
 public class ListAsComboModel extends BooleanOptionModel {
-	private IListAsComboListener listener;
 
-	public interface IListAsComboListener extends IBooleanOptionListener {
-		void drawListAsComboBox(GeoList geo, boolean value);
-	}
-
-	public ListAsComboModel(App app, IListAsComboListener listener) {
+	public ListAsComboModel(App app, IBooleanOptionListener listener) {
 		super(listener, app);
-		this.listener = listener;
 	}
 
 	private GeoList getGeoListAt(int index) {
@@ -23,6 +18,11 @@ public class ListAsComboModel extends BooleanOptionModel {
 	public void applyChanges(boolean value) {
 		super.applyChanges(value);
 		app.refreshViews();
+	}
+
+	@Override
+	public String getTitle() {
+		return "DrawAsDropDownList";
 	}
 
 	@Override
@@ -42,13 +42,27 @@ public class ListAsComboModel extends BooleanOptionModel {
 
 		if (value) {
 			geo.setEuclidianVisible(true);
-			geo.updateRepaint();
 		}
 
-		listener.drawListAsComboBox(geo, value);
+		drawListAsComboBox(geo, value);
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
+	}
 
-		geo.updateRepaint();
+	private void drawListAsComboBox(GeoList geo, boolean value) {
+		if (geo.getViewSet() == null) {
+			app.getEuclidianView1().drawListAsComboBox(geo, value);
+			return;
+		}
 
+		// #3929
+		for (Integer view : geo.getViewSet()) {
+			if (view == App.VIEW_EUCLIDIAN) {
+				app.getEuclidianView1().drawListAsComboBox(geo, value);
+			} else if (view == App.VIEW_EUCLIDIAN2
+					&& app.hasEuclidianView2(1)) {
+				app.getEuclidianView2(1).drawListAsComboBox(geo, value);
+			}
+		}
 	}
 
 }

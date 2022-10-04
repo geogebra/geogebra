@@ -30,4 +30,9 @@ public class OutlyingIntersectionsModel extends BooleanOptionModel {
 		geo.setAllowOutlyingIntersections(value);
 		geo.toGeoElement().updateRepaint();
 	}
+
+	@Override
+	public String getTitle() {
+		return "allowOutlyingIntersections";
+	}
 }

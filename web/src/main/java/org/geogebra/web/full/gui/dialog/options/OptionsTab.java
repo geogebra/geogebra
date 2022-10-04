@@ -282,12 +282,11 @@ public class OptionsTab extends FlowPanel {
 			return new LodPanel((LodModel) m);
 		}
 		if (m instanceof SymbolicModel) {
-			CheckboxPanel ret = new CheckboxPanel("Symbolic",
-					app.getLocalization(), (SymbolicModel) m);
+			CheckboxPanel ret = new CheckboxPanel(app.getLocalization(), (SymbolicModel) m);
 			return ret;
 		}
 		if (m instanceof InterpolateImageModel) {
-			return new CheckboxPanel("Interpolate", app.getLocalization(),
+			return new CheckboxPanel(app.getLocalization(),
 					(InterpolateImageModel) m);
 		}
 		if (m instanceof DecoAngleModel) {
@@ -329,7 +328,7 @@ public class OptionsTab extends FlowPanel {
 			return new CornerPointsPanel((CornerPointsModel) m, app);
 		}
 		if (m instanceof AbsoluteScreenLocationModel) {
-			return new CheckboxPanel("AbsoluteScreenLocation",
+			return new CheckboxPanel(
 					app.getLocalization(), (AbsoluteScreenLocationModel) m);
 		}
 		if (m instanceof CenterImageModel) {
@@ -357,7 +356,7 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
 		}
 		if (m instanceof DrawArrowsModel) {
-			return new CheckboxPanel("DrawArrows", loc, (DrawArrowsModel) m);
+			return new CheckboxPanel(loc, (DrawArrowsModel) m);
 		}
 
 		return null;
@@ -1055,7 +1054,7 @@ public class OptionsTab extends FlowPanel {
 			implements IIneqStyleListener {
 
 		public IneqPanel(IneqStyleModel model, AppW app) {
-			super("ShowOnXAxis", app.getLocalization(), model);
+			super(app.getLocalization(), model);
 		}
 
 		@Override
@@ -1524,7 +1523,7 @@ public class OptionsTab extends FlowPanel {
 		CenterImageModel model;
 
 		public CenterImagePanel(CenterImageModel model, AppW app, OptionsTab tab) {
-			super("CenterImage", app.getLocalization(), model);
+			super(app.getLocalization(), model);
 			this.tab = tab;
 			this.model = model;
 		}

@@ -53,6 +53,11 @@ public class IneqStyleModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "ShowOnXAxis";
+	}
+
+	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
 		if (!(geo instanceof GeoFunction)) {
