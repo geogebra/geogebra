@@ -39,7 +39,7 @@ public class DistributionPanelSuite extends DistributionPanel {
 		FlowPanel cumulativeRow = new FlowPanel();
 		cumulativeRow.addStyleName("row");
 		cumulativeWidget = new ComponentSwitch(false, (source) ->
-				getView().setCumulative(cumulativeWidget.isSwitchOn()));
+				getView().setCumulative(source));
 		cumulativeLbl = new Label(getView().getApp().getLocalization().getMenu("Cumulative"));
 		cumulativeRow.add(cumulativeLbl);
 		cumulativeRow.add(cumulativeWidget);
@@ -58,6 +58,5 @@ public class DistributionPanelSuite extends DistributionPanel {
 	@Override
 	protected void updateCumulative() {
 		cumulativeWidget.setSwitchOn(getView().isCumulative());
-		cumulativeWidget.updateSwitchStyle();
 	}
 }
