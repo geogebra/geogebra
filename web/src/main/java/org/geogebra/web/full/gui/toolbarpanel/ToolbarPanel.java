@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -187,7 +188,8 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void maybeAddUndoRedoPanel() {
-		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed();
+		boolean isAllowed = app.isUndoRedoEnabled() && app.isUndoRedoPanelAllowed()
+				&& app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC;
 		if (isAllowed) {
 			addUndoRedoButtons();
 		} else if (undoRedoPanel != null) {
@@ -316,7 +318,9 @@ public class ToolbarPanel extends FlowPanel
 		heading.setVisible(getToolbarDockPanel().isAlone());
 		createCloseButton();
 		heading.setStyleName("toolPanelHeading");
-		add(heading);
+		if (app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC) {
+			add(heading);
+		}
 		add(main);
 		hideDragger();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {

@@ -54,6 +54,11 @@ public class AppConfigScientific extends AppConfigGraphing {
 	}
 
 	@Override
+	public boolean showToolsPanel() {
+		return false;
+	}
+
+	@Override
 	public boolean isGreekAngleLabels() {
 		return false;
 	}

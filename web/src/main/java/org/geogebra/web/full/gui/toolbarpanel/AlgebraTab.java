@@ -54,6 +54,8 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			wrapper.add(logo);
 			add(wrapper);
 			addStyleName("algebraPanel");
+			addStyleName("algebraPanelScientific");
+			addStyleName("algebraPanelScientificDefaults");
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}

@@ -8,6 +8,7 @@ import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
@@ -40,7 +41,6 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public void start(AppW app) {
-		
 		app.getKernel().getAlgebraProcessor()
 				.addCommandFilter(CommandFilterFactory.createSciCalcCommandFilter());
 		initHeaderButtons(app);
@@ -71,7 +71,7 @@ public class ScientificActivity extends BaseActivity {
 
 	@Override
 	public DockPanelW createAVPanel() {
-		return new AlgebraDockPanelW(new ScientificDockPanelDecorator(), false);
+		return new ToolbarDockPanelW(new ScientificDockPanelDecorator());
 	}
 
 	@Override
