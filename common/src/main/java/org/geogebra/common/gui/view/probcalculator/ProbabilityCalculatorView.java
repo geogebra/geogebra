@@ -284,7 +284,7 @@ public abstract class ProbabilityCalculatorView
 		}
 	}
 
-	public boolean setCumulativeNoFire(boolean isCumulative) {
+	private boolean setCumulativeNoFire(boolean isCumulative) {
 		if (this.isCumulative == isCumulative) {
 			return false;
 		}
