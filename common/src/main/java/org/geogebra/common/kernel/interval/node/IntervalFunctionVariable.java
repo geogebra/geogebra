@@ -27,7 +27,7 @@ public class IntervalFunctionVariable implements IntervalExpressionValue {
 
 	@Override
 	public Interval value() {
-		return interval;
+		return new Interval(interval);
 	}
 
 	@Override
