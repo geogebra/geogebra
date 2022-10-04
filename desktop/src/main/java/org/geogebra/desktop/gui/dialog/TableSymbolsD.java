@@ -1,7 +1,11 @@
 package org.geogebra.desktop.gui.dialog;
 
 public class TableSymbolsD {
-	public final static String[] mathfrak() {
+
+	/**
+	 * @return math frak symbols
+	 */
+	public static String[] mathfrak() {
 		String[] mathfrak = new String[52];
 		char letter;
 		int i = 0;
@@ -16,7 +20,10 @@ public class TableSymbolsD {
 		return mathfrak;
 	}
 
-	public final static String[] mathcal() {
+	/**
+	 * @return math caligraphy symbols
+	 */
+	public static String[] mathcal() {
 		String[] mathcal = new String[26];
 		char letter;
 		int i = 0;
@@ -27,7 +34,10 @@ public class TableSymbolsD {
 		return mathcal;
 	}
 
-	public final static String[] mathbb() {
+	/**
+	 * @return math blackboard bold symbols
+	 */
+	public static String[] mathbb() {
 		String[] mathbb = new String[26];
 		char letter;
 		int i = 0;
@@ -38,7 +48,10 @@ public class TableSymbolsD {
 		return mathbb;
 	}
 
-	public final static String[] mathscr() {
+	/**
+	 * @return math scr symbols
+	 */
+	public static String[] mathscr() {
 		String[] mathscr = new String[26];
 		char letter;
 		int i = 0;

@@ -10,13 +10,11 @@ import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -26,7 +24,6 @@ import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.GuiResourcesD;
-import org.geogebra.desktop.util.ImageResourceD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -34,7 +31,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * The "Options" menu.
  */
 public class OptionsMenuD extends BaseMenu
-		implements ActionListener, MyActionListener, MenuInterface {
+		implements ActionListener, MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
 	private AbstractAction showOptionsAction;
@@ -319,39 +316,10 @@ public class OptionsMenuD extends BaseMenu
 		getOptionsMenu().processActionPerformed(cmd);
 	}
 
-	@Override
-	public void actionPerformed(String command) {
-		getOptionsMenu().processActionPerformed(command);
-	}
-
 	private OptionsMenuController getOptionsMenu() {
 
 		if (optionsMenu == null) {
-			optionsMenu = new OptionsMenuController(app, new MenuFactory() {
-
-				@Override
-				public RadioButtonMenuBarD newSubmenu() {
-					return new RadioButtonMenuBarD(app);
-				}
-
-				@Override
-				public void addMenuItem(MenuInterface parentMenu, String key,
-						boolean asHtml, MenuInterface subMenu) {
-					ImageResourceD res = null;
-					if ("Labeling".equals(key)) {
-						res = GuiResourcesD.MODE_SHOWHIDELABEL;
-					}
-					if ("FontSize".equals(key)) {
-						res = GuiResourcesD.FONT;
-					}
-					if (res != null) {
-						((JMenuItem) subMenu).setIcon(app.getMenuIcon(res));
-					}
-					((JMenuItem) subMenu).setText(loc.getMenu(key));
-					((JMenu) parentMenu).add((JMenuItem) subMenu);
-
-				}
-			});
+			optionsMenu = new OptionsMenuController(app);
 		}
 		return optionsMenu;
 

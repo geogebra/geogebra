@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.inputfield;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -183,16 +182,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		historyPopup.setDownPopup(isDownPopup);
 
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String cmd = e.getActionCommand();
-				if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
+		ActionListener al = e -> {
+			String cmd = e.getActionCommand();
+			if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
 
-					// TODO: should up/down orientation be tied to InputBar?
-					// show popup
-					historyPopup.showPopup();
-				}
+				// TODO: should up/down orientation be tied to InputBar?
+				// show popup
+				historyPopup.showPopup();
 			}
 		};
 		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),

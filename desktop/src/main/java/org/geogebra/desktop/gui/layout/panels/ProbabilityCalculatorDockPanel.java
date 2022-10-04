@@ -15,10 +15,10 @@ import org.geogebra.desktop.util.GuiResourcesD;
  */
 public class ProbabilityCalculatorDockPanel extends DockPanelD {
 	private static final long serialVersionUID = 1L;
-	private AppD app;
+	private final AppD app;
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public ProbabilityCalculatorDockPanel(AppD app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR, // view id

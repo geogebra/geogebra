@@ -11,22 +11,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Popup menu following the Material Design.
- *
- * @author laszlo
  */
 public class ComponentDropDownPopup {
-
-	// for checking item position. It is 0 in normal case.
 	private static final int OFFSET_X = 0;
+	private static final int POPUP_PADDING = 8;
+	private static final int MARGIN_FROM_SCREEN = 32;
 	private GPopupMenuW menu;
 	private int selectedIndex;
 	private Widget anchor;
 	private int itemHeight;
 	private AppW app;
-
-	private enum RelativePosition {
-		HIGH, CENTER, LOW
-	}
 
 	/**
 	 *
@@ -81,60 +75,35 @@ public class ComponentDropDownPopup {
 	 * center.
 	 */
 	void show() {
-		restoreHeight();
-		RelativePosition pos = getRelativePosition();
-		if (pos == RelativePosition.HIGH) {
-			showHigh();
-		} else if (pos == RelativePosition.CENTER) {
-			showCenter();
-		} else if (pos == RelativePosition.LOW) {
-			showLow();
-		}
-	}
+		int popupTop = (int) (getAnchorTop() - getSelectedItemTop() - app.getAbsTop());
+		int popupTopWithMargin = Math.max(popupTop, MARGIN_FROM_SCREEN);
+		int appBottom = (int) (app.getAbsTop() + app.getHeight());
 
-	private RelativePosition getRelativePosition() {
-		int itemTop = getSelectedItemTop();
-		int top = getTop();
-		if (itemTop < top) {
-			return RelativePosition.HIGH;
-		} else if (getPopupHeightRemaining() < getMaxHeight() / 2) {
-			return RelativePosition.LOW;
-		}
-		return RelativePosition.CENTER;
-	}
-
-	private void showHigh() {
-		int top = getTop() - getSelectedItemTop();
-		double spaceToBottom = app.getHeight() - top - 3d * itemHeight / 2;
-		if (spaceToBottom < getPopupHeightRemaining()) {
-			setMaxHeightInPx(spaceToBottom);
+		if (appBottom <= popupTopWithMargin + 3 * itemHeight + MARGIN_FROM_SCREEN) {
+			// not enough space for showing 3 items on bottom
+			int spaceOnScreen = (int) app.getHeight() - 2 * MARGIN_FROM_SCREEN - 2 * POPUP_PADDING;
+			int popupHeightAdjust = getPopupHeight() < spaceOnScreen
+					? getPopupHeight() : spaceOnScreen;
+			int popupTopAdjust = getPopupHeight() < spaceOnScreen
+					? appBottom - getPopupHeight() - MARGIN_FROM_SCREEN : MARGIN_FROM_SCREEN;
+			// if less space than popup height, show popup on top with app height
+			// otherwise popup with full height aligned to the bottom
+			menu.showAtPoint(getLeft(), popupTopAdjust);
+			setHeightInPx(popupHeightAdjust);
 		} else {
-			setHeightInPx(getAllItemsHeight());
-		}
-		menu.showAtPoint(getLeft(), top);
-	}
-
-	private void showCenter() {
-		int h2 = Math.min(getPopupHeightRemaining(), getTop() - itemHeight);
-		setMaxHeightInPx(2 * h2);
-		openAndScrollTo(getTop() - h2, getSelectedItemTop() - h2);
-	}
-
-	private void showLow() {
-		int itemTop = getSelectedItemTop();
-		int top = getTop();
-		int h2 = getMaxHeight();
-		int diff = getPopupHeightRemaining();
-		if (diff < h2) {
-			if (top < getMaxHeight() + diff) {
-				setHeightInPx(top);
+			menu.showAtPoint(getLeft(), popupTopWithMargin);
+			if (appBottom < popupTopWithMargin + getPopupHeight()) {
+				// popup bottom overflow, use available space and make scrollable
+				setHeightInPx(
+						appBottom - popupTopWithMargin - MARGIN_FROM_SCREEN - 2 * POPUP_PADDING);
+				if (popupTop < MARGIN_FROM_SCREEN) {
+					// selected item not on screen, scroll popup
+					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
+					menu.getPopupPanel().getElement().setScrollTop(getSelectedItemTop()
+							- diffAnchorPopupTop);
+				}
 			}
-			openAndScrollTo(diff, itemTop);
 		}
-	}
-
-	private int getPopupHeightRemaining() {
-		return getAllItemsHeight() - getSelectedItemTop();
 	}
 
 	private int getSelectedItemTop() {
@@ -142,41 +111,30 @@ public class ComponentDropDownPopup {
 	}
 
 	private int getLeft() {
-		return anchor.getAbsoluteLeft() + OFFSET_X;
+		return (int) (anchor.getAbsoluteLeft() + OFFSET_X - app.getAbsLeft());
 	}
 
-	private int getTop() {
-		return anchor.getAbsoluteTop() - anchor.getOffsetHeight() / 2
-				- (int) app.getAbsTop();
-	}
-
-	private int getMaxHeight() {
-		return (int) (app.getHeight());
-	}
-
-	private void openAndScrollTo(int top, int position) {
-		menu.showAtPoint(getLeft(), top);
-		menu.getPopupPanel().getElement().setScrollTop(position);
+	private int getAnchorTop() {
+		// (32 - 20)/2 = 6 handle height difference between label and menu item
+		return anchor.getAbsoluteTop() - POPUP_PADDING - 6;
 	}
 
 	private void setHeightInPx(int height) {
 		getStyle().setHeight(height, Unit.PX);
 	}
 
-	private void setMaxHeightInPx(double height) {
-		getStyle().setProperty("maxHeight", height, Unit.PX);
-	}
-
-	private void restoreHeight() {
-		setHeightInPx(getMaxHeight());
-		getStyle().setProperty("maxHeight", "");
+	/**
+	 * @param width - of popup
+	 */
+	public void setWidthInPx(int width) {
+		getStyle().setWidth(width, Unit.PX);
 	}
 
 	private Style getStyle() {
 		return menu.getPopupPanel().getElement().getStyle();
 	}
 
-	private int getAllItemsHeight() {
+	private int getPopupHeight() {
 		return menu.getComponentCount() * itemHeight;
 	}
 
@@ -192,5 +150,12 @@ public class ComponentDropDownPopup {
 	 */
 	public void close() {
 		menu.hideMenu();
+	}
+
+	/**
+	 * clear menu
+	 */
+	public void clear() {
+		menu.clearItems();
 	}
 }

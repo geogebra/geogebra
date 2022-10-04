@@ -401,8 +401,8 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Returns whether geo can be used as an input object.
-	 * @param geo
-	 * @return
+	 * @param geo element
+	 * @return whether it can be used as input
 	 */
 	private static boolean possibleInput(GeoElement geo) {
 		return geo.hasChildren();
@@ -616,7 +616,7 @@ public class ToolCreationDialogD extends Dialog
 	 * Creates a panel with a list on the left and buttons (up, down, remove) on
 	 * the right. If the combobox is not null it is added on top of the list.
 	 * @param loc Application this dialog belongs to
-	 * @param list
+	 * @param list list of active geos
 	 * @param showRemoveButton true if remove buton should appear on the right
 	 * @param showUpDownButtons true if up and down butons should appear on the right
 	 * @param cbAdd Combobox with items than can be added to list (not displayed

@@ -13,6 +13,15 @@ public class InputDialogRotatePointD extends InputDialogRotateD {
 
 	GeoPointND[] points;
 
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param polys selected polygons
+	 * @param points selected points
+	 * @param selGeos selected geos
+	 * @param ec controller
+	 */
 	public InputDialogRotatePointD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoPointND[] points, GeoElement[] selGeos,
 			EuclidianController ec) {
@@ -20,7 +29,6 @@ public class InputDialogRotatePointD extends InputDialogRotateD {
 		super(app, title, handler, polys, selGeos, ec);
 
 		this.points = points;
-
 	}
 
 	@Override

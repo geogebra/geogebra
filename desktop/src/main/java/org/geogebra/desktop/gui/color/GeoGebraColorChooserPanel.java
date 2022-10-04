@@ -266,6 +266,9 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		lblRecent.setText(loc.getMenu("RecentColor") + ":");
 	}
 
+	/**
+	 * Update font type/size
+	 */
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		btnCustomColor.setFont(font);

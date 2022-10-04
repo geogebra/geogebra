@@ -317,8 +317,23 @@ public interface AppConfig extends Serializable {
 	boolean hasEuclidianView();
 
 	/**
+	 * @return true if the app has distribution view
+	 */
+	boolean hasDistributionView();
+
+	/**
+	 * @return true if the app has algebra view
+	 */
+	boolean hasAlgebraView();
+
+	/**
 	 * @return the translation key of the application
 	 * (always the key of suite if in a subApp)
 	 */
 	String getAppTransKey();
+
+	/**
+	 * @return ID of the main graphics view (EV, EV 3D or probability)
+	 */
+	int getMainGraphicsViewId();
 }

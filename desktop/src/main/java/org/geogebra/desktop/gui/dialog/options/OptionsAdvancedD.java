@@ -39,7 +39,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -124,7 +123,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	/**
 	 * Construct advanced option panel.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsAdvancedD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
@@ -464,15 +463,6 @@ public class OptionsAdvancedD implements OptionPanelD,
 		coordinatesRadio2.setSelected(app.getKernel().getCoordStyle() == 1);
 		coordinatesRadio3.setSelected(app.getKernel().getCoordStyle() == 2);
 
-		// cbIgnoreDocumentLayout.setSelected(settings.getLayout()
-		// .isIgnoringDocumentLayout());
-
-		/*
-		 * cbShowTitleBar.setSelected(settings.getLayout().showTitleBar());
-		 * cbAllowStyleBar
-		 * .setSelected(settings.getLayout().isAllowingStyleBar());
-		 */
-
 		KeyboardSettings kbs = (KeyboardSettings) settings.getKeyboard();
 		cbKeyboardShowAutomatic.setSelected(kbs.isShowKeyboardOnStart());
 
@@ -506,31 +496,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		updateTooltipLanguages();
 	}
 
-	// needed updating things on the reset defaults button
-	public void updateAfterReset() {
-		// cbReturnAngleInverseTrig
-		// .setSelected(app.getKernel().getInverseTrigReturnsAngle());
-
-		int selectedIndex = 0;
-		String loc1 = ((KeyboardSettings) settings.getKeyboard())
-				.getKeyboardLocale();
-		if (loc1 != null) {
-			// look for index in locale list and add 1 to compensate default
-			// entry
-			selectedIndex = KeyboardSettings.indexOfLocale(loc1) + 1;
-		}
-		// take care that this doesn't fire events by accident
-		cbKeyboardLanguage.removeActionListener(this);
-		cbKeyboardLanguage.setSelectedIndex(selectedIndex);
-		cbKeyboardLanguage.addActionListener(this);
-
-		// avoid blanking it out
-		((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);
-
-		updateGUIFont();
-	}
-
-	public void updateGUIFont() {
+	private void updateGUIFont() {
 		cbGUIFont.removeActionListener(this);
 
 		if (cbGUIFont.getItemCount() == Util.menuFontSizesLength() + 1) {
@@ -553,7 +519,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		cbGUIFont.addActionListener(this);
 	}
 
-	public void updateTooltipLanguages() {
+	private void updateTooltipLanguages() {
 		ArrayList<Locale> locales = getSupportedLocales();
 		if (cbTooltipLanguage.getItemCount() == locales.size() + 1) {
 			Locale ttl = app.getLocalization().getTooltipLocale();
@@ -604,14 +570,6 @@ public class OptionsAdvancedD implements OptionPanelD,
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbUseLocalLabels) {
 			loc.setUseLocalizedLabels(cbUseLocalLabels.isSelected());
-			/*
-			 * } else if (source == cbShowTitleBar) {
-			 * settings.getLayout().setShowTitleBar
-			 * (cbShowTitleBar.isSelected());
-			 */
-			// } else if (source == cbIgnoreDocumentLayout) {
-			// settings.getLayout().setIgnoreDocumentLayout(
-			// cbIgnoreDocumentLayout.isSelected());
 		} else if (source == angleUnitRadioDegree) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 			app.getKernel().updateConstruction(false);

@@ -175,8 +175,10 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 
 	}
 
+	/**
+	 * @param plotType active plot types
+	 */
 	public void setPanel(PlotType plotType) {
-
 		tabbedPane.removeAll();
 		this.setVisible(true);
 

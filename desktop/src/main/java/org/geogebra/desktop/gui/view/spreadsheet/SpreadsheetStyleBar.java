@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
@@ -30,13 +31,13 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author George Sturr 2010-4-3
  * 
  */
-public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
+public class SpreadsheetStyleBar extends JToolBar implements ActionListener, SetLabels {
 	private static final long serialVersionUID = 1L;
-	private SpreadsheetViewD view;
-	private AppD app;
-	private MyTableD table;
-	private CellFormat formatHandler;
-	private ArrayList<CellRange> selectedCells;
+	private final SpreadsheetViewD view;
+	private final AppD app;
+	private final MyTableD table;
+	private final CellFormat formatHandler;
+	private final ArrayList<CellRange> selectedCells;
 
 	private MyToggleButtonD btnFormulaBar;
 	private MyToggleButtonD btnLeftAlign;
@@ -50,10 +51,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
+	/**
+	 * @param view spreadsheet
+	 */
 	public SpreadsheetStyleBar(SpreadsheetViewD view) {
-
 		this.view = view;
 		this.app = view.getApplication();
 		this.loc = app.getLocalization();
@@ -66,6 +69,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		reinit();
 	}
 
+	/**
+	 * Reinitialize the view
+	 */
 	public void reinit() {
 		removeAll();
 		Dimension d = getPreferredSize();
@@ -167,9 +173,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnBorderStyle.setKeepVisible(false);
 		btnBorderStyle.setSelectedIndex(1);
 		btnBorderStyle.addActionListener(this);
-
 	}
 
+	@Override
 	public void setLabels() {
 		btnFormulaBar.setToolTipText(loc.getMenu("ShowFileBrowser"));
 		btnFormulaBar.setToolTipText(loc.getMenu("ShowInputField"));
@@ -232,7 +238,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		}
 
 		else if (source == btnBold || source == btnItalic) {
-			Integer fontStyle = CellFormat.STYLE_PLAIN;
+			int fontStyle = CellFormat.STYLE_PLAIN;
 			if (btnBold.isSelected()) {
 				fontStyle += CellFormat.STYLE_BOLD;
 			}
@@ -261,11 +267,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				ArrayList<GeoElement> ar = cr.toGeoList();
 				for (int j = 0; j < ar.size(); j++) {
 					GeoElement geo = ar.get(j);
-					if (bgCol == null) {
-						geo.setBackgroundColor(null);
-					} else {
-						geo.setBackgroundColor(bgCol);
-					}
+					geo.setBackgroundColor(bgCol);
 					geo.updateVisualStyleRepaint(GProperty.COLOR);
 				}
 			}
@@ -298,17 +300,17 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		table.repaint();
 	}
 
+	/**
+	 * Update the stylebar
+	 */
 	public void updateStyleBar() {
-
 		allowActionPerformed = false;
 
 		CellRange range = table.getSelectedCellRanges().get(0);
 
 		// update font style buttons
-
 		Integer fontStyle = (Integer) formatHandler.getCellFormat(range,
 				CellFormat.FORMAT_FONTSTYLE);
-		// Application.debug(fontStyle);
 		if (fontStyle == null) {
 			btnBold.setSelected(false);
 			btnItalic.setSelected(false);
@@ -333,40 +335,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		}
 
 		btnFormulaBar.setSelected(view.getShowFormulaBar());
-
 		allowActionPerformed = true;
-
 	}
-
-	/*
-	 * 
-	 * private void setTraceBorder(){
-	 * 
-	 * CellRange cr = new CellRange(table);
-	 * 
-	 * 
-	 * cr.setCellRange(t.traceColumn1, t.traceRow1, t.traceColumn2,
-	 * t.traceRow2); table.getCellFormatHandler().setFormat(cr,
-	 * CellFormat.FORMAT_TRACING, CellFormat.BORDER_TOP);
-	 * 
-	 * if(t.doRowLimit){ cr.setCellRange(t.traceColumn1, t.traceRow2,
-	 * t.traceColumn2, t.traceRow2); table.getCellFormatHandler().setFormat(cr,
-	 * CellFormat.FORMAT_TRACING, CellFormat.BORDER_BOTTOM); }
-	 * 
-	 * if(t.doRowLimit){ cr.setCellRange(t.traceColumn1, t.traceRow1,
-	 * t.traceColumn1, t.traceRow2); }else{ cr.setCellRange(t.traceColumn1,
-	 * t.traceRow1, t.traceColumn1, view.MAX_ROWS); }
-	 * 
-	 * table.getCellFormatHandler().setFormat(cr, CellFormat.FORMAT_TRACING,
-	 * CellFormat.BORDER_LEFT);
-	 * 
-	 * if(t.doRowLimit){ cr.setCellRange(t.traceColumn2, t.traceRow1,
-	 * t.traceColumn2, t.traceRow2); }else{ cr.setCellRange(t.traceColumn2,
-	 * t.traceRow1, t.traceColumn2, view.MAX_ROWS); }
-	 * table.getCellFormatHandler().setFormat(cr, CellFormat.FORMAT_TRACING,
-	 * CellFormat.BORDER_RIGHT);
-	 * 
-	 * }
-	 */
 
 }

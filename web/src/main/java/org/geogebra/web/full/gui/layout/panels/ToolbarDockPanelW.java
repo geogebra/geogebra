@@ -119,6 +119,8 @@ public class ToolbarDockPanelW extends DockPanelW
 				toolbar.openTools(false);
 			} else if (tabId == DockPanelData.TabIds.TABLE) {
 				toolbar.openTableView(false);
+			} else if (tabId == DockPanelData.TabIds.DISTRIBUTION) {
+				toolbar.openDistributionView(false);
 			} else {
 				toolbar.openAlgebra(false);
 			}

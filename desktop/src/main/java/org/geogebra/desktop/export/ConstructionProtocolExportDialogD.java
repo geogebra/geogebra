@@ -87,12 +87,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 		TitlePanel tp = new TitlePanel(app);
 		cp.add(tp, BorderLayout.NORTH);
-		tp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				kernelChanged = true;
-			}
-		});
+		tp.addActionListener(e -> kernelChanged = true);
 
 		// checkbox: insert picture of drawing pad
 		JPanel picPanel = new JPanel(new BorderLayout(20, 5));

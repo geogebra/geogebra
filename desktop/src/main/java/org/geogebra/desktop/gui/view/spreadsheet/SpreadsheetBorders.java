@@ -23,8 +23,8 @@ public class SpreadsheetBorders {
 	 * Draws custom borders for all cells recorded in the spreadsheet border
 	 * format map.
 	 * 
-	 * @param g2
-	 * @param table
+	 * @param g2 graphics
+	 * @param table table
 	 */
 	public static void drawFormatBorders(Graphics2D g2, MyTableD table) {
 
@@ -58,11 +58,11 @@ public class SpreadsheetBorders {
 	 * Draws row/column grid lines. Byte v determines the line type. (top/bottom
 	 * row line or a left/right column line).
 	 * 
-	 * @param g2
-	 * @param table
-	 * @param col
-	 * @param row
-	 * @param v
+	 * @param g2 graphics
+	 * @param table table
+	 * @param col column
+	 * @param row row
+	 * @param v line type
 	 */
 	public static void handleRowOrColumnGridFormat(Graphics2D g2,
 			MyTableD table, int col, int row, byte v) {
@@ -130,13 +130,13 @@ public class SpreadsheetBorders {
 	 * row2 and across from col1 to col2. Byte v determines which sides of the
 	 * border are drawn.
 	 * 
-	 * @param g2
-	 * @param table
-	 * @param col1
-	 * @param row1
-	 * @param col2
-	 * @param row2
-	 * @param v
+	 * @param g2 graphice
+	 * @param table table
+	 * @param col1 start column
+	 * @param row1 start row
+	 * @param col2 end column
+	 * @param row2 end row
+	 * @param v border type
 	 */
 	public static void drawPartialBorder(Graphics2D g2, MyTableD table,
 			int col1, int row1, int col2, int row2, byte v) {
@@ -176,9 +176,9 @@ public class SpreadsheetBorders {
 	/**
 	 * Draws a grid line beneath the given row
 	 * 
-	 * @param g2
-	 * @param table
-	 * @param row
+	 * @param g2 graphics
+	 * @param table table
+	 * @param row row
 	 */
 	public static void drawRowBorder(Graphics2D g2, MyTableD table, int row) {
 
@@ -196,9 +196,9 @@ public class SpreadsheetBorders {
 	/**
 	 * Draws a grid line to the right the give column
 	 * 
-	 * @param g2
-	 * @param table
-	 * @param column
+	 * @param g2 graphics
+	 * @param table table
+	 * @param column column
 	 */
 	public static void drawColumnBorder(Graphics2D g2, MyTableD table,
 			int column) {

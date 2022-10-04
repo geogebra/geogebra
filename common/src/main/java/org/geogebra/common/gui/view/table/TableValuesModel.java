@@ -57,6 +57,12 @@ public interface TableValuesModel {
 	String getHeaderAt(int column);
 
 	/**
+	 * Set the header of the first column
+	 * @param valuesHeader name
+	 */
+	void setValuesHeader(String valuesHeader);
+
+	/**
 	 * Returns the numeric value at the specified location.
 	 * @param row row of the entry
 	 * @param column column of the entry

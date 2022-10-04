@@ -62,10 +62,14 @@ public class GraphicSizePanel extends JPanel
 		this(app, width, height, true);
 	}
 
+	/**
+	 * @param app application
+	 * @param width width
+	 * @param height height
+	 * @param keepRatio whether to keep x:y ratio
+	 */
 	public GraphicSizePanel(AppD app, int width, int height,
 			boolean keepRatio) {
-		// this.app = app;
-
 		setLayout(new FlowLayout(5));
 		tfWidth = new MyTextFieldD(app, 5);
 		tfHeight = new MyTextFieldD(app, 5);
@@ -86,8 +90,7 @@ public class GraphicSizePanel extends JPanel
 		tfHeight.addFocusListener(this);
 	}
 
-	public void setValues(int width, int height, boolean keepRatio) {
-
+	private void setValues(int width, int height, boolean keepRatio) {
 		this.width = width;
 		this.height = height;
 		this.keepRatio = keepRatio;
@@ -97,19 +100,11 @@ public class GraphicSizePanel extends JPanel
 		tfHeight.setText("" + height);
 	}
 
-	public int getSelectedWidth() {
-		return width;
-	}
-
-	public int getSelectedHeight() {
-		return height;
-	}
-
 	@Override
 	public void setEnabled(boolean flag) {
 		Object[] comp = getComponents();
-		for (int i = 0; i < comp.length; i++) {
-			((JComponent) comp[i]).setEnabled(flag);
+		for (Object o : comp) {
+			((JComponent) o).setEnabled(flag);
 		}
 	}
 

@@ -200,8 +200,8 @@ public class TextLineNumber extends JPanel
 	 * <li>TextLineNumber.RIGHT (default)
 	 * </ul>
 	 * 
-	 * @param currentLineForeground
-	 *            the Color used to render the current line
+	 * @param digitAlignment
+	 *            left/center/right
 	 */
 	public void setDigitAlignment(float digitAlignment) {
 		this.digitAlignment = digitAlignment > 1.0f ? 1.0f

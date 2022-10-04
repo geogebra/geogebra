@@ -140,6 +140,9 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		this.rowHeight = getFontMetrics(getFont()).getHeight();
 	}
 
+	/**
+	 * @param f UI font
+	 */
 	public void updateFont(Font f) {
 		((ViewContext) getEditorKit().getViewFactory()).setTokenFont(f);
 		super.setFont(f);
@@ -180,12 +183,11 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * Returns preferred dimension for the given number of rows and columns when
 	 * using the current font.
 	 * 
-	 * @param row
-	 * @param column
-	 * @return
+	 * @param row row
+	 * @param column column
+	 * @return size
 	 */
 	public Dimension getPreferredSizeFromRowColumn(int row, int column) {
-
 		Dimension dim = new Dimension(400, 400);
 		if (column != 0) {
 			dim.width = cols * columnWidth;

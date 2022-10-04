@@ -87,15 +87,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	}
 
 	/**
-	 * Tells if the 3D View is shown in the current window
-	 * 
-	 * @return whether 3D View is switched on
-	 */
-	public boolean is3DViewShown() {
-		return viewMenu.is3DViewShown();
-	}
-
-	/**
 	 * Initialize the menubar. No update is required after initialization.
 	 */
 	public void initMenubar() {
@@ -268,34 +259,28 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	/**
 	 * Show the print preview dialog.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public static void showPrintPreview(final AppD app) {
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
+		Thread runner = new Thread(() -> {
+			try {
+				app.setWaitCursor();
+				GuiManagerD gui = (GuiManagerD) app.getGuiManager();
+				DockManagerD dm = gui.getLayout().getDockManager();
+				int viewId = (dm.getFocusedPanel() == null) ? -1
+						: dm.getFocusedPanel().getViewId();
+				PrintPreviewD pre = PrintPreviewD.get(app, viewId,
+						PageFormat.LANDSCAPE);
 
-				try {
-					app.setWaitCursor();
-					GuiManagerD gui = (GuiManagerD) app.getGuiManager();
-					DockManagerD dm = gui.getLayout().getDockManager();
-					int viewId = (dm.getFocusedPanel() == null) ? -1
-							: dm.getFocusedPanel().getViewId();
-					PrintPreviewD pre = PrintPreviewD.get(app, viewId,
-							PageFormat.LANDSCAPE);
-
-					pre.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-					Log.debug("Print preview not available");
-				} finally {
-					app.setDefaultCursor();
-				}
-
+				pre.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.debug("Print preview not available");
+			} finally {
+				app.setDefaultCursor();
 			}
-		};
+		});
 		runner.start();
-
 	}
 
 	private static String glVersion = null;
@@ -304,7 +289,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	/**
 	 * Show the "About" dialog.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public static void showAboutDialog(final AppD app) {
 
@@ -378,6 +363,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(app.getVersionString());
 	}
 
+	/**
+	 * @param app application
+	 */
 	public static void copyDebugInfoToClipboard(AppD app) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[pre]");

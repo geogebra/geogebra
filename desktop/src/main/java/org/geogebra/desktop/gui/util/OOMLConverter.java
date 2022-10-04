@@ -14,6 +14,11 @@ import javax.xml.transform.stream.StreamSource;
 import org.geogebra.common.util.debug.Log;
 
 public class OOMLConverter {
+
+	/**
+	 * @param oomlRaw OOML
+	 * @return MATHML
+	 */
 	public static String oomlToMathml(String oomlRaw) {
 		TransformerFactory factory = TransformerFactory.newInstance();
 		String ooml = oomlRaw.replaceAll("<i[^>]*>", "")

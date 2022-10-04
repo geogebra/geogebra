@@ -39,6 +39,9 @@ public class PrintGridable implements Printable {
 	private double scale;
 	private int titleOffset;
 
+	/**
+	 * @param g grid-able component
+	 */
 	public PrintGridable(Gridable g) {
 		this.gridable = g;
 		colWidths = gridable.getGridColwidths();

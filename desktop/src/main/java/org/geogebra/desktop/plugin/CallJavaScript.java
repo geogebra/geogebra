@@ -15,11 +15,10 @@ public class CallJavaScript {
 	 * Evaluates the global script for the current construction and returns a
 	 * scope object for this script.
 	 * 
-	 * @param app
-	 * @return
+	 * @param app application
+	 * @return global scope
 	 */
 	public static Scriptable evalGlobalScript(App app) {
-
 		ContextFactory.initGlobal(SandboxContextFactory.getInstance());
 
 		// create new scope
@@ -42,20 +41,19 @@ public class CallJavaScript {
 					app.getKernel().getLibraryJavaScript(),
 					app.getLocalization().getMenu("ErrorAtLine"), 1, null);
 		} catch (Throwable t) {
-
+			// ignore
 		}
 		Context.exit();
 		return scope;
-
 	}
 
 	/**
 	 * Evaluates a local script using the global scope from the current
 	 * construction.
 	 * 
-	 * @param app
-	 * @param script
-	 * @param arg
+	 * @param app application
+	 * @param script script content
+	 * @param arg argument TODO ignored
 	 */
 	public static void evalScript(App app, String script, String arg) {
 		Context cx = Context.enter();
@@ -73,6 +71,11 @@ public class CallJavaScript {
 
 	private static final SandboxClassShutter sandboxClassShutter = new SandboxClassShutter();
 
+	/**
+	 * @param nativeRunnable native JS function
+	 * @param args arguments
+	 * @param app application
+	 */
 	public static void evalFunction(NativeFunction nativeRunnable, Object[] args, App app) {
 		Context cx = Context.enter();
 		cx.getWrapFactory().setJavaPrimitiveWrap(false);

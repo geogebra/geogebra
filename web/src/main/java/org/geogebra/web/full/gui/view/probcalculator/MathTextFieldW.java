@@ -23,7 +23,10 @@ public class MathTextFieldW extends MathFieldEditor implements MathFieldListener
 	public MathTextFieldW(App app) {
 		super(app);
 		createMathField(this);
-		addBlurHandler(event -> onEnter());
+		addBlurHandler(event -> {
+			this.asWidget().getParent().removeStyleName("focusState");
+			onEnter();
+		});
 		addStyleName("mathTextField");
 		setUseKeyboardButton(!NavigatorUtil.isMobile());
 	}

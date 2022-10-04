@@ -44,6 +44,7 @@ public class StatTable extends JScrollPane {
 	private MyTable myTable;
 	private MyRowHeader rowHeader;
 	boolean isRowHeaderPainted = true;
+	private int alignment = SwingConstants.LEFT;
 
 	// layout
 	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
@@ -59,6 +60,9 @@ public class StatTable extends JScrollPane {
 	AppD app;
 	final LocalizationD loc;
 
+	/**
+	 * @param app application
+	 */
 	public StatTable(AppD app) {
 
 		this.app = app;
@@ -156,7 +160,7 @@ public class StatTable extends JScrollPane {
 
 		// create row header
 		if (rowNames != null) {
-			rowHeader = new MyRowHeader(myTable, rowNames, this);
+			rowHeader = new MyRowHeader(myTable, rowNames);
 			// rowHeaderModel = new DefaultListModel();
 			// .setModel(rowHeaderModel);
 			setRowHeaderView(rowHeader);
@@ -188,7 +192,7 @@ public class StatTable extends JScrollPane {
 	/**
 	 * Sets the table cells that will use a ComboBox
 	 * 
-	 * @param cellMap
+	 * @param cellMap cell map
 	 */
 	public void setComboBoxCells(HashMap<Point, String[]> cellMap,
 			ActionListener al) {
@@ -227,9 +231,9 @@ public class StatTable extends JScrollPane {
 	/**
 	 * Gets the selected index for a cell given cell comboBox
 	 * 
-	 * @param row
-	 * @param column
-	 * @return
+	 * @param row row
+	 * @param column column
+	 * @return selected index
 	 */
 	public Integer getComboCellEditorSelectedIndex(int row, int column) {
 		if (comboBoxEditorMap == null) {
@@ -247,27 +251,28 @@ public class StatTable extends JScrollPane {
 	/**
 	 * Sets the selected index for a cell given cell comboBox
 	 * 
-	 * @param index
-	 * @param row
-	 * @param column
-	 * @return
+	 * @param index index
+	 * @param row row
+	 * @param column column
 	 */
-	public boolean setComboCellSelectedIndex(int index, int row, int column) {
+	public void setComboCellSelectedIndex(int index, int row, int column) {
 
 		if (comboBoxRendererMap == null) {
-			return false;
+			return;
 		}
 
 		int modelColumn = myTable.convertColumnIndexToModel(column);
 		Point cell = new Point(row, modelColumn);
 
-		if (comboBoxEditorMap.keySet().contains(cell)) {
+		if (comboBoxEditorMap.containsKey(cell)) {
 			comboBoxEditorMap.get(cell).setSelectedIndex(index);
-			return true;
 		}
-		return false;
 	}
 
+	/**
+	 * @param rowNames row names
+	 * @param columnNames column names
+	 */
 	public void setLabels(String[] rowNames, String[] columnNames) {
 
 		// set column names
@@ -279,7 +284,7 @@ public class StatTable extends JScrollPane {
 		}
 
 		if (rowNames != null) {
-			rowHeader = new MyRowHeader(myTable, rowNames, this);
+			rowHeader = new MyRowHeader(myTable, rowNames);
 			setRowHeaderView(rowHeader);
 		}
 
@@ -290,6 +295,9 @@ public class StatTable extends JScrollPane {
 		return tableModel;
 	}
 
+	/**
+	 * @param font UI font
+	 */
 	public void updateFonts(Font font) {
 		setFont(font);
 
@@ -382,8 +390,9 @@ public class StatTable extends JScrollPane {
 		table.setRowHeight(prefHeight);
 	}
 
-	private int alignment = SwingConstants.LEFT;
-
+	/**
+	 * @param alignment horizontal alignment
+	 */
 	public void setHorizontalAlignment(int alignment) {
 		this.alignment = alignment;
 
@@ -434,12 +443,11 @@ public class StatTable extends JScrollPane {
 	// Row Header
 	// ======================================================
 
-	public class MyRowHeader extends JList {
+	public class MyRowHeader extends JList<String> {
 		private static final long serialVersionUID = 1L;
 		JTable table;
 
-		public MyRowHeader(JTable table, String[] rowNames,
-				StatTable statTable) {
+		protected MyRowHeader(JTable table, String[] rowNames) {
 			super(rowNames);
 			this.table = table;
 			setCellRenderer(new RowHeaderRenderer(table));
@@ -447,7 +455,7 @@ public class StatTable extends JScrollPane {
 
 		}
 
-		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
+		class RowHeaderRenderer extends JLabel implements ListCellRenderer<String> {
 			private static final long serialVersionUID = 1L;
 
 			public RowHeaderRenderer(JTable table) {
@@ -474,12 +482,12 @@ public class StatTable extends JScrollPane {
 			}
 
 			@Override
-			public Component getListCellRendererComponent(JList list,
-					Object value, int index, boolean isSelected,
+			public Component getListCellRendererComponent(JList<? extends String> list,
+					String value, int index, boolean isSelected,
 					boolean cellHasFocus) {
 
 				setFont(table.getFont());
-				setText((String) value);
+				setText(value);
 				// setHorizontalAlignment(statTable.getHorizontalAlignment());
 				return this;
 			}
@@ -496,7 +504,7 @@ public class StatTable extends JScrollPane {
 		JComboBox comboBox;
 		JLabel label;
 
-		public MyComboBoxRenderer(String text, String[] items) {
+		protected MyComboBoxRenderer(String text, String[] items) {
 
 			setLayout(new BorderLayout());
 			comboBox = new JComboBox(items);
@@ -530,11 +538,10 @@ public class StatTable extends JScrollPane {
 			implements ItemListener {
 		private static final long serialVersionUID = 1L;
 		JComboBox comboBox;
-		JLabel label;
 		int row;
 		int column;
 
-		public MyComboBoxEditor(String[] items) {
+		protected MyComboBoxEditor(String[] items) {
 			super(new JComboBox(items));
 			comboBox = (JComboBox) editorComponent;
 			comboBox.addItemListener(this);

@@ -74,7 +74,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		// private singleton constructor
 	}
 
-	/* Singleton getInstance()->getPref() */
+	/** @return Singleton preferences */
 	public synchronized static GeoGebraPreferencesD getPref() {
 		if (singleton == null) {
 			singleton = new GeoGebraPortablePreferences();

@@ -323,8 +323,10 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		repaint();
 	}
 
+	/**
+	 * Udate fonts
+	 */
 	public void updateFonts() {
-
 		functionTable.updateFonts();
 		if (helpTextPane != null) {
 			helpTextPane.setFont(app.getPlainFont());
@@ -399,6 +401,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		});
 	}
 
+	/**
+	 * Build command tree
+	 */
 	public void setCommands() {
 		if (rootSubCommands == null) {
 			rootSubCommands = new DefaultMutableTreeNode();
@@ -804,6 +809,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 	}
 
+	/**
+	 * @param command command name to focus
+	 */
 	public void focusCommand(String command) {
 		for (int i = 0; i < rootSubCommands.getChildCount(); i++) {
 			TreeNode group = rootSubCommands.getChildAt(i);

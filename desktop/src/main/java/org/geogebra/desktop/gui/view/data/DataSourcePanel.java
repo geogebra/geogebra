@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -33,15 +32,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataItem;
 import org.geogebra.common.gui.view.data.DataSource;
@@ -51,7 +47,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Validation;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -65,7 +60,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  */
 public class DataSourcePanel extends JPanel
-		implements ActionListener, FocusListener {
+		implements ActionListener, FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -112,8 +107,8 @@ public class DataSourcePanel extends JPanel
 	/*************************************************
 	 * Constructor
 	 * 
-	 * @param app
-	 * @param mode
+	 * @param app application
+	 * @param mode mode
 	 */
 	public DataSourcePanel(AppD app, int mode) {
 
@@ -135,6 +130,10 @@ public class DataSourcePanel extends JPanel
 	// GUI
 	// ====================================================
 
+	/**
+	 * @param newMode mode
+	 * @param doAutoLoadSelectedGeos load elements
+	 */
 	public void updatePanel(int newMode, boolean doAutoLoadSelectedGeos) {
 		this.mode = newMode;
 
@@ -250,6 +249,7 @@ public class DataSourcePanel extends JPanel
 	// Updates
 	// ====================================================
 
+	@Override
 	public void setLabels() {
 
 		lblStart.setText(loc.getMenu("Start") + ":");
@@ -291,31 +291,13 @@ public class DataSourcePanel extends JPanel
 		sourceTable.getTable().getTableHeader().setReorderingAllowed(false);
 
 		sourceTable.clear();
-
-		// sourceTable.getTable().setCellEditor(new MyCellEditor(app));
-
-		sourceTable.getTable().getModel()
-				.addTableModelListener(new TableModelListener() {
-
-					@Override
-					public void tableChanged(TableModelEvent e) {
-						if (e.getType() == TableModelEvent.UPDATE) {
-							// updateTableEdit(e.getColumn());
-						}
-					}
-				});
-
 		setColumnHeaders(sourceTable.getTable());
 
 		sourceTable.getTable().getColumnModel().getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						sourceTable.revalidate();
-						sourceTable.repaint();
-					}
+				.addListSelectionListener(e -> {
+					sourceTable.revalidate();
+					sourceTable.repaint();
 				});
-
 	}
 
 	private static void setTableDimension(JTable table) {
@@ -365,111 +347,7 @@ public class DataSourcePanel extends JPanel
 		setTableDimension(sourceTable.getTable());
 		this.revalidate();
 		this.repaint();
-
 	}
-
-	/**
-	 * Loads data from the dataSource list at the given index position into the
-	 * corresponding source table column.
-	 * 
-	 * @param colIndex
-	 */
-
-	/*
-	 * private void setTableColumn(int colIndex) {
-	 * 
-	 * if (dataSource.getItem(colIndex) == null ||
-	 * dataSource.getItem(colIndex).isEmptyItem()) { return; }
-	 * 
-	 * DefaultTableModel model = sourceTable.getModel();
-	 * 
-	 * try { switch (dataSource.getItem(colIndex).getType()) {
-	 * 
-	 * case LIST: GeoList geoList = dataSource.getItem(colIndex).getGeoList();
-	 * 
-	 * // ensure the table has enough rows if (model.getRowCount() <
-	 * geoList.size()) { model.setRowCount(geoList.size()); }
-	 * 
-	 * for (int i = 0; i < geoList.size(); i++) {
-	 * 
-	 * if (geoList.get(i) == null || !(geoList.get(i).isDefined())) { continue;
-	 * } if (isValidDataType(geoList.get(i), colIndex)) {
-	 * model.setValueAt(geoList.get(i).getValueForInputBar(), i, colIndex); }
-	 * else { model.setValueAt("<html><i><font color = gray>" +
-	 * geoList.get(i).getValueForInputBar() + "</font></i></html>", i,
-	 * colIndex); } }
-	 * 
-	 * break;
-	 * 
-	 * case SPREADSHEET: ArrayList<CellRange> rangeList =
-	 * dataSource.getItem(colIndex) .getRangeList(); int maxRow = 0; int row =
-	 * 0; boolean skipFirstCell = dataSource.enableHeader();
-	 * 
-	 * for (CellRange cr : rangeList) {
-	 * 
-	 * ArrayList<GeoElement> list = cr.toGeoList(); maxRow += list.size();
-	 * 
-	 * // ensure the table has enough rows if (model.getRowCount() < maxRow) {
-	 * model.setRowCount(maxRow); }
-	 * 
-	 * // iterate through the list and set the row values for (int i = 0; i <
-	 * list.size(); i++) { if (skipFirstCell) { skipFirstCell = false; continue;
-	 * } if (list.get(i) == null || !(list.get(i).isDefined())) { continue; } if
-	 * (isValidDataType(list.get(i), colIndex)) {
-	 * model.setValueAt(list.get(i).getValueForInputBar(), row, colIndex); }
-	 * else { model.setValueAt("<html><i><font color = gray>" +
-	 * list.get(i).getValueForInputBar() + "</font></i></html>", row, colIndex);
-	 * } row++; } } break;
-	 * 
-	 * case INTERNAL: String[] str =
-	 * dataSource.getItem(colIndex).getStrInternal();
-	 * 
-	 * // ensure the table has enough rows if (model.getRowCount() < str.length)
-	 * { model.setRowCount(str.length); }
-	 * 
-	 * // load the array into the column for (int i = 0; i <
-	 * model.getRowCount(); i++) { if (i < str.length && str[i] != null) {
-	 * model.setValueAt(str[i], i, colIndex); } else { model.setValueAt(" ", i,
-	 * colIndex); } } break;
-	 * 
-	 * case CLASS: Double[] leftBorder = dataSource.getItem(colIndex)
-	 * .getLeftBorder(); // System.out.println("=====> " +
-	 * Arrays.toString(leftBorder));
-	 * 
-	 * // ensure the table has enough rows if (model.getRowCount() <
-	 * leftBorder.length - 1) { model.setRowCount(leftBorder.length - 1); }
-	 * 
-	 * // load the array into the column for (int i = 0; i < leftBorder.length -
-	 * 1; i++) { if (i < leftBorder.length && leftBorder[i] != null) { String
-	 * interval = leftBorder[i] + " - " + leftBorder[i + 1];
-	 * model.setValueAt(interval, i, colIndex); } else { model.setValueAt(" ",
-	 * i, colIndex); } } }
-	 * 
-	 * } catch (Exception e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 * 
-	 * // sourceTable.getTable().setColumnSelectionInterval(colIndex, //
-	 * colIndex); sourceTable.getTable().revalidate();
-	 * 
-	 * }
-	 */
-	/*
-	 * private boolean isValidDataType(GeoElement geo, int colIndex) {
-	 * 
-	 * switch (mode) {
-	 * 
-	 * case DataAnalysisModel.MODE_ONEVAR: if (dataSource.isNumericData()) {
-	 * return geo.isGeoNumeric(); } return geo.isGeoText();
-	 * 
-	 * case DataAnalysisModel.MODE_REGRESSION: if (dataSource.isPointList()) {
-	 * return geo.isGeoPoint(); } return geo.isGeoNumeric();
-	 * 
-	 * case DataAnalysisModel.MODE_MULTIVAR: return geo.isGeoNumeric();
-	 * 
-	 * default:
-	 * 
-	 * return false; } }
-	 */
 
 	/**
 	 * Sets the dataSource field at the given index to refer to the currently
@@ -478,12 +356,9 @@ public class DataSourcePanel extends JPanel
 	 * 
 	 */
 	void addDataToColumn(int colIndex) {
-
 		dataSource.setDataItemToGeoSelection(selectedVarIndex(), colIndex);
-
 		loadSourceTableFromDataSource();
 		updateGUI();
-
 	}
 
 	// ====================================================
@@ -504,29 +379,19 @@ public class DataSourcePanel extends JPanel
 			dataSource.getSelectedDataVariable().addNewValue();
 			updatePanel(DataAnalysisModel.MODE_MULTIVAR, false);
 
-		} else if (source == btnClear) {
-			// int n = dataSource.size();
-			// dataSource.clear();
-			// dataSource.ensureMinimumSize(n);
-			// loadSourceTableFromDataSource();
-		}
-
-		else if (source == btnDelete) {
+		} else if (source == btnDelete) {
 			if (dataSource.getSelectedDataVariable().getValues().size() > 2) {
 				dataSource.getSelectedDataVariable().removeLastValue();
 				loadSourceTableFromDataSource();
 				updatePanel(DataAnalysisModel.MODE_MULTIVAR, false);
 			}
-		}
-
-		else if (source == btnOptions) {
+		} else if (source == btnOptions) {
 			JPopupMenu optionsPopup = getOptionsMenu();
 			optionsPopup.show(btnOptions, 0, btnOptions.getHeight());
 		}
 
 		updateGUI();
 		revalidate();
-
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
@@ -558,14 +423,19 @@ public class DataSourcePanel extends JPanel
 		doTextFieldActionPerformed(e.getSource());
 	}
 
+	/**
+	 * @param font UI font
+	 */
 	public void updateFonts(Font font) {
 		setFont(font);
 		sourceTable.updateFonts(font);
 		updateIcons();
 	}
 
+	/**
+	 * Apply settings
+	 */
 	public void applySettings() {
-
 		if (dataView == null) {
 			dataView = (DataAnalysisViewD) app.getGuiManager()
 					.getDataAnalysisView();
@@ -600,19 +470,16 @@ public class DataSourcePanel extends JPanel
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-
 			// handles mouse over a button
-			boolean isOver = false;
 			Point mouseLoc = e.getPoint();
 			int column = table().getColumnModel().getColumnIndexAtX(e.getX());
 
 			// adjust mouseLoc to the coordinate space of this column header
 			mouseLoc.x = mouseLoc.x - table().getCellRect(0, column, true).x;
 
-			isOver = ((MyTableHeaderRenderer) table().getColumnModel()
+			boolean isOver = ((MyTableHeaderRenderer) table().getColumnModel()
 					.getColumn(column).getHeaderRenderer()).isOverTraceButton(
-							column, mouseLoc, table().getColumnModel()
-									.getColumn(column).getHeaderValue());
+					mouseLoc);
 
 			if (isOver && (btnHoverColumn != column)) {
 				btnHoverColumn = column;
@@ -653,13 +520,6 @@ public class DataSourcePanel extends JPanel
 				headerRect.width -= 3; // Hard-coded constant
 			} else {
 				headerRect.grow(-3, 0); // Hard-coded constant
-			}
-			if (!headerRect.contains(evt.getX(), evt.getY())) {
-				// Mouse was clicked between column heads
-				// vColIndex is the column head closest to the click
-				if (evt.getX() < headerRect.x) {
-					// TODO do something
-				}
 			}
 
 			// select the header column in the table if not already selected
@@ -713,10 +573,10 @@ public class DataSourcePanel extends JPanel
 				.getBorder("TableHeader.cellBorder");
 
 		protected Font font = UIManager.getFont("TableHeader.font");
-		private ImageIcon importIcon;
-		private ImageIcon importIconRollover;
+		private final ImageIcon importIcon;
+		private final ImageIcon importIconRollover;
 
-		public MyTableHeaderRenderer() {
+		protected MyTableHeaderRenderer() {
 			setLayout(new BorderLayout());
 			setOpaque(true);
 			setBorder(headerBorder);
@@ -798,17 +658,12 @@ public class DataSourcePanel extends JPanel
 		}
 
 		/**
-		 * Returns true if the given mouse location (in local coordinates of the
+		 * @return true if the given mouse location (in local coordinates of the
 		 * header component) is over a trace button.
 		 * 
-		 * @param colIndex
-		 * @param locPt
-		 * @param value
-		 * @return
+		 * @param locPt mouse location
 		 */
-		public boolean isOverTraceButton(int colIndex, Point locPt,
-				Object value) {
-
+		public boolean isOverTraceButton(Point locPt) {
 			try {
 				return locPt.x < 24;
 			} catch (Exception e) {
@@ -816,48 +671,9 @@ public class DataSourcePanel extends JPanel
 			}
 			return false;
 		}
-
-	}
-
-	/*************************************************
-	 * Custom cell editor.
-	 * 
-	 * TODO: Currently not used. Remove if cell editing will never be allowed
-	 * 
-	 */
-	public static class MyCellEditor extends DefaultCellEditor {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public MyCellEditor(MathTextField tf) {
-			super(tf);
-		}
-
-		public MyCellEditor(AppD app) {
-			this(new MathTextField(app));
-		}
-
-		@Override
-		public boolean stopCellEditing() {
-
-			// get the edit column while it is still available
-			// int editColumn = sourceTable.getTable().getEditingColumn();
-
-			// call super.stopCellEditing to update the table model
-			boolean result = super.stopCellEditing();
-
-			// now add the edit into the data source and exit
-			// addEditedColumnToDataSource(editColumn);
-			return result;
-		}
-
 	}
 
 	private JPopupMenu getOptionsMenu() {
-
 		JPopupMenu menu = new JPopupMenu();
 		JMenu subMenu;
 		final DataVariable var = dataSource.getSelectedDataVariable();
@@ -870,23 +686,17 @@ public class DataSourcePanel extends JPanel
 			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
 					loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
-			itmNumeric.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					var.setGeoClass(GeoClass.NUMERIC);
-					updatePanel(mode, false);
-				}
+			itmNumeric.addActionListener(arg0 -> {
+				var.setGeoClass(GeoClass.NUMERIC);
+				updatePanel(mode, false);
 			});
 
 			final JCheckBoxMenuItem itemTypeText = new JCheckBoxMenuItem(
 					loc.getMenu("Type.Text"));
 			itemTypeText.setSelected(var.getGeoClass() == GeoClass.TEXT);
-			itemTypeText.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					var.setGeoClass(GeoClass.TEXT);
-					updatePanel(mode, false);
-				}
+			itemTypeText.addActionListener(arg0 -> {
+				var.setGeoClass(GeoClass.TEXT);
+				updatePanel(mode, false);
 			});
 
 			ButtonGroup grp = new ButtonGroup();
@@ -902,42 +712,33 @@ public class DataSourcePanel extends JPanel
 			final JCheckBoxMenuItem itmRawData = new JCheckBoxMenuItem(
 					loc.getMenu("RawData"));
 			itmRawData.setSelected(var.getGroupType() == GroupType.RAWDATA);
-			itmRawData.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (itmRawData.isSelected()
-							&& var.getGroupType() != GroupType.RAWDATA) {
-						var.setGroupType(GroupType.RAWDATA);
-						updatePanel(mode, false);
-					}
+			itmRawData.addActionListener(arg0 -> {
+				if (itmRawData.isSelected()
+						&& var.getGroupType() != GroupType.RAWDATA) {
+					var.setGroupType(GroupType.RAWDATA);
+					updatePanel(mode, false);
 				}
 			});
 
 			final JCheckBoxMenuItem itmFrequency = new JCheckBoxMenuItem(
 					loc.getMenu("DataWithFrequency"));
 			itmFrequency.setSelected(var.getGroupType() == GroupType.FREQUENCY);
-			itmFrequency.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (itmFrequency.isSelected()
-							&& var.getGroupType() != GroupType.FREQUENCY) {
-						var.setGroupType(GroupType.FREQUENCY);
-						updatePanel(mode, false);
-					}
+			itmFrequency.addActionListener(arg0 -> {
+				if (itmFrequency.isSelected()
+						&& var.getGroupType() != GroupType.FREQUENCY) {
+					var.setGroupType(GroupType.FREQUENCY);
+					updatePanel(mode, false);
 				}
 			});
 
 			final JCheckBoxMenuItem itmClass = new JCheckBoxMenuItem(
 					loc.getMenu("ClassWithFrequency"));
 			itmClass.setSelected(var.getGroupType() == GroupType.CLASS);
-			itmClass.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (itmClass.isSelected()
-							&& var.getGroupType() != GroupType.CLASS) {
-						var.setGroupType(GroupType.CLASS);
-						updatePanel(mode, false);
-					}
+			itmClass.addActionListener(arg0 -> {
+				if (itmClass.isSelected()
+						&& var.getGroupType() != GroupType.CLASS) {
+					var.setGroupType(GroupType.CLASS);
+					updatePanel(mode, false);
 				}
 			});
 
@@ -961,28 +762,22 @@ public class DataSourcePanel extends JPanel
 			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
 					loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
-			itmNumeric.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					ArrayList<DataItem> itemList = new ArrayList<>();
-					itemList.add(new DataItem());
-					itemList.add(new DataItem());
-					var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
-					updatePanel(mode, false);
-				}
+			itmNumeric.addActionListener(arg0 -> {
+				ArrayList<DataItem> itemList = new ArrayList<>();
+				itemList.add(new DataItem());
+				itemList.add(new DataItem());
+				var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
+				updatePanel(mode, false);
 			});
 
 			final JCheckBoxMenuItem itmPoint = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Point"));
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
-			itmPoint.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					ArrayList<DataItem> itemList = new ArrayList<>();
-					itemList.add(new DataItem());
-					var.setDataVariableAsRawData(GeoClass.POINT, itemList);
-					updatePanel(mode, false);
-				}
+			itmPoint.addActionListener(arg0 -> {
+				ArrayList<DataItem> itemList = new ArrayList<>();
+				itemList.add(new DataItem());
+				var.setDataVariableAsRawData(GeoClass.POINT, itemList);
+				updatePanel(mode, false);
 			});
 
 			ButtonGroup grp = new ButtonGroup();
@@ -1002,13 +797,10 @@ public class DataSourcePanel extends JPanel
 		final JCheckBoxMenuItem itmHeader = new JCheckBoxMenuItem(
 				loc.getMenu("UseHeaderAsTitle"));
 		itmHeader.setSelected(dataSource.enableHeader());
-		itmHeader.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (dataSource.enableHeader() != itmHeader.isSelected()) {
-					dataSource.setEnableHeader(itmHeader.isSelected());
-					updatePanel(mode, false);
-				}
+		itmHeader.addActionListener(arg0 -> {
+			if (dataSource.enableHeader() != itmHeader.isSelected()) {
+				dataSource.setEnableHeader(itmHeader.isSelected());
+				updatePanel(mode, false);
 			}
 		});
 

@@ -42,21 +42,23 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private static final int CLICK_DOWN_ARROW_WIDTH = 20;
 
-	private SelectionTable mode;
+	private final SelectionTable mode;
 	private Object[] data;
-	private AppD app;
-	private PopupMenuButtonD thisButton;
+	private final AppD app;
+	private final PopupMenuButtonD thisButton;
 
 	private JPopupMenu myPopup;
 
 	private JSlider mySlider;
 
+	/**
+	 * @param fgColor color
+	 */
 	public void setFgColor(GColor fgColor) {
 		if (myTable != null) {
-			myTable.setFgColor(fgColor);
+			myTable.repaint();
 		}
 		updateGUI();
-
 	}
 
 	private SelectionTableD myTable;
@@ -98,7 +100,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 */
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public PopupMenuButtonD(AppD app) {
 		this(app, null, -1, -1, null, SelectionTable.UNKNOWN,
@@ -106,12 +108,12 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	}
 
 	/**
-	 * @param app
-	 * @param data
-	 * @param rows
-	 * @param columns
-	 * @param iconSize
-	 * @param mode
+	 * @param app application
+	 * @param data data
+	 * @param rows rows
+	 * @param columns columns
+	 * @param iconSize icon size
+	 * @param mode selection mode
 	 */
 	public PopupMenuButtonD(AppD app, Object[] data, int rows, int columns,
 			Dimension iconSize, SelectionTable mode) {
@@ -119,14 +121,14 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	}
 
 	/**
-	 * @param app
-	 * @param data
-	 * @param rows
-	 * @param columns
-	 * @param iconSize
-	 * @param mode
-	 * @param hasTable
-	 * @param hasSlider
+	 * @param app application
+	 * @param data data
+	 * @param rows rows
+	 * @param columns columns
+	 * @param iconSize icon size
+	 * @param mode selection mode
+	 * @param hasTable whether table is visible
+	 * @param hasSlider whether slider is visible
 	 */
 	public PopupMenuButtonD(final AppD app, Object[] data, int rows, int columns,
 			Dimension iconSize, SelectionTable mode, final boolean hasTable,
@@ -326,6 +328,21 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		mySlider.setPaintLabels(false);
 
 		mySlider.addChangeListener(this);
+		mySlider.addMouseListener(new MouseAdapter() {
+			int dragStartValue;
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (mySlider.getValue() != dragStartValue) {
+					app.storeUndoInfo();
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				dragStartValue = mySlider.getValue();
+			}
+		});
 
 		// set slider dimensions
 		Dimension d = mySlider.getPreferredSize();
@@ -370,7 +387,6 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		}
 		this.fireActionPerformed(new ActionEvent(this,
 				ActionEvent.ACTION_PERFORMED, getActionCommand()));
-		app.storeUndoInfo();
 		updateGUI();
 	}
 
@@ -386,6 +402,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		return myTable.getSelectedValue();
 	}
 
+	/**
+	 * @param selectedIndex0 selected index; null to deselect
+	 */
 	public void setSelectedIndex(Integer selectedIndex0) {
 		int selectedIndex;
 		if (selectedIndex0 == null) {
@@ -402,6 +421,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		return mySlider.getValue();
 	}
 
+	/**
+	 * @param value slider value
+	 */
 	public void setSliderValue(int value) {
 
 		mySlider.removeChangeListener(this);
@@ -414,6 +436,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		updateGUI();
 	}
 
+	/**
+	 * @return slider
+	 */
 	public JSlider getMySlider() {
 		if (mySlider == null) {
 			initSlider();
@@ -429,7 +454,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * sets the tooTip strings for the menu selection table; the toolTipArray
 	 * should have a 1-1 correspondence with the data array
 	 * 
-	 * @param toolTipArray
+	 * @param toolTipArray tooltips
 	 */
 	public void setToolTipArray(String[] toolTipArray) {
 		myTable.setToolTipArray(toolTipArray);
@@ -439,6 +464,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	// Icon Handling
 	// ==============================================
 
+	/**
+	 * @return button icon
+	 */
 	public ImageIcon getButtonIcon() {
 		ImageIcon icon = (ImageIcon) this.getIcon();
 		if (isFixedIcon) {
@@ -504,6 +532,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		}
 	}
 
+	/**
+	 * @param icon fixed icon (overrides selection)
+	 */
 	public void setFixedIcon(Icon icon) {
 		isFixedIcon = true;
 		setIcon(icon);

@@ -42,18 +42,21 @@ public class HistoryPopupD implements ListSelectionListener {
 
 	private AutoCompleteTextFieldD textField;
 	private JPopupMenu popup;
-	private JList historyList;
+	private final JList<String> historyList;
 	private boolean isDownPopup = false;
 
 	private KeyListener keyListener;
 	private KeyListener[] textFieldKeyListeners;
-	private DefaultListModel model;
+	private DefaultListModel<String> model;
 
+	/**
+	 * @param autoCompleteField textfield
+	 */
 	public HistoryPopupD(AutoCompleteTextFieldD autoCompleteField) {
 
 		this.textField = autoCompleteField;
 
-		historyList = new JList();
+		historyList = new JList<>();
 		historyList.setCellRenderer(new HistoryListCellRenderer());
 		historyList.setBorder(BorderFactory.createEmptyBorder());
 		historyList.addListSelectionListener(this);
@@ -80,8 +83,6 @@ public class HistoryPopupD implements ListSelectionListener {
 
 	private class PopupListener implements PopupMenuListener {
 
-		private KeyListener[] listListeners;
-
 		@Override
 		public void popupMenuCanceled(PopupMenuEvent e) {
 			// nothing to do
@@ -104,7 +105,7 @@ public class HistoryPopupD implements ListSelectionListener {
 			}
 			textField.addKeyListener(keyListener);
 
-			listListeners = historyList.getKeyListeners();
+			KeyListener[] listListeners = historyList.getKeyListeners();
 			for (KeyListener listener : listListeners) {
 				historyList.removeKeyListener(listener);
 			}
@@ -135,15 +136,17 @@ public class HistoryPopupD implements ListSelectionListener {
 		historyList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				handleMouseClick(e);
+				hidePopup();
 			}
 		});
 
 		popup.addPopupMenuListener(new PopupListener());
 	}
 
+	/**
+	 * Show popup
+	 */
 	public void showPopup() {
-
 		// get the current history list and load it into the JList
 		ArrayList<String> list = textField.getHistory();
 
@@ -151,15 +154,15 @@ public class HistoryPopupD implements ListSelectionListener {
 			return;
 		}
 
-		model = new DefaultListModel();
+		model = new DefaultListModel<>();
 
 		if (isDownPopup) {
 			for (int i = 0; i < list.size(); i++) {
 				model.addElement(list.get(list.size() - i - 1));
 			}
 		} else {
-			for (int i = 0; i < list.size(); i++) {
-				model.addElement(list.get(i));
+			for (String s : list) {
+				model.addElement(s);
 			}
 		}
 
@@ -224,24 +227,18 @@ public class HistoryPopupD implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent evt) {
 		if (!evt.getValueIsAdjusting()) {
 			if (evt.getSource() == historyList) {
-				textField.setText((String) historyList.getSelectedValue());
+				textField.setText(historyList.getSelectedValue());
 				// this.setVisible(false);
 			}
 		}
 	}
 
 	private void undoPopupChange() {
-		DefaultListModel model1 = (DefaultListModel) historyList.getModel();
-		textField.setText((String) model1.getElementAt(model1.size() - 1));
+		DefaultListModel<String> model1 = (DefaultListModel<String>) historyList.getModel();
+		textField.setText(model1.getElementAt(model1.size() - 1));
 	}
 
-	public void handleMouseClick(MouseEvent e) {
-		// selection listener has handled text changes, so just exit after a
-		// click
-		hidePopup();
-	}
-
-	public void handleSpecialKeys(KeyEvent keyEvent) {
+	protected void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isPopupVisible()) {
 			return;
 		}

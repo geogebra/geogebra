@@ -103,7 +103,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * minX,minY,maxX,maxY. The output stream is flushed and closed when the
 	 * close() method is called.
 	 * 
-	 * @param bgColor
+	 * @param bgColor background color
 	 */
 	public EpsGraphics(String title, StringBuilder outputStream, int minX,
 			int minY, int maxX, int maxY, ColorMode colorMode, GColor bgColor) {
@@ -166,7 +166,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Returns whether accurate text mode is being used.
+	 * @return whether accurate text mode is being used.
 	 */
 	public boolean getAccurateTextMode() {
 		return _accurateTextMode;
@@ -595,7 +595,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Gets the AffineTransform used by this EpsGraphics2D.
+	 * @return the AffineTransform used by this EpsGraphics2D.
 	 */
 	public GAffineTransform getTransform() {
 		GAffineTransform ret = AwtFactory.getPrototype().newAffineTransform();
@@ -604,7 +604,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Returns the current Paint of the EpsGraphics2D object.
+	 * @return the current Paint of the EpsGraphics2D object.
 	 */
 	public GPaint getPaint() {
 		if (_paint == null) {
@@ -614,7 +614,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * returns the current Composite of the EpsGraphics2D object.
+	 * @return the current Composite of the EpsGraphics2D object.
 	 */
 	@Override
 	public GComposite getComposite() {
@@ -644,23 +644,18 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Returns the Stroke currently used. Guaranteed to be an instance of
+	 * @return the Stroke currently used. Guaranteed to be an instance of
 	 * BasicStroke.
 	 */
 	public GBasicStroke getStroke() {
 		return _stroke;
 	}
 
-	/**
-	 * Returns the FontRenderContext.
-	 */
 	@Override
 	public GFontRenderContext getFontRenderContext() {
-
 		if (_fontRenderContext == null) {
 			_fontRenderContext = getNewFontRenderContext();
 		}
-
 		return _fontRenderContext;
 	}
 
@@ -943,10 +938,10 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Clears a rectangle with top-left corner placed at (x,y) using the current
 	 * background color.
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
+	 * @param x left
+	 * @param y top
+	 * @param width width
+	 * @param height height
 	 */
 	@Override
 	public void clearRect(int x, int y, int width, int height) {

@@ -34,9 +34,12 @@ public class NumberComboBox extends JComboBox {
 
 	public NumberComboBox(final AppD app) {
 		this(app, true);
-
 	}
 
+	/**
+	 * @param app application
+	 * @param prefill whether to prefil with default values
+	 */
 	public NumberComboBox(final AppD app, boolean prefill) {
 		kernel = app.getKernel();
 		if (prefill) {
@@ -56,11 +59,17 @@ public class NumberComboBox extends JComboBox {
 		setPreferredSize(dim);
 	}
 
+	/**
+	 * @param val value
+	 */
 	public void setValue(final double val) {
 		setSelectedItem(
 				kernel.formatPiE(val, nf, StringTemplate.defaultTemplate));
 	}
 
+	/**
+	 * @return text value (trimmed)
+	 */
 	public String getValue() {
 		final Object ob = getSelectedItem();
 		if (ob == null) {

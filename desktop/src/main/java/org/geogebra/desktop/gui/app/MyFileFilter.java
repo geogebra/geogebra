@@ -45,7 +45,6 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 
 	private String description = null;
 	private String fullDescription = null;
-	private boolean useExtensionsInDescription = true;
 
 	/**
 	 * Creates a file filter. If no filters are added, then all files are
@@ -66,67 +65,9 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * @see #addExtension
 	 */
 	public MyFileFilter(FileExtensions extension) {
-		this(extension, null);
-	}
-
-	/**
-	 * Creates a file filter that accepts the given file type. Example: new
-	 * MyFileFilter("jpg", "JPEG Image Images");
-	 *
-	 * Note that the "." before the extension is not needed. If provided, it
-	 * will be ignored.
-	 * 
-	 * @param extension
-	 *            either "ext" or ".ext"
-	 * @param description
-	 *
-	 * @see #addExtension
-	 */
-	public MyFileFilter(FileExtensions extension, String description) {
 		this();
 		if (extension != null) {
 			addExtension(extension);
-		}
-		if (description != null) {
-			setDescription(description);
-		}
-	}
-
-	/**
-	 * Creates a file filter from the given string array. Example: new
-	 * MyFileFilter(String {"gif", "jpg"});
-	 *
-	 * Note that the "." before the extension is not needed adn will be ignored.
-	 * 
-	 * @param filters
-	 *            array of either "ext" or ".ext" strings
-	 *
-	 * @see #addExtension
-	 */
-	public MyFileFilter(FileExtensions[] filters) {
-		this(filters, null);
-	}
-
-	/**
-	 * Creates a file filter from the given string array and description.
-	 * Example: new MyFileFilter(String {"gif", "jpg"}, "Gif and JPG Images");
-	 *
-	 * Note that the "." before the extension is not needed and will be ignored.
-	 * 
-	 * @param filters
-	 *            array of either "ext" or ".ext" strings
-	 * @param description
-	 *
-	 * @see #addExtension
-	 */
-	public MyFileFilter(FileExtensions[] filters, String description) {
-		this();
-		for (int i = 0; i < filters.length; i++) {
-			// add filters one by one
-			addExtension(filters[i]);
-		}
-		if (description != null) {
-			setDescription(description);
 		}
 	}
 
@@ -148,9 +89,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 
 			FileExtensions extension = FileExtensions.get(getExtension(f));
 
-			if (filters.contains(extension)) {
-				return true;
-			}
+			return filters.contains(extension);
 		}
 		return false;
 	}
@@ -158,13 +97,12 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	/**
 	 * Return the extension portion of the file's name .
 	 * 
-	 * @param f
+	 * @param f file
 	 * @return "ext" for file "filename.ext"
 	 *
-	 * @see #getExtension
 	 * @see FileFilter#accept
 	 */
-	public String getExtension(File f) {
+	private String getExtension(File f) {
 		if (f != null) {
 			String filename = f.getName();
 			int i = filename.lastIndexOf('.');
@@ -208,30 +146,24 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * "JPEG and GIF Image Files (*.jpg, *.gif)"
 	 *
 	 * @see #setDescription
-	 * @see #setExtensionListInDescription
-	 * @see #isExtensionListInDescription
 	 * @see FileFilter#getDescription
 	 */
 	@Override
 	public String getDescription() {
 		if (fullDescription == null) {
-			if (description == null || isExtensionListInDescription()) {
-				fullDescription = description == null ? "("
-						: description + " (";
-				// build the description from the extension list
+			fullDescription = description == null ? "("
+					: description + " (";
+			// build the description from the extension list
 
-				if (filters.size() > 0) {
-					fullDescription += "." + filters.get(0);
-				}
-
-				for (int i = 1; i < filters.size(); i++) {
-					fullDescription += ", ." + filters.get(i);
-				}
-
-				fullDescription += ")";
-			} else {
-				fullDescription = description;
+			if (filters.size() > 0) {
+				fullDescription += "." + filters.get(0);
 			}
+
+			for (int i = 1; i < filters.size(); i++) {
+				fullDescription += ", ." + filters.get(i);
+			}
+
+			fullDescription += ")";
 		}
 		return fullDescription;
 	}
@@ -240,50 +172,11 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	 * Sets the human readable description of this filter. For example:
 	 * filter.setDescription("Gif and JPG Images");
 	 * 
-	 * @param description
-	 * @see #setDescription
-	 * @see #setExtensionListInDescription
-	 * @see #isExtensionListInDescription
+	 * @param description description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 		fullDescription = null;
-	}
-
-	/**
-	 * Determines whether the extension list (.jpg, .gif, etc) should show up in
-	 * the human readable description.
-	 *
-	 * Only relevent if a description was provided in the constructor or using
-	 * setDescription();
-	 * 
-	 * @param b
-	 *            true to show the list in description
-	 *
-	 * @see #getDescription
-	 * @see #setDescription
-	 * @see #isExtensionListInDescription
-	 */
-	public void setExtensionListInDescription(boolean b) {
-		useExtensionsInDescription = b;
-		fullDescription = null;
-	}
-
-	/**
-	 * Returns whether the extension list (.jpg, .gif, etc) should show up in
-	 * the human readable description.
-	 *
-	 * Only relevent if a description was provided in the constructor or using
-	 * setDescription();
-	 * 
-	 * @return true iff showing the list in description
-	 *
-	 * @see #getDescription
-	 * @see #setDescription
-	 * @see #setExtensionListInDescription
-	 */
-	public boolean isExtensionListInDescription() {
-		return useExtensionsInDescription;
 	}
 
 	/**

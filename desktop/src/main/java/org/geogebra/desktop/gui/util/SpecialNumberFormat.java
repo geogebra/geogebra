@@ -40,7 +40,7 @@ public class SpecialNumberFormat implements ActionListener {
 	/**
 	 * Constructor
 	 * 
-	 * @param app
+	 * @param app application
 	 * @param invoker
 	 *            : the component utilizing this number format class
 	 */
@@ -86,7 +86,7 @@ public class SpecialNumberFormat implements ActionListener {
 	/**
 	 * Creates a menu with number format options Note: this menu is derived from
 	 * 
-	 * @return
+	 * @return decimal places menu
 	 */
 	public JMenu createMenuDecimalPlaces() {
 		menuDecimalPlaces = new JMenu(
@@ -134,12 +134,6 @@ public class SpecialNumberFormat implements ActionListener {
 
 	/**
 	 * Create a set of radio buttons automatically.
-	 * 
-	 * @param menu
-	 * @param al
-	 * @param items
-	 * @param actionCommands
-	 * @param selectedPos
 	 */
 	private void addRadioButtonMenuItems(JMenu menu, ActionListener al,
 			String[] items, String[] actionCommands, int selectedPos) {

@@ -14,6 +14,10 @@ public class KeyEventD extends org.geogebra.common.euclidian.event.KeyEvent {
 		this.event = e;
 	}
 
+	/**
+	 * @param e native event
+	 * @return wrapped event
+	 */
 	public static KeyEventD wrapEvent(KeyEvent e) {
 		if (!pool.isEmpty()) {
 			KeyEventD wrap = pool.getLast();

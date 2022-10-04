@@ -172,14 +172,12 @@ public class ColorChooserButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
 
-		private SwatchPanel swatchPanel;
-
-		public ColorChooserPopup(ColorChooserButton button) {
+		protected ColorChooserPopup(ColorChooserButton button) {
 			super();
 
 			setLayout(new BorderLayout());
 
-			swatchPanel = new SwatchPanel(button);
+			SwatchPanel swatchPanel = new SwatchPanel(button);
 			add(swatchPanel, BorderLayout.CENTER);
 
 			/*

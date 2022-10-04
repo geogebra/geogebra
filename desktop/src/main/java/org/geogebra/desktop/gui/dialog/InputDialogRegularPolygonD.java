@@ -17,6 +17,15 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 	private final GeoCoordSys2D direction;
 	private final EuclidianController ec;
 
+	/**
+	 * @param app application
+	 * @param ec controller
+	 * @param title title
+	 * @param handler input handler
+	 * @param point1 first point
+	 * @param point2 second point
+	 * @param direction direction for 3D case
+	 */
 	public InputDialogRegularPolygonD(AppD app, EuclidianController ec,
 			String title, InputHandler handler, GeoPointND point1,
 			GeoPointND point2, GeoCoordSys2D direction) {

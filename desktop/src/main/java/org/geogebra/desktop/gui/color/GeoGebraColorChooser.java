@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.DefaultColorSelectionModel;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 
@@ -19,12 +20,15 @@ import org.geogebra.desktop.main.AppD;
  * @author G Sturr
  *
  */
-public class GeoGebraColorChooser extends JColorChooser {
+public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
 
+	/**
+	 * @param app application
+	 */
 	public GeoGebraColorChooser(AppD app) {
 		this.app = app;
 		setSelectionModel(new MyColorSelectionModel());
@@ -43,10 +47,8 @@ public class GeoGebraColorChooser extends JColorChooser {
 	private boolean isNullSelection = false;
 
 	/**
-	 * Returns true is the current color selection should be treated as a null
+	 * @return true is the current color selection should be treated as a null
 	 * selection. (JColorChooser cannot handle a null selected color)
-	 * 
-	 * @return
 	 */
 	public boolean isNullSelection() {
 		return isNullSelection;
@@ -71,6 +73,7 @@ public class GeoGebraColorChooser extends JColorChooser {
 		}
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		UIManager.put("ColorChooser.okText", loc.getMenu("OK"));
@@ -86,6 +89,9 @@ public class GeoGebraColorChooser extends JColorChooser {
 		}
 	}
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		AbstractColorChooserPanel[] panels = getChooserPanels();
 		for (int i = 0; i < panels.length; i++) {

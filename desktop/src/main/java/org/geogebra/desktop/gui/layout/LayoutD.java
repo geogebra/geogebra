@@ -61,7 +61,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * application life cycle (e.g. before loading a file, before constructing
 	 * the ViewMenu).
 	 * 
-	 * @param dockPanel
+	 * @param dockPanel dock panel
 	 */
 	public void registerPanel(DockPanelD dockPanel) {
 		dockManager.registerPanel(dockPanel);
@@ -70,9 +70,7 @@ public class LayoutD extends Layout implements SettingListener {
 	/**
 	 * Apply a new perspective.
 	 * 
-	 * TODO consider applet parameters
-	 * 
-	 * @param perspective
+	 * @param perspective perspective
 	 */
 	@Override
 	public boolean applyPerspective(Perspective perspective) {
@@ -189,7 +187,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * Checks if the given component is in an external window. Used for key
 	 * dispatching.
 	 * 
-	 * @param component
+	 * @param component component
 	 * @return whether the given component is in an external window. Used for
 	 *         key dispatching.
 	 */
@@ -208,7 +206,7 @@ public class LayoutD extends Layout implements SettingListener {
 	}
 
 	/**
-	 * @param viewId
+	 * @param viewId view ID
 	 * @return If just the view associated to viewId is visible
 	 */
 	@Override
@@ -263,11 +261,7 @@ public class LayoutD extends Layout implements SettingListener {
 	}
 
 	public JComponent getRootComponent() {
-		if (dockManager == null) {
-			return null;
-		}
-
-		return dockManager.getRoot();
+		return dockManager == null ? null : dockManager.getRoot();
 	}
 
 }
