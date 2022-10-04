@@ -113,23 +113,26 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				openColorChooser(targetGeos, false);
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
+				boolean isSliderDragging = btnColor.getSliderStatus();
 				needUndo = EuclidianStyleBarStatic.applyColor(color,
-						alpha, app, targetGeos);
+						alpha, app, targetGeos) && !isSliderDragging;
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
+				boolean isSliderDragging = btnLineStyle.getSliderStatus();
 				btnLineStyle.setSelectedIndex(selectedIndex);
 				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
-						lineSize, app, targetGeos);
+						lineSize, app, targetGeos) && !isSliderDragging;
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
 				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
 				int pointSize = btnPointStyle.getSliderValue();
+				boolean isSliderDragging = btnPointStyle.getSliderStatus();
 				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos,
-						pointStyleSelIndex, pointSize);
+						pointStyleSelIndex, pointSize) && !isSliderDragging;
 			}
 		} else {
 			return false;

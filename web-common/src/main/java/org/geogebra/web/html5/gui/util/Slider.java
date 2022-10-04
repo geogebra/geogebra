@@ -26,6 +26,8 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	private InputElement range;
 	private boolean valueChangeHandlerInitialized;
 	private Integer valueOnDragStart;
+	private boolean isDragging;
+	public boolean getDraggingStatus() { return isDragging; }
 
 	/**
 	 * Create a new slider.
@@ -42,6 +44,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		range.setAttribute("max", String.valueOf(max));
 		range.setValue(String.valueOf(min));
 		setElement(range);
+		isDragging = false;
 		addMouseDownHandler(this);
 		// addMouseMoveHandler(this);
 		addMouseUpHandler(this);
@@ -100,12 +103,14 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		isDragging = false;
 		ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
 
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		isDragging = true;
 		valueOnDragStart = getValue();
 	}
 

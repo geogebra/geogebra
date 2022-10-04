@@ -1514,8 +1514,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 					return false;
 				}
 				double alpha = btnBgColor.getSliderValue() / 100.0;
+				boolean isSliderDragging = btnBgColor.getSliderStatus();
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
-						color, alpha);
+						color, alpha) && !isSliderDragging;
 			}
 		} else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {

@@ -490,6 +490,13 @@ public class PopupMenuButtonW extends StandardButton
 	}
 
 	/**
+	 * @return whether {@link Slider} is dragging
+	 */
+	public boolean getSliderStatus() {
+		return mySlider != null && mySlider.getDraggingStatus();
+	}
+
+	/**
 	 * @return application
 	 */
 	public AppW getApp() {
