@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.Label;
 public class ComponentInfoErrorPanel extends FlowPanel {
 	private Localization loc;
 	private StandardButton actionButton;
-	private AppW app;
 
 	/**
 	 * info/error panel constructor
@@ -26,21 +25,6 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data, SVGResource img,
 			Runnable buttonAction) {
 		this.loc = loc;
-		addStyleName("infoErrorPanel");
-		buildGUI(data, img, buttonAction);
-	}
-
-	/**
-	 * info/error panel constructor
-	 * @param app - app
-	 * @param data - data of the panel including title, subtext and button text
-	 * @param img - image
-	 * @param buttonAction - handler for the button
-	 */
-	public ComponentInfoErrorPanel(AppW app, InfoErrorData data, SVGResource img,
-			Runnable buttonAction) {
-		this.app = app;
-		this.loc = app.getLocalization();
 		addStyleName("infoErrorPanel");
 		buildGUI(data, img, buttonAction);
 	}
@@ -74,29 +58,13 @@ public class ComponentInfoErrorPanel extends FlowPanel {
 			actionButton =
 					new StandardButton(loc.getMenu(data.getActionButtonText()));
 			actionButton.addStyleName("dialogContainedButton");
-			actionButton.setEnabled(app.enableFileFeatures());
-			actionButton.addFastClickHandler(source ->
-					handleActionButton(buttonAction, app.enableFileFeatures())
-			);
+			actionButton.addFastClickHandler(source -> {
+					if (!actionButton.getStyleName().contains("disabled")) {
+						buttonAction.run();
+					}
+			});
 			add(actionButton);
 		}
-	}
-
-	/**
-	 *
-	 * @param buttonAction - handler for the button
-	 * @param enabled - whether the button should be enabled
-	 */
-	public void handleActionButton(Runnable buttonAction, boolean enabled) {
-		if (enabled) {
-			buttonAction.run();
-		} else {
-			disableActionButton();
-		}
-	}
-
-	public void disableActionButton() {
-		Dom.toggleClass(actionButton, "disabled", true);
 	}
 
 	public void disableActionButton(boolean disabled) {
