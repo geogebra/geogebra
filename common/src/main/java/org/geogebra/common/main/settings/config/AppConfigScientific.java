@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.syntax.suggestionfilter.ScientificSyntaxFilter;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
@@ -96,7 +97,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
-		return null;
+		return new ScientificSyntaxFilter();
 	}
 
 	@Override
