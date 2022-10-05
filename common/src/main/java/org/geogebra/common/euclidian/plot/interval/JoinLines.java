@@ -68,24 +68,36 @@ public class JoinLines {
 	 * @param neighbours {@link TupleNeighbours}
 	 */
 	public void toBottom(TupleNeighbours neighbours) {
-		double leftDiff = neighbours.hasLeft()
-				? Math.abs(neighbours.currentYLow() - neighbours.leftYLow())
-				: Double.POSITIVE_INFINITY;
-		double rightDiff = neighbours.hasRight()
-				? Math.abs(neighbours.currentYLow() - neighbours.rightYLow())
-				: Double.POSITIVE_INFINITY;
-		double eps = 2 * neighbours.current().x().getLength();
-		boolean zoomedOut = eps > 0.1; // refine me! Seems to work, but...
-		if (DoubleUtil.isEqual(0, leftDiff, eps)
-				|| (leftDiff < rightDiff && zoomedOut) ){
+		double yLeftDiff = getLeftScreenDifference(neighbours);
+		double yRightDiff = getRightScreenDifference(neighbours);
+
+		if (DoubleUtil.isEqual(0, yLeftDiff)) {
 			toBottomCurrentXLow(neighbours);
-		} else if (DoubleUtil.isEqual(0, rightDiff, eps) || zoomedOut) {
+		} else if (DoubleUtil.isEqual(0, yRightDiff)) {
 			toBottomCurrentXHigh(neighbours);
-		} else if (leftDiff < rightDiff) {
+		} else if (yLeftDiff < yRightDiff) {
 			toBottomLeft(neighbours);
 		} else {
 			toBottomRight(neighbours);
 		}
+	}
+
+	private double getLeftScreenDifference(TupleNeighbours neighbours) {
+		if (!neighbours.hasLeft()) {
+			return -1;
+		}
+
+		double diff = Math.abs(neighbours.currentYLow() - neighbours.leftYLow());
+		return bounds.toScreenCoordYd(diff);
+	}
+
+	private double getRightScreenDifference(TupleNeighbours neighbours) {
+		if (!neighbours.hasRight()) {
+			return -1;
+		}
+
+		double diff = Math.abs(neighbours.currentYLow() - neighbours.rightYLow());
+		return bounds.toScreenCoordYd(diff);
 	}
 
 	private void toBottomCurrentXLow(TupleNeighbours neighbours) {
@@ -135,7 +147,8 @@ public class JoinLines {
 
 		if (neighbours.currentYLow() > -INFINITY_DISPLAYED) {
 			if (neighbours.isRightInfinite()) {
-				gp.segment(bounds, neighbours.currentXLow(), neighbours.leftYLow(),
+				double y1 = neighbours.hasLeft() ? neighbours.leftYLow() : neighbours.currentYLow();
+				gp.segment(bounds, neighbours.currentXLow(), y1,
 						neighbours.currentXLow(), bounds.getYmin());
 			} else {
 				toBottom(neighbours);
