@@ -11,6 +11,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.main.Localization;
@@ -23,23 +24,26 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
-public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
+public class DataAnalysisStyleBar extends JToolBar implements ActionListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
 	private DataAnalysisViewD daView;
 	protected int iconHeight = 18;
-	private JButton btnRounding, btnPrint;
-	private MyToggleButtonD btnShowStatistics, btnShowPlot2, btnShowData;
+	private JButton btnRounding;
+	private JButton btnPrint;
+	private MyToggleButtonD btnShowStatistics;
+	private MyToggleButtonD btnShowPlot2;
+	private MyToggleButtonD btnShowData;
 	private MyToggleButtonD btnDataSource;
 	private MyTextFieldD fldDataSource;
 	private MyToggleButtonD btnExport;
 	private MyToggleButtonD btnSwapXY;
 
 	/**
-	 * @param app
-	 * @param statDialog
+	 * @param app application
+	 * @param statDialog stats dialog
 	 */
 	public DataAnalysisStyleBar(AppD app, DataAnalysisViewD statDialog) {
 
@@ -117,8 +121,10 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		createGUI();
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void updateGUI() {
-
 		DataAnalysisModel model = daView.getModel();
 		btnShowStatistics.setSelected(model.showStatPanel());
 		if (model.showStatPanel() && daView.getStatisticsPanel().isVisible()) {
@@ -184,21 +190,9 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 				app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
 		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
-
-		/*
-		 * roundingPopup = createRoundingPopup();
-		 * 
-		 * btnRounding.addActionListener(new ActionListener(){ public void
-		 * actionPerformed(ActionEvent e) { // popup appears below the button
-		 * roundingPopup.show(getParent(),
-		 * btnRounding.getLocation().x,btnRounding.getLocation().y +
-		 * btnRounding.getHeight()); } });
-		 * 
-		 * updateMenuDecimalPlaces(roundingPopup);
-		 */
-
 	}
 
+	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		btnRounding.setText(loc.getMenu(".xx"));

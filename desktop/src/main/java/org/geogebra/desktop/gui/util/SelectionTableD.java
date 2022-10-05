@@ -17,7 +17,6 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.main.AppD;
@@ -58,8 +57,10 @@ public class SelectionTableD extends JTable {
 		this.horizontalAlignment = horizontalAlignment;
 	}
 
-	private Object[] data;
-	private int numRows, numColumns, rowHeight, columnWidth;
+	private final Object[] data;
+	private final int numRows;
+	private final int numColumns;
+	private int columnWidth;
 
 	public int getColumnWidth() {
 		return columnWidth;
@@ -69,13 +70,11 @@ public class SelectionTableD extends JTable {
 
 	private SelectionTable mode;
 
-
-	public void setFgColor(GColor fgColor) {
-		repaint();
-	}
-
 	boolean useColorSwatchBorder = false;
 
+	/**
+	 * @param useColorSwatchBorder to use border for swatch icons
+	 */
 	public void setUseColorSwatchBorder(boolean useColorSwatchBorder) {
 		this.useColorSwatchBorder = useColorSwatchBorder;
 		setCellDimensions();
@@ -84,10 +83,10 @@ public class SelectionTableD extends JTable {
 	private String[] toolTipArray = null;
 
 	/**
-	 * sets the tooTip strings for the selection table; the toolTipArray should
+	 * Sets the tooTip strings for the selection table; the toolTipArray should
 	 * have a 1-1 correspondence with the data array
 	 * 
-	 * @param toolTipArray
+	 * @param toolTipArray tooltips
 	 */
 	public void setToolTipArray(String[] toolTipArray) {
 		this.toolTipArray = toolTipArray;
@@ -96,12 +95,12 @@ public class SelectionTableD extends JTable {
 	/********************************************************
 	 * Constructor
 	 * 
-	 * @param app
-	 * @param data0
-	 * @param rows0
-	 * @param columns0
-	 * @param iconSize
-	 * @param mode
+	 * @param app application
+	 * @param data0 data
+	 * @param rows0 number of rows
+	 * @param columns0 number of  columns
+	 * @param iconSize icon size
+	 * @param mode selection type
 	 */
 	public SelectionTableD(AppD app, Object[] data0, int rows0, int columns0,
 			Dimension iconSize, SelectionTable mode) {
@@ -198,7 +197,7 @@ public class SelectionTableD extends JTable {
 		setModel(model);
 	}
 
-	public ImageIcon[] createLatexIconArray(String[] symbols) {
+	private ImageIcon[] createLatexIconArray(String[] symbols) {
 		ImageIcon[] iconArray = new ImageIcon[symbols.length];
 		for (int i = 0; i < symbols.length; i++) {
 			iconArray[i] = GeoGebraIconD.createLatexIcon(app, symbols[i],
@@ -214,6 +213,7 @@ public class SelectionTableD extends JTable {
 
 		// match row height to specified icon height
 		// when mode=text then let font size adjust row height automatically
+		int rowHeight;
 		if (!(mode == SelectionTable.MODE_TEXT
 				|| mode == SelectionTable.MODE_LATEX)) {
 			rowHeight = iconSize.height + padding;
@@ -242,6 +242,9 @@ public class SelectionTableD extends JTable {
 		repaint();
 	}
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		setFont(app.getPlainFont());
 		setCellDimensions();
@@ -285,6 +288,9 @@ public class SelectionTableD extends JTable {
 	// Getters/Setters
 	// ==============================================
 
+	/**
+	 * @return selected index
+	 */
 	public int getSelectedIndex() {
 		int index = this.getColumnCount() * this.getSelectedRow()
 				+ this.getSelectedColumn();
@@ -294,6 +300,10 @@ public class SelectionTableD extends JTable {
 		return index;
 	}
 
+	/**
+	 * Select a cell
+	 * @param index cell index
+	 */
 	public void setSelectedIndex(int index) {
 		if (index == -1) {
 			this.clearSelection();
@@ -306,6 +316,9 @@ public class SelectionTableD extends JTable {
 		rollOverColumn = -1;
 	}
 
+	/**
+	 * @return selected value
+	 */
 	public Object getSelectedValue() {
 		if (getSelectedRow() != -1 && getSelectedColumn() != -1) {
 			return model.getValueAt(getSelectedRow(), getSelectedColumn());
@@ -325,14 +338,14 @@ public class SelectionTableD extends JTable {
 		return data;
 	}
 
+	/**
+	 * @param value value
+	 * @return icon value as icon or null
+	 */
 	public ImageIcon getDataIcon(Object value) {
-
 		ImageIcon icon = null;
-		if (value == null)
-		 {
+		if (value == null) {
 			return GeoGebraIconD.createEmptyIcon(1, 1);
-		// GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true,
-		// false, true, iconSize , Color.GRAY, null);
 		}
 
 		switch (mode) {
@@ -358,9 +371,12 @@ public class SelectionTableD extends JTable {
 
 		private static final long serialVersionUID = 1L;
 
-		private Border normalBorder, selectedBorder, rollOverBorder,
-				paddingBorder;
-		private Color selectionColor, rollOverColor;
+		private final Border normalBorder;
+		private final Border selectedBorder;
+		private final Border rollOverBorder;
+		private final Border paddingBorder;
+		private final Color selectionColor;
+		private final Color rollOverColor;
 
 		public MyCellRenderer() {
 
@@ -433,6 +449,7 @@ public class SelectionTableD extends JTable {
 
 	/**
 	 * Finds the maximum preferred width of a column.
+	 * @return maximum column width
 	 */
 	public int getMaxColumnWidth(JTable table, int column) {
 
@@ -455,6 +472,7 @@ public class SelectionTableD extends JTable {
 
 	/**
 	 * Finds the maximum preferred height of all cells.
+	 * @return maximum row height
 	 */
 	public int getMaxRowHeight(JTable table) {
 

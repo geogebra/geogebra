@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.desktop.gui.color;
 
 import java.awt.BorderLayout;
@@ -89,16 +90,15 @@ public class ColorChooserButton extends JButton {
 		setIcon(createIcon(selectedColor));
 	}
 
-	public void swatchClicked(Color color) {
+	protected void swatchClicked(Color color) {
 		selectedColor = color;
 		handlePopupEvent();
 		myPopup.setVisible(false);
 	}
 
-	public Color getSelectedColor() {
-		return selectedColor;
-	}
-
+	/**
+	 * Handle popup event
+	 */
 	public void handlePopupEvent() {
 		setIcon(createIcon(selectedColor));
 		repaint();
@@ -172,14 +172,12 @@ public class ColorChooserButton extends JButton {
 
 		private static final long serialVersionUID = 1L;
 
-		private SwatchPanel swatchPanel;
-
-		public ColorChooserPopup(ColorChooserButton button) {
+		protected ColorChooserPopup(ColorChooserButton button) {
 			super();
 
 			setLayout(new BorderLayout());
 
-			swatchPanel = new SwatchPanel(button);
+			SwatchPanel swatchPanel = new SwatchPanel(button);
 			add(swatchPanel, BorderLayout.CENTER);
 
 			/*

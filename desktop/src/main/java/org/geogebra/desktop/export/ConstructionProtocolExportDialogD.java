@@ -55,13 +55,17 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 	private static final long serialVersionUID = -2626950140196416416L;
 
-	private JCheckBox cbDrawingPadPicture, cbScreenshotPicture;
+	private JCheckBox cbDrawingPadPicture;
+	private JCheckBox cbScreenshotPicture;
 	private JCheckBox cbColor;
 	private GraphicSizePanel sizePanel;
 	boolean kernelChanged = false;
-	private ConstructionProtocolViewD prot;
-	private AppD app;
+	private final ConstructionProtocolViewD prot;
+	private final AppD app;
 
+	/**
+	 * @param prot construction protocol
+	 */
 	public ConstructionProtocolExportDialogD(ConstructionProtocolViewD prot) {
 		super(prot.getApplication().getFrame(), true);
 		this.prot = prot;
@@ -83,12 +87,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 		TitlePanel tp = new TitlePanel(app);
 		cp.add(tp, BorderLayout.NORTH);
-		tp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				kernelChanged = true;
-			}
-		});
+		tp.addActionListener(e -> kernelChanged = true);
 
 		// checkbox: insert picture of drawing pad
 		JPanel picPanel = new JPanel(new BorderLayout(20, 5));
@@ -167,7 +166,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 						}
 						exportHTML(cbDrawingPadPicture.isSelected(),
 								cbScreenshotPicture.isSelected(),
-								cbColor.isSelected(), true);
+								cbColor.isSelected());
 					}
 				};
 				runner.start();
@@ -175,36 +174,29 @@ public class ConstructionProtocolExportDialogD extends Dialog
 		});
 
 		JButton clipboardButton = new JButton(loc.getMenu("Clipboard"));
-		clipboardButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						dispose();
-						if (kernelChanged) {
-							app.storeUndoInfo();
-						}
-						try {
-							Toolkit toolkit = Toolkit.getDefaultToolkit();
-							Clipboard clipboard = toolkit.getSystemClipboard();
-							
+		clipboardButton.addActionListener(e -> {
+			Thread runner = new Thread(() -> {
+				dispose();
+				if (kernelChanged) {
+					app.storeUndoInfo();
+				}
+				try {
+					Toolkit toolkit = Toolkit.getDefaultToolkit();
+					Clipboard clipboard = toolkit.getSystemClipboard();
 
-							StringSelection stringSelection = new StringSelection(
-									ConstructionProtocolView.getHTML(null,
-											app.getLocalization(),
-											app.getKernel(), prot.getColumns(),
-											prot.getUseColors()));
-							clipboard.setContents(stringSelection, null);
-						} catch (Exception ex) {
-							ex.printStackTrace();
-							app.showError(Errors.SaveFileFailed);
-							Log.debug(ex.toString());
-						}
-					}
-				};
-				runner.start();
-			}
+					StringSelection stringSelection = new StringSelection(
+							ConstructionProtocolView.getHTML(null,
+									app.getLocalization(),
+									app.getKernel(), prot.getColumns(),
+									prot.getUseColors()));
+					clipboard.setContents(stringSelection, null);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					app.showError(Errors.SaveFileFailed);
+					Log.debug(ex.toString());
+				}
+			});
+			runner.start();
 		});
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -255,8 +247,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 	/**
 	 * Exports construction protocol as html
-	 * 
-	 * @param addIcons
+	 *
 	 * @param includePicture
 	 *            : states whether a picture of the drawing pad should be
 	 *            exported with the html output file
@@ -265,11 +256,10 @@ public class ConstructionProtocolExportDialogD extends Dialog
 	 *            exported with the html output file
 	 */
 	private void exportHTML(boolean includePicture,
-			boolean includeAlgebraPicture, boolean useColors,
-			boolean addIcons) {
+			boolean includeAlgebraPicture, boolean useColors) {
 		File file;
 		prot.setUseColors(useColors);
-		file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
+		file = app.getGuiManager().showSaveDialog(
 				FileExtensions.HTML, null,
 				app.getLocalization().getMenu("HTML"), true, false);
 

@@ -10,12 +10,10 @@ import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 
-public class CasPropertiesFactory implements PropertiesFactory {
-
-	private PropertiesFactory basePropertiesFactory = new BasePropertiesFactory();
+public class CasPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	public PropertiesArray createGeneralProperties(
+	protected PropertiesArray createGeneralProperties(
 			App app,
 			Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
@@ -31,15 +29,5 @@ public class CasPropertiesFactory implements PropertiesFactory {
 						settings.getFontSettings(),
 						app.getSettingsUpdater().getFontSettingsUpdater()),
 				new LanguageProperty(app, localization, onLanguageSetCallback));
-	}
-
-	@Override
-	public PropertiesArray createAlgebraProperties(App app, Localization localization) {
-		return basePropertiesFactory.createAlgebraProperties(app, localization);
-	}
-
-	@Override
-	public PropertiesArray createGraphicsProperties(App app, Localization localization) {
-		return basePropertiesFactory.createGraphicsProperties(app, localization);
 	}
 }

@@ -16,6 +16,7 @@ public class ImageResizer {
 	 *            width of the resized image
 	 * @param height
 	 *            height of the resized image
+	 * @return resized image
 	 */
 	public static BufferedImage resizeImage(BufferedImage srcImage, int width,
 			int height) {

@@ -16,6 +16,9 @@ public class SandboxContextFactory extends ContextFactory {
 		return cx;
 	}
 
+	/**
+	 * @return singleton instance
+	 */
 	public static ContextFactory getInstance() {
 		if (instance == null) {
 			instance = new SandboxContextFactory();

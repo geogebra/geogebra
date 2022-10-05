@@ -392,6 +392,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/baseline-table_chart-24px-black.svg")
 	SVGResource toolbar_table_view_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/distribution.svg")
+	SVGResource toolbar_distribution();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_filter_list_black_24px.svg")
 	SVGResource filter_list_black();
 

@@ -2098,7 +2098,8 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean isUndefinedGeoNumber() {
-		if (!geo.isGeoNumeric()) {
+		// we should show undefined integrals
+		if (!geo.isGeoNumeric() || !geo.isIndependent()) {
 			return false;
 		}
 

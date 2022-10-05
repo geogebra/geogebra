@@ -13,13 +13,11 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -263,30 +261,16 @@ public class TextOptionsModel extends OptionsModel {
 		this.editGeo = editGeo;
 	}
 
-	public void setEditGeoText(String text) {
-		if (editGeo == null || !isTextEditable()) {
-			return;
-		}
-
-		editGeo.setTextString(text);
-	}
-
 	public void applyEditedGeo(ArrayList<DynamicTextElement> text,
-			final boolean isLatex, final boolean isSerif,
-			ErrorHandler handler) {
+			final boolean isLatex, ErrorHandler handler) {
 		GeoText geo0 = getGeoTextAt(0);
 		app.getKernel().getAlgebraProcessor().changeGeoElement(geo0,
 				dTProcessor.buildGeoGebraString(text, isLatex), true, true,
-				handler, new AsyncOperation<GeoElementND>() {
-
-					@Override
-					public void callback(GeoElementND geo1) {
-						((GeoText) geo1).setSerifFont(isSerif);
-						((GeoText) geo1).setLaTeX(isLatex, true);
-						geo1.updateRepaint();
-						app.getSelectionManager().addSelectedGeo(geo1);
-						editGeo = null;
-					}
+				handler, geo1 -> {
+					((GeoText) geo1).setLaTeX(isLatex, true);
+					geo1.updateRepaint();
+					app.getSelectionManager().addSelectedGeo(geo1);
+					editGeo = null;
 				});
 
 		storeUndoInfo();

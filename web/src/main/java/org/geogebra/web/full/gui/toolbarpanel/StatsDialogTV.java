@@ -1,11 +1,13 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.table.RegressionSpecification;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.gui.view.table.dialog.StatisticGroup;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
@@ -14,7 +16,6 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 
 public class StatsDialogTV extends ComponentDialog {
 
@@ -78,16 +79,17 @@ public class StatsDialogTV extends ComponentDialog {
 	 */
 	public void addRegressionChooserHasError(List<RegressionSpecification> available,
 			List<StatisticGroup> initialRegression) {
-		ListBox regressionChooser = new ListBox();
-		available.forEach(spec ->
-				regressionChooser.addItem(app.getLocalization().getMenu(spec.getLabel()),
-						spec.getLabel())
-		);
-		regressionChooser.addChangeHandler((change) -> {
+		List<String> items = new ArrayList<>();
+		available.forEach(spec -> items.add(spec.getLabel()));
+
+		CompDropDown regressionChooser = new CompDropDown((AppW) app,
+				app.getLocalization().getMenu("RegressionModel"), items);
+		regressionChooser.setChangeHandler(() -> {
 			RegressionSpecification regression = available
 					.get(regressionChooser.getSelectedIndex());
 			setRows(view.getRegression(column, regression));
 		});
+
 		addDialogContent(regressionChooser);
 
 		setOnPositiveAction(() -> {

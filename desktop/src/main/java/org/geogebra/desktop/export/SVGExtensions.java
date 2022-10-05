@@ -34,6 +34,13 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	protected String title;
 	protected String desc;
 
+	/**
+	 * @param file file
+	 * @param size pixel size
+	 * @param cmWidth width in cm
+	 * @param cmHeight height in cm
+	 * @throws IOException TODO how?
+	 */
 	public SVGExtensions(OutputStream file, Dimension size, double cmWidth,
 			double cmHeight) throws IOException {
 		super(file, size);
@@ -66,12 +73,6 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 	public void setElementTitle(String title) {
 		this.title = title;
-
-	}
-
-	public String getElementTitle(String title) {
-		return this.title;
-
 	}
 
 	public void setElementDesc(String desc) {
@@ -99,6 +100,10 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 	}
 
+	/**
+	 * @param d drawable
+	 * @param g2 graphics
+	 */
 	public final void draw(Drawable d, GGraphics2D g2) {
 		GeoElement geo = d.getGeoElement();
 		// defined check needed in case the GeoList changed its size

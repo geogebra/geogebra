@@ -26,57 +26,40 @@ public class GeoGebraKeys implements KeyListener {
 
 	private boolean altPressed;
 
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
-		if (AppD.MAC_OS && e.isControlDown())
-		 {
+		if (AppD.MAC_OS && e.isControlDown()) {
 			e.consume();
-		// Application.debug("keyPressed");
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-
-		// Application.debug("keyTyped"+e.getKeyChar());
 		if (AppD.isAltDown(e)) {
 			if (!altPressed) {
 				altCodes.setLength(0);
-				// Application.debug("alt pressed");
 			}
 			altPressed = true;
 		} else {
 			if (altCodes.length() > 0) {
-
 				// intercept wrong character and replace with correct Alt-code
 				char insertStr = (char) Integer.parseInt(altCodes.toString());
 				JTextComponent comp = (JTextComponent) e.getComponent();
 				int pos = comp.getCaretPosition();
 				String oldText = comp.getText();
-				StringBuilder sb = new StringBuilder();
-				sb.append(oldText.substring(0, pos));
-				sb.append(insertStr);
-				sb.append(oldText.substring(pos));
-				comp.setText(sb.toString());
+				String sb = oldText.substring(0, pos)
+						+ insertStr
+						+ oldText.substring(pos);
+				comp.setText(sb);
 
 				comp.setCaretPosition(pos + 1);
 				e.consume();
-
 			}
 
 			altPressed = false;
 			altCodes.setLength(0);
 		}
-
-		// we don't want to trap AltGr
-		// as it is used eg for entering {[}] is some locales
-		// NB e.isAltGraphDown() doesn't work
-		if (e.isAltDown() && e.isControlDown()) {
-			return;
-		}
-
 	}
 
 	@Override
@@ -128,10 +111,8 @@ public class GeoGebraKeys implements KeyListener {
 				char c = e.getKeyChar();
 
 				// make sure it's not eg alt-*
-				if (c >= '0' && c <= '9')
-				 {
+				if (c >= '0' && c <= '9') {
 					altCodes.append(e.getKeyChar());
-				// Application.debug("alt:"+altCodes);
 				}
 			}
 
@@ -207,15 +188,13 @@ public class GeoGebraKeys implements KeyListener {
 				if (comp instanceof DynamicTextInputPane) {
 					((DynamicTextInputPane) comp).insertString(pos, insertStr,
 							null);
-				} else
-				// all other cases use setText
-				{
+				} else {
+					// all other cases use setText
 					String oldText = comp.getText();
-					StringBuilder sb = new StringBuilder();
-					sb.append(oldText.substring(0, pos));
-					sb.append(insertStr);
-					sb.append(oldText.substring(pos));
-					comp.setText(sb.toString());
+					String sb = oldText.substring(0, pos)
+							+ insertStr
+							+ oldText.substring(pos);
+					comp.setText(sb);
 					comp.setCaretPosition(pos + insertStr.length());
 				}
 

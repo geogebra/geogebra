@@ -9,7 +9,7 @@ public class IntervalPath {
 	public static final double CLAMPED_INFINITY = Double.MAX_VALUE;
 	private final IntervalPathPlotter gp;
 	private final EuclidianViewBounds bounds;
-	private final IntervalPlotModel model;
+	private final QueryFunctionData data;
 	private Interval lastY;
 	private final DrawInterval drawInterval;
 	private final DrawInvertedInterval drawInvertedInterval;
@@ -23,17 +23,17 @@ public class IntervalPath {
 	 * Constructor.
 	 * @param gp {@link IntervalPathPlotter}
 	 * @param bounds {@link EuclidianViewBounds}
-	 * @param model {@link IntervalPlotModel}
+	 * @param data {@link IntervalFunctionModelImpl}
 	 */
 	public IntervalPath(IntervalPathPlotter gp, EuclidianViewBounds bounds,
-			IntervalPlotModel model) {
+			QueryFunctionData data) {
 		this.gp = gp;
 		this.bounds = bounds;
-		this.model = model;
+		this.data = data;
 		labelPositionCalculator = new LabelPositionCalculator(bounds);
 		lastY = new Interval();
 		drawInterval = new DrawInterval(gp, bounds);
-		drawInvertedInterval = new DrawInvertedInterval(gp, model, bounds);
+		drawInvertedInterval = new DrawInvertedInterval(gp, data, bounds);
 	}
 
 	/**
@@ -41,22 +41,11 @@ public class IntervalPath {
 	 */
 	public synchronized void update() {
 		reset();
-		moveToAnchor();
-		model.forEach(index -> drawAt(index));
-	}
-
-	private void moveToAnchor() {
-		IntervalTuple anchor = model.getAnchor();
-		if (anchor.isUndefined() || anchor.isInverted()) {
-			return;
-		}
-		gp.moveTo(bounds.toScreenCoordXd(anchor.x().getHigh()),
-				bounds.toScreenCoordYd(anchor.y().getHigh()));
-		lastY = bounds.toScreenIntervalY(anchor.y());
+		data.forEach(this::drawAt);
 	}
 
 	private void drawAt(int index) {
-		IntervalTuple tuple = model.at(index);
+		IntervalTuple tuple = data.at(index);
 		if (tuple.isUndefined() || isPieceChanged(tuple)) {
 			noJoinForNextTuple();
 		} else {
@@ -88,11 +77,11 @@ public class IntervalPath {
 	}
 
 	private boolean isJoinNeeded(int index) {
-		return !(lastY.isUndefined() || isPieceChanged(model.at(index)));
+		return !(lastY.isUndefined() || isPieceChanged(data.at(index)));
 	}
 
 	private void drawTupleJoined(int index) {
-		IntervalTuple tuple = model.at(index);
+		IntervalTuple tuple = data.at(index);
 		if (tuple.isInverted()) {
 			drawInvertedJoined(index);
 		} else if (tuple.y().isWhole()) {
@@ -100,7 +89,7 @@ public class IntervalPath {
 		} else if (!lastY.isUndefined()) {
 			drawNonInverted(tuple);
 		}
-		calculateLabelPoint(model.at(index));
+		calculateLabelPoint(data.at(index));
 	}
 
 	private void drawNonInverted(IntervalTuple tuple) {
@@ -112,7 +101,7 @@ public class IntervalPath {
 	}
 
 	private void drawInvertedJoined(int index) {
-		if (!isJoinNeeded(index) || model.isWholeAt(index)) {
+		if (!isJoinNeeded(index) || data.isWholeAt(index)) {
 			noJoinForNextTuple();
 		} else {
 			lastY = drawInvertedInterval.drawJoined(index, lastY);
@@ -146,10 +135,10 @@ public class IntervalPath {
 	}
 
 	private void drawTupleIndependent(int index) {
-		if (model.isInvertedAt(index)) {
+		if (data.isInvertedAt(index)) {
 			drawInvertedInterval.draw(index);
 		} else {
-			Interval lastValue = drawInterval.drawIndependent(model.at(index));
+			Interval lastValue = drawInterval.drawIndependent(data.at(index));
 			lastY.set(lastValue);
 		}
 	}

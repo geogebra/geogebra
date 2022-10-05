@@ -37,17 +37,21 @@ public class PrintScalePanel extends JPanel {
 
 	private static final int maxFracDigits = 5;
 
-	private JTextField tfScale1, tfScale2, tfSize1, tfSize2;
-	private JTextField tfScaleFixed;
+	private final JTextField tfScale1;
+	private final JTextField tfScale2;
+	private final JTextField tfSize1;
+	private final JTextField tfSize2;
+	private final JTextField tfScaleFixed;
 
-	private Vector<ActionListener> listeners = new Vector<>();
-	private EuclidianView ev;
-	private NumberFormat nf;
+	private final Vector<ActionListener> listeners = new Vector<>();
+	private final EuclidianView ev;
+	private final NumberFormat nf;
 
 	@SuppressWarnings("rawtypes")
-	private JComboBox exportMode;
-	private JPanel pxModePanel, cmModePanel;
-	private JPanel fixedSizeModePanel;
+	private final JComboBox exportMode;
+	private final JPanel pxModePanel;
+	private final JPanel cmModePanel;
+	private final JPanel fixedSizeModePanel;
 
 	public enum PrintScaleModes {
 		SIZEINCM, SIZEINPX, FIXED_SIZE
@@ -70,7 +74,6 @@ public class PrintScalePanel extends JPanel {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PrintScalePanel(AppD app, EuclidianView ev) {
 		this.ev = ev;
-		Localization loc = app.getLocalization();
 		nf = NumberFormat.getInstance(Locale.ENGLISH);
 		nf.setMaximumFractionDigits(maxFracDigits);
 		nf.setGroupingUsed(false);
@@ -116,6 +119,7 @@ public class PrintScalePanel extends JPanel {
 
 		// new variables added (3 rows) - are used as items in the combo box
 		// exportMode
+		Localization loc = app.getLocalization();
 		jcbItemScaleInCentimeter = loc.getMenu("ScaleInCentimeter") + ":";
 		jcbItemFixedSize = loc.getMenu("FixedSize") + ":";
 		jcbItemSizeInPixels = loc.getMenu("SizeInPixels") + ":";
@@ -166,7 +170,7 @@ public class PrintScalePanel extends JPanel {
 	}
 
 	/**
-	 * @param b
+	 * @param b to allow pixel size
 	 */
 	@SuppressWarnings("unchecked")
 	public void enableAbsoluteSize(boolean b) {
@@ -175,15 +179,9 @@ public class PrintScalePanel extends JPanel {
 		}
 		pixelSizeEnabled = b;
 		exportMode.removeItem(jcbItemSizeInPixels);
-		// this.removeAll();
 		if (b) {
-			// this.add(exportMode);
 			exportMode.addItem(jcbItemSizeInPixels);
-		} else {
-			// this.add(scaleLabel);
 		}
-
-		// this.add(cmModePanel);
 	}
 
 	/**
@@ -391,7 +389,7 @@ public class PrintScalePanel extends JPanel {
 	}
 
 	/**
-	 * Height in pixels
+	 * @return Height in pixels
 	 */
 	public int getPixelHeight() {
 		try {

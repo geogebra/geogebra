@@ -1,10 +1,15 @@
 package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import org.geogebra.web.html5.gui.util.Dom;
 
-public class TableCell extends FlowPanel {
+import com.google.gwt.safehtml.shared.SafeHtml;
+
+import elemental2.dom.HTMLElement;
+
+public class TableCell {
+
+	private final HTMLElement main;
+	private final String errorHTML;
 
 	/**
 	 * constructor for cell
@@ -12,33 +17,15 @@ public class TableCell extends FlowPanel {
 	 * @param hasError true if is erroneous cell
 	 */
 	public TableCell(String content, boolean hasError) {
-		SimplePanel contentPanel = new SimplePanel();
-		contentPanel.addStyleName("content");
-		contentPanel.getElement().setInnerText(content);
-		this.add(contentPanel);
-
-		if (hasError) {
-			SimplePanel errorTriangle = new SimplePanel();
-			errorTriangle.addStyleName("errorStyle");
-			this.add(errorTriangle);
-		}
-	}
-
-	/**
-	 * constructor for header cell
-	 * @param htmlContent HTML content of the cell (including 3dot button)
-	 */
-	public TableCell(String htmlContent) {
-		SimplePanel contentPanel = new SimplePanel();
-		contentPanel.addStyleName("content");
-		contentPanel.getElement().setInnerHTML(htmlContent);
-		this.add(contentPanel);
+		main = Dom.createDiv("content");
+		main.innerHTML = content;
+		errorHTML = hasError ? Dom.createDiv("errorStyle").outerHTML : "";
 	}
 
 	/**
 	 * @return SafeHtml of the cell.
 	 */
 	SafeHtml getHTML() {
-		return (SafeHtml) () -> this.getElement().getInnerHTML();
+		return () -> main.outerHTML + errorHTML;
 	}
 }

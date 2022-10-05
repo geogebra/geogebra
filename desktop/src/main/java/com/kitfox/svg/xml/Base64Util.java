@@ -39,9 +39,10 @@ package com.kitfox.svg.xml;
  * @author kitfox
  */
 public class Base64Util {
-	static final byte[] valueToBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-			.getBytes();
+	static final byte[] valueToBase64 = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			+ "abcdefghijklmnopqrstuvwxyz0123456789+/").getBytes();
 	static final byte[] base64ToValue = new byte[128];
+
 	static {
 		for (int i = 0; i < valueToBase64.length; ++i) {
 			base64ToValue[valueToBase64[i]] = (byte) i;

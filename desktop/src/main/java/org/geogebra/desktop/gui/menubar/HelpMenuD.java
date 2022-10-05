@@ -21,13 +21,17 @@ import org.geogebra.desktop.util.GuiResourcesD;
 class HelpMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
-	private AbstractAction helpAction, tutorialAction, input3DTutorialAction,
-			forumAction, infoAction, reportBugAction;
+	private AbstractAction helpAction;
+	private AbstractAction tutorialAction;
+	private AbstractAction input3DTutorialAction;
+	private AbstractAction forumAction;
+	private AbstractAction infoAction;
+	private AbstractAction reportBugAction;
 
 	/**
 	 * Creates new help menu
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public HelpMenuD(AppD app) {
 		super(app, "Help");

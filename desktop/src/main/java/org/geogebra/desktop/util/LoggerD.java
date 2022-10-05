@@ -84,7 +84,7 @@ public class LoggerD extends Log {
 				+ "." + msecS;
 	}
 
-	public String getCaller(int depth) {
+	private String getCaller(int depth) {
 		try {
 			Throwable t = new Throwable();
 			StackTraceElement[] elements = t.getStackTrace();

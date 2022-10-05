@@ -102,6 +102,7 @@ import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
+import org.geogebra.web.full.gui.view.probcalculator.TabbedProbCalcView;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
@@ -584,7 +585,8 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public View getProbabilityCalculator() {
 		if (probCalculator == null) {
-			setProbCalculator(new ProbabilityCalculatorViewW(getApp()));
+			setProbCalculator(app.isSuite() ? ProbabilityCalculatorViewW.create(getApp())
+					: new TabbedProbCalcView(getApp()));
 		}
 
 		return probCalculator;

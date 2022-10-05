@@ -11,6 +11,9 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class MacApplicationListener
 		implements com.apple.eawt.ApplicationListener {
 
+	/**
+	 * Initialize the listener
+	 */
 	public static void initMacApplicationListener() {
 		com.apple.eawt.Application app = new com.apple.eawt.Application();
 		app.addApplicationListener(new MacApplicationListener());

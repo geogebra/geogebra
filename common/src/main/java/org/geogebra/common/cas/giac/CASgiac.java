@@ -51,7 +51,6 @@ import org.geogebra.regexp.shared.RegExp;
  * Platform (Java / GWT) independent part of giac CAS
  */
 public abstract class CASgiac implements CASGenericInterface {
-	/** parser tools */
 
 	/**
 	 * Random number generator
@@ -83,7 +82,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// public final static String closeString = "caseval(\"close geogebra\")";
 	// public final static String closeStringWeb = "close geogebra";
 
-	public static enum CustomFunctions {
+	public enum CustomFunctions {
 		/**
 		 * 
 		 */
@@ -141,6 +140,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		GGB_IS_NUMBER("ggb_is_number", "ggb_is_number(a):=[[ggbtype:=type(a)], "
 				+ "when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT||ggbtype==DOM_RAT,1,0)][1]"),
+
+		/**
+		 * Returns the set difference of two lists while keeping duplicates in the result."
+		 */
+		GGB_LIST_DIFFERENCE("ggbListDifference",
+				"ggbListDifference(x,y):=flatten1(map(x,e->when(member(e, y)==0,[e],[])))"),
 
 		/**
 		 * Used by Zip.N
@@ -1176,7 +1181,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * Combine non-factorized and factorized results as a 3 dimensional array.
-	 * 
+	 *
 	 * The input is like this example:
 	 * {{6,5,-184,304,-160,28,-2,52,-136,96,-14,1,-2,-12,-12,0,0,27,2,2,0,0,-10,
 	 * 0,0,0,0,1,0,0,0,0},{2,2,1,-2,1,5,5,92,-152,80,-14,1,20,-8,-8,0,0,11,2,2,0
@@ -1190,10 +1195,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * number of factors (2), then the coefficients are listed (2,1,-2,1 for
 	 * x-2=0, here the first two elements describe the size of the coefficient
 	 * matrix) and the rest for the other one.
-	 * 
+	 *
 	 * In the output the 0. element in the 1. dimension contains the
 	 * non-factorized values, the next elements contain the factorized ones.
-	 * 
+	 *
 	 * @param rawResult
 	 *            input string of coefficients of a polynomial and its factors
 	 *            in a custom format
@@ -1406,12 +1411,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		// return "?";
 		// }
 
-		if (ret.indexOf("integrate(") > -1) {
+		if (ret.contains("integrate(")) {
 			// eg Integral[sqrt(sin(x))]
 			return "?";
 		}
 
-		if (ret.indexOf("c_") > -1) {
+		if (ret.contains("c_")) {
 			// TODO with the current lookup constant numbers need to be globally
 			// unique -- we should reset the lookup table for each computation
 			// instead (e.g. revert r19766)
@@ -1422,7 +1427,7 @@ public abstract class CASgiac implements CASGenericInterface {
 					"arbconst($1+" + nrOfReplacedConst + ")");
 		}
 
-		if (ret.indexOf("n_") > -1) {
+		if (ret.contains("n_")) {
 			Log.debug("replacing arbitrary integers in " + ret);
 			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
 		}

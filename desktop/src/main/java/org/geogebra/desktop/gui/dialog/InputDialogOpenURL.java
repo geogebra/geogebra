@@ -8,6 +8,9 @@ import org.geogebra.desktop.main.AppD;
 
 public class InputDialogOpenURL extends InputDialogD {
 
+	/**
+	 * @param app application
+	 */
 	public InputDialogOpenURL(AppD app) {
 		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;

@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 
@@ -23,14 +22,21 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class FontManagerD extends FontManager {
 
-	private GFont boldFont, italicFont, smallFont, plainFont, serifFont,
-			serifFontBold, javaSans, javaSerif;
+	private GFont boldFont;
+	private GFont italicFont;
+	private GFont smallFont;
+	private GFont plainFont;
+	private GFont serifFont;
+	private GFont serifFontBold;
+	private GFont javaSans;
+	private GFont javaSerif;
 
 	private int fontSize;
-	private String sansName, serifName;
+	private String sansName;
+	private String serifName;
 
-	private HashMap fontMap = new HashMap();
-	private StringBuilder key = new StringBuilder();
+	private final HashMap<String, Font> fontMap = new HashMap<>();
+	private final StringBuilder key = new StringBuilder();
 
 	private static final String[] FONT_NAMES_SANSSERIF = { "SansSerif", // Java
 			"Arial Unicode MS", // Windows
@@ -43,19 +49,26 @@ public class FontManagerD extends FontManager {
 			"Times" // Mac OS X
 	};
 
+	public static class NoFontException extends Exception {
+		public NoFontException() {
+			super("Sorry, there is no font for this language available on your computer.");
+		}
+	}
+
 	public FontManagerD() {
 		setFontSize(12);
 	}
 
 	/**
 	 * Sets default font that works with the given language.
+	 * @throws NoFontException if no font works for given locale
 	 */
-	public void setLanguage(final Locale locale) throws Exception {
+	public void setLanguage(final Locale locale) throws NoFontException {
 		final String lang = locale.getLanguage();
 
 		// new font names for language
-		String fontNameSansSerif = null;
-		String fontNameSerif = null;
+		String fontNameSansSerif;
+		String fontNameSerif;
 
 		// certain languages need special fonts to display its characters
 		final StringBuilder testCharacters = new StringBuilder();
@@ -67,8 +80,6 @@ public class FontManagerD extends FontManager {
 		final String testChar = Language.getTestChar(lang);
 		if (testChar != null) {
 			testCharacters.append(testChar);
-			// Application.debug("Using test
-			// char:"+Util.toHexString(testChar.charValue()));
 		} // else Application.debug("No language specific test char");
 
 		// CHINESE
@@ -98,24 +109,6 @@ public class FontManagerD extends FontManager {
 			tryFontsSerif.remove("Serif");
 			tryFontsSerif.addLast("Serif");
 		}
-
-		/*
-		 * replaced by Unicode.getTestChar()
-		 * 
-		 * // JAPANESE else if ("ja".equals(lang)) { // Katakana letter N
-		 * testCharacters.append('\uff9d'); }
-		 * 
-		 * // TAMIL else if ("ta".equals(lang)) { // Tamil digit 1
-		 * testCharacters.append('\u0be7'); }
-		 * 
-		 * // Punjabi else if ("pa".equals(lang)) {
-		 * testCharacters.append('\u0be7'); } // Hindi else if
-		 * ("hi".equals(lang)) { testCharacters.append('\u0be7'); } // Urdu else
-		 * if ("ur".equals(lang)) { testCharacters.append('\u0be7'); } //
-		 * Gujarati else if ("gu".equals(lang)) {
-		 * testCharacters.append('\u0be7'); } else if ("si".equals(lang)) {
-		 * testCharacters.append('\u0d9a'); // letter a }
-		 */
 
 		// we need roman (English) characters if possible
 		// eg the language menu :)
@@ -158,6 +151,11 @@ public class FontManagerD extends FontManager {
 		updateDefaultFonts(size, sans, serif);
 	}
 
+	/**
+	 * @param size font size
+	 * @param sans sans-serif font name
+	 * @param serif serif font name
+	 */
 	public void updateDefaultFonts(final int size, final String sans,
 			final String serif) {
 		if ((size == fontSize) && sans.equals(sansName)
@@ -184,17 +182,14 @@ public class FontManagerD extends FontManager {
 
 		// TODO: causes problems with multiple windows (File -> New Window)
 		setLAFFont(((GFontD) plainFont).getAwtFont());
-
-		// System.out.println("Fonts updated: sans: " + sans + ", serif: " +
-		// serif);
 	}
 
 	/**
-	 * Returns a font with the specified attributes.
+	 * @return a font with the specified attributes.
 	 * 
-	 * @param serif
-	 * @param style
-	 * @param size
+	 * @param serif whether the font is serif
+	 * @param style font style
+	 * @param size font size
 	 */
 	public GFont getFont(final boolean serif, final int style, final int size) {
 		final String name = serif ? getSerifFont().getFontName()
@@ -215,7 +210,7 @@ public class FontManagerD extends FontManager {
 		key.append(size);
 
 		// look if we have this font already in the HashMap
-		Font f = (Font) fontMap.get(key.toString());
+		Font f = fontMap.get(key.toString());
 		if (f == null) {
 			// new font: create it and keep it in the HashMap
 			f = new Font(name, style, size);
@@ -277,22 +272,16 @@ public class FontManagerD extends FontManager {
 	/**
 	 * Tries to find a font that can display all given unicode characters.
 	 * Starts with tryFontNames first.
+	 * @return font name
+	 * @throws NoFontException if no font works for given locale
 	 */
 	public String getFontCanDisplay(final LinkedList<String> tryFontNames,
-			final String testCharacters) throws Exception {
-		// System.out.println("expensive test getFontCanDisplay, " +
-		// testCharacters);
-
-		// if (true) {
-		// return "Comic Sans MS";
-		// }
+			final String testCharacters) throws NoFontException {
 
 		// try given fonts
 		if (tryFontNames != null) {
-			final Iterator<String> it = tryFontNames.iterator();
-			while (it.hasNext()) {
+			for (String fontName : tryFontNames) {
 				// create font for name
-				final String fontName = it.next();
 				final GFont font = getFont(fontName, Font.PLAIN, 12);
 
 				// check if creating font worked
@@ -338,8 +327,7 @@ public class FontManagerD extends FontManager {
 			return allfonts[bestFont].getFontName();
 		}
 
-		throw new Exception(
-				"Sorry, there is no font for this language available on your computer.");
+		throw new NoFontException();
 	}
 
 	final public GFont getBoldFont() {

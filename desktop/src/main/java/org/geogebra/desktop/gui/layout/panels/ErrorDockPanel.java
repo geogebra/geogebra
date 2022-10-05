@@ -17,8 +17,8 @@ public class ErrorDockPanel extends DockPanelD {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param app
-	 * @param viewId
+	 * @param app application
+	 * @param viewId view ID
 	 */
 	public ErrorDockPanel(AppD app, int viewId) {
 		super(App.VIEW_NONE, // view id
@@ -28,9 +28,6 @@ public class ErrorDockPanel extends DockPanelD {
 				4, // menu order
 				'3' // menu shortcut
 		);
-
-		// setVisible(false);
-
 		setApp(app);
 	}
 

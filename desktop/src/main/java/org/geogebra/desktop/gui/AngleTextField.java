@@ -22,6 +22,10 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param columns columns
+	 * @param app app
+	 */
 	public AngleTextField(int columns, AppD app) {
 		super(app, columns);
 		this.addKeyListener(this);

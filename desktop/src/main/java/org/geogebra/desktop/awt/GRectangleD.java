@@ -96,13 +96,11 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 
 	public boolean contains(GRectangle labelRectangle) {
 		return impl.contains(getAWTRectangle(labelRectangle));
-
 	}
 
 	@Override
 	public void add(GRectangle bb) {
 		impl.add(((GRectangleD) bb).impl);
-
 	}
 
 	@Override
@@ -183,11 +181,6 @@ public class GRectangleD implements GRectangle2DD, GRectangle {
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
-	}
-
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	@Override

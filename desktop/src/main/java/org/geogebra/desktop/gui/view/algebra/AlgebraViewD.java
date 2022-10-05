@@ -45,7 +45,6 @@ import javax.swing.tree.TreePath;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -84,7 +83,8 @@ public class AlgebraViewD extends AlgebraTree
 	/**
 	 * Nodes for tree mode MODE_DEPENDENCY
 	 */
-	private DefaultMutableTreeNode depNode, indNode;
+	private DefaultMutableTreeNode depNode;
+	private DefaultMutableTreeNode indNode;
 
 	protected DefaultMutableTreeNode auxiliaryNode;
 
@@ -104,10 +104,6 @@ public class AlgebraViewD extends AlgebraTree
 	private DefaultMutableTreeNode selectedNode;
 
 	private AlgebraHelperBar helperBar;
-
-	public AlgebraControllerD getAlgebraController() {
-		return (AlgebraControllerD) algebraController;
-	}
 
 	/** Creates new AlgebraView */
 	public AlgebraViewD(AlgebraControllerD algCtrl) {
@@ -223,9 +219,10 @@ public class AlgebraViewD extends AlgebraTree
 
 	boolean attached = false;
 
+	/**
+	 * Attach the view
+	 */
 	public void attachView() {
-		// AbstractApplication.printStacktrace("");
-
 		if (attached) {
 			return;
 		}
@@ -240,9 +237,6 @@ public class AlgebraViewD extends AlgebraTree
 
 	public void detachView() {
 		// does nothing : view may be used in object properties
-		/*
-		 * kernel.detach(this); clearView(); attached = false;
-		 */
 	}
 
 	@Override
@@ -294,15 +288,14 @@ public class AlgebraViewD extends AlgebraTree
 		selectedGeoElement = null;
 	}
 
-	public GeoElement getSelectedGeoElement() {
-		return selectedGeoElement;
-	}
-
 	@Override
 	public boolean showAuxiliaryObjects() {
 		return app.showAuxiliaryObjects;
 	}
 
+	/**
+	 * @param flag whether to show aux objects
+	 */
 	public void setShowAuxiliaryObjects(boolean flag) {
 
 		app.showAuxiliaryObjects = flag;
@@ -345,24 +338,6 @@ public class AlgebraViewD extends AlgebraTree
 	@Override
 	public SortMode getTreeMode() {
 		return treeMode;
-	}
-
-	public void setTreeMode(int mode) {
-		switch (mode) {
-		default:
-		case 0:
-			setTreeMode(SortMode.DEPENDENCY);
-			break;
-		case 1:
-			setTreeMode(SortMode.TYPE);
-			break;
-		case 2:
-			setTreeMode(SortMode.LAYER);
-			break;
-		case 3:
-			setTreeMode(SortMode.ORDER);
-			break;
-		}
 	}
 
 	/**
@@ -423,9 +398,8 @@ public class AlgebraViewD extends AlgebraTree
 		}
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
-			if (!geo.isIndependent() || !attached) // needed for F2 when Algebra
-			// View closed
-			{
+			if (!geo.isIndependent() || !attached) {
+				// needed for F2 when Algebra View closed
 				if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}
@@ -509,8 +483,7 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	/**
-	 * 
-	 * @param geo
+	 * @param geo construction element
 	 * @return parent node of this geo
 	 */
 	@Override
@@ -565,64 +538,6 @@ public class AlgebraViewD extends AlgebraTree
 		}
 
 		return parent;
-	}
-
-	/**
-	 * Performs a binary search for geo among the children of parent. All
-	 * children of parent have to be instances of GeoElement sorted
-	 * alphabetically by their names.
-	 * 
-	 * @return -1 when not found
-	 */
-	final public static int binarySearchGeo(DefaultMutableTreeNode parent,
-			String geoLabel) {
-		int left = 0;
-		int right = parent.getChildCount() - 1;
-		if (right == -1 || geoLabel == null) {
-			return -1;
-		}
-
-		// binary search for geo's label
-		while (left <= right) {
-			int middle = (left + right) / 2;
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
-					.getChildAt(middle);
-			String nodeLabel = ((GeoElement) node.getUserObject())
-					.getLabelSimple();
-
-			int compare = GeoElement.compareLabels(geoLabel, nodeLabel);
-			if (compare < 0) {
-				right = middle - 1;
-			} else if (compare > 0) {
-				left = middle + 1;
-			} else {
-				return middle;
-			}
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Performs a linear search for geo among the children of parent.
-	 * 
-	 * @return -1 when not found
-	 */
-	final public static int linearSearchGeo(DefaultMutableTreeNode parent,
-			String geoLabel) {
-		if (geoLabel == null) {
-			return -1;
-		}
-		int childCount = parent.getChildCount();
-		for (int i = 0; i < childCount; i++) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
-					.getChildAt(i);
-			GeoElement g = (GeoElement) node.getUserObject();
-			if (geoLabel.equals(g.getLabel(StringTemplate.defaultTemplate))) {
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	/**
@@ -808,12 +723,7 @@ public class AlgebraViewD extends AlgebraTree
 
 		@Override
 		public boolean isCellEditable(EventObject event) {
-
-			if (event == null) {
-				return true;
-			}
-
-			return false;
+			return event == null;
 		}
 
 		//
@@ -831,9 +741,7 @@ public class AlgebraViewD extends AlgebraTree
 				} else {
 					lastPath = null;
 				}
-				/***** ADDED by Markus Hohenwarter ***********/
 				storeSelection(lastPath);
-				/********************************************/
 			}
 			if (timer != null) {
 				timer.stop();
@@ -1005,36 +913,6 @@ public class AlgebraViewD extends AlgebraTree
 
 		}
 	}
-
-	
-	// returns settings in XML format
-	// 
-	// public void getXML(StringBuilder sb) {
-	// 
-	// sb.append("<algebraView>\n");
-	// sb.append("\t<useLaTeX ");
-	// sb.append(" value=\""); 
-	// sb.append(isRenderLaTeX());
-	// sb.append("\"");
-	// sb.append("/>\n");
-	// sb.append("</algebraView>\n");
-
-
-	// temporary proxies for the temporary implementation of AlgebraController
-	// in common
-	public GeoElement getGeoElementForPath(Object tp) {
-		return getGeoElementForPath((TreePath) tp);
-	}
-
-	public GeoElement getGeoElementForLocation(Object tree, int x, int y) {
-		return getGeoElementForLocation((JTree) tree, x, y);
-	}
-
-	public Object getPathBounds(Object tp) {
-		return getPathBounds((TreePath) tp);
-	}
-
-	// temporary proxies end
 
 	@Override
 	protected boolean show(GeoElement geo) {

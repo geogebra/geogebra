@@ -38,6 +38,7 @@ public class LaTeXContext extends ViewContext {
 	private List<Integer> typeToDefault = new ArrayList<>();
 
 	private static final Map<String, Color> colorMap = new HashMap<>();
+
 	static {
 		colorMap.put("Default", Color.decode("#000000"));
 		colorMap.put("Ampersand", Color.decode("#fb24f8"));
@@ -52,6 +53,7 @@ public class LaTeXContext extends ViewContext {
 	}
 
 	private static final Map<String, Integer> attribMap = new HashMap<>();
+
 	static {
 		attribMap.put("Default", 0);
 		attribMap.put("Ampersand", 0);

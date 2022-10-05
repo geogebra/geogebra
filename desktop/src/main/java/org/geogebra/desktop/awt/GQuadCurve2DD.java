@@ -63,11 +63,6 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at), flatness));
-	}
-
 	@Override
 	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));

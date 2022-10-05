@@ -776,6 +776,34 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testBackspaceLeavesPowerOfLetters() {
+		checker.type("e^t")
+				.left(2)
+				.type("-")
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e^(t)");
+
+		checker.type("ee^t")
+				.left(2)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e^(t)");
+	}
+
+	@Test
+	public void testBackspaceLeavesUnderscoreWithLetters() {
+		checker.type("e_t")
+				.left(2)
+				.type("-")
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e_{t}");
+
+		checker.type("ee_t")
+				.left(2)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
+				.checkAsciiMath("e_{t}");
+	}
+
+	@Test
 	public void testBackspaceLeavesSqrt() {
 		checker.type("12-sqrt(45")
 				.left(3)

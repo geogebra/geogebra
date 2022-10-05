@@ -13,8 +13,10 @@ import java.awt.LayoutManager;
  */
 public class FullWidthLayout implements LayoutManager {
 	private int vgap;
-	private int minWidth = 0, minHeight = 0;
-	private int preferredWidth = 0, preferredHeight = 0;
+	private int minWidth = 0;
+	private int minHeight = 0;
+	private int preferredWidth = 0;
+	private int preferredHeight = 0;
 	private boolean sizeUnknown = true;
 
 	/**
@@ -37,7 +39,7 @@ public class FullWidthLayout implements LayoutManager {
 	/**
 	 * Calculate the minimum and preferred size of the passed container.
 	 * 
-	 * @param parent
+	 * @param parent container
 	 */
 	private void calculateSizes(Container parent) {
 		preferredWidth = 0;

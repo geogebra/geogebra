@@ -69,7 +69,8 @@ public class AnimationExportDialogD extends Dialog {
 	/**
 	 * Buttons to close the dialog or start the actual export.
 	 */
-	private JButton cancelButton, exportButton;
+	private JButton cancelButton;
+	private JButton exportButton;
 
 	private LocalizationD loc;
 

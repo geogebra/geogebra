@@ -39,7 +39,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -64,34 +63,50 @@ public class OptionsAdvancedD implements OptionPanelD,
 	 */
 	private Settings settings;
 
-	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel,
-			languagePanel, angleUnitPanel, continuityPanel,
-			usePathAndRegionParametersPanel, rightAnglePanel, coordinatesPanel;
+	private JPanel virtualKeyboardPanel;
+	private JPanel guiFontsizePanel;
+	private JPanel tooltipPanel;
+	private JPanel languagePanel;
+	private JPanel angleUnitPanel;
+	private JPanel continuityPanel;
+	private JPanel usePathAndRegionParametersPanel;
+	private JPanel rightAnglePanel;
+	private JPanel coordinatesPanel;
 
-	private JLabel keyboardLanguageLabel, guiFontSizeLabel, widthLabel,
-			heightLabel, opacityLabel, tooltipLanguageLabel,
-			tooltipTimeoutLabel;
+	private JLabel keyboardLanguageLabel;
+	private JLabel guiFontSizeLabel;
+	private JLabel widthLabel;
+	private JLabel heightLabel;
+	private JLabel opacityLabel;
+	private JLabel tooltipLanguageLabel;
+	private JLabel tooltipTimeoutLabel;
 
-	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage,
-			cbTooltipTimeout,
-			cbGUIFont;
+	private JComboBox<String> cbKeyboardLanguage;
+	private JComboBox<String> cbTooltipLanguage;
+	private JComboBox<String> cbTooltipTimeout;
+	private JComboBox<String> cbGUIFont;
 
-	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
-			cbUseLocalLabels;
+	private JCheckBox cbKeyboardShowAutomatic;
+	private JCheckBox cbUseLocalDigits;
+	private JCheckBox cbUseLocalLabels;
 
-	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
-			angleUnitRadioDegreesMinutesSeconds,
-			continuityRadioOn, continuityRadioOff,
-			usePathAndRegionParametersRadioOn,
-			usePathAndRegionParametersRadioOff, rightAngleRadio1,
-			rightAngleRadio2, rightAngleRadio3, rightAngleRadio4,
-			coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
+	private JRadioButton angleUnitRadioDegree;
+	private JRadioButton angleUnitRadioRadian;
+	private JRadioButton angleUnitRadioDegreesMinutesSeconds;
+	private JRadioButton continuityRadioOn;
+	private JRadioButton continuityRadioOff;
+	private JRadioButton usePathAndRegionParametersRadioOn;
+	private JRadioButton usePathAndRegionParametersRadioOff;
+	private JRadioButton rightAngleRadio1;
+	private JRadioButton rightAngleRadio2;
+	private JRadioButton rightAngleRadio3;
+	private JRadioButton rightAngleRadio4;
+	private JRadioButton coordinatesRadio1;
+	private JRadioButton coordinatesRadio2;
+	private JRadioButton coordinatesRadio3;
 
-	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup,
-			usePathAndRegionParametersButtonGroup, rightAngleButtonGroup,
-			coordinatesButtonGroup;
-
-	private JTextField tfKeyboardWidth, tfKeyboardHeight;
+	private JTextField tfKeyboardWidth;
+	private JTextField tfKeyboardHeight;
 
 	private JSlider slOpacity;
 
@@ -108,7 +123,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	/**
 	 * Construct advanced option panel.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsAdvancedD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
@@ -292,7 +307,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	private void initAngleUnitPanel() {
 		angleUnitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		angleUnitButtonGroup = new ButtonGroup();
+		ButtonGroup angleUnitButtonGroup = new ButtonGroup();
 
 		angleUnitRadioDegree = new JRadioButton();
 		angleUnitRadioDegree.addActionListener(this);
@@ -321,7 +336,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	private void initContinuityPanel() {
 		continuityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		continuityButtonGroup = new ButtonGroup();
+		ButtonGroup continuityButtonGroup = new ButtonGroup();
 
 		continuityRadioOn = new JRadioButton();
 		continuityRadioOn.addActionListener(this);
@@ -341,7 +356,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		usePathAndRegionParametersPanel = new JPanel(
 				new FlowLayout(FlowLayout.LEFT));
 
-		usePathAndRegionParametersButtonGroup = new ButtonGroup();
+		ButtonGroup usePathAndRegionParametersButtonGroup = new ButtonGroup();
 
 		usePathAndRegionParametersRadioOn = new JRadioButton();
 		usePathAndRegionParametersRadioOn.addActionListener(this);
@@ -363,7 +378,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	private void initRightAnglePanel() {
 		rightAnglePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		rightAngleButtonGroup = new ButtonGroup();
+		ButtonGroup rightAngleButtonGroup = new ButtonGroup();
 
 		rightAngleRadio1 = new JRadioButton();
 		rightAngleRadio1.addActionListener(this);
@@ -392,7 +407,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	private void initCoordinatesPanel() {
 		coordinatesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		coordinatesButtonGroup = new ButtonGroup();
+		ButtonGroup coordinatesButtonGroup = new ButtonGroup();
 
 		coordinatesRadio1 = new JRadioButton();
 		coordinatesRadio1.addActionListener(this);
@@ -448,15 +463,6 @@ public class OptionsAdvancedD implements OptionPanelD,
 		coordinatesRadio2.setSelected(app.getKernel().getCoordStyle() == 1);
 		coordinatesRadio3.setSelected(app.getKernel().getCoordStyle() == 2);
 
-		// cbIgnoreDocumentLayout.setSelected(settings.getLayout()
-		// .isIgnoringDocumentLayout());
-
-		/*
-		 * cbShowTitleBar.setSelected(settings.getLayout().showTitleBar());
-		 * cbAllowStyleBar
-		 * .setSelected(settings.getLayout().isAllowingStyleBar());
-		 */
-
 		KeyboardSettings kbs = (KeyboardSettings) settings.getKeyboard();
 		cbKeyboardShowAutomatic.setSelected(kbs.isShowKeyboardOnStart());
 
@@ -490,31 +496,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		updateTooltipLanguages();
 	}
 
-	// needed updating things on the reset defaults button
-	public void updateAfterReset() {
-		// cbReturnAngleInverseTrig
-		// .setSelected(app.getKernel().getInverseTrigReturnsAngle());
-
-		int selectedIndex = 0;
-		String loc1 = ((KeyboardSettings) settings.getKeyboard())
-				.getKeyboardLocale();
-		if (loc1 != null) {
-			// look for index in locale list and add 1 to compensate default
-			// entry
-			selectedIndex = KeyboardSettings.indexOfLocale(loc1) + 1;
-		}
-		// take care that this doesn't fire events by accident
-		cbKeyboardLanguage.removeActionListener(this);
-		cbKeyboardLanguage.setSelectedIndex(selectedIndex);
-		cbKeyboardLanguage.addActionListener(this);
-
-		// avoid blanking it out
-		((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);
-
-		updateGUIFont();
-	}
-
-	public void updateGUIFont() {
+	private void updateGUIFont() {
 		cbGUIFont.removeActionListener(this);
 
 		if (cbGUIFont.getItemCount() == Util.menuFontSizesLength() + 1) {
@@ -537,7 +519,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		cbGUIFont.addActionListener(this);
 	}
 
-	public void updateTooltipLanguages() {
+	private void updateTooltipLanguages() {
 		ArrayList<Locale> locales = getSupportedLocales();
 		if (cbTooltipLanguage.getItemCount() == locales.size() + 1) {
 			Locale ttl = app.getLocalization().getTooltipLocale();
@@ -588,14 +570,6 @@ public class OptionsAdvancedD implements OptionPanelD,
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbUseLocalLabels) {
 			loc.setUseLocalizedLabels(cbUseLocalLabels.isSelected());
-			/*
-			 * } else if (source == cbShowTitleBar) {
-			 * settings.getLayout().setShowTitleBar
-			 * (cbShowTitleBar.isSelected());
-			 */
-			// } else if (source == cbIgnoreDocumentLayout) {
-			// settings.getLayout().setIgnoreDocumentLayout(
-			// cbIgnoreDocumentLayout.isSelected());
 		} else if (source == angleUnitRadioDegree) {
 			app.getKernel().setAngleUnit(Kernel.ANGLE_DEGREE);
 			app.getKernel().updateConstruction(false);
@@ -712,7 +686,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	}
 
 	private void changeWidthOrHeight(Object source) {
-		KeyboardSettings kbs = ((KeyboardSettings) settings.getKeyboard());
+		KeyboardSettings kbs = (KeyboardSettings) settings.getKeyboard();
 		if (source == tfKeyboardHeight) {
 			try {
 				int windowHeight = Integer.parseInt(tfKeyboardHeight.getText());
@@ -768,7 +742,6 @@ public class OptionsAdvancedD implements OptionPanelD,
 		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
 		angleUnitRadioDegreesMinutesSeconds
 				.setText(loc.getMenu("DegreesMinutesSeconds"));
-
 
 		continuityPanel
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Continuity")));

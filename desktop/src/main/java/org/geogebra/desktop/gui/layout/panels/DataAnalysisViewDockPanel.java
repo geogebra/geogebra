@@ -16,7 +16,7 @@ public class DataAnalysisViewDockPanel extends DockPanelD {
 	private AppD app;
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public DataAnalysisViewDockPanel(AppD app) {
 		super(App.VIEW_DATA_ANALYSIS, // view id

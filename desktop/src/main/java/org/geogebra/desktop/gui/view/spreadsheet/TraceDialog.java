@@ -71,9 +71,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TraceDialog extends Dialog
 		implements GeoElementSelectionListener, ActionListener, FocusListener,
-		ListSelectionListener, WindowListener
+		ListSelectionListener, WindowListener {
 
-{
 	private static final long serialVersionUID = 1L;
 	// external components
 	private final AppD app;
@@ -88,15 +87,25 @@ public class TraceDialog extends Dialog
 
 	// other GUI objects
 	private JSplitPane splitPane;
-	private JPanel tabbedPane;
-	private JPanel optionsPanel, listPanel, promptPanel, buttonPanel,
-			leftButtonPanel;
+	private JPanel promptPanel;
+	private JPanel leftButtonPanel;
 
-	private JTextField firstRowField, numRowsField;
-	private JCheckBox cbResetColumns, cbRowLimit, cbShowLabel, cbTraceList;
-	private JRadioButton traceModeValues, traceModeCopy;
-	private TitledBorder traceModeTitle, locationTitle, optionsTitle;
-	private JButton btRemove, btAdd, btClose, btCancel, btErase;
+	private JTextField firstRowField;
+	private JTextField numRowsField;
+	private JCheckBox cbResetColumns;
+	private JCheckBox cbRowLimit;
+	private JCheckBox cbShowLabel;
+	private JCheckBox cbTraceList;
+	private JRadioButton traceModeValues;
+	private JRadioButton traceModeCopy;
+	private TitledBorder traceModeTitle;
+	private TitledBorder locationTitle;
+	private TitledBorder optionsTitle;
+	private JButton btRemove;
+	private JButton btAdd;
+	private JButton btClose;
+	private JButton btCancel;
+	private JButton btErase;
 	private JLabel prompt;
 
 	// modes
@@ -242,7 +251,7 @@ public class TraceDialog extends Dialog
 			getContentPane().setLayout(thisLayout);
 
 			// tabbed panel
-			tabbedPane = new JPanel();
+			JPanel tabbedPane = new JPanel();
 			tabbedPane.setLayout(new BoxLayout(tabbedPane, BoxLayout.Y_AXIS));
 			tabbedPane.add(buildLocationPanel());
 			tabbedPane.add(buildTraceModePanel());
@@ -273,7 +282,7 @@ public class TraceDialog extends Dialog
 	private JPanel buildListPanel() {
 
 		// init the trace options panel
-		listPanel = new JPanel();
+		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new BorderLayout());
 		listPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
 				SystemColor.controlShadow));
@@ -369,7 +378,7 @@ public class TraceDialog extends Dialog
 	private JPanel buildOptionsPanel() {
 
 		// options panel
-		optionsPanel = new JPanel();
+		JPanel optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
 		// optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
 
@@ -395,11 +404,6 @@ public class TraceDialog extends Dialog
 	}
 
 	private JPanel buildButtonPanel() {
-
-		// init button panel
-		buttonPanel = new JPanel(new BorderLayout());
-
-		// btRemove = new JButton("\u2718");
 		btRemove = new JButton(app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btRemove.addActionListener(this);
 		btAdd = new JButton("\u271A");
@@ -429,7 +433,7 @@ public class TraceDialog extends Dialog
 		promptPanel.add(prompt, BorderLayout.CENTER);
 		promptPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		// promptPanel.setVisible(false);
-
+		JPanel buttonPanel = new JPanel(new BorderLayout());
 		buttonPanel.add(closeCancelPanel, loc.borderEast());
 		// buttonPanel.add(promptPanel, BorderLayout.CENTER);
 		buttonPanel.add(leftButtonPanel, loc.borderWest());

@@ -69,20 +69,35 @@ public class OptionsDefaultsD
 	/**
 	 * Nodes for points.
 	 */
-	private DefaultMutableTreeNode pointsNode, pointsFreeNode, pointsDepNode,
-			pointsPathNode, pointsInRegionNode, pointsComplexNode;
+	private DefaultMutableTreeNode pointsNode;
+	private DefaultMutableTreeNode pointsFreeNode;
+	private DefaultMutableTreeNode pointsDepNode;
+	private DefaultMutableTreeNode pointsPathNode;
+	private DefaultMutableTreeNode pointsInRegionNode;
+	private DefaultMutableTreeNode pointsComplexNode;
 
-	private DefaultMutableTreeNode lineNode, segmentNode, vectorNode, conicNode,
-			conicSectorNode, rayNode;
+	private DefaultMutableTreeNode lineNode;
+	private DefaultMutableTreeNode segmentNode;
+	private DefaultMutableTreeNode vectorNode;
+	private DefaultMutableTreeNode conicNode;
+	private DefaultMutableTreeNode conicSectorNode;
+	private DefaultMutableTreeNode rayNode;
 
-	private DefaultMutableTreeNode numberNode, angleNode;
+	private DefaultMutableTreeNode numberNode;
+	private DefaultMutableTreeNode angleNode;
 
-	private DefaultMutableTreeNode functionNode, polygonNode, polylineNode,
-			locusNode;
+	private DefaultMutableTreeNode functionNode;
+	private DefaultMutableTreeNode polygonNode;
+	private DefaultMutableTreeNode polylineNode;
+	private DefaultMutableTreeNode locusNode;
 
-	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
+	private DefaultMutableTreeNode textNode;
+	private DefaultMutableTreeNode imageNode;
+	private DefaultMutableTreeNode booleanNode;
 
-	private DefaultMutableTreeNode listNode, inequalitiesNode, functionNVarNode;
+	private DefaultMutableTreeNode listNode;
+	private DefaultMutableTreeNode inequalitiesNode;
+	private DefaultMutableTreeNode functionNVarNode;
 
 	// polyhedra, cylinders, cones etc
 	private DefaultMutableTreeNode solidsNode;

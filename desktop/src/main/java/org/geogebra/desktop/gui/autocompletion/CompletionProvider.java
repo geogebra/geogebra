@@ -24,7 +24,7 @@ public interface CompletionProvider<T> {
 	/**
 	 * Converts a completion option to a string which can be displayed.
 	 * 
-	 * @param option
+	 * @param option option
 	 * @return The string which will be displayed in the options popup
 	 */
 	String toString(T option);

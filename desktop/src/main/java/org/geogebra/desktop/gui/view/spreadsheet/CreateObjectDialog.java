@@ -50,15 +50,17 @@ public class CreateObjectDialog extends InputDialogD
 
 	private MyTableD table;
 	private CreateObjectModel coModel;
-	private JLabel lblObject, lblName;
+	private JLabel lblObject;
+	private JLabel lblName;
 
-	private JCheckBox ckSort, ckTranspose;
-	private JRadioButton btnValue, btnObject;
+	private JCheckBox ckSort;
+	private JCheckBox ckTranspose;
+	private JRadioButton btnValue;
+	private JRadioButton btnObject;
 	private JComboBox cbScanOrder;
 
 	private boolean isIniting = true;
 	private JPanel optionsPanel;
-	private JPanel typePanel;
 
 	private MyTextFieldD fldName;
 
@@ -72,6 +74,11 @@ public class CreateObjectDialog extends InputDialogD
 	private JList typeList;
 	boolean showApply = false;
 
+	/**
+	 * @param app application
+	 * @param view spreadsheet
+	 * @param objectType object type
+	 */
 	public CreateObjectDialog(AppD app, SpreadsheetViewD view, int objectType) {
 
 		super(app.getFrame(), false, app.getLocalization());
@@ -146,7 +153,7 @@ public class CreateObjectDialog extends InputDialogD
 
 		if (coModel.getObjectType() < 0) {
 			coModel.setListType();
-			typePanel = new JPanel(new BorderLayout());
+			JPanel typePanel = new JPanel(new BorderLayout());
 			typePanel.add(lblObject, BorderLayout.NORTH);
 			typePanel.add(typeList, loc.borderWest());
 			typeList.setBorder(BorderFactory.createEmptyBorder(6, 2, 2, 2));

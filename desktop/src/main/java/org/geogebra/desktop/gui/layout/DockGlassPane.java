@@ -41,25 +41,22 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	private Color color;
 
 	private static final Color COLOR_DEFAULT = Color.gray;
-	private static final Color COLOR_NOT_ENOUGH_SPACE = COLOR_DEFAULT;// Color.red;
+	private static final Color COLOR_NOT_ENOUGH_SPACE = COLOR_DEFAULT; // Color.red;
 	private static final Color COLOR_SAME_PLACE = Color.white;
 
+	/**
+	 * @param dockManager dock manager
+	 */
 	public DockGlassPane(DockManagerD dockManager) {
 		this.dockManager = dockManager;
-
 		stroke = new BasicStroke(4);
-
 		setOpaque(false);
-	}
-
-	public boolean isDragInProgress() {
-		return dragInProgress;
 	}
 
 	/**
 	 * Start the dragging process by adding the mouse listeners.
 	 * 
-	 * @param state
+	 * @param state dragging state
 	 */
 	public void startDrag(DnDState state) {
 		if (dragInProgress) {
@@ -159,7 +156,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	/**
 	 * Calculate where the panel would be placed if the mouse is released.
 	 * 
-	 * @param event
+	 * @param event mouse event
 	 */
 	public void mouseDragged(MouseEvent event) {
 		Point mousePosition = SwingUtilities.convertPoint(event.getComponent(),

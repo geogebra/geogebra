@@ -10,6 +10,8 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='geogebra3D'/>
 
+  <set-configuration-property name="js.identifier.blacklist" value="Ink" />
+
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>

@@ -13,6 +13,10 @@ public class LoadFileListener implements ActionListener {
 	private AppD app;
 	private File file;
 
+	/**
+	 * @param app application
+	 * @param file file
+	 */
 	public LoadFileListener(AppD app, File file) {
 		this.app = app;
 		this.file = file;

@@ -87,8 +87,8 @@ public class AwtFactoryD extends AwtFactory {
 			GraphicsDevice gs = ge.getDefaultScreenDevice();
 			GraphicsConfiguration gc = gs.getDefaultConfiguration();
 			BufferedImage bufImg = gc.createCompatibleImage(width, height,
-					(transparency ? Transparency.TRANSLUCENT
-							: Transparency.BITMASK));
+					transparency ? Transparency.TRANSLUCENT
+							: Transparency.BITMASK);
 			// Graphics2D g = (Graphics2D)bufImg.getGraphics();
 			// g.setBackground(new Color(0,0,0,0));
 			// g.clearRect(0,0,width,height);
@@ -255,6 +255,10 @@ public class AwtFactoryD extends AwtFactory {
 		return new GFontD(new Font(name, style, size));
 	}
 
+	/**
+	 * @param s common stroke
+	 * @return desktop-specific stroke
+	 */
 	public static BasicStroke getAwtStroke(GBasicStroke s) {
 		if (!(s instanceof GBasicStrokeD)) {
 			if (s != null) {
@@ -265,9 +269,11 @@ public class AwtFactoryD extends AwtFactory {
 		return ((GBasicStrokeD) s).getImpl();
 	}
 
+	/**
+	 * @return default stroke
+	 */
 	static public BasicStroke getDefaultStrokeAwt() {
-		return AwtFactoryD
-				.getAwtStroke(EuclidianStatic.getDefaultStroke());
+		return AwtFactoryD.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
 }

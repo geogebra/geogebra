@@ -32,6 +32,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.gwtutil.NavigatorUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -255,51 +256,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		selectionType = MyTableInterface.CELL_SELECT;
 
-		// add mouse and key listeners
-		// scc = new SpreadsheetColumnControllerW(app, this);
-		// srh = new SpreadsheetRowHeaderW(app, this);
-
-		// key listener - old solution
-		// KeyListener[] defaultKeyListeners = getKeyListeners();
-		// for (int i = 0; i < defaultKeyListeners.length; ++i) {
-		// removeKeyListener(defaultKeyListeners[i]);
-		// }
-		// addKeyListener(new SpreadsheetKeyListener(app, this));
-
-		// addDomHandler(new SpreadsheetKeyListener(app, this),
-		// KeyDownEvent.getType());
-
-		// setup selection listener
-		// TODO
-		// These listeners are no longer needed.
-		// getSelectionModel().addListSelectionListener(new
-		// RowSelectionListener());
-		// getColumnModel().getSelectionModel().addListSelectionListener(new
-		// ColumnSelectionListener());
-		// getColumnModel().getSelectionModel().addListSelectionListener(columnHeader);
-
 		// add table model listener
 		((SpreadsheetTableModelSimple) tableModel)
 		        .setChangeListener(new MyTableModelListener());
 
 		copyPasteCut = new CopyPasteCutW(app);
-
-		/*
-		 * // - see ticket #135 addFocusListener(this);
-		 * 
-		 * // editing putClientProperty("terminateEditOnFocusLost",
-		 * Boolean.TRUE);
-		 * 
-		 * columnModelListener = new MyTableColumnModelListener();
-		 * getColumnModel().addColumnModelListener(columnModelListener);
-		 * 
-		 * // set first cell active // needed in case spreadsheet selected with
-		 * ctrl-tab rather than mouse // click // changeSelection(0, 0, false,
-		 * false);
-		 */
-
-		// rowHeaderRenderer = srh.new RowHeaderRenderer();
-		// columnHeaderRenderer = scc.new ColumnHeaderRenderer();
 
 		ssGrid.setCellPadding(0);
 		ssGrid.setCellSpacing(0);
@@ -411,21 +372,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		dragFrame.setVisible(false);
 
 		blueDot = new SimplePanel();
-		blueDot.getElement().getStyle().setZIndex(7);
-		blueDot.getElement().getStyle()
-		        .setWidth(MyTableW.DOT_SIZE, Style.Unit.PX);
-		blueDot.getElement().getStyle()
-		        .setHeight(MyTableW.DOT_SIZE, Style.Unit.PX);
-		blueDot.getElement().getStyle()
-		        .setProperty("borderTop", "1px solid white");
-		blueDot.getElement().getStyle()
-		        .setProperty("borderLeft", "1px solid white");
-		blueDot.getElement()
-		        .getStyle()
-		        .setBackgroundColor(
-		                MyTableW.SELECTED_RECTANGLE_COLOR.toString());
 		blueDot.setVisible(false);
-		blueDot.setStyleName("cursor_default");
+		blueDot.setPixelSize(MyTableW.DOT_SIZE, MyTableW.DOT_SIZE);
+		blueDot.setStyleName("spreadsheetDot cursor_default");
 
 		dummyTable = new Grid(1, 1);
 		dummyTable.getElement().getStyle()
@@ -435,7 +384,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		dummyTable.getElement().getStyle().setTop(0, Unit.PX);
 		dummyTable.getElement().getStyle().setLeft(0, Unit.PX);
 		dummyTable.getElement().addClassName("geogebraweb-table-spreadsheet");
-
 	}
 
 	private void createGUI() {
@@ -795,10 +743,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 			updateColumnCount();
 			updateRowCount();
-
-			// Log.debug("ssGrid dim: " + ssGrid.getRowCount() + " x " +
-			// ssGrid.getColumnCount());
-		
 			repaintAll();
 		}
 
@@ -1656,21 +1600,19 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					}
 					Scheduler.get().scheduleDeferred(() -> scrollRectToVisible(col, row));
 
-					if (Browser.isTabletBrowser()) {
+					if (NavigatorUtil.isMobile()) {
+						textField.prepareShowSymbolButton(false);
 						textField.enableGGBKeyboard();
-						textField.addDummyCursor(textField.getCaretPosition());
+						textField.addDummyCursor();
+						textField.setCursorPos(textField.getText().length());
 					}
 				} else if (!app.isWhiteboardActive()) {
-					// if keyboard doesn't enabled, inserts openkeyboard button
+					// if keyboard isn't enabled, inserts openkeyboard button
 					// if there is no in the SV yet
 					app.showKeyboard(textField, false);
 				}
 
-				// set height and position of the editor
-				int editorHeight = ssGrid.getCellFormatter()
-				        .getElement(row, col).getClientHeight();
-				textField.getTextField().getElement().getStyle()
-				        .setHeight(editorHeight, Unit.PX);
+				// set position of the editor
 				positionEditorPanel(true, row, col);
 
 				// give it the focus
@@ -1706,14 +1648,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			controller = new SpreadsheetController(app);
 		}
 		return controller;
-	}
-
-	public int convertColumnIndexToModel(int viewColumnIndex) {
-		return viewColumnIndex;
-	}
-
-	public boolean isAllowEditing() {
-		return allowEditing;
 	}
 
 	public void setAllowEditing(boolean allowEditing) {
@@ -1780,21 +1714,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		editor.sendKeyDownEvent(e);
 	}
 
-	/*
-	 * public void focusGained(FocusEvent e) { if
-	 * (AppD.isVirtualKeyboardActive())
-	 * ((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
-	 * 
-	 * }
-	 * 
-	 * public void focusLost(FocusEvent e) { // avoid infinite loop! if
-	 * (e.getOppositeComponent() instanceof VirtualKeyboard) return; if
-	 * (AppD.isVirtualKeyboardActive())
-	 * ((GuiManagerD)app.getGuiManager()).toggleKeyboard(false);
-	 * 
-	 * }
-	 */
-
 	/**
 	 * Keep column widths of table and column header in sync.
 	 * 
@@ -1852,10 +1771,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (showColumnHeader) {
 					columnHeader.setColumnWidth(col, width2);
 				}
-			}
-
-			if (view != null) {
-				// view.updatePreferredRowHeight(rowHeight2);
 			}
 		});
 	}
@@ -2014,16 +1929,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		if (adjustHeight) {
-
 			int resultHeight = Math.max(ssGrid.getRowFormatter()
 			        .getElement(row).getOffsetHeight(),
 			        prefElement.getOffsetHeight());
-			int rowHeight2 = resultHeight;
-			// if (rowHeight2 < minimumRowHeight)
-			// rowHeight2 = minimumRowHeight;
-			setRowHeight(row, rowHeight2, false);
+			setRowHeight(row, resultHeight, false);
 		}
-
 	}
 
 	/**
@@ -2110,43 +2020,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 	}
 
-	/**
-	 * Column model listener --- used to reset the preferred column width when
-	 * all columns have been selected.
-	 */
-	/*
-	 * public class MyTableColumnModelListener implements
-	 * TableColumnModelListener {
-	 * 
-	 * public void columnMarginChanged(ChangeEvent e) { if (isSelectAll() &&
-	 * minSelectionColumn >= 0) { preferredColumnWidth =
-	 * getColumnModel().getColumn( minSelectionColumn).getPreferredWidth(); //
-	 * view.updatePreferredColumnWidth(preferredColumnWidth); } // TODO: find
-	 * more efficient way to record column widths
-	 * view.updateAllColumnWidthSettings(); }
-	 * 
-	 * public void columnAdded(TableColumnModelEvent arg0) { }
-	 * 
-	 * public void columnMoved(TableColumnModelEvent arg0) { }
-	 * 
-	 * public void columnRemoved(TableColumnModelEvent arg0) { }
-	 * 
-	 * public void columnSelectionChanged(ListSelectionEvent arg0) { } }
-	 */
-
-	// When the spreadsheet is smaller than the viewport fill the extra space
-	// with
-	// the same background color as the spreadsheet.
-	// This gives a smoother look when the spreadsheet auto-adjusts to fill the
-	// space.
-
-	/*
-	 * @Override protected void configureEnclosingScrollPane() {
-	 * super.configureEnclosingScrollPane(); Container p = getParent(); if (p
-	 * instanceof JViewport) { ((JViewport) p).setBackground(getBackground()); }
-	 * }
-	 */
-
 	// ==================================================
 	// Table mode change
 	// ==================================================
@@ -2217,12 +2090,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			getSpreadsheetModeProcessor().initTargetCell(minSelectionColumn,
 					minSelectionRow);
 
-			// Set the targetcellFrame so the Paint method can use it to draw a
-			// dashed frame - will be implemented differently in the web version
-			// (TODO)
-			// targetcellFrame = this.getCellBlockRect(minSelectionColumn,
-			// minSelectionRow, minSelectionColumn, minSelectionRow, true);
-
 			// Change the selection frame color to gray
 			// and clear the current selection
 			setSelectionRectangleColor(GColor.GRAY);
@@ -2231,7 +2098,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			minSelectionRow = -1;
 			maxSelectionRow = -1;
 			app.getSelectionManager().clearSelectedGeos();
-
 		}
 
 		// try to create autoFunction cell(s) adjacent to the selection
@@ -2350,24 +2216,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        getMaxSelectedColumn(), getMaxSelectedRow());
 	}
 
-	/*
-	 * private static Cursor createCursor(Image cursorImage, boolean center) {
-	 * Toolkit toolkit = Toolkit.getDefaultToolkit(); java.awt.Point
-	 * cursorHotSpot; if (center) { cursorHotSpot = new
-	 * java.awt.Point(cursorImage.getWidth(null) / 2,
-	 * cursorImage.getHeight(null) / 2); } else { cursorHotSpot = new
-	 * java.awt.Point(0, 0); } Cursor cursor =
-	 * toolkit.createCustomCursor(cursorImage, cursorHotSpot, null); return
-	 * cursor; }
-	 */
-
-	/**
-	 * Force repaint calls to update everything. (Useful for debugging.)
-	 */
-	public void setRepaintAll() {
-		repaintAll = true;
-	}
-
 	/**
 	 * Updates all cell formats and the current selection.
 	 */
@@ -2417,10 +2265,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				defaultTableCellRenderer.updateCellBorder(row, column);
 			}
 		}
-		// for (int column = 0; column < getColumnCount(); column++) {
-		// defaultTableCellRenderer.updateColumnBorder(column);
-		// }
-
 	}
 
 	/**
@@ -2593,45 +2437,15 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return maxSelectionColumn;
 	}
 
-	public Widget getEditorWidget() {
-		return editor.getTextfield();
-	}
-
 	/**
-	 * Make the row header invisible to the user
+	 * Change row and column header visibility
 	 * 
-	 * @param showRow
-	 *            true: show it; false: hide it
+	 * @param showRow whether to show row header
+	 * @param showCol whether to show column header
 	 */
-	public void setShowRowHeader(boolean showRow) {
-		if (showRow) {
-			if (!showRowHeader) {
-				showRowHeader = true;
-
-			}
-		} else {
-			showRowHeader = false;
-
-		}
-		updateTableLayout();
-	}
-
-	/**
-	 * Make the column header invisible to the user
-	 * 
-	 * @param showCol
-	 *            true: show it; false: hide it
-	 */
-	public void setShowColumnHeader(boolean showCol) {
-		if (showCol) {
-			if (!showColumnHeader) {
-				showColumnHeader = true;
-
-			}
-		} else {
-			showColumnHeader = false;
-
-		}
+	public void setShowHeader(boolean showRow, boolean showCol) {
+		showRowHeader = showRow;
+		showColumnHeader = showCol;
 		updateTableLayout();
 	}
 
@@ -2703,8 +2517,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			int x2 = Math.max(corner1.x, corner2.x);
 			int y1 = Math.min(corner1.y, corner2.y);
 			int y2 = Math.max(corner1.y, corner2.y);
-			int h = y2 - y1 - 2 * borderWidth - 1;
-			int w = x2 - x1 - 2 * borderWidth - 1;
+			int h = y2 - y1 - 2 * borderWidth;
+			int w = x2 - x1 - 2 * borderWidth;
 			if (w >= 0 && h >= 0) {
 				int ssTop = gridPanel.getAbsoluteTop();
 				int ssLeft = gridPanel.getAbsoluteLeft();
@@ -2759,26 +2573,18 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		editorPanel.setVisible(visible);
 		if (visible) {
 			GPoint p = getPixel(column, row, true);
+			GPoint m = getPixel(column, row, false, true);
 
 			int ssTop = gridPanel.getAbsoluteTop();
 			int ssLeft = gridPanel.getAbsoluteLeft();
 			
 			gridPanel.setWidgetPosition(editorPanel, p.x - ssLeft, p.y - ssTop);
 			editorPanel.setVisible(true);
-			
-			int w = ssGrid.getCellFormatter().getElement(row, column)
-			        .getClientWidth();
-			int h = ssGrid.getCellFormatter().getElement(row, column)
-			        .getClientHeight();
-			
+			int w = m.x - p.x;
+			int h = m.y - p.y;
 			editorPanel.getElement().getStyle().setWidth(w, Unit.PX);
 			editorPanel.getElement().getStyle().setHeight(h, Unit.PX);
 		}
-
-	}
-
-	public SimplePanel getEditorPanel() {
-		return editorPanel;
 	}
 
 	public void setVerticalScrollPosition(int scrollPosition) {

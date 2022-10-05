@@ -30,7 +30,7 @@ public class ExamStartDialog extends ComponentDialog {
 	}
 
 	private void buildContent() {
-		Label startText = new Label(app.getLocalization().getMenu("ExamDialog.Subtitle"));
+		Label startText = new Label(app.getLocalization().getMenu("exam_start_dialog_text"));
 		startText.addStyleName("examStartText");
 		addDialogContent(startText);
 		if (app.isSuite()) {
