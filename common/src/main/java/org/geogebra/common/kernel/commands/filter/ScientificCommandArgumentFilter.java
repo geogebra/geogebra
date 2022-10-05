@@ -51,7 +51,9 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 			GeoElement thirdArgument = arguments[2];
 			if (!(thirdArgument instanceof GeoNumberValue)) {
 				throw commandProcessor.argErr(command, thirdArgument);
-			} else return;
+			} else {
+				return;
+			}
 		}
 
 		throw commandProcessor.argNumErr(command, 4);
