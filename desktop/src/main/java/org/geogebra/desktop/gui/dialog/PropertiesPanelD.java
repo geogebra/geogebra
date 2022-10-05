@@ -55,6 +55,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
@@ -75,7 +76,6 @@ import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
-import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
@@ -205,7 +205,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private CheckboxPanel allowOutlyingIntersectionsPanel;
 	private CheckboxPanel auxPanel;
 	private AnimationStepPanel animStepPanel;
-	private TextfieldSizePanel textFieldSizePanel;
+	private TextPropertyPanel textFieldSizePanel;
 	private TextFieldAlignmentPanel textFieldAlignmentPanel;
 	private AnimationSpeedPanel animSpeedPanel;
 	private SliderPanelD sliderPanel;
@@ -215,11 +215,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	private TextEditPanel textEditPanel;
 	private ScriptEditPanel scriptEditPanel;
 	private CheckboxPanel bgImagePanel;
-	private AbsoluteScreenLocationPanel absScreenLocPanel;
+	private CheckboxPanel absScreenLocPanel;
 	private CheckboxPanel centerImagePanel;
 	private CheckboxPanel comboBoxPanel;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
+	private TextPropertyPanel absPositionXPanel;
+	private TextPropertyPanel absPositionYPanel;
 
 	private GraphicsViewLocationPanel graphicsViewLocationPanel;
 	private ButtonSizePanel buttonSizePanel;
@@ -312,14 +314,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		animatingPanel = getCheckboxPanel(new AnimatingModel(app, null));
 		fixPanel = getCheckboxPanel(new FixObjectModel(null, app));
 		checkBoxFixPanel = getCheckboxPanel(new FixCheckboxModel(null, app));
-		absScreenLocPanel = new AbsoluteScreenLocationPanel(new AbsoluteScreenLocationModel(app));
+		absScreenLocPanel = getCheckboxPanel(new AbsoluteScreenLocationModel(app));
+		absPositionXPanel = new TextPropertyPanel(app, new AbsoluteScreenPositionModel.ForX(app));
+		absPositionYPanel = new TextPropertyPanel(app, new AbsoluteScreenPositionModel.ForY(app));
 		centerImagePanel = getCheckboxPanel(new CenterImageModel(app));
 		comboBoxPanel = getCheckboxPanel(new ListAsComboModel(app, null));
 		// showView2D = new ShowView2D();
 		auxPanel = getCheckboxPanel(new AuxObjectModel(null, app));
 		animStepPanel = new AnimationStepPanel(app);
 		symbolicPanel = getCheckboxPanel(new SymbolicModel(app));
-		textFieldSizePanel = new TextfieldSizePanel(app);
+		textFieldSizePanel = new TextPropertyPanel(app, new TextFieldSizeModel(app));
 		textFieldAlignmentPanel = new TextFieldAlignmentPanel(app);
 		animSpeedPanel = new AnimationSpeedPanel(app);
 		allowOutlyingIntersectionsPanel = getCheckboxPanel(
@@ -491,11 +495,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		// position
 		if (!isDefaults) {
 			ArrayList<JPanel> positionTabList = new ArrayList<>();
-
+			positionTabList.add(absScreenLocPanel);
 			positionTabList.add(startPointPanel);
 			positionTabList.add(cornerPointsPanel);
-
-			positionTabList.add(absScreenLocPanel);
+			positionTabList.add(absPositionXPanel);
+			positionTabList.add(absPositionYPanel);
 			positionTabList.add(centerImagePanel);
 
 			positionTab = new TabPanel(positionTabList);
@@ -605,6 +609,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		animSpeedPanel.setLabels();
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
+		absPositionXPanel.setLabels();
+		absPositionYPanel.setLabels();
 		centerImagePanel.setLabels();
 		comboBoxPanel.setLabels();
 		// showView2D.setLabels();
@@ -691,6 +697,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		slopeTriangleSizePanel.updateFonts();
 		centerImagePanel.updateFonts();
 		absScreenLocPanel.updateFonts();
+		absPositionXPanel.updateFonts();
+		absPositionYPanel.updateFonts();
 		comboBoxPanel.updateFonts();
 		// showView2D.updateFonts();
 		sliderPanel.updateFonts();
@@ -1082,23 +1090,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
     private CheckboxPanel getCheckboxPanel(BooleanOptionModel model) {
 		return new CheckboxPanel(app,  PropertiesPanelD.this, model);
-	}
-	/**
-	 * panel to set object's absoluteScreenLocation flag
-	 * 
-	 * @author Markus Hohenwarter
-	 */
-
-	private class AbsoluteScreenLocationPanel extends CheckboxPanel {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public AbsoluteScreenLocationPanel(BooleanOptionModel model) {
-			super(app,  PropertiesPanelD.this, model);
-		}
-
 	}
 
 	/**
@@ -3104,107 +3095,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	}
 
 } // PropertiesPanel
-
-/**
- * panel for textfield size
- * 
- * @author Michael
- */
-class TextfieldSizePanel extends JPanel
-		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
-		SetLabels, UpdateFonts, ITextFieldListener {
-
-	private static final long serialVersionUID = 1L;
-
-	private TextFieldSizeModel model;
-	private JLabel label;
-	private MyTextFieldD tfTextfieldSize;
-
-	private LocalizationD loc;
-
-	/**
-	 * @param app
-	 *            app
-	 */
-	public TextfieldSizePanel(AppD app) {
-		this.loc = app.getLocalization();
-		model = new TextFieldSizeModel(app);
-		model.setListener(this);
-		// text field for textfield size
-		label = new JLabel();
-		tfTextfieldSize = new MyTextFieldD(app, 5);
-		label.setLabelFor(tfTextfieldSize);
-		tfTextfieldSize.addActionListener(this);
-		tfTextfieldSize.addFocusListener(this);
-
-		// put it all together
-		JPanel animPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		animPanel.add(label);
-		animPanel.add(tfTextfieldSize);
-
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		animPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(animPanel);
-
-		setLabels();
-	}
-
-	@Override
-	public void setLabels() {
-		label.setText(loc.getMenu("TextfieldLength") + ": ");
-	}
-
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			return null;
-		}
-
-		tfTextfieldSize.removeActionListener(this);
-
-		model.updateProperties();
-
-		tfTextfieldSize.addActionListener(this);
-		return this;
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfTextfieldSize) {
-			doActionPerformed();
-		}
-	}
-
-	private void doActionPerformed() {
-		model.applyChanges(tfTextfieldSize.getText());
-		updatePanel(model.getGeos());
-	}
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		// only focus lost is important
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		doActionPerformed();
-	}
-
-	@Override
-	public void updateFonts() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void setText(String text) {
-		tfTextfieldSize.setText(text);
-
-	}
-}
 
 /**
  * Panel for setting text alignment.

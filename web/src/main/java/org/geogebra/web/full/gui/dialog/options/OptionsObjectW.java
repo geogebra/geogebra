@@ -7,6 +7,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
@@ -746,45 +747,26 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		ReflexAnglePanel reflexAnglePanel = null;
 		labelPanel = new LabelPanel();
 		NamePanel namePanel = new NamePanel(getAppW(), labelPanel.model);
-		if (!isDefaults) {
-			basicTab.add(namePanel);
-		}
-
-		FlowPanel checkboxPanel = new FlowPanel();
-		basicTab.add(checkboxPanel);
 
 		CheckboxPanel showObjectPanel = new ShowObjectPanel();
-		checkboxPanel.add(showObjectPanel.getWidget());
-
-		if (!isDefaults) {
-			checkboxPanel.add(labelPanel.getWidget());
-		}
-
 		CheckboxPanel tracePanel = new CheckboxPanel(loc,
 				new TraceModel(null, app));
-		checkboxPanel.add(tracePanel.getWidget());
-		basicTab.add(checkboxPanel);
 
 		if (!isDefaults) {
 			animatingPanel = new CheckboxPanel(loc,
 					new AnimatingModel(app, null));
-			checkboxPanel.add(animatingPanel.getWidget());
 		}
 
 		CheckboxPanel fixPanel = new CheckboxPanel(loc,
 				new FixObjectModel(null, app));
-		checkboxPanel.add(fixPanel.getWidget());
 
 		CheckboxPanel auxPanel = new CheckboxPanel(loc,
 				new AuxObjectModel(null, app));
-		checkboxPanel.add(auxPanel.getWidget());
 
 		if (!isDefaults) {
 			bgImagePanel = new CheckboxPanel(loc,
 					new BackgroundImageModel(null, app));
-			checkboxPanel.add(bgImagePanel.getWidget());
 		}
-		basicTab.add(checkboxPanel);
 
 		if (!isDefaults) {
 			reflexAnglePanel = new ReflexAnglePanel();
@@ -800,11 +782,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		// tabList.add(comboBoxPanel);
 		CheckboxPanel allowOutlyingIntersectionsPanel = new CheckboxPanel(loc,
 				new OutlyingIntersectionsModel(null, app));
-		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
 
 		CheckboxPanel fixCheckboxPanel = new CheckboxPanel(loc,
 				new FixCheckboxModel(null, app));
-		basicTab.add(fixCheckboxPanel.getWidget());
 
 		basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
 				tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
@@ -909,9 +889,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private OptionsTab addPositionTab() {
 		OptionsTab tab;
 		tab = makeOptionsTab("Properties.Position");
-		tab.addModel(new StartPointModel(app))
+		tab.addModel(new AbsoluteScreenLocationModel(app))
+				.addModel(new StartPointModel(app))
 				.addModel(new CornerPointsModel(app))
-				.addModel(new AbsoluteScreenLocationModel(app))
+				.addModel(new AbsoluteScreenPositionModel.ForX(app))
+				.addModel(new AbsoluteScreenPositionModel.ForY(app))
 				.addModel(new CenterImageModel(app));
 		return tab;
 	}

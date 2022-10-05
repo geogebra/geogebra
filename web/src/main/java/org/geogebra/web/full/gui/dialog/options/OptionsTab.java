@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
@@ -46,6 +47,7 @@ import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
+import org.geogebra.common.gui.dialog.options.model.TextPropertyModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -55,6 +57,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -79,6 +82,7 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.resources.client.ImageResource;
@@ -134,6 +138,7 @@ public class OptionsTab extends FlowPanel {
 	 */
 	public void add(IOptionPanel panel) {
 		add(panel.getWidget());
+		Log.error(panel.getModel().getClass());
 		models.add(panel.getModel());
 	}
 
@@ -143,6 +148,7 @@ public class OptionsTab extends FlowPanel {
 	 * @return tab
 	 */
 	public OptionsTab addModel(OptionsModel model) {
+		Log.error(model.getClass());
 		models.add(model);
 		return this;
 	}
@@ -270,7 +276,7 @@ public class OptionsTab extends FlowPanel {
 			return new IneqPanel((IneqStyleModel) m, app);
 		}
 		if (m instanceof TextFieldSizeModel) {
-			return new TextFieldSizePanel((TextFieldSizeModel) m, app);
+			return new TextPropertyPanel((TextFieldSizeModel) m, app);
 		}
 		if (m instanceof ButtonSizeModel) {
 			return new ButtonSizePanel((ButtonSizeModel) m, app);
@@ -282,8 +288,7 @@ public class OptionsTab extends FlowPanel {
 			return new LodPanel((LodModel) m);
 		}
 		if (m instanceof SymbolicModel) {
-			CheckboxPanel ret = new CheckboxPanel(app.getLocalization(), (SymbolicModel) m);
-			return ret;
+			return new CheckboxPanel(app.getLocalization(), (SymbolicModel) m);
 		}
 		if (m instanceof InterpolateImageModel) {
 			return new CheckboxPanel(app.getLocalization(),
@@ -301,19 +306,17 @@ public class OptionsTab extends FlowPanel {
 			return dsp;
 		}
 		if (m instanceof SegmentStyleModel) {
+			IOptionPanel ssp;
 			if (((SegmentStyleModel) m).isStartStyle()) {
-				SegmentStartStylePanel ssp = new SegmentStartStylePanel((SegmentStyleModel) m,
+				ssp = new SegmentStartStylePanel((SegmentStyleModel) m,
 						app);
-				ssp.getWidget().setStyleName("optionsPanel");
-				ssp.getWidget().addStyleName("segmentStyle");
-				return ssp;
 			} else {
-				SegmentEndStylePanel sep = new SegmentEndStylePanel((SegmentStyleModel) m,
-						app);
-				sep.getWidget().setStyleName("optionsPanel");
-				sep.getWidget().addStyleName("segmentStyle");
-				return sep;
+				ssp = new SegmentEndStylePanel((SegmentStyleModel) m, app);
+
 			}
+			ssp.getWidget().setStyleName("optionsPanel");
+			ssp.getWidget().addStyleName("inlineOption");
+			return ssp;
 		}
 		if (m instanceof TextOptionsModel) {
 			return new TextOptionsPanelW((TextOptionsModel) m, app);
@@ -330,6 +333,12 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof AbsoluteScreenLocationModel) {
 			return new CheckboxPanel(
 					app.getLocalization(), (AbsoluteScreenLocationModel) m);
+		}
+		if (m instanceof AbsoluteScreenPositionModel) {
+			IOptionPanel ret = new TextPropertyPanel((AbsoluteScreenPositionModel) m, app);
+			ret.getWidget().setStyleName("optionsPanel");
+			ret.getWidget().addStyleName("inlineOption");
+			return ret;
 		}
 		if (m instanceof CenterImageModel) {
 			return new CenterImagePanel((CenterImageModel) m, app, this);
@@ -1070,31 +1079,37 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	private class TextFieldSizePanel extends OptionPanel implements
+	public static class TextPropertyPanel extends OptionPanel implements
 			ITextFieldListener {
 
-		TextFieldSizeModel model;
+		private final LocalizationW loc;
+		TextPropertyModel model;
 		private InputPanelW inputPanel;
-		AutoCompleteTextFieldW tfSize;
-		Label lbSize;
+		AutoCompleteTextFieldW textField;
+		Label label;
 
-		public TextFieldSizePanel(TextFieldSizeModel model0, AppW app) {
+		/**
+		 * @param model0 model
+		 * @param app application
+		 */
+		public TextPropertyPanel(TextPropertyModel model0, AppW app) {
 			model = model0;
 			model.setListener(this);
+			this.loc = app.getLocalization();
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
-			lbSize = new Label();
+			label = new Label();
 			inputPanel = new InputPanelW(null, app, 1, -1, false);
-			tfSize = inputPanel.getTextComponent();
-			tfSize.setAutoComplete(false);
-			tfSize.addBlurHandler(event -> model.applyChanges(tfSize.getText()));
-			tfSize.addKeyHandler(e -> {
+			textField = inputPanel.getTextComponent();
+			textField.setAutoComplete(false);
+			textField.addBlurHandler(event -> model.applyChanges(textField.getText()));
+			textField.addKeyHandler(e -> {
 				if (e.isEnterKey()) {
-					model.applyChanges(tfSize.getText());
+					model.applyChanges(textField.getText());
 				}
 			});
-			mainPanel.add(LayoutUtilW.panelRow(lbSize, inputPanel));
+			mainPanel.add(LayoutUtilW.panelRow(label, inputPanel));
 			mainPanel.setStyleName("optionsPanel");
 			setWidget(mainPanel);
 
@@ -1102,12 +1117,12 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setText(String text) {
-			tfSize.setText(text);
+			textField.setText(text);
 		}
 
 		@Override
 		public void setLabels() {
-			lbSize.setText(localize("TextfieldLength"));
+			label.setText(loc.getMenu(model.getTitle()) + ":");
 		}
 
 	}
