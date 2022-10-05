@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  */
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
-	private static final int TOP_MARGIN = 40;
 	private ScrollPanel algebraScrollPanel;
 	private LogoAndName logo;
 
@@ -39,6 +38,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		stylePanel(panel);
 		panel.add(algebraScrollPanel);
 		algebraScrollPanel.addStyleName("algebraPanelScientific");
+
 		ScientificScrollHandler scrollController = new ScientificScrollHandler(
 				app, panel);
 		panel.addDomHandler(scrollController, MouseDownEvent.getType());
@@ -56,12 +56,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 				.shouldHaveSmallScreenLayout();
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificSmallScreen",
 				"algebraPanelScientificDefaults", smallScreen);
-		Dom.toggleClass(logo.asWidget(), "avNameLogoScientific", !smallScreen);
-		if (offsetHeight > 0) {
-			int margin = smallScreen ? 8 : TOP_MARGIN;
-			Scheduler.get().scheduleDeferred(() ->
-					logo.onResize(aView, offsetHeight - margin));
-		}
 	}
 
 	@Override

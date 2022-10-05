@@ -1,12 +1,18 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.layout.DockPanelDecorator;
+import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * Algebra tab of tool panel
@@ -22,6 +28,8 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	private final LogoAndName logo;
 
 	private final AlgebraViewScroller scroller;
+	private DockPanelDecorator decorator;
+	private Panel decoratedAvScrollPanel;
 
 	/**
 	 * @param toolbarPanel
@@ -52,10 +60,15 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			aview = av;
 			wrapper.add(aview);
 			wrapper.add(logo);
-			add(wrapper);
-			addStyleName("algebraPanel");
-			addStyleName("algebraPanelScientific");
-			addStyleName("algebraPanelScientificDefaults");
+
+			ScrollPanel algebrap = new ScrollPanel();
+			algebrap.setWidth("100%");
+			algebrap.setAlwaysShowScrollBars(false);
+			algebrap.add(wrapper);
+			decorator = new ScientificDockPanelDecorator();
+			decoratedAvScrollPanel = decorator.decorate(algebrap, (AppW) app);
+			add(decoratedAvScrollPanel);
+
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
@@ -95,6 +108,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			logo.onResize(aview, toolbarPanel.getTabHeight());
 			scrollToActiveItem();
 		}
+		decorator.onResize(aview, getOffsetHeight());
 	}
 
 	/**
