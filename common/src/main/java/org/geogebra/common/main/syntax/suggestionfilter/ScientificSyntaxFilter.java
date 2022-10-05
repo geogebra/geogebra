@@ -2,7 +2,6 @@ package org.geogebra.common.main.syntax.suggestionfilter;
 
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ScientificCommandArgumentFilter;
 
 public class ScientificSyntaxFilter implements SyntaxFilter {

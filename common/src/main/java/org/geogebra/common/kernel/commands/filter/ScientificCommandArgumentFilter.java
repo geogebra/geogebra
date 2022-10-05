@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 
@@ -34,25 +34,23 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 
 	private void checkBinomial(Command command, GeoElement[] arguments,
 			CommandProcessor commandProcessor) {
-		if (!check(command, commandProcessor)) {
-			return;
-		}
+
 		if (arguments.length == 3) {
-			return;
+				return;
+		} else {
+			throw commandProcessor.argNumErr(command, 3);
 		}
-		throw commandProcessor.argNumErr(command, 3);
 	}
 
 	private void checkNormal(Command command, GeoElement[] arguments,
 			CommandProcessor commandProcessor) {
 
 		if (arguments.length == 3) {
-			 return;
+			return;
 		} else if (arguments.length == 4) {
-			GeoElement fourthArgument = arguments[3];
-			boolean argIsVariable = fourthArgument.isVariable();
-			if (!argIsVariable) {
-				throw commandProcessor.argErr(command, fourthArgument);
+			GeoElement thirdArgument = arguments[2];
+			if (!(thirdArgument instanceof GeoNumberValue)) {
+				throw commandProcessor.argErr(command, thirdArgument);
 			} else return;
 		}
 
