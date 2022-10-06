@@ -8,6 +8,7 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.util.CustomScrollbar;
 import org.geogebra.web.full.util.StickyTable;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.shared.components.infoError.ComponentInfoErrorPanel;
@@ -36,6 +37,9 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		this.table = table;
 		TestHarness.setAttr(table, "TV_table");
 		table.setStyleName("tvTable", true);
+		if (toolbarPanel.getDecorator() != null) {
+			addStyleName("panelScientificDefaults");
+		}
 		CustomScrollbar.apply(this);
 		this.getElement().getFirstChildElement().getStyle().setHeight(100, Style.Unit.PCT);
 		buildEmptyTablePanel();
@@ -96,6 +100,11 @@ public class TableTab extends ToolbarPanel.ToolbarTab {
 		setWidth(w + "px");
 		setHeight(h + "px");
 		table.setHeight(h);
+
+		boolean smallScreen = toolbarPanel.getApp().getAppletFrame()
+				.shouldHaveSmallScreenLayout();
+		Dom.toggleClass(this, "algebraPanelScientificSmallScreen",
+				"panelScientificDefaults", smallScreen);
 	}
 
 	/**

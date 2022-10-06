@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
-import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.util.CustomScrollbar;
@@ -28,8 +26,6 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	private final LogoAndName logo;
 
 	private final AlgebraViewScroller scroller;
-	private DockPanelDecorator decorator;
-	private Panel decoratedAvScrollPanel;
 
 	/**
 	 * @param toolbarPanel
@@ -65,13 +61,20 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			algebrap.setWidth("100%");
 			algebrap.setAlwaysShowScrollBars(false);
 			algebrap.add(wrapper);
-			decorator = new ScientificDockPanelDecorator();
-			decoratedAvScrollPanel = decorator.decorate(algebrap, (AppW) app);
-			add(decoratedAvScrollPanel);
+			if (getDecorator() != null) {
+				Panel decoratedAvScrollPanel = getDecorator().decorate(algebrap, (AppW) app);
+				add(decoratedAvScrollPanel);
+			} else {
+				add(algebrap);
+			}
 
 			CustomScrollbar.apply(this);
 			addDomHandler(this::emptyAVclicked, ClickEvent.getType());
 		}
+	}
+
+	private DockPanelDecorator getDecorator() {
+		return toolbarPanel.getDecorator();
 	}
 
 	/**
@@ -108,7 +111,9 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			logo.onResize(aview, toolbarPanel.getTabHeight());
 			scrollToActiveItem();
 		}
-		decorator.onResize(aview, getOffsetHeight());
+		if (getDecorator() != null) {
+			getDecorator().onResize(aview, getOffsetHeight());
+		}
 	}
 
 	/**

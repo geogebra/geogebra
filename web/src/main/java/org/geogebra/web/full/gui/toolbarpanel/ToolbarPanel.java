@@ -24,6 +24,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
+import org.geogebra.web.full.gui.layout.DockPanelDecorator;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
@@ -95,12 +96,14 @@ public class ToolbarPanel extends FlowPanel
 	private final ScheduledCommand deferredOnRes = this::resize;
 	private @CheckForNull UndoRedoPanel undoRedoPanel;
 	private FlowPanel heading;
+	private DockPanelDecorator decorator;
 
 	/**
 	 * @param app application
 	 */
-	public ToolbarPanel(AppW app) {
+	public ToolbarPanel(AppW app, DockPanelDecorator decorator) {
 		this.app = app;
+		this.decorator = decorator;
 		eventDispatcher = app.getEventDispatcher();
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
@@ -133,7 +136,7 @@ public class ToolbarPanel extends FlowPanel
 
 	/**
 	 * Updates the style of undo and redo buttons accordingly of they are active
-	 * or inactive
+	 * or inactiveAlgebraDockPanelW
 	 */
 	public void updateUndoRedoActions() {
 		if (undoRedoPanel == null) {
@@ -330,6 +333,10 @@ public class ToolbarPanel extends FlowPanel
 				setHeaderStyle("examOk");
 			}
 		}
+	}
+
+	public DockPanelDecorator getDecorator() {
+		return decorator;
 	}
 
 	private void createCloseButton() {

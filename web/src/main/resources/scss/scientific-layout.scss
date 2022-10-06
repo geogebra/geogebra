@@ -61,7 +61,7 @@
         margin-right: auto;
     }
 
-    .algebraPanelScientificDefaults {
+    .panelScientificDefaults {
         @extend %sheetOfPaper;
         &>div {
             margin-bottom: 0;

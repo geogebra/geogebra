@@ -24,9 +24,5 @@ public interface DockPanelDecorator {
 	 */
 	Panel decorate(ScrollPanel algebrap, AppW app);
 
-	void addLogo(FlowPanel wrapper, AppW app);
-
 	void onResize(AlgebraViewW aview, int offsetHeight);
-
-	void setLabels();
 }

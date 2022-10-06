@@ -36,7 +36,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	
 	@Override
 	protected Widget loadComponent() {
-		toolbar = new ToolbarPanel(app);
+		toolbar = new ToolbarPanel(app, decorator);
 		setTabId(tabId);
 		return toolbar;
 	}

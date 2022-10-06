@@ -19,18 +19,11 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 
 	private ScrollPanel algebraScrollPanel;
-	private LogoAndName logo;
 
 	@Override
 	public Panel decorate(ScrollPanel algebraPanel, AppW appW) {
 		this.algebraScrollPanel = algebraPanel;
 		return buildAndStylePanel(appW);
-	}
-
-	@Override
-	public void addLogo(FlowPanel wrapper, AppW app) {
-		logo = new LogoAndName(app);
-		wrapper.add(logo);
 	}
 
 	private Panel buildAndStylePanel(AppW app) {
@@ -55,13 +48,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		boolean smallScreen = aView.getApp().getAppletFrame()
 				.shouldHaveSmallScreenLayout();
 		Dom.toggleClass(algebraScrollPanel, "algebraPanelScientificSmallScreen",
-				"algebraPanelScientificDefaults", smallScreen);
-	}
-
-	@Override
-	public void setLabels() {
-		if (logo != null) {
-			logo.setLabels();
-		}
+				"panelScientificDefaults", smallScreen);
 	}
 }
