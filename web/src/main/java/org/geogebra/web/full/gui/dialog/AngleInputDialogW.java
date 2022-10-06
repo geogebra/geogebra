@@ -24,6 +24,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.dialog.DialogData;
 
+import com.google.gwt.core.client.Scheduler;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AngleInputDialogW extends ComponentInputDialog {
@@ -100,5 +101,13 @@ public class AngleInputDialogW extends ComponentInputDialog {
 		int caretPos = tc.getCaretPosition();
 		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
 		tc.setCaretPosition(caretPos);
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		Scheduler.get().scheduleDeferred(() -> {
+			getTextComponent().selectAll();
+		});
 	}
 }
