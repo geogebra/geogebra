@@ -210,6 +210,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		MathFieldW.isGlobalEvent = globalEvent;
 	}
 
+	public static void removeAll() {
+		instances.clear();
+	}
+
 	/**
 	 * Enables or disables line break in the editor.
 	 */

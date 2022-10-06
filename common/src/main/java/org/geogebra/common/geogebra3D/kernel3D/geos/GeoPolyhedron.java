@@ -1456,18 +1456,7 @@ public class GeoPolyhedron extends GeoElement3D
 			// init copy points list
 			if (copyPoints == null) {
 				if (pointIdComparator == null) {
-					pointIdComparator = new Comparator<GeoPointND>() {
-						@Override
-						public int compare(GeoPointND o1, GeoPointND o2) {
-							if (o1.getID() < o2.getID()) {
-								return -1;
-							}
-							if (o1.getID() > o2.getID()) {
-								return 1;
-							}
-							return 0;
-						}
-					};
+					pointIdComparator = Comparator.comparingLong(GeoElementND::getID);
 				}
 				copyPoints = new TreeMap<>(
 						pointIdComparator);
