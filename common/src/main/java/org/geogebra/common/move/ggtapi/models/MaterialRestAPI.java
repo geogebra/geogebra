@@ -37,6 +37,14 @@ public class MaterialRestAPI implements BackendAPI {
 
 	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
 
+	public static class Tag {
+		// TODO: change to ft.phone-2d when implemented
+		public static final String PHONE_2D = "phone";
+
+		// TODO: change to ft.phone-3d when implemented
+		public static final String PHONE_3D = "3d";
+	}
+
 	/**
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it
@@ -328,6 +336,19 @@ public class MaterialRestAPI implements BackendAPI {
 	public HttpRequest getFeaturedMaterials(MaterialCallbackI callback) {
 		return performRequest("GET", "/search/applets?size=" + SEARCH_COUNT,
 				null, callback);
+	}
+
+	/**
+	 * Get featured materials by tag
+	 * @param tag tag
+	 * @param callback callback
+	 * @return HTTP request
+	 */
+	public HttpRequest getFeaturedMaterialsByTag(String tag, MaterialCallbackI callback) {
+		String endpoint = "/search/applets?"
+				+ "size=" + SEARCH_COUNT + "&"
+				+ "filter=tag:" + tag;
+		return performRequest("GET", endpoint, null, callback);
 	}
 
 	/**
