@@ -6931,7 +6931,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (!StringUtil.empty(getCaptionSimple())) {
 			if (CanvasDrawable.isLatexString(caption)) {
 				String myCaption = getCaption(StringTemplate.latexTemplate);
-				sb.appendLatexDegreeIfNeeded(this, myCaption);
+				sb.appendLaTeX(myCaption, app);
+				sb.appendSpace();
 			} else {
 				String myCaption = getCaption(app.getScreenReaderTemplate());
 				String convertedCaption = ScreenReader.convertToReadable(myCaption, app);

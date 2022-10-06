@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -90,7 +91,7 @@ public class ScreenReaderBuilder {
 	/**
 	 * @param root formula to append
 	 */
-	private void appendLaTeX(String root, App app) {
+	public void appendLaTeX(String root, App app) {
 		TeXFormula texFormula = new TeXFormula();
 		texFormula.setLaTeX(root);
 		append(getTexAtomSerializer(app).serialize(texFormula.root));
@@ -164,11 +165,16 @@ public class ScreenReaderBuilder {
 	}
 
 	protected void appendDegreeIfNeeded(GeoElementND geo, String valueString) {
-		append(degreeReplaced(geo, valueString, " "));
+		if (geo.getKernel().getApplication().getScreenReaderTemplate().getStringType()
+				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII) {
+			append(degreeReplaced(geo, valueString, " "));
+		} else {
+			append(valueString);
+		}
 	}
 
 	protected void appendLatexDegreeIfNeeded(GeoElement geo, String valueString) {
-		appendLaTeX(degreeReplaced(geo, valueString, "\\ "), geo.getKernel().getApplication());
+		appendLaTeX(valueString, geo.getKernel().getApplication());
 		appendSpace();
 	}
 

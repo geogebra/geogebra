@@ -61,10 +61,11 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof NthRoot) {
 			NthRoot nRoot = (NthRoot) root;
-			if (nRoot.getRoot() == null) {
+			String index = nRoot.getRoot() == null ? "" : serialize(nRoot.getRoot());
+			if (index.isEmpty()) {
 				return adapter.sqrt(serialize(nRoot.getTrueBase()));
 			}
-			return adapter.nroot(serialize(nRoot.getTrueBase()), serialize(nRoot.getRoot()));
+			return adapter.nroot(serialize(nRoot.getTrueBase()), index);
 		}
 		if (root instanceof CharAtom) {
 			CharAtom ch = (CharAtom) root;

@@ -13,7 +13,11 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 			}
 		}
 		if (sup != null && !sup.isEmpty()) {
-			sb.append("^(").append(sup).append(')');
+			if (sup.equals("\u2218")) {
+				sb.append("°");
+			} else {
+				sb.append("^(").append(sup).append(')');
+			}
 		}
 		return sb.toString();
 	}
