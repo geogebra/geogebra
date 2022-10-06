@@ -859,6 +859,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 								getGgbApi().setBase64(material.getBase64());
 							}
 							setActiveMaterial(material);
+							if (material.isMultiuser()) {
+								getShareController().startMultiuser(material.getSharingKeyOrId());
+							}
 							ensureSupportedModeActive();
 						} else {
 							onError.callback(Errors.LoadFileFailed.getKey());
