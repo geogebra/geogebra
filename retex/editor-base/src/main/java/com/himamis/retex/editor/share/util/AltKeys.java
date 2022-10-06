@@ -47,16 +47,23 @@ public class AltKeys {
 		lookupUpper.put('W', Unicode.Omega + "");
 
 		lookupLower.put('0', Unicode.SUPERSCRIPT_0 + "");
+		lookupUpper.put('0', "}");
 		lookupLower.put('1', Unicode.SUPERSCRIPT_1 + "");
 		lookupLower.put('2', Unicode.SUPERSCRIPT_2 + "");
+		lookupUpper.put('2', Unicode.CURRENCY_EURO + "");
 		lookupLower.put('3', Unicode.SUPERSCRIPT_3 + "");
+		lookupUpper.put('3', Unicode.LEFT_GUILLEMET + "");
 		lookupLower.put('4', Unicode.SUPERSCRIPT_4 + "");
+		lookupUpper.put('4', Unicode.RIGHT_GUILLEMET + "");
 		lookupLower.put('5', Unicode.SUPERSCRIPT_5 + "");
+		lookupUpper.put('5', Unicode.CURRENCY_POUND + "");
 		lookupLower.put('6', Unicode.SUPERSCRIPT_6 + "");
 		lookupLower.put('7', Unicode.SUPERSCRIPT_7 + "");
+		lookupUpper.put('7', "\\");
 		lookupLower.put('8', Unicode.SUPERSCRIPT_8 + "");
 		lookupUpper.put('8', Unicode.VECTOR_PRODUCT + "");
 		lookupLower.put('9', Unicode.SUPERSCRIPT_9 + "");
+		lookupUpper.put('9', "{");
 
 		lookupUpper.put('*', Unicode.VECTOR_PRODUCT + "");
 		lookupLower.put('*', Unicode.VECTOR_PRODUCT + "");
