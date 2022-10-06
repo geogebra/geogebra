@@ -125,8 +125,6 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 
 		if (scroller.isActive() && !scroller.isDragging()) {
 			drawDropDownList.dropDown.startClickTimer(x, y);
-		} else {
-			return onClick(x, y);
 		}
 		return true;
 	}

@@ -437,7 +437,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final GeoPriorityComparator priorityComparator;
 	private RotateBoundingBox rotateBoundingBox;
-	private boolean dropDownJustClosed = false;
 
 	/**
 	 * Clears the zoomer animation listeners.
@@ -9861,7 +9860,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		DrawDropDownList dl = view.getOpenedComboBox();
 		if (dl != null) {
 			dl.onMouseUp(event.getX(), event.getY());
-			dropDownJustClosed = dl.isOptionsVisible();
 			return;
 		}
 		// reset the center of rotation for bounding box; don't delete center
@@ -9971,9 +9969,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					storeUndoInfo();
 				}
 			}
-		} else if (!dropDownJustClosed) {
+		} else {
 			wrapMouseReleasedND(event, true);
-			dropDownJustClosed = false;
 		}
 
 		// Quick fix for GeoFunctions.
