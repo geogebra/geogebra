@@ -150,7 +150,6 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 	}
 
-
 	private String getParamLabel(int index) {
 		return view.getParameterLabels()[view.getSelectedDist().ordinal()][index];
 	}
