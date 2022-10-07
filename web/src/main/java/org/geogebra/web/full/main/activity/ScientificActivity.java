@@ -7,7 +7,6 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;

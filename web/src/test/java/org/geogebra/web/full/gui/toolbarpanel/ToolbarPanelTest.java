@@ -34,7 +34,7 @@ public class ToolbarPanelTest {
 	@Before
 	public void setUp() {
 		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
-		toolbarPanel = spy(new ToolbarPanel(mockApp()));
+		toolbarPanel = spy(new ToolbarPanel(mockApp(), null));
 	}
 
 	private AppWFull mockApp() {
