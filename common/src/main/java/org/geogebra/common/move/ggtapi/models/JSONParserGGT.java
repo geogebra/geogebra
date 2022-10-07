@@ -138,7 +138,8 @@ public class JSONParserGGT {
 		if (obj.has("creator")) {
 			setCreator(material, obj);
 		} else {
-			material.setCreator(new UserPublic("", material.getAuthorID(), ""));
+			String displayName = getString(obj, "author");
+			material.setCreator(new UserPublic(displayName, material.getAuthorID(), displayName));
 		}
 		return material;
 	}
