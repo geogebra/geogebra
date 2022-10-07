@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.ProbabilityModeGroup;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -23,6 +22,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DistributionPanel extends FlowPanel implements ChangeHandler, InsertHandler {
 	private ProbabilityCalculatorViewW view;
@@ -138,9 +138,18 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 				lblParameterArray[i].setText(getParamLabel(i));
 				// set field
 				fldParameterArray[i].setText(view.format(view.getParameters()[i]));
+				resetError(fldParameterArray[i]);
 			}
 		}
 	}
+
+	private void resetError(MathTextFieldW field) {
+		Widget parent = field.asWidget().getParent();
+		if (parent != null) {
+			parent.removeStyleName("errorStyle");
+		}
+	}
+
 
 	private String getParamLabel(int index) {
 		return view.getParameterLabels()[view.getSelectedDist().ordinal()][index];
@@ -254,14 +263,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		String inputText = source.getText().trim();
 		boolean update = true;
 
-		if (!StringUtil.isNumber(inputText) && !"".equals(inputText)
-			&& source.asWidget().getParent() != null) {
-			source.asWidget().getParent().addStyleName("errorStyle");
-			return;
-		}
-
 		if (!"".equals(inputText)) {
-			source.asWidget().getParent().removeStyleName("errorStyle");
 			Kernel kernel = view.getApp().getKernel();
 			// allow input such as sqrt(2)
 			GeoNumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
@@ -269,8 +271,12 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			GeoNumberValue numericValue = nv != null
 					? nv : new GeoNumeric(kernel.getConstruction(), Double.NaN);
 			double value = numericValue.getDouble();
-			if (!Double.isNaN(value)) {
-				source.resetError();
+
+			if (Double.isNaN(value)) {
+				source.asWidget().getParent().addStyleName("errorStyle");
+				return;
+			} else {
+				resetError(source);
 			}
 			if (getResultPanel().isFieldLow(source)) {
 				checkBounds(numericValue, intervalCheck, false);
