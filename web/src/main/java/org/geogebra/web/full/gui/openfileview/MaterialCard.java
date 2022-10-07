@@ -126,7 +126,10 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		return getMaterial().getTitle();
 	}
 
-
+	/**
+	 * @param material
+	 *            material
+	 */
 	public void updateVisibility(Material material) {
 		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
 		String visibility = material.getVisibility();

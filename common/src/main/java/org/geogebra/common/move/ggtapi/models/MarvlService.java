@@ -46,6 +46,7 @@ public class MarvlService implements Service {
 		return null;
 	}
 
+	@Override
 	public boolean hasMultiuser() {
 		return false;
 	}
