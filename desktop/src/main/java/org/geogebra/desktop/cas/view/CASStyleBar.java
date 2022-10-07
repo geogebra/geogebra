@@ -319,7 +319,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	 * @return whether all given objects are cells in text mode
 	 */
 	private static boolean checkGeoText(List<GeoElement> geos) {
-		boolean geosOK = (geos.size() > 0);
+		boolean geosOK = geos.size() > 0;
 		for (int i = 0; i < geos.size(); i++) {
 			if (!(geos.get(i) instanceof GeoCasCell)) {
 				geosOK = false;

@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings.config;
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
 abstract class AbstractAppConfig implements AppConfig {
@@ -36,5 +37,10 @@ abstract class AbstractAppConfig implements AppConfig {
             return  GeoGebraConstants.Version.SUITE.getTransKey();
         }
         return getVersion().getTransKey();
+    }
+
+    @Override
+    public int getMainGraphicsViewId() {
+        return App.VIEW_EUCLIDIAN;
     }
 }

@@ -28,6 +28,14 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param polys polygons
+	 * @param selGeos selected geos
+	 * @param ec controller
+	 */
 	public InputDialogRotateD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,

@@ -32,6 +32,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 	private final TableSettings settings;
 
 	private ModelEventCollector collector;
+	private String valuesHeader = "x";
 
 	/**
 	 * Construct a SimpleTableValuesModel.
@@ -100,9 +101,14 @@ class SimpleTableValuesModel implements TableValuesModel {
 	@Override
 	public String getHeaderAt(int column) {
 		if (column == 0) {
-			return "x";
+			return valuesHeader;
 		}
 		return columns.get(column).getHeader();
+	}
+
+	@Override
+	public void setValuesHeader(String valuesHeader) {
+		this.valuesHeader = valuesHeader;
 	}
 
 	/**
@@ -347,11 +353,11 @@ class SimpleTableValuesModel implements TableValuesModel {
 
 	@Override
 	public void set(GeoElement element, GeoList column, int rowIndex) {
-		collector.startCollection(this);
 		int columnIndex = getEvaluatableIndex(column);
 		if (columnIndex == -1) {
 			return;
 		}
+		collector.startCollection(this);
 		ensureCapacity(column, rowIndex);
 		column.setListElement(rowIndex, element);
 		column.setDefinition(null);

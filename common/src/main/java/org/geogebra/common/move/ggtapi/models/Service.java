@@ -16,4 +16,9 @@ public interface Service {
 	Collection<ResourceAction> getActions(boolean owns, boolean isTeacher);
 
 	String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category);
+
+	default boolean hasMultiuser() {
+		return false;
+	}
+
 }

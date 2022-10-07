@@ -1,5 +1,8 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+
 /**
  * Class to handle material sharing.
  *
@@ -13,4 +16,10 @@ public interface ShareController {
 
 	/** Share natively */
 	void getBase64();
+
+	void startMultiuser(String sharingKey);
+
+	void terminateMultiuser(Material mat, MaterialCallbackI after);
+
+	void disconnectMultiuser();
 }

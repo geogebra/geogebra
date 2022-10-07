@@ -64,7 +64,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 		FlowPanel contentPanel = new FlowPanel();
 		PropertiesArray properties =
 				new ScientificPropertiesFactory()
-						.createGeneralProperties(app, localization, null);
+						.createProperties(app, localization, null).get(0);
 
 		buildPropertiesPanel(properties, contentPanel);
 		settingsScrollPanel.add(contentPanel);
@@ -99,7 +99,6 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			selector.setSelected(enumerableProperty.getIndex());
 			selector.setDropDownSelectionCallback(enumerableProperty::setIndex);
 			return selector;
-
 		}
 
 		return null;

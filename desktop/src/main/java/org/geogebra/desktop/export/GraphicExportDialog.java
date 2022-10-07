@@ -100,8 +100,10 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	private JButton cancelButton;
 
 	private double exportScale;
-	private int pixelWidth, pixelHeight;
-	private double cmWidth, cmHeight;
+	private int pixelWidth;
+	private int pixelHeight;
+	private double cmWidth;
+	private double cmHeight;
 	private final NumberFormat sizeLabelFormat;
 
 	/** convert text to shapes (eps, pdf, svg) */
@@ -930,6 +932,9 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		//
 	}
 
+	/**
+	 * @param file file to be copied
+	 */
 	public static void sendToClipboard(File file) {
 		FileTransferable ft = new FileTransferable(file);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ft, null);
@@ -971,6 +976,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 
 	 * @param app
@@ -1139,7 +1145,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 				textAsShapes);
 		PDFGraphics2D.setDefaultProperties(props);
 
-		VectorGraphics g;
+		PDFGraphics2D g;
 		try {
 
 			double printingScale = view.getPrintingScale();
@@ -1165,10 +1171,10 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			// fe.includeFont(font, Lookup.getInstance().getTable("PDFLatin"),
 			// "F1");
 
-			((PDFGraphics2D) g).setPageSize(size);
+			g.setPageSize(size);
 
 			g.startExport();
-			((EuclidianViewD)view).exportPaint(g, printingScale / factor, textAsShapes
+			((EuclidianViewD) view).exportPaint(g, printingScale / factor, textAsShapes
 					? ExportType.PDF_TEXTASSHAPES : ExportType.PDF_EMBEDFONTS);
 			g.endExport();
 		} catch (FileNotFoundException e) {
@@ -1230,9 +1236,21 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		ev.exportImagePNG(exportScale, transparent, dpi, file,
 				exportToClipboard, exportType);
-
 	}
 
+	/**
+	 * @param extension file extension
+	 * @param ev view
+	 * @param file output file
+	 * @param transparent use alpha?
+	 * @param dpi DPI
+	 * @param exportScale scale
+	 * @param textAsShapes convert font to shapes?
+	 * @param useEMFplus whether to use EMF plus
+	 * @param pixelWidth width
+	 * @param pixelHeight height
+	 * @param app application
+	 */
 	public static void export(String extension, EuclidianViewInterfaceD ev,
 			File file, boolean transparent, int dpi, double exportScale,
 			boolean textAsShapes, boolean useEMFplus, int pixelWidth,
@@ -1263,9 +1281,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			GraphicExportDialog.exportSVG(app, (EuclidianViewD) ev, file,
 					textAsShapes, pixelWidth, pixelHeight, -1, -1, exportScale,
 					transparent);
-
 		}
-
 	}
 
 }

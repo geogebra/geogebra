@@ -41,7 +41,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		OUTPUT, INPUT
 	}
 
-	private Panel clickedPanel;
+	private final Panel clickedPanel;
 
 	/**
 	 * initializes the menu
@@ -62,6 +62,13 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		initMenu();
 	}
 
+	/**
+	 * @param app application
+	 * @param value CAS cell
+	 * @param editor editor
+	 * @param table CAS table
+	 * @param clickedPanel clicked panel
+	 */
 	public RowContentPopupMenu(AppD app, GeoCasCell value,
 			CASTableCellEditorD editor, CASTableD table, Panel clickedPanel) {
 		this.value = value;

@@ -66,8 +66,12 @@ public class StyleInjector {
 		return this;
 	}
 
-	private static String devModeFix(String moduleBaseURL) {
-		// when localhost:8888/dev is used as codebase, the styles are one level above
+	/**
+	 * when localhost:8888/dev is used as codebase, the styles are one level above
+	 * @param moduleBaseURL codebase
+	 * @return canonical codebase
+	 */
+	public static String devModeFix(String moduleBaseURL) {
 		return moduleBaseURL.replace(":8888/dev", ":8888");
 	}
 

@@ -101,11 +101,16 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void showDialogIfNeeded(AsyncOperation<Boolean> examCallback, boolean addTempCheckBox) {
+	public void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox) {
 		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
 				.getSaveDialog(true, addTempCheckBox);
-		showDialogIfNeeded(examCallback, !app.isSaved(), null,
+		AsyncOperation<Boolean> callback = saved -> {
+			app.getShareController().disconnectMultiuser();
+			saveCallback.callback(saved);
+		};
+		showDialogIfNeeded(callback, !app.isSaved(), null,
 				true, addTempCheckBox);
+
 		if (!addTempCheckBox) {
 			saveDialog.setDiscardMode();
 		}
@@ -170,7 +175,7 @@ public class SaveControllerW implements SaveController {
 			}
 
 			activeMaterial.setVisibility(visibility.getToken());
-			uploadToGgt(activeMaterial.getVisibility());
+			uploadToGgt(activeMaterial.getVisibility(), activeMaterial.isMultiuser());
 		}
 	}
 
@@ -187,7 +192,7 @@ public class SaveControllerW implements SaveController {
 	 * Handles the upload of the file and closes the dialog. If there are
 	 * sync-problems with a file, a new one is generated on ggt.
 	 */
-	private void uploadToGgt(final String visibility) {
+	private void uploadToGgt(final String visibility, boolean isMultiuser) {
 		final boolean titleChanged = !fileName
 				.equals(app.getKernel().getConstruction().getTitle());
 		app.getKernel().getConstruction().setTitle(fileName);
@@ -195,19 +200,20 @@ public class SaveControllerW implements SaveController {
 		if (!titleChanged && mat != null) {
 			syncIdAndType(mat);
 		}
-
 		final StringConsumer handler = base64 -> {
 			if (titleChanged && (isWorksheet() || savedAsTemplate())) {
 				Log.debug("SAVE filename changed");
 				getAppW().updateMaterialURL(0, null, null);
 				doUploadToGgt(getAppW().getTubeId(), visibility, base64,
-						newMaterialCB(base64, false));
+						newMaterialCB(base64, false),
+						isMultiuser);
 			} else if (StringUtil.emptyOrZero(getAppW().getTubeId())) {
 				Log.debug("SAVE had no Tube ID");
 				doUploadToGgt(null, visibility, base64,
-						newMaterialCB(base64, false));
+						newMaterialCB(base64, false), isMultiuser);
 			} else {
-				handleSync(base64, visibility);
+
+				handleSync(base64, visibility, isMultiuser);
 			}
 		};
 
@@ -249,7 +255,7 @@ public class SaveControllerW implements SaveController {
 	 * @param visibility
 	 *            "P" - private / "O" - public / "S" - shared
 	 */
-	void handleSync(final String base64, final String visibility) {
+	void handleSync(final String base64, final String visibility, boolean isMultiuser) {
 		app.getLoginOperation().getResourcesAPI().getItem(app.getTubeId() + "",
 				new MaterialCallback() {
 
@@ -270,7 +276,7 @@ public class SaveControllerW implements SaveController {
 							String key = parseResponse.get(0).getSharingKeyOrId();
 							doUploadToGgt(key, visibility,
 									base64,
-									materialCallback);
+									materialCallback, isMultiuser);
 						} else {
 							// if the file was deleted meanwhile
 							// (parseResponse.size() == 0)
@@ -278,7 +284,7 @@ public class SaveControllerW implements SaveController {
 							materialCallback = newMaterialCB(base64, false);
 							doUploadToGgt(getAppW().getTubeId(), visibility,
 									base64,
-									materialCallback);
+									materialCallback, isMultiuser);
 						}
 					}
 
@@ -303,9 +309,9 @@ public class SaveControllerW implements SaveController {
 	 *            {@link MaterialCallback}
 	 */
 	private void doUploadToGgt(String tubeID, String visibility, String base64,
-			MaterialCallbackI materialCallback) {
+			MaterialCallbackI materialCallback, boolean isMultiuser) {
 		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
-				fileName, base64, materialCallback, this.saveType);
+				fileName, base64, materialCallback, this.saveType, isMultiuser);
 	}
 
 	@Override

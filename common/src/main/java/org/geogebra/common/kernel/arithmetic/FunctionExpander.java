@@ -209,8 +209,8 @@ public class FunctionExpander implements Traversing {
 					ExpressionValue argument = en.getRight().wrap()
 							.getCopy(en.getKernel()).traverse(this).unwrap();
 					ExpressionValue ithArg = argument;
-					VariableReplacer vr = VariableReplacer.getReplacer(en
-							.getKernel());
+					VariableReplacer vr = en
+							.getKernel().getVariableReplacer();
 
 					// variables have to be replaced with one traversing
 					// or else replacing f(x,y) with f(y,x)
@@ -224,7 +224,7 @@ public class FunctionExpander implements Traversing {
 								ithArg = VectorArithmetic.computeCoord(argument.wrap(), i);
 							}
 						}
-						VariableReplacer.addVars(fv[i].getSetVarString(), ithArg);
+						vr.addVars(fv[i].getSetVarString(), ithArg);
 					}
 					en2 = en2.traverse(vr).wrap();
 					return en2;

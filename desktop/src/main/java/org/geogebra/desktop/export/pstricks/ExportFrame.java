@@ -43,13 +43,29 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	private static final String TEXT_XMIN = "textxmin";
 	private static final String TEXT_YMAX = "textymax";
 	private static final String TEXT_YMIN = "textymin";
-	protected final TextValue textXUnit, textYUnit, textwidth, textheight;
-	protected JLabel labelwidth, labelheight, labelXUnit, labelYUnit,
-			labelFontSize, labelFormat;
-	protected TextValue textXmin, textXmax, textYmin, textYmax;
-	protected JLabel labelXmin, labelXmax, labelYmin, labelYmax;
+	protected final TextValue textXUnit;
+	protected final TextValue textYUnit;
+	protected final TextValue textwidth;
+	protected final TextValue textheight;
+	protected JLabel labelwidth;
+	protected JLabel labelheight;
+	protected JLabel labelXUnit;
+	protected JLabel labelYUnit;
+	protected JLabel labelFontSize;
+	protected JLabel labelFormat;
+	protected TextValue textXmin;
+	protected TextValue textXmax;
+	protected TextValue textYmin;
+	protected TextValue textYmax;
+	protected JLabel labelXmin;
+	protected JLabel labelXmax;
+	protected JLabel labelYmin;
+	protected JLabel labelYmax;
 	final String[] msg = { "10 pt", "11 pt", "12 pt" };
-	protected JComboBox comboFontSize, comboFormat, comboFill, cbSliders;
+	protected JComboBox comboFontSize;
+	protected JComboBox comboFormat;
+	protected JComboBox comboFill;
+	protected JComboBox cbSliders;
 	protected JLabel labelFill;
 
 	// added by Hosszu Henrietta, for Animated PDF
@@ -57,15 +73,20 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 	// end changes
 	protected JPanel panel;
-	protected JButton button, button_copy;
-	protected JCheckBox jcbPointSymbol, jcbGrayscale,
-			// Andy Zhu - for use in Asymptote Frame
-			jcbShowAxes, jcbAsyCompact, jcbAsyCse5, jcbDotColors, jcbPairName;
-	// end changes
+	protected JButton button;
+	protected JButton button_copy;
+	protected JCheckBox jcbPointSymbol;
+	protected JCheckBox jcbGrayscale;
+	protected JCheckBox jcbShowAxes;
+	protected JCheckBox jcbAsyCompact;
+	protected JCheckBox jcbAsyCse5;
+	protected JCheckBox jcbDotColors;
+	protected JCheckBox jcbPairName;
 	protected JScrollPane js;
 	protected JTextArea textarea;
 	protected AppD app;
-	protected double width, height;
+	protected double width;
+	protected double height;
 	protected JButton buttonSave;
 	// private ExportFrame ef;
 	protected File currentFile = null;
@@ -82,6 +103,11 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	// to be sure that everything is allright even though xmin is set
 	// to a higher value than xmax
 	// then the width is changed.
+
+	/**
+	 * @param ggb exported file generator
+	 * @param action action
+	 */
 	public ExportFrame(final GeoGebraExport ggb, String action) {
 		this.ggb = ggb;
 		this.app = (AppD) ggb.getApp();
@@ -206,12 +232,6 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 					FileOutputStream f = new FileOutputStream(currentFile);
 					BufferedOutputStream b = new BufferedOutputStream(f);
-					/*
-					 * java.util.Enumeration en=System.getProperties().keys();
-					 * while(en.hasMoreElements()){ String
-					 * s=en.nextElement().toString(); System.out.println(s+" "
-					 * +System.getProperty(s)); }
-					 */
 					OutputStreamWriter osw = new OutputStreamWriter(b,
 							Charsets.getUtf8());
 					StringBuilder sb = new StringBuilder(textarea.getText());
@@ -406,7 +426,6 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	 * } } } String getEncoding(){ return encoding; } }
 	 */
 	class ListenKey extends KeyAdapter {
-
 
 		@Override
 		public void keyReleased(KeyEvent e) {

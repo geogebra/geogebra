@@ -63,7 +63,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	private boolean mayDetectLaTeX = true;
 
-	private InlineTextFormatter inlineFormatter;
+	private final InlineTextFormatter inlineFormatter;
 
 	public TextOptionsPanelW(TextOptionsModel model, AppW app) {
 		createGUI(model, app);
@@ -85,14 +85,16 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		}
 
 		lbFont.addChangeHandler(event -> {
-			model.setEditGeoText(editor.getText());
-			model.applyFont(lbFont.getSelectedIndex() == 1);
+			boolean isSerif = lbFont.getSelectedIndex() == 1;
+			saveEditorChanges();
+			model.applyFont(isSerif);
 		});
 		lbSize = new ListBox();
 
 		lbSize.addChangeHandler(event -> {
-			model.setEditGeoText(editor.getText());
-			boolean isCustom = lbSize.getSelectedIndex() == 7;
+			int selectedIndex = lbSize.getSelectedIndex();
+			saveEditorChanges();
+			boolean isCustom = selectedIndex == 7;
 			if (isCustom) {
 				String currentSize = Math
 						.round(model.getTextPropertiesAt(0)
@@ -108,9 +110,9 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 						model.applyFontSizeFromString(inputTextField.getText()));
 				dialog.show();
 			} else {
-				model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
+				model.applyFontSizeFromIndex(selectedIndex);
 				double size = GeoText
-						.getRelativeFontSize(lbSize.getSelectedIndex())
+						.getRelativeFontSize(selectedIndex)
 						* app.getActiveEuclidianView().getFontSize();
 				inlineFormat("size", size);
 			}
@@ -138,9 +140,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		}
 
 		btnLatex.addFastClickHandler(event -> {
-			model.setLaTeX(isLatex(), true);
+			boolean latex = isLatex();
+			saveEditorChanges();
+			model.setLaTeX(latex, true);
 			// manual override -> ignore autodetect
-			mayDetectLaTeX = isLatex();
+			mayDetectLaTeX = latex;
 
 			updatePreviewPanel();
 		});
@@ -153,8 +157,9 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		}
 
 		lbDecimalPlaces.addChangeHandler(event -> {
-			model.setEditGeoText(editor.getText());
-			model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
+			int selectedIndex = lbDecimalPlaces.getSelectedIndex();
+			saveEditorChanges();
+			model.applyDecimalPlaces(selectedIndex);
 			updatePreviewPanel();
 		});
 
@@ -194,8 +199,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		btnOk = new StandardButton("");
 		btnPanel.add(btnOk);
 		btnOk.addFastClickHandler(event -> {
-			model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
-					isSerif(), appw.getDefaultErrorHandler());
+			saveEditorChanges();
 			((PropertiesViewW) appw.getGuiManager().getPropertiesView())
 					.getOptionPanel(OptionType.OBJECTS, 1);
 		});
@@ -213,19 +217,23 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	private void addStyleClickListener(final String propertyName, final int mask,
 									   final ToggleButton toggle) {
 		toggle.addFastClickHandler(event -> {
-			model.setEditGeoText(editor.getText());
-			model.applyFontStyle(mask, toggle.isSelected());
-			inlineFormat(propertyName, toggle.isSelected());
+			boolean selected = toggle.isSelected();
+			saveEditorChanges();
+			model.applyFontStyle(mask, selected);
+			inlineFormat(propertyName, selected);
 			updatePreviewPanel();
 		});
 	}
 
-	protected void inlineFormat(String key, Object val) {
-		inlineFormatter.formatInlineText(model.getGeosAsList(), key, val);
+	private void saveEditorChanges() {
+		if (model.isTextEditable()) {
+			model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
+					app.getDefaultErrorHandler());
+		}
 	}
 
-	protected boolean isSerif() {
-		return lbFont.getSelectedIndex() == 1;
+	protected void inlineFormat(String key, Object val) {
+		inlineFormatter.formatInlineText(model.getGeosAsList(), key, val);
 	}
 
 	/**

@@ -30,10 +30,9 @@ public class AlgebraInputTransferHandler extends TransferHandler
 	private JTextComponent ta;
 
 	// supported data flavors
-	private static final DataFlavor supportedFlavors[] = {
+	private static final DataFlavor[] supportedFlavors = {
 			DataFlavor.javaFileListFlavor, DataFlavor.stringFlavor,
 			AlgebraViewTransferHandler.algebraViewFlavor };
-
 
 	private String text;
 
@@ -59,7 +58,7 @@ public class AlgebraInputTransferHandler extends TransferHandler
 	 * supported flavor.
 	 */
 	@Override
-	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
+	public boolean canImport(JComponent comp, DataFlavor[] flavor) {
 
 		for (int i = 0, n = flavor.length; i < n; i++) {
 			for (int j = 0, m = supportedFlavors.length; j < m; j++) {

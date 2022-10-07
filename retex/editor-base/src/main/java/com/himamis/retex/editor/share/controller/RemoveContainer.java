@@ -85,6 +85,10 @@ public class RemoveContainer {
 	 * @param mathFunction function
 	 */
 	public static void fuseMathFunction(EditorState editorState, MathFunction mathFunction) {
+		if (mathFunction.getName() != Tag.APPLY && mathFunction.getName() != Tag.APPLY_SQUARE
+				|| !mathFunction.hasChildren()) {
+			return;
+		}
 		ArrayList<MathCharacter> components = new ArrayList<>();
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset() - 1;

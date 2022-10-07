@@ -119,6 +119,9 @@ public class CASOutputPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Set orientation
+	 */
 	public void setOrientation() {
 		remove(outputSign);
 		add(outputSign, app.getLocalization().borderWest());

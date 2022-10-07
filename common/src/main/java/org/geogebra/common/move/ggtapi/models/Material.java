@@ -111,6 +111,8 @@ public class Material implements Comparable<Material>, Serializable {
 	private long dateCreated;
 	private UserPublic creator;
 	private Object fileContent;
+	private boolean multiuser;
+	private boolean sharedWithGroup;
 
 	/**
 	 * @param id
@@ -198,6 +200,8 @@ public class Material implements Comparable<Material>, Serializable {
 		dateCreated = material.dateCreated;
 		creator = material.creator;
 		fileContent = material.fileContent;
+		sharedWithGroup = material.sharedWithGroup;
+		multiuser = material.multiuser;
 	}
 
 	public boolean isDeleted() {
@@ -419,6 +423,22 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public String getVisibility() {
 		return this.visibility;
+	}
+
+	public void setMultiuser(boolean multiuser) {
+		this.multiuser = multiuser;
+	}
+
+	public boolean isMultiuser() {
+		return multiuser;
+	}
+
+	public void setSharedWithGroup(boolean sharedWithGroup) {
+		this.sharedWithGroup = sharedWithGroup;
+	}
+
+	public boolean isSharedWithGroup() {
+		return sharedWithGroup;
 	}
 
 	@Override

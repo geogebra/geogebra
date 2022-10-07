@@ -27,17 +27,18 @@ public class MyCellEditorList extends DefaultCellEditor
 		implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private GeoList editGeo;
-	private JComboBox comboBox;
-	private DefaultComboBoxModel model;
+	private JComboBox<GeoElement> comboBox;
+	private DefaultComboBoxModel<GeoElement> model;
 
+	/**
+	 * Creates the editor
+	 */
 	public MyCellEditorList() {
-
 		super(new JComboBox());
 		comboBox = (JComboBox) editorComponent;
 		comboBox.setRenderer(new MyListCellRenderer());
-		model = new DefaultComboBoxModel();
+		model = new DefaultComboBoxModel<>();
 		comboBox.addActionListener(this);
-
 	}
 
 	@Override

@@ -286,9 +286,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
-			Browser.addMutationObserver(getParent(
-					getAppletParameters().getParamScaleContainerClass()),
-					this::checkScaleContainer);
+			getGlobalHandlers().add(
+					Browser.addMutationObserver(getParent(
+							getAppletParameters().getParamScaleContainerClass()),
+							this::checkScaleContainer));
 		}
 		if (getAppletParameters().getDataParamApp()) {
 			initializeAnalytics();

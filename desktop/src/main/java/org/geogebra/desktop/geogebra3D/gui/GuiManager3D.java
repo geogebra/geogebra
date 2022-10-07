@@ -41,7 +41,9 @@ import org.geogebra.desktop.util.GuiResourcesD;
  */
 public class GuiManager3D extends GuiManagerD {
 
-	private AbstractAction showAxes3DAction, showGrid3DAction, showPlaneAction;
+	private AbstractAction showAxes3DAction;
+	private AbstractAction showGrid3DAction;
+	private AbstractAction showPlaneAction;
 
 	/**
 	 * default constructor

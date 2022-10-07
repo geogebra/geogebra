@@ -1,10 +1,10 @@
 import giac from '../../../../common/src/main/resources/giac/giacTests.js';
+/*global cy,expect*/
 
 function setupTestCategories(range) {
 	describe(`CAS tests ${range}`, () => {
 		const categories = {};
 		const rangePattern = new RegExp(`^[${range}]`, "i");
-		const asciiPattern = new RegExp(`^[A-Z]`, "i");
 		for (const testcase of giac) {
 			if (testcase.cat != "SolveLambertIneq" && testcase.cat.match(rangePattern)) {
 				categories[testcase.cat] = categories[testcase.cat] || [];

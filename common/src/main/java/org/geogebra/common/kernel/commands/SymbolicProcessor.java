@@ -120,6 +120,9 @@ public class SymbolicProcessor {
 					throw new MyError(kernel.getLocalization(), "UnknownCommand");
 				}
 			}
+			if (replaced.inspect(Inspecting.vectorDivisionFinder)) {
+				throw new MyError(kernel.getLocalization(), "IllegalDivision");
+			}
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 		}

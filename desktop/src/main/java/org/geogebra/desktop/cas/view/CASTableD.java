@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package org.geogebra.desktop.cas.view;
 
 import java.awt.BasicStroke;
@@ -727,8 +728,8 @@ public class CASTableD extends JTable implements CASTable {
 	public boolean getScrollableTracksViewportWidth() {
 		if (autoResizeMode != AUTO_RESIZE_OFF) {
 			if (getParent() instanceof JViewport) {
-				return (((JViewport) getParent())
-						.getWidth() > getPreferredSize().width);
+				return getParent()
+						.getWidth() > getPreferredSize().width;
 			}
 		}
 		return false;
@@ -842,11 +843,11 @@ public class CASTableD extends JTable implements CASTable {
 		if (getEditingRow() >= 0) {
 			return getEditingRow();
 		}
-		return (getRowCount() - 1);
+		return getRowCount() - 1;
 	}
 
 	/** dash pattern for selection */
-	final static float dash1[] = { 2f, 1f };
+	final static float[] dash1 = { 2f, 1f };
 	/** dashed stroke for selection */
 	final static BasicStroke dashed = new BasicStroke(1.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);

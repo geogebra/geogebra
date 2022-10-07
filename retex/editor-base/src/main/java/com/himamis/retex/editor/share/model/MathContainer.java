@@ -354,7 +354,10 @@ abstract public class MathContainer extends MathComponent {
 	 * @return whether this contains containers
 	 */
 	public boolean hasChildren() {
-		for (int i = 0; i < (arguments != null ? arguments.size() : 0); i++) {
+		if (arguments == null) {
+			return false;
+		}
+		for (int i = 0; i < arguments.size(); i++) {
 			if (getArgument(i) instanceof MathContainer) {
 				return true;
 			}

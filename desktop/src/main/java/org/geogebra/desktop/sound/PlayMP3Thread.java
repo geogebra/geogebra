@@ -14,6 +14,11 @@ public class PlayMP3Thread implements Runnable {
 	private Decoder decoder;
 	private InputStream is;
 
+	/**
+	 * @param decoder decoder
+	 * @param fileName mp3 filename
+	 * @param is stream
+	 */
 	public PlayMP3Thread(Decoder decoder, String fileName, InputStream is) {
 		this.decoder = decoder;
 		this.fileName = fileName;

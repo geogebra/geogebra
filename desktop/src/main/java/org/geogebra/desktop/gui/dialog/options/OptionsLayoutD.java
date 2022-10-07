@@ -26,7 +26,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
-import org.geogebra.desktop.gui.util.LayoutUtil.TitlePanel;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -39,33 +38,40 @@ public class OptionsLayoutD
 	private AppD app;
 	private Settings settings;
 
-	private JPanel sideBarPanel, inputBarPanel, toolbarPanel,
-			perspectivesPanel;
+	private JPanel sideBarPanel;
+	private JPanel inputBarPanel;
+	private JPanel toolbarPanel;
+	private JPanel perspectivesPanel;
 
-	private JCheckBox ckShowInputHelp, ckShowTitleBar, ckAllowStyleBar,
-			ckShowInputBar, ckShowToolbar, ckShowToolHelp, ckShowMenuBar,
-			ckShowSideBar;
+	private JCheckBox ckShowInputHelp;
+	private JCheckBox ckShowTitleBar;
+	private JCheckBox ckAllowStyleBar;
+	private JCheckBox ckShowInputBar;
+	private JCheckBox ckShowToolbar;
+	private JCheckBox ckShowToolHelp;
+	private JCheckBox ckShowSideBar;
 
-	private JToggleButton rbToolbarNorth, rbToolbarSouth, rbToolbarEast,
-			rbToolbarWest, rbSidebarWest, rbSidebarEast;
+	private JToggleButton rbToolbarNorth;
+	private JToggleButton rbToolbarSouth;
+	private JToggleButton rbToolbarEast;
+	private JToggleButton rbToolbarWest;
+	private JToggleButton rbSidebarWest;
+	private JToggleButton rbSidebarEast;
 
-	private JRadioButton rbPespectiveSidebar, rbButtonSidebar;
+	private JRadioButton rbPespectiveSidebar;
+	private JRadioButton rbButtonSidebar;
 
-	private JToggleButton rbInputBarSouth, rbInputBarNorth;
+	private JToggleButton rbInputBarSouth;
+	private JToggleButton rbInputBarNorth;
 
 	private JLabel lblInputBarPosition;
 
-	/** */
-	private ButtonGroup inputbarPosGroup, toolBarPosGroup;
-
-	private TitlePanel menuBarPanel;
-
-	private JPanel wrappedPanel;
+	private final JPanel wrappedPanel;
 
 	/**
 	 * Construct layout option panel.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsLayoutD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
@@ -79,12 +85,11 @@ public class OptionsLayoutD
 
 	}
 
-	public void reinit() {
+	private void reinit() {
 		wrappedPanel.removeAll();
 		initGUI();
 		updateGUI();
 		setLabels();
-
 	}
 
 	/**
@@ -99,7 +104,6 @@ public class OptionsLayoutD
 		initInputbarPanel();
 		initPerspectivesPanel();
 		initToolBarPanel();
-		initMenuBarPanel();
 		initSideBarPanel();
 
 		JPanel panel = new JPanel();
@@ -107,7 +111,6 @@ public class OptionsLayoutD
 		panel.add(inputBarPanel);
 		panel.add(toolbarPanel);
 		panel.add(perspectivesPanel);
-		// panel.add(menuBarPanel);
 		panel.add(sideBarPanel);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -150,9 +153,7 @@ public class OptionsLayoutD
 		ckShowInputBar = new JCheckBox();
 		ckShowInputBar.addActionListener(this);
 
-		int tab = 20;
-
-		inputbarPosGroup = new ButtonGroup();
+		ButtonGroup inputbarPosGroup = new ButtonGroup();
 
 		rbInputBarNorth = new JToggleButton(
 				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
@@ -172,8 +173,9 @@ public class OptionsLayoutD
 
 		ckShowInputHelp = new JCheckBox();
 		ckShowInputHelp.addActionListener(this);
-		inputBarPanel.add(LayoutUtil.flowPanel(tab, ckShowInputHelp));
 
+		int tab = 20;
+		inputBarPanel.add(LayoutUtil.flowPanel(tab, ckShowInputHelp));
 	}
 
 	/**
@@ -209,22 +211,6 @@ public class OptionsLayoutD
 
 		sideBarPanel.add(LayoutUtil.flowPanel(ckShowSideBar,
 				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
-
-		// Don't show perspective/viewButton option (saved for 5.0 development)
-		// sideBarPanel.add(OptionsUtil.flowPanel(tab, rbPespectiveSidebar,
-		// rbButtonSidebar));
-	}
-
-	/**
-	 * Initialize the menu bar panel.
-	 */
-	private void initMenuBarPanel() {
-
-		menuBarPanel = new LayoutUtil.TitlePanel();
-
-		ckShowMenuBar = new JCheckBox();
-		ckShowMenuBar.addActionListener(this);
-		menuBarPanel.add(LayoutUtil.flowPanel(ckShowMenuBar));
 	}
 
 	/**
@@ -245,9 +231,7 @@ public class OptionsLayoutD
 		// manager
 		ckShowToolHelp.setSelected(true);
 
-		int tab = 20;
-
-		toolBarPosGroup = new ButtonGroup();
+		ButtonGroup toolBarPosGroup = new ButtonGroup();
 
 		rbToolbarNorth = new JToggleButton(
 				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
@@ -275,6 +259,7 @@ public class OptionsLayoutD
 				Box.createHorizontalStrut(5), rbToolbarSouth,
 				Box.createHorizontalStrut(5), rbToolbarWest,
 				Box.createHorizontalStrut(5), rbToolbarEast));
+		int tab = 20;
 		toolbarPanel.add(LayoutUtil.flowPanel(tab, ckShowToolHelp));
 
 	}
@@ -317,8 +302,6 @@ public class OptionsLayoutD
 		// .isIgnoringDocumentLayout());
 		ckShowTitleBar.setSelected(settings.getLayout().showTitleBar());
 		ckAllowStyleBar.setSelected(settings.getLayout().isAllowingStyleBar());
-
-		ckShowMenuBar.setSelected(app.showMenuBar());
 
 		ckShowSideBar.removeActionListener(this);
 		ckShowSideBar.setSelected(app.isShowDockBar());
@@ -384,13 +367,6 @@ public class OptionsLayoutD
 		} else if (source == ckShowInputHelp) {
 			app.setShowInputHelpToggle(ckShowInputHelp.isSelected());
 		}
-
-		// menubar settings
-		else if (source == ckShowMenuBar) {
-			app.setShowMenuBar(ckShowMenuBar.isSelected());
-			app.getGuiManager().updateMenuBarLayout();
-		}
-
 		// sidebar settings
 		else if (source == ckShowSideBar) {
 			app.setShowDockBar(ckShowSideBar.isSelected());
@@ -444,20 +420,13 @@ public class OptionsLayoutD
 		// perspectives panel
 		perspectivesPanel
 				.setBorder(LayoutUtil.titleBorder(loc.getMenu("View")));
-		// ckIgnoreDocumentLayout.setText(loc.getMenu("IgnoreDocumentLayout"));
 		ckShowTitleBar.setText(loc.getMenu("ShowTitleBar"));
 		ckAllowStyleBar.setText(loc.getMenu("AllowStyleBar"));
-
-		// menu bar panel
-		menuBarPanel.setTitle(loc.getMenu("Miscellaneous"));
-		ckShowMenuBar.setText(loc.getMenu("ShowMenuBar"));
-
 		// side bar panel
 		sideBarPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Sidebar")));
 		ckShowSideBar.setText(loc.getMenu("ShowSidebar"));
 		rbPespectiveSidebar.setText(loc.getMenu("PerspectivePanel"));
 		rbButtonSidebar.setText(loc.getMenu("ViewPanel"));
-
 	}
 
 	@Override
@@ -502,10 +471,6 @@ public class OptionsLayoutD
 		perspectivesPanel.setFont(font);
 		ckShowTitleBar.setFont(font);
 		ckAllowStyleBar.setFont(font);
-
-		// menu bar panel
-		menuBarPanel.setFont(font);
-		ckShowMenuBar.setFont(font);
 
 		// sidebar panel
 		sideBarPanel.setFont(font);

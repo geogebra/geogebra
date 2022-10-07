@@ -570,12 +570,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		table.setEnableAutoComplete(enableAutoComplete);
 	}
 
-	public void setShowRowHeader(boolean showRowHeader) {
-		table.setShowRowHeader(showRowHeader);
-	}
-
-	public void setShowColumnHeader(boolean showColumnHeader) {
-		table.setShowColumnHeader(showColumnHeader);
+	public void setShowHeader(boolean showRowHeader, boolean showColumnHeader) {
+		table.setShowHeader(showRowHeader, showColumnHeader);
 	}
 
 	public void setShowVScrollBar(boolean showVScrollBar) {
@@ -713,8 +709,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		allowSettingUpdate = true;
 
 		// layout
-		setShowColumnHeader(settings().showColumnHeader());
-		setShowRowHeader(settings().showRowHeader());
+		setShowHeader(settings().showRowHeader(), settings().showColumnHeader());
 		setShowVScrollBar(settings().showVScrollBar());
 		setShowHScrollBar(settings().showHScrollBar());
 		setShowGrid(settings().showGrid());

@@ -45,4 +45,8 @@ public class MarvlService implements Service {
 	public String getGroupsEndpoint(String materialId, GroupIdentifier.GroupCategory category) {
 		return null;
 	}
+
+	public boolean hasMultiuser() {
+		return false;
+	}
 }

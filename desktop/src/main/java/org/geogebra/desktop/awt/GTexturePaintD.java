@@ -7,6 +7,10 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GTexturePaint;
 
 public class GTexturePaintD implements GTexturePaint {
+	/**
+	 * @param subimage buffered image
+	 * @param rect image clip
+	 */
 	public GTexturePaintD(GBufferedImage subimage, GRectangle rect) {
 		impl = new TexturePaint(GBufferedImageD.getAwtBufferedImage(subimage),
 				GRectangleD.getAWTRectangle(rect));

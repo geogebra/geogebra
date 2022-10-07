@@ -14,6 +14,9 @@ public class ScriptManagerD extends ScriptManagerJre {
 
 	protected HashMap<Construction, Scriptable> globalScopeMap;
 
+	/**
+	 * @param app application
+	 */
 	public ScriptManagerD(App app) {
 		super(app);
 		globalScopeMap = new HashMap<>();
@@ -34,6 +37,11 @@ public class ScriptManagerD extends ScriptManagerJre {
 		globalScopeMap.put(app.getKernel().getConstruction(), globalScope);
 	}
 
+	/**
+	 * @param app application
+	 * @param script script content
+	 * @param arg argument TODO unused
+	 */
 	public void evalJavaScript(App app, String script, String arg) {
 		ensureGlobalScript(app);
 		CallJavaScript.evalScript(app, script, arg);

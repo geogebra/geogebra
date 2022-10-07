@@ -1,19 +1,18 @@
 package org.geogebra.common.kernel.interval.evaluators;
 
-import java.util.stream.Stream;
+import java.util.function.Consumer;
 
 import org.geogebra.common.kernel.interval.Interval;
 
 public interface DiscreteSpace {
-	void update(Interval interval, int count);
 
-	DiscreteSpace diffMax(double max);
+	void rescale(Interval interval, int count);
 
-	DiscreteSpace diffMin(double min);
+	void extendLeft(Interval domain, ExtendSpace cb);
 
-	Stream<Interval> values();
+	void extendRight(Interval domain, ExtendSpace cb);
 
-	void setInterval(double min, double max);
+	void extend(Interval domain, ExtendSpace cbLeft, ExtendSpace cbRight);
 
-	double getStep();
+	void forEach(Consumer<Interval> action);
 }

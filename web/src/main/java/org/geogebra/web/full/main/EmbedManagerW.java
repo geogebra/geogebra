@@ -31,7 +31,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.gwtutil.JsConsumer;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -72,14 +71,15 @@ import jsinterop.base.JsPropertyMap;
  */
 public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecutor {
 
-	private AppWFull app;
-	private HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
+	private final AppWFull app;
+	private final HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
 	// cache for undo: index by embed ID, drawables will change on reload
-	private HashMap<Integer, EmbedElement> cache = new HashMap<>();
+	private final HashMap<Integer, EmbedElement> cache = new HashMap<>();
 
 	private int counter;
-	private HashMap<Integer, String> content = new HashMap<>();
-	private HashMap<Integer, String> urls = new HashMap<>();
+	private final HashMap<Integer, String> content = new HashMap<>();
+	private final HashMap<Integer, String> urls = new HashMap<>();
+
 	private final HashMap<GeoElement, Runnable> errorHandlers = new HashMap<>();
 
 	/**
@@ -180,15 +180,18 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth());
 		fr.setComputedHeight(parameters.getDataParamHeight());
-		fr.setOnLoadCallback((JsConsumer<Object>) (exportedApi -> {
+		fr.setOnLoadCallback(exportedApi -> {
 			Map<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("api", exportedApi);
 			jsonArgument.put("loadedWithFile", fileName != null);
 			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
 					.setJsonArgument(jsonArgument));
-		}));
+		});
+		String jsonContent = content.get(drawEmbed.getEmbedID());
 		if (SUITE_APPCODE.equals(drawEmbed.getGeoEmbed().getAppName())) {
-			parameters.setAttribute("showAppsPicker", "true");
+			if (jsonContent == null) {
+				parameters.setAttribute("showAppsPicker", "true");
+			}
 			parameters.setAttribute("preventFocus", "true");
 		}
 		fr.runAsyncAfterSplash();
@@ -202,10 +205,10 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			appEmbedded.registerOpenFileListener(
 					getListener(drawEmbed, parameters, appEmbedded));
 			appEmbedded.getEventDispatcher().disableListeners();
-		} else if (content.get(drawEmbed.getEmbedID()) != null) {
+		} else if (jsonContent != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			appEmbedded.getGgbApi().setFileJSON(
-					Global.JSON.parse(content.get(drawEmbed.getEmbedID())));
+					Global.JSON.parse(jsonContent));
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
 			}

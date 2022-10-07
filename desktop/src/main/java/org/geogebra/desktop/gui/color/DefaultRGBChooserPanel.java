@@ -439,7 +439,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 			g.setColor(this.getBackground());
-			g.fillRect(0, 0, (getWidth() - 1) / 2, (getHeight() - 1));
+			g.fillRect(0, 0, (getWidth() - 1) / 2, getHeight() - 1);
 		}
 	}
 

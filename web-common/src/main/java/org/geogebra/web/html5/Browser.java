@@ -13,6 +13,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import elemental2.core.Function;
@@ -538,29 +539,32 @@ public class Browser {
 	 *            target element
 	 * @param asyncOperation
 	 *            callback
+	 * @return handler registration
 	 */
-	public static void addMutationObserver(Element el, Runnable asyncOperation) {
+	public static HandlerRegistration addMutationObserver(Element el, Runnable asyncOperation) {
 		try {
 			elemental2.dom.Element current = Js.uncheckedCast(el);
+			MutationObserver observer = new MutationObserver((mutations, _0) -> {
+				JsArray<?> actualMutations = Js.uncheckedCast(mutations);
+				if (actualMutations.length > 0) {
+					asyncOperation.run();
+				}
+				return null;
+			});
 			while (current != null) {
-				MutationObserver observer = new MutationObserver((mutations, _0) -> {
-					JsArray<?> actualMutations = Js.uncheckedCast(mutations);
-					if (actualMutations.length > 0) {
-						asyncOperation.run();
-					}
-					return null;
-				});
-
 				MutationObserverInit init = MutationObserverInit.create();
 				init.setAttributes(true);
 				init.setAttributeFilter(new String[] {"class", "style"});
 
 				observer.observe(current, init);
 				current = current.parentElement;
+
 			}
+			return observer::disconnect;
 		} catch (Throwable t) {
 			//Mutation observer not supported
 		}
+		return () -> {};
 	}
 
 	/**

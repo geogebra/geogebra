@@ -9,11 +9,10 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.desktop.gui.view.consprotocol;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -68,7 +67,6 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		JLabel title = new JLabel(loc.getMenu("ConstructionProtocol"));
 
 		JMenu colMenu = new JMenu(loc.getMenu("Columns"));
-		JMenu optionsMenu = new JMenu(loc.getMenu("Options"));
 
 		title.setFont(app.getBoldFont());
 		title.setBackground(Color.white);
@@ -107,24 +105,15 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 				loc.getMenu("ShowOnlyBreakpoints"));
 		cbShowOnlyBreakpoints.setSelected(cons.showOnlyBreakpoints());
 
-		cbShowOnlyBreakpoints.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				constprotView.showOnlyBreakpointsAction();
-			}
-		});
+		cbShowOnlyBreakpoints.addActionListener(e -> constprotView.showOnlyBreakpointsAction());
+		JMenu optionsMenu = new JMenu(loc.getMenu("Options"));
 		optionsMenu.add(cbShowOnlyBreakpoints);
 
 		JCheckBoxMenuItem cbUseColors = new JCheckBoxMenuItem(
 				loc.getMenu("ColorfulConstructionProtocol"));
 		cbUseColors.setSelected(constprotView.getUseColors());
-		cbUseColors.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				constprotView.setUseColors(!constprotView.getUseColors());
-				// constprotView.getData().updateAll();
-			}
+		cbUseColors.addActionListener(e -> {
+			constprotView.setUseColors(!constprotView.getUseColors());
 		});
 		optionsMenu.add(cbUseColors);
 		add(optionsMenu);
@@ -136,18 +125,13 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		// Help menu
 		JMenuItem mi = new JMenuItem(loc.getMenu("FastHelp"),
 				app.getScaledIcon(GuiResourcesD.HELP));
-		ActionListener lstHelp = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.showHelp("ConstructionProtocolHelp");
-				requestFocus();
-			}
-		};
-		mi.addActionListener(lstHelp);
+		mi.addActionListener(e -> {
+			app.showHelp("ConstructionProtocolHelp");
+			requestFocus();
+		});
 		add(mi);
 
 		app.setComponentOrientation(this);
-
 	}
 
 }

@@ -747,7 +747,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			tabs.get(event.getSelectedItem()).initGUI();
 			onTabSelection.run();
 		});
-		((Widget) tabPanel).setStyleName("propertiesPanel");
+		tabPanel.setStyleName("propertiesPanel");
 		createBasicTab();
 		if (!(app.isExam())) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),

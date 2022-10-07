@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
@@ -11,6 +12,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.TestStringUtil;
 import org.junit.After;
@@ -71,7 +75,34 @@ public class ControllerTest extends BaseControllerTest {
 
 	@Test
 	public void moveTool() {
-		setMode(EuclidianConstants.MODE_MOVE); // TODO 0
+		// Covers APPS-4296; more move tool related cases may require separate test class later
+		setMode(EuclidianConstants.MODE_MOVE);
+		String listDef = "l={(0, 0), (2, -2)}";
+		add(listDef);
+		add("A=Point(l)");
+		ArrayList<String> updates = new ArrayList<>();
+		EventListener acc = new EventListener() {
+
+			@Override
+			public void sendEvent(Event evt) {
+				if (evt.getType() == EventType.UPDATE) {
+					updates.add(evt.target.getLabelSimple());
+				}
+			}
+
+			@Override
+			public void reset() {
+				// not needed
+			}
+		};
+		getApp().getEventDispatcher().addEventListener(acc);
+		dragStart(0, 0);
+		dragEnd(40, 40); // small drag: no update
+		assertEquals("no update after small drag", Collections.emptyList(), updates);
+		dragStart(0, 0);
+		dragEnd(100, 100); // big drag: 1 event
+		checkContent("A = (2, -2)");
+		assertEquals("update after big drag", Collections.singletonList("A"), updates);
 	}
 
 	@Test

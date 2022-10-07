@@ -39,8 +39,8 @@ public class MidiSoundD implements MetaEventListener {
 
 	private final AppD app;
 	private Synthesizer synthesizer;
-	private Instrument instruments[];
-	private MidiChannel channels[];
+	private Instrument[] instruments;
+	private MidiChannel[] channels;
 
 	private Sequencer sequencer;
 	private Sequence seq;
@@ -61,7 +61,7 @@ public class MidiSoundD implements MetaEventListener {
 	// Initialization
 	// ==================================================
 
-	public boolean initialize() {
+	private boolean initialize() {
 
 		boolean success = true;
 
@@ -81,36 +81,12 @@ public class MidiSoundD implements MetaEventListener {
 
 				setChannels(synthesizer.getChannels());
 			}
-		}
-
-		catch (MidiUnavailableException e) {
-			e.printStackTrace();
-			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 
 		return success;
-	}
-
-	/**
-	 * Generates a list of available instruments in String form
-	 */
-	public String getInstrumentNames() {
-
-		int size = Math.min(128, instruments.length);
-
-		StringBuilder list = new StringBuilder("{");
-		for (int i = 0; i < size; i++) {
-			list.append("\"" + i + ": " + instruments[i].getName() + "\"");
-			if (i != (size - 1)) {
-				list.append(",");
-			}
-		}
-		list.append("}");
-
-		return list.toString();
 	}
 
 	/**
@@ -124,9 +100,9 @@ public class MidiSoundD implements MetaEventListener {
 	/**
 	 * Plays a MIDI sequence
 	 * 
-	 * @param sequence
-	 * @param tempo
-	 * @param tickPosition
+	 * @param sequence note sequence
+	 * @param tempo tempo
+	 * @param tickPosition position
 	 */
 	public void playSequence(Sequence sequence, int tempo, long tickPosition) {
 
@@ -147,13 +123,14 @@ public class MidiSoundD implements MetaEventListener {
 			// Start playing
 			sequencer.start();
 
-		} catch (MidiUnavailableException e) {
-			// ignore
-		} catch (InvalidMidiDataException e) {
+		} catch (MidiUnavailableException | InvalidMidiDataException e) {
 			// ignore
 		}
 	}
 
+	/**
+	 * @param doPause to pause or unpause?
+	 */
 	public void pause(boolean doPause) {
 
 		if (sequencer == null) {
@@ -169,12 +146,15 @@ public class MidiSoundD implements MetaEventListener {
 
 	}
 
+	/**
+	 * Stop the sound
+	 */
 	public void stop() {
 		closeMidiSound();
 		seq = null;
 	}
 
-	public void closeMidiSound() {
+	private void closeMidiSound() {
 
 		if (synthesizer != null) {
 			synthesizer.close();
@@ -213,10 +193,6 @@ public class MidiSoundD implements MetaEventListener {
 	}
 
 	/**
-	 * Uses the sequencer to play a Midi sequence from a .mid file or a .txt
-	 * file containing a JFugue string.
-	 */
-	/*
 	 * Uses the sequencer to play a Midi sequence from a .mid file or a .txt
 	 * file containing a JFugue string.
 	 */
@@ -320,15 +296,15 @@ public class MidiSoundD implements MetaEventListener {
 				Log.debug("Instruments loaded: " + bInstrumentsLoaded);
 			}
 
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		} catch (InvalidMidiDataException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (MidiUnavailableException | IOException | InvalidMidiDataException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * @param noteString0 note string
+	 * @param instrument instrument
+	 */
 	public void playSequenceFromJFugueString(String noteString0,
 			int instrument) {
 
@@ -347,7 +323,7 @@ public class MidiSoundD implements MetaEventListener {
 		thread.start();
 	}
 
-	public void playJFugueFromFile(File file, URL url) throws IOException {
+	private void playJFugueFromFile(File file, URL url) throws IOException {
 
 		StringBuffer contents = new StringBuffer();
 		BufferedReader reader = null;
@@ -364,11 +340,8 @@ public class MidiSoundD implements MetaEventListener {
 			}
 			// System.out.println(contents.toString());
 			this.playSequenceFromJFugueString(contents.toString(), 0);
-		}
-
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-
 		} finally {
 			try {
 				if (reader != null) {
@@ -385,7 +358,7 @@ public class MidiSoundD implements MetaEventListener {
 		return channels;
 	}
 
-	private void setChannels(MidiChannel channels[]) {
+	private void setChannels(MidiChannel[] channels) {
 		this.channels = channels;
 	}
 

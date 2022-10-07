@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
@@ -264,6 +265,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public double getZoomLevel() {
 		String zoom = ((AppW) app).getGeoGebraElement().getParentElement()
 				.getStyle().getProperty("zoom");
+		if (StringUtil.empty(zoom)) {
+			return 1;
+		}
 		try {
 			return Double.parseDouble(zoom);
 		} catch (NumberFormatException e) {

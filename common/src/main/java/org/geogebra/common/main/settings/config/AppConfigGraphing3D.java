@@ -210,4 +210,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public boolean hasLabelForDescription() {
 		return true;
 	}
+
+	@Override
+	public int getMainGraphicsViewId() {
+		return App.VIEW_EUCLIDIAN3D;
+	}
 }

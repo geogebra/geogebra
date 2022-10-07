@@ -1,8 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-import org.geogebra.common.gui.SetLabels;
-
-public interface ResultPanel extends SetLabels {
+public interface ResultPanel {
 	void showInterval();
 
 	void showTwoTailed();
@@ -16,8 +14,6 @@ public interface ResultPanel extends SetLabels {
 	void setResultEditable(boolean value);
 
 	void updateResult(String text);
-
-	void updateResultSum(String text);
 
 	void updateLowHigh(String low, String high);
 

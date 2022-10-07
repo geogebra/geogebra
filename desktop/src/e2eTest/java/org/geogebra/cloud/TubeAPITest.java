@@ -105,7 +105,7 @@ public class TubeAPITest extends Assert {
 
 					}
 
-				}, MaterialType.ggb);
+				}, MaterialType.ggb, false);
 	}
 
 	private static void awaitValidTitlesExact(String description,

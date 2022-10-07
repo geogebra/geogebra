@@ -14,14 +14,14 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogConeTwoPointsRadius extends InputDialogRadiusD {
 
-	private GeoPointND a, b;
+	private final GeoPointND a;
+	private final GeoPointND b;
 
 	/**
-	 * 
-	 * @param app
-	 * @param title
-	 * @param handler
-	 * @param kernel
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param kernel kernel
 	 */
 	public InputDialogConeTwoPointsRadius(AppD app, String title,
 			InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {

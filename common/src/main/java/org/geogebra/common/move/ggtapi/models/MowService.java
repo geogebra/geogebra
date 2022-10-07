@@ -53,4 +53,8 @@ public class MowService implements Service {
 		return path;
 	}
 
+	public boolean hasMultiuser() {
+		return true;
+	}
+
 }

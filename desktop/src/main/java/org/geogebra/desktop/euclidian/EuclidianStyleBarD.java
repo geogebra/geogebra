@@ -102,18 +102,25 @@ public class EuclidianStyleBarD extends JToolBar
 	private Construction cons;
 
 	// buttons and lists of buttons
-	protected ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
+	protected ColorPopupMenuButton btnColor;
+	protected ColorPopupMenuButton btnBgColor;
+	protected ColorPopupMenuButton btnTextColor;
 
-	protected PopupMenuButtonD btnLineStyle, btnPointStyle, btnTextSize,
-			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
-			btnPointCapture, btnAngleInterval;
+	protected PopupMenuButtonD btnLineStyle;
+	protected PopupMenuButtonD btnPointStyle;
+	protected PopupMenuButtonD btnTextSize;
+	protected PopupMenuButtonD btnTableTextJustify;
+	protected PopupMenuButtonD btnTableTextBracket;
+	protected PopupMenuButtonD btnLabelStyle;
+	protected PopupMenuButtonD btnPointCapture;
+	protected PopupMenuButtonD btnAngleInterval;
 
 	protected MyToggleButtonD btnShowGrid;
 
 	protected MyToggleButtonD btnStandardView;
 
 	protected MyToggleButtonD btnShowAxes;
-	protected MyToggleButtonD btnDeleteSize[];
+	protected MyToggleButtonD[] btnDeleteSize;
 
 	MyToggleButtonD btnBold;
 
@@ -123,7 +130,8 @@ public class EuclidianStyleBarD extends JToolBar
 
 	private MyToggleButtonD btnTableTextLinesH;
 
-	MyToggleButtonD btnFixPosition, btnFixObject;
+	MyToggleButtonD btnFixPosition;
+	MyToggleButtonD btnFixObject;
 
 	private PopupMenuButtonD[] popupBtnList;
 	private MyToggleButtonD[] toggleBtnList;
@@ -317,7 +325,6 @@ public class EuclidianStyleBarD extends JToolBar
 		// display a selection for the drag-delete-tool
 		// can't use a geo element for this
 		// -----------------------------------------------------
-
 
 		// -----------------------------------------------------
 		// All other modes: load activeGeoList with current default geo
@@ -577,10 +584,10 @@ public class EuclidianStyleBarD extends JToolBar
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				boolean geosOK = (geos.size() > 0);
+				boolean geosOK = geos.size() > 0;
 				int maxMinimumThickness = 0;
 				for (int i = 0; i < geos.size(); i++) {
-					GeoElement geo = ((GeoElement) geos.get(i))
+					GeoElement geo = geos.get(i)
 							.getGeoElementForPropertiesDialog();
 					if (!geo.showLineProperties()) {
 						geosOK = false;
@@ -657,10 +664,10 @@ public class EuclidianStyleBarD extends JToolBar
 			@Override
 			public void update(List<GeoElement> geos) {
 				GeoElement geo;
-				boolean geosOK = (geos.size() > 0);
+				boolean geosOK = geos.size() > 0;
 				// btnPointStyle.getMyTable().setVisible(true);
 				for (int i = 0; i < geos.size(); i++) {
-					geo = (GeoElement) geos.get(i);
+					geo = geos.get(i);
 					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
 							&& (!(geo.isGeoList() && ((GeoList) geo)
 									.showPointProperties()))) {
@@ -740,7 +747,7 @@ public class EuclidianStyleBarD extends JToolBar
 			public void update(List<GeoElement> geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 						.checkGeosForAngleInterval(geos);
-				boolean geosOK = (geo != null);
+				boolean geosOK = geo != null;
 				this.setVisible(geosOK);
 
 				if (geosOK) {
@@ -945,8 +952,8 @@ public class EuclidianStyleBarD extends JToolBar
 					setVisible(false);
 					return;
 				}
-				boolean geosOK = (geos.size() > 0
-						|| EuclidianView.isPenMode(mode));
+				boolean geosOK = geos.size() > 0
+						|| EuclidianView.isPenMode(mode);
 				for (int i = 0; i < geos.size(); i++) {
 					GeoElement geo = geos.get(i)
 							.getGeoElementForPropertiesDialog();
@@ -1020,8 +1027,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 			@Override
 			public void update(List<GeoElement> geos) {
-
-				boolean geosOK = (geos.size() > 0);
+				boolean geosOK = geos.size() > 0;
 				for (int i = 0; i < geos.size(); i++) {
 					GeoElement geo = geos.get(i)
 							.getGeoElementForPropertiesDialog();
@@ -1083,7 +1089,7 @@ public class EuclidianStyleBarD extends JToolBar
 	// =====================================================
 
 	static boolean checkGeoText(List<GeoElement> geos) {
-		boolean geosOK = (geos.size() > 0);
+		boolean geosOK = geos.size() > 0;
 		for (int i = 0; i < geos.size(); i++) {
 			if (!(geos.get(i)
 					.getGeoElementForPropertiesDialog() instanceof TextProperties)) {
@@ -1496,7 +1502,8 @@ public class EuclidianStyleBarD extends JToolBar
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
-				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app, targetGeos);
+				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
+						lineSize, app, targetGeos);
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
@@ -1570,8 +1577,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 	@Override
 	public void updateButtonPointCapture(int mode1) {
-		if (mode1 == 3 || mode1 == 0)
-		 {
+		if (mode1 == 3 || mode1 == 0) {
 			btnPointCapture.setSelectedIndex(3 - mode1); // swap 0 and 3
 		} else {
 			btnPointCapture.setSelectedIndex(mode1);

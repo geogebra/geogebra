@@ -34,6 +34,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.himamis.retex.editor.web.MathFieldW;
 
 import elemental2.core.Function;
 import jsinterop.base.Js;
@@ -46,7 +47,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		HasAppletProperties {
 	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
-	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
+	private static final ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 	private static final int SMALL_SCREEN_HEADER_HEIGHT = 48;
 	/** The application */
 	protected AppW app;
@@ -100,21 +101,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this(laf, appletParameters.getDataParamFitToScreen());
 		this.geoGebraElement = geoGebraElement;
 		this.appletParameters = appletParameters;
-
-		if (!appletParameters.getDataParamApp()) {
-			addFocusHandlers(geoGebraElement);
-		}
 	}
 
 	private void addFocusHandlers(Element e) {
-		Dom.addEventListener(e, "focusin", evt -> {
+		app.getGlobalHandlers().addEventListener(e, "focusin", evt -> {
 			useFocusedBorder();
 			elemental2.dom.Element target = Js.uncheckedCast(evt.target);
 			if (!target.classList.contains("screenReaderStyle")) {
 				getApp().getGlobalKeyDispatcher().setEscPressed(false);
 			}
 		});
-		Dom.addEventListener(e, "focusout", evt -> useDataParamBorder());
+		app.getGlobalHandlers().addEventListener(e, "focusout", evt -> useDataParamBorder());
 	}
 
 	/**
@@ -524,13 +521,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            the application
 	 */
 	public void setApplication(AppW app) {
-		this.app = app;
-		initAppDependentFields();
+		if (this.app != app) {
+			this.app = app;
+			initAppDependentFields();
+		}
 	}
 
 	private void initAppDependentFields() {
 		isHeaderVisible = !shouldHaveSmallScreenLayout();
 		setSizeStyles();
+		if (!appletParameters.getDataParamApp()) {
+			addFocusHandlers(geoGebraElement);
+		}
 	}
 
 	/**
@@ -554,6 +556,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public static int getInstanceCount() {
 		return instances.size();
+	}
+
+	/**
+	 * Permanently remove instance(s) contained in an element
+	 * @param el DOM element
+	 */
+	public static void removeExistingInstance(Element el) {
+		for (int i = instances.size() - 1; i >= 0; i--) {
+			if (el.isOrHasChild(instances.get(i).getElement())) {
+				instances.get(i).remove();
+			}
+		}
 	}
 
 	/**
@@ -685,10 +699,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		removeFromParent();
 		clear();
 		GeoGebraFrameW.instances.remove(this);
-		geoGebraElement.removeFromParent();
+		if (instances.isEmpty()) {
+			MathFieldW.removeAll();
+		}
+		app.getGlobalHandlers().removeAllListeners();
+		app.getTimerSystem().cancel();
 		Event.setEventListener(geoGebraElement, null);
 		geoGebraElement = null;
-		app.getGlobalHandlers().removeAllListeners();
 		SymbolicEditor symbolicEditor = app.getEuclidianView1().getSymbolicEditor();
 		if (symbolicEditor != null) {
 			symbolicEditor.removeListeners();
@@ -699,10 +716,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 		app = null;
 		splash = null;
-
-		if (GeoGebraFrameW.getInstanceCount() == 0) {
-			ResourcesInjector.removeResources();
-		}
 	}
 
 	/**

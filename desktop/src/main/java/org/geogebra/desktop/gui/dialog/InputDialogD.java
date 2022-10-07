@@ -65,13 +65,19 @@ public class InputDialogD extends InputDialog
 	protected GeoElementSelectionListener sl;
 
 	public static final int DEFAULT_COLUMNS = 30;
-	public static final int DEFAULT_ROWS = 10;
 
 	protected InputPanelD inputPanel;
-	protected JPanel optionPane, buttonsPanel, btPanel, btPanel2;
+	protected JPanel optionPane;
+	protected JPanel buttonsPanel;
+	protected JPanel btPanel;
+	protected JPanel btPanel2;
 
 	protected JLabel msgLabel;
-	protected JButton btApply, btCancel, btProperties, btOK, btHelp;
+	protected JButton btApply;
+	protected JButton btCancel;
+	protected JButton btProperties;
+	protected JButton btOK;
+	protected JButton btHelp;
 
 	protected JCheckBox checkBox;
 
@@ -79,12 +85,12 @@ public class InputDialogD extends InputDialog
 	private JPanel errorPanel;
 
 	/**
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param autoComplete
-	 * @param handler
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial string
+	 * @param autoComplete whether to allow autocomplete
+	 * @param handler input handler
 	 */
 	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler) {
@@ -93,13 +99,13 @@ public class InputDialogD extends InputDialog
 	}
 
 	/**
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param autoComplete
-	 * @param handler
-	 * @param selectInitText
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial string
+	 * @param autoComplete whether to allow autocomplete
+	 * @param handler input handler
+	 * @param selectInitText select text?
 	 */
 	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
@@ -110,14 +116,14 @@ public class InputDialogD extends InputDialog
 
 	/**
 	 * Creates a non-modal standard input dialog.
-	 * 
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param autoComplete
-	 * @param handler
-	 * @param geo
+	 *
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial string
+	 * @param autoComplete whether to allow autocomplete
+	 * @param handler input handler
+	 * @param geo for properties button
 	 */
 	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
@@ -127,15 +133,15 @@ public class InputDialogD extends InputDialog
 	}
 
 	/**
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param autoComplete
-	 * @param handler
-	 * @param modal
-	 * @param selectInitText
-	 * @param geo
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial string
+	 * @param autoComplete whether to allow autocomplete
+	 * @param handler input handler
+	 * @param modal model?
+	 * @param selectInitText select text?
+	 * @param geo for properties button
 	 */
 	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
@@ -145,17 +151,17 @@ public class InputDialogD extends InputDialog
 	}
 
 	/**
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param autoComplete
-	 * @param handler
-	 * @param modal
-	 * @param selectInitText
-	 * @param geo
-	 * @param checkBox
-	 * @param type
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial string
+	 * @param autoComplete whether to allow autocomplete
+	 * @param handler input handler
+	 * @param modal model?
+	 * @param selectInitText select text?
+	 * @param geo for properties button
+	 * @param checkBox checkbox
+	 * @param type type
 	 */
 	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
@@ -200,10 +206,9 @@ public class InputDialogD extends InputDialog
 	/**
 	 * Creates a bare-bones input dialog for highly customized dialogs.
 	 * 
-	 * @param frame
-	 * @param modal
+	 * @param frame parent frame
+	 * @param modal modal?
 	 */
-	@SuppressWarnings("serial")
 	protected InputDialogD(JFrame frame, boolean modal, LocalizationD loc) {
 		this.loc = loc;
 		this.wrappedDialog = new Dialog(frame, modal) {
@@ -224,18 +229,6 @@ public class InputDialogD extends InputDialog
 	// GUI
 	// ===================================================
 
-	/**
-	 * @param title
-	 * @param message
-	 * @param autoComplete
-	 * @param columns
-	 * @param rows
-	 * @param showSymbolPopupIcon
-	 * @param selectInitText
-	 * @param showProperties
-	 * @param showApply
-	 * @param type
-	 */
 	protected void createGUI(String title, String message, boolean autoComplete,
 			int columns, int rows, boolean showSymbolPopupIcon,
 			boolean selectInitText, boolean showProperties, boolean showApply,
@@ -246,13 +239,9 @@ public class InputDialogD extends InputDialog
 		inputPanel = new InputPanelD(getInitString(), app, rows, columns,
 				showSymbolPopupIcon, type);
 
-		sl = new GeoElementSelectionListener() {
-			@Override
-			public void geoElementSelected(GeoElement geo1,
-					boolean addToSelection) {
-				insertGeoElement(geo1);
-				inputPanel.getTextComponent().requestFocusInWindow();
-			}
+		sl = (geo1, addToSelection) -> {
+			insertGeoElement(geo1);
+			inputPanel.getTextComponent().requestFocusInWindow();
 		};
 
 		// add listeners to textfield
@@ -322,10 +311,9 @@ public class InputDialogD extends InputDialog
 		wrappedDialog.setLocationRelativeTo(app.getMainComponent());
 	}
 
-	public void showSymbolTablePopup(boolean flag) {
-		inputPanel.showSpecialChars(flag);
-	}
-
+	/**
+	 * @param articleName wiki article name
+	 */
 	public void addHelpButton(String articleName) {
 		btHelp = new JButton();
 		HelpAction helpAction = new HelpAction(app,
@@ -360,6 +348,9 @@ public class InputDialogD extends InputDialog
 	// Text Handlers
 	// ===================================================
 
+	/**
+	 * @param geo1 construction element
+	 */
 	public void insertGeoElement(GeoElement geo1) {
 		if (geo1 != null) {
 			insertString(
@@ -372,6 +363,10 @@ public class InputDialogD extends InputDialog
 		insertString(str, false);
 	}
 
+	/**
+	 * @param str0 string to insert
+	 * @param isLatex whether to convert to LaTeX
+	 */
 	public void insertString(String str0, boolean isLatex) {
 
 		if (str0 != null) {
@@ -395,26 +390,6 @@ public class InputDialogD extends InputDialog
 		inputPanel.setText(text);
 	}
 
-	public void selectText() {
-		inputPanel.selectText();
-	}
-
-	public void setCaretPosition(int pos) {
-		JTextComponent tc = inputPanel.getTextComponent();
-		tc.setCaretPosition(pos);
-		tc.requestFocusInWindow();
-	}
-
-	public void setRelativeCaretPosition(int pos) {
-		JTextComponent tc = inputPanel.getTextComponent();
-		try {
-			tc.setCaretPosition(tc.getCaretPosition() + pos);
-		} catch (Exception e) {
-			// out of bounds
-		}
-		tc.requestFocusInWindow();
-	}
-
 	// ===================================================
 	// Event Handlers
 	// ===================================================
@@ -430,14 +405,7 @@ public class InputDialogD extends InputDialog
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				String inputText = inputPanel.getText();
-				processInputHandler(inputText, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisible(!ok);
-
-					}
-				});
+				processInputHandler(inputText, ok -> setVisible(!ok));
 			} else if (source == btApply) {
 				String inputText = inputPanel.getText();
 				processInputHandler(inputText, null);
@@ -455,14 +423,14 @@ public class InputDialogD extends InputDialog
 		// setVisible(!finished);
 	}
 
-
 	protected void cancel() {
 		setVisible(false);
 	}
-	// ===================================================
-	// Visibility Handlers
-	// ===================================================
 
+	/**
+	 * Show or hide the dialog
+	 * @param flag show the dialog?
+	 */
 	public void setVisible(boolean flag) {
 		if (!wrappedDialog.isModal()) {
 			if (flag) { // set old mode again
@@ -475,6 +443,10 @@ public class InputDialogD extends InputDialog
 		wrappedDialog.setVisible(flag);
 	}
 
+	/**
+	 * Like setVisible, but handles selection listener
+	 * @param flag whether to show dialog
+	 */
 	public void setVisibleForTools(boolean flag) {
 		if (!wrappedDialog.isModal()) {
 			if (flag) { // set old mode again
@@ -563,6 +535,9 @@ public class InputDialogD extends InputDialog
 		// not needed
 	}
 
+	/**
+	 * @param isVisible whether dialog is visible
+	 */
 	public void handleDialogVisibilityChange(boolean isVisible) {
 		if (!wrappedDialog.isModal() && !isVisible) {
 			app.setSelectionListenerMode(null);

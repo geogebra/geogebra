@@ -10,11 +10,11 @@ import elemental2.dom.XMLHttpRequest;
  * Implements HTTP requests and responses for web.
  */
 public class HttpRequestW extends HttpRequest {
+	private final XMLHttpRequest request = new XMLHttpRequest();
 
 	@Override
 	public void sendRequestPost(String method, String url, String post,
 			AjaxCallback callback) {
-		XMLHttpRequest request = new XMLHttpRequest();
 		request.open(method, url);
 
 		// text/plain needed for SMART, hopefully no problem for others
@@ -39,5 +39,10 @@ public class HttpRequestW extends HttpRequest {
 		};
 
 		request.send(post);
+	}
+
+	@Override
+	public String getResponseHeader(String name) {
+		return request.getResponseHeader(name);
 	}
 }

@@ -16,6 +16,7 @@
  *
  * @author Markus Hohenwarter
  */
+
 package org.geogebra.desktop;
 
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;

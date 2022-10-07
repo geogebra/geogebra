@@ -113,22 +113,16 @@ public interface BackendAPI {
 	/**
 	 * Uploads the actual opened application to ggt
 	 *
-	 * @param tubeID
-	 *            tube id
-	 * @param visibility
-	 *            visibility string
-	 *
-	 * @param filename
-	 *            String
-	 * @param base64
-	 *            base64 string
-	 * @param cb
-	 *            MaterialCallback
-	 * @param type
-	 *            material type
+	 * @param tubeID - tube id
+	 * @param visibility - visibility string
+	 * @param filename - String
+	 * @param base64 - base64 string
+	 * @param cb - MaterialCallback
+	 * @param type - material type
+	 * @param isMultiuser - should set to multiuser shared
 	 */
 	void uploadMaterial(String tubeID, String visibility, String filename, String base64,
-			MaterialCallbackI cb, MaterialType type);
+			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
 
 	/**
 	 * @param student

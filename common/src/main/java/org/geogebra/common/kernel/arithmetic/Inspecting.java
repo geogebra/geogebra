@@ -21,7 +21,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public interface Inspecting {
 	/**
 	 * Do the local check
-	 * 
+	 *
 	 * @param v
 	 *            expression
 	 * @return whether this expression itself has given property (not the
@@ -88,10 +88,10 @@ public interface Inspecting {
 
 	/**
 	 * Checks if a ValidExpression is unplottable
-	 * 
+	 *
 	 * <em>Warning:</em> it always returns false for MyList, the checking has to
 	 * be done manually for each element
-	 * 
+	 *
 	 * @author bencze
 	 */
 	public class UnplottableChecker implements Inspecting {
@@ -250,6 +250,24 @@ public interface Inspecting {
 	}
 
 	/**
+	 * Checks if a division of vectors is found or not
+	 */
+	public static Inspecting vectorDivisionFinder = new Inspecting() {
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			if (v.isExpressionNode()) {
+				ExpressionNode en = (ExpressionNode) v;
+				if (en.getOperation() == Operation.DIVIDE) {
+					return en.getRightTree().evaluatesToNDVector()
+							&& en.getLeftTree().evaluatesToNDVector();
+				}
+			}
+			return false;
+		}
+	};
+
+	/**
 	 * Instead of isConstant we sometimes (always?) want to check only for Geos
 	 * that are not labeled, symbolic or dependent ie we don't nned to
 	 * distinguish between MyDouble(1) and GeoNumeric(1)
@@ -311,7 +329,7 @@ public interface Inspecting {
 		public boolean check(ExpressionValue v) {
 			return v instanceof MySpecialDouble;
 		}
-		
+
 	}
 
 	/**
