@@ -27,6 +27,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+import elemental2.dom.DomGlobal;
+import elemental2.dom.URL;
+
 /**
  * Dialog to create a new user defined tool
  */
@@ -65,7 +68,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 		toolModel = new ToolCreationDialogModel(app, this);
 
-		Macro appMacro = app.getMacro();
+		Macro appMacro = app.getEditMacro();
 		if (appMacro != null) {
 			this.setFromMacro(appMacro); // TODO
 		}
@@ -289,8 +292,8 @@ public class ToolCreationDialogW extends ComponentDialog implements
 
 	private void finish() {
 		final App appToSave;
-		if (appw.getMacro() != null) {
-			appToSave = appw.getMacro().getKernel().getApplication();
+		if (appw.getEditMacro() != null) {
+			appToSave = appw.getEditMacro().getKernel().getApplication();
 		} else {
 			appToSave = appw;
 		}
@@ -337,8 +340,38 @@ public class ToolCreationDialogW extends ComponentDialog implements
 			dialog.show();
 		}
 
-		if (appw.isToolLoadedFromStorage()) {
-			appw.storeMacro(appw.getMacro(), true);
+		if (appw.isOpenedForMacroEditing()) {
+			Macro editMacro = appw.getEditMacro();
+			String editMacroName = editMacro.getEditName();
+			String editMacroPreviousName = appw.getEditMacroPreviousName();
+			if (!editMacroPreviousName.equals(editMacroName)) {
+				appw.removeMacro(editMacroPreviousName);
+				appw.storeMacro(editMacro);
+				appw.setEditMacroPreviousName(editMacroName);
+				DomGlobal.document.title = editMacroName;
+				URL url = new URL(DomGlobal.location.href);
+				if (url.searchParams != null) {
+					url.searchParams.set(AppW.EDIT_MACRO_URL_PARAM_NAME, editMacroName);
+					appw.updateURL(url);
+				}
+			}
+			StringBuilder xml = new StringBuilder();
+			editMacro.getXML(xml);
+			String message = "{\""
+					+ AppW.EDITED_MACRO_ACTION_KEY + "\": \"" + AppW.EDITED_MACRO_ACTION_VALUE
+					+ "\", \""
+					+ AppW.EDITED_MACRO_NAME_KEY + "\": \"" + editMacroName + "\", \""
+					+ AppW.EDITED_MACRO_XML_KEY + "\": \""
+					+ xml.toString()
+					.replace("\t", "").replace("\n", "")
+					.replace("\"", AppW.DOUBLE_QUOTE_SUBSTITUTE)
+					// Both the JSON parser and the XML processor need double
+					// quotes and having an XML embedded into JSON results in
+					// a faulty behaviour, therefore the double quotes of the
+					// XML are substituted for a neutral phrase and changed
+					// back after the XML is extracted from the JSON.
+					+ "\"}";
+			DomGlobal.window.opener.postMessage(message, "*");
 		}
 		if (success) {
 			setVisible(false);

@@ -1901,7 +1901,7 @@ public class GuiManagerW extends GuiManager
 				new Event(EventType.EXPORT, null, "[\"ggt\"]"));
 
 		if (NavigatorUtil.isFirefox()) {
-			getApp().getGgbApi().getMacrosBase64(true,
+			getApp().getGgbApi().getAllMacrosBase64(true,
 					getBase64DownloadCallback(filename));
 		} else {
 			getApp().getGgbApi().getZippedMacrosAsync(
