@@ -78,7 +78,6 @@ import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
-import org.geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import org.geogebra.common.gui.dialog.options.model.LayerModel;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
@@ -292,7 +291,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel();
-		ineqStylePanel = new IneqPanel();
+		ineqStylePanel = getCheckboxPanel(new IneqStyleModel(app));
 		textOptionsPanel = new TextOptionsPanelD(this);
 		arcSizePanel = new ArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
@@ -793,7 +792,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	 *            geo
 	 */
 	public void updateOneGeoDefinition(GeoElement geo) {
-		namePanel.updateDef(geo);
+		namePanel.updateDefinition(geo);
 	}
 
 	/**
@@ -878,28 +877,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void updateCheckbox(boolean value, boolean isEnabled) {
 			getCheckbox().setSelected(value);
 			getCheckbox().setEnabled(isEnabled);
-		}
-
-	}
-
-	private class IneqPanel extends CheckboxPanel
-			implements IIneqStyleListener {
-
-		private static final long serialVersionUID = 1L;
-
-		public IneqPanel() {
-			super(app, PropertiesPanelD.this, new IneqStyleModel(app));
-		}
-
-		@Override
-		public void enableFilling(boolean value) {
-			fillingPanel.setAllEnabled(value);
-		}
-
-		@Override
-		public void apply(boolean value) {
-			super.apply(value);
-			enableFilling(value);
 		}
 
 	}
@@ -1519,14 +1496,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			add(tabbedPane, BorderLayout.CENTER);
 
-			tabbedPane.addChangeListener(new ChangeListener() {
-
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					applyModifications();
-
-				}
-			});
+			tabbedPane.addChangeListener(e -> applyModifications());
 
 		}
 

@@ -783,6 +783,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public boolean isFillable() {
+		if (showOnAxis) {
+			return false;
+		}
 		if (fun != null && isInequality == null && isBooleanFunction()) {
 			getIneqs();
 		}

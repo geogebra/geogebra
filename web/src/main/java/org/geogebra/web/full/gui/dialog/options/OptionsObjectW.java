@@ -102,6 +102,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	List<OptionsTab> tabs;
 	private TextOptionsModel textModel;
+	private NamePanel namePanel;
 
 	String localize(final String id) {
 		return loc.getMenu(id);
@@ -746,7 +747,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		CheckboxPanel bgImagePanel = null;
 		ReflexAnglePanel reflexAnglePanel = null;
 		labelPanel = new LabelPanel();
-		NamePanel namePanel = new NamePanel(getAppW(), labelPanel.model);
+		namePanel = new NamePanel(getAppW(), labelPanel.model);
 
 		CheckboxPanel showObjectPanel = new ShowObjectPanel();
 		CheckboxPanel tracePanel = new CheckboxPanel(loc,
@@ -944,7 +945,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	public void updateIfInSelection(GeoElement geo) {
 		if (getSelection() != null && getSelection().size() == 1
 				&& getSelection().contains(geo)) {
-			updateGUI();
+			if (namePanel != null) {
+				namePanel.updateDefinition(geo);
+			}
 		}
 	}
 

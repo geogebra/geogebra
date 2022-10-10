@@ -30,7 +30,6 @@ import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
-import org.geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -57,7 +56,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -138,7 +136,6 @@ public class OptionsTab extends FlowPanel {
 	 */
 	public void add(IOptionPanel panel) {
 		add(panel.getWidget());
-		Log.error(panel.getModel().getClass());
 		models.add(panel.getModel());
 	}
 
@@ -148,7 +145,6 @@ public class OptionsTab extends FlowPanel {
 	 * @return tab
 	 */
 	public OptionsTab addModel(OptionsModel model) {
-		Log.error(model.getClass());
 		models.add(model);
 		return this;
 	}
@@ -273,7 +269,7 @@ public class OptionsTab extends FlowPanel {
 			return new SlopeTriangleSizePanel((SlopeTriangleSizeModel) m);
 		}
 		if (m instanceof IneqStyleModel) {
-			return new IneqPanel((IneqStyleModel) m, app);
+			return new CheckboxPanel(app.getLocalization(), (IneqStyleModel) m);
 		}
 		if (m instanceof TextFieldSizeModel) {
 			return new TextPropertyPanel((TextFieldSizeModel) m, app);
@@ -1056,26 +1052,6 @@ public class OptionsTab extends FlowPanel {
 		public void setValue(int value) {
 			slider.setValue(value);
 		}
-
-	}
-
-	private static class IneqPanel extends CheckboxPanel
-			implements IIneqStyleListener {
-
-		public IneqPanel(IneqStyleModel model, AppW app) {
-			super(app.getLocalization(), model);
-		}
-
-		@Override
-		public void enableFilling(boolean value) {
-			// fillingPanel.setAllEnabled(value);
-		}
-
-		// @Override
-		// public void apply(boolean value) {
-		// super.apply(value);
-		// enableFilling(!value);
-		// }
 
 	}
 

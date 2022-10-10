@@ -70,14 +70,7 @@ public class MoveGeos {
 			moved = moveObject(geo, rwTransVec, position, viewDirection,
 					moveObjectsUpdateList, view) || moved;
 		}
-
-		// take all independent input objects and build a common updateSet
-		// then update all their algos.
-		// (don't do updateCascade() on them individually as this could cause
-		// multiple updates of the same algorithm)
-		GeoElement.updateCascade(moveObjectsUpdateList, GeoElement.getTempSet(),
-				false);
-
+		updateCascadeAfterMove();
 		//geoLists do not trigger the update of the cascade in the function call above
 		for (GeoElement geo : geosToMove) {
 			if (geo.isGeoList()) {
@@ -89,6 +82,27 @@ public class MoveGeos {
 			}
 		}
 		return moved;
+	}
+
+	private static void updateCascadeAfterMove() {
+		// take all independent input objects and build a common updateSet
+		// then update all their algos.
+		// (don't do updateCascade() on them individually as this could cause
+		// multiple updates of the same algorithm)
+		ArrayList<GeoElement> rwCoordGeos = new ArrayList<>(moveObjectsUpdateList.size());
+		for (GeoElement geo: moveObjectsUpdateList) {
+			// moving buttons / sliders etc = style change, moving other objects = value change
+			if (geo instanceof AbsoluteScreenLocateable) {
+				geo.updateVisualStyleRepaint(GProperty.POSITION);
+				if (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox()) {
+					rwCoordGeos.add(geo);
+				}
+			} else {
+				rwCoordGeos.add(geo);
+			}
+		}
+		GeoElement.updateCascade(rwCoordGeos, GeoElement.getTempSet(),
+				false);
 	}
 
 	/* visible for tests */

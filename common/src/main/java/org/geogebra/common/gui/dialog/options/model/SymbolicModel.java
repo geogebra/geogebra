@@ -35,7 +35,7 @@ public class SymbolicModel extends BooleanOptionModel {
 
 	@Override
 	public String getTitle() {
-		return "ShowObject";
+		return "Symbolic";
 	}
 
 }

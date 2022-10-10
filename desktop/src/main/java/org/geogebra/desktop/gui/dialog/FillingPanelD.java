@@ -251,19 +251,6 @@ class FillingPanelD extends JPanel
 		this.add(imagePanel);
 	}
 
-	/**
-	 * @param enabled enabled flag
-	 */
-	public void setAllEnabled(boolean enabled) {
-		Component[] c = this.getComponents();
-		for (Component panel : c) {
-			Component[] subc = ((JPanel) panel).getComponents();
-			for (Component component : subc) {
-				component.setEnabled(enabled);
-			}
-		}
-	}
-
 	@Override
 	public JPanel updatePanel(Object[] geos) {
 		return update(geos);
