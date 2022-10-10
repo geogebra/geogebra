@@ -101,7 +101,9 @@ ext.appHtml = { app, prerelease, offline = false, inlineCss = false ->
     def splashContent = template("${app.id}-splash.html")
     def firebaseAppId = app.firebaseAppId ?: ""
     def measurementId = app.measurementId ?: ""
+    def piwikpro = vendor == "Mebis" ? "" : template("partials/piwikpro.html")
     return replaceVendor(html, vendor)
+            .replace("<!--PIWIK PRO-->", piwikpro)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px')
                     .replace('$logo_cursor', offline ? 'default' : 'pointer'))
