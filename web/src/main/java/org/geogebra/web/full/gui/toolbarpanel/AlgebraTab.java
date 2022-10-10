@@ -61,6 +61,7 @@ public class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			algebrap.setWidth("100%");
 			algebrap.setAlwaysShowScrollBars(false);
 			algebrap.add(wrapper);
+			algebrap.addStyleName("algebraPanel");
 			if (getDecorator() != null) {
 				Panel decoratedAvScrollPanel = getDecorator().decorate(algebrap, (AppW) app);
 				add(decoratedAvScrollPanel);

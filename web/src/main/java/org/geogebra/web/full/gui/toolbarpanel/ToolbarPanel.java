@@ -1404,6 +1404,7 @@ public class ToolbarPanel extends FlowPanel
 		@Override
 		public void onResize() {
 			setHeight("100%");
+			getContainerElement().getStyle().setHeight(100, Style.Unit.PCT);
 		}
 
 		/**
