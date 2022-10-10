@@ -105,12 +105,7 @@ public class TitlePanel extends JPanel {
 		// setBorder(BorderFactory.createTitledBorder(app
 		// .getPlain("Document info")));
 
-		ActionListener lst = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				fireTextFieldUpdate((JTextField) e.getSource());
-			}
-		};
+		ActionListener lst = e -> fireTextFieldUpdate((JTextField) e.getSource());
 		titleField.addActionListener(lst);
 		addDocListener(titleField);
 		authorField.addActionListener(lst);

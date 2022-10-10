@@ -597,12 +597,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			// setLabels();
 
 			// reset the scrollpane to the top
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					scroller.getVerticalScrollBar().setValue(0);
-				}
-			});
+			javax.swing.SwingUtilities.invokeLater(
+					() -> scroller.getVerticalScrollBar().setValue(0));
 
 		}
 

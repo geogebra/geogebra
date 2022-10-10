@@ -982,12 +982,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void wrapSetText(final String s) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				setText(s);
-			}
-		});
+		SwingUtilities.invokeLater(() -> setText(s));
 	}
 
 	@Override
