@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoSequence;
+import org.geogebra.common.kernel.algos.AlgoTakeString;
 import org.geogebra.common.kernel.algos.AlgoTextCorner;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1401,6 +1402,9 @@ public class GeoText extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		if (isTextCommand && getParentAlgorithm() instanceof AlgoTakeString) {
+			return DescriptionMode.DEFINITION_VALUE;
+		}
 		return DescriptionMode.VALUE;
 	}
 

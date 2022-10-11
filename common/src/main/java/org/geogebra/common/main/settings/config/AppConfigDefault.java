@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
-import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.DefaultPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
@@ -302,7 +302,7 @@ public class AppConfigDefault extends AbstractAppConfig {
 
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
-		return new BasePropertiesFactory();
+		return new DefaultPropertiesFactory();
 	}
 
 	@Override
@@ -352,6 +352,16 @@ public class AppConfigDefault extends AbstractAppConfig {
 
 	@Override
 	public boolean hasEuclidianView() {
+		return true;
+	}
+
+	@Override
+	public boolean hasDistributionView() {
+		return false;
+	}
+
+	@Override
+	public boolean hasAlgebraView() {
 		return true;
 	}
 }

@@ -103,6 +103,11 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	// to be sure that everything is allright even though xmin is set
 	// to a higher value than xmax
 	// then the width is changed.
+
+	/**
+	 * @param ggb exported file generator
+	 * @param action action
+	 */
 	public ExportFrame(final GeoGebraExport ggb, String action) {
 		this.ggb = ggb;
 		this.app = (AppD) ggb.getApp();
@@ -162,16 +167,13 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		jcbAsyCse5.setSelected(false);
 		jcbAsyCse5.setEnabled(false);
 		jcbDotColors.setSelected(false);
-		jcbAsyCompact.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (jcbAsyCompact.isSelected()) {
-					jcbAsyCse5.setEnabled(true);
-					jcbPairName.setSelected(true);
-				} else {
-					jcbAsyCse5.setSelected(false);
-					jcbAsyCse5.setEnabled(false);
-				}
+		jcbAsyCompact.addActionListener(e -> {
+			if (jcbAsyCompact.isSelected()) {
+				jcbAsyCse5.setEnabled(true);
+				jcbPairName.setSelected(true);
+			} else {
+				jcbAsyCse5.setSelected(false);
+				jcbAsyCse5.setEnabled(false);
 			}
 		});
 		final String[] comboFillText = { loc.getMenu("None"),
@@ -197,64 +199,46 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 			}
 		}
 		cbSliders = new JComboBox(comboModel);
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ggb.setBeamer(isBeamer());
-				ggb.generateAllCode();
-			}
+		button.addActionListener(e -> {
+			ggb.setBeamer(isBeamer());
+			ggb.generateAllCode();
 		});
-		button_copy.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textarea.copy();
-			}
-		});
+		button_copy.addActionListener(e -> textarea.copy());
 		js = new JScrollPane();
 		textarea = new JTextArea();
 		buttonSave = new JButton(loc.getMenu("SaveAs"));
-		buttonSave.addActionListener(new ActionListener() {
+		buttonSave.addActionListener(e -> {
+			currentFile = app.getGuiManager().showSaveDialog(fileExtension,
+					currentFile, fileExtensionMsg + loc.getMenu("Files"),
+					true, false);
+			if (currentFile == null) {
+				return;
+			}
+			try {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				currentFile = app.getGuiManager().showSaveDialog(fileExtension,
-						currentFile, fileExtensionMsg + loc.getMenu("Files"),
-						true, false);
-				if (currentFile == null) {
-					return;
-				}
-				try {
-
-					FileOutputStream f = new FileOutputStream(currentFile);
-					BufferedOutputStream b = new BufferedOutputStream(f);
-					/*
-					 * java.util.Enumeration en=System.getProperties().keys();
-					 * while(en.hasMoreElements()){ String
-					 * s=en.nextElement().toString(); System.out.println(s+" "
-					 * +System.getProperty(s)); }
-					 */
-					OutputStreamWriter osw = new OutputStreamWriter(b,
-							Charsets.getUtf8());
-					StringBuilder sb = new StringBuilder(textarea.getText());
-					if (isLaTeX()) {
-						int id = sb.indexOf("\\usepackage{");
-						if (id != -1) {
-							sb.insert(id, "\\usepackage[utf8]{inputenc}\n");
-						}
-					} else if (isConTeXt()) {
-						int id = sb.indexOf("\\usemodule[");
-						if (id != -1) {
-							sb.insert(id, "\\enableregime[utf]\n");
-						}
+				FileOutputStream f = new FileOutputStream(currentFile);
+				BufferedOutputStream b = new BufferedOutputStream(f);
+				OutputStreamWriter osw = new OutputStreamWriter(b,
+						Charsets.getUtf8());
+				StringBuilder sb = new StringBuilder(textarea.getText());
+				if (isLaTeX()) {
+					int id = sb.indexOf("\\usepackage{");
+					if (id != -1) {
+						sb.insert(id, "\\usepackage[utf8]{inputenc}\n");
 					}
-					osw.write(sb.toString());
-					osw.close();
-					b.close();
-					f.close();
-				} catch (FileNotFoundException e1) {
-				} catch (UnsupportedEncodingException e2) {
-				} catch (IOException e3) {
+				} else if (isConTeXt()) {
+					int id = sb.indexOf("\\usemodule[");
+					if (id != -1) {
+						sb.insert(id, "\\enableregime[utf]\n");
+					}
 				}
+				osw.write(sb.toString());
+				osw.close();
+				b.close();
+				f.close();
+			} catch (FileNotFoundException e1) {
+			} catch (UnsupportedEncodingException e2) {
+			} catch (IOException e3) {
 			}
 		});
 	}

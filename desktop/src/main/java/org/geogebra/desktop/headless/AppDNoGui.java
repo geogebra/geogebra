@@ -84,12 +84,14 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public MyImageJre getExportImage(double thumbnailPixelsX,
 			double thumbnailPixelsY) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public MyImageJre getExternalImage(String fileName) {
 		// TODO Auto-generated method stub
 		return null;

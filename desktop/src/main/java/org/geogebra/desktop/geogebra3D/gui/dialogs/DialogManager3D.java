@@ -45,12 +45,6 @@ public class DialogManager3D extends DialogManagerD {
 		}
 	}
 
-	/**
-	 * @param title
-	 * @param geoPoint
-	 * @param forAxis
-	 * 
-	 */
 	@Override
 	public void showNumberInputDialogCirclePointDirectionRadius(String title,
 			GeoPointND geoPoint, GeoDirectionND forAxis,
@@ -62,11 +56,6 @@ public class DialogManager3D extends DialogManagerD {
 		id.setVisible(true);
 	}
 
-	/**
-	 * 
-	 * @param title
-	 * @param geoPoint
-	 */
 	@Override
 	public void showNumberInputDialogSpherePointRadius(String title,
 			GeoPointND geoPoint, EuclidianController ec) {
@@ -77,15 +66,6 @@ public class DialogManager3D extends DialogManagerD {
 		id.setVisible(true);
 	}
 
-	/**
-	 * for creating a cone
-	 * 
-	 * @param title
-	 * @param a
-	 *            basis center
-	 * @param b
-	 *            apex point
-	 */
 	@Override
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
@@ -96,15 +76,6 @@ public class DialogManager3D extends DialogManagerD {
 		id.setVisible(true);
 	}
 
-	/**
-	 * for creating a cylinder
-	 * 
-	 * @param title
-	 * @param a
-	 *            basis center
-	 * @param b
-	 *            top center
-	 */
 	@Override
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {

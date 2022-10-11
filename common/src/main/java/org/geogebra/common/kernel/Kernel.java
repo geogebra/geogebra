@@ -391,6 +391,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	// MOB-1304 cache axes numbers
 	private final HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
+	private Traversing.VariableReplacer variableReplacer;
 
 	/**
 	 * @param app
@@ -406,6 +407,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		getExpressionNodeEvaluator();
 
 		setManager3D(newManager3D(this));
+		variableReplacer = new Traversing.VariableReplacer(this);
 	}
 
 	/**
@@ -5211,5 +5213,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public double getStandardPrecision() {
 		// overiden in Hololens
 		return STANDARD_PRECISION;
+	}
+
+	/**
+	 * @return variable replacer
+	 */
+	public Traversing.VariableReplacer getVariableReplacer() {
+		variableReplacer.reset();
+		return variableReplacer;
 	}
 }

@@ -151,6 +151,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		updatePanel();
 	}
 
+	/**
+	 * @param view graphics view
+	 */
 	public void updateView(EuclidianView view) {
 		this.view = view;
 		model.setView(view);
@@ -231,6 +234,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		updatePanel();
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void updatePanel() {
 		int axis = model.getAxis();
 		cbAxisNumber.removeActionListener(this);
@@ -336,6 +342,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		return model.getAxisName();
 	}
 
+	/**
+	 * Update font
+	 */
 	public void updateFont() {
 		Font font = app.getPlainFont();
 

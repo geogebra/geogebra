@@ -71,12 +71,6 @@ public class VirtualKeyboardD extends JFrame
 	 * List with supported languages.
 	 */
 
-	// private static Boolean Upper = false;
-
-	// private JPanel jContentPane = null;
-
-	// private JTextArea jTextArea = null;
-
 	private JButton SpaceButton = null;
 	private JButton DummyButton = null;
 	private JToggleButton CapsLockButton = null;
@@ -88,26 +82,16 @@ public class VirtualKeyboardD extends JFrame
 	private JToggleButton GreekButton = null;
 	private JToggleButton EnglishButton = null;
 
-	private String ctrlText = "Ctrl";
-	private String altText = "Alt";
-	private String altGrText = "AltG";
-	private String escText = "Esc";
-
 	AppD app;
 
 	// max width character
 	private final static char wideCharDefault = '@';
 	private char wideChar = wideCharDefault;
 
-	private int buttonRows = 5;
-	private int buttonCols = 14;
-	private int buttonRowsNum = 4;
-	private int buttonColsNum = 11;
+	private final int buttonRows = 5;
+	private final int buttonCols = 14;
 	private double buttonSizeX;
 	private double buttonSizeY;
-
-	private double horizontalMultiplier = 1;
-	private double verticalMultiplier = 1;
 
 	JButton[][] Buttons = new JButton[buttonRows + 1][buttonCols];
 
@@ -116,7 +100,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private Font currentFont;
 
-	private Font[] fonts = new Font[100];
+	private final Font[] fonts = new Font[100];
 
 	private String fontName = null;
 
@@ -127,10 +111,10 @@ public class VirtualKeyboardD extends JFrame
 	/**
 	 * This is the default constructor
 	 * 
-	 * @param app
-	 * @param windowWidth
-	 * @param windowHeight
-	 * @param opacity
+	 * @param app application
+	 * @param windowWidth width
+	 * @param windowHeight height
+	 * @param opacity opacity
 	 */
 	public VirtualKeyboardD(final AppD app, int windowWidth, int windowHeight,
 			float opacity) {
@@ -182,7 +166,7 @@ public class VirtualKeyboardD extends JFrame
 				// System.out.println("Window Closing");
 				// if closed with the X, stop it auto-opening
 				AppD.setVirtualKeyboardActive(false);
-				((GuiManagerD) app.getGuiManager()).updateMenubar();
+				app.getGuiManager().updateMenubar();
 			}
 
 			@Override
@@ -219,13 +203,7 @@ public class VirtualKeyboardD extends JFrame
 
 		// TODO: fix
 		// force resizing of contentPane
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				windowResized();
-			}
-		});
-
+		SwingUtilities.invokeLater(this::windowResized);
 	}
 
 	private void setFonts() {
@@ -260,7 +238,9 @@ public class VirtualKeyboardD extends JFrame
 			cpHeight = windowHeight;
 		}
 		if (getKeyboardMode() == KEYBOARD_NUMERIC) {
+			int buttonColsNum = 11;
 			buttonSizeX = 0.15 + cpWidth / (buttonColsNum - 0.0);
+			int buttonRowsNum = 4;
 			buttonSizeY = 0.25 + cpHeight / (buttonRowsNum + 1.0);
 		} else {
 			buttonSizeX = 0.15 + (double) cpWidth / (double) buttonCols;
@@ -283,26 +263,14 @@ public class VirtualKeyboardD extends JFrame
 		populateContentPane();
 	}
 
-	public void updateButtons() {
+	private void updateButtons() {
 		if (getKeyboardMode() == KEYBOARD_NUMERIC && !shrink) {
 			shrink = true;
 			windowResized();
-			/*
-			 * int baseWidth = (int)
-			 * (windowWidth*buttonColsNum/(double)buttonCols);
-			 * setSize(baseWidth,windowHeight); setPreferredSize(new
-			 * Dimension(baseWidth,windowHeight));
-			 */
 		}
 		if (getKeyboardMode() != KEYBOARD_NUMERIC && shrink) {
 			shrink = false;
 			windowResized();
-			/*
-			 * int baseWidth = (int)
-			 * (windowWidth*buttonCols/(double)buttonColsNum);
-			 * setSize(baseWidth,windowHeight); setPreferredSize(new
-			 * Dimension(baseWidth,windowHeight));
-			 */
 		}
 		for (int i = 1; i <= buttonRows; i++) {
 			for (int j = 0; j < buttonCols; j++) {
@@ -333,12 +301,7 @@ public class VirtualKeyboardD extends JFrame
 			SpaceButton.setRequestFocusEnabled(false);
 			updateSpaceButton();
 			SpaceButton.setMargin(new Insets(0, 0, 0, 0));
-			SpaceButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					insertText(" ");
-				}
-			});
+			SpaceButton.addActionListener(e -> insertText(" "));
 		}
 		return SpaceButton;
 	}
@@ -460,7 +423,7 @@ public class VirtualKeyboardD extends JFrame
 					(int) (buttonSizeY * 4d)));
 		} else {
 			GreekButton.setLocation(new Point((int) (buttonSizeX * 10),
-					(int) (buttonSizeY * 1d)));
+					(int) buttonSizeY));
 		}
 		GreekButton.setFont(getFont((int) (minButtonSize()), false));
 
@@ -487,6 +450,8 @@ public class VirtualKeyboardD extends JFrame
 	}
 
 	private double minButtonSize() {
+		double horizontalMultiplier = 1;
+		double verticalMultiplier = 1;
 		double ret = Math.min(buttonSizeX * horizontalMultiplier,
 				buttonSizeY * verticalMultiplier);
 
@@ -499,12 +464,7 @@ public class VirtualKeyboardD extends JFrame
 			CapsLockButton = new JToggleButton("\u21e7");
 			updateCapsLockButton();
 			CapsLockButton.setMargin(new Insets(0, 0, 0, 0));
-			CapsLockButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					updateButtons();
-				}
-			});
+			CapsLockButton.addActionListener(e -> updateButtons());
 		}
 		return CapsLockButton;
 	}
@@ -512,16 +472,14 @@ public class VirtualKeyboardD extends JFrame
 	private JToggleButton getAltButton() {
 		if (AltButton == null) {
 
+			String altText = "Alt";
 			AltButton = new JToggleButton(altText);
 			updateAltButton();
 			AltButton.setMargin(new Insets(0, 0, 0, 0));
 
-			AltButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// altPressed = !altPressed;
-					updateAltButton();
-				}
+			AltButton.addActionListener(e -> {
+				// altPressed = !altPressed;
+				updateAltButton();
 			});
 		}
 		return AltButton;
@@ -530,16 +488,14 @@ public class VirtualKeyboardD extends JFrame
 	private JToggleButton getAltGrButton() {
 		if (AltGrButton == null) {
 
+			String altGrText = "AltG";
 			AltGrButton = new JToggleButton(altGrText);
 			updateAltGrButton();
 			AltGrButton.setMargin(new Insets(0, 0, 0, 0));
 
-			AltGrButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					updateButtons();
-					updateAltGrButton();
-				}
+			AltGrButton.addActionListener(e -> {
+				updateButtons();
+				updateAltGrButton();
 			});
 		}
 		return AltGrButton;
@@ -548,16 +504,12 @@ public class VirtualKeyboardD extends JFrame
 	private JToggleButton getCtrlButton() {
 		if (CtrlButton == null) {
 
+			String ctrlText = "Ctrl";
 			CtrlButton = new JToggleButton(ctrlText);
 			updateCtrlButton();
 			CtrlButton.setMargin(new Insets(0, 0, 0, 0));
 
-			CtrlButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					updateCtrlButton();
-				}
-			});
+			CtrlButton.addActionListener(e -> updateCtrlButton());
 		}
 		return CtrlButton;
 	}
@@ -569,20 +521,17 @@ public class VirtualKeyboardD extends JFrame
 			updateMathButton();
 			MathButton.setMargin(new Insets(0, 0, 0, 0));
 			MathButton.setToolTipText(loc.getMenu("Keyboard.Math"));
-			MathButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			MathButton.addActionListener(e -> {
 
-					getGreekButton().setSelected(false);
-					getEnglishButton().setSelected(false);
+				getGreekButton().setSelected(false);
+				getEnglishButton().setSelected(false);
 
-					if (getKeyboardMode() != KEYBOARD_MATH) {
-						setMode(KEYBOARD_MATH, null);
-					} else {
-						setMode(KEYBOARD_NORMAL, null);
-					}
-
+				if (getKeyboardMode() != KEYBOARD_MATH) {
+					setMode(KEYBOARD_MATH, null);
+				} else {
+					setMode(KEYBOARD_NORMAL, null);
 				}
+
 			});
 		}
 		return MathButton;
@@ -601,20 +550,17 @@ public class VirtualKeyboardD extends JFrame
 			NumericButton.setToolTipText(loc.getMenu("Keyboard.Numeric"));
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));
-			NumericButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			NumericButton.addActionListener(e -> {
 
-					getGreekButton().setSelected(false);
-					getEnglishButton().setSelected(false);
+				getGreekButton().setSelected(false);
+				getEnglishButton().setSelected(false);
 
-					if (getKeyboardMode() != KEYBOARD_NUMERIC) {
-						setMode(KEYBOARD_NUMERIC, null);
-					} else {
-						setMode(KEYBOARD_NORMAL, null);
-					}
-
+				if (getKeyboardMode() != KEYBOARD_NUMERIC) {
+					setMode(KEYBOARD_NUMERIC, null);
+				} else {
+					setMode(KEYBOARD_NORMAL, null);
 				}
+
 			});
 		}
 		return NumericButton;
@@ -631,19 +577,16 @@ public class VirtualKeyboardD extends JFrame
 			updateGreekButton();
 			GreekButton.setMargin(new Insets(0, 0, 0, 0));
 			GreekButton.setToolTipText(loc.getMenu("Keyboard.Greek"));
-			GreekButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setMode(KEYBOARD_NORMAL, null);
-					if (greek()) {
-						readConf(app, new Locale("el"), false);
-					}
-
-					getEnglishButton().setSelected(false);
-
-					updateButtons();
-
+			GreekButton.addActionListener(e -> {
+				setMode(KEYBOARD_NORMAL, null);
+				if (greek()) {
+					readConf(app, new Locale("el"), false);
 				}
+
+				getEnglishButton().setSelected(false);
+
+				updateButtons();
+
 			});
 		}
 		return GreekButton;
@@ -660,19 +603,16 @@ public class VirtualKeyboardD extends JFrame
 			updateEnglishButton();
 			EnglishButton.setToolTipText(loc.getMenu("Keyboard.Standard"));
 			EnglishButton.setMargin(new Insets(0, 0, 0, 0));
-			EnglishButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setMode(KEYBOARD_NORMAL, null);
-					if (english()) {
-						readConf(app, new Locale("en"), false);
-					}
-
-					getGreekButton().setSelected(false);
-
-					updateButtons();
-
+			EnglishButton.addActionListener(e -> {
+				setMode(KEYBOARD_NORMAL, null);
+				if (english()) {
+					readConf(app, new Locale("en"), false);
 				}
+
+				getGreekButton().setSelected(false);
+
+				updateButtons();
+
 			});
 		}
 		return EnglishButton;
@@ -914,7 +854,7 @@ public class VirtualKeyboardD extends JFrame
 		}
 	}
 
-	private StringBuilder sb = new StringBuilder();
+	private final StringBuilder sb = new StringBuilder();
 
 	private KeyboardKeys getKey(int i, int j) {
 
@@ -932,7 +872,7 @@ public class VirtualKeyboardD extends JFrame
 		KeyboardKeys ret1 = myKeys.get(sb.toString());
 
 		if (ret1 == null) {
-			Log.debug("KB Error: " + sb.toString());
+			Log.debug("KB Error: " + sb);
 		}
 		sb.append(getKeyboardMode()); // append 'A' for acute , ' ' for default
 										// etc
@@ -991,12 +931,7 @@ public class VirtualKeyboardD extends JFrame
 				}
 			});
 
-			Buttons[i][j].addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					buttonPressed(i, j);
-				}
-			});
+			Buttons[i][j].addActionListener(e -> buttonPressed(i, j));
 		}
 		return Buttons[i][j];
 	}
@@ -1046,6 +981,7 @@ public class VirtualKeyboardD extends JFrame
 			return "\u21a4";
 		}
 		if ("<escape>".equals(text)) {
+			String escText = "Esc";
 			return (app == null) ? escText : loc.getMenu("Esc");
 		}
 		if ("<left>".equals(text)) {
@@ -1081,9 +1017,6 @@ public class VirtualKeyboardD extends JFrame
 		}
 		return alternative;
 	}
-
-	HashMap<Character, Boolean> characterIsTooWide = new HashMap<>(
-			200);
 
 	private void updateButton(int i, int j) {
 		KeyboardKeys k = getKey(i, j);
@@ -1202,13 +1135,11 @@ public class VirtualKeyboardD extends JFrame
 		return getFont((int) (minButtonSize()), true);
 	}
 
-	private HashMap<Integer, Font> fontsHash = new HashMap<>(30);
+	private final HashMap<Integer, Font> fontsHash = new HashMap<>(30);
 
 	private Font getFont(int size, boolean setFont) {
 
-		Integer Size = Integer.valueOf(size);
-
-		Font ret = fontsHash.get(Size);
+		Font ret = fontsHash.get(size);
 
 		// all OK, return
 		if (ret != null) {
@@ -1249,17 +1180,16 @@ public class VirtualKeyboardD extends JFrame
 		if (setFont) {
 			currentFont = fonts[minSize];
 		}
-		fontsHash.put(Size, fonts[minSize]);
-		// Application.debug("KB: storing "+size+" "+minSize);
+		fontsHash.put(size, fonts[minSize]);
 		return fonts[minSize];
 
 	}
 
-	private Hashtable<String, KeyboardKeys> myKeys = new Hashtable<>();
+	private final Hashtable<String, KeyboardKeys> myKeys = new Hashtable<>();
 
 	private Locale kbLocale = null;
 
-	public void setKbLocale(Locale loc) {
+	private void setKbLocale(Locale loc) {
 		readConf(app, loc, false);
 		doSetLabels();
 	}
@@ -1371,7 +1301,7 @@ public class VirtualKeyboardD extends JFrame
 		updateButtons();
 	}
 
-	public WindowsUnicodeKeyboard getKeyboard() {
+	private WindowsUnicodeKeyboard getKeyboard() {
 		WindowsUnicodeKeyboard kb = null;
 		try {
 			kb = new WindowsUnicodeKeyboard();
@@ -1415,12 +1345,12 @@ public class VirtualKeyboardD extends JFrame
 		insertAutoRepeatString();
 	}
 
-	public void setWindowWidth(int windowWidth) {
+	/**
+	 * @param windowWidth keyboard window width
+	 * @param windowHeight keyboard window height
+	 */
+	public void setWindowSize(int windowWidth, int windowHeight) {
 		this.windowWidth = windowWidth;
-		setSize(windowWidth, windowHeight);
-	}
-
-	public void setWindowHeight(int windowHeight) {
 		this.windowHeight = windowHeight;
 		setSize(windowWidth, windowHeight);
 	}
@@ -1428,8 +1358,7 @@ public class VirtualKeyboardD extends JFrame
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		KeyboardSettings kbs = (KeyboardSettings) settings;
-		setWindowHeight(kbs.getKeyboardHeight());
-		setWindowWidth(kbs.getKeyboardWidth());
+		setWindowSize(kbs.getKeyboardWidth(), kbs.getKeyboardHeight());
 		Locale newLocale = kbs.getKeyboardLocale() == null ? app.getLocale()
 				: new Locale(kbs.getKeyboardLocale());
 		if (!newLocale.equals(kbLocale)) {

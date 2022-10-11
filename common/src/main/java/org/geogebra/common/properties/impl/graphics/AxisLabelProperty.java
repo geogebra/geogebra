@@ -49,6 +49,11 @@ public class AxisLabelProperty extends AbstractProperty
     }
 
     @Override
+    public String getInvalidInputErrorMessage() {
+        return getLocalization().getError("InvalidInput");
+    }
+
+    @Override
     public boolean isEnabled() {
         String[] labels = euclidianSettings.getAxesLabels();
         boolean enabled = false;

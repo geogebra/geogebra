@@ -26,21 +26,18 @@ public class InspectorTable extends JTable {
 
 	AppD app;
 	FunctionInspectorD inspector;
-
-	boolean doRedNegative = false;
 	HashSet<Point> editableCell;
 
-	public static final int TYPE_INTERVAL = 0;
-	public static final int TYPE_XY = 1;
-	int tableType;
-
-	public InspectorTable(AppD app, FunctionInspectorD inspector, int minRows,
-			int tableType) {
+	/**
+	 * @param app application
+	 * @param inspector inspector
+	 * @param minRows minimum rows
+	 */
+	public InspectorTable(AppD app, FunctionInspectorD inspector, int minRows) {
 		super(minRows, 2);
 
 		this.app = app;
 		this.inspector = inspector;
-		this.tableType = tableType;
 
 		// set visual appearance
 		setShowGrid(true);
@@ -64,14 +61,10 @@ public class InspectorTable extends JTable {
 		editableCell = new HashSet<Point>();
 	}
 
-	public boolean isDoRedNegative() {
-		return doRedNegative;
-	}
-
-	public void setDoRedNegative(boolean doRedNegative) {
-		this.doRedNegative = doRedNegative;
-	}
-
+	/**
+	 * @param rowIndex row
+	 * @param colIndex column
+	 */
 	public void setCellEditable(int rowIndex, int colIndex) {
 		if (rowIndex == -1 && colIndex == -1) {
 			editableCell.clear();
@@ -111,7 +104,6 @@ public class InspectorTable extends JTable {
 
 		int gap = table.getParent().getPreferredSize().width
 				- table.getPreferredSize().width;
-		// System.out.println(table.getParent().getPreferredSize().width);
 		if (gap > 0) {
 			w = table.getColumnCount() - 1;
 			int newWidth = gap + table.getColumnModel()
@@ -122,6 +114,7 @@ public class InspectorTable extends JTable {
 
 	/**
 	 * Finds the maximum preferred width of a column.
+	 * @return width in pixels
 	 */
 	public int getMaxColumnWidth(JTable table, int column) {
 
@@ -160,13 +153,10 @@ public class InspectorTable extends JTable {
 		private Border editCellBorder;
 		private JTable table;
 		private Border paddingBorder;
-		private boolean doRedNegative;
 
 		private MyCellRenderer(InspectorTable table) {
 			this.table = table;
 			tf = new JTextField();
-			http: // dev.geogebra.org/trac/ticket/4316#
-			this.doRedNegative = table.isDoRedNegative();
 			paddingBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 			// paddingBorder =
 			// BorderFactory.createMatteBorder(3,3,3,3,Color.RED);
@@ -193,37 +183,13 @@ public class InspectorTable extends JTable {
 				// setForeground(table.getSelectionForeground());
 				setForeground(Color.RED);
 			} else {
-				setBackground(rowColor(row));
+				setBackground(table.getBackground());
 				setForeground(getForeground());
 			}
 
 			setForeground(Color.black);
-
-			if (value != null) {
-				try {
-					double val = Double.parseDouble((String) value);
-					if (val < 0 && doRedNegative) {
-						setForeground(Color.red);
-					}
-				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
-					// e.printStackTrace();
-				}
-			}
-
 			setText((String) value);
 			return this;
-
-		}
-
-		// shade alternate rows
-		private Color rowColor(int row) {
-			Color c;
-			// if (row % 2 == 0)
-			// c = EVEN_ROW_COLOR;
-			// else
-			c = table.getBackground();
-			return c;
 		}
 
 	}

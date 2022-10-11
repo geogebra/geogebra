@@ -200,8 +200,8 @@ public class TextLineNumber extends JPanel
 	 * <li>TextLineNumber.RIGHT (default)
 	 * </ul>
 	 * 
-	 * @param currentLineForeground
-	 *            the Color used to render the current line
+	 * @param digitAlignment
+	 *            left/center/right
 	 */
 	public void setDigitAlignment(float digitAlignment) {
 		this.digitAlignment = digitAlignment > 1.0f ? 1.0f
@@ -437,19 +437,16 @@ public class TextLineNumber extends JPanel
 		// Preferred size of the component has not been updated at the time
 		// the DocumentEvent is fired
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				int preferredHeight = component.getPreferredSize().height;
+		SwingUtilities.invokeLater(() -> {
+			int preferredHeight = component.getPreferredSize().height;
 
-				// Document change has caused a change in the number of lines.
-				// Repaint to reflect the new line numbers
+			// Document change has caused a change in the number of lines.
+			// Repaint to reflect the new line numbers
 
-				if (lastHeight != preferredHeight) {
-					setPreferredWidth();
-					repaint();
-					lastHeight = preferredHeight;
-				}
+			if (lastHeight != preferredHeight) {
+				setPreferredWidth();
+				repaint();
+				lastHeight = preferredHeight;
 			}
 		});
 	}

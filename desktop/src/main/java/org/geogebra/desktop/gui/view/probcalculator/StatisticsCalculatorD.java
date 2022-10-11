@@ -84,11 +84,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	private JPanel wrappedPanel;
 
-	/******************************************************************
-	 * 
+	/**
 	 * Construct StatisticsCalculator
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public StatisticsCalculatorD(AppD app) {
 		super(app);
@@ -583,11 +582,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		doActionPerformed(e);
-	}
-
-	public void doActionPerformed(ActionEvent e) {
-
 		Object source = e.getSource();
 
 		if (source instanceof JTextField) {
@@ -603,12 +597,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			// setLabels();
 
 			// reset the scrollpane to the top
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					scroller.getVerticalScrollBar().setValue(0);
-				}
-			});
+			javax.swing.SwingUtilities.invokeLater(
+					() -> scroller.getVerticalScrollBar().setValue(0));
 
 		}
 
@@ -631,8 +621,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		updateResult(true);
 	}
 
-	public void doTextFieldActionPerformed(JTextField source) {
-
+	private void doTextFieldActionPerformed(JTextField source) {
 		if (source.getText().equals(ListSeparatorRenderer.SEPARATOR)) {
 			return;
 		}
@@ -653,9 +642,11 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		if (e.getSource() instanceof MyTextFieldD) {
 			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
 		}
-
 	}
 
+	/**
+	 * @param font UI font
+	 */
 	public void updateFonts(Font font) {
 		setStyleSheetFontSize((HTMLEditorKit) resultPane.getEditorKit(), font);
 		wrappedPanel.setFont(font);
@@ -663,11 +654,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	private static void setStyleSheetFontSize(HTMLEditorKit kit, Font font) {
-
 		StyleSheet styleSheet = kit.getStyleSheet();
 		String size = "" + font.getSize();
 		styleSheet.addRule("body {font-size : " + size + "pt }");
-
 	}
 
 	private static void setStyleSheets(HTMLEditorKit kit) {

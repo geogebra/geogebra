@@ -74,6 +74,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private JPanel toolbarHelpPanel;
 
+	/**
+	 * @return help panel
+	 */
 	public JPanel getToolbarHelpPanel() {
 		if (toolbarHelpPanel == null) {
 			buildToolbarHelpPanel();
@@ -247,18 +250,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		return toolbarHelpPanel;
 	}
 
-	public void updateGridButtonPanel() {
-		buildGui();
-		// if (gridButtonPanel == null) {
-		// return;
-		// }
-		//
-		// gridButtonPanel.removeAll();
-		// // build it actually
-		// getGridButtonPanel();
-		// addHelpPanel();
-	}
-
 	private JPanel getGridButtonPanel() {
 
 		int iconSize = (int) Math.round(app.getScaledIconSize() * 0.75);
@@ -302,26 +293,21 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
 		btnProperties.setToolTipText(loc.getPlainTooltip("Preferences"));
-		btnProperties.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				PropertiesMenu pm = new PropertiesMenu();
-				if (orientation == SwingConstants.NORTH) {
-					pm.show(btnProperties,
-							-pm.getPreferredSize().width
-									+ btnProperties.getWidth(),
-							btnProperties.getHeight());
-				} else if (orientation == SwingConstants.WEST) {
-					pm.show(btnProperties, 0, -pm.getPreferredSize().height);
-				} else {
-					pm.show(btnProperties,
-							-pm.getPreferredSize().width
-									+ btnProperties.getWidth(),
-							-pm.getPreferredSize().height);
-				}
+		btnProperties.addActionListener(arg0 -> {
+			PropertiesMenu pm = new PropertiesMenu();
+			if (orientation == SwingConstants.NORTH) {
+				pm.show(btnProperties,
+						-pm.getPreferredSize().width
+								+ btnProperties.getWidth(),
+						btnProperties.getHeight());
+			} else if (orientation == SwingConstants.WEST) {
+				pm.show(btnProperties, 0, -pm.getPreferredSize().height);
+			} else {
+				pm.show(btnProperties,
+						-pm.getPreferredSize().width
+								+ btnProperties.getWidth(),
+						-pm.getPreferredSize().height);
 			}
-
 		});
 
 		// help button
@@ -331,13 +317,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
 		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new HelpDialog(app).openToolHelp();
-
-			}
-		});
+		btnHelp.addActionListener(arg0 -> new HelpDialog(app).openToolHelp());
 
 		gridButtonPanel = new JPanel(new BorderLayout());
 
@@ -425,6 +405,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		return ret;
 	}
 
+	/**
+	 * @param orientation orientation
+	 */
 	public void setOrientation(int orientation) {
 
 		// TODO: Handle toolbar orientation for undocked panels
@@ -446,6 +429,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * 
 	 * @param toolbar
 	 *            toolbar
+	 * @return active mode
 	 */
 	public int setActiveToolbar(ToolbarD toolbar) {
 		int ret = setActiveToolbar(getViewId(toolbar));
@@ -458,6 +442,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * 
 	 * @param id
 	 *            The view ID
+	 * @return active mode
 	 */
 	public int setActiveToolbar(int id) {
 		if (activeToolbar == id) {
@@ -481,7 +466,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	/**
-	 * 
 	 * @return id of view which is setting the active toolbar
 	 */
 	public int getActiveToolbar() {
@@ -511,11 +495,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 *            toolbar to be added
 	 */
 	public void addToolbar(ToolbarD toolbar) {
-
 		if (toolbar == null) {
 			return;
 		}
-
 		toolbars.add(toolbar);
 	}
 
@@ -560,7 +542,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	/**
-	 * @param toolbar
+	 * @param toolbar toolbar
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
 	private static int getViewId(ToolbarD toolbar) {
@@ -628,7 +610,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Add mouse listener to open help if clicked + change cursor. Only removes
 	 * old listener for custom tools.
 	 * 
-	 * @param mode
+	 * @param mode mode
 	 */
 	private void resolveMouseListener(final int mode) {
 		if (modeNameLabel.getMouseListeners().length > 0) {

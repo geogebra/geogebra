@@ -48,6 +48,10 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 
 	private AbstractButton objectButton;
 
+	/**
+	 * @param propertiesView properties view
+	 * @param app app
+	 */
 	public PropertiesStyleBarD(PropertiesView propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
@@ -93,12 +97,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 					btn.setIcon(icon);
 					btn.setPreferredSize(new Dimension(icon.getIconWidth(),
 							icon.getIconHeight()));
-					btn.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							propertiesView.setOptionPanel(type);
-						}
-					});
+					btn.addActionListener(e -> propertiesView.setOptionPanel(type));
 					btnGroup.add(btn);
 					toolbar.add(btn);
 					buttonMap.put(type, btn);
@@ -153,6 +152,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		return btnOption;
 	}
 
+	/**
+	 * Update the UI
+	 */
 	public void updateGUI() {
 
 		OptionType seltype = propertiesView.getSelectedOptionType();
@@ -211,14 +213,11 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 				mi.setBackground(Color.white);
 				mi.setText(propertiesView.getTypeString(type));
 				mi.setIcon(PropertiesViewD.getTypeIcon(app, type));
-				mi.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						propertiesView.setOptionPanel(type);
-						buildMenu();
-						btnOption.setFixedIcon(mi.getIcon());
-						btnOption.setText(mi.getText() + downTriangle);
-					}
+				mi.addActionListener(e -> {
+					propertiesView.setOptionPanel(type);
+					buildMenu();
+					btnOption.setFixedIcon(mi.getIcon());
+					btnOption.setText(mi.getText() + downTriangle);
 				});
 				menu.add(mi);
 				// mi.setSelected(type ==
@@ -325,7 +324,6 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		public void mouseExited(MouseEvent e) {
 			ToolTipManager.sharedInstance()
 					.setInitialDelay(defaultInitialDelay);
-
 		}
 	}
 
@@ -333,6 +331,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		return wrappedPanel;
 	}
 
+	/**
+	 * Rebuild the stylebar
+	 */
 	public void reinit() {
 		wrappedPanel.removeAll();
 		buildGUI();

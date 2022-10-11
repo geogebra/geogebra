@@ -70,6 +70,9 @@ public class RowHeaderRenderer extends JPanel
 				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
 
+	/**
+	 * Update icons for font size
+	 */
 	public void updateIcons() {
 		iconShown = app.getScaledIcon(GuiResourcesD.ALGEBRA_SHOWN);
 		iconHidden = app.getScaledIcon(GuiResourcesD.ALGEBRA_HIDDEN);

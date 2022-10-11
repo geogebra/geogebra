@@ -17,7 +17,7 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	private int idx;
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public Euclidian2DockPanel(AppD app, String toolbar, int idx) {
 		super(App.VIEW_EUCLIDIAN2, // view id

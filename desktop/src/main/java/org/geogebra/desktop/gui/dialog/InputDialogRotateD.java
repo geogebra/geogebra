@@ -28,6 +28,14 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param polys polygons
+	 * @param selGeos selected geos
+	 * @param ec controller
+	 */
 	public InputDialogRotateD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
@@ -51,24 +59,16 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				processInput(new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String obj) {
-						setVisibleForTools(obj == null);
-						if (obj != null) {
-							defaultRotateAngle = obj;
-						}
+				processInput(obj -> {
+					setVisibleForTools(obj == null);
+					if (obj != null) {
+						defaultRotateAngle = obj;
 					}
 				});
 			} else if (source == btApply) {
-				processInput(new AsyncOperation<String>() {
+				processInput(obj -> {
+					// TODO Auto-generated method stub
 
-					@Override
-					public void callback(String obj) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 			} else if (source == btCancel) {
 				setVisibleForTools(false);

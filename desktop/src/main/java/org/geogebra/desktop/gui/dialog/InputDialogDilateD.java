@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -27,6 +26,15 @@ public class InputDialogDilateD extends InputDialogD {
 
 	private EuclidianController ec;
 
+	/**
+	 * @param app app
+	 * @param title title
+	 * @param handler input handler
+	 * @param points points
+	 * @param selGeos selected geos
+	 * @param kernel kernel
+	 * @param ec controller
+	 */
 	public InputDialogDilateD(AppD app, String title, InputHandler handler,
 			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel,
 			EuclidianController ec) {
@@ -72,20 +80,16 @@ public class InputDialogDilateD extends InputDialogD {
 
 	private void processInput() {
 		getInputHandler().processInput(inputPanel.getText(), this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						if (ok) {
-							DialogManager
-									.doDilate(kernel,
-											((NumberInputHandler) getInputHandler())
-													.getNum(),
-											points, selGeos, ec);
-						}
-						setVisibleForTools(!ok);
-
+				ok -> {
+					if (ok) {
+						DialogManager
+								.doDilate(kernel,
+										((NumberInputHandler) getInputHandler())
+												.getNum(),
+										points, selGeos, ec);
 					}
+					setVisibleForTools(!ok);
+
 				});
 	}
 

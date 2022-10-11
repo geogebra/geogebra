@@ -194,6 +194,9 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		isIniting = false;
 	}
 
+	/**
+	 * @param view view
+	 */
 	public void setView(T view) {
 		this.view = view;
 		if (!isIniting) {
@@ -383,7 +386,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		lblAxisLabelStyle = new JLabel(loc.getMenu("LabelStyle") + ":");
 
 		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
-		cbAxesStyle = EuclidianStyleConstantsD.getLineOptionsCombobox();
+		cbAxesStyle = getLineOptionsCombobox();
 		cbAxesStyle.setRenderer(renderer);
 		cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
 		// cbAxesStyle.setBackground(getBackground());
@@ -393,16 +396,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		// cbAxesStyle.addItem("\u2192" + " " + loc.getMenu("Bold")); // bold
 		// arrow
 
-		/*
-		 * 
-		 * PointStyleListRenderer renderer = new PointStyleListRenderer();
-		 * renderer.setPreferredSize(new Dimension(18, 18)); cbStyle = new
-		 * JComboBox(EuclidianViewD.getPointStyles());
-		 * cbStyle.setRenderer(renderer);
-		 * cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE +
-		 * 1); cbStyle.setBackground(getBackground());
-		 * cbStyle.addActionListener(this); add(cbStyle);
-		 */
 		cbAxesStyle.setEditable(false);
 
 		// axes options panel
@@ -410,7 +403,15 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		axesOptionsPanel
 				.setLayout(new BoxLayout(axesOptionsPanel, BoxLayout.Y_AXIS));
 		fillAxesOptionsPanel();
+	}
 
+	private static JComboBox<Integer> getLineOptionsCombobox() {
+		final Integer[] iconArray =
+				new Integer[EuclidianStyleConstants.getLineStyleOptionsLength()];
+		for (int i = 0; i < iconArray.length; i++) {
+			iconArray[i] = EuclidianStyleConstants.getLineStyleOptions(i);
+		}
+		return new JComboBox<>(iconArray);
 	}
 
 	protected void fillAxesOptionsPanel() {
@@ -1262,9 +1263,11 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	@Override
 	public void updateBackgroundColor(GColor color) {
 		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * Reinitialize GUI
+	 */
 	public void reinit() {
 		wrappedPanel.removeAll();
 		initGUI();

@@ -24,7 +24,7 @@ public class GeoGebraPanel extends JPanel {
 	 * Test method that demonstrates how to embed a GeoGebraPanel into another
 	 * application.
 	 * 
-	 * @param args
+	 * @param args command line args
 	 */
 	public static void main(String[] args) {
 		// prepare URL for ggb file
@@ -66,7 +66,7 @@ public class GeoGebraPanel extends JPanel {
 		f.setVisible(true);
 	}
 
-	private AppD app;
+	private final AppD app;
 
 	/**
 	 * Creates a GeoGebraPanel. Note that you need to call buildGUI() after this
@@ -159,7 +159,7 @@ public class GeoGebraPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the graphics view's panel.
+	 * @return the graphics view's panel.
 	 */
 	public JPanel getGraphicsPanel() {
 		return app.getEuclidianView1().getJPanel();
@@ -206,7 +206,7 @@ public class GeoGebraPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the GeoGebraAPI object that lets you interact with the GeoGebra
+	 * @return the GeoGebraAPI object that lets you interact with the GeoGebra
 	 * construction.
 	 */
 	public synchronized GgbAPID getGeoGebraAPI() {

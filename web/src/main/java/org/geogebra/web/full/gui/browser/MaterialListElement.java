@@ -662,7 +662,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	@Override
-	public void updateVisibility(String visibility) {
+	public void updateVisibility(Material material) {
 		// only needed for new cards
 	}
 }

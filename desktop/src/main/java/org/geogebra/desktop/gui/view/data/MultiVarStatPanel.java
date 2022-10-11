@@ -17,31 +17,23 @@ public class MultiVarStatPanel extends BasicStatTable
 
 	private boolean isMinimalTable = false;
 
-	/***************************************************
+	/**
 	 * Constructs a MultiVarStatPanel
 	 * 
-	 * @param app
-	 * @param statDialog
+	 * @param app application
+	 * @param statDialog DA dialog
 	 */
 	public MultiVarStatPanel(AppD app, DataAnalysisViewD statDialog) {
 		super(app, statDialog, false);
 		setModel(new MultiVarStatTableModel(app, this));
 	}
 
+	/**
+	 * @param isMinimalTable minimal table
+	 */
 	public void setMinimalTable(boolean isMinimalTable) {
 		this.isMinimalTable = isMinimalTable;
 		initStatTable();
-
-	}
-
-	@Override
-	public String[] getRowNames() {
-		return getModel().getRowNames();
-	}
-
-	@Override
-	public String[] getColumnNames() {
-		return getModel().getColumnNames();
 	}
 
 	@Override

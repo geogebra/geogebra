@@ -17,7 +17,7 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class ResultPanelD extends JPanel implements ResultPanel {
+class ResultPanelD extends JPanel implements ResultPanel {
 	private final LocalizationD loc;
 	JLabel lblProb;
 	JLabel lblProbOf;
@@ -26,7 +26,6 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 	private JLabel lblEquals;
 	private JLabel lblPlus;
 	private JLabel lblTwoTailedResult;
-	private JLabel lblResultSum;
 	private JLabel lblXGreater;
 	private JLabel lblXSign;
 	private final AppD app;
@@ -34,8 +33,14 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 	private JTextField fldHigh;
 	private JTextField fldResult;
 
-	public ResultPanelD(AppD app, int hgap, int vgap, int tab) {
-		super(new FlowLayout(FlowLayout.LEFT, hgap, vgap));
+	/**
+	 * @param app application
+	 * @param hGap horizontal gap
+	 * @param vGap vertical gap
+	 * @param tab left padding
+	 */
+	public ResultPanelD(AppD app, int hGap, int vGap, int tab) {
+		super(new FlowLayout(FlowLayout.LEFT, hGap, vGap));
 		this.app = app;
 		loc = app.getLocalization();
 		add(Box.createHorizontalStrut(tab));
@@ -47,7 +52,6 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 		lblProbOf = new JLabel();
 		lblBetween = new JLabel();
 		lblEndProbOf = new JLabel();
-		lblResultSum = new JLabel();
 		lblTwoTailedResult = new JLabel();
 		lblEquals = new JLabel(" = ");
 		lblPlus = new JLabel(" + ");
@@ -139,7 +143,6 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 
 	}
 
-	@Override
 	public void setLabels() {
 		lblProb.setText(loc.getMenu("Probability") + ": ");
 
@@ -166,11 +169,6 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 	public void updateResult(String text) {
 		fldResult.setText(text);
 		fldResult.setCaretPosition(0);
-	}
-
-	@Override
-	public void updateResultSum(String text) {
-		lblResultSum.setText(text);
 	}
 
 	@Override
@@ -211,12 +209,20 @@ public class ResultPanelD extends JPanel implements ResultPanel {
 		lblXSign.setText(SpreadsheetViewInterface.GREATER_THAN_OR_EQUAL_TO_X);
 	}
 
+	/**
+	 * Remove listener from all fields
+	 * @param listener listener
+	 */
 	public void removeActionListener(ActionListener listener) {
 		fldLow.removeActionListener(listener);
 		fldHigh.removeActionListener(listener);
 		fldResult.removeActionListener(listener);
 	}
 
+	/**
+	 * Add listener to all fields
+	 * @param listener listener
+	 */
 	public void addActionListener(ActionListener listener) {
 		fldLow.addActionListener(listener);
 		fldHigh.addActionListener(listener);

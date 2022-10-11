@@ -29,16 +29,22 @@ public class BasicStatTable extends JPanel
 	protected StatTable statTable;
 	private AppD app;
 
-	/*************************************************
+	/**
 	 * Construct the panel
 	 * 
-	 * @param app
-	 * @param statDialog
+	 * @param app application
+	 * @param statDialog DA dialog
 	 */
 	public BasicStatTable(AppD app, DataAnalysisViewD statDialog) {
 		this(app, statDialog, true);
-	} // END constructor
+	}
 
+	/**
+	 * Construct the panel
+	 *
+	 * @param app application
+	 * @param statDialog DA dialog
+	 */
 	public BasicStatTable(AppD app, DataAnalysisViewD statDialog,
 			boolean defaultModel) {
 		this.app = app;
@@ -49,6 +55,9 @@ public class BasicStatTable extends JPanel
 		}
 	}
 
+	/**
+	 * @param model stat table model
+	 */
 	public void setModel(StatTableModel model) {
 		this.model = model;
 		initStatTable();
@@ -63,14 +72,6 @@ public class BasicStatTable extends JPanel
 				getModel().getColumnNames());
 		this.removeAll();
 		this.add(statTable, BorderLayout.CENTER);
-	}
-
-	public String[] getRowNames() {
-		return getModel().getRowNames();
-	}
-
-	public String[] getColumnNames() {
-		return getModel().getColumnNames();
 	}
 
 	public int getRowCount() {

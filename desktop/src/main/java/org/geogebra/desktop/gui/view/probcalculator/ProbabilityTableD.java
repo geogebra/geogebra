@@ -22,10 +22,14 @@ import org.geogebra.desktop.main.AppD;
 public class ProbabilityTableD extends ProbabilityTable
 		implements ListSelectionListener {
 
-	private StatTable statTable;
+	private final StatTable statTable;
 
-	private JPanel wrappedPanel;
+	private final JPanel wrappedPanel;
 
+	/**
+	 * @param app application
+	 * @param probCalc probability calculator
+	 */
 	public ProbabilityTableD(AppD app, ProbabilityCalculatorViewD probCalc) {
 		super(app, probCalc);
 
@@ -62,23 +66,7 @@ public class ProbabilityTableD extends ProbabilityTable
 
 		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
-		DefaultTableModel model = statTable.getModel();
-		int x = xMin;
-		int row = 0;
-
-		// set the table model with the prob. values for this distribution
-		double prob;
-		while (x <= xMax) {
-
-			model.setValueAt("" + x, row, 0);
-			if (distType != null) {
-				prob = getProbManager().probability(x, parms, distType,
-						isCumulative());
-				model.setValueAt("" + getProbCalc().format(prob), row, 1);
-			}
-			x++;
-			row++;
-		}
+		fillRows(distType, parms, xMin, xMax);
 
 		updateFonts(((AppD) getApp()).getPlainFont());
 
@@ -88,6 +76,16 @@ public class ProbabilityTableD extends ProbabilityTable
 		setIniting(false);
 	}
 
+	@Override
+	protected void setRowValues(int row, String k, String prob) {
+		DefaultTableModel model = statTable.getModel();
+		model.setValueAt(k, row, 0);
+		model.setValueAt(prob, row, 1);
+	}
+
+	/**
+	 * @param font UI font
+	 */
 	public void updateFonts(Font font) {
 		statTable.updateFonts(font);
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

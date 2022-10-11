@@ -161,8 +161,11 @@ public class SymbolTablePopupD {
 		return new Point(r.x, r.y - popup.getPreferredSize().height - 10);
 	}
 
+	/**
+	 * Show the popup
+	 * @param locateAtFieldEnd whether to show it at the end
+	 */
 	public void showPopup(boolean locateAtFieldEnd) {
-
 		getSymbolTable().updateFonts();
 		if (locale != app.getLocale()) {
 			locale = app.getLocale();
@@ -222,18 +225,18 @@ public class SymbolTablePopupD {
 	// Handle key and mouse events
 	// =======================================================
 
-	public void handleMouseClick(MouseEvent e) {
+	protected void handleMouseClick(MouseEvent e) {
 		handlePopupSelection();
 		hidePopup();
 	}
 
-	public void handlePopupSelection() {
+	private void handlePopupSelection() {
 		if (symbolTable.getSelectedValue() != null) {
 			textField.insertString((String) symbolTable.getSelectedValue());
 		}
 	}
 
-	public void handleSpecialKeys(KeyEvent keyEvent) {
+	protected void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isPopupVisible()) {
 			return;
 		}

@@ -4,6 +4,8 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
+import org.geogebra.common.properties.factory.ProbabilityPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 public class AppConfigProbability extends AppConfigGraphing {
 
@@ -15,6 +17,7 @@ public class AppConfigProbability extends AppConfigGraphing {
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
+			dp.setTabId(DockPanelData.TabIds.DISTRIBUTION);
 		} else if (dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR) {
 			dp.setLocation("1");
 		}
@@ -57,7 +60,7 @@ public class AppConfigProbability extends AppConfigGraphing {
 
 	@Override
 	public boolean hasTableView() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -71,8 +74,28 @@ public class AppConfigProbability extends AppConfigGraphing {
 	}
 
 	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new ProbabilityPropertiesFactory();
+	}
+
+	@Override
 	public boolean hasEuclidianView() {
 		return false;
+	}
+
+	@Override
+	public boolean hasDistributionView() {
+		return true;
+	}
+
+	@Override
+	public boolean hasAlgebraView() {
+		return false;
+	}
+
+	@Override
+	public int getMainGraphicsViewId() {
+		return App.VIEW_PROBABILITY_CALCULATOR;
 	}
 
 	@Override

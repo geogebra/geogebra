@@ -32,18 +32,24 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
+	private final AppD app;
 
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
-	private int colorSetType;
-	private GColor[] colorSet;
+	private final int colorSetType;
+	private final GColor[] colorSet;
 	private GColor defaultColor;
-	private HashMap<GColor, Integer> lookupMap;
+	private final HashMap<GColor, Integer> lookupMap;
 
-	private boolean hasSlider;
-	private Dimension iconSize;
+	private final boolean hasSlider;
+	private final Dimension iconSize;
 
+	/**
+	 * @param app application
+	 * @param iconSize size
+	 * @param colorSetType COLORSET_DEFAULT or COLORSET_BACKGROUND
+	 * @param hasSlider whether to use opacity slider
+	 */
 	public ColorPopupMenuButton(AppD app, Dimension iconSize, int colorSetType,
 			boolean hasSlider) {
 
@@ -75,9 +81,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		addActionListener(this);
 	}
 
+	/**
+	 * Update color table
+	 */
 	public void updateColorTable() {
 		getMyTable().populateModel(getColorSwatchIcons(colorSet,
-				getSliderValue() / 100f, iconSize, colorSetType));
+				getSliderValue() / 100f, iconSize));
 	}
 
 	@Override
@@ -100,6 +109,10 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		return icon;
 	}
 
+	/**
+	 * @param color color
+	 * @return index
+	 */
 	public int getColorIndex(GColor color) {
 		int index = -1;
 
@@ -115,6 +128,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		return index;
 	}
 
+	/**
+	 * @return selected color
+	 */
 	public GColor getSelectedColor() {
 		int index = getSelectedIndex();
 		if (index <= -1) {
@@ -131,11 +147,15 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
-	public void setDefaultColor(double alpha, GColor gc) {
-		defaultColor = gc;
-		if (gc != null) {
+	/**
+	 * @param alpha opacity
+	 * @param color base color
+	 */
+	public void setDefaultColor(double alpha, GColor color) {
+		defaultColor = color;
+		if (color != null) {
 			this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-					GColorD.getAwtColor(gc), null));
+					GColorD.getAwtColor(color), null));
 		} else {
 			this.setIcon(GeoGebraIconD.createNullSymbolIcon(iconSize.width,
 					iconSize.height));
@@ -156,7 +176,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	}
 
 	private static ImageIcon[] getColorSwatchIcons(GColor[] colorArray,
-			float alpha, Dimension iconSize, int colorSetType) {
+			float alpha, Dimension iconSize) {
 		ImageIcon[] a = new ImageIcon[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {

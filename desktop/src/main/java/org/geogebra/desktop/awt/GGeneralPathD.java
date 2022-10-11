@@ -16,10 +16,9 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 
 	private final GeneralPath impl;
 
-	public GGeneralPathD(GeneralPath g) {
-		impl = g;
-	}
-
+	/**
+	 * Path using even-odd winding
+	 */
 	public GGeneralPathD() {
 		// default winding rule changed for ggb50 (for Polygons) #3983
 		impl = new GeneralPath(Path2D.WIND_EVEN_ODD);
@@ -29,6 +28,10 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		impl = new GeneralPath(rule);
 	}
 
+	/**
+	 * @param gp cross-platform path
+	 * @return native path
+	 */
 	public static GeneralPath getAwtGeneralPath(GGeneralPath gp) {
 		if (!(gp instanceof GGeneralPathD)) {
 			if (gp != null) {

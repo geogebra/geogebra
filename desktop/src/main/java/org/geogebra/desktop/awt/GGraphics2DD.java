@@ -1,10 +1,7 @@
 package org.geogebra.desktop.awt;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.Shape;
@@ -72,10 +69,8 @@ public class GGraphics2DD implements GGraphics2D {
 			impl.setPaint(GColorD.getAwtColor((GColor) paint));
 		} else if (paint instanceof GGradientPaintD) {
 			impl.setPaint(((GGradientPaintD) paint).getPaint());
-			return;
 		} else if (paint instanceof GTexturePaintD) {
 			impl.setPaint(((GTexturePaintD) paint).getPaint());
-			return;
 		} else {
 			Log.error("unknown paint type");
 		}
@@ -146,21 +141,6 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void transform(GAffineTransform Tx) {
 		impl.transform(GAffineTransformD.getAwtAffineTransform(Tx));
-	}
-
-	/**
-	 * 
-	 * @return currently used paint
-	 */
-	public GPaint getPaint() {
-		Paint paint = impl.getPaint();
-		if (paint instanceof Color) {
-			return GColorD.newColor((Color) paint);
-		} else if (paint instanceof GradientPaint) {
-			return new GGradientPaintD((GradientPaint) paint);
-		}
-		// other types of paint are currently not used in setPaint
-		return null;
 	}
 
 	@Override

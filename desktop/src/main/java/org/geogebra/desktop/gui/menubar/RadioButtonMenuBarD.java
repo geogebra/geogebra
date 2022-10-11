@@ -2,15 +2,12 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -23,12 +20,22 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 
 	private ButtonGroup buttonGroup;
 
+	/**
+	 * @param application application
+	 */
 	public RadioButtonMenuBarD(App application) {
 		super();
 		app = (AppD) application;
 	}
 
-	public void addRadioButtonMenuItems(final MyActionListener alistener,
+	/**
+	 * @param alistener listener
+	 * @param items items
+	 * @param actionCommands commands
+	 * @param selectedPos selected position
+	 * @param changeText whether to translate the options
+	 */
+	public void addRadioButtonMenuItems(final OptionsMenuD alistener,
 			String[] items, String[] actionCommands, int selectedPos,
 			boolean changeText) {
 
@@ -49,17 +56,7 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 					mi.setSelected(true);
 				}
 				mi.setActionCommand(actionCommands[i]);
-				if (alistener instanceof ActionListener) {
-					mi.addActionListener((ActionListener) alistener);
-				} else {
-					mi.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							alistener.actionPerformed(e.getActionCommand());
-						}
-
-					});
-				}
+				mi.addActionListener(alistener);
 
 				buttonGroup.add(mi);
 				add(mi);

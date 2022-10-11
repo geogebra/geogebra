@@ -1,7 +1,6 @@
 package org.geogebra.desktop.io;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -25,6 +24,12 @@ import org.w3c.dom.NodeList;
  */
 public class MyImageIO {
 
+	/**
+	 * @param img image
+	 * @param DPI scale
+	 * @param outFile output file
+	 * @throws IOException if I/O error happened
+	 */
 	public static void write(BufferedImage img, String format, float DPI,
 			File outFile) throws IOException {
 
@@ -38,16 +43,21 @@ public class MyImageIO {
 		fios.close();
 	}
 
+	/**
+	 * @param writer writer
+	 * @param img image
+	 * @param DPI scale
+	 * @throws IOException if I/O error happened
+	 */
 	public static void writeImage(ImageWriter writer, BufferedImage img,
 			double DPI) throws IOException {
 		float xDPI = (float) DPI;
 		float yDPI = (float) DPI;
 
 		ImageWriteParam writeParam = writer.getDefaultWriteParam();
-		RenderedImage ri = img;
 		// set the DPI
 		IIOMetadata destMeta = writer.getDefaultImageMetadata(
-				new ImageTypeSpecifier(ri), writeParam);
+				new ImageTypeSpecifier(img), writeParam);
 		IIOMetadataNode destNodes = (IIOMetadataNode) destMeta
 				.getAsTree("javax_imageio_1.0");
 		NodeList nl = destNodes.getElementsByTagName("Dimension");
@@ -72,7 +82,7 @@ public class MyImageIO {
 		}
 
 		destMeta.setFromTree("javax_imageio_1.0", destNodes);
-		writer.write(null, new IIOImage(ri, null, destMeta), writeParam);
+		writer.write(null, new IIOImage(img, null, destMeta), writeParam);
 
 		// close everything
 		writer.dispose();

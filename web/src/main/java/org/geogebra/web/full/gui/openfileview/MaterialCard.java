@@ -1,8 +1,5 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import java.util.List;
-
-import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.CardInfoPanel;
@@ -23,11 +20,11 @@ import com.google.gwt.user.client.ui.Label;
 public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private AppW app;
 	// image of material
-	private FlowPanel imgPanel;
+	private MaterialImagePanel imgPanel;
 	// material information
 	private CardInfoPanel infoPanel;
 	private ContextMenuButtonMaterialCard moreBtn;
-	private FlowPanel visibilityPanel;
+	private FlowPanel infoPanelContent;
 	private MaterialCardController controller;
 
 	/**
@@ -60,12 +57,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 		moreBtn = new ContextMenuButtonMaterialCard(app, getMaterial(), this);
 		// panel for visibility state
-		visibilityPanel = new FlowPanel();
-		visibilityPanel.setStyleName("visibilityPanel");
-		updateVisibility(getMaterial().getVisibility());
-		infoPanel = isOwnMaterial()
-				? new CardInfoPanel(getMaterial().getTitle(), visibilityPanel)
-				: new CardInfoPanel(getMaterial().getTitle(), getCardAuthor());
+		infoPanelContent = new FlowPanel();
+		updateVisibility(getMaterial());
+		infoPanel = new CardInfoPanel(getMaterial().getTitle(), infoPanelContent);
 
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
@@ -132,45 +126,63 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	}
 
 	@Override
-	public void updateVisibility(String visibility) {
-		NoDragImage visibiltyImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_card_public(), 24);
-		Label visibilityTxt = new Label(
-				app.getLocalization().getMenu("Public"));
-		switch (visibility) {
-		case "P":
-			app.getLoginOperation().getGeoGebraTubeAPI()
-					.getGroups(getMaterial().getSharingKeyOrId(), null,
-							this::showSharedIcon);
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
-			break;
-		case "S":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_shared(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
-			break;
-		case "O":
-			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_public(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
-			break;
-		default:
-			break;
+	public void updateVisibility(Material material) {
+		MaterialDesignResources res = MaterialDesignResources.INSTANCE;
+		String visibility = material.getVisibility();
+		if (material.isSharedWithGroup()) {
+			visibility = "S";
 		}
-		visibilityPanel.clear();
-		visibilityPanel
-				.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
+		NoDragImage visibiltyImg;
+		Label visibilityTxt;
+		if (material.isMultiuser()) {
+			visibiltyImg = getMultiuserIcon();
+			if (isOwnMaterial()) {
+				visibilityTxt = new Label(app.getLocalization().getMenu("Collaborative"));
+			} else {
+				visibilityTxt = new Label(getCardAuthor());
+			}
+		} else if (!isOwnMaterial()) {
+			visibiltyImg = null;
+			visibilityTxt = new Label(getCardAuthor());
+		} else {
+			switch (visibility) {
+			case "P":
+				visibiltyImg = new NoDragImage(
+						res.mow_card_private(), 24);
+				visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
+				break;
+			case "S":
+				visibiltyImg = new NoDragImage(res.mow_card_shared(), 24);
+				visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
+				break;
+			case "O":
+			default:
+				visibiltyImg = new NoDragImage(res.mow_card_public(), 24);
+				visibilityTxt = new Label(app.getLocalization().getMenu("Public"));
+				break;
+			}
+		}
+		infoPanelContent.clear();
+		if (visibiltyImg != null) {
+			infoPanelContent.setStyleName("visibilityPanel");
+			infoPanelContent
+					.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
+		} else {
+			infoPanelContent.setStyleName("cardAuthor");
+			infoPanelContent.add(visibilityTxt);
+		}
 	}
 
-	private void showSharedIcon(List<GroupIdentifier> strings) {
-		if (strings != null && !strings.isEmpty()) {
-			updateVisibility("S");
-		}
+	private NoDragImage getMultiuserIcon() {
+		return new NoDragImage(
+				MaterialDesignResources.INSTANCE.mow_card_multiuser(), 24);
 	}
 
 	public void setLabels() {
-		updateVisibility(getMaterial().getVisibility());
+		updateVisibility(getMaterial());
+	}
+
+	public void setThumbnail(Material mat) {
+		imgPanel.setBackground(mat);
 	}
 }

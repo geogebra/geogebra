@@ -211,9 +211,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
-		VariableReplacer repl = VariableReplacer.getReplacer(kernel);
-		VariableReplacer.addVars("x", x);
-		VariableReplacer.addVars("y", y);
+		VariableReplacer repl = kernel.getVariableReplacer();
+		repl.addVars("x", x);
+		repl.addVars("y", y);
 		functionExpression.traverse(repl);
 
 		FunctionNVar fun = new FunctionNVar(functionExpression,
@@ -281,9 +281,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					factors.get(i));
 			FunctionVariable x = new FunctionVariable(kernel, "x");
 			FunctionVariable y = new FunctionVariable(kernel, "y");
-			VariableReplacer repl = VariableReplacer.getReplacer(kernel);
-			VariableReplacer.addVars("x", x);
-			VariableReplacer.addVars("y", y);
+			VariableReplacer repl = kernel.getVariableReplacer();
+			repl.addVars("x", x);
+			repl.addVars("y", y);
 			functionExpression.traverse(repl);
 			FunctionNVar fun = new FunctionNVar(functionExpression,
 					new FunctionVariable[] { x, y });

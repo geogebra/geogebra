@@ -3,12 +3,10 @@ package org.geogebra.desktop.gui.util;
 import java.awt.Component;
 import java.awt.Container;
 
-import javax.swing.JSeparator;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.gui.TitleLabel;
 
 /**
  * A 1.4 file that provides utility methods for creating form- or grid-style
@@ -198,39 +196,4 @@ public class SpringUtilities {
 		pCons.setConstraint(SpringLayout.EAST, x);
 	}
 
-	/**
-	 * Create a compact grid like makeCompactGrid() but let certain components
-	 * span across the whole line (e.g. TitleLabel, JSeperator).
-	 * 
-	 * TODO Create a static method which applies this to certain
-	 * 
-	 * @param parent
-	 * @param rows
-	 * @param cols
-	 * @param initialX
-	 * @param initialY
-	 * @param xPad
-	 * @param yPad
-	 */
-	public static void makeCompactGridColspan(Container parent, int rows,
-			int cols, int initialX, int initialY, int xPad, int yPad) {
-		makeCompactGrid(parent, rows, cols, initialX, initialY, xPad, yPad);
-
-		SpringLayout layout = (SpringLayout) parent.getLayout();
-
-		for (int r = 0; r < rows; ++r) {
-			for (int c = 0; c < cols; ++c) {
-				Component comp = parent.getComponent(r * cols + c);
-				if (comp instanceof JSeparator || comp instanceof TitleLabel) {
-					SpringLayout.Constraints constraints = getConstraintsForCell(
-							r, c, parent, cols);
-
-					constraints.setX(Spring.constant(initialX));
-					constraints.setWidth(
-							Spring.sum(layout.getConstraints(parent).getWidth(),
-									Spring.constant(-xPad)));
-				}
-			}
-		}
-	}
 }

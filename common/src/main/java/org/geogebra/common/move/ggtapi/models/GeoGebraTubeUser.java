@@ -19,7 +19,6 @@ public class GeoGebraTubeUser {
 	private int userId = -1;
 	private String identifier = null;
 	private String profileURL;
-	private String realName = null;
 	private String cookie;
 	private String image;
 	private String language;
@@ -27,6 +26,7 @@ public class GeoGebraTubeUser {
 	private ArrayList<GroupIdentifier> groups;
 	private boolean shibbolethAuth;
 	private boolean student = false;
+	private String jwtToken;
 
 	/**
 	 * Creates a new user with the specified login token
@@ -96,27 +96,10 @@ public class GeoGebraTubeUser {
 	}
 
 	/**
-	 * Sets the real name from GeoGeoGebraTube
-	 * 
-	 * @param realName
-	 *            The new real name of the user
-	 */
-	public void setRealName(String realName) {
-		this.realName = realName;
-	}
-
-	/**
 	 * @return the userid
 	 */
 	public int getUserId() {
 		return userId;
-	}
-
-	/**
-	 * @return the real name
-	 */
-	public String getRealName() {
-		return realName;
 	}
 
 	/**
@@ -249,5 +232,13 @@ public class GeoGebraTubeUser {
 
 	public void setStudent(boolean student) {
 		this.student = student;
+	}
+
+	public void setJWTToken(String jwtToken) {
+		this.jwtToken = jwtToken;
+	}
+
+	public String getJWTToken() {
+		return jwtToken;
 	}
 }

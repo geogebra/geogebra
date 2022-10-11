@@ -16,12 +16,11 @@ public class InputDialogCirclePointRadius extends InputDialogRadiusD {
 	private GeoPoint geoPoint1;
 
 	/**
-	 * 
-	 * @param app
-	 * @param title
-	 * @param handler
-	 * @param point1
-	 * @param kernel
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param point1 center
+	 * @param kernel kernel
 	 */
 	public InputDialogCirclePointRadius(AppD app, String title,
 			InputHandler handler, GeoPoint point1, Kernel kernel) {

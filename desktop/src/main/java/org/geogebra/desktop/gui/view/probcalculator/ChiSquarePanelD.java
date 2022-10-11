@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.probcalculator.ChiSquareCell;
 import org.geogebra.common.gui.view.probcalculator.ChiSquarePanel;
 import org.geogebra.common.gui.view.probcalculator.Procedure;
@@ -36,7 +37,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  */
 public class ChiSquarePanelD extends ChiSquarePanel
-		implements ActionListener {
+		implements ActionListener, SetLabels {
 
 	// ======================================
 	// GUI components
@@ -56,8 +57,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	private JPanel wrappedPanel;
 
 	/**
-	 * @param loc
-	 * @param statCalc
+	 * @param loc localization
+	 * @param statCalc statistics calculator
 	 */
 	public ChiSquarePanelD(Localization loc, StatisticsCalculator statCalc) {
 		super(loc, statCalc);
@@ -65,6 +66,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		setLabels();
 	}
 
+	@Override
 	public void setLabels() {
 		lblRows.setText(getMenu("Rows"));
 		lblColumns.setText(getMenu("Columns"));
@@ -192,12 +194,10 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	}
 
-	// ==========================================
-	// Event handlers
-	// ==========================================
-
+	/**
+	 * Update GUI
+	 */
 	public void updateGUI() {
-
 		if (getStatCalc().getSelectedProcedure() == Procedure.CHISQ_TEST) {
 			cbColumns.setVisible(true);
 			lblColumns.setVisible(true);
@@ -225,6 +225,9 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		wrappedPanel.repaint();
 	}
 
+	/**
+	 * Update collection
+	 */
 	public void updateCollection() {
 		getSc().setChiSqData(
 				Integer.parseInt((String) cbRows.getSelectedItem()),
@@ -233,7 +236,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 								(String) cbColumns.getSelectedItem()));
 	}
 
-	public void updateShowFlags() {
+	private void updateShowFlags() {
 		getSc().showExpected = ckExpected.isSelected();
 		getSc().showDiff = ckChiDiff.isSelected();
 		getSc().showRowPercent = ckRowPercent.isSelected();
@@ -266,7 +269,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		private final JPanel wrappedCellPanel;
 
 		private final MyTextFieldD fldInput;
-		private JLabel[] label;
+		private final JLabel[] label;
 
 		/**
 		 * Construct ChiSquareCell with given row, column
@@ -308,7 +311,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			hideAllLabels();
 		}
 
-		public void setColumns(int columns) {
+		protected void setColumns(int columns) {
 			fldInput.setColumns(columns);
 
 			// force a minimum width for margin cells

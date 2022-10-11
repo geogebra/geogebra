@@ -62,6 +62,9 @@ public class TitlePanel extends JPanel {
 	private Construction cons;
 	private LocalizationD loc;
 
+	/**
+	 * @param app application
+	 */
 	public TitlePanel(AppD app) {
 		cons = app.getKernel().getConstruction();
 		loc = app.getLocalization();
@@ -102,12 +105,7 @@ public class TitlePanel extends JPanel {
 		// setBorder(BorderFactory.createTitledBorder(app
 		// .getPlain("Document info")));
 
-		ActionListener lst = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				fireTextFieldUpdate((JTextField) e.getSource());
-			}
-		};
+		ActionListener lst = e -> fireTextFieldUpdate((JTextField) e.getSource());
 		titleField.addActionListener(lst);
 		addDocListener(titleField);
 		authorField.addActionListener(lst);
@@ -147,13 +145,17 @@ public class TitlePanel extends JPanel {
 
 	}
 
-	public void updateData() {
+	private void updateData() {
 		titleField.setText(cons.getTitle());
 		authorField.setText(loadAuthor());
 
 		dateField.setText(configureDate(cons.getDate()));
 	}
 
+	/**
+	 * @param src date
+	 * @return formatted date
+	 */
 	public String configureDate(String src) {
 
 		// If no date specified use current date
@@ -173,9 +175,12 @@ public class TitlePanel extends JPanel {
 		}
 
 		return src;
-
 	}
 
+	/**
+	 * Get author name from construction or preferences
+	 * @return author name
+	 */
 	public String loadAuthor() {
 		String author = cons.getAuthor();
 		if ("".equals(author)) {

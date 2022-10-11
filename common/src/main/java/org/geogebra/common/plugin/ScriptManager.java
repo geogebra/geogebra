@@ -32,6 +32,8 @@ public abstract class ScriptManager implements EventListener {
 	protected final ArrayList<JsReference> clientListeners = new ArrayList<>();
 	private boolean keepListenersOnReset = true;
 
+	private final HashMap<String, JsReference> nameToScript = new HashMap<>();
+
 	private ArrayList<JsReference>[] listenerLists() {
 		return new ArrayList[] { addListeners, storeUndoListeners,
 				removeListeners, renameListeners, updateListeners,
@@ -195,7 +197,7 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	public synchronized void unregisterStoreUndoListener(Object JSFunctionName) {
-		storeUndoListeners.remove(JsReference.fromNative(JSFunctionName));
+		storeUndoListeners.remove(fromNative(JSFunctionName));
 	}
 
 	private void registerGlobalListener(ArrayList<JsReference> listenerList,
@@ -206,7 +208,7 @@ public abstract class ScriptManager implements EventListener {
 
 		// init list
 		if (listenerList != null) {
-			listenerList.add(JsReference.fromNative(jsFunctionName));
+			listenerList.add(fromNative(jsFunctionName));
 		}
 	}
 
@@ -221,7 +223,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerAddListener(Object)
 	 */
 	public synchronized void unregisterAddListener(Object JSFunctionName) {
-		addListeners.remove(JsReference.fromNative(JSFunctionName));
+		addListeners.remove(fromNative(JSFunctionName));
 	}
 
 	/**
@@ -240,7 +242,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRemoveListener(Object)
 	 */
 	public synchronized void unregisterRemoveListener(Object jsFunction) {
-		removeListeners.remove(JsReference.fromNative(jsFunction));
+		removeListeners.remove(fromNative(jsFunction));
 	}
 
 	/**
@@ -259,7 +261,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerClearListener(Object)
 	 */
 	public synchronized void unregisterClearListener(Object JSFunctionName) {
-			clearListeners.remove(JsReference.fromNative(JSFunctionName));
+			clearListeners.remove(fromNative(JSFunctionName));
 	}
 
 	/**
@@ -278,7 +280,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRenameListener(Object)
 	 */
 	public synchronized void unregisterRenameListener(Object JSFunctionName) {
-		renameListeners.remove(JsReference.fromNative(JSFunctionName));
+		renameListeners.remove(fromNative(JSFunctionName));
 	}
 
 	/**
@@ -297,7 +299,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRemoveListener(Object)
 	 */
 	public synchronized void unregisterUpdateListener(Object JSFunctionName) {
-		updateListeners.remove(JsReference.fromNative(JSFunctionName));
+		updateListeners.remove(fromNative(JSFunctionName));
 	}
 
 	/**
@@ -316,7 +318,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @see #registerRemoveListener(Object)
 	 */
 	public synchronized void unregisterClickListener(Object JSFunctionName) {
-		clickListeners.remove(JsReference.fromNative(JSFunctionName));
+		clickListeners.remove(fromNative(JSFunctionName));
 	}
 
 	/**
@@ -334,7 +336,7 @@ public abstract class ScriptManager implements EventListener {
 	 *            client listener name
 	 */
 	public synchronized void unregisterClientListener(Object jsFunctionName) {
-		clientListeners.remove(JsReference.fromNative(jsFunctionName));
+		clientListeners.remove(fromNative(jsFunctionName));
 	}
 
 	/**
@@ -360,7 +362,7 @@ public abstract class ScriptManager implements EventListener {
 			map = new HashMap<>();
 		}
 		Log.debug(JSFunctionName);
-		map.put(geo, JsReference.fromNative(JSFunctionName));
+		map.put(geo, fromNative(JSFunctionName));
 		return map;
 	}
 
@@ -556,6 +558,32 @@ public abstract class ScriptManager implements EventListener {
 
 	public void setJsEnabled(boolean jsEnabled) {
 		this.jsEnabled = jsEnabled;
+	}
+
+	/**
+	 * @param string script name
+	 * @return script
+	 */
+	public JsReference fromName(String string) {
+		return nameToScript.computeIfAbsent(string, JsReference::new);
+	}
+
+	/**
+	 * @param nativeRunnable native representation of JS function
+	 * @return JS function wrapped as reference
+	 */
+	public JsReference fromNative(Object nativeRunnable) {
+		if (nativeRunnable instanceof String) {
+			return fromName((String) nativeRunnable);
+		}
+		for (JsReference ref : nameToScript.values()) {
+			if (ref.getNativeRunnable() == nativeRunnable) {
+				return ref;
+			}
+		}
+		JsReference alias = fromName((nameToScript.size() + 1) + "");
+		alias.setNativeRunnable(nativeRunnable);
+		return alias;
 	}
 
 }

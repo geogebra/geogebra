@@ -20,6 +20,10 @@ public class GGenericShapeD implements GShapeD {
 		return impl.intersects(x, y, w, h);
 	}
 
+	/**
+	 * @param s cross-platform shape
+	 * @return native shape
+	 */
 	public static Shape getAwtShape(GShape s) {
 		if (s instanceof GShapeD) {
 			return ((GShapeD) s).getAwtShape();
@@ -34,6 +38,9 @@ public class GGenericShapeD implements GShapeD {
 		return null;
 	}
 
+	/**
+	 * @param s native shape
+	 */
 	public GGenericShapeD(Shape s) {
 		this();
 		impl = s;
@@ -77,11 +84,6 @@ public class GGenericShapeD implements GShapeD {
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
-	}
-
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	@Override

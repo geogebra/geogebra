@@ -1725,4 +1725,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		shouldFail("Vector((1,2,3))/Vector((-2,-3,-4))", "division");
 		shouldFail("Vector((1,2))/Vector((-2,-3,-4))", "division");
 	}
+
+	@Test
+	public void testTake() {
+		t("Take({2, 4, 3, 7, 4}, 3)", "{3, 7, 4}");
+		t("Take(\"GeoGebra\", 3)", "oGebra");
+		t("Take({2, 4, 3, 7, 4}, 3, 4)", "{3, 7}");
+		t("Take(\"GeoGebra\", 3, 6)", "oGeb");
+	}
 }

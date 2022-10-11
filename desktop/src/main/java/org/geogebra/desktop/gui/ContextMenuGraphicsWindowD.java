@@ -188,15 +188,14 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		// checkboxes for axes and grid
 		JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(
 				((GuiManagerD) app.getGuiManager()).getShowAxesAction());
-		// cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
-		((AppD) app).setShowAxesSelected(cbShowAxes);
+		EuclidianViewInterfaceCommon view = app.getGuiManager().getActiveEuclidianView();
+		cbShowAxes.setSelected(view.getShowXaxis() && view.getShowYaxis());
 		cbShowAxes.setBackground(wrappedPopup.getBackground());
 		wrappedPopup.add(cbShowAxes);
 
 		JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(
 				((GuiManagerD) app.getGuiManager()).getShowGridAction());
-		// cbShowGrid.setSelected(ev.getShowGrid());
-		((AppD) app).setShowGridSelected(cbShowGrid);
+		cbShowGrid.setSelected(view.getShowGrid());
 		cbShowGrid.setBackground(wrappedPopup.getBackground());
 		wrappedPopup.add(cbShowGrid);
 	}
@@ -232,13 +231,10 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	private void addZoomItems(JMenu menu) {
 		int perc;
 
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					zoom(Double.parseDouble(e.getActionCommand()));
-				} catch (Exception ex) {
-				}
+		ActionListener al = e -> {
+			try {
+				zoom(Double.parseDouble(e.getActionCommand()));
+			} catch (Exception ex) {
 			}
 		};
 
@@ -267,13 +263,10 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	private void addAxesRatioItems(JMenu menu) {
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					zoomYaxis(Double.parseDouble(e.getActionCommand()));
-				} catch (Exception ex) {
-				}
+		ActionListener al = e -> {
+			try {
+				zoomYaxis(Double.parseDouble(e.getActionCommand()));
+			} catch (Exception ex) {
 			}
 		};
 

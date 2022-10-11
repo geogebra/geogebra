@@ -388,7 +388,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Returns the list of AbstractActions to be used in the popup context menu.
 	 * 
-	 * @return
+	 * @return action list
 	 */
 	public ArrayList<AbstractAction> getActionList() {
 
@@ -532,9 +532,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		// private final Action act;
 
 		public TransferablePlotPanel() {
-			image = GBufferedImageD
-					.getAwtBufferedImage(plotPanelEV.getExportImage(1d));
-			// act = sampleAction;
+			image = GBufferedImageD.getAwtBufferedImage(plotPanelEV.getExportImage(1d));
 		}
 
 		@Override

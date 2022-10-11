@@ -141,7 +141,6 @@ public final class CommandFilterFactory {
 				Commands.DynamicCoordinates, Commands.Object, Commands.SlowPlot,
 				Commands.ToolImage,
 				// List Commands
-				Commands.Take,
 				Commands.Zip,
 				// Text Commands
 				Commands.ContinuedFraction, Commands.FormulaText, Commands.LaTeX,

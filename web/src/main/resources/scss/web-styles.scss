@@ -923,11 +923,6 @@
 		text-align: left;
 	}
 
-	.editorPanel {
-		padding-top: 1px;
-		padding-left: 1px;
-	}
-
 	/**
 	 * The view buttons for these stylebars should take all the remaining place
 	 * so that they will be right aligned
@@ -1931,9 +1926,7 @@
 		margin: 0;
 		padding: 0;
 	}
-	.probCalcViewTab {
-		margin-left: 10px;
-	}
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent.ProbCalcPanel {
 		// no scrollbar for main panel, only for value table
 		overflow: hidden;
@@ -1994,49 +1987,49 @@
 		float: right;
 	}
 
-	.controlPanel {
-		float: left;
-		overflow: auto;
+	.distrPanel {
+		display: grid;
 	}
 
-	.controlPanel .groupEnd {
-		margin-right: 30px;
-	}
-
-	.cbPanel, .intervalPanel {
-		padding: 5px 0;
-		float: left;
-		white-space: nowrap;
+	.comboParamPanel, .resultPanel {
 		display: flex;
 		flex-wrap: wrap;
+		line-height: 52px;
+	}
+
+	.comboParamPanel, .intervalPanel {
+		padding: 8px 0;
+		float: left;
+		white-space: nowrap;
+		flex-wrap: wrap;
 		align-items: center;
-		& > * {
-			margin-top: 8px;
-		}
 	}
 
 	.parameterPanel, .resultPanel {
 		display: flex;
 		align-items: center;
+
+		.mathTextField {
+			min-width: 64px;
+			width: 64px;
+		}
+
+		.holder .gwt-Label {
+			line-height: 36px;
+		}
 	}
 
-	.controlPanel > div.clear {
-		padding: 0;
-		margin: 0;
-	}
-
-	.cbPanel .gwt-ToggleButton, .cbPanel .gwt-ListBox {
+	.comboParamPanel .MyToggleButton, .comboParamPanel .gwt-ListBox {
 		display: inline-block;
 		margin-right: 10px;
 	}
 
-	.cbPanel .gwt-ToggleButton {
-		float: left;
+	.parameterPanel > *, .resultPanel > *, .parameterPanel .holder > * {
+		margin: 0 5px;
 	}
 
-	.parameterPanel > *, .resultPanel > * {
-		display: inline-block;
-		margin: 0 5px;
+	.distrPanelClassic .holder {
+		display: flex;
 	}
 
 	/* --------- STATISTICS CALCULATOR --------------- */
@@ -2166,7 +2159,7 @@
 	}
 
 	.StatisticsCalculatorW .resultPane {
-		margin-top: 5px;
+		margin: 5px;
 	}
 
 	.resultPane table td {
@@ -2178,7 +2171,6 @@
 		margin-top: 20px;
 		padding-bottom: 5px;
 		color: #6666FF;
-		display: block;
 		border-bottom: 1px solid #CCCCFF;
 	}
 

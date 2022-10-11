@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -51,14 +50,13 @@ public class DataPanelD extends JPanel
 		implements ActionListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
-	private DataAnalysisViewD daView;
-	private DataAnalysisControllerD statController;
+	private final AppD app;
+	private final DataAnalysisViewD daView;
+	private final DataAnalysisControllerD statController;
 
 	private JTable dataTable;
 	private JButton btnEnableAll;
 	private MyRowHeader rowHeader;
-	private MyColumnHeaderRenderer columnHeader;
 	private JScrollPane scrollPane;
 
 	private Boolean[] selectionList;
@@ -66,7 +64,7 @@ public class DataPanelD extends JPanel
 	private JLabel lblHeader;
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
@@ -110,7 +108,7 @@ public class DataPanelD extends JPanel
 	private void createGUI() {
 		// set table and column renderers
 		dataTable.setDefaultRenderer(Object.class, new MyCellRenderer());
-		columnHeader = new MyColumnHeaderRenderer();
+		MyColumnHeaderRenderer columnHeader = new MyColumnHeaderRenderer();
 		columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
 				SpreadsheetSettings.TABLE_CELL_HEIGHT));
 		for (int i = 0; i < dataTable.getColumnCount(); ++i) {
@@ -315,23 +313,6 @@ public class DataPanelD extends JPanel
 		// repaint
 		dataTable.repaint();
 		rowHeader.repaint();
-
-	}
-
-	public void ensureTableFill() {
-		Container p = getParent();
-		DefaultTableModel dataModel = (DefaultTableModel) dataTable.getModel();
-		if (dataTable.getHeight() < p.getHeight()) {
-			int newRows = (p.getHeight() - dataTable.getHeight())
-					/ dataTable.getRowHeight();
-			dataModel.setRowCount(dataTable.getRowCount() + newRows);
-			for (int i = 0; i <= dataTable.getRowCount(); ++i) {
-				if (rowHeader.getModel().getElementAt(i) != null) {
-					((DefaultListModel) rowHeader.getModel()).add(i, true);
-				}
-			}
-		}
-
 	}
 
 	private static class Corner extends JPanel {
@@ -400,7 +381,6 @@ public class DataPanelD extends JPanel
 		if (e.getSource() == btnEnableAll) {
 			rowHeader.enableAll();
 			btnEnableAll.setEnabled(false);
-
 		}
 	}
 
@@ -475,14 +455,14 @@ public class DataPanelD extends JPanel
 	// Row Header
 	// ======================================================
 
-	public class MyRowHeader extends JList implements MouseListener {
+	public class MyRowHeader extends JList<Boolean> implements MouseListener {
 		private static final long serialVersionUID = 1L;
 
 		// DefaultListModel model;
 		JTable table;
 		DataPanelD dataPanel;
 
-		public MyRowHeader(DataPanelD dataPanel, JTable table) {
+		protected MyRowHeader(DataPanelD dataPanel, JTable table) {
 			super(selectionList);
 			this.table = table;
 			this.dataPanel = dataPanel;
@@ -574,7 +554,6 @@ public class DataPanelD extends JPanel
 
 				table.repaint();
 				repaint();
-				return;
 			}
 		}
 
@@ -583,6 +562,9 @@ public class DataPanelD extends JPanel
 			// only handle mouse pressed
 		}
 
+		/**
+		 * Enable all
+		 */
 		public void enableAll() {
 			for (int i = 0; i < selectionList.length; ++i) {
 				if (!selectionList[i]) {
@@ -594,9 +576,9 @@ public class DataPanelD extends JPanel
 			table.repaint();
 		}
 
-		public boolean isAllEnabled() {
-			for (int i = 0; i < selectionList.length; ++i) {
-				if (!selectionList[i]) {
+		protected boolean isAllEnabled() {
+			for (Boolean selected : selectionList) {
+				if (!selected) {
 					return false;
 				}
 			}
@@ -613,7 +595,7 @@ public class DataPanelD extends JPanel
 			this.csize = csize;
 		}
 
-		public ImageIcon createCheckBoxImageIcon(boolean checked,
+		protected ImageIcon createCheckBoxImageIcon(boolean checked,
 				boolean highlighted) {
 
 			DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);

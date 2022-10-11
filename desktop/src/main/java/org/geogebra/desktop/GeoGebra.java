@@ -121,6 +121,9 @@ public class GeoGebra {
 		GeoGebraFrame.main(args);
 	}
 
+	/**
+	 * Hide the splash window
+	 */
 	public static void hideSplash() {
 		if (splashFrame != null) {
 			splashFrame.setVisible(false);

@@ -44,16 +44,13 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	private static final Color COLOR_NOT_ENOUGH_SPACE = COLOR_DEFAULT; // Color.red;
 	private static final Color COLOR_SAME_PLACE = Color.white;
 
+	/**
+	 * @param dockManager dock manager
+	 */
 	public DockGlassPane(DockManagerD dockManager) {
 		this.dockManager = dockManager;
-
 		stroke = new BasicStroke(4);
-
 		setOpaque(false);
-	}
-
-	public boolean isDragInProgress() {
-		return dragInProgress;
 	}
 
 	/**

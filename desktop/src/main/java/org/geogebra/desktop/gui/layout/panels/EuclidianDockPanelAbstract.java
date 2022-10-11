@@ -39,11 +39,11 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 	/**
 	 * default constructor
 	 * 
-	 * @param id
-	 * @param title
-	 * @param toolbar
-	 * @param hasStyleBar
-	 * @param menuOrder
+	 * @param id view ID
+	 * @param title title
+	 * @param toolbar toolbar definition
+	 * @param hasStyleBar whether stylebar exists
+	 * @param menuOrder order in view menu
 	 */
 	public EuclidianDockPanelAbstract(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder, char shortcut) {
@@ -66,7 +66,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"
 	 * 
-	 * @param hasFocus
+	 * @param hasFocus whether it has focus
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
 		hasEuclidianFocus = hasFocus;

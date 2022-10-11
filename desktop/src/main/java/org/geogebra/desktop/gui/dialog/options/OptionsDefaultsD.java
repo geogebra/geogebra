@@ -170,12 +170,7 @@ public class OptionsDefaultsD
 
 		// apply defaults button
 		defaultsButton = new JButton();
-		defaultsButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				applyDefaults();
-			}
-		});
+		defaultsButton.addActionListener(e -> applyDefaults());
 
 		// set the labels of the components
 		setLabels();

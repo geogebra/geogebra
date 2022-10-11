@@ -25,6 +25,9 @@ public class HelpDialog {
 		openToolHelp(app.getMode());
 	}
 
+	/**
+	 * @param mode app mode
+	 */
 	public void openToolHelp(int mode) {
 		String toolName = app.getToolName(mode);
 		String helpText = app.getToolHelp(mode);

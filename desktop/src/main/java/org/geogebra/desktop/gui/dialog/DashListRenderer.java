@@ -25,7 +25,6 @@ import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
 /**
@@ -43,15 +42,17 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	// private Color bgColor;
 	private boolean nullValue = false;
 
+	/**
+	 * Dash styles renderer
+	 */
 	public DashListRenderer() {
 		// init stroke map
-		dashStrokeMap = new HashMap<Integer, BasicStroke>();
+		dashStrokeMap = new HashMap<>();
 		int type;
 		BasicStroke stroke;
 		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
 			type = EuclidianView.getLineType(i);
-			stroke = ((AwtFactoryD) AwtFactory.getPrototype())
-					.getAwtStroke(EuclidianStatic.getStroke(1.0f, type));
+			stroke = AwtFactoryD.getAwtStroke(EuclidianStatic.getStroke(1.0f, type));
 			dashStrokeMap.put(type, stroke);
 		}
 	}

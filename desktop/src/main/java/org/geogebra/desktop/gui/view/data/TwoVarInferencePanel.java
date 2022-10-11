@@ -54,7 +54,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private JPanel samplePanel;
 	private TwoVarStatPanelD twoStatPanel;
 	private final TwoVarInferenceModel model;
-	private boolean enablePooled;
 	private JCheckBox ckPooled;
 
 	/**
@@ -256,9 +255,11 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		cbAltHyp.removeAllItems();
 		model.fillAlternateHyp();
 		cbAltHyp.addActionListener(this);
-
 	}
 
+	/**
+	 * @param selectedPlot pot type
+	 */
 	public void setSelectedInference(int selectedPlot) {
 		model.setSelectedInference(selectedPlot);
 		if (!isIniting) {
@@ -412,12 +413,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		cbAltHyp.setSelectedIndex(idx);
 	}
 
-	public boolean isEnablePooled() {
-		return enablePooled;
-	}
-
 	public void setEnablePooled(boolean enablePooled) {
-		this.enablePooled = enablePooled;
 		ckPooled.setVisible(enablePooled);
 	}
 

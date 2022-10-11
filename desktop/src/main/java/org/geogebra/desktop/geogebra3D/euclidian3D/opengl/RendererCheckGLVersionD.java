@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.fixedfunc.GLLightingFunc;
@@ -38,33 +37,31 @@ public class RendererCheckGLVersionD extends Renderer
 
 	protected RendererJogl jogl;
 
-	private Animator animator;
+	private final Animator animator;
 
 	/** canvas usable for a JPanel */
 	public Component3D canvas;
 
 	protected FrameCollector gifEncoder;
-
 	protected BufferedImage bi;
+	private final boolean isGL2ES2;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param view
-	 * @param useCanvas
+	 * @param view view
+	 * @param useCanvas use canvas
 	 */
 	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas) {
 		this(view, useCanvas, RendererType.NOT_SPECIFIED);
 	}
 
-	private boolean isGL2ES2;
-
 	/**
 	 * Constructor
 	 * 
-	 * @param view
-	 * @param useCanvas
-	 * @param type
+	 * @param view view
+	 * @param useCanvas use canvas
+	 * @param type type
 	 */
 	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas,
 			RendererType type) {
@@ -202,12 +199,7 @@ public class RendererCheckGLVersionD extends Renderer
 	public void setLineWidth(double width) {
 
 		getGL().glLineWidth((float) width);
-
 	}
-
-	protected static final int[] GL_CLIP_PLANE = { GL2ES1.GL_CLIP_PLANE0,
-			GL2ES1.GL_CLIP_PLANE1, GL2ES1.GL_CLIP_PLANE2, GL2ES1.GL_CLIP_PLANE3,
-			GL2ES1.GL_CLIP_PLANE4, GL2ES1.GL_CLIP_PLANE5 };
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
@@ -239,31 +231,26 @@ public class RendererCheckGLVersionD extends Renderer
 	 * First, it calls {@link #doPick()} if a picking is to be done. Then, for
 	 * each {@link Drawable3D}, it calls:
 	 * <ul>
-	 * <li>{@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden
+	 * <li>{@link Drawable3D#drawHidden(Renderer)} to draw hidden
 	 * parts (dashed segments, lines, ...)</li>
-	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawTransp(Renderer)} to draw
 	 * transparent objects (planes, spheres, ...)</li>
-	 * <li>{@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawSurfacesForHiding(Renderer)} to draw
 	 * in the z-buffer objects that hides others (planes, spheres, ...)</li>
-	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw
+	 * <li>{@link Drawable3D#drawTransp(Renderer)} to re-draw
 	 * transparent objects for a better alpha-blending</li>
-	 * <li>{@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not
+	 * <li>{@link Drawable3D#drawOutline(Renderer)} to draw not
 	 * hidden parts (dash-less segments, lines, ...)</li>
 	 * </ul>
 	 */
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
-
-		// Log.debug(gLDrawable+"");
 		setGL(gLDrawable);
-
 		drawScene();
-
 	}
 
 	@Override
 	protected final void exportImage() {
-
 		switch (getExportType()) {
 		case ANIMATEDGIF:
 			Log.debug("Exporting frame: " + getExportI());
@@ -351,8 +338,7 @@ public class RendererCheckGLVersionD extends Renderer
 
 	@Override
 	protected void setDepthFunc() {
-		getGL().glDepthFunc(GL.GL_LEQUAL); // less or equal for
-												// transparency
+		getGL().glDepthFunc(GL.GL_LEQUAL); // less or equal for transparency
 	}
 
 	@Override
@@ -375,12 +361,9 @@ public class RendererCheckGLVersionD extends Renderer
 	 */
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-
 		setGL(drawable);
-
 		setView(x, y, w, h);
 		view3D.reset();
-
 	}
 
 	/**
@@ -414,9 +397,9 @@ public class RendererCheckGLVersionD extends Renderer
 	 *            texture index
 	 * @param waitForReset
 	 *            wait for reset
-	 * @param sizeX
-	 * @param sizeY
-	 * @param buf
+	 * @param sizeX width
+	 * @param sizeY height
+	 * @param buf buffer
 	 * @return a texture for alpha channel
 	 */
 	private int createAlphaTexture(int textureIndex, boolean waitForReset,

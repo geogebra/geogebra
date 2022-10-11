@@ -17,10 +17,8 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 
 	/**
 	 * Panel to hold euclidian view and navigation bar if necessary.
-	 */
-
-	/**
-	 * @param app
+	 *
+	 * @param app application
 	 */
 	public EuclidianDockPanel(AppD app, String toolbar) {
 		super(App.VIEW_EUCLIDIAN, // view id

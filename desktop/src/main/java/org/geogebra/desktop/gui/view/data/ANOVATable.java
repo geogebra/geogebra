@@ -10,6 +10,10 @@ import org.geogebra.desktop.main.AppD;
 public class ANOVATable extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param app application
+	 * @param statDialog DA dialog
+	 */
 	public ANOVATable(AppD app, DataAnalysisViewD statDialog) {
 		super(app, statDialog, false);
 		setModel(new ANOVAStatTableModel(app, this));

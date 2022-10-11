@@ -73,12 +73,9 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 	/*********************************************************
 	 * Constructor
 	 * 
-	 * @param app
-	 * @param view
-	 * @param formatHandler
+	 * @param table spreadsheet table
 	 */
 	public MyCellRendererD(MyTableInterface table) {
-
 		this.myTable = table;
 		app = (AppD) myTable.getApplication();
 		kernel = app.getKernel();

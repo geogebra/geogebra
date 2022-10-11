@@ -30,7 +30,6 @@ import javax.swing.SwingUtilities;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.desktop.javax.swing.GPopupMenuD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -49,10 +48,15 @@ public class ModeToggleMenuD extends JPanel {
 	private AppD app;
 	int size;
 
-	private ToolbarD toolbar;
+	private final ToolbarD toolbar;
 
 	final static Color bgColor = Color.white;
 
+	/**
+	 * @param app application
+	 * @param toolbar toolbar
+	 * @param bg button group
+	 */
 	public ModeToggleMenuD(AppD app, ToolbarD toolbar,
 			ModeToggleButtonGroup bg) {
 		this.app = app;
@@ -80,6 +84,10 @@ public class ModeToggleMenuD extends JPanel {
 		return tbutton;
 	}
 
+	/**
+	 * @param mode mode
+	 * @return success
+	 */
 	public boolean selectMode(int mode) {
 		String modeText = mode + "";
 		for (int i = 0; i < size; i++) {
@@ -93,6 +101,9 @@ public class ModeToggleMenuD extends JPanel {
 		return false;
 	}
 
+	/**
+	 * @return first mode
+	 */
 	public int getFirstMode() {
 		if (menuItemList == null || menuItemList.size() == 0) {
 			return -1;
@@ -122,6 +133,9 @@ public class ModeToggleMenuD extends JPanel {
 		// tbutton.requestFocus();
 	}
 
+	/**
+	 * @param mode mode to add
+	 */
 	public void addMode(int mode) {
 		// add menu item to popup menu
 		JMenuItem mi = new JMenuItem();
@@ -197,6 +211,9 @@ public class ModeToggleMenuD extends JPanel {
 		}
 	}
 
+	/**
+	 * @param bt button
+	 */
 	public void setMouseOverButton(MyJToggleButton bt) {
 		mouseOverButton = bt;
 		repaint();
@@ -206,18 +223,24 @@ public class ModeToggleMenuD extends JPanel {
 		return mouseOverButton;
 	}
 
+	/**
+	 * Show active popup
+	 */
 	public void mouseOver() {
 		// popup menu is showing
-		JPopupMenu activeMenu = GPopupMenuD.getImpl(bg.getActivePopupMenu());
+		JPopupMenu activeMenu = bg.getActivePopupMenu();
 		if (activeMenu != null && activeMenu.isShowing()) {
 			setPopupVisible(true);
 		}
 	}
 
-	// shows popup menu
+	/**
+	 * shows / hides popup menu
+	 * @param flag whether to show
+	 */
 	public void setPopupVisible(boolean flag) {
 		if (flag) {
-			bg.setActivePopupMenu(new GPopupMenuD(popMenu));
+			bg.setActivePopupMenu(popMenu);
 			if (popMenu.isShowing()) {
 				return;
 			}
