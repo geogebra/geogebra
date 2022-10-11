@@ -15,16 +15,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class CompDropDown extends FlowPanel implements SetLabels {
+public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownComboBoxI {
 	private final AppW app;
 	private Label label;
 	private String labelKey;
 	private Label selectedOption;
-	private List<String> items;
-	private ComponentDropDownPopup dropDown;
-	private List<AriaMenuItem> dropDownElementsList;
 	private boolean isDisabled = false;
 	private Runnable changeHandler;
+	private DropDownComboBoxController controller;
 
 	/**
 	 * Material rop-down component
@@ -35,13 +33,10 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 	public CompDropDown(AppW app, String label, List<String> items) {
 		this.app = app;
 		labelKey = label;
-		this.items = items;
 		addStyleName("dropDown");
 
 		buildGUI(label);
-		createDropDownMenu(app);
-		setElements(items);
-		setSelectedOption(0);
+		controller = new DropDownComboBoxController(app, this, selectedOption, items);
 	}
 
 	private void buildGUI(String labelStr) {
@@ -66,81 +61,18 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		add(arrowIcon);
 	}
 
-	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, 32, selectedOption, null);
-		dropDown.addAutoHidePartner(getElement());
-
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!isDisabled) {
-					toggleExpanded();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Expand/collapse the dropdown.
-	 */
-	protected void toggleExpanded() {
-		if (dropDown.isOpened()) {
-			dropDown.close();
+	@Override
+	public void toggleExpanded() {
+		if (controller.isOpened()) {
+			controller.closePopup();
 		} else {
 			dropDown.show();
 			dropDown.setWidthInPx(getStyleElement().getClientWidth());
 		}
 	}
 
-	private void setSelectedOption(int idx) {
-		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
-		dropDown.setSelectedIndex(idx);
-		selectedOption.setText(dropDownElementsList.get(idx).getElement().getInnerText());
-	}
-
 	public int getSelectedIndex() {
-		return dropDown.getSelectedIndex();
-	}
-
-	private void highlightSelectedElement(int previousSelectedIndex,
-			int currentSelectedIndex) {
-		dropDownElementsList.get(previousSelectedIndex)
-				.removeStyleName("selectedDropDownElement");
-		dropDownElementsList.get(currentSelectedIndex)
-				.addStyleName("selectedDropDownElement");
-	}
-
-	/**
-	 * Set the elements of the dropdown list
-	 *
-	 * @param dropDownList
-	 *            List of strings which will be shown in the dropdown list
-	 */
-	public void setElements(final List<String> dropDownList) {
-		dropDownElementsList = new ArrayList<>();
-
-		for (int i = 0; i < dropDownList.size(); ++i) {
-			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
-					() -> {
-				setSelectedOption(currentIndex);
-				if (changeHandler != null) {
-					changeHandler.run();
-				}
-					});
-
-			item.setStyleName("dropDownElement");
-			dropDownElementsList.add(item);
-		}
-		setupDropDownMenu(dropDownElementsList);
-	}
-
-	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
-		dropDown.clear();
-		for (AriaMenuItem menuItem : menuItems) {
-			dropDown.addItem(menuItem);
-		}
+		return controller.getSelectedIndex();
 	}
 
 	/**
@@ -157,9 +89,12 @@ public class CompDropDown extends FlowPanel implements SetLabels {
 		if (label != null) {
 			label.setText(app.getLocalization().getMenu(labelKey));
 		}
+		controller.setLabels();
+	}
 
-		setElements(items);
-		selectedOption.setText(dropDownElementsList.get(dropDown.getSelectedIndex()).getText());
+	@Override
+	public void updateSelectionText(String text) {
+		selectedOption.setText(text);
 	}
 
 	public void setChangeHandler(Runnable changeHandler) {
