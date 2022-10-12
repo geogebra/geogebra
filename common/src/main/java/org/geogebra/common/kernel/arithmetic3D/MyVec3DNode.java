@@ -197,8 +197,8 @@ public class MyVec3DNode extends ValidExpression
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return hasSphericalCoords() ?
-				stringifier.toString(tpl, VectorPrintingMode.Polar) : stringifier.toString(tpl);
+		return hasSphericalCoords()
+				? stringifier.toString(tpl, VectorPrintingMode.Polar) : stringifier.toString(tpl);
 	}
 
 	@Override

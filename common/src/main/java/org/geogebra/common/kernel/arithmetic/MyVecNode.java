@@ -169,8 +169,8 @@ public class MyVecNode extends ValidExpression
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return hasPolarCoords() ?
-				stringifier.toString(tpl, VectorPrintingMode.Polar) : stringifier.toString(tpl);
+		return hasPolarCoords()
+				? stringifier.toString(tpl, VectorPrintingMode.Polar) : stringifier.toString(tpl);
 	}
 
 	@Override
