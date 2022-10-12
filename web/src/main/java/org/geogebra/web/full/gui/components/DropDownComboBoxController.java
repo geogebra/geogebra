@@ -21,7 +21,6 @@ public class DropDownComboBoxController implements SetLabels {
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
 	private boolean isDisabled = false;
-	private int lastSelectedIdx;
 
 	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI anchor, Widget widget,
 			List<String> items) {
@@ -77,7 +76,6 @@ public class DropDownComboBoxController implements SetLabels {
 	}
 
 	 void setSelectedOption(int idx) {
-		lastSelectedIdx = idx;
 		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
 		anchor.updateSelectionText(getSelectedText());
@@ -113,35 +111,15 @@ public class DropDownComboBoxController implements SetLabels {
 	}
 
 	public String getSelectedText() {
-		return dropDownElementsList.get(lastSelectedIdx).getText();
+		return dropDownElementsList.get(getSelectedIndex()).getText();
 	}
 
-	public void positionAsComboBox(AppW appW) {
-		Widget anchorWidget = anchor.asWidget();
-		int spaceBottom = (int) (appW.getHeight()
-				- anchorWidget.getElement().getAbsoluteBottom());
-		int spaceTop = anchorWidget.getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
-		int minSpaceBottom = 3 * dropDown.getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
-		int popupHeight = dropDown.getPopupHeight();
-
-		if (spaceBottom < minSpaceBottom) {
-			int popupTop = popupHeight > spaceTop ? (int) appW.getAbsTop() + MARGIN_FROM_SCREEN
-					: anchor.asWidget().getAbsoluteTop() - popupHeight;
-			dropDown.showAtPoint(anchorWidget.getAbsoluteLeft(), popupTop);
-
-			if (popupHeight > spaceTop) {
-				setHeightAndScrollTop(spaceTop);
-			}
-		} else {
-			dropDown.showAtPoint(anchorWidget.getAbsoluteLeft(), anchorWidget.getElement().getAbsoluteBottom());
-			if (popupHeight > spaceBottom) {
-				setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
-			}
-		}
+	public void showAsComboBox() {
+		dropDown.positionAsComboBox();
 	}
 
-	private void setHeightAndScrollTop(int height) {
-		dropDown.setHeightInPx(height);
-		dropDown.setScrollTop(dropDown.getSelectedItemTop());
+	public void showAsDropDown(int width) {
+		dropDown.positionAsDropDown();
+		dropDown.setWidthInPx(width);
 	}
 }
