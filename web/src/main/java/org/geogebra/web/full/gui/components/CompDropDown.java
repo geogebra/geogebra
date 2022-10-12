@@ -2,8 +2,10 @@ package org.geogebra.web.full.gui.components;
 
 import java.util.List;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
@@ -32,6 +34,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 		addStyleName("dropDown");
 
 		buildGUI(label);
+		addClickHandler();
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
 	}
 
@@ -55,6 +58,18 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
 				.arrow_drop_down().getSVG());
 		add(arrowIcon);
+	}
+
+	private void addClickHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (!isDisabled) {
+					toggleExpanded();
+				}
+			}
+		});
 	}
 
 	@Override
