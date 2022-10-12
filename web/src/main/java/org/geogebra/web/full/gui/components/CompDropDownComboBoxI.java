@@ -12,5 +12,6 @@ public interface CompDropDownComboBoxI extends IsWidget {
 
 	void updateSelectionText(String text);
 
+	@Override
 	Widget asWidget();
 }

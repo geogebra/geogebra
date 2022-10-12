@@ -32,7 +32,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 		addStyleName("dropDown");
 
 		buildGUI(label);
-		controller = new DropDownComboBoxController(app, this, selectedOption, items);
+		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
 	}
 
 	private void buildGUI(String labelStr) {
@@ -62,7 +62,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 		if (controller.isOpened()) {
 			controller.closePopup();
 		} else {
-			controller.showAsDropDown(getStyleElement().getClientWidth());
+			controller.showAsDropDown();
 		}
 	}
 

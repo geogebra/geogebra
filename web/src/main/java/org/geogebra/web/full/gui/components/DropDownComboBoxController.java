@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.MARGIN_FROM_SCREEN;
-import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.POPUP_PADDING;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DropDownComboBoxController implements SetLabels {
@@ -22,18 +19,26 @@ public class DropDownComboBoxController implements SetLabels {
 	private List<String> items;
 	private boolean isDisabled = false;
 
+	/**
+	 * popup controller for dropdown and combobox
+	 * @param app - apps
+	 * @param anchor - anchor
+	 * @param widget
+	 * @param items - list of items in popup
+	 * @param onClose - handler to run on close
+	 */
 	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI anchor, Widget widget,
-			List<String> items) {
+			List<String> items, Runnable onClose) {
 		this.anchor = anchor;
 		this.items = items;
 
-		createPopup(app, widget);
+		createPopup(app, anchor.asWidget(), onClose);
 		setElements(items);
 		setSelectedOption(0);
 	}
 
-	public void createPopup(final AppW app, Widget widget) {
-		dropDown = new ComponentDropDownPopup(app, 32, widget, null/*this::onClose*/);
+	public void createPopup(final AppW app, Widget widget, Runnable onClose) {
+		dropDown = new ComponentDropDownPopup(app, 32, widget, onClose);
 		dropDown.addAutoHidePartner(anchor.asWidget().getElement());
 
 		ClickStartHandler.init(anchor.asWidget(), new ClickStartHandler(true, true) {
@@ -110,16 +115,26 @@ public class DropDownComboBoxController implements SetLabels {
 		dropDown.close();
 	}
 
+	/**
+	 * get currently selected text
+	 * @return selected text
+	 */
 	public String getSelectedText() {
 		return dropDownElementsList.get(getSelectedIndex()).getText();
 	}
 
+	/**
+	 * show popup and position as combobox
+	 */
 	public void showAsComboBox() {
 		dropDown.positionAsComboBox();
 	}
 
-	public void showAsDropDown(int width) {
+	/**
+	 * shop popup and position as dropdown
+	 */
+	public void showAsDropDown() {
 		dropDown.positionAsDropDown();
-		dropDown.setWidthInPx(width);
+		dropDown.setWidthInPx(anchor.asWidget().getElement().getClientWidth());
 	}
 }

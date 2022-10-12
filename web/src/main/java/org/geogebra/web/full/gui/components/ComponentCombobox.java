@@ -44,7 +44,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 		addFieldKeyAndPointerHandler();
 
 		controller = new DropDownComboBoxController(appW, this, inputTextField,
-				Arrays.asList(property.getValues()));
+				Arrays.asList(property.getValues()), this::onClose);
 	}
 
 	private void buildGUI() {
@@ -105,8 +105,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 
 	@Override
 	public void toggleExpanded() {
-		boolean isOpen = controller.isOpened();
-		if (isOpen) {
+		if (controller.isOpened()) {
 			inputTextField.setFocus(false);
 			resetTextField();
 			controller.closePopup();
@@ -116,6 +115,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 				inputTextField.selectAll();
 			});
 		}
+		boolean isOpen = controller.isOpened();
 		Dom.toggleClass(this, "active", isOpen);
 		GColor arrowCol = isOpen
 				? GeoGebraColorConstants.GEOGEBRA_ACCENT : GColor.BLACK;
