@@ -8,6 +8,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCombobox;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
@@ -80,10 +81,14 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 			}
 		}
 
-		ComponentCombobox combobox = new ComponentCombobox(app, "Label",
-				(EnumerableProperty) properties.getProperties()[properties
-						.getProperties().length - 1]);
+		EnumerableProperty property = (EnumerableProperty) properties.getProperties()[properties
+				.getProperties().length - 1];
+
+		ComponentCombobox combobox = new ComponentCombobox(app, "Label", property);
 		panel.add(combobox);
+
+		CompDropDown dropdown = new CompDropDown(app, "Language", Arrays.asList(property.getValues()));
+		panel.add(dropdown);
 	}
 
 	private void updateGUI() {
