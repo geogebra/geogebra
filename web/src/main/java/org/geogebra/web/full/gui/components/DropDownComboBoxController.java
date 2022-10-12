@@ -13,7 +13,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DropDownComboBoxController implements SetLabels {
-	private CompDropDownComboBoxI anchor;
+	private CompDropDownComboBoxI parent;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
@@ -22,34 +22,24 @@ public class DropDownComboBoxController implements SetLabels {
 	/**
 	 * popup controller for dropdown and combobox
 	 * @param app - apps
+	 * @param parent - dropdown or combobox
 	 * @param anchor - anchor
-	 * @param widget
 	 * @param items - list of items in popup
 	 * @param onClose - handler to run on close
 	 */
-	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI anchor, Widget widget,
+	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI parent, Widget anchor,
 			List<String> items, Runnable onClose) {
-		this.anchor = anchor;
+		this.parent = parent;
 		this.items = items;
 
-		createPopup(app, anchor.asWidget(), onClose);
+		createPopup(app, parent, anchor, onClose);
 		setElements(items);
 		setSelectedOption(0);
 	}
 
-	public void createPopup(final AppW app, Widget widget, Runnable onClose) {
-		dropDown = new ComponentDropDownPopup(app, 32, widget, onClose);
-		dropDown.addAutoHidePartner(anchor.asWidget().getElement());
-
-		ClickStartHandler.init(anchor.asWidget(), new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!isDisabled) {
-					anchor.toggleExpanded();
-				}
-			}
-		});
+	public void createPopup(final AppW app, CompDropDownComboBoxI parent, Widget anchor, Runnable onClose) {
+		dropDown = new ComponentDropDownPopup(app, 32, parent.asWidget(), onClose);
+		dropDown.addAutoHidePartner(parent.asWidget().getElement());
 	}
 
 	private void highlightSelectedElement(int previousSelectedIndex,
@@ -83,7 +73,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 void setSelectedOption(int idx) {
 		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
-		anchor.updateSelectionText(getSelectedText());
+		parent.updateSelectionText(getSelectedText());
 	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
@@ -100,7 +90,7 @@ public class DropDownComboBoxController implements SetLabels {
 	@Override
 	public void setLabels() {
 		setElements(items);
-		anchor.updateSelectionText(getSelectedText());
+		parent.updateSelectionText(getSelectedText());
 	}
 
 	public ComponentDropDownPopup getPopup() {
@@ -135,6 +125,6 @@ public class DropDownComboBoxController implements SetLabels {
 	 */
 	public void showAsDropDown() {
 		dropDown.positionAsDropDown();
-		dropDown.setWidthInPx(anchor.asWidget().getElement().getClientWidth());
+		dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
 	}
 }

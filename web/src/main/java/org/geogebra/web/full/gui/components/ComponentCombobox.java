@@ -3,11 +3,13 @@ package org.geogebra.web.full.gui.components;
 import java.util.Arrays;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -39,6 +41,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 
 		addStyleName("combobox");
 		buildGUI();
+		addClickHandler();
 		addFocusBlurHandlers();
 		addHoverHandlers();
 		addFieldKeyAndPointerHandler();
@@ -69,6 +72,18 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 		contentPanel.add(inputTextField);
 		contentPanel.add(arrowIcon);
 		add(contentPanel);
+	}
+
+	private void addClickHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (!isDisabled) {
+					toggleExpanded();
+				}
+			}
+		});
 	}
 
 	private void addFocusBlurHandlers() {
