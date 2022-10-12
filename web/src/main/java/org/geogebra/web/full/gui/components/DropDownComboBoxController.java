@@ -1,13 +1,10 @@
 package org.geogebra.web.full.gui.components;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -17,7 +14,6 @@ public class DropDownComboBoxController implements SetLabels {
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
-	private boolean isDisabled = false;
 
 	/**
 	 * popup controller for dropdown and combobox
@@ -37,7 +33,8 @@ public class DropDownComboBoxController implements SetLabels {
 		setSelectedOption(0);
 	}
 
-	public void createPopup(final AppW app, CompDropDownComboBoxI parent, Widget anchor, Runnable onClose) {
+	private void createPopup(final AppW app, CompDropDownComboBoxI parent, Widget anchor,
+			Runnable onClose) {
 		dropDown = new ComponentDropDownPopup(app, 32, parent.asWidget(), onClose);
 		dropDown.addAutoHidePartner(parent.asWidget().getElement());
 	}
