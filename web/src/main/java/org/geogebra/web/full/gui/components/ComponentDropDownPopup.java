@@ -4,6 +4,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -14,8 +15,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ComponentDropDownPopup {
 	private static final int OFFSET_X = 0;
-	private static final int POPUP_PADDING = 8;
-	private static final int MARGIN_FROM_SCREEN = 32;
+	public static final int POPUP_PADDING = 8;
+	public static final int MARGIN_FROM_SCREEN = 32;
 	private GPopupMenuW menu;
 	private int selectedIndex;
 	private Widget anchor;
@@ -28,13 +29,18 @@ public class ComponentDropDownPopup {
 	 * @param itemHeight Height of an item in list
 	 * @param anchor     to align the selected item.
 	 */
-	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor) {
+	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, Runnable onClose) {
 		this.app = app;
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
 		menu = new GPopupMenuW(app);
 		menu.getPopupPanel().addStyleName("dropDownPopup");
-		app.registerAutoclosePopup(menu.getPopupPanel());
+		menu.getPopupPanel().addCloseHandler(event -> {
+			menu.getPopupPanel().removeStyleName("show");
+			if (onClose != null) {
+				onClose.run();
+			}
+		});
 	}
 
 	/**
@@ -99,14 +105,14 @@ public class ComponentDropDownPopup {
 				if (popupTop < MARGIN_FROM_SCREEN) {
 					// selected item not on screen, scroll popup
 					int diffAnchorPopupTop = getAnchorTop() - popupTopWithMargin;
-					menu.getPopupPanel().getElement().setScrollTop(getSelectedItemTop()
-							- diffAnchorPopupTop);
+					setScrollTop(getSelectedItemTop() - diffAnchorPopupTop);
 				}
 			}
 		}
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
 	}
 
-	private int getSelectedItemTop() {
+	public int getSelectedItemTop() {
 		return getSelectedIndex() * itemHeight;
 	}
 
@@ -119,7 +125,7 @@ public class ComponentDropDownPopup {
 		return anchor.getAbsoluteTop() - POPUP_PADDING - 6;
 	}
 
-	private void setHeightInPx(int height) {
+	public void setHeightInPx(int height) {
 		getStyle().setHeight(height, Unit.PX);
 	}
 
@@ -134,7 +140,7 @@ public class ComponentDropDownPopup {
 		return menu.getPopupPanel().getElement().getStyle();
 	}
 
-	private int getPopupHeight() {
+	public int getPopupHeight() {
 		return menu.getComponentCount() * itemHeight;
 	}
 
@@ -149,7 +155,8 @@ public class ComponentDropDownPopup {
 	 * Hide the material dropdown popup
 	 */
 	public void close() {
-		menu.hideMenu();
+		menu.getPopupPanel().removeStyleName("show");
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().hide());
 	}
 
 	/**
@@ -157,5 +164,23 @@ public class ComponentDropDownPopup {
 	 */
 	public void clear() {
 		menu.clearItems();
+	}
+
+	/**
+	 * show popup at x,y position
+	 * @param x - horizontal pos
+	 * @param y - vertical pos
+	 */
+	public void showAtPoint(int x, int  y) {
+		menu.showAtPoint(x, y);
+		Scheduler.get().scheduleDeferred(() -> menu.getPopupPanel().addStyleName("show"));
+	}
+
+	public int getItemHeight() {
+		return itemHeight;
+	}
+
+	public void setScrollTop(int scrollTop) {
+		menu.getPopupPanel().getElement().setScrollTop(scrollTop);
 	}
 }
