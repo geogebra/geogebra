@@ -1,13 +1,9 @@
 package org.geogebra.web.full.gui.components;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
@@ -66,8 +62,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 		if (controller.isOpened()) {
 			controller.closePopup();
 		} else {
-			dropDown.show();
-			dropDown.setWidthInPx(getStyleElement().getClientWidth());
+			controller.showAsDropDown(getStyleElement().getClientWidth());
 		}
 	}
 

@@ -1,21 +1,13 @@
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.MARGIN_FROM_SCREEN;
-import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.POPUP_PADDING;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -119,7 +111,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 			resetTextField();
 			controller.closePopup();
 		} else {
-			controller.positionAsComboBox(appW);
+			controller.showAsComboBox();
 			Scheduler.get().scheduleDeferred(() -> {
 				inputTextField.selectAll();
 			});
