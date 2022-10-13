@@ -92,6 +92,14 @@ public class SymbolicUtil {
 					symbolic.setWrapInNumeric(true);
 				}
 			}
+
+			if (isDefined(getValueString(symbolic))
+					&& !isDefined(getOppositeValueString(symbolic))) {
+				if (Commands.Solve.name()
+						.equals(symbolic.getDefinition().getTopLevelCommand().getName())) {
+					symbolic.setWrapInNumeric(true);
+				}
+			}
 		}
 	}
 
