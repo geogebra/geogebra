@@ -351,12 +351,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			pane = p;
 			button = new JButton();
 			button.setOpaque(true);
-			button.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					fireEditingStopped();
-				}
-			});
+			button.addActionListener(e -> fireEditingStopped());
 		}
 
 		@Override

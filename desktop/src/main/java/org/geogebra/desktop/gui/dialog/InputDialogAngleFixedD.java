@@ -82,21 +82,17 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 		final String inputText = inputPanel.getText();
 		DialogManager.createAngleFixed(kernel, inputText,
 				rbClockWise.isSelected(), app.getErrorHandler(), segments,
-				points, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						if (ok) {
-							// keep angle entered if it ends with 'degrees'
-							if (inputText.endsWith(Unicode.DEGREE_STRING)) {
-								defaultRotateAngle = inputText;
-							} else {
-								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
-							}
-
+				points, ok -> {
+					if (ok) {
+						// keep angle entered if it ends with 'degrees'
+						if (inputText.endsWith(Unicode.DEGREE_STRING)) {
+							defaultRotateAngle = inputText;
+						} else {
+							defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 						}
-						setVisibleForTools(!ok);
+
 					}
+					setVisibleForTools(!ok);
 				}, ec);
 
 	}

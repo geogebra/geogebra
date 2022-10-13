@@ -358,6 +358,10 @@
 
 	.dropDownPopup {
 		overflow-y: auto;
+		opacity: 0;
+		transform: scale(0.8);
+		will-change: transform, opacity;
+		transition: opacity .03s linear,transform .12s cubic-bezier(0,0,.2,1);
 
 		.dropDownElement {
 			padding-left: 24px;
@@ -372,6 +376,11 @@
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
 			background: colors.$black-12;
+		}
+
+		&.show {
+			opacity: 1;
+			transform: scale(1);
 		}
 	}
 
@@ -890,6 +899,117 @@
 			}
 
 			.arrow {
+				opacity: 0.36;
+			}
+		}
+	}
+
+	.combobox {
+		margin-top: 40px;
+		width: fit-content;
+		min-width: 64px;
+		height: 50px;
+
+		.inputLabel {
+			font-size: 75%;
+			color: colors.$text-secondary;
+			height: 12px;
+			line-height: 100%;
+			display: block;
+		}
+
+		.inputPanel {
+			display: flex;
+			box-sizing: border-box;
+			border-bottom: 1px solid colors.$black-42;
+
+			.AutoCompleteTextFieldW {
+				margin: 8px 8px 8px 0;
+				border: none;
+
+				input[type="text"] {
+					height: 20px;
+					line-height: 20px;
+					margin: 0;
+					padding: 0;
+				}
+
+				.TextField {
+					border: none;
+					box-shadow: none;
+				}
+
+				.TextField::selection {
+					background: colors.$mow_selection_color;
+				}
+			}
+		}
+
+		.arrow {
+			cursor: pointer;
+			width: 24px;
+			height: 24px;
+			margin: 6px 0;
+			opacity: 0.54;
+			transition: transform 200ms ease-in-out;
+		}
+
+		&:not(.disabled):hover {
+			.inputLabel {
+				color: colors.$text-primary;
+			}
+
+			.inputPanel {
+				border-bottom: 2px solid colors.$text-primary;
+
+				.AutoCompleteTextFieldW {
+					margin-bottom: 7px;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.active, &.active:hover {
+			.inputLabel {
+				color: colors.$mow_dark;
+			}
+
+			.inputPanel {
+				border-bottom: 2px solid colors.$mow_dark;
+
+				.AutoCompleteTextFieldW {
+                	margin-bottom: 7px;
+                }
+			}
+
+			.arrow {
+				opacity: 0.87;
+				transform: rotate(-180deg);
+			}
+		}
+
+		&.disabled, &.disabled:hover {
+			cursor: default;
+
+			.inputLabel {
+				color: colors.$black-36;
+			}
+
+			.inputPanel {
+				border-bottom: 1px solid colors.$black-36;
+
+				input[type="text"] {
+					cursor: default;
+					color: colors.$black-36;
+					background-color: colors.$white;
+				}
+			}
+
+			.arrow {
+				cursor: default;
 				opacity: 0.36;
 			}
 		}

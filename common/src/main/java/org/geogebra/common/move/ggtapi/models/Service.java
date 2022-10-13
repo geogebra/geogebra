@@ -5,4 +5,8 @@ import org.geogebra.common.util.HttpRequest;
 public interface Service {
 
 	HttpRequest createRequest(AuthenticationModel model);
+
+	default boolean hasMultiuser() {
+		return false;
+	}
 }

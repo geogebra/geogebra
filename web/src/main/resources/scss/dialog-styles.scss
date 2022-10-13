@@ -1326,12 +1326,31 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					}
 				}
 			}
+
+			&.disabled {
+				.linkImg {
+					opacity: 0.38;
+				}
+
+				.textPanel {
+					.linkShareOnOff {
+						color: colors.$text-disabled;
+					}
+					.linkShareHelp {
+						color: colors.$text-disabled;
+					}
+				}
+
+				.switch {
+					opacity: 0.38;
+				}
+			}
 		}
 
 		.shareLinkAvailableInfo {
 			color: colors.$text-secondary;
 			max-width: 474px;
-			margin: 14px 24px 0px 24px;
+			margin: 16px 24px 0px 24px;
 			font-size: 87%;
 		}
 	}

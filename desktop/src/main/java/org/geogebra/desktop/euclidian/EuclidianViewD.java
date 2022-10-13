@@ -800,7 +800,7 @@ public class EuclidianViewD extends EuclidianView
 
 		// real world values
 		companion.setXYMinMaxForUpdateSize();
-		if (app.getKernel().getConstruction() != null) {
+		if (app.getKernel().getConstruction() != null && !isPlotPanel()) {
 			app.getKernel().getConstruction()
 					.notifyEuclidianViewCE(EVProperty.SIZE);
 		}

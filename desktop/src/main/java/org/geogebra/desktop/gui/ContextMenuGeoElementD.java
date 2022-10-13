@@ -495,12 +495,9 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			((AppD) app).setEmptyIcon(cbItem);
 			cbItem.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.PIN));
 			cbItem.setSelected(getGeo().isPinned());
-			cbItem.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					boolean isSelected = cbItem.isSelected();
-					pinCmd(isSelected);
-				}
+			cbItem.addActionListener(e -> {
+				boolean isSelected = cbItem.isSelected();
+				pinCmd(isSelected);
 			});
 			addItem(cbItem);
 		}
@@ -546,12 +543,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon(GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF));
 				cbItem.setSelected(getGeo().isSetEuclidianVisible());
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showObjectCmd();
-					}
-				});
+				cbItem.addActionListener(e -> showObjectCmd());
 				addItem(cbItem);
 			}
 
@@ -561,12 +553,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem.setSelected(isLabelShown());
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon(GuiResourcesD.MODE_SHOWHIDELABEL));
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showLabelCmd();
-					}
-				});
+				cbItem.addActionListener(e -> showLabelCmd());
 				addItem(cbItem);
 			}
 
@@ -576,13 +563,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem.setIcon(
 						((AppD) app).getScaledIcon(GuiResourcesD.TRACE_ON));
 				cbItem.setSelected(((Traceable) getGeo()).getTrace());
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						traceCmd();
-					}
-
-				});
+				cbItem.addActionListener(e -> traceCmd());
 				addItem(cbItem);
 			}
 
@@ -600,12 +581,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 							.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE));
 					cbItem.setSelected(getGeo().getSpreadsheetTrace());
 
-					cbItem.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							recordToSpreadSheetCmd();
-						}
-					});
+					cbItem.addActionListener(e -> recordToSpreadSheetCmd());
 					addItem(cbItem);
 
 				}
@@ -617,13 +593,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				((AppD) app).setEmptyIcon(cbItem);
 				cbItem.setSelected(((Animatable) getGeo()).isAnimating()
 						&& app.getKernel().getAnimatonManager().isRunning());
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						animationCmd();
-					}
-
-				});
+				cbItem.addActionListener(e -> animationCmd());
 				addItem(cbItem);
 			}
 
@@ -638,12 +608,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem.setIcon(
 						((AppD) app).getScaledIcon(GuiResourcesD.AUXILIARY));
 				cbItem.setSelected(getGeo().isAuxiliaryObject());
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						showObjectAuxiliaryCmd();
-					}
-				});
+				cbItem.addActionListener(e -> showObjectAuxiliaryCmd());
 				addItem(cbItem);
 			}
 
@@ -654,12 +619,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem = new JCheckBoxMenuItem(loc.getMenu("FixObject"));
 				((AppD) app).setEmptyIcon(cbItem);
 				cbItem.setSelected(getGeo().isLocked());
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						fixObjectCmd(!getGeo().isLocked());
-					}
-				});
+				cbItem.addActionListener(e -> fixObjectCmd(!getGeo().isLocked()));
 				addItem(cbItem);
 			} else
 
@@ -670,12 +630,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 					cbItem = new JCheckBoxMenuItem(loc.getMenu("FixObject"));
 					((AppD) app).setEmptyIcon(cbItem);
 					cbItem.setSelected(num.isLockedPosition());
-					cbItem.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							fixObjectNumericCmd(num);
-						}
-					});
+					cbItem.addActionListener(e -> fixObjectNumericCmd(num));
 					addItem(cbItem);
 				}
 			} else if (getGeo().isGeoBoolean()) {
@@ -683,12 +638,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem = new JCheckBoxMenuItem(loc.getMenu("FixCheckbox"));
 				((AppD) app).setEmptyIcon(cbItem);
 				cbItem.setSelected(getGeo().isLockedPosition());
-				cbItem.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						fixCheckboxCmd();
-					}
-				});
+				cbItem.addActionListener(e -> fixCheckboxCmd());
 				addItem(cbItem);
 			}
 

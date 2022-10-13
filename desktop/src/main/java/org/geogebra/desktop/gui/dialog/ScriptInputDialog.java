@@ -122,17 +122,13 @@ public class ScriptInputDialog extends InputDialogD
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			processInput(new AsyncOperation<Boolean>() {
-
-				@Override
-				public void callback(Boolean finished) {
-					if (wrappedDialog.isShowing()) {
-						// text dialog window is used and open
-						setVisible(!finished);
-					} else {
-						// text input field embedded in properties window
-						model.setGeo(model.getGeo());
-					}
+			processInput(finished -> {
+				if (wrappedDialog.isShowing()) {
+					// text dialog window is used and open
+					setVisible(!finished);
+				} else {
+					// text input field embedded in properties window
+					model.setGeo(model.getGeo());
 				}
 			});
 		} catch (Exception ex) {
@@ -158,13 +154,9 @@ public class ScriptInputDialog extends InputDialogD
 	public void applyModifications() {
 		if (model.isEditOccurred()) {
 			model.setEditOccurred(false);
-			processInput(new AsyncOperation<Boolean>() {
+			processInput(obj -> {
+				// TODO Auto-generated method stub
 
-				@Override
-				public void callback(Boolean obj) {
-					// TODO Auto-generated method stub
-
-				}
 			});
 		}
 	}

@@ -10,4 +10,9 @@ public class MowService implements Service {
 		model.restartSession();
 		return UtilFactory.getPrototype().newHttpRequest();
 	}
+
+	@Override
+	public boolean hasMultiuser() {
+		return true;
+	}
 }

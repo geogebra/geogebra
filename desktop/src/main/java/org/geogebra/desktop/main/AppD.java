@@ -64,7 +64,6 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -154,8 +153,6 @@ import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Charsets;
@@ -862,149 +859,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			this.getSettings().getEuclidian(2).showGrid(showGridParam);
 		}
 
-		if (args.containsArg("giacJSONtests")) {
-
-			// set CAS timeout to 13 seconds
-			kernel.getApplication().getSettings().getCasSettings()
-					.setTimeoutMilliseconds(13000);
-
-			String filename = args.getStringValue("giacJSONtests");
-
-			if (filename == null || "".equals(filename)) {
-				filename = "../common/src/main/resources/giac/giacTests.js";
-			}
-
-			int count = 0;
-
-			ArrayList<String> errors = new ArrayList<>();
-
-			// Open the file
-			FileInputStream fstream;
-			try {
-				fstream = new FileInputStream(filename);
-				BufferedReader br = new BufferedReader(
-						new InputStreamReader(fstream, Charsets.getUtf8()));
-
-				String strLine;
-
-				// Read File Line By Line
-				while ((strLine = br.readLine()) != null
-						&& (strLine.indexOf("JSONSTART") == -1)) {
-					// Print the content on the console
-					// System.out.println("IGNORE " + strLine);
-				}
-
-				while ((strLine = br.readLine()) != null
-						&& (strLine.indexOf("JSONEND") == -1)) {
-					// Print the content on the console
-
-					strLine = strLine.trim();
-
-					if (strLine.endsWith(",")) {
-						strLine = strLine.substring(0, strLine.length() - 1);
-					}
-					// System.out.println(strLine);
-
-					if (strLine.startsWith("{")) {
-
-						count++;
-
-						JSONTokener tokener = new JSONTokener(strLine);
-						JSONObject response = new JSONObject(tokener);
-						String command = (String) response.get("cmd");
-						String result = (String) response.get("result");
-						response.get("cat");
-
-						// System.out.println("response = " + response);
-						// System.out.println("result = " + result);
-
-						// command = "Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]";
-						// result =
-						// "{-ln(55)/ln(13/5)}|OR|{x=(-ln(11)-ln(5))/(ln(13)-ln(5))}";
-
-						String casResult = getGgbApi().evalGeoGebraCAS(command);
-
-						String casResultOriginal = casResult;
-
-						// remove spaces
-						casResult = casResult.replace(" ", "");
-						result = result.replace(" ", "");
-
-						// sort out arbitrary constants
-						result = result.replaceAll("n_[0-9]*", "n_0");
-						result = result.replaceAll("c_[0-9]*", "c_0");
-
-						casResult = casResult
-								.replaceAll("arbconst\\([+0-9]*\\)", "c_0");
-
-						casResult = casResult
-								.replaceAll("arbint\\(([+0-9]*)\\)", "n_0");
-
-						String[] results = { result };
-
-						if (result.indexOf("|OR|") > -1) {
-							results = result.split("\\|OR\\|");
-						}
-
-						boolean OK = false;
-
-						// check if one of the answers matches
-						for (int i = 0; i < results.length; i++) {
-							if (casResult.equals(results[i])) {
-								OK = true;
-								break;
-							}
-						}
-
-						if (OK || "GEOGEBRAERROR".equals(result)
-								|| "RANDOM".equals(result)) {
-							Log.debug("OK " + count);
-						} else {
-
-							String error = "\n\nnot OK " + count + "\ncmd = "
-									+ command + "\ndesired result= "
-									+ StringUtil.toJavaString(result)
-									+ "\nactual result = " + StringUtil
-											.toJavaString(casResultOriginal);
-
-							// to auto-fill answers for new test-cases
-							// error = "{ cat:\"Integral\", cmd:\"";
-							// error += StringUtil.toJavaString(command);
-							// error += "\", result:\"";
-							// error +=
-							// StringUtil.toJavaString(casResultOriginal);
-							// error += "\", notes:\"from Giac's tests\" },\n";
-
-							Log.error(error);
-							errors.add(error);
-
-						}
-
-					}
-
-				}
-
-				br.close();
-			} catch (RuntimeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			Log.error("CAS TESTS ENDED. Total tests run = " + count
-					+ ". Failed = " + errors.size());
-
-			Iterator<String> it = errors.iterator();
-			while (it.hasNext()) {
-				System.out.println(it.next());
-			}
-
-			AppD.exit(0);
-
-		}
-
 		boolean macSandbox = args.getBooleanValue("macSandbox", false);
 		if (macSandbox) {
 			this.macsandbox = true;
@@ -1355,14 +1209,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			final String key = "file0";
 
 			if (i > 0) { // load in new Window
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-
-						GeoGebraFrame.createNewWindow(args.getGlobalArguments()
-								.add(key, fileArgument));
-					}
-				});
+				CommandLineArguments windowArgs = args.getGlobalArguments().add(key, fileArgument);
+				SwingUtilities.invokeLater(() -> GeoGebraFrame.createNewWindow(windowArgs));
 			} else {
 
 				try {
@@ -3750,17 +3598,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
-
-		boolean ret =
-				// e.isPopupTrigger() ||
-				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| (e.isMetaDown()); // non-Mac: right click = meta
-		// click
-
-		// debug("ret = " + ret);
-		return ret;
-		// return e.isMetaDown();
-
+		return (MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
+						|| (e.isMetaDown()); // non-Mac: right click = meta click
 	}
 
 	public void removeTraversableKeys(JPanel p) {
@@ -3832,19 +3671,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					// use SwingUtilities to make sure this gets executed in the
 					// correct
 					// (=GUI) thread.
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							// TODO investigate why this freezes Firefox
-							// sometimes
-							JOptionPane.showConfirmDialog(mainComp, msgDisplay,
-									GeoGebraConstants.APPLICATION_NAME + " - "
-											+ getLocalization()
-													.getError("Error"),
-									JOptionPane.DEFAULT_OPTION,
-									JOptionPane.WARNING_MESSAGE);
-							isErrorDialogShowing = false;
-						}
+					SwingUtilities.invokeLater(() -> {
+						// TODO investigate why this freezes Firefox
+						// sometimes
+						JOptionPane.showConfirmDialog(mainComp, msgDisplay,
+								GeoGebraConstants.APPLICATION_NAME + " - "
+										+ getLocalization()
+												.getError("Error"),
+								JOptionPane.DEFAULT_OPTION,
+								JOptionPane.WARNING_MESSAGE);
+						isErrorDialogShowing = false;
 					});
 
 				}
@@ -4391,12 +4227,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void runScripts(final GeoElement geo1, final String string) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				geo1.runClickScripts(string);
-			}
-		});
+		SwingUtilities.invokeLater(() -> geo1.runClickScripts(string));
 	}
 
 	@Override
@@ -4783,12 +4614,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		cancelPreview();
 
-		Runnable threadSafeCallback = new Runnable() {
-			@Override
-			public void run() {
-				SwingUtilities.invokeLater(scheduledPreview);
-			}
-		};
+		Runnable threadSafeCallback = () -> SwingUtilities.invokeLater(scheduledPreview);
 		handler = scheduler.schedule(threadSafeCallback,
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}

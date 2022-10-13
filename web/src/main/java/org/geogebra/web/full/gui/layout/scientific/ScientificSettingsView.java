@@ -21,10 +21,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author Csilla
- *
- *         Settings view of scientific calculator
- *
+ * Settings view of scientific calculator
  */
 public class ScientificSettingsView extends AnimatingPanel implements FastClickHandler {
 

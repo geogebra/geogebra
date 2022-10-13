@@ -79,12 +79,7 @@ public class AutoCompletion {
 				// java.io.FileFilter
 				final javax.swing.filechooser.FileFilter fileChooserFileFilter = fileChooser
 						.getFileFilter();
-				FileFilter fileFilter = new FileFilter() {
-					@Override
-					public boolean accept(File pathname) {
-						return fileChooserFileFilter.accept(pathname);
-					}
-				};
+				FileFilter fileFilter = fileChooserFileFilter::accept;
 				// All visible items in the file chooser are possible options
 				File[] options = fileChooser.getCurrentDirectory()
 						.listFiles(fileFilter);

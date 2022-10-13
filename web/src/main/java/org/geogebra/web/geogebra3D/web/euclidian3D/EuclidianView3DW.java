@@ -72,8 +72,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private int objectsWaitingForNewRepaint = 0;
 
-	private boolean readyToRender = false;
-
 	private ReaderWidget screenReader;
 
 	/**
@@ -204,14 +202,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			super.onResize();
 			getEuclidianController().calculateEnvironment();
 		}
-	}
-
-	/**
-	 * tells the view that all is ready for GL rendering
-	 */
-	public void setReadyToRender() {
-		readyToRender = true;
-		repaintView();
 	}
 
 	@Override
@@ -412,7 +402,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		this.updateBackgroundIfNecessary();
 
 		// paint(this.g2p);
-		if (readyToRender) {
+		if (renderer.isReadyToRender()) {
 			renderer.drawScene();
 		}
 

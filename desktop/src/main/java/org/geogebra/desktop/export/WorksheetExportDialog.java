@@ -83,23 +83,13 @@ public class WorksheetExportDialog extends Dialog {
 
 		// title, author, date
 		TitlePanel titlePanel = new TitlePanel(app);
-		ActionListener kernelChangedListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				kernelChanged = true;
-			}
-		};
+		ActionListener kernelChangedListener = e -> kernelChanged = true;
 		titlePanel.addActionListener(kernelChangedListener);
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Cancel and Export Button
 		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+		cancelButton.addActionListener(e -> setVisible(false));
 
 		JButton helpButton = new JButton(loc.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app,
@@ -108,25 +98,22 @@ public class WorksheetExportDialog extends Dialog {
 		helpButton.setAction(helpAction);
 
 		uploadButton = new JButton(loc.getMenu("Upload"));
-		uploadButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						setVisible(false);
-						if (kernelChanged) {
-							app.storeUndoInfo();
-						}
-
-						GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
-								app);
-						ggtExport.uploadWorksheet();
-
+		uploadButton.addActionListener(e -> {
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					setVisible(false);
+					if (kernelChanged) {
+						app.storeUndoInfo();
 					}
-				};
-				runner.start();
-			}
+
+					GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
+							app);
+					ggtExport.uploadWorksheet();
+
+				}
+			};
+			runner.start();
 		});
 
 		JPanel buttonPanel = new JPanel();
@@ -173,18 +160,15 @@ public class WorksheetExportDialog extends Dialog {
 		// title textfield
 		titleField = new MyTextFieldD(app);
 
-		titleField.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Construction cons = kernel.getConstruction();
+		titleField.addActionListener(e -> {
+			Construction cons = kernel.getConstruction();
 
-				if (titleField.getText().equals(cons.getTitle())) {
-					return;
-				}
-				cons.setTitle(titleField.getText());
-
-				kernelChanged = true;
+			if (titleField.getText().equals(cons.getTitle())) {
+				return;
 			}
+			cons.setTitle(titleField.getText());
+
+			kernelChanged = true;
 		});
 
 		titleField.addFocusListener(new FocusListener() {

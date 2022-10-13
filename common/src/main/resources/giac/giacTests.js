@@ -270,6 +270,7 @@ var __giac = [
 { cat:"SolveIneq", cmd:"Solve[abs(x)<9]", result:"{-9 < x < 9}" },
 { cat:"SolveTrig", cmd:"Solve[sin(x)=0]", result:"{x = n_0 \u03C0}", notes:"why n_4?" },
 { cat:"SolveTrig", cmd:"Solve[sin(x)=3]", result:"{}" },
+{ cat:"SolveTrig", cmd:"Element(Solve({a_{r} ^(2) - a_{y} ^(2) - 25 = 0, - a_{r} * cos(a_{t}) + 5 = 0, - a_{r} * sin(a_{t}) + a_{y} = 0, b_{r} ^(2) - b_{y} ^(2) - 25 = 0, - b_{r} * sin(b_{t}) + b_{y} = 0, a_{y} - b_{y} = 0},{a_{y}, a_{r}, a_{t}, b_{y}, b_{r}, b_{t}}),1)", result:"{a_{y} = 0, a_{r} = 5, a_{t} = 0, b_{y} = 0, b_{r} = -5, b_{t} = 0}|OR|{a_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5))),a_{r}=a_{r},a_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5)),b_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))),b_{r}=a_{r},b_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))}"},
 { cat:"SolveODE", cmd:"SolveODE[y'=y / x]", result:"y = c_0 x", notes:"why c_0?" },
 { cat:"SolveODE", cmd:"SolveODE[y'=y / x, (1,2)]", result:"y = 2 x" },
 { cat:"SolveODE", cmd:"SolveODE[y''-3y'+2=x, (1,2), (0,2)]", result:"y = -1 / 6 x\u00B2 + 5 / 9 x - 13 / 27 \u212f\u00B3 + 13 / 27 \u212f^(3x) + 29 / 18|OR|y = -1 / 6 x\u00B2 + 5 / 9 x + 13 / 27 \u212f^(3x) - 13 / 27 \u212f\u00B3 + 29 / 18" },
