@@ -3,11 +3,20 @@ package org.geogebra.common.kernel.interval.operators;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
 
 import org.geogebra.common.kernel.interval.Interval;
 
 public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
+
+	private final IntervalNodeEvaluator evaluator;
+
+	/**
+	 *
+	 * @param evaluator {@link IntervalNodeEvaluator}
+	 */
+	public IntervalMiscOperandsImpl(IntervalNodeEvaluator evaluator) {
+		this.evaluator = evaluator;
+	}
 
 	@Override
 	public Interval exp(Interval interval) {
@@ -35,8 +44,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log2(Interval interval) {
 		if (!interval.isUndefined()) {
-			Interval logExp2 = IntervalOperands.log(new Interval(2, 2));
-			return divide(log(interval), logExp2);
+			Interval logExp2 = evaluator.log(new Interval(2, 2));
+			return evaluator.divide(log(interval), logExp2);
 		}
 
 		return interval;
@@ -45,8 +54,8 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 	@Override
 	public Interval log10(Interval interval) {
 		if (!interval.isUndefined()) {
-			Interval logExp10 = IntervalOperands.log(new Interval(10, 10));
-			return divide(log(interval), logExp10);
+			Interval logExp10 = evaluator.log(new Interval(10, 10));
+			return evaluator.divide(log(interval), logExp10);
 		}
 
 		return interval;

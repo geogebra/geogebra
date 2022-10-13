@@ -6,7 +6,7 @@ import org.geogebra.common.euclidian.plot.interval.IntervalFunctionData;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpace;
 import org.geogebra.common.kernel.interval.evaluators.DiscreteSpaceCentered;
-import org.geogebra.common.kernel.interval.function.IntervalFunction;
+import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
 /**
@@ -18,11 +18,12 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 public class FunctionSampler implements IntervalFunctionSampler {
 	private final EuclidianViewBounds bounds;
 	private final IntervalFunctionDomainInfo domainInfo = new IntervalFunctionDomainInfo();
-	private final IntervalFunction function;
+	private IntervalNodeFunction function;
 	private final DiscreteSpace space;
+
 	private final int numberOfSamples;
 	private final IntervalFunctionData data;
-	
+
 	/**
 	 * @param data where the sampled data of the function will be stored.
 	 * @param domain an interval of x to sample.
@@ -37,8 +38,8 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		this.bounds = bounds;
 		this.numberOfSamples = numberOfSamples;
 		this.data = data;
-		this.function = new IntervalFunction(data.getGeoFunction());
 		this.space = createSpaceOn(domain);
+		function = data.getFunction();
 		extend(domain);
 
 	}
@@ -54,7 +55,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds) {
 		this(data, bounds, bounds.domain(), -1);
 	}
-
+	
 	@Override
 	public IntervalTupleList tuples() {
 		return data.tuples();
@@ -73,12 +74,13 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	private void extendDataBothSide(Interval domain) {
-		space.extend(domain, x -> data.prepend(x, function.evaluate(x)),
-				x -> data.append(x, function.evaluate(x)));
+		space.extend(domain, x -> data.prepend(x, function.value(x)),
+				x -> data.append(x, function.value(x)));
 	}
 
 	@Override
 	public void resample(Interval domain) {
+		function = data.getFunction();
 		space.rescale(domain, calculateNumberOfSamples());
 		evaluateAll();
 		domainInfo.update(domain);
@@ -86,7 +88,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 
 	private void evaluateAll() {
 		data.clear();
-		space.forEach(x -> data.append(x, function.evaluate(x)));
+		space.forEach(x -> data.append(x, function.value(x)));
 		processAsymptotes(data.tuples());
 	}
 
@@ -96,11 +98,11 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	private void extendDataToLeft(Interval domain) {
-		space.extendLeft(domain, x -> data.extendLeft(x, function.evaluate(x)));
+		space.extendLeft(domain, x -> data.extendLeft(x, function.value(x)));
 	}
 
 	private void extendDataToRight(Interval domain) {
-		space.extendRight(domain, x -> data.extendRight(x, function.evaluate(x)));
+		space.extendRight(domain, x -> data.extendRight(x, function.value(x)));
 	}
 
 	int calculateNumberOfSamples() {
