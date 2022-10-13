@@ -3,8 +3,7 @@ package org.geogebra.common.euclidian.plot.interval;
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 
-public class EuclidianViewBoundsMock
-		implements EuclidianViewBounds {
+public class EuclidianViewBoundsMock implements EuclidianViewBounds {
 	private final double xmin;
 	private final double xmax;
 	private final double ymin;
@@ -130,6 +129,11 @@ public class EuclidianViewBoundsMock
 	public boolean isOnView(Interval y) {
 		return (y.getLow() >= getYmin() && y.getLow() <= getXmax())
 				|| (y.getHigh() >= getYmin() && y.getHigh() <= getXmax());
+	}
+
+	@Override
+	public double getInvYscale() {
+		return 1;
 	}
 
 	@Override

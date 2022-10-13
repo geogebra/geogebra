@@ -185,8 +185,10 @@ public class IntervalDivide {
 
 	private Interval divideMixedBy(Interval numerator, Interval divisor) {
 		if (divisor.isNegative()) {
-			return new Interval(prev(numerator.getHigh() / divisor.getHigh()),
+			Interval result = new Interval(prev(numerator.getHigh() / divisor.getHigh()),
 					next(numerator.getLow() / divisor.getHigh()));
+			result.setInverted(numerator.isInverted());
+			return result;
 		}
 
 		if (divisor.isPositive()) {
@@ -199,8 +201,10 @@ public class IntervalDivide {
 						next(numerator.getHigh() / divisor.getHigh()));
 			}
 
-			return new Interval(prev(numerator.getLow() / divisor.getLow()),
+			Interval result = new Interval(prev(numerator.getLow() / divisor.getLow()),
 					next(numerator.getHigh() / divisor.getLow()));
+			result.setInverted(numerator.isInverted());
+			return result;
 		}
 		return undefined();
 	}
