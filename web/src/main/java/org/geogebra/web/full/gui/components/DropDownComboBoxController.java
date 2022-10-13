@@ -14,6 +14,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
+	private Runnable changeHandler;
 
 	/**
 	 * popup controller for dropdown and combobox
@@ -28,6 +29,15 @@ public class DropDownComboBoxController implements SetLabels {
 		this.parent = parent;
 		this.items = items;
 
+		init(app, anchor, onClose);
+	}
+
+	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI parent,
+			List<String> items, Runnable onClose) {
+		this(app, parent, null, items, onClose);
+	}
+
+	private void init(AppW app, Widget anchor, Runnable onClose) {
 		createPopup(app, parent, anchor, onClose);
 		setElements(items);
 		setSelectedOption(0);
@@ -35,7 +45,8 @@ public class DropDownComboBoxController implements SetLabels {
 
 	private void createPopup(final AppW app, CompDropDownComboBoxI parent, Widget anchor,
 			Runnable onClose) {
-		dropDown = new ComponentDropDownPopup(app, 32, parent.asWidget(), onClose);
+		Widget posRelTo = anchor != null ? anchor : parent.asWidget();
+		dropDown = new ComponentDropDownPopup(app, 32, posRelTo, onClose);
 		dropDown.addAutoHidePartner(parent.asWidget().getElement());
 	}
 
@@ -59,7 +70,12 @@ public class DropDownComboBoxController implements SetLabels {
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
 			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
-					() -> setSelectedOption(currentIndex));
+					() -> {
+				setSelectedOption(currentIndex);
+				if (changeHandler != null) {
+					 changeHandler.run();
+				}
+					});
 
 			item.setStyleName("dropDownElement");
 			dropDownElementsList.add(item);
@@ -123,5 +139,9 @@ public class DropDownComboBoxController implements SetLabels {
 	public void showAsDropDown() {
 		dropDown.positionAsDropDown();
 		dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
+	}
+
+	public void setChangeHandler(Runnable changeHandler) {
+		this.changeHandler = changeHandler;
 	}
 }

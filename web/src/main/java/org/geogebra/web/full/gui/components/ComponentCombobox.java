@@ -46,7 +46,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 		addHoverHandlers();
 		addFieldKeyAndPointerHandler();
 
-		controller = new DropDownComboBoxController(appW, this, inputTextField,
+		controller = new DropDownComboBoxController(appW, this,
 				Arrays.asList(property.getValues()), this::onClose);
 	}
 
