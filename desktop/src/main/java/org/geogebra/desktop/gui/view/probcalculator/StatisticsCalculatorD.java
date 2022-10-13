@@ -44,7 +44,6 @@ import org.geogebra.desktop.main.AppD;
 public class StatisticsCalculatorD extends StatisticsCalculator
 		implements ActionListener, FocusListener, SetLabels {
 
-
 	// =========================================
 	// support classes
 	// =========================================
@@ -54,31 +53,41 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	// =========================================
 
 	// labels
-	private JLabel[] lblSampleStat1, lblSampleStat2;
-	private JLabel lblResult, lblHypParameter, lblTailType, lblNull,
-			lblConfLevel, lblSigma, lblSampleHeader1,
-			lblSampleHeader2;
+	private JLabel[] lblSampleStat1;
+	private JLabel[] lblSampleStat2;
+	private JLabel lblResult;
+	private JLabel lblHypParameter;
+	private JLabel lblTailType;
+	private JLabel lblNull;
+	private JLabel lblConfLevel;
+	private JLabel lblSigma;
+	private JLabel lblSampleHeader1;
+	private JLabel lblSampleHeader2;
 
 	// buttons and combo boxes
-	private JRadioButton btnLeft, btnRight, btnTwo;
+	private JRadioButton btnLeft;
+	private JRadioButton btnRight;
+	private JRadioButton btnTwo;
 	private JButton btnCalculate;
 	private JComboBox<String> cbProcedure;
 	private JCheckBox ckPooled;
 
 	// panels
-	private JPanel panelBasicProcedures, panelControl, panelSample1,
-			panelSample2, panelTestAndCI;
+	private JPanel panelBasicProcedures;
+	private JPanel panelControl;
+	private JPanel panelSample1;
+	private JPanel panelSample2;
+	private JPanel panelTestAndCI;
 	private ChiSquarePanelD panelChiSquare;
 	private JEditorPane resultPane;
 	private JScrollPane scroller;
 
 	private JPanel wrappedPanel;
 
-	/******************************************************************
-	 * 
+	/**
 	 * Construct StatisticsCalculator
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public StatisticsCalculatorD(AppD app) {
 		super(app);
@@ -536,7 +545,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 					.setVisible(isNotEmpty(lblSampleStat2[i].getText()));
 		}
 
-		lblSampleHeader2.setVisible((isNotEmpty(lblSampleStat2[0].getText())));
+		lblSampleHeader2.setVisible(isNotEmpty(lblSampleStat2[0].getText()));
 		setLabels();
 
 		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
@@ -573,11 +582,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		doActionPerformed(e);
-	}
-
-	public void doActionPerformed(ActionEvent e) {
-
 		Object source = e.getSource();
 
 		if (source instanceof JTextField) {
@@ -593,12 +597,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			// setLabels();
 
 			// reset the scrollpane to the top
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					scroller.getVerticalScrollBar().setValue(0);
-				}
-			});
+			javax.swing.SwingUtilities.invokeLater(
+					() -> scroller.getVerticalScrollBar().setValue(0));
 
 		}
 
@@ -621,8 +621,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		updateResult(true);
 	}
 
-	public void doTextFieldActionPerformed(JTextField source) {
-
+	private void doTextFieldActionPerformed(JTextField source) {
 		if (source.getText().equals(ListSeparatorRenderer.SEPARATOR)) {
 			return;
 		}
@@ -643,9 +642,11 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		if (e.getSource() instanceof MyTextFieldD) {
 			doTextFieldActionPerformed((MyTextFieldD) e.getSource());
 		}
-
 	}
 
+	/**
+	 * @param font UI font
+	 */
 	public void updateFonts(Font font) {
 		setStyleSheetFontSize((HTMLEditorKit) resultPane.getEditorKit(), font);
 		wrappedPanel.setFont(font);
@@ -653,11 +654,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	private static void setStyleSheetFontSize(HTMLEditorKit kit, Font font) {
-
 		StyleSheet styleSheet = kit.getStyleSheet();
 		String size = "" + font.getSize();
 		styleSheet.addRule("body {font-size : " + size + "pt }");
-
 	}
 
 	private static void setStyleSheets(HTMLEditorKit kit) {
@@ -668,7 +667,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
 		styleSheet.addRule(
-				"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
+				"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;"
+						+ "border-left-width: 1px;border-right-width: 1px;border-style:solid; "
+						+ "border-color:#00008B;"
 						+ padding + "}");
 
 	}

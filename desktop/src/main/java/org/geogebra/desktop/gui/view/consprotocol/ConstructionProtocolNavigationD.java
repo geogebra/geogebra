@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.desktop.gui.view.consprotocol;
 
 import java.awt.Component;
@@ -54,18 +55,22 @@ public class ConstructionProtocolNavigationD
 		extends ConstructionProtocolNavigation
 		implements ActionListener, SettingListener, SetLabels {
 
-	private JButton btFirst, btPrev, btNext, btLast, btOpenWindow;
+	private JButton btFirst;
+	private JButton btPrev;
+	private JButton btNext;
+	private JButton btLast;
+	private JButton btOpenWindow;
 	/** Button for starting/stopping animation */
 	JButton btPlay;
-	private JLabel lbSteps;
+	private final JLabel lbSteps;
 	/** Delay spinner */
 	JSpinner spDelay;
 	private AutomaticPlayer player;
 	/**
 	 * ConstructionProtocolNavigation panel
 	 */
-	private JPanel implPanel;
-	private LocalizationD loc;
+	private final JPanel implPanel;
+	private final LocalizationD loc;
 
 	private JPanel playPanel;
 
@@ -176,15 +181,12 @@ public class ConstructionProtocolNavigationD
 		btPlay.setIcon(new ImageIcon(appD.getPlayImage()));
 		btPlay.addActionListener(this);
 
-		spDelay.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				try {
-					playDelay = Double
-							.parseDouble(spDelay.getValue().toString());
-				} catch (Exception ex) {
-					playDelay = 2;
-				}
+		spDelay.addChangeListener(e -> {
+			try {
+				playDelay = Double
+						.parseDouble(spDelay.getValue().toString());
+			} catch (Exception ex) {
+				playDelay = 2;
 			}
 		});
 
@@ -195,21 +197,18 @@ public class ConstructionProtocolNavigationD
 		btOpenWindow = new JButton();
 		btOpenWindow.setIcon(appD
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
-		btOpenWindow.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// app.getGuiManager().showConstructionProtocol();
-				if (!appD.getGuiManager()
-						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-					appD.getGuiManager().setShowView(true,
-							App.VIEW_CONSTRUCTION_PROTOCOL);
-				}
-
-				// Checkbox of Construction protocol view will be checked in
-				// view menu
-				((GeoGebraMenuBar) appD.getGuiManager().getMenuBar())
-						.updateCPView(true);
+		btOpenWindow.addActionListener(e -> {
+			// app.getGuiManager().showConstructionProtocol();
+			if (!appD.getGuiManager()
+					.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+				appD.getGuiManager().setShowView(true,
+						App.VIEW_CONSTRUCTION_PROTOCOL);
 			}
+
+			// Checkbox of Construction protocol view will be checked in
+			// view menu
+			((GeoGebraMenuBar) appD.getGuiManager().getMenuBar())
+					.updateCPView(true);
 		});
 		btOpenWindow.setVisible(isConsProtButtonVisible());
 
@@ -298,7 +297,7 @@ public class ConstructionProtocolNavigationD
 	 *            whether components should be enabled
 	 */
 	void setComponentsEnabled(boolean flag) {
-		Component comps[] = implPanel.getComponents();
+		Component[] comps = implPanel.getComponents();
 		for (int i = 0; i < comps.length; i++) {
 			comps[i].setEnabled(flag);
 		}
@@ -384,6 +383,9 @@ public class ConstructionProtocolNavigationD
 		getImpl().setVisible(visible);
 	}
 
+	/**
+	 * Update icons; TODO unused?
+	 */
 	public void updateIcons() {
 		if (btFirst == null) {
 			return;
@@ -399,7 +401,6 @@ public class ConstructionProtocolNavigationD
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		lbSteps.setFont(((AppD) app).getPlainFont());
 		update();
-
 	}
 
 	@Override
@@ -407,6 +408,5 @@ public class ConstructionProtocolNavigationD
 		if (playPanel != null) {
 			this.playPanel.setVisible(flag);
 		}
-
 	}
 }

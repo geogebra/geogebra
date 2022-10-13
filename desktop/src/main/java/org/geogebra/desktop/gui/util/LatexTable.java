@@ -22,11 +22,20 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 
 	private static final long serialVersionUID = 1L;
 
-	private TextInputDialogD inputDialog;
-	private String[] latexArray;
-	private PopupMenuButtonD popupButton;
-	private SelectionTable mode;
+	private final TextInputDialogD inputDialog;
+	private final String[] latexArray;
+	private final PopupMenuButtonD popupButton;
+	private final SelectionTable mode;
 
+	/**
+	 * @param app application
+	 * @param textInputDialog text diaog
+	 * @param popupButton popup button
+	 * @param latexArray latex formulas
+	 * @param rows rows
+	 * @param columns columns
+	 * @param mode selection table mode
+	 */
 	public LatexTable(AppD app, TextInputDialogD textInputDialog,
 			PopupMenuButtonD popupButton, String[] latexArray, int rows,
 			int columns, SelectionTable mode) {
@@ -83,7 +92,7 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 		if (arg0.getID() == MouseEvent.MOUSE_RELEASED) {
 
 			// get the selected string
-			StringBuffer sb = new StringBuffer(
+			StringBuilder sb = new StringBuilder(
 					latexArray[this.getSelectedIndex()]);
 			// if LaTeX string, adjust the string to include selected text
 			// within braces

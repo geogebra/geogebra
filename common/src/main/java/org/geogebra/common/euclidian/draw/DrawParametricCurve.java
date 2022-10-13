@@ -115,7 +115,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 		if (this.geo != null && this.geo.isGeoFunction()) {
 			if (isIntervalPlotterPreferred()) {
 				GeoFunction function = (GeoFunction) this.geo;
-				intervalPlotter.enableFor(function, view.getEuclidianController());
+				intervalPlotter.enableFor(function, view);
 			} else {
 				intervalPlotter.disable();
 			}
@@ -141,7 +141,7 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private void enableIntervalPlotterIfSupported() {
 		if (isIntervalPlotterPreferred()) {
 			if (!intervalPlotter.isEnabled()) {
-				intervalPlotter.enableFor((GeoFunction) geo, view.getEuclidianController());
+				intervalPlotter.enableFor((GeoFunction) geo, view);
 			}
 		} else {
 			intervalPlotter.disable();

@@ -17,6 +17,11 @@ public class FileAppState implements AppState {
 
     private File file;
 
+	/**
+	 * Creates a state and writes it to filesystem
+	 * @param xml construction XML
+	 * @throws IOException if saving fails
+	 */
     public FileAppState(StringBuilder xml) throws IOException  {
         // create temp file
         file = File.createTempFile(TEMP_FILE_PREFIX, ".ggb");

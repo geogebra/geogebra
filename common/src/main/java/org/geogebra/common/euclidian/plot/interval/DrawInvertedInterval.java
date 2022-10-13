@@ -9,21 +9,21 @@ import org.geogebra.common.kernel.interval.function.IntervalTuple;
  */
 public class DrawInvertedInterval {
 	private final IntervalPathPlotter gp;
-	private final IntervalPlotModel model;
+	private final QueryFunctionData data;
 	private final EuclidianViewBounds bounds;
 	private Interval lastY = new Interval();
-	private JoinLines join;
+	private final JoinLines join;
 
 	/**
 	 * Constructor.
 	 * @param gp {@link IntervalPathPlotter}
 	 * @param bounds {@link EuclidianViewBounds}
-	 * @param model {@link IntervalPlotModel}
+	 * @param data {@link IntervalFunctionModelImpl}
 	 */
-	public DrawInvertedInterval(IntervalPathPlotter gp, IntervalPlotModel model,
+	public DrawInvertedInterval(IntervalPathPlotter gp, QueryFunctionData data,
 			EuclidianViewBounds bounds) {
 		this.gp = gp;
-		this.model = model;
+		this.data = data;
 		this.bounds = bounds;
 		join = new JoinLines(bounds, gp);
 	}
@@ -38,7 +38,7 @@ public class DrawInvertedInterval {
 	public Interval drawJoined(int idx,
 			Interval y) {
 		lastY = y;
-		if (lastY.isUndefined() || model.isWholeAt(idx)) {
+		if (lastY.isUndefined() || data.isWholeAt(idx)) {
 			this.lastY.setUndefined();
 		} else {
 			draw(idx);
@@ -64,18 +64,18 @@ public class DrawInvertedInterval {
 	}
 
 	private void drawSegmentsJoined(int index) {
-		join.inverted(model.neighboursAt(index));
+		join.inverted(data.neighboursAt(index));
 	}
 
 	private void drawSegments(int index) {
-		IntervalTuple current = model.at(index);
+		IntervalTuple current = data.at(index);
 		drawTopSegment(current);
 		drawBottomSegment(current);
 	}
 
 	private boolean hasNextToJoin(int index) {
-		return model.hasNext(index)
-				&& !model.isInvertedAt(index + 1);
+		return data.hasNext(index)
+				&& !data.isInvertedAt(index + 1);
 	}
 
 	private void drawBottomSegment(IntervalTuple current) {
@@ -97,6 +97,6 @@ public class DrawInvertedInterval {
 	}
 
 	private boolean isInvertedNextTo(int idx) {
-		return model.pointCount() > idx && model.isInvertedAt(idx + 1);
+		return data.getCount() > idx && data.isInvertedAt(idx + 1);
 	}
 }

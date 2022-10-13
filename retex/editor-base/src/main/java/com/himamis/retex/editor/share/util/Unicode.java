@@ -124,6 +124,9 @@ public class Unicode {
 	public static final char AND = '\u2227';
 	public static final char OR = '\u2228';
 
+	public static final char LEFT_GUILLEMET = '\u00ab';
+	public static final char RIGHT_GUILLEMET = '\u00bb';
+
 	/** circled plus, could also use \u22bb */
 	public static final char XOR = '\u2295';
 

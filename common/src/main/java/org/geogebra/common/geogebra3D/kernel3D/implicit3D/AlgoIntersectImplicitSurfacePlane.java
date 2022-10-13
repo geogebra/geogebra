@@ -58,7 +58,7 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 
 	@Override
 	public void compute() {
-		VariableReplacer vr = VariableReplacer.getReplacer(kernel);
+		VariableReplacer vr = kernel.getVariableReplacer();
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
 		curve.setPlaneEquation(norm);
@@ -70,16 +70,16 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 			double d = norm.getW() / norm.getZ();
 			ExpressionNode substZ = x.wrap().multiply(a)
 					.plus(y.wrap().multiply(b).plus(d));
-			VariableReplacer.addVars("z", substZ);
+			vr.addVars("z", substZ);
 			curve.getTransformedCoordSys().setZequal(a, b, 1, d);
 		} else {
 			if (DoubleUtil.isZero(norm.getY())) {
 				double a = -norm.getW() / norm.getX();
 				ExpressionNode substX = new ExpressionNode(kernel, a);
-				VariableReplacer.addVars("x", substX);
-				VariableReplacer.addVars("y",
+				vr.addVars("x", substX);
+				vr.addVars("y",
 						new FunctionVariable(kernel, "x"));
-				VariableReplacer.addVars("z",
+				vr.addVars("z",
 						new FunctionVariable(kernel, "y"));
 				curve.getTransformedCoordSys().setXequal(a);
 
@@ -87,8 +87,8 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 				double a = norm.getX() / norm.getY();
 				double b = norm.getW() / norm.getY();
 				ExpressionNode substY = x.wrap().multiply(a).plus(b);
-				VariableReplacer.addVars("y", substY);
-				VariableReplacer.addVars("z",
+				vr.addVars("y", substY);
+				vr.addVars("z",
 						new FunctionVariable(kernel, "y"));
 				curve.getTransformedCoordSys().setYequal(a, 1, b);
 			}

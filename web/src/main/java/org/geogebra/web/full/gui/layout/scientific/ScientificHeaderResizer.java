@@ -28,6 +28,6 @@ public class ScientificHeaderResizer implements HeaderResizer {
 
 	@Override
 	public int getSmallScreenHeight() {
-		return 80;
+		return frame.shouldHideHeader() ? 0 : 80;
 	}
 }

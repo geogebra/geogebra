@@ -20,7 +20,7 @@ public class ImageManager3D extends ImageManagerD {
 	/**
 	 * default constructor
 	 * 
-	 * @param comp
+	 * @param comp main app component
 	 */
 	public ImageManager3D(Component comp, AppD app) {
 		super(comp);

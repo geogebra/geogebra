@@ -70,6 +70,10 @@ public class GAffineTransformD implements GAffineTransform {
 		return at.getTranslateY();
 	}
 
+	/**
+	 * @param a transform
+	 * @return native transform
+	 */
 	public static AffineTransform getAwtAffineTransform(GAffineTransform a) {
 		if (!(a instanceof GAffineTransformD)) {
 			return null;

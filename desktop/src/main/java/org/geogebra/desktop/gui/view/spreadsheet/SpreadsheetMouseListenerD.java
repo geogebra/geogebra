@@ -527,7 +527,7 @@ public class SpreadsheetMouseListenerD
 			} else {
 				table.dragingToRow = mouseCell.getY();
 				table.dragingToColumn = mouseCell.getX();
-				Rectangle selRect = table.getSelectionRect(true);
+				Rectangle selRect = table.getSelectionRect();
 
 				// increase size if we're at the bottom of the spreadsheet
 				if (table.dragingToRow + 1 == table.getRowCount()

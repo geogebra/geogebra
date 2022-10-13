@@ -45,8 +45,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
-
-
 /**
  * Event handlers fro AV
  */
@@ -92,10 +90,10 @@ public class AlgebraControllerD extends AlgebraTreeController
 	public void mousePressed(MouseEvent e) {
 		getView().cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
-		if (rightClick) {// RIGHT CLICK
+		if (rightClick) { // RIGHT CLICK
 			GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
 			rightPress(e, mouseCoords);
-		} else {// LEFT CLICK
+		} else { // LEFT CLICK
 			leftPress(e);
 		}
 		setMousePressed();
@@ -184,7 +182,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 		 */
 		public final DataFlavor algebraViewFlavor = new DataFlavor(
 				AlgebraViewD.class, "geoLabel list");
-		private final DataFlavor supportedFlavors[] = { algebraViewFlavor };
+		private final DataFlavor[] supportedFlavors = { algebraViewFlavor };
 
 		private ArrayList<String> geoLabelList;
 

@@ -16,7 +16,7 @@ public class SpreadsheetDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param app
+	 * @param app application
 	 */
 	public SpreadsheetDockPanel(AppD app) {
 		super(App.VIEW_SPREADSHEET, // view id

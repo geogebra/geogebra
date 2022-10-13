@@ -5,7 +5,7 @@ plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
-    id 'com.github.spotbugs' version '5.0.10'
+    id 'com.github.spotbugs' version '5.0.12'
     id 'de.aaschmid.cpd' version '3.3'
     id 'io.miret.etienne.sass' version '1.4.1'
     id 'org.wisepersist.gwt' version '1.1.19'
@@ -57,6 +57,8 @@ dependencies {
         project(':editor-web'),
         project(':keyboard-web'),
         'org.webjars.npm:pdfjs-dist:2.5.207',
+        "org.geogebra:multiplayer:1.0.202209211322-SNAPSHOT",
+        "org.geogebra:multiplayer:1.0.202209211322-SNAPSHOT:sources",
         files(project(':carota-web').sourceSets.main.allSource.srcDirs),
         files(project(':renderer-web').sourceSets.main.allSource.srcDirs),
         files(project(':gwtutil').sourceSets.main.allSource.srcDirs),
@@ -80,32 +82,32 @@ def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 ext.appSpecs = [
     [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0',
         releases: 'Releases', icon: 'ggb.ico', measurementId: 'G-8JGZQG6FHG',
-        firebaseAppId: '1:895270214636:web:3c05deeefcd1a96584fec9', 'hotjar': true],
+        firebaseAppId: '1:895270214636:web:3c05deeefcd1a96584fec9'],
     [id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
         exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing',
         icon: 'Graphing.ico', appStoreId:'1146717204', measurementId: 'G-55K7P9GRQK',
-        firebaseAppId: '1:895270214636:web:db7055c9a67f1f1e84fec9', 'hotjar': true],
+        firebaseAppId: '1:895270214636:web:db7055c9a67f1f1e84fec9'],
     [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976',
         firebaseAppId: '1:895270214636:web:574d60209dda5f5384fec9',
-        measurementId: 'G-PMP3RB4M8S', 'hotjar': true],
+        measurementId: 'G-PMP3RB4M8S'],
     [id:'cas', title:'CAS Calculator', transKey:'CASCalculator',
         exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas',
         icon: 'CAS.ico', appStoreId:'1436278267', measurementId: 'G-N3Z7S82FZ6',
-        firebaseAppId: '1:895270214636:web:87b00b628121939d84fec9', 'hotjar': true],
+        firebaseAppId: '1:895270214636:web:87b00b628121939d84fec9'],
     [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
         partials:["undo-redo"], appStoreId:'1412748754', measurementId: 'G-YJ1QVF1SFK',
-        firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9', 'hotjar': true],
+        firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
         exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry', releases: 'Releases-geometry',
         icon: 'Geometry.ico', appStoreId:'1232591335', measurementId: 'G-82GL4RTR4H',
-        firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9', 'hotjar': true],
+        firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9'],
     [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite',
          firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9', icon: 'ggb.ico',
          measurementId: 'G-FXVLXMD21Y', appStoreId: '1504416652',
-         pkg:'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite', 'hotjar': true],
+         pkg:'GeoGebra_Calculator', exe: 'GeoGebraCalculator', releases: 'Releases-suite'],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
          releases: 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
-         firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9', 'hotjar': true],
+         firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9'],
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
          icon: 'notes.ico', vendor: "Mebis"]]
 
@@ -317,7 +319,14 @@ task mergeDeploy(){
 
 def gwtGlobalCache = file('build/gwt/devModeCache')
 
-task run(type: org.wisepersist.gradle.plugins.gwt.GwtDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
+class ReadableDev extends org.wisepersist.gradle.plugins.gwt.GwtDev {
+    protected void addArgs() {
+        super.addArgs();
+        args("-style", "PRETTY");
+    }
+}
+
+task run(type: ReadableDev, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) {
     war = file(warDirRel)
     maxHeapSize = '4096m'
     logLevel = 'TRACE'

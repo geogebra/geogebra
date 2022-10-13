@@ -197,38 +197,35 @@ public class GgbAPID extends GgbAPIJre {
 		}
 		final File file = file1;
 		return (Boolean) AccessController
-				.doPrivileged(new PrivilegedAction<Object>() {
-					@Override
-					public Boolean run() {
+				.doPrivileged((PrivilegedAction<Object>) () -> {
 
-						try {
-							// draw graphics view into image
-							GBufferedImage img = ((AppD) getApplication())
-									.getActiveEuclidianView()
-									.getExportImage(exportScale, transparent,
-											ExportType.PNG);
+					try {
+						// draw graphics view into image
+						GBufferedImage img = ((AppD) getApplication())
+								.getActiveEuclidianView()
+								.getExportImage(exportScale, transparent,
+										ExportType.PNG);
 
-							if (greyscale) {
-								((GBufferedImageD) img).convertToGrayscale();
-							}
-
-							// write image to file
-							MyImageIO.write(
-									GBufferedImageD.getAwtBufferedImage(img),
-									"png", (float) DPI, file);
-
-							return true;
-						} catch (Exception ex) {
-							ex.printStackTrace();
-							Log.debug(ex.toString());
-							return false;
-						} catch (Error ex) {
-							ex.printStackTrace();
-							Log.debug(ex.toString());
-							return false;
+						if (greyscale) {
+							((GBufferedImageD) img).convertToGrayscale();
 						}
 
+						// write image to file
+						MyImageIO.write(
+								GBufferedImageD.getAwtBufferedImage(img),
+								"png", (float) DPI, file);
+
+						return true;
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						Log.debug(ex.toString());
+						return false;
+					} catch (Error ex) {
+						ex.printStackTrace();
+						Log.debug(ex.toString());
+						return false;
 					}
+
 				});
 
 	}

@@ -44,5 +44,10 @@ public interface SVGResource extends ResourcePrototype {
 	 * @return transformed SVG
 	 */
 	SVGResource withFill(String color);
+
+	/**
+	 * @return raw SVG content
+	*/
+	String getSVG();
 }
 

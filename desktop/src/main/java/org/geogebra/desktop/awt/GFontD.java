@@ -16,6 +16,10 @@ public class GFontD extends GFont {
 		return impl;
 	}
 
+	/**
+	 * @param font cross-platform font
+	 * @return native font
+	 */
 	public static Font getAwtFont(GFont font) {
 		if (!(font instanceof GFontD)) {
 			return null;

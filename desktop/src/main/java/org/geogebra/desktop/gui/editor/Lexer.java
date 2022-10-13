@@ -53,6 +53,7 @@ public abstract class Lexer {
 	 * Get the token's identifier
 	 * 
 	 * @return the id
+	 * @throws IOException when I/O problem occurs
 	 */
 	public abstract int scan() throws IOException;
 

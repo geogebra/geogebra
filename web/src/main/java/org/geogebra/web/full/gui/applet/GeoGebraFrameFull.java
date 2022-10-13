@@ -187,6 +187,7 @@ public class GeoGebraFrameFull
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JsConsumer<Object> clb) {
 		GeoGebraElement element = GeoGebraElement.as(el);
+		removeExistingInstance(el);
 		AppletParameters parameters = new AppletParameters(element);
 		new GeoGebraFrameFull(factory, laf, null, element, parameters)
 				.renderArticleElementWithFrame(element, clb);
@@ -1044,6 +1045,9 @@ public class GeoGebraFrameFull
 		}
 		if (showKeyboardButton != null) {
 			showKeyboardButton.removeFromParent();
+		}
+		if (getApp().isEuclidianView3Dinited()) {
+			getApp().getEuclidianView3D().getRenderer().dispose();
 		}
 		super.remove();
 		ggwToolBar = null;

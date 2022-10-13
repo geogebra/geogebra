@@ -392,16 +392,11 @@ class ColorPanel extends JPanel
 						this.propertiesPanelD.loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
-				selectionBarButtons[i].addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						selectedBarButton = Integer
-								.parseInt(((JToggleButton) arg0.getSource())
-										.getActionCommand());
-						ColorPanel.this.update();
-					}
-
+				selectionBarButtons[i].addActionListener(arg0 -> {
+					selectedBarButton = Integer
+							.parseInt(((JToggleButton) arg0.getSource())
+									.getActionCommand());
+					ColorPanel.this.update();
 				});
 				barsPanel.add(selectionBarButtons[i]);
 				group.add(selectionBarButtons[i]);

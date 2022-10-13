@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.inputfield;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -149,9 +148,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public AutoCompleteTextFieldD(int columns, AppD app,
 			KeyNavigation handleEscapeKey) {
 		this(columns, app, handleEscapeKey, true);
-		// setDictionary(app.getAllCommandsDictionary());
 	}
 
+	/**
+	 * @param columns collumns
+	 * @param app application
+	 * @param drawTextField associated input box drawable
+	 */
 	public AutoCompleteTextFieldD(int columns, App app,
 			Drawable drawTextField) {
 		this(columns, app);
@@ -179,16 +182,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		historyPopup.setDownPopup(isDownPopup);
 
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String cmd = e.getActionCommand();
-				if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
+		ActionListener al = e -> {
+			String cmd = e.getActionCommand();
+			if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
 
-					// TODO: should up/down orientation be tied to InputBar?
-					// show popup
-					historyPopup.showPopup();
-				}
+				// TODO: should up/down orientation be tied to InputBar?
+				// show popup
+				historyPopup.showPopup();
 			}
 		};
 		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),
@@ -280,7 +280,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return curWordStart;
 	}
 
-	/** returns if text must start with "=" to activate autocomplete */
+	/** @return if text must start with "=" to activate autocomplete */
 	public boolean isEqualsRequired() {
 		return isEqualsRequired;
 	}
@@ -328,8 +328,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			}
 			break;
 		case KeyEvent.VK_C:
-			if (AppD.isControlDown(e)) // workaround for MAC_OS
-			{
+			if (AppD.isControlDown(e)) { // workaround for MAC_OS
 				ctrlC = true;
 			}
 			break;
@@ -447,8 +446,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					String lowerCurWord = word.toLowerCase();
 					String closest = getDictionary().lookup(lowerCurWord);
 
-					if (closest != null) {// &&
-						// lowerCurWord.equals(closest.toLowerCase()))
+					if (closest != null) {
 						showCommandHelp(app.getInternalCommand(closest),
 								isCASInput);
 						commandFound = true;
@@ -797,6 +795,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		return syntaxes;
 	}
 
+	/**
+	 * Start autocomplete
+	 */
 	public void startAutoCompletion() {
 
 		// don't show autocompletion popup if the current word
@@ -816,7 +817,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * 
 	 * @param index
 	 *            index of the chosen command in the completions list
-	 * @param completions
+	 * @param completions completions
 	 * @return false if completions list is null or index < 0 or index >
 	 *         completions.size()
 	 * @author Arnaud
@@ -871,7 +872,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	/**
 	 * Adds string to input textfield's history
 	 * 
-	 * @param str
+	 * @param str input string
 	 */
 	public void addToHistory(String str) {
 		// exit if the new string is the same as the last entered string
@@ -981,12 +982,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void wrapSetText(final String s) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				setText(s);
-			}
-		});
+		SwingUtilities.invokeLater(() -> setText(s));
 	}
 
 	@Override

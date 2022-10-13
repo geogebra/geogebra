@@ -43,15 +43,18 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 
 	private AxisPanel3D zAxisPanel;
 
-	private JCheckBox cbUseClipping, cbShowClipping;
+	private JCheckBox cbUseClipping;
+	private JCheckBox cbShowClipping;
 
 	private JCheckBox cbYAxisVertical;
 	private JCheckBox cbAxesColored;
 
-	private JRadioButton radioClippingSmall, radioClippingMedium,
-			radioClippingLarge;
+	private JRadioButton radioClippingSmall;
+	private JRadioButton radioClippingMedium;
+	private JRadioButton radioClippingLarge;
 
-	private JPanel clippingOptionsPanel, boxSizePanel;
+	private JPanel clippingOptionsPanel;
+	private JPanel boxSizePanel;
 
 	private JCheckBox cbUseLight;
 
@@ -288,10 +291,14 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 	}
 
 	private JLabel[] projectionLabel;
-	private JTextField tfPersp, tfGlassesEyeSep, tfObliqueAngle,
-			tfObliqueFactor;
-	private JLabel tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel,
-			tfObliqueFactorLabel;
+	private JTextField tfPersp;
+	private JTextField tfGlassesEyeSep;
+	private JTextField tfObliqueAngle;
+	private JTextField tfObliqueFactor;
+	private JLabel tfPerspLabel;
+	private JLabel tfGlassesLabel;
+	private JLabel tfObliqueAngleLabel;
+	private JLabel tfObliqueFactorLabel;
 	private ProjectionButtons projectionButtons;
 	private JCheckBox cbGlassesGray;
 	private JLabel cbGlassesGrayLabel;

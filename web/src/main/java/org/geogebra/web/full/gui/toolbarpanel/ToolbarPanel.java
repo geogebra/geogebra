@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -26,6 +27,8 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyProbabilityTable;
+import org.geogebra.web.full.gui.toolbarpanel.tableview.StickyValuesTable;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
 import org.geogebra.web.full.gui.util.Domvas;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -85,6 +88,7 @@ public class ToolbarPanel extends FlowPanel
 	private AlgebraTab tabAlgebra;
 	private @CheckForNull TableTab tabTable;
 	private @CheckForNull ToolsTab tabTools;
+	private @CheckForNull DistributionTab tabDist;
 	private ShowableTab tabContainer;
 	private boolean isOpen;
 	private final ScheduledCommand deferredOnRes = this::resize;
@@ -100,6 +104,7 @@ public class ToolbarPanel extends FlowPanel
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		initGUI();
+		doOpen(); // should not be part of initGUI to allow app switching with closed AV
 		initClickStartHandler();
 		((AccessibilityManagerW) app.getAccessibilityManager())
 				.setMenuContainer(this);
@@ -289,8 +294,19 @@ public class ToolbarPanel extends FlowPanel
 		} else {
 			tabTools = null;
 		}
+
+		StickyProbabilityTable table = null;
+		if (app.getConfig().hasDistributionView()) {
+			table = new StickyProbabilityTable();
+			tabDist = new DistributionTab(this, table);
+			addTab(tabDist, false);
+		} else {
+			tabDist = null;
+		}
 		if (isTableTabExpected()) {
-			tabTable = new TableTab(this);
+			tabTable = new TableTab(this,
+					table == null ? new StickyValuesTable(app,
+							(TableValuesView) app.getGuiManager().getTableValuesView()) : table);
 			addTab(tabTable, false);
 		} else {
 			tabTable = null;
@@ -303,7 +319,6 @@ public class ToolbarPanel extends FlowPanel
 		add(heading);
 		add(main);
 		hideDragger();
-		doOpen();
 		if (app.isExamStarted() && !app.getExam().isCheating()) {
 			if (app.getAppletParameters().getParamLockExam()) {
 				setHeaderStyle("examLock");
@@ -794,6 +809,10 @@ public class ToolbarPanel extends FlowPanel
 	 * @param fade decides if tab should fade during animation.
 	 */
 	public void openAlgebra(boolean fade) {
+		if (!app.getConfig().hasAlgebraView()) {
+			// maybe SetPerspective was called through API
+			return;
+		}
 		switchTab(TabIds.ALGEBRA, fade);
 		setMoveMode();
 		dispatchEvent(EventType.ALGEBRA_PANEL_SELECTED);
@@ -811,6 +830,9 @@ public class ToolbarPanel extends FlowPanel
 			}
 			if (tabTable != null) {
 				tabTable.setActive(tab == TabIds.TABLE);
+			}
+			if (tabDist != null) {
+				tabDist.setActive(tab == TabIds.DISTRIBUTION);
 			}
 			resizeTabs();
 		});
@@ -860,6 +882,18 @@ public class ToolbarPanel extends FlowPanel
 		}
 
 		dispatchEvent(EventType.TABLE_PANEL_SELECTED);
+	}
+
+	/**
+	 * Open distribution tab.
+	 * @param fade decides if tab should fade during animation.
+	 */
+	public void openDistributionView(boolean fade) {
+		if (!app.getConfig().hasDistributionView()) {
+			return;
+		}
+		switchTab(TabIds.DISTRIBUTION, fade);
+		setMoveMode();
 	}
 
 	/**
@@ -997,7 +1031,7 @@ public class ToolbarPanel extends FlowPanel
 			return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 		}
 		if (getSelectedTabId() == TabIds.TABLE && tabTable != null) {
-			return tabTable.getKeyboardListener();
+			return tabTable.getKeyboardListener(fallback);
 		}
 		return fallback.get();
 	}
@@ -1102,6 +1136,9 @@ public class ToolbarPanel extends FlowPanel
 		}
 		if (tabAlgebra != null) {
 			tabAlgebra.setLabels();
+		}
+		if (tabDist != null) {
+			tabDist.setLabels();
 		}
 	}
 
@@ -1385,6 +1422,7 @@ public class ToolbarPanel extends FlowPanel
 		public boolean isActive() {
 			return getElement().hasClassName("tab");
 		}
+
 	}
 
 	public void setAVIconNonSelect(boolean exam) {

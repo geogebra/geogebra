@@ -29,6 +29,9 @@ public class TextValue extends JTextField implements KeyListener {
 		return Double.parseDouble(getText());
 	}
 
+	/**
+	 * @param d double value
+	 */
 	public void setValue(double d) {
 		String s = String.valueOf(d);
 		setText(s);

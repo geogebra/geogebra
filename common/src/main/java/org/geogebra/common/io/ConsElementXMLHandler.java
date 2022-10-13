@@ -85,7 +85,7 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.JsReference;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
@@ -493,13 +493,14 @@ public class ConsElementXMLHandler {
 
 	private boolean handleListeners(LinkedHashMap<String, String> attrs) {
 		try {
+			ScriptManager scriptManager = app.getScriptManager();
 			if ("objectUpdate".equals(attrs.get("type"))) {
-				app.getScriptManager().getUpdateListenerMap().put(geo,
-						JsReference.fromName(attrs.get("val")));
+				scriptManager.getUpdateListenerMap().put(geo,
+						scriptManager.fromName(attrs.get("val")));
 			}
 			if ("objectClick".equals(attrs.get("type"))) {
-				app.getScriptManager().getClickListenerMap().put(geo,
-						JsReference.fromName(attrs.get("val")));
+				scriptManager.getClickListenerMap().put(geo,
+						scriptManager.fromName(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -2098,7 +2099,8 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean isUndefinedGeoNumber() {
-		if (!geo.isGeoNumeric()) {
+		// we should show undefined integrals
+		if (!geo.isGeoNumeric() || !geo.isIndependent()) {
 			return false;
 		}
 

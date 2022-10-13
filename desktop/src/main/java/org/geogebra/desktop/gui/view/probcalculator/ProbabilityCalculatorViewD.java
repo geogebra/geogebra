@@ -66,14 +66,19 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private JTextField[] fldParameterArray;
 	private JLabel[] lblParameterArray;
 	private JLabel lblDist;
-	private JToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
-			btnIntervalTwoTailed, btnIntervalRight;
+	private JToggleButton btnCumulative;
+	private JToggleButton btnIntervalLeft;
+	private JToggleButton btnIntervalBetween;
+	private JToggleButton btnIntervalTwoTailed;
+	private JToggleButton btnIntervalRight;
 
 	private ListSeparatorRenderer comboRenderer;
 
 	// GUI layout panels
-	private JPanel controlPanel, tablePanel;
-	private JSplitPane mainSplitPane, plotSplitPane;
+	private JPanel controlPanel;
+	private JPanel tablePanel;
+	private JSplitPane mainSplitPane;
+	private JSplitPane plotSplitPane;
 
 	private JToggleButton btnExport;
 
@@ -95,7 +100,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	 * 
 	 * Construct ProbabilityCalculator
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public ProbabilityCalculatorViewD(AppD app) {
 		super(app);
@@ -158,7 +163,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	public ProbabilityManager getProbManager() {
 		return probManager;
 	}
-
 
 	@Override
 	public boolean isDistributionTabOpen() {
@@ -306,9 +310,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			fldParameterArray[i].addFocusListener(this);
 		}
 
-
 		lblMeanSigma = new JLabel();
-
 	}
 
 	private void createControlPanel() {
@@ -358,6 +360,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	// Event Handlers
 	// =================================================
 
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts() {
 		Font font = ((AppD) app).getPlainFont();
 		wrapperPanel.setFont(font);
@@ -468,7 +473,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			double value = nv.getDouble();
 
 			if (resultPanel.isFieldLow(source)) {
-				if (isValidInterval(probMode, value, getHigh())) {
+				if (isValidInterval(value, getHigh())) {
 					setLow(value);
 					setXAxisPoints();
 				} else {
@@ -478,7 +483,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			}
 
 			else if (resultPanel.isFieldHigh(source)) {
-				if (isValidInterval(probMode, getLow(), value)) {
+				if (isValidInterval(getLow(), value)) {
 					setHigh(value);
 					setXAxisPoints();
 				} else {
@@ -543,7 +548,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	}
 
 	@Override
-	public void updateOutput() {
+	public void updateOutput(boolean updateDistributionView) {
 		updateFonts();
 		updateDistribution();
 		updatePlotSettings();
@@ -731,7 +736,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		getPlotPanel().commonFields.updateSettings((getPlotPanel()),
+		getPlotPanel().commonFields.updateSettings(getPlotPanel(),
 				plotSettings);
 	}
 

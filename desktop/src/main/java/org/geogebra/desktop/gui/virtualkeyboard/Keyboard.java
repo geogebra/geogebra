@@ -16,11 +16,6 @@ public class Keyboard {
 
 	protected Robot robot;
 
-	public static void mainx(String... args) throws Exception {
-		Keyboard keyboard = new Keyboard();
-		keyboard.type("Hello there, how are you?");
-	}
-
 	public Keyboard() throws AWTException {
 		this.robot = new Robot();
 	}
@@ -29,27 +24,23 @@ public class Keyboard {
 		this.robot = robot;
 	}
 
-	public void type(CharSequence characters) {
-		int length = characters.length();
-		for (int i = 0; i < length; i++) {
-			char character = characters.charAt(i);
-			type(character);
-		}
-	}
-
+	/**
+	 * @param altPressed alt
+	 * @param ctrlPressed ctrl
+	 * @param shiftPressed shift
+	 * @param characters character
+	 */
 	public void type(boolean altPressed, boolean ctrlPressed,
 			boolean shiftPressed, CharSequence characters) {
 
-		if (altPressed)
-		 {
-			robot.keyPress(KeyEvent.VK_ALT);// */
+		if (altPressed) {
+			robot.keyPress(KeyEvent.VK_ALT);
 		}
 		if (ctrlPressed) {
 			robot.keyPress(KeyEvent.VK_CONTROL);
 		}
-		if (shiftPressed)
-		 {
-			robot.keyPress(KeyEvent.VK_SHIFT);// */
+		if (shiftPressed) {
+			robot.keyPress(KeyEvent.VK_SHIFT);
 		}
 
 		int length = characters.length();
@@ -58,12 +49,15 @@ public class Keyboard {
 			type(character);
 		}
 
-		robot.keyRelease(KeyEvent.VK_ALT);// */
+		robot.keyRelease(KeyEvent.VK_ALT);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
-		robot.keyRelease(KeyEvent.VK_SHIFT);// */
+		robot.keyRelease(KeyEvent.VK_SHIFT);
 
 	}
 
+	/**
+	 * @param character character
+	 */
 	public void type(char character) {
 		switch (character) {
 		case 'a':
@@ -372,68 +366,70 @@ public class Keyboard {
 		}
 	}
 
-	/*
-	 * process strings such as <enter>
+	/**
+	 * process strings such as &lt;enter&gt;
 	 */
 	public void doType(boolean altPressed, boolean ctrlPressed,
 			boolean shiftPressed, String text) {
 		if (!text.startsWith("<") || !text.endsWith(">")) {
 			type(altPressed, ctrlPressed, shiftPressed, text);
 		} else {
-			if ("<escape>".equals(text)) {
+			switch (text) {
+			case "<escape>":
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_ESCAPE);
-			} else if ("<left>".equals(text)) {
+				break;
+			case "<left>":
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_LEFT);
-			} else if ("<right>".equals(text)) {
+				break;
+			case "<right>":
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_RIGHT);
-			} else if ("<up>".equals(text)) {
+				break;
+			case "<up>":
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_UP);
-			} else if ("<down>".equals(text)) {
+				break;
+			case "<down>":
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_DOWN);
-			} else if ("<backspace>".equals(text)) {
+				break;
+			case "<backspace>":
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_BACK_SPACE);
-			} else {
+				break;
+			default:
 				Log.debug("unknown keycode:" + text);
+				break;
 			}
 		}
-
 	}
 
+	/**
+	 * @param altPressed alt
+	 * @param ctrlPressed ctrl
+	 * @param shiftPressed shift
+	 * @param keyCodes key codes
+	 */
 	public void doType(boolean altPressed, boolean ctrlPressed,
 			boolean shiftPressed, int... keyCodes) {
-
-		if (altPressed)
-		 {
-			robot.keyPress(KeyEvent.VK_ALT); // */
+		if (altPressed) {
+			robot.keyPress(KeyEvent.VK_ALT);
 		}
 		if (ctrlPressed) {
 			robot.keyPress(KeyEvent.VK_CONTROL);
 		}
-		if (shiftPressed)
-		 {
-			robot.keyPress(KeyEvent.VK_SHIFT);// */
+		if (shiftPressed) {
+			robot.keyPress(KeyEvent.VK_SHIFT);
 		}
 
 		doType(keyCodes, 0, keyCodes.length);
 
-		robot.keyRelease(KeyEvent.VK_ALT);// */
+		robot.keyRelease(KeyEvent.VK_ALT);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
-		robot.keyRelease(KeyEvent.VK_SHIFT);// */
+		robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
 	public void doType(int... keyCodes) {
 		doType(keyCodes, 0, keyCodes.length);
-	}
-
-	public void altPressed(boolean press) {
-		if (press) {
-			robot.keyPress(KeyEvent.VK_ALT);
-		} else {
-			robot.keyRelease(KeyEvent.VK_ALT);
-		}
 	}
 
 	private void doType(int[] keyCodes, int offset, int length) {

@@ -9,11 +9,9 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.cas.CasTestJsonCommon;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.test.util.ReportBuilder;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -72,14 +70,6 @@ public class CAStestJSON extends CasTestJsonCommon {
 			sb.append(cat);
 			sb.append(',');
 		}
-		ReportBuilder report = new ReportBuilder("giac.js");
-		report.callback("exports.init = ");
-		LoggingCASFactoryD.printCustomFunctions(report);
-		report.callback(";\n\n");
-		report.callback("exports.rawTest = ");
-		LoggingCASFactoryD.printResponses(report);
-		report.callback(";");
-		report.close();
 		Assert.assertEquals("", sb.toString());
 	}
 

@@ -169,6 +169,10 @@ $keyboard_button_transition: opacity .3s ease;
 			border: 0px;
 		}
 
+		.cursorOverlay {
+			width: calc(100% - 32px) !important;
+		}
+
 		button {
 			visibility: visible;
 		}
@@ -190,7 +194,7 @@ $keyboard_button_transition: opacity .3s ease;
 			border-radius: 5px;
 		}
 
-		input {
+		input, .cursorOverlay {
 			background-color: rgba(0, 0, 0, 0);
 			line-height: 26px;
 		}

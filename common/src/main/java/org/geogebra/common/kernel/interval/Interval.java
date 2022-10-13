@@ -141,7 +141,7 @@ public class Interval {
 		}
 
 		if (o instanceof Interval) {
-			return almostEqual((Interval) o);
+			return almostEqual((Interval) o, PRECISION);
 		}
 		return false;
 
@@ -254,18 +254,18 @@ public class Interval {
 	}
 
 	/**
-	 *
 	 * @param other to compare
+	 * @param precision with
 	 * @return if the other interval is equal with a precision
 	 */
-	public boolean almostEqual(Interval other) {
+	public boolean almostEqual(Interval other, double precision) {
 		if (isUndefined() && other.isUndefined()) {
 			return true;
 		}
 
 		return inverted == other.inverted
-				&& DoubleUtil.isEqual(low, other.low, PRECISION)
-				&& DoubleUtil.isEqual(high, other.high, PRECISION);
+				&& DoubleUtil.isEqual(low, other.low, precision)
+				&& DoubleUtil.isEqual(high, other.high, precision);
 	}
 
 	/**
@@ -754,7 +754,7 @@ public class Interval {
 	}
 
 	public boolean isLessThanOrEqual(Interval y2) {
-		return isLessThan(y2) || almostEqual(y2);
+		return isLessThan(y2) || almostEqual(y2, 1E-7);
 	}
 
 	public double middle() {

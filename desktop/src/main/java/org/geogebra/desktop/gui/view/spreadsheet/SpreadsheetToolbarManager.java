@@ -14,29 +14,30 @@ import org.geogebra.desktop.main.AppD;
  */
 public class SpreadsheetToolbarManager {
 
-	private AppD app;
-	private SpreadsheetViewD view;
-	private MyTableD table;
+	private final AppD app;
+	private final SpreadsheetViewD view;
+	private final MyTableD table;
 
-	private CreateObjectDialog id;
-
+	/**
+	 * @param app application
+	 * @param view spreadsheet
+	 */
 	public SpreadsheetToolbarManager(AppD app, SpreadsheetViewD view) {
-
 		this.app = app;
 		this.view = view;
 		this.table = (MyTableD) view.getSpreadsheetTable();
 	}
 
+	/**
+	 * @param mode app mode
+	 */
 	public void handleModeChange(int mode) {
-
-		// Application.printStacktrace("");
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
+		CreateObjectDialog id;
 		switch (mode) {
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-
-			// if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
 			if (!table.selectedCellRanges.get(0).isEmpty()) {
 				id = new CreateObjectDialog(app, view,
 						CreateObjectModel.TYPE_LIST);
@@ -86,17 +87,13 @@ public class SpreadsheetToolbarManager {
 		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
 		case EuclidianConstants.MODE_SPREADSHEET_MIN:
 		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-
 			// Handle autofunction modes
-
 			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
-
 			break;
 
 		default:
 			// ignore other modes
 		}
-
 	}
 
 }

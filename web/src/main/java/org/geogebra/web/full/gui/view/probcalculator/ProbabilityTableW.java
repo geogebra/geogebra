@@ -20,16 +20,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class ProbabilityTableW extends ProbabilityTable implements ClickHandler {
 
-	/**
-	 * default width of table
-	 */
-	public static final int DEFAULT_WIDTH = 200;
 	private final FlowPanel wrappedPanel;
 	private final StatTableW statTable;
 
 	/**
 	 * @param app Application
-	 * @param probCalc ProbablityCalculator
+	 * @param probCalc ProbabilityCalculator
 	 */
 	public ProbabilityTableW(App app,
             ProbabilityCalculatorViewW probCalc) {
@@ -56,28 +52,15 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 		
 		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
-		//DefaultTableModel model = statTable.getModel();
-		int x = xMin;
-		int row = 0;
-
 		// set the table model with the prob. values for this distribution
-		double prob;
-		while (x <= xMax) {
-
-			statTable.setValueAt("" + x, row, 0);
-			if (distType != null) {
-				prob = getProbManager().probability(x, parms, distType, isCumulative());
-				statTable.setValueAt("" + getProbCalc().format(prob), row, 1);
-			}
-			x++;
-			row++;
-		}
-
-		//updateFonts(((AppD) app).getPlainFont());
-		
-		// need to get focus so that the table will finish resizing columns (not sure why)
-		//statTable.getTable().getElement().focus();
+		fillRows(distType, parms, xMin, xMax);
 		setIniting(false);
+	}
+
+	@Override
+	protected void setRowValues(int row, String k, String prob) {
+		statTable.setValueAt(k, row, 0);
+		statTable.setValueAt(prob, row, 1);
 	}
 
 	@Override
@@ -166,8 +149,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 				// select multiple rows: first up to selected
 				table.changeSelection(0, false, false);
 				table.changeSelection(selRow[selRow.length - 1], false, true);
-				// table.scrollRectToVisible(table.getCellRect(selRow[selRow.length-1],
-				// 0, true));
 			}
 			// table.getSelectionModel().addListSelectionListener(this);
 		} else if (getProbCalc()
@@ -182,8 +163,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 			// table.getSelectionModel().removeListSelectionListener(this);
 			table.changeSelection(maxRow, false, false);
 			table.changeSelection(selRow[0], false, true);
-			// table.scrollRectToVisible(table.getCellRect(selRow[0], 0, true));
-			// table.getSelectionModel().addListSelectionListener(this);
-			}
+		}
 	}
 }

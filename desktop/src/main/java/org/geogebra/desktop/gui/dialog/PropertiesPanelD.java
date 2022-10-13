@@ -1781,14 +1781,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			add(tabbedPane, BorderLayout.CENTER);
 
-			tabbedPane.addChangeListener(new ChangeListener() {
-
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					applyModifications();
-
-				}
-			});
+			tabbedPane.addChangeListener(e -> applyModifications());
 
 		}
 
@@ -3760,12 +3753,7 @@ class ColorFunctionPanel extends JPanel
 		nameLabelA.setLabelFor(inputPanelA);
 
 		btRemove = new JButton("\u2718");
-		btRemove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				model.removeAll();
-			}
-		});
+		btRemove.addActionListener(e -> model.removeAll());
 
 		cbColorSpace = new JComboBox();
 		cbColorSpace.addActionListener(this);

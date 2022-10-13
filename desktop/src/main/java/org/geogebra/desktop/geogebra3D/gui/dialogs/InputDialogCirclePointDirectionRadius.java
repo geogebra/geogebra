@@ -10,23 +10,21 @@ import org.geogebra.desktop.gui.dialog.InputDialogRadiusD;
 import org.geogebra.desktop.main.AppD;
 
 /**
- * 
- *
+ * Dialog for 3D circle with center, direction and radius
  */
 public class InputDialogCirclePointDirectionRadius extends InputDialogRadiusD {
 
-	private GeoPointND geoPoint;
+	private final GeoPointND geoPoint;
 
-	private GeoDirectionND forAxis;
+	private final GeoDirectionND forAxis;
 
 	/**
-	 * 
-	 * @param app
-	 * @param title
-	 * @param handler
-	 * @param point
-	 * @param forAxis
-	 * @param kernel
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param point center
+	 * @param forAxis direction
+	 * @param kernel kernel
 	 */
 	public InputDialogCirclePointDirectionRadius(AppD app, String title,
 			InputHandler handler, GeoPointND point, GeoDirectionND forAxis,

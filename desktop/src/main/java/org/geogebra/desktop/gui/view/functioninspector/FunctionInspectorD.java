@@ -90,29 +90,43 @@ public class FunctionInspectorD extends FunctionInspector
 	private static final Color TABLE_GRID_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 	// table fields
-	private InspectorTable tableXY, tableInterval;
-	private DefaultTableModel modelXY, modelInterval;
+	private InspectorTable tableXY;
+	private InspectorTable tableInterval;
+	private DefaultTableModel modelXY;
+	private DefaultTableModel modelInterval;
 	private static final int minRows = 12;
 
 	// GUI
-	private JLabel lblGeoName, lblStep, lblInterval;
-	private MyTextFieldD fldStep, fldLow, fldHigh;
-	private JButton btnRemoveColumn, btnHelp;
-	private JToggleButton btnOscCircle, btnTangent, btnXYSegments, btnTable;
-	private PopupMenuButtonD btnAddColumn, btnOptions;
+	private JLabel lblGeoName;
+	private JLabel lblStep;
+	private JLabel lblInterval;
+	private MyTextFieldD fldStep;
+	private MyTextFieldD fldLow;
+	private MyTextFieldD fldHigh;
+	private JButton btnRemoveColumn;
+	private JButton btnHelp;
+	private JToggleButton btnOscCircle;
+	private JToggleButton btnTangent;
+	private JToggleButton btnXYSegments;
+	private JToggleButton btnTable;
+	private PopupMenuButtonD btnAddColumn;
+	private PopupMenuButtonD btnOptions;
 	private JTabbedPane tabPanel;
-	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
+	private JPanel intervalTabPanel;
+	private JPanel pointTabPanel;
+	private JPanel headerPanel;
+	private JPanel helpPanel;
 
 	private boolean isChangingValue;
 	private int pointCount = 9;
 
 	private SpecialNumberFormat nf;
 
-	/***************************************************************
+	/**
 	 * Constructs a FunctionInspecor
 	 * 
-	 * @param app
-	 * @param selectedGeo
+	 * @param app application
+	 * @param selectedGeo selected function
 	 */
 	public FunctionInspectorD(AppD app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
@@ -225,8 +239,7 @@ public class FunctionInspectorD extends FunctionInspector
 	protected void createGUIElements() {
 
 		// create XY table
-		tableXY = new InspectorTable(getAppD(), this, minRows,
-				InspectorTable.TYPE_XY);
+		tableXY = new InspectorTable(getAppD(), this, minRows);
 		modelXY = new DefaultTableModel();
 		modelXY.addColumn("x");
 		modelXY.addColumn("y(x)");
@@ -239,19 +252,13 @@ public class FunctionInspectorD extends FunctionInspector
 		tableXY.setMyCellEditor(0);
 
 		// create interval table
-		tableInterval = new InspectorTable(getAppD(), this, minRows,
-				InspectorTable.TYPE_INTERVAL);
+		tableInterval = new InspectorTable(getAppD(), this, minRows);
 		modelInterval = new DefaultTableModel();
 		modelInterval.setColumnCount(2);
 		modelInterval.setRowCount(pointCount);
 		tableInterval.setModel(modelInterval);
 		tableInterval.getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						getModel().updateIntervalGeoVisiblity();
-					}
-				});
+				.addListSelectionListener(e -> getModel().updateIntervalGeoVisiblity());
 
 		lblGeoName = new JLabel(getModel().getTitleString());
 		lblGeoName.setFont(getAppD().getBoldFont());
@@ -277,7 +284,6 @@ public class FunctionInspectorD extends FunctionInspector
 		btnXYSegments = new JToggleButton();
 		btnTable = new JToggleButton();
 
-
 		btnOscCircle.addActionListener(this);
 		btnTangent.addActionListener(this);
 		btnXYSegments.addActionListener(this);
@@ -294,18 +300,15 @@ public class FunctionInspectorD extends FunctionInspector
 		btnRemoveColumn.addActionListener(this);
 
 		btnHelp = new JButton();
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						((GuiManagerD) app.getGuiManager())
-								.openHelp("Function_Inspector_Tool");
-					}
-				};
-				runner.start();
-			}
+		btnHelp.addActionListener(e -> {
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					((GuiManagerD) app.getGuiManager())
+							.openHelp("Function_Inspector_Tool");
+				}
+			};
+			runner.start();
 		});
 		btnHelp.setFocusable(false);
 		updateIcons();
@@ -586,11 +589,6 @@ public class FunctionInspectorD extends FunctionInspector
 		// only handle key pressed
 	}
 
-	// Mouse Listeners
-	// =========================================
-
-
-
 	@Override
 	public void updateFonts() {
 		Font font = getAppD().getPlainFont();
@@ -644,13 +642,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 		// copy to spreadsheet
 		JMenuItem mi = new JMenuItem(loc.getMenu("CopyToSpreadsheet"));
-		mi.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doCopyToSpreadsheet();
-			}
-		});
+		mi.addActionListener(e -> doCopyToSpreadsheet());
 		mi.setEnabled(((GuiManagerD) app.getGuiManager()).hasSpreadsheetView());
 		btnOptions.addPopupMenuItem(mi);
 
@@ -808,13 +800,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tabPanel.addTab("Interval", intervalTabPanel);
 		tabPanel.addTab("Point", pointTabPanel);
 
-		tabPanel.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent evt) {
-				updateTabPanels();
-			}
-
-		});
+		tabPanel.addChangeListener(evt -> updateTabPanels());
 
 	}
 
@@ -876,7 +862,7 @@ public class FunctionInspectorD extends FunctionInspector
 		// only for web
 	}
 
-	public void updateIcons() {
+	protected void updateIcons() {
 		if (app == null || btnOscCircle == null) {
 			return;
 		}

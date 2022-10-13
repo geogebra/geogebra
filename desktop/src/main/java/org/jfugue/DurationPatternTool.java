@@ -32,7 +32,7 @@ package org.jfugue;
  */
 public class DurationPatternTool extends ParserListenerAdapter {
 	private byte activeVoice = 0;
-	private long voiceDuration[];
+	private long[] voiceDuration;
 
 	public DurationPatternTool() {
 		reset();

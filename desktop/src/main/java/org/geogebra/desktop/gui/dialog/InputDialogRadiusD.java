@@ -8,7 +8,6 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -24,11 +23,10 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 	protected Kernel kernel;
 
 	/**
-	 * 
-	 * @param app
-	 * @param title
-	 * @param handler
-	 * @param kernel
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param kernel kernel
 	 */
 	public InputDialogRadiusD(AppD app, String title, InputHandler handler,
 			Kernel kernel) {
@@ -61,29 +59,24 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 
 	private void processInput() {
 		getInputHandler().processInput(inputPanel.getText(), this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						if (ok) {
-							GeoElement circle = createOutput(
-									((NumberInputHandler) getInputHandler())
-											.getNum());
-							GeoElement[] geos = { circle };
-							app.storeUndoInfoAndStateForModeStarting();
-							kernel.getApplication().getActiveEuclidianView()
-									.getEuclidianController()
-									.memorizeJustCreatedGeos(geos);
-						}
-						setVisibleForTools(!ok);
+				ok -> {
+					if (ok) {
+						GeoElement circle = createOutput(
+								((NumberInputHandler) getInputHandler())
+										.getNum());
+						GeoElement[] geos = { circle };
+						app.storeUndoInfoAndStateForModeStarting();
+						kernel.getApplication().getActiveEuclidianView()
+								.getEuclidianController()
+								.memorizeJustCreatedGeos(geos);
 					}
+					setVisibleForTools(!ok);
 				});
 
 	}
 
 	/**
-	 * 
-	 * @param num
+	 * @param num number
 	 * @return the circle
 	 */
 	abstract protected GeoElement createOutput(GeoNumberValue num);

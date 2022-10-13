@@ -74,16 +74,14 @@ public class ToolCreationDialogD extends Dialog
 
 	private OutputListModel outputList;
 	private InputListModel inputList;
-	private DefaultComboBoxModel cbInputAddList, cbOutputAddList;
-
+	private DefaultComboBoxModel cbInputAddList;
+	private DefaultComboBoxModel cbOutputAddList;
 
 	private Macro newTool;
 
 	/**
 	 * Creates new tool creation dialog, if in macro-editing mode,
-	 * 
-	 * @param app
-	 *            Aplication to which this dialog belongs
+	 * @param app Aplication to which this dialog belongs
 	 */
 	public ToolCreationDialogD(AppD app) {
 		super(app.getFrame());
@@ -211,7 +209,6 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Last change Zbynek Konecny
-	 * 
 	 * @version 2010-05-26
 	 */
 	private void finish() {
@@ -260,15 +257,13 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Overwrites a macro with current value of newTool
-	 * 
-	 * @param macro
-	 *            macro to overwrite
+	 * @param macro macro to overwrite
 	 * @author Zbynek Konecny
 	 * @version 2010-06-04
 	 */
 	private void overwriteMacro(Macro macro) {
-		Object[] options = { loc.getMenu("Tool.Replace"),
-				loc.getMenu("Tool.DontReplace") };
+		Object[] options = {loc.getMenu("Tool.Replace"),
+				loc.getMenu("Tool.DontReplace")};
 		int returnVal = JOptionPane.showOptionDialog(this,
 				app.getLocalization().getPlain("Tool.ReplaceQuestion",
 						macro.getToolName()),
@@ -406,9 +401,8 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Returns whether geo can be used as an input object.
-	 * 
-	 * @param geo
-	 * @return
+	 * @param geo element
+	 * @return whether it can be used as input
 	 */
 	private static boolean possibleInput(GeoElement geo) {
 		return geo.hasChildren();
@@ -457,9 +451,7 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Sets the tabs according to a macro.
-	 * 
-	 * @param macro
-	 *            whose parameters should be copied to the inputs.
+	 * @param macro whose parameters should be copied to the inputs.
 	 * @author Zbynek Konecny
 	 * @version 2010-06-14
 	 */
@@ -502,54 +494,48 @@ public class ToolCreationDialogD extends Dialog
 		btPanel.add(btCancel);
 		btCancel.setText(loc.getMenu("Cancel"));
 
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object src = e.getSource();
-				if (src == btNext) {
-					int index = tabbedPane.getSelectedIndex() + 1;
-					if (index == tabbedPane.getTabCount()) {
-						finish();
-					} else {
-						tabbedPane.setSelectedIndex(index);
-					}
-				} else if (src == btBack) {
-					int index = tabbedPane.getSelectedIndex() - 1;
+		ActionListener ac = e -> {
+			Object src = e.getSource();
+			if (src == btNext) {
+				int index = tabbedPane.getSelectedIndex() + 1;
+				if (index == tabbedPane.getTabCount()) {
+					finish();
+				} else {
 					tabbedPane.setSelectedIndex(index);
-				} else if (src == btCancel) {
-					setVisible(false);
 				}
+			} else if (src == btBack) {
+				int index = tabbedPane.getSelectedIndex() - 1;
+				tabbedPane.setSelectedIndex(index);
+			} else if (src == btCancel) {
+				setVisible(false);
 			}
 		};
 		btCancel.addActionListener(ac);
 		btNext.addActionListener(ac);
 		btBack.addActionListener(ac);
 
-		ChangeListener cl = new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				int tab = tabbedPane.getSelectedIndex();
-				btBack.setEnabled(tab > 0);
+		ChangeListener cl = e -> {
+			int tab = tabbedPane.getSelectedIndex();
+			btBack.setEnabled(tab > 0);
 
-				switch (tab) {
-				case 1: // input objects
-					updateInputList();
-					//$FALL-THROUGH$
-				case 0: // output objects
-					btNext.setText(loc.getMenu("Next") + " >");
-					btNext.setEnabled(true);
-					break;
+			switch (tab) {
+			case 1: // input objects
+				updateInputList();
+				//$FALL-THROUGH$
+			case 0: // output objects
+				btNext.setText(loc.getMenu("Next") + " >");
+				btNext.setEnabled(true);
+				break;
 
-				case 2: // name panel (finish)
-					if (createTool()) {
-						btNext.setText(loc.getMenu("Finish"));
-						btNext.setEnabled(
-								inputList.size() > 0 && outputList.size() > 0);
-						namePanel.requestFocus();
-					}
-					break;
-				default:
+			case 2: // name panel (finish)
+				if (createTool()) {
+					btNext.setText(loc.getMenu("Finish"));
+					btNext.setEnabled(
+							inputList.size() > 0 && outputList.size() > 0);
+					namePanel.requestFocus();
 				}
+				break;
+			default:
 			}
 		};
 		tabbedPane.addChangeListener(cl);
@@ -559,16 +545,11 @@ public class ToolCreationDialogD extends Dialog
 	/**
 	 * Creates a panel with a list to choose input/output objects of the new
 	 * tool.
-	 * 
-	 * @param showUpDownButtons
-	 *            true if up and down butons should appear on the right
-	 * @param cbModel
-	 *            Combobox model with items than can be added to list (not
-	 *            displayed if null)
-	 * @param loc
-	 *            Application this dialog belongs to
-	 * @param listModel
-	 *            list model containing the input/output GeoElements
+	 * @param showUpDownButtons true if up and down butons should appear on the right
+	 * @param cbModel Combobox model with items than can be added to list (not
+	 * displayed if null)
+	 * @param loc Application this dialog belongs to
+	 * @param listModel list model containing the input/output GeoElements
 	 * @return Panel with the list, buttons and comboBox
 	 */
 	public static JPanel createInputOutputPanel(LocalizationD loc,
@@ -628,17 +609,12 @@ public class ToolCreationDialogD extends Dialog
 	/**
 	 * Creates a panel with a list on the left and buttons (up, down, remove) on
 	 * the right. If the combobox is not null it is added on top of the list.
-	 * 
-	 * @param loc
-	 *            Application this dialog belongs to
-	 * @param list
-	 * @param showRemoveButton
-	 *            true if remove buton should appear on the right
-	 * @param showUpDownButtons
-	 *            true if up and down butons should appear on the right
-	 * @param cbAdd
-	 *            Combobox with items than can be added to list (not displayed
-	 *            if null)
+	 * @param loc Application this dialog belongs to
+	 * @param list list of active geos
+	 * @param showRemoveButton true if remove buton should appear on the right
+	 * @param showUpDownButtons true if up and down butons should appear on the right
+	 * @param cbAdd Combobox with items than can be added to list (not displayed
+	 * if null)
 	 * @return Panel with the list, buttons and comboBox
 	 */
 	public static JPanel createListUpDownRemovePanel(LocalizationD loc,
@@ -684,61 +660,58 @@ public class ToolCreationDialogD extends Dialog
 		centerPanel.add(outputButtonPanel, loc.borderEast());
 
 		// listener for buttons
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object src = e.getSource();
-				DefaultListModel listModel = (DefaultListModel) list.getModel();
-				int[] selIndices = list.getSelectedIndices();
-				if (src == btUp && selIndices != null) {
-					for (int i = 0; i < selIndices.length; i++) {
-						int index = selIndices[i];
-						if (index > 0) {
-							Object ob = listModel.get(index);
-							listModel.remove(index);
-							listModel.add(index - 1, ob);
-							selIndices[i] = index - 1;
-						}
+		ActionListener ac = e -> {
+			Object src = e.getSource();
+			DefaultListModel listModel = (DefaultListModel) list.getModel();
+			int[] selIndices = list.getSelectedIndices();
+			if (src == btUp && selIndices != null) {
+				for (int i = 0; i < selIndices.length; i++) {
+					int index = selIndices[i];
+					if (index > 0) {
+						Object ob = listModel.get(index);
+						listModel.remove(index);
+						listModel.add(index - 1, ob);
+						selIndices[i] = index - 1;
 					}
-					list.setSelectedIndices(selIndices);
-				} else if (src == btDown && selIndices != null) {
-					for (int i = selIndices.length - 1; i >= 0; i--) {
-						int index = selIndices[i];
-						if (index < listModel.size() - 1) {
-							Object ob = listModel.get(index);
-							listModel.remove(index);
-							listModel.add(index + 1, ob);
-							selIndices[i] = index + 1;
-						}
+				}
+				list.setSelectedIndices(selIndices);
+			} else if (src == btDown && selIndices != null) {
+				for (int i = selIndices.length - 1; i >= 0; i--) {
+					int index = selIndices[i];
+					if (index < listModel.size() - 1) {
+						Object ob = listModel.get(index);
+						listModel.remove(index);
+						listModel.add(index + 1, ob);
+						selIndices[i] = index + 1;
 					}
-					list.setSelectedIndices(selIndices);
-				} else if (src == btRemove && selIndices != null) {
-					NameDescriptionComparator comparator = new NameDescriptionComparator();
-					for (int i = selIndices.length - 1; i >= 0; i--) {
-						if (cbAdd != null) {
-							DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
-									.getModel();
+				}
+				list.setSelectedIndices(selIndices);
+			} else if (src == btRemove && selIndices != null) {
+				NameDescriptionComparator comparator = new NameDescriptionComparator();
+				for (int i = selIndices.length - 1; i >= 0; i--) {
+					if (cbAdd != null) {
+						DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
+								.getModel();
 
-							if (!allowMultiple) {
-								// take from list and insert sorted into
-								// add-combobox
-								GeoElement geo = (GeoElement) listModel
-										.elementAt(selIndices[i]);
-								int k = 0;
-								for (; k < cbModel.getSize(); k++) {
-									GeoElement cbGeo = (GeoElement) cbModel
-											.getElementAt(k);
-									if (comparator.compare(geo, cbGeo) <= 0) {
-										break;
-									}
+						if (!allowMultiple) {
+							// take from list and insert sorted into
+							// add-combobox
+							GeoElement geo = (GeoElement) listModel
+									.elementAt(selIndices[i]);
+							int k = 0;
+							for (; k < cbModel.getSize(); k++) {
+								GeoElement cbGeo = (GeoElement) cbModel
+										.getElementAt(k);
+								if (comparator.compare(geo, cbGeo) <= 0) {
+									break;
 								}
-								cbModel.insertElementAt(geo, k);
 							}
+							cbModel.insertElementAt(geo, k);
 						}
-
-						// remove from list
-						listModel.remove(selIndices[i]);
 					}
+
+					// remove from list
+					listModel.remove(selIndices[i]);
 				}
 			}
 		};
@@ -777,50 +750,49 @@ public class ToolCreationDialogD extends Dialog
 	}
 
 	public static boolean isMyCellRenderer(ListCellRenderer renderer) {
-		return (renderer instanceof MyCellRenderer);
+		return renderer instanceof MyCellRenderer;
 	}
-}
 
-class MyCellRenderer extends DefaultListCellRenderer {
-	private static final long serialVersionUID = 1L;
+	static class MyCellRenderer extends DefaultListCellRenderer {
+		private static final long serialVersionUID = 1L;
 
-
-	/*
-	 * This is the only method defined by ListCellRenderer. We just reconfigure
-	 * the Jlabel each time we're called.
-	 */
-	@Override
-	public Component getListCellRendererComponent(JList list, Object value, // value
-																			// to
-																			// display
-			int index, // cell index
-			boolean iss, // is the cell selected
-			boolean chf) // the list and the cell have the focus
-	{
 		/*
-		 * The DefaultListCellRenderer class will take care of the JLabels text
-		 * property, it's foreground and background colors, and so on.
+		 * This is the only method defined by ListCellRenderer. We just reconfigure
+		 * the Jlabel each time we're called.
 		 */
-		super.getListCellRendererComponent(list, value, index, iss, chf);
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, // value
+				// to
+				// display
+				int index, // cell index
+				boolean iss, // is the cell selected
+				boolean chf) { // the list and the cell have the focus
+			/*
+			 * The DefaultListCellRenderer class will take care of the JLabels text
+			 * property, it's foreground and background colors, and so on.
+			 */
+			super.getListCellRendererComponent(list, value, index, iss, chf);
 
-		if (value != null) {
-			if (value instanceof String) {
-				setText((String) value);
-			} else if (value instanceof Integer) {
-				setText(value + "");
-			} else {
-				GeoElement geo = (GeoElement) value;
-				String text = geo.getLongDescriptionHTML(true, true);
-				if (text.length() < 100) {
-					setText(text);
+			if (value != null) {
+				if (value instanceof String) {
+					setText((String) value);
+				} else if (value instanceof Integer) {
+					setText(value + "");
 				} else {
-					setText(geo.getNameDescriptionHTML(true, true));
+					GeoElement geo = (GeoElement) value;
+					String text = geo.getLongDescriptionHTML(true, true);
+					if (text.length() < 100) {
+						setText(text);
+					} else {
+						setText(geo.getNameDescriptionHTML(true, true));
+					}
 				}
+			} else {
+				setText(" ");
 			}
-		} else {
-			setText(" ");
-		}
 
-		return this;
+			return this;
+		}
 	}
+
 }

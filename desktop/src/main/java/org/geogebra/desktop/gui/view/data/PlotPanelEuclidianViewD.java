@@ -379,7 +379,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Sets the list of AbstractActions to be used in the popup context menu.
 	 * 
-	 * @param actionList
+	 * @param actionList action list
 	 */
 	public void setActionList(ArrayList<AbstractAction> actionList) {
 		this.actionList = actionList;
@@ -388,7 +388,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Returns the list of AbstractActions to be used in the popup context menu.
 	 * 
-	 * @return
+	 * @return action list
 	 */
 	public ArrayList<AbstractAction> getActionList() {
 
@@ -524,7 +524,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	public class TransferablePlotPanel implements Transferable {
 
-		private final DataFlavor supportedFlavors[] = { plotPanelFlavor,
+		private final DataFlavor[] supportedFlavors = { plotPanelFlavor,
 				DataFlavor.imageFlavor };
 
 		private final Image image;
@@ -532,9 +532,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		// private final Action act;
 
 		public TransferablePlotPanel() {
-			image = GBufferedImageD
-					.getAwtBufferedImage(plotPanelEV.getExportImage(1d));
-			// act = sampleAction;
+			image = GBufferedImageD.getAwtBufferedImage(plotPanelEV.getExportImage(1d));
 		}
 
 		@Override

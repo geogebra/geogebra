@@ -50,8 +50,8 @@ public class MyImageD implements MyImageJre {
 	/**
 	 * Load SVG from String
 	 * 
-	 * @param svgStr
-	 * @param name
+	 * @param svgStr SVG content
+	 * @param name name
 	 */
 	public MyImageD(String svgStr, String name) {
 		svg = new StringBuilder(svgStr.length());
@@ -71,8 +71,10 @@ public class MyImageD implements MyImageJre {
 		}
 	}
 
+	/**
+	 * @return MD5 hash of the content
+	 */
 	public String getMD5() {
-
 		if (img == null) {
 			return AppD.md5EncryptStatic(svg.toString());
 		}
@@ -95,7 +97,6 @@ public class MyImageD implements MyImageJre {
 
 		Log.error("MD5 Error");
 		return "image" + UUID.randomUUID();
-
 	}
 
 	/**
@@ -124,6 +125,10 @@ public class MyImageD implements MyImageJre {
 		diagram = universe.getDiagram(uri);
 	}
 
+	/**
+	 * @param imageFile image to load
+	 * @throws IOException when I/O problem occurs
+	 */
 	public void load(File imageFile) throws IOException {
 
 		if (StringUtil.toLowerCaseUS(imageFile.getName()).endsWith(".svg")) {
@@ -228,9 +233,14 @@ public class MyImageD implements MyImageJre {
 
 		Log.error("problem converting image to base64");
 		return "";
-
 	}
 
+	/**
+	 * @param file file
+	 * @param fileName filename
+	 * @return image
+	 * @throws IOException when I/O problem occurs
+	 */
 	public static MyImageD fromFile(File file, String fileName)
 			throws IOException {
 		if (fileName.endsWith(".svg")) {

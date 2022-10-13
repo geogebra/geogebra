@@ -75,6 +75,11 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * execute share action
 	 */
 	protected void onShare() {
+		if (app.getActiveMaterial() != null && app.getActiveMaterial()
+				.getSharingKeyOrId().equals(material.getSharingKeyOrId())) {
+			app.getShareController().share(); // make sure we save unsaved changes
+			return;
+		}
 		DialogData data = new DialogData("Share", "Cancel", "Save");
 		ShareDialogMow dialog = new ShareDialogMow(app, data,
 				app.getCurrentURL(material.getSharingKey(), true), material);
@@ -99,7 +104,10 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 *            single material after visibility change
 	 */
 	protected void updateCardVisibility(List<Material> result) {
-		card.updateVisibility(result.get(0).getVisibility());
+		card.updateVisibility(result.get(0));
+		if (card instanceof MaterialCard) {
+			((MaterialCard) card).setThumbnail(result.get(0));
+		}
 	}
 
 	/**

@@ -7,7 +7,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 
 /**
@@ -22,8 +21,10 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 	private JCheckBox checkBox;
 	boolean editing = false;
 
-	public MyCellEditorBoolean(Kernel kernel) {
-
+	/**
+	 * Checkbox for spreadsheet
+	 */
+	public MyCellEditorBoolean() {
 		super(new JCheckBox());
 		checkBox = (JCheckBox) editorComponent;
 	}
@@ -40,10 +41,6 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 
 		// enabled == isIndependent
 		checkBox.setEnabled(editGeo.isIndependent());
-
-		if (editGeo.isLabelVisible()) {
-			// checkBox.setText(editGeo.getCaption());
-		}
 		return editorComponent;
 	}
 

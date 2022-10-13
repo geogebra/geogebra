@@ -14,22 +14,20 @@ import org.geogebra.desktop.main.AppD;
  */
 public class InputDialogCylinderTwoPointsRadius extends InputDialogRadiusD {
 
-	private GeoPointND a, b;
+	private final GeoPointND a;
+	private final GeoPointND b;
 
 	/**
-	 * 
-	 * @param app
-	 * @param title
-	 * @param handler
-	 * @param kernel
+	 * @param app app
+	 * @param title title
+	 * @param handler input handler
+	 * @param kernel kernel
 	 */
 	public InputDialogCylinderTwoPointsRadius(AppD app, String title,
 			InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
 		super(app, title, handler, kernel);
-
 		this.a = a;
 		this.b = b;
-
 	}
 
 	@Override

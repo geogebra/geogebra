@@ -28,10 +28,19 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 	GeoSegmentND[] segments;
 	GeoPointND[] points;
 
-	private Kernel kernel;
+	private final Kernel kernel;
 
-	private EuclidianController ec;
+	private final EuclidianController ec;
 
+	/**
+	 * @param app application
+	 * @param title title
+	 * @param handler input handler
+	 * @param segments selected segments
+	 * @param points selected points
+	 * @param kernel kernel
+	 * @param ec controller
+	 */
 	public InputDialogAngleFixedD(AppD app, String title, InputHandler handler,
 			GeoSegmentND[] segments, GeoPointND[] points, Kernel kernel,
 			EuclidianController ec) {
@@ -73,21 +82,17 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 		final String inputText = inputPanel.getText();
 		DialogManager.createAngleFixed(kernel, inputText,
 				rbClockWise.isSelected(), app.getErrorHandler(), segments,
-				points, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						if (ok) {
-							// keep angle entered if it ends with 'degrees'
-							if (inputText.endsWith(Unicode.DEGREE_STRING)) {
-								defaultRotateAngle = inputText;
-							} else {
-								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
-							}
-
+				points, ok -> {
+					if (ok) {
+						// keep angle entered if it ends with 'degrees'
+						if (inputText.endsWith(Unicode.DEGREE_STRING)) {
+							defaultRotateAngle = inputText;
+						} else {
+							defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 						}
-						setVisibleForTools(!ok);
+
 					}
+					setVisibleForTools(!ok);
 				}, ec);
 
 	}

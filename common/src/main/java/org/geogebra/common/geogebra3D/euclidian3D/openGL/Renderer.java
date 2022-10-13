@@ -68,8 +68,8 @@ public abstract class Renderer {
 	public static final int LAYER_FACTOR_FOR_CODING = 2;
 	/** default layer */
 	public static final int LAYER_DEFAULT = 0;
-    /** layer to ensure no z-fighting between text and its background */
-    public static final int LAYER_FOR_TEXTS = 5;
+	/** layer to ensure no z-fighting between text and its background */
+	public static final int LAYER_FOR_TEXTS = 5;
 
 	/** 3D view */
 	protected EuclidianView3D view3D;
@@ -145,7 +145,7 @@ public abstract class Renderer {
 	private Runnable export3DRunnable;
 
 	// AR
-    private boolean arShouldStart = false;
+	private boolean arShouldStart = false;
 
 	/** shift for getting alpha value */
 	private static final int ALPHA_SHIFT = 24;
@@ -155,7 +155,7 @@ public abstract class Renderer {
 
 	/**
 	 * background type (only for AR)
-     * Order matters and corresponds to order in settings
+	 * Order matters and corresponds to order in settings
 	 */
 	public enum BackgroundStyle {
 		/** no background, ie we see camera image */
@@ -2150,8 +2150,8 @@ public abstract class Renderer {
      * @return XR manager (can be null)
      */
 	public XRManagerInterface<?> getXRManager() {
-	    return null;
-    }
+		return null;
+	}
 
 	/**
 	 * @return ArViewMatrix.
@@ -2183,15 +2183,26 @@ public abstract class Renderer {
 		if (arManager != null) {
 			arManager.fitThickness();
 		}
-    }
+	}
 
-    /**
-     * reset 3D view scale if AR has changed it
-     */
-    protected void resetScaleFromAR() {
-        XRManagerInterface<?> arManager = getXRManager();
-        if (arManager != null) {
-            arManager.resetScaleFromXR();
-        }
-    }
+	/**
+	 * Dispose context when app removed permanently
+	 */
+	public void dispose() {
+		// only needed for some platforms
+	}
+
+	public boolean isReadyToRender() {
+		return true;
+	}
+
+	/**
+	 * reset 3D view scale if AR has changed it
+	 */
+	protected void resetScaleFromAR() {
+		XRManagerInterface<?> arManager = getXRManager();
+		if (arManager != null) {
+			arManager.resetScaleFromXR();
+		}
+	}
 }

@@ -11,6 +11,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 public class MyZoomerD extends CoordSystemAnimation implements ActionListener {
 	protected Timer timer; // for animation
 
+	/**
+	 * @param view view
+	 */
 	public MyZoomerD(EuclidianView view) {
 		super(view);
 		timer = new Timer(DELAY, this);

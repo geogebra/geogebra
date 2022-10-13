@@ -37,13 +37,16 @@ public class CASDragGestureListener
 	private ArrayList<String> geoLabelList;
 	private DragGestureRecognizer dgr;
 
+	/**
+	 * @param kern kernel
+	 * @param table CAS table
+	 */
 	public CASDragGestureListener(Kernel kern, CASTableD table) {
 		super();
 		kernel = kern;
 		app = kernel.getApplication();
 		this.table = table;
 		ds = new DragSource();
-
 	}
 
 	/**
@@ -102,7 +105,7 @@ public class CASDragGestureListener
 	 */
 	static class TransferableCAS implements Transferable {
 
-		private final DataFlavor supportedFlavors[] = {
+		private final DataFlavor[] supportedFlavors = {
 				AlgebraViewTransferHandler.algebraViewFlavor,
 				CASTransferHandler.casTableFlavor, };
 

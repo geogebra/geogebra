@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -63,7 +62,7 @@ public class ComponentDropDown extends FlowPanel {
 	}
 
 	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, ITEM_HEIGHT, selectedOptionLabel);
+		dropDown = new ComponentDropDownPopup(app, ITEM_HEIGHT, selectedOptionLabel, null);
 		dropDown.addAutoHidePartner(getElement());
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
@@ -80,7 +79,6 @@ public class ComponentDropDown extends FlowPanel {
 	protected void toggleExpanded() {
 		if (dropDown.isOpened()) {
 			dropDown.close();
-
 		} else {
 			dropDown.show();
 		}
@@ -135,8 +133,7 @@ public class ComponentDropDown extends FlowPanel {
 
 		for (int i = 0; i < dropDownList.size(); ++i) {
 			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(
-					MainMenu.getMenuBarHtmlEmptyIcon(dropDownList.get(i)), true,
+			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
 					() -> {
 						setSelected(currentIndex);
 						fireSelected(currentIndex);

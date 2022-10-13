@@ -69,7 +69,8 @@ public class AnimationExportDialogD extends Dialog {
 	/**
 	 * Buttons to close the dialog or start the actual export.
 	 */
-	private JButton cancelButton, exportButton;
+	private JButton cancelButton;
+	private JButton exportButton;
 
 	private LocalizationD loc;
 
@@ -150,12 +151,7 @@ public class AnimationExportDialogD extends Dialog {
 		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		exportButton = new JButton(loc.getMenu("Export"));
-		exportButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				export();
-			}
-		});
+		exportButton.addActionListener(e -> export());
 
 		// disable controls if there are no sliders
 		if (comboModel.getSize() == 0) {
@@ -167,12 +163,7 @@ public class AnimationExportDialogD extends Dialog {
 		}
 
 		cancelButton = new JButton(loc.getMenu("Cancel"));
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+		cancelButton.addActionListener(e -> setVisible(false));
 		this.progressBar = new JProgressBar();
 		contentPane.add(progressBar, gbc(3));
 		panel.add(exportButton);

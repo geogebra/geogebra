@@ -8,10 +8,15 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.font.GTextLayout;
 
 public class GTextLayoutD implements GTextLayout {
-	private TextLayout impl;
-	private String str;
-	private GFont font;
+	private final TextLayout impl;
+	private final String str;
+	private final GFont font;
 
+	/**
+	 * @param string measured text
+	 * @param font font
+	 * @param frc rendering context
+	 */
 	public GTextLayoutD(String string, GFont font, GFontRenderContext frc) {
 		this.font = font;
 		this.str = string;

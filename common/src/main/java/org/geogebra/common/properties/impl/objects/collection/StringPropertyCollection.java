@@ -35,6 +35,15 @@ public class StringPropertyCollection<T extends StringProperty>
 	}
 
 	@Override
+	public String getInvalidInputErrorMessage() {
+		StringProperty first = getFirstProperty();
+		if (first != null) {
+			return first.getInvalidInputErrorMessage();
+		}
+		return "";
+	}
+
+	@Override
 	void setPropertyValue(T property, String value) {
 		property.setValue(value);
 	}

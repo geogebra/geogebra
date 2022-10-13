@@ -496,7 +496,7 @@ public class MatchingBlockManager {
 								g.fillRect(alloc.x, p0.y + p0.height,
 										alloc.width, p1.y - (p0.y + p0.height));
 							}
-							g.fillRect(alloc.x, p1.y, (p1.x - alloc.x),
+							g.fillRect(alloc.x, p1.y, p1.x - alloc.x,
 									p1.height);
 						} else {
 							g.drawRect(p0.x, p0.y, w - 1, p0.height - 1);

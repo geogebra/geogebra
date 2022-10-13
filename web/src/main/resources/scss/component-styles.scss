@@ -160,12 +160,20 @@
 	}
 
 	/* SWITCHER COMPONENT */
+	@mixin switcherBg($colTrack, $colThumb) {
+    	.track {
+    		background-color: $colTrack;
+    	}
+    	.thumb {
+    		background-color: $colThumb;
+    	}
+    }
+
 	.switch {
 		width: 40px;
 		height: 24px;
 		margin-right: 16px;
 		position: relative;
-		top: 7px;
 		float: right;
 		cursor: pointer;
 
@@ -188,26 +196,23 @@
 			top: -18px;
 			border-radius: 50%;
 			display: block;
+			box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
 			transition: left 0.3s ease, background 0.3s ease;
 		}
 
 		&.on {
-			.track {
-				background-color: #9ADAEC;
-			}
+			@include switcherBg(colors.$mow_light, colors.$mow_primary);
+
 			.thumb {
 				left: 16px;
-				background-color: #00A8D5;
 			}
 		}
 
 		&.off {
-			.track {
-				background-color: #c5c5c5;
-			}
+			@include switcherBg(colors.$switcher-off-track, colors.$switcher-off-thumb);
+
 			.thumb {
 				left: 0px;
-				background-color: #f1f1f1;
 			}
 		}
 	}
@@ -353,6 +358,10 @@
 
 	.dropDownPopup {
 		overflow-y: auto;
+		opacity: 0;
+		transform: scale(0.8);
+		will-change: transform, opacity;
+		transition: opacity .03s linear,transform .12s cubic-bezier(0,0,.2,1);
 
 		.dropDownElement {
 			padding-left: 24px;
@@ -367,6 +376,11 @@
 
 		.selectedDropDownElement, .selectedDropDownElement:hover {
 			background: colors.$black-12;
+		}
+
+		&.show {
+			opacity: 1;
+			transform: scale(1);
 		}
 	}
 
@@ -809,6 +823,195 @@
 		&.fadeIn {
 			opacity: 1;
 			transform: scale(1);
+		}
+	}
+
+	.dropDown {
+		min-width: 64px;
+		height: 48px;
+		cursor: pointer;
+		display: inline-flex;
+		box-sizing: border-box;
+		border-bottom: 1px solid colors.$black-42;
+
+		.optionLabelHolder {
+			.label {
+				font-size: 75%;
+				color: colors.$text-secondary;
+				height: 12px;
+				line-height: 12px;
+			}
+
+			.selectedOption {
+				height: 20px;
+				margin: 8px 8px 0 0;
+				color: colors.$text-primary;
+			}
+		}
+
+		.arrow {
+			width: 20px;
+			height: 20px;
+			margin: 18px 0 10px auto;
+			opacity: 0.54;
+		}
+
+		&:hover {
+			border-bottom: 2px solid colors.$text-primary;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$text-primary;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.active {
+			border-bottom: 2px solid colors.$mow_dark;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$mow_dark;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.disabled {
+			cursor: default;
+			border-bottom: 1px solid colors.$black-36;
+
+			.optionLabelHolder {
+				.label {
+					color: colors.$black-36;
+				}
+
+				.selectedOption {
+					color: colors.$black-36;
+				}
+			}
+
+			.arrow {
+				opacity: 0.36;
+			}
+		}
+	}
+
+	.combobox {
+		margin-top: 40px;
+		width: fit-content;
+		min-width: 64px;
+		height: 50px;
+
+		.inputLabel {
+			font-size: 75%;
+			color: colors.$text-secondary;
+			height: 12px;
+			line-height: 100%;
+			display: block;
+		}
+
+		.inputPanel {
+			display: flex;
+			box-sizing: border-box;
+			border-bottom: 1px solid colors.$black-42;
+
+			.AutoCompleteTextFieldW {
+				margin: 8px 8px 8px 0;
+				border: none;
+
+				input[type="text"] {
+					height: 20px;
+					line-height: 20px;
+					margin: 0;
+					padding: 0;
+				}
+
+				.TextField {
+					border: none;
+					box-shadow: none;
+				}
+
+				.TextField::selection {
+					background: colors.$mow_selection_color;
+				}
+			}
+		}
+
+		.arrow {
+			cursor: pointer;
+			width: 24px;
+			height: 24px;
+			margin: 6px 0;
+			opacity: 0.54;
+			transition: transform 200ms ease-in-out;
+		}
+
+		&:not(.disabled):hover {
+			.inputLabel {
+				color: colors.$text-primary;
+			}
+
+			.inputPanel {
+				border-bottom: 2px solid colors.$text-primary;
+
+				.AutoCompleteTextFieldW {
+					margin-bottom: 7px;
+				}
+			}
+
+			.arrow {
+				opacity: 0.87;
+			}
+		}
+
+		&.active, &.active:hover {
+			.inputLabel {
+				color: colors.$mow_dark;
+			}
+
+			.inputPanel {
+				border-bottom: 2px solid colors.$mow_dark;
+
+				.AutoCompleteTextFieldW {
+                	margin-bottom: 7px;
+                }
+			}
+
+			.arrow {
+				opacity: 0.87;
+				transform: rotate(-180deg);
+			}
+		}
+
+		&.disabled, &.disabled:hover {
+			cursor: default;
+
+			.inputLabel {
+				color: colors.$black-36;
+			}
+
+			.inputPanel {
+				border-bottom: 1px solid colors.$black-36;
+
+				input[type="text"] {
+					cursor: default;
+					color: colors.$black-36;
+					background-color: colors.$white;
+				}
+			}
+
+			.arrow {
+				cursor: default;
+				opacity: 0.36;
+			}
 		}
 	}
 }

@@ -104,8 +104,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 *            last column of the target cell range
 	 * @param row2
 	 *            last row of the target cell range
-	 * @param contents
-	 * @return
+	 * @param contents clipboard contents
+	 * @return whether paste succeeded
 	 */
 	public boolean paste(int column1, int row1, int column2, int row2,
 			Transferable contents) {
@@ -121,7 +121,6 @@ public class CopyPasteCutD extends CopyPasteCut {
 		}
 
 		isCSV = DataImportD.hasHTMLFlavor(contents);
-		// System.out.println("transfer string: " + transferString);
 
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
@@ -143,24 +142,26 @@ public class CopyPasteCutD extends CopyPasteCut {
 			String[][] data = DataImport.parseExternalData(app, transferString,
 					isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
-
-			// Application.debug("newline index "+buf.indexOf("\n"));
-			// Application.debug("length "+buf.length());
-
 		}
 
 		return succ;
 	}
 
-	// default pasteFromFile: clear spreadsheet and then paste from upper left
-	// corner
+	/**
+	 * Default paste: clear spreadsheet and then paste from upper left corner
+	 * @return success
+	 */
 	public boolean pasteFromURL(URL url) {
-
 		CellRange cr = new CellRange(app, 0, 0, 0, 0);
 		return pasteFromURL(url, cr, true);
-
 	}
 
+	/**
+	 * @param url file URL
+	 * @param targetRange target cells
+	 * @param clearSpreadsheet whether to clear cells
+	 * @return success
+	 */
 	public boolean pasteFromURL(URL url, CellRange targetRange,
 			boolean clearSpreadsheet) {
 
@@ -211,7 +212,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 	/**
 	 * Return the extension portion of the file's name.
 	 * 
-	 * @param f
+	 * @param filename file name
 	 * @return "ext" for file "filename.ext"
 	 */
 	private static String getExtension(String filename) {

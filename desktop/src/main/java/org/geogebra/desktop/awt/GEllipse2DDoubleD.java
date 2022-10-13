@@ -67,11 +67,6 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
-	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at), flatness));
-	}
-
 	@Override
 	public boolean intersects(double x, double y, double w, double h) {
 		return impl.intersects(x, y, w, h);

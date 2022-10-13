@@ -46,10 +46,16 @@ public class OptionsSpreadsheetD
 
 	private AppD app;
 
-	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
-			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
-			cbAllowSpecialEditor, cbAllowToolTips, cbPrependCommands,
-			cbEnableAutoComplete;
+	private JCheckBox cbShowFormulaBar;
+	private JCheckBox cbShowGrid;
+	private JCheckBox cbShowRowHeader;
+	private JCheckBox cbShowColumnHeader;
+	private JCheckBox cbShowHScrollbar;
+	private JCheckBox cbShowVScrollbar;
+	private JCheckBox cbAllowSpecialEditor;
+	private JCheckBox cbAllowToolTips;
+	private JCheckBox cbPrependCommands;
+	private JCheckBox cbEnableAutoComplete;
 	private JLabel descriptionLabel;
 	private JComboBox description;
 	private JPanel wrappedPanel;
