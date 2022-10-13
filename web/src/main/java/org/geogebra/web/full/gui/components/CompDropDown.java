@@ -10,10 +10,11 @@ import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownComboBoxI {
+public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	private final AppW app;
 	private Label label;
 	private String labelKey;
@@ -34,7 +35,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 
 		buildGUI(label);
 		addClickHandler();
+
+		initController(items);
+	}
+
+	private void initController( List<String> items) {
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
+		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
+		updateSelectionText(controller.getSelectedText());
 	}
 
 	private void buildGUI(String labelStr) {
@@ -71,8 +79,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 		});
 	}
 
-	@Override
-	public void toggleExpanded() {
+	private void toggleExpanded() {
 		if (controller.isOpened()) {
 			controller.closePopup();
 		} else {
@@ -99,10 +106,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 			label.setText(app.getLocalization().getMenu(labelKey));
 		}
 		controller.setLabels();
+		updateSelectionText(controller.getSelectedText());
 	}
 
-	@Override
-	public void updateSelectionText(String text) {
+	private void updateSelectionText(String text) {
 		selectedOption.setText(text);
 	}
 

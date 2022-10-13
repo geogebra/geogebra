@@ -16,10 +16,11 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropDownComboBoxI {
+public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget {
 	private final AppW appW;
 	private FlowPanel contentPanel;
 	private AutoCompleteTextFieldW inputTextField;
@@ -41,13 +42,16 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 
 		addStyleName("combobox");
 		buildGUI();
-		addClickHandler();
-		addFocusBlurHandlers();
-		addHoverHandlers();
-		addFieldKeyAndPointerHandler();
+		addHandlers();
 
+		initController(property);
+	}
+
+	private void initController(EnumerableProperty property) {
 		controller = new DropDownComboBoxController(appW, this,
 				Arrays.asList(property.getValues()), this::onClose);
+		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
+		updateSelectionText(controller.getSelectedText());
 	}
 
 	private void buildGUI() {
@@ -72,6 +76,13 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 		contentPanel.add(inputTextField);
 		contentPanel.add(arrowIcon);
 		add(contentPanel);
+	}
+
+	private void addHandlers() {
+		addClickHandler();
+		addFocusBlurHandlers();
+		addHoverHandlers();
+		addFieldKeyAndPointerHandler();
 	}
 
 	private void addClickHandler() {
@@ -118,8 +129,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 		resetTextField();
 	}
 
-	@Override
-	public void toggleExpanded() {
+	private void toggleExpanded() {
 		if (controller.isOpened()) {
 			inputTextField.setFocus(false);
 			resetTextField();
@@ -138,8 +148,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 				.withFill(arrowCol.toString()).getSVG());
 	}
 
-	@Override
-	public void updateSelectionText(String text) {
+	private void updateSelectionText(String text) {
 		inputTextField.setText(text);
 	}
 
@@ -165,5 +174,6 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, CompDropD
 			labelText.setText(appW.getLocalization().getMenu(labelTextKey));
 		}
 		controller.setLabels();
+		updateSelectionText(controller.getSelectedText());
 	}
 }
