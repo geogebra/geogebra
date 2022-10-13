@@ -39,7 +39,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		initController(items);
 	}
 
-	private void initController( List<String> items) {
+	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
 		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
 		updateSelectionText(controller.getSelectedText());
