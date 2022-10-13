@@ -10,7 +10,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DropDownComboBoxController implements SetLabels {
-	private CompDropDownComboBoxI parent;
+	private Widget parent;
 	private ComponentDropDownPopup dropDown;
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
@@ -24,7 +24,7 @@ public class DropDownComboBoxController implements SetLabels {
 	 * @param items - list of items in popup
 	 * @param onClose - handler to run on close
 	 */
-	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI parent, Widget anchor,
+	public DropDownComboBoxController(final AppW app, Widget parent, Widget anchor,
 			List<String> items, Runnable onClose) {
 		this.parent = parent;
 		this.items = items;
@@ -32,7 +32,7 @@ public class DropDownComboBoxController implements SetLabels {
 		init(app, anchor, onClose);
 	}
 
-	public DropDownComboBoxController(final AppW app, CompDropDownComboBoxI parent,
+	public DropDownComboBoxController(final AppW app, Widget parent,
 			List<String> items, Runnable onClose) {
 		this(app, parent, null, items, onClose);
 	}
@@ -43,11 +43,11 @@ public class DropDownComboBoxController implements SetLabels {
 		setSelectedOption(0);
 	}
 
-	private void createPopup(final AppW app, CompDropDownComboBoxI parent, Widget anchor,
+	private void createPopup(final AppW app, Widget parent, Widget anchor,
 			Runnable onClose) {
-		Widget posRelTo = anchor != null ? anchor : parent.asWidget();
+		Widget posRelTo = anchor != null ? anchor : parent;
 		dropDown = new ComponentDropDownPopup(app, 32, posRelTo, onClose);
-		dropDown.addAutoHidePartner(parent.asWidget().getElement());
+		dropDown.addAutoHidePartner(parent.getElement());
 	}
 
 	private void highlightSelectedElement(int previousSelectedIndex,
@@ -86,7 +86,6 @@ public class DropDownComboBoxController implements SetLabels {
 	 void setSelectedOption(int idx) {
 		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
 		dropDown.setSelectedIndex(idx);
-		parent.updateSelectionText(getSelectedText());
 	}
 
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
@@ -103,7 +102,6 @@ public class DropDownComboBoxController implements SetLabels {
 	@Override
 	public void setLabels() {
 		setElements(items);
-		parent.updateSelectionText(getSelectedText());
 	}
 
 	public ComponentDropDownPopup getPopup() {
