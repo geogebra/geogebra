@@ -295,7 +295,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnOpenFile.addStyleName("openFileBtn");
 		btnClearImage.addStyleName("clearImgBtn");
 		btnOpenFile.addFastClickHandler(event ->
-				UploadImagePanel.getUploadButton((AppW) app, this::applyImage).click());
+				UploadImagePanel.getUploadButton(app, this::applyImage).click());
+		btnOpenFile.setEnabled(app.enableFileFeatures());
 
 		btnPanel.add(btnImage);
 		btnPanel.add(btnClearImage);
