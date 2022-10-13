@@ -951,6 +951,9 @@ public class MyXMLHandler implements DocHandler {
 			boolean isCumulative = parseBoolean(attrs.get("isCumulative"));
 			app.getSettings().getProbCalcSettings().setCumulative(isCumulative);
 
+			boolean isOverlayActive = parseBoolean(attrs.get("isOverlayActive"));
+			app.getSettings().getProbCalcSettings().setOverlayActive(isOverlayActive);
+
 			// get parameters from comma delimited string
 			String parmString = attrs.get("parameters");
 			String[] parmStringArray = parmString.split(",");
