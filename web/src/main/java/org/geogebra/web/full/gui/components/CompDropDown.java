@@ -19,7 +19,6 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 	private String labelKey;
 	private Label selectedOption;
 	private boolean isDisabled = false;
-	private Runnable changeHandler;
 	private DropDownComboBoxController controller;
 
 	/**
@@ -108,6 +107,6 @@ public class CompDropDown extends FlowPanel implements SetLabels, CompDropDownCo
 	}
 
 	public void setChangeHandler(Runnable changeHandler) {
-		this.changeHandler = changeHandler;
+		controller.setChangeHandler(changeHandler);
 	}
 }
