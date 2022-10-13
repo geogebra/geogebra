@@ -4530,7 +4530,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @return macro construction XML
 	 */
-	public String getMacroXML(ArrayList<Macro> macros) {
+	public String getMacroXML(List<Macro> macros) {
 		if (hasMacros()) {
 			return MacroManager.getMacroXML(macros);
 		}

@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -430,7 +430,7 @@ public class ImageManagerW extends ImageManager {
 	 * @param archive
 	 *            archive
 	 */
-	public void writeMacroImages(ArrayList<Macro> macros, GgbFile archive) {
+	public void writeMacroImages(List<Macro> macros, GgbFile archive) {
 		if (macros == null) {
 			return;
 		}

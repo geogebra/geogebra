@@ -179,11 +179,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_ALL_MACROS_KEY = "storedMacros";
 	public static final String STORAGE_MACRO_KEY_PREFIX = "storedMacro_";
 	public static final String EDIT_MACRO_URL_PARAM_NAME = "editMacroName";
-	public static final String EDITED_MACRO_ACTION_KEY = "action";
-	public static final String EDITED_MACRO_ACTION_VALUE = "macroEdited";
 	public static final String EDITED_MACRO_NAME_KEY = "editedMacroName";
 	public static final String EDITED_MACRO_XML_KEY = "editedMacroXML";
-	public static final String DOUBLE_QUOTE_SUBSTITUTE = Unicode.CURRENCY_EURO + "";
 	private static final int LOWER_HEIGHT = 350;
 	/*
 	 * Note: the following numbers need to be in sync with deploygbb to scale

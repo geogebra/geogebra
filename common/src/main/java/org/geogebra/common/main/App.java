@@ -1665,7 +1665,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return XML for the given macro; if there are none, XML header+footer are returned
 	 */
 	public String getMacroXML(Macro macro) {
-		return getXMLio().getFullMacroXML(new ArrayList<>(Arrays.asList(macro)));
+		return getXMLio().getFullMacroXML(Arrays.asList(macro));
 	}
 
 	/**

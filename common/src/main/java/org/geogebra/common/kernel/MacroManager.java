@@ -14,6 +14,7 @@ package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.util.StringUtil;
 
@@ -160,7 +161,7 @@ public class MacroManager {
 	 *            list of macros
 	 * @return XML representation as one string
 	 */
-	public static String getMacroXML(ArrayList<Macro> macros) {
+	public static String getMacroXML(List<Macro> macros) {
 		if (macros == null) {
 			return "";
 		}

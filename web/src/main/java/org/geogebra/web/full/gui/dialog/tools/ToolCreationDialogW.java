@@ -27,8 +27,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Dialog to create a new user defined tool
@@ -341,7 +343,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 		}
 
 		if (appw.isOpenedForMacroEditing()) {
-			Macro editMacro = appw.getEditMacro();
+			Macro editMacro = toolModel.getNewTool();
 			String editMacroName = editMacro.getEditName();
 			String editMacroPreviousName = appw.getEditMacroPreviousName();
 			if (!editMacroPreviousName.equals(editMacroName)) {
@@ -357,21 +359,10 @@ public class ToolCreationDialogW extends ComponentDialog implements
 			}
 			StringBuilder xml = new StringBuilder();
 			editMacro.getXML(xml);
-			String message = "{\""
-					+ AppW.EDITED_MACRO_ACTION_KEY + "\": \"" + AppW.EDITED_MACRO_ACTION_VALUE
-					+ "\", \""
-					+ AppW.EDITED_MACRO_NAME_KEY + "\": \"" + editMacroName + "\", \""
-					+ AppW.EDITED_MACRO_XML_KEY + "\": \""
-					+ xml.toString()
-					.replace("\t", "").replace("\n", "")
-					.replace("\"", AppW.DOUBLE_QUOTE_SUBSTITUTE)
-					// Both the JSON parser and the XML processor need double
-					// quotes and having an XML embedded into JSON results in
-					// a faulty behaviour, therefore the double quotes of the
-					// XML are substituted for a neutral phrase and changed
-					// back after the XML is extracted from the JSON.
-					+ "\"}";
-			DomGlobal.window.opener.postMessage(message, "*");
+			JsPropertyMap<Object> message = JsPropertyMap.of();
+			message.set(AppW.EDITED_MACRO_NAME_KEY, editMacroName);
+			message.set(AppW.EDITED_MACRO_XML_KEY, xml.toString());
+			DomGlobal.window.opener.postMessage(Global.JSON.stringify(message), "*");
 		}
 		if (success) {
 			setVisible(false);
