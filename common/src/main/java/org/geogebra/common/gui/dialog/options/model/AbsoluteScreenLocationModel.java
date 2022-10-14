@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -66,7 +67,10 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 			}
 		}
 		geo.setAbsoluteScreenLocActive(value);
-		geo.updateRepaint();
+		if (geo.needsUpdatedBoundingBox()) {
+			geo.updateCascade();
+		}
+		geo.updateVisualStyleRepaint(GProperty.POSITION);
 	}
 
 	@Override
