@@ -3540,7 +3540,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public StringTemplate getScreenReaderTemplate() {
-		return getAppletParameters().getParamScreenReaderMode(NavigatorUtil.isMobile())
+		return getAppletParameters().getParamScreenReaderMode(NavigatorUtil.isMobile()
+					|| NavigatorUtil.isMacOS())
 				? StringTemplate.screenReaderAscii
 				: StringTemplate.screenReaderUnicode;
 	}
