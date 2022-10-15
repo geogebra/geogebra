@@ -1287,6 +1287,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setCurrentFile(null);
 		resetUI();
 		clearMedia();
+		getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 	}
 
 	@Override
@@ -1562,11 +1563,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 
-		getScriptManager().ggbOnInit(); // put this here from Application
-										// constructor because we have to delay
-										// scripts until the EuclidianView is
-										// shown
-
 		getEuclidianView1().synCanvasSize();
 
 		if (!appletParameters.getDataParamFitToScreen()) {
@@ -1604,7 +1600,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
-		onOpenFile();
+
 		showStartTooltip(null);
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
@@ -1613,9 +1609,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
+		getScriptManager().ggbOnInit(); // should be only called after coord system is ready
+		onOpenFile();
 		if (!asSlide) {
 			// should run after coord system changed
 			initUndoInfoSilent();
+		} else {
+			getEventDispatcher().dispatchEvent(EventType.LOAD_PAGE, null);
 		}
 		restoreCurrentUndoHistory();
 	}

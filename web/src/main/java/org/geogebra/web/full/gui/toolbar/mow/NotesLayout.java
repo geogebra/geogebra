@@ -27,7 +27,7 @@ public class NotesLayout implements SetLabels {
 	private final AppW appW;
 	private final @CheckForNull ToolbarMow toolbar;
 	private StandardButton pageControlButton;
-	private PageListPanel pageControlPanel;
+	private @CheckForNull PageListPanel pageControlPanel;
 	/** panel containing undo and redo */
 	private PersistablePanel undoRedoPanel;
 	/** undo button */
@@ -64,7 +64,7 @@ public class NotesLayout implements SetLabels {
 	 * make sure style is touch also on whiteboard
 	 */
 	protected void setTouchStyleForCards() {
-		pageControlPanel.setIsTouch();
+		getPageControlPanel().setIsTouch();
 	}
 
 	private void movePageControlButtonDown() {
@@ -146,13 +146,17 @@ public class NotesLayout implements SetLabels {
 		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
 		ec.widgetsToBackground();
 
+		getPageControlPanel().open();
+		appW.getPageController().updatePreviewImage();
+		deselectDragButton();
+	}
+
+	private PageListPanel getPageControlPanel() {
 		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWFull) appW).getAppletFrame()
 					.getPageControlPanel();
 		}
-		pageControlPanel.open();
-		appW.getPageController().updatePreviewImage();
-		deselectDragButton();
+		return pageControlPanel;
 	}
 
 	protected void deselectDragButton() {

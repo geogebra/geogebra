@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.NotesLayout;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSEvents;
@@ -91,9 +92,11 @@ public class PageListPanel
 				MaterialDesignResources.INSTANCE.add_white(), null, 24);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("mowPlusButton");
+		// make sure clicking + does not select slides
+		ClickStartHandler.initDefaults(plusButton, false, true);
 		plusButton.addFastClickHandler(source -> {
-			app.dispatchEvent(new Event(EventType.ADD_SLIDE,
-					null, null));
+			app.dispatchEvent(new Event(EventType.ADD_PAGE,
+					null, String.valueOf(pageController.getSlideCount())));
 			loadNewPage(false);
 		});
 		add(plusButton);
@@ -109,7 +112,7 @@ public class PageListPanel
 	public void loadNewPage(boolean selected) {
 		int index = addNewPreviewCard(selected);
 		pageController.loadNewPage(index);
-		app.getUndoManager().storeAction(EventType.ADD_SLIDE, index + "",
+		app.getUndoManager().storeAction(EventType.ADD_PAGE, index + "",
 						pageController.getSlide(index).getID());
 	}
 
@@ -221,12 +224,12 @@ public class PageListPanel
 		String id = pageController.getSlide(index).getID();
 		if (index == 0 && pageController.getSlideCount() == 1) {
 			app.getUndoManager().storeActionWithSlideId(
-					EventType.CLEAR_SLIDE, id, new String[]{id});
+					EventType.CLEAR_PAGE, id, new String[]{id});
 			pageController.loadNewPage(0);
 		} else {
 			pageController.removeSlide(index);
 			app.getUndoManager()
-					.storeActionWithSlideId(EventType.REMOVE_SLIDE, id, new String[]{index + "", id,
+					.storeActionWithSlideId(EventType.REMOVE_PAGE, id, new String[]{index + "", id,
 							pageController.getSlideCount() + ""});
 			updateIndexes(index);
 			// load new slide

@@ -49,7 +49,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	/** whether this is defined */
 	protected boolean defined = false;
 	// dummy segment to use in calculations
-	private GeoSegment seg = new GeoSegment(cons);
+	private GeoSegment seg;
 	private StringBuilder sbToString = new StringBuilder(50);
 
 	private boolean trace;
@@ -420,6 +420,9 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	}
 
 	private void setSegmentPoints(GeoPoint geoPoint, GeoPoint geoPoint2) {
+		if (seg == null) {
+			seg = new GeoSegment(cons);
+		}
 		seg.setStartPoint(geoPoint);
 		seg.setEndPoint(geoPoint2);
 		GeoVec3D.lineThroughPoints(geoPoint, geoPoint2, seg);
