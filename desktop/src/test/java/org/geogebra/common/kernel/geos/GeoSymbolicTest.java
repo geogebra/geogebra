@@ -1451,15 +1451,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		// Solve and NSolve both give {} or {?} or {x=?} or ?
 		GeoSymbolic symbolic = add("Solve(2^x=-3)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("{}"));
+		assertThat(GeoFunction.isUndefined(symbolic.toValueString(StringTemplate.defaultTemplate)),
+				equalTo(true));
 		symbolic = add("NSolve(2^x=-3)");
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
+		assertThat(GeoFunction.isUndefined(symbolic.toValueString(StringTemplate.defaultTemplate)),
+				equalTo(true));
 
 		// 2 variables
 		symbolic = add("Solve(x^2+y^2=-1, x+y=3)");
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
+		assertThat(GeoFunction.isUndefined(symbolic.toValueString(StringTemplate.defaultTemplate)),
+				equalTo(true));
 		symbolic = add("NSolve(x^2+y^2=-1, x+y=3)");
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), equalTo("?"));
+		assertThat(GeoFunction.isUndefined(symbolic.toValueString(StringTemplate.defaultTemplate)),
+				equalTo(true));
 	}
 
 	@Test
@@ -1467,7 +1471,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic symbolic = add("Solve(x^2>5)");
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(true));
 	}
-
 
 	@Test
 	public void testQuartiles() {
