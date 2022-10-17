@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -1669,7 +1670,7 @@ public abstract class GlobalKeyDispatcher {
 		// use increment of A
 		if (!geo.isGeoNumeric() && !geo.isGeoPoint()) {
 
-			ArrayList<GeoPointND> freeInputPoints = geo
+			ArrayList<GeoElementND> freeInputPoints = geo
 					.getFreeInputPoints(app.getActiveEuclidianView());
 
 			if (freeInputPoints != null && freeInputPoints.size() > 0) {

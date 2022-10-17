@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -62,7 +63,6 @@ public class MoveGeos {
 		final int size = geos.size();
 		moveObjectsUpdateList.clear();
 		moveObjectsUpdateList.ensureCapacity(size);
-
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = geos.get(i);
 			final Coords position = (size == 1)
@@ -96,9 +96,9 @@ public class MoveGeos {
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
 			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
-				ArrayList<GeoPointND> freeInputs = geo.getFreeInputPoints(view);
+				ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
 				if (freeInputs != null && !freeInputs.isEmpty()) {
-					for (GeoPointND point: freeInputs) {
+					for (GeoElementND point: freeInputs) {
 						addWithSiblingsAndChildNodes(point.toGeoElement(), geos, view);
 					}
 					return;

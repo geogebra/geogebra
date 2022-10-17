@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
@@ -499,10 +498,10 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
-		ArrayList<GeoPointND> list = algoParent.getFreeInputPoints();
-		ArrayList<GeoPointND> ret = new ArrayList<>();
-		for (GeoPointND p : list) {
+	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
+		ArrayList<GeoElementND> list = algoParent.getFreeInputPoints();
+		ArrayList<GeoElementND> ret = new ArrayList<>();
+		for (GeoElementND p : list) {
 			if (!hasForParent((GeoElement) p)) {
 				ret.add(p);
 			}
