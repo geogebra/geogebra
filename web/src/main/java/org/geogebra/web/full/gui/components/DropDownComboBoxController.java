@@ -50,6 +50,17 @@ public class DropDownComboBoxController implements SetLabels {
 		dropDown.addAutoHidePartner(parent.getElement());
 	}
 
+	/**
+	 * open/close dropdown
+	 */
+	public void toggleAsDropDown() {
+		if (isOpened()) {
+			closePopup();
+		} else {
+			showAsDropDown();
+		}
+	}
+
 	private void highlightSelectedElement(int previousSelectedIndex,
 			int currentSelectedIndex) {
 		dropDownElementsList.get(previousSelectedIndex)
