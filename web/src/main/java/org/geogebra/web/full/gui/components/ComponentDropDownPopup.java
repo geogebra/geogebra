@@ -123,18 +123,26 @@ public class ComponentDropDownPopup {
 		int popupHeight = getPopupHeight();
 
 		if (spaceBottom < minSpaceBottom) {
-			int popupTop = popupHeight > spaceTop ? (int) app.getAbsTop() + MARGIN_FROM_SCREEN
-					: anchor.asWidget().getAbsoluteTop() - popupHeight;
-			showAtPoint(anchor.getAbsoluteLeft(), popupTop);
-
-			if (popupHeight > spaceTop) {
-				setHeightAndScrollTop(spaceTop);
-			}
+			showAtTopOfAnchor(popupHeight, spaceTop);
 		} else {
-			showAtPoint(anchor.getAbsoluteLeft(), anchor.getElement().getAbsoluteBottom());
-			if (popupHeight > spaceBottom) {
-				setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
-			}
+			showAtBottomOfAnchor(popupHeight, spaceBottom);
+		}
+	}
+
+	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
+		int popupTop = popupHeight > spaceTop ? (int) app.getAbsTop() + MARGIN_FROM_SCREEN
+				: anchor.asWidget().getAbsoluteTop() - popupHeight;
+		showAtPoint(anchor.getAbsoluteLeft(), popupTop);
+
+		if (popupHeight > spaceTop) {
+			setHeightAndScrollTop(spaceTop);
+		}
+	}
+
+	private void showAtBottomOfAnchor(int popupHeight, int spaceBottom) {
+		showAtPoint(anchor.getAbsoluteLeft(), anchor.getElement().getAbsoluteBottom());
+		if (popupHeight > spaceBottom) {
+			setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
 		}
 	}
 

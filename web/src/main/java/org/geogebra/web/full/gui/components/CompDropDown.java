@@ -73,18 +73,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
-					toggleExpanded();
+					controller.toggleAsDropDown();
 				}
 			}
 		});
-	}
-
-	private void toggleExpanded() {
-		if (controller.isOpened()) {
-			controller.closePopup();
-		} else {
-			controller.showAsDropDown();
-		}
 	}
 
 	public int getSelectedIndex() {
