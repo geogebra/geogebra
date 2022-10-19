@@ -922,7 +922,7 @@ public class GeoSymbolic extends GeoElement
 		sb.append("\t<variables val=\"");
 		for (FunctionVariable variable : fVars) {
 			sb.append(prefix);
-			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
+			StringUtil.encodeXML(sb, variable.getSetVarString());
 			prefix = ",";
 		}
 		sb.append("\"/>\n");

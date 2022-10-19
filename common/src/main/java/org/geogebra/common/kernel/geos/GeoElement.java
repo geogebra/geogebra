@@ -4470,7 +4470,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && definition != null && getDefaultGeoType() < 0) {
 			sb.append("<expression label=\"");
-			sb.append(StringUtil.encodeXML(label));
+			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			getDefinitionXML(sb);
 			// expression
