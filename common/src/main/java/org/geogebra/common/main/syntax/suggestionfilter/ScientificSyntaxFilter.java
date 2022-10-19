@@ -18,7 +18,7 @@ public class ScientificSyntaxFilter implements SyntaxFilter {
 		if (Commands.Normal.name().equals(commandName)) {
 			return lineSelector.select(syntaxArray, 0, 1);
 		} else if (Commands.BinomialDist.name().equals(commandName)) {
-			return lineSelector.select(syntaxArray, 1);
+			return lineSelector.select(syntaxArray, 1, 2, 3);
 		}
 		return syntax;
 	}

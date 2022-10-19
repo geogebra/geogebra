@@ -67,8 +67,8 @@ public class ScientificCommandArgumentFilterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testBinomialDistWithTrialsSuccessProbValueAndCumulativeBooleanIsFiltered() {
-		assertThat(addAvInput("BinomialDist(3, 0.2, 5, true)"), is(nullValue()));
+	public void testBinomialDistWithTrialsSuccessProbValueAndCumulativeBooleanIsAllowed() {
+		assertThat(addAvInput("BinomialDist(3, 0.2, 5, true)"), is(notNullValue()));
 	}
 
 	@Test

@@ -35,10 +35,10 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 	private void checkBinomial(Command command, GeoElement[] arguments,
 			CommandProcessor commandProcessor) {
 
-		if (arguments.length == 3) {
+		if (arguments.length == 3 || arguments.length == 4) {
 				return;
 		} else {
-			throw commandProcessor.argNumErr(command, 3);
+			throw commandProcessor.argNumErr(command, arguments.length);
 		}
 	}
 
@@ -56,6 +56,6 @@ public class ScientificCommandArgumentFilter extends BaseCommandArgumentFilter {
 			}
 		}
 
-		throw commandProcessor.argNumErr(command, 4);
+		throw commandProcessor.argNumErr(command, arguments.length);
 	}
 }
