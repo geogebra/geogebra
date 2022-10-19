@@ -53,6 +53,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	private Dist distributionType = Dist.NORMAL;
 	private boolean isCumulative = false;
 	private boolean intervalSet = false;
+	private boolean  isOverlayActive = false;
 
 	private int probMode;
 
@@ -136,6 +137,18 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 		return isCumulative;
 	}
 
+	public boolean isOverlayActive() {
+		return isOverlayActive;
+	}
+
+	/**
+	 * @param isOverlayActive - whether overlay button was active
+	 */
+	public void setOverlayActive(boolean isOverlayActive) {
+		this.isOverlayActive = isOverlayActive;
+		settingChanged();
+	}
+
 	/**
 	 * @param probMode
 	 *            mode (left / right / interval)
@@ -201,6 +214,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 */
 	public void reset() {
 		intervalSet = false;
+		isOverlayActive = false;
 		low = null;
 		high = null;
 		settingChanged();

@@ -125,8 +125,6 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 
 		if (scroller.isActive() && !scroller.isDragging()) {
 			drawDropDownList.dropDown.startClickTimer(x, y);
-		} else {
-			return onClick(x, y);
 		}
 		return true;
 	}
@@ -288,6 +286,14 @@ class DrawOptions implements MoveSelector, OptionsInterface {
 	}
 
 	void onMouseUp(int x, int y) {
+		if (scroller.isActive()) {
+			onScrollMouseUp(x, y);
+		} else {
+			onClick(x, y);
+		}
+	}
+
+	private void onScrollMouseUp(int x, int y) {
 		scroller.stop();
 		if (drawDropDownList.dropDown.isClickTimerRunning()) {
 			drawDropDownList.dropDown.stopClickTimer();

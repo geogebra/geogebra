@@ -3903,7 +3903,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
+	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return algoParent.getFreeInputPoints();
 	}
 

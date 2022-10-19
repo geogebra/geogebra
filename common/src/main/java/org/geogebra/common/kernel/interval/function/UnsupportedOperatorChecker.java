@@ -10,46 +10,22 @@ import org.geogebra.common.plugin.Operation;
  */
 public class UnsupportedOperatorChecker implements Inspecting {
 
+	private GeoFunctionConverter converter = null;
+
 	@Override
 	public boolean check(ExpressionValue v) {
 		ExpressionNode wrap = v.wrap();
 		Operation operation = wrap.getOperation();
-		switch (operation) {
-		case PLUS:
-		case MINUS:
-		case DIVIDE:
-		case NROOT:
-		case DIFF:
-		case SIN:
-		case COS:
-		case SEC:
-		case COT:
-		case CSC:
-		case SQRT:
-		case TAN:
-		case EXP:
-		case LOG:
-		case ARCCOS:
-		case ARCSIN:
-		case ARCTAN:
-		case ABS:
-		case COSH:
-		case SINH:
-		case TANH:
-		case LOG10:
-		case LOG2:
-		case IF:
-		case IF_ELSE:
-		case IF_LIST:
-		case NO_OPERATION:
-			return false;
-		case MULTIPLY:
+
+		if (operation == Operation.MULTIPLY) {
 			return checkMultiply(wrap);
-		case POWER:
+		} else if (operation == Operation.POWER) {
 			return checkPower(wrap);
-		default:
-			return true;
 		}
+		if (converter == null) {
+			converter = wrap.getKernel().getFunctionConverter();
+		}
+		return !converter.isSupportedOperation(operation);
 	}
 
 	private boolean checkMultiply(ExpressionNode node) {

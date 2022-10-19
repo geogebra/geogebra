@@ -122,14 +122,7 @@ public class LayoutW extends Layout {
 		String toolbar3D = "";
 
 		// change the dock panel layout
-		app.setKeyboardNeeded(false);
 		for (DockPanelData dp : perspective.getDockPanelData()) {
-
-			if (dp.isVisible()
-					&& mayHaveKeyboard(dp)) {
-				app.setKeyboardNeeded(true);
-			}
-
 			if (dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 				toolbar3D = dp.getToolbarString();
 			}
@@ -140,9 +133,6 @@ public class LayoutW extends Layout {
 		app.setMacroViewIds(toolbar3D);
 		boolean linearInput = app.showAlgebraInput()
 				&& app.getInputPosition() != App.InputPosition.algebraView;
-		if (linearInput) {
-			app.setKeyboardNeeded(true);
-		}
 		if (!app.isIniting()) {
 			app.updateToolBar();
 			app.updateMenubar();
@@ -152,17 +142,6 @@ public class LayoutW extends Layout {
 		} else if (linearInput) {
 			app.updateContentPane();
 		}
-	}
-
-	private boolean mayHaveKeyboard(DockPanelData dp) {
-		if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
-			return app.getKernel().getConstruction().hasInputBoxes();
-		}
-		return (dp.getViewId() == App.VIEW_ALGEBRA
-				|| dp.getViewId() == App.VIEW_CAS
-				|| dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
-				|| dp.getViewId() == App.VIEW_SPREADSHEET)
-				&& dp.getTabId() == DockPanelData.TabIds.ALGEBRA;
 	}
 
 	@Override

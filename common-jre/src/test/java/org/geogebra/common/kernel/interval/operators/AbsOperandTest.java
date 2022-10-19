@@ -7,16 +7,22 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.geogebra.common.kernel.interval.IntervalHelper.invertedInterval;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.abs;
 import static org.junit.Assert.assertEquals;
 
+import org.geogebra.common.kernel.interval.Interval;
 import org.junit.Test;
 
 public class AbsOperandTest {
 
+	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
+
 	@Test
 	public void testPositiveIntervals() {
 		assertEquals(interval(0, 1E12), abs(interval(0, 1E12)));
+	}
+
+	private Interval abs(Interval value) {
+		return evaluator.abs(value);
 	}
 
 	@Test

@@ -278,19 +278,19 @@ public abstract class ProbabilityCalculatorView
 	 * @param isCumulative whether to show cumulative distribution
 	 */
 	public final void setCumulative(boolean isCumulative) {
+		if (setCumulativeNoFire(isCumulative)) {
+			changeProbabilityType();
+			updateAll(true);
+		}
+	}
+
+	private boolean setCumulativeNoFire(boolean isCumulative) {
 		if (this.isCumulative == isCumulative) {
-			return;
+			return false;
 		}
-
 		this.isCumulative = isCumulative;
-
-		if (isCumulative) {
-			graphType = graphTypeCDF;
-		} else {
-			graphType = graphTypePDF;
-		}
-		changeProbabilityType();
-		updateAll(true);
+		graphType = isCumulative ? graphTypeCDF : graphTypePDF;
+		return true;
 	}
 
 	protected abstract void changeProbabilityType();
@@ -358,7 +358,8 @@ public abstract class ProbabilityCalculatorView
 	protected void setProbabilityCalculatorNoFire(Dist distributionType,
 			GeoNumberValue[] parameters, boolean isCumulative) {
 		this.selectedDist = distributionType;
-		this.isCumulative = isCumulative;
+		setCumulativeNoFire(isCumulative);
+
 		this.parameters = parameters;
 		if (parameters == null || parameters.length == 0 || parameters[0] == null) {
 			this.parameters = ProbabilityManager
@@ -1388,6 +1389,7 @@ public abstract class ProbabilityCalculatorView
 			setLow(pcSettings.getLow());
 			setHigh(pcSettings.getHigh());
 		}
+		setShowNormalOverlay(((ProbabilityCalculatorSettings) settings).isOverlayActive());
 		updateAll(!pcSettings.isIntervalSet());
 		if (getStatCalculator() != null) {
 			getStatCalculator().settingsChanged();
@@ -1891,6 +1893,10 @@ public abstract class ProbabilityCalculatorView
 
 		sb.append(" isCumulative=\"");
 		sb.append(isCumulative ? "true" : "false");
+		sb.append("\"");
+
+		sb.append(" isOverlayActive=\"");
+		sb.append(isShowNormalOverlay() ? "true" : "false");
 		sb.append("\"");
 
 		sb.append(" parameters=\"");

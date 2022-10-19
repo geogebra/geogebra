@@ -59,6 +59,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -391,7 +392,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	// MOB-1304 cache axes numbers
 	private final HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
+
 	private Traversing.VariableReplacer variableReplacer;
+	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
 
 	/**
 	 * @param app
@@ -5221,5 +5224,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public Traversing.VariableReplacer getVariableReplacer() {
 		variableReplacer.reset();
 		return variableReplacer;
+	}
+
+	public GeoFunctionConverter getFunctionConverter() {
+		return functionConverter;
 	}
 }
