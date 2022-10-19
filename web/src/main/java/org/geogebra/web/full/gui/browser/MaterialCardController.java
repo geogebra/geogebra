@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
@@ -55,6 +56,8 @@ public class MaterialCardController implements OpenFileListener {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		if (material.getType() == MaterialType.ggsTemplate) {
 			app.registerOpenFileListener(this);
+		} else {
+			app.registerOpenFileListener(this::checkMultiuser);
 		}
 	}
 
@@ -155,6 +158,10 @@ public class MaterialCardController implements OpenFileListener {
 							MaterialCardController.this.app.getFileManager()
 									.delete(toDelete, true,
 											MaterialCardController.this.deleteCallback);
+							if (toDelete.isMultiuser()) {
+								app.getShareController()
+										.terminateMultiuser(toDelete, null);
+							}
 						}
 
 						@Override
@@ -271,4 +278,16 @@ public class MaterialCardController implements OpenFileListener {
 		app.setActiveMaterial(material);
 		return true; // one time only
 	}
+
+	private boolean checkMultiuser() {
+		String paramMultiplayerUrl = app.getAppletParameters().getParamMultiplayerUrl();
+		GeoGebraTubeUser loggedInUser =
+				app.getLoginOperation().getModel().getLoggedInUser();
+		if (material.isMultiuser() && !StringUtil.empty(paramMultiplayerUrl)
+				&& loggedInUser != null) {
+			app.getShareController().startMultiuser(material.getSharingKeyOrId());
+		}
+		return true; // one time only
+	}
+
 }

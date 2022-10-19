@@ -818,16 +818,15 @@ public class Function extends FunctionNVar
 	 */
 	private ExpressionNode evaluateToExpressionNode(String str) {
 		try {
-			ExpressionNode en = kernel.getParser().parseExpression(str);
+			ValidExpression en = kernel.getParser().parseGiac(str);
 			en.resolveVariables(new EvalInfo(false));
-			if (en.containsFreeFunctionVariable(null)) {
+			if (!(en instanceof ExpressionNode)
+				|| (en instanceof ExpressionNode
+					&& ((ExpressionNode) en).containsFreeFunctionVariable(null))) {
 				return null;
 			}
-			return en;
-		} catch (Exception e) {
-			Log.debug(e);
-			return null;
-		} catch (Error e) {
+			return (ExpressionNode) en;
+		} catch (Exception | Error e) {
 			Log.debug(e);
 			return null;
 		}

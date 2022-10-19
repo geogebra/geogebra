@@ -12,7 +12,11 @@ class MaterialImagePanel extends FlowPanel {
 		setBackground(material);
 	}
 
-	private void setBackground(Material m) {
+	/**
+	 * Update thumbnail from material
+	 * @param m material
+	 */
+	public void setBackground(Material m) {
 		final String thumb = m.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
 			setBackgroundImageUrl(thumb);

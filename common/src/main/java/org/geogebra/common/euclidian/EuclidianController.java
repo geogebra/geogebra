@@ -5618,11 +5618,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				rotGeoElement.updateCascade();
 			}
 		} else {
-			ArrayList<GeoPointND> pts = rotGeoElement.getFreeInputPoints(view);
-			for (GeoPointND pt : pts) {
-				pt.rotate(tempNum, rotationCenter);
+			ArrayList<GeoElementND> pts = rotGeoElement.getFreeInputPoints(view);
+			for (GeoElementND pt : pts) {
+				if (pt.isGeoPoint()) {
+					((GeoPointND) pt).rotate(tempNum, rotationCenter);
+				}
 			}
-			GeoElement.updateCascade(pts, new TreeSet<AlgoElement>(), false);
+			GeoElement.updateCascade(pts, new TreeSet<>(), false);
 			view.repaint();
 		}
 		rotationLastAngle = newAngle;
@@ -6837,6 +6839,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& movedGeoElement.hasMoveableInputPoints(view)) {
 			// allow only moving of the following object types
 			if (movedGeoElement.isGeoLine() || movedGeoElement.isGeoPolygon()
+					|| movedGeoElement.isGeoCurveCartesian()
 					|| (movedGeoElement instanceof GeoPolyLine)
 					|| (movedGeoElement instanceof GeoPieChart)
 					|| movedGeoElement.isGeoConic()
@@ -6850,7 +6853,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					translateableGeos.clear();
 				}
 
-				if (movedGeoElement.isGeoList()) {
+				if (movedGeoElement.isGeoList()
+						&& ((GeoList) movedGeoElement).getElementType() == GeoClass.POINT) {
 					translateableGeos.add(movedGeoElement);
 				} else {
 					addMovedGeoElementFreeInputPointsToTranslateableGeos();
@@ -7349,9 +7353,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void addMovedGeoElementFreeInputPointsToTranslateableGeos() {
-		ArrayList<GeoPointND> freeInputPoints = movedGeoElement
+		ArrayList<GeoElementND> freeInputPoints = movedGeoElement
 				.getFreeInputPoints(view);
-		for (GeoPointND p : freeInputPoints) {
+		for (GeoElementND p : freeInputPoints) {
 			translateableGeos.add((GeoElement) p);
 		}
 	}
@@ -11268,13 +11272,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			midpoint = new double[] { scaleConic.getMidpoint().getX(),
 					scaleConic.getMidpoint().getY() };
 
-			ArrayList<GeoPointND> points = scaleConic
+			ArrayList<GeoElementND> points = scaleConic
 					.getFreeInputPoints(this.view);
 			originalPointX = new double[points.size()];
 			originalPointY = new double[points.size()];
 			for (int i = 0; i < points.size(); i++) {
-				originalPointX[i] = points.get(i).getCoords().getX();
-				originalPointY[i] = points.get(i).getCoords().getY();
+				GeoPointND geoElementND = (GeoPointND) points.get(i);
+				originalPointX[i] = geoElementND.getCoords().getX();
+				originalPointY[i] = geoElementND.getCoords().getY();
 			}
 		} else {
 			if (shouldClearSelectionForMove()) {
@@ -11374,14 +11379,16 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			scale = dist / getOldDistance();
 			int i = 0;
 
-			for (GeoPointND p : scaleConic.getFreeInputPoints(view)) {
+			for (GeoElementND p : scaleConic.getFreeInputPoints(view)) {
 				double newX = midpoint[0]
 						+ (originalPointX[i] - midpoint[0]) * scale;
 				double newY = midpoint[1]
 						+ (originalPointY[i] - midpoint[1]) * scale;
-				p.setCoords(newX, newY, 1.0);
-				p.updateCascade();
-				i++;
+				if (p.isGeoPoint()) {
+					((GeoPointND) p).setCoords(newX, newY, 1.0);
+					p.updateCascade();
+					i++;
+				}
 			}
 			kernel.notifyRepaint();
 			break;
@@ -11390,10 +11397,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			scale = dist2P / getOldDistance();
 
 			// index 0 is the midpoint, index 1 is the point on the circle
-			ArrayList<GeoPointND> points = scaleConic.getFreeInputPoints(view);
+			ArrayList<GeoElementND> points = scaleConic.getFreeInputPoints(view);
 
-			if (points.size() > 1) {
-				GeoPointND p = scaleConic.getFreeInputPoints(view).get(1);
+			if (points.size() > 1 && points.get(1).isGeoPoint()) {
+				GeoPointND p = (GeoPointND) points.get(1);
 				double newX = midpoint[0] + (originalPointX[1] - midpoint[0]) * scale;
 				double newY = midpoint[1] + (originalPointY[1] - midpoint[1]) * scale;
 				p.setCoords(newX, newY, 1.0);

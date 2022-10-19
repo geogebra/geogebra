@@ -29,9 +29,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @param tuple to add
 	 */
 	public void add(IntervalTuple tuple) {
-		if (!list.contains(tuple)) {
-			list.add(tuple);
-		}
+		list.add(tuple);
 	}
 
 	/**
@@ -137,9 +135,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	 * @param tuple to prepend.
 	 */
 	public void prepend(IntervalTuple tuple) {
-		if (!list.contains(tuple)) {
-			list.add(0, tuple);
-		}
+		list.add(0, tuple);
 	}
 
 	/**

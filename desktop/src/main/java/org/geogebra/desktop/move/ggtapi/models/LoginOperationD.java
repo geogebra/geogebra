@@ -74,12 +74,7 @@ public class LoginOperationD extends LogInOperation {
 	public void dispatchEvent(final GenericEvent<EventRenderable> event) {
 
 		// call the gui event on the Event dispatch thread.
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				LoginOperationD.super.dispatchEvent(event);
-			}
-		});
+		SwingUtilities.invokeLater(() -> LoginOperationD.super.dispatchEvent(event));
 	}
 
 	/**

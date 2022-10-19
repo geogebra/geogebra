@@ -43,8 +43,10 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.export.ExportLoader;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.multiuser.MultiuserManager;
 import org.geogebra.web.html5.util.AnimationExporter;
 import org.geogebra.web.html5.util.ArchiveEntry;
@@ -807,10 +809,14 @@ public class GgbAPIW extends GgbAPI {
 
 	/**
 	 * remove applet from the page, and free memory. If applet is the last one,
-	 * it remove the style elements injected by the applet too.
+	 * it removes the style elements injected by the applet too.
 	 */
 	public void removeApplet() {
+		((AppW) app).getGeoGebraElement().removeFromParent();
 		((AppW) app).getAppletFrame().remove();
+		if (GeoGebraFrameW.getInstanceCount() == 0) {
+			ResourcesInjector.removeResources();
+		}
 	}
 
 	@Override

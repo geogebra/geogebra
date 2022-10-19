@@ -261,12 +261,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		optionsPanel = new OptionsPanelD(app, daModel,
 				getModel().getSettings());
 		optionsPanel.addPropertyChangeListener("settings",
-				new PropertyChangeListener() {
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						getModel().updatePlot(true);
-					}
-				});
+				evt -> getModel().updatePlot(true));
 		optionsPanel.setVisible(false);
 
 		frequencyTable = new FrequencyTablePanel(app);
@@ -375,15 +370,12 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		sliderNumClasses.setMajorTickSpacing(1);
 		sliderNumClasses.setSnapToTicks(true);
-		sliderNumClasses.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent evt) {
-				JSlider slider = (JSlider) evt.getSource();
-				getModel().getSettings().setNumClasses(slider.getValue());
-				fldNumClasses.setText(
-						"" + getModel().getSettings().getNumClasses());
-				getModel().updatePlot(true);
-			}
+		sliderNumClasses.addChangeListener(evt -> {
+			JSlider slider = (JSlider) evt.getSource();
+			getModel().getSettings().setNumClasses(slider.getValue());
+			fldNumClasses.setText(
+					"" + getModel().getSettings().getNumClasses());
+			getModel().updatePlot(true);
 		});
 
 		sliderNumClasses.addMouseListener(new MouseAdapter() {

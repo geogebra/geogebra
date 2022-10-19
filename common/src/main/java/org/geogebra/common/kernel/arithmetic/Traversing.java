@@ -421,8 +421,11 @@ public interface Traversing {
 		private List<String> vars = new ArrayList<>();
 		private List<ExpressionValue> newObjs = new ArrayList<>();
 		private int replacements;
-		private Kernel kernel;
-		private static VariableReplacer replacer = new VariableReplacer();
+		private final Kernel kernel;
+
+		public VariableReplacer(Kernel kernel) {
+			this.kernel = kernel;
+		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -449,19 +452,19 @@ public interface Traversing {
 			return replacements;
 		}
 
-		private static ExpressionValue contains(ExpressionValue ev) {
-			for (int i = 0; i < replacer.newObjs.size(); i++) {
-				if (replacer.newObjs.get(i) == ev) {
-					return replacer.newObjs.get(i);
+		private ExpressionValue contains(ExpressionValue ev) {
+			for (int i = 0; i < newObjs.size(); i++) {
+				if (newObjs.get(i) == ev) {
+					return newObjs.get(i);
 				}
 			}
 			return null;
 		}
 
-		private static ExpressionValue getVar(String var) {
-			for (int i = 0; i < replacer.vars.size(); i++) {
-				if (var.equals(replacer.vars.get(i))) {
-					return replacer.newObjs.get(i);
+		private ExpressionValue getVar(String var) {
+			for (int i = 0; i < vars.size(); i++) {
+				if (var.equals(vars.get(i))) {
+					return newObjs.get(i);
 				}
 			}
 			return null;
@@ -473,9 +476,18 @@ public interface Traversing {
 		 * @param replacement
 		 *            replacement object
 		 */
-		public static void addVars(String varStr, ExpressionValue replacement) {
-			replacer.vars.add(varStr);
-			replacer.newObjs.add(replacement);
+		public void addVars(String varStr, ExpressionValue replacement) {
+			vars.add(varStr);
+			newObjs.add(replacement);
+		}
+
+		/**
+		 * Reset substitutions
+		 */
+		public void reset() {
+			vars.clear();
+			newObjs.clear();
+			replacements = 0;
 		}
 
 		/**
@@ -489,34 +501,11 @@ public interface Traversing {
 		 */
 		public static VariableReplacer getReplacer(String varStr,
 				ExpressionValue replacement, Kernel kernel) {
-			replacer.vars.clear();
-			replacer.newObjs.clear();
-
-			replacer.vars.add(varStr);
-			replacer.newObjs.add(replacement);
-
-			replacer.replacements = 0;
-			replacer.kernel = kernel;
+			VariableReplacer replacer = kernel.getVariableReplacer();
+			replacer.addVars(varStr, replacement);
 			return replacer;
 		}
 
-		/**
-		 * When calling this method, make sure you initialize the replacer with
-		 * the {@link #addVars(String, ExpressionValue)} method
-		 *
-		 * @param kernel1
-		 *            kernel
-		 *
-		 * @return replacer
-		 */
-		public static VariableReplacer getReplacer(Kernel kernel1) {
-			replacer.kernel = kernel1;
-			replacer.vars.clear();
-			replacer.newObjs.clear();
-
-			replacer.replacements = 0;
-			return replacer;
-		}
 	}
 
 	/**

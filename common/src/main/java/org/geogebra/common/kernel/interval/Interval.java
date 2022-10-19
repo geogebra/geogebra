@@ -6,10 +6,7 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import java.util.Objects;
 
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.interval.function.IntervalEvaluate;
-import org.geogebra.common.kernel.interval.operators.IntervalOperands;
 import org.geogebra.common.kernel.interval.operators.RMath;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -17,7 +14,6 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public class Interval {
-	private final IntervalEvaluate evaluate = new IntervalEvaluate(this);
 	private double low;
 	private double high;
 	private boolean inverted = false;
@@ -269,18 +265,11 @@ public class Interval {
 	}
 
 	/**
-	 *  Computes "1 / x"
-	 * @return this as result.
+	 *
+	 * @param delta it might differ from zero.
+	 * @return if interval is zero with a given torelance specifiedf by delta.
 	 */
-	public Interval multiplicativeInverse() {
-		if (isZeroWithDelta(1E-6)) {
-			setUndefined();
-			return this;
-		}
-		return IntervalOperands.divide(IntervalConstants.one(), this);
-	}
-
-	private boolean isZeroWithDelta(double delta) {
+	public boolean isZeroWithDelta(double delta) {
 		return DoubleUtil.isEqual(low, 0, delta)
 				&& DoubleUtil.isEqual(high, 0, delta);
 
@@ -453,22 +442,6 @@ public class Interval {
 		}
 
 		return high < other.low;
-	}
-
-	/**
-	 * Evaluate interval with given operation and param.
-	 *
-	 * @param operation to execute.
-	 * @param other parameter for the operation
-	 * @return the result of the operation.
-	 *
-	 */
-	public Interval evaluate(Operation operation, Interval other) {
-		return evaluate.evaluate(operation, other);
-	}
-
-	public Interval evaluate(Operation operation) {
-		return evaluate.evaluate(operation);
 	}
 
 	/**

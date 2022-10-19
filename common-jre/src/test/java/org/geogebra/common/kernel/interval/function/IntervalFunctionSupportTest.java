@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.interval.function;
 
-import static org.geogebra.common.kernel.interval.function.IntervalFunction.isSupported;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -32,7 +31,6 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 		shouldBeSupported("log10(x)");
 		shouldBeSupported("log(x)");
 		shouldBeSupported("sin(x)^3");
-		shouldBeSupported("x * ((1, 1) * (1, 1))");
 		shouldBeSupported("sin(x)^(2/3)");
 		shouldBeSupported("sin(x)^2.141");
 		shouldBeSupported("x^(-2)");
@@ -44,7 +42,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 
 	private void shouldBeSupported(String command) {
 		assertTrue(command + " has not supported",
-				isSupported(add(command)));
+				IntervalFunctionSupport.isSupported(add(command)));
 	}
 
 	@Test
@@ -60,7 +58,7 @@ public class IntervalFunctionSupportTest extends BaseUnitTest {
 
 	private void shouldBeNotSupported(String command) {
 		assertFalse(command + " has supported, but it should not",
-				isSupported(add(command)));
+				IntervalFunctionSupport.isSupported(add(command)));
 	}
 
 	@Test

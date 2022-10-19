@@ -2710,7 +2710,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
+	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algoParent) {
 		return companion.getFreeInputPoints(algoParent);
 	}
 

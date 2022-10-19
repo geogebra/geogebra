@@ -182,14 +182,11 @@ public class ToolNameIconPanelD extends JPanel {
 						GridBagConstraints.CENTER, GridBagConstraints.NONE,
 						new Insets(0, 0, 0, 0), 0, 0));
 		btIconFile.setText(loc.getMenu("Icon") + " ...");
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String fileName = ((GuiManagerD) app.getGuiManager())
-						.getImageFromFile();
-				if (fileName != null) {
-					setIconFileName(fileName);
-				}
+		ActionListener ac = e -> {
+			String fileName = ((GuiManagerD) app.getGuiManager())
+					.getImageFromFile();
+			if (fileName != null) {
+				setIconFileName(fileName);
 			}
 		};
 
@@ -202,25 +199,22 @@ public class ToolNameIconPanelD extends JPanel {
 						new Insets(0, 0, 0, 0), 0, 0));
 		cbShowInToolBar.setText(loc.getMenu("ShowInToolBar"));
 		cbShowInToolBar.setSelected(true);
-		ActionListener ac2 = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean active = cbShowInToolBar.isSelected();
-				labelIcon.setEnabled(active);
-				btIconFile.setEnabled(active);
-				updateMacro();
+		ActionListener ac2 = e -> {
+			boolean active = cbShowInToolBar.isSelected();
+			labelIcon.setEnabled(active);
+			btIconFile.setEnabled(active);
+			updateMacro();
 
-				if (editHappens) {
-					int macroId = macro.getKernel().getMacroID(macro)
-							+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-					if (active) {
-						app.getGuiManager().refreshCustomToolsInToolBar();
-					} else {
-						app.getGuiManager().removeFromToolbarDefinition(macroId);
-					}
-					app.updateToolBar();
-					app.updateMenubar();
+			if (editHappens) {
+				int macroId = macro.getKernel().getMacroID(macro)
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
+				if (active) {
+					app.getGuiManager().refreshCustomToolsInToolBar();
+				} else {
+					app.getGuiManager().removeFromToolbarDefinition(macroId);
 				}
+				app.updateToolBar();
+				app.updateMenubar();
 			}
 		};
 		cbShowInToolBar.addActionListener(ac2);

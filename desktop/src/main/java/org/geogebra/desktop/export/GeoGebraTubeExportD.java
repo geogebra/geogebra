@@ -306,12 +306,7 @@ public class GeoGebraTubeExportD {
 
 		// setup buttons
 		abortButton = new JButton(getLoc().getMenu("Close"));
-		abortButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				hideDialog();
-			}
-		});
+		abortButton.addActionListener(arg0 -> hideDialog());
 
 		JPanel buttonPanel = new JPanel(
 				new FlowLayout(FlowLayout.RIGHT, 10, 0));

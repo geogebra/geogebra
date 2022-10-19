@@ -11,7 +11,6 @@ import org.geogebra.web.full.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
-import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -263,18 +262,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 				== ProbabilityCalculatorView.GRAPH_STEP);
 		btnBarGraph.setSelected(getGraphType()
 				== ProbabilityCalculatorView.GRAPH_BAR);
-	}
-
-	/**
-	 *update distribution drop-down
-	 * @param comboDistribution - distribution drop-down
-	 */
-	public void updateDistributionCombo(ListBox comboDistribution) {
-		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
-				.equals(getDistributionMap().get(selectedDist))) {
-			ListBoxApi.select(
-					getDistributionMap().get(selectedDist), comboDistribution);
-		}
 	}
 
 	/**

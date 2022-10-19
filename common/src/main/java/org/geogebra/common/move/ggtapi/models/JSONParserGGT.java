@@ -83,11 +83,15 @@ public class JSONParserGGT {
 		}
 
 		material.setVisibility(getString(obj, "visibility"));
+		material.setMultiuser(getBoolean(obj, "multiuser", false));
+		material.setSharedWithGroup(getBoolean(obj, "shared_with_group", false));
 		material.setFileName(getString(obj, "fileUrl"));
 		material.setSharingKey(sharingKey);
 		material.setAuthor(getString(obj, "author"));
+		// creatorId used in MOW, crator_id in Marvl, author_id in Tube
 		material.setAuthorId(
-				getInt(obj, "author_id", getInt(obj, "creator_id", -1)));
+				getInt(obj, "author_id", getInt(obj, "creator_id",
+						getInt(obj, "creatorId", -1))));
 		material.setURL(getString(obj, "url"));
 		material.setURLdirect(getString(obj, "url_direct"));
 		String thumbUrl = getString(obj, "thumbUrl");
@@ -133,6 +137,9 @@ public class JSONParserGGT {
 		}
 		if (obj.has("creator")) {
 			setCreator(material, obj);
+		} else {
+			String displayName = getString(obj, "author");
+			material.setCreator(new UserPublic(displayName, material.getAuthorID(), displayName));
 		}
 		return material;
 	}

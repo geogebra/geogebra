@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -138,24 +136,14 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		ExpressionNode enx, eny;
 
 		if (DoubleUtil.isZero(coeffs.getZ())) {
-			enx = new ExpressionNode(kernel,
-					new MyDouble(kernel, coeffs.getX()), Operation.MULTIPLY,
-					xFun);
-			eny = new ExpressionNode(kernel,
-					new MyDouble(kernel, coeffs.getY()), Operation.MULTIPLY,
-					yFun);
+			enx = xFun.multiply(coeffs.getX());
+			eny = yFun.multiply(coeffs.getY());
 			enx = enx.plus(eny);
-
 		} else {
 			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-			enx = new ExpressionNode(kernel,
-					new MyDouble(kernel, coeffs.getX() / coeffs.getZ()),
-					Operation.MULTIPLY, xFun);
-			eny = new ExpressionNode(kernel,
-					new MyDouble(kernel, coeffs.getY() / coeffs.getZ()),
-					Operation.MULTIPLY, yFun);
+			enx = xFun.multiply(coeffs.getX() / coeffs.getZ());
+			eny = yFun.multiply(coeffs.getY() / coeffs.getZ());
 			enx = enx.plus(eny).plus(1);
-
 		}
 
 		findIntersections(enx, fv);

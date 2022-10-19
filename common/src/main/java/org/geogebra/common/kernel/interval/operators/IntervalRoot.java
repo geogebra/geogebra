@@ -1,14 +1,23 @@
 package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.computeInverted;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.pow;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.util.DoubleUtil;
 
 public class IntervalRoot {
+
+	private final IntervalNodeEvaluator evaluator;
+
+	/**
+	 *
+	 * @param evaluator {@link IntervalNodeEvaluator}
+	 */
+	public IntervalRoot(IntervalNodeEvaluator evaluator) {
+
+		this.evaluator = evaluator;
+	}
 
 	/**
 	 * Computes the nth root of the interval
@@ -40,10 +49,9 @@ public class IntervalRoot {
 			if (isOdd(n)) {
 				return compute(interval.uninvert(), n).invert();
 			}
-			Interval result1 = compute(interval.extractLow(), n);
-			Interval result2 = compute(interval.extractHigh(), n);
-			Interval result = computeInverted(result1, result2);
-			return result;
+
+			return evaluator.computeInverted(compute(interval.extractLow(), n),
+					compute(interval.extractHigh(), n));
 		}
 
 		double power = 1 / n;
@@ -51,7 +59,7 @@ public class IntervalRoot {
 			return new Interval(oddFractionPower(interval.getLow(), power),
 					oddFractionPower(interval.getHigh(), power));
 		}
-		return pow(interval, power).round();
+		return evaluator.pow(interval, power).round();
 	}
 
 	private double oddFractionPower(double x, double power) {
