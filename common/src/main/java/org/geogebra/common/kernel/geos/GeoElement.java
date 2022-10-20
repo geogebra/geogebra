@@ -2366,7 +2366,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			setLabel(newLabel); // now we rename
 			return true;
 		} else {
-			throw new MyError(getLoc(), "NameUsed", newLabel);
+			throw new MyError(getLoc(), MyError.Errors.NameUsed, newLabel);
 		}
 	}
 
