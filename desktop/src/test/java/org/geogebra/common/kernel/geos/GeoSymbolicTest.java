@@ -1715,7 +1715,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testIterationOutput() {
 		app.setCasConfig();
 		GeoSymbolic geo4args = add("Iteration(2u + 1, u, {0}, 64)");
-		assertThat(geo4args, nullValue());
+
+		assertEquals("Iteration(2u + 1, u, {0}, 64)",
+				geo4args.toValueString(StringTemplate.defaultTemplate));
+		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
 	}
 
 	@Test
