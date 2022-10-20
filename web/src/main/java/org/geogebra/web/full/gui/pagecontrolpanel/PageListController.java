@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.io.QDParser;
@@ -55,6 +56,7 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
+import jsinterop.base.Any;
 import jsinterop.base.Js;
 
 /**
@@ -440,7 +442,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private static GgbFile filter(GgbFile archive, String prefix) {
-		GgbFile ret = new GgbFile();
+		GgbFile ret = new GgbFile(prefix);
 		for (Entry<String, ArchiveEntry> e : archive.entrySet()) {
 			if (e.getKey().startsWith(prefix + "/")
 					|| e.getKey().startsWith(GgbFile.SHARED_PREFIX)) {
@@ -513,6 +515,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void loadPage(int index) {
+		dispatchSelected(index);
 		savePreviewCard(selectedCard);
 		loadSlide(index);
 		setCardSelected(index);
@@ -546,10 +549,7 @@ public class PageListController implements PageListControllerInterface,
 		if (slides.get(pageIdx) == selectedCard && !selectedCardChangedAfterLoad) {
 			return; // no change
 		}
-		if (select) {
-			app.dispatchEvent(new Event(EventType.SELECT_PAGE,
-					null, pageIdx + ""));
-		}
+		dispatchSelected(pageIdx);
 		loadSlide(pageIdx);
 		selectedCardChangedAfterLoad = false;
 		if (select) {
@@ -557,101 +557,130 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
+	private void dispatchSelected(int pageIdx) {
+		app.dispatchEvent(new Event(EventType.SELECT_PAGE,
+				null, slides.get(pageIdx).getID()));
+	}
+
 	@Override
-	public void selectSlide(int pageIdx) {
+	public void selectSlide(String pageId) {
 		saveSelected();
-		loadSlide(pageIdx);
-		setCardSelected(pageIdx);
+		findById(pageId).ifPresent(card -> {
+			loadSlide(card.getPageIndex());
+			setCardSelected(card);
+		});
 	}
 
 	@Override
 	public void handlePageAction(String eventType, String pageIdx, Object appState) {
-		EventType event = null;
-		String[] args = new String[] {};
 		refreshSlide(selectedCard);
 		switch (eventType) {
 		case "addPage":
-			PagePreviewCard card = addNewPreviewCard(false, getSlideCount(), new GgbFile());
+			PagePreviewCard card = addNewPreviewCard(false, getSlideCount(),
+					new GgbFile(pageIdx));
 			card.clearBackground();
-			listener.update();
-			return;
+			break;
 
 		case "removePage":
-			event = EventType.REMOVE_PAGE;
-			args = !"undefined".equals(pageIdx) ? new String[] { pageIdx }
-					: new String[] {};
+			findById(pageIdx).ifPresent(removeCard -> {
+				int index = slides.indexOf(removeCard);
+				removeSlide(index);
+				if (isLoaded(removeCard.getID())) {
+					int toLoad = Math.min(index, getSlideCount() - 1);
+					loadPage(toLoad);
+				}
+			});
 			break;
 
 		case "movePage":
-			event = EventType.MOVE_PAGE;
-			args = new String[] {pageIdx, Js.asPropertyMap(appState).get("to").toString()};
+			findById(pageIdx).ifPresent(removeCard -> {
+				int index = slides.indexOf(removeCard);
+				Any to = Js.asPropertyMap(appState).getAsAny("to");
+				doReorder(index, Math.max(0, to.asInt()));
+			});
 			break;
 
 		case "renamePage":
-			renameCard(Integer.parseInt(pageIdx),
-					Js.asPropertyMap(appState).get("title").toString());
-			listener.update();
-			return;
+			findById(pageIdx).ifPresent(renameCard -> renameCard.setCardTitle(
+					Js.asPropertyMap(appState).get("title").toString()));
+			break;
 		case "pastePage":
-			event = EventType.PASTE_PAGE;
-			args = new String[] { pageIdx, null, appState.toString() };
+			// TODO
 			break;
 
 		case "clearPage":
-			event = EventType.CLEAR_PAGE;
-			args = new String[] { pageIdx };
+			loadNewPage(0);
+
 			break;
 
 		default:
 			Log.error("No event type sent");
 			break;
 		}
-		if (event != null) {
-			this.executeAction(event, args);
-		}
-	}
-
-	@Override
-	public PageContent getPageContent(int index) {
-		if (isLoaded(index)) {
-			String thumb = ((EuclidianViewWInterface) app.getActiveEuclidianView())
-					.getExportImageDataUrl(0.5, false, false);
-			return PageContent.of(app.getXML(), app.getGgbApi().getAllObjectNames(), thumb,
-					selectedCard.getCardTitle());
-		}
-		ArchiveEntry archiveEntry = slides.get(index).getFile().get("geogebra.xml");
-		String xml = archiveEntry == null ? "" : archiveEntry.string;
-		ArchiveEntry thumb = slides.get(index).getFile().get("geogebra_thumbnail.xml");
-		String thumbUrl = thumb == null ? "" : thumb.export();
-		return PageContent.of(xml, findObjectNames(xml), thumbUrl,
-				slides.get(index).getCardTitle());
-	}
-
-	@Override
-	public void setPageContent(int page, PageContent content) {
-		if (slides.size() <= page) {
-			addSlide(page, new GgbFile());
-		}
-		slides.get(page).getFile().put("geogebra.xml", content.xml);
-		slides.get(page).getFile().put("geogebra_thumbnail.png", content.thumbnail);
-		if (isLoaded(page)) {
-			app.setXML(content.xml, true);
-		}
-		slides.get(page).updatePreviewFromFile();
-		slides.get(page).setCardTitle(content.title);
 		listener.update();
 	}
 
 	@Override
-	public int getActivePage() {
-		return selectedCard.getPageIndex();
+	public PageContent getPageContent(String pageId) {
+		if (isLoaded(pageId)) {
+			String thumb = ((EuclidianViewWInterface) app.getActiveEuclidianView())
+					.getExportImageDataUrl(0.5, false, false);
+			return PageContent.of(app.getXML(), app.getGgbApi().getAllObjectNames(), thumb,
+					selectedCard.getCardTitle(), selectedCard.getPageIndex());
+		}
+
+		PagePreviewCard target = findById(pageId).orElse(null);
+		if (target == null) {
+			Log.warn("Page not found: " + pageId);
+			return null;
+		}
+		ArchiveEntry archiveEntry = target.getFile().get("geogebra.xml");
+		String xml = archiveEntry == null ? "" : archiveEntry.string;
+		ArchiveEntry thumb = target.getFile().get("geogebra_thumbnail.xml");
+		String thumbUrl = thumb == null ? "" : thumb.export();
+		return PageContent.of(xml, findObjectNames(xml), thumbUrl,
+				target.getCardTitle(), target.getPageIndex());
 	}
 
-	private boolean isLoaded(int index) {
-		return slides.get(index) == selectedCard;
+	private Optional<PagePreviewCard> findById(String pageId) {
+		return slides.stream().filter(card ->
+				card.getID().equals(pageId)).findFirst();
+	}
+
+	@Override
+	public void setPageContent(String pageId, PageContent content) {
+		PagePreviewCard target = findById(pageId).orElse(null);
+		if (target == null) {
+			target = addSlide(slides.size(), new GgbFile(pageId));
+		}
+		target.getFile().put("geogebra.xml", content.xml);
+		target.getFile().put("geogebra_thumbnail.png", content.thumbnail);
+		if (isLoaded(pageId)) {
+			app.setXML(content.xml, true);
+		}
+		target.updatePreviewFromFile();
+		target.setCardTitle(content.title);
+		listener.update();
+	}
+
+	@Override
+	public String getActivePage() {
+		return selectedCard.getID();
+	}
+
+	@Override
+	public String[] getPages() {
+		return slides.stream().map(PagePreviewCard::getID).toArray(String[]::new);
+	}
+
+	private boolean isLoaded(String index) {
+		return selectedCard.getID().equals(index);
 	}
 
 	private String[] findObjectNames(String string) {
+		if (StringUtil.empty(string)) {
+			return new String[0];
+		}
 		QDParser qd = new QDParser();
 		ObjectLabelHandler handler = new ObjectLabelHandler();
 		try {
@@ -931,7 +960,7 @@ public class PageListController implements PageListControllerInterface,
 		undoManager.storeAction(EventType.RENAME_PAGE, "" + card.getPageIndex(),
 				oldTitle, card.getCardTitle());
 		Event evt = new Event(EventType.RENAME_PAGE, null,
-				card.getPageIndex() + "");
+				card.getID());
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("title", oldTitle);
 		app.getEventDispatcher().dispatchEvent(evt.setJsonArgument(args));
@@ -943,5 +972,9 @@ public class PageListController implements PageListControllerInterface,
 			card.resetTop();
 		}
 		listener.updateContentPanelHeight();
+	}
+
+	public static String nextID() {
+		return "p" + Math.floor(Math.random() * 1E6);
 	}
 }

@@ -1150,18 +1150,17 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	@Override
-	public void selectPage(String pageIdx) {
-		int page = "undefined".equals(pageIdx) ? -1 : Integer.parseInt(pageIdx);
-		if (page > -1 && ((AppW) app).getPageController() != null) {
-			((AppW) app).getPageController().selectSlide(page);
+	public void selectPage(String pageId) {
+		if (((AppW) app).getPageController() != null) {
+			((AppW) app).getPageController().selectSlide(pageId);
 		}
 	}
 
 	/**
-	 * @return index of selected page
+	 * @return ID of selected page
 	 */
-	public int getActivePage() {
-		return ((AppW) app).getPageController() == null ? 0
+	public String getActivePage() {
+		return ((AppW) app).getPageController() == null ? ""
 				: ((AppW) app).getPageController().getActivePage();
 	}
 
@@ -1174,20 +1173,20 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @return number of pages for notes, 1 for other apps
+	 * @return list of page IDs in notes
 	 */
-	public int getPageCount() {
+	public String[] getPages() {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		return pageController != null ? pageController.getSlideCount() : 1;
+		return pageController != null ? pageController.getPages() : new String[]{""};
 	}
 
 	/**
 	 * @return XML of given page
 	 */
-	public PageContent getPageContent(int index) {
+	public PageContent getPageContent(String pageId) {
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
-		return pageController != null ? pageController.getPageContent(index)
-				: PageContent.of(getXML(), getAllObjectNames(), null, null);
+		return pageController != null ? pageController.getPageContent(pageId)
+				: PageContent.of(getXML(), getAllObjectNames(), null, null, 0);
 	}
 
 	/**
@@ -1280,14 +1279,14 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	/**
-	 * @param page page index
+	 * @param pageId page ID
 	 * @param content page content
 	 */
-	public void setPageContent(int page, PageContent content) {
+	public void setPageContent(String pageId, PageContent content) {
 		PageListControllerInterface pc = ((AppW) app).getPageController();
 		if (pc != null) {
-			pc.setPageContent(page, content);
-		} else if (page == 0) {
+			pc.setPageContent(pageId, content);
+		} else {
 			setXML(content.xml);
 		}
 	}

@@ -95,7 +95,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 		boolean oneSlide = app.getPageController().getSlideCount() == 1;
 		app.dispatchEvent(new Event(oneSlide ? EventType.CLEAR_PAGE
 				: EventType.REMOVE_PAGE, null,
-				card.getPageIndex() + ""));
+				card.getID()));
 		frame.getPageControlPanel().removePage(card.getPageIndex());
 	}
 

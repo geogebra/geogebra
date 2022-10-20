@@ -66,7 +66,7 @@ public class PageListPanel
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
-		addNewPreviewCard(true);
+		addNewPreviewCard(true, "main");
 		frame.add(this);
 		setVisible(false);
 		addBitlessDomHandler(pageController, TouchStartEvent.getType());
@@ -95,9 +95,9 @@ public class PageListPanel
 		// make sure clicking + does not select slides
 		ClickStartHandler.initDefaults(plusButton, false, true);
 		plusButton.addFastClickHandler(source -> {
-			app.dispatchEvent(new Event(EventType.ADD_PAGE,
-					null, String.valueOf(pageController.getSlideCount())));
-			loadNewPage(false);
+			String id = PageListController.nextID();
+			app.dispatchEvent(new Event(EventType.ADD_PAGE, null, id));
+			loadNewPage(false, id);
 		});
 		add(plusButton);
 		showPlusButton(false);
@@ -109,11 +109,15 @@ public class PageListPanel
 	 * @param selected
 	 *            whether to select it
 	 */
-	public void loadNewPage(boolean selected) {
-		int index = addNewPreviewCard(selected);
+	public void loadNewPage(boolean selected, String id) {
+		int index = addNewPreviewCard(selected, id);
 		pageController.loadNewPage(index);
 		app.getUndoManager().storeAction(EventType.ADD_PAGE, index + "",
 						pageController.getSlide(index).getID());
+	}
+
+	public void loadNewPage(boolean selected) {
+		loadNewPage(selected, PageListController.nextID());
 	}
 
 	/**
@@ -180,9 +184,9 @@ public class PageListPanel
 	 * 
 	 * @return index of new slide
 	 */
-	protected int addNewPreviewCard(boolean selected) {
+	protected int addNewPreviewCard(boolean selected, String id) {
 		int index = pageController.getSlideCount();
-		pageController.addNewPreviewCard(selected, index, new GgbFile());
+		pageController.addNewPreviewCard(selected, index, new GgbFile(id));
 		addPreviewCard(pageController.getCard(index));
 		return index;
 	}
@@ -271,7 +275,7 @@ public class PageListPanel
 	@Override
 	public void reset() {
 		contentPanel.clear();
-		addNewPreviewCard(true);
+		addNewPreviewCard(true, "main");
 	}
 
 	/**

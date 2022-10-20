@@ -10,6 +10,7 @@ public class PageContent {
 	public String[] objects;
 	public String thumbnail;
 	public String title;
+	public int order;
 
 	/**
 	 * @param xml construction XML
@@ -19,12 +20,13 @@ public class PageContent {
 	 */
 	@JsOverlay
 	public static PageContent of(String xml, String[] allObjectNames, String thumbnail,
-			String title) {
+			String title, int order) {
 		PageContent content = new PageContent();
 		content.xml = xml;
 		content.objects = allObjectNames;
 		content.thumbnail = thumbnail;
 		content.title = title;
+		content.order = order;
 		return content;
 	}
 }

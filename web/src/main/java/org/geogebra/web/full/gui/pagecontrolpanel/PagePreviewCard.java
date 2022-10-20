@@ -42,7 +42,7 @@ public class PagePreviewCard extends FlowPanel
 	 * ggb file
 	 */
 	protected GgbFile file;
-	
+
 	/**
 	 * @param app
 	 *            parent application
@@ -135,7 +135,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private void updateLabel() {
-		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
+		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1) + ":" + file.getID());
 	}
 
 	/**
@@ -278,5 +278,9 @@ public class PagePreviewCard extends FlowPanel
 
 	public boolean updatePreviewFromFile() {
 		return setPreviewImage(getFile().get("geogebra_thumbnail.png"));
+	}
+
+	public String getID() {
+		return file.getID();
 	}
 }

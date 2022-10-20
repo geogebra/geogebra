@@ -1009,20 +1009,20 @@ public class DefaultExportedApi implements ExportedApi {
 		getGgbAPI().selectPage(pageIdx + "");
 	}
 
-	public int getActivePage() {
+	public String getActivePage() {
 		return getGgbAPI().getActivePage();
 	}
 
-	public int getPageCount() {
-		return getGgbAPI().getPageCount();
+	public JsArray<String> getPages() {
+		return new JsArray<>(getGgbAPI().getPages());
 	}
 
-	public PageContent getPageContent(int page) {
-		return getGgbAPI().getPageContent(page);
+	public PageContent getPageContent(String pageId) {
+		return getGgbAPI().getPageContent(pageId);
 	}
 
-	public void setPageContent(int page, PageContent content) {
-		getGgbAPI().setPageContent(page, content);
+	public void setPageContent(String pageId, PageContent content) {
+		getGgbAPI().setPageContent(pageId, content);
 	}
 
 	public void updateOrdering(String labels) {

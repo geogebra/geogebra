@@ -391,9 +391,9 @@ class DragController {
 			boolean moved = index() != getDropIndex();
 			if (moved) {
 				Event evt = new Event(EventType.MOVE_PAGE, null,
-						index() + "");
+						dragged == null ? "" : dragged.getID());
 				HashMap<String, Object> args = new HashMap<>();
-				args.put("to", getDropIndex() + "");
+				args.put("to", getDropIndex());
 				app.dispatchEvent(evt.setJsonArgument(args));
 				cards.reorder(index(), getDropIndex());
 			}
