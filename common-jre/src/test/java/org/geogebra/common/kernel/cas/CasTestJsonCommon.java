@@ -675,6 +675,7 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testMedian() {
 		testCat("Median");
+		testCat("Median.2");
 	}
 
 	@Test
@@ -886,6 +887,7 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testSampleSD() {
 		testCat("stdevp.1");
+		testCat("stdevp.2");
 		testCat("SampleSD.1");
 	}
 
@@ -897,6 +899,7 @@ public abstract class CasTestJsonCommon {
 	@Test
 	public void testSD() {
 		testCat("stdev.1");
+		testCat("stdev.2");
 		testCat("SD.1");
 	}
 
