@@ -393,7 +393,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// MOB-1304 cache axes numbers
 	private final HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
 
-	private Traversing.VariableReplacer variableReplacer;
+	private final Traversing.VariableReplacer variableReplacer;
 	private final GeoFunctionConverter functionConverter = new GeoFunctionConverter();
 
 	/**
@@ -410,7 +410,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		getExpressionNodeEvaluator();
 
 		setManager3D(newManager3D(this));
-		variableReplacer = new Traversing.VariableReplacer(this);
 	}
 
 	/**
@@ -426,6 +425,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		geoFactory = factory;
 		arithmeticFactory = new ArithmeticFactory();
 		scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(this);
+		variableReplacer = new Traversing.VariableReplacer(this);
 	}
 
 	/**
