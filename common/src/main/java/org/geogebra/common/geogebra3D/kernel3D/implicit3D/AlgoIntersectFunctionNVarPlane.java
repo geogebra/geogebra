@@ -93,22 +93,22 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 			curve.getTransformedCoordSys().setZequal(a, b, c, d);
 			curve.setType(Type.DEFAULT);
 		} else {
-			VariableReplacer vr = VariableReplacer.getReplacer(kernel);
+			VariableReplacer vr = kernel.getVariableReplacer();
 			exp = surface.getFunctionExpression().getCopy(kernel);
 			if (!DoubleUtil.isZero(norm.getY())) {
 				double a = norm.getX();
 				double b = norm.getY();
 				double d = norm.getW();
 				ExpressionNode substY = x.wrap().multiply(-a / b).plus(-d / b);
-				VariableReplacer.addVars("y", substY);
+				vr.addVars("y", substY);
 
 				curve.getTransformedCoordSys().setYequal(a, b, d);
 				curve.setType(Type.PLANE_XY);
 			} else {
 				double v = -norm.getW() / norm.getX();
 				ExpressionNode substY = new ExpressionNode(kernel, v);
-				VariableReplacer.addVars("x", substY);
-				VariableReplacer.addVars("y",
+				vr.addVars("x", substY);
+				vr.addVars("y",
 						new FunctionVariable(kernel, "x"));
 
 				// set transformed coord sys to x=value

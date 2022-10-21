@@ -218,7 +218,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private boolean toolLoadedFromStorage;
 	private BrowserStorage storage;
-	private boolean keyboardNeeded;
 	private final ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private int appletWidth = 0;
@@ -286,9 +285,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		});
 		if (!StringUtil
 				.empty(getAppletParameters().getParamScaleContainerClass())) {
-			Browser.addMutationObserver(getParent(
-					getAppletParameters().getParamScaleContainerClass()),
-					this::checkScaleContainer);
+			getGlobalHandlers().add(
+					Browser.addMutationObserver(getParent(
+							getAppletParameters().getParamScaleContainerClass()),
+							this::checkScaleContainer));
 		}
 		if (getAppletParameters().getDataParamApp()) {
 			initializeAnalytics();
@@ -2695,21 +2695,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void addToHeight(int heightDiff) {
 		// for applets with keyboard only
-	}
-
-	/**
-	 * @param b
-	 *            whether keyboard is needed
-	 */
-	public void setKeyboardNeeded(boolean b) {
-		this.keyboardNeeded = b;
-	}
-
-	/**
-	 * @return whether keyboard is needed for current perspective
-	 */
-	public boolean isKeyboardNeeded() {
-		return keyboardNeeded;
 	}
 
 	/**

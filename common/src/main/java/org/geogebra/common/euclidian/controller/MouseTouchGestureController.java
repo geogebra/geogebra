@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
@@ -143,12 +144,12 @@ public class MouseTouchGestureController {
 			this.scale = dist / ec.getOldDistance();
 			int i = 0;
 
-			for (GeoPointND p : scaleConic.getFreeInputPoints(ec.getView())) {
+			for (GeoElementND p : scaleConic.getFreeInputPoints(ec.getView())) {
 				double newX = midpoint[0]
 						+ (originalPointX[i] - midpoint[0]) * scale;
 				double newY = midpoint[1]
 						+ (originalPointY[i] - midpoint[1]) * scale;
-				p.setCoords(newX, newY, 1.0);
+				((GeoPointND) p).setCoords(newX, newY, 1.0);
 				p.updateCascade();
 				i++;
 			}
@@ -159,12 +160,12 @@ public class MouseTouchGestureController {
 			this.scale = dist2P / ec.getOldDistance();
 
 			// index 0 is the midpoint, index 1 is the point on the circle
-			GeoPointND p = scaleConic.getFreeInputPoints(ec.getView()).get(1);
+			GeoElementND p = scaleConic.getFreeInputPoints(ec.getView()).get(1);
 			double newX = midpoint[0]
 					+ (originalPointX[1] - midpoint[0]) * scale;
 			double newY = midpoint[1]
 					+ (originalPointY[1] - midpoint[1]) * scale;
-			p.setCoords(newX, newY, 1.0);
+			((GeoPointND) p).setCoords(newX, newY, 1.0);
 			p.updateCascade();
 			ec.getKernel().notifyRepaint();
 			break;
@@ -344,14 +345,16 @@ public class MouseTouchGestureController {
 			midpoint = new double[] { scaleConic.getMidpoint().getX(),
 					scaleConic.getMidpoint().getY() };
 
-			ArrayList<GeoPointND> points = scaleConic
-.getFreeInputPoints(ec
+			ArrayList<GeoElementND> points = scaleConic.getFreeInputPoints(ec
 					.getView());
 			this.originalPointX = new double[points.size()];
 			this.originalPointY = new double[points.size()];
 			for (int i = 0; i < points.size(); i++) {
-				this.originalPointX[i] = points.get(i).getCoords().getX();
-				this.originalPointY[i] = points.get(i).getCoords().getY();
+				if (points.get(i).isGeoPoint()) {
+					GeoPointND geoElementND = (GeoPointND) points.get(i);
+					this.originalPointX[i] = geoElementND.getCoords().getX();
+					this.originalPointY[i] = geoElementND.getCoords().getY();
+				}
 			}
 		} else if (hits1.size() > 0 && hits2.size() > 0
 				&& hits1.get(0) == hits2.get(0)

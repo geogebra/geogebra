@@ -49,6 +49,8 @@ public class ImageDialog extends ComponentDialog implements WebcamDialogInterfac
 		ComponentInfoErrorPanel uploadPanel = new ComponentInfoErrorPanel(app.getLocalization(),
 				uploadData, MaterialDesignResources.INSTANCE.upload(),
 				uploadImage::click);
+		uploadPanel.disableActionButton(!((AppW) app).enableFileFeatures());
+
 		TabData uploadTab = new TabData("Upload", uploadPanel);
 
 		cameraPanel = new FlowPanel();

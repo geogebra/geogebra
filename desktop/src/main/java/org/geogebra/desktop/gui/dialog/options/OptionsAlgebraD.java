@@ -61,30 +61,11 @@ public class OptionsAlgebraD
 	}
 
 	private void addListeners() {
-		description.addActionListener(new ActionListener() {
+		description.addActionListener(e -> onDescriptionChange());
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onDescriptionChange();
-			}
-		});
+		sortMode.addActionListener(e -> onSortChange());
 
-		sortMode.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onSortChange();
-			}
-		});
-
-		auxiliary.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onAuxChange();
-			}
-
-		});
+		auxiliary.addActionListener(e -> onAuxChange());
 
 	}
 

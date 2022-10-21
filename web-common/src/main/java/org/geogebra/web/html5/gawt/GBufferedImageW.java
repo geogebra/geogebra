@@ -67,8 +67,10 @@ public class GBufferedImageW implements GBufferedImage {
 		if (canv != null) {
 			canv.setCoordinateSpaceWidth((int) (width * pixelRatio));
 			canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
-			canv.setWidth(width + "px");
-			canv.setHeight(height + "px");
+			if (width > 0 && height > 0) {
+				canv.setWidth(width + "px");
+				canv.setHeight(height + "px");
+			}
 			JLMContext2d c2d = JLMContextHelper.as(canv.getContext2d());
 			if (opaque) {
 				c2d.globalCompositeOperation = "copy";

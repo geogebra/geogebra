@@ -254,12 +254,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		EuclidianView ev = (EuclidianView) getEuclidianView();
 
 		psp = new PrintScalePanel(app, ev);
-		psp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateSizeLabel();
-			}
-		});
+		psp.addActionListener(e -> updateSizeLabel());
 		p.add(psp);
 
 		// dpi combo box
@@ -299,94 +294,66 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		}
 
 		p.add(dpiPanel);
-		cbDPI.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				updateSizeLabel();
-			}
-		});
+		cbDPI.addActionListener(ae -> updateSizeLabel());
 
-		cbTransparent.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				transparent = cbTransparent.isSelected();
-			}
-		});
+		cbTransparent.addActionListener(arg0 -> transparent = cbTransparent.isSelected());
 
-		cbBraille.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				braille = cbBraille.isSelected();
-			}
-		});
+		cbBraille.addActionListener(arg0 -> braille = cbBraille.isSelected());
 
-		cbEMFPlus.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				EMFPlus = cbEMFPlus.isSelected();
-			}
-		});
+		cbEMFPlus.addActionListener(arg0 -> EMFPlus = cbEMFPlus.isSelected());
 
-		textAsShapesCB.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				textAsShapes = textAsShapesCB.isSelected();
-			}
-		});
+		textAsShapesCB.addActionListener(arg0 -> textAsShapes = textAsShapesCB.isSelected());
 
-		cbFormat.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				textAsShapesCB.setEnabled(true);
-				switch (selectedFormat()) {
-				case SVG:
-					dpiPanel.remove(resolutionInDPILabel);
-					dpiPanel.remove(cbDPI);
-					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.add(cbTransparent);
-					dpiPanel.add(textAsShapesCB);
-					psp.enableAbsoluteSize(true);
-					break;
-				case EPS:
-					textAsShapesCB.setEnabled(false);
-					//$FALL-THROUGH$
-				case PDF:
-					dpiPanel.remove(resolutionInDPILabel);
-					dpiPanel.remove(cbDPI);
-					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.remove(cbTransparent);
-					dpiPanel.remove(cbBraille);
-					dpiPanel.add(textAsShapesCB);
-					textAsShapesCB.setSelected(true);
-					psp.enableAbsoluteSize(false);
-					break;
-				case EMF:
-					dpiPanel.add(cbEMFPlus);
-					dpiPanel.remove(resolutionInDPILabel);
-					dpiPanel.remove(cbDPI);
-					dpiPanel.remove(cbTransparent);
-					dpiPanel.remove(textAsShapesCB);
-					dpiPanel.remove(cbBraille);
-					psp.enableAbsoluteSize(false);
-					break;
-				default: // PNG
-					dpiPanel.add(resolutionInDPILabel);
-					dpiPanel.add(cbDPI);
-					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.add(cbTransparent);
-					if (braille) {
-						// GGB-766
-						dpiPanel.add(cbBraille);
-					}
-					dpiPanel.remove(textAsShapesCB);
-					cbDPI.setSelectedItem("300");
-					cbDPI.setEnabled(true);
-					psp.enableAbsoluteSize(true);
-					break;
+		cbFormat.addActionListener(arg0 -> {
+			textAsShapesCB.setEnabled(true);
+			switch (selectedFormat()) {
+			case SVG:
+				dpiPanel.remove(resolutionInDPILabel);
+				dpiPanel.remove(cbDPI);
+				dpiPanel.remove(cbEMFPlus);
+				dpiPanel.add(cbTransparent);
+				dpiPanel.add(textAsShapesCB);
+				psp.enableAbsoluteSize(true);
+				break;
+			case EPS:
+				textAsShapesCB.setEnabled(false);
+				//$FALL-THROUGH$
+			case PDF:
+				dpiPanel.remove(resolutionInDPILabel);
+				dpiPanel.remove(cbDPI);
+				dpiPanel.remove(cbEMFPlus);
+				dpiPanel.remove(cbTransparent);
+				dpiPanel.remove(cbBraille);
+				dpiPanel.add(textAsShapesCB);
+				textAsShapesCB.setSelected(true);
+				psp.enableAbsoluteSize(false);
+				break;
+			case EMF:
+				dpiPanel.add(cbEMFPlus);
+				dpiPanel.remove(resolutionInDPILabel);
+				dpiPanel.remove(cbDPI);
+				dpiPanel.remove(cbTransparent);
+				dpiPanel.remove(textAsShapesCB);
+				dpiPanel.remove(cbBraille);
+				psp.enableAbsoluteSize(false);
+				break;
+			default: // PNG
+				dpiPanel.add(resolutionInDPILabel);
+				dpiPanel.add(cbDPI);
+				dpiPanel.remove(cbEMFPlus);
+				dpiPanel.add(cbTransparent);
+				if (braille) {
+					// GGB-766
+					dpiPanel.add(cbBraille);
 				}
-				updateSizeLabel();
-				SwingUtilities.updateComponentTreeUI(p);
+				dpiPanel.remove(textAsShapesCB);
+				cbDPI.setSelectedItem("300");
+				cbDPI.setEnabled(true);
+				psp.enableAbsoluteSize(true);
+				break;
 			}
+			updateSizeLabel();
+			SwingUtilities.updateComponentTreeUI(p);
 		});
 
 		// width and height of picture
@@ -399,42 +366,31 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		// Cancel and Export Button
 		cancelButton = new JButton(loc.getMenu("Cancel"));
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+		cancelButton.addActionListener(e -> setVisible(false));
 		JButton exportButton = new JButton(loc.getMenu("Save"));
-		exportButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						setVisible(false);
+		exportButton.addActionListener(e -> {
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					setVisible(false);
 
-						doExport(false);
-					}
-				};
-				runner.start();
-			}
+					doExport(false);
+				}
+			};
+			runner.start();
 		});
 
 		JButton exportClipboardButton = new JButton(loc.getMenu("Clipboard"));
-		exportClipboardButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						setVisible(false);
+		exportClipboardButton.addActionListener(e -> {
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					setVisible(false);
 
-						doExport(true);
-					}
-				};
-				runner.start();
-			}
+					doExport(true);
+				}
+			};
+			runner.start();
 		});
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

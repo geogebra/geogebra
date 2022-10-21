@@ -293,26 +293,21 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
 		btnProperties.setToolTipText(loc.getPlainTooltip("Preferences"));
-		btnProperties.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				PropertiesMenu pm = new PropertiesMenu();
-				if (orientation == SwingConstants.NORTH) {
-					pm.show(btnProperties,
-							-pm.getPreferredSize().width
-									+ btnProperties.getWidth(),
-							btnProperties.getHeight());
-				} else if (orientation == SwingConstants.WEST) {
-					pm.show(btnProperties, 0, -pm.getPreferredSize().height);
-				} else {
-					pm.show(btnProperties,
-							-pm.getPreferredSize().width
-									+ btnProperties.getWidth(),
-							-pm.getPreferredSize().height);
-				}
+		btnProperties.addActionListener(arg0 -> {
+			PropertiesMenu pm = new PropertiesMenu();
+			if (orientation == SwingConstants.NORTH) {
+				pm.show(btnProperties,
+						-pm.getPreferredSize().width
+								+ btnProperties.getWidth(),
+						btnProperties.getHeight());
+			} else if (orientation == SwingConstants.WEST) {
+				pm.show(btnProperties, 0, -pm.getPreferredSize().height);
+			} else {
+				pm.show(btnProperties,
+						-pm.getPreferredSize().width
+								+ btnProperties.getWidth(),
+						-pm.getPreferredSize().height);
 			}
-
 		});
 
 		// help button
@@ -322,13 +317,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
 		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new HelpDialog(app).openToolHelp();
-
-			}
-		});
+		btnHelp.addActionListener(arg0 -> new HelpDialog(app).openToolHelp());
 
 		gridButtonPanel = new JPanel(new BorderLayout());
 

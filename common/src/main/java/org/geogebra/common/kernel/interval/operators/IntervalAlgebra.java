@@ -2,11 +2,7 @@ package org.geogebra.common.kernel.interval.operators;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.computeInverted;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.divide;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.exp;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.log;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.operators.RMath.powHigh;
 import static org.geogebra.common.kernel.interval.operators.RMath.powLow;
 
@@ -23,6 +19,16 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class IntervalAlgebra {
 
+	private final IntervalNodeEvaluator evaluator;
+
+	/**
+	 *
+	 * @param evaluator {@link IntervalNodeEvaluator}
+	 */
+	public IntervalAlgebra(IntervalNodeEvaluator evaluator) {
+		this.evaluator = evaluator;
+	}
+
 	/**
 	 * Computes x mod y (x - k * y)
 	 * @param other argument.
@@ -30,13 +36,11 @@ public class IntervalAlgebra {
 	 */
 	Interval fmod(Interval interval, Interval other) {
 		if (interval.isUndefined() || other.isUndefined()) {
-			interval.setUndefined();
-			return interval;
+			return undefined();
 		}
 
 		if (interval.isUndefined()) {
-			interval.setWhole();
-			return interval;
+			return whole();
 		}
 
 		double yb = interval.getLow() < 0 ? other.getLow() : other.getHigh();
@@ -47,10 +51,11 @@ public class IntervalAlgebra {
 			n = Math.floor(n);
 		}
 
+		Interval result = new Interval(interval);
 		Interval multiplicand = new Interval(other);
 		// x mod y = x - n * y
-		interval.subtract(multiply(multiplicand, new Interval(n)));
-		return interval;
+		result.subtract(evaluator.multiply(multiplicand, new Interval(n)));
+		return result;
 	}
 
 	/**
@@ -60,26 +65,25 @@ public class IntervalAlgebra {
 	 */
 	Interval pow(Interval interval, double power) {
 		if (interval.isUndefined() || DoubleUtil.isEqual(power, 1)) {
-			return interval;
+			return new Interval(interval);
 		}
 
 		if (DoubleUtil.isEqual(power, -1)) {
-			return interval.multiplicativeInverse();
+			return evaluator.multiplicativeInverse(interval);
 		}
 
 		if (interval.isInverted()) {
 
-			Interval result = computeInverted(pow(interval.extractLow(), power),
-					pow(interval.extractHigh(), power));
-			return result;
+			return evaluator.computeInverted(evaluator.pow(interval.extractLow(), power),
+					evaluator.pow(interval.extractHigh(), power));
 		}
 
 		if (power == 0) {
 			return powerOfZero(interval);
 		} else if (power < 0) {
-			Interval divide = divide(one(), pow(interval, -power));
-			interval.set(divide);
-			return interval;
+			Interval divide = evaluator.divide(one(),
+					evaluator.pow(new Interval(interval), -power));
+			return new Interval(divide);
 		}
 
 		if (!DoubleUtil.isInteger(power)) {
@@ -96,14 +100,14 @@ public class IntervalAlgebra {
 		Interval other = new Interval(power);
 		if (interval.isInverted()) {
 			Interval lnPower2 = lnPower(interval.extractHigh(), other);
-			return exp(new Interval(lnPower2));
+			return evaluator.exp(new Interval(lnPower2));
 		} else {
-			return exp(lnPower(interval, other));
+			return evaluator.exp(lnPower(interval, other));
 		}
 	}
 
 	private Interval lnPower(Interval interval, Interval other) {
-		return multiply(log(interval), other);
+		return evaluator.multiply(evaluator.log(interval), other);
 	}
 
 	private Interval powOfInteger(Interval interval, long power) {
@@ -113,39 +117,37 @@ public class IntervalAlgebra {
 			double yh = powHigh(-interval.getLow(), power);
 			if ((power & 1) == 1) {
 				// odd power
-				interval.set(-yh, -yl);
+				return new Interval(-yh, -yl);
 			} else {
 				// even power
-				interval.set(yl, yh);
+				return new Interval(yl, yh);
 			}
 		} else if (interval.getLow() < 0) {
 			// [negative, positive]
 			if ((power & 1) == 1) {
-				interval.set(-powLow(-interval.getLow(), power),
+				return new Interval(-powLow(-interval.getLow(), power),
 						powHigh(interval.getHigh(), power));
 			} else {
 				// even power means that any negative number will be zero (min value = 0)
 				// and the max value will be the max of x.lo^power, x.hi^power
-				interval.set(0,
+				return new Interval(0,
 						powHigh(Math.max(-interval.getLow(), interval.getHigh()), power));
 			}
-		} else {
-			// [positive, positive]
-			interval.set(powLow(interval.getLow(), power),
-					powHigh(interval.getHigh(), power));
 		}
-		return interval;
+
+		// [positive, positive]
+		return new Interval(powLow(interval.getLow(), power),
+					powHigh(interval.getHigh(), power));
+
 	}
 
 	private Interval powerOfZero(Interval interval) {
 		if (interval.getLow() == 0 && interval.getHigh() == 0) {
 			// 0^0
-			interval.setUndefined();
-		} else {
-			// x^0
-			interval.set(1, 1);
+			return undefined();
 		}
-		return interval;
+
+		return one();
 	}
 
 	/**
@@ -156,8 +158,7 @@ public class IntervalAlgebra {
 	 */
 	Interval pow(Interval interval, Interval other) {
 		if (other.isZero()) {
-			interval.set(one());
-			return interval;
+			return one();
 		}
 
 		if (!other.isSingleton()) {
@@ -178,7 +179,7 @@ public class IntervalAlgebra {
 			if (extractedHigh.isUndefined()) {
 				return undefined();
 			}
-			return computeInverted(extractedLow, extractedHigh);
+			return evaluator.computeInverted(extractedLow, extractedHigh);
 		}
 
 		double low = powLow(interval.getLow(), other.getLow());
@@ -189,11 +190,9 @@ public class IntervalAlgebra {
 		}
 
 		if (interval.getLow() > - 1 && interval.getHigh() < 1) {
-			interval.set(high, low);
-		} else {
-			interval.set(low, high);
+			return new Interval(high, low);
 		}
 
-		return interval;
+		return new Interval(low, high);
 	}
 }

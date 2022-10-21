@@ -698,18 +698,14 @@ public class AlgebraViewD extends AlgebraTree
 			// allow shift-double-click on a PointonPath in Algebra View to
 			// change without redefine
 			boolean redefine = !selectedGeoElement.isPointOnPath();
-			AsyncOperation<GeoElementND> callback = new AsyncOperation<GeoElementND>() {
-
-				@Override
-				public void callback(GeoElementND geo) {
-					if (geo != null) {
-						selectedGeoElement = geo.toGeoElement();
-						selectedNode.setUserObject(selectedGeoElement);
-					}
-
-					((DefaultTreeModel) getModel()).nodeChanged(selectedNode);
-
+			AsyncOperation<GeoElementND> callback = geo -> {
+				if (geo != null) {
+					selectedGeoElement = geo.toGeoElement();
+					selectedNode.setUserObject(selectedGeoElement);
 				}
+
+				((DefaultTreeModel) getModel()).nodeChanged(selectedNode);
+
 			};
 			kernel.getAlgebraProcessor().changeGeoElement(selectedGeoElement,
 					newValue, redefine, true, app.getDefaultErrorHandler(),

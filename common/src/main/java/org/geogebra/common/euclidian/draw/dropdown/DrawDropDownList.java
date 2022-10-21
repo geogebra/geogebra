@@ -378,6 +378,10 @@ public final class DrawDropDownList extends CanvasDrawable
 			return;
 		}
 
+		toggleOptions(x, y);
+	}
+
+	private void toggleOptions(int x, int y) {
 		DrawDropDownList opened = view.getOpenedComboBox();
 		if ((opened == null || !opened.isOptionsHit(x, y))
 				&& drawSelected.isOpenButtonHit(x, y)) {

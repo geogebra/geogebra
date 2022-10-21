@@ -161,7 +161,8 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
 			GeoGebraConstants.Version version) {
 		if (app.isMebis()) {
-			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
+			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation(),
+					app.enableFileFeatures());
 		} else {
 			boolean addAppSwitcher = app.isSuite();
 			String versionStr = GeoGebraConstants.VERSION_STRING.replace("5.0.", "6.0.");

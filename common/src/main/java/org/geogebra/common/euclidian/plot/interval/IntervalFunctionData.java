@@ -2,6 +2,8 @@ package org.geogebra.common.euclidian.plot.interval;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
+import org.geogebra.common.kernel.interval.function.IntervalNodeFunction;
 import org.geogebra.common.kernel.interval.function.IntervalTuple;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 
@@ -10,18 +12,20 @@ import org.geogebra.common.kernel.interval.function.IntervalTupleList;
  */
 public class IntervalFunctionData {
 	private final IntervalTupleList tuples;
+	private final GeoFunctionConverter converter;
 	private EuclidianViewBounds bounds;
 	private final GeoFunction geoFunction;
 
 	/**
-	 *
 	 * @param geoFunction to encapsulate
+	 * @param converter of GeoFunction to IntervalNodeFunction.
 	 * @param bounds of the view displaying the function
 	 * @param tuples to store evaluated data
 	 */
-	public IntervalFunctionData(GeoFunction geoFunction, EuclidianViewBounds bounds,
+	public IntervalFunctionData(GeoFunction geoFunction, GeoFunctionConverter converter,
+			EuclidianViewBounds bounds,
 			IntervalTupleList tuples) {
-		this(geoFunction, tuples);
+		this(geoFunction, converter, tuples);
 		this.bounds = bounds;
 	}
 
@@ -30,8 +34,10 @@ public class IntervalFunctionData {
 	 * @param geoFunction to encapsulate
 	 * @param tuples to store evaluated data
 	 */
-	public IntervalFunctionData(GeoFunction geoFunction, IntervalTupleList tuples) {
+	public IntervalFunctionData(GeoFunction geoFunction, GeoFunctionConverter converter,
+			IntervalTupleList tuples) {
 		this.geoFunction = geoFunction;
+		this.converter = converter;
 		this.tuples = tuples;
 	}
 
@@ -110,5 +116,9 @@ public class IntervalFunctionData {
 	 */
 	public boolean isValid() {
 		return tuples.isValid();
+	}
+
+	public IntervalNodeFunction getFunction() {
+		return converter.convert(geoFunction);
 	}
 }

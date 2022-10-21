@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.interval.function.GeoFunctionConverter;
 import org.geogebra.common.kernel.interval.function.IntervalTupleList;
 import org.geogebra.common.kernel.interval.samplers.FunctionSampler;
 
@@ -19,12 +20,15 @@ public class IntervalPlotter {
 	private IntervalFunctionModel model = null;
 
 	private IntervalPlotController controller;
+	private final GeoFunctionConverter converter;
 	private IntervalPath path;
 
 	/**
 	 * Creates a disabled plotter
 	 */
-	public IntervalPlotter(EuclidianViewBounds bounds, IntervalPathPlotter pathPlotter) {
+	public IntervalPlotter(GeoFunctionConverter converter, EuclidianViewBounds bounds,
+			IntervalPathPlotter pathPlotter) {
+		this.converter = converter;
 		this.evBounds = bounds;
 		this.gp = pathPlotter;
 		this.enabled = false;
@@ -54,7 +58,7 @@ public class IntervalPlotter {
 
 	private void build(GeoFunction function) {
 		IntervalTupleList tuples = new IntervalTupleList();
-		IntervalFunctionData data = new IntervalFunctionData(function, evBounds, tuples);
+		IntervalFunctionData data = new IntervalFunctionData(function, converter, evBounds, tuples);
 		FunctionSampler sampler = new FunctionSampler(data, evBounds);
 		QueryFunctionData query = new QueryFunctionDataImpl(tuples);
 		path = new IntervalPath(gp, evBounds, query);

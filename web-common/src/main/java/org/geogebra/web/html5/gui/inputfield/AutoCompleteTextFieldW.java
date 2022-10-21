@@ -305,8 +305,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		textField.addSelectionHandler(this);
 
 		Dom.addEventListener(textField.getValueBox().getElement(), "pointerup", (event) -> {
-			requestFocus();
-			event.stopPropagation();
+			if (textField.isEnabled()) {
+				requestFocus();
+				event.stopPropagation();
+			}
 		});
 
 		Dom.addEventListener(textField.getValueBox().getElement(), "focus", (event) -> {

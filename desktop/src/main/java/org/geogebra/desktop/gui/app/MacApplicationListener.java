@@ -107,12 +107,9 @@ public class MacApplicationListener
 			handleOpenFile(ev);
 		} else {
 			GeoGebraFrame
-					.doWithActiveInstance(new NewInstanceListener() {
-						@Override
-						public void newInstance(GeoGebraFrame wnd) {
-							if (!wnd.isShowing()) {
-								wnd.setVisible(true);
-							}
+					.doWithActiveInstance(wnd -> {
+						if (!wnd.isShowing()) {
+							wnd.setVisible(true);
 						}
 					});
 		}

@@ -186,30 +186,26 @@ public class ToolManagerDialogD extends Dialog
 			panel.add(closePanel, BorderLayout.SOUTH);
 
 			// action listener for buttone
-			ActionListener ac = new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Object src = e.getSource();
-					if (src == btClose) {
-						// ensure to set macro properties from namePanel
-						namePanel.init(null, null);
+			ActionListener ac = e -> {
+				Object src = e.getSource();
+				if (src == btClose) {
+					// ensure to set macro properties from namePanel
+					namePanel.init(null, null);
 
-						// make sure new macro command gets into dictionary
-						app.updateCommandDictionary();
+					// make sure new macro command gets into dictionary
+					app.updateCommandDictionary();
 
-						// destroy dialog
-						setVisible(false);
-						dispose();
+					// destroy dialog
+					setVisible(false);
+					dispose();
 
-					} else if (src == btDelete) {
-						deleteTools(toolList, toolsModel);
-					} else if (src == btOpen) {
-						openTools(toolList);
-					} else if (src == btSave) {
-						saveTools(toolList);
-					}
+				} else if (src == btDelete) {
+					deleteTools(toolList, toolsModel);
+				} else if (src == btOpen) {
+					openTools(toolList);
+				} else if (src == btSave) {
+					saveTools(toolList);
 				}
-
 			};
 
 			btSave.addActionListener(ac);
@@ -219,22 +215,19 @@ public class ToolManagerDialogD extends Dialog
 
 			// add selection listener for list
 			final ListSelectionModel selModel = toolList.getSelectionModel();
-			ListSelectionListener selListener = new ListSelectionListener() {
-				@Override
-				public void valueChanged(ListSelectionEvent e) {
-					if (selModel.getValueIsAdjusting()) {
-						return;
-					}
+			ListSelectionListener selListener = e -> {
+				if (selModel.getValueIsAdjusting()) {
+					return;
+				}
 
-					int[] selIndices = toolList.getSelectedIndices();
-					if (selIndices == null || selIndices.length != 1) {
-						// no or several tools selected
-						namePanel.init(null, null);
-					} else {
-						Macro macro = (Macro) toolsModel
-								.getElementAt(selIndices[0]);
-						namePanel.init(ToolManagerDialogD.this, macro);
-					}
+				int[] selIndices = toolList.getSelectedIndices();
+				if (selIndices == null || selIndices.length != 1) {
+					// no or several tools selected
+					namePanel.init(null, null);
+				} else {
+					Macro macro = (Macro) toolsModel
+							.getElementAt(selIndices[0]);
+					namePanel.init(ToolManagerDialogD.this, macro);
 				}
 			};
 			selModel.addListSelectionListener(selListener);
@@ -278,21 +271,17 @@ public class ToolManagerDialogD extends Dialog
 				public void run() {
 					app.setWaitCursor();
 					// avoid deadlock with current app
-					SwingUtilities.invokeLater(new Runnable() {
+					SwingUtilities.invokeLater(() -> {
+						GeoGebraFrame newframe = ((GeoGebraFrame) app
+								.getFrame()).createNewWindow(null, macro);
+						newframe.setTitle(macro.getCommandName());
+						byte[] byteArray = app.getMacrosBefore(macro);
+						newframe.getApplication()
+								.loadMacroFileFromByteArray(byteArray,
+										false);
+						newframe.getApplication().openMacro(macro);
+						app.setDefaultCursor();
 
-						@Override
-						public void run() {
-							GeoGebraFrame newframe = ((GeoGebraFrame) app
-									.getFrame()).createNewWindow(null, macro);
-							newframe.setTitle(macro.getCommandName());
-							byte[] byteArray = app.getMacrosBefore(macro);
-							newframe.getApplication()
-									.loadMacroFileFromByteArray(byteArray,
-											false);
-							newframe.getApplication().openMacro(macro);
-							app.setDefaultCursor();
-
-						}
 					});
 
 				}

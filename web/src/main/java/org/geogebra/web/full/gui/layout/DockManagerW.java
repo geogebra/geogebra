@@ -1670,7 +1670,9 @@ public class DockManagerW extends DockManager {
 		int margin = EuclidianView.MINIMUM_SAFE_AREA;
 		int left = portrait == ExtendedBoolean.TRUE || !app.isUnbundled() ? 0 : 16;
 		EdgeInsets edgeInsets = new EdgeInsets(left + margin, margin, margin, margin);
-		getFocusedEuclidianPanel().getEuclidianView().setSafeAreaInsets(edgeInsets);
+		if (focusedEuclidianDockPanel != null) {
+			focusedEuclidianDockPanel.getEuclidianView().setSafeAreaInsets(edgeInsets);
+		}
 	}
 
 	/**

@@ -14,17 +14,6 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	/**
 	 * Create a new DrawerMenuFactory.
 	 *
-	 * @param platform platform
-	 * @param version  version
-	 */
-	public MebisDrawerMenuFactory(GeoGebraConstants.Platform platform,
-								  GeoGebraConstants.Version version) {
-		this(platform, version, null);
-	}
-
-	/**
-	 * Create a new DrawerMenuFactory.
-	 *
 	 * @param platform       platform
 	 * @param version        version
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
@@ -32,8 +21,8 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	 */
 	public MebisDrawerMenuFactory(GeoGebraConstants.Platform platform,
 								  GeoGebraConstants.Version version,
-								  LogInOperation logInOperation) {
-		super(platform, version, logInOperation, false);
+								  LogInOperation logInOperation, boolean enableFileFeatures) {
+		super(platform, version, null, logInOperation, false, enableFileFeatures);
 	}
 
 	@Override
@@ -73,7 +62,8 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 
 	private MenuItem openOfflineFile() {
 		String label = isOffline() ? "mow.openFile" : "mow.offlineMyFiles";
-		return new ActionableItemImpl(Icon.FOLDER, label, Action.OPEN_OFFLINE_FILE);
+		return enableFileFeatures()
+				? new ActionableItemImpl(Icon.FOLDER, label, Action.OPEN_OFFLINE_FILE) : null;
 	}
 
 	private ActionableItem showLicence() {

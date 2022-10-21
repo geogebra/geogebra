@@ -155,13 +155,10 @@ public class LayoutD extends Layout implements SettingListener {
 		// Sort the dock panels as the entries with the smallest amount of
 		// definition should
 		// be read first by the loading algorithm.
-		Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
-			@Override
-			public int compare(DockPanelData o1, DockPanelData o2) {
-				int diff = o2.getEmbeddedDef().length()
-						- o1.getEmbeddedDef().length();
-				return diff;
-			}
+		Arrays.sort(dockPanelInfo, (o1, o2) -> {
+			int diff = o2.getEmbeddedDef().length()
+					- o1.getEmbeddedDef().length();
+			return diff;
 		});
 
 		perspective.setDockPanelData(dockPanelInfo);

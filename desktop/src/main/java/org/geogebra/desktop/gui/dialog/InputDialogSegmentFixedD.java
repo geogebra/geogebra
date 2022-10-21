@@ -58,13 +58,7 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 	private void processInput() {
 		new SegmentHandler(geoPoint1, kernel).doSegmentFixedAsync(
 				inputPanel.getText(), (NumberInputHandler) getInputHandler(),
-				this, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisibleForTools(!ok);
-					}
-				});
+				this, ok -> setVisibleForTools(!ok));
 	}
 
 	@Override

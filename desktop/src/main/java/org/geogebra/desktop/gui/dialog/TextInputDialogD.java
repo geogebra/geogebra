@@ -189,12 +189,7 @@ public class TextInputDialogD extends InputDialogD
 		setLabels(title);
 		undo = new UndoManager();
 		doc = editor.getDocument();
-		doc.addUndoableEditListener(new UndoableEditListener() {
-			@Override
-			public void undoableEditHappened(UndoableEditEvent e) {
-				undo.addEdit(e.getEdit());
-			}
-		});
+		doc.addUndoableEditListener(e -> undo.addEdit(e.getEdit()));
 
 		editor.getActionMap().put("Undo", new AbstractAction("Undo") {
 
@@ -477,14 +472,7 @@ public class TextInputDialogD extends InputDialogD
 
 		JMenuItem menuItem = new JMenuItem();
 		laTexButtonTitleMap.put("Space", menuItem);
-		menuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				insertString(" \\; ");
-			}
-
-		});
+		menuItem.addActionListener(arg0 -> insertString(" \\; "));
 		btInsertLaTeX.addPopupMenuItem(menuItem);
 
 		isBtnInsertLatexLoaded = true;
@@ -545,22 +533,18 @@ public class TextInputDialogD extends InputDialogD
 		// add a list selection listener that will insert a selected geo into
 		// the editor
 		geoList.getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						if (!e.getValueIsAdjusting()) {
-							String label = (String) geoList.getSelectedValue();
-							if (label != null && e.getFirstIndex() == 0) {
-								insertEmptyDynamicText();
-							} else {
-								insertGeoElement(
-										app.getKernel().lookupLabel(label));
-							}
-							btInsertGeo.handlePopupActionEvent();
-							geoList.getSelectionModel().clearSelection();
+				.addListSelectionListener(e -> {
+					if (!e.getValueIsAdjusting()) {
+						String label = (String) geoList.getSelectedValue();
+						if (label != null && e.getFirstIndex() == 0) {
+							insertEmptyDynamicText();
+						} else {
+							insertGeoElement(
+									app.getKernel().lookupLabel(label));
 						}
+						btInsertGeo.handlePopupActionEvent();
+						geoList.getSelectionModel().clearSelection();
 					}
-
 				});
 
 		// create a popup button and add the list to it
@@ -779,33 +763,29 @@ public class TextInputDialogD extends InputDialogD
 				isLaTeX = cbLaTeX.isSelected();
 				editOccurred = false;
 				getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX),
-						this, new AsyncOperation<Boolean>() {
+						this, finished -> {
+							editOccurred = false;
 
-							@Override
-							public void callback(Boolean finished) {
-								editOccurred = false;
+							if (wrappedDialog.isShowing()) {
+								// text dialog window is used and open
 
-								if (wrappedDialog.isShowing()) {
-									// text dialog window is used and open
-
-									if (isTextMode) {
-										// don't set mode
-										setVisibleForTools(!finished);
-									} else {
-										setVisible(!finished);
-									}
-
-									if (isTextMode) {
-										app.setMode(
-												EuclidianConstants.MODE_TEXT);
-										return;
-									}
-								}
-								if (finished) {
-									app.setMode(EuclidianConstants.MODE_MOVE);
+								if (isTextMode) {
+									// don't set mode
+									setVisibleForTools(!finished);
+								} else {
+									setVisible(!finished);
 								}
 
+								if (isTextMode) {
+									app.setMode(
+											EuclidianConstants.MODE_TEXT);
+									return;
+								}
 							}
+							if (finished) {
+								app.setMode(EuclidianConstants.MODE_MOVE);
+							}
+
 						});
 
 			}
@@ -1151,28 +1131,24 @@ public class TextInputDialogD extends InputDialogD
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
 						inputValue, true, true, TextInputDialogD.this,
-						new AsyncOperation<GeoElementND>() {
+						obj -> {
+							if (obj instanceof GeoText) {
+								// update editGeo
+								GeoText newText = (GeoText) obj;
+								editGeo = newText;
 
-							@Override
-							public void callback(GeoElementND obj) {
-								if (obj instanceof GeoText) {
-									// update editGeo
-									GeoText newText = (GeoText) obj;
-									editGeo = newText;
+								// make sure newText is using correct LaTeX
+								// setting
+								newText.setLaTeX(isLaTeX, true);
 
-									// make sure newText is using correct LaTeX
-									// setting
-									newText.setLaTeX(isLaTeX, true);
-
-									if (newText.getParentAlgorithm() != null) {
-										newText.getParentAlgorithm().update();
-									} else {
-										newText.updateRepaint();
-									}
-
-									app.doAfterRedefine(newText);
-									callback.callback(obj != null);
+								if (newText.getParentAlgorithm() != null) {
+									newText.getParentAlgorithm().update();
+								} else {
+									newText.updateRepaint();
 								}
+
+								app.doAfterRedefine(newText);
+								callback.callback(obj != null);
 							}
 						});
 

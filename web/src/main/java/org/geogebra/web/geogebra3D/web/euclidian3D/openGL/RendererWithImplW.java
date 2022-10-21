@@ -8,9 +8,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.gwtproject.timer.client.Timer;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
@@ -36,7 +35,8 @@ public class RendererWithImplW extends Renderer implements
 	/** context */
 	protected WebGLRenderingContext glContext;
 	private double ratio = 1;
-	private Timer loopTimer;
+	private boolean readyToRender = false;
+	private double loopTimer;
 
 	/**
 	 * @param view
@@ -55,14 +55,16 @@ public class RendererWithImplW extends Renderer implements
 		createGLContext(false);
 
 		// when window is unload, dispose openGL stuff
-		DomGlobal.window.addEventListener("unload", event -> dispose());
-
+		((AppW) view.getApplication()).getGlobalHandlers().addEventListener(DomGlobal.window,
+				"unload", event -> dispose());
 	}
 
-	/**
-	 * Dispose context when tab closed
-	 */
-	protected void dispose() {
+	@Override
+	public void dispose() {
+		readyToRender = false;
+		DomGlobal.clearInterval(loopTimer);
+		webGLCanvas = null;
+		glContext = null;
 		getRendererImpl().dispose();
 	}
 
@@ -269,20 +271,24 @@ public class RendererWithImplW extends Renderer implements
 	}
 
 	private void start() {
-
-		((EuclidianView3DW) view3D).setReadyToRender();
-
+		if (readyToRender) {
+			view3D.repaintView();
+			return;
+		}
+		readyToRender = true;
+		view3D.repaintView();
 		// use loop timer for e.g. automatic rotation
-		loopTimer = new Timer() {
-			@Override
-			public void run() {
-				if (view3D.isAnimated()) {
-					view3D.repaintView();
-				}
+		loopTimer = DomGlobal.setInterval(p0 -> {
+			if (view3D.isAnimated()) {
+				view3D.repaintView();
 			}
-		};
-		loopTimer.scheduleRepeating(CoordSystemAnimation.DELAY);
+		}, CoordSystemAnimation.DELAY);
 
+	}
+
+	@Override
+	public boolean isReadyToRender() {
+		return readyToRender;
 	}
 
 	/**

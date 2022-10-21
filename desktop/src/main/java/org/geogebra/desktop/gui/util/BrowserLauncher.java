@@ -29,7 +29,7 @@ public class BrowserLauncher {
 	 *            website URL
 	 */
 	public static void openURL(String url) {
-
+		Log.debug("opening URL:" + url);
 		try {
 
 			if (Desktop.isDesktopSupported()) {

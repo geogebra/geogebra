@@ -535,6 +535,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-people-24px.svg")
 	SVGResource mow_card_shared();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-groups-24px.svg")
+	SVGResource mow_card_multiuser();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-lock-24px.svg")
 	SVGResource mow_card_private();
 
