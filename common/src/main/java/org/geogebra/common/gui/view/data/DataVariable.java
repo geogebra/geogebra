@@ -661,19 +661,30 @@ public class DataVariable {
 		sb.append("<variable>\n");
 		// save the DataItems to XML
 		for (DataItem item : values) {
+			boolean first = true;
 			sb.append("<item ranges=\"");
 			ArrayList<CellRange> crList = item.getRangeList();
 			if (crList != null) {
-				boolean first = true;
 				for (CellRange cr : crList) {
 					sb.append(first ? "" : ",");
 					sb.append(cr.getLabel());
+					first = false;
 				}
 			}
 			sb.append("\"/>\n");
 		}
 		if (frequency != null) {
-			// write item XML
+			// save the frequencies to XML
+			sb.append("<item frequencies=\"");
+			boolean first = true;
+			for (CellRange cr  : frequency.getRangeList()) {
+				if (cr != null) {
+					sb.append(first ? "" : ",");
+					sb.append(cr.getLabel());
+				}
+				first = false;
+			}
+			sb.append("\"/>\n");
 		}
 		if (classes != null) {
 			// write item XML
@@ -682,7 +693,6 @@ public class DataVariable {
 			// write item XML
 		}
 		sb.append("</variable>\n");
-
 	}
 
 }
