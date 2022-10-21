@@ -864,7 +864,7 @@ public class AlgebraStyleTest extends BaseUnitTest {
 	@Test
 	public void polarVectorsShouldSerializeAsFlatInEditor() {
 		GeoVector vec = add("v=(1;3)");
-		assertTrue("should be polar", vec.isPolar()); // works
-		assertThat(vec.getDefinitionForEditor(), CoreMatchers.is("v=(1; 3)")); // TODO fails
+		assertTrue("should be polar", vec.isPolar());
+		assertThat(vec.getDefinitionForEditor(), CoreMatchers.is("v=(1; 3)"));
 	}
 }
