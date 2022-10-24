@@ -96,6 +96,24 @@
 					color: colors.$black-87;
 				}
 			}
+
+			.holder.errorStyle,
+			 .holder.errorStyle.focusState,
+			  .holder.errorStyle:hover {
+				.gwt-Label {
+					color: colors.$error;
+				}
+
+				.mathTextField {
+					border-bottom-color: colors.$error;
+				}
+			}
+		}
+
+		.resultPanel {
+			.holder.errorStyle .mathTextField {
+				border-bottom-color: colors.$error;
+			}
 		}
 	}
 
