@@ -4,7 +4,10 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -43,10 +46,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	protected class GlobalTab extends FlowPanel implements SetLabels {
 		private FlowPanel optionsPanel;
 		private FormLabel lblRounding;
-		/**
-		 * rounding combo box
-		 */
-		ListBox roundingList;
 		private FormLabel lblLabeling;
 		/**
 		 * labeling combo box
@@ -93,25 +92,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addRoundingItem() {
-			roundingList = new ListBox();
+			EnumerableProperty roundingProp = new RoundingProperty(app, app.getLocalization());
+			CompDropDown roundingDropDown = new CompDropDown(app, null, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
-							.setFor(roundingList);
+							.setFor(roundingDropDown);
 			optionsPanel
-					.add(LayoutUtilW.panelRow(lblRounding, roundingList));
-			roundingList.addChangeHandler(event -> {
-				try {
-					// TODO copypasted from RoundingProperty
-					int index = roundingList.getSelectedIndex();
-					boolean figures = index >= app.getLocalization()
-							.getDecimalPlaces().length;
-					optionsMenu.setRounding(app,
-							figures ? index + 1 : index, figures);
-					app.setUnsaved();
-				} catch (Exception e) {
-					app.showGenericError(e);
-				}
-			});
+					.add(LayoutUtilW.panelRow(lblRounding, roundingDropDown));
 		}
 
 		private void addLabelingItem() {
@@ -218,8 +205,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * select decimal places stored in app
 		 */
 		void setRoundingInComboBox() {
-			roundingList.setSelectedIndex(
-					optionsMenu.getMenuDecimalPosition(app.getKernel(), true));
+			//roundingList.setSelectedIndex(
+			//		optionsMenu.getMenuDecimalPosition(app.getKernel(), true));
 		}
 
 		private void addRestoreSettingsBtn() {
@@ -253,7 +240,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * update gui
 		 */
 		public void updateGUI() {
-			updateRoundingList();
 			updateLabelingList();
 			setLabelingInComboBox();
 			updateFontSizeList();
@@ -292,18 +278,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				}
 				labelingList.addItem(app.getLocalization().getMenu(str));
 			}
-		}
-
-		private void updateRoundingList() {
-			roundingList.clear();
-			String[] strDecimalSpaces = app.getLocalization()
-					.getRoundingMenu();
-			for (String str : strDecimalSpaces) {
-				if (!Localization.ROUNDING_MENU_SEPARATOR.equals(str)) {
-					roundingList.addItem(str);
-				}
-			}
-			setRoundingInComboBox();
 		}
 
 		/**
@@ -358,7 +332,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		public void setLabels() {
 			lblRounding
 					.setText(app.getLocalization().getMenu("Rounding") + ":");
-			updateRoundingList();
 			lblLabeling.setText(app.getLocalization().getMenu("Labeling") + ":");
 			updateLabelingList();
 			lblFontSize.setText(app.getLocalization().getMenu("FontSize") + ":");

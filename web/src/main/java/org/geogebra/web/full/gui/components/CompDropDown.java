@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -37,6 +39,11 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		addClickHandler();
 
 		initController(items);
+	}
+
+	public CompDropDown(AppW app, String label, EnumerableProperty property) {
+		this(app, label, Arrays.asList(property.getValues()));
+		controller.setProperty(property);
 	}
 
 	private void initController(List<String> items) {

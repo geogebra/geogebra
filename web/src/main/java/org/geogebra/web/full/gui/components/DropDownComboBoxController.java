@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -15,6 +16,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
 	private Runnable changeHandler;
+	private EnumerableProperty property;
 
 	/**
 	 * popup controller for dropdown and combobox
@@ -86,6 +88,9 @@ public class DropDownComboBoxController implements SetLabels {
 				if (changeHandler != null) {
 					 changeHandler.run();
 				}
+				if (property != null) {
+					property.setIndex(currentIndex);
+				}
 					});
 
 			item.setStyleName("dropDownElement");
@@ -152,5 +157,9 @@ public class DropDownComboBoxController implements SetLabels {
 
 	public void setChangeHandler(Runnable changeHandler) {
 		this.changeHandler = changeHandler;
+	}
+
+	public void setProperty(EnumerableProperty property) {
+		this.property = property;
 	}
 }
