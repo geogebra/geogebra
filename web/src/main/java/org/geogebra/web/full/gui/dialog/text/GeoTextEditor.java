@@ -39,7 +39,6 @@ public class GeoTextEditor extends FocusWidget {
 
 	private static final String DYNAMIC_TEXT_CLASS = "dynamicText";
 	private final AppW app;
-	protected ArrayList<DynamicTextElement> dynamicList = null;
 	protected ITextEditPanel editPanel;
 
 	protected PopupPanel textEditPopup;
@@ -143,7 +142,6 @@ public class GeoTextEditor extends FocusWidget {
 						sb.append(nodeValue);
 						sb.append("</div>");
 					}
-
 				}
 			}
 		}
@@ -155,7 +153,6 @@ public class GeoTextEditor extends FocusWidget {
 	 * Handle paste event.
 	 */
 	public void handlePaste() {
-		// setDynamicText();
 		Scheduler.get().scheduleDeferred(() -> {
 			getElement().setInnerHTML(getUnformattedContent());
 			updateFonts();
@@ -294,37 +291,43 @@ public class GeoTextEditor extends FocusWidget {
 
 		for (int i = 0; i < node.childNodes.length; i++) {
 			Node child = node.childNodes.getAt(i);
-
 			if (child.nodeType == Node.TEXT_NODE) {
-				if (child.nodeValue != null) {
-					list.add(new DynamicTextElement(child.nodeValue,
-							DynamicTextType.STATIC));
-				}
-
+				processTextNode(child, list);
 			} else if (child.nodeType == Node.ELEMENT_NODE) {
-				Element childEl = Js.uncheckedCast(child);
-				String tagName = childEl.getTagName();
-
-				// convert input element to dynamic text string
-				if (DYNAMIC_TEXT_CLASS
-						.equals(childEl.getClassName())) {
-					list.add(new DynamicTextElement(
-							childEl.getPropertyString("value"),
-							DynamicTextType.VALUE));
-
-					// convert DIV or P (browser dependent) to newline
-				} else if ("div".equalsIgnoreCase(tagName)
-						|| "p".equalsIgnoreCase(tagName)) {
-
-					list.add(new DynamicTextElement("\n",
-							DynamicTextType.STATIC));
-
-					// parse the inner HTML of this element
-					getDynamicTextListRecursive(list, child);
-				} else if ("span".equalsIgnoreCase(tagName)) {
-					getDynamicTextListRecursive(list, child);
-				}
+				processElement(child, list);
 			}
+		}
+	}
+
+	private void processTextNode(Node child, ArrayList<DynamicTextElement> list) {
+		if (child.nodeValue != null) {
+			list.add(new DynamicTextElement(child.nodeValue,
+					DynamicTextType.STATIC));
+		}
+	}
+
+	private void processElement(Node child, ArrayList<DynamicTextElement> list) {
+		Element childEl = Js.uncheckedCast(child);
+		String tagName = childEl.getTagName();
+
+		// convert input element to dynamic text string
+		if (DYNAMIC_TEXT_CLASS
+				.equals(childEl.getClassName())) {
+			list.add(new DynamicTextElement(
+					childEl.getPropertyString("value"),
+					DynamicTextType.VALUE));
+
+			// convert DIV or P (browser dependent) to newline
+		} else if ("div".equalsIgnoreCase(tagName)
+				|| "p".equalsIgnoreCase(tagName)) {
+
+			list.add(new DynamicTextElement("\n",
+					DynamicTextType.STATIC));
+
+			// parse the inner HTML of this element
+			getDynamicTextListRecursive(list, child);
+		} else if ("span".equalsIgnoreCase(tagName)) {
+			getDynamicTextListRecursive(list, child);
 		}
 	}
 
