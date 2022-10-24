@@ -2,9 +2,10 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.full.gui.components.CompDropDown;
@@ -47,10 +48,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private FlowPanel optionsPanel;
 		private FormLabel lblRounding;
 		private FormLabel lblLabeling;
-		/**
-		 * labeling combo box
-		 */
-		ListBox labelingList;
 		private FormLabel lblFontSize;
 		/**
 		 * font size combo box
@@ -102,21 +99,14 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLabelingItem() {
-			labelingList = new ListBox();
+			EnumerableProperty property = new LabelingProperty(app.getLocalization(),
+					((App) app).getSettings().getLabelSettings());
+			CompDropDown labelingDropDown = new CompDropDown(app, null, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
-							.setFor(labelingList);
-
+							.setFor(labelingDropDown);
 			optionsPanel
-					.add(LayoutUtilW.panelRow(lblLabeling, labelingList));
-			labelingList.addChangeHandler(event -> {
-				int index = labelingList.getSelectedIndex();
-				if (app.isUnbundledGraphing()) {
-					index++;
-				}
-				app.setLabelingStyle(index);
-				app.setUnsaved();
-			});
+					.add(LayoutUtilW.panelRow(lblLabeling, labelingDropDown));
 		}
 
 		private void addFontItem() {
@@ -185,7 +175,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 */
 		void setLabelingInComboBox() {
 			int labeling = app.getLabelingStyle();
-			if (app.isUnbundledGraphing()) {
+			/*if (app.isUnbundledGraphing()) {
 				switch (labeling) {
 				case 2:
 					labelingList.setSelectedIndex(1);
@@ -198,7 +188,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				}
 			} else {
 				labelingList.setSelectedIndex(labeling);
-			}
+			}*/
 		}
 
 		/**
@@ -240,7 +230,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * update gui
 		 */
 		public void updateGUI() {
-			updateLabelingList();
 			setLabelingInComboBox();
 			updateFontSizeList();
 			setFontSizeInComboBox();
@@ -264,19 +253,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				if (l.fullyTranslated || app.has(Feature.ALL_LANGUAGES)) {
 					languageList.addItem(l.name, l.getLocaleGWT());
 				}
-			}
-		}
-
-		private void updateLabelingList() {
-			labelingList.clear();
-			String[] labelingStrs = { "Labeling.automatic", "Labeling.on",
-					"Labeling.off", "Labeling.pointsOnly" };
-			for (String str : labelingStrs) {
-				if ("Labeling.automatic".equals(str)
-						&& app.isUnbundledGraphing()) {
-					continue;
-				}
-				labelingList.addItem(app.getLocalization().getMenu(str));
 			}
 		}
 
@@ -333,7 +309,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblRounding
 					.setText(app.getLocalization().getMenu("Rounding") + ":");
 			lblLabeling.setText(app.getLocalization().getMenu("Labeling") + ":");
-			updateLabelingList();
 			lblFontSize.setText(app.getLocalization().getMenu("FontSize") + ":");
 			updateFontSizeList();
 			lblLanguage

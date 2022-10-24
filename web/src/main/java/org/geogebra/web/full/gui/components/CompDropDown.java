@@ -44,6 +44,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	public CompDropDown(AppW app, String label, EnumerableProperty property) {
 		this(app, label, Arrays.asList(property.getValues()));
 		controller.setProperty(property);
+		if (property.getIndex() > -1) {
+			controller.setSelectedOption(property.getIndex());
+		}
+		updateSelectionText(controller.getSelectedText());
 	}
 
 	private void initController(List<String> items) {
