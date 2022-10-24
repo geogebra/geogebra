@@ -449,7 +449,7 @@ public class DataSource {
 			ranges.add(cr);
 		}
 
-		if (!frequencies.isEmpty()) {
+		if (frequencies != null) {
 			setFrequencyFromColumn(true);
 
 			GPoint start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
