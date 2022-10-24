@@ -3001,9 +3001,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return whether the top-level operation is IF / IF_ELSE / IF_LIST
 	 */
 	public boolean isConditional() {
-		return operation == Operation.IF || operation == Operation.IF_SHORT
-				|| operation == Operation.IF_ELSE
-				|| operation == Operation.IF_LIST;
+		return operation.isConditional();
 	}
 
 	/**
