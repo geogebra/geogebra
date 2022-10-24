@@ -1560,17 +1560,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			Log.debug("Operation not resolved");
 			//$FALL-THROUGH$
 		case FUNCTION:
-
-			if (stringType.isGiac() && right instanceof ListValue) {
-				// TODO: does this ever get called?
-
+			if (stringType.isGiac() && right instanceof ListValue && left instanceof Function) {
 				ListValue list = (ListValue) right;
 
-				// eg seq(sin({4,5,6}[j]),j,0,2)
+				// eg seq(subst(sin(x),x,{4,5,6}[j]),j,0,2)
 				// DON'T USE i (sqrt(-1) in Giac)
-				sb.append("seq(");
+				sb.append("seq(subst(");
 				sb.append(leftStr);
-				sb.append('(');
+				sb.append(',');
+				sb.append(((Function) left).getVarString(tpl));
+				sb.append(',');
 				sb.append(rightStr);
 				sb.append("[j]),j,0,");
 				sb.append(list.size() - 1);

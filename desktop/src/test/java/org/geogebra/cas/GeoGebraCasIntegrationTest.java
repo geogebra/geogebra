@@ -2708,10 +2708,23 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void testInequalityLabel() {
-		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-		f.setInput("b:= x<3");
-		f.computeOutput();
-		f.plot();
+		GeoCasCell f = add("b:= x<3");
 		assertThat(f.getTwinGeo().getLabel(StringTemplate.defaultTemplate), equalTo("b"));
+	}
+
+	private GeoCasCell add(String s) {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		f.setInput(s);
+		processCasCell(f);
+		return f;
+	}
+
+	@Test
+	public void listFunctionEvaluation() {
+		add("h(x):=exp(x) (-exp(x)+4)-3 (exp(x))^(2)");
+		add("l1:={ln(2)}");
+		add("l2:={1,2,3}");
+		t("h(l1)", "{-8}");
+		t("Numeric[h(l2),5]", "{-18.683, -188.84, -1533.4}");
 	}
 }
