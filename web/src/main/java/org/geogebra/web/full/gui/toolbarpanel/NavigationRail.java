@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import javax.annotation.CheckForNull;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.DockPanelData.TabIds;
@@ -139,6 +140,9 @@ class NavigationRail extends FlowPanel {
 	 */
 	protected void onAlgebraPressed() {
 		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.ALGEBRA) {
+			if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+				return;
+			}
 			onClosePressed(false);
 			return;
 		}
@@ -165,6 +169,9 @@ class NavigationRail extends FlowPanel {
 	 */
 	protected void onTableViewPressed() {
 		if (isOpen() && toolbarPanel.getSelectedTabId() == TabIds.TABLE) {
+			if (app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC) {
+				return;
+			}
 			onClosePressed(false);
 			return;
 		}
