@@ -25,7 +25,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	private DropDownComboBoxController controller;
 
 	/**
-	 * Material rop-down component
+	 * Material drop-down component
 	 * @param app - see {@link AppW}
 	 * @param label - label of drop-down
 	 * @param items - popup elements
@@ -41,6 +41,12 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		initController(items);
 	}
 
+	/**
+	 *
+	 * @param app - - see {@link AppW}
+	 * @param label - label of drop-down
+	 * @param property - property
+	 */
 	public CompDropDown(AppW app, String label, EnumerableProperty property) {
 		this(app, label, Arrays.asList(property.getValues()));
 		controller.setProperty(property);
@@ -122,6 +128,9 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		controller.setChangeHandler(changeHandler);
 	}
 
+	/**
+	 * reset dropdown to default
+	 */
 	public void resetToDefault() {
 		controller.resetToDefault();
 		updateSelectionText(controller.getSelectedText());
