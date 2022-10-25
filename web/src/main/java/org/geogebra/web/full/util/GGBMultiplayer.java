@@ -1,5 +1,6 @@
 package org.geogebra.web.full.util;
 
+import org.geogebra.common.util.InjectJsInterop;
 import org.geogebra.gwtutil.JsConsumer;
 
 import elemental2.core.JsArray;
@@ -25,5 +26,11 @@ public class GGBMultiplayer {
 
 	public native void disconnect();
 
-	public native void addConnectionChangeListener(JsConsumer<Boolean> callback);
+	public native void addConnectionChangeListener(JsConsumer<ConnectionChangeEvent> callback);
+
+	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
+	public static class ConnectionChangeEvent {
+		@InjectJsInterop
+		public boolean connected;
+	}
 }
