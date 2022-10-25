@@ -86,6 +86,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
 							.setFor(roundingDropDown);
+			lblRounding.addStyleName("dropDownLabel");
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblRounding, roundingDropDown));
 		}
@@ -97,6 +98,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
 							.setFor(labelingDropDown);
+			lblLabeling.addStyleName("dropDownLabel");
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblLabeling, labelingDropDown));
 		}
@@ -110,6 +112,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
 							.setFor(fontSizeDropDown);
+			lblFontSize.addStyleName("dropDownLabel");
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblFontSize, fontSizeDropDown));
 		}
@@ -121,6 +124,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
 							.setFor(languageDropDown);
+			lblLanguage.addStyleName("dropDownLabel");
 			optionsPanel
 					.add(LayoutUtilW.panelRow(lblLanguage, languageDropDown));
 		}
