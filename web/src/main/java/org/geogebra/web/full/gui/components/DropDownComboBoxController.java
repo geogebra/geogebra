@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -55,12 +56,13 @@ public class DropDownComboBoxController implements SetLabels {
 
 	/**
 	 * open/close dropdown
+	 * @param isFullWidth - whether dropdown should have full width
 	 */
-	public void toggleAsDropDown() {
+	public void toggleAsDropDown(boolean isFullWidth) {
 		if (isOpened()) {
 			closePopup();
 		} else {
-			showAsDropDown();
+			showAsDropDown(isFullWidth);
 		}
 	}
 
@@ -154,10 +156,13 @@ public class DropDownComboBoxController implements SetLabels {
 
 	/**
 	 * shop popup and position as dropdown
+	 * @param isFullWidth - is dropdown should have full width
 	 */
-	public void showAsDropDown() {
+	public void showAsDropDown(boolean isFullWidth) {
 		dropDown.positionAsDropDown();
-		dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
+		if (isFullWidth) {
+			dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
+		}
 	}
 
 	public void setChangeHandler(Runnable changeHandler) {
