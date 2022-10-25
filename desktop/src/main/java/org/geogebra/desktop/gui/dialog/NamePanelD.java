@@ -223,7 +223,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	 * @param geo
 	 *            element
 	 */
-	public void updateDef(GeoElementND geo) {
+	public void updateDefinition(GeoElementND geo) {
 
 		// do nothing if called by doActionPerformed
 		if (model.isBusy()) {
@@ -401,7 +401,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 
 	@Override
 	public void updateDefLabel() {
-		updateDef(model.getCurrentGeo());
+		updateDefinition(model.getCurrentGeo());
 
 		if (model.getCurrentGeo().isIndependent()) {
 			defLabel.setText(loc.getMenu("Value") + ":");

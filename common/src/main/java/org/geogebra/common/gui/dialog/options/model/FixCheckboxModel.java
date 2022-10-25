@@ -11,13 +11,11 @@ public class FixCheckboxModel extends BooleanOptionModel {
 
 	private GeoBoolean getBooleanAt(int index) {
 		return (GeoBoolean) getObjectAt(index);
-
 	}
 
 	@Override
 	public boolean getValueAt(int index) {
 		return getBooleanAt(index).isLockedPosition();
-
 	}
 
 	@Override
@@ -40,5 +38,10 @@ public class FixCheckboxModel extends BooleanOptionModel {
 		GeoBoolean bool = getBooleanAt(index);
 		bool.setCheckboxFixed(value);
 		bool.updateRepaint();
+	}
+
+	@Override
+	public String getTitle() {
+		return "FixCheckbox";
 	}
 }

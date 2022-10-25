@@ -204,12 +204,12 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void add(GeoElement geo) {
-		// TODO Auto-generated method stub
+		// ignore, handled by selection update
 	}
 
 	@Override
 	public void remove(GeoElement geo) {
-		// TODO Auto-generated method stub
+		// ignore, handled by selection update
 	}
 
 	@Override
@@ -220,7 +220,10 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	public void update(GeoElement geo) {
 		if (geo.isLabelSet()) {
-			updatePropertiesGUI();
+			OptionsObjectW panel = getObjectPanel();
+			if (panel != null) {
+				panel.updateIfInSelection(geo);
+			}
 		}
 	}
 

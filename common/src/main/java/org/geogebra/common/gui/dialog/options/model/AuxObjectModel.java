@@ -18,6 +18,11 @@ public class AuxObjectModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "AuxiliaryObject";
+	}
+
+	@Override
 	public boolean getValueAt(int index) {
 		return getGeoAt(index).isAuxiliaryObject();
 
@@ -26,6 +31,5 @@ public class AuxObjectModel extends BooleanOptionModel {
 	@Override
 	public boolean isValidAt(int index) {
 		return getGeoAt(index).isAlgebraVisible();
-
 	}
 }

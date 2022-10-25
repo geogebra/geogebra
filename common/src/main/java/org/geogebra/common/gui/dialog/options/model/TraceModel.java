@@ -30,4 +30,9 @@ public class TraceModel extends BooleanOptionModel {
 		geo.updateRepaint();
 
 	}
+
+	@Override
+	public String getTitle() {
+		return "ShowTrace";
+	}
 }

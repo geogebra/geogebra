@@ -32,4 +32,9 @@ public class ExtendedAVModel extends BooleanOptionModel {
 		}
 	}
 
+	@Override
+	public String getTitle() {
+		return "ShowSliderInAlgebraView";
+	}
+
 }

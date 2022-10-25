@@ -44,6 +44,7 @@ public class AlgoImageCorner extends AlgoElement {
 		corner = new GeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
+		img.setNeedsBoundingBoxUpdate(true);
 		corner.setLabel(label);
 
 		cons.registerEuclidianViewCE(this);

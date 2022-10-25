@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
@@ -29,7 +30,6 @@ import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.gui.dialog.options.model.ImageCornerModel;
 import org.geogebra.common.gui.dialog.options.model.IneqStyleModel;
-import org.geogebra.common.gui.dialog.options.model.IneqStyleModel.IIneqStyleListener;
 import org.geogebra.common.gui.dialog.options.model.InterpolateImageModel;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -46,6 +46,7 @@ import org.geogebra.common.gui.dialog.options.model.SymbolicModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldAlignmentModel;
 import org.geogebra.common.gui.dialog.options.model.TextFieldSizeModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
+import org.geogebra.common.gui.dialog.options.model.TextPropertyModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -79,6 +80,7 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.gwtproject.resources.client.ImageResource;
@@ -267,10 +269,10 @@ public class OptionsTab extends FlowPanel {
 			return new SlopeTriangleSizePanel((SlopeTriangleSizeModel) m);
 		}
 		if (m instanceof IneqStyleModel) {
-			return new IneqPanel((IneqStyleModel) m, app);
+			return new CheckboxPanel(app.getLocalization(), (IneqStyleModel) m);
 		}
 		if (m instanceof TextFieldSizeModel) {
-			return new TextFieldSizePanel((TextFieldSizeModel) m, app);
+			return new TextPropertyPanel((TextFieldSizeModel) m, app);
 		}
 		if (m instanceof ButtonSizeModel) {
 			return new ButtonSizePanel((ButtonSizeModel) m, app);
@@ -282,12 +284,10 @@ public class OptionsTab extends FlowPanel {
 			return new LodPanel((LodModel) m);
 		}
 		if (m instanceof SymbolicModel) {
-			CheckboxPanel ret = new CheckboxPanel("Symbolic",
-					app.getLocalization(), (SymbolicModel) m);
-			return ret;
+			return new CheckboxPanel(app.getLocalization(), (SymbolicModel) m);
 		}
 		if (m instanceof InterpolateImageModel) {
-			return new CheckboxPanel("Interpolate", app.getLocalization(),
+			return new CheckboxPanel(app.getLocalization(),
 					(InterpolateImageModel) m);
 		}
 		if (m instanceof DecoAngleModel) {
@@ -302,19 +302,17 @@ public class OptionsTab extends FlowPanel {
 			return dsp;
 		}
 		if (m instanceof SegmentStyleModel) {
+			IOptionPanel ssp;
 			if (((SegmentStyleModel) m).isStartStyle()) {
-				SegmentStartStylePanel ssp = new SegmentStartStylePanel((SegmentStyleModel) m,
+				ssp = new SegmentStartStylePanel((SegmentStyleModel) m,
 						app);
-				ssp.getWidget().setStyleName("optionsPanel");
-				ssp.getWidget().addStyleName("segmentStyle");
-				return ssp;
 			} else {
-				SegmentEndStylePanel sep = new SegmentEndStylePanel((SegmentStyleModel) m,
-						app);
-				sep.getWidget().setStyleName("optionsPanel");
-				sep.getWidget().addStyleName("segmentStyle");
-				return sep;
+				ssp = new SegmentEndStylePanel((SegmentStyleModel) m, app);
+
 			}
+			ssp.getWidget().setStyleName("optionsPanel");
+			ssp.getWidget().addStyleName("inlineOption");
+			return ssp;
 		}
 		if (m instanceof TextOptionsModel) {
 			return new TextOptionsPanelW((TextOptionsModel) m, app);
@@ -329,8 +327,14 @@ public class OptionsTab extends FlowPanel {
 			return new CornerPointsPanel((CornerPointsModel) m, app);
 		}
 		if (m instanceof AbsoluteScreenLocationModel) {
-			return new CheckboxPanel("AbsoluteScreenLocation",
+			return new CheckboxPanel(
 					app.getLocalization(), (AbsoluteScreenLocationModel) m);
+		}
+		if (m instanceof AbsoluteScreenPositionModel) {
+			IOptionPanel ret = new TextPropertyPanel((AbsoluteScreenPositionModel) m, app);
+			ret.getWidget().setStyleName("optionsPanel");
+			ret.getWidget().addStyleName("inlineOption");
+			return ret;
 		}
 		if (m instanceof CenterImageModel) {
 			return new CenterImagePanel((CenterImageModel) m, app, this);
@@ -357,7 +361,7 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
 		}
 		if (m instanceof DrawArrowsModel) {
-			return new CheckboxPanel("DrawArrows", loc, (DrawArrowsModel) m);
+			return new CheckboxPanel(loc, (DrawArrowsModel) m);
 		}
 
 		return null;
@@ -1051,51 +1055,37 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	private static class IneqPanel extends CheckboxPanel
-			implements IIneqStyleListener {
-
-		public IneqPanel(IneqStyleModel model, AppW app) {
-			super("ShowOnXAxis", app.getLocalization(), model);
-		}
-
-		@Override
-		public void enableFilling(boolean value) {
-			// fillingPanel.setAllEnabled(value);
-		}
-
-		// @Override
-		// public void apply(boolean value) {
-		// super.apply(value);
-		// enableFilling(!value);
-		// }
-
-	}
-
-	private class TextFieldSizePanel extends OptionPanel implements
+	public static class TextPropertyPanel extends OptionPanel implements
 			ITextFieldListener {
 
-		TextFieldSizeModel model;
+		private final LocalizationW loc;
+		TextPropertyModel model;
 		private InputPanelW inputPanel;
-		AutoCompleteTextFieldW tfSize;
-		Label lbSize;
+		AutoCompleteTextFieldW textField;
+		Label label;
 
-		public TextFieldSizePanel(TextFieldSizeModel model0, AppW app) {
+		/**
+		 * @param model0 model
+		 * @param app application
+		 */
+		public TextPropertyPanel(TextPropertyModel model0, AppW app) {
 			model = model0;
 			model.setListener(this);
+			this.loc = app.getLocalization();
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
-			lbSize = new Label();
+			label = new Label();
 			inputPanel = new InputPanelW(null, app, 1, -1, false);
-			tfSize = inputPanel.getTextComponent();
-			tfSize.setAutoComplete(false);
-			tfSize.addBlurHandler(event -> model.applyChanges(tfSize.getText()));
-			tfSize.addKeyHandler(e -> {
+			textField = inputPanel.getTextComponent();
+			textField.setAutoComplete(false);
+			textField.addBlurHandler(event -> model.applyChanges(textField.getText()));
+			textField.addKeyHandler(e -> {
 				if (e.isEnterKey()) {
-					model.applyChanges(tfSize.getText());
+					model.applyChanges(textField.getText());
 				}
 			});
-			mainPanel.add(LayoutUtilW.panelRow(lbSize, inputPanel));
+			mainPanel.add(LayoutUtilW.panelRow(label, inputPanel));
 			mainPanel.setStyleName("optionsPanel");
 			setWidget(mainPanel);
 
@@ -1103,12 +1093,12 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setText(String text) {
-			tfSize.setText(text);
+			textField.setText(text);
 		}
 
 		@Override
 		public void setLabels() {
-			lbSize.setText(localize("TextfieldLength"));
+			label.setText(loc.getMenu(model.getTitle()) + ":");
 		}
 
 	}
@@ -1524,7 +1514,7 @@ public class OptionsTab extends FlowPanel {
 		CenterImageModel model;
 
 		public CenterImagePanel(CenterImageModel model, AppW app, OptionsTab tab) {
-			super("CenterImage", app.getLocalization(), model);
+			super(app.getLocalization(), model);
 			this.tab = tab;
 			this.model = model;
 		}

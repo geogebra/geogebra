@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.algos.AlgoVector;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -93,9 +94,15 @@ public class StartPointModel extends MultipleGeosModel {
 		GeoElement geo = getGeoAt(index);
 		if (!(geo instanceof Locateable && !((Locateable) geo).isAlwaysFixed())
 				|| geo.isGeoImage()
-				|| geo.getParentAlgorithm() instanceof AlgoVector) {
+				|| geo.getParentAlgorithm() instanceof AlgoVector
+				|| isAbsoluteLocation(geo)) {
 			valid = false;
 		}
 		return valid;
+	}
+
+	private boolean isAbsoluteLocation(GeoElement geo) {
+		return geo instanceof AbsoluteScreenLocateable
+				&& ((AbsoluteScreenLocateable) geo).isAbsoluteScreenLocActive();
 	}
 }

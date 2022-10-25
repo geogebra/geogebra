@@ -219,7 +219,10 @@ class NamePanel extends OptionPanel
 		}
 	}
 
-	private void updateDef(GeoElementND geo) {
+	/**
+	 * @param geo construction element
+	 */
+	public void updateDefinition(GeoElementND geo) {
 		errorPanel.clear();
 		model.getDefInputHandler().setGeoElement(geo);
 		tfDefinition.setText(ObjectNameModel.getDefText(geo));
@@ -252,7 +255,7 @@ class NamePanel extends OptionPanel
 
 	@Override
 	public void updateDefLabel() {
-		updateDef(model.getCurrentGeo());
+		updateDefinition(model.getCurrentGeo());
 		Localization loc = app.getLocalization();
 		if (model.getCurrentGeo().isIndependent()) {
 			defLabel.setText(loc.getMenu("Value") + ":");
@@ -296,5 +299,4 @@ class NamePanel extends OptionPanel
 		dynamicCaptionPanel.updatePanel(geos);
 		return super.updatePanel(geos);
 	}
-
 }
