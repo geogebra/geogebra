@@ -64,6 +64,8 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			label = new Label(app.getLocalization().getMenu(labelStr));
 			label.addStyleName("label");
 			optionHolder.add(label);
+		} else {
+			optionHolder.addStyleName("noLabel");
 		}
 
 		selectedOption = new Label();
@@ -118,5 +120,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 
 	public void setChangeHandler(Runnable changeHandler) {
 		controller.setChangeHandler(changeHandler);
+	}
+
+	public void resetToDefault() {
+		controller.resetToDefault();
+		updateSelectionText(controller.getSelectedText());
 	}
 }

@@ -847,6 +847,12 @@
 				margin: 8px 8px 0 0;
 				color: colors.$text-primary;
 			}
+
+			&.noLabel {
+				.selectedOption {
+					margin-top: 20px;
+				}
+			}
 		}
 
 		.arrow {

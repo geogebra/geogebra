@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
@@ -117,7 +118,11 @@ public class DropDownComboBoxController implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		setElements(items);
+		if (property != null) {
+			setElements(Arrays.asList(property.getValues()));
+		} else {
+			setElements(items);
+		}
 	}
 
 	public ComponentDropDownPopup getPopup() {
@@ -161,5 +166,11 @@ public class DropDownComboBoxController implements SetLabels {
 
 	public void setProperty(EnumerableProperty property) {
 		this.property = property;
+	}
+
+	public void resetToDefault() {
+		if (property.getIndex() > -1) {
+			setSelectedOption(property.getIndex());
+		}
 	}
 }
