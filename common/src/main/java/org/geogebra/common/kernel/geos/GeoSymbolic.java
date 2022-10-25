@@ -65,6 +65,7 @@ public class GeoSymbolic extends GeoElement
 	private int pointSize;
 	private boolean symbolicMode;
 	private MyArbitraryConstant constant;
+	private boolean wrapInNumeric = false;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -246,7 +247,6 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		String casResult = evaluateGeoGebraCAS(casInput, constant);
-
 		if (GeoFunction.isUndefined(casResult) && argumentsDefined(casInput)) {
 			casResult = tryNumericCommand(casInput, casResult);
 		}
@@ -307,14 +307,6 @@ public class GeoSymbolic extends GeoElement
 			return result;
 		}
 
-		if (Commands.Solve.name().equals(casInput.getName())) {
-			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
-			Command input = getCasInput(getDefinition().deepCopy(kernel)
-					.traverse(FunctionExpander.newFunctionExpander(this)));
-			result = evaluateGeoGebraCAS(input, constant);
-			return result;
-		}
-
 		Command numericVersion = new Command(kernel, "Numeric", false);
 		numericVersion.addArgument(casInput.wrap());
 		String numResult = evaluateGeoGebraCAS(numericVersion, constant);
@@ -324,6 +316,14 @@ public class GeoSymbolic extends GeoElement
 		}
 
 		return result;
+	}
+
+	public void setWrapInNumeric(boolean input) {
+		wrapInNumeric = input;
+	}
+
+	public boolean shouldWrapInNumeric() {
+		return wrapInNumeric;
 	}
 
 	private boolean isTopLevelCommandNumeric() {
