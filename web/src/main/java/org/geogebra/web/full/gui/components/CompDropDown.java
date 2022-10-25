@@ -23,6 +23,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	private Label selectedOption;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
+	private boolean fullWidth = false;
 
 	/**
 	 * Material drop-down component
@@ -98,7 +99,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
-					controller.toggleAsDropDown();
+					controller.toggleAsDropDown(fullWidth);
 				}
 			}
 		});
@@ -140,5 +141,13 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	public void resetToDefault() {
 		controller.resetToDefault();
 		updateSelectionText(controller.getSelectedText());
+	}
+
+	public void setFullWidth(boolean isFullWidth) {
+		fullWidth = isFullWidth;
+	}
+
+	public boolean isFullWidth() {
+		return fullWidth;
 	}
 }
