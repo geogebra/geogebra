@@ -50,7 +50,7 @@ public class DataVariable {
 	private boolean enableHeader = false;
 	private double classStart = 0.0;
 	private double classWidth = 1.0;
-	private Localization loc;
+	private final Localization loc;
 
 	/**
 	 * Constructs a DataVariable
@@ -661,19 +661,19 @@ public class DataVariable {
 		sb.append("<variable>\n");
 		// save the DataItems to XML
 		for (DataItem item : values) {
+
 			sb.append("<item ranges=\"");
 			ArrayList<CellRange> crList = item.getRangeList();
 			if (crList != null) {
-				boolean first = true;
-				for (CellRange cr : crList) {
-					sb.append(first ? "" : ",");
-					sb.append(cr.getLabel());
-				}
+				appendCellRanges(sb, crList);
 			}
 			sb.append("\"/>\n");
 		}
 		if (frequency != null) {
-			// write item XML
+			// save the frequencies to XML
+			sb.append("<item frequencies=\"");
+			appendCellRanges(sb, frequency.getRangeList());
+			sb.append("\"/>\n");
 		}
 		if (classes != null) {
 			// write item XML
@@ -682,7 +682,17 @@ public class DataVariable {
 			// write item XML
 		}
 		sb.append("</variable>\n");
+	}
 
+	private void appendCellRanges(StringBuilder sb, ArrayList<CellRange> crList) {
+		boolean first = true;
+		for (CellRange cr : crList) {
+			if (cr != null) {
+				sb.append(first ? "" : ",");
+				sb.append(cr.getLabel());
+				first = false;
+			}
+		}
 	}
 
 }
