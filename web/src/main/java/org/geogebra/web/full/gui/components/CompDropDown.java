@@ -41,6 +41,12 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		initController(items);
 	}
 
+	public CompDropDown(AppW app, String label, List<String> items, int defaultIdx) {
+		this(app, label, items);
+		controller.setSelectedOption(defaultIdx);
+		updateSelectionText(controller.getSelectedText());
+	}
+
 	/**
 	 *
 	 * @param app - - see {@link AppW}
