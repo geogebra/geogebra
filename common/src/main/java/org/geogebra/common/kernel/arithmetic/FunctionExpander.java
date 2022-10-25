@@ -288,17 +288,20 @@ public class FunctionExpander implements Traversing {
 		}
 		for (int i = 0; i < fv.length; i++) {
 			if (en.getOperation() == Operation.FUNCTION_NVAR || surfaceNoComplex) {
-				if (argument instanceof MyList
-						&& ((MyList) argument).size() == fv.length) {
-					ithArg = ((MyList) argument).getListElement(i);
-				} else {
-					ithArg = VectorArithmetic.computeCoord(argument.wrap(), i);
-				}
+				ithArg = getElement(argument, i, fv.length);
 			}
 			vr.addVars(fv[i].getSetVarString(), ithArg);
 		}
-		en2 = en2.traverse(vr).wrap();
-		return en2;
+		return en2.traverse(vr).wrap();
+	}
+
+	private ExpressionValue getElement(ExpressionValue argument, int i, int argLength) {
+		if (argument instanceof MyList
+				&& ((MyList) argument).size() == argLength) {
+			return ((MyList) argument).getListElement(i);
+		} else {
+			return VectorArithmetic.computeCoord(argument.wrap(), i);
+		}
 	}
 
 	private boolean hasLowerConstructionIndex(GeoElement element) {
