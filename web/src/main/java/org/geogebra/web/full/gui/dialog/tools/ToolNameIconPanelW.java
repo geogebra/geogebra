@@ -97,6 +97,10 @@ public class ToolNameIconPanelW extends FlowPanel {
 			UploadImagePanel.getUploadButton((AppW) app, this::resizeAndUpdateIcon).click();
 		});
 
+		if (!this.app.enableFileFeatures()) {
+			labelIcon.setEnabled(false);
+		}
+
 		iconPanel.add(icon);
 		iconPanel.add(labelIcon);
 

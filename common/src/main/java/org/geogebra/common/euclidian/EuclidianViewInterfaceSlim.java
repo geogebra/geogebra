@@ -35,7 +35,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 *            algorithm
 	 * @return free input points of given algorithm
 	 */
-	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algo);
+	public ArrayList<GeoElementND> getFreeInputPoints(AlgoElement algo);
 
 	/**
 	 * @param geoElement

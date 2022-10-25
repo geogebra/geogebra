@@ -79,8 +79,8 @@ public enum Language {
 			"Basque / Euskara", Script.LATIN, ',', '0'),
 
 	Bengali(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-			Unicode.CURRENCY_EURO + "", null, true, "bn",
-			"Basque / Euskara", Script.LATIN),
+			Unicode.CURRENCY_EURO + "", null, false, "bn",
+			"Bengali / \u09AC\u09BE\u0982\u09B2\u09BE", Script.BENGALI),
 
 	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bs",

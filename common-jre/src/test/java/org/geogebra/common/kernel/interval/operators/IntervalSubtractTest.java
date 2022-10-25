@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.interval.operators;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.Interval;
@@ -76,8 +75,9 @@ public class IntervalSubtractTest {
 
 	@Test
 	public void compatibilityTestWithMultiplyAndAdd() {
+		IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
 		assertEquals(invertedInterval(10, 20).subtract(interval(1, 2)),
 				invertedInterval(10, 20)
-				.add(multiply(interval(-1), interval(1, 2))));
+				.add(evaluator.multiply(interval(-1), interval(1, 2))));
 	}
 }

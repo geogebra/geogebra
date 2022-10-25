@@ -517,7 +517,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	input[type="text"], input[type="number"], .gwt-TextBox,
 	select, textarea,
 	.gwt-TextArea, .gwt-SuggestBox,
-	iframe.objectPropertiesTextEditor {
+	.objectPropertiesTextEditor {
 		border: #DCDCDC solid 1px;
 		background: #FFFFFF;
 		padding: 4px 5px;
@@ -535,7 +535,7 @@ $fullscreenBtn-transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.gwt-TextBox,
 	textarea,
 	.gwt-TextArea,
-	iframe.objectPropertiesTextEditor {
+	.objectPropertiesTextEditor {
 		&:focus,&:focus:not([readonly]){
 			border: 1px #6161FF solid;
 		}

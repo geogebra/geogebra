@@ -5,12 +5,21 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.positiveInfi
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.union;
 
 import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.IntervalConstants;
 
 public class IntervalDivide {
+
+	private final IntervalNodeEvaluator evaluator;
+
+	/**
+	 *
+	 * @param evaluator {@link IntervalNodeEvaluator}
+	 */
+	public IntervalDivide(IntervalNodeEvaluator evaluator) {
+		this.evaluator = evaluator;
+	}
 
 	/**
 	 * Divide intervals.
@@ -22,7 +31,7 @@ public class IntervalDivide {
 		if (divisor.isInverted()) {
 			Interval result1 = divide(numerator, divisor.extractLow());
 			Interval result2 = divide(numerator, divisor.extractHigh());
-			return union(result1, result2);
+			return evaluator.union(result1, result2);
 		}
 
 		return divide(numerator, divisor);
@@ -185,8 +194,10 @@ public class IntervalDivide {
 
 	private Interval divideMixedBy(Interval numerator, Interval divisor) {
 		if (divisor.isNegative()) {
-			return new Interval(prev(numerator.getHigh() / divisor.getHigh()),
+			Interval result = new Interval(prev(numerator.getHigh() / divisor.getHigh()),
 					next(numerator.getLow() / divisor.getHigh()));
+			result.setInverted(numerator.isInverted());
+			return result;
 		}
 
 		if (divisor.isPositive()) {
@@ -199,8 +210,10 @@ public class IntervalDivide {
 						next(numerator.getHigh() / divisor.getHigh()));
 			}
 
-			return new Interval(prev(numerator.getLow() / divisor.getLow()),
+			Interval result = new Interval(prev(numerator.getLow() / divisor.getLow()),
 					next(numerator.getHigh() / divisor.getLow()));
+			result.setInverted(numerator.isInverted());
+			return result;
 		}
 		return undefined();
 	}

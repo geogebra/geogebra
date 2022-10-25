@@ -246,11 +246,10 @@ public class ToolBar {
 		// objects with actions
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SLIDER);
-		// in exam mode text and image cannot be inserted
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TEXT);
+		// in exam mode image cannot be inserted
 		if (!exam) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_TEXT);
-
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_IMAGE);
 		}
@@ -289,7 +288,8 @@ public class ToolBar {
 	 * @return definition for MOW media toolbar
 	 */
 	public static List<Integer> getNotesMediaToolBar(boolean includeGraspableMath,
-			boolean includeH5P) {
+			boolean includeH5P, boolean fileFeaturesEnabled) {
+
 		List<Integer>tools = new ArrayList<>(Arrays.asList(
 				EuclidianConstants.MODE_MEDIA_TEXT,
 				EuclidianConstants.MODE_TABLE,
@@ -303,12 +303,20 @@ public class ToolBar {
 				EuclidianConstants.MODE_AUDIO,
 				EuclidianConstants.MODE_PDF
 		));
+
+		if (!fileFeaturesEnabled) {
+			tools.removeAll(Arrays.asList(
+					EuclidianConstants.MODE_IMAGE,
+					EuclidianConstants.MODE_PDF
+			));
+		}
 		if (includeGraspableMath) {
 			tools.add(EuclidianConstants.MODE_GRASPABLE_MATH);
 		}
 		if (includeH5P) {
 			tools.add(EuclidianConstants.MODE_H5P);
 		}
+
 		return tools;
 	}
 

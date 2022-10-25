@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -62,7 +63,6 @@ public class MoveGeos {
 		final int size = geos.size();
 		moveObjectsUpdateList.clear();
 		moveObjectsUpdateList.ensureCapacity(size);
-
 		for (int i = 0; i < size; i++) {
 			final GeoElement geo = geos.get(i);
 			final Coords position = (size == 1)
@@ -70,14 +70,7 @@ public class MoveGeos {
 			moved = moveObject(geo, rwTransVec, position, viewDirection,
 					moveObjectsUpdateList, view) || moved;
 		}
-
-		// take all independent input objects and build a common updateSet
-		// then update all their algos.
-		// (don't do updateCascade() on them individually as this could cause
-		// multiple updates of the same algorithm)
-		GeoElement.updateCascade(moveObjectsUpdateList, GeoElement.getTempSet(),
-				false);
-
+		updateCascadeAfterMove();
 		//geoLists do not trigger the update of the cascade in the function call above
 		for (GeoElement geo : geosToMove) {
 			if (geo.isGeoList()) {
@@ -91,14 +84,35 @@ public class MoveGeos {
 		return moved;
 	}
 
+	private static void updateCascadeAfterMove() {
+		// take all independent input objects and build a common updateSet
+		// then update all their algos.
+		// (don't do updateCascade() on them individually as this could cause
+		// multiple updates of the same algorithm)
+		ArrayList<GeoElement> rwCoordGeos = new ArrayList<>(moveObjectsUpdateList.size());
+		for (GeoElement geo: moveObjectsUpdateList) {
+			// moving buttons / sliders etc = style change, moving other objects = value change
+			if (geo instanceof AbsoluteScreenLocateable) {
+				geo.updateVisualStyleRepaint(GProperty.POSITION);
+				if (((AbsoluteScreenLocateable) geo).needsUpdatedBoundingBox()) {
+					rwCoordGeos.add(geo);
+				}
+			} else {
+				rwCoordGeos.add(geo);
+			}
+		}
+		GeoElement.updateCascade(rwCoordGeos, GeoElement.getTempSet(),
+				false);
+	}
+
 	/* visible for tests */
 	static void addWithSiblingsAndChildNodes(GeoElement geo, ArrayList<GeoElement> geos,
 			EuclidianView view) {
 		if (!geos.contains(geo)) {
 			if (!geo.isMoveable() && !isOutputOfTranslate(geo) && !geo.isGeoList()) {
-				ArrayList<GeoPointND> freeInputs = geo.getFreeInputPoints(view);
+				ArrayList<GeoElementND> freeInputs = geo.getFreeInputPoints(view);
 				if (freeInputs != null && !freeInputs.isEmpty()) {
-					for (GeoPointND point: freeInputs) {
+					for (GeoElementND point: freeInputs) {
 						addWithSiblingsAndChildNodes(point.toGeoElement(), geos, view);
 					}
 					return;
@@ -213,6 +227,23 @@ public class MoveGeos {
 			movedGeo = ((GeoVectorND) geo1).moveVector(rwTransVec, endPosition);
 		}
 
+		// absolute position on screen
+		else if (geo1.isAbsoluteScreenLocateable()
+				&& ((AbsoluteScreenLocateable) geo1).isAbsoluteScreenLocActive()) {
+			final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) geo1;
+			final int vxPixel = (int) Math
+					.round(geo1.kernel.getXscale() * rwTransVec.getX());
+			final int vyPixel = -(int) Math
+					.round(geo1.kernel.getYscale() * rwTransVec.getY());
+			final int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
+			final int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
+			DrawableND drawable = view.getDrawableFor(geo);
+			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.kernel.geos.GeoElement&tm=moveObject&nid&an&c&s=new_status_desc
+			if (drawable != null) {
+				screenLoc.setAbsoluteScreenLoc(x, y);
+				movedGeo = true;
+			}
+		}
 		// translateable
 		else if (geo1.isTranslateable()) {
 			final Translateable trans = (Translateable) geo1;
@@ -220,46 +251,31 @@ public class MoveGeos {
 			movedGeo = true;
 		}
 
-		// absolute position on screen
-		else if (geo1.isAbsoluteScreenLocateable()) {
-			final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) geo1;
-			if (screenLoc.isAbsoluteScreenLocActive()) {
-				final int vxPixel = (int) Math
-						.round(geo1.kernel.getXscale() * rwTransVec.getX());
-				final int vyPixel = -(int) Math
-						.round(geo1.kernel.getYscale() * rwTransVec.getY());
-				final int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
-				final int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
-				DrawableND drawable = view.getDrawableFor(geo);
-				// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.kernel.geos.GeoElement&tm=moveObject&nid&an&c&s=new_status_desc
-				if (drawable != null) {
-					screenLoc.setAbsoluteScreenLoc(x, y);
+		// slider with RW position
+		else if (geo1.isGeoNumeric()) {
+			if (!geo.isLockedPosition()) {
+				// real world screen position - GeoNumeric
+				((GeoNumeric) geo).setRealWorldLoc(
+						((GeoNumeric) geo).getRealWorldLocX()
+								+ rwTransVec.getX(),
+						((GeoNumeric) geo).getRealWorldLocY()
+								+ rwTransVec.getY());
+				movedGeo = true;
+			}
+		} else if (geo1.isGeoText()) {
+			// check for GeoText with unlabeled start point
+			final GeoText movedGeoText = (GeoText) geo1;
+			if (movedGeoText.hasAbsoluteLocation()) {
+				// absolute location: change location
+				final GeoPointND locPoint = movedGeoText
+						.getStartPoint();
+				if (locPoint != null) {
+					locPoint.translate(rwTransVec);
 					movedGeo = true;
-				}
-			} else if (geo1.isGeoNumeric()) {
-				if (!geo.isLockedPosition()) {
-					// real world screen position - GeoNumeric
-					((GeoNumeric) geo).setRealWorldLoc(
-							((GeoNumeric) geo).getRealWorldLocX()
-									+ rwTransVec.getX(),
-							((GeoNumeric) geo).getRealWorldLocY()
-									+ rwTransVec.getY());
-					movedGeo = true;
-				}
-			} else if (geo1.isGeoText()) {
-				// check for GeoText with unlabeled start point
-				final GeoText movedGeoText = (GeoText) geo1;
-				if (movedGeoText.hasAbsoluteLocation()) {
-					// absolute location: change location
-					final GeoPointND locPoint = movedGeoText
-							.getStartPoint();
-					if (locPoint != null) {
-						locPoint.translate(rwTransVec);
-						movedGeo = true;
-					}
 				}
 			}
 		}
+
 		if (movedGeo) {
 			updateGeos.add(geo);
 		}

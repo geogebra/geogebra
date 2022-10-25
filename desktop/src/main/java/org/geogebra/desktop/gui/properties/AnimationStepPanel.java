@@ -75,7 +75,7 @@ public class AnimationStepPanel extends JPanel
 
 	@Override
 	public void setLabels() {
-		label.setText(kernel.getLocalization().getMenu("AnimationStep") + ": ");
+		label.setText(kernel.getLocalization().getMenu(model.getTitle()) + ": ");
 	}
 
 	public void setPartOfSliderPanel() {

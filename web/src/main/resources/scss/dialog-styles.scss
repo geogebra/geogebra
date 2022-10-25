@@ -16,12 +16,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		input[type="number"]:focus,
 		.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
 		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus,
-		iframe.objectPropertiesTextEditor:focus,
+		.objectPropertiesTextEditor:focus,
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
 		textarea:focus:not([readonly]),
 		.gwt-TextArea:focus:not([readonly]),
-		iframe.objectPropertiesTextEditor:focus:not([readonly]) {
+		.objectPropertiesTextEditor:focus:not([readonly]) {
 			border: 1px colors.$teal-default solid;
 		}
 		select:focus:not([readonly]) {
@@ -248,6 +248,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.textEditor {
 			margin-right: 16px;
 			margin-top: 10px;
+			padding: 4px;
 		}
 
 		.gwt-DisclosurePanel {
@@ -2059,5 +2060,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				}
 			}
 		}
+	}
+
+	.dynamicText {
+		border: 2px lightgray solid;
+		background: wheat;
+		cursor: pointer;
+		margin-left: 1px;
+		margin-right: 1px;
+		vertical-align: middle;
+		min-width: 10px;
 	}
 }

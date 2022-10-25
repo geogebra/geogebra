@@ -41,6 +41,11 @@ public class DrawArrowsModel extends BooleanOptionModel {
 		}
 	}
 
+	@Override
+	public String getTitle() {
+		return "DrawArrows";
+	}
+
 	private boolean checkDrawArrow() {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);

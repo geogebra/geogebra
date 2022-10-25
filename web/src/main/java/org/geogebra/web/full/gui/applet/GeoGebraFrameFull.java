@@ -329,7 +329,6 @@ public class GeoGebraFrameFull
 	 */
 	private void addKeyboard(final MathKeyboardListener textField, boolean animated) {
 		final VirtualKeyboardGUI keyboard = getOnScreenKeyboard(textField);
-
 		this.setKeyboardShowing(true);
 
 		updateMoreButton(keyboard, textField);
@@ -517,12 +516,15 @@ public class GeoGebraFrameFull
 				&& keyboardListener instanceof RadioTreeItem)) {
 			return keyboardListener != null;
 		}
-		return app.isKeyboardNeeded()
+		return appNeedsKeyboard()
 				&& (textField != null && textField.hasFocus()
 				|| keyboardListener != null && keyboardListener.hasFocus());
 	}
 
-	private boolean appNeedsKeyboard() {
+	/**
+	 * @return whether app has a view capable of keyboard input
+	 */
+	public boolean appNeedsKeyboard() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView
 				&& app.showView(App.VIEW_ALGEBRA)) {
@@ -541,14 +543,15 @@ public class GeoGebraFrameFull
 	public void refreshKeyboard() {
 		if (isKeyboardShowing()) {
 			final VirtualKeyboardW keyBoard = getOnScreenKeyboard(null);
-			if (app.isKeyboardNeeded()) {
+			if (appNeedsKeyboard() && isKeyboardAutofocus()) {
 				ensureKeyboardDeferred();
 				add(keyBoard);
 			} else {
 				removeKeyboard();
 			}
 		} else {
-			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()
+			if (app != null && appNeedsKeyboard()
+					&& isKeyboardAutofocus()
 					&& isKeyboardWantedFromStorage()) {
 				if (!app.isStartedWithFile()
 						&& !app.getAppletParameters().preventFocus()) {
@@ -573,7 +576,7 @@ public class GeoGebraFrameFull
 					getOnScreenKeyboard(null).showOnFocus();
 					app.adjustScreen(true);
 				}
-			} else if (app != null && app.isKeyboardNeeded()) {
+			} else if (app != null && appNeedsKeyboard()) {
 				if (!isKeyboardWantedFromStorage()) {
 					showKeyboardButton(null);
 				} else {
@@ -581,6 +584,12 @@ public class GeoGebraFrameFull
 				}
 			}
 		}
+	}
+
+	private boolean isKeyboardAutofocus() {
+		DockPanelW dp = getGuiManager().getLayout().getDockManager()
+				.getPanelForKeyboard();
+		return dp != null && dp.getKeyboardListener() != null;
 	}
 
 	private KeyboardManager getKeyboardManager() {

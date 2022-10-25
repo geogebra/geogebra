@@ -22,6 +22,11 @@ public class AnimatingModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "Animating";
+	}
+
+	@Override
 	public boolean isValidAt(int index) {
 		return getGeoAt(index).isAnimatable();
 	}

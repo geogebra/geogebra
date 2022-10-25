@@ -28,6 +28,11 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "SelectionAllowed";
+	}
+
+	@Override
 	protected boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
 		return false;

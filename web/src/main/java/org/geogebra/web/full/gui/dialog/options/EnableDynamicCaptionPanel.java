@@ -9,7 +9,7 @@ class EnableDynamicCaptionPanel extends CheckboxPanel {
 
 	public EnableDynamicCaptionPanel(App app,
 			AutoCompleteTextFieldW textField) {
-		super("UseTextAsCaption", app.getLocalization(),
+		super(app.getLocalization(),
 				new EnableDynamicCaptionModel(null, app));
 		this.textField = textField;
 	}

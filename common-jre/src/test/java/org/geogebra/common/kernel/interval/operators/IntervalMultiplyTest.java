@@ -6,7 +6,6 @@ import static org.geogebra.common.kernel.interval.IntervalTest.interval;
 import static org.geogebra.common.kernel.interval.IntervalTest.invertedInterval;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.next;
 import static org.geogebra.common.kernel.interval.operators.IntervalDivide.prev;
-import static org.geogebra.common.kernel.interval.operators.IntervalOperands.multiply;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.kernel.interval.IntervalConstants;
@@ -14,6 +13,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class IntervalMultiplyTest {
+
+	private final IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
+
 	@Test
 	public void negativeWithNegativeZeroHigh() {
 		// Table 6, row 1 column 1
@@ -24,7 +26,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeWithNegativeZeroHigh(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a2 * b2), next(a1 * b1)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -38,7 +40,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeWithMixed(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a1 * b2), next(a1 * b1)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -53,7 +55,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeWithPositive(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a1 * b2), next(a2 * b1)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -73,8 +75,8 @@ public class IntervalMultiplyTest {
 	}
 
 	private void mulByZeroShouldBeZero(double a1, double a2) {
-		assertEquals(zero(), multiply(interval(a1, a2), zero()));
-		assertEquals(zero(), multiply(zero(), interval(a1, a2)));
+		assertEquals(zero(), evaluator.multiply(interval(a1, a2), zero()));
+		assertEquals(zero(), evaluator.multiply(zero(), interval(a1, a2)));
 	}
 
 	@Test
@@ -87,7 +89,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeByNegativeOpenToNegativeInfinity(double a1, double a2, double b2) {
 		assertEquals(interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
-				multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
+				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
 	@Test
@@ -101,7 +103,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeByMixedOpenToNegativeInfinity(double a1, double a2, double b2) {
 		assertEquals(interval(prev(a1 * b2), Double.POSITIVE_INFINITY),
-				multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
+				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
 	@Test
@@ -116,7 +118,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeByMixedOpenToPositiveInfinity(double a1, double a2, double b1) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 * b1)),
-				multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
+				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -130,7 +132,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeByPositiveOpenToPositiveInfinity(double a1, double a2, double b1) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b1)),
-				multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
+				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -148,8 +150,8 @@ public class IntervalMultiplyTest {
 	}
 
 	private void mulByWholeShouldBeWhole(double a1, double a2) {
-		assertEquals(whole(), multiply(interval(a1, a2), whole()));
-		assertEquals(whole(), multiply(whole(), interval(a1, a2)));
+		assertEquals(whole(), evaluator.multiply(interval(a1, a2), whole()));
+		assertEquals(whole(), evaluator.multiply(whole(), interval(a1, a2)));
 	}
 
 	@Test
@@ -164,7 +166,7 @@ public class IntervalMultiplyTest {
 
 	private void mulMixedByNegative(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a2 * b1), next(a1 * b1)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -177,7 +179,7 @@ public class IntervalMultiplyTest {
 		// Table 6, row 2 column 2
 		assertEquals(interval(Math.min(prev(a1 * b2), next(a2 * b1)),
 						Math.max(next(a1 * b1), next(a2 * b2))),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -190,7 +192,7 @@ public class IntervalMultiplyTest {
 
 	private void mulMixedByPositive(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a1 * b2), next(a2 * b2)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -204,7 +206,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByNegative(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a2 * b1), next(a1 * b2)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -216,7 +218,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByMixed(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a2 * b1), next(a2 * b2)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -231,7 +233,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByPositive(double a1, double a2, double b1, double b2) {
 		assertEquals(interval(prev(a1 * b1), next(a2 * b2)),
-				multiply(interval(a1, a2), interval(b1, b2)));
+				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 
 	}
 
@@ -246,7 +248,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByOpenToNegativeInfinityAndNegative(double a1, double a2, double b2) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 * b2)),
-				multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
+				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
 	@Test
@@ -260,7 +262,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByOpenToNegativeInfinityAndPositive(double a1, double a2, double b2) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b2)),
-				multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
+				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
 	@Test
@@ -274,7 +276,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByMixedOpenToPositiveInfinity(double a1, double a2, double b1) {
 		assertEquals(interval(prev(a2 * b1), Double.POSITIVE_INFINITY),
-				multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
+				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -289,7 +291,7 @@ public class IntervalMultiplyTest {
 
 	private void mulPositiveByPositiveOpenToPositiveInfinity(double a1, double a2, double b1) {
 		assertEquals(interval(prev(a1 * b1), Double.POSITIVE_INFINITY),
-				multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
+				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -304,7 +306,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeOpenToNegativeInfinityByNegative(double a2, double b1, double b2) {
 		assertEquals(interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
-				multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -319,7 +321,7 @@ public class IntervalMultiplyTest {
 
 	private void mulNegativeOpenToNegativeInfinityByPositive(double a2, double b1, double b2) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b1)),
-				multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -334,7 +336,7 @@ public class IntervalMultiplyTest {
 	private void mulNegativeOpenToNegativeInfinityByNegativeOpenToNegativeInfinity(double a2,
 			double b2) {
 		assertEquals(interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
-				multiply(interval(Double.NEGATIVE_INFINITY, a2),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
 						interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
@@ -350,7 +352,7 @@ public class IntervalMultiplyTest {
 	private void mulNegativeOpenToNegativeInfinityByPositiveOpenToPositiveInfinity(double a2,
 			double b1) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, prev(a2 * b1)),
-				multiply(interval(Double.NEGATIVE_INFINITY, a2),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
 						interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
@@ -365,7 +367,7 @@ public class IntervalMultiplyTest {
 
 	private void divMixedOpenToNegativeInfinityByNegative(double a2, double b1, double b2) {
 		assertEquals(interval(prev(a2 * b1), Double.POSITIVE_INFINITY),
-				multiply(interval(Double.NEGATIVE_INFINITY, a2),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
 						interval(b1, b2)));
 	}
 
@@ -381,14 +383,14 @@ public class IntervalMultiplyTest {
 
 	private void divMixedOpenToNegativeInfinityByPositive(double a2, double b1, double b2) {
 		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b2)),
-				multiply(interval(Double.NEGATIVE_INFINITY, a2),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
 						interval(b1, b2)));
 
 	}
 
 	@Test
 	public void multiplyInvertedWithZero() {
-		Assert.assertEquals(IntervalConstants.whole().invert(), multiply(interval(0),
+		Assert.assertEquals(IntervalConstants.whole().invert(), evaluator.multiply(interval(0),
 				invertedInterval(1, 2)));
 	}
 }

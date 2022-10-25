@@ -1344,7 +1344,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 *            view
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPointND> getFreeInputPoints(
+	public ArrayList<GeoElementND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view);
 
 	/**

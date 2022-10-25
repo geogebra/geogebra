@@ -17,7 +17,6 @@ public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 	public OptionPanel updatePanel(Object[] geos) {
 		getModel().setGeos(geos);
 		boolean geosOK = getModel().checkGeos();
-
 		if (widget != null) {
 			widget.setVisible(geosOK);
 		}

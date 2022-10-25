@@ -75,7 +75,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	private GeoPoint[] tempPoints;
 	// coords is the 2d result array for (x, y); n is 0, 1, or 2
 	private double[] tempCoords = new double[2];
-	private ArrayList<GeoPointND> al = null;
+	private ArrayList<GeoElementND> al = null;
 	private boolean centered = false;
 
 	private GRectangle2D cropBox;
@@ -83,6 +83,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	//ruler or protractor
 	private boolean isMeasurementTool = false;
+	private boolean needBoundingBoxUpdate;
 
 	/**
 	 * Creates new image
@@ -1106,7 +1107,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * Returns all free parent points of this GeoElement.
 	 */
 	@Override
-	public ArrayList<GeoPointND> getFreeInputPoints(
+	public ArrayList<GeoElementND> getFreeInputPoints(
 			EuclidianViewInterfaceSlim view) {
 		if (hasAbsoluteLocation()) {
 			return null;
@@ -1470,5 +1471,14 @@ public class GeoImage extends GeoElement implements Locateable,
 				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}
 		}
+	}
+
+	@Override
+	public boolean needsUpdatedBoundingBox() {
+		return needBoundingBoxUpdate;
+	}
+
+	public void setNeedsBoundingBoxUpdate(boolean needsUpdate) {
+		needBoundingBoxUpdate = needsUpdate;
 	}
 }

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -157,6 +158,7 @@ public class SymbolicProcessor {
 			}
 			sym.computeOutput();
 		}
+		SymbolicUtil.handleSolveNSolve(sym);
 		return sym;
 	}
 
