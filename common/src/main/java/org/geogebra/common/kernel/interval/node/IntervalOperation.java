@@ -242,9 +242,8 @@ public enum IntervalOperation {
 	},
 	POWER {
 		@Override
-		public IntervalExpressionValue handle(IntervalNodeEvaluator evaluator,
-				@NonNull IntervalNode left,
-				@NonNull IntervalNode right) {
+		public IntervalExpressionValue handle(IntervalNodeEvaluator evaluator, IntervalNode left,
+				IntervalNode right) {
 			return toValue(evaluator.handlePower(left.value(), right.value(), right));
 		}
 
@@ -339,7 +338,7 @@ public enum IntervalOperation {
 
 	public abstract Operation mappedOperation();
 
-	static IntervalExpressionValue toValue(Interval interval) {
+	static IntervalExpressionValue toValue(@NonNull Interval interval) {
 		return new IntervalFunctionValue(interval);
 	}
 }
