@@ -7,12 +7,15 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
+
+import jsinterop.base.Js;
 
 /**
  * Base dialog material design component
@@ -231,12 +234,18 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return; // onPreviewNativeEvent is global: ignore for hidden dialogs
 		}
 		Event nativeEvent = Event.as(event.getNativeEvent());
-		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())) {
+		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())
+				&& !isContentEditable(event.getNativeEvent().getEventTarget())) {
 			onPositiveAction();
 		} else if (event.getTypeInt() == Event.ONKEYUP
 				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
 			onEscape();
 		}
+	}
+
+	private boolean isContentEditable(EventTarget eventTarget) {
+		elemental2.dom.Element el = Js.uncheckedCast(eventTarget);
+		return el.hasAttribute("contenteditable");
 	}
 
 	protected void onEscape() {
