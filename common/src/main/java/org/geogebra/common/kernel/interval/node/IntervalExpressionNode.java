@@ -90,6 +90,24 @@ public class IntervalExpressionNode implements IntervalNode {
 				|| hasRight() && right.hasFunctionVariable();
 	}
 
+	@Override
+	public IntervalNode simplify() {
+		if (left != null) {
+			left = left.simplify();
+		}
+		if (right != null) {
+			right = right.simplify();
+		}
+		// fractions can't be simplified because x^(1/3) is not x^(0.33)
+		if (left instanceof IntervalFunctionValue
+				&& !isOperation(IntervalOperation.DIVIDE)
+				&& (right == null || right instanceof IntervalFunctionValue)) {
+			// wrapping needed here because of asExpressionNode
+			return new IntervalExpressionNode(evaluator, new IntervalFunctionValue(value()));
+		}
+		return this;
+	}
+
 	public void setLeft(IntervalNode left) {
 		this.left = left;
 	}

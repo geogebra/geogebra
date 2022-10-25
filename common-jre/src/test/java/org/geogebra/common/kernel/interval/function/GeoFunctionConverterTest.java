@@ -109,6 +109,31 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		assertEquals(IntervalConstants.undefined(), function.value(new Interval(2)));
 	}
 
+	@Test
+	public void testDependentFunctions() {
+		add("f(x)=x");
+		IntervalNodeFunction g = convert("f(x) + 1");
+		List<Interval> expected = new ArrayList<>();
+		List<Interval> actual = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			expected.add(new Interval(i + 1));
+			actual.add(g.value(new Interval(i)));
+		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testFunctionOfConstant() {
+		IntervalNodeFunction g = convert("x * ld(64)");
+		List<Interval> expected = new ArrayList<>();
+		List<Interval> actual = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			expected.add(new Interval(i * 6));
+			actual.add(g.value(new Interval(i)));
+		}
+		assertEquals(expected, actual);
+	}
+
 	private IntervalNodeFunction convert(String functionString) {
 		GeoFunction geoFunction = add(functionString);
 		return converter.convert(geoFunction);
