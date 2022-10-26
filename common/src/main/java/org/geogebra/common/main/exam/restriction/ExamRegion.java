@@ -64,7 +64,7 @@ public enum ExamRegion {
 
 		@Override
 		public String getShortDisplayName(Localization loc, AppConfig config) {
-			return "Deutschland IQB MMS Abitur";
+			return "MMS Abitur";
 		}
 
 		@Override
