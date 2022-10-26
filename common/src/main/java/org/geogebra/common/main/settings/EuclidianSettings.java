@@ -202,7 +202,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
-		axesColor = GColor.BLACK;
+		axesColor = GColor.DEFAULT_AXES_COLOR;
 		gridColor = GColor.LIGHT_GRAY;
 		backgroundColor = GColor.WHITE;
 		backgroundType = BackgroundType.NONE;
