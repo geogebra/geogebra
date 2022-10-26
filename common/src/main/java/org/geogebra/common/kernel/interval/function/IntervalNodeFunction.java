@@ -24,6 +24,7 @@ public class IntervalNodeFunction {
 	 */
 	public IntervalNodeFunction(IntervalExpressionNode root,
 			IntervalFunctionVariable functionVariable) {
+		assert root != null;
 		this.root = root;
 		this.functionVariable = functionVariable;
 	}

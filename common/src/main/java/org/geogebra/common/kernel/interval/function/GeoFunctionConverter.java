@@ -45,7 +45,7 @@ public class GeoFunctionConverter {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalNode expression = convert(
 				Objects.requireNonNull(geoFunction.getFunctionExpression()),
-				functionVariable);
+				functionVariable).simplify();
 		return new IntervalNodeFunction(expression.asExpressionNode(), functionVariable);
 	}
 
@@ -65,7 +65,7 @@ public class GeoFunctionConverter {
 		}
 
 		return value.isLeaf()
-				? newLeafValue(value, functionVariable)
+				? newLeafValue(value.unwrap(), functionVariable)
 				: convert(value.wrap(), functionVariable);
 	}
 
