@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.settings.AbstractSettings;
-import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
@@ -36,7 +36,7 @@ public class OptionsAlgebraW
 		private Label lblShow;
 		private ComponentCheckbox showAuxiliaryObjects;
 		private CompDropDown sortMode;
-		private AlgebraStyleListBox description;
+		private CompDropDown description;
 		private FormLabel lblCoordStyle;
 		private CompDropDown coordStyle;
 		private FormLabel lblSortMode;
@@ -76,7 +76,9 @@ public class OptionsAlgebraW
 			lblDescriptionMode = new FormLabel().setFor(sortMode);
 			lblDescriptionMode.addStyleName("panelTitle");
 
-			description = new AlgebraStyleListBox(getApp(), false);
+			EnumerableProperty descriptionProperty = new AlgebraDescriptionProperty(
+					getApp().getKernel(), app.getLocalization(), false);
+			description = new CompDropDown(app, null, descriptionProperty);
 
 			EnumerableProperty coordProperty = new CoordinatesProperty(app.getKernel(),
 					app.getLocalization());
@@ -98,12 +100,6 @@ public class OptionsAlgebraW
 			if (angleUnitRow != null && angleUnit != null) {
 				optionsPanel.add(angleUnitRow);
 			}
-			description.addChangeHandler(event -> {
-				int idx = getDescription().getSelectedIndex();
-				getApp().getSettings().getAlgebra().setStyle(
-							AlgebraSettings.getStyleModeAt(idx));
-					getApp().getKernel().updateConstruction(false);
-				});
 			setLabels();
 		}
 
@@ -158,31 +154,25 @@ public class OptionsAlgebraW
 		}
 
 		/**
+		 * update description dropdown
+		 */
+		public void updateDescription() {
+			description.setLabels();
+			description.resetToDefault();
+		}
+
+		/**
 		 * update content GUI
 		 */
 		public void updateGUI() {
 			rebuildAngleUnit();
 			showAuxiliaryObjects.setSelected(getApp().showAuxiliaryObjects);
 			updateSortMode();
-			description.update();
+			updateDescription();
 			updateCoordStyle();
 
 		}
 
-		/**
-		 * @return description combo box
-		 */
-		public AlgebraStyleListBox getDescription() {
-			return description;
-		}
-
-		/**
-		 * @param description
-		 *            - list of description style
-		 */
-		public void setDescription(AlgebraStyleListBox description) {
-			this.description = description;
-		}
 
 		/**
 		 * set text of labels
@@ -255,7 +245,7 @@ public class OptionsAlgebraW
 	public void setLabels() {
 		algebraTab.setLabels();
 		algebraTab.updateSortMode();
-		algebraTab.getDescription().update();
+		algebraTab.updateDescription();
 		algebraTab.updateCoordStyle();
 		algebraTab.updateAngleUnit();
 	}

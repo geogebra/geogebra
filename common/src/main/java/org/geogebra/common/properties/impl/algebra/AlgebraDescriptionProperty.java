@@ -20,16 +20,20 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
 
     @Weak
     private Kernel kernel;
+    private boolean isSpreadsheet;
 
     /**
      * Constructs an algebra description property.
      *
      * @param kernel       kernel
      * @param localization localization
+     * @param isSpreadsheet wheter it is user for spreadsheet
      */
-    public AlgebraDescriptionProperty(Kernel kernel, Localization localization) {
+    public AlgebraDescriptionProperty(Kernel kernel, Localization localization,
+            boolean isSpreadsheet) {
         super(localization, "AlgebraDescriptions");
         this.kernel = kernel;
+        this.isSpreadsheet = isSpreadsheet;
         setValuesAndLocalize(new String[]{
                 "DefinitionAndValue",
                 "Value",
@@ -40,7 +44,8 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
 
     @Override
     public int getIndex() {
-        int algebraStyle = kernel.getAlgebraStyle();
+        int algebraStyle = isSpreadsheet ? kernel.getAlgebraStyleSpreadsheet()
+                : kernel.getAlgebraStyle();
         for (int i = 0; i < algebraStyles.length; i++) {
             if (algebraStyles[i] == algebraStyle) {
                 return i;
@@ -51,7 +56,11 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
 
     @Override
     protected void setValueSafe(String value, int index) {
-        kernel.setAlgebraStyle(algebraStyles[index]);
+        if (isSpreadsheet) {
+            kernel.setAlgebraStyleSpreadsheet(algebraStyles[index]);
+        } else {
+            kernel.setAlgebraStyle(algebraStyles[index]);
+        }
 		kernel.updateConstruction(false);
     }
 }
