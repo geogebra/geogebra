@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -24,10 +27,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-/**
- * @author csilla
- *
- */
 public class OptionsAlgebraW
 		implements OptionPanelW, SetLabels, SettingListener {
 
@@ -57,8 +56,7 @@ public class OptionsAlgebraW
 			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 		@Nullable
-		private ListBox angleUnit;
-
+		private CompDropDown angleUnit;
 		@Nullable
 		private FormLabel lblAngleUnit;
 
@@ -108,7 +106,6 @@ public class OptionsAlgebraW
 			coordStyle.addChangeHandler(this);
 			if (angleUnitRow != null && angleUnit != null) {
 				optionsPanel.add(angleUnitRow);
-				angleUnit.addChangeHandler(this);
 			}
 			sortMode.addChangeHandler(this);
 			description.addChangeHandler(event -> {
@@ -122,7 +119,9 @@ public class OptionsAlgebraW
 
 		private void rebuildAngleUnit() {
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
-				angleUnit = new ListBox();
+				EnumerableProperty angleProperty = new AngleUnitProperty(app.getKernel(),
+						app.getLocalization());
+				angleUnit = new CompDropDown(app, null, angleProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
 				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
 				angleUnitRow = LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit);
@@ -147,14 +146,6 @@ public class OptionsAlgebraW
 		 */
 		public ListBox getCoordStyle() {
 			return coordStyle;
-		}
-
-		/**
-		 * @return angle unit combo box
-		 */
-		@Nullable
-		public ListBox getAngleUnit() {
-			return angleUnit;
 		}
 
 		/**
@@ -196,28 +187,8 @@ public class OptionsAlgebraW
 
 			lblAngleUnit
 					.setText(getApp().getLocalization().getMenu("AngleUnit") + ":");
-			angleUnit.clear();
-			angleUnit.addItem(getApp().getLocalization().getMenu("Degree"));
-			angleUnit.addItem(getApp().getLocalization().getMenu("Radiant"));
-			angleUnit.addItem(getApp().getLocalization()
-					.getMenu("DegreesMinutesSeconds"));
-			int index;
-			switch (getApp().getKernel().getAngleUnit()) {
-				case Kernel.ANGLE_RADIANT:
-					index = 1;
-					break;
-				case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
-					index = 2;
-					break;
-				case Kernel.ANGLE_DEGREE:
-				default:
-					index = 0;
-					break;
-			}
-			angleUnit.setSelectedIndex(index);
-
-			getApp().getKernel().updateConstruction(false);
-			getApp().setUnsaved();
+			angleUnit.setLabels();
+			angleUnit.resetToDefault();
 		}
 
 		/**
@@ -229,7 +200,7 @@ public class OptionsAlgebraW
 			updateSortMode();
 			description.update();
 			updateCoordStyle();
-			updateAngleUnit();
+
 		}
 
 		/**
@@ -269,25 +240,6 @@ public class OptionsAlgebraW
 				int i = getCoordStyle().getSelectedIndex();
 				getApp().getKernel().setCoordStyle(i);
 				getApp().getKernel().updateConstruction(false);
-			} else if (source == getAngleUnit() && getAngleUnit() != null) {
-				int i = getAngleUnit().getSelectedIndex();
-
-				int unit;
-				switch (i) {
-					case 1:
-						unit = Kernel.ANGLE_RADIANT;
-						break;
-					case 2:
-						unit = Kernel.ANGLE_DEGREES_MINUTES_SECONDS;
-						break;
-					case 0:
-					default:
-						unit = Kernel.ANGLE_DEGREE;
-						break;
-				}
-				getApp().getKernel().setAngleUnit(unit);
-				getApp().getKernel().updateConstruction(false);
-				getApp().setUnsaved();
 			}
 		}
 	}
