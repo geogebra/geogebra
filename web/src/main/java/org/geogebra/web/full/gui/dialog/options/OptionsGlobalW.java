@@ -2,9 +2,13 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menubar.OptionsMenu;
-import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.main.App;
+import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.general.FontSizeProperty;
+import org.geogebra.common.properties.impl.general.LabelingProperty;
+import org.geogebra.common.properties.impl.general.LanguageProperty;
+import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.main.GeoGebraPreferencesW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -13,14 +17,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * global settings tab
- *
- * @author csilla
- *
  */
 public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
@@ -43,25 +43,13 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	protected class GlobalTab extends FlowPanel implements SetLabels {
 		private FlowPanel optionsPanel;
 		private FormLabel lblRounding;
-		/**
-		 * rounding combo box
-		 */
-		ListBox roundingList;
+		private CompDropDown roundingDropDown;
 		private FormLabel lblLabeling;
-		/**
-		 * labeling combo box
-		 */
-		ListBox labelingList;
+		private CompDropDown labelingDropDown;
 		private FormLabel lblFontSize;
-		/**
-		 * font size combo box
-		 */
-		ListBox fontSizeList;
+		private CompDropDown fontSizeDropDown;
 		private FormLabel lblLanguage;
-		/**
-		 * language setting
-		 */
-		ListBox languageList;
+		private CompDropDown languageDropDown;
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
@@ -93,133 +81,52 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addRoundingItem() {
-			roundingList = new ListBox();
+			EnumerableProperty roundingProp = new RoundingProperty(app, app.getLocalization());
+			roundingDropDown = new CompDropDown(app, null, roundingProp);
 			lblRounding = new FormLabel(
 					app.getLocalization().getMenu("Rounding") + ":")
-							.setFor(roundingList);
+							.setFor(roundingDropDown);
+			lblRounding.addStyleName("dropDownLabel");
 			optionsPanel
-					.add(LayoutUtilW.panelRow(lblRounding, roundingList));
-			roundingList.addChangeHandler(event -> {
-				try {
-					// TODO copypasted from RoundingProperty
-					int index = roundingList.getSelectedIndex();
-					boolean figures = index >= app.getLocalization()
-							.getDecimalPlaces().length;
-					optionsMenu.setRounding(app,
-							figures ? index + 1 : index, figures);
-					app.setUnsaved();
-				} catch (Exception e) {
-					app.showGenericError(e);
-				}
-			});
+					.add(LayoutUtilW.panelRow(lblRounding, roundingDropDown));
 		}
 
 		private void addLabelingItem() {
-			labelingList = new ListBox();
+			EnumerableProperty property = new LabelingProperty(app.getLocalization(),
+					((App) app).getSettings().getLabelSettings());
+			labelingDropDown = new CompDropDown(app, null, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
-							.setFor(labelingList);
-
+							.setFor(labelingDropDown);
+			lblLabeling.addStyleName("dropDownLabel");
 			optionsPanel
-					.add(LayoutUtilW.panelRow(lblLabeling, labelingList));
-			labelingList.addChangeHandler(event -> {
-				int index = labelingList.getSelectedIndex();
-				if (app.isUnbundledGraphing()) {
-					index++;
-				}
-				app.setLabelingStyle(index);
-				app.setUnsaved();
-			});
+					.add(LayoutUtilW.panelRow(lblLabeling, labelingDropDown));
 		}
 
 		private void addFontItem() {
-			fontSizeList = new ListBox();
+			EnumerableProperty fontSizeProperty = new FontSizeProperty(
+					app.getLocalization(),
+					((App) app).getSettings().getFontSettings(),
+					((App) app).getSettingsUpdater().getFontSettingsUpdater());
+			fontSizeDropDown = new CompDropDown(app, null, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
-							.setFor(fontSizeList);
+							.setFor(fontSizeDropDown);
+			lblFontSize.addStyleName("dropDownLabel");
 			optionsPanel
-					.add(LayoutUtilW.panelRow(lblFontSize, fontSizeList));
-			fontSizeList.addChangeHandler(event -> {
-				String fontStr = fontSizeList
-						.getValue(fontSizeList.getSelectedIndex());
-				try {
-					app.setFontSize(
-							Integer.parseInt(fontStr.substring(0, 2)),
-							true);
-					app.setUnsaved();
-				} catch (Exception e) {
-					app.showGenericError(e);
-				}
-			});
-		}
-
-		/**
-		 * select the font size stored in app
-		 */
-		void setFontSizeInComboBox() {
-			int font = app.getFontSize();
-			for (int i = 0; i < fontSizeList.getItemCount(); i++) {
-				if (fontSizeList.getValue(i).startsWith(String.valueOf(font))) {
-					fontSizeList.setSelectedIndex(i);
-					return;
-				}
-			}
+					.add(LayoutUtilW.panelRow(lblFontSize, fontSizeDropDown));
 		}
 
 		private void addLanguageItem() {
-			languageList = new ListBox();
+			EnumerableProperty languageProperty = new LanguageProperty(app,
+					app.getLocalization(), null);
+			languageDropDown = new CompDropDown(app, null, languageProperty);
 			lblLanguage = new FormLabel(
 					app.getLocalization().getMenu("Language") + ":")
-							.setFor(languageList);
+							.setFor(languageDropDown);
+			lblLanguage.addStyleName("dropDownLabel");
 			optionsPanel
-					.add(LayoutUtilW.panelRow(lblLanguage, languageList));
-			languageList.addChangeHandler(event -> {
-				String localeStr = languageList
-						.getValue(languageList.getSelectedIndex());
-				switchLanguage(localeStr, app);
-			});
-		}
-
-		/**
-		 * Update combobox from language locale
-		 */
-		void setLanguageInComboBox() {
-			String localeStr = app.getLocalization().getLocaleStr();
-			for (int i = 0; i < languageList.getItemCount(); i++) {
-				if (languageList.getValue(i).equals(localeStr)) {
-					languageList.setSelectedIndex(i);
-					return;
-				}
-			}
-		}
-
-		/**
-		 * select labeling style stored in app
-		 */
-		void setLabelingInComboBox() {
-			int labeling = app.getLabelingStyle();
-			if (app.isUnbundledGraphing()) {
-				switch (labeling) {
-				case 2:
-					labelingList.setSelectedIndex(1);
-					break;
-				case 3:
-					labelingList.setSelectedIndex(2);
-					break;
-				default:
-					labelingList.setSelectedIndex(0);
-				}
-			} else {
-				labelingList.setSelectedIndex(labeling);
-			}
-		}
-
-		/**
-		 * select decimal places stored in app
-		 */
-		void setRoundingInComboBox() {
-			roundingList.setSelectedIndex(
-					optionsMenu.getMenuDecimalPosition(app.getKernel(), true));
+					.add(LayoutUtilW.panelRow(lblLanguage, languageDropDown));
 		}
 
 		private void addRestoreSettingsBtn() {
@@ -229,9 +136,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			restoreSettingsBtn.addStyleName("settingsBtn");
 			restoreSettingsBtn.addFastClickHandler(source -> {
 				resetDefault();
-				setFontSizeInComboBox();
-				setLabelingInComboBox();
-				setRoundingInComboBox();
+				fontSizeDropDown.resetToDefault();
+				labelingDropDown.resetToDefault();
+				roundingDropDown.resetToDefault();
 			});
 			saveRestoreRow = LayoutUtilW
 					.panelRow(saveSettingsBtn, restoreSettingsBtn);
@@ -253,57 +160,10 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * update gui
 		 */
 		public void updateGUI() {
-			updateRoundingList();
-			updateLabelingList();
-			setLabelingInComboBox();
-			updateFontSizeList();
-			setFontSizeInComboBox();
-			updateLanguageList();
-			setLanguageInComboBox();
+			labelingDropDown.resetToDefault();
+			fontSizeDropDown.resetToDefault();
+			languageDropDown.resetToDefault();
 			saveRestoreRow.setVisible(!app.isExam());
-		}
-
-		private void updateFontSizeList() {
-			fontSizeList.clear();
-			for (int i = 0; i < org.geogebra.common.util.Util
-					.menuFontSizesLength(); i++) {
-				fontSizeList.addItem(app.getLocalization().getPlain("Apt",
-						org.geogebra.common.util.Util.menuFontSizes(i) + ""));
-			}
-		}
-
-		private void updateLanguageList() {
-			languageList.clear();
-			for (Language l : Language.values()) {
-				if (l.fullyTranslated || app.has(Feature.ALL_LANGUAGES)) {
-					languageList.addItem(l.name, l.getLocaleGWT());
-				}
-			}
-		}
-
-		private void updateLabelingList() {
-			labelingList.clear();
-			String[] labelingStrs = { "Labeling.automatic", "Labeling.on",
-					"Labeling.off", "Labeling.pointsOnly" };
-			for (String str : labelingStrs) {
-				if ("Labeling.automatic".equals(str)
-						&& app.isUnbundledGraphing()) {
-					continue;
-				}
-				labelingList.addItem(app.getLocalization().getMenu(str));
-			}
-		}
-
-		private void updateRoundingList() {
-			roundingList.clear();
-			String[] strDecimalSpaces = app.getLocalization()
-					.getRoundingMenu();
-			for (String str : strDecimalSpaces) {
-				if (!Localization.ROUNDING_MENU_SEPARATOR.equals(str)) {
-					roundingList.addItem(str);
-				}
-			}
-			setRoundingInComboBox();
 		}
 
 		/**
@@ -358,13 +218,14 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		public void setLabels() {
 			lblRounding
 					.setText(app.getLocalization().getMenu("Rounding") + ":");
-			updateRoundingList();
+			roundingDropDown.setLabels();
 			lblLabeling.setText(app.getLocalization().getMenu("Labeling") + ":");
-			updateLabelingList();
+			labelingDropDown.setLabels();
 			lblFontSize.setText(app.getLocalization().getMenu("FontSize") + ":");
-			updateFontSizeList();
+			fontSizeDropDown.setLabels();
 			lblLanguage
 					.setText(app.getLocalization().getMenu("Language") + ":");
+			languageDropDown.setLabels();
 			saveSettingsBtn
 					.setText(app.getLocalization().getMenu("Settings.Save"));
 			restoreSettingsBtn

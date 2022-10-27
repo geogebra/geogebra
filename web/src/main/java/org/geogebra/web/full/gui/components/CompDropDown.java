@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -21,9 +23,10 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	private Label selectedOption;
 	private boolean isDisabled = false;
 	private DropDownComboBoxController controller;
+	private boolean fullWidth = false;
 
 	/**
-	 * Material rop-down component
+	 * Material drop-down component
 	 * @param app - see {@link AppW}
 	 * @param label - label of drop-down
 	 * @param items - popup elements
@@ -37,6 +40,21 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		addClickHandler();
 
 		initController(items);
+	}
+
+	/**
+	 *
+	 * @param app - - see {@link AppW}
+	 * @param label - label of drop-down
+	 * @param property - property
+	 */
+	public CompDropDown(AppW app, String label, EnumerableProperty property) {
+		this(app, label, Arrays.asList(property.getValues()));
+		controller.setProperty(property);
+		if (property.getIndex() > -1) {
+			controller.setSelectedOption(property.getIndex());
+		}
+		updateSelectionText(controller.getSelectedText());
 	}
 
 	private void initController(List<String> items) {
@@ -53,6 +71,8 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			label = new Label(app.getLocalization().getMenu(labelStr));
 			label.addStyleName("label");
 			optionHolder.add(label);
+		} else {
+			optionHolder.addStyleName("noLabel");
 		}
 
 		selectedOption = new Label();
@@ -73,7 +93,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (!isDisabled) {
-					controller.toggleAsDropDown();
+					controller.toggleAsDropDown(fullWidth);
 				}
 			}
 		});
@@ -107,5 +127,21 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 
 	public void setChangeHandler(Runnable changeHandler) {
 		controller.setChangeHandler(changeHandler);
+	}
+
+	/**
+	 * reset dropdown to default
+	 */
+	public void resetToDefault() {
+		controller.resetToDefault();
+		updateSelectionText(controller.getSelectedText());
+	}
+
+	public void setFullWidth(boolean isFullWidth) {
+		fullWidth = isFullWidth;
+	}
+
+	public boolean isFullWidth() {
+		return fullWidth;
 	}
 }

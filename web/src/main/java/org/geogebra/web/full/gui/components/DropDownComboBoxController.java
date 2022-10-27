@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.components;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -15,6 +17,7 @@ public class DropDownComboBoxController implements SetLabels {
 	private List<AriaMenuItem> dropDownElementsList;
 	private List<String> items;
 	private Runnable changeHandler;
+	private EnumerableProperty property;
 
 	/**
 	 * popup controller for dropdown and combobox
@@ -52,12 +55,13 @@ public class DropDownComboBoxController implements SetLabels {
 
 	/**
 	 * open/close dropdown
+	 * @param isFullWidth - whether dropdown should have full width
 	 */
-	public void toggleAsDropDown() {
+	public void toggleAsDropDown(boolean isFullWidth) {
 		if (isOpened()) {
 			closePopup();
 		} else {
-			showAsDropDown();
+			showAsDropDown(isFullWidth);
 		}
 	}
 
@@ -86,6 +90,9 @@ public class DropDownComboBoxController implements SetLabels {
 				if (changeHandler != null) {
 					 changeHandler.run();
 				}
+				if (property != null) {
+					property.setIndex(currentIndex);
+				}
 					});
 
 			item.setStyleName("dropDownElement");
@@ -112,7 +119,11 @@ public class DropDownComboBoxController implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		setElements(items);
+		if (property != null) {
+			setElements(Arrays.asList(property.getValues()));
+		} else {
+			setElements(items);
+		}
 	}
 
 	public ComponentDropDownPopup getPopup() {
@@ -144,13 +155,29 @@ public class DropDownComboBoxController implements SetLabels {
 
 	/**
 	 * shop popup and position as dropdown
+	 * @param isFullWidth - is dropdown should have full width
 	 */
-	public void showAsDropDown() {
+	public void showAsDropDown(boolean isFullWidth) {
 		dropDown.positionAsDropDown();
-		dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
+		if (isFullWidth) {
+			dropDown.setWidthInPx(parent.asWidget().getElement().getClientWidth());
+		}
 	}
 
 	public void setChangeHandler(Runnable changeHandler) {
 		this.changeHandler = changeHandler;
+	}
+
+	public void setProperty(EnumerableProperty property) {
+		this.property = property;
+	}
+
+	/**
+	 * reset dropdown to property value
+	 */
+	public void resetToDefault() {
+		if (property.getIndex() > -1) {
+			setSelectedOption(property.getIndex());
+		}
 	}
 }
