@@ -9,6 +9,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
+import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -16,11 +17,8 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsAlgebraW
@@ -33,15 +31,14 @@ public class OptionsAlgebraW
 	 */
 	protected MultiRowsTabPanel tabPanel;
 
-	protected class AlgebraTab extends FlowPanel
-			implements ChangeHandler {
+	protected class AlgebraTab extends FlowPanel {
 		private FlowPanel optionsPanel;
 		private Label lblShow;
 		private ComponentCheckbox showAuxiliaryObjects;
 		private CompDropDown sortMode;
 		private AlgebraStyleListBox description;
 		private FormLabel lblCoordStyle;
-		private ListBox coordStyle;
+		private CompDropDown coordStyle;
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
 
@@ -80,7 +77,10 @@ public class OptionsAlgebraW
 			lblDescriptionMode.addStyleName("panelTitle");
 
 			description = new AlgebraStyleListBox(getApp(), false);
-			coordStyle = new ListBox();
+
+			EnumerableProperty coordProperty = new CoordinatesProperty(app.getKernel(),
+					app.getLocalization());
+			coordStyle = new CompDropDown(app, null, coordProperty);
 			lblCoordStyle = new FormLabel(
 					getApp().getLocalization().getMenu("Coordinates") + ":")
 							.setFor(coordStyle);
@@ -95,7 +95,6 @@ public class OptionsAlgebraW
 			optionsPanel.add(LayoutUtilW.panelRowIndent(description));
 
 			optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
-			coordStyle.addChangeHandler(this);
 			if (angleUnitRow != null && angleUnit != null) {
 				optionsPanel.add(angleUnitRow);
 			}
@@ -126,13 +125,6 @@ public class OptionsAlgebraW
 		}
 
 		/**
-		 * @return coord style combo box
-		 */
-		public ListBox getCoordStyle() {
-			return coordStyle;
-		}
-
-		/**
 		 * update sort mode combo box
 		 */
 		public void updateSortMode() {
@@ -147,13 +139,8 @@ public class OptionsAlgebraW
 			lblCoordStyle
 					.setText(getApp().getLocalization().getMenu("Coordinates")
 							+ ":");
-			coordStyle.clear();
-			coordStyle
-					.addItem(getApp().getLocalization().getMenu("A = (x, y)"));
-			coordStyle.addItem(getApp().getLocalization().getMenu("A(x | y)"));
-			coordStyle.addItem(getApp().getLocalization().getMenu("A: (x, y)"));
-			coordStyle.setSelectedIndex(getApp().getKernel().getCoordStyle());
-			getApp().getKernel().updateConstruction(false);
+			coordStyle.setLabels();
+			coordStyle.resetToDefault();
 		}
 
 		/**
@@ -206,16 +193,6 @@ public class OptionsAlgebraW
 			lblSortMode.setText(getApp().getLocalization().getMenu("SortBy"));
 			lblDescriptionMode.setText(
 					getApp().getLocalization().getMenu("AlgebraDescriptions"));
-		}
-
-		@Override
-		public void onChange(ChangeEvent event) {
-			Object source = event.getSource();
-			if (source == getCoordStyle()) {
-				int i = getCoordStyle().getSelectedIndex();
-				getApp().getKernel().setCoordStyle(i);
-				getApp().getKernel().updateConstruction(false);
-			}
 		}
 	}
 
