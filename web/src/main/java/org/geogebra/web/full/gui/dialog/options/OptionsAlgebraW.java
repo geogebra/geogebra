@@ -1,17 +1,13 @@
 package org.geogebra.web.full.gui.dialog.options;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.impl.algebra.SortByProperty;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
@@ -37,23 +33,17 @@ public class OptionsAlgebraW
 	 */
 	protected MultiRowsTabPanel tabPanel;
 
-	/**
-	 * @author csilla
-	 *
-	 */
 	protected class AlgebraTab extends FlowPanel
 			implements ChangeHandler {
 		private FlowPanel optionsPanel;
 		private Label lblShow;
 		private ComponentCheckbox showAuxiliaryObjects;
-		private ListBox sortMode;
+		private CompDropDown sortMode;
 		private AlgebraStyleListBox description;
 		private FormLabel lblCoordStyle;
 		private ListBox coordStyle;
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
-		private final List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
-			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 		@Nullable
 		private CompDropDown angleUnit;
@@ -81,7 +71,9 @@ public class OptionsAlgebraW
 					false, "AuxiliaryObjects",
 					getApp()::setShowAuxiliaryObjects);
 
-			sortMode = new ListBox();
+			EnumerableProperty sortProperty = new SortByProperty(app.getGuiManager()
+					.getAlgebraView(), app.getLocalization());
+			sortMode = new CompDropDown(app, null, sortProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
 			lblSortMode.addStyleName("panelTitle");
 			lblDescriptionMode = new FormLabel().setFor(sortMode);
@@ -107,7 +99,6 @@ public class OptionsAlgebraW
 			if (angleUnitRow != null && angleUnit != null) {
 				optionsPanel.add(angleUnitRow);
 			}
-			sortMode.addChangeHandler(this);
 			description.addChangeHandler(event -> {
 				int idx = getDescription().getSelectedIndex();
 				getApp().getSettings().getAlgebra().setStyle(
@@ -135,13 +126,6 @@ public class OptionsAlgebraW
 		}
 
 		/**
-		 * @return sort mode combo box
-		 */
-		public ListBox getSortMode() {
-			return sortMode;
-		}
-
-		/**
 		 * @return coord style combo box
 		 */
 		public ListBox getCoordStyle() {
@@ -152,13 +136,8 @@ public class OptionsAlgebraW
 		 * update sort mode combo box
 		 */
 		public void updateSortMode() {
-			sortMode.clear();
-			for (SortMode mode : supportedModes) {
-				sortMode.addItem(
-						getApp().getLocalization().getMenu(mode.toString()));
-			}
-			SortMode selectedMode = getApp().getAlgebraView().getTreeMode();
-			sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
+			sortMode.setLabels();
+			sortMode.resetToDefault();
 		}
 
 		/**
@@ -232,11 +211,7 @@ public class OptionsAlgebraW
 		@Override
 		public void onChange(ChangeEvent event) {
 			Object source = event.getSource();
-			if (source == getSortMode()) {
-				int i = getSortMode().getSelectedIndex();
-				getApp().getSettings().getAlgebra()
-						.setTreeMode(supportedModes.get(i));
-			} else if (source == getCoordStyle()) {
+			if (source == getCoordStyle()) {
 				int i = getCoordStyle().getSelectedIndex();
 				getApp().getKernel().setCoordStyle(i);
 				getApp().getKernel().updateConstruction(false);
