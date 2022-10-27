@@ -255,8 +255,6 @@ public class OptionsObjectD extends OptionsObject
 		// && selection.contains(geo)));
 		if (getSelection() != null && getSelection().size() == 1
 				&& getSelection().contains(geo)) {
-			// propPanel.updateSelection(selection.toArray()); //TODO update
-			// only first tab, set flag to others
 			propPanel.updateOneGeoDefinition(geo);
 		}
 	}

@@ -5,6 +5,7 @@ import javax.swing.SpringLayout;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.DynamicCaptionModel;
+import org.geogebra.common.gui.dialog.options.model.EnableDynamicCaptionModel;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
@@ -22,7 +23,7 @@ public class DynamicCaptionPanelD extends OptionPanel implements SetLabels, ICom
 	public DynamicCaptionPanelD(AppD app, AutoCompleteTextFieldD textField, UpdateTabs tabs) {
 		captions = new ComboPanel(app, "");
 		enableDynamicCaption = new EnableDynamicCaptionPanel(app, textField,
-				captions, tabs);
+				captions, tabs, new EnableDynamicCaptionModel(null, app));
 		DynamicCaptionModel dynamicCaptionModel = new DynamicCaptionModel(app);
 		captions.setModel(dynamicCaptionModel);
 		dynamicCaptionModel.setListener(this);

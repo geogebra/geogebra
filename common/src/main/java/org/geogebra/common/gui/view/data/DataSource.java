@@ -428,14 +428,14 @@ public class DataSource {
 	}
 
 	/**
-	 * @param items
-	 *            items
-	 * @param mode
-	 *            mode
+	 * @param items items
+	 * @param frequencies frequencies
+	 * @param mode mode
 	 */
-	public void setDataListFromSettings(ArrayList<String> items, int mode) {
+	public void setDataListFromSettings(ArrayList<String> items, String frequencies, int mode) {
 		dataList.clear();
 		ArrayList<CellRange> ranges = new ArrayList<>();
+
 		for (int i = 0; i < items.size(); i++) {
 			String range = items.get(i);
 
@@ -448,6 +448,20 @@ public class DataSource {
 			CellRange cr = new CellRange(app, start.x, start.y, end.x, end.y);
 			ranges.add(cr);
 		}
+
+		if (frequencies != null) {
+			setFrequencyFromColumn(true);
+
+			GPoint start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+					frequencies.substring(0, frequencies.indexOf(':')));
+
+			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+					frequencies.substring(frequencies.indexOf(':') + 1));
+
+			CellRange cr = new CellRange(app, start.x, start.y, end.x, end.y);
+			ranges.add(cr);
+		}
+
 		setDataListFromSpreadsheet(mode, ranges);
 	}
 
@@ -530,7 +544,7 @@ public class DataSource {
 				CellRange cr = rangeList.get(0);
 				cr.debug();
 
-				if (cr.is2D()) {
+				if (cr.is2D() || rangeListContainsFrequencies(rangeList)) {
 					var.setGroupType(GroupType.FREQUENCY);
 					add1DCellRanges(rangeList, itemList);
 					ArrayList<DataItem> values = new ArrayList<>();
@@ -690,5 +704,23 @@ public class DataSource {
 	 */
 	public void setFrequencyFromColumn(boolean value) {
 		this.frequencyFromColumn = value;
+	}
+
+	/**
+	 * Frequency data for One-variable analysis is stored as a seperate entry in the rangeList,
+	 * this method checks whether the list actually contains frequency data or not by checking
+	 * if the first & last list entry are neighbors
+	 * @param rangeList rangeList
+	 * @return returns true if the first & last entries in the rangeList are neighboring cells
+	 * either column-wize or row-wize.
+	 */
+	public boolean rangeListContainsFrequencies(ArrayList<CellRange> rangeList) {
+		if (!rangeList.isEmpty()) {
+			CellRange first = rangeList.get(0);
+			CellRange last = rangeList.get(rangeList.size() - 1);
+			return (last.getMaxColumn() - first.getMinColumn() == 1)
+					|| (last.getMaxRow() - first.getMinRow() == 1);
+		}
+		return false;
 	}
 }

@@ -1,8 +1,7 @@
-package org.geogebra.desktop.gui.properties;
+package org.geogebra.desktop.gui.dialog;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -14,57 +13,47 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
-import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.desktop.gui.AngleTextField;
+import org.geogebra.common.gui.dialog.options.model.TextPropertyModel;
+import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
- * panel for animation step
- * 
- * @author Markus Hohenwarter
+ * panel for textfield size
+ * @author Michael
  */
-public class AnimationStepPanel extends JPanel
+class TextPropertyPanel extends JPanel
 		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
 		SetLabels, UpdateFonts, ITextFieldListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private AnimationStepModel model;
+	private TextPropertyModel model;
 	private JLabel label;
-	private AngleTextField tfAnimStep;
+	private MyTextFieldD tfTextfieldSize;
 
-	private Kernel kernel;
-
-	/**
-	 * @param app
-	 *            application
-	 */
-	public AnimationStepPanel(AppD app) {
-		this(new AnimationStepModel(app), app);
-	}
+	private LocalizationD loc;
 
 	/**
-	 *
-	 * @param m model
-	 * @param app application
+	 * @param app app
 	 */
-	public AnimationStepPanel(AnimationStepModel m, AppD app) {
-		kernel = app.getKernel();
-		model = m;
+	public TextPropertyPanel(AppD app, TextPropertyModel model) {
+		this.loc = app.getLocalization();
+		this.model = model;
 		model.setListener(this);
-		// text field for animation step
+		// text field for textfield size
 		label = new JLabel();
-		tfAnimStep = new AngleTextField(6, app);
-		label.setLabelFor(tfAnimStep);
-		tfAnimStep.addActionListener(this);
-		tfAnimStep.addFocusListener(this);
+		tfTextfieldSize = new MyTextFieldD(app, 5);
+		label.setLabelFor(tfTextfieldSize);
+		tfTextfieldSize.addActionListener(this);
+		tfTextfieldSize.addFocusListener(this);
 
 		// put it all together
 		JPanel animPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		animPanel.add(label);
-		animPanel.add(tfAnimStep);
+		animPanel.add(tfTextfieldSize);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		animPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -75,24 +64,21 @@ public class AnimationStepPanel extends JPanel
 
 	@Override
 	public void setLabels() {
-		label.setText(kernel.getLocalization().getMenu(model.getTitle()) + ": ");
-	}
-
-	public void setPartOfSliderPanel() {
-		model.setPartOfSlider(true);
+		label.setText(loc.getMenu(model.getTitle()) + ": ");
 	}
 
 	@Override
 	public JPanel updatePanel(Object[] geos) {
 		model.setGeos(geos);
-
 		if (!model.checkGeos()) {
 			return null;
 		}
 
-		tfAnimStep.removeActionListener(this);
+		tfTextfieldSize.removeActionListener(this);
+
 		model.updateProperties();
-		tfAnimStep.addActionListener(this);
+
+		tfTextfieldSize.addActionListener(this);
 		return this;
 	}
 
@@ -101,20 +87,19 @@ public class AnimationStepPanel extends JPanel
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfAnimStep) {
+		if (e.getSource() == tfTextfieldSize) {
 			doActionPerformed();
 		}
 	}
 
 	private void doActionPerformed() {
-
-		model.applyChanges(tfAnimStep.getText());
+		model.applyChanges(tfTextfieldSize.getText());
 		updatePanel(model.getGeos());
 	}
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		// only handle focus lost
+		// only focus lost is important
 	}
 
 	@Override
@@ -124,14 +109,12 @@ public class AnimationStepPanel extends JPanel
 
 	@Override
 	public void updateFonts() {
-		Font font = ((AppD) kernel.getApplication()).getPlainFont();
-
-		label.setFont(font);
-		tfAnimStep.setFont(font);
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void setText(String text) {
-		tfAnimStep.setText(text);
+		tfTextfieldSize.setText(text);
+
 	}
 }

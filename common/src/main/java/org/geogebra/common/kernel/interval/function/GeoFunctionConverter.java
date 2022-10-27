@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionValue;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
@@ -44,7 +45,7 @@ public class GeoFunctionConverter {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalNode expression = convert(
 				Objects.requireNonNull(geoFunction.getFunctionExpression()),
-				functionVariable);
+				functionVariable).simplify();
 		return new IntervalNodeFunction(expression.asExpressionNode(), functionVariable);
 	}
 
@@ -64,7 +65,7 @@ public class GeoFunctionConverter {
 		}
 
 		return value.isLeaf()
-				? newLeafValue(value, functionVariable)
+				? newLeafValue(value.unwrap(), functionVariable)
 				: convert(value.wrap(), functionVariable);
 	}
 
@@ -75,9 +76,9 @@ public class GeoFunctionConverter {
 	}
 
 	private IntervalNode newSingletonValue(double value) {
-		return Double.isNaN(value)
-				? null
-				: new IntervalFunctionValue(new Interval(value));
+		return new IntervalFunctionValue(Double.isNaN(value)
+				? IntervalConstants.undefined()
+				: new Interval(value));
 	}
 
 	/**

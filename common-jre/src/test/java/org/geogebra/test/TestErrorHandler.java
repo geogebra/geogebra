@@ -55,6 +55,7 @@ public final class TestErrorHandler implements ErrorLogger {
 			out += "\n" + ste[i].getClassName() + "." + ste[i].getMethodName()
 					+ ":" + ste[i].getLineNumber();
 		}
+		e.printStackTrace();
 		Assert.fail(e.getMessage() + "\n" + out);
 	}
 

@@ -2,12 +2,12 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenPositionModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
@@ -34,7 +34,6 @@ import org.geogebra.common.gui.dialog.options.model.LayerModel;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel;
-import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
@@ -64,13 +63,10 @@ import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsV
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
@@ -106,6 +102,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	List<OptionsTab> tabs;
 	private TextOptionsModel textModel;
+	private NamePanel namePanel;
 
 	String localize(final String id) {
 		return loc.getMenu(id);
@@ -280,35 +277,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		public boolean onUndefinedVariables(String string,
 				AsyncOperation<String[]> callback) {
 			return app.getGuiManager().checkAutoCreateSliders(string, callback);
-		}
-	}
-
-	class ListAsComboPanel extends CheckboxPanel
-			implements IListAsComboListener {
-		public ListAsComboPanel() {
-			super("DrawAsDropDownList", loc);
-			setModel(new ListAsComboModel(app, this));
-		}
-
-		@Override
-		public void drawListAsComboBox(GeoList geo, boolean value) {
-			if (geo.getViewSet() == null) {
-				app.getEuclidianView1().drawListAsComboBox(geo, value);
-				return;
-			}
-
-			Iterator<Integer> it = geo.getViewSet().iterator();
-
-			// #3929
-			while (it.hasNext()) {
-				Integer view = it.next();
-				if (view.intValue() == App.VIEW_EUCLIDIAN) {
-					app.getEuclidianView1().drawListAsComboBox(geo, value);
-				} else if (view.intValue() == App.VIEW_EUCLIDIAN2
-						&& app.hasEuclidianView2(1)) {
-					app.getEuclidianView2(1).drawListAsComboBox(geo, value);
-				}
-			}
 		}
 	}
 
@@ -779,69 +747,45 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		CheckboxPanel bgImagePanel = null;
 		ReflexAnglePanel reflexAnglePanel = null;
 		labelPanel = new LabelPanel();
-		NamePanel namePanel = new NamePanel(getAppW(), labelPanel.model);
-		if (!isDefaults) {
-			basicTab.add(namePanel);
-		}
-
-		FlowPanel checkboxPanel = new FlowPanel();
-		basicTab.add(checkboxPanel);
+		namePanel = new NamePanel(getAppW(), labelPanel.model);
 
 		CheckboxPanel showObjectPanel = new ShowObjectPanel();
-		checkboxPanel.add(showObjectPanel.getWidget());
-
-		if (!isDefaults) {
-			checkboxPanel.add(labelPanel.getWidget());
-		}
-
-		CheckboxPanel tracePanel = new CheckboxPanel("ShowTrace", loc,
+		CheckboxPanel tracePanel = new CheckboxPanel(loc,
 				new TraceModel(null, app));
-		checkboxPanel.add(tracePanel.getWidget());
-		basicTab.add(checkboxPanel);
 
 		if (!isDefaults) {
-			animatingPanel = new CheckboxPanel("Animating", loc,
+			animatingPanel = new CheckboxPanel(loc,
 					new AnimatingModel(app, null));
-			checkboxPanel.add(animatingPanel.getWidget());
 		}
 
-		CheckboxPanel fixPanel = new CheckboxPanel("FixObject", loc,
+		CheckboxPanel fixPanel = new CheckboxPanel(loc,
 				new FixObjectModel(null, app));
-		checkboxPanel.add(fixPanel.getWidget());
 
-		CheckboxPanel auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
+		CheckboxPanel auxPanel = new CheckboxPanel(loc,
 				new AuxObjectModel(null, app));
-		checkboxPanel.add(auxPanel.getWidget());
 
 		if (!isDefaults) {
-			bgImagePanel = new CheckboxPanel("BackgroundImage", loc,
+			bgImagePanel = new CheckboxPanel(loc,
 					new BackgroundImageModel(null, app));
-			checkboxPanel.add(bgImagePanel.getWidget());
 		}
-		basicTab.add(checkboxPanel);
 
 		if (!isDefaults) {
 			reflexAnglePanel = new ReflexAnglePanel();
 			reflexAnglePanel.getWidget().setStyleName("optionsPanel");
 		}
 
-		CheckboxPanel listAsComboPanel = new ListAsComboPanel();
-		CheckboxPanel rightAnglePanel = new CheckboxPanel("EmphasizeRightAngle",
-				loc,
+		CheckboxPanel listAsComboPanel = new CheckboxPanel(loc, new ListAsComboModel(app, null));
+		CheckboxPanel rightAnglePanel = new CheckboxPanel(loc,
 				new RightAngleModel(null, app));
-		CheckboxPanel trimmedIntersectionLinesPanel = new CheckboxPanel(
-				"ShowTrimmed", loc,
+		CheckboxPanel trimmedIntersectionLinesPanel = new CheckboxPanel(loc,
 				new TrimmedIntersectionLinesModel(null, app));
 
 		// tabList.add(comboBoxPanel);
-		CheckboxPanel allowOutlyingIntersectionsPanel = new CheckboxPanel(
-				"allowOutlyingIntersections", loc,
+		CheckboxPanel allowOutlyingIntersectionsPanel = new CheckboxPanel(loc,
 				new OutlyingIntersectionsModel(null, app));
-		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
 
-		CheckboxPanel fixCheckboxPanel = new CheckboxPanel("FixCheckbox", loc,
+		CheckboxPanel fixCheckboxPanel = new CheckboxPanel(loc,
 				new FixCheckboxModel(null, app));
-		basicTab.add(fixCheckboxPanel.getWidget());
 
 		basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
 				tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
@@ -910,8 +854,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		ShowConditionPanel showConditionPanel = new ShowConditionPanel();
 		ColorFunctionPanel colorFunctionPanel = new ColorFunctionPanel();
 		LayerPanel layerPanel = new LayerPanel();
-		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(
-				"SelectionAllowed", loc, new SelectionAllowedModel(null, app));
+		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(loc,
+				new SelectionAllowedModel(null, app));
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);
@@ -946,9 +890,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private OptionsTab addPositionTab() {
 		OptionsTab tab;
 		tab = makeOptionsTab("Properties.Position");
-		tab.addModel(new StartPointModel(app))
+		tab.addModel(new AbsoluteScreenLocationModel(app))
+				.addModel(new StartPointModel(app))
 				.addModel(new CornerPointsModel(app))
-				.addModel(new AbsoluteScreenLocationModel(app))
+				.addModel(new AbsoluteScreenPositionModel.ForX(app))
+				.addModel(new AbsoluteScreenPositionModel.ForY(app))
 				.addModel(new CenterImageModel(app));
 		return tab;
 	}
@@ -990,10 +936,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tabPanel.selectTab(index < 0 ? 0 : index);
 	}
 
-	public void openFileAsImage(String fileName) {
-		Log.debug(fileName);
-	}
-
 	/**
 	 * Update if given element is selected.
 	 * 
@@ -1003,7 +945,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	public void updateIfInSelection(GeoElement geo) {
 		if (getSelection() != null && getSelection().size() == 1
 				&& getSelection().contains(geo)) {
-			updateGUI();
+			if (namePanel != null) {
+				namePanel.updateDefinition(geo);
+			}
 		}
 	}
 

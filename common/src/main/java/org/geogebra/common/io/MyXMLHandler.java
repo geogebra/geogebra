@@ -458,11 +458,15 @@ public class MyXMLHandler implements DocHandler {
 		return null;
 	}
 
-	private void startDataAnalysisElement(String eName,
-			LinkedHashMap<String, String> attrs) {
+	private void startDataAnalysisElement(String eName, LinkedHashMap<String, String> attrs) {
 		DataAnalysisSettings das = app.getSettings().getDataAnalysis();
 		if ("item".equals(eName)) {
-			das.addItem(attrs.get("ranges"));
+			if (attrs.get("ranges") != null) {
+				das.addItem(attrs.get("ranges"));
+			}
+			if (attrs.get("frequencies") != null) {
+				das.setFrequencies(attrs.get("frequencies"));
+			}
 		}
 	}
 

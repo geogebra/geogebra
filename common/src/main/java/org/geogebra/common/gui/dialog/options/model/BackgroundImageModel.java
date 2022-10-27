@@ -31,4 +31,9 @@ public class BackgroundImageModel extends BooleanOptionModel {
 		geo.updateVisualStyleRepaint(GProperty.HATCHING);
 		storeUndoInfo();
 	}
+
+	@Override
+	public String getTitle() {
+		return "BackgroundImage";
+	}
 }

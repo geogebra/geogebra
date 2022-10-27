@@ -30,4 +30,5 @@ public interface IntervalNode {
 	 */
 	boolean hasFunctionVariable();
 
+	IntervalNode simplify();
 }

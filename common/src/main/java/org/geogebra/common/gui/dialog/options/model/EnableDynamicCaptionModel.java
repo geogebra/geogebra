@@ -34,4 +34,9 @@ public class EnableDynamicCaptionModel extends BooleanOptionModel {
 
 		asGeoText.updateRepaint();
 	}
+
+	@Override
+	public String getTitle() {
+		return "UseTextAsCaption";
+	}
 }

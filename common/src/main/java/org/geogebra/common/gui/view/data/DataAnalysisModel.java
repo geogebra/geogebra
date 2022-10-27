@@ -517,7 +517,7 @@ public class DataAnalysisModel {
 		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
 		if (settings.getItems().size() > 0) {
 			DataSource source = new DataSource(app);
-			source.setDataListFromSettings(settings.getItems(),
+			source.setDataListFromSettings(settings.getItems(), settings.getFrequencies(),
 					settings.getMode());
 			// no need to guess here
 			setView(source, settings.getMode(), settings, true);

@@ -245,7 +245,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 		// create new GeoBoolean
 		if (geoBoolean == null) {
 			geoBoolean = new GeoBoolean(app.getKernel().getConstruction());
-			geoBoolean.setAbsoluteScreenLoc(location.x, location.y, true);
+			geoBoolean.setAbsoluteScreenLoc(location.x, location.y);
 			geoBoolean.setLabel(null);
 		}
 

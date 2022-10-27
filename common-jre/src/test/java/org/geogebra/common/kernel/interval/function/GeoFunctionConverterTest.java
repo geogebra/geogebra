@@ -7,7 +7,6 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import java.util.List;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalOperation;
@@ -29,7 +29,6 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		IntervalExpressionNode expression = convert("sin(x)").getRoot();
 		assertTrue(expression.getLeft() instanceof IntervalFunctionVariable);
 		assertEquals(IntervalOperation.SIN, expression.getOperation());
-		assertFalse(expression.hasRight());
 	}
 
 	@Test
@@ -100,6 +99,39 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		IntervalNodeFunction function = convert("1/x");
 		assertEquals(one(), function.value(one()));
 		assertEquals(new Interval(0.5), function.value(new Interval(2)));
+	}
+
+	@Test
+	public void testUndefinedInFunction() {
+		add("b=2");
+		addAvInput("SetValue(b, ?)");
+		IntervalNodeFunction function = convert("x^b");
+		assertEquals(IntervalConstants.undefined(), function.value(new Interval(2)));
+	}
+
+	@Test
+	public void testDependentFunctions() {
+		add("f(x)=x");
+		IntervalNodeFunction g = convert("f(x) + 1");
+		List<Interval> expected = new ArrayList<>();
+		List<Interval> actual = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			expected.add(new Interval(i + 1));
+			actual.add(g.value(new Interval(i)));
+		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testFunctionOfConstant() {
+		IntervalNodeFunction g = convert("x * ld(64)");
+		List<Interval> expected = new ArrayList<>();
+		List<Interval> actual = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			expected.add(new Interval(i * 6));
+			actual.add(g.value(new Interval(i)));
+		}
+		assertEquals(expected, actual);
 	}
 
 	private IntervalNodeFunction convert(String functionString) {
