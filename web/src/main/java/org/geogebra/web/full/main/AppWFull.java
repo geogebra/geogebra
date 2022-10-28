@@ -289,6 +289,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 
 		startActivity();
+
 	}
 
 	private void setupHeader() {
@@ -378,6 +379,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void startActivity() {
 		initActivity();
 		activity.start(this);
+		getSettingsUpdater().resetEuclidianSettings();
 	}
 
 	/**
