@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.components;
 
-import java.awt.font.TextLayout;
 import java.util.Arrays;
 import java.util.List;
 
