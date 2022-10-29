@@ -89,7 +89,7 @@ public class OptionsAlgebraW
 		private void buildSortByUI() {
 			EnumerableProperty sortProperty = new SortByProperty(app.getGuiManager()
 					.getAlgebraView(), app.getLocalization());
-			sortMode = new CompDropDown(app, null, sortProperty);
+			sortMode = new CompDropDown(app, sortProperty);
 			lblSortMode = new FormLabel().setFor(sortMode);
 			lblSortMode.addStyleName("panelTitle");
 			lblDescriptionMode = new FormLabel().setFor(sortMode);
@@ -98,14 +98,14 @@ public class OptionsAlgebraW
 
 		private void buildDescriptionUI() {
 			EnumerableProperty descriptionProperty = new AlgebraDescriptionProperty(
-					app.getKernel(), app.getLocalization(), false);
-			description = new CompDropDown(app, null, descriptionProperty);
+					app.getKernel(), app.getLocalization());
+			description = new CompDropDown(app, descriptionProperty);
 		}
 
 		private void buildCoordStyleUI() {
 			EnumerableProperty coordProperty = new CoordinatesProperty(app.getKernel(),
 					app.getLocalization());
-			coordStyle = new CompDropDown(app, null, coordProperty);
+			coordStyle = new CompDropDown(app, coordProperty);
 			lblCoordStyle = new FormLabel(
 					getApp().getLocalization().getMenu("Coordinates") + ":")
 					.setFor(coordStyle);
@@ -116,7 +116,7 @@ public class OptionsAlgebraW
 			if (app.getConfig().isAngleUnitSettingEnabled() && angleUnitRow == null) {
 				EnumerableProperty angleProperty = new AngleUnitProperty(app.getKernel(),
 						app.getLocalization());
-				angleUnit = new CompDropDown(app, null, angleProperty);
+				angleUnit = new CompDropDown(app, angleProperty);
 				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
 				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
 				lblAngleUnit.addStyleName("dropDownLabel");

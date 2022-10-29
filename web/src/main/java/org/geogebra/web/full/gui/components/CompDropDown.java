@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.components;
 
+import java.awt.font.TextLayout;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 
 	/**
 	 *
-	 * @param app - - see {@link AppW}
+	 * @param app - see {@link AppW}
 	 * @param label - label of drop-down
 	 * @param property - property
 	 */
@@ -55,6 +56,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			controller.setSelectedOption(property.getIndex());
 		}
 		updateSelectionText(controller.getSelectedText());
+	}
+
+	/**
+	 * @param app - see {@link AppW}
+	 * @param property - property
+	 */
+	public CompDropDown(AppW app, EnumerableProperty property) {
+		this(app, null, property);
 	}
 
 	private void initController(List<String> items) {

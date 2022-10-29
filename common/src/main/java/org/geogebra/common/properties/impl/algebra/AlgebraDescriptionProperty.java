@@ -27,13 +27,10 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
      *
      * @param kernel       kernel
      * @param localization localization
-     * @param isSpreadsheet wheter it is user for spreadsheet
      */
-    public AlgebraDescriptionProperty(Kernel kernel, Localization localization,
-            boolean isSpreadsheet) {
+    public AlgebraDescriptionProperty(Kernel kernel, Localization localization) {
         super(localization, "AlgebraDescriptions");
         this.kernel = kernel;
-        this.isSpreadsheet = isSpreadsheet;
         setValuesAndLocalize(new String[]{
                 "DefinitionAndValue",
                 "Value",
@@ -62,5 +59,9 @@ public class AlgebraDescriptionProperty extends AbstractEnumerableProperty {
             kernel.setAlgebraStyle(algebraStyles[index]);
         }
 		kernel.updateConstruction(false);
+    }
+
+    public void usesSpreadsheet(boolean isSpreadsheet) {
+        this.isSpreadsheet = isSpreadsheet;
     }
 }

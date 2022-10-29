@@ -78,13 +78,13 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 		String name = localization.getMenu("Algebra");
 		if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
 			return new PropertiesArray(name,
-					new AlgebraDescriptionProperty(kernel, localization, false),
+					new AlgebraDescriptionProperty(kernel, localization),
 					new SortByProperty(algebraView, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {
 			return new PropertiesArray(name,
-					new AlgebraDescriptionProperty(kernel, localization, false),
+					new AlgebraDescriptionProperty(kernel, localization),
 					new ShowAuxiliaryProperty(app, localization));
 		}
 	}
