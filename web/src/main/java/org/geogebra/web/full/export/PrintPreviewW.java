@@ -57,7 +57,9 @@ public class PrintPreviewW extends ComponentDialog {
 
 		initKeysAndIndices();
 		viewDropDown = new CompDropDown((AppW) app, null, keys, getFocusedPanelIdx());
+		viewDropDown.setFullWidth(true);
 		viewDropDown.setChangeHandler(() -> {
+			viewDropDown.updateSelectionText();
 			scalePanelHolder.clear();
 			addScalePanelOrCreatePreview();
 		});
