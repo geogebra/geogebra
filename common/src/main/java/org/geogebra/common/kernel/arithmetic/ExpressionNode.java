@@ -1224,20 +1224,6 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return true if this is leaf containing only GeoElement
-	 */
-	final public boolean isSingleGeoElement() {
-		return leaf && left.isGeoElement();
-	}
-
-	/**
-	 * @return left subexpression as GeoElement
-	 */
-	final public GeoElement getSingleGeoElement() {
-		return (GeoElement) left;
-	}
-
-	/**
 	 * @return true if given value is an imaginary unit
 	 */
 	public static boolean isImaginaryUnit(ExpressionValue value) {
