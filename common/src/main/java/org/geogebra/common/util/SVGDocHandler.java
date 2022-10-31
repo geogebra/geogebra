@@ -92,7 +92,7 @@ public class SVGDocHandler implements DocHandler {
 			sb.append(' ');
 			sb.append(key);
 			sb.append("=\"");
-			sb.append(StringUtil.encodeXML(value));
+			StringUtil.encodeXML(sb, value);
 			sb.append("\"");
 		}
 	}

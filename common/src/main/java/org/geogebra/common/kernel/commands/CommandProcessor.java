@@ -715,7 +715,7 @@ public abstract class CommandProcessor {
 	 * @return change dependent error
 	 */
 	static MyError chDepErr(App app1, GeoElement geo) {
-		return new MyError(app1.getLocalization(), "ChangeDependent",
+		return new MyError(app1.getLocalization(), Errors.ChangeDependent,
 				geo.getLongDescription());
 	}
 

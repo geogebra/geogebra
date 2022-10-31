@@ -114,21 +114,6 @@ public class MyError extends Error {
 	/**
 	 * @param loc0
 	 *            localization
-	 * @param message
-	 *            primary message
-	 * @param strs
-	 *            parts of the error (space separated)
-	 */
-	public MyError(Localization loc0, String message, String... strs) {
-		super(message);
-		this.loc = loc0;
-		// set localized message
-		this.strs = strs;
-	}
-
-	/**
-	 * @param loc0
-	 *            localization
 	 * @param message0
 	 *            primary message
 	 * @param strs0
@@ -336,11 +321,14 @@ public class MyError extends Error {
 		NumberExpected("NumberExpected", "Number expected"),
 
 		FunctionExpected("FunctionExpected", "Function expected"),
-
+		InvalidEquation("InvalidEquation",
+				"Invalid equation:\nPlease enter a polynomial equation in x and y"),
 		InvalidFunction("InvalidFunction",
 				"Invalid function:\nPlease enter an explicit function in x"),
 
 		UnknownCommand("UnknownCommand", "Unknown command"),
+		NameUsed("NameUsed", "This label is already in use"),
+		ChangeDependent("ChangeDependent", "Dependent objects may not be changed"),
 
 		// IllegalArgumentAinCustomToolB("IllegalArgumentAinCustomToolB", "Illegal
 		// Argument %0 in Custom Tool %1"),

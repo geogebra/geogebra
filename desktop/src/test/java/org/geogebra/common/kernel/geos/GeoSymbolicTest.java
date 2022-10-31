@@ -1869,10 +1869,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testIterationOutput() {
 		app.setCasConfig();
 		GeoSymbolic geo4args = add("Iteration(2u + 1, u, {0}, 64)");
+		assertThat(geo4args, is(nullValue()));
+	}
 
-		assertEquals("Iteration(2u + 1, u, {0}, 64)",
-				geo4args.toValueString(StringTemplate.defaultTemplate));
-		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
+	@Test
+	public void testFactorInvalid() {
+		app.setCasConfig();
+		AlgebraTestHelper.shouldFail("Factor()", "Illegal number of arguments", app);
+		StringBuilder consXML = new StringBuilder();
+		app.getKernel().getConstruction().getConstructionElementsXML(consXML, false);
+		assertThat(consXML.toString(), is(""));
 	}
 
 	@Test

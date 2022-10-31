@@ -635,7 +635,7 @@ public class AlgebraProcessor {
 				}
 			}
 		} else {
-			throw new MyError(loc, "NameUsed", newLabel);
+			throw new MyError(loc, Errors.NameUsed, newLabel);
 		}
 
 		cons.registerFunctionVariable(null);
@@ -2871,7 +2871,7 @@ public class AlgebraProcessor {
 		if (equ.getRHS().containsFreeFunctionVariable(Unicode.theta_STRING)
 				|| equ.getRHS()
 						.containsFreeFunctionVariable(Unicode.theta_STRING)) {
-			throw new MyError(loc, "InvalidEquation");
+			throw new MyError(loc, Errors.InvalidEquation);
 		}
 
 	}

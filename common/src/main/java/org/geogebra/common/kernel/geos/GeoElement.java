@@ -2366,7 +2366,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			setLabel(newLabel); // now we rename
 			return true;
 		} else {
-			throw new MyError(getLoc(), "NameUsed", newLabel);
+			throw new MyError(getLoc(), MyError.Errors.NameUsed, newLabel);
 		}
 	}
 
@@ -4470,7 +4470,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && definition != null && getDefaultGeoType() < 0) {
 			sb.append("<expression label=\"");
-			sb.append(StringUtil.encodeXML(label));
+			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
 			getDefinitionXML(sb);
 			// expression
