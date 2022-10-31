@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -99,9 +100,9 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		if (expr.isExpressionNode()) {
 			ExpressionNode node = expr.wrap();
 			if (node.getOperation() == Operation.DIVIDE
-					&& !node.containsFreeFunctionVariable(null)) {
-				solveDivision(node.getRight(), result);
-			}
+					&& node.getRight().wrap().containsFreeFunctionVariable(null)) {
+					solveDivision(node.getRight(), result);
+				}
 			solveExpr(node.getLeft(), result);
 			solveExpr(node.getRight(), result);
 		}
