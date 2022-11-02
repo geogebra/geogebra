@@ -361,7 +361,7 @@ public abstract class Drawable extends DrawableND {
 		boolean roughEstimate = false;
 
 		if (!labelDesc.equals(oldLabelDesc) || lastFontSize != font.getSize()) {
-			if (labelDesc.startsWith("$")) {
+			if (isLabelLatex()) {
 				// for LaTeX we need proper repaint
 				drawLabel(view.getTempGraphics2D(font));
 				widthEstimate = (int) labelRectangle.getWidth();
@@ -422,6 +422,10 @@ public abstract class Drawable extends DrawableND {
 
 		// update label rectangle position
 		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
+	}
+
+	private boolean isLabelLatex() {
+		return labelDesc.startsWith("$");
 	}
 
 	/**
@@ -509,6 +513,9 @@ public abstract class Drawable extends DrawableND {
 
 		xLabel = x;
 		yLabel = y;
+		if (isLabelLatex()) {
+			yLabel -= LATEX_Y_LABEL_OFFSET;
+		}
 		return true;
 	}
 
