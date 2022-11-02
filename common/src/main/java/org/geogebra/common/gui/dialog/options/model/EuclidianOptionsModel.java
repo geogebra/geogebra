@@ -363,7 +363,6 @@ public class EuclidianOptionsModel {
 	}
 
 	public void updateProperties() {
-
 		listener.updateAxes(view.getAxesColor(),
 				view.getShowXaxis() && view.getShowYaxis(), view.areAxesBold());
 
