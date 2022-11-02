@@ -143,4 +143,9 @@ public class IntervalExpressionNode implements IntervalNode {
 	public boolean isOperation(IntervalOperation operation) {
 		return this.operation.equals(operation);
 	}
+
+	@Override
+	public String toString() {
+		return operation.name() + "(" + left + "," + right + ")";
+	}
 }

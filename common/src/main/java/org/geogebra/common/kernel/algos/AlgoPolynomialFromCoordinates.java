@@ -256,7 +256,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 			// add part to series
 			if (poly == null) {
-				poly = new ExpressionNode(kernel, partExp);
+				poly = partExp.wrap();
 			} else {
 				if (negativeCoeff) {
 					if (coeffMyDouble != null) {

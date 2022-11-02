@@ -63,10 +63,10 @@ public class GeoFunctionConverter {
 		if (value == null) {
 			return null;
 		}
-
-		return value.isLeaf()
-				? newLeafValue(value.unwrap(), functionVariable)
-				: convert(value.wrap(), functionVariable);
+		ExpressionValue unwrapped = value.unwrap();
+		return !unwrapped.isExpressionNode()
+				? newLeafValue(unwrapped, functionVariable)
+				: convert(unwrapped.wrap(), functionVariable);
 	}
 
 	private IntervalNode newLeafValue(ExpressionValue value,

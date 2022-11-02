@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -55,43 +56,20 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	public void testConvertX() {
 		IntervalNodeFunction function = convert("x");
-		List<Interval> expected = new ArrayList<>();
-		List<Interval> actual = new ArrayList<>();
-
-		for (int i = -5; i < 5; i++) {
-			expected.add(new Interval(i));
-			actual.add(function.value(new Interval(i)));
-		}
-
-		assertEquals(expected, actual);
+		assertEquivalent(Interval::new, function, -5, 5);
 	}
 
 	@Test
 	public void testConvertAbsX() {
 		IntervalNodeFunction function = convert("|x|");
-		List<Interval> expected = new ArrayList<>();
-		List<Interval> actual = new ArrayList<>();
-
-		for (int i = -5; i < 5; i++) {
-			expected.add(new Interval(Math.abs(i)));
-			actual.add(function.value(new Interval(i)));
-		}
-
-		assertEquals(expected, actual);
+		assertEquivalent(x -> new Interval(Math.abs(x)), function, -5, 5);
 	}
 
 	@Test
 	public void testConvertLnX() {
 		IntervalNodeFunction function = convert("ln(x)");
-		List<Interval> expected = new ArrayList<>();
-		List<Interval> actual = new ArrayList<>();
-
-		for (int i = -5; i < 5; i++) {
-			expected.add(i < 0 ? undefined() : new Interval(Math.log(i)));
-			actual.add(function.value(new Interval(i)));
-		}
-
-		assertEquals(expected, actual);
+		assertEquivalent(x -> x < 0 ? undefined() : new Interval(Math.log(x)),
+				function, -5, 5);
 	}
 
 	@Test
@@ -113,22 +91,27 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	public void testDependentFunctions() {
 		add("f(x)=x");
 		IntervalNodeFunction g = convert("f(x) + 1");
-		List<Interval> expected = new ArrayList<>();
-		List<Interval> actual = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			expected.add(new Interval(i + 1));
-			actual.add(g.value(new Interval(i)));
-		}
-		assertEquals(expected, actual);
+		assertEquivalent(x -> new Interval(x + 1), g, 0, 10);
+	}
+
+	@Test
+	public void testFitFunction() {
+		IntervalNodeFunction g = convert("FitPoly({(1,3),(2,5)},1)");
+		assertEquivalent(x -> new Interval(2 * x + 1), g, 0, 10);
 	}
 
 	@Test
 	public void testFunctionOfConstant() {
 		IntervalNodeFunction g = convert("x * ld(64)");
+		assertEquivalent(x -> new Interval(6 * x), g, 0, 10);
+	}
+
+	private void assertEquivalent(
+			Function<Double, Interval> exp, IntervalNodeFunction g, int from, int to) {
 		List<Interval> expected = new ArrayList<>();
 		List<Interval> actual = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			expected.add(new Interval(i * 6));
+		for (int i = from; i < to; i++) {
+			expected.add(exp.apply((double) i));
 			actual.add(g.value(new Interval(i)));
 		}
 		assertEquals(expected, actual);
