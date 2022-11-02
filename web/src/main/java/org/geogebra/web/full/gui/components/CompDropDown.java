@@ -43,7 +43,18 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	}
 
 	/**
-	 *
+	 * @param app - - see {@link AppW}
+	 * @param label - label of drop-down
+	 * @param items - popup elements
+	 * @param defaultIdx - default index
+	 */
+	public CompDropDown(AppW app, String label, List<String> items, int defaultIdx) {
+		this(app, label, items);
+		controller.setSelectedOption(defaultIdx);
+		updateSelectionText();
+	}
+
+	/**
 	 * @param app - - see {@link AppW}
 	 * @param label - label of drop-down
 	 * @param property - property
@@ -54,13 +65,13 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		if (property.getIndex() > -1) {
 			controller.setSelectedOption(property.getIndex());
 		}
-		updateSelectionText(controller.getSelectedText());
+		updateSelectionText();
 	}
 
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
-		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
-		updateSelectionText(controller.getSelectedText());
+		controller.setChangeHandler(() -> updateSelectionText());
+		updateSelectionText();
 	}
 
 	private void buildGUI(String labelStr) {
@@ -118,11 +129,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 			label.setText(app.getLocalization().getMenu(labelKey));
 		}
 		controller.setLabels();
-		updateSelectionText(controller.getSelectedText());
+		updateSelectionText();
 	}
 
-	private void updateSelectionText(String text) {
-		selectedOption.setText(text);
+	/**
+	 * update selection text
+	 */
+	public void updateSelectionText() {
+		selectedOption.setText(controller.getSelectedText());
 	}
 
 	public void setChangeHandler(Runnable changeHandler) {
@@ -134,7 +148,7 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	 */
 	public void resetToDefault() {
 		controller.resetToDefault();
-		updateSelectionText(controller.getSelectedText());
+		updateSelectionText();
 	}
 
 	public void setFullWidth(boolean isFullWidth) {
