@@ -573,8 +573,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	protected void getStyleXML(StringBuilder sb) {
 		// name of image file
 		sb.append("\t<file name=\"");
-		sb.append(StringUtil
-				.encodeXML(this.getGraphicsAdapter().getImageFileName()));
+		StringUtil.encodeXML(sb, this.getGraphicsAdapter().getImageFileName());
 		sb.append("\"/>\n");
 
 		// name of image file
