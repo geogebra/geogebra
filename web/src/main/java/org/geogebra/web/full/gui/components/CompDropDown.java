@@ -68,6 +68,14 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 		updateSelectionText();
 	}
 
+	/**
+	 * @param app - see {@link AppW}
+	 * @param property - property
+	 */
+	public CompDropDown(AppW app, EnumerableProperty property) {
+		this(app, null, property);
+	}
+
 	private void initController(List<String> items) {
 		controller = new DropDownComboBoxController(app, this, selectedOption, items, null);
 		controller.setChangeHandler(() -> updateSelectionText());
