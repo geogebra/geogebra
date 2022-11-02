@@ -209,7 +209,7 @@ public class AriaMenuBar extends FlowPanel {
 	public void clearItems() {
 		allItems.clear();
 		submenus.clear();
-		for (int i = getChildren().size() - 1; i>=0; i--) {
+		for (int i = getChildren().size() - 1; i >= 0; i--) {
 			getChildren().remove(i);
 		}
 		getElement().removeAllChildren();

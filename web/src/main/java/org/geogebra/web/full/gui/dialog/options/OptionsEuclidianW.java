@@ -1,5 +1,9 @@
 package org.geogebra.web.full.gui.dialog.options;
 
+import static org.geogebra.web.full.gui.util.NumberListBox.PI_HALF_STRING;
+
+import java.util.Arrays;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -17,6 +21,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
+import org.geogebra.web.full.gui.components.ComponentCombobox;
 import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -99,7 +104,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CompDropDown lbGridType;
 		GridDropdown lbRulerType = null;
 		ComponentCheckbox cbGridManualTick;
-		NumberListBox ncbGridTickX;
+		ComponentCombobox ncbGridTickX;
 		NumberListBox ncbGridTickY;
 		ComboBoxW cbGridTickAngle;
 		private FormLabel gridLabel1;
@@ -152,7 +157,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			EnumerableProperty pointCaptProperty = new PointCapturingProperty(app,
 					app.getLocalization());
-			pointCapturingStyle = new CompDropDown(app, null, pointCaptProperty);
+			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
 			pointCapturingStyle.setChangeHandler(() -> {
 				app.setUnsaved();
 				app.storeUndoInfo();
@@ -197,7 +202,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			}
 			EnumerableProperty gridTypeProperty = new GridStyleProperty(app.getLocalization(),
 					view.getSettings());
-			lbGridType = new CompDropDown(app, null, gridTypeProperty);
+			lbGridType = new CompDropDown(app, gridTypeProperty);
 			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");
@@ -216,14 +221,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					model.applyGridManualTick(selected);
 					updateView();
 				});
-			ncbGridTickX = new NumberListBox(app) {
 
-				@Override
-				protected void onValueChange(String value) {
-					model.applyGridTicks(ncbGridTickX.getValue(), 0);
-					updateView();
-				}
-			};
+			ncbGridTickX = new ComponentCombobox(app, "", Arrays.asList("1",
+					Unicode.PI_STRING, PI_HALF_STRING));
+			ncbGridTickX.setChangeHandler(() -> {
+				model.applyGridTicks(ncbGridTickX.getSelectedText(), 0);
+				ncbGridTickX.updateSelectionText(ncbGridTickX.getSelectedText());
+				updateView();
+			});
 	
 			ncbGridTickY = new NumberListBox(app) {
 
@@ -476,7 +481,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				cbGridTickAngle.setVisible(false);
 				gridLabel3.setVisible(false);
 
-				ncbGridTickX.setDoubleValue(gridTicks[0]);
+			//	ncbGridTickX.setDoubleValue(gridTicks[0]);
 				ncbGridTickY.setDoubleValue(gridTicks[1]);
 				gridLabel1.setText("x:");
 
@@ -486,12 +491,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				cbGridTickAngle.setVisible(true);
 				gridLabel3.setVisible(true);
 
-				ncbGridTickX.setDoubleValue(gridTicks[0]);
+			//	ncbGridTickX.setDoubleValue(gridTicks[0]);
 				cbGridTickAngle.setValue(model.gridAngleToString());
 				gridLabel1.setText("r:");
 			}
 
-			ncbGridTickX.setEnabled(!isAutoGrid);
+			ncbGridTickX.setDisabled(isAutoGrid);
 			ncbGridTickY.setEnabled(!isAutoGrid);
 			cbGridTickAngle.setEnabled(!isAutoGrid);
 		}

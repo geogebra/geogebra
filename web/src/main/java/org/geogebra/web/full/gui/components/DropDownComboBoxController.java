@@ -180,4 +180,10 @@ public class DropDownComboBoxController implements SetLabels {
 			setSelectedOption(property.getIndex());
 		}
 	}
+
+	public void onChange() {
+		if (changeHandler != null) {
+			changeHandler.run();
+		}
+	}
 }
