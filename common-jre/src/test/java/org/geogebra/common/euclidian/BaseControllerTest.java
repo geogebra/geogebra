@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
@@ -51,7 +52,7 @@ public class BaseControllerTest {
 	}
 
 	protected void click(int x, int y, PointerEventType type) {
-		TestEvent evt = new TestEvent(x, y, type);
+		TestEvent evt = new TestEvent(x, y, type, false);
 		ec.wrapMousePressed(evt);
 		ec.wrapMouseReleased(evt);
 	}
@@ -64,10 +65,14 @@ public class BaseControllerTest {
 	 * @param y
 	 *            screen y-coordinate
 	 */
-	protected static void dragStart(int x, int y) {
-		TestEvent evt = new TestEvent(x, y);
+	protected static void dragStart(int x, int y, boolean right) {
+		TestEvent evt = new TestEvent(x, y, null, right);
 		ec.setDraggingDelay(0);
 		ec.wrapMousePressed(evt);
+	}
+
+	protected static void dragStart(int x, int y) {
+		dragStart(x, y, false);
 	}
 
 	/**
@@ -78,11 +83,15 @@ public class BaseControllerTest {
 	 * @param y
 	 *            screen y-coordinate
 	 */
-	protected static void dragEnd(int x, int y) {
-		TestEvent evt = new TestEvent(x, y);
+	protected static void dragEnd(int x, int y, boolean right) {
+		TestEvent evt = new TestEvent(x, y, null, right);
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseDragged(evt, true);
 		ec.wrapMouseReleased(evt);
+	}
+
+	protected static void dragEnd(int x, int y) {
+		dragEnd(x, y, false);
 	}
 
 	/**
@@ -116,9 +125,12 @@ public class BaseControllerTest {
 	 * 
 	 * @param cmd
 	 *            command
+	 * @return first created geo
 	 */
-	protected void add(String cmd) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(cmd, false);
+	protected GeoElement add(String cmd) {
+		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand(cmd, false);
+		return geos == null || geos.length == 0 ? null : geos[0].toGeoElement();
 	}
 
 	/**

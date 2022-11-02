@@ -335,14 +335,15 @@ public class AppCommon extends App {
 
 			@Override
 			public MyImage getFillImage() {
-				// stub
-				return null;
+				return new MyImageCommon();
 			}
 
 			@Override
 			public void setImageFileName(String fileName) {
-				// stub
-
+				this.imageFileName = fileName;
+				if (fileName != null) {
+					setImageOnly(new MyImageCommon());
+				}
 			}
 
 			@Override
