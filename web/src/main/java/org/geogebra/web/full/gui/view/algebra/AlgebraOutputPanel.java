@@ -25,7 +25,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Output part of AV item
  */
 public class AlgebraOutputPanel extends FlowPanel {
-	private FlowPanel valuePanel;
+	private final FlowPanel valuePanel;
 	private Canvas valCanvas;
 
 	/**
@@ -75,32 +75,22 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param parent
-	 *            parent panel
-	 * @param geo
-	 *            geoelement
-	 * @param activity activity for the spceific app
+	 * @param parent parent panel
+	 * @param geo geoelement
 	 */
 	public static void createSymbolicButton(FlowPanel parent,
-			final GeoElement geo, GeoGebraActivity activity) {
-		ToggleButton btnSymbolic = null;
-		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
-				btnSymbolic = (ToggleButton) parent.getWidget(i);
-			}
-		}
+			final GeoElement geo) {
+
+		ToggleButton btnSymbolic = getSymbolicButtonIfExists(parent);
+
 		if (btnSymbolic == null) {
-			btnSymbolic = new ToggleButton(activity.getNumericIcon(),
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
-			final ToggleButton btn = btnSymbolic;
-			ClickStartHandler.init(btnSymbolic, new ClickStartHandler(true, true) {
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					btn.setSelected(SymbolicUtil.toggleSymbolic(geo));
-				}
-			});
+			btnSymbolic = newSymbolicButton(geo);
 		}
+
+		updateSymbolicIcons(geo, btnSymbolic);
+
 		btnSymbolic.addStyleName("symbolicButton");
+
 		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
 				.equals(AlgebraItem.getOutputPrefix(geo))) {
 			btnSymbolic.setSelected(false);
@@ -109,7 +99,39 @@ public class AlgebraOutputPanel extends FlowPanel {
 			btnSymbolic.addStyleName("btn-prefix");
 		}
 
+
 		parent.add(btnSymbolic);
+	}
+
+	private static void updateSymbolicIcons(GeoElement geo, ToggleButton btnSymbolic) {
+		if (geo.getDefinition().isFraction()) {
+			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
+					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
+		} else {
+			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.equal_sign_white(),
+					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
+		}
+	}
+
+	private static ToggleButton newSymbolicButton(GeoElement geo) {
+		final ToggleButton btn = new ToggleButton();
+
+		ClickStartHandler.init(btn, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				btn.setSelected(SymbolicUtil.toggleSymbolic(geo));
+			}
+		});
+		return btn;
+	}
+
+	private static ToggleButton getSymbolicButtonIfExists(FlowPanel parent) {
+		for (int i = 0; i < parent.getWidgetCount(); i++) {
+			if (parent.getWidget(i).getStyleName().contains("symbolicButton")) {
+				return (ToggleButton) parent.getWidget(i);
+			}
+		}
+		return null;
 	}
 
 	static void removeSymbolicButton(FlowPanel parent) {

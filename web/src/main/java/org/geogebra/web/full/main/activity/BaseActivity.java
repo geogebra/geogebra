@@ -59,7 +59,7 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public SVGResource getOutputPrefixIcon() {
-		return MaterialDesignResources.INSTANCE.arrow_black();
+		return MaterialDesignResources.INSTANCE.equal_sign_black();
 	}
 
 	@Override
