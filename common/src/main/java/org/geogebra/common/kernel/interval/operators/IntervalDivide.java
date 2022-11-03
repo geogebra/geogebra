@@ -42,7 +42,7 @@ public class IntervalDivide {
 			return IntervalConstants.undefined();
 		}
 
-		if (isZeroByZero(numerator, divisor) || isWholeByNonZero(numerator, divisor)) {
+		if (isZeroByZero(numerator, divisor) || divisor.isWhole() || isWholeByNonZero(numerator, divisor)) {
 			return whole();
 		}
 
