@@ -31,7 +31,6 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.util.AsyncOperation;
@@ -1146,50 +1145,23 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	@Override
-	public void handleSlideAction(String eventType, String pageIdx, String appState) {
-		EventType event = null;
-		String[] args = new String[] {};
-		switch (eventType) {
-			case "addSlide":
-				event = EventType.ADD_SLIDE;
-				break;
-
-			case "removeSlide":
-				event = EventType.REMOVE_SLIDE;
-				args = !"undefined".equals(pageIdx) ? new String[] { pageIdx }
-						: new String[] {};
-				break;
-
-			case "moveSlide":
-				event = EventType.MOVE_SLIDE;
-				args = pageIdx.split(",");
-				break;
-
-			case "pasteSlide":
-				event = EventType.PASTE_SLIDE;
-				args = new String[] { pageIdx, null, appState };
-				break;
-
-			case "clearSlide":
-				event = EventType.CLEAR_SLIDE;
-				args = new String[] { pageIdx };
-				break;
-
-			default:
-				Log.error("No event type sent");
-				break;
-		}
-		if (event != null) {
-			((AppW) app).getPageController().executeAction(event, args);
-		}
+	public void handlePageAction(String eventType, String pageIdx, Object appState) {
+		((AppW) app).getPageController().handlePageAction(eventType, pageIdx, appState);
 	}
 
 	@Override
-	public void selectSlide(String pageIdx) {
-		int page = "undefined".equals(pageIdx) ? -1 : Integer.parseInt(pageIdx);
-		if (page > -1) {
-			((AppW) app).getPageController().selectSlide(page);
+	public void selectPage(String pageId) {
+		if (((AppW) app).getPageController() != null) {
+			((AppW) app).getPageController().selectSlide(pageId);
 		}
+	}
+
+	/**
+	 * @return ID of selected page
+	 */
+	public String getActivePage() {
+		return ((AppW) app).getPageController() == null ? ""
+				: ((AppW) app).getPageController().getActivePage();
 	}
 
 	@Override
@@ -1198,6 +1170,23 @@ public class GgbAPIW extends GgbAPI {
 		if (pageController != null) {
 			pageController.updatePreviewImage();
 		}
+	}
+
+	/**
+	 * @return list of page IDs in notes
+	 */
+	public String[] getPages() {
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		return pageController != null ? pageController.getPages() : new String[]{""};
+	}
+
+	/**
+	 * @return XML of given page
+	 */
+	public PageContent getPageContent(String pageId) {
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		return pageController != null ? pageController.getPageContent(pageId)
+				: PageContent.of(getXML(), getAllObjectNames(), null, null, 0);
 	}
 
 	/**
@@ -1287,5 +1276,18 @@ public class GgbAPIW extends GgbAPI {
 
 	public void switchCalculator(String appCode) {
 		((AppW) app).switchToSubapp(appCode);
+	}
+
+	/**
+	 * @param pageId page ID
+	 * @param content page content
+	 */
+	public void setPageContent(String pageId, PageContent content) {
+		PageListControllerInterface pc = ((AppW) app).getPageController();
+		if (pc != null) {
+			pc.setPageContent(pageId, content);
+		} else {
+			setXML(content.xml);
+		}
 	}
 }

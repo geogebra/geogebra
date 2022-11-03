@@ -1138,13 +1138,13 @@ public interface JavaScriptAPI {
 	 * @param pageIdx - page index
 	 * @param appStat - appState
 	 */
-	void handleSlideAction(String eventType, String pageIdx, String appStat);
+	void handlePageAction(String eventType, String pageIdx, Object appStat);
 
 	/**
 	 * select slide
 	 * @param pageIdx - page index
 	 */
-	void selectSlide(String pageIdx);
+	void selectPage(String pageIdx);
 
 	/**
 	 * refresh slide

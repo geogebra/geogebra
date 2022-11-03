@@ -21,5 +21,7 @@ public interface ShareController {
 
 	void terminateMultiuser(Material mat, MaterialCallbackI after);
 
+	void saveAndTerminateMultiuser(Material mat, MaterialCallbackI after);
+
 	void disconnectMultiuser();
 }

@@ -72,7 +72,7 @@ public abstract class UndoManager {
 				state = cmd;
 				break;
 			}
-			if ((cmd.getAction() == EventType.PASTE_SLIDE)
+			if ((cmd.getAction() == EventType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
 				state = cmd;
@@ -99,8 +99,8 @@ public abstract class UndoManager {
 		while (iterator.hasPrevious()) {
 			UndoCommand cmd = iterator.previous();
 			steps++;
-			if ((cmd.getAction() == EventType.ADD_SLIDE
-					|| cmd.getAction() == EventType.PASTE_SLIDE)
+			if ((cmd.getAction() == EventType.ADD_PAGE
+					|| cmd.getAction() == EventType.PASTE_PAGE)
 					&& cmd.getArgs().length > 1
 					&& cmd.getArgs()[1].equals(slideID)) {
 
@@ -322,7 +322,7 @@ public abstract class UndoManager {
 	public AppState extractFromCommand(UndoCommand cmd) {
 		if (cmd == null) {
 			return null;
-		} else if (cmd.getAction() == EventType.PASTE_SLIDE) {
+		} else if (cmd.getAction() == EventType.PASTE_PAGE) {
 			return extractStateFromFile(cmd.getArgs()[2]);
 		} else {
 			return cmd.getAppState();

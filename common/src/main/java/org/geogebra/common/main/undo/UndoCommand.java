@@ -137,7 +137,7 @@ public class UndoCommand {
 					undoManager.undoAction(action, args);
 					//TODO: maybe these actions should also take care of reloading
 					// the correct information without replay?
-					if (action == EventType.CLEAR_SLIDE || action == EventType.REMOVE_SLIDE) {
+					if (action == EventType.CLEAR_PAGE || action == EventType.REMOVE_PAGE) {
 						undoManager.replayActions(slideID, UndoCommand.this);
 					}
 				}
@@ -161,8 +161,8 @@ public class UndoCommand {
 	 *            undo manager
 	 */
 	public void loadStateAfter(UndoManager mgr) {
-		if (action == EventType.ADD_SLIDE) {
-			mgr.executeAction(EventType.CLEAR_SLIDE, args[1]);
+		if (action == EventType.ADD_PAGE) {
+			mgr.executeAction(EventType.CLEAR_PAGE, args[1]);
 		}
 	}
 

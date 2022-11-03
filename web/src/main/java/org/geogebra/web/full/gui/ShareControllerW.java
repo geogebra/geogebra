@@ -225,14 +225,8 @@ public class ShareControllerW implements ShareController {
 	}
 
 	@Override
-	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
-		String sharingKey = mat.getSharingKeyOrId();
-		Material activeMaterial = app.getActiveMaterial();
-		if (multiplayer != null && activeMaterial != null
-				&& activeMaterial.getSharingKey().equals(sharingKey)) {
-			multiplayer.terminate();
-			multiplayer = null;
-		} else {
+	public void saveAndTerminateMultiuser(Material mat, MaterialCallbackI after) {
+		if (!terminateActiveMultiuser(mat)) {
 			// temporary instance, do not store
 			AppletParameters parameters = new AppletParameters(
 					app.getAppletParameters().getDataParamAppName());
@@ -244,12 +238,32 @@ public class ShareControllerW implements ShareController {
 					appF.getDevice(), GeoGebraElement.as(el), parameters);
 			fr.setOnLoadCallback(exportedApi -> {
 				fr.getApp().getActiveEuclidianView().getSettings().setPreferredSize(currentSize);
-				onMultiplayerLoad(sharingKey, exportedApi,
+				onMultiplayerLoad(mat.getSharingKeyOrId(), exportedApi,
 						mp -> saveAndTerminate(Js.uncheckedCast(mp), fr.getApp(), mat, after));
 			});
 			fr.runAsyncAfterSplash();
-
 		}
+	}
+
+	@Override
+	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
+		if (!terminateActiveMultiuser(mat)) {
+			// temporary instance, do not store
+			onMultiplayerLoad(mat.getSharingKeyOrId(), null,
+						mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
+		}
+	}
+
+	private boolean terminateActiveMultiuser(Material mat) {
+		String sharingKey = mat.getSharingKeyOrId();
+		Material activeMaterial = app.getActiveMaterial();
+		if (multiplayer != null && activeMaterial != null
+				&& activeMaterial.getSharingKey().equals(sharingKey)) {
+			multiplayer.terminate();
+			multiplayer = null;
+			return true;
+		}
+		return false;
 	}
 
 	private void saveAndTerminate(GGBMultiplayer mp, AppW otherApp, Material mat,

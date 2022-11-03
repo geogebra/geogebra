@@ -1,5 +1,7 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Objects;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -958,8 +960,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            preferred view size
 	 */
 	public void setPreferredSize(GDimension dimension) {
-		preferredSize = dimension;
-		settingChanged();
+		if (!Objects.equals(preferredSize, dimension)) {
+			preferredSize = dimension;
+			settingChanged();
+		}
 	}
 
 	public void setPreferredSizeNoFire(GDimension dimension) {
