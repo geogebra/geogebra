@@ -200,7 +200,6 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	public String getSelectedText() {
-		return !controller.getSelectedText().equals(inputTextField.getText())
-				? inputTextField.getText() : controller.getSelectedText();
+		return getSelectedIndex() == -1 ? inputTextField.getText() : controller.getSelectedText();
 	}
 }
