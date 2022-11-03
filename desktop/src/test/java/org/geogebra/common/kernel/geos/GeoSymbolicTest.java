@@ -1890,6 +1890,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void functionsShouldWorkInNSolve() {
+		add("f(x)=.05x^3-.8x^2+3x");
+		t("NSolve(2f(x) = f(x+1))",
+				"{x = 0.5737788916239, x = 6.672641540783, x = 11.75357956759}");
+	}
+
+	@Test
 	public void testTake() {
 		t("Take({2, 4, 3, 7, 4}, 3)", "{3, 7, 4}");
 		t("Take(\"GeoGebra\", 3)", "oGebra");

@@ -601,6 +601,7 @@ public class GeoSymbolic extends GeoElement
 
 	private ExpressionNode getNodeFromInput() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(new FunctionExpander())
 				.traverse(createPrepareDefinition())
 				.wrap();
 		node.setLabel(null);
