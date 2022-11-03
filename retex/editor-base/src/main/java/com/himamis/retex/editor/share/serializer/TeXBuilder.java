@@ -224,6 +224,8 @@ public class TeXBuilder {
 		case '\u2033':
 			return asScript(new RowAtom(parser.getAtomFromUnicode('\u2032', false),
 					parser.getAtomFromUnicode('\u2032', false)));
+		case Unicode.DEGREE_CHAR:
+			return asScript(parser.getAtomFromUnicode('\u2218', false));
 		}
 
 		String replacement = replacements.get(unicode);
