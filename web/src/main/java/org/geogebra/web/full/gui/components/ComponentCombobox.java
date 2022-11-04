@@ -70,7 +70,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null, false);
 		inputTextField.addStyleName("textField");
-		inputTextField.addKeyUpHandler((event) -> controller.onChange());
+		inputTextField.addKeyUpHandler((event) -> controller.onInputChange());
 
 		if (labelTextKey != null) {
 			labelText = new FormLabel().setFor(inputTextField);
@@ -199,7 +199,19 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		return controller.getSelectedIndex();
 	}
 
+	/**
+	 * @return if nothing selected text input, selected text otherwise
+	 */
 	public String getSelectedText() {
 		return getSelectedIndex() == -1 ? inputTextField.getText() : controller.getSelectedText();
+	}
+
+	/**
+	 * set text field value
+	 * @param value - value
+	 */
+	public void setValue(String value) {
+		controller.setSelectedOption(-1);
+		inputTextField.setValue(value);
 	}
 }

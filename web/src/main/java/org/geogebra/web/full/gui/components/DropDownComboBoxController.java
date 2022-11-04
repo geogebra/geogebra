@@ -185,7 +185,10 @@ public class DropDownComboBoxController implements SetLabels {
 		}
 	}
 
-	public void onChange() {
+	/**
+	 * on text input from user
+	 */
+	public void onInputChange() {
 		dropDown.setSelectedIndex(-1);
 		if (changeHandler != null) {
 			changeHandler.run();
