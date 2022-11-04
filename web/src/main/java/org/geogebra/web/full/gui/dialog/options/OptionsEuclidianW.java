@@ -26,7 +26,6 @@ import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.PropertiesResources;
-import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
