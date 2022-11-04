@@ -45,17 +45,14 @@ public class SettingsUpdater {
 	 */
 	public void resetSettingsAfterClearAll() {
 		setSortModeForCompactOutput();
-		resetEuclidianSettings();
+		setEuclidianSettings();
 	}
 
 	private void setSortModeForCompactOutput() {
 		settings.getAlgebra().setTreeMode(AlgebraView.SortMode.ORDER);
 	}
 
-	/**
-	 * Reset euclidian settings from appConfig.
-	 */
-	public void resetEuclidianSettings() {
+	private void setEuclidianSettings() {
 		EuclidianSettings euclidianSettings = euclidianHost.getActiveEuclidianView().getSettings();
 		euclidianSettings.reset();
 		euclidianSettings.showGrid(appConfig.showGridOnFileNew());
