@@ -84,7 +84,7 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	public void testConvertTanSquaredXInverse() {
 		IntervalNodeFunction function = convert("1/(tan^(2)(x))");
- 		assertEquals(whole(), function.value(around(Math.PI/2, 1E-7)));
+		assertEquals(whole(), function.value(around(Math.PI / 2, 1E-7)));
 	}
 
 	@Test
