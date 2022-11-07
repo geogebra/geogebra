@@ -33,7 +33,7 @@ public class IntervalMiscOperandsImpl implements IntervalMiscOperands {
 		if (!interval.isUndefined()) {
 			if (interval.getHigh() >= 0) {
 				double low = interval.getLow();
- 				return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
+				return new Interval(low <= 0 ? NEGATIVE_INFINITY : RMath.logLow(low),
 						RMath.logHigh(interval.getHigh()));
 			}
 		}

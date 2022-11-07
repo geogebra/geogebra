@@ -691,8 +691,8 @@ public class Interval {
 	 * @return round to zero within the given precision
 	 */
 	public Interval round() {
-		return new Interval(Math.abs(low) < PRECISION ? 0: low,
- 			Math.abs(high) < PRECISION ? 0: high);
+		return new Interval(Math.abs(low) < PRECISION ? 0 : low,
+				Math.abs(high) < PRECISION ? 0 : high);
 	}
 
 	/**

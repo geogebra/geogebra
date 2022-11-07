@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionValue;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
+import org.geogebra.common.kernel.interval.node.IntervalOperation;
 import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.common.plugin.Operation;
@@ -46,6 +47,10 @@ public class GeoFunctionConverter {
 		IntervalNode expression = convert(
 				Objects.requireNonNull(geoFunction.getFunctionExpression()),
 				functionVariable).simplify();
+		if (expression.asExpressionNode() == null) {
+			expression = new IntervalExpressionNode(evaluator, expression,
+					IntervalOperation.NO_OPERATION);
+		}
 		return new IntervalNodeFunction(expression.asExpressionNode(), functionVariable);
 	}
 
