@@ -27,8 +27,7 @@ public class IntervalRoot {
 	 */
 	Interval compute(Interval interval, Interval other) {
 		if (!other.isSingleton()) {
-			interval.setUndefined();
-			return interval;
+			return IntervalConstants.undefined();
 		}
 
 		double power = other.getLow();
@@ -41,7 +40,7 @@ public class IntervalRoot {
 	 * @return nth root of the interval.
 	 */
 	Interval compute(Interval interval, double n) {
-		if (interval.isUndefined()) {
+ 		if (interval.isUndefined()) {
 			return undefined();
 		}
 
@@ -59,7 +58,7 @@ public class IntervalRoot {
 			return new Interval(oddFractionPower(interval.getLow(), power),
 					oddFractionPower(interval.getHigh(), power));
 		}
-		return evaluator.pow(interval, power).round();
+              		return evaluator.pow(interval, power).round();
 	}
 
 	private double oddFractionPower(double x, double power) {
