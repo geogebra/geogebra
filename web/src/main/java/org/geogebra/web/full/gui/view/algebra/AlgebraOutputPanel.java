@@ -57,7 +57,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 */
 	void addArrowPrefix() {
 		final Image arrow = new NoDragImage(
-				MaterialDesignResources.INSTANCE.equal_sign_black(), 20);
+				MaterialDesignResources.INSTANCE.equal_sign_black(), 24);
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
