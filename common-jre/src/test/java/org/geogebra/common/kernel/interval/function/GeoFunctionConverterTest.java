@@ -121,4 +121,11 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		GeoFunction geoFunction = add(functionString);
 		return converter.convert(geoFunction);
 	}
+
+	@Test
+	public void testNormal() {
+		GeoFunction f = add("Normal(1, 2, x, false)");
+		IntervalNodeFunction g = converter.convert(f);
+		assertEquivalent(x -> new Interval(f.value(x)), g, 0, 10);
+	}
 }

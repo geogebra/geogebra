@@ -102,8 +102,7 @@ public class IntervalExpressionNode implements IntervalNode {
 		if (left instanceof IntervalFunctionValue
 				&& !isOperation(IntervalOperation.DIVIDE)
 				&& (right == null || right instanceof IntervalFunctionValue)) {
-			// wrapping needed here because of asExpressionNode
-			return new IntervalExpressionNode(evaluator, new IntervalFunctionValue(value()));
+			return new IntervalFunctionValue(value());
 		}
 		return this;
 	}
