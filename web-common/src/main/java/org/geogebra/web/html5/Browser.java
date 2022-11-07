@@ -1,6 +1,7 @@
 package org.geogebra.web.html5;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -615,5 +616,23 @@ public class Browser {
 	 */
 	public static boolean isOnline() {
 		return DomGlobal.navigator == null || DomGlobal.navigator.onLine;
+	}
+
+	/**
+	 * @return whether this and parent frame have the same host (or are the same frame)
+	 */
+	public static boolean isNotCrossOriginIframe() {
+		if (DomGlobal.window == DomGlobal.window.parent) {
+			return true;
+		}
+		try {
+			if (Objects.equals(DomGlobal.window.location.host,
+					DomGlobal.window.parent.location.host)) {
+				return true;
+			}
+		} catch (Exception e) {
+			// parent sandboxed, just return false below
+		}
+		return false;
 	}
 }

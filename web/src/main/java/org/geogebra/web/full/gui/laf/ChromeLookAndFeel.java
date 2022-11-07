@@ -19,6 +19,11 @@ public class ChromeLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
+	public boolean hasLoginButton() {
+		return true;
+	}
+
+	@Override
 	public boolean examSupported() {
 		return true;
 	}

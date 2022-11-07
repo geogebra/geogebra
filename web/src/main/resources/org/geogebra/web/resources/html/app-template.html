@@ -42,11 +42,6 @@ var codebase = "<!--CODEBASE-->";
 		}
 	}
 
-	function isEmbed() {
-		return location.search.split(/[?&]/).indexOf("embed") >=0
-				|| location.pathname.match(/\/lti\//);
-	}
-
 	function changeMetaTitle(titleBase){
 		var title = titleBase.match(/<!--VENDOR-->/) ? titleBase : titleBase + " - <!--VENDOR-->";
 		var tag = document.querySelector("meta[property='og:title']");
