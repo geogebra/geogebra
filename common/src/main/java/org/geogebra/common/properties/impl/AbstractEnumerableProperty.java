@@ -36,7 +36,7 @@ public abstract class AbstractEnumerableProperty extends AbstractProperty
      *
      * @param values values of this property
      */
-    protected void setValuesAndLocalize(String[] values) {
+    protected void setValuesAndLocalize(String... values) {
         setValues(values);
         localizeValues();
     }
