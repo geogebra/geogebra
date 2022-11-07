@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import java.util.Arrays;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
