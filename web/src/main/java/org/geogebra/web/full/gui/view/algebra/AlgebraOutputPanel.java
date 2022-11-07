@@ -8,8 +8,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -54,13 +54,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	/**
 	 * add arrow prefix for av output
-	 * 
-	 * @param activity
-	 *            app specific activity
 	 */
-	void addArrowPrefix(GeoGebraActivity activity) {
+	void addArrowPrefix() {
 		final Image arrow = new NoDragImage(
-				activity.getOutputPrefixIcon(), 20);
+				MaterialDesignResources.INSTANCE.equal_sign_black(), 20);
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
@@ -99,7 +96,6 @@ public class AlgebraOutputPanel extends FlowPanel {
 			btnSymbolic.addStyleName("btn-prefix");
 		}
 
-
 		parent.add(btnSymbolic);
 	}
 
@@ -107,6 +103,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 		if (geo.getDefinition().isFraction()) {
 			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.fraction_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
+			Dom.toggleClass(btnSymbolic, "show-fraction", !btnSymbolic.isSelected());
 		} else {
 			btnSymbolic.updateIcons(MaterialDesignResources.INSTANCE.equal_sign_white(),
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic());
@@ -119,7 +116,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 		ClickStartHandler.init(btn, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				btn.setSelected(SymbolicUtil.toggleSymbolic(geo));
+				boolean symbolic = SymbolicUtil.toggleSymbolic(geo);
+				btn.setSelected(symbolic);
+				Dom.toggleClass(btn, "show-fraction", !symbolic);
 			}
 		});
 		return btn;
@@ -143,20 +142,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 	}
 
 	/**
-	 * @param geo1
-	 *            geoelement
-	 * @param text
-	 *            text content
-	 * @param latex
-	 *            whether the text is LaTeX
-	 * @param fontSize
-	 *            size in pixels
-	 * @param activity
-	 *            activity of the specific app
+	 * @param geo1 geoelement
+	 * @param text text content
+	 * @param latex whether the text is LaTeX
+	 * @param fontSize size in pixels
 	 * @return whether update was successful (AV has value panel)
 	 */
 	boolean updateValuePanel(GeoElement geo1, String text,
-			boolean latex, int fontSize, GeoGebraActivity activity) {
+			boolean latex, int fontSize) {
 		if (geo1 == null || geo1
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
@@ -167,10 +160,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 					.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
 				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
 			} else {
-				addArrowPrefix(activity);
+				addArrowPrefix();
 			}
 		} else {
-			addArrowPrefix(activity);
+			addArrowPrefix();
 		}
 
 		valuePanel.clear();
