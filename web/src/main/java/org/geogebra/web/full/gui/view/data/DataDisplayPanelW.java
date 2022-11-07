@@ -66,11 +66,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private PlotPanelEuclidianViewW plotPanel;
 
 	private Canvas latexCanvas;
-	private GeoNumeric sample;
+	private final GeoNumeric sample;
 	// control panel
 	private FlowPanel controlPanel;
 	private DeckPanel controlDecks;
-	private boolean hasControlPanel = true;
 	private ListBox lbDisplayType;
 	private List<PlotType> plotTypes;
 	// options button and sidebar panel
@@ -160,33 +159,30 @@ public class DataDisplayPanelW extends FlowPanel implements
 		};
 		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
 		btnExport.getPopupMenu().addStyleName("MyToggleButton");
-		// create control panel
-		if (hasControlPanel) {
 
-			// create sub-control panels
-			createDisplayTypeComboBox();
-			createNumClassesPanel();
-			createManualClassesPanel();
-			createStemPlotAdjustmentPanel();
-			FlowPanel emptyControl = new FlowPanel();
-			emptyControl.add(new Label("  "));
+		// create sub-control panels
+		createDisplayTypeComboBox();
+		createNumClassesPanel();
+		createManualClassesPanel();
+		createStemPlotAdjustmentPanel();
+		FlowPanel emptyControl = new FlowPanel();
+		emptyControl.add(new Label("  "));
 
-			// put sub-control panels into a deck panel
-			controlDecks = new DeckPanel();
-			controlDecks.add(numClassesPanel);
-			controlDecks.add(manualClassesPanel);
-			controlDecks.add(stemAdjustPanel);
-			controlDecks.add(emptyControl);
+		// put sub-control panels into a deck panel
+		controlDecks = new DeckPanel();
+		controlDecks.add(numClassesPanel);
+		controlDecks.add(manualClassesPanel);
+		controlDecks.add(stemAdjustPanel);
+		controlDecks.add(emptyControl);
 
-			FlowPanel buttonPanel = new FlowPanel();
-			buttonPanel.setStyleName("daOptionButtons");
-			buttonPanel.add(
-					LayoutUtilW.panelRow(btnOptions, btnExport.getPopupMenu()));
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.setStyleName("daOptionButtons");
+		buttonPanel.add(
+				LayoutUtilW.panelRow(btnOptions, btnExport.getPopupMenu()));
 
-			// control panel
-			controlPanel = new FlowPanel();
-			controlPanel.add(LayoutUtilW.panelRow(lbDisplayType, controlDecks, buttonPanel));
-		}
+		// control panel
+		controlPanel = new FlowPanel();
+		controlPanel.add(LayoutUtilW.panelRow(lbDisplayType, controlDecks, buttonPanel));
 
 		plotPanel = new PlotPanelEuclidianViewW(app.getKernel());
 
@@ -230,9 +226,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.setStyleName("dataDisplayMain");
-		if (hasControlPanel) {
-			mainPanel.add(controlPanel);
-		}
+		mainPanel.add(controlPanel);
 		mainPanel.add(LayoutUtilW.panelRow(displayDeckPanel, optionsPanel));
 
 		add(mainPanel);
@@ -587,10 +581,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		DrawEquationW.paintOnCanvas(sample, latex, latexCanvas,
 				app.getFontSize());
 
-		if (hasControlPanel) {
-			controlDecks.showWidget(STEM_IDX);
-		}
-
+		controlDecks.showWidget(STEM_IDX);
 		displayDeckPanel.showWidget(IMAGE_IDX);
 	}
 

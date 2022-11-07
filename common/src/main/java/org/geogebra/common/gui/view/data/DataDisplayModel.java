@@ -567,8 +567,6 @@ public class DataDisplayModel {
 		// in multivar mode create dynamic boxplots linked to separate lists
 
 		app.setWaitCursor();
-		// app.storeUndoInfo();
-		GeoElement regressionCopy = null;
 		EuclidianView targetEV = (EuclidianView) app.getView(euclidianViewID);
 
 		try {
@@ -607,7 +605,7 @@ public class DataDisplayModel {
 			if (daModel.isRegressionMode()
 					&& !daModel.getRegressionMode().equals(Regression.NONE)) {
 
-				regressionCopy = statGeo.createRegressionPlot(
+				GeoElement regressionCopy = statGeo.createRegressionPlot(
 						(GeoList) scatterPlot, daModel.getRegressionMode(),
 						daModel.getRegressionOrder(), false);
 				prepareGeoForEV(regressionCopy, euclidianViewID);
@@ -689,21 +687,24 @@ public class DataDisplayModel {
 	 *            viewID of the target EuclidianView
 	 */
 	private static void prepareGeoForEV(GeoElementND geo, int euclidianViewID) {
-
-		geo.setLabel(null);
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(false);
 		if (euclidianViewID == App.VIEW_EUCLIDIAN) {
 			geo.addView(App.VIEW_EUCLIDIAN);
 			geo.removeView(App.VIEW_EUCLIDIAN2);
-			geo.update();
 		}
 		if (euclidianViewID == App.VIEW_EUCLIDIAN2) {
 			geo.addView(App.VIEW_EUCLIDIAN2);
 			geo.removeView(App.VIEW_EUCLIDIAN);
-			geo.update();
 		}
-
+		if (geo.getParentAlgorithm() != null) {
+			geo.getConstruction().addToConstructionList(geo.getParentAlgorithm(), true);
+		}
+		if (geo.isLabelSet()) {
+			geo.update();
+		} else {
+			geo.setLabel(null);
+		}
 	}
 
 	public StatPanelSettings getSettings() {
