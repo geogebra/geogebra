@@ -71,6 +71,7 @@ ext.classicHtml = { app, prerelease, offline = false, inlineCss = false ->
             .replace("<!--SPLASH-->", splash)
             .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
             .replace("<!--PRELOADED CSS-->", inlinedCss)
+            .replace("<!--PIWIK PRO-->", template("partials/piwikpro.html"))
             .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
             .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
             .injectFirebaseTemplate(app.firebaseAppId, app.measurementId)
