@@ -12,6 +12,7 @@ import org.geogebra.common.plugin.JsReference;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.JsRunnable;
 
 import elemental2.core.Function;
@@ -97,10 +98,13 @@ public class ScriptManagerW extends ScriptManager {
 			AppW.appletOnLoad(articleid);
 		}
 
-		if (((AppW) app).getAppletFrame() != null
-		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
+		GeoGebraFrameW appletFrame = ((AppW) app).getAppletFrame();
+		if (appletFrame != null
+		        && appletFrame.getOnLoadCallback() != null) {
 			JsEval.callNativeFunction(
-					((AppW) app).getAppletFrame().getOnLoadCallback(), exportedApi);
+					appletFrame.getOnLoadCallback(), exportedApi);
+			// callback only needed on first file load, not switching slides
+			appletFrame.setOnLoadCallback(null);
 		}
 	}
 

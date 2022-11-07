@@ -5902,11 +5902,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected final void moveBoolean(boolean repaint) {
 		// part of snap to grid code
-		movedGeoBoolean.setAbsoluteScreenLoc(
-				view.toScreenCoordX(xRW - getStartPointX()),
-				view.toScreenCoordY(yRW - getStartPointY()),
-				isMoveCheckboxExpected());
-
+		if (isMoveCheckboxExpected() || !movedGeoBoolean.isLockedPosition()) {
+			movedGeoBoolean.setAbsoluteScreenLoc(
+					view.toScreenCoordX(xRW - getStartPointX()),
+					view.toScreenCoordY(yRW - getStartPointY()));
+		}
 		if (repaint) {
 			movedGeoBoolean.updateRepaint();
 		} else {

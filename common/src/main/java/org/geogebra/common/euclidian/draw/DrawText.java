@@ -91,7 +91,7 @@ public final class DrawText extends Drawable {
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible();
-		if (!isVisible && !text.isNeedsUpdatedBoundingBox()) {
+		if (!isVisible && !text.needsUpdatedBoundingBox()) {
 			// Corner[Element[text
 			return;
 		}
@@ -104,10 +104,10 @@ public final class DrawText extends Drawable {
 
 		final boolean textChanged = labelDesc == null || !labelDesc.equals(newText)
 				|| isLaTeX != text.isLaTeX()
-				|| text.isNeedsUpdatedBoundingBox() != needsBoundingBoxOld;
+				|| text.needsUpdatedBoundingBox() != needsBoundingBoxOld;
 		labelDesc = newText;
 		isLaTeX = text.isLaTeX();
-		needsBoundingBoxOld = text.isNeedsUpdatedBoundingBox();
+		needsBoundingBoxOld = text.needsUpdatedBoundingBox();
 
 		// compute location of text
 		updateLabelPosition();
@@ -131,7 +131,7 @@ public final class DrawText extends Drawable {
 			updateLabelRectangle();
 			if (hasAlignment()) {
 				handleTextAlignment();
-				if (text.isNeedsUpdatedBoundingBox()) {
+				if (text.needsUpdatedBoundingBox()) {
 					updateLabelRectangle(); // recompute again to make Corner correct
 				}
 			}
@@ -149,7 +149,7 @@ public final class DrawText extends Drawable {
 		if (geo.getBackgroundColor() != null) {
 			return true;
 		}
-		return (text.isNeedsUpdatedBoundingBox() || hasAlignment()) && (changed
+		return (text.needsUpdatedBoundingBox() || hasAlignment()) && (changed
 				|| text.getKernel().getForceUpdatingBoundingBox()
 				|| text.getBoundingBox() == null);
 	}

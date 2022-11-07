@@ -2028,7 +2028,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private static boolean needsSynchUpdate(GeoElement geo, boolean tracing) {
 		// Keep update of input boxes synchronous #4416
-		return (geo.isGeoText() && ((GeoText) geo).isNeedsUpdatedBoundingBox())
+		return (geo.isGeoText() && ((GeoText) geo).needsUpdatedBoundingBox())
 				|| geo.isGeoInputBox()
 				|| (geo.getTrace() && !tracing)
 				|| geo.isMask()
@@ -2194,7 +2194,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return geo.isEuclidianVisible()
 
 					|| (geo.isGeoText() && ((GeoText) geo)
-							.isNeedsUpdatedBoundingBox())
+							.needsUpdatedBoundingBox())
 					|| (geo.isGeoAngle() && geo.getParentAlgorithm() instanceof AlgoAngle);
 		}
 		return false;
@@ -5634,7 +5634,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// init grid's line type
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.BLACK);
+		setAxesColor(GColor.DEFAULT_AXES_COLOR);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
 

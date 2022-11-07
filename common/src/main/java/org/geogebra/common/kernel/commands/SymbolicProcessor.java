@@ -24,7 +24,9 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
@@ -117,12 +119,17 @@ public class SymbolicProcessor {
 			if (expressionValue instanceof Command) {
 				cmd = (Command) replaced.unwrap();
 				if (!cmdDispatcher.isAllowedByNameFilter(Commands.valueOf(cmd.getName()))) {
-					throw new MyError(kernel.getLocalization(), "UnknownCommand");
+					throw new MyError(kernel.getLocalization(), MyError.Errors.UnknownCommand);
+				}
+				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)
+						&& isInvalidArgNumberInFallback(cmd)) {
+					throw buildArgNumberError(cmd);
 				}
 			}
 			if (replaced.inspect(Inspecting.vectorDivisionFinder)) {
-				throw new MyError(kernel.getLocalization(), "IllegalDivision");
+				throw new MyError(kernel.getLocalization(), MyError.Errors.IllegalDivision);
 			}
+
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 		}
@@ -157,7 +164,36 @@ public class SymbolicProcessor {
 			}
 			sym.computeOutput();
 		}
+		SymbolicUtil.handleSolveNSolve(sym);
 		return sym;
+	}
+
+	private boolean isInvalidArgNumberInFallback(Command cmd) {
+		boolean oldSilent = kernel.getConstruction().isSuppressLabelsActive();
+		boolean invalidArgNumber = false;
+		try {
+			kernel.getConstruction().setSuppressLabelCreation(true);
+			EvalInfo info = new EvalInfo(false, false)
+					.withScripting(false);
+			kernel.getAlgebraProcessor().getCommandDispatcher()
+					.processCommand(cmd.deepCopy(kernel), info);
+		} catch (MyError err) {
+			invalidArgNumber = err.getErrorType() == MyError.Errors.IllegalArgumentNumber;
+		} catch (Throwable t) {
+			// something else went wrong
+		} finally {
+			kernel.getConstruction().setSuppressLabelCreation(oldSilent);
+		}
+		return invalidArgNumber;
+	}
+
+	private MyError buildArgNumberError(Command cmd) {
+		CommandErrorMessageBuilder builder =
+				new CommandErrorMessageBuilder(kernel.getLocalization());
+		return MyError.forCommand(kernel.getLocalization(),
+				builder.buildArgumentNumberError(cmd.getName(), cmd.getArgumentNumber()),
+				cmd.getName(),
+				null, MyError.Errors.IllegalArgumentNumber);
 	}
 
 	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {

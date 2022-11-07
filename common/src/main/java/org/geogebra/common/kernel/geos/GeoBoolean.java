@@ -298,26 +298,10 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return isIndependent();
 	}
 
-	/**
-	 * @param x
-	 *            screen x
-	 * @param y
-	 *            screen y
-	 * @param forced
-	 *            set location even for fixed checkbox
-	 */
-	public void setAbsoluteScreenLoc(int x, int y, boolean forced) {
-		if (!forced && checkboxFixed) {
-			return;
-		}
-
-		labelOffsetX = x;
-		labelOffsetY = y;
-	}
-
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
-		setAbsoluteScreenLoc(x, y, false);
+		labelOffsetX = x;
+		labelOffsetY = y;
 	}
 
 	@Override

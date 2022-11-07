@@ -22,6 +22,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DistributionPanel extends FlowPanel implements ChangeHandler, InsertHandler {
 	private ProbabilityCalculatorViewW view;
@@ -137,7 +138,15 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 				lblParameterArray[i].setText(getParamLabel(i));
 				// set field
 				fldParameterArray[i].setText(view.format(view.getParameters()[i]));
+				resetError(fldParameterArray[i]);
 			}
+		}
+	}
+
+	private void resetError(MathTextFieldW field) {
+		Widget parent = field.asWidget().getParent();
+		if (parent != null) {
+			parent.removeStyleName("errorStyle");
 		}
 	}
 
@@ -252,6 +261,7 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 		}
 		String inputText = source.getText().trim();
 		boolean update = true;
+
 		if (!"".equals(inputText)) {
 			Kernel kernel = view.getApp().getKernel();
 			// allow input such as sqrt(2)
@@ -260,19 +270,18 @@ public class DistributionPanel extends FlowPanel implements ChangeHandler, Inser
 			GeoNumberValue numericValue = nv != null
 					? nv : new GeoNumeric(kernel.getConstruction(), Double.NaN);
 			double value = numericValue.getDouble();
-			if (!Double.isNaN(value)) {
-				source.resetError();
+
+			if (Double.isNaN(value)) {
+				source.asWidget().getParent().addStyleName("errorStyle");
+				return;
+			} else {
+				resetError(source);
 			}
 			if (getResultPanel().isFieldLow(source)) {
 				checkBounds(numericValue, intervalCheck, false);
-			}
-
-			else if (getResultPanel().isFieldHigh(source)) {
+			} else if (getResultPanel().isFieldHigh(source)) {
 				checkBounds(numericValue, intervalCheck, true);
-			}
-
-			// handle inverse probability
-			else if (getResultPanel().isFieldResult(source)) {
+			} else if (getResultPanel().isFieldResult(source)) {
 				update = false;
 				if (value < 0 || value > 1) {
 					if (!intervalCheck) {

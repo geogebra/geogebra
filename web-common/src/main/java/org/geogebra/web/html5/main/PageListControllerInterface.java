@@ -106,8 +106,18 @@ public interface PageListControllerInterface extends ActionExecutor {
 	void clickPage(String slideID);
 
 	/**
-	 * @param idx
-	 *            page index
+	 * @param pageId
+	 *            page ID
 	 */
-	void selectSlide(int idx);
+	void selectSlide(String pageId);
+
+	void handlePageAction(String eventType, String pageIdx, Object appState);
+
+	PageContent getPageContent(String pageId);
+
+	void setPageContent(String pageId, PageContent content);
+
+	String getActivePage();
+
+	String[] getPages();
 }

@@ -43,6 +43,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 				onComboBoxChange();
 			}
 		};
+		comboBox.setWidth("112px");
 		label = new FormLabel("").setFor(comboBox);
 		comboBox.setEnabled(true);
 		FlowPanel mainWidget = new FlowPanel(); 

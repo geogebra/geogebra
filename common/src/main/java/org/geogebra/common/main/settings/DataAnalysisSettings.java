@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.statistics.Regression;
  */
 public class DataAnalysisSettings {
 	private ArrayList<String> items = new ArrayList<>();
+	private String frequencies = null;
 	private int mode = DataAnalysisModel.MODE_ONEVAR;
 	private Regression regression = Regression.NONE;
 	private PlotType plotType1 = null;
@@ -22,6 +23,10 @@ public class DataAnalysisSettings {
 	 */
 	public void addItem(String ranges) {
 		items.add(ranges);
+	}
+
+	public void setFrequencies(String frequency) {
+		frequencies = frequency;
 	}
 
 	/**
@@ -45,9 +50,13 @@ public class DataAnalysisSettings {
 		return items;
 	}
 
+	public String getFrequencies() {
+		return frequencies;
+	}
 	/**
 	 * @return app mode
 	 */
+
 	public int getMode() {
 		return mode;
 	}
@@ -93,7 +102,11 @@ public class DataAnalysisSettings {
 		return ret == null ? fallback : ret;
 	}
 
+	/***
+	 * nullifies the items list and the frequencies string
+	 */
 	public void reset() {
 		items.clear();
+		frequencies = null;
 	}
 }

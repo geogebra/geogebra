@@ -111,6 +111,7 @@ public final class GColor implements GPaint {
 	public static final GColor MIND_MAP_CONNECTION = newColorRGB(0xDEDEDE);
 
 	public static final GColor MOW_MIND_MAP_PLUS_ACTIVE = MOW_MEBIS_TEAL;
+	public static final GColor DEFAULT_AXES_COLOR = newColorRGB(0x252525);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

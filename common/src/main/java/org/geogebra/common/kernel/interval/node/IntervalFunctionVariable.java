@@ -34,4 +34,14 @@ public class IntervalFunctionVariable implements IntervalExpressionValue {
 	public boolean hasFunctionVariable() {
 		return true;
 	}
+
+	@Override
+	public IntervalNode simplify() {
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "[x]";
+	}
 }

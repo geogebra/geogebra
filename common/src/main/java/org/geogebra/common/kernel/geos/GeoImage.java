@@ -83,6 +83,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	//ruler or protractor
 	private boolean isMeasurementTool = false;
+	private boolean needBoundingBoxUpdate;
 
 	/**
 	 * Creates new image
@@ -572,8 +573,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	protected void getStyleXML(StringBuilder sb) {
 		// name of image file
 		sb.append("\t<file name=\"");
-		sb.append(StringUtil
-				.encodeXML(this.getGraphicsAdapter().getImageFileName()));
+		StringUtil.encodeXML(sb, this.getGraphicsAdapter().getImageFileName());
 		sb.append("\"/>\n");
 
 		// name of image file
@@ -1470,5 +1470,14 @@ public class GeoImage extends GeoElement implements Locateable,
 				app.getActiveEuclidianView().setMeasurementTool(this, 558, 296, middle);
 			}
 		}
+	}
+
+	@Override
+	public boolean needsUpdatedBoundingBox() {
+		return needBoundingBoxUpdate;
+	}
+
+	public void setNeedsBoundingBoxUpdate(boolean needsUpdate) {
+		needBoundingBoxUpdate = needsUpdate;
 	}
 }

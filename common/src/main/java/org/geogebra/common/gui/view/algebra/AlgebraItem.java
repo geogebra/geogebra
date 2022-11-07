@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -27,6 +26,7 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+import org.geogebra.common.util.SymbolicUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -34,36 +34,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Utitlity class for AV items
  */
 public class AlgebraItem {
-
-	/**
-	 * Changes the symbolic flag of a geo or its parent algo
-	 *
-	 * @param geo
-	 *            element that we want to change
-	 * @return whether it's symbolic after toggle
-	 */
-	public static boolean toggleSymbolic(GeoElement geo) {
-		if (geo instanceof HasSymbolicMode) {
-			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
-				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
-			}
-			((HasSymbolicMode) geo).setSymbolicMode(
-					!((HasSymbolicMode) geo).isSymbolicMode(), true);
-
-			if (geo instanceof GeoSymbolic) {
-				GeoSymbolic symbolic = (GeoSymbolic) geo;
-				if (isSymbolicSolve(symbolic)) {
-					toggleNumeric(symbolic);
-					symbolic.setDescriptionNeedsUpdateInAV(true);
-				}
-			}
-
-			geo.updateRepaint();
-			return ((HasSymbolicMode) geo).isSymbolicMode();
-
-		}
-		return false;
-	}
 
 	/**
 	 * @param geo
@@ -96,8 +66,11 @@ public class AlgebraItem {
 		}
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			if (isSymbolicSolve(symbolic)) {
-				return isSymbolicSolveDiffers(symbolic);
+			if (symbolic.shouldWrapInNumeric()) {
+				return true;
+			}
+			if (SymbolicUtil.isSolve(symbolic)) {
+				return SymbolicUtil.isSymbolicSolveDiffers(symbolic);
 			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
 				return false;
 			}
@@ -629,46 +602,5 @@ public class AlgebraItem {
 		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
-	}
-
-	private static boolean isSymbolicSolve(GeoSymbolic symbolic) {
-		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
-		return topLevelCommand != null
-				&& (Commands.Solve.getCommand().equals(topLevelCommand.getName())
-				|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
-	}
-
-	private static boolean isSymbolicSolveDiffers(GeoSymbolic symbolic) {
-		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
-		Commands original = Commands.Solve.getCommand()
-				.equals(topLevelCommand.getName()) ? Commands.Solve : Commands.NSolve;
-
-		Commands opposite = original == Commands.Solve ? Commands.NSolve : Commands.Solve;
-
-		String textOriginal = symbolic.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-
-		topLevelCommand.setName(opposite.getCommand());
-		symbolic.computeOutput();
-		String textOpposite = symbolic.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-
-		boolean isOppositeDefined = symbolic.getTwinGeo() != null
-				? symbolic.getTwinGeo().isDefined()
-				: symbolic.isDefined();
-
-		topLevelCommand.setName(original.getCommand());
-		symbolic.computeOutput();
-
-		return isOppositeDefined && !textOriginal.equals(textOpposite);
-	}
-
-	private static void toggleNumeric(GeoSymbolic symbolic) {
-		Commands opposite = Commands.NSolve.getCommand()
-				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
-				? Commands.Solve : Commands.NSolve;
-
-		symbolic.getDefinition().getTopLevelCommand().setName(opposite.getCommand());
-		symbolic.computeOutput();
 	}
 }

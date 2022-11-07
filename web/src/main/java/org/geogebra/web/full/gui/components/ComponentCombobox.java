@@ -1,11 +1,6 @@
 package org.geogebra.web.full.gui.components;
 
-import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.MARGIN_FROM_SCREEN;
-import static org.geogebra.web.full.gui.components.ComponentDropDownPopup.POPUP_PADDING;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -14,7 +9,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -22,21 +16,19 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-public class ComponentCombobox extends FlowPanel implements SetLabels {
+public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget {
 	private final AppW appW;
-	private EnumerableProperty property;
 	private FlowPanel contentPanel;
 	private AutoCompleteTextFieldW inputTextField;
 	private FormLabel labelText;
 	private String labelTextKey;
 	private SimplePanel arrowIcon;
-	private ComponentDropDownPopup dropDown;
-	private List<AriaMenuItem> dropDownElementsList;
-	private int lastSelectedIdx;
 	private boolean isDisabled = false;
+	private DropDownComboBoxController controller;
 
 	/**
 	 * Constructor
@@ -47,17 +39,19 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 	public ComponentCombobox(AppW app, String label, EnumerableProperty property) {
 		appW = app;
 		labelTextKey = label;
-		this.property = property;
 
 		addStyleName("combobox");
 		buildGUI();
-		addFocusBlurHandlers();
-		addHoverHandlers();
-		addFieldKeyAndPointerHandler();
+		addHandlers();
 
-		createDropDownMenu(appW);
-		setElements(Arrays.asList(property.getValues()));
-		setSelectedOption(0);
+		initController(property);
+	}
+
+	private void initController(EnumerableProperty property) {
+		controller = new DropDownComboBoxController(appW, this,
+				Arrays.asList(property.getValues()), this::onClose);
+		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
+		updateSelectionText(controller.getSelectedText());
 	}
 
 	private void buildGUI() {
@@ -82,6 +76,25 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 		contentPanel.add(inputTextField);
 		contentPanel.add(arrowIcon);
 		add(contentPanel);
+	}
+
+	private void addHandlers() {
+		addClickHandler();
+		addFocusBlurHandlers();
+		addHoverHandlers();
+		addFieldKeyAndPointerHandler();
+	}
+
+	private void addClickHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (!isDisabled) {
+					toggleExpanded();
+				}
+			}
+		});
 	}
 
 	private void addFocusBlurHandlers() {
@@ -109,21 +122,6 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 		});
 	}
 
-	private void createDropDownMenu(final AppW app) {
-		dropDown = new ComponentDropDownPopup(app, 32, inputTextField, this::onClose);
-		dropDown.addAutoHidePartner(getElement());
-
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!isDisabled) {
-					toggleExpanded();
-				}
-			}
-		});
-	}
-
 	private void onClose() {
 		removeStyleName("active");
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE.arrow_drop_down()
@@ -131,102 +129,32 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 		resetTextField();
 	}
 
-	/**
-	 * Expand/collapse the dropdown.
-	 */
-	protected void toggleExpanded() {
-		if (dropDown.isOpened()) {
+	private void toggleExpanded() {
+		if (controller.isOpened()) {
 			inputTextField.setFocus(false);
 			resetTextField();
-			dropDown.close();
+			controller.closePopup();
 		} else {
-			showPopup();
+			controller.showAsComboBox();
 			Scheduler.get().scheduleDeferred(() -> {
 				inputTextField.selectAll();
 			});
 		}
-		Dom.toggleClass(this, "active", dropDown.isOpened());
-		GColor arrowCol = dropDown.isOpened()
+		boolean isOpen = controller.isOpened();
+		Dom.toggleClass(this, "active", isOpen);
+		GColor arrowCol = isOpen
 				? GeoGebraColorConstants.GEOGEBRA_ACCENT : GColor.BLACK;
 		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE.arrow_drop_down()
 				.withFill(arrowCol.toString()).getSVG());
 	}
 
-	private void showPopup() {
-		int spaceBottom = (int) (appW.getHeight() - getElement().getAbsoluteBottom());
-		int spaceTop = getElement().getAbsoluteTop() - MARGIN_FROM_SCREEN;
-		int minSpaceBottom = 3 * dropDown.getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
-		int popupHeight = dropDown.getPopupHeight();
-
-		if (spaceBottom < minSpaceBottom) {
-			int popupTop = popupHeight > spaceTop ? (int) appW.getAbsTop() + MARGIN_FROM_SCREEN
-				: getAbsoluteTop() - popupHeight;
-			dropDown.showAtPoint(getAbsoluteLeft(), popupTop);
-
-			if (popupHeight > spaceTop) {
-				setHeightAndScrollTop(spaceTop);
-			}
-		} else {
-			dropDown.showAtPoint(getAbsoluteLeft(), getElement().getAbsoluteBottom());
-			if (popupHeight > spaceBottom) {
-				setHeightAndScrollTop(spaceBottom - (MARGIN_FROM_SCREEN + POPUP_PADDING));
-			}
-		}
-	}
-
-	private void setHeightAndScrollTop(int height) {
-		dropDown.setHeightInPx(height);
-		dropDown.setScrollTop(dropDown.getSelectedItemTop());
+	private void updateSelectionText(String text) {
+		inputTextField.setText(text);
 	}
 
 	private void resetTextField() {
 		if (inputTextField.getText().isEmpty()) {
-			inputTextField.setText(dropDownElementsList.get(
-					lastSelectedIdx).getText());
-		}
-	}
-
-	private void setSelectedOption(int idx) {
-		lastSelectedIdx = idx;
-		highlightSelectedElement(dropDown.getSelectedIndex(), idx);
-		dropDown.setSelectedIndex(idx);
-		inputTextField.setText(dropDownElementsList.get(idx).getElement().getInnerText());
-	}
-
-	private void highlightSelectedElement(int previousSelectedIndex,
-			int currentSelectedIndex) {
-		dropDownElementsList.get(previousSelectedIndex)
-				.removeStyleName("selectedDropDownElement");
-		dropDownElementsList.get(currentSelectedIndex)
-				.addStyleName("selectedDropDownElement");
-	}
-
-	/**
-	 * Set the elements of the dropdown list
-	 *
-	 * @param dropDownList
-	 *            List of strings which will be shown in the dropdown list
-	 */
-	public void setElements(final List<String> dropDownList) {
-		dropDownElementsList = new ArrayList<>();
-
-		for (int i = 0; i < dropDownList.size(); ++i) {
-			final int currentIndex = i;
-			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), true,
-					() -> {
-						setSelectedOption(currentIndex);
-					});
-
-			item.setStyleName("dropDownElement");
-			dropDownElementsList.add(item);
-		}
-		setupDropDownMenu(dropDownElementsList);
-	}
-
-	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
-		dropDown.clear();
-		for (AriaMenuItem menuItem : menuItems) {
-			dropDown.addItem(menuItem);
+			inputTextField.setText(controller.getSelectedText());
 		}
 	}
 
@@ -245,6 +173,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels {
 		if (labelText != null) {
 			labelText.setText(appW.getLocalization().getMenu(labelTextKey));
 		}
-		setElements(Arrays.asList(property.getValues()));
+		controller.setLabels();
+		updateSelectionText(controller.getSelectedText());
 	}
 }

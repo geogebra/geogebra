@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -24,6 +25,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -859,4 +861,10 @@ public class AlgebraStyleTest extends BaseUnitTest {
 		}
 	}
 
+	@Test
+	public void polarVectorsShouldSerializeAsFlatInEditor() {
+		GeoVector vec = add("v=(1;3)");
+		assertTrue("should be polar", vec.isPolar());
+		assertThat(vec.getDefinitionForEditor(), CoreMatchers.is("v=(1; 3)"));
+	}
 }
