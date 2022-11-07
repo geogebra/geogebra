@@ -60,7 +60,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 */
 	void addArrowPrefix(GeoGebraActivity activity) {
 		final Image arrow = new NoDragImage(
-				activity.getOutputPrefixIcon(), 24);
+				activity.getOutputPrefixIcon(), 20);
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
