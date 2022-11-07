@@ -1903,4 +1903,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Take({2, 4, 3, 7, 4}, 3, 4)", "{3, 7}");
 		t("Take(\"GeoGebra\", 3, 6)", "oGeb");
 	}
+
+	@Test
+	public void testInvalidTrigInput() {
+		GeoSymbolic invalid = add("tan^(-1)");
+		assertThat(invalid, is(nullValue()));
+	}
 }
