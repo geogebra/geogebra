@@ -94,15 +94,23 @@ public class JSONParserGGT {
 		material.setDeleted(getBoolean(obj, "deleted", false));
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
-		material.setIs3d(getStringBoolean(obj, "is3d", false));
-		material.setSpreadsheet(getStringBoolean(obj, "spreadsheet", false));
-		material.setCas(getStringBoolean(obj, "cas", false));
-		material.setGraphics2(getStringBoolean(obj, "graphics2", false));
-		material.setConstprot(getStringBoolean(obj, "constprot", false));
-		material.setPropcalc(getStringBoolean(obj, "propcalc", false));
-		material.setDataanalysis(getStringBoolean(obj, "dataanalysis", false));
-		material.setFuncinsp(getStringBoolean(obj, "funcinsp", false));
-		material.setMacro(getStringBoolean(obj, "macro", false));
+		JSONObject views = obj.optJSONObject("views");
+		if (views != null) {
+			material.setIs3d(getBoolean(views, "is3D", false));
+			material.setPropcalc(getBoolean(views, "PC", false));
+			material.setDataanalysis(getBoolean(views, "DA", false));
+			material.setMacro(getBoolean(views, "macro", false));
+		} else {
+			material.setIs3d(getNumberBoolean(obj, "is3d", false));
+			material.setCas(getNumberBoolean(obj, "cas", false));
+			material.setSpreadsheet(getNumberBoolean(obj, "spreadsheet", false));
+			material.setGraphics2(getNumberBoolean(obj, "graphics2", false));
+			material.setConstprot(getNumberBoolean(obj, "constprot", false));
+			material.setPropcalc(getNumberBoolean(obj, "propcalc", false));
+			material.setDataanalysis(getNumberBoolean(obj, "dataanalysis", false));
+			material.setFuncinsp(getNumberBoolean(obj, "funcinsp", false));
+			material.setMacro(getNumberBoolean(obj, "macro", false));
+		}
 		material.setElemcntApplet(getInt(obj, "elemcnt_applet", -1));
 		material.setViewerID(getInt(obj, "viewerID", -1));
 		if (setLocalValues) {
@@ -178,23 +186,7 @@ public class JSONParserGGT {
 		return Boolean.parseBoolean(str.toString());
 	}
 
-	private static String getString(JSONObject obj, String string) {
-		Object str = obj.opt(string);
-		if (str == null || "false".equals(str.toString())) {
-			return "";
-		}
-		return str.toString();
-	}
-
-	private static int getInt(JSONObject obj, String string, int def) {
-		Object str = obj.opt(string);
-		if (str == null || "".equals(str)) {
-			return def;
-		}
-		return Integer.parseInt(str.toString());
-	}
-
-	private static boolean getStringBoolean(JSONObject obj, String name,
+	private static boolean getNumberBoolean(JSONObject obj, String name,
 			boolean def) {
 		if (!obj.has(name)) {
 			return def;
@@ -209,6 +201,34 @@ public class JSONParserGGT {
 			// ignore
 		}
 		return "0".equals(value) ? false : true;
+	}
+
+	private static boolean getRawBoolean(JSONObject obj, String name, boolean def) {
+		if (!obj.has(name)) {
+			return def;
+		}
+		try {
+			return obj.getBoolean(name);
+		} catch (Exception e) {
+
+		}
+		return def;
+	}
+
+	private static String getString(JSONObject obj, String string) {
+		Object str = obj.opt(string);
+		if (str == null || "false".equals(str.toString())) {
+			return "";
+		}
+		return str.toString();
+	}
+
+	private static int getInt(JSONObject obj, String string, int def) {
+		Object str = obj.opt(string);
+		if (str == null || "".equals(str)) {
+			return def;
+		}
+		return Integer.parseInt(str.toString());
 	}
 
 	/**
