@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -96,7 +97,8 @@ public class AlgebraItem {
 		if (text1 == null) {
 			return text2 != null;
 		}
-		return !text1.equals(text2);
+		return !text1.equals(text2)
+				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}
 
 	private static boolean allRHSareIntegers(GeoList geo) {
