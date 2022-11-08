@@ -212,8 +212,8 @@ public class GeoText extends GeoElement
 		}
 		try {
 			if (gt.startPoint != null) {
-				if (gt.hasAbsoluteLocation()) {
-					if (this.startPoint != null && this.hasAbsoluteLocation()) {
+				if (gt.hasStaticLocation()) {
+					if (this.startPoint != null && this.hasStaticLocation()) {
 						// just use the value
 						this.startPoint.set(gt.startPoint);
 					} else {
@@ -388,7 +388,7 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
@@ -1353,14 +1353,14 @@ public class GeoText extends GeoElement
 
 	@Override
 	protected boolean isVisibleInView3DNotSet() {
-		if (isVisibleInView(App.VIEW_EUCLIDIAN) && !hasAbsoluteLocation()) {
+		if (isVisibleInView(App.VIEW_EUCLIDIAN) && !hasStaticLocation()) {
 			// visible: we set it
 			visibleInView3D = ExtendedBoolean.TRUE;
 			return true;
 		}
 
 		if (kernel.getApplication().getActiveEuclidianView()
-				.isEuclidianView3D() && hasAbsoluteLocation()) {
+				.isEuclidianView3D() && hasStaticLocation()) {
 			// visible only in 3D view
 			try {
 				kernel.getApplication().removeFromEuclidianView(this);

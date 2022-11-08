@@ -834,12 +834,7 @@ public class ConsElementXMLHandler {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			if (absolute) {
-				if (app.isWhiteboardActive() && absLoc.isGeoImage()) {
-					((GeoImage) absLoc).setAbsoluteScreenLoc((int) x, (int) y,
-							0);
-				} else {
-					absLoc.setAbsoluteScreenLoc((int) x, (int) y);
-				}
+				absLoc.setAbsoluteScreenLoc((int) x, (int) y);
 				absLoc.setAbsoluteScreenLocActive(true);
 			} else {
 				absLoc.setRealWorldLoc(x, y);

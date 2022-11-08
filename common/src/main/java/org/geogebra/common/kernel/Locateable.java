@@ -60,7 +60,7 @@ public interface Locateable extends GeoElementND {
 	/**
 	 * @return true iff the location is absolute
 	 */
-	public boolean hasAbsoluteLocation();
+	public boolean hasStaticLocation();
 
 	/**
 	 * @return true iff object is always fixed

@@ -5669,7 +5669,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					(oldLoc.x + mouseLoc.x) - startLoc.x,
 					(oldLoc.y + mouseLoc.y) - startLoc.y);
 		} else {
-			if (movedGeoText.hasAbsoluteLocation()) {
+			if (movedGeoText.hasStaticLocation()) {
 				// absolute location: change location
 				moveTextAbsoluteLocation();
 
@@ -5703,7 +5703,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			notifyPositionUpdate(movedGeoImage);
 		} else {
-			if (movedGeoImage.hasAbsoluteLocation()) {
+			if (movedGeoImage.hasStaticLocation()) {
 				// absolute location: translate all defined corners
 				double vx = xRW - getStartPointX();
 				double vy = yRW - getStartPointY();
@@ -6856,7 +6856,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						movedGeoText.getAbsoluteScreenLocY());
 				startLoc = mouseLoc;
 
-			} else if (movedGeoText.hasAbsoluteLocation()) {
+			} else if (movedGeoText.hasStaticLocation()) {
 				// absolute location: change location
 				GeoPointND loc = movedGeoText.getStartPoint();
 				if (loc == null) {
@@ -6916,7 +6916,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// if vector is dependent or
 			// mouseLoc is closer to the startpoint than to the end
 			// point then move the startpoint of the vector
-			if (movedGeoVector.hasAbsoluteLocation()) {
+			if (movedGeoVector.hasStaticLocation()) {
 				GeoPointND sP = movedGeoVector.getStartPoint();
 				double sx = 0;
 				double sy = 0;
@@ -7240,7 +7240,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						- xRW;
 				transformCoordsOffset[1] = view.toRealWorldCoordY(oldLoc.y)
 						- yRW;
-			} else if (movedGeoImage.hasAbsoluteLocation()) {
+			} else if (movedGeoImage.hasStaticLocation()) {
 				setStartPointLocation();
 				oldImage = movedGeoImage.copy();
 

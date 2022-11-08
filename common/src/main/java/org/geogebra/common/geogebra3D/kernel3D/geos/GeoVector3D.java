@@ -194,7 +194,7 @@ public class GeoVector3D extends GeoVec4D
 			try {
 				GeoPointND sp = vec.getStartPoint();
 				if (sp != null) {
-					if (vec.hasAbsoluteLocation()) {
+					if (vec.hasStaticLocation()) {
 						// create new location point
 						setStartPoint(sp.copy());
 					} else {
@@ -470,7 +470,7 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 

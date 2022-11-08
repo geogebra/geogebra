@@ -147,7 +147,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	}
 
 	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
@@ -267,9 +267,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void setWidth(double width) {
 		this.width = width;
-		if (hasScreenLocation()) {
-			getScreenLocation().initWidth((int) width);
-		}
 	}
 
 	/**
@@ -286,9 +283,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 	 */
 	public void setHeight(double height) {
 		this.height = height;
-		if (hasScreenLocation()) {
-			getScreenLocation().initHeight((int) height);
-		}
 	}
 
 	@Override

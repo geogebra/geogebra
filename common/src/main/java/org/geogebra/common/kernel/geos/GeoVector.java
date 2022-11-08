@@ -189,7 +189,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		try {
 			if (vec.startPoint != null) {
-				if (vec.hasAbsoluteLocation()) {
+				if (vec.hasStaticLocation()) {
 					// create new location point
 					setStartPoint(vec.startPoint.copy());
 				} else {
@@ -262,7 +262,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public boolean hasAbsoluteLocation() {
+	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
