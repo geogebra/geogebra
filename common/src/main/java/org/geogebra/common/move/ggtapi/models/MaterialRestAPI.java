@@ -673,9 +673,13 @@ public class MaterialRestAPI implements BackendAPI {
 							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
 							mat.setFileName(jsonObject.getString("url"));
 							materials.add(mat);
-							if (jsonObject.has("settings")) {
-								JSONObject settings = jsonObject.optJSONObject("settings");
+							JSONObject settings = jsonObject.optJSONObject("settings");
+							if (settings != null) {
 								JSONParserGGT.copySettings(settings, mat);
+							}
+							JSONObject views = jsonObject.optJSONObject("views");
+							if (views != null) {
+								JSONParserGGT.copyViews(views, mat);
 							}
 						}
 					}

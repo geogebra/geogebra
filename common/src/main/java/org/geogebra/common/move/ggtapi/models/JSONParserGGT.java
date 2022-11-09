@@ -152,6 +152,16 @@ public class JSONParserGGT {
 		material.setShowZoomButtons(getStringBoolean(settings, "showZoomButtons", false));
 	}
 
+	public static void copyViews(JSONObject views, Material material) {
+		material.setIs3d(getBoolean(views, "is3D", false));
+		material.setSpreadsheet(getBoolean(views, "SV", false));
+		material.setCas(getBoolean(views, "CV", false));
+		material.setPropcalc(getBoolean(views, "PC", false));
+		material.setDataanalysis(getBoolean(views, "DA", false));
+		material.setFuncinsp(getBoolean(views, "FI", false));
+		material.setMacro(getBoolean(views, "macro", false));
+	}
+
 	private static String getAppName(JSONObject obj) {
 		return getString(obj, "appname");
 	}
