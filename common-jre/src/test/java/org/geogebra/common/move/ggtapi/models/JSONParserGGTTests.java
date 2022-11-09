@@ -17,7 +17,7 @@ import org.junit.Test;
 public class JSONParserGGTTests {
 
 	@Test
-	public void testToMaterialTubeAPI() throws Exception {
+	public void testToMaterial_TubeAPI_ggb() throws Exception {
 		String json = getContentsOf("tube-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
@@ -25,6 +25,7 @@ public class JSONParserGGTTests {
 		JSONObject response = responses.getJSONObject("response");
 		JSONObject item = response.getJSONObject("item");
 		Material material = JSONParserGGT.prototype.toMaterial(item);
+		assertTrue(Material.MaterialType.ggb == material.getType());
 		assertEquals("PB9Npbe7", material.getSharingKeyOrId());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("https://ggbm.at/PB9Npbe7", material.getURL());
@@ -33,7 +34,20 @@ public class JSONParserGGTTests {
 	}
 
 	@Test
-	public void testToMaterialGeoAPI() throws Exception {
+	public void testToMaterial_GeoAPI_ws() throws Exception {
+		String json = getContentsOf("geoapi-3d.json");
+		assertNotNull(json);
+		JSONObject root = new JSONObject(json);
+		Material material = JSONParserGGT.prototype.toMaterial(root);
+		assertEquals("PB9Npbe7", material.getSharingKeyOrId());
+		assertTrue(Material.MaterialType.ws == material.getType());
+		assertTrue(material.isDeleted());
+		assertEquals("3D Coordinate Systems", material.getTitle());
+		assertEquals(material.getVisibility(), "O");
+	}
+
+	@Test
+	public void testToMaterial_GeoAPI_G() throws Exception {
 		String json = getContentsOf("geoapi-3d.json");
 		assertNotNull(json);
 		JSONObject root = new JSONObject(json);
@@ -41,6 +55,7 @@ public class JSONParserGGTTests {
 		JSONObject item = elements.getJSONObject(1);
 		Material material = JSONParserGGT.prototype.toMaterial(item);
 		assertEquals("2463659", material.getSharingKeyOrId());
+		assertTrue(Material.MaterialType.ggb == material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb", material.getURL());
 		assertFalse(material.hasCas());
