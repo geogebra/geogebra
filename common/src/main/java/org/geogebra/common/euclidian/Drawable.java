@@ -62,6 +62,7 @@ public abstract class Drawable extends DrawableND {
 	public static final double UI_ELEMENT_HIGHLIGHT_WIDTH = 5;
 	protected static final int HIGHLIGHT_OFFSET = 4;
 	private static final int HIGHLIGHT_DIAMETER = 8;
+	public static final int LATEX_Y_LABEL_OFFSET = 10;
 
 	private boolean forceNoFill;
 
@@ -360,11 +361,12 @@ public abstract class Drawable extends DrawableND {
 		boolean roughEstimate = false;
 
 		if (!labelDesc.equals(oldLabelDesc) || lastFontSize != font.getSize()) {
-			if (labelDesc.startsWith("$")) {
+			if (isLabelLatex()) {
 				// for LaTeX we need proper repaint
 				drawLabel(view.getTempGraphics2D(font));
 				widthEstimate = (int) labelRectangle.getWidth();
 				heightEstimate = (int) labelRectangle.getHeight();
+				yLabel -= LATEX_Y_LABEL_OFFSET;
 			} else {
 				// if we use name = value, this may still be called pretty
 				// often.
@@ -420,6 +422,10 @@ public abstract class Drawable extends DrawableND {
 
 		// update label rectangle position
 		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
+	}
+
+	private boolean isLabelLatex() {
+		return labelDesc.startsWith("$");
 	}
 
 	/**
@@ -507,6 +513,9 @@ public abstract class Drawable extends DrawableND {
 
 		xLabel = x;
 		yLabel = y;
+		if (isLabelLatex()) {
+			yLabel -= LATEX_Y_LABEL_OFFSET;
+		}
 		return true;
 	}
 
