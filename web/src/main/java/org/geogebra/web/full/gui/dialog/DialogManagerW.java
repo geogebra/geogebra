@@ -462,7 +462,7 @@ public class DialogManagerW extends DialogManager
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {
 			DialogData data = getSaveDialogData();
-			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+			saveDialog = new SaveDialogW((AppW) app, data);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
