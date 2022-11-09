@@ -68,9 +68,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
 import org.geogebra.web.full.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.full.gui.properties.ListBoxPanel;
@@ -128,7 +130,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
 		final ComponentCheckbox showLabelCB;
 		private final FlowPanel mainWidget;
-		final ListBox labelMode;
+		final CompDropDown labelMode;
 		ShowLabelModel model;
 
 		public LabelPanel() {
@@ -144,12 +146,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			updateShowLabel();
 
-			labelMode = new ListBox();
-			labelMode.setMultipleSelect(false);
+			LabelStyleProperty labelStyleProp = new LabelStyleProperty(this);
 
-			labelMode.addChangeHandler(event -> model.applyModeChanges(
-					model.fromDropdown(labelMode.getSelectedIndex()),
-					true));
+			labelMode = new CompDropDown(app, "", labelStyleProp);
 			mainWidget.add(labelMode);
 		}
 
@@ -184,15 +183,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		@Override
 		public void setLabels() {
 			updateShowLabel();
-			int selectedIndex = labelMode.getSelectedIndex();
-			labelMode.clear();
-			labelMode.addItem(localize("Name")); // index 0
-			labelMode.addItem(localize("NameAndValue")); // index 1
-			labelMode.addItem(localize("Value")); // index 2
-			labelMode.addItem(localize("Caption")); // index 3
-			labelMode.addItem(localize("CaptionAndValue")); // index 4
-			labelMode.setSelectedIndex(selectedIndex);
+			labelMode.setLabels();
 		}
+
 	}
 
 	private class ShowConditionPanel extends OptionPanel
@@ -1028,5 +1021,28 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
+	}
+
+	private class LabelStyleProperty extends AbstractEnumerableProperty {
+		private final LabelPanel labelPanel;
+		private int index = 0;
+
+		public LabelStyleProperty(LabelPanel labelPanel) {
+			super(app.getLocalization(), "");
+			this.labelPanel = labelPanel;
+			setValuesAndLocalize("Name", "NameAndValue",
+					"Value", "Caption", "CaptionAndValue");
+		}
+
+		@Override
+		protected void setValueSafe(String value, int index) {
+			this.index = index;
+			labelPanel.model.applyModeChanges(labelPanel.model.fromDropdown(index), true);
+		}
+
+		@Override
+		public int getIndex() {
+			return index;
+		}
 	}
 }
