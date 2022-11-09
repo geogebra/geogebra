@@ -118,25 +118,27 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent.Checkbox {
 		max-width: 391px;
 
-		.gwt-ListBox {
-			margin-right: 16px;
-			width: calc(100% - 16px) !important;
-		}
-
 		.panelTitle {
-			margin-right: 16px;
 			display: block;
 			cursor: default;
 			color: colors.$teal-default;
 			border-bottom: 1px solid colors.$teal-default;
 		}
 
-		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid colors.$teal-default !important;
+		.panelRow {
+			display: flex;
 		}
 
 		.button img {
 			opacity: 0.54;
+		}
+
+		.dropDown {
+			width: 100%;
+		}
+
+		.gwt-ListBox {
+			min-height: 140px;
 		}
 	}
 
