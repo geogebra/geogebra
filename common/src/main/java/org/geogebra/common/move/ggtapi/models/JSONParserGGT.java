@@ -97,10 +97,7 @@ public class JSONParserGGT {
 				getStringBoolean(obj, "from_another_device", false));
 		JSONObject views = obj.optJSONObject("views");
 		if (views != null) {
-			material.setIs3d(getBoolean(views, "is3D", false));
-			material.setPropcalc(getBoolean(views, "PC", false));
-			material.setDataanalysis(getBoolean(views, "DA", false));
-			material.setMacro(getBoolean(views, "macro", false));
+			copyViews(views, material);
 		} else {
 			material.setIs3d(getNumericBoolean(obj, "is3d", false));
 			material.setCas(getNumericBoolean(obj, "cas", false));
