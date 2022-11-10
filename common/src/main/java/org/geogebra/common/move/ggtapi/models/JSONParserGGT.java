@@ -149,6 +149,11 @@ public class JSONParserGGT {
 		material.setShowZoomButtons(getStringBoolean(settings, "showZoomButtons", false));
 	}
 
+	/**
+	 * Copy view settings from "views" object to material.
+	 * @param views the "views" dictionary of a GeoGebra Applet ("type": "G") JSON object.
+	 * @param material the material onto which to copy the view settings.
+	 */
 	public static void copyViews(JSONObject views, Material material) {
 		material.setIs3d(getBoolean(views, "is3D", false));
 		material.setSpreadsheet(getBoolean(views, "SV", false));
