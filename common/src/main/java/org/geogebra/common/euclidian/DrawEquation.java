@@ -168,8 +168,8 @@ public abstract class DrawEquation implements DrawEquationI {
 			try {
 				final TeXFormula formula = TeXFormula
 						.getPartialTeXFormula(text);
-				im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
-						font.getSize() + 3, convertColor(GColor.BLACK),
+				im = TeXFormula.asImage(formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, style), convertColor(GColor.BLACK),
 						convertColor(GColor.WHITE));
 
 				// toJavaString() to help diagnose non-printable characters
