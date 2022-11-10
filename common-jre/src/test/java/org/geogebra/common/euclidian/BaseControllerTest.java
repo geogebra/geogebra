@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.test.TestEvent;
@@ -116,9 +117,12 @@ public class BaseControllerTest {
 	 * 
 	 * @param cmd
 	 *            command
+	 * @return first created geo
 	 */
-	protected void add(String cmd) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(cmd, false);
+	protected GeoElement add(String cmd) {
+		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand(cmd, false);
+		return geos == null || geos.length == 0 ? null : geos[0].toGeoElement();
 	}
 
 	/**
