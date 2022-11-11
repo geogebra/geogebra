@@ -1,5 +1,7 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Objects;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -202,7 +204,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
-		axesColor = GColor.BLACK;
+		axesColor = GColor.DEFAULT_AXES_COLOR;
 		gridColor = GColor.LIGHT_GRAY;
 		backgroundColor = GColor.WHITE;
 		backgroundType = BackgroundType.NONE;
@@ -958,8 +960,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            preferred view size
 	 */
 	public void setPreferredSize(GDimension dimension) {
-		preferredSize = dimension;
-		settingChanged();
+		if (!Objects.equals(preferredSize, dimension)) {
+			preferredSize = dimension;
+			settingChanged();
+		}
 	}
 
 	public void setPreferredSizeNoFire(GDimension dimension) {

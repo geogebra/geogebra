@@ -234,9 +234,9 @@ public class GeoVideo extends GeoMedia {
 		super.getStyleXML(sb);
 		sb.append("\t<video src=\"");
 		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
-			sb.append(StringUtil.encodeXML(getEmbeddedUrl()));
+			StringUtil.encodeXML(sb, getEmbeddedUrl());
 		} else if (getSrc() != null) {
-			sb.append(StringUtil.encodeXML(getSrc()));
+			StringUtil.encodeXML(sb, getSrc());
 		}
 		if (getFormat() != null) {
 			sb.append("\" type=\"");

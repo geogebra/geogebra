@@ -50,4 +50,9 @@ public class IntervalFunctionValue implements IntervalExpressionValue {
 	public IntervalNode simplify() {
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return interval.toShortString();
+	}
 }

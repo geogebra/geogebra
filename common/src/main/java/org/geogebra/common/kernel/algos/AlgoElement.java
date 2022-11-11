@@ -1525,7 +1525,7 @@ public abstract class AlgoElement extends ConstructionElement
 				sb.append("=\"");
 
 				GeoElementND inputGeo = getInput(i);
-				String cmd = StringUtil.encodeXML(inputGeo.getLabel(tpl));
+				String cmd = inputGeo.getLabel(tpl);
 
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
@@ -1536,11 +1536,11 @@ public abstract class AlgoElement extends ConstructionElement
 					// eg g:X = (-5, 5) + t (4, -3)
 					sb.append("Vector["); // in XML, so don't want this
 											// translated
-					sb.append(cmd);
+					StringUtil.encodeXML(sb, cmd);
 					sb.append("]");
 				} else {
 					// standard case
-					sb.append(cmd);
+					StringUtil.encodeXML(sb, cmd);
 				}
 
 				sb.append("\"");
@@ -1654,7 +1654,7 @@ public abstract class AlgoElement extends ConstructionElement
 				|| getOutput(0) instanceof GeoText)
 				&& ((SetRandomValue) this).canSetRandomValue()) {
 			sb.append(" randomResult=\"");
-			sb.append(StringUtil.encodeXML(getOutput(0).toOutputValueString(tpl)));
+			StringUtil.encodeXML(sb, getOutput(0).toOutputValueString(tpl));
 			sb.append("\"");
 		}
 

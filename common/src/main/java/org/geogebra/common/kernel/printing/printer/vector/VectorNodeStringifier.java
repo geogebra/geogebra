@@ -49,6 +49,10 @@ public class VectorNodeStringifier {
         return getPrinterFor(tpl).print(tpl, defaultExpressionPrinter);
     }
 
+    public String toString(StringTemplate tpl, VectorPrintingMode mode) {
+        return printerMap.get(mode).print(tpl, defaultExpressionPrinter);
+    }
+
     public String toValueString(StringTemplate tpl) {
         return getPrinterFor(tpl).print(tpl, valueExpressionPrinter);
     }

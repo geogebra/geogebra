@@ -3,18 +3,16 @@ package org.geogebra.web.full.gui.view.data;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.html5.gui.util.ToggleButton;
 import org.geogebra.web.html5.main.AppW;
 
 public class DataAnalysisStyleBarW extends StyleBarW {
-	private DataAnalysisViewW daView;
+	private final DataAnalysisViewW daView;
 	private ToggleButton btnShowStatistics;
 	private ToggleButton btnShowPlot2;
 	private ToggleButton btnShowData;
-	private ToggleButton btnExport;
 	private ToggleButton btnSwapXY;
 
 	/**
@@ -45,9 +43,6 @@ public class DataAnalysisStyleBarW extends StyleBarW {
 		btnShowPlot2.addFastClickHandler(this::actionPerformed);
 
 		// create export button
-		btnExport = new ToggleButton(MaterialDesignResources.INSTANCE.prob_calc_export());
-		btnExport.addFastClickHandler(this::actionPerformed);
-
 		btnSwapXY = new ToggleButton(getSwapXYString(app.getLocalization()));
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addFastClickHandler(this::actionPerformed);
@@ -71,13 +66,8 @@ public class DataAnalysisStyleBarW extends StyleBarW {
 
 		switch (model.getMode()) {
 		case DataAnalysisModel.MODE_ONEVAR:
-			btnShowData.setVisible(true);
-			break;
 		case DataAnalysisModel.MODE_REGRESSION:
 			btnShowData.setVisible(true);
-			break;
-		case DataAnalysisModel.MODE_MULTIVAR:
-			btnShowData.setVisible(false);
 			break;
 		default:
 			btnShowData.setVisible(false);
@@ -123,8 +113,6 @@ public class DataAnalysisStyleBarW extends StyleBarW {
 		} else if (source == btnSwapXY) {
 			daView.getController().swapXY();
 			updateGUI();
-		} else if (source == btnExport) {
-			btnExport.setSelected(false);
 		}
 	}
 

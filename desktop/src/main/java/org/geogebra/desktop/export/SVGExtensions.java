@@ -84,17 +84,17 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	}
 
 	@Override
-	protected void appendElementTitleAndDescription(StringBuffer sb) {
+	protected void appendElementTitleAndDescription(StringBuilder sb) {
 
 		if (title != null) {
 			sb.append("\n<title>");
-			sb.append(StringUtil.encodeXML(title));
+			StringUtil.encodeXML(sb, title);
 			sb.append("</title>");
 		}
 
 		if (desc != null) {
 			sb.append("\n<desc>");
-			sb.append(StringUtil.encodeXML(desc));
+			StringUtil.encodeXML(sb, desc);
 			sb.append("</desc>\n");
 		}
 

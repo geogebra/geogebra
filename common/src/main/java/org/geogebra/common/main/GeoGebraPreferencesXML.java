@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 
@@ -73,7 +74,7 @@ public class GeoGebraPreferencesXML {
 				+ "\" checkboxSize=\"26\" gridType=\""
 				+ +EuclidianView.GRID_CARTESIAN_WITH_SUBGRID + "\"/>"
 				+ "<bgColor r=\"255\" g=\"255\" b=\"255\"/>"
-				+ "<axesColor r=\"0\" g=\"0\" b=\"0\"/>"
+				+ getAxesColorTag()
 				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"
 				+ "<lineStyle axes=\"1\" grid=\"0\"/>"
 				+ "<axis id=\"0\" show=\"" + xAxis
@@ -127,6 +128,15 @@ public class GeoGebraPreferencesXML {
 				+ "<scripting blocked=\"false\"/>" + "</geogebra>";
 	}
 
+	private static String getAxesColorTag() {
+		GColor color = GColor.DEFAULT_AXES_COLOR;
+		return  "<axesColor "
+				+ "r=\"" + color.getRed() + "\" "
+				+ "g=\"" + color.getGreen() + "\" "
+				+ "b=\"" + color.getBlue() + "\" "
+				+ "/> ";
+	}
+
 	private static String getDefaultAngleUnit(App app) {
 		switch (app.getConfig().getDefaultAngleUnit()) {
 			case Kernel.ANGLE_RADIANT:
@@ -164,5 +174,4 @@ public class GeoGebraPreferencesXML {
 		defaultWindowY = height;
 
 	}
-
 }

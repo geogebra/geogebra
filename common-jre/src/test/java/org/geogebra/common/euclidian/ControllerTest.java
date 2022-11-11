@@ -173,20 +173,6 @@ public class ControllerTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void deleteToolApplet() {
-		getApp().setAppletFlag(true);
-		setMode(EuclidianConstants.MODE_DELETE);
-		t("a:x=1");
-		t("SetFixed(a,true)");
-		click(50, 50);
-		checkContent("a: x = 1");
-		getApp().setAppletFlag(false);
-		resetMouseLocation();
-		click(50, 50);
-		checkContent();
-	}
-
-	@Test
 	public void vectorTool() {
 		setMode(EuclidianConstants.MODE_VECTOR);
 		click(0, 0);

@@ -102,8 +102,7 @@ public class IntervalExpressionNode implements IntervalNode {
 		if (left instanceof IntervalFunctionValue
 				&& !isOperation(IntervalOperation.DIVIDE)
 				&& (right == null || right instanceof IntervalFunctionValue)) {
-			// wrapping needed here because of asExpressionNode
-			return new IntervalExpressionNode(evaluator, new IntervalFunctionValue(value()));
+			return new IntervalFunctionValue(value());
 		}
 		return this;
 	}
@@ -142,5 +141,10 @@ public class IntervalExpressionNode implements IntervalNode {
 
 	public boolean isOperation(IntervalOperation operation) {
 		return this.operation.equals(operation);
+	}
+
+	@Override
+	public String toString() {
+		return operation.name() + "(" + left + "," + right + ")";
 	}
 }
