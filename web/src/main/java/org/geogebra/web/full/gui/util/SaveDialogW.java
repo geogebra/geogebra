@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -53,6 +52,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	private Localization loc;
 	private ComponentCheckbox templateCheckbox;
 	private MaterialVisibilityProperty visibilityProperty;
+	private MaterialVisibilityController visibilityController;
 
 	/**
 	 * Creates a new GeoGebra save dialog.
@@ -63,7 +63,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		super(app, data, false, true);
 		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
-
+		visibilityController = new MaterialVisibilityController(app.getLoginOperation());
 		buildContent();
 		setActions();
 
@@ -196,19 +196,8 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 					? MaterialType.ggsTemplate : MaterialType.ggs);
 		}
 		app.getSaveController().saveAs(title.getText(),
-				getSelectedVisibility(), this);
-	}
-
-	private MaterialVisibility getSelectedVisibility() {
-		switch (visibilityDropDown.getSelectedIndex()) {
-		case 1:
-			return MaterialVisibility.Shared;
-		case 2:
-			return MaterialVisibility.Public;
-		case 0:
-		default:
-			return MaterialVisibility.Private;
-		}
+				visibilityController.getVisibility(visibilityDropDown.getSelectedIndex()),
+				this);
 	}
 
 	@Override
@@ -273,17 +262,9 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	}
 
 	private void rebuildVisibilityList() {
-		visibilityProperty.update(getCurrentVisibility());
+		visibilityProperty.update(visibilityController.getMaterialVisibility(
+				app.getActiveMaterial()));
 		visibilityDropDown.setLabels();
-	}
-
-	private MaterialVisibility getCurrentVisibility() {
-		Material activeMaterial = app.getActiveMaterial();
-		if (activeMaterial != null
-				&& app.getLoginOperation().owns(activeMaterial)) {
-			return MaterialVisibility.value(activeMaterial.getVisibility());
-		}
-		return MaterialVisibility.Shared;
 	}
 
 	@Override
