@@ -45,7 +45,6 @@ public class ClearAllActionTest {
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
 		ListBox mockBox = mock(ListBox.class);
 		when(factory.newListBox()).thenReturn(mockBox);
-		app.getDialogManager().setWidgetFactory(factory);
 		ClearAllAction action = new ClearAllAction(true);
 		addObject("x");
 		action.execute(null, app);

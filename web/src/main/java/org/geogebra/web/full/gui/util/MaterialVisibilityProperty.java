@@ -5,7 +5,6 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 public class MaterialVisibilityProperty extends AbstractEnumerableProperty {
-	private MaterialVisibility visibility = MaterialVisibility.Private;
 	private int index;
 
 	/**
@@ -25,9 +24,12 @@ public class MaterialVisibilityProperty extends AbstractEnumerableProperty {
 	@Override
 	protected void setValueSafe(String value, int index) {
 		this.index = index;
-		this.visibility = MaterialVisibility.values()[index];
 	}
 
+	/**
+	 * Update property due to visibility
+	 * @param visibility to update on.
+	 */
 	public void update(MaterialVisibility visibility) {
 		if (visibility == MaterialVisibility.Public) {
 			setValuesAndLocalize("Private", "Shared", "Public");
