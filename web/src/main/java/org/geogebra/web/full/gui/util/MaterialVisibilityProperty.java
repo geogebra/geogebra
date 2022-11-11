@@ -6,6 +6,7 @@ import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 public class MaterialVisibilityProperty extends AbstractEnumerableProperty {
 	private MaterialVisibility visibility = MaterialVisibility.Private;
+	private int index;
 
 	/**
 	 * Constructs an AbstractEnumerableProperty
@@ -18,19 +19,21 @@ public class MaterialVisibilityProperty extends AbstractEnumerableProperty {
 
 	@Override
 	public int getIndex() {
-		return visibility.getIndex();
+		return index;
 	}
 
 	@Override
 	protected void setValueSafe(String value, int index) {
+		this.index = index;
+		this.visibility = MaterialVisibility.values()[index];
 	}
 
 	public void update(MaterialVisibility visibility) {
-		this.visibility = visibility;
 		if (visibility == MaterialVisibility.Public) {
 			setValuesAndLocalize("Private", "Shared", "Public");
 		} else {
 			setValuesAndLocalize("Private", "Shared");
 		}
+		setValueSafe("", visibility.getIndex());
 	}
 }
