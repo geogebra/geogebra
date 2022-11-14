@@ -65,14 +65,11 @@ public class DropDownComboBoxController implements SetLabels {
 		}
 	}
 
-	private void highlightSelectedElement(int previousSelectedIndex,
-			int currentSelectedIndex) {
-		if (previousSelectedIndex > -1) {
-			dropDownElementsList.get(previousSelectedIndex)
-					.removeStyleName("selectedDropDownElement");
+	private void highlightSelectedElement(int index, boolean highlight) {
+		if (index >= 0) {
+			dropDownElementsList.get(index)
+					.setStyleName("selectedDropDownElement", highlight);
 		}
-		dropDownElementsList.get(currentSelectedIndex)
-				.addStyleName("selectedDropDownElement");
 	}
 
 	/**
@@ -104,9 +101,8 @@ public class DropDownComboBoxController implements SetLabels {
 	}
 
 	 void setSelectedOption(int idx) {
-		if (dropDown.getSelectedIndex() > -1 && idx > -1) {
-			highlightSelectedElement(dropDown.getSelectedIndex(), idx);
-		}
+		highlightSelectedElement(dropDown.getSelectedIndex(), false);
+		highlightSelectedElement(idx, true);
 		dropDown.setSelectedIndex(idx);
 	}
 
@@ -147,6 +143,9 @@ public class DropDownComboBoxController implements SetLabels {
 	 * @return selected text
 	 */
 	public String getSelectedText() {
+		if (getSelectedIndex() < 0) {
+			return "";
+		}
 		return dropDownElementsList.get(getSelectedIndex()).getText();
 	}
 

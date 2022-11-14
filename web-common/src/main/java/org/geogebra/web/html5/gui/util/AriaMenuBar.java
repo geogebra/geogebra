@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
 /** Accessible alternative to MenuBar */
 public class AriaMenuBar extends FlowPanel {
 	private AriaMenuItem selectedItem;
-	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
-	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
+	private final ArrayList<AriaMenuItem> allItems = new ArrayList<>();
+	private final ArrayList<AriaMenuBar> submenus = new ArrayList<>();
 	private boolean autoOpen;
 	private boolean handleArrows = true;
 	private MenuHoverListener selectListener;

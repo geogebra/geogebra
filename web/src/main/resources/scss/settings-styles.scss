@@ -106,7 +106,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 
 		.checkboxHolder {
-			display: block;
+			display: flex;
+			min-height: 40px;
+			flex-wrap: wrap;
+
+			.dropDown {
+				height: 40px;
+				.optionLabelHolder.noLabel .selectedOption {
+					margin-top: 8px;
+				}
+
+				.arrow {
+					margin-top: 6px;
+				}
+			}
 		}
 
 		.gwt-ToggleButton, .button {

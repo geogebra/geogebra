@@ -166,4 +166,8 @@ public class CompDropDown extends FlowPanel implements SetLabels, IsWidget {
 	public boolean isFullWidth() {
 		return fullWidth;
 	}
+
+	public void setSelectedIndex(int dropdownIndex) {
+		controller.setSelectedOption(dropdownIndex);
+	}
 }
