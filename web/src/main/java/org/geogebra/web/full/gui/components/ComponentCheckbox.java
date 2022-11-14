@@ -69,6 +69,7 @@ public class ComponentCheckbox extends FlowPanel implements SetLabels {
 				if (callback != null) {
 					callback.accept(isSelected());
 				}
+				evt.stopPropagation();
 			}
 		});
 
