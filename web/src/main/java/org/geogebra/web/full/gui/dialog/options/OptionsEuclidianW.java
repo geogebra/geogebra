@@ -157,6 +157,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					app.getLocalization());
 			pointCapturingStyle = new CompDropDown(app, pointCaptProperty);
 			pointCapturingStyle.setChangeHandler(() -> {
+				pointCapturingStyle.updateSelectionText();
 				app.setUnsaved();
 				app.storeUndoInfo();
 			});
@@ -232,7 +233,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					Unicode.PI_STRING, PI_HALF_STRING));
 			ncbGridTickY.setChangeHandler(() -> {
 					model.applyGridTicks(ncbGridTickY.getSelectedText(), 1);
-					ncbGridTickX.updateSelectionText(ncbGridTickX.getSelectedText());
+					ncbGridTickY.updateSelectionText(ncbGridTickY.getSelectedText());
 					updateView();
 			});
 
@@ -242,7 +243,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2"));
 			cbGridTickAngle.setChangeHandler(() -> {
 					model.applyGridTickAngle(cbGridTickAngle.getSelectedText());
-					ncbGridTickX.updateSelectionText(ncbGridTickX.getSelectedText());
+					cbGridTickAngle.updateSelectionText(cbGridTickAngle.getSelectedText());
 					updateView();
 			});
 			
@@ -468,15 +469,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				gridLabel2.setVisible(true);
 				cbGridTickAngle.setVisible(false);
 				gridLabel3.setVisible(false);
-				ncbGridTickX.setValue(String.valueOf(gridTicks[0]));
-				ncbGridTickY.setValue(String.valueOf(gridTicks[1]));
+				ncbGridTickX.setValue(model.gridTickToString(gridTicks[0]));
+				ncbGridTickY.setValue(model.gridTickToString(gridTicks[1]));
 				gridLabel1.setText("x:");
 			} else {
 				ncbGridTickY.setVisible(false);
 				gridLabel2.setVisible(false);
 				cbGridTickAngle.setVisible(true);
 				gridLabel3.setVisible(true);
-				ncbGridTickX.setValue(String.valueOf(gridTicks[0]));
+				ncbGridTickX.setValue(model.gridTickToString(gridTicks[0]));
 				cbGridTickAngle.setValue(model.gridAngleToString());
 				gridLabel1.setText("r:");
 			}

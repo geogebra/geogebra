@@ -486,6 +486,20 @@ public class EuclidianOptionsModel {
 				/ Math.min(360, Math.round(Math.abs(Math.PI / value)));
 	}
 
+	/**
+	 * Change input value.
+	 * @param value - input value
+	 */
+	public String gridTickToString(Double value) {
+		if (DoubleUtil.isEqual(value, Math.PI)) {
+			return Unicode.PI_STRING;
+		}  else if (DoubleUtil.isEqual(value, Kernel.PI_HALF)) {
+			return Unicode.PI_STRING + "/2";
+		} else {
+			return view.getApplication().getKernel().format(value, StringTemplate.defaultTemplate);
+		}
+	}
+
 	public String gridAngleToString() {
 		double val = view.getGridDistances(2) / Math.PI;
 		double[] frac = AlgoFractionText.decimalToFraction(val,
