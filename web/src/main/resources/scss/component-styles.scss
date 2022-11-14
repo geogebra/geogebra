@@ -911,7 +911,6 @@
 	}
 
 	.combobox {
-		margin-top: 40px;
 		width: fit-content;
 		min-width: 64px;
 		height: 50px;
@@ -1011,6 +1010,7 @@
 					cursor: default;
 					color: colors.$black-36;
 					background-color: colors.$white;
+					border: none;
 				}
 			}
 

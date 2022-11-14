@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.components;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -34,9 +35,9 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	 * Constructor
 	 * @param app - see {@link AppW}
 	 * @param label - label of combobox
-	 * @param property - popup items
+	 * @param items - popup items
 	 */
-	public ComponentCombobox(AppW app, String label, EnumerableProperty property) {
+	public ComponentCombobox(AppW app, String label, List<String> items) {
 		appW = app;
 		labelTextKey = label;
 
@@ -44,12 +45,21 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		buildGUI();
 		addHandlers();
 
-		initController(property);
+		initController(items);
 	}
 
-	private void initController(EnumerableProperty property) {
-		controller = new DropDownComboBoxController(appW, this,
-				Arrays.asList(property.getValues()), this::onClose);
+	/**
+	 * Constructor
+	 * @param app - see {@link AppW}
+	 * @param label - label of combobox
+	 * @param property - popup items
+	 */
+	public ComponentCombobox(AppW app, String label, EnumerableProperty property) {
+		this(app, label, Arrays.asList(property.getValues()));
+	}
+
+	private void initController(List<String> items) {
+		controller = new DropDownComboBoxController(appW, this, items, this::onClose);
 		controller.setChangeHandler(() -> updateSelectionText(controller.getSelectedText()));
 		updateSelectionText(controller.getSelectedText());
 	}
@@ -60,6 +70,7 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 
 		inputTextField = new AutoCompleteTextFieldW(-1, appW, false, null, false);
 		inputTextField.addStyleName("textField");
+		inputTextField.addKeyUpHandler((event) -> controller.onInputChange());
 
 		if (labelTextKey != null) {
 			labelText = new FormLabel().setFor(inputTextField);
@@ -148,7 +159,10 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 				.withFill(arrowCol.toString()).getSVG());
 	}
 
-	private void updateSelectionText(String text) {
+	/**
+	 * update selection text
+	 */
+	public void updateSelectionText(String text) {
 		inputTextField.setText(text);
 	}
 
@@ -175,5 +189,29 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 		}
 		controller.setLabels();
 		updateSelectionText(controller.getSelectedText());
+	}
+
+	public void setChangeHandler(Runnable handler) {
+		controller.setChangeHandler(handler);
+	}
+
+	public int getSelectedIndex() {
+		return controller.getSelectedIndex();
+	}
+
+	/**
+	 * @return if nothing selected text input, selected text otherwise
+	 */
+	public String getSelectedText() {
+		return getSelectedIndex() == -1 ? inputTextField.getText() : controller.getSelectedText();
+	}
+
+	/**
+	 * set text field value
+	 * @param value - value
+	 */
+	public void setValue(String value) {
+		controller.setSelectedOption(-1);
+		inputTextField.setValue(value);
 	}
 }
