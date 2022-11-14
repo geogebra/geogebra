@@ -54,7 +54,6 @@ import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ClipboardUtil;
@@ -77,7 +76,6 @@ public class DialogManagerW extends DialogManager
 	private TemplateChooser templateChooser;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog colChooser = null;
-	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
 	private CalculatorSwitcherDialog calcSwitcher;
 
 	/**
@@ -462,7 +460,7 @@ public class DialogManagerW extends DialogManager
 					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
 		} else if (saveDialog == null || isSuite()) {
 			DialogData data = getSaveDialogData();
-			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+			saveDialog = new SaveDialogW((AppW) app, data);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -656,10 +654,6 @@ public class DialogManagerW extends DialogManager
 	public Export3dDialogInterface getExport3dDialog(View view) {
 		DialogData data = new DialogData("DownloadAsStl", "Cancel", "Download");
 		return new Export3dDialog((AppW) app, data, view);
-	}
-
-	public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
-		this.widgetFactory = widgetFactory;
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -15,8 +14,8 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.browser.BrowseResources;
+import org.geogebra.web.full.gui.components.CompDropDown;
 import org.geogebra.web.full.gui.components.ComponentCheckbox;
-import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -32,7 +31,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * Dialog for online saving
@@ -48,29 +46,24 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	private Label titleLabel;
 	private PopupMenuButtonW providerPopup;
 	private FlowPanel visibilityPanel;
-	private ListBox listBox;
+	private CompDropDown visibilityDropDown;
 
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
 	private Localization loc;
-	private BaseWidgetFactory widgetFactory;
 	private ComponentCheckbox templateCheckbox;
+	private MaterialVisibilityProperty visibilityProperty;
+	private MaterialVisibilityController visibilityController;
 
 	/**
 	 * Creates a new GeoGebra save dialog.
-	 * 
-	 * @param app
-	 *            see {@link AppW}
-	 * @param data
-	 *            dialog translation keys
-	 * @param factory
-	 *            widget factory
+	 * @param app see {@link AppW}
+	 * @param data dialog translation keys
 	 */
-	public SaveDialogW(final AppW app, DialogData data, BaseWidgetFactory factory) {
+	public SaveDialogW(final AppW app, DialogData data) {
 		super(app, data, false, true);
-		this.widgetFactory = factory;
 		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
-
+		visibilityController = new MaterialVisibilityController(app.getLoginOperation());
 		buildContent();
 		setActions();
 
@@ -134,9 +127,11 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	private FlowPanel getVisibilityPanel() {
 		visibilityPanel = new FlowPanel();
 		visibilityPanel.addStyleName("visibilityPanel");
-
-		listBox = widgetFactory.newListBox();
-		listBox.addStyleName("visibility");
+		visibilityProperty = new MaterialVisibilityProperty(loc);
+		visibilityDropDown = new CompDropDown((AppW) app, null,
+				visibilityProperty);
+		rebuildVisibilityList();
+		visibilityDropDown.addStyleName("visibility");
 		setAvailableProviders();
 
 		return visibilityPanel;
@@ -182,7 +177,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		providerPopup.getElement().getStyle().setPosition(Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
 		visibilityPanel.add(providerPopup);
-		visibilityPanel.add(listBox);
+		visibilityPanel.add(visibilityDropDown);
 	}
 
 	/**
@@ -201,19 +196,8 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 					? MaterialType.ggsTemplate : MaterialType.ggs);
 		}
 		app.getSaveController().saveAs(title.getText(),
-				getSelectedVisibility(), this);
-	}
-
-	private MaterialVisibility getSelectedVisibility() {
-		switch (listBox.getSelectedIndex()) {
-		case 1:
-			return MaterialVisibility.Shared;
-		case 2:
-			return MaterialVisibility.Public;
-		case 0:
-		default:
-			return MaterialVisibility.Private;
-		}
+				visibilityController.getVisibility(visibilityDropDown.getSelectedIndex()),
+				this);
 	}
 
 	@Override
@@ -232,7 +216,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 					.indexOf(((AppW) app).getFileManager().getFileProvider()));
 		}
 		rebuildVisibilityList();
-		listBox.setVisible(
+		visibilityDropDown.setVisible(
 				((AppW) app).getFileManager().getFileProvider() == Provider.TUBE);
 
 		if (templateCheckbox != null) {
@@ -278,23 +262,9 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 	}
 
 	private void rebuildVisibilityList() {
-		listBox.clear();
-		listBox.addItem(loc.getMenu("Private"));
-		listBox.addItem(loc.getMenu("Shared"));
-		MaterialVisibility currentVisibility = getCurrentVisibility();
-		if (currentVisibility == MaterialVisibility.Public) {
-			listBox.addItem(loc.getMenu("Public"));
-		}
-		listBox.setSelectedIndex(currentVisibility.getIndex());
-	}
-
-	private MaterialVisibility getCurrentVisibility() {
-		Material activeMaterial = ((AppW) app).getActiveMaterial();
-		if (activeMaterial != null
-				&& app.getLoginOperation().owns(activeMaterial)) {
-			return MaterialVisibility.value(activeMaterial.getVisibility());
-		}
-		return MaterialVisibility.Shared;
+		visibilityProperty.update(visibilityController.getMaterialVisibility(
+				app.getActiveMaterial()));
+		visibilityDropDown.setLabels();
 	}
 
 	@Override
@@ -302,7 +272,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		Provider provider = this.supportedProviders.get(actionButton.getSelectedIndex());
 		((AppW) app).getFileManager().setFileProvider(provider);
 
-		listBox.setVisible(provider == Provider.TUBE);
+		visibilityDropDown.setVisible(provider == Provider.TUBE);
 
 		providerPopup.getMyPopup().hide();
 	}

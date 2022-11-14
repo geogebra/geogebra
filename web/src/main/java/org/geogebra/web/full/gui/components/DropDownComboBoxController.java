@@ -66,7 +66,7 @@ public class DropDownComboBoxController implements SetLabels {
 	}
 
 	private void highlightSelectedElement(int index, boolean highlight) {
-		if (index >= 0) {
+		if (index >= 0 && index < dropDownElementsList.size()) {
 			dropDownElementsList.get(index)
 					.setStyleName("selectedDropDownElement", highlight);
 		}
@@ -121,6 +121,7 @@ public class DropDownComboBoxController implements SetLabels {
 	public void setLabels() {
 		if (property != null) {
 			setElements(Arrays.asList(property.getValues()));
+			setSelectedOption(property.getIndex());
 		} else {
 			setElements(items);
 		}
