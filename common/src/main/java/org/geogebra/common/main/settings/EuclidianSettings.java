@@ -956,8 +956,8 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param dimension
-	 *            preferred view size
+	 * @param dimension - preferred view size
+	 * @return true if preffered size changed
 	 */
 	public boolean setPreferredSize(GDimension dimension) {
 		if (!Objects.equals(preferredSize, dimension)) {
