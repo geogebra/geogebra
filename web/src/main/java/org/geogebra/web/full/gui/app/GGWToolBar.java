@@ -326,7 +326,7 @@ public class GGWToolBar extends Composite
 				|| app.getAppletParameters().getDataParamApp()) {
 			initMenuButton();
 
-			if (!exam && app.enableFileFeatures()) {
+			if (!exam && app.enableOnlineFileFeatures()) {
 				initOpenSearchButton();
 			}
 

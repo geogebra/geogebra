@@ -285,7 +285,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private boolean hasLoginButton() {
-		return app.enableFileFeatures();
+		return app.enableOnlineFileFeatures();
 	}
 
 	private void removeUserSignIn() {

@@ -122,7 +122,7 @@ public class OpenFileView extends HeaderFileView
 						.getSafeUri().asString(),
 				localize("mow.offlineMyFiles"));
 		openFileBtn.setAcceptedFileType(".ggs");
-		if (app.enableFileFeatures()) {
+		if (app.enableOnlineFileFeatures()) {
 			buttonPanel.add(openFileBtn);
 		}
 		buttonPanel.add(newFileBtn);
