@@ -2070,12 +2070,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				&& rightStr.charAt(0) == loc.getZero()
 				+ 1)))
 
-				|| rightStr.equals(Unicode.DEGREE_STRING)) {
+				|| rightStr.equals(getDegree())) {
 
 			boolean isMinusOnRight = loc.isMinusOnRight(this);
-
+			String degSymbol = "1".equals(leftStr) ? getDegree() : getDegrees();
 			if (isMinusOnRight) {
-				sb.append(Unicode.DEGREE_STRING);
+				sb.append(degSymbol);
 			}
 
 			if (!left.isLeaf()) {
@@ -2087,7 +2087,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			if (!isMinusOnRight) {
-				sb.append(Unicode.DEGREE_STRING);
+				sb.append(degSymbol);
 			}
 		}
 	}
@@ -3520,6 +3520,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "degree";
 		}
 		return Unicode.DEGREE_STRING;
+	}
+
+	public String getDegrees() {
+		return stringType == StringType.SCREEN_READER_ASCII ? "degrees" : getDegree();
 	}
 
 	/**

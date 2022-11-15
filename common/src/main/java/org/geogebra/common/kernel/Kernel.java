@@ -2257,14 +2257,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				// converted from radians
 				sbFormatAngle.append(
 						format(DoubleUtil.checkDecimalFraction(phi, precision), tpl));
-
 				if (tpl.hasType(StringType.GEOGEBRA_XML)) {
 					sbFormatAngle.append("*");
 				}
-
 				if (!isMinusOnRight) {
 					if (tpl.hasCASType()) {
 						sbFormatAngle.append("*pi/180");
+					} else if (tpl.isScreenReader()) {
+						boolean singular = "1".equals(sbFormatAngle.toString());
+						sbFormatAngle.append(' ').append(singular
+								? tpl.getDegree() : tpl.getDegrees());
 					} else {
 						sbFormatAngle.append(Unicode.DEGREE_CHAR);
 					}

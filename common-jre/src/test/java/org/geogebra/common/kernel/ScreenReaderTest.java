@@ -84,4 +84,10 @@ public class ScreenReaderTest {
 		tsc("1/2", "0.5");
 		tsc("1+1/2", "start fraction 3 over 2 end fraction");
 	}
+
+	@Test
+	public void testDegree() {
+		tsc("x + pi deg", "x plus pi degrees");
+		tsc("pi deg", "pi degrees");
+	}
 }
