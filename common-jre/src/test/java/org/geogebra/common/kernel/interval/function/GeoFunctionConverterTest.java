@@ -4,7 +4,9 @@ import static org.geogebra.common.kernel.interval.IntervalConstants.one;
 import static org.geogebra.common.kernel.interval.IntervalConstants.pi;
 import static org.geogebra.common.kernel.interval.IntervalConstants.piHalf;
 import static org.geogebra.common.kernel.interval.IntervalConstants.undefined;
+import static org.geogebra.common.kernel.interval.IntervalConstants.whole;
 import static org.geogebra.common.kernel.interval.IntervalConstants.zero;
+import static org.geogebra.common.kernel.interval.IntervalHelper.around;
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -77,6 +79,12 @@ public class GeoFunctionConverterTest extends BaseUnitTest {
 		IntervalNodeFunction function = convert("1/x");
 		assertEquals(one(), function.value(one()));
 		assertEquals(new Interval(0.5), function.value(new Interval(2)));
+	}
+
+	@Test
+	public void testConvertTanSquaredXInverse() {
+		IntervalNodeFunction function = convert("1/(tan^(2)(x))");
+		assertEquals(whole(), function.value(around(Math.PI / 2, 1E-7)));
 	}
 
 	@Test
