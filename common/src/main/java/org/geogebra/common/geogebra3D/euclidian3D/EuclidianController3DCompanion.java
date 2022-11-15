@@ -63,7 +63,7 @@ public class EuclidianController3DCompanion
 	}
 
 	@Override
-	public void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(AbstractEvent event) {
 
 		// Application.debug("movePointMode="+movePointMode);
 		if (ec.movedGeoPoint instanceof GeoPoint3D) {
@@ -133,13 +133,7 @@ public class EuclidianController3DCompanion
 					.setCoords(movedGeoPoint3D.getCoords(), false);
 			ec3D.view3D.updateMatrixForCursor3D();
 
-			if (repaint) {
-				movedGeoPoint3D.updateRepaint(); // for highlighting in
-												// algebraView
-			} else {
-				movedGeoPoint3D.updateCascade(); // TODO modify
-												// movedGeoPoint3D.updateCascade()
-			}
+			movedGeoPoint3D.updateCascade(); // repaint always called after this
 
 			// update previewable
 			if (ec.getView().getPreviewDrawable() != null) {
@@ -161,7 +155,7 @@ public class EuclidianController3DCompanion
 			checkPointCapturingXY(tmpCoords2);
 
 			ec.setRwCoords(tmpCoords2);
-			super.movePoint(repaint, ec3D.mouseEvent);
+			super.movePoint(ec3D.mouseEvent);
 
 			ec3D.view3D.getCursor3D()
 					.setCoords(ec.movedGeoPoint.getCoordsInD3(), false);

@@ -3,8 +3,6 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
@@ -68,7 +66,7 @@ public class MoveGeos {
 			final Coords position = (size == 1)
 					&& (geo.getParentAlgorithm() != null) ? endPosition : null;
 			moved = moveObject(geo, rwTransVec, position, viewDirection,
-					moveObjectsUpdateList, view) || moved;
+					view) || moved;
 		}
 
 		// take all independent input objects and build a common updateSet
@@ -127,19 +125,19 @@ public class MoveGeos {
 	 */
 	private static boolean moveObject(GeoElement geo1, final Coords rwTransVec,
 			final Coords endPosition, final Coords viewDirection,
-			final @Nonnull ArrayList<GeoElement> updateGeos, EuclidianView view) {
+			EuclidianView view) {
 		boolean movedGeo;
 
 		if (geo1.isMoveable()) {
 			movedGeo = moveMoveableGeo(geo1, rwTransVec, endPosition,
-					updateGeos, view);
+					view);
 		} else if (geo1.isGeoList()) {
 			((GeoList) geo1).elements().forEach(el -> moveMoveableGeo(el, rwTransVec, null,
-					updateGeos, view));
-			updateGeos.add(geo1);
+					view));
+			moveObjectsUpdateList.add(geo1);
 			movedGeo = true;
 		} else if (isOutputOfTranslate(geo1)) {
-			movedGeo = moveTranslateOutput(geo1, rwTransVec, endPosition, updateGeos);
+			movedGeo = moveTranslateOutput(geo1, rwTransVec, endPosition, moveObjectsUpdateList);
 		} else {
 			ArrayList<GeoElement> tempMoveObjectList = geo1.kernel
 					.getApplication().getSelectionManager()
@@ -147,11 +145,11 @@ public class MoveGeos {
 
 			if (geo1.hasChangeableParent3D()) {
 				movedGeo = geo1.getChangeableParent3D().move(rwTransVec,
-						endPosition, viewDirection, updateGeos,
+						endPosition, viewDirection, moveObjectsUpdateList,
 						tempMoveObjectList, view);
 			} else {
 				movedGeo = geo1.moveFromChangeableCoordParentNumbers(rwTransVec,
-						endPosition, updateGeos, tempMoveObjectList);
+						endPosition, moveObjectsUpdateList, tempMoveObjectList);
 			}
 		}
 
@@ -188,12 +186,12 @@ public class MoveGeos {
 	}
 
 	private static boolean moveMoveableGeo(GeoElement geo1, final Coords rwTransVec,
-			final Coords endPosition,
-			final @Nonnull ArrayList<GeoElement> updateGeos, EuclidianView view) {
+			final Coords endPosition, EuclidianView view) {
 		if (geo1.isLockedPosition()) {
 			return false;
 		}
 		boolean movedGeo = false;
+		boolean changedPosition = false;
 		GeoElement geo = geo1;
 		// point
 		if (geo1.isGeoPoint()) {
@@ -227,13 +225,17 @@ public class MoveGeos {
 			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.kernel.geos.GeoElement&tm=moveObject&nid&an&c&s=new_status_desc
 			if (drawable != null) {
 				screenLoc.setAbsoluteScreenLoc(x, y);
-				movedGeo = true;
+				changedPosition = true;
+				movedGeo = screenLoc.needsUpdatedBoundingBox();
 			}
 		}
 		// translateable
 		else if (geo1.isTranslateable()) {
 			final Translateable trans = (Translateable) geo1;
 			trans.translate(rwTransVec);
+			if (geo1.isGeoImage()) {
+				changedPosition = true;
+			}
 			movedGeo = true;
 		}
 
@@ -246,7 +248,7 @@ public class MoveGeos {
 								+ rwTransVec.getX(),
 						((GeoNumeric) geo).getRealWorldLocY()
 								+ rwTransVec.getY());
-				movedGeo = true;
+				changedPosition = true;
 			}
 		} else if (geo1.isGeoText()) {
 			// check for GeoText with unlabeled start point
@@ -257,15 +259,19 @@ public class MoveGeos {
 						.getStartPoint();
 				if (locPoint != null) {
 					locPoint.translate(rwTransVec);
-					movedGeo = true;
+					changedPosition = true;
+					movedGeo = movedGeoText.needsUpdatedBoundingBox();
 				}
 			}
 		}
 
 		if (movedGeo) {
-			updateGeos.add(geo);
+			moveObjectsUpdateList.add(geo);
 		}
-		return movedGeo;
+		if (changedPosition) {
+			geo.updateVisualStyleRepaint(GProperty.POSITION);
+		}
+		return movedGeo || changedPosition;
 	}
 
 	private static boolean isOutputOfTranslate(GeoElement geo1) {

@@ -57,7 +57,7 @@ public class EuclidianControllerForPlaneCompanion
 	}
 
 	@Override
-	public void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(AbstractEvent event) {
 
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 
@@ -70,11 +70,7 @@ public class EuclidianControllerForPlaneCompanion
 		}
 
 		ec.movedGeoPoint.setCoords(coords, true);
-		((GeoElement) ec.movedGeoPoint).updateCascade();
-
-		if (repaint) {
-			ec.getKernel().notifyRepaint();
-		}
+		ec.movedGeoPoint.updateCascade();
 	}
 
 	@Override

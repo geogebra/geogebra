@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.MyImage;
@@ -1154,17 +1153,6 @@ public class GeoImage extends GeoElement implements Locateable,
 			}
 			corners[i].setCoords(vec);
 		}
-
-	}
-
-	/**
-	 * Clears the image
-	 */
-	public void clearFillImage() {
-		this.getGraphicsAdapter()
-				.setImageOnly(AwtFactory.getPrototype().newMyImage(pixelWidth,
-						pixelHeight, GBufferedImage.TYPE_INT_ARGB));
-		this.updateRepaint();
 
 	}
 

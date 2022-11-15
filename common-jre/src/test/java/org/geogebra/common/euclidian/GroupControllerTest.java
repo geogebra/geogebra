@@ -31,10 +31,8 @@ public class GroupControllerTest extends BaseControllerTest {
 	}
 
 	private List<GeoElement> prepareGroupedGeos() {
-		add("p=Polygon((0,0), (0,-3), (3, -3), (3, 0))");
-		add("q=Polygon((4,0), (4,-3), (7, -3), (7, 0))");
-		GeoElement p = lookup("p");
-		GeoElement q = lookup("q");
+		GeoElement p = add("p=Polygon((0,0), (0,-3), (3, -3), (3, 0))");
+		GeoElement q = add("q=Polygon((4,0), (4,-3), (7, -3), (7, 0))");
 		List<GeoElement> list = Arrays.asList(p, q);
 		getApp().getKernel().getConstruction().createGroup(new ArrayList<>(list));
 		return list;
