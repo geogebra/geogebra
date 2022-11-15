@@ -4056,13 +4056,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			g2.draw(tempLine);
 
 			// radial lines
-			for (double a = angleStep; a < Math.PI; a = a + angleStep) {
-
-				if (Math.abs(a - (Math.PI / 2)) < 0.0001) {
+			for (int idx = 1; idx * angleStep < Math.PI; idx ++) {
+				double angle = idx * angleStep;
+				if (Math.abs(angle - (Math.PI / 2)) < 0.0001) {
 					// vertical axis
 					tempLine.setLine(getXZero(), 0, getXZero(), getHeight());
 				} else {
-					m = Math.tan(a);
+					m = Math.tan(angle);
 					y1 = (m * (getXZero())) + getYZero();
 					y2 = (m * (getXZero() - getWidth())) + getYZero();
 					tempLine.setLine(0, y1, getWidth(), y2);

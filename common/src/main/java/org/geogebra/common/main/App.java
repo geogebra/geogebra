@@ -2662,6 +2662,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		useFullGui = true;
 	}
 
+	@Override
+	public boolean isUsingFullGui() {
+		return useFullGui;
+	}
+
 	/**
 	 * @return where to show the inputBar (respective inputBox)
 	 */

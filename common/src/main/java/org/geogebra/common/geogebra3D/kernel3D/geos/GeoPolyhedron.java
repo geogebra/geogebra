@@ -1455,9 +1455,7 @@ public class GeoPolyhedron extends GeoElement3D
 
 			// init copy points list
 			if (copyPoints == null) {
-				if (pointIdComparator == null) {
-					pointIdComparator = Comparator.comparingLong(GeoElementND::getID);
-				}
+				initComparator();
 				copyPoints = new TreeMap<>(
 						pointIdComparator);
 			}
@@ -1508,6 +1506,12 @@ public class GeoPolyhedron extends GeoElement3D
 				updatePolygonsAndSegmentsAlgos();
 			}
 
+		}
+	}
+
+	private static void initComparator() {
+		if (pointIdComparator == null) {
+			pointIdComparator = Comparator.comparingLong(GeoElementND::getID);
 		}
 	}
 

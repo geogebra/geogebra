@@ -274,15 +274,15 @@ public class MyList extends ValidExpression
 		if (right && operation == Operation.POWER
 				&& value instanceof NumberValue && isMatrix()) {
 
-			double power = value.evaluateDouble();
+			double powerD = value.evaluateDouble();
 			// Application.debug("matrix ^ "+power);
 
-			if (!DoubleUtil.isInteger(power)) {
+			if (!DoubleUtil.isInteger(powerD)) {
 				listElements.clear();
 				return;
 			}
 
-			power = Math.round(power);
+			int power = (int) Math.round(powerD);
 
 			if (power == 0) {
 				setIdentityMatrix();
