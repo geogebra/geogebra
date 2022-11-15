@@ -821,8 +821,7 @@ public class Function extends FunctionNVar
 			ValidExpression en = kernel.getParser().parseGiac(str);
 			en.resolveVariables(new EvalInfo(false));
 			if (!(en instanceof ExpressionNode)
-				|| (en instanceof ExpressionNode
-					&& ((ExpressionNode) en).containsFreeFunctionVariable(null))) {
+				|| ((ExpressionNode) en).containsFreeFunctionVariable(null)) {
 				return null;
 			}
 			return (ExpressionNode) en;

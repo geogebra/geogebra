@@ -88,4 +88,14 @@ public class DrawableList extends ArrayList<Drawable> {
 	public void sort() {
 		Collections.sort(this, comparator);
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		return super.equals(other);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

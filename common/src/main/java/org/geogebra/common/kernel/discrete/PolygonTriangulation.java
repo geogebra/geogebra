@@ -620,6 +620,16 @@ public class PolygonTriangulation {
 			return get(i);
 		}
 
+		@Override
+		public boolean equals(Object other) {
+			return super.equals(other);
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
+		}
+
 	}
 
 	private static class PolygonPoints extends TreeSet<Point> {
