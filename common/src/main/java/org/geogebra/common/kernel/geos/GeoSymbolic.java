@@ -1083,16 +1083,4 @@ public class GeoSymbolic extends GeoElement
 		return unwrapped instanceof ListValue || (unwrapped instanceof GeoSymbolic
 				&& ((GeoSymbolic) unwrapped).unwrapSymbolic().isGeoList()) ;
 	}
-
-
-	/**
-	 * @return both numeric and symbolic values are defined
-	 */
-	public boolean isBothDefined() {
-		boolean original = SymbolicUtil.isValueDefined(this);
-		setSymbolicMode(!isSymbolicMode(), false);
-		boolean other = SymbolicUtil.toggleSymbolic(this);
-		setSymbolicMode(!isSymbolicMode(), false);
-		return original && other;
-	}
 }
