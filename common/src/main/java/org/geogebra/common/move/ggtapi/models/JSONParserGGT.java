@@ -80,15 +80,25 @@ public class JSONParserGGT {
 		}
 
 		material.setVisibility(getString(obj, "visibility"));
-		material.setMultiuser(getStringBoolean(obj, "multiuser", false));
-		material.setSharedWithGroup(getStringBoolean(obj, "shared_with_group", false));
+		material.setMultiuser(getBoolean(obj, "multiuser", false)); // MOW
+		material.setSharedWithGroup(getBoolean(obj, "shared_with_group", false)); // MOW
 		material.setFileName(getString(obj, "fileUrl"));
+
 		material.setSharingKey(sharingKey);
 		material.setURL(getString(obj, "url"));
-		String thumbUrl = getString(obj, "thumbUrl");
-		material.setThumbnailUrl(
-				StringUtil.empty(thumbUrl) ? getString(obj, "thumbnail")
-						: thumbUrl.replace("$1", ""));
+		material.setPreviewURL(obj.optString("previewUrl"));
+		String thumbnail = obj.optString("thumbnail");
+		if (thumbnail != null && thumbnail.startsWith("data:image/png;base64,")) {
+			material.setThumbnailBase64(thumbnail);
+		} else {
+			String thumbUrl = getString(obj, "thumbUrl").replace("$1", "");
+			if (thumbUrl.startsWith("http://") || thumbUrl.startsWith("https://")) {
+				material.setThumbnailUrl(thumbUrl);
+			} else {
+				thumbnail = obj.optString("thumbnail");
+				material.setThumbnailUrl(thumbnail);
+			}
+		}
 		material.setLanguage(getString(obj, "language"));
 
 		material.setBase64(getString(obj, "ggbBase64"));
