@@ -483,7 +483,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		vec1.set(vec2);
 		assertThat(inputBox.getTextForEditor(), equalTo("{{sqrt(3)}, {3 / 2}}"));
 		addAvInput("SetValue(u,?)");
-		assertThat(inputBox.getTextForEditor(), equalTo("{{?}, {?}}"));
+		assertThat(inputBox.getTextForEditor(), equalTo("{{}, {}}"));
 	}
 
 	@Test

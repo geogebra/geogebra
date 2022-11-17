@@ -175,9 +175,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return "";
 		}
 
-		return linkedGeo.hasSpecialEditor()
+		return shouldQuestionMarkBeErased()
 				? linkedGeoText.replace("?", "")
 				: linkedGeoText;
+	}
+
+	private boolean shouldQuestionMarkBeErased() {
+		return linkedGeo.hasSpecialEditor() || (linkedGeo.isGeoPoint());
 	}
 
 	/**
