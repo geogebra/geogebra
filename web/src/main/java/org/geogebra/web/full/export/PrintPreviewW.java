@@ -30,9 +30,9 @@ public class PrintPreviewW extends ComponentDialog {
 	private CompDropDown viewDropDown;
 	private FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
-	private Localization loc;
-	private List<String> keys = new ArrayList<>();
-	private List<Integer> indices = new ArrayList<>();
+	private final Localization loc;
+	private final List<String> keys = new ArrayList<>();
+	private final List<Integer> indices = new ArrayList<>();
 
 	/**
 	 * @param app application
@@ -101,13 +101,8 @@ public class PrintPreviewW extends ComponentDialog {
 		if (focusedPanel == null) {
 			return 0;
 		} else {
-			String id = String.valueOf(focusedPanel.getViewId());
-			int index = indices.size() - 1;
-			while (!indices.get(index).equals(id) && index != 0) {
-				index--;
-			}
-
-			return index;
+			int id = focusedPanel.getViewId();
+			return indices.lastIndexOf(id);
 		}
 	}
 

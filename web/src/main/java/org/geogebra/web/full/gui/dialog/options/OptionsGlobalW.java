@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.menubar.OptionsMenu;
-import org.geogebra.common.main.App;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
@@ -28,7 +26,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	 * application
 	 */
 	AppW app;
-	private GlobalTab globalTab;
+	private final GlobalTab globalTab;
 	/**
 	 * tabs (for now only global)
 	 */
@@ -53,13 +51,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 		private FlowPanel saveRestoreRow;
-		private OptionsMenu optionsMenu;
 
 		/**
 		 * constructor
 		 */
 		protected GlobalTab() {
-			optionsMenu = new OptionsMenu(app.getLocalization());
 			createGUI();
 			updateGUI();
 			setStyleName("propertiesTab");
@@ -93,7 +89,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 		private void addLabelingItem() {
 			EnumerableProperty property = new LabelingProperty(app.getLocalization(),
-					((App) app).getSettings().getLabelSettings());
+					app.getSettings().getLabelSettings());
 			labelingDropDown = new CompDropDown(app, null, property);
 			lblLabeling = new FormLabel(
 					app.getLocalization().getMenu("Labeling") + ":")
@@ -106,8 +102,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		private void addFontItem() {
 			EnumerableProperty fontSizeProperty = new FontSizeProperty(
 					app.getLocalization(),
-					((App) app).getSettings().getFontSettings(),
-					((App) app).getSettingsUpdater().getFontSettingsUpdater());
+					app.getSettings().getFontSettings(),
+					app.getSettingsUpdater().getFontSettingsUpdater());
 			fontSizeDropDown = new CompDropDown(app, null, fontSizeProperty);
 			lblFontSize = new FormLabel(
 					app.getLocalization().getMenu("FontSize") + ":")
@@ -231,33 +227,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			restoreSettingsBtn
 					.setText(app.getLocalization().getMenu("RestoreSettings"));
 		}
-	}
-
-	/**
-	 * @param localeStr
-	 *            selected language
-	 * @param app
-	 *            see {@link AppW}{
-	 */
-	public static void switchLanguage(String localeStr, AppW app) {
-		app.getLAF().storeLanguage(localeStr);
-		if (app.getLoginOperation().isLoggedIn()) {
-			app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(
-					localeStr,
-					app.getLoginOperation().getModel().getLoginToken());
-		}
-		app.setUnsaved();
-		// On changing language from LTR/RTL the page will
-		// reload.
-		// The current workspace will be saved, and load
-		// back after page reloading.
-		// Otherwise only the language will change, and the
-		// setting related with language.
-
-		// TODO change direction if Localization
-		// .rightToLeftReadingOrder(current.localeGWT) !=
-		// app.getLocalization().rightToLeftReadingOrder
-		app.setLanguage(localeStr);
 	}
 
 	/**
