@@ -1,18 +1,22 @@
 package org.geogebra.web.full.gui.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class MaterialVisibilityControllerTest {
-	private final LogInOperationMock loginOperation = new LogInOperationMock();
+	private final LogInOperation loginOperation = Mockito.mock(LogInOperation.class);
 	private final MaterialVisibilityController controller
 			= new MaterialVisibilityController(loginOperation);
 
 	@Test
 	public void testForeignMaterialVisibility() {
+		when(loginOperation.owns(Mockito.any())).thenReturn(false);
 		assertEquals(MaterialVisibility.Shared,
 				controller.getMaterialVisibility(newMaterial("")));
 		assertEquals(MaterialVisibility.Shared,
@@ -23,7 +27,7 @@ public class MaterialVisibilityControllerTest {
 
 	@Test
 	public void testOwnMaterialVisibility() {
-		loginOperation.setOwns();
+		when(loginOperation.owns(Mockito.any())).thenReturn(true);
 		assertEquals(MaterialVisibility.Private,
 				controller.getMaterialVisibility(newMaterial("")));
 		assertEquals(MaterialVisibility.Shared,
