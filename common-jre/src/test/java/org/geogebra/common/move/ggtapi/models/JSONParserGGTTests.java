@@ -3,7 +3,6 @@ package org.geogebra.common.move.ggtapi.models;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
@@ -36,7 +35,8 @@ public class JSONParserGGTTests {
 		assertEquals("O", material.getVisibility());
 		assertEquals("https://ggbm.at/PB9Npbe7", material.getURL());
 		assertEquals("https://cdn.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.png", material.getPreviewURL());
-		assertNotNull(material.getThumbnail()); // for Tube API, this is the base64-encoded thumbnail image
+		// for Tube API, this is the base64-encoded thumbnail image
+		assertNotNull(material.getThumbnail());
 		assertTrue(material.thumbnailIsBase64());
 		assertFalse(material.hasCas());
 		assertTrue(material.has3d());
@@ -68,7 +68,7 @@ public class JSONParserGGTTests {
 		assertTrue(Material.MaterialType.ws == material.getType());
 		assertEquals("Empty", material.getTitle());
 		assertEquals(material.getVisibility(), "S");
-		assertNull(material.getThumbnail());
+		assertEquals("", material.getThumbnail());
 	}
 
 	// Sample response: GET https://api.geogebra.org/v1.0/materials/PB9Npbe7

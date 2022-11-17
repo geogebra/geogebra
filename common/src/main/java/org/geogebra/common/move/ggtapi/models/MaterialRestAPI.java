@@ -670,6 +670,7 @@ public class MaterialRestAPI implements BackendAPI {
 						JSONObject jsonObject = elements.getJSONObject(i);
 						if ("G".equals(jsonObject.optString("type"))) {
 							Material mat = new Material(parent);
+							mat.setType(MaterialType.ggb);
 							mat.setThumbnailUrl(jsonObject.getString("thumbUrl"));
 							mat.setFileName(jsonObject.getString("url"));
 							materials.add(mat);

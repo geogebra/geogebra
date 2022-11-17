@@ -105,6 +105,10 @@ public class JSONParserGGT {
 		material.setDeleted(getStringBoolean(obj, "deleted", false));
 		material.setFromAnotherDevice(
 				getStringBoolean(obj, "from_another_device", false));
+		JSONObject settings = obj.optJSONObject("settings");
+		if (settings != null) {
+			copySettings(settings, material);
+		}
 		JSONObject views = obj.optJSONObject("views");
 		if (views != null) {
 			copyViews(views, material);
