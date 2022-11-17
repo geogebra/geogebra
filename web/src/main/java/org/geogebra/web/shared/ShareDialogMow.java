@@ -234,7 +234,7 @@ public class ShareDialogMow extends ComponentDialog
 		if (shareURL != null && !shareURL.isEmpty()) {
 			buildLinkPanel(shareByLinkPanel, shareURL);
 		}
-		dialogContent.add(shareByLinkPanel);
+		//dialogContent.add(shareByLinkPanel);
 
 		return shareByLinkPanel;
 	}
