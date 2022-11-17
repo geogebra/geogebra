@@ -7,9 +7,13 @@ import org.junit.Test;
 public class MathFormulaConverterTest {
 	public static final String END_PMATRIX = " \\end{pmatrix}";
 	public static final String BEGIN_PMATRIX = "\\begin{pmatrix} ";
-	private final static String PLACEHOLDER
-			= "{{\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}}}";
+	public static final String GREY_BOX =
+			"\\bgcolor{#dcdcdc}\\scalebox{1}[1.6]{\\phantom{g}}";
+	private final static String PLACEHOLDER1
+			= "{" + GREY_BOX + "}";
+	private final static String PLACEHOLDER = "{" + PLACEHOLDER1 + "}";
 	private final MathFormulaConverter converter = new MathFormulaConverter();
+
 	@Test
 	public void testConvertColumnVector() {
 		assertEquals(BEGIN_PMATRIX + "1 \\\\ 2" + END_PMATRIX,
@@ -53,6 +57,6 @@ public class MathFormulaConverterTest {
 
 	@Test
 	public void testConvertEmptyPoint() {
-		assertEquals("\\left(" + PLACEHOLDER
-				+ "," + PLACEHOLDER + " \\right)", converter.convert("(,)") );	}
+		assertEquals("\\left({" + PLACEHOLDER1
+				+ "," + PLACEHOLDER1 + "}\\right)", converter.convert("(,)") );	}
 }

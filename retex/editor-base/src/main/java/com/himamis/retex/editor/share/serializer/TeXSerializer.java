@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.serializer;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -400,6 +401,11 @@ public class TeXSerializer extends SerializerAdapter {
 				.append("}")
 				.append(placeholder.getContent())
 				.append("}");
+	}
+
+	@Override
+	void serialize(MathCharPlaceholder placeholder, StringBuilder stringBuilder) {
+		stringBuilder.append(PLACEHOLDER);
 	}
 
 	private static int letterLength(MathSequence symbol, int i) {
