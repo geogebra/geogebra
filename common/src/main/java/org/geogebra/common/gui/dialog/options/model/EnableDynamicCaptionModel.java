@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
@@ -32,6 +33,11 @@ public class EnableDynamicCaptionModel extends BooleanOptionModel {
 			asGeoText.removeDynamicCaption();
 		}
 
-		asGeoText.updateRepaint();
+		asGeoText.updateVisualStyleRepaint(GProperty.CAPTION);
+	}
+
+	@Override
+	public String getTitle() {
+		return "UseTextAsCaption";
 	}
 }

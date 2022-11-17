@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.gwtutil.NavigatorUtil;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -43,6 +44,7 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		if (NavigatorUtil.isMobile()) {
 			focusTextarea.setDisabled(true);
 			this.disabledTextarea = true;
+			focusTextarea.getStyle().setDisplay(Style.Display.NONE);
 			getContainerElement().setTabIndex(1);
 		}
 

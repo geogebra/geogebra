@@ -6,11 +6,12 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 
 public class TestEvent extends AbstractEvent {
 
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 	private String command;
 	private String[] inputs;
 	private PointerEventType type;
+	private boolean rightClick;
 
 	/**
 	 * @param x
@@ -19,7 +20,7 @@ public class TestEvent extends AbstractEvent {
 	 *            screen y-coord
 	 */
 	public TestEvent(int x, int y) {
-		this(x, y, null);
+		this(x, y, null, false);
 	}
 
 	/**
@@ -27,10 +28,11 @@ public class TestEvent extends AbstractEvent {
 	 * @param y screen y-coord
 	 * @param type event type
 	 */
-	public TestEvent(int x, int y, PointerEventType type) {
+	public TestEvent(int x, int y, PointerEventType type, boolean rightClick) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
+		this.rightClick = rightClick;
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class TestEvent extends AbstractEvent {
 
 	@Override
 	public boolean isRightClick() {
-		return false;
+		return rightClick;
 	}
 
 	@Override

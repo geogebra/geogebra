@@ -36,8 +36,8 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
     }
 
     @Override
-    public GTextLayout newTextLayout(String string, GFont fontLine, GFontRenderContext frc) {
-		return new TextLayoutCommon();
+    public GTextLayout newTextLayout(String string, GFont font, GFontRenderContext frc) {
+		return new TextLayoutCommon(font, string);
     }
 
     @Override

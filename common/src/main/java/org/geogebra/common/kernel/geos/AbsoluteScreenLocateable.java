@@ -95,4 +95,11 @@ public interface AbsoluteScreenLocateable extends GeoElementND {
 	public int getTotalWidth(EuclidianViewInterfaceCommon view);
 
 	boolean isFurniture();
+
+	/**
+	 * @return tue if bounding box / corners need recomputing
+	 */
+	default boolean needsUpdatedBoundingBox() {
+		return false;
+	}
 }

@@ -533,12 +533,10 @@ public class EuclidianControllerCompanion {
 	}
 
 	/**
-	 * @param repaint
-	 *            whether to repaint afterwards
 	 * @param event
 	 *            mouse move event
 	 */
-	public void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(AbstractEvent event) {
 		Coords oldCoords = ec.movedGeoPoint.getCoordsInD3();
 		ec.movedGeoPoint.setCoords(DoubleUtil.checkDecimalFraction(ec.xRW),
 				DoubleUtil.checkDecimalFraction(ec.yRW), 1.0);
@@ -586,10 +584,6 @@ public class EuclidianControllerCompanion {
 
 		if (!oldCoords.isEqual(ec.movedGeoPoint.getCoordsInD3())) {
 			ec.movedGeoPoint.updateCascade();
-		}
-
-		if (repaint) {
-			ec.kernel.notifyRepaint();
 		}
 	}
 

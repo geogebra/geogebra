@@ -93,9 +93,9 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	private void onDelete() {
 		hide();
 		boolean oneSlide = app.getPageController().getSlideCount() == 1;
-		app.dispatchEvent(new Event(oneSlide ? EventType.CLEAR_SLIDE
-				: EventType.REMOVE_SLIDE, null,
-				card.getPageIndex() + ""));
+		app.dispatchEvent(new Event(oneSlide ? EventType.CLEAR_PAGE
+				: EventType.REMOVE_PAGE, null,
+				card.getID()));
 		frame.getPageControlPanel().removePage(card.getPageIndex());
 	}
 
@@ -106,7 +106,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 		hide();
 		String url = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
 		DomGlobal.fetch(url).then(Response::text).then(text -> {
-			app.dispatchEvent(new Event(EventType.PASTE_SLIDE)
+			app.dispatchEvent(new Event(EventType.PASTE_PAGE)
 					.setJsonArgument(getPasteJson(text)));
 			frame.getPageControlPanel().pastePage(card, text);
 			return null;

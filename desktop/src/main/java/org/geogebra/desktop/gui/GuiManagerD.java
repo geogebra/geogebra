@@ -11,14 +11,17 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -1196,7 +1199,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				fileName = "clipboard.png"; // extension determines what format
 				// it will be in ggb file
 
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				getApp().setDefaultCursor();
 				e.printStackTrace();
 				getApp().showError(Errors.PasteImageFailed);
@@ -1303,7 +1306,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException | IOException | UnsupportedFlavorException
+				| URISyntaxException | ClassNotFoundException e) {
 			getApp().setDefaultCursor();
 			e.printStackTrace();
 			return null;

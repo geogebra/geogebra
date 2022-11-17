@@ -272,7 +272,6 @@ var __giac = [
 { cat:"SolveIneq", cmd:"Solve[abs(x)<9]", result:"{-9 < x < 9}" },
 { cat:"SolveTrig", cmd:"Solve[sin(x)=0]", result:"{x = n_0 \u03C0}", notes:"why n_4?" },
 { cat:"SolveTrig", cmd:"Solve[sin(x)=3]", result:"{}" },
-{ cat:"SolveTrig", cmd:"Element(Solve({a_{r} ^(2) - a_{y} ^(2) - 25 = 0, - a_{r} * cos(a_{t}) + 5 = 0, - a_{r} * sin(a_{t}) + a_{y} = 0, b_{r} ^(2) - b_{y} ^(2) - 25 = 0, - b_{r} * sin(b_{t}) + b_{y} = 0, a_{y} - b_{y} = 0},{a_{y}, a_{r}, a_{t}, b_{y}, b_{r}, b_{t}}),1)", result:"{a_{y} = 0, a_{r} = 5, a_{t} = 0, b_{y} = 0, b_{r} = -5, b_{t} = 0}|OR|{a_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5))),a_{r}=a_{r},a_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5)),b_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))),b_{r}=a_{r},b_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))}"},
 { cat:"SolveODE", cmd:"SolveODE[y'=y / x]", result:"y = c_0 x", notes:"why c_0?" },
 { cat:"SolveODE", cmd:"SolveODE[y'=y / x, (1,2)]", result:"y = 2 x" },
 { cat:"SolveODE", cmd:"SolveODE[y''-3y'+2=x, (1,2), (0,2)]", result:"y = -1 / 6 x\u00B2 + 5 / 9 x - 13 / 27 \u212f\u00B3 + 13 / 27 \u212f^(3x) + 29 / 18|OR|y = -1 / 6 x\u00B2 + 5 / 9 x + 13 / 27 \u212f^(3x) - 13 / 27 \u212f\u00B3 + 29 / 18" },
@@ -2380,9 +2379,10 @@ var __giac = [
 { cat:"SolveLambertIneq", cmd:"Numeric(Solve((exp(x))/((ln(abs(x)))-(x)) > 0))", round:"{x < -0.57}", result:"{x < -0.5671432904098}" },
 { cat:"SolveLambertIneq", cmd:"Solve(((exp(x))/((ln(abs(x)))-(1)))-(x) > 0)", result:"{-\u212F > x, -2.646418737172 < x < -0.3427863511275, x > \u212F}|OR|{-\u212F > x, -2.65 < x < -0.34, x > \u212F}|OR|{x < -\u212F, -2.65 < x < -0.34, x > \u212F}" },
 { cat:"SolveLambertIneq", cmd:"Solve(((exp(x))/((ln(abs(x)))-(1)))-((x)^(2)) > 0)", result:"{-2.741692742425 < x < -2.718281828459, x > \u212F}", round:"{-2.74 < x < -2.72, x > \u212F}" },
-{ cat:"SolveLambertIneq", cmd:"Solve((x-0.14) (3x+4.71)(exp(3x-4))/(ln(abs(2x))-1)-0.01x^(2)+0.1 > 0)", result:"{0 \u2264 x < 0.43, -3.16 < x < -1.36, -1 / 2 \u212F < x \u2264 0, x > 1 / 2 \u212F}|OR|{0 \u2264 x < 0.43, -3.16 < x < -1.36, -\u212F / 2 < x \u2264 0, x > \u212F / 2}|OR|{x = -1.36, x = 0.43, 0 ≤ x < 0.43, -3.16 < x < -1.36, -ℯ / 2 < x ≤ 0, x > ℯ / 2}|OR|{-3.16 < x < -1.36, -ℯ / 2 < x ≤ 0, 0 ≤ x < 0.43, x = -1.36, x = 0.43, x > ℯ / 2}|OR|{-3.16 < x < -1.36, (-ℯ) / 2 < x ≤ 0, 0 ≤ x < 0.43, x = -1.36, x = 0.43, x > ℯ / 2}|OR|{x = -1.36, x = 0.43, 0 ≤ x < 0.43, -3.16 < x < -1.36, (-ℯ) / 2 < x ≤ 0, x > ℯ / 2}", notes:"https://help.geogebra.org/topic/cas-l%C3%B8sning-av-ulikhet-stemmer-ikke-med-grafisk-l%C3%B8sning" },
+{ cat:"SolveLambertIneq", cmd:"Solve((x-0.14) (3x+4.71)(exp(3x-4))/(ln(abs(2x))-1)-0.01x^(2)+0.1 > 0)", result:"{0 \u2264 x < 0.43, -3.16 < x < -1.36, -1 / 2 \u212F < x \u2264 0, x > 1 / 2 \u212F}|OR|{0 \u2264 x < 0.43, -3.16 < x < -1.36, -\u212F / 2 < x \u2264 0, x > \u212F / 2}|OR|{x = -1.36, x = 0.43, 0 ≤ x < 0.43, -3.16 < x < -1.36, -ℯ / 2 < x ≤ 0, x > ℯ / 2}|OR|{-3.16 < x < -1.36, -ℯ / 2 < x ≤ 0, 0 ≤ x < 0.43, x = -1.36, x = 0.43, x > ℯ / 2}|OR|{-3.16 < x < -1.36, (-ℯ) / 2 < x ≤ 0, 0 ≤ x < 0.43, x = -1.36, x = 0.43, x > ℯ / 2}|OR|{x = -1.36, x = 0.43, 0 ≤ x < 0.43, -3.16 < x < -1.36, (-ℯ) / 2 < x ≤ 0, x > ℯ / 2}|OR|{-3.16 < x < -1.36, (-ℯ) / 2 < x ≤ 0, 0 ≤ x < 0.43, x = -1.36, x > ℯ / 2}", notes:"https://help.geogebra.org/topic/cas-l%C3%B8sning-av-ulikhet-stemmer-ikke-med-grafisk-l%C3%B8sning" },
 { cat:"Solve", cmd:"Solve(x-2=ln(x))", result:"{x = \u212F^(-(LambertW(-1 / \u212F\u00B2) + 2)), x = \u212F^(-(LambertW(-1 / \u212F\u00B2,-1) + 2))}|OR|{x = ℯ^(-LambertW(-1 / ℯ²) - 2), x = ℯ^(-LambertW(-1 / ℯ²,-1) - 2)}" },
 { cat:"Solve", cmd:"Solve(3=x^x)", result:"{x = \u212F^LambertW(ln(3))}" },
+{ cat:"Solve", cmd:"Solve(x*2^x=y,x)", result:"{x = LambertW(y ln(2),-1) / ln(2), x = LambertW(y ln(2)) / ln(2)}"},
 { cat:"Solve", cmd:"Solve(2^x=3*x)", result:"{x = \u212F^(-(LambertW((-ln(2)) / 3) + ln(3))), x = \u212F^(-(LambertW(-1 / 3 ln(2),-1) + ln(3)))}|OR|{x = (-LambertW((-ln(2)) / 3)) / ln(2), x = (-LambertW(-1 / 3 ln(2),-1)) / ln(2)}|OR|{x = ℯ^(-LambertW((-ln(2)) / 3) - ln(3)), x = ℯ^(-LambertW(-1 / 3 ln(2),-1) - ln(3))}" },
 { cat:"Evaluate", cmd:"Evaluate((-1/2)^(-1/2))", result:"-\u03AF sqrt(2)" },
 { cat:"Evaluate", cmd:"Evaluate(abs((-1/2)^(-1/2)))", result:"sqrt(2)" },
@@ -2743,7 +2743,7 @@ var problems = [
 { cat:"CFactor", cmd:"CFactor[sqrt(21) - 2sqrt(7) x \u03AF + 3sqrt(3) x^2 \u03AF + 6x^3]", result:"168 (x + \u03AF sqrt(3) / 2) (x\u00B2 - \u03AF sqrt(7) / 3) / 28", notes:"kills giac.js, #3057, Reduce gives (3x\u00B2 - \u03AF sqrt(7)) (2x + \u03AF sqrt(3)), Giac/JNI gives 168 (x + \u03AF sqrt(3) / 2) (x\u00B2 - \u03AF sqrt(7) / 3) / 28" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt((1355050424792466287485561)/(981647716744573948433529))]", result:"(1 / 990781366773 * sqrt(1355050424792466287485561))", notes:"#4008, too slow in JS" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt((26188440946629826703822309)/(26942840480072343408400))]", result:"(1 / 26942840480072343408400 * sqrt(705590986846842175569890001809124163141017995600))", notes:"#4611" },
-
+{ cat:"SolveTrig", cmd:"Element(Solve({a_{r} ^(2) - a_{y} ^(2) - 25 = 0, - a_{r} * cos(a_{t}) + 5 = 0, - a_{r} * sin(a_{t}) + a_{y} = 0, b_{r} ^(2) - b_{y} ^(2) - 25 = 0, - b_{r} * sin(b_{t}) + b_{y} = 0, a_{y} - b_{y} = 0},{a_{y}, a_{r}, a_{t}, b_{y}, b_{r}, b_{t}}),1)", result:"{a_{y} = 0, a_{r} = 5, a_{t} = 0, b_{y} = 0, b_{r} = -5, b_{t} = 0}|OR|{a_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5))),a_{r}=a_{r},a_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}+5)),b_{y}=a_{r}sin(2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))),b_{r}=a_{r},b_{t}=2tan⁻¹(sqrt(a_{r}²-25)/(a_{r}-5))}"},
 
 
 ];

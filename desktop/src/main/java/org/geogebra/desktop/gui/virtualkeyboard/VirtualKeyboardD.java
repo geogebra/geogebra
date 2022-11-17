@@ -88,8 +88,8 @@ public class VirtualKeyboardD extends JFrame
 	private final static char wideCharDefault = '@';
 	private char wideChar = wideCharDefault;
 
-	private final int buttonRows = 5;
-	private final int buttonCols = 14;
+	private final static int buttonRows = 5;
+	private final static int buttonCols = 14;
 	private double buttonSizeX;
 	private double buttonSizeY;
 

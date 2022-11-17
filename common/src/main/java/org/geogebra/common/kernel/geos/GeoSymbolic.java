@@ -601,6 +601,7 @@ public class GeoSymbolic extends GeoElement
 
 	private ExpressionNode getNodeFromInput() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(new FunctionExpander())
 				.traverse(createPrepareDefinition())
 				.wrap();
 		node.setLabel(null);
@@ -922,7 +923,7 @@ public class GeoSymbolic extends GeoElement
 		sb.append("\t<variables val=\"");
 		for (FunctionVariable variable : fVars) {
 			sb.append(prefix);
-			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
+			StringUtil.encodeXML(sb, variable.getSetVarString());
 			prefix = ",";
 		}
 		sb.append("\"/>\n");

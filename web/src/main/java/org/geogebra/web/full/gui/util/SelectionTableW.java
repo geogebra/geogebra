@@ -123,7 +123,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 * @param index {@code int}
 	 */
 	public void setSelectedIndex(int index) {
-		if (index < 0 || index > getColumnCount() * getRowCount()) {
+		if (index < 0 || index >= getColumnCount() * getRowCount()) {
 			this.clearSelection();
 			return;
 		}

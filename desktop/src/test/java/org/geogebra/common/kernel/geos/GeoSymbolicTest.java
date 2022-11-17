@@ -1869,10 +1869,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testIterationOutput() {
 		app.setCasConfig();
 		GeoSymbolic geo4args = add("Iteration(2u + 1, u, {0}, 64)");
+		assertThat(geo4args, is(nullValue()));
+	}
 
-		assertEquals("Iteration(2u + 1, u, {0}, 64)",
-				geo4args.toValueString(StringTemplate.defaultTemplate));
-		assertFalse(AlgebraItem.shouldShowBothRows(geo4args));
+	@Test
+	public void testFactorInvalid() {
+		app.setCasConfig();
+		AlgebraTestHelper.shouldFail("Factor()", "Illegal number of arguments", app);
+		StringBuilder consXML = new StringBuilder();
+		app.getKernel().getConstruction().getConstructionElementsXML(consXML, false);
+		assertThat(consXML.toString(), is(""));
 	}
 
 	@Test
@@ -1884,10 +1890,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void functionsShouldWorkInNSolve() {
+		add("f(x)=.05x^3-.8x^2+3x");
+		t("NSolve(2f(x) = f(x+1))",
+				"{x = 0.5737788916239, x = 6.672641540783, x = 11.75357956759}");
+	}
+
+	@Test
 	public void testTake() {
 		t("Take({2, 4, 3, 7, 4}, 3)", "{3, 7, 4}");
 		t("Take(\"GeoGebra\", 3)", "oGebra");
 		t("Take({2, 4, 3, 7, 4}, 3, 4)", "{3, 7}");
 		t("Take(\"GeoGebra\", 3, 6)", "oGeb");
+	}
+
+	@Test
+	public void testInvalidTrigInput() {
+		GeoSymbolic invalid = add("tan^(-1)");
+		assertThat(invalid, is(nullValue()));
 	}
 }

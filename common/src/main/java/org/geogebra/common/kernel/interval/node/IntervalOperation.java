@@ -4,12 +4,14 @@ import org.geogebra.common.kernel.interval.Interval;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.common.plugin.Operation;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 public enum IntervalOperation {
 	UNSUPPORTED {
 		@Override
 		public IntervalExpressionValue handle(IntervalNodeEvaluator evaluator,
 				IntervalNode left, IntervalNode right) {
-			return null;
+			return toValue(left.value());
 		}
 
 		@Override
@@ -332,11 +334,11 @@ public enum IntervalOperation {
 	 * @return the value of the operation.
 	 */
 	public abstract IntervalExpressionValue handle(IntervalNodeEvaluator evaluator,
-			IntervalNode left, IntervalNode right);
+			@NonNull IntervalNode left, IntervalNode right);
 
 	public abstract Operation mappedOperation();
 
-	static IntervalExpressionValue toValue(Interval interval) {
+	static IntervalExpressionValue toValue(@NonNull Interval interval) {
 		return new IntervalFunctionValue(interval);
 	}
 }

@@ -27,9 +27,13 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.CASTestLogger;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Runs categorized tests from giacTests.js
+ *
+ * Note: no need for Before / BeforeClass, testCat clears everything
+ */
 public abstract class CasTestJsonCommon {
 
 	protected static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<>();
@@ -225,10 +229,8 @@ public abstract class CasTestJsonCommon {
 								validResults));
 				return;
 			} catch (Throwable t) {
-				// if (!(t instanceof AssertionError)) {
-				Log.debug(t);
-				// }
 				if (i == expectedResult.length - 1) {
+					Log.debug(t);
 					failures[0].append(expectedResult[0] == null ? "null"
 							: normalizeExpected(expectedResult[0]));
 					failures[0].append(" input: ").append(input).append('\n');
@@ -283,14 +285,6 @@ public abstract class CasTestJsonCommon {
 					.append(stElement.getLineNumber()).append("\n");
 		}
 		return sts.toString();
-	}
-
-	/**
-	 * Kill all CAS cells.
-	 */
-	@Before
-	public void clearConstruction() {
-		app.getKernel().clearConstruction(true);
 	}
 
 	/**

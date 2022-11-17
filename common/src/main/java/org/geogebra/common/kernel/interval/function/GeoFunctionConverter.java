@@ -7,10 +7,12 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.interval.Interval;
+import org.geogebra.common.kernel.interval.IntervalConstants;
 import org.geogebra.common.kernel.interval.node.IntervalExpressionNode;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionValue;
 import org.geogebra.common.kernel.interval.node.IntervalFunctionVariable;
 import org.geogebra.common.kernel.interval.node.IntervalNode;
+import org.geogebra.common.kernel.interval.node.IntervalOperation;
 import org.geogebra.common.kernel.interval.node.IntervalOperationSupport;
 import org.geogebra.common.kernel.interval.operators.IntervalNodeEvaluator;
 import org.geogebra.common.plugin.Operation;
@@ -44,7 +46,11 @@ public class GeoFunctionConverter {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalNode expression = convert(
 				Objects.requireNonNull(geoFunction.getFunctionExpression()),
-				functionVariable);
+				functionVariable).simplify();
+		if (expression.asExpressionNode() == null) {
+			expression = new IntervalExpressionNode(evaluator, expression,
+					IntervalOperation.NO_OPERATION);
+		}
 		return new IntervalNodeFunction(expression.asExpressionNode(), functionVariable);
 	}
 
@@ -62,10 +68,10 @@ public class GeoFunctionConverter {
 		if (value == null) {
 			return null;
 		}
-
-		return value.isLeaf()
-				? newLeafValue(value, functionVariable)
-				: convert(value.wrap(), functionVariable);
+		ExpressionValue unwrapped = value.unwrap();
+		return !unwrapped.isExpressionNode()
+				? newLeafValue(unwrapped, functionVariable)
+				: convert(unwrapped.wrap(), functionVariable);
 	}
 
 	private IntervalNode newLeafValue(ExpressionValue value,
@@ -75,9 +81,9 @@ public class GeoFunctionConverter {
 	}
 
 	private IntervalNode newSingletonValue(double value) {
-		return Double.isNaN(value)
-				? null
-				: new IntervalFunctionValue(new Interval(value));
+		return new IntervalFunctionValue(Double.isNaN(value)
+				? IntervalConstants.undefined()
+				: new Interval(value));
 	}
 
 	/**

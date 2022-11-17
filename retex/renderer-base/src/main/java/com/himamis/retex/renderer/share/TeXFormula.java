@@ -216,7 +216,7 @@ public class TeXFormula {
 	}
 
 	/**
-	 * @param a
+	 * @param formula
 	 *            formula
 	 * @return a partial TeXFormula containing the valid part of formula
 	 */
@@ -387,13 +387,8 @@ public class TeXFormula {
 		}
 
 		/**
-		 * Specify the width of the formula (may be exact or maximum width, see
-		 * {@link #setIsMaxWidth(boolean)})
-		 * 
-		 * @param widthUnit
-		 *            the width unit
-		 * @param textWidth
-		 *            the width
+		 * Specify the alignment
+		 *
 		 * @param align
 		 *            the alignment
 		 * @return the builder, used for chaining
@@ -538,14 +533,24 @@ public class TeXFormula {
 	 *            the style
 	 * @param size
 	 *            the size
-	 * @param transparency,
-	 *            if true the background is transparent
+	 * @param fg
+	 *            foreground color
 	 * @return the generated image
 	 */
 	public static Image createBufferedImage(String formula, int style,
 			double size, Color fg, Color bg) throws ParseException {
 		TeXFormula f = new TeXFormula(formula);
 		TeXIcon icon = f.createTeXIcon(style, size);
+		return asImage(icon, fg, bg);
+	}
+
+	/**
+	 * @param icon icon
+	 * @param fg text color
+	 * @param bg background color
+	 * @return image
+	 */
+	public static Image asImage(TeXIcon icon, Color fg, Color bg) {
 		icon.setInsets(new Insets(2, 2, 2, 2));
 		int w = icon.getIconWidth(), h = icon.getIconHeight();
 
@@ -565,35 +570,20 @@ public class TeXFormula {
 	}
 
 	/**
-	 * @param formula
-	 *            the formula
 	 * @param style
 	 *            the style
 	 * @param size
 	 *            the size
-	 * @param transparency,
-	 *            if true the background is transparent
+	 * @param fg
+	 *            text color
+	 * @param bg
+	 *            background color
 	 * @return the generated image
 	 */
 	public Image createBufferedImage(int style, double size, Color fg, Color bg)
 			throws ParseException {
 		TeXIcon icon = createTeXIcon(style, size);
-		icon.setInsets(new Insets(2, 2, 2, 2));
-		int w = icon.getIconWidth(), h = icon.getIconHeight();
-
-		Image image = new Graphics().createImage(w, h,
-				bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
-		Graphics2DInterface g2 = image.createGraphics2D();
-		if (bg != null) {
-			g2.setColor(bg);
-			g2.fillRect(0, 0, w, h);
-		}
-
-		icon.setForeground(fg == null ? Colors.BLACK : fg);
-		icon.paintIcon(null, g2, 0, 0);
-		g2.dispose();
-
-		return image;
+		return asImage(icon, fg, bg);
 	}
 
 }

@@ -260,7 +260,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 					double nearestX = Double.MAX_VALUE;
 					double nearestY = Double.MAX_VALUE;
 					double dist = Double.MAX_VALUE;
-					for (double angle = 0; angle < 180; angle += 15) {
+					for (int angle = 0; angle < 180; angle += 15) {
 
 						if (angle == 90) {
 							l.setCoords(1, 0, -px);
@@ -269,8 +269,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 							l.setCoords(gradient, -1.0, py - gradient * px);
 						}
 
-						for (double ang2 = 0; ang2 < 180; ang2 += 15) {
-							if (DoubleUtil.isEqual(ang2, angle)) {
+						for (int ang2 = 0; ang2 < 180; ang2 += 15) {
+							if (ang2 == angle) {
 								continue;
 							} else if (DoubleUtil.isEqual(ang2, 90)) {
 								l2.setCoords(1.0, 0, -px2);

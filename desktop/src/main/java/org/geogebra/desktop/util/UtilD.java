@@ -111,7 +111,7 @@ public class UtilD {
 				return null;
 			}
 			return buffer;
-		} catch (Exception e) {
+		} catch (RuntimeException | IOException e) {
 			Log.error("problem loading " + filename);
 		} finally {
 			try {

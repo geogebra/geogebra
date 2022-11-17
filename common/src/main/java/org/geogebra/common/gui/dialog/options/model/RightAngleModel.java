@@ -18,6 +18,11 @@ public class RightAngleModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "EmphasizeRightAngle";
+	}
+
+	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 

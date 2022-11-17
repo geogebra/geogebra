@@ -6,13 +6,13 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.DoubleUtil;
 
-public class AnimationStepModel extends OptionsModel {
-	private ITextFieldListener listener;
+public class AnimationStepModel extends TextPropertyModel {
+
 	private boolean partOfSlider;
 
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -83,10 +83,8 @@ public class AnimationStepModel extends OptionsModel {
 						&& geo.isIndependent()));
 	}
 
-	public void applyChanges(String text) {
-		NumberValue value = text.length() == 0 ? null
-				: app.getKernel().getAlgebraProcessor().evaluateToNumeric(text,
-						ErrorHelper.silent());
+	@Override
+	public void applyChanges(GeoNumberValue value) {
 		boolean notDefined = value == null || Double.isNaN(value.getDouble());
 
 		for (int i = 0; i < getGeosLength(); i++) {
@@ -104,25 +102,17 @@ public class AnimationStepModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
+	@Override
+	public String getTitle() {
+		return "AnimationStep";
+	}
+
 	public boolean isPartOfSlider() {
 		return partOfSlider;
 	}
 
 	public void setPartOfSlider(boolean partOfSlider) {
 		this.partOfSlider = partOfSlider;
-	}
-
-	@Override
-	public PropertyListener getListener() {
-		return listener;
-	}
-
-	/**
-	 * Set the listener of the model
-	 * @param listener listener for the textfield
-	 */
-	public void setListener(ITextFieldListener listener) {
-		this.listener = listener;
 	}
 
 }

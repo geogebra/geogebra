@@ -110,26 +110,26 @@ public enum EventType {
 	/** construction cleared */
 	CLEAR("clear"),
 
-	/** new slide (whiteboard) */
-	ADD_SLIDE("addSlide"),
+	/** new page (whiteboard) */
+	ADD_PAGE("addPage"),
 
-	/** remove slide (whiteboard) */
-	REMOVE_SLIDE("removeSlide"),
+	/** remove page (whiteboard) */
+	REMOVE_PAGE("removePage"),
 
-	/** rename slide (whiteboard) */
-	RENAME_SLIDE("renameSlide"),
+	/** rename page (whiteboard) */
+	RENAME_PAGE("renamePage"),
 
-	/** duplicate slide (whiteboard): source index, target ID, source ID */
-	PASTE_SLIDE("pasteSlide"),
+	/** duplicate page (whiteboard): source index, target ID, source ID */
+	PASTE_PAGE("pastePagee"),
 
-	/** Move slide: sourceindex, target index */
-	MOVE_SLIDE("moveSlide"),
+	/** Move page: sourceindex, target index */
+	MOVE_PAGE("movePage"),
 
-	/** Clear slide: slide ID */
-	CLEAR_SLIDE("clearSlide"),
+	/** Clear page: page ID */
+	CLEAR_PAGE("clearPage"),
 
-	/** select slide */
-	SELECT_SLIDE("selectSlide"),
+	/** select page */
+	SELECT_PAGE("selectPage"),
 
 	/** Key typed in editor */
 	EDITOR_KEY_TYPED("editorKeyTyped"),
@@ -224,7 +224,7 @@ public enum EventType {
 	/**
 	 * View properties changed, such as background color or axes settings
 	 */
-	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged");
+	VIEW_PROPERTIES_CHANGED("viewPropertiesChanged"), LOAD_PAGE("loadPage");
 
 	private String eventName;
 

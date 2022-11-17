@@ -35,7 +35,6 @@ public class PagePreviewCard extends FlowPanel
 	private Localization loc;
 	private int pageIndex;
 	private FlowPanel imagePanel;
-	private ArchiveEntry image;
 	private CardInfoPanel infoPanel;
 	private ContextMenuButtonPreviewCard contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
@@ -43,7 +42,7 @@ public class PagePreviewCard extends FlowPanel
 	 * ggb file
 	 */
 	protected GgbFile file;
-	
+
 	/**
 	 * @param app
 	 *            parent application
@@ -57,7 +56,6 @@ public class PagePreviewCard extends FlowPanel
 		this.pageIndex = pageIndex;
 		this.file = file;
 		this.loc = app.getLocalization();
-		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
 	}
 
@@ -96,10 +94,8 @@ public class PagePreviewCard extends FlowPanel
 
 		add(imagePanel);
 		add(infoPanel);
-		if (image == null || image.isEmpty()) {
+		if (!updatePreviewFromFile()) {
 			updatePreviewImage();
-		} else {
-			setPreviewImage(image);
 		}
 		updateLabel();
 	}
@@ -119,12 +115,13 @@ public class PagePreviewCard extends FlowPanel
 		this.file = file;
 	}
 
-	private void setPreviewImage(ArchiveEntry img) {
-		image = img;
+	private boolean setPreviewImage(ArchiveEntry image) {
 		if (image != null && image.createUrl().length() > 0) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
 					"url(" + image.createUrl() + ")");
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -273,5 +270,17 @@ public class PagePreviewCard extends FlowPanel
 
 	public String getCardTitle() {
 		return infoPanel.getCardTitle();
+	}
+
+	public void clearBackground() {
+		imagePanel.getElement().getStyle().setBackgroundImage("");
+	}
+
+	public boolean updatePreviewFromFile() {
+		return setPreviewImage(getFile().get("geogebra_thumbnail.png"));
+	}
+
+	public String getID() {
+		return file.getID();
 	}
 }

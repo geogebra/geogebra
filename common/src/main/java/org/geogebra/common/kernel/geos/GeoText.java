@@ -1066,16 +1066,14 @@ public class GeoText extends GeoElement
 		boundingBox.setRect(x, y, w, h);
 	}
 
-	/**
-	 * @return tue if bounding box is not correct anymore
-	 */
-	public final boolean isNeedsUpdatedBoundingBox() {
+	@Override
+	public final boolean needsUpdatedBoundingBox() {
 		return needsUpdatedBoundingBox;
 	}
 
 	/**
 	 * @param needsUpdatedBoundingBox
-	 *            true to make sure this object upates itself
+	 *            true to make sure this object updates itself
 	 */
 	@Override
 	public final void setNeedsUpdatedBoundingBox(

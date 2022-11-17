@@ -459,8 +459,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 		// name of image file
 		if (getFillImage() != null) {
 			sb.append("\t<file name=\"");
-			sb.append(StringUtil
-					.encodeXML(this.getGraphicsAdapter().getImageFileName()));
+			StringUtil.encodeXML(sb, this.getGraphicsAdapter().getImageFileName());
 			sb.append("\"/>\n");
 		}
 		if (isFixedSize()) {

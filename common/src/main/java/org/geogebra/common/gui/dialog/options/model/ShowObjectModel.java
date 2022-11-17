@@ -41,6 +41,11 @@ public class ShowObjectModel extends BooleanOptionModel {
 	}
 
 	@Override
+	public String getTitle() {
+		return "ShowObject";
+	}
+
+	@Override
 	public boolean isValidAt(int index) {
 		// TODO Auto-generated method stub
 		boolean isValid = true;

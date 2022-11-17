@@ -706,7 +706,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @return Locus representing this curve
 	 */
 	@Override
-	public GeoLocus getLocus() {
+	public synchronized GeoLocus getLocus() {
 		if (updatePathNeeded) {
 			doUpdatePath();
 		}
@@ -724,7 +724,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	/**
 	 * Updates the path of the curve.
 	 */
-	public void updatePath() {
+	public synchronized void updatePath() {
 		if (!calcPath) {
 			return;
 		}
