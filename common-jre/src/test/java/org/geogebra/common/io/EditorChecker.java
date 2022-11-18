@@ -18,6 +18,7 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 class EditorChecker {
@@ -149,6 +150,12 @@ class EditorChecker {
 				.getEditorState());
 		Assert.assertArrayEquals(indexes, actual.toArray());
 		return this;
+	}
+
+	public void serializeAs(String latex) {
+		TeXSerializer teXSerializer = new TeXSerializer();
+		Assert.assertEquals(latex,
+				teXSerializer.serialize(mathField.getInternal().getFormula()));
 	}
 
 	protected void checkEditorInsert(String input, String output) {

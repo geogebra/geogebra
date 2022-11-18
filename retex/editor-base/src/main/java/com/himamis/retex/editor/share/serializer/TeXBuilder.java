@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.serializer;
 
+import static com.himamis.retex.renderer.share.platform.FactoryProvider.debugS;
+
 import java.util.HashMap;
 
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
@@ -83,34 +85,32 @@ public class TeXBuilder {
 		RowAtom ra = new RowAtom();
 
 		if (mathFormula.size() == 0) {
-			Atom a;
-			if (mathFormula == currentField) {
-				Atom placeholder = new CharAtom('1');
-				atomToComponent.put(placeholder, SELECTION);
-				a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
-			} else {
-				a = getPlaceholder(mathFormula);
-			}
-			ra.add(a);
+			ra.add(getPlaceholderAtom(mathFormula));
 			return ra;
 		}
 
 		for (int i = 0; i < mathFormula.size(); i++) {
-			if (mathFormula.getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
-				Atom sup = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+			MathComponent argument1 = mathFormula.getArgument(i);
+			if (argument1.hasTag(Tag.SUPERSCRIPT)) {
+				Atom sup = build(((MathFunction) argument1).getArgument(0));
 				Atom tmp = addToSup(ra.getLastAtom(), sup);
-				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				atomToComponent.put(tmp, argument1);
 				ra.add(tmp);
 				continue;
-			} else if (mathFormula.getArgument(i).hasTag(Tag.SUBSCRIPT)) {
-				Atom sub = build(((MathFunction) mathFormula.getArgument(i)).getArgument(0));
+			} else if (argument1.hasTag(Tag.SUBSCRIPT)) {
+				Atom sub = build(((MathFunction) argument1).getArgument(0));
 				Atom tmp = addToSub(ra.getLastAtom(), sub);
-				atomToComponent.put(tmp, mathFormula.getArgument(i));
+				atomToComponent.put(tmp, argument1);
 				ra.add(tmp);
+				continue;
+			} else if (argument1 instanceof MathCharPlaceholder) {
+				Atom box = getPlaceholderBox();
+				atomToComponent.put(box, argument1);
+				ra.add(box);
 				continue;
 			}
 
-			Atom argument = build(mathFormula.getArgument(i));
+			Atom argument = build(argument1);
 
 			// same ugly hack for ln as we have in TeXSerializer
 			if (argument instanceof CharAtom
@@ -126,6 +126,18 @@ public class TeXBuilder {
 		}
 
 		return ra;
+	}
+
+	private Atom getPlaceholderAtom(MathSequence mathFormula) {
+		Atom a;
+		if (mathFormula == currentField) {
+			Atom placeholder = new CharAtom('1');
+			atomToComponent.put(placeholder, SELECTION);
+			a = new ScaleAtom(new PhantomAtom(placeholder), 0.1, 1);
+		} else {
+			a = getPlaceholder(mathFormula);
+		}
+		return a;
 	}
 
 	private Atom buildPlaceholder(MathPlaceholder placeholder) {
@@ -182,9 +194,7 @@ public class TeXBuilder {
 
 	private Atom build(MathComponent argument) {
 		Atom ret;
-		if (argument instanceof MathCharPlaceholder) {
-			ret = getPlaceholderBox();
-		} else if (argument instanceof MathCharacter) {
+		if (argument instanceof MathCharacter) {
 			ret = newCharAtom((MathCharacter) argument);
 		} else if (argument instanceof MathFunction) {
 			ret = buildFunction((MathFunction) argument);
@@ -331,7 +341,7 @@ public class TeXBuilder {
 		case '|':
 			return "vert";
 		default:
-			FactoryProvider.debugS("missing case in lookupBracket()");
+			debugS("missing case in lookupBracket()");
 			return "";
 		}
 	}

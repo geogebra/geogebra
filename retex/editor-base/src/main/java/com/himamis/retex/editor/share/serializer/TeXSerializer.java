@@ -156,10 +156,7 @@ public class TeXSerializer extends SerializerAdapter {
 						.substring(lengthBefore, stringBuilder.length()).trim()
 						.replace("\\nbsp", "").replace(cursor, "").isEmpty();
 				if (emptyFormula) {
-					String cursorFix = stringBuilder.toString().replace(cursor,
-							cursorBig);
-					stringBuilder.setLength(0);
-					stringBuilder.append(cursorFix);
+					fixCursor(stringBuilder);
 				}
 			} else {
 				serialize(sequence, stringBuilder, 0, sequence.size());
@@ -173,6 +170,13 @@ public class TeXSerializer extends SerializerAdapter {
 		if (sequence == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
+	}
+
+	private void fixCursor(StringBuilder stringBuilder) {
+		String cursorFix = stringBuilder.toString().replace(cursor,
+				cursorBig);
+		stringBuilder.setLength(0);
+		stringBuilder.append(cursorFix);
 	}
 
 	private String getPlaceholder(MathSequence sequence) {

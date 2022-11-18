@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 public class MathFormulaConverter {
@@ -27,7 +28,7 @@ public class MathFormulaConverter {
 	 * @return MathML styled text
 	 */
 	public String convert(String text) {
-		MathFormula formula = null;
+		MathFormula formula;
 		try {
 			formula = buildFormula(text);
 		} catch (ParseException ex) {
@@ -43,7 +44,8 @@ public class MathFormulaConverter {
 	 */
 	public MathFormula buildFormula(String text) throws ParseException {
 		MathFormula formula = parser.parse(text);
-		placeholders.process(formula.getRootComponent().getArgument(0));
+		MathSequence rootComponent = formula.getRootComponent();
+		placeholders.process(rootComponent.getArgument(0));
 		return formula;
 	}
 }
