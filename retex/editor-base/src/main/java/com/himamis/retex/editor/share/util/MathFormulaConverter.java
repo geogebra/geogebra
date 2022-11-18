@@ -9,15 +9,13 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 public class MathFormulaConverter {
 	private final Parser parser;
-	private MathFormula formula;
 	private final TeXSerializer texSerializer;
-	private AddPlaceholders placeholders;
+	private final AddPlaceholders placeholders;
 	/**
 	 * Constructor
 	 */
 	public MathFormulaConverter() {
 		MetaModel model = new MetaModel();
-		formula = MathFormula.newFormula(model);
 		parser = new Parser(model);
 		texSerializer = new TeXSerializer();
 		placeholders = new AddPlaceholders();
@@ -29,16 +27,23 @@ public class MathFormulaConverter {
 	 * @return MathML styled text
 	 */
 	public String convert(String text) {
-		buildFormula(text);
+		MathFormula formula = null;
+		try {
+			formula = buildFormula(text);
+		} catch (ParseException ex) {
+			throw new RuntimeException(ex);
+		}
 		return texSerializer.serialize(formula);
 	}
 
-	private void buildFormula(String text) {
-		try {
-			formula = parser.parse(text);
-			placeholders.process(formula.getRootComponent().getArgument(0));
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
-		}
+	/**
+	 *
+	 * @param text to build a formura from.
+	 * @return the built formula.
+	 */
+	public MathFormula buildFormula(String text) throws ParseException {
+		MathFormula formula = parser.parse(text);
+		placeholders.process(formula.getRootComponent().getArgument(0));
+		return formula;
 	}
 }

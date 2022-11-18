@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
+import com.himamis.retex.editor.share.model.MathCharPlaceholder;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -181,7 +182,9 @@ public class TeXBuilder {
 
 	private Atom build(MathComponent argument) {
 		Atom ret;
-		if (argument instanceof MathCharacter) {
+		if (argument instanceof MathCharPlaceholder) {
+			ret = getPlaceholderBox();
+		} else if (argument instanceof MathCharacter) {
 			ret = newCharAtom((MathCharacter) argument);
 		} else if (argument instanceof MathFunction) {
 			ret = buildFunction((MathFunction) argument);
