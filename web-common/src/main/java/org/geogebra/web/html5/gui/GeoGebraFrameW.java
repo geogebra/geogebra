@@ -331,12 +331,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (appletParameters.getDataParamFitToScreen()) {
 			int margin;
 			if (shouldHaveSmallScreenLayout() && appletParameters.getDataParamApp()) {
+				Log.debug("hasSmallwindow: " + hasSmallWindow());
+				Log.debug("getSmallScreenHeaderHeight: " + getSmallScreenHeaderHeight());
 				margin = hasSmallWindow() ? getSmallScreenHeaderHeight() : 0;
-			}
-			else {
+				Log.debug("margin1: " + margin);
+			} else {
 				margin = appletParameters.getDataParamMarginTop();
+				Log.debug("margin2: " + margin);
 			}
+			Log.debug("NavigatorUtil.getWindowHeigth: " + NavigatorUtil.getWindowHeight());
 			height = NavigatorUtil.getWindowHeight() - margin;
+			Log.debug("height: " + height);
 		}
 
 		return Math.max(height, 0);
