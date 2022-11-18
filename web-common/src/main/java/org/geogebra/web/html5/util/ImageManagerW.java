@@ -9,8 +9,11 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
@@ -19,10 +22,12 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.css.GuiResourcesSimpleImpl;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ResourcePrototype;
 
 import elemental2.dom.CanvasRenderingContext2D;
@@ -37,6 +42,7 @@ public class ImageManagerW extends ImageManager {
 	private HashMap<String, HTMLImageElement> externalImageTable = new HashMap<>();
 	private HashMap<String, ArchiveEntry> externalImageSrcs = new HashMap<>();
 	private HashMap<String, HTMLImageElement> internalImageTable = new HashMap<>();
+
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 
@@ -79,6 +85,34 @@ public class ImageManagerW extends ImageManager {
 	@Override
 	public String getExternalImageSrc(String fileName) {
 		return getExternalImageData(fileName).createUrl();
+	}
+
+	@Override
+	public void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable) {
+		GuiResourcesSimpleImpl res = (GuiResourcesSimpleImpl) GuiResourcesSimple.INSTANCE;
+		SVGResource image = (SVGResource) res.getResource(geo.getTextString());
+		if (image != null) {
+			String fileName = applyImage(image.getName(), image.getSafeUri().asString(), kernel);
+			fillable.setFillType(FillType.IMAGE);
+			fillable.setImageFileName(fileName);
+			fillable.setAlphaValue(1.0f);
+			fillable.updateVisualStyleRepaint(GProperty.HATCHING);
+		}
+	}
+
+	/**
+	 * Apply image uploaded by user.
+	 * @param fileName0 - image filename
+	 * @param fileData - file content
+	 * @return filename
+	 */
+	public String applyImage(String fileName0, String fileData, Kernel kernel) {
+		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
+
+		addExternalImage(fileName, fileData);
+		triggerSingleImageLoading(fileName, kernel);
+
+		return fileName;
 	}
 
 	private ArchiveEntry getExternalImageData(String fileName) {

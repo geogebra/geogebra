@@ -37,6 +37,7 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -3448,6 +3449,15 @@ public class CommandsTest {
 	public void cmdSetFixed() {
 		t("SetFixed[ Polygon[(1,1),(2,1/2),4], false ]");
 		t("SetFixed[ Polygon[(1,1),(2,1/2),4], false, true ]");
+	}
+
+	@Test
+	public void cmdSetImage() {
+		app.setImageManager(Mockito.mock(ImageManager.class));
+		t("c:x^2+y^2=1", unicode("x^2 + y^2 = 1"));
+		t("pic=ToolImage(2)");
+		t("SetImage(c, pic)");
+		t("SetImage(c, \"play\")");
 	}
 
 	@Test

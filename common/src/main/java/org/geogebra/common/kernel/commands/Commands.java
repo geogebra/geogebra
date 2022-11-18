@@ -903,6 +903,8 @@ public enum Commands implements CommandsConstants,
 
 	Repeat(TABLE_SCRIPTING),
 
+	SetImage(TABLE_SCRIPTING),
+
 	// =============================================================
 	// discrete math
 	// =============================================================
