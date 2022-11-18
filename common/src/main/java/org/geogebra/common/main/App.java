@@ -4584,7 +4584,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public AccessibilityManagerInterface getAccessibilityManager() {
 
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerNoGui();
+			accessibilityManager = new AccessibilityManagerNoGui(this);
 		}
 
 		return accessibilityManager;
