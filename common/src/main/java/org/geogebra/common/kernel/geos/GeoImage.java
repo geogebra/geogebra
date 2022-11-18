@@ -379,7 +379,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		// absolute screen position should be deactivated
-		setAbsoluteScreenLocActive(false);
 		updateHasAbsoluteLocation();
 	}
 
@@ -389,8 +388,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	private void updateHasAbsoluteLocation() {
 		hasChangeableLocation = true;
-		for (int i = 0; i < corners.length; i++) {
-			if (!(corners[i] == null || corners[i].isAbsoluteStartPoint())) {
+		for (GeoPoint corner : corners) {
+			if (!(corner == null || corner.isAbsoluteStartPoint())) {
 				hasChangeableLocation = false;
 				return;
 			}
@@ -421,20 +420,28 @@ public class GeoImage extends GeoElement implements Locateable,
 		return corners[0];
 	}
 
-	@Override
+	/**
+	 * @return all corners
+	 */
 	public GeoPoint[] getStartPoints() {
 		return corners;
 	}
 
 	/**
 	 * Returns n-th corner point
-	 * 
+	 *
 	 * @param number
-	 *            1 for boottom left, others clockwise
+	 *            0 for bottom left, 1 bottom right, 2 top left
 	 * @return corner point
 	 */
-	final public GeoPoint getCorner(int number) {
+	@Override
+	final public GeoPoint getStartPoint(int number) {
 		return corners[number];
+	}
+
+	@Override
+	final public int getStartPointCount() {
+		return corners.length;
 	}
 
 	@Override
@@ -458,13 +465,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	final public void setInterpolate(boolean flag) {
 		interpolate = flag;
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// this can be ignored for an image
-		// as the position of its startpoint
-		// is irrelevant for the rest of the construction
 	}
 
 	@Override
@@ -625,6 +625,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
+		if (corners[0] != null) {
+			corners[0].getLocateableList().remove(this);
+		}
+		corners[0] = null;
 		screenX = x;
 		screenY = y;
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {
@@ -634,12 +638,12 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return screenX;
+		return corners[0] != null ? (int) corners[0].getInhomX() : screenX;
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return screenY;
+		return corners[0] != null ? (int) corners[0].getInhomY() : screenY;
 	}
 
 	@Override
@@ -710,14 +714,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (flag) {
 			if (!kernel.getApplication().isWhiteboardActive()) {
 				// remove startpoints
-				for (int i = 0; i < 3; i++) {
+				for (int i = 1; i < 3; i++) {
 					if (corners[i] != null) {
 						corners[i].getLocateableList().unregisterLocateable(this);
 					}
 				}
 				if (corners[0] != null) {
-					corners[0] = corners[0].copy();
-					hasChangeableLocation = true;
+					hasChangeableLocation = corners[0].isAbsoluteStartPoint();
 				}
 				corners[1] = null;
 				corners[2] = null;

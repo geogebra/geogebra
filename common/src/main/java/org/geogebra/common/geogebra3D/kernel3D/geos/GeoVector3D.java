@@ -405,7 +405,7 @@ public class GeoVector3D extends GeoVec4D
 
 		// startPoint of vector
 		if (startPoint != null) {
-			startPoint.appendStartPointXML(sbXml);
+			startPoint.appendStartPointXML(sbXml, false);
 		}
 
 	}
@@ -456,17 +456,6 @@ public class GeoVector3D extends GeoVec4D
 		// update position matrix
 		// updateStartPointPosition();
 
-	}
-
-	@Override
-	public GeoPointND[] getStartPoints() {
-		if (startPoint == null) {
-			return null;
-		}
-
-		GeoPointND[] ret = new GeoPointND[1];
-		ret[0] = startPoint;
-		return ret;
 	}
 
 	@Override

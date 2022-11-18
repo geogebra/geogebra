@@ -1115,7 +1115,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public void appendStartPointXML(StringBuilder sb) {
+	public void appendStartPointXML(StringBuilder sb, boolean absolute) {
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {

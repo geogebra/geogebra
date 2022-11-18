@@ -138,6 +138,7 @@ public class GeoList extends GeoElement
 	private boolean wasDefinedWithCurlyBrackets = true;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
+	private GeoPointND startPoint;
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -2286,12 +2287,12 @@ public class GeoList extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint == null ? labelOffsetX : (int) startPoint.getInhomX();
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint == null ? labelOffsetY : (int) startPoint.getInhomY();
 	}
 
 	@Override
@@ -3392,5 +3393,57 @@ public class GeoList extends GeoElement
 
 	private boolean isUndefinedList() {
 		return !elements.isEmpty() && elements().noneMatch(GeoElement::isDefined);
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+
+			labelOffsetX = 0;
+			labelOffsetY = 0;
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
+		setStartPoint(p);
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		this.startPoint = p;
+	}
+
+	@Override
+	public boolean hasStaticLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
 	}
 }

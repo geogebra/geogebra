@@ -1791,23 +1791,24 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public void appendStartPointXML(StringBuilder sb) {
+	public void appendStartPointXML(StringBuilder sb, boolean absPosition) {
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
 			sb.append("x=\"");
 			sb.append(x);
-			sb.append("\"");
-			sb.append(" y=\"");
+			sb.append("\" y=\"");
 			sb.append(y);
-			sb.append("\"");
-			sb.append(" z=\"");
+			sb.append("\" z=\"");
 			sb.append(z);
 			sb.append("\"");
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
+		}
+		if (absPosition) {
+			sb.append(" absolute=\"true\"");
 		}
 		sb.append("/>\n");
 	}
@@ -2377,10 +2378,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			locateableList = ((GeoPointND) oldGeo).getLocateableList();
 			for (Locateable locPoint : locateableList) {
-				GeoPointND[] pts = locPoint.getStartPoints();
-				for (int i = 0; i < pts.length; i++) {
-					if (pts[i] == (GeoPoint) oldGeo) {
-						pts[i] = this;
+				for (int i = 0; i < locPoint.getStartPointCount(); i++) {
+					if (locPoint.getStartPoint(i) == oldGeo) {
+						locPoint.initStartPoint(this, i);
 					}
 				}
 				locPoint.toGeoElement().updateRepaint();

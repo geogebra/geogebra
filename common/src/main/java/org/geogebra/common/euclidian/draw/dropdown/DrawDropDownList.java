@@ -114,8 +114,8 @@ public final class DrawDropDownList extends CanvasDrawable
 		// eg: size changed etc
 		labelDesc = getLabelText();
 
-		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;
+		xLabel = geoList.getAbsoluteScreenLocX();
+		yLabel = geoList.getAbsoluteScreenLocY();
 		if (getDynamicCaption() != null && getDynamicCaption().isEnabled()) {
 			getDynamicCaption().update();
 		}

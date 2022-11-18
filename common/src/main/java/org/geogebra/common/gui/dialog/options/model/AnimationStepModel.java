@@ -84,7 +84,7 @@ public class AnimationStepModel extends TextPropertyModel {
 	}
 
 	@Override
-	public void applyChanges(GeoNumberValue value) {
+	public void applyChanges(GeoNumberValue value, String str) {
 		boolean notDefined = value == null || Double.isNaN(value.getDouble());
 
 		for (int i = 0; i < getGeosLength(); i++) {

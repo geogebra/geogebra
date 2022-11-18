@@ -305,17 +305,6 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public void removeStartPoint(GeoPointND p) {
-		if (startPoint == p) {
-			try {
-				setStartPoint(null);
-			} catch (Exception e) {
-				// cannot happen
-			}
-		}
-	}
-
-	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 		// don't allow this if it's eg Text["hello",(2,3)]
 		if (alwaysFixed) {
@@ -348,9 +337,6 @@ public class GeoText extends GeoElement
 
 			// add new dependencies
 			startPoint.getLocateableList().registerLocateable(this);
-
-			// absolute screen position should be deactivated
-			setAbsoluteScreenLocActive(false);
 		}
 	}
 
@@ -377,26 +363,8 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public GeoPointND[] getStartPoints() {
-		if (startPoint == null) {
-			return null;
-		}
-
-		GeoPointND[] ret = new GeoPointND[1];
-		ret[0] = startPoint;
-		return ret;
-	}
-
-	@Override
 	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// this can be ignored for a text
-		// as the position of its startpoint
-		// is irrelevant for the rest of the construction
 	}
 
 	@Override
@@ -687,7 +655,7 @@ public class GeoText extends GeoElement
 		} else {
 			// location of text
 			if (startPoint != null) {
-				startPoint.appendStartPointXML(sb);
+				startPoint.appendStartPointXML(sb, isAbsoluteScreenLocActive());
 
 				if (labelOffsetX != 0 || labelOffsetY != 0) {
 					sb.append("\t<labelOffset");
@@ -782,12 +750,12 @@ public class GeoText extends GeoElement
 
 	@Override
 	public int getAbsoluteScreenLocX() {
-		return labelOffsetX;
+		return startPoint == null ? labelOffsetX : (int) startPoint.getInhomX();
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
-		return labelOffsetY;
+		return startPoint == null ? labelOffsetY : (int) startPoint.getInhomY();
 	}
 
 	@Override

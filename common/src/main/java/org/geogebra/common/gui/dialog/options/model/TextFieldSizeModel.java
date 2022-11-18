@@ -40,7 +40,7 @@ public class TextFieldSizeModel extends TextPropertyModel {
 	}
 
 	@Override
-	public void applyChanges(GeoNumberValue value) {
+	public void applyChanges(GeoNumberValue value, String str) {
 		if (value != null && !Double.isNaN(value.getDouble())) {
 			for (int i = 0; i < getGeosLength(); i++) {
 				GeoInputBox geo = getTextFieldAt(i);

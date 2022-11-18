@@ -251,17 +251,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	public GeoPointND[] getStartPoints() {
-		if (startPoint == null) {
-			return null;
-		}
-
-		GeoPointND[] ret = new GeoPointND[1];
-		ret[0] = startPoint;
-		return ret;
-	}
-
-	@Override
 	public boolean hasStaticLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
@@ -601,7 +590,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		// startPoint of vector
 		if (startPoint != null) {
-			startPoint.appendStartPointXML(xmlsb);
+			startPoint.appendStartPointXML(xmlsb, false);
 		}
 	}
 

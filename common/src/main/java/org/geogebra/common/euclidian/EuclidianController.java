@@ -5709,7 +5709,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				double vy = yRW - getStartPointY();
 				movedGeoImage.set(oldImage);
 				for (int i = 0; i < 3; i++) {
-					GeoPoint corner = movedGeoImage.getCorner(i);
+					GeoPoint corner = movedGeoImage.getStartPoint(i);
 					if (corner != null) {
 						corner.setCoords(corner.inhomX + vx, corner.inhomY + vy,
 								1.0);
@@ -5865,11 +5865,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void moveWidget() {
-		// part of snap to grid code
-		movedObject.setAbsoluteScreenLoc(
-				view.toScreenCoordX(xRW - getStartPointX()),
-				view.toScreenCoordY(yRW - getStartPointY()));
-
+		if (movedObject.isAbsoluteScreenLocActive()) {
+			// part of snap to grid code
+			movedObject.setAbsoluteScreenLoc(
+					view.toScreenCoordX(xRW - getStartPointX()),
+					view.toScreenCoordY(yRW - getStartPointY()));
+		} else {
+			movedObject.setRealWorldLoc(xRW, yRW);
+		}
 		notifyPositionUpdate(movedObject);
 	}
 

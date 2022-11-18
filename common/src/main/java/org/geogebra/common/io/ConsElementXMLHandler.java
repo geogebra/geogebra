@@ -1206,7 +1206,10 @@ public class ConsElementXMLHandler {
 		}
 
 		Locateable locGeo = (Locateable) geo;
-
+		if (locGeo instanceof AbsoluteScreenLocateable) {
+			((AbsoluteScreenLocateable) locGeo).setAbsoluteScreenLocActive(
+					MyXMLHandler.parseBoolean(attrs.get("absolute")));
+		}
 		// relative start point (expression or label expected)
 		String exp = attrs.get("exp");
 		if (exp == null) {

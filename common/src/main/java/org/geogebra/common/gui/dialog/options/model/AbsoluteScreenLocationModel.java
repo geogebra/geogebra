@@ -52,17 +52,17 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 	public static void setAbsolute(AbsoluteScreenLocateable geo,
 			boolean value, EuclidianViewInterfaceCommon ev) {
 		if (value) {
-			// convert real world to screen coords
-			int x = ev.toScreenCoordX(geo.getRealWorldLocX());
-			int y = ev.toScreenCoordY(geo.getRealWorldLocY());
 			if (!geo.isAbsoluteScreenLocActive()) {
+				// convert real world to screen coords
+				int x = ev.toScreenCoordX(geo.getRealWorldLocX());
+				int y = ev.toScreenCoordY(geo.getRealWorldLocY());
 				geo.setAbsoluteScreenLoc(x, y);
 			}
 		} else {
-			// convert screen coords to real world
-			double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
-			double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
 			if (geo.isAbsoluteScreenLocActive()) {
+				// convert screen coords to real world
+				double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
+				double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
 				geo.setRealWorldLoc(x, y);
 			}
 		}

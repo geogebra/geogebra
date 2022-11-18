@@ -83,7 +83,7 @@ public class ImageCornerModel extends MultipleGeosModel {
 	}
 
 	protected GeoPoint getPointAt(int index) {
-		return getGeoImageAt(index).getCorner(cornerIdx);
+		return getGeoImageAt(index).getStartPoint(cornerIdx);
 	}
 
 	@Override

@@ -21,7 +21,11 @@ public interface Locateable extends GeoElementND {
 	 * @param p
 	 *            start point to remove
 	 */
-	public void removeStartPoint(GeoPointND p);
+	default void removeStartPoint(GeoPointND p) {
+		if (p == getStartPoint()) {
+			initStartPoint(p.copy(), 0);
+		}
+	}
 
 	/**
 	 * Returns (first) start point
@@ -41,10 +45,13 @@ public interface Locateable extends GeoElementND {
 	public void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException;
 
-	/**
-	 * @return array of all start points
-	 */
-	public GeoPointND[] getStartPoints();
+	default int getStartPointCount() {
+		return 1;
+	}
+
+	default GeoElementND getStartPoint(int idx) {
+		return getStartPoint();
+	}
 
 	/**
 	 * Sets the startpoint without performing any checks. This is needed for
@@ -72,7 +79,9 @@ public interface Locateable extends GeoElementND {
 	 * soon. (This is needed during XML parsing, as startpoints are processed at
 	 * the end of a construction, @see geogebra.io.MyXMLHandler)
 	 */
-	public void setWaitForStartPoint();
+	default void setWaitForStartPoint() {
+		// only relevant for vectors
+	}
 
 	/**
 	 * Update that does not change value, but only location
