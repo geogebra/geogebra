@@ -69,10 +69,7 @@ public class PrintScalePanelW extends FlowPanel {
 				Arrays.asList(loc.getMenu("ScaleInCentimeter"), loc.getMenu("FixedSize")));
 		exportModeDropDown.setFullWidth(true);
 		add(exportModeDropDown);
-		exportModeDropDown.setChangeHandler(() -> {
-			exportModeDropDown.updateSelectionText();
-			switchMode();
-		});
+		exportModeDropDown.addChangeHandler(this::switchMode);
 
 		fixedSizeModePanel = new FlowPanel();
 		Label aPixelsOnScreen = new Label(" "

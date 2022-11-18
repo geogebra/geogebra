@@ -156,7 +156,7 @@ public class CheckboxCreationDialogW extends ComponentDialog implements
 			gbList.add(geo);
 		}
 		
-		gbObjects.setChangeHandler(() -> {
+		gbObjects.addChangeHandler(() -> {
 			GeoElement geo = availableObjects.get(gbObjects.getSelectedIndex());
 			if (geo != null) {
 				gbList.add(geo);

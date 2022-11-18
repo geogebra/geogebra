@@ -156,18 +156,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			width: calc(100% - 16px) !important;
 		}
-
-		.AutoCompleteTextFieldW {
-			border-bottom: 1px solid colors.$teal-default !important;
-		}
 	}
 
 	.dialogComponent.inputboxDialog {
 		max-width: 430px;
 
-		.AutoCompleteTextFieldW {
-			max-width: 382px;
-			border-bottom: 1px solid colors.$teal-default !important;
+		.dropDown {
+			width: 100%;
 		}
 	}
 
