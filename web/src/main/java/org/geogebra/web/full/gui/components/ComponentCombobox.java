@@ -97,15 +97,19 @@ public class ComponentCombobox extends FlowPanel implements SetLabels, IsWidget 
 	}
 
 	private void addClickHandler() {
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (!isDisabled) {
+				if (!isDisabled && !isInputFocused()) {
 					toggleExpanded();
 				}
 			}
 		});
+	}
+
+	private boolean isInputFocused() {
+		return inputTextField.getElement().isOrHasChild(Dom.getActiveElement());
 	}
 
 	private void addFocusBlurHandlers() {
