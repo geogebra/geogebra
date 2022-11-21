@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.EdgeInsets;
 import org.geogebra.common.io.QDParser;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -218,4 +220,11 @@ abstract public class ImageManager {
 	public String getExternalImageSrc(String name) {
 		return name;
 	}
+
+	/**
+	 * @param kernel - kernel
+	 * @param geo - text defining the image
+	 * @param fillable - set image filling for this geo
+	 */
+	public abstract void setImageForFillable(Kernel kernel, GeoText geo, GeoElement fillable);
 }
