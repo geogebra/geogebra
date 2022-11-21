@@ -20,4 +20,7 @@ public interface MyImage {
 
 	String toLaTeXStringBase64();
 
+	default MyImage tint(GColor objectColor) {
+		return this;
+	}
 }

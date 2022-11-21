@@ -281,7 +281,8 @@ public class MyButton implements Observer {
 		g.scale(scale, scale);
 
 		// the parameters x and y don't work in desktop for SVGs
-		g.drawImage(im, 0, 0);
+		MyImage tinted = im.tint(geoButton.getObjectColor());
+		g.drawImage(tinted, 0, 0);
 
 		g.restoreTransform();
 	}
